@@ -1,0 +1,129 @@
+{
+  "id": "tailte-coast-vector-test",
+  "sourceMapId": "tailte-coast",
+  "name": "Coast (Tailte Éireann)",
+  "category": "Physical Geography",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Tailte Éireann"
+  ],
+  "description": "Coast across the Republic of Ireland (318 features), from Tailte Éireann / Ordnance Survey Ireland open data. Coast - National 250k Map Of Ireland The vertical datum for the shoreline should be mean sea high water in tidal maritime zone or normal water. This dataset is provided by Tailte Éireann",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "line",
+  "tiles": "/test/tiles/generated/tailte-coast/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-coast-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/tailte-coast/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/tailte-coast/metadata.json",
+  "sourceLayer": "tailte_coast",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.4201065,
+      -10.6626945
+    ],
+    [
+      55.435125,
+      -5.9964895
+    ]
+  ],
+  "style": {
+    "color": "#2E86AB",
+    "fillColor": "#2E86AB",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Coast — Tailte Éireann (data.gov.ie)",
+      "url": "https://data.gov.ie/dataset/coast-national-250k-map-of-ireland",
+      "note": "Creative Commons Attribution 4.0"
+    },
+    {
+      "label": "Coast — GeoJSON download",
+      "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/e02a769bff8f43318abe10f5276d08b8/geojson?layers=0",
+      "note": ""
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/tailte-coast.fgb"
+    },
+    {
+      "label": "GeoJSON",
+      "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/e02a769bff8f43318abe10f5276d08b8/geojson?layers=0"
+    }
+  ],
+  "sourceCredits": [
+    "Tailte Éireann"
+  ],
+  "keywords": [
+    "tailte éireann",
+    "osi",
+    "ireland",
+    "republic of ireland",
+    "coast",
+    "Coast (Tailte Éireann)",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": null,
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#2E86AB",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "sourceFile": "test/source-cache/vector-intake/tailte-coast.fgb",
+  "sourceDatasetLayer": "_t",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "OBJECTID",
+    "FCsubtype"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "FCsubtype"
+  ],
+  "categoricalProperties": [],
+  "categoricalValues": {},
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/tailte-coast.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/tailte-coast.fgb",
+    "bytes": 998740,
+    "files": 1077,
+    "pbfFiles": 1076,
+    "maxTileBytes": 24696
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/tailte-coast-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/tailte-coast-vector-test.pmtiles",
+    "bytes": 855650,
+    "maxGithubBytes": 99614720,
+    "fallback": "/test/tiles/generated/tailte-coast/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-coast-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/tailte-coast-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/tailte-coast-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-07-31T17:20:40.360Z"
+  }
+}

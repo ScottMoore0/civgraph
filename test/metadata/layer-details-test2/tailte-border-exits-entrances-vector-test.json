@@ -1,0 +1,138 @@
+{
+  "id": "tailte-border-exits-entrances-vector-test",
+  "sourceMapId": "tailte-border-exits-entrances",
+  "name": "Border Exits & Entrances (Tailte Éireann)",
+  "category": "Transport",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Tailte Éireann"
+  ],
+  "description": "Border Exits & Entrances across the Republic of Ireland (38 features), from Tailte Éireann / Ordnance Survey Ireland open data. Border Exits and Entrances - National 1m Map Of Ireland Exits and Entrances along the Border between the Republic of Ireland and Northern Ireland This dataset is provided by Tailte Éireann",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/tailte-border-exits-entrances/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-border-exits-entrances-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/tailte-border-exits-entrances/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/tailte-border-exits-entrances/metadata.json",
+  "sourceLayer": "tailte_border_exits_entrances",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.044506,
+      -8.0970085
+    ],
+    [
+      55.0491045,
+      -6.291635
+    ]
+  ],
+  "style": {
+    "color": "#C1440E",
+    "fillColor": "#C1440E",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Border Exits & Entrances — Tailte Éireann (data.gov.ie)",
+      "url": "https://data.gov.ie/dataset/border-exits-amp-entrances-national-1m-map-of-ireland1",
+      "note": "Creative Commons Attribution 4.0"
+    },
+    {
+      "label": "Border Exits & Entrances — GeoJSON download",
+      "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/a0f744d7234041099c2575e11118ea30/geojson?layers=0",
+      "note": ""
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/tailte-border-exits-entrances.fgb"
+    },
+    {
+      "label": "GeoJSON",
+      "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/a0f744d7234041099c2575e11118ea30/geojson?layers=0"
+    }
+  ],
+  "sourceCredits": [
+    "Tailte Éireann"
+  ],
+  "keywords": [
+    "tailte éireann",
+    "osi",
+    "ireland",
+    "republic of ireland",
+    "border",
+    "exits",
+    "&",
+    "entrances",
+    "Border Exits & Entrances (Tailte Éireann)",
+    "Transport",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": null,
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#C1440E",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "sourceFile": "test/source-cache/vector-intake/tailte-border-exits-entrances.fgb",
+  "sourceDatasetLayer": "_t",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "OBJECTID",
+    "F_CODE"
+  ],
+  "numericProperties": [
+    "OBJECTID"
+  ],
+  "categoricalProperties": [
+    "F_CODE"
+  ],
+  "categoricalValues": {
+    "F_CODE": [
+      "AQ090"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/tailte-border-exits-entrances.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/tailte-border-exits-entrances.fgb",
+    "bytes": 18960,
+    "files": 96,
+    "pbfFiles": 95,
+    "maxTileBytes": 864
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/tailte-border-exits-entrances-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/tailte-border-exits-entrances-vector-test.pmtiles",
+    "bytes": 15146,
+    "maxGithubBytes": 99614720,
+    "fallback": "/test/tiles/generated/tailte-border-exits-entrances/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-border-exits-entrances-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/tailte-border-exits-entrances-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/tailte-border-exits-entrances-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-07-31T17:20:40.360Z"
+  }
+}

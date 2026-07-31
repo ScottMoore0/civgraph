@@ -1,0 +1,170 @@
+{
+  "id": "tailte-railway-stations-vector-test",
+  "sourceMapId": "tailte-railway-stations",
+  "name": "Railway Stations (Tailte Éireann)",
+  "category": "Transport",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Tailte Éireann"
+  ],
+  "description": "Railway Stations across the Republic of Ireland (87 features), from Tailte Éireann / Ordnance Survey Ireland open data. Railway Stations - National 250k Map Of Ireland All the stations and stopping places used for passenger traffic and/or freight traffic. This dataset is provided by Tailte Éireann",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/tailte-railway-stations/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-railway-stations-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/tailte-railway-stations/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/tailte-railway-stations/metadata.json",
+  "sourceLayer": "tailte_railway_stations",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.902523,
+      -9.698882
+    ],
+    [
+      54.2712325,
+      -6.0640095
+    ]
+  ],
+  "style": {
+    "color": "#C1440E",
+    "fillColor": "#C1440E",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Railway Stations — Tailte Éireann (data.gov.ie)",
+      "url": "https://data.gov.ie/dataset/railway-stations-national-250k-map-of-ireland",
+      "note": "Creative Commons Attribution 4.0"
+    },
+    {
+      "label": "Railway Stations — GeoJSON download",
+      "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/5a21019f2bcb4bfeb3cdc8bd166b1318/geojson?layers=0",
+      "note": ""
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/tailte-railway-stations.fgb"
+    },
+    {
+      "label": "GeoJSON",
+      "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/5a21019f2bcb4bfeb3cdc8bd166b1318/geojson?layers=0"
+    }
+  ],
+  "sourceCredits": [
+    "Tailte Éireann"
+  ],
+  "keywords": [
+    "tailte éireann",
+    "osi",
+    "ireland",
+    "republic of ireland",
+    "railway",
+    "stations",
+    "Railway Stations (Tailte Éireann)",
+    "Transport",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "NAMN1",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#C1440E",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/tailte-railway-stations-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/tailte-railway-stations.fgb",
+  "sourceDatasetLayer": "_t",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "NAMN1",
+    "OBJECTID",
+    "FCsubtype"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "FCsubtype"
+  ],
+  "categoricalProperties": [
+    "NAMN1"
+  ],
+  "categoricalValues": {
+    "NAMN1": [
+      "Arklow",
+      "Athenry",
+      "Athlone",
+      "Athy",
+      "Attymon",
+      "Ballina",
+      "Banteer",
+      "Birdhill",
+      "Boyle",
+      "Caher",
+      "Campile",
+      "Carlow",
+      "Clara",
+      "Clonmel",
+      "Cork",
+      "Drogheda",
+      "Dromod",
+      "Dundalk",
+      "Ennis",
+      "Foxford",
+      "Galway",
+      "Gorey",
+      "Howth",
+      "Innfield",
+      "Kildare",
+      "Kilkenny",
+      "Laytown",
+      "Limerick",
+      "Longford",
+      "Malahide",
+      "Mallow",
+      "Mosney"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/tailte-railway-stations.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/tailte-railway-stations.fgb",
+    "bytes": 66587,
+    "files": 286,
+    "pbfFiles": 285,
+    "maxTileBytes": 3239
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/tailte-railway-stations-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/tailte-railway-stations-vector-test.pmtiles",
+    "bytes": 53934,
+    "maxGithubBytes": 99614720,
+    "fallback": "/test/tiles/generated/tailte-railway-stations/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-railway-stations-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/tailte-railway-stations-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/tailte-railway-stations-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-07-31T17:20:40.360Z"
+  }
+}

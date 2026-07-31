@@ -1,0 +1,162 @@
+{
+  "id": "tailte-mountains-vector-test",
+  "sourceMapId": "tailte-mountains",
+  "name": "Mountains (Tailte Éireann)",
+  "category": "Hills and Mountains",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Tailte Éireann"
+  ],
+  "description": "Mountains across the Republic of Ireland (22 features), from Tailte Éireann / Ordnance Survey Ireland open data. Mountains - National 1Million Map of Ireland Point file of Mountains taken from the National 1:1Million Map Of Ireland This dataset is provided by Tailte Éireann",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/tailte-mountains/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-mountains-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/tailte-mountains/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/tailte-mountains/metadata.json",
+  "sourceLayer": "tailte_mountains",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.9333915,
+      -10.253868
+    ],
+    [
+      55.0414885,
+      -6.33091
+    ]
+  ],
+  "style": {
+    "color": "#8B5A2B",
+    "fillColor": "#8B5A2B",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Mountains — Tailte Éireann (data.gov.ie)",
+      "url": "https://data.gov.ie/dataset/mountains-national-1m-map-of-ireland",
+      "note": "Creative Commons Attribution 4.0"
+    },
+    {
+      "label": "Mountains — GeoJSON download",
+      "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/f6597f7119d344efa2aa9716e193c9c0/geojson?layers=0",
+      "note": ""
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/tailte-mountains.fgb"
+    },
+    {
+      "label": "GeoJSON",
+      "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/f6597f7119d344efa2aa9716e193c9c0/geojson?layers=0"
+    }
+  ],
+  "sourceCredits": [
+    "Tailte Éireann"
+  ],
+  "keywords": [
+    "tailte éireann",
+    "osi",
+    "ireland",
+    "republic of ireland",
+    "mountains",
+    "Mountains (Tailte Éireann)",
+    "Hills and Mountains",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "NAMN1",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#8B5A2B",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/tailte-mountains-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/tailte-mountains.fgb",
+  "sourceDatasetLayer": "_t",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "NAMN1",
+    "OBJECTID",
+    "F_CODE"
+  ],
+  "numericProperties": [
+    "OBJECTID"
+  ],
+  "categoricalProperties": [
+    "F_CODE",
+    "NAMN1"
+  ],
+  "categoricalValues": {
+    "F_CODE": [
+      "CA030"
+    ],
+    "NAMN1": [
+      "Brandon",
+      "Coumfea",
+      "Errigal",
+      "Greenane",
+      "Kippure",
+      "Mweelrea",
+      "Nephin",
+      "Sheeffry",
+      "Baurregaum",
+      "Beenoskee",
+      "Brandon Peak",
+      "Carrauntoohil",
+      "Coomacarrea",
+      "Croagh Patrick",
+      "Galtymore",
+      "Knockmealdown",
+      "Lugnaquilla",
+      "Mangerton",
+      "Mount Leinster",
+      "Mullaghanattin",
+      "Mullaghcleevaun",
+      "Tonelagee"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/tailte-mountains.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/tailte-mountains.fgb",
+    "bytes": 19032,
+    "files": 95,
+    "pbfFiles": 94,
+    "maxTileBytes": 875
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/tailte-mountains-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/tailte-mountains-vector-test.pmtiles",
+    "bytes": 16771,
+    "maxGithubBytes": 99614720,
+    "fallback": "/test/tiles/generated/tailte-mountains/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-mountains-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/tailte-mountains-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/tailte-mountains-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-07-31T17:20:40.360Z"
+  }
+}

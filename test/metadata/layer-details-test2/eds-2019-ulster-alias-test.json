@@ -15,11 +15,11 @@
   "sourceType": "pmtiles",
   "geometryType": "polygon",
   "tiles": "/test/tiles/generated/eds-ulster-1996/{z}/{x}/{y}.pbf",
-  "tileUrl": "/test/pmtiles/generated/eds-ulster-1996-vector-test.pmtiles",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-ulster-1996-vector-test.pmtiles",
   "tilesFallback": "/test/tiles/generated/eds-ulster-1996/{z}/{x}/{y}.pbf",
   "metadataUrl": "/test/tiles/generated/eds-ulster-1996/metadata.json",
   "sourceLayer": "eds_ulster_1996",
-  "promoteId": "GUID",
+  "promoteId": "civ_fid",
   "minzoom": 0,
   "maxzoom": 12,
   "bounds": [
@@ -99,7 +99,7 @@
   "featureIndexUrl": "/test/metadata/feature-indexes/eds-ulster-1996-vector-test.json",
   "sourceFile": "test/source-cache/vector-intake/eds-ulster-1996.fgb",
   "sourceDatasetLayer": "DEDs_Ulster_1921",
-  "idProperty": "GUID",
+  "idProperty": "civ_fid",
   "popupProperties": [
     "ENGLISH",
     "GUID",
@@ -293,7 +293,13 @@
     "url": "/test/pmtiles/generated/eds-ulster-1996-vector-test.pmtiles",
     "bytes": 2846036,
     "maxGithubBytes": 99614720,
-    "fallback": "/test/tiles/generated/eds-ulster-1996/{z}/{x}/{y}.pbf"
+    "generatedAt": "2026-07-31T17:14:04.092Z",
+    "fallback": "/test/tiles/generated/eds-ulster-1996/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-ulster-1996-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/eds-ulster-1996-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/eds-ulster-1996-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-07-31T17:17:48.900Z"
   },
   "categoryId": "wards",
   "conversionStatus": "convertedAlias",

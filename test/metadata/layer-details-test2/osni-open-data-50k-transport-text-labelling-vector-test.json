@@ -1,0 +1,165 @@
+{
+  "id": "osni-open-data-50k-transport-text-labelling-vector-test",
+  "sourceMapId": "osni-open-data-50k-transport-text-labelling",
+  "name": "Transport Text Labelling — OSNI 50k",
+  "category": "Transport",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "OSNI"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/osni-open-data-50k-transport-text-labelling/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/osni-open-data-50k-transport-text-labelling-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/osni-open-data-50k-transport-text-labelling/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/osni-open-data-50k-transport-text-labelling/metadata.json",
+  "sourceLayer": "osni_open_data_50k_transport_text_labelling",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0479311,
+      -8.0940072
+    ],
+    [
+      55.2374043,
+      -5.4537547
+    ]
+  ],
+  "style": {
+    "color": "#34495E",
+    "fillColor": "#34495E",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Transport Text Labelling — OSNI 50k — Open Data NI",
+      "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-transport-text-labelling",
+      "note": "OGL v3.0"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/osni-open-data-50k-transport-text-labelling.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "OSNI"
+  ],
+  "keywords": [
+    "transport",
+    "text",
+    "labelling",
+    "osni",
+    "Transport Text Labelling — OSNI 50k",
+    "Transport",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": null,
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#34495E",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "sourceFile": "test/source-cache/vector-intake/osni-open-data-50k-transport-text-labelling.fgb",
+  "sourceDatasetLayer": "OSNI_Open_Data_-_50K_Transport_-_Text_labelling",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "OBJECTID",
+    "TEMA",
+    "SURVEY",
+    "TEXTSTRING"
+  ],
+  "numericProperties": [
+    "SURVEY",
+    "OBJECTID"
+  ],
+  "categoricalProperties": [
+    "TEMA",
+    "TEXTSTRING"
+  ],
+  "categoricalValues": {
+    "TEMA": [
+      "A_CLASS",
+      "B_CLASS",
+      "MOTORWAY"
+    ],
+    "TEXTSTRING": [
+      "3",
+      "A 1",
+      "A 12",
+      "A 2",
+      "A 20",
+      "A 21",
+      "A 211",
+      "A 22",
+      "A 23",
+      "A 24",
+      "A 25",
+      "A 26",
+      "A 27",
+      "A 28",
+      "A 29",
+      "A 3",
+      "A 30",
+      "A 37",
+      "A 4",
+      "A 45",
+      "A 48",
+      "A 49",
+      "A 50",
+      "A 501",
+      "A 51",
+      "A 512",
+      "A 52",
+      "A 55",
+      "A 6",
+      "A 7",
+      "B 1",
+      "B 10"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/osni-open-data-50k-transport-text-labelling.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/osni-open-data-50k-transport-text-labelling.fgb",
+    "bytes": 390880,
+    "files": 562,
+    "pbfFiles": 561,
+    "maxTileBytes": 23887
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/osni-open-data-50k-transport-text-labelling-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/osni-open-data-50k-transport-text-labelling-vector-test.pmtiles",
+    "bytes": 222811,
+    "maxGithubBytes": 99614720,
+    "fallback": "/test/tiles/generated/osni-open-data-50k-transport-text-labelling/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/osni-open-data-50k-transport-text-labelling-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/osni-open-data-50k-transport-text-labelling-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/osni-open-data-50k-transport-text-labelling-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-07-31T17:20:40.360Z"
+  }
+}

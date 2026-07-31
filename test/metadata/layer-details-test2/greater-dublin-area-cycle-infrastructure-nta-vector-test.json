@@ -1,0 +1,244 @@
+{
+  "id": "greater-dublin-area-cycle-infrastructure-nta-vector-test",
+  "sourceMapId": "greater-dublin-area-cycle-infrastructure-nta",
+  "name": "Greater Dublin Area Cycle Infrastructure",
+  "category": "cycle",
+  "group": null,
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "data.gov.ie"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "line",
+  "tiles": "/test/tiles/generated/greater-dublin-area-cycle-infrastructure-nta/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/greater-dublin-area-cycle-infrastructure-nta-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/greater-dublin-area-cycle-infrastructure-nta/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/greater-dublin-area-cycle-infrastructure-nta/metadata.json",
+  "sourceLayer": "greater_dublin_area_cycle_infrastructure_nta",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.1023406,
+      -6.67925
+    ],
+    [
+      53.510627,
+      -6.05926
+    ]
+  ],
+  "style": {
+    "color": "#8E44AD",
+    "fillColor": "#8E44AD",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Greater Dublin Area Cycle Infrastructure — data.gov.ie",
+      "url": "https://data.gov.ie/dataset/greater-dublin-area-cycle-infrastructure-nta",
+      "note": "CC BY 4.0"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/greater-dublin-area-cycle-infrastructure-nta.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "data.gov.ie"
+  ],
+  "keywords": [
+    "cycle",
+    "greater",
+    "dublin",
+    "area",
+    "infrastructure",
+    "Greater Dublin Area Cycle Infrastructure",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "shareduse",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#8E44AD",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/greater-dublin-area-cycle-infrastructure-nta-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/greater-dublin-area-cycle-infrastructure-nta.fgb",
+  "sourceDatasetLayer": "BikeLife_Final_Data_Issue V2_210817",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "shareduse",
+    "OBJECTID",
+    "Route_No",
+    "Comments_1",
+    "Shape_Leng",
+    "cdo",
+    "twoway",
+    "sruface_ch",
+    "bollardpro",
+    "temporary",
+    "mandatory",
+    "width"
+  ],
+  "numericProperties": [
+    "Shape_Leng",
+    "twoway",
+    "sruface_ch",
+    "bollardpro",
+    "temporary",
+    "mandatory",
+    "width",
+    "surface_ch",
+    "buslane",
+    "OBJECTID",
+    "cyclelane",
+    "shareduse",
+    "segregated",
+    "trafficfre",
+    "signedrout",
+    "oneside"
+  ],
+  "categoricalProperties": [
+    "datasource",
+    "classifica",
+    "MERGE_SRC",
+    "classifi_1",
+    "Route_No",
+    "cdo",
+    "Comments_1"
+  ],
+  "categoricalValues": {
+    "datasource": [
+      "Feature added by Compass",
+      "gda_base_cycle_network",
+      "jplinks_metrop",
+      "nta_schemes"
+    ],
+    "classifica": [
+      "buslane",
+      "cyclelane",
+      "cyclelane;segregatedcyclelane",
+      "segregatedcyclelane",
+      "segregatedcyclelane;buslane",
+      "segregatedcyclelane;buslane;cyclelane",
+      "segregatedcyclelane;cyclelane",
+      "shareduse",
+      "shareduse;buslane",
+      "shareduse;cyclelane",
+      "signedroute",
+      "surfacechange",
+      "surfacechange;buslane",
+      "surfacechange;cyclelane",
+      "surfacechange;shareduse",
+      "trafficfree"
+    ],
+    "MERGE_SRC": [
+      "Dublin_BikeLife_210625_Jacobs",
+      "Dublin_BikeLife_210813_Jacobs",
+      "New Group Layer\\Dublin_BikeLife_20200206_Compass_Less_Intersect"
+    ],
+    "classifi_1": [
+      "buslane",
+      "cyclelane",
+      "cyclelane;shreduse",
+      "segreagatedcyclelane",
+      "segregatedcyclelane",
+      "segregatedcyclelane;buslane",
+      "segregatedcyclelane;cyclelane",
+      "shareduse",
+      "shareduse;buslane",
+      "shareduse;cyclelane",
+      "signedroute",
+      "surfacechange",
+      "surfacechange;buslane",
+      "trafficfree"
+    ],
+    "Route_No": [
+      "1-13",
+      "1-16",
+      "1-17",
+      "1-3",
+      "1-34",
+      "1-7",
+      "10-4",
+      "10-7",
+      "11-1",
+      "11-2",
+      "11-6",
+      "11-9",
+      "15-2",
+      "2-2",
+      "2-5",
+      "21-1",
+      "21-13",
+      "21-3",
+      "22-15",
+      "22-17",
+      "22-24",
+      "22-28",
+      "22-5",
+      "25-2",
+      "25-4",
+      "25-5",
+      "26-1",
+      "28-1",
+      "3-4",
+      "3-6",
+      "3-7",
+      "3-8"
+    ],
+    "cdo": [
+      "BusLane",
+      "CycleLane",
+      "SegregatedCycleLane",
+      "SharedUse",
+      "SignedRoute",
+      "TrafficFree"
+    ],
+    "Comments_1": [
+      "Bus lane on opposite side of road",
+      "Kerb protected"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/greater-dublin-area-cycle-infrastructure-nta.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/greater-dublin-area-cycle-infrastructure-nta.fgb",
+    "bytes": 4369320,
+    "files": 70,
+    "pbfFiles": 69,
+    "maxTileBytes": 430522
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/greater-dublin-area-cycle-infrastructure-nta-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/greater-dublin-area-cycle-infrastructure-nta-vector-test.pmtiles",
+    "bytes": 1759638,
+    "maxGithubBytes": 99614720,
+    "fallback": "/test/tiles/generated/greater-dublin-area-cycle-infrastructure-nta/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/greater-dublin-area-cycle-infrastructure-nta-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/greater-dublin-area-cycle-infrastructure-nta-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/greater-dublin-area-cycle-infrastructure-nta-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-07-31T17:20:40.360Z"
+  }
+}

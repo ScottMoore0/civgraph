@@ -1,0 +1,164 @@
+{
+  "id": "tailte-nuts2-boundaries-ungeneralised-vector-test",
+  "sourceMapId": "tailte-nuts2-boundaries-ungeneralised",
+  "name": "NUTS2 Boundaries Ungeneralised (Tailte Éireann)",
+  "category": "Regional Divides",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Tailte Éireann"
+  ],
+  "description": "NUTS2 Boundaries Ungeneralised across the Republic of Ireland (3 features), from Tailte Éireann / Ordnance Survey Ireland open data. NUTS2 boundaries ungeneralised NUTS2 boundaries ungeneralised. The Nomenclature of Territorial Units for Statistics (NUTS) were drawn up by Eurostat in order to define territorial units for the production of regional statistics across the European Union. The NUTS classification h",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/tailte-nuts2-boundaries-ungeneralised/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-nuts2-boundaries-ungeneralised-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/tailte-nuts2-boundaries-ungeneralised/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/tailte-nuts2-boundaries-ungeneralised/metadata.json",
+  "sourceLayer": "tailte_nuts2_boundaries_ungeneralised",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.4198973,
+      -10.6629709
+    ],
+    [
+      55.4465809,
+      -5.9962778
+    ]
+  ],
+  "style": {
+    "color": "#118AB2",
+    "fillColor": "#118AB2",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "NUTS2 Boundaries Ungeneralised — Tailte Éireann (data.gov.ie)",
+      "url": "https://data.gov.ie/dataset/nuts2-boundaries-ungeneralised-national-statistical-boundaries-2015",
+      "note": "Creative Commons Attribution 4.0"
+    },
+    {
+      "label": "NUTS2 Boundaries Ungeneralised — GeoJSON download",
+      "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/92690b30f9c64fb382ee478ab89fada4/geojson?layers=0",
+      "note": ""
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/tailte-nuts2-boundaries-ungeneralised.fgb"
+    },
+    {
+      "label": "GeoJSON",
+      "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/92690b30f9c64fb382ee478ab89fada4/geojson?layers=0"
+    }
+  ],
+  "sourceCredits": [
+    "Tailte Éireann"
+  ],
+  "keywords": [
+    "tailte éireann",
+    "osi",
+    "ireland",
+    "republic of ireland",
+    "nuts2",
+    "boundaries",
+    "ungeneralised",
+    "NUTS2 Boundaries Ungeneralised (Tailte Éireann)",
+    "Regional Divides",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "NUTS1NAME",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#118AB2",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/tailte-nuts2-boundaries-ungeneralised-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/tailte-nuts2-boundaries-ungeneralised.fgb",
+  "sourceDatasetLayer": "_t",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "NUTS1NAME",
+    "OBJECTID",
+    "NUTS1",
+    "NUTS2",
+    "NUTS2NAME",
+    "GUID"
+  ],
+  "numericProperties": [
+    "OBJECTID"
+  ],
+  "categoricalProperties": [
+    "NUTS1",
+    "NUTS1NAME",
+    "NUTS2",
+    "NUTS2NAME",
+    "GUID"
+  ],
+  "categoricalValues": {
+    "NUTS1": [
+      "IE"
+    ],
+    "NUTS1NAME": [
+      "Ireland"
+    ],
+    "NUTS2": [
+      "IE04",
+      "IE05",
+      "IE06"
+    ],
+    "NUTS2NAME": [
+      "Southern",
+      "Eastern and Midland",
+      "Northern and Western"
+    ],
+    "GUID": [
+      "811D29A4-1E05-4F4A-B61B-43DE64E07B29",
+      "97227605-23D5-4B98-BDB8-3EB5D0682A5A",
+      "C32761EB-7A21-4B95-8C7A-DB195C2955CE"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/tailte-nuts2-boundaries-ungeneralised.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/tailte-nuts2-boundaries-ungeneralised.fgb",
+    "bytes": 5385423,
+    "files": 3326,
+    "pbfFiles": 3325,
+    "maxTileBytes": 30594
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/tailte-nuts2-boundaries-ungeneralised-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/tailte-nuts2-boundaries-ungeneralised-vector-test.pmtiles",
+    "bytes": 3141615,
+    "maxGithubBytes": 99614720,
+    "fallback": "/test/tiles/generated/tailte-nuts2-boundaries-ungeneralised/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-nuts2-boundaries-ungeneralised-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/tailte-nuts2-boundaries-ungeneralised-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/tailte-nuts2-boundaries-ungeneralised-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-07-31T17:20:40.360Z"
+  }
+}

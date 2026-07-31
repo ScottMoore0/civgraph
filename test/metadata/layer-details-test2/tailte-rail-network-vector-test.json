@@ -1,0 +1,133 @@
+{
+  "id": "tailte-rail-network-vector-test",
+  "sourceMapId": "tailte-rail-network",
+  "name": "Rail Network (Tailte Éireann)",
+  "category": "Transport",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Tailte Éireann"
+  ],
+  "description": "Rail Network across the Republic of Ireland (479 features), from Tailte Éireann / Ordnance Survey Ireland open data. Rail Network - National 250k Map Of Ireland Railway routes used for regular transportation of goods and passengers. Railway yards, siding railways are allowed if they are landmarks and are classified as branch lines. They are usually generalized (not all the tracks have to be por",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "line",
+  "tiles": "/test/tiles/generated/tailte-rail-network/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-rail-network-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/tailte-rail-network/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/tailte-rail-network/metadata.json",
+  "sourceLayer": "tailte_rail_network",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.84713,
+      -9.8659315
+    ],
+    [
+      54.2712325,
+      -6.038589
+    ]
+  ],
+  "style": {
+    "color": "#C1440E",
+    "fillColor": "#C1440E",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Rail Network — Tailte Éireann (data.gov.ie)",
+      "url": "https://data.gov.ie/dataset/rail-network-national-250k-map-of-ireland",
+      "note": "Creative Commons Attribution 4.0"
+    },
+    {
+      "label": "Rail Network — GeoJSON download",
+      "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/cef400fb8edb496886e3dab535ef1344/geojson?layers=0",
+      "note": ""
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/tailte-rail-network.fgb"
+    },
+    {
+      "label": "GeoJSON",
+      "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/cef400fb8edb496886e3dab535ef1344/geojson?layers=0"
+    }
+  ],
+  "sourceCredits": [
+    "Tailte Éireann"
+  ],
+  "keywords": [
+    "tailte éireann",
+    "osi",
+    "ireland",
+    "republic of ireland",
+    "rail",
+    "network",
+    "Rail Network (Tailte Éireann)",
+    "Transport",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": null,
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#C1440E",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "sourceFile": "test/source-cache/vector-intake/tailte-rail-network.fgb",
+  "sourceDatasetLayer": "_t",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "OBJECTID",
+    "FCsubtype",
+    "LEN"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "FCsubtype",
+    "LEN"
+  ],
+  "categoricalProperties": [],
+  "categoricalValues": {},
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/tailte-rail-network.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/tailte-rail-network.fgb",
+    "bytes": 335209,
+    "files": 735,
+    "pbfFiles": 734,
+    "maxTileBytes": 19435
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/tailte-rail-network-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/tailte-rail-network-vector-test.pmtiles",
+    "bytes": 302157,
+    "maxGithubBytes": 99614720,
+    "fallback": "/test/tiles/generated/tailte-rail-network/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-rail-network-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/tailte-rail-network-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/tailte-rail-network-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-07-31T17:20:40.360Z"
+  }
+}

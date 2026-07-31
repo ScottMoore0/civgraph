@@ -1,0 +1,196 @@
+{
+  "id": "townlands-2015-sdcc1-vector-test",
+  "sourceMapId": "townlands-2015-sdcc1",
+  "name": "Townlands (2015) — South Dublin",
+  "category": "Townlands",
+  "group": "Communities",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "South Dublin County Council"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/townlands-2015-sdcc1/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/townlands-2015-sdcc1-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/townlands-2015-sdcc1/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/townlands-2015-sdcc1/metadata.json",
+  "sourceLayer": "townlands_2015_sdcc1",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.1781974,
+      -6.5468853
+    ],
+    [
+      53.3710735,
+      -6.2535404
+    ]
+  ],
+  "style": {
+    "color": "#16A085",
+    "fillColor": "#16A085",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Townlands (2015) — South Dublin — data.gov.ie",
+      "url": "https://data.gov.ie/dataset/townlands-2015-sdcc1",
+      "note": "CC BY 4.0"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/townlands-2015-sdcc1.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "South Dublin County Council"
+  ],
+  "keywords": [
+    "townlands",
+    "2015",
+    "south",
+    "dublin",
+    "Townlands (2015) — South Dublin",
+    "Townlands",
+    "Communities",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": null,
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#16A085",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "sourceFile": "test/source-cache/vector-intake/townlands-2015-sdcc1.fgb",
+  "sourceDatasetLayer": "Townlands_2015",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "OBJECTID",
+    "TD_ID",
+    "TD_ENGLISH",
+    "Shape__Area",
+    "Shape__Length"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "Shape__Area",
+    "Shape__Length"
+  ],
+  "categoricalProperties": [
+    "TD_ID",
+    "TD_ENGLISH"
+  ],
+  "categoricalValues": {
+    "TD_ID": [
+      "260004",
+      "260005",
+      "260019",
+      "260020",
+      "260024",
+      "260037",
+      "260045",
+      "260056",
+      "260057",
+      "260067",
+      "260069",
+      "260089",
+      "260092",
+      "260095",
+      "260096",
+      "260100",
+      "260102",
+      "260103",
+      "260136",
+      "260157",
+      "260178",
+      "260180",
+      "260183",
+      "260190",
+      "260191",
+      "260213",
+      "260221",
+      "260232",
+      "260234",
+      "260245",
+      "260253",
+      "260254"
+    ],
+    "TD_ENGLISH": [
+      "ADERRIG",
+      "ATHGOE",
+      "BALGADDY",
+      "COLDCUT",
+      "COMMONS",
+      "GIBBONS",
+      "GORTLUM",
+      "GREENOGE",
+      "JOBSTOWN",
+      "KEELOGES",
+      "KILBRIDE",
+      "KILLAKEE",
+      "MILLTOWN",
+      "NANGOR",
+      "NEWTOWN",
+      "OLDBAWN",
+      "PEAMOUNT",
+      "REDGAP",
+      "SKEAGH",
+      "TALLAGHT",
+      "TERENURE",
+      "WOODFARM",
+      "WOODTOWN",
+      "ADAMSTOWN",
+      "ATHGOE NORTH",
+      "BACKSTOWN",
+      "BALDONNELL LOWER",
+      "BALLINASCORNEY LOWER",
+      "BALLINASCORNEY UPPER",
+      "BALLYBANE",
+      "BALLYBODEN",
+      "BALLYMAICE"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/townlands-2015-sdcc1.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/townlands-2015-sdcc1.fgb",
+    "bytes": 626463,
+    "files": 36,
+    "pbfFiles": 35,
+    "maxTileBytes": 61704
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/townlands-2015-sdcc1-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/townlands-2015-sdcc1-vector-test.pmtiles",
+    "bytes": 412046,
+    "maxGithubBytes": 99614720,
+    "fallback": "/test/tiles/generated/townlands-2015-sdcc1/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/townlands-2015-sdcc1-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/townlands-2015-sdcc1-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/townlands-2015-sdcc1-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-07-31T17:20:40.360Z"
+  }
+}

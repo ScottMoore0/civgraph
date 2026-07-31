@@ -39,7 +39,8 @@
   "references": [
     {
       "label": "2001 Wards",
-      "url": null
+      "url": "",
+      "note": "The 1993 Wards, as used in the 2001 Census for statistical purposes."
     }
   ],
   "sourceDownloads": [
@@ -99,7 +100,6 @@
     "maxWidth": 14,
     "lineHeight": 1.25
   },
-  "featureIndexUrl": "/test/metadata/feature-indexes/wards-1993-vector-test.json",
   "sourceFile": "test/source-cache/vector-intake/wards-1993.fgb",
   "sourceDatasetLayer": "wards-1993",
   "idProperty": "OBJECTID",
@@ -173,6 +173,7 @@
     "pipeline": "promote-test-clone-alias",
     "sourceMapId": "wards-2001",
     "cloneOf": "wards-1993",
+    "aliasOf": "wards-1993",
     "targetLayerId": "wards-1993-vector-test"
   },
   "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/wards-1993-vector-test.pmtiles",
@@ -189,7 +190,7 @@
     "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/wards-1993-vector-test.pmtiles",
     "r2Key": "data/maps/test/pmtiles/generated/wards-1993-vector-test.pmtiles",
     "localUrl": "/test/pmtiles/generated/wards-1993-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-05-30T16:58:55.067Z"
+    "byteRangeVerifiedAt": "2026-07-31T17:17:48.900Z"
   },
   "categoryId": "census",
   "conversionStatus": "convertedAlias",

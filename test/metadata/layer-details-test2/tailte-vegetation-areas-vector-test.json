@@ -1,0 +1,138 @@
+{
+  "id": "tailte-vegetation-areas-vector-test",
+  "sourceMapId": "tailte-vegetation-areas",
+  "name": "Vegetation Areas (Tailte Éireann)",
+  "category": "Physical Geography",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Tailte Éireann"
+  ],
+  "description": "Vegetation Areas across the Republic of Ireland (879 features), from Tailte Éireann / Ordnance Survey Ireland open data. Vegetation area - National 250k Map Of Ireland Land used for growing vegetation. This dataset is provided by Tailte Éireann",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/tailte-vegetation-areas/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-vegetation-areas-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/tailte-vegetation-areas/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/tailte-vegetation-areas/metadata.json",
+  "sourceLayer": "tailte_vegetation_areas",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.5291175,
+      -10.29465
+    ],
+    [
+      55.19384,
+      -6.08932
+    ]
+  ],
+  "style": {
+    "color": "#2E86AB",
+    "fillColor": "#2E86AB",
+    "fillOpacity": 0.08,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Vegetation Areas — Tailte Éireann (data.gov.ie)",
+      "url": "https://data.gov.ie/dataset/vegetation-areas-national-250k-map-of-ireland",
+      "note": "Creative Commons Attribution 4.0"
+    },
+    {
+      "label": "Vegetation Areas — GeoJSON download",
+      "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/6d3b4e33ecb347ba96c91cafc0df9b6f/geojson?layers=0",
+      "note": ""
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/tailte-vegetation-areas.fgb"
+    },
+    {
+      "label": "GeoJSON",
+      "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/6d3b4e33ecb347ba96c91cafc0df9b6f/geojson?layers=0"
+    }
+  ],
+  "sourceCredits": [
+    "Tailte Éireann"
+  ],
+  "keywords": [
+    "tailte éireann",
+    "osi",
+    "ireland",
+    "republic of ireland",
+    "vegetation",
+    "areas",
+    "Vegetation Areas (Tailte Éireann)",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "NAMN1",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#2E86AB",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/tailte-vegetation-areas-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/tailte-vegetation-areas.fgb",
+  "sourceDatasetLayer": "_t",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "NAMN1",
+    "OBJECTID",
+    "FCsubtype"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "FCsubtype"
+  ],
+  "categoricalProperties": [
+    "NAMN1"
+  ],
+  "categoricalValues": {
+    "NAMN1": [
+      "N_P"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/tailte-vegetation-areas.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/tailte-vegetation-areas.fgb",
+    "bytes": 1656894,
+    "files": 1409,
+    "pbfFiles": 1408,
+    "maxTileBytes": 51278
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/tailte-vegetation-areas-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/tailte-vegetation-areas-vector-test.pmtiles",
+    "bytes": 1410146,
+    "maxGithubBytes": 99614720,
+    "fallback": "/test/tiles/generated/tailte-vegetation-areas/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-vegetation-areas-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/tailte-vegetation-areas-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/tailte-vegetation-areas-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-07-31T17:20:40.360Z"
+  }
+}

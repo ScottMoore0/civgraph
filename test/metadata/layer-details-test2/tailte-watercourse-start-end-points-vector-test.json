@@ -1,0 +1,139 @@
+{
+  "id": "tailte-watercourse-start-end-points-vector-test",
+  "sourceMapId": "tailte-watercourse-start-end-points",
+  "name": "Watercourse Start End Points (Tailte Éireann)",
+  "category": "Physical Geography",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Tailte Éireann"
+  ],
+  "description": "Watercourse Start End Points across the Republic of Ireland (95 features), from Tailte Éireann / Ordnance Survey Ireland open data. Start and end points of watercourses - National 1m Map Of Ireland Start and end points of watercourses as well as confluences (Confluence, Source, Mouth, Boundary) This dataset is provided by Tailte Éireann",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/tailte-watercourse-start-end-points/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-watercourse-start-end-points-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/tailte-watercourse-start-end-points/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/tailte-watercourse-start-end-points/metadata.json",
+  "sourceLayer": "tailte_watercourse_start_end_points",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.6960945,
+      -9.9031345
+    ],
+    [
+      54.944504,
+      -6.196026
+    ]
+  ],
+  "style": {
+    "color": "#2E86AB",
+    "fillColor": "#2E86AB",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Watercourse Start End Points — Tailte Éireann (data.gov.ie)",
+      "url": "https://data.gov.ie/dataset/watercourse-start-end-points-national-1m-map-of-ireland",
+      "note": "Creative Commons Attribution 4.0"
+    },
+    {
+      "label": "Watercourse Start End Points — GeoJSON download",
+      "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/56988533b7e7470fbcc18f8f38f55c26/geojson?layers=0",
+      "note": ""
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/tailte-watercourse-start-end-points.fgb"
+    },
+    {
+      "label": "GeoJSON",
+      "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/56988533b7e7470fbcc18f8f38f55c26/geojson?layers=0"
+    }
+  ],
+  "sourceCredits": [
+    "Tailte Éireann"
+  ],
+  "keywords": [
+    "tailte éireann",
+    "osi",
+    "ireland",
+    "republic of ireland",
+    "watercourse",
+    "start",
+    "end",
+    "points",
+    "Watercourse Start End Points (Tailte Éireann)",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": null,
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#2E86AB",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "sourceFile": "test/source-cache/vector-intake/tailte-watercourse-start-end-points.fgb",
+  "sourceDatasetLayer": "_t",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "OBJECTID",
+    "FCsubtype",
+    "F_CODE"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "FCsubtype"
+  ],
+  "categoricalProperties": [
+    "F_CODE"
+  ],
+  "categoricalValues": {
+    "F_CODE": [
+      "BH503"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/tailte-watercourse-start-end-points.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/tailte-watercourse-start-end-points.fgb",
+    "bytes": 58561,
+    "files": 295,
+    "pbfFiles": 294,
+    "maxTileBytes": 2268
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/tailte-watercourse-start-end-points-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/tailte-watercourse-start-end-points-vector-test.pmtiles",
+    "bytes": 48309,
+    "maxGithubBytes": 99614720,
+    "fallback": "/test/tiles/generated/tailte-watercourse-start-end-points/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-watercourse-start-end-points-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/tailte-watercourse-start-end-points-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/tailte-watercourse-start-end-points-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-07-31T17:20:40.360Z"
+  }
+}

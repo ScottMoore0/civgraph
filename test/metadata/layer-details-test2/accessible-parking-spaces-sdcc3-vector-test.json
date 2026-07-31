@@ -1,0 +1,207 @@
+{
+  "id": "accessible-parking-spaces-sdcc3-vector-test",
+  "sourceMapId": "accessible-parking-spaces-sdcc3",
+  "name": "Accessible Parking Spaces SDCC",
+  "category": "parking",
+  "group": null,
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "data.gov.ie"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/accessible-parking-spaces-sdcc3/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/accessible-parking-spaces-sdcc3-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/accessible-parking-spaces-sdcc3/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/accessible-parking-spaces-sdcc3/metadata.json",
+  "sourceLayer": "accessible_parking_spaces_sdcc3",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      53.266521,
+      -6.524036
+    ],
+    [
+      53.358573,
+      -6.284019
+    ]
+  ],
+  "style": {
+    "color": "#616A6B",
+    "fillColor": "#616A6B",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Accessible Parking Spaces SDCC — data.gov.ie",
+      "url": "https://data.gov.ie/dataset/accessible-parking-spaces-sdcc3",
+      "note": "CC BY 4.0"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/accessible-parking-spaces-sdcc3.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "data.gov.ie"
+  ],
+  "keywords": [
+    "parking",
+    "accessible",
+    "spaces",
+    "sdcc",
+    "Accessible Parking Spaces SDCC",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Road_Name",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#616A6B",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/accessible-parking-spaces-sdcc3-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/accessible-parking-spaces-sdcc3.fgb",
+  "sourceDatasetLayer": "Accessible_Parking_Spaces_SDCC",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "Road_Name",
+    "OBJECTID",
+    "Park_ID",
+    "Location",
+    "No_Of_Spaces",
+    "Space_Type",
+    "Longitude",
+    "Latitude"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "Park_ID",
+    "No_Of_Spaces",
+    "Longitude",
+    "Latitude"
+  ],
+  "categoricalProperties": [
+    "Location",
+    "Road_Name",
+    "Space_Type"
+  ],
+  "categoricalValues": {
+    "Location": [
+      "Adamstown",
+      "Adamstown Rail Station",
+      "Aras Rualach ",
+      "B&Q Liffey Valley",
+      "Ballyroan Library",
+      "Bawnogue Youth and Community Centre",
+      "Bohernabreena Burial Ground",
+      "Brookfield Enterprise Center ",
+      "Brookfield Enterprise Centre",
+      "Camac Valley Caravan and Camping Park",
+      "Castletymon Library",
+      "Clondalkin / Fonthill Rail Station",
+      "Clondalkin Civic Offices",
+      "Clondalkin Leisure Centre",
+      "Clondalkin Library",
+      "Clondalkin Village",
+      "Coláiste de Híde",
+      "Corkagh Park",
+      "County Hall",
+      "Crematorium Temple",
+      "Dodder Valley Linear Park",
+      "Earlsfort Residents Community Centre",
+      "Esker Burial Ground",
+      "Fettercairn Community Centre",
+      "Griffeen Valley Park",
+      "Griffeen Valley Park- At Leisure Centre",
+      "Hazelhatch and Celbridge Station",
+      "Hermitage Golf Course",
+      "Jobstown Community Centre",
+      "Killinarden Community Centre",
+      "Killinarden Enterprise Park",
+      "Kiltalown House"
+    ],
+    "Road_Name": [
+      "Esker",
+      "N81",
+      "Saggart",
+      "Adamstown Castle",
+      "Adamstown Road",
+      "Ballymount",
+      "Bawnogue Road, Clondalkin",
+      "Belgard Road",
+      "Belgard Square",
+      "Belgard Square East",
+      "Bohernabreena",
+      "Brookfield",
+      "Brookfield Road, Tallaght",
+      "Camac Valley",
+      "Castletymon Road, Tallaght",
+      "Castletymon SC, Tymon Road North, Tallaght, D24",
+      "Clondalkin",
+      "Deansrath, Clondalkin",
+      "Dispensary Lane",
+      "Earlsfort Road, Lucan",
+      "Elm Drive",
+      "Esker Lane",
+      "Fettercairn Road",
+      "Floraville Avenue",
+      "Fonthill Road",
+      "Fortunestown Way",
+      "Greenfort Gardens, Tallaght",
+      "Haydens Lane",
+      "Hazelhatch Road",
+      "Jobstown, Tallaght",
+      "Killinarden",
+      "Killinarden, Tallaght"
+    ],
+    "Space_Type": [
+      "All",
+      "Surface",
+      "Multi-Story",
+      "On Street"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/accessible-parking-spaces-sdcc3.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/accessible-parking-spaces-sdcc3.fgb",
+    "bytes": 112478,
+    "files": 28,
+    "pbfFiles": 27,
+    "maxTileBytes": 7092
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/accessible-parking-spaces-sdcc3-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/accessible-parking-spaces-sdcc3-vector-test.pmtiles",
+    "bytes": 62661,
+    "maxGithubBytes": 99614720,
+    "fallback": "/test/tiles/generated/accessible-parking-spaces-sdcc3/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/accessible-parking-spaces-sdcc3-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/accessible-parking-spaces-sdcc3-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/accessible-parking-spaces-sdcc3-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-07-31T17:20:40.360Z"
+  }
+}

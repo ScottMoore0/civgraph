@@ -210,7 +210,26 @@ function syncMetadata(report) {
   return { preferred, oversized };
 }
 
+// Wrap the real build so a layer is never lost to a source-layer naming quirk. The
+// civ_fid injection has to name the source layer in SQL, and some names defeat that:
+// "1920 06 19" broke on a regex that stopped at the first space, and
+// "2018 PC Review Provisional Proposal Plan " carries a trailing space that any sane
+// parser trims off, after which the identifier no longer matches. When ogr2ogr reports
+// the table is missing, retry once without the injection -- the layer converts and only
+// loses promoteId, which is far better than not existing.
 function buildArchive(layer, sourcePath, outputPath, profile, srsOptions) {
+  const first = buildArchiveOnce(layer, sourcePath, outputPath, profile, srsOptions);
+  if (first.status === 0) return first;
+  if (!/no such table|featureclass/i.test(String(first.stderr || ''))) return first;
+  rmSync(outputPath, { force: true });
+  const retry = buildArchiveOnce(layer, sourcePath, outputPath, profile, srsOptions, { noSourceQuery: true });
+  if (retry.status === 0) {
+    console.warn(`  ${layer.id}: source-layer name defeated the civ_fid query; built without it (no promoteId).`);
+  }
+  return retry;
+}
+
+function buildArchiveOnce(layer, sourcePath, outputPath, profile, srsOptions, opts = {}) {
   if ((layer.sourceMapId || layer.id) === 'habitat-deciduous-woodland'
     && existsSync(resolve(ROOT, DECIDUOUS_LOD0_SOURCE))
     && existsSync(resolve(ROOT, DECIDUOUS_LOD1_SOURCE))) {
@@ -225,7 +244,7 @@ function buildArchive(layer, sourcePath, outputPath, profile, srsOptions) {
       sourcePath,
       ...getFailureOptions(layer.sourceMapId || layer.id),
       ...srsOptions,
-      ...sourceQueryOptions(layer, sourcePath),
+      ...(opts.noSourceQuery ? [] : sourceQueryOptions(layer, sourcePath)),
       '-dsco', `MINZOOM=${Number(layer.minzoom ?? 0)}`,
       '-dsco', `MAXZOOM=${Number(layer.maxzoom ?? 12)}`,
       '-dsco', `MAX_SIZE=${profile.maxSize}`,
@@ -262,7 +281,7 @@ function buildArchive(layer, sourcePath, outputPath, profile, srsOptions) {
     sourcePath,
     ...getFailureOptions(layer.sourceMapId || layer.id),
     ...srsOptions,
-    ...sourceQueryOptions(layer, sourcePath),
+    ...(opts.noSourceQuery ? [] : sourceQueryOptions(layer, sourcePath)),
     '-dsco', `MINZOOM=${Number(layer.minzoom ?? 0)}`,
     '-dsco', `MAXZOOM=${Number(layer.maxzoom ?? 12)}`,
     '-dsco', `MAX_SIZE=${profile.maxSize}`,

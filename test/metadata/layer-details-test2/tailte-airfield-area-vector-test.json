@@ -1,0 +1,131 @@
+{
+  "id": "tailte-airfield-area-vector-test",
+  "sourceMapId": "tailte-airfield-area",
+  "name": "Airfield Area (Tailte Éireann)",
+  "category": "Transport",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Tailte Éireann"
+  ],
+  "description": "Airfield Area across the Republic of Ireland (9 features), from Tailte Éireann / Ordnance Survey Ireland open data. Airfield Area - National 250k Map Of Ireland Military, commercial and leisure airports and airfields with area ≥ 0.4 km² This dataset is provided by Tailte Éireann",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/test/tiles/generated/tailte-airfield-area/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-airfield-area-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/tailte-airfield-area/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/tailte-airfield-area/metadata.json",
+  "sourceLayer": "tailte_airfield_area",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.8301735,
+      -9.5436575
+    ],
+    [
+      55.0538785,
+      -6.2290925
+    ]
+  ],
+  "style": {
+    "color": "#C1440E",
+    "fillColor": "#C1440E",
+    "fillOpacity": 0.08,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Airfield Area — Tailte Éireann (data.gov.ie)",
+      "url": "https://data.gov.ie/dataset/airfield-area-national-250k-map-of-ireland",
+      "note": "Creative Commons Attribution 4.0"
+    },
+    {
+      "label": "Airfield Area — GeoJSON download",
+      "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/f2526583e3b548698ea78c30754be106/geojson?layers=0",
+      "note": ""
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/tailte-airfield-area.fgb"
+    },
+    {
+      "label": "GeoJSON",
+      "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/f2526583e3b548698ea78c30754be106/geojson?layers=0"
+    }
+  ],
+  "sourceCredits": [
+    "Tailte Éireann"
+  ],
+  "keywords": [
+    "tailte éireann",
+    "osi",
+    "ireland",
+    "republic of ireland",
+    "airfield",
+    "area",
+    "Airfield Area (Tailte Éireann)",
+    "Transport",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": null,
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#C1440E",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "sourceFile": "test/source-cache/vector-intake/tailte-airfield-area.fgb",
+  "sourceDatasetLayer": "_t",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "OBJECTID",
+    "FCsubtype"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "FCsubtype"
+  ],
+  "categoricalProperties": [],
+  "categoricalValues": {},
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/tailte-airfield-area.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/tailte-airfield-area.fgb",
+    "bytes": 11248,
+    "files": 71,
+    "pbfFiles": 70,
+    "maxTileBytes": 364
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/tailte-airfield-area-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/tailte-airfield-area-vector-test.pmtiles",
+    "bytes": 12668,
+    "maxGithubBytes": 99614720,
+    "fallback": "/test/tiles/generated/tailte-airfield-area/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-airfield-area-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/tailte-airfield-area-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/tailte-airfield-area-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-07-31T17:20:40.360Z"
+  }
+}

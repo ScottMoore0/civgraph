@@ -1,0 +1,167 @@
+{
+  "id": "tailte-other-harbours-vector-test",
+  "sourceMapId": "tailte-other-harbours",
+  "name": "Other Harbours (Tailte Éireann)",
+  "category": "Transport",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Tailte Éireann"
+  ],
+  "description": "Other Harbours across the Republic of Ireland (30 features), from Tailte Éireann / Ordnance Survey Ireland open data. Other Harbours - National 250k Map of Ireland Area &lt; 0.4 km² All TEN ports and all statistical ports according to Commission Decision 2005/366/EC of 4 March 2005. (Reference: GISCO Port database) This dataset is provided by Tailte Éireann",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/test/tiles/generated/tailte-other-harbours/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-other-harbours-vector-test.pmtiles",
+  "tilesFallback": "/test/tiles/generated/tailte-other-harbours/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/test/tiles/generated/tailte-other-harbours/metadata.json",
+  "sourceLayer": "tailte_other_harbours",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.652241,
+      -9.8995305
+    ],
+    [
+      54.636917,
+      -6.040299
+    ]
+  ],
+  "style": {
+    "color": "#C1440E",
+    "fillColor": "#C1440E",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Other Harbours — Tailte Éireann (data.gov.ie)",
+      "url": "https://data.gov.ie/dataset/other-harbours-national-250k-map-of-ireland",
+      "note": "Creative Commons Attribution 4.0"
+    },
+    {
+      "label": "Other Harbours — GeoJSON download",
+      "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/94e9a91dc6044e088b0a72b8cebc6983/geojson?layers=0",
+      "note": ""
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "test/source-cache/vector-intake/tailte-other-harbours.fgb"
+    },
+    {
+      "label": "GeoJSON",
+      "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/94e9a91dc6044e088b0a72b8cebc6983/geojson?layers=0"
+    }
+  ],
+  "sourceCredits": [
+    "Tailte Éireann"
+  ],
+  "keywords": [
+    "tailte éireann",
+    "osi",
+    "ireland",
+    "republic of ireland",
+    "other",
+    "harbours",
+    "Other Harbours (Tailte Éireann)",
+    "Transport",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "NAMN1",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#C1440E",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/test/metadata/feature-indexes/tailte-other-harbours-vector-test.json",
+  "sourceFile": "test/source-cache/vector-intake/tailte-other-harbours.fgb",
+  "sourceDatasetLayer": "_t",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "NAMN1",
+    "OBJECTID",
+    "FCsubtype"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "FCsubtype"
+  ],
+  "categoricalProperties": [
+    "NAMN1"
+  ],
+  "categoricalValues": {
+    "NAMN1": [
+      "Arklow",
+      "Bantry",
+      "Cobh",
+      "Drogheda",
+      "Dundalk",
+      "Fenit",
+      "Foynes",
+      "Galway",
+      "Greenore",
+      "Howth",
+      "Kilrush",
+      "Kinsale",
+      "Limerick",
+      "New Ross",
+      "Rosslare",
+      "Sligo",
+      "Tralee",
+      "Wicklow",
+      "Youghal",
+      "Arklow Head",
+      "Aughinish Island",
+      "Bantry Harbour",
+      "Castletown Bearhaven",
+      "Haulbowline",
+      "Killybegs",
+      "Passage West",
+      "Rushbrooke",
+      "Waterford",
+      "Whitegate"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from test/source-cache/vector-intake/tailte-other-harbours.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "test/source-cache/vector-intake/tailte-other-harbours.fgb",
+    "bytes": 24620,
+    "files": 123,
+    "pbfFiles": 122,
+    "maxTileBytes": 1110
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "test/pmtiles/generated/tailte-other-harbours-vector-test.pmtiles",
+    "url": "/test/pmtiles/generated/tailte-other-harbours-vector-test.pmtiles",
+    "bytes": 21414,
+    "maxGithubBytes": 99614720,
+    "fallback": "/test/tiles/generated/tailte-other-harbours/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-other-harbours-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/tailte-other-harbours-vector-test.pmtiles",
+    "localUrl": "/test/pmtiles/generated/tailte-other-harbours-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-07-31T17:20:40.360Z"
+  }
+}
