@@ -728,6 +728,17 @@ function isValidBounds(bounds, row = null) {
       && west < -4
       && east > -12;
   }
+  // SOME SUBJECTS ARE LEGITIMATELY WIDER THAN IRELAND. The envelope below is an Ireland
+  // bounding box, which is the right guard for a boundary layer with no business past the
+  // coast, and the wrong one for a layer whose subject crosses the sea. Ferry crossings run
+  // to Britain and France, so tailte-ferry-crossing extends east to -1.61 and south to
+  // 48.72. It failed the envelope on both, and buildVectorLayer returns null on a bounds
+  // failure, so the layer was converted, tiled to zoom 13, and then dropped in silence --
+  // no error, no warning, just absent from the metadata. It sat that way long enough to be
+  // reported as one of two layers that "will not convert", when in fact it had.
+  if (row?.sourceMapId === 'tailte-ferry-crossing') {
+    return south >= 47 && north <= 59 && west >= -13 && east <= 2;
+  }
   return south >= 49
     && north <= 57
     && west >= -12.5

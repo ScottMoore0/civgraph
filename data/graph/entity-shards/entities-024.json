@@ -1,45 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-31T21:25:05.074Z",
+  "generatedAt": "2026-07-31T22:48:58.077Z",
   "shard": 24,
   "total": 5000,
   "items": [
-    {
-      "id": "cg:register-interest:ni-register-record-interest-ee7c3c24d1cf2aba",
-      "label": "Visits",
-      "description": "No registrable interests included under this category in the PDF text.",
-      "kind": "entity",
-      "attributes": {
-        "parentRegisterRecordId": "cg:register-record:ni-register-record-8fdbdf28ace7c363",
-        "category": "Visits",
-        "interestText": "No registrable interests included under this category in the PDF text.",
-        "isNone": true,
-        "sourceCount": 1,
-        "duplicateSourceRowCount": 0,
-        "extractionConfidence": "medium"
-      },
-      "typeIds": [
-        "cg:entity-type:register-interest"
-      ]
-    },
-    {
-      "id": "cg:register-interest:ni-register-record-interest-ee7d761ad4011c6e",
-      "label": "Shareholdings",
-      "description": "None.",
-      "kind": "entity",
-      "attributes": {
-        "parentRegisterRecordId": "cg:register-record:ni-register-record-9c1e7231f34d5ed7",
-        "category": "Shareholdings",
-        "interestText": "None.",
-        "isNone": true,
-        "sourceCount": 2,
-        "duplicateSourceRowCount": 1,
-        "extractionConfidence": "medium"
-      },
-      "typeIds": [
-        "cg:entity-type:register-interest"
-      ]
-    },
     {
       "id": "cg:register-interest:ni-register-record-interest-ee7e1a790b599219",
       "label": "Elected/Public Office",
@@ -106947,6 +106911,64 @@
         "sourceCount": 9,
         "sourceKinds": [
           "historical-pdf-register"
+        ]
+      },
+      "typeIds": [
+        "cg:entity-type:register-record"
+      ]
+    },
+    {
+      "id": "cg:register-record:ni-register-record-49e7bd4e7d3360f5",
+      "label": "Mark Durkan - House of Commons - 2009-06-24",
+      "description": "Remunerated employment, office, profession etc: Chairman of the Enterprise, Trade and Investment Committee of the Northern Ireland Assembly.",
+      "kind": "entity",
+      "browseType": "register-interests",
+      "browseSlug": "ni-register-record-49e7bd4e7d3360f5",
+      "attributes": {
+        "recordKind": "politician-body-date-register",
+        "memberName": "Mark Durkan",
+        "electedBody": "House of Commons",
+        "chamber": "House of Commons of the United Kingdom",
+        "memberType": "MP",
+        "jurisdiction": "Northern Ireland",
+        "constituency": "Foyle",
+        "date": "2009-06-24",
+        "dateStart": "2009-06-24",
+        "dateEnd": "2009-06-24",
+        "interestCount": 1,
+        "nonNilInterestCount": 1,
+        "sourceCount": 1,
+        "sourceKinds": [
+          "filtered-westminster-csv"
+        ]
+      },
+      "typeIds": [
+        "cg:entity-type:register-record"
+      ]
+    },
+    {
+      "id": "cg:register-record:ni-register-record-49ec60ab1c346286",
+      "label": "Leslie Cree - Assembly - 2010-04-28",
+      "description": "Elected/Public Office: Councillor, North Down Borough Council. Gross annual remuneration: GBP9,738. Average hours worked per week: 8. Member... / Family members who benefit from Assembly Members' Allowances: I employ my wife as a part-time researcher. / Unremunerated interests: Bangor and Holywood Town Centre Management Co. Somme Association. North Down Business Village Co. Bangor and District...",
+      "kind": "entity",
+      "browseType": "register-interests",
+      "browseSlug": "ni-register-record-49ec60ab1c346286",
+      "attributes": {
+        "recordKind": "politician-body-date-register",
+        "memberName": "Leslie Cree",
+        "electedBody": "Assembly",
+        "chamber": "Northern Ireland Assembly",
+        "memberType": "MLA",
+        "jurisdiction": "Northern Ireland",
+        "constituency": "North Down",
+        "date": "2010-04-28",
+        "dateStart": "2010-04-28",
+        "dateEnd": "2010-04-28",
+        "interestCount": 11,
+        "nonNilInterestCount": 3,
+        "sourceCount": 11,
+        "sourceKinds": [
+          "historical-html-register"
         ]
       },
       "typeIds": [

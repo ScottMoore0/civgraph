@@ -1,391 +1,10 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-31T21:23:44.204Z",
+  "generatedAt": "2026-07-31T22:47:38.184Z",
   "kind": "sources",
   "shard": "sources-193.json",
   "total": 200,
   "items": [
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system:01711",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system-01711",
-      "type": "approved-medium-priority-source",
-      "title": "Journey times across Dublin City, from Traffic Department's TRIPS system DCC",
-      "subtitle": "Local authority planning/property/open-data layers / Dublin City Council, data.gov.ie / Republic of Ireland / CSV, DB_TABLE, DOC, KML, WMS, ZIP / Source record; runtime review pending",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "provider": [
-        "Dublin City Council",
-        "data.gov.ie"
-      ],
-      "description": "Journey times across Dublin City, from Traffic Department's TRIPS system DCC is published as a medium-priority Civgraph source/provenance record from Dublin City Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-      "url": "https://data.gov.ie/dataset/journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system",
-      "references": [
-        {
-          "label": "Journey times across Dublin City, from Traffic Department's TRIPS system DCC provider page",
-          "url": "https://data.gov.ie/dataset/journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Journey times across Dublin City, from Traffic Department's TRIPS system DCC Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Local authority planning/property/open-data layers",
-        "transport-public-asset",
-        "features",
-        "Republic of Ireland",
-        "local-authority-batch-review",
-        "CSV",
-        "DB_TABLE",
-        "DOC",
-        "KML",
-        "WMS",
-        "ZIP",
-        "review:duplicate-or-variant-review-no-existing-match-candidate"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 1712,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system:01711",
-          "title": "Journey times across Dublin City, from Traffic Department's TRIPS system DCC",
-          "cleanTitle": "Journey times across Dublin City, from Traffic Department's TRIPS system DCC",
-          "provider": "data.gov.ie",
-          "organisation": "Dublin City Council",
-          "category": "spatial",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Republic of Ireland",
-          "topic": "transport-public-asset",
-          "featureUnit": "features",
-          "formats": [
-            "CSV",
-            "DB_TABLE",
-            "DOC",
-            "KML",
-            "WMS",
-            "ZIP"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "DB_TABLE",
-              "DOC",
-              "KML",
-              "WMS",
-              "ZIP"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Republic of Ireland",
-        "transport-public-asset",
-        "Journey times across Dublin City, from Traffic Department's TRIPS system DCC"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Dublin City Council, data.gov.ie, Journey times across Dublin City, from Traffic Department's TRIPS system DCC.",
-      "fullCitation": "Dublin City Council, data.gov.ie. Journey times across Dublin City, from Traffic Department's TRIPS system DCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system:01711",
-        "sourceRowNumber": 1712,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV",
-            "DB_TABLE",
-            "DOC",
-            "KML",
-            "WMS",
-            "ZIP"
-          ]
-        },
-        "confidence": 60,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate"
-        ],
-        "resolvedBlockers": [
-          "large-or-special-format-review: normal source package; no special-format hold",
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system-01711",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system:01711",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system-01711",
-        "type": "approved-medium-priority-source",
-        "title": "Journey times across Dublin City, from Traffic Department's TRIPS system DCC",
-        "subtitle": "Local authority planning/property/open-data layers / Dublin City Council, data.gov.ie / Republic of Ireland / CSV, DB_TABLE, DOC, KML, WMS, ZIP / Source record; runtime review pending",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "provider": [
-          "Dublin City Council",
-          "data.gov.ie"
-        ],
-        "description": "Journey times across Dublin City, from Traffic Department's TRIPS system DCC is published as a medium-priority Civgraph source/provenance record from Dublin City Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-        "url": "https://data.gov.ie/dataset/journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system",
-        "references": [
-          {
-            "label": "Journey times across Dublin City, from Traffic Department's TRIPS system DCC provider page",
-            "url": "https://data.gov.ie/dataset/journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Journey times across Dublin City, from Traffic Department's TRIPS system DCC Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Republic of Ireland",
-          "transport-public-asset",
-          "Journey times across Dublin City, from Traffic Department's TRIPS system DCC"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Dublin City Council, data.gov.ie, Journey times across Dublin City, from Traffic Department's TRIPS system DCC.",
-        "fullCitation": "Dublin City Council, data.gov.ie. Journey times across Dublin City, from Traffic Department's TRIPS system DCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 1712,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system:01711",
-            "title": "Journey times across Dublin City, from Traffic Department's TRIPS system DCC",
-            "cleanTitle": "Journey times across Dublin City, from Traffic Department's TRIPS system DCC",
-            "provider": "data.gov.ie",
-            "organisation": "Dublin City Council",
-            "category": "spatial",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Republic of Ireland",
-            "topic": "transport-public-asset",
-            "featureUnit": "features",
-            "formats": [
-              "CSV",
-              "DB_TABLE",
-              "DOC",
-              "KML",
-              "WMS",
-              "ZIP"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV",
-                "DB_TABLE",
-                "DOC",
-                "KML",
-                "WMS",
-                "ZIP"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "large-or-special-format-review: normal source package; no special-format hold",
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system:01711",
-          "sourceRowNumber": 1712,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "DB_TABLE",
-              "DOC",
-              "KML",
-              "WMS",
-              "ZIP"
-            ]
-          },
-          "confidence": 60,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Local authority planning/property/open-data layers",
-          "transport-public-asset",
-          "features",
-          "Republic of Ireland",
-          "local-authority-batch-review",
-          "CSV",
-          "DB_TABLE",
-          "DOC",
-          "KML",
-          "WMS",
-          "ZIP",
-          "review:duplicate-or-variant-review-no-existing-match-candidate"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system-01711"
-      }
-    },
     {
       "id": "medium-priority:5-local-authority-planning-property-open-data-layers:junctions-and-pedestrian-crossings-sdcc1:00594",
       "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-junctions-and-pedestrian-crossings-sdcc1-00594",
@@ -68523,6 +68142,357 @@
           "review:duplicate-or-variant-review-no-existing-match-candidate"
         ],
         "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-national-otter-survey-of-ireland-2010-2011-00253"
+      }
+    },
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:national-planning-applications:00113",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-national-planning-applications-00113",
+      "type": "approved-medium-priority-source",
+      "title": "National Planning Applications",
+      "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / ESRI REST, GEOJSON, RESTSERVICE / Source record; runtime review pending",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "Department of Housing, Local Government and Heritage",
+        "data.gov.ie"
+      ],
+      "description": "National Planning Applications is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+      "url": "https://data.gov.ie/dataset/national-planning-applications",
+      "references": [
+        {
+          "label": "National Planning Applications provider page",
+          "url": "https://data.gov.ie/dataset/national-planning-applications",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "National Planning Applications Wayback captures",
+          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-planning-applications",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://data.gov.ie/dataset/national-planning-applications",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "source-record-with-runtime-review",
+        "Local authority planning/property/open-data layers",
+        "planning-property",
+        "features",
+        "Ireland / unspecified",
+        "local-authority-batch-review",
+        "ESRI REST",
+        "GEOJSON",
+        "RESTSERVICE",
+        "review:duplicate-or-variant-review-no-existing-match-candidate"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 114,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-planning-applications:00113",
+          "title": "National Planning Applications",
+          "cleanTitle": "National Planning Applications",
+          "provider": "data.gov.ie",
+          "organisation": "Department of Housing, Local Government and Heritage",
+          "category": "spatial",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Ireland / unspecified",
+          "topic": "planning-property",
+          "featureUnit": "features",
+          "formats": [
+            "ESRI REST",
+            "GEOJSON",
+            "RESTSERVICE"
+          ],
+          "isSpatial": true,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "ESRI REST",
+              "GEOJSON",
+              "RESTSERVICE"
+            ]
+          },
+          "approvalState": "ready-with-residual-review",
+          "sourcePublicationState": "public source record with runtime/semantic review still pending",
+          "confidence": 60,
+          "currentProviderUrl": "https://data.gov.ie/dataset/national-planning-applications",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-planning-applications",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source record",
+        "Runtime review pending",
+        "Spatial source",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Ireland / unspecified",
+        "planning-property",
+        "National Planning Applications"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/national-planning-applications",
+        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-planning-applications",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, National Planning Applications.",
+      "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. National Planning Applications. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/national-planning-applications. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/national-planning-applications.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-planning-applications:00113",
+        "sourceRowNumber": 114,
+        "approvalState": "ready-with-residual-review",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "ESRI REST",
+            "GEOJSON",
+            "RESTSERVICE"
+          ]
+        },
+        "confidence": 60,
+        "residualBlockers": [
+          "duplicate-or-variant-review: no existing match candidate"
+        ],
+        "resolvedBlockers": [
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+        ],
+        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+      },
+      "publicationStatus": "source-record-with-runtime-review",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-national-planning-applications-00113",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:national-planning-applications:00113",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-national-planning-applications-00113",
+        "type": "approved-medium-priority-source",
+        "title": "National Planning Applications",
+        "subtitle": "Local authority planning/property/open-data layers / Department of Housing, Local Government and Heritage, data.gov.ie / Ireland / unspecified / ESRI REST, GEOJSON, RESTSERVICE / Source record; runtime review pending",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "Department of Housing, Local Government and Heritage",
+          "data.gov.ie"
+        ],
+        "description": "National Planning Applications is published as a medium-priority Civgraph source/provenance record from Department of Housing, Local Government and Heritage, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
+        "url": "https://data.gov.ie/dataset/national-planning-applications",
+        "references": [
+          {
+            "label": "National Planning Applications provider page",
+            "url": "https://data.gov.ie/dataset/national-planning-applications",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "National Planning Applications Wayback captures",
+            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-planning-applications",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://data.gov.ie/dataset/national-planning-applications",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source record",
+          "Runtime review pending",
+          "Spatial source",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Ireland / unspecified",
+          "planning-property",
+          "National Planning Applications"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/national-planning-applications",
+          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-planning-applications",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Department of Housing, Local Government and Heritage, data.gov.ie, National Planning Applications.",
+        "fullCitation": "Department of Housing, Local Government and Heritage, data.gov.ie. National Planning Applications. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/national-planning-applications. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/national-planning-applications.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 114,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-planning-applications:00113",
+            "title": "National Planning Applications",
+            "cleanTitle": "National Planning Applications",
+            "provider": "data.gov.ie",
+            "organisation": "Department of Housing, Local Government and Heritage",
+            "category": "spatial",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Ireland / unspecified",
+            "topic": "planning-property",
+            "featureUnit": "features",
+            "formats": [
+              "ESRI REST",
+              "GEOJSON",
+              "RESTSERVICE"
+            ],
+            "isSpatial": true,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "ESRI REST",
+                "GEOJSON",
+                "RESTSERVICE"
+              ]
+            },
+            "approvalState": "ready-with-residual-review",
+            "sourcePublicationState": "public source record with runtime/semantic review still pending",
+            "confidence": 60,
+            "currentProviderUrl": "https://data.gov.ie/dataset/national-planning-applications",
+            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/national-planning-applications",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+            ],
+            "residualBlockers": [
+              "duplicate-or-variant-review: no existing match candidate"
+            ],
+            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:national-planning-applications:00113",
+          "sourceRowNumber": 114,
+          "approvalState": "ready-with-residual-review",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "ESRI REST",
+              "GEOJSON",
+              "RESTSERVICE"
+            ]
+          },
+          "confidence": 60,
+          "residualBlockers": [
+            "duplicate-or-variant-review: no existing match candidate"
+          ],
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
+          ],
+          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record."
+        },
+        "publicationStatus": "source-record-with-runtime-review",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "source-record-with-runtime-review",
+          "Local authority planning/property/open-data layers",
+          "planning-property",
+          "features",
+          "Ireland / unspecified",
+          "local-authority-batch-review",
+          "ESRI REST",
+          "GEOJSON",
+          "RESTSERVICE",
+          "review:duplicate-or-variant-review-no-existing-match-candidate"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-national-planning-applications-00113"
       }
     }
   ]

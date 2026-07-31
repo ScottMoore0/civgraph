@@ -5,6 +5,7 @@ import path from 'node:path';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 import { gunzip } from 'node:zlib';
+import { isGraphExcludedSource } from './graph-source-exclusions.mjs';
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(SCRIPT_DIR, '..', '..');
@@ -359,6 +360,11 @@ async function validateMapAndSourceFileCoverage(entityTypeCounts, entityById, st
     }
   }
   for (const source of sources) {
+    // The builder deliberately keeps bulk catalogue-link tranches out of the graph, so
+    // requiring entities for their downloads asks for something that is not supposed to
+    // exist. That mismatch is what produced '17,820 missing source-file entities' on every
+    // run: both sides were arithmetically right about a rule only the builder knew.
+    if (isGraphExcludedSource(source)) continue;
     const sourceKey = source.slug || source.id || source.title;
     for (const download of normalizeDownloadLinks(source.downloads)) {
       expectedFileUrls.add(normalizeUrl(download.url));

@@ -4131,6 +4131,75 @@ class UIController {
             });
         }
 
+        // NOTHING RENDERABLE SHOULD BE UNREACHABLE. Every card above names its rows
+        // explicitly, so a layer added to the catalogue appears nowhere until someone
+        // remembers to edit this file too. That is exactly how the Ward/DED composites for
+        // 1941-1943 and 1985 stayed invisible while fully converted, tiled and served from
+        // the CDN -- and they were not alone: 180 other renderable layers had no row at all,
+        // including the OSNI reference sheets, six townland layers, the 1884 and 1918
+        // parliamentary constituencies, and 97 bulk-imported Open Data Ireland sets.
+        //
+        // Listing those 180 by hand would fix today and drift again by next month. Instead
+        // anything with data that no card above claims is grouped by its own category and
+        // appended. The explicit cards keep full control of ordering and presentation; this
+        // only guarantees that a layer cannot be reachable by the renderer and invisible in
+        // the catalogue at the same time.
+        //
+        // Stubs are deliberately excluded. 131 catalogue entries are placeholders for
+        // material not yet digitised, with no files, variants or members; they cannot draw
+        // anything, so giving them a row would advertise maps that do not exist.
+        const claimedMapIds = new Set();
+        c1Cards.forEach(card => {
+            (card.mapIds || []).forEach(id => claimedMapIds.add(id));
+            (card.classIds || []).forEach(classId => {
+                ((classById.get(classId) || {}).maps || []).forEach(id => claimedMapIds.add(id));
+            });
+        });
+        const allCatalogueMaps = (dataService.maps?.maps) || [];
+        // A variant is reached through its parent's row and never gets one of its own.
+        const variantMapIds = new Set();
+        allCatalogueMaps.forEach(map => (map.variants || []).forEach(v => v.id && variantMapIds.add(v.id)));
+        const categoryNameById = new Map(((dataService.maps?.categories) || []).map(c => [c.id, c.name]));
+        const unclaimedByCategory = new Map();
+        allCatalogueMaps.forEach(map => {
+            if (map.hidden || claimedMapIds.has(map.id) || variantMapIds.has(map.id)) return;
+            const hasData = Object.keys(map.files || {}).length
+                || (map.variants || []).length
+                || (map.members || []).length
+                || map.chunked;
+            if (!hasData) return;
+            const key = map.category || 'other';
+            if (!unclaimedByCategory.has(key)) unclaimedByCategory.set(key, []);
+            unclaimedByCategory.get(key).push(map.id);
+        });
+        // The card KEEPS its category's name, because the table of contents groups cards by
+        // name -- stripBracketParts(card.name) matched against the section member lists --
+        // so renaming it to 'More Electoral Divisions' silently moved it out of the Wards &
+        // Electoral Divisions section it belongs in. Where that collides with an existing
+        // card of the same name, the subtitle distinguishes them instead.
+        const existingCardNames = new Set(c1Cards.map(card => String(card.name || '')));
+        [...unclaimedByCategory.entries()]
+            .sort((a, b) => b[1].length - a[1].length || String(a[0]).localeCompare(String(b[0])))
+            .forEach(([categoryId, mapIds]) => {
+                const years = mapIds
+                    .map(id => this.getYear(mapById.get(id)?.date))
+                    .filter(Boolean)
+                    .map(Number)
+                    .filter(Number.isFinite)
+                    .sort((a, b) => a - b);
+                const span = years.length
+                    ? (years[0] === years[years.length - 1] ? `${years[0]}` : `${years[0]}-${years[years.length - 1]}`)
+                    : '';
+                const baseName = categoryNameById.get(categoryId) || String(categoryId);
+                c1Cards.push({
+                    id: `flat-uncarded-${String(categoryId).toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
+                    name: baseName,
+                    years: span,
+                    extent: existingCardNames.has(baseName) ? 'Further layers' : '',
+                    mapIds
+                });
+            });
+
         const decadeDefs = [
             { id: 'flat-elections-2020s', name: '2020s', from: 2020, to: 2029 },
             { id: 'flat-elections-2010s', name: '2010s', from: 2010, to: 2019 },

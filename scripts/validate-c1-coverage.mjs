@@ -82,7 +82,15 @@ function readC1Cards(source) {
   throw new Error('Unbalanced brackets while reading the c1Cards array');
 }
 
-const cards = readC1Cards(readFileSync(UI, 'utf8'));
+const uiSource = readFileSync(UI, 'utf8');
+const cards = readC1Cards(uiSource);
+
+// The catalogue appends a generated card per category for any layer with data that no
+// explicit card claims, which is what makes full coverage structural rather than a list
+// somebody has to remember to update. If that block is ever removed, coverage silently
+// reverts to explicit-only and 180 layers disappear again -- so its presence is itself
+// part of the invariant, and is asserted rather than assumed.
+const hasGeneratedFallback = uiSource.includes('flat-uncarded-');
 const catalogue = JSON.parse(readFileSync(CATALOGUE, 'utf8'));
 const indexLayers = JSON.parse(readFileSync(INDEX, 'utf8')).layers || [];
 
@@ -118,8 +126,27 @@ const isRenderable = (m) => {
 
 const visible = (catalogue.maps || []).filter((m) => !m.hidden);
 
+// Mirrors the generated-card rule in ui-controller.js exactly: a visible, non-variant
+// layer that owns data gets a category card. Renderable implies it owns data, so with the
+// fallback in place nothing renderable can be unreachable -- which is the point.
+const claimedByFallback = (m) => hasGeneratedFallback
+  && !variantIds.has(m.id)
+  && Boolean(Object.keys(m.files || {}).length
+    || (m.variants || []).length
+    || (m.members || []).length
+    || m.chunked);
+
 const uncovered = visible
-  .filter((m) => !covered.has(m.id) && !variantIds.has(m.id) && isRenderable(m))
+  .filter((m) => !covered.has(m.id) && !variantIds.has(m.id) && isRenderable(m) && !claimedByFallback(m))
+  .map((m) => m.id)
+  .sort();
+
+// Not a failure -- these render, and a user can reach them. It is a curation backlog: a
+// generated card groups by raw category and cannot know that the 1918 constituencies
+// belong beside the 1885 ones, so a growing number here means the explicit cards are
+// falling behind, not that anything is broken.
+const relyingOnFallback = visible
+  .filter((m) => !covered.has(m.id) && !variantIds.has(m.id) && isRenderable(m) && claimedByFallback(m))
   .map((m) => m.id)
   .sort();
 
@@ -152,8 +179,15 @@ if (AS_JSON) {
     uncovered, newGaps, closed, stalePlaceholders
   }, null, 2));
 } else {
-  console.log(`Catalogue card coverage: ${cards.length} cards name ${covered.size} layer ids; ${visible.length} visible catalogue layers.`);
-  console.log(`  renderable layers with no card row: ${uncovered.length} (${baseline.size} baselined)`);
+  console.log(`Catalogue card coverage: ${cards.length} explicit cards name ${covered.size} layer ids; ${visible.length} visible catalogue layers.`);
+  console.log(`  generated per-category fallback present: ${hasGeneratedFallback ? 'yes' : 'NO'}`);
+  console.log(`  renderable layers reachable only via the fallback: ${relyingOnFallback.length} (curation backlog, not a failure)`);
+  console.log(`  renderable layers with no card row at all: ${uncovered.length} (${baseline.size} baselined)`);
+
+  if (!hasGeneratedFallback) {
+    console.error('\nThe generated per-category card block is gone from js/ui-controller.js.');
+    console.error('  Without it, only explicitly listed layers appear in the catalogue.');
+  }
 
   if (newGaps.length) {
     console.error(`\nFAIL: ${newGaps.length} renderable layer(s) are in the catalogue but no card shows them, so no user can reach them.`);

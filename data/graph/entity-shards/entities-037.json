@@ -1,47 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-31T21:25:05.074Z",
+  "generatedAt": "2026-07-31T22:48:58.077Z",
   "shard": 37,
   "total": 5000,
   "items": [
-    {
-      "id": "cg:source:map-source-dobih-v18-4-corbetts",
-      "label": "Corbetts (18.4) source files",
-      "description": "Scottish Corbetts in DoBIH v18.4.",
-      "kind": "entity",
-      "browseType": "sources",
-      "browseSlug": "map-source-dobih-v18-4-corbetts",
-      "browseUrl": "/browse/sources/map-source-dobih-v18-4-corbetts",
-      "attributes": {
-        "sourceCategory": "Map sources",
-        "provider": "Database of British and Irish Hills, Hill Bagging",
-        "date": "2026-06-22",
-        "referenceCount": 3,
-        "downloadCount": 37
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
-    {
-      "id": "cg:source:map-source-dobih-v18-4-county-tops",
-      "label": "County Tops (18.4) source files",
-      "description": "County and county-equivalent tops recorded in DoBIH v18.4.",
-      "kind": "entity",
-      "browseType": "sources",
-      "browseSlug": "map-source-dobih-v18-4-county-tops",
-      "browseUrl": "/browse/sources/map-source-dobih-v18-4-county-tops",
-      "attributes": {
-        "sourceCategory": "Map sources",
-        "provider": "Database of British and Irish Hills, Hill Bagging",
-        "date": "2026-06-22",
-        "referenceCount": 3,
-        "downloadCount": 37
-      },
-      "typeIds": [
-        "cg:entity-type:source"
-      ]
-    },
     {
       "id": "cg:source:map-source-dobih-v18-4-donald-tops",
       "label": "Donald Tops (18.4) source files",
@@ -507,7 +469,7 @@
       "browseUrl": "/browse/sources/map-source-eds-1983",
       "attributes": {
         "sourceCategory": "Map sources",
-        "provider": "Phelim Birch, Paddy Matthews (Paddy will be credited on all my ED maps from now on as I used his 1926 map for Galway)",
+        "provider": "Phelim Birch, Paddy Matthews",
         "date": "1983",
         "referenceCount": 1,
         "downloadCount": 5
@@ -850,7 +812,7 @@
       "browseUrl": "/browse/sources/map-source-eds-roi-1985",
       "attributes": {
         "sourceCategory": "Map sources",
-        "provider": "Phelim Birch, Paddy Matthews (Paddy will be credited on all my ED maps from now on as I used his 1926 map for Galway)",
+        "provider": "Phelim Birch, Paddy Matthews",
         "date": "1985",
         "referenceCount": 1,
         "downloadCount": 5
@@ -2083,7 +2045,7 @@
     {
       "id": "cg:source:map-source-highlands-without-settlements",
       "label": "Highlands Without Settlements source files",
-      "description": "Areas of Northern Ireland with an elevation of 243m or higher - above the highest point within any Settlements 2015 feature boundary.",
+      "description": "Areas of Northern Ireland at 243m (797ft) or higher elevation - above the highest point within any settlement (Hannahstown at 242.9m). Generated from OSNI 50m DTM.",
       "kind": "entity",
       "browseType": "sources",
       "browseSlug": "map-source-highlands-without-settlements",
@@ -87803,6 +87765,34 @@
       "label": "Original CSO source",
       "kind": "entity",
       "sourceUrl": "https://www.cso.ie/en/media/csoie/census/census1991results/volume4/C1991_V4_T21_ab.pdf",
+      "attributes": {
+        "sourceKind": "source-reference",
+        "role": "source-download",
+        "createdFrom": "external-reference"
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
+      "id": "cg:source:original-cso-source-e59e9551da44",
+      "label": "Original CSO source",
+      "kind": "entity",
+      "sourceUrl": "https://www.cso.ie/en/media/csoie/census/census1981results/volume7/C_1981_V7_T7.pdf",
+      "attributes": {
+        "sourceKind": "source-reference",
+        "role": "source-download",
+        "createdFrom": "external-reference"
+      },
+      "typeIds": [
+        "cg:entity-type:source"
+      ]
+    },
+    {
+      "id": "cg:source:original-cso-source-e5a261020ade",
+      "label": "Original CSO source",
+      "kind": "entity",
+      "sourceUrl": "https://www.cso.ie/en/media/csoie/census/census1991results/volume9/C1991_V9_T18_&_19.pdf",
       "attributes": {
         "sourceKind": "source-reference",
         "role": "source-download",

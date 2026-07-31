@@ -4,6 +4,7 @@ import path from 'node:path';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 import { gzip } from 'node:zlib';
+import { isGraphExcludedSource } from './graph-source-exclusions.mjs';
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(SCRIPT_DIR, '..', '..');
@@ -13,14 +14,8 @@ const REGISTRY_DIR = path.join(ROOT_DIR, 'data', 'database');
 const GENERATED_AT = new Date().toISOString();
 const ENTITY_SHARD_SIZE = 5000;
 const STATEMENT_SHARD_SIZE = 2500;
-// Bulk catalogue-link source tranches are published to Browse/Sources (a sharded
-// index that scales) but are intentionally NOT promoted to semantic-graph
-// entities: they are catalogue stubs with no relationships, and folding tens of
-// thousands of them into entity-search.json / entity-slugs.json would push those
-// per-file indexes past the 25 MiB Cloudflare Pages limit. Matched by id prefix.
-const GRAPH_EXCLUDED_SOURCE_ID_PREFIXES = ['approved-publication:cso-pxstat-', 'approved-publication:opendata-ie-', 'approved-publication:nisra-pub-', 'approved-publication:opendata-ni-'];
-const isGraphExcludedSource = (item) =>
-  GRAPH_EXCLUDED_SOURCE_ID_PREFIXES.some((p) => String(item.id || '').startsWith(p));
+// Shared with validate-semantic-graph.mjs -- see graph-source-exclusions.mjs for why the
+// rule lives in its own module rather than here.
 const COMPACT_REFERENCE_LIMIT = 3;
 const COMPACT_DESCRIPTION_LIMIT = 600;
 const gzipAsync = promisify(gzip);

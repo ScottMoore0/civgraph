@@ -3,12 +3,12 @@
   "source": "data/database/maps.json",
   "testMetadata": "test/metadata/maps-test.json",
   "totals": {
-    "total": 1256,
-    "converted": 1135,
-    "convertedDirect": 958,
-    "convertedComposite": 28,
+    "total": 1255,
+    "converted": 1136,
+    "convertedDirect": 960,
+    "convertedComposite": 27,
     "convertedAlias": 149,
-    "needsVectorTileConversion": 2,
+    "needsVectorTileConversion": 0,
     "metadataOnly": 119,
     "needsMapLibreSourceMapping": 0
   },
@@ -1452,7 +1452,7 @@
         "Scott Moore",
         "OSNI Open Data"
       ],
-      "description": "Areas of Northern Ireland with an elevation of 243m or higher - above the highest point within any Settlements 2015 feature boundary.",
+      "description": "Areas of Northern Ireland at 243m (797ft) or higher elevation - above the highest point within any settlement (Hannahstown at 242.9m). Generated from OSNI 50m DTM.",
       "sourceCredits": [
         "Scott Moore",
         "OSNI Open Data"
@@ -1836,57 +1836,6 @@
         {
           "kind": "fgb",
           "file": "https://data.civgraph.net/data/maps/physical/River_Basins.fgb"
-        }
-      ],
-      "references": [],
-      "sourceDownloads": [],
-      "variants": 0,
-      "unsupportedReason": null
-    },
-    {
-      "sourceMapId": "highlands-without-settlements",
-      "cloneOf": null,
-      "parentId": null,
-      "name": "Highlands Without Settlements",
-      "category": "Physical Geography",
-      "categoryId": "physical-geography",
-      "group": "Physical Geography",
-      "date": 2026,
-      "dateAdded": null,
-      "dateEffective": null,
-      "provider": [
-        "OSNI",
-        "Scott Moore"
-      ],
-      "description": "Areas of Northern Ireland at 243m (797ft) or higher elevation - above the highest point within any settlement (Hannahstown at 242.9m). Generated from OSNI 50m DTM.",
-      "sourceCredits": [
-        "OSNI",
-        "Scott Moore"
-      ],
-      "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": "highlands-without-settlements-vector-test",
-      "aliasTargetLayerId": null,
-      "bounds": [
-        [
-          54.0767105,
-          -8.0177026
-        ],
-        [
-          55.2056976,
-          -5.8262257
-        ]
-      ],
-      "style": {
-        "color": "#8B4513",
-        "fillColor": null,
-        "fillOpacity": 0,
-        "weight": 2
-      },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/physical/Highlands_Without_Settlements.fgb"
         }
       ],
       "references": [],
@@ -10897,11 +10846,20 @@
         "OSNI",
         "Tailte Éireann"
       ],
-      "conversionStatus": "convertedComposite",
-      "recommendedTarget": "composite-vector-tiles",
-      "testLayerId": "composite:counties-ni-1915,roi-counties-2011",
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "counties-ireland-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.4198973,
+          -10.6812354
+        ],
+        [
+          55.4469322,
+          -5.4327894
+        ]
+      ],
       "style": {
         "color": "#00A9E6",
         "fillColor": null,
@@ -12341,7 +12299,16 @@
       "recommendedTarget": "composite-vector-tiles",
       "testLayerId": "composite:eds-connacht-2022,eds-leinster-2022,eds-munster-2022,eds-ulster-2022",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.419897,
+          -10.662971
+        ],
+        [
+          55.44658,
+          -5.996278
+        ]
+      ],
       "style": {
         "color": "#1B5E20",
         "fillColor": null,
@@ -12572,7 +12539,16 @@
       "recommendedTarget": "composite-vector-tiles",
       "testLayerId": "composite:eds-connacht-2006,eds-leinster-2006,eds-munster-2006,eds-ulster-2006,eds-census-2011",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.419897,
+          -10.66285
+        ],
+        [
+          55.446576,
+          -5.996284
+        ]
+      ],
       "style": {
         "color": "#2E7D32",
         "fillColor": null,
@@ -12854,7 +12830,16 @@
       "recommendedTarget": "composite-vector-tiles",
       "testLayerId": "composite:eds-connacht-1911,eds-leinster-1911,eds-munster-1911,eds-ulster-1911",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.388858,
+          -10.662971
+        ],
+        [
+          55.446581,
+          -5.426788
+        ]
+      ],
       "style": {
         "color": "#8B4513",
         "fillColor": null,
@@ -13199,7 +13184,16 @@
       "recommendedTarget": "composite-vector-tiles",
       "testLayerId": "composite:eds-roi-1921-connacht,eds-roi-1921-leinster,eds-roi-1921-munster,eds-roi-1921-ulster",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.388858,
+          -10.662971
+        ],
+        [
+          55.446581,
+          -5.996278
+        ]
+      ],
       "style": {
         "color": "#9C6E3F",
         "fillColor": null,
@@ -13688,9 +13682,9 @@
       "cloneOf": null,
       "parentId": null,
       "name": "District Electoral Divisions/Wards 1944",
-      "category": "Electoral Divisions",
-      "categoryId": "electoral-divisions",
-      "group": "Built Environment",
+      "category": "Electoral Areas",
+      "categoryId": "wards",
+      "group": "Elections and Government",
       "date": "1944-04-01",
       "dateAdded": null,
       "dateEffective": null,
@@ -13704,10 +13698,19 @@
         "Paddy Matthews"
       ],
       "conversionStatus": "convertedComposite",
-      "recommendedTarget": "catalogue-metadata",
+      "recommendedTarget": "composite-vector-tiles",
       "testLayerId": "composite:eds-roi-1944-connacht,eds-roi-1944-leinster,eds-roi-1944-munster,eds-roi-1944-ulster",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.4,
+          -10.75
+        ],
+        [
+          55.5,
+          -5.4
+        ]
+      ],
       "style": {
         "color": "#1B5E20",
         "fillColor": null,
@@ -13738,9 +13741,9 @@
       "cloneOf": "eds-connacht-1919",
       "parentId": "eds-roi-1944",
       "name": "District Electoral Divisions/Wards 1944",
-      "category": "Electoral Divisions",
-      "categoryId": "electoral-divisions",
-      "group": "Built Environment",
+      "category": "Electoral Areas",
+      "categoryId": "wards",
+      "group": "Elections and Government",
       "date": "1944-04-01",
       "dateAdded": null,
       "dateEffective": null,
@@ -13802,9 +13805,9 @@
       "cloneOf": "eds-leinster-1943",
       "parentId": "eds-roi-1944",
       "name": "District Electoral Divisions/Wards 1944",
-      "category": "Electoral Divisions",
-      "categoryId": "electoral-divisions",
-      "group": "Built Environment",
+      "category": "Electoral Areas",
+      "categoryId": "wards",
+      "group": "Elections and Government",
       "date": "1944-04-01",
       "dateAdded": null,
       "dateEffective": null,
@@ -13866,9 +13869,9 @@
       "cloneOf": "eds-munster-1944",
       "parentId": "eds-roi-1944",
       "name": "District Electoral Divisions/Wards 1944",
-      "category": "Electoral Divisions",
-      "categoryId": "electoral-divisions",
-      "group": "Built Environment",
+      "category": "Electoral Areas",
+      "categoryId": "wards",
+      "group": "Elections and Government",
       "date": "1944-04-01",
       "dateAdded": null,
       "dateEffective": null,
@@ -13930,9 +13933,9 @@
       "cloneOf": "eds-ulster-1986",
       "parentId": "eds-roi-1944",
       "name": "District Electoral Divisions/Wards 1944",
-      "category": "Electoral Divisions",
-      "categoryId": "electoral-divisions",
-      "group": "Built Environment",
+      "category": "Electoral Areas",
+      "categoryId": "wards",
+      "group": "Elections and Government",
       "date": "1944-04-01",
       "dateAdded": null,
       "dateEffective": null,
@@ -16049,7 +16052,16 @@
       "recommendedTarget": "composite-vector-tiles",
       "testLayerId": "composite:eds-connacht-1926,eds-leinster-1926,eds-munster-1926,eds-ulster-1926,deds-ni-1926",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.388858,
+          -10.662971
+        ],
+        [
+          55.446581,
+          -5.426788
+        ]
+      ],
       "style": {
         "color": "#CD853F",
         "fillColor": null,
@@ -25779,12 +25791,12 @@
       "dateEffective": null,
       "provider": [
         "Phelim Birch",
-        "Paddy Matthews (Paddy will be credited on all my ED maps from now on as I used his 1926 map for Galway)"
+        "Paddy Matthews"
       ],
       "description": "Republic of Ireland District Electoral Divisions/Wards as at 1983, assembled from Connacht (= 1957 boundaries), Leinster (= 1977 boundaries), Munster 1983, Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1985. In 1985, the DEDs of Blanchardstown, Coolock, Drumcondra Rural No. 1, Drumcondra Rural No. 2, Dundrum No. 1, Finglas and Palmerstown No. 1 and wards of Kimmage E, Pembroke East D and Rathfarnham D were split by the Dublin city boundary change.",
       "sourceCredits": [
         "Phelim Birch",
-        "Paddy Matthews (Paddy will be credited on all my ED maps from now on as I used his 1926 map for Galway)"
+        "Paddy Matthews"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "catalogue-metadata",
@@ -25830,12 +25842,12 @@
       "dateEffective": null,
       "provider": [
         "Phelim Birch",
-        "Paddy Matthews (Paddy will be credited on all my ED maps from now on as I used his 1926 map for Galway)"
+        "Paddy Matthews"
       ],
       "description": "Republic of Ireland District Electoral Divisions/Wards as at 1983, assembled from Connacht (= 1957 boundaries), Leinster (= 1977 boundaries), Munster 1983, Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1985. In 1985, the DEDs of Blanchardstown, Coolock, Drumcondra Rural No. 1, Drumcondra Rural No. 2, Dundrum No. 1, Finglas and Palmerstown No. 1 and wards of Kimmage E, Pembroke East D and Rathfarnham D were split by the Dublin city boundary change.",
       "sourceCredits": [
         "Phelim Birch",
-        "Paddy Matthews (Paddy will be credited on all my ED maps from now on as I used his 1926 map for Galway)"
+        "Paddy Matthews"
       ],
       "conversionStatus": "convertedAlias",
       "recommendedTarget": "maplibre-clone-alias",
@@ -25886,12 +25898,12 @@
       "dateEffective": null,
       "provider": [
         "Phelim Birch",
-        "Paddy Matthews (Paddy will be credited on all my ED maps from now on as I used his 1926 map for Galway)"
+        "Paddy Matthews"
       ],
       "description": "Republic of Ireland District Electoral Divisions/Wards as at 1983, assembled from Connacht (= 1957 boundaries), Leinster (= 1977 boundaries), Munster 1983, Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1985. In 1985, the DEDs of Blanchardstown, Coolock, Drumcondra Rural No. 1, Drumcondra Rural No. 2, Dundrum No. 1, Finglas and Palmerstown No. 1 and wards of Kimmage E, Pembroke East D and Rathfarnham D were split by the Dublin city boundary change.",
       "sourceCredits": [
         "Phelim Birch",
-        "Paddy Matthews (Paddy will be credited on all my ED maps from now on as I used his 1926 map for Galway)"
+        "Paddy Matthews"
       ],
       "conversionStatus": "convertedAlias",
       "recommendedTarget": "maplibre-clone-alias",
@@ -25942,12 +25954,12 @@
       "dateEffective": null,
       "provider": [
         "Phelim Birch",
-        "Paddy Matthews (Paddy will be credited on all my ED maps from now on as I used his 1926 map for Galway)"
+        "Paddy Matthews"
       ],
       "description": "Republic of Ireland District Electoral Divisions/Wards as at 1983, assembled from Connacht (= 1957 boundaries), Leinster (= 1977 boundaries), Munster 1983, Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1985. In 1985, the DEDs of Blanchardstown, Coolock, Drumcondra Rural No. 1, Drumcondra Rural No. 2, Dundrum No. 1, Finglas and Palmerstown No. 1 and wards of Kimmage E, Pembroke East D and Rathfarnham D were split by the Dublin city boundary change.",
       "sourceCredits": [
         "Phelim Birch",
-        "Paddy Matthews (Paddy will be credited on all my ED maps from now on as I used his 1926 map for Galway)"
+        "Paddy Matthews"
       ],
       "conversionStatus": "convertedAlias",
       "recommendedTarget": "maplibre-clone-alias",
@@ -25998,12 +26010,12 @@
       "dateEffective": null,
       "provider": [
         "Phelim Birch",
-        "Paddy Matthews (Paddy will be credited on all my ED maps from now on as I used his 1926 map for Galway)"
+        "Paddy Matthews"
       ],
       "description": "Republic of Ireland District Electoral Divisions/Wards as at 1983, assembled from Connacht (= 1957 boundaries), Leinster (= 1977 boundaries), Munster 1983, Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1985. In 1985, the DEDs of Blanchardstown, Coolock, Drumcondra Rural No. 1, Drumcondra Rural No. 2, Dundrum No. 1, Finglas and Palmerstown No. 1 and wards of Kimmage E, Pembroke East D and Rathfarnham D were split by the Dublin city boundary change.",
       "sourceCredits": [
         "Phelim Birch",
-        "Paddy Matthews (Paddy will be credited on all my ED maps from now on as I used his 1926 map for Galway)"
+        "Paddy Matthews"
       ],
       "conversionStatus": "convertedAlias",
       "recommendedTarget": "maplibre-clone-alias",
@@ -26060,10 +26072,19 @@
         "Tailte Éireann"
       ],
       "conversionStatus": "convertedComposite",
-      "recommendedTarget": "catalogue-metadata",
+      "recommendedTarget": "composite-vector-tiles",
       "testLayerId": "composite:eds-2019-connacht,eds-2019-leinster,eds-2019-munster,eds-2019-ulster",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.419897,
+          -10.662971
+        ],
+        [
+          55.44658,
+          -5.996278
+        ]
+      ],
       "style": {
         "color": "#1B5E20",
         "fillColor": null,
@@ -26316,10 +26337,19 @@
         "Phelim Birch"
       ],
       "conversionStatus": "convertedComposite",
-      "recommendedTarget": "catalogue-metadata",
+      "recommendedTarget": "composite-vector-tiles",
       "testLayerId": "composite:eds-1997-connacht,eds-1997-leinster,eds-1997-munster,eds-1997-ulster",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.419897,
+          -10.662971
+        ],
+        [
+          55.44658,
+          -5.996278
+        ]
+      ],
       "style": {
         "color": "#1B5E20",
         "fillColor": null,
@@ -26572,10 +26602,19 @@
         "Phelim Birch"
       ],
       "conversionStatus": "convertedComposite",
-      "recommendedTarget": "catalogue-metadata",
+      "recommendedTarget": "composite-vector-tiles",
       "testLayerId": "composite:eds-1994-connacht,eds-1994-leinster,eds-1994-munster,eds-1994-ulster",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.4,
+          -10.75
+        ],
+        [
+          55.5,
+          -5.4
+        ]
+      ],
       "style": {
         "color": "#1B5E20",
         "fillColor": null,
@@ -26828,10 +26867,19 @@
         "Phelim Birch"
       ],
       "conversionStatus": "convertedComposite",
-      "recommendedTarget": "catalogue-metadata",
+      "recommendedTarget": "composite-vector-tiles",
       "testLayerId": "composite:eds-1986-connacht,eds-1986-leinster,eds-1986-munster,eds-1986-ulster",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.4,
+          -10.75
+        ],
+        [
+          55.5,
+          -5.4
+        ]
+      ],
       "style": {
         "color": "#1B5E20",
         "fillColor": null,
@@ -31666,7 +31714,16 @@
       "recommendedTarget": "composite-vector-tiles",
       "testLayerId": "composite:gsni-bedrock-by-formation,gsni-bedrock-by-age",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          54.022455,
+          -8.834263
+        ],
+        [
+          55.449669,
+          -5.429131
+        ]
+      ],
       "style": null,
       "sourceFiles": [],
       "references": [
@@ -31935,7 +31992,16 @@
       "recommendedTarget": "composite-vector-tiles",
       "testLayerId": "composite:gsni-superficial-by-deposit,gsni-superficial-conventional",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          54.023566,
+          -8.174882
+        ],
+        [
+          55.304194,
+          -5.429409
+        ]
+      ],
       "style": null,
       "sourceFiles": [],
       "references": [
@@ -63835,11 +63901,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-ferry-crossing-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          48.720268,
+          -10.3275145
+        ],
+        [
+          55.264749,
+          -1.606886
+        ]
+      ],
       "style": {
         "color": "#C1440E",
         "fillColor": null,
@@ -66472,11 +66547,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-hvd-water-points-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.4279544,
+          -10.4665185
+        ],
+        [
+          55.3798465,
+          -6.0059607
+        ]
+      ],
       "style": {
         "color": "#2E86AB",
         "fillColor": null,
@@ -66631,10 +66715,19 @@
         "Paddy Matthews"
       ],
       "conversionStatus": "convertedComposite",
-      "recommendedTarget": "catalogue-metadata",
+      "recommendedTarget": "composite-vector-tiles",
       "testLayerId": "composite:eds-roi-1941-connacht,eds-roi-1941-leinster,eds-roi-1941-munster,eds-roi-1941-ulster",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.4,
+          -10.75
+        ],
+        [
+          55.5,
+          -5.4
+        ]
+      ],
       "style": {
         "color": "#1B5E20",
         "fillColor": null,
@@ -66968,10 +67061,19 @@
         "Paddy Matthews"
       ],
       "conversionStatus": "convertedComposite",
-      "recommendedTarget": "catalogue-metadata",
+      "recommendedTarget": "composite-vector-tiles",
       "testLayerId": "composite:eds-roi-1942-connacht,eds-roi-1942-leinster,eds-roi-1942-munster,eds-roi-1942-ulster",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.4,
+          -10.75
+        ],
+        [
+          55.5,
+          -5.4
+        ]
+      ],
       "style": {
         "color": "#1B5E20",
         "fillColor": null,
@@ -67305,10 +67407,19 @@
         "Paddy Matthews"
       ],
       "conversionStatus": "convertedComposite",
-      "recommendedTarget": "catalogue-metadata",
+      "recommendedTarget": "composite-vector-tiles",
       "testLayerId": "composite:eds-roi-1943-connacht,eds-roi-1943-leinster,eds-roi-1943-munster,eds-roi-1943-ulster",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.4,
+          -10.75
+        ],
+        [
+          55.5,
+          -5.4
+        ]
+      ],
       "style": {
         "color": "#1B5E20",
         "fillColor": null,
@@ -67889,18 +68000,27 @@
       "dateEffective": null,
       "provider": [
         "Phelim Birch",
-        "Paddy Matthews (Paddy will be credited on all my ED maps from now on as I used his 1926 map for Galway)"
+        "Paddy Matthews"
       ],
       "description": "Republic of Ireland District Electoral Divisions/Wards as at 1985, assembled from Connacht (= 1957 boundaries), Leinster 1985, Munster (= 1983 boundaries), Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1986. In 1986 (following the expansion of Dublin county borough a year prior), Dublin’s existing 141 wards were replaced by 162 new ones and County Dublin’s existing 80 DEDs were replaced by 159 new ones. The new county borough of Galway was given 22 wards, replacing 4 of the existing County Galway DEDs (Galway West Urban, Galway East Urban, Galway North Urban, Galway South Urban) and reducing the size of 4 other County Galway DEDs (Barna, Galway Rural, Carrowbrowne, Ballintemple). The following sources were used to get boundaries for Dublin:",
       "sourceCredits": [
         "Phelim Birch",
-        "Paddy Matthews (Paddy will be credited on all my ED maps from now on as I used his 1926 map for Galway)"
+        "Paddy Matthews"
       ],
       "conversionStatus": "convertedComposite",
-      "recommendedTarget": "catalogue-metadata",
+      "recommendedTarget": "composite-vector-tiles",
       "testLayerId": "composite:eds-roi-1985-connacht,eds-roi-1985-leinster,eds-roi-1985-munster,eds-roi-1985-ulster",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.4,
+          -10.75
+        ],
+        [
+          55.5,
+          -5.4
+        ]
+      ],
       "style": {
         "color": "#1B5E20",
         "fillColor": null,
@@ -67931,12 +68051,12 @@
       "dateEffective": null,
       "provider": [
         "Phelim Birch",
-        "Paddy Matthews (Paddy will be credited on all my ED maps from now on as I used his 1926 map for Galway)"
+        "Paddy Matthews"
       ],
       "description": "Republic of Ireland District Electoral Divisions/Wards as at 1985, assembled from Connacht (= 1957 boundaries), Leinster 1985, Munster (= 1983 boundaries), Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1986. In 1986 (following the expansion of Dublin county borough a year prior), Dublin’s existing 141 wards were replaced by 162 new ones and County Dublin’s existing 80 DEDs were replaced by 159 new ones. The new county borough of Galway was given 22 wards, replacing 4 of the existing County Galway DEDs (Galway West Urban, Galway East Urban, Galway North Urban, Galway South Urban) and reducing the size of 4 other County Galway DEDs (Barna, Galway Rural, Carrowbrowne, Ballintemple). The following sources were used to get boundaries for Dublin:",
       "sourceCredits": [
         "Phelim Birch",
-        "Paddy Matthews (Paddy will be credited on all my ED maps from now on as I used his 1926 map for Galway)"
+        "Paddy Matthews"
       ],
       "conversionStatus": "convertedAlias",
       "recommendedTarget": "maplibre-clone-alias",
@@ -67987,12 +68107,12 @@
       "dateEffective": null,
       "provider": [
         "Phelim Birch",
-        "Paddy Matthews (Paddy will be credited on all my ED maps from now on as I used his 1926 map for Galway)"
+        "Paddy Matthews"
       ],
       "description": "Republic of Ireland District Electoral Divisions/Wards as at 1985, assembled from Connacht (= 1957 boundaries), Leinster 1985, Munster (= 1983 boundaries), Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1986. In 1986 (following the expansion of Dublin county borough a year prior), Dublin’s existing 141 wards were replaced by 162 new ones and County Dublin’s existing 80 DEDs were replaced by 159 new ones. The new county borough of Galway was given 22 wards, replacing 4 of the existing County Galway DEDs (Galway West Urban, Galway East Urban, Galway North Urban, Galway South Urban) and reducing the size of 4 other County Galway DEDs (Barna, Galway Rural, Carrowbrowne, Ballintemple). The following sources were used to get boundaries for Dublin:",
       "sourceCredits": [
         "Phelim Birch",
-        "Paddy Matthews (Paddy will be credited on all my ED maps from now on as I used his 1926 map for Galway)"
+        "Paddy Matthews"
       ],
       "conversionStatus": "convertedAlias",
       "recommendedTarget": "maplibre-clone-alias",
@@ -68043,12 +68163,12 @@
       "dateEffective": null,
       "provider": [
         "Phelim Birch",
-        "Paddy Matthews (Paddy will be credited on all my ED maps from now on as I used his 1926 map for Galway)"
+        "Paddy Matthews"
       ],
       "description": "Republic of Ireland District Electoral Divisions/Wards as at 1985, assembled from Connacht (= 1957 boundaries), Leinster 1985, Munster (= 1983 boundaries), Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1986. In 1986 (following the expansion of Dublin county borough a year prior), Dublin’s existing 141 wards were replaced by 162 new ones and County Dublin’s existing 80 DEDs were replaced by 159 new ones. The new county borough of Galway was given 22 wards, replacing 4 of the existing County Galway DEDs (Galway West Urban, Galway East Urban, Galway North Urban, Galway South Urban) and reducing the size of 4 other County Galway DEDs (Barna, Galway Rural, Carrowbrowne, Ballintemple). The following sources were used to get boundaries for Dublin:",
       "sourceCredits": [
         "Phelim Birch",
-        "Paddy Matthews (Paddy will be credited on all my ED maps from now on as I used his 1926 map for Galway)"
+        "Paddy Matthews"
       ],
       "conversionStatus": "convertedAlias",
       "recommendedTarget": "maplibre-clone-alias",
@@ -68099,12 +68219,12 @@
       "dateEffective": null,
       "provider": [
         "Phelim Birch",
-        "Paddy Matthews (Paddy will be credited on all my ED maps from now on as I used his 1926 map for Galway)"
+        "Paddy Matthews"
       ],
       "description": "Republic of Ireland District Electoral Divisions/Wards as at 1985, assembled from Connacht (= 1957 boundaries), Leinster 1985, Munster (= 1983 boundaries), Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1986. In 1986 (following the expansion of Dublin county borough a year prior), Dublin’s existing 141 wards were replaced by 162 new ones and County Dublin’s existing 80 DEDs were replaced by 159 new ones. The new county borough of Galway was given 22 wards, replacing 4 of the existing County Galway DEDs (Galway West Urban, Galway East Urban, Galway North Urban, Galway South Urban) and reducing the size of 4 other County Galway DEDs (Barna, Galway Rural, Carrowbrowne, Ballintemple). The following sources were used to get boundaries for Dublin:",
       "sourceCredits": [
         "Phelim Birch",
-        "Paddy Matthews (Paddy will be credited on all my ED maps from now on as I used his 1926 map for Galway)"
+        "Paddy Matthews"
       ],
       "conversionStatus": "convertedAlias",
       "recommendedTarget": "maplibre-clone-alias",
