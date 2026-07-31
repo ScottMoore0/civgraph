@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-31T23:11:01.353Z",
+  "generatedAt": "2026-07-31T23:17:05.377Z",
   "cdnBase": "https://data.civgraph.net/data/maps/test",
   "r2Prefix": "data/maps/test",
   "assets": [
@@ -7068,10 +7068,11 @@
     },
     {
       "layerId": "tailte-hvd-cadastral-parcels-leasehold-vector-test",
-      "kind": "mvt-directory",
-      "localPath": "test/tiles/generated/tailte-hvd-cadastral-parcels-leasehold",
-      "targetPrefix": "data/maps/test/tiles/generated/tailte-hvd-cadastral-parcels-leasehold",
-      "cdnUrlTemplate": "https://data.civgraph.net/data/maps/test/tiles/generated/tailte-hvd-cadastral-parcels-leasehold/{z}/{x}/{y}.pbf",
+      "kind": "pmtiles",
+      "localPath": "test/pmtiles/generated/tailte-hvd-cadastral-parcels-leasehold-vector-test.pmtiles",
+      "targetKey": "data/maps/test/pmtiles/generated/tailte-hvd-cadastral-parcels-leasehold-vector-test.pmtiles",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-hvd-cadastral-parcels-leasehold-vector-test.pmtiles",
+      "bytes": 17871394,
       "exists": true
     },
     {
@@ -8129,6 +8130,7 @@
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/tailte-heritage-vector-test.pmtiles --file test/pmtiles/generated/tailte-heritage-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/tailte-high-water-mark-vector-test.pmtiles --file test/pmtiles/generated/tailte-high-water-mark-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/tailte-hvd-building-groups-vector-test.pmtiles --file test/pmtiles/generated/tailte-hvd-building-groups-vector-test.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/tailte-hvd-cadastral-parcels-leasehold-vector-test.pmtiles --file test/pmtiles/generated/tailte-hvd-cadastral-parcels-leasehold-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/tailte-hvd-locales-vector-test.pmtiles --file test/pmtiles/generated/tailte-hvd-locales-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/tailte-hvd-rail-network-segment-vector-test.pmtiles --file test/pmtiles/generated/tailte-hvd-rail-network-segment-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/tailte-hvd-rail-points-vector-test.pmtiles --file test/pmtiles/generated/tailte-hvd-rail-points-vector-test.pmtiles --remote --content-type application/octet-stream",
