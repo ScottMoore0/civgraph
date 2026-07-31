@@ -119,7 +119,13 @@ console.log('\nPASS: /test generated tile outputs are within hard budgets.');
 function isValidBounds(bounds, layer = null) {
   if (!Array.isArray(bounds) || bounds.length !== 2) return false;
   const [[south, west], [north, east]] = bounds;
-  if (![south, west, north, east].every(Number.isFinite) || south >= north || west >= east) return false;
+  // A DEGENERATE BOX IS NOT AN INVALID ONE. A layer holding a single point -- or several
+  // at one location -- has south == north and west == east, which is the correct extent
+  // for it, not a corrupt one. Rejecting equality flagged three real datasets: Fingal's
+  // bicycle warning signs, and the two HSE COVID vaccination series, which are national
+  // figures carried at one nominal point. An INVERTED box still fails, since that is a
+  // genuine defect. validate-test-app.mjs draws the same distinction.
+  if (![south, west, north, east].every(Number.isFinite) || south > north || west > east) return false;
   const nearNullIsland = Math.max(Math.abs(south), Math.abs(west), Math.abs(north), Math.abs(east)) < 1;
   if (nearNullIsland) return false;
   if (String(layer?.sourceMapId || layer?.id || '').startsWith('dobih-v18-4')) {

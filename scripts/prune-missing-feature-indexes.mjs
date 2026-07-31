@@ -22,37 +22,49 @@ import { resolve } from 'node:path';
 import { writeArtefactJson } from './lib/safe-artefact-write.mjs';
 
 const ROOT = resolve(process.cwd());
-const METADATA_PATH = resolve(ROOT, 'test/metadata/maps-test.json');
+// BOTH files, because they are fetched by different things. maps-test.json is the
+// build-side metadata the validator reads; maps-test-index.json is what the running app
+// fetches, so a stale entry left there is the one that actually 404s in a browser.
+// Pruning only the first left counties-ireland-vector-test advertising a missing index to
+// every visitor while the check reported success.
+const METADATA_PATHS = ['test/metadata/maps-test.json', 'test/metadata/maps-test-index.json'];
 const CHECK_ONLY = process.argv.includes('--check');
 
-const metadata = JSON.parse(readFileSync(METADATA_PATH, 'utf8'));
-const stale = [];
+let total = 0;
 
-const layers = (metadata.layers || []).map((layer) => {
-  const url = layer.featureIndexUrl;
-  if (typeof url !== 'string' || /^https?:\/\//.test(url)) return layer;
-  if (existsSync(resolve(ROOT, url.replace(/^\//, '')))) return layer;
-  stale.push(layer.id);
-  const { featureIndexUrl, ...rest } = layer;
-  return rest;
-});
+for (const rel of METADATA_PATHS) {
+  const path = resolve(ROOT, rel);
+  if (!existsSync(path)) {
+    console.error(`skipping ${rel}: not present`);
+    continue;
+  }
+  const metadata = JSON.parse(readFileSync(path, 'utf8'));
+  const stale = [];
 
-console.log(`featureIndexUrl entries pointing at missing files: ${stale.length}`);
-for (const id of stale.slice(0, 10)) console.log(`   ${id}`);
-if (stale.length > 10) console.log(`   ... and ${stale.length - 10} more`);
+  const layers = (metadata.layers || []).map((layer) => {
+    const url = layer.featureIndexUrl;
+    if (typeof url !== 'string' || /^https?:\/\//.test(url)) return layer;
+    if (existsSync(resolve(ROOT, url.replace(/^\//, '')))) return layer;
+    stale.push(layer.id);
+    const { featureIndexUrl, ...rest } = layer;
+    return rest;
+  });
+
+  console.log(`${rel}: ${stale.length} featureIndexUrl entr(ies) pointing at missing files`);
+  for (const id of stale.slice(0, 10)) console.log(`   ${id}`);
+  if (stale.length > 10) console.log(`   ... and ${stale.length - 10} more`);
+
+  total += stale.length;
+  if (stale.length && !CHECK_ONLY) {
+    writeArtefactJson(path, { ...metadata, layers }, {
+      collection: 'layers', idKey: 'id', label: rel
+    });
+    console.log(`   wrote ${rel}`);
+  }
+}
 
 if (CHECK_ONLY) {
-  console.log('\n--check: nothing written');
-  process.exit(stale.length ? 1 : 0);
+  console.log(`\n--check: nothing written (${total} would be pruned)`);
+  process.exit(total ? 1 : 0);
 }
-
-if (stale.length) {
-  writeArtefactJson(METADATA_PATH, { ...metadata, layers }, {
-    collection: 'layers',
-    idKey: 'id',
-    label: 'test/metadata/maps-test.json'
-  });
-  console.log(`\nPruned ${stale.length}; wrote ${METADATA_PATH}`);
-} else {
-  console.log('\nNothing to prune.');
-}
+console.log(`\n${total ? `Pruned ${total}.` : 'Nothing to prune.'}`);

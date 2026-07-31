@@ -289,15 +289,22 @@ function validatePortPlan(metadata) {
   if (!Array.isArray(plan.rows) || plan.rows.length === 0) {
     errors.push('main-site port plan must contain rows');
   }
-  const convertedIds = new Set((plan.rows || [])
-    .filter((row) => ['converted', 'convertedAlias'].includes(row.conversionStatus))
-    .map((row) => row.testLayerId));
+  const convertedRows = (plan.rows || [])
+    .filter((row) => ['converted', 'convertedAlias', 'convertedComposite'].includes(row.conversionStatus));
+  const convertedIds = new Set(convertedRows.map((row) => row.testLayerId));
+  // A COMPOSITE ROW NAMES ITS PARTS, NOT THE LAYER. counties-ireland is planned as a
+  // composite of counties-ni-1915 and roi-counties-2011, so its row carries the pseudo-id
+  // 'composite:counties-ni-1915,roi-counties-2011' rather than counties-ireland-vector-test.
+  // The layer is nonetheless a real conversion -- its archive is on the CDN -- so matching
+  // only on testLayerId reported a healthy layer as unplanned. sourceMapId is the stable
+  // link between a layer and its plan row, and still requires a row to exist.
+  const convertedSourceMapIds = new Set(convertedRows.map((row) => row.sourceMapId).filter(Boolean));
   for (const layer of metadata.layers || []) {
     // Only vector layers come from the conversion pipeline. raster-dem, point-cloud and
     // image layers reach the metadata by other routes and have no converted row by
     // design, so requiring one flagged 99 healthy layers.
     if (NON_VECTOR_SOURCE_TYPES.has(layer.sourceType)) continue;
-    if (!convertedIds.has(layer.id)) {
+    if (!convertedIds.has(layer.id) && !convertedSourceMapIds.has(layer.sourceMapId)) {
       errors.push(`${layer.id}: missing converted row in main-site port plan`);
     }
   }
