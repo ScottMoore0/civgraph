@@ -59,7 +59,7 @@ Outputs:
     religion-common-basis-ni.csv    the three years on each basis, plus the residual
     religion-common-basis-lgd.csv   district detail, with honest blanks
 """
-import os, csv, re, difflib
+import os, csv, re
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..', '..'))
@@ -100,17 +100,20 @@ def main():
         pop71[key(r['district'])] = pop71.get(key(r['district']), 0) + int(r['pop_1971_persons'])
 
     def pop71_of(k):
-        # 0.6, the same threshold link_1972_wards.py uses for districts. 'larne' against
-        # 'lame' scores 0.667, so anything stricter drops it. Safe at this threshold
-        # because the pool is 26 distinctive district names, not a national gazetteer.
-        # The national row is exempt: it has no counterpart and must not be fuzzy-matched
-        # into some district.
-        if k in pop71:
-            return pop71[k]
+        # Exact. This used to fuzzy-match at a 0.6 cutoff to recover Larne, which the
+        # scanner had written as 'Lame'; parse_1981_wards.py now resolves district headers
+        # against the 26 real names, so every district joins exactly. Dropping the
+        # fallback matters beyond tidiness: at 0.6 a district that genuinely went missing
+        # would be silently answered with its nearest neighbour's population instead of
+        # being reported. Missing is now loud.
+        # The national row has no district counterpart and is exempt by design.
         if k == key(NI):
             return ''
-        m = difflib.get_close_matches(k, list(pop71), n=1, cutoff=0.6)
-        return pop71[m[0]] if m else ''
+        if k not in pop71:
+            raise SystemExit(
+                f"no 1971 ward-table district matching {k!r}. If the scanner damaged the "
+                "name, add it to DISTRICT_OCR_FIXES in parse_1981_wards.py and re-run it.")
+        return pop71[k]
 
     rows = []
     for k, a81 in r81.items():

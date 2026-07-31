@@ -140,6 +140,56 @@ CONT = re.compile(r"con[t1l][’']?\s*(?:d|inued|mued)?\b|row\s*/", re.I)
 DCX = re.compile(r'^(.*?\S)\s+(D[i1l]s[t1l]\S*.*)$', re.I)
 
 
+# The 26 district councils of Northern Ireland, 1973-2015. A closed, known set, which is
+# what makes snapping safe: an OCR'd header can be matched against the real answer rather
+# than carried through as whatever the scanner produced.
+#
+# It carried 'Lame' through for Larne -- 'rn' read as 'm' -- and that name then failed
+# every exact join downstream. build_religion_common_basis.py had to fuzzy-match district
+# names at a 0.6 cutoff to recover it, because an exact join dropped Larne silently and
+# showed up only as a national 1971 total 29,897 short of the printed 1,536,065. A wrong
+# name in a closed set is a correctable defect, not data.
+DISTRICTS = [
+    'Antrim', 'Ards', 'Armagh', 'Ballymena', 'Ballymoney', 'Banbridge', 'Belfast',
+    'Carrickfergus', 'Castlereagh', 'Coleraine', 'Cookstown', 'Craigavon', 'Down',
+    'Dungannon', 'Fermanagh', 'Larne', 'Limavady', 'Lisburn', 'Londonderry',
+    'Magherafelt', 'Moyle', 'Newry and Mourne', 'Newtownabbey', 'North Down', 'Omagh',
+    'Strabane',
+]
+
+
+# Explicit, not fuzzy. Fuzzy matching cannot do this job: 'lame' scores 0.667 against
+# 'larne', while Ballymena/Ballymoney score 0.737 against each other and Armagh/Omagh
+# 0.727. The true correction scores LOWER than the false collisions, so every threshold
+# either misses Larne or risks filing Ballymena's wards under Ballymoney. Each defect gets
+# named instead.
+DISTRICT_OCR_FIXES = {
+    'lame': 'Larne',       # 'rn' read as 'm'
+}
+
+
+def canonical_district(name):
+    """The real district name for an OCR'd header.
+
+    Exact match first, then the named-defect table. Anything still unrecognised is
+    returned unchanged and reported by check_districts() rather than guessed at, because
+    the failure mode of guessing is silent and severe: a wrong district name drops that
+    district from every exact join downstream, which is how Larne went missing and left
+    the 1971 national total 29,897 short of the printed 1,536,065.
+    """
+    flat = re.sub(r'[^a-z]', '', name.lower())
+    for d in DISTRICTS:
+        if flat == re.sub(r'[^a-z]', '', d.lower()):
+            return d
+    return DISTRICT_OCR_FIXES.get(flat, name)
+
+
+def check_districts(names):
+    """Names that are not one of the 26 districts. Empty means every header resolved."""
+    known = {re.sub(r'[^a-z]', '', d.lower()) for d in DISTRICTS}
+    return sorted({n for n in names if re.sub(r'[^a-z]', '', n.lower()) not in known})
+
+
 def district_of(c):
     """The district name if c is a District Council header line, else None.
 
@@ -157,7 +207,7 @@ def district_of(c):
     tail = re.sub(r'[^a-z]', '', m.group(2).lower())
     if difflib.SequenceMatcher(None, tail, 'districtcouncil').ratio() < 0.72:
         return None
-    return m.group(1).strip()
+    return canonical_district(m.group(1).strip())
 JUNK = re.compile(r'(table\s*\d|population|^\s*wards?\s*$|^\s*persons\s*$|^\s*males\s*$|'
                   r'^\s*fema|^\s*total|page\s*\d|19\d\d|^\s*#|contd|continued|^\s*and\s|'
                   r'census|^\s*district\s+council\s*$|local government|enumerat|household|'
@@ -891,7 +941,15 @@ def main():
         for c in COLS:
             print(f"      {c:20} {n[c]:>10,}  published {CTRL[c]:>10,}"
                   f"  {'ok' if n[c] == CTRL[c] else 'X'}")
-    if not failed and kept:
+    # A district name the scanner damaged still passes every checksum -- the numbers are
+    # right, only the label is wrong -- so this is the one defect the oracles cannot see.
+    # It is caught here instead, before the name reaches a file that other scripts join on.
+    unknown = check_districts(g['district'] for g in kept)
+    if unknown:
+        print(f"\n  UNRECOGNISED DISTRICT NAMES ({len(unknown)}): {', '.join(unknown)}")
+        print('      Add each to DISTRICT_OCR_FIXES once identified; none of the 26 is optional.')
+
+    if not failed and not unknown and kept:
         os.makedirs(OUT, exist_ok=True)
         p = os.path.join(OUT, 'ward1972-census-1981.csv')
         with open(p, 'w', encoding='utf-8', newline='') as fh:
@@ -910,7 +968,12 @@ def main():
                                 **{c: wd[c] for c in COLS}})
         print(f"\n  wrote {p}")
     else:
-        print(f"\n  NOT WRITING OUTPUT - {len(failed)} districts fail their checksum.")
+        why = []
+        if failed:
+            why.append(f'{len(failed)} districts fail their checksum')
+        if unknown:
+            why.append(f'{len(unknown)} district names unrecognised')
+        print(f"\n  NOT WRITING OUTPUT - {'; '.join(why) or 'nothing parsed'}.")
 
 
 if __name__ == '__main__':

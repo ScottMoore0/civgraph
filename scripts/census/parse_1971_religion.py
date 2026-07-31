@@ -9,10 +9,26 @@ compare like with like -- which is the whole point of the 1981 boycott question 
 has to be available as counts in the same six categories the other two years use.
 
 An earlier attempt recorded in HISTORICAL_RELIGION_1971_2021.md concluded the 1971 OCR was
-"too corrupt to parse safely -- only 2 of ~7 area blocks validate". This gets 5 of 7:
-Tyrone, Fermanagh, Down, Armagh and Antrim. Londonderry and Belfast County Borough are
-not recoverable -- Londonderry's Roman Catholic column (82,040 in the raw text) is so
-broken up that it never reaches the candidate stream at all.
+"too corrupt to parse safely -- only 2 of ~7 area blocks validate". This gets 6 of 7:
+Tyrone, Fermanagh, Down, Armagh, Antrim and Londonderry.
+
+Londonderry lost only its Roman Catholic PERSONS column. Its male and female columns
+survived as 40,287 and 41,753, so the column is recoverable as the residual and then
+checked against those two -- see recover_missing_category. All three totals close exactly:
+82,040 + 39,821 + 31,443 + 2,181 + 25,045 = 180,530, and the same holds for each sex.
+
+BELFAST COUNTY BOROUGH IS NOT RECOVERABLE, and for a different reason. Its report is laid
+out the other way round -- each run is one category as 6 rows of (persons, males, females)
+interleaved, so run 0 is the whole population block: 356,830 with five areas summing to
+exactly that. Twelve such self-proving blocks survive, but no five of them sum to the
+population on all three sexes, and all eleven non-population blocks together reach only
+275,649 of 356,830. The two largest columns -- Roman Catholic and Presbyterian, on the
+order of 112,000 and 85,000 -- never reach the candidate stream; the largest head present
+is 42,475. Two missing columns against one identity cannot be corroborated, so the report
+is skipped rather than guessed at.
+
+Its population total is nonetheless known exactly, as the residual of Table 8's own total:
+1,519,640 - 1,162,810 = 356,830, which is what run 0 independently reads.
 
 The seven population totals do all survive, and they sum to 1,519,640. That is 16,425
 below the 1,536,065 enumerated population, which is what Table 8's own note predicts: it
@@ -179,22 +195,90 @@ def solve_by_sum(pop, pool, need=5, cap=3):
     return sols
 
 
-def triples(vals):
-    """Group the runs into (persons, males, females) by the identity, not by position.
+def triples_idx(vals, window=3):
+    """(persons, males, females, i, k) groups, located by the identity, not by position.
 
     Position fails: the number of scanner-noise runs between columns varies from report
     to report, so a fixed stride finds the right blocks in one report and garbage in the
     next. P == M + F is a property of the data and survives that.
+
+    TOLERATE DEBRIS BETWEEN THE THREE. Requiring the three to be strictly adjacent is what
+    lost Londonderry. Its columns are all present and correct -- Presbyterian 39,821 =
+    19,564 + 20,257, Church of Ireland 31,443 = 15,513 + 15,930, Methodist 2,181 = 1,057 +
+    1,124, Other 25,045 = 12,638 + 12,407 -- but the scan drops a stray figure between the
+    members of four of them (813, 789, 45, 32), so an adjacency test finds none of them and
+    the whole report is discarded. A short search window skips the debris.
+
+    The window stays small, and the FIRST match wins, because P == M + F is only strong
+    while the field is narrow: over a long enough span some unrelated pair will satisfy it
+    by chance. Three is enough for every report here and keeps the identity meaningful.
     """
     out, i = [], 0
-    while i + 2 < len(vals):
-        a, b, c = vals[i], vals[i + 1], vals[i + 2]
-        if a == b + c and a > 0:
-            out.append((a, b, c))
-            i += 3
+    while i < len(vals) - 1:
+        a = vals[i]
+        hit = None
+        if a > 0:
+            for j in range(i + 1, min(i + 1 + window, len(vals))):
+                for k in range(j + 1, min(j + 1 + window, len(vals))):
+                    if vals[j] > 0 and vals[k] > 0 and a == vals[j] + vals[k]:
+                        hit = (a, vals[j], vals[k], i, k)
+                        break
+                if hit:
+                    break
+        if hit:
+            out.append(hit)
+            i = hit[4] + 1
         else:
             i += 1
     return out
+
+
+def triples(vals, window=3):
+    return [t[:3] for t in triples_idx(vals, window)]
+
+
+def recover_missing_category(cand, tri):
+    """Fill the ONE religion column the scan lost, when the page still corroborates it.
+
+    A residual is normally worthless as evidence: subtract four categories from the total
+    and the fifth always appears, fitting perfectly because it was defined to. solve_by_sum
+    refuses that reasoning for exactly this reason.
+
+    What makes it admissible here is that the residual is not the only witness. Londonderry
+    lost only its Roman Catholic PERSONS column; the male and female columns survived and
+    sit in the stream as 40,287 and 41,753. The residual predicts both of those numbers,
+    and both are found on the page, in the right place -- between the preceding category's
+    block and the following one's. So the residual is checked against evidence it did not
+    generate, and could have contradicted.
+
+    Requires a unique position: if the missing category could sit in more than one slot and
+    still be corroborated, the page cannot say which, and nothing is returned.
+    """
+    pop, cats = tri[0], tri[1:]
+    if len(cats) != len(CATS) - 2:
+        return None
+    res = tuple(pop[i] - sum(c[i] for c in cats) for i in range(3))
+    if any(v <= 0 for v in res) or res[0] != res[1] + res[2]:
+        return None
+    # Both derived sex columns must actually appear on the page.
+    if res[1] not in cand or res[2] not in cand:
+        return None
+    mi, fi = cand.index(res[1]), cand.index(res[2])
+    if not mi < fi:
+        return None
+
+    ok = []
+    for pos in range(len(CATS) - 1):
+        before = cats[pos - 1][4] if pos > 0 else pop[4]
+        after = cats[pos][3] if pos < len(cats) else len(cand)
+        if before < mi and fi < after:
+            ok.append(pos)
+    if len(ok) != 1:
+        return None
+
+    ordered = [c[:3] for c in cats]
+    ordered.insert(ok[0], res)
+    return [pop[:3]] + ordered
 
 
 def main():
@@ -238,7 +322,7 @@ def main():
                 h = column_head(seq, n)
                 if h is not None:
                     cand.append(h)
-        tri = triples(cand)
+        tri = triples_idx(cand)
         # Once the interleaving is read correctly all six categories fall out of the same
         # stream in printed order, including the lumped Other-and-not-stated, so it no
         # longer needs finding by shape.
@@ -250,6 +334,13 @@ def main():
             method = 'sequential'
             if sum(rec[f'{c}_persons'] for c in CATS[1:]) != rec['population_persons']:
                 method = ''            # sequential reading did not reconcile; fall through
+        if not method and len(tri) == len(CATS) - 1:
+            got = recover_missing_category(cand, tri)
+            if got:
+                for ci, cat in enumerate(CATS):
+                    for si, sx in enumerate(SEX):
+                        rec[f'{cat}_{sx}'] = got[ci][si]
+                method = 'residual-corroborated'
         if not method:
             sols = solve_by_sum(cand[0], cand[3:])
             if len(sols) != 1:
@@ -329,11 +420,13 @@ def main():
         got = sum(r['population_persons'] for r in rows)
         print(f'  covering {got:,} people of the 1,519,640 in Table 8 '
               f'({100*got/1519640:.0f}%).')
+        missing = 1519640 - got
         print('  NO national row written: it would be a partial sum masquerading as a '
-              'control total.\n  A national 1971 reconstruction still needs Londonderry '
-              'and Belfast County Borough,\n  so NI-level figures continue to come from '
-              'the CAIN retabulation and that layer\n  is retained. The five counties '
-              'here are new, and are counts rather than percentages.')
+              'control total.\n  The gap is Belfast County Borough alone -- '
+              f'{missing:,} people, whose two largest religion\n  columns never reach the '
+              'candidate stream. NI-level figures therefore continue to\n  come from the '
+              'CAIN retabulation and that layer is retained. The six counties\n  here are '
+              'new, and are counts rather than percentages.')
     print(f'  wrote {OUT}')
 
 
