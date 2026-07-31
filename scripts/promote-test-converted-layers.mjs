@@ -10,6 +10,7 @@
 import { existsSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { basename, extname, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { writeArtefactJson, allowDeletionsFlag } from './lib/safe-artefact-write.mjs';
 
 const ROOT = resolve(process.cwd());
 const MAIN_PATH = resolve(ROOT, 'data/database/maps.json');
@@ -115,7 +116,12 @@ const next = {
   layers
 };
 
-writeFileSync(TEST_PATH, `${JSON.stringify(next, null, 2)}\n`);
+writeArtefactJson(TEST_PATH, next, {
+  collection: 'layers',
+  idKey: 'id',
+  allowDeletions: allowDeletionsFlag(),
+  label: 'test/metadata/maps-test.json'
+});
 syncPortPlan(layers);
 console.log(`Promoted ${promotedVectorLayers.length} vector layer(s).`);
 console.log(`Promoted ${promotedRasterLayers.length} raster layer(s).`);
