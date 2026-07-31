@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
   "mode": "execute",
-  "generatedAt": "2026-07-31T14:57:27.821Z",
+  "generatedAt": "2026-07-31T16:36:40.255Z",
   "tool": "ogr2ogr GDAL MVT",
   "tippecanoeAvailable": false,
-  "perLayerTimeoutMs": 600000,
+  "perLayerTimeoutMs": 900000,
   "totals": {
-    "vectorRows": 125,
-    "feasibleLocalCandidates": 19,
-    "skipped": 0,
-    "selected": 19,
-    "converted": 19,
+    "vectorRows": 89,
+    "feasibleLocalCandidates": 89,
+    "skipped": 8,
+    "selected": 89,
+    "converted": 84,
     "skippedExisting": 0,
     "failed": 0
   },
@@ -21,321 +21,1441 @@
   ],
   "candidates": [
     {
-      "sourceMapId": "eds-leinster-1941",
-      "name": "Leinster District Electoral Divisions/Wards 1941",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-leinster-1941.fgb",
-      "sourceBytes": 29505080,
-      "outputDirectory": "test/tiles/generated/eds-leinster-1941"
+      "sourceMapId": "streetnames-gazetteer",
+      "name": "Street Names Gazetteer",
+      "category": "Settlements",
+      "sourceFile": "test/source-cache/vector-intake/streetnames-gazetteer.fgb",
+      "sourceBytes": 4045928,
+      "outputDirectory": "test/tiles/generated/streetnames-gazetteer"
     },
     {
-      "sourceMapId": "eds-munster-1921",
-      "name": "Munster District Electoral Divisions/Wards 1921",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-munster-1921.fgb",
-      "sourceBytes": 42785664,
-      "outputDirectory": "test/tiles/generated/eds-munster-1921"
+      "sourceMapId": "bcni2018",
+      "name": "Parliamentary Constituencies — Provisional Proposals (BCNI 2018)",
+      "category": "Parliamentary Constituencies",
+      "sourceFile": "test/source-cache/vector-intake/bcni2018.fgb",
+      "sourceBytes": 7527760,
+      "outputDirectory": "test/tiles/generated/bcni2018"
     },
     {
-      "sourceMapId": "eds-leinster-1942",
-      "name": "Leinster District Electoral Divisions/Wards 1942",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-leinster-1942.fgb",
-      "sourceBytes": 29504784,
-      "outputDirectory": "test/tiles/generated/eds-leinster-1942"
+      "sourceMapId": "mid-ulster-council-district-electoral-areas2",
+      "name": "Mid Ulster District Electoral Areas",
+      "category": "District Electoral Areas",
+      "sourceFile": "test/source-cache/vector-intake/mid-ulster-council-district-electoral-areas2.fgb",
+      "sourceBytes": 1719600,
+      "outputDirectory": "test/tiles/generated/mid-ulster-council-district-electoral-areas2"
     },
     {
-      "sourceMapId": "eds-leinster-1943",
-      "name": "Leinster District Electoral Divisions/Wards 1943",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-leinster-1943.fgb",
-      "sourceBytes": 29504864,
-      "outputDirectory": "test/tiles/generated/eds-leinster-1943"
+      "sourceMapId": "osni-open-data-50k-boundaries-district-electoral-areas-1993",
+      "name": "District Electoral Areas (1993) — OSNI 50k",
+      "category": "District Electoral Areas",
+      "sourceFile": "test/source-cache/vector-intake/osni-open-data-50k-boundaries-district-electoral-areas-1993.fgb",
+      "sourceBytes": 1547624,
+      "outputDirectory": "test/tiles/generated/osni-open-data-50k-boundaries-district-electoral-areas-1993"
     },
     {
-      "sourceMapId": "eds-leinster-1949",
-      "name": "Leinster District Electoral Divisions/Wards 1949",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-leinster-1949.fgb",
-      "sourceBytes": 29432176,
-      "outputDirectory": "test/tiles/generated/eds-leinster-1949"
-    },
-    {
-      "sourceMapId": "eds-connacht-1957",
-      "name": "Connacht District Electoral Divisions/Wards 1957",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-connacht-1957.fgb",
-      "sourceBytes": 25857816,
-      "outputDirectory": "test/tiles/generated/eds-connacht-1957"
-    },
-    {
-      "sourceMapId": "eds-munster-1957",
-      "name": "Munster District Electoral Divisions/Wards 1957",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-munster-1957.fgb",
-      "sourceBytes": 42857192,
-      "outputDirectory": "test/tiles/generated/eds-munster-1957"
-    },
-    {
-      "sourceMapId": "eds-leinster-1963",
-      "name": "Leinster District Electoral Divisions/Wards 1963",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-leinster-1963.fgb",
-      "sourceBytes": 29469016,
-      "outputDirectory": "test/tiles/generated/eds-leinster-1963"
-    },
-    {
-      "sourceMapId": "eds-ulster-1963",
-      "name": "Ulster District Electoral Divisions/Wards 1963",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-ulster-1963.fgb",
-      "sourceBytes": 14236936,
-      "outputDirectory": "test/tiles/generated/eds-ulster-1963"
-    },
-    {
-      "sourceMapId": "eds-leinster-1985",
-      "name": "Leinster District Electoral Divisions/Wards 1985",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-leinster-1985.fgb",
-      "sourceBytes": 29624128,
-      "outputDirectory": "test/tiles/generated/eds-leinster-1985"
-    },
-    {
-      "sourceMapId": "eds-connacht-1996",
-      "name": "Connacht District Electoral Divisions/Wards 1996",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-connacht-1996.fgb",
-      "sourceBytes": 25974968,
-      "outputDirectory": "test/tiles/generated/eds-connacht-1996"
-    },
-    {
-      "sourceMapId": "eds-munster-1996",
-      "name": "Munster District Electoral Divisions/Wards 1996",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-munster-1996.fgb",
-      "sourceBytes": 43224872,
-      "outputDirectory": "test/tiles/generated/eds-munster-1996"
-    },
-    {
-      "sourceMapId": "eds-ulster-1996",
-      "name": "Ulster District Electoral Divisions/Wards 1996",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-ulster-1996.fgb",
-      "sourceBytes": 14263432,
-      "outputDirectory": "test/tiles/generated/eds-ulster-1996"
-    },
-    {
-      "sourceMapId": "roi-local-authorities-1915",
-      "name": "Republic of Ireland Local Authorities 1915",
+      "sourceMapId": "osni-open-data-50k-boundaries-local-government-districts-1993",
+      "name": "Local Government Districts (1993) — OSNI 50k",
       "category": "Local Government Districts",
-      "sourceFile": "test/source-cache/vector-intake/roi-local-authorities-1915.fgb",
-      "sourceBytes": 7966360,
-      "outputDirectory": "test/tiles/generated/roi-local-authorities-1915"
+      "sourceFile": "test/source-cache/vector-intake/osni-open-data-50k-boundaries-local-government-districts-1993.fgb",
+      "sourceBytes": 780024,
+      "outputDirectory": "test/tiles/generated/osni-open-data-50k-boundaries-local-government-districts-1993"
     },
     {
-      "sourceMapId": "roi-local-authorities-1920-06-19",
-      "name": "Republic of Ireland Local Authorities 19/06/1920",
-      "category": "Local Government Districts",
-      "sourceFile": "test/source-cache/vector-intake/roi-local-authorities-1920-06-19.fgb",
-      "sourceBytes": 7966376,
-      "outputDirectory": "test/tiles/generated/roi-local-authorities-1920-06-19"
+      "sourceMapId": "osni-open-data-50k-boundaries-parliamentary-constituencies",
+      "name": "Parliamentary Constituencies — OSNI 50k",
+      "category": "Parliamentary Constituencies",
+      "sourceFile": "test/source-cache/vector-intake/osni-open-data-50k-boundaries-parliamentary-constituencies.fgb",
+      "sourceBytes": 537720,
+      "outputDirectory": "test/tiles/generated/osni-open-data-50k-boundaries-parliamentary-constituencies"
     },
     {
-      "sourceMapId": "roi-local-authorities-1920-06-25",
-      "name": "Republic of Ireland Local Authorities 25/06/1920",
-      "category": "Local Government Districts",
-      "sourceFile": "test/source-cache/vector-intake/roi-local-authorities-1920-06-25.fgb",
-      "sourceBytes": 7966376,
-      "outputDirectory": "test/tiles/generated/roi-local-authorities-1920-06-25"
+      "sourceMapId": "osni-open-data-50k-boundaries-townlands",
+      "name": "Townlands — OSNI 50k",
+      "category": "Townlands",
+      "sourceFile": "test/source-cache/vector-intake/osni-open-data-50k-boundaries-townlands.fgb",
+      "sourceBytes": 13282168,
+      "outputDirectory": "test/tiles/generated/osni-open-data-50k-boundaries-townlands"
     },
     {
-      "sourceMapId": "roi-local-authorities-1920-10-04",
-      "name": "Republic of Ireland Local Authorities 04/10/1920",
-      "category": "Local Government Districts",
-      "sourceFile": "test/source-cache/vector-intake/roi-local-authorities-1920-10-04.fgb",
-      "sourceBytes": 7966368,
-      "outputDirectory": "test/tiles/generated/roi-local-authorities-1920-10-04"
+      "sourceMapId": "osni-open-data-50k-boundaries-wards-1993",
+      "name": "Wards (1993) — OSNI 50k",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/vector-intake/osni-open-data-50k-boundaries-wards-1993.fgb",
+      "sourceBytes": 2385064,
+      "outputDirectory": "test/tiles/generated/osni-open-data-50k-boundaries-wards-1993"
     },
     {
-      "sourceMapId": "roi-local-authorities-1921",
-      "name": "Republic of Ireland Local Authorities 1921",
+      "sourceMapId": "osni-open-data-largescale-boundaries-local-government-districts-1993",
+      "name": "Local Government Districts (1993) — OSNI Largescale",
       "category": "Local Government Districts",
-      "sourceFile": "test/source-cache/vector-intake/roi-local-authorities-1921.fgb",
-      "sourceBytes": 2810456,
-      "outputDirectory": "test/tiles/generated/roi-local-authorities-1921"
+      "sourceFile": "test/source-cache/vector-intake/osni-open-data-largescale-boundaries-local-government-districts-1993.fgb",
+      "sourceBytes": 9047600,
+      "outputDirectory": "test/tiles/generated/osni-open-data-largescale-boundaries-local-government-districts-1993"
     },
     {
-      "sourceMapId": "roi-local-authorities-1927",
-      "name": "Republic of Ireland Local Authorities 1927",
-      "category": "Local Government Districts",
-      "sourceFile": "test/source-cache/vector-intake/roi-local-authorities-1927.fgb",
-      "sourceBytes": 2810456,
-      "outputDirectory": "test/tiles/generated/roi-local-authorities-1927"
+      "sourceMapId": "district-electoral-divisions-boundaries",
+      "name": "Electoral Divisions — Monaghan",
+      "category": "Electoral Divisions",
+      "sourceFile": "test/source-cache/vector-intake/district-electoral-divisions-boundaries.fgb",
+      "sourceBytes": 2223392,
+      "outputDirectory": "test/tiles/generated/district-electoral-divisions-boundaries"
+    },
+    {
+      "sourceMapId": "ed-boundaries-dlr",
+      "name": "Electoral Divisions — Dún Laoghaire-Rathdown",
+      "category": "Electoral Divisions",
+      "sourceFile": "test/source-cache/vector-intake/ed-boundaries-dlr.fgb",
+      "sourceBytes": 438856,
+      "outputDirectory": "test/tiles/generated/ed-boundaries-dlr"
+    },
+    {
+      "sourceMapId": "townland-boundaries",
+      "name": "Townlands — Monaghan",
+      "category": "Townlands",
+      "sourceFile": "test/source-cache/vector-intake/townland-boundaries.fgb",
+      "sourceBytes": 8791544,
+      "outputDirectory": "test/tiles/generated/townland-boundaries"
+    },
+    {
+      "sourceMapId": "townlands-2015-sdcc1",
+      "name": "Townlands (2015) — South Dublin",
+      "category": "Townlands",
+      "sourceFile": "test/source-cache/vector-intake/townlands-2015-sdcc1.fgb",
+      "sourceBytes": 1971680,
+      "outputDirectory": "test/tiles/generated/townlands-2015-sdcc1"
+    },
+    {
+      "sourceMapId": "townlands-in-fcc3",
+      "name": "Townlands — Fingal",
+      "category": "Townlands",
+      "sourceFile": "test/source-cache/vector-intake/townlands-in-fcc3.fgb",
+      "sourceBytes": 4195136,
+      "outputDirectory": "test/tiles/generated/townlands-in-fcc3"
+    },
+    {
+      "sourceMapId": "electoral-divisions-fcc2",
+      "name": "Electoral Divisions — Fingal",
+      "category": "Electoral Divisions",
+      "sourceFile": "test/source-cache/vector-intake/electoral-divisions-fcc2.fgb",
+      "sourceBytes": 2872160,
+      "outputDirectory": "test/tiles/generated/electoral-divisions-fcc2"
+    },
+    {
+      "sourceMapId": "mid-ulster-council-townlands2",
+      "name": "Townlands — Mid Ulster",
+      "category": "Townlands",
+      "sourceFile": "test/source-cache/vector-intake/mid-ulster-council-townlands2.fgb",
+      "sourceBytes": 18429192,
+      "outputDirectory": "test/tiles/generated/mid-ulster-council-townlands2"
+    },
+    {
+      "sourceMapId": "mid-ulster-council-wards2",
+      "name": "Wards — Mid Ulster",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/vector-intake/mid-ulster-council-wards2.fgb",
+      "sourceBytes": 3251968,
+      "outputDirectory": "test/tiles/generated/mid-ulster-council-wards2"
+    },
+    {
+      "sourceMapId": "osni-open-data-50k-transport-text-labelling",
+      "name": "Transport Text Labelling — OSNI 50k",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/osni-open-data-50k-transport-text-labelling.fgb",
+      "sourceBytes": 113792,
+      "outputDirectory": "test/tiles/generated/osni-open-data-50k-transport-text-labelling"
+    },
+    {
+      "sourceMapId": "osni-open-data-50k-transport-transport-points",
+      "name": "Transport Points — OSNI 50k",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/osni-open-data-50k-transport-transport-points.fgb",
+      "sourceBytes": 11504,
+      "outputDirectory": "test/tiles/generated/osni-open-data-50k-transport-transport-points"
+    },
+    {
+      "sourceMapId": "bedrock-geology-11000000-ireland-roini-itm",
+      "name": "Bedrock Geology 1:1,000,000 Ireland (ROI/NI) ITM",
+      "category": "geology",
+      "sourceFile": "test/source-cache/vector-intake/bedrock-geology-11000000-ireland-roini-itm.fgb",
+      "sourceBytes": 5733888,
+      "outputDirectory": "test/tiles/generated/bedrock-geology-11000000-ireland-roini-itm"
+    },
+    {
+      "sourceMapId": "wicklow-county-council-tree-preservation-orders",
+      "name": "Wicklow County Council - Tree Preservation Orders",
+      "category": "trees",
+      "sourceFile": "test/source-cache/vector-intake/wicklow-county-council-tree-preservation-orders.fgb",
+      "sourceBytes": 10448,
+      "outputDirectory": "test/tiles/generated/wicklow-county-council-tree-preservation-orders"
+    },
+    {
+      "sourceMapId": "wicklow-county-council-tree-preservation-orders-bray",
+      "name": "Wicklow County Council - Tree Preservation Orders Bray",
+      "category": "trees",
+      "sourceFile": "test/source-cache/vector-intake/wicklow-county-council-tree-preservation-orders-bray.fgb",
+      "sourceBytes": 11704,
+      "outputDirectory": "test/tiles/generated/wicklow-county-council-tree-preservation-orders-bray"
+    },
+    {
+      "sourceMapId": "community-scale-coastal-flood-extents-high-end-future-scenario",
+      "name": "Community-Scale Coastal Flood Extents - High-End Future Scenario",
+      "category": "flood",
+      "sourceFile": "test/source-cache/vector-intake/community-scale-coastal-flood-extents-high-end-future-scenario.fgb",
+      "sourceBytes": 31571136,
+      "outputDirectory": "test/tiles/generated/community-scale-coastal-flood-extents-high-end-future-scenario"
+    },
+    {
+      "sourceMapId": "community-scale-coastal-flood-extents-mid-range-future-scenario",
+      "name": "Community-Scale Coastal Flood Extents - Mid-Range Future Scenario",
+      "category": "flood",
+      "sourceFile": "test/source-cache/vector-intake/community-scale-coastal-flood-extents-mid-range-future-scenario.fgb",
+      "sourceBytes": 36858272,
+      "outputDirectory": "test/tiles/generated/community-scale-coastal-flood-extents-mid-range-future-scenario"
+    },
+    {
+      "sourceMapId": "accessible-parking-spaces-sdcc3",
+      "name": "Accessible Parking Spaces SDCC",
+      "category": "parking",
+      "sourceFile": "test/source-cache/vector-intake/accessible-parking-spaces-sdcc3.fgb",
+      "sourceBytes": 15488,
+      "outputDirectory": "test/tiles/generated/accessible-parking-spaces-sdcc3"
+    },
+    {
+      "sourceMapId": "community-scale-flood-model-nodes-current-scenario",
+      "name": "Community-Scale Flood Model Nodes - Current Scenario",
+      "category": "flood",
+      "sourceFile": "test/source-cache/vector-intake/community-scale-flood-model-nodes-current-scenario.fgb",
+      "sourceBytes": 13868912,
+      "outputDirectory": "test/tiles/generated/community-scale-flood-model-nodes-current-scenario"
+    },
+    {
+      "sourceMapId": "river-and-lake-monitoring-points-2024",
+      "name": "River and Lake Monitoring Points 2024",
+      "category": "water",
+      "sourceFile": "test/source-cache/vector-intake/river-and-lake-monitoring-points-2024.fgb",
+      "sourceBytes": 148168,
+      "outputDirectory": "test/tiles/generated/river-and-lake-monitoring-points-2024"
+    },
+    {
+      "sourceMapId": "water-framework-directive-2nd-cycle-interim-status1",
+      "name": "Water Framework Directive 2nd Cycle Interim Status",
+      "category": "water",
+      "sourceFile": "test/source-cache/vector-intake/water-framework-directive-2nd-cycle-interim-status1.fgb",
+      "sourceBytes": 16349768,
+      "outputDirectory": "test/tiles/generated/water-framework-directive-2nd-cycle-interim-status1"
+    },
+    {
+      "sourceMapId": "bedrock-boreholes-150000-ireland-roi-itm-unverified",
+      "name": "Bedrock Boreholes 1:100,000 Ireland (ROI) ITM (Unverified)",
+      "category": "geology",
+      "sourceFile": "test/source-cache/vector-intake/bedrock-boreholes-150000-ireland-roi-itm-unverified.fgb",
+      "sourceBytes": 1934792,
+      "outputDirectory": "test/tiles/generated/bedrock-boreholes-150000-ireland-roi-itm-unverified"
+    },
+    {
+      "sourceMapId": "cycle-network-survey",
+      "name": "GDA Cycle Network Survey 2013",
+      "category": "cycle",
+      "sourceFile": "test/source-cache/vector-intake/cycle-network-survey.fgb",
+      "sourceBytes": 3081336,
+      "outputDirectory": "test/tiles/generated/cycle-network-survey"
+    },
+    {
+      "sourceMapId": "co-wicklow-polling-stations",
+      "name": "Co. Wicklow Polling Stations",
+      "category": "Polling & Voting",
+      "sourceFile": "test/source-cache/vector-intake/co-wicklow-polling-stations.fgb",
+      "sourceBytes": 13944,
+      "outputDirectory": "test/tiles/generated/co-wicklow-polling-stations"
+    },
+    {
+      "sourceMapId": "co-wicklow-protected-structures",
+      "name": "Co. Wicklow Protected Structures",
+      "category": "heritage",
+      "sourceFile": "test/source-cache/vector-intake/co-wicklow-protected-structures.fgb",
+      "sourceBytes": 216432,
+      "outputDirectory": "test/tiles/generated/co-wicklow-protected-structures"
+    },
+    {
+      "sourceMapId": "landscape-character-types",
+      "name": "Landscape Character Types",
+      "category": "landscape",
+      "sourceFile": "test/source-cache/vector-intake/landscape-character-types.fgb",
+      "sourceBytes": 191224,
+      "outputDirectory": "test/tiles/generated/landscape-character-types"
+    },
+    {
+      "sourceMapId": "museums-collections-archives",
+      "name": "Museums Collections Archives",
+      "category": "museums",
+      "sourceFile": "test/source-cache/vector-intake/museums-collections-archives.fgb",
+      "sourceBytes": 405224,
+      "outputDirectory": "test/tiles/generated/museums-collections-archives"
+    },
+    {
+      "sourceMapId": "wicklow-fire-stations",
+      "name": "Wicklow Fire Stations",
+      "category": "fire-stations",
+      "sourceFile": "test/source-cache/vector-intake/wicklow-fire-stations.fgb",
+      "sourceBytes": 4800,
+      "outputDirectory": "test/tiles/generated/wicklow-fire-stations"
+    },
+    {
+      "sourceMapId": "greater-dublin-area-cycle-infrastructure-nta",
+      "name": "Greater Dublin Area Cycle Infrastructure",
+      "category": "cycle",
+      "sourceFile": "test/source-cache/vector-intake/greater-dublin-area-cycle-infrastructure-nta.fgb",
+      "sourceBytes": 3161016,
+      "outputDirectory": "test/tiles/generated/greater-dublin-area-cycle-infrastructure-nta"
+    },
+    {
+      "sourceMapId": "art-in-the-parks-a-guide-to-sculpture-in-dublin-city-council-parks",
+      "name": "Art in the Parks - A Guide to Sculpture in Parks DCC",
+      "category": "parks",
+      "sourceFile": "test/source-cache/vector-intake/art-in-the-parks-a-guide-to-sculpture-in-dublin-city-council-parks.fgb",
+      "sourceBytes": 19176,
+      "outputDirectory": "test/tiles/generated/art-in-the-parks-a-guide-to-sculpture-in-dublin-city-council-parks"
+    },
+    {
+      "sourceMapId": "use-zoning-objectives1",
+      "name": "Use Zoning Objectives",
+      "category": "planning",
+      "sourceFile": "test/source-cache/vector-intake/use-zoning-objectives1.fgb",
+      "sourceBytes": 11228976,
+      "outputDirectory": "test/tiles/generated/use-zoning-objectives1"
+    },
+    {
+      "sourceMapId": "cork-city-parks",
+      "name": "Cork City Parks",
+      "category": "parks",
+      "sourceFile": "test/source-cache/vector-intake/cork-city-parks.fgb",
+      "sourceBytes": 25064,
+      "outputDirectory": "test/tiles/generated/cork-city-parks"
+    },
+    {
+      "sourceMapId": "tailte-airfield-area",
+      "name": "Airfield Area (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-airfield-area.fgb",
+      "sourceBytes": 6592,
+      "outputDirectory": "test/tiles/generated/tailte-airfield-area"
+    },
+    {
+      "sourceMapId": "tailte-airports",
+      "name": "Airports (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-airports.fgb",
+      "sourceBytes": 4136,
+      "outputDirectory": "test/tiles/generated/tailte-airports"
+    },
+    {
+      "sourceMapId": "tailte-border-exits-entrances",
+      "name": "Border Exits & Entrances (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-border-exits-entrances.fgb",
+      "sourceBytes": 6128,
+      "outputDirectory": "test/tiles/generated/tailte-border-exits-entrances"
+    },
+    {
+      "sourceMapId": "tailte-boundaries-seawater-area",
+      "name": "Boundaries Seawater Area (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-boundaries-seawater-area.fgb",
+      "sourceBytes": 54784,
+      "outputDirectory": "test/tiles/generated/tailte-boundaries-seawater-area"
+    },
+    {
+      "sourceMapId": "tailte-boundaries-seawater-line",
+      "name": "Boundaries Seawater Line (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-boundaries-seawater-line.fgb",
+      "sourceBytes": 56432,
+      "outputDirectory": "test/tiles/generated/tailte-boundaries-seawater-line"
+    },
+    {
+      "sourceMapId": "tailte-centres-of-population",
+      "name": "Centres of Population (Tailte Éireann)",
+      "category": "Settlements",
+      "sourceFile": "test/source-cache/vector-intake/tailte-centres-of-population.fgb",
+      "sourceBytes": 651160,
+      "outputDirectory": "test/tiles/generated/tailte-centres-of-population"
+    },
+    {
+      "sourceMapId": "tailte-coast",
+      "name": "Coast (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-coast.fgb",
+      "sourceBytes": 1126264,
+      "outputDirectory": "test/tiles/generated/tailte-coast"
+    },
+    {
+      "sourceMapId": "tailte-ferry-crossing",
+      "name": "Ferry Crossing (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-ferry-crossing.fgb",
+      "sourceBytes": 13048,
+      "outputDirectory": "test/tiles/generated/tailte-ferry-crossing"
+    },
+    {
+      "sourceMapId": "tailte-gaeltacht-boundaries-generalised-20m",
+      "name": "Gaeltacht Boundaries Generalised 20m (Tailte Éireann)",
+      "category": "Regional Divides",
+      "sourceFile": "test/source-cache/vector-intake/tailte-gaeltacht-boundaries-generalised-20m.fgb",
+      "sourceBytes": 467440,
+      "outputDirectory": "test/tiles/generated/tailte-gaeltacht-boundaries-generalised-20m"
+    },
+    {
+      "sourceMapId": "tailte-gaeltacht-language-planning-area-boundaries-generalised-20m",
+      "name": "Gaeltacht Language Planning Area Boundaries Generalised 20m (Tailte Éireann)",
+      "category": "Regional Divides",
+      "sourceFile": "test/source-cache/vector-intake/tailte-gaeltacht-language-planning-area-boundaries-generalised-20m.fgb",
+      "sourceBytes": 377880,
+      "outputDirectory": "test/tiles/generated/tailte-gaeltacht-language-planning-area-boundaries-generalised-20m"
+    },
+    {
+      "sourceMapId": "tailte-geographical-names",
+      "name": "Geographical Names (Tailte Éireann)",
+      "category": "Settlements",
+      "sourceFile": "test/source-cache/vector-intake/tailte-geographical-names.fgb",
+      "sourceBytes": 14408,
+      "outputDirectory": "test/tiles/generated/tailte-geographical-names"
+    },
+    {
+      "sourceMapId": "tailte-heritage",
+      "name": "Heritage (Tailte Éireann)",
+      "category": "Built Environment",
+      "sourceFile": "test/source-cache/vector-intake/tailte-heritage.fgb",
+      "sourceBytes": 14224,
+      "outputDirectory": "test/tiles/generated/tailte-heritage"
+    },
+    {
+      "sourceMapId": "tailte-high-water-mark",
+      "name": "High Water Mark (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-high-water-mark.fgb",
+      "sourceBytes": 119243136,
+      "outputDirectory": "test/tiles/generated/tailte-high-water-mark"
+    },
+    {
+      "sourceMapId": "tailte-hydro-nodes",
+      "name": "Hydro Nodes (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hydro-nodes.fgb",
+      "sourceBytes": 139784,
+      "outputDirectory": "test/tiles/generated/tailte-hydro-nodes"
+    },
+    {
+      "sourceMapId": "tailte-lakes-reservoirs",
+      "name": "Lakes & Reservoirs (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-lakes-reservoirs.fgb",
+      "sourceBytes": 913168,
+      "outputDirectory": "test/tiles/generated/tailte-lakes-reservoirs"
+    },
+    {
+      "sourceMapId": "tailte-main-harbours",
+      "name": "Main Harbours (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-main-harbours.fgb",
+      "sourceBytes": 2008,
+      "outputDirectory": "test/tiles/generated/tailte-main-harbours"
+    },
+    {
+      "sourceMapId": "tailte-motorway-access-exit-points",
+      "name": "Motorway Access Exit Points (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-motorway-access-exit-points.fgb",
+      "sourceBytes": 15504,
+      "outputDirectory": "test/tiles/generated/tailte-motorway-access-exit-points"
+    },
+    {
+      "sourceMapId": "tailte-mountains",
+      "name": "Mountains (Tailte Éireann)",
+      "category": "Hills and Mountains",
+      "sourceFile": "test/source-cache/vector-intake/tailte-mountains.fgb",
+      "sourceBytes": 4456,
+      "outputDirectory": "test/tiles/generated/tailte-mountains"
+    },
+    {
+      "sourceMapId": "tailte-nuts2-boundaries-ungeneralised",
+      "name": "NUTS2 Boundaries Ungeneralised (Tailte Éireann)",
+      "category": "Regional Divides",
+      "sourceFile": "test/source-cache/vector-intake/tailte-nuts2-boundaries-ungeneralised.fgb",
+      "sourceBytes": 21103056,
+      "outputDirectory": "test/tiles/generated/tailte-nuts2-boundaries-ungeneralised"
+    },
+    {
+      "sourceMapId": "tailte-nuts3-boundaries-generalised-20m",
+      "name": "NUTS3 Boundaries Generalised 20m (Tailte Éireann)",
+      "category": "Regional Divides",
+      "sourceFile": "test/source-cache/vector-intake/tailte-nuts3-boundaries-generalised-20m.fgb",
+      "sourceBytes": 1455128,
+      "outputDirectory": "test/tiles/generated/tailte-nuts3-boundaries-generalised-20m"
+    },
+    {
+      "sourceMapId": "tailte-other-harbours",
+      "name": "Other Harbours (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-other-harbours.fgb",
+      "sourceBytes": 5392,
+      "outputDirectory": "test/tiles/generated/tailte-other-harbours"
+    },
+    {
+      "sourceMapId": "tailte-power-plant",
+      "name": "Power Plant (Tailte Éireann)",
+      "category": "Built Environment",
+      "sourceFile": "test/source-cache/vector-intake/tailte-power-plant.fgb",
+      "sourceBytes": 3248,
+      "outputDirectory": "test/tiles/generated/tailte-power-plant"
+    },
+    {
+      "sourceMapId": "tailte-province-boundaries-generalised-20m",
+      "name": "Province Boundaries Generalised 20m (Tailte Éireann)",
+      "category": "Regional Divides",
+      "sourceFile": "test/source-cache/vector-intake/tailte-province-boundaries-generalised-20m.fgb",
+      "sourceBytes": 1769792,
+      "outputDirectory": "test/tiles/generated/tailte-province-boundaries-generalised-20m"
+    },
+    {
+      "sourceMapId": "tailte-rail-network",
+      "name": "Rail Network (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-rail-network.fgb",
+      "sourceBytes": 93952,
+      "outputDirectory": "test/tiles/generated/tailte-rail-network"
+    },
+    {
+      "sourceMapId": "tailte-railway-stations",
+      "name": "Railway Stations (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-railway-stations.fgb",
+      "sourceBytes": 13424,
+      "outputDirectory": "test/tiles/generated/tailte-railway-stations"
+    },
+    {
+      "sourceMapId": "tailte-reservoirs",
+      "name": "Reservoirs (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-reservoirs.fgb",
+      "sourceBytes": 1456,
+      "outputDirectory": "test/tiles/generated/tailte-reservoirs"
+    },
+    {
+      "sourceMapId": "tailte-road-rail-intersections",
+      "name": "Road & Rail Intersections (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-road-rail-intersections.fgb",
+      "sourceBytes": 390968,
+      "outputDirectory": "test/tiles/generated/tailte-road-rail-intersections"
+    },
+    {
+      "sourceMapId": "tailte-road-interchanges",
+      "name": "Road Interchanges (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-road-interchanges.fgb",
+      "sourceBytes": 6424,
+      "outputDirectory": "test/tiles/generated/tailte-road-interchanges"
+    },
+    {
+      "sourceMapId": "tailte-road-intersections",
+      "name": "Road Intersections (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-road-intersections.fgb",
+      "sourceBytes": 279632,
+      "outputDirectory": "test/tiles/generated/tailte-road-intersections"
+    },
+    {
+      "sourceMapId": "tailte-roads",
+      "name": "Roads (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-roads.fgb",
+      "sourceBytes": 2447728,
+      "outputDirectory": "test/tiles/generated/tailte-roads"
+    },
+    {
+      "sourceMapId": "tailte-runways",
+      "name": "Runways (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-runways.fgb",
+      "sourceBytes": 4608,
+      "outputDirectory": "test/tiles/generated/tailte-runways"
+    },
+    {
+      "sourceMapId": "tailte-rural-areas",
+      "name": "Rural Areas (Tailte Éireann)",
+      "category": "Regional Divides",
+      "sourceFile": "test/source-cache/vector-intake/tailte-rural-areas.fgb",
+      "sourceBytes": 2611200,
+      "outputDirectory": "test/tiles/generated/tailte-rural-areas"
+    },
+    {
+      "sourceMapId": "tailte-settlements-generalised-20m",
+      "name": "Settlements Generalised 20m (Tailte Éireann)",
+      "category": "Settlements",
+      "sourceFile": "test/source-cache/vector-intake/tailte-settlements-generalised-20m.fgb",
+      "sourceBytes": 991984,
+      "outputDirectory": "test/tiles/generated/tailte-settlements-generalised-20m"
+    },
+    {
+      "sourceMapId": "tailte-shore",
+      "name": "Shore (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-shore.fgb",
+      "sourceBytes": 907936,
+      "outputDirectory": "test/tiles/generated/tailte-shore"
+    },
+    {
+      "sourceMapId": "tailte-vegetation-areas",
+      "name": "Vegetation Areas (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-vegetation-areas.fgb",
+      "sourceBytes": 1867320,
+      "outputDirectory": "test/tiles/generated/tailte-vegetation-areas"
+    },
+    {
+      "sourceMapId": "tailte-water",
+      "name": "Water (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-water.fgb",
+      "sourceBytes": 1961920,
+      "outputDirectory": "test/tiles/generated/tailte-water"
+    },
+    {
+      "sourceMapId": "tailte-watercourse-start-end-points",
+      "name": "Watercourse Start End Points (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-watercourse-start-end-points.fgb",
+      "sourceBytes": 14336,
+      "outputDirectory": "test/tiles/generated/tailte-watercourse-start-end-points"
+    },
+    {
+      "sourceMapId": "tailte-waterfalls",
+      "name": "Waterfalls (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-waterfalls.fgb",
+      "sourceBytes": 1616,
+      "outputDirectory": "test/tiles/generated/tailte-waterfalls"
+    },
+    {
+      "sourceMapId": "tailte-ferry-station",
+      "name": "Ferry Station (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-ferry-station.fgb",
+      "sourceBytes": 4464,
+      "outputDirectory": "test/tiles/generated/tailte-ferry-station"
+    },
+    {
+      "sourceMapId": "tailte-low-water-mark",
+      "name": "Low Water Mark (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-low-water-mark.fgb",
+      "sourceBytes": 137312552,
+      "outputDirectory": "test/tiles/generated/tailte-low-water-mark"
+    },
+    {
+      "sourceMapId": "tailte-hvd-rail-points",
+      "name": "Rail Points (Tailte Éireann HVD)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hvd-rail-points.fgb",
+      "sourceBytes": 1345016,
+      "outputDirectory": "test/tiles/generated/tailte-hvd-rail-points"
+    },
+    {
+      "sourceMapId": "tailte-hvd-water-single-stream",
+      "name": "Water Single Stream (Tailte Éireann HVD)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hvd-water-single-stream.fgb",
+      "sourceBytes": 151834328,
+      "outputDirectory": "test/tiles/generated/tailte-hvd-water-single-stream"
+    },
+    {
+      "sourceMapId": "tailte-hvd-locales",
+      "name": "Locales (Tailte Éireann HVD)",
+      "category": "Built Environment",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hvd-locales.fgb",
+      "sourceBytes": 90901912,
+      "outputDirectory": "test/tiles/generated/tailte-hvd-locales"
+    },
+    {
+      "sourceMapId": "tailte-hvd-building-groups",
+      "name": "Building Groups (Tailte Éireann HVD)",
+      "category": "Built Environment",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hvd-building-groups.fgb",
+      "sourceBytes": 661808,
+      "outputDirectory": "test/tiles/generated/tailte-hvd-building-groups"
+    },
+    {
+      "sourceMapId": "tailte-hvd-rail-network-segment",
+      "name": "Rail Network Segment (Tailte Éireann HVD)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hvd-rail-network-segment.fgb",
+      "sourceBytes": 4713192,
+      "outputDirectory": "test/tiles/generated/tailte-hvd-rail-network-segment"
+    },
+    {
+      "sourceMapId": "tailte-hvd-way-points",
+      "name": "Way Points (Tailte Éireann HVD)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hvd-way-points.fgb",
+      "sourceBytes": 50724096,
+      "outputDirectory": "test/tiles/generated/tailte-hvd-way-points"
+    },
+    {
+      "sourceMapId": "tailte-hvd-way-gdf2",
+      "name": "Way GDF2 (Tailte Éireann HVD)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hvd-way-gdf2.fgb",
+      "sourceBytes": 147786336,
+      "outputDirectory": "test/tiles/generated/tailte-hvd-way-gdf2"
+    },
+    {
+      "sourceMapId": "tailte-hvd-sites",
+      "name": "Sites (Tailte Éireann HVD)",
+      "category": "Built Environment",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hvd-sites.fgb",
+      "sourceBytes": 271952,
+      "outputDirectory": "test/tiles/generated/tailte-hvd-sites"
+    },
+    {
+      "sourceMapId": "tailte-hvd-cadastral-parcels-leasehold",
+      "name": "Cadastral Parcels Leasehold (Tailte Éireann HVD)",
+      "category": "Government Land and Property Register",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hvd-cadastral-parcels-leasehold.fgb",
+      "sourceBytes": 50989568,
+      "outputDirectory": "test/tiles/generated/tailte-hvd-cadastral-parcels-leasehold"
+    },
+    {
+      "sourceMapId": "tailte-hvd-water-points",
+      "name": "water points (Tailte Éireann HVD)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hvd-water-points.fgb",
+      "sourceBytes": 107959176,
+      "outputDirectory": "test/tiles/generated/tailte-hvd-water-points"
     }
   ],
   "selected": [
     {
-      "sourceMapId": "eds-leinster-1941",
-      "name": "Leinster District Electoral Divisions/Wards 1941",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-leinster-1941.fgb",
-      "sourceBytes": 29505080,
-      "outputDirectory": "test/tiles/generated/eds-leinster-1941"
+      "sourceMapId": "streetnames-gazetteer",
+      "name": "Street Names Gazetteer",
+      "category": "Settlements",
+      "sourceFile": "test/source-cache/vector-intake/streetnames-gazetteer.fgb",
+      "sourceBytes": 4045928,
+      "outputDirectory": "test/tiles/generated/streetnames-gazetteer"
     },
     {
-      "sourceMapId": "eds-munster-1921",
-      "name": "Munster District Electoral Divisions/Wards 1921",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-munster-1921.fgb",
-      "sourceBytes": 42785664,
-      "outputDirectory": "test/tiles/generated/eds-munster-1921"
+      "sourceMapId": "bcni2018",
+      "name": "Parliamentary Constituencies — Provisional Proposals (BCNI 2018)",
+      "category": "Parliamentary Constituencies",
+      "sourceFile": "test/source-cache/vector-intake/bcni2018.fgb",
+      "sourceBytes": 7527760,
+      "outputDirectory": "test/tiles/generated/bcni2018"
     },
     {
-      "sourceMapId": "eds-leinster-1942",
-      "name": "Leinster District Electoral Divisions/Wards 1942",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-leinster-1942.fgb",
-      "sourceBytes": 29504784,
-      "outputDirectory": "test/tiles/generated/eds-leinster-1942"
+      "sourceMapId": "mid-ulster-council-district-electoral-areas2",
+      "name": "Mid Ulster District Electoral Areas",
+      "category": "District Electoral Areas",
+      "sourceFile": "test/source-cache/vector-intake/mid-ulster-council-district-electoral-areas2.fgb",
+      "sourceBytes": 1719600,
+      "outputDirectory": "test/tiles/generated/mid-ulster-council-district-electoral-areas2"
     },
     {
-      "sourceMapId": "eds-leinster-1943",
-      "name": "Leinster District Electoral Divisions/Wards 1943",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-leinster-1943.fgb",
-      "sourceBytes": 29504864,
-      "outputDirectory": "test/tiles/generated/eds-leinster-1943"
+      "sourceMapId": "osni-open-data-50k-boundaries-district-electoral-areas-1993",
+      "name": "District Electoral Areas (1993) — OSNI 50k",
+      "category": "District Electoral Areas",
+      "sourceFile": "test/source-cache/vector-intake/osni-open-data-50k-boundaries-district-electoral-areas-1993.fgb",
+      "sourceBytes": 1547624,
+      "outputDirectory": "test/tiles/generated/osni-open-data-50k-boundaries-district-electoral-areas-1993"
     },
     {
-      "sourceMapId": "eds-leinster-1949",
-      "name": "Leinster District Electoral Divisions/Wards 1949",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-leinster-1949.fgb",
-      "sourceBytes": 29432176,
-      "outputDirectory": "test/tiles/generated/eds-leinster-1949"
-    },
-    {
-      "sourceMapId": "eds-connacht-1957",
-      "name": "Connacht District Electoral Divisions/Wards 1957",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-connacht-1957.fgb",
-      "sourceBytes": 25857816,
-      "outputDirectory": "test/tiles/generated/eds-connacht-1957"
-    },
-    {
-      "sourceMapId": "eds-munster-1957",
-      "name": "Munster District Electoral Divisions/Wards 1957",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-munster-1957.fgb",
-      "sourceBytes": 42857192,
-      "outputDirectory": "test/tiles/generated/eds-munster-1957"
-    },
-    {
-      "sourceMapId": "eds-leinster-1963",
-      "name": "Leinster District Electoral Divisions/Wards 1963",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-leinster-1963.fgb",
-      "sourceBytes": 29469016,
-      "outputDirectory": "test/tiles/generated/eds-leinster-1963"
-    },
-    {
-      "sourceMapId": "eds-ulster-1963",
-      "name": "Ulster District Electoral Divisions/Wards 1963",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-ulster-1963.fgb",
-      "sourceBytes": 14236936,
-      "outputDirectory": "test/tiles/generated/eds-ulster-1963"
-    },
-    {
-      "sourceMapId": "eds-leinster-1985",
-      "name": "Leinster District Electoral Divisions/Wards 1985",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-leinster-1985.fgb",
-      "sourceBytes": 29624128,
-      "outputDirectory": "test/tiles/generated/eds-leinster-1985"
-    },
-    {
-      "sourceMapId": "eds-connacht-1996",
-      "name": "Connacht District Electoral Divisions/Wards 1996",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-connacht-1996.fgb",
-      "sourceBytes": 25974968,
-      "outputDirectory": "test/tiles/generated/eds-connacht-1996"
-    },
-    {
-      "sourceMapId": "eds-munster-1996",
-      "name": "Munster District Electoral Divisions/Wards 1996",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-munster-1996.fgb",
-      "sourceBytes": 43224872,
-      "outputDirectory": "test/tiles/generated/eds-munster-1996"
-    },
-    {
-      "sourceMapId": "eds-ulster-1996",
-      "name": "Ulster District Electoral Divisions/Wards 1996",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-ulster-1996.fgb",
-      "sourceBytes": 14263432,
-      "outputDirectory": "test/tiles/generated/eds-ulster-1996"
-    },
-    {
-      "sourceMapId": "roi-local-authorities-1915",
-      "name": "Republic of Ireland Local Authorities 1915",
+      "sourceMapId": "osni-open-data-50k-boundaries-local-government-districts-1993",
+      "name": "Local Government Districts (1993) — OSNI 50k",
       "category": "Local Government Districts",
-      "sourceFile": "test/source-cache/vector-intake/roi-local-authorities-1915.fgb",
-      "sourceBytes": 7966360,
-      "outputDirectory": "test/tiles/generated/roi-local-authorities-1915"
+      "sourceFile": "test/source-cache/vector-intake/osni-open-data-50k-boundaries-local-government-districts-1993.fgb",
+      "sourceBytes": 780024,
+      "outputDirectory": "test/tiles/generated/osni-open-data-50k-boundaries-local-government-districts-1993"
     },
     {
-      "sourceMapId": "roi-local-authorities-1920-06-19",
-      "name": "Republic of Ireland Local Authorities 19/06/1920",
-      "category": "Local Government Districts",
-      "sourceFile": "test/source-cache/vector-intake/roi-local-authorities-1920-06-19.fgb",
-      "sourceBytes": 7966376,
-      "outputDirectory": "test/tiles/generated/roi-local-authorities-1920-06-19"
+      "sourceMapId": "osni-open-data-50k-boundaries-parliamentary-constituencies",
+      "name": "Parliamentary Constituencies — OSNI 50k",
+      "category": "Parliamentary Constituencies",
+      "sourceFile": "test/source-cache/vector-intake/osni-open-data-50k-boundaries-parliamentary-constituencies.fgb",
+      "sourceBytes": 537720,
+      "outputDirectory": "test/tiles/generated/osni-open-data-50k-boundaries-parliamentary-constituencies"
     },
     {
-      "sourceMapId": "roi-local-authorities-1920-06-25",
-      "name": "Republic of Ireland Local Authorities 25/06/1920",
-      "category": "Local Government Districts",
-      "sourceFile": "test/source-cache/vector-intake/roi-local-authorities-1920-06-25.fgb",
-      "sourceBytes": 7966376,
-      "outputDirectory": "test/tiles/generated/roi-local-authorities-1920-06-25"
+      "sourceMapId": "osni-open-data-50k-boundaries-townlands",
+      "name": "Townlands — OSNI 50k",
+      "category": "Townlands",
+      "sourceFile": "test/source-cache/vector-intake/osni-open-data-50k-boundaries-townlands.fgb",
+      "sourceBytes": 13282168,
+      "outputDirectory": "test/tiles/generated/osni-open-data-50k-boundaries-townlands"
     },
     {
-      "sourceMapId": "roi-local-authorities-1920-10-04",
-      "name": "Republic of Ireland Local Authorities 04/10/1920",
-      "category": "Local Government Districts",
-      "sourceFile": "test/source-cache/vector-intake/roi-local-authorities-1920-10-04.fgb",
-      "sourceBytes": 7966368,
-      "outputDirectory": "test/tiles/generated/roi-local-authorities-1920-10-04"
+      "sourceMapId": "osni-open-data-50k-boundaries-wards-1993",
+      "name": "Wards (1993) — OSNI 50k",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/vector-intake/osni-open-data-50k-boundaries-wards-1993.fgb",
+      "sourceBytes": 2385064,
+      "outputDirectory": "test/tiles/generated/osni-open-data-50k-boundaries-wards-1993"
     },
     {
-      "sourceMapId": "roi-local-authorities-1921",
-      "name": "Republic of Ireland Local Authorities 1921",
+      "sourceMapId": "osni-open-data-largescale-boundaries-local-government-districts-1993",
+      "name": "Local Government Districts (1993) — OSNI Largescale",
       "category": "Local Government Districts",
-      "sourceFile": "test/source-cache/vector-intake/roi-local-authorities-1921.fgb",
-      "sourceBytes": 2810456,
-      "outputDirectory": "test/tiles/generated/roi-local-authorities-1921"
+      "sourceFile": "test/source-cache/vector-intake/osni-open-data-largescale-boundaries-local-government-districts-1993.fgb",
+      "sourceBytes": 9047600,
+      "outputDirectory": "test/tiles/generated/osni-open-data-largescale-boundaries-local-government-districts-1993"
     },
     {
-      "sourceMapId": "roi-local-authorities-1927",
-      "name": "Republic of Ireland Local Authorities 1927",
-      "category": "Local Government Districts",
-      "sourceFile": "test/source-cache/vector-intake/roi-local-authorities-1927.fgb",
-      "sourceBytes": 2810456,
-      "outputDirectory": "test/tiles/generated/roi-local-authorities-1927"
+      "sourceMapId": "district-electoral-divisions-boundaries",
+      "name": "Electoral Divisions — Monaghan",
+      "category": "Electoral Divisions",
+      "sourceFile": "test/source-cache/vector-intake/district-electoral-divisions-boundaries.fgb",
+      "sourceBytes": 2223392,
+      "outputDirectory": "test/tiles/generated/district-electoral-divisions-boundaries"
+    },
+    {
+      "sourceMapId": "ed-boundaries-dlr",
+      "name": "Electoral Divisions — Dún Laoghaire-Rathdown",
+      "category": "Electoral Divisions",
+      "sourceFile": "test/source-cache/vector-intake/ed-boundaries-dlr.fgb",
+      "sourceBytes": 438856,
+      "outputDirectory": "test/tiles/generated/ed-boundaries-dlr"
+    },
+    {
+      "sourceMapId": "townland-boundaries",
+      "name": "Townlands — Monaghan",
+      "category": "Townlands",
+      "sourceFile": "test/source-cache/vector-intake/townland-boundaries.fgb",
+      "sourceBytes": 8791544,
+      "outputDirectory": "test/tiles/generated/townland-boundaries"
+    },
+    {
+      "sourceMapId": "townlands-2015-sdcc1",
+      "name": "Townlands (2015) — South Dublin",
+      "category": "Townlands",
+      "sourceFile": "test/source-cache/vector-intake/townlands-2015-sdcc1.fgb",
+      "sourceBytes": 1971680,
+      "outputDirectory": "test/tiles/generated/townlands-2015-sdcc1"
+    },
+    {
+      "sourceMapId": "townlands-in-fcc3",
+      "name": "Townlands — Fingal",
+      "category": "Townlands",
+      "sourceFile": "test/source-cache/vector-intake/townlands-in-fcc3.fgb",
+      "sourceBytes": 4195136,
+      "outputDirectory": "test/tiles/generated/townlands-in-fcc3"
+    },
+    {
+      "sourceMapId": "electoral-divisions-fcc2",
+      "name": "Electoral Divisions — Fingal",
+      "category": "Electoral Divisions",
+      "sourceFile": "test/source-cache/vector-intake/electoral-divisions-fcc2.fgb",
+      "sourceBytes": 2872160,
+      "outputDirectory": "test/tiles/generated/electoral-divisions-fcc2"
+    },
+    {
+      "sourceMapId": "mid-ulster-council-townlands2",
+      "name": "Townlands — Mid Ulster",
+      "category": "Townlands",
+      "sourceFile": "test/source-cache/vector-intake/mid-ulster-council-townlands2.fgb",
+      "sourceBytes": 18429192,
+      "outputDirectory": "test/tiles/generated/mid-ulster-council-townlands2"
+    },
+    {
+      "sourceMapId": "mid-ulster-council-wards2",
+      "name": "Wards — Mid Ulster",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/vector-intake/mid-ulster-council-wards2.fgb",
+      "sourceBytes": 3251968,
+      "outputDirectory": "test/tiles/generated/mid-ulster-council-wards2"
+    },
+    {
+      "sourceMapId": "osni-open-data-50k-transport-text-labelling",
+      "name": "Transport Text Labelling — OSNI 50k",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/osni-open-data-50k-transport-text-labelling.fgb",
+      "sourceBytes": 113792,
+      "outputDirectory": "test/tiles/generated/osni-open-data-50k-transport-text-labelling"
+    },
+    {
+      "sourceMapId": "osni-open-data-50k-transport-transport-points",
+      "name": "Transport Points — OSNI 50k",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/osni-open-data-50k-transport-transport-points.fgb",
+      "sourceBytes": 11504,
+      "outputDirectory": "test/tiles/generated/osni-open-data-50k-transport-transport-points"
+    },
+    {
+      "sourceMapId": "bedrock-geology-11000000-ireland-roini-itm",
+      "name": "Bedrock Geology 1:1,000,000 Ireland (ROI/NI) ITM",
+      "category": "geology",
+      "sourceFile": "test/source-cache/vector-intake/bedrock-geology-11000000-ireland-roini-itm.fgb",
+      "sourceBytes": 5733888,
+      "outputDirectory": "test/tiles/generated/bedrock-geology-11000000-ireland-roini-itm"
+    },
+    {
+      "sourceMapId": "wicklow-county-council-tree-preservation-orders",
+      "name": "Wicklow County Council - Tree Preservation Orders",
+      "category": "trees",
+      "sourceFile": "test/source-cache/vector-intake/wicklow-county-council-tree-preservation-orders.fgb",
+      "sourceBytes": 10448,
+      "outputDirectory": "test/tiles/generated/wicklow-county-council-tree-preservation-orders"
+    },
+    {
+      "sourceMapId": "wicklow-county-council-tree-preservation-orders-bray",
+      "name": "Wicklow County Council - Tree Preservation Orders Bray",
+      "category": "trees",
+      "sourceFile": "test/source-cache/vector-intake/wicklow-county-council-tree-preservation-orders-bray.fgb",
+      "sourceBytes": 11704,
+      "outputDirectory": "test/tiles/generated/wicklow-county-council-tree-preservation-orders-bray"
+    },
+    {
+      "sourceMapId": "community-scale-coastal-flood-extents-high-end-future-scenario",
+      "name": "Community-Scale Coastal Flood Extents - High-End Future Scenario",
+      "category": "flood",
+      "sourceFile": "test/source-cache/vector-intake/community-scale-coastal-flood-extents-high-end-future-scenario.fgb",
+      "sourceBytes": 31571136,
+      "outputDirectory": "test/tiles/generated/community-scale-coastal-flood-extents-high-end-future-scenario"
+    },
+    {
+      "sourceMapId": "community-scale-coastal-flood-extents-mid-range-future-scenario",
+      "name": "Community-Scale Coastal Flood Extents - Mid-Range Future Scenario",
+      "category": "flood",
+      "sourceFile": "test/source-cache/vector-intake/community-scale-coastal-flood-extents-mid-range-future-scenario.fgb",
+      "sourceBytes": 36858272,
+      "outputDirectory": "test/tiles/generated/community-scale-coastal-flood-extents-mid-range-future-scenario"
+    },
+    {
+      "sourceMapId": "accessible-parking-spaces-sdcc3",
+      "name": "Accessible Parking Spaces SDCC",
+      "category": "parking",
+      "sourceFile": "test/source-cache/vector-intake/accessible-parking-spaces-sdcc3.fgb",
+      "sourceBytes": 15488,
+      "outputDirectory": "test/tiles/generated/accessible-parking-spaces-sdcc3"
+    },
+    {
+      "sourceMapId": "community-scale-flood-model-nodes-current-scenario",
+      "name": "Community-Scale Flood Model Nodes - Current Scenario",
+      "category": "flood",
+      "sourceFile": "test/source-cache/vector-intake/community-scale-flood-model-nodes-current-scenario.fgb",
+      "sourceBytes": 13868912,
+      "outputDirectory": "test/tiles/generated/community-scale-flood-model-nodes-current-scenario"
+    },
+    {
+      "sourceMapId": "river-and-lake-monitoring-points-2024",
+      "name": "River and Lake Monitoring Points 2024",
+      "category": "water",
+      "sourceFile": "test/source-cache/vector-intake/river-and-lake-monitoring-points-2024.fgb",
+      "sourceBytes": 148168,
+      "outputDirectory": "test/tiles/generated/river-and-lake-monitoring-points-2024"
+    },
+    {
+      "sourceMapId": "water-framework-directive-2nd-cycle-interim-status1",
+      "name": "Water Framework Directive 2nd Cycle Interim Status",
+      "category": "water",
+      "sourceFile": "test/source-cache/vector-intake/water-framework-directive-2nd-cycle-interim-status1.fgb",
+      "sourceBytes": 16349768,
+      "outputDirectory": "test/tiles/generated/water-framework-directive-2nd-cycle-interim-status1"
+    },
+    {
+      "sourceMapId": "bedrock-boreholes-150000-ireland-roi-itm-unverified",
+      "name": "Bedrock Boreholes 1:100,000 Ireland (ROI) ITM (Unverified)",
+      "category": "geology",
+      "sourceFile": "test/source-cache/vector-intake/bedrock-boreholes-150000-ireland-roi-itm-unverified.fgb",
+      "sourceBytes": 1934792,
+      "outputDirectory": "test/tiles/generated/bedrock-boreholes-150000-ireland-roi-itm-unverified"
+    },
+    {
+      "sourceMapId": "cycle-network-survey",
+      "name": "GDA Cycle Network Survey 2013",
+      "category": "cycle",
+      "sourceFile": "test/source-cache/vector-intake/cycle-network-survey.fgb",
+      "sourceBytes": 3081336,
+      "outputDirectory": "test/tiles/generated/cycle-network-survey"
+    },
+    {
+      "sourceMapId": "co-wicklow-polling-stations",
+      "name": "Co. Wicklow Polling Stations",
+      "category": "Polling & Voting",
+      "sourceFile": "test/source-cache/vector-intake/co-wicklow-polling-stations.fgb",
+      "sourceBytes": 13944,
+      "outputDirectory": "test/tiles/generated/co-wicklow-polling-stations"
+    },
+    {
+      "sourceMapId": "co-wicklow-protected-structures",
+      "name": "Co. Wicklow Protected Structures",
+      "category": "heritage",
+      "sourceFile": "test/source-cache/vector-intake/co-wicklow-protected-structures.fgb",
+      "sourceBytes": 216432,
+      "outputDirectory": "test/tiles/generated/co-wicklow-protected-structures"
+    },
+    {
+      "sourceMapId": "landscape-character-types",
+      "name": "Landscape Character Types",
+      "category": "landscape",
+      "sourceFile": "test/source-cache/vector-intake/landscape-character-types.fgb",
+      "sourceBytes": 191224,
+      "outputDirectory": "test/tiles/generated/landscape-character-types"
+    },
+    {
+      "sourceMapId": "museums-collections-archives",
+      "name": "Museums Collections Archives",
+      "category": "museums",
+      "sourceFile": "test/source-cache/vector-intake/museums-collections-archives.fgb",
+      "sourceBytes": 405224,
+      "outputDirectory": "test/tiles/generated/museums-collections-archives"
+    },
+    {
+      "sourceMapId": "wicklow-fire-stations",
+      "name": "Wicklow Fire Stations",
+      "category": "fire-stations",
+      "sourceFile": "test/source-cache/vector-intake/wicklow-fire-stations.fgb",
+      "sourceBytes": 4800,
+      "outputDirectory": "test/tiles/generated/wicklow-fire-stations"
+    },
+    {
+      "sourceMapId": "greater-dublin-area-cycle-infrastructure-nta",
+      "name": "Greater Dublin Area Cycle Infrastructure",
+      "category": "cycle",
+      "sourceFile": "test/source-cache/vector-intake/greater-dublin-area-cycle-infrastructure-nta.fgb",
+      "sourceBytes": 3161016,
+      "outputDirectory": "test/tiles/generated/greater-dublin-area-cycle-infrastructure-nta"
+    },
+    {
+      "sourceMapId": "art-in-the-parks-a-guide-to-sculpture-in-dublin-city-council-parks",
+      "name": "Art in the Parks - A Guide to Sculpture in Parks DCC",
+      "category": "parks",
+      "sourceFile": "test/source-cache/vector-intake/art-in-the-parks-a-guide-to-sculpture-in-dublin-city-council-parks.fgb",
+      "sourceBytes": 19176,
+      "outputDirectory": "test/tiles/generated/art-in-the-parks-a-guide-to-sculpture-in-dublin-city-council-parks"
+    },
+    {
+      "sourceMapId": "use-zoning-objectives1",
+      "name": "Use Zoning Objectives",
+      "category": "planning",
+      "sourceFile": "test/source-cache/vector-intake/use-zoning-objectives1.fgb",
+      "sourceBytes": 11228976,
+      "outputDirectory": "test/tiles/generated/use-zoning-objectives1"
+    },
+    {
+      "sourceMapId": "cork-city-parks",
+      "name": "Cork City Parks",
+      "category": "parks",
+      "sourceFile": "test/source-cache/vector-intake/cork-city-parks.fgb",
+      "sourceBytes": 25064,
+      "outputDirectory": "test/tiles/generated/cork-city-parks"
+    },
+    {
+      "sourceMapId": "tailte-airfield-area",
+      "name": "Airfield Area (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-airfield-area.fgb",
+      "sourceBytes": 6592,
+      "outputDirectory": "test/tiles/generated/tailte-airfield-area"
+    },
+    {
+      "sourceMapId": "tailte-airports",
+      "name": "Airports (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-airports.fgb",
+      "sourceBytes": 4136,
+      "outputDirectory": "test/tiles/generated/tailte-airports"
+    },
+    {
+      "sourceMapId": "tailte-border-exits-entrances",
+      "name": "Border Exits & Entrances (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-border-exits-entrances.fgb",
+      "sourceBytes": 6128,
+      "outputDirectory": "test/tiles/generated/tailte-border-exits-entrances"
+    },
+    {
+      "sourceMapId": "tailte-boundaries-seawater-area",
+      "name": "Boundaries Seawater Area (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-boundaries-seawater-area.fgb",
+      "sourceBytes": 54784,
+      "outputDirectory": "test/tiles/generated/tailte-boundaries-seawater-area"
+    },
+    {
+      "sourceMapId": "tailte-boundaries-seawater-line",
+      "name": "Boundaries Seawater Line (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-boundaries-seawater-line.fgb",
+      "sourceBytes": 56432,
+      "outputDirectory": "test/tiles/generated/tailte-boundaries-seawater-line"
+    },
+    {
+      "sourceMapId": "tailte-centres-of-population",
+      "name": "Centres of Population (Tailte Éireann)",
+      "category": "Settlements",
+      "sourceFile": "test/source-cache/vector-intake/tailte-centres-of-population.fgb",
+      "sourceBytes": 651160,
+      "outputDirectory": "test/tiles/generated/tailte-centres-of-population"
+    },
+    {
+      "sourceMapId": "tailte-coast",
+      "name": "Coast (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-coast.fgb",
+      "sourceBytes": 1126264,
+      "outputDirectory": "test/tiles/generated/tailte-coast"
+    },
+    {
+      "sourceMapId": "tailte-ferry-crossing",
+      "name": "Ferry Crossing (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-ferry-crossing.fgb",
+      "sourceBytes": 13048,
+      "outputDirectory": "test/tiles/generated/tailte-ferry-crossing"
+    },
+    {
+      "sourceMapId": "tailte-gaeltacht-boundaries-generalised-20m",
+      "name": "Gaeltacht Boundaries Generalised 20m (Tailte Éireann)",
+      "category": "Regional Divides",
+      "sourceFile": "test/source-cache/vector-intake/tailte-gaeltacht-boundaries-generalised-20m.fgb",
+      "sourceBytes": 467440,
+      "outputDirectory": "test/tiles/generated/tailte-gaeltacht-boundaries-generalised-20m"
+    },
+    {
+      "sourceMapId": "tailte-gaeltacht-language-planning-area-boundaries-generalised-20m",
+      "name": "Gaeltacht Language Planning Area Boundaries Generalised 20m (Tailte Éireann)",
+      "category": "Regional Divides",
+      "sourceFile": "test/source-cache/vector-intake/tailte-gaeltacht-language-planning-area-boundaries-generalised-20m.fgb",
+      "sourceBytes": 377880,
+      "outputDirectory": "test/tiles/generated/tailte-gaeltacht-language-planning-area-boundaries-generalised-20m"
+    },
+    {
+      "sourceMapId": "tailte-geographical-names",
+      "name": "Geographical Names (Tailte Éireann)",
+      "category": "Settlements",
+      "sourceFile": "test/source-cache/vector-intake/tailte-geographical-names.fgb",
+      "sourceBytes": 14408,
+      "outputDirectory": "test/tiles/generated/tailte-geographical-names"
+    },
+    {
+      "sourceMapId": "tailte-heritage",
+      "name": "Heritage (Tailte Éireann)",
+      "category": "Built Environment",
+      "sourceFile": "test/source-cache/vector-intake/tailte-heritage.fgb",
+      "sourceBytes": 14224,
+      "outputDirectory": "test/tiles/generated/tailte-heritage"
+    },
+    {
+      "sourceMapId": "tailte-high-water-mark",
+      "name": "High Water Mark (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-high-water-mark.fgb",
+      "sourceBytes": 119243136,
+      "outputDirectory": "test/tiles/generated/tailte-high-water-mark"
+    },
+    {
+      "sourceMapId": "tailte-hydro-nodes",
+      "name": "Hydro Nodes (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hydro-nodes.fgb",
+      "sourceBytes": 139784,
+      "outputDirectory": "test/tiles/generated/tailte-hydro-nodes"
+    },
+    {
+      "sourceMapId": "tailte-lakes-reservoirs",
+      "name": "Lakes & Reservoirs (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-lakes-reservoirs.fgb",
+      "sourceBytes": 913168,
+      "outputDirectory": "test/tiles/generated/tailte-lakes-reservoirs"
+    },
+    {
+      "sourceMapId": "tailte-main-harbours",
+      "name": "Main Harbours (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-main-harbours.fgb",
+      "sourceBytes": 2008,
+      "outputDirectory": "test/tiles/generated/tailte-main-harbours"
+    },
+    {
+      "sourceMapId": "tailte-motorway-access-exit-points",
+      "name": "Motorway Access Exit Points (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-motorway-access-exit-points.fgb",
+      "sourceBytes": 15504,
+      "outputDirectory": "test/tiles/generated/tailte-motorway-access-exit-points"
+    },
+    {
+      "sourceMapId": "tailte-mountains",
+      "name": "Mountains (Tailte Éireann)",
+      "category": "Hills and Mountains",
+      "sourceFile": "test/source-cache/vector-intake/tailte-mountains.fgb",
+      "sourceBytes": 4456,
+      "outputDirectory": "test/tiles/generated/tailte-mountains"
+    },
+    {
+      "sourceMapId": "tailte-nuts2-boundaries-ungeneralised",
+      "name": "NUTS2 Boundaries Ungeneralised (Tailte Éireann)",
+      "category": "Regional Divides",
+      "sourceFile": "test/source-cache/vector-intake/tailte-nuts2-boundaries-ungeneralised.fgb",
+      "sourceBytes": 21103056,
+      "outputDirectory": "test/tiles/generated/tailte-nuts2-boundaries-ungeneralised"
+    },
+    {
+      "sourceMapId": "tailte-nuts3-boundaries-generalised-20m",
+      "name": "NUTS3 Boundaries Generalised 20m (Tailte Éireann)",
+      "category": "Regional Divides",
+      "sourceFile": "test/source-cache/vector-intake/tailte-nuts3-boundaries-generalised-20m.fgb",
+      "sourceBytes": 1455128,
+      "outputDirectory": "test/tiles/generated/tailte-nuts3-boundaries-generalised-20m"
+    },
+    {
+      "sourceMapId": "tailte-other-harbours",
+      "name": "Other Harbours (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-other-harbours.fgb",
+      "sourceBytes": 5392,
+      "outputDirectory": "test/tiles/generated/tailte-other-harbours"
+    },
+    {
+      "sourceMapId": "tailte-power-plant",
+      "name": "Power Plant (Tailte Éireann)",
+      "category": "Built Environment",
+      "sourceFile": "test/source-cache/vector-intake/tailte-power-plant.fgb",
+      "sourceBytes": 3248,
+      "outputDirectory": "test/tiles/generated/tailte-power-plant"
+    },
+    {
+      "sourceMapId": "tailte-province-boundaries-generalised-20m",
+      "name": "Province Boundaries Generalised 20m (Tailte Éireann)",
+      "category": "Regional Divides",
+      "sourceFile": "test/source-cache/vector-intake/tailte-province-boundaries-generalised-20m.fgb",
+      "sourceBytes": 1769792,
+      "outputDirectory": "test/tiles/generated/tailte-province-boundaries-generalised-20m"
+    },
+    {
+      "sourceMapId": "tailte-rail-network",
+      "name": "Rail Network (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-rail-network.fgb",
+      "sourceBytes": 93952,
+      "outputDirectory": "test/tiles/generated/tailte-rail-network"
+    },
+    {
+      "sourceMapId": "tailte-railway-stations",
+      "name": "Railway Stations (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-railway-stations.fgb",
+      "sourceBytes": 13424,
+      "outputDirectory": "test/tiles/generated/tailte-railway-stations"
+    },
+    {
+      "sourceMapId": "tailte-reservoirs",
+      "name": "Reservoirs (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-reservoirs.fgb",
+      "sourceBytes": 1456,
+      "outputDirectory": "test/tiles/generated/tailte-reservoirs"
+    },
+    {
+      "sourceMapId": "tailte-road-rail-intersections",
+      "name": "Road & Rail Intersections (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-road-rail-intersections.fgb",
+      "sourceBytes": 390968,
+      "outputDirectory": "test/tiles/generated/tailte-road-rail-intersections"
+    },
+    {
+      "sourceMapId": "tailte-road-interchanges",
+      "name": "Road Interchanges (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-road-interchanges.fgb",
+      "sourceBytes": 6424,
+      "outputDirectory": "test/tiles/generated/tailte-road-interchanges"
+    },
+    {
+      "sourceMapId": "tailte-road-intersections",
+      "name": "Road Intersections (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-road-intersections.fgb",
+      "sourceBytes": 279632,
+      "outputDirectory": "test/tiles/generated/tailte-road-intersections"
+    },
+    {
+      "sourceMapId": "tailte-roads",
+      "name": "Roads (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-roads.fgb",
+      "sourceBytes": 2447728,
+      "outputDirectory": "test/tiles/generated/tailte-roads"
+    },
+    {
+      "sourceMapId": "tailte-runways",
+      "name": "Runways (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-runways.fgb",
+      "sourceBytes": 4608,
+      "outputDirectory": "test/tiles/generated/tailte-runways"
+    },
+    {
+      "sourceMapId": "tailte-rural-areas",
+      "name": "Rural Areas (Tailte Éireann)",
+      "category": "Regional Divides",
+      "sourceFile": "test/source-cache/vector-intake/tailte-rural-areas.fgb",
+      "sourceBytes": 2611200,
+      "outputDirectory": "test/tiles/generated/tailte-rural-areas"
+    },
+    {
+      "sourceMapId": "tailte-settlements-generalised-20m",
+      "name": "Settlements Generalised 20m (Tailte Éireann)",
+      "category": "Settlements",
+      "sourceFile": "test/source-cache/vector-intake/tailte-settlements-generalised-20m.fgb",
+      "sourceBytes": 991984,
+      "outputDirectory": "test/tiles/generated/tailte-settlements-generalised-20m"
+    },
+    {
+      "sourceMapId": "tailte-shore",
+      "name": "Shore (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-shore.fgb",
+      "sourceBytes": 907936,
+      "outputDirectory": "test/tiles/generated/tailte-shore"
+    },
+    {
+      "sourceMapId": "tailte-vegetation-areas",
+      "name": "Vegetation Areas (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-vegetation-areas.fgb",
+      "sourceBytes": 1867320,
+      "outputDirectory": "test/tiles/generated/tailte-vegetation-areas"
+    },
+    {
+      "sourceMapId": "tailte-water",
+      "name": "Water (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-water.fgb",
+      "sourceBytes": 1961920,
+      "outputDirectory": "test/tiles/generated/tailte-water"
+    },
+    {
+      "sourceMapId": "tailte-watercourse-start-end-points",
+      "name": "Watercourse Start End Points (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-watercourse-start-end-points.fgb",
+      "sourceBytes": 14336,
+      "outputDirectory": "test/tiles/generated/tailte-watercourse-start-end-points"
+    },
+    {
+      "sourceMapId": "tailte-waterfalls",
+      "name": "Waterfalls (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-waterfalls.fgb",
+      "sourceBytes": 1616,
+      "outputDirectory": "test/tiles/generated/tailte-waterfalls"
+    },
+    {
+      "sourceMapId": "tailte-ferry-station",
+      "name": "Ferry Station (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-ferry-station.fgb",
+      "sourceBytes": 4464,
+      "outputDirectory": "test/tiles/generated/tailte-ferry-station"
+    },
+    {
+      "sourceMapId": "tailte-low-water-mark",
+      "name": "Low Water Mark (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-low-water-mark.fgb",
+      "sourceBytes": 137312552,
+      "outputDirectory": "test/tiles/generated/tailte-low-water-mark"
+    },
+    {
+      "sourceMapId": "tailte-hvd-rail-points",
+      "name": "Rail Points (Tailte Éireann HVD)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hvd-rail-points.fgb",
+      "sourceBytes": 1345016,
+      "outputDirectory": "test/tiles/generated/tailte-hvd-rail-points"
+    },
+    {
+      "sourceMapId": "tailte-hvd-water-single-stream",
+      "name": "Water Single Stream (Tailte Éireann HVD)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hvd-water-single-stream.fgb",
+      "sourceBytes": 151834328,
+      "outputDirectory": "test/tiles/generated/tailte-hvd-water-single-stream"
+    },
+    {
+      "sourceMapId": "tailte-hvd-locales",
+      "name": "Locales (Tailte Éireann HVD)",
+      "category": "Built Environment",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hvd-locales.fgb",
+      "sourceBytes": 90901912,
+      "outputDirectory": "test/tiles/generated/tailte-hvd-locales"
+    },
+    {
+      "sourceMapId": "tailte-hvd-building-groups",
+      "name": "Building Groups (Tailte Éireann HVD)",
+      "category": "Built Environment",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hvd-building-groups.fgb",
+      "sourceBytes": 661808,
+      "outputDirectory": "test/tiles/generated/tailte-hvd-building-groups"
+    },
+    {
+      "sourceMapId": "tailte-hvd-rail-network-segment",
+      "name": "Rail Network Segment (Tailte Éireann HVD)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hvd-rail-network-segment.fgb",
+      "sourceBytes": 4713192,
+      "outputDirectory": "test/tiles/generated/tailte-hvd-rail-network-segment"
+    },
+    {
+      "sourceMapId": "tailte-hvd-way-points",
+      "name": "Way Points (Tailte Éireann HVD)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hvd-way-points.fgb",
+      "sourceBytes": 50724096,
+      "outputDirectory": "test/tiles/generated/tailte-hvd-way-points"
+    },
+    {
+      "sourceMapId": "tailte-hvd-way-gdf2",
+      "name": "Way GDF2 (Tailte Éireann HVD)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hvd-way-gdf2.fgb",
+      "sourceBytes": 147786336,
+      "outputDirectory": "test/tiles/generated/tailte-hvd-way-gdf2"
+    },
+    {
+      "sourceMapId": "tailte-hvd-sites",
+      "name": "Sites (Tailte Éireann HVD)",
+      "category": "Built Environment",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hvd-sites.fgb",
+      "sourceBytes": 271952,
+      "outputDirectory": "test/tiles/generated/tailte-hvd-sites"
+    },
+    {
+      "sourceMapId": "tailte-hvd-cadastral-parcels-leasehold",
+      "name": "Cadastral Parcels Leasehold (Tailte Éireann HVD)",
+      "category": "Government Land and Property Register",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hvd-cadastral-parcels-leasehold.fgb",
+      "sourceBytes": 50989568,
+      "outputDirectory": "test/tiles/generated/tailte-hvd-cadastral-parcels-leasehold"
+    },
+    {
+      "sourceMapId": "tailte-hvd-water-points",
+      "name": "water points (Tailte Éireann HVD)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hvd-water-points.fgb",
+      "sourceBytes": 107959176,
+      "outputDirectory": "test/tiles/generated/tailte-hvd-water-points"
     }
   ],
   "skippedExisting": [],
   "converted": [
     {
-      "sourceMapId": "eds-leinster-1941",
-      "name": "Leinster District Electoral Divisions/Wards 1941",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-leinster-1941.fgb",
-      "sourceBytes": 29505080,
-      "outputDirectory": "test/tiles/generated/eds-leinster-1941",
+      "sourceMapId": "streetnames-gazetteer",
+      "name": "Street Names Gazetteer",
+      "category": "Settlements",
+      "sourceFile": "test/source-cache/vector-intake/streetnames-gazetteer.fgb",
+      "sourceBytes": 4045928,
+      "outputDirectory": "test/tiles/generated/streetnames-gazetteer",
       "profile": {
         "maxSize": "10000000",
         "maxFeatures": "10000000",
@@ -343,19 +1463,19 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "sourceLayer": "eds_leinster_1941",
-      "files": 947,
-      "pbfFiles": 946,
-      "bytes": 7616421,
-      "maxTileBytes": 180813
+      "sourceLayer": "streetnames_gazetteer",
+      "files": 717,
+      "pbfFiles": 716,
+      "bytes": 22337108,
+      "maxTileBytes": 1603654
     },
     {
-      "sourceMapId": "eds-munster-1921",
-      "name": "Munster District Electoral Divisions/Wards 1921",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-munster-1921.fgb",
-      "sourceBytes": 42785664,
-      "outputDirectory": "test/tiles/generated/eds-munster-1921",
+      "sourceMapId": "bcni2018",
+      "name": "Parliamentary Constituencies — Provisional Proposals (BCNI 2018)",
+      "category": "Parliamentary Constituencies",
+      "sourceFile": "test/source-cache/vector-intake/bcni2018.fgb",
+      "sourceBytes": 7527760,
+      "outputDirectory": "test/tiles/generated/bcni2018",
       "profile": {
         "maxSize": "10000000",
         "maxFeatures": "10000000",
@@ -363,19 +1483,19 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "sourceLayer": "eds_munster_1921",
-      "files": 1187,
-      "pbfFiles": 1186,
-      "bytes": 10670931,
-      "maxTileBytes": 137755
+      "sourceLayer": "bcni2018",
+      "files": 756,
+      "pbfFiles": 755,
+      "bytes": 1464914,
+      "maxTileBytes": 17221
     },
     {
-      "sourceMapId": "eds-leinster-1942",
-      "name": "Leinster District Electoral Divisions/Wards 1942",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-leinster-1942.fgb",
-      "sourceBytes": 29504784,
-      "outputDirectory": "test/tiles/generated/eds-leinster-1942",
+      "sourceMapId": "mid-ulster-council-district-electoral-areas2",
+      "name": "Mid Ulster District Electoral Areas",
+      "category": "District Electoral Areas",
+      "sourceFile": "test/source-cache/vector-intake/mid-ulster-council-district-electoral-areas2.fgb",
+      "sourceBytes": 1719600,
+      "outputDirectory": "test/tiles/generated/mid-ulster-council-district-electoral-areas2",
       "profile": {
         "maxSize": "10000000",
         "maxFeatures": "10000000",
@@ -383,19 +1503,19 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "sourceLayer": "eds_leinster_1942",
-      "files": 947,
-      "pbfFiles": 946,
-      "bytes": 7616123,
-      "maxTileBytes": 180787
+      "sourceLayer": "mid_ulster_council_district_electoral_areas2",
+      "files": 142,
+      "pbfFiles": 141,
+      "bytes": 391476,
+      "maxTileBytes": 12496
     },
     {
-      "sourceMapId": "eds-leinster-1943",
-      "name": "Leinster District Electoral Divisions/Wards 1943",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-leinster-1943.fgb",
-      "sourceBytes": 29504864,
-      "outputDirectory": "test/tiles/generated/eds-leinster-1943",
+      "sourceMapId": "osni-open-data-50k-boundaries-district-electoral-areas-1993",
+      "name": "District Electoral Areas (1993) — OSNI 50k",
+      "category": "District Electoral Areas",
+      "sourceFile": "test/source-cache/vector-intake/osni-open-data-50k-boundaries-district-electoral-areas-1993.fgb",
+      "sourceBytes": 1547624,
+      "outputDirectory": "test/tiles/generated/osni-open-data-50k-boundaries-district-electoral-areas-1993",
       "profile": {
         "maxSize": "10000000",
         "maxFeatures": "10000000",
@@ -403,199 +1523,19 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "sourceLayer": "eds_leinster_1943",
-      "files": 947,
-      "pbfFiles": 946,
-      "bytes": 7616002,
-      "maxTileBytes": 180779
+      "sourceLayer": "osni_open_data_50k_boundaries_district_electoral_areas_1993",
+      "files": 755,
+      "pbfFiles": 754,
+      "bytes": 962015,
+      "maxTileBytes": 35741
     },
     {
-      "sourceMapId": "eds-leinster-1949",
-      "name": "Leinster District Electoral Divisions/Wards 1949",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-leinster-1949.fgb",
-      "sourceBytes": 29432176,
-      "outputDirectory": "test/tiles/generated/eds-leinster-1949",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "sourceLayer": "eds_leinster_1949",
-      "files": 947,
-      "pbfFiles": 946,
-      "bytes": 7600895,
-      "maxTileBytes": 180278
-    },
-    {
-      "sourceMapId": "eds-connacht-1957",
-      "name": "Connacht District Electoral Divisions/Wards 1957",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-connacht-1957.fgb",
-      "sourceBytes": 25857816,
-      "outputDirectory": "test/tiles/generated/eds-connacht-1957",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "sourceLayer": "eds_connacht_1957",
-      "files": 949,
-      "pbfFiles": 948,
-      "bytes": 6704628,
-      "maxTileBytes": 112388
-    },
-    {
-      "sourceMapId": "eds-munster-1957",
-      "name": "Munster District Electoral Divisions/Wards 1957",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-munster-1957.fgb",
-      "sourceBytes": 42857192,
-      "outputDirectory": "test/tiles/generated/eds-munster-1957",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "sourceLayer": "eds_munster_1957",
-      "files": 1187,
-      "pbfFiles": 1186,
-      "bytes": 10689678,
-      "maxTileBytes": 137981
-    },
-    {
-      "sourceMapId": "eds-leinster-1963",
-      "name": "Leinster District Electoral Divisions/Wards 1963",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-leinster-1963.fgb",
-      "sourceBytes": 29469016,
-      "outputDirectory": "test/tiles/generated/eds-leinster-1963",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "sourceLayer": "eds_leinster_1963",
-      "files": 947,
-      "pbfFiles": 946,
-      "bytes": 7617183,
-      "maxTileBytes": 181352
-    },
-    {
-      "sourceMapId": "eds-ulster-1963",
-      "name": "Ulster District Electoral Divisions/Wards 1963",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-ulster-1963.fgb",
-      "sourceBytes": 14236936,
-      "outputDirectory": "test/tiles/generated/eds-ulster-1963",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "sourceLayer": "eds_ulster_1963",
-      "files": 554,
-      "pbfFiles": 553,
-      "bytes": 3654968,
-      "maxTileBytes": 55465
-    },
-    {
-      "sourceMapId": "eds-leinster-1985",
-      "name": "Leinster District Electoral Divisions/Wards 1985",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-leinster-1985.fgb",
-      "sourceBytes": 29624128,
-      "outputDirectory": "test/tiles/generated/eds-leinster-1985",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "sourceLayer": "eds_leinster_1985",
-      "files": 946,
-      "pbfFiles": 945,
-      "bytes": 7754911,
-      "maxTileBytes": 192088
-    },
-    {
-      "sourceMapId": "eds-connacht-1996",
-      "name": "Connacht District Electoral Divisions/Wards 1996",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-connacht-1996.fgb",
-      "sourceBytes": 25974968,
-      "outputDirectory": "test/tiles/generated/eds-connacht-1996",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "sourceLayer": "eds_connacht_1996",
-      "files": 949,
-      "pbfFiles": 948,
-      "bytes": 6700468,
-      "maxTileBytes": 112287
-    },
-    {
-      "sourceMapId": "eds-munster-1996",
-      "name": "Munster District Electoral Divisions/Wards 1996",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-munster-1996.fgb",
-      "sourceBytes": 43224872,
-      "outputDirectory": "test/tiles/generated/eds-munster-1996",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "sourceLayer": "eds_munster_1996",
-      "files": 1187,
-      "pbfFiles": 1186,
-      "bytes": 10760621,
-      "maxTileBytes": 141557
-    },
-    {
-      "sourceMapId": "eds-ulster-1996",
-      "name": "Ulster District Electoral Divisions/Wards 1996",
-      "category": "Electoral Divisions",
-      "sourceFile": "test/source-cache/vector-intake/eds-ulster-1996.fgb",
-      "sourceBytes": 14263432,
-      "outputDirectory": "test/tiles/generated/eds-ulster-1996",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "sourceLayer": "eds_ulster_1996",
-      "files": 554,
-      "pbfFiles": 553,
-      "bytes": 4309484,
-      "maxTileBytes": 87597
-    },
-    {
-      "sourceMapId": "roi-local-authorities-1915",
-      "name": "Republic of Ireland Local Authorities 1915",
+      "sourceMapId": "osni-open-data-50k-boundaries-local-government-districts-1993",
+      "name": "Local Government Districts (1993) — OSNI 50k",
       "category": "Local Government Districts",
-      "sourceFile": "test/source-cache/vector-intake/roi-local-authorities-1915.fgb",
-      "sourceBytes": 7966360,
-      "outputDirectory": "test/tiles/generated/roi-local-authorities-1915",
+      "sourceFile": "test/source-cache/vector-intake/osni-open-data-50k-boundaries-local-government-districts-1993.fgb",
+      "sourceBytes": 780024,
+      "outputDirectory": "test/tiles/generated/osni-open-data-50k-boundaries-local-government-districts-1993",
       "profile": {
         "maxSize": "10000000",
         "maxFeatures": "10000000",
@@ -603,19 +1543,19 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "sourceLayer": "roi_local_authorities_1915",
-      "files": 3912,
-      "pbfFiles": 3911,
-      "bytes": 3466287,
-      "maxTileBytes": 53322
+      "sourceLayer": "osni_open_data_50k_boundaries_local_government_districts_1993",
+      "files": 757,
+      "pbfFiles": 756,
+      "bytes": 683464,
+      "maxTileBytes": 19998
     },
     {
-      "sourceMapId": "roi-local-authorities-1920-06-19",
-      "name": "Republic of Ireland Local Authorities 19/06/1920",
-      "category": "Local Government Districts",
-      "sourceFile": "test/source-cache/vector-intake/roi-local-authorities-1920-06-19.fgb",
-      "sourceBytes": 7966376,
-      "outputDirectory": "test/tiles/generated/roi-local-authorities-1920-06-19",
+      "sourceMapId": "osni-open-data-50k-boundaries-parliamentary-constituencies",
+      "name": "Parliamentary Constituencies — OSNI 50k",
+      "category": "Parliamentary Constituencies",
+      "sourceFile": "test/source-cache/vector-intake/osni-open-data-50k-boundaries-parliamentary-constituencies.fgb",
+      "sourceBytes": 537720,
+      "outputDirectory": "test/tiles/generated/osni-open-data-50k-boundaries-parliamentary-constituencies",
       "profile": {
         "maxSize": "10000000",
         "maxFeatures": "10000000",
@@ -623,19 +1563,19 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "sourceLayer": "roi_local_authorities_1920_06_19",
-      "files": 3912,
-      "pbfFiles": 3911,
-      "bytes": 3490997,
-      "maxTileBytes": 53336
+      "sourceLayer": "osni_open_data_50k_boundaries_parliamentary_constituencies",
+      "files": 757,
+      "pbfFiles": 756,
+      "bytes": 485784,
+      "maxTileBytes": 15402
     },
     {
-      "sourceMapId": "roi-local-authorities-1920-06-25",
-      "name": "Republic of Ireland Local Authorities 25/06/1920",
-      "category": "Local Government Districts",
-      "sourceFile": "test/source-cache/vector-intake/roi-local-authorities-1920-06-25.fgb",
-      "sourceBytes": 7966376,
-      "outputDirectory": "test/tiles/generated/roi-local-authorities-1920-06-25",
+      "sourceMapId": "osni-open-data-50k-boundaries-townlands",
+      "name": "Townlands — OSNI 50k",
+      "category": "Townlands",
+      "sourceFile": "test/source-cache/vector-intake/osni-open-data-50k-boundaries-townlands.fgb",
+      "sourceBytes": 13282168,
+      "outputDirectory": "test/tiles/generated/osni-open-data-50k-boundaries-townlands",
       "profile": {
         "maxSize": "10000000",
         "maxFeatures": "10000000",
@@ -643,19 +1583,19 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "sourceLayer": "roi_local_authorities_1920_06_25",
-      "files": 3912,
-      "pbfFiles": 3911,
-      "bytes": 3493079,
-      "maxTileBytes": 53342
+      "sourceLayer": "osni_open_data_50k_boundaries_townlands",
+      "files": 755,
+      "pbfFiles": 754,
+      "bytes": 20754456,
+      "maxTileBytes": 1463576
     },
     {
-      "sourceMapId": "roi-local-authorities-1920-10-04",
-      "name": "Republic of Ireland Local Authorities 04/10/1920",
-      "category": "Local Government Districts",
-      "sourceFile": "test/source-cache/vector-intake/roi-local-authorities-1920-10-04.fgb",
-      "sourceBytes": 7966368,
-      "outputDirectory": "test/tiles/generated/roi-local-authorities-1920-10-04",
+      "sourceMapId": "osni-open-data-50k-boundaries-wards-1993",
+      "name": "Wards (1993) — OSNI 50k",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/vector-intake/osni-open-data-50k-boundaries-wards-1993.fgb",
+      "sourceBytes": 2385064,
+      "outputDirectory": "test/tiles/generated/osni-open-data-50k-boundaries-wards-1993",
       "profile": {
         "maxSize": "10000000",
         "maxFeatures": "10000000",
@@ -663,19 +1603,19 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "sourceLayer": "roi_local_authorities_1920_10_04",
-      "files": 3912,
-      "pbfFiles": 3911,
-      "bytes": 3491591,
-      "maxTileBytes": 53330
+      "sourceLayer": "osni_open_data_50k_boundaries_wards_1993",
+      "files": 757,
+      "pbfFiles": 756,
+      "bytes": 2564206,
+      "maxTileBytes": 128516
     },
     {
-      "sourceMapId": "roi-local-authorities-1921",
-      "name": "Republic of Ireland Local Authorities 1921",
+      "sourceMapId": "osni-open-data-largescale-boundaries-local-government-districts-1993",
+      "name": "Local Government Districts (1993) — OSNI Largescale",
       "category": "Local Government Districts",
-      "sourceFile": "test/source-cache/vector-intake/roi-local-authorities-1921.fgb",
-      "sourceBytes": 2810456,
-      "outputDirectory": "test/tiles/generated/roi-local-authorities-1921",
+      "sourceFile": "test/source-cache/vector-intake/osni-open-data-largescale-boundaries-local-government-districts-1993.fgb",
+      "sourceBytes": 9047600,
+      "outputDirectory": "test/tiles/generated/osni-open-data-largescale-boundaries-local-government-districts-1993",
       "profile": {
         "maxSize": "10000000",
         "maxFeatures": "10000000",
@@ -683,19 +1623,1079 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "sourceLayer": "roi_local_authorities_1921",
+      "sourceLayer": "osni_open_data_largescale_boundaries_local_government_districts_1993",
+      "files": 757,
+      "pbfFiles": 756,
+      "bytes": 1895565,
+      "maxTileBytes": 22069
+    },
+    {
+      "sourceMapId": "district-electoral-divisions-boundaries",
+      "name": "Electoral Divisions — Monaghan",
+      "category": "Electoral Divisions",
+      "sourceFile": "test/source-cache/vector-intake/district-electoral-divisions-boundaries.fgb",
+      "sourceBytes": 2223392,
+      "outputDirectory": "test/tiles/generated/district-electoral-divisions-boundaries",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "district_electoral_divisions_boundaries",
+      "files": 112,
+      "pbfFiles": 111,
+      "bytes": 877445,
+      "maxTileBytes": 23290
+    },
+    {
+      "sourceMapId": "ed-boundaries-dlr",
+      "name": "Electoral Divisions — Dún Laoghaire-Rathdown",
+      "category": "Electoral Divisions",
+      "sourceFile": "test/source-cache/vector-intake/ed-boundaries-dlr.fgb",
+      "sourceBytes": 438856,
+      "outputDirectory": "test/tiles/generated/ed-boundaries-dlr",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "ed_boundaries_dlr",
+      "files": 26,
+      "pbfFiles": 25,
+      "bytes": 189593,
+      "maxTileBytes": 14800
+    },
+    {
+      "sourceMapId": "townland-boundaries",
+      "name": "Townlands — Monaghan",
+      "category": "Townlands",
+      "sourceFile": "test/source-cache/vector-intake/townland-boundaries.fgb",
+      "sourceBytes": 8791544,
+      "outputDirectory": "test/tiles/generated/townland-boundaries",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "townland_boundaries",
+      "files": 112,
+      "pbfFiles": 111,
+      "bytes": 6519586,
+      "maxTileBytes": 416545
+    },
+    {
+      "sourceMapId": "townlands-2015-sdcc1",
+      "name": "Townlands (2015) — South Dublin",
+      "category": "Townlands",
+      "sourceFile": "test/source-cache/vector-intake/townlands-2015-sdcc1.fgb",
+      "sourceBytes": 1971680,
+      "outputDirectory": "test/tiles/generated/townlands-2015-sdcc1",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "townlands_2015_sdcc1",
+      "files": 36,
+      "pbfFiles": 35,
+      "bytes": 626463,
+      "maxTileBytes": 61704
+    },
+    {
+      "sourceMapId": "townlands-in-fcc3",
+      "name": "Townlands — Fingal",
+      "category": "Townlands",
+      "sourceFile": "test/source-cache/vector-intake/townlands-in-fcc3.fgb",
+      "sourceBytes": 4195136,
+      "outputDirectory": "test/tiles/generated/townlands-in-fcc3",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "townlands_in_fcc3",
+      "files": 53,
+      "pbfFiles": 52,
+      "bytes": 1613138,
+      "maxTileBytes": 95461
+    },
+    {
+      "sourceMapId": "electoral-divisions-fcc2",
+      "name": "Electoral Divisions — Fingal",
+      "category": "Electoral Divisions",
+      "sourceFile": "test/source-cache/vector-intake/electoral-divisions-fcc2.fgb",
+      "sourceBytes": 2872160,
+      "outputDirectory": "test/tiles/generated/electoral-divisions-fcc2",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "electoral_divisions_fcc2",
+      "files": 85,
+      "pbfFiles": 84,
+      "bytes": 1122850,
+      "maxTileBytes": 52732
+    },
+    {
+      "sourceMapId": "mid-ulster-council-townlands2",
+      "name": "Townlands — Mid Ulster",
+      "category": "Townlands",
+      "sourceFile": "test/source-cache/vector-intake/mid-ulster-council-townlands2.fgb",
+      "sourceBytes": 18429192,
+      "outputDirectory": "test/tiles/generated/mid-ulster-council-townlands2",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "mid_ulster_council_townlands2",
+      "files": 137,
+      "pbfFiles": 136,
+      "bytes": 5125170,
+      "maxTileBytes": 199830
+    },
+    {
+      "sourceMapId": "mid-ulster-council-wards2",
+      "name": "Wards — Mid Ulster",
+      "category": "Electoral Areas",
+      "sourceFile": "test/source-cache/vector-intake/mid-ulster-council-wards2.fgb",
+      "sourceBytes": 3251968,
+      "outputDirectory": "test/tiles/generated/mid-ulster-council-wards2",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "mid_ulster_council_wards2",
+      "files": 142,
+      "pbfFiles": 141,
+      "bytes": 691464,
+      "maxTileBytes": 20690
+    },
+    {
+      "sourceMapId": "osni-open-data-50k-transport-text-labelling",
+      "name": "Transport Text Labelling — OSNI 50k",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/osni-open-data-50k-transport-text-labelling.fgb",
+      "sourceBytes": 113792,
+      "outputDirectory": "test/tiles/generated/osni-open-data-50k-transport-text-labelling",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "osni_open_data_50k_transport_text_labelling",
+      "files": 562,
+      "pbfFiles": 561,
+      "bytes": 390880,
+      "maxTileBytes": 23887
+    },
+    {
+      "sourceMapId": "osni-open-data-50k-transport-transport-points",
+      "name": "Transport Points — OSNI 50k",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/osni-open-data-50k-transport-transport-points.fgb",
+      "sourceBytes": 11504,
+      "outputDirectory": "test/tiles/generated/osni-open-data-50k-transport-transport-points",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "osni_open_data_50k_transport_transport_points",
+      "files": 93,
+      "pbfFiles": 92,
+      "bytes": 28547,
+      "maxTileBytes": 1380
+    },
+    {
+      "sourceMapId": "bedrock-geology-11000000-ireland-roini-itm",
+      "name": "Bedrock Geology 1:1,000,000 Ireland (ROI/NI) ITM",
+      "category": "geology",
+      "sourceFile": "test/source-cache/vector-intake/bedrock-geology-11000000-ireland-roini-itm.fgb",
+      "sourceBytes": 5733888,
+      "outputDirectory": "test/tiles/generated/bedrock-geology-11000000-ireland-roini-itm",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "bedrock_geology_11000000_ireland_roini_itm",
+      "files": 3913,
+      "pbfFiles": 3912,
+      "bytes": 6292273,
+      "maxTileBytes": 118733
+    },
+    {
+      "sourceMapId": "wicklow-county-council-tree-preservation-orders",
+      "name": "Wicklow County Council - Tree Preservation Orders",
+      "category": "trees",
+      "sourceFile": "test/source-cache/vector-intake/wicklow-county-council-tree-preservation-orders.fgb",
+      "sourceBytes": 10448,
+      "outputDirectory": "test/tiles/generated/wicklow-county-council-tree-preservation-orders",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "wicklow_county_council_tree_preservation_orders",
+      "files": 43,
+      "pbfFiles": 42,
+      "bytes": 67434,
+      "maxTileBytes": 4022
+    },
+    {
+      "sourceMapId": "wicklow-county-council-tree-preservation-orders-bray",
+      "name": "Wicklow County Council - Tree Preservation Orders Bray",
+      "category": "trees",
+      "sourceFile": "test/source-cache/vector-intake/wicklow-county-council-tree-preservation-orders-bray.fgb",
+      "sourceBytes": 11704,
+      "outputDirectory": "test/tiles/generated/wicklow-county-council-tree-preservation-orders-bray",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "wicklow_county_council_tree_preservation_orders_bray",
+      "files": 14,
+      "pbfFiles": 13,
+      "bytes": 29559,
+      "maxTileBytes": 1926
+    },
+    {
+      "sourceMapId": "community-scale-coastal-flood-extents-high-end-future-scenario",
+      "name": "Community-Scale Coastal Flood Extents - High-End Future Scenario",
+      "category": "flood",
+      "sourceFile": "test/source-cache/vector-intake/community-scale-coastal-flood-extents-high-end-future-scenario.fgb",
+      "sourceBytes": 31571136,
+      "outputDirectory": "test/tiles/generated/community-scale-coastal-flood-extents-high-end-future-scenario",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "community_scale_coastal_flood_extents_high_end_future_scenario",
+      "files": 523,
+      "pbfFiles": 522,
+      "bytes": 12038060,
+      "maxTileBytes": 371677
+    },
+    {
+      "sourceMapId": "community-scale-coastal-flood-extents-mid-range-future-scenario",
+      "name": "Community-Scale Coastal Flood Extents - Mid-Range Future Scenario",
+      "category": "flood",
+      "sourceFile": "test/source-cache/vector-intake/community-scale-coastal-flood-extents-mid-range-future-scenario.fgb",
+      "sourceBytes": 36858272,
+      "outputDirectory": "test/tiles/generated/community-scale-coastal-flood-extents-mid-range-future-scenario",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "community_scale_coastal_flood_extents_mid_range_future_scenario",
+      "files": 555,
+      "pbfFiles": 554,
+      "bytes": 12897006,
+      "maxTileBytes": 339112
+    },
+    {
+      "sourceMapId": "accessible-parking-spaces-sdcc3",
+      "name": "Accessible Parking Spaces SDCC",
+      "category": "parking",
+      "sourceFile": "test/source-cache/vector-intake/accessible-parking-spaces-sdcc3.fgb",
+      "sourceBytes": 15488,
+      "outputDirectory": "test/tiles/generated/accessible-parking-spaces-sdcc3",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "accessible_parking_spaces_sdcc3",
+      "files": 28,
+      "pbfFiles": 27,
+      "bytes": 112478,
+      "maxTileBytes": 7092
+    },
+    {
+      "sourceMapId": "community-scale-flood-model-nodes-current-scenario",
+      "name": "Community-Scale Flood Model Nodes - Current Scenario",
+      "category": "flood",
+      "sourceFile": "test/source-cache/vector-intake/community-scale-flood-model-nodes-current-scenario.fgb",
+      "sourceBytes": 13868912,
+      "outputDirectory": "test/tiles/generated/community-scale-flood-model-nodes-current-scenario",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "community_scale_flood_model_nodes_current_scenario",
+      "files": 1284,
+      "pbfFiles": 1283,
+      "bytes": 69348405,
+      "maxTileBytes": 4823685
+    },
+    {
+      "sourceMapId": "river-and-lake-monitoring-points-2024",
+      "name": "River and Lake Monitoring Points 2024",
+      "category": "water",
+      "sourceFile": "test/source-cache/vector-intake/river-and-lake-monitoring-points-2024.fgb",
+      "sourceBytes": 148168,
+      "outputDirectory": "test/tiles/generated/river-and-lake-monitoring-points-2024",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "river_and_lake_monitoring_points_2024",
+      "files": 527,
+      "pbfFiles": 526,
+      "bytes": 1111903,
+      "maxTileBytes": 76464
+    },
+    {
+      "sourceMapId": "water-framework-directive-2nd-cycle-interim-status1",
+      "name": "Water Framework Directive 2nd Cycle Interim Status",
+      "category": "water",
+      "sourceFile": "test/source-cache/vector-intake/water-framework-directive-2nd-cycle-interim-status1.fgb",
+      "sourceBytes": 16349768,
+      "outputDirectory": "test/tiles/generated/water-framework-directive-2nd-cycle-interim-status1",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "water_framework_directive_2nd_cycle_interim_status1",
+      "files": 838,
+      "pbfFiles": 837,
+      "bytes": 6502352,
+      "maxTileBytes": 263473
+    },
+    {
+      "sourceMapId": "bedrock-boreholes-150000-ireland-roi-itm-unverified",
+      "name": "Bedrock Boreholes 1:100,000 Ireland (ROI) ITM (Unverified)",
+      "category": "geology",
+      "sourceFile": "test/source-cache/vector-intake/bedrock-boreholes-150000-ireland-roi-itm-unverified.fgb",
+      "sourceBytes": 1934792,
+      "outputDirectory": "test/tiles/generated/bedrock-boreholes-150000-ireland-roi-itm-unverified",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "bedrock_boreholes_150000_ireland_roi_itm_unverified",
+      "files": 1411,
+      "pbfFiles": 1410,
+      "bytes": 10491805,
+      "maxTileBytes": 735040
+    },
+    {
+      "sourceMapId": "cycle-network-survey",
+      "name": "GDA Cycle Network Survey 2013",
+      "category": "cycle",
+      "sourceFile": "test/source-cache/vector-intake/cycle-network-survey.fgb",
+      "sourceBytes": 3081336,
+      "outputDirectory": "test/tiles/generated/cycle-network-survey",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "cycle_network_survey",
+      "files": 114,
+      "pbfFiles": 113,
+      "bytes": 7290004,
+      "maxTileBytes": 747263
+    },
+    {
+      "sourceMapId": "co-wicklow-polling-stations",
+      "name": "Co. Wicklow Polling Stations",
+      "category": "Polling & Voting",
+      "sourceFile": "test/source-cache/vector-intake/co-wicklow-polling-stations.fgb",
+      "sourceBytes": 13944,
+      "outputDirectory": "test/tiles/generated/co-wicklow-polling-stations",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "co_wicklow_polling_stations",
+      "files": 86,
+      "pbfFiles": 85,
+      "bytes": 76135,
+      "maxTileBytes": 4472
+    },
+    {
+      "sourceMapId": "co-wicklow-protected-structures",
+      "name": "Co. Wicklow Protected Structures",
+      "category": "heritage",
+      "sourceFile": "test/source-cache/vector-intake/co-wicklow-protected-structures.fgb",
+      "sourceBytes": 216432,
+      "outputDirectory": "test/tiles/generated/co-wicklow-protected-structures",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "co_wicklow_protected_structures",
+      "files": 108,
+      "pbfFiles": 107,
+      "bytes": 1987969,
+      "maxTileBytes": 144365
+    },
+    {
+      "sourceMapId": "landscape-character-types",
+      "name": "Landscape Character Types",
+      "category": "landscape",
+      "sourceFile": "test/source-cache/vector-intake/landscape-character-types.fgb",
+      "sourceBytes": 191224,
+      "outputDirectory": "test/tiles/generated/landscape-character-types",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "landscape_character_types",
+      "files": 113,
+      "pbfFiles": 112,
+      "bytes": 385638,
+      "maxTileBytes": 13167
+    },
+    {
+      "sourceMapId": "museums-collections-archives",
+      "name": "Museums Collections Archives",
+      "category": "museums",
+      "sourceFile": "test/source-cache/vector-intake/museums-collections-archives.fgb",
+      "sourceBytes": 405224,
+      "outputDirectory": "test/tiles/generated/museums-collections-archives",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "museums_collections_archives",
+      "files": 910,
+      "pbfFiles": 909,
+      "bytes": 4639079,
+      "maxTileBytes": 321380
+    },
+    {
+      "sourceMapId": "wicklow-fire-stations",
+      "name": "Wicklow Fire Stations",
+      "category": "fire-stations",
+      "sourceFile": "test/source-cache/vector-intake/wicklow-fire-stations.fgb",
+      "sourceBytes": 4800,
+      "outputDirectory": "test/tiles/generated/wicklow-fire-stations",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "wicklow_fire_stations",
+      "files": 38,
+      "pbfFiles": 37,
+      "bytes": 27025,
+      "maxTileBytes": 1305
+    },
+    {
+      "sourceMapId": "greater-dublin-area-cycle-infrastructure-nta",
+      "name": "Greater Dublin Area Cycle Infrastructure",
+      "category": "cycle",
+      "sourceFile": "test/source-cache/vector-intake/greater-dublin-area-cycle-infrastructure-nta.fgb",
+      "sourceBytes": 3161016,
+      "outputDirectory": "test/tiles/generated/greater-dublin-area-cycle-infrastructure-nta",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "greater_dublin_area_cycle_infrastructure_nta",
+      "files": 70,
+      "pbfFiles": 69,
+      "bytes": 4369320,
+      "maxTileBytes": 430522
+    },
+    {
+      "sourceMapId": "art-in-the-parks-a-guide-to-sculpture-in-dublin-city-council-parks",
+      "name": "Art in the Parks - A Guide to Sculpture in Parks DCC",
+      "category": "parks",
+      "sourceFile": "test/source-cache/vector-intake/art-in-the-parks-a-guide-to-sculpture-in-dublin-city-council-parks.fgb",
+      "sourceBytes": 19176,
+      "outputDirectory": "test/tiles/generated/art-in-the-parks-a-guide-to-sculpture-in-dublin-city-council-parks",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "art_in_the_parks_a_guide_to_sculpture_in_dublin_city_council_parks",
+      "files": 23,
+      "pbfFiles": 22,
+      "bytes": 163155,
+      "maxTileBytes": 10157
+    },
+    {
+      "sourceMapId": "use-zoning-objectives1",
+      "name": "Use Zoning Objectives",
+      "category": "planning",
+      "sourceFile": "test/source-cache/vector-intake/use-zoning-objectives1.fgb",
+      "sourceBytes": 11228976,
+      "outputDirectory": "test/tiles/generated/use-zoning-objectives1",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "use_zoning_objectives1",
+      "files": 36,
+      "pbfFiles": 35,
+      "bytes": 6433683,
+      "maxTileBytes": 563008
+    },
+    {
+      "sourceMapId": "cork-city-parks",
+      "name": "Cork City Parks",
+      "category": "parks",
+      "sourceFile": "test/source-cache/vector-intake/cork-city-parks.fgb",
+      "sourceBytes": 25064,
+      "outputDirectory": "test/tiles/generated/cork-city-parks",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "cork_city_parks",
+      "files": 31,
+      "pbfFiles": 30,
+      "bytes": 76158,
+      "maxTileBytes": 4606
+    },
+    {
+      "sourceMapId": "tailte-airfield-area",
+      "name": "Airfield Area (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-airfield-area.fgb",
+      "sourceBytes": 6592,
+      "outputDirectory": "test/tiles/generated/tailte-airfield-area",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_airfield_area",
+      "files": 71,
+      "pbfFiles": 70,
+      "bytes": 11248,
+      "maxTileBytes": 364
+    },
+    {
+      "sourceMapId": "tailte-airports",
+      "name": "Airports (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-airports.fgb",
+      "sourceBytes": 4136,
+      "outputDirectory": "test/tiles/generated/tailte-airports",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_airports",
+      "files": 100,
+      "pbfFiles": 99,
+      "bytes": 17726,
+      "maxTileBytes": 790
+    },
+    {
+      "sourceMapId": "tailte-border-exits-entrances",
+      "name": "Border Exits & Entrances (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-border-exits-entrances.fgb",
+      "sourceBytes": 6128,
+      "outputDirectory": "test/tiles/generated/tailte-border-exits-entrances",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_border_exits_entrances",
+      "files": 96,
+      "pbfFiles": 95,
+      "bytes": 18960,
+      "maxTileBytes": 864
+    },
+    {
+      "sourceMapId": "tailte-boundaries-seawater-area",
+      "name": "Boundaries Seawater Area (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-boundaries-seawater-area.fgb",
+      "sourceBytes": 54784,
+      "outputDirectory": "test/tiles/generated/tailte-boundaries-seawater-area",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_boundaries_seawater_area",
+      "files": 11329,
+      "pbfFiles": 11328,
+      "bytes": 1093041,
+      "maxTileBytes": 1269
+    },
+    {
+      "sourceMapId": "tailte-boundaries-seawater-line",
+      "name": "Boundaries Seawater Line (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-boundaries-seawater-line.fgb",
+      "sourceBytes": 56432,
+      "outputDirectory": "test/tiles/generated/tailte-boundaries-seawater-line",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_boundaries_seawater_line",
+      "files": 969,
+      "pbfFiles": 968,
+      "bytes": 103506,
+      "maxTileBytes": 1518
+    },
+    {
+      "sourceMapId": "tailte-centres-of-population",
+      "name": "Centres of Population (Tailte Éireann)",
+      "category": "Settlements",
+      "sourceFile": "test/source-cache/vector-intake/tailte-centres-of-population.fgb",
+      "sourceBytes": 651160,
+      "outputDirectory": "test/tiles/generated/tailte-centres-of-population",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_centres_of_population",
+      "files": 2389,
+      "pbfFiles": 2388,
+      "bytes": 4297528,
+      "maxTileBytes": 257847
+    },
+    {
+      "sourceMapId": "tailte-coast",
+      "name": "Coast (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-coast.fgb",
+      "sourceBytes": 1126264,
+      "outputDirectory": "test/tiles/generated/tailte-coast",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_coast",
+      "files": 1077,
+      "pbfFiles": 1076,
+      "bytes": 998740,
+      "maxTileBytes": 24696
+    },
+    {
+      "sourceMapId": "tailte-ferry-crossing",
+      "name": "Ferry Crossing (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-ferry-crossing.fgb",
+      "sourceBytes": 13048,
+      "outputDirectory": "test/tiles/generated/tailte-ferry-crossing",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_ferry_crossing",
+      "files": 979,
+      "pbfFiles": 978,
+      "bytes": 102743,
+      "maxTileBytes": 1016
+    },
+    {
+      "sourceMapId": "tailte-gaeltacht-boundaries-generalised-20m",
+      "name": "Gaeltacht Boundaries Generalised 20m (Tailte Éireann)",
+      "category": "Regional Divides",
+      "sourceFile": "test/source-cache/vector-intake/tailte-gaeltacht-boundaries-generalised-20m.fgb",
+      "sourceBytes": 467440,
+      "outputDirectory": "test/tiles/generated/tailte-gaeltacht-boundaries-generalised-20m",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_gaeltacht_boundaries_generalised_20m",
+      "files": 559,
+      "pbfFiles": 558,
+      "bytes": 568545,
+      "maxTileBytes": 13234
+    },
+    {
+      "sourceMapId": "tailte-gaeltacht-language-planning-area-boundaries-generalised-20m",
+      "name": "Gaeltacht Language Planning Area Boundaries Generalised 20m (Tailte Éireann)",
+      "category": "Regional Divides",
+      "sourceFile": "test/source-cache/vector-intake/tailte-gaeltacht-language-planning-area-boundaries-generalised-20m.fgb",
+      "sourceBytes": 377880,
+      "outputDirectory": "test/tiles/generated/tailte-gaeltacht-language-planning-area-boundaries-generalised-20m",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_gaeltacht_language_planning_area_boundaries_generalised_20m",
+      "files": 570,
+      "pbfFiles": 569,
+      "bytes": 574222,
+      "maxTileBytes": 15737
+    },
+    {
+      "sourceMapId": "tailte-geographical-names",
+      "name": "Geographical Names (Tailte Éireann)",
+      "category": "Settlements",
+      "sourceFile": "test/source-cache/vector-intake/tailte-geographical-names.fgb",
+      "sourceBytes": 14408,
+      "outputDirectory": "test/tiles/generated/tailte-geographical-names",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_geographical_names",
+      "files": 376,
+      "pbfFiles": 375,
+      "bytes": 101874,
+      "maxTileBytes": 4659
+    },
+    {
+      "sourceMapId": "tailte-heritage",
+      "name": "Heritage (Tailte Éireann)",
+      "category": "Built Environment",
+      "sourceFile": "test/source-cache/vector-intake/tailte-heritage.fgb",
+      "sourceBytes": 14224,
+      "outputDirectory": "test/tiles/generated/tailte-heritage",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_heritage",
+      "files": 301,
+      "pbfFiles": 300,
+      "bytes": 74681,
+      "maxTileBytes": 3850
+    },
+    {
+      "sourceMapId": "tailte-high-water-mark",
+      "name": "High Water Mark (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-high-water-mark.fgb",
+      "sourceBytes": 119243136,
+      "outputDirectory": "test/tiles/generated/tailte-high-water-mark",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_high_water_mark",
+      "files": 1224,
+      "pbfFiles": 1223,
+      "bytes": 109590438,
+      "maxTileBytes": 4749141
+    },
+    {
+      "sourceMapId": "tailte-hydro-nodes",
+      "name": "Hydro Nodes (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hydro-nodes.fgb",
+      "sourceBytes": 139784,
+      "outputDirectory": "test/tiles/generated/tailte-hydro-nodes",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_hydro_nodes",
+      "files": 1528,
+      "pbfFiles": 1527,
+      "bytes": 423116,
+      "maxTileBytes": 25785
+    },
+    {
+      "sourceMapId": "tailte-lakes-reservoirs",
+      "name": "Lakes & Reservoirs (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-lakes-reservoirs.fgb",
+      "sourceBytes": 913168,
+      "outputDirectory": "test/tiles/generated/tailte-lakes-reservoirs",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_lakes_reservoirs",
+      "files": 682,
+      "pbfFiles": 681,
+      "bytes": 689470,
+      "maxTileBytes": 18847
+    },
+    {
+      "sourceMapId": "tailte-main-harbours",
+      "name": "Main Harbours (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-main-harbours.fgb",
+      "sourceBytes": 2008,
+      "outputDirectory": "test/tiles/generated/tailte-main-harbours",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_main_harbours",
+      "files": 41,
+      "pbfFiles": 40,
+      "bytes": 6870,
+      "maxTileBytes": 260
+    },
+    {
+      "sourceMapId": "tailte-motorway-access-exit-points",
+      "name": "Motorway Access Exit Points (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-motorway-access-exit-points.fgb",
+      "sourceBytes": 15504,
+      "outputDirectory": "test/tiles/generated/tailte-motorway-access-exit-points",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_motorway_access_exit_points",
+      "files": 88,
+      "pbfFiles": 87,
+      "bytes": 83399,
+      "maxTileBytes": 4023
+    },
+    {
+      "sourceMapId": "tailte-mountains",
+      "name": "Mountains (Tailte Éireann)",
+      "category": "Hills and Mountains",
+      "sourceFile": "test/source-cache/vector-intake/tailte-mountains.fgb",
+      "sourceBytes": 4456,
+      "outputDirectory": "test/tiles/generated/tailte-mountains",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_mountains",
+      "files": 95,
+      "pbfFiles": 94,
+      "bytes": 19032,
+      "maxTileBytes": 875
+    },
+    {
+      "sourceMapId": "tailte-nuts2-boundaries-ungeneralised",
+      "name": "NUTS2 Boundaries Ungeneralised (Tailte Éireann)",
+      "category": "Regional Divides",
+      "sourceFile": "test/source-cache/vector-intake/tailte-nuts2-boundaries-ungeneralised.fgb",
+      "sourceBytes": 21103056,
+      "outputDirectory": "test/tiles/generated/tailte-nuts2-boundaries-ungeneralised",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_nuts2_boundaries_ungeneralised",
+      "files": 3326,
+      "pbfFiles": 3325,
+      "bytes": 5385423,
+      "maxTileBytes": 30594
+    },
+    {
+      "sourceMapId": "tailte-nuts3-boundaries-generalised-20m",
+      "name": "NUTS3 Boundaries Generalised 20m (Tailte Éireann)",
+      "category": "Regional Divides",
+      "sourceFile": "test/source-cache/vector-intake/tailte-nuts3-boundaries-generalised-20m.fgb",
+      "sourceBytes": 1455128,
+      "outputDirectory": "test/tiles/generated/tailte-nuts3-boundaries-generalised-20m",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_nuts3_boundaries_generalised_20m",
+      "files": 3326,
+      "pbfFiles": 3325,
+      "bytes": 2231144,
+      "maxTileBytes": 35131
+    },
+    {
+      "sourceMapId": "tailte-other-harbours",
+      "name": "Other Harbours (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-other-harbours.fgb",
+      "sourceBytes": 5392,
+      "outputDirectory": "test/tiles/generated/tailte-other-harbours",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_other_harbours",
+      "files": 123,
+      "pbfFiles": 122,
+      "bytes": 24620,
+      "maxTileBytes": 1110
+    },
+    {
+      "sourceMapId": "tailte-power-plant",
+      "name": "Power Plant (Tailte Éireann)",
+      "category": "Built Environment",
+      "sourceFile": "test/source-cache/vector-intake/tailte-power-plant.fgb",
+      "sourceBytes": 3248,
+      "outputDirectory": "test/tiles/generated/tailte-power-plant",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_power_plant",
+      "files": 80,
+      "pbfFiles": 79,
+      "bytes": 13994,
+      "maxTileBytes": 582
+    },
+    {
+      "sourceMapId": "tailte-province-boundaries-generalised-20m",
+      "name": "Province Boundaries Generalised 20m (Tailte Éireann)",
+      "category": "Regional Divides",
+      "sourceFile": "test/source-cache/vector-intake/tailte-province-boundaries-generalised-20m.fgb",
+      "sourceBytes": 1769792,
+      "outputDirectory": "test/tiles/generated/tailte-province-boundaries-generalised-20m",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_province_boundaries_generalised_20m",
       "files": 3327,
       "pbfFiles": 3326,
-      "bytes": 2408295,
-      "maxTileBytes": 45831
+      "bytes": 2006491,
+      "maxTileBytes": 33829
     },
     {
-      "sourceMapId": "roi-local-authorities-1927",
-      "name": "Republic of Ireland Local Authorities 1927",
-      "category": "Local Government Districts",
-      "sourceFile": "test/source-cache/vector-intake/roi-local-authorities-1927.fgb",
-      "sourceBytes": 2810456,
-      "outputDirectory": "test/tiles/generated/roi-local-authorities-1927",
+      "sourceMapId": "tailte-rail-network",
+      "name": "Rail Network (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-rail-network.fgb",
+      "sourceBytes": 93952,
+      "outputDirectory": "test/tiles/generated/tailte-rail-network",
       "profile": {
         "maxSize": "10000000",
         "maxFeatures": "10000000",
@@ -703,13 +2703,466 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "sourceLayer": "roi_local_authorities_1927",
-      "files": 3327,
-      "pbfFiles": 3326,
-      "bytes": 2406213,
-      "maxTileBytes": 45825
+      "sourceLayer": "tailte_rail_network",
+      "files": 735,
+      "pbfFiles": 734,
+      "bytes": 335209,
+      "maxTileBytes": 19435
+    },
+    {
+      "sourceMapId": "tailte-railway-stations",
+      "name": "Railway Stations (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-railway-stations.fgb",
+      "sourceBytes": 13424,
+      "outputDirectory": "test/tiles/generated/tailte-railway-stations",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_railway_stations",
+      "files": 286,
+      "pbfFiles": 285,
+      "bytes": 66587,
+      "maxTileBytes": 3239
+    },
+    {
+      "sourceMapId": "tailte-reservoirs",
+      "name": "Reservoirs (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-reservoirs.fgb",
+      "sourceBytes": 1456,
+      "outputDirectory": "test/tiles/generated/tailte-reservoirs",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_reservoirs",
+      "files": 23,
+      "pbfFiles": 22,
+      "bytes": 3806,
+      "maxTileBytes": 129
+    },
+    {
+      "sourceMapId": "tailte-road-rail-intersections",
+      "name": "Road & Rail Intersections (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-road-rail-intersections.fgb",
+      "sourceBytes": 390968,
+      "outputDirectory": "test/tiles/generated/tailte-road-rail-intersections",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_road_rail_intersections",
+      "files": 1683,
+      "pbfFiles": 1682,
+      "bytes": 1150186,
+      "maxTileBytes": 77249
+    },
+    {
+      "sourceMapId": "tailte-road-interchanges",
+      "name": "Road Interchanges (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-road-interchanges.fgb",
+      "sourceBytes": 6424,
+      "outputDirectory": "test/tiles/generated/tailte-road-interchanges",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_road_interchanges",
+      "files": 90,
+      "pbfFiles": 89,
+      "bytes": 19308,
+      "maxTileBytes": 958
+    },
+    {
+      "sourceMapId": "tailte-road-intersections",
+      "name": "Road Intersections (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-road-intersections.fgb",
+      "sourceBytes": 279632,
+      "outputDirectory": "test/tiles/generated/tailte-road-intersections",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_road_intersections",
+      "files": 1604,
+      "pbfFiles": 1603,
+      "bytes": 748805,
+      "maxTileBytes": 48822
+    },
+    {
+      "sourceMapId": "tailte-roads",
+      "name": "Roads (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-roads.fgb",
+      "sourceBytes": 2447728,
+      "outputDirectory": "test/tiles/generated/tailte-roads",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_roads",
+      "files": 2845,
+      "pbfFiles": 2844,
+      "bytes": 4135500,
+      "maxTileBytes": 224133
+    },
+    {
+      "sourceMapId": "tailte-runways",
+      "name": "Runways (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-runways.fgb",
+      "sourceBytes": 4608,
+      "outputDirectory": "test/tiles/generated/tailte-runways",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_runways",
+      "files": 66,
+      "pbfFiles": 65,
+      "bytes": 11143,
+      "maxTileBytes": 529
+    },
+    {
+      "sourceMapId": "tailte-rural-areas",
+      "name": "Rural Areas (Tailte Éireann)",
+      "category": "Regional Divides",
+      "sourceFile": "test/source-cache/vector-intake/tailte-rural-areas.fgb",
+      "sourceBytes": 2611200,
+      "outputDirectory": "test/tiles/generated/tailte-rural-areas",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_rural_areas",
+      "files": 3276,
+      "pbfFiles": 3275,
+      "bytes": 4134102,
+      "maxTileBytes": 90898
+    },
+    {
+      "sourceMapId": "tailte-settlements-generalised-20m",
+      "name": "Settlements Generalised 20m (Tailte Éireann)",
+      "category": "Settlements",
+      "sourceFile": "test/source-cache/vector-intake/tailte-settlements-generalised-20m.fgb",
+      "sourceBytes": 991984,
+      "outputDirectory": "test/tiles/generated/tailte-settlements-generalised-20m",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_settlements_generalised_20m",
+      "files": 1916,
+      "pbfFiles": 1915,
+      "bytes": 2220539,
+      "maxTileBytes": 122925
+    },
+    {
+      "sourceMapId": "tailte-shore",
+      "name": "Shore (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-shore.fgb",
+      "sourceBytes": 907936,
+      "outputDirectory": "test/tiles/generated/tailte-shore",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_shore",
+      "files": 680,
+      "pbfFiles": 679,
+      "bytes": 635762,
+      "maxTileBytes": 15935
+    },
+    {
+      "sourceMapId": "tailte-vegetation-areas",
+      "name": "Vegetation Areas (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-vegetation-areas.fgb",
+      "sourceBytes": 1867320,
+      "outputDirectory": "test/tiles/generated/tailte-vegetation-areas",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_vegetation_areas",
+      "files": 1409,
+      "pbfFiles": 1408,
+      "bytes": 1656894,
+      "maxTileBytes": 51278
+    },
+    {
+      "sourceMapId": "tailte-water",
+      "name": "Water (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-water.fgb",
+      "sourceBytes": 1961920,
+      "outputDirectory": "test/tiles/generated/tailte-water",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_water",
+      "files": 2345,
+      "pbfFiles": 2344,
+      "bytes": 1909716,
+      "maxTileBytes": 56199
+    },
+    {
+      "sourceMapId": "tailte-watercourse-start-end-points",
+      "name": "Watercourse Start End Points (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-watercourse-start-end-points.fgb",
+      "sourceBytes": 14336,
+      "outputDirectory": "test/tiles/generated/tailte-watercourse-start-end-points",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_watercourse_start_end_points",
+      "files": 295,
+      "pbfFiles": 294,
+      "bytes": 58561,
+      "maxTileBytes": 2268
+    },
+    {
+      "sourceMapId": "tailte-waterfalls",
+      "name": "Waterfalls (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-waterfalls.fgb",
+      "sourceBytes": 1616,
+      "outputDirectory": "test/tiles/generated/tailte-waterfalls",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_waterfalls",
+      "files": 28,
+      "pbfFiles": 27,
+      "bytes": 4867,
+      "maxTileBytes": 188
+    },
+    {
+      "sourceMapId": "tailte-ferry-station",
+      "name": "Ferry Station (Tailte Éireann)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-ferry-station.fgb",
+      "sourceBytes": 4464,
+      "outputDirectory": "test/tiles/generated/tailte-ferry-station",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_ferry_station",
+      "files": 93,
+      "pbfFiles": 92,
+      "bytes": 18990,
+      "maxTileBytes": 880
+    },
+    {
+      "sourceMapId": "tailte-low-water-mark",
+      "name": "Low Water Mark (Tailte Éireann)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-low-water-mark.fgb",
+      "sourceBytes": 137312552,
+      "outputDirectory": "test/tiles/generated/tailte-low-water-mark",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_low_water_mark",
+      "files": 1227,
+      "pbfFiles": 1226,
+      "bytes": 106982322,
+      "maxTileBytes": 4636437
+    },
+    {
+      "sourceMapId": "tailte-hvd-rail-points",
+      "name": "Rail Points (Tailte Éireann HVD)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hvd-rail-points.fgb",
+      "sourceBytes": 1345016,
+      "outputDirectory": "test/tiles/generated/tailte-hvd-rail-points",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_hvd_rail_points",
+      "files": 1166,
+      "pbfFiles": 1165,
+      "bytes": 7459412,
+      "maxTileBytes": 545285
+    },
+    {
+      "sourceMapId": "tailte-hvd-water-single-stream",
+      "name": "Water Single Stream (Tailte Éireann HVD)",
+      "category": "Physical Geography",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hvd-water-single-stream.fgb",
+      "sourceBytes": 151834328,
+      "outputDirectory": "test/tiles/generated/tailte-hvd-water-single-stream",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_hvd_water_single_stream",
+      "files": 3202,
+      "pbfFiles": 3201,
+      "bytes": 213726012,
+      "maxTileBytes": 9830211
+    },
+    {
+      "sourceMapId": "tailte-hvd-locales",
+      "name": "Locales (Tailte Éireann HVD)",
+      "category": "Built Environment",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hvd-locales.fgb",
+      "sourceBytes": 90901912,
+      "outputDirectory": "test/tiles/generated/tailte-hvd-locales",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_hvd_locales",
+      "files": 3391,
+      "pbfFiles": 3390,
+      "bytes": 30169120,
+      "maxTileBytes": 529977
+    },
+    {
+      "sourceMapId": "tailte-hvd-building-groups",
+      "name": "Building Groups (Tailte Éireann HVD)",
+      "category": "Built Environment",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hvd-building-groups.fgb",
+      "sourceBytes": 661808,
+      "outputDirectory": "test/tiles/generated/tailte-hvd-building-groups",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_hvd_building_groups",
+      "files": 419,
+      "pbfFiles": 418,
+      "bytes": 418327,
+      "maxTileBytes": 31984
+    },
+    {
+      "sourceMapId": "tailte-hvd-rail-network-segment",
+      "name": "Rail Network Segment (Tailte Éireann HVD)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hvd-rail-network-segment.fgb",
+      "sourceBytes": 4713192,
+      "outputDirectory": "test/tiles/generated/tailte-hvd-rail-network-segment",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_hvd_rail_network_segment",
+      "files": 1208,
+      "pbfFiles": 1207,
+      "bytes": 5962424,
+      "maxTileBytes": 353448
     }
   ],
   "failed": [],
-  "skipped": []
+  "skipped": [
+    {
+      "sourceMapId": "wards-2012",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1993",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1984",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "wards-1972",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "lgd-1984",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "pc-2023",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "stormont-1920",
+      "reason": "no local vector source file in supported format"
+    },
+    {
+      "sourceMapId": "baronies-all-ireland",
+      "reason": "no local vector source file in supported format"
+    }
+  ]
 }
