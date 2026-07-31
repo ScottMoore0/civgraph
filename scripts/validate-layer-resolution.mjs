@@ -93,16 +93,28 @@ for (const m of visible) {
   if (!resolvesVia(m)) unresolved.push({ id: m.id, category: m.category || '(none)' });
 }
 
+// A composite -- members[] and no files of its own -- has nothing to derive an extent
+// from, because the extent of a layer that owns a file comes from its tile metadata.
+// Without a declared bounds it has none, and the catalogue card silently omits it: no
+// error, no empty row, just an absent entry. That is what hid the Ward/DED composites for
+// 1941-1944 while 1946 and 1950 sat beside them, and it cost most of a day to find,
+// because every other field on the record was correct.
+const compositesMissingBounds = visible
+  .filter((m) => Array.isArray(m.members) && m.members.length
+    && !Object.keys(m.files || {}).length
+    && !(Array.isArray(m.bounds) && m.bounds.length === 2))
+  .map((m) => m.id);
+
 // A tiled layer pointing at a repo-relative path is unreachable in production: the
 // generated tile directories are excluded from the Pages deploy and served from R2.
 const badTileUrl = indexLayers
   .filter((l) => l.sourceType === 'pmtiles' && l.tileUrl && !String(l.tileUrl).startsWith(CDN_PREFIX))
   .map((l) => ({ id: l.id, tileUrl: String(l.tileUrl).slice(0, 80) }));
 
-const failures = unresolved.length + badTileUrl.length;
+const failures = unresolved.length + badTileUrl.length + compositesMissingBounds.length;
 
 if (AS_JSON) {
-  console.log(JSON.stringify({ visible: visible.length, stubs: stubs.length, unresolved, badTileUrl }, null, 2));
+  console.log(JSON.stringify({ visible: visible.length, stubs: stubs.length, unresolved, badTileUrl, compositesMissingBounds }, null, 2));
 } else {
   console.log(`Layer resolution: ${visible.length} visible catalogue layers, ${indexLayers.length} in the tile index.`);
   console.log(`  placeholders with no data (not renderable by design): ${stubs.length}`);
@@ -119,7 +131,13 @@ if (AS_JSON) {
     for (const b of badTileUrl.slice(0, 15)) console.error(`    ${b.id}  ->  ${b.tileUrl}`);
     console.error(`  Run: node scripts/write-test-cdn-upload-manifest.mjs && node scripts/verify-test-pmtiles-cdn.mjs && node scripts/switch-test-pmtiles-to-cdn.mjs`);
   }
-  if (!failures) console.log('\nPASS: every visible catalogue layer with data resolves, and every tiled layer serves from the CDN.');
+  if (compositesMissingBounds.length) {
+    console.error(`
+FAIL: ${compositesMissingBounds.length} composite layer(s) declare no bounds and will be omitted from catalogue cards.`);
+    for (const id of compositesMissingBounds.slice(0, 15)) console.error(`    ${id}`);
+    console.error('  Run: node scripts/backfill-composite-bounds.mjs');
+  }
+  if (!failures) console.log('\nPASS: every visible catalogue layer with data resolves, every composite declares bounds, and every tiled layer serves from the CDN.');
 }
 
 process.exit(failures ? 1 : 0);

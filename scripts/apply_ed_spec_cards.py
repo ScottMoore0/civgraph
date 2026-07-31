@@ -261,7 +261,13 @@ def main():
     json.dump(db, open(DB, 'w', encoding='utf-8', newline='\n'),
               ensure_ascii=False, indent=1)
     print(f"\nwrote {DB}")
-    print("NEXT: node scripts/build-browse-indexes.mjs")
+    # A group record created here owns no files, so nothing can derive its extent at
+    # render time and the catalogue card omits it silently -- that is what hid the
+    # 1941-1944 composites for a day. This script has no geometry to compute bounds
+    # from, so the backfill derives them from the members' tile extents afterwards.
+    print("NEXT: node scripts/backfill-composite-bounds.mjs   (created groups have no bounds yet)")
+    print("      node scripts/build-browse-indexes.mjs")
+    print("      node scripts/validate-layer-resolution.mjs")
 
 
 if __name__ == '__main__':
