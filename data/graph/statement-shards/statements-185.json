@@ -1,9 +1,101 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-30T20:22:40.523Z",
+  "generatedAt": "2026-07-31T21:25:05.074Z",
   "shard": 185,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:602390eef53a1998668c",
+      "subjectId": "cg:map-layer:data-2021-households-ward",
+      "propertyId": "cg:property:source-file",
+      "value": {
+        "type": "entity",
+        "id": "cg:source-file:ms-e01-ward-csv-da7998d26d4d"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:file-format",
+          "value": {
+            "type": "string",
+            "value": "ms-e01-ward.csv"
+          }
+        },
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "data/census/derived/ms-e01-ward.csv"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:82a2bd601a9e38d91dff",
+      "subjectId": "cg:map-layer:data-2021-irish-knowledge-lgd",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:map-layer"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:8e0aa1d11d28647f1274",
+      "subjectId": "cg:map-layer:data-2021-irish-knowledge-lgd",
+      "propertyId": "cg:property:interactive-url",
+      "value": {
+        "type": "url",
+        "value": "/#layers=data-2021-irish-knowledge-lgd"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:8cbceecf80b1f31ca41b",
+      "subjectId": "cg:map-layer:data-2021-irish-knowledge-lgd",
+      "propertyId": "cg:property:map-category",
+      "value": {
+        "type": "entity",
+        "id": "cg:map-category:data-population"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:98484ee9d25483a8a772",
+      "subjectId": "cg:map-layer:data-2021-irish-knowledge-lgd",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Some ability in Irish (Census 2021, by LGD)"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:7ba0637ea038a8da1062",
+      "subjectId": "cg:map-layer:data-2021-irish-knowledge-lgd",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:nisra-census-2021-main-statistics-phase-1-ms-e02-household-size-4f46c8f0e21c"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://www.nisra.gov.uk/publications/census-2021-main-statistics-for-northern-ireland-phase-1"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "map-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:6bcacb82a8ff8909928a",
       "subjectId": "cg:map-layer:data-2021-irish-knowledge-lgd",
@@ -42046,130 +42138,6 @@
         "type": "string",
         "value": "Hewitts (18.4)"
       },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:5f369f18aff32e4ceb95",
-      "subjectId": "cg:map-layer:dobih-v18-4-hewitts",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:hill-bagging"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:68d5a3debffe274eb598",
-      "subjectId": "cg:map-layer:dobih-v18-4-hewitts",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:database-of-british-and-irish-hills"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:7f3f3c7708488c74886c",
-      "subjectId": "cg:map-layer:dobih-v18-4-hewitts",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:licence-creative-commons-attribution-4-0-54895d592300"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://creativecommons.org/licenses/by/4.0/"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "map-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b211bbe3ec1de1cc0558",
-      "subjectId": "cg:map-layer:dobih-v18-4-hewitts",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:hill-bagging-dobih-downloads-1de859a7e9a9"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://www.hill-bagging.co.uk/DoBIH/downloads.php"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "map-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b376cb13f499c8f4fae3",
-      "subjectId": "cg:map-layer:dobih-v18-4-hewitts",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:hill-bagging-65205bcf1c3c"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://www.hill-bagging.co.uk/"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "map-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:3d882a4904c56e8e6781",
-      "subjectId": "cg:map-layer:dobih-v18-4-hewitts",
-      "propertyId": "cg:property:source-file",
-      "value": {
-        "type": "entity",
-        "id": "cg:source-file:fgb-8bd7879b5091"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:file-format",
-          "value": {
-            "type": "string",
-            "value": "fgb"
-          }
-        },
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.civgraph.net/data/maps/physical/dobih-v18-4-hewitts.fgb"
-          }
-        }
-      ],
       "rank": "normal"
     }
   ]

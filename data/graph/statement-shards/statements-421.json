@@ -1,9 +1,2123 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-30T20:22:40.523Z",
+  "generatedAt": "2026-07-31T21:25:05.074Z",
   "shard": 421,
   "total": 2500,
   "items": [
+    {
+      "id": "cg:statement:04f31e3950520cfb6c77",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2ed-number-of-private-househo-e95619087057",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/SAP2022T9T2ED"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:e7dac15ef4261e2c7448",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2nuts-number-of-private-house-db5a2f1f0016",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-year:2022",
+        "label": "2022"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:f9f42791bbd4ba1c14f2",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2nuts-number-of-private-house-db5a2f1f0016",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c4b297885319406e759e",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2nuts-number-of-private-house-db5a2f1f0016",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Number of Private Households by Socio-economic Group of Reference Person"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:04af53ef8a16162522c0",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2nuts-number-of-private-house-db5a2f1f0016",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:05301e4c31e90d6e0003",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2nuts-number-of-private-house-db5a2f1f0016",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-sap2022t9t2nuts-771b934ba6df"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/SAP2022T9T2NUTS/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:30a6a45f5a055971f949",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2nuts-number-of-private-house-db5a2f1f0016",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-sap2022t9t2nuts-312bd8c0ced4"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/SAP2022T9T2NUTS"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:8a8859f060fd36c53789",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2nuts-number-of-private-house-db5a2f1f0016",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:dff686ac64e3ce714bde",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2nuts-number-of-private-house-db5a2f1f0016",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/SAP2022T9T2NUTS"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:aa6681ce12c632a9f07f",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2prov-number-of-private-house-5ace5e0e9450",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-year:2022",
+        "label": "2022"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:a16098a7fa25905518c0",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2prov-number-of-private-house-5ace5e0e9450",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:dcfafe3840d984ee881e",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2prov-number-of-private-house-5ace5e0e9450",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Number of Private Households by Socio-economic Group of Reference Person"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:bfdfef5eefcf4e1c7ddb",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2prov-number-of-private-house-5ace5e0e9450",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:3f1d41c882b9e3ff60c8",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2prov-number-of-private-house-5ace5e0e9450",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-sap2022t9t2prov-9c1caee616a7"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/SAP2022T9T2PROV"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:7efd00e78d30b19eb28e",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2prov-number-of-private-house-5ace5e0e9450",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-sap2022t9t2prov-a77258ed9ce7"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/SAP2022T9T2PROV/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c783e1e1cd65a16b915f",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2prov-number-of-private-house-5ace5e0e9450",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:89ec883c3907d401751a",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2prov-number-of-private-house-5ace5e0e9450",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/SAP2022T9T2PROV"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:949cd6c733b7e0fd2be8",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2sa-number-of-private-househo-4b5256acbd6e",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-year:2022",
+        "label": "2022"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:bd1fb1d49177950e1acd",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2sa-number-of-private-househo-4b5256acbd6e",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c9fd62c371b03f50ad61",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2sa-number-of-private-househo-4b5256acbd6e",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Number of Private Households by Socio-economic Group of Reference Person"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:a0e060cb5c085d956071",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2sa-number-of-private-househo-4b5256acbd6e",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:1bf2b9a24f6d950e89a9",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2sa-number-of-private-househo-4b5256acbd6e",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-sap2022t9t2sa-49be327d8cd5"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/SAP2022T9T2SA/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:98d1c01346c18c8e4a8c",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2sa-number-of-private-househo-4b5256acbd6e",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-sap2022t9t2sa-8ea715e8067e"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/SAP2022T9T2SA"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:443157c1f750096f069b",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2sa-number-of-private-househo-4b5256acbd6e",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c54447db9b9187c85cf2",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2sa-number-of-private-househo-4b5256acbd6e",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/SAP2022T9T2SA"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:a08e14fb97035369e16b",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2town22-number-of-private-hou-9adc8040e9eb",
+      "propertyId": "cg:property:date",
+      "value": {
+        "type": "entity",
+        "id": "cg:date-year:2022",
+        "label": "2022"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:0aeb27e4a84ead15da7d",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2town22-number-of-private-hou-9adc8040e9eb",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:8dde1cc511a7c500d117",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2town22-number-of-private-hou-9adc8040e9eb",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Number of Private Households by Socio-economic Group of Reference Person"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:4024a42eef3c33305d90",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2town22-number-of-private-hou-9adc8040e9eb",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:0f83f919ac24319de1bb",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2town22-number-of-private-hou-9adc8040e9eb",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-sap2022t9t2town22-996353b1321b"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/SAP2022T9T2TOWN22/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:438e4304609ed2704b42",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2town22-number-of-private-hou-9adc8040e9eb",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-sap2022t9t2town22-fbfadd29005c"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/SAP2022T9T2TOWN22"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:e795ee96025b516ce7e4",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2town22-number-of-private-hou-9adc8040e9eb",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:22227a997f0354c92362",
+      "subjectId": "cg:source:approved-publication-census-cube-sap2022t9t2town22-number-of-private-hou-9adc8040e9eb",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/SAP2022T9T2TOWN22"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:99e684605d44929898c2",
+      "subjectId": "cg:source:approved-publication-census-cube-sca01-birthweight-of-infants",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:4e1f98be236dad130be1",
+      "subjectId": "cg:source:approved-publication-census-cube-sca01-birthweight-of-infants",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Birthweight of Infants"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:debbba00c1534e1c48ff",
+      "subjectId": "cg:source:approved-publication-census-cube-sca01-birthweight-of-infants",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:45f22cd2a605b739b08c",
+      "subjectId": "cg:source:approved-publication-census-cube-sca01-birthweight-of-infants",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-sca01-1f2ab914f507"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/SCA01/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:af29af509b589e1bf774",
+      "subjectId": "cg:source:approved-publication-census-cube-sca01-birthweight-of-infants",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-sca01-45fef7408481"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/SCA01"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:f5dd17c1505124e6030b",
+      "subjectId": "cg:source:approved-publication-census-cube-sca01-birthweight-of-infants",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:4ebfc709adfaa9f5ec51",
+      "subjectId": "cg:source:approved-publication-census-cube-sca01-birthweight-of-infants",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/SCA01"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:721c7e0e12c9c4a84270",
+      "subjectId": "cg:source:approved-publication-census-cube-sca02-infants-who-are-breastfed-exclusi-69394229358f",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:2cb917ab47cac4ae7b5d",
+      "subjectId": "cg:source:approved-publication-census-cube-sca02-infants-who-are-breastfed-exclusi-69394229358f",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Infants who are Breastfed(exclusive or combined) on Discharge from Hospital"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:fa69ac8fb40bdcb23fb7",
+      "subjectId": "cg:source:approved-publication-census-cube-sca02-infants-who-are-breastfed-exclusi-69394229358f",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:6a41145626d8c374d64d",
+      "subjectId": "cg:source:approved-publication-census-cube-sca02-infants-who-are-breastfed-exclusi-69394229358f",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-sca02-97a2d1cccd38"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/SCA02"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:6f0aad0a131d5c63fcff",
+      "subjectId": "cg:source:approved-publication-census-cube-sca02-infants-who-are-breastfed-exclusi-69394229358f",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-sca02-4f7085415b93"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/SCA02/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:30208c26f822327c5a4c",
+      "subjectId": "cg:source:approved-publication-census-cube-sca02-infants-who-are-breastfed-exclusi-69394229358f",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:0c751ece83b6dea4e3dc",
+      "subjectId": "cg:source:approved-publication-census-cube-sca02-infants-who-are-breastfed-exclusi-69394229358f",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/SCA02"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:04af71e7b1142145ec38",
+      "subjectId": "cg:source:approved-publication-census-cube-sca03-hospital-discharges-of-children",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:f2e21c98df91779659fc",
+      "subjectId": "cg:source:approved-publication-census-cube-sca03-hospital-discharges-of-children",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Hospital Discharges of Children"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:6f519231b11228f867c7",
+      "subjectId": "cg:source:approved-publication-census-cube-sca03-hospital-discharges-of-children",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:4f04fa6d3191e4a835b8",
+      "subjectId": "cg:source:approved-publication-census-cube-sca03-hospital-discharges-of-children",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-sca03-d47483c547af"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/SCA03"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ce12c684e6f5d679ebf7",
+      "subjectId": "cg:source:approved-publication-census-cube-sca03-hospital-discharges-of-children",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-sca03-f1f898a3b215"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/SCA03/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:a71225cf0755b896f059",
+      "subjectId": "cg:source:approved-publication-census-cube-sca03-hospital-discharges-of-children",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:75c21c9138d7acff7501",
+      "subjectId": "cg:source:approved-publication-census-cube-sca03-hospital-discharges-of-children",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/SCA03"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:e2971ab0f29f5bd63757",
+      "subjectId": "cg:source:approved-publication-census-cube-sca04-hospital-discharges-among-childre-a583ad940987",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:b7dc0521bdc108c5d341",
+      "subjectId": "cg:source:approved-publication-census-cube-sca04-hospital-discharges-among-childre-a583ad940987",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Hospital Discharges among Children with a Principal Diagnosis of Injury, Poisoning and certain other consequences of External Causes"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:43cf3af4db24b32bba8d",
+      "subjectId": "cg:source:approved-publication-census-cube-sca04-hospital-discharges-among-childre-a583ad940987",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:1680c075b5d5b3422193",
+      "subjectId": "cg:source:approved-publication-census-cube-sca04-hospital-discharges-among-childre-a583ad940987",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-sca04-021a4ce1d057"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/SCA04"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:748c4ae5408ad2cfce65",
+      "subjectId": "cg:source:approved-publication-census-cube-sca04-hospital-discharges-among-childre-a583ad940987",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-sca04-0ea54f4eaa61"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/SCA04/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:0a3338cba87197b25ddb",
+      "subjectId": "cg:source:approved-publication-census-cube-sca04-hospital-discharges-among-childre-a583ad940987",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ea65b4070950e233335b",
+      "subjectId": "cg:source:approved-publication-census-cube-sca04-hospital-discharges-among-childre-a583ad940987",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/SCA04"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:36784a24f142072fde05",
+      "subjectId": "cg:source:approved-publication-census-cube-sca05-children-and-young-people-having--42c56ed34207",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:3086e118b31d1343cce7",
+      "subjectId": "cg:source:approved-publication-census-cube-sca05-children-and-young-people-having--42c56ed34207",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Children and Young People having an Intellectual Disability"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:b07cf2d501fda8ab0586",
+      "subjectId": "cg:source:approved-publication-census-cube-sca05-children-and-young-people-having--42c56ed34207",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:0a2f6f0e4dd109fcceec",
+      "subjectId": "cg:source:approved-publication-census-cube-sca05-children-and-young-people-having--42c56ed34207",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-sca05-d89d18a20efd"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/SCA05"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:74412219689867a79219",
+      "subjectId": "cg:source:approved-publication-census-cube-sca05-children-and-young-people-having--42c56ed34207",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-sca05-3723b41bd076"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/SCA05/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:73b68d10a6b7f61b7421",
+      "subjectId": "cg:source:approved-publication-census-cube-sca05-children-and-young-people-having--42c56ed34207",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:bcb166918c33d7ca6b60",
+      "subjectId": "cg:source:approved-publication-census-cube-sca05-children-and-young-people-having--42c56ed34207",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/SCA05"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c4be7ee602db2a9470fe",
+      "subjectId": "cg:source:approved-publication-census-cube-sca06-children-and-young-people-registe-d1e695f86f0f",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:1276753f964953d448dd",
+      "subjectId": "cg:source:approved-publication-census-cube-sca06-children-and-young-people-registe-d1e695f86f0f",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Children and Young People registered as having a Physical and/or Sensory Disability"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:57996f03db80e2d0cf5f",
+      "subjectId": "cg:source:approved-publication-census-cube-sca06-children-and-young-people-registe-d1e695f86f0f",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:68e7a1a14d4b431b3575",
+      "subjectId": "cg:source:approved-publication-census-cube-sca06-children-and-young-people-registe-d1e695f86f0f",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-sca06-cd10b0b0b32f"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/SCA06"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:a601838b06420e91798a",
+      "subjectId": "cg:source:approved-publication-census-cube-sca06-children-and-young-people-registe-d1e695f86f0f",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-sca06-6443f33907c2"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/SCA06/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:6a30797fdc6918053ae0",
+      "subjectId": "cg:source:approved-publication-census-cube-sca06-children-and-young-people-registe-d1e695f86f0f",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:29363100b14b17ed6e64",
+      "subjectId": "cg:source:approved-publication-census-cube-sca06-children-and-young-people-registe-d1e695f86f0f",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/SCA06"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:b2e56425c8c7a0842560",
+      "subjectId": "cg:source:approved-publication-census-cube-sca07-home-and-school-life-of-children-aged-10-17-years",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:a467fe8513fe8fdf0602",
+      "subjectId": "cg:source:approved-publication-census-cube-sca07-home-and-school-life-of-children-aged-10-17-years",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Home and School Life of Children aged 10 - 17 years"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:1f60fbf87a9426b73cff",
+      "subjectId": "cg:source:approved-publication-census-cube-sca07-home-and-school-life-of-children-aged-10-17-years",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:29b0f57dfe98fb633be1",
+      "subjectId": "cg:source:approved-publication-census-cube-sca07-home-and-school-life-of-children-aged-10-17-years",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-sca07-27a203730655"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/SCA07/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:a9fcc74a1d746daa996c",
+      "subjectId": "cg:source:approved-publication-census-cube-sca07-home-and-school-life-of-children-aged-10-17-years",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-sca07-4af68ca9b329"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/SCA07"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:79994cf02bfc50f4288a",
+      "subjectId": "cg:source:approved-publication-census-cube-sca07-home-and-school-life-of-children-aged-10-17-years",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:2271b67b1b5abdec5df5",
+      "subjectId": "cg:source:approved-publication-census-cube-sca07-home-and-school-life-of-children-aged-10-17-years",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/SCA07"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:2109cc5847db62c8b7c9",
+      "subjectId": "cg:source:approved-publication-census-cube-sca08-alcohol-and-drug-consumption-and--563757928251",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:f559b1e15ebfd7f0e06e",
+      "subjectId": "cg:source:approved-publication-census-cube-sca08-alcohol-and-drug-consumption-and--563757928251",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Alcohol and Drug Consumption and Sexual Activity of Children aged 10-17 years"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c9b64a0be94014f4cf9c",
+      "subjectId": "cg:source:approved-publication-census-cube-sca08-alcohol-and-drug-consumption-and--563757928251",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:2bee3cbe085b5bb8907d",
+      "subjectId": "cg:source:approved-publication-census-cube-sca08-alcohol-and-drug-consumption-and--563757928251",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-sca08-860ac0d590f8"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/SCA08"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c00e3008534c7e987811",
+      "subjectId": "cg:source:approved-publication-census-cube-sca08-alcohol-and-drug-consumption-and--563757928251",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-sca08-87040e9bd6b8"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/SCA08/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:32b88b955d92637dc645",
+      "subjectId": "cg:source:approved-publication-census-cube-sca08-alcohol-and-drug-consumption-and--563757928251",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:b754b6a04c9e71e61eb9",
+      "subjectId": "cg:source:approved-publication-census-cube-sca08-alcohol-and-drug-consumption-and--563757928251",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/SCA08"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:81d4627156a5cdc5a7b2",
+      "subjectId": "cg:source:approved-publication-census-cube-sca09-physical-activity-and-nutrition-o-42f463a73cba",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:fe3df807e3052bd4b3f3",
+      "subjectId": "cg:source:approved-publication-census-cube-sca09-physical-activity-and-nutrition-o-42f463a73cba",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Physical Activity and Nutrition of Children aged 10 - 17 years"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:a2ebf57e8672555c661d",
+      "subjectId": "cg:source:approved-publication-census-cube-sca09-physical-activity-and-nutrition-o-42f463a73cba",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:8d1ea38f90141d1ef801",
+      "subjectId": "cg:source:approved-publication-census-cube-sca09-physical-activity-and-nutrition-o-42f463a73cba",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-sca09-a98b781ac859"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/SCA09"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:bab8a7bfb80ce8ca4a96",
+      "subjectId": "cg:source:approved-publication-census-cube-sca09-physical-activity-and-nutrition-o-42f463a73cba",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-sca09-1e34e7c634a0"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/SCA09/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:d651bd3e2fdeebdccef5",
+      "subjectId": "cg:source:approved-publication-census-cube-sca09-physical-activity-and-nutrition-o-42f463a73cba",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:713c96cadaba7f326649",
+      "subjectId": "cg:source:approved-publication-census-cube-sca09-physical-activity-and-nutrition-o-42f463a73cba",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/SCA09"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:fc45cc2df047b8735c3d",
+      "subjectId": "cg:source:approved-publication-census-cube-sca10-households-with-children-identifi-928aafa34857",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:0058d02dbe88a621a994",
+      "subjectId": "cg:source:approved-publication-census-cube-sca10-households-with-children-identifi-928aafa34857",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Households with Children identified as being in need of Social Housing"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:7186a9b95ff16da593a1",
+      "subjectId": "cg:source:approved-publication-census-cube-sca10-households-with-children-identifi-928aafa34857",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:5838fbf762a986bab371",
+      "subjectId": "cg:source:approved-publication-census-cube-sca10-households-with-children-identifi-928aafa34857",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-sca10-a7c6718a8ea8"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/SCA10/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:80fe686d25c1c12310c7",
+      "subjectId": "cg:source:approved-publication-census-cube-sca10-households-with-children-identifi-928aafa34857",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-sca10-c47a34f52901"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/SCA10"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:9a1c71939511d6dad7ba",
+      "subjectId": "cg:source:approved-publication-census-cube-sca10-households-with-children-identifi-928aafa34857",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:efa39becc13f51544766",
+      "subjectId": "cg:source:approved-publication-census-cube-sca10-households-with-children-identifi-928aafa34857",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/SCA10"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:7ff264237320fe26e740",
+      "subjectId": "cg:source:approved-publication-census-cube-sca11-children-aged-10-17-years-who-pre-ae41b3635cc6",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:bf6fe2e319a3cbca84cf",
+      "subjectId": "cg:source:approved-publication-census-cube-sca11-children-aged-10-17-years-who-pre-ae41b3635cc6",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Children aged 10 - 17 years who presented at a hospital emergency department following self harm"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:c1f44b3699bcd42e8d60",
+      "subjectId": "cg:source:approved-publication-census-cube-sca11-children-aged-10-17-years-who-pre-ae41b3635cc6",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:80ec132906520cf3a9b9",
+      "subjectId": "cg:source:approved-publication-census-cube-sca11-children-aged-10-17-years-who-pre-ae41b3635cc6",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-sca11-ddc9edb632d7"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/SCA11/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:f7df4dda476d05a7465e",
+      "subjectId": "cg:source:approved-publication-census-cube-sca11-children-aged-10-17-years-who-pre-ae41b3635cc6",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-sca11-2b724f79f7e8"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/SCA11"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:07dd1bd744791ea29287",
+      "subjectId": "cg:source:approved-publication-census-cube-sca11-children-aged-10-17-years-who-pre-ae41b3635cc6",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:d8ff13978ff022f49107",
+      "subjectId": "cg:source:approved-publication-census-cube-sca11-children-aged-10-17-years-who-pre-ae41b3635cc6",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/SCA11"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:659285988cea02855e84",
+      "subjectId": "cg:source:approved-publication-census-cube-sca12-well-being-and-life-satisfaction-of-children-10-17-years",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:416b49a469c4a69cfecb",
+      "subjectId": "cg:source:approved-publication-census-cube-sca12-well-being-and-life-satisfaction-of-children-10-17-years",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Well-being and Life Satisfaction of Children 10 - 17 years"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:e1464b23511d1b4154fe",
+      "subjectId": "cg:source:approved-publication-census-cube-sca12-well-being-and-life-satisfaction-of-children-10-17-years",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:55682ad692b499dfdbee",
+      "subjectId": "cg:source:approved-publication-census-cube-sca12-well-being-and-life-satisfaction-of-children-10-17-years",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-sca12-d63590354efb"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/SCA12"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:9a03fd39310ac3ca59d7",
+      "subjectId": "cg:source:approved-publication-census-cube-sca12-well-being-and-life-satisfaction-of-children-10-17-years",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-sca12-78e2855e4c37"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/SCA12/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:9d1d21fc513904f10ffc",
+      "subjectId": "cg:source:approved-publication-census-cube-sca12-well-being-and-life-satisfaction-of-children-10-17-years",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:8e8d8ef4eaf14ce693ff",
+      "subjectId": "cg:source:approved-publication-census-cube-sca12-well-being-and-life-satisfaction-of-children-10-17-years",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/SCA12"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:a724a91d8a8a5c6372af",
+      "subjectId": "cg:source:approved-publication-census-cube-sca13-children-referred-to-the-garda-diversion-programme",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:e17dcacb79a22d02a144",
+      "subjectId": "cg:source:approved-publication-census-cube-sca13-children-referred-to-the-garda-diversion-programme",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Children referred to the Garda Diversion Programme"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:af96c9f1f130cfe3144a",
+      "subjectId": "cg:source:approved-publication-census-cube-sca13-children-referred-to-the-garda-diversion-programme",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:2b232fc9e105dddc0d54",
+      "subjectId": "cg:source:approved-publication-census-cube-sca13-children-referred-to-the-garda-diversion-programme",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-sca13-0eaa0ec113da"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/SCA13/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:2b6d657258b6b8442a5e",
+      "subjectId": "cg:source:approved-publication-census-cube-sca13-children-referred-to-the-garda-diversion-programme",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-sca13-8448b0938a14"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/SCA13"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:4ee6df2ef5a984fc9e4d",
+      "subjectId": "cg:source:approved-publication-census-cube-sca13-children-referred-to-the-garda-diversion-programme",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:b2289be1ccc34cecb9b1",
+      "subjectId": "cg:source:approved-publication-census-cube-sca13-children-referred-to-the-garda-diversion-programme",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/SCA13"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:d21b03073cae5b8254b0",
+      "subjectId": "cg:source:approved-publication-census-cube-sca14-pregnant-women-attending-for-ante-29076ded3be9",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:56ac42592eee29d2911c",
+      "subjectId": "cg:source:approved-publication-census-cube-sca14-pregnant-women-attending-for-ante-29076ded3be9",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Pregnant Women attending for Antenatal Care in the First Trimester of Pregnancy"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:953398b8a22fdd2e699d",
+      "subjectId": "cg:source:approved-publication-census-cube-sca14-pregnant-women-attending-for-ante-29076ded3be9",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:458718d2223e21b045d3",
+      "subjectId": "cg:source:approved-publication-census-cube-sca14-pregnant-women-attending-for-ante-29076ded3be9",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-sca14-8b85aa2173c3"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/SCA14/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:573276708b00494bdb77",
+      "subjectId": "cg:source:approved-publication-census-cube-sca14-pregnant-women-attending-for-ante-29076ded3be9",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-sca14-d3eb607c88ea"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/SCA14"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:4b2898001a76208fd4b8",
+      "subjectId": "cg:source:approved-publication-census-cube-sca14-pregnant-women-attending-for-ante-29076ded3be9",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:0b9daac4bb015b80339e",
+      "subjectId": "cg:source:approved-publication-census-cube-sca14-pregnant-women-attending-for-ante-29076ded3be9",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/SCA14"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:cac03043aaa6f4da4e2f",
+      "subjectId": "cg:source:approved-publication-census-cube-sca15-children-and-young-people-who-pre-46eeaa66691a",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:8efdb05d3163f571b0ff",
+      "subjectId": "cg:source:approved-publication-census-cube-sca15-children-and-young-people-who-pre-46eeaa66691a",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Children and Young People who presented at a Hospital Emergency Department following Self -Harm"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:8add7842bdfd8213d9c9",
+      "subjectId": "cg:source:approved-publication-census-cube-sca15-children-and-young-people-who-pre-46eeaa66691a",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:2222bade6edc8c0b4099",
+      "subjectId": "cg:source:approved-publication-census-cube-sca15-children-and-young-people-who-pre-46eeaa66691a",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-sca15-5ef2532d4c28"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/SCA15/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:55a9ebf3dfd28ab02b13",
+      "subjectId": "cg:source:approved-publication-census-cube-sca15-children-and-young-people-who-pre-46eeaa66691a",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-sca15-9554851ea8c3"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/SCA15"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:43c530f41236c6900c01",
+      "subjectId": "cg:source:approved-publication-census-cube-sca15-children-and-young-people-who-pre-46eeaa66691a",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:8aa738232a42640febe9",
+      "subjectId": "cg:source:approved-publication-census-cube-sca15-children-and-young-people-who-pre-46eeaa66691a",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/SCA15"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ae9ded1430e68042ce91",
+      "subjectId": "cg:source:approved-publication-census-cube-sca16-well-being-and-life-satisfaction-of-children-10-17-years",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:95d239f44642bb60d6b2",
+      "subjectId": "cg:source:approved-publication-census-cube-sca16-well-being-and-life-satisfaction-of-children-10-17-years",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Well-being and Life Satisfaction of Children 10 - 17 years"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:f996892022f3881e59c9",
+      "subjectId": "cg:source:approved-publication-census-cube-sca16-well-being-and-life-satisfaction-of-children-10-17-years",
+      "propertyId": "cg:property:provider",
+      "value": {
+        "type": "entity",
+        "id": "cg:provider:cso"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:92e8abbe07b035b4ef24",
+      "subjectId": "cg:source:approved-publication-census-cube-sca16-well-being-and-life-satisfaction-of-children-10-17-years",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:json-stat-cube-sca16-0910abccc120"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/SCA16/JSON-stat/2.0/en"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:ec890a662adfeb156553",
+      "subjectId": "cg:source:approved-publication-census-cube-sca16-well-being-and-life-satisfaction-of-children-10-17-years",
+      "propertyId": "cg:property:source",
+      "value": {
+        "type": "entity",
+        "id": "cg:source:cso-pxstat-table-sca16-5d3a360fa4df"
+      },
+      "qualifiers": [
+        {
+          "propertyId": "cg:property:url",
+          "value": {
+            "type": "url",
+            "value": "https://data.cso.ie/table/SCA16"
+          }
+        },
+        {
+          "propertyId": "cg:property:source-kind",
+          "value": {
+            "type": "string",
+            "value": "source-reference"
+          }
+        }
+      ],
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:b8199ed5c533c1715f0c",
+      "subjectId": "cg:source:approved-publication-census-cube-sca16-well-being-and-life-satisfaction-of-children-10-17-years",
+      "propertyId": "cg:property:source-kind",
+      "value": {
+        "type": "string",
+        "value": "Approved tables"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:7577efb093393d566ffc",
+      "subjectId": "cg:source:approved-publication-census-cube-sca16-well-being-and-life-satisfaction-of-children-10-17-years",
+      "propertyId": "cg:property:url",
+      "value": {
+        "type": "url",
+        "value": "https://data.cso.ie/table/SCA16"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:984d29a3a6d54b469ebf",
+      "subjectId": "cg:source:approved-publication-census-cube-sca17-children-referred-to-the-garda-diversion-programme",
+      "propertyId": "cg:property:instance-of",
+      "value": {
+        "type": "entity",
+        "id": "cg:entity-type:source"
+      },
+      "rank": "normal"
+    },
+    {
+      "id": "cg:statement:d296eb4abfc6ce9250a5",
+      "subjectId": "cg:source:approved-publication-census-cube-sca17-children-referred-to-the-garda-diversion-programme",
+      "propertyId": "cg:property:name",
+      "value": {
+        "type": "string",
+        "value": "Children referred to the Garda Diversion Programme"
+      },
+      "rank": "normal"
+    },
     {
       "id": "cg:statement:d6c575c84cf730685a18",
       "subjectId": "cg:source:approved-publication-census-cube-sca17-children-referred-to-the-garda-diversion-programme",
@@ -34024,2111 +36138,6 @@
           }
         }
       ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:9f5ea9ca01e4a9b28d26",
-      "subjectId": "cg:source:approved-publication-census-cube-tra104-extent-to-which-respondents-trus-e1c791c4c345",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-tra104-8af16fce3cd4"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TRA104/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:496ef21173374f9b5932",
-      "subjectId": "cg:source:approved-publication-census-cube-tra104-extent-to-which-respondents-trus-e1c791c4c345",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:102b1e1a3b094627f800",
-      "subjectId": "cg:source:approved-publication-census-cube-tra104-extent-to-which-respondents-trus-e1c791c4c345",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/TRA104"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:49a4438a59a600cabad8",
-      "subjectId": "cg:source:approved-publication-census-cube-tra105-extent-to-which-respondents-trus-dcbaa75d9160",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:039bd427bf1ce87119aa",
-      "subjectId": "cg:source:approved-publication-census-cube-tra105-extent-to-which-respondents-trus-dcbaa75d9160",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Extent to which respondents trust people and institutions"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:7e755e23b6549aab9e0d",
-      "subjectId": "cg:source:approved-publication-census-cube-tra105-extent-to-which-respondents-trus-dcbaa75d9160",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:18598271e2ec456612e0",
-      "subjectId": "cg:source:approved-publication-census-cube-tra105-extent-to-which-respondents-trus-dcbaa75d9160",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-tra105-f27c8116dd57"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/TRA105"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:923df6892932aa4c3374",
-      "subjectId": "cg:source:approved-publication-census-cube-tra105-extent-to-which-respondents-trus-dcbaa75d9160",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-tra105-420fdb883ff8"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TRA105/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:77dbd2fa13749c789225",
-      "subjectId": "cg:source:approved-publication-census-cube-tra105-extent-to-which-respondents-trus-dcbaa75d9160",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6de0bddda1a45d5ffb3c",
-      "subjectId": "cg:source:approved-publication-census-cube-tra105-extent-to-which-respondents-trus-dcbaa75d9160",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/TRA105"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:3d326b2551122518aead",
-      "subjectId": "cg:source:approved-publication-census-cube-tra106-extent-to-which-respondents-trus-f125e67ab0ad",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:8945e5eafd8b71408e86",
-      "subjectId": "cg:source:approved-publication-census-cube-tra106-extent-to-which-respondents-trus-f125e67ab0ad",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Extent to which respondents trust people and institutions"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:4197c45f2920058401da",
-      "subjectId": "cg:source:approved-publication-census-cube-tra106-extent-to-which-respondents-trus-f125e67ab0ad",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:1559349886ea2c7c72b3",
-      "subjectId": "cg:source:approved-publication-census-cube-tra106-extent-to-which-respondents-trus-f125e67ab0ad",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-tra106-300f79c1a2b7"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TRA106/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a71135511b6f04d31e3c",
-      "subjectId": "cg:source:approved-publication-census-cube-tra106-extent-to-which-respondents-trus-f125e67ab0ad",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-tra106-cd253e6c528d"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/TRA106"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:02fa9cfb63bf6e8ecda3",
-      "subjectId": "cg:source:approved-publication-census-cube-tra106-extent-to-which-respondents-trus-f125e67ab0ad",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:5b312b8a1d1bac0b6931",
-      "subjectId": "cg:source:approved-publication-census-cube-tra106-extent-to-which-respondents-trus-f125e67ab0ad",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/TRA106"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:7a94dbe479b6f60c9e89",
-      "subjectId": "cg:source:approved-publication-census-cube-tra107-extent-to-which-respondents-trus-cf3e7ca3a47d",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2023",
-        "label": "2023"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:7c40ed4dd7e219dd0dc0",
-      "subjectId": "cg:source:approved-publication-census-cube-tra107-extent-to-which-respondents-trus-cf3e7ca3a47d",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6f9830f3fb8e96b67e1b",
-      "subjectId": "cg:source:approved-publication-census-cube-tra107-extent-to-which-respondents-trus-cf3e7ca3a47d",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Extent to which respondents trust people and institutions"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:2a0187a0b596b745b9d6",
-      "subjectId": "cg:source:approved-publication-census-cube-tra107-extent-to-which-respondents-trus-cf3e7ca3a47d",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:339b3d0346ebdc7d59ca",
-      "subjectId": "cg:source:approved-publication-census-cube-tra107-extent-to-which-respondents-trus-cf3e7ca3a47d",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-tra107-b7ee092c60fd"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TRA107/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:558ec0ec6baf085fdcad",
-      "subjectId": "cg:source:approved-publication-census-cube-tra107-extent-to-which-respondents-trus-cf3e7ca3a47d",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-tra107-6d4663991ee2"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/TRA107"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:e3528cc369cddaa3fd50",
-      "subjectId": "cg:source:approved-publication-census-cube-tra107-extent-to-which-respondents-trus-cf3e7ca3a47d",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:32d3bd9df748f450b9e9",
-      "subjectId": "cg:source:approved-publication-census-cube-tra107-extent-to-which-respondents-trus-cf3e7ca3a47d",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/TRA107"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a62f613c044b4c6b6986",
-      "subjectId": "cg:source:approved-publication-census-cube-tra108-extent-to-which-respondents-trus-5234369b694c",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:2765dd7ba3164e52b019",
-      "subjectId": "cg:source:approved-publication-census-cube-tra108-extent-to-which-respondents-trus-5234369b694c",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Extent to which respondents trust people and institutions"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:588d5e43f2915e299070",
-      "subjectId": "cg:source:approved-publication-census-cube-tra108-extent-to-which-respondents-trus-5234369b694c",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:32d6b0ad1feabce96eb0",
-      "subjectId": "cg:source:approved-publication-census-cube-tra108-extent-to-which-respondents-trus-5234369b694c",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-tra108-3c714a699024"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TRA108/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:bf05a6f1c7865724a49b",
-      "subjectId": "cg:source:approved-publication-census-cube-tra108-extent-to-which-respondents-trus-5234369b694c",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-tra108-798e712afecd"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/TRA108"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:01a16bc8b3b9104eb014",
-      "subjectId": "cg:source:approved-publication-census-cube-tra108-extent-to-which-respondents-trus-5234369b694c",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:87a4c2ee5c38f51c719e",
-      "subjectId": "cg:source:approved-publication-census-cube-tra108-extent-to-which-respondents-trus-5234369b694c",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/TRA108"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:705b81a2414058bb59fc",
-      "subjectId": "cg:source:approved-publication-census-cube-tra113-respondents-comfort-levels-with--759bbebc153b",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2023",
-        "label": "2023"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:91c9643d5da27e9d6c11",
-      "subjectId": "cg:source:approved-publication-census-cube-tra113-respondents-comfort-levels-with--759bbebc153b",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:61c84434aa9c51f389ef",
-      "subjectId": "cg:source:approved-publication-census-cube-tra113-respondents-comfort-levels-with--759bbebc153b",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Respondents comfort levels with asking a neighbour to keep a set of keys to their home for emergencies"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:39f385137bd820c0428f",
-      "subjectId": "cg:source:approved-publication-census-cube-tra113-respondents-comfort-levels-with--759bbebc153b",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:5bee1f9ef358f79aa2e3",
-      "subjectId": "cg:source:approved-publication-census-cube-tra113-respondents-comfort-levels-with--759bbebc153b",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-tra113-cc02545ce331"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TRA113/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b3ebcec319690cf2c369",
-      "subjectId": "cg:source:approved-publication-census-cube-tra113-respondents-comfort-levels-with--759bbebc153b",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-tra113-22ed70156b8a"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/TRA113"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:2ebc28d95a75271904b6",
-      "subjectId": "cg:source:approved-publication-census-cube-tra113-respondents-comfort-levels-with--759bbebc153b",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:9c46414c4f1c37aa35a6",
-      "subjectId": "cg:source:approved-publication-census-cube-tra113-respondents-comfort-levels-with--759bbebc153b",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/TRA113"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:3b504f4ddc52ba3396da",
-      "subjectId": "cg:source:approved-publication-census-cube-tra114-respondents-comfort-levels-with--8b6309c64878",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2023",
-        "label": "2023"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:30f83e3c22af592952b5",
-      "subjectId": "cg:source:approved-publication-census-cube-tra114-respondents-comfort-levels-with--8b6309c64878",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:618ad9df9b91720688dd",
-      "subjectId": "cg:source:approved-publication-census-cube-tra114-respondents-comfort-levels-with--8b6309c64878",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Respondents comfort levels with asking a neighbour to keep a set of keys to their home for emergencies"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:e00fd63b7e30ab9263aa",
-      "subjectId": "cg:source:approved-publication-census-cube-tra114-respondents-comfort-levels-with--8b6309c64878",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:0155009db89f71d90f2c",
-      "subjectId": "cg:source:approved-publication-census-cube-tra114-respondents-comfort-levels-with--8b6309c64878",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-tra114-210a61266625"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TRA114/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:38190901b5aa4f79bce3",
-      "subjectId": "cg:source:approved-publication-census-cube-tra114-respondents-comfort-levels-with--8b6309c64878",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-tra114-e42c0c95931c"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/TRA114"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:1637b9d4396383714af6",
-      "subjectId": "cg:source:approved-publication-census-cube-tra114-respondents-comfort-levels-with--8b6309c64878",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:34fc1bc91dc0622efe69",
-      "subjectId": "cg:source:approved-publication-census-cube-tra114-respondents-comfort-levels-with--8b6309c64878",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/TRA114"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6228f7e5a0a59256f911",
-      "subjectId": "cg:source:approved-publication-census-cube-tra117-expectation-that-wallet-purse-co-62c6914501b1",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2023",
-        "label": "2023"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:fc5d9aaa743235339c66",
-      "subjectId": "cg:source:approved-publication-census-cube-tra117-expectation-that-wallet-purse-co-62c6914501b1",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:f753a398faa01beef077",
-      "subjectId": "cg:source:approved-publication-census-cube-tra117-expectation-that-wallet-purse-co-62c6914501b1",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Expectation that wallet/purse containing €100 and contact details if lost in respondent's local area would be returned"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:16b6ffdeea77b2d64aea",
-      "subjectId": "cg:source:approved-publication-census-cube-tra117-expectation-that-wallet-purse-co-62c6914501b1",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:ad0266111599993426db",
-      "subjectId": "cg:source:approved-publication-census-cube-tra117-expectation-that-wallet-purse-co-62c6914501b1",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-tra117-4035ec66be60"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/TRA117"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:f757cd01ec1aa08beede",
-      "subjectId": "cg:source:approved-publication-census-cube-tra117-expectation-that-wallet-purse-co-62c6914501b1",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-tra117-593de5561d62"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TRA117/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:1ae5fa4f0c9ebcc6405e",
-      "subjectId": "cg:source:approved-publication-census-cube-tra117-expectation-that-wallet-purse-co-62c6914501b1",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:3dbdbdc0c7778ee7e8cc",
-      "subjectId": "cg:source:approved-publication-census-cube-tra117-expectation-that-wallet-purse-co-62c6914501b1",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/TRA117"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:056883b7c8bf60fba589",
-      "subjectId": "cg:source:approved-publication-census-cube-tra118-expectation-that-wallet-purse-co-ec7e70975a05",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2023",
-        "label": "2023"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:06653ff78bc932610069",
-      "subjectId": "cg:source:approved-publication-census-cube-tra118-expectation-that-wallet-purse-co-ec7e70975a05",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:2817ef33daea8231a887",
-      "subjectId": "cg:source:approved-publication-census-cube-tra118-expectation-that-wallet-purse-co-ec7e70975a05",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Expectation that wallet/purse containing €100 and contact details if lost in respondent's local area would be returned"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d3234a0536c4754e84d0",
-      "subjectId": "cg:source:approved-publication-census-cube-tra118-expectation-that-wallet-purse-co-ec7e70975a05",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:06105572625008a3912b",
-      "subjectId": "cg:source:approved-publication-census-cube-tra118-expectation-that-wallet-purse-co-ec7e70975a05",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-tra118-29b29a516140"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TRA118/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a2a940581b657c767a65",
-      "subjectId": "cg:source:approved-publication-census-cube-tra118-expectation-that-wallet-purse-co-ec7e70975a05",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-tra118-9587537a3745"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/TRA118"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:71c304745d3eacdf3bbb",
-      "subjectId": "cg:source:approved-publication-census-cube-tra118-expectation-that-wallet-purse-co-ec7e70975a05",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:592ee897f3ac45748946",
-      "subjectId": "cg:source:approved-publication-census-cube-tra118-expectation-that-wallet-purse-co-ec7e70975a05",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/TRA118"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:4a72f57b992a679f20c9",
-      "subjectId": "cg:source:approved-publication-census-cube-tra119-expectation-that-wallet-purse-co-1d9ce54e8e47",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2023",
-        "label": "2023"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:9562828070aa20bb6577",
-      "subjectId": "cg:source:approved-publication-census-cube-tra119-expectation-that-wallet-purse-co-1d9ce54e8e47",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:e7bfff7f7169ba271220",
-      "subjectId": "cg:source:approved-publication-census-cube-tra119-expectation-that-wallet-purse-co-1d9ce54e8e47",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Expectation that wallet/purse containing €100 and contact details if lost in respondent's local area would be returned"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:ab58e8c7a8955c50e237",
-      "subjectId": "cg:source:approved-publication-census-cube-tra119-expectation-that-wallet-purse-co-1d9ce54e8e47",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:8c9c914593c688b7a1dd",
-      "subjectId": "cg:source:approved-publication-census-cube-tra119-expectation-that-wallet-purse-co-1d9ce54e8e47",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-tra119-394c691f17cc"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TRA119/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:9f3f1749a08a6b653ff8",
-      "subjectId": "cg:source:approved-publication-census-cube-tra119-expectation-that-wallet-purse-co-1d9ce54e8e47",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-tra119-472b4483f987"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/TRA119"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6dec21386263ca95d1b2",
-      "subjectId": "cg:source:approved-publication-census-cube-tra119-expectation-that-wallet-purse-co-1d9ce54e8e47",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:f0b94bf4ee157a7cd75b",
-      "subjectId": "cg:source:approved-publication-census-cube-tra119-expectation-that-wallet-purse-co-1d9ce54e8e47",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/TRA119"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:5dd1eaf5792651300e33",
-      "subjectId": "cg:source:approved-publication-census-cube-tra120-expectation-that-wallet-purse-co-a57bfce275b3",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2023",
-        "label": "2023"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:9351e718c85a95abf30d",
-      "subjectId": "cg:source:approved-publication-census-cube-tra120-expectation-that-wallet-purse-co-a57bfce275b3",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:3373b20a722d2e56c101",
-      "subjectId": "cg:source:approved-publication-census-cube-tra120-expectation-that-wallet-purse-co-a57bfce275b3",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Expectation that wallet/purse containing €100 and contact details if lost in respondent's local area would be returned"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:53a37c749bde8cd7adcd",
-      "subjectId": "cg:source:approved-publication-census-cube-tra120-expectation-that-wallet-purse-co-a57bfce275b3",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:012c83baf7e78d362fc5",
-      "subjectId": "cg:source:approved-publication-census-cube-tra120-expectation-that-wallet-purse-co-a57bfce275b3",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-tra120-81c9e98a27e3"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/TRA120"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6ceb4c598b6a807ca046",
-      "subjectId": "cg:source:approved-publication-census-cube-tra120-expectation-that-wallet-purse-co-a57bfce275b3",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-tra120-8cf5925ca975"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TRA120/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:c824ae5806b7ea958400",
-      "subjectId": "cg:source:approved-publication-census-cube-tra120-expectation-that-wallet-purse-co-a57bfce275b3",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:7f7b2ed34deeb6d3ddef",
-      "subjectId": "cg:source:approved-publication-census-cube-tra120-expectation-that-wallet-purse-co-a57bfce275b3",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/TRA120"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:03bf91703275e27c956f",
-      "subjectId": "cg:source:approved-publication-census-cube-tra121-expectation-that-wallet-purse-co-ee246f21e12d",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2023",
-        "label": "2023"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:27087793ee9af13c9f12",
-      "subjectId": "cg:source:approved-publication-census-cube-tra121-expectation-that-wallet-purse-co-ee246f21e12d",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:16ecf7b031c8fed6e788",
-      "subjectId": "cg:source:approved-publication-census-cube-tra121-expectation-that-wallet-purse-co-ee246f21e12d",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Expectation that wallet/purse containing €100 and contact details if lost in respondent's local area would be returned"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:89a15c2827d6a1f1f104",
-      "subjectId": "cg:source:approved-publication-census-cube-tra121-expectation-that-wallet-purse-co-ee246f21e12d",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6505197c3de9b21569da",
-      "subjectId": "cg:source:approved-publication-census-cube-tra121-expectation-that-wallet-purse-co-ee246f21e12d",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-tra121-c9f37b989316"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/TRA121"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:c65aa0332509c5331ee7",
-      "subjectId": "cg:source:approved-publication-census-cube-tra121-expectation-that-wallet-purse-co-ee246f21e12d",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-tra121-23f20d0d410f"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TRA121/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:3e4c84cd7676ec176807",
-      "subjectId": "cg:source:approved-publication-census-cube-tra121-expectation-that-wallet-purse-co-ee246f21e12d",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:ac5fc43a950ce2c2aeac",
-      "subjectId": "cg:source:approved-publication-census-cube-tra121-expectation-that-wallet-purse-co-ee246f21e12d",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/TRA121"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:10c6f55aa38e89ede08c",
-      "subjectId": "cg:source:approved-publication-census-cube-tra122-expectation-that-wallet-purse-co-b75b861116c2",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2023",
-        "label": "2023"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:e0bf15915b741f72e1aa",
-      "subjectId": "cg:source:approved-publication-census-cube-tra122-expectation-that-wallet-purse-co-b75b861116c2",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:59577a62d5dd80588c2e",
-      "subjectId": "cg:source:approved-publication-census-cube-tra122-expectation-that-wallet-purse-co-b75b861116c2",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Expectation that wallet/purse containing €100 and contact details if lost in respondent's local area would be returned"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:9b7c1fa28c255f59ebf1",
-      "subjectId": "cg:source:approved-publication-census-cube-tra122-expectation-that-wallet-purse-co-b75b861116c2",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:0a5d8da550a737108be8",
-      "subjectId": "cg:source:approved-publication-census-cube-tra122-expectation-that-wallet-purse-co-b75b861116c2",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-tra122-43fd6b663571"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TRA122/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:4a8e7cb03a321c47ed03",
-      "subjectId": "cg:source:approved-publication-census-cube-tra122-expectation-that-wallet-purse-co-b75b861116c2",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-tra122-537de8ec935b"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/TRA122"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:13180ee8d3659bbe4857",
-      "subjectId": "cg:source:approved-publication-census-cube-tra122-expectation-that-wallet-purse-co-b75b861116c2",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:4c9aa8c86a79bed6763f",
-      "subjectId": "cg:source:approved-publication-census-cube-tra122-expectation-that-wallet-purse-co-b75b861116c2",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/TRA122"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:31259993b4cfb64efed7",
-      "subjectId": "cg:source:approved-publication-census-cube-tra123-expectation-that-wallet-purse-co-dabeeedd52df",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2023",
-        "label": "2023"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:8784f5067759f7b07a06",
-      "subjectId": "cg:source:approved-publication-census-cube-tra123-expectation-that-wallet-purse-co-dabeeedd52df",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:ad9966749a66e8191d05",
-      "subjectId": "cg:source:approved-publication-census-cube-tra123-expectation-that-wallet-purse-co-dabeeedd52df",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Expectation that wallet/purse containing €100 and contact details if lost in respondent's local area would be returned"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:cc0ddccb6483c3b17b38",
-      "subjectId": "cg:source:approved-publication-census-cube-tra123-expectation-that-wallet-purse-co-dabeeedd52df",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:07e4995f6c52a2004b3f",
-      "subjectId": "cg:source:approved-publication-census-cube-tra123-expectation-that-wallet-purse-co-dabeeedd52df",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-tra123-182f03f89c06"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TRA123/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:172c89f1b17223cd2a35",
-      "subjectId": "cg:source:approved-publication-census-cube-tra123-expectation-that-wallet-purse-co-dabeeedd52df",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-tra123-1d24d82728bd"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/TRA123"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:b5d68326abd2616b37e9",
-      "subjectId": "cg:source:approved-publication-census-cube-tra123-expectation-that-wallet-purse-co-dabeeedd52df",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a079bbe77d0f257d4a71",
-      "subjectId": "cg:source:approved-publication-census-cube-tra123-expectation-that-wallet-purse-co-dabeeedd52df",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/TRA123"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:813699b4833aa194abab",
-      "subjectId": "cg:source:approved-publication-census-cube-tra125-satisfaction-with-education-syst-e4dd06245594",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:ec656c25a9195d82b14f",
-      "subjectId": "cg:source:approved-publication-census-cube-tra125-satisfaction-with-education-syst-e4dd06245594",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Satisfaction with Education system, Healthcare system and Quality of administrative services, on a scale from 0 (not at all) to 10 (completely)."
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:42039c34b4371872413b",
-      "subjectId": "cg:source:approved-publication-census-cube-tra125-satisfaction-with-education-syst-e4dd06245594",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:02de3fad04e52eed6fe7",
-      "subjectId": "cg:source:approved-publication-census-cube-tra125-satisfaction-with-education-syst-e4dd06245594",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-tra125-6b67fc11aadd"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TRA125/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:5906db7aa6b23a59b3b6",
-      "subjectId": "cg:source:approved-publication-census-cube-tra125-satisfaction-with-education-syst-e4dd06245594",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-tra125-ed8bc86a246e"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/TRA125"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:6cee7bcb2aa9d7f2d713",
-      "subjectId": "cg:source:approved-publication-census-cube-tra125-satisfaction-with-education-syst-e4dd06245594",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:e3901438b838af15e13c",
-      "subjectId": "cg:source:approved-publication-census-cube-tra125-satisfaction-with-education-syst-e4dd06245594",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/TRA125"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:875c1318b4cc6707cd97",
-      "subjectId": "cg:source:approved-publication-census-cube-tra126-satisfaction-with-education-syst-a2af276e44df",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:ffc37553bb99cfe95d5e",
-      "subjectId": "cg:source:approved-publication-census-cube-tra126-satisfaction-with-education-syst-a2af276e44df",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Satisfaction with Education system, Healthcare system and Quality of administrative services, on a scale from 0 (not at all) to 10 (completely)."
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:543fd87dd2eae1e97138",
-      "subjectId": "cg:source:approved-publication-census-cube-tra126-satisfaction-with-education-syst-a2af276e44df",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:614c0ad2e99a8e22d9b0",
-      "subjectId": "cg:source:approved-publication-census-cube-tra126-satisfaction-with-education-syst-a2af276e44df",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-tra126-6827110e4892"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/TRA126"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:715ff3e1002d55e1fdf9",
-      "subjectId": "cg:source:approved-publication-census-cube-tra126-satisfaction-with-education-syst-a2af276e44df",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-tra126-922c2ab56fec"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TRA126/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:9bf4639023192e9726e1",
-      "subjectId": "cg:source:approved-publication-census-cube-tra126-satisfaction-with-education-syst-a2af276e44df",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:2e98c95c739f5b04d198",
-      "subjectId": "cg:source:approved-publication-census-cube-tra126-satisfaction-with-education-syst-a2af276e44df",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/TRA126"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:227b0dfbc5093076cefd",
-      "subjectId": "cg:source:approved-publication-census-cube-tra127-satisfaction-with-education-syst-93a316c7723f",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:158cc7be6851b27d31b0",
-      "subjectId": "cg:source:approved-publication-census-cube-tra127-satisfaction-with-education-syst-93a316c7723f",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Satisfaction with Education system, Healthcare system and Quality of administrative services, on a scale from 0 (not at all) to 10 (completely)."
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a502cd39014ae4ecde9f",
-      "subjectId": "cg:source:approved-publication-census-cube-tra127-satisfaction-with-education-syst-93a316c7723f",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a73c1d98ce5e436f9414",
-      "subjectId": "cg:source:approved-publication-census-cube-tra127-satisfaction-with-education-syst-93a316c7723f",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-tra127-a44ea9ca3fd0"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TRA127/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:d523049b8916234b52e4",
-      "subjectId": "cg:source:approved-publication-census-cube-tra127-satisfaction-with-education-syst-93a316c7723f",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-tra127-85003093e8da"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/TRA127"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:394843284ffe3fa1585b",
-      "subjectId": "cg:source:approved-publication-census-cube-tra127-satisfaction-with-education-syst-93a316c7723f",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:f4603d9ed4bcc535f8f3",
-      "subjectId": "cg:source:approved-publication-census-cube-tra127-satisfaction-with-education-syst-93a316c7723f",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/TRA127"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a27aebcc45ae4ffc2c9d",
-      "subjectId": "cg:source:approved-publication-census-cube-tra128-satisfaction-with-education-syst-537d9907a85b",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:cf67791af0fd25454f9b",
-      "subjectId": "cg:source:approved-publication-census-cube-tra128-satisfaction-with-education-syst-537d9907a85b",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Satisfaction with Education system, Healthcare system and Quality of administrative services, on a scale from 0 (not at all) to 10 (completely)."
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:ba9f3f76c274aa79d6c1",
-      "subjectId": "cg:source:approved-publication-census-cube-tra128-satisfaction-with-education-syst-537d9907a85b",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:02e68dd857dac72aa1c7",
-      "subjectId": "cg:source:approved-publication-census-cube-tra128-satisfaction-with-education-syst-537d9907a85b",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-tra128-f2c0f0eee285"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TRA128/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:5f3d7c83a9de1684bfe9",
-      "subjectId": "cg:source:approved-publication-census-cube-tra128-satisfaction-with-education-syst-537d9907a85b",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-tra128-48847123bbde"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/TRA128"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:76b4344659e85062c6a9",
-      "subjectId": "cg:source:approved-publication-census-cube-tra128-satisfaction-with-education-syst-537d9907a85b",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:4d97759b3332d6fe467c",
-      "subjectId": "cg:source:approved-publication-census-cube-tra128-satisfaction-with-education-syst-537d9907a85b",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/TRA128"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:59c339e93bfd9b5a5e28",
-      "subjectId": "cg:source:approved-publication-census-cube-tra129-satisfaction-with-education-syst-276f4deb2fc3",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:9be5e65cd4dfed1e2768",
-      "subjectId": "cg:source:approved-publication-census-cube-tra129-satisfaction-with-education-syst-276f4deb2fc3",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Satisfaction with Education system, Healthcare system and Quality of administrative services, on a scale from 0 (not at all) to 10 (completely)."
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:ec38581388454dda5fde",
-      "subjectId": "cg:source:approved-publication-census-cube-tra129-satisfaction-with-education-syst-276f4deb2fc3",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:afd526fb4336c99d1852",
-      "subjectId": "cg:source:approved-publication-census-cube-tra129-satisfaction-with-education-syst-276f4deb2fc3",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-tra129-3e2c23fd8ead"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TRA129/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:c7afd73e909089b91565",
-      "subjectId": "cg:source:approved-publication-census-cube-tra129-satisfaction-with-education-syst-276f4deb2fc3",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-tra129-ebf85fa1e299"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/TRA129"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:0df5aba579114f6a9674",
-      "subjectId": "cg:source:approved-publication-census-cube-tra129-satisfaction-with-education-syst-276f4deb2fc3",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:e2b21a1c38b7f0cdeee3",
-      "subjectId": "cg:source:approved-publication-census-cube-tra129-satisfaction-with-education-syst-276f4deb2fc3",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/TRA129"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:ae9cbaf8891585630284",
-      "subjectId": "cg:source:approved-publication-census-cube-tra13-respondents-comfort-levels-with-a-c2c054f20e32",
-      "propertyId": "cg:property:date",
-      "value": {
-        "type": "entity",
-        "id": "cg:date-year:2021",
-        "label": "2021"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:4ba3ecf3ad2ddcfea42b",
-      "subjectId": "cg:source:approved-publication-census-cube-tra13-respondents-comfort-levels-with-a-c2c054f20e32",
-      "propertyId": "cg:property:instance-of",
-      "value": {
-        "type": "entity",
-        "id": "cg:entity-type:source"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a91c921c0f005f74f8bb",
-      "subjectId": "cg:source:approved-publication-census-cube-tra13-respondents-comfort-levels-with-a-c2c054f20e32",
-      "propertyId": "cg:property:name",
-      "value": {
-        "type": "string",
-        "value": "Respondents comfort levels with asking a neighbour to keep a set of keys to their home for emergencies"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:cacf5b6af9c9b402228a",
-      "subjectId": "cg:source:approved-publication-census-cube-tra13-respondents-comfort-levels-with-a-c2c054f20e32",
-      "propertyId": "cg:property:provider",
-      "value": {
-        "type": "entity",
-        "id": "cg:provider:cso"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:1715cc808268fc1c6fa2",
-      "subjectId": "cg:source:approved-publication-census-cube-tra13-respondents-comfort-levels-with-a-c2c054f20e32",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:cso-pxstat-table-tra13-511ab7099970"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://data.cso.ie/table/TRA13"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:83df7d427d8b0dee288d",
-      "subjectId": "cg:source:approved-publication-census-cube-tra13-respondents-comfort-levels-with-a-c2c054f20e32",
-      "propertyId": "cg:property:source",
-      "value": {
-        "type": "entity",
-        "id": "cg:source:json-stat-cube-tra13-4f63e966682d"
-      },
-      "qualifiers": [
-        {
-          "propertyId": "cg:property:url",
-          "value": {
-            "type": "url",
-            "value": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TRA13/JSON-stat/2.0/en"
-          }
-        },
-        {
-          "propertyId": "cg:property:source-kind",
-          "value": {
-            "type": "string",
-            "value": "source-reference"
-          }
-        }
-      ],
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:824b16199b2a970209bc",
-      "subjectId": "cg:source:approved-publication-census-cube-tra13-respondents-comfort-levels-with-a-c2c054f20e32",
-      "propertyId": "cg:property:source-kind",
-      "value": {
-        "type": "string",
-        "value": "Approved tables"
-      },
-      "rank": "normal"
-    },
-    {
-      "id": "cg:statement:a4ab1d01fa65f12a0592",
-      "subjectId": "cg:source:approved-publication-census-cube-tra13-respondents-comfort-levels-with-a-c2c054f20e32",
-      "propertyId": "cg:property:url",
-      "value": {
-        "type": "url",
-        "value": "https://data.cso.ie/table/TRA13"
-      },
       "rank": "normal"
     }
   ]

@@ -1,9 +1,723 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-30T20:22:40.523Z",
+  "generatedAt": "2026-07-31T21:25:05.074Z",
   "shard": 209,
   "totalSubjects": 250,
   "items": {
+    "cg:source:approved-publication-census-cube-tam04-aviation-activity-and-emissions": [
+      {
+        "id": "cg:statement:351d10384a32f342b835",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:source",
+        "valueLabel": "Source",
+        "valueText": "Source",
+        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:fda0243bf461c2841762",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Aviation Activity and Emissions",
+        "valueText": "Aviation Activity and Emissions",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:3b3e1205444624c9552f",
+        "propertyId": "cg:property:provider",
+        "propertyLabel": "provider",
+        "valueType": "entity",
+        "valueId": "cg:provider:cso",
+        "valueLabel": "CSO",
+        "valueText": "CSO",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:3327e8fd374fc7eb3212",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:json-stat-cube-tam04-2d3533cf6d46",
+        "valueLabel": "JSON-stat cube (TAM04)",
+        "valueText": "JSON-stat cube (TAM04)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TAM04/JSON-stat/2.0/en",
+            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TAM04/JSON-stat/2.0/en"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:4192c5d800a6ec188ac8",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:cso-pxstat-table-tam04-e32d84969db7",
+        "valueLabel": "CSO PxStat table TAM04",
+        "valueText": "CSO PxStat table TAM04",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://data.cso.ie/table/TAM04",
+            "valueText": "https://data.cso.ie/table/TAM04"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:7e659b6d8bc4c31e1811",
+        "propertyId": "cg:property:source-kind",
+        "propertyLabel": "source kind",
+        "valueType": "string",
+        "valueLabel": "Approved tables",
+        "valueText": "Approved tables",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:2176993bf92cdfa7a3e1",
+        "propertyId": "cg:property:url",
+        "propertyLabel": "URL",
+        "valueType": "url",
+        "valueLabel": "https://data.cso.ie/table/TAM04",
+        "valueText": "https://data.cso.ie/table/TAM04",
+        "referenceCount": 0
+      }
+    ],
+    "cg:source:approved-publication-census-cube-tam05-passengers-freight-and-commercial-flights": [
+      {
+        "id": "cg:statement:d1a917b3a476fab42027",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:source",
+        "valueLabel": "Source",
+        "valueText": "Source",
+        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:f03411e33a9fa01df3ea",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Passengers, Freight and Commercial Flights",
+        "valueText": "Passengers, Freight and Commercial Flights",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:ef15dcaa01e043ded781",
+        "propertyId": "cg:property:provider",
+        "propertyLabel": "provider",
+        "valueType": "entity",
+        "valueId": "cg:provider:cso",
+        "valueLabel": "CSO",
+        "valueText": "CSO",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:2b2df57469b4dd966668",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:cso-pxstat-table-tam05-97e8aa6a2c02",
+        "valueLabel": "CSO PxStat table TAM05",
+        "valueText": "CSO PxStat table TAM05",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://data.cso.ie/table/TAM05",
+            "valueText": "https://data.cso.ie/table/TAM05"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:726ebcd96728ab4a1d0c",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:json-stat-cube-tam05-1a903c2fdfe7",
+        "valueLabel": "JSON-stat cube (TAM05)",
+        "valueText": "JSON-stat cube (TAM05)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TAM05/JSON-stat/2.0/en",
+            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TAM05/JSON-stat/2.0/en"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:f002519b91b97c8caa4a",
+        "propertyId": "cg:property:source-kind",
+        "propertyLabel": "source kind",
+        "valueType": "string",
+        "valueLabel": "Approved tables",
+        "valueText": "Approved tables",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:a4288f4f2f78b5309b75",
+        "propertyId": "cg:property:url",
+        "propertyLabel": "URL",
+        "valueType": "url",
+        "valueLabel": "https://data.cso.ie/table/TAM05",
+        "valueText": "https://data.cso.ie/table/TAM05",
+        "referenceCount": 0
+      }
+    ],
+    "cg:source:approved-publication-census-cube-tam07-passengers-freight-and-commercial-flights": [
+      {
+        "id": "cg:statement:6f155a36fbe0865a1dab",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:source",
+        "valueLabel": "Source",
+        "valueText": "Source",
+        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:3ea2433cbb2b6295e2c6",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Passengers, Freight and Commercial Flights",
+        "valueText": "Passengers, Freight and Commercial Flights",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:81efa10574f16343ba68",
+        "propertyId": "cg:property:provider",
+        "propertyLabel": "provider",
+        "valueType": "entity",
+        "valueId": "cg:provider:cso",
+        "valueLabel": "CSO",
+        "valueText": "CSO",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:dff6400dfcfa7e16e30d",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:json-stat-cube-tam07-cfa37a5b7126",
+        "valueLabel": "JSON-stat cube (TAM07)",
+        "valueText": "JSON-stat cube (TAM07)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TAM07/JSON-stat/2.0/en",
+            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TAM07/JSON-stat/2.0/en"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:e72de177c28b481a65a2",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:cso-pxstat-table-tam07-97178a413d13",
+        "valueLabel": "CSO PxStat table TAM07",
+        "valueText": "CSO PxStat table TAM07",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://data.cso.ie/table/TAM07",
+            "valueText": "https://data.cso.ie/table/TAM07"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:27dbb7aaaf7e7b611b60",
+        "propertyId": "cg:property:source-kind",
+        "propertyLabel": "source kind",
+        "valueType": "string",
+        "valueLabel": "Approved tables",
+        "valueText": "Approved tables",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:c78621b3911785057d09",
+        "propertyId": "cg:property:url",
+        "propertyLabel": "URL",
+        "valueType": "url",
+        "valueLabel": "https://data.cso.ie/table/TAM07",
+        "valueText": "https://data.cso.ie/table/TAM07",
+        "referenceCount": 0
+      }
+    ],
+    "cg:source:approved-publication-census-cube-taq01-passengers": [
+      {
+        "id": "cg:statement:7fbe938da34b118a8760",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:source",
+        "valueLabel": "Source",
+        "valueText": "Source",
+        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:d3b53d23b08af9e8280f",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Passengers",
+        "valueText": "Passengers",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:79b640f9d08bc0ea144f",
+        "propertyId": "cg:property:provider",
+        "propertyLabel": "provider",
+        "valueType": "entity",
+        "valueId": "cg:provider:cso",
+        "valueLabel": "CSO",
+        "valueText": "CSO",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:0725a67ef16099d7ed45",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:cso-pxstat-table-taq01-cf472d961ae3",
+        "valueLabel": "CSO PxStat table TAQ01",
+        "valueText": "CSO PxStat table TAQ01",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://data.cso.ie/table/TAQ01",
+            "valueText": "https://data.cso.ie/table/TAQ01"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:8df5bea7b60c9af4fa37",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:json-stat-cube-taq01-01e58298d271",
+        "valueLabel": "JSON-stat cube (TAQ01)",
+        "valueText": "JSON-stat cube (TAQ01)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TAQ01/JSON-stat/2.0/en",
+            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TAQ01/JSON-stat/2.0/en"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:ff5b810d67fb5aba6af7",
+        "propertyId": "cg:property:source-kind",
+        "propertyLabel": "source kind",
+        "valueType": "string",
+        "valueLabel": "Approved tables",
+        "valueText": "Approved tables",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:f497b15e3b79d8fddfae",
+        "propertyId": "cg:property:url",
+        "propertyLabel": "URL",
+        "valueType": "url",
+        "valueLabel": "https://data.cso.ie/table/TAQ01",
+        "valueText": "https://data.cso.ie/table/TAQ01",
+        "referenceCount": 0
+      }
+    ],
+    "cg:source:approved-publication-census-cube-tba03-tonnage-of-goods-handled-at-irish-ports": [
+      {
+        "id": "cg:statement:ef0c3a0533b6300fd4a4",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:source",
+        "valueLabel": "Source",
+        "valueText": "Source",
+        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:a59aba2d1f39de43f3d4",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Tonnage of Goods Handled at Irish Ports",
+        "valueText": "Tonnage of Goods Handled at Irish Ports",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:60f0f9ded25f90142ca4",
+        "propertyId": "cg:property:provider",
+        "propertyLabel": "provider",
+        "valueType": "entity",
+        "valueId": "cg:provider:cso",
+        "valueLabel": "CSO",
+        "valueText": "CSO",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:a53bbf992ea98d47c352",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:cso-pxstat-table-tba03-c9e7f105ace2",
+        "valueLabel": "CSO PxStat table TBA03",
+        "valueText": "CSO PxStat table TBA03",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://data.cso.ie/table/TBA03",
+            "valueText": "https://data.cso.ie/table/TBA03"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:c7da0c8ef3831ece7430",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:json-stat-cube-tba03-f6a4263afb67",
+        "valueLabel": "JSON-stat cube (TBA03)",
+        "valueText": "JSON-stat cube (TBA03)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TBA03/JSON-stat/2.0/en",
+            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TBA03/JSON-stat/2.0/en"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:a1bef6182b2bb2bc0b84",
+        "propertyId": "cg:property:source-kind",
+        "propertyLabel": "source kind",
+        "valueType": "string",
+        "valueLabel": "Approved tables",
+        "valueText": "Approved tables",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:2ff944cce72c5e851ae2",
+        "propertyId": "cg:property:url",
+        "propertyLabel": "URL",
+        "valueType": "url",
+        "valueLabel": "https://data.cso.ie/table/TBA03",
+        "valueText": "https://data.cso.ie/table/TBA03",
+        "referenceCount": 0
+      }
+    ],
+    "cg:source:approved-publication-census-cube-tba06-livestock-handled": [
+      {
+        "id": "cg:statement:ef7b3e3361e9c851a5c7",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:source",
+        "valueLabel": "Source",
+        "valueText": "Source",
+        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:c15f90f4953909743255",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Livestock Handled",
+        "valueText": "Livestock Handled",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:c768b9a9164a8385c3de",
+        "propertyId": "cg:property:provider",
+        "propertyLabel": "provider",
+        "valueType": "entity",
+        "valueId": "cg:provider:cso",
+        "valueLabel": "CSO",
+        "valueText": "CSO",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:0567c0763a8f4826d851",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:json-stat-cube-tba06-f49ae9b659ac",
+        "valueLabel": "JSON-stat cube (TBA06)",
+        "valueText": "JSON-stat cube (TBA06)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TBA06/JSON-stat/2.0/en",
+            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TBA06/JSON-stat/2.0/en"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:88fd74fa4e4d0368cb7f",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:cso-pxstat-table-tba06-63911bc12621",
+        "valueLabel": "CSO PxStat table TBA06",
+        "valueText": "CSO PxStat table TBA06",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://data.cso.ie/table/TBA06",
+            "valueText": "https://data.cso.ie/table/TBA06"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:19f56206d7580046e476",
+        "propertyId": "cg:property:source-kind",
+        "propertyLabel": "source kind",
+        "valueType": "string",
+        "valueLabel": "Approved tables",
+        "valueText": "Approved tables",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:0851ca954768cf9e1a58",
+        "propertyId": "cg:property:url",
+        "propertyLabel": "URL",
+        "valueType": "url",
+        "valueLabel": "https://data.cso.ie/table/TBA06",
+        "valueText": "https://data.cso.ie/table/TBA06",
+        "referenceCount": 0
+      }
+    ],
+    "cg:source:approved-publication-census-cube-tba07-tonnage-of-goods-handled": [
+      {
+        "id": "cg:statement:04ec942485a845a2c4db",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:source",
+        "valueLabel": "Source",
+        "valueText": "Source",
+        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:bc58102b04670df1c7e8",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Tonnage of Goods Handled",
+        "valueText": "Tonnage of Goods Handled",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:ca887f5b350fde75ab8d",
+        "propertyId": "cg:property:provider",
+        "propertyLabel": "provider",
+        "valueType": "entity",
+        "valueId": "cg:provider:cso",
+        "valueLabel": "CSO",
+        "valueText": "CSO",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:0b11fc0f505242b8b804",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:json-stat-cube-tba07-ba0e917cd0c4",
+        "valueLabel": "JSON-stat cube (TBA07)",
+        "valueText": "JSON-stat cube (TBA07)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TBA07/JSON-stat/2.0/en",
+            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/TBA07/JSON-stat/2.0/en"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:305aa9f881bb5915bd34",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:cso-pxstat-table-tba07-7303b7121bc0",
+        "valueLabel": "CSO PxStat table TBA07",
+        "valueText": "CSO PxStat table TBA07",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://data.cso.ie/table/TBA07",
+            "valueText": "https://data.cso.ie/table/TBA07"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:f8a6aa5b11518aecd3b6",
+        "propertyId": "cg:property:source-kind",
+        "propertyLabel": "source kind",
+        "valueType": "string",
+        "valueLabel": "Approved tables",
+        "valueText": "Approved tables",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:57c81da971c4d0a1e43e",
+        "propertyId": "cg:property:url",
+        "propertyLabel": "URL",
+        "valueType": "url",
+        "valueLabel": "https://data.cso.ie/table/TBA07",
+        "valueText": "https://data.cso.ie/table/TBA07",
+        "referenceCount": 0
+      }
+    ],
     "cg:source:approved-publication-census-cube-tba14-tonnage-of-goods-handled-at-irish-ports": [
       {
         "id": "cg:statement:47ca727aa588b73878a5",
@@ -25821,720 +26535,6 @@
         "valueType": "url",
         "valueLabel": "https://data.cso.ie/table/UA19",
         "valueText": "https://data.cso.ie/table/UA19",
-        "referenceCount": 0
-      }
-    ],
-    "cg:source:approved-publication-census-cube-ua20-number-of-employments-of-arrivals-from-ukraine": [
-      {
-        "id": "cg:statement:e5e359f21b8ed58b95e3",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:source",
-        "valueLabel": "Source",
-        "valueText": "Source",
-        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:c046c38befd6594db831",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Number of Employments of Arrivals from Ukraine",
-        "valueText": "Number of Employments of Arrivals from Ukraine",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:41eda53ff50fc2dcd314",
-        "propertyId": "cg:property:provider",
-        "propertyLabel": "provider",
-        "valueType": "entity",
-        "valueId": "cg:provider:cso",
-        "valueLabel": "CSO",
-        "valueText": "CSO",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:1335eb4a4728afec48f3",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:json-stat-cube-ua20-fd402cae1ecc",
-        "valueLabel": "JSON-stat cube (UA20)",
-        "valueText": "JSON-stat cube (UA20)",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/UA20/JSON-stat/2.0/en",
-            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/UA20/JSON-stat/2.0/en"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:621721a2b94c255f7201",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:cso-pxstat-table-ua20-10b4c703068f",
-        "valueLabel": "CSO PxStat table UA20",
-        "valueText": "CSO PxStat table UA20",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://data.cso.ie/table/UA20",
-            "valueText": "https://data.cso.ie/table/UA20"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:63f1bc273fd9226c5ff0",
-        "propertyId": "cg:property:source-kind",
-        "propertyLabel": "source kind",
-        "valueType": "string",
-        "valueLabel": "Approved tables",
-        "valueText": "Approved tables",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:6a2c7d74a20b10757ade",
-        "propertyId": "cg:property:url",
-        "propertyLabel": "URL",
-        "valueType": "url",
-        "valueLabel": "https://data.cso.ie/table/UA20",
-        "valueText": "https://data.cso.ie/table/UA20",
-        "referenceCount": 0
-      }
-    ],
-    "cg:source:approved-publication-census-cube-ua29-employments-and-employees-among-arrivals-from-ukraine": [
-      {
-        "id": "cg:statement:2ff190b7e7892e2838fe",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:source",
-        "valueLabel": "Source",
-        "valueText": "Source",
-        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:1419d2290deee837047d",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Employments and employees among arrivals from Ukraine",
-        "valueText": "Employments and employees among arrivals from Ukraine",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:e6c66ed67ec860c38dc6",
-        "propertyId": "cg:property:provider",
-        "propertyLabel": "provider",
-        "valueType": "entity",
-        "valueId": "cg:provider:cso",
-        "valueLabel": "CSO",
-        "valueText": "CSO",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:3423db4b91e98418620f",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:json-stat-cube-ua29-f991a7c6ace3",
-        "valueLabel": "JSON-stat cube (UA29)",
-        "valueText": "JSON-stat cube (UA29)",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/UA29/JSON-stat/2.0/en",
-            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/UA29/JSON-stat/2.0/en"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:8d37bb03d3cb60192942",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:cso-pxstat-table-ua29-613f96ee392e",
-        "valueLabel": "CSO PxStat table UA29",
-        "valueText": "CSO PxStat table UA29",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://data.cso.ie/table/UA29",
-            "valueText": "https://data.cso.ie/table/UA29"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:aba1d3d16fe2eea58614",
-        "propertyId": "cg:property:source-kind",
-        "propertyLabel": "source kind",
-        "valueType": "string",
-        "valueLabel": "Approved tables",
-        "valueText": "Approved tables",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:57a558531cd3ce73d485",
-        "propertyId": "cg:property:url",
-        "propertyLabel": "URL",
-        "valueType": "url",
-        "valueLabel": "https://data.cso.ie/table/UA29",
-        "valueText": "https://data.cso.ie/table/UA29",
-        "referenceCount": 0
-      }
-    ],
-    "cg:source:approved-publication-census-cube-ua31-arrivals-from-ukraine-who-enrolled-in-education": [
-      {
-        "id": "cg:statement:89f895d7ceefff6f7463",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:source",
-        "valueLabel": "Source",
-        "valueText": "Source",
-        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:72db4c285801346cee03",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Arrivals from Ukraine who enrolled in Education",
-        "valueText": "Arrivals from Ukraine who enrolled in Education",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:556077d6aa9dce3ac868",
-        "propertyId": "cg:property:provider",
-        "propertyLabel": "provider",
-        "valueType": "entity",
-        "valueId": "cg:provider:cso",
-        "valueLabel": "CSO",
-        "valueText": "CSO",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:395ea16b3205884cce66",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:cso-pxstat-table-ua31-1f59f8e5c31e",
-        "valueLabel": "CSO PxStat table UA31",
-        "valueText": "CSO PxStat table UA31",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://data.cso.ie/table/UA31",
-            "valueText": "https://data.cso.ie/table/UA31"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:42f197195d4a5439f691",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:json-stat-cube-ua31-ac7b3f0c4990",
-        "valueLabel": "JSON-stat cube (UA31)",
-        "valueText": "JSON-stat cube (UA31)",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/UA31/JSON-stat/2.0/en",
-            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/UA31/JSON-stat/2.0/en"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:a51a26a6b16f34c0c095",
-        "propertyId": "cg:property:source-kind",
-        "propertyLabel": "source kind",
-        "valueType": "string",
-        "valueLabel": "Approved tables",
-        "valueText": "Approved tables",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:a5e042d94db294fb3af6",
-        "propertyId": "cg:property:url",
-        "propertyLabel": "URL",
-        "valueType": "url",
-        "valueLabel": "https://data.cso.ie/table/UA31",
-        "valueText": "https://data.cso.ie/table/UA31",
-        "referenceCount": 0
-      }
-    ],
-    "cg:source:approved-publication-census-cube-ua34-number-and-location-based-on-ppsn--b3c0c58a7314": [
-      {
-        "id": "cg:statement:07557d6a7d4f74f3cd1c",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:source",
-        "valueLabel": "Source",
-        "valueText": "Source",
-        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:3c473a43581f578f8832",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Number and location (based on PPSN allocations data) of arrivals from Ukraine",
-        "valueText": "Number and location (based on PPSN allocations data) of arrivals from Ukraine",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:a08fb2ee23ce4aa60029",
-        "propertyId": "cg:property:provider",
-        "propertyLabel": "provider",
-        "valueType": "entity",
-        "valueId": "cg:provider:cso",
-        "valueLabel": "CSO",
-        "valueText": "CSO",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:386e54cb691659be51dd",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:cso-pxstat-table-ua34-e6dc6c4199d7",
-        "valueLabel": "CSO PxStat table UA34",
-        "valueText": "CSO PxStat table UA34",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://data.cso.ie/table/UA34",
-            "valueText": "https://data.cso.ie/table/UA34"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:3a63947170f933709219",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:json-stat-cube-ua34-7ab8094f7319",
-        "valueLabel": "JSON-stat cube (UA34)",
-        "valueText": "JSON-stat cube (UA34)",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/UA34/JSON-stat/2.0/en",
-            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/UA34/JSON-stat/2.0/en"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:9746fe3e2d3cd5816a8d",
-        "propertyId": "cg:property:source-kind",
-        "propertyLabel": "source kind",
-        "valueType": "string",
-        "valueLabel": "Approved tables",
-        "valueText": "Approved tables",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:89f1f1c8971b4f0c3e5b",
-        "propertyId": "cg:property:url",
-        "propertyLabel": "URL",
-        "valueType": "url",
-        "valueLabel": "https://data.cso.ie/table/UA34",
-        "valueText": "https://data.cso.ie/table/UA34",
-        "referenceCount": 0
-      }
-    ],
-    "cg:source:approved-publication-census-cube-ua36-summary-metrics-for-eligible-ppsns-issued": [
-      {
-        "id": "cg:statement:16b32dc9aa392c85018a",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:source",
-        "valueLabel": "Source",
-        "valueText": "Source",
-        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:2a02cacd194718868566",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Summary metrics for eligible PPSNs Issued",
-        "valueText": "Summary metrics for eligible PPSNs Issued",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:43b296901238d847c381",
-        "propertyId": "cg:property:provider",
-        "propertyLabel": "provider",
-        "valueType": "entity",
-        "valueId": "cg:provider:cso",
-        "valueLabel": "CSO",
-        "valueText": "CSO",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:249f407d5d2ffba3a471",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:cso-pxstat-table-ua36-4084e17240ef",
-        "valueLabel": "CSO PxStat table UA36",
-        "valueText": "CSO PxStat table UA36",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://data.cso.ie/table/UA36",
-            "valueText": "https://data.cso.ie/table/UA36"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:aba2a99f1524cb1fae4e",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:json-stat-cube-ua36-43a6eee80ef1",
-        "valueLabel": "JSON-stat cube (UA36)",
-        "valueText": "JSON-stat cube (UA36)",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/UA36/JSON-stat/2.0/en",
-            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/UA36/JSON-stat/2.0/en"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:da066a8d603c40043840",
-        "propertyId": "cg:property:source-kind",
-        "propertyLabel": "source kind",
-        "valueType": "string",
-        "valueLabel": "Approved tables",
-        "valueText": "Approved tables",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:9caaaf20afc16a533947",
-        "propertyId": "cg:property:url",
-        "propertyLabel": "URL",
-        "valueType": "url",
-        "valueLabel": "https://data.cso.ie/table/UA36",
-        "valueText": "https://data.cso.ie/table/UA36",
-        "referenceCount": 0
-      }
-    ],
-    "cg:source:approved-publication-census-cube-ua37-temporary-protection-granted-to-arrivals-from-ukraine": [
-      {
-        "id": "cg:statement:d3c4b375f661ef2d7b7f",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:source",
-        "valueLabel": "Source",
-        "valueText": "Source",
-        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:5e940c5fd39446240b2c",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Temporary Protection granted to arrivals from Ukraine",
-        "valueText": "Temporary Protection granted to arrivals from Ukraine",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:369a70de59cd09d52f51",
-        "propertyId": "cg:property:provider",
-        "propertyLabel": "provider",
-        "valueType": "entity",
-        "valueId": "cg:provider:cso",
-        "valueLabel": "CSO",
-        "valueText": "CSO",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:2b09725a01ea52bca85d",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:json-stat-cube-ua37-c95f50e3dd42",
-        "valueLabel": "JSON-stat cube (UA37)",
-        "valueText": "JSON-stat cube (UA37)",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/UA37/JSON-stat/2.0/en",
-            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/UA37/JSON-stat/2.0/en"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:f4d358b9aadb27fb3542",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:cso-pxstat-table-ua37-9279e5b8a10a",
-        "valueLabel": "CSO PxStat table UA37",
-        "valueText": "CSO PxStat table UA37",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://data.cso.ie/table/UA37",
-            "valueText": "https://data.cso.ie/table/UA37"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:0cc786bac59bcbca2f48",
-        "propertyId": "cg:property:source-kind",
-        "propertyLabel": "source kind",
-        "valueType": "string",
-        "valueLabel": "Approved tables",
-        "valueText": "Approved tables",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:20b36ca212e9f3187eeb",
-        "propertyId": "cg:property:url",
-        "propertyLabel": "URL",
-        "valueType": "url",
-        "valueLabel": "https://data.cso.ie/table/UA37",
-        "valueText": "https://data.cso.ie/table/UA37",
-        "referenceCount": 0
-      }
-    ],
-    "cg:source:approved-publication-census-cube-ua40-medical-cards-issued-to-arrivals-f-c143bf0993a1": [
-      {
-        "id": "cg:statement:67ace9b8c9e9393520bc",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:source",
-        "valueLabel": "Source",
-        "valueText": "Source",
-        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:abe476a77ef29a701e4b",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Medical Cards Issued to Arrivals from Ukraine and Currently Live",
-        "valueText": "Medical Cards Issued to Arrivals from Ukraine and Currently Live",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:c442ed25353af83f5f41",
-        "propertyId": "cg:property:provider",
-        "propertyLabel": "provider",
-        "valueType": "entity",
-        "valueId": "cg:provider:cso",
-        "valueLabel": "CSO",
-        "valueText": "CSO",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:7c19fcdf3b1df1fada19",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:cso-pxstat-table-ua40-acb81fc5bac8",
-        "valueLabel": "CSO PxStat table UA40",
-        "valueText": "CSO PxStat table UA40",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://data.cso.ie/table/UA40",
-            "valueText": "https://data.cso.ie/table/UA40"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:ba46cb278f767c57f83c",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:json-stat-cube-ua40-69c350a62476",
-        "valueLabel": "JSON-stat cube (UA40)",
-        "valueText": "JSON-stat cube (UA40)",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/UA40/JSON-stat/2.0/en",
-            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/UA40/JSON-stat/2.0/en"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:8860fae610635bb033f4",
-        "propertyId": "cg:property:source-kind",
-        "propertyLabel": "source kind",
-        "valueType": "string",
-        "valueLabel": "Approved tables",
-        "valueText": "Approved tables",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:faf1be10da71a8944c79",
-        "propertyId": "cg:property:url",
-        "propertyLabel": "URL",
-        "valueType": "url",
-        "valueLabel": "https://data.cso.ie/table/UA40",
-        "valueText": "https://data.cso.ie/table/UA40",
         "referenceCount": 0
       }
     ]

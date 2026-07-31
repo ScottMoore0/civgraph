@@ -1,9 +1,723 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-30T20:22:40.523Z",
+  "generatedAt": "2026-07-31T21:25:05.074Z",
   "shard": 201,
   "totalSubjects": 250,
   "items": {
+    "cg:source:approved-publication-census-cube-ict16-individuals-who-recently-used-the-28acb9ddd8cd": [
+      {
+        "id": "cg:statement:d07f4ffc29b3504d25f8",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:source",
+        "valueLabel": "Source",
+        "valueText": "Source",
+        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:ea06100240eba164fc2b",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Individuals who recently used the internet (in the last 3 months)",
+        "valueText": "Individuals who recently used the internet (in the last 3 months)",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:bd392557eab7af95a4fb",
+        "propertyId": "cg:property:provider",
+        "propertyLabel": "provider",
+        "valueType": "entity",
+        "valueId": "cg:provider:cso",
+        "valueLabel": "CSO",
+        "valueText": "CSO",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:0c1af0d859a932b9ba67",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:json-stat-cube-ict16-de9984444de1",
+        "valueLabel": "JSON-stat cube (ICT16)",
+        "valueText": "JSON-stat cube (ICT16)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/ICT16/JSON-stat/2.0/en",
+            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/ICT16/JSON-stat/2.0/en"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:81ccf1c3d146396e9512",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:cso-pxstat-table-ict16-46d272e8cfc7",
+        "valueLabel": "CSO PxStat table ICT16",
+        "valueText": "CSO PxStat table ICT16",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://data.cso.ie/table/ICT16",
+            "valueText": "https://data.cso.ie/table/ICT16"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:c0c8344cb4ece5b44504",
+        "propertyId": "cg:property:source-kind",
+        "propertyLabel": "source kind",
+        "valueType": "string",
+        "valueLabel": "Approved tables",
+        "valueText": "Approved tables",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:20e8445cf98f05ce7fe8",
+        "propertyId": "cg:property:url",
+        "propertyLabel": "URL",
+        "valueType": "url",
+        "valueLabel": "https://data.cso.ie/table/ICT16",
+        "valueText": "https://data.cso.ie/table/ICT16",
+        "referenceCount": 0
+      }
+    ],
+    "cg:source:approved-publication-census-cube-ict20-individuals-who-use-the-internet--b646ef52d2ea": [
+      {
+        "id": "cg:statement:cd946ecbdf8e04e40ee1",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:source",
+        "valueLabel": "Source",
+        "valueText": "Source",
+        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:2dcabfb030dd207ad60b",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Individuals who use the internet classified by types of purchases made online during the last 3 months",
+        "valueText": "Individuals who use the internet classified by types of purchases made online during the last 3 months",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:46b9f5e80cd371b6180d",
+        "propertyId": "cg:property:provider",
+        "propertyLabel": "provider",
+        "valueType": "entity",
+        "valueId": "cg:provider:cso",
+        "valueLabel": "CSO",
+        "valueText": "CSO",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:39112655f61f0970decc",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:json-stat-cube-ict20-b88edc1e5849",
+        "valueLabel": "JSON-stat cube (ICT20)",
+        "valueText": "JSON-stat cube (ICT20)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/ICT20/JSON-stat/2.0/en",
+            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/ICT20/JSON-stat/2.0/en"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:bc83f03fb806ee2450d1",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:cso-pxstat-table-ict20-d218cd34becc",
+        "valueLabel": "CSO PxStat table ICT20",
+        "valueText": "CSO PxStat table ICT20",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://data.cso.ie/table/ICT20",
+            "valueText": "https://data.cso.ie/table/ICT20"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:e13d8cca84e724644699",
+        "propertyId": "cg:property:source-kind",
+        "propertyLabel": "source kind",
+        "valueType": "string",
+        "valueLabel": "Approved tables",
+        "valueText": "Approved tables",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:af3173ff50d9209e8cfb",
+        "propertyId": "cg:property:url",
+        "propertyLabel": "URL",
+        "valueType": "url",
+        "valueLabel": "https://data.cso.ie/table/ICT20",
+        "valueText": "https://data.cso.ie/table/ICT20",
+        "referenceCount": 0
+      }
+    ],
+    "cg:source:approved-publication-census-cube-ict24-individuals-contact-over-the-inte-e0d3023e5187": [
+      {
+        "id": "cg:statement:d7a058167543821259ea",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:source",
+        "valueLabel": "Source",
+        "valueText": "Source",
+        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:71210632187c2a34fc83",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Individuals contact over the internet with public authorities and public services in the last 3 months",
+        "valueText": "Individuals contact over the internet with public authorities and public services in the last 3 months",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:e18dd643fbf1c47478ae",
+        "propertyId": "cg:property:provider",
+        "propertyLabel": "provider",
+        "valueType": "entity",
+        "valueId": "cg:provider:cso",
+        "valueLabel": "CSO",
+        "valueText": "CSO",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:0504ec9a7d637ca15368",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:json-stat-cube-ict24-e0a5657fc8ff",
+        "valueLabel": "JSON-stat cube (ICT24)",
+        "valueText": "JSON-stat cube (ICT24)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/ICT24/JSON-stat/2.0/en",
+            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/ICT24/JSON-stat/2.0/en"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:b3d1301f53ebe26a2125",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:cso-pxstat-table-ict24-bca750f37ab6",
+        "valueLabel": "CSO PxStat table ICT24",
+        "valueText": "CSO PxStat table ICT24",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://data.cso.ie/table/ICT24",
+            "valueText": "https://data.cso.ie/table/ICT24"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:f1c21f394692da6ab005",
+        "propertyId": "cg:property:source-kind",
+        "propertyLabel": "source kind",
+        "valueType": "string",
+        "valueLabel": "Approved tables",
+        "valueText": "Approved tables",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:2768efe57bcefe3b34ca",
+        "propertyId": "cg:property:url",
+        "propertyLabel": "URL",
+        "valueType": "url",
+        "valueLabel": "https://data.cso.ie/table/ICT24",
+        "valueText": "https://data.cso.ie/table/ICT24",
+        "referenceCount": 0
+      }
+    ],
+    "cg:source:approved-publication-census-cube-ict25-percentage-of-individuals-who-con-844a9279e9ad": [
+      {
+        "id": "cg:statement:95c321188be234990d17",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:source",
+        "valueLabel": "Source",
+        "valueText": "Source",
+        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:f791239f590ef337e87e",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Percentage of individuals who conducted online learning activities for educational, professional or private purposes in the last 3 months",
+        "valueText": "Percentage of individuals who conducted online learning activities for educational, professional or private purposes in the last 3 months",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:542e933efa879d47cb57",
+        "propertyId": "cg:property:provider",
+        "propertyLabel": "provider",
+        "valueType": "entity",
+        "valueId": "cg:provider:cso",
+        "valueLabel": "CSO",
+        "valueText": "CSO",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:0be3314d640ee0dcff96",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:cso-pxstat-table-ict25-89132e99b6b9",
+        "valueLabel": "CSO PxStat table ICT25",
+        "valueText": "CSO PxStat table ICT25",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://data.cso.ie/table/ICT25",
+            "valueText": "https://data.cso.ie/table/ICT25"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:8f23b191a3bdcdfd5754",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:json-stat-cube-ict25-4b7e1bb21e26",
+        "valueLabel": "JSON-stat cube (ICT25)",
+        "valueText": "JSON-stat cube (ICT25)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/ICT25/JSON-stat/2.0/en",
+            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/ICT25/JSON-stat/2.0/en"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:340fbaec1ae10c9fdb54",
+        "propertyId": "cg:property:source-kind",
+        "propertyLabel": "source kind",
+        "valueType": "string",
+        "valueLabel": "Approved tables",
+        "valueText": "Approved tables",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:8e9892b29918372acb46",
+        "propertyId": "cg:property:url",
+        "propertyLabel": "URL",
+        "valueType": "url",
+        "valueLabel": "https://data.cso.ie/table/ICT25",
+        "valueText": "https://data.cso.ie/table/ICT25",
+        "referenceCount": 0
+      }
+    ],
+    "cg:source:approved-publication-census-cube-ict26-percentage-of-individuals-who-con-9a650885807e": [
+      {
+        "id": "cg:statement:8c4d15ced2868c341e4b",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:source",
+        "valueLabel": "Source",
+        "valueText": "Source",
+        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:52b3458fa3162f0afb37",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Percentage of individuals who conducted online learning activities for educational, professional or private purposes in the last 3 months",
+        "valueText": "Percentage of individuals who conducted online learning activities for educational, professional or private purposes in the last 3 months",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:de15cfd047e228ed1733",
+        "propertyId": "cg:property:provider",
+        "propertyLabel": "provider",
+        "valueType": "entity",
+        "valueId": "cg:provider:cso",
+        "valueLabel": "CSO",
+        "valueText": "CSO",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:1dd3f966303f5f56fdd8",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:cso-pxstat-table-ict26-01e8ae45f3f5",
+        "valueLabel": "CSO PxStat table ICT26",
+        "valueText": "CSO PxStat table ICT26",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://data.cso.ie/table/ICT26",
+            "valueText": "https://data.cso.ie/table/ICT26"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:5700fc492a113dc9832a",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:json-stat-cube-ict26-9202f2ff49e2",
+        "valueLabel": "JSON-stat cube (ICT26)",
+        "valueText": "JSON-stat cube (ICT26)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/ICT26/JSON-stat/2.0/en",
+            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/ICT26/JSON-stat/2.0/en"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:cd09f77e26c9746bef9a",
+        "propertyId": "cg:property:source-kind",
+        "propertyLabel": "source kind",
+        "valueType": "string",
+        "valueLabel": "Approved tables",
+        "valueText": "Approved tables",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:8430e910358bcd7e54c9",
+        "propertyId": "cg:property:url",
+        "propertyLabel": "URL",
+        "valueType": "url",
+        "valueLabel": "https://data.cso.ie/table/ICT26",
+        "valueText": "https://data.cso.ie/table/ICT26",
+        "referenceCount": 0
+      }
+    ],
+    "cg:source:approved-publication-census-cube-ict27-percentage-of-individuals-who-con-a6ded17e3962": [
+      {
+        "id": "cg:statement:0a19a974fc5b87532994",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:source",
+        "valueLabel": "Source",
+        "valueText": "Source",
+        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:63d0172b4e4c14106af9",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Percentage of individuals who conducted online learning activities for educational, professional or private purposes in the last 3 months",
+        "valueText": "Percentage of individuals who conducted online learning activities for educational, professional or private purposes in the last 3 months",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:5c7242150cddd7550fed",
+        "propertyId": "cg:property:provider",
+        "propertyLabel": "provider",
+        "valueType": "entity",
+        "valueId": "cg:provider:cso",
+        "valueLabel": "CSO",
+        "valueText": "CSO",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:8700f97454e460476fd8",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:cso-pxstat-table-ict27-a35e65e862f7",
+        "valueLabel": "CSO PxStat table ICT27",
+        "valueText": "CSO PxStat table ICT27",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://data.cso.ie/table/ICT27",
+            "valueText": "https://data.cso.ie/table/ICT27"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:a6cc727680e6bcae59ae",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:json-stat-cube-ict27-889f8726bd53",
+        "valueLabel": "JSON-stat cube (ICT27)",
+        "valueText": "JSON-stat cube (ICT27)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/ICT27/JSON-stat/2.0/en",
+            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/ICT27/JSON-stat/2.0/en"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:9de070ab27f47c92bfd2",
+        "propertyId": "cg:property:source-kind",
+        "propertyLabel": "source kind",
+        "valueType": "string",
+        "valueLabel": "Approved tables",
+        "valueText": "Approved tables",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:6099fcc7caadf63df27b",
+        "propertyId": "cg:property:url",
+        "propertyLabel": "URL",
+        "valueType": "url",
+        "valueLabel": "https://data.cso.ie/table/ICT27",
+        "valueText": "https://data.cso.ie/table/ICT27",
+        "referenceCount": 0
+      }
+    ],
+    "cg:source:approved-publication-census-cube-ict28-percentage-of-households-with-internet-access": [
+      {
+        "id": "cg:statement:c844efa94d6bedc4aa3c",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:source",
+        "valueLabel": "Source",
+        "valueText": "Source",
+        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:07021042223f9ef7554e",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Percentage of households with internet access",
+        "valueText": "Percentage of households with internet access",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:ee8882dadc3c7a73a179",
+        "propertyId": "cg:property:provider",
+        "propertyLabel": "provider",
+        "valueType": "entity",
+        "valueId": "cg:provider:cso",
+        "valueLabel": "CSO",
+        "valueText": "CSO",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:4057089a4ff14f615c13",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:json-stat-cube-ict28-4b0b1c574f32",
+        "valueLabel": "JSON-stat cube (ICT28)",
+        "valueText": "JSON-stat cube (ICT28)",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/ICT28/JSON-stat/2.0/en",
+            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/ICT28/JSON-stat/2.0/en"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:e435a50a458e98e7c731",
+        "propertyId": "cg:property:source",
+        "propertyLabel": "source",
+        "valueType": "entity",
+        "valueId": "cg:source:cso-pxstat-table-ict28-472091aaaab0",
+        "valueLabel": "CSO PxStat table ICT28",
+        "valueText": "CSO PxStat table ICT28",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:url",
+            "propertyLabel": "URL",
+            "valueType": "url",
+            "valueLabel": "https://data.cso.ie/table/ICT28",
+            "valueText": "https://data.cso.ie/table/ICT28"
+          },
+          {
+            "propertyId": "cg:property:source-kind",
+            "propertyLabel": "source kind",
+            "valueType": "string",
+            "valueLabel": "source-reference",
+            "valueText": "source-reference"
+          }
+        ],
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:c89d376055bd3419ee96",
+        "propertyId": "cg:property:source-kind",
+        "propertyLabel": "source kind",
+        "valueType": "string",
+        "valueLabel": "Approved tables",
+        "valueText": "Approved tables",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:1cd129ea3498546b3ff6",
+        "propertyId": "cg:property:url",
+        "propertyLabel": "URL",
+        "valueType": "url",
+        "valueLabel": "https://data.cso.ie/table/ICT28",
+        "valueText": "https://data.cso.ie/table/ICT28",
+        "referenceCount": 0
+      }
+    ],
     "cg:source:approved-publication-census-cube-ict29-households-with-internet-access": [
       {
         "id": "cg:statement:7f4ca5d899433dc7c948",
@@ -26646,775 +27360,6 @@
         "valueType": "url",
         "valueLabel": "https://data.cso.ie/table/LRW15",
         "valueText": "https://data.cso.ie/table/LRW15",
-        "referenceCount": 0
-      }
-    ],
-    "cg:source:approved-publication-census-cube-lrw16-number-of-persons-on-the-live-reg-20ec16f0b982": [
-      {
-        "id": "cg:statement:402264215339edd8244f",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:source",
-        "valueLabel": "Source",
-        "valueText": "Source",
-        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:9b86f46786a4373cd302",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Number of Persons on the Live Register, in receipt of the PUP and supported by the TWSS or EWSS",
-        "valueText": "Number of Persons on the Live Register, in receipt of the PUP and supported by the TWSS or EWSS",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:b88d04248a074c9ad858",
-        "propertyId": "cg:property:provider",
-        "propertyLabel": "provider",
-        "valueType": "entity",
-        "valueId": "cg:provider:cso",
-        "valueLabel": "CSO",
-        "valueText": "CSO",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:a427b89a96187f31755a",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:cso-pxstat-table-lrw16-73af26536188",
-        "valueLabel": "CSO PxStat table LRW16",
-        "valueText": "CSO PxStat table LRW16",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://data.cso.ie/table/LRW16",
-            "valueText": "https://data.cso.ie/table/LRW16"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:d6559887c3d783d7c631",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:json-stat-cube-lrw16-51032f43624e",
-        "valueLabel": "JSON-stat cube (LRW16)",
-        "valueText": "JSON-stat cube (LRW16)",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/LRW16/JSON-stat/2.0/en",
-            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/LRW16/JSON-stat/2.0/en"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:c1b2e5b0674cfbfeb5d5",
-        "propertyId": "cg:property:source-kind",
-        "propertyLabel": "source kind",
-        "valueType": "string",
-        "valueLabel": "Approved tables",
-        "valueText": "Approved tables",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:df9447156d71a94869f5",
-        "propertyId": "cg:property:url",
-        "propertyLabel": "URL",
-        "valueType": "url",
-        "valueLabel": "https://data.cso.ie/table/LRW16",
-        "valueText": "https://data.cso.ie/table/LRW16",
-        "referenceCount": 0
-      }
-    ],
-    "cg:source:approved-publication-census-cube-lrw18-cumulative-number-of-persons-rece-1cf106b34ea4": [
-      {
-        "id": "cg:statement:e1546e3b668ebe64cf07",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:source",
-        "valueLabel": "Source",
-        "valueText": "Source",
-        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:a4056f255a2e666c5de5",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Cumulative Number of Persons receiving the PUP ,TWSS or EWSS",
-        "valueText": "Cumulative Number of Persons receiving the PUP ,TWSS or EWSS",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:ea120507bcedae974244",
-        "propertyId": "cg:property:provider",
-        "propertyLabel": "provider",
-        "valueType": "entity",
-        "valueId": "cg:provider:cso",
-        "valueLabel": "CSO",
-        "valueText": "CSO",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:42ed7dec750379cb2326",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:cso-pxstat-table-lrw18-86a9394b0d2a",
-        "valueLabel": "CSO PxStat table LRW18",
-        "valueText": "CSO PxStat table LRW18",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://data.cso.ie/table/LRW18",
-            "valueText": "https://data.cso.ie/table/LRW18"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:8539fc19652b854bf58c",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:json-stat-cube-lrw18-41c9ae2cb8c7",
-        "valueLabel": "JSON-stat cube (LRW18)",
-        "valueText": "JSON-stat cube (LRW18)",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/LRW18/JSON-stat/2.0/en",
-            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/LRW18/JSON-stat/2.0/en"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:e4c7cce9ab4404c23bd9",
-        "propertyId": "cg:property:source-kind",
-        "propertyLabel": "source kind",
-        "valueType": "string",
-        "valueLabel": "Approved tables",
-        "valueText": "Approved tables",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:1ef0cc042a230eced819",
-        "propertyId": "cg:property:url",
-        "propertyLabel": "URL",
-        "valueType": "url",
-        "valueLabel": "https://data.cso.ie/table/LRW18",
-        "valueText": "https://data.cso.ie/table/LRW18",
-        "referenceCount": 0
-      }
-    ],
-    "cg:source:approved-publication-census-cube-mds01-average-distance-of-residential-d-cda4a3d5a7d0": [
-      {
-        "id": "cg:statement:d795e73f60760ecf3ccd",
-        "propertyId": "cg:property:date",
-        "propertyLabel": "date",
-        "valueType": "entity",
-        "valueId": "cg:date-year:2019",
-        "valueLabel": "2019",
-        "valueText": "2019",
-        "valueDescription": "Entities dated 2019",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:c558e66685221ef703c5",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:source",
-        "valueLabel": "Source",
-        "valueText": "Source",
-        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:e4f7d8f44a1e4fb21409",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Average Distance of Residential Dwellings to Everyday Services",
-        "valueText": "Average Distance of Residential Dwellings to Everyday Services",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:6ffc537d8e6e9a0454e7",
-        "propertyId": "cg:property:provider",
-        "propertyLabel": "provider",
-        "valueType": "entity",
-        "valueId": "cg:provider:cso",
-        "valueLabel": "CSO",
-        "valueText": "CSO",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:714fe8fc8fdd4c52597b",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:json-stat-cube-mds01-18582d345aac",
-        "valueLabel": "JSON-stat cube (MDS01)",
-        "valueText": "JSON-stat cube (MDS01)",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/MDS01/JSON-stat/2.0/en",
-            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/MDS01/JSON-stat/2.0/en"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:ec89c69e1ae3b4cef69c",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:cso-pxstat-table-mds01-a72b159907b4",
-        "valueLabel": "CSO PxStat table MDS01",
-        "valueText": "CSO PxStat table MDS01",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://data.cso.ie/table/MDS01",
-            "valueText": "https://data.cso.ie/table/MDS01"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:26f8aa564894896c8077",
-        "propertyId": "cg:property:source-kind",
-        "propertyLabel": "source kind",
-        "valueType": "string",
-        "valueLabel": "Approved tables",
-        "valueText": "Approved tables",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:97134aacb0fd7b4794d5",
-        "propertyId": "cg:property:url",
-        "propertyLabel": "URL",
-        "valueType": "url",
-        "valueLabel": "https://data.cso.ie/table/MDS01",
-        "valueText": "https://data.cso.ie/table/MDS01",
-        "referenceCount": 0
-      }
-    ],
-    "cg:source:approved-publication-census-cube-mds02-average-distance-of-residential-d-8d1dfc9eabe1": [
-      {
-        "id": "cg:statement:e7b040b05be166c519c9",
-        "propertyId": "cg:property:date",
-        "propertyLabel": "date",
-        "valueType": "entity",
-        "valueId": "cg:date-year:2019",
-        "valueLabel": "2019",
-        "valueText": "2019",
-        "valueDescription": "Entities dated 2019",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:9f300273afa2c8b2d8c2",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:source",
-        "valueLabel": "Source",
-        "valueText": "Source",
-        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:be0d6355994255301af3",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Average Distance of Residential Dwellings to Selected Services and Infrastructure",
-        "valueText": "Average Distance of Residential Dwellings to Selected Services and Infrastructure",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:b7dcc6e6f4253cac045e",
-        "propertyId": "cg:property:provider",
-        "propertyLabel": "provider",
-        "valueType": "entity",
-        "valueId": "cg:provider:cso",
-        "valueLabel": "CSO",
-        "valueText": "CSO",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:29dc73ead3bc3d25a314",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:json-stat-cube-mds02-387a9566c408",
-        "valueLabel": "JSON-stat cube (MDS02)",
-        "valueText": "JSON-stat cube (MDS02)",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/MDS02/JSON-stat/2.0/en",
-            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/MDS02/JSON-stat/2.0/en"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:6dcc1afa35dfb876368e",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:cso-pxstat-table-mds02-d09e003a5a49",
-        "valueLabel": "CSO PxStat table MDS02",
-        "valueText": "CSO PxStat table MDS02",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://data.cso.ie/table/MDS02",
-            "valueText": "https://data.cso.ie/table/MDS02"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:1d88724ed32540574a47",
-        "propertyId": "cg:property:source-kind",
-        "propertyLabel": "source kind",
-        "valueType": "string",
-        "valueLabel": "Approved tables",
-        "valueText": "Approved tables",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:2e332f5e6a0c86d3db78",
-        "propertyId": "cg:property:url",
-        "propertyLabel": "URL",
-        "valueType": "url",
-        "valueLabel": "https://data.cso.ie/table/MDS02",
-        "valueText": "https://data.cso.ie/table/MDS02",
-        "referenceCount": 0
-      }
-    ],
-    "cg:source:approved-publication-census-cube-mds08-population-in-2016": [
-      {
-        "id": "cg:statement:6aa0570811dbcd01f415",
-        "propertyId": "cg:property:date",
-        "propertyLabel": "date",
-        "valueType": "entity",
-        "valueId": "cg:date-year:2016",
-        "valueLabel": "2016",
-        "valueText": "2016",
-        "valueDescription": "Entities dated 2016",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:3a9c0ded9260578b03be",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:source",
-        "valueLabel": "Source",
-        "valueText": "Source",
-        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:7310ab3fa03e9f351a6f",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Population in 2016",
-        "valueText": "Population in 2016",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:493df376012cd9cf40f7",
-        "propertyId": "cg:property:provider",
-        "propertyLabel": "provider",
-        "valueType": "entity",
-        "valueId": "cg:provider:cso",
-        "valueLabel": "CSO",
-        "valueText": "CSO",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:5341546d1c0fc067f1f3",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:cso-pxstat-table-mds08-b630a653e28b",
-        "valueLabel": "CSO PxStat table MDS08",
-        "valueText": "CSO PxStat table MDS08",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://data.cso.ie/table/MDS08",
-            "valueText": "https://data.cso.ie/table/MDS08"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:e5c0222da79f0e3a03b0",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:json-stat-cube-mds08-c83c1e391969",
-        "valueLabel": "JSON-stat cube (MDS08)",
-        "valueText": "JSON-stat cube (MDS08)",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/MDS08/JSON-stat/2.0/en",
-            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/MDS08/JSON-stat/2.0/en"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:20864975eaeed1070038",
-        "propertyId": "cg:property:source-kind",
-        "propertyLabel": "source kind",
-        "valueType": "string",
-        "valueLabel": "Approved tables",
-        "valueText": "Approved tables",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:300a8969970479b3bb17",
-        "propertyId": "cg:property:url",
-        "propertyLabel": "URL",
-        "valueType": "url",
-        "valueLabel": "https://data.cso.ie/table/MDS08",
-        "valueText": "https://data.cso.ie/table/MDS08",
-        "referenceCount": 0
-      }
-    ],
-    "cg:source:approved-publication-census-cube-mds09-population-whose-means-of-travel--0c210e57509b": [
-      {
-        "id": "cg:statement:f2d3d468ba886cbcd942",
-        "propertyId": "cg:property:date",
-        "propertyLabel": "date",
-        "valueType": "entity",
-        "valueId": "cg:date-year:2016",
-        "valueLabel": "2016",
-        "valueText": "2016",
-        "valueDescription": "Entities dated 2016",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:26747d76c937dc8fc476",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:source",
-        "valueLabel": "Source",
-        "valueText": "Source",
-        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:4e3b977fb2278a3f5a2f",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Population whose means of travel in 2016 was Train, Dart or Luas",
-        "valueText": "Population whose means of travel in 2016 was Train, Dart or Luas",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:a00fb46dac55fbf7436e",
-        "propertyId": "cg:property:provider",
-        "propertyLabel": "provider",
-        "valueType": "entity",
-        "valueId": "cg:provider:cso",
-        "valueLabel": "CSO",
-        "valueText": "CSO",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:58e337a152096c2c4e8b",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:cso-pxstat-table-mds09-7ece4a63f7a9",
-        "valueLabel": "CSO PxStat table MDS09",
-        "valueText": "CSO PxStat table MDS09",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://data.cso.ie/table/MDS09",
-            "valueText": "https://data.cso.ie/table/MDS09"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:fe90a6b0159d2683ccfa",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:json-stat-cube-mds09-892fe9f00df2",
-        "valueLabel": "JSON-stat cube (MDS09)",
-        "valueText": "JSON-stat cube (MDS09)",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/MDS09/JSON-stat/2.0/en",
-            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/MDS09/JSON-stat/2.0/en"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:0e6f403301667fb2523a",
-        "propertyId": "cg:property:source-kind",
-        "propertyLabel": "source kind",
-        "valueType": "string",
-        "valueLabel": "Approved tables",
-        "valueText": "Approved tables",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:03bb0fcaf70fff7bb2b6",
-        "propertyId": "cg:property:url",
-        "propertyLabel": "URL",
-        "valueType": "url",
-        "valueLabel": "https://data.cso.ie/table/MDS09",
-        "valueText": "https://data.cso.ie/table/MDS09",
-        "referenceCount": 0
-      }
-    ],
-    "cg:source:approved-publication-census-cube-mds11-population-in-2016": [
-      {
-        "id": "cg:statement:9a4dd91b1f3e475ffcc1",
-        "propertyId": "cg:property:date",
-        "propertyLabel": "date",
-        "valueType": "entity",
-        "valueId": "cg:date-year:2016",
-        "valueLabel": "2016",
-        "valueText": "2016",
-        "valueDescription": "Entities dated 2016",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:d938b51283361287a968",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:source",
-        "valueLabel": "Source",
-        "valueText": "Source",
-        "valueDescription": "A source document, table, dataset, API output, PDF, HTML page, CSV, or related publication.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:bbfed9fbbe546511fbb1",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "Population in 2016",
-        "valueText": "Population in 2016",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:ab2ddb164bbc7dacf8dc",
-        "propertyId": "cg:property:provider",
-        "propertyLabel": "provider",
-        "valueType": "entity",
-        "valueId": "cg:provider:cso",
-        "valueLabel": "CSO",
-        "valueText": "CSO",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:46427cae5be770b8aa98",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:cso-pxstat-table-mds11-504b08134222",
-        "valueLabel": "CSO PxStat table MDS11",
-        "valueText": "CSO PxStat table MDS11",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://data.cso.ie/table/MDS11",
-            "valueText": "https://data.cso.ie/table/MDS11"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:e3cec981e572fbec270e",
-        "propertyId": "cg:property:source",
-        "propertyLabel": "source",
-        "valueType": "entity",
-        "valueId": "cg:source:json-stat-cube-mds11-d345649e847d",
-        "valueLabel": "JSON-stat cube (MDS11)",
-        "valueText": "JSON-stat cube (MDS11)",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:url",
-            "propertyLabel": "URL",
-            "valueType": "url",
-            "valueLabel": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/MDS11/JSON-stat/2.0/en",
-            "valueText": "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadDataset/MDS11/JSON-stat/2.0/en"
-          },
-          {
-            "propertyId": "cg:property:source-kind",
-            "propertyLabel": "source kind",
-            "valueType": "string",
-            "valueLabel": "source-reference",
-            "valueText": "source-reference"
-          }
-        ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:9c4e13c9f71ede53ad10",
-        "propertyId": "cg:property:source-kind",
-        "propertyLabel": "source kind",
-        "valueType": "string",
-        "valueLabel": "Approved tables",
-        "valueText": "Approved tables",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:c77ba7e9b86400eb7fd4",
-        "propertyId": "cg:property:url",
-        "propertyLabel": "URL",
-        "valueType": "url",
-        "valueLabel": "https://data.cso.ie/table/MDS11",
-        "valueText": "https://data.cso.ie/table/MDS11",
         "referenceCount": 0
       }
     ]
