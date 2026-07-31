@@ -73,7 +73,19 @@ for (const row of plan.rows || []) {
   }
 }
 
-const baseLayers = (test.layers || []).filter((layer) => !isGeneratedLayer(layer) || !regeneratedSourceIds.has(layer.sourceMapId));
+// UPSERT, DO NOT PRE-FILTER. This previously dropped every existing layer whose
+// sourceMapId appeared in regeneratedSourceIds, then relied on the promotion loops to
+// put it back. regeneratedSourceIds includes every alias row in the port plan -- not
+// just the ones in scope -- so a run filtered with --ids removed layers it never
+// intended to touch and could not restore, because their targets were out of scope. On
+// 2026-07-31 that destroyed 15 working layers (wards-1972/1984/1993/2001/2012,
+// lgd-1984, eds-1971/1977/1980/1983, baronies-all-ireland, pc-2023, stormont-1920,
+// assembly-areas-2023, ni-townlands-1844) whose tiles were still live on R2.
+//
+// Every existing layer is now carried forward and freshly promoted entries are appended
+// after it, so dedupeLayers()/chooseLayerForDuplicate() lets the new record win for the
+// same id. Additions and updates behave exactly as before; only the silent deletions go.
+const baseLayers = (test.layers || []);
 const promotedVectorLayers = [];
 const promotedRasterLayers = [];
 const promotedAliasLayers = [];
