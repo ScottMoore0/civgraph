@@ -18,12 +18,15 @@
  * All three are the same missing invariant, and all three were diagnosed by hand over
  * hours. This check states the invariant once.
  *
- * WHAT COUNTS AS RESOLVABLE, and why it is not simply "id is in the index":
+ * WHAT COUNTS AS RESOLVABLE, mirroring loadLayer exactly:
+ *   group    members[] is non-empty and every member is in the index
  *   direct   the layer id or sourceMapId appears in the index
- *   variant  a variant resolves -- group records such as eds-roi-1941 own no files of
- *            their own and compose four provinces by cloneOf, so the group is fine as
- *            long as its members resolve
  *   chunked  chunked layers load a <id>-chunks.json index rather than tiles
+ *
+ * A resolvable VARIANT does not make its parent resolvable. Treating it that way is what
+ * let eds-roi-1941 and 23 other composites pass this check while the catalogue still
+ * offered them as unavailable -- they had four perfectly good province variants and an
+ * empty members[], which is the one thing the app needs to reach them.
  *
  * STUBS ARE NOT FAILURES. 131 visible catalogue entries carry no files and no variants
  * at all -- placeholders for material not yet digitised. They cannot render and never
@@ -59,11 +62,25 @@ for (const layer of indexLayers) {
 }
 
 const hasData = (m) => Boolean(Object.keys(m.files || {}).length || (m.variants || []).length);
+// MODEL THE APP, NOT SOMETHING CLOSE TO IT. An earlier version treated a layer as
+// resolvable when ANY of its variants was in the index. That is not what loadLayer does,
+// and the difference hid a real failure: eds-roi-1941 and 23 other composites had
+// resolvable province variants and were still unloadable, because a composite owns no
+// files and the app reaches its parts only through members -- which were all empty. The
+// check passed them while the catalogue offered them as unavailable.
+//
+// loadLayer's actual order:
+//   isGroup && members.length  -> load each member
+//   otherwise                  -> resolveLayer(id), which needs an index entry keyed by
+//                                 the layer's own id or sourceMapId
+// Variants are addressable individually by their own ids, so a variant being in the index
+// says nothing about whether its PARENT can be loaded.
 const resolvesVia = (m) => {
-  if (indexed.has(m.id)) return 'direct';
-  for (const v of m.variants || []) {
-    if (indexed.has(v.id) || indexed.has(v.cloneOf)) return 'variant';
+  const members = m.members || [];
+  if (members.length) {
+    return members.every((id) => indexed.has(id)) ? 'group' : null;
   }
+  if (indexed.has(m.id)) return 'direct';
   if (m.chunked) return 'chunked';
   return null;
 };
@@ -95,7 +112,7 @@ if (AS_JSON) {
     console.error(`  by category: ${JSON.stringify(byCat)}`);
     for (const u of unresolved.slice(0, 25)) console.error(`    ${u.id}`);
     if (unresolved.length > 25) console.error(`    ... and ${unresolved.length - 25} more`);
-    console.error(`  Convert them (npm run build:test:batch-vectors / :pmtiles / :promote) or hide them.`);
+    console.error(`  Convert them, or -- if the layer composes others -- give it a populated members[].`);
   }
   if (badTileUrl.length) {
     console.error(`\nFAIL: ${badTileUrl.length} tiled layer(s) have a non-CDN tileUrl and will 404 in production.`);
