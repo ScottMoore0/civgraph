@@ -320,7 +320,11 @@ function buildVectorLayer(converted, row, map) {
     labelMinZoom: runtimeMinZoom(row.sourceMapId),
     labelMaxZoom: null,
     labelStyle: defaultLabelStyle(style.color),
-    featureIndexUrl: labelProperty ? `/test/metadata/feature-indexes/${row.sourceMapId}-vector-test.json` : undefined,
+    // Only advertise a feature index that actually exists. Declaring it whenever a
+    // labelProperty is present promised 638 indexes the builder had skipped -- it skips
+    // layers with no local source file or no label/name property -- so the app would
+    // fetch and 404 on every one, and validate-test-app rightly failed them.
+    featureIndexUrl: featureIndexUrlIfBuilt(row.sourceMapId, labelProperty),
     sourceFile: converted.sourceFile,
     sourceDatasetLayer: sourceInfo.layerNames[0] || layerNameFromSource(converted.sourceFile),
     idProperty: idProperty || undefined,
@@ -784,4 +788,10 @@ function unique(values) {
 
 function slugify(value) {
   return String(value || 'layer').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'maps';
+}
+
+function featureIndexUrlIfBuilt(sourceMapId, labelProperty) {
+  if (!labelProperty) return undefined;
+  const rel = `/test/metadata/feature-indexes/${sourceMapId}-vector-test.json`;
+  return existsSync(resolve(ROOT, rel.replace(/^\//, ''))) ? rel : undefined;
 }

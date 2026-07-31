@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "mode": "execute",
-  "generatedAt": "2026-07-31T16:36:40.255Z",
+  "generatedAt": "2026-07-31T16:48:31.119Z",
   "tool": "ogr2ogr GDAL MVT",
   "tippecanoeAvailable": false,
   "perLayerTimeoutMs": 900000,
@@ -10,7 +10,7 @@
     "feasibleLocalCandidates": 89,
     "skipped": 8,
     "selected": 89,
-    "converted": 84,
+    "converted": 88,
     "skippedExisting": 0,
     "failed": 0
   },
@@ -3128,6 +3128,86 @@
       "pbfFiles": 1207,
       "bytes": 5962424,
       "maxTileBytes": 353448
+    },
+    {
+      "sourceMapId": "tailte-hvd-way-points",
+      "name": "Way Points (Tailte Éireann HVD)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hvd-way-points.fgb",
+      "sourceBytes": 50724096,
+      "outputDirectory": "test/tiles/generated/tailte-hvd-way-points",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_hvd_way_points",
+      "files": 3271,
+      "pbfFiles": 3270,
+      "bytes": 209859344,
+      "maxTileBytes": 10160689
+    },
+    {
+      "sourceMapId": "tailte-hvd-way-gdf2",
+      "name": "Way GDF2 (Tailte Éireann HVD)",
+      "category": "Transport",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hvd-way-gdf2.fgb",
+      "sourceBytes": 147786336,
+      "outputDirectory": "test/tiles/generated/tailte-hvd-way-gdf2",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_hvd_way_gdf2",
+      "files": 3343,
+      "pbfFiles": 3342,
+      "bytes": 219270012,
+      "maxTileBytes": 9641324
+    },
+    {
+      "sourceMapId": "tailte-hvd-sites",
+      "name": "Sites (Tailte Éireann HVD)",
+      "category": "Built Environment",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hvd-sites.fgb",
+      "sourceBytes": 271952,
+      "outputDirectory": "test/tiles/generated/tailte-hvd-sites",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_hvd_sites",
+      "files": 543,
+      "pbfFiles": 542,
+      "bytes": 299922,
+      "maxTileBytes": 11551
+    },
+    {
+      "sourceMapId": "tailte-hvd-cadastral-parcels-leasehold",
+      "name": "Cadastral Parcels Leasehold (Tailte Éireann HVD)",
+      "category": "Government Land and Property Register",
+      "sourceFile": "test/source-cache/vector-intake/tailte-hvd-cadastral-parcels-leasehold.fgb",
+      "sourceBytes": 50989568,
+      "outputDirectory": "test/tiles/generated/tailte-hvd-cadastral-parcels-leasehold",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "tailte_hvd_cadastral_parcels_leasehold",
+      "files": 2685,
+      "pbfFiles": 2684,
+      "bytes": 30284766,
+      "maxTileBytes": 1198001
     }
   ],
   "failed": [],

@@ -4,11 +4,11 @@
   "testMetadata": "test/metadata/maps-test.json",
   "totals": {
     "total": 1256,
-    "converted": 1048,
-    "convertedDirect": 871,
+    "converted": 1135,
+    "convertedDirect": 958,
     "convertedComposite": 28,
     "convertedAlias": 149,
-    "needsVectorTileConversion": 89,
+    "needsVectorTileConversion": 2,
     "metadataOnly": 119,
     "needsMapLibreSourceMapping": 0
   },
@@ -1317,11 +1317,20 @@
       "sourceCredits": [
         "OSNI"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "streetnames-gazetteer-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          54.027035,
+          -8.1500671
+        ],
+        [
+          55.2994201,
+          -5.4360787
+        ]
+      ],
       "style": {
         "color": "#3A7CA5",
         "fillColor": null,
@@ -1962,12 +1971,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          51.419897,
-          -10.618624
+          51.4198973,
+          -10.6186236
         ],
         [
-          55.435141,
-          -5.432789
+          55.4351414,
+          -5.4327894
         ]
       ],
       "style": {
@@ -24958,12 +24967,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          51.4,
-          -10.75
+          51.4198973,
+          -10.6629709
         ],
         [
-          55.5,
-          -5.4
+          55.4465803,
+          -5.9962778
         ]
       ],
       "style": {
@@ -25233,12 +25242,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          51.4,
-          -10.75
+          51.4198973,
+          -10.6629709
         ],
         [
-          55.5,
-          -5.4
+          55.4465803,
+          -5.9962778
         ]
       ],
       "style": {
@@ -25508,12 +25517,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          51.4,
-          -10.75
+          51.4198973,
+          -10.6629709
         ],
         [
-          55.5,
-          -5.4
+          55.4465803,
+          -5.9962778
         ]
       ],
       "style": {
@@ -25783,12 +25792,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          51.4,
-          -10.75
+          51.4198973,
+          -10.6629709
         ],
         [
-          55.5,
-          -5.4
+          55.4465803,
+          -5.9962778
         ]
       ],
       "style": {
@@ -55380,15 +55389,19 @@
       "sourceCredits": [
         "Boundary Commission for Northern Ireland"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "bcni2018-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -8.177484,
-        54.022725,
-        -5.43279,
-        55.312985
+        [
+          54.0227248,
+          -8.1774835
+        ],
+        [
+          55.3129847,
+          -5.4327895
+        ]
       ],
       "style": {
         "color": "#D35400",
@@ -55430,15 +55443,19 @@
       "sourceCredits": [
         "Mid Ulster District Council"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "mid-ulster-council-district-electoral-areas2-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -7.36702,
-        54.325196,
-        -6.4071,
-        54.952019
+        [
+          54.3251955,
+          -7.3670201
+        ],
+        [
+          54.9520189,
+          -6.4071
+        ]
       ],
       "style": {
         "color": "#8E44AD",
@@ -55480,15 +55497,19 @@
       "sourceCredits": [
         "OSNI"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "osni-open-data-50k-boundaries-district-electoral-areas-1993-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -8.177813,
-        54.022878,
-        -5.432731,
-        55.312965
+        [
+          54.0228784,
+          -8.1778125
+        ],
+        [
+          55.3129649,
+          -5.4327314
+        ]
       ],
       "style": {
         "color": "#8E44AD",
@@ -55530,15 +55551,19 @@
       "sourceCredits": [
         "OSNI"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "osni-open-data-50k-boundaries-local-government-districts-1993-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -8.177813,
-        54.022878,
-        -5.432731,
-        55.312904
+        [
+          54.0228784,
+          -8.1778126
+        ],
+        [
+          55.312904,
+          -5.4327314
+        ]
       ],
       "style": {
         "color": "#C0392B",
@@ -55580,15 +55605,19 @@
       "sourceCredits": [
         "OSNI"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "osni-open-data-50k-boundaries-parliamentary-constituencies-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -8.177813,
-        54.022901,
-        -5.432806,
-        55.312904
+        [
+          54.0229006,
+          -8.1778126
+        ],
+        [
+          55.312904,
+          -5.4328061
+        ]
       ],
       "style": {
         "color": "#D35400",
@@ -55630,15 +55659,19 @@
       "sourceCredits": [
         "OSNI"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "osni-open-data-50k-boundaries-townlands-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -8.177813,
-        54.022878,
-        -5.432731,
-        55.312965
+        [
+          54.0228784,
+          -8.1778126
+        ],
+        [
+          55.3129649,
+          -5.4327312
+        ]
       ],
       "style": {
         "color": "#16A085",
@@ -55680,15 +55713,19 @@
       "sourceCredits": [
         "OSNI"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "osni-open-data-50k-boundaries-wards-1993-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -8.177813,
-        54.022878,
-        -5.432731,
-        55.312904
+        [
+          54.0228784,
+          -8.1778126
+        ],
+        [
+          55.312904,
+          -5.4327314
+        ]
       ],
       "style": {
         "color": "#2E86C1",
@@ -55730,15 +55767,19 @@
       "sourceCredits": [
         "OSNI"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "osni-open-data-largescale-boundaries-local-government-districts-1993-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -8.177502,
-        54.022724,
-        -5.432789,
-        55.312984
+        [
+          54.0227244,
+          -8.1775025
+        ],
+        [
+          55.3129843,
+          -5.4327894
+        ]
       ],
       "style": {
         "color": "#C0392B",
@@ -55780,15 +55821,19 @@
       "sourceCredits": [
         "Monaghan County Council"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "district-electoral-divisions-boundaries-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -7.339508,
-        53.900679,
-        -6.549729,
-        54.421391
+        [
+          53.9006794,
+          -7.339508
+        ],
+        [
+          54.4213905,
+          -6.5497294
+        ]
       ],
       "style": {
         "color": "#27AE60",
@@ -55830,15 +55875,19 @@
       "sourceCredits": [
         "Dún Laoghaire-Rathdown County Council"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "ed-boundaries-dlr-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -6.299275,
-        53.198627,
-        -6.081761,
-        53.314815
+        [
+          53.1986269,
+          -6.2992753
+        ],
+        [
+          53.3148151,
+          -6.081761
+        ]
       ],
       "style": {
         "color": "#27AE60",
@@ -55880,15 +55929,19 @@
       "sourceCredits": [
         "Monaghan County Council"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "townland-boundaries-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -7.339508,
-        53.900679,
-        -6.549729,
-        54.421391
+        [
+          53.9006794,
+          -7.339508
+        ],
+        [
+          54.4213905,
+          -6.5497294
+        ]
       ],
       "style": {
         "color": "#16A085",
@@ -55930,15 +55983,19 @@
       "sourceCredits": [
         "South Dublin County Council"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "townlands-2015-sdcc1-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -6.546885,
-        53.178197,
-        -6.25354,
-        53.371073
+        [
+          53.1781974,
+          -6.5468853
+        ],
+        [
+          53.3710735,
+          -6.2535404
+        ]
       ],
       "style": {
         "color": "#16A085",
@@ -55980,15 +56037,19 @@
       "sourceCredits": [
         "Fingal County Council"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "townlands-in-fcc3-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -6.47495,
-        53.353559,
-        -6.043928,
-        53.634725
+        [
+          53.353559,
+          -6.4749499
+        ],
+        [
+          53.6347253,
+          -6.0439277
+        ]
       ],
       "style": {
         "color": "#16A085",
@@ -56030,15 +56091,19 @@
       "sourceCredits": [
         "Fingal County Council"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "electoral-divisions-fcc2-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -6.546885,
-        53.178197,
-        -5.996278,
-        53.634725
+        [
+          53.1781974,
+          -6.5468853
+        ],
+        [
+          53.6347253,
+          -5.9962778
+        ]
       ],
       "style": {
         "color": "#27AE60",
@@ -56080,15 +56145,19 @@
       "sourceCredits": [
         "Mid Ulster District Council"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "mid-ulster-council-townlands2-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -7.36702,
-        54.325196,
-        -6.457837,
-        54.951233
+        [
+          54.3251955,
+          -7.3670201
+        ],
+        [
+          54.9512327,
+          -6.4578371
+        ]
       ],
       "style": {
         "color": "#16A085",
@@ -56130,15 +56199,19 @@
       "sourceCredits": [
         "Mid Ulster District Council"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "mid-ulster-council-wards2-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -7.36702,
-        54.325196,
-        -6.4071,
-        54.952019
+        [
+          54.3251955,
+          -7.3670201
+        ],
+        [
+          54.9520189,
+          -6.4071
+        ]
       ],
       "style": {
         "color": "#2E86C1",
@@ -56180,15 +56253,19 @@
       "sourceCredits": [
         "OSNI"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "osni-open-data-50k-transport-text-labelling-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -8.094007,
-        54.047931,
-        -5.453755,
-        55.237404
+        [
+          54.0479311,
+          -8.0940072
+        ],
+        [
+          55.2374043,
+          -5.4537547
+        ]
       ],
       "style": {
         "color": "#34495E",
@@ -56230,15 +56307,19 @@
       "sourceCredits": [
         "OSNI"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "osni-open-data-50k-transport-transport-points-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -7.313675,
-        54.189002,
-        -5.672181,
-        55.232309
+        [
+          54.1890015,
+          -7.3136748
+        ],
+        [
+          55.2323085,
+          -5.6721805
+        ]
       ],
       "style": {
         "color": "#34495E",
@@ -56280,15 +56361,19 @@
       "sourceCredits": [
         "data.gov.ie"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "bedrock-geology-11000000-ireland-roini-itm-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -10.656212,
-        51.420459,
-        -5.42964,
-        55.435092
+        [
+          51.4204588,
+          -10.6562117
+        ],
+        [
+          55.4350924,
+          -5.4296402
+        ]
       ],
       "style": {
         "color": "#7E5109",
@@ -56330,15 +56415,19 @@
       "sourceCredits": [
         "data.gov.ie"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "wicklow-county-council-tree-preservation-orders-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -6.622262,
-        52.739805,
-        -6.065485,
-        53.199989
+        [
+          52.7398049,
+          -6.6222622
+        ],
+        [
+          53.1999893,
+          -6.0654854
+        ]
       ],
       "style": {
         "color": "#1E8449",
@@ -56380,15 +56469,19 @@
       "sourceCredits": [
         "data.gov.ie"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "wicklow-county-council-tree-preservation-orders-bray-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -6.13756,
-        53.182537,
-        -6.084713,
-        53.207871
+        [
+          53.1825369,
+          -6.1375596
+        ],
+        [
+          53.2078706,
+          -6.0847129
+        ]
       ],
       "style": {
         "color": "#1E8449",
@@ -56430,15 +56523,19 @@
       "sourceCredits": [
         "data.gov.ie"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "community-scale-coastal-flood-extents-high-end-future-scenario-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -10.376779,
-        51.600702,
-        -6.021117,
-        55.331676
+        [
+          51.6007017,
+          -10.3767787
+        ],
+        [
+          55.3316758,
+          -6.0211168
+        ]
       ],
       "style": {
         "color": "#1F6FB2",
@@ -56480,15 +56577,19 @@
       "sourceCredits": [
         "data.gov.ie"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "community-scale-coastal-flood-extents-mid-range-future-scenario-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -10.376779,
-        51.600714,
-        -6.021117,
-        55.331676
+        [
+          51.6007142,
+          -10.3767787
+        ],
+        [
+          55.3316758,
+          -6.0211168
+        ]
       ],
       "style": {
         "color": "#1F6FB2",
@@ -56530,15 +56631,19 @@
       "sourceCredits": [
         "data.gov.ie"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "accessible-parking-spaces-sdcc3-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -6.524036,
-        53.266521,
-        -6.284019,
-        53.358573
+        [
+          53.266521,
+          -6.524036
+        ],
+        [
+          53.358573,
+          -6.284019
+        ]
       ],
       "style": {
         "color": "#616A6B",
@@ -56580,15 +56685,19 @@
       "sourceCredits": [
         "data.gov.ie"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "community-scale-flood-model-nodes-current-scenario-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -10.863443,
-        51.218565,
-        -6.021183,
-        55.301987
+        [
+          51.2185654,
+          -10.8634427
+        ],
+        [
+          55.3019869,
+          -6.0211826
+        ]
       ],
       "style": {
         "color": "#1F6FB2",
@@ -56630,15 +56739,19 @@
       "sourceCredits": [
         "Open Data NI"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "river-and-lake-monitoring-points-2024-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -8.14468,
-        54.054927,
-        -5.500878,
-        55.237121
+        [
+          54.054927,
+          -8.1446803
+        ],
+        [
+          55.2371212,
+          -5.5008776
+        ]
       ],
       "style": {
         "color": "#2980B9",
@@ -56680,15 +56793,19 @@
       "sourceCredits": [
         "Open Data NI"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "water-framework-directive-2nd-cycle-interim-status1-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -8.350504,
-        53.959262,
-        -5.377324,
-        55.329365
+        [
+          53.9592616,
+          -8.3505038
+        ],
+        [
+          55.3293648,
+          -5.3773237
+        ]
       ],
       "style": {
         "color": "#2980B9",
@@ -56730,15 +56847,19 @@
       "sourceCredits": [
         "data.gov.ie"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "bedrock-boreholes-150000-ireland-roi-itm-unverified-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -10.130415,
-        51.514614,
-        -6.078006,
-        54.891304
+        [
+          51.5146139,
+          -10.130415
+        ],
+        [
+          54.891304,
+          -6.0780061
+        ]
       ],
       "style": {
         "color": "#7E5109",
@@ -56780,15 +56901,19 @@
       "sourceCredits": [
         "data.gov.ie"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "cycle-network-survey-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -6.83451,
-        52.78511,
-        -6.02427,
-        53.70485
+        [
+          52.78511,
+          -6.83451
+        ],
+        [
+          53.70485,
+          -6.02427
+        ]
       ],
       "style": {
         "color": "#8E44AD",
@@ -56830,15 +56955,19 @@
       "sourceCredits": [
         "data.gov.ie"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "co-wicklow-polling-stations-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -6.74323,
-        52.711883,
-        -6.039932,
-        53.207013
+        [
+          52.7118834,
+          -6.7432304
+        ],
+        [
+          53.2070131,
+          -6.0399316
+        ]
       ],
       "style": {
         "color": "#B7950B",
@@ -56880,15 +57009,19 @@
       "sourceCredits": [
         "data.gov.ie"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "co-wicklow-protected-structures-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -6.755918,
-        52.708565,
-        -6.00059,
-        53.229371
+        [
+          52.7085653,
+          -6.7559177
+        ],
+        [
+          53.2293715,
+          -6.00059
+        ]
       ],
       "style": {
         "color": "#884EA0",
@@ -56930,15 +57063,19 @@
       "sourceCredits": [
         "data.gov.ie"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "landscape-character-types-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -7.338324,
-        53.900709,
-        -6.550295,
-        54.421062
+        [
+          53.9007093,
+          -7.3383244
+        ],
+        [
+          54.4210621,
+          -6.5502952
+        ]
       ],
       "style": {
         "color": "#117864",
@@ -56980,15 +57117,19 @@
       "sourceCredits": [
         "data.gov.ie"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "museums-collections-archives-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -10.462826,
-        51.443211,
-        -5.549579,
-        55.30919
+        [
+          51.4432106,
+          -10.4628256
+        ],
+        [
+          55.3091896,
+          -5.549579
+        ]
       ],
       "style": {
         "color": "#A04000",
@@ -57030,15 +57171,19 @@
       "sourceCredits": [
         "data.gov.ie"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "wicklow-fire-stations-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -6.706621,
-        52.712106,
-        -6.051262,
-        53.187433
+        [
+          52.7121056,
+          -6.7066209
+        ],
+        [
+          53.1874333,
+          -6.0512616
+        ]
       ],
       "style": {
         "color": "#CB4335",
@@ -57080,15 +57225,19 @@
       "sourceCredits": [
         "data.gov.ie"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "greater-dublin-area-cycle-infrastructure-nta-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -6.67925,
-        53.102341,
-        -6.05926,
-        53.510627
+        [
+          53.1023406,
+          -6.67925
+        ],
+        [
+          53.510627,
+          -6.05926
+        ]
       ],
       "style": {
         "color": "#8E44AD",
@@ -57130,15 +57279,19 @@
       "sourceCredits": [
         "data.gov.ie"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "art-in-the-parks-a-guide-to-sculpture-in-dublin-city-council-parks-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -6.290329,
-        53.326521,
-        -6.159724,
-        53.404264
+        [
+          53.3265207,
+          -6.2903294
+        ],
+        [
+          53.4042645,
+          -6.1597242
+        ]
       ],
       "style": {
         "color": "#229954",
@@ -57180,15 +57333,19 @@
       "sourceCredits": [
         "data.gov.ie"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "use-zoning-objectives1-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -6.546885,
-        53.178214,
-        -6.269236,
-        53.368484
+        [
+          53.1782136,
+          -6.5468853
+        ],
+        [
+          53.3684839,
+          -6.2692364
+        ]
       ],
       "style": {
         "color": "#5D6D7E",
@@ -57230,15 +57387,19 @@
       "sourceCredits": [
         "Cork City Council"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "cork-city-parks-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
-        -8.630417,
-        51.865112,
-        -8.339518,
-        51.944147
+        [
+          51.8651121,
+          -8.6304169
+        ],
+        [
+          51.9441474,
+          -8.3395184
+        ]
       ],
       "style": {
         "color": "#229954",
@@ -63233,11 +63394,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-airfield-area-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.8301735,
+          -9.5436575
+        ],
+        [
+          55.0538785,
+          -6.2290925
+        ]
+      ],
       "style": {
         "color": "#C1440E",
         "fillColor": null,
@@ -63287,11 +63457,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-airports-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.6761735,
+          -10.013349
+        ],
+        [
+          54.22717,
+          -6.079651
+        ]
+      ],
       "style": {
         "color": "#C1440E",
         "fillColor": null,
@@ -63341,11 +63520,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-border-exits-entrances-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          54.044506,
+          -8.0970085
+        ],
+        [
+          55.0491045,
+          -6.291635
+        ]
+      ],
       "style": {
         "color": "#C1440E",
         "fillColor": null,
@@ -63395,11 +63583,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-boundaries-seawater-area-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          50,
+          -12
+        ],
+        [
+          57,
+          -5.393106
+        ]
+      ],
       "style": {
         "color": "#2E86AB",
         "fillColor": null,
@@ -63449,11 +63646,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-boundaries-seawater-line-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          50,
+          -12
+        ],
+        [
+          57,
+          -5.393106
+        ]
+      ],
       "style": {
         "color": "#2E86AB",
         "fillColor": null,
@@ -63503,11 +63709,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-centres-of-population-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.4683956,
+          -10.4502734
+        ],
+        [
+          55.4323019,
+          -6.044595
+        ]
+      ],
       "style": {
         "color": "#E8871E",
         "fillColor": null,
@@ -63557,11 +63772,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-coast-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.4201065,
+          -10.6626945
+        ],
+        [
+          55.435125,
+          -5.9964895
+        ]
+      ],
       "style": {
         "color": "#2E86AB",
         "fillColor": null,
@@ -63665,11 +63889,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-gaeltacht-boundaries-generalised-20m-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.4198973,
+          -10.6629709
+        ],
+        [
+          55.2789565,
+          -6.7032196
+        ]
+      ],
       "style": {
         "color": "#118AB2",
         "fillColor": null,
@@ -63719,11 +63952,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-gaeltacht-language-planning-area-boundaries-generalised-20m-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.4198973,
+          -10.6626104
+        ],
+        [
+          55.2788258,
+          -6.7032196
+        ]
+      ],
       "style": {
         "color": "#118AB2",
         "fillColor": null,
@@ -63773,11 +64015,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-geographical-names-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.4397325,
+          -10.4932865
+        ],
+        [
+          55.387124,
+          -5.7728135
+        ]
+      ],
       "style": {
         "color": "#E8871E",
         "fillColor": null,
@@ -63827,11 +64078,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-heritage-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.6971625,
+          -10.187955
+        ],
+        [
+          55.041271,
+          -6.1019425
+        ]
+      ],
       "style": {
         "color": "#6A4C93",
         "fillColor": null,
@@ -63881,11 +64141,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-high-water-mark-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.3887072,
+          -10.6909278
+        ],
+        [
+          55.4503194,
+          -5.9944947
+        ]
+      ],
       "style": {
         "color": "#2E86AB",
         "fillColor": null,
@@ -63935,11 +64204,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-hydro-nodes-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.534912,
+          -10.354131
+        ],
+        [
+          55.287903,
+          -6.0492905
+        ]
+      ],
       "style": {
         "color": "#2E86AB",
         "fillColor": null,
@@ -63989,11 +64267,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-lakes-reservoirs-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.7086485,
+          -10.185032
+        ],
+        [
+          55.240185,
+          -6.1821055
+        ]
+      ],
       "style": {
         "color": "#2E86AB",
         "fillColor": null,
@@ -64043,11 +64330,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-main-harbours-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.8333335,
+          -9.407744
+        ],
+        [
+          53.348889,
+          -6.123894
+        ]
+      ],
       "style": {
         "color": "#C1440E",
         "fillColor": null,
@@ -64097,11 +64393,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-motorway-access-exit-points-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          53.013283,
+          -7.348966
+        ],
+        [
+          53.901726,
+          -6.124549
+        ]
+      ],
       "style": {
         "color": "#C1440E",
         "fillColor": null,
@@ -64151,11 +64456,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-mountains-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.9333915,
+          -10.253868
+        ],
+        [
+          55.0414885,
+          -6.33091
+        ]
+      ],
       "style": {
         "color": "#8B5A2B",
         "fillColor": null,
@@ -64205,11 +64519,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-nuts2-boundaries-ungeneralised-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.4198973,
+          -10.6629709
+        ],
+        [
+          55.4465809,
+          -5.9962778
+        ]
+      ],
       "style": {
         "color": "#118AB2",
         "fillColor": null,
@@ -64259,11 +64582,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-nuts3-boundaries-generalised-20m-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.4199132,
+          -10.6628378
+        ],
+        [
+          55.446577,
+          -5.9962778
+        ]
+      ],
       "style": {
         "color": "#118AB2",
         "fillColor": null,
@@ -64313,11 +64645,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-other-harbours-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.652241,
+          -9.8995305
+        ],
+        [
+          54.636917,
+          -6.040299
+        ]
+      ],
       "style": {
         "color": "#C1440E",
         "fillColor": null,
@@ -64367,11 +64708,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-power-plant-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.832394,
+          -9.4113035
+        ],
+        [
+          55.03255,
+          -6.192804
+        ]
+      ],
       "style": {
         "color": "#6A4C93",
         "fillColor": null,
@@ -64421,11 +64771,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-province-boundaries-generalised-20m-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.4199053,
+          -10.6812317
+        ],
+        [
+          55.4469011,
+          -5.9962777
+        ]
+      ],
       "style": {
         "color": "#118AB2",
         "fillColor": null,
@@ -64475,11 +64834,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-rail-network-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.84713,
+          -9.8659315
+        ],
+        [
+          54.2712325,
+          -6.038589
+        ]
+      ],
       "style": {
         "color": "#C1440E",
         "fillColor": null,
@@ -64529,11 +64897,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-railway-stations-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.902523,
+          -9.698882
+        ],
+        [
+          54.2712325,
+          -6.0640095
+        ]
+      ],
       "style": {
         "color": "#C1440E",
         "fillColor": null,
@@ -64583,11 +64960,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-reservoirs-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          52.6898805,
+          -8.627075
+        ],
+        [
+          53.120144,
+          -6.583162
+        ]
+      ],
       "style": {
         "color": "#2E86AB",
         "fillColor": null,
@@ -64637,11 +65023,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-road-rail-intersections-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.520195,
+          -10.363893
+        ],
+        [
+          55.295002,
+          -6.046497
+        ]
+      ],
       "style": {
         "color": "#C1440E",
         "fillColor": null,
@@ -64691,11 +65086,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-road-interchanges-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          53.013283,
+          -7.348966
+        ],
+        [
+          53.901726,
+          -6.124549
+        ]
+      ],
       "style": {
         "color": "#C1440E",
         "fillColor": null,
@@ -64745,11 +65149,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-road-intersections-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.520195,
+          -10.363893
+        ],
+        [
+          55.295002,
+          -6.046497
+        ]
+      ],
       "style": {
         "color": "#C1440E",
         "fillColor": null,
@@ -64799,11 +65212,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-roads-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.4616125,
+          -10.467045
+        ],
+        [
+          55.3715895,
+          -6.0101755
+        ]
+      ],
       "style": {
         "color": "#C1440E",
         "fillColor": null,
@@ -64853,11 +65275,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-runways-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.832054,
+          -9.537616
+        ],
+        [
+          55.05027,
+          -6.245448
+        ]
+      ],
       "style": {
         "color": "#C1440E",
         "fillColor": null,
@@ -64907,11 +65338,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-rural-areas-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.4198973,
+          -10.6629709
+        ],
+        [
+          55.4464441,
+          -5.9980565
+        ]
+      ],
       "style": {
         "color": "#118AB2",
         "fillColor": null,
@@ -64961,11 +65401,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-settlements-generalised-20m-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.4771035,
+          -10.3713834
+        ],
+        [
+          55.2978786,
+          -6.0152242
+        ]
+      ],
       "style": {
         "color": "#E8871E",
         "fillColor": null,
@@ -65015,11 +65464,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-shore-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.7086485,
+          -10.185032
+        ],
+        [
+          55.240185,
+          -6.1821055
+        ]
+      ],
       "style": {
         "color": "#2E86AB",
         "fillColor": null,
@@ -65069,11 +65527,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-vegetation-areas-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.5291175,
+          -10.29465
+        ],
+        [
+          55.19384,
+          -6.08932
+        ]
+      ],
       "style": {
         "color": "#2E86AB",
         "fillColor": null,
@@ -65123,11 +65590,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-water-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.534912,
+          -10.354131
+        ],
+        [
+          55.28833,
+          -6.0492905
+        ]
+      ],
       "style": {
         "color": "#2E86AB",
         "fillColor": null,
@@ -65177,11 +65653,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-watercourse-start-end-points-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.6960945,
+          -9.9031345
+        ],
+        [
+          54.944504,
+          -6.196026
+        ]
+      ],
       "style": {
         "color": "#2E86AB",
         "fillColor": null,
@@ -65231,11 +65716,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-waterfalls-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.9849245,
+          -9.581299
+        ],
+        [
+          54.373108,
+          -6.2875975
+        ]
+      ],
       "style": {
         "color": "#2E86AB",
         "fillColor": null,
@@ -65285,11 +65779,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-ferry-station-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.4395165,
+          -10.275125
+        ],
+        [
+          55.264749,
+          -6.1326655
+        ]
+      ],
       "style": {
         "color": "#C1440E",
         "fillColor": null,
@@ -65339,11 +65842,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-low-water-mark-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.3886886,
+          -10.681296
+        ],
+        [
+          55.4503194,
+          -5.9943617
+        ]
+      ],
       "style": {
         "color": "#2E86AB",
         "fillColor": null,
@@ -65393,11 +65905,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-hvd-rail-points-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.5035821,
+          -10.2961655
+        ],
+        [
+          55.2771354,
+          -6.0350996
+        ]
+      ],
       "style": {
         "color": "#C1440E",
         "fillColor": null,
@@ -65447,11 +65968,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-hvd-water-single-stream-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.4279544,
+          -10.4665185
+        ],
+        [
+          55.3798465,
+          -6.0055853
+        ]
+      ],
       "style": {
         "color": "#2E86AB",
         "fillColor": null,
@@ -65501,11 +66031,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-hvd-locales-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.3886886,
+          -10.6909278
+        ],
+        [
+          55.4502646,
+          -5.9255506
+        ]
+      ],
       "style": {
         "color": "#6A4C93",
         "fillColor": null,
@@ -65555,11 +66094,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-hvd-building-groups-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.5527026,
+          -10.2924788
+        ],
+        [
+          55.1899054,
+          -6.0327853
+        ]
+      ],
       "style": {
         "color": "#6A4C93",
         "fillColor": null,
@@ -65609,11 +66157,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-hvd-rail-network-segment-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.5035821,
+          -10.2961655
+        ],
+        [
+          55.2771354,
+          -6.0349974
+        ]
+      ],
       "style": {
         "color": "#C1440E",
         "fillColor": null,
@@ -65663,11 +66220,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-hvd-way-points-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.3896412,
+          -10.5360733
+        ],
+        [
+          55.3810691,
+          -5.6192236
+        ]
+      ],
       "style": {
         "color": "#C1440E",
         "fillColor": null,
@@ -65717,11 +66283,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-hvd-way-gdf2-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.3896412,
+          -10.5360733
+        ],
+        [
+          55.3810691,
+          -5.6192236
+        ]
+      ],
       "style": {
         "color": "#C1440E",
         "fillColor": null,
@@ -65771,11 +66346,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-hvd-sites-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.5173986,
+          -10.3462319
+        ],
+        [
+          55.3770496,
+          -6.1037064
+        ]
+      ],
       "style": {
         "color": "#6A4C93",
         "fillColor": null,
@@ -65825,11 +66409,20 @@
       "sourceCredits": [
         "Tailte Éireann"
       ],
-      "conversionStatus": "needsVectorTileConversion",
+      "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": null,
+      "testLayerId": "tailte-hvd-cadastral-parcels-leasehold-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
+      "bounds": [
+        [
+          51.4670415,
+          -10.6186236
+        ],
+        [
+          55.3731142,
+          -6.0138969
+        ]
+      ],
       "style": {
         "color": "#7B4B94",
         "fillColor": null,

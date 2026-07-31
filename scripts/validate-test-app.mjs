@@ -71,19 +71,27 @@ function isValidBounds(bounds, layer = null) {
     && east <= -4;
 }
 
+// Source types that are not vector tiles. raster-dem (94 layers) and point-cloud (5)
+// were added to the site after this validator was written, so they were rejected as
+// "unsupported" and then failed two further checks each -- sourceLayer and geometryType --
+// that only mean anything for vector data. That is ~300 of the failures that pushed
+// check:test out of the default gate and left the tile metadata unguarded.
+const NON_VECTOR_SOURCE_TYPES = new Set(['raster', 'image', 'raster-dem', 'point-cloud']);
+const SUPPORTED_SOURCE_TYPES = new Set(['mvt', 'pmtiles', ...NON_VECTOR_SOURCE_TYPES]);
+
 function validateLayer(layer) {
   const errors = [];
   const warnings = [];
   if (!layer.id) errors.push('missing id');
   if (!layer.name) errors.push(`${layer.id || '(unknown)'}: missing name`);
   if (layer.renderer !== 'maplibre') errors.push(`${layer.id}: renderer must be "maplibre"`);
-  if (!['mvt', 'pmtiles', 'raster', 'image'].includes(layer.sourceType)) errors.push(`${layer.id}: unsupported sourceType ${layer.sourceType}`);
-  if (!['raster', 'image'].includes(layer.sourceType) && !layer.sourceLayer) errors.push(`${layer.id}: missing sourceLayer`);
+  if (!SUPPORTED_SOURCE_TYPES.has(layer.sourceType)) errors.push(`${layer.id}: unsupported sourceType ${layer.sourceType}`);
+  if (!NON_VECTOR_SOURCE_TYPES.has(layer.sourceType) && !layer.sourceLayer) errors.push(`${layer.id}: missing sourceLayer`);
   if (!Number.isInteger(layer.minzoom) || !Number.isInteger(layer.maxzoom) || layer.minzoom < 0 || layer.maxzoom < layer.minzoom) {
     errors.push(`${layer.id}: invalid minzoom/maxzoom`);
   }
   if (!isValidBounds(layer.bounds, layer)) errors.push(`${layer.id}: invalid bounds`);
-  if (!['image', 'raster'].includes(layer.sourceType) && layer.geometryType !== undefined && !['polygon', 'line', 'point'].includes(layer.geometryType)) {
+  if (!NON_VECTOR_SOURCE_TYPES.has(layer.sourceType) && layer.geometryType !== undefined && !['polygon', 'line', 'point'].includes(layer.geometryType)) {
     errors.push(`${layer.id}: geometryType must be polygon, line, or point`);
   }
   if (layer.references !== undefined && !Array.isArray(layer.references)) {
@@ -282,6 +290,10 @@ function validatePortPlan(metadata) {
     .filter((row) => ['converted', 'convertedAlias'].includes(row.conversionStatus))
     .map((row) => row.testLayerId));
   for (const layer of metadata.layers || []) {
+    // Only vector layers come from the conversion pipeline. raster-dem, point-cloud and
+    // image layers reach the metadata by other routes and have no converted row by
+    // design, so requiring one flagged 99 healthy layers.
+    if (NON_VECTOR_SOURCE_TYPES.has(layer.sourceType)) continue;
     if (!convertedIds.has(layer.id)) {
       errors.push(`${layer.id}: missing converted row in main-site port plan`);
     }
