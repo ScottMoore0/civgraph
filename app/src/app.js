@@ -1,4 +1,4 @@
-import dataService from '../../js/data-service.js';
+import dataService, { resolveMapDownloadUrl } from '../../js/data-service.js';
 import featureLoader from '../../js/feature-loader.js';
 import uiController from '../../js/ui-controller.js';
 import { TestMetadataService } from '../../test/src/metadata-service.js';
@@ -829,7 +829,7 @@ class Test2App {
     };
     uiController.onDownloadFgb = async (mapId) => {
       const mapConfig = dataService.getMapById(mapId);
-      const url = mapConfig?.downloads?.fgb || mapConfig?.files?.fgb;
+      const url = resolveMapDownloadUrl(mapConfig);
       if (url) this.triggerDownload(url, url.split('/').pop());
     };
     uiController.onAddressSelect = (lat, lon, name) => this.mapController.addAddressMarker(lat, lon, name);

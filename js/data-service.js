@@ -694,6 +694,32 @@ class DataService {
   }
 }
 
+/**
+ * Resolve a genuinely downloadable data-file URL for a map, or null.
+ *
+ * Guards, in order of the traps they avoid:
+ *  - `files` is an integer tile-count on most catalogue records, so
+ *    `mapConfig.files.fgb` silently yields undefined; only read it when it is
+ *    actually an object.
+ *  - `sourceFile` is usually a build-time input path such as
+ *    `test/source-cache/vector-intake/<name>.fgb`, which is not a deployed
+ *    asset. Requesting it returns the SPA shell as text/html, so an unguarded
+ *    download saves an HTML page with a .fgb extension.
+ *
+ * Only absolute http(s) URLs are treated as downloadable. Shared by the
+ * download handler and by the catalogue renderer, which hides the download
+ * control when this returns null.
+ */
+export function resolveMapDownloadUrl(mapConfig) {
+  if (!mapConfig) return null;
+  const candidates = [
+    mapConfig.downloads?.fgb,
+    typeof mapConfig.files === 'object' && mapConfig.files ? mapConfig.files.fgb : null,
+    mapConfig.sourceFile
+  ];
+  return candidates.find(value => typeof value === 'string' && /^https?:\/\//i.test(value)) || null;
+}
+
 // Export singleton instance
 const dataService = new DataService();
 export default dataService;

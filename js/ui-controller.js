@@ -3,7 +3,7 @@
  * Handles split-pane layout, search, filtering, map catalogue, and UI interactions
  */
 
-import dataService from './data-service.js';
+import dataService, { resolveMapDownloadUrl } from './data-service.js';
 import featureLoader from './feature-loader.js';
 import { formatElectionDate, shortBodyName, renderElectionConstituencyFeatureLink } from './election-utils.js';
 
@@ -2417,6 +2417,31 @@ class UIController {
         return result;
     }
 
+    /**
+     * Remove download controls for maps that have no deployed data file.
+     *
+     * Roughly 95% of catalogue records have no absolute data-file URL, so
+     * without this sweep the catalogue renders hundreds of controls that
+     * silently do nothing when clicked. Runs after each render; idempotent.
+     */
+    syncDownloadButtons(container = document) {
+        container.querySelectorAll?.('.download-fgb-btn[data-map-id]').forEach(btn => {
+            const map = dataService.getMapById(btn.dataset.mapId);
+            const url = resolveMapDownloadUrl(map);
+            if (url) {
+                btn.hidden = false;
+                btn.dataset.downloadUrl = url;
+                const label = 'Download data file (FlatGeobuf)';
+                btn.title = label;
+                btn.setAttribute('aria-label', label);
+            } else {
+                btn.hidden = true;
+                btn.setAttribute('aria-hidden', 'true');
+                btn.tabIndex = -1;
+            }
+        });
+    }
+
     syncCatalogueSearchActionButtons(container = document) {
         container.querySelectorAll?.('.catalogue-search__action-strip[data-search-kind="map"]').forEach(strip => {
             const mapId = strip.dataset.mapId;
@@ -2459,15 +2484,20 @@ class UIController {
         if (!record?.searchText) return 0;
         const title = this.normalizeCatalogueSearchText(record.title);
         let score = 0;
-        if (title === normalizedQuery) score += 1000;
-        if (title.startsWith(normalizedQuery)) score += 650;
-        if (record.searchText.includes(normalizedQuery)) score += 240;
+        let matched = false;
+        if (title === normalizedQuery) { score += 1000; matched = true; }
+        if (title.startsWith(normalizedQuery)) { score += 650; matched = true; }
+        if (record.searchText.includes(normalizedQuery)) { score += 240; matched = true; }
         terms.forEach(term => {
             if (!term) return;
-            if (title.split(' ').includes(term)) score += 170;
-            else if (title.includes(term)) score += 100;
-            if (record.searchText.includes(term)) score += 40;
+            if (title.split(' ').includes(term)) { score += 170; matched = true; }
+            else if (title.includes(term)) { score += 100; matched = true; }
+            if (record.searchText.includes(term)) { score += 40; matched = true; }
         });
+        // Relevance boosts below must never promote a record that matched nothing.
+        // Without this gate every record scores at least typeBoost, so the whole
+        // index is returned for any query and the empty state can never render.
+        if (!matched) return 0;
         if (record.type === 'map' && mapOrder?.has(record.mapId || record.id)) {
             score += Math.max(0, 450 - mapOrder.get(record.mapId || record.id));
         }
@@ -2536,8 +2566,10 @@ class UIController {
         });
         featureResults.slice(0, 60).forEach(result => {
             const record = this.featureSearchResultToCatalogueRecord(result);
-            const score = this.scoreCatalogueSearchRecord(record, terms, normalizedQuery, mapOrder) + 120;
-            if (score > 0) scored.push({ record, score });
+            // searchFeatures() has already matched these upstream, so a zero title
+            // score is not evidence of a non-match; floor at 1 rather than dropping.
+            const base = this.scoreCatalogueSearchRecord(record, terms, normalizedQuery, mapOrder);
+            scored.push({ record, score: Math.max(base, 1) + 120 });
         });
         const deduped = new Map();
         scored.sort((a, b) => b.score - a.score).forEach(item => {
@@ -2557,6 +2589,7 @@ class UIController {
         this.bindFlatViewDelegates(container);
         this.hydrateLazyThumbnails(container);
         this.syncCatalogueSearchActionButtons(container);
+        this.syncDownloadButtons(container);
         return results;
     }
 
@@ -5003,6 +5036,7 @@ class UIController {
         }
 
         this.bindFlatViewDelegates(container);
+        this.syncDownloadButtons(container);
 
         // Keep books section below unchanged.
         if (!boundedMobileCatalogue && shouldRenderBooksSection && this.booksData && this.booksData.books && this.booksData.books.length > 0) {
