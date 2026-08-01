@@ -10790,12 +10790,15 @@ class UIController {
     }
 
     shouldExpandVariantsByDefault(map) {
-        return new Set([
-            'eds-1971',
-            'eds-1977',
-            'eds-1980',
-            'eds-1983'
-        ]).has(map?.id);
+        // NOTHING EXPANDS ITS VARIANTS BY DEFAULT. This used to name four layers --
+        // eds-1971, eds-1977, eds-1980 and eds-1983 -- and every one of them was an
+        // Electoral Divisions card, so collapsing the ED items empties the rule entirely
+        // rather than leaving a filtered remnant behind.
+        //
+        // Kept as a method rather than deleted because both call sites pass a map and the
+        // toggle they drive still works: a user opens the variants they want. Add an id
+        // here only to override that deliberately.
+        return false;
     }
 
     // URL state helpers
