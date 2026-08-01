@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page not found — Civgraph</title>
+  <meta name="description" content="That page could not be found on Civgraph.">
+  <meta name="robots" content="noindex, follow">
+  <meta name="theme-color" content="#065a6e">
+  <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16.png">
+  <link rel="stylesheet" href="/build/main.css">
+  <style>
+    /* Self-contained so this page renders even if the stylesheet is the thing that is missing. */
+    .nf-main {
+      max-width: 46rem;
+      margin: 0 auto;
+      padding: 4rem 1.5rem 6rem;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      color: #1a202c;
+      line-height: 1.6;
+    }
+
+    .nf-code {
+      font-size: 0.8125rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #5a6678;
+      margin: 0 0 0.75rem;
+    }
+
+    .nf-main h1 {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      line-height: 1.2;
+      margin: 0 0 1rem;
+      color: #12303a;
+    }
+
+    .nf-lede {
+      font-size: 1.125rem;
+      margin: 0 0 2rem;
+    }
+
+    .nf-main h2 {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #5a6678;
+      margin: 2.5rem 0 0.75rem;
+    }
+
+    .nf-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .nf-links a {
+      display: block;
+      padding: 0.875rem 1rem;
+      border: 1px solid #d7dee6;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      color: inherit;
+      background: #f7fafc;
+    }
+
+    .nf-links a:hover,
+    .nf-links a:focus-visible {
+      border-color: #0f766e;
+      background: #eef6f5;
+    }
+
+    .nf-links strong {
+      display: block;
+      color: #0f766e;
+    }
+
+    .nf-links span {
+      font-size: 0.9375rem;
+      color: #4a5568;
+    }
+
+    .nf-note {
+      margin-top: 2.5rem;
+      font-size: 0.9375rem;
+      color: #4a5568;
+    }
+
+    .nf-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      padding: 1rem 1.5rem;
+      background: linear-gradient(90deg, #0d7a5f 0%, #12506b 100%);
+    }
+
+    .nf-brand a {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      text-decoration: none;
+    }
+
+    .nf-brand img {
+      width: 34px;
+      height: 34px;
+    }
+
+    .nf-brand span {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.01em;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .nf-main {
+        color: #e2e8f0;
+      }
+
+      .nf-main h1 {
+        color: #f7fafc;
+      }
+
+      .nf-links a {
+        background: #1a2330;
+        border-color: #2d3748;
+      }
+
+      .nf-links a:hover,
+      .nf-links a:focus-visible {
+        border-color: #4fd1c5;
+        background: #1e2b39;
+      }
+
+      .nf-links strong {
+        color: #4fd1c5;
+      }
+
+      .nf-links span,
+      .nf-note,
+      .nf-code,
+      .nf-main h2 {
+        color: #a0aec0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="nf-brand">
+    <a href="/">
+      <img src="/assets/images/civgraph-logo-icon.svg" alt="">
+      <span>Civgraph</span>
+    </a>
+  </header>
+
+  <main class="nf-main">
+    <p class="nf-code">Error 404</p>
+    <h1>That page could not be found</h1>
+    <p class="nf-lede">
+      The address you followed does not match anything on Civgraph. It may have been moved,
+      renamed, or mistyped.
+    </p>
+
+    <h2>Try one of these</h2>
+    <ul class="nf-links">
+      <li>
+        <a href="/">
+          <strong>Maps</strong>
+          <span>Interactive maps of the administrative geography and history of Ireland and
+            Northern Ireland.</span>
+        </a>
+      </li>
+      <li>
+        <a href="/browse/">
+          <strong>Browse the data directory</strong>
+          <span>Map entries, elections, features, people, parties and sources.</span>
+        </a>
+      </li>
+      <li>
+        <a href="/apps/">
+          <strong>Apps</strong>
+          <span>Independent tools built on public data, including PRONI archive search.</span>
+        </a>
+      </li>
+      <li>
+        <a href="/pages/about">
+          <strong>About Civgraph</strong>
+          <span>What this site is, who makes it, and how the data is licensed.</span>
+        </a>
+      </li>
+    </ul>
+
+    <p class="nf-note">
+      If you reached this page from a link on Civgraph, that link is broken — please
+      <a href="/pages/about">get in touch</a> so it can be fixed.
+    </p>
+  </main>
+</body>
+
+</html>
