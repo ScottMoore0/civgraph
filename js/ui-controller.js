@@ -2940,9 +2940,18 @@ class UIController {
         });
 
         root.querySelectorAll('.load-btn[data-map-id], .c1-load-btn[data-map-id]').forEach((btn) => {
-            const loaded = this.isMapLoadedState(btn.dataset.mapId, this._lastMapListOptions);
-            btn.innerHTML = this.getLoadButtonIcon(loaded);
-            btn.title = loaded ? 'Unload' : 'Load';
+            const mapId = btn.dataset.mapId;
+            const loaded = this.isMapLoadedState(mapId, this._lastMapListOptions);
+            // This runs part way through a load -- onMapLoad calls syncCatalogueMapState()
+            // before it returns -- so without the pending check it would repaint the
+            // spinner back to '+' or 'X' while the work was still going on.
+            const busy = this.isLoadTogglePending(mapId);
+            btn.innerHTML = this.getLoadButtonIcon(loaded, busy);
+            btn.classList.toggle('load-btn--busy', busy);
+            btn.disabled = busy;
+            if (busy) btn.setAttribute('aria-busy', 'true');
+            else btn.removeAttribute('aria-busy');
+            btn.title = busy ? (loaded ? 'Unloading...' : 'Loading...') : (loaded ? 'Unload' : 'Load');
         });
 
         root.querySelectorAll('.visibility-btn[data-map-id]').forEach((btn) => {
@@ -5239,8 +5248,7 @@ class UIController {
                 e.stopPropagation();
                 const memberEl = btn.closest('.class-member');
                 const isLoaded = memberEl?.classList.contains('class-member--loaded');
-                if (isLoaded && this.onMapUnload) this.onMapUnload(mapId);
-                else if (!isLoaded && this.onMapLoad) this.onMapLoad(mapId);
+                this.handleLoadToggle(mapId, Boolean(isLoaded));
             } else if (btn.classList.contains('visibility-btn')) {
                 e.stopPropagation();
                 // Close the menu after action
@@ -5266,7 +5274,7 @@ class UIController {
                 if (!mapId || memberEl.classList.contains('class-member--placeholder')) return;
                 const isLoaded = memberEl.classList.contains('class-member--loaded');
                 if (isLoaded && this.onMapToggle) this.onMapToggle(mapId);
-                else if (!isLoaded && this.onMapLoad) this.onMapLoad(mapId);
+                else this.handleLoadToggle(mapId, false);
             });
         });
 
@@ -5442,8 +5450,7 @@ class UIController {
                 e.stopPropagation();
                 const memberEl = btn.closest('.class-member');
                 const isLoaded = memberEl?.classList.contains('class-member--loaded');
-                if (isLoaded && this.onMapUnload) this.onMapUnload(mapId);
-                else if (!isLoaded && this.onMapLoad) this.onMapLoad(mapId);
+                this.handleLoadToggle(mapId, Boolean(isLoaded));
             }
         });
 
@@ -6089,31 +6096,7 @@ class UIController {
                 const isLoaded = memberEl?.classList.contains('class-member--loaded') ||
                     memberEl?.classList.contains('c1-grid-entry--loaded') ||
                     memberEl?.classList.contains('variant-item--loaded');
-                if (btn.dataset.busy === '1') return;
-                btn.dataset.busy = '1';
-                btn.disabled = true;
-                const applyLoadedState = (loadedNow) => {
-                    if (!memberEl) return;
-                    memberEl.classList.toggle('class-member--loaded', loadedNow);
-                    memberEl.classList.toggle('c1-grid-entry--loaded', loadedNow);
-                    memberEl.classList.toggle('variant-item--loaded', loadedNow);
-                    btn.innerHTML = this.getLoadButtonIcon(loadedNow);
-                    btn.title = loadedNow ? 'Unload' : 'Load';
-                };
-
-                (async () => {
-                    try {
-                        if (isLoaded && this.onMapUnload) await this.onMapUnload(mapId);
-                        else if (!isLoaded && this.onMapLoad) await this.onMapLoad(mapId);
-                    } finally {
-                        const loadedNow = this.onCheckMapLoaded
-                            ? !!this.onCheckMapLoaded(mapId)
-                            : (!isLoaded);
-                        applyLoadedState(loadedNow);
-                        btn.dataset.busy = '0';
-                        btn.disabled = false;
-                    }
-                })();
+                this.handleLoadToggle(mapId, Boolean(isLoaded));
             } else if (btn.classList.contains('visibility-btn')) {
                 e.stopPropagation();
                 btn.closest('.overflow-menu')?.classList.remove('overflow-menu--open');
@@ -6140,7 +6123,7 @@ class UIController {
             if (!mapId || entryEl.classList.contains('c1-grid-entry--placeholder')) return;
             const isLoaded = entryEl.classList.contains('c1-grid-entry--loaded');
             if (isLoaded && this.onMapToggle) this.onMapToggle(mapId);
-            else if (!isLoaded && this.onMapLoad) this.onMapLoad(mapId);
+            else this.handleLoadToggle(mapId, false);
         });
 
         const slider = card.querySelector('.timeline-slider');
@@ -8817,11 +8800,151 @@ class UIController {
         return !!options.loadedIds?.includes(mapId);
     }
 
-    getLoadButtonIcon(isLoaded) {
+    getLoadButtonIcon(isLoaded, isBusy = false) {
+        // A spinner while the layer is loading or unloading. Some layers take several
+        // seconds -- a 214 MB PMTiles archive fetched over range requests is not instant --
+        // and until now the button sat on '+' throughout, so the only feedback that a click
+        // had registered was the map eventually changing. That reads as a dead control, and
+        // invites a second click on a load that is already running.
+        if (isBusy) {
+            return '<svg class="load-btn__spinner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9" stroke-linecap="round"/></svg>';
+        }
         if (isLoaded) {
             return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
         }
         return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
+    }
+
+    // Which layers have a load or unload in flight. Keyed by map id rather than held on the
+    // button, because a load re-renders the catalogue -- syncCatalogueMapState() runs part
+    // way through -- and the button element the user clicked is often replaced before the
+    // work finishes. Anything that repaints a load button consults this, so the spinner
+    // survives a re-render instead of flicking back to '+' halfway through.
+    isLoadTogglePending(mapId) {
+        return Boolean(mapId) && Boolean(this._pendingLoadToggles?.has(mapId));
+    }
+
+    // true when the in-flight operation is an unload. Stored per map id because the
+    // direction is fixed for the operation while `isLoaded` changes underneath it.
+    isPendingUnload(mapId) {
+        return Boolean(this._pendingLoadToggles?.get(mapId));
+    }
+
+    loadButtonSelector(mapId) {
+        const id = CSS.escape(mapId);
+        return `.load-btn[data-map-id="${id}"], .c1-load-btn[data-map-id="${id}"]`;
+    }
+
+    applyLoadButtonVisual(btn, isLoaded, isBusy) {
+        // Skip if already correct. The observer below reacts to DOM changes, and rewriting
+        // innerHTML unconditionally would retrigger it in a loop.
+        const hasSpinner = Boolean(btn.querySelector('.load-btn__spinner'));
+        if (hasSpinner !== isBusy) btn.innerHTML = this.getLoadButtonIcon(isLoaded, isBusy);
+        btn.classList.toggle('load-btn--busy', isBusy);
+        btn.disabled = isBusy;
+        if (isBusy) btn.setAttribute('aria-busy', 'true');
+        else btn.removeAttribute('aria-busy');
+        // While busy the tooltip describes the operation in flight, which is fixed for the
+        // duration. It must not be derived from whether the layer is loaded right now: that
+        // flips to true part way through a load, which had the button reading
+        // "Unloading..." while it was still loading.
+        if (isBusy) {
+            btn.title = this._pendingLoadToggles?.get(btn.dataset.mapId) ? 'Unloading...' : 'Loading...';
+        } else {
+            btn.title = isLoaded ? 'Unload' : 'Load';
+        }
+    }
+
+    // Paint every button for this map id immediately, so the spinner appears on click
+    // rather than after the first await yields.
+    setLoadButtonBusy(mapId, isBusy, isLoaded) {
+        if (!this._pendingLoadToggles) this._pendingLoadToggles = new Map();
+        if (isBusy) this._pendingLoadToggles.set(mapId, Boolean(isLoaded));
+        else this._pendingLoadToggles.delete(mapId);
+
+        document.querySelectorAll(this.loadButtonSelector(mapId)).forEach((btn) => {
+            this.applyLoadButtonVisual(btn, isLoaded, isBusy);
+        });
+        this.syncPendingLoadObserver();
+    }
+
+    /**
+     * Keep the spinner on through a re-render.
+     *
+     * A load rebuilds catalogue markup while it runs, and a dozen separate render sites
+     * emit these buttons from getLoadButtonIcon(isLoaded) with no knowledge of pending
+     * state. Any of them replaces the spinner with a '+' or 'X' mid-flight -- which is
+     * exactly what happened: the button flipped to 'X' about 50ms after the click and
+     * stayed there while the layer was still loading.
+     *
+     * Rather than thread busy state through every render site -- and require the next one
+     * ever added to remember -- this watches for replaced buttons and re-applies. It is
+     * attached only while something is pending and disconnected as soon as the set empties,
+     * so it costs nothing in the normal case.
+     */
+    syncPendingLoadObserver() {
+        const pending = this._pendingLoadToggles;
+        if (!pending || pending.size === 0) {
+            this._pendingLoadObserver?.disconnect();
+            this._pendingLoadObserver = null;
+            return;
+        }
+        if (this._pendingLoadObserver) return;
+        this._pendingLoadObserver = new MutationObserver(() => {
+            for (const mapId of this._pendingLoadToggles.keys()) {
+                const isLoaded = this.isMapLoadedState(mapId, this._lastMapListOptions);
+                document.querySelectorAll(this.loadButtonSelector(mapId)).forEach((btn) => {
+                    this.applyLoadButtonVisual(btn, isLoaded, true);
+                });
+            }
+        });
+        this._pendingLoadObserver.observe(document.body, { childList: true, subtree: true });
+    }
+
+    /**
+     * Run a load or unload with the button showing a spinner until it settles.
+     *
+     * Guards against a second click while one is in flight: the button is disabled, but a
+     * keyboard activation or a duplicate handler can still arrive, and loading the same
+     * layer twice concurrently is not harmless.
+     *
+     * The finally block is what matters most -- if a load throws, the spinner must not be
+     * left turning forever. The final state is read back from isMapLoadedState rather than
+     * assumed, so a failed load correctly falls back to '+' instead of showing an X for a
+     * layer that never arrived.
+     */
+    async handleLoadToggle(mapId, isLoaded) {
+        if (!mapId || this.isLoadTogglePending(mapId)) return;
+        const handler = isLoaded ? this.onMapUnload : this.onMapLoad;
+        if (!handler) return;
+
+        this.setLoadButtonBusy(mapId, true, isLoaded);
+        try {
+            await handler(mapId);
+        } catch (error) {
+            console.error(`[catalogue] ${isLoaded ? 'unload' : 'load'} failed for ${mapId}`, error);
+        } finally {
+            // onCheckMapLoaded asks the map controller directly and is the more reliable
+            // answer where it is wired; isMapLoadedState reads catalogue-side state.
+            const settled = this.onCheckMapLoaded
+                ? Boolean(this.onCheckMapLoaded(mapId))
+                : this.isMapLoadedState(mapId, this._lastMapListOptions);
+            this.setLoadButtonBusy(mapId, false, settled);
+            this.applyLoadedStateToRows(mapId, settled);
+        }
+    }
+
+    // syncCatalogueMapState() normally repaints these, but it is only called by the app's
+    // own load/unload callbacks. Toggling the row classes here too keeps the row highlight
+    // in step for the paths that do not go through it.
+    applyLoadedStateToRows(mapId, isLoaded) {
+        if (!mapId) return;
+        const selector = `[data-map-id="${CSS.escape(mapId)}"]`;
+        document.querySelectorAll(selector).forEach((el) => {
+            if (el.classList.contains('class-member')) el.classList.toggle('class-member--loaded', isLoaded);
+            if (el.classList.contains('c1-grid-entry')) el.classList.toggle('c1-grid-entry--loaded', isLoaded);
+            if (el.classList.contains('variant-item')) el.classList.toggle('variant-item--loaded', isLoaded);
+        });
     }
 
     hideFeatureInfo() {

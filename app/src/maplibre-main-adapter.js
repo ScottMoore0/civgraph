@@ -945,6 +945,44 @@ export class Test2MapLibreMainAdapter {
     this.map.fitBounds(normalized, { padding: 36, duration: options?.smooth === false ? 0 : 400, maxZoom: 14 });
   }
 
+  /**
+   * Resolve once the map has actually finished drawing what was just asked of it.
+   *
+   * loadLayer() resolves as soon as the source and layer are added to the style -- tens of
+   * milliseconds -- long before a single tile has arrived. That is the right contract for
+   * callers, but it is the wrong thing to hang a spinner on: tied to it, the catalogue
+   * spinner vanished about 30ms after the click while the layer was still loading, which
+   * is indistinguishable from having no spinner at all.
+   *
+   * A single 'idle' is not enough either. MapLibre reports idle whenever it is not moving
+   * and has no outstanding tiles, so the tick right after addLayer -- before any tile
+   * request has been issued -- often qualifies. This therefore waits for idle AND for
+   * areTilesLoaded(), and keeps waiting through further idles until both hold.
+   *
+   * The timeout is a guarantee rather than an optimisation: a stalled tile request must
+   * never leave a spinner turning forever, so this resolves regardless at the deadline.
+   */
+  waitUntilSettled({ timeoutMs = 20000 } = {}) {
+    const map = this.map;
+    if (!map || typeof map.once !== 'function') return Promise.resolve();
+    return new Promise((resolve) => {
+      let done = false;
+      const finish = () => {
+        if (done) return;
+        done = true;
+        clearTimeout(timer);
+        map.off('idle', onIdle);
+        resolve();
+      };
+      const onIdle = () => {
+        // areTilesLoaded is absent on some stubs; treat that as "cannot tell, accept".
+        if (typeof map.areTilesLoaded !== 'function' || map.areTilesLoaded()) finish();
+      };
+      const timer = setTimeout(finish, timeoutMs);
+      map.on('idle', onIdle);
+    });
+  }
+
   invalidateSize() {
     if (!this.map) return;
     this.applyMobileTouchContract();

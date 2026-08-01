@@ -3718,6 +3718,35 @@ button.catalogue-flat__toc-toplink {
   font-size: 0.9em;
 }
 
+/* Load/unload in flight. Reuses the existing `spin` keyframes defined further down
+   rather than declaring a second identical one. The arc is drawn by the SVG itself, so
+   only the rotation lives here. */
+.load-btn__spinner {
+  animation: spin 0.7s linear infinite;
+  transform-origin: 50% 50%;
+}
+
+/* Keep the button looking active while it works: the default disabled styling greys it
+   out, which reads as "this control is unavailable" rather than "this is running". */
+.load-btn--busy,
+.c1-load-btn.load-btn--busy {
+  opacity: 1;
+  cursor: progress;
+}
+
+/* The button is disabled while it works, and `.catalogue-nav .btn--icon:disabled` hides
+   disabled icon buttons outright. A spinner that vanishes is worse than no spinner, so a
+   busy load button stays visible wherever it sits. */
+.catalogue-nav .btn--icon.load-btn--busy:disabled {
+  display: inline-flex;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .load-btn__spinner {
+    animation-duration: 2.4s;
+  }
+}
+
 /* Variants toggle button styling */
 .variants-toggle {
   background: var(--color-surface);

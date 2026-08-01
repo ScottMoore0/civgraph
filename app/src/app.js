@@ -738,6 +738,11 @@ class Test2App {
       this.syncCatalogueMapState();
       this.updateActiveLayers();
       this.updateURLState();
+      // Held until the tiles are actually drawn, so the catalogue's loading spinner spans
+      // the wait the user experiences rather than just the style mutation, which returns
+      // in tens of milliseconds. Deliberately last: the state updates above must not be
+      // delayed by it.
+      await this.mapController.waitUntilSettled();
     };
 
     uiController.onMapUnload = async (mapId) => {
@@ -759,6 +764,9 @@ class Test2App {
       this.syncCatalogueMapState();
       this.updateActiveLayers();
       this.updateURLState();
+      // Same reason as onMapLoad: removing a layer forces a redraw, and the spinner should
+      // last until the map has actually repainted without it.
+      await this.mapController.waitUntilSettled();
     };
 
     uiController.onMapToggle = (mapId) => {
