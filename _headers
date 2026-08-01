@@ -52,6 +52,12 @@
 /app/build/app.bundle.css
   Cache-Control: no-cache, must-revalidate
 
+# Content-hashed, so the filename changes whenever the contents do and a long
+# immutable TTL is safe. Stating it explicitly rather than inheriting the default
+# also keeps these on the same footing as /test/build/*, which has always had it.
+/app/build/chunks/*.js
+  Cache-Control: public, max-age=31536000, immutable
+
 /app/build/*.map
   Cache-Control: no-cache, must-revalidate
 
