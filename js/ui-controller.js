@@ -3503,8 +3503,13 @@ class UIController {
             { id: 'flat-rivers', name: 'Rivers (2016) (Northern Ireland)', years: '2016', extent: 'Northern Ireland', mapIds: ['rivers-2016'] },
             // ── Local Government ──
             { id: 'flat-lgds', name: 'Local Government Districts (Northern Ireland) (1973-)', years: '1972-2022', extent: 'Northern Ireland', classIds: ['ni-lgds'] },
-            { id: 'flat-roi-local-authorities', name: 'Local Authorities (Republic of Ireland)', years: '1953-2024', extent: 'Republic of Ireland', classIds: ['roi-local-authorities'] },
-            { id: 'flat-admin-counties', name: 'Administrative Counties (Northern Ireland) (1915)', years: '1915', extent: 'Northern Ireland', classIds: ['ni-admin-counties'] },
+            // Three local-authority cards, split by jurisdiction and partition. The
+            // pre-partition set is all-Ireland: before 1921 there was one system, created
+            // by the Local Government (Ireland) Act 1898 and effective from 1899, which is
+            // why that card's range opens earlier than its earliest map.
+            { id: 'flat-ireland-local-authorities-pre-partition', name: 'Local Authorities (Ireland, pre-partition)', years: '1899-1920', extent: 'Ireland', classIds: ['ireland-local-authorities-pre-partition'] },
+            { id: 'flat-roi-local-authorities', name: 'Local Authorities (Republic of Ireland)', years: '1921-2019', extent: 'Republic of Ireland', classIds: ['roi-local-authorities'] },
+            { id: 'flat-admin-counties', name: 'Local Authorities (Northern Ireland) (1921)', years: '1921', extent: 'Northern Ireland', classIds: ['ni-admin-counties'] },
             { id: 'flat-admin-areas', name: 'Administrative Areas (Northern Ireland) (1920-1973)', years: '1921-1969', extent: 'Northern Ireland', classIds: ['ni-admin-areas'] },
             { id: 'flat-elb', name: 'Education and Library Boards (Northern Ireland)', years: '1984-1993', extent: 'Northern Ireland', classIds: ['ni-elb'] },
             { id: 'flat-hsct', name: 'Health and Social Care Trusts (Northern Ireland) (2007)', years: '2007', extent: 'Northern Ireland', mapIds: ['hsct-2007'] },

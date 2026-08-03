@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-21T13:32:28.854Z",
-  "summary": "Performance budgets pass",
+  "generatedAt": "2026-08-03T20:42:49.947Z",
+  "summary": "Performance budget failures present",
   "budgets": {
     "entryJsBytes": 81920,
     "entryCssBytes": 163840,
@@ -12,9 +12,9 @@
   },
   "totals": {
     "checks": 9,
-    "failed": 0,
+    "failed": 1,
     "warnings": 0,
-    "passed": 9
+    "passed": 8
   },
   "assets": {
     "entry": {
@@ -34,25 +34,25 @@
     "lazy": {
       "jsCount": 4,
       "cssCount": 0,
-      "jsBytes": 1814371,
+      "jsBytes": 1818558,
       "cssBytes": 0
     },
     "largestOutputs": [
       {
-        "name": "chunk-M6AVIK5Z.js",
-        "path": "app/build/chunks/chunk-M6AVIK5Z.js",
+        "name": "chunk-4BWGN4JE.js",
+        "path": "app/build/chunks/chunk-4BWGN4JE.js",
         "bytes": 1045978,
         "label": "1021.5 KB"
       },
       {
-        "name": "app-V3J6W2PO.js",
-        "path": "app/build/chunks/app-V3J6W2PO.js",
-        "bytes": 567455,
-        "label": "554.2 KB"
+        "name": "app-6TQRRHND.js",
+        "path": "app/build/chunks/app-6TQRRHND.js",
+        "bytes": 571642,
+        "label": "558.2 KB"
       },
       {
-        "name": "election-manager-BKJSGM2I.js",
-        "path": "app/build/chunks/election-manager-BKJSGM2I.js",
+        "name": "election-manager-FY67LWDW.js",
+        "path": "app/build/chunks/election-manager-FY67LWDW.js",
         "bytes": 200251,
         "label": "195.6 KB"
       },
@@ -96,7 +96,7 @@
     {
       "name": "Split JS chunks",
       "status": "pass",
-      "value": 1814371,
+      "value": 1818558,
       "maxBytes": 3891200,
       "valueLabel": "1.7 MB / 3.7 MB",
       "path": "app/build/chunks"
@@ -106,8 +106,8 @@
       "status": "pass",
       "value": 1045978,
       "maxBytes": 1228800,
-      "valueLabel": "chunk-M6AVIK5Z.js 1021.5 KB / 1.2 MB",
-      "path": "app/build/chunks/chunk-M6AVIK5Z.js"
+      "valueLabel": "chunk-4BWGN4JE.js 1021.5 KB / 1.2 MB",
+      "path": "app/build/chunks/chunk-4BWGN4JE.js"
     },
     {
       "name": "Startup runtime split",
@@ -120,10 +120,10 @@
     },
     {
       "name": "Startup metadata index",
-      "status": "pass",
-      "value": 3719729,
+      "status": "fail",
+      "value": 4335638,
       "maxBytes": 4096000,
-      "valueLabel": "3.5 MB / 3.9 MB",
+      "valueLabel": "4.1 MB / 3.9 MB",
       "path": "test/metadata/maps-test-index.json"
     },
     {
@@ -144,9 +144,9 @@
     {
       "name": "PMTiles metadata coverage",
       "status": "pass",
-      "value": 795,
-      "total": 795,
-      "valueLabel": "795/795 PMTiles layers use CDN URLs"
+      "value": 966,
+      "total": 966,
+      "valueLabel": "966/966 PMTiles layers use CDN URLs"
     }
   ]
 }
