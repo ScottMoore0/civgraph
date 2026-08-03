@@ -7,6 +7,11 @@ on:
       - 'scripts/*test*.mjs'
       - 'scripts/verify-test-pmtiles-cdn.mjs'
       - 'scripts/validate-test-cdn-manifest.mjs'
+      - 'scripts/validate-intake-delivery.mjs'
+      - 'scripts/validate-source-paths.mjs'
+      - 'scripts/validate-composite-composition.mjs'
+      - 'scripts/parse-phelim-ed-notes.mjs'
+      - 'data/intake/**'
       - 'package.json'
       - '.github/workflows/test-readiness.yml'
   push:
@@ -16,6 +21,11 @@ on:
       - 'scripts/*test*.mjs'
       - 'scripts/verify-test-pmtiles-cdn.mjs'
       - 'scripts/validate-test-cdn-manifest.mjs'
+      - 'scripts/validate-intake-delivery.mjs'
+      - 'scripts/validate-source-paths.mjs'
+      - 'scripts/validate-composite-composition.mjs'
+      - 'scripts/parse-phelim-ed-notes.mjs'
+      - 'data/intake/**'
       - 'package.json'
       - '.github/workflows/test-readiness.yml'
   schedule:
@@ -36,6 +46,10 @@ jobs:
       - run: npm install
       - run: npm run build:test
       - run: npm run check:test:ci-safe
+      # Delivery reconciliation, source-path and composite-composition checks.
+      # Offline and fast; the daily schedule is what turns a month of silent
+      # drift into at most a day of it.
+      - run: npm run check:intake
       - run: npx playwright install --with-deps chromium
       - run: npm run test:browser:test
       - run: npm run test:visual:test
