@@ -250,6 +250,13 @@ db.exec('COMMIT');
 db.exec('VACUUM');
 db.close();
 
+// Primary keys, used to target the chunked UPDATEs that carry oversized meta values.
+const KEY_COLS = {
+  elections: ['key'],
+  constituencies: ['election_key', 'seq'],
+  constituency_features: ['election_key', 'constituency_seq'],
+};
+
 // D1 imports SQL, not SQLite files, so emit a dump alongside the database.
 // `wrangler d1 import <name> --file=<this>` is then the whole load step.
 let sqlBytes = 0;
@@ -268,13 +275,49 @@ if (!args.includes('--no-sql')) {
   for (const table of ['elections', 'constituencies', 'candidates', 'counts', 'constituency_features']) {
     const cols = dump.prepare(`SELECT name FROM pragma_table_info('${table}')`).all().map((r) => r.name);
     const rows = dump.prepare(`SELECT * FROM ${table}`).all();
-    // Batched multi-row INSERTs: one statement per row makes the dump far larger and
-    // the import far slower, and D1 handles batches of this size comfortably.
-    for (let i = 0; i < rows.length; i += 200) {
-      const chunk = rows.slice(i, i + 200)
-        .map((r) => `(${cols.map((c) => lit(r[c])).join(',')})`)
-        .join(',');
-      await write(`INSERT INTO ${table} (${cols.join(',')}) VALUES ${chunk};\n`);
+    // Batched multi-row INSERTs, capped by BYTES rather than row count. D1 rejects an
+    // oversized statement with SQLITE_TOOBIG, and row count is a poor proxy for size
+    // here: a candidates row carrying a large `meta` JSON blob can be orders of
+    // magnitude bigger than a counts row, so a fixed 200-row batch blew the limit on
+    // some tables and not others.
+    const MAX_STATEMENT_BYTES = 40_000;
+    const prefix = `INSERT INTO ${table} (${cols.join(',')}) VALUES `;
+    let batch = [];
+    let batchBytes = 0;
+    const flush = async () => {
+      if (!batch.length) return;
+      await write(`${prefix}${batch.join(',')};\n`);
+      batch = [];
+      batchBytes = 0;
+    };
+    // A row can exceed the cap on its own -- the 1996 NI Forum region-wide contest
+    // carries a 112 KB `forum` blob in meta -- and no batching helps, because the
+    // statement is one tuple. Such rows are written with meta NULL and the value is
+    // then appended in chunks. Splitting the raw string before escaping is safe:
+    // concatenating the pieces reproduces the original exactly.
+    const oversized = [];
+    for (const r of rows) {
+      let tuple = `(${cols.map((c) => lit(r[c])).join(',')})`;
+      if (tuple.length + prefix.length > MAX_STATEMENT_BYTES
+          && KEY_COLS[table] && typeof r.meta === 'string') {
+        oversized.push(r);
+        tuple = `(${cols.map((c) => (c === 'meta' ? 'NULL' : lit(r[c]))).join(',')})`;
+      }
+      if (batchBytes && batchBytes + tuple.length + prefix.length > MAX_STATEMENT_BYTES) await flush();
+      batch.push(tuple);
+      batchBytes += tuple.length + 1;
+    }
+    await flush();
+
+    const CHUNK = 20_000;
+    for (const r of oversized) {
+      const where = KEY_COLS[table].map((c) => `${c} = ${lit(r[c])}`).join(' AND ');
+      for (let i = 0; i < r.meta.length; i += CHUNK) {
+        const piece = lit(r.meta.slice(i, i + CHUNK));
+        await write(`UPDATE ${table} SET meta = COALESCE(meta,'') || ${piece} WHERE ${where};\n`);
+      }
+      console.warn(`  note: ${table} row [${KEY_COLS[table].map((c) => r[c]).join(', ')}] `
+        + `meta is ${r.meta.length} bytes -- written in ${Math.ceil(r.meta.length / CHUNK)} chunks`);
     }
   }
   dump.close();
