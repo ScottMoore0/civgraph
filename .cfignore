@@ -59,3 +59,20 @@ data/maps/osni-originals/
 test/tiles/
 test/pmtiles/generated/
 node_modules/
+
+# --- Not served by the site; excluded to stay under the Pages 20,000-file limit ---
+# The deployment was measured at ~20,944 files on 2026-08-03, i.e. over the ceiling.
+#
+# Root election-viewer-package/ is the pre-app copy of the standalone viewer. Its only
+# consumer is js/election-controller.js, which no HTML file loads (the js/ Leaflet stack
+# is dead legacy). The live site loads app/election-viewer-package/ instead -- six CSS/JS
+# files, no data directory -- so the leading slash below is load-bearing: unanchored,
+# this pattern would match the app copy too and take the election viewer's styles with it.
+/election-viewer-package/
+
+# Working analysis, not site content.
+analysis/
+
+# Pipeline inputs: alignment CSVs, corrections and official-result sources consumed by
+# scripts at build time. Nothing under app/src or test/src fetches them.
+data/elections/
