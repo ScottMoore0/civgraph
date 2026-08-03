@@ -16,14 +16,28 @@
  * deciding where it belongs, and that can need the contributor. The point is that the
  * decision is recorded rather than implied by silence.
  *
- * Usage: node scripts/validate-intake-delivery.mjs
+ * Usage: node scripts/validate-intake-delivery.mjs [--intake-dir <path>] [--metadata <path>]...
+ *
+ * The path arguments exist so tests can point at copies under a temporary directory,
+ * rather than mutating a tracked file and relying on a revert afterwards.
  */
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { resolve, join, basename } from 'node:path';
 
 const ROOT = resolve(process.cwd());
-const INTAKE_DIR = resolve(ROOT, 'data/intake');
-const METADATA = ['test/metadata/maps-test.json', 'test/metadata/maps-test-index.json'];
+
+function readPathArgs(flag) {
+  const values = [];
+  for (let i = 0; i < process.argv.length - 1; i += 1) {
+    if (process.argv[i] === flag) values.push(process.argv[i + 1]);
+  }
+  return values;
+}
+
+const intakeArg = readPathArgs('--intake-dir');
+const INTAKE_DIR = intakeArg.length ? resolve(intakeArg[0]) : resolve(ROOT, 'data/intake');
+const metadataArgs = readPathArgs('--metadata');
+const METADATA = metadataArgs.length ? metadataArgs : ['test/metadata/maps-test.json', 'test/metadata/maps-test-index.json'];
 
 if (!existsSync(INTAKE_DIR)) {
   console.log('validate-intake-delivery: no data/intake directory; nothing to check.');

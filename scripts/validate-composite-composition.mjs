@@ -16,14 +16,24 @@
  * Compares live alias targets against data/intake/*-ed-composition-specs.json, which is
  * produced by parse-phelim-ed-notes.mjs from the notes shipped with each delivery.
  *
- * Usage: node scripts/validate-composite-composition.mjs
+ * Usage: node scripts/validate-composite-composition.mjs [--index <path>] [--intake-dir <path>]
+ *
+ * The path arguments exist so tests can point at copies under a temporary directory. A
+ * check that can only be exercised by editing a tracked file and reverting it afterwards
+ * is a check nobody tests.
  */
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { resolve, join } from 'node:path';
 
 const ROOT = resolve(process.cwd());
-const INTAKE_DIR = resolve(ROOT, 'data/intake');
-const INDEX = resolve(ROOT, 'test/metadata/maps-test-index.json');
+
+function readPathArg(flag, fallback) {
+  const i = process.argv.indexOf(flag);
+  return i >= 0 && process.argv[i + 1] ? resolve(process.argv[i + 1]) : resolve(ROOT, fallback);
+}
+
+const INTAKE_DIR = readPathArg('--intake-dir', 'data/intake');
+const INDEX = readPathArg('--index', 'test/metadata/maps-test-index.json');
 
 if (!existsSync(INTAKE_DIR) || !existsSync(INDEX)) {
   console.log('validate-composite-composition: no intake specs or metadata index; nothing to check.');

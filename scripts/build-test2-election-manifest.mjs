@@ -291,11 +291,15 @@ async function main() {
   const entries = buildUniqueElectionEntries(electionIndex);
   const previousKeyByKey = buildPreviousElectionKeyLookup(entries);
 
+  // Before the wipe, not after. Refusing to build is only an improvement if the previous
+  // good output survives the refusal; checking after rmSync would delete every bundle and
+  // then decline to replace them, which is worse than the silent corruption it guards
+  // against. I made exactly that mistake in the first version of this check.
+  assertFeatureIndexesPresent(entries, layerBySource, featureIndexes);
+
   rmSync(OUT_DIR, { recursive: true, force: true });
   mkdirSync(OUT_DIR, { recursive: true });
   mkdirSync(OUT_ANCHOR_DIR, { recursive: true });
-
-  assertFeatureIndexesPresent(entries, layerBySource, featureIndexes);
 
   const manifestEntries = [];
   const reportEntries = [];

@@ -16,14 +16,28 @@
  * Deliveries should be unpacked outside the repository and staged into the single live
  * cache directory, so that a path either resolves or is obviously wrong.
  *
- * Usage: node scripts/validate-source-paths.mjs
+ * Usage: node scripts/validate-source-paths.mjs [--metadata <path>]...
+ *
+ * --metadata may be repeated to check specific files instead of the defaults. Tests pass
+ * copies under a temporary directory so that exercising a failure never requires editing,
+ * and then reverting, a tracked file.
  */
 import { readFileSync, existsSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const ROOT = resolve(process.cwd());
 const LIVE_CACHE = 'test/source-cache/vector-intake/';
-const METADATA = ['test/metadata/maps-test.json', 'test/metadata/maps-test-index.json'];
+const DEFAULT_METADATA = ['test/metadata/maps-test.json', 'test/metadata/maps-test-index.json'];
+
+function readPathArgs(flag) {
+  const values = [];
+  for (let i = 0; i < process.argv.length - 1; i += 1) {
+    if (process.argv[i] === flag) values.push(process.argv[i + 1]);
+  }
+  return values;
+}
+
+const METADATA = readPathArgs('--metadata').length ? readPathArgs('--metadata') : DEFAULT_METADATA;
 
 let checked = 0;
 const problems = [];
