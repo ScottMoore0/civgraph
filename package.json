@@ -27,7 +27,7 @@
     "deploy:test:pmtiles": "node scripts/upload-test-pmtiles-r2.mjs",
     "verify:test:pmtiles-cdn": "node scripts/verify-test-pmtiles-cdn.mjs",
     "switch:test:pmtiles-cdn": "node scripts/switch-test-pmtiles-to-cdn.mjs",
-    "check": "npm run check:chunked-bounds && npm run test:chunked-fit && npm run check:root && npm run check:pages-assets && npm run check:external-sources && npm run check:approved-publication && npm run check:raw-source-documents && npm run check:medium-priority-publication && npm run check:peatland-geoportal && npm run check:ni-register-interests && npm run check:election-source-enrichments && npm run check:graph && npm run check:c1-coverage && npm run check:test",
+    "check": "npm run check:chunked-bounds && npm run test:chunked-fit && npm run check:root && npm run check:pages-assets && npm run check:external-sources && npm run check:approved-publication && npm run check:raw-source-documents && npm run check:medium-priority-publication && npm run check:peatland-geoportal && npm run check:ni-register-interests && npm run check:election-source-enrichments && npm run check:graph && npm run check:c1-coverage && npm run check:test && npm run check:intake-delivery && npm run check:source-paths && npm run check:composite-composition",
     "check:election-source-enrichments": "node scripts/validate-election-source-enrichments.mjs",
     "check:chunked-bounds": "node scripts/validate-chunked-map-bounds.mjs",
     "check:root": "node scripts/validate-maplibre-root-promotion.mjs",
@@ -64,7 +64,10 @@
     "check:timeline-transitions": "node scripts/validate-timeline-transition-overlays.mjs",
     "build:feature-thumbnails": "node scripts/render-feature-thumbnails.mjs --all",
     "build:feature-thumbnails:sample": "node scripts/render-feature-thumbnails.mjs --map counties-ireland --limit 3 --force",
-    "deploy:feature-thumbnails:r2": "node scripts/upload-feature-thumbnails-r2.mjs --skip-check --concurrency 3"
+    "deploy:feature-thumbnails:r2": "node scripts/upload-feature-thumbnails-r2.mjs --skip-check --concurrency 3",
+    "check:intake-delivery": "node scripts/validate-intake-delivery.mjs",
+    "check:source-paths": "node scripts/validate-source-paths.mjs",
+    "check:composite-composition": "node scripts/validate-composite-composition.mjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.3",
