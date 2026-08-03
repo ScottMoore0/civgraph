@@ -1862,12 +1862,29 @@ function sourceShardNameForRecord(record, assignments = null) {
   return 'sources-misc.json';
 }
 
+/**
+ * Delete only the shard files a run did not produce.
+ *
+ * Shard directories used to be removed wholesale before regeneration, which defeated
+ * preserveGeneratedAtWhenPayloadMatches: with no file on disk to compare against, every
+ * shard was rewritten with a fresh generatedAt whether or not its contents had changed.
+ * A single build then produced hundreds of timestamp-only diffs, which buries real
+ * changes and makes a bulk `git checkout` look like a routine tidy-up rather than the
+ * destructive operation it is.
+ */
+function pruneStaleShards(dir, desiredFiles) {
+  if (!existsSync(dir)) return;
+  for (const file of readdirSync(dir)) {
+    if (!file.endsWith('.json') || desiredFiles.has(file)) continue;
+    rmSync(path.join(dir, file), { force: true });
+  }
+}
+
 function writeSourceDetailShards(records, enhance = null, assignments = null) {
   const legacyDir = path.join(DETAILS_DIR, 'sources');
   const shardDir = path.join(DETAILS_DIR, SOURCE_DETAIL_SHARD_DIR);
   const shardAssignments = assignments || buildSourceDetailShardAssignments(records);
   rmSync(legacyDir, { recursive: true, force: true });
-  rmSync(shardDir, { recursive: true, force: true });
   mkdirSync(shardDir, { recursive: true });
 
   const sortedRecords = [...records].sort((a, b) => sourceDetailSlug(a).localeCompare(sourceDetailSlug(b)));
@@ -1889,11 +1906,11 @@ function writeSourceDetailShards(records, enhance = null, assignments = null) {
       items
     });
   }
+  pruneStaleShards(shardDir, new Set(byShard.keys()));
 }
 
 function writePersonIndexShards(records) {
   const shardDir = path.join(OUT_DIR, PERSON_INDEX_SHARD_DIR);
-  rmSync(shardDir, { recursive: true, force: true });
   mkdirSync(shardDir, { recursive: true });
   const shards = [];
   for (let index = 0; index < records.length; index += PERSON_INDEX_SHARD_SIZE) {
@@ -1914,12 +1931,12 @@ function writePersonIndexShards(records) {
       count: items.length
     });
   }
+  pruneStaleShards(shardDir, new Set(shards.map((shard) => shard.name)));
   return shards;
 }
 
 function writeRegisterInterestIndexShards(records) {
   const shardDir = path.join(OUT_DIR, REGISTER_INTEREST_INDEX_SHARD_DIR);
-  rmSync(shardDir, { recursive: true, force: true });
   mkdirSync(shardDir, { recursive: true });
   const shards = [];
   for (let index = 0; index < records.length; index += REGISTER_INTEREST_INDEX_SHARD_SIZE) {
@@ -1940,6 +1957,7 @@ function writeRegisterInterestIndexShards(records) {
       count: items.length
     });
   }
+  pruneStaleShards(shardDir, new Set(shards.map((shard) => shard.name)));
   return shards;
 }
 
