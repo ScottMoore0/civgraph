@@ -76,3 +76,16 @@ analysis/
 # Pipeline inputs: alignment CSVs, corrections and official-result sources consumed by
 # scripts at build time. Nothing under app/src or test/src fetches them.
 data/elections/
+
+# Card thumbnail images are served from R2 (https://data.civgraph.net/assets/thumbnails/)
+# via js/cdn-url.js. They stay in git as the source of truth; they just do not need to
+# occupy 1,793 of the Pages file budget to be delivered.
+#
+# Only the images are excluded. manifest.json stays in the deploy because
+# build-shared-shell-assets.mjs regenerates it from this directory on every build --
+# serving it from R2 as well would let the list and the images drift apart.
+#
+# After adding or re-rendering a thumbnail, run: npm run sync:thumbnails
+# (idempotent; it skips objects already present).
+assets/thumbnails/*.webp
+assets/thumbnails/*.png

@@ -69,7 +69,8 @@
     "check:source-paths": "node scripts/validate-source-paths.mjs",
     "check:composite-composition": "node scripts/validate-composite-composition.mjs",
     "check:intake": "npm run check:intake-delivery && npm run check:source-paths && npm run check:composite-composition && npm run test:intake-validators",
-    "test:intake-validators": "node scripts/test-intake-validators.mjs"
+    "test:intake-validators": "node scripts/test-intake-validators.mjs",
+    "sync:thumbnails": "node scripts/upload-tile-pyramid-s3.mjs assets/thumbnails assets/thumbnails --concurrency=16"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.3",

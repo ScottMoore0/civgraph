@@ -4,6 +4,7 @@ import path from 'node:path';
 import { resolveApprovedPublicationSources } from './lib/approved-publication-index.mjs';
 import { partyColour } from '../js/election-domain.mjs';
 import { canonicalElectionTitle, electionResultEntryLabel } from '../js/election-names.mjs';
+import { CDN_BASE } from '../js/cdn-url.js';
 
 const ROOT = process.cwd();
 
@@ -2134,8 +2135,10 @@ function thumbnailForCandidates(thumbnailIds, candidates, label, fallbackType = 
     return compactObject({
       kind: 'asset',
       id,
-      url: `/assets/thumbnails/${id}.webp`,
-      smallUrl: thumbnailIds.has(`${id}-60`) ? `/assets/thumbnails/${id}-60.webp` : null,
+      // Absolute CDN URLs, not site-relative: assets/thumbnails/ is served from R2 and
+      // excluded from the Pages deploy, so a /assets/... path here would 404.
+      url: `${CDN_BASE}/assets/thumbnails/${id}.webp`,
+      smallUrl: thumbnailIds.has(`${id}-60`) ? `${CDN_BASE}/assets/thumbnails/${id}-60.webp` : null,
       alt: cleanText(label || id)
     });
   }

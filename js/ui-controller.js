@@ -6,6 +6,7 @@
 import dataService, { resolveMapDownloadUrl } from './data-service.js';
 import featureLoader from './feature-loader.js';
 import { formatElectionDate, shortBodyName, renderElectionConstituencyFeatureLink } from './election-utils.js';
+import { cdnUrl } from './cdn-url.js';
 
 class UIController {
     constructor() {
@@ -1829,6 +1830,9 @@ class UIController {
     async ensureThumbnailManifest() {
         if (this._thumbnailIds) return this._thumbnailIds;
         if (!this._thumbnailManifestPromise) {
+            // The manifest stays on the origin deliberately: build-shared-shell-assets
+            // regenerates it from the local directory on every build, so serving it from
+            // R2 would let the list and the deploy drift apart. Only the images are on CDN.
             this._thumbnailManifestPromise = fetch('assets/thumbnails/manifest.json', { cache: 'force-cache' })
                 .then((response) => response.ok ? response.json() : [])
                 .then((ids) => {
@@ -1964,7 +1968,7 @@ class UIController {
         if (!thumbId) return '';
         const candidate = `${thumbId}${sizeSuffix}`;
         if (this.hasThumbnailAsset(candidate)) {
-            return `assets/thumbnails/${this.escapeHtml(candidate)}.webp`;
+            return cdnUrl(`assets/thumbnails/${this.escapeHtml(candidate)}.webp`);
         }
         return '';
     }

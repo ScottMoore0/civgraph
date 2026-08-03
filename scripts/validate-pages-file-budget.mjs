@@ -5,31 +5,25 @@ import { existsSync, readdirSync, statSync } from 'node:fs';
 const MAX_FILES = Number(process.env.MAX_PAGES_FILES || 18500);
 const MAX_FILE_BYTES = Number(process.env.MAX_PAGES_FILE_BYTES || 25 * 1024 * 1024);
 
-const EXCLUDED_PREFIXES = [
-  '.github/',
-  'archive/',
-  'boundary-gazette/',
-  'data/census/',
-  'data/provider-mirror-audit/',
-  'data/timeline-transitions/',
-  'docs/',
-  'election-viewer-package/data/elections/',
-  'electionsni-reference/',
-  'node_modules/',
-  'ocr_output/',
-  'scripts/',
-  'tasks/',
-  'test/pmtiles/generated/',
-  'test/tiles/civil-parishes-v3/',
-  'test/tiles/generated/',
-  'tests/'
-];
-
-const EXCLUDED_FILES = new Set([
-  'data/database/approved-publication-sources.json'
-]);
-// The approved-publication gate is stored sharded (repo-size, not deployed).
-EXCLUDED_PREFIXES.push('data/database/approved-publication-sources-shards/');
+// Exclusions come from .cfignore, because that is the file Cloudflare actually obeys.
+//
+// This script used to carry its own hand-maintained EXCLUDED_PREFIXES list. The two
+// drifted, and on 2026-08-03 the drift hid a real overage: the list here excluded
+// election-viewer-package/data/elections/ (7,402 files) while .cfignore did not, so
+// this check reported a comfortable 13,562/18,500 while the deployment Cloudflare
+// would actually build was about 20,944 -- over the 20,000 hard limit. A guardrail
+// measuring a different thing from the one being guarded is worse than no guardrail,
+// because it is trusted.
+//
+// git applies gitignore semantics to .cfignore for us, so there is nothing to
+// reimplement and nothing left to keep in sync.
+function cfignoredFiles() {
+  const out = execFileSync('git', ['ls-files', '-c', '-i', '-X', '.cfignore'], {
+    encoding: 'utf8',
+    maxBuffer: 64 * 1024 * 1024
+  });
+  return new Set(out.split(/\r?\n/).filter(Boolean).map((f) => f.replace(/\\/g, '/')));
+}
 
 function listFilesRecursive(dir) {
   if (!existsSync(dir)) return [];
@@ -50,10 +44,8 @@ for (const file of listFilesRecursive('app/build')) fileSet.add(file);
 const missingTrackedFiles = gitFiles.filter((file) => !existsSync(file));
 const trackedFiles = Array.from(fileSet).sort((a, b) => a.localeCompare(b));
 
-const deployedFiles = trackedFiles.filter((file) => (
-  !EXCLUDED_FILES.has(file) &&
-  !EXCLUDED_PREFIXES.some((prefix) => file === prefix.slice(0, -1) || file.startsWith(prefix))
-));
+const excluded = cfignoredFiles();
+const deployedFiles = trackedFiles.filter((file) => !excluded.has(file));
 const byTopLevel = new Map();
 for (const file of deployedFiles) {
   const top = file.split('/')[0] || file;
