@@ -70,7 +70,8 @@
     "check:composite-composition": "node scripts/validate-composite-composition.mjs",
     "check:intake": "npm run check:intake-delivery && npm run check:source-paths && npm run check:composite-composition && npm run test:intake-validators",
     "test:intake-validators": "node scripts/test-intake-validators.mjs",
-    "sync:thumbnails": "node scripts/upload-tile-pyramid-s3.mjs assets/thumbnails assets/thumbnails --concurrency=16"
+    "sync:thumbnails": "node scripts/upload-tile-pyramid-s3.mjs assets/thumbnails assets/thumbnails --concurrency=16",
+    "build:elections-db": "node scripts/build-elections-sqlite.mjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.3",
