@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-03T17:42:42.202Z",
+  "generatedAt": "2026-08-03T18:21:39.048Z",
   "mode": "execute",
   "tools": {
     "ogr2ogr": "C:\\Program Files\\GDAL\\ogr2ogr.exe",
@@ -12,18 +12,18 @@
   "outputDirectory": "test/pmtiles/generated",
   "maxGithubBytes": 99614720,
   "totals": {
-    "candidates": 1,
-    "converted": 1,
+    "candidates": 15,
+    "converted": 15,
     "skipped": 0,
     "failed": 0,
-    "metadataPreferred": 1,
+    "metadataPreferred": 15,
     "oversizedArchives": 0
   },
   "converted": [
     {
-      "layerId": "eds-leinster-1957-vector-test",
-      "sourceMapId": "eds-leinster-1957",
-      "name": "Leinster District Electoral Divisions/Wards 1957",
+      "layerId": "counties-ireland-1915-vector-test",
+      "sourceMapId": "counties-ireland-1915",
+      "name": "Counties of Ireland",
       "sourceType": "pmtiles",
       "status": "converted",
       "profile": {
@@ -33,8 +33,246 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "output": "test/pmtiles/generated/eds-leinster-1957-vector-test.pmtiles",
-      "bytes": 5325619,
+      "output": "test/pmtiles/generated/counties-ireland-1915-vector-test.pmtiles",
+      "bytes": 4996611,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "counties-ireland-1922-vector-test",
+      "sourceMapId": "counties-ireland-1922",
+      "name": "Counties of Ireland 1922 (all-island, Tirconaill)",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "test/pmtiles/generated/counties-ireland-1922-vector-test.pmtiles",
+      "bytes": 4996531,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "counties-ireland-1927-vector-test",
+      "sourceMapId": "counties-ireland-1927",
+      "name": "Counties of Ireland 1927 (all-island, Donegal)",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "test/pmtiles/generated/counties-ireland-1927-vector-test.pmtiles",
+      "bytes": 4996383,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "counties-ireland-1955-vector-test",
+      "sourceMapId": "counties-ireland-1955",
+      "name": "Counties of Ireland",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "test/pmtiles/generated/counties-ireland-1955-vector-test.pmtiles",
+      "bytes": 4996945,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "counties-ireland-1957-vector-test",
+      "sourceMapId": "counties-ireland-1957",
+      "name": "Counties of Ireland",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "test/pmtiles/generated/counties-ireland-1957-vector-test.pmtiles",
+      "bytes": 4996880,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "dail-1959-vector-test",
+      "sourceMapId": "dail-1959",
+      "name": "1959",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "test/pmtiles/generated/dail-1959-vector-test.pmtiles",
+      "bytes": 4332904,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "dublin-electoral-counties-1985-vector-test",
+      "sourceMapId": "dublin-electoral-counties-1985",
+      "name": "Dublin Electoral Counties 1985",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "test/pmtiles/generated/dublin-electoral-counties-1985-vector-test.pmtiles",
+      "bytes": 128678,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-connacht-2006-vector-test",
+      "sourceMapId": "eds-connacht-2006",
+      "name": "Connacht Electoral Divisions 2006",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "test/pmtiles/generated/eds-connacht-2006-vector-test.pmtiles",
+      "bytes": 2422551,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-connacht-2022-vector-test",
+      "sourceMapId": "eds-connacht-2022",
+      "name": "Connacht Electoral Divisions 2022",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "test/pmtiles/generated/eds-connacht-2022-vector-test.pmtiles",
+      "bytes": 5024267,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-leinster-2006-vector-test",
+      "sourceMapId": "eds-leinster-2006",
+      "name": "Leinster Electoral Divisions 2006",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "test/pmtiles/generated/eds-leinster-2006-vector-test.pmtiles",
+      "bytes": 3019921,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-leinster-2022-vector-test",
+      "sourceMapId": "eds-leinster-2022",
+      "name": "Leinster Electoral Divisions 2022",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "test/pmtiles/generated/eds-leinster-2022-vector-test.pmtiles",
+      "bytes": 5992796,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-munster-2006-vector-test",
+      "sourceMapId": "eds-munster-2006",
+      "name": "Munster Electoral Divisions 2006",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "test/pmtiles/generated/eds-munster-2006-vector-test.pmtiles",
+      "bytes": 3598918,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-munster-2022-vector-test",
+      "sourceMapId": "eds-munster-2022",
+      "name": "Munster Electoral Divisions 2022",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "test/pmtiles/generated/eds-munster-2022-vector-test.pmtiles",
+      "bytes": 7894419,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-ulster-2006-vector-test",
+      "sourceMapId": "eds-ulster-2006",
+      "name": "Ulster Electoral Divisions 2006",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "test/pmtiles/generated/eds-ulster-2006-vector-test.pmtiles",
+      "bytes": 1233462,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-ulster-2022-vector-test",
+      "sourceMapId": "eds-ulster-2022",
+      "name": "Ulster Electoral Divisions 2022",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "test/pmtiles/generated/eds-ulster-2022-vector-test.pmtiles",
+      "bytes": 2690148,
       "exceedsGithubBudget": false
     }
   ],
