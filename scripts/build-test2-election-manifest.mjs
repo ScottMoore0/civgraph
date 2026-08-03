@@ -295,6 +295,8 @@ async function main() {
   mkdirSync(OUT_DIR, { recursive: true });
   mkdirSync(OUT_ANCHOR_DIR, { recursive: true });
 
+  assertFeatureIndexesPresent(entries, layerBySource, featureIndexes);
+
   const manifestEntries = [];
   const reportEntries = [];
   let totalMatched = 0;
@@ -1191,6 +1193,59 @@ function buildLayerLookup(layers) {
 function parentMapIdForVariant(sourceMapId) {
   const match = String(sourceMapId || '').match(/^(.*)-v\d+$/);
   return match ? match[1] : null;
+}
+
+/**
+ * Refuse to build when an election's geography layer has no feature index.
+ *
+ * Without an index every constituency falls through to unmatched, so the bundle is
+ * written with matchedCount 0, unmatchedCount equal to the constituency count, and
+ * loadable false -- and the build exits 0. Nothing distinguishes that from an election
+ * that genuinely has no matching geography.
+ *
+ * On 2026-08-03 a build on a machine with an incomplete test/metadata/feature-indexes/
+ * rewrote 246 elections that way. It was caught only because the diff was inspected by
+ * hand; committed, it would have taken the constituency layer off every affected election
+ * while leaving the site apparently healthy.
+ *
+ * Only 80 feature indexes are tracked, so this also states plainly that the committed
+ * election data cannot currently be reproduced from a clean checkout. Better to stop with
+ * a list of what is missing than to emit plausible, wrong output.
+ */
+function assertFeatureIndexesPresent(entries, layerBySource, featureIndexes) {
+  const missing = new Map();
+  for (const entry of entries) {
+    const geography = resolveElectionGeography(entry);
+    const layer = geography?.sourceMapId ? layerBySource.get(geography.sourceMapId) : null;
+    if (!layer) continue; // no geography at all is a different, already-handled case
+    if (featureIndexes.get(layer.id) || featureIndexes.get(layer.sourceMapId)) continue;
+    if (!missing.has(layer.id)) missing.set(layer.id, []);
+    missing.get(layer.id).push(electionKey(entry));
+  }
+  if (!missing.size) return;
+
+  const affected = [...missing.values()].reduce((sum, list) => sum + list.length, 0);
+  const allowPartial = process.argv.includes('--allow-missing-feature-indexes');
+  const log = allowPartial ? console.warn : console.error;
+
+  log(`\n${missing.size} geography layer(s) have no feature index, affecting ${affected} election(s):`);
+  for (const [layerId, keys] of [...missing].sort()) {
+    log(`- ${layerId}  (${keys.length} election(s), e.g. ${keys.slice(0, 3).join(', ')})`);
+  }
+  log(`\nExpected at ${path.relative(ROOT, FEATURE_INDEX_DIR)}/<layer-id>.json.`);
+  log('Build them with `npm run build:test:feature-indexes`, which needs the layer');
+  log('sources present in test/source-cache/.');
+
+  if (allowPartial) {
+    // Deliberate partial build. The affected elections will be written with zero matched
+    // constituencies, so the output is fine to inspect and must not be committed.
+    log('\n--allow-missing-feature-indexes given: continuing. The elections listed above');
+    log('will be written with matchedCount 0 and loadable false. DO NOT COMMIT THAT OUTPUT.\n');
+    return;
+  }
+  log('\nRefusing to write elections that would all report zero matched constituencies.');
+  log('Pass --allow-missing-feature-indexes if you are deliberately building a partial set.\n');
+  process.exit(1);
 }
 
 function loadFeatureIndexes(layers) {
