@@ -1,0 +1,166 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-08-03",
+  "why": "Feature indexes are generated from layer sources in test/source-cache/, which is gitignored. Only 80 indexes are tracked, so on any machine without those sources -- including the Cloudflare Pages deploy build -- these layers cannot be matched, and their elections are written with matchedCount 0 and loadable false. That is what is deployed today and has been for some time. Baselining keeps deploys working while making the debt countable; it is not an endorsement. The fix is to regenerate these indexes where the sources exist and commit them, deleting entries from this file as they land.",
+  "effect": "A layer listed here warns. A layer not listed fails the build.",
+  "totalLayers": 39,
+  "totalElectionsAffected": 257,
+  "layers": [
+    {
+      "layerId": "assembly-areas-1970-alias-test",
+      "elections": 5
+    },
+    {
+      "layerId": "assembly-areas-1982-alias-test",
+      "elections": 1
+    },
+    {
+      "layerId": "assembly-areas-1995-alias-test",
+      "elections": 2
+    },
+    {
+      "layerId": "assembly-areas-2008-alias-test",
+      "elections": 5
+    },
+    {
+      "layerId": "av-referendum-2011-vector-test",
+      "elections": 1
+    },
+    {
+      "layerId": "border-poll-1973-alias-test",
+      "elections": 1
+    },
+    {
+      "layerId": "common-market-1975-alias-test",
+      "elections": 1
+    },
+    {
+      "layerId": "constitutional-convention-1975-alias-test",
+      "elections": 1
+    },
+    {
+      "layerId": "dail-1998-vector-test",
+      "elections": 10
+    },
+    {
+      "layerId": "dail-2005-vector-test",
+      "elections": 4
+    },
+    {
+      "layerId": "dail-2009-vector-test",
+      "elections": 9
+    },
+    {
+      "layerId": "dail-2013-vector-test",
+      "elections": 3
+    },
+    {
+      "layerId": "dail-2017-vector-test",
+      "elections": 6
+    },
+    {
+      "layerId": "dail-2023-vector-test",
+      "elections": 1
+    },
+    {
+      "layerId": "deas-1972-vector-test",
+      "elections": 3
+    },
+    {
+      "layerId": "deas-1984-vector-test",
+      "elections": 2
+    },
+    {
+      "layerId": "deas-1993-vector-test",
+      "elections": 5
+    },
+    {
+      "layerId": "deas-2012-vector-test",
+      "elections": 4
+    },
+    {
+      "layerId": "eu-referendum-2016-alias-test",
+      "elections": 1
+    },
+    {
+      "layerId": "forum-1995-alias-test",
+      "elections": 1
+    },
+    {
+      "layerId": "mep-1979-vector-test",
+      "elections": 5
+    },
+    {
+      "layerId": "mep-2004-vector-test",
+      "elections": 2
+    },
+    {
+      "layerId": "mep-2014-vector-test",
+      "elections": 1
+    },
+    {
+      "layerId": "mep-2019-vector-test",
+      "elections": 1
+    },
+    {
+      "layerId": "mep-2024-vector-test",
+      "elections": 1
+    },
+    {
+      "layerId": "ni-1921-vector-test",
+      "elections": 10
+    },
+    {
+      "layerId": "pc-1918-ireland-vector-test",
+      "elections": 1
+    },
+    {
+      "layerId": "pc-1920-vector-test",
+      "elections": 17
+    },
+    {
+      "layerId": "pc-1948-vector-test",
+      "elections": 17
+    },
+    {
+      "layerId": "pc-1970-vector-test",
+      "elections": 7
+    },
+    {
+      "layerId": "pc-1982-vector-test",
+      "elections": 5
+    },
+    {
+      "layerId": "pc-1995-vector-test",
+      "elections": 4
+    },
+    {
+      "layerId": "pc-2008-vector-test",
+      "elections": 9
+    },
+    {
+      "layerId": "roi-1938-vector-test",
+      "elections": 25
+    },
+    {
+      "layerId": "roi-counties-2011-vector-test",
+      "elections": 8
+    },
+    {
+      "layerId": "roi-local-authorities-1994-vector-test",
+      "elections": 1
+    },
+    {
+      "layerId": "roi-local-authorities-2002-vector-test",
+      "elections": 1
+    },
+    {
+      "layerId": "roi-local-authorities-2024-vector-test",
+      "elections": 1
+    },
+    {
+      "layerId": "stormont-1929-vector-test",
+      "elections": 75
+    }
+  ]
+}

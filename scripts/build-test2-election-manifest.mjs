@@ -11,6 +11,7 @@ const ELECTION_ROOT = path.join(ROOT, 'election-viewer-package', 'data', 'electi
 const ELECTION_INDEX = path.join(ROOT, 'election-viewer-package', 'data', 'elections_index.json');
 const MAP_METADATA = path.join(ROOT, 'test', 'metadata', 'maps-test.json');
 const FEATURE_INDEX_DIR = path.join(ROOT, 'test', 'metadata', 'feature-indexes');
+const FEATURE_INDEX_BASELINE = path.join(ROOT, 'data', 'database', 'election-feature-index-baseline.json');
 const OUT_DIR = path.join(ROOT, 'test', 'metadata', 'elections-test2');
 const OUT_ANCHOR_DIR = path.join(ROOT, 'test', 'metadata', 'election-anchors-test2');
 const OUT_MANIFEST = path.join(ROOT, 'test', 'metadata', 'elections-test2.json');
@@ -1216,8 +1217,18 @@ function parentMapIdForVariant(sourceMapId) {
  * election data cannot currently be reproduced from a clean checkout. Better to stop with
  * a list of what is missing than to emit plausible, wrong output.
  */
+function readBaselinedFeatureIndexGaps() {
+  if (!existsSync(FEATURE_INDEX_BASELINE)) return new Set();
+  try {
+    const doc = JSON.parse(readFileSync(FEATURE_INDEX_BASELINE, 'utf8'));
+    return new Set((doc.layers || []).map((entry) => entry.layerId).filter(Boolean));
+  } catch {
+    return new Set();
+  }
+}
+
 function assertFeatureIndexesPresent(entries, layerBySource, featureIndexes) {
-  const missing = new Map();
+  let missing = new Map();
   for (const entry of entries) {
     const geography = resolveElectionGeography(entry);
     const layer = geography?.sourceMapId ? layerBySource.get(geography.sourceMapId) : null;
@@ -1228,11 +1239,28 @@ function assertFeatureIndexesPresent(entries, layerBySource, featureIndexes) {
   }
   if (!missing.size) return;
 
+  // Layers already known to be missing an index are recorded in a committed baseline.
+  // They still produce wrong output, but it is the output already deployed, so failing
+  // the build on them would block every unrelated deploy over a pre-existing gap. New
+  // ones fail. The baseline is version-controlled precisely so it cannot grow quietly:
+  // adding to it is a visible diff, and shrinking it is the actual fix.
+  const baseline = readBaselinedFeatureIndexGaps();
+  const newlyMissing = new Map([...missing].filter(([layerId]) => !baseline.has(layerId)));
+  const baselined = new Map([...missing].filter(([layerId]) => baseline.has(layerId)));
+
+  if (baselined.size) {
+    const n = [...baselined.values()].reduce((sum, list) => sum + list.length, 0);
+    console.warn(`${baselined.size} geography layer(s) have no feature index (baselined), affecting ${n} election(s).`);
+    console.warn(`Those elections will be written with matchedCount 0. See ${path.relative(ROOT, FEATURE_INDEX_BASELINE)}.`);
+  }
+  if (!newlyMissing.size) return;
+
+  missing = newlyMissing;
   const affected = [...missing.values()].reduce((sum, list) => sum + list.length, 0);
   const allowPartial = process.argv.includes('--allow-missing-feature-indexes');
   const log = allowPartial ? console.warn : console.error;
 
-  log(`\n${missing.size} geography layer(s) have no feature index, affecting ${affected} election(s):`);
+  log(`\n${missing.size} geography layer(s) have no feature index and are NOT baselined, affecting ${affected} election(s):`);
   for (const [layerId, keys] of [...missing].sort()) {
     log(`- ${layerId}  (${keys.length} election(s), e.g. ${keys.slice(0, 3).join(', ')})`);
   }
