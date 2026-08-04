@@ -746,7 +746,10 @@ body.split-dragging * {
 button.catalogue-flat__toc-toplink {
   background: none;
   border: 0;
-  padding: 0;
+  /* T3-03: horizontal padding stays 0 so this matches the <a> links beside it, but the
+     vertical padding from .catalogue-flat__toc-toplink must survive -- a blanket
+     `padding: 0` here put the button back under the 24px minimum. */
+  padding: 3px 0;
   margin: 0;
   font-family: inherit;
   cursor: pointer;
