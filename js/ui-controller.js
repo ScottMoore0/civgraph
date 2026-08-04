@@ -3534,7 +3534,7 @@ class UIController {
               mapIds: ['eds-1911', 'eds-1912', 'eds-1914', 'eds-1915', 'eds-1919-04-01'] },
             { id: 'flat-roi-deds', name: 'Electoral Divisions', years: '1921-2019', extent: 'Republic of Ireland',
               mapIds: [
-                  'eds-roi-1921-05-03', 'eds-roi-1936',
+                  'eds-roi-1921-05-03', 'eds-roi-1931', 'eds-roi-1936',
                   'eds-roi-1941', 'eds-roi-1942', 'eds-roi-1943', 'eds-roi-1944', 'eds-roi-1946',
                   'eds-roi-1950', 'eds-roi-1953', 'eds-roi-1954', 'eds-roi-1955', 'eds-roi-1957', 'eds-roi-1965',
                   'eds-roi-1966', 'eds-roi-1970',
