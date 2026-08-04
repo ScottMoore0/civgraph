@@ -66,11 +66,17 @@ async function handle(context) {
   const body = (url.searchParams.get('body') || '').trim();
   const constituency = url.searchParams.get('constituency');
 
+  // Only successful responses are cacheable. Sending the long max-age on errors too
+  // would have pinned a transient failure at the edge for up to a day -- a 503 from a
+  // missing binding during a deploy, or a 500 from a bad query, would outlive its own
+  // cause and look like a broken endpoint long after the fix shipped.
   const json = (payload, status = 200) => new Response(JSON.stringify(payload), {
     status,
     headers: {
       'Content-Type': 'application/json',
-      'Cache-Control': 'public, max-age=3600, s-maxage=86400',
+      'Cache-Control': status === 200
+        ? 'public, max-age=3600, s-maxage=86400'
+        : 'no-store',
       'Access-Control-Allow-Origin': '*',
     },
   });
