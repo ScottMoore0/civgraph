@@ -1,46 +1,9 @@
 {
   "schemaVersion": 1,
   "recordedAt": "2026-08-04",
-  "why": "Feature indexes are generated from layer sources in test/source-cache/, which is gitignored. Only 80 indexes are tracked, so on any machine without those sources -- including the Cloudflare Pages deploy build -- these layers cannot be matched, and their elections are written with matchedCount 0 and loadable false. That is what is deployed today and has been for some time. Baselining keeps deploys working while making the debt countable; it is not an endorsement. The fix is to regenerate these indexes where the sources exist and commit them, deleting entries from this file as they land.",
+  "why": "Empty. The 39 original entries are resolved: 34 layers had their sources on R2 all along (files.fgb in maps.json) and were downloaded and indexed; the remaining 9 were alias layers that never needed their own index -- the guard was checking layer.id and sourceMapId only, and not following aliasTargetLayerId, so it reported a gap that did not exist. Kept as an empty file rather than deleted: the mechanism is still the right one if a real gap appears, and an empty list is a clearer statement than a missing file.",
   "effect": "A layer listed here warns. A layer not listed fails the build.",
-  "totalLayers": 9,
-  "totalElectionsAffected": 18,
-  "layers": [
-    {
-      "layerId": "assembly-areas-1970-alias-test",
-      "elections": 5
-    },
-    {
-      "layerId": "assembly-areas-1982-alias-test",
-      "elections": 1
-    },
-    {
-      "layerId": "assembly-areas-1995-alias-test",
-      "elections": 2
-    },
-    {
-      "layerId": "assembly-areas-2008-alias-test",
-      "elections": 5
-    },
-    {
-      "layerId": "border-poll-1973-alias-test",
-      "elections": 1
-    },
-    {
-      "layerId": "common-market-1975-alias-test",
-      "elections": 1
-    },
-    {
-      "layerId": "constitutional-convention-1975-alias-test",
-      "elections": 1
-    },
-    {
-      "layerId": "eu-referendum-2016-alias-test",
-      "elections": 1
-    },
-    {
-      "layerId": "forum-1995-alias-test",
-      "elections": 1
-    }
-  ]
+  "totalLayers": 0,
+  "totalElectionsAffected": 0,
+  "layers": []
 }

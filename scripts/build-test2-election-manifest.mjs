@@ -312,7 +312,7 @@ async function main() {
     const councilGeography = resolveLocalGovernmentCouncilGeography(entry);
     const layer = geography?.sourceMapId ? layerBySource.get(geography.sourceMapId) : null;
     const councilLayer = councilGeography?.sourceMapId ? layerBySource.get(councilGeography.sourceMapId) : null;
-    const featureIndex = layer ? featureIndexes.get(layer.id) || featureIndexes.get(layer.sourceMapId) : null;
+    const featureIndex = featureIndexForLayer(featureIndexes, layer);
     const bundle = await buildElectionBundle(entry, geography, layer, featureIndex, previousKeyByKey.get(electionKey(entry)) || null, {
       councilGeography,
       councilLayer
@@ -790,7 +790,7 @@ async function buildReferendumGeographyModes(entry, bundle, layerBySource, featu
   const sidecar = readJson(sidecarPath);
   const layer = layerBySource.get(config.sourceMapId);
   if (!layer) return null;
-  const featureIndex = featureIndexes.get(layer.id) || featureIndexes.get(layer.sourceMapId) || featureIndexes.get(config.sourceMapId);
+  const featureIndex = featureIndexForLayer(featureIndexes, layer, config.sourceMapId);
   const featureLookup = buildFeatureLookup(featureIndex, config.sourceMapId);
   const anchorIndex = await loadOrBuildAnchorIndex(layer, featureIndex);
   const labelProperty = layer.labelProperty || bundle.labelProperty || 'name';
@@ -1262,13 +1262,31 @@ function readBaselinedFeatureIndexGaps() {
   }
 }
 
+/**
+ * Feature index for a layer, following an alias when it has one.
+ *
+ * Alias layers deliberately carry no geometry of their own -- assembly-areas-1970 is an
+ * alias of pc-1970 because the boundaries are identical -- so they never get their own
+ * index. The three lookups below used to check only layer.id and layer.sourceMapId, so
+ * nine alias layers resolved to no index and their 18 elections matched nothing, while
+ * the index they needed was sitting under the alias target the whole time.
+ */
+function featureIndexForLayer(featureIndexes, layer, extraKey = null) {
+  if (!layer) return null;
+  return featureIndexes.get(layer.id)
+    || featureIndexes.get(layer.sourceMapId)
+    || (layer.aliasTargetLayerId ? featureIndexes.get(layer.aliasTargetLayerId) : null)
+    || (extraKey ? featureIndexes.get(extraKey) : null)
+    || null;
+}
+
 function assertFeatureIndexesPresent(entries, layerBySource, featureIndexes) {
   let missing = new Map();
   for (const entry of entries) {
     const geography = resolveElectionGeography(entry);
     const layer = geography?.sourceMapId ? layerBySource.get(geography.sourceMapId) : null;
     if (!layer) continue; // no geography at all is a different, already-handled case
-    if (featureIndexes.get(layer.id) || featureIndexes.get(layer.sourceMapId)) continue;
+    if (featureIndexForLayer(featureIndexes, layer)) continue;
     if (!missing.has(layer.id)) missing.set(layer.id, []);
     missing.get(layer.id).push(electionKey(entry));
   }
@@ -1707,8 +1725,24 @@ function nameKeys(value) {
     normalized.replace(/\bsouth west\b/g, 'southwest'),
     normalized.replace(/\bnorth east\b/g, 'northeast'),
     normalized.replace(/\bsouth east\b/g, 'southeast'),
-    expandCompassTokens(normalized)
+    expandCompassTokens(normalized),
+    // Word order is not stable between results and boundary files: the 1961 election
+    // reports "Cork Mid" and "Donegal North East" where dail-1961 has "Mid Cork" and
+    // "North East Donegal". Every other variant above preserves order, so 57
+    // constituencies across dail-1947/1961/1969 failed to match names that were in
+    // the layer all along. The key is prefixed so it can only match another
+    // sorted-token key, never a positional one.
+    sortedTokenKey(normalized)
   ].map(compactNameKey).filter(Boolean));
+}
+
+function sortedTokenKey(normalized) {
+  const tokens = String(normalized || '')
+    .split(/\s+/)
+    .filter((token) => token && !['the', 'and', 'county', 'city', 'borough', 'constituency'].includes(token))
+    .sort();
+  if (tokens.length < 2) return null;
+  return `sorted:${tokens.join(' ')}`;
 }
 
 function compactNameKey(value) {
