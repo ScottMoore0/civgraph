@@ -9,6 +9,11 @@ const { test, expect } = require('@playwright/test');
  * still loads from the static bundle and that a beacon reached /_api/rum -- because a
  * fallback nobody can see is indistinguishable from one that never fires.
  */
+// The service worker intercepts same-origin fetches, and Playwright cannot route
+// service-worker-initiated requests -- with it active, page.route never fires and the
+// forced failure silently does not happen. Block it so the interception is real.
+test.use({ serviceWorkers: 'block' });
+
 const BASE = process.env.PARITY_BASE_URL || 'https://civgraph.net';
 
 test('a failing elections API falls back to the static bundle and reports it', async ({ page }) => {
@@ -17,11 +22,22 @@ test('a failing elections API falls back to the static bundle and reports it', a
   const beacons = [];
   const staticFetches = [];
   // Fail every bundle-mode API call.
-  await page.route('**/_api/elections?*format=bundle*', (route) => route.fulfill({
-    status: 500, contentType: 'application/json', body: '{"error":"forced failure"}',
-  }));
-  await page.route('**/_api/rum', async (route) => {
-    beacons.push(route.request().postData() || '');
+  // A predicate, not a glob: Playwright's URL globs do not reliably match a query
+  // string, so '**/_api/elections?*format=bundle*' silently matched nothing and the
+  // API answered normally -- the test passed every assertion except the one that
+  // proved the fallback had happened.
+  await page.route(
+    (url) => url.pathname === '/_api/elections' && url.searchParams.get('format') === 'bundle',
+    (route) => route.fulfill({
+      status: 500, contentType: 'application/json', body: '{"error":"forced failure"}',
+    })
+  );
+  // Capture on the request event as well as the route: a sendBeacon Blob body does not
+  // always surface as postData through route interception.
+  page.on('request', (r) => {
+    if (r.url().includes('/_api/rum')) beacons.push(r.postData() || '(no body)');
+  });
+  await page.route((url) => url.pathname === '/_api/rum', async (route) => {
     await route.fulfill({ status: 204, body: '' });
   });
   page.on('request', (r) => {
@@ -54,9 +70,10 @@ test('a failing elections API falls back to the static bundle and reports it', a
 
   // And the degradation was reported rather than swallowed.
   await page.waitForTimeout(1500);
-  const parsed = beacons.map((b) => { try { return JSON.parse(b); } catch { return {}; } });
+  const parsed = beacons.map((b) => { try { return JSON.parse(b); } catch { return { raw: b }; } });
   const fallback = parsed.filter((b) => b.metric === 'elections-api-fallback');
-  expect(fallback.length).toBeGreaterThan(0);
+  expect(beacons.length, `beacons seen: ${JSON.stringify(beacons).slice(0, 400)}`).toBeGreaterThan(0);
+  expect(fallback.length, `parsed: ${JSON.stringify(parsed).slice(0, 400)}`).toBeGreaterThan(0);
   expect(fallback[0].source).toBe('elections');
   expect(fallback[0].event?.reason).toContain('500');
   expect(fallback[0].event?.layerId).toBe('northern-ireland-assembly__2022-05-05');
