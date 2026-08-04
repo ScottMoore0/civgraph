@@ -55,6 +55,42 @@ function electionBundleUrl(entry) {
         ? `/_api/elections?key=${encodeURIComponent(entry.key)}&format=bundle&lite=1`
         : `${entry.resultUrl}?v=test-023`;
 }
+
+/**
+ * Report an elections-API problem so it is visible outside one user's console.
+ *
+ * The API is the default path and falls back to the static bundles on failure, which
+ * means a broken API looks like a working site. Without a beacon the only trace is a
+ * console.warn in a tab nobody is watching. /_api/rum structured-logs what it receives,
+ * so these show up in `wrangler pages tail civgraph` and the Functions log.
+ *
+ * Fire-and-forget: telemetry must never break a page that is otherwise working.
+ */
+function reportElectionsApiIssue(metric, reason, key) {
+    try {
+        const body = JSON.stringify({
+            source: 'elections',
+            metric,
+            value: 1,
+            path: (typeof window !== 'undefined' && window.location && window.location.pathname) || '',
+            event: { reason: String(reason).slice(0, 240), layerId: String(key || '') }
+        });
+        const endpoint = '/_api/rum';
+        if (typeof navigator !== 'undefined' && navigator.sendBeacon) {
+            navigator.sendBeacon(endpoint, new Blob([body], { type: 'application/json' }));
+        } else {
+            fetch(endpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body,
+                keepalive: true
+            });
+        }
+    } catch {
+        /* never throw from telemetry */
+    }
+}
+
 const DEFAULT_MODE_ORDER = ['winner', 'leadingParty', 'voteShare', 'turnout', 'majority', 'seats', 'quota'];
 const SEAT_SOURCE_ID = 'test2-election-seat-source';
 const SEAT_HALO_LAYER_ID = 'test2-election-seat-halo-layer';
@@ -470,6 +506,7 @@ export class Test2ElectionManager {
     // breaking the election viewer outright.
     if (!response.ok && useElectionsApi()) {
       console.warn(`[test2 elections] elections API returned ${response.status} for ${entry.key}; falling back to the static bundle`);
+      reportElectionsApiIssue('elections-api-fallback', `bundle fetch returned ${response.status}`, entry.key);
       response = await fetch(`${entry.resultUrl}?v=test-023`, { cache: 'force-cache' });
     }
     if (!response.ok) throw new Error(`Failed to load election results for ${entry.body} ${entry.date}: ${response.status}`);
@@ -3443,7 +3480,10 @@ export class Test2ElectionManager {
         `/_api/elections?key=${encodeURIComponent(key)}&constituency=${seq}`,
         { cache: 'force-cache' }
       );
-      if (!response.ok) return null;
+      if (!response.ok) {
+        reportElectionsApiIssue('elections-api-animation-failed', `constituency fetch returned ${response.status}`, `${key}#${seq}`);
+        return null;
+      }
       const detail = await response.json();
       if (detail?.animationPayload) {
         result.animationPayload = detail.animationPayload;
@@ -3454,6 +3494,7 @@ export class Test2ElectionManager {
       return result.animationPayload || null;
     } catch (error) {
       console.warn('[test2 elections] Could not load animation payload:', error);
+      reportElectionsApiIssue('elections-api-animation-failed', error && error.message ? error.message : String(error), key);
       return null;
     }
   }
