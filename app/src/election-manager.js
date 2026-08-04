@@ -20,6 +20,37 @@ import {
 } from '../../js/election-domain.mjs';
 
 const ELECTION_MANIFEST_URL = '/test/metadata/elections-test2.json?v=test-023';
+
+/**
+ * Read election results from the D1-backed API instead of the static bundles.
+ *
+ * Off by default: the static files remain the live path until this has been exercised
+ * properly. Enable per-session with ?electionsApi=1 (or ?electionsApi=0 to force it
+ * off), or persistently by setting localStorage 'civgraph.electionsApi' to '1'.
+ *
+ * The API's bundle mode returns the same shape as the static file, so nothing
+ * downstream of loadBundle changes. It is not smaller -- it returns every
+ * constituency, exactly as the file does. What it fixes is provenance: the static
+ * bundles are regenerated at deploy time from sources the deploy environment does not
+ * have, which is how production came to serve matchedCount 0 for 223 elections. D1 is
+ * not rewritten by a deploy.
+ */
+function useElectionsApi() {
+    try {
+        const param = new URLSearchParams(window.location.search).get('electionsApi');
+        if (param === '1' || param === 'true') return true;
+        if (param === '0' || param === 'false') return false;
+        return window.localStorage?.getItem('civgraph.electionsApi') === '1';
+    } catch {
+        return false;
+    }
+}
+
+function electionBundleUrl(entry) {
+    return useElectionsApi()
+        ? `/_api/elections?key=${encodeURIComponent(entry.key)}&format=bundle`
+        : `${entry.resultUrl}?v=test-023`;
+}
 const DEFAULT_MODE_ORDER = ['winner', 'leadingParty', 'voteShare', 'turnout', 'majority', 'seats', 'quota'];
 const SEAT_SOURCE_ID = 'test2-election-seat-source';
 const SEAT_HALO_LAYER_ID = 'test2-election-seat-halo-layer';
@@ -429,7 +460,7 @@ export class Test2ElectionManager {
 
   async loadBundle(entry) {
     if (this.bundleCache.has(entry.key)) return this.bundleCache.get(entry.key);
-    const response = await fetch(`${entry.resultUrl}?v=test-023`, { cache: 'force-cache' });
+    const response = await fetch(electionBundleUrl(entry), { cache: 'force-cache' });
     if (!response.ok) throw new Error(`Failed to load election results for ${entry.body} ${entry.date}: ${response.status}`);
     const bundle = await response.json();
     rememberLimitedCache(this.bundleCache, entry.key, bundle, ELECTION_BUNDLE_CACHE_LIMIT);
@@ -447,7 +478,7 @@ export class Test2ElectionManager {
       } else if (this.bundleCache.has(entry.key)) {
         bundle = this.bundleCache.get(entry.key);
       } else {
-        const response = await fetch(`${entry.resultUrl}?v=test-023`, { cache: 'force-cache' });
+        const response = await fetch(electionBundleUrl(entry), { cache: 'force-cache' });
         if (!response.ok) throw new Error(`Failed to load trend data for ${entry.body} ${entry.date}: ${response.status}`);
         bundle = await response.json();
       }

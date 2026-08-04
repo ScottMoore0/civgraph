@@ -98,18 +98,102 @@ async function handle(context) {
     if (constituency !== null && constituency !== '') {
       const seq = Number(constituency);
       if (!Number.isInteger(seq)) return json({ error: 'constituency must be an integer' }, 400);
-      const [cons, cands, counts, feature] = await Promise.all([
+      const [cons, cands, counts, feature, anim] = await Promise.all([
         db.prepare(`SELECT ${CONS_COLS}, meta FROM constituencies WHERE election_key = ?1 AND seq = ?2`).bind(key, seq).first(),
         db.prepare(`SELECT ${CAND_COLS} FROM candidates WHERE election_key = ?1 AND constituency_seq = ?2 ORDER BY first_prefs DESC`).bind(key, seq).all(),
         db.prepare('SELECT candidate_id AS candidateId, count_number AS countNumber, total_votes AS totalVotes, transfers, status FROM counts WHERE election_key = ?1 AND constituency_seq = ?2 ORDER BY count_number, candidate_id').bind(key, seq).all(),
         db.prepare('SELECT layer_id AS layerId, feature_id AS featureId, feature_name AS featureName, match_name AS matchName, matched FROM constituency_features WHERE election_key = ?1 AND constituency_seq = ?2').bind(key, seq).first(),
+        db.prepare('SELECT payload FROM constituency_animation WHERE election_key = ?1 AND constituency_seq = ?2').bind(key, seq).first(),
       ]);
       if (!cons) return json({ error: 'constituency not found' }, 404);
+      // Stored verbatim and returned verbatim. The count-animation code consumes this
+      // object directly, and its row shape varies across the corpus, so it is passed
+      // through untouched rather than rebuilt from the counts table.
+      let animationPayload = null;
+      if (anim?.payload) {
+        try {
+          animationPayload = JSON.parse(anim.payload);
+        } catch {
+          animationPayload = null;
+        }
+      }
       return json({
         constituency: withMeta(cons),
         feature: feature || null,
         candidates: (cands.results || []).map(withMeta),
         counts: counts.results || [],
+        animationPayload,
+      });
+    }
+
+    // Bundle mode: assemble the exact shape of the static election bundle.
+    //
+    // This is the cutover path. The client's whole rendering stack consumes
+    // bundle.results[], so serving that shape from D1 lets the source of truth move
+    // without touching the renderer. It is deliberately NOT the efficient shape -- it
+    // returns every constituency, so it is as large as the static file it replaces.
+    // What it buys is correctness: this comes from D1, which a deploy cannot rewrite.
+    // Serving one constituency at a time is a later change on the client side.
+    if (url.searchParams.get('format') === 'bundle') {
+      const [election, cons, cands, anims, feats] = await Promise.all([
+        db.prepare(`SELECT ${ELECTION_COLS}, meta FROM elections WHERE key = ?1`).bind(key).first(),
+        db.prepare(`SELECT ${CONS_COLS}, meta FROM constituencies WHERE election_key = ?1 ORDER BY seq`).bind(key).all(),
+        db.prepare(`SELECT constituency_seq AS seq, ${CAND_COLS} FROM candidates WHERE election_key = ?1`).bind(key).all(),
+        db.prepare('SELECT constituency_seq AS seq, payload FROM constituency_animation WHERE election_key = ?1').bind(key).all(),
+        db.prepare('SELECT constituency_seq AS seq, feature_id AS featureId, feature_name AS featureName, match_name AS matchName, matched FROM constituency_features WHERE election_key = ?1').bind(key).all(),
+      ]);
+      if (!election) return json({ error: 'election not found' }, 404);
+
+      const bySeq = (rows) => {
+        const map = new Map();
+        for (const row of rows.results || []) {
+          if (!map.has(row.seq)) map.set(row.seq, []);
+          map.get(row.seq).push(row);
+        }
+        return map;
+      };
+      const candBySeq = bySeq(cands);
+      const animBySeq = new Map((anims.results || []).map((r) => [r.seq, r.payload]));
+      const featBySeq = new Map((feats.results || []).map((r) => [r.seq, r]));
+
+      const results = (cons.results || []).map((row) => {
+        const { seq, name, ...rest } = withMeta(row);
+        const candidates = (candBySeq.get(seq) || []).map((c) => {
+          const { seq: _drop, ...candidate } = withMeta(c);
+          return candidate;
+        });
+        let animationPayload = null;
+        const raw = animBySeq.get(seq);
+        if (raw) {
+          try {
+            animationPayload = JSON.parse(raw);
+          } catch {
+            animationPayload = null;
+          }
+        }
+        const feature = featBySeq.get(seq) || {};
+        return {
+          constituency: name,
+          ...rest,
+          candidates,
+          // Both derivable, and both omitted from storage for that reason: `elected` is
+          // a subset of candidates, and countGroup is the animation payload's own rows.
+          elected: candidates.filter((c) => c.elected),
+          countGroup: animationPayload?.Constituency?.countGroup || [],
+          animationPayload,
+          featureId: feature.featureId ?? null,
+          featureName: feature.featureName ?? null,
+          matchName: feature.matchName ?? null,
+          matched: feature.matched === 1,
+        };
+      });
+
+      return json({
+        ...withMeta(election),
+        results,
+        matchedCount: results.filter((r) => r.matched).length,
+        unmatchedCount: results.filter((r) => !r.matched).length,
+        loadable: results.length > 0 && results.some((r) => r.matched),
       });
     }
 

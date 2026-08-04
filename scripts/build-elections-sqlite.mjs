@@ -110,7 +110,27 @@ CREATE TABLE counts (
   count_number     INTEGER,
   total_votes      REAL,
   transfers        REAL,
-  status           TEXT
+  status           TEXT,
+  row_id           INTEGER   -- countGroup row ordinal; preserved rather than re-derived
+);
+
+-- The count-animation payload, stored verbatim rather than reconstructed.
+--
+-- It was tempting to rebuild this from the counts and candidates tables, since its
+-- countGroup is byte-identical to results[].countGroup. That does not work: the row
+-- shape is not fixed. Five distinct shapes occur across the corpus -- the 1918 Dail
+-- rows carry Auto_Returned_Ceann_Comhairle, Dail_Abbreviation, Official_Status and
+-- Synthetic_Scraper_Row, which later elections do not -- and numbers are sometimes
+-- strings ("15206") and sometimes numbers. Reconstruction reproduced only 19 of 4,702
+-- constituencies exactly. Storing it verbatim costs 61.8 MB and is exact.
+--
+-- This does not undo the client win: the API serves one constituency per request, so
+-- a payload is fetched only when that constituency is actually opened.
+CREATE TABLE constituency_animation (
+  election_key     TEXT NOT NULL,
+  constituency_seq INTEGER NOT NULL,
+  payload          TEXT,
+  PRIMARY KEY (election_key, constituency_seq)
 );
 
 -- The stored geography match. See the header: this is the table that stops a missing
@@ -176,8 +196,9 @@ db.exec(SCHEMA);
 const insElection = db.prepare(`INSERT INTO elections VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
 const insCons = db.prepare(`INSERT INTO constituencies VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
 const insCand = db.prepare(`INSERT INTO candidates VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
-const insCount = db.prepare(`INSERT INTO counts VALUES (?,?,?,?,?,?,?)`);
+const insCount = db.prepare(`INSERT INTO counts VALUES (?,?,?,?,?,?,?,?)`);
 const insFeat = db.prepare(`INSERT OR REPLACE INTO constituency_features VALUES (?,?,?,?,?,?,?)`);
+const insAnim = db.prepare(`INSERT OR REPLACE INTO constituency_animation VALUES (?,?,?)`);
 
 const ELECTION_COLS = ['key', 'body', 'bodySlug', 'bodyGroup', 'displayTitle', 'contestType', 'kind',
   'votingSystem', 'contestStatus', 'date', 'year', 'sourceMapId', 'layerId', 'labelProperty',
@@ -188,7 +209,7 @@ const CONS_COLS = ['constituency', 'winnerParty', 'winnerName', 'leadingParty', 
 const CAND_COLS = ['id', 'name', 'party', 'party_id', 'personId', 'firstPrefs', 'finalVotes',
   'elected', 'electedAt', 'excluded', 'excludedAt', 'status', 'colour', 'gender'];
 
-let nElections = 0, nCons = 0, nCand = 0, nCounts = 0, nFeat = 0, nMatched = 0;
+let nElections = 0, nCons = 0, nCand = 0, nCounts = 0, nFeat = 0, nMatched = 0, nAnim = 0;
 const files = readdirSync(SRC_DIR).filter((f) => f.endsWith('.json')).sort().slice(0, LIMIT);
 let srcBytes = 0;
 
@@ -221,6 +242,11 @@ for (const file of files) {
     );
     nCons += 1;
 
+    if (r.animationPayload) {
+      insAnim.run(txt(d.key), seq, JSON.stringify(r.animationPayload));
+      nAnim += 1;
+    }
+
     if (r.featureId != null || r.matched != null) {
       insFeat.run(txt(d.key), seq, txt(d.layerId), txt(r.featureId), txt(r.featureName),
         txt(r.matchName), bool(r.matched));
@@ -241,7 +267,7 @@ for (const file of files) {
 
     for (const row of r.countGroup || []) {
       insCount.run(txt(d.key), seq, txt(row.Candidate_Id ?? row.id), num(row.Count_Number),
-        num(row.Total_Votes), num(row.Transfers), txt(row.Status) || null);
+        num(row.Total_Votes), num(row.Transfers), txt(row.Status) || null, num(row.id));
       nCounts += 1;
     }
   });
@@ -255,6 +281,7 @@ const KEY_COLS = {
   elections: ['key'],
   constituencies: ['election_key', 'seq'],
   constituency_features: ['election_key', 'constituency_seq'],
+  constituency_animation: ['election_key', 'constituency_seq'],
 };
 
 // D1 imports SQL, not SQLite files, so emit a dump alongside the database.
@@ -271,8 +298,14 @@ if (!args.includes('--no-sql')) {
   const out = createWriteStream(sqlPath);
   const write = (s) => new Promise((res) => { out.write(s) ? res() : out.once('drain', res); });
   await write('PRAGMA defer_foreign_keys = true;\n');
+  // Idempotent: reloading D1 after a schema change would otherwise collide with the
+  // existing tables, and `d1 execute` has no --replace.
+  for (const t of ['elections', 'constituencies', 'candidates', 'counts',
+    'constituency_features', 'constituency_animation']) {
+    await write(`DROP TABLE IF EXISTS ${t};\n`);
+  }
   await write(SCHEMA.replace(/^\s*--.*$/gm, '').replace(/\n{2,}/g, '\n'));
-  for (const table of ['elections', 'constituencies', 'candidates', 'counts', 'constituency_features']) {
+  for (const table of ['elections', 'constituencies', 'candidates', 'counts', 'constituency_features', 'constituency_animation']) {
     const cols = dump.prepare(`SELECT name FROM pragma_table_info('${table}')`).all().map((r) => r.name);
     const rows = dump.prepare(`SELECT * FROM ${table}`).all();
     // Batched multi-row INSERTs, capped by BYTES rather than row count. D1 rejects an
@@ -298,10 +331,17 @@ if (!args.includes('--no-sql')) {
     const oversized = [];
     for (const r of rows) {
       let tuple = `(${cols.map((c) => lit(r[c])).join(',')})`;
-      if (tuple.length + prefix.length > MAX_STATEMENT_BYTES
-          && KEY_COLS[table] && typeof r.meta === 'string') {
-        oversized.push(r);
-        tuple = `(${cols.map((c) => (c === 'meta' ? 'NULL' : lit(r[c]))).join(',')})`;
+      if (tuple.length + prefix.length > MAX_STATEMENT_BYTES && KEY_COLS[table]) {
+        // Null out whichever string column is longest and append it afterwards. Doing
+        // this by longest-column rather than by a hardcoded name means a new wide
+        // column does not silently reintroduce SQLITE_TOOBIG.
+        const wide = cols
+          .filter((c) => typeof r[c] === 'string')
+          .sort((a, b) => r[b].length - r[a].length)[0];
+        if (wide) {
+          oversized.push({ row: r, col: wide });
+          tuple = `(${cols.map((c) => (c === wide ? 'NULL' : lit(r[c]))).join(',')})`;
+        }
       }
       if (batchBytes && batchBytes + tuple.length + prefix.length > MAX_STATEMENT_BYTES) await flush();
       batch.push(tuple);
@@ -310,15 +350,16 @@ if (!args.includes('--no-sql')) {
     await flush();
 
     const CHUNK = 20_000;
-    for (const r of oversized) {
+    let chunkedRows = 0;
+    for (const { row: r, col } of oversized) {
       const where = KEY_COLS[table].map((c) => `${c} = ${lit(r[c])}`).join(' AND ');
-      for (let i = 0; i < r.meta.length; i += CHUNK) {
-        const piece = lit(r.meta.slice(i, i + CHUNK));
-        await write(`UPDATE ${table} SET meta = COALESCE(meta,'') || ${piece} WHERE ${where};\n`);
+      for (let i = 0; i < r[col].length; i += CHUNK) {
+        const piece = lit(r[col].slice(i, i + CHUNK));
+        await write(`UPDATE ${table} SET ${col} = COALESCE(${col},'') || ${piece} WHERE ${where};\n`);
       }
-      console.warn(`  note: ${table} row [${KEY_COLS[table].map((c) => r[c]).join(', ')}] `
-        + `meta is ${r.meta.length} bytes -- written in ${Math.ceil(r.meta.length / CHUNK)} chunks`);
+      chunkedRows += 1;
     }
+    if (chunkedRows) console.log(`  ${table}: ${chunkedRows} oversized value(s) written in chunks`);
   }
   dump.close();
   await new Promise((res) => out.end(res));
@@ -332,6 +373,7 @@ console.log(`  elections            ${nElections}`);
 console.log(`  constituencies       ${nCons}`);
 console.log(`  candidates           ${nCand}`);
 console.log(`  count rows           ${nCounts}`);
+console.log(`  animation payloads   ${nAnim}`);
 console.log(`  feature matches      ${nFeat}  (${nMatched} matched, ${nFeat - nMatched} unmatched)`);
 console.log(`  source JSON          ${mb(srcBytes)} MB`);
 console.log(`  sqlite               ${mb(outBytes)} MB   (${(100 * outBytes / srcBytes).toFixed(1)}% of source)`);
