@@ -267,7 +267,12 @@ for (const file of files) {
         txt(c.personId), num(c.firstPrefs), num(c.finalVotes), bool(c.elected),
         num(c.electedAt), bool(c.excluded), num(c.excludedAt), txt(c.status),
         txt(c.colour), txt(c.gender),
-        residual(c, CAND_COLS, ['counts'])
+        // counts is kept verbatim in meta. Deriving it from the counts table failed
+        // twice: first on status '' being stored as NULL, then on the count at which a
+        // candidate was elected, where candidate.counts carries the CANDIDATE's status
+        // ("Deemed elected") while the countGroup row it supposedly comes from has ''.
+        // Same lesson as animationPayload -- these structures are not reconstructions.
+        residual(c, CAND_COLS, [])
       );
       nCand += 1;
     }

@@ -22,7 +22,7 @@
 // bundle-mode fields were added without bumping it, clean URLs kept serving the old
 // shape for a day while cache-busted ones showed the new one -- which briefly looked
 // like a failed deploy.
-const CACHE_VERSION = 'elections-2';
+const CACHE_VERSION = 'elections-3';
 
 const ELECTION_COLS =
   'key, body, body_slug AS bodySlug, body_group AS bodyGroup, display_title AS displayTitle, '
@@ -184,18 +184,9 @@ async function handle(context) {
         const { seq, name, ...rest } = withMeta(row);
         const candidates = (candBySeq.get(seq) || []).map((c) => {
           const { seq: _drop, ...candidate } = withMeta(c);
-          const rows = countsByCand.get(`${seq}::${candidate.id}`) || [];
-          candidate.counts = rows.map((r) => ({
-            count: r.count,
-            total: r.total,
-            transfers: r.transfers,
-            // Source status is always a string -- 88,327 non-empty and 51,556 empty
-            // across the corpus, never null. The ingest coerces '' to NULL, so restore
-            // it here; without this every empty status came back null and 14 of 22
-            // sampled elections failed the fidelity diff on this field alone.
-            status: r.status ?? '',
-            firstPrefs: candidate.firstPrefs,
-          }));
+          // candidate.counts comes back verbatim via meta; it is not rebuilt from the
+          // counts table. See the ingest script for why two attempts at deriving it
+          // failed. The counts table remains for querying.
           return candidate;
         });
         let animationPayload = null;
