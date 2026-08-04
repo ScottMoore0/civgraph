@@ -63,10 +63,9 @@ async function loadElection(page, { api, body, date }) {
       // Measured BEFORE the panel is driven: on the lite path every payload should be
       // absent at this point, which is what makes the 32.7% saving real.
       animationRowsBeforeOpen: results.map((r) => (r.animationPayload?.Constituency?.countGroup || []).length),
-      // What the renderer actually resolves. On the lite path countGroup is absent
-      // from the bundle by design and derived at the point of use, so comparing the
-      // raw field would test an implementation detail rather than behaviour.
-      countGroupRows: results.map((r) => (r.countGroup
+      // countGroup resolves via animationPayload, which lite fetches lazily, so this
+      // is legitimately empty on the API path until a constituency is opened.
+      countGroupRowsBeforeOpen: results.map((r) => (r.countGroup
         || r.animationPayload?.Constituency?.countGroup || []).length),
       countGroupOnBundle: results.some((r) => Array.isArray(r.countGroup)),
       // Lite omits animationPayload entirely; it is fetched per constituency on open.
@@ -98,6 +97,10 @@ async function loadElection(page, { api, body, date }) {
             // After opening, the payload for THIS constituency must be present on both
             // paths -- on the API path only because the lazy fetch resolved it.
             rowsAfterOpen: (target.animationPayload?.Constituency?.countGroup || []).length,
+            countGroupAfterOpen: (target.countGroup
+              || target.animationPayload?.Constituency?.countGroup || []).length,
+            // The panel that actually consumes countGroup, rendered from it.
+            panelHTML: document.getElementById('electionPaneContent')?.innerHTML || '',
           };
         } catch (e) {
           return { state: `threw: ${e && e.message ? e.message : e}` };
@@ -138,11 +141,11 @@ for (const { body, date } of CASES) {
     expect(staticRun.candidateTotal).toBeGreaterThan(0);
     expect(staticRun.firstPrefTotal).toBeGreaterThan(0);
 
-    // countGroup: absent from the lite bundle by design, but the rows the renderer
-    // resolves must be identical to the static path.
+    // countGroup and animationPayload are both absent from the lite bundle by design.
     expect(apiRun.countGroupOnBundle).toBe(false);
     expect(staticRun.countGroupOnBundle).toBe(true);
-    expect(apiRun.countGroupRows).toEqual(staticRun.countGroupRows);
+    expect(staticRun.countGroupRowsBeforeOpen.some((n) => n > 0)).toBe(true);
+    expect(apiRun.countGroupRowsBeforeOpen.every((n) => n === 0)).toBe(true);
 
     // The animation payload must NOT have been shipped with the bundle on the API
     // path, and must be present on the static one -- that is the 32.7% saving.
@@ -164,6 +167,11 @@ for (const { body, date } of CASES) {
     expect(apiRun.animationRun.hasChildren).toBe(true);
     expect(apiRun.animationRun.rowsAfterOpen).toBe(staticRun.animationRun.rowsAfterOpen);
     expect(apiRun.animationRun.rowsAfterOpen).toBeGreaterThan(0);
+    // Once opened, countGroup resolves to the same rows as the static path...
+    expect(apiRun.animationRun.countGroupAfterOpen).toBe(staticRun.animationRun.countGroupAfterOpen);
+    // ...and the panel rendered from it is identical.
+    expect(apiRun.animationRun.panelHTML.length).toBeGreaterThan(0);
+    expect(apiRun.animationRun.panelHTML).toBe(staticRun.animationRun.panelHTML);
 
     // And the rendered output itself -- the whole point of the exercise.
     expect(staticRun.paneHTML.length).toBeGreaterThan(0);
