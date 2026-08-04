@@ -3,14 +3,14 @@
   "source": "data/database/maps.json",
   "testMetadata": "test/metadata/maps-test.json",
   "totals": {
-    "total": 1257,
-    "converted": 1138,
+    "total": 1266,
+    "converted": 1148,
     "convertedDirect": 962,
-    "convertedComposite": 27,
-    "convertedAlias": 149,
+    "convertedComposite": 29,
+    "convertedAlias": 157,
     "needsVectorTileConversion": 0,
     "needsRasterStrategy": 0,
-    "metadataOnly": 119,
+    "metadataOnly": 118,
     "needsMapLibreSourceMapping": 0
   },
   "rows": [
@@ -13656,27 +13656,296 @@
       "sourceMapId": "eds-roi-1936",
       "cloneOf": null,
       "parentId": null,
-      "name": "1936",
-      "category": "Electoral Divisions",
-      "categoryId": "electoral-divisions",
-      "group": "Built Environment",
-      "date": 1936,
+      "name": "District Electoral Divisions/Wards 1936",
+      "category": "Electoral Areas",
+      "categoryId": "wards",
+      "group": "Elections and Government",
+      "date": "1936-11-02",
       "dateAdded": null,
       "dateEffective": null,
-      "provider": [],
-      "description": null,
-      "sourceCredits": [],
-      "conversionStatus": "metadataOnly",
-      "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
+      "provider": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1941-04-17, assembled from Connacht (= 1919 boundaries), Leinster 1941, Munster (= 1921 boundaries), Ulster (= 1921 boundaries). Modified version of District Electoral Divisions/Wards 1942. In 1942, following the expansion of Dublin county borough, its new territory was transferred from Terenure DED to Crumlin ward.",
+      "sourceCredits": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "convertedComposite",
+      "recommendedTarget": "composite-vector-tiles",
+      "testLayerId": "composite:eds-roi-1936-connacht,eds-roi-1936-leinster,eds-roi-1936-munster,eds-roi-1936-ulster",
       "aliasTargetLayerId": null,
-      "bounds": null,
-      "style": null,
+      "bounds": [
+        [
+          51.4,
+          -10.75
+        ],
+        [
+          55.5,
+          -5.4
+        ]
+      ],
+      "style": {
+        "color": "#1B5E20",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
       "sourceFiles": [],
-      "references": [],
+      "references": [
+        {
+          "label": "District Electoral Divisions/Wards 1941 source notes",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1941.txt"
+        },
+        {
+          "label": "Dublin City Council 1942 minutes item 123",
+          "url": null
+        }
+      ],
       "sourceDownloads": [],
-      "variants": 0,
-      "unsupportedReason": "no direct source file recorded"
+      "variants": 4,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "eds-roi-1936-connacht",
+      "cloneOf": "eds-connacht-1919",
+      "parentId": "eds-roi-1936",
+      "name": "District Electoral Divisions/Wards 1936",
+      "category": "Electoral Areas",
+      "categoryId": "wards",
+      "group": "Elections and Government",
+      "date": "1936-11-02",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1941-04-17, assembled from Connacht (= 1919 boundaries), Leinster 1941, Munster (= 1921 boundaries), Ulster (= 1921 boundaries). Modified version of District Electoral Divisions/Wards 1942. In 1942, following the expansion of Dublin county borough, its new territory was transferred from Terenure DED to Crumlin ward.",
+      "sourceCredits": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "convertedAlias",
+      "recommendedTarget": "maplibre-clone-alias",
+      "testLayerId": "eds-roi-1936-connacht-alias-test",
+      "aliasTargetLayerId": "eds-connacht-1919-vector-test",
+      "bounds": [
+        [
+          51.4,
+          -10.75
+        ],
+        [
+          55.5,
+          -5.4
+        ]
+      ],
+      "style": {
+        "color": "#1B5E20",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "District Electoral Divisions/Wards 1941 source notes",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1941.txt"
+        },
+        {
+          "label": "Dublin City Council 1942 minutes item 123",
+          "url": null
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 4,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "eds-roi-1936-leinster",
+      "cloneOf": "eds-leinster-1936",
+      "parentId": "eds-roi-1936",
+      "name": "District Electoral Divisions/Wards 1936",
+      "category": "Electoral Areas",
+      "categoryId": "wards",
+      "group": "Elections and Government",
+      "date": "1936-11-02",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1941-04-17, assembled from Connacht (= 1919 boundaries), Leinster 1941, Munster (= 1921 boundaries), Ulster (= 1921 boundaries). Modified version of District Electoral Divisions/Wards 1942. In 1942, following the expansion of Dublin county borough, its new territory was transferred from Terenure DED to Crumlin ward.",
+      "sourceCredits": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "convertedAlias",
+      "recommendedTarget": "maplibre-clone-alias",
+      "testLayerId": "eds-roi-1936-leinster-alias-test",
+      "aliasTargetLayerId": "eds-leinster-1936-vector-test",
+      "bounds": [
+        [
+          51.4,
+          -10.75
+        ],
+        [
+          55.5,
+          -5.4
+        ]
+      ],
+      "style": {
+        "color": "#1B5E20",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1936.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "District Electoral Divisions/Wards 1941 source notes",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1941.txt"
+        },
+        {
+          "label": "Dublin City Council 1942 minutes item 123",
+          "url": null
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 4,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "eds-roi-1936-munster",
+      "cloneOf": "eds-munster-1921",
+      "parentId": "eds-roi-1936",
+      "name": "District Electoral Divisions/Wards 1936",
+      "category": "Electoral Areas",
+      "categoryId": "wards",
+      "group": "Elections and Government",
+      "date": "1936-11-02",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1941-04-17, assembled from Connacht (= 1919 boundaries), Leinster 1941, Munster (= 1921 boundaries), Ulster (= 1921 boundaries). Modified version of District Electoral Divisions/Wards 1942. In 1942, following the expansion of Dublin county borough, its new territory was transferred from Terenure DED to Crumlin ward.",
+      "sourceCredits": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "convertedAlias",
+      "recommendedTarget": "maplibre-clone-alias",
+      "testLayerId": "eds-roi-1936-munster-alias-test",
+      "aliasTargetLayerId": "eds-munster-1921-vector-test",
+      "bounds": [
+        [
+          51.4,
+          -10.75
+        ],
+        [
+          55.5,
+          -5.4
+        ]
+      ],
+      "style": {
+        "color": "#1B5E20",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1921.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "District Electoral Divisions/Wards 1941 source notes",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1941.txt"
+        },
+        {
+          "label": "Dublin City Council 1942 minutes item 123",
+          "url": null
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 4,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "eds-roi-1936-ulster",
+      "cloneOf": "eds-ulster-1921",
+      "parentId": "eds-roi-1936",
+      "name": "District Electoral Divisions/Wards 1936",
+      "category": "Electoral Areas",
+      "categoryId": "wards",
+      "group": "Elections and Government",
+      "date": "1936-11-02",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1941-04-17, assembled from Connacht (= 1919 boundaries), Leinster 1941, Munster (= 1921 boundaries), Ulster (= 1921 boundaries). Modified version of District Electoral Divisions/Wards 1942. In 1942, following the expansion of Dublin county borough, its new territory was transferred from Terenure DED to Crumlin ward.",
+      "sourceCredits": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "convertedAlias",
+      "recommendedTarget": "maplibre-clone-alias",
+      "testLayerId": "eds-roi-1936-ulster-alias-test",
+      "aliasTargetLayerId": "eds-ulster-1921-vector-test",
+      "bounds": [
+        [
+          51.4,
+          -10.75
+        ],
+        [
+          55.5,
+          -5.4
+        ]
+      ],
+      "style": {
+        "color": "#1B5E20",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "District Electoral Divisions/Wards 1941 source notes",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1941.txt"
+        },
+        {
+          "label": "Dublin City Council 1942 minutes item 123",
+          "url": null
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 4,
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "eds-roi-1944",
@@ -66643,6 +66912,301 @@
       "references": [],
       "sourceDownloads": [],
       "variants": 0,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "eds-roi-1931",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "District Electoral Divisions/Wards 1931",
+      "category": "Electoral Areas",
+      "categoryId": "wards",
+      "group": "Elections and Government",
+      "date": "1931-04-01",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1941-04-17, assembled from Connacht (= 1919 boundaries), Leinster 1941, Munster (= 1921 boundaries), Ulster (= 1921 boundaries). Modified version of District Electoral Divisions/Wards 1942. In 1942, following the expansion of Dublin county borough, its new territory was transferred from Terenure DED to Crumlin ward.",
+      "sourceCredits": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "convertedComposite",
+      "recommendedTarget": "composite-vector-tiles",
+      "testLayerId": "composite:eds-roi-1931-connacht,eds-roi-1931-leinster,eds-roi-1931-munster,eds-roi-1931-ulster",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.4,
+          -10.75
+        ],
+        [
+          55.5,
+          -5.4
+        ]
+      ],
+      "style": {
+        "color": "#1B5E20",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [],
+      "references": [
+        {
+          "label": "District Electoral Divisions/Wards 1941 source notes",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1941.txt"
+        },
+        {
+          "label": "Dublin City Council 1942 minutes item 123",
+          "url": null
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 4,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "eds-roi-1931-connacht",
+      "cloneOf": "eds-connacht-1919",
+      "parentId": "eds-roi-1931",
+      "name": "District Electoral Divisions/Wards 1931",
+      "category": "Electoral Areas",
+      "categoryId": "wards",
+      "group": "Elections and Government",
+      "date": "1931-04-01",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1941-04-17, assembled from Connacht (= 1919 boundaries), Leinster 1941, Munster (= 1921 boundaries), Ulster (= 1921 boundaries). Modified version of District Electoral Divisions/Wards 1942. In 1942, following the expansion of Dublin county borough, its new territory was transferred from Terenure DED to Crumlin ward.",
+      "sourceCredits": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "convertedAlias",
+      "recommendedTarget": "maplibre-clone-alias",
+      "testLayerId": "eds-roi-1931-connacht-alias-test",
+      "aliasTargetLayerId": "eds-connacht-1919-vector-test",
+      "bounds": [
+        [
+          51.4,
+          -10.75
+        ],
+        [
+          55.5,
+          -5.4
+        ]
+      ],
+      "style": {
+        "color": "#1B5E20",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "District Electoral Divisions/Wards 1941 source notes",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1941.txt"
+        },
+        {
+          "label": "Dublin City Council 1942 minutes item 123",
+          "url": null
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 4,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "eds-roi-1931-leinster",
+      "cloneOf": "eds-leinster-1931",
+      "parentId": "eds-roi-1931",
+      "name": "District Electoral Divisions/Wards 1931",
+      "category": "Electoral Areas",
+      "categoryId": "wards",
+      "group": "Elections and Government",
+      "date": "1931-04-01",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1941-04-17, assembled from Connacht (= 1919 boundaries), Leinster 1941, Munster (= 1921 boundaries), Ulster (= 1921 boundaries). Modified version of District Electoral Divisions/Wards 1942. In 1942, following the expansion of Dublin county borough, its new territory was transferred from Terenure DED to Crumlin ward.",
+      "sourceCredits": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "convertedAlias",
+      "recommendedTarget": "maplibre-clone-alias",
+      "testLayerId": "eds-roi-1931-leinster-alias-test",
+      "aliasTargetLayerId": "eds-leinster-1931-vector-test",
+      "bounds": [
+        [
+          51.4,
+          -10.75
+        ],
+        [
+          55.5,
+          -5.4
+        ]
+      ],
+      "style": {
+        "color": "#1B5E20",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1931.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "District Electoral Divisions/Wards 1941 source notes",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1941.txt"
+        },
+        {
+          "label": "Dublin City Council 1942 minutes item 123",
+          "url": null
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 4,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "eds-roi-1931-munster",
+      "cloneOf": "eds-munster-1921",
+      "parentId": "eds-roi-1931",
+      "name": "District Electoral Divisions/Wards 1931",
+      "category": "Electoral Areas",
+      "categoryId": "wards",
+      "group": "Elections and Government",
+      "date": "1931-04-01",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1941-04-17, assembled from Connacht (= 1919 boundaries), Leinster 1941, Munster (= 1921 boundaries), Ulster (= 1921 boundaries). Modified version of District Electoral Divisions/Wards 1942. In 1942, following the expansion of Dublin county borough, its new territory was transferred from Terenure DED to Crumlin ward.",
+      "sourceCredits": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "convertedAlias",
+      "recommendedTarget": "maplibre-clone-alias",
+      "testLayerId": "eds-roi-1931-munster-alias-test",
+      "aliasTargetLayerId": "eds-munster-1921-vector-test",
+      "bounds": [
+        [
+          51.4,
+          -10.75
+        ],
+        [
+          55.5,
+          -5.4
+        ]
+      ],
+      "style": {
+        "color": "#1B5E20",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1921.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "District Electoral Divisions/Wards 1941 source notes",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1941.txt"
+        },
+        {
+          "label": "Dublin City Council 1942 minutes item 123",
+          "url": null
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 4,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "eds-roi-1931-ulster",
+      "cloneOf": "eds-ulster-1921",
+      "parentId": "eds-roi-1931",
+      "name": "District Electoral Divisions/Wards 1931",
+      "category": "Electoral Areas",
+      "categoryId": "wards",
+      "group": "Elections and Government",
+      "date": "1931-04-01",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1941-04-17, assembled from Connacht (= 1919 boundaries), Leinster 1941, Munster (= 1921 boundaries), Ulster (= 1921 boundaries). Modified version of District Electoral Divisions/Wards 1942. In 1942, following the expansion of Dublin county borough, its new territory was transferred from Terenure DED to Crumlin ward.",
+      "sourceCredits": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "convertedAlias",
+      "recommendedTarget": "maplibre-clone-alias",
+      "testLayerId": "eds-roi-1931-ulster-alias-test",
+      "aliasTargetLayerId": "eds-ulster-1921-vector-test",
+      "bounds": [
+        [
+          51.4,
+          -10.75
+        ],
+        [
+          55.5,
+          -5.4
+        ]
+      ],
+      "style": {
+        "color": "#1B5E20",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "District Electoral Divisions/Wards 1941 source notes",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1941.txt"
+        },
+        {
+          "label": "Dublin City Council 1942 minutes item 123",
+          "url": null
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 4,
       "unsupportedReason": null
     },
     {

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-03T18:57:10.841Z",
+  "generatedAt": "2026-08-04T22:06:58.044Z",
   "cdnBase": "https://data.civgraph.net/data/maps/test",
   "r2Prefix": "data/maps/test",
   "assets": [
@@ -2721,12 +2721,30 @@
       "remoteVerified": true
     },
     {
+      "layerId": "eds-leinster-1931-vector-test",
+      "kind": "pmtiles",
+      "localPath": "test/pmtiles/generated/eds-leinster-1931-vector-test.pmtiles",
+      "targetKey": "data/maps/test/pmtiles/generated/eds-leinster-1931-vector-test.pmtiles",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-leinster-1931-vector-test.pmtiles",
+      "bytes": 5325859,
+      "exists": true
+    },
+    {
+      "layerId": "eds-leinster-1936-vector-test",
+      "kind": "pmtiles",
+      "localPath": "test/pmtiles/generated/eds-leinster-1936-vector-test.pmtiles",
+      "targetKey": "data/maps/test/pmtiles/generated/eds-leinster-1936-vector-test.pmtiles",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-leinster-1936-vector-test.pmtiles",
+      "bytes": 5323617,
+      "exists": true
+    },
+    {
       "layerId": "eds-leinster-1941-vector-test",
       "kind": "pmtiles",
       "localPath": "test/pmtiles/generated/eds-leinster-1941-vector-test.pmtiles",
       "targetKey": "data/maps/test/pmtiles/generated/eds-leinster-1941-vector-test.pmtiles",
       "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-leinster-1941-vector-test.pmtiles",
-      "bytes": 5324297,
+      "bytes": 5324251,
       "exists": true
     },
     {
@@ -2735,7 +2753,7 @@
       "localPath": "test/pmtiles/generated/eds-leinster-1942-vector-test.pmtiles",
       "targetKey": "data/maps/test/pmtiles/generated/eds-leinster-1942-vector-test.pmtiles",
       "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-leinster-1942-vector-test.pmtiles",
-      "bytes": 5324100,
+      "bytes": 5324051,
       "exists": true
     },
     {
@@ -2744,7 +2762,7 @@
       "localPath": "test/pmtiles/generated/eds-leinster-1943-vector-test.pmtiles",
       "targetKey": "data/maps/test/pmtiles/generated/eds-leinster-1943-vector-test.pmtiles",
       "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-leinster-1943-vector-test.pmtiles",
-      "bytes": 5324225,
+      "bytes": 5324167,
       "exists": true
     },
     {
@@ -2825,7 +2843,7 @@
       "localPath": "test/pmtiles/generated/eds-leinster-1985-vector-test.pmtiles",
       "targetKey": "data/maps/test/pmtiles/generated/eds-leinster-1985-vector-test.pmtiles",
       "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-leinster-1985-vector-test.pmtiles",
-      "bytes": 5397731,
+      "bytes": 5394207,
       "exists": true
     },
     {
@@ -8020,6 +8038,8 @@
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-connacht-1996-vector-test.pmtiles --file test/pmtiles/generated/eds-connacht-1996-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-connacht-2006-vector-test.pmtiles --file test/pmtiles/generated/eds-connacht-2006-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-connacht-2022-vector-test.pmtiles --file test/pmtiles/generated/eds-connacht-2022-vector-test.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-leinster-1931-vector-test.pmtiles --file test/pmtiles/generated/eds-leinster-1931-vector-test.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-leinster-1936-vector-test.pmtiles --file test/pmtiles/generated/eds-leinster-1936-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-leinster-1941-vector-test.pmtiles --file test/pmtiles/generated/eds-leinster-1941-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-leinster-1942-vector-test.pmtiles --file test/pmtiles/generated/eds-leinster-1942-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-leinster-1943-vector-test.pmtiles --file test/pmtiles/generated/eds-leinster-1943-vector-test.pmtiles --remote --content-type application/octet-stream",

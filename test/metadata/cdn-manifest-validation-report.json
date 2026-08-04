@@ -1,31 +1,16 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-04T22:00:17.633Z",
+  "generatedAt": "2026-08-04T22:11:44.183Z",
   "totals": {
-    "warnings": 4,
-    "errors": 9,
+    "warnings": 0,
+    "errors": 0,
     "notes": 3
   },
   "notes": [
-    "149 duplicate local PMTiles archive path(s) are superseded by explicit clone aliases and are intentionally excluded from the CDN manifest.",
-    "710 PMTiles layer(s) retain local directory fallbacks for development only; production fallback is disabled by runtime guard.",
+    "157 duplicate local PMTiles archive path(s) are superseded by explicit clone aliases and are intentionally excluded from the CDN manifest.",
+    "716 PMTiles layer(s) retain local directory fallbacks for development only; production fallback is disabled by runtime guard.",
     "roi-counties-2011 quarantine has been superseded by the resolved PMTiles/CDN layer built from the valid FlatGeobuf source."
   ],
-  "warnings": [
-    "eds-leinster-1941-vector-test: still points at repo-local PMTiles URL",
-    "eds-leinster-1942-vector-test: still points at repo-local PMTiles URL",
-    "eds-leinster-1943-vector-test: still points at repo-local PMTiles URL",
-    "eds-leinster-1985-vector-test: still points at repo-local PMTiles URL"
-  ],
-  "errors": [
-    "eds-leinster-1931-vector-test: PMTiles layer missing from CDN manifest",
-    "eds-leinster-1936-vector-test: PMTiles layer missing from CDN manifest",
-    "eds-leinster-1941-vector-test: missing tilePackage.byteRangeVerifiedAt",
-    "eds-leinster-1942-vector-test: missing tilePackage.byteRangeVerifiedAt",
-    "eds-leinster-1943-vector-test: missing tilePackage.byteRangeVerifiedAt",
-    "eds-leinster-1985-vector-test: missing tilePackage.byteRangeVerifiedAt",
-    "CDN range report verified 817/819 active PMTiles layers",
-    "test/pmtiles/generated/eds-leinster-1931-vector-test.pmtiles: local PMTiles archive is not represented in CDN manifest",
-    "test/pmtiles/generated/eds-leinster-1936-vector-test.pmtiles: local PMTiles archive is not represented in CDN manifest"
-  ]
+  "warnings": [],
+  "errors": []
 }
