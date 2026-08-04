@@ -1,9 +1,51 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-31T23:28:04.992Z",
+  "generatedAt": "2026-08-04T22:32:04.401Z",
   "shard": 102,
   "totalSubjects": 250,
   "items": {
+    "cg:geographic-feature:wards-2012-rasharkin-6-582675582428721-54-916137160080915-6-407824301584467-55-05731699756638": [
+      {
+        "id": "cg:statement:adbaeadd217255171d66",
+        "propertyId": "cg:property:bounding-box",
+        "propertyLabel": "bounding box",
+        "valueType": "string",
+        "valueLabel": "-6.582675582428721,54.916137160080915,-6.407824301584467,55.05731699756638",
+        "valueText": "-6.582675582428721,54.916137160080915,-6.407824301584467,55.05731699756638",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:8a265978833b6dbf7689",
+        "propertyId": "cg:property:feature-in-layer",
+        "propertyLabel": "feature in layer",
+        "valueType": "entity",
+        "valueId": "cg:map-layer:wards-2012",
+        "valueLabel": "Wards - 2012",
+        "valueText": "Wards - 2012",
+        "valueDescription": "Electoral ward boundaries",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:291232ad878278fe2bc7",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:geographic-feature",
+        "valueLabel": "Geographic feature",
+        "valueText": "Geographic feature",
+        "valueDescription": "A sampled or indexed geography feature within a source layer.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:47201c9eec0658048a04",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "RASHARKIN",
+        "valueText": "RASHARKIN",
+        "referenceCount": 0
+      }
+    ],
     "cg:geographic-feature:wards-2012-rathcoole-5-923856050376996-54-66550069626475-5-910178843322791-54-67685049704859": [
       {
         "id": "cg:statement:ca2a0979eeedf5c64fe8",
@@ -17307,14 +17349,14 @@
     ],
     "cg:map-layer:counties-county-boroughs-1915": [
       {
-        "id": "cg:statement:fcb6ebc019726ec869ff",
+        "id": "cg:statement:b28af087d4837c9b9c3c",
         "propertyId": "cg:property:date",
         "propertyLabel": "date",
         "valueType": "entity",
-        "valueId": "cg:date-month:1915-04",
-        "valueLabel": "1915-04-01",
-        "valueText": "1915-04-01",
-        "valueDescription": "Entities dated April 1915",
+        "valueId": "cg:date-year:1921",
+        "valueLabel": "1921",
+        "valueText": "1921",
+        "valueDescription": "Entities dated 1921",
         "referenceCount": 0
       },
       {
@@ -17325,7 +17367,7 @@
         "valueId": "cg:source-file:internet-archive-countiesandcountyboroughs1915-fgb-f93175ee1851",
         "valueLabel": "Internet Archive: CountiesandCountyBoroughs1915.fgb",
         "valueText": "Internet Archive: CountiesandCountyBoroughs1915.fgb",
-        "valueDescription": "Internet Archive: CountiesandCountyBoroughs1915.fgb for Counties and County Boroughs 1915 source files",
+        "valueDescription": "Internet Archive: CountiesandCountyBoroughs1915.fgb for Local Authorities - 1921 source files",
         "qualifiers": [
           {
             "propertyId": "cg:property:file-format",
@@ -17352,7 +17394,7 @@
         "valueId": "cg:source-file:fgb-18a86c93797e",
         "valueLabel": "fgb",
         "valueText": "fgb",
-        "valueDescription": "fgb for Counties and County Boroughs 1915 source files",
+        "valueDescription": "fgb for Local Authorities - 1921 source files",
         "qualifiers": [
           {
             "propertyId": "cg:property:file-format",
@@ -17403,12 +17445,12 @@
         "referenceCount": 0
       },
       {
-        "id": "cg:statement:694d7b41cef5bc2f49ed",
+        "id": "cg:statement:0001242fb21ce8cac9ee",
         "propertyId": "cg:property:name",
         "propertyLabel": "name",
         "valueType": "string",
-        "valueLabel": "Counties and County Boroughs 1915",
-        "valueText": "Counties and County Boroughs 1915",
+        "valueLabel": "Local Authorities - 1921",
+        "valueText": "Local Authorities - 1921",
         "referenceCount": 0
       },
       {
@@ -17439,7 +17481,7 @@
         "valueId": "cg:source-file:fgb-18a86c93797e",
         "valueLabel": "fgb",
         "valueText": "fgb",
-        "valueDescription": "fgb for Counties and County Boroughs 1915 source files",
+        "valueDescription": "fgb for Local Authorities - 1921 source files",
         "qualifiers": [
           {
             "propertyId": "cg:property:file-format",
@@ -17456,17 +17498,6 @@
             "valueText": "https://data.civgraph.net/data/maps/baronies-parishes/CountiesandCountyBoroughs1915.fgb"
           }
         ],
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:678ba59bbaecb4dba77e",
-        "propertyId": "cg:property:year",
-        "propertyLabel": "year",
-        "valueType": "entity",
-        "valueId": "cg:date-year:1915",
-        "valueLabel": "1915",
-        "valueText": "1915",
-        "valueDescription": "Entities dated 1915",
         "referenceCount": 0
       }
     ],
@@ -19866,70 +19897,6 @@
         "valueLabel": "1930",
         "valueText": "1930",
         "valueDescription": "Entities dated 1930",
-        "referenceCount": 0
-      }
-    ],
-    "cg:map-layer:county-ed-1933-04-24": [
-      {
-        "id": "cg:statement:cae797a9e4ecf3d33de7",
-        "propertyId": "cg:property:date",
-        "propertyLabel": "date",
-        "valueType": "entity",
-        "valueId": "cg:date-month:1933-04",
-        "valueLabel": "1933-04-24",
-        "valueText": "1933-04-24",
-        "valueDescription": "Entities dated April 1933",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:1cb4f37cb85a37ffb370",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:map-layer",
-        "valueLabel": "Map layer",
-        "valueText": "Map layer",
-        "valueDescription": "A Civgraph map layer or map dataset exposed through Browse.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:a1c3a04bdb1171353de5",
-        "propertyId": "cg:property:interactive-url",
-        "propertyLabel": "interactive URL",
-        "valueType": "url",
-        "valueLabel": "/#layers=county-ed-1933-04-24",
-        "valueText": "/#layers=county-ed-1933-04-24",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:018b242ab668a0d843e0",
-        "propertyId": "cg:property:map-category",
-        "propertyLabel": "map category",
-        "valueType": "entity",
-        "valueId": "cg:map-category:electoral-areas",
-        "valueLabel": "Electoral Areas",
-        "valueText": "Electoral Areas",
-        "valueDescription": "Map category: Electoral Areas",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:f0eeae965ce28330d9b7",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "County Electoral Divisions - 24 April 1933",
-        "valueText": "County Electoral Divisions - 24 April 1933",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:4745dbb4572991a6a540",
-        "propertyId": "cg:property:year",
-        "propertyLabel": "year",
-        "valueType": "entity",
-        "valueId": "cg:date-year:1933",
-        "valueLabel": "1933",
-        "valueText": "1933",
-        "valueDescription": "Entities dated 1933",
         "referenceCount": 0
       }
     ]

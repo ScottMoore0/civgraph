@@ -1,10 +1,648 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-31T23:26:46.309Z",
+  "generatedAt": "2026-08-04T22:28:20.434Z",
   "kind": "sources",
   "shard": "sources-195.json",
   "total": 200,
   "items": [
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:rate-relief-and-support-schemes-by-district-council:01986",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-rate-relief-and-support-schemes-by-district-council-01986",
+      "type": "approved-medium-priority-source",
+      "title": "Non-Domestic Rate Relief and Rate Support Schemes by District Council",
+      "subtitle": "Local authority planning/property/open-data layers / Land & Property Services, Open Data NI / Northern Ireland / CSV / Approved source record",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "Land & Property Services",
+        "Open Data NI"
+      ],
+      "description": "Non-Domestic Rate Relief and Rate Support Schemes by District Council is published as a medium-priority Civgraph source/provenance record from Land & Property Services, Open Data NI. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://admin.opendatani.gov.uk/dataset/rate-relief-and-support-schemes-by-district-council",
+      "references": [
+        {
+          "label": "Non-Domestic Rate Relief and Rate Support Schemes by District Council provider page",
+          "url": "https://admin.opendatani.gov.uk/dataset/rate-relief-and-support-schemes-by-district-council",
+          "source": "Open Data NI",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Non-Domestic Rate Relief and Rate Support Schemes by District Council Wayback captures",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/rate-relief-and-support-schemes-by-district-council",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://admin.opendatani.gov.uk/dataset/rate-relief-and-support-schemes-by-district-council",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Northern Ireland",
+        "local-authority-batch-review",
+        "CSV"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 1987,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:rate-relief-and-support-schemes-by-district-council:01986",
+          "title": "Non-Domestic Rate Relief and Rate Support Schemes by District Council",
+          "cleanTitle": "Non-Domestic Rate Relief and Rate Support Schemes by District Council",
+          "provider": "Open Data NI",
+          "organisation": "Land & Property Services",
+          "category": "tabular",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Northern Ireland",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "CSV"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 55,
+          "currentProviderUrl": "https://admin.opendatani.gov.uk/dataset/rate-relief-and-support-schemes-by-district-council",
+          "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/rate-relief-and-support-schemes-by-district-council",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Northern Ireland",
+        "source-data",
+        "Non-Domestic Rate Relief and Rate Support Schemes by District Council"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://admin.opendatani.gov.uk/dataset/rate-relief-and-support-schemes-by-district-council",
+        "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/rate-relief-and-support-schemes-by-district-council",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Land & Property Services, Open Data NI, Non-Domestic Rate Relief and Rate Support Schemes by District Council.",
+      "fullCitation": "Land & Property Services, Open Data NI. Non-Domestic Rate Relief and Rate Support Schemes by District Council. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://admin.opendatani.gov.uk/dataset/rate-relief-and-support-schemes-by-district-council. Wayback capture index: https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/rate-relief-and-support-schemes-by-district-council.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:rate-relief-and-support-schemes-by-district-council:01986",
+        "sourceRowNumber": 1987,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV"
+          ]
+        },
+        "confidence": 55,
+        "resolvedBlockers": [
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "needs-provider-context-review: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-rate-relief-and-support-schemes-by-district-council-01986",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:rate-relief-and-support-schemes-by-district-council:01986",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-rate-relief-and-support-schemes-by-district-council-01986",
+        "type": "approved-medium-priority-source",
+        "title": "Non-Domestic Rate Relief and Rate Support Schemes by District Council",
+        "subtitle": "Local authority planning/property/open-data layers / Land & Property Services, Open Data NI / Northern Ireland / CSV / Approved source record",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "Land & Property Services",
+          "Open Data NI"
+        ],
+        "description": "Non-Domestic Rate Relief and Rate Support Schemes by District Council is published as a medium-priority Civgraph source/provenance record from Land & Property Services, Open Data NI. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://admin.opendatani.gov.uk/dataset/rate-relief-and-support-schemes-by-district-council",
+        "references": [
+          {
+            "label": "Non-Domestic Rate Relief and Rate Support Schemes by District Council provider page",
+            "url": "https://admin.opendatani.gov.uk/dataset/rate-relief-and-support-schemes-by-district-council",
+            "source": "Open Data NI",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Non-Domestic Rate Relief and Rate Support Schemes by District Council Wayback captures",
+            "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/rate-relief-and-support-schemes-by-district-council",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://admin.opendatani.gov.uk/dataset/rate-relief-and-support-schemes-by-district-council",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Northern Ireland",
+          "source-data",
+          "Non-Domestic Rate Relief and Rate Support Schemes by District Council"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://admin.opendatani.gov.uk/dataset/rate-relief-and-support-schemes-by-district-council",
+          "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/rate-relief-and-support-schemes-by-district-council",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Land & Property Services, Open Data NI, Non-Domestic Rate Relief and Rate Support Schemes by District Council.",
+        "fullCitation": "Land & Property Services, Open Data NI. Non-Domestic Rate Relief and Rate Support Schemes by District Council. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://admin.opendatani.gov.uk/dataset/rate-relief-and-support-schemes-by-district-council. Wayback capture index: https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/rate-relief-and-support-schemes-by-district-council.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 1987,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:rate-relief-and-support-schemes-by-district-council:01986",
+            "title": "Non-Domestic Rate Relief and Rate Support Schemes by District Council",
+            "cleanTitle": "Non-Domestic Rate Relief and Rate Support Schemes by District Council",
+            "provider": "Open Data NI",
+            "organisation": "Land & Property Services",
+            "category": "tabular",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Northern Ireland",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "CSV"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 55,
+            "currentProviderUrl": "https://admin.opendatani.gov.uk/dataset/rate-relief-and-support-schemes-by-district-council",
+            "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/rate-relief-and-support-schemes-by-district-council",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "needs-provider-context-review: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:rate-relief-and-support-schemes-by-district-council:01986",
+          "sourceRowNumber": 1987,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV"
+            ]
+          },
+          "confidence": 55,
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "needs-provider-context-review: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/source/table record unless there is clear interactive map or query use."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Northern Ireland",
+          "local-authority-batch-review",
+          "CSV"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-rate-relief-and-support-schemes-by-district-council-01986"
+      }
+    },
+    {
+      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:rates-paid-by-district-council-and-sector:01999",
+      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-rates-paid-by-district-council-and-sector-01999",
+      "type": "approved-medium-priority-source",
+      "title": "Rates paid by District Council and Sector",
+      "subtitle": "Local authority planning/property/open-data layers / Land & Property Services, Open Data NI / Northern Ireland / CSV / Approved source record",
+      "category": "Medium-priority: Local authority planning/property/open-data layers",
+      "provider": [
+        "Land & Property Services",
+        "Open Data NI"
+      ],
+      "description": "Rates paid by District Council and Sector is published as a medium-priority Civgraph source/provenance record from Land & Property Services, Open Data NI. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+      "url": "https://admin.opendatani.gov.uk/dataset/rates-paid-by-district-council-and-sector",
+      "references": [
+        {
+          "label": "Rates paid by District Council and Sector provider page",
+          "url": "https://admin.opendatani.gov.uk/dataset/rates-paid-by-district-council-and-sector",
+          "source": "Open Data NI",
+          "role": "canonical-provider-url"
+        },
+        {
+          "label": "Rates paid by District Council and Sector Wayback captures",
+          "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/rates-paid-by-district-council-and-sector",
+          "source": "Internet Archive Wayback Machine",
+          "role": "archive-captures"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset/download page",
+          "url": "https://admin.opendatani.gov.uk/dataset/rates-paid-by-district-council-and-sector",
+          "type": "dataset-page"
+        },
+        {
+          "label": "label",
+          "url": "Internet Archive mirror"
+        },
+        {
+          "label": "type",
+          "url": "ia-mirror"
+        },
+        {
+          "label": "status",
+          "url": "pending-upload-or-linking"
+        }
+      ],
+      "keywords": [
+        "medium-priority-publication",
+        "approved-source-record",
+        "Local authority planning/property/open-data layers",
+        "source-data",
+        "features",
+        "Northern Ireland",
+        "local-authority-batch-review",
+        "CSV"
+      ],
+      "sourceItems": [
+        {
+          "sourceRowNumber": 2000,
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:rates-paid-by-district-council-and-sector:01999",
+          "title": "Rates paid by District Council and Sector",
+          "cleanTitle": "Rates paid by District Council and Sector",
+          "provider": "Open Data NI",
+          "organisation": "Land & Property Services",
+          "category": "tabular",
+          "roiGroup": "5. Local authority planning/property/open-data layers",
+          "groupTitle": "Local authority planning/property/open-data layers",
+          "jurisdiction": "Northern Ireland",
+          "topic": "source-data",
+          "featureUnit": "features",
+          "formats": [
+            "CSV"
+          ],
+          "isSpatial": false,
+          "isLargeOrSpecial": false,
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV"
+            ]
+          },
+          "approvalState": "ready-for-approval",
+          "sourcePublicationState": "approved public source record",
+          "confidence": 60,
+          "currentProviderUrl": "https://admin.opendatani.gov.uk/dataset/rates-paid-by-district-council-and-sector",
+          "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/rates-paid-by-district-council-and-sector",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+          "bestExistingMatch": {
+            "stillPresent": false
+          },
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        }
+      ],
+      "status": "Source ready",
+      "statusChips": [
+        "Source record",
+        "Approved",
+        "Download available",
+        "Provider link",
+        "Wayback link"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "Medium-priority: Local authority planning/property/open-data layers",
+        "Northern Ireland",
+        "source-data",
+        "Rates paid by District Council and Sector"
+      ],
+      "viewport": {
+        "status": "ready-when-public-file-url-attached",
+        "supportedViewportTypes": [
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://admin.opendatani.gov.uk/dataset/rates-paid-by-district-council-and-sector",
+        "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/rates-paid-by-district-council-and-sector",
+        "internetArchiveStatus": "pending-upload-or-linking",
+        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+      },
+      "shortCitation": "Land & Property Services, Open Data NI, Rates paid by District Council and Sector.",
+      "fullCitation": "Land & Property Services, Open Data NI. Rates paid by District Council and Sector. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://admin.opendatani.gov.uk/dataset/rates-paid-by-district-council-and-sector. Wayback capture index: https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/rates-paid-by-district-council-and-sector.",
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+      },
+      "approval": {
+        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:rates-paid-by-district-council-and-sector:01999",
+        "sourceRowNumber": 2000,
+        "approvalState": "ready-for-approval",
+        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+        "proposedAction": "local-authority-batch-review",
+        "proposedPlacement": "Books/Tables/Sources source/download record",
+        "proposedRuntime": {
+          "desired": "metadata/source page",
+          "conversion": "No runtime conversion required unless structured values are later extracted.",
+          "sourceFormats": [
+            "CSV"
+          ]
+        },
+        "confidence": 60,
+        "resolvedBlockers": [
+          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+          "source-page-and-ia-viewport-decision: publication policy assigned"
+        ],
+        "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+        "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+      },
+      "publicationStatus": "approved-source-record",
+      "proposedBrowsePath": "Books/Tables/Sources source/download record",
+      "relationship": "source-record",
+      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-rates-paid-by-district-council-and-sector-01999",
+      "rawMetadata": {
+        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:rates-paid-by-district-council-and-sector:01999",
+        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-rates-paid-by-district-council-and-sector-01999",
+        "type": "approved-medium-priority-source",
+        "title": "Rates paid by District Council and Sector",
+        "subtitle": "Local authority planning/property/open-data layers / Land & Property Services, Open Data NI / Northern Ireland / CSV / Approved source record",
+        "category": "Medium-priority: Local authority planning/property/open-data layers",
+        "provider": [
+          "Land & Property Services",
+          "Open Data NI"
+        ],
+        "description": "Rates paid by District Council and Sector is published as a medium-priority Civgraph source/provenance record from Land & Property Services, Open Data NI. The source is available as a Browse/Books/Tables/Sources record rather than a map runtime layer. The staging pass found no residual blockers for source-level publication.",
+        "url": "https://admin.opendatani.gov.uk/dataset/rates-paid-by-district-council-and-sector",
+        "references": [
+          {
+            "label": "Rates paid by District Council and Sector provider page",
+            "url": "https://admin.opendatani.gov.uk/dataset/rates-paid-by-district-council-and-sector",
+            "source": "Open Data NI",
+            "role": "canonical-provider-url"
+          },
+          {
+            "label": "Rates paid by District Council and Sector Wayback captures",
+            "url": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/rates-paid-by-district-council-and-sector",
+            "source": "Internet Archive Wayback Machine",
+            "role": "archive-captures"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset/download page",
+            "url": "https://admin.opendatani.gov.uk/dataset/rates-paid-by-district-council-and-sector",
+            "type": "dataset-page",
+            "status": "download resources are listed by the provider page"
+          },
+          {
+            "label": "Internet Archive mirror",
+            "url": null,
+            "type": "ia-mirror",
+            "status": "pending-upload-or-linking"
+          }
+        ],
+        "status": "Source ready",
+        "statusChips": [
+          "Source record",
+          "Approved",
+          "Download available",
+          "Provider link",
+          "Wayback link"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "Medium-priority: Local authority planning/property/open-data layers",
+          "Northern Ireland",
+          "source-data",
+          "Rates paid by District Council and Sector"
+        ],
+        "viewport": {
+          "status": "ready-when-public-file-url-attached",
+          "supportedViewportTypes": [
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://admin.opendatani.gov.uk/dataset/rates-paid-by-district-council-and-sector",
+          "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/rates-paid-by-district-council-and-sector",
+          "internetArchiveStatus": "pending-upload-or-linking",
+          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
+        },
+        "shortCitation": "Land & Property Services, Open Data NI, Rates paid by District Council and Sector.",
+        "fullCitation": "Land & Property Services, Open Data NI. Rates paid by District Council and Sector. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://admin.opendatani.gov.uk/dataset/rates-paid-by-district-council-and-sector. Wayback capture index: https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/rates-paid-by-district-council-and-sector.",
+        "sourceItems": [
+          {
+            "sourceRowNumber": 2000,
+            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:rates-paid-by-district-council-and-sector:01999",
+            "title": "Rates paid by District Council and Sector",
+            "cleanTitle": "Rates paid by District Council and Sector",
+            "provider": "Open Data NI",
+            "organisation": "Land & Property Services",
+            "category": "tabular",
+            "roiGroup": "5. Local authority planning/property/open-data layers",
+            "groupTitle": "Local authority planning/property/open-data layers",
+            "jurisdiction": "Northern Ireland",
+            "topic": "source-data",
+            "featureUnit": "features",
+            "formats": [
+              "CSV"
+            ],
+            "isSpatial": false,
+            "isLargeOrSpecial": false,
+            "proposedAction": "local-authority-batch-review",
+            "proposedPlacement": "Books/Tables/Sources source/download record",
+            "proposedRuntime": {
+              "desired": "metadata/source page",
+              "conversion": "No runtime conversion required unless structured values are later extracted.",
+              "sourceFormats": [
+                "CSV"
+              ]
+            },
+            "approvalState": "ready-for-approval",
+            "sourcePublicationState": "approved public source record",
+            "confidence": 60,
+            "currentProviderUrl": "https://admin.opendatani.gov.uk/dataset/rates-paid-by-district-council-and-sector",
+            "waybackUrl": "https://web.archive.org/web/*/https://admin.opendatani.gov.uk/dataset/rates-paid-by-district-council-and-sector",
+            "internetArchiveStatus": "pending-upload-or-linking",
+            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
+            "bestExistingMatch": {
+              "stillPresent": false
+            },
+            "resolvedBlockers": [
+              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+              "source-page-and-ia-viewport-decision: publication policy assigned"
+            ],
+            "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
+        },
+        "approval": {
+          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:rates-paid-by-district-council-and-sector:01999",
+          "sourceRowNumber": 2000,
+          "approvalState": "ready-for-approval",
+          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
+          "proposedAction": "local-authority-batch-review",
+          "proposedPlacement": "Books/Tables/Sources source/download record",
+          "proposedRuntime": {
+            "desired": "metadata/source page",
+            "conversion": "No runtime conversion required unless structured values are later extracted.",
+            "sourceFormats": [
+              "CSV"
+            ]
+          },
+          "confidence": 60,
+          "resolvedBlockers": [
+            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
+            "source-page-and-ia-viewport-decision: publication policy assigned"
+          ],
+          "cleanedRecommendation": "Batch by council/provider; add only genuinely new or materially different planning/property layers, with source pages for the rest.",
+          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download."
+        },
+        "publicationStatus": "approved-source-record",
+        "proposedBrowsePath": "Books/Tables/Sources source/download record",
+        "relationship": "source-record",
+        "keywords": [
+          "medium-priority-publication",
+          "approved-source-record",
+          "Local authority planning/property/open-data layers",
+          "source-data",
+          "features",
+          "Northern Ireland",
+          "local-authority-batch-review",
+          "CSV"
+        ],
+        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-rates-paid-by-district-council-and-sector-01999"
+      }
+    },
     {
       "id": "medium-priority:5-local-authority-planning-property-open-data-layers:rating-income:02000",
       "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-rating-income-02000",
@@ -70757,816 +71395,6 @@
           "CSV"
         ],
         "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-street-furniture-licences-dublin-city-02306"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:street-lighting-dublin-city:01116",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-street-lighting-dublin-city-01116",
-      "type": "approved-medium-priority-source",
-      "title": "Public Lighting DCC",
-      "subtitle": "Local authority planning/property/open-data layers / Dublin City Council, data.gov.ie / Republic of Ireland / CSV, DB_TABLE, GEOJSON, KML, WMS, XLSX, ZIP / Source record; runtime review pending",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "provider": [
-        "Dublin City Council",
-        "data.gov.ie"
-      ],
-      "description": "Public Lighting DCC is published as a medium-priority Civgraph source/provenance record from Dublin City Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-      "url": "https://data.gov.ie/dataset/street-lighting-dublin-city",
-      "references": [
-        {
-          "label": "Public Lighting DCC provider page",
-          "url": "https://data.gov.ie/dataset/street-lighting-dublin-city",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Public Lighting DCC Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/street-lighting-dublin-city",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/street-lighting-dublin-city",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Local authority planning/property/open-data layers",
-        "source-data",
-        "features",
-        "Republic of Ireland",
-        "local-authority-batch-review",
-        "CSV",
-        "DB_TABLE",
-        "GEOJSON",
-        "KML",
-        "WMS",
-        "XLSX",
-        "ZIP",
-        "review:duplicate-or-variant-review-no-existing-match-candidate"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 1117,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:street-lighting-dublin-city:01116",
-          "title": "Public Lighting DCC",
-          "cleanTitle": "Public Lighting DCC",
-          "provider": "data.gov.ie",
-          "organisation": "Dublin City Council",
-          "category": "spatial",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Republic of Ireland",
-          "topic": "source-data",
-          "featureUnit": "features",
-          "formats": [
-            "CSV",
-            "DB_TABLE",
-            "GEOJSON",
-            "KML",
-            "WMS",
-            "XLSX",
-            "ZIP"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": false,
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "DB_TABLE",
-              "GEOJSON",
-              "KML",
-              "WMS",
-              "XLSX",
-              "ZIP"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 60,
-          "currentProviderUrl": "https://data.gov.ie/dataset/street-lighting-dublin-city",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/street-lighting-dublin-city",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Republic of Ireland",
-        "source-data",
-        "Public Lighting DCC"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "spreadsheet",
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/street-lighting-dublin-city",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/street-lighting-dublin-city",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-      },
-      "shortCitation": "Dublin City Council, data.gov.ie, Public Lighting DCC.",
-      "fullCitation": "Dublin City Council, data.gov.ie. Public Lighting DCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/street-lighting-dublin-city. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/street-lighting-dublin-city.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:street-lighting-dublin-city:01116",
-        "sourceRowNumber": 1117,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-        "proposedAction": "local-authority-batch-review",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "metadata/source page",
-          "conversion": "No runtime conversion required unless structured values are later extracted.",
-          "sourceFormats": [
-            "CSV",
-            "DB_TABLE",
-            "GEOJSON",
-            "KML",
-            "WMS",
-            "XLSX",
-            "ZIP"
-          ]
-        },
-        "confidence": 60,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate"
-        ],
-        "resolvedBlockers": [
-          "large-or-special-format-review: normal source package; no special-format hold",
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-street-lighting-dublin-city-01116",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:street-lighting-dublin-city:01116",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-street-lighting-dublin-city-01116",
-        "type": "approved-medium-priority-source",
-        "title": "Public Lighting DCC",
-        "subtitle": "Local authority planning/property/open-data layers / Dublin City Council, data.gov.ie / Republic of Ireland / CSV, DB_TABLE, GEOJSON, KML, WMS, XLSX, ZIP / Source record; runtime review pending",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "provider": [
-          "Dublin City Council",
-          "data.gov.ie"
-        ],
-        "description": "Public Lighting DCC is published as a medium-priority Civgraph source/provenance record from Dublin City Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate.",
-        "url": "https://data.gov.ie/dataset/street-lighting-dublin-city",
-        "references": [
-          {
-            "label": "Public Lighting DCC provider page",
-            "url": "https://data.gov.ie/dataset/street-lighting-dublin-city",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Public Lighting DCC Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/street-lighting-dublin-city",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/street-lighting-dublin-city",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Republic of Ireland",
-          "source-data",
-          "Public Lighting DCC"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "spreadsheet",
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/street-lighting-dublin-city",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/street-lighting-dublin-city",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "No runtime conversion required unless structured values are later extracted."
-        },
-        "shortCitation": "Dublin City Council, data.gov.ie, Public Lighting DCC.",
-        "fullCitation": "Dublin City Council, data.gov.ie. Public Lighting DCC. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/street-lighting-dublin-city. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/street-lighting-dublin-city.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 1117,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:street-lighting-dublin-city:01116",
-            "title": "Public Lighting DCC",
-            "cleanTitle": "Public Lighting DCC",
-            "provider": "data.gov.ie",
-            "organisation": "Dublin City Council",
-            "category": "spatial",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Republic of Ireland",
-            "topic": "source-data",
-            "featureUnit": "features",
-            "formats": [
-              "CSV",
-              "DB_TABLE",
-              "GEOJSON",
-              "KML",
-              "WMS",
-              "XLSX",
-              "ZIP"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": false,
-            "proposedAction": "local-authority-batch-review",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "metadata/source page",
-              "conversion": "No runtime conversion required unless structured values are later extracted.",
-              "sourceFormats": [
-                "CSV",
-                "DB_TABLE",
-                "GEOJSON",
-                "KML",
-                "WMS",
-                "XLSX",
-                "ZIP"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 60,
-            "currentProviderUrl": "https://data.gov.ie/dataset/street-lighting-dublin-city",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/street-lighting-dublin-city",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "large-or-special-format-review: normal source package; no special-format hold",
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:street-lighting-dublin-city:01116",
-          "sourceRowNumber": 1117,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record in local-authority batch; convert only genuinely new/materially different layers later",
-          "proposedAction": "local-authority-batch-review",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "metadata/source page",
-            "conversion": "No runtime conversion required unless structured values are later extracted.",
-            "sourceFormats": [
-              "CSV",
-              "DB_TABLE",
-              "GEOJSON",
-              "KML",
-              "WMS",
-              "XLSX",
-              "ZIP"
-            ]
-          },
-          "confidence": 60,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate"
-          ],
-          "resolvedBlockers": [
-            "large-or-special-format-review: normal source package; no special-format hold",
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Local authority planning/property/open-data layers",
-          "source-data",
-          "features",
-          "Republic of Ireland",
-          "local-authority-batch-review",
-          "CSV",
-          "DB_TABLE",
-          "GEOJSON",
-          "KML",
-          "WMS",
-          "XLSX",
-          "ZIP",
-          "review:duplicate-or-variant-review-no-existing-match-candidate"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-street-lighting-dublin-city-01116"
-      }
-    },
-    {
-      "id": "medium-priority:5-local-authority-planning-property-open-data-layers:strokestown-lap-2014-2020-expired-roscommon6:00758",
-      "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-strokestown-lap-2014-2020-expired-roscommon6-00758",
-      "type": "approved-medium-priority-source",
-      "title": "Strokestown LAP 2014-2020 (Expired) - Roscommon",
-      "subtitle": "Local authority planning/property/open-data layers / Roscommon County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
-      "category": "Medium-priority: Local authority planning/property/open-data layers",
-      "date": "2014",
-      "provider": [
-        "Roscommon County Council",
-        "data.gov.ie"
-      ],
-      "description": "Strokestown LAP 2014-2020 (Expired) - Roscommon is published as a medium-priority Civgraph source/provenance record from Roscommon County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; large-or-special-format-review: size/format decision remains before runtime publication.",
-      "url": "https://data.gov.ie/dataset/strokestown-lap-2014-2020-expired-roscommon6",
-      "references": [
-        {
-          "label": "Strokestown LAP 2014-2020 (Expired) - Roscommon provider page",
-          "url": "https://data.gov.ie/dataset/strokestown-lap-2014-2020-expired-roscommon6",
-          "source": "data.gov.ie",
-          "role": "canonical-provider-url"
-        },
-        {
-          "label": "Strokestown LAP 2014-2020 (Expired) - Roscommon Wayback captures",
-          "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/strokestown-lap-2014-2020-expired-roscommon6",
-          "source": "Internet Archive Wayback Machine",
-          "role": "archive-captures"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "Provider dataset/download page",
-          "url": "https://data.gov.ie/dataset/strokestown-lap-2014-2020-expired-roscommon6",
-          "type": "dataset-page"
-        },
-        {
-          "label": "label",
-          "url": "Internet Archive mirror"
-        },
-        {
-          "label": "type",
-          "url": "ia-mirror"
-        },
-        {
-          "label": "status",
-          "url": "pending-upload-or-linking"
-        }
-      ],
-      "keywords": [
-        "medium-priority-publication",
-        "source-record-with-runtime-review",
-        "Local authority planning/property/open-data layers",
-        "source-data",
-        "features",
-        "Ireland / unspecified",
-        "hold-special-format",
-        "ARCGIS GEOSERVICES REST API",
-        "CSV",
-        "GDB",
-        "GEOJSON",
-        "GPKG",
-        "HTML",
-        "KML",
-        "TXT",
-        "XLSX",
-        "ZIP",
-        "review:duplicate-or-variant-review-no-existing-match-candidate",
-        "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
-      ],
-      "sourceItems": [
-        {
-          "sourceRowNumber": 759,
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:strokestown-lap-2014-2020-expired-roscommon6:00758",
-          "title": "Strokestown LAP 2014-2020 (Expired) - Roscommon",
-          "cleanTitle": "Strokestown LAP 2014-2020 (Expired) - Roscommon",
-          "provider": "data.gov.ie",
-          "organisation": "Roscommon County Council",
-          "category": "spatial",
-          "roiGroup": "5. Local authority planning/property/open-data layers",
-          "groupTitle": "Local authority planning/property/open-data layers",
-          "jurisdiction": "Ireland / unspecified",
-          "topic": "source-data",
-          "featureUnit": "features",
-          "formats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GDB",
-            "GEOJSON",
-            "GPKG",
-            "HTML",
-            "KML",
-            "TXT",
-            "XLSX",
-            "ZIP"
-          ],
-          "isSpatial": true,
-          "isLargeOrSpecial": true,
-          "proposedAction": "hold-special-format",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "download/source viewport first",
-            "conversion": "Do not convert until size/format review approves an interactive derivative.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GDB",
-              "GEOJSON",
-              "GPKG",
-              "HTML",
-              "KML",
-              "TXT",
-              "XLSX",
-              "ZIP"
-            ]
-          },
-          "approvalState": "ready-with-residual-review",
-          "sourcePublicationState": "public source record with runtime/semantic review still pending",
-          "confidence": 45,
-          "currentProviderUrl": "https://data.gov.ie/dataset/strokestown-lap-2014-2020-expired-roscommon6",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/strokestown-lap-2014-2020-expired-roscommon6",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-          "bestExistingMatch": {
-            "stillPresent": false
-          },
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate",
-            "large-or-special-format-review: size/format decision remains before runtime publication"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        }
-      ],
-      "status": "Source only",
-      "statusChips": [
-        "Source record",
-        "Runtime review pending",
-        "Spatial source",
-        "Download available",
-        "Provider link",
-        "Wayback link"
-      ],
-      "sourceHierarchy": [
-        "Books / Tables / Sources",
-        "Medium-priority: Local authority planning/property/open-data layers",
-        "Ireland / unspecified",
-        "source-data",
-        "Strokestown LAP 2014-2020 (Expired) - Roscommon"
-      ],
-      "viewport": {
-        "status": "ready-when-public-file-url-attached",
-        "supportedViewportTypes": [
-          "table-or-text",
-          "spreadsheet",
-          "download-only"
-        ],
-        "canonicalDatasetUrl": "https://data.gov.ie/dataset/strokestown-lap-2014-2020-expired-roscommon6",
-        "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/strokestown-lap-2014-2020-expired-roscommon6",
-        "internetArchiveStatus": "pending-upload-or-linking",
-        "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
-      },
-      "shortCitation": "Roscommon County Council, data.gov.ie, Strokestown LAP 2014-2020 (Expired) - Roscommon.",
-      "fullCitation": "Roscommon County Council, data.gov.ie. Strokestown LAP 2014-2020 (Expired) - Roscommon. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/strokestown-lap-2014-2020-expired-roscommon6. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/strokestown-lap-2014-2020-expired-roscommon6.",
-      "license": {
-        "status": "provider-specific",
-        "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-      },
-      "approval": {
-        "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:strokestown-lap-2014-2020-expired-roscommon6:00758",
-        "sourceRowNumber": 759,
-        "approvalState": "ready-with-residual-review",
-        "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
-        "proposedAction": "hold-special-format",
-        "proposedPlacement": "Books/Tables/Sources source/download record",
-        "proposedRuntime": {
-          "desired": "download/source viewport first",
-          "conversion": "Do not convert until size/format review approves an interactive derivative.",
-          "sourceFormats": [
-            "ARCGIS GEOSERVICES REST API",
-            "CSV",
-            "GDB",
-            "GEOJSON",
-            "GPKG",
-            "HTML",
-            "KML",
-            "TXT",
-            "XLSX",
-            "ZIP"
-          ]
-        },
-        "confidence": 45,
-        "residualBlockers": [
-          "duplicate-or-variant-review: no existing match candidate",
-          "large-or-special-format-review: size/format decision remains before runtime publication"
-        ],
-        "resolvedBlockers": [
-          "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-          "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-        ],
-        "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-        "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-        "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-      },
-      "publicationStatus": "source-record-with-runtime-review",
-      "proposedBrowsePath": "Books/Tables/Sources source/download record",
-      "relationship": "source-record",
-      "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-strokestown-lap-2014-2020-expired-roscommon6-00758",
-      "rawMetadata": {
-        "id": "medium-priority:5-local-authority-planning-property-open-data-layers:strokestown-lap-2014-2020-expired-roscommon6:00758",
-        "slug": "medium-priority-5-local-authority-planning-property-open-data-layers-strokestown-lap-2014-2020-expired-roscommon6-00758",
-        "type": "approved-medium-priority-source",
-        "title": "Strokestown LAP 2014-2020 (Expired) - Roscommon",
-        "subtitle": "Local authority planning/property/open-data layers / Roscommon County Council, data.gov.ie / Ireland / unspecified / ARCGIS GEOSERVICES REST API, CSV, GDB, GEOJSON, GPKG, HTML, KML, TXT, XLSX, ZIP / Source record; runtime review pending",
-        "category": "Medium-priority: Local authority planning/property/open-data layers",
-        "date": "2014",
-        "provider": [
-          "Roscommon County Council",
-          "data.gov.ie"
-        ],
-        "description": "Strokestown LAP 2014-2020 (Expired) - Roscommon is published as a medium-priority Civgraph source/provenance record from Roscommon County Council, data.gov.ie. The source was identified as spatial, but this publication pass does not create or replace a live MapLibre layer unless a separate PMTiles/runtime conversion is already present. Runtime or semantic review remains before this can become a duplicate-free interactive layer or merged structured dataset: duplicate-or-variant-review: no existing match candidate; large-or-special-format-review: size/format decision remains before runtime publication.",
-        "url": "https://data.gov.ie/dataset/strokestown-lap-2014-2020-expired-roscommon6",
-        "references": [
-          {
-            "label": "Strokestown LAP 2014-2020 (Expired) - Roscommon provider page",
-            "url": "https://data.gov.ie/dataset/strokestown-lap-2014-2020-expired-roscommon6",
-            "source": "data.gov.ie",
-            "role": "canonical-provider-url"
-          },
-          {
-            "label": "Strokestown LAP 2014-2020 (Expired) - Roscommon Wayback captures",
-            "url": "https://web.archive.org/web/*/https://data.gov.ie/dataset/strokestown-lap-2014-2020-expired-roscommon6",
-            "source": "Internet Archive Wayback Machine",
-            "role": "archive-captures"
-          }
-        ],
-        "downloads": [
-          {
-            "label": "Provider dataset/download page",
-            "url": "https://data.gov.ie/dataset/strokestown-lap-2014-2020-expired-roscommon6",
-            "type": "dataset-page",
-            "status": "download resources are listed by the provider page"
-          },
-          {
-            "label": "Internet Archive mirror",
-            "url": null,
-            "type": "ia-mirror",
-            "status": "pending-upload-or-linking"
-          }
-        ],
-        "status": "Source only",
-        "statusChips": [
-          "Source record",
-          "Runtime review pending",
-          "Spatial source",
-          "Download available",
-          "Provider link",
-          "Wayback link"
-        ],
-        "sourceHierarchy": [
-          "Books / Tables / Sources",
-          "Medium-priority: Local authority planning/property/open-data layers",
-          "Ireland / unspecified",
-          "source-data",
-          "Strokestown LAP 2014-2020 (Expired) - Roscommon"
-        ],
-        "viewport": {
-          "status": "ready-when-public-file-url-attached",
-          "supportedViewportTypes": [
-            "table-or-text",
-            "spreadsheet",
-            "download-only"
-          ],
-          "canonicalDatasetUrl": "https://data.gov.ie/dataset/strokestown-lap-2014-2020-expired-roscommon6",
-          "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/strokestown-lap-2014-2020-expired-roscommon6",
-          "internetArchiveStatus": "pending-upload-or-linking",
-          "runtimeNote": "Do not convert until size/format review approves an interactive derivative."
-        },
-        "shortCitation": "Roscommon County Council, data.gov.ie, Strokestown LAP 2014-2020 (Expired) - Roscommon.",
-        "fullCitation": "Roscommon County Council, data.gov.ie. Strokestown LAP 2014-2020 (Expired) - Roscommon. Medium-priority Civgraph publication source record generated from D: drive audit and staging review. Current provider URL: https://data.gov.ie/dataset/strokestown-lap-2014-2020-expired-roscommon6. Wayback capture index: https://web.archive.org/web/*/https://data.gov.ie/dataset/strokestown-lap-2014-2020-expired-roscommon6.",
-        "sourceItems": [
-          {
-            "sourceRowNumber": 759,
-            "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:strokestown-lap-2014-2020-expired-roscommon6:00758",
-            "title": "Strokestown LAP 2014-2020 (Expired) - Roscommon",
-            "cleanTitle": "Strokestown LAP 2014-2020 (Expired) - Roscommon",
-            "provider": "data.gov.ie",
-            "organisation": "Roscommon County Council",
-            "category": "spatial",
-            "roiGroup": "5. Local authority planning/property/open-data layers",
-            "groupTitle": "Local authority planning/property/open-data layers",
-            "jurisdiction": "Ireland / unspecified",
-            "topic": "source-data",
-            "featureUnit": "features",
-            "formats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GDB",
-              "GEOJSON",
-              "GPKG",
-              "HTML",
-              "KML",
-              "TXT",
-              "XLSX",
-              "ZIP"
-            ],
-            "isSpatial": true,
-            "isLargeOrSpecial": true,
-            "proposedAction": "hold-special-format",
-            "proposedPlacement": "Books/Tables/Sources source/download record",
-            "proposedRuntime": {
-              "desired": "download/source viewport first",
-              "conversion": "Do not convert until size/format review approves an interactive derivative.",
-              "sourceFormats": [
-                "ARCGIS GEOSERVICES REST API",
-                "CSV",
-                "GDB",
-                "GEOJSON",
-                "GPKG",
-                "HTML",
-                "KML",
-                "TXT",
-                "XLSX",
-                "ZIP"
-              ]
-            },
-            "approvalState": "ready-with-residual-review",
-            "sourcePublicationState": "public source record with runtime/semantic review still pending",
-            "confidence": 45,
-            "currentProviderUrl": "https://data.gov.ie/dataset/strokestown-lap-2014-2020-expired-roscommon6",
-            "waybackUrl": "https://web.archive.org/web/*/https://data.gov.ie/dataset/strokestown-lap-2014-2020-expired-roscommon6",
-            "internetArchiveStatus": "pending-upload-or-linking",
-            "canonicalSourcePolicy": "current provider URL first, Wayback and IA mirror/link retained where available",
-            "bestExistingMatch": {
-              "stillPresent": false
-            },
-            "resolvedBlockers": [
-              "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-              "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-            ],
-            "residualBlockers": [
-              "duplicate-or-variant-review: no existing match candidate",
-              "large-or-special-format-review: size/format decision remains before runtime publication"
-            ],
-            "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-            "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-            "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-          }
-        ],
-        "license": {
-          "status": "provider-specific",
-          "note": "Use the provider dataset page, Wayback capture, source metadata, or IA item metadata to confirm any resource-specific licence before structured reuse."
-        },
-        "approval": {
-          "stagingId": "medium-prep:5-local-authority-planning-property-open-data-layers:strokestown-lap-2014-2020-expired-roscommon6:00758",
-          "sourceRowNumber": 759,
-          "approvalState": "ready-with-residual-review",
-          "recommendedAction": "publish source record; hold runtime conversion pending size/format review",
-          "proposedAction": "hold-special-format",
-          "proposedPlacement": "Books/Tables/Sources source/download record",
-          "proposedRuntime": {
-            "desired": "download/source viewport first",
-            "conversion": "Do not convert until size/format review approves an interactive derivative.",
-            "sourceFormats": [
-              "ARCGIS GEOSERVICES REST API",
-              "CSV",
-              "GDB",
-              "GEOJSON",
-              "GPKG",
-              "HTML",
-              "KML",
-              "TXT",
-              "XLSX",
-              "ZIP"
-            ]
-          },
-          "confidence": 45,
-          "residualBlockers": [
-            "duplicate-or-variant-review: no existing match candidate",
-            "large-or-special-format-review: size/format decision remains before runtime publication"
-          ],
-          "resolvedBlockers": [
-            "local-authority-duplication-and-topic-placement: batched by council/provider for approval",
-            "map-conversion-pmtiles-or-download-only-decision: conversion path staged, not executed"
-          ],
-          "cleanedRecommendation": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "sourcePlacement": "IA download/viewport first; R2/CDN only for approved derived tiles/previews."
-        },
-        "publicationStatus": "source-record-with-runtime-review",
-        "proposedBrowsePath": "Books/Tables/Sources source/download record",
-        "relationship": "source-record",
-        "keywords": [
-          "medium-priority-publication",
-          "source-record-with-runtime-review",
-          "Local authority planning/property/open-data layers",
-          "source-data",
-          "features",
-          "Ireland / unspecified",
-          "hold-special-format",
-          "ARCGIS GEOSERVICES REST API",
-          "CSV",
-          "GDB",
-          "GEOJSON",
-          "GPKG",
-          "HTML",
-          "KML",
-          "TXT",
-          "XLSX",
-          "ZIP",
-          "review:duplicate-or-variant-review-no-existing-match-candidate",
-          "review:large-or-special-format-review-size-format-decision-remains-before-runtime-publication"
-        ],
-        "browseUrl": "/browse/sources/medium-priority-5-local-authority-planning-property-open-data-layers-strokestown-lap-2014-2020-expired-roscommon6-00758"
       }
     }
   ]

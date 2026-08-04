@@ -1,10 +1,726 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-03T23:07:06.381Z",
+  "generatedAt": "2026-08-04T22:28:20.434Z",
   "kind": "sources",
   "shard": "sources-201.json",
-  "total": 133,
+  "total": 135,
   "items": [
+    {
+      "id": "raw-source:data-gov-ie:resident-charities-and-approved-bodies-tax-relief-on-donations",
+      "slug": "raw-source-data-gov-ie-resident-charities-and-approved-bodies-tax-relief-on-donations",
+      "type": "raw-source-table",
+      "title": "Resident charities and approved bodies – Tax relief on donations",
+      "subtitle": "Revenue Commissioners / data.gov.ie / CSV, PDF / Source-only",
+      "category": "Raw source tables",
+      "provider": [
+        "Revenue Commissioners",
+        "data.gov.ie"
+      ],
+      "description": "Resident charities and approved bodies – Tax relief on donations is staged as a table source record from Revenue Commissioners, data.gov.ie. The record is suitable for a Browse/Books/Tables source page with provider links now and IA-hotlinked viewport/download links once the public IA item/file URLs are attached. No map conversion or deep semantic modelling is implied by this source-only record. Formats observed in the local audit: CSV, PDF.",
+      "url": "https://data.gov.ie/dataset/resident-charities-and-approved-bodies-tax-relief-on-donations",
+      "references": [
+        {
+          "label": "Resident charities and approved bodies – Tax relief on donations provider dataset page",
+          "url": "https://data.gov.ie/dataset/resident-charities-and-approved-bodies-tax-relief-on-donations",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-dataset"
+        },
+        {
+          "label": "Resident charities and approved bodies – Tax relief on donations Internet Archive source mirror",
+          "url": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+          "source": "Internet Archive",
+          "role": "source-mirror"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset page",
+          "url": "https://data.gov.ie/dataset/resident-charities-and-approved-bodies-tax-relief-on-donations",
+          "type": "dataset-page"
+        },
+        {
+          "label": "Internet Archive mirror - authorised-charities-resident.csv",
+          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Revenue%20Commissioners/resident-charities-and-approved-bodies-tax-relief-on-donations/authorised-charities-resident.csv",
+          "type": "CSV"
+        },
+        {
+          "label": "Internet Archive mirror - authorised-charities-resident.pdf",
+          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Revenue%20Commissioners/resident-charities-and-approved-bodies-tax-relief-on-donations/authorised-charities-resident.pdf",
+          "type": "PDF"
+        }
+      ],
+      "keywords": [
+        "raw-source-document",
+        "ia-ready",
+        "source-only",
+        "table",
+        "data.gov.ie",
+        "Revenue Commissioners",
+        "CSV",
+        "PDF",
+        "source-documents-books",
+        "internet-archive-mirror",
+        "raw-source-mirrored"
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 31724,
+          "title": "Resident charities and approved bodies – Tax relief on donations",
+          "provider": "data.gov.ie",
+          "organisation": "Revenue Commissioners",
+          "formats": [
+            "CSV",
+            "PDF"
+          ],
+          "category": "tabular",
+          "refinedStatus": "source-only or Browse/Books candidate",
+          "recommendedAction": "Publish as IA-hotlinked source/document/table records first; no runtime bundle unless cleaned/queryable.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download.",
+          "blockerCategories": [
+            "raw-source-hosting-and-viewport-policy",
+            "source-page-and-ia-viewport-decision"
+          ],
+          "detectedFamilies": [
+            "source-documents-books"
+          ],
+          "siteFamiliesPresent": [
+            "source-documents-books"
+          ],
+          "mirrorPolicy": "Internet Archive mirror verified; local mirror paths remain excluded from public output",
+          "providerDatasetUrl": "https://data.gov.ie/dataset/resident-charities-and-approved-bodies-tax-relief-on-donations",
+          "internetArchiveItem": "civgraph-data-gov-ie-raw-sources",
+          "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+          "internetArchiveFileCount": 2
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source only",
+        "Preview available",
+        "Download available",
+        "Needs review",
+        "Mirror available"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "data.gov.ie",
+        "Revenue Commissioners",
+        "Resident charities and approved bodies – Tax relief on donations"
+      ],
+      "viewport": {
+        "status": "mirror-preview-ready",
+        "supportedViewportTypes": [
+          "pdf",
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/resident-charities-and-approved-bodies-tax-relief-on-donations",
+        "note": "Internet Archive mirror files are verified for durable public view/download; provider dataset page remains the canonical source.",
+        "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+        "fileUrl": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Revenue%20Commissioners/resident-charities-and-approved-bodies-tax-relief-on-donations/authorised-charities-resident.csv"
+      },
+      "shortCitation": "Revenue Commissioners, data.gov.ie, Resident charities and approved bodies – Tax relief on donations.",
+      "fullCitation": "Revenue Commissioners, data.gov.ie. Resident charities and approved bodies – Tax relief on donations. Current provider dataset URL: https://data.gov.ie/dataset/resident-charities-and-approved-bodies-tax-relief-on-donations. Civgraph raw source-document record.",
+      "relatedRecords": [
+        {
+          "kind": "browse-map",
+          "id": "wq-surface-water-bodies-2015",
+          "title": "WFD Surface Water Bodies — Status 2015",
+          "score": 0.17
+        },
+        {
+          "kind": "browse-map",
+          "id": "wq-wfd-river-water-bodies",
+          "title": "WFD River Water Bodies — 2nd Cycle",
+          "score": 0.17
+        },
+        {
+          "kind": "browse-map",
+          "id": "data-2021-population-ward",
+          "title": "Usual resident population (Census 2021, by Ward 2014)",
+          "score": 0.17
+        }
+      ],
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, and IA item metadata to confirm resource-level licence before structured reuse."
+      },
+      "approval": {
+        "recommendedAction": "publish as source/document/table record; do not create duplicate map or election parent",
+        "stagingId": "raw-source:data-gov-ie:resident-charities-and-approved-bodies-tax-relief-on-donations",
+        "confidence": "approved-convention",
+        "sourceType": "raw source-document corpus",
+        "provider": "Revenue Commissioners; data.gov.ie"
+      },
+      "publicationStatus": "raw-source-staged; raw-source-mirrored-internet-archive",
+      "proposedBrowsePath": "Books / Tables / Sources > Raw source tables",
+      "browseUrl": "/browse/sources/raw-source-data-gov-ie-resident-charities-and-approved-bodies-tax-relief-on-donations",
+      "rawMetadata": {
+        "id": "raw-source:data-gov-ie:resident-charities-and-approved-bodies-tax-relief-on-donations",
+        "slug": "raw-source-data-gov-ie-resident-charities-and-approved-bodies-tax-relief-on-donations",
+        "type": "raw-source-table",
+        "title": "Resident charities and approved bodies – Tax relief on donations",
+        "subtitle": "Revenue Commissioners / data.gov.ie / CSV, PDF / Source-only",
+        "category": "Raw source tables",
+        "provider": [
+          "Revenue Commissioners",
+          "data.gov.ie"
+        ],
+        "description": "Resident charities and approved bodies – Tax relief on donations is staged as a table source record from Revenue Commissioners, data.gov.ie. The record is suitable for a Browse/Books/Tables source page with provider links now and IA-hotlinked viewport/download links once the public IA item/file URLs are attached. No map conversion or deep semantic modelling is implied by this source-only record. Formats observed in the local audit: CSV, PDF.",
+        "url": "https://data.gov.ie/dataset/resident-charities-and-approved-bodies-tax-relief-on-donations",
+        "references": [
+          {
+            "label": "Resident charities and approved bodies – Tax relief on donations provider dataset page",
+            "url": "https://data.gov.ie/dataset/resident-charities-and-approved-bodies-tax-relief-on-donations",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-dataset",
+            "status": "inferred-from-provider-slug"
+          },
+          {
+            "label": "Resident charities and approved bodies – Tax relief on donations Internet Archive source mirror",
+            "url": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+            "source": "Internet Archive",
+            "role": "source-mirror",
+            "status": "verified"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset page",
+            "url": "https://data.gov.ie/dataset/resident-charities-and-approved-bodies-tax-relief-on-donations",
+            "type": "dataset-page",
+            "status": "resource downloads listed by provider dataset page"
+          },
+          {
+            "label": "Internet Archive mirror - authorised-charities-resident.csv",
+            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Revenue%20Commissioners/resident-charities-and-approved-bodies-tax-relief-on-donations/authorised-charities-resident.csv",
+            "type": "CSV",
+            "size": 209582,
+            "sha256": "5e251f75e881dc2b1631e9d57acbfb810b1579bad66822358ee0556dbd12c180",
+            "status": "verified Internet Archive mirror",
+            "source": "Internet Archive"
+          },
+          {
+            "label": "Internet Archive mirror - authorised-charities-resident.pdf",
+            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Revenue%20Commissioners/resident-charities-and-approved-bodies-tax-relief-on-donations/authorised-charities-resident.pdf",
+            "type": "PDF",
+            "size": 924751,
+            "sha256": "e35774e491072268fbdf9d7f93ce999e66d9eb5f7c68ec5a484beef649bb9e3d",
+            "status": "verified Internet Archive mirror",
+            "source": "Internet Archive"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source only",
+          "Preview available",
+          "Download available",
+          "Needs review",
+          "Mirror available"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "data.gov.ie",
+          "Revenue Commissioners",
+          "Resident charities and approved bodies – Tax relief on donations"
+        ],
+        "viewport": {
+          "status": "mirror-preview-ready",
+          "supportedViewportTypes": [
+            "pdf",
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/resident-charities-and-approved-bodies-tax-relief-on-donations",
+          "note": "Internet Archive mirror files are verified for durable public view/download; provider dataset page remains the canonical source.",
+          "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+          "fileUrl": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Revenue%20Commissioners/resident-charities-and-approved-bodies-tax-relief-on-donations/authorised-charities-resident.csv"
+        },
+        "shortCitation": "Revenue Commissioners, data.gov.ie, Resident charities and approved bodies – Tax relief on donations.",
+        "fullCitation": "Revenue Commissioners, data.gov.ie. Resident charities and approved bodies – Tax relief on donations. Current provider dataset URL: https://data.gov.ie/dataset/resident-charities-and-approved-bodies-tax-relief-on-donations. Civgraph raw source-document record.",
+        "sourceItems": [
+          {
+            "auditRowNumber": 31724,
+            "title": "Resident charities and approved bodies – Tax relief on donations",
+            "provider": "data.gov.ie",
+            "organisation": "Revenue Commissioners",
+            "formats": [
+              "CSV",
+              "PDF"
+            ],
+            "category": "tabular",
+            "refinedStatus": "source-only or Browse/Books candidate",
+            "recommendedAction": "Publish as IA-hotlinked source/document/table records first; no runtime bundle unless cleaned/queryable.",
+            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download.",
+            "blockerCategories": [
+              "raw-source-hosting-and-viewport-policy",
+              "source-page-and-ia-viewport-decision"
+            ],
+            "detectedFamilies": [
+              "source-documents-books"
+            ],
+            "siteFamiliesPresent": [
+              "source-documents-books"
+            ],
+            "mirrorPolicy": "Internet Archive mirror verified; local mirror paths remain excluded from public output",
+            "providerDatasetUrl": "https://data.gov.ie/dataset/resident-charities-and-approved-bodies-tax-relief-on-donations",
+            "internetArchiveItem": "civgraph-data-gov-ie-raw-sources",
+            "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+            "internetArchiveFileCount": 2
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, and IA item metadata to confirm resource-level licence before structured reuse."
+        },
+        "approval": {
+          "recommendedAction": "publish as source/document/table record; do not create duplicate map or election parent",
+          "stagingId": "raw-source:data-gov-ie:resident-charities-and-approved-bodies-tax-relief-on-donations",
+          "confidence": "approved-convention",
+          "sourceType": "raw source-document corpus",
+          "provider": "Revenue Commissioners; data.gov.ie"
+        },
+        "publicationStatus": "raw-source-staged; raw-source-mirrored-internet-archive",
+        "proposedBrowsePath": "Books / Tables / Sources > Raw source tables",
+        "relatedRecords": [
+          {
+            "kind": "browse-map",
+            "id": "wq-surface-water-bodies-2015",
+            "title": "WFD Surface Water Bodies — Status 2015",
+            "score": 0.17
+          },
+          {
+            "kind": "browse-map",
+            "id": "wq-wfd-river-water-bodies",
+            "title": "WFD River Water Bodies — 2nd Cycle",
+            "score": 0.17
+          },
+          {
+            "kind": "browse-map",
+            "id": "data-2021-population-ward",
+            "title": "Usual resident population (Census 2021, by Ward 2014)",
+            "score": 0.17
+          }
+        ],
+        "keywords": [
+          "raw-source-document",
+          "ia-ready",
+          "source-only",
+          "table",
+          "data.gov.ie",
+          "Revenue Commissioners",
+          "CSV",
+          "PDF",
+          "source-documents-books",
+          "internet-archive-mirror",
+          "raw-source-mirrored"
+        ],
+        "browseUrl": "/browse/sources/raw-source-data-gov-ie-resident-charities-and-approved-bodies-tax-relief-on-donations",
+        "iaMirror": {
+          "itemIdentifier": "civgraph-data-gov-ie-raw-sources",
+          "itemUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+          "mirrorStatus": "mirrored",
+          "verifiedAt": "2026-06-28T02:10:52.845Z",
+          "fileCount": 2
+        }
+      }
+    },
+    {
+      "id": "raw-source:data-gov-ie:revenue-annual-reports",
+      "slug": "raw-source-data-gov-ie-revenue-annual-reports",
+      "type": "raw-source-table",
+      "title": "Revenue Annual Reports",
+      "subtitle": "Revenue Commissioners / data.gov.ie / CSV, PDF / Source-only",
+      "category": "Raw source tables",
+      "provider": [
+        "Revenue Commissioners",
+        "data.gov.ie"
+      ],
+      "description": "Revenue Annual Reports is staged as a table source record from Revenue Commissioners, data.gov.ie. The record is suitable for a Browse/Books/Tables source page with provider links now and IA-hotlinked viewport/download links once the public IA item/file URLs are attached. No map conversion or deep semantic modelling is implied by this source-only record. Formats observed in the local audit: CSV, PDF.",
+      "url": "https://data.gov.ie/dataset/revenue-annual-reports",
+      "references": [
+        {
+          "label": "Revenue Annual Reports provider dataset page",
+          "url": "https://data.gov.ie/dataset/revenue-annual-reports",
+          "source": "data.gov.ie",
+          "role": "canonical-provider-dataset"
+        },
+        {
+          "label": "Revenue Annual Reports Internet Archive source mirror",
+          "url": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+          "source": "Internet Archive",
+          "role": "source-mirror"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "Provider dataset page",
+          "url": "https://data.gov.ie/dataset/revenue-annual-reports",
+          "type": "dataset-page"
+        },
+        {
+          "label": "Internet Archive mirror - annual-report-data.csv",
+          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Revenue%20Commissioners/revenue-annual-reports/annual-report-data.csv",
+          "type": "CSV"
+        },
+        {
+          "label": "Internet Archive mirror - ar-2019.pdf.dat",
+          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Revenue%20Commissioners/revenue-annual-reports/ar-2019.pdf.dat",
+          "type": "PDF"
+        },
+        {
+          "label": "Internet Archive mirror - ar-2020.pdf.dat",
+          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Revenue%20Commissioners/revenue-annual-reports/ar-2020.pdf.dat",
+          "type": "PDF"
+        },
+        {
+          "label": "Internet Archive mirror - ar-2021.pdf.dat",
+          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Revenue%20Commissioners/revenue-annual-reports/ar-2021.pdf.dat",
+          "type": "PDF"
+        },
+        {
+          "label": "Internet Archive mirror - ar-2022.pdf.dat",
+          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Revenue%20Commissioners/revenue-annual-reports/ar-2022.pdf.dat",
+          "type": "PDF"
+        },
+        {
+          "label": "Internet Archive mirror - ar-2023.pdf.dat",
+          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Revenue%20Commissioners/revenue-annual-reports/ar-2023.pdf.dat",
+          "type": "PDF"
+        },
+        {
+          "label": "Internet Archive mirror - ar-2024.pdf",
+          "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Revenue%20Commissioners/revenue-annual-reports/ar-2024.pdf",
+          "type": "PDF"
+        }
+      ],
+      "keywords": [
+        "raw-source-document",
+        "ia-ready",
+        "source-only",
+        "table",
+        "data.gov.ie",
+        "Revenue Commissioners",
+        "CSV",
+        "PDF",
+        "source-documents-books",
+        "internet-archive-mirror",
+        "raw-source-mirrored"
+      ],
+      "sourceItems": [
+        {
+          "auditRowNumber": 31732,
+          "title": "Revenue Annual Reports",
+          "provider": "data.gov.ie",
+          "organisation": "Revenue Commissioners",
+          "formats": [
+            "CSV",
+            "PDF"
+          ],
+          "category": "tabular",
+          "refinedStatus": "source-only or Browse/Books candidate",
+          "recommendedAction": "Publish as IA-hotlinked source/document/table records first; no runtime bundle unless cleaned/queryable.",
+          "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download.",
+          "blockerCategories": [
+            "raw-source-hosting-and-viewport-policy",
+            "source-page-and-ia-viewport-decision"
+          ],
+          "detectedFamilies": [
+            "source-documents-books"
+          ],
+          "siteFamiliesPresent": [
+            "source-documents-books"
+          ],
+          "mirrorPolicy": "Internet Archive mirror verified; local mirror paths remain excluded from public output",
+          "providerDatasetUrl": "https://data.gov.ie/dataset/revenue-annual-reports",
+          "internetArchiveItem": "civgraph-data-gov-ie-raw-sources",
+          "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+          "internetArchiveFileCount": 7
+        }
+      ],
+      "status": "Source only",
+      "statusChips": [
+        "Source only",
+        "Preview available",
+        "Download available",
+        "Needs review",
+        "Mirror available"
+      ],
+      "sourceHierarchy": [
+        "Books / Tables / Sources",
+        "data.gov.ie",
+        "Revenue Commissioners",
+        "Revenue Annual Reports"
+      ],
+      "viewport": {
+        "status": "mirror-preview-ready",
+        "supportedViewportTypes": [
+          "pdf",
+          "table-or-text"
+        ],
+        "canonicalDatasetUrl": "https://data.gov.ie/dataset/revenue-annual-reports",
+        "note": "Internet Archive mirror files are verified for durable public view/download; provider dataset page remains the canonical source.",
+        "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+        "fileUrl": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Revenue%20Commissioners/revenue-annual-reports/annual-report-data.csv"
+      },
+      "shortCitation": "Revenue Commissioners, data.gov.ie, Revenue Annual Reports.",
+      "fullCitation": "Revenue Commissioners, data.gov.ie. Revenue Annual Reports. Current provider dataset URL: https://data.gov.ie/dataset/revenue-annual-reports. Civgraph raw source-document record.",
+      "relatedRecords": [
+        {
+          "kind": "database-map",
+          "id": "wq-ni-water-drinking",
+          "title": "NI Water — Drinking-Water Quality Public Registers",
+          "score": 0.43
+        },
+        {
+          "kind": "browse-source",
+          "id": "map-source",
+          "title": "NI Water — Drinking-Water Quality Public Registers source files",
+          "score": 0.43
+        },
+        {
+          "kind": "browse-map",
+          "id": "wq-ni-water-drinking",
+          "title": "NI Water — Drinking-Water Quality Public Registers",
+          "score": 0.43
+        }
+      ],
+      "license": {
+        "status": "provider-specific",
+        "note": "Use the provider dataset page, Wayback capture, and IA item metadata to confirm resource-level licence before structured reuse."
+      },
+      "approval": {
+        "recommendedAction": "publish as source/document/table record; do not create duplicate map or election parent",
+        "stagingId": "raw-source:data-gov-ie:revenue-annual-reports",
+        "confidence": "approved-convention",
+        "sourceType": "raw source-document corpus",
+        "provider": "Revenue Commissioners; data.gov.ie"
+      },
+      "publicationStatus": "raw-source-staged; raw-source-mirrored-internet-archive",
+      "proposedBrowsePath": "Books / Tables / Sources > Raw source tables",
+      "browseUrl": "/browse/sources/raw-source-data-gov-ie-revenue-annual-reports",
+      "rawMetadata": {
+        "id": "raw-source:data-gov-ie:revenue-annual-reports",
+        "slug": "raw-source-data-gov-ie-revenue-annual-reports",
+        "type": "raw-source-table",
+        "title": "Revenue Annual Reports",
+        "subtitle": "Revenue Commissioners / data.gov.ie / CSV, PDF / Source-only",
+        "category": "Raw source tables",
+        "provider": [
+          "Revenue Commissioners",
+          "data.gov.ie"
+        ],
+        "description": "Revenue Annual Reports is staged as a table source record from Revenue Commissioners, data.gov.ie. The record is suitable for a Browse/Books/Tables source page with provider links now and IA-hotlinked viewport/download links once the public IA item/file URLs are attached. No map conversion or deep semantic modelling is implied by this source-only record. Formats observed in the local audit: CSV, PDF.",
+        "url": "https://data.gov.ie/dataset/revenue-annual-reports",
+        "references": [
+          {
+            "label": "Revenue Annual Reports provider dataset page",
+            "url": "https://data.gov.ie/dataset/revenue-annual-reports",
+            "source": "data.gov.ie",
+            "role": "canonical-provider-dataset",
+            "status": "inferred-from-provider-slug"
+          },
+          {
+            "label": "Revenue Annual Reports Internet Archive source mirror",
+            "url": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+            "source": "Internet Archive",
+            "role": "source-mirror",
+            "status": "verified"
+          }
+        ],
+        "downloads": [
+          {
+            "label": "Provider dataset page",
+            "url": "https://data.gov.ie/dataset/revenue-annual-reports",
+            "type": "dataset-page",
+            "status": "resource downloads listed by provider dataset page"
+          },
+          {
+            "label": "Internet Archive mirror - annual-report-data.csv",
+            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Revenue%20Commissioners/revenue-annual-reports/annual-report-data.csv",
+            "type": "CSV",
+            "size": 154651,
+            "sha256": "4a8a47f5a30c2385387149a264245163bc60683717ae5153cd198220c99396d9",
+            "status": "verified Internet Archive mirror",
+            "source": "Internet Archive"
+          },
+          {
+            "label": "Internet Archive mirror - ar-2019.pdf.dat",
+            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Revenue%20Commissioners/revenue-annual-reports/ar-2019.pdf.dat",
+            "type": "PDF",
+            "size": 23280869,
+            "sha256": "5063172ad24e671c22340e66d60497314be65c80deaae0f51c3c333370047685",
+            "status": "verified Internet Archive mirror",
+            "source": "Internet Archive",
+            "storageMode": "raw-bytes",
+            "note": "Provider PDF has a non-zero-indexed xref table that Internet Archive rejects under a .pdf path; mirrored as exact raw provider bytes under .pdf.dat."
+          },
+          {
+            "label": "Internet Archive mirror - ar-2020.pdf.dat",
+            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Revenue%20Commissioners/revenue-annual-reports/ar-2020.pdf.dat",
+            "type": "PDF",
+            "size": 3937246,
+            "sha256": "71e4bce3c8429c63863f54eccea5a81490b43a2d36ff9e1f00379741edea73b8",
+            "status": "verified Internet Archive mirror",
+            "source": "Internet Archive",
+            "storageMode": "raw-bytes",
+            "note": "Provider PDF has a non-zero-indexed xref table that Internet Archive rejects under a .pdf path; mirrored as exact raw provider bytes under .pdf.dat."
+          },
+          {
+            "label": "Internet Archive mirror - ar-2021.pdf.dat",
+            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Revenue%20Commissioners/revenue-annual-reports/ar-2021.pdf.dat",
+            "type": "PDF",
+            "size": 2693094,
+            "sha256": "056abcdf63d028c532fc06f19ed22593987cdcf6cdb28ed20f7f7475470ff2f4",
+            "status": "verified Internet Archive mirror",
+            "source": "Internet Archive",
+            "storageMode": "raw-bytes",
+            "note": "Provider PDF has a non-zero-indexed xref table that Internet Archive rejects under a .pdf path; mirrored as exact raw provider bytes under .pdf.dat."
+          },
+          {
+            "label": "Internet Archive mirror - ar-2022.pdf.dat",
+            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Revenue%20Commissioners/revenue-annual-reports/ar-2022.pdf.dat",
+            "type": "PDF",
+            "size": 3375162,
+            "sha256": "faced232f925efe5c85d0eabda8386610886fe463f43602fc21007e2729b401f",
+            "status": "verified Internet Archive mirror",
+            "source": "Internet Archive",
+            "storageMode": "raw-bytes",
+            "note": "Provider PDF has a non-zero-indexed xref table that Internet Archive rejects under a .pdf path; mirrored as exact raw provider bytes under .pdf.dat."
+          },
+          {
+            "label": "Internet Archive mirror - ar-2023.pdf.dat",
+            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Revenue%20Commissioners/revenue-annual-reports/ar-2023.pdf.dat",
+            "type": "PDF",
+            "size": 6446516,
+            "sha256": "c9afd969143767cd2b77c3b75e62160e056fa16e407428e6181f31f261e332f9",
+            "status": "verified Internet Archive mirror",
+            "source": "Internet Archive",
+            "storageMode": "raw-bytes",
+            "note": "Provider PDF has a non-zero-indexed xref table that Internet Archive rejects under a .pdf path; mirrored as exact raw provider bytes under .pdf.dat."
+          },
+          {
+            "label": "Internet Archive mirror - ar-2024.pdf",
+            "url": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Revenue%20Commissioners/revenue-annual-reports/ar-2024.pdf",
+            "type": "PDF",
+            "size": 4481979,
+            "sha256": "5b162bbc3989a39f66fb1fc905ec897caca774b66cf9491861874e556499462f",
+            "status": "verified Internet Archive mirror",
+            "source": "Internet Archive"
+          }
+        ],
+        "status": "Source only",
+        "statusChips": [
+          "Source only",
+          "Preview available",
+          "Download available",
+          "Needs review",
+          "Mirror available"
+        ],
+        "sourceHierarchy": [
+          "Books / Tables / Sources",
+          "data.gov.ie",
+          "Revenue Commissioners",
+          "Revenue Annual Reports"
+        ],
+        "viewport": {
+          "status": "mirror-preview-ready",
+          "supportedViewportTypes": [
+            "pdf",
+            "table-or-text"
+          ],
+          "canonicalDatasetUrl": "https://data.gov.ie/dataset/revenue-annual-reports",
+          "note": "Internet Archive mirror files are verified for durable public view/download; provider dataset page remains the canonical source.",
+          "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+          "fileUrl": "https://archive.org/download/civgraph-data-gov-ie-raw-sources/Revenue%20Commissioners/revenue-annual-reports/annual-report-data.csv"
+        },
+        "shortCitation": "Revenue Commissioners, data.gov.ie, Revenue Annual Reports.",
+        "fullCitation": "Revenue Commissioners, data.gov.ie. Revenue Annual Reports. Current provider dataset URL: https://data.gov.ie/dataset/revenue-annual-reports. Civgraph raw source-document record.",
+        "sourceItems": [
+          {
+            "auditRowNumber": 31732,
+            "title": "Revenue Annual Reports",
+            "provider": "data.gov.ie",
+            "organisation": "Revenue Commissioners",
+            "formats": [
+              "CSV",
+              "PDF"
+            ],
+            "category": "tabular",
+            "refinedStatus": "source-only or Browse/Books candidate",
+            "recommendedAction": "Publish as IA-hotlinked source/document/table records first; no runtime bundle unless cleaned/queryable.",
+            "sourcePlacement": "Browse/Books/Tables source record with IA hotlinked viewport/download.",
+            "blockerCategories": [
+              "raw-source-hosting-and-viewport-policy",
+              "source-page-and-ia-viewport-decision"
+            ],
+            "detectedFamilies": [
+              "source-documents-books"
+            ],
+            "siteFamiliesPresent": [
+              "source-documents-books"
+            ],
+            "mirrorPolicy": "Internet Archive mirror verified; local mirror paths remain excluded from public output",
+            "providerDatasetUrl": "https://data.gov.ie/dataset/revenue-annual-reports",
+            "internetArchiveItem": "civgraph-data-gov-ie-raw-sources",
+            "internetArchiveUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+            "internetArchiveFileCount": 7
+          }
+        ],
+        "license": {
+          "status": "provider-specific",
+          "note": "Use the provider dataset page, Wayback capture, and IA item metadata to confirm resource-level licence before structured reuse."
+        },
+        "approval": {
+          "recommendedAction": "publish as source/document/table record; do not create duplicate map or election parent",
+          "stagingId": "raw-source:data-gov-ie:revenue-annual-reports",
+          "confidence": "approved-convention",
+          "sourceType": "raw source-document corpus",
+          "provider": "Revenue Commissioners; data.gov.ie"
+        },
+        "publicationStatus": "raw-source-staged; raw-source-mirrored-internet-archive",
+        "proposedBrowsePath": "Books / Tables / Sources > Raw source tables",
+        "relatedRecords": [
+          {
+            "kind": "database-map",
+            "id": "wq-ni-water-drinking",
+            "title": "NI Water — Drinking-Water Quality Public Registers",
+            "score": 0.43
+          },
+          {
+            "kind": "browse-source",
+            "id": "map-source",
+            "title": "NI Water — Drinking-Water Quality Public Registers source files",
+            "score": 0.43
+          },
+          {
+            "kind": "browse-map",
+            "id": "wq-ni-water-drinking",
+            "title": "NI Water — Drinking-Water Quality Public Registers",
+            "score": 0.43
+          }
+        ],
+        "keywords": [
+          "raw-source-document",
+          "ia-ready",
+          "source-only",
+          "table",
+          "data.gov.ie",
+          "Revenue Commissioners",
+          "CSV",
+          "PDF",
+          "source-documents-books",
+          "internet-archive-mirror",
+          "raw-source-mirrored"
+        ],
+        "browseUrl": "/browse/sources/raw-source-data-gov-ie-revenue-annual-reports",
+        "iaMirror": {
+          "itemIdentifier": "civgraph-data-gov-ie-raw-sources",
+          "itemUrl": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+          "mirrorStatus": "mirrored",
+          "verifiedAt": "2026-06-28T02:10:52.845Z",
+          "fileCount": 7
+        }
+      }
+    },
     {
       "id": "raw-source:data-gov-ie:revenue-net-receipts-by-county",
       "slug": "raw-source-data-gov-ie-revenue-net-receipts-by-county",

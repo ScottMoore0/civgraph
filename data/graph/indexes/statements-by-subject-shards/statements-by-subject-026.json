@@ -1,9 +1,84 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-31T23:28:04.992Z",
+  "generatedAt": "2026-08-04T22:32:04.401Z",
   "shard": 26,
   "totalSubjects": 250,
   "items": {
+    "cg:election:dail-eireann-2014-10-10-overall": [
+      {
+        "id": "cg:statement:2668abd25d22bc85f78d",
+        "propertyId": "cg:property:date",
+        "propertyLabel": "date",
+        "valueType": "entity",
+        "valueId": "cg:date-month:2014-10",
+        "valueLabel": "2014-10-10",
+        "valueText": "2014-10-10",
+        "valueDescription": "Entities dated October 2014",
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:3183a042f48f9c4f0f3e",
+        "propertyId": "cg:property:elected-body",
+        "propertyLabel": "elected body",
+        "valueType": "entity",
+        "valueId": "cg:body:dail-eireann",
+        "valueLabel": "Dáil Éireann",
+        "valueText": "Dáil Éireann",
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:d9331537c71d83ff60c9",
+        "propertyId": "cg:property:instance-of",
+        "propertyLabel": "instance of",
+        "valueType": "entity",
+        "valueId": "cg:entity-type:election",
+        "valueLabel": "Election",
+        "valueText": "Election",
+        "valueDescription": "An election, referendum, recall petition, or election result bundle represented in Browse.",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:430738354134e4ee34d7",
+        "propertyId": "cg:property:name",
+        "propertyLabel": "name",
+        "valueType": "string",
+        "valueLabel": "Overall results - 2014 Irish by-elections",
+        "valueText": "Overall results - 2014 Irish by-elections",
+        "referenceCount": 0
+      },
+      {
+        "id": "cg:statement:290ed62c801ac18f5ab3",
+        "propertyId": "cg:property:year",
+        "propertyLabel": "year",
+        "valueType": "entity",
+        "valueId": "cg:date-year:2014",
+        "valueLabel": "2014",
+        "valueText": "2014",
+        "valueDescription": "Entities dated 2014",
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      }
+    ],
     "cg:election:dail-eireann-2014-10-10-roscommon-south-leitrim": [
       {
         "id": "cg:statement:9871f8c3ce59003e8b18",
@@ -10361,40 +10436,6 @@
         ]
       },
       {
-        "id": "cg:statement:74b48b13ddc8eb012a9b",
-        "propertyId": "cg:property:has-contest",
-        "propertyLabel": "has contest",
-        "valueType": "entity",
-        "valueId": "cg:contest:dail-eireann-2024-11-29-dail-eireann-2024-11-29-wicklow-wexford3",
-        "valueLabel": "Wicklow Wexford3",
-        "valueText": "Wicklow Wexford3",
-        "valueDescription": "Wicklow Wexford3 - 2024 Irish general election",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "Wicklow Wexford3",
-            "valueText": "Wicklow Wexford3"
-          },
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "2024-11-29",
-            "valueText": "2024-11-29"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-election-index",
-            "sourceTitle": "Civgraph Browse election index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
         "id": "cg:statement:775f7ad5a19bacf9a8c3",
         "propertyId": "cg:property:has-contest",
         "propertyLabel": "has contest",
@@ -10988,6 +11029,40 @@
             "valueType": "string",
             "valueLabel": "Overall results",
             "valueText": "Overall results"
+          },
+          {
+            "propertyId": "cg:property:date",
+            "propertyLabel": "date",
+            "valueType": "date",
+            "valueLabel": "2024-11-29",
+            "valueText": "2024-11-29"
+          }
+        ],
+        "referenceCount": 1,
+        "references": [
+          {
+            "sourceId": "cg:source:civgraph-browse-election-index",
+            "sourceTitle": "Civgraph Browse election index",
+            "sourceKind": "generated-browse-index"
+          }
+        ]
+      },
+      {
+        "id": "cg:statement:dc800e90d59aef4a623a",
+        "propertyId": "cg:property:has-contest",
+        "propertyLabel": "has contest",
+        "valueType": "entity",
+        "valueId": "cg:contest:dail-eireann-2024-11-29-dail-eireann-2024-11-29-wicklow-wexford",
+        "valueLabel": "Wicklow Wexford",
+        "valueText": "Wicklow Wexford",
+        "valueDescription": "Wicklow Wexford - 2024 Irish general election",
+        "qualifiers": [
+          {
+            "propertyId": "cg:property:constituency",
+            "propertyLabel": "constituency",
+            "valueType": "string",
+            "valueLabel": "Wicklow Wexford",
+            "valueText": "Wicklow Wexford"
           },
           {
             "propertyId": "cg:property:date",
@@ -14440,9 +14515,9 @@
         ]
       }
     ],
-    "cg:election:dail-eireann-2024-11-29-wicklow-wexford3": [
+    "cg:election:dail-eireann-2024-11-29-wicklow-wexford": [
       {
-        "id": "cg:statement:2d2ae4b4a2f8dfb5160e",
+        "id": "cg:statement:5ce654998f30c111c991",
         "propertyId": "cg:property:date",
         "propertyLabel": "date",
         "valueType": "entity",
@@ -14460,7 +14535,7 @@
         ]
       },
       {
-        "id": "cg:statement:45fffbec67fd2b6afc09",
+        "id": "cg:statement:da143b5125e51ddb6cbe",
         "propertyId": "cg:property:elected-body",
         "propertyLabel": "elected body",
         "valueType": "entity",
@@ -14477,7 +14552,7 @@
         ]
       },
       {
-        "id": "cg:statement:72626832014dd22ceed1",
+        "id": "cg:statement:c62871b0629777cbc412",
         "propertyId": "cg:property:instance-of",
         "propertyLabel": "instance of",
         "valueType": "entity",
@@ -14488,16 +14563,16 @@
         "referenceCount": 0
       },
       {
-        "id": "cg:statement:c07a10cd865570d92261",
+        "id": "cg:statement:99d09c461b7ffa618908",
         "propertyId": "cg:property:name",
         "propertyLabel": "name",
         "valueType": "string",
-        "valueLabel": "Wicklow Wexford3 - 2024 Irish general election",
-        "valueText": "Wicklow Wexford3 - 2024 Irish general election",
+        "valueLabel": "Wicklow Wexford - 2024 Irish general election",
+        "valueText": "Wicklow Wexford - 2024 Irish general election",
         "referenceCount": 0
       },
       {
-        "id": "cg:statement:cc2293364ed832841428",
+        "id": "cg:statement:d9915bff14c2c6c54e1c",
         "propertyId": "cg:property:year",
         "propertyLabel": "year",
         "valueType": "entity",
@@ -26331,150 +26406,6 @@
       },
       {
         "id": "cg:statement:3b8f5ce1a04de036f4d2",
-        "propertyId": "cg:property:year",
-        "propertyLabel": "year",
-        "valueType": "entity",
-        "valueId": "cg:date-year:1940",
-        "valueLabel": "1940",
-        "valueText": "1940",
-        "valueDescription": "Entities dated 1940",
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-election-index",
-            "sourceTitle": "Civgraph Browse election index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      }
-    ],
-    "cg:election:house-of-commons-of-the-united-kingdom-1940-11-02": [
-      {
-        "id": "cg:statement:1d6ae0200d317ade38db",
-        "propertyId": "cg:property:date",
-        "propertyLabel": "date",
-        "valueType": "entity",
-        "valueId": "cg:date-month:1940-11",
-        "valueLabel": "1940-11-02",
-        "valueText": "1940-11-02",
-        "valueDescription": "Entities dated November 1940",
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-election-index",
-            "sourceTitle": "Civgraph Browse election index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:0fff7ad7eb6070b01eab",
-        "propertyId": "cg:property:elected-body",
-        "propertyLabel": "elected body",
-        "valueType": "entity",
-        "valueId": "cg:body:house-of-commons",
-        "valueLabel": "House of Commons",
-        "valueText": "House of Commons",
-        "valueDescription": "House of Commons of the United Kingdom",
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-election-index",
-            "sourceTitle": "Civgraph Browse election index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:4f8225b6043848ed3799",
-        "propertyId": "cg:property:has-contest",
-        "propertyLabel": "has contest",
-        "valueType": "entity",
-        "valueId": "cg:contest:house-of-commons-of-the-united-kingdom-1940-11-02-house-of-commons-of-th-b181b77ad8f0",
-        "valueLabel": "Overall results",
-        "valueText": "Overall results",
-        "valueDescription": "Overall results - 1940 Queen's University of Belfast by-election",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "Overall results",
-            "valueText": "Overall results"
-          },
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "1940-11-02",
-            "valueText": "1940-11-02"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-election-index",
-            "sourceTitle": "Civgraph Browse election index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:db54cbd1ee26384b8c85",
-        "propertyId": "cg:property:has-contest",
-        "propertyLabel": "has contest",
-        "valueType": "entity",
-        "valueId": "cg:contest:house-of-commons-of-the-united-kingdom-1940-11-02-house-of-commons-of-th-9c235f9da458",
-        "valueLabel": "Queen's University of Belfast",
-        "valueText": "Queen's University of Belfast",
-        "valueDescription": "Queen's University of Belfast - 1940 Queen's University of Belfast by-election",
-        "qualifiers": [
-          {
-            "propertyId": "cg:property:constituency",
-            "propertyLabel": "constituency",
-            "valueType": "string",
-            "valueLabel": "Queen's University of Belfast",
-            "valueText": "Queen's University of Belfast"
-          },
-          {
-            "propertyId": "cg:property:date",
-            "propertyLabel": "date",
-            "valueType": "date",
-            "valueLabel": "1940-11-02",
-            "valueText": "1940-11-02"
-          }
-        ],
-        "referenceCount": 1,
-        "references": [
-          {
-            "sourceId": "cg:source:civgraph-browse-election-index",
-            "sourceTitle": "Civgraph Browse election index",
-            "sourceKind": "generated-browse-index"
-          }
-        ]
-      },
-      {
-        "id": "cg:statement:803122d17289a34cbce0",
-        "propertyId": "cg:property:instance-of",
-        "propertyLabel": "instance of",
-        "valueType": "entity",
-        "valueId": "cg:entity-type:election",
-        "valueLabel": "Election",
-        "valueText": "Election",
-        "valueDescription": "An election, referendum, recall petition, or election result bundle represented in Browse.",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:eb5559e73af79d56bd16",
-        "propertyId": "cg:property:name",
-        "propertyLabel": "name",
-        "valueType": "string",
-        "valueLabel": "1940 Queen's University of Belfast by-election",
-        "valueText": "1940 Queen's University of Belfast by-election",
-        "referenceCount": 0
-      },
-      {
-        "id": "cg:statement:9a70876904ee3e758d54",
         "propertyId": "cg:property:year",
         "propertyLabel": "year",
         "valueType": "entity",

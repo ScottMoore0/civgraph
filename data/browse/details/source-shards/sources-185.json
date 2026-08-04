@@ -1,10 +1,201 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-04T09:31:58.144Z",
+  "generatedAt": "2026-08-04T22:28:20.434Z",
   "kind": "sources",
   "shard": "sources-185.json",
   "total": 200,
   "items": [
+    {
+      "id": "map-source:osni-1m-locations",
+      "slug": "map-source-osni-1m-locations",
+      "type": "map-source",
+      "title": "OSNI 1:1M Thematic — Locations source files",
+      "subtitle": "OSNI Raster Maps / OSNI",
+      "category": "Map sources",
+      "provider": [
+        "OSNI"
+      ],
+      "description": "Small-scale (1:1,000,000) thematic map labelling major settlements and locations across Northern Ireland. Re-tiled as an interactive overlay at zoom 6–11.",
+      "sourceMapId": "osni-1m-locations",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "O1",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "OSNI Open Data — 1:1M Locations",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-1-1million-raster-location"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "label",
+          "url": "Georeferenced JPEG (ZIP)"
+        },
+        {
+          "label": "file",
+          "url": "https://admin.opendatani.gov.uk/dataset/8a435c6c-fb4c-465b-aba1-4f71438d9eeb/resource/cc266db3-dcc9-4b6d-8458-ff954ce0f5b9/download/osniopendata_1million_locations.zip"
+        },
+        {
+          "label": "Internet Archive: osniopendata_1million_locations.zip",
+          "url": "https://archive.org/download/civgraph-osni-maps/osni-1m-locations/osniopendata_1million_locations.zip"
+        },
+        {
+          "label": "xyz",
+          "url": "https://data.civgraph.net/data/maps/osni-raster/1m-locations/{z}/{x}/{y}.png"
+        }
+      ],
+      "interactiveUrl": "/#layers=osni-1m-locations",
+      "browseUrl": "/browse/sources/map-source-osni-1m-locations",
+      "rawMetadata": {
+        "id": "osni-1m-locations",
+        "name": "OSNI 1:1M Thematic — Locations",
+        "slug": "osni-1m-locations",
+        "category": "osni-raster",
+        "provider": [
+          "OSNI"
+        ],
+        "description": "Small-scale (1:1,000,000) thematic map labelling major settlements and locations across Northern Ireland. Re-tiled as an interactive overlay at zoom 6–11.",
+        "files": {
+          "xyz": "https://data.civgraph.net/data/maps/osni-raster/1m-locations/{z}/{x}/{y}.png"
+        },
+        "rasterStyle": {
+          "opacity": 0.8,
+          "minZoom": 4,
+          "maxZoom": 14,
+          "maxNativeZoom": 11
+        },
+        "bounds": [
+          [
+            54,
+            -8.87
+          ],
+          [
+            55.45,
+            -5.41
+          ]
+        ],
+        "keywords": [
+          "osni",
+          "1:1m",
+          "1 million",
+          "thematic",
+          "locations",
+          "settlements",
+          "placenames"
+        ],
+        "references": [
+          {
+            "label": "OSNI Open Data — 1:1M Locations",
+            "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-1-1million-raster-location",
+            "note": ""
+          }
+        ],
+        "sourceDownloads": [
+          {
+            "label": "Georeferenced JPEG (ZIP)",
+            "file": "https://admin.opendatani.gov.uk/dataset/8a435c6c-fb4c-465b-aba1-4f71438d9eeb/resource/cc266db3-dcc9-4b6d-8458-ff954ce0f5b9/download/osniopendata_1million_locations.zip"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-source:osni-1m-natural-environment",
+      "slug": "map-source-osni-1m-natural-environment",
+      "type": "map-source",
+      "title": "OSNI 1:1M Thematic — Natural Environment source files",
+      "subtitle": "OSNI Raster Maps / OSNI",
+      "category": "Map sources",
+      "provider": [
+        "OSNI"
+      ],
+      "description": "Small-scale (1:1,000,000) thematic map of Northern Ireland’s natural environment — drainage, lakes, mountains, and broad land cover. Re-tiled as an interactive overlay at zoom 6–11.",
+      "sourceMapId": "osni-1m-natural-environment",
+      "thumbnail": {
+        "kind": "placeholder",
+        "label": "O1",
+        "type": "map"
+      },
+      "references": [
+        {
+          "label": "OSNI Open Data — 1:1M Natural Environment",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-1-1million-raster-natural-environment"
+        }
+      ],
+      "downloads": [
+        {
+          "label": "label",
+          "url": "Georeferenced JPEG"
+        },
+        {
+          "label": "file",
+          "url": "https://admin.opendatani.gov.uk/dataset/c7aacf24-b53d-47bf-b394-7a1adabb4bdc/resource/d9b365af-506c-46c4-b2eb-72e8955fae63/download/osniopendata_1million_naturalenvironment.zip"
+        },
+        {
+          "label": "Internet Archive: osniopendata_1million_naturalenvironment.zip",
+          "url": "https://archive.org/download/civgraph-osni-maps/osni-1m-natural-environment/osniopendata_1million_naturalenvironment.zip"
+        },
+        {
+          "label": "xyz",
+          "url": "https://data.civgraph.net/data/maps/osni-raster/1m-natural-environment/{z}/{x}/{y}.png"
+        }
+      ],
+      "interactiveUrl": "/#layers=osni-1m-natural-environment",
+      "browseUrl": "/browse/sources/map-source-osni-1m-natural-environment",
+      "rawMetadata": {
+        "id": "osni-1m-natural-environment",
+        "name": "OSNI 1:1M Thematic — Natural Environment",
+        "slug": "osni-1m-natural-environment",
+        "category": "osni-raster",
+        "provider": [
+          "OSNI"
+        ],
+        "description": "Small-scale (1:1,000,000) thematic map of Northern Ireland’s natural environment — drainage, lakes, mountains, and broad land cover. Re-tiled as an interactive overlay at zoom 6–11.",
+        "files": {
+          "xyz": "https://data.civgraph.net/data/maps/osni-raster/1m-natural-environment/{z}/{x}/{y}.png"
+        },
+        "rasterStyle": {
+          "opacity": 0.8,
+          "minZoom": 4,
+          "maxZoom": 14,
+          "maxNativeZoom": 11
+        },
+        "bounds": [
+          [
+            54,
+            -8.87
+          ],
+          [
+            55.45,
+            -5.41
+          ]
+        ],
+        "keywords": [
+          "osni",
+          "1:1m",
+          "1 million",
+          "thematic",
+          "natural environment",
+          "rivers",
+          "lakes",
+          "mountains"
+        ],
+        "references": [
+          {
+            "label": "OSNI Open Data — 1:1M Natural Environment",
+            "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-1-1million-raster-natural-environment",
+            "note": ""
+          }
+        ],
+        "sourceDownloads": [
+          {
+            "label": "Georeferenced JPEG",
+            "file": "https://admin.opendatani.gov.uk/dataset/c7aacf24-b53d-47bf-b394-7a1adabb4bdc/resource/d9b365af-506c-46c4-b2eb-72e8955fae63/download/osniopendata_1million_naturalenvironment.zip"
+          }
+        ]
+      }
+    },
     {
       "id": "map-source:osni-1m-parliamentary",
       "slug": "map-source-osni-1m-parliamentary",
@@ -21679,516 +21870,6 @@
           }
         ],
         "labelProperty": "NAME"
-      }
-    },
-    {
-      "id": "map-source:translink-rail-platforms",
-      "slug": "map-source-translink-rail-platforms",
-      "type": "map-source",
-      "title": "NI Railways Platforms source files",
-      "subtitle": "Transport / Translink",
-      "category": "Map sources",
-      "provider": [
-        "Translink"
-      ],
-      "description": "NI Railways Platforms — public transport infrastructure published by Translink. 1 related provider/source row is staged as provenance for this existing Civgraph record; provider: Open Data NI; formats: CSV, GEOJSON; 1 provider dataset link preserved as references; licence: UK Open Government Licence (OGL); relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
-      "sourceMapId": "translink-rail-platforms",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "NR",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "Source — admin.opendatani.gov.uk",
-          "url": "https://admin.opendatani.gov.uk/"
-        },
-        {
-          "label": "Existing Civgraph record: NI Railways Platforms source files",
-          "url": "/browse/maps/translink-rail-platforms",
-          "source": "Civgraph",
-          "role": "matched-existing-record"
-        },
-        {
-          "label": "Existing Civgraph source record: map-source:translink-rail-platforms",
-          "url": "/browse/sources/map-source-translink-rail-platforms",
-          "source": "Civgraph",
-          "role": "matched-source-record"
-        },
-        {
-          "label": "Provider dataset: Northern Ireland Railways Platforms",
-          "url": "https://admin.opendatani.gov.uk/dataset/northern-ireland-railways-platforms",
-          "source": "Open Data NI",
-          "role": "canonical-provider-dataset",
-          "type": "CSV",
-          "note": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval / licence: UK Open Government Licence (OGL)"
-        },
-        {
-          "label": "Licence: UK Open Government Licence (OGL)",
-          "url": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
-          "source": "Open Data NI",
-          "role": "source-licence"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/transport-translink/translink-rail-platforms.fgb"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/transport-translink/translink-rail-platforms.geojson"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/transport-translink/translink-rail-platforms.geojson"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/transport-translink/translink-rail-platforms.fgb"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/transport-translink/translink-rail-platforms.geojson"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/transport-translink/translink-rail-platforms.geojson"
-        }
-      ],
-      "interactiveUrl": "/#layers=translink-rail-platforms",
-      "browseUrl": "/browse/sources/map-source-translink-rail-platforms",
-      "alreadyOnSiteEnrichments": [
-        {
-          "sourceTargetId": "map-source:translink-rail-platforms",
-          "targetEntityKind": "map",
-          "targetEntityId": "translink-rail-platforms",
-          "targetTitle": "NI Railways Platforms source files",
-          "targetBrowseUrl": "/browse/maps/translink-rail-platforms",
-          "sourceItemCount": 1,
-          "confidence": "high-confidence",
-          "safetyClasses": [
-            "high-confidence enrichment candidate"
-          ],
-          "formats": [
-            "CSV",
-            "GEOJSON"
-          ],
-          "providers": [
-            "Open Data NI"
-          ],
-          "categories": [
-            "spatial"
-          ],
-          "enrichmentTypes": [
-            "alternate-format metadata",
-            "download/source-file metadata",
-            "geospatial source-format metadata",
-            "raw-source viewport candidate metadata",
-            "scale/generalisation/edition metadata",
-            "schema/table/attribute metadata",
-            "source/provenance metadata"
-          ],
-          "provenanceSummary": "1 related provider/source row is staged as provenance for this existing Civgraph record; provider: Open Data NI; formats: CSV, GEOJSON; 1 provider dataset link preserved as references; licence: UK Open Government Licence (OGL); relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
-          "sourceItems": [
-            {
-              "auditRowNumber": 664,
-              "title": "Northern Ireland Railways Platforms",
-              "provider": "Open Data NI",
-              "category": "spatial",
-              "formats": [
-                "CSV",
-                "GEOJSON"
-              ],
-              "safetyClass": "high-confidence enrichment candidate",
-              "approvalStatus": "user-approved-related-source-enrichment",
-              "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
-              "providerDatasetUrl": "https://admin.opendatani.gov.uk/dataset/northern-ireland-railways-platforms",
-              "licenseTitle": "UK Open Government Licence (OGL)",
-              "licenseUrl": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
-              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
-              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-              "enrichmentTypes": [
-                "alternate-format metadata",
-                "download/source-file metadata",
-                "geospatial source-format metadata",
-                "raw-source viewport candidate metadata",
-                "scale/generalisation/edition metadata",
-                "schema/table/attribute metadata",
-                "source/provenance metadata"
-              ],
-              "detectedFamilies": [
-                "habitat-protected-sites"
-              ],
-              "siteFamiliesPresent": [
-                "habitat-protected-sites"
-              ],
-              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
-            }
-          ],
-          "evidence": [
-            {
-              "kind": "database-map",
-              "id": "translink-rail-platforms",
-              "title": "NI Railways Platforms",
-              "score": 0.8
-            },
-            {
-              "kind": "browse-source",
-              "id": "map-source:translink-rail-platforms",
-              "title": "NI Railways Platforms source files",
-              "score": 0.8
-            },
-            {
-              "kind": "browse-map",
-              "id": "translink-rail-platforms",
-              "title": "NI Railways Platforms",
-              "score": 0.8
-            }
-          ]
-        }
-      ],
-      "sourceItems": [
-        {
-          "auditRowNumber": 664,
-          "title": "Northern Ireland Railways Platforms",
-          "provider": "Open Data NI",
-          "category": "spatial",
-          "formats": [
-            "CSV",
-            "GEOJSON"
-          ],
-          "safetyClass": "high-confidence enrichment candidate",
-          "approvalStatus": "user-approved-related-source-enrichment",
-          "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
-          "providerDatasetUrl": "https://admin.opendatani.gov.uk/dataset/northern-ireland-railways-platforms",
-          "licenseTitle": "UK Open Government Licence (OGL)",
-          "licenseUrl": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
-          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "enrichmentTypes": [
-            "alternate-format metadata",
-            "download/source-file metadata",
-            "geospatial source-format metadata",
-            "raw-source viewport candidate metadata",
-            "scale/generalisation/edition metadata",
-            "schema/table/attribute metadata",
-            "source/provenance metadata"
-          ],
-          "detectedFamilies": [
-            "habitat-protected-sites"
-          ],
-          "siteFamiliesPresent": [
-            "habitat-protected-sites"
-          ],
-          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
-        }
-      ],
-      "keywords": [
-        "already-on-site-enrichment",
-        "duplicate-source-match",
-        "alternate-format metadata",
-        "download/source-file metadata",
-        "geospatial source-format metadata",
-        "raw-source viewport candidate metadata",
-        "scale/generalisation/edition metadata",
-        "schema/table/attribute metadata",
-        "source/provenance metadata"
-      ],
-      "publicationStatus": "enriched",
-      "rawMetadata": {
-        "id": "translink-rail-platforms",
-        "name": "NI Railways Platforms",
-        "slug": "translink-rail-platforms",
-        "category": "transport",
-        "provider": [
-          "Translink"
-        ],
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/transport-translink/translink-rail-platforms.fgb",
-          "downloads": {
-            "geojson": "https://data.civgraph.net/data/maps/transport-translink/translink-rail-platforms.geojson"
-          },
-          "geojson": "https://data.civgraph.net/data/maps/transport-translink/translink-rail-platforms.geojson"
-        },
-        "style": {
-          "color": "#0D47A1",
-          "weight": 1,
-          "fillOpacity": 0.4
-        },
-        "keywords": [
-          "translink",
-          "public transport",
-          "transit",
-          "ni railways platforms",
-          "northern ireland"
-        ],
-        "description": "NI Railways Platforms — public transport infrastructure published by Translink.",
-        "references": [
-          {
-            "label": "Source — admin.opendatani.gov.uk",
-            "url": "https://admin.opendatani.gov.uk/",
-            "note": ""
-          }
-        ],
-        "labelProperty": "NAME"
-      }
-    },
-    {
-      "id": "map-source:translink-rail-signal-posts",
-      "slug": "map-source-translink-rail-signal-posts",
-      "type": "map-source",
-      "title": "NI Railways Signal Posts source files",
-      "subtitle": "Transport / Translink",
-      "category": "Map sources",
-      "provider": [
-        "Translink"
-      ],
-      "description": "NI Railways Signal Posts — public transport infrastructure published by Translink. 1 related provider/source row is staged as provenance for this existing Civgraph record; provider: Open Data NI; formats: CSV, GEOJSON; 1 provider dataset link preserved as references; licence: UK Open Government Licence (OGL); relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
-      "sourceMapId": "translink-rail-signal-posts",
-      "thumbnail": {
-        "kind": "placeholder",
-        "label": "NR",
-        "type": "map"
-      },
-      "references": [
-        {
-          "label": "Source — admin.opendatani.gov.uk",
-          "url": "https://admin.opendatani.gov.uk/"
-        },
-        {
-          "label": "Existing Civgraph record: NI Railways Signal Posts source files",
-          "url": "/browse/maps/translink-rail-signal-posts",
-          "source": "Civgraph",
-          "role": "matched-existing-record"
-        },
-        {
-          "label": "Existing Civgraph source record: map-source:translink-rail-signal-posts",
-          "url": "/browse/sources/map-source-translink-rail-signal-posts",
-          "source": "Civgraph",
-          "role": "matched-source-record"
-        },
-        {
-          "label": "Provider dataset: Northern Ireland Railways NIR Signal Posts",
-          "url": "https://admin.opendatani.gov.uk/dataset/northern-ireland-railways-nir-signal-posts",
-          "source": "Open Data NI",
-          "role": "canonical-provider-dataset",
-          "type": "CSV",
-          "note": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval / licence: UK Open Government Licence (OGL)"
-        },
-        {
-          "label": "Licence: UK Open Government Licence (OGL)",
-          "url": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
-          "source": "Open Data NI",
-          "role": "source-licence"
-        }
-      ],
-      "downloads": [
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/transport-translink/translink-rail-signal-posts.fgb"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/transport-translink/translink-rail-signal-posts.geojson"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/transport-translink/translink-rail-signal-posts.geojson"
-        },
-        {
-          "label": "fgb",
-          "url": "https://data.civgraph.net/data/maps/transport-translink/translink-rail-signal-posts.fgb"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/transport-translink/translink-rail-signal-posts.geojson"
-        },
-        {
-          "label": "geojson",
-          "url": "https://data.civgraph.net/data/maps/transport-translink/translink-rail-signal-posts.geojson"
-        }
-      ],
-      "interactiveUrl": "/#layers=translink-rail-signal-posts",
-      "browseUrl": "/browse/sources/map-source-translink-rail-signal-posts",
-      "alreadyOnSiteEnrichments": [
-        {
-          "sourceTargetId": "map-source:translink-rail-signal-posts",
-          "targetEntityKind": "map",
-          "targetEntityId": "translink-rail-signal-posts",
-          "targetTitle": "NI Railways Signal Posts source files",
-          "targetBrowseUrl": "/browse/maps/translink-rail-signal-posts",
-          "sourceItemCount": 1,
-          "confidence": "high-confidence",
-          "safetyClasses": [
-            "variant/source enrichment review"
-          ],
-          "formats": [
-            "CSV",
-            "GEOJSON"
-          ],
-          "providers": [
-            "Open Data NI"
-          ],
-          "categories": [
-            "spatial"
-          ],
-          "enrichmentTypes": [
-            "alternate-format metadata",
-            "download/source-file metadata",
-            "geospatial source-format metadata",
-            "raw-source viewport candidate metadata",
-            "scale/generalisation/edition metadata",
-            "schema/table/attribute metadata",
-            "source/provenance metadata"
-          ],
-          "provenanceSummary": "1 related provider/source row is staged as provenance for this existing Civgraph record; provider: Open Data NI; formats: CSV, GEOJSON; 1 provider dataset link preserved as references; licence: UK Open Government Licence (OGL); relationship: related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval.",
-          "sourceItems": [
-            {
-              "auditRowNumber": 663,
-              "title": "Northern Ireland Railways NIR Signal Posts",
-              "provider": "Open Data NI",
-              "category": "spatial",
-              "formats": [
-                "CSV",
-                "GEOJSON"
-              ],
-              "safetyClass": "variant/source enrichment review",
-              "approvalStatus": "user-approved-related-source-enrichment",
-              "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
-              "providerDatasetUrl": "https://admin.opendatani.gov.uk/dataset/northern-ireland-railways-nir-signal-posts",
-              "licenseTitle": "UK Open Government Licence (OGL)",
-              "licenseUrl": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
-              "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-              "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
-              "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-              "enrichmentTypes": [
-                "alternate-format metadata",
-                "download/source-file metadata",
-                "geospatial source-format metadata",
-                "raw-source viewport candidate metadata",
-                "scale/generalisation/edition metadata",
-                "schema/table/attribute metadata",
-                "source/provenance metadata"
-              ],
-              "detectedFamilies": [
-                "habitat-protected-sites"
-              ],
-              "siteFamiliesPresent": [
-                "habitat-protected-sites"
-              ],
-              "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
-            }
-          ],
-          "evidence": [
-            {
-              "kind": "database-map",
-              "id": "translink-rail-signal-posts",
-              "title": "NI Railways Signal Posts",
-              "score": 0.71
-            },
-            {
-              "kind": "browse-source",
-              "id": "map-source:translink-rail-signal-posts",
-              "title": "NI Railways Signal Posts source files",
-              "score": 0.71
-            },
-            {
-              "kind": "browse-map",
-              "id": "translink-rail-signal-posts",
-              "title": "NI Railways Signal Posts",
-              "score": 0.71
-            }
-          ]
-        }
-      ],
-      "sourceItems": [
-        {
-          "auditRowNumber": 663,
-          "title": "Northern Ireland Railways NIR Signal Posts",
-          "provider": "Open Data NI",
-          "category": "spatial",
-          "formats": [
-            "CSV",
-            "GEOJSON"
-          ],
-          "safetyClass": "variant/source enrichment review",
-          "approvalStatus": "user-approved-related-source-enrichment",
-          "relationship": "related source/provenance enrichment for the matched existing Civgraph record; not a duplicate parent or runtime-layer approval",
-          "providerDatasetUrl": "https://admin.opendatani.gov.uk/dataset/northern-ireland-railways-nir-signal-posts",
-          "licenseTitle": "UK Open Government Licence (OGL)",
-          "licenseUrl": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
-          "recommendedAction": "Compare provider/date/scale/generalisation/schema; publish only as variant/child/source if materially different.",
-          "sourcePlacement": "Interactive map if dedupe passes and size/geometry is suitable; otherwise source/download record.",
-          "geographyRecommendation": "Use provider extent, geometry type, year, and existing Civgraph family as matching keys before creating new records.",
-          "enrichmentTypes": [
-            "alternate-format metadata",
-            "download/source-file metadata",
-            "geospatial source-format metadata",
-            "raw-source viewport candidate metadata",
-            "scale/generalisation/edition metadata",
-            "schema/table/attribute metadata",
-            "source/provenance metadata"
-          ],
-          "detectedFamilies": [
-            "habitat-protected-sites"
-          ],
-          "siteFamiliesPresent": [
-            "habitat-protected-sites"
-          ],
-          "refinedStatus": "family already present; review as exact-or-variant, not automatically new"
-        }
-      ],
-      "keywords": [
-        "already-on-site-enrichment",
-        "duplicate-source-match",
-        "alternate-format metadata",
-        "download/source-file metadata",
-        "geospatial source-format metadata",
-        "raw-source viewport candidate metadata",
-        "scale/generalisation/edition metadata",
-        "schema/table/attribute metadata",
-        "source/provenance metadata"
-      ],
-      "publicationStatus": "enriched",
-      "rawMetadata": {
-        "id": "translink-rail-signal-posts",
-        "name": "NI Railways Signal Posts",
-        "slug": "translink-rail-signal-posts",
-        "category": "transport",
-        "provider": [
-          "Translink"
-        ],
-        "files": {
-          "fgb": "https://data.civgraph.net/data/maps/transport-translink/translink-rail-signal-posts.fgb",
-          "downloads": {
-            "geojson": "https://data.civgraph.net/data/maps/transport-translink/translink-rail-signal-posts.geojson"
-          },
-          "geojson": "https://data.civgraph.net/data/maps/transport-translink/translink-rail-signal-posts.geojson"
-        },
-        "style": {
-          "color": "#9C27B0",
-          "weight": 1,
-          "fillOpacity": 0.4
-        },
-        "keywords": [
-          "translink",
-          "public transport",
-          "transit",
-          "ni railways signal posts",
-          "northern ireland"
-        ],
-        "description": "NI Railways Signal Posts — public transport infrastructure published by Translink.",
-        "references": [
-          {
-            "label": "Source — admin.opendatani.gov.uk",
-            "url": "https://admin.opendatani.gov.uk/",
-            "note": ""
-          }
-        ],
-        "labelProperty": "Shape"
       }
     }
   ]
