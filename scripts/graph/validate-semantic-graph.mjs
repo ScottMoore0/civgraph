@@ -193,6 +193,17 @@ async function main() {
     console.error('Civgraph semantic graph validation failed:');
     for (const error of errors.slice(0, 120)) console.error(`- ${error}`);
     if (errors.length > 120) console.error(`- ...and ${errors.length - 120} more errors.`);
+    // Say what to run. Nearly every failure here is simply a stale graph: data/graph is
+    // derived from data/browse and data/database, and `npm run build` does NOT rebuild
+    // it. Without this line the reader gets a list of missing mappings and no hint that
+    // one command fixes all of them -- which is exactly how it played out on 2026-08-04,
+    // when a renamed constituency failed the gate and the builder had to be hunted for.
+    console.error('');
+    console.error('If the inputs changed (data/browse, data/database, elections, maps), the graph is');
+    console.error('simply stale -- it is not rebuilt by `npm run build`. Rebuild it with:');
+    console.error('');
+    console.error('    npm run build:graph');
+    console.error('');
     process.exitCode = 1;
     return;
   }
