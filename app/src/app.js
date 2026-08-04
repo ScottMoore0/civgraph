@@ -2962,6 +2962,44 @@ class Test2App {
     const path = `${location.pathname}${location.search || ''}`;
     const next = params.toString() ? `${path}#${params.toString()}` : path;
     history.replaceState(null, '', next);
+    this.syncDocumentTitle();
+  }
+
+  /**
+   * T1-05 / T2-07: reflect the current view in document.title.
+   *
+   * The title was the literal string "Civgraph" in every state, so a tab, a
+   * bookmark and a shared link were indistinguishable no matter what was open.
+   * Called from updateURLState, which already runs whenever the view changes, so
+   * the title and the URL cannot drift apart.
+   */
+  syncDocumentTitle() {
+    const SUFFIX = 'Civgraph';
+    let subject = null;
+    try {
+      const election = this.elections?.activeBundle;
+      if (election?.displayTitle) {
+        subject = election.displayTitle;
+      } else if (this.currentDetailMapId) {
+        subject = this.metadataService?.getLayer?.(this.currentDetailMapId)?.name
+          || this.currentDetailMapId;
+      } else {
+        const loaded = this.getLoadedLayerIds?.() || [];
+        if (loaded.length === 1) {
+          subject = this.metadataService?.getLayer?.(loaded[0])?.name || null;
+        } else if (loaded.length > 1) {
+          subject = `${loaded.length} layers`;
+        } else if (this.searchQuery) {
+          subject = `Search: ${this.searchQuery}`;
+        }
+      }
+    } catch {
+      subject = null;
+    }
+    const next = subject
+      ? `${String(subject).replace(/\s+/g, ' ').trim()} — ${SUFFIX}`
+      : `${SUFFIX} — Maps of Irish administrative geography and history`;
+    if (document.title !== next) document.title = next;
   }
 
   getCurrentURLParams() {

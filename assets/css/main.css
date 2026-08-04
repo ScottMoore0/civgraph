@@ -2038,6 +2038,34 @@ button.catalogue-flat__toc-toplink {
   margin-bottom: var(--space-2);
 }
 
+
+/* T1-05: the catalogue heading and lede. Sized to read as a page heading without
+   crowding the search field beneath it; the muted colour is the darkened value from
+   T1-04 so it still clears 4.5:1 on the pane background. */
+.catalogue-intro {
+  padding: 0 0 10px;
+}
+
+.catalogue-intro__heading {
+  margin: 0 0 4px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--color-primary, #1a365d);
+}
+
+.catalogue-intro__lede {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: #5A6678;
+}
+
+@media (max-width: 640px) {
+  .catalogue-intro__heading { font-size: 0.98rem; }
+  .catalogue-intro__lede { font-size: 0.78rem; }
+}
+
 /* ===CRITICAL-END=== marker for scripts/bundle.mjs critical-CSS split.
    Everything above this is inlined in index.html so first paint doesn't
    wait on a stylesheet. Everything below loads async via media=print/onload. */

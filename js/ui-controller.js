@@ -2586,8 +2586,11 @@ class UIController {
         const resultHtml = results.length
             ? results.map(record => this.renderCatalogueSearchResult(record)).join('')
             : '<div class="catalogue-search__empty">No matching maps, elections, features, people, parties, or sources found.</div>';
-        container.innerHTML = '<section class="catalogue-search" aria-live="polite">' +
-            '<div class="catalogue-search__summary"><strong>' + results.length.toLocaleString() + '</strong> result' + (results.length === 1 ? '' : 's') + ' for <span>' + this.escapeHtml(query) + '</span></div>' +
+        // T1-03: aria-live sat on this whole section, so every keystroke re-announced the
+        // entire 80-result list concatenated without separators. It belongs on the summary
+        // alone -- one short sentence -- with aria-atomic so it is read as a unit.
+        container.innerHTML = '<section class="catalogue-search">' +
+            '<div class="catalogue-search__summary" aria-live="polite" aria-atomic="true"><strong>' + results.length.toLocaleString() + '</strong> result' + (results.length === 1 ? '' : 's') + ' for <span>' + this.escapeHtml(query) + '</span></div>' +
             '<div class="catalogue-search__results">' + resultHtml + '</div>' +
         '</section>';
         this.bindFlatViewDelegates(container);
@@ -9872,9 +9875,13 @@ class UIController {
                 return;
             }
 
+            // T1-03: 60ms meant a nine-character query fired nine searches, and with the
+            // live region now on the summary that is nine announcements. 280ms collapses
+            // normal typing into one or two, which is the point of the debounce; it is
+            // still well inside the threshold where the field feels responsive.
             debounceTimer = setTimeout(() => {
                 this.performSearch(query);
-            }, 60);
+            }, 280);
         });
 
         // Clear button
