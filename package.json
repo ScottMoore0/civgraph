@@ -27,7 +27,7 @@
     "deploy:test:pmtiles": "node scripts/upload-test-pmtiles-r2.mjs",
     "verify:test:pmtiles-cdn": "node scripts/verify-test-pmtiles-cdn.mjs",
     "switch:test:pmtiles-cdn": "node scripts/switch-test-pmtiles-to-cdn.mjs",
-    "check": "npm run check:chunked-bounds && npm run test:chunked-fit && npm run check:root && npm run check:pages-assets && npm run check:external-sources && npm run check:approved-publication && npm run check:raw-source-documents && npm run check:medium-priority-publication && npm run check:peatland-geoportal && npm run check:ni-register-interests && npm run check:election-source-enrichments && npm run check:graph && npm run check:c1-coverage && npm run check:test && npm run check:intake-delivery && npm run check:source-paths && npm run check:composite-composition && npm run check:test-index-parity",
+    "check": "npm run check:chunked-bounds && npm run test:chunked-fit && npm run check:root && npm run check:pages-assets && npm run check:external-sources && npm run check:approved-publication && npm run check:raw-source-documents && npm run check:medium-priority-publication && npm run check:peatland-geoportal && npm run check:ni-register-interests && npm run check:election-source-enrichments && npm run check:graph && npm run check:c1-coverage && npm run check:test && npm run check:intake-delivery && npm run check:source-paths && npm run check:composite-composition && npm run check:test-index-parity && npm run check:og-preview",
     "check:election-source-enrichments": "node scripts/validate-election-source-enrichments.mjs",
     "check:chunked-bounds": "node scripts/validate-chunked-map-bounds.mjs",
     "check:root": "node scripts/validate-maplibre-root-promotion.mjs",
@@ -73,7 +73,9 @@
     "sync:thumbnails": "node scripts/upload-tile-pyramid-s3.mjs assets/thumbnails assets/thumbnails --concurrency=16",
     "build:elections-db": "node scripts/build-elections-sqlite.mjs",
     "build:elections": "node scripts/build-test2-election-manifest.mjs && node scripts/build-test2-election-summaries.mjs",
-    "check:test-index-parity": "node scripts/validate-test-index-parity.mjs"
+    "check:test-index-parity": "node scripts/validate-test-index-parity.mjs",
+    "check:og-preview": "node scripts/build-og-preview.mjs --check",
+    "build:og-preview": "node scripts/build-og-preview.mjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.3",

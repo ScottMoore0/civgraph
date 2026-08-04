@@ -114,13 +114,28 @@
   <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
 
   <!-- OpenGraph Meta Tags (Social Sharing) -->
-  <meta property="og:title" content="Civgraph">
+  <meta property="og:site_name" content="Civgraph">
+  <meta property="og:title" content="Civgraph — maps of Irish administrative geography and history">
   <meta property="og:description"
     content="Interactive maps of Northern Ireland and Ireland boundaries including local government districts, parliamentary constituencies, wards, townlands, and historic administrative areas.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://civgraph.net">
   <meta property="og:image" content="https://civgraph.net/assets/images/og-preview.png">
   <meta name="twitter:card" content="summary_large_image">
+  <!-- Dimensions let a crawler lay the card out before it has fetched the image;
+       without them some render a blank frame on the first share. -->
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt"
+    content="The Civgraph map viewer showing county boundaries across the island of Ireland.">
+  <!-- twitter:card was declared with no twitter:image behind it. X does fall back to
+       og:image, but only by convention -- state it. -->
+  <meta name="twitter:title" content="Civgraph — maps of Irish administrative geography and history">
+  <meta name="twitter:description"
+    content="Interactive maps of the administrative geography and history of Ireland and Northern Ireland — boundaries, elections, censuses and archives.">
+  <meta name="twitter:image" content="https://civgraph.net/assets/images/og-preview.png">
+  <meta name="twitter:image:alt"
+    content="The Civgraph map viewer showing county boundaries across the island of Ireland.">
 </head>
 
 <body class="app-shell" data-split-state="balanced">
