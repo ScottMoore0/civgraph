@@ -728,13 +728,13 @@ body.split-dragging * {
   letter-spacing: 0.04em;
   color: var(--color-primary, #1a365d);
   text-decoration: none;
-  /* T3-03: these rendered 18px tall, under the 24px minimum in WCAG 2.2 SC 2.5.8.
-     They sit in a navigation list rather than inline in prose, so the inline-link
-     exception does not apply. Padding raises the hit area without moving the text:
-     the flex row is centre-aligned, so 3px each side is absorbed by the row. */
-  display: inline-block;
-  padding-top: 3px;
-  padding-bottom: 3px;
+  /* T3-03: these rendered 18px tall (15px for the button variant), under the 24px
+     minimum in WCAG 2.2 SC 2.5.8. They sit in a navigation list rather than inline in
+     prose, so the inline-link exception does not apply. min-height rather than padding:
+     padding alone depends on the line box, and 3px each side left the button at 21px. */
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
 }
 
 .catalogue-flat__toc-toplink:hover {
@@ -746,10 +746,10 @@ body.split-dragging * {
 button.catalogue-flat__toc-toplink {
   background: none;
   border: 0;
-  /* T3-03: horizontal padding stays 0 so this matches the <a> links beside it, but the
-     vertical padding from .catalogue-flat__toc-toplink must survive -- a blanket
-     `padding: 0` here put the button back under the 24px minimum. */
-  padding: 3px 0;
+  /* T3-03: padding stays 0 so this matches the <a> links beside it; the min-height on
+     the shared class is what meets the target size. A blanket `padding: 0` was fine,
+     but it used to also cancel the vertical padding that approach relied on. */
+  padding: 0;
   margin: 0;
   font-family: inherit;
   cursor: pointer;
@@ -901,8 +901,8 @@ button.catalogue-flat__toc-toplink {
   text-transform: uppercase;
   letter-spacing: 0.04em;
   /* T3-03: as above -- 16 of these were 18px tall. */
-  padding-top: 3px;
-  padding-bottom: 3px;
+  align-items: center;
+  min-height: 24px;
 }
 
 /* Inline subtitle that lives next to the main TOC heading (e.g. "Elections  NORTHERN IRELAND"). */
