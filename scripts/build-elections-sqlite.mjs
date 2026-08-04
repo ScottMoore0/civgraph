@@ -156,12 +156,25 @@ CREATE INDEX counts_key          ON counts(election_key, constituency_seq, candi
 CREATE INDEX confeat_layer       ON constituency_features(layer_id, feature_id);
 `;
 
-/** Remove the promoted keys, keep the rest as JSON so nothing is lost. */
+/**
+ * Keep everything except the structures stored in their own tables.
+ *
+ * This deliberately does NOT exclude the promoted columns, and does NOT skip null or
+ * empty-string values. The columns exist so the data can be queried in SQL; `meta` is
+ * what reproduces the original object, and the endpoint spreads meta OVER the column
+ * values so the originals always win.
+ *
+ * Every departure from that cost a round of debugging: SQLite has no boolean, so
+ * elected/excluded came back as 1/0 instead of true/false; txt() turned a numeric
+ * personId into "100052"; and skipping '' silently deleted dailAbbreviation,
+ * officialCandidateId and officialStatus from every candidate. Storing verbatim and
+ * querying via columns avoids the whole class.
+ */
 function residual(source, promoted, dropped = []) {
   const rest = {};
   for (const [k, v] of Object.entries(source)) {
-    if (promoted.includes(k) || dropped.includes(k)) continue;
-    if (v === null || v === undefined || v === '') continue;
+    if (dropped.includes(k)) continue;
+    if (v === undefined) continue;
     rest[k] = v;
   }
   return Object.keys(rest).length ? JSON.stringify(rest) : null;

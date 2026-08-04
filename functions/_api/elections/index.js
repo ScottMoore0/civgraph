@@ -22,7 +22,7 @@
 // bundle-mode fields were added without bumping it, clean URLs kept serving the old
 // shape for a day while cache-busted ones showed the new one -- which briefly looked
 // like a failed deploy.
-const CACHE_VERSION = 'elections-3';
+const CACHE_VERSION = 'elections-4';
 
 const ELECTION_COLS =
   'key, body, body_slug AS bodySlug, body_group AS bodyGroup, display_title AS displayTitle, '
@@ -38,7 +38,7 @@ const CONS_COLS =
   + 'seats_won AS seatsWon, seats_total AS seatsTotal, quota, electorate, source_file AS sourceFile';
 
 const CAND_COLS =
-  'candidate_id AS id, name, party, party_id AS partyId, party_id, person_id AS personId, '
+  'candidate_id AS id, name, party, person_id AS personId, '
   + 'first_prefs AS firstPrefs, final_votes AS finalVotes, elected, elected_at AS electedAt, '
   + 'excluded, excluded_at AS excludedAt, status, colour, gender, meta';
 
