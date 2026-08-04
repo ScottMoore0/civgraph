@@ -8939,6 +8939,9 @@ class UIController {
                 document.querySelectorAll(this.loadButtonSelector(mapId)).forEach((btn) => {
                     this.applyLoadButtonVisual(btn, isLoaded, true);
                 });
+                // T1-01: the replacement node is what needs focus, so restore here too --
+                // this observer fires precisely when the old button was swapped out.
+                this.restoreLoadButtonFocus(mapId);
             }
         });
         this._pendingLoadObserver.observe(document.body, { childList: true, subtree: true });
@@ -8961,6 +8964,20 @@ class UIController {
         const handler = isLoaded ? this.onMapUnload : this.onMapLoad;
         if (!handler) return;
 
+        // T1-01: a load rebuilds the catalogue markup, so the focused button node is
+        // discarded and focus falls to <body> -- dropping a keyboard user at the top of a
+        // ~198-stop tab order. Record whether this map's button held focus so it can be
+        // restored to the replacement node.
+        const hadFocus = Boolean(document.activeElement
+            && document.activeElement.matches?.(this.loadButtonSelector(mapId)));
+        this._loadFocusMapId = hadFocus ? mapId : null;
+
+        // T1-02: the live regions were byte-identical before, during and after a
+        // 16-second load, so a screen-reader user got silence. Reuse the same announcer
+        // the copy-URL button already uses.
+        const label = this.layerLabelForAnnounce(mapId);
+        this.announce(isLoaded ? `Removing ${label}` : `Loading ${label}`);
+
         this.setLoadButtonBusy(mapId, true, isLoaded);
         try {
             await handler(mapId);
@@ -8974,7 +8991,41 @@ class UIController {
                 : this.isMapLoadedState(mapId, this._lastMapListOptions);
             this.setLoadButtonBusy(mapId, false, settled);
             this.applyLoadedStateToRows(mapId, settled);
+
+            // T1-02: announce the outcome, read back from settled rather than assumed --
+            // so a load that never arrived says so instead of claiming success. This also
+            // gives the user-visible half of T0-05 without depending on map.on('error'),
+            // which the PMTiles protocol never fires.
+            if (isLoaded) {
+                this.announce(settled ? `${label} could not be removed` : `${label} removed`);
+            } else {
+                this.announce(settled ? `${label} loaded` : `${label} failed to load`);
+            }
+
+            // T1-01: restore focus to the replacement button, if this map's button had it.
+            this.restoreLoadButtonFocus(mapId);
+            this._loadFocusMapId = null;
         }
+    }
+
+    /** Short human label for a map id, for announcements. Falls back to the id. */
+    layerLabelForAnnounce(mapId) {
+        const map = dataService.getMapById?.(mapId);
+        const name = map?.name || map?.title || '';
+        return String(name || mapId).replace(/\s+/g, ' ').trim();
+    }
+
+    /**
+     * Put focus back on a load button after a re-render replaced it.
+     *
+     * preventScroll matters: without it the catalogue pane jumps to the row. Only ever
+     * called when the button held focus beforehand, so a mouse-driven load does not
+     * steal focus.
+     */
+    restoreLoadButtonFocus(mapId) {
+        if (!mapId || this._loadFocusMapId !== mapId) return;
+        const btn = document.querySelector(this.loadButtonSelector(mapId));
+        if (btn && btn.isConnected) btn.focus({ preventScroll: true });
     }
 
     // syncCatalogueMapState() normally repaints these, but it is only called by the app's
@@ -10066,6 +10117,7 @@ class UIController {
         }
         autocomplete.innerHTML = sections.join('');
         autocomplete.classList.remove('hidden');
+        this.syncSearchComboboxState(true);
     }
 
     isAddressQuery(query) {
@@ -10102,6 +10154,8 @@ class UIController {
 
         autocomplete.innerHTML = html;
         autocomplete.classList.remove('hidden');
+        this.syncSearchComboboxState(true);
+        autocomplete.classList.remove('hidden');
     }
 
     highlightMatches(text, matches) {
@@ -10123,11 +10177,42 @@ class UIController {
         return result;
     }
 
+    /**
+     * T2-08: give the search field and its suggestion list combobox semantics.
+     *
+     * Arrow-key navigation and selection already worked -- what was missing was any way
+     * for assistive tech to know the list existed or which option was current. The field
+     * had an aria-label and nothing else: no role, no aria-expanded, no aria-controls, no
+     * aria-activedescendant. This stamps the state after every render, open and close, so
+     * the markup does not have to be threaded through a dozen template strings.
+     */
+    syncSearchComboboxState(open) {
+        const input = document.getElementById('searchInput');
+        const list = document.getElementById('searchAutocomplete');
+        if (!input || !list) return;
+        input.setAttribute('role', 'combobox');
+        input.setAttribute('aria-expanded', String(Boolean(open)));
+        input.setAttribute('aria-controls', 'searchAutocomplete');
+        input.setAttribute('aria-autocomplete', 'list');
+        list.setAttribute('role', 'listbox');
+        const items = Array.from(list.querySelectorAll('.search-autocomplete__item'));
+        items.forEach((item, index) => {
+            if (!item.id) item.id = `searchAutocompleteOption${index}`;
+            item.setAttribute('role', 'option');
+            const selected = item.classList.contains('search-autocomplete__item--selected');
+            item.setAttribute('aria-selected', String(selected));
+        });
+        const current = items.find((i) => i.classList.contains('search-autocomplete__item--selected'));
+        if (open && current) input.setAttribute('aria-activedescendant', current.id);
+        else input.removeAttribute('aria-activedescendant');
+    }
+
     hideAutocomplete() {
         const autocomplete = document.getElementById('searchAutocomplete');
         if (autocomplete) {
             autocomplete.classList.add('hidden');
         }
+        this.syncSearchComboboxState(false);
     }
 
     navigateAutocomplete(direction) {
@@ -10149,6 +10234,7 @@ class UIController {
 
         items[newIndex].classList.add('search-autocomplete__item--selected');
         items[newIndex].scrollIntoView({ block: 'nearest' });
+        this.syncSearchComboboxState(true);
     }
 
     handleSearchSelection(type, id) {

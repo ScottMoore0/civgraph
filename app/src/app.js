@@ -259,6 +259,7 @@ class Test2App {
     this.setupThemeToggle();
     this.setupSupportModal();
     this.setupMapControls();
+    this.setupOverlayEscape();
     this.setupPerformanceDashboard();
     this.setupTimelineControls();
     this.setupElectionPaneResize();
@@ -1241,6 +1242,43 @@ class Test2App {
     modal.querySelector('.support-modal__close')?.addEventListener('click', close);
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape' && !modal.classList.contains('hidden')) close();
+    });
+  }
+
+  /**
+   * T1-09: Escape closes the map overlays.
+   *
+   * #supportModal already handled Escape; these three did not, so a keyboard user
+   * could open the map controls, the active-layers panel or a feature popup with no
+   * way to dismiss it except by finding the close button.
+   *
+   * One press closes one thing, topmost first, so Escape does not clear the whole
+   * screen at once. Ignored while a text field has focus, where Escape usually means
+   * "revert what I am typing", and while the support modal is open, since it owns
+   * Escape itself.
+   */
+  setupOverlayEscape() {
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape' || event.defaultPrevented) return;
+      const el = document.activeElement;
+      if (el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable)) return;
+      const modal = document.getElementById('supportModal');
+      if (modal && !modal.classList.contains('hidden')) return;
+
+      const featureInfo = document.getElementById('featureInfo');
+      if (featureInfo && !featureInfo.classList.contains('hidden')) {
+        uiController.hideFeatureInfo?.();
+        return;
+      }
+      if (document.getElementById('activeLayersToggle')?.getAttribute('aria-expanded') === 'true') {
+        this.setActiveLayersPanelOpen(false);
+        document.getElementById('activeLayersToggle')?.focus({ preventScroll: true });
+        return;
+      }
+      if (document.getElementById('mapControlsToggle')?.getAttribute('aria-expanded') === 'true') {
+        this.setMapControlsOpen(false);
+        document.getElementById('mapControlsToggle')?.focus({ preventScroll: true });
+      }
     });
   }
 
