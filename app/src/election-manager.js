@@ -48,7 +48,7 @@ function useElectionsApi() {
 
 function electionBundleUrl(entry) {
     return useElectionsApi()
-        ? `/_api/elections?key=${encodeURIComponent(entry.key)}&format=bundle`
+        ? `/_api/elections?key=${encodeURIComponent(entry.key)}&format=bundle&lite=1`
         : `${entry.resultUrl}?v=test-023`;
 }
 const DEFAULT_MODE_ORDER = ['winner', 'leadingParty', 'voteShare', 'turnout', 'majority', 'seats', 'quota'];
@@ -1663,7 +1663,12 @@ export class Test2ElectionManager {
   }
 
   buildMainStyleConstituencyPartyRows(result = {}, fallbackCandidates = []) {
-    const countGroup = Array.isArray(result?.countGroup) ? result.countGroup : [];
+    // The API's lite bundle omits countGroup, because it is byte-identical to the count
+    // rows inside animationPayload and shipping both doubled a third of the payload.
+    // Static bundles still carry it, so prefer it when present.
+    const countGroup = Array.isArray(result?.countGroup)
+      ? result.countGroup
+      : (result?.animationPayload?.Constituency?.countGroup || []);
     const countInfo = result?.countInfo || {};
     const validPoll = numberOrZero(countInfo.Valid_Poll) || numberOrZero(result?.validPoll);
     const totalPoll = (numberOrZero(countInfo.Total_Poll) || numberOrZero(result?.totalPoll)) || null;

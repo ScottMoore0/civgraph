@@ -17,7 +17,12 @@
  * computation, which is the specific change that retires that regression.
  */
 
-const CACHE_VERSION = 'elections-1';
+// Bump this whenever the RESPONSE SHAPE changes, not just when the data does.
+// It is part of the edge cache key, and responses carry s-maxage=86400: after the
+// bundle-mode fields were added without bumping it, clean URLs kept serving the old
+// shape for a day while cache-busted ones showed the new one -- which briefly looked
+// like a failed deploy.
+const CACHE_VERSION = 'elections-2';
 
 const ELECTION_COLS =
   'key, body, body_slug AS bodySlug, body_group AS bodyGroup, display_title AS displayTitle, '
@@ -136,6 +141,15 @@ async function handle(context) {
     // What it buys is correctness: this comes from D1, which a deploy cannot rewrite.
     // Serving one constituency at a time is a later change on the client side.
     if (url.searchParams.get('format') === 'bundle') {
+      // lite=1 drops the two redundant structures. Measured on the 1982 Assembly
+      // bundle: countGroup is 32.5% of the payload and byte-identical to
+      // animationPayload.Constituency.countGroup, which ships alongside it -- the same
+      // count rows twice. `elected` is another 6.1% and is a subset of `candidates`
+      // that no client code reads (result.elected has zero call sites; the widely used
+      // candidate.elected is a boolean on the candidate and is unaffected).
+      // Together 38.6%, with no behavioural change: the client derives countGroup from
+      // the payload it already has.
+      const lite = url.searchParams.get('lite') === '1';
       const [election, cons, cands, anims, feats, allCounts] = await Promise.all([
         db.prepare(`SELECT ${ELECTION_COLS}, meta FROM elections WHERE key = ?1`).bind(key).first(),
         db.prepare(`SELECT ${CONS_COLS}, meta FROM constituencies WHERE election_key = ?1 ORDER BY seq`).bind(key).all(),
@@ -175,7 +189,11 @@ async function handle(context) {
             count: r.count,
             total: r.total,
             transfers: r.transfers,
-            status: r.status,
+            // Source status is always a string -- 88,327 non-empty and 51,556 empty
+            // across the corpus, never null. The ingest coerces '' to NULL, so restore
+            // it here; without this every empty status came back null and 14 of 22
+            // sampled elections failed the fidelity diff on this field alone.
+            status: r.status ?? '',
             firstPrefs: candidate.firstPrefs,
           }));
           return candidate;
@@ -196,8 +214,10 @@ async function handle(context) {
           candidates,
           // Both derivable, and both omitted from storage for that reason: `elected` is
           // a subset of candidates, and countGroup is the animation payload's own rows.
-          elected: candidates.filter((c) => c.elected),
-          countGroup: animationPayload?.Constituency?.countGroup || [],
+          ...(lite ? {} : {
+            elected: candidates.filter((c) => c.elected),
+            countGroup: animationPayload?.Constituency?.countGroup || [],
+          }),
           animationPayload,
           featureId: feature.featureId ?? null,
           featureName: feature.featureName ?? null,
