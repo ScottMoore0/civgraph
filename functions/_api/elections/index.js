@@ -23,16 +23,17 @@ const ELECTION_COLS =
   'key, body, body_slug AS bodySlug, body_group AS bodyGroup, display_title AS displayTitle, '
   + 'contest_type AS contestType, kind, voting_system AS votingSystem, '
   + 'contest_status AS contestStatus, date, year, source_map_id AS sourceMapId, '
-  + 'layer_id AS layerId, label_property AS labelProperty';
+  + 'layer_id AS layerId, label_property AS labelProperty, '
+  + 'candidate_rows_expected AS candidateRowsExpected, transfer_data_expected AS transferDataExpected';
 
 const CONS_COLS =
   'seq, name, winner_party AS winnerParty, winner_name AS winnerName, '
   + 'leading_party AS leadingParty, leading_name AS leadingName, leading_votes AS leadingVotes, '
   + 'leading_pct AS leadingPct, turnout_pct AS turnoutPct, majority, majority_pct AS majorityPct, '
-  + 'seats_won AS seatsWon, seats_total AS seatsTotal, quota, electorate';
+  + 'seats_won AS seatsWon, seats_total AS seatsTotal, quota, electorate, source_file AS sourceFile';
 
 const CAND_COLS =
-  'candidate_id AS id, name, party, party_id AS partyId, person_id AS personId, '
+  'candidate_id AS id, name, party, party_id AS partyId, party_id, person_id AS personId, '
   + 'first_prefs AS firstPrefs, final_votes AS finalVotes, elected, elected_at AS electedAt, '
   + 'excluded, excluded_at AS excludedAt, status, colour, gender, meta';
 
@@ -135,12 +136,13 @@ async function handle(context) {
     // What it buys is correctness: this comes from D1, which a deploy cannot rewrite.
     // Serving one constituency at a time is a later change on the client side.
     if (url.searchParams.get('format') === 'bundle') {
-      const [election, cons, cands, anims, feats] = await Promise.all([
+      const [election, cons, cands, anims, feats, allCounts] = await Promise.all([
         db.prepare(`SELECT ${ELECTION_COLS}, meta FROM elections WHERE key = ?1`).bind(key).first(),
         db.prepare(`SELECT ${CONS_COLS}, meta FROM constituencies WHERE election_key = ?1 ORDER BY seq`).bind(key).all(),
         db.prepare(`SELECT constituency_seq AS seq, ${CAND_COLS} FROM candidates WHERE election_key = ?1`).bind(key).all(),
         db.prepare('SELECT constituency_seq AS seq, payload FROM constituency_animation WHERE election_key = ?1').bind(key).all(),
         db.prepare('SELECT constituency_seq AS seq, feature_id AS featureId, feature_name AS featureName, match_name AS matchName, matched FROM constituency_features WHERE election_key = ?1').bind(key).all(),
+        db.prepare('SELECT constituency_seq AS seq, candidate_id AS candidateId, count_number AS count, total_votes AS total, transfers, status FROM counts WHERE election_key = ?1 ORDER BY count_number').bind(key).all(),
       ]);
       if (!election) return json({ error: 'election not found' }, 404);
 
@@ -153,6 +155,14 @@ async function handle(context) {
         return map;
       };
       const candBySeq = bySeq(cands);
+      // candidates[].counts is the per-candidate view of the counts table, so it is
+      // rebuilt here rather than stored a second time.
+      const countsByCand = new Map();
+      for (const row of allCounts.results || []) {
+        const k = `${row.seq}::${row.candidateId}`;
+        if (!countsByCand.has(k)) countsByCand.set(k, []);
+        countsByCand.get(k).push(row);
+      }
       const animBySeq = new Map((anims.results || []).map((r) => [r.seq, r.payload]));
       const featBySeq = new Map((feats.results || []).map((r) => [r.seq, r]));
 
@@ -160,6 +170,14 @@ async function handle(context) {
         const { seq, name, ...rest } = withMeta(row);
         const candidates = (candBySeq.get(seq) || []).map((c) => {
           const { seq: _drop, ...candidate } = withMeta(c);
+          const rows = countsByCand.get(`${seq}::${candidate.id}`) || [];
+          candidate.counts = rows.map((r) => ({
+            count: r.count,
+            total: r.total,
+            transfers: r.transfers,
+            status: r.status,
+            firstPrefs: candidate.firstPrefs,
+          }));
           return candidate;
         });
         let animationPayload = null;
@@ -191,6 +209,9 @@ async function handle(context) {
       return json({
         ...withMeta(election),
         results,
+        // One-line derivations over the rows; not worth storing.
+        constituencies: results.map((r) => r.constituency),
+        unmatchedConstituencies: results.filter((r) => !r.matched).map((r) => r.constituency),
         matchedCount: results.filter((r) => r.matched).length,
         unmatchedCount: results.filter((r) => !r.matched).length,
         loadable: results.length > 0 && results.some((r) => r.matched),

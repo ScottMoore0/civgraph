@@ -226,8 +226,13 @@ for (const file of files) {
     num(d.year), txt(d.sourceMapId), txt(d.layerId), txt(d.labelProperty),
     bool(d.candidateRowsExpected), bool(d.transferDataExpected),
     // results is normalised into its own tables; the derived aggregates are recomputable.
+    // entityIndex (85 KB) and mainLikeCandidateSummary (188 KB) are kept verbatim:
+    // they are whole-election aggregates the client reads directly, and after the
+    // animationPayload lesson -- reconstruction matched 19 of 4,702 -- deriving them
+    // is not worth the risk. matchedCount/unmatchedCount/loadable/constituencies/
+    // unmatchedConstituencies ARE dropped: those are one-line derivations over rows.
     residual(d, ELECTION_COLS, ['results', 'matchedCount', 'unmatchedCount', 'loadable',
-      'unmatchedConstituencies', 'mainLikeCandidateSummary', 'entityIndex', 'constituencies'])
+      'unmatchedConstituencies', 'constituencies'])
   );
   nElections += 1;
 
@@ -237,8 +242,10 @@ for (const file of files) {
       txt(r.leadingParty), txt(r.leadingName), num(r.leadingVotes), num(r.leadingPct),
       num(r.turnoutPct), num(r.majority), num(r.majorityPct), num(r.seatsWon),
       num(r.seatsTotal), num(r.quota), num(r.electorate), txt(r.sourceFile),
+      // featureAliases and countNumbers are small and source-derived, so they ride
+      // along in meta rather than being recomputed.
       residual(r, CONS_COLS, ['candidates', 'elected', 'countGroup', 'animationPayload',
-        'featureId', 'featureName', 'featureAliases', 'matchName', 'matched', 'countNumbers'])
+        'featureId', 'featureName', 'matchName', 'matched'])
     );
     nCons += 1;
 
