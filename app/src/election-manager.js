@@ -40,9 +40,13 @@ function useElectionsApi() {
         const param = new URLSearchParams(window.location.search).get('electionsApi');
         if (param === '1' || param === 'true') return true;
         if (param === '0' || param === 'false') return false;
-        return window.localStorage?.getItem('civgraph.electionsApi') === '1';
+        // Default ON. localStorage 'civgraph.electionsApi' = '0' opts out, as does
+        // ?electionsApi=0, so the static path stays reachable without a deploy.
+        const stored = window.localStorage?.getItem('civgraph.electionsApi');
+        if (stored === '0') return false;
+        return true;
     } catch {
-        return false;
+        return true;
     }
 }
 
@@ -460,7 +464,14 @@ export class Test2ElectionManager {
 
   async loadBundle(entry) {
     if (this.bundleCache.has(entry.key)) return this.bundleCache.get(entry.key);
-    const response = await fetch(electionBundleUrl(entry), { cache: 'force-cache' });
+    let response = await fetch(electionBundleUrl(entry), { cache: 'force-cache' });
+    // Fall back to the static bundle if the API is unavailable. The bundles are still
+    // deployed, so an API outage degrades to the previous behaviour rather than
+    // breaking the election viewer outright.
+    if (!response.ok && useElectionsApi()) {
+      console.warn(`[test2 elections] elections API returned ${response.status} for ${entry.key}; falling back to the static bundle`);
+      response = await fetch(`${entry.resultUrl}?v=test-023`, { cache: 'force-cache' });
+    }
     if (!response.ok) throw new Error(`Failed to load election results for ${entry.body} ${entry.date}: ${response.status}`);
     const bundle = await response.json();
     rememberLimitedCache(this.bundleCache, entry.key, bundle, ELECTION_BUNDLE_CACHE_LIMIT);
@@ -2351,9 +2362,15 @@ export class Test2ElectionManager {
   resultHasAnimation(result = null) {
     if (!result) return false;
     if (this.isForumResult(result)) return true;
+    // On the lite API path the payload is absent until the constituency is opened,
+    // so the two signals it would have been consulted for arrive precomputed.
     const animationRows = result.animationPayload?.Constituency?.countGroup || [];
-    if (result.syntheticCountGroup && Array.isArray(animationRows) && animationRows.length) return true;
-    if (Array.isArray(animationRows) && animationRows.some((row) => Number(row.Count_Number) > 1)) return true;
+    const rowCount = result.animationPayload ? animationRows.length : (result.animationRowCount || 0);
+    const multiCount = result.animationPayload
+      ? animationRows.some((row) => Number(row.Count_Number) > 1)
+      : Boolean(result.animationHasMultipleCounts);
+    if (result.syntheticCountGroup && rowCount) return true;
+    if (multiCount) return true;
     if (Array.isArray(result.countNumbers) && result.countNumbers.some((count) => Number(count) > 1)) return true;
     return Boolean(result.hasCountDetail && (result.candidates || []).some((candidate) => (candidate.counts || []).some((count) => Number(count.count) > 1)));
   }
@@ -3385,7 +3402,7 @@ export class Test2ElectionManager {
   }
 
   renderAnimationNotice(result) {
-    if (this.resultHasAnimation(result) && result.animationPayload) {
+    if (this.resultHasAnimation(result) && (result.animationPayload || result.animationRowCount)) {
       return `
         <div class="test2-election-animation-ready">
           <div id="test2ElectionAnimationStatus" class="election-no-data" aria-live="polite">Loading transfer animation...</div>
@@ -3407,10 +3424,47 @@ export class Test2ElectionManager {
     return this.sharedRenderer.renderAnimationNotice(result);
   }
 
+  /**
+   * Fetch one constituency's animation payload, for the lite API path.
+   *
+   * animationPayload is a third of the bundle and is only needed once a constituency
+   * is opened, so lite omits it. This mutates the result in place, so opening the
+   * same constituency twice costs one request. On the static path the payload is
+   * already present and this returns immediately.
+   */
+  async ensureAnimationPayload(result) {
+    if (!result || result.animationPayload) return result?.animationPayload || null;
+    if (!useElectionsApi()) return null;
+    const key = this.activeBundle?.key;
+    const seq = (this.activeBundle?.results || []).indexOf(result);
+    if (!key || seq < 0) return null;
+    try {
+      const response = await fetch(
+        `/_api/elections?key=${encodeURIComponent(key)}&constituency=${seq}`,
+        { cache: 'force-cache' }
+      );
+      if (!response.ok) return null;
+      const detail = await response.json();
+      if (detail?.animationPayload) {
+        result.animationPayload = detail.animationPayload;
+        if (!Array.isArray(result.countGroup)) {
+          result.countGroup = detail.animationPayload?.Constituency?.countGroup || [];
+        }
+      }
+      return result.animationPayload || null;
+    } catch (error) {
+      console.warn('[test2 elections] Could not load animation payload:', error);
+      return null;
+    }
+  }
+
   async runAnimation(result) {
     const container = document.getElementById('electionAnimationContainer');
     const status = document.getElementById('test2ElectionAnimationStatus');
-    if (!container || !result?.animationPayload) return;
+    if (!container) return;
+    // On the lite path the payload has not been fetched yet; do it now.
+    await this.ensureAnimationPayload(result);
+    if (!result?.animationPayload) return;
     try {
       await ensureElectionAnimationRuntime();
     } catch (error) {

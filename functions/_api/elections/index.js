@@ -22,7 +22,7 @@
 // bundle-mode fields were added without bumping it, clean URLs kept serving the old
 // shape for a day while cache-busted ones showed the new one -- which briefly looked
 // like a failed deploy.
-const CACHE_VERSION = 'elections-5';
+const CACHE_VERSION = 'elections-6';
 
 const ELECTION_COLS =
   'key, body, body_slug AS bodySlug, body_group AS bodyGroup, display_title AS displayTitle, '
@@ -203,6 +203,7 @@ async function handle(context) {
           }
         }
         const feature = featBySeq.get(seq) || {};
+        const animRows = animationPayload?.Constituency?.countGroup || [];
         return {
           constituency: name,
           ...rest,
@@ -211,7 +212,17 @@ async function handle(context) {
           // a subset of candidates, and countGroup is the animation payload's own rows.
           // elected arrives verbatim via meta (spread in `rest` above); lite strips it.
           ...(lite ? {} : { countGroup: animationPayload?.Constituency?.countGroup || [] }),
-          animationPayload,
+          // animationPayload is 32.7% of the response and is only needed once a
+          // constituency is actually opened, so lite ships two cheap signals instead and
+          // the client fetches the payload per constituency. These reproduce exactly the
+          // two tests resultHasAnimation() performs against the payload; its other
+          // branches read fields the client still has.
+          ...(lite
+            ? {
+              animationRowCount: animRows.length,
+              animationHasMultipleCounts: animRows.some((r) => Number(r.Count_Number) > 1),
+            }
+            : { animationPayload }),
           featureId: feature.featureId ?? null,
           featureName: feature.featureName ?? null,
           matchName: feature.matchName ?? null,

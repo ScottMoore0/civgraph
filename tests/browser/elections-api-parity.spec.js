@@ -39,7 +39,8 @@ async function loadElection(page, { api, body, date }) {
   page.on('console', (m) => { if (m.type() === 'error') consoleErrors.push(m.text()); });
   page.on('pageerror', (e) => consoleErrors.push(`pageerror: ${e.message}`));
 
-  await page.goto(`${BASE}/${api ? '?electionsApi=1' : ''}`, { waitUntil: 'domcontentloaded' });
+  // The API path is now the default, so the static run must opt out explicitly.
+  await page.goto(`${BASE}/?electionsApi=${api ? '1' : '0'}`, { waitUntil: 'domcontentloaded' });
   await page.waitForFunction(() => window.__civgraphTest2?.elections, null, { timeout: 60000 });
 
   const result = await page.evaluate(async ({ body, date }) => {
@@ -59,41 +60,47 @@ async function loadElection(page, { api, body, date }) {
         (s, r) => s + (r.candidates || []).reduce((t, c) => t + (Number(c.firstPrefs) || 0), 0), 0),
       matchedCount: bundle?.matchedCount ?? null,
       loadable: bundle?.loadable ?? null,
-      // The count animation reads this object directly; empty here means a broken feature.
-      animationRows: results.map((r) => (r.animationPayload?.Constituency?.countGroup || []).length),
+      // Measured BEFORE the panel is driven: on the lite path every payload should be
+      // absent at this point, which is what makes the 32.7% saving real.
+      animationRowsBeforeOpen: results.map((r) => (r.animationPayload?.Constituency?.countGroup || []).length),
       // What the renderer actually resolves. On the lite path countGroup is absent
       // from the bundle by design and derived at the point of use, so comparing the
       // raw field would test an implementation detail rather than behaviour.
       countGroupRows: results.map((r) => (r.countGroup
         || r.animationPayload?.Constituency?.countGroup || []).length),
       countGroupOnBundle: results.some((r) => Array.isArray(r.countGroup)),
+      // Lite omits animationPayload entirely; it is fetched per constituency on open.
+      animationPayloadOnBundle: results.some((r) => Boolean(r.animationPayload)),
       hasAnimation: results.map((r) => Boolean(mgr.resultHasAnimation?.(r))),
       // Actually drive the count animation rather than just checking its input exists.
       // This is the path with no other coverage, and the one that consumes
       // animationPayload directly.
       animationRun: await (async () => {
-        const target = results.find((r) => mgr.resultHasAnimation?.(r));
-        if (!target) return 'no-animatable-constituency';
+        const idx = results.findIndex((r) => mgr.resultHasAnimation?.(r));
+        if (idx < 0) return { state: 'no-animatable-constituency' };
+        const target = results[idx];
         try {
           // renderPanel(result, 'animation') is what injects #electionAnimationContainer
-          // and schedules runAnimation. Calling runAnimation directly is NOT a test:
-          // it returns early and silently when that container is absent, so it reports
-          // success without having run. Go through the panel instead, then assert the
-          // container exists and the engine actually populated it.
+          // and schedules runAnimation. Calling runAnimation directly is NOT a test: it
+          // returns early and silently when that container is absent, so it reports
+          // success without having run.
           mgr.renderPanel(target, 'animation');
-          await new Promise((r) => setTimeout(r, 3000));
+          await new Promise((r) => setTimeout(r, 3500));
           const container = document.getElementById('electionAnimationContainer');
-          if (!container) return 'no-container';
-          const status = document.getElementById('test2ElectionAnimationStatus');
-          const statusText = (status?.textContent || '').trim();
-          if (/could not load|not available/i.test(statusText)) return `engine: ${statusText}`;
-          return JSON.stringify({
+          if (!container) return { state: 'no-container' };
+          const status = (document.getElementById('test2ElectionAnimationStatus')?.textContent || '').trim();
+          if (/could not load|not available/i.test(status)) return { state: `engine: ${status}` };
+          return {
+            state: 'ran',
+            index: idx,
             display: container.style.display || '',
-            childNodes: container.childNodes.length,
-            status: statusText,
-          });
+            hasChildren: container.childNodes.length > 0,
+            // After opening, the payload for THIS constituency must be present on both
+            // paths -- on the API path only because the lazy fetch resolved it.
+            rowsAfterOpen: (target.animationPayload?.Constituency?.countGroup || []).length,
+          };
         } catch (e) {
-          return `threw: ${e && e.message ? e.message : e}`;
+          return { state: `threw: ${e && e.message ? e.message : e}` };
         }
       })(),
       paneHTML: document.getElementById('electionPaneContent')?.innerHTML || '',
@@ -137,13 +144,26 @@ for (const { body, date } of CASES) {
     expect(staticRun.countGroupOnBundle).toBe(true);
     expect(apiRun.countGroupRows).toEqual(staticRun.countGroupRows);
 
-    // The animation feature.
-    expect(apiRun.animationRows).toEqual(staticRun.animationRows);
+    // The animation payload must NOT have been shipped with the bundle on the API
+    // path, and must be present on the static one -- that is the 32.7% saving.
+    expect(staticRun.animationPayloadOnBundle).toBe(true);
+    expect(apiRun.animationPayloadOnBundle).toBe(false);
+
+    // Before opening, the API path must carry no payloads at all.
+    expect(staticRun.animationRowsBeforeOpen.some((n) => n > 0)).toBe(true);
+    expect(apiRun.animationRowsBeforeOpen.every((n) => n === 0)).toBe(true);
+
     expect(apiRun.hasAnimation).toEqual(staticRun.hasAnimation);
-    expect(apiRun.animationRun).toBe(staticRun.animationRun);
-    // Must have got as far as a real container, not an early return.
-    expect(apiRun.animationRun).not.toBe('no-container');
-    expect(apiRun.animationRun).not.toMatch(/^threw:/);
+
+    // The animation itself: same constituency chosen, a real container, and the
+    // lazily fetched payload matching the static one row for row.
+    expect(apiRun.animationRun.state).toBe('ran');
+    expect(staticRun.animationRun.state).toBe('ran');
+    expect(apiRun.animationRun.index).toBe(staticRun.animationRun.index);
+    expect(apiRun.animationRun.display).toBe('block');
+    expect(apiRun.animationRun.hasChildren).toBe(true);
+    expect(apiRun.animationRun.rowsAfterOpen).toBe(staticRun.animationRun.rowsAfterOpen);
+    expect(apiRun.animationRun.rowsAfterOpen).toBeGreaterThan(0);
 
     // And the rendered output itself -- the whole point of the exercise.
     expect(staticRun.paneHTML.length).toBeGreaterThan(0);
