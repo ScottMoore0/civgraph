@@ -90,7 +90,7 @@
   "mainLikeCandidateSummary": [
     {
       "id": "1",
-      "personId": 100013,
+      "personId": "1",
       "constituency": "Northern Ireland",
       "name": "Yes",
       "party": "Yes",
@@ -117,15 +117,11 @@
           "count": 1
         }
       ],
-      "candidateKey": "yes|yes",
-      "alignment_label": [],
-      "endorsed_by": [],
-      "party_id": "ref-yes",
-      "name_id": "n-yes"
+      "candidateKey": "yes|yes"
     },
     {
       "id": "2",
-      "personId": 100012,
+      "personId": "2",
       "constituency": "Northern Ireland",
       "name": "No",
       "party": "No",
@@ -152,11 +148,7 @@
           "count": 1
         }
       ],
-      "candidateKey": "no|no",
-      "alignment_label": [],
-      "endorsed_by": [],
-      "party_id": "ref-no",
-      "name_id": "n-no"
+      "candidateKey": "no|no"
     }
   ],
   "mainLikeCandidateTotals": {
@@ -303,12 +295,7 @@
               "status": "Made Quota",
               "firstPrefs": 259251
             }
-          ],
-          "alignment_label": [],
-          "endorsed_by": [],
-          "party_id": "ref-yes",
-          "personId": 100013,
-          "name_id": "n-yes"
+          ]
         },
         {
           "id": "2",
@@ -335,12 +322,7 @@
               "status": "Not Elected",
               "firstPrefs": 237911
             }
-          ],
-          "alignment_label": [],
-          "endorsed_by": [],
-          "party_id": "ref-no",
-          "personId": 100012,
-          "name_id": "n-no"
+          ]
         }
       ],
       "elected": [
@@ -526,11 +508,17 @@
       "matchName": "Northern Ireland",
       "anchor": {
         "center": [
-          -6.68988,
-          54.611337
+          -6.805146,
+          54.637441
         ],
-        "method": "feature-index-center",
-        "area": null
+        "bounds": {
+          "west": -8.177502,
+          "south": 54.022724,
+          "east": -5.432789,
+          "north": 55.252158
+        },
+        "method": "largest-ring-bounds-center",
+        "area": 1.9436453131614153
       },
       "syntheticRegion": null,
       "matched": true

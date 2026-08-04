@@ -689,6 +689,21 @@ function resolveElectionGeography(entry) {
     if (date >= '1987-02-17') return { sourceMapId: 'dail-1983' };
     if (date >= '1981-06-11') return { sourceMapId: 'dail-1980' };
     if (date >= '1977-06-16') return { sourceMapId: 'dail-1974' };
+    // Pre-1974 assignments were verified by scoring each election's constituency
+    // names against every candidate layer's feature names -- see
+    // scripts/diagnose-election-geography.mjs. Rates on a token-set comparison,
+    // because word order is not stable (the election says "Cork Mid" where the
+    // layer says "Mid Cork"):
+    //   1969        dail-1969  40/42  95.2%
+    //   1961, 1965  dail-1961  38/38  100%
+    //   1948-1957   dail-1947  40/40  100%
+    if (date >= '1969-06-18') return { sourceMapId: 'dail-1969' };
+    if (date >= '1961-10-04') return { sourceMapId: 'dail-1961' };
+    if (date >= '1948-02-04') return { sourceMapId: 'dail-1947' };
+    // 1921-1944 stay unassigned deliberately. No converted layer fits -- the best
+    // candidate is dail-1947 at 35-70%, i.e. the wrong boundary set. The catalogue
+    // has dail-1923 and dail-1935 entries but neither has a source file, so they
+    // cannot be converted from anything currently held.
     return { sourceMapId: null };
   }
   if (body === 'President of Ireland') return { sourceMapId: 'roi-1938', singleConstituency: true };
@@ -702,6 +717,7 @@ function resolveElectionGeography(entry) {
     return { sourceMapId: 'ni-1921', singleConstituency: true };
   }
   if (body === 'Referendum (Ireland)') {
+      const date = String(entry.date || '');
     if (isNationalAggregateElection(entry)) return { sourceMapId: 'roi-1938', singleConstituency: true };
     if (looksLikeRoiLocalAuthorityResults(entry)) {
       if (year >= 2019) return { sourceMapId: 'roi-local-authorities-2024' };
@@ -711,10 +727,29 @@ function resolveElectionGeography(entry) {
     if (String(entry.date || '') >= '2024-11-29') return { sourceMapId: 'dail-2023' };
     if (year === 2019) return { sourceMapId: 'roi-local-authorities-2024' };
     if (year >= 2017) return { sourceMapId: 'dail-2017' };
-    if (year >= 2013) return { sourceMapId: 'dail-2013' };
+    // Every threshold below was one revision too late: it keyed on the year a
+    // revision was NAMED, not the year it took effect. A constituency revision first
+    // applies at the next general election, so a referendum in 2013 was fought on the
+    // 2009 boundaries, not the 2013 ones. Rates measured by
+    // scripts/diagnose-election-geography.mjs, before -> after:
+    //   2013, 2015   dail-2013 30/43  ->  dail-2009 42/43
+    //   2002         dail-2005 39/42  ->  dail-1998 41/42
+    //   1992-1996    dail-1998 39/41  ->  dail-1990 40/41
+    //   1983, 1987   roi-counties-2011 8/41  ->  dail-1990 38/41
+    //   1972         roi-counties-2011 9/42  ->  dail-1969 39/42
+    if (year >= 2013) return { sourceMapId: 'dail-2009' };
     if (year >= 2011) return { sourceMapId: 'dail-2009' };
-    if (year >= 2002) return { sourceMapId: 'dail-2005' };
-    if (year >= 1992) return { sourceMapId: 'dail-1998' };
+    // 2007-2010 keeps dail-2005: the 2009 Lisbon II referendum matches 43/43 there
+    // and only 38 on dail-1998.
+    if (year >= 2007) return { sourceMapId: 'dail-2005' };
+    // 1997, 1998 and 2002 all sit on dail-1998 (41-42 of 42); moving them to
+    // dail-1990 cost three matches each.
+    if (year >= 1997) return { sourceMapId: 'dail-1998' };
+    if (year >= 1992) return { sourceMapId: 'dail-1990' };
+    // 1983 and 1987 are reported by Dail constituency; 1979 and 1984 by county, and
+    // for those roi-counties-2011 already matches 29/31 and stays.
+    if (date === '1983-09-07' || date === '1987-05-26') return { sourceMapId: 'dail-1990' };
+    if (year === 1972) return { sourceMapId: 'dail-1969' };
     return { sourceMapId: 'roi-counties-2011' };
   }
   if (body === 'European Parliament (Ireland)') {
