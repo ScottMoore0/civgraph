@@ -134,6 +134,24 @@ const NAME_ALIASES = new Map([
 dailApprovedCandidateAliasIndex = buildDailApprovedCandidateAliasIndex(dailApprovedCandidateAliases);
 
 const SOURCE_NAME_ALIASES = new Map([
+  // normalizeName() deletes parenthetical content, so both
+  // "TIPPERARY (NORTH RIDING) COUNTY COUNCIL" and its South counterpart normalise to
+  // the same "tipperary county council" and neither can match the North/South
+  // Tipperary the 1979 and 1984 referendums report. LEIX is the period spelling of
+  // Laois; these two layers use LAOIGHIS, others use LEIX, so both are aliased.
+  // Aliasing the raw names restores the distinction before normalisation.
+  ['roi-local-authorities-1977', new Map([
+    ['TIPPERARY (NORTH RIDING) COUNTY COUNCIL', 'North Tipperary'],
+    ['TIPPERARY (SOUTH RIDING) COUNTY COUNCIL', 'South Tipperary'],
+    ['LAOIGHIS COUNTY COUNCIL', 'Laois'],
+    ['LEIX COUNTY COUNCIL', 'Laois']
+  ])],
+  ['roi-local-authorities-1980', new Map([
+    ['TIPPERARY (NORTH RIDING) COUNTY COUNCIL', 'North Tipperary'],
+    ['TIPPERARY (SOUTH RIDING) COUNTY COUNCIL', 'South Tipperary'],
+    ['LAOIGHIS COUNTY COUNCIL', 'Laois'],
+    ['LEIX COUNTY COUNCIL', 'Laois']
+  ])],
   ['dail-2023', new Map([
     ['Limerick County (3)', 'Limerick']
   ])],
@@ -748,7 +766,18 @@ function resolveElectionGeography(entry) {
     if (year >= 1992) return { sourceMapId: 'dail-1990' };
     // 1983 and 1987 are reported by Dail constituency; 1979 and 1984 by county, and
     // for those roi-counties-2011 already matches 29/31 and stays.
-    if (date === '1983-09-07' || date === '1987-05-26') return { sourceMapId: 'dail-1990' };
+    // entry.date for a referendum carries the question slug too, e.g.
+      // "1983-09-07-right-to-life-of-the-unborn", so this has to be a prefix test.
+      // An equality check here silently never fired.
+      if (date.startsWith('1983-09-07') || date.startsWith('1987-05-26')) return { sourceMapId: 'dail-1990' };
+    // 1979 and 1984 are reported by local authority, not constituency: 31 units,
+    // being 27 county councils plus the Cork, Dublin, Limerick and Waterford
+    // corporations. roi-counties-2011 has 26 features and no cities, so it scored
+    // 29/31 partly by folding "Cork City" onto Cork County -- worse than a miss --
+    // and has a single "Tipperary County" where these report the North and South
+    // Ridings separately. The era-correct local-authority layers have exactly 31.
+    if (date.startsWith('1979-07-05')) return { sourceMapId: 'roi-local-authorities-1977' };
+    if (date.startsWith('1984-06-14')) return { sourceMapId: 'roi-local-authorities-1980' };
     if (year === 1972) return { sourceMapId: 'dail-1969' };
     return { sourceMapId: 'roi-counties-2011' };
   }
