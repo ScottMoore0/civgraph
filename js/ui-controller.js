@@ -10117,7 +10117,6 @@ class UIController {
         }
         autocomplete.innerHTML = sections.join('');
         autocomplete.classList.remove('hidden');
-        this.syncSearchComboboxState(true);
     }
 
     isAddressQuery(query) {
@@ -10154,7 +10153,6 @@ class UIController {
 
         autocomplete.innerHTML = html;
         autocomplete.classList.remove('hidden');
-        this.syncSearchComboboxState(true);
         autocomplete.classList.remove('hidden');
     }
 
@@ -10177,42 +10175,11 @@ class UIController {
         return result;
     }
 
-    /**
-     * T2-08: give the search field and its suggestion list combobox semantics.
-     *
-     * Arrow-key navigation and selection already worked -- what was missing was any way
-     * for assistive tech to know the list existed or which option was current. The field
-     * had an aria-label and nothing else: no role, no aria-expanded, no aria-controls, no
-     * aria-activedescendant. This stamps the state after every render, open and close, so
-     * the markup does not have to be threaded through a dozen template strings.
-     */
-    syncSearchComboboxState(open) {
-        const input = document.getElementById('searchInput');
-        const list = document.getElementById('searchAutocomplete');
-        if (!input || !list) return;
-        input.setAttribute('role', 'combobox');
-        input.setAttribute('aria-expanded', String(Boolean(open)));
-        input.setAttribute('aria-controls', 'searchAutocomplete');
-        input.setAttribute('aria-autocomplete', 'list');
-        list.setAttribute('role', 'listbox');
-        const items = Array.from(list.querySelectorAll('.search-autocomplete__item'));
-        items.forEach((item, index) => {
-            if (!item.id) item.id = `searchAutocompleteOption${index}`;
-            item.setAttribute('role', 'option');
-            const selected = item.classList.contains('search-autocomplete__item--selected');
-            item.setAttribute('aria-selected', String(selected));
-        });
-        const current = items.find((i) => i.classList.contains('search-autocomplete__item--selected'));
-        if (open && current) input.setAttribute('aria-activedescendant', current.id);
-        else input.removeAttribute('aria-activedescendant');
-    }
-
     hideAutocomplete() {
         const autocomplete = document.getElementById('searchAutocomplete');
         if (autocomplete) {
             autocomplete.classList.add('hidden');
         }
-        this.syncSearchComboboxState(false);
     }
 
     navigateAutocomplete(direction) {
@@ -10234,7 +10201,6 @@ class UIController {
 
         items[newIndex].classList.add('search-autocomplete__item--selected');
         items[newIndex].scrollIntoView({ block: 'nearest' });
-        this.syncSearchComboboxState(true);
     }
 
     handleSearchSelection(type, id) {

@@ -54,7 +54,7 @@
 
   <!-- Modulepreload — start fetching the entry bundle before parser reaches
        the <script type=module> tag at the end of <body>. -->
-  <link rel="modulepreload" href="/app/build/app.bundle.js?v=4c28565f245f" fetchpriority="high">
+  <link rel="modulepreload" href="/app/build/app.bundle.js?v=fff5b69aebeb" fetchpriority="high">
   <style>
     @font-face {
       font-family: 'Inter';
@@ -232,15 +232,12 @@
             <circle cx="11" cy="11" r="8" />
             <path d="m21 21-4.35-4.35" />
           </svg>
-          <!-- T2-08: combobox roles set here too, so they exist before the first keystroke. -->
           <input type="search" id="searchInput" class="search-input__field" placeholder="Search maps or addresses..."
-            aria-label="Search maps or addresses" autocomplete="off"
-            role="combobox" aria-expanded="false" aria-controls="searchAutocomplete"
-            aria-autocomplete="list">
+            aria-label="Search maps or addresses" autocomplete="off">
           <button type="button" id="searchClear" class="search-clear" aria-label="Clear search"
             title="Clear search">×</button>
           <!-- Autocomplete dropdown -->
-          <div id="searchAutocomplete" class="search-autocomplete hidden" role="listbox" aria-label="Search suggestions">
+          <div id="searchAutocomplete" class="search-autocomplete hidden">
             <!-- Populated by JavaScript -->
           </div>
           </div> <!-- End search-input -->
@@ -708,7 +705,7 @@
        and animation code are loaded lazily by the /app module bundle. -->
 
   <!-- Application (bundled + minified) -->
-  <script type="module" src="/app/build/app.bundle.js?v=4c28565f245f"></script>
+  <script type="module" src="/app/build/app.bundle.js?v=fff5b69aebeb"></script>
 
   <!-- Service worker — repeat-visit cache + offline tolerance. Registered
        after window.load so it doesn't contend with critical resources.
