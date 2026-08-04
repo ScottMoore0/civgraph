@@ -244,8 +244,15 @@ for (const file of files) {
     // animationPayload lesson -- reconstruction matched 19 of 4,702 -- deriving them
     // is not worth the risk. matchedCount/unmatchedCount/loadable/constituencies/
     // unmatchedConstituencies ARE dropped: those are one-line derivations over rows.
-    residual(d, ELECTION_COLS, ['results', 'matchedCount', 'unmatchedCount', 'loadable',
-      'unmatchedConstituencies', 'constituencies'])
+    // constituencies and unmatchedConstituencies are kept verbatim. The top-level
+    // constituencies list is NOT a positional map of results[]: 1,324 of 4,706
+    // positions disagree in the source, e.g. 1918 has an extra "Cork" entry that
+    // shifts everything after it, and 2024 results[42].constituency is
+    // "Wicklow Wexford3" where the list says "Wicklow Wexford". Deriving it produced
+    // a plausible-looking list that was simply a different list.
+    // matchedCount/unmatchedCount/loadable stay derived, so they follow the feature
+    // table if the 851 unmatched constituencies are ever backfilled.
+    residual(d, ELECTION_COLS, ['results', 'matchedCount', 'unmatchedCount', 'loadable'])
   );
   nElections += 1;
 
@@ -257,7 +264,11 @@ for (const file of files) {
       num(r.seatsTotal), num(r.quota), num(r.electorate), txt(r.sourceFile),
       // featureAliases and countNumbers are small and source-derived, so they ride
       // along in meta rather than being recomputed.
-      residual(r, CONS_COLS, ['candidates', 'elected', 'countGroup', 'animationPayload',
+      // elected is kept verbatim: its order matches no rule tried. Sorting by
+      // electedAt reproduced 861 of 2,375 multi-seat constituencies, candidate-array
+      // order and first-preference order 619 each. It is dropped from lite responses,
+      // so the client never carries it.
+      residual(r, CONS_COLS, ['candidates', 'countGroup', 'animationPayload',
         'featureId', 'featureName', 'matchName', 'matched'])
     );
     nCons += 1;

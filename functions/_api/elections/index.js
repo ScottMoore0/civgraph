@@ -22,7 +22,7 @@
 // bundle-mode fields were added without bumping it, clean URLs kept serving the old
 // shape for a day while cache-busted ones showed the new one -- which briefly looked
 // like a failed deploy.
-const CACHE_VERSION = 'elections-4';
+const CACHE_VERSION = 'elections-5';
 
 const ELECTION_COLS =
   'key, body, body_slug AS bodySlug, body_group AS bodyGroup, display_title AS displayTitle, '
@@ -182,6 +182,10 @@ async function handle(context) {
 
       const results = (cons.results || []).map((row) => {
         const { seq, name, ...rest } = withMeta(row);
+        // `elected` is stored verbatim and so arrives in rest. It is a subset of
+        // candidates that no client code reads, and it is 6.1% of the payload, so
+        // lite responses drop it here.
+        if (lite) delete rest.elected;
         const candidates = (candBySeq.get(seq) || []).map((c) => {
           const { seq: _drop, ...candidate } = withMeta(c);
           // candidate.counts comes back verbatim via meta; it is not rebuilt from the
@@ -205,10 +209,8 @@ async function handle(context) {
           candidates,
           // Both derivable, and both omitted from storage for that reason: `elected` is
           // a subset of candidates, and countGroup is the animation payload's own rows.
-          ...(lite ? {} : {
-            elected: candidates.filter((c) => c.elected),
-            countGroup: animationPayload?.Constituency?.countGroup || [],
-          }),
+          // elected arrives verbatim via meta (spread in `rest` above); lite strips it.
+          ...(lite ? {} : { countGroup: animationPayload?.Constituency?.countGroup || [] }),
           animationPayload,
           featureId: feature.featureId ?? null,
           featureName: feature.featureName ?? null,
@@ -220,9 +222,6 @@ async function handle(context) {
       return json({
         ...withMeta(election),
         results,
-        // One-line derivations over the rows; not worth storing.
-        constituencies: results.map((r) => r.constituency),
-        unmatchedConstituencies: results.filter((r) => !r.matched).map((r) => r.constituency),
         matchedCount: results.filter((r) => r.matched).length,
         unmatchedCount: results.filter((r) => !r.matched).length,
         loadable: results.length > 0 && results.some((r) => r.matched),
