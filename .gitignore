@@ -329,3 +329,23 @@ analysis/border-poll-dry-run/v9/_geo/
 
 # Local Playwright scratch probes
 _probe.mjs
+# ─────────────────────────────────────────────────────────────────────────────
+# LPS / Pointer-derived ADDRESS-LEVEL PROPERTY DATA — NEVER PUBLIC.
+# UPRNs, full addresses, postcodes, per-property points and anything derived
+# from them (e.g. UPRN joins against Pointer) fall under the same absolute rule
+# as Pointer itself. See the operator's local Pointer handling note, which is
+# deliberately kept outside this repository. Do NOT commit, push, upload,
+# or host. These live in the repo working dir only for local processing.
+lps_all_properties.geojson
+lps_all_properties_clean.geojson
+lps_null_geometry.geojson
+lps_null_geometry_recovered.geojson
+lps_*.geojson
+lps_*.csv
+non_domestic_properties.geojson
+*_properties.geojson
+download_lps_properties.py
+download_lps_properties*.txt
+# Private LPS->OSM synthetic/harmonisation tool + its outputs (Pointer-class).
+synth-osm/
+# ─────────────────────────────────────────────────────────────────────────────
