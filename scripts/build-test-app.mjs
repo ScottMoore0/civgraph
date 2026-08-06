@@ -9,13 +9,20 @@ import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync, unlinkSyn
 mkdirSync('test/build', { recursive: true });
 mkdirSync('build', { recursive: true });
 
+// Off by default, mirroring build-test2-app.mjs. Emitting them unconditionally
+// committed a 6.0 MB test.bundle.js.map on every build — 36 of the last 200
+// commits touched it, which dominated repo growth. /test/build is noindex
+// staging and no validator asserts the maps exist, so their only consumer is a
+// developer with devtools open, who can opt in.
+const emitSourceMaps = process.env.TEST_SOURCEMAPS === '1' || process.argv.includes('--sourcemap');
+
 await buildMainShellCss();
 
 const result = await esbuild.build({
   entryPoints: ['test/src/app.js'],
   bundle: true,
   minify: true,
-  sourcemap: true,
+  sourcemap: emitSourceMaps,
   outfile: 'test/build/test.bundle.js',
   target: ['es2020'],
   logLevel: 'info',

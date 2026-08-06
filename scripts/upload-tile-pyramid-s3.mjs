@@ -13,6 +13,7 @@
 import { readFileSync, statSync, readdirSync } from 'fs';
 import { join, relative, sep } from 'path';
 import { S3Client, PutObjectCommand, HeadObjectCommand } from '@aws-sdk/client-s3';
+import { assertPublishable } from './lib/r2-publication-gate.mjs';
 
 const args = process.argv.slice(2);
 const flags = new Set(args.filter(a => a.startsWith('--') && !a.includes('=')));
@@ -26,6 +27,7 @@ if (positional.length < 2) {
 
 const [LOCAL_DIR, KEY_PREFIX] = positional;
 const DRY_RUN = flags.has('--dry-run');
+const GATE_OVERRIDE = flags.has('--i-have-reviewed-this-publication');
 const CHECK_FIRST = flags.has('--check');
 const CONCURRENCY = parseInt(opts.concurrency || '32', 10);
 
@@ -129,6 +131,12 @@ async function runPool(items, worker, n) {
     console.log(`  ${files.length} files, ${(totalBytes / 1024 / 1024).toFixed(1)} MB`);
     console.log(`  → s3://${BUCKET}/${KEY_PREFIX}/  (concurrency=${CONCURRENCY}${DRY_RUN ? ' [DRY]' : ''}${CHECK_FIRST ? ' [check]' : ''})`);
     if (!files.length) return;
+
+    // Fail closed before the first PUT. Objects under this bucket are served
+    // publicly at data.civgraph.net, so an upload is a publication event and
+    // there is no unpublish. Runs even under --dry-run so the gate can be
+    // rehearsed safely. Override: --i-have-reviewed-this-publication
+    assertPublishable([`${KEY_PREFIX}/`], { override: GATE_OVERRIDE });
 
     const stats = await runPool(files, uploadOne, CONCURRENCY);
     const secs = ((Date.now() - stats.start) / 1000).toFixed(1);

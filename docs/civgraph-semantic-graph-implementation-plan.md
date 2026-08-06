@@ -1,5 +1,13 @@
 # Civgraph Semantic Graph Implementation Plan
 
+> **Status: partially executed — plan dated 2026-06-27.** The graph is built and
+> shipped (`scripts/graph/build-semantic-graph.mjs`, `data/graph/`). As of
+> 2026-08-05 `npm run check:graph` **fails** on `main`: 17,820 map/source file
+> URLs have no source-file entity, and download statements number 23,268 against
+> 41,732 expected. It runs non-blocking in the `data-readiness` workflow until a
+> `npm run build:graph` regeneration lands. Treat this plan as partly done, not
+> as a fresh starting point.
+
 Date: 2026-06-27
 
 Status: execution-grade proposal

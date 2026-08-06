@@ -1,0 +1,58 @@
+name: Data readiness
+
+# test-readiness.yml only fires on test/**, scripts/*test*.mjs and package.json.
+# Data-only commits -- the large majority, since data/ is roughly half of all
+# tracked files -- matched no path filter and shipped unvalidated. This closes
+# that gap, most importantly by running the approved-publication gate
+# (validate-approved-publication-path.mjs) on every data change.
+
+on:
+  pull_request:
+    paths:
+      - 'data/**'
+      - 'scripts/validate-*.mjs'
+      - 'scripts/graph/**'
+      - 'package.json'
+      - '.github/workflows/data-readiness.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'data/**'
+      - 'scripts/validate-*.mjs'
+      - 'scripts/graph/**'
+      - 'package.json'
+      - '.github/workflows/data-readiness.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-data:
+    runs-on: ubuntu-latest
+    # `npm run check` is 19 validators and includes check:graph, which rebuilds
+    # data/graph (~2 GB) TWICE to assert determinism. That is slow and
+    # disk-hungry on a hosted runner (~14 GB free), so this timeout is generous
+    # and the job is expected to need tuning after its first real run --
+    # possibly by splitting check:graph out onto a schedule. Verified green
+    # locally 2026-08-07 (exit 0, 19 passes); never yet executed in CI.
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm install
+      - run: npm run check
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm install
+      # Warnings only by design -- reports without blocking. Switch to
+      # lint:strict once the current 16 warnings are cleared.
+      - run: npm run lint

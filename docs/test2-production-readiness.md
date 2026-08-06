@@ -1,5 +1,12 @@
 # /test2 Production Readiness
 
+> **Status: SUPERSEDED — last updated 2026-05-29.** The root promotion this
+> document was written to prepare for has since shipped. `npm run check:root`
+> (`scripts/validate-maplibre-root-promotion.mjs`) now asserts the opposite of
+> the premise below: the root route serves `/app` MapLibre assets and `/test2`
+> is only a compatibility redirect. Retained for historical rationale. For
+> current behaviour see `docs/maplibre-root-promotion-runbook.md`.
+
 `/test2` is the main-shell MapLibre migration route. It deliberately starts from the production shell and replaces only the interactive map engine boot path.
 
 ## Promotion Criteria

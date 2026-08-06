@@ -1,5 +1,9 @@
 # /test2 Performance Audit And Recommendations
 
+> **Status: point-in-time audit — 2026-06-06.** Recommendations may already be
+> implemented. Current budgets are enforced by
+> `scripts/build-test2-performance-dashboard.mjs`; check it before acting here.
+
 Date: 2026-06-06
 
 Scope: `/test2` only. This audit looks at startup cost, layer-load cost, election-layer cost, smoothness during pan/zoom/hover, mobile stability, cache behaviour, and verification coverage. Recommendations are ranked by ROI: expected user impact divided by implementation difficulty and risk.

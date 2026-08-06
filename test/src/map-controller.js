@@ -908,10 +908,10 @@ export class TestMapLibreController {
 
     let interactionOverlayIds = { layerIds: [], sourceIds: [] };
     if (layer.sourceType === 'point-cloud') {
-      // deck.gl owns the point-cloud data and renders into MapLibre's own WebGL
-      // context (interleaved). There is no MapLibre source/layer to add, and the
-      // deck.gl bundle is lazy-loaded on first use so it costs zero bytes and
-      // zero runtime until a point cloud is actually opened.
+      // Point clouds render as a MapLibre CustomLayerInterface owning their own
+      // WebGL draw (see addPointCloudLayer below). There is no MapLibre
+      // source/layer to add, and the point-cloud modules are lazy-loaded on first
+      // use so they cost zero bytes and zero runtime until a cloud is opened.
       await this.addPointCloudLayer(layer);
     } else {
       const source = this.buildSource(layer);

@@ -1,5 +1,9 @@
 # Test2 Election Data Remediation Research For Items 2-7
 
+> **Status: point-in-time research — 2026-06-09. Not a live worklist.** Findings
+> reflect the data as it stood on that date; remediation has run since. Check the
+> current stores and `npm run audit:test2:elections` before acting on anything here.
+
 Generated: 2026-06-09
 
 ## Scope

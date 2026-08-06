@@ -1,6 +1,10 @@
 #!/usr/bin/env node
 import { existsSync, mkdirSync, readFileSync, writeFileSync, readdirSync, unlinkSync, renameSync, statSync } from 'node:fs';
 import { basename, join, relative } from 'node:path';
+// Deterministic stamp: this builder calls cleanOldRuntimeGeoJson() before
+// regenerating, so there is no prior file to read a previous generatedAt from.
+// A wall-clock stamp would make all ~850 MB of output differ on every run.
+import { buildTimestamp } from './lib/build-timestamp.mjs';
 
 const ROOT = process.cwd();
 const SOURCE_DIR = join(ROOT, 'data', 'timeline-transitions');
@@ -30,7 +34,7 @@ function readSourceManifest() {
   if (!existsSync(SOURCE_MANIFEST)) {
     return {
       version: 0,
-      generatedAt: new Date().toISOString(),
+      generatedAt: buildTimestamp(),
       transitions: FALLBACK_TRANSITIONS.map((id) => ({ id, path: `data/timeline-transitions/${id}.geojson` })),
       skipped: [],
       failed: []
@@ -239,7 +243,7 @@ for (const entry of sourceManifest.transitions || []) {
 
 const manifest = {
   version: 2,
-  generatedAt: new Date().toISOString(),
+  generatedAt: buildTimestamp(),
   sourceManifest: rel(SOURCE_MANIFEST),
   minimumAreaM2: sourceManifest.minimumAreaM2 ?? 100,
   maxShardBytes: MAX_SHARD_BYTES,

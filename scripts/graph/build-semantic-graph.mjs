@@ -5,15 +5,28 @@ import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 import { gzip } from 'node:zlib';
 import { isGraphExcludedSource } from './graph-source-exclusions.mjs';
+import { buildTimestamp } from '../lib/build-timestamp.mjs';
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(SCRIPT_DIR, '..', '..');
 const OUTPUT_DIR = path.join(ROOT_DIR, 'data', 'graph');
 const BROWSE_DIR = path.join(ROOT_DIR, 'data', 'browse');
 const REGISTRY_DIR = path.join(ROOT_DIR, 'data', 'database');
-const GENERATED_AT = new Date().toISOString();
+// Deterministic, NOT wall-clock. resetOutputDirectory() rm -rf's data/graph before
+// each build, so no prior timestamp can be read back. Measured: two consecutive
+// builds produced byte-identical payloads yet 3,870 of 4,646 files still differed,
+// purely because of this stamp -- which also forces a full re-upload on any
+// incremental sync to R2.
+const GENERATED_AT = buildTimestamp();
 const ENTITY_SHARD_SIZE = 5000;
 const STATEMENT_SHARD_SIZE = 2500;
+// Every localeCompare below pins the 'en' collation. Node's default follows the
+// host (en-IE here, typically en-US or C in CI). Entity IDs are ASCII by
+// construction, but label and JSON.stringify sorts are not -- 1,481 of a 50,000
+// label sample are non-ASCII (Dail Eireann, Gearoid O hEara). An unpinned
+// collation would let two machines emit differently ordered shards from identical
+// input. Verified: pinning 'en' reproduces current ordering exactly (0 of 50,000
+// positions differ); codepoint ordering was rejected as it moved 48,660.
 // Shared with validate-semantic-graph.mjs -- see graph-source-exclusions.mjs for why the
 // rule lives in its own module rather than here.
 const COMPACT_REFERENCE_LIMIT = 3;
@@ -1554,7 +1567,7 @@ function summarizeRegisterReferences(sourceRefs) {
     ]);
     if (!byKey.has(key)) byKey.set(key, ref);
   }
-  return [...byKey.values()].sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b))).slice(0, 25);
+  return [...byKey.values()].sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b), 'en')).slice(0, 25);
 }
 
 function browseReference(sourceId) {
@@ -1721,7 +1734,7 @@ async function writeEntitySlugIndex(items, allowedEntityIds) {
       browseUrl: entity.browseUrl
     })]);
   }
-  entries.sort(([a], [b]) => a.localeCompare(b));
+  entries.sort(([a], [b]) => a.localeCompare(b, 'en'));
   const bySlug = {};
   const byIdShard = {};
   const shards = [];
@@ -1793,7 +1806,7 @@ async function writeEntitySearchIndex(entitySummaryById) {
       browseSlug: summary.browseSlug,
       searchHints: summary.searchHints
     }))
-    .sort((a, b) => String(a.label || '').localeCompare(String(b.label || '')) || a.entityId.localeCompare(b.entityId));
+    .sort((a, b) => String(a.label || '').localeCompare(String(b.label || ''), 'en') || a.entityId.localeCompare(b.entityId, 'en'));
   const url = '/data/graph/indexes/entity-search.json';
   await writeJson(path.join(OUTPUT_DIR, 'indexes', 'entity-search.json'), {
     schemaVersion: 1,
@@ -1855,7 +1868,7 @@ async function writeSourceStatementIndex(statements, entitySummaryById) {
 async function writeRelatedIndex(prefix, relationMap) {
   const entries = Object.entries(relationMap)
     .map(([entityId, relations]) => [entityId, dedupeRelations(relations).slice(0, 1000)])
-    .sort(([a], [b]) => a.localeCompare(b));
+    .sort(([a], [b]) => a.localeCompare(b, 'en'));
   const shardDir = path.join(OUTPUT_DIR, 'indexes', `${prefix}-shards`);
   await fs.mkdir(shardDir, { recursive: true });
   const entityToShard = {};
@@ -1894,7 +1907,7 @@ async function writePropertySummary(statements) {
   for (const statement of statements) counts[statement.propertyId] = (counts[statement.propertyId] || 0) + 1;
   const items = Object.entries(counts)
     .map(([propertyId, count]) => ({ propertyId, propertyLabel: propertyLabels.get(propertyId) || propertyId, count }))
-    .sort((a, b) => b.count - a.count || a.propertyId.localeCompare(b.propertyId));
+    .sort((a, b) => b.count - a.count || a.propertyId.localeCompare(b.propertyId, 'en'));
   await writeJson(path.join(OUTPUT_DIR, 'indexes', 'property-summary.json'), {
     schemaVersion: 1,
     generatedAt: GENERATED_AT,
@@ -2229,9 +2242,9 @@ function dedupeRelations(relations) {
     if (!byKey.has(key)) byKey.set(key, relation);
   }
   return [...byKey.values()].sort((a, b) => (
-    String(a.subjectLabel || '').localeCompare(String(b.subjectLabel || '')) ||
-    String(a.propertyLabel || '').localeCompare(String(b.propertyLabel || '')) ||
-    String(a.statementId || '').localeCompare(String(b.statementId || ''))
+    String(a.subjectLabel || '').localeCompare(String(b.subjectLabel || ''), 'en') ||
+    String(a.propertyLabel || '').localeCompare(String(b.propertyLabel || ''), 'en') ||
+    String(a.statementId || '').localeCompare(String(b.statementId || ''), 'en')
   ));
 }
 
@@ -2301,7 +2314,7 @@ function buildCompactStatementsBySubject(sortedStatements, allowedSubjectIds) {
 }
 
 async function writeSubjectStatementShards(compactBySubject) {
-  const entries = Object.entries(compactBySubject).sort(([a], [b]) => a.localeCompare(b));
+  const entries = Object.entries(compactBySubject).sort(([a], [b]) => a.localeCompare(b, 'en'));
   const shardDir = path.join(OUTPUT_DIR, 'indexes', 'statements-by-subject-shards');
   await fs.mkdir(shardDir, { recursive: true });
   const subjectToShard = {};
@@ -2491,7 +2504,7 @@ function statementSemanticKey(subjectId, propertyId, value, qualifiers) {
     value: normalizeValueForKey(value),
     qualifiers: normalizeArray(qualifiers)
       .map((item) => ({ propertyId: item.propertyId, value: normalizeValueForKey(item.value) }))
-      .sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b)))
+      .sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b), 'en'))
   });
 }
 
@@ -2539,7 +2552,7 @@ function mergeReferences(existing, next) {
   for (const ref of [...normalizeArray(existing), ...normalizeArray(next)]) {
     byKey.set(JSON.stringify(sortObjectByKey(compactObject(ref))), compactObject(ref));
   }
-  return [...byKey.values()].sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b)));
+  return [...byKey.values()].sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b), 'en'));
 }
 
 function compactObject(input) {
@@ -2554,18 +2567,18 @@ function compactObject(input) {
 }
 
 function sortObjectByKey(input) {
-  return Object.fromEntries(Object.entries(input || {}).sort(([a], [b]) => a.localeCompare(b)));
+  return Object.fromEntries(Object.entries(input || {}).sort(([a], [b]) => a.localeCompare(b, 'en')));
 }
 
 function compareById(a, b) {
-  return String(a.id).localeCompare(String(b.id));
+  return String(a.id).localeCompare(String(b.id), 'en');
 }
 
 function compareStatements(a, b) {
   return (
-    String(a.subjectId).localeCompare(String(b.subjectId)) ||
-    String(a.propertyId).localeCompare(String(b.propertyId)) ||
-    String(a.id).localeCompare(String(b.id))
+    String(a.subjectId).localeCompare(String(b.subjectId), 'en') ||
+    String(a.propertyId).localeCompare(String(b.propertyId), 'en') ||
+    String(a.id).localeCompare(String(b.id), 'en')
   );
 }
 

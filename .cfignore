@@ -89,3 +89,8 @@ data/elections/
 # (idempotent; it skips objects already present).
 assets/thumbnails/*.webp
 assets/thumbnails/*.png
+
+# R2 publication allowlist — governs what may be written to the public bucket.
+# Operational config, not site content: publishing it would hand out a map of
+# the bucket's prefix layout for no benefit to any reader.
+data/database/r2-publication-allowlist.json

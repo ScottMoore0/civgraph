@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "description": "Key prefixes approved for publication to the public R2 bucket (boundaries-data, served at https://data.civgraph.net). Writing an object under one of these prefixes publishes it to the open internet immediately. scripts/lib/r2-publication-gate.mjs refuses uploads to any key not covered here.",
+  "howToAddAPrefix": "Add an entry with prefix, rationale, and evidence, then have it reviewed in the same commit as the upload that needs it. Do not add a prefix speculatively.",
+  "seedNote": "Seeded 2026-08-05 from prefixes ALREADY serving publicly. These entries record observed production state; they are not a retrospective grant of approval. Rights reviewed 2026-08-05: every census prefix is Crown copyright under Open Government Licence v3.0 per the agent/ READMEs cited below, corroborated by the 'censusNisraOgl' rights code already used in approved-publication-sources.json.",
+  "prefixes": [
+    {
+      "prefix": "data/maps/",
+      "rationale": "Canonical store for boundary geometry (FGB + compression variants) and per-map JSON indexes. The repo deliberately does not track these.",
+      "evidence": ".gitignore:158 'All FGBs in data/maps/ - R2 (data.civgraph.net) is the canonical source'; functions/data/maps/[[path]].js serves this prefix; verified live 2026-08-05 via preflight-data-migration.mjs",
+      "rights": "per-source; recorded on the individual Browse source records"
+    },
+    {
+      "prefix": "data/browse/map-features/",
+      "rationale": "Per-map feature attribute pages, sharded. Generated, never tracked.",
+      "evidence": "browse/browse.js:169 MAP_FEATURES_BASE = 'https://data.civgraph.net/data/browse/map-features'; .gitignore:309",
+      "rights": "derived from the underlying map sources; inherits their per-source terms"
+    },
+    {
+      "prefix": "data/census/2001-bulk/",
+      "rationale": "NISRA 2001 census bulk originals, already published.",
+      "evidence": "agent/census-2001-README.md documents this as a public data.civgraph.net path",
+      "rights": "NISRA 2001 Census, Crown copyright, Open Government Licence v3.0 (agent/census-2001-README.md:55)"
+    },
+    {
+      "prefix": "data/census/2001-cleaned/",
+      "rationale": "Cleaned derivatives of the 2001 bulk originals, indexed by manifest.json.",
+      "evidence": "agent/census-2001-README.md",
+      "rights": "NISRA 2001 Census, Crown copyright, Open Government Licence v3.0 (agent/census-2001-README.md:55); OGL v3.0 permits derivative works with attribution"
+    },
+    {
+      "prefix": "data/census/2011-bulk/",
+      "rationale": "NISRA 2011 census bulk originals, already published.",
+      "evidence": "agent/census-2011-README.md documents this as a public data.civgraph.net path",
+      "rights": "NISRA 2011 Census, Crown copyright, Open Government Licence v3.0 (agent/census-2011-README.md:55)"
+    },
+    {
+      "prefix": "data/census/2011-cleaned/",
+      "rationale": "Cleaned derivatives of the 2011 bulk originals, indexed by manifest.json.",
+      "evidence": "agent/census-2011-README.md",
+      "rights": "NISRA 2011 Census, Crown copyright, Open Government Licence v3.0 (agent/census-2011-README.md:55); OGL v3.0 permits derivative works with attribution"
+    },
+    {
+      "prefix": "data/census/nisra-ftb/",
+      "rationale": "NISRA flexible table builder extracts, manifest-indexed.",
+      "evidence": "agent/nisra-ftb-README.md documents the public manifest URL",
+      "rights": "NISRA 2021 Census, Crown copyright, Open Government Licence v3.0 (agent/nisra-ftb-README.md:75). Attribute NISRA when reusing."
+    },
+    {
+      "prefix": "assets/thumbnails/",
+      "rationale": "Feature thumbnail images served on Browse cards. Published by the existing sync:thumbnails npm script.",
+      "evidence": "package.json sync:thumbnails runs upload-tile-pyramid-s3.mjs against this prefix; also scripts/upload-feature-thumbnails-r2.mjs and the deploy:feature-thumbnails:r2 script",
+      "rights": "derived renderings of the underlying map sources; inherit their per-source terms"
+    }
+  ]
+}

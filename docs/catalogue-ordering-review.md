@@ -1,5 +1,8 @@
 # Catalogue ordering — current state and proposal
 
+> **Status: point-in-time review — 2026-05-09.** "Current state" below means May
+> 2026. Verify against the live catalogue before treating the proposal as open.
+
 Reference for resolving collaborator review item #12 ("The sections in
 the list of maps are quite out of sync with how they're supposed to be
 ordered"). This doc lists what users currently see, then proposes a

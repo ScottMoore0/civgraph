@@ -1,5 +1,13 @@
 # Start Here
 
+> **Status: historical snapshot — 2026-04-04. Execution already ran.** Much of
+> this package has since shipped (code-splitting is live in `app/build/chunks/`;
+> web workers exist as `app/src/overlay-worker.js` and `app/src/search-worker.js`;
+> performance budgets are enforced by `scripts/build-test2-performance-dashboard.mjs`).
+> The `state/*.json` files below reflect April 2026, not today. **Verify against
+> the live code and validators before actioning anything here** — treating this
+> as an open worklist has already caused duplicated work.
+
 This file is for the next agent. Read this first.
 
 ## Objective

@@ -1,5 +1,8 @@
 # Performance Improvement Handoff
 
+> **Status: historical snapshot — 2026-04-04. Execution already ran.** See the
+> banner in `START-HERE.md`. Verify against live code before actioning.
+
 This folder is the execution package for performance items `1` through `13`.
 
 It is designed for a one-item-at-a-time workflow:

@@ -27,7 +27,7 @@
     "deploy:test:pmtiles": "node scripts/upload-test-pmtiles-r2.mjs",
     "verify:test:pmtiles-cdn": "node scripts/verify-test-pmtiles-cdn.mjs",
     "switch:test:pmtiles-cdn": "node scripts/switch-test-pmtiles-to-cdn.mjs",
-    "check": "npm run check:chunked-bounds && npm run test:chunked-fit && npm run check:root && npm run check:pages-assets && npm run check:external-sources && npm run check:approved-publication && npm run check:raw-source-documents && npm run check:medium-priority-publication && npm run check:peatland-geoportal && npm run check:ni-register-interests && npm run check:election-source-enrichments && npm run check:graph && npm run check:c1-coverage && npm run check:test && npm run check:intake-delivery && npm run check:source-paths && npm run check:composite-composition && npm run check:test-index-parity && npm run check:og-preview",
+    "check": "npm run check:chunked-bounds && npm run test:chunked-fit && npm run check:root && npm run check:pages-assets && npm run check:external-sources && npm run check:approved-publication && npm run check:raw-source-documents && npm run check:medium-priority-publication && npm run check:peatland-geoportal && npm run check:ni-register-interests && npm run check:election-source-enrichments && npm run check:graph && npm run check:c1-coverage && npm run check:test && npm run check:intake-delivery && npm run check:source-paths && npm run check:composite-composition && npm run check:test-index-parity && npm run check:og-preview && npm run check:viewer-parity && npm run check:r2-allowlist",
     "check:election-source-enrichments": "node scripts/validate-election-source-enrichments.mjs",
     "check:chunked-bounds": "node scripts/validate-chunked-map-bounds.mjs",
     "check:root": "node scripts/validate-maplibre-root-promotion.mjs",
@@ -75,23 +75,25 @@
     "build:elections": "node scripts/build-test2-election-manifest.mjs && node scripts/build-test2-election-summaries.mjs",
     "check:test-index-parity": "node scripts/validate-test-index-parity.mjs",
     "check:og-preview": "node scripts/build-og-preview.mjs --check",
-    "build:og-preview": "node scripts/build-og-preview.mjs"
+    "build:og-preview": "node scripts/build-og-preview.mjs",
+    "check:viewer-parity": "node scripts/validate-election-viewer-package-parity.mjs",
+    "check:r2-allowlist": "node scripts/validate-r2-publication-allowlist.mjs",
+    "preflight:migration": "node scripts/preflight-data-migration.mjs",
+    "lint": "eslint .",
+    "lint:strict": "eslint . --max-warnings 0"
   },
   "devDependencies": {
+    "@aws-sdk/client-s3": "^3.1104.0",
     "@axe-core/playwright": "^4.11.3",
     "@playwright/test": "^1.58.2",
     "axe-core": "^4.11.4",
     "canvas": "^3.2.1",
     "esbuild": "^0.27.4",
-    "flatgeobuf": "^4.4.0"
+    "eslint": "^10.8.0",
+    "flatgeobuf": "^4.4.0",
+    "globals": "^16.5.0"
   },
   "dependencies": {
-    "@deck.gl/core": "^9.3.6",
-    "@deck.gl/geo-layers": "^9.3.6",
-    "@deck.gl/layers": "^9.3.6",
-    "@deck.gl/mapbox": "^9.3.6",
-    "@loaders.gl/3d-tiles": "^4.4.3",
-    "@loaders.gl/core": "^4.4.3",
     "@turf/area": "^7.3.4",
     "@turf/helpers": "^7.3.4",
     "@turf/length": "^7.3.4",

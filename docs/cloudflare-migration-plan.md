@@ -1,5 +1,10 @@
 # Cloudflare Migration Plan
 
+> **Status: SUPERSEDED — last updated 2026-05-04.** This migration has
+> completed; the site runs on Cloudflare Pages + Workers (`functions/`,
+> `_headers`, and the `check:pages-assets` file-budget validator all assume it).
+> Retained for historical rationale. Do not execute the steps below.
+
 Migrate the Boundaries Website from Neocities to Cloudflare Pages + Workers.
 
 **Current state:** Static site on Neocities, deployed via GitHub Actions custom curl workflow.

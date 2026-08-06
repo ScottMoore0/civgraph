@@ -1,5 +1,8 @@
 # Post-1921 Dail Transfer Gap Research
 
+> **Status: point-in-time research — 2026-06-08.** Describes data gaps as of that
+> date; some may since be filled. Verify against the current election stores.
+
 Date: 2026-06-08
 
 ## Implementation Result
