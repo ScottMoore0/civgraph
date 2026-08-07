@@ -353,6 +353,10 @@ non_domestic_properties.geojson
 *_properties.geojson
 download_lps_properties.py
 download_lps_properties*.txt
+# Broadened: download_properties.py produces non_domestic_properties.geojson,
+# which the rules above already classify never-public, but it did not match
+# the lps_ prefix, so `git add -A` would have committed the scraper itself.
+download*propert*.py
 # Private LPS->OSM synthetic/harmonisation tool + its outputs (Pointer-class).
 synth-osm/
 # ─────────────────────────────────────────────────────────────────────────────
