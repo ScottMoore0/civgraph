@@ -1434,4 +1434,3 @@ maplibre-gl/dist/maplibre-gl.js:
    * @license 3-Clause BSD. Full text of license: https://github.com/maplibre/maplibre-gl-js/blob/v5.24.0/LICENSE.txt
    *)
 */
-//# sourceMappingURL=test.bundle.js.map

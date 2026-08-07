@@ -17,7 +17,12 @@ test('/test shell starts with main navigation and diagnostics', async ({ page })
   await expect(page.getByRole('link', { name: 'MapLibre Test', exact: true })).toHaveCount(0);
   await expect(page.locator('#map')).toBeVisible();
   await openMapTools(page);
-  await expect(page.locator('#diagnostics')).toContainText('test-020');
+  // Match the shape, not the number. This previously pinned 'test-020'; the
+  // version was bumped to test-065 and the assertion was not, so this suite
+  // failed every night for four days while still reporting on everything else.
+  // Pinning it here also duplicated validate-test-app.mjs, which already fails
+  // on an index/app version mismatch and runs earlier in this same workflow.
+  await expect(page.locator('#diagnostics')).toContainText(/test-\d{3}/);
   await expect(page.locator('#diagnostics')).toContainText('Production Readiness');
   await expect(page.locator('#diagnostics')).toContainText('CI guardrails');
   await expect(page.locator('#diagnostics')).toContainText('Deployment Discipline');
