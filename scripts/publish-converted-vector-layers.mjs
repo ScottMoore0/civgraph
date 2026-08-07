@@ -17,7 +17,8 @@
  * is auto-read from ../../.. up to the repo that holds it).
  */
 import { existsSync, mkdirSync, readFileSync, writeFileSync, rmSync, statSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 
 const ROOT = resolve(process.cwd());
@@ -121,7 +122,12 @@ if (!ok.length) process.exit(0);
 // ---- R2 upload ----
 if (!NO_UPLOAD) {
   // read main-checkout .env.local
-  for (const p of ['.env.local', '../../../.env.local', '../../../../.env.local', 'C:/Users/scomo/boundaries-website/.env.local']) {
+  // The last entry used to be an absolute path into one developer's checkout,
+  // which only ever resolved on that machine and published their username in a
+  // public repo. Deriving it from this module's own location covers the same
+  // case -- the main checkout's .env.local -- from any cwd, on any OS.
+  const REPO_ENV = resolve(dirname(fileURLToPath(import.meta.url)), '..', '.env.local');
+  for (const p of ['.env.local', '../../../.env.local', '../../../../.env.local', REPO_ENV]) {
     try { for (const line of readFileSync(p, 'utf8').split(/\r?\n/)) { const m = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$/); if (m && !(m[1] in process.env)) process.env[m[1]] = m[2].replace(/^["']|["']$/g, ''); } break; } catch {}
   }
   const { S3Client, PutObjectCommand } = await import('@aws-sdk/client-s3');

@@ -21,7 +21,11 @@ import { createRequire } from 'node:module';
 import { existsSync, mkdirSync, statSync } from 'node:fs';
 import path from 'node:path';
 
-const require = createRequire('C:/Users/scomo/boundaries-website/package.json');
+// Resolve relative to this module. This previously hardcoded an absolute path
+// to one developer's checkout, which resolves nowhere else -- so
+// check:og-preview crashed with ERR_INVALID_ARG_VALUE on every CI runner
+// before it could run at all.
+const require = createRequire(import.meta.url);
 const args = process.argv.slice(2);
 const argVal = (name, fallback) => {
   const i = args.indexOf(name);
