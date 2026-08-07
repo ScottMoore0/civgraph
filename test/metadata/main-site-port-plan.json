@@ -4,13 +4,13 @@
   "testMetadata": "test/metadata/maps-test.json",
   "totals": {
     "total": 1266,
-    "converted": 1148,
-    "convertedDirect": 962,
+    "converted": 1146,
+    "convertedDirect": 960,
     "convertedComposite": 29,
     "convertedAlias": 157,
     "needsVectorTileConversion": 0,
     "needsRasterStrategy": 0,
-    "metadataOnly": 118,
+    "metadataOnly": 120,
     "needsMapLibreSourceMapping": 0
   },
   "rows": [
@@ -21811,43 +21811,20 @@
       "date": "1957-04-01",
       "dateAdded": null,
       "dateEffective": null,
-      "provider": [
-        "OSNI"
-      ],
-      "description": "NI District Electoral Divisions for the 1957 Stormont election. Distinct 1957 NI DED boundaries are not digitised; the 1930 NI DED dataset is used as proxy (boundaries did not change materially).",
-      "sourceCredits": [
-        "OSNI"
-      ],
-      "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": "ded-1957-04-01-vector-test",
+      "provider": [],
+      "description": "NI District Electoral Divisions as they stood for the 1957 Stormont election. Not yet digitised: no distinct 1957 NI DED boundary set is currently available. This entry previously served the 1930 NI DED dataset as a proxy on the basis that the boundaries had not changed materially; it is now listed as to-be-added rather than served, so that an unchanged map is not mistaken for evidence of unchanged boundaries. For the 1930 boundaries see ded-1930-04-01.",
+      "sourceCredits": [],
+      "conversionStatus": "metadataOnly",
+      "recommendedTarget": "catalogue-metadata",
+      "testLayerId": null,
       "aliasTargetLayerId": null,
-      "bounds": [
-        [
-          54.0227248,
-          -8.1779384
-        ],
-        [
-          55.3129847,
-          -5.4267884
-        ]
-      ],
-      "style": {
-        "color": "#9C6E3F",
-        "fillColor": null,
-        "fillOpacity": null,
-        "weight": 2
-      },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/electoral-divisions/NI_DEDs_1930.fgb"
-        }
-      ],
+      "bounds": null,
+      "style": null,
+      "sourceFiles": [],
       "references": [],
       "sourceDownloads": [],
       "variants": 0,
-      "unsupportedReason": null
+      "unsupportedReason": "no direct source file recorded"
     },
     {
       "sourceMapId": "ded-1956-04-01",
@@ -22949,43 +22926,20 @@
       "date": "1921-05-03",
       "dateAdded": null,
       "dateEffective": null,
-      "provider": [
-        "OSNI"
-      ],
-      "description": "NI District Electoral Divisions on 3 May 1921 (Government of Ireland Act commencement). Distinct 1921 NI DED boundaries are not digitised; the 1930 NI DED dataset is used as proxy.",
-      "sourceCredits": [
-        "OSNI"
-      ],
-      "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": "ded-1921-05-03-vector-test",
+      "provider": [],
+      "description": "NI District Electoral Divisions as they stood on 3 May 1921, the commencement of the Government of Ireland Act. Not yet digitised: no distinct 1921 NI DED boundary set is currently available. This entry previously served the 1930 NI DED dataset as a proxy, which risked implying the boundaries were unchanged between 1921 and 1930; it is now listed as to-be-added rather than served. For the 1930 boundaries see ded-1930-04-01.",
+      "sourceCredits": [],
+      "conversionStatus": "metadataOnly",
+      "recommendedTarget": "catalogue-metadata",
+      "testLayerId": null,
       "aliasTargetLayerId": null,
-      "bounds": [
-        [
-          54.0227248,
-          -8.1779384
-        ],
-        [
-          55.3129847,
-          -5.4267884
-        ]
-      ],
-      "style": {
-        "color": "#9C6E3F",
-        "fillColor": null,
-        "fillOpacity": null,
-        "weight": 2
-      },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/electoral-divisions/NI_DEDs_1930.fgb"
-        }
-      ],
+      "bounds": null,
+      "style": null,
+      "sourceFiles": [],
       "references": [],
       "sourceDownloads": [],
       "variants": 0,
-      "unsupportedReason": null
+      "unsupportedReason": "no direct source file recorded"
     },
     {
       "sourceMapId": "county-ed-1969-04-01",
