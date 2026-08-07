@@ -124,6 +124,13 @@ bna_download_links.html
 recovered-election-controller-from-browser.md
 pages/*-mock.html
 tasks/
+# EXCEPTION, tracked with `git add -f` despite the rule above:
+#   tasks/absence-integration-ready-2026-06-15/publication-approval-pack/
+#     approval-refinement/refinement-validation-report.json
+# validate-approved-publication-path.mjs reads it, so with `tasks/` ignored the
+# approved-publication gate could not run anywhere but the machine that authored
+# it -- CI failed on exactly this. It is 991 bytes of counts and booleans, no
+# personal data. Do not untrack it without also changing that validator.
 tasks/conversation-log-2026-03-20.md
 
 # Claude Code session transcripts (root-level timestamped txt files)
