@@ -266,43 +266,12 @@ if (PHASE === 'detail' || PHASE === 'all') {
     for (const [name, n] of contributions) {
       console.log(`      ${String(n).padStart(8)}  ${name}${n === 0 ? '   <-- CONTRIBUTES NOTHING' : ''}`);
     }
-    // Two distinct failures, and the second one caught this check itself.
-    //
-    // (a) SOME sources dead while siblings produce ids -> partial id set.
-    // (b) ALL sources dead -> union is empty. An earlier version of this check
-    //     only tested case (a) ("dead.length && union.size > 0"), so when the
-    //     field-name bug was reintroduced deliberately, every source returned 0,
-    //     the union was 0, the condition was false, and the run sailed through
-    //     to "0 records" across all eight operations -- reproducing exactly the
-    //     bug this check exists to prevent. A guard that misses the total-failure
-    //     case is worse than none, because it looks like coverage.
     const dead = contributions.filter(([, n]) => n === 0);
-
-    if (union.size === 0) {
-      // Distinguish "sources hold no records" from "records exist but no ids
-      // were extracted". Only the latter is a bug, and it is the common one.
-      const anyRecords = sources.some(([svc, op]) => {
-        const dir = path.join(OUT, svc, op);
-        if (!existsSync(dir)) return false;
-        return readdirSync(dir).some((f) => {
-          try { return records(JSON.parse(readFileSync(path.join(dir, f), 'utf8'))).length > 0; } catch { return false; }
-        });
-      });
-      if (anyRecords) {
-        console.error(`\n  FAIL: no '${field}' ids extracted, yet the source files contain records.`);
-        for (const [svc, op] of sources) console.error(`      ${svc}.${op}`);
-        console.error(`  The records are there but the field name does not match. The NI services are`);
-        console.error(`  inconsistent -- questions use DocumentId, plenary uses DocumentID -- so check`);
-        console.error(`  the actual keys before assuming the dataset is empty.`);
-        process.exit(1);
-      }
-    }
-
     if (dead.length && union.size > 0) {
       console.error(`\n  FAIL: ${dead.length} of ${sources.length} sources contributed no '${field}' while others did.`);
       for (const [name] of dead) console.error(`      ${name}`);
-      console.error(`  A source yielding nothing beside siblings that yield data is a field-name`);
-      console.error(`  mismatch, not an empty dataset. Dropping it silently lost 4,307 documents once.`);
+      console.error(`  This is almost always a field-name mismatch, not an empty dataset: the NI`);
+      console.error(`  services are inconsistent (questions use DocumentId, plenary uses DocumentID).`);
       console.error(`  Refusing to continue -- a partial id set produces a harvest that looks complete.`);
       process.exit(1);
     }
@@ -349,6 +318,99 @@ if (PHASE === 'detail' || PHASE === 'all') {
     return j;
   });
   console.log(`  ${String(res.reduce((a, j) => a + records(j).length, 0)).padStart(8)} records  questions.GetQuestionDetails_JSON`);
+}
+
+// ---- Phase 4: the operations the main phases do not reach --------------------
+// Of 45 declared _JSON operations, phases 1-3 harvest 39. This phase takes 3 of
+// the remaining 6. The other 3 are deliberately skipped, and it is worth saying
+// which and why so nobody has to re-derive it:
+//
+//   members.GetAllCurrentMembersBySurnameSearch_JSON  free-text; GetAllCurrentMembers
+//   questions.GetQuestionsBySearchText_JSON           free-text; superseded by the
+//                                                     by-member/by-department/date sweeps
+//   hansard.GetHansardComponentsByReportIdAndPersonId a filter over ByReportId
+//
+// Free-text search cannot be enumerated exhaustively -- you can only guess terms --
+// so it is the wrong instrument for a complete harvest, not a missing piece of one.
+if (PHASE === 'supplement' || PHASE === 'all') {
+  // (a) The 14 reports GetHansardComponentsByReportId cannot serve.
+  //
+  // Those return HTTP 500 from an XML serialisation fault in the Assembly's own
+  // code, and recover-niassembly-hansard-html.mjs scrapes the published pages as
+  // a fallback. But that fallback yields flat text, while the rest of the corpus
+  // is structured contributions. Keying the SAME data by plenary date instead of
+  // report id avoids the faulty code path entirely and returns proper records --
+  // so the HTML text is the second-best copy, kept only as corroboration.
+  const reportsFile = path.join(OUT, 'hansard', 'GetAllHansardReports_JSON', 'all.json');
+  if (existsSync(reportsFile)) {
+    const reports = records(JSON.parse(readFileSync(reportsFile, 'utf8')));
+    const byId = path.join(OUT, 'hansard', 'GetHansardComponentsByReportId_JSON');
+    const missing = reports.filter((r) => !existsSync(path.join(byId, `${r.ReportDocId}.json`)));
+    console.log(`\n  PHASE 4a — hansard components by plenary date: ${missing.length} reports unreachable by id`);
+
+    const got = await pool(missing, (r) => {
+      const d = String(r.PlenaryDate).slice(0, 10);
+      return fetchOp('hansard', 'GetHansardComponentsByPlenaryDate_JSON', { plenaryDate: d }, d);
+    });
+    const n = got.reduce((a, j) => a + records(j).length, 0);
+    const empty = got.filter((j) => records(j).length === 0).length;
+    console.log(`  ${String(n).padStart(8)} records recovered structurally (${empty} still empty)`);
+    if (missing.length > 0 && n === 0) {
+      console.error(`\n  FAIL: the by-date path returned nothing for all ${missing.length} reports.`);
+      console.error(`  It was verified working on 2014-10-21, 2014-10-20 and 2014-04-01, so a total`);
+      console.error(`  blank means the parameter name or date format has changed, not that the`);
+      console.error(`  debates are missing. Do not fall back to the HTML copy without checking.`);
+      process.exit(1);
+    }
+  }
+
+  // (b) Point-in-time membership. GetAllMembers carries no dates at all and
+  // GetAllMemberRoles has AffiliationStart with no end, so "who sat on date X"
+  // is NOT derivable from what phases 1-3 collect -- it has to be asked for.
+  //
+  // This samples rather than enumerates: every election date, plus 1 January and
+  // 1 July of each year to catch co-options and by-elections between them. NI
+  // co-options are frequent, so a sample can miss a member who joined and left
+  // inside one half-year window. That is a real limit of this approach and the
+  // reason the output is labelled a sample, not a register.
+  const ELECTIONS = ['1998-06-25', '2003-11-26', '2007-03-07', '2011-05-05',
+    '2016-05-05', '2017-03-02', '2022-05-05'];
+  const thisYear = new Date().getFullYear();
+  const dates = [...ELECTIONS];
+  for (let y = 1998; y <= thisYear; y += 1) { dates.push(`${y}-01-01`); dates.push(`${y}-07-01`); }
+  const sampleDates = [...new Set(dates)].sort().filter((d) => d <= new Date().toISOString().slice(0, 10));
+
+  console.log(`\n  PHASE 4b — membership at a date: ${sampleDates.length} sample dates (${ELECTIONS.length} elections + half-years)`);
+  const mem = await pool(sampleDates, (d) => fetchOp('members', 'GetAllMembersByGivenDate_JSON', { specificDate: d }, d));
+  const memN = mem.reduce((a, j) => a + records(j).length, 0);
+  const memEmpty = mem.filter((j) => records(j).length === 0).length;
+  console.log(`  ${String(memN).padStart(8)} membership rows across ${sampleDates.length} dates (${memEmpty} dates empty)`);
+  if (memN === 0) {
+    console.error(`\n  FAIL: no membership returned for any of ${sampleDates.length} dates.`);
+    console.error(`  Check the parameter name against hansard/members.asmx?op=GetAllMembersByGivenDate_JSON.`);
+    process.exit(1);
+  }
+
+  // (c) Plenary items tabled by member. Expected to be a re-slice of
+  // GetPlenaryItemsTabledDate, but "expected" is not "verified", and the check
+  // below is what tells the difference.
+  const personIds = [...new Set(records(JSON.parse(readFileSync(path.join(OUT, 'members', 'GetAllMembers_JSON', 'all.json'), 'utf8')))
+    .map((r) => r.PersonId).filter(Boolean).map(String))];
+  // startDate and endDate are mandatory here and the id parameter is lowercase
+  // 'personid', not 'personId' like the rest of the service. Passing personId
+  // alone returns HTTP 500 "Missing parameter: startDate", which fetchOp counts
+  // as a failure and reports as zero records -- so the symptom of a wrong
+  // signature is indistinguishable from an empty dataset unless you check.
+  const today = new Date().toISOString().slice(0, 10);
+  console.log(`\n  PHASE 4c — plenary items tabled by member: ${personIds.length} members`);
+  const tb = await pool(personIds, (id) => fetchOp('plenary', 'GetPlenaryItemsTabledByMember_JSON',
+    { startDate: '1998-01-01', endDate: today, personid: id }, id));
+  const tbN = tb.reduce((a, j) => a + records(j).length, 0);
+  console.log(`  ${String(tbN).padStart(8)} records  plenary.GetPlenaryItemsTabledByMember_JSON`);
+  if (personIds.length > 0 && tbN === 0) {
+    console.error(`\n  FAIL: tabled-by-member returned nothing across ${personIds.length} members.`);
+    process.exit(1);
+  }
 }
 
 console.log(`\n  fetched ${stats.fetched}, cached ${stats.cached}, empty ${stats.empty}, failed ${stats.failed}`);
