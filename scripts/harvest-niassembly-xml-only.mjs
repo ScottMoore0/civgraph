@@ -166,14 +166,11 @@ if (PHASE === 'all' || PHASE === 'committees') {
     process.exit(1);
   }
 
-  // EventIds and organisationIds, harvested from what the sweep actually returned.
+  // EventIds, harvested from what the sweep actually returned.
   const eventIds = new Set();
-  const pairs = new Set();
-  for (let i = 0; i < sweep.length; i += 1) {
-    const xml = sweep[i];
+  for (const xml of sweep) {
     if (!xml) continue;
     for (const m of xml.matchAll(/<EventId>([^<]+)<\/EventId>/g)) eventIds.add(m[1].trim());
-    for (const m of xml.matchAll(/<OrganisationId>([^<]+)<\/OrganisationId>/g)) pairs.add(`${dates[i]}|${m[1].trim()}`);
   }
   console.log(`\n  PHASE 2b — by event id: ${eventIds.size} distinct events`);
   if (eventIds.size > 0) {
@@ -187,15 +184,22 @@ if (PHASE === 'all' || PHASE === 'committees') {
     }
   }
 
-  console.log(`\n  PHASE 2c — by date and committee: ${pairs.size} observed date/committee pairs`);
-  if (pairs.size > 0) {
-    const pr = await pool([...pairs], (p) => {
-      const [d, org] = p.split('|');
-      return fetchXml('plenary', 'GetCommitteeAgendaItemsCommitteeMeetingDate', { meetingDate: d, organisationId: org }, `${d}_${org}`);
-    });
-    const nonEmpty = pr.filter((x) => !isEmptyDoc(x)).length;
-    console.log(`  ${String(nonEmpty).padStart(7)} pairs returned content`);
-  }
+  // GetCommitteeAgendaItemsCommitteeMeetingDate (meetingDate + organisationId) is
+  // NOT harvested, and this is a measured decision rather than an assumption.
+  //
+  // The response above carries CommitteeName but no organisation id, so the ids
+  // could only come from organisations.GetCommitteesListCurrent_*, which lists
+  // current committees only -- meaning a by-committee sweep would silently miss
+  // every dissolved committee. That made it worth checking whether it returns
+  // anything the date sweep does not. Tested on 2026-08-06, where the date sweep
+  // holds 11 items: all seven standing committee ids returned zero items, and
+  // zero items were unique to that path. The date-keyed operation is a superset.
+  //
+  // An earlier version of this phase looked for <OrganisationId> in the sweep
+  // output, found none, and quietly harvested nothing while printing a phase
+  // header -- which reads as "ran and found nothing to do" rather than "looked
+  // for the wrong element". Recording the measurement is the honest version.
+  console.log(`\n  PHASE 2c — skipped: by-committee path verified as a subset of the date sweep`);
 }
 
 // ---- Phase 3: written answers as HTML and OpenXml ---------------------------
