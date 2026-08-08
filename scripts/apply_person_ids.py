@@ -34,7 +34,7 @@ def normalize_name_for_match(value: str) -> str:
 
 
 def main():
-    base = Path("C:/Users/scomo/boundaries-website")
+    base = Path(__file__).resolve().parents[1]
     scripts = base / "scripts"
     elections_base = base / "election-viewer-package" / "data" / "elections" / "local-government"
 

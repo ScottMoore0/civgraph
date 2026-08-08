@@ -152,7 +152,7 @@ def main():
         "persons": {str(pid): data for pid, data in sorted(persons.items())},
     }
 
-    out_path = Path("C:/Users/scomo/boundaries-website/scripts/person_registry.json")
+    out_path = Path(__file__).resolve().parents[1] / 'scripts/person_registry.json'
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(registry, f, ensure_ascii=False, indent=2)
 

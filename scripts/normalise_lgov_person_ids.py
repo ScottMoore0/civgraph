@@ -12,9 +12,10 @@ Normalise PersonIDs in lgov-modern-wikipedia.stvfix.xlsx
 import re
 import openpyxl
 from copy import copy
+from pathlib import Path
 
-INPUT = r"C:\Users\scomo\boundaries-website\_tmp_xls2rar_extract\out\wiki_lgov_modern\lgov-modern-wikipedia.stvfix.xlsx"
-OUTPUT = r"C:\Users\scomo\boundaries-website\_tmp_xls2rar_extract\out\wiki_lgov_modern\lgov-modern-wikipedia.stvfix.normalised.xlsx"
+INPUT = str(Path(__file__).resolve().parents[1] / '_tmp_xls2rar_extract/out/wiki_lgov_modern/lgov-modern-wikipedia.stvfix.xlsx')
+OUTPUT = str(Path(__file__).resolve().parents[1] / '_tmp_xls2rar_extract/out/wiki_lgov_modern/lgov-modern-wikipedia.stvfix.normalised.xlsx')
 
 # Step 1: 29 confirmed duplicate pairs (keep, discard)
 DUPLICATE_PAIRS = [

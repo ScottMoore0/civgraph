@@ -22,7 +22,7 @@ except Exception:  # pragma: no cover
     PdfReader = None
 
 
-BASE = Path("C:/Users/scomo/boundaries-website")
+BASE = Path(__file__).resolve().parents[1]
 SPN_BASE = BASE / "_tmp_eoni_spn"
 REPORT_PATH = BASE / "_tmp_spn_year_validation.json"
 TARGET_DIR_PATTERN = re.compile(r"^(2019|2023)_local_")

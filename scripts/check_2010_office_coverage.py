@@ -1,5 +1,6 @@
 import fitz
 import os
+from pathlib import Path
 
 constituencies = [
     "Belfast East", "Belfast North", "Belfast South", "Belfast West",
@@ -17,7 +18,7 @@ files = [
     "statement_of_persons_nominated_-_newtownards_office-2.pdf"
 ]
 
-root = r"c:\Users\scomo\boundaries-website"
+root = str(Path(__file__).resolve().parents[1])
 
 for f in files:
     path = os.path.join(root, f)

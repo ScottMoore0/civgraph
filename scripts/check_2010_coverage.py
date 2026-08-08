@@ -1,5 +1,6 @@
 import fitz  # PyMuPDF
 import os
+from pathlib import Path
 
 constituencies = [
     "Belfast East", "Belfast North", "Belfast South", "Belfast West",
@@ -24,7 +25,7 @@ pdf_files = [
     "statement_of_persons_nominated_-_omagh_office.pdf"
 ]
 
-root = r"c:\Users\scomo\boundaries-website"
+root = str(Path(__file__).resolve().parents[1])
 found_constituencies = set()
 
 for pdf_name in pdf_files:

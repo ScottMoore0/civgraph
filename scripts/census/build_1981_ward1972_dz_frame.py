@@ -57,12 +57,13 @@ import os, re, csv, warnings
 warnings.filterwarnings('ignore')
 import geopandas as gpd
 import pandas as pd
+from pathlib import Path
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..', '..'))
 DER = os.path.join(REPO, 'data', 'census', 'derived')
 STAGE = os.path.join(REPO, 'data', 'maps', 'local-government', 'staged-w72id')
-CA = 'C:/Users/scomo/boundaries-website/data/maps/census-areas'
+CA = str(Path(__file__).resolve().parents[2] / 'data/maps/census-areas')
 
 WARDS = os.path.join(STAGE, 'Wards_1972.fgb')
 POPCSV = os.path.join(DER, 'ward1972-pop-1981.csv')

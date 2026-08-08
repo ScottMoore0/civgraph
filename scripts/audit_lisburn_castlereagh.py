@@ -1,10 +1,11 @@
 import fitz
 import os
+from pathlib import Path
 
 council = "Lisburn and Castlereagh"
 deas = ["Castlereagh Central", "Castlereagh South", "Downshire East", "Downshire West", "Killultagh", "Lisburn North", "Lisburn South"]
 
-root = r"c:\Users\scomo\boundaries-website"
+root = str(Path(__file__).resolve().parents[1])
 search_folders = [
     root,
     os.path.join(root, "_tmp_eoni_spn"),

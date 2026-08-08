@@ -46,12 +46,13 @@ import os, re, csv, gzip, shutil, difflib, collections, warnings
 
 warnings.filterwarnings('ignore')
 import geopandas as gpd
+from pathlib import Path
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..', '..'))
 # The .fgb files are gitignored (.gitignore: data/maps/**/*.fgb), so they exist only in
 # the main checkout, never in a worktree.
-SRC = 'C:/Users/scomo/boundaries-website/data/maps/local-government'
+SRC = str(Path(__file__).resolve().parents[2] / 'data/maps/local-government')
 STAGE = os.path.join(REPO, 'data', 'maps', 'local-government', 'staged-w72id')
 XWALK = os.path.join(REPO, 'data', 'census', 'derived', 'ward1972-crosswalk.csv')
 OUTCSV = os.path.join(REPO, 'data', 'census', 'derived', 'ward1972-pop-1981.csv')

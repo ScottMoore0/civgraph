@@ -152,7 +152,7 @@ def score_match(candidate, person):
 
 
 def main():
-    base = Path("C:/Users/scomo/boundaries-website")
+    base = Path(__file__).resolve().parents[1]
     registry_path = base / "scripts" / "person_registry.json"
     elections_base = base / "election-viewer-package" / "data" / "elections" / "local-government"
 

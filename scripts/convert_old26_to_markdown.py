@@ -4,7 +4,7 @@ import os
 import json
 from pathlib import Path
 
-BASE = Path("C:/Users/scomo/boundaries-website")
+BASE = Path(__file__).resolve().parents[1]
 OUT_BASE = BASE / "_tmp_gazette_markdown" / "old26_councils"
 OUT_BASE.mkdir(parents=True, exist_ok=True)
 

@@ -4,7 +4,7 @@ import os
 import sys
 from pathlib import Path
 
-BASE = Path(r"C:/Users/scomo/boundaries-website")
+BASE = Path(__file__).resolve().parents[1]
 SRC = BASE / "_tmp_gazette"
 DST = BASE / "_tmp_gazette_markdown"
 

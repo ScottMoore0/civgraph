@@ -4,7 +4,7 @@ import json, os
 from pathlib import Path
 from collections import defaultdict
 
-os.chdir("C:/Users/scomo/boundaries-website")
+os.chdir(str(Path(__file__).resolve().parents[1]))
 
 # Known elections
 elections = [

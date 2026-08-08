@@ -15,6 +15,7 @@ import os
 import re
 import sys
 from collections import defaultdict, Counter
+from pathlib import Path
 
 # ---------------------------------------------------------------------------
 # Reference data
@@ -681,7 +682,7 @@ def print_summary(agent_results, nop_results):
 
 
 def main():
-    base_dir = "C:/Users/scomo/boundaries-website/_tmp_gazette"
+    base_dir = str(Path(__file__).resolve().parents[1] / '_tmp_gazette')
     agents_dir = os.path.join(base_dir, "belfast_agents")
     nop_dir = os.path.join(base_dir, "belfast_notice_of_poll")
 

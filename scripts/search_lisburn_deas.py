@@ -1,12 +1,13 @@
 import fitz
 import os
+from pathlib import Path
 
 deas = [
     "Castlereagh Central", "Castlereagh South", 
     "Downshire East", "Downshire West", 
     "Killultagh", "Lisburn North", "Lisburn South"
 ]
-root = r"c:\Users\scomo\boundaries-website\_tmp_eoni_spn"
+root = str(Path(__file__).resolve().parents[1] / '_tmp_eoni_spn')
 
 print("Searching for Lisburn & Castlereagh DEAs in PDFs (excluding AreaOfficeAddress):")
 

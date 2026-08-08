@@ -7,8 +7,9 @@ import fitz  # PyMuPDF
 import os
 import re
 import time
+from pathlib import Path
 
-BASE_DIR = r"C:\Users\scomo\boundaries-website"
+BASE_DIR = str(Path(__file__).resolve().parents[1])
 OUTPUT_DIR = os.path.join(BASE_DIR, "data", "census")
 
 # PDF filename -> output markdown filename

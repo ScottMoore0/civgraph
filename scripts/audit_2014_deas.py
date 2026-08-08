@@ -1,5 +1,6 @@
 import fitz
 import os
+from pathlib import Path
 
 councils_deas = {
     "Antrim and Newtownabbey": ["Airport", "Antrim", "Ballyclare", "Dunsilly", "Glengormley", "Macedon", "Threemilewater"],
@@ -15,7 +16,7 @@ councils_deas = {
     "Newry, Mourne and Down": ["Clandeboye", "Downpatrick", "Newry", "Rowallane", "Slieve Croob", "Slieve Gullion", "The Mournes"]
 }
 
-root = r"c:\Users\scomo\boundaries-website"
+root = str(Path(__file__).resolve().parents[1])
 results = {}
 
 # Search all files in relevant folders
