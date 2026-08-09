@@ -34,9 +34,10 @@
  * whole point of keeping raw responses is that a parser bug downstream can
  * never be mistaken for missing data.
  */
-import { existsSync, mkdirSync, readdirSync, readFileSync, appendFileSync, statSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync, appendFileSync, statSync, openSync, readSync, closeSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import path from 'node:path';
+import { StringDecoder } from 'node:string_decoder';
 
 /**
  * List member basenames of a tar.gz without extracting it.
@@ -110,13 +111,45 @@ function archiveBodies(archive) {
   return bodies;
 }
 
+/**
+ * Yield a JSONL file's lines without ever holding the whole file as a string.
+ *
+ * readFileSync(file,'utf8') cannot do this: Node caps strings at 0x1fffffe8
+ * characters (0.5 GB), and GetWrittenAnswerOpenXml.jsonl is 4.27 GB. The store
+ * was therefore able to WRITE records it could not read back -- a resumed run
+ * would have crashed with "Cannot create a string longer than..." rather than
+ * resuming, and the failure only appeared once a single operation exceeded half
+ * a gigabyte.
+ *
+ * StringDecoder is what makes chunking safe: a fixed-size read can split a
+ * multi-byte UTF-8 sequence, and buf.toString('utf8') on the fragment would
+ * corrupt that character silently.
+ */
+function* jsonlLines(file) {
+  const fd = openSync(file, 'r');
+  const decoder = new StringDecoder('utf8');
+  const CHUNK = 8 * 1024 * 1024;
+  const buf = Buffer.allocUnsafe(CHUNK);
+  let carry = '';
+  try {
+    for (;;) {
+      const n = readSync(fd, buf, 0, CHUNK, null);
+      if (n <= 0) break;
+      const text = carry + decoder.write(buf.subarray(0, n));
+      const lines = text.split('\n');
+      carry = lines.pop() ?? '';
+      for (const line of lines) if (line) yield line;
+    }
+    carry += decoder.end();
+    if (carry) yield carry;
+  } finally { closeSync(fd); }
+}
+
 /** Keys already recorded in an append-only JSONL, read without parsing bodies. */
 function jsonlIndex(file) {
   const keys = new Set();
   if (!existsSync(file)) return keys;
-  const text = readFileSync(file, 'utf8');
-  for (const line of text.split('\n')) {
-    if (!line) continue;
+  for (const line of jsonlLines(file)) {
     // Cheap prefix scan: the writer always emits "k" first, so this avoids
     // JSON.parse over hundreds of thousands of bodies just to list keys.
     const m = /^\{"k":("(?:[^"\\]|\\.)*")/.exec(line);
@@ -205,8 +238,7 @@ export function openStore(outDir, { verbose = true } = {}) {
 
         const jsonl = path.join(svcDir, `${op}.jsonl`);
         if (existsSync(jsonl)) {
-          for (const line of readFileSync(jsonl, 'utf8').split('\n')) {
-            if (!line) continue;
+          for (const line of jsonlLines(jsonl)) {
             try { const r = JSON.parse(line); bodies.set(r.k, r.b); } catch { /* skip */ }
           }
         }
@@ -243,8 +275,7 @@ export function* readRecords(outDir, service, op) {
   }
   const jsonl = path.join(outDir, service, `${op}.jsonl`);
   if (existsSync(jsonl)) {
-    for (const line of readFileSync(jsonl, 'utf8').split('\n')) {
-      if (!line) continue;
+    for (const line of jsonlLines(jsonl)) {
       try { const r = JSON.parse(line); yield { key: r.k, body: r.b }; } catch { /* skip */ }
     }
   }
