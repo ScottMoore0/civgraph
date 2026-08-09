@@ -3,7 +3,7 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync
 import path from 'node:path';
 import { resolveApprovedPublicationSources } from './lib/approved-publication-index.mjs';
 import { partyColour } from '../js/election-domain.mjs';
-import { canonicalElectionTitle, electionResultEntryLabel } from '../js/election-names.mjs';
+import { canonicalElectionTitle, electionResultEntryLabel } from './lib/election-names.mjs';
 import { CDN_BASE } from '../js/cdn-url.js';
 
 const ROOT = process.cwd();

@@ -64,7 +64,7 @@ function extractRules(qml) {
         if (hex) { lookup[c.value] = hex; mapped++; }
         else { missing++; }
     }
-    writeFileSync('js/bgs-palette-bedrock.json', JSON.stringify(lookup, null, 0));
+    writeFileSync('data/palettes/bgs-palette-bedrock.json', JSON.stringify(lookup, null, 0));
     console.log(`bedrock: ${cats.length} categories, ${Object.keys(symbols).length} symbol colours, ${mapped} mapped, ${missing} missing`);
     // Print 5 samples
     for (const k of Object.keys(lookup).slice(0, 5)) console.log(`  ${k} -> ${lookup[k]}`);
@@ -83,7 +83,7 @@ function extractRules(qml) {
         const hex = symbols[r.symbol];
         if (hex) lookup[lex] = hex;
     }
-    writeFileSync('js/bgs-palette-superficial.json', JSON.stringify(lookup, null, 2));
+    writeFileSync('data/palettes/bgs-palette-superficial.json', JSON.stringify(lookup, null, 2));
     console.log(`superficial: ${rules.length} rules, ${Object.keys(symbols).length} symbol colours, ${Object.keys(lookup).length} mapped`);
     for (const k of Object.keys(lookup)) console.log(`  ${k} -> ${lookup[k]}`);
 }

@@ -1,6 +1,6 @@
-import dataService, { resolveMapDownloadUrl } from '../../js/data-service.js';
-import featureLoader from '../../js/feature-loader.js';
-import uiController from '../../js/ui-controller.js';
+import dataService, { resolveMapDownloadUrl } from '../../src/data-service.js';
+import featureLoader from '../../src/feature-loader.js';
+import uiController from '../../src/ui-controller.js';
 import { TestMetadataService } from '../../test/src/metadata-service.js';
 import { Test2MapLibreMainAdapter } from './maplibre-main-adapter.js';
 

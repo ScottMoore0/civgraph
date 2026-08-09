@@ -11,11 +11,11 @@ const electionManagerSource = readFileSync('app/src/election-manager.js', 'utf8'
 const electionPaneContractSource = readFileSync('app/src/election-pane-main-contract.js', 'utf8');
 const test2ServiceWorkerSource = readFileSync('test2/sw.js', 'utf8');
 const rootServiceWorkerSource = readFileSync('sw.js', 'utf8');
-const mainElectionPaneContractSource = readFileSync('js/election-main-pane-contract.mjs', 'utf8');
-const electionDomainSource = readFileSync('js/election-domain.mjs', 'utf8');
-const electionViewModelSource = readFileSync('js/election-view-model.mjs', 'utf8');
-const electionRendererSource = readFileSync('js/election-renderer.mjs', 'utf8');
-const electionControllerSource = readFileSync('js/election-controller.js', 'utf8');
+const mainElectionPaneContractSource = readFileSync('src/election-main-pane-contract.mjs', 'utf8');
+const electionDomainSource = readFileSync('src/election-domain.mjs', 'utf8');
+const electionViewModelSource = readFileSync('src/election-view-model.mjs', 'utf8');
+const electionRendererSource = readFileSync('src/election-renderer.mjs', 'utf8');
+const electionControllerSource = readFileSync('archive/leaflet/js/election-controller.js', 'utf8');
 const electionManifestBuilderSource = readFileSync('scripts/build-test2-election-manifest.mjs', 'utf8');
 const timelineSidecarBuilderSource = readFileSync('scripts/build_timeline_transition_sidecars.py', 'utf8');
 const timelineRuntimeOverlayBuilderSource = readFileSync('scripts/build-timeline-transition-runtime-overlays.mjs', 'utf8');
@@ -52,7 +52,7 @@ function loadTimelineRuntimeOverlay(id) {
 const wardTimelineTransitionRuntimeOverlays = wardTimelineTransitionSidecarIds.map(loadTimelineRuntimeOverlay);
 const browseIndexBuilderSource = readFileSync('scripts/build-browse-indexes.mjs', 'utf8');
 const electionDataAuditSource = readFileSync('scripts/audit-test2-election-data.mjs', 'utf8');
-const uiControllerSource = readFileSync('js/ui-controller.js', 'utf8');
+const uiControllerSource = readFileSync('src/ui-controller.js', 'utf8');
 const mapControllerSource = readFileSync('test/src/map-controller.js', 'utf8');
 const labelsSource = readFileSync('test/src/labels.js', 'utf8');
 const featureRepairsSource = readFileSync('test/src/feature-property-repairs.js', 'utf8');
@@ -698,10 +698,10 @@ for (const path of [
   'app/src/maplibre-main-adapter.js',
   'app/src/election-manager.js',
   'app/src/election-pane-main-contract.js',
-  'js/election-main-pane-contract.mjs',
-  'js/election-domain.mjs',
-  'js/election-view-model.mjs',
-  'js/election-renderer.mjs',
+  'src/election-main-pane-contract.mjs',
+  'src/election-domain.mjs',
+  'src/election-view-model.mjs',
+  'src/election-renderer.mjs',
   'test/src/feature-property-repairs.js',
   'test/metadata/elections-test2.json',
   'test/metadata/elections-test2-report.json',

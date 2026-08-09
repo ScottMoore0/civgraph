@@ -14,7 +14,7 @@ export default [
       '.claude/**',
       'app/build/**',
       'test/build/**',
-      'js/**',                        // dead Leaflet stack — see tech-debt item 10
+      'archive/**',                        // dead Leaflet stack — see tech-debt item 10
       'election-viewer-package/**',
       'app/election-viewer-package/**',
       'electionsni-reference/**',

@@ -43,7 +43,7 @@ import { StringDecoder } from 'node:string_decoder';
  * List member basenames of a tar.gz without extracting it.
  *
  * --force-local is essential, not decorative. GNU tar parses "host:path" as a
- * REMOTE archive, so a plain Windows path like C:/packs/x.tar.gz is read as
+ * REMOTE archive, so a plain Windows path like <drive>:/packs/x.tar.gz is read as
  * host "C" plus path "/packs/x.tar.gz" and tar goes looking for a network
  * host. Git Bash hides this by rewriting paths before tar sees them; Node's
  * execFileSync passes the raw string straight through. The symptom is a

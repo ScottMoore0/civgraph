@@ -10,7 +10,7 @@ import timeSliderController from './time-slider-controller.js';
 import { formatElectionDate, shortBodyName, escapeHtml, renderElectionConstituencyFeatureLink } from './election-utils.js';
 import { buildElectionViewModelFromMainController } from './election-view-model.mjs';
 import { renderElectionSummaryFromViewModel } from './election-renderer.mjs';
-import { canonicalElectionTitle, isElectionByElectionScope } from './election-names.mjs';
+import { canonicalElectionTitle, isElectionByElectionScope } from '../../scripts/lib/election-names.mjs';
 
 class ElectionController {
     constructor() {

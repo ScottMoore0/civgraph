@@ -4,7 +4,7 @@
  *
  * WHY. The catalogue pane a user actually browses is not built from data/database/maps.json.
  * It is built from `const c1Cards = [...]`, a hand-maintained array of ~127 card definitions
- * inside js/ui-controller.js, each naming its rows explicitly via mapIds[] or classIds[].
+ * inside src/ui-controller.js, each naming its rows explicitly via mapIds[] or classIds[].
  * Nothing connects that array to the catalogue, so adding a map to maps.json -- correctly
  * categorised, tiled, served from the CDN, passing every other check -- puts it nowhere a
  * user can click. It is present, healthy, and invisible.
@@ -44,7 +44,7 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const ROOT = resolve(process.cwd());
-const UI = resolve(ROOT, 'js/ui-controller.js');
+const UI = resolve(ROOT, 'src/ui-controller.js');
 const CATALOGUE = resolve(ROOT, 'data/database/maps.json');
 const INDEX = resolve(ROOT, 'test/metadata/maps-test-index.json');
 const BASELINE = resolve(ROOT, 'data/database/c1-coverage-baseline.json');
@@ -65,7 +65,7 @@ for (const p of [UI, CATALOGUE, INDEX]) {
 // how we read it without duplicating the definitions here and letting the copy drift.
 function readC1Cards(source) {
   const marker = /const\s+c1Cards\s*=\s*\[/.exec(source);
-  if (!marker) throw new Error('Could not find `const c1Cards = [` in js/ui-controller.js');
+  if (!marker) throw new Error('Could not find `const c1Cards = [` in src/ui-controller.js');
   const open = source.indexOf('[', marker.index);
   let depth = 0;
   for (let i = open; i < source.length; i += 1) {
@@ -185,7 +185,7 @@ if (AS_JSON) {
   console.log(`  renderable layers with no card row at all: ${uncovered.length} (${baseline.size} baselined)`);
 
   if (!hasGeneratedFallback) {
-    console.error('\nThe generated per-category card block is gone from js/ui-controller.js.');
+    console.error('\nThe generated per-category card block is gone from src/ui-controller.js.');
     console.error('  Without it, only explicitly listed layers appear in the catalogue.');
   }
 
@@ -193,7 +193,7 @@ if (AS_JSON) {
     console.error(`\nFAIL: ${newGaps.length} renderable layer(s) are in the catalogue but no card shows them, so no user can reach them.`);
     for (const id of newGaps.slice(0, 25)) console.error(`    ${id}`);
     if (newGaps.length > 25) console.error(`    ... and ${newGaps.length - 25} more`);
-    console.error('  Add each to a card\'s mapIds[] in the c1Cards array in js/ui-controller.js,');
+    console.error('  Add each to a card\'s mapIds[] in the c1Cards array in src/ui-controller.js,');
     console.error('  or to a class already named by a card\'s classIds[].');
   }
 

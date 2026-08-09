@@ -6,8 +6,8 @@ import maplibregl from 'maplibre-gl';
 import {
   createElectionRenderer,
   numericColour as sharedNumericColour
-} from '../../js/election-renderer.mjs';
-import { MainElectionPaneContract } from '../../js/election-main-pane-contract.mjs';
+} from '../../src/election-renderer.mjs';
+import { MainElectionPaneContract } from '../../src/election-main-pane-contract.mjs';
 import {
   buildCandidateSummary,
   buildEntityIndex,
@@ -17,7 +17,7 @@ import {
   normalizeParty,
   partyColour as electionPartyColour,
   seatPositions
-} from '../../js/election-domain.mjs';
+} from '../../src/election-domain.mjs';
 
 const ELECTION_MANIFEST_URL = '/test/metadata/elections-test2.json?v=test-023';
 

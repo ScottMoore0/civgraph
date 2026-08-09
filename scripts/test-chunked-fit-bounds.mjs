@@ -13,7 +13,7 @@ import { resolve } from 'node:path';
 import { validateChunkedMapBounds } from './validate-chunked-map-bounds.mjs';
 
 const ROOT = resolve(process.cwd());
-const CONTROLLER_PATH = resolve(ROOT, 'js/map-controller.js');
+const CONTROLLER_PATH = resolve(ROOT, 'archive/leaflet/js/map-controller.js');
 
 function sliceBetween(source, startMarker, endMarker) {
   const start = source.indexOf(startMarker);

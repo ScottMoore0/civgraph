@@ -26,8 +26,8 @@
  *     (qgis-arcgisstyles.zip in the gsni-250k-geology package).
  *   Viridis / Inferno / Magma / Plasma — matplotlib reference colormaps.
  */
-import bgsBedrock from './bgs-palette-bedrock.json';
-import bgsSuperficial from './bgs-palette-superficial.json';
+import bgsBedrock from '../../../data/palettes/bgs-palette-bedrock.json';
+import bgsSuperficial from '../../../data/palettes/bgs-palette-superficial.json';
 
 const IUGS = {
     QUATERNARY:        '#F9F97F',

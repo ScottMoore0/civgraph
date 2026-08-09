@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -17,7 +17,6 @@ const appSource = read('app/src/app.js');
 const mainCss = read('assets/css/main.css');
 const test2Css = read('app/src/test2.css');
 const sharedAssetBuilder = read('scripts/build-shared-shell-assets.mjs');
-const legacyLeafletBuilder = read('scripts/build-legacy-leaflet-app.mjs');
 const packageJson = JSON.parse(read('package.json'));
 const archiveDocExists = existsSync('archive/leaflet-main-before-maplibre-root-20260612.md');
 const archivedBundleExists = existsSync('archive/legacy-scripts/bundle.mjs');
@@ -62,9 +61,12 @@ assert(
   !buildScript.includes('bundle.mjs') && !buildScript.includes('build-legacy-leaflet-app.mjs'),
   'npm run build must not run the archived Leaflet app bundler.'
 );
+// Also inverted. Keeping build:legacy-leaflet available made sense while the
+// Leaflet bundle was a usable fallback; it is not one now, so the script is
+// retired rather than preserved, and this asserts it stays retired.
 assert(
-  packageJson.scripts?.['build:legacy-leaflet'] === 'node scripts/build-legacy-leaflet-app.mjs',
-  'Archived Leaflet bundle generation must stay available through npm run build:legacy-leaflet.'
+  !packageJson.scripts?.['build:legacy-leaflet'],
+  'build:legacy-leaflet must stay retired — the Leaflet stack is archived.'
 );
 assert(!existsSync('scripts/bundle.mjs'), 'Retired mixed Leaflet/CSS bundle script must stay archived outside scripts/.');
 assert(archivedBundleExists, 'Archived mixed Leaflet/CSS bundle script is missing from archive/legacy-scripts/bundle.mjs.');
@@ -80,11 +82,35 @@ assert(
     !sharedAssetBuilder.includes("updateAssetVersion(html, 'build/app.bundle.js"),
   'Shared asset builder must not bundle or version the archived Leaflet app.'
 );
-assert(
-  legacyLeafletBuilder.includes("entryPoints: ['js/app.js']") &&
-    legacyLeafletBuilder.includes('build/app.bundle.js'),
-  'Legacy Leaflet builder must be explicit and separate from the production build path.'
-);
+// Inverted after the Leaflet stack was archived.
+//
+// This used to assert that build-legacy-leaflet-app.mjs still declared
+// entryPoints: ['js/app.js'] -- that a legacy builder existed and was kept
+// separate from production. With the stack retired, the guarantee worth holding
+// is the stronger one: no build script may take the Leaflet entry, so the
+// promotion cannot be undone by accident.
+//
+// It was archived because it had stopped working anywhere, not merely because
+// it was superseded: js/colour-palettes.js imported JSON with no import
+// attribute, which modern browsers reject, so the module graph failed to
+// instantiate whenever it was served unbundled. Every browser spec that
+// imported it was already failing.
+// Scan the LIVE build scripts, not the archived one. The archived builder still
+// declares entryPoints: ['js/app.js'] -- that is precisely what it is, and
+// asserting otherwise fails on the archive's own contents. What matters is that
+// nothing under scripts/ takes that entry any more.
+{
+  const liveBuildScripts = readdirSync('scripts')
+    .filter((f) => f.endsWith('.mjs') || f.endsWith('.js'))
+    // Exclude this validator: it contains the literal string in its own
+    // assertions, so scanning itself always "finds" a violation.
+    .filter((f) => f !== 'validate-maplibre-root-promotion.mjs')
+    .filter((f) => readFileSync(`scripts/${f}`, 'utf8').includes("entryPoints: ['js/app.js']"));
+  assert(
+    liveBuildScripts.length === 0,
+    `No live build script may declare the archived Leaflet entry point (found: ${liveBuildScripts.join(', ')}).`
+  );
+}
 assert(
   mainCss.includes(':root:not([data-theme="light"]) .election-results-pane') &&
     mainCss.includes(':root:not([data-theme="light"]) .election-party-table tbody td') &&
