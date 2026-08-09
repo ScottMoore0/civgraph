@@ -118,6 +118,14 @@ function updateServiceWorkerVersion(jsVersion) {
 function copyAnimationRuntimeAssets() {
   const assets = [
     ['js/jquery-shim.js', 'app/js/jquery-shim.js'],
+    // app/src/app.js loads this at runtime via
+    // loadClassicScript('/app/js/libs/flatgeobuf-geojson.min.js', 'flatgeobuf'),
+    // but it was never copied here, so that path did not exist in the deploy.
+    // Pages' SPA fallback then answered the request with index.html at HTTP 200,
+    // and `x-content-type-options: nosniff` made the browser refuse to execute
+    // the HTML as a script -- so every FlatGeobuf layer load failed while the
+    // URL still looked healthy to anything checking status codes.
+    ['js/libs/flatgeobuf-geojson.min.js', 'app/js/libs/flatgeobuf-geojson.min.js'],
     ['election-viewer-package/js/stages2.js', 'app/election-viewer-package/js/stages2.js'],
     ['election-viewer-package/js/animation_preview.js', 'app/election-viewer-package/js/animation_preview.js'],
     ['election-viewer-package/js/animation_preview_manager.js', 'app/election-viewer-package/js/animation_preview_manager.js'],
