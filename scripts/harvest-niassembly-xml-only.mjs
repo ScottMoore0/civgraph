@@ -287,16 +287,27 @@ if (PHASE === 'all' || PHASE === 'answers') {
   console.log(`\n  PHASE 3 — written answers: ${idList.length} document ids`);
 
   for (const op of ['GetWrittenAnswerHtml', 'GetWrittenAnswerOpenXml']) {
-    let done = 0; let nonEmpty = 0;
+    let done = 0; let fetchedNonEmpty = 0; let alreadyHeld = 0;
     await pool(idList, async (id) => {
-      const xml = await fetchXml('questions', op, { documentId: id }, id);
-      if (!isEmptyDoc(xml)) nonEmpty += 1;
       done += 1;
       if (done % 10000 === 0) console.log(`      ${op} ${done}/${idList.length} (${stats.fetched} fetched, ${stats.cached} cached, ${stats.failed} failed)`);
+
+      // Held records are counted, not re-read. Calling fetchXml here would go
+      // through store.get(), which materialises EVERY body for the operation --
+      // 72,906 records and 144 MB for GetWrittenAnswerHtml alone, read back off
+      // a 256 KB-per-file volume purely to recount something already known.
+      const k = keyOf(id);
+      if (store.has('questions', op, k)) { alreadyHeld += 1; stats.cached += 1; return; }
+
+      const xml = await fetchXml('questions', op, { documentId: id }, id);
+      if (!isEmptyDoc(xml)) fetchedNonEmpty += 1;
     });
-    console.log(`  ${String(nonEmpty).padStart(7)} non-empty  questions.${op}`);
-    if (!DRY && idList.length > 0 && nonEmpty === 0) {
-      console.error(`\n  FAIL: questions.${op} returned nothing across ${idList.length} documents.`);
+
+    const held = alreadyHeld + fetchedNonEmpty;
+    console.log(`  ${String(held).padStart(7)} held  questions.${op}  (${alreadyHeld} already, ${fetchedNonEmpty} newly non-empty)`);
+    if (!DRY && idList.length > 0 && held === 0) {
+      console.error(`\n  FAIL: questions.${op} holds nothing across ${idList.length} documents.`);
+      console.error(`  Neither the cache nor this run produced a single non-empty response.`);
       process.exit(1);
     }
   }
