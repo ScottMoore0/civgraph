@@ -33,6 +33,8 @@
  */
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync, statSync } from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { openStore, readRecords } from './lib/harvest-store.mjs';
 
 const BASE = 'http://data.niassembly.gov.uk';
 const UA = 'civgraph-opendata-harvest/1.0 (+https://civgraph.net; contact via repo)';
@@ -48,18 +50,29 @@ if (!OUT) { console.error('Usage: node scripts/harvest-niassembly-xml-only.mjs -
 const stats = { fetched: 0, cached: 0, empty: 0, failed: 0, bytes: 0 };
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-function outPath(service, op, key) {
-  const dir = path.join(OUT, service, op);
-  mkdirSync(dir, { recursive: true });
-  return path.join(dir, `${String(key).replace(/[^A-Za-z0-9_.-]/g, '_')}.xml`);
-}
+// The store reads whatever already exists -- packed archives, an append-only
+// JSONL, or the old loose-file layout -- so a run resumes correctly whichever
+// form the previous output is in.
+const store = openStore(OUT, { verbose: false });
 
-/** Fetch one operation and write the raw XML. Returns the text, or null. */
+// Keys are sanitised exactly as the old one-file-per-record layout named its
+// files, so archives packed from that layout index under identical keys and a
+// resumed run recognises everything already held.
+const keyOf = (key) => String(key).replace(/[^A-Za-z0-9_.-]/g, '_');
+
+/**
+ * Fetch one operation and record the raw XML. Returns the text, or null.
+ *
+ * Records go to an append-only store rather than one file per response. On this
+ * exFAT volume every file costs a 256 KB allocation unit, so the previous
+ * layout charged 20.95 GB to hold 0.18 GB, and this phase's outstanding work
+ * (304,370 written answers, ~0.7 GB of content) would have cost about 80 GB.
+ */
 async function fetchXml(service, op, params = {}, key = 'all') {
-  const f = outPath(service, op, key);
-  if (existsSync(f)) {
+  const k = keyOf(key);
+  if (store.has(service, op, k)) {
     stats.cached += 1;
-    try { return readFileSync(f, 'utf8'); } catch { return null; }
+    return store.get(service, op, k);
   }
   if (DRY) return null;
 
@@ -87,7 +100,7 @@ async function fetchXml(service, op, params = {}, key = 'all') {
       const text = await res.text();
       stats.fetched += 1;
       stats.bytes += text.length;
-      writeFileSync(f, text);
+      store.put(service, op, k, text);
       return text;
     } catch { await sleep(1200 * (a + 1)); }
   }
@@ -123,7 +136,7 @@ if (PHASE === 'all' || PHASE === 'committees') {
     const xml = await fetchXml(svc, op);
     const n = countTag(xml, tag);
     console.log(`  ${String(n).padStart(7)} <${tag}>  ${svc}.${op}`);
-    if (!xml || isEmptyDoc(xml)) {
+    if (!DRY && (!xml || isEmptyDoc(xml))) {
       console.error(`\n  FAIL: ${svc}.${op} returned nothing. It takes no parameters, so there is no`);
       console.error(`  signature to get wrong -- an empty response means the service changed.`);
       process.exit(1);
@@ -159,7 +172,7 @@ if (PHASE === 'all' || PHASE === 'committees') {
     return xml;
   });
   console.log(`  ${String(withItems).padStart(7)} dates with committee meetings`);
-  if (dates.length > 0 && withItems === 0) {
+  if (!DRY && dates.length > 0 && withItems === 0) {
     console.error(`\n  FAIL: not one of ${dates.length} weekdays returned a committee meeting.`);
     console.error(`  Verified working for meetingDate=2015-06-10 (25 KB, <ItemList><Committee><EventId>),`);
     console.error(`  so a total blank is a changed signature, not two decades without committees.`);
@@ -226,19 +239,49 @@ if (PHASE === 'all' || PHASE === 'answers') {
 
   // Only questions answered in writing. Oral answers have no written-answer
   // document, so asking for one is a guaranteed empty response.
+  //
+  // The source operations may be loose directories OR packed archives, so this
+  // discovers operation names from both and reads bodies through the store. An
+  // earlier version walked directories only; once the questions tree was packed
+  // it found .tar.gz FILES where it expected directories, skipped every one,
+  // and reported "0 document ids" -- a silent no-op dressed as a completed
+  // phase, which is the exact failure these harvesters exist to prevent.
+  const opNames = new Set();
+  for (const entry of readdirSync(src)) {
+    const full = path.join(src, entry);
+    let isDir = false;
+    try { isDir = statSync(full).isDirectory(); } catch { /* ignore */ }
+    if (isDir) opNames.add(entry);
+    else if (entry.endsWith('.tar.gz')) opNames.add(entry.slice(0, -'.tar.gz'.length));
+    else if (entry.endsWith('.jsonl')) opNames.add(entry.slice(0, -'.jsonl'.length));
+  }
+
+  const qStore = openStore(path.dirname(src), { verbose: false });
+  const qService = path.basename(src);
   const ids = new Set();
-  for (const op of readdirSync(src)) {
+  let scannedOps = 0;
+  for (const op of opNames) {
     if (!/Written/i.test(op)) continue;
-    const d = path.join(src, op);
-    if (!statSync(d).isDirectory()) continue;
-    for (const f of readdirSync(d)) {
+    scannedOps += 1;
+    for (const { body } of readRecords(path.dirname(src), qService, op)) {
       try {
-        for (const r of rec(JSON.parse(readFileSync(path.join(d, f), 'utf8')))) {
+        for (const r of rec(JSON.parse(body))) {
           const k = Object.keys(r).find((x) => x.toLowerCase() === 'documentid');
           if (k && r[k]) ids.add(String(r[k]));
         }
-      } catch { /* a malformed cache file is not a reason to abandon the sweep */ }
+      } catch { /* a malformed cached record is not a reason to abandon the sweep */ }
     }
+  }
+  if (scannedOps === 0) {
+    console.error(`\n  FAIL: no written-answer source operations found under ${src}.`);
+    console.error(`  Expected directories, .tar.gz archives, or .jsonl stores whose names match /Written/.`);
+    process.exit(1);
+  }
+  if (ids.size === 0) {
+    console.error(`\n  FAIL: ${scannedOps} written-answer operation(s) found but no DocumentId extracted.`);
+    console.error(`  The records exist but the field name did not match -- check the actual keys`);
+    console.error(`  rather than assuming the dataset is empty.`);
+    process.exit(1);
   }
   const idList = [...ids];
   console.log(`\n  PHASE 3 — written answers: ${idList.length} document ids`);
@@ -252,7 +295,7 @@ if (PHASE === 'all' || PHASE === 'answers') {
       if (done % 10000 === 0) console.log(`      ${op} ${done}/${idList.length} (${stats.fetched} fetched, ${stats.cached} cached, ${stats.failed} failed)`);
     });
     console.log(`  ${String(nonEmpty).padStart(7)} non-empty  questions.${op}`);
-    if (idList.length > 0 && nonEmpty === 0) {
+    if (!DRY && idList.length > 0 && nonEmpty === 0) {
       console.error(`\n  FAIL: questions.${op} returned nothing across ${idList.length} documents.`);
       process.exit(1);
     }
