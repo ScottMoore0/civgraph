@@ -360,3 +360,8 @@ download*propert*.py
 # Private LPS->OSM synthetic/harmonisation tool + its outputs (Pointer-class).
 synth-osm/
 # ─────────────────────────────────────────────────────────────────────────────
+
+# Served from R2 via functions/data/maps/[[path]].js — production reads the
+# bucket, not the repo. Verified: all 605 formerly-tracked files exist on R2,
+# and for the 3 that differ the R2 copy is what production serves.
+data/maps/
