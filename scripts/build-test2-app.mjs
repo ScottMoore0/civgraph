@@ -29,6 +29,11 @@ const result = await esbuild.build({
   entryPoints: ['app/src/boot.js'],
   bundle: true,
   minify: true,
+  // Keep inline @license banners that packages ship in their source. Only
+  // maplibre-gl has one; the rest declare a licence but carry no comment, which
+  // is why build-third-party-notices.mjs assembles the full set from their
+  // LICENSE files instead.
+  legalComments: 'eof',
   sourcemap: emitSourceMaps,
   format: 'esm',
   splitting: true,
@@ -47,6 +52,10 @@ const result = await esbuild.build({
 });
 
 if (result.errors.length) process.exit(1);
+
+// Persist the metafile: build-third-party-notices.mjs reads it to determine what
+// actually landed in the bundle, which is not the same as the dependency list.
+writeFileSync(`${BUILD_DIR}/metafile.json`, JSON.stringify(result.metafile, null, 2));
 
 if (!emitSourceMaps) {
   for (const outputPath of outputFiles(BUILD_DIR)) {
