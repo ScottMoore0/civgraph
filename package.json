@@ -26,7 +26,7 @@
     "deploy:test:pmtiles": "node scripts/upload-test-pmtiles-r2.mjs",
     "verify:test:pmtiles-cdn": "node scripts/verify-test-pmtiles-cdn.mjs",
     "switch:test:pmtiles-cdn": "node scripts/switch-test-pmtiles-to-cdn.mjs",
-    "check": "npm run check:chunked-bounds && npm run test:chunked-fit && npm run check:root && npm run check:pages-assets && npm run check:asset-refs && npm run check:external-sources && npm run check:approved-publication && npm run check:raw-source-documents && npm run check:medium-priority-publication && npm run check:peatland-geoportal && npm run check:ni-register-interests && npm run check:election-source-enrichments && npm run check:graph && npm run check:c1-coverage && npm run check:test && npm run check:intake-delivery && npm run check:source-paths && npm run check:composite-composition && npm run check:test-index-parity && npm run check:og-preview && npm run check:viewer-parity && npm run check:r2-allowlist && npm run check:local-paths",
+    "check": "npm run check:chunked-bounds && npm run test:chunked-fit && npm run check:root && npm run check:pages-assets && npm run check:asset-refs && npm run check:external-sources && npm run check:approved-publication && npm run check:raw-source-documents && npm run check:medium-priority-publication && npm run check:peatland-geoportal && npm run check:ni-register-interests && npm run check:election-source-enrichments && npm run check:graph && npm run check:c1-coverage && npm run check:test && npm run check:intake-delivery && npm run check:source-paths && npm run check:composite-composition && npm run check:test-index-parity && npm run check:og-preview && npm run check:viewer-parity && npm run check:r2-allowlist && npm run check:r2-parity && npm run check:local-paths",
     "check:election-source-enrichments": "node scripts/validate-election-source-enrichments.mjs",
     "check:chunked-bounds": "node scripts/validate-chunked-map-bounds.mjs",
     "check:root": "node scripts/validate-maplibre-root-promotion.mjs",
@@ -81,7 +81,8 @@
     "lint": "eslint .",
     "lint:strict": "eslint . --max-warnings 0",
     "check:local-paths": "node scripts/validate-local-paths.mjs",
-    "check:asset-refs": "node scripts/validate-asset-references.mjs"
+    "check:asset-refs": "node scripts/validate-asset-references.mjs",
+    "check:r2-parity": "node scripts/validate-r2-serving-parity.mjs"
   },
   "devDependencies": {
     "@aws-sdk/client-s3": "^3.1104.0",
