@@ -1,4 +1,15 @@
 {
+  "name": "civgraph",
+  "version": "1.0.0",
+  "description": "Interactive maps, election results, census data and records for Ireland, north and south.",
+  "homepage": "https://civgraph.net",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ScottMoore0/civgraph.git"
+  },
+  "author": "Scott Moore (https://scottmoore.xyz)",
+  "license": "MIT",
+  "private": true,
   "scripts": {
     "build": "node scripts/build-feature-thumbnail-manifest.mjs && node scripts/build-browse-indexes.mjs && node scripts/build-agent-index.mjs && node scripts/validate-chunked-map-bounds.mjs && node scripts/build-shared-shell-assets.mjs && npm run build:test2 && node scripts/promote-test2-root.mjs",
     "build:browse": "node scripts/build-feature-thumbnail-manifest.mjs && node scripts/build-browse-indexes.mjs && npm run build:graph",

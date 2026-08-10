@@ -39,7 +39,7 @@ Hundreds of map layers covering every major administrative geography on the isla
 
 | Layer | Technology |
 |-------|-----------|
-| Maps | [Leaflet](https://leafletjs.com/) with [FlatGeobuf](https://flatgeobuf.org/) for streaming vector data |
+| Maps | [MapLibre GL](https://maplibre.org/) rendering [PMTiles](https://protomaps.com/docs/pmtiles) vector tiles; [FlatGeobuf](https://flatgeobuf.org/) is a download format, not a render path |
 | Build | [esbuild](https://esbuild.github.io/) with code splitting and performance budgets |
 | Search | [Fuse.js](https://www.fusejs.io/) for map search, spatial index for feature search |
 | Geospatial | [Turf.js](https://turfjs.org/) for area/length calculations |
@@ -124,3 +124,27 @@ npx playwright test
 ## Author
 
 Created by [Scott Moore](https://scottmoore.xyz). The project includes works from various individual contributors and organisations, as attributed on the website.
+
+## Licence
+
+**The code is MIT.** See [LICENSE](LICENSE). You may use, modify and
+redistribute it, commercially or otherwise, provided the copyright and
+permission notice travel with it.
+
+**The data is not.** This repository tracks a large amount of third-party
+material — census tables, scanned books, boundary metadata — from NISRA, the
+CSO, OSNI/Land & Property Services, Tailte Éireann, PRONI, the Northern Ireland
+Assembly, the Houses of the Oireachtas and individual contributors. It arrives
+under its own terms, predominantly the Open Government Licence and Creative
+Commons Attribution. Those terms travel with the data and are not superseded by
+the MIT grant. Per-dataset licence and attribution are recorded in
+`data/database/maps.json` and `data/database/sources.json`; the entry for a
+layer is authoritative for that layer.
+
+If you reuse a map layer, credit the originating body — crediting Civgraph alone
+does not satisfy a source that requires its own attribution.
+
+[NOTICE](NOTICE) sets this out in full. Licences for the third-party packages
+compiled into the browser bundle are reproduced in
+`app/build/THIRD-PARTY-NOTICES.txt`, generated at build time and verified by
+`npm run check`.

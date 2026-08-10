@@ -1,0 +1,58 @@
+Civgraph — licensing scope
+==========================
+
+The MIT licence in LICENSE covers the SOFTWARE in this repository: the
+application source, build scripts, Cloudflare Pages Functions, tests and
+documentation written for this project.
+
+It does NOT relicense the DATA.
+
+Why the distinction matters here
+--------------------------------
+
+This repository tracks a large amount of third-party material — census tables,
+scanned books, boundary metadata and map catalogues — obtained from bodies
+including NISRA, the CSO, OSNI/Land & Property Services, Ordnance Survey
+Ireland/Tailte Éireann, PRONI, the Northern Ireland Assembly and the Houses of
+the Oireachtas, as well as from individual contributors.
+
+That material arrives under its own terms — predominantly the Open Government
+Licence and Creative Commons Attribution, which are attribution licences with
+conditions of their own. Those terms travel with the data. Nobody redistributing
+this repository, including the copyright holder, can substitute the MIT licence
+for them, and the MIT grant above should not be read as attempting to.
+
+Where the per-source terms are recorded
+---------------------------------------
+
+Licence and attribution for each dataset are carried in the catalogue metadata
+rather than in this file, because that is where they stay accurate:
+
+    data/database/maps.json       per-layer licence, provider and source
+    data/database/sources.json    source records and download provenance
+
+Those files currently record several hundred Creative Commons Attribution
+references and several dozen Open Government Licence references. Treat the
+entry for a given layer as authoritative for that layer.
+
+Bundled dependencies
+--------------------
+
+The browser bundle in app/build includes third-party open-source packages under
+MIT, BSD-3-Clause and Apache-2.0 licences. Their required copyright and
+permission notices are reproduced in:
+
+    app/build/THIRD-PARTY-NOTICES.txt
+
+That file is generated from the esbuild metafile by
+scripts/build-third-party-notices.mjs and is verified by `npm run check`.
+
+If you are reusing this work
+----------------------------
+
+Reusing the code: MIT applies. Keep the copyright and permission notice.
+
+Reusing the data: check the per-source terms in the catalogue first. Most of it
+requires attribution to the originating body, and some sources place further
+conditions on redistribution. Attribution to Civgraph alone is not sufficient
+where the underlying source requires its own credit.
