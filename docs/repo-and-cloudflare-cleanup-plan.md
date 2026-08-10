@@ -10,27 +10,55 @@ reasoning, because the reasoning is what evaporates.
 
 ---
 
-## 1. The finding that matters most: there are two catalogues
+## 1. The finding that matters most: the catalogue is three stores, not one
 
-`data/database/maps.json` is the Leaflet-era catalogue. `test/metadata/maps-test-index.json`
-is the MapLibre catalogue, and it is the one the live site reads —
-`app/src/app.js:190` fetches it directly.
+**Corrected 2026-08-10.** An earlier draft of this section called `maps.json`
+"the Leaflet-era catalogue" and said the live site reads
+`maps-test-index.json` instead. That is wrong, and it is worth recording as
+wrong, because it is the same mistake it was written to warn about. Production
+serves `data/database/maps.json` at HTTP 200 and the shipped bundle fetches it —
+`app/build/chunks/app-DO3PRBQ5.js` contains the path. Nothing here is dead.
 
-**During this work, three separate "broken layer" diagnoses turned out to be
-readings of the dead catalogue:**
+The catalogue is **one logical record split across three stores**, joined by
+string id:
+
+| Store | Size | Owns | Loaded by |
+|---|---|---|---|
+| `data/database/maps.json` | 1,039 entries, 1.4 MB | provenance and presentation | `dataService` |
+| `test/metadata/maps-test-index.json` | 1,146 layers, 4.2 MB | rendering | `TestMetadataService` |
+| `c1Cards` in `src/ui-controller.js:3491` | 129 hand-written cards | navigation | compiled into the bundle |
+
+Field ownership barely overlaps, which is why no store is redundant:
+
+- **only `maps.json`** — `licence`, `licenseUrl`, `attribution`, `sourceCredits`,
+  `sourceDownloads`, `downloads`, `references`, `featureCount`, `featured`,
+  `hidden`, `placeholder`, `isGroup`/`members`, `files`
+- **only the live index** — `tileUrl`, `tiles`, `tilesFallback`, `promoteId`,
+  `minzoom`/`maxzoom`, `sourceLayer`, `renderer`, `geometryType`,
+  `featureIndexUrl`, `detailUrl`, `loadable`, `status`, `aliasOf`
+- **shared, and therefore able to drift** — 17 fields: `id`, `name`,
+  `description`, `category`, `provider`, `bounds`, `style`, `variants`,
+  `keywords`, `labelProperty`, `idProperty`, `cloneOf`, `parentId`, dates
+
+The join is a bare string id plus a `-vector-test` suffix convention, enforced
+nowhere: **757 ids join, 282 are catalogue-only, 389 are live-only** (157 alias,
+90 variant, 60 pmtiles, 50 image, 23 raster, 9 3D).
+
+**Why this trap is expensive.** Four "broken layer" diagnoses during this work
+were really the wrong store being read:
 
 | Diagnosed as broken | Reality |
 |---|---|
-| 24 DoBIH hill layers, `.fgb` all 404 | MapLibre PMTiles for all 24 already published and serving |
-| Townlands NI and RoI variants, `.fgb` 404 | live site uses 41 county-sharded PMTiles, all serving |
-| "MapLibre tiles were never generated" | tested `tilesFallback`, not `tileUrl`; the real tiles exist |
+| 24 DoBIH hill layers, `.fgb` all 404 | PMTiles for all 24 already published and serving |
+| Townlands NI and RoI variants, `.fgb` 404 | 41 county-sharded PMTiles, all serving |
+| "MapLibre tiles were never generated" | tested `tilesFallback`, not `tileUrl` |
+| `Wards_2012_FullRes` / Leinster 1931–36 missing | superseded names; live PMTiles serve |
 
-Each cost significant time. Any contributor would hit the same trap, because
-nothing in the repo says which catalogue is authoritative.
-
-**This belongs above every cosmetic item on the list.** Options: retire
-`maps.json` entirely, or make its status explicit and machine-enforced so a stale
-entry cannot masquerade as a live one.
+`validate-c1-coverage.mjs` already guards the store-2 → store-3 edge, and its
+header records what that gap cost: four days lost on the 1941–43 and 1985 Ward
+composites, which were correctly categorised, tiled, indexed and served, and
+invisible because no card listed them. **Nothing yet guards store-1 → store-2**,
+which is where all four diagnoses above went wrong.
 
 ---
 
