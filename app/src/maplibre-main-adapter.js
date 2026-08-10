@@ -1243,6 +1243,21 @@ export class Test2MapLibreMainAdapter {
     const localHost = ['localhost', '127.0.0.1', '::1'].includes(location.hostname);
     const shouldUseLocalFallback = globalThis.__civgraphUseLocalTileFallback === true;
     if (shouldUseLocalFallback && localHost && styledLayer.sourceType === 'pmtiles' && styledLayer.tilesFallback) {
+      // tilesFallback points at directory MVT output under test/tiles/, which is
+      // .cfignore'd and untracked deliberately -- a local convenience, not a
+      // distributed asset. The path is a correct pointer to where tiles WOULD be
+      // written, not a promise that they exist, and a fresh clone has none of the
+      // 861 layers' worth. Switching silently produces a wall of 404s that reads
+      // as a broken layer rather than an unbuilt one.
+      if (!this._warnedLocalTileFallback) {
+        this._warnedLocalTileFallback = true;
+        console.warn(
+          '[civgraph] __civgraphUseLocalTileFallback is on: serving layers from directory MVT under '
+          + '/test/tiles/generated/ instead of PMTiles. Those tiles are untracked and never deployed, '
+          + 'so unless you generated them locally every tile request will 404. Unset the flag to '
+          + 'return to PMTiles.'
+        );
+      }
       return {
         ...styledLayer,
         sourceType: 'mvt',
