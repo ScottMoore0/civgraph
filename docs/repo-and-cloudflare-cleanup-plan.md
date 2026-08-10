@@ -97,7 +97,9 @@ code, CC BY 4.0 for Civgraph's own data contributions with per-source terms
 passed through (the repo already records these — `maps.json` alone carries 482
 "CC BY" and 42 "Open Government Licence" references). Decision is yours.
 
-**Cloudflare configuration is not in the repository.** No `wrangler.toml`, no
+**Cloudflare configuration is not in the repository.** (Inventoried in
+`cloudflare-inventory.md` — every binding verified against production — but that
+documents the state rather than version-controlling it.) No `wrangler.toml`, no
 `_routes.json`, no deploy workflow. The Pages project, its build command and
 every binding live only in the dashboard. A contributor cannot see that
 `PRONI_DB` is D1, what schema it expects, which R2 bucket
