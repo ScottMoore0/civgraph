@@ -56,6 +56,11 @@
       "prefix": "data/sources/tailte-national-land-cover-2018/",
       "rationale": "Tailte Eireann National Land Cover 2018, CC BY 4.0 (verified from the ArcGIS item licenseInfo; data.gov.ie records no licence at all). Mirrored because the 48.5 GB GeoPackage could not complete an Internet Archive upload -- a single 5.5-hour stream was reset with nothing to resume. R2 multipart is resumable.",
       "evidence": "archive.org/details/civgraph-tailte-national-land-cover-2018 holds the FileGDB original; this is the GeoPackage form of the same layer (NATIONAL_LAND_COVER_MAP_ITM, 10,114,816 features, EPSG:2157, verified identical with ogrinfo)."
+    },
+    {
+      "prefix": "data/sources/oireachtas-fulltext/",
+      "rationale": "Houses of the Oireachtas full text: 26,415 Akoma Ntoso debate transcripts and 13,918 bill/act PDFs, harvested from data.oireachtas.ie. Open data. Mirrored because the tree is currently single-copy on an exFAT volume with no journaling, and because the API only ever returns pointers to these documents.",
+      "evidence": "scripts/harvest-oireachtas-fulltext.mjs; completeness proven from disk (advertised 13,919 bill documents, 13,918 held -- the one exception, Maternity Protection (Amendment) Bill 2003 ver_b, is zero bytes at source with Content-Length: 0)."
     }
   ]
 }
