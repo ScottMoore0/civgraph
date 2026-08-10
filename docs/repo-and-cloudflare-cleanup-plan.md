@@ -90,12 +90,20 @@ production actually reads, and a request that looked healthy from outside.
 
 ### Blocking everything contributor-facing
 
-**No licence.** No `LICENSE` file, no `license` field in `package.json`. Default
-copyright applies, so nobody may legally fork or contribute. Every other
-contributor-facing item is downstream of this. Recommendation on file: MIT for
-code, CC BY 4.0 for Civgraph's own data contributions with per-source terms
-passed through (the repo already records these — `maps.json` alone carries 482
-"CC BY" and 42 "Open Government Licence" references). Decision is yours.
+~~**No licence.**~~ **Resolved 2026-08-10: MIT.** `LICENSE` holds the canonical
+MIT text (unmodified, so GitHub's detector recognises it), `package.json`
+declares `"license": "MIT"` alongside the identity fields it had been missing
+entirely, and `README.md` carries a Licence section.
+
+The one subtlety worth preserving: **MIT covers the code, not the data.** The
+repository tracks 13,509 files under `data/`, including ~1.2 GB of census
+material and 365 MB of scanned books obtained under the Open Government Licence
+and Creative Commons Attribution — the catalogue records several hundred CC BY
+and several dozen OGL references. Those are attribution licences whose terms
+travel with the data and cannot be replaced by the MIT grant, so `NOTICE` states
+the scope explicitly and points at `maps.json`/`sources.json` as authoritative
+per-layer. Keeping the scope note out of `LICENSE` itself is deliberate: editing
+the MIT text would break automated licence detection.
 
 **Cloudflare configuration is not in the repository.** (Inventoried in
 `cloudflare-inventory.md` — every binding verified against production — but that
@@ -130,11 +138,26 @@ larger barrier than any directory name.
 
 ### Data integrity
 
-- **Parity: 5 referenced objects absent from R2.** Two are the townlands NI/RoI
-  entries in the dead catalogue — stale, not broken. Three are unknown:
-  `Wards_2012_FullRes.fgb`, `Wards_DEDs_Leinster_1931.fgb`, `_1936.fgb`. Worth
-  checking whether an existing scrape or IA item covers them before assuming
-  they were never produced — that assumption was wrong for DoBIH.
+- ~~**Parity: 5 referenced objects absent from R2.**~~ **Resolved 2026-08-10 —
+  parity is 0**, from 36 when the validator was written. All five were stale
+  paths in `maps.json` for layers that render correctly today, and the
+  instinct to check before assuming was right again: every one had a live
+  MapLibre equivalent already published and serving.
+
+  | `maps.json` claimed (404) | What actually exists |
+  |---|---|
+  | `Wards_2012_FullRes.fgb` | `wards-2012-full-vector-test.pmtiles`, plus `Wards_2012-lod0/-lod1.fgb` |
+  | `Wards_DEDs_Leinster_1931.fgb` | `eds-leinster-1931-vector-test.pmtiles` |
+  | `Wards_DEDs_Leinster_1936.fgb` | `eds-leinster-1936-vector-test.pmtiles` |
+  | `OSNI_Townlands.fgb` | 41 county-sharded PMTiles; `osni-open-data-50k-boundaries-townlands.fgb` |
+  | `OSI_Townlands.fgb` | the same county shards (2,697 objects under `townlands/`) |
+
+  Two supersessions caused all five: LOD variants replaced the monolithic
+  "FullRes" file, and a reorganisation moved the ED and townlands data to
+  `<year>_CSO_EDs_<province>` and per-county naming. The dead `files.fgb` keys
+  were removed — matching the DoBIH precedent, which drops the `files` key
+  rather than leaving an empty object. No data was missing and nothing needed
+  regenerating.
 - **No browser coverage** for timeline races, share-URL restoration or slider
   behaviour. The 7 archived specs never provided it (they were red), but the gap
   is real. `window.__civgraphTest2` exposes `app`, `mapController` and
