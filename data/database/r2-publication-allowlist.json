@@ -51,6 +51,11 @@
       "rationale": "Feature thumbnail images served on Browse cards. Published by the existing sync:thumbnails npm script.",
       "evidence": "package.json sync:thumbnails runs upload-tile-pyramid-s3.mjs against this prefix; also scripts/upload-feature-thumbnails-r2.mjs and the deploy:feature-thumbnails:r2 script",
       "rights": "derived renderings of the underlying map sources; inherit their per-source terms"
+    },
+    {
+      "prefix": "data/sources/tailte-national-land-cover-2018/",
+      "rationale": "Tailte Eireann National Land Cover 2018, CC BY 4.0 (verified from the ArcGIS item licenseInfo; data.gov.ie records no licence at all). Mirrored because the 48.5 GB GeoPackage could not complete an Internet Archive upload -- a single 5.5-hour stream was reset with nothing to resume. R2 multipart is resumable.",
+      "evidence": "archive.org/details/civgraph-tailte-national-land-cover-2018 holds the FileGDB original; this is the GeoPackage form of the same layer (NATIONAL_LAND_COVER_MAP_ITM, 10,114,816 features, EPSG:2157, verified identical with ogrinfo)."
     }
   ]
 }
