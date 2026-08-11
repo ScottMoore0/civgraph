@@ -24,8 +24,8 @@ the live state observable by calling the endpoint.
 | `ELECTIONS_DB` | D1 | `_api/elections/index.js` | live |
 | `SPATIAL_INDEX` | KV | `_api/search.js`, `_api/spatial.js` | live |
 | `MAPS_BUCKET` | R2 (`boundaries-data`) | `data/maps/[[path]].js` | live |
-| `CIVGRAPH_SUBMISSIONS` | KV or R2 (`.put`) | `_api/contributions/submit.js` | unverified |
-| `CIVGRAPH_CONTRIBUTION_QUEUE` | KV or R2 (`.put`) | `_api/contributions/submit.js` | unverified |
+| `CIVGRAPH_SUBMISSIONS` | R2 (`.put`) | `_api/contributions/submit.js` | **no matching resource** |
+| `CIVGRAPH_CONTRIBUTION_QUEUE` | KV (`.put`) | `_api/contributions/submit.js` | **no matching resource** |
 | `CIVGRAPH_ADMINS` / `CIVGRAPH_CONTRIBUTORS` | vars (email lists) | `_api/_auth.js` | live |
 | `CIVGRAPH_DEV_AUTH_EMAIL` | var | `_api/_auth.js` | dev only |
 
@@ -141,15 +141,46 @@ into `scripts/` without breaking at runtime.
 
 ---
 
+## Account resources, enumerated 2026-08-11
+
+Read off the account with `wrangler`, so this is what exists rather than what is
+believed to exist.
+
+    Pages project  civgraph  ->  civgraph.net, boundaries-website.pages.dev
+                              git-connected; pushes to main deploy
+
+    D1   proni-catalogue      a66d0846-6186-460d-a7b2-e88918a6b341
+    D1   civgraph-elections   cd88f241-35aa-4cbb-bcb3-c80a471b8afa
+    KV   PRONI_KV             ef19e1065f854619a19e2cbd62b28f82
+    KV   SPATIAL_INDEX        c88a99b42d6d4ce7aba6ba94dce47e5a
+    R2   boundaries-data
+
+**That is the complete list** — two D1 databases, two KV namespaces, one bucket.
+
 ## What is still undocumented
 
-- **No `wrangler.toml`.** Binding names, types and target resources are only in
-  the dashboard. This file is a description of that state, not a substitute for
-  it.
+- **No `wrangler.toml`.** `wrangler.toml.example` at the repo root now carries
+  the verified bindings and the activation procedure, but it is deliberately not
+  live: Pages treats a committed `wrangler.toml` as authoritative and ignores
+  dashboard bindings, so activating it while any binding is unaccounted for would
+  drop that binding into a `503`.
 - **No DDL for the elections D1.** Its schema is inferred from queries.
-- **`CIVGRAPH_SUBMISSIONS` and `CIVGRAPH_CONTRIBUTION_QUEUE` are unverified** —
-  both are written with `.put()`, consistent with either KV or R2, and the
-  submission path was not exercised here.
+- **`CIVGRAPH_SUBMISSIONS` and `CIVGRAPH_CONTRIBUTION_QUEUE` match no resource on
+  the account.** The enumeration above is exhaustive and neither name appears in
+  it, so unless an existing namespace or bucket is bound under a second name,
+  the contribution submission path is not wired up. `submit.js` tries
+  `CIVGRAPH_CONTRIBUTION_QUEUE` (KV), then `CONTRIBUTION_QUEUE` (KV), then
+  `CIVGRAPH_SUBMISSIONS` (R2), and returns `503` if none is present. A `GET`
+  returns `405`, which proves only that the Function routes; the `POST` path was
+  not exercised because that would write a real submission. **Worth resolving
+  before anyone is invited to contribute through the UI.**
 - **The Pages build command is unknown** from the repo. `npm run build` chains
-  ~20 steps, but whether Pages runs it, runs something else, or deploys the tree
-  as committed cannot be determined from what is checked in.
+  ~7 steps and `npm run check` runs 26 validators, but whether Pages runs either,
+  runs something else, or deploys the tree as committed cannot be determined from
+  what is checked in.
+- **No `_routes.json`**, and adding one is not a documentation exercise. Its
+  absence means Pages' default routing, which currently works. An explicit file
+  changes which requests invoke Functions, and `functions/data/maps/[[path]].js`
+  owns the prefix every map layer loads from — a mistake there takes out map
+  serving site-wide. It should be introduced with a preview deploy, not written
+  from inference.

@@ -1,0 +1,123 @@
+# Cloudflare Pages configuration for civgraph — TEMPLATE, NOT ACTIVE
+#
+# ---------------------------------------------------------------------------
+# READ THIS BEFORE RENAMING THE FILE
+# ---------------------------------------------------------------------------
+#
+# This is deliberately `wrangler.toml.example` and not `wrangler.toml`.
+#
+# Cloudflare Pages treats a committed `wrangler.toml` as AUTHORITATIVE. The
+# moment one exists, the bindings configured in the dashboard are ignored and
+# only what is declared here is bound. Any binding missing from this file
+# disappears from production, and the Functions that depend on it start
+# answering `503 … binding not configured`.
+#
+# The project's bindings currently live only in the dashboard, and there is no
+# CLI that dumps them, so this file was assembled from what could be verified
+# against the account. Two bindings could NOT be verified (see below). Renaming
+# this file to `wrangler.toml` while those are still unknown would silently drop
+# them.
+#
+# TO ACTIVATE SAFELY:
+#   1. Open the Pages project → Settings → Functions → Bindings, and reconcile
+#      every binding listed there against this file. Add anything missing.
+#   2. Fill in the build command and the two unverified bindings below.
+#   3. Deploy to a PREVIEW branch first and exercise /_api/proni/search,
+#      /_api/elections/, /_api/spatial, /_api/search and a data/maps/* URL.
+#   4. Only then rename to `wrangler.toml` and merge.
+#
+# Do NOT put CIVGRAPH_ADMINS or CIVGRAPH_CONTRIBUTORS in a committed file. They
+# are email addresses, this repository is public and MIT-licensed, and committing
+# them would publish personal data. Keep them as dashboard variables, or set them
+# as secrets.
+#
+# ---------------------------------------------------------------------------
+
+name = "civgraph"
+compatibility_date = "2026-08-11"
+
+# The site is served from the repository root — index.html, 404.html and
+# _headers all live at the top level, and `.cfignore` excludes archival
+# material from the upload.
+pages_build_output_dir = "."
+
+# UNKNOWN: the Pages build command is configured in the dashboard and cannot be
+# determined from the repository. `npm run build` chains ~7 steps and
+# `npm run check` runs 26 validators, but whether Pages runs either, runs
+# something else, or deploys the tree exactly as committed is not knowable from
+# here. Confirm in the dashboard before activating.
+
+
+# --- D1 -------------------------------------------------------------------
+# Verified against the account on 2026-08-11 via `wrangler d1 list`.
+
+[[d1_databases]]
+binding = "PRONI_DB"
+database_name = "proni-catalogue"
+database_id = "a66d0846-6186-460d-a7b2-e88918a6b341"
+
+[[d1_databases]]
+binding = "ELECTIONS_DB"
+database_name = "civgraph-elections"
+database_id = "cd88f241-35aa-4cbb-bcb3-c80a471b8afa"
+
+
+# --- KV -------------------------------------------------------------------
+# Verified via `wrangler kv namespace list`. Only these two namespaces exist
+# on the account.
+
+[[kv_namespaces]]
+binding = "PRONI_KV"
+id = "ef19e1065f854619a19e2cbd62b28f82"
+
+[[kv_namespaces]]
+binding = "SPATIAL_INDEX"
+id = "c88a99b42d6d4ce7aba6ba94dce47e5a"
+
+
+# --- R2 -------------------------------------------------------------------
+# Verified via `wrangler r2 bucket list`. `boundaries-data` is the only bucket
+# on the account. It is also served publicly at data.civgraph.net.
+
+[[r2_buckets]]
+binding = "MAPS_BUCKET"
+bucket_name = "boundaries-data"
+
+
+# --- UNVERIFIED -----------------------------------------------------------
+#
+# `functions/_api/contributions/submit.js` reads, in order:
+#     env.CIVGRAPH_CONTRIBUTION_QUEUE   (.put — KV)
+#     env.CONTRIBUTION_QUEUE            (.put — KV)
+#     env.CIVGRAPH_SUBMISSIONS          (.put with httpMetadata — R2)
+# and returns 503 if none is present.
+#
+# Neither name corresponds to any KV namespace or R2 bucket on the account:
+# the only namespaces are PRONI_KV and SPATIAL_INDEX, and the only bucket is
+# boundaries-data. So either one of those is bound under a second name, or the
+# contribution submission path is not wired up at all. A GET returns 405, which
+# only proves the Function routes — it says nothing about the binding, and the
+# POST path was not exercised because that would write a real submission.
+#
+# Resolve this before activating. If submissions are meant to work, create the
+# namespace or bucket and declare it here:
+#
+# [[kv_namespaces]]
+# binding = "CIVGRAPH_CONTRIBUTION_QUEUE"
+# id = "…"
+#
+# [[r2_buckets]]
+# binding = "CIVGRAPH_SUBMISSIONS"
+# bucket_name = "…"
+
+
+# --- Variables ------------------------------------------------------------
+# CIVGRAPH_ADMINS and CIVGRAPH_CONTRIBUTORS are comma-separated email lists read
+# by functions/_api/_auth.js. They are intentionally NOT declared here — see the
+# note at the top of this file. CIVGRAPH_DEV_AUTH_EMAIL is a local-development
+# override and must never be set in production.
+#
+# _auth.js and submit.js each accept their binding under three names
+# (CIVGRAPH_*, CONTRIBUTOR_*/CONTRIBUTION_*, and BROWSE_*). That is legacy
+# tolerance left over from renames, not three separate bindings. Configure the
+# CIVGRAPH_* form; the others are fallbacks.
