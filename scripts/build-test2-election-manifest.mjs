@@ -2,7 +2,7 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync } from 'node:fs';
 import path from 'node:path';
 import { deserialize } from 'flatgeobuf/lib/mjs/geojson.js';
-import * as ElectionDomain from '../js/election-domain.mjs';
+import * as ElectionDomain from '../src/election-domain.mjs';
 import { canonicalElectionTitle, isElectionByElectionScope } from './lib/election-names.mjs';
 import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
 

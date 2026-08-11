@@ -2,9 +2,9 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { resolveApprovedPublicationSources } from './lib/approved-publication-index.mjs';
-import { partyColour } from '../js/election-domain.mjs';
+import { partyColour } from '../src/election-domain.mjs';
 import { canonicalElectionTitle, electionResultEntryLabel } from './lib/election-names.mjs';
-import { CDN_BASE } from '../js/cdn-url.js';
+import { CDN_BASE } from '../src/cdn-url.js';
 
 const ROOT = process.cwd();
 

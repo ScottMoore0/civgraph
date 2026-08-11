@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { fixText, normalizeName, parseNumber } from '../js/election-domain.mjs';
+import { fixText, normalizeName, parseNumber } from '../src/election-domain.mjs';
 
 const ROOT = process.cwd();
 const DAIL_ROOT = path.join(ROOT, 'election-viewer-package', 'data', 'elections', 'dail-eireann');
