@@ -159,11 +159,12 @@ believed to exist.
 
 ## What is still undocumented
 
-- **No `wrangler.toml`.** `wrangler.toml.example` at the repo root now carries
-  the verified bindings and the activation procedure, but it is deliberately not
-  live: Pages treats a committed `wrangler.toml` as authoritative and ignores
-  dashboard bindings, so activating it while any binding is unaccounted for would
-  drop that binding into a `503`.
+- ~~No `wrangler.toml`.~~ **Activated 2026-08-11.** `wrangler.toml` at the repo
+  root is live and authoritative; dashboard bindings are now ignored. It
+  reproduces what the API reported, including preview being deliberately
+  narrower than production (`PRONI_DB` and `PRONI_KV` only). Roll back by
+  deleting the file and redeploying — the dashboard configuration is unchanged
+  underneath and resumes.
 - **No DDL for the elections D1.** Its schema is inferred from queries.
 - **`CIVGRAPH_SUBMISSIONS` and `CIVGRAPH_CONTRIBUTION_QUEUE` match no resource on
   the account.** The enumeration above is exhaustive and neither name appears in

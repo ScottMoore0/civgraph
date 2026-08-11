@@ -1,0 +1,94 @@
+# Cloudflare Pages configuration for civgraph.
+#
+# ACTIVE. Pages reads this file and it is AUTHORITATIVE: dashboard bindings are
+# ignored once it exists, and any binding missing here disappears from
+# production, taking its Functions to `503 ... binding not configured`.
+#
+# Every value below was read back from the Pages API on 2026-08-11 and
+# reproduces the then-live configuration exactly, including the deliberate
+# difference between environments: preview has only PRONI_DB and PRONI_KV, not
+# the full production set. That asymmetry is preserved rather than "tidied up",
+# because widening preview's access to production D1, KV and R2 is a decision in
+# its own right, not a side effect of moving config into the repository.
+#
+# The build command is NOT part of this file -- Pages keeps it as a project
+# setting. For the record it is:
+#
+#     npm install --ignore-scripts && npm run build && bash scripts/clean-for-pages.sh
+#
+# and scripts/clean-for-pages.sh trimming the output below Cloudflare's
+# 20,000-file limit is load-bearing.
+#
+# WHAT IS DELIBERATELY ABSENT
+#
+# Environment variables. The project has none set, and CIVGRAPH_ADMINS /
+# CIVGRAPH_CONTRIBUTORS are email addresses which must not be committed to a
+# public repository. Note that _auth.js treats an unset allowlist as fail-open:
+# with neither variable present, any authenticated caller counts as an approved
+# contributor. That is harmless only while Cloudflare Access is not in front of
+# the app. Set CIVGRAPH_ADMINS as a dashboard variable in the same change that
+# enables Access.
+#
+# The submission bindings. CIVGRAPH_CONTRIBUTION_QUEUE / CONTRIBUTION_QUEUE /
+# CIVGRAPH_SUBMISSIONS are read by functions/_api/contributions/submit.js and
+# none of them is bound, so submissions return 503. Declaring a binding here
+# without creating the resource would not help.
+#
+# TO ROLL BACK: delete this file and redeploy. The dashboard configuration is
+# unchanged underneath and resumes.
+
+name = "civgraph"
+
+# Must match what production runs. Changing this changes Workers runtime
+# behaviour and is a deliberate change to make on its own.
+compatibility_date = "2026-04-04"
+
+# The site is served from the repository root -- index.html, 404.html and
+# _headers are all top level. Equivalent to the project's empty destination_dir.
+pages_build_output_dir = "."
+
+
+# ---------------------------------------------------------------------------
+# Production
+# ---------------------------------------------------------------------------
+
+[[d1_databases]]
+binding = "PRONI_DB"
+database_name = "proni-catalogue"
+database_id = "a66d0846-6186-460d-a7b2-e88918a6b341"
+
+[[d1_databases]]
+binding = "ELECTIONS_DB"
+database_name = "civgraph-elections"
+database_id = "cd88f241-35aa-4cbb-bcb3-c80a471b8afa"
+
+[[kv_namespaces]]
+binding = "PRONI_KV"
+id = "ef19e1065f854619a19e2cbd62b28f82"
+
+[[kv_namespaces]]
+binding = "SPATIAL_INDEX"
+id = "c88a99b42d6d4ce7aba6ba94dce47e5a"
+
+[[r2_buckets]]
+binding = "MAPS_BUCKET"
+bucket_name = "boundaries-data"
+
+
+# ---------------------------------------------------------------------------
+# Preview — intentionally narrower than production, as it already was.
+# Preview deployments of Functions needing ELECTIONS_DB, SPATIAL_INDEX or
+# MAPS_BUCKET will 503; that is the pre-existing behaviour, not a regression.
+# ---------------------------------------------------------------------------
+
+[env.preview]
+compatibility_date = "2026-04-04"
+
+[[env.preview.d1_databases]]
+binding = "PRONI_DB"
+database_name = "proni-catalogue"
+database_id = "a66d0846-6186-460d-a7b2-e88918a6b341"
+
+[[env.preview.kv_namespaces]]
+binding = "PRONI_KV"
+id = "ef19e1065f854619a19e2cbd62b28f82"

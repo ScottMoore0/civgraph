@@ -114,11 +114,15 @@ Hosted on Cloudflare Pages (project `civgraph`, serving `civgraph.net` and
 `boundaries-website.pages.dev`), connected to this repository — pushes to `main`
 deploy.
 
-Bindings currently live in the Cloudflare dashboard rather than in the
-repository. [`wrangler.toml.example`](wrangler.toml.example) documents them and
-explains why it is a template rather than a live `wrangler.toml`; read the
-warning at the top before renaming it. `docs/cloudflare-inventory.md` records
-what each binding is for, verified against production.
+Bindings are declared in [`wrangler.toml`](wrangler.toml), which Pages treats as
+authoritative — a binding missing from that file is missing in production, and
+its Functions answer `503 … binding not configured`. Add bindings there, not in
+the dashboard. Preview is deliberately narrower than production.
+
+Environment variables are the exception and stay in the dashboard:
+`CIVGRAPH_ADMINS` and `CIVGRAPH_CONTRIBUTORS` are email addresses and must not
+be committed. `docs/cloudflare-inventory.md` records what each binding is for
+and what is still unwired.
 
 ---
 

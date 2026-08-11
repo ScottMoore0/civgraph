@@ -1,0 +1,84 @@
+name: Pages deploy watch
+
+# Fails this workflow if the Cloudflare Pages deployment for this commit fails,
+# so that a failed deploy produces a GitHub notification instead of silence.
+#
+# WHY
+#
+# On 2026-08-11 the Pages build was found to have failed on 18 consecutive
+# deployments over a full day. Nothing alerted, because Pages keeps serving the
+# last successful deployment: the site looked healthy, it was simply frozen.
+# The failure was only discovered by chance while investigating something else.
+#
+# pages-build.yml catches the cause that actually occurred -- a build that does
+# not run on a clean checkout -- and a failing workflow already notifies. This
+# watcher covers the rest: a build that passes in CI but fails or stalls on
+# Cloudflare, an upload that exceeds a limit, or a deploy stage error.
+#
+# SETUP (optional -- the workflow skips cleanly without it)
+#
+# Add a repository secret CLOUDFLARE_API_TOKEN with the "Cloudflare Pages:Read"
+# permission on the account, plus CLOUDFLARE_ACCOUNT_ID. Until then this job
+# reports a notice and succeeds, so it never blocks on missing configuration.
+#
+# A dashboard alternative exists and needs no token: Cloudflare → Notifications
+# → Add → "Pages deployment failed". The account-level alerting API is not
+# reachable with the wrangler OAuth token, so that route has to be clicked.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Wait for the Pages deployment of this commit
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          PROJECT: civgraph
+          SHA: ${{ github.sha }}
+        run: |
+          set -uo pipefail
+          if [ -z "${CF_TOKEN:-}" ] || [ -z "${CF_ACCOUNT:-}" ]; then
+            echo "::notice::CLOUDFLARE_API_TOKEN/CLOUDFLARE_ACCOUNT_ID not set - skipping deploy watch."
+            echo "Set both repository secrets to have a failed Pages deploy fail this job."
+            exit 0
+          fi
+
+          api="https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT}/pages/projects/${PROJECT}/deployments"
+
+          # Pages can take a couple of minutes to register the deployment, and
+          # the clone alone is slow on a repository this size, so poll rather
+          # than sample once.
+          for attempt in $(seq 1 55); do
+            body=$(curl -sS --max-time 60 -H "Authorization: Bearer ${CF_TOKEN}" "${api}?per_page=25") || body=''
+            status=$(printf '%s' "$body" | node -e '
+              let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{
+                try{
+                  const j=JSON.parse(s);
+                  const d=(j.result||[]).find(x=>x.deployment_trigger?.metadata?.commit_hash===process.env.SHA);
+                  if(!d){console.log("pending");return}
+                  const bad=(d.stages||[]).find(t=>t.status==="failure");
+                  if(bad){console.log("failure:"+bad.name);return}
+                  const dep=(d.stages||[]).find(t=>t.name==="deploy");
+                  console.log(dep && dep.status==="success" ? "success" : "running");
+                }catch(e){console.log("pending")}
+              });')
+
+            case "$status" in
+              success)    echo "Deployment succeeded."; exit 0 ;;
+              failure:*)  echo "::error::Pages deployment FAILED at stage ${status#failure:} for ${SHA}."
+                          echo "Build log: https://dash.cloudflare.com/${CF_ACCOUNT}/pages/view/${PROJECT}"
+                          exit 1 ;;
+              *)          echo "attempt ${attempt}: ${status}"; sleep 30 ;;
+            esac
+          done
+
+          echo "::warning::Timed out waiting for the Pages deployment of ${SHA}. Not failing the job, but check the dashboard."
