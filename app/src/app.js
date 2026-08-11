@@ -187,7 +187,11 @@ class Test2App {
     dataService.fuse = null;
     await this.loadTimelineTransitionManifest();
 
-    this.metadataService = new TestMetadataService('/test/metadata/maps-test-index.json?v=test-066', undefined, {
+    // Version token is the index's own content hash, injected at build time by
+    // build-test2-app.mjs. It must stay content-derived: _headers serves this
+    // file immutable, so a token that does not change when the bytes change
+    // pins a stale catalogue in every browser that has already loaded it.
+    this.metadataService = new TestMetadataService(`/test/metadata/maps-test-index.json?v=${__METADATA_INDEX_VERSION__}`, undefined, {
       cache: 'force-cache',
       portPlanCache: 'force-cache'
     });

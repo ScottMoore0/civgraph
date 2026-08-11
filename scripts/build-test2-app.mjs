@@ -25,10 +25,25 @@ for (const staleEntry of [
 rmSync(`${BUILD_DIR}/chunks`, { recursive: true, force: true });
 const emitSourceMaps = process.env.TEST2_SOURCEMAPS === '1' || process.argv.includes('--sourcemap');
 
+// Content hash of the startup metadata index, injected as __METADATA_INDEX_VERSION__.
+//
+// The index URL previously carried a hand-edited '?v=test-066'. That is safe
+// only while the file is served must-revalidate: cache it immutably with a
+// token nobody remembers to bump and every browser pins a stale copy of the
+// entire layer catalogue permanently. There is already a commit in this repo
+// titled "move off a poisoned chunk URL", so that failure mode is not
+// hypothetical. Deriving the token from the bytes makes the URL change exactly
+// when the content does, which is what immutable caching requires.
+const metadataIndexVersion = createHash('sha256')
+  .update(readFileSync('test/metadata/maps-test-index.json'))
+  .digest('hex')
+  .slice(0, 12);
+
 const result = await esbuild.build({
   entryPoints: ['app/src/boot.js'],
   bundle: true,
   minify: true,
+  define: { __METADATA_INDEX_VERSION__: JSON.stringify(metadataIndexVersion) },
   // Keep inline @license banners that packages ship in their source. Only
   // maplibre-gl has one; the rest declare a licence but carry no comment, which
   // is why build-third-party-notices.mjs assembles the full set from their

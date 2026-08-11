@@ -83,7 +83,12 @@
   Cache-Control: public, max-age=31536000, immutable
 
 /test/metadata/maps-test-index.json
-  Cache-Control: public, max-age=0, must-revalidate
+  # Safe ONLY because the client requests this with ?v=<content hash of the
+  # file>, injected at build time (build-test2-app.mjs -> __METADATA_INDEX_VERSION__).
+  # If that token ever goes back to a hand-edited constant, revert this to
+  # max-age=0, must-revalidate -- an immutable stale catalogue cannot be undone
+  # from the server side.
+  Cache-Control: public, max-age=31536000, immutable
   X-Robots-Tag: noindex, nofollow
 
 /test/metadata/layer-details-test2/*
