@@ -1,0 +1,66 @@
+name: Pages build parity
+
+# Reproduces the Cloudflare Pages build on a clean checkout, on EVERY commit.
+#
+# WHY THIS EXISTS
+#
+# On 2026-08-11 the Pages build was found to have been failing for 18
+# consecutive deployments. The site never went down -- Pages keeps serving the
+# last successful deployment -- so the only symptom was that nothing shipped,
+# silently, for a day's work.
+#
+# Three separate gaps had to line up for that to go unnoticed, and this workflow
+# closes all three:
+#
+#   1. `npm run check` runs 26 validators but never runs `npm run build`. A
+#      green check suite therefore says nothing about whether the tree builds.
+#   2. data-readiness.yml is path-filtered to data/**, scripts/validate-*.mjs,
+#      scripts/graph/** and package.json. The commit that broke the build only
+#      touched scripts/build-*.mjs and js/ -> src/, so it matched no filter and
+#      ran no CI at all. This workflow has NO path filter, deliberately.
+#   3. Both failures were invisible locally because the working tree still had
+#      files a clean checkout does not: the js/ -> src/ rename left stale
+#      imports that only a real resolve would hit, and untracking data/maps
+#      removed *-chunks.json files that validate-chunked-map-bounds needed but
+#      that still existed on the developer's disk. A hosted runner starts from
+#      git alone, which is the honest test.
+#
+# The build command below must stay IDENTICAL to the Pages project setting,
+# including `--ignore-scripts`. If they drift, this workflow stops testing the
+# thing it exists to test.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      # Exactly what Cloudflare Pages runs, in the same order. Split into steps
+      # so a failure names the stage rather than the whole command.
+      - name: npm install (--ignore-scripts, as Pages does)
+        run: npm install --ignore-scripts
+
+      - name: npm run build
+        run: npm run build
+
+      - name: clean-for-pages.sh
+        run: bash scripts/clean-for-pages.sh
+
+      # Pages hard-fails an upload above 20,000 files. clean-for-pages.sh trims
+      # to stay under it; assert the result rather than trusting the script.
+      - name: Assert deployable file count under Cloudflare's hard limit
+        run: node scripts/validate-pages-file-budget.mjs

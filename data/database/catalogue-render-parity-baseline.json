@@ -1,7 +1,7 @@
 {
   "note": "Known catalogue/render disagreements. Ratchet baseline for validate-catalogue-render-parity.mjs; this list may shrink, never grow.",
   "generated": "run with --update-baseline to re-cut",
-  "count": 373,
+  "count": 371,
   "findings": [
     {
       "key": "accessible-parking-spaces-sdcc3::bounds",
@@ -176,12 +176,6 @@
       "severity": "advisory",
       "kind": "missing",
       "why": "label property differs; PMTiles conversion may have renamed the attribute"
-    },
-    {
-      "key": "deds-ni-1926::provider",
-      "severity": "attribution",
-      "kind": "conflict",
-      "why": "credits a different organisation than the catalogue records"
     },
     {
       "key": "dfi-surface-defects-2008::bounds",
@@ -1898,12 +1892,6 @@
       "severity": "identity",
       "kind": "conflict",
       "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "roi-local-authorities-2024::keywordYear",
-      "severity": "content",
-      "kind": "conflict",
-      "why": "render record is tagged with a different year than the catalogue records"
     },
     {
       "key": "roi-national-planning-applications::bounds",
