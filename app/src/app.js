@@ -1884,6 +1884,7 @@ class Test2App {
       await this.timelineOnSelect(timelineItems[safeIndex], safeIndex);
       this.updateTimelineAnimationButtons();
     };
+
     // Test surface for the time slider. applyIndex is the real code path the
     // change handler uses, and it returns the promise that settles once the
     // layer swap has completed — which is exactly what a race test needs and

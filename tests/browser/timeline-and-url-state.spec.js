@@ -65,6 +65,38 @@ async function bootApp(page) {
   return page;
 }
 
+/**
+ * Bring a time-series layer onto the map so the slider exists.
+ *
+ * The default view has no timeline, so tests that skip without one give no
+ * coverage at all — and the race test is the one that matters most. wards-2012
+ * belongs to the `wards` chain (classes ni-wards and ni-deds), which spans the
+ * 1972 local-government reorganisation and so has plenty of steps.
+ *
+ * Loading through app.loadMap is deliberate: it is the same path the catalogue
+ * UI uses, so the timeline arrives the way it does for a real user rather than
+ * by poking internal state into a shape the app never produces.
+ */
+async function activateTimeline(page, mapId = 'wards-2012') {
+  await page.evaluate(async (id) => {
+    await window.__civgraphTest2.app.loadMap(id);
+  }, mapId);
+
+  const ready = await page
+    .waitForFunction(
+      () => {
+        const t = window.__civgraphTest2?.timeline;
+        return !!t && t.getItems().length >= 2;
+      },
+      null,
+      { timeout: 30000 },
+    )
+    .then(() => true)
+    .catch(() => false);
+
+  return ready;
+}
+
 test.describe('timeline, share URLs and the slider', () => {
   test('the runtime exposes the surface these tests depend on', async ({ page }) => {
     await bootApp(page);
@@ -110,11 +142,8 @@ test.describe('timeline, share URLs and the slider', () => {
   test('the slider clamps out-of-range indices instead of throwing', async ({ page }) => {
     await bootApp(page);
 
-    const timeline = await page.evaluate(() => {
-      const t = window.__civgraphTest2.timeline;
-      return t ? { present: true, items: t.getItems().length } : { present: false, items: 0 };
-    });
-    test.skip(!timeline.present || timeline.items < 2, 'no timeline active on the default view');
+    const ready = await activateTimeline(page);
+    expect(ready, 'a time-series layer must produce a slider with at least two steps').toBe(true);
 
     const result = await page.evaluate(async () => {
       const t = window.__civgraphTest2.timeline;
@@ -130,14 +159,39 @@ test.describe('timeline, share URLs and the slider', () => {
     expect(result.high).toBe(result.count - 1);
   });
 
+  // KNOWN FAILURE, recorded rather than deleted or weakened.
+  //
+  // This found a real bug on the day it was written: requesting indices 0, 2
+  // and 5 in quick succession settles on 0. The slider and the map agree, so
+  // nothing looks wrong — they agree on a year the user already scrolled past.
+  //
+  // The cause is NOT applyIndex, which sets the slider synchronously in the
+  // right order. It is the timeline REBUILD (app.js, the block ending in
+  // setTimelineRangeIndex around line 1977): when a layer finishes loading, the
+  // timeline is rebuilt and the index is re-derived from whichever layer is now
+  // active. Whichever load finishes last therefore wins, regardless of what was
+  // requested last.
+  //
+  // A generation token on applyIndex was tried and does NOT fix it, because the
+  // rebuild path does not go through applyIndex. The real fix is for the
+  // rebuild to respect the most recently requested index rather than the most
+  // recently completed load, which is surgery in code this test is not the
+  // right vehicle to change blind.
+  //
+  // test.fail() means: run it, expect red. If someone fixes the rebuild, this
+  // turns "expected to fail but passed" and they will be told to remove this
+  // annotation — which is the whole point of recording it this way instead of
+  // skipping, deleting, or loosening the assertion until it passes.
   test('rapid timeline changes settle on the last requested year, not the last to finish', async ({ page }) => {
+    // Scoped to THIS test. Called at describe level it marks every test in the
+    // file expected-to-fail, which turns three passing tests red.
+    test.fail();
     await bootApp(page);
 
-    const timeline = await page.evaluate(() => {
-      const t = window.__civgraphTest2.timeline;
-      return t ? { present: true, items: t.getItems().length } : { present: false, items: 0 };
-    });
-    test.skip(!timeline.present || timeline.items < 3, 'needs at least three timeline steps');
+    const ready = await activateTimeline(page);
+    expect(ready, 'a time-series layer must produce a slider').toBe(true);
+    const steps = await page.evaluate(() => window.__civgraphTest2.timeline.getItems().length);
+    expect(steps, 'the race test needs at least three steps to be meaningful').toBeGreaterThanOrEqual(3);
 
     // The race: fire several changes without awaiting, so multiple layer loads
     // are in flight together. The failure mode is a slower earlier request
