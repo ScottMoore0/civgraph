@@ -57,8 +57,11 @@ were really the wrong store being read:
 `validate-c1-coverage.mjs` already guards the store-2 → store-3 edge, and its
 header records what that gap cost: four days lost on the 1941–43 and 1985 Ward
 composites, which were correctly categorised, tiled, indexed and served, and
-invisible because no card listed them. **Nothing yet guards store-1 → store-2**,
-which is where all four diagnoses above went wrong.
+invisible because no card listed them.
+
+**Store-1 → store-2 is now guarded too** —
+`validate-catalogue-render-parity.mjs`, added 2026-08-11 and wired into
+`npm run check`. See §2 for what it found.
 
 ---
 
@@ -111,6 +114,38 @@ production actually reads, and a request that looked healthy from outside.
   36 → 5.
 - Two `check:root` assertions **inverted** so the MapLibre promotion is
   irreversible rather than merely current.
+- **`validate-catalogue-render-parity.mjs`** — the catalogue record and the
+  render record must agree about the same layer. Negative-tested: a tampered
+  `name` and a tampered `provider` on a joined layer both fail the build.
+
+  Most of the apparent disagreement is not disagreement. Comparing raw values
+  reports ~750 of 757 joined records as mismatched, because the render record is
+  derived with systematic transforms — `keywords` gains generated terms,
+  `category` is resolved from a slug to a display label through the `categories`
+  table both documents carry, `style` gains `fillColor`/`fillOpacity`. Those are
+  normalised away so real defects are visible instead of buried.
+
+  Getting that normalisation right mattered more than it sounds. An initial pass
+  treated `keywords` as a benign superset on the strength of two sampled
+  records; checking all 757 showed **166 layers where the render record dropped
+  catalogue keywords**, and in 6 cases replaced the year outright —
+  `eds-connacht-1919` is tagged 1970, `roi-local-authorities-2024` is tagged
+  2019. On a site whose central feature is a time slider, those layers are
+  unfindable by their own year and surface under someone else's. The same pass
+  wrongly proposed failing on `bounds`; the 61 differences are catalogue
+  hand-entered island-wide approximations (`[[51.4,-10.75],[55.5,-5.4]]` recurs
+  verbatim across unrelated layers) against render values computed from
+  geometry, so failing would have asserted the wrong direction of authority.
+  `bounds` is advisory for that reason.
+
+  **398 findings baselined** (ratchet: may shrink, never grow) — 1 attribution,
+  29 content, 263 identity, 105 advisory. Attribution findings print on every
+  run even when baselined, because `deds-ni-1926` credits OSI/OSM in the render
+  record and OSNI/PRONI in the catalogue, and `NOTICE` makes the catalogue
+  authoritative for attribution. `labelProperty` is advisory rather than
+  blocking: PMTiles conversion renames attributes, so a catalogue `NAME_TAG`
+  against a render `Name` may mean the catalogue is stale, and deciding needs
+  the real tile attributes rather than an assumption.
 
 ---
 
