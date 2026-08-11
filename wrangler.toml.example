@@ -12,19 +12,22 @@
 # disappears from production, and the Functions that depend on it start
 # answering `503 … binding not configured`.
 #
-# The project's bindings currently live only in the dashboard, and there is no
-# CLI that dumps them, so this file was assembled from what could be verified
-# against the account. Two bindings could NOT be verified (see below). Renaming
-# this file to `wrangler.toml` while those are still unknown would silently drop
-# them.
+# UPDATE 2026-08-11: the project's production bindings were read back from the
+# Pages API and are reproduced below IN FULL. There are exactly five, and this
+# file now matches them, so the "might silently drop a binding" risk is resolved.
+# The project has NO environment variables set at all.
 #
-# TO ACTIVATE SAFELY:
-#   1. Open the Pages project → Settings → Functions → Bindings, and reconcile
-#      every binding listed there against this file. Add anything missing.
-#   2. Fill in the build command and the two unverified bindings below.
-#   3. Deploy to a PREVIEW branch first and exercise /_api/proni/search,
+# TO ACTIVATE:
+#   1. Deploy to a PREVIEW branch first and exercise /_api/proni/search,
 #      /_api/elections/, /_api/spatial, /_api/search and a data/maps/* URL.
-#   4. Only then rename to `wrangler.toml` and merge.
+#      Preview uses its own binding set — declare it too, or accept that preview
+#      Functions will 503 while production is unaffected.
+#   2. Confirm nothing has been added in the dashboard since the date above.
+#   3. Only then rename to `wrangler.toml` and merge.
+#
+# There is no urgency. The dashboard configuration works, and adopting this file
+# buys version control over five bindings at the cost of a new way to break
+# production. Do it when the deployment is otherwise quiet.
 #
 # Do NOT put CIVGRAPH_ADMINS or CIVGRAPH_CONTRIBUTORS in a committed file. They
 # are email addresses, this repository is public and MIT-licensed, and committing
@@ -34,18 +37,28 @@
 # ---------------------------------------------------------------------------
 
 name = "civgraph"
-compatibility_date = "2026-08-11"
+
+# MUST match what production already runs. The project is on 2026-04-04 with no
+# compatibility flags. Bumping this date changes Workers runtime behaviour, so
+# it is a deliberate change to make on its own, never a side effect of adopting
+# this file.
+compatibility_date = "2026-04-04"
 
 # The site is served from the repository root — index.html, 404.html and
 # _headers all live at the top level, and `.cfignore` excludes archival
 # material from the upload.
 pages_build_output_dir = "."
 
-# UNKNOWN: the Pages build command is configured in the dashboard and cannot be
-# determined from the repository. `npm run build` chains ~7 steps and
-# `npm run check` runs 26 validators, but whether Pages runs either, runs
-# something else, or deploys the tree exactly as committed is not knowable from
-# here. Confirm in the dashboard before activating.
+# The build command, read from the project on 2026-08-11:
+#
+#     npm install --ignore-scripts && npm run build && bash scripts/clean-for-pages.sh
+#
+# `wrangler.toml` does not carry the build command for Pages — it stays a
+# project setting. It is recorded here because it is otherwise invisible from
+# the repository, and because `clean-for-pages.sh` trimming the output below
+# Cloudflare's 20,000-file limit is load-bearing and easy to miss.
+#
+# root_dir and destination_dir are both empty, i.e. the repository root.
 
 
 # --- D1 -------------------------------------------------------------------
@@ -92,15 +105,13 @@ bucket_name = "boundaries-data"
 #     env.CIVGRAPH_SUBMISSIONS          (.put with httpMetadata — R2)
 # and returns 503 if none is present.
 #
-# Neither name corresponds to any KV namespace or R2 bucket on the account:
-# the only namespaces are PRONI_KV and SPATIAL_INDEX, and the only bucket is
-# boundaries-data. So either one of those is bound under a second name, or the
-# contribution submission path is not wired up at all. A GET returns 405, which
-# only proves the Function routes — it says nothing about the binding, and the
-# POST path was not exercised because that would write a real submission.
+# SETTLED 2026-08-11: the Pages API reports exactly five production bindings —
+# ELECTIONS_DB, PRONI_DB, PRONI_KV, SPATIAL_INDEX, MAPS_BUCKET — and no others.
+# None of the three submission names is bound, so the contribution submission
+# path is NOT wired up: every POST reaches the 503.
 #
-# Resolve this before activating. If submissions are meant to work, create the
-# namespace or bucket and declare it here:
+# Activating this file does not make that worse; it is already the live state.
+# To make submissions work, create the resource and declare it here:
 #
 # [[kv_namespaces]]
 # binding = "CIVGRAPH_CONTRIBUTION_QUEUE"
@@ -112,10 +123,21 @@ bucket_name = "boundaries-data"
 
 
 # --- Variables ------------------------------------------------------------
-# CIVGRAPH_ADMINS and CIVGRAPH_CONTRIBUTORS are comma-separated email lists read
-# by functions/_api/_auth.js. They are intentionally NOT declared here — see the
-# note at the top of this file. CIVGRAPH_DEV_AUTH_EMAIL is a local-development
-# override and must never be set in production.
+# The project currently has NO environment variables set, so CIVGRAPH_ADMINS and
+# CIVGRAPH_CONTRIBUTORS are both unset. In _auth.js that is fail-open on the
+# allowlist: `allowlistConfigured` is false, so ANY authenticated caller is
+# treated as an approved contributor. Nobody can currently authenticate — the
+# email comes from Cloudflare Access headers and Access is not in front of the
+# app — but the moment Access is enabled, every user it admits becomes a
+# contributor until an allowlist exists. Set CIVGRAPH_ADMINS at minimum, in the
+# same change that enables Access.
+#
+# Do NOT declare them here: they are email addresses and this repository is
+# public. Keep them as dashboard variables, or set them as secrets.
+#
+# CIVGRAPH_DEV_AUTH_EMAIL bypasses Access entirely by supplying the email
+# directly. It is a local-development override and must never be set in
+# production.
 #
 # _auth.js and submit.js each accept their binding under three names
 # (CIVGRAPH_*, CONTRIBUTOR_*/CONTRIBUTION_*, and BROWSE_*). That is legacy
