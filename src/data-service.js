@@ -16,6 +16,31 @@ class DataService {
   /**
    * Initialize the data service by loading all database files
    */
+  /**
+   * The catalogue now lives in D1 and is served by functions/_api/catalogue.
+   * The endpoint returns exactly the document this file previously loaded from
+   * data/database/maps.json, so nothing downstream changes -- in particular the
+   * 68 synchronous call sites that read the catalogue out of memory afterwards.
+   *
+   * The static file is kept as a fallback rather than deleted. It is the whole
+   * catalogue: if the endpoint is unreachable, or CATALOGUE_DB is unbound after
+   * a configuration change, falling back means a degraded deploy instead of a
+   * site with no layers at all. scripts/validate-catalogue-d1-parity.mjs keeps
+   * the two honest, so the fallback cannot quietly serve stale data.
+   */
+  async loadCatalogue() {
+    try {
+      const response = await fetch('/_api/catalogue', { headers: { Accept: 'application/json' } });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const doc = await response.json();
+      if (!Array.isArray(doc?.maps) || !doc.maps.length) throw new Error('empty catalogue');
+      return doc;
+    } catch (error) {
+      console.warn('[DataService] /_api/catalogue unavailable, falling back to the static catalogue', error);
+      return this.loadJson('data/database/maps.json');
+    }
+  }
+
   async init(options = {}) {
     const {
       loadBooks = true,
@@ -26,7 +51,7 @@ class DataService {
     // over HTTP/2; data-entries.json parse happens off the main maps
     // parse so it doesn't extend init latency.
     const [mapsData, dataEntriesData, booksData, geographiesData] = await Promise.all([
-      this.loadJson('data/database/maps.json'),
+      this.loadCatalogue(),
       this.loadJson('data/database/data-entries.json'),
       loadBooks ? this.loadJson('data/database/books.json') : Promise.resolve(null),
       loadGeographies ? this.loadJson('data/database/geographies.json') : Promise.resolve(null)
