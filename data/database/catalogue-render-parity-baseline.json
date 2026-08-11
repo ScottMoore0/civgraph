@@ -1,7 +1,7 @@
 {
   "note": "Known catalogue/render disagreements. Ratchet baseline for validate-catalogue-render-parity.mjs; this list may shrink, never grow.",
   "generated": "run with --update-baseline to re-cut",
-  "count": 381,
+  "count": 373,
   "findings": [
     {
       "key": "accessible-parking-spaces-sdcc3::bounds",
@@ -560,54 +560,6 @@
       "severity": "advisory",
       "kind": "conflict",
       "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "eds-1911-connacht::labelProperty",
-      "severity": "advisory",
-      "kind": "missing",
-      "why": "label property differs; PMTiles conversion may have renamed the attribute"
-    },
-    {
-      "key": "eds-1911-leinster::labelProperty",
-      "severity": "advisory",
-      "kind": "missing",
-      "why": "label property differs; PMTiles conversion may have renamed the attribute"
-    },
-    {
-      "key": "eds-1911-munster::labelProperty",
-      "severity": "advisory",
-      "kind": "missing",
-      "why": "label property differs; PMTiles conversion may have renamed the attribute"
-    },
-    {
-      "key": "eds-1911-ulster::labelProperty",
-      "severity": "advisory",
-      "kind": "missing",
-      "why": "label property differs; PMTiles conversion may have renamed the attribute"
-    },
-    {
-      "key": "eds-1926-connacht::labelProperty",
-      "severity": "advisory",
-      "kind": "missing",
-      "why": "label property differs; PMTiles conversion may have renamed the attribute"
-    },
-    {
-      "key": "eds-1926-leinster::labelProperty",
-      "severity": "advisory",
-      "kind": "missing",
-      "why": "label property differs; PMTiles conversion may have renamed the attribute"
-    },
-    {
-      "key": "eds-1926-munster::labelProperty",
-      "severity": "advisory",
-      "kind": "missing",
-      "why": "label property differs; PMTiles conversion may have renamed the attribute"
-    },
-    {
-      "key": "eds-1926-ulster::labelProperty",
-      "severity": "advisory",
-      "kind": "missing",
-      "why": "label property differs; PMTiles conversion may have renamed the attribute"
     },
     {
       "key": "eds-1971::bounds",
