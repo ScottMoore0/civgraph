@@ -254,7 +254,33 @@ class Test2App {
       restorePromise: null,
       runtimeReadyAt: performance?.now?.() || Date.now(),
       serviceWorkerStatusPromise: this.serviceWorkerStatusPromise,
-      getPerformanceStatus: () => this.collectPerformanceStatus()
+      getPerformanceStatus: () => this.collectPerformanceStatus(),
+
+      // `timeline` is attached later, by setupTimelineControls, because the
+      // apply path it exposes is defined there.
+
+      /**
+       * Resolve once the map has gone idle — no pending tiles, no transitions.
+       * Browser tests for timeline races need a real completion signal; a
+       * setTimeout is a guess that passes on a fast machine and flakes on a
+       * loaded one, which is worse than no test.
+       */
+      whenIdle: (timeoutMs = 15000) => new Promise((resolve) => {
+        const map = this.mapController?.map;
+        if (!map) { resolve({ idle: false, reason: 'no map' }); return; }
+        if (map.loaded?.() && !map.isMoving?.()) { resolve({ idle: true, immediate: true }); return; }
+        let settled = false;
+        const done = (payload) => { if (!settled) { settled = true; map.off?.('idle', onIdle); resolve(payload); } };
+        const onIdle = () => done({ idle: true, immediate: false });
+        map.once?.('idle', onIdle);
+        setTimeout(() => done({ idle: false, reason: 'timeout' }), timeoutMs);
+      }),
+
+      /** The URL state the app would write right now, without writing it. */
+      urlState: () => ({
+        hash: window.location.hash,
+        suspended: this._suspendURLState,
+      }),
     };
     this.scheduleIdleTask(() => this.prepareSearchWorker(), { timeout: 3500 });
     this.renderCategoryPills();
@@ -1858,6 +1884,22 @@ class Test2App {
       await this.timelineOnSelect(timelineItems[safeIndex], safeIndex);
       this.updateTimelineAnimationButtons();
     };
+    // Test surface for the time slider. applyIndex is the real code path the
+    // change handler uses, and it returns the promise that settles once the
+    // layer swap has completed — which is exactly what a race test needs and
+    // what dispatching a synthetic 'change' event cannot give you, because the
+    // listener's promise is unobservable from outside.
+    if (window.__civgraphTest2) {
+      window.__civgraphTest2.timeline = {
+        element: range,
+        getItems: () => this.getTimelineAnimationItems(),
+        getIndex: () => this.getTimelineRangeIndex(),
+        setIndex: (index) => applyIndex(index),
+        isApplying: () => this.timelineApplying,
+        currentIndex: () => this.timelineAnimation.currentIndex,
+      };
+    }
+
     range?.addEventListener('change', (event) => applyIndex(event.target.value).catch((error) => this.showMapError(error)));
     range?.addEventListener('input', (event) => {
       this.pauseTimelineAnimation({ preserveOverlay: true });

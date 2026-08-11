@@ -61,6 +61,12 @@
       "prefix": "data/sources/oireachtas-fulltext/",
       "rationale": "Houses of the Oireachtas full text: 26,415 Akoma Ntoso debate transcripts and 13,918 bill/act PDFs, harvested from data.oireachtas.ie. Open data. Mirrored because the tree is currently single-copy on an exFAT volume with no journaling, and because the API only ever returns pointers to these documents.",
       "evidence": "scripts/harvest-oireachtas-fulltext.mjs; completeness proven from disk (advertised 13,919 bill documents, 13,918 held -- the one exception, Maternity Protection (Amendment) Bill 2003 ver_b, is zero bytes at source with Content-Length: 0)."
+    },
+    {
+      "prefix": "data/graph/",
+      "rationale": "Semantic graph shards (entities, statements, Browse mappings). Pure build output of scripts/graph/build-semantic-graph.mjs, regenerated from the catalogue, data/browse and the election data. Moving it to R2 does not change its exposure: it is not listed in .cfignore, so Cloudflare Pages already serves this whole tree publicly today.",
+      "evidence": ".cfignore does not exclude data/graph (census and timeline-transitions are excluded, this is not); functions/data/graph/[[path]].js serves this prefix and falls through to the static copy on a miss; 4,604 files / 1.91 GB currently tracked in git and deployed.",
+      "rights": "Derived work. Carries no source data of its own -- it is an index over records whose terms are recorded per source in data/database/maps.json and sources.json, and it inherits those terms."
     }
   ]
 }
