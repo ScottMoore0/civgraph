@@ -221,6 +221,18 @@ larger barrier than any directory name.
   were removed — matching the DoBIH precedent, which drops the `files` key
   rather than leaving an empty object. No data was missing and nothing needed
   regenerating.
+- **`roi-local-authorities-2024` has an unresolved vintage.** Its id and its
+  catalogue keyword say 2024; its catalogue `name` ("Local Authorities 2019")
+  and `date` (`2019`) say 2019, and the render record agrees with those. All 27
+  sibling `roi-local-authorities-<year>` layers have id-year matching name-year,
+  so this one is the outlier. It was deliberately left alone when the other five
+  wrong-year layers were corrected, because the evidence points both ways and
+  editing either side could make it wrong: the fix depends on which vintage the
+  OSi source at `ed592af6f0444bf1b0becdb5925f9477` actually is. Note that four
+  ED records already carry explicit "Vintage note: the id says X but this record
+  serves Y" descriptions, so an id that disagrees with its content is a known,
+  documented pattern here rather than necessarily a defect — this may need the
+  same note rather than a changed year.
 - **No browser coverage** for timeline races, share-URL restoration or slider
   behaviour. The 7 archived specs never provided it (they were red), but the gap
   is real. `window.__civgraphTest2` exposes `app`, `mapController` and

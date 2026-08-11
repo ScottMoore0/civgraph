@@ -1,7 +1,7 @@
 {
   "note": "Known catalogue/render disagreements. Ratchet baseline for validate-catalogue-render-parity.mjs; this list may shrink, never grow.",
   "generated": "run with --update-baseline to re-cut",
-  "count": 398,
+  "count": 381,
   "findings": [
     {
       "key": "accessible-parking-spaces-sdcc3::bounds",
@@ -128,12 +128,6 @@
       "severity": "content",
       "kind": "conflict",
       "why": "displays a different name than the catalogue records"
-    },
-    {
-      "key": "counties-ireland::description",
-      "severity": "content",
-      "kind": "missing",
-      "why": "description differs or was blanked"
     },
     {
       "key": "cso-urban-areas-2022::date",
@@ -622,12 +616,6 @@
       "why": "bounds differ; the render value is computed from geometry and is normally the better one"
     },
     {
-      "key": "eds-1971::description",
-      "severity": "content",
-      "kind": "missing",
-      "why": "description differs or was blanked"
-    },
-    {
       "key": "eds-1971::style",
       "severity": "identity",
       "kind": "conflict",
@@ -646,12 +634,6 @@
       "why": "date differs"
     },
     {
-      "key": "eds-1977::description",
-      "severity": "content",
-      "kind": "missing",
-      "why": "description differs or was blanked"
-    },
-    {
       "key": "eds-1977::style",
       "severity": "identity",
       "kind": "conflict",
@@ -662,12 +644,6 @@
       "severity": "advisory",
       "kind": "conflict",
       "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "eds-1980::description",
-      "severity": "content",
-      "kind": "missing",
-      "why": "description differs or was blanked"
     },
     {
       "key": "eds-1980::style",
@@ -688,12 +664,6 @@
       "why": "date differs"
     },
     {
-      "key": "eds-1983::description",
-      "severity": "content",
-      "kind": "missing",
-      "why": "description differs or was blanked"
-    },
-    {
       "key": "eds-1983::style",
       "severity": "identity",
       "kind": "conflict",
@@ -710,12 +680,6 @@
       "severity": "identity",
       "kind": "conflict",
       "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-connacht-1919::keywordYear",
-      "severity": "content",
-      "kind": "conflict",
-      "why": "render record is tagged with a different year than the catalogue records"
     },
     {
       "key": "eds-connacht-1926::keywords",
@@ -802,40 +766,10 @@
       "why": "label property differs; PMTiles conversion may have renamed the attribute"
     },
     {
-      "key": "eds-leinster-1931::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-leinster-1931::keywordYear",
-      "severity": "content",
-      "kind": "conflict",
-      "why": "render record is tagged with a different year than the catalogue records"
-    },
-    {
-      "key": "eds-leinster-1936::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-leinster-1936::keywordYear",
-      "severity": "content",
-      "kind": "conflict",
-      "why": "render record is tagged with a different year than the catalogue records"
-    },
-    {
       "key": "eds-leinster-1957::keywords",
       "severity": "identity",
       "kind": "conflict",
       "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-leinster-1957::keywordYear",
-      "severity": "content",
-      "kind": "conflict",
-      "why": "render record is tagged with a different year than the catalogue records"
     },
     {
       "key": "eds-leinster-1986::keywords",
@@ -860,12 +794,6 @@
       "severity": "identity",
       "kind": "conflict",
       "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-leinster-2019::description",
-      "severity": "content",
-      "kind": "missing",
-      "why": "description differs or was blanked"
     },
     {
       "key": "eds-leinster-2019::keywords",
@@ -922,34 +850,16 @@
       "why": "render record dropped a keyword the catalogue records (search terms lost)"
     },
     {
-      "key": "eds-munster-1986::description",
-      "severity": "content",
-      "kind": "missing",
-      "why": "description differs or was blanked"
-    },
-    {
       "key": "eds-munster-1986::keywords",
       "severity": "identity",
       "kind": "conflict",
       "why": "render record dropped a keyword the catalogue records (search terms lost)"
     },
     {
-      "key": "eds-munster-1994::description",
-      "severity": "content",
-      "kind": "missing",
-      "why": "description differs or was blanked"
-    },
-    {
       "key": "eds-munster-1994::keywords",
       "severity": "identity",
       "kind": "conflict",
       "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-munster-1997::description",
-      "severity": "content",
-      "kind": "missing",
-      "why": "description differs or was blanked"
     },
     {
       "key": "eds-munster-1997::keywords",
@@ -986,12 +896,6 @@
       "severity": "identity",
       "kind": "conflict",
       "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-ulster-1921::keywordYear",
-      "severity": "content",
-      "kind": "conflict",
-      "why": "render record is tagged with a different year than the catalogue records"
     },
     {
       "key": "eds-ulster-1926::keywords",
@@ -2036,12 +1940,6 @@
       "severity": "advisory",
       "kind": "missing",
       "why": "label property differs; PMTiles conversion may have renamed the attribute"
-    },
-    {
-      "key": "roi-local-authorities-2008::description",
-      "severity": "content",
-      "kind": "missing",
-      "why": "description differs or was blanked"
     },
     {
       "key": "roi-local-authorities-2024::keywords",
