@@ -172,11 +172,32 @@ test.describe('timeline, share URLs and the slider', () => {
   // active. Whichever load finishes last therefore wins, regardless of what was
   // requested last.
   //
-  // A generation token on applyIndex was tried and does NOT fix it, because the
-  // rebuild path does not go through applyIndex. The real fix is for the
-  // rebuild to respect the most recently requested index rather than the most
-  // recently completed load, which is surgery in code this test is not the
-  // right vehicle to change blind.
+  // THREE ATTEMPTS SO FAR, ALL REVERTED. What each one established:
+  //
+  //  1. A generation token on applyIndex alone. No effect: the rebuild path
+  //     never goes through applyIndex, so nothing consults the token.
+  //
+  //  2. Record the requested TIMESTAMP (not index -- the rebuild re-derives
+  //     position from timestamps, and an index is only meaningful against the
+  //     item list of the moment), have refreshTimelineFromActiveLayers prefer it
+  //     over getCurrentTimelineTimestamp, and clear it when the latest request
+  //     finishes. Still settled on 0. Clearing on completion is wrong: the
+  //     slower earlier requests are still in flight, and each triggers its own
+  //     rebuild when it lands, which then falls back to "whatever is on the map".
+  //
+  //  3. As (2), but hold the claim until a rebuild arrives whose item list no
+  //     longer contains the requested timestamp. Moved the result from 0 to 2 --
+  //     better, still wrong. An INTERMEDIATE rebuild, running while a load is in
+  //     flight, produces an item list that does not contain the requested
+  //     timestamp (the list is derived from a reference map that is mid-swap),
+  //     so the claim is released early and the next landing load wins.
+  //
+  // So the remaining problem is narrow and specific: distinguishing "this
+  // rebuild has genuinely moved to a different chain" from "this rebuild is a
+  // transient mid-swap view of the same chain". Attempt 4 should probably not
+  // key on the item list at all -- more likely on the in-flight load count, or
+  // by having the swap itself carry the request identity so a stale completion
+  // can be dropped before it ever reaches the rebuild.
   //
   // test.fail() means: run it, expect red. If someone fixes the rebuild, this
   // turns "expected to fail but passed" and they will be told to remove this
