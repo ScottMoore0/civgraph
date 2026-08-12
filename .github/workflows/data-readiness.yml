@@ -67,6 +67,19 @@ jobs:
       # cheapest step that satisfies the validator, and pages-build.yml already
       # covers the full build separately.
       - run: node scripts/build-shared-shell-assets.mjs
+
+      # data/browse became untracked build output on 2026-08-12 (served from R2).
+      # Several validators in `npm run check` read it -- check:external-sources,
+      # check:raw-source-documents, check:medium-priority-publication -- and
+      # without this they either skip or, worse, report every record as missing.
+      # Building it here means they actually run in CI rather than quietly
+      # covering nothing, which is the whole reason this job exists.
+      #
+      # Reads only tracked inputs (data/database/*.json), so a clean checkout is
+      # enough: verified locally 2026-08-12 by rebuilding from scratch and
+      # re-running check:external-sources, which passed.
+      - run: node scripts/build-browse-indexes.mjs
+
       - run: npm run check
 
   lint:

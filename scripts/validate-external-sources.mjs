@@ -16,7 +16,19 @@ function readJson(filePath) {
 }
 
 const external = readJson('data/database/external-sources.json') || {};
-const browseSources = readJson('data/browse/sources.json') || { items: [] };
+
+// data/browse is build output and untracked as of 2026-08-12 (served from R2 via
+// functions/data/browse/[[path]].js). Say so, rather than falling back to an
+// empty index: with `|| { items: [] }` every external source looks unindexed, so
+// an absent input reports as a data defect. That is worse than either passing or
+// failing honestly, because the error names a source id and sends whoever reads
+// it hunting through the catalogue for a problem that is not there.
+if (!existsSync('data/browse/sources.json')) {
+  console.log('SKIP: data/browse/sources.json is absent.');
+  console.log('  Browse data is build output, not tracked in git. Generate it first:  npm run build:browse');
+  process.exit(0);
+}
+const browseSources = readJson('data/browse/sources.json');
 const sourceItems = Array.isArray(external.sources) ? external.sources : [];
 const browseItems = resolveBrowseSourceItems(browseSources);
 const sourceById = new Map(browseItems.map((item) => [item.id, item]));
