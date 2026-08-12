@@ -42,7 +42,23 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - run: npm install
+      # --ignore-scripts: the `canvas` devDependency builds natively and fails on
+      # the runner (pixman-1 not found). Nothing in `npm run check` imports it --
+      # canvas is only used by the thumbnail and raster builders -- and
+      # pages-build.yml has run this way since 2026-08-11, including esbuild.
+      - run: npm install --ignore-scripts
+
+      # check:asset-refs asserts that every referenced asset exists AFTER THE
+      # BUILD, and build/ is gitignored, so on a clean checkout main.css,
+      # main.critical.css and about.css do not exist yet. This job ran `npm run
+      # check` without ever building them and failed on all 5 every time since it
+      # was added -- green locally only because those files sit untracked on the
+      # developer's disk. That is the same shape as the *-chunks.json breakage.
+      #
+      # Only the shell assets are built, not the full `npm run build`: this is the
+      # cheapest step that satisfies the validator, and pages-build.yml already
+      # covers the full build separately.
+      - run: node scripts/build-shared-shell-assets.mjs
       - run: npm run check
 
   lint:
@@ -52,7 +68,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - run: npm install
+      - run: npm install --ignore-scripts
       # Warnings only by design -- reports without blocking. Switch to
       # lint:strict once the current 16 warnings are cleared.
       - run: npm run lint

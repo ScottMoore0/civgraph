@@ -57,10 +57,34 @@ jobs:
       - name: npm run build
         run: npm run build
 
+      # BEFORE the clean step, because clean-for-pages.sh deletes scripts/ and
+      # this lives there. Running it afterwards failed with MODULE_NOT_FOUND on
+      # every commit from 2026-08-11 to 2026-08-12 -- the gate built to catch a
+      # broken build was itself broken, and red for reasons unrelated to the build.
+      #
+      # Order is not a compromise: this script models the deployable set from git
+      # plus .cfignore, so it does not need the cleaned tree and never did.
+      - name: Assert modelled deployable file count under budget
+        run: node scripts/validate-pages-file-budget.mjs
+
       - name: clean-for-pages.sh
         run: bash scripts/clean-for-pages.sh
 
-      # Pages hard-fails an upload above 20,000 files. clean-for-pages.sh trims
-      # to stay under it; assert the result rather than trusting the script.
-      - name: Assert deployable file count under Cloudflare's hard limit
-        run: node scripts/validate-pages-file-budget.mjs
+      # Ground truth, after cleaning: what is actually on disk. Pages hard-fails
+      # an upload above 20,000 files.
+      #
+      # This is an UPPER BOUND, not the deployed count -- Cloudflare applies
+      # .cfignore at upload, removing more (data/census, data/browse, data/graph
+      # and so on) than clean-for-pages.sh does. So it can only over-count, which
+      # is the safe direction for a ceiling check. It exists because the modelled
+      # count above has been wrong twice: once from a hand-maintained exclusion
+      # list that drifted from .cfignore (reported 13,562 against a real ~20,944),
+      # and once from trusting .cfignore glob patterns that Cloudflare ignores.
+      - name: Assert real on-disk file count under Cloudflare's hard limit
+        run: |
+          COUNT=$(find . -path ./.git -prune -o -type f -print | wc -l)
+          echo "files on disk after clean-for-pages.sh: $COUNT (hard limit 20000)"
+          if [ "$COUNT" -ge 20000 ]; then
+            echo "::error::$COUNT files on disk; Cloudflare Pages hard-fails at 20,000."
+            exit 1
+          fi
