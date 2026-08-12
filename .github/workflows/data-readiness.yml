@@ -42,11 +42,17 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
+      # `npm ci`, not `npm install`, because check:notices regenerates
+      # app/build/THIRD-PARTY-NOTICES.txt from what is actually installed and
+      # compares it to the committed file. `npm install` may resolve versions
+      # newer than the lockfile, and the notices record exact versions
+      # (fflate@0.8.3 and so on), so the check failed as "missing or out of date"
+      # for a dependency drift rather than any real problem.
+      #
       # --ignore-scripts: the `canvas` devDependency builds natively and fails on
       # the runner (pixman-1 not found). Nothing in `npm run check` imports it --
-      # canvas is only used by the thumbnail and raster builders -- and
-      # pages-build.yml has run this way since 2026-08-11, including esbuild.
-      - run: npm install --ignore-scripts
+      # canvas is only used by the thumbnail and raster builders.
+      - run: npm ci --ignore-scripts
 
       # check:asset-refs asserts that every referenced asset exists AFTER THE
       # BUILD, and build/ is gitignored, so on a clean checkout main.css,
@@ -68,7 +74,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - run: npm install --ignore-scripts
+      - run: npm ci --ignore-scripts
       # Warnings only by design -- reports without blocking. Switch to
       # lint:strict once the current 16 warnings are cleared.
       - run: npm run lint

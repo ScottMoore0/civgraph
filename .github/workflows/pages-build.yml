@@ -51,6 +51,11 @@ jobs:
 
       # Exactly what Cloudflare Pages runs, in the same order. Split into steps
       # so a failure names the stage rather than the whole command.
+      # Deliberately `npm install`, not `npm ci`, even though the other workflows
+      # use ci. This job exists to reproduce the Cloudflare build; pinning to the
+      # lockfile here would stop it reproducing the thing it is named after, and
+      # a dependency that resolves differently on Cloudflare is exactly the kind
+      # of breakage it should catch.
       - name: npm install (--ignore-scripts, as Pages does)
         run: npm install --ignore-scripts
 
