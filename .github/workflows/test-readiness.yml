@@ -44,7 +44,7 @@ jobs:
         with:
           node-version: '24'
       # --ignore-scripts: canvas builds natively and fails on the runner (pixman-1).
-      - run: npm ci --ignore-scripts
+      - run: npm install --ignore-scripts
       - run: npm run build:test
       - run: npm run check:test:ci-safe
       # Delivery reconciliation, source-path and composite-composition checks.
@@ -64,7 +64,7 @@ jobs:
         with:
           node-version: '24'
       # --ignore-scripts: canvas builds natively and fails on the runner (pixman-1).
-      - run: npm ci --ignore-scripts
+      - run: npm install --ignore-scripts
       - run: npx playwright install --with-deps chromium
       - run: npm run build:test
       - run: npm run smoke:test:mobile
@@ -79,6 +79,6 @@ jobs:
         with:
           node-version: '24'
       # --ignore-scripts: canvas builds natively and fails on the runner (pixman-1).
-      - run: npm ci --ignore-scripts
+      - run: npm install --ignore-scripts
       - run: npm run build:test:cdn-manifest
       - run: npm run monitor:test:cdn

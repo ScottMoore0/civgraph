@@ -42,7 +42,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      # `npm ci`, not `npm install`, because check:notices regenerates
+      # NOTE: this wants to be `npm ci`, but package-lock.json is gitignored
+      # (.gitignore:3), so there is no lockfile in CI and npm ci fails outright
+      # with EUSAGE. Until that is resolved, check:notices regenerates
       # app/build/THIRD-PARTY-NOTICES.txt from what is actually installed and
       # compares it to the committed file. `npm install` may resolve versions
       # newer than the lockfile, and the notices record exact versions
@@ -52,7 +54,7 @@ jobs:
       # --ignore-scripts: the `canvas` devDependency builds natively and fails on
       # the runner (pixman-1 not found). Nothing in `npm run check` imports it --
       # canvas is only used by the thumbnail and raster builders.
-      - run: npm ci --ignore-scripts
+      - run: npm install --ignore-scripts
 
       # check:asset-refs asserts that every referenced asset exists AFTER THE
       # BUILD, and build/ is gitignored, so on a clean checkout main.css,
@@ -74,7 +76,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - run: npm ci --ignore-scripts
+      - run: npm install --ignore-scripts
       # Warnings only by design -- reports without blocking. Switch to
       # lint:strict once the current 16 warnings are cleared.
       - run: npm run lint
