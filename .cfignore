@@ -45,6 +45,15 @@ LocalAuthorities_NationalStatutoryBoundaries_Ungeneralised_2024_-297831392061248
 
 # Map data — served from R2 (data.civgraph.net)
 data/census/
+# Semantic graph shards: 4,604 files, 1.96 GB, served through
+# functions/data/graph/[[path]].js. This exclusion is what MAKES that Function
+# run. Cloudflare Pages serves a matching static asset in preference to a
+# Function, so while these files were deployed the proxy was inert -- it was
+# deployed on 2026-08-12 and observably never invoked, because the committed
+# copy shadowed it. Re-deploying data/graph would silently disable the proxy
+# again, with no error anywhere: the site would keep working, just from the
+# wrong source and against the Pages file budget.
+data/graph/
 # Timeline transition full analysis sidecars are source QA; runtime uses data/timeline-transition-overlays/
 data/timeline-transitions/
 

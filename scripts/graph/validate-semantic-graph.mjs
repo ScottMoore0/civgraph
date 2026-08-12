@@ -37,6 +37,24 @@ const REGISTER_REFERENCE_PROPERTIES = new Set([
 async function main() {
   const runDeterminism = process.argv.includes('--determinism');
   const errors = [];
+
+  // data/graph is build output and is no longer tracked (2026-08-12): it is 1.96 GB
+  // across 4,604 files, regenerated from data/browse, the catalogue and the election
+  // data, and served in production from R2 via functions/data/graph/[[path]].js.
+  //
+  // So a clean checkout legitimately has no graph at all. Without this guard the
+  // very next line throws a bare ENOENT on manifest.json, which tells a new
+  // contributor nothing about the cause and looks like a broken repository. That is
+  // exactly how the *-chunks.json removal broke the build earlier this month: a
+  // validator that silently depended on files which only existed because they were
+  // still sitting untracked on one developer's disk.
+  if (!(await exists(path.join(GRAPH_DIR, 'manifest.json')))) {
+    console.log('SKIP: data/graph is absent.');
+    console.log('  The semantic graph is build output, not tracked in git. Production serves it');
+    console.log('  from R2. To validate it locally, build it first:  npm run build:graph');
+    return;
+  }
+
   const manifest = await readJson(path.join(GRAPH_DIR, 'manifest.json'));
   const entityTypesPayload = await readJson(siteUrlToPath(manifest.registries?.entityTypes));
   const propertiesPayload = await readJson(siteUrlToPath(manifest.registries?.properties));
@@ -669,6 +687,15 @@ async function findOversizedGraphFiles(dir) {
 
 async function readJson(filePath) {
   return JSON.parse(await fs.readFile(filePath, 'utf8'));
+}
+
+async function exists(filePath) {
+  try {
+    await fs.access(filePath);
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 function siteUrlToPath(url) {
