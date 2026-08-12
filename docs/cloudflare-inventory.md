@@ -157,6 +157,71 @@ believed to exist.
 
 **That is the complete list** — two D1 databases, two KV namespaces, one bucket.
 
+## Static assets vs Functions: the routing order, and how to verify it
+
+Measured 2026-08-12. This is the single most misleading part of the setup, and
+two outages and a day of wasted debugging came out of not knowing it.
+
+**Cloudflare Pages serves a matching static asset in preference to a Function.**
+Not a race, not a cache — the routing order. `functions/data/maps/[[path]].js`
+only ever worked because `data/maps` is not deployed. When
+`functions/data/graph/[[path]].js` was added while its 4,604 files were still
+committed, the Function was invoked **zero times** for a full day while every
+probe returned a healthy 200 with correct bytes.
+
+So excluding a prefix from the deploy is not tidy-up after a migration. It is
+the step that switches the migration on.
+
+### `.cfignore` honours directory patterns, not globs
+
+Measured against `boundaries-website.pages.dev`, which is the deployment origin
+and therefore bypasses both the edge cache and the custom domain:
+
+| Pattern in `.cfignore` | Result on the origin |
+|---|---|
+| `data/census/`, `data/timeline-transitions/` (directory) | 404 — honoured |
+| `assets/thumbnails/*.webp` (glob) | **200 — not honoured** |
+
+All six sampled thumbnails were live on the origin while `git ls-files -i -X
+.cfignore` counted all 1,196 of them as excluded. `validate-pages-file-budget.mjs`
+now distrusts glob patterns for this reason, which moved the reported deployable
+count from 2,910 to 4,701 — still far under budget, but the earlier figure was
+fiction. If a glob exclusion is ever genuinely needed, restructure so a directory
+pattern can express it (for the thumbnails: move `manifest.json` out of
+`assets/thumbnails/`) rather than trusting the glob.
+
+### Three different things answer 200
+
+When checking whether a migration worked, a status code proves nothing. All
+three of these return 200 with the correct bytes:
+
+1. the Function reading R2 — the only correct answer;
+2. a committed static copy shadowing it;
+3. Cloudflare's edge cache still holding the object after a correct deploy.
+
+Number 3 is worth spelling out, because it looks exactly like a failed deploy:
+`data/documents` kept serving from `civgraph.net` for hours after being properly
+removed, with `cf-cache-status: REVALIDATED`, which reads like proof of a live
+origin. The deployment origin returned 404 for the same key the whole time. It
+resolved on its own when the 4-hour TTL lapsed. **There is no zone rule routing
+`civgraph.net` to R2** — that hypothesis was tested and disproved: R2 objects
+under prefixes with no Function (`data/sources/oireachtas-fulltext/`) return 404
+from `civgraph.net`.
+
+The only discriminator is the response **headers**, because each Function sets a
+cache policy nothing else produces:
+
+| Prefix | Function's `Cache-Control` |
+|---|---|
+| `data/maps` | `public, max-age=86400, stale-while-revalidate=604800` |
+| `data/graph` | `public, max-age=86400, stale-while-revalidate=604800` |
+| `data/browse` | `public, max-age=0, must-revalidate` (+ ETag, answers 304) |
+
+`npm run verify:proxies` asserts exactly this, on both the public domain and the
+origin, and checks that a missing key 404s rather than returning `index.html` at
+200. It is network-dependent, so it is deliberately not in `npm run check`. **Run
+it after any deploy that moves data to R2.**
+
 ## What is still undocumented
 
 - ~~No `wrangler.toml`.~~ **Activated 2026-08-11.** `wrangler.toml` at the repo
@@ -175,6 +240,10 @@ believed to exist.
   returns `405`, which proves only that the Function routes; the `POST` path was
   not exercised because that would write a real submission. **Worth resolving
   before anyone is invited to contribute through the UI.**
+- **Whether anything routes `civgraph.net` to R2 is now answered: no.** Tested
+  2026-08-12 — R2 objects under prefixes with no Function return 404 from the
+  custom domain. There is no `_redirects` file and no evidence of an origin rule.
+  The earlier suspicion came from edge-cached responses and was wrong.
 - **The Pages build command is unknown** from the repo. `npm run build` chains
   ~7 steps and `npm run check` runs 26 validators, but whether Pages runs either,
   runs something else, or deploys the tree as committed cannot be determined from

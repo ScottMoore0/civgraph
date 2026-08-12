@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 import { execFileSync } from 'node:child_process';
-import { existsSync, readdirSync, statSync } from 'node:fs';
+import { existsSync, readdirSync, statSync, readFileSync, writeFileSync, unlinkSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
 
 const MAX_FILES = Number(process.env.MAX_PAGES_FILES || 18500);
 const MAX_FILE_BYTES = Number(process.env.MAX_PAGES_FILE_BYTES || 25 * 1024 * 1024);
@@ -17,12 +19,49 @@ const MAX_FILE_BYTES = Number(process.env.MAX_PAGES_FILE_BYTES || 25 * 1024 * 10
 //
 // git applies gitignore semantics to .cfignore for us, so there is nothing to
 // reimplement and nothing left to keep in sync.
+//
+// EXCEPT that Cloudflare does not honour every pattern git does, and the drift is
+// in the dangerous direction: git excludes MORE than Cloudflare deploys, so this
+// check reads low. Measured on 2026-08-12 against boundaries-website.pages.dev,
+// which is the deployment origin and so bypasses both the edge cache and the
+// custom domain:
+//
+//   data/census/  data/timeline-transitions/  (directory patterns)  -> 404, honoured
+//   assets/thumbnails/*.webp                  (glob pattern)        -> 200, NOT honoured
+//
+// All six sampled thumbnails were live on the origin while `git ls-files -i -X`
+// counted all 1,196 of them as excluded. So glob patterns are treated here as if
+// they exclude nothing. That is the conservative direction: over-counting fails
+// this check early and loudly, whereas under-counting is what let the deployment
+// reach ~20,944 files in August 2026 while this script reported comfort.
+//
+// If a glob exclusion is ever needed for real, restructure so a DIRECTORY pattern
+// can express it -- for the thumbnails that means moving manifest.json out of
+// assets/thumbnails/ so the whole directory can be excluded -- rather than
+// widening what is trusted here.
+const GLOB = /[*?[\]]/;
+
 function cfignoredFiles() {
-  const out = execFileSync('git', ['ls-files', '-c', '-i', '-X', '.cfignore'], {
-    encoding: 'utf8',
-    maxBuffer: 64 * 1024 * 1024
-  });
-  return new Set(out.split(/\r?\n/).filter(Boolean).map((f) => f.replace(/\\/g, '/')));
+  const patterns = readFileSync('.cfignore', 'utf8')
+    .split(/\r?\n/)
+    .filter((line) => line.trim() && !line.trim().startsWith('#'));
+  const honoured = patterns.filter((line) => !GLOB.test(line));
+  const ignoredByGlobOnly = patterns.length - honoured.length;
+
+  const tmp = path.join(tmpdir(), `cfignore-honoured-${process.pid}`);
+  writeFileSync(tmp, `${honoured.join('\n')}\n`);
+  try {
+    const out = execFileSync('git', ['ls-files', '-c', '-i', '-X', tmp], {
+      encoding: 'utf8',
+      maxBuffer: 64 * 1024 * 1024
+    });
+    return {
+      files: new Set(out.split(/\r?\n/).filter(Boolean).map((f) => f.replace(/\\/g, '/'))),
+      ignoredByGlobOnly
+    };
+  } finally {
+    try { unlinkSync(tmp); } catch { /* best effort */ }
+  }
 }
 
 function listFilesRecursive(dir) {
@@ -44,7 +83,7 @@ for (const file of listFilesRecursive('app/build')) fileSet.add(file);
 const missingTrackedFiles = gitFiles.filter((file) => !existsSync(file));
 const trackedFiles = Array.from(fileSet).sort((a, b) => a.localeCompare(b));
 
-const excluded = cfignoredFiles();
+const { files: excluded, ignoredByGlobOnly } = cfignoredFiles();
 const deployedFiles = trackedFiles.filter((file) => !excluded.has(file));
 const byTopLevel = new Map();
 for (const file of deployedFiles) {
@@ -58,6 +97,9 @@ if (missingTrackedFiles.length) {
   console.log(`- ignored missing tracked paths after local build: ${missingTrackedFiles.length}`);
 }
 console.log(`- deployable files after clean exclusions: ${deployedFiles.length}/${MAX_FILES}`);
+if (ignoredByGlobOnly) {
+  console.log(`- .cfignore glob patterns not trusted: ${ignoredByGlobOnly} (Cloudflare deploys these; see the note in this file)`);
+}
 for (const [name, count] of [...byTopLevel.entries()].sort((a, b) => b[1] - a[1]).slice(0, 12)) {
   console.log(`  - ${name}: ${count}`);
 }
