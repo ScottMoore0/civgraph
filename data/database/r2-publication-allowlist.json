@@ -11,12 +11,6 @@
       "rights": "per-source; recorded on the individual Browse source records"
     },
     {
-      "prefix": "data/browse/map-features/",
-      "rationale": "Per-map feature attribute pages, sharded. Generated, never tracked.",
-      "evidence": "browse/browse.js:169 MAP_FEATURES_BASE = 'https://data.civgraph.net/data/browse/map-features'; .gitignore:309",
-      "rights": "derived from the underlying map sources; inherits their per-source terms"
-    },
-    {
       "prefix": "data/census/2001-bulk/",
       "rationale": "NISRA 2001 census bulk originals, already published.",
       "evidence": "agent/census-2001-README.md documents this as a public data.civgraph.net path",
@@ -67,6 +61,18 @@
       "rationale": "Semantic graph shards (entities, statements, Browse mappings). Pure build output of scripts/graph/build-semantic-graph.mjs, regenerated from the catalogue, data/browse and the election data. Moving it to R2 does not change its exposure: it is not listed in .cfignore, so Cloudflare Pages already serves this whole tree publicly today.",
       "evidence": ".cfignore does not exclude data/graph (census and timeline-transitions are excluded, this is not); functions/data/graph/[[path]].js serves this prefix and falls through to the static copy on a miss; 4,604 files / 1.91 GB currently tracked in git and deployed.",
       "rights": "Derived work. Carries no source data of its own -- it is an index over records whose terms are recorded per source in data/database/maps.json and sources.json, and it inherits those terms."
+    },
+    {
+      "prefix": "data/documents/",
+      "rationale": "Scanned Dublin City Council development-plan sheets (1991 and 1993) and two page extracts, cited as primary evidence by the dublin-electoral-counties-1985 layer. This entry documents an EXISTING publication rather than authorising a new one: all 12 objects are already in the bucket, and every reference to them in the catalogue is an absolute https://data.civgraph.net/ URL, so R2 is already the address the site hands out.",
+      "evidence": "All 12 files verified present on data.civgraph.net with byte-exact Content-Length against the local copies (2026-08-12). 64 references across data/database/maps.json, test/metadata/maps-test.json, data/browse/maps.json and data/browse/details/source-shards/sources-183.json -- all 64 absolute to data.civgraph.net, zero relative. No Function is needed for this prefix.",
+      "rights": "Dublin City Council development plan material, cited as source evidence for a published boundary layer; terms recorded against the layer in data/database/maps.json."
+    },
+    {
+      "prefix": "data/browse/",
+      "rationale": "Browse indexes and per-record detail pages: the data behind browse/browse.js. Not excluded by .cfignore, so Cloudflare Pages already serves this entire tree publicly at civgraph.net/data/browse/ -- moving it to R2 changes the host, not the exposure. Mostly build output of scripts/build-browse-indexes.mjs; see the evidence note for the one file that is not. Subsumes the former data/browse/map-features/ entry: per-map feature attribute pages, generated and never tracked, already fetched directly from R2 by browse/browse.js.",
+      "evidence": "civgraph.net/data/browse/index.json, persons.json and source-index-shards/sources-000.json all return 200 from Pages today. 2,386 files / 351 MB tracked. Regeneration test on 2026-08-12 (directory moved aside, builder re-run from clean): 2,278 of 2,386 files reproduced. The 107 map details not reproduced are stale -- 98 are hidden:true in the catalogue and correctly excluded, 9 are the retired eds-YYYY-province naming set. proni-roots.json (1.39 MB) is the exception: NOTHING in scripts/ generates it, browse/browse.js fetches it with a silent .catch(() => null), so it is source material and must not be treated as regenerable. Former map-features evidence retained: browse/browse.js:169 MAP_FEATURES_BASE = https://data.civgraph.net/data/browse/map-features; .gitignore excludes data/browse/map-features/, so that subtree is generated-only and was never in git.",
+      "rights": "Derived indexes over records already published on the site. Carries no source data of its own; per-source terms are recorded in data/database/maps.json and sources.json and are inherited."
     }
   ]
 }

@@ -54,6 +54,17 @@ data/census/
 # again, with no error anywhere: the site would keep working, just from the
 # wrong source and against the Pages file budget.
 data/graph/
+
+# Browse indexes and detail pages: 2,386 files, 351 MB, served through
+# functions/data/browse/[[path]].js. As with data/graph above, this exclusion is
+# what MAKES that Function run -- a deployed static copy would shadow it.
+data/browse/
+
+# Dublin development-plan scans. No Function needed: every reference to these in
+# the catalogue is already an absolute https://data.civgraph.net/ URL, so R2 is
+# where the site sends people regardless. All 12 verified byte-exact in the
+# bucket on 2026-08-12.
+data/documents/
 # Timeline transition full analysis sidecars are source QA; runtime uses data/timeline-transition-overlays/
 data/timeline-transitions/
 

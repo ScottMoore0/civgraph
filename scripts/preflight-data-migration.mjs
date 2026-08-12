@@ -97,6 +97,25 @@ const head = async (url) => {
   return null;
 };
 
+/** Byte length of the response body, or null if it could not be fetched. */
+const measureBody = async (url) => {
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    try {
+      const res = await fetch(url, { redirect: 'follow' });
+      if (res.status === 429 || res.status >= 500) {
+        await new Promise((r) => setTimeout(r, 500 * 2 ** attempt));
+        continue;
+      }
+      if (!res.ok) return null;
+      const buf = await res.arrayBuffer();
+      return buf.byteLength;
+    } catch {
+      await new Promise((r) => setTimeout(r, 500 * 2 ** attempt));
+    }
+  }
+  return null;
+};
+
 const checkOne = async (relPath) => {
   const localBytes = statSync(relPath).size;
   const encoded = relPath.split('/').map(encodeURIComponent).join('/');
@@ -106,9 +125,25 @@ const checkOne = async (relPath) => {
     if (!res) return { relPath, status: 'UNREACHABLE', localBytes };
     if (!res.ok) continue;
 
-    const remoteBytes = Number(res.headers.get('content-length'));
+    // A missing content-length must NOT be read as a size of zero. The header is
+    // absent from some HEAD responses (undici saw none for data/browse on
+    // 2026-08-12, where curl -I showed it), and `Number(null)` is 0, which
+    // Number.isFinite happily accepts -- so the old form reported SIZE_MISMATCH
+    // "local N vs remote 0" for all 2,386 files that were in fact uploaded
+    // correctly. A verification gate that cries wolf on a healthy upload is worse
+    // than none, because the next real mismatch gets waved through with it.
+    const header = res.headers.get('content-length');
+    let remoteBytes = header === null ? null : Number(header);
+    if (remoteBytes === null || !Number.isFinite(remoteBytes)) {
+      // Fall back to measuring the body. Costlier, but it is the only way to be
+      // sure, and it only happens when the server declined to tell us.
+      const measured = await measureBody(`${BASE}/${encoded}${suffix}`);
+      if (measured === null) return { relPath, status: 'UNREACHABLE', localBytes, variant };
+      remoteBytes = measured;
+    }
+
     // Only the uncompressed base key is size-comparable; .br/.gz legitimately differ.
-    if (SIZE_CHECK && variant === 'base' && Number.isFinite(remoteBytes) && remoteBytes !== localBytes) {
+    if (SIZE_CHECK && variant === 'base' && remoteBytes !== localBytes) {
       return { relPath, status: 'SIZE_MISMATCH', localBytes, remoteBytes, variant };
     }
     return { relPath, status: 'OK', localBytes, remoteBytes, variant };

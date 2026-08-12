@@ -12,6 +12,16 @@ const SOURCE_SHARD_DIR = path.join(ROOT, 'data', 'browse', 'details', 'source-sh
 main();
 
 function main() {
+  // data/browse is build output and is no longer tracked (2026-08-12): production
+  // serves it from R2 via functions/data/browse/[[path]].js. A clean checkout has
+  // none of it until `npm run build` runs, so bail out with an instruction rather
+  // than an unexplained ENOENT half way through the run.
+  if (!existsSync(BROWSE_SOURCES)) {
+    console.log('SKIP: data/browse/sources.json is absent.');
+    console.log('  Browse data is build output, not tracked in git. Generate it first:  npm run build:browse');
+    return;
+  }
+
   const sidecar = readJson(SIDE_CAR);
   assert(sidecar.schemaVersion === 1, 'raw-source-documents must use schemaVersion 1');
   assert(!containsLocalPath(sidecar), 'raw-source-documents sidecar leaks a local filesystem path');

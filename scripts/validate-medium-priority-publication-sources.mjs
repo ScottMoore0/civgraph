@@ -21,6 +21,15 @@ const EXPECTED_GROUPS = new Map([
 main();
 
 function main() {
+  // See validate-raw-source-documents.mjs: data/browse is untracked build output
+  // as of 2026-08-12, served from R2 in production and absent from a clean
+  // checkout until `npm run build` has run.
+  if (!existsSync(BROWSE_SOURCES)) {
+    console.log('SKIP: data/browse/sources.json is absent.');
+    console.log('  Browse data is build output, not tracked in git. Generate it first:  npm run build:browse');
+    return;
+  }
+
   const sidecar = readJson(SIDE_CAR);
   assert(sidecar.schemaVersion === 1, 'medium-priority sidecar must use schemaVersion 1');
   assert(!containsLocalPath(sidecar), 'medium-priority sidecar leaks a local filesystem path');
