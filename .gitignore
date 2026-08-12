@@ -239,6 +239,19 @@ data/maps/townlands/Townlands_AllIreland-lod*.fgb
 # The browser uses deployable filtered overlays in data/timeline-transition-overlays/.
 data/timeline-transitions/*.geojson
 
+# Census sources, cleaned derivatives and OCR text: 4,980 files, 317 MB.
+# Published to R2 2026-08-12 (owner-approved) and verified there before
+# untracking. Not served by the site -- .cfignore excludes it -- so no Function
+# is needed; R2 is archival plus public access via data.civgraph.net.
+data/census/
+
+# Full territorial-transition sidecars: 153 MB of source QA artefacts.
+# Regenerate with `python scripts/build_all_timeline_transition_sidecars.py`.
+# The runtime uses the filtered overlays in data/timeline-transition-overlays/.
+# The *.geojson line above already covered new ones; these four were committed
+# before that rule existed, so they needed removing from the index explicitly.
+data/timeline-transitions/
+
 # Semantic graph: 4,604 files, 1.96 GB, pure build output. Regenerate with
 # `npm run build:graph`; production serves it from R2 through
 # functions/data/graph/[[path]].js. Untracked 2026-08-12 after verifying all

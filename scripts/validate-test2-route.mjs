@@ -26,6 +26,19 @@ const wardTimelineTransitionSidecarIds = [
   'wards-1993__wards-2012',
   'wards-2012__wards-2022-final-recommendations'
 ];
+// data/timeline-transitions is untracked as of 2026-08-12 -- 153 MB of source QA
+// sidecars, published to R2 and regenerable via
+// `python scripts/build_all_timeline_transition_sidecars.py`. A clean checkout
+// therefore has none of them, and readFileSync would throw a bare ENOENT part
+// way through this validator's setup, before it has printed anything at all.
+const missingSidecars = wardTimelineTransitionSidecarIds
+  .filter((id) => !existsSync('data/timeline-transitions/' + id + '.geojson'));
+if (missingSidecars.length) {
+  console.log('SKIP: timeline transition sidecars are absent (' + missingSidecars.length + ' of ' + wardTimelineTransitionSidecarIds.length + ').');
+  console.log('  These are untracked source QA artefacts. Regenerate with:');
+  console.log('    python scripts/build_all_timeline_transition_sidecars.py');
+  process.exit(0);
+}
 const wardTimelineTransitionSidecars = wardTimelineTransitionSidecarIds.map((id) => JSON.parse(readFileSync('data/timeline-transitions/' + id + '.geojson', 'utf8')));
 const timelineTransitionRuntimeManifest = JSON.parse(readFileSync('data/timeline-transition-overlays/manifest.json', 'utf8'));
 const timelineTransitionRuntimeEntries = new Map((Array.isArray(timelineTransitionRuntimeManifest.transitions) ? timelineTransitionRuntimeManifest.transitions : [])

@@ -11,36 +11,6 @@
       "rights": "per-source; recorded on the individual Browse source records"
     },
     {
-      "prefix": "data/census/2001-bulk/",
-      "rationale": "NISRA 2001 census bulk originals, already published.",
-      "evidence": "agent/census-2001-README.md documents this as a public data.civgraph.net path",
-      "rights": "NISRA 2001 Census, Crown copyright, Open Government Licence v3.0 (agent/census-2001-README.md:55)"
-    },
-    {
-      "prefix": "data/census/2001-cleaned/",
-      "rationale": "Cleaned derivatives of the 2001 bulk originals, indexed by manifest.json.",
-      "evidence": "agent/census-2001-README.md",
-      "rights": "NISRA 2001 Census, Crown copyright, Open Government Licence v3.0 (agent/census-2001-README.md:55); OGL v3.0 permits derivative works with attribution"
-    },
-    {
-      "prefix": "data/census/2011-bulk/",
-      "rationale": "NISRA 2011 census bulk originals, already published.",
-      "evidence": "agent/census-2011-README.md documents this as a public data.civgraph.net path",
-      "rights": "NISRA 2011 Census, Crown copyright, Open Government Licence v3.0 (agent/census-2011-README.md:55)"
-    },
-    {
-      "prefix": "data/census/2011-cleaned/",
-      "rationale": "Cleaned derivatives of the 2011 bulk originals, indexed by manifest.json.",
-      "evidence": "agent/census-2011-README.md",
-      "rights": "NISRA 2011 Census, Crown copyright, Open Government Licence v3.0 (agent/census-2011-README.md:55); OGL v3.0 permits derivative works with attribution"
-    },
-    {
-      "prefix": "data/census/nisra-ftb/",
-      "rationale": "NISRA flexible table builder extracts, manifest-indexed.",
-      "evidence": "agent/nisra-ftb-README.md documents the public manifest URL",
-      "rights": "NISRA 2021 Census, Crown copyright, Open Government Licence v3.0 (agent/nisra-ftb-README.md:75). Attribute NISRA when reusing."
-    },
-    {
       "prefix": "assets/thumbnails/",
       "rationale": "Feature thumbnail images served on Browse cards. Published by the existing sync:thumbnails npm script.",
       "evidence": "package.json sync:thumbnails runs upload-tile-pyramid-s3.mjs against this prefix; also scripts/upload-feature-thumbnails-r2.mjs and the deploy:feature-thumbnails:r2 script",
@@ -73,6 +43,18 @@
       "rationale": "Browse indexes and per-record detail pages: the data behind browse/browse.js. Not excluded by .cfignore, so Cloudflare Pages already serves this entire tree publicly at civgraph.net/data/browse/ -- moving it to R2 changes the host, not the exposure. Mostly build output of scripts/build-browse-indexes.mjs; see the evidence note for the one file that is not. Subsumes the former data/browse/map-features/ entry: per-map feature attribute pages, generated and never tracked, already fetched directly from R2 by browse/browse.js.",
       "evidence": "civgraph.net/data/browse/index.json, persons.json and source-index-shards/sources-000.json all return 200 from Pages today. 2,386 files / 351 MB tracked. Regeneration test on 2026-08-12 (directory moved aside, builder re-run from clean): 2,278 of 2,386 files reproduced. The 107 map details not reproduced are stale -- 98 are hidden:true in the catalogue and correctly excluded, 9 are the retired eds-YYYY-province naming set. proni-roots.json (1.39 MB) is the exception: NOTHING in scripts/ generates it, browse/browse.js fetches it with a silent .catch(() => null), so it is source material and must not be treated as regenerable. Former map-features evidence retained: browse/browse.js:169 MAP_FEATURES_BASE = https://data.civgraph.net/data/browse/map-features; .gitignore excludes data/browse/map-features/, so that subtree is generated-only and was never in git.",
       "rights": "Derived indexes over records already published on the site. Carries no source data of its own; per-source terms are recorded in data/database/maps.json and sources.json and are inherited."
+    },
+    {
+      "prefix": "data/census/",
+      "rationale": "Census sources, cleaned derivatives and OCR text for the all-Ireland census series. Approved for publication by the site owner on 2026-08-12. Subsumes the previously separate entries for data/census/2001-bulk/, data/census/2001-cleaned/, data/census/2011-bulk/, data/census/2011-cleaned/, data/census/nisra-ftb/, which were narrower prefixes of this same tree.",
+      "evidence": "Provenance is CSO/NISRA plus Internet Archive mirrors, harvested by scripts/census/scrape-cso-historical-reports.mjs and scripts/census/recover-cso-failed-links-wayback.mjs, with data/census/source-inventory/cso-historical-reports-ia-manifest.json and census-source-archives.json recording the mirrors. Checked for shadow-library provenance on 2026-08-12: no HathiTrust or Anna's Archive references anywhere under data/census (unlike data/books, which is held back for exactly that reason). 4,980 files / 317 MB tracked.",
+      "rights": "Irish and Northern Irish official statistics. CSO material is published under CC BY 4.0; NISRA material under OGL. Derived and OCR products inherit those terms."
+    },
+    {
+      "prefix": "data/timeline-transitions/",
+      "rationale": "Full territorial-transition sidecars for the ward chain -- the source QA artefacts the runtime overlays in data/timeline-transition-overlays/ are filtered from. Approved for publication 2026-08-12.",
+      "evidence": "Generated by scripts/build_all_timeline_transition_sidecars.py from data/maps, so wholly derived from boundary geometry already published on the site. 6 files / 153 MB tracked (4 geojson plus manifest and README); the rest of the directory has been gitignored since data/timeline-transitions/*.geojson was added to .gitignore.",
+      "rights": "Derived work over the site's own boundary layers; inherits their per-source terms as recorded in data/database/maps.json."
     }
   ]
 }

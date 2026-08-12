@@ -11,7 +11,8 @@
  *   --check       HEAD each key first and skip if already uploaded (default: skip checks)
  */
 import { readFileSync, statSync, readdirSync } from 'fs';
-import { join, relative, sep } from 'path';
+import { join, relative, sep, resolve as resolvePath } from 'path';
+import { execFileSync } from 'child_process';
 import { S3Client, PutObjectCommand, HeadObjectCommand } from '@aws-sdk/client-s3';
 import { assertPublishable } from './lib/r2-publication-gate.mjs';
 
@@ -126,7 +127,38 @@ async function runPool(items, worker, n) {
 
 (async () => {
     console.log(`Walking ${LOCAL_DIR}...`);
-    const files = walk(LOCAL_DIR);
+    let files = walk(LOCAL_DIR);
+
+    // --tracked-only: publish only what git tracks.
+    //
+    // The allowlist gate below governs PREFIXES. It cannot see that a directory
+    // holds local working files alongside the approved ones, because it never
+    // looks at individual paths -- so an approved prefix silently authorises
+    // anything sitting under it on disk.
+    //
+    // That gap nearly published two sets on 2026-08-12. data/timeline-transitions
+    // is 6 tracked files and 139 on disk: the other 133 are gitignored QA
+    // sidecars, 5.4 GB of them. data/census carries data/census/statistical-
+    // staging/, also gitignored. Approval had been given for the tracked
+    // contents; nobody had looked at the rest, and there is no unpublish.
+    //
+    // Being gitignored is the closest thing to an explicit "this is local only"
+    // marker the repository has, so it is the right filter.
+    if (args.includes('--tracked-only')) {
+        const tracked = new Set(
+            execFileSync('git', ['ls-files', LOCAL_DIR], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 })
+                .split(/\r?\n/).filter(Boolean).map((f) => resolvePath(f.replace(/\\/g, '/')))
+        );
+        const before = files.length;
+        files = files.filter((f) => tracked.has(resolvePath(f.replace(/\\/g, '/'))));
+        const skipped = before - files.length;
+        if (skipped) console.log(`  --tracked-only: skipping ${skipped} untracked file(s) that git does not track`);
+        if (!files.length) {
+            console.error('FAIL: --tracked-only left nothing to upload. Is this directory entirely untracked?');
+            process.exit(1);
+        }
+    }
+
     const totalBytes = files.reduce((s, f) => s + statSync(f).size, 0);
     console.log(`  ${files.length} files, ${(totalBytes / 1024 / 1024).toFixed(1)} MB`);
     console.log(`  → s3://${BUCKET}/${KEY_PREFIX}/  (concurrency=${CONCURRENCY}${DRY_RUN ? ' [DRY]' : ''}${CHECK_FIRST ? ' [check]' : ''})`);

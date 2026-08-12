@@ -15,6 +15,20 @@ name: Pages deploy watch
 # watcher covers the rest: a build that passes in CI but fails or stalls on
 # Cloudflare, an upload that exceeds a limit, or a deploy stage error.
 #
+# STATUS: DORMANT BY CHOICE, 2026-08-12
+#
+# The owner opted for the Cloudflare dashboard notification instead:
+#   Cloudflare -> Notifications -> Add -> "Pages deployment failed" -> email.
+# That covers the same failure with nothing to maintain and no API token, which
+# for a single-maintainer project is the better trade. This workflow is left in
+# place, not deleted, because its one advantage is that the alert lives in git
+# rather than in dashboard state nobody can see -- so if the project ever gains
+# contributors, adding the two secrets below turns it on with no other work.
+#
+# It is NOT redundant cover in the meantime: without the secrets it reports a
+# notice and succeeds. A green tick here means "not configured", not "the deploy
+# is fine". Do not read it as a second opinion on deployment health.
+#
 # SETUP (optional -- the workflow skips cleanly without it)
 #
 # Add a repository secret CLOUDFLARE_API_TOKEN with the "Cloudflare Pages:Read"

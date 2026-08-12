@@ -258,3 +258,43 @@ Seven times during this work, a success signal was wrong:
 **Verify against the thing itself, not against a report of it.** Both validators
 added here follow that rule: they ask the filesystem and the bucket what is
 actually there, rather than asking whether a process claimed success.
+
+## data/books is HELD — do not publish without a decision on provenance
+
+Recorded 2026-08-12, during the migration that published `data/census` and
+`data/timeline-transitions` to R2.
+
+The owner approved publishing all three directories. `data/books` was pulled out
+of that batch before any upload, because of what its own files say about where
+they came from:
+
+    $ grep -h "^Source:" data/books/markdown/*.md | sort | uniq -c
+         49 Source: HathiTrust via Anna's Archive. OCR text, automatically cleaned.
+
+49 of the 66 Hansard markdown files record that provenance. Anna's Archive is a
+shadow library; "HathiTrust via Anna's Archive" means the copy came from an
+unauthorised redistribution channel rather than from HathiTrust.
+
+The underlying works are almost certainly out of copyright — Northern Ireland
+Acts and Hansard from 1921–1932, Crown copyright, well past fifty years — and UK
+guidance is that a faithful scan of a public-domain work attracts no new
+copyright. **That is not the issue.** The issue is redistributing HathiTrust's
+digitised copies, obtained the way these were, from a public bucket under the
+site's own domain. There is no unpublish.
+
+The 13 PDFs in `data/books/legislation/` carry no provenance record at all. Given
+the markdown, they should be assumed to share it until someone establishes
+otherwise.
+
+What would unblock it, in order of preference:
+
+1. Re-source the material from somewhere with clear terms — legislation.gov.uk
+   (OGL), the Internet Archive, or PRONI — and replace these copies. The site
+   already mirrors a great deal through the Internet Archive, so this is a
+   well-trodden path here.
+2. Establish that the specific HathiTrust items are full-view public domain and
+   that their terms permit redistribution, and record that per file.
+3. Decide to keep the directory tracked and private, publishing nothing.
+
+Until one of those happens `data/books` stays tracked and unpublished: 359 MB,
+79 files, no allowlist entry.
