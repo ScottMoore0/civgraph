@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Clean OCR text from NI Parliamentary Debates (HathiTrust).
+"""Clean OCR text from NI Parliamentary Debates.
 
 Pass 1: Automated fixes for predictable OCR errors.
 - Rejoin words broken by hyphen + line break

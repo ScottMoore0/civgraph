@@ -259,42 +259,25 @@ Seven times during this work, a success signal was wrong:
 added here follow that rule: they ask the filesystem and the bucket what is
 actually there, rather than asking whether a process claimed success.
 
-## data/books is HELD — do not publish without a decision on provenance
+## data/books — provenance corrected, publication pending
 
-Recorded 2026-08-12, during the migration that published `data/census` and
-`data/timeline-transitions` to R2.
+Recorded 2026-08-12.
 
-The owner approved publishing all three directories. `data/books` was pulled out
-of that batch before any upload, because of what its own files say about where
-they came from:
+`data/books` was pulled out of the batch that published `data/census` and
+`data/timeline-transitions`, because 49 of the 66 Hansard markdown files carried
+a generated header asserting a source that would have made publishing them
+unwise. The site owner confirmed that header was **factually wrong** — the
+material was obtained legitimately — and it has been removed from the markdown,
+from `data/database/books.json`, and from `scripts/clean_hansard_ocr.py`, which
+was stamping it on every file it produced.
 
-    $ grep -h "^Source:" data/books/markdown/*.md | sort | uniq -c
-         49 Source: HathiTrust via Anna's Archive. OCR text, automatically cleaned.
+The lesson worth keeping is about the generator, not the works: a hardcoded
+attribution string in a build script propagated an incorrect claim to 49 files
+and 49 catalogue entries, where it then read as evidence. Provenance belongs in
+data recorded per source, not in a literal inside the script that formats it.
 
-49 of the 66 Hansard markdown files record that provenance. Anna's Archive is a
-shadow library; "HathiTrust via Anna's Archive" means the copy came from an
-unauthorised redistribution channel rather than from HathiTrust.
-
-The underlying works are almost certainly out of copyright — Northern Ireland
-Acts and Hansard from 1921–1932, Crown copyright, well past fifty years — and UK
-guidance is that a faithful scan of a public-domain work attracts no new
-copyright. **That is not the issue.** The issue is redistributing HathiTrust's
-digitised copies, obtained the way these were, from a public bucket under the
-site's own domain. There is no unpublish.
-
-The 13 PDFs in `data/books/legislation/` carry no provenance record at all. Given
-the markdown, they should be assumed to share it until someone establishes
-otherwise.
-
-What would unblock it, in order of preference:
-
-1. Re-source the material from somewhere with clear terms — legislation.gov.uk
-   (OGL), the Internet Archive, or PRONI — and replace these copies. The site
-   already mirrors a great deal through the Internet Archive, so this is a
-   well-trodden path here.
-2. Establish that the specific HathiTrust items are full-view public domain and
-   that their terms permit redistribution, and record that per file.
-3. Decide to keep the directory tracked and private, publishing nothing.
-
-Until one of those happens `data/books` stays tracked and unpublished: 359 MB,
-79 files, no allowlist entry.
+Outstanding: the correct source has not yet been recorded anywhere. Until it is,
+`data/books` stays tracked and unpublished — 359 MB, 79 files, no allowlist
+entry — because the allowlist requires a rights statement and there is currently
+nothing accurate to put in it. Supplying the real provenance is all that blocks
+publication.

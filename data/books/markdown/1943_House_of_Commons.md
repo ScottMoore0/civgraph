@@ -1,6 +1,6 @@
 # Parliament of Northern Ireland - House of Commons - 1943
 
-Source: HathiTrust via Anna's Archive. OCR text, automatically cleaned.
+OCR text, automatically cleaned.
 
 ---
 

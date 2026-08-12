@@ -1,6 +1,6 @@
 # Parliament of Northern Ireland - House of Commons - 1924
 
-Source: HathiTrust via Anna's Archive. OCR text, automatically cleaned.
+OCR text, automatically cleaned.
 
 ---
 

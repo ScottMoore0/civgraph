@@ -1,6 +1,6 @@
 # Parliament of Northern Ireland - Senate - 1931
 
-Source: HathiTrust via Anna's Archive. OCR text, automatically cleaned.
+OCR text, automatically cleaned.
 
 ---
 
