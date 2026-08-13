@@ -68,7 +68,28 @@ export function requireContributor(context) {
     return { auth, response: jsonResponse({ ok: false, error: 'Authentication required', auth }, { status: 401 }) };
   }
   if (!auth.allowed) {
-    return { auth, response: jsonResponse({ ok: false, error: 'Contributor access denied', auth }, { status: 403 }) };
+    // Name the address that was actually asserted. The identity provider is
+    // GitHub, which asserts the account's PRIMARY VERIFIED EMAIL -- not
+    // necessarily the address the person gave the site owner, and not the
+    // ...@users.noreply.github.com address that appears in their commits. When
+    // those differ, the allowlist misses and the symptom is an unexplained 403
+    // that looks like a permissions bug rather than an identity mismatch.
+    //
+    // Saying which address arrived turns a support conversation into a one-line
+    // fix. It discloses nothing: the caller has already authenticated as this
+    // address, so it is telling them something they necessarily know.
+    return {
+      auth,
+      response: jsonResponse({
+        ok: false,
+        error: 'Contributor access denied',
+        assertedEmail: auth.email,
+        hint: auth.allowlistConfigured
+          ? `Signed in as ${auth.email}, which is not on the contributor list. GitHub asserts your PRIMARY email (GitHub -> Settings -> Emails); ask the site owner to add that exact address.`
+          : 'No contributor list is configured yet, so nobody is permitted. This is the expected state before contributions are switched on.',
+        auth: sanitizeAuth(auth),
+      }, { status: 403 }),
+    };
   }
   return { auth, response: null };
 }

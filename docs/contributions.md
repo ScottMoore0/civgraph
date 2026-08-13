@@ -128,9 +128,27 @@ nobody to let in.
 3. **Confirm the bypass is off.** `CIVGRAPH_ALLOW_DEV_AUTH` must be unset in
    production. It now takes *two* variables to enable the dev identity, so it
    cannot happen by a single mistaken copy, but check anyway.
-4. **Access.** Put Cloudflare Access in front of `/_api/contributions/*` with a
-   policy naming the same addresses. Access is authentication; the allowlists are
-   authorisation. Both.
+4. **Access.** Identity provider: **GitHub** (chosen 2026-08-13). Put Cloudflare
+   Access in front of `/_api/contributions/*` with a policy naming the same
+   addresses. Access is authentication; the allowlists are authorisation. Both,
+   so a mistake in either one does not open anything.
+
+   **Cover both hostnames.** The contribution endpoints answer on `civgraph.net`
+   AND on `boundaries-website.pages.dev` -- verified 2026-08-13, both returning
+   401. Access applications are configured per hostname, so protecting only the
+   custom domain leaves the pages.dev origin as an unprotected route to the same
+   Functions. Either add both, or disable the pages.dev subdomain for the project.
+
+   **Which address to list.** GitHub asserts the account's PRIMARY VERIFIED
+   EMAIL, from GitHub -> Settings -> Emails. That is not necessarily the address
+   someone gives you, and it is *not* the `...@users.noreply.github.com` address
+   in their commits -- Access requests the `user:email` scope, which returns the
+   primary address even when the profile email is private. Ask each contributor
+   for their GitHub primary specifically.
+
+   When it still mismatches, the 403 from `requireContributor` names the address
+   that actually arrived, so the fix is one line rather than a debugging session.
+   `/_api/auth/status` shows the same thing.
 5. **Optional, stage 3.** Bind a **private** R2 bucket as `CIVGRAPH_QUARANTINE`
    for file intake. It must not be `boundaries-data` and must not have a public
    custom domain. Absent the binding, `intake` returns 503.
