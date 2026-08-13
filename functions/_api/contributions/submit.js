@@ -1,8 +1,34 @@
 import { jsonResponse, requireContributor, sanitizeAuth } from '../_auth.js';
+import { VALID_KINDS, VALID_ENTITY_TYPES, dryRunPatch } from './_schema.js';
+
+/**
+ * Accept a contribution as a TYPED PATCH, dry-run it, and queue it for review.
+ *
+ * Nothing here enacts anything. A submission is a request: it lands in the queue
+ * with status "pending-review" and only scripts/apply-contributions.mjs, run by
+ * the owner on their own machine, can turn it into a change. There is
+ * deliberately no code path from this endpoint to the catalogue, to R2, or to
+ * the repository -- see docs/contributions.md for why enactment is kept behind
+ * a git merge rather than behind application logic in this file.
+ *
+ * WHAT CHANGED FROM THE PROSE VERSION
+ *
+ * `fields` used to be free text: every value coerced to a string, objects
+ * JSON.stringify'd into a blob. A reviewer had to read the description and
+ * retype the change. Now `patch` is a typed object validated against
+ * _schema.js, so an approved submission is applied mechanically and the reviewer
+ * spends their attention on whether the change is RIGHT rather than on
+ * transcription.
+ *
+ * The response carries the dry-run result, which is the thing contributors most
+ * lacked: they now find out immediately that a value is the wrong shape, in the
+ * same way `npm run check` tells the owner. A submission that fails validation
+ * is rejected outright rather than queued, because a queue of known-broken
+ * proposals costs review attention for no possible benefit.
+ */
 
 const MAX_JSON_BYTES = 96 * 1024;
-const VALID_KINDS = new Set(['metadata-edit', 'map-submission']);
-const VALID_ENTITY_TYPES = new Set(['map', 'election', 'feature', 'party', 'person', 'source', 'book', 'table']);
+const MAX_QUARANTINE_KEYS = 20;
 
 export async function onRequestPost(context) {
   const { auth, response } = requireContributor(context);
@@ -30,21 +56,46 @@ export async function onRequestPost(context) {
     return jsonResponse({ ok: false, error: validation.error }, { status: 400 });
   }
 
+  // Dry run against the live record where the kind involves a patch. The current
+  // record is fetched through the same catalogue API the site uses; if that is
+  // unavailable the dry run still checks shape and says so explicitly via
+  // checkedAgainstCurrentRecord, rather than reporting a pass it did not earn.
+  let dryRun = null;
+  if (payload.kind === 'metadata-edit') {
+    const current = await fetchCurrentRecord(context, payload.entityType, payload.entityId);
+    dryRun = dryRunPatch(payload.entityType, payload.patch, current);
+    if (!dryRun.ok) {
+      return jsonResponse({
+        ok: false,
+        error: 'Proposed patch failed validation',
+        dryRun,
+        auth: sanitizeAuth(auth),
+      }, { status: 422 });
+    }
+  }
+
   const submission = {
     id: createSubmissionId(),
+    schemaVersion: 2,
     kind: payload.kind,
     entityType: payload.entityType || null,
     entityId: payload.entityId || null,
     title: safeString(payload.title, 180),
     summary: safeString(payload.summary, 2000),
-    fields: sanitizeFields(payload.fields),
+    // The typed payload. Only one of these is populated, per kind.
+    patch: payload.kind === 'metadata-edit' ? payload.patch : null,
+    retire: payload.kind === 'retire' ? { reason: safeString(payload.reason, 2000) } : null,
+    mapRequest: payload.kind === 'map-submission' ? sanitizeMapRequest(payload.mapRequest) : null,
     sourceUrls: sanitizeUrlList(payload.sourceUrls),
-    mapRequest: sanitizeMapRequest(payload.mapRequest),
+    quarantineKeys: sanitizeQuarantineKeys(payload.quarantineKeys),
+    dryRun,
     pageUrl: safeString(payload.pageUrl, 500),
     submittedBy: auth.email,
     submittedAt: new Date().toISOString(),
     userAgent: safeString(context.request.headers.get('User-Agent'), 240),
-    status: 'pending-review'
+    // Set here and never changed by this endpoint. Only the decide endpoint,
+    // which requires admin, may move a submission out of pending-review.
+    status: 'pending-review',
   };
 
   const stored = await persistSubmission(context.env || {}, submission);
@@ -53,13 +104,8 @@ export async function onRequestPost(context) {
       ok: false,
       error: stored.error,
       auth: sanitizeAuth(auth),
-      submissionPreview: {
-        id: submission.id,
-        kind: submission.kind,
-        entityType: submission.entityType,
-        entityId: submission.entityId,
-        submittedAt: submission.submittedAt
-      }
+      dryRun,
+      submissionPreview: { id: submission.id, kind: submission.kind, submittedAt: submission.submittedAt },
     }, { status: 503 });
   }
 
@@ -71,9 +117,12 @@ export async function onRequestPost(context) {
       entityType: submission.entityType,
       entityId: submission.entityId,
       submittedAt: submission.submittedAt,
-      storage: stored.storage
+      status: submission.status,
+      storage: stored.storage,
     },
-    auth: sanitizeAuth(auth)
+    dryRun,
+    note: 'Queued for review. Submissions are never applied automatically; a site administrator must approve and apply this change.',
+    auth: sanitizeAuth(auth),
   }, { status: 202 });
 }
 
@@ -86,11 +135,24 @@ export async function onRequest(context) {
 
 function validateSubmission(payload) {
   if (!payload || typeof payload !== 'object') return { error: 'Submission must be an object' };
-  if (!VALID_KINDS.has(payload.kind)) return { error: 'Unsupported submission kind' };
-  if (payload.kind === 'metadata-edit') {
+  if (!VALID_KINDS.has(payload.kind)) {
+    return { error: `Unsupported submission kind. Expected one of: ${[...VALID_KINDS].join(', ')}` };
+  }
+
+  if (payload.kind === 'metadata-edit' || payload.kind === 'retire') {
     if (!VALID_ENTITY_TYPES.has(payload.entityType)) return { error: 'Unsupported entity type' };
     if (!safeString(payload.entityId, 300)) return { error: 'Entity ID is required' };
-    if (!payload.fields || typeof payload.fields !== 'object' || Array.isArray(payload.fields)) return { error: 'Metadata edit fields are required' };
+  }
+  if (payload.kind === 'metadata-edit') {
+    if (!payload.patch || typeof payload.patch !== 'object' || Array.isArray(payload.patch)) {
+      return { error: 'A metadata-edit requires a `patch` object of field: value pairs' };
+    }
+  }
+  if (payload.kind === 'retire') {
+    // Retiring hides a layer from the public catalogue. Requiring a reason is not
+    // ceremony: without it a reviewer cannot tell a duplicate from a mistake, and
+    // both look identical in a diff.
+    if (!safeString(payload.reason, 2000)) return { error: 'A retire request requires a `reason`' };
   }
   if (payload.kind === 'map-submission') {
     const mapRequest = payload.mapRequest || {};
@@ -98,6 +160,27 @@ function validateSubmission(payload) {
     if (!safeString(payload.summary || mapRequest.description, 2000)) return { error: 'Map submission description is required' };
   }
   return {};
+}
+
+/**
+ * Read the record as it currently stands so the dry run can report what would
+ * actually change. Returns null on any failure -- the dry run then reports
+ * checkedAgainstCurrentRecord: false rather than pretending.
+ */
+async function fetchCurrentRecord(context, entityType, entityId) {
+  if (entityType !== 'map') return null; // only the catalogue is reachable from the edge today
+  try {
+    const url = new URL(context.request.url);
+    const res = await fetch(`${url.origin}/_api/catalogue?id=${encodeURIComponent(entityId)}`, {
+      headers: { Accept: 'application/json' },
+    });
+    if (!res.ok) return null;
+    const doc = await res.json();
+    const maps = Array.isArray(doc?.maps) ? doc.maps : [];
+    return maps.find((m) => m?.id === entityId) || null;
+  } catch {
+    return null;
+  }
 }
 
 async function persistSubmission(env, submission) {
@@ -108,23 +191,15 @@ async function persistSubmission(env, submission) {
     await env.CIVGRAPH_CONTRIBUTION_QUEUE.put(key, body, { metadata: queueMetadata(submission) });
     return { ok: true, storage: 'KV:CIVGRAPH_CONTRIBUTION_QUEUE', key };
   }
-  if (env.CONTRIBUTION_QUEUE?.put) {
-    await env.CONTRIBUTION_QUEUE.put(key, body, { metadata: queueMetadata(submission) });
-    return { ok: true, storage: 'KV:CONTRIBUTION_QUEUE', key };
-  }
   if (env.CIVGRAPH_SUBMISSIONS?.put) {
     await env.CIVGRAPH_SUBMISSIONS.put(key, body, { httpMetadata: { contentType: 'application/json' } });
     return { ok: true, storage: 'R2:CIVGRAPH_SUBMISSIONS', key };
-  }
-  if (env.CONTRIBUTION_SUBMISSIONS?.put) {
-    await env.CONTRIBUTION_SUBMISSIONS.put(key, body, { httpMetadata: { contentType: 'application/json' } });
-    return { ok: true, storage: 'R2:CONTRIBUTION_SUBMISSIONS', key };
   }
 
   console.warn(JSON.stringify({ evt: 'contribution_queue_missing', submissionId: submission.id, kind: submission.kind }));
   return {
     ok: false,
-    error: 'Contribution queue is not configured. Add a KV binding named CIVGRAPH_CONTRIBUTION_QUEUE or an R2 binding named CIVGRAPH_SUBMISSIONS.'
+    error: 'Contribution queue is not configured. Add a KV binding named CIVGRAPH_CONTRIBUTION_QUEUE or an R2 binding named CIVGRAPH_SUBMISSIONS.',
   };
 }
 
@@ -134,23 +209,8 @@ function queueMetadata(submission) {
     entityType: submission.entityType || '',
     entityId: submission.entityId || '',
     submittedBy: submission.submittedBy,
-    status: submission.status
+    status: submission.status,
   };
-}
-
-function sanitizeFields(fields) {
-  if (!fields || typeof fields !== 'object' || Array.isArray(fields)) return {};
-  const output = {};
-  for (const [key, value] of Object.entries(fields)) {
-    const safeKey = safeString(key, 80);
-    if (!safeKey) continue;
-    if (typeof value === 'object') {
-      output[safeKey] = safeString(JSON.stringify(value), 4000);
-    } else {
-      output[safeKey] = safeString(value, 4000);
-    }
-  }
-  return output;
 }
 
 function sanitizeMapRequest(value) {
@@ -162,7 +222,8 @@ function sanitizeMapRequest(value) {
     provider: safeString(value.provider, 180),
     proposedCategory: safeString(value.proposedCategory, 180),
     sourceDescription: safeString(value.sourceDescription, 1200),
-    notes: safeString(value.notes, 2000)
+    licenceClaim: safeString(value.licenceClaim || value.licenseClaim, 400),
+    notes: safeString(value.notes, 2000),
   };
 }
 
@@ -172,6 +233,21 @@ function sanitizeUrlList(value) {
     .map((item) => safeString(item, 500))
     .filter((item) => /^https?:\/\//i.test(item))
     .slice(0, 20);
+}
+
+/**
+ * References to objects the contributor uploaded into the quarantine bucket.
+ *
+ * Only the KEY is carried, and only keys under the quarantine prefix are
+ * accepted, so a submission cannot be used to point the review tooling at an
+ * arbitrary object elsewhere in storage.
+ */
+function sanitizeQuarantineKeys(value) {
+  if (!Array.isArray(value)) return [];
+  return value
+    .map((item) => safeString(item, 300))
+    .filter((item) => /^quarantine\/[A-Za-z0-9._\-/]+$/.test(item) && !item.includes('..'))
+    .slice(0, MAX_QUARANTINE_KEYS);
 }
 
 function safeString(value, maxLength) {
