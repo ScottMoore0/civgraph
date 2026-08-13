@@ -22,17 +22,29 @@
 # WHAT IS DELIBERATELY ABSENT
 #
 # Environment variables. The project has none set, and CIVGRAPH_ADMINS /
-# CIVGRAPH_CONTRIBUTORS are email addresses which must not be committed to a
-# public repository. Note that _auth.js treats an unset allowlist as fail-open:
-# with neither variable present, any authenticated caller counts as an approved
-# contributor. That is harmless only while Cloudflare Access is not in front of
-# the app. Set CIVGRAPH_ADMINS as a dashboard variable in the same change that
-# enables Access.
+# CIVGRAPH_CONTRIBUTORS are email addresses -- personal data, and this repository
+# is public, so they must never appear here. They belong in Pages secrets:
 #
-# The submission bindings. CIVGRAPH_CONTRIBUTION_QUEUE / CONTRIBUTION_QUEUE /
-# CIVGRAPH_SUBMISSIONS are read by functions/_api/contributions/submit.js and
-# none of them is bound, so submissions return 503. Declaring a binding here
-# without creating the resource would not help.
+#     npx wrangler pages secret put CIVGRAPH_ADMINS --project-name civgraph
+#
+# The fail-open warning that used to sit here is obsolete as of 2026-08-13.
+# _auth.js previously read `!allowlistConfigured ||` and treated an unset
+# allowlist as "allow anyone authenticated"; it is now fail-closed, so an unset
+# list means nobody. Access can therefore be enabled before the lists exist
+# without opening anything -- though there would be no point, since nobody would
+# get through.
+#
+# CIVGRAPH_ALLOW_DEV_AUTH must remain unset in production. With
+# CIVGRAPH_DEV_AUTH_EMAIL it disables authentication entirely; it now takes both
+# variables, so a single mistaken copy cannot do it. Verified unset on
+# 2026-08-13: /_api/auth/status reports source "anonymous", which it could not do
+# if the bypass were active.
+#
+# The quarantine bucket for file intake (CIVGRAPH_QUARANTINE, read by
+# functions/_api/contributions/intake.js) is deliberately NOT bound. It must be a
+# private bucket -- not boundaries-data, no public custom domain -- and accepting
+# third-party uploads should begin with a deliberate act of configuration rather
+# than arrive as a side effect of a deploy. Absent the binding, intake returns 503.
 #
 # TO ROLL BACK: delete this file and redeploy. The dashboard configuration is
 # unchanged underneath and resumes.
@@ -74,6 +86,20 @@ id = "ef19e1065f854619a19e2cbd62b28f82"
 [[kv_namespaces]]
 binding = "SPATIAL_INDEX"
 id = "c88a99b42d6d4ce7aba6ba94dce47e5a"
+
+# Contribution queue. Created 2026-08-13.
+#
+# Binding this does NOT open contributions. submit.js requires an authenticated
+# caller who appears in CIVGRAPH_CONTRIBUTORS or CIVGRAPH_ADMINS, both of which
+# are unset -- and both are now fail-closed, so an unset list means nobody.
+# Without Cloudflare Access in front there is no authenticated caller at all, so
+# the endpoint answers 401 before it ever reaches this namespace.
+#
+# Production only. Preview stays narrow, as with every other binding here: a
+# preview deployment must not be able to write into the real review queue.
+[[kv_namespaces]]
+binding = "CIVGRAPH_CONTRIBUTION_QUEUE"
+id = "fca3f869f723456a9ca494155b586383"
 
 [[r2_buckets]]
 binding = "MAPS_BUCKET"
