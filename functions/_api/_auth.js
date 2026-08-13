@@ -56,6 +56,20 @@ export function getContributorAuth(context) {
     source: authenticated ? (devEmail(env) ? 'dev' : 'cloudflare-access') : 'anonymous',
     accessJwtPresent: jwtPresent,
     allowlistConfigured,
+    // COUNTS ONLY, never the addresses.
+    //
+    // Secrets are write-only: `wrangler pages secret put` reports success and
+    // there is no way to read the value back. Without these, setting the lists
+    // is an unverifiable operation -- allowlistConfigured is a boolean, so it
+    // reads true whether the secret holds one address or five, and a typo that
+    // dropped an entry would look identical to success. Setting a secret and
+    // then redeploying is also two steps, and the first one silently does
+    // nothing to the running deployment.
+    //
+    // A count discloses nothing useful: it says how many people can propose
+    // changes, not who they are.
+    contributorCount: allowlist.length,
+    adminCount: adminList.length,
     loginUrl: accessLoginUrl(request),
     logoutUrl: accessLogoutUrl(request),
     setupRequired: !authenticated
@@ -131,6 +145,8 @@ export function sanitizeAuth(auth) {
     email: auth.email,
     source: auth.source,
     allowlistConfigured: auth.allowlistConfigured,
+    contributorCount: auth.contributorCount,
+    adminCount: auth.adminCount,
     loginUrl: auth.loginUrl,
     logoutUrl: auth.logoutUrl
   };
