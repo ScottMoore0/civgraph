@@ -61,6 +61,31 @@ const MAX_STRING = 4000;
 const MAX_ARRAY_ITEMS = 200;
 
 /**
+ * The declared shape of a field, for clients building an editor.
+ *
+ * Exported so the UI renders its inputs from the same source that validates
+ * them. A hand-copied field list in browse.js would drift from this one, and the
+ * symptom would be a contributor filling in a field the server then rejects --
+ * the drift only showing up as someone else's failed submission.
+ */
+export function fieldType(field) {
+  if (BOOLEAN_FIELDS.has(field)) return 'boolean';
+  if (field === 'bounds') return 'bounds';
+  if (ARRAY_FIELDS.has(field)) return 'array';
+  if (STRING_FIELDS.has(field)) return 'string';
+  return 'unknown';
+}
+
+/** Editable fields with their shapes, for every entity type. */
+export function describeSchema() {
+  const out = {};
+  for (const [entityType, fields] of Object.entries(EDITABLE_FIELDS)) {
+    out[entityType] = [...fields].sort().map((name) => ({ name, type: fieldType(name) }));
+  }
+  return out;
+}
+
+/**
  * Shape-check one proposed value.
  *
  * The newline rule is not fussiness. A stray "\n" inside a label value in the

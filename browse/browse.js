@@ -2627,7 +2627,7 @@ function handleContributorAction(action) {
   }
 }
 
-function openEditSubmissionForm(type, item) {
+async function openEditSubmissionForm(type, item) {
   const entityType = entityTypeForBrowseType(type);
   const entityId = item.id || item.key || item.slug || item.title;
   state.modalMode = 'metadata-edit';
@@ -2640,11 +2640,9 @@ function openEditSubmissionForm(type, item) {
       Summary
       <input name="summary" required maxlength="2000" placeholder="Briefly describe the correction or addition">
     </label>
-    <label>
-      Proposed fields
-      <textarea name="fields" required placeholder='Example: {"provider":"OSNI","description":"Updated description"}'></textarea>
-      <span class="contributor-form__hint">Use JSON object syntax. This creates a review-queue proposal; it does not alter production data directly.</span>
-    </label>
+    <div class="contributor-form__patch" data-patch-rows></div>
+    <button type="button" class="contributor-btn" data-patch-add>Add another field</button>
+    <span class="contributor-form__hint">Pick the field to change and give its new value. Only fields the catalogue accepts are offered. Nothing here alters the site: it creates a proposal for review.</span>
     <label>
       Source URLs
       <textarea name="sourceUrls" placeholder="One or more supporting URLs, separated by spaces or new lines"></textarea>
@@ -2655,6 +2653,26 @@ function openEditSubmissionForm(type, item) {
       <button type="button" class="contributor-btn" data-contributor-close>Cancel</button>
     </div>
   `;
+  const rows = els.contributorForm.querySelector('[data-patch-rows]');
+  const status = els.contributorForm.querySelector('.contributor-form__status');
+  try {
+    const schema = await loadContributorSchema();
+    const fields = schema.entityTypes?.[entityType] || [];
+    if (!fields.length) throw new Error(`No editable fields are defined for ${entityType}.`);
+    let index = 0;
+    rows.innerHTML = patchRowHtml(fields, index++);
+    refreshPatchHints(rows);
+    rows.addEventListener('change', () => refreshPatchHints(rows));
+    els.contributorForm.querySelector('[data-patch-add]')?.addEventListener('click', () => {
+      rows.insertAdjacentHTML('beforeend', patchRowHtml(fields, index++));
+      refreshPatchHints(rows);
+    });
+  } catch (error) {
+    // Say why the form is unusable rather than showing an empty one. An edit
+    // form with no fields looks broken in a way that gives no clue what to do.
+    status.className = 'contributor-form__status contributor-form__status--error';
+    status.textContent = error.message;
+  }
   openContributorModal();
 }
 
@@ -2732,10 +2750,17 @@ async function submitContributorForm(event) {
     });
     const data = await response.json().catch(() => ({}));
     if (!response.ok || !data.ok) {
-      throw new Error(data.error || `${response.status} ${response.statusText}`);
+      // A 422 carries the dry run, which says exactly which field is wrong.
+      // Showing only data.error here would throw that away and leave the
+      // contributor with 'Proposed patch failed validation' and no idea why.
+      const detail = (data.dryRun?.errors || []).join(' ');
+      throw new Error(detail || data.hint || data.error || `${response.status} ${response.statusText}`);
     }
     status.className = 'contributor-form__status contributor-form__status--success';
-    status.textContent = `Submitted for review: ${data.submission?.id || 'pending'}.`;
+    const warnings = data.dryRun?.warnings || [];
+    status.textContent = `Submitted for review: ${data.submission?.id || 'pending'}.`
+      + (warnings.length ? ` Note: ${warnings.join(' ')}` : '')
+      + ' Nothing changes on the site until an administrator approves and applies it.';
     announce('Contributor submission sent for review.');
   } catch (error) {
     status.className = 'contributor-form__status contributor-form__status--error';
@@ -2754,7 +2779,7 @@ function buildContributorPayload(formData) {
       entityType: String(formData.get('entityType') || ''),
       entityId: String(formData.get('entityId') || ''),
       summary: String(formData.get('summary') || ''),
-      fields: parseFieldObject(String(formData.get('fields') || '')),
+      patch: collectPatch(),
       sourceUrls: splitUrls(String(formData.get('sourceUrls') || '')),
       pageUrl: location.href
     };
@@ -2776,16 +2801,85 @@ function buildContributorPayload(formData) {
   };
 }
 
-function parseFieldObject(value) {
-  const trimmed = value.trim();
-  if (!trimmed) throw new Error('Proposed fields are required.');
-  try {
-    const parsed = JSON.parse(trimmed);
-    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) throw new Error();
-    return parsed;
-  } catch {
-    throw new Error('Proposed fields must be a valid JSON object.');
+// Editable fields, fetched from /_api/contributions/schema -- the same module
+// that validates submissions. Deliberately not hardcoded here: a copy would
+// drift, and the drift would surface as somebody else's rejected submission.
+let contributorSchema = null;
+
+async function loadContributorSchema() {
+  if (contributorSchema) return contributorSchema;
+  const response = await fetch('/_api/contributions/schema', { credentials: 'same-origin' });
+  if (!response.ok) throw new Error('Could not load the list of editable fields.');
+  contributorSchema = await response.json();
+  return contributorSchema;
+}
+
+/** One field row: which field, and its new value, typed appropriately. */
+function patchRowHtml(fields, index) {
+  const options = fields.map((f) => `<option value="${escapeAttr(f.name)}" data-type="${escapeAttr(f.type)}">${escapeAttr(f.name)}</option>`).join('');
+  return `
+    <div class="contributor-form__patch-row" data-patch-row>
+      <label>
+        Field
+        <select name="patchField${index}" data-patch-field>${options}</select>
+      </label>
+      <label>
+        New value
+        <textarea name="patchValue${index}" data-patch-value rows="2"></textarea>
+        <span class="contributor-form__hint" data-patch-hint></span>
+      </label>
+    </div>`;
+}
+
+function refreshPatchHints(root) {
+  for (const row of root.querySelectorAll('[data-patch-row]')) {
+    const select = row.querySelector('[data-patch-field]');
+    const type = select?.selectedOptions?.[0]?.dataset?.type || 'string';
+    const hint = row.querySelector('[data-patch-hint]');
+    if (!hint) continue;
+    if (type === 'array') hint.textContent = 'One entry per line.';
+    else if (type === 'boolean') hint.textContent = 'true or false.';
+    else if (type === 'bounds') hint.textContent = 'Four numbers: west, south, east, north.';
+    else hint.textContent = 'Plain text. Leave empty to clear the field.';
   }
+}
+
+/**
+ * Turn the rows into the typed patch the API expects.
+ *
+ * Values are converted here rather than sent as strings, because the server
+ * rejects a string where an array or boolean belongs -- which is the point of
+ * typing them. An empty value means "clear this field", sent as null.
+ */
+function collectPatch() {
+  const rows = els.contributorForm.querySelectorAll('[data-patch-row]');
+  const patch = {};
+  for (const row of rows) {
+    const select = row.querySelector('[data-patch-field]');
+    const field = select?.value;
+    if (!field) continue;
+    const type = select.selectedOptions?.[0]?.dataset?.type || 'string';
+    const raw = String(row.querySelector('[data-patch-value]')?.value ?? '');
+
+    if (!raw.trim()) { patch[field] = null; continue; }
+    if (type === 'boolean') {
+      const value = raw.trim().toLowerCase();
+      if (value !== 'true' && value !== 'false') throw new Error(`${field} must be true or false.`);
+      patch[field] = value === 'true';
+    } else if (type === 'bounds') {
+      const numbers = raw.split(/[\s,]+/).filter(Boolean).map(Number);
+      if (numbers.length !== 4 || numbers.some((n) => !Number.isFinite(n))) {
+        throw new Error('bounds must be four numbers: west, south, east, north.');
+      }
+      patch[field] = numbers;
+    } else if (type === 'array') {
+      patch[field] = raw.split('\n').map((line) => line.trim()).filter(Boolean);
+    } else {
+      patch[field] = raw.trim();
+    }
+  }
+  if (!Object.keys(patch).length) throw new Error('Propose at least one field change.');
+  return patch;
 }
 
 function splitUrls(value) {

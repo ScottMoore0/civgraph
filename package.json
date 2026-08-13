@@ -103,7 +103,7 @@
     "verify:proxies": "node scripts/verify-proxy-serving.mjs",
     "contributions:list": "node scripts/apply-contributions.mjs --list",
     "contributions:apply": "node scripts/apply-contributions.mjs",
-    "check:contributions": "node scripts/test-contribution-schema.mjs"
+    "check:contributions": "node scripts/test-contribution-schema.mjs && node scripts/test-contribution-flow.mjs"
   },
   "devDependencies": {
     "@aws-sdk/client-s3": "^3.1104.0",
