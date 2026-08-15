@@ -2566,20 +2566,47 @@ function renderFieldValue(value) {
   return escapeHtml(String(value));
 }
 
+/**
+ * Work out who is signed in.
+ *
+ * TWO endpoints, and the second one is the load-bearing one.
+ *
+ * /_api/auth/status sits OUTSIDE the Cloudflare Access application (which covers
+ * only `_api/contributions`, so that this page stays public). Access therefore
+ * never injects the identity header into it, and it reports authenticated:false
+ * for everyone -- including a signed-in contributor. Consulting it alone made
+ * the panel show "Log in" immediately after a successful sign-in.
+ *
+ * /_api/contributions/whoami is inside the application, so it can see the
+ * identity. An anonymous visitor gets an opaque redirect to the Access login
+ * instead, which is the normal case and not an error -- hence redirect:'manual'
+ * rather than letting fetch follow it into a cross-origin failure.
+ */
 async function refreshAuth() {
+  // Public baseline: gives the login/logout URLs and works signed out.
   try {
     const response = await fetch('/_api/auth/status', { credentials: 'same-origin' });
     if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
     const data = await response.json();
     state.auth = data.auth || { authenticated: false, allowed: false };
   } catch {
-    state.auth = {
-      authenticated: false,
-      allowed: false,
-      loginUrl: `/cdn-cgi/access/login?redirect_url=${encodeURIComponent(location.href)}`,
-      logoutUrl: `/cdn-cgi/access/logout?returnTo=${encodeURIComponent(`${location.origin}/browse/`)}`
-    };
+    state.auth = { authenticated: false, allowed: false, loginUrl: '/_api/contributions/login?return=%2Fbrowse%2F' };
   }
+
+  // Then ask the endpoint that can actually see an Access identity.
+  try {
+    const response = await fetch('/_api/contributions/whoami', {
+      credentials: 'same-origin',
+      redirect: 'manual',
+    });
+    if (response.ok) {
+      const data = await response.json();
+      if (data?.auth) state.auth = { ...state.auth, ...data.auth };
+    }
+  } catch {
+    // Not signed in, or Access is not configured. Keep the public baseline.
+  }
+
   renderContributorPanel();
 }
 
@@ -2611,7 +2638,7 @@ function renderContributorPanel() {
     <h2 class="contributor-panel__title">Contributor</h2>
     <p class="contributor-panel__body">Selected contributors can propose Browse edits and map submissions.</p>
     <div class="contributor-panel__actions">
-      <a class="contributor-btn contributor-btn--primary" href="${escapeAttr(auth.loginUrl || `/cdn-cgi/access/login?redirect_url=${encodeURIComponent(location.href)}`)}">Log in</a>
+      <a class="contributor-btn contributor-btn--primary" href="${escapeAttr(auth.loginUrl || '/_api/contributions/login?return=%2Fbrowse%2F')}">Log in</a>
     </div>
   `;
 }
