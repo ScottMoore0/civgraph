@@ -191,10 +191,26 @@ function devEmail(env) {
   return null;
 }
 
+/**
+ * Where to send someone to sign in.
+ *
+ * This used to be `/cdn-cgi/access/login?redirect_url=<current page>`, which
+ * returned 404 once Access went live on 2026-08-15. Cloudflare's login endpoint
+ * authenticates for a SPECIFIC Access application, and the application here
+ * covers only the path `_api/contributions` -- so a login URL naming /browse/
+ * matched no application at all.
+ *
+ * The reliable way to start the flow is to navigate to a protected path and let
+ * Access intercept. functions/_api/contributions/login.js is that path, and it
+ * redirects back afterwards.
+ */
 function accessLoginUrl(request) {
   const url = new URL(request.url);
-  const redirectUrl = encodeURIComponent(url.toString());
-  return `/cdn-cgi/access/login?redirect_url=${redirectUrl}`;
+  // Return the visitor to the page they were on, not to this API route. Only the
+  // path is carried; login.js re-validates it before honouring it.
+  const returnTo = `${url.pathname}${url.search}`;
+  const safeReturn = returnTo.startsWith('/_api/') ? '/browse/' : returnTo;
+  return `/_api/contributions/login?return=${encodeURIComponent(safeReturn)}`;
 }
 
 function accessLogoutUrl(request) {

@@ -20,6 +20,7 @@
 import { onRequestPost as submitPost } from '../functions/_api/contributions/submit.js';
 import { onRequestGet as listGet } from '../functions/_api/contributions/list.js';
 import { onRequestPost as decidePost } from '../functions/_api/contributions/decide.js';
+import { safeReturnPath, DEFAULT_RETURN } from '../functions/_api/contributions/login.js';
 
 const OWNER = 'owner@example.com';
 const CONTRIBUTOR = 'contributor@example.com';
@@ -206,6 +207,35 @@ let approvedKey = null;
     env,
   }));
   check('a retire request without a reason is refused', res.status === 400);
+}
+
+// --- the sign-in redirect guard --------------------------------------------
+//
+// login.js exists to sit behind Access and bounce the visitor back afterwards.
+// The bounce target comes from a query parameter, so it is an open redirect
+// unless something stops it. These are the cases that actually matter.
+{
+  const good = [
+    ['/browse/', '/browse/'],
+    ['/browse/?type=maps', '/browse/?type=maps'],
+    ['/proni/', '/proni/'],
+  ];
+  for (const [input, want] of good) {
+    check(`login: keeps same-origin path ${input}`, safeReturnPath(input) === want, safeReturnPath(input));
+  }
+
+  const hostile = [
+    '//evil.example/',                 // protocol-relative: the real attack
+    String.fromCharCode(47, 92) + 'evil.example', // /\evil.example -- browsers may read \ as /
+    'https://evil.example/',
+    'http://evil.example',
+    'javascript:alert(1)',
+    '',
+    null,
+  ];
+  for (const input of hostile) {
+    check(`login: refuses ${JSON.stringify(input)}`, safeReturnPath(input) === DEFAULT_RETURN, safeReturnPath(input));
+  }
 }
 
 // --- no queue configured ---------------------------------------------------
