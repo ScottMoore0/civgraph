@@ -2654,54 +2654,162 @@ function handleContributorAction(action) {
   }
 }
 
+/**
+ * The edit form: every editable field, showing its CURRENT value, edited in place.
+ *
+ * The first version asked the contributor to pick a field from a dropdown and
+ * type its new value into an empty box. That is a poor way to correct a record:
+ * you cannot see what the value is now, so you cannot tell whether it is already
+ * right, and proposing three corrections meant three separate rows.
+ *
+ * Showing the record as a form makes the current state visible, which is most of
+ * what a corrector needs, and makes the change an ordinary edit. Only fields the
+ * contributor actually altered are submitted -- the patch is a DIFF against the
+ * values loaded here, not a dump of the form. That also means a form left open
+ * while the record changes underneath cannot silently re-assert stale values for
+ * fields nobody touched.
+ */
 async function openEditSubmissionForm(type, item) {
   const entityType = entityTypeForBrowseType(type);
   const entityId = item.id || item.key || item.slug || item.title;
   state.modalMode = 'metadata-edit';
+  state.editBaseline = null;
   els.contributorModalTitle.textContent = `Propose edit: ${item.title || entityId}`;
   els.contributorForm.innerHTML = `
     <input type="hidden" name="kind" value="metadata-edit">
     <input type="hidden" name="entityType" value="${escapeAttr(entityType)}">
     <input type="hidden" name="entityId" value="${escapeAttr(entityId)}">
     <label>
-      Summary
-      <input name="summary" required maxlength="2000" placeholder="Briefly describe the correction or addition">
+      Summary of your changes
+      <input name="summary" required maxlength="2000" placeholder="Briefly describe what you are correcting, and why">
     </label>
-    <div class="contributor-form__patch" data-patch-rows></div>
-    <button type="button" class="contributor-btn" data-patch-add>Add another field</button>
-    <span class="contributor-form__hint">Pick the field to change and give its new value. Only fields the catalogue accepts are offered. Nothing here alters the site: it creates a proposal for review.</span>
+    <div class="contributor-form__fields" data-edit-fields>
+      <p class="contributor-form__hint">Loading current values...</p>
+    </div>
     <label>
       Source URLs
-      <textarea name="sourceUrls" placeholder="One or more supporting URLs, separated by spaces or new lines"></textarea>
+      <textarea name="sourceUrls" placeholder="Evidence for the change: one or more URLs, separated by spaces or new lines"></textarea>
     </label>
     <div class="contributor-form__status" aria-live="polite"></div>
     <div class="contributor-panel__actions">
-      <button type="submit" class="contributor-btn contributor-btn--primary">Submit proposal</button>
+      <button type="submit" class="contributor-btn contributor-btn--primary">Propose these changes</button>
       <button type="button" class="contributor-btn" data-contributor-close>Cancel</button>
     </div>
   `;
-  const rows = els.contributorForm.querySelector('[data-patch-rows]');
+  const host = els.contributorForm.querySelector('[data-edit-fields]');
   const status = els.contributorForm.querySelector('.contributor-form__status');
+
   try {
-    const schema = await loadContributorSchema();
+    const [schema, record] = await Promise.all([
+      loadContributorSchema(),
+      loadCurrentRecord(entityType, entityId, item),
+    ]);
     const fields = schema.entityTypes?.[entityType] || [];
     if (!fields.length) throw new Error(`No editable fields are defined for ${entityType}.`);
-    let index = 0;
-    rows.innerHTML = patchRowHtml(fields, index++);
-    refreshPatchHints(rows);
-    rows.addEventListener('change', () => refreshPatchHints(rows));
-    els.contributorForm.querySelector('[data-patch-add]')?.addEventListener('click', () => {
-      rows.insertAdjacentHTML('beforeend', patchRowHtml(fields, index++));
-      refreshPatchHints(rows);
-    });
+
+    state.editBaseline = {};
+    const blocks = [];
+    for (const field of fields) {
+      const text = valueToText(record ? record[field.name] : undefined, field.type);
+      state.editBaseline[field.name] = text;
+      blocks.push(editFieldHtml(field, text));
+    }
+    host.innerHTML = blocks.join('');
+
+    if (!record) {
+      status.className = 'contributor-form__status';
+      status.textContent = 'Current values could not be loaded, so every field starts empty. Anything you fill in will be proposed as a change.';
+    }
   } catch (error) {
-    // Say why the form is unusable rather than showing an empty one. An edit
-    // form with no fields looks broken in a way that gives no clue what to do.
+    host.innerHTML = '';
     status.className = 'contributor-form__status contributor-form__status--error';
     status.textContent = error.message;
   }
   openContributorModal();
 }
+
+/**
+ * The record as it currently stands.
+ *
+ * For maps the catalogue API is authoritative: it is the same document the
+ * server dry-runs the patch against, so what the contributor sees is exactly
+ * what their change will be compared with. For other entity types there is no
+ * such endpoint yet, so the Browse detail item is a best effort -- field names
+ * largely coincide, and anything absent simply starts blank.
+ */
+async function loadCurrentRecord(entityType, entityId, fallbackItem) {
+  if (entityType === 'map') {
+    try {
+      const response = await fetch(`/_api/catalogue?id=${encodeURIComponent(entityId)}`, { credentials: 'same-origin' });
+      if (response.ok) {
+        const doc = await response.json();
+        const found = (Array.isArray(doc?.maps) ? doc.maps : []).find((m) => m?.id === entityId);
+        if (found) return found;
+      }
+    } catch {
+      // fall through to the Browse item
+    }
+  }
+  return fallbackItem || null;
+}
+
+/** Render one field as an input appropriate to its declared type. */
+function editFieldHtml(field, currentText) {
+  const name = escapeAttr(field.name);
+  const label = escapeHtml(field.name);
+
+  if (field.type === 'boolean') {
+    const isTrue = currentText === 'true';
+    const isFalse = currentText === 'false';
+    return `
+      <label class="contributor-form__field">
+        <span class="contributor-form__field-name">${label}</span>
+        <select name="field:${name}" data-edit-field="${name}" data-edit-type="boolean">
+          <option value=""${!isTrue && !isFalse ? ' selected' : ''}>(not set)</option>
+          <option value="true"${isTrue ? ' selected' : ''}>true</option>
+          <option value="false"${isFalse ? ' selected' : ''}>false</option>
+        </select>
+      </label>`;
+  }
+
+  const hint = field.type === 'array'
+    ? 'One entry per line.'
+    : field.type === 'bounds'
+      ? 'Four numbers: west, south, east, north.'
+      : 'Clear the box to remove this value.';
+
+  const multiline = field.type === 'array' || field.name === 'description';
+  if (multiline) {
+    return `
+      <label class="contributor-form__field">
+        <span class="contributor-form__field-name">${label}</span>
+        <textarea name="field:${name}" data-edit-field="${name}" data-edit-type="${escapeAttr(field.type)}" rows="3">${escapeHtml(currentText)}</textarea>
+        <span class="contributor-form__hint">${hint}</span>
+      </label>`;
+  }
+
+  return `
+    <label class="contributor-form__field">
+      <span class="contributor-form__field-name">${label}</span>
+      <input type="text" name="field:${name}" data-edit-field="${name}" data-edit-type="${escapeAttr(field.type)}" value="${escapeAttr(currentText)}">
+      <span class="contributor-form__hint">${hint}</span>
+    </label>`;
+}
+
+/** Render a stored value as the text the form shows for it. */
+function valueToText(value, type) {
+  if (value === null || value === undefined) return '';
+  if (type === 'boolean') return value === true ? 'true' : value === false ? 'false' : '';
+  if (type === 'bounds') return Array.isArray(value) ? value.join(', ') : '';
+  if (type === 'array') {
+    if (!Array.isArray(value)) return '';
+    // Objects (references, sourceDownloads) are shown as JSON so they at least
+    // round-trip unchanged if left alone.
+    return value.map((v) => (typeof v === 'string' ? v : JSON.stringify(v))).join('\n');
+  }
+  return String(value);
+}
+
 
 function openMapSubmissionForm() {
   state.modalMode = 'map-submission';
@@ -2842,70 +2950,58 @@ async function loadContributorSchema() {
 }
 
 /** One field row: which field, and its new value, typed appropriately. */
-function patchRowHtml(fields, index) {
-  const options = fields.map((f) => `<option value="${escapeAttr(f.name)}" data-type="${escapeAttr(f.type)}">${escapeAttr(f.name)}</option>`).join('');
-  return `
-    <div class="contributor-form__patch-row" data-patch-row>
-      <label>
-        Field
-        <select name="patchField${index}" data-patch-field>${options}</select>
-      </label>
-      <label>
-        New value
-        <textarea name="patchValue${index}" data-patch-value rows="2"></textarea>
-        <span class="contributor-form__hint" data-patch-hint></span>
-      </label>
-    </div>`;
-}
-
-function refreshPatchHints(root) {
-  for (const row of root.querySelectorAll('[data-patch-row]')) {
-    const select = row.querySelector('[data-patch-field]');
-    const type = select?.selectedOptions?.[0]?.dataset?.type || 'string';
-    const hint = row.querySelector('[data-patch-hint]');
-    if (!hint) continue;
-    if (type === 'array') hint.textContent = 'One entry per line.';
-    else if (type === 'boolean') hint.textContent = 'true or false.';
-    else if (type === 'bounds') hint.textContent = 'Four numbers: west, south, east, north.';
-    else hint.textContent = 'Plain text. Leave empty to clear the field.';
-  }
-}
-
 /**
- * Turn the rows into the typed patch the API expects.
+ * Build the patch as a DIFF against the values the form was loaded with.
  *
- * Values are converted here rather than sent as strings, because the server
- * rejects a string where an array or boolean belongs -- which is the point of
- * typing them. An empty value means "clear this field", sent as null.
+ * Only fields whose text actually changed are included. That is what makes the
+ * batch form safe: the contributor sees and can edit everything, but proposes
+ * only what they touched, so a reviewer's diff is exactly the intended change
+ * rather than the whole record restated.
+ *
+ * Emptying a field that had a value proposes null, which the API treats as an
+ * explicit clear. Emptying one that was already empty is not a change at all.
  */
 function collectPatch() {
-  const rows = els.contributorForm.querySelectorAll('[data-patch-row]');
+  const baseline = state.editBaseline || {};
+  const inputs = els.contributorForm.querySelectorAll('[data-edit-field]');
   const patch = {};
-  for (const row of rows) {
-    const select = row.querySelector('[data-patch-field]');
-    const field = select?.value;
-    if (!field) continue;
-    const type = select.selectedOptions?.[0]?.dataset?.type || 'string';
-    const raw = String(row.querySelector('[data-patch-value]')?.value ?? '');
+  const problems = [];
 
-    if (!raw.trim()) { patch[field] = null; continue; }
+  for (const input of inputs) {
+    const field = input.dataset.editField;
+    const type = input.dataset.editType || 'string';
+    const now = String(input.value ?? '');
+    const before = String(baseline[field] ?? '');
+    if (now === before) continue;
+
+    if (!now.trim()) { patch[field] = null; continue; }
+
     if (type === 'boolean') {
-      const value = raw.trim().toLowerCase();
-      if (value !== 'true' && value !== 'false') throw new Error(`${field} must be true or false.`);
-      patch[field] = value === 'true';
+      patch[field] = now === 'true';
     } else if (type === 'bounds') {
-      const numbers = raw.split(/[\s,]+/).filter(Boolean).map(Number);
+      const numbers = now.split(/[\s,]+/).filter(Boolean).map(Number);
       if (numbers.length !== 4 || numbers.some((n) => !Number.isFinite(n))) {
-        throw new Error('bounds must be four numbers: west, south, east, north.');
+        problems.push(`${field}: needs four numbers (west, south, east, north).`);
+        continue;
       }
       patch[field] = numbers;
     } else if (type === 'array') {
-      patch[field] = raw.split('\n').map((line) => line.trim()).filter(Boolean);
+      patch[field] = now.split('\n').map((line) => line.trim()).filter(Boolean)
+        .map((line) => {
+          // A line that was rendered as JSON (an object entry) is parsed back,
+          // so leaving it untouched does not turn an object into a string.
+          if (!/^[[{]/.test(line)) return line;
+          try { return JSON.parse(line); } catch { return line; }
+        });
     } else {
-      patch[field] = raw.trim();
+      patch[field] = now.trim();
     }
   }
-  if (!Object.keys(patch).length) throw new Error('Propose at least one field change.');
+
+  if (problems.length) throw new Error(problems.join(' '));
+  if (!Object.keys(patch).length) {
+    throw new Error('Nothing has been changed yet. Edit a field, then propose the change.');
+  }
   return patch;
 }
 

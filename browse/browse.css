@@ -2116,3 +2116,37 @@ a:hover {
   color: var(--color-primary); cursor: pointer;
 }
 .proni-desc-toggle:hover { text-decoration: underline; }
+
+/* Batch edit form: every editable field shown with its current value.
+   The fields are visually grouped and scrollable so a record with twenty
+   editable fields does not push the submit button off the screen -- the map
+   entity type has nineteen. */
+.contributor-form__fields {
+  display: grid;
+  gap: var(--space-3);
+  max-height: 46vh;
+  overflow-y: auto;
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-muted, var(--color-surface));
+}
+
+.contributor-form__field {
+  display: grid;
+  gap: var(--space-1);
+}
+
+/* Monospace so field names read as identifiers rather than prose -- they are
+   the catalogue's own keys, and `labelProperty` should not look like a
+   sentence. */
+.contributor-form__field-name {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.contributor-form__fields textarea {
+  min-height: 64px;
+}
