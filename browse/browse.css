@@ -2139,12 +2139,19 @@ a:hover {
 
 /* Monospace so field names read as identifiers rather than prose -- they are
    the catalogue's own keys, and `labelProperty` should not look like a
-   sentence. */
+   sentence.
+
+   Full text colour rather than muted, and up from .82rem: the names were
+   hard to pick out because #718096 at that size is low contrast against the
+   surface, which was more the cause than the typeface was. Monospace faces
+   also read smaller than the proportional text around them at the same
+   nominal size. */
 .contributor-form__field-name {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: .82rem;
+  font-size: .95rem;
   font-weight: 700;
-  color: var(--color-text-muted);
+  color: var(--color-text);
+  letter-spacing: -0.01em;
 }
 
 .contributor-form__fields textarea {
@@ -2194,9 +2201,10 @@ a:hover {
 
 .contributor-form__attr-name {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: .78rem;
+  font-size: .875rem;
   font-weight: 700;
-  color: var(--color-text-muted);
+  color: var(--color-text);
+  letter-spacing: -0.01em;
 }
 
 .contributor-form__required {
