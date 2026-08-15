@@ -213,7 +213,10 @@ const els = {
   contributorPanel: document.getElementById('contributorPanel'),
   contributorModal: document.getElementById('contributorModal'),
   contributorForm: document.getElementById('contributorForm'),
-  contributorModalTitle: document.getElementById('contributorModalTitle')
+  contributorModalTitle: document.getElementById('contributorModalTitle'),
+  contributorEditor: document.getElementById('contributorEditor'),
+  contributorEditorTitle: document.getElementById('contributorEditorTitle'),
+  contributorEditorSlot: document.getElementById('contributorEditorSlot')
 };
 
 init().catch((error) => {
@@ -315,6 +318,10 @@ function bindEvents() {
     }
 
     if (event.target.closest('[data-contributor-close]')) {
+      if (els.contributorEditor && !els.contributorEditor.hidden) {
+        closeInlineEditor();
+        return;
+      }
       closeContributorModal();
     }
   });
@@ -334,6 +341,8 @@ function bindEvents() {
   });
 
   els.contributorForm?.addEventListener('submit', submitContributorForm);
+  // Bound once, here, for the lifetime of the page. See bindObjectArrayControls.
+  if (els.contributorForm) bindObjectArrayControls();
 }
 
 function applyRoute() {
@@ -2675,6 +2684,15 @@ async function openEditSubmissionForm(type, item) {
   state.modalMode = 'metadata-edit';
   state.editBaseline = null;
   els.contributorModalTitle.textContent = `Propose edit: ${item.title || entityId}`;
+  // Guard first: replacing a dirty form for another record would silently throw
+  // away someone's work. Offer the choice inline rather than with a browser
+  // dialog, which blocks the page and is worse than the problem.
+  if (isEditorDirty() && state.editEntityId && state.editEntityId !== entityId) {
+    showDiscardPrompt(entityId, () => openEditSubmissionForm(type, item));
+    return;
+  }
+  state.editEntityId = entityId;
+
   els.contributorForm.innerHTML = `
     <input type="hidden" name="kind" value="metadata-edit">
     <input type="hidden" name="entityType" value="${escapeAttr(entityType)}">
@@ -2720,7 +2738,7 @@ async function openEditSubmissionForm(type, item) {
       blocks.push(editFieldHtml(field, current));
     }
     host.innerHTML = blocks.join('');
-    bindObjectArrayControls(fields);
+    state.editFields = fields;
 
     if (!record) {
       status.className = 'contributor-form__status';
@@ -2731,7 +2749,78 @@ async function openEditSubmissionForm(type, item) {
     status.className = 'contributor-form__status contributor-form__status--error';
     status.textContent = error.message;
   }
-  openContributorModal();
+  showInlineEditor(`Propose edit: ${item.title || entityId}`);
+}
+
+
+/**
+ * Show the contributor form inline, above the record it edits.
+ *
+ * The form element itself is MOVED between the modal panel and the inline slot
+ * rather than duplicated, so its submit handler -- bound once at init -- follows
+ * it. Two form elements would mean two of everything and a live question about
+ * which one els.contributorForm refers to.
+ */
+function showInlineEditor(title) {
+  if (!els.contributorEditor || !els.contributorEditorSlot) return;
+  closeContributorModal();
+  els.contributorEditorTitle.textContent = title;
+  els.contributorEditorSlot.appendChild(els.contributorForm);
+  els.contributorEditor.hidden = false;
+  state.modalMode = 'metadata-edit';
+  els.contributorEditor.scrollIntoView({ block: 'start', behavior: 'smooth' });
+  els.contributorForm.querySelector('input:not([type="hidden"]), textarea')?.focus();
+}
+
+function closeInlineEditor() {
+  if (!els.contributorEditor) return;
+  els.contributorEditor.hidden = true;
+  els.contributorForm.innerHTML = '';
+  state.modalMode = null;
+  state.editEntityId = null;
+  state.editBaseline = null;
+  state.editFields = null;
+}
+
+/**
+ * Has the contributor actually changed anything?
+ *
+ * collectPatch throws when nothing differs from the baseline, which is exactly
+ * the question being asked -- so the throw is the answer, not an error.
+ */
+function isEditorDirty() {
+  if (!els.contributorEditor || els.contributorEditor.hidden) return false;
+  const summary = els.contributorForm.querySelector('[name="summary"]')?.value?.trim();
+  if (summary) return true;
+  try {
+    collectPatch();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/** Ask before discarding unsaved work, without a blocking browser dialog. */
+function showDiscardPrompt(nextEntityId, proceed) {
+  const existing = els.contributorEditor.querySelector('.contributor-inline__discard');
+  existing?.remove();
+  const bar = document.createElement('div');
+  bar.className = 'contributor-inline__discard';
+  bar.innerHTML = `
+    <span>You have unsaved changes to <strong>${escapeHtml(state.editEntityId || 'this record')}</strong>.</span>
+    <span class="contributor-inline__discard-actions">
+      <button type="button" class="contributor-btn contributor-btn--small" data-discard-confirm>Discard and edit ${escapeHtml(nextEntityId)}</button>
+      <button type="button" class="contributor-btn contributor-btn--small" data-discard-cancel>Keep editing</button>
+    </span>`;
+  els.contributorEditor.insertBefore(bar, els.contributorEditor.firstChild);
+  els.contributorEditor.scrollIntoView({ block: 'start', behavior: 'smooth' });
+  bar.querySelector('[data-discard-confirm]').addEventListener('click', () => {
+    bar.remove();
+    state.editEntityId = null;
+    state.editBaseline = null;
+    proceed();
+  });
+  bar.querySelector('[data-discard-cancel]').addEventListener('click', () => bar.remove());
 }
 
 /**
@@ -2878,10 +2967,18 @@ function renumberObjectEntries(fieldset) {
   });
 }
 
-/** Wire Add/Remove for every object-array fieldset in the open form. */
-function bindObjectArrayControls(schemaFields) {
-  const byName = new Map((schemaFields || []).map((f) => [f.name, f]));
+/**
+ * Wire Add/Remove for object-array fieldsets. Bound ONCE at init.
+ *
+ * This used to be called from openEditSubmissionForm, which attached a fresh
+ * listener every time the form opened -- so the second open added two entries
+ * per click on Add, the third added three. The field definitions it needs are
+ * read from state rather than captured in the closure, which is what makes a
+ * single binding possible.
+ */
+function bindObjectArrayControls() {
   els.contributorForm.addEventListener('click', (event) => {
+    const byName = new Map((state.editFields || []).map((f) => [f.name, f]));
     const addButton = event.target.closest('[data-object-add]');
     if (addButton) {
       const field = byName.get(addButton.dataset.objectAdd);
@@ -2937,6 +3034,10 @@ function valueToText(value, type) {
 
 
 function openMapSubmissionForm() {
+  // Submit map is not tied to a record, so it stays a dialog -- "start something
+  // new" is what a modal is for. Move the shared form back into the modal panel.
+  closeInlineEditor();
+  document.querySelector('.contributor-modal__panel')?.appendChild(els.contributorForm);
   state.modalMode = 'map-submission';
   els.contributorModalTitle.textContent = 'Submit map for review';
   els.contributorForm.innerHTML = `

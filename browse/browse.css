@@ -2124,8 +2124,8 @@ a:hover {
 .contributor-form__fields {
   display: grid;
   gap: var(--space-3);
-  max-height: 46vh;
-  overflow-y: auto;
+  /* No max-height: the form is inline now, so the page scrolls once instead
+     of nesting a scrollbar inside a modal inside the page. */
   padding: var(--space-3);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
@@ -2235,4 +2235,55 @@ a:hover {
   width: auto;
   min-height: 0;
   margin: 0;
+}
+
+/* Inline contributor editor. Sits above the record it edits, so the rendered
+   detail stays visible for comparison while correcting it -- which is the whole
+   reason for preferring this to a modal. */
+.contributor-inline {
+  border: 2px solid var(--color-accent, var(--color-border));
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  margin-bottom: var(--space-4);
+  overflow: hidden;
+}
+
+.contributor-inline[hidden] { display: none; }
+
+.contributor-inline__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface-muted, var(--color-surface));
+  /* Sticky so the record name stays visible while scrolling a long form: with
+     nineteen fields the heading otherwise scrolls away and there is nothing on
+     screen saying which record is being edited. */
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.contributor-inline__title {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.contributor-inline__discard {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-warning-surface, #fff4e5);
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.contributor-inline__discard-actions {
+  display: flex;
+  gap: var(--space-2);
 }

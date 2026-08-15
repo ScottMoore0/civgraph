@@ -9,7 +9,7 @@
   <link rel="preload" href="../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
-  <link rel="stylesheet" href="browse.css?v=d845cb9719fc">
+  <link rel="stylesheet" href="browse.css?v=9e99dbe53a37">
 </head>
 
 <body>
@@ -59,9 +59,23 @@
       <nav id="browseGroups" class="browse-groups" aria-label="Browse data groups"></nav>
     </aside>
 
-    <section class="browse-content" aria-live="polite">
+    <section class="browse-content">
       <div id="browseHero" class="browse-hero"></div>
-      <div id="browseResults" class="browse-results"></div>
+
+      <!-- Inline contributor editor. Deliberately a SIBLING of #browseResults,
+           not a child: browseResults has its innerHTML replaced on every
+           navigation, which would destroy a half-written proposal without
+           warning. It also sits outside the aria-live region below, so typing
+           into the form is not announced on every keystroke. -->
+      <section id="contributorEditor" class="contributor-inline" hidden aria-labelledby="contributorEditorTitle">
+        <header class="contributor-inline__header">
+          <h2 id="contributorEditorTitle" class="contributor-inline__title">Propose edit</h2>
+          <button type="button" class="contributor-btn" data-contributor-close>Cancel</button>
+        </header>
+        <div id="contributorEditorSlot"></div>
+      </section>
+
+      <div id="browseResults" class="browse-results" aria-live="polite"></div>
     </section>
   </main>
 
@@ -76,7 +90,7 @@
     </section>
   </div>
 
-  <script type="module" src="browse.js?v=9cdd4ca34ab6"></script>
+  <script type="module" src="browse.js?v=a7f587b27ccc"></script>
 </body>
 
 </html>
