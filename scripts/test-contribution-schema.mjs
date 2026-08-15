@@ -9,14 +9,14 @@
  * that passed for accidental reasons -- a parity check that could not fail, and
  * a budget check measuring the wrong set.
  */
-import { dryRunPatch, EDITABLE_FIELDS, VALID_KINDS } from '../functions/_api/contributions/_schema.js';
+import { dryRunPatch, EDITABLE_FIELDS, VALID_KINDS, describeSchema } from '../functions/_api/contributions/_schema.js';
 
 let passed = 0;
 const failures = [];
 
-function check(name, condition) {
+function check(name, condition, detail) {
   if (condition) { passed += 1; return; }
-  failures.push(name);
+  failures.push(detail ? `${name} — ${detail}` : name);
 }
 
 const currentMap = {
@@ -78,6 +78,63 @@ check('rejects an unknown entity type', dryRunPatch('spaceship', { name: 'x' }, 
 const blind = dryRunPatch('map', { provider: 'Somebody' }, null);
 check('still validates shape with no current record', blind.ok === true);
 check('admits it could not compare against the record', blind.checkedAgainstCurrentRecord === false);
+
+// --- object arrays: references and sourceDownloads --------------------------
+//
+// These are edited as structured groups in the UI, so the validator has to give
+// errors a human can act on: which entry, which attribute. "references is
+// invalid" would be useless in a form with six of them.
+{
+  const ok = dryRunPatch('map', {
+    references: [{ label: 'PRONI catalogue', url: 'https://www.nidirect.gov.uk/proni', note: '' }],
+  }, currentMap);
+  check('accepts a well-formed reference', ok.ok === true, JSON.stringify(ok.errors));
+}
+{
+  const r = dryRunPatch('map', { references: [{ label: 'A', url: 'not-a-url' }] }, currentMap);
+  check('rejects a reference url that is not http(s)', r.ok === false);
+  check('the error names the entry and attribute', r.errors.some((e) => /references\[1\]\.url/.test(e)), JSON.stringify(r.errors));
+}
+{
+  const r = dryRunPatch('map', { references: [{ url: 'https://example.com' }] }, currentMap);
+  check('rejects a reference with no label', r.ok === false);
+  check('it says which entry needs a label', r.errors.some((e) => /references\[1\] needs a label/.test(e)), JSON.stringify(r.errors));
+}
+{
+  const r = dryRunPatch('map', { references: [{ label: 'A', wat: 'x' }] }, currentMap);
+  check('rejects an unrecognised reference attribute', r.ok === false);
+  check('it lists the attributes that are allowed', r.errors.some((e) => /expected label, url, note/.test(e)), JSON.stringify(r.errors));
+}
+{
+  const r = dryRunPatch('map', { references: ['just a string'] }, currentMap);
+  check('rejects a bare string where a reference object belongs', r.ok === false);
+}
+{
+  const r = dryRunPatch('map', { references: [{ label: 'A\nB' }] }, currentMap);
+  check('rejects a line break inside a reference label', r.ok === false);
+}
+{
+  const r = dryRunPatch('map', {
+    sourceDownloads: [{ label: 'Shapefile', file: 'x.zip', bytes: 1024 }],
+  }, currentMap);
+  check('accepts a sourceDownload with a numeric bytes', r.ok === true, JSON.stringify(r.errors));
+}
+{
+  const r = dryRunPatch('map', { sourceDownloads: [{ label: 'x', file: 'y.zip', bytes: 'lots' }] }, currentMap);
+  check('rejects a non-numeric bytes', r.ok === false);
+  check('it names the attribute', r.errors.some((e) => /bytes must be a number/.test(e)), JSON.stringify(r.errors));
+}
+{
+  const r = dryRunPatch('map', { references: [] }, { ...currentMap, references: [{ label: 'old' }] });
+  check('accepts clearing every reference', r.ok === true, JSON.stringify(r.errors));
+}
+{
+  const described = describeSchema().map.find((f) => f.name === 'references');
+  check('the schema advertises reference attributes for the UI', Array.isArray(described?.attributes) && described.attributes.length === 3, JSON.stringify(described));
+  check('references is typed as objectArray', described?.type === 'objectArray', described?.type);
+  const keywords = describeSchema().map.find((f) => f.name === 'keywords');
+  check('a plain string array is still typed as array', keywords?.type === 'array', keywords?.type);
+}
 
 // --- the allowlists themselves ---------------------------------------------
 check('retire is a valid kind', VALID_KINDS.has('retire'));

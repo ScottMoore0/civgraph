@@ -49,6 +49,34 @@ export const EDITABLE_FIELDS = {
 export const VALID_ENTITY_TYPES = new Set(Object.keys(EDITABLE_FIELDS));
 export const VALID_KINDS = new Set(['metadata-edit', 'map-submission', 'retire']);
 
+/**
+ * Array fields whose entries are OBJECTS with a known set of attributes.
+ *
+ * Declared here so the edit form can render one labelled input per attribute
+ * with add/remove controls, instead of asking a human to hand-write JSON. The
+ * client builds its UI from this via /_api/contributions/schema, so the fields
+ * offered and the fields accepted cannot drift apart.
+ *
+ * Shapes measured from data/database/maps.json on 2026-08-15: 892 reference
+ * objects, all carrying label/url/note and not one plain string; 564
+ * sourceDownloads objects carrying label/file, with hash/bytes/mirror on about
+ * half. So these key sets are the real ones, not a guess.
+ */
+export const OBJECT_ARRAY_FIELDS = {
+  references: [
+    { name: 'label', type: 'string', required: true },
+    { name: 'url', type: 'url' },
+    { name: 'note', type: 'string' },
+  ],
+  sourceDownloads: [
+    { name: 'label', type: 'string', required: true },
+    { name: 'file', type: 'string', required: true },
+    { name: 'hash', type: 'string' },
+    { name: 'bytes', type: 'number' },
+    { name: 'mirror', type: 'url' },
+  ],
+};
+
 const STRING_FIELDS = new Set([
   'name', 'title', 'category', 'description', 'provider', 'attribution', 'date',
   'dateAdded', 'labelProperty', 'license', 'licence', 'licenseUrl', 'url',
@@ -71,6 +99,7 @@ const MAX_ARRAY_ITEMS = 200;
 export function fieldType(field) {
   if (BOOLEAN_FIELDS.has(field)) return 'boolean';
   if (field === 'bounds') return 'bounds';
+  if (OBJECT_ARRAY_FIELDS[field]) return 'objectArray';
   if (ARRAY_FIELDS.has(field)) return 'array';
   if (STRING_FIELDS.has(field)) return 'string';
   return 'unknown';
@@ -80,7 +109,14 @@ export function fieldType(field) {
 export function describeSchema() {
   const out = {};
   for (const [entityType, fields] of Object.entries(EDITABLE_FIELDS)) {
-    out[entityType] = [...fields].sort().map((name) => ({ name, type: fieldType(name) }));
+    out[entityType] = [...fields].sort().map((name) => {
+      const type = fieldType(name);
+      const described = { name, type };
+      // Object arrays carry their attribute list so a client can render one
+      // input per attribute rather than a JSON textarea.
+      if (type === 'objectArray') described.attributes = OBJECT_ARRAY_FIELDS[name];
+      return described;
+    });
   }
   return out;
 }
@@ -98,6 +134,37 @@ export function validateValue(field, value) {
 
   if (BOOLEAN_FIELDS.has(field)) {
     return typeof value === 'boolean' ? null : `${field} must be true or false`;
+  }
+
+  // Object arrays are checked attribute by attribute, so a malformed entry names
+  // the entry and the attribute rather than failing as "references is wrong".
+  const attributes = OBJECT_ARRAY_FIELDS[field];
+  if (attributes) {
+    if (!Array.isArray(value)) return `${field} must be an array`;
+    if (value.length > MAX_ARRAY_ITEMS) return `${field} has more than ${MAX_ARRAY_ITEMS} items`;
+    const allowed = new Set(attributes.map((a) => a.name));
+    for (let i = 0; i < value.length; i += 1) {
+      const entry = value[i];
+      const where = `${field}[${i + 1}]`;
+      if (!entry || typeof entry !== 'object' || Array.isArray(entry)) return `${where} must be an object`;
+      for (const [key, item] of Object.entries(entry)) {
+        if (!allowed.has(key)) return `${where}: "${key}" is not a recognised attribute (expected ${[...allowed].join(', ')})`;
+        const spec = attributes.find((a) => a.name === key);
+        if (item === null || item === '') continue;
+        if (spec.type === 'number') {
+          if (typeof item !== 'number' || !Number.isFinite(item)) return `${where}.${key} must be a number`;
+          continue;
+        }
+        if (typeof item !== 'string') return `${where}.${key} must be text`;
+        if (item.length > MAX_STRING) return `${where}.${key} is longer than ${MAX_STRING} characters`;
+        if (/[\r\n]/.test(item)) return `${where}.${key} contains a line break`;
+        if (spec.type === 'url' && !/^https?:\/\//i.test(item)) return `${where}.${key} must be an http(s) URL`;
+      }
+      for (const spec of attributes) {
+        if (spec.required && !String(entry[spec.name] ?? '').trim()) return `${where} needs a ${spec.name}`;
+      }
+    }
+    return null;
   }
 
   if (ARRAY_FIELDS.has(field)) {

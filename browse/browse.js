@@ -2707,14 +2707,20 @@ async function openEditSubmissionForm(type, item) {
     const fields = schema.entityTypes?.[entityType] || [];
     if (!fields.length) throw new Error(`No editable fields are defined for ${entityType}.`);
 
+    // The baseline is what the diff is taken against. Object arrays are stored
+    // as canonical JSON rather than rendered text, because their form state is
+    // reassembled from many inputs and only the resulting VALUE is comparable.
     state.editBaseline = {};
     const blocks = [];
     for (const field of fields) {
-      const text = valueToText(record ? record[field.name] : undefined, field.type);
-      state.editBaseline[field.name] = text;
-      blocks.push(editFieldHtml(field, text));
+      const current = record ? record[field.name] : undefined;
+      state.editBaseline[field.name] = field.type === 'objectArray'
+        ? JSON.stringify(Array.isArray(current) ? current : [])
+        : valueToText(current, field.type);
+      blocks.push(editFieldHtml(field, current));
     }
     host.innerHTML = blocks.join('');
+    bindObjectArrayControls(fields);
 
     if (!record) {
       status.className = 'contributor-form__status';
@@ -2754,22 +2760,32 @@ async function loadCurrentRecord(entityType, entityId, fallbackItem) {
 }
 
 /** Render one field as an input appropriate to its declared type. */
-function editFieldHtml(field, currentText) {
+function editFieldHtml(field, current) {
   const name = escapeAttr(field.name);
   const label = escapeHtml(field.name);
 
+  if (field.type === 'objectArray') {
+    return objectArrayFieldHtml(field, Array.isArray(current) ? current : []);
+  }
+
+  const currentText = valueToText(current, field.type);
+
   if (field.type === 'boolean') {
-    const isTrue = currentText === 'true';
-    const isFalse = currentText === 'false';
+    // Radio buttons, not a select. Three mutually exclusive states that all fit
+    // on one line: showing them is faster to read and to set than opening a
+    // dropdown to discover the same three options.
+    const state = currentText === 'true' ? 'true' : currentText === 'false' ? 'false' : '';
+    const radio = (value, text) => `
+        <label class="contributor-form__radio">
+          <input type="radio" name="field:${name}" value="${escapeAttr(value)}"
+                 data-edit-field="${name}" data-edit-type="boolean"${state === value ? ' checked' : ''}>
+          <span>${escapeHtml(text)}</span>
+        </label>`;
     return `
-      <label class="contributor-form__field">
-        <span class="contributor-form__field-name">${label}</span>
-        <select name="field:${name}" data-edit-field="${name}" data-edit-type="boolean">
-          <option value=""${!isTrue && !isFalse ? ' selected' : ''}>(not set)</option>
-          <option value="true"${isTrue ? ' selected' : ''}>true</option>
-          <option value="false"${isFalse ? ' selected' : ''}>false</option>
-        </select>
-      </label>`;
+      <fieldset class="contributor-form__field contributor-form__field--radio">
+        <legend class="contributor-form__field-name">${label}</legend>
+        <div class="contributor-form__radios">${radio('', '(not set)')}${radio('true', 'true')}${radio('false', 'false')}</div>
+      </fieldset>`;
   }
 
   const hint = field.type === 'array'
@@ -2796,6 +2812,115 @@ function editFieldHtml(field, currentText) {
     </label>`;
 }
 
+/**
+ * An array of objects (references, sourceDownloads) as repeatable groups.
+ *
+ * One labelled input per attribute, with Add and Remove. Nobody should have to
+ * hand-write JSON in a web form to correct a citation: the previous version
+ * rendered these as raw JSON per line, which is a developer's shortcut and
+ * invites exactly the malformed input the validator then rejects.
+ *
+ * Attributes come from the server (schema.attributes), so the inputs offered and
+ * the inputs accepted cannot drift.
+ */
+function objectArrayFieldHtml(field, entries) {
+  const name = escapeAttr(field.name);
+  const groups = entries.map((entry, index) => objectArrayEntryHtml(field, entry, index)).join('');
+  return `
+    <fieldset class="contributor-form__field contributor-form__objects" data-object-array="${name}" data-edit-type="objectArray">
+      <legend class="contributor-form__field-name">${escapeHtml(field.name)}</legend>
+      <div data-object-entries>${groups}</div>
+      <button type="button" class="contributor-btn contributor-btn--small" data-object-add="${name}">Add ${escapeHtml(singularise(field.name))}</button>
+    </fieldset>`;
+}
+
+function objectArrayEntryHtml(field, entry, index) {
+  const rows = (field.attributes || []).map((attribute) => {
+    const value = entry && entry[attribute.name] !== undefined && entry[attribute.name] !== null
+      ? String(entry[attribute.name])
+      : '';
+    const required = attribute.required ? ' <span class="contributor-form__required">(required)</span>' : '';
+    const inputType = attribute.type === 'number' ? 'number' : 'text';
+    return `
+        <label class="contributor-form__object-attr">
+          <span class="contributor-form__attr-name">${escapeHtml(attribute.name)}${required}</span>
+          <input type="${inputType}" data-object-attr="${escapeAttr(attribute.name)}"
+                 data-attr-type="${escapeAttr(attribute.type)}" value="${escapeAttr(value)}">
+        </label>`;
+  }).join('');
+
+  return `
+      <div class="contributor-form__object" data-object-entry>
+        <div class="contributor-form__object-head">
+          <span class="contributor-form__object-index">${escapeHtml(singularise(field.name))} ${index + 1}</span>
+          <button type="button" class="contributor-btn contributor-btn--small" data-object-remove>Remove</button>
+        </div>
+        ${rows}
+      </div>`;
+}
+
+function singularise(name) {
+  if (name === 'references') return 'reference';
+  if (name === 'sourceDownloads') return 'download';
+  return name.replace(/s$/, '');
+}
+
+/**
+ * Re-number the "reference 1, reference 2" headings after an add or remove, so
+ * the labels keep matching the positions the validator will report errors
+ * against.
+ */
+function renumberObjectEntries(fieldset) {
+  const singular = singularise(fieldset.dataset.objectArray || '');
+  [...fieldset.querySelectorAll('[data-object-entry]')].forEach((entry, index) => {
+    const heading = entry.querySelector('.contributor-form__object-index');
+    if (heading) heading.textContent = `${singular} ${index + 1}`;
+  });
+}
+
+/** Wire Add/Remove for every object-array fieldset in the open form. */
+function bindObjectArrayControls(schemaFields) {
+  const byName = new Map((schemaFields || []).map((f) => [f.name, f]));
+  els.contributorForm.addEventListener('click', (event) => {
+    const addButton = event.target.closest('[data-object-add]');
+    if (addButton) {
+      const field = byName.get(addButton.dataset.objectAdd);
+      const fieldset = addButton.closest('[data-object-array]');
+      const host = fieldset?.querySelector('[data-object-entries]');
+      if (!field || !host) return;
+      host.insertAdjacentHTML('beforeend', objectArrayEntryHtml(field, {}, host.children.length));
+      renumberObjectEntries(fieldset);
+      return;
+    }
+    const removeButton = event.target.closest('[data-object-remove]');
+    if (removeButton) {
+      const fieldset = removeButton.closest('[data-object-array]');
+      removeButton.closest('[data-object-entry]')?.remove();
+      if (fieldset) renumberObjectEntries(fieldset);
+    }
+  });
+}
+
+/** Read one object-array fieldset back into an array of objects. */
+function readObjectArray(fieldset) {
+  const entries = [];
+  for (const entry of fieldset.querySelectorAll('[data-object-entry]')) {
+    const object = {};
+    let hasValue = false;
+    for (const input of entry.querySelectorAll('[data-object-attr]')) {
+      const raw = String(input.value ?? '').trim();
+      if (!raw) continue;
+      hasValue = true;
+      object[input.dataset.objectAttr] = input.dataset.attrType === 'number' ? Number(raw) : raw;
+    }
+    // A group left entirely blank is someone who clicked Add and changed their
+    // mind. Dropping it is kinder than failing the whole submission on it.
+    if (hasValue) entries.push(object);
+  }
+  return entries;
+}
+
+
 /** Render a stored value as the text the form shows for it. */
 function valueToText(value, type) {
   if (value === null || value === undefined) return '';
@@ -2803,9 +2928,9 @@ function valueToText(value, type) {
   if (type === 'bounds') return Array.isArray(value) ? value.join(', ') : '';
   if (type === 'array') {
     if (!Array.isArray(value)) return '';
-    // Objects (references, sourceDownloads) are shown as JSON so they at least
-    // round-trip unchanged if left alone.
-    return value.map((v) => (typeof v === 'string' ? v : JSON.stringify(v))).join('\n');
+    // Plain string arrays. Object arrays are rendered as structured groups by
+    // objectArrayFieldHtml and never come through here.
+    return value.filter((v) => typeof v === 'string').join('\n');
   }
   return String(value);
 }
@@ -2963,22 +3088,43 @@ async function loadContributorSchema() {
  */
 function collectPatch() {
   const baseline = state.editBaseline || {};
-  const inputs = els.contributorForm.querySelectorAll('[data-edit-field]');
   const patch = {};
   const problems = [];
+
+  // Object arrays first: their state lives across many inputs, so they are read
+  // per fieldset rather than per input.
+  for (const fieldset of els.contributorForm.querySelectorAll('[data-object-array]')) {
+    const field = fieldset.dataset.objectArray;
+    const entries = readObjectArray(fieldset);
+    if (JSON.stringify(entries) === String(baseline[field] ?? '[]')) continue;
+    patch[field] = entries.length ? entries : null;
+  }
+
+  const inputs = els.contributorForm.querySelectorAll('[data-edit-field]');
+  const seenRadioGroups = new Set();
 
   for (const input of inputs) {
     const field = input.dataset.editField;
     const type = input.dataset.editType || 'string';
+
+    // Radio groups: read the checked member once, not once per button.
+    if (input.type === 'radio') {
+      if (seenRadioGroups.has(field)) continue;
+      seenRadioGroups.add(field);
+      const checked = els.contributorForm.querySelector(`input[type="radio"][data-edit-field="${field}"]:checked`);
+      const nowValue = checked ? String(checked.value) : '';
+      if (nowValue === String(baseline[field] ?? '')) continue;
+      patch[field] = nowValue === '' ? null : nowValue === 'true';
+      continue;
+    }
+
     const now = String(input.value ?? '');
     const before = String(baseline[field] ?? '');
     if (now === before) continue;
 
     if (!now.trim()) { patch[field] = null; continue; }
 
-    if (type === 'boolean') {
-      patch[field] = now === 'true';
-    } else if (type === 'bounds') {
+    if (type === 'bounds') {
       const numbers = now.split(/[\s,]+/).filter(Boolean).map(Number);
       if (numbers.length !== 4 || numbers.some((n) => !Number.isFinite(n))) {
         problems.push(`${field}: needs four numbers (west, south, east, north).`);
@@ -2986,13 +3132,9 @@ function collectPatch() {
       }
       patch[field] = numbers;
     } else if (type === 'array') {
-      patch[field] = now.split('\n').map((line) => line.trim()).filter(Boolean)
-        .map((line) => {
-          // A line that was rendered as JSON (an object entry) is parsed back,
-          // so leaving it untouched does not turn an object into a string.
-          if (!/^[[{]/.test(line)) return line;
-          try { return JSON.parse(line); } catch { return line; }
-        });
+      // Plain string arrays only -- keywords and the like. Arrays of objects are
+      // handled above as structured groups and never reach this branch.
+      patch[field] = now.split('\n').map((line) => line.trim()).filter(Boolean);
     } else {
       patch[field] = now.trim();
     }

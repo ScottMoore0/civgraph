@@ -2150,3 +2150,89 @@ a:hover {
 .contributor-form__fields textarea {
   min-height: 64px;
 }
+
+/* Object-array fields (references, sourceDownloads): one group per entry, with
+   Add/Remove. Bordered so it is obvious where one reference ends and the next
+   begins -- without that, a list of six citations reads as one wall of inputs. */
+.contributor-form__objects {
+  display: grid;
+  gap: var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  margin: 0;
+}
+
+.contributor-form__object {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm, 6px);
+  background: var(--color-surface);
+}
+
+.contributor-form__object-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.contributor-form__object-index {
+  font-size: .78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--color-text-muted);
+}
+
+.contributor-form__object-attr {
+  display: grid;
+  gap: 2px;
+}
+
+.contributor-form__attr-name {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.contributor-form__required {
+  font-family: inherit;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.contributor-btn--small {
+  padding: var(--space-1) var(--space-2);
+  font-size: .82rem;
+  justify-self: start;
+}
+
+/* Radio groups replace single-select dropdowns: all options visible at once. */
+.contributor-form__field--radio {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.contributor-form__radios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.contributor-form__radio {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-weight: 400;
+}
+
+.contributor-form__radio input {
+  width: auto;
+  min-height: 0;
+  margin: 0;
+}
