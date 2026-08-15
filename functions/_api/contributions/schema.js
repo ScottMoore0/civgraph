@@ -36,7 +36,17 @@ export async function onRequestGet() {
     entityTypes: describeSchema(),
     limits: { maxStringLength: 4000, maxArrayItems: 200, maxBodyBytes: 96 * 1024 },
     note: 'Submissions are queued for review and never applied automatically.',
-  }, { headers: { 'Cache-Control': 'public, max-age=300' } });
+    // no-cache, not max-age. This document describes the shape of the API, so it
+    // changes exactly when the API changes -- at deploy time. It was briefly
+    // served with max-age=300, and on 2026-08-15 that meant the edit form built
+    // itself from a five-minute-old copy that still called `references` a plain
+    // array, rendering a textarea where the structured group belongs. The
+    // symptom was indistinguishable from the client code being wrong.
+    //
+    // It is a couple of kilobytes and fetched once per form open. no-cache still
+    // permits a conditional request, so the cost of correctness here is an ETag
+    // round trip.
+  }, { headers: { 'Cache-Control': 'no-cache' } });
 }
 
 export async function onRequest(context) {
