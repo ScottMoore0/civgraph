@@ -24,8 +24,11 @@ export function jsonResponse(body, init = {}) {
 export function getContributorAuth(context) {
   const request = context.request;
   const env = context.env || {};
-  const email = firstHeader(request, ACCESS_EMAIL_HEADERS) || devEmail(env);
-  const jwtPresent = Boolean(firstHeader(request, ACCESS_JWT_HEADERS));
+  const jwtAssertion = firstHeader(request, ACCESS_JWT_HEADERS);
+  const jwtPresent = Boolean(jwtAssertion);
+  const email = firstHeader(request, ACCESS_EMAIL_HEADERS)
+    || emailFromAccessJwt(jwtAssertion)
+    || devEmail(env);
   const allowlist = parseList(env.CIVGRAPH_CONTRIBUTORS || env.CONTRIBUTOR_EMAILS || env.BROWSE_CONTRIBUTORS);
   const adminList = parseList(env.CIVGRAPH_ADMINS || env.CONTRIBUTOR_ADMINS || env.BROWSE_ADMINS);
   const normalizedEmail = normalizeEmail(email);
@@ -147,9 +150,54 @@ export function sanitizeAuth(auth) {
     allowlistConfigured: auth.allowlistConfigured,
     contributorCount: auth.contributorCount,
     adminCount: auth.adminCount,
+    // Diagnostic. Distinguishes "Access is not in front of this route" from
+    // "Access authenticated the caller but no identity could be read", which
+    // otherwise look identical from outside and cost an afternoon on 2026-08-15.
+    accessJwtPresent: auth.accessJwtPresent,
     loginUrl: auth.loginUrl,
     logoutUrl: auth.logoutUrl
   };
+}
+
+/**
+ * Read the email claim out of the Access JWT.
+ *
+ * WHY THIS IS NEEDED AT ALL
+ *
+ * On 2026-08-15, with Access live and a valid session, /_api/contributions/whoami
+ * returned 200 (so the request had passed Access) with authenticated:false --
+ * because CF-Access-Authenticated-User-Email was not present on the request.
+ * Access forwards identity as a signed JWT in Cf-Access-Jwt-Assertion whether or
+ * not it also sets the convenience header, so the JWT is the reliable source.
+ *
+ * WHY THE SIGNATURE IS NOT VERIFIED
+ *
+ * The same reason the email header was trusted before it: Cloudflare strips
+ * client-supplied CF-Access-* headers at the edge. That was verified by
+ * experiment on 2026-08-13 -- sending CF-Access-Authenticated-User-Email by hand
+ * to both civgraph.net and boundaries-website.pages.dev produced
+ * authenticated:false, source "anonymous". A caller cannot forge either header,
+ * so decoding is no weaker than the arrangement it replaces.
+ *
+ * That said, it IS a trust assumption about Cloudflare's behaviour rather than
+ * something this code checks. If these endpoints ever become reachable other
+ * than through Cloudflare -- a different host, a tunnel, a proxy in front --
+ * verify the signature against the team's public keys at
+ * https://<team>.cloudflareaccess.com/cdn-cgi/access/certs before trusting it.
+ */
+function emailFromAccessJwt(assertion) {
+  if (!assertion) return null;
+  const parts = String(assertion).split('.');
+  if (parts.length < 2) return null;
+  try {
+    // base64url -> base64, then decode. atob is available in Workers.
+    const padded = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+    const payload = JSON.parse(atob(padded + '='.repeat((4 - (padded.length % 4)) % 4)));
+    const value = payload?.email || payload?.identity?.email || null;
+    return typeof value === 'string' && value.includes('@') ? value : null;
+  } catch {
+    return null;
+  }
 }
 
 function firstHeader(request, names) {
