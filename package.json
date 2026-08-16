@@ -107,7 +107,9 @@
     "check:browse-cache": "node scripts/validate-browse-cache-tokens.mjs --check",
     "build:browse-cache": "node scripts/validate-browse-cache-tokens.mjs",
     "contributions:probe": "node scripts/fetch-submission-attachments.mjs --probe",
-    "contributions:fetch": "node scripts/fetch-submission-attachments.mjs --fetch"
+    "contributions:fetch": "node scripts/fetch-submission-attachments.mjs --fetch",
+    "inspect:fgb": "node scripts/inspect-fgb.mjs",
+    "diff:fgb": "node scripts/diff-fgb.mjs"
   },
   "devDependencies": {
     "@aws-sdk/client-s3": "^3.1104.0",
