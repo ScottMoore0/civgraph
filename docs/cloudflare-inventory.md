@@ -298,24 +298,34 @@ byte-correct, and stayed invisible to the contributor who supplied them.
 Staleness scaled with how long the file had been stable, so the cache failed
 worst exactly where a correction mattered most.
 
-    Now set on data/maps/*.{fgb,gz,br}   public, max-age=3600, stale-while-revalidate=86400
-    Objects updated                      10,917
-    Objects deliberately NOT updated     1,210,103   (1,207,367 of them .png tiles)
+    Set on every non-tile object under data/maps/
+      value                              public, max-age=3600, stale-while-revalidate=86400
+      objects covered                    13,653   (fgb, gz, br, pbf, pmtiles, webp,
+                                                   geojson, json, txt, zip, kml, jpg, csv, pdf)
+      objects deliberately left alone    1,207,367  .png raster tiles
 
-`scripts/set-r2-cache-control.mjs` did this and can redo it.
+`scripts/set-r2-cache-control.mjs` did this and can redo it; it is idempotent,
+and re-running reports `already correct` rather than rewriting. Use
+`--exclude-ext png` to sweep everything that is not a raster tile, which also
+catches extensions nobody thought to list — that is how the last 37 objects
+(`.kml`, `.csv`, `.pdf`, `.jpg`) were found after two runs had reported success.
 
 **The PNG tiles do NOT need this treatment**, and an earlier version of this
 section wrongly said they did. They are already on the cacheable-extension path:
-4 hours of browser freshness and a genuine edge `HIT`, so every tile request does
-*not* reach R2. Rewriting metadata on 1.2M objects would cost ~2.4M API calls to
+4 hours of browser freshness and a genuine edge `HIT`, so a tile request does
+*not* reach R2. Rewriting metadata on 1.2M objects would be ~2.4M API calls to
 change nothing that matters, and a Cache Rule to "fix" them would be solving a
 problem they do not have.
 
-**What is still exposed** is the rest of the non-cacheable-extension set —
-`.geojson` (193 objects, confirmed still bare), and probably `.json` (44) and
-`.pbf` (999), unverified. About 1,200 objects, minutes of work, worth doing when
-convenient. Anything Cloudflare will not cache by extension needs its
-`Cache-Control` set on the object, because nothing else will supply one.
+**Do not switch the zone to "Respect Existing Headers."** It looks like the
+principled choice — it would make object metadata authoritative instead of a
+dashboard setting — but it would strip the injected 4 hours from all 1,207,367
+tiles, converting a non-problem into a mandatory 1.2M-object backfill.
+
+Verified after the rewrite: `Content-Type` preserved, `Accept-Ranges` preserved,
+a `.pmtiles` still answers a range request with `206` and the correct
+`Content-Range`, a rewritten `.fgb.gz` still passes `gzip -t` with the FGB magic
+intact, and every ETag survived, so the cache tokens still match.
 
 A second defence sits in the catalogue: `scripts/stamp-map-cache-tokens.mjs`
 appends `?v=<R2 ETag>` to corrected layer URLs, so a changed file gets a changed

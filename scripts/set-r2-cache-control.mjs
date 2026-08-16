@@ -112,7 +112,20 @@ const argv = process.argv.slice(2);
 const APPLY = argv.includes('--apply');
 const prefixArg = argv[argv.indexOf('--prefix') + 1];
 const PREFIX = argv.includes('--prefix') && prefixArg ? prefixArg : 'data/maps/';
-const extArg = argv.includes('--ext') ? String(argv[argv.indexOf('--ext') + 1] || '') : 'fgb,gz,br';
+// The complement of --ext. `--exclude-ext png` is the useful form: it sweeps
+// everything that is not a raster tile, including extensions nobody thought to
+// list, which is how the last 31 objects (.kml, .csv, .pdf, .jpg) surfaced.
+const exclArg = argv.includes('--exclude-ext') ? String(argv[argv.indexOf('--exclude-ext') + 1] || '') : '';
+const EXCLUDED = new Set(exclArg.split(',').map((e) => e.trim().toLowerCase()).filter(Boolean));
+
+// Giving --exclude-ext without --ext has to mean "everything except these".
+// It did not on the first attempt: the fgb,gz,br default still applied, so the
+// run silently re-checked the same 10,917 objects and reported success while
+// covering none of what was asked for. An allowlist default that survives an
+// explicit denylist is a filter that lies about its own scope.
+const extArg = argv.includes('--ext')
+  ? String(argv[argv.indexOf('--ext') + 1] || '')
+  : (EXCLUDED.size ? '*' : 'fgb,gz,br');
 const EXTENSIONS = extArg === '*' ? null : new Set(extArg.split(',').map((e) => e.trim().toLowerCase()).filter(Boolean));
 
 function extensionOf(key) {
@@ -209,7 +222,8 @@ let inFlight = [];
 for await (const obj of listAll(PREFIX)) {
   stats.listed += 1;
   const ext = extensionOf(obj.Key);
-  if (EXTENSIONS && !EXTENSIONS.has(ext)) {
+  const outOfScope = (EXTENSIONS && !EXTENSIONS.has(ext)) || EXCLUDED.has(ext);
+  if (outOfScope) {
     skippedByExt.set(ext || '(none)', (skippedByExt.get(ext || '(none)') || 0) + 1);
     continue;
   }
@@ -228,12 +242,19 @@ if (stats.tooLarge) console.log(`  too large to copy : ${stats.tooLarge}`);
 if (stats.failed) console.log(`  failed            : ${stats.failed}`);
 
 // Say what was left out. A scope limit nobody can see reads as coverage.
+//
+// The heading used to read "still with no Cache-Control", which was wrong the
+// moment a second run happened: it listed .fgb/.gz/.br as bare when the previous
+// run had just set them. Out of scope for THIS run is all this can honestly
+// claim -- whether an object has the header is a question about the object, and
+// this loop deliberately never looked.
 if (skippedByExt.size) {
-  const top = [...skippedByExt.entries()].sort((a, b) => b[1] - a[1]).slice(0, 8);
-  console.log('\n  SKIPPED, still with no Cache-Control:');
+  const top = [...skippedByExt.entries()].sort((a, b) => b[1] - a[1]).slice(0, 10);
+  console.log('\n  OUT OF SCOPE for this run (not checked, may or may not already be set):');
   for (const [ext, n] of top) console.log(`    .${ext.padEnd(8)} ${n}`);
   const total = [...skippedByExt.values()].reduce((a, b) => a + b, 0);
-  console.log(`    ${total} objects in total. Widen with --ext, or set a Cloudflare Cache Rule.`);
+  console.log(`    ${total} objects in total.`);
+  console.log('    Sweep everything except raster tiles with:  --exclude-ext png');
 }
 
 if (problems.length) {
