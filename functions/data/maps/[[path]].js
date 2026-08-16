@@ -13,7 +13,21 @@
  * wire to the client.
  */
 export async function onRequestGet(context) {
-    const key = `data/maps/${context.params.path.join('/')}`;
+    // decodeURIComponent, matching functions/data/browse/[[path]].js.
+    //
+    // This was missing here, and it was a real bug rather than a stylistic
+    // difference. Pages hands `context.params.path` over STILL PERCENT-ENCODED,
+    // so any key containing a space or a non-ASCII character was unreachable
+    // through this Function. Measured 2026-08-16:
+    //
+    //   civgraph.net/data/maps/physical/East%20and%20West%20of%20the%20Bann.fgb   404
+    //   data.civgraph.net/... (same key, direct)                                  200, 23 MB
+    //
+    // The malformed-input worry that kept this open is not reachable: Cloudflare
+    // rejects a bad percent sequence at the edge with 400 before the Function
+    // runs, so decodeURIComponent cannot throw here. Verified with
+    // /data/browse/foo%zz.json, which returns 400 rather than a 1101.
+    const key = `data/maps/${context.params.path.map(decodeURIComponent).join('/')}`;
     const accept = (context.request.headers.get('Accept-Encoding') || '').toLowerCase();
     const lowerKey = key.toLowerCase();
     const isJson = lowerKey.endsWith('.json');

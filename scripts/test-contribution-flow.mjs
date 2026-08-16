@@ -40,12 +40,27 @@ function mockKV() {
     store,
     async put(key, value, options = {}) { store.set(key, { value, metadata: options.metadata || {} }); },
     async get(key) { return store.get(key)?.value ?? null; },
-    async list({ prefix = '', limit = 1000 } = {}) {
-      const keys = [...store.entries()]
+    // Paginated, like the real Workers KV binding.
+    //
+    // This used to return every matching key in one object with no `cursor` and
+    // no `list_complete`, so list.js's pagination could not be exercised at all
+    // -- the very bug being guarded against (a queue going blind past one page)
+    // was invisible to the test that covers the endpoint. A mock simpler than
+    // the API it stands in for tests only the part of the caller that never
+    // fails. Keys come back in lexicographic order, as KV returns them.
+    async list({ prefix = '', limit = 1000, cursor } = {}) {
+      const all = [...store.entries()]
         .filter(([k]) => k.startsWith(prefix))
-        .slice(0, limit)
-        .map(([name, entry]) => ({ name, metadata: entry.metadata }));
-      return { keys };
+        .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0));
+      const start = cursor ? Number(cursor) : 0;
+      const page = all.slice(start, start + limit);
+      const next = start + page.length;
+      const complete = next >= all.length;
+      return {
+        keys: page.map(([name, entry]) => ({ name, metadata: entry.metadata })),
+        list_complete: complete,
+        ...(complete ? {} : { cursor: String(next) }),
+      };
     },
   };
 }
@@ -250,6 +265,62 @@ let approvedKey = null;
   for (const input of hostile) {
     check(`login: refuses ${JSON.stringify(input)}`, safeReturnPath(input) === DEFAULT_RETURN, safeReturnPath(input));
   }
+}
+
+// --- the queue must not go blind past one KV page --------------------------
+//
+// KV lists lexicographically and the keys are submissions/YYYY-MM-DD/..., so
+// that ordering is OLDEST FIRST. list.js used to fetch a single page of 200 and
+// filter within it, so past 200 submissions the NEWEST could never appear --
+// whatever their status -- while the endpoint still answered ok:true with a
+// short list. A review queue silently ceasing to show new work.
+//
+// 250 entries is deliberately more than one page. The one that matters is the
+// last, because it is the one the old code could never reach.
+{
+  const bigQueue = mockKV();
+  for (let i = 0; i < 250; i += 1) {
+    const key = `submissions/2026-08-${String(10 + Math.floor(i / 100)).padStart(2, '0')}/sub_${String(i).padStart(4, '0')}.json`;
+    await bigQueue.put(key, JSON.stringify({ id: `sub_${i}`, status: 'pending-review' }),
+      { metadata: { kind: 'metadata-edit', status: 'pending-review', entityId: `map-${i}` } });
+  }
+  // One needle at the very end of the keyspace, past the first page.
+  const needleKey = 'submissions/2026-08-99/sub_needle.json';
+  await bigQueue.put(needleKey, JSON.stringify({ id: 'sub_needle', status: 'approved' }),
+    { metadata: { kind: 'metadata-edit', status: 'approved', entityId: 'map-needle' } });
+
+  const res = await listGet(makeContext({
+    email: OWNER, method: 'GET',
+    url: 'https://civgraph.net/_api/contributions/list?status=approved&limit=50',
+    env: { ...env, CIVGRAPH_CONTRIBUTION_QUEUE: bigQueue },
+  }));
+  const payload = await res.json();
+  check('the queue lists past the first KV page', res.status === 200, `got ${res.status}`);
+  check('a submission beyond key 200 is still found',
+    (payload.items || []).some((i) => i.key === needleKey),
+    `found ${payload.count} item(s) after scanning ${payload.scanned}`);
+  check('a complete listing says so', payload.complete === true);
+  check('the scan reached past one page', (payload.scanned || 0) > 200, `scanned ${payload.scanned}`);
+}
+
+// --- a partial listing must admit it is partial -----------------------------
+{
+  const bigQueue = mockKV();
+  for (let i = 0; i < 300; i += 1) {
+    await bigQueue.put(`submissions/2026-08-10/sub_${String(i).padStart(4, '0')}.json`,
+      JSON.stringify({ id: `sub_${i}`, status: 'pending-review' }),
+      { metadata: { kind: 'metadata-edit', status: 'pending-review', entityId: `map-${i}` } });
+  }
+  const res = await listGet(makeContext({
+    email: OWNER, method: 'GET',
+    url: 'https://civgraph.net/_api/contributions/list?status=pending-review&limit=10',
+    env: { ...env, CIVGRAPH_CONTRIBUTION_QUEUE: bigQueue },
+  }));
+  const payload = await res.json();
+  check('a truncated listing returns the asked-for page', payload.count === 10);
+  check('a truncated listing does NOT claim to be complete', payload.complete === false,
+    `complete=${payload.complete}`);
+  check('a truncated listing says so in the note', /Partial list/.test(payload.note || ''));
 }
 
 // --- no queue configured ---------------------------------------------------
