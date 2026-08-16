@@ -263,45 +263,68 @@ origin, and checks that a missing key 404s rather than returning `index.html` at
 200. It is network-dependent, so it is deliberately not in `npm run check`. **Run
 it after any deploy that moves data to R2.**
 
-### The custom domain is a different story, added 2026-08-16
+### The custom domain, `data.civgraph.net` — added 2026-08-16
 
 The table above is the **Pages Function** path. Most map data is not fetched that
 way: the catalogue points at `data.civgraph.net` directly, which is the R2 custom
-domain and never touches a Function. Until 2026-08-16 that path sent **no
-`Cache-Control` header at all**.
+domain and never touches a Function. Its cache behaviour is not uniform, and the
+split is the important part.
 
-Absent is the worst value it could have. It does not mean "do not cache" — it
-hands the decision to the browser's heuristic, commonly 10% of the document's
-age. Map objects carried `Last-Modified` dates in early April, about 133 days
-back, which bought roughly **thirteen days** of freshness with no revalidation.
-That is how five corrected Local Authority layers went live on 2026-08-16,
-verified byte-correct at the edge, and stayed invisible to the contributor who
-supplied them. Note the shape of it: staleness scaled with how long the file had
-been stable, so the cache failed worst exactly where a correction mattered most.
+**MEASURE THIS WITH `GET`, NEVER `HEAD`.** Cloudflare does not apply its cache
+layer to `HEAD`, so `curl -I` shows a *different and misleading* set of headers.
+The first diagnosis of the 2026-08-16 incident was made this way and had to be
+redone twice. Use `curl -s -o /dev/null -D - <url>`.
+
+Measured 2026-08-16 with `GET`:
+
+| Extension | Cloudflare treats as cacheable | `Cache-Control` seen | `cf-cache-status` |
+|---|---|---|---|
+| `.png` (raster tiles) | yes | `max-age=14400` — injected by the zone | `HIT` |
+| `.gz` | yes | `max-age=14400` — injected by the zone | `HIT` |
+| `.fgb` | **no** | **none at all** before 2026-08-16 | `DYNAMIC` |
+| `.geojson` | **no** | **none at all**, still | `DYNAMIC` |
+
+There is a zone-level **Browser Cache TTL of 4 hours** that is not in the
+repository and was not previously recorded anywhere. It only reaches responses
+Cloudflare already considers cacheable by extension. Everything else gets no
+`Cache-Control` whatsoever and is never edge-cached.
+
+Absent is the worst value available. It does not mean "do not cache" — it hands
+the decision to the browser's heuristic, commonly 10% of the document's age.
+`.fgb` objects carried `Last-Modified` dates in early April, ~133 days back,
+buying roughly **thirteen days** of freshness with no revalidation. That is how
+five corrected Local Authority layers went live on 2026-08-16, verified
+byte-correct, and stayed invisible to the contributor who supplied them.
+Staleness scaled with how long the file had been stable, so the cache failed
+worst exactly where a correction mattered most.
 
     Now set on data/maps/*.{fgb,gz,br}   public, max-age=3600, stale-while-revalidate=86400
     Objects updated                      10,917
     Objects deliberately NOT updated     1,210,103   (1,207,367 of them .png tiles)
 
-`scripts/set-r2-cache-control.mjs` did this and can redo it. It is scoped to the
-catalogue geometry family on purpose: `data/maps/` holds 1,221,020 objects and
-48.2 GB, and rewriting metadata on all of them is ~2.4 million API calls for
-tiles that are regenerated wholesale rather than corrected in place, and which
-want *longer* caching, not shorter.
+`scripts/set-r2-cache-control.mjs` did this and can redo it.
 
-**The tiles therefore still have no `Cache-Control`.** The right fix for them is
-a Cloudflare **Cache Rule with a Browser TTL** on the `data.civgraph.net` zone,
-which covers all 1.2M at once with no R2 operations. That is dashboard-only
-configuration, so it is recorded here as an open decision rather than done from a
-script.
+**The PNG tiles do NOT need this treatment**, and an earlier version of this
+section wrongly said they did. They are already on the cacheable-extension path:
+4 hours of browser freshness and a genuine edge `HIT`, so every tile request does
+*not* reach R2. Rewriting metadata on 1.2M objects would cost ~2.4M API calls to
+change nothing that matters, and a Cache Rule to "fix" them would be solving a
+problem they do not have.
+
+**What is still exposed** is the rest of the non-cacheable-extension set —
+`.geojson` (193 objects, confirmed still bare), and probably `.json` (44) and
+`.pbf` (999), unverified. About 1,200 objects, minutes of work, worth doing when
+convenient. Anything Cloudflare will not cache by extension needs its
+`Cache-Control` set on the object, because nothing else will supply one.
 
 A second defence sits in the catalogue: `scripts/stamp-map-cache-tokens.mjs`
 appends `?v=<R2 ETag>` to corrected layer URLs, so a changed file gets a changed
 URL and no cache anywhere can serve the old bytes. `npm run verify:map-tokens`
 fails if a file is re-uploaded without restamping. Header policy bounds how long
 a mistake lasts; the token removes the wait entirely. Measured 2026-08-16: R2
-preserved every ETag across the 10,917 metadata rewrites, so the existing tokens
-stayed valid.
+preserved every ETag across the 10,917 metadata rewrites, so the tokens stayed
+valid. A query string does not affect any of this — the same object is `DYNAMIC`
+with and without one, because `.fgb` is not a cacheable extension either way.
 
 ## What is still undocumented
 

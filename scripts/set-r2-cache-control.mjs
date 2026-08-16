@@ -55,25 +55,34 @@
  *   node scripts/stamp-map-cache-tokens.mjs --write
  *   npm run build:catalogue-d1   (and load it into D1)
  *
+ * MEASURE WITH GET, NOT HEAD
+ *
+ * Cloudflare does not run its cache layer on HEAD, so `curl -I` reports a
+ * different and misleading set of headers. The 2026-08-16 diagnosis was made
+ * that way and had to be corrected twice. Use:
+ *
+ *   curl -s -o /dev/null -D - <url>
+ *
  * WHY THIS DOES NOT TOUCH THE WHOLE PREFIX
  *
- * data/maps/ holds 1,221,020 objects and 48.2 GB. 1,207,367 of them are PNG
- * raster tiles; only 6,489 are FGB. Rewriting metadata on all of them is roughly
- * 2.4 million API calls and many hours, and it would be the wrong thing anyway:
- * a tile pyramid is regenerated wholesale rather than corrected in place, so
- * tiles want LONGER caching, not shorter. They are not the class that failed.
+ * data/maps/ holds 1,221,020 objects and 48.2 GB, of which 1,207,367 are PNG
+ * raster tiles and only 6,489 are FGB. The tiles DO NOT NEED THIS. Measured with
+ * GET, a tile already returns `Cache-Control: max-age=14400` -- injected by a
+ * zone-level Browser Cache TTL -- and `cf-cache-status: HIT`, so it is both
+ * cached in the browser and served from the edge without reaching R2.
  *
- * So the default is the catalogue geometry family -- fgb and its precompressed
- * .gz/.br siblings, which the Pages proxy serves in its place and which would go
- * stale identically. About 11,000 objects. Everything skipped is counted and
- * reported by extension, because a scope limit nobody can see reads as coverage
- * nobody has.
+ * That zone setting only reaches responses Cloudflare already considers
+ * cacheable by extension. `.png` and `.gz` qualify. `.fgb` and `.geojson` do
+ * not: they returned NO Cache-Control at all and `DYNAMIC`, which is the gap
+ * this script closes. Anything Cloudflare will not cache by extension must carry
+ * its own Cache-Control, because nothing else will supply one.
  *
- * A Cloudflare Cache Rule with a Browser TTL would cover all 1.2M at once
- * without any R2 operations, and is the better long-term answer for the tiles.
- * It lives in the dashboard rather than the repo, so it is a decision to take
- * deliberately and record in docs/cloudflare-inventory.md, not something to do
- * from a script.
+ * So the default is the catalogue geometry family -- fgb plus its precompressed
+ * .gz/.br siblings. Everything skipped is counted and reported by extension,
+ * because a scope limit nobody can see reads as coverage nobody has. The
+ * remaining genuinely-bare objects are the non-cacheable extensions in that
+ * skipped list (.geojson confirmed, .json and .pbf likely), roughly 1,200
+ * objects -- worth a run with --ext when convenient.
  *
  * Usage:
  *   set -a; . ./.env.local; set +a
