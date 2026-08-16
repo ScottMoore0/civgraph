@@ -1,4 +1,5 @@
-import { jsonResponse, requireAdmin } from '../_auth.js';
+import { jsonResponse, jsonNotAllowed, requireAdmin } from '../_auth.js';
+import { methodGuard } from '../_method.js';
 
 /**
  * List queued contributions. Administrators only.
@@ -66,9 +67,4 @@ export async function onRequestGet(context) {
   });
 }
 
-export async function onRequest(context) {
-  if (context.request.method !== 'GET') {
-    return jsonResponse({ ok: false, error: 'Method Not Allowed' }, { status: 405, headers: { Allow: 'GET' } });
-  }
-  return onRequestGet(context);
-}
+export const onRequest = methodGuard('GET', onRequestGet, jsonNotAllowed);

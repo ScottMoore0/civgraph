@@ -1,3 +1,5 @@
+import { methodGuard } from '../_method.js';
+
 /**
  * Sign-in entry point. Exists only to be BEHIND Access.
  *
@@ -63,9 +65,4 @@ export async function onRequestGet(context) {
   });
 }
 
-export async function onRequest(context) {
-  if (context.request.method !== 'GET') {
-    return new Response('Method Not Allowed', { status: 405, headers: { Allow: 'GET' } });
-  }
-  return onRequestGet(context);
-}
+export const onRequest = methodGuard('GET', onRequestGet);

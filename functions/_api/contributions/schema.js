@@ -1,4 +1,5 @@
-import { jsonResponse } from '../_auth.js';
+import { jsonResponse, jsonNotAllowed } from '../_auth.js';
+import { methodGuard } from '../_method.js';
 import { describeSchema, VALID_KINDS } from './_schema.js';
 
 /**
@@ -49,9 +50,4 @@ export async function onRequestGet() {
   }, { headers: { 'Cache-Control': 'no-cache' } });
 }
 
-export async function onRequest(context) {
-  if (context.request.method !== 'GET') {
-    return jsonResponse({ ok: false, error: 'Method Not Allowed' }, { status: 405, headers: { Allow: 'GET' } });
-  }
-  return onRequestGet(context);
-}
+export const onRequest = methodGuard('GET', onRequestGet, jsonNotAllowed);

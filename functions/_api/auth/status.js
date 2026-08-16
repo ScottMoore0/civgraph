@@ -1,4 +1,5 @@
-import { getContributorAuth, jsonResponse, sanitizeAuth } from '../_auth.js';
+import { getContributorAuth, jsonResponse, jsonNotAllowed, sanitizeAuth } from '../_auth.js';
+import { methodGuard } from '../_method.js';
 
 export async function onRequestGet(context) {
   const auth = getContributorAuth(context);
@@ -14,9 +15,4 @@ export async function onRequestGet(context) {
   });
 }
 
-export async function onRequest(context) {
-  if (context.request.method !== 'GET') {
-    return jsonResponse({ ok: false, error: 'Method Not Allowed' }, { status: 405, headers: { Allow: 'GET' } });
-  }
-  return onRequestGet(context);
-}
+export const onRequest = methodGuard('GET', onRequestGet, jsonNotAllowed);

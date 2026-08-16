@@ -1,4 +1,5 @@
-import { jsonResponse, requireAdmin } from '../_auth.js';
+import { jsonResponse, jsonNotAllowed, requireAdmin } from '../_auth.js';
+import { methodGuard } from '../_method.js';
 
 /**
  * Record an approve/reject decision on a queued contribution. Administrators only.
@@ -104,9 +105,4 @@ export async function onRequestPost(context) {
   });
 }
 
-export async function onRequest(context) {
-  if (context.request.method !== 'POST') {
-    return jsonResponse({ ok: false, error: 'Method Not Allowed' }, { status: 405, headers: { Allow: 'POST' } });
-  }
-  return onRequestPost(context);
-}
+export const onRequest = methodGuard('POST', onRequestPost, jsonNotAllowed);

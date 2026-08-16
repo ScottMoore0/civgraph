@@ -1,3 +1,5 @@
+import { methodGuard } from './_method.js';
+
 /**
  * Real-user monitoring endpoint — receives Core Web Vitals beacons.
  *
@@ -56,9 +58,4 @@ export async function onRequestPost(context) {
 }
 
 // Reject everything except POST so the route isn't probe-able.
-export async function onRequest(context) {
-    if (context.request.method !== 'POST') {
-        return new Response('Method Not Allowed', { status: 405, headers: { Allow: 'POST' } });
-    }
-    return onRequestPost(context);
-}
+export const onRequest = methodGuard('POST', onRequestPost);
