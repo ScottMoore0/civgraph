@@ -40,8 +40,26 @@ const LIST = argv.includes('--list');
 const APPLY_ALL = argv.includes('--apply-all-approved');
 const ids = argv.filter((a, i) => argv[i - 1] === '--apply' || (i > 0 && !a.startsWith('--') && argv.slice(0, i).includes('--apply')));
 
+// Invoking npx on Windows takes two accommodations, both discovered by this
+// failing on 2026-08-16 -- the first time anyone actually ran it:
+//
+//   ENOENT  a bare 'npx' does not resolve, because execFileSync does not apply
+//           PATHEXT and the real file is npx.cmd;
+//   EINVAL  Node 20+ then refuses to spawn a .cmd directly at all (the fix for
+//           CVE-2024-27980), so it has to go through a shell.
+//
+// wrangler is not a local dependency -- there is no node_modules/wrangler -- so
+// calling its entry point with process.execPath, which would avoid shells
+// entirely, is not available. Every argument here is a literal in this file; no
+// caller-supplied value reaches the command line.
+const IS_WINDOWS = process.platform === 'win32';
+
 function wrangler(args) {
-  return execFileSync('npx', ['wrangler', ...args], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+  return execFileSync(IS_WINDOWS ? 'npx.cmd' : 'npx', ['wrangler', ...args], {
+    encoding: 'utf8',
+    maxBuffer: 64 * 1024 * 1024,
+    shell: IS_WINDOWS,
+  });
 }
 
 function listQueue() {

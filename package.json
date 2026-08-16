@@ -105,7 +105,9 @@
     "contributions:apply": "node scripts/apply-contributions.mjs",
     "check:contributions": "node scripts/test-contribution-schema.mjs && node scripts/test-contribution-flow.mjs",
     "check:browse-cache": "node scripts/validate-browse-cache-tokens.mjs --check",
-    "build:browse-cache": "node scripts/validate-browse-cache-tokens.mjs"
+    "build:browse-cache": "node scripts/validate-browse-cache-tokens.mjs",
+    "contributions:probe": "node scripts/fetch-submission-attachments.mjs --probe",
+    "contributions:fetch": "node scripts/fetch-submission-attachments.mjs --fetch"
   },
   "devDependencies": {
     "@aws-sdk/client-s3": "^3.1104.0",
