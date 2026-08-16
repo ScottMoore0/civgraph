@@ -1,9 +1,18 @@
 # Technical debt audit
 
-> **Status: point-in-time audit — 2026-08-16. Proposals only; nothing here has
-> been applied.** Findings are scored against `docs/CIVGRAPH_PRINCIPLES.md`.
-> Verify each item before acting: several neighbouring items were fixed during
-> the week this was written, and this document will age the same way.
+> **Status: point-in-time audit — 2026-08-16, partially applied.** Findings are
+> scored against `docs/CIVGRAPH_PRINCIPLES.md`. Verify each item before acting:
+> several were fixed the same week this was written, and this document will age
+> the same way.
+>
+> **Item 4 was factually wrong and has been rewritten** — see the note on it.
+> That is worth reading before trusting anything else here: it was caught by a
+> separate review pass, not by re-reading this file, and an audit is exactly the
+> kind of document whose errors get inherited rather than checked.
+>
+> Applied since writing: items 1, 2, 3 and 5 (elections schema recorded, deploy
+> watcher no longer reports green when unconfigured, Node pinned, `labelProperty`
+> set). Item 12 landed with the simplification merge.
 
 Scope: the GitHub repository and the Cloudflare deployment. Written to be
 synthesised with other review outputs into a single remediation plan.
@@ -30,7 +39,7 @@ is the useful output, not the arithmetic.
 | 1 | Elections D1 has no schema in the repo | Architecture | 3 | 4 | 1 | **35** |
 | 2 | No deploy failure alerting | Infrastructure | 2 | 4 | 1 | **30** |
 | 3 | No Node version pinned | Dependency | 2 | 3 | 1 | **25** |
-| 4 | `src/` mixes live and dead code | Architecture | 4 | 2 | 2 | **24** |
+| 4 | `src/` is the least-understood directory in the repo | Architecture | 4 | 2 | 2 | **24** |
 | 5 | `labelProperty` unset on 4 published layers | Code | 2 | 2 | 1 | **20** |
 | 6 | `.git` is 5.86 GiB | Infrastructure | 3 | 3 | 3 | **18** |
 | 7 | `proni-roots.json` has no generator | Architecture | 2 | 4 | 3 | **18** |
@@ -92,21 +101,56 @@ to compile on the runner.
 *Proposal:* add `engines.node` and `.nvmrc`. Under an hour, and it converts a
 class of confusing runtime failure into an install-time error.
 
-### 4. `src/` mixes live and dead code — 24
+### 4. `src/` is the least-understood directory in the repository — 24
 
-Sixteen tracked files, all served at HTTP 200. `src/ui-controller.js` is the dead
-Leaflet stack; `src/data-service.js` is live and was edited this week for the D1
-catalogue cutover. A newcomer cannot tell which is which, and the directory name
-suggests it is the source of the site — which it is not; `app/src/` is.
+> **Corrected 2026-08-16.** This item previously read *"`src/` mixes live and
+> dead code"* and asserted that `src/ui-controller.js` was the dead Leaflet
+> stack. Both halves were false, and the remediation that followed from them was
+> wrong. `docs/review/CODE-REVIEW.md` finding 3 caught it. The original text is
+> in git history; what follows replaces it.
 
-Violates **principle 15** (optimise for the cold reader) more sharply than
-anything else in this list. It is the single most misleading thing in the
-repository for someone arriving fresh.
+Nothing in `src/` is dead. Measured:
 
-*Proposal:* split. Live modules into `app/src/` or a clearly named shared
-directory; genuinely dead modules archived and removed from the deploy. Verify
-with a real browser, not static analysis — `docs/src-orphan-runtime-check.md`
-records why.
+    src/ (excluding vendored libs)   36,028 lines across 14 files
+    src/ui-controller.js             11,620 lines — the largest hand-written
+                                     file in the repository
+    Leaflet references in src/       2, both in feature-loader.js
+
+`app/src/app.js` imports `ui-controller.js` on line 3 and drives it throughout —
+`uiController.init()`, feature-info display, split-pane state, catalogue
+rendering, the entire election wiring block. It is not merely live; it is the
+UI layer of the public homepage.
+
+The real problem is narrower than the one recorded, and worse in one respect.
+A directory named `src/` sitting at the repository root reads as *the source of
+the site*. It is not: the site is built from `app/src/`. Yet `src/` holds the
+largest live modules in the project, and two separate documents described it as
+dead — this audit and the ESLint config, which excluded it *on that basis*, so
+36,028 lines of load-bearing code went unlinted for as long as the belief
+survived.
+
+That is principle 15 failing in the way that costs most: not a confusing name on
+its own, but a confusing name that everyone downstream then reasons from.
+
+*Already done:* the ESLint exclusion is lifted (`src/` is linted as of
+2026-08-16 — 32 warnings, zero errors), and `CODE-REVIEW.md` finding 2 records
+the measurement.
+
+*Proposal, in cost order:*
+
+1. A `src/README.md`, twenty lines, stating what the directory is, what imports
+   it, and that it is neither dead nor the site's entry point. This removes most
+   of the confusion for the price of an afternoon and should not wait for 2.
+2. Rename or relocate so the name stops lying. This invalidates clones and
+   touches every import, so it belongs with the other deferred rename rather
+   than on its own.
+3. Separately: `src/jquery-shim.js` is 556 lines emulating jQuery so that older
+   DOM code in `app/src/election-manager.js` need not be rewritten. That is real
+   debt, but it is a rewrite of the call sites rather than a directory question,
+   and it should be its own item rather than smuggled in here.
+
+Verify any of this with a real browser, not static analysis —
+`docs/src-orphan-runtime-check.md` records why.
 
 ### 5. `labelProperty` unset on four published layers — 20
 

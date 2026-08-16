@@ -42,6 +42,11 @@ if (!ACCESS_KEY_ID || !SECRET_ACCESS_KEY || !ENDPOINT) {
     process.exit(1);
 }
 
+// Kept identical to scripts/set-r2-cache-control.mjs. If you change one, change
+// both -- objects uploaded after a divergence would quietly differ from the ones
+// backfilled before it, and nothing downstream would notice.
+const CACHE_CONTROL = 'public, max-age=3600, stale-while-revalidate=86400';
+
 const s3 = new S3Client({
     region: 'auto',
     endpoint: ENDPOINT,
@@ -98,6 +103,23 @@ async function uploadOne(localPath, stats) {
         Key: key,
         Body: body,
         ContentType: ct,
+        // Set at upload so new objects arrive correct rather than needing a
+        // sweep. Nothing set this until 2026-08-16, and the consequence was that
+        // data.civgraph.net served objects with NO Cache-Control at all --
+        // which does not mean "do not cache", it hands the decision to the
+        // browser's heuristic, roughly 10% of the file's age. On four-month-old
+        // objects that bought about thirteen days of not even revalidating, and
+        // it is how a corrected boundary layer went live byte-verified and
+        // stayed invisible to the contributor who supplied it.
+        //
+        // Same value scripts/set-r2-cache-control.mjs backfilled onto the
+        // existing 13,653 non-tile objects; keep the two in step.
+        //
+        // Note this only matters for extensions Cloudflare does not already
+        // treat as cacheable. A .png tile gets a zone-level 4-hour Browser Cache
+        // TTL and an edge HIT regardless; a .fgb or .pmtiles gets nothing unless
+        // it carries its own header.
+        CacheControl: CACHE_CONTROL,
     }));
     stats.uploaded++;
     stats.done++;
