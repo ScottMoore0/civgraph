@@ -102,6 +102,8 @@
     "check:notices": "node scripts/build-third-party-notices.mjs --check",
     "verify:proxies": "node scripts/verify-proxy-serving.mjs",
     "verify:map-tokens": "node scripts/stamp-map-cache-tokens.mjs --check",
+    "r2:cache-control": "node scripts/set-r2-cache-control.mjs",
+    "contributions:mark-applied": "node scripts/apply-contributions.mjs --mark-applied",
     "verify": "npm run verify:proxies && npm run verify:map-tokens",
     "contributions:list": "node scripts/apply-contributions.mjs --list",
     "contributions:apply": "node scripts/apply-contributions.mjs",

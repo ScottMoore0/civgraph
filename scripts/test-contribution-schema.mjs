@@ -9,7 +9,9 @@
  * that passed for accidental reasons -- a parity check that could not fail, and
  * a budget check measuring the wrong set.
  */
+import { readFileSync } from 'node:fs';
 import { dryRunPatch, EDITABLE_FIELDS, VALID_KINDS, describeSchema } from '../functions/_api/contributions/_schema.js';
+import { canMarkApplied, TERMINAL_STATUS } from './apply-contributions.mjs';
 
 let passed = 0;
 const failures = [];
@@ -141,6 +143,21 @@ check('retire is a valid kind', VALID_KINDS.has('retire'));
 check('map fields exclude id, slug, files and style',
   !EDITABLE_FIELDS.map.has('id') && !EDITABLE_FIELDS.map.has('slug')
   && !EDITABLE_FIELDS.map.has('files') && !EDITABLE_FIELDS.map.has('style'));
+
+// --- the queue's terminal state --------------------------------------------
+//
+// "approved" used to be the last status a submission could reach, so --list
+// reported five already-published layers as outstanding work, indefinitely.
+// These assert the transition rule rather than the plumbing: the plumbing needs
+// KV, the rule is what can silently go wrong.
+check('an approved submission can be marked applied', canMarkApplied('approved').ok);
+check('a pending submission cannot be marked applied', !canMarkApplied('pending-review').ok);
+check('a rejected submission cannot be marked applied', !canMarkApplied('rejected').ok);
+check('marking an applied submission again is refused', !canMarkApplied(TERMINAL_STATUS).ok);
+check('the refusal says why', /only an approved submission/.test(canMarkApplied('pending-review').reason || ''));
+check('applied is not a decision the web endpoint can set',
+  !/applied/.test(readFileSync(new URL('../functions/_api/contributions/decide.js', import.meta.url), 'utf8')
+    .match(/const VALID_DECISIONS[^;]+;/)?.[0] || 'applied'));
 
 if (failures.length) {
   console.error(`FAIL: ${failures.length} of ${passed + failures.length} contribution schema checks failed:`);

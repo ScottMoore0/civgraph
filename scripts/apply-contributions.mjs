@@ -20,24 +20,68 @@
  * Nothing here writes to R2, D1 or main. It edits working-tree files on a new
  * branch, runs the validators, and stops.
  *
+ * THE QUEUE NEEDS A TERMINAL STATE, AND THIS IS IT
+ *
+ * Until 2026-08-16 "approved" was the last status a submission could reach. Two
+ * consequences, and the second one cost a support round trip:
+ *
+ *   - This script REFUSES kind "map-submission" on purpose -- turning one into a
+ *     layer needs a licence determination, conversion and tiling, none of which
+ *     can be done mechanically. So those never advanced past approved even after
+ *     the work was finished by hand.
+ *   - Even for the kinds it does handle, it stops at a branch. Nothing marked a
+ *     submission done once that branch was merged.
+ *
+ * So --list reported "5 approved and not yet applied" for five layers that had
+ * been corrected, uploaded, and byte-verified at the edge nine hours earlier.
+ * The queue said the opposite of the truth, and it was going to say it forever.
+ *
+ * `--mark-applied` closes that. It is deliberately a separate, explicit step
+ * rather than something the apply path does for you: at the moment this script
+ * finishes, the change is a branch nobody has merged, and calling that "applied"
+ * would replace one lie with another. Mark it after the merge, or after doing
+ * the work by hand -- which is the only route a map-submission has.
+ *
  * Usage:
  *   node scripts/apply-contributions.mjs --list
  *   node scripts/apply-contributions.mjs --apply <submission-id> [<id>...]
  *   node scripts/apply-contributions.mjs --apply-all-approved
  *   node scripts/apply-contributions.mjs --apply <id> --dry-run
+ *   node scripts/apply-contributions.mjs --mark-applied <id> --note "what was done"
  *
  * Requires wrangler auth for KV access (the queue is not readable anonymously).
  */
 import { execFileSync } from 'node:child_process';
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 
 const CATALOGUE = 'data/database/maps.json';
 const KV_BINDING = 'CIVGRAPH_CONTRIBUTION_QUEUE';
+
+/**
+ * The only legal status transitions.
+ *
+ * Exported and pure so the offline schema test can assert them without a queue,
+ * a network or wrangler auth. The rule that matters is that `applied` is
+ * reachable ONLY from `approved`: marking a pending submission applied would
+ * skip review entirely, and marking a rejected one applied would record that
+ * something refused had been enacted.
+ */
+export const TERMINAL_STATUS = 'applied';
+
+export function canMarkApplied(status) {
+  if (status === 'approved') return { ok: true };
+  if (status === TERMINAL_STATUS) return { ok: false, reason: 'already marked applied' };
+  return { ok: false, reason: `status is "${status}"; only an approved submission can be marked applied` };
+}
 
 const argv = process.argv.slice(2);
 const DRY_RUN = argv.includes('--dry-run');
 const LIST = argv.includes('--list');
 const APPLY_ALL = argv.includes('--apply-all-approved');
+const MARK_APPLIED = argv.includes('--mark-applied');
+const markIds = argv.filter((a, i) => argv[i - 1] === '--mark-applied');
+const NOTE = argv.includes('--note') ? String(argv[argv.indexOf('--note') + 1] || '') : '';
 const ids = argv.filter((a, i) => argv[i - 1] === '--apply' || (i > 0 && !a.startsWith('--') && argv.slice(0, i).includes('--apply')));
 
 // Invoking npx on Windows takes two accommodations, both discovered by this
@@ -115,20 +159,98 @@ function planRetire(catalogue, submission) {
   return { record, changes: [{ field: 'hidden', before: record.hidden, after: true }] };
 }
 
+/**
+ * Record that an approved submission has actually been enacted.
+ *
+ * Writes the same audit shape decide.js uses -- appended, never overwritten --
+ * so "who said this was done, when, and what they did" survives.
+ */
+function markApplied(id) {
+  const keys = listQueue();
+  const matches = keys.filter((k) => k.name.includes(id));
+  if (!matches.length) { console.error(`No submission matching "${id}".`); return false; }
+  if (matches.length > 1) {
+    console.error(`"${id}" matches ${matches.length} submissions; be more specific.`);
+    return false;
+  }
+
+  const key = matches[0].name;
+  const submission = readSubmission(key);
+  const verdict = canMarkApplied(submission.status);
+  if (!verdict.ok) {
+    console.error(`REFUSED ${key}: ${verdict.reason}`);
+    return false;
+  }
+
+  submission.status = TERMINAL_STATUS;
+  submission.decisions = Array.isArray(submission.decisions) ? submission.decisions : [];
+  submission.decisions.push({
+    decision: TERMINAL_STATUS,
+    note: NOTE || 'Marked applied locally.',
+    decidedBy: 'local:apply-contributions',
+    decidedAt: new Date().toISOString(),
+  });
+
+  const metadata = {
+    kind: submission.kind,
+    entityType: submission.entityType || '',
+    entityId: submission.entityId || '',
+    submittedBy: submission.submittedBy || '',
+    status: submission.status,
+  };
+
+  // `kv key put` takes the value as a command-line argument, and a submission is
+  // multi-line JSON full of quotes and braces. On Windows every wrangler call
+  // goes through a shell (see the note on npx above), which mangles it -- the
+  // first attempt died with the JSON half-parsed as shell syntax.
+  //
+  // `kv bulk put` reads key, value AND metadata from a file, so nothing but a
+  // path crosses the command line. That also avoids `--metadata`, which has
+  // previously been given a path by mistake and silently wiped the metadata
+  // rather than complaining.
+  const payload = [{ key, value: JSON.stringify(submission, null, 2), metadata }];
+  const tmp = `tmp/kv-mark-applied-${submission.id}.json`;
+  mkdirSync('tmp', { recursive: true });
+  writeFileSync(tmp, JSON.stringify(payload));
+  try {
+    wrangler(['kv', 'bulk', 'put', tmp, '--binding', KV_BINDING, '--remote']);
+  } finally {
+    rmSync(tmp, { force: true });
+  }
+  console.log(`  ${key} -> ${TERMINAL_STATUS}`);
+  return true;
+}
+
 function main() {
   if (LIST) {
     const keys = listQueue();
     const rows = keys.map((k) => ({ key: k.name, ...(k.metadata || {}) }));
-    const approved = rows.filter((r) => r.status === 'approved');
-    console.log(`Queue: ${rows.length} submission(s); ${approved.length} approved and not yet applied.`);
+    const outstanding = rows.filter((r) => r.status === 'approved');
+    const done = rows.filter((r) => r.status === TERMINAL_STATUS);
+    console.log(`Queue: ${rows.length} submission(s); ${outstanding.length} approved and not yet applied, ${done.length} applied.`);
     for (const r of rows) {
-      console.log(`  [${(r.status || '?').padEnd(14)}] ${r.kind || '?'} ${r.entityType || ''} ${r.entityId || ''}  ${r.key}`);
+      // map-submission cannot be advanced by this script, so say so on the line
+      // rather than letting it sit in the list looking like pending work.
+      const hint = r.status === 'approved' && r.kind === 'map-submission' ? '   <- by hand; then --mark-applied' : '';
+      console.log(`  [${(r.status || '?').padEnd(14)}] ${r.kind || '?'} ${r.entityType || ''} ${r.entityId || ''}  ${r.key}${hint}`);
     }
     return;
   }
 
+  if (MARK_APPLIED) {
+    if (!markIds.length) {
+      console.error('--mark-applied needs a submission id.');
+      process.exit(1);
+    }
+    let failures = 0;
+    for (const id of markIds) if (!markApplied(id)) failures += 1;
+    if (failures) process.exit(1);
+    console.log('\nRecorded. These no longer appear as outstanding.');
+    return;
+  }
+
   if (!ids.length && !APPLY_ALL) {
-    console.error('Nothing to do. Use --list, --apply <id>, or --apply-all-approved.');
+    console.error('Nothing to do. Use --list, --apply <id>, --apply-all-approved, or --mark-applied <id>.');
     process.exit(1);
   }
 
@@ -165,7 +287,7 @@ function main() {
       // map-submission cannot be applied mechanically: it is a research lead,
       // and turning it into a layer needs licence determination, conversion and
       // tiling. Report it rather than pretending it is actionable here.
-      refused.push({ key: key.name, reason: `kind "${submission.kind}" is reviewed by hand, not applied by this script` });
+      refused.push({ key: key.name, reason: `kind "${submission.kind}" is reviewed by hand, not applied by this script -- once the work is done, close it with --mark-applied ${submission.id}` });
       continue;
     }
 
@@ -194,6 +316,10 @@ function main() {
   console.log('  npm run build:catalogue-d1 && review the diff');
   console.log(`  git add ${CATALOGUE} && git commit && git push -u origin ${branch}`);
   console.log('\nNothing has been merged. Review the branch before it reaches main.');
+  console.log('\nAFTER MERGING, close the queue entries or they stay "approved" forever:');
+  for (const a of applied) console.log(`  node scripts/apply-contributions.mjs --mark-applied ${a.id}`);
 }
 
-main();
+// Guarded so the offline schema test can import canMarkApplied without this
+// script trying to reach KV.
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) main();
