@@ -10,6 +10,7 @@
 
 import * as esbuild from 'esbuild';
 import { createHash } from 'node:crypto';
+import { fileURLToPath } from 'node:url';
 import {
   existsSync,
   mkdirSync,
@@ -24,10 +25,31 @@ import {
 const HTML_TARGETS = ['index.html'];
 const CSS_BUDGET_BYTES = 230_000;
 
-function hashFile(filePath, length = 12, salt = '') {
+export function hashFile(filePath, length = 12, salt = '') {
   const hash = createHash('sha256').update(readFileSync(filePath));
   if (salt) hash.update(salt);
   return hash.digest('hex').slice(0, length);
+}
+
+/**
+ * The token written for /build/main.css.
+ *
+ * SALTED, which is why it cannot be reproduced by hashing the referenced file.
+ * The salt folds in `_headers` and `sw.js`, so a change to the cache policy or
+ * the service worker busts the stylesheet too -- both can change how the
+ * stylesheet is delivered without changing a byte of it.
+ *
+ * Exported because scripts/validate-app-shell-cache-tokens.mjs has to check this
+ * token and must not re-implement the derivation. Two functions computing one
+ * value is how the value drifts, which is the bug that check exists to catch;
+ * writing it twice to guard against writing it wrong would be self-defeating.
+ */
+export function sharedCssVersion() {
+  const entryPolicyVersion = ['_headers', 'sw.js']
+    .filter((filePath) => existsSync(filePath))
+    .map((filePath) => hashFile(filePath))
+    .join(':');
+  return hashFile('build/main.css', 12, entryPolicyVersion);
 }
 
 function writeTextIfChanged(filePath, content) {
@@ -163,11 +185,7 @@ function buildAboutCss() {
 }
 
 function versionSharedCss() {
-  const entryPolicyVersion = ['_headers', 'sw.js']
-    .filter((filePath) => existsSync(filePath))
-    .map((filePath) => hashFile(filePath))
-    .join(':');
-  const cssVersion = hashFile('build/main.css', 12, entryPolicyVersion);
+  const cssVersion = sharedCssVersion();
 
   for (const htmlPath of HTML_TARGETS) {
     if (!existsSync(htmlPath)) continue;
@@ -188,10 +206,15 @@ function enforceBudgets() {
   }
 }
 
-removeLegacyLeafletBuildOutputs();
-buildThumbnailManifest();
-await buildMainCss();
-for (const htmlPath of HTML_TARGETS) inlineCriticalCss(htmlPath);
-buildAboutCss();
-versionSharedCss();
-enforceBudgets();
+// Guarded so the cache-token validator can import sharedCssVersion() without
+// running a build. Everything above is a pure function or a declaration; only
+// this block has effects.
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+  removeLegacyLeafletBuildOutputs();
+  buildThumbnailManifest();
+  await buildMainCss();
+  for (const htmlPath of HTML_TARGETS) inlineCriticalCss(htmlPath);
+  buildAboutCss();
+  versionSharedCss();
+  enforceBudgets();
+}

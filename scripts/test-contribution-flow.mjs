@@ -68,9 +68,23 @@ function makeContext({ email, method = 'POST', body, url = 'https://civgraph.net
 
 // The dry run fetches the live catalogue record. Stub it so the test is
 // deterministic and offline; a real miss is covered by its own case below.
+//
+// THIS STUB USED TO RETURN THE WRONG SHAPE, AND THAT IS WHY THE BUG SURVIVED.
+//
+// It returned `{ maps: [record] }`. /_api/catalogue?id= returns the BARE RECORD;
+// only the no-parameter and ?category= forms return that envelope. submit.js
+// looked for the envelope, so caller and fixture agreed and both disagreed with
+// the endpoint. The assertion below -- checkedAgainstCurrentRecord === true --
+// passed on every run while being false in production on every submission ever
+// made. Verified against https://civgraph.net/_api/catalogue?id=lgd-2012 on
+// 2026-08-16: top-level keys are id, name, slug, category, ... and no `maps`.
+//
+// The shape here is now the shape the API actually returns. Restore the old
+// envelope and this file still passes against the FIXED submit.js, which is the
+// point: the fix accepts both, and only the fixture proves which one is real.
 globalThis.fetch = async () => ({
   ok: true,
-  json: async () => ({ maps: [{ id: 'deds-ni-1926', name: 'District Electoral Divisions 1926', provider: 'PRONI', date: '1926-01-01' }] }),
+  json: async () => ({ id: 'deds-ni-1926', name: 'District Electoral Divisions 1926', provider: 'PRONI', date: '1926-01-01' }),
 });
 
 const queue = mockKV();

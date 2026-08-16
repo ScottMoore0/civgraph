@@ -166,6 +166,25 @@ function validateSubmission(payload) {
  * Read the record as it currently stands so the dry run can report what would
  * actually change. Returns null on any failure -- the dry run then reports
  * checkedAgainstCurrentRecord: false rather than pretending.
+ *
+ * THIS RETURNED NULL EVERY TIME, FROM THE DAY IT SHIPPED UNTIL 2026-08-16.
+ *
+ * /_api/catalogue answers `?id=` with the BARE RECORD. Only the no-parameter
+ * and `?category=` forms return a `{ maps: [...] }` envelope. This looked for
+ * the envelope, never found it, and fell through to null. So every dry run ever
+ * performed was shape-only, `checkedAgainstCurrentRecord` was false on every
+ * submission in the queue, and _schema.js's "Patch is valid but changes nothing"
+ * could not fire -- with no current record, every field reads as changed.
+ *
+ * Nothing caught it, and the reason is worth more than the fix.
+ * scripts/test-contribution-flow.mjs asserts `checkedAgainstCurrentRecord ===
+ * true` and passed throughout, because its fetch stub returned the envelope
+ * shape. The fixture agreed with the caller and both disagreed with the
+ * endpoint, so the test proved only that the caller was self-consistent. A mock
+ * written from the code it tests cannot fail the way production does.
+ *
+ * Both shapes are accepted below: `?id=` and `?category=` genuinely differ, and
+ * a later caller may reasonably use either.
  */
 async function fetchCurrentRecord(context, entityType, entityId) {
   if (entityType !== 'map') return null; // only the catalogue is reachable from the edge today
@@ -176,8 +195,8 @@ async function fetchCurrentRecord(context, entityType, entityId) {
     });
     if (!res.ok) return null;
     const doc = await res.json();
-    const maps = Array.isArray(doc?.maps) ? doc.maps : [];
-    return maps.find((m) => m?.id === entityId) || null;
+    if (Array.isArray(doc?.maps)) return doc.maps.find((m) => m?.id === entityId) || null;
+    return doc?.id === entityId ? doc : null;
   } catch {
     return null;
   }
