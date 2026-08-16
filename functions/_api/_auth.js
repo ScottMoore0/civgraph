@@ -21,6 +21,15 @@ export function jsonResponse(body, init = {}) {
   });
 }
 
+/**
+ * The 405 body for routes that answer in JSON. Lives here rather than in
+ * _method.js so that _method.js stays dependency-free and this stays next to the
+ * jsonResponse envelope every JSON route already shares.
+ */
+export function jsonNotAllowed(method) {
+  return jsonResponse({ ok: false, error: 'Method Not Allowed' }, { status: 405, headers: { Allow: method } });
+}
+
 export function getContributorAuth(context) {
   const request = context.request;
   const env = context.env || {};

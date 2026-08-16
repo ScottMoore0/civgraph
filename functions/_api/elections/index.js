@@ -31,11 +31,21 @@ const ELECTION_COLS =
   + 'layer_id AS layerId, label_property AS labelProperty, '
   + 'candidate_rows_expected AS candidateRowsExpected, transfer_data_expected AS transferDataExpected';
 
-const CONS_COLS =
-  'seq, name, winner_party AS winnerParty, winner_name AS winnerName, '
-  + 'leading_party AS leadingParty, leading_name AS leadingName, leading_votes AS leadingVotes, '
-  + 'leading_pct AS leadingPct, turnout_pct AS turnoutPct, majority, majority_pct AS majorityPct, '
-  + 'seats_won AS seatsWon, seats_total AS seatsTotal, quota, electorate, source_file AS sourceFile';
+// Held as a list, not a string, because the joined query below needs the same
+// columns prefixed with the `c.` table alias. That used to be produced by
+// splitting this string on ', ' and re-joining -- which worked only for as long
+// as no entry contained that substring. A column expression such as
+// `COALESCE(a, b) AS x` would have emitted invalid SQL, and the failure would
+// have surfaced as a 500 nowhere near the edit that caused it.
+const CONS_COL_LIST = [
+  'seq', 'name', 'winner_party AS winnerParty', 'winner_name AS winnerName',
+  'leading_party AS leadingParty', 'leading_name AS leadingName', 'leading_votes AS leadingVotes',
+  'leading_pct AS leadingPct', 'turnout_pct AS turnoutPct', 'majority', 'majority_pct AS majorityPct',
+  'seats_won AS seatsWon', 'seats_total AS seatsTotal', 'quota', 'electorate', 'source_file AS sourceFile',
+];
+
+const CONS_COLS = CONS_COL_LIST.join(', ');
+const CONS_COLS_ALIASED = CONS_COL_LIST.map((col) => `c.${col}`).join(', ');
 
 const CAND_COLS =
   'candidate_id AS id, name, party, person_id AS personId, '
@@ -243,7 +253,7 @@ async function handle(context) {
     const [election, cons] = await Promise.all([
       db.prepare(`SELECT ${ELECTION_COLS}, meta FROM elections WHERE key = ?1`).bind(key).first(),
       db.prepare(
-        `SELECT c.${CONS_COLS.split(', ').join(', c.')}, c.meta, `
+        `SELECT ${CONS_COLS_ALIASED}, c.meta, `
         + 'f.feature_id AS featureId, f.feature_name AS featureName, f.matched '
         + 'FROM constituencies c '
         + 'LEFT JOIN constituency_features f '

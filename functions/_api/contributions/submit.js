@@ -1,4 +1,5 @@
-import { jsonResponse, requireContributor, sanitizeAuth } from '../_auth.js';
+import { jsonResponse, jsonNotAllowed, requireContributor, sanitizeAuth } from '../_auth.js';
+import { methodGuard } from '../_method.js';
 import { VALID_KINDS, VALID_ENTITY_TYPES, dryRunPatch } from './_schema.js';
 
 /**
@@ -126,12 +127,7 @@ export async function onRequestPost(context) {
   }, { status: 202 });
 }
 
-export async function onRequest(context) {
-  if (context.request.method !== 'POST') {
-    return jsonResponse({ ok: false, error: 'Method Not Allowed' }, { status: 405, headers: { Allow: 'POST' } });
-  }
-  return onRequestPost(context);
-}
+export const onRequest = methodGuard('POST', onRequestPost, jsonNotAllowed);
 
 function validateSubmission(payload) {
   if (!payload || typeof payload !== 'object') return { error: 'Submission must be an object' };

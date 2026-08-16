@@ -1,4 +1,5 @@
-import { jsonResponse, requireContributor } from '../_auth.js';
+import { jsonResponse, jsonNotAllowed, requireContributor } from '../_auth.js';
+import { methodGuard } from '../_method.js';
 
 /**
  * Accept a file into QUARANTINE so a contributor can supply data, not just a
@@ -102,9 +103,4 @@ export async function onRequestPost(context) {
   }, { status: 201 });
 }
 
-export async function onRequest(context) {
-  if (context.request.method !== 'POST') {
-    return jsonResponse({ ok: false, error: 'Method Not Allowed' }, { status: 405, headers: { Allow: 'POST' } });
-  }
-  return onRequestPost(context);
-}
+export const onRequest = methodGuard('POST', onRequestPost, jsonNotAllowed);
