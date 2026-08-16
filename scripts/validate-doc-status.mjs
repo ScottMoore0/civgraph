@@ -19,11 +19,32 @@
  * know that. This asserts only that a claim was made, which at least makes a
  * wrong claim correctable rather than absent.
  */
-import { readFileSync, readdirSync, existsSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import path from 'node:path';
 
 const HEAD_LINES = 14;
 const MARKER = /^>\s*\*\*Status:/;
+
+/**
+ * Subdirectories of docs/ that are NOT yet held to this rule.
+ *
+ * This check originally read only the top level of docs/, which meant the
+ * review outputs in docs/review/ -- the documents this rule most obviously
+ * exists for -- were exempt by accident, and the check reported PASS without
+ * ever looking at them. It now recurses, so anything added under docs/ is
+ * covered by default.
+ *
+ * That exposed a backlog of 35 pre-existing documents in the two directories
+ * below. They are named here rather than skipped silently: an exemption someone
+ * has to delete a line to remove is a decision, and an unlisted directory that
+ * happens not to be scanned is an accident waiting to repeat. Clearing them is
+ * tracked as tech-debt "220 UX findings of unknown status" -- the same problem,
+ * which is that nobody knows whether these handoff packs are live or spent.
+ */
+const EXEMPT_DIRS = new Set([
+  'performance-improvement-handoff',   // 33 files, status unknown, see above
+  'advanced-styling',                  // 2 files, status unknown, see above
+]);
 
 // Reference material and instructions rather than plans: they describe how to
 // work, not the state of a piece of work, so "is this still true" does not apply
@@ -40,13 +61,20 @@ const EXEMPT = new Set([
   'recovered-election-controller-from-browser.md',
 ]);
 
+function walkDocs(dir, out) {
+  for (const name of readdirSync(dir)) {
+    const full = path.join(dir, name);
+    if (statSync(full).isDirectory()) {
+      if (!EXEMPT_DIRS.has(name)) walkDocs(full, out);
+      continue;
+    }
+    if (name.endsWith('.md') && !EXEMPT.has(name)) out.push(full);
+  }
+}
+
 function candidates() {
   const out = [];
-  if (existsSync('docs')) {
-    for (const name of readdirSync('docs')) {
-      if (name.endsWith('.md') && !EXEMPT.has(name)) out.push(path.join('docs', name));
-    }
-  }
+  if (existsSync('docs')) walkDocs('docs', out);
   for (const name of readdirSync('.')) {
     if (!name.endsWith('.md') || EXEMPT.has(name)) continue;
     // Root-level markdown counts only when it reads as a plan or review, which
