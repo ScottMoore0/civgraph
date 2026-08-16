@@ -101,6 +101,8 @@
     "build:notices": "node scripts/build-third-party-notices.mjs",
     "check:notices": "node scripts/build-third-party-notices.mjs --check",
     "verify:proxies": "node scripts/verify-proxy-serving.mjs",
+    "verify:map-tokens": "node scripts/stamp-map-cache-tokens.mjs --check",
+    "verify": "npm run verify:proxies && npm run verify:map-tokens",
     "contributions:list": "node scripts/apply-contributions.mjs --list",
     "contributions:apply": "node scripts/apply-contributions.mjs",
     "check:contributions": "node scripts/test-contribution-schema.mjs && node scripts/test-contribution-flow.mjs",
