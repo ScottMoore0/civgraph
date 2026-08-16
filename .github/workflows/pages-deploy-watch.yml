@@ -60,10 +60,27 @@ jobs:
           SHA: ${{ github.sha }}
         run: |
           set -uo pipefail
+          # FAILS WHEN UNCONFIGURED, DELIBERATELY.
+          #
+          # This used to print a notice and `exit 0`, so an unconfigured watcher
+          # reported a GREEN TICK. That is worse than having no check at all: a
+          # passing job that means "not configured" is exactly the misreading
+          # that let 18 consecutive Pages deploy failures go unnoticed in August.
+          #
+          # Principle 4 -- absent configuration means "no", never "fine". The
+          # only honest colours here are red or a real result.
           if [ -z "${CF_TOKEN:-}" ] || [ -z "${CF_ACCOUNT:-}" ]; then
-            echo "::notice::CLOUDFLARE_API_TOKEN/CLOUDFLARE_ACCOUNT_ID not set - skipping deploy watch."
-            echo "Set both repository secrets to have a failed Pages deploy fail this job."
-            exit 0
+            echo "::error::Deploy watch is not configured, so nothing is watching your deploys."
+            echo ""
+            echo "Fix it either way:"
+            echo "  a) Add repository secrets CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID,"
+            echo "     and this job will fail when a Pages deploy fails."
+            echo "  b) Or enable the Cloudflare dashboard notification (Pages -> civgraph ->"
+            echo "     Settings -> Notifications), which needs no token, then delete this"
+            echo "     workflow. Alerting has to live somewhere; it does not have to live here."
+            echo ""
+            echo "Do not 'fix' this by restoring exit 0. A check that cannot fail is not a check."
+            exit 1
           fi
 
           api="https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT}/pages/projects/${PROJECT}/deployments"
