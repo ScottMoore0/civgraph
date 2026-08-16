@@ -1,5 +1,9 @@
 # Contributions: proposing changes without being able to make them
 
+> **Status: current — system built, not yet open.** The contribution path is
+> implemented and Cloudflare Access is live over `/_api/contributions/*`. Two
+> contributors and one admin are configured.
+
 Written 2026-08-13. **Not yet switched on** — see *Enabling it* below.
 
 Contributors propose changes. Only the site owner enacts them. This document is

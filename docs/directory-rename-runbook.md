@@ -1,5 +1,9 @@
 # Renaming `test/`, `test2/` and `tests/` — runbook
 
+> **Status: current — prepared, NOT executed.** The `test/`, `test2/`, `tests/`
+> rename has not been done. The reference count is ratcheted by
+> `npm run check:dir-names` so the job cannot grow while it waits.
+
 Written 2026-08-11. **The rename has not been done.** This is the preparation
 for it, written while the evidence is fresh.
 

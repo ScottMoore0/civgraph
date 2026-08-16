@@ -1,13 +1,21 @@
 # Cloudflare inventory
 
+> **Status: current reference — maintain as Cloudflare changes.** The authority
+> for bindings is `wrangler.toml`; this file records what is NOT in the repo,
+> including dashboard-only state. Verify serving behaviour with
+> `npm run verify:proxies`.
+
 What civgraph.net runs on, and what every Pages Function expects to be bound.
 
-Written 2026-08-10. **None of this configuration lives in the repository** —
-there is no `wrangler.toml`, no `_routes.json` and no deploy workflow. The Pages
-project, its build command and every binding below are configured in the
-Cloudflare dashboard. That is the single biggest obstacle to an outside
-developer understanding the deployment, and this file exists to close the gap
-until the configuration itself is version-controlled.
+Written 2026-08-10; corrected 2026-08-16.
+
+**Bindings now DO live in the repository.** `wrangler.toml` was activated on
+2026-08-11 and is authoritative — dashboard bindings are ignored while it
+exists. What still does not live in the repo: the Pages build command (a project
+setting), Cloudflare Access configuration, and DNS. There is still no
+`_routes.json`, deliberately; see the note at the end of this file.
+
+This file's remaining job is to record what the repository cannot show you.
 
 Every binding was verified against production, not read off a config file. Each
 Function degrades with an explicit `503 … binding not configured`, which makes
@@ -24,10 +32,11 @@ the live state observable by calling the endpoint.
 | `ELECTIONS_DB` | D1 | `_api/elections/index.js` | live |
 | `SPATIAL_INDEX` | KV | `_api/search.js`, `_api/spatial.js` | live |
 | `MAPS_BUCKET` | R2 (`boundaries-data`) | `data/maps/[[path]].js` | live |
-| `CIVGRAPH_SUBMISSIONS` | R2 (`.put`) | `_api/contributions/submit.js` | **no matching resource** |
-| `CIVGRAPH_CONTRIBUTION_QUEUE` | KV (`.put`) | `_api/contributions/submit.js` | **no matching resource** |
-| `CIVGRAPH_ADMINS` / `CIVGRAPH_CONTRIBUTORS` | vars (email lists) | `_api/_auth.js` | live |
-| `CIVGRAPH_DEV_AUTH_EMAIL` | var | `_api/_auth.js` | dev only |
+| `CIVGRAPH_CONTRIBUTION_QUEUE` | KV (`fca3f869…`) | `_api/contributions/{submit,list,decide}.js` | live, created 2026-08-13 |
+| `CIVGRAPH_SUBMISSIONS` | R2 (`.put`) | `_api/contributions/submit.js` fallback | not bound (KV is used) |
+| `CIVGRAPH_QUARANTINE` | R2 | `_api/contributions/intake.js` | **not bound — file intake returns 503 by design** |
+| `CIVGRAPH_ADMINS` / `CIVGRAPH_CONTRIBUTORS` | Pages secrets (email lists) | `_api/_auth.js` | live: 1 admin, 2 contributors |
+| `CIVGRAPH_DEV_AUTH_EMAIL` | var | `_api/_auth.js` | **must stay unset in production** |
 
 `_api/_auth.js` and `_api/contributions/submit.js` each read their binding under
 three names — `CIVGRAPH_*`, `CONTRIBUTOR_*`/`CONTRIBUTION_*`, and `BROWSE_*`.
@@ -113,8 +122,15 @@ Credentials for direct S3-API access live in `.env.local` (gitignored):
 
 Anything written to this bucket is public. `scripts/lib/r2-publication-gate.mjs`
 enforces a tracked allowlist at `data/database/r2-publication-allowlist.json`
-(10 prefixes), and every upload script calls `assertPublishable()` before
-sending a byte. Uploads outside the allowlist fail closed.
+(9 prefixes as of 2026-08-16), and every upload script calls
+`assertPublishable()` before sending a byte. Uploads outside the allowlist fail
+closed.
+
+The gate governs PREFIXES, not individual files, so an approved prefix
+authorises everything on disk beneath it. `upload-tile-pyramid-s3.mjs`
+therefore takes `--tracked-only`, which filters to `git ls-files`: without it,
+publishing `data/timeline-transitions` would have pushed 133 gitignored QA
+sidecars (5.4 GB) into a public bucket alongside the 6 intended files.
 
 `scripts/validate-r2-serving-parity.mjs` (in `npm run check`) asserts the
 converse: everything the catalogue references under an R2-served prefix must
@@ -149,13 +165,38 @@ believed to exist.
     Pages project  civgraph  ->  civgraph.net, boundaries-website.pages.dev
                               git-connected; pushes to main deploy
 
-    D1   proni-catalogue      a66d0846-6186-460d-a7b2-e88918a6b341
-    D1   civgraph-elections   cd88f241-35aa-4cbb-bcb3-c80a471b8afa
-    KV   PRONI_KV             ef19e1065f854619a19e2cbd62b28f82
-    KV   SPATIAL_INDEX        c88a99b42d6d4ce7aba6ba94dce47e5a
+    D1   proni-catalogue              a66d0846-6186-460d-a7b2-e88918a6b341
+    D1   civgraph-elections           cd88f241-35aa-4cbb-bcb3-c80a471b8afa
+    D1   civgraph-catalogue           d7ed9845-ba30-4925-956c-d6bde885cb30
+    KV   PRONI_KV                     ef19e1065f854619a19e2cbd62b28f82
+    KV   SPATIAL_INDEX                c88a99b42d6d4ce7aba6ba94dce47e5a
+    KV   CIVGRAPH_CONTRIBUTION_QUEUE  fca3f869f723456a9ca494155b586383
     R2   boundaries-data
 
-**That is the complete list** — two D1 databases, two KV namespaces, one bucket.
+Three D1 databases, three KV namespaces, one bucket, as of 2026-08-16. The
+earlier version of this list said two and two and called itself complete; the
+catalogue D1 and the contribution queue have been added since. Re-enumerate with
+`wrangler` rather than trusting this table.
+
+## Cloudflare Access, added 2026-08-16
+
+Not in the repository and not reachable by wrangler — Zero Trust dashboard only.
+
+    Team domain   icy-mouse-ce2a.cloudflareaccess.com
+    IdP           GitHub (OAuth app "civgraph Access", client id Ov23liNwzKM9sksThoB4)
+    Application   self-hosted, path `_api/contributions` on BOTH
+                  civgraph.net and boundaries-website.pages.dev
+    Policy        Allow, Include -> Emails (3 addresses)
+
+Two things about it are load-bearing:
+
+- **The path is `_api/contributions`, not `_api`.** `/_api/auth/status` must stay
+  public or the Browse page breaks for every anonymous visitor.
+- **Both hostnames are covered.** Protecting only the custom domain would leave
+  the pages.dev origin as an unprotected route to the same Functions.
+
+Access injects identity only INSIDE the application, so `/_api/auth/status`
+cannot see who is signed in; `/_api/contributions/whoami` exists for that.
 
 ## Static assets vs Functions: the routing order, and how to verify it
 

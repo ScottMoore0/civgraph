@@ -1,5 +1,9 @@
 # Repo and Cloudflare cleanup — findings and plan
 
+> **Status: current — the primary cleanup record.** Living document: findings,
+> what is completed, what remains. Check the Outstanding section before planning
+> cleanup work, and check git log before assuming an item is still open.
+
 Written 2026-08-10. Supersedes nothing; this is the first written record of work
 that had until now existed only in conversation.
 

@@ -1,5 +1,9 @@
 # Data Pipeline Inputs
 
+> **Status: current reference.** Describes where review inputs come from and
+> which corpora are deliberately git-ignored. Enforced in part by
+> `npm run check:source-paths` and `npm run check:intake-delivery`.
+
 This document lists review inputs that were formerly read from ignored `tasks/` files and are now reproducible from tracked sanitized inputs. Raw review exports and source mirrors remain local/private; public generators must read from `data/review-inputs/` unless a script is deliberately regenerating those sanitized inputs. Two large upstream corpora (`content-blocker-review-2026-06-24.csv`, `already-on-site-source-review-2026-06-24.csv`) are **git-ignored** — kept locally for regeneration but never committed, since they are only producer inputs and their derived outputs are tracked.
 
 ## Source Holdings To Back Up

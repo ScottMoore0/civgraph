@@ -1,5 +1,11 @@
 # Civgraph UX Remediation Plan
 
+> **Status: point-in-time audit — 2026-08-01. Not a live worklist.** Derived from
+> a single adversarial UI/UX audit (49 probe iterations, 220 findings) on that
+> date. An unknown number of items have since been implemented, and the Browse
+> contributor UI was substantially rebuilt in August 2026. Verify each item
+> against the running site before acting on it.
+
 Derived from the adversarial UI/UX audit of 2026-08-01 (49 probe iterations, 220 findings).
 Every item below is grounded in a measurement or a line of source read during that audit.
 

@@ -1,5 +1,9 @@
 # `src/` orphans — runtime check
 
+> **Status: current — records a completed check and why it was needed.** Kept for
+> the method (a real browser in a foreground tab), which remains the only way to
+> prove the runtime is healthy.
+
 Recorded 2026-08-11. Partial: read this before acting on it.
 
 ## Why a runtime check at all

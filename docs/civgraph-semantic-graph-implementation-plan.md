@@ -1,12 +1,21 @@
 # Civgraph Semantic Graph Implementation Plan
 
-> **Status: partially executed — plan dated 2026-06-27.** The graph is built and
-> shipped (`scripts/graph/build-semantic-graph.mjs`, `data/graph/`). As of
-> 2026-08-05 `npm run check:graph` **fails** on `main`: 17,820 map/source file
-> URLs have no source-file entity, and download statements number 23,268 against
-> 41,732 expected. It runs non-blocking in the `data-readiness` workflow until a
-> `npm run build:graph` regeneration lands. Treat this plan as partly done, not
-> as a fresh starting point.
+> **Status: partially executed — plan dated 2026-06-27. Banner corrected 2026-08-16.**
+> The graph is built and shipped (`scripts/graph/build-semantic-graph.mjs`,
+> `data/graph/`).
+>
+> This banner previously said `npm run check:graph` **fails** on `main` with
+> 17,820 orphaned file URLs. That is no longer true: as of 2026-08-16 it passes,
+> reporting 193,134 entities, 1,316,442 statements, 5,064 register records and
+> 51,788 declared-interest statements. The regeneration it was waiting on has
+> landed.
+>
+> Note also that `data/graph` is no longer tracked in git (2026-08-12). It is
+> build output, served from R2 via `functions/data/graph/[[path]].js`, and
+> regenerated with `npm run build:graph`. A clean checkout has no graph, and
+> `check:graph` skips loudly rather than failing.
+>
+> Treat this plan as partly done, not as a fresh starting point.
 
 Date: 2026-06-27
 

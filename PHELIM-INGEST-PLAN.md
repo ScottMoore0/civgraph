@@ -1,5 +1,13 @@
 # Phelim Birch delivery — ingest plan
 
+> **Status: point-in-time ingest plan — 2026-08-03. Superseded in part.** Written
+> to resolve three complaints raised on 2026-08-01. Further deliveries from the
+> same contributor have arrived since through the contributions system: five
+> corrected Local Authorities layers were reviewed, verified and published on
+> 2026-08-16 (see the approved records in the contribution queue and
+> `data/maps/_archive/*_archived_20260816.fgb`). Treat the mechanism described
+> here as historical; new deliveries now arrive via `/browse/` submissions.
+
 Resolves the three complaints raised in the Civgraph group chat on 2026-08-01:
 
 1. "the brand new DED/ward files (e.g. 1941, 1963) look fine but the set from 1946-1985 still has the old versions of the map files"

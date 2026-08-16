@@ -1,5 +1,9 @@
 # PRONI catalogue search — Cloudflare D1 deploy runbook
 
+> **Status: current runbook.** The PRONI D1 database and `PRONI_DB` binding are
+> live; the binding is recorded in `wrangler.toml` and `docs/cloudflare-inventory.md`.
+> Use this when redeploying or rebuilding the search index, not as pending work.
+
 The PRONI search box (`/browse/#/proni`) calls the Pages Function
 `functions/_api/proni/search.js`, which queries a Cloudflare **D1** database
 (SQLite + FTS5) bound as **`PRONI_DB`**. The code ships with the site; the D1

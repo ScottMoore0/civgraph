@@ -1,5 +1,15 @@
 # Contributor Login And Browse Submissions
 
+> **Status: SUPERSEDED — 2026-08-16.** Replaced by `docs/contributions.md`, which
+> describes the contribution system as it now works: typed patches, an
+> admin-only review surface, and enactment behind a git merge.
+>
+> **This document is actively wrong about a security property.** It states that
+> with no allowlist configured, any Access-authenticated email is treated as
+> allowed. That was true when written; `functions/_api/_auth.js` was changed on
+> 2026-08-13 to fail CLOSED, so an empty allowlist now admits nobody. Do not use
+> this file to reason about who can contribute.
+
 This document describes the implemented contributor-login path for Civgraph's `/browse/` section.
 
 ## What Exists

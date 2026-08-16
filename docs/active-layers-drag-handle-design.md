@@ -1,5 +1,11 @@
 # Active Layers Drag Handle Design
 
+> **Status: design proposal, 2026-02-25 — implementation UNCONFIRMED.** No drag
+> handling was found in `app/src/app.js` when this banner was added; there is
+> drag-related code in `app/src/maplibre-main-adapter.js`, but whether it
+> implements this design was not established. Verify against the running Active
+> Layers panel before treating this as either done or outstanding.
+
 ## Goal
 Allow users to reorder loaded layers in the **Active Layers** panel by dragging a handle on each row, and apply that order to map rendering.
 
