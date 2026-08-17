@@ -199,6 +199,24 @@ test.describe('timeline, share URLs and the slider', () => {
   // by having the swap itself carry the request identity so a stale completion
   // can be dropped before it ever reaches the rebuild.
   //
+  // ATTEMPT 4 (2026-08-17) — request identity. Also insufficient, and it narrowed
+  // the problem usefully, so it is recorded rather than reverted.
+  //
+  // app/src/app.js applyIndex now carries a monotonic token: a completion that is
+  // no longer the newest returns without touching state, and the winning request
+  // re-asserts its index AFTER its await rather than only before. That closes the
+  // failure mode where a slower earlier request overwrites a newer one.
+  //
+  // The test still fails, and the value it fails with is the finding: the slider
+  // settles on index 0 — the FIRST request — when 5 was asked for. With the token
+  // guard in place no stale completion can write that, so the reset is not coming
+  // from applyIndex at all. Something in the rebuild path sets the slider after
+  // the winning request has finished.
+  //
+  // Attempt 5 should therefore instrument the rebuild rather than the request:
+  // find what writes the range value outside applyIndex, and either give it the
+  // same token or stop it re-deriving the index from a mid-swap reference map.
+  //
   // test.fail() means: run it, expect red. If someone fixes the rebuild, this
   // turns "expected to fail but passed" and they will be told to remove this
   // annotation — which is the whole point of recording it this way instead of

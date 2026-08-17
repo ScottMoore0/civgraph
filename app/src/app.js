@@ -1887,14 +1887,39 @@ class Test2App {
     const reset = document.getElementById('timelineReset');
     const play = document.getElementById('timelinePlay');
     const stop = document.getElementById('timelineStop');
+    // Tech-debt item 17: the timeline rebuild race.
+    //
+    // Three previous attempts are recorded in the Playwright spec covering the
+    // timeline and share URLs. They all tried to make the
+    // REBUILD smarter -- to work out whether an item-list change meant "moved to
+    // a different chain" or "transient mid-swap view of the same chain". That
+    // distinction turned out not to be reliably available at rebuild time.
+    //
+    // This attempt does what that test's own note suggested instead: carry the
+    // request identity, so a stale completion is dropped before it can touch
+    // anything. Two things go wrong without it, and this handles both:
+    //
+    //   1. an earlier, slower request resolves LAST and writes its index over the
+    //      newest one -- the map shows one year while the slider reads another;
+    //   2. a rebuild running during the await moves currentIndex mid-flight, so
+    //      even the winning request's own state is no longer what it set.
+    //
+    // (1) is the token check. (2) is why the index is re-asserted after the
+    // await rather than only before it.
+    let timelineRequestToken = 0;
     const applyIndex = async (index, options = {}) => {
       const timelineItems = this.getTimelineAnimationItems();
       if (!timelineItems.length || !this.timelineOnSelect) return;
       if (options.manual !== false) this.pauseTimelineAnimation({ preserveOverlay: true });
       const safeIndex = this.clampTimelineIndex(index, timelineItems);
+      const token = ++timelineRequestToken;
       this.setTimelineRangeIndex(safeIndex);
       this.timelineAnimation.currentIndex = safeIndex;
       await this.timelineOnSelect(timelineItems[safeIndex], safeIndex);
+      // Superseded while we were loading: say nothing, touch nothing.
+      if (token !== timelineRequestToken) return;
+      this.setTimelineRangeIndex(safeIndex);
+      this.timelineAnimation.currentIndex = safeIndex;
       this.updateTimelineAnimationButtons();
     };
 
