@@ -32,6 +32,10 @@ const DOCS = [
   'CONTRIBUTING.md',
   'CLAUDE.md',
   'AGENTS.md',
+  // Added 2026-08-17: this plan cited `js/ui-controller.js` sixteen times. That
+  // directory was renamed to src/ in fb5d246cad, so every "Files:" line in a
+  // 1,253-line worklist pointed at nothing. See docs/review/UX-TRIAGE.md.
+  'UX-REMEDIATION-PLAN.md',
 ];
 
 // Directories whose contents are gitignored or generated, so a path under them
@@ -56,6 +60,27 @@ const ROOTS = new Set([
   'agent', 'analysis', '.github',
 ]);
 
+/**
+ * A document is allowed to say a path is ABSENT.
+ *
+ * UX-REMEDIATION-PLAN.md lists five book PDFs precisely because they are missing;
+ * that is the finding. Failing it for naming them would punish the document for
+ * being accurate, and would push the next author to describe the file vaguely
+ * instead of naming it -- which is worse for the reader than either.
+ *
+ * So a path is exempt when its own line says it is not there. This is a
+ * heuristic, and it is the honest kind: it can only ever cause a MISSED failure
+ * (a real dead pointer on a line that happens to contain the word "missing"),
+ * never a false one.
+ */
+const NEGATED = /\b(missing|does not exist|doesn't exist|absent|not found|404|deleted|removed|no such file)\b/i;
+
+function lineContaining(text, index) {
+  const start = text.lastIndexOf('\n', index) + 1;
+  const end = text.indexOf('\n', index);
+  return text.slice(start, end === -1 ? undefined : end);
+}
+
 const problems = [];
 let checked = 0;
 
@@ -64,7 +89,8 @@ for (const doc of DOCS) {
   const text = readFileSync(doc, 'utf8');
   const seen = new Set();
 
-  for (const [, raw] of text.matchAll(CANDIDATE)) {
+  for (const match of text.matchAll(CANDIDATE)) {
+    const raw = match[1];
     const p = raw.replace(/\/$/, '');
     if (seen.has(p)) continue;
     seen.add(p);
@@ -72,6 +98,7 @@ for (const doc of DOCS) {
     if (!ROOTS.has(p.split('/')[0])) continue;         // not a repo path
     if (/[*?]/.test(p)) continue;                       // glob, nothing to assert
     if (TOLERATED_PREFIXES.some((t) => `${p}/`.startsWith(t))) continue;
+    if (NEGATED.test(lineContaining(text, match.index))) continue;
 
     checked += 1;
     if (!existsSync(p)) problems.push(`${doc}: \`${p}\` does not exist`);

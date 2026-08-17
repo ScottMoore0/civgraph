@@ -1,10 +1,17 @@
 # Civgraph UX Remediation Plan
 
-> **Status: point-in-time audit — 2026-08-01. Not a live worklist.** Derived from
-> a single adversarial UI/UX audit (49 probe iterations, 220 findings) on that
-> date. An unknown number of items have since been implemented, and the Browse
-> contributor UI was substantially rebuilt in August 2026. Verify each item
-> against the running site before acting on it.
+> **Status: point-in-time audit — 2026-08-01. TRIAGED 2026-08-17; read the triage
+> first.** Derived from a single adversarial UI/UX audit (49 probe iterations, 220
+> findings distilled to 35 items) on that date.
+>
+> **`docs/review/UX-TRIAGE.md` records which items are actually done**, with the
+> evidence for each: 15 done, 4 partial, 5 not done, 11 unverified. Do not
+> re-derive that from `git log` — the plan's one-commit-per-ID rule was followed
+> for 7 of the 19 completed items, and several IDs live only in code comments, so
+> commit history undercounts by more than half.
+>
+> Verify against the running site before acting on any item; the Browse
+> contributor UI was substantially rebuilt in August 2026.
 
 Derived from the adversarial UI/UX audit of 2026-08-01 (49 probe iterations, 220 findings).
 Every item below is grounded in a measurement or a line of source read during that audit.
@@ -79,7 +86,7 @@ These five are, collectively, a few hours of work and they resolve the top of th
 
 ### Root cause (confirmed by source read)
 
-`js/ui-controller.js:2458` `scoreCatalogueSearchRecord()` ends with:
+`src/ui-controller.js:2458` `scoreCatalogueSearchRecord()` ends with:
 
 ```js
 const typeBoost = { map: 90, election: 85, feature: 80, party: 70, person: 60, source: 40 };
@@ -90,7 +97,7 @@ return score;
 `typeBoost` is applied **unconditionally**. Every record in the index therefore scores ≥ 40,
 the caller's `if (score > 0)` admits all of them, and the list is sorted and sliced to 80.
 
-`js/ui-controller.js:2536` compounds it for features:
+`src/ui-controller.js:2536` compounds it for features:
 
 ```js
 const score = this.scoreCatalogueSearchRecord(record, terms, normalizedQuery, mapOrder) + 120;
@@ -98,7 +105,7 @@ const score = this.scoreCatalogueSearchRecord(record, terms, normalizedQuery, ma
 
 `+120` is likewise unconditional.
 
-**Consequence:** the empty state at `js/ui-controller.js:2552` —
+**Consequence:** the empty state at `src/ui-controller.js:2552` —
 `'<div class="catalogue-search__empty">No matching maps, elections, features, people, parties, or sources found.</div>'`
 — **already exists and can never render**, because `results.length` is never 0. The audit's
 "80 results for qqzzxwvnothing" (finding #1) and "Ballymena also returns exactly 80" (#209) are
@@ -156,9 +163,9 @@ featureResults.slice(0, 60).forEach(result => {
 
 ### Files
 
-- `js/ui-controller.js` (2 hunks, ~8 lines)
+- `src/ui-controller.js` (2 hunks, ~8 lines)
 
-### REBUILD: no *(js/ui-controller.js is served directly; confirm with `git show --stat` of commit 44395eb which shipped it unbuilt)*
+### REBUILD: no *(src/ui-controller.js is served directly; confirm with `git show --stat` of commit 44395eb which shipped it unbuilt)*
 
 ### Verification
 
@@ -364,7 +371,7 @@ rows have no vector download even in principle.
    Note the `typeof` guard — without it the integer `files` silently wins again.
 
 2. **Do not render the button when there is no URL.** In the row/overflow renderers in
-   `js/ui-controller.js`, omit `.download-fgb-btn` when the resolved URL is falsy. This removes
+   `src/ui-controller.js`, omit `.download-fgb-btn` when the resolved URL is falsy. This removes
    ~950 dead controls per catalogue view and is the larger UX win.
 
 3. **Show the size.** Where a URL exists, render the byte size from the index (or a `HEAD` at
@@ -427,7 +434,7 @@ or PDF button renders for those documents.
 ### Files
 
 - `app/src/app.js` (download URL resolution) — **REBUILD: yes**
-- `js/ui-controller.js` (conditional button render, book card formats)
+- `src/ui-controller.js` (conditional button render, book card formats)
 - possibly a new build script emitting a format/size manifest
 
 ### Rollback
@@ -478,7 +485,7 @@ This is the mechanism that would make a CDN outage invisible.
 ### Files
 
 - `app/src/maplibre-main-adapter.js` (~40 lines) — **REBUILD: yes**
-- `js/ui-controller.js` (button state mapping)
+- `src/ui-controller.js` (button state mapping)
 
 ### Verification
 
@@ -544,7 +551,7 @@ if (hadFocus && replacement.isConnected) replacement.focus({ preventScroll: true
 
 Use `preventScroll: true` — without it the pane will jump.
 
-**Files:** `js/ui-controller.js`
+**Files:** `src/ui-controller.js`
 
 **Verification**
 ```js
@@ -576,7 +583,7 @@ A screen-reader user gets total silence.
 
 Keep them short and use `aria-atomic="true"`. Do **not** put the layer list in the live region.
 
-**Files:** `js/ui-controller.js`
+**Files:** `src/ui-controller.js`
 
 **Verification:** poll `[aria-live]` innerText at 1 s intervals across a load; expect three
 distinct values.
@@ -587,7 +594,7 @@ distinct values.
 
 **Impact: high · Difficulty: low · Risk: None**
 
-**Root cause.** `js/ui-controller.js:2553` wraps the *entire results markup* in
+**Root cause.** `src/ui-controller.js:2553` wraps the *entire results markup* in
 `<section class="catalogue-search" aria-live="polite">`. Its content is the whole 80-result list,
 concatenated without separators (`BallymenaFeatureBallymenaFeature - District Electoral Areas…`).
 Typing "Ballymena" fires nine progressive searches, each re-announcing up to 80 results (#137).
@@ -607,7 +614,7 @@ container.innerHTML =
 Additionally **debounce** the search (250–300 ms) so nine keystrokes produce one or two
 announcements rather than nine.
 
-**Files:** `js/ui-controller.js` (1 hunk + debounce)
+**Files:** `src/ui-controller.js` (1 hunk + debounce)
 
 **Verification:** type a 9-character query; count distinct live-region updates. Expect ≤ 3, each a
 short summary string.
@@ -673,7 +680,7 @@ button (#109) — i.e. only where users won't see them.
    **`/proni` already does this correctly** (`T3703/1/8 — Independent PRONI Search`). Copy the
    mechanism.
 
-**Files:** `index.html`, `js/ui-controller.js`
+**Files:** `index.html`, `src/ui-controller.js`
 
 **Verification:** sample `document.title` across the five states; expect five distinct values.
 Assert exactly one `h1` with non-empty `innerText`.
@@ -757,7 +764,7 @@ stacking order or shift the settings button.
 - `role="menu"` / `role="menuitem"` on the overflow menu, plus `aria-expanded` and
   `aria-haspopup` on its trigger (#181)
 
-**Files:** `js/ui-controller.js`
+**Files:** `src/ui-controller.js`
 
 **Verification:** assert every visible `<button>` has a non-empty accessible name; assert every
 toggle exposes `aria-pressed`; assert every disclosure exposes `aria-expanded`.
@@ -786,7 +793,7 @@ close it (#82, #180).
 click-outside closes menus and popovers; `aria-expanded` is reset on close; focus returns to the
 trigger.
 
-**Files:** `js/ui-controller.js`
+**Files:** `src/ui-controller.js`
 
 **Verification:** for each of the six, open → Escape → assert closed and `aria-expanded="false"`
 and `document.activeElement === trigger`.
@@ -815,7 +822,7 @@ in ascending severity:
 Default open when ≥ 1 layer is loaded. The detail pane already renders a single swatch beside a
 feature name (#—) — that is the visual vocabulary to extend.
 
-**Files:** `js/ui-controller.js`, `assets/css/main.css`, possibly layer metadata for raster units
+**Files:** `src/ui-controller.js`, `assets/css/main.css`, possibly layer metadata for raster units
 
 **Verification:** load one of each layer type; assert a legend block exists per layer, with a
 swatch, and for rasters a min/max and unit string.
