@@ -168,6 +168,13 @@ const PUBLIC_METADATA_KEYS = new Set([
 // pages and fetched lazily by the map detail page only — never by the homepage.
 const MAP_FEATURES_BASE = 'https://data.civgraph.net/data/browse/map-features';
 
+// T2-09: section listings were capped at a hard 500 with a "narrow the search"
+// notice and no way to page past it, so records 501+ of a section were reachable
+// only by guessing a narrower query. 200 per page keeps the initial render cheap
+// (these listings run to thousands of cards) and the button appends rather than
+// replacing, so scroll position survives.
+const LIST_PAGE_SIZE = 200;
+
 const state = {
   manifest: null,
   isHome: true,
@@ -177,6 +184,10 @@ const state = {
   indexes: new Map(),
   details: new Map(),
   featureTables: {},
+  // T2-09: how many cards of the current listing are shown. Reset on every
+  // navigation and every query change, so a filter never inherits a page depth
+  // from the previous view.
+  listShown: LIST_PAGE_SIZE,
   graph: {
     manifest: null,
     browseMapping: null,
@@ -236,6 +247,7 @@ async function init() {
 function bindEvents() {
   els.search?.addEventListener('input', () => {
     state.query = els.search.value.trim();
+    state.listShown = LIST_PAGE_SIZE;   // T2-09: a new query starts at page one
     renderCurrent();
   });
 
@@ -250,6 +262,17 @@ function bindEvents() {
       event.preventDefault();
       const target = document.querySelector(portalJump.getAttribute('href'));
       target?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      return;
+    }
+
+    // T2-09: append the next page of a section listing.
+    const listMore = event.target.closest('[data-list-load-more]');
+    if (listMore) {
+      event.preventDefault();
+      state.listShown += LIST_PAGE_SIZE;
+      // Re-render through the closure the listing registered, so this works for
+      // every listing type without a switch on state.activeType.
+      state.lastListRender?.();
       return;
     }
 
@@ -353,6 +376,7 @@ function applyRoute() {
   state.selectedFeatureMap = route.params.get('map');
   if (route.params.has('q')) {
     state.query = route.params.get('q').trim();
+    state.listShown = LIST_PAGE_SIZE;   // T2-09
     if (els.search) els.search.value = state.query;
   }
   renderGroups();
@@ -396,6 +420,10 @@ function countForGroup(id, counts) {
 }
 
 async function renderCurrent() {
+  // T2-09: every navigation starts a listing at page one. Without this, opening a
+  // section after paging deep into another would render thousands of cards.
+  state.listShown = LIST_PAGE_SIZE;
+  state.lastListRender = null;
   if (state.isHome) {
     state.currentDetail = null;
     setPortalHero();
@@ -651,11 +679,9 @@ function renderList(type, items) {
   const config = ENTITY_CONFIG[type];
   els.results.innerHTML = `
     ${renderFilterSummary(filtered.length, items.length)}
-    <div class="browse-grid">
-      ${filtered.slice(0, 500).map((item) => renderCard(type, item, config)).join('')}
-    </div>
-    ${filtered.length > 500 ? `<p class="browse-description">Showing the first 500 matching records. Narrow the search to find more.</p>` : ''}
+    ${renderListPage(filtered, (item) => renderCard(type, item, config))}
   `;
+  state.lastListRender = () => renderList(type, items);
 }
 
 function renderRegisterInterestList(items) {
@@ -666,11 +692,9 @@ function renderRegisterInterestList(items) {
   els.results.innerHTML = `
     ${renderRegisterInterestControls(items, sorted.length, items.length)}
     ${renderFilterSummary(sorted.length, items.length)}
-    <div class="browse-grid">
-      ${sorted.slice(0, 500).map((item) => renderCard('register-interests', item, config)).join('')}
-    </div>
-    ${sorted.length > 500 ? `<p class="browse-description">Showing the first 500 matching records. Narrow the search or filters to find more.</p>` : ''}
+    ${renderListPage(sorted, (item) => renderCard('register-interests', item, config))}
   `;
+  state.lastListRender = () => renderRegisterInterestList(items);
 }
 
 function renderRegisterInterestControls(items, filteredCount, totalCount) {
@@ -3275,9 +3299,10 @@ async function renderFeatureGroups(data) {
     <div class="browse-note">Feature browsing is grouped by map and loads existing spatial-index sidecars on demand. This keeps the public Browse page responsive while still exposing the feature catalogue.</div>
     ${selected ? await renderFeatureGroupDetail(selected) : `
       ${renderFilterSummary(items.length, data.items?.length || 0)}
-      <div class="browse-grid">${items.slice(0, 500).map((item) => renderCard('features', item, ENTITY_CONFIG.features)).join('')}</div>
+      ${renderListPage(items, (entry) => renderCard('features', entry, ENTITY_CONFIG.features))}
     `}
   `;
+  if (!selected) state.lastListRender = () => renderFeatureGroups(data);
 }
 
 async function renderFeatureGroupDetail(item) {
@@ -3393,6 +3418,30 @@ function renderBadges(item) {
   if (item.status) badges.push(item.status);
   if (!badges.length) return '';
   return `<div class="browse-badges">${badges.map((badge) => `<span class="browse-badge">${escapeHtml(badge)}</span>`).join('')}</div>`;
+}
+
+/**
+ * T2-09: render one page of a listing, with a button for the next.
+ *
+ * Replaces a hard `.slice(0, 500)` plus a "narrow the search to find more"
+ * notice. The notice was honest -- the truncation was never silent -- but there
+ * was no way past it, so records 501+ of a section could only be reached by
+ * guessing a narrower query. The count line above still reports the true total,
+ * so this changes how many you can reach, not what you are told.
+ */
+function renderListPage(items, renderItem) {
+  const shown = Math.min(state.listShown, items.length);
+  const remaining = items.length - shown;
+  const cards = items.slice(0, shown).map(renderItem).join('');
+  const more = remaining > 0
+    ? `<div class="browse-load-more">
+         <button type="button" class="browse-btn" data-list-load-more>
+           Show ${formatNumber(Math.min(LIST_PAGE_SIZE, remaining))} more
+         </button>
+         <p class="browse-description">Showing ${formatNumber(shown)} of ${formatNumber(items.length)}.</p>
+       </div>`
+    : '';
+  return `<div class="browse-grid">${cards}</div>${more}`;
 }
 
 function renderFilterSummary(count, total) {

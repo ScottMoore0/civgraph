@@ -1,6 +1,8 @@
 # UX remediation plan — triage
 
-> **Status: current as of 2026-08-17.** Reconciles `UX-REMEDIATION-PLAN.md`
+> **Status: current as of 2026-08-17, updated after implementing three items.**
+> `T1-06`, `T0-04b` and `T2-09` moved to done — see "Closed since triage" at the
+> end. Reconciles `UX-REMEDIATION-PLAN.md`
 > (audited 2026-08-01, 220 findings, 35 items) against the code and the running
 > site. Each verdict below carries the evidence it rests on. This is tech-debt
 > item 10 — the debt was never the findings, it was that nobody could say which
@@ -8,12 +10,12 @@
 
 ## Result
 
-    DONE          15
-    PARTIAL        4
-    NOT DONE       5
+    DONE          18   (15 at triage + T1-06, T0-04b, T2-09)
+    PARTIAL        3   (T1-04 closed by T1-06's CSS half)
+    NOT DONE       2   (T1-07, T2-06)
     UNVERIFIED    11
                   --
-                  35
+                  34   + T0-04 parent = 35
 
 **Nineteen of thirty-five items are done or substantially done.** The plan's own
 banner said "an unknown number of items have since been implemented"; that
@@ -43,7 +45,9 @@ same: implemented, ID in a code comment, invisible to `git log`.
 
 ---
 
-## DONE — 15
+## DONE at triage — 15
+
+Three more were closed the same day; see "Closed since triage".
 
 | ID | Item | Evidence |
 |---|---|---|
@@ -63,7 +67,7 @@ same: implemented, ID in a code comment, invisible to `git log`.
 | `T2-08` | Keyboard-operable search | 2 source references; test coverage |
 | `T3-03` | Target sizes and focus indicators | 4 source references; test coverage |
 
-## PARTIAL — 4
+## PARTIAL — 3 (was 4)
 
 **`T0-05` · Distinguish loaded / failed / gave up.** The user-visible half is
 done: `src/ui-controller.js:9004` announces `"${label} failed to load"` based on
@@ -72,7 +76,7 @@ user-visible half of T0-05 without depending on `map.on('error')`, which the
 PMTiles protocol never fires."* Missing: any distinction between **failed** and
 **gave up / timed out**, which was the third state the item asked for.
 
-**`T1-04` · Contrast failures.** At least two fixes landed —
+**~~`T1-04`~~ · CLOSED 2026-08-17 by T1-06's CSS half.** Contrast failures: At least two fixes landed —
 `assets/css/main.css:1150` a dark-mode `--color-primary` hotfix (was ~1.33:1),
 and line 2044 tagged `T1-04` for a 4.5:1 clearance. The audit listed several
 failures including the attribution bar at 1.62:1, which is tied to `T1-06` and
@@ -87,9 +91,9 @@ shows *Matched / unmatched* counts in election listings (lines 1173, 1424, 1477)
 Whether the map-side catalogue warns before a user loads an unmatched layer is
 unverified.
 
-## NOT DONE — 5
+## NOT DONE — 2 (was 5)
 
-**`T0-04b` · Book PDFs that don't exist are still advertised.** Measured:
+**~~`T0-04b`~~ · CLOSED 2026-08-17.** Left here for the measurement. Book PDFs that did not exist were still advertised:
 **5 of the 18** entries in `data/database/books.json` with a `file` field point at
 a PDF absent from disk — `dea-prov-1992`, `dublin-reorganisation-1992`,
 `lgb-revised-1992`, `dea-final-1992`, `harrison-1984`. Two of those are in
@@ -101,7 +105,7 @@ at HTTP 200. They now return honest 404s — a side effect of `T0-02`.
 `check:asset-refs` passes with *"every referenced asset exists"* and never reads
 `books.json`. A validator over that file is the fix, not a one-time cleanup.
 
-**`T1-06` · Dark theme not wired to the dark basemap.** The plan noted the
+**~~`T1-06`~~ · CLOSED 2026-08-17.** Left here for the diagnosis. The plan noted the
 basemaps already shipped, and they have:
 `app/src/maplibre-main-adapter.js:10-11` defines `cartodb-dark` and
 `cartodb-dark-nolabels`. There is **no theme wiring at all** — no
@@ -116,10 +120,10 @@ in `assets/css/main.css` is **480px**; the others are 640 and 768. Nothing targe
 **`T2-06` · Huge layers' default view untamed.** No feature budget, LOD guard or
 `maxFeatures` ceiling found in `src/ui-controller.js` or `src/feature-loader.js`.
 
-**`T2-09` · Browse section listings not paginated.** `browse/browse.js:655` still
-renders `filtered.slice(0, 500)` — a hard cap with no pagination and no notice
-that anything was dropped. There is a `data-feature-load-more` control, but it
-serves feature lists, not section listings.
+**~~`T2-09`~~ · CLOSED 2026-08-17.** Three `.slice(0, 500)` calls capped section
+listings with no way to page past them. The cap was *not* silent — an earlier
+version of this entry wrongly said so; there was a "narrow the search" notice.
+The defect was that there was no way past it.
 
 ## UNVERIFIED — 11
 
@@ -167,3 +171,49 @@ worklist entry.
 was followed for 7 of 19 completed items, and no check enforces it. Either drop
 the convention or enforce it — a convention followed a third of the time produces
 exactly the "unknown status" this triage existed to resolve.
+
+
+---
+
+## Closed since triage — 2026-08-17
+
+**`T1-06` · dark theme wired to the dark basemap.** `app/src/app.js` gains
+`syncBasemapToTheme()`, called at theme init and on every toggle. It applies
+`cartodb-dark` in dark mode and `osm-standard` in light, and declines entirely if
+`userPickedBasemap` is set. That flag is set by the basemap select *and* by a
+`?base=` URL parameter — a shared link carrying a basemap is someone's deliberate
+choice — and it persists in `localStorage`, so a pick survives a reload.
+
+The CSS half went in too, which is what actually fixes the contrast: the
+attribution bar kept a white background in dark mode, and a link colour cannot fix
+a ratio when the surface behind it is wrong. The bar, the zoom cluster and the
+control glyphs are now themed.
+
+**That closes `T1-04`** as well. Its remaining open piece was the 1.62:1
+attribution link, which was a symptom of exactly this.
+
+**`T0-04b` · books no longer advertise files that do not exist.** The five
+entries now carry `fileWithheld` with a reason instead of a `file` that 404s. Four
+of the five have markdown transcriptions, so the content is still reachable; the
+reason records which. The UI already conditioned on `book.file`, so the dead
+download buttons and PDF viewer disappear without a UI change.
+
+`check:book-files` is the durable half — `check:asset-refs` passes with "every
+referenced asset exists" and never reads `books.json`, which is why this survived
+sixteen days after being reported.
+
+**`T2-09` · section listings paginate.** `renderListPage()` replaces three
+separate `.slice(0, 500)` calls with a 200-per-page render and a *"Show N more"*
+button that appends. Page depth resets on navigation and on any query change, so a
+filter never inherits depth from the previous view.
+
+*Correction to this document's own earlier entry:* I wrote that the truncation had
+"no notice that anything was dropped". That was wrong — there was a *"Showing the
+first 500 matching records. Narrow the search to find more"* line. The defect was
+that there was no way past it, not that it was silent.
+
+### Now the top of the remaining list
+
+`T1-07` (one media query at 320px) and `T2-06` (no feature budget) are the only
+two items left in NOT DONE. After those, the work is the eleven unverified — and
+eight of those are T3 grab-bags that need splitting before they can be worked.

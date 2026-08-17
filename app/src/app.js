@@ -77,6 +77,11 @@ class Test2App {
     this.currentDetailMapId = null;
     this.currentSourceMapId = null;
     this.baseMapId = 'osm-standard';
+    // T1-06: set once the user picks a basemap deliberately; from then on the
+    // theme toggle stops changing it. Persisted so the choice survives a reload.
+    this.userPickedBasemap = (() => {
+      try { return localStorage.getItem('basemapUserChoice') === '1'; } catch { return false; }
+    })();
     this.elections = null;
     this.timelineItems = [];
     this.timelineOnSelect = null;
@@ -1249,11 +1254,19 @@ class Test2App {
     const savedTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
     document.documentElement.dataset.theme = savedTheme || (prefersDark ? 'dark' : 'light');
+
+    // T1-06: the basemap follows the theme from the first paint, not just on
+    // toggle — someone arriving with prefers-color-scheme: dark should not get one
+    // frame of white landmass. Fire-and-forget: applyBaseMap already handles the
+    // map not being ready, and nothing here should block setup.
+    void this.syncBasemapToTheme();
+
     toggles.forEach((toggle) => {
       toggle.addEventListener('click', () => {
         const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
         document.documentElement.dataset.theme = next;
         localStorage.setItem('theme', next);
+        void this.syncBasemapToTheme();
       });
     });
   }
@@ -1336,7 +1349,7 @@ class Test2App {
     });
 
     document.getElementById('baseMapSelect')?.addEventListener('change', async (event) => {
-      await this.applyBaseMap(event.target.value || 'osm-standard');
+      await this.applyBaseMap(event.target.value || 'osm-standard', { userChoice: true });
       this.updateURLState();
     });
 
@@ -2678,14 +2691,50 @@ class Test2App {
     this.updateURLState();
   }
 
-  async applyBaseMap(baseMapId) {
+  /**
+   * T1-06: apply a basemap, recording whether the user chose it deliberately.
+   *
+   * `userChoice` matters because the theme toggle also wants to change the
+   * basemap, and must never override a deliberate pick. Both the basemap select
+   * and a `?base=` URL parameter count as deliberate — a shared link carrying a
+   * basemap is someone's choice, even if the person opening it is not the one who
+   * made it.
+   */
+  async applyBaseMap(baseMapId, { userChoice = false } = {}) {
     this.baseMapId = baseMapId || 'osm-standard';
+    if (userChoice) {
+      this.userPickedBasemap = true;
+      try { localStorage.setItem('basemapUserChoice', '1'); } catch { /* private mode */ }
+    }
     const map = this.mapController?.map;
     if (!map) return;
     if (typeof map.isStyleLoaded === 'function' && !map.isStyleLoaded()) {
       await new Promise((resolve) => map.once('load', resolve));
     }
     this.mapController.setBaseMap(this.baseMapId);
+  }
+
+  /**
+   * T1-06: follow the theme with the basemap, unless the user has picked one.
+   *
+   * In dark mode the UI went to #0F1419 while the basemap stayed fully light — a
+   * white landmass beside a black panel. The dark basemaps were already shipped
+   * (`cartodb-dark`, `cartodb-dark-nolabels` in maplibre-main-adapter.js); nothing
+   * connected them to the toggle.
+   *
+   * Returns the id it applied, or null if it declined, so the caller and the tests
+   * can tell "followed the theme" from "respected a choice".
+   */
+  async syncBasemapToTheme() {
+    if (this.userPickedBasemap) return null;
+    const dark = document.documentElement.dataset.theme === 'dark';
+    const wanted = dark ? 'cartodb-dark' : 'osm-standard';
+    if (this.baseMapId === wanted) return null;
+    await this.applyBaseMap(wanted);
+    // Keep the Map Settings control honest about what is actually displayed.
+    const select = document.getElementById('baseMapSelect');
+    if (select) select.value = wanted;
+    return wanted;
   }
 
   setupSourcePanel() {
@@ -3069,7 +3118,9 @@ class Test2App {
       if (baseMap) {
         const select = document.getElementById('baseMapSelect');
         if (select) select.value = baseMap;
-        await this.applyBaseMap(baseMap);
+        // T1-06: a ?base= in the URL is a deliberate choice too, so the theme
+        // must not override it on load.
+        await this.applyBaseMap(baseMap, { userChoice: true });
       }
 
       const layers = (params.get('layers') || '').split(',').map((id) => id.trim()).filter(Boolean);

@@ -550,8 +550,45 @@ body.test2-election-pane-resizing * {
   user-select: none !important;
 }
 
-[data-theme="dark"] .maplibregl-ctrl-attrib a {
+/* T1-06 / T1-04: theme the map control chrome, not just the link colour.
+ *
+ * The attribution bar kept its white background in dark mode, which is what
+ * dropped the attribution link to 1.62:1 — the link colour alone cannot fix a
+ * contrast ratio when the surface behind it is the wrong one. Same for the zoom
+ * cluster, which stayed white beside a #0F1419 panel. */
+[data-theme="dark"] .maplibregl-ctrl-attrib,
+:root:not([data-theme="light"]) .maplibregl-ctrl-attrib {
+  background: rgba(15, 20, 25, 0.85);
+  color: #e6edf3;
+}
+
+[data-theme="dark"] .maplibregl-ctrl-attrib a,
+:root:not([data-theme="light"]) .maplibregl-ctrl-attrib a {
+  /* #8fd3ff on rgba(15,20,25,.85) clears 4.5:1. */
   color: #8fd3ff;
+}
+
+[data-theme="dark"] .maplibregl-ctrl-group,
+:root:not([data-theme="light"]) .maplibregl-ctrl-group {
+  background: #1b2027;
+}
+
+[data-theme="dark"] .maplibregl-ctrl-group button,
+:root:not([data-theme="light"]) .maplibregl-ctrl-group button {
+  background: #1b2027;
+}
+
+[data-theme="dark"] .maplibregl-ctrl-group button + button,
+:root:not([data-theme="light"]) .maplibregl-ctrl-group button + button {
+  border-top-color: #333b45;
+}
+
+/* MapLibre's control glyphs are inline SVG in a CSS background, so they cannot be
+ * recoloured directly. Inverting is the standard remedy and is safe here because
+ * they are monochrome. */
+[data-theme="dark"] .maplibregl-ctrl-group button .maplibregl-ctrl-icon,
+:root:not([data-theme="light"]) .maplibregl-ctrl-group button .maplibregl-ctrl-icon {
+  filter: invert(1) brightness(1.6);
 }
 
 .maplibre-dom-label {

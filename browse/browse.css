@@ -2295,3 +2295,18 @@ a:hover {
   display: flex;
   gap: var(--space-2);
 }
+
+/* T2-09: pagination control for section listings.
+   Matches .browse-feature-more, which does the same job for feature tables. */
+.browse-load-more {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.browse-load-more .browse-description {
+  margin: 0;
+  font-size: 0.85rem;
+}
