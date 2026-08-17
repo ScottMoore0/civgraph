@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-04T21:51:23.132Z",
+  "generatedAt": "2026-08-17T21:18:53.345Z",
   "mode": "execute",
   "tools": {
     "ogr2ogr": "C:\\Program Files\\GDAL\\ogr2ogr.exe",
@@ -12,18 +12,18 @@
   "outputDirectory": "test/pmtiles/generated",
   "maxGithubBytes": 99614720,
   "totals": {
-    "candidates": 4,
-    "converted": 4,
+    "candidates": 5,
+    "converted": 5,
     "skipped": 0,
     "failed": 0,
-    "metadataPreferred": 4,
+    "metadataPreferred": 5,
     "oversizedArchives": 0
   },
   "converted": [
     {
-      "layerId": "eds-leinster-1941-vector-test",
-      "sourceMapId": "eds-leinster-1941",
-      "name": "Leinster District Electoral Divisions/Wards 1941",
+      "layerId": "counties-county-boroughs-1915-vector-test",
+      "sourceMapId": "counties-county-boroughs-1915",
+      "name": "Local Authorities 1921",
       "sourceType": "pmtiles",
       "status": "converted",
       "profile": {
@@ -33,14 +33,14 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "output": "test/pmtiles/generated/eds-leinster-1941-vector-test.pmtiles",
-      "bytes": 5324251,
+      "output": "test/pmtiles/generated/counties-county-boroughs-1915-vector-test.pmtiles",
+      "bytes": 630011,
       "exceedsGithubBudget": false
     },
     {
-      "layerId": "eds-leinster-1942-vector-test",
-      "sourceMapId": "eds-leinster-1942",
-      "name": "Leinster District Electoral Divisions/Wards 1942",
+      "layerId": "roi-local-authorities-1915-vector-test",
+      "sourceMapId": "roi-local-authorities-1915",
+      "name": "Local Authorities 1915 (Ireland — all-island)",
       "sourceType": "pmtiles",
       "status": "converted",
       "profile": {
@@ -50,14 +50,14 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "output": "test/pmtiles/generated/eds-leinster-1942-vector-test.pmtiles",
-      "bytes": 5324051,
+      "output": "test/pmtiles/generated/roi-local-authorities-1915-vector-test.pmtiles",
+      "bytes": 2409891,
       "exceedsGithubBudget": false
     },
     {
-      "layerId": "eds-leinster-1943-vector-test",
-      "sourceMapId": "eds-leinster-1943",
-      "name": "Leinster District Electoral Divisions/Wards 1943",
+      "layerId": "roi-local-authorities-1920-06-19-vector-test",
+      "sourceMapId": "roi-local-authorities-1920-06-19",
+      "name": "Local Authorities 19/06/1920 (Ireland — all-island)",
       "sourceType": "pmtiles",
       "status": "converted",
       "profile": {
@@ -67,14 +67,14 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "output": "test/pmtiles/generated/eds-leinster-1943-vector-test.pmtiles",
-      "bytes": 5324167,
+      "output": "test/pmtiles/generated/roi-local-authorities-1920-06-19-vector-test.pmtiles",
+      "bytes": 2421630,
       "exceedsGithubBudget": false
     },
     {
-      "layerId": "eds-leinster-1985-vector-test",
-      "sourceMapId": "eds-leinster-1985",
-      "name": "Leinster District Electoral Divisions/Wards 1985",
+      "layerId": "roi-local-authorities-1920-06-25-vector-test",
+      "sourceMapId": "roi-local-authorities-1920-06-25",
+      "name": "Local Authorities 25/06/1920 (Ireland — all-island)",
       "sourceType": "pmtiles",
       "status": "converted",
       "profile": {
@@ -84,8 +84,25 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "output": "test/pmtiles/generated/eds-leinster-1985-vector-test.pmtiles",
-      "bytes": 5394207,
+      "output": "test/pmtiles/generated/roi-local-authorities-1920-06-25-vector-test.pmtiles",
+      "bytes": 2425669,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "roi-local-authorities-1920-10-04-vector-test",
+      "sourceMapId": "roi-local-authorities-1920-10-04",
+      "name": "Local Authorities 04/10/1920 (Ireland — all-island)",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "test/pmtiles/generated/roi-local-authorities-1920-10-04-vector-test.pmtiles",
+      "bytes": 2424537,
       "exceedsGithubBudget": false
     }
   ],
