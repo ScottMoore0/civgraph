@@ -48,19 +48,16 @@ CI runs `npm run check` and `npm run lint` on every push
 
 ## How the project is laid out
 
-The names are historical and will mislead you if nobody says so:
+**The canonical layout table now lives in [README.md](README.md#project-structure)**,
+because that is the file a newcomer actually opens first — and for months it
+described a `js/` directory that no longer exists while this accurate table sat
+here unread. One copy, in the more-read file, checked by
+`npm run check` (`check:doc-paths` asserts every path either file cites resolves).
 
-| Path | What it actually is |
-|---|---|
-| `app/` | the live site — MapLibre GL, built bundle in `app/build/` |
-| `test/src/` | shared renderer source; `app/` builds from it |
-| `test/metadata/` | the render catalogue (see below) |
-| `tests/` | the Playwright suite |
-| `test2/` | a compatibility redirect, not a directory of tests |
-| `src/` | shared browser modules, served unbundled |
-| `scripts/` | build, validation and data pipelines — **not deployed** |
-| `functions/` | Cloudflare Pages Functions |
-| `archive/` | superseded code kept for reference; do not build on it |
+The names are historical and will mislead you if nobody says so. Read that table
+before anything else. `src/README.md` covers the single most misleading one.
+
+What matters specifically for contributing:
 
 `scripts/` not being deployed matters: `src/` **is** served as unbundled ES
 modules, so a browser-imported module cannot be moved into `scripts/` without

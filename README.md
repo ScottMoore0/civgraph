@@ -63,43 +63,94 @@ python -m http.server 5050
 
 ## Project structure
 
-```
-js/
-  app.js                  # Entry point, wires all modules
-  map-controller.js       # Leaflet map, layers, LOD selection
-  ui-controller.js        # Split-pane layout, catalogue, search
-  feature-loader.js       # Viewport-aware spatial index + per-feature loading
-  election-controller.js  # Election results, STV animation, entity pages
-  data-service.js         # Map/book metadata queries
-  time-slider-controller.js
-  conditional-styling.js
-  election-utils.js       # Shared formatters (dates, body names, links)
+**Read this before anything else. Several directory names are historical and will
+mislead you.** This section is the canonical layout;
+[CONTRIBUTING.md](CONTRIBUTING.md) covers the workflow that goes with it.
 
-data/
-  database/
-    maps.json             # Map layer registry
-    spatial-index.json    # Feature search index
-    spatial-index/        # Per-map chunks for on-demand loading
-  maps/                   # FlatGeobuf files (R2-hosted, multi-LOD)
+| Path | What it actually is |
+|---|---|
+| `app/` | **the live site** — MapLibre GL. Built bundle in `app/build/`, committed. |
+| `src/` | shared browser modules, served **unbundled**. Live, not legacy. |
+| `test/src/` | shared renderer source; `app/` builds from it |
+| `test/metadata/` | the render catalogue — see "three stores" below |
+| `tests/` | the Playwright suite |
+| `test2/` | a compatibility redirect. Not a directory of tests. |
+| `apps/` | standalone apps (PRONI search). Unrelated to `app/`. |
+| `browse/` | the Browse page — hand-written, no build step |
+| `pages/` | standalone pages (About, Census Explorer) |
+| `functions/` | Cloudflare Pages Functions |
+| `scripts/` | build, validation and data pipelines — **not deployed** |
+| `data/database/` | the tracked catalogue: `maps.json` and friends |
+| `data/maps/` | geometry, served from **R2**, not from this repository |
+| `archive/` | superseded code kept for reference. Do not build on it. |
 
-build/                    # esbuild output (code-split bundles + minified CSS)
-scripts/                  # Build and data processing scripts
-functions/                # Cloudflare Pages Functions
-```
+Two traps in particular:
+
+- **`src/` is not the old Leaflet stack.** `js/` was *renamed* to `src/` when
+  Leaflet was retired, and only the dead parts moved to `archive/leaflet/`. What
+  is left is live and load-bearing — `app/src/app.js` imports it on line 3. This
+  README described `js/` as the entry point for months after that rename, which is
+  where the "src/ is dead" belief came from; it cost 36,028 lines of live code its
+  linting. See `docs/review/TECH-DEBT-AUDIT.md` item 4.
+- **`app/` and `apps/` are different things**, as are `test/`, `test2/` and
+  `tests/`. Renaming them is planned but invalidates clones, so it is scheduled
+  rather than done: `docs/directory-rename-runbook.md`.
+
+### The catalogue is three stores
+
+The single most confusing thing here, and getting it wrong reliably produces
+convincing but false "this layer is broken" diagnoses. Joined by a bare string id,
+with a `-vector-test` suffix on the render side.
+
+| Store | Owns |
+|---|---|
+| `data/database/maps.json` | provenance — licence, attribution, downloads |
+| `test/metadata/maps-test.json` | rendering — tiles, zoom, styling, labels |
+| `c1Cards` in `src/ui-controller.js` | navigation — what a user can click |
+
+`test/metadata/maps-test-index.json` and `test/metadata/layer-details-test2/` are
+**generated** from `maps-test.json`: edit the source, then run
+`node scripts/build-test2-metadata-shards.mjs`. The client fetches the generated
+detail shards, so editing only `maps.json` leaves the site showing the old values.
+
+All three edges are guarded by validators in `npm run check`.
+
+### Which URL comes from where
+
+| URL | Source |
+|---|---|
+| `/` | `index.html` + `app/build/` (from `test/src/`) + `src/` + `build/` |
+| `/browse/` | `browse/` |
+| `/apps/`, `/apps/proni-search/` | `apps/` |
+| `/pages/about`, `/pages/census-explorer` | `pages/` |
+| `/test/` | `test/` — staging shell, not the public site |
 
 ## Build
 
 ```bash
-node scripts/bundle.mjs
+npm run build
 ```
 
-Produces:
-- `build/app.bundle.js` - Main bundle (~286 KB)
-- `build/election-controller-*.js` - Lazy-loaded election module (~179 KB)
-- `build/chunk-*.js` - Shared code (~77 KB)
-- `build/main.css` - Minified CSS (~203 KB)
+That chains seven steps; the two that produce the served bundles are
+`scripts/build-shared-shell-assets.mjs` (CSS, critical-CSS inlining, thumbnail
+manifest) and `npm run build:test2` (the MapLibre app). Produces:
 
-The build enforces performance budgets and fails if the main bundle exceeds 313 KB or CSS exceeds 225 KB.
+- `app/build/app.bundle.js` — the app bundle, **committed** to the repository
+- `app/build/app.bundle.css`
+- `build/main.css` — deferred CSS, split from `assets/css/main.css`
+- `build/main.critical.css` — inlined into `index.html` by the build
+
+The build enforces performance budgets and fails if CSS exceeds 225 KB.
+
+Each of those is referenced from `index.html` with a `?v=` cache token derived
+from the file's content hash. **Never hand-edit a token** — `npm run check` fails
+if one does not match, because a stale token means returning visitors keep running
+the old file. `scripts/validate-app-shell-cache-tokens.mjs` explains why.
+
+This file told you to run a bundle script at scripts/bundle.mjs until 2026-08-17.
+There is no such file — it moved to `archive/legacy-scripts/` when the Leaflet
+stack was retired. `npm run check` now verifies that every repository path these
+documents cite actually resolves, so that particular lie cannot recur.
 
 ## Spatial index
 
@@ -138,8 +189,9 @@ Assembly, the Houses of the Oireachtas and individual contributors. It arrives
 under its own terms, predominantly the Open Government Licence and Creative
 Commons Attribution. Those terms travel with the data and are not superseded by
 the MIT grant. Per-dataset licence and attribution are recorded in
-`data/database/maps.json` and `data/database/sources.json`; the entry for a
-layer is authoritative for that layer.
+`data/database/maps.json` (the `references` and `sourceDownloads` fields) and
+`data/database/external-sources.json`; the entry for a layer is authoritative for
+that layer.
 
 If you reuse a map layer, credit the originating body — crediting Civgraph alone
 does not satisfy a source that requires its own attribution.
