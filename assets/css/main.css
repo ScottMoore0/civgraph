@@ -13690,3 +13690,67 @@ kbd {
   }
 }
 
+
+/* ===========================================================================
+   T1-07 · Header reflow at 320px
+   ===========================================================================
+   The audit measured `mobile-menu-btn` with its right edge at 394px in a 320px
+   viewport -- 74px off-screen -- and `document.scrollWidth === clientWidth`, so
+   there was no scroll to reach it. The navigation was simply unreachable. Still
+   clipped at 360px, which is a live iPhone SE / Galaxy S width.
+
+   .app-header is already `display: flex`, so the problem was not the layout mode
+   but that nothing was allowed to shrink: the brand had no `min-width: 0`, so it
+   refused to compress below its content and pushed the controls out of the box.
+
+   The rule is: the wordmark truncates, the controls never do. A clipped label is
+   a cosmetic loss; a clipped button is a dead end. */
+
+@media (max-width: 480px) {
+  .app-header {
+    /* Tighter gutters buy ~24px before anything has to give. */
+    padding-left: var(--space-3);
+    padding-right: var(--space-3);
+    gap: var(--space-2);
+  }
+
+  /* min-width: 0 is the whole fix. A flex item defaults to min-width: auto,
+     which means "never smaller than my content" -- so the brand kept its full
+     width and shoved everything after it off-screen. */
+  .app-header__brand {
+    min-width: 0;
+    flex-shrink: 1;
+    overflow: hidden;
+  }
+
+  .app-header__wordmark {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Controls hold their size and stay reachable. */
+  .app-header__actions,
+  .mobile-menu-btn,
+  .app-header__nav {
+    flex-shrink: 0;
+  }
+}
+
+@media (max-width: 360px) {
+  /* Below this the wordmark is costing more than it earns: the logo mark alone
+     still identifies the site, and the space goes to keeping every control on
+     screen. */
+  .app-header__wordmark {
+    display: none;
+  }
+
+  /* "Support Us" drops to its icon. The accessible name comes from aria-label,
+     so the control keeps its label for assistive technology while losing the
+     visible text. */
+  .app-header__support-label,
+  .app-header__link--support .app-header__label {
+    display: none;
+  }
+}

@@ -41,7 +41,10 @@ export async function onRequestPost(context) {
   }
 
   const raw = await context.request.text();
-  if (raw.length > MAX_JSON_BYTES) {
+  // Byte length, not String.length. `raw.length` counts UTF-16 code units, so a
+  // body of non-Latin text could be roughly four times the nominal limit while
+  // measuring under it -- a limit named in bytes that did not count bytes.
+  if (new TextEncoder().encode(raw).byteLength > MAX_JSON_BYTES) {
     return jsonResponse({ ok: false, error: 'Submission body is too large' }, { status: 413 });
   }
 

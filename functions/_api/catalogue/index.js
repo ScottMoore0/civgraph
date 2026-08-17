@@ -26,6 +26,7 @@
  * into columns beside it, so the reassembled document is byte-faithful to the
  * source. scripts/validate-catalogue-d1-parity.mjs asserts that.
  */
+import { reportError } from '../_error.js';
 
 const json = (body, init = {}) =>
   new Response(JSON.stringify(body), {
@@ -90,9 +91,7 @@ export async function onRequestGet(context) {
 
     return json(doc);
   } catch (error) {
-    return json(
-      { ok: false, error: 'Catalogue query failed', detail: String(error?.message || error) },
-      { status: 500 },
-    );
+    const reported = reportError(context.env, 'catalogue', error);
+    return json({ ok: false, error: 'Catalogue query failed', ...reported }, { status: 500 });
   }
 }

@@ -15,6 +15,7 @@
  * start_year/end_year for date filtering.
  */
 import { buildMatch, buildFilters } from './_query.js';
+import { reportError } from '../_error.js';
 
 const CACHE_VERSION = 'v10';
 const MAX_LIMIT = 60;
@@ -145,6 +146,6 @@ async function handle(context) {
 
     return json({ query: q, match, sort, dir, letter, from: from || null, to: to || null, offset, limit, count: out.length, results: out.slice(0, limit + 1) });
   } catch (error) {
-    return json({ query: q, results: [], error: String(error && error.message || error) }, 500);
+    return json({ query: q, results: [], error: 'Search failed', ...reportError(context.env, 'proni-search', error) }, 500);
   }
 }

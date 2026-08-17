@@ -82,28 +82,37 @@ Recommended policy:
 
 ## Environment Variables
 
-Optional contributor allowlist:
+**One name each. The aliases are gone** — `CONTRIBUTOR_EMAILS`,
+`BROWSE_CONTRIBUTORS`, `CONTRIBUTOR_ADMINS`, `BROWSE_ADMINS` and
+`BROWSE_DEV_AUTH_EMAIL` were accepted as fallbacks and were removed on
+2026-08-17 (tech-debt item 12). Nothing set them. Three accepted spellings for
+one secret is not tolerance; it is three places a typo can hide.
 
-- `CIVGRAPH_CONTRIBUTORS`
-- `CONTRIBUTOR_EMAILS`
-- `BROWSE_CONTRIBUTORS`
+| Variable | Purpose |
+|---|---|
+| `CIVGRAPH_CONTRIBUTORS` | who may propose changes |
+| `CIVGRAPH_ADMINS` | who may approve them |
+| `CIVGRAPH_DEV_AUTH_EMAIL` | local development identity |
+| `CIVGRAPH_ALLOW_DEV_AUTH` | must be `true` as well, or the line above is ignored |
 
-Any one can be used. Values are comma, semicolon, or whitespace separated email addresses.
+Values are comma, semicolon or whitespace separated email addresses.
 
-Optional admin allowlist:
+**An empty allowlist means NOBODY.** An earlier version of this document said
+*"if no allowlist is configured, any Cloudflare Access-authenticated email is
+treated as allowed"*. That was true when written and was fixed on 2026-08-13:
+`getContributorAuth` now requires the address to appear in a list. Cloudflare
+Access commonly issues one-time PINs to any address that asks, so the old
+behaviour made an unset allowlist equivalent to an open endpoint — and the moment
+of maximum exposure was the moment Access was switched on, before anyone had got
+round to setting the lists.
 
-- `CIVGRAPH_ADMINS`
-- `CONTRIBUTOR_ADMINS`
-- `BROWSE_ADMINS`
+`/_api/auth/status` reports `contributorCount` and `adminCount` — counts only,
+never addresses — because Pages secrets are write-only and setting one is
+otherwise unverifiable.
 
-If no allowlist is configured, any Cloudflare Access-authenticated email is treated as allowed. That is acceptable only if the Access policy itself is restrictive.
-
-Local development override:
-
-- `CIVGRAPH_DEV_AUTH_EMAIL`
-- `BROWSE_DEV_AUTH_EMAIL`
-
-Use only in local/dev environments. Do not configure these in production.
+The dev override is a complete authentication bypass and needs **two** variables
+set together, so it cannot be enabled by a single mistakenly-copied value. Neither
+belongs in production under any circumstance.
 
 ## Review Queue Shape
 

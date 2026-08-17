@@ -16,6 +16,7 @@
  * The constituency -> feature match is a stored table rather than a build-time
  * computation, which is the specific change that retires that regression.
  */
+import { reportError } from '../_error.js';
 
 // Bump this whenever the RESPONSE SHAPE changes, not just when the data does.
 // It is part of the edge cache key, and responses carry s-maxage=86400: after the
@@ -262,7 +263,16 @@ async function handle(context) {
       ).bind(key).all(),
     ]);
     if (!election) return json({ error: 'election not found' }, 404);
-    const rows = (cons.results || []).map(withMeta);
+    // Normalise `matched` to a boolean here as bundle mode already does. SQLite
+    // returns 0/1, so this endpoint used to hand back an integer while the bundle
+    // endpoint handed back a boolean for the same field. Both are truthy-correct,
+    // so nothing broke -- but a client doing `matched === true` against the wrong
+    // one gets silently wrong counts, which is the kind of bug that surfaces as a
+    // data problem rather than a type problem.
+    const rows = (cons.results || []).map((row) => {
+      const mapped = withMeta(row);
+      return { ...mapped, matched: mapped.matched === 1 || mapped.matched === true };
+    });
     return json({
       election: withMeta(election),
       constituencies: rows,
@@ -270,6 +280,6 @@ async function handle(context) {
       unmatchedCount: rows.filter((r) => !r.matched).length,
     });
   } catch (error) {
-    return json({ error: String(error && error.message ? error.message : error) }, 500);
+    return json({ error: 'Election query failed', ...reportError(context.env, 'elections', error) }, 500);
   }
 }

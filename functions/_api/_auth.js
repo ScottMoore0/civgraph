@@ -38,8 +38,17 @@ export function getContributorAuth(context) {
   const email = firstHeader(request, ACCESS_EMAIL_HEADERS)
     || emailFromAccessJwt(jwtAssertion)
     || devEmail(env);
-  const allowlist = parseList(env.CIVGRAPH_CONTRIBUTORS || env.CONTRIBUTOR_EMAILS || env.BROWSE_CONTRIBUTORS);
-  const adminList = parseList(env.CIVGRAPH_ADMINS || env.CONTRIBUTOR_ADMINS || env.BROWSE_ADMINS);
+  // One name each. This used to accept CONTRIBUTOR_EMAILS/BROWSE_CONTRIBUTORS and
+  // CONTRIBUTOR_ADMINS/BROWSE_ADMINS as fallbacks, from before the CIVGRAPH_
+  // prefix settled. Nothing set them: verified 2026-08-17 against wrangler.toml,
+  // the workflows, and the live endpoint, which reported 2 contributors and 1
+  // admin from the CIVGRAPH_ names alone.
+  //
+  // Three accepted spellings for one secret is not tolerance, it is three places
+  // a typo can hide: set BROWSE_ADMINS by mistake and the allowlist silently
+  // reads empty, which now fails closed and looks like a permissions bug.
+  const allowlist = parseList(env.CIVGRAPH_CONTRIBUTORS);
+  const adminList = parseList(env.CIVGRAPH_ADMINS);
   const normalizedEmail = normalizeEmail(email);
   const authenticated = Boolean(normalizedEmail);
   const allowlistConfigured = allowlist.length > 0 || adminList.length > 0;
@@ -243,9 +252,7 @@ function normalizeEmail(value) {
  */
 function devEmail(env) {
   if (String(env.CIVGRAPH_ALLOW_DEV_AUTH || '').toLowerCase() !== 'true') return null;
-  if (env.CIVGRAPH_DEV_AUTH_EMAIL) return env.CIVGRAPH_DEV_AUTH_EMAIL;
-  if (env.BROWSE_DEV_AUTH_EMAIL) return env.BROWSE_DEV_AUTH_EMAIL;
-  return null;
+  return env.CIVGRAPH_DEV_AUTH_EMAIL || null;
 }
 
 /**
