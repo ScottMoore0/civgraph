@@ -10,9 +10,18 @@
 > separate review pass, not by re-reading this file, and an audit is exactly the
 > kind of document whose errors get inherited rather than checked.
 >
-> Applied since writing: items 1, 2, 3 and 5 (elections schema recorded, deploy
-> watcher no longer reports green when unconfigured, Node pinned, `labelProperty`
-> set). Item 12 landed with the simplification merge.
+> Applied since writing: **items 1, 2, 3 and 5** — elections schema recorded,
+> deploy watcher no longer reports green when unconfigured, Node pinned to 24,
+> `labelProperty` set (and later corrected to `ENGLISH`, the convention 102 other
+> layers already used). Four of twenty.
+>
+> **Item 12 is NOT done.** An earlier version of this banner said it "landed with
+> the simplification merge". It did not: `functions/_api/_auth.js` still reads
+> `CIVGRAPH_CONTRIBUTORS || CONTRIBUTOR_EMAILS || BROWSE_CONTRIBUTORS`, and the
+> same for admins. That claim was written without checking — the same failure this
+> document's own item 4 was corrected for, in the same week, by the same author.
+> Two wrong status claims in one audit is a pattern, not an accident: prose about
+> what has been done is unverifiable by construction, and nothing here checks it.
 
 Scope: the GitHub repository and the Cloudflare deployment. Written to be
 synthesised with other review outputs into a single remediation plan.

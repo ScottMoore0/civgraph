@@ -1,10 +1,17 @@
 # Simplification pass
 
-> **Status: completed experiment - 2026-08-16. The changes exist on the branch
-> `scratch/simplify-2026-08-16` and have NOT been merged.** One commit, 14 files,
-> +120/-79. The full gate passes on that branch. Merging is a decision, not a
-> formality - read "What was rejected" first, because most of what a
-> simplification pass would normally do is wrong here.
+> **Status: completed and MERGED - 2026-08-16, merged in `ffbe3721f0`.** One
+> commit, 14 files, +120/-79. All four changes are on `main`.
+>
+> This banner read "have NOT been merged" for a day after the merge landed, which
+> is the failure mode principle 13 exists to prevent and `check:doc-status`
+> cannot catch — it asserts a status is *declared*, never that it is *true*.
+> Whether this branch is merged is a mechanically checkable fact
+> (`git merge-base --is-ancestor`), so it is a candidate for a real check rather
+> than a promise to remember.
+>
+> Item 1 was taken **with** the permanent 405 harness the recommendation below
+> asks for: `scripts/test-method-guards.mjs`, 40 assertions, in `npm run check`.
 
 Third of three review passes, alongside `docs/review/TECH-DEBT-AUDIT.md` and
 `docs/review/CODE-REVIEW.md`.

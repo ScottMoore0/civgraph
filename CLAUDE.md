@@ -38,7 +38,8 @@ fact for the rest of that logical step. Do not re-run "to be sure" or re-read
 the captured output. Only re-run when concrete new evidence (a later failure,
 a baseline that may have masked a regression) requires it.
 
-This applies to local build scripts, R2 upload scripts, `node scripts/bundle.mjs`,
+This applies to local build scripts, R2 upload scripts, `npm run build`
+(`scripts/build-shared-shell-assets.mjs` then `scripts/build-test2-app.mjs`),
 etc. — each successful run counts once.
 
 ### 4. Delegate >5k-token reads to Flash
