@@ -11,6 +11,25 @@ import { existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } 
 import { dirname, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { getTileProfile } from './test-tile-profiles.mjs';
+import { isPrimaryKey } from '../test/src/feature-details.js';
+
+// Mean value length above which a field is treated as free text and dropped from
+// low-zoom tiles. Sits above any realistic categorical value or code, well below prose.
+// Declared here rather than beside its use: lowZoomColumns runs during the top-level
+// build loop, so a `const` defined further down the file is still in its temporal dead
+// zone when the first layer is processed.
+const LOW_ZOOM_MAX_FIELD_CHARS = 40;
+
+// Mean value length above which a field is not renderable data at all and is excluded
+// from EVERY zoom, not just the low ones.
+//
+// historic-ringfort-cashel's DESCRIPTION averages ~900 characters -- an archaeological
+// report per feature. Pruning it below z8 took that layer's low-zoom tiles from 4.9 MB
+// to 312 KB and left its z8+ tiles at 5.0 MB, over the project's 4 MB hard budget,
+// because the prose simply reappeared. A vector tile is a rendering payload; prose is
+// never rendered from one. It stays available in the layer's FlatGeobuf download and on
+// its Browse detail page, which is where a reader of it actually goes.
+const TILE_MAX_FIELD_CHARS = 200;
 
 const ROOT = resolve(process.cwd());
 const METADATA_PATH = resolve(ROOT, 'test/metadata/maps-test.json');
@@ -235,6 +254,21 @@ function buildArchiveOnce(layer, sourcePath, outputPath, profile, srsOptions, op
     && existsSync(resolve(ROOT, DECIDUOUS_LOD1_SOURCE))) {
     return buildDeciduousMultiZoomArchive(layer, outputPath, profile);
   }
+  // Attribute pruning is opt-in per layer, via the profile, because the cost is real:
+  // below the cutoff a feature shows its name rather than its full record. Only layers
+  // measured to be attribute-bound should carry it.
+  const cutoff = Number(profile.lowZoomAttributeCutoff);
+  if (Number.isFinite(cutoff) && cutoff >= Number(layer.minzoom ?? 0) && cutoff < Number(layer.maxzoom ?? 12)) {
+    const columns = lowZoomColumns(layer, sourcePath);
+    if (columns) {
+      if (columns.dropped.length) {
+        console.warn(`  ${layer.id}: excluding free-text field(s) from all tiles: ${columns.dropped.join(', ')}`);
+      }
+      return buildAttributePrunedArchive(layer, sourcePath, outputPath, profile, columns, cutoff);
+    }
+    console.warn(`  ${layer.id}: attribute pruning requested but no useful column subset found; building normally.`);
+  }
+
   if (usesMbtilesIntermediate(layer)) {
     const mbtilesPath = outputPath.replace(/\.pmtiles$/i, '.mbtiles');
     rmSync(mbtilesPath, { force: true });
@@ -295,6 +329,238 @@ function buildArchiveOnce(layer, sourcePath, outputPath, profile, srsOptions, op
     encoding: 'utf8',
     maxBuffer: 64 * 1024 * 1024
   });
+}
+
+/**
+ * Attributes, not geometry, are what makes a low-zoom tile enormous.
+ *
+ * MEASURED 2026-08-20, worst tile per archive, decompressed:
+ *
+ *   dobih-v18-4        z0   10.65 MB   21,572 features   1.0 vertex/feature   45 keys
+ *   niah-buildings     z0    7.25 MB   48,327 features   1.0 vertex/feature   10 keys
+ *   corine-land-cover  z5    3.00 MB   21,663 features  16.2 vertices/feature
+ *   antrim-townlands   z0    0.01 MB       86 features   4.0 vertices/feature
+ *
+ * Read the vertex counts. dobih and niah are point layers: one vertex each, so there is
+ * no level of detail to reduce -- a point cannot be simplified. antrim is already at 4.0
+ * vertices per feature at z0, which is the floor for a closed ring; GDAL has simplified
+ * it as far as geometry allows. In dobih's 10.65 MB tile the geometry is roughly 0.2 MB.
+ * The other 98% is 45 attribute columns per feature. It is a spreadsheet with
+ * coordinates attached.
+ *
+ * So the obvious remedies are both wrong. Reducing LOD has nothing left to remove, and
+ * a feature budget would drop real features to save a payload they are not responsible
+ * for. Dropping ATTRIBUTES at low zoom keeps every feature on screen and removes the
+ * part that is actually large.
+ *
+ * WHAT IS KEPT is derived, not listed. isPrimaryKey is the predicate the feature detail
+ * panel uses to decide which fields to show first; the build imports it so the two
+ * cannot disagree. promoteId is kept unconditionally -- it is MapLibre's feature
+ * identity, and losing it breaks hover, selection and feature state rather than just
+ * the panel.
+ *
+ * THE COST, STATED PLAINLY: clicking a feature below the cutoff shows its name and not
+ * its full record. At z0 a click among 21,572 overlapping points is a lottery rather
+ * than a choice, which is why this is the right trade -- but it is a real one.
+ */
+function lowZoomColumns(layer, sourcePath) {
+  const fields = readSourceFields(sourcePath);
+  if (!fields.length) return null;   // cannot tell: build normally rather than guess
+  // Anything the layer is STYLED by must survive, or the map draws the wrong colours
+  // below the cutoff and the right ones above it -- a bug that looks like a rendering
+  // glitch and would never be traced to a build flag. None of the layers enabled today
+  // has such a reference; this is here so that enabling one later fails safe rather
+  // than silently.
+  const styled = styleFieldReferences(layer);
+  let keep = fields.filter((field) => isPrimaryKey(layer, field)
+    || field === layer.promoteId
+    || field === 'civ_fid'
+    || styled.has(field));
+
+  // FALLBACK for layers with no name-like field at all. historic-ringfort-cashel has
+  // five: LATITUDE, LONGITUDE, CLASSIFICATION, DESCRIPTION, PERIOD. None is a name, so
+  // the rule above keeps nothing and pruning would be abandoned -- while DESCRIPTION
+  // holds a 900-character archaeological essay per feature and is, on its own, the
+  // reason that layer's worst tile is 4.9 MB.
+  //
+  // So: keep everything SHORT. It is derived from the data rather than a hand-written
+  // per-layer list, it needs no maintenance as sources change, and it targets the actual
+  // cost. A categorical value stays; a paragraph does not.
+  const lengths = sampleFieldLengths(sourcePath);
+  const isProse = (field) => (lengths.get(field) ?? 0) > TILE_MAX_FIELD_CHARS;
+  if (!keep.length) {
+    if (!lengths.size) return null;
+    keep = fields.filter((field) => (lengths.get(field) ?? Infinity) <= LOW_ZOOM_MAX_FIELD_CHARS);
+    if (!keep.length) return null;
+  }
+
+  // Bail out on PAYLOAD, not on field count. historic-ringfort-cashel has five fields
+  // and the rule above keeps four of them, which by any count-based measure looks like
+  // pruning nothing -- but the one dropped field is a 900-character description holding
+  // roughly 95% of the bytes. Counting fields would have abandoned the largest win
+  // available because that win was concentrated in a single column.
+  if (lengths.size) {
+    const weight = (field) => (lengths.get(field) ?? 0) + field.length;
+    const total = fields.reduce((sum, field) => sum + weight(field), 0);
+    const kept = keep.reduce((sum, field) => sum + weight(field), 0);
+    if (total > 0 && kept > total * 0.6 && !fields.some(isProse)) return null;
+  }
+
+  // `high` is everything except prose. Returning both halves here keeps the decision in
+  // one place: the builder should not be re-deriving which columns matter.
+  const high = fields.filter((field) => !isProse(field));
+  return { low: keep.filter((field) => !isProse(field)), high, dropped: fields.filter(isProse) };
+}
+
+/**
+ * Mean character length of each field's value, over a sample of features.
+ *
+ * 40 is chosen to sit above any realistic categorical value or code and well below
+ * free text. It is a threshold on the data, not on the schema, so a field that happens
+ * to be short in one source and long in another is treated correctly in each.
+ */
+function sampleFieldLengths(sourcePath, sampleSize = 300) {
+  const result = spawnSync(tools.ogr2ogr, [
+    '-f', 'GeoJSON', '/vsistdout/', sourcePath,
+    '-limit', String(sampleSize), '-lco', 'WRITE_BBOX=NO'
+  ], { cwd: ROOT, encoding: 'utf8', maxBuffer: 128 * 1024 * 1024 });
+  if (result.status !== 0 || !result.stdout) return new Map();
+  let features;
+  try {
+    features = JSON.parse(result.stdout).features || [];
+  } catch {
+    return new Map();
+  }
+  const totals = new Map();
+  const counts = new Map();
+  for (const feature of features) {
+    for (const [key, value] of Object.entries(feature.properties || {})) {
+      totals.set(key, (totals.get(key) || 0) + String(value ?? '').length);
+      counts.set(key, (counts.get(key) || 0) + 1);
+    }
+  }
+  const means = new Map();
+  for (const [key, total] of totals) means.set(key, total / (counts.get(key) || 1));
+  return means;
+}
+
+/** Every attribute name this layer's styling configuration mentions. */
+function styleFieldReferences(layer) {
+  const blob = JSON.stringify({
+    style: layer.style,
+    conditionalStyling: layer.conditionalStyling,
+    classification: layer.classification,
+    legend: layer.legend,
+    paint: layer.paint,
+    labelProperty: layer.labelProperty,
+    labelProperties: layer.labelProperties
+  } ?? {});
+  const names = new Set();
+  for (const match of blob.matchAll(/"(?:property|field|attribute|column|labelProperty)"\s*:\s*"([^"]+)"/g)) {
+    names.add(match[1]);
+  }
+  // MapLibre's own ["get", "FIELD"] form, which a hand-written paint expression uses.
+  for (const match of blob.matchAll(/\["get","([^"]+)"\]/g)) names.add(match[1]);
+  if (layer.labelProperty) names.add(layer.labelProperty);
+  for (const name of layer.labelProperties || []) names.add(name);
+  return names;
+}
+
+function readSourceFields(sourcePath) {
+  const result = spawnSync(tools.ogrinfo, ['-so', '-al', '-json', sourcePath], {
+    cwd: ROOT, encoding: 'utf8', maxBuffer: 32 * 1024 * 1024
+  });
+  if (result.status !== 0 || !result.stdout) return [];
+  try {
+    const doc = JSON.parse(result.stdout);
+    const fields = (doc.layers || [])[0]?.fields || [];
+    return fields.map((field) => field.name).filter(Boolean);
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Build one archive whose low zooms carry only the kept columns and whose high zooms
+ * carry the full record, then merge them.
+ *
+ * The merge is the same ATTACH that buildDeciduousMultiZoomArchive already uses for its
+ * two geometry LODs -- this varies the column list instead of the source file, so the
+ * mechanism is reused rather than reinvented.
+ */
+function buildAttributePrunedArchive(layer, sourcePath, outputPath, profile, columns, cutoff) {
+  const { low: lowColumns, high: highColumns } = columns;
+  if (!tools.sqlite3) {
+    return { status: 1, stderr: 'sqlite3 is required to merge pruned/full zoom ranges.', stdout: '' };
+  }
+  const srcLayer = resolveSourceLayerName(sourcePath);
+  if (!srcLayer) return { status: 1, stderr: 'could not resolve the source layer name', stdout: '' };
+  const quoted = srcLayer.replace(/"/g, '""');
+  const lowMbtiles = outputPath.replace(/\.pmtiles$/i, '.lowattr.mbtiles');
+  const highMbtiles = outputPath.replace(/\.pmtiles$/i, '.fullattr.mbtiles');
+  rmSync(lowMbtiles, { force: true });
+  rmSync(highMbtiles, { force: true });
+  const layerName = layer.sourceLayer || safeLayerName(layer.id);
+  const maxzoom = Number(layer.maxzoom ?? 12);
+  const minzoom = Number(layer.minzoom ?? 0);
+
+  // -sql rather than -select, because the polygon/line path already needs -sql to inject
+  // civ_fid and the two options cannot be combined. One shape for both keeps this from
+  // silently doing something different per geometry type.
+  const columnList = (names) => names
+    .filter((name) => name !== 'civ_fid')
+    .map((name) => `"${name.replace(/"/g, '""')}"`)
+    .join(', ');
+  const lowSelected = columnList(lowColumns);
+  const highSelected = columnList(highColumns);
+  const lowSql = `SELECT FID AS civ_fid${lowSelected ? `, ${lowSelected}` : ''} FROM "${quoted}"`;
+  const highSql = `SELECT FID AS civ_fid${highSelected ? `, ${highSelected}` : ''} FROM "${quoted}"`;
+
+  const low = spawnSync(tools.ogr2ogr, [
+    ...mbtilesArgs({ outputPath: lowMbtiles, sourcePath, minzoom, maxzoom: cutoff, profile, layerName }),
+    '-sql', lowSql
+  ], { cwd: ROOT, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+  if (low.status !== 0 || !existsSync(lowMbtiles)) {
+    rmSync(lowMbtiles, { force: true });
+    return low;
+  }
+
+  const high = spawnSync(tools.ogr2ogr, [
+    ...mbtilesArgs({ outputPath: highMbtiles, sourcePath, minzoom: cutoff + 1, maxzoom, profile, layerName }),
+    '-sql', highSql
+  ], { cwd: ROOT, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+  if (high.status !== 0 || !existsSync(highMbtiles)) {
+    rmSync(lowMbtiles, { force: true });
+    rmSync(highMbtiles, { force: true });
+    return high;
+  }
+
+  const merge = spawnSync(tools.sqlite3, [
+    lowMbtiles,
+    `ATTACH '${escapeSqlitePath(highMbtiles)}' AS high; INSERT OR REPLACE INTO tiles SELECT * FROM high.tiles; `
+    + `UPDATE metadata SET value='${minzoom}' WHERE name='minzoom'; `
+    + `UPDATE metadata SET value='${maxzoom}' WHERE name='maxzoom'; `
+    + `UPDATE metadata SET value='${escapeSqliteValue(layer.name || layer.id)}' WHERE name='name'; DETACH high;`
+  ], { cwd: ROOT, encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 });
+  if (merge.status !== 0) {
+    rmSync(lowMbtiles, { force: true });
+    rmSync(highMbtiles, { force: true });
+    return merge;
+  }
+
+  const metadataResult = ensureMbtilesVectorMetadata(lowMbtiles, layerName);
+  if (metadataResult.status !== 0) {
+    rmSync(lowMbtiles, { force: true });
+    rmSync(highMbtiles, { force: true });
+    return metadataResult;
+  }
+
+  const pmtiles = spawnSync(tools.ogr2ogr, ['-f', 'PMTiles', outputPath, lowMbtiles], {
+    cwd: ROOT, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024
+  });
+  rmSync(lowMbtiles, { force: true });
+  rmSync(highMbtiles, { force: true });
+  return pmtiles;
 }
 
 function buildDeciduousMultiZoomArchive(layer, outputPath, profile) {

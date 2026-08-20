@@ -1,11 +1,65 @@
+/**
+ * Layers whose low-zoom tiles are attribute-bound rather than geometry-bound.
+ *
+ * MEASURED, not guessed. The worst tile in dobih-v18-4 is 10.65 MB decompressed for
+ * 21,572 points at exactly one vertex each -- roughly 0.2 MB of geometry and 45
+ * attribute columns per feature for the rest. Simplification cannot touch that: a point
+ * has no level of detail, and the dense polygon layers are already at 4.0 vertices per
+ * feature at z0, which is the floor for a closed ring.
+ *
+ * Below the cutoff these layers carry only their identity and name fields; at cutoff+1
+ * and above they carry the full record. See lowZoomColumns() in build-test-pmtiles.mjs
+ * for what "name fields" means and why the set is derived from the app rather than
+ * listed here.
+ *
+ * 7 is the cutoff throughout because it is the zoom at which a click stops being a
+ * lottery -- above it a feature is large enough to aim at, so the full record has to be
+ * there. Add a layer here only after measuring that its low-zoom tiles are large AND
+ * that the size is in the attributes.
+ *
+ * IT IS NOT ONLY A SIZE FIX. Measured on niah-buildings, same source, same profile,
+ * only this flag differing:
+ *
+ *   unpruned   z0 worst tile 42,590 KB   23,184 of 48,327 features
+ *   pruned     z0 worst tile  1,668 KB   48,327 of 48,327 features
+ *
+ * More than half the layer was missing at low zoom. MAX_SIZE was being reached and GDAL
+ * was dropping features to stay under it -- a feature budget nobody chose, enforced
+ * silently, against a payload the features were not responsible for. Removing the
+ * attributes removed the pressure, and the dropped half came back. Nothing reported
+ * this: the tiles built cleanly, the layer rendered, and it was simply incomplete.
+ */
+// hed-sites-and-monuments and hed-listed-buildings were listed here and removed after
+// measurement: their twelve fields are all short codes, so there is no long-text column
+// to drop and pruning would keep over 60% of the payload for none of the benefit. They
+// are feature-count-bound, not attribute-bound, and need a different remedy.
+const ATTRIBUTE_BOUND = [
+  'dobih-v18-4',
+  'niah-buildings',
+  'historic-ringfort-cashel',
+  'dcc-street-lighting-dublin-city',
+  'translink-bus-stops-2024',
+  'ni-listed-buildings',
+  'gsni-tellus-',
+  'niea-river-segments',
+  'ni-authorised-waste-sites',
+  'dlr-dlr-public-lighting'
+];
+
+function attributeCutoffFor(key) {
+  return ATTRIBUTE_BOUND.some((prefix) => key.includes(prefix)) ? 7 : undefined;
+}
+
 export function getTileProfile(id = '') {
   const key = String(id || '').toLowerCase();
+  const lowZoomAttributeCutoff = attributeCutoffFor(key);
   if (key.includes('roi-townlands')) {
     return {
       maxSize: '6000000',
       maxFeatures: '6000000',
       simplification: '8',
       simplificationMaxZoom: '0',
+      lowZoomAttributeCutoff,
       note: 'Retuned for large ROI townlands tiles while preserving low-zoom coverage checks.'
     };
   }
@@ -15,6 +69,7 @@ export function getTileProfile(id = '') {
       maxFeatures: '6000000',
       simplification: '4',
       simplificationMaxZoom: '0',
+      lowZoomAttributeCutoff,
       note: 'Retuned for ROI small-area tile budget warning.'
     };
   }
@@ -24,6 +79,7 @@ export function getTileProfile(id = '') {
       maxFeatures: '4500000',
       simplification: '10',
       simplificationMaxZoom: '8',
+      lowZoomAttributeCutoff,
       note: 'Retuned for NI townlands 1844 low-zoom tile pressure while preserving high-zoom detail.'
     };
   }
@@ -33,6 +89,7 @@ export function getTileProfile(id = '') {
       maxFeatures: '3500000',
       simplification: '8',
       simplificationMaxZoom: '8',
+      lowZoomAttributeCutoff,
       note: 'Retuned for grouped wetland habitat network tile pressure using bounded low-zoom simplification.'
     };
   }
@@ -42,6 +99,7 @@ export function getTileProfile(id = '') {
       maxFeatures: '1000000',
       simplification: '4',
       simplificationMaxZoom: '8',
+      lowZoomAttributeCutoff,
       note: 'Retuned for deciduous woodland habitat network conversion using LOD0 at low zooms and LOD1 at detail zooms.'
     };
   }
@@ -51,6 +109,7 @@ export function getTileProfile(id = '') {
       maxFeatures: '2500000',
       simplification: '6',
       simplificationMaxZoom: '8',
+      lowZoomAttributeCutoff,
       note: 'Retuned for dense habitat network layers to keep mobile tiles below hard budgets while retaining detail zoom coverage.'
     };
   }
@@ -60,6 +119,7 @@ export function getTileProfile(id = '') {
       maxFeatures: '2500000',
       simplification: '2',
       simplificationMaxZoom: '8',
+      lowZoomAttributeCutoff,
       note: 'Retuned for very dense national planning records so PMTiles packaging and mobile loading stay bounded.'
     };
   }
@@ -72,6 +132,7 @@ export function getTileProfile(id = '') {
       maxFeatures: '3000000',
       simplification: '2',
       simplificationMaxZoom: '8',
+      lowZoomAttributeCutoff,
       note: 'Retuned for dense transport and risk layers that otherwise produce oversized low-zoom tiles.'
     };
   }
@@ -80,6 +141,7 @@ export function getTileProfile(id = '') {
     maxFeatures: '10000000',
     simplification: '1',
     simplificationMaxZoom: '0',
+    lowZoomAttributeCutoff,
     note: 'Default correctness-first /test MVT profile.'
   };
 }

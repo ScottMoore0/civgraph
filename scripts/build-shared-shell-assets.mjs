@@ -32,12 +32,48 @@ export function hashFile(filePath, length = 12, salt = '') {
 }
 
 /**
+ * The service worker's CACHE POLICY, with its derived version stamp removed.
+ *
+ * WHY THE STRIPPING, AND WHY IT IS NOT OPTIONAL
+ *
+ * `npm run build` runs this script and then build-test2-app.mjs, which ends by
+ * rewriting sw.js's `const VERSION = 'root-maplibre-sw-<jsVersion>'` line with the
+ * hash of the app bundle it just built. Salting on the whole of sw.js therefore made
+ * the CSS token depend on a file that this same build had not finished writing:
+ *
+ *   pass 1   salt over the OLD sw.js -> stamp index.html -> rewrite sw.js
+ *   pass 2   salt over the NEW sw.js -> different token   -> restamp index.html
+ *
+ * So `npm run build` was not a fixed point. Any commit touching app/src shipped an
+ * index.html whose /build/main.css token was one build behind, and returning visitors
+ * kept the old stylesheet. It converged only on a second consecutive build, which is
+ * not something anyone knows to do. Caught 2026-08-20 by check:app-shell-cache, which
+ * is the only reason it was not already live.
+ *
+ * Stripping the VERSION line keeps the salt's actual intent -- a real change to how
+ * the stylesheet is delivered busts its token -- while removing the part that is a
+ * derived echo of the bundle hash rather than a policy decision. The bundle hash
+ * already busts the bundle's own token; it has no business busting the CSS.
+ */
+export function stripDerivedServiceWorkerVersion(source) {
+  return String(source).replace(
+    /const VERSION = 'root-maplibre-sw-[^']*';/,
+    "const VERSION = '<derived>';"
+  );
+}
+
+function serviceWorkerPolicyHash(filePath) {
+  const source = stripDerivedServiceWorkerVersion(readFileSync(filePath, 'utf8'));
+  return createHash('sha256').update(source).digest('hex').slice(0, 12);
+}
+
+/**
  * The token written for /build/main.css.
  *
  * SALTED, which is why it cannot be reproduced by hashing the referenced file.
- * The salt folds in `_headers` and `sw.js`, so a change to the cache policy or
- * the service worker busts the stylesheet too -- both can change how the
- * stylesheet is delivered without changing a byte of it.
+ * The salt folds in `_headers` and the service worker's cache policy, so a change to
+ * how the stylesheet is delivered busts it too -- either can change that without
+ * changing a byte of the stylesheet.
  *
  * Exported because scripts/validate-app-shell-cache-tokens.mjs has to check this
  * token and must not re-implement the derivation. Two functions computing one
@@ -45,10 +81,10 @@ export function hashFile(filePath, length = 12, salt = '') {
  * writing it twice to guard against writing it wrong would be self-defeating.
  */
 export function sharedCssVersion() {
-  const entryPolicyVersion = ['_headers', 'sw.js']
-    .filter((filePath) => existsSync(filePath))
-    .map((filePath) => hashFile(filePath))
-    .join(':');
+  const entryPolicyVersion = [
+    existsSync('_headers') ? hashFile('_headers') : null,
+    existsSync('sw.js') ? serviceWorkerPolicyHash('sw.js') : null
+  ].filter(Boolean).join(':');
   return hashFile('build/main.css', 12, entryPolicyVersion);
 }
 

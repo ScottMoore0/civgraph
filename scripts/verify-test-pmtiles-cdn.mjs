@@ -1,16 +1,25 @@
 #!/usr/bin/env node
 /**
  * Verify CDN byte-range serving for /test PMTiles archives.
+ *
+ * SCOPED RUNS MERGE. `--ids` restricts what is fetched; it must not restrict what the
+ * report describes. Until 2026-08-20 it did both: a five-layer run wrote a report
+ * containing five rows and the other 814 verification results were gone. The report is
+ * an input to write-test-cdn-upload-manifest.mjs, which reads it to learn which
+ * archives exist remotely, so the truncation propagated -- 8 layers silently lost
+ * their `remoteVerified` flag on the next manifest write.
  */
 
 import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { mergeArtefactRecords, assertKnownFlags } from './lib/safe-artefact-write.mjs';
 
 const ROOT = resolve(process.cwd());
 const MANIFEST_PATH = resolve(ROOT, 'test/metadata/cdn-upload-manifest.json');
 const REPORT_PATH = resolve(ROOT, 'test/metadata/cdn-range-report.json');
 const APPLY = process.argv.includes('--apply');
 const ORIGIN = process.env.TEST_CDN_VERIFY_ORIGIN || 'https://civgraph.net';
+assertKnownFlags(['--ids', '--apply']);
 const ONLY_IDS = new Set(readArgList('--ids'));
 const manifest = JSON.parse(readFileSync(MANIFEST_PATH, 'utf8'));
 const assets = (manifest.assets || [])
@@ -52,22 +61,34 @@ for (const [index, asset] of assets.entries()) {
   }
 }
 
+// Merge, never substitute -- see the header. `kept` rows were verified by an earlier
+// run and are still true; dropping them would be this tool asserting they were never
+// checked, which is a different and false claim.
+const merged = mergeArtefactRecords(REPORT_PATH, results, { collection: 'results', idKey: 'layerId' });
+
 const report = {
   schemaVersion: 1,
   generatedAt: new Date().toISOString(),
   rangeRequest: 'bytes=0-15',
   origin: ORIGIN,
+  // Totals describe the FILE, not this run, because that is what a reader of the file
+  // will take them to mean. What this run touched is reported on stdout instead.
   totals: {
-    assets: assets.length,
-    ok: results.filter((item) => item.ok).length,
-    failed: results.filter((item) => !item.ok).length
+    assets: merged.records.length,
+    ok: merged.records.filter((item) => item.ok).length,
+    failed: merged.records.filter((item) => !item.ok).length
   },
-  results
+  scopedRun: ONLY_IDS.size ? { ids: [...ONLY_IDS], checked: results.length } : undefined,
+  results: merged.records
 };
 
 writeFileSync(REPORT_PATH, `${JSON.stringify(report, null, 2)}\n`);
 console.log(`Wrote ${REPORT_PATH.replace(`${ROOT}\\`, '').replaceAll('\\', '/')}`);
-if (report.totals.failed) process.exit(1);
+console.log(`This run: ${merged.updated} updated, ${merged.added} added, ${merged.kept} left untouched from earlier runs.`);
+// Exit on what THIS run found. A pre-existing failure in an untouched row is not this
+// run's result and must not fail it, or every scoped run inherits the backlog.
+const failedNow = results.filter((item) => !item.ok).length;
+if (failedNow) process.exit(1);
 
 if (APPLY) {
   await import('./switch-test-pmtiles-to-cdn.mjs');

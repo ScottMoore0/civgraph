@@ -52,7 +52,7 @@
  */
 import { readFileSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
-import { sharedCssVersion } from './build-shared-shell-assets.mjs';
+import { sharedCssVersion, stripDerivedServiceWorkerVersion } from './build-shared-shell-assets.mjs';
 
 const HTML = 'index.html';
 const SW = 'sw.js';
@@ -124,6 +124,42 @@ if (existsSync(SW)) {
     if (!match[1].endsWith(expected)) {
       problems.push(
         `${SW}: VERSION is "${match[1]}"\n      but app/build/app.bundle.js hashes to ${expected}\n      owned by ${ownerOf('/app/build/app.bundle.js')}`,
+      );
+    }
+  }
+}
+
+// THE BUILD MUST BE A FIXED POINT.
+//
+// `npm run build` stamps index.html's /build/main.css token from a salt, and then
+// build-test2-app.mjs rewrites sw.js's VERSION line with the freshly built bundle's
+// hash. While that line was part of the salt, the stamp was always computed over the
+// PREVIOUS sw.js: one build left a stale token, and only a second consecutive build
+// agreed with itself. Every commit touching app/src shipped returning visitors the old
+// stylesheet, and nothing said so -- the stale token above was found by accident on
+// 2026-08-20 while running the gate for an unrelated change.
+//
+// This asserts the property that makes the build converge rather than the symptom: the
+// salt must not move when only the derived VERSION line moves. It is checked by feeding
+// the real sw.js through with a deliberately different version stamp, so it fails if
+// anyone puts the raw file back into the salt.
+if (existsSync(SW)) {
+  const source = readFileSync(SW, 'utf8');
+  const bumped = source.replace(
+    /const VERSION = 'root-maplibre-sw-[^']*';/,
+    "const VERSION = 'root-maplibre-sw-0000deadbeef';",
+  );
+  if (bumped === source) {
+    problems.push(`${SW}: no derived VERSION line to vary; the convergence check cannot run`);
+  } else {
+    checked += 1;
+    if (stripDerivedServiceWorkerVersion(bumped) !== stripDerivedServiceWorkerVersion(source)) {
+      problems.push(
+        [
+          'the /build/main.css salt still depends on the derived VERSION line in sw.js.',
+          '      build-test2-app.mjs rewrites that line AFTER the token is stamped, so one',
+          '      `npm run build` will leave index.html one build behind, every time.'
+        ].join(String.fromCharCode(10)),
       );
     }
   }

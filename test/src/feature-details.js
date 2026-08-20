@@ -97,7 +97,16 @@ function groupProperties(layer, props) {
   };
 }
 
-function isPrimaryKey(layer, key) {
+/**
+ * Is this attribute one the reader is actually shown first?
+ *
+ * EXPORTED FOR THE TILE BUILD. scripts/build-test-pmtiles.mjs prunes attributes out of
+ * low-zoom tiles, and the set it must keep is exactly the set this predicate calls
+ * primary -- so it imports this rather than keeping its own list. Two lists would drift,
+ * and the way that drift would surface is a feature detail panel that is blank at z3 and
+ * populated at z9, which nobody would connect back to a build script.
+ */
+export function isPrimaryKey(layer, key) {
   const labelKeys = [
     layer.labelProperty,
     ...(layer.labelProperties || []),
