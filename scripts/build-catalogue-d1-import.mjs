@@ -24,9 +24,10 @@
  *
  * Usage: node scripts/build-catalogue-d1-import.mjs [--out <path>]
  */
-import { readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 
 const SRC = 'data/database/maps.json';
+const CHECK = process.argv.includes('--check');
 const outArg = process.argv.indexOf('--out');
 const OUT = outArg >= 0 ? process.argv[outArg + 1] : 'data/database/catalogue-d1-import.sql';
 
@@ -113,6 +114,38 @@ for (const key of Object.keys(doc)) {
 lines.push('');
 
 const sql = `${lines.join('\n')}\n`;
+// --check turns the generator into its own validator, which is the house convention:
+// a separate checker would be a second implementation of the same derivation, and two
+// implementations of one value is exactly how the value drifts.
+//
+// WHY THIS EXISTS AT ALL. The D1 parity check was network-only -- it compared
+// maps.json against the live /_api/catalogue endpoint -- and it lived in `npm run
+// check`, which scripts/README.md promises is entirely offline. So a contributor with
+// no network, or with no deploy yet, got either a red gate or a SKIP that proved
+// nothing. Worse, the failure it usually reported was not "D1 is wrong" but "you edited
+// maps.json and did not regenerate the SQL" -- a purely local mistake, diagnosed by a
+// round trip to production.
+//
+// That local half is this. The remote half stays in verify:catalogue-d1, where it
+// belongs, and now means only what it says: the loaded database matches the file that
+// was loaded.
+if (CHECK) {
+  const existing = existsSync(OUT) ? readFileSync(OUT, "utf8") : null;
+  if (existing === null) {
+    console.error(`FAIL: ${OUT} does not exist. Generate it with: node scripts/build-catalogue-d1-import.mjs`);
+    process.exit(1);
+  }
+  if (existing !== sql) {
+    console.error(`FAIL: ${OUT} is stale -- it does not match ${SRC}.`);
+    console.error("  Every catalogue edit needs the import regenerated, or the next D1 load");
+    console.error("  silently reinstates the old records.");
+    console.error("  Regenerate: node scripts/build-catalogue-d1-import.mjs");
+    process.exit(1);
+  }
+  console.log(`PASS: ${OUT} matches ${SRC} (${maps.length} maps).`);
+  process.exit(0);
+}
+
 writeFileSync(OUT, sql);
 
 const biggest = Math.max(...sql.split(';\n').map((s) => s.length));

@@ -29,11 +29,20 @@
  * attributes removed the pressure, and the dropped half came back. Nothing reported
  * this: the tiles built cleanly, the layer rendered, and it was simply incomplete.
  */
-// hed-sites-and-monuments and hed-listed-buildings were listed here and removed after
-// measurement: their twelve fields are all short codes, so there is no long-text column
-// to drop and pruning would keep over 60% of the payload for none of the benefit. They
-// are feature-count-bound, not attribute-bound, and need a different remedy.
+// hed-sites-and-monuments and hed-listed-buildings were removed here once and put back.
+// The first removal was a misdiagnosis: they looked feature-count-bound because the
+// derived keep-set came out empty, but the reason was that both carry labelProperty:
+// null, and the keep-set is derived from exactly that. Neither has a field called
+// "name" -- the human identifier is Address on one and the monument type on the other --
+// so nothing matched and pruning was abandoned on layers that were prunable all along.
+//
+// Fixed by declaring labelProperties (plural) on both. That field is read only by the
+// feature detail panel and by this build; unlike labelProperty (singular) it does NOT
+// add a symbol layer, so it does not start drawing 40,000 text labels on the map to
+// win a build optimisation.
 const ATTRIBUTE_BOUND = [
+  'hed-sites-and-monuments',
+  'hed-listed-buildings',
   'dobih-v18-4',
   'niah-buildings',
   'historic-ringfort-cashel',

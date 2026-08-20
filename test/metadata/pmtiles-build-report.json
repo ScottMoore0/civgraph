@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-17T21:18:53.345Z",
+  "generatedAt": "2026-08-20T22:56:25.384Z",
   "mode": "execute",
   "tools": {
     "ogr2ogr": "C:\\Program Files\\GDAL\\ogr2ogr.exe",
@@ -12,97 +12,42 @@
   "outputDirectory": "test/pmtiles/generated",
   "maxGithubBytes": 99614720,
   "totals": {
-    "candidates": 5,
-    "converted": 5,
+    "candidates": 3,
+    "converted": 3,
     "skipped": 0,
     "failed": 0,
-    "metadataPreferred": 5,
+    "metadataPreferred": 3,
     "oversizedArchives": 0
   },
   "converted": [
     {
-      "layerId": "counties-county-boroughs-1915-vector-test",
-      "sourceMapId": "counties-county-boroughs-1915",
-      "name": "Local Authorities 1921",
+      "layerId": "dobih-v18-4-vector-test",
+      "sourceMapId": "dobih-v18-4",
+      "name": "Hills and Mountains",
       "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "test/pmtiles/generated/counties-county-boroughs-1915-vector-test.pmtiles",
-      "bytes": 630011,
+      "status": "already-exists",
+      "output": "test/pmtiles/generated/dobih-v18-4-vector-test.pmtiles",
+      "bytes": 69773045,
       "exceedsGithubBudget": false
     },
     {
-      "layerId": "roi-local-authorities-1915-vector-test",
-      "sourceMapId": "roi-local-authorities-1915",
-      "name": "Local Authorities 1915 (Ireland — all-island)",
+      "layerId": "historic-ringfort-cashel-vector-test",
+      "sourceMapId": "historic-ringfort-cashel",
+      "name": "Ringfort - Cashel",
       "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "test/pmtiles/generated/roi-local-authorities-1915-vector-test.pmtiles",
-      "bytes": 2409891,
+      "status": "already-exists",
+      "output": "test/pmtiles/generated/historic-ringfort-cashel-vector-test.pmtiles",
+      "bytes": 3725689,
       "exceedsGithubBudget": false
     },
     {
-      "layerId": "roi-local-authorities-1920-06-19-vector-test",
-      "sourceMapId": "roi-local-authorities-1920-06-19",
-      "name": "Local Authorities 19/06/1920 (Ireland — all-island)",
+      "layerId": "niah-buildings-vector-test",
+      "sourceMapId": "niah-buildings",
+      "name": "NIAH Buildings (Architectural Heritage)",
       "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "test/pmtiles/generated/roi-local-authorities-1920-06-19-vector-test.pmtiles",
-      "bytes": 2421630,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "roi-local-authorities-1920-06-25-vector-test",
-      "sourceMapId": "roi-local-authorities-1920-06-25",
-      "name": "Local Authorities 25/06/1920 (Ireland — all-island)",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "test/pmtiles/generated/roi-local-authorities-1920-06-25-vector-test.pmtiles",
-      "bytes": 2425669,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "roi-local-authorities-1920-10-04-vector-test",
-      "sourceMapId": "roi-local-authorities-1920-10-04",
-      "name": "Local Authorities 04/10/1920 (Ireland — all-island)",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "test/pmtiles/generated/roi-local-authorities-1920-10-04-vector-test.pmtiles",
-      "bytes": 2424537,
+      "status": "already-exists",
+      "output": "test/pmtiles/generated/niah-buildings-vector-test.pmtiles",
+      "bytes": 30915898,
       "exceedsGithubBudget": false
     }
   ],

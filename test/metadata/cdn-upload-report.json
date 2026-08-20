@@ -1,62 +1,44 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-17T21:20:53.549Z",
+  "generatedAt": "2026-08-20T22:55:49.076Z",
   "bucket": "boundaries-data",
   "dryRun": false,
   "selectedIds": [
-    "roi-local-authorities-1915-vector-test",
-    "roi-local-authorities-1920-06-19-vector-test",
-    "roi-local-authorities-1920-06-25-vector-test",
-    "roi-local-authorities-1920-10-04-vector-test",
-    "counties-county-boroughs-1915-vector-test"
+    "dobih-v18-4-vector-test",
+    "niah-buildings-vector-test",
+    "historic-ringfort-cashel-vector-test"
   ],
   "totals": {
-    "assets": 5,
-    "processed": 5,
-    "ok": 5,
+    "assets": 3,
+    "processed": 3,
+    "ok": 3,
     "failed": 0,
-    "bytes": 10311738
+    "bytes": 104414632
   },
   "results": [
     {
-      "layerId": "counties-county-boroughs-1915-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/counties-county-boroughs-1915-vector-test.pmtiles",
+      "layerId": "dobih-v18-4-vector-test",
+      "targetKey": "data/maps/test/pmtiles/generated/dobih-v18-4-vector-test.pmtiles",
       "ok": true,
       "status": "uploaded",
-      "bytes": 630011,
-      "output": "\n ⛅️ wrangler 4.85.0\n\u001b[38;2;255;136;0m───────────────────\u001b[39m\n\u001b[38;2;189;91;8m\u001b[1mResource location:\u001b[22m\u001b[39m remote \n\nCreating object \"data/maps/test/pmtiles/generated/counties-county-boroughs-1915-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+      "bytes": 69773045,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.125.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/dobih-v18-4-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
     },
     {
-      "layerId": "roi-local-authorities-1915-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/roi-local-authorities-1915-vector-test.pmtiles",
+      "layerId": "historic-ringfort-cashel-vector-test",
+      "targetKey": "data/maps/test/pmtiles/generated/historic-ringfort-cashel-vector-test.pmtiles",
       "ok": true,
       "status": "uploaded",
-      "bytes": 2409891,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available \u001b[32m4.123.0\u001b[39m)\n\u001b[38;2;255;136;0m──────────────────────────────────────────────\u001b[39m\n\u001b[38;2;189;91;8m\u001b[1mResource location:\u001b[22m\u001b[39m remote \n\nCreating object \"data/maps/test/pmtiles/generated/roi-local-authorities-1915-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+      "bytes": 3725689,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.125.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/historic-ringfort-cashel-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
     },
     {
-      "layerId": "roi-local-authorities-1920-06-19-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/roi-local-authorities-1920-06-19-vector-test.pmtiles",
+      "layerId": "niah-buildings-vector-test",
+      "targetKey": "data/maps/test/pmtiles/generated/niah-buildings-vector-test.pmtiles",
       "ok": true,
       "status": "uploaded",
-      "bytes": 2421630,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available \u001b[32m4.123.0\u001b[39m)\n\u001b[38;2;255;136;0m──────────────────────────────────────────────\u001b[39m\n\u001b[38;2;189;91;8m\u001b[1mResource location:\u001b[22m\u001b[39m remote \n\nCreating object \"data/maps/test/pmtiles/generated/roi-local-authorities-1920-06-19-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "roi-local-authorities-1920-06-25-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/roi-local-authorities-1920-06-25-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 2425669,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available \u001b[32m4.123.0\u001b[39m)\n\u001b[38;2;255;136;0m──────────────────────────────────────────────\u001b[39m\n\u001b[38;2;189;91;8m\u001b[1mResource location:\u001b[22m\u001b[39m remote \n\nCreating object \"data/maps/test/pmtiles/generated/roi-local-authorities-1920-06-25-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "roi-local-authorities-1920-10-04-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/roi-local-authorities-1920-10-04-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 2424537,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available \u001b[32m4.123.0\u001b[39m)\n\u001b[38;2;255;136;0m──────────────────────────────────────────────\u001b[39m\n\u001b[38;2;189;91;8m\u001b[1mResource location:\u001b[22m\u001b[39m remote \n\nCreating object \"data/maps/test/pmtiles/generated/roi-local-authorities-1920-10-04-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+      "bytes": 30915898,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.125.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/niah-buildings-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
     }
   ]
 }

@@ -1,6 +1,6 @@
 # `scripts/` — build, validation and data pipelines
 
-> **Status: current — 2026-08-17.** An index, not a specification. Each script's
+> **Status: current — 2026-08-20.** An index, not a specification. Each script's
 > own header comment is authoritative; this exists so you can find the right one.
 
 **Nothing here is deployed.** `.cfignore` excludes the directory. That matters
@@ -17,10 +17,10 @@ against. What was missing was a map, which is this.
 
 | Prefix | Count | What it means |
 |---|---|---|
-| `check:` | 42 | Offline validators. Every one runs in `npm run check`. |
+| `check:` | 44 | Offline validators. Every one runs in `npm run check`. |
 | `build:` | 28 | Produce tracked or deployed artefacts. |
-| `test:` | 10 | Unit-ish node tests, not Playwright. |
-| `verify:` | 4 | **Network-dependent** checks. Deliberately NOT in `npm run check`. |
+| `test:` | 12 | Unit-ish node tests, not Playwright. |
+| `verify:` | 6 | **Network-dependent** checks. Deliberately NOT in `npm run check`. |
 | `contributions:` | 5 | The submission queue: list, apply, mark applied, fetch attachments. |
 | `census:`, `deploy:`, `monitor:`, `audit:`, `lint:` | 12 | As named. |
 
@@ -29,6 +29,19 @@ entirely offline** — it must pass on a clean checkout with no credentials and 
 network. Anything that reads R2, D1 or the live site goes under `npm run verify`
 instead. Putting a network call into `check:` breaks CI on a runner without
 secrets, and putting an offline check into `verify:` means it never runs.
+
+That rule was being broken by `check:catalogue-d1`, which fetched the live
+`/_api/catalogue` from inside `npm run check` until 2026-08-20. It is now split, and
+the split is worth copying when you hit the same shape: the mistake it actually caught
+was almost always local — *you edited the catalogue and did not regenerate the SQL* —
+and it was diagnosing that by a round trip to production.
+
+| | Runs | Asserts |
+|---|---|---|
+| `check:catalogue-sql` | offline, always | the generated SQL matches `maps.json` |
+| `verify:catalogue-d1` | network | the loaded database matches the file |
+
+Ask which half of a check is genuinely remote. Usually most of it is not.
 
 ## Finding a script by what you want to do
 
