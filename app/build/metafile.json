@@ -225,7 +225,7 @@
       "format": "esm"
     },
     "src/ui-controller.js": {
-      "bytes": 621720,
+      "bytes": 611964,
       "imports": [
         {
           "path": "src/data-service.js",
@@ -396,8 +396,13 @@
       ],
       "format": "esm"
     },
+    "app/src/settle.js": {
+      "bytes": 2380,
+      "imports": [],
+      "format": "esm"
+    },
     "app/src/maplibre-main-adapter.js": {
-      "bytes": 59728,
+      "bytes": 60016,
       "imports": [
         {
           "path": "node_modules/maplibre-gl/dist/maplibre-gl.js",
@@ -418,6 +423,11 @@
           "path": "test/src/utils.js",
           "kind": "import-statement",
           "original": "../../test/src/utils.js"
+        },
+        {
+          "path": "app/src/settle.js",
+          "kind": "import-statement",
+          "original": "./settle.js"
         }
       ],
       "format": "esm"
@@ -497,7 +507,7 @@
       "format": "esm"
     },
     "app/src/app.js": {
-      "bytes": 145627,
+      "bytes": 147001,
       "imports": [
         {
           "path": "src/data-service.js",
@@ -562,7 +572,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "app/build/chunks/app-3WIURPMS.js",
+          "path": "app/build/chunks/app-SMMUNEWW.js",
           "kind": "dynamic-import"
         }
       ],
@@ -616,7 +626,7 @@
       },
       "bytes": 202229
     },
-    "app/build/chunks/app-3WIURPMS.js": {
+    "app/build/chunks/app-SMMUNEWW.js": {
       "imports": [
         {
           "path": "app/build/chunks/chunk-M6AVIK5Z.js",
@@ -647,7 +657,7 @@
           "bytesInOutput": 202
         },
         "src/ui-controller.js": {
-          "bytesInOutput": 337345
+          "bytesInOutput": 337871
         },
         "test/src/config.js": {
           "bytesInOutput": 411
@@ -659,7 +669,7 @@
           "bytesInOutput": 5559
         },
         "app/src/maplibre-main-adapter.js": {
-          "bytesInOutput": 35154
+          "bytesInOutput": 34934
         },
         "test/src/map-controller.js": {
           "bytesInOutput": 49959
@@ -679,11 +689,14 @@
         "test/src/labels.js": {
           "bytesInOutput": 1987
         },
+        "app/src/settle.js": {
+          "bytesInOutput": 358
+        },
         "app/src/app.js": {
-          "bytesInOutput": 85693
+          "bytesInOutput": 85992
         }
       },
-      "bytes": 576730
+      "bytes": 577693
     },
     "app/build/chunks/chunk-M6AVIK5Z.js": {
       "imports": [

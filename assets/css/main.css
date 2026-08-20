@@ -13754,3 +13754,55 @@ kbd {
     display: none;
   }
 }
+
+/* ==========================================================================
+   T0-05 — the "gave up" state
+   ==========================================================================
+   A layer whose tiles never arrived is still in the style, so every loaded-state
+   affordance stays correct and the row must keep them. What this adds is the one
+   thing the row could not previously say: nothing has drawn.
+
+   Carried by a text badge, not by colour. The three states this completes are
+   loaded / failed / gave up, and two of those would be amber-ish; a user who
+   cannot separate the hues would be back to two states. The rule and the tint
+   are reinforcement.
+*/
+.map-row--stalled {
+  border-left: 3px solid var(--color-warning);
+  background: rgba(214, 158, 46, 0.07);
+}
+
+.map-row--stalled::after {
+  content: "not drawn yet";
+  display: inline-block;
+  margin-left: var(--space-2);
+  padding: 0 var(--space-1);
+  font-size: var(--text-xs, 0.75rem);
+  font-weight: var(--font-medium);
+  line-height: 1.6;
+  color: #7a5c10;
+  background: rgba(214, 158, 46, 0.18);
+  border-radius: var(--radius-sm);
+  vertical-align: middle;
+}
+
+[data-theme="dark"] .map-row--stalled {
+  background: rgba(214, 158, 46, 0.12);
+}
+
+[data-theme="dark"] .map-row--stalled::after {
+  /* #7a5c10 on the dark surface measures about 2.1:1. */
+  color: #f0c860;
+  background: rgba(214, 158, 46, 0.22);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .map-row--stalled::after {
+    animation: stalled-badge-in 200ms ease-out;
+  }
+}
+
+@keyframes stalled-badge-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

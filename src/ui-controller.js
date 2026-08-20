@@ -8999,10 +8999,26 @@ class UIController {
             // so a load that never arrived says so instead of claiming success. This also
             // gives the user-visible half of T0-05 without depending on map.on('error'),
             // which the PMTiles protocol never fires.
+            //
+            // T0-05 completed: `settled` above is style membership, which is true the
+            // moment the layer is added regardless of whether any tile arrives. On its
+            // own it cannot tell "drawn" from "still waiting", so a twenty-second stall
+            // announced "loaded" over a blank map -- a false success, which is worse than
+            // silence. onCheckMapSettled reports how waitUntilSettled() actually ended,
+            // giving the third state: gave up.
+            const outcome = !isLoaded && this.onCheckMapSettled
+                ? String(this.onCheckMapSettled(mapId) || 'unknown')
+                : 'unknown';
+            const gaveUp = settled && outcome === 'timeout';
+            this.applyStalledStateToRows(mapId, gaveUp);
             if (isLoaded) {
                 this.announce(settled ? `${label} could not be removed` : `${label} removed`);
+            } else if (!settled) {
+                this.announce(`${label} failed to load`);
+            } else if (gaveUp) {
+                this.announce(`${label} is taking too long. Its tiles have not arrived; it may appear blank. Use the layer's load button to try again.`);
             } else {
-                this.announce(settled ? `${label} loaded` : `${label} failed to load`);
+                this.announce(`${label} loaded`);
             }
 
             // T1-01: restore focus to the replacement button, if this map's button had it.
@@ -9034,6 +9050,23 @@ class UIController {
     // syncCatalogueMapState() normally repaints these, but it is only called by the app's
     // own load/unload callbacks. Toggling the row classes here too keeps the row highlight
     // in step for the paths that do not go through it.
+    /**
+     * T0-05's visible half. The announcement above reaches a screen-reader user; a
+     * sighted user staring at an empty map gets nothing from it, so mark the row too.
+     *
+     * Separate from applyLoadedStateToRows because the two are orthogonal: a stalled
+     * layer IS loaded (it is in the style) and must keep its loaded affordances --
+     * unload, reorder, opacity. This adds "and nothing has drawn yet" on top.
+     */
+    applyStalledStateToRows(mapId, isStalled) {
+        if (!mapId) return;
+        document.querySelectorAll(`[data-map-id="${CSS.escape(mapId)}"]`).forEach((el) => {
+            el.classList.toggle('map-row--stalled', Boolean(isStalled));
+            if (isStalled) el.setAttribute('data-load-stalled', 'true');
+            else el.removeAttribute('data-load-stalled');
+        });
+    }
+
     applyLoadedStateToRows(mapId, isLoaded) {
         if (!mapId) return;
         const selector = `[data-map-id="${CSS.escape(mapId)}"]`;

@@ -778,7 +778,13 @@ class Test2App {
       // the wait the user experiences rather than just the style mutation, which returns
       // in tens of milliseconds. Deliberately last: the state updates above must not be
       // delayed by it.
-      await this.mapController.waitUntilSettled();
+      //
+      // T0-05: keep WHY it stopped waiting. The catalogue's outcome announcement used to
+      // be derived from isMapLoaded(), which is style membership -- true the instant the
+      // layer is added, whether or not a single tile ever arrives. So a stalled load was
+      // announced as "loaded" over an empty map. recordSettleOutcome() gives the
+      // catalogue the third state the announcement needs.
+      this.recordSettleOutcome(mapId, await this.mapController.waitUntilSettled());
     };
 
     uiController.onMapUnload = async (mapId) => {
@@ -803,6 +809,9 @@ class Test2App {
       // Same reason as onMapLoad: removing a layer forces a redraw, and the spinner should
       // last until the map has actually repainted without it.
       await this.mapController.waitUntilSettled();
+      // The layer is gone; a stale 'timeout' left here would make the next load of the
+      // same id inherit this one's verdict.
+      this.settleOutcomes?.delete(mapId);
     };
 
     uiController.onMapToggle = (mapId) => {
@@ -821,6 +830,7 @@ class Test2App {
       this.updateURLState();
     };
     uiController.onCheckMapLoaded = (mapId) => this.isMapLoaded(mapId);
+    uiController.onCheckMapSettled = (mapId) => this.settleOutcomes?.get(mapId) || 'unknown';
     uiController.onCheckMapVisible = (mapId) => this.isMapVisible(mapId);
     uiController.onReorderLayers = (ids) => this.setActiveLayerOrder(ids);
     uiController.onExpandToFullMap = async (mapId) => this.loadMap(mapId);
@@ -2995,6 +3005,21 @@ class Test2App {
     this.bindActiveLayerSourceButtons();
     if (this.currentSourceMapId) this.renderSourcePanel();
     this.updateTimeline();
+  }
+
+  /**
+   * T0-05. Remember how the last load of `mapId` ended, for the catalogue announcement.
+   *
+   * 'unavailable' is deliberately NOT stored: it means the adapter had no map to watch,
+   * which is a test stub or a torn-down page, and recording it would let "we could not
+   * observe this" harden into a claim about the layer.
+   */
+  recordSettleOutcome(mapId, outcome) {
+    if (!mapId) return outcome;
+    if (!this.settleOutcomes) this.settleOutcomes = new Map();
+    if (outcome === 'settled' || outcome === 'timeout') this.settleOutcomes.set(mapId, outcome);
+    else this.settleOutcomes.delete(mapId);
+    return outcome;
   }
 
   isMapLoaded(mapId) {

@@ -2,6 +2,7 @@ import maplibregl from 'maplibre-gl';
 import { TestMapLibreController } from '../../test/src/map-controller.js';
 import { repairFeatureProperties } from '../../test/src/feature-property-repairs.js';
 import { boundsToMapLibre } from '../../test/src/utils.js';
+import { waitForMapSettle } from './settle.js';
 
 const BASE_MAPS = {
   'osm-standard': ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
@@ -961,26 +962,21 @@ export class Test2MapLibreMainAdapter {
    *
    * The timeout is a guarantee rather than an optimisation: a stalled tile request must
    * never leave a spinner turning forever, so this resolves regardless at the deadline.
+   *
+   * T0-05: it resolves with WHICH of those two happened, and that distinction is the
+   * whole point. Before, both paths resolved undefined, so the catalogue asked
+   * isLayerLoaded() instead -- which reports style membership, not tiles. A layer whose
+   * tiles never arrived is still in the style, so a twenty-second stall was announced to
+   * the user as "loaded" over a blank map. Returning the outcome is what lets the caller
+   * tell "the tiles are drawn" from "we stopped waiting".
+   *
+   *   'settled'     -- idle with areTilesLoaded() true. The tiles are drawn.
+   *   'timeout'     -- the deadline passed first. Say so; do not claim success.
+   *   'unavailable' -- no map to observe. Distinct from success on purpose: a caller
+   *                    must not read "could not tell" as "worked".
    */
   waitUntilSettled({ timeoutMs = 20000 } = {}) {
-    const map = this.map;
-    if (!map || typeof map.once !== 'function') return Promise.resolve();
-    return new Promise((resolve) => {
-      let done = false;
-      const finish = () => {
-        if (done) return;
-        done = true;
-        clearTimeout(timer);
-        map.off('idle', onIdle);
-        resolve();
-      };
-      const onIdle = () => {
-        // areTilesLoaded is absent on some stubs; treat that as "cannot tell, accept".
-        if (typeof map.areTilesLoaded !== 'function' || map.areTilesLoaded()) finish();
-      };
-      const timer = setTimeout(finish, timeoutMs);
-      map.on('idle', onIdle);
-    });
+    return waitForMapSettle(this.map, { timeoutMs });
   }
 
   invalidateSize() {
