@@ -69,6 +69,13 @@ Three more were closed the same day; see "Closed since triage".
 
 ## PARTIAL — 3 (was 4)
 
+**~~`T0-05`~~ · CLOSED 2026-08-20.** The third state landed: `waitUntilSettled()`
+now returns `settled` / `timeout` / `unavailable` instead of `undefined`, and the
+announcement branches on it. The bug it fixes was worse than the item described --
+the old announcement read `isLayerLoaded()`, which is style membership, so a
+twenty-second stall was announced as *"loaded"* over a blank map. Tested in
+`scripts/test-settle-outcome.mjs`, negative-controlled. Original triage below.
+
 **`T0-05` · Distinguish loaded / failed / gave up.** The user-visible half is
 done: `src/ui-controller.js:9004` announces `"${label} failed to load"` based on
 settled state rather than assumption. The code says so itself — *"gives the
@@ -81,6 +88,11 @@ PMTiles protocol never fires."* Missing: any distinction between **failed** and
 and line 2044 tagged `T1-04` for a 4.5:1 clearance. The audit listed several
 failures including the attribution bar at 1.62:1, which is tied to `T1-06` and
 therefore still open. No evidence of a full re-measure.
+
+**`T1-10` · DEFERRED 2026-08-20** by decision, not by difficulty. "A general
+layer legend" is underspecified: the two legends that exist already cover the
+layers whose colour carries meaning. Deferred until someone writes down which
+layer types actually need one. Original triage below.
 
 **`T1-10` · Add a legend.** Two legends exist — `test2ElectionLegend` for
 election results and `.cs-legend` for conditional styling. Neither is the general
