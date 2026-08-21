@@ -118,7 +118,7 @@
     "build:elections-schema": "node scripts/validate-elections-schema.mjs --write",
     "r2:cache-control": "node scripts/set-r2-cache-control.mjs",
     "contributions:mark-applied": "node scripts/apply-contributions.mjs --mark-applied",
-    "verify": "npm run verify:proxies && npm run verify:map-tokens && npm run check:elections-schema && npm run verify:proni-roots && npm run verify:deploy && npm run verify:catalogue-d1 && npm run verify:tile-staleness",
+    "verify": "npm run verify:proxies && npm run verify:map-tokens && npm run check:elections-schema && npm run verify:proni-roots && npm run verify:deploy && npm run verify:catalogue-d1",
     "contributions:list": "node scripts/apply-contributions.mjs --list",
     "contributions:apply": "node scripts/apply-contributions.mjs",
     "check:contributions": "node scripts/test-contribution-schema.mjs && node scripts/test-contribution-flow.mjs",

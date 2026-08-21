@@ -1,21 +1,27 @@
 {
   "schemaVersion": 1,
   "note": "Schema-drift audit. A clean result does NOT prove geometry is current.",
-  "scope": "PARTIAL RUN -- --ids (1 layer(s)). Not a corpus-wide result.",
-  "checked": 1,
-  "clean": 0,
+  "scope": "PARTIAL RUN -- --ids (5 layer(s)). Not a corpus-wide result.",
+  "checked": 5,
+  "clean": 3,
+  "skippedPruned": 0,
   "stale": [
     {
-      "id": "britain-ireland-seas-vector-test",
-      "sourceFields": 8,
+      "id": "dcc-dcc-public-cycle-parking-stands-vector-test",
+      "sourceFields": 14,
       "archiveFields": 2,
       "missing": [
-        "minElev_m",
-        "maxElev_m",
-        "minElev_ft",
-        "maxElev_ft",
-        "meanElev_m",
-        "meanElev_ft"
+        "tessellate",
+        "extrude",
+        "visibility"
+      ]
+    },
+    {
+      "id": "dlr-dlr-unfinished-housing-vector-test",
+      "sourceFields": 75,
+      "archiveFields": 71,
+      "missing": [
+        "DECLGDate"
       ]
     }
   ],

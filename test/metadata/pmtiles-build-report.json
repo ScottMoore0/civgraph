@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-21T06:32:44.728Z",
+  "generatedAt": "2026-08-21T13:46:08.169Z",
   "mode": "execute",
   "tools": {
     "ogr2ogr": "C:\\Program Files\\GDAL\\ogr2ogr.exe",
@@ -12,455 +12,135 @@
   "outputDirectory": "test/pmtiles/generated",
   "maxGithubBytes": 99614720,
   "totals": {
-    "candidates": 44,
-    "converted": 43,
-    "skipped": 1,
+    "candidates": 7,
+    "converted": 7,
+    "skipped": 0,
     "failed": 0,
-    "metadataPreferred": 43,
+    "metadataPreferred": 7,
     "oversizedArchives": 0
   },
   "converted": [
     {
-      "layerId": "dcc-street-lighting-dublin-city-vector-test",
-      "sourceMapId": "dcc-street-lighting-dublin-city",
-      "name": "Street Lighting Dublin City (DCC)",
+      "layerId": "britain-ireland-seas-vector-test",
+      "sourceMapId": "britain-ireland-seas",
+      "name": "Seas",
       "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/dcc-street-lighting-dublin-city-vector-test.pmtiles",
-      "bytes": 11561804,
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "test/pmtiles/generated/britain-ireland-seas-vector-test.pmtiles",
+      "bytes": 5579732,
       "exceedsGithubBudget": false
     },
     {
-      "layerId": "dlr-dlr-public-lighting-vector-test",
-      "sourceMapId": "dlr-dlr-public-lighting",
-      "name": "Dlr Public Lighting (DLR)",
+      "layerId": "dcc-dcc-public-cycle-parking-stands-vector-test",
+      "sourceMapId": "dcc-dcc-public-cycle-parking-stands",
+      "name": "Dcc Public Cycle Parking Stands (DCC)",
       "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/dlr-dlr-public-lighting-vector-test.pmtiles",
-      "bytes": 6878296,
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "test/pmtiles/generated/dcc-dcc-public-cycle-parking-stands-vector-test.pmtiles",
+      "bytes": 62766,
       "exceedsGithubBudget": false
     },
     {
-      "layerId": "dobih-v18-4-arderins-vector-test",
-      "sourceMapId": "dobih-v18-4-arderins",
-      "name": "Arderins (18.4)",
+      "layerId": "dlr-dlr-unfinished-housing-vector-test",
+      "sourceMapId": "dlr-dlr-unfinished-housing",
+      "name": "Dlr Unfinished Housing (DLR)",
       "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/dobih-v18-4-arderins-vector-test.pmtiles",
-      "bytes": 1572666,
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "test/pmtiles/generated/dlr-dlr-unfinished-housing-vector-test.pmtiles",
+      "bytes": 105120,
       "exceedsGithubBudget": false
     },
     {
-      "layerId": "dobih-v18-4-binnions-vector-test",
-      "sourceMapId": "dobih-v18-4-binnions",
-      "name": "Binnions (18.4)",
+      "layerId": "eds-connacht-1911-vector-test",
+      "sourceMapId": "eds-connacht-1911",
+      "name": "Connacht Electoral Divisions 1911",
       "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/dobih-v18-4-binnions-vector-test.pmtiles",
-      "bytes": 2214034,
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "test/pmtiles/generated/eds-connacht-1911-vector-test.pmtiles",
+      "bytes": 5941517,
       "exceedsGithubBudget": false
     },
     {
-      "layerId": "dobih-v18-4-birketts-vector-test",
-      "sourceMapId": "dobih-v18-4-birketts",
-      "name": "Birketts (18.4)",
+      "layerId": "eds-connacht-1926-vector-test",
+      "sourceMapId": "eds-connacht-1926",
+      "name": "Connacht Electoral Divisions 1926",
       "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/dobih-v18-4-birketts-vector-test.pmtiles",
-      "bytes": 1590611,
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "test/pmtiles/generated/eds-connacht-1926-vector-test.pmtiles",
+      "bytes": 5942859,
       "exceedsGithubBudget": false
     },
     {
-      "layerId": "dobih-v18-4-carns-vector-test",
-      "sourceMapId": "dobih-v18-4-carns",
-      "name": "Carns (18.4)",
+      "layerId": "eds-roi-1921-connacht-vector-test",
+      "sourceMapId": "eds-roi-1921-connacht",
+      "name": "28 June 1921 (Southern Ireland)",
       "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/dobih-v18-4-carns-vector-test.pmtiles",
-      "bytes": 1375902,
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "test/pmtiles/generated/eds-roi-1921-connacht-vector-test.pmtiles",
+      "bytes": 5947290,
       "exceedsGithubBudget": false
     },
     {
-      "layerId": "dobih-v18-4-corbetts-vector-test",
-      "sourceMapId": "dobih-v18-4-corbetts",
-      "name": "Corbetts (18.4)",
+      "layerId": "opw-fsu-catchments-gauged-vector-test",
+      "sourceMapId": "opw-fsu-catchments-gauged",
+      "name": "FSU Catchment Boundaries — Gauged 2025",
       "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/dobih-v18-4-corbetts-vector-test.pmtiles",
-      "bytes": 1168235,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-county-tops-vector-test",
-      "sourceMapId": "dobih-v18-4-county-tops",
-      "name": "County Tops (18.4)",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/dobih-v18-4-county-tops-vector-test.pmtiles",
-      "bytes": 3649624,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-donald-tops-vector-test",
-      "sourceMapId": "dobih-v18-4-donald-tops",
-      "name": "Donald Tops (18.4)",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/dobih-v18-4-donald-tops-vector-test.pmtiles",
-      "bytes": 248798,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-donalds-vector-test",
-      "sourceMapId": "dobih-v18-4-donalds",
-      "name": "Donalds (18.4)",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/dobih-v18-4-donalds-vector-test.pmtiles",
-      "bytes": 408538,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-fellrangers-vector-test",
-      "sourceMapId": "dobih-v18-4-fellrangers",
-      "name": "Fellrangers (18.4)",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/dobih-v18-4-fellrangers-vector-test.pmtiles",
-      "bytes": 834850,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-furths-vector-test",
-      "sourceMapId": "dobih-v18-4-furths",
-      "name": "Furths (18.4)",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/dobih-v18-4-furths-vector-test.pmtiles",
-      "bytes": 150405,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-grahams-vector-test",
-      "sourceMapId": "dobih-v18-4-grahams",
-      "name": "Grahams (18.4)",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/dobih-v18-4-grahams-vector-test.pmtiles",
-      "bytes": 1243308,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-hewitts-vector-test",
-      "sourceMapId": "dobih-v18-4-hewitts",
-      "name": "Hewitts (18.4)",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/dobih-v18-4-hewitts-vector-test.pmtiles",
-      "bytes": 2196699,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-humps-vector-test",
-      "sourceMapId": "dobih-v18-4-humps",
-      "name": "HuMPs (18.4)",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/dobih-v18-4-humps-vector-test.pmtiles",
-      "bytes": 17263729,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-marilyns-vector-test",
-      "sourceMapId": "dobih-v18-4-marilyns",
-      "name": "Marilyns (18.4)",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/dobih-v18-4-marilyns-vector-test.pmtiles",
-      "bytes": 9782089,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-munro-tops-vector-test",
-      "sourceMapId": "dobih-v18-4-munro-tops",
-      "name": "Munro Tops (18.4)",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/dobih-v18-4-munro-tops-vector-test.pmtiles",
-      "bytes": 964223,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-munros-vector-test",
-      "sourceMapId": "dobih-v18-4-munros",
-      "name": "Munros (18.4)",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/dobih-v18-4-munros-vector-test.pmtiles",
-      "bytes": 1269756,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-nuttalls-vector-test",
-      "sourceMapId": "dobih-v18-4-nuttalls",
-      "name": "Nuttalls (18.4)",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/dobih-v18-4-nuttalls-vector-test.pmtiles",
-      "bytes": 1687603,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-significant-islands-vector-test",
-      "sourceMapId": "dobih-v18-4-significant-islands",
-      "name": "Significant Islands of Britain and Ireland (18.4)",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/dobih-v18-4-significant-islands-vector-test.pmtiles",
-      "bytes": 3674152,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-simms-vector-test",
-      "sourceMapId": "dobih-v18-4-simms",
-      "name": "Simms (18.4)",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/dobih-v18-4-simms-vector-test.pmtiles",
-      "bytes": 10188458,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-synges-vector-test",
-      "sourceMapId": "dobih-v18-4-synges",
-      "name": "Synges (18.4)",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/dobih-v18-4-synges-vector-test.pmtiles",
-      "bytes": 1876393,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-tumps-vector-test",
-      "sourceMapId": "dobih-v18-4-tumps",
-      "name": "TuMPs (18.4)",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/dobih-v18-4-tumps-vector-test.pmtiles",
-      "bytes": 56608525,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-vandeleur-lynams-vector-test",
-      "sourceMapId": "dobih-v18-4-vandeleur-lynams",
-      "name": "Vandeleur-Lynams (18.4)",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/dobih-v18-4-vandeleur-lynams-vector-test.pmtiles",
-      "bytes": 1029486,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-vector-test",
-      "sourceMapId": "dobih-v18-4",
-      "name": "Hills and Mountains",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/dobih-v18-4-vector-test.pmtiles",
-      "bytes": 69773045,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "dobih-v18-4-wainwrights-vector-test",
-      "sourceMapId": "dobih-v18-4-wainwrights",
-      "name": "Wainwrights (18.4)",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/dobih-v18-4-wainwrights-vector-test.pmtiles",
-      "bytes": 761480,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "gsni-tellus-rural-soil-a-aqua-regia-vector-test",
-      "sourceMapId": "gsni-tellus-rural-soil-a-aqua-regia",
-      "name": "Tellus Rural Soil (A Horizon — Aqua Regia Digest)",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/gsni-tellus-rural-soil-a-aqua-regia-vector-test.pmtiles",
-      "bytes": 6267857,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "gsni-tellus-rural-soil-a-xrf-vector-test",
-      "sourceMapId": "gsni-tellus-rural-soil-a-xrf",
-      "name": "Tellus Rural Soil Survey (A Soils, XRF)",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/gsni-tellus-rural-soil-a-xrf-vector-test.pmtiles",
-      "bytes": 7415294,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "gsni-tellus-rural-soil-s-aqua-regia-vector-test",
-      "sourceMapId": "gsni-tellus-rural-soil-s-aqua-regia",
-      "name": "Tellus Rural Soil (S Horizon — Aqua Regia Digest)",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/gsni-tellus-rural-soil-s-aqua-regia-vector-test.pmtiles",
-      "bytes": 11960559,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "gsni-tellus-rural-soil-s-fire-assay-vector-test",
-      "sourceMapId": "gsni-tellus-rural-soil-s-fire-assay",
-      "name": "Tellus Rural Soil (S Horizon — Fire Assay for Au and PGE)",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/gsni-tellus-rural-soil-s-fire-assay-vector-test.pmtiles",
-      "bytes": 4580693,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "gsni-tellus-rural-soil-s-near-total-vector-test",
-      "sourceMapId": "gsni-tellus-rural-soil-s-near-total",
-      "name": "Tellus Rural Soil (S Horizon — Near-Total Digest)",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/gsni-tellus-rural-soil-s-near-total-vector-test.pmtiles",
-      "bytes": 12866344,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "gsni-tellus-stream-sediments-au-pge-vector-test",
-      "sourceMapId": "gsni-tellus-stream-sediments-au-pge",
-      "name": "Tellus Stream Sediments (Gold and Platinum Group Elements)",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/gsni-tellus-stream-sediments-au-pge-vector-test.pmtiles",
-      "bytes": 1554409,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "gsni-tellus-stream-sediments-boron-vector-test",
-      "sourceMapId": "gsni-tellus-stream-sediments-boron",
-      "name": "Tellus Stream Sediments (Boron)",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/gsni-tellus-stream-sediments-boron-vector-test.pmtiles",
-      "bytes": 1482670,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "gsni-tellus-stream-sediments-xrf-set2-vector-test",
-      "sourceMapId": "gsni-tellus-stream-sediments-xrf-set2",
-      "name": "Tellus Stream Sediments (Regional XRF — Set 2)",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/gsni-tellus-stream-sediments-xrf-set2-vector-test.pmtiles",
-      "bytes": 2944756,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "gsni-tellus-stream-sediments-xrf-vector-test",
-      "sourceMapId": "gsni-tellus-stream-sediments-xrf",
-      "name": "Tellus Stream Sediments (Regional XRF)",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/gsni-tellus-stream-sediments-xrf-vector-test.pmtiles",
-      "bytes": 3631060,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "gsni-tellus-stream-waters-icp-vector-test",
-      "sourceMapId": "gsni-tellus-stream-waters-icp",
-      "name": "Tellus Stream Waters (Regional ICP)",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/gsni-tellus-stream-waters-icp-vector-test.pmtiles",
-      "bytes": 7079346,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "hed-listed-buildings-vector-test",
-      "sourceMapId": "hed-listed-buildings",
-      "name": "Listed Buildings (NI)",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/hed-listed-buildings-vector-test.pmtiles",
-      "bytes": 8895752,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "hed-sites-and-monuments-vector-test",
-      "sourceMapId": "hed-sites-and-monuments",
-      "name": "Sites and Monuments Record (NI)",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/hed-sites-and-monuments-vector-test.pmtiles",
-      "bytes": 8951024,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "historic-ringfort-cashel-vector-test",
-      "sourceMapId": "historic-ringfort-cashel",
-      "name": "Ringfort - Cashel",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/historic-ringfort-cashel-vector-test.pmtiles",
-      "bytes": 3725689,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "ni-listed-buildings-vector-test",
-      "sourceMapId": "ni-listed-buildings",
-      "name": "NI Listed Buildings",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/ni-listed-buildings-vector-test.pmtiles",
-      "bytes": 6477226,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "niah-buildings-vector-test",
-      "sourceMapId": "niah-buildings",
-      "name": "NIAH Buildings (Architectural Heritage)",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/niah-buildings-vector-test.pmtiles",
-      "bytes": 30915898,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "niea-river-segments-vector-test",
-      "sourceMapId": "niea-river-segments",
-      "name": "NIEA River Segments",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/niea-river-segments-vector-test.pmtiles",
-      "bytes": 13507651,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "translink-bus-stops-2024-vector-test",
-      "sourceMapId": "translink-bus-stops-2024",
-      "name": "Translink Bus Stops 2024",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "test/pmtiles/generated/translink-bus-stops-2024-vector-test.pmtiles",
-      "bytes": 7333385,
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "test/pmtiles/generated/opw-fsu-catchments-gauged-vector-test.pmtiles",
+      "bytes": 2124541,
       "exceedsGithubBudget": false
     }
   ],
-  "skipped": [
-    {
-      "layerId": "ni-authorised-waste-sites-vector-test",
-      "sourceMapId": "ni-authorised-waste-sites",
-      "name": "Authorised Waste Sites (NI)",
-      "sourceType": "pmtiles",
-      "status": "missing-source",
-      "sourceFile": "https://data.civgraph.net/data/maps/environment/NI_Authorised_Waste_Sites.fgb"
-    }
-  ],
+  "skipped": [],
   "failed": [],
   "notes": [
     "Archives at or above the configured GitHub size budget are generated but not preferred in maps-test.json.",

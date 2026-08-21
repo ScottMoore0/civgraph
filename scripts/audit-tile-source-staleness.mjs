@@ -1,5 +1,31 @@
 #!/usr/bin/env node
 /**
+ * ADVISORY ONLY. NOT WIRED INTO `npm run verify`, AND SHOULD NOT BE.
+ *
+ * This check cannot distinguish the thing it was built to find from a benign one, and
+ * that was established the hard way. After rebuilding two layers from the exact source
+ * on disk and republishing them, it still reported both stale. A staleness check that
+ * fires on an archive built minutes earlier from the file it is compared against is not
+ * measuring staleness.
+ *
+ * The cause is structural, not a bug to fix. GDAL's MVT writer omits a column that is
+ * null across the features it writes, and the source sample here reads 300 features, so
+ * a sparsely-populated column is indistinguishable from a dropped one. Successive
+ * versions of this script reported 22, then 8, then 7 stale layers; of the final 7 at
+ * least five were its own artefacts, and all seven were rebuilt and republished on the
+ * strength of them. No harm done -- the rebuilds were faithful -- but the work was
+ * spent on a false signal.
+ *
+ * It is kept because the reasoning is worth having and the tool is occasionally useful
+ * for a hand-checked single layer. Treat every finding as a question, never a verdict,
+ * and confirm by scanning the archive yourself before acting.
+ *
+ * THE REPLACEMENT is a source content hash: record sha256 of the source at build time
+ * in generatedFrom, compare later. It has no false-positive mode, it is exact, and the
+ * whole 2.9 GB source corpus hashes in 3.3 seconds. Build that instead of trusting
+ * this.
+ */
+/**
  * Was each PUBLISHED archive built from the source that is on disk today?
  *
  * WHY check:tile-freshness IS NOT ENOUGH
@@ -11,6 +37,26 @@
  * freshness check passed the whole time, because an archive fetched from R2 gets a
  * fresh mtime for free. An mtime is evidence about a filesystem operation. It is not
  * evidence about content.
+ *
+ * READ THE WHOLE ARCHIVE, LOCALLY. NOT A SAMPLE, NOT OVER HTTP.
+ *
+ * This was written three times against sampled tiles and produced false positives every
+ * time, because a tile's key dictionary is a LOWER BOUND on the schema: MVT omits a
+ * field from a feature whose value is null, so a field populated on 2 of 7 features
+ * appears only in the tiles holding those 2. Sampling cannot recover the schema, and
+ * probing more neighbours does not fix it -- it only moves the threshold at which the
+ * wrong answer appears.
+ *
+ * Measured, britain-ireland-seas: the sampled probe reported six elevation columns
+ * missing. Scanning all ten tiles at z5 found every one of them. Of the seven layers
+ * reported stale on 2026-08-21, at least five were the audit's own artefacts -- and
+ * they were rebuilt and republished before anyone noticed.
+ *
+ * So: union the keys across EVERY tile at a modest zoom, from the LOCAL archive. Local
+ * reads make a full scan cheap where 1,024 ranged HTTP fetches per layer would not be.
+ *
+ * PRUNED LAYERS ARE SKIPPED, not sampled. Below their cutoff they carry only identity
+ * and name fields by design; their high-zoom schema is known by construction.
  *
  * WHAT THIS COMPARES, AND WHY NOT A REBUILD
  *
@@ -32,7 +78,7 @@
  *
  *   node scripts/audit-tile-source-staleness.mjs [--limit N] [--ids a,b]
  */
-import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, openSync, readSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { PMTiles } from 'pmtiles';
 import { getTileProfile } from './test-tile-profiles.mjs';
@@ -120,81 +166,42 @@ function sourceFields(path) {
  * take the first of the four children that exists. That follows the data wherever it
  * actually is, costs four fetches per level, and cannot miss a populated archive.
  */
-async function archiveFields(url, cutoff) {
-  const pm = new PMTiles(new HttpSource(url));
-  const header = await pm.getHeader();
-  const target = Math.min(header.maxZoom, Math.max(header.minZoom, 8));
-
-  let path = [{ z: header.minZoom, x: 0, y: 0 }];
-  if (header.minZoom === 0) {
-    if (!(await pm.getZxy(0, 0, 0).catch(() => null))) path = [];
-  } else {
-    path = [];
+class FileSource {
+  constructor(path) { this.path = path; this.fd = openSync(path, 'r'); }
+  getKey() { return this.path; }
+  async getBytes(offset, length) {
+    const buf = Buffer.alloc(length);
+    readSync(this.fd, buf, 0, length, offset);
+    return { data: buf.buffer.slice(buf.byteOffset, buf.byteOffset + length) };
   }
+}
 
-  // Locate a starting tile if z0 is absent, by scanning the (still small) top levels.
-  let current = path[0] || null;
-  if (!current) {
-    outer: for (let z = header.minZoom; z <= Math.min(header.maxZoom, 4); z++) {
-      const n = 2 ** z;
-      for (let x = 0; x < n; x++) {
-        for (let y = 0; y < n; y++) {
-          if (await pm.getZxy(z, x, y).catch(() => null)) { current = { z, x, y }; break outer; }
+/** Union of attribute keys across EVERY tile at a modest zoom. See the header. */
+async function archiveFields(localPath) {
+  const pm = new PMTiles(new FileSource(localPath));
+  const header = await pm.getHeader();
+  // z5 is 1,024 lookups at most and covers these islands at a useful density. Deeper
+  // buys nothing here: a field either exists somewhere in the layer or it does not.
+  const z = Math.min(header.maxZoom, Math.max(header.minZoom, 5));
+  const n = 2 ** z;
+  const keys = new Set();
+  let tiles = 0;
+  for (let x = 0; x < n; x++) {
+    for (let y = 0; y < n; y++) {
+      const tile = await pm.getZxy(z, x, y).catch(() => null);
+      if (!tile) continue;
+      tiles += 1;
+      const vt = new VectorTile(new Pbf(Buffer.from(tile.data)));
+      for (const name of Object.keys(vt.layers)) {
+        const L = vt.layers[name];
+        if (Array.isArray(L._keys)) for (const key of L._keys) keys.add(key);
+        else for (let i = 0; i < Math.min(L.length, 200); i++) {
+          for (const key of Object.keys(L.feature(i).properties)) keys.add(key);
         }
       }
     }
   }
-  if (!current) return null;
-
-  while (current.z < target) {
-    const nz = current.z + 1;
-    let next = null;
-    for (const [dx, dy] of [[0, 0], [1, 0], [0, 1], [1, 1]]) {
-      const x = current.x * 2 + dx;
-      const y = current.y * 2 + dy;
-      if (await pm.getZxy(nz, x, y).catch(() => null)) { next = { z: nz, x, y }; break; }
-    }
-    if (!next) break;   // deepest populated level reached along this branch
-    current = next;
-  }
-
-  // A PRUNED LAYER READ BELOW ITS CUTOFF REPORTS ITS OWN DESIGN AS DRIFT.
-  //
-  // Layers in test-tile-profiles.mjs carry only identity and name fields below the
-  // cutoff. If the descent cannot get above it -- because the archive's deepest
-  // populated branch stops short -- what gets read is the pruned schema, and every
-  // deliberately-absent column looks like staleness. dobih-v18-4-munros was reported
-  // stale for exactly this reason, missing id/Section/Region/Island: the four fields
-  // pruning is there to remove.
-  //
-  // Say "could not check" rather than "stale". A false alarm on 44 layers that were
-  // published correctly this week would discredit the audit faster than any gap.
-  if (cutoff !== undefined && current.z <= cutoff) return { belowCutoff: current.z };
-
-  // Union across this tile and its siblings. A tile's key dictionary lists only the
-  // fields something in THAT tile populates, so one tile reports STREET1 and TOWN as
-  // absent from an urban buildings layer -- which this audit read as drift on its first
-  // run. Siblings are cheap and much closer to the layer's real schema.
-  const seen = new Set();
-  let found = false;
-  const siblings = [[0, 0], [1, 0], [0, 1], [1, 1], [-1, 0], [0, -1], [2, 2], [-2, -2]];
-  for (const [dx, dy] of siblings) {
-    const tile = await pm.getZxy(current.z, current.x + dx, current.y + dy).catch(() => null);
-    if (!tile) continue;
-    const vt = new VectorTile(new Pbf(Buffer.from(tile.data)));
-    const name = Object.keys(vt.layers)[0];
-    if (!name || !vt.layers[name].length) continue;
-    const L = vt.layers[name];
-    found = true;
-    if (Array.isArray(L._keys) && L._keys.length) {
-      for (const key of L._keys) seen.add(key);
-    } else {
-      for (let i = 0; i < Math.min(L.length, 500); i++) {
-        for (const key of Object.keys(L.feature(i).properties)) seen.add(key);
-      }
-    }
-  }
-  return found ? [...seen] : null;
+  return tiles ? [...keys] : null;
 }
 
 
@@ -210,6 +217,7 @@ const stale = [];
 const unreadable = [];
 let clean = 0;
 let done = 0;
+let skippedPruned = 0;
 
 for (const layer of layers) {
   if (done >= LIMIT) break;
@@ -218,12 +226,17 @@ for (const layer of layers) {
   if (!src) { unreadable.push({ id: layer.id, why: 'source unreadable' }); continue; }
   let arc;
   const cutoff = getTileProfile(layer.sourceMapId || layer.id).lowZoomAttributeCutoff;
-  try { arc = await archiveFields(layer.tileUrl, cutoff); } catch (e) { arc = null; var err = e.message; }
-  if (arc && arc.belowCutoff !== undefined) {
-    unreadable.push({ id: layer.id, why: `only reached z${arc.belowCutoff}, at or below the prune cutoff z${cutoff}; schema there is pruned by design` });
+  if (cutoff !== undefined) {
+    skippedPruned += 1;
+    continue;   // schema is known by construction -- see the header
+  }
+  const localArchive = `test/pmtiles/generated/${layer.id}.pmtiles`;
+  if (!existsSync(localArchive)) {
+    unreadable.push({ id: layer.id, why: 'no local archive to read; run the build first' });
     continue;
   }
-  if (!arc) { unreadable.push({ id: layer.id, why: `archive unreadable${err ? `: ${err}` : ''}` }); continue; }
+  try { arc = await archiveFields(localArchive); } catch (e) { arc = null; var err = e.message; }
+  if (!arc) { unreadable.push({ id: layer.id, why: `archive has no tiles at the scanned zoom${err ? `: ${err}` : ''}` }); continue; }
   const have = new Set(arc);
   const lengths = sourceFieldLengths(layer.sourceFile) || new Map();
   const expectedAbsent = (f) => {
@@ -253,6 +266,7 @@ writeFileSync(REPORT, `${JSON.stringify({
     : 'full corpus',
   checked: done,
   clean,
+  skippedPruned,
   stale,
   unreadable
 }, null, 2)}\n`);
