@@ -14,7 +14,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "node scripts/build-feature-thumbnail-manifest.mjs && node scripts/build-browse-indexes.mjs && node scripts/build-agent-index.mjs && node scripts/validate-chunked-map-bounds.mjs && node scripts/build-shared-shell-assets.mjs && npm run build:test2 && node scripts/promote-test2-root.mjs",
+    "build": "node scripts/build-feature-thumbnail-manifest.mjs && node scripts/build-browse-indexes.mjs && node scripts/validate-browse-cache-tokens.mjs && node scripts/build-agent-index.mjs && node scripts/validate-chunked-map-bounds.mjs && node scripts/build-shared-shell-assets.mjs && npm run build:test2 && node scripts/promote-test2-root.mjs",
     "build:browse": "node scripts/build-feature-thumbnail-manifest.mjs && node scripts/build-browse-indexes.mjs && npm run build:graph",
     "build:proni-roots": "node scripts/build-proni-roots.mjs",
     "census:scrape:cso": "node scripts/census/scrape-cso-historical-reports.mjs --download",

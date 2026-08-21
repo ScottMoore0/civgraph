@@ -199,32 +199,41 @@ test.describe('timeline, share URLs and the slider', () => {
   // by having the swap itself carry the request identity so a stale completion
   // can be dropped before it ever reaches the rebuild.
   //
-  // ATTEMPT 4 (2026-08-17) — request identity. Also insufficient, and it narrowed
-  // the problem usefully, so it is recorded rather than reverted.
+  // ATTEMPT 4 (2026-08-17) — request identity. Insufficient, and it narrowed the
+  // problem usefully: the slider settled on index 0 with the token guard in place, so
+  // the reset was not coming from applyIndex at all.
   //
-  // app/src/app.js applyIndex now carries a monotonic token: a completion that is
-  // no longer the newest returns without touching state, and the winning request
-  // re-asserts its index AFTER its await rather than only before. That closes the
-  // failure mode where a slower earlier request overwrites a newer one.
+  // ATTEMPT 5 (2026-08-21) — FIXED, and the first attempt arrived at by measurement.
   //
-  // The test still fails, and the value it fails with is the finding: the slider
-  // settles on index 0 — the FIRST request — when 5 was asked for. With the token
-  // guard in place no stale completion can write that, so the reset is not coming
-  // from applyIndex at all. Something in the rebuild path sets the slider after
-  // the winning request has finished.
+  // Attempts 1-4 all reasoned about where the reset might come from. Attempt 5
+  // instrumented every write to the slider with a stack trace and read the answer off
+  // the first run. Six of nine writes came from one chain:
   //
-  // Attempt 5 should therefore instrument the rebuild rather than the request:
-  // find what writes the range value outside applyIndex, and either give it the
-  // same token or stop it re-deriving the index from a mid-swap reference map.
+  //   setTimelineRangeIndex <- setTimelineItems <- updateTimeline
+  //     <- updateActiveLayers <- onChange
   //
-  // test.fail() means: run it, expect red. If someone fixes the rebuild, this
-  // turns "expected to fail but passed" and they will be told to remove this
-  // annotation — which is the whole point of recording it this way instead of
-  // skipping, deleting, or loosening the assertion until it passes.
+  // Three defects, each hidden behind the one in front of it:
+  //
+  //   1. updateTimeline re-derives the index from the max date of the CURRENTLY LOADED
+  //      layers, which mid-swap is the old layer or none. It already refused to run
+  //      while this.timelineApplying was set; applyIndex simply never armed that flag.
+  //
+  //   2. timelineApplying was a plain boolean shared by four overlapping call sites.
+  //      Whichever finished FIRST cleared it for all of them and then called
+  //      updateTimeline() itself -- and during a drag the earliest request is the one
+  //      most likely to finish first. It is now a depth counter; only the last one out
+  //      rebuilds.
+  //
+  //   3. With both fixed the internal index was right and the SLIDER still read 0,
+  //      because timelineOnSelect unloads one layer and loads another, and three of
+  //      those interleaving leave whichever pair finished last. applyIndex now queues,
+  //      so a request superseded while waiting does no work at all -- it never loads a
+  //      layer, so it cannot leave one behind. Dragging across ten steps performs one
+  //      swap instead of ten.
+  //
+  // The lesson is cheaper than the four attempts that preceded it: instrument the write,
+  // do not reason about the writer.
   test('rapid timeline changes settle on the last requested year, not the last to finish', async ({ page }) => {
-    // Scoped to THIS test. Called at describe level it marks every test in the
-    // file expected-to-fail, which turns three passing tests red.
-    test.fail();
     await bootApp(page);
 
     const ready = await activateTimeline(page);

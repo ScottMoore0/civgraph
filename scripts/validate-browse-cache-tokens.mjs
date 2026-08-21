@@ -16,6 +16,22 @@
  * properly for the metadata index by deriving the token from a content hash;
  * browse/ is hand-written rather than built, so it needs this instead.
  *
+ * NOW RUNS INSIDE `npm run build`, as of 2026-08-21. It was previously only reachable
+ * as build:browse-cache, which meant the token was correct whenever somebody remembered
+ * to run it and the gate caught them when they did not. Deriving a value on every build
+ * is better than checking it after the fact; the --check mode stays as the backstop.
+ *
+ * KNOWN LIMIT: the pattern matches bare same-directory filenames only. If browse/ ever
+ * grows a subdirectory of assets, references to them are silently uncovered rather than
+ * reported. Worth widening before that happens, not after.
+ *
+ * DO NOT normalise line endings before hashing here. It is tempting -- this repository
+ * stores CRLF and deploy runners check out LF -- but browse/index.html is committed and
+ * served as-is rather than rebuilt on the runner, so the raw bytes are the right input.
+ * Normalising produces a different hash than the committed token, which reads as a stale
+ * token and invites someone to "fix" a value that was correct. That mistake was made and
+ * reverted on 2026-08-21.
+ *
  * Usage:
  *   node scripts/validate-browse-cache-tokens.mjs           # rewrite tokens
  *   node scripts/validate-browse-cache-tokens.mjs --check    # fail if stale

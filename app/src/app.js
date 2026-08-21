@@ -86,6 +86,7 @@ class Test2App {
     this.timelineItems = [];
     this.timelineOnSelect = null;
     this.timelineApplying = false;
+    this.timelineApplyDepth = 0;
     this.timelineTransitionCache = new Map();
     this.timelineTransitionSidecarSet = new Set(TIMELINE_TRANSITION_SIDECAR_SET);
     this.timelineTransitionManifestEntries = new Map();
@@ -1917,20 +1918,63 @@ class Test2App {
     // (1) is the token check. (2) is why the index is re-asserted after the
     // await rather than only before it.
     let timelineRequestToken = 0;
+    let timelineChain = Promise.resolve();
     const applyIndex = async (index, options = {}) => {
       const timelineItems = this.getTimelineAnimationItems();
       if (!timelineItems.length || !this.timelineOnSelect) return;
       if (options.manual !== false) this.pauseTimelineAnimation({ preserveOverlay: true });
       const safeIndex = this.clampTimelineIndex(index, timelineItems);
       const token = ++timelineRequestToken;
+      // ATTEMPT 5, and the first one arrived at by measurement rather than reasoning.
+      //
+      // Instrumenting every write to the slider (see setTimelineRangeIndex) showed six
+      // of nine writes in the failing race coming from one place:
+      //
+      //   setTimelineRangeIndex <- setTimelineItems <- updateTimeline
+      //     <- updateActiveLayers <- onChange
+      //
+      // updateTimeline re-derives the active index from getCurrentTimelineTimestamp(),
+      // which is the MAX DATE OF THE CURRENTLY LOADED LAYERS. Mid-swap that is the old
+      // layer, or none, so the index resolves to 0 and the slider is reset -- once per
+      // layer change, and each racing request causes one. No amount of guarding
+      // applyIndex could have stopped that, which is why three attempts at it failed.
+      //
+      // updateTimeline ALREADY refuses to run when this.timelineApplying is set. That
+      // guard was simply never armed: applyIndex tracked its own token and left the
+      // flag alone. Arming it is the whole fix.
+      //
+      // The flag is cleared only by the NEWEST request, so overlapping requests do not
+      // clear it out from under each other -- the same reason the token exists.
+      // Optimistic: the slider follows the finger immediately, before any loading.
       this.setTimelineRangeIndex(safeIndex);
       this.timelineAnimation.currentIndex = safeIndex;
-      await this.timelineOnSelect(timelineItems[safeIndex], safeIndex);
-      // Superseded while we were loading: say nothing, touch nothing.
-      if (token !== timelineRequestToken) return;
-      this.setTimelineRangeIndex(safeIndex);
-      this.timelineAnimation.currentIndex = safeIndex;
-      this.updateTimelineAnimationButtons();
+
+      // SERIALISED. timelineOnSelect unloads one layer and loads another; running three
+      // of those concurrently interleaves their unload/load pairs, and the set left
+      // loaded at the end is whichever pair happened to finish last -- not the one the
+      // user asked for. The trace showed exactly that: internal index 5, map on layer 0.
+      //
+      // Queuing also makes "latest wins" exact rather than probabilistic. A request that
+      // is superseded while still waiting its turn does no work at all: it never loads a
+      // layer, so it cannot leave one behind. Dragging a slider across ten steps now
+      // performs one swap instead of ten.
+      const run = timelineChain.then(async () => {
+        if (token !== timelineRequestToken) return;   // superseded while queued
+        this.beginTimelineApply();
+        try {
+          await this.timelineOnSelect(timelineItems[safeIndex], safeIndex);
+        } finally {
+          this.endTimelineApply();
+        }
+        // Superseded while we were loading: say nothing, touch nothing.
+        if (token !== timelineRequestToken) return;
+        this.setTimelineRangeIndex(safeIndex);
+        this.timelineAnimation.currentIndex = safeIndex;
+        this.updateTimelineAnimationButtons();
+      });
+      // The chain must not break on a rejection, or every later request is dropped.
+      timelineChain = run.catch(() => {});
+      return run;
     };
 
     // Test surface for the time slider. applyIndex is the real code path the
@@ -1974,6 +2018,35 @@ class Test2App {
     stop?.addEventListener('click', () => {
       this.stopTimelineAnimation({ restoreOriginal: true }).catch((error) => this.showMapError(error));
     });
+  }
+
+  /**
+   * `timelineApplying` suppresses updateTimeline() while a layer swap is mid-flight,
+   * because updateTimeline re-derives the slider index from the max date of the
+   * CURRENTLY LOADED layers -- which, mid-swap, is the old layer or none.
+   *
+   * IT HAD TO BECOME A COUNTER. As a plain boolean it was shared by four overlapping
+   * call sites, and whichever finished FIRST cleared it for all of them and then called
+   * updateTimeline() itself. During a rapid slider drag that is guaranteed: the earliest
+   * request is the one most likely to finish first, and it reopened the gate for a
+   * rebuild that reset the slider to 0 while later requests were still loading.
+   *
+   * Found by instrumenting every write to the slider rather than reasoning about it --
+   * four earlier attempts guessed and all four missed this, because the flag LOOKED
+   * armed at each site in isolation.
+   *
+   * endTimelineApply() returns true only for the last one out, so the rebuild it guards
+   * runs once, at the end, from settled state.
+   */
+  beginTimelineApply() {
+    this.timelineApplyDepth = (this.timelineApplyDepth || 0) + 1;
+    this.timelineApplying = true;
+  }
+
+  endTimelineApply() {
+    this.timelineApplyDepth = Math.max(0, (this.timelineApplyDepth || 0) - 1);
+    this.timelineApplying = this.timelineApplyDepth > 0;
+    return !this.timelineApplying;
   }
 
   setTimelineItems(items, activeIndex, onSelect) {
@@ -2053,6 +2126,17 @@ class Test2App {
     const range = document.getElementById('timelineRange');
     if (range) range.value = String(safeIndex);
     this.updateTimelineLabel(safeIndex);
+    // T17 attempt 5: every write to the slider records where it came from. Four
+    // attempts guessed at the cause; this makes the reset name itself. Test-surface
+    // only, so it costs nothing in production.
+    if (window.__civgraphTest2) {
+      const trace = window.__civgraphTest2.timelineWrites || (window.__civgraphTest2.timelineWrites = []);
+      if (trace.length > 200) trace.shift();   // a long play run must not grow without bound
+      trace.push({
+        index: safeIndex,
+        from: String(new Error().stack || '').split(String.fromCharCode(10)).slice(1, 6).join(' | ')
+      });
+    }
     return safeIndex;
   }
   getTimelineAnimationItems() {
@@ -2213,7 +2297,7 @@ class Test2App {
       .filter((id) => dataService.getMapById(id))
       .filter((id) => this.isMapVisible(id));
     const equivalents = dataService.getEquivalentMapsForDate?.(activeIds, timestamp) || {};
-    this.timelineApplying = true;
+    this.beginTimelineApply();
     try {
       for (const [oldId, newId] of Object.entries(equivalents)) {
         if (!newId || newId === oldId || !this.isTimelineMapPlayable(newId)) continue;
@@ -2224,8 +2308,9 @@ class Test2App {
       this.updateActiveLayers();
       this.updateURLState();
     } finally {
-      this.timelineApplying = false;
-      this.updateTimeline();
+      // Only the last operation out rebuilds, and only then is the state it reads
+      // settled. Clearing unconditionally here is what reset the slider mid-race.
+      if (this.endTimelineApply()) this.updateTimeline();
     }
   }
 
@@ -2346,7 +2431,7 @@ class Test2App {
     }
     if (restoreOriginal && originalLayerId && dataService.getMapById(originalLayerId)) {
       const timelineMapIds = this.getTimelineItemMapIds();
-      this.timelineApplying = true;
+      this.beginTimelineApply();
       try {
         for (const loadedId of this.getLoadedLayerIds()) {
           if (loadedId !== originalLayerId && timelineMapIds.has(loadedId)) {
@@ -2363,8 +2448,7 @@ class Test2App {
         this.updateActiveLayers();
         this.updateURLState();
       } finally {
-        this.timelineApplying = false;
-        this.updateTimeline();
+        if (this.endTimelineApply()) this.updateTimeline();
       }
     }
     this.timelineAnimation.originalLayerId = null;
@@ -2449,7 +2533,7 @@ class Test2App {
       this.timelineAnimation.currentIndex = this.clampTimelineIndex(toIndex, timelineItems);
       return;
     }
-    this.timelineApplying = true;
+    this.beginTimelineApply();
     try {
       if (!this.isTimelineMapPlayable(fromMapId) || !this.isTimelineMapPlayable(toMapId)) {
         if (toItem?.timestamp !== undefined) await this.applyTimelineTimestamp(toItem.timestamp, { fit: false });
@@ -2484,8 +2568,7 @@ class Test2App {
       this.updateActiveLayers();
       this.updateURLState();
     } finally {
-      this.timelineApplying = false;
-      this.updateTimeline();
+      if (this.endTimelineApply()) this.updateTimeline();
     }
     await this.waitTimelineDelay(TIMELINE_ANIMATION_DELAYS.overlay);
     if (!this.isTimelineRunCurrent(runId)) return;
