@@ -10,6 +10,7 @@
 
 import * as esbuild from 'esbuild';
 import { createHash } from 'node:crypto';
+import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import {
   existsSync,
@@ -80,6 +81,43 @@ function serviceWorkerPolicyHash(filePath) {
  * value is how the value drifts, which is the bug that check exists to catch;
  * writing it twice to guard against writing it wrong would be self-defeating.
  */
+/**
+ * Record WHICH COMMIT produced this build, into the deployed output.
+ *
+ * Verifying a deploy by comparing built artefacts does not work, and two days were
+ * spent learning why. Cloudflare Pages runs its own build; this repository stores CRLF
+ * locally and Pages checks out LF; esbuild derives chunk FILENAMES from content hashes.
+ * So the same commit produces genuinely different bytes on the two machines, and a
+ * byte comparison reports a healthy deploy as stale forever. Cache tokens fail for the
+ * same reason one level up -- they are salted with files the runner also rebuilds.
+ *
+ * A commit sha does not have that problem. It is not derived from the build; it is an
+ * input to it, identical on every machine, and it answers the question actually being
+ * asked: is the code the public is running the code in this checkout.
+ *
+ * CF_PAGES_COMMIT_SHA is set by Pages. Locally it falls back to git, and records which
+ * it used, so a local build cannot be mistaken for a deployed one.
+ */
+function writeDeployStamp() {
+  const fromPages = process.env.CF_PAGES_COMMIT_SHA || '';
+  let commit = fromPages;
+  if (!commit) {
+    try {
+      commit = execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();
+    } catch {
+      commit = '';
+    }
+  }
+  const stamp = {
+    commit,
+    builtBy: fromPages ? 'pages' : 'local',
+    branch: process.env.CF_PAGES_BRANCH || null
+  };
+  writeTextIfChanged('build/deploy-stamp.json', `${JSON.stringify(stamp, null, 2)}
+`);
+  console.log(`Deploy stamp: ${stamp.commit ? stamp.commit.slice(0, 12) : '(unknown)'} (${stamp.builtBy})`);
+}
+
 export function sharedCssVersion() {
   const entryPolicyVersion = [
     existsSync('_headers') ? hashFile('_headers') : null,
@@ -230,6 +268,7 @@ function versionSharedCss() {
   }
 
   console.log(`Shared CSS version: ${cssVersion}`);
+  writeDeployStamp();
 }
 
 function enforceBudgets() {

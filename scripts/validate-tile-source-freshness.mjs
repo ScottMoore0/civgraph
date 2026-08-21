@@ -34,6 +34,26 @@
  * gap is real and is recorded rather than papered over: whoever applies a
  * geometry correction must update the source cache, not just the download, and
  * `npm run verify:tiles` is the network check that would notice.
+ *
+ * A SECOND GAP, found 2026-08-21, and it is larger than the first.
+ *
+ * This compares MODIFICATION TIMES. It therefore fails when a source is newer than its
+ * archive, and cannot fail when the archive is newer and wrong. niah-buildings' archive
+ * was 19 MB where its source yields 204 MB, and carried ten attribute columns where the
+ * source has twelve -- built from an older version of that source, and passing here
+ * every time, because an archive fetched from R2 gets a fresh mtime for free. An mtime
+ * is evidence about a filesystem operation. It is not evidence about content.
+ *
+ * Do not read a PASS here as "the archives are current". It means only that no source
+ * on disk is newer than the archive beside it.
+ *
+ * `npm run verify:tile-staleness` is the content-level counterpart: it compares each
+ * PUBLISHED archive's attribute schema against its source, which is the symptom niah
+ * showed. That check has its own limit, stated in its header -- a source re-cut with
+ * corrected geometry and identical columns is invisible to it, which is exactly what
+ * happened to the ROI local-authority layers in August. Between them the two checks
+ * cover mtime drift and schema drift. Neither covers geometry drift, and nothing
+ * currently does.
  */
 import { existsSync, readFileSync, statSync } from 'node:fs';
 
