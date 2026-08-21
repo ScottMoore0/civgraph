@@ -1,7 +1,8 @@
 {
   "schemaVersion": 1,
   "note": "Schema-drift audit. A clean result does NOT prove geometry is current.",
-  "checked": 4,
+  "scope": "PARTIAL RUN -- --ids (1 layer(s)). Not a corpus-wide result.",
+  "checked": 1,
   "clean": 0,
   "stale": [
     {
@@ -16,29 +17,7 @@
         "meanElev_m",
         "meanElev_ft"
       ]
-    },
-    {
-      "id": "eds-connacht-1911-vector-test",
-      "sourceFields": 23,
-      "archiveFields": 17,
-      "missing": [
-        "minElev_m",
-        "maxElev_m",
-        "minElev_ft",
-        "maxElev_ft",
-        "meanElev_m",
-        "meanElev_ft"
-      ]
     }
   ],
-  "unreadable": [
-    {
-      "id": "dcc-dublin-metropolitan-area-existing-protected-cycle-infrastructure-2025-vector-test",
-      "why": "archive unreadable"
-    },
-    {
-      "id": "dobih-v18-4-munros-vector-test",
-      "why": "only reached z7, at or below the prune cutoff z7; schema there is pruned by design"
-    }
-  ]
+  "unreadable": []
 }

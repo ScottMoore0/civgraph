@@ -245,6 +245,12 @@ for (const layer of layers) {
 writeFileSync(REPORT, `${JSON.stringify({
   schemaVersion: 1,
   note: 'Schema-drift audit. A clean result does NOT prove geometry is current.',
+  // A --ids or --limit run writes this file too, and "checked: 4" from a spot check
+  // sitting where a full corpus report is expected is exactly the kind of artefact
+  // someone reads the wrong way a month later. Say which kind of run produced it.
+  scope: (ONLY.size || LIMIT !== Infinity)
+    ? `PARTIAL RUN -- ${ONLY.size ? `--ids (${ONLY.size} layer(s))` : `--limit ${LIMIT}`}. Not a corpus-wide result.`
+    : 'full corpus',
   checked: done,
   clean,
   stale,
