@@ -1,41 +1,19 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-21T13:46:41.247Z",
+  "generatedAt": "2026-08-21T14:41:49.252Z",
   "bucket": "boundaries-data",
   "dryRun": false,
   "selectedIds": [
-    "britain-ireland-seas-vector-test",
-    "dcc-dcc-public-cycle-parking-stands-vector-test",
-    "dlr-dlr-unfinished-housing-vector-test",
-    "eds-connacht-1911-vector-test",
-    "eds-connacht-1926-vector-test",
-    "eds-roi-1921-connacht-vector-test",
-    "opw-fsu-catchments-gauged-vector-test"
+    "dlr-dlr-unfinished-housing-vector-test"
   ],
   "totals": {
-    "assets": 7,
-    "processed": 7,
-    "ok": 7,
+    "assets": 1,
+    "processed": 1,
+    "ok": 1,
     "failed": 0,
-    "bytes": 25703825
+    "bytes": 105120
   },
   "results": [
-    {
-      "layerId": "britain-ireland-seas-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/britain-ireland-seas-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 5579732,
-      "output": "\n ⛅️ wrangler 4.85.0\n───────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/britain-ireland-seas-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "dcc-dcc-public-cycle-parking-stands-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/dcc-dcc-public-cycle-parking-stands-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 62766,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.125.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/dcc-dcc-public-cycle-parking-stands-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
     {
       "layerId": "dlr-dlr-unfinished-housing-vector-test",
       "targetKey": "data/maps/test/pmtiles/generated/dlr-dlr-unfinished-housing-vector-test.pmtiles",
@@ -43,38 +21,6 @@
       "status": "uploaded",
       "bytes": 105120,
       "output": "\n ⛅️ wrangler 4.85.0 (update available 4.125.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/dlr-dlr-unfinished-housing-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "eds-connacht-1911-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/eds-connacht-1911-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 5941517,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.125.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/eds-connacht-1911-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "eds-connacht-1926-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/eds-connacht-1926-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 5942859,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.125.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/eds-connacht-1926-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "eds-roi-1921-connacht-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/eds-roi-1921-connacht-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 5947290,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.125.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/eds-roi-1921-connacht-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "opw-fsu-catchments-gauged-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/opw-fsu-catchments-gauged-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 2124541,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.125.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/opw-fsu-catchments-gauged-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
     }
   ]
 }

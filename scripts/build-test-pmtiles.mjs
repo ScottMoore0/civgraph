@@ -10,6 +10,7 @@
 import { existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { getTileProfile } from './test-tile-profiles.mjs';
 import { isPrimaryKey } from '../test/src/feature-details.js';
 
@@ -174,6 +175,43 @@ console.log(`Wrote ${relative(REPORT_PATH)}`);
 
 if (failed.length) process.exit(1);
 
+/**
+ * SHA-256 of the source this archive was built from, recorded at build time.
+ *
+ * WHY A HASH AND NOT A TIMESTAMP
+ *
+ * validate-tile-source-freshness.mjs compares modification times, so it fails when a
+ * source is newer than its archive and cannot fail when the archive is newer and wrong.
+ * That is not a theoretical hole: an archive pulled down from R2 gets a fresh mtime for
+ * free, and niah-buildings sat published at 19 MB while its source yielded 204 MB, with
+ * ten attribute columns against the source's twelve, passing that check every time.
+ *
+ * A hash cannot be fooled that way. Recorded here at the only moment the answer is
+ * known for certain -- the moment the archive is written -- and compared later by
+ * check:tile-content.
+ *
+ * WHY NOT A SCHEMA COMPARISON, which was tried first and abandoned: reading the
+ * attribute names back out of the built tiles cannot distinguish a stale archive from a
+ * column that is null everywhere, because MVT omits nulls. That audit reported 22, then
+ * 8, then 7 stale layers across three attempts, and most were its own artefacts. A hash
+ * has no such failure mode.
+ *
+ * THE COST IS 3.3 SECONDS for the entire 2.9 GB source corpus, measured at 876 MB/s. It
+ * is not worth caching, pre-filtering on mtime, or being clever about.
+ *
+ * WHAT IT STILL DOES NOT COVER: whether the SOURCE is itself current. In August the
+ * source cache was the stale copy and the archive was built from it faithfully -- source
+ * and archive agreed, and this check would have passed. That hop is verify:source-cache.
+ */
+function sourceContentHash(sourceFile) {
+  if (!sourceFile || !existsSync(sourceFile)) return undefined;
+  try {
+    return createHash('sha256').update(readFileSync(sourceFile)).digest('hex');
+  } catch {
+    return undefined;
+  }
+}
+
 function syncMetadata(report) {
   let preferred = 0;
   let oversized = 0;
@@ -206,7 +244,9 @@ function syncMetadata(report) {
       bytes: size,
       maxGithubBytes: MAX_GITHUB_BYTES,
       generatedAt: report.generatedAt,
-      fallback: layer.tilesFallback || layer.tiles || null
+      fallback: layer.tilesFallback || layer.tiles || null,
+      // WHICH BYTES THIS WAS BUILT FROM. See sourceContentHash().
+      sourceSha256: sourceContentHash(layer.sourceFile)
     };
     if (!archive.preferred) {
       oversized += 1;
