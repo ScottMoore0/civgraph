@@ -1,44 +1,71 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-20T22:55:49.076Z",
+  "generatedAt": "2026-08-21T06:32:30.960Z",
   "bucket": "boundaries-data",
   "dryRun": false,
   "selectedIds": [
-    "dobih-v18-4-vector-test",
-    "niah-buildings-vector-test",
-    "historic-ringfort-cashel-vector-test"
+    "hed-listed-buildings-vector-test",
+    "hed-sites-and-monuments-vector-test",
+    "ni-authorised-waste-sites-vector-test",
+    "ni-listed-buildings-vector-test",
+    "niea-river-segments-vector-test",
+    "translink-bus-stops-2024-vector-test"
   ],
   "totals": {
-    "assets": 3,
-    "processed": 3,
-    "ok": 3,
+    "assets": 6,
+    "processed": 6,
+    "ok": 6,
     "failed": 0,
-    "bytes": 104414632
+    "bytes": 53342815
   },
   "results": [
     {
-      "layerId": "dobih-v18-4-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/dobih-v18-4-vector-test.pmtiles",
+      "layerId": "hed-listed-buildings-vector-test",
+      "targetKey": "data/maps/test/pmtiles/generated/hed-listed-buildings-vector-test.pmtiles",
       "ok": true,
       "status": "uploaded",
-      "bytes": 69773045,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.125.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/dobih-v18-4-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+      "bytes": 8895752,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.125.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/hed-listed-buildings-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
     },
     {
-      "layerId": "historic-ringfort-cashel-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/historic-ringfort-cashel-vector-test.pmtiles",
+      "layerId": "hed-sites-and-monuments-vector-test",
+      "targetKey": "data/maps/test/pmtiles/generated/hed-sites-and-monuments-vector-test.pmtiles",
       "ok": true,
       "status": "uploaded",
-      "bytes": 3725689,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.125.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/historic-ringfort-cashel-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+      "bytes": 8951024,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.125.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/hed-sites-and-monuments-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
     },
     {
-      "layerId": "niah-buildings-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/niah-buildings-vector-test.pmtiles",
+      "layerId": "ni-authorised-waste-sites-vector-test",
+      "targetKey": "data/maps/test/pmtiles/generated/ni-authorised-waste-sites-vector-test.pmtiles",
       "ok": true,
       "status": "uploaded",
-      "bytes": 30915898,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.125.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/niah-buildings-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+      "bytes": 8177777,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.125.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/ni-authorised-waste-sites-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+    },
+    {
+      "layerId": "ni-listed-buildings-vector-test",
+      "targetKey": "data/maps/test/pmtiles/generated/ni-listed-buildings-vector-test.pmtiles",
+      "ok": true,
+      "status": "uploaded",
+      "bytes": 6477226,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.125.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/ni-listed-buildings-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+    },
+    {
+      "layerId": "niea-river-segments-vector-test",
+      "targetKey": "data/maps/test/pmtiles/generated/niea-river-segments-vector-test.pmtiles",
+      "ok": true,
+      "status": "uploaded",
+      "bytes": 13507651,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.125.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/niea-river-segments-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+    },
+    {
+      "layerId": "translink-bus-stops-2024-vector-test",
+      "targetKey": "data/maps/test/pmtiles/generated/translink-bus-stops-2024-vector-test.pmtiles",
+      "ok": true,
+      "status": "uploaded",
+      "bytes": 7333385,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.125.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/translink-bus-stops-2024-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
     }
   ]
 }

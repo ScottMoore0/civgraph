@@ -20,6 +20,25 @@ const ONLY_IDS = new Set([
 ].map((value) => value.trim()).filter(Boolean));
 const IS_WINDOWS = platform() === 'win32';
 
+// `--ids ""` MUST NOT MEAN "everything".
+//
+// On 2026-08-21 a shell substitution produced an empty --ids value here. ONLY_IDS came
+// out empty, empty means unscoped, and this began uploading all 817 archives; 252 went
+// to R2 before it was stopped. The operator had asked for 41.
+//
+// This is the same fail-open that switch-test-pmtiles-to-cdn.mjs was fixed for two days
+// earlier -- the fix was applied there and not here, because the bug was recorded as
+// "that tool ignores --ids" rather than as a shape that any scoped tool can have. It is
+// the shape that matters: an explicit narrowing that silently widens is the most
+// dangerous default a publishing tool can have, because the operator's own intent is
+// the thing being discarded.
+if (process.argv.includes('--ids') && !ONLY_IDS.size) {
+  console.error('FAIL: --ids was given with no layer ids. Refusing to fall back to all layers.');
+  console.error('  This publishes to R2. An empty scope here means "everything", which is');
+  console.error('  never what --ids was typed to mean.');
+  process.exit(2);
+}
+
 if (process.argv.includes('--failed-range-report')) {
   if (!existsSync(RANGE_REPORT_PATH)) {
     console.error('No CDN range report found. Run `npm run verify:test:pmtiles-cdn` first.');
