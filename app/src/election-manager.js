@@ -329,6 +329,7 @@ export class Test2ElectionManager {
     await nextFrame();
     await this.renderElectionOverlay();
     this.updateElectionTimeline();
+    this.announceUnmatchedGeography(entry);
     this.app.syncCatalogueMapState();
     this.app.updateActiveLayers();
     this.app.focusActiveElectionCatalogueEntry?.(entry, { scroll: false });
@@ -4456,6 +4457,40 @@ export class Test2ElectionManager {
       party: result.winnerParty || result.leadingParty || '',
       colour: this.mainPanePartyColour(result.winnerParty || result.leadingParty)
     }));
+  }
+
+  /**
+   * T2-03: say how much of this election's geography could not be matched.
+   *
+   * Unmatched constituencies were already DRAWN differently -- grey, via
+   * MAIN_ELECTION_GEOGRAPHY_STYLE.unmatchedFillColor -- and that was the entire
+   * disclosure. A reader had to notice that some polygons were a slightly different
+   * grey and infer what it meant, which is not disclosure, it is a puzzle. Browse has
+   * shown "Matched / unmatched" counts on the same data for months; the map, where the
+   * consequence is actually visible, said nothing.
+   *
+   * The numbers were already loaded. entry.unmatchedCount and
+   * entry.unmatchedConstituencySample come with every entry -- 34 of 281 elections have
+   * unmatched geography -- so this is a disclosure that was one line away the whole
+   * time.
+   *
+   * Announced rather than rendered as a banner: it is a caveat about the data, not an
+   * error, and a screen-reader user currently gets nothing at all from the grey.
+   */
+  announceUnmatchedGeography(entry) {
+    const unmatched = Number(entry?.unmatchedCount) || 0;
+    if (!unmatched) return;
+    const total = Number(entry?.totalConstituencies) || Number(entry?.matchedCount) + unmatched || 0;
+    const sample = Array.isArray(entry?.unmatchedConstituencySample)
+      ? entry.unmatchedConstituencySample.filter(Boolean).slice(0, 3)
+      : [];
+    const scope = total ? ` of ${total}` : '';
+    const examples = sample.length ? ` For example: ${sample.join(', ')}.` : '';
+    const message = `${unmatched}${scope} constituencies in this election could not be matched to a boundary `
+      + `and are drawn without results.${examples}`;
+    const announcer = document.getElementById('announcer');
+    if (announcer) announcer.textContent = message;
+    console.info('[civgraph] %s', message);
   }
 
   updateElectionTimeline() {
