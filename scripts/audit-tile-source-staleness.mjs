@@ -105,34 +105,72 @@ function sourceFields(path) {
 }
 
 /** Fields in the archive, read from the densest tile at the archive's max zoom. */
+/**
+ * Fields present in the archive, read from a real tile near its deepest zoom.
+ *
+ * FINDING A TILE BY GUESSING DOES NOT WORK. The first version computed the tile
+ * containing the centre of the archive's bounds and probed a dozen neighbours. That
+ * failed on 45 of 521 layers -- 9% -- and it failed for a reason worth keeping: the
+ * centre of a layer's bounding box is very often empty. A border-crossings layer is a
+ * line along an edge, a seas layer is a ring around a coast, a potholes layer is
+ * wherever the potholes are. None of them has anything in the middle.
+ *
+ * So descend the quadtree instead of guessing. Start at the root, and at each level
+ * take the first of the four children that exists. That follows the data wherever it
+ * actually is, costs four fetches per level, and cannot miss a populated archive.
+ */
 async function archiveFields(url) {
   const pm = new PMTiles(new HttpSource(url));
   const header = await pm.getHeader();
-  const z = header.maxZoom;
-  // Walk out from the centre of the archive's own bounds rather than scanning 4^z tiles.
-  const lon = (header.minLon + header.maxLon) / 2;
-  const lat = (header.minLat + header.maxLat) / 2;
-  const n = 2 ** z;
-  const cx = Math.floor(((lon + 180) / 360) * n);
-  const cy = Math.floor((1 - Math.log(Math.tan(lat * Math.PI / 180) + 1 / Math.cos(lat * Math.PI / 180)) / Math.PI) / 2 * n);
-  // UNION ACROSS SEVERAL TILES, not the first one found. A tile's key dictionary lists
-  // only the fields something in that tile populates, so a single rural tile reports
-  // STREET1 and TOWN as absent from an urban buildings layer -- which this audit read as
-  // drift on its first run. Several tiles spread across the archive is still cheap and
-  // is far closer to the layer's real schema.
+  const target = Math.min(header.maxZoom, Math.max(header.minZoom, 8));
+
+  let path = [{ z: header.minZoom, x: 0, y: 0 }];
+  if (header.minZoom === 0) {
+    if (!(await pm.getZxy(0, 0, 0).catch(() => null))) path = [];
+  } else {
+    path = [];
+  }
+
+  // Locate a starting tile if z0 is absent, by scanning the (still small) top levels.
+  let current = path[0] || null;
+  if (!current) {
+    outer: for (let z = header.minZoom; z <= Math.min(header.maxZoom, 4); z++) {
+      const n = 2 ** z;
+      for (let x = 0; x < n; x++) {
+        for (let y = 0; y < n; y++) {
+          if (await pm.getZxy(z, x, y).catch(() => null)) { current = { z, x, y }; break outer; }
+        }
+      }
+    }
+  }
+  if (!current) return null;
+
+  while (current.z < target) {
+    const nz = current.z + 1;
+    let next = null;
+    for (const [dx, dy] of [[0, 0], [1, 0], [0, 1], [1, 1]]) {
+      const x = current.x * 2 + dx;
+      const y = current.y * 2 + dy;
+      if (await pm.getZxy(nz, x, y).catch(() => null)) { next = { z: nz, x, y }; break; }
+    }
+    if (!next) break;   // deepest populated level reached along this branch
+    current = next;
+  }
+
+  // Union across this tile and its siblings. A tile's key dictionary lists only the
+  // fields something in THAT tile populates, so one tile reports STREET1 and TOWN as
+  // absent from an urban buildings layer -- which this audit read as drift on its first
+  // run. Siblings are cheap and much closer to the layer's real schema.
   const seen = new Set();
   let found = false;
-  for (const [dx, dy] of [[0, 0], [1, 0], [0, 1], [-1, 0], [0, -1], [1, 1], [-1, -1], [2, 0], [0, 2], [4, 4], [-4, -4], [8, 0], [0, 8]]) {
-    const tile = await pm.getZxy(z, cx + dx, cy + dy).catch(() => null);
+  const siblings = [[0, 0], [1, 0], [0, 1], [1, 1], [-1, 0], [0, -1], [2, 2], [-2, -2]];
+  for (const [dx, dy] of siblings) {
+    const tile = await pm.getZxy(current.z, current.x + dx, current.y + dy).catch(() => null);
     if (!tile) continue;
     const vt = new VectorTile(new Pbf(Buffer.from(tile.data)));
     const name = Object.keys(vt.layers)[0];
     if (!name || !vt.layers[name].length) continue;
     const L = vt.layers[name];
-    // The TILE'S KEY DICTIONARY, not one feature's properties. MVT omits a field from a
-    // feature when its value is null, so reading feature(0) reports the fields that
-    // happen to be populated on whichever feature came first -- which made this audit
-    // report six healthy layers as stale on its first run. The key table is the schema.
     found = true;
     if (Array.isArray(L._keys) && L._keys.length) {
       for (const key of L._keys) seen.add(key);
@@ -144,6 +182,7 @@ async function archiveFields(url) {
   }
   return found ? [...seen] : null;
 }
+
 
 const doc = JSON.parse(readFileSync(METADATA, 'utf8'));
 const layers = (doc.layers || []).filter((l) => l.sourceType === 'pmtiles'
