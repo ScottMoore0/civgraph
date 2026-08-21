@@ -35,6 +35,7 @@
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { PMTiles } from 'pmtiles';
+import { getTileProfile } from './test-tile-profiles.mjs';
 import { VectorTile } from '@mapbox/vector-tile';
 import Pbf from 'pbf';
 
@@ -119,7 +120,7 @@ function sourceFields(path) {
  * take the first of the four children that exists. That follows the data wherever it
  * actually is, costs four fetches per level, and cannot miss a populated archive.
  */
-async function archiveFields(url) {
+async function archiveFields(url, cutoff) {
   const pm = new PMTiles(new HttpSource(url));
   const header = await pm.getHeader();
   const target = Math.min(header.maxZoom, Math.max(header.minZoom, 8));
@@ -156,6 +157,19 @@ async function archiveFields(url) {
     if (!next) break;   // deepest populated level reached along this branch
     current = next;
   }
+
+  // A PRUNED LAYER READ BELOW ITS CUTOFF REPORTS ITS OWN DESIGN AS DRIFT.
+  //
+  // Layers in test-tile-profiles.mjs carry only identity and name fields below the
+  // cutoff. If the descent cannot get above it -- because the archive's deepest
+  // populated branch stops short -- what gets read is the pruned schema, and every
+  // deliberately-absent column looks like staleness. dobih-v18-4-munros was reported
+  // stale for exactly this reason, missing id/Section/Region/Island: the four fields
+  // pruning is there to remove.
+  //
+  // Say "could not check" rather than "stale". A false alarm on 44 layers that were
+  // published correctly this week would discredit the audit faster than any gap.
+  if (cutoff !== undefined && current.z <= cutoff) return { belowCutoff: current.z };
 
   // Union across this tile and its siblings. A tile's key dictionary lists only the
   // fields something in THAT tile populates, so one tile reports STREET1 and TOWN as
@@ -203,7 +217,12 @@ for (const layer of layers) {
   const src = sourceFields(layer.sourceFile);
   if (!src) { unreadable.push({ id: layer.id, why: 'source unreadable' }); continue; }
   let arc;
-  try { arc = await archiveFields(layer.tileUrl); } catch (e) { arc = null; var err = e.message; }
+  const cutoff = getTileProfile(layer.sourceMapId || layer.id).lowZoomAttributeCutoff;
+  try { arc = await archiveFields(layer.tileUrl, cutoff); } catch (e) { arc = null; var err = e.message; }
+  if (arc && arc.belowCutoff !== undefined) {
+    unreadable.push({ id: layer.id, why: `only reached z${arc.belowCutoff}, at or below the prune cutoff z${cutoff}; schema there is pruned by design` });
+    continue;
+  }
   if (!arc) { unreadable.push({ id: layer.id, why: `archive unreadable${err ? `: ${err}` : ''}` }); continue; }
   const have = new Set(arc);
   const lengths = sourceFieldLengths(layer.sourceFile) || new Map();
