@@ -1,116 +1,8 @@
 {
   "note": "Known catalogue/render disagreements. Ratchet baseline for validate-catalogue-render-parity.mjs; this list may shrink, never grow.",
   "generated": "run with --update-baseline to re-cut",
-  "count": 371,
+  "count": 76,
   "findings": [
-    {
-      "key": "accessible-parking-spaces-sdcc3::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "accessible-parking-spaces-sdcc3::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "art-in-the-parks-a-guide-to-sculpture-in-dublin-city-council-parks::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "art-in-the-parks-a-guide-to-sculpture-in-dublin-city-council-parks::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "bcni2018::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "bedrock-boreholes-150000-ireland-roi-itm-unverified::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "bedrock-boreholes-150000-ireland-roi-itm-unverified::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "bedrock-geology-11000000-ireland-roini-itm::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "co-wicklow-polling-stations::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "co-wicklow-polling-stations::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "co-wicklow-protected-structures::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "co-wicklow-protected-structures::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "community-scale-coastal-flood-extents-high-end-future-scenario::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "community-scale-coastal-flood-extents-mid-range-future-scenario::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "community-scale-flood-model-nodes-current-scenario::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "community-scale-flood-model-nodes-current-scenario::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "cork-city-parks::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "cork-city-parks::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
     {
       "key": "counties-ireland-1915::name",
       "severity": "content",
@@ -142,12 +34,6 @@
       "why": "label property differs; PMTiles conversion may have renamed the attribute"
     },
     {
-      "key": "cycle-network-survey::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
       "key": "dcc-dcc-public-cycle-parking-stands::description",
       "severity": "content",
       "kind": "conflict",
@@ -166,106 +52,10 @@
       "why": "label property differs; PMTiles conversion may have renamed the attribute"
     },
     {
-      "key": "deds-ni-1926::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
       "key": "deds-ni-1926::labelProperty",
       "severity": "advisory",
       "kind": "missing",
       "why": "label property differs; PMTiles conversion may have renamed the attribute"
-    },
-    {
-      "key": "dfi-surface-defects-2008::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "dfi-surface-defects-2010::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "dfi-surface-defects-2011::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "dfi-surface-defects-2012::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "dfi-surface-defects-2013::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "dfi-surface-defects-2014::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "dfi-surface-defects-2015::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "dfi-surface-defects-2016::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "dfi-surface-defects-2017::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "dfi-surface-defects-2018::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "dfi-surface-defects-2019::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "dfi-surface-defects-2020::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "dfi-surface-defects-2021::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "district-electoral-divisions-boundaries::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "dobih-v18-4-arderins::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
     },
     {
       "key": "dobih-v18-4-arderins::parentId",
@@ -274,22 +64,10 @@
       "why": "parentId differs"
     },
     {
-      "key": "dobih-v18-4-binnions::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
       "key": "dobih-v18-4-binnions::parentId",
       "severity": "identity",
       "kind": "missing",
       "why": "parentId differs"
-    },
-    {
-      "key": "dobih-v18-4-birketts::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
     },
     {
       "key": "dobih-v18-4-birketts::parentId",
@@ -298,22 +76,10 @@
       "why": "parentId differs"
     },
     {
-      "key": "dobih-v18-4-carns::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
       "key": "dobih-v18-4-carns::parentId",
       "severity": "identity",
       "kind": "missing",
       "why": "parentId differs"
-    },
-    {
-      "key": "dobih-v18-4-corbetts::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
     },
     {
       "key": "dobih-v18-4-corbetts::parentId",
@@ -322,22 +88,10 @@
       "why": "parentId differs"
     },
     {
-      "key": "dobih-v18-4-county-tops::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
       "key": "dobih-v18-4-county-tops::parentId",
       "severity": "identity",
       "kind": "missing",
       "why": "parentId differs"
-    },
-    {
-      "key": "dobih-v18-4-donald-tops::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
     },
     {
       "key": "dobih-v18-4-donald-tops::parentId",
@@ -346,22 +100,10 @@
       "why": "parentId differs"
     },
     {
-      "key": "dobih-v18-4-donalds::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
       "key": "dobih-v18-4-donalds::parentId",
       "severity": "identity",
       "kind": "missing",
       "why": "parentId differs"
-    },
-    {
-      "key": "dobih-v18-4-fellrangers::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
     },
     {
       "key": "dobih-v18-4-fellrangers::parentId",
@@ -370,22 +112,10 @@
       "why": "parentId differs"
     },
     {
-      "key": "dobih-v18-4-furths::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
       "key": "dobih-v18-4-furths::parentId",
       "severity": "identity",
       "kind": "missing",
       "why": "parentId differs"
-    },
-    {
-      "key": "dobih-v18-4-grahams::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
     },
     {
       "key": "dobih-v18-4-grahams::parentId",
@@ -394,22 +124,10 @@
       "why": "parentId differs"
     },
     {
-      "key": "dobih-v18-4-hewitts::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
       "key": "dobih-v18-4-hewitts::parentId",
       "severity": "identity",
       "kind": "missing",
       "why": "parentId differs"
-    },
-    {
-      "key": "dobih-v18-4-humps::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
     },
     {
       "key": "dobih-v18-4-humps::parentId",
@@ -418,22 +136,10 @@
       "why": "parentId differs"
     },
     {
-      "key": "dobih-v18-4-marilyns::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
       "key": "dobih-v18-4-marilyns::parentId",
       "severity": "identity",
       "kind": "missing",
       "why": "parentId differs"
-    },
-    {
-      "key": "dobih-v18-4-munro-tops::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
     },
     {
       "key": "dobih-v18-4-munro-tops::parentId",
@@ -442,22 +148,10 @@
       "why": "parentId differs"
     },
     {
-      "key": "dobih-v18-4-munros::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
       "key": "dobih-v18-4-munros::parentId",
       "severity": "identity",
       "kind": "missing",
       "why": "parentId differs"
-    },
-    {
-      "key": "dobih-v18-4-nuttalls::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
     },
     {
       "key": "dobih-v18-4-nuttalls::parentId",
@@ -466,22 +160,10 @@
       "why": "parentId differs"
     },
     {
-      "key": "dobih-v18-4-significant-islands::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
       "key": "dobih-v18-4-significant-islands::parentId",
       "severity": "identity",
       "kind": "missing",
       "why": "parentId differs"
-    },
-    {
-      "key": "dobih-v18-4-simms::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
     },
     {
       "key": "dobih-v18-4-simms::parentId",
@@ -490,22 +172,10 @@
       "why": "parentId differs"
     },
     {
-      "key": "dobih-v18-4-synges::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
       "key": "dobih-v18-4-synges::parentId",
       "severity": "identity",
       "kind": "missing",
       "why": "parentId differs"
-    },
-    {
-      "key": "dobih-v18-4-tumps::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
     },
     {
       "key": "dobih-v18-4-tumps::parentId",
@@ -514,22 +184,10 @@
       "why": "parentId differs"
     },
     {
-      "key": "dobih-v18-4-vandeleur-lynams::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
       "key": "dobih-v18-4-vandeleur-lynams::parentId",
       "severity": "identity",
       "kind": "missing",
       "why": "parentId differs"
-    },
-    {
-      "key": "dobih-v18-4-wainwrights::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
     },
     {
       "key": "dobih-v18-4-wainwrights::parentId",
@@ -544,34 +202,10 @@
       "why": "description differs or was blanked"
     },
     {
-      "key": "dobih-v18-4::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "ed-boundaries-dlr::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "eds-1971::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
       "key": "eds-1971::style",
       "severity": "identity",
       "kind": "conflict",
       "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "eds-1977::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
     },
     {
       "key": "eds-1977::date",
@@ -586,22 +220,10 @@
       "why": "render record dropped a style property the catalogue sets"
     },
     {
-      "key": "eds-1980::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
       "key": "eds-1980::style",
       "severity": "identity",
       "kind": "conflict",
       "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "eds-1983::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
     },
     {
       "key": "eds-1983::date",
@@ -616,46 +238,10 @@
       "why": "render record dropped a style property the catalogue sets"
     },
     {
-      "key": "eds-connacht-1911::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-connacht-1919::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-connacht-1926::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-connacht-1926::labelProperty",
-      "severity": "advisory",
-      "kind": "missing",
-      "why": "label property differs; PMTiles conversion may have renamed the attribute"
-    },
-    {
-      "key": "eds-connacht-1986::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
       "key": "eds-connacht-1994::description",
       "severity": "content",
       "kind": "conflict",
       "why": "description differs or was blanked"
-    },
-    {
-      "key": "eds-connacht-1994::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
     },
     {
       "key": "eds-connacht-1997::description",
@@ -664,46 +250,10 @@
       "why": "description differs or was blanked"
     },
     {
-      "key": "eds-connacht-1997::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-connacht-2006::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
       "key": "eds-connacht-2019::description",
       "severity": "content",
       "kind": "conflict",
       "why": "description differs or was blanked"
-    },
-    {
-      "key": "eds-connacht-2019::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-connacht-2022::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-leinster-1911::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-leinster-1926::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
     },
     {
       "key": "eds-leinster-1926::labelProperty",
@@ -712,145 +262,7 @@
       "why": "label property differs; PMTiles conversion may have renamed the attribute"
     },
     {
-      "key": "eds-leinster-1957::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-leinster-1986::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-leinster-1994::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-leinster-1997::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-leinster-2006::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-leinster-2019::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-leinster-2022::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-munster-1911::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-munster-1926::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
       "key": "eds-munster-1926::labelProperty",
-      "severity": "advisory",
-      "kind": "missing",
-      "why": "label property differs; PMTiles conversion may have renamed the attribute"
-    },
-    {
-      "key": "eds-munster-1955::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-munster-1965::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-munster-1966::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-munster-1970::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-munster-1986::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-munster-1994::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-munster-1997::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-munster-2006::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-munster-2019::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-munster-2022::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-ulster-1911::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-ulster-1921::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-ulster-1926::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-ulster-1926::labelProperty",
       "severity": "advisory",
       "kind": "missing",
       "why": "label property differs; PMTiles conversion may have renamed the attribute"
@@ -862,22 +274,10 @@
       "why": "description differs or was blanked"
     },
     {
-      "key": "eds-ulster-1986::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
       "key": "eds-ulster-1994::description",
       "severity": "content",
       "kind": "conflict",
       "why": "description differs or was blanked"
-    },
-    {
-      "key": "eds-ulster-1994::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
     },
     {
       "key": "eds-ulster-1997::description",
@@ -886,46 +286,10 @@
       "why": "description differs or was blanked"
     },
     {
-      "key": "eds-ulster-1997::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-ulster-2006::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
       "key": "eds-ulster-2019::description",
       "severity": "content",
       "kind": "conflict",
       "why": "description differs or was blanked"
-    },
-    {
-      "key": "eds-ulster-2019::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "eds-ulster-2022::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "electoral-divisions-fcc2::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "eoni-polling-stations::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
     },
     {
       "key": "glpr-2020-03::labelProperty",
@@ -964,12 +328,6 @@
       "why": "label property differs; PMTiles conversion may have renamed the attribute"
     },
     {
-      "key": "greater-dublin-area-cycle-infrastructure-nta::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
       "key": "gsi-bedrock-boreholes-50k::labelProperty",
       "severity": "advisory",
       "kind": "missing",
@@ -994,34 +352,10 @@
       "why": "label property differs; PMTiles conversion may have renamed the attribute"
     },
     {
-      "key": "gsni-core-cuttings-register::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "gsni-tellus-rural-soil-a-aqua-regia::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "gsni-tellus-rural-soil-a-xrf::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
       "key": "gsni-tellus-rural-soil-s-aqua-regia::labelProperty",
       "severity": "advisory",
       "kind": "missing",
       "why": "label property differs; PMTiles conversion may have renamed the attribute"
-    },
-    {
-      "key": "gsni-tellus-rural-soil-s-aqua-regia::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
     },
     {
       "key": "gsni-tellus-rural-soil-s-fire-assay::labelProperty",
@@ -1030,52 +364,10 @@
       "why": "label property differs; PMTiles conversion may have renamed the attribute"
     },
     {
-      "key": "gsni-tellus-rural-soil-s-fire-assay::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
       "key": "gsni-tellus-rural-soil-s-near-total::labelProperty",
       "severity": "advisory",
       "kind": "missing",
       "why": "label property differs; PMTiles conversion may have renamed the attribute"
-    },
-    {
-      "key": "gsni-tellus-rural-soil-s-near-total::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "gsni-tellus-stream-sediments-au-pge::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "gsni-tellus-stream-sediments-boron::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "gsni-tellus-stream-sediments-xrf-set2::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "gsni-tellus-stream-sediments-xrf::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "gsni-tellus-stream-waters-icp::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
     },
     {
       "key": "hed-defence-heritage::labelProperty",
@@ -1114,652 +406,10 @@
       "why": "date differs"
     },
     {
-      "key": "irish-hill-prominence-domains::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "irish-hill-summit-domains::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "landscape-character-types::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "mid-ulster-council-district-electoral-areas2::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "mid-ulster-council-townlands2::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "mid-ulster-council-wards2::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "museums-collections-archives::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "museums-collections-archives::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
       "key": "ni-townlands-1844::labelProperty",
       "severity": "advisory",
       "kind": "conflict",
       "why": "label property differs; PMTiles conversion may have renamed the attribute"
-    },
-    {
-      "key": "niea-waste-sites-2021::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "oda-map-00093-boundaries::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00101-dail-constituencies-2013-sdcc::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00115-planning-application-boundaries-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00118-planning-exemptions-local-authorities::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00119-planning-exemptions-settlements::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00120-polling-stations-for-general-election-2024-fcc::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00121-polling-stations-presidential-election-2025-fcc::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00125-settlement-boundaries-roscommon-cdp-2022-2028::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00140-electoral-areas-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00150-co-wicklow-polling-districts::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00152-galway-county-council-polling-stations::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00153-local-election-areas::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00154-local-election-results-2014-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00155-local-election-results-2019-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00156-polling-districts-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00157-polling-districts-2019-sdcc::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00158-polling-station-locations-2024-sdcc::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00159-polling-stations-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00205-4dublin-pipeline-all::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00221-eia-location-point::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00224-gzt-current-plan::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00300-planning-application-points-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00302-planning-register::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00303-westmeath-planning-applications::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00330-cityboundary::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00343-galway-city-electoral-divisions::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00358-galway-city-polling-districts-opendata::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00370-angling-stands-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00376-architectural-conservation-areas-roscommon-cdp-2014-2020-expired::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00377-architectural-conservation-areas-roscommon-cdp-2022-2028::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00383-areas-suitable-for-windfarm-development-roscommon-cdp-2022-2028::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00384-areas-under-urban-influence-roscommon-cdp-2022-2028::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00387-arts-facilities-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00394-average-wind-speeds-roscommon-cdp-2014-2020-expired::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00398-ballaghaderreen-lap-2012-2018-expired-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00399-ballaghaderreen-lap-2017-2023-expired-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00415-bicycle-warning-signs-fcc::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00421-boyle-lap-2012-2018-expired-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00422-boyle-lap-2015-2021-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00438-car-parking-locations-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00439-castlerea-lap-2012-2018-expired-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00440-castlerea-lap-2016-2022-expired-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00451-certificate-of-registration-locations-sdcc::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00454-civic-amenity-sites-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00469-cootehall-lap-2009-2015-expired-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00471-core-retail-areas-roscommon-cdp-2022-2028::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00472-cortober-lap-2014-2020-expired-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00475-county-council-offices-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00497-cycleways-sdcc::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00553-elphin-lap-2014-2020-expired-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00571-fossit-3-town::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00583-geological-sites-audit-2012-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00589-hedgerows::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00591-hodson-bay-lap-2014-2020-expired-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00610-land-use-zoning-roscommon-cdp-2022-2028::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00612-landscape-character-areas-roscommon-cdp-2014-2020-expired::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00613-landscape-character-areas-roscommon-cdp-2022-2028::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00615-landscape-character-types-roscommon-cdp-2014-2020-expired::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00620-libraries-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00625-locations::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00627-lough-key-lap-2015-2021-expired-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00634-monksland-bellanamullia-lap-2010-2016-expired-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00635-monksland-bellanamullia-lap-2016-2022-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00639-municipal-district::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00647-operational-areas-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00649-other-community-facilities::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00661-playgrounds-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00687-public-moorings-and-piers-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00689-public-slipways-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00694-record-of-protected-structures-roscommon-cdp-2014-2020-expired::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00695-record-of-protected-structures-roscommon-cdp-2022-2028::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00698-recycle-bring-banks-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00704-roosky-lap-2009-2015-expired-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00705-roscommon-community-parks::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00707-roscommon-lap-2008-2014-expired-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00708-roscommon-lap-2014-2020-expired-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00709-roscommon-public-parks::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00732-scenic-routes-roscommon-cdp-2014-2020::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00733-scenic-routes-roscommon-cdp-2022-2028::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00734-scenic-views-roscommon-cdp-2014-2020::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00735-scenic-views-roscommon-cdp-2022-2028::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00736-scenic-views-extents-roscommon-cdp-2022-2028::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00741-settlement-flood-zones-roscommon-cdp-2022-2028::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00755-sports-facilities-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00786-thatch-building-survey-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00791-tourism-attractions-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00792-town-core-residential-opportunity-sites-roscommon-cdp-2022-2028::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00808-treelines::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00822-water-district-areas-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00829-westmeath-county-council-libraries::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00859-wildlife-corridors::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00860-wind-energy-development-potential-roscommon-cdp-2014-2020-expire::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00862-winter-service-plan-routes-roscommon::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00913-covid-19-hse-daily-booster-vaccination-figures::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-00914-covid-19-hse-daily-vaccination-figures::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-01042-architectural-conservation-areas::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "oda-map-01068-cork-city-zoning-development-plan-2022-2028::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "opw-coastal-flood-extents-2021-current::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
     },
     {
       "key": "opw-coastal-flood-extents-2021-current::labelProperty",
@@ -1768,100 +418,10 @@
       "why": "label property differs; PMTiles conversion may have renamed the attribute"
     },
     {
-      "key": "opw-nifm-river-flood-extents-current::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
       "key": "opw-nifm-river-flood-extents-current::labelProperty",
       "severity": "advisory",
       "kind": "missing",
       "why": "label property differs; PMTiles conversion may have renamed the attribute"
-    },
-    {
-      "key": "osni-benchmarks::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "osni-open-data-50k-boundaries-district-electoral-areas-1993::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "osni-open-data-50k-boundaries-local-government-districts-1993::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "osni-open-data-50k-boundaries-parliamentary-constituencies::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "osni-open-data-50k-boundaries-townlands::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "osni-open-data-50k-boundaries-wards-1993::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "osni-open-data-50k-transport-text-labelling::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "osni-open-data-50k-transport-text-labelling::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "osni-open-data-50k-transport-transport-points::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "osni-open-data-50k-transport-transport-points::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "osni-open-data-largescale-boundaries-local-government-districts-1993::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "place-names-gazetteer::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "river-and-lake-monitoring-points-2024::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "river-and-lake-monitoring-points-2024::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
     },
     {
       "key": "rivers-coastal-flood-2018::labelProperty",
@@ -1888,346 +448,16 @@
       "why": "label property differs; PMTiles conversion may have renamed the attribute"
     },
     {
-      "key": "local-authorities-2024::keywords",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a keyword the catalogue records (search terms lost)"
-    },
-    {
-      "key": "roi-national-planning-applications::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
       "key": "roi-national-planning-applications::labelProperty",
       "severity": "advisory",
       "kind": "conflict",
       "why": "label property differs; PMTiles conversion may have renamed the attribute"
     },
     {
-      "key": "roi-small-areas-2022::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "streetnames-gazetteer::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "tailte-airports::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "tailte-border-exits-entrances::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "tailte-built-up-1m::labelProperty",
-      "severity": "advisory",
-      "kind": "missing",
-      "why": "label property differs; PMTiles conversion may have renamed the attribute"
-    },
-    {
-      "key": "tailte-built-up-points-250k::labelProperty",
-      "severity": "advisory",
-      "kind": "missing",
-      "why": "label property differs; PMTiles conversion may have renamed the attribute"
-    },
-    {
-      "key": "tailte-centres-of-population::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "tailte-ferry-station::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "tailte-heritage::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "tailte-hvd-rail-points::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "tailte-hvd-water-points::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "tailte-hvd-way-points::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "tailte-hydro-nodes::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "tailte-main-harbours::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "tailte-motorway-access-exit-points::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "tailte-mountains::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "tailte-other-harbours::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "tailte-power-plant::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "tailte-railway-stations::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "tailte-reservoirs::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "tailte-road-interchanges::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "tailte-road-intersections::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "tailte-road-rail-intersections::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "tailte-watercourse-start-end-points::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "tailte-waterfalls::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "tellus-flight-tracks::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "townland-boundaries::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "townlands-2015-sdcc1::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "townlands-in-fcc3::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "transport-carriageway-defects-2021::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "transport-carriageway-defects-2021::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "use-zoning-objectives1::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "water-framework-directive-2nd-cycle-interim-status1::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
       "key": "west-bann-sperrins::labelProperty",
       "severity": "advisory",
       "kind": "conflict",
       "why": "label property differs; PMTiles conversion may have renamed the attribute"
-    },
-    {
-      "key": "wicklow-county-council-tree-preservation-orders-bray::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "wicklow-county-council-tree-preservation-orders-bray::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "wicklow-county-council-tree-preservation-orders::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "wicklow-county-council-tree-preservation-orders::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "wicklow-fire-stations::bounds",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "bounds differ; the render value is computed from geometry and is normally the better one"
-    },
-    {
-      "key": "wicklow-fire-stations::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "wq-rwq-alkalinity::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "wq-rwq-ammonia::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "wq-rwq-biochemical-oxygen-demand::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "wq-rwq-conductivity::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "wq-rwq-dissolved-copper::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "wq-rwq-dissolved-iron::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "wq-rwq-dissolved-oxygen::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "wq-rwq-dissolved-zinc::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "wq-rwq-nitrate::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "wq-rwq-nitrite::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "wq-rwq-ph::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "wq-rwq-soluble-phosphorus::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "wq-rwq-suspended-solids::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
-    },
-    {
-      "key": "wq-wfd-monitoring-sites::style",
-      "severity": "identity",
-      "kind": "conflict",
-      "why": "render record dropped a style property the catalogue sets"
     }
   ]
 }
