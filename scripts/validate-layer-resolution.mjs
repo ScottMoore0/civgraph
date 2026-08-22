@@ -2,7 +2,7 @@
 /**
  * Every layer the catalogue shows a user must actually be renderable.
  *
- * WHY. The map app resolves layers from test/metadata/maps-test-index.json and draws
+ * WHY. The map app resolves layers from render/metadata/maps-test-index.json and draws
  * vector tiles. The catalogue that decides what a user can click is
  * data/database/maps.json. Nothing connected the two, so a layer could sit in the
  * catalogue, look completely healthy in Browse, and draw nothing -- which is precisely
@@ -12,7 +12,7 @@
  *     renderer had nothing to draw. Reported as "the new maps don't appear".
  *   - A scoped promotion run deleted 15 working layers from the index on 31 July while
  *     their PMTiles sat untouched on R2. Reported as "Wards 1993 loads raster maps".
- *   - Newly built layers were left pointing at /test/pmtiles/generated/..., a path
+ *   - Newly built layers were left pointing at /render/pmtiles/generated/..., a path
  *     excluded from the Pages deploy, so their tileUrls 404'd.
  *
  * All three are the same missing invariant, and all three were diagnosed by hand over
@@ -41,7 +41,7 @@ import { resolve } from 'node:path';
 
 const ROOT = resolve(process.cwd());
 const CATALOGUE = resolve(ROOT, 'data/database/maps.json');
-const INDEX = resolve(ROOT, 'test/metadata/maps-test-index.json');
+const INDEX = resolve(ROOT, 'render/metadata/maps-test-index.json');
 const CDN_PREFIX = 'https://data.civgraph.net/';
 const AS_JSON = process.argv.includes('--json');
 

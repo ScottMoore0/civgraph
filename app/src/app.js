@@ -1,7 +1,7 @@
 import dataService, { resolveMapDownloadUrl } from '../../src/data-service.js';
 import featureLoader from '../../src/feature-loader.js';
 import uiController from '../../src/ui-controller.js';
-import { TestMetadataService } from '../../test/src/metadata-service.js';
+import { TestMetadataService } from '../../render/src/metadata-service.js';
 import { Test2MapLibreMainAdapter } from './maplibre-main-adapter.js';
 
 const TEST2_LAYER_ORDER_STORAGE_KEY = 'civgraph:maplibre:layer-order';
@@ -197,7 +197,7 @@ class Test2App {
     // build-test2-app.mjs. It must stay content-derived: _headers serves this
     // file immutable, so a token that does not change when the bytes change
     // pins a stale catalogue in every browser that has already loaded it.
-    this.metadataService = new TestMetadataService(`/test/metadata/maps-test-index.json?v=${__METADATA_INDEX_VERSION__}`, undefined, {
+    this.metadataService = new TestMetadataService(`/render/metadata/maps-test-index.json?v=${__METADATA_INDEX_VERSION__}`, undefined, {
       cache: 'force-cache',
       portPlanCache: 'force-cache'
     });

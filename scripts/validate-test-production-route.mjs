@@ -4,18 +4,18 @@ import { resolve } from 'node:path';
 import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
 
 const ROOT = resolve(process.cwd());
-const REPORT_PATH = resolve(ROOT, 'test/metadata/production-route-report.json');
-const index = readFileSync(resolve(ROOT, 'test/index.html'), 'utf8');
-const sw = readFileSync(resolve(ROOT, 'test/sw.js'), 'utf8');
+const REPORT_PATH = resolve(ROOT, 'render/metadata/production-route-report.json');
+const index = readFileSync(resolve(ROOT, 'render/index.html'), 'utf8');
+const sw = readFileSync(resolve(ROOT, 'render/sw.js'), 'utf8');
 const checks = [];
 
-check('Scoped service worker before cutover', index.includes("scope: '/test/'"), 'Current test service worker must not claim the main route.');
+check('Scoped service worker before cutover', index.includes("scope: '/render/'"), 'Current test service worker must not claim the main route.');
 check('Versioned bundle references', /test\.bundle\.js\?v=test-\d+/.test(index) && /test\.bundle\.css\?v=test-\d+/.test(index), 'Bundle URLs must be cache-busted.');
-check('Rollback runbook exists', existsSync(resolve(ROOT, 'test/metadata/rollback-runbook.md')), 'Rollback steps must be documented before promotion.');
-check('Cutover PR checklist exists', existsSync(resolve(ROOT, 'test/metadata/cutover-pr-checklist.md')), 'Promotion PR checklist must exist.');
-check('CDN invalidation procedure exists', existsSync(resolve(ROOT, 'test/metadata/cdn-cache-invalidation-procedure.md')), 'PMTiles/cache invalidation must be documented.');
+check('Rollback runbook exists', existsSync(resolve(ROOT, 'render/metadata/rollback-runbook.md')), 'Rollback steps must be documented before promotion.');
+check('Cutover PR checklist exists', existsSync(resolve(ROOT, 'render/metadata/cutover-pr-checklist.md')), 'Promotion PR checklist must exist.');
+check('CDN invalidation procedure exists', existsSync(resolve(ROOT, 'render/metadata/cdn-cache-invalidation-procedure.md')), 'PMTiles/cache invalidation must be documented.');
 check('Service worker cache limits exist', /TEST_MAX_CACHE_BYTES/.test(sw) && /trimCacheBytes/.test(sw), 'Scoped service worker must include quota discipline.');
-check('Pages/R2 separation documented', /Pages\/R2|Pages output|R2/i.test(readFileSync(resolve(ROOT, 'test/metadata/test-to-main-promotion-checklist.md'), 'utf8')), 'Promotion docs must distinguish Pages shell from R2 data.');
+check('Pages/R2 separation documented', /Pages\/R2|Pages output|R2/i.test(readFileSync(resolve(ROOT, 'render/metadata/test-to-main-promotion-checklist.md'), 'utf8')), 'Promotion docs must distinguish Pages shell from R2 data.');
 
 const report = {
   schemaVersion: 1,

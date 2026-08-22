@@ -2,7 +2,7 @@ import { readFile } from 'node:fs/promises';
 
 const checks = [
   {
-    file: 'test/index.html',
+    file: 'render/index.html',
     required: [
       'app-header__brand',
       'app-header__nav',
@@ -46,7 +46,7 @@ const checks = [
     ]
   },
   {
-    file: 'test/src/app.js',
+    file: 'render/src/app.js',
     required: [
       'setupKeyboardShortcuts',
       'setupPreferenceTools',
@@ -66,7 +66,7 @@ const checks = [
     ]
   },
   {
-    file: 'test/src/catalogue-controller.js',
+    file: 'render/src/catalogue-controller.js',
     required: [
       'groupByGroupAndCategory',
       'renderDetail',
@@ -85,7 +85,7 @@ const checks = [
     ]
   },
   {
-    file: 'test/src/feature-details.js',
+    file: 'render/src/feature-details.js',
     required: [
       'data-copy-feature',
       'groupProperties',
@@ -96,7 +96,7 @@ const checks = [
     ]
   },
   {
-    file: 'test/src/source-panel.js',
+    file: 'render/src/source-panel.js',
     required: [
       'source-panel__header',
       'source-panel__badge--missing',
@@ -106,7 +106,7 @@ const checks = [
     ]
   },
   {
-    file: 'test/src/active-layers.js',
+    file: 'render/src/active-layers.js',
     required: [
       'active-layer__header',
       'data-action="layer-fit"',
@@ -117,7 +117,7 @@ const checks = [
     ]
   },
   {
-    file: 'test/src/map-controller.js',
+    file: 'render/src/map-controller.js',
     required: [
       'moveLayerOrder',
       'reorderFromSavedLayerOrder',
@@ -125,7 +125,7 @@ const checks = [
     ]
   },
   {
-    file: 'test/src/diagnostics.js',
+    file: 'render/src/diagnostics.js',
     required: [
       'Production Readiness',
       'renderReadinessStatus',
@@ -145,7 +145,7 @@ const checks = [
     ]
   },
   {
-    file: 'test/src/styles.css',
+    file: 'render/src/styles.css',
     required: [
       '.mobile-menu',
       '.support-modal',
@@ -174,7 +174,7 @@ const checks = [
     ]
   },
   {
-    file: 'test/sw.js',
+    file: 'render/sw.js',
     required: [
       'TEST_MAX_CACHE_BYTES',
       'trimCacheBytes',
@@ -182,7 +182,7 @@ const checks = [
     ]
   },
   {
-    file: 'test/metadata/test-to-main-promotion-checklist.md',
+    file: 'render/metadata/test-to-main-promotion-checklist.md',
     required: [
       'Non-Data Gates',
       'Data Gates',
@@ -192,7 +192,7 @@ const checks = [
     ]
   },
   {
-    file: 'test/metadata/rollback-runbook.md',
+    file: 'render/metadata/rollback-runbook.md',
     required: [
       'Immediate Containment',
       'Verification',
@@ -200,7 +200,7 @@ const checks = [
     ]
   },
   {
-    file: 'test/metadata/cutover-pr-checklist.md',
+    file: 'render/metadata/cutover-pr-checklist.md',
     required: [
       'Required Checks',
       'PR Requirements',
@@ -208,7 +208,7 @@ const checks = [
     ]
   },
   {
-    file: 'test/metadata/cdn-cache-invalidation-procedure.md',
+    file: 'render/metadata/cdn-cache-invalidation-procedure.md',
     required: [
       'Version Discipline',
       'Invalidation Steps',
@@ -216,7 +216,7 @@ const checks = [
     ]
   },
   {
-    file: 'test/metadata/security-dependency-review.md',
+    file: 'render/metadata/security-dependency-review.md',
     required: [
       'Dependency Policy',
       'Runtime Guardrails',
@@ -224,7 +224,7 @@ const checks = [
     ]
   },
   {
-    file: 'test/metadata/production-observability.md',
+    file: 'render/metadata/production-observability.md',
     required: [
       'Signals',
       'Privacy and Safety',
@@ -274,9 +274,9 @@ for (const check of checks) {
   }
 }
 
-const testIndex = await readFile('test/index.html', 'utf8');
+const testIndex = await readFile('render/index.html', 'utf8');
 for (const forbidden of ['MapLibre rewrite', 'MapLibre Test</a>', 'class="test-header"']) {
-  if (testIndex.includes(forbidden)) failures.push(`test/index.html: should not expose separate test shell marker ${forbidden}`);
+  if (testIndex.includes(forbidden)) failures.push(`render/index.html: should not expose separate test shell marker ${forbidden}`);
 }
 for (const requiredShell of [
   '<body id="testApp" class="app-shell test-shell"',
@@ -294,7 +294,7 @@ for (const requiredShell of [
   'map-controls-toggle',
   'map-control-panel'
 ]) {
-  if (!testIndex.includes(requiredShell)) failures.push(`test/index.html: missing main-shell parity structure ${requiredShell}`);
+  if (!testIndex.includes(requiredShell)) failures.push(`render/index.html: missing main-shell parity structure ${requiredShell}`);
 }
 
 const packageJson = JSON.parse(await readFile('package.json', 'utf8'));
@@ -302,8 +302,8 @@ if (!String(packageJson.scripts?.['check:test'] || '').includes('validate-test-s
   failures.push('package.json: check:test does not run validate-test-shell-parity.mjs');
 }
 
-const metadata = JSON.parse(await readFile('test/metadata/maps-test.json', 'utf8'));
-const portPlan = JSON.parse(await readFile('test/metadata/main-site-port-plan.json', 'utf8'));
+const metadata = JSON.parse(await readFile('render/metadata/maps-test.json', 'utf8'));
+const portPlan = JSON.parse(await readFile('render/metadata/main-site-port-plan.json', 'utf8'));
 const loadable = metadata.layers.filter((layer) => layer.loadable !== false);
 const unconverted = portPlan.rows.filter((row) => !['converted', 'convertedComposite', 'convertedAlias'].includes(row.conversionStatus));
 if (!metadata.categories?.length) failures.push('maps-test.json: categories are missing');

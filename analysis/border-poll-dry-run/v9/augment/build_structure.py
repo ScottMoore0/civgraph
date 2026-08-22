@@ -6,7 +6,7 @@ the ELECTION residuals (esp. Westminster FPTP pact elections) but are BACKTEST-O
 projection. Turnout is the only structural covariate a referendum shares."""
 import json, csv, os
 from collections import defaultdict
-D="/home/user/civgraph/test/metadata/elections-test2"
+D="/home/user/civgraph/render/metadata/elections-test2"
 NAT={'Sinn Féin','SDLP',"Workers' Party",'Independent Nationalist','Republican Sinn Féin','Aontú','IRSP'}
 UNI={'DUP','UUP','TUV','PUP','Ulster Democratic Party','Independent Unionist','UKUP','Conservative',
      'NI Unionist Party','Ulster Independence Movement','Ulster Third Way','UKIP',"Ulster's Independent Voice",'UK Unionist'}

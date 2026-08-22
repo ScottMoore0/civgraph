@@ -10,7 +10,7 @@
  *   /browse/       Home Browse Apps About "Support Us"
  *   /apps/         Home Browse Apps About
  *   /pages/about   Home Browse Apps News About
- *   /test/         Home About
+ *   /render/         Home About
  *   /apps/proni-search/   a bespoke <header class="ps-header">, no shared nav
  *   /test2/        no header at all
  *
@@ -50,7 +50,7 @@ const PAGES = [
  * line to reverse.
  */
 const EXEMPT = new Map([
-  ['test/index.html', 'staging shell, not the public site — see the README layout table'],
+  ['render/index.html', 'staging shell, not the public site — see the README layout table'],
   ['test2/index.html', 'a compatibility redirect, not a page'],
   ['apps/proni-search/index.html', 'standalone app with its own ps-header chrome'],
   ['404.html', 'error page; kept deliberately minimal'],

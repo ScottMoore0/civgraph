@@ -1,6 +1,6 @@
-# Renaming `test/`, `test2/` and `tests/` — runbook
+# Renaming `render/`, `test2/` and `tests/` — runbook
 
-> **Status: current — prepared, NOT executed.** The `test/`, `test2/`, `tests/`
+> **Status: current — prepared, NOT executed.** The `render/`, `test2/`, `tests/`
 > rename has not been done. The reference count is ratcheted by
 > `npm run check:dir-names` so the job cannot grow while it waits.
 
@@ -24,8 +24,8 @@ The consequences, in order:
 - CI never fired either, because `data-readiness.yml` is path-filtered and the
   breaking commit matched no filter
 
-`test/` is the same operation on a much larger surface. It is also badly named:
-it holds 2,087 **deployed** metadata files and `test/src`, the shared renderer —
+`render/` is the same operation on a much larger surface. It is also badly named:
+it holds 2,087 **deployed** metadata files and `render/src`, the shared renderer —
 nothing to do with testing. `tests/` is the Playwright suite. `test2/` is a
 compatibility redirect.
 
@@ -46,7 +46,7 @@ push. **Let it prove itself over a few commits before starting this.**
 
 `node scripts/validate-directory-name-references.mjs`
 
-    total references : 461      (test/ 410, tests/ 32, test2/ 19)
+    total references : 461      (render/ 410, tests/ 32, test2/ 19)
 
       RUNTIME    19 refs in  9 files   404s in production if missed
       CONFIG     28 refs in  6 files   fails SILENTLY if missed
@@ -64,11 +64,11 @@ waits.
     app/src/election-manager.js         2
     app/src/maplibre-main-adapter.js    5
     src/data-service.js                 1
-    test/index.html                     3
-    test/src/config.js                  2
-    test/src/diagnostics.js             2
-    test/src/map-controller.js          1
-    test/src/source-panel.js            1
+    render/index.html                     3
+    render/src/config.js                  2
+    render/src/diagnostics.js             2
+    render/src/map-controller.js          1
+    render/src/source-panel.js            1
 
 These resolve at request time. A miss is a 404 — and on Pages a missing asset
 can return `index.html` at **HTTP 200**, which every status-code check reads as
@@ -85,7 +85,7 @@ project.
     package-lock.json                   1
 
 Worst of these is `_headers`: it carries the `immutable` cache policy for
-`test/metadata/maps-test-index.json`. If the path stops matching after a rename,
+`render/metadata/maps-test-index.json`. If the path stops matching after a rename,
 the rule silently stops applying — no error, nothing red, just a policy that no
 longer exists. `.cfignore` is the same shape: a stale exclusion means files get
 deployed that were meant to be left out, quietly enlarging the upload.
@@ -94,7 +94,7 @@ deployed that were meant to be left out, quietly enlarging the upload.
 
 1. **`tests/` first.** Nothing serves it, 2 references outside itself. It is the
    rehearsal: if this goes wrong, only the suite breaks.
-2. **`test/` second, in one commit**, updating every RUNTIME and CONFIG
+2. **`render/` second, in one commit**, updating every RUNTIME and CONFIG
    reference in the same change. Run the inventory before and after; the count
    must drop by exactly what was moved.
 3. **Leave `test2/` alone.** It is a compatibility redirect that costs nothing
@@ -117,5 +117,5 @@ deployed that were meant to be left out, quietly enlarging the upload.
 ## The one-line rollback
 
 `git revert` the rename commit and redeploy. That works only if the rename is a
-single commit — which is the main argument for doing `test/` in one change
+single commit — which is the main argument for doing `render/` in one change
 rather than incrementally.

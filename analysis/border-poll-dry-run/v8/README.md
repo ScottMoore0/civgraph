@@ -16,7 +16,7 @@ Model family (your choice): **MRP backbone + ML cross-check (ensemble).**
 | **NILT microdata** | individual-level training rows (unity outcome + demographics) | `data/surveys/nilt/raw/` (23 waves 1998–2025, persisted) |
 | **LucidTalk** | second unity source; its house effect is *learned* | R2 corpus (`v3/build_unity_rates_from_r2.py`) |
 | **NISRA census** | poststratification frame (religion×age per Small Area) | `data/census/derived/joint-2011-age-religion-sa.csv` |
-| **Elections / EU-ref** | out-of-sample validation of the demographic gradient | `test/metadata/elections-test2/`, v5 calibration |
+| **Elections / EU-ref** | out-of-sample validation of the demographic gradient | `render/metadata/elections-test2/`, v5 calibration |
 
 ## What is *learned* (replacing every fixed number in v1–v7)
 

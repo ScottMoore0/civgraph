@@ -1,0 +1,218 @@
+{
+  "id": "corine-land-cover-2018-vector-test",
+  "sourceMapId": "corine-land-cover-2018",
+  "name": "CORINE Land Cover 2018 (Ireland)",
+  "category": "Environment",
+  "group": "Physical Geography",
+  "date": "2018",
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Copernicus Land Monitoring Service (EEA)"
+  ],
+  "description": "CORINE Land Cover 2018 for the island of Ireland (21,685 polygons; CLC code in Code_18). Copernicus Land Monitoring Service / EEA, via the Peatlands Geoportal (QUB).",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/render/tiles/generated/corine-land-cover-2018/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/render/tiles/generated/corine-land-cover-2018/metadata.json",
+  "sourceLayer": "corine_land_cover_2018",
+  "promoteId": "ID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.195618,
+      -11.0327295
+    ],
+    [
+      55.7888304,
+      -5.188285
+    ]
+  ],
+  "style": {
+    "color": "#689F38",
+    "fillColor": "#689F38",
+    "fillOpacity": 0.45,
+    "weight": 1
+  },
+  "references": [
+    {
+      "label": "Copernicus Land Monitoring Service — CORINE Land Cover",
+      "url": "https://land.copernicus.eu/en/products/corine-land-cover",
+      "note": ""
+    },
+    {
+      "label": "Peatlands Geoportal (QUB) — CORINE Land Use (2018)",
+      "url": "https://peatlands-geoportal-queensub.hub.arcgis.com/",
+      "note": ""
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "data/maps/environment/CORINE_Land_Use_2018.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Copernicus Land Monitoring Service (EEA)"
+  ],
+  "keywords": [
+    "CORINE",
+    "land cover",
+    "land use",
+    "copernicus",
+    "EEA",
+    "ireland",
+    "2018",
+    "environment",
+    "CORINE Land Cover 2018 (Ireland)",
+    "Environment",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Code_18",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#689F38",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "sourceFile": "data/maps/environment/CORINE_Land_Use_2018.fgb",
+  "sourceDatasetLayer": "CORINE_Land_Use_2018",
+  "idProperty": "ID",
+  "popupProperties": [
+    "Code_18",
+    "ID",
+    "FID",
+    "OBJECTID",
+    "Remark",
+    "Area_Ha",
+    "Shape_Leng",
+    "Shape__Area",
+    "Shape__Length"
+  ],
+  "numericProperties": [
+    "FID",
+    "OBJECTID",
+    "Area_Ha",
+    "Shape_Leng",
+    "Shape__Area",
+    "Shape__Length"
+  ],
+  "categoricalProperties": [
+    "Code_18",
+    "Remark",
+    "ID"
+  ],
+  "categoricalValues": {
+    "Code_18": [
+      "111",
+      "112",
+      "121",
+      "122",
+      "123",
+      "124",
+      "131",
+      "132",
+      "133",
+      "141",
+      "142",
+      "211",
+      "222",
+      "231",
+      "242",
+      "243",
+      "311",
+      "312",
+      "313",
+      "321",
+      "322",
+      "324",
+      "331",
+      "332",
+      "333",
+      "334",
+      "411",
+      "412",
+      "421",
+      "423",
+      "511",
+      "512"
+    ],
+    "Remark": [
+      " "
+    ],
+    "ID": [
+      "EU_1549161",
+      "EU_1549169",
+      "EU_1549185",
+      "EU_1549265",
+      "EU_1549302",
+      "EU_1549424",
+      "EU_1549450",
+      "EU_1549531",
+      "EU_1549711",
+      "EU_1549989",
+      "EU_1550123",
+      "EU_1550193",
+      "EU_1550208",
+      "EU_1550212",
+      "EU_1550216",
+      "EU_1550229",
+      "EU_1550259",
+      "EU_1550260",
+      "EU_1550272",
+      "EU_1550285",
+      "EU_1550319",
+      "EU_1550340",
+      "EU_1550427",
+      "EU_1550453",
+      "EU_1550500",
+      "EU_1550511",
+      "EU_1550600",
+      "EU_1550602",
+      "EU_1550637",
+      "EU_1550665",
+      "EU_1550734",
+      "EU_1550817"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from data/maps/environment/CORINE_Land_Use_2018.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "data/maps/environment/CORINE_Land_Use_2018.fgb",
+    "bytes": 74095453,
+    "files": 5603,
+    "pbfFiles": 5602,
+    "maxTileBytes": 3144583
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "render/pmtiles/generated/corine-land-cover-2018-vector-test.pmtiles",
+    "url": "/render/pmtiles/generated/corine-land-cover-2018-vector-test.pmtiles",
+    "bytes": 49515945,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-07-01T09:00:00.000Z",
+    "fallback": "/render/tiles/generated/corine-land-cover-2018/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/corine-land-cover-2018-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/corine-land-cover-2018-vector-test.pmtiles",
+    "localUrl": "/render/pmtiles/generated/corine-land-cover-2018-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-08-04T22:09:20.884Z"
+  },
+  "loadable": true,
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/corine-land-cover-2018-vector-test.pmtiles",
+  "tilesFallback": "/render/tiles/generated/corine-land-cover-2018/{z}/{x}/{y}.pbf"
+}

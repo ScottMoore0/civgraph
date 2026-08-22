@@ -33,7 +33,7 @@ preferences is far lower -- a 6-seat DEA has a quota of about 14.3%. Raw shares 
 therefore NOT comparable across the two, and this phase reports STV results in QUOTAS
 (share x (seats+1) / 100) alongside the share. One quota is election on the first count.
 
-Source: test/metadata/elections-test2, NI bodies only, 66 contests 1970-2024.
+Source: render/metadata/elections-test2, NI bodies only, 66 contests 1970-2024.
 Output: independent_candidacies.csv, independent_summary.json
 """
 import os, sys, re, json, glob, collections

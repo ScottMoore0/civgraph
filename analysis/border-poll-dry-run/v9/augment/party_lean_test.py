@@ -2,7 +2,7 @@ import json, numpy as np, pandas as pd
 from collections import defaultdict
 from sklearn.linear_model import Ridge
 from sklearn.preprocessing import StandardScaler
-D="test/metadata/elections-test2"; V="analysis/border-poll-dry-run/v9"
+D="render/metadata/elections-test2"; V="analysis/border-poll-dry-run/v9"
 def cat(p):
     d={'DUP':'DUP','UUP':'UUP','Sinn Féin':'SF','SDLP':'SDLP','Alliance':'Alliance','Green':'Green','TUV':'TUV'}
     return d.get(p, 'IndOther' if p in ('Independent','Independent Other','Independent Unionist') else 'Other')

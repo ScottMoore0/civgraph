@@ -66,7 +66,7 @@ else:
 print("\n"+"="*70); print("#4 TURNOUT MODEL — predict area turnout from census"); print("="*70)
 def turnout_by_con():
     t=defaultdict(list)
-    for fn in glob.glob("/home/user/civgraph/test/metadata/elections-test2/*.json"):
+    for fn in glob.glob("/home/user/civgraph/render/metadata/elections-test2/*.json"):
         try: j=json.load(open(fn))
         except: continue
         if 'assembly' in fn or 'commons' in fn:

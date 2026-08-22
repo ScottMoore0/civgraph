@@ -47,7 +47,7 @@
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 
-const METADATA = 'test/metadata/maps-test.json';
+const METADATA = 'render/metadata/maps-test.json';
 const doc = JSON.parse(readFileSync(METADATA, 'utf8'));
 
 const mismatched = [];

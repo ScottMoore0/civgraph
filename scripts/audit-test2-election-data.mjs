@@ -186,7 +186,7 @@ const renderIssueTable = (issues, limit = 40) => {
   return ['|severity|category|key|message|', '|---|---|---|---|', ...rows].join('\n') + more;
 };
 
-const manifest = readJson('test/metadata/elections-test2.json');
+const manifest = readJson('render/metadata/elections-test2.json');
 const browse = readJson('data/browse/elections.json');
 const issues = [];
 
@@ -219,15 +219,15 @@ const legacyElectionSourceFiles = fs.existsSync(path.join(ROOT, 'data/browse/det
   ? fs.readdirSync(path.join(ROOT, 'data/browse/details/sources')).filter((name) => /^election-source-.*\.json$/.test(name))
   : [];
 const sourceFiles = currentElectionDetailFiles.length ? currentElectionDetailFiles : legacyElectionSourceFiles;
-const resultFiles = fs.existsSync(path.join(ROOT, 'test/metadata/elections-test2'))
-  ? fs.readdirSync(path.join(ROOT, 'test/metadata/elections-test2')).filter((name) => name.endsWith('.json'))
+const resultFiles = fs.existsSync(path.join(ROOT, 'render/metadata/elections-test2'))
+  ? fs.readdirSync(path.join(ROOT, 'render/metadata/elections-test2')).filter((name) => name.endsWith('.json'))
   : [];
-const summaryFiles = fs.existsSync(path.join(ROOT, 'test/metadata/elections-test2-summaries'))
-  ? fs.readdirSync(path.join(ROOT, 'test/metadata/elections-test2-summaries')).filter((name) => name.endsWith('.json'))
+const summaryFiles = fs.existsSync(path.join(ROOT, 'render/metadata/elections-test2-summaries'))
+  ? fs.readdirSync(path.join(ROOT, 'render/metadata/elections-test2-summaries')).filter((name) => name.endsWith('.json'))
   : [];
 
 if (manifest.totals?.elections !== manifestEntries.length) {
-  addIssue(issues, 'blocking', 'manifest-total', 'test/metadata/elections-test2.json', `Manifest totals.elections is ${manifest.totals?.elections}, but ${manifestEntries.length} entries are present.`);
+  addIssue(issues, 'blocking', 'manifest-total', 'render/metadata/elections-test2.json', `Manifest totals.elections is ${manifest.totals?.elections}, but ${manifestEntries.length} entries are present.`);
 }
 if (browse.total !== browseItems.length) {
   addIssue(issues, 'blocking', 'browse-total', 'data/browse/elections.json', `Browse total is ${browse.total}, but ${browseItems.length} items are present.`);

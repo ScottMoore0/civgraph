@@ -119,7 +119,7 @@ def validate(deaf):
     dep.index = [lut.get(str(i).upper().strip(), i) for i in dep.index]
     res = pd.read_csv(os.path.join(HERE, 'results_frame.csv'))
     dea = res[(res.scale == 'dea') & (res.contest == 'local')].copy()
-    lf = json.load(open(f"{REPO}/test/metadata/elections-test2/"
+    lf = json.load(open(f"{REPO}/render/metadata/elections-test2/"
                         "local-government-local-government-districts__2023-05-18.json",
                         encoding='utf-8'))
     d2c = lf['localBodyByConstituency']

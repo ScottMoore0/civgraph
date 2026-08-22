@@ -35,10 +35,10 @@ if (IDS_AT !== -1 && !ONLY_IDS.size) {
 }
 
 const ROOT = resolve(process.cwd());
-const METADATA_PATH = resolve(ROOT, 'test/metadata/maps-test.json');
-const MANIFEST_PATH = resolve(ROOT, 'test/metadata/cdn-upload-manifest.json');
-const RANGE_REPORT_PATH = resolve(ROOT, 'test/metadata/cdn-range-report.json');
-const UPLOAD_REPORT_PATH = resolve(ROOT, 'test/metadata/cdn-upload-report.json');
+const METADATA_PATH = resolve(ROOT, 'render/metadata/maps-test.json');
+const MANIFEST_PATH = resolve(ROOT, 'render/metadata/cdn-upload-manifest.json');
+const RANGE_REPORT_PATH = resolve(ROOT, 'render/metadata/cdn-range-report.json');
+const UPLOAD_REPORT_PATH = resolve(ROOT, 'render/metadata/cdn-upload-report.json');
 
 const metadata = JSON.parse(readFileSync(METADATA_PATH, 'utf8'));
 const manifest = JSON.parse(readFileSync(MANIFEST_PATH, 'utf8'));
@@ -86,9 +86,9 @@ const layers = (metadata.layers || []).map((layer) => {
       cdnUrl: asset.cdnUrl,
       r2Key: asset.targetKey,
       localPath: asset.localPath,
-      localUrl: (layer.tilePackage?.url || layer.tileUrl || '').startsWith('/test/')
+      localUrl: (layer.tilePackage?.url || layer.tileUrl || '').startsWith('/render/')
         ? (layer.tilePackage?.url || layer.tileUrl)
-        : `/test/pmtiles/generated/${layer.id}.pmtiles`,
+        : `/render/pmtiles/generated/${layer.id}.pmtiles`,
       byteRangeVerifiedAt: rangeReport.generatedAt
     }
   };

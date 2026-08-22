@@ -1,0 +1,148 @@
+{
+  "id": "bcni2018-vector-test",
+  "sourceMapId": "bcni2018",
+  "name": "Parliamentary Constituencies — Provisional Proposals (BCNI 2018)",
+  "category": "Parliamentary Constituencies",
+  "group": "Elections and Government",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Boundary Commission for Northern Ireland"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/render/tiles/generated/bcni2018/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/bcni2018-vector-test.pmtiles",
+  "tilesFallback": "/render/tiles/generated/bcni2018/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/render/tiles/generated/bcni2018/metadata.json",
+  "sourceLayer": "bcni2018",
+  "promoteId": "PC_Name",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0227248,
+      -8.1774835
+    ],
+    [
+      55.3129847,
+      -5.4327895
+    ]
+  ],
+  "style": {
+    "color": "#D35400",
+    "fillColor": "#D35400",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Parliamentary Constituencies — Provisional Proposals (BCNI 2018) — Open Data NI",
+      "url": "https://admin.opendatani.gov.uk/dataset/bcni2018",
+      "note": "OGL v3.0"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "render/source-cache/vector-intake/bcni2018.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Boundary Commission for Northern Ireland"
+  ],
+  "keywords": [
+    "parliamentary",
+    "constituencies",
+    "provisional",
+    "proposals",
+    "bcni",
+    "2018",
+    "Parliamentary Constituencies — Provisional Proposals (BCNI 2018)",
+    "Parliamentary Constituencies",
+    "Elections and Government",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "PC_Name",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#D35400",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/render/metadata/feature-indexes/bcni2018-vector-test.json",
+  "sourceFile": "render/source-cache/vector-intake/bcni2018.fgb",
+  "sourceDatasetLayer": "2018 PC Review Provisional Proposal Plan ",
+  "idProperty": "PC_Name",
+  "popupProperties": [
+    "PC_Name",
+    "Electors",
+    "Shape_Leng",
+    "Shape_Area"
+  ],
+  "numericProperties": [
+    "Electors",
+    "Shape_Leng",
+    "Shape_Area"
+  ],
+  "categoricalProperties": [
+    "PC_Name"
+  ],
+  "categoricalValues": {
+    "PC_Name": [
+      "Dalriada",
+      "Foyle",
+      "Belfast East",
+      "Belfast North West",
+      "Belfast South West",
+      "East Antrim",
+      "Fermanagh and South Tyrone",
+      "Glenshane",
+      "Newry and Armagh",
+      "North Down",
+      "North Tyrone",
+      "South Antrim",
+      "South Down",
+      "Strangford",
+      "Upper Bann and Blackwater",
+      "West Antrim",
+      "West Down"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from render/source-cache/vector-intake/bcni2018.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "render/source-cache/vector-intake/bcni2018.fgb",
+    "bytes": 1464914,
+    "files": 756,
+    "pbfFiles": 755,
+    "maxTileBytes": 17221
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "render/pmtiles/generated/bcni2018-vector-test.pmtiles",
+    "url": "/render/pmtiles/generated/bcni2018-vector-test.pmtiles",
+    "bytes": 859214,
+    "maxGithubBytes": 99614720,
+    "fallback": "/render/tiles/generated/bcni2018/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/bcni2018-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/bcni2018-vector-test.pmtiles",
+    "localUrl": "/render/pmtiles/generated/bcni2018-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-08-04T22:09:20.884Z"
+  }
+}

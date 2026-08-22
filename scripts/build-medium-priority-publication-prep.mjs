@@ -154,7 +154,7 @@ function loadExistingRecords() {
   const maps = readJson('data/browse/maps.json', { items: [] });
   const sources = readJson('data/browse/sources.json', { items: [] });
   const dbMaps = readJson('data/database/maps.json', {});
-  const electionDir = path.join(ROOT, 'test', 'metadata', 'elections-test2');
+  const electionDir = path.join(ROOT, 'render', 'metadata', 'elections-test2');
   const electionIds = new Set();
   if (fs.existsSync(electionDir)) {
     for (const name of fs.readdirSync(electionDir)) {

@@ -12,7 +12,7 @@ import { dirname, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { getTileProfile } from './test-tile-profiles.mjs';
-import { isPrimaryKey } from '../test/src/feature-details.js';
+import { isPrimaryKey } from '../render/src/feature-details.js';
 
 // Mean value length above which a field is treated as free text and dropped from
 // low-zoom tiles. Sits above any realistic categorical value or code, well below prose.
@@ -33,9 +33,9 @@ const LOW_ZOOM_MAX_FIELD_CHARS = 40;
 const TILE_MAX_FIELD_CHARS = 200;
 
 const ROOT = resolve(process.cwd());
-const METADATA_PATH = resolve(ROOT, 'test/metadata/maps-test.json');
-const REPORT_PATH = resolve(ROOT, 'test/metadata/pmtiles-build-report.json');
-const OUTPUT_DIR = resolve(ROOT, 'test/pmtiles/generated');
+const METADATA_PATH = resolve(ROOT, 'render/metadata/maps-test.json');
+const REPORT_PATH = resolve(ROOT, 'render/metadata/pmtiles-build-report.json');
+const OUTPUT_DIR = resolve(ROOT, 'render/pmtiles/generated');
 const DECIDUOUS_LOD0_SOURCE = 'data/maps/biodiversity/habitat-deciduous-woodland-lod0.fgb';
 const DECIDUOUS_LOD1_SOURCE = 'data/maps/biodiversity/habitat-deciduous-woodland-lod1.fgb';
 const WGS84_UNKNOWN_SRS_IDS = new Set([
@@ -236,7 +236,7 @@ function syncMetadata(report) {
     const archivePath = resolve(OUTPUT_DIR, `${layer.id}.pmtiles`);
     if (!existsSync(archivePath)) return layer;
     const size = statSync(archivePath).size;
-    const pmtilesUrl = `/test/pmtiles/generated/${layer.id}.pmtiles`;
+    const pmtilesUrl = `/render/pmtiles/generated/${layer.id}.pmtiles`;
     const archive = {
       preferred: size < MAX_GITHUB_BYTES,
       localPath: relative(archivePath),

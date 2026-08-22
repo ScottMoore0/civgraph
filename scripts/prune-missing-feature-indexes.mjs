@@ -27,7 +27,7 @@ const ROOT = resolve(process.cwd());
 // fetches, so a stale entry left there is the one that actually 404s in a browser.
 // Pruning only the first left counties-ireland-vector-test advertising a missing index to
 // every visitor while the check reported success.
-const METADATA_PATHS = ['test/metadata/maps-test.json', 'test/metadata/maps-test-index.json'];
+const METADATA_PATHS = ['render/metadata/maps-test.json', 'render/metadata/maps-test-index.json'];
 const CHECK_ONLY = process.argv.includes('--check');
 
 let total = 0;

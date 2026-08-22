@@ -7,7 +7,7 @@ aggregates ELIMINATION flows by source-bloc -> destination-bloc. Per constituenc
 Vote-value units (fractional WIGM); flows are blended/conditional (documented limits). Validated on
 North Antrim (unionist->DUP cohesion = hard unionism) and correlated with the survey softness surface."""
 import json, glob, os, collections, numpy as np, pandas as pd
-BASE='test/metadata/elections-test2'; V="analysis/border-poll-dry-run/v9"
+BASE='render/metadata/elections-test2'; V="analysis/border-poll-dry-run/v9"
 def bloc(p):
     p=(p or '').lower()
     if any(k in p for k in['dup','democratic unionist']):return('U','DUP')

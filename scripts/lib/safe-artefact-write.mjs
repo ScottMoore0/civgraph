@@ -2,7 +2,7 @@
  * Write a generated JSON artefact, refusing to silently drop records.
  *
  * WHY THIS EXISTS. On 2026-07-31 a scoped run of promote-test-converted-layers.mjs
- * (--ids limited to 19 new layers) rewrote test/metadata/maps-test.json wholesale from
+ * (--ids limited to 19 new layers) rewrote render/metadata/maps-test.json wholesale from
  * its conversion report and deleted 15 unrelated, working layers: wards-1972,
  * wards-1984, wards-1993, wards-2001, wards-2012, lgd-1984, eds-1971, eds-1977,
  * eds-1980, eds-1983, baronies-all-ireland, pc-2023, stormont-1920,

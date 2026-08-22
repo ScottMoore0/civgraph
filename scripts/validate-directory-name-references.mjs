@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Inventory every reference to the `test/`, `test2/` and `tests/` directories,
+ * Inventory every reference to the `render/`, `test2/` and `tests/` directories,
  * so renaming them is a bounded edit rather than a hunt.
  *
  * WHY THIS EXISTS BEFORE THE RENAME, NOT AFTER
@@ -12,8 +12,8 @@
  * for 18 consecutive commits. Nothing noticed, because the site kept serving
  * the last good deployment and `npm run check` never runs `npm run build`.
  *
- * Renaming `test/` is the same operation on a far larger surface: 2,087
- * deployed metadata files, the shared renderer in `test/src`, and a name that
+ * Renaming `render/` is the same operation on a far larger surface: 2,087
+ * deployed metadata files, the shared renderer in `render/src`, and a name that
  * appears in HTML, headers, ignore files, Functions, specs and dozens of
  * scripts. Static analysis will not find those either.
  *
@@ -56,26 +56,26 @@ const SKIP_DIRS = new Set([
   '__pycache__', '.wrangler', 'tasks', 'tmp', 'analysis', 'coverage',
 ]);
 // Data trees. A rename moves their PATHS, not their bytes, and scanning 2,000+
-// metadata files for the substring "test/" is pure noise.
+// metadata files for the substring "render/" is pure noise.
 //
-// app/ and test/src are deliberately NOT here: app/src and test/src are the
+// app/ and render/src are deliberately NOT here: app/src and render/src are the
 // runtime source, and they are exactly where a missed string becomes a
 // production 404. An earlier draft skipped app/ and reported one runtime
 // reference in the whole repository, which was obviously wrong and is why this
 // list is now narrow.
 const SKIP_CONTENT = new Set(['data', 'assets', 'build']);
-const SKIP_SUBTREES = ['test/metadata', 'test/tiles', 'test/pmtiles', 'test/source-cache', 'app/build'];
+const SKIP_SUBTREES = ['render/metadata', 'render/tiles', 'render/pmtiles', 'render/source-cache', 'app/build'];
 
 const TEXT_EXT = new Set(['.js', '.mjs', '.cjs', '.json', '.html', '.css', '.md', '.yml', '.yaml', '.toml', '.sh', '.py', '.txt']);
 // Extensionless config files, which an extension filter silently drops. _headers
 // is the worst one to miss: it is where the immutable cache policy for
-// test/metadata/maps-test-index.json lives, and a stale rule there fails without
+// render/metadata/maps-test-index.json lives, and a stale rule there fails without
 // any error at all.
 const TEXT_NAMES = new Set(['_headers', '_redirects', '_routes.json', '.cfignore', '.gitignore', '.nvmrc', '.node-version']);
 
 /** Patterns that denote one of the three directories at a path boundary. */
 const TARGETS = [
-  { dir: 'test/', re: /(^|["'`(\s=,:/])test\/[A-Za-z0-9._-]/ },
+  { dir: 'render/', re: /(^|["'`(\s=,:/])test\/[A-Za-z0-9._-]/ },
   { dir: 'test2/', re: /(^|["'`(\s=,:/])test2\/[A-Za-z0-9._-]/ },
   { dir: 'tests/', re: /(^|["'`(\s=,:/])tests\/[A-Za-z0-9._-]/ },
 ];
@@ -87,7 +87,7 @@ function classify(file) {
   if (f.endsWith('.html')) return 'RUNTIME';
   if (f.startsWith('tests/')) return 'TEST';
   if (f.startsWith('scripts/')) return 'BUILD';
-  if (f.startsWith('app/src/') || f.startsWith('src/') || f.startsWith('test/src/')) return 'RUNTIME';
+  if (f.startsWith('app/src/') || f.startsWith('src/') || f.startsWith('render/src/')) return 'RUNTIME';
   if (f.endsWith('.md')) return 'DOC';
   if (f.endsWith('.json')) return 'CONFIG';
   return 'BUILD';
@@ -146,7 +146,7 @@ if (AS_JSON) {
   process.exit(0);
 }
 
-console.log('Directory-name references (test/, test2/, tests/)');
+console.log('Directory-name references (render/, test2/, tests/)');
 console.log(`  total references : ${findings.length}`);
 console.log(`  by directory     : ${Object.entries(byDir).map(([k, v]) => `${k} ${v}`).join('   ')}`);
 console.log('  by risk class    :');
@@ -168,7 +168,7 @@ for (const file of [...(filesByKind.CONFIG || [])].sort()) {
 
 if (UPDATE) {
   writeFileSync(BASELINE, `${JSON.stringify({
-    note: 'Reference count for test/, test2/ and tests/. Ratchet for validate-directory-name-references.mjs: this may shrink as the rename progresses, and must not grow while it is deferred.',
+    note: 'Reference count for render/, test2/ and tests/. Ratchet for validate-directory-name-references.mjs: this may shrink as the rename progresses, and must not grow while it is deferred.',
     total: findings.length,
     byKind,
     byDir,

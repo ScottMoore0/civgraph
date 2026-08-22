@@ -9,10 +9,10 @@ import path from 'node:path';
 import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
 
 const ROOT = process.cwd();
-const INPUT = path.join(ROOT, 'test', 'metadata', 'maps-test.json');
-const INDEX_OUTPUT = path.join(ROOT, 'test', 'metadata', 'maps-test-index.json');
-const DETAIL_DIR = path.join(ROOT, 'test', 'metadata', 'layer-details-test2');
-const DUPLICATE_DIR = path.join(ROOT, 'test', 'metadata', 'duplicate-feature-ids');
+const INPUT = path.join(ROOT, 'render', 'metadata', 'maps-test.json');
+const INDEX_OUTPUT = path.join(ROOT, 'render', 'metadata', 'maps-test-index.json');
+const DETAIL_DIR = path.join(ROOT, 'render', 'metadata', 'layer-details-test2');
+const DUPLICATE_DIR = path.join(ROOT, 'render', 'metadata', 'duplicate-feature-ids');
 
 const COMPACT_LAYER_FIELDS = [
   'id',
@@ -175,7 +175,7 @@ function build() {
   const expectedDuplicateFiles = new Set();
   const layers = (raw.layers || []).map((layer) => {
     const fileName = `${safeFileName(layer.id)}.json`;
-    const detailUrl = `/test/metadata/layer-details-test2/${fileName}`;
+    const detailUrl = `/render/metadata/layer-details-test2/${fileName}`;
     expectedDetailFiles.add(fileName);
     if (writeJsonIfChanged(path.join(DETAIL_DIR, fileName), layer)) {
       detailsWritten += 1;
@@ -186,7 +186,7 @@ function build() {
 
     const duplicateInfo = duplicateIdsForFeatureIndex(layer.featureIndexUrl);
     if (duplicateInfo) {
-      const duplicateUrl = `/test/metadata/duplicate-feature-ids/${fileName}`;
+      const duplicateUrl = `/render/metadata/duplicate-feature-ids/${fileName}`;
       const sidecar = {
         layerId: layer.id,
         sourceMapId: layer.sourceMapId || null,
@@ -209,7 +209,7 @@ function build() {
 
   const index = {
     ...raw,
-    generatedFrom: 'test/metadata/maps-test.json',
+    generatedFrom: 'render/metadata/maps-test.json',
     detailIndex: true,
     detailLayerCount: layers.length,
     layers

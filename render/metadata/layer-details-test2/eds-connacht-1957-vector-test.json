@@ -1,0 +1,219 @@
+{
+  "id": "eds-connacht-1957-vector-test",
+  "sourceMapId": "eds-connacht-1957",
+  "name": "Connacht District Electoral Divisions/Wards 1957",
+  "category": "Electoral Divisions",
+  "group": "Built Environment",
+  "date": 1957,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Phelim Birch",
+    "Paddy Matthews"
+  ],
+  "description": "Connacht component used by the 1957 Republic of Ireland District Electoral Divisions/Wards entry.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/render/tiles/generated/eds-connacht-1957/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-connacht-1957-vector-test.pmtiles",
+  "tilesFallback": "/render/tiles/generated/eds-connacht-1957/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/render/tiles/generated/eds-connacht-1957/metadata.json",
+  "sourceLayer": "eds_connacht_1957",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      52.9681498,
+      -10.3207471
+    ],
+    [
+      54.4743682,
+      -7.584171
+    ]
+  ],
+  "style": {
+    "color": "#1B5E20",
+    "fillColor": "#1B5E20",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "render/source-cache/vector-intake/eds-connacht-1957.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Phelim Birch",
+    "Paddy Matthews"
+  ],
+  "keywords": [
+    "connacht",
+    "ED",
+    "DED",
+    "ward",
+    "1957",
+    "Connacht District Electoral Divisions/Wards 1957",
+    "Electoral Divisions",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "ENGLISH",
+  "labelPropertyFallbacks": [
+    "GAEILGE",
+    "COUNTY"
+  ],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#1B5E20",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/render/metadata/feature-indexes/eds-connacht-1957-vector-test.json",
+  "sourceFile": "render/source-cache/vector-intake/eds-connacht-1957.fgb",
+  "sourceDatasetLayer": "DEDs_Connacht_1963",
+  "popupProperties": [
+    "ENGLISH",
+    "GAEILGE",
+    "CONTAE",
+    "COUNTY",
+    "PROVINCE",
+    "WARDORDED"
+  ],
+  "numericProperties": [],
+  "categoricalProperties": [
+    "ENGLISH",
+    "GAEILGE",
+    "CONTAE",
+    "COUNTY",
+    "PROVINCE",
+    "WARDORDED"
+  ],
+  "categoricalValues": {
+    "ENGLISH": [
+      "ANNAGH",
+      "ARDRAHAN",
+      "ATHENRY",
+      "AUGHRIM",
+      "BALLYMOE",
+      "BEAGH",
+      "BELCLARE",
+      "BULLAUN",
+      "CARAUN",
+      "CARNMORE",
+      "CLONBERN",
+      "CLONFERT",
+      "COOS",
+      "CREAGH",
+      "CULLIAGH",
+      "DERREW",
+      "KILCROAN",
+      "KILLAAN",
+      "KILLEELY",
+      "KILLEEN",
+      "KILLIAN",
+      "KILLIMOR",
+      "KILLINNY",
+      "KILLURE",
+      "KILMEEN",
+      "KILQUAIN",
+      "KILVINE",
+      "LACKALEA",
+      "LEITRIM",
+      "LISMANNY",
+      "MILLTOWN",
+      "MOUNTAIN"
+    ],
+    "GAEILGE": [
+      "An Cuas",
+      "Liatroim",
+      "Maighin",
+      "An Ballán",
+      "An Bheitheach",
+      "An Bhreaclach",
+      "An Caisleán Buí",
+      "An Carn Mór",
+      "An Chathair Mhór",
+      "An Cheapach Loiscthe",
+      "An Cheathrú Riabhach",
+      "An Choilleach",
+      "An Chríoch",
+      "An Cillín",
+      "An Clochar",
+      "An Creagán",
+      "An Currach Mór",
+      "An Cárán",
+      "An Ghráig",
+      "An Mhainistir Thiar",
+      "An Mhainistir Thoir",
+      "An Ráithín",
+      "An Sceachánach",
+      "An Screig",
+      "An Tobar Rua",
+      "An tEanach",
+      "Ard Mhaolabháin",
+      "Ard Raithin",
+      "Baile Daighean",
+      "Baile Locha Riach (Tuath)",
+      "Baile Locha Riach (Uirbeach)",
+      "Baile Uí Chathaláin"
+    ],
+    "CONTAE": [
+      "Gaillimh",
+      "Liatroim",
+      "Maigh Eo",
+      "Sligeach",
+      "Ros Comáin"
+    ],
+    "COUNTY": [
+      "GALWAY",
+      "LEITRIM",
+      "MAYO",
+      "SLIGO",
+      "ROSCOMMON"
+    ],
+    "PROVINCE": [
+      "Connacht"
+    ],
+    "WARDORDED": [
+      "DED"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from render/source-cache/vector-intake/eds-connacht-1957.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "render/source-cache/vector-intake/eds-connacht-1957.fgb",
+    "bytes": 6704628,
+    "files": 949,
+    "pbfFiles": 948,
+    "maxTileBytes": 112388
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "render/pmtiles/generated/eds-connacht-1957-vector-test.pmtiles",
+    "url": "/render/pmtiles/generated/eds-connacht-1957-vector-test.pmtiles",
+    "bytes": 4649446,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-07-31T17:14:04.092Z",
+    "fallback": "/render/tiles/generated/eds-connacht-1957/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-connacht-1957-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/eds-connacht-1957-vector-test.pmtiles",
+    "localUrl": "/render/pmtiles/generated/eds-connacht-1957-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-08-04T22:09:20.884Z"
+  },
+  "promoteId": "civ_fid",
+  "idProperty": "civ_fid"
+}

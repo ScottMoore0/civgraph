@@ -1,0 +1,166 @@
+{
+  "id": "osni-open-data-50k-boundaries-parliamentary-constituencies-vector-test",
+  "sourceMapId": "osni-open-data-50k-boundaries-parliamentary-constituencies",
+  "name": "Parliamentary Constituencies — OSNI 50k",
+  "category": "Parliamentary Constituencies",
+  "group": "Elections and Government",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "OSNI"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/render/tiles/generated/osni-open-data-50k-boundaries-parliamentary-constituencies/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/osni-open-data-50k-boundaries-parliamentary-constituencies-vector-test.pmtiles",
+  "tilesFallback": "/render/tiles/generated/osni-open-data-50k-boundaries-parliamentary-constituencies/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/render/tiles/generated/osni-open-data-50k-boundaries-parliamentary-constituencies/metadata.json",
+  "sourceLayer": "osni_open_data_50k_boundaries_parliamentary_constituencies",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0229006,
+      -8.1778126
+    ],
+    [
+      55.312904,
+      -5.4328061
+    ]
+  ],
+  "style": {
+    "color": "#D35400",
+    "fillColor": "#D35400",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Parliamentary Constituencies — OSNI 50k — Open Data NI",
+      "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-parliamentary-constituencies",
+      "note": "OGL v3.0"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "render/source-cache/vector-intake/osni-open-data-50k-boundaries-parliamentary-constituencies.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "OSNI"
+  ],
+  "keywords": [
+    "parliamentary",
+    "constituencies",
+    "osni",
+    "Parliamentary Constituencies — OSNI 50k",
+    "Parliamentary Constituencies",
+    "Elections and Government",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "PC_NAME",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#D35400",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/render/metadata/feature-indexes/osni-open-data-50k-boundaries-parliamentary-constituencies-vector-test.json",
+  "sourceFile": "render/source-cache/vector-intake/osni-open-data-50k-boundaries-parliamentary-constituencies.fgb",
+  "sourceDatasetLayer": "OSNI_Open_Data_-_50K_Boundaries_-_Parliamentary_Constituencies",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "PC_NAME",
+    "OBJECTID",
+    "Area_sqkm",
+    "PC_ID"
+  ],
+  "numericProperties": [
+    "Area_sqkm",
+    "OBJECTID"
+  ],
+  "categoricalProperties": [
+    "PC_NAME",
+    "PC_ID"
+  ],
+  "categoricalValues": {
+    "PC_NAME": [
+      "FOYLE",
+      "BELFAST EAST",
+      "BELFAST NORTH",
+      "BELFAST SOUTH",
+      "BELFAST WEST",
+      "EAST ANTRIM",
+      "EAST LONDONDERRY",
+      "FERMANAGH AND SOUTH TYRONE",
+      "LAGAN VALLEY",
+      "MID ULSTER",
+      "NEWRY AND ARMAGH",
+      "NORTH ANTRIM",
+      "NORTH DOWN",
+      "SOUTH ANTRIM",
+      "SOUTH DOWN",
+      "STRANGFORD",
+      "UPPER BANN",
+      "WEST TYRONE"
+    ],
+    "PC_ID": [
+      "N06000001",
+      "N06000002",
+      "N06000003",
+      "N06000004",
+      "N06000005",
+      "N06000006",
+      "N06000007",
+      "N06000008",
+      "N06000009",
+      "N06000010",
+      "N06000011",
+      "N06000012",
+      "N06000013",
+      "N06000014",
+      "N06000015",
+      "N06000016",
+      "N06000017",
+      "N06000018"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from render/source-cache/vector-intake/osni-open-data-50k-boundaries-parliamentary-constituencies.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "render/source-cache/vector-intake/osni-open-data-50k-boundaries-parliamentary-constituencies.fgb",
+    "bytes": 485784,
+    "files": 757,
+    "pbfFiles": 756,
+    "maxTileBytes": 15402
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "render/pmtiles/generated/osni-open-data-50k-boundaries-parliamentary-constituencies-vector-test.pmtiles",
+    "url": "/render/pmtiles/generated/osni-open-data-50k-boundaries-parliamentary-constituencies-vector-test.pmtiles",
+    "bytes": 405354,
+    "maxGithubBytes": 99614720,
+    "fallback": "/render/tiles/generated/osni-open-data-50k-boundaries-parliamentary-constituencies/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/osni-open-data-50k-boundaries-parliamentary-constituencies-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/osni-open-data-50k-boundaries-parliamentary-constituencies-vector-test.pmtiles",
+    "localUrl": "/render/pmtiles/generated/osni-open-data-50k-boundaries-parliamentary-constituencies-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-08-04T22:09:20.884Z"
+  }
+}

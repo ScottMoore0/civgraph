@@ -10,8 +10,8 @@ import path from 'node:path';
 import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
 
 const ROOT = process.cwd();
-const MANIFEST_PATH = path.join(ROOT, 'test', 'metadata', 'elections-test2.json');
-const SUMMARY_DIR = path.join(ROOT, 'test', 'metadata', 'elections-test2-summaries');
+const MANIFEST_PATH = path.join(ROOT, 'render', 'metadata', 'elections-test2.json');
+const SUMMARY_DIR = path.join(ROOT, 'render', 'metadata', 'elections-test2-summaries');
 
 function readJson(file) {
   return JSON.parse(readFileSync(file, 'utf8'));
@@ -112,7 +112,7 @@ function build() {
     if (!source || !existsSync(source)) return entry;
     const bundle = readJson(source);
     const fileName = `${safeFileName(entry.key)}.json`;
-    const summaryUrl = `/test/metadata/elections-test2-summaries/${fileName}`;
+    const summaryUrl = `/render/metadata/elections-test2-summaries/${fileName}`;
     writeJsonIfChanged(path.join(SUMMARY_DIR, fileName), summarizeBundle(entry, bundle));
     written += 1;
     return { ...entry, summaryUrl };

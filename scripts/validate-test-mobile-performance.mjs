@@ -6,7 +6,7 @@ import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
 
 const ROOT = resolve(process.cwd());
 const PORT = Number(process.env.TEST_PERF_PORT || 4182);
-const REPORT_PATH = resolve(ROOT, 'test/metadata/mobile-performance-report.json');
+const REPORT_PATH = resolve(ROOT, 'render/metadata/mobile-performance-report.json');
 const MAX_BOOT_MS = Number(process.env.TEST_PERF_MAX_BOOT_MS || 6000);
 const MIN_FRAME_RATE = Number(process.env.TEST_PERF_MIN_FPS || 24);
 const TEST_LAYERS = (process.env.TEST_PERF_LAYER_IDS || 'civil-parishes-vector-test,roi-garda-regions-vector-test,roi-townlands-vector-test').split(',').filter(Boolean);
@@ -33,7 +33,7 @@ try {
     hasTouch: true
   });
   const started = Date.now();
-  await page.goto(`http://127.0.0.1:${PORT}/test/`, { waitUntil: 'domcontentloaded' });
+  await page.goto(`http://127.0.0.1:${PORT}/render/`, { waitUntil: 'domcontentloaded' });
   await page.waitForFunction(() => window.__civgraphTest?.metadataService?.layers?.length, null, { timeout: 30000 });
   report.bootMs = Date.now() - started;
   for (const layerId of TEST_LAYERS) {

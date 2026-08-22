@@ -1,6 +1,6 @@
 # Candidate attributes
 
-Two fields on every individual candidacy in `test/metadata/elections-test2/*.json`:
+Two fields on every individual candidacy in `render/metadata/elections-test2/*.json`:
 
 ```json
 "party": "Aontú",
@@ -55,7 +55,7 @@ python scripts/apply_candidate_attributes.py --check    # report only, write not
 python scripts/apply_candidate_attributes.py --leads    # refresh endorsement leads only
 ```
 
-Idempotent. Re-run after any rebuild of `test/metadata/elections-test2/`.
+Idempotent. Re-run after any rebuild of `render/metadata/elections-test2/`.
 
 **Why the field lives there and not upstream.** The upstream source
 (`election-viewer-package/data/elections/<body>/<date>/<constituency>.json`) is raw

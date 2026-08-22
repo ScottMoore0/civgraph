@@ -1,0 +1,9 @@
+# `test/` was renamed to `render/` on 2026-08-22. It was never test code: the production
+# renderer imports its map controller from there, and it also holds the render metadata,
+# source cache and generated tiles. Sitting beside `tests/` and `test2/`, the name was
+# the most misleading thing an outside developer met.
+#
+# /test/ served a real (noindex) page, so the old paths keep working. 301 rather than
+# 302: the move is permanent and there is no reason to make every visitor re-ask.
+/test/*  /render/:splat  301
+/test    /render/        301

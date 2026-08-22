@@ -12,7 +12,7 @@
  * The map does not render from the download. Per the README: "MapLibre GL
  * rendering PMTiles vector tiles; FlatGeobuf is a download format, not a render
  * path." The tiles are built by build-test-pmtiles.mjs from a THIRD copy of the
- * geometry in test/source-cache/vector-intake/, and that copy was untouched --
+ * geometry in render/source-cache/vector-intake/, and that copy was untouched --
  * dated 29 May, still holding the pre-correction boundary. So the download was
  * right, the catalogue was right, the cache tokens were right, and the map drew
  * the old boundary for a day and a half.
@@ -57,8 +57,8 @@
  */
 import { existsSync, readFileSync, statSync } from 'node:fs';
 
-const METADATA = 'test/metadata/maps-test.json';
-const TILE_DIR = 'test/pmtiles/generated';
+const METADATA = 'render/metadata/maps-test.json';
+const TILE_DIR = 'render/pmtiles/generated';
 
 const doc = JSON.parse(readFileSync(METADATA, 'utf8'));
 const layers = (doc.layers || []).filter((l) => l.sourceType === 'pmtiles' && l.sourceFile);

@@ -1,0 +1,138 @@
+{
+  "id": "tailte-reservoirs-vector-test",
+  "sourceMapId": "tailte-reservoirs",
+  "name": "Reservoirs (Tailte Éireann)",
+  "category": "Physical Geography",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Tailte Éireann"
+  ],
+  "description": "Reservoirs across the Republic of Ireland (2 features), from Tailte Éireann / Ordnance Survey Ireland open data. Reservoirs - National 250k Map Of Ireland All dams on watercourse portrayed as a single line This dataset is provided by Tailte Éireann",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/render/tiles/generated/tailte-reservoirs/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-reservoirs-vector-test.pmtiles",
+  "tilesFallback": "/render/tiles/generated/tailte-reservoirs/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/render/tiles/generated/tailte-reservoirs/metadata.json",
+  "sourceLayer": "tailte_reservoirs",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      52.6898805,
+      -8.627075
+    ],
+    [
+      53.120144,
+      -6.583162
+    ]
+  ],
+  "style": {
+    "color": "#2E86AB",
+    "fillColor": "#2E86AB",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Reservoirs — Tailte Éireann (data.gov.ie)",
+      "url": "https://data.gov.ie/dataset/reservoirs-national-250k-map-of-ireland",
+      "note": "Creative Commons Attribution 4.0"
+    },
+    {
+      "label": "Reservoirs — GeoJSON download",
+      "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/f76c2df0c3454d5092d45018c0094eaf/geojson?layers=0",
+      "note": ""
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "render/source-cache/vector-intake/tailte-reservoirs.fgb"
+    },
+    {
+      "label": "GeoJSON",
+      "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/f76c2df0c3454d5092d45018c0094eaf/geojson?layers=0"
+    }
+  ],
+  "sourceCredits": [
+    "Tailte Éireann"
+  ],
+  "keywords": [
+    "tailte éireann",
+    "osi",
+    "ireland",
+    "republic of ireland",
+    "reservoirs",
+    "Reservoirs (Tailte Éireann)",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "NAMN1",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#2E86AB",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/render/metadata/feature-indexes/tailte-reservoirs-vector-test.json",
+  "sourceFile": "render/source-cache/vector-intake/tailte-reservoirs.fgb",
+  "sourceDatasetLayer": "_t",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "NAMN1",
+    "OBJECTID",
+    "FCsubtype"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "FCsubtype"
+  ],
+  "categoricalProperties": [
+    "NAMN1"
+  ],
+  "categoricalValues": {
+    "NAMN1": [
+      "Ardnacrusha",
+      "Pollaphuca"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from render/source-cache/vector-intake/tailte-reservoirs.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "render/source-cache/vector-intake/tailte-reservoirs.fgb",
+    "bytes": 3806,
+    "files": 23,
+    "pbfFiles": 22,
+    "maxTileBytes": 129
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "render/pmtiles/generated/tailte-reservoirs-vector-test.pmtiles",
+    "url": "/render/pmtiles/generated/tailte-reservoirs-vector-test.pmtiles",
+    "bytes": 3348,
+    "maxGithubBytes": 99614720,
+    "fallback": "/render/tiles/generated/tailte-reservoirs/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-reservoirs-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/tailte-reservoirs-vector-test.pmtiles",
+    "localUrl": "/render/pmtiles/generated/tailte-reservoirs-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-08-04T22:09:20.884Z"
+  }
+}

@@ -38,7 +38,7 @@ const checks = [
   sumBudget('Split JS chunks', 'app/build/chunks', (name) => name.endsWith('.js'), BUDGETS.chunkJsBytes),
   largestChunkBudget('Largest lazy JS chunk', 'app/build/chunks', BUDGETS.largestLazyChunkBytes),
   splitRuntimeCheck(),
-  fileBudget('Startup metadata index', 'test/metadata/maps-test-index.json', BUDGETS.metadataIndexBytes, { normalizeTextEol: true }),
+  fileBudget('Startup metadata index', 'render/metadata/maps-test-index.json', BUDGETS.metadataIndexBytes, { normalizeTextEol: true }),
   existsCheck('Compatibility service worker', 'test2/sw.js'),
   sourceMapCheck(),
   pmtilesCoverageCheck()
@@ -213,7 +213,7 @@ function sourceMapCheck() {
 }
 
 function pmtilesCoverageCheck() {
-  const metadataPath = resolve(ROOT, 'test/metadata/maps-test-index.json');
+  const metadataPath = resolve(ROOT, 'render/metadata/maps-test-index.json');
   if (!existsSync(metadataPath)) return { name: 'PMTiles metadata coverage', status: 'fail', value: 0, valueLabel: 'metadata missing' };
   const metadata = JSON.parse(readFileSync(metadataPath, 'utf8'));
   const layers = Array.isArray(metadata.layers) ? metadata.layers : [];

@@ -46,7 +46,7 @@ import { resolve } from 'node:path';
 const ROOT = resolve(process.cwd());
 const UI = resolve(ROOT, 'src/ui-controller.js');
 const CATALOGUE = resolve(ROOT, 'data/database/maps.json');
-const INDEX = resolve(ROOT, 'test/metadata/maps-test-index.json');
+const INDEX = resolve(ROOT, 'render/metadata/maps-test-index.json');
 const BASELINE = resolve(ROOT, 'data/database/c1-coverage-baseline.json');
 
 const UPDATE = process.argv.includes('--update-baseline');

@@ -1,6 +1,6 @@
 # Stages 3–4: transfers and STV seats (v9 phases 18–20)
 
-Both stages built **entirely from the repo's own data** — `test/metadata/elections-test2/*.json`.
+Both stages built **entirely from the repo's own data** — `render/metadata/elections-test2/*.json`.
 No data and no code was taken from the `privaterep` / `ni_votes` project; the count
 engine is implemented from the published PR-STV rules, which is also what keeps a
 private-repo dependency out of a public repo.

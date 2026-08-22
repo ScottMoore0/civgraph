@@ -3,7 +3,7 @@ const AxeBuilder = require('@axe-core/playwright').default;
 const fs = require('fs');
 const path = require('path');
 
-const CIVIL_PARISHES_FALLBACK_DIR = path.join(__dirname, '..', '..', 'test', 'tiles', 'civil-parishes-v3');
+const CIVIL_PARISHES_FALLBACK_DIR = path.join(__dirname, '..', '..', 'render', 'tiles', 'civil-parishes-v3');
 
 async function loadCivilParishes(page) {
   const useLocalFallback = fs.existsSync(CIVIL_PARISHES_FALLBACK_DIR);

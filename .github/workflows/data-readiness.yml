@@ -1,6 +1,6 @@
 name: Data readiness
 
-# test-readiness.yml only fires on test/**, scripts/*test*.mjs and package.json.
+# test-readiness.yml only fires on render/**, scripts/*test*.mjs and package.json.
 # Data-only commits -- the large majority, since data/ is roughly half of all
 # tracked files -- matched no path filter and shipped unvalidated. This closes
 # that gap, most importantly by running the approved-publication gate

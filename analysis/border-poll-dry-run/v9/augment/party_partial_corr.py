@@ -1,6 +1,6 @@
 import json, numpy as np, pandas as pd
 from collections import defaultdict
-D="test/metadata/elections-test2"; V="analysis/border-poll-dry-run/v9"
+D="render/metadata/elections-test2"; V="analysis/border-poll-dry-run/v9"
 def cat(p):
     d={'DUP':'DUP','UUP':'UUP','Sinn Féin':'SF','SDLP':'SDLP','Alliance':'Alliance','Green':'Green','TUV':'TUV'}
     if p in d: return d[p]

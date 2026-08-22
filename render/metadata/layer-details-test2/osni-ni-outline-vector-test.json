@@ -1,0 +1,141 @@
+{
+  "id": "osni-ni-outline-vector-test",
+  "sourceMapId": "osni-ni-outline",
+  "name": "Northern Ireland Outline (OSNI 50K)",
+  "category": "OSNI Reference Layers",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Land & Property Services (OSNI)"
+  ],
+  "description": "Northern Ireland outline at OSNI 50K scale — Land & Property Services (OSNI Open Data).",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/render/tiles/generated/osni-ni-outline/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/render/tiles/generated/osni-ni-outline/metadata.json",
+  "sourceLayer": "osni_ni_outline",
+  "promoteId": "ID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0228784,
+      -8.1778125
+    ],
+    [
+      55.3129649,
+      -5.4327314
+    ]
+  ],
+  "style": {
+    "color": "#37474F",
+    "fillColor": "#37474F",
+    "fillOpacity": 0,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Open Data NI — OSNI Open Data 50K Boundaries NI Outline",
+      "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-ni-outline",
+      "note": ""
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "render/source-cache/vector-intake/osni-ni-outline.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Land & Property Services (OSNI)"
+  ],
+  "keywords": [
+    "northern ireland",
+    "NI",
+    "OSNI",
+    "outline",
+    "boundary",
+    "50k",
+    "reference",
+    "Northern Ireland Outline (OSNI 50K)",
+    "OSNI Reference Layers",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": null,
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#37474F",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "sourceFile": "https://data.civgraph.net/data/maps/osni/OSNI_50K_NI_Outline.fgb",
+  "sourceDatasetLayer": "OSNI_Open_Data_-_50K_Boundaries_-_NI_Outline",
+  "idProperty": "ID",
+  "popupProperties": [
+    "ID",
+    "DATASET",
+    "OSNI_SCALE",
+    "SHAPE_Length",
+    "SHAPE_Area",
+    "OBJECTID"
+  ],
+  "numericProperties": [
+    "ID",
+    "SHAPE_Length",
+    "SHAPE_Area",
+    "OBJECTID"
+  ],
+  "categoricalProperties": [
+    "DATASET",
+    "OSNI_SCALE"
+  ],
+  "categoricalValues": {
+    "DATASET": [
+      "Outline of Northern Ireland"
+    ],
+    "OSNI_SCALE": [
+      "1:50000"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from render/source-cache/vector-intake/osni-ni-outline.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "render/source-cache/vector-intake/osni-ni-outline.fgb",
+    "bytes": 495594,
+    "files": 755,
+    "pbfFiles": 754,
+    "maxTileBytes": 9854
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "render/pmtiles/generated/osni-ni-outline-vector-test.pmtiles",
+    "url": "/render/pmtiles/generated/osni-ni-outline-vector-test.pmtiles",
+    "bytes": 347912,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-07-01T09:00:00.000Z",
+    "fallback": "/render/tiles/generated/osni-ni-outline/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/osni-ni-outline-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/osni-ni-outline-vector-test.pmtiles",
+    "localUrl": "/render/pmtiles/generated/osni-ni-outline-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-08-04T22:09:20.884Z"
+  },
+  "loadable": true,
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/osni-ni-outline-vector-test.pmtiles",
+  "tilesFallback": "/render/tiles/generated/osni-ni-outline/{z}/{x}/{y}.pbf"
+}

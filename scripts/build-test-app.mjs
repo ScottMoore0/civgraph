@@ -6,12 +6,12 @@
 import * as esbuild from 'esbuild';
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync, unlinkSync } from 'node:fs';
 
-mkdirSync('test/build', { recursive: true });
+mkdirSync('render/build', { recursive: true });
 mkdirSync('build', { recursive: true });
 
 // Off by default, mirroring build-test2-app.mjs. Emitting them unconditionally
 // committed a 6.0 MB test.bundle.js.map on every build — 36 of the last 200
-// commits touched it, which dominated repo growth. /test/build is noindex
+// commits touched it, which dominated repo growth. /render/build is noindex
 // staging and no validator asserts the maps exist, so their only consumer is a
 // developer with devtools open, who can opt in.
 const emitSourceMaps = process.env.TEST_SOURCEMAPS === '1' || process.argv.includes('--sourcemap');
@@ -19,11 +19,11 @@ const emitSourceMaps = process.env.TEST_SOURCEMAPS === '1' || process.argv.inclu
 await buildMainShellCss();
 
 const result = await esbuild.build({
-  entryPoints: ['test/src/app.js'],
+  entryPoints: ['render/src/app.js'],
   bundle: true,
   minify: true,
   sourcemap: emitSourceMaps,
-  outfile: 'test/build/test.bundle.js',
+  outfile: 'render/build/test.bundle.js',
   target: ['es2020'],
   logLevel: 'info',
   loader: {
@@ -34,15 +34,15 @@ const result = await esbuild.build({
 
 if (result.errors.length) process.exit(1);
 
-for (const path of ['test/build/test.bundle.js', 'test/build/test.bundle.css']) {
+for (const path of ['render/build/test.bundle.js', 'render/build/test.bundle.css']) {
   if (!existsSync(path)) continue;
   const content = readFileSync(path, 'utf8').replace(/[ \t]+$/gm, '');
   writeFileSync(path, content);
 }
 
-const jsBytes = statSync('test/build/test.bundle.js').size;
-const cssBytes = existsSync('test/build/test.bundle.css')
-  ? statSync('test/build/test.bundle.css').size
+const jsBytes = statSync('render/build/test.bundle.js').size;
+const cssBytes = existsSync('render/build/test.bundle.css')
+  ? statSync('render/build/test.bundle.css').size
   : 0;
 
 console.log(`Test bundle: ${(jsBytes / 1024).toFixed(1)} KB`);

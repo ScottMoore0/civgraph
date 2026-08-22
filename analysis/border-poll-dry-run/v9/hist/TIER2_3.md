@@ -4,7 +4,7 @@ Built on **real data only**: the 2011 NISRA census at the 18 Assembly/Westminste
 constituencies (ASSEMBLY AREAS geography, 118 percentage features across religion,
 religion-brought-up-in, national identity, passports, language, tenure, NS-SEC,
 qualifications, economic activity, age, sex, health), the actual election results
-1992–2010 from `test/metadata/elections-test2`, and the 1998–2010 NILT waves
+1992–2010 from `render/metadata/elections-test2`, and the 1998–2010 NILT waves
 (constitutional-preference item `nireland`/`NIRELAND`/`NIRELND2`, weighted).
 
 Reproduce: `python build_features_2011.py && python build_results.py &&

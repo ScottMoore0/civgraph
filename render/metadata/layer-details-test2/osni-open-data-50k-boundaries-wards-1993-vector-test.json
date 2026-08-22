@@ -1,0 +1,206 @@
+{
+  "id": "osni-open-data-50k-boundaries-wards-1993-vector-test",
+  "sourceMapId": "osni-open-data-50k-boundaries-wards-1993",
+  "name": "Wards (1993) — OSNI 50k",
+  "category": "Electoral Areas",
+  "group": "Elections and Government",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "OSNI"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/render/tiles/generated/osni-open-data-50k-boundaries-wards-1993/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/osni-open-data-50k-boundaries-wards-1993-vector-test.pmtiles",
+  "tilesFallback": "/render/tiles/generated/osni-open-data-50k-boundaries-wards-1993/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/render/tiles/generated/osni-open-data-50k-boundaries-wards-1993/metadata.json",
+  "sourceLayer": "osni_open_data_50k_boundaries_wards_1993",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0228784,
+      -8.1778126
+    ],
+    [
+      55.312904,
+      -5.4327314
+    ]
+  ],
+  "style": {
+    "color": "#2E86C1",
+    "fillColor": "#2E86C1",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Wards (1993) — OSNI 50k — Open Data NI",
+      "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-wards-1993",
+      "note": "OGL v3.0"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "render/source-cache/vector-intake/osni-open-data-50k-boundaries-wards-1993.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "OSNI"
+  ],
+  "keywords": [
+    "wards",
+    "1993",
+    "osni",
+    "Wards (1993) — OSNI 50k",
+    "Electoral Areas",
+    "Elections and Government",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "WARD93_ID",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#2E86C1",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/render/metadata/feature-indexes/osni-open-data-50k-boundaries-wards-1993-vector-test.json",
+  "sourceFile": "render/source-cache/vector-intake/osni-open-data-50k-boundaries-wards-1993.fgb",
+  "sourceDatasetLayer": "OSNI_Open_Data_-_50K_Boundaries_-_Wards_(1993)",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "WARD93_ID",
+    "OBJECTID",
+    "WARDS",
+    "DATASET",
+    "OSNI_SCALE",
+    "LGD",
+    "AREA_SQKMS",
+    "AREA_SQM",
+    "PERIM_M",
+    "PERIM_KM"
+  ],
+  "numericProperties": [
+    "WARD93_ID",
+    "AREA_SQKMS",
+    "AREA_SQM",
+    "PERIM_M",
+    "PERIM_KM",
+    "OBJECTID"
+  ],
+  "categoricalProperties": [
+    "WARDS",
+    "DATASET",
+    "OSNI_SCALE",
+    "LGD"
+  ],
+  "categoricalValues": {
+    "WARDS": [
+      "ANNALONG",
+      "ARDBOE",
+      "ARDGLASS",
+      "BANNSIDE",
+      "BEECHILL",
+      "BENBURB",
+      "BINNIAN",
+      "BLARIS",
+      "CAMLOUGH",
+      "CLADY",
+      "COAGH",
+      "COOLHILL",
+      "CREGGAN",
+      "CROSSGAR",
+      "CRUMLIN",
+      "DEMESNE",
+      "DERRYBOY",
+      "DROMARA",
+      "DUNDRUM",
+      "DUNMORE",
+      "FALLS",
+      "FORKHILL",
+      "GLENAVY",
+      "GRANSHA",
+      "HOCKLEY",
+      "KERNAN",
+      "KILLEEN",
+      "KILLOUGH",
+      "KILLYMAN",
+      "KILMORE",
+      "LISBANE",
+      "MILFORD"
+    ],
+    "DATASET": [
+      "WARDS 1993"
+    ],
+    "OSNI_SCALE": [
+      "1:50000"
+    ],
+    "LGD": [
+      "Antrim",
+      "Ards",
+      "Armagh",
+      "Belfast",
+      "Derry",
+      "Down",
+      "Larne",
+      "Limavady",
+      "Lisburn",
+      "Moyle",
+      "Omagh",
+      "Strabane",
+      "Ballymena",
+      "Ballymoney",
+      "Banbridge",
+      "Carrickfergus",
+      "Castlereagh",
+      "Coleraine",
+      "Cookstown",
+      "Craigavon",
+      "Dungannon",
+      "Fermanagh",
+      "Magherafelt",
+      "Newry and Mourne",
+      "Newtownabbey",
+      "North Down"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from render/source-cache/vector-intake/osni-open-data-50k-boundaries-wards-1993.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "render/source-cache/vector-intake/osni-open-data-50k-boundaries-wards-1993.fgb",
+    "bytes": 2564206,
+    "files": 757,
+    "pbfFiles": 756,
+    "maxTileBytes": 128516
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "render/pmtiles/generated/osni-open-data-50k-boundaries-wards-1993-vector-test.pmtiles",
+    "url": "/render/pmtiles/generated/osni-open-data-50k-boundaries-wards-1993-vector-test.pmtiles",
+    "bytes": 2108132,
+    "maxGithubBytes": 99614720,
+    "fallback": "/render/tiles/generated/osni-open-data-50k-boundaries-wards-1993/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/osni-open-data-50k-boundaries-wards-1993-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/osni-open-data-50k-boundaries-wards-1993-vector-test.pmtiles",
+    "localUrl": "/render/pmtiles/generated/osni-open-data-50k-boundaries-wards-1993-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-08-04T22:09:20.884Z"
+  }
+}

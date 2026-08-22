@@ -29,7 +29,7 @@ string id:
 | Store | Size | Owns | Loaded by |
 |---|---|---|---|
 | `data/database/maps.json` | 1,039 entries, 1.4 MB | provenance and presentation | `dataService` |
-| `test/metadata/maps-test-index.json` | 1,146 layers, 4.2 MB | rendering | `TestMetadataService` |
+| `render/metadata/maps-test-index.json` | 1,146 layers, 4.2 MB | rendering | `TestMetadataService` |
 | `c1Cards` in `src/ui-controller.js:3491` | 129 hand-written cards | navigation | compiled into the bundle |
 
 Field ownership barely overlaps, which is why no store is redundant:
@@ -191,8 +191,8 @@ larger barrier than any directory name.
     (852 MB), `browse` (356 MB), `documents` (167 MB).
   - **do not touch** — `data/database`; `maps.json` and `sources.json` are live
     build and runtime inputs.
-- **`test` / `test2` / `tests`.** `test/` holds 2,066 metadata files plus
-  `test/src`; `tests/` is the Playwright suite; `test2/` is a compatibility
+- **`test` / `test2` / `tests`.** `render/` holds 2,066 metadata files plus
+  `render/src`; `tests/` is the Playwright suite; `test2/` is a compatibility
   redirect. A newcomer will guess wrong.
 - **Tracked build artifacts.** `app/build/` is committed, so `src` edits need
   rebuild-and-commit. A Pages build step would fix it but changes the deploy

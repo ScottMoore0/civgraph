@@ -10,7 +10,7 @@ import { basename, dirname, extname, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
 const ROOT = resolve(process.cwd());
-const METADATA_PATH = resolve(ROOT, 'test/metadata/maps-test.json');
+const METADATA_PATH = resolve(ROOT, 'render/metadata/maps-test.json');
 const ONLY_IDS = new Set(readArgList('--ids'));
 const MAX_INDEX_ITEMS = readNumberArg('--max-items', 20000);
 const metadata = JSON.parse(readFileSync(METADATA_PATH, 'utf8'));
@@ -20,7 +20,7 @@ const layers = (metadata.layers || [])
   .filter((layer) => !ONLY_IDS.size || ONLY_IDS.has(layer.id) || ONLY_IDS.has(layer.sourceMapId));
 let built = 0;
 let skipped = 0;
-const outputRoot = resolve(ROOT, 'test/metadata/feature-indexes');
+const outputRoot = resolve(ROOT, 'render/metadata/feature-indexes');
 if (existsSync(outputRoot)) {
   for (const entry of readdirSync(outputRoot, { withFileTypes: true })) {
     if (!entry.isFile() || !entry.name.endsWith('.json')) continue;

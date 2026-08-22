@@ -31,7 +31,7 @@ absolute impact.
    revertible. That is the point of them.
 3. **Run the item's own verification before the global gate.** The global gate (`npm run check`)
    is slow; the per-item check is fast and catches the thing you actually changed.
-4. **Build artifacts are tracked.** Per project convention, edits under `app/src/` or `test/src/`
+4. **Build artifacts are tracked.** Per project convention, edits under `app/src/` or `render/src/`
    require a rebuild and the rebuilt `app/build/*` committed in the same commit. Items below say
    `REBUILD: yes` where this applies.
 5. **Nothing is deployed without explicit approval.** These items land as commits; publication is
@@ -41,7 +41,7 @@ absolute impact.
 
 ```bash
 npm run check          # full validator suite — before any push
-npm run build          # only when app/src or test/src changed
+npm run build          # only when app/src or render/src changed
 ```
 
 ### Standing rollback
@@ -1101,7 +1101,7 @@ Grouped; each bullet is individually atomic.
 
 ## T3-02 · Production hygiene
 
-- Rename `*-vector-test.pmtiles` → drop `-test`; likewise `test/metadata/*` (#146, #150)
+- Rename `*-vector-test.pmtiles` → drop `-test`; likewise `render/metadata/*` (#146, #150)
 - Remove `leaflet-control-*` and `test2-*` class names from the MapLibre map (#17)
 - Remove the performance dashboard and its "Refresh performance status" button from user-facing
   Map Settings, or move it behind a debug flag (#18, #81)

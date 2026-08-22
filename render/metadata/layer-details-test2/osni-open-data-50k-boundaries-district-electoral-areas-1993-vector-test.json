@@ -1,0 +1,166 @@
+{
+  "id": "osni-open-data-50k-boundaries-district-electoral-areas-1993-vector-test",
+  "sourceMapId": "osni-open-data-50k-boundaries-district-electoral-areas-1993",
+  "name": "District Electoral Areas (1993) — OSNI 50k",
+  "category": "District Electoral Areas",
+  "group": "Elections and Government",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "OSNI"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/render/tiles/generated/osni-open-data-50k-boundaries-district-electoral-areas-1993/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/osni-open-data-50k-boundaries-district-electoral-areas-1993-vector-test.pmtiles",
+  "tilesFallback": "/render/tiles/generated/osni-open-data-50k-boundaries-district-electoral-areas-1993/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/render/tiles/generated/osni-open-data-50k-boundaries-district-electoral-areas-1993/metadata.json",
+  "sourceLayer": "osni_open_data_50k_boundaries_district_electoral_areas_1993",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0228784,
+      -8.1778125
+    ],
+    [
+      55.3129649,
+      -5.4327314
+    ]
+  ],
+  "style": {
+    "color": "#8E44AD",
+    "fillColor": "#8E44AD",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "District Electoral Areas (1993) — OSNI 50k — Open Data NI",
+      "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-district-electoral-areas-1993",
+      "note": "OGL v3.0"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "render/source-cache/vector-intake/osni-open-data-50k-boundaries-district-electoral-areas-1993.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "OSNI"
+  ],
+  "keywords": [
+    "deas",
+    "district",
+    "electoral",
+    "areas",
+    "1993",
+    "osni",
+    "District Electoral Areas (1993) — OSNI 50k",
+    "District Electoral Areas",
+    "Elections and Government",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "DEA",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#8E44AD",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/render/metadata/feature-indexes/osni-open-data-50k-boundaries-district-electoral-areas-1993-vector-test.json",
+  "sourceFile": "render/source-cache/vector-intake/osni-open-data-50k-boundaries-district-electoral-areas-1993.fgb",
+  "sourceDatasetLayer": "OSNI_Open_Data_-_50K_Boundaries_-_District_Electoral_Areas_(1993)",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "DEA",
+    "OBJECTID",
+    "Dataset",
+    "Area"
+  ],
+  "numericProperties": [
+    "Area",
+    "OBJECTID"
+  ],
+  "categoricalProperties": [
+    "DEA",
+    "Dataset"
+  ],
+  "categoricalValues": {
+    "DEA": [
+      "ABBEY",
+      "BALMORAL",
+      "BANN",
+      "BANNSIDE",
+      "BRAID",
+      "BUSHVALE",
+      "CASTLE",
+      "CENTRAL",
+      "CITYSIDE",
+      "COURT",
+      "CUSHER",
+      "DERG",
+      "DROMORE",
+      "GLENELLY",
+      "HOLYWOOD",
+      "KILROOT",
+      "LURGAN",
+      "MACEDON",
+      "MOURNE",
+      "MOYOLA",
+      "OLDPARK",
+      "RURAL",
+      "SPERRIN",
+      "THE FEWS",
+      "TORRENT",
+      "VICTORIA",
+      "ANTRIM LINE",
+      "ANTRIM NORTH WEST",
+      "ANTRIM SOUTH EAST",
+      "ANTRIM TOWN",
+      "ARDS EAST",
+      "ARDS PENINSULA"
+    ],
+    "Dataset": [
+      "Dea_93"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from render/source-cache/vector-intake/osni-open-data-50k-boundaries-district-electoral-areas-1993.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "render/source-cache/vector-intake/osni-open-data-50k-boundaries-district-electoral-areas-1993.fgb",
+    "bytes": 962015,
+    "files": 755,
+    "pbfFiles": 754,
+    "maxTileBytes": 35741
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "render/pmtiles/generated/osni-open-data-50k-boundaries-district-electoral-areas-1993-vector-test.pmtiles",
+    "url": "/render/pmtiles/generated/osni-open-data-50k-boundaries-district-electoral-areas-1993-vector-test.pmtiles",
+    "bytes": 830020,
+    "maxGithubBytes": 99614720,
+    "fallback": "/render/tiles/generated/osni-open-data-50k-boundaries-district-electoral-areas-1993/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/osni-open-data-50k-boundaries-district-electoral-areas-1993-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/osni-open-data-50k-boundaries-district-electoral-areas-1993-vector-test.pmtiles",
+    "localUrl": "/render/pmtiles/generated/osni-open-data-50k-boundaries-district-electoral-areas-1993-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-08-04T22:09:20.884Z"
+  }
+}

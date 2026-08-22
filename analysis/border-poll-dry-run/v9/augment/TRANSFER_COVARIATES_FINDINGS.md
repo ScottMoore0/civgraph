@@ -140,7 +140,7 @@ down precisely:** the pre-2014 local-government *results* **are** digitised (per
 field. The **count-by-count transfer sheets begin in 2014** (that year's ward files jump to
 `Count_Number` up to 15 with signed `Transfers`, e.g. −618.19 eliminations, and gain the derived
 `_bundle.json`/`_aggregates.json` products that only 2014/2018/2019/2023 have). Verified across two
-independent representations — the `test/metadata` snapshot (`hasCountDetail: false`) *and* the live
+independent representations — the `render/metadata` snapshot (`hasCountDetail: false`) *and* the live
 election-viewer data feed — so the transfer detail genuinely was never digitised pre-2014, not merely
 absent from one export. The intended back-extension to 1993 is therefore impossible from what exists;
 the behavioural series rests on **Assembly 1998–2022 (complete)** + **local 2014–2023**. It shows a

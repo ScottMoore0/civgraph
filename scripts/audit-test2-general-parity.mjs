@@ -360,8 +360,8 @@ function normalise(value) {
 }
 
 function extractDataCoverageState() {
-  const plan = JSON.parse(readFileSync('test/metadata/main-site-port-plan.json', 'utf8'));
-  const metadata = JSON.parse(readFileSync('test/metadata/maps-test.json', 'utf8'));
+  const plan = JSON.parse(readFileSync('render/metadata/main-site-port-plan.json', 'utf8'));
+  const metadata = JSON.parse(readFileSync('render/metadata/maps-test.json', 'utf8'));
   const actionableStatuses = new Set(['needsVectorTileConversion', 'needsRasterStrategy', 'needsMapLibreSourceMapping']);
   const actionableRows = (plan.rows || []).filter((row) => actionableStatuses.has(row.conversionStatus));
   const metadataOnlyRows = (plan.rows || []).filter((row) => row.conversionStatus === 'metadataOnly');
@@ -488,7 +488,7 @@ try {
       const app = window.__civgraphTest2.app;
       const adapter = window.__civgraphTest2.mapController;
       const map = adapter.map;
-      const index = await fetch('/test/metadata/feature-indexes/deas-1972-vector-test.json').then((response) => response.json());
+      const index = await fetch('/render/metadata/feature-indexes/deas-1972-vector-test.json').then((response) => response.json());
       const indexed = (index.items || []).find((item) => item.name === 'BELFAST AREA H')
         || (index.items || []).find((item) => /BELFAST AREA/i.test(item.name || ''))
         || (index.items || []).find((item) => item.name && !/Unnamed Feature/i.test(item.name));

@@ -40,7 +40,7 @@ try {
   page.on('request', (request) => {
     const url = request.url();
     if (url.includes('.pmtiles')) requestStats.pmtilesRequests += 1;
-    if (url.includes('/test/tiles/generated/') || url.includes('.pbf')) requestStats.fallbackTileRequests += 1;
+    if (url.includes('/render/tiles/generated/') || url.includes('.pbf')) requestStats.fallbackTileRequests += 1;
   });
   page.on('requestfailed', (request) => {
     const url = request.url();

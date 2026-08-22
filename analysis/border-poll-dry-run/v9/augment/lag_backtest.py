@@ -24,7 +24,7 @@ from collections import defaultdict
 from datetime import date
 from sklearn.linear_model import Ridge
 from sklearn.preprocessing import StandardScaler
-D="/home/user/civgraph/test/metadata/elections-test2"
+D="/home/user/civgraph/render/metadata/elections-test2"
 V="/home/user/civgraph/analysis/border-poll-dry-run/v9"
 def cat(p):
     d={'DUP':'DUP','UUP':'UUP','Sinn Féin':'SF','SDLP':'SDLP','Alliance':'Alliance','Green':'Green','TUV':'TUV'}

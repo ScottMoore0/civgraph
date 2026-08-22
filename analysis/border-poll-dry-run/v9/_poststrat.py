@@ -60,9 +60,9 @@ def turnout_weight(dz_feat):
         cf['con'] = cf['con'].str.upper()
         cf = cf.set_index('con')
         turn = {}
-        for f in glob.glob(f"{REPO}/test/metadata/elections-test2/"
+        for f in glob.glob(f"{REPO}/render/metadata/elections-test2/"
                            "northern-ireland-assembly__*.json") + \
-                 glob.glob(f"{REPO}/test/metadata/elections-test2/"
+                 glob.glob(f"{REPO}/render/metadata/elections-test2/"
                            "northern-ireland-house-of-commons__*.json"):
             try:
                 j = json.load(open(f, encoding='utf-8'))

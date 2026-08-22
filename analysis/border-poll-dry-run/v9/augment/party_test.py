@@ -2,7 +2,7 @@ import json, numpy as np, pandas as pd
 from collections import defaultdict
 from sklearn.linear_model import Ridge
 from sklearn.preprocessing import StandardScaler
-D="test/metadata/elections-test2"
+D="render/metadata/elections-test2"
 V="analysis/border-poll-dry-run/v9"
 # party-category first-pref shares from an election JSON, by constituency
 NATP={'Sinn Féin','SDLP',"Workers' Party",'Independent Nationalist','Aontú'}

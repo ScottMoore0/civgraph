@@ -39,7 +39,7 @@ con_c=defaultdict(float); con_pop=defaultdict(float)
 for pop,comp,aa in sa:
     if aa: con_c[aa]+=pop*comp['C']; con_pop[aa]+=pop
 con_cath={a:con_c[a]/con_pop[a]*100 for a in con_pop}
-d16=json.load(open(f"{REPO}/test/metadata/elections-test2/northern-ireland-referendum__2016-06-23-eu-membership.json"))
+d16=json.load(open(f"{REPO}/render/metadata/elections-test2/northern-ireland-referendum__2016-06-23-eu-membership.json"))
 n2c={v:k for k,v in aaname.items()}; remain={}
 for r in d16['results']:
     rem=r['leadingPct'] if r.get('winnerParty')=='Remain' else 100-r['leadingPct']

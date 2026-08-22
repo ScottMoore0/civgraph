@@ -66,14 +66,14 @@ const wardTimelineTransitionRuntimeOverlays = wardTimelineTransitionSidecarIds.m
 const browseIndexBuilderSource = readFileSync('scripts/build-browse-indexes.mjs', 'utf8');
 const electionDataAuditSource = readFileSync('scripts/audit-test2-election-data.mjs', 'utf8');
 const uiControllerSource = readFileSync('src/ui-controller.js', 'utf8');
-const mapControllerSource = readFileSync('test/src/map-controller.js', 'utf8');
-const labelsSource = readFileSync('test/src/labels.js', 'utf8');
-const featureRepairsSource = readFileSync('test/src/feature-property-repairs.js', 'utf8');
+const mapControllerSource = readFileSync('render/src/map-controller.js', 'utf8');
+const labelsSource = readFileSync('render/src/labels.js', 'utf8');
+const featureRepairsSource = readFileSync('render/src/feature-property-repairs.js', 'utf8');
 const test2Css = readFileSync('app/src/test2.css', 'utf8');
 const mainCss = readFileSync('assets/css/main.css', 'utf8');
 const packageJsonSource = readFileSync('package.json', 'utf8');
-const portPlan = JSON.parse(readFileSync('test/metadata/main-site-port-plan.json', 'utf8'));
-const testMetadata = JSON.parse(readFileSync('test/metadata/maps-test.json', 'utf8'));
+const portPlan = JSON.parse(readFileSync('render/metadata/main-site-port-plan.json', 'utf8'));
+const testMetadata = JSON.parse(readFileSync('render/metadata/maps-test.json', 'utf8'));
 const mapsDb = JSON.parse(readFileSync('data/database/maps.json', 'utf8'));
 const browseMapsIndex = JSON.parse(readFileSync('data/browse/maps.json', 'utf8'));
 const test2BundleVersion = index.match(/\/app\/build\/app\.bundle\.js\?v=([0-9a-f]{12})/)?.[1] || '';
@@ -459,7 +459,7 @@ assert(electionManagerSource.includes('renderLoadingPanel') && electionManagerSo
 assert(electionManagerSource.includes('voteShare') && electionManagerSource.includes('turnout') && electionManagerSource.includes('quota'), '/test2 election manager must expose requested election styling modes');
 assert(packageJsonSource.includes('"audit:test2:elections": "node scripts/audit-test2-election-data.mjs"'), '/test2 election data audit must be runnable as npm run audit:test2:elections');
 assert(packageJsonSource.includes('audit-test2-election-data.mjs --fail-on-blocking'), '/test2 checks must run the election data audit in fail-on-blocking mode');
-assert(electionDataAuditSource.includes('test/metadata/elections-test2.json') && electionDataAuditSource.includes('data/browse/elections.json') && electionDataAuditSource.includes('ireland_election_party_colour_wikipedia_audit.csv'), '/test2 election data audit must cover manifest, Browse entries, and saved Wikipedia colour audit data');
+assert(electionDataAuditSource.includes('render/metadata/elections-test2.json') && electionDataAuditSource.includes('data/browse/elections.json') && electionDataAuditSource.includes('ireland_election_party_colour_wikipedia_audit.csv'), '/test2 election data audit must cover manifest, Browse entries, and saved Wikipedia colour audit data');
 assert(electionDataAuditSource.includes('rowsMissingExpectedTransferData') && electionDataAuditSource.includes('source-record-single-reference'), '/test2 election data audit must report transfer/count gaps and weak source-reference coverage');
 assert(electionManagerSource.includes('renderSeatCircles') && electionManagerSource.includes('new maplibregl.Marker') && electionManagerSource.includes('seatCircleMarkers'), '/test2 election manager must render map-anchored DOM seat-circle markers for ordinary elections');
 assert(electionManagerSource.includes('ensureSeatCircleOverlay') && electionManagerSource.includes('election-seat-circle') && electionManagerSource.includes('seat-dot'), '/test2 seat circles must use main-style DOM marker structure instead of MapLibre circle paint');
@@ -518,7 +518,7 @@ assert(overallPartySource.includes('<table class="election-party-table election-
 assert(overallPartySource.includes('data-election-entity-kind="${safeKind}"') || electionManagerSource.includes('data-election-entity-kind="${safeKind}"'), '/test2 election entity buttons must expose the main data-election-entity-kind contract');
 assert(electionManagerSource.includes('dataset.tableControlsReady') && !electionManagerSource.includes('test2TableControlsReady'), '/test2 election table controls must use the main data-table-controls-ready marker, not a test2-only marker');
 assert(electionManagerSource.includes('ROI_MAIN_PARTY_COLOURS') && electionManagerSource.includes('mainPanePartyColour') && electionManagerSource.includes("'fine gael', '#6699FF'"), '/test2 Dail/election pane colours must route through the Wikipedia-aligned ROI party palette');
-assert(electionManagerSource.includes("ELECTION_MANIFEST_URL = '/test/metadata/elections-test2.json?v=test-021'"), '/test2 election metadata cache key must be bumped when generated election bundle contracts change');
+assert(electionManagerSource.includes("ELECTION_MANIFEST_URL = '/render/metadata/elections-test2.json?v=test-021'"), '/test2 election metadata cache key must be bumped when generated election bundle contracts change');
 assert(electionManagerSource.includes('`${entry.resultUrl}?v=test-021`'), '/test2 election result bundle cache key must be bumped when generated constituency result JSON changes');
 assert(electionManagerSource.includes('election-delta--pos') && electionManagerSource.includes('election-delta--neg') && !electionManagerSource.includes('election-delta--up') && !electionManagerSource.includes('election-delta--down'), '/test2 election pane deltas must use the same pos/neg classes as main');
 const selectedPartyStart = electionManagerSource.indexOf('renderConstituencyPartyTable(candidates = [], result = {})');
@@ -715,21 +715,21 @@ for (const path of [
   'src/election-domain.mjs',
   'src/election-view-model.mjs',
   'src/election-renderer.mjs',
-  'test/src/feature-property-repairs.js',
-  'test/metadata/elections-test2.json',
-  'test/metadata/elections-test2-report.json',
-  'test/metadata/election-anchors-test2'
+  'render/src/feature-property-repairs.js',
+  'render/metadata/elections-test2.json',
+  'render/metadata/elections-test2-report.json',
+  'render/metadata/election-anchors-test2'
 ]) {
   assert(existsSync(path), `${path} is missing`);
 }
 
-if (existsSync('test/metadata/elections-test2.json')) {
-  const electionManifest = JSON.parse(readFileSync('test/metadata/elections-test2.json', 'utf8'));
+if (existsSync('render/metadata/elections-test2.json')) {
+  const electionManifest = JSON.parse(readFileSync('render/metadata/elections-test2.json', 'utf8'));
   assert((electionManifest.elections || []).length > 100, '/test2 election manifest is unexpectedly small');
   assert((electionManifest.totals?.loadable || 0) > 100, '/test2 election manifest has too few loadable entries');
   assert((electionManifest.elections || []).some((entry) => entry.resultUrl && entry.stylingModes?.includes('winner')), '/test2 election manifest must include lazy result URLs and winner styling');
   assert((electionManifest.elections || []).some((entry) => entry.anchorUrl && entry.previousKey), '/test2 election manifest must include anchor sidecars and previous-election links where available');
-  const dail2024Bundle = JSON.parse(readFileSync('test/metadata/elections-test2/dail-eireann__2024-11-29.json', 'utf8'));
+  const dail2024Bundle = JSON.parse(readFileSync('render/metadata/elections-test2/dail-eireann__2024-11-29.json', 'utf8'));
   const dail2024Rows = dail2024Bundle.mainLikePartySummary || [];
   const dail2024ByParty = new Map(dail2024Rows.map((row) => [row.party, row]));
   const assertDail2024Party = (party, expected) => {
@@ -748,7 +748,7 @@ if (existsSync('test/metadata/elections-test2.json')) {
   assert(family2024ReferendumEntry?.sourceMapId === 'dail-2017' && family2024ReferendumEntry?.matchedCount === 39 && family2024ReferendumEntry?.unmatchedCount === 0, '/test2 2024 family referendum must use the pre-2024 Dail geography, not the post-election Wicklow-Wexford geometry');
   assert(care2024ReferendumEntry?.sourceMapId === 'dail-2017' && care2024ReferendumEntry?.matchedCount === 39 && care2024ReferendumEntry?.unmatchedCount === 0, '/test2 2024 care referendum must use the pre-2024 Dail geography, not the post-election Wicklow-Wexford geometry');
   for (const referendumKey of ['ireland-referendum__2024-03-08-the-family', 'ireland-referendum__2024-03-08-care']) {
-    const referendumBundle = JSON.parse(readFileSync(`test/metadata/elections-test2/${referendumKey}.json`, 'utf8'));
+    const referendumBundle = JSON.parse(readFileSync(`render/metadata/elections-test2/${referendumKey}.json`, 'utf8'));
     assert(Number(referendumBundle.mainLikeTotals?.totalPoll || 0) > 0, `/test2 ${referendumKey} must derive overall referendum total poll from electorate and turnout where the source lacks total poll`);
     assert(Number(referendumBundle.mainLikeTotals?.totalElectorate || 0) > 0, `/test2 ${referendumKey} must carry overall referendum electorate totals`);
     assert(Number(referendumBundle.mainLikeTotals?.totalSpoiled || 0) > 0, `/test2 ${referendumKey} must derive overall referendum spoiled votes from total poll and valid votes`);
@@ -762,7 +762,7 @@ if (existsSync('test/metadata/elections-test2.json')) {
     assert(Number(donegalResult?.countInfo?.Spoiled || 0) > 0, `/test2 ${referendumKey} Donegal must derive constituency spoiled votes`);
     assert(Number(donegalResult?.turnoutPct || 0) > 0, `/test2 ${referendumKey} Donegal must carry constituency turnout`);
   }
-  const european2024Bundle = JSON.parse(readFileSync('test/metadata/elections-test2/ireland-european__2024-06-07.json', 'utf8'));
+  const european2024Bundle = JSON.parse(readFileSync('render/metadata/elections-test2/ireland-european__2024-06-07.json', 'utf8'));
   const midlandsNorthWest = (european2024Bundle.results || []).find((result) => result.constituency === 'Midlands North West');
   const electedMidlands = (midlandsNorthWest?.candidates || []).filter((candidate) => candidate.elected);
   const electedMidlandsNames = new Set(electedMidlands.map((candidate) => candidate.name));
@@ -775,8 +775,8 @@ if (existsSync('test/metadata/elections-test2.json')) {
   }
   assert(Number(midlandsNorthWest?.seatsTotal || midlandsNorthWest?.countInfo?.Number_Of_Seats || 0) === 5, '/test2 2024 European Midlands North West must expose five seats');
   assert(electedMidlandsByParty.get('Fine Gael') === 2 && electedMidlandsByParty.get('Fianna F\u00e1il') === 1 && electedMidlandsByParty.get('Independent') === 1 && electedMidlandsByParty.get('Independent Ireland') === 1, '/test2 2024 European Midlands North West elected-party counts must be Fine Gael 2, Fianna Fail 1, Independent 1, Independent Ireland 1');
-  for (const filename of readdirSync('test/metadata/elections-test2').filter((name) => /^ireland-referendum__.*\.json$/.test(name))) {
-    const referendumBundle = JSON.parse(readFileSync(`test/metadata/elections-test2/${filename}`, 'utf8'));
+  for (const filename of readdirSync('render/metadata/elections-test2').filter((name) => /^ireland-referendum__.*\.json$/.test(name))) {
+    const referendumBundle = JSON.parse(readFileSync(`render/metadata/elections-test2/${filename}`, 'utf8'));
     for (const result of referendumBundle.results || []) {
       const constituency = String(result.constituency || '').toLowerCase();
       const matchedName = String(result.matchName || result.featureName || '').toLowerCase();
@@ -788,8 +788,8 @@ if (existsSync('test/metadata/elections-test2.json')) {
     const independent = dail2024IndependentRows.get(party);
     assert(!independent || (row.stood === independent.stood && row.seats === independent.seats && row.votes === independent.votes), `/test2 Dail 2024 ${party} main-like summary must match the independent source-shaped summary`);
   }
-  for (const filename of readdirSync('test/metadata/elections-test2').filter((name) => /^dail-eireann__20\d\d-\d\d-\d\d\.json$/.test(name))) {
-    const bundle = JSON.parse(readFileSync(`test/metadata/elections-test2/${filename}`, 'utf8'));
+  for (const filename of readdirSync('render/metadata/elections-test2').filter((name) => /^dail-eireann__20\d\d-\d\d-\d\d\.json$/.test(name))) {
+    const bundle = JSON.parse(readFileSync(`render/metadata/elections-test2/${filename}`, 'utf8'));
     const partyRows = new Map((bundle.partySummary || []).map((row) => [row.party, row]));
     for (const row of bundle.mainLikePartySummary || []) {
       const sourceRow = partyRows.get(row.party);
@@ -873,15 +873,15 @@ if (existsSync('test/metadata/elections-test2.json')) {
   }
   const forumEntry = (electionManifest.elections || []).find((entry) => entry.body === 'Northern Ireland Forum for Political Dialogue' && entry.date === '1996-05-30');
   assert(forumEntry?.matchedCount === forumEntry?.totalConstituencies, '/test2 1996 Forum election must include the NI-wide regional-list result via a synthetic anchor');
-  const forum1996Bundle = JSON.parse(readFileSync('test/metadata/elections-test2/northern-ireland-forum-for-political-dialogue__1996-05-30.json', 'utf8'));
+  const forum1996Bundle = JSON.parse(readFileSync('render/metadata/elections-test2/northern-ireland-forum-for-political-dialogue__1996-05-30.json', 'utf8'));
   const forumRegionalList = (forum1996Bundle.results || []).find((result) => result.syntheticNonGeographic && result.featureName === 'Regional List');
   assert(forumRegionalList?.matched === true && Array.isArray(forumRegionalList.anchor?.center), '/test2 1996 Forum Regional List must be a clickable synthetic non-geographical result with a map anchor');
   assert(forumRegionalList?.anchor?.method === 'synthetic-northeast-non-geographic', '/test2 1996 Forum Regional List synthetic anchor must stay on the northeast side of the election geography');
-  const stormont1921Bundle = JSON.parse(readFileSync('test/metadata/elections-test2/parliament-of-northern-ireland__1921-05-24.json', 'utf8'));
+  const stormont1921Bundle = JSON.parse(readFileSync('render/metadata/elections-test2/parliament-of-northern-ireland__1921-05-24.json', 'utf8'));
   const queensUniversity = (stormont1921Bundle.results || []).find((result) => result.syntheticNonGeographic && /Queen's University/.test(result.constituency || ''));
   assert(queensUniversity?.matched === true && Array.isArray(queensUniversity.anchor?.center), '/test2 Queen\'s University Stormont rows must be clickable synthetic non-geographical results with map anchors');
   assert(queensUniversity?.anchor?.method === 'synthetic-northeast-non-geographic', '/test2 Queen\'s University synthetic anchor must stay on the northeast side of the election geography');
-  const local1977Bundle = JSON.parse(readFileSync('test/metadata/elections-test2/local-government-local-government-districts__1977-05-18.json', 'utf8'));
+  const local1977Bundle = JSON.parse(readFileSync('render/metadata/elections-test2/local-government-local-government-districts__1977-05-18.json', 'utf8'));
   const strayBelfastAreaA = (local1977Bundle.results || []).find((result) => result.constituency === 'Area-A-corrected');
   const canonicalBelfastAreaA = (local1977Bundle.results || []).find((result) => result.constituency === 'Belfast Area A corrected');
   assert(!strayBelfastAreaA, '/test2 1977 local-government bundle must suppress source-less Area-A-corrected duplicate of Belfast Area A');
@@ -906,8 +906,8 @@ if (existsSync('test/metadata/elections-test2.json')) {
   assert(localEntries.some((entry) => (entry.localBodies || []).length === 1 && entry.body !== 'Local Government Districts'), '/test2 must preserve single-council local by-elections as their own entries');
 }
 
-if (existsSync('test/metadata/elections-test2-report.json')) {
-  const electionReport = JSON.parse(readFileSync('test/metadata/elections-test2-report.json', 'utf8'));
+if (existsSync('render/metadata/elections-test2-report.json')) {
+  const electionReport = JSON.parse(readFileSync('render/metadata/elections-test2-report.json', 'utf8'));
   assert(!electionReport.residualSummary?.['historic-dea-not-in-source'], '/test2 deas-1972 election residuals should be resolved by source-data label repairs');
   assert(!electionReport.residualSummary?.['university-seat-no-polygon'], '/test2 university-seat rows should be represented by synthetic non-geographical anchors, not left as unmatched polygon gaps');
   assert(!electionReport.closureSummary?.byStatus?.['blocked-on-implementation'], '/test2 must not leave feasible implementation-blocked election geography gaps in the generated report');
@@ -915,9 +915,9 @@ if (existsSync('test/metadata/elections-test2-report.json')) {
   assert(electionReport.closureSummary?.feasibleUnmatchedRemaining === 0, '/test2 election unmatched report must classify all remaining gaps as blocked, not silently feasible');
 }
 
-if (existsSync('test/metadata/feature-indexes')) {
-  for (const filename of readdirSync('test/metadata/feature-indexes').filter((name) => name.endsWith('.json'))) {
-    const featureIndex = JSON.parse(readFileSync(`test/metadata/feature-indexes/${filename}`, 'utf8'));
+if (existsSync('render/metadata/feature-indexes')) {
+  for (const filename of readdirSync('render/metadata/feature-indexes').filter((name) => name.endsWith('.json'))) {
+    const featureIndex = JSON.parse(readFileSync(`render/metadata/feature-indexes/${filename}`, 'utf8'));
     const items = featureIndex.items || featureIndex.features || (Array.isArray(featureIndex) ? featureIndex : []);
     const badItem = items.find((item) => !String(item.name || item.label || item.title || '').trim()
       || /unnamed feature/i.test(String(item.name || item.label || item.title || '')));
@@ -962,16 +962,16 @@ function assertPoint2Coverage() {
 }
 
 function assertDailOfficialMetadataCoverage() {
-  if (!existsSync('test/metadata/elections-test2/dail-eireann__2024-11-29.json')) return;
-  const dail2024Bundle = JSON.parse(readFileSync('test/metadata/elections-test2/dail-eireann__2024-11-29.json', 'utf8'));
+  if (!existsSync('render/metadata/elections-test2/dail-eireann__2024-11-29.json')) return;
+  const dail2024Bundle = JSON.parse(readFileSync('render/metadata/elections-test2/dail-eireann__2024-11-29.json', 'utf8'));
   const carlowKilkenny = (dail2024Bundle.results || []).find((result) => /carlow/i.test(result.constituency || '') && /kilkenny/i.test(result.constituency || ''));
   assert(carlowKilkenny?.officialDail?.constituencyId, '/test2 Dail 2024 Carlow-Kilkenny must carry the official constituency ID sidecar field');
   assert(Number(carlowKilkenny?.spoiled) === 563, '/test2 Dail 2024 Carlow-Kilkenny must use official spoiled-ballot metadata from the Dail ZIP');
   assert(Math.abs(Number(carlowKilkenny?.turnoutPct) - 58.21) < 0.02, '/test2 Dail 2024 Carlow-Kilkenny must use official turnout metadata from the Dail ZIP');
   const officialCandidate = (carlowKilkenny?.candidates || []).find((candidate) => candidate.gender && candidate.dailAbbreviation);
   assert(Boolean(officialCandidate), '/test2 Dail 2024 candidate summaries must carry official candidate gender and Dail party abbreviation fields');
-  if (existsSync('test/metadata/elections-test2/dail-eireann__2021-07-08.json')) {
-    const byElection = JSON.parse(readFileSync('test/metadata/elections-test2/dail-eireann__2021-07-08.json', 'utf8'));
+  if (existsSync('render/metadata/elections-test2/dail-eireann__2021-07-08.json')) {
+    const byElection = JSON.parse(readFileSync('render/metadata/elections-test2/dail-eireann__2021-07-08.json', 'utf8'));
     assert((byElection.results || []).some((result) => /dublin bay south/i.test(result.constituency || '') && Number(result.spoiled) === 162), '/test2 must include official Dublin Bay South 2021 by-election spoiled/turnout metadata from the Dail ZIP');
   }
 }
@@ -997,11 +997,11 @@ function countFiles(relativeDir, predicate) {
 }
 
 function assertNiElectionSeatCoverage() {
-  const filenames = readdirSync('test/metadata/elections-test2')
+  const filenames = readdirSync('render/metadata/elections-test2')
     .filter((name) => /^(northern-ireland-assembly|northern-ireland-constitutional-convention|local-government-)/.test(name) && name.endsWith('.json'));
   const mismatches = [];
   for (const filename of filenames) {
-    const bundle = JSON.parse(readFileSync(`test/metadata/elections-test2/${filename}`, 'utf8'));
+    const bundle = JSON.parse(readFileSync(`render/metadata/elections-test2/${filename}`, 'utf8'));
     for (const result of bundle.results || []) {
       const year = Number(bundle.year || String(bundle.date || '').slice(0, 4));
       const seatTotal = Number(result.seatsTotal || result.countInfo?.Number_Of_Seats || 0);
@@ -1018,10 +1018,10 @@ function assertNiElectionSeatCoverage() {
 }
 
 function assertWestminsterGeneralElectionBaselines() {
-  if (!existsSync('test/metadata/elections-test2')) return;
-  const bundles = readdirSync('test/metadata/elections-test2')
+  if (!existsSync('render/metadata/elections-test2')) return;
+  const bundles = readdirSync('render/metadata/elections-test2')
     .filter((name) => /^house-of-commons-of-the-united-kingdom__\d{4}-\d{2}-\d{2}\.json$/.test(name))
-    .map((filename) => JSON.parse(readFileSync(`test/metadata/elections-test2/${filename}`, 'utf8')))
+    .map((filename) => JSON.parse(readFileSync(`render/metadata/elections-test2/${filename}`, 'utf8')))
     .filter((bundle) => bundle.body === 'House of Commons of the United Kingdom'
       && bundle.contestType === 'election'
       && bundle.kind === 'general')
@@ -1055,13 +1055,13 @@ function assertComparableElectionBaselines(electionManifest) {
 }
 
 function assertStvTerminalTransferCoverage() {
-  if (!existsSync('test/metadata/elections-test2')) return;
-  const filenames = readdirSync('test/metadata/elections-test2')
+  if (!existsSync('render/metadata/elections-test2')) return;
+  const filenames = readdirSync('render/metadata/elections-test2')
     .filter((name) => name.endsWith('.json'));
   const surplusTerminalRows = [];
   const excludedTerminalRows = [];
   for (const filename of filenames) {
-    const bundle = JSON.parse(readFileSync(`test/metadata/elections-test2/${filename}`, 'utf8'));
+    const bundle = JSON.parse(readFileSync(`render/metadata/elections-test2/${filename}`, 'utf8'));
     for (const result of bundle.results || []) {
       const votingSystem = String(result.votingSystem || bundle.votingSystem || '').toLowerCase();
       if (!votingSystem.startsWith('stv-')) continue;
@@ -1094,13 +1094,13 @@ function assertStvTerminalTransferCoverage() {
 }
 
 function assertStvSyntheticTerminalTransferCoverage() {
-  if (!existsSync('test/metadata/elections-test2')) return;
-  const filenames = readdirSync('test/metadata/elections-test2')
+  if (!existsSync('render/metadata/elections-test2')) return;
+  const filenames = readdirSync('render/metadata/elections-test2')
     .filter((name) => name.endsWith('.json'));
   const syntheticExcludedRows = [];
   const syntheticSurplusRows = [];
   for (const filename of filenames) {
-    const bundle = JSON.parse(readFileSync(`test/metadata/elections-test2/${filename}`, 'utf8'));
+    const bundle = JSON.parse(readFileSync(`render/metadata/elections-test2/${filename}`, 'utf8'));
     for (const result of bundle.results || []) {
       const votingSystem = String(result.votingSystem || bundle.votingSystem || '').toLowerCase();
       if (!votingSystem.startsWith('stv-')) continue;

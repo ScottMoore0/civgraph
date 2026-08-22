@@ -35,7 +35,7 @@ const emitSourceMaps = process.env.TEST2_SOURCEMAPS === '1' || process.argv.incl
 // hypothetical. Deriving the token from the bytes makes the URL change exactly
 // when the content does, which is what immutable caching requires.
 const metadataIndexVersion = createHash('sha256')
-  .update(readFileSync('test/metadata/maps-test-index.json'))
+  .update(readFileSync('render/metadata/maps-test-index.json'))
   .digest('hex')
   .slice(0, 12);
 

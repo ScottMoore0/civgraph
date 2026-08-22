@@ -9,8 +9,8 @@ import { isValidBounds } from './lib/layer-bounds.mjs';
 import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
 
 const ROOT = resolve(process.cwd());
-const METADATA_PATH = resolve(ROOT, 'test/metadata/maps-test.json');
-const REPORT_PATH = resolve(ROOT, 'test/metadata/tile-budget-report.json');
+const METADATA_PATH = resolve(ROOT, 'render/metadata/maps-test.json');
+const REPORT_PATH = resolve(ROOT, 'render/metadata/tile-budget-report.json');
 const WARN_TILE_BYTES = 1.5 * 1024 * 1024;
 const FAIL_TILE_BYTES = 4 * 1024 * 1024;
 const WARN_LAYER_BYTES = 50 * 1024 * 1024;
@@ -60,15 +60,15 @@ for (const layer of layers) {
 }
 
 const resolvedCountiesLayer = layers.find((layer) => isResolvedRoiCountiesLayer(layer));
-const invalidCountiesDir = resolve(ROOT, 'test/tiles/generated/roi-counties-2011');
+const invalidCountiesDir = resolve(ROOT, 'render/tiles/generated/roi-counties-2011');
 if (existsSync(invalidCountiesDir) && !resolvedCountiesLayer) {
-  errors.push('test/tiles/generated/roi-counties-2011 must be removed or quarantined outside the active generated tile path');
+  errors.push('render/tiles/generated/roi-counties-2011 must be removed or quarantined outside the active generated tile path');
 } else if (existsSync(invalidCountiesDir)) {
-  warnings.push('test/tiles/generated/roi-counties-2011 exists as a local generated fallback for the resolved PMTiles/CDN counties layer');
+  warnings.push('render/tiles/generated/roi-counties-2011 exists as a local generated fallback for the resolved PMTiles/CDN counties layer');
 }
-const quarantinePath = resolve(ROOT, 'test/metadata/quarantine/roi-counties-2011.json');
+const quarantinePath = resolve(ROOT, 'render/metadata/quarantine/roi-counties-2011.json');
 if (!resolvedCountiesLayer && !existsSync(quarantinePath)) {
-  errors.push('test/metadata/quarantine/roi-counties-2011.json must exist while roi-counties-2011 remains excluded');
+  errors.push('render/metadata/quarantine/roi-counties-2011.json must exist while roi-counties-2011 remains excluded');
 }
 for (const layer of layers) {
   if (!resolvedCountiesLayer && (layer.id.includes('roi-counties-2011') || layer.sourceMapId === 'roi-counties-2011')) {

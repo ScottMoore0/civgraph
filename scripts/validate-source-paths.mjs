@@ -2,9 +2,9 @@
 /**
  * A layer's sourceFile must point at the live intake cache, not a superseded one.
  *
- * WHY. Sources are staged under test/source-cache/, which is gitignored and periodically
+ * WHY. Sources are staged under render/source-cache/, which is gitignored and periodically
  * cleaned. When a delivery is unpacked into a dated directory of its own -- for example
- * test/source-cache/idb-20260609/ -- the layers built from it keep that path forever,
+ * render/source-cache/idb-20260609/ -- the layers built from it keep that path forever,
  * and the path stops resolving the moment the directory is removed.
  *
  * The failure is quiet. build-test-pmtiles reports the layer as "missing-source" and
@@ -26,8 +26,8 @@ import { readFileSync, existsSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const ROOT = resolve(process.cwd());
-const LIVE_CACHE = 'test/source-cache/vector-intake/';
-const DEFAULT_METADATA = ['test/metadata/maps-test.json', 'test/metadata/maps-test-index.json'];
+const LIVE_CACHE = 'render/source-cache/vector-intake/';
+const DEFAULT_METADATA = ['render/metadata/maps-test.json', 'render/metadata/maps-test-index.json'];
 
 function readPathArgs(flag) {
   const values = [];
@@ -51,7 +51,7 @@ for (const rel of METADATA) {
     checked += 1;
     if (src.startsWith('http://') || src.startsWith('https://')) continue;
     if (src.startsWith(LIVE_CACHE)) continue;
-    if (!src.startsWith('test/source-cache/')) continue; // some layers legitimately source elsewhere
+    if (!src.startsWith('render/source-cache/')) continue; // some layers legitimately source elsewhere
     problems.push(`${rel}: ${layer.id} -> ${src}`);
   }
 }

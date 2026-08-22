@@ -63,7 +63,7 @@ What matters specifically for contributing:
 modules, so a browser-imported module cannot be moved into `scripts/` without
 breaking at runtime.
 
-`app/build/` is committed. If you change anything under `test/src/`, rebuild and
+`app/build/` is committed. If you change anything under `render/src/`, rebuild and
 commit the build output with it.
 
 ### The catalogue is three stores
@@ -74,11 +74,11 @@ has repeatedly produced convincing but false "this layer is broken" diagnoses.
 | Store | Owns |
 |---|---|
 | `data/database/maps.json` | provenance — licence, attribution, downloads |
-| `test/metadata/maps-test.json` | rendering — tiles, zoom, styling, labels |
+| `render/metadata/maps-test.json` | rendering — tiles, zoom, styling, labels |
 | `c1Cards` in `src/ui-controller.js` | navigation — what a user can click |
 
 They are joined by a bare string id, with a `-vector-test` suffix on the render
-side. `test/metadata/maps-test-index.json` is **generated** from
+side. `render/metadata/maps-test-index.json` is **generated** from
 `maps-test.json` — edit the source, then run
 `node scripts/build-test2-metadata-shards.mjs`.
 

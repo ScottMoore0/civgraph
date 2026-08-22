@@ -1,0 +1,158 @@
+{
+  "id": "tailte-airports-vector-test",
+  "sourceMapId": "tailte-airports",
+  "name": "Airports (Tailte Éireann)",
+  "category": "Transport",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Tailte Éireann"
+  ],
+  "description": "Airports across the Republic of Ireland (21 features), from Tailte Éireann / Ordnance Survey Ireland open data. Airports - National 250k Map Of Ireland Area &lt; 0.4 km² Military, commercial and leisure airfields (Reference: GISCO Airport database) This dataset is provided by Tailte Éireann",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/render/tiles/generated/tailte-airports/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-airports-vector-test.pmtiles",
+  "tilesFallback": "/render/tiles/generated/tailte-airports/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/render/tiles/generated/tailte-airports/metadata.json",
+  "sourceLayer": "tailte_airports",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.6761735,
+      -10.013349
+    ],
+    [
+      54.22717,
+      -6.079651
+    ]
+  ],
+  "style": {
+    "color": "#C1440E",
+    "fillColor": "#C1440E",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Airports — Tailte Éireann (data.gov.ie)",
+      "url": "https://data.gov.ie/dataset/airports-national-250k-map-of-ireland",
+      "note": "Creative Commons Attribution 4.0"
+    },
+    {
+      "label": "Airports — GeoJSON download",
+      "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/d9caefb25af842f4a583c65ecd70cf1a/geojson?layers=0",
+      "note": ""
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "render/source-cache/vector-intake/tailte-airports.fgb"
+    },
+    {
+      "label": "GeoJSON",
+      "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/d9caefb25af842f4a583c65ecd70cf1a/geojson?layers=0"
+    }
+  ],
+  "sourceCredits": [
+    "Tailte Éireann"
+  ],
+  "keywords": [
+    "tailte éireann",
+    "osi",
+    "ireland",
+    "republic of ireland",
+    "airports",
+    "Airports (Tailte Éireann)",
+    "Transport",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "NAMN1",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#C1440E",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/render/metadata/feature-indexes/tailte-airports-vector-test.json",
+  "sourceFile": "render/source-cache/vector-intake/tailte-airports.fgb",
+  "sourceDatasetLayer": "_t",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "NAMN1",
+    "OBJECTID",
+    "FCsubtype"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "FCsubtype"
+  ],
+  "categoricalProperties": [
+    "NAMN1"
+  ],
+  "categoricalValues": {
+    "NAMN1": [
+      "Ballyboy",
+      "Bantry",
+      "Birr",
+      "Erinagh",
+      "Inisheer",
+      "Kilkenny",
+      "Kilrush",
+      "Moyne",
+      "Trim",
+      "Weston",
+      "Abbeyfeale",
+      "Abbeyleix",
+      "Abbeyshrule",
+      "Belmullet",
+      "Clonbullogue",
+      "Connemara",
+      "Hacketstown",
+      "Inishmaan",
+      "Inishmore",
+      "Newcastle",
+      "Rathcoole"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from render/source-cache/vector-intake/tailte-airports.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "render/source-cache/vector-intake/tailte-airports.fgb",
+    "bytes": 17726,
+    "files": 100,
+    "pbfFiles": 99,
+    "maxTileBytes": 790
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "render/pmtiles/generated/tailte-airports-vector-test.pmtiles",
+    "url": "/render/pmtiles/generated/tailte-airports-vector-test.pmtiles",
+    "bytes": 15730,
+    "maxGithubBytes": 99614720,
+    "fallback": "/render/tiles/generated/tailte-airports/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-airports-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/tailte-airports-vector-test.pmtiles",
+    "localUrl": "/render/pmtiles/generated/tailte-airports-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-08-04T22:09:20.884Z"
+  }
+}

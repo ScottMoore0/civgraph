@@ -4,7 +4,7 @@ The review artifacts in this directory were generated 2026-06-24…06-27. A larg
 amount of publishing happened **after** those snapshots, but the review counts were
 never decremented, so they overstate what's outstanding. This file reconciles every
 backlog against what is actually published in `data/database/maps.json` +
-`test/metadata/maps-test.json` today, using git evidence (not slug-matching, which
+`render/metadata/maps-test.json` today, using git evidence (not slug-matching, which
 fails because publishing renamed raw source slugs to clean layer ids).
 
 ## Evidence: what was actually published

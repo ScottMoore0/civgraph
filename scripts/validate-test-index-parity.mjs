@@ -3,7 +3,7 @@
  * The compact layer index must contain exactly the layers the full metadata does.
  *
  * WHY. On 2026-08-04 two new layers and eight alias parts were added to
- * test/metadata/maps-test.json, but test/metadata/maps-test-index.json -- which the app
+ * render/metadata/maps-test.json, but render/metadata/maps-test-index.json -- which the app
  * actually reads -- was never regenerated. npm run check passed. The site shipped with
  * eds-roi-1931 absent from the catalogue entirely and eds-roi-1936 unable to resolve its
  * parts, which the collaborator reported as "loading 1936 loads the 1941 map and 1931
@@ -15,8 +15,8 @@
  */
 import { existsSync, readFileSync } from 'node:fs';
 
-const FULL = 'test/metadata/maps-test.json';
-const INDEX = 'test/metadata/maps-test-index.json';
+const FULL = 'render/metadata/maps-test.json';
+const INDEX = 'render/metadata/maps-test-index.json';
 
 for (const path of [FULL, INDEX]) {
   if (!existsSync(path)) {

@@ -198,7 +198,7 @@ as a silent fallback — this check is what will catch the next transposed filen
 
 ### P1-2 · Add the outstanding sources to the intake manifest
 
-Add entries to `test/source-cache/vector-intake/manifest.json` for the 21 outstanding
+Add entries to `render/source-cache/vector-intake/manifest.json` for the 21 outstanding
 `Civgraph/EDs` files. **Preserve Phelim's filenames in the manifest** and record the
 canonical rename separately, so a future diff against his delivery is possible. The
 31 July ingest renamed `Wards_DEDs_Leinster_1963.fgb` → `eds-leinster-1963.fgb` with no

@@ -4,14 +4,14 @@ import { resolve } from 'node:path';
 import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
 
 const ROOT = resolve(process.cwd());
-const METADATA_PATH = resolve(ROOT, 'test/metadata/maps-test-index.json');
-const MANIFEST_PATH = resolve(ROOT, 'test/metadata/cdn-upload-manifest.json');
-const REPORT_PATH = resolve(ROOT, 'test/metadata/test2-cdn-validation-report.json');
+const METADATA_PATH = resolve(ROOT, 'render/metadata/maps-test-index.json');
+const MANIFEST_PATH = resolve(ROOT, 'render/metadata/cdn-upload-manifest.json');
+const REPORT_PATH = resolve(ROOT, 'render/metadata/test2-cdn-validation-report.json');
 const NETWORK = process.argv.includes('--network') || process.env.TEST2_CDN_VALIDATE === '1';
 const MAX_NETWORK_CHECKS = Number(process.env.TEST2_CDN_MAX_CHECKS || 24);
 
 if (!existsSync(METADATA_PATH)) {
-  console.error('test/metadata/maps-test-index.json is missing; run npm run build:test2:metadata');
+  console.error('render/metadata/maps-test-index.json is missing; run npm run build:test2:metadata');
   process.exit(1);
 }
 
@@ -40,12 +40,12 @@ for (const layer of layers) {
     errors.push(`${layer.id}: PMTiles tileUrl is not a promoted data.civgraph.net PMTiles URL`);
   }
   uniqueUrls.set(url, layer.id);
-  const localPath = normalize(layer.tilePackage?.localPath || `test/pmtiles/generated/${layer.sourceMapId || layer.id}.pmtiles`);
+  const localPath = normalize(layer.tilePackage?.localPath || `render/pmtiles/generated/${layer.sourceMapId || layer.id}.pmtiles`);
   const represented = manifestAssets.has(`layer:${layer.id}`)
     || manifestAssets.has(`url:${url}`)
     || manifestAssets.has(`local:${localPath}`);
   if (manifest && !represented) warnings.push(`${layer.id}: PMTiles URL is not directly represented in cdn-upload-manifest.json`);
-  if (layer.tilesFallback?.startsWith('/test/tiles/')) {
+  if (layer.tilesFallback?.startsWith('/render/tiles/')) {
     notes.push(`${layer.id}: directory MVT fallback retained for development/recovery`);
   }
   if (layer.tilePackage?.serving && layer.tilePackage.serving !== 'cdn') {

@@ -11,8 +11,8 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 
 const MAIN_METADATA_PATH = 'data/database/maps.json';
-const TEST_METADATA_PATH = 'test/metadata/maps-test.json';
-const OUTPUT_PATH = 'test/metadata/main-site-port-plan.json';
+const TEST_METADATA_PATH = 'render/metadata/maps-test.json';
+const OUTPUT_PATH = 'render/metadata/main-site-port-plan.json';
 const MANUAL_ALIAS_TARGETS = new Map([
   // The main catalogue still exposes the older NI-only civil-parishes variant.
   // /test2 intentionally loads the unified civil-parishes PMTiles layer for
@@ -47,7 +47,7 @@ const payload = {
   rows
 };
 
-mkdirSync('test/metadata', { recursive: true });
+mkdirSync('render/metadata', { recursive: true });
 writeFileSync(OUTPUT_PATH, `${JSON.stringify(payload, null, 2)}\n`);
 console.log(`Wrote ${OUTPUT_PATH}`);
 console.log(`Rows: ${rows.length}`);

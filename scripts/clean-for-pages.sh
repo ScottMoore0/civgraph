@@ -19,9 +19,9 @@ remove_path() {
 # /test vector tile payloads are served from R2/CDN as PMTiles in production.
 # Directory-MVT pyramids are local build/fallback artifacts and exceed the
 # Pages 20,000-file deployment cap.
-remove_path "test/tiles/generated"
-remove_path "test/tiles/civil-parishes-v3"
-remove_path "test/pmtiles/generated"
+remove_path "render/tiles/generated"
+remove_path "render/tiles/civil-parishes-v3"
+remove_path "render/pmtiles/generated"
 
 # Dependencies are needed for the build command, not as static site assets.
 # Remove them in Pages/CI builds so a root-output deployment cannot count them.
@@ -63,7 +63,7 @@ fi
 # in Git when curated, but not part of the static runtime.
 remove_path "data/provider-mirror-audit"
 
-# Legacy/source election JSON is transformed into /test/metadata/elections-test2
+# Legacy/source election JSON is transformed into /render/metadata/elections-test2
 # bundles during the build. The browser no longer fetches these raw source
 # records directly, and deploying them costs several thousand Pages files.
 remove_path "election-viewer-package/data/elections"

@@ -54,7 +54,7 @@
 
   <!-- Modulepreload — start fetching the entry bundle before parser reaches
        the <script type=module> tag at the end of <body>. -->
-  <link rel="modulepreload" href="/app/build/app.bundle.js?v=f0b882659f46" fetchpriority="high">
+  <link rel="modulepreload" href="/app/build/app.bundle.js?v=a3d1fb6f349b" fetchpriority="high">
   <style>
     @font-face {
       font-family: 'Inter';
@@ -89,8 +89,8 @@
   <!-- Deferred CSS: remaining ~186 KB (catalogue cards, modals, charts, …)
        loaded async via media=print + onload swap so it doesn't block first
        paint. Browsers without JS fall back via <noscript>. -->
-    <link rel="stylesheet" href="/build/main.css?v=423cc4630271" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="/build/main.css?v=423cc4630271"></noscript>
+    <link rel="stylesheet" href="/build/main.css?v=93e5a5e135de" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="/build/main.css?v=93e5a5e135de"></noscript>
   <link rel="stylesheet" href="/app/build/app.bundle.css?v=0922c1ff3605">
 
   <!-- Election Viewer & Animation CSS (deferred — not needed for first paint) -->
@@ -729,7 +729,7 @@
        and animation code are loaded lazily by the /app module bundle. -->
 
   <!-- Application (bundled + minified) -->
-  <script type="module" src="/app/build/app.bundle.js?v=f0b882659f46"></script>
+  <script type="module" src="/app/build/app.bundle.js?v=a3d1fb6f349b"></script>
 
   <!-- Service worker — repeat-visit cache + offline tolerance. Registered
        after window.load so it doesn't contend with critical resources.

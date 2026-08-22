@@ -6,7 +6,7 @@ NOTE: pre-2014 local results ARE digitised but carry first-preferences only (Cou
 Transfers); count-by-count transfer detail exists only from 2014 locals + 1998 Assembly onward.
 So the effective transfer coverage is Assembly 1998-2022 + local 2014-2023, not a true 1993 start."""
 import json,glob,os,collections,numpy as np,pandas as pd
-BASE='test/metadata/elections-test2'; V="analysis/border-poll-dry-run/v9"
+BASE='render/metadata/elections-test2'; V="analysis/border-poll-dry-run/v9"
 def bloc(p):
     p=(p or '').lower()
     if any(k in p for k in['dup','democratic unionist','uup','ulster unionist','progressive unionist','traditional unionist','uk unionist','ukup','independent unionist','united unionist','vanguard','ulster democ']):return 'U'

@@ -21,9 +21,9 @@ import { assertKnownFlags } from './lib/safe-artefact-write.mjs';
 assertKnownFlags([]);
 
 const ROOT = resolve(process.cwd());
-const METADATA_PATH = resolve(ROOT, 'test/metadata/maps-test.json');
-const OUTPUT_PATH = resolve(ROOT, 'test/metadata/cdn-upload-manifest.json');
-const RANGE_REPORT_PATH = resolve(ROOT, 'test/metadata/cdn-range-report.json');
+const METADATA_PATH = resolve(ROOT, 'render/metadata/maps-test.json');
+const OUTPUT_PATH = resolve(ROOT, 'render/metadata/cdn-upload-manifest.json');
+const RANGE_REPORT_PATH = resolve(ROOT, 'render/metadata/cdn-range-report.json');
 const CDN_BASE = process.env.TEST_CDN_BASE || 'https://data.civgraph.net/data/maps/test';
 const R2_PREFIX = process.env.TEST_R2_PREFIX || 'data/maps/test';
 

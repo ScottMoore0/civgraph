@@ -60,7 +60,7 @@
   - permanent prevention action
   - verification evidence
 - After each recurrence, add or tighten at least one guardrail:
-  - automated check/test/lint rule, or
+  - automated check/render/lint rule, or
   - central utility abstraction that removes duplicated fragile logic.
 - Do not close recurring issues until the preventative guardrail is implemented and verified.
 

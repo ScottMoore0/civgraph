@@ -5,7 +5,7 @@ The existing results_frame.csv is BLOC-level only (nat/uni/oth). This builds the
 party-level equivalent from the same source, so a per-party model can be trained
 and validated on the same folds.
 
-Source : test/metadata/elections-test2/*.json  (9 NI contests)
+Source : render/metadata/elections-test2/*.json  (9 NI contests)
            assembly    2016, 2017, 2022     18 constituencies
            westminster 2017, 2019, 2024     18 constituencies
            local       2014, 2019, 2023     80 DEAs

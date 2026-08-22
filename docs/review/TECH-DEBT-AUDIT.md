@@ -59,7 +59,7 @@ is the useful output, not the arithmetic.
 | 12 | Triple-named binding tolerance in `_auth.js` | Code | 1 | 2 | 1 | **15** |
 | 13 | 450 scripts, 100 npm entries | Code | 4 | 2 | 4 | **12** |
 | 14 | 1,196 thumbnails deployed unnecessarily | Infrastructure | 1 | 2 | 2 | **12** |
-| 15 | `test/` `test2/` `tests/` naming | Architecture | 4 | 3 | 4 | **14** |
+| 15 | `render/` `test2/` `tests/` naming | Architecture | 4 | 3 | 4 | **14** |
 | 16 | 371 baselined parity findings | Test | 2 | 3 | 4 | **10** |
 | 17 | Timeline rebuild race | Code | 2 | 3 | 4 | **10** |
 | 18 | Quarantine intake bound to nothing | Infrastructure | 1 | 1 | 1 | **10** |
@@ -193,7 +193,7 @@ making sense of this — a hundred npm scripts with no grouping is a real barrie
 A `scripts/README.md` mapping them to purposes would cost an afternoon and help
 more than most items above it.
 
-**`test/`, `test2/`, `tests/` (15).** Already fully de-risked: runbook written,
+**`render/`, `test2/`, `tests/` (15).** Already fully de-risked: runbook written,
 461 references inventoried and ratcheted, CI now proven green. This is *ready*,
 not blocked — it scores mid-table only because the effort is genuinely large.
 

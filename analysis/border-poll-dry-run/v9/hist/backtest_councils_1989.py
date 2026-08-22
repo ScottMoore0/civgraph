@@ -41,7 +41,7 @@ def bloc(party):
 files={1989:'local-government-local-government-districts__1989-05-17.json',
        1993:'local-government-local-government-districts__1993-05-19.json',
        1997:'local-government-local-government-districts__1997-05-21.json'}
-BASE='test/metadata/elections-test2'
+BASE='render/metadata/elections-test2'
 rows=[]
 for yr,fn in files.items():
     p=os.path.join(BASE,fn)

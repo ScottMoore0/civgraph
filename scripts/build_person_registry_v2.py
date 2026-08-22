@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build data/elections/persons/person_registry.json for the CURRENT election data.
 
-WHY A V2. Persons have no identifier in test/metadata/elections-test2. The browse
+WHY A V2. Persons have no identifier in render/metadata/elections-test2. The browse
 builder keys them `personId || name:<slugified name>`, no candidate carries a personId,
 so the key is the NAME -- and every name cleanup silently creates a new person and
 orphans the old. "A Cecil Walker" became "Cecil Walker" and took 4,348 person records
@@ -139,7 +139,7 @@ def main():
         else:
             pid, disp = next_id, names[0]
             next_id += 1
-            prov, src = True, 'derived from candidate ids in test/metadata/elections-test2'
+            prov, src = True, 'derived from candidate ids in render/metadata/elections-test2'
         yrs = [r['year'] for r in v if r['year']]
         e = {'id': f'p{pid}', 'personId': pid, 'displayName': disp,
              'aliases': names, 'matchKeys': sorted(mks),

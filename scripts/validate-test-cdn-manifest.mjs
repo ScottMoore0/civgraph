@@ -8,12 +8,12 @@ import { resolve } from 'node:path';
 import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
 
 const ROOT = resolve(process.cwd());
-const METADATA_PATH = resolve(ROOT, 'test/metadata/maps-test.json');
-const MANIFEST_PATH = resolve(ROOT, 'test/metadata/cdn-upload-manifest.json');
-const QUARANTINE_PATH = resolve(ROOT, 'test/metadata/quarantine/roi-counties-2011.json');
-const REPORT_PATH = resolve(ROOT, 'test/metadata/cdn-manifest-validation-report.json');
-const RANGE_REPORT_PATH = resolve(ROOT, 'test/metadata/cdn-range-report.json');
-const MAP_CONTROLLER_PATH = resolve(ROOT, 'test/src/map-controller.js');
+const METADATA_PATH = resolve(ROOT, 'render/metadata/maps-test.json');
+const MANIFEST_PATH = resolve(ROOT, 'render/metadata/cdn-upload-manifest.json');
+const QUARANTINE_PATH = resolve(ROOT, 'render/metadata/quarantine/roi-counties-2011.json');
+const REPORT_PATH = resolve(ROOT, 'render/metadata/cdn-manifest-validation-report.json');
+const RANGE_REPORT_PATH = resolve(ROOT, 'render/metadata/cdn-range-report.json');
+const MAP_CONTROLLER_PATH = resolve(ROOT, 'render/src/map-controller.js');
 
 const metadata = JSON.parse(readFileSync(METADATA_PATH, 'utf8'));
 const manifest = existsSync(MANIFEST_PATH) ? JSON.parse(readFileSync(MANIFEST_PATH, 'utf8')) : null;
@@ -24,7 +24,7 @@ const notes = [];
 const resolvedCountiesLayer = (metadata.layers || []).find((layer) => isResolvedRoiCountiesLayer(layer));
 
 if (!manifest) {
-  errors.push('test/metadata/cdn-upload-manifest.json is missing; run npm run build:test:cdn-manifest');
+  errors.push('render/metadata/cdn-upload-manifest.json is missing; run npm run build:test:cdn-manifest');
 } else {
   const pmtilesLayers = (metadata.layers || []).filter((layer) => layer.sourceType === 'pmtiles' && !layer.aliasOf);
   const assets = (manifest.assets || []).filter((asset) => asset.kind === 'pmtiles');
@@ -33,7 +33,7 @@ if (!manifest) {
   const verifiedByLayer = new Map((rangeReport?.results || []).map((item) => [item.layerId, item]));
   const activeAliasLocalArchives = new Set((metadata.layers || [])
     .filter((layer) => layer.aliasOf && layer.sourceMapId)
-    .map((layer) => normalize(`test/pmtiles/generated/${layer.sourceMapId}-vector-test.pmtiles`)));
+    .map((layer) => normalize(`render/pmtiles/generated/${layer.sourceMapId}-vector-test.pmtiles`)));
   const localOnlyFallbacks = [];
 
   for (const layer of pmtilesLayers) {
@@ -45,11 +45,11 @@ if (!manifest) {
     if (!asset.targetKey?.startsWith('data/maps/test/')) errors.push(`${layer.id}: R2 key must live under data/maps/test/`);
     if (!asset.targetKey?.endsWith('.pmtiles')) errors.push(`${layer.id}: R2 key must end in .pmtiles`);
     if (!asset.cdnUrl?.startsWith('https://data.civgraph.net/data/maps/test/')) errors.push(`${layer.id}: CDN URL must use data.civgraph.net/data/maps/test/`);
-    if (!asset.localPath?.startsWith('test/pmtiles/generated/')) errors.push(`${layer.id}: local PMTiles path must live under test/pmtiles/generated/`);
+    if (!asset.localPath?.startsWith('render/pmtiles/generated/')) errors.push(`${layer.id}: local PMTiles path must live under render/pmtiles/generated/`);
     if (!asset.bytes || asset.bytes <= 0) errors.push(`${layer.id}: CDN manifest asset must record non-zero bytes`);
-    if (layer.tileUrl?.startsWith('/test/pmtiles/')) warnings.push(`${layer.id}: still points at repo-local PMTiles URL`);
+    if (layer.tileUrl?.startsWith('/render/pmtiles/')) warnings.push(`${layer.id}: still points at repo-local PMTiles URL`);
     if (layer.tileUrl?.startsWith('https://') && layer.tileUrl !== asset.cdnUrl) errors.push(`${layer.id}: tileUrl does not match manifest CDN URL`);
-    if (layer.tileUrl?.startsWith('https://') && layer.tilesFallback?.startsWith('/test/tiles/')) {
+    if (layer.tileUrl?.startsWith('https://') && layer.tilesFallback?.startsWith('/render/tiles/')) {
       localOnlyFallbacks.push(layer.id);
     }
     if (!layer.tilePackage?.byteRangeVerifiedAt) errors.push(`${layer.id}: missing tilePackage.byteRangeVerifiedAt`);
@@ -58,7 +58,7 @@ if (!manifest) {
   }
 
   if (!rangeReport) {
-    errors.push('test/metadata/cdn-range-report.json is missing; run npm run verify:test:pmtiles-cdn');
+    errors.push('render/metadata/cdn-range-report.json is missing; run npm run verify:test:pmtiles-cdn');
   } else {
     const verifiedActiveLayers = pmtilesLayers.filter((layer) => verifiedByLayer.get(layer.id)?.ok).length;
     if (verifiedActiveLayers !== pmtilesLayers.length) {
@@ -87,7 +87,7 @@ if (!manifest) {
 }
 
 if (!resolvedCountiesLayer && !existsSync(QUARANTINE_PATH)) {
-  errors.push('test/metadata/quarantine/roi-counties-2011.json is missing');
+  errors.push('render/metadata/quarantine/roi-counties-2011.json is missing');
 } else if (!resolvedCountiesLayer) {
   const quarantine = JSON.parse(readFileSync(QUARANTINE_PATH, 'utf8'));
   if (quarantine.sourceMapId !== 'roi-counties-2011') errors.push('roi-counties-2011 quarantine record has wrong sourceMapId');
@@ -133,11 +133,11 @@ if (errors.length) {
 console.log('\nPASS: /test CDN manifest and quarantine records are valid.');
 
 function listLocalPmtiles() {
-  const dir = resolve(ROOT, 'test/pmtiles/generated');
+  const dir = resolve(ROOT, 'render/pmtiles/generated');
   if (!existsSync(dir)) return [];
   return readdirSync(dir)
     .filter((name) => name.endsWith('.pmtiles'))
-    .map((name) => `test/pmtiles/generated/${name}`)
+    .map((name) => `render/pmtiles/generated/${name}`)
     .filter((path) => statSync(resolve(ROOT, path)).isFile());
 }
 

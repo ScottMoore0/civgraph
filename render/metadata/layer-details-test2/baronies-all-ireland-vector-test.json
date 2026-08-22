@@ -1,0 +1,165 @@
+{
+  "id": "baronies-all-ireland-vector-test",
+  "sourceMapId": "baronies-all-ireland",
+  "name": "Baronies",
+  "category": "Baronies",
+  "group": "History",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "OSM",
+    "OSNI",
+    "Tailte Éireann"
+  ],
+  "description": "Ireland",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/render/tiles/generated/baronies-all-ireland/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/render/tiles/generated/baronies-all-ireland/metadata.json",
+  "sourceLayer": "baronies_all_ireland",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.4199132,
+      -10.6629709
+    ],
+    [
+      55.4464441,
+      -5.4268158
+    ]
+  ],
+  "style": {
+    "color": "#6475A9",
+    "fillColor": "#6475A9",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "OSNI Largescale Baronies — FlatGeobuf download",
+      "url": "https://data.civgraph.net/data/maps/baronies-parishes/OSNI_Baronies_Largescale.fgb",
+      "note": "OSNI Baronies and Parishes maps obtained via FOI request to Mapping.Helpdesk@finance-ni.gov.uk, who commented as follows: \"The Parish and Baronies dataset was created in 2007 based on the existing Townlands dataset combined with NISRA data for a specific project. While it was originally envisaged that the dataset would be released as an additional OSNI product for public supply, it proved difficult to verify the exact townlands making up parishes due to conflicts within source material. The data was developed to a state that was fit-for-purpose at the time, however, OSNI was unable to fully QA the product and so was not considered to be at a sufficient standard to add to our product catalogue. As customers enquired after the dataset, as a goodwill gesture, we agreed to share it on request, with the understanding that it is not an official product and so we could not stand over its accuracy or completeness. For the same reason, there is no documentation or analysis of the data to support it. Therefore, the only additional information we can provide you with is what we have observed from our own review of the data: there are topographical errors, such as sliver polygons, missing attribution and additional fields that could be cleansed out if desired.\""
+    },
+    {
+      "label": "Baronies - National Statutory Boundaries - 2019 - Generalised 20m (Tailte Éireann)",
+      "url": "https://data-osi.opendata.arcgis.com/datasets/osi::baronies-national-statutory-boundaries-2019-generalised-20m/about",
+      "note": "Republic of Ireland baronies. Creative Commons Attribution 4.0."
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "render/source-cache/vector-intake/baronies-all-ireland.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "OSM",
+    "OSNI",
+    "Tailte Éireann"
+  ],
+  "keywords": [
+    "barony",
+    "baronies",
+    "ireland",
+    "all ireland",
+    "historic",
+    "administrative",
+    "Baronies",
+    "History",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "Name",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#6475A9",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/render/metadata/feature-indexes/baronies-all-ireland-vector-test.json",
+  "sourceFile": "render/source-cache/vector-intake/baronies-all-ireland.fgb",
+  "sourceDatasetLayer": "baronies-all-ireland",
+  "popupProperties": [
+    "Name"
+  ],
+  "numericProperties": [],
+  "categoricalProperties": [
+    "Name"
+  ],
+  "categoricalValues": {
+    "Name": [
+      "ARKLOW",
+      "BALLYBOY",
+      "BANTRY",
+      "BARGY",
+      "BRAWNY",
+      "CALLAN",
+      "CARBURY",
+      "CARLOW",
+      "CLANE",
+      "CLONLISK",
+      "CONNELL",
+      "COOLOCK",
+      "CRANNAGH",
+      "DUNBOYNE",
+      "EGLISH",
+      "FORTH",
+      "GALMOY",
+      "GEASHILL",
+      "GOREY",
+      "GOWRAN",
+      "IDA",
+      "IKERRIN",
+      "IVERK",
+      "KELLS",
+      "RATHDOWN",
+      "RATOATH",
+      "SKREEN",
+      "BALLAGHKEEN NORTH",
+      "BALLAGHKEEN SOUTH",
+      "BALLINACOR NORTH",
+      "BALLINACOR SOUTH",
+      "BALLYADAMS"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from render/source-cache/vector-intake/baronies-all-ireland.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "render/source-cache/vector-intake/baronies-all-ireland.fgb",
+    "bytes": 4521284,
+    "files": 3911,
+    "pbfFiles": 3910,
+    "maxTileBytes": 118458
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/baronies-all-ireland-vector-test.pmtiles",
+  "tilesFallback": "/render/tiles/generated/baronies-all-ireland/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "render/pmtiles/generated/baronies-all-ireland-vector-test.pmtiles",
+    "url": "/render/pmtiles/generated/baronies-all-ireland-vector-test.pmtiles",
+    "bytes": 3848306,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-07-31T17:14:04.092Z",
+    "fallback": "/render/tiles/generated/baronies-all-ireland/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/baronies-all-ireland-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/baronies-all-ireland-vector-test.pmtiles",
+    "localUrl": "/render/pmtiles/generated/baronies-all-ireland-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-08-04T22:09:20.884Z"
+  },
+  "promoteId": "civ_fid",
+  "idProperty": "civ_fid"
+}

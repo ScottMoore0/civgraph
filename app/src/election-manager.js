@@ -1,7 +1,7 @@
 import {
   buildRepairedLabelValueExpression,
   repairFeatureProperties
-} from '../../test/src/feature-property-repairs.js';
+} from '../../render/src/feature-property-repairs.js';
 import maplibregl from 'maplibre-gl';
 import {
   createElectionRenderer,
@@ -19,7 +19,7 @@ import {
   seatPositions
 } from '../../src/election-domain.mjs';
 
-const ELECTION_MANIFEST_URL = '/test/metadata/elections-test2.json?v=test-023';
+const ELECTION_MANIFEST_URL = '/render/metadata/elections-test2.json?v=test-023';
 
 /**
  * Read election results from the D1-backed API instead of the static bundles.

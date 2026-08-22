@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Tier-2/3 targets: nationalist-bloc first-preference share by constituency for
-the historical NILT-era (and 1990s) contests, from test/metadata/elections-test2.
+the historical NILT-era (and 1990s) contests, from render/metadata/elections-test2.
 Also the NI-wide Yes% for the 1998 GFA referendum (level-only target)."""
 import json, csv, os
 from collections import defaultdict
-D="/home/user/civgraph/test/metadata/elections-test2"
+D="/home/user/civgraph/render/metadata/elections-test2"
 NAT={'Sinn Féin','SDLP',"Workers' Party",'Independent Nationalist','Republican Sinn Féin','Aontú','IRSP'}
 CONTESTS={
  'assembly':[('1998','northern-ireland-assembly__1998-06-25'),

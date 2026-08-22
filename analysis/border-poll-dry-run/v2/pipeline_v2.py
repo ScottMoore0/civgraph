@@ -43,7 +43,7 @@ con_pop=defaultdict(float)
 for sa,pop,c,p,o,aa in sa_rows:
     if aa: con_pop[aa]+=pop
 con_cathpct={a:con_c[a]/con_pop[a]*100 for a in con_pop}
-d16=json.load(open(f"{REPO}/test/metadata/elections-test2/northern-ireland-referendum__2016-06-23-eu-membership.json"))
+d16=json.load(open(f"{REPO}/render/metadata/elections-test2/northern-ireland-referendum__2016-06-23-eu-membership.json"))
 name2code={v:k for k,v in aaname.items()}
 remain={}
 for r in d16['results']:

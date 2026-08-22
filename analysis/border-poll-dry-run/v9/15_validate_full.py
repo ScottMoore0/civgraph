@@ -46,7 +46,7 @@ nd = nd.loc[:, nd.std() > 0]
 
 res = pd.read_csv(os.path.join(HERE, 'results_frame.csv'))
 dea = res[(res.scale == 'dea') & (res.contest == 'local')].copy()
-lf = json.load(open(f"{REPO}/test/metadata/elections-test2/"
+lf = json.load(open(f"{REPO}/render/metadata/elections-test2/"
                     "local-government-local-government-districts__2023-05-18.json",
                     encoding='utf-8'))
 dea2council = lf['localBodyByConstituency']

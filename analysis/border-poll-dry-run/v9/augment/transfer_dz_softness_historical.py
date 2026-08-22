@@ -30,7 +30,7 @@ import numpy as np, pandas as pd
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.environ.get("CIVGRAPH_REPO") or os.path.abspath(os.path.join(HERE, "..", "..", "..", ".."))
-BASE = f"{REPO}/test/metadata/elections-test2"
+BASE = f"{REPO}/render/metadata/elections-test2"
 XWALK = f"{REPO}/data/census/derived/dz2021_to_deas.csv"
 MIN_BASE = 500.0                                    # pooled transferable base per DEA
 

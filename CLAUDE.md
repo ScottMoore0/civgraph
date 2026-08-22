@@ -12,7 +12,7 @@ Anything beyond a trivial `echo`/`pwd` should be piped to a slice that answers
 the question. Defaults:
 
 - `npm install 2>&1 | tail -5` (or `--silent`)
-- test/build runs: `... 2>&1 | tail -15`
+- render/build runs: `... 2>&1 | tail -15`
 - `git log --oneline -20` (never bare `git log`)
 - `... 2>&1 | grep -E "error|warning"` for compile output
 

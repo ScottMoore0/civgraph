@@ -11,14 +11,14 @@ import { dirname, resolve } from 'node:path';
 const ROOT = resolve(process.cwd());
 const REPORT_PATH = resolve(ROOT, 'tmp/dobih/domain-polygons/irish-hill-domain-build-report.json');
 const MAPS_PATH = resolve(ROOT, 'data/database/maps.json');
-const MAPLIBRE_PATH = resolve(ROOT, 'test/metadata/maps-test.json');
-const MAPLIBRE_INDEX_PATH = resolve(ROOT, 'test/metadata/maps-test-index.json');
-const PORT_PLAN_PATH = resolve(ROOT, 'test/metadata/main-site-port-plan.json');
+const MAPLIBRE_PATH = resolve(ROOT, 'render/metadata/maps-test.json');
+const MAPLIBRE_INDEX_PATH = resolve(ROOT, 'render/metadata/maps-test-index.json');
+const PORT_PLAN_PATH = resolve(ROOT, 'render/metadata/main-site-port-plan.json');
 const SPATIAL_INDEX_PATH = resolve(ROOT, 'data/database/spatial-index.json');
-const FEATURE_INDEX_DIR = resolve(ROOT, 'test/metadata/feature-indexes');
-const LAYER_DETAILS_DIR = resolve(ROOT, 'test/metadata/layer-details-test2');
-const DUPLICATE_FEATURE_IDS_DIR = resolve(ROOT, 'test/metadata/duplicate-feature-ids');
-const CDN_RANGE_REPORT_PATH = resolve(ROOT, 'test/metadata/cdn-range-report.json');
+const FEATURE_INDEX_DIR = resolve(ROOT, 'render/metadata/feature-indexes');
+const LAYER_DETAILS_DIR = resolve(ROOT, 'render/metadata/layer-details-test2');
+const DUPLICATE_FEATURE_IDS_DIR = resolve(ROOT, 'render/metadata/duplicate-feature-ids');
+const CDN_RANGE_REPORT_PATH = resolve(ROOT, 'render/metadata/cdn-range-report.json');
 
 const DATASET_DATE = '2026-06-24';
 const CATEGORY_ID = 'hills-and-mountains';
@@ -198,8 +198,8 @@ function updateMapLibreMetadata(outputs, report) {
       renderer: 'maplibre',
       sourceType: 'pmtiles',
       geometryType: 'polygon',
-      tiles: `/test/tiles/generated/${layer.id}/{z}/{x}/{y}.pbf`,
-      metadataUrl: `/test/tiles/generated/${layer.id}/metadata.json`,
+      tiles: `/render/tiles/generated/${layer.id}/{z}/{x}/{y}.pbf`,
+      metadataUrl: `/render/tiles/generated/${layer.id}/metadata.json`,
       sourceLayer,
       promoteId: 'DomainId',
       minzoom: 0,
@@ -245,7 +245,7 @@ function updateMapLibreMetadata(outputs, report) {
         maxWidth: 14,
         lineHeight: 1.25
       },
-      featureIndexUrl: `/test/metadata/feature-indexes/${layerId}.json`,
+      featureIndexUrl: `/render/metadata/feature-indexes/${layerId}.json`,
       sourceFile: output.intake_path,
       sourceDatasetLayer: sourceLayer,
       idProperty: 'DomainId',
@@ -287,16 +287,16 @@ function updateMapLibreMetadata(outputs, report) {
         generatedAt: report.generatedAt || GENERATED_AT
       },
       tileUrl: `${TEST_PM_BASE}/${layerId}.pmtiles`,
-      tilesFallback: `/test/tiles/generated/${layer.id}/{z}/{x}/{y}.pbf`,
+      tilesFallback: `/render/tiles/generated/${layer.id}/{z}/{x}/{y}.pbf`,
       tilePackage: {
         preferred: true,
-        localPath: `test/pmtiles/generated/${layerId}.pmtiles`,
-        url: `/test/pmtiles/generated/${layerId}.pmtiles`,
-        fallback: `/test/tiles/generated/${layer.id}/{z}/{x}/{y}.pbf`,
+        localPath: `render/pmtiles/generated/${layerId}.pmtiles`,
+        url: `/render/pmtiles/generated/${layerId}.pmtiles`,
+        fallback: `/render/tiles/generated/${layer.id}/{z}/{x}/{y}.pbf`,
         serving: 'cdn',
         cdnUrl: `${TEST_PM_BASE}/${layerId}.pmtiles`,
         r2Key: `data/maps/test/pmtiles/generated/${layerId}.pmtiles`,
-        localUrl: `/test/pmtiles/generated/${layerId}.pmtiles`,
+        localUrl: `/render/pmtiles/generated/${layerId}.pmtiles`,
         byteRangeVerifiedAt: rangeVerified ? rangeReport.generatedAt : undefined
       }
     }));
@@ -322,8 +322,8 @@ function updateMapLibreIndex() {
   for (const layer of generatedLayers) {
     index.layers.push(compactObject({
       ...layer,
-      detailUrl: `/test/metadata/layer-details-test2/${layer.id}.json`,
-      duplicateFeatureIdsUrl: `/test/metadata/duplicate-feature-ids/${layer.id}.json`,
+      detailUrl: `/render/metadata/layer-details-test2/${layer.id}.json`,
+      duplicateFeatureIdsUrl: `/render/metadata/duplicate-feature-ids/${layer.id}.json`,
       duplicateFeatureIdCount: 0,
       featureIdMode: 'unique'
     }));

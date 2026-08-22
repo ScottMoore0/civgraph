@@ -6,8 +6,8 @@ import { createTestStaticServer } from './test-static-server.mjs';
 
 const ROOT = resolve(process.cwd());
 const PORT = Number(process.env.TEST_VISUAL_PORT || 4181);
-const OUT_DIR = resolve(ROOT, 'test/metadata/visual-snapshots');
-const REPORT_PATH = resolve(ROOT, 'test/metadata/visual-regression-report.json');
+const OUT_DIR = resolve(ROOT, 'render/metadata/visual-snapshots');
+const REPORT_PATH = resolve(ROOT, 'render/metadata/visual-regression-report.json');
 const MAX_HEADER_HEIGHT_DELTA = Number(process.env.TEST_VISUAL_MAX_HEADER_DELTA || 12);
 const MAX_SIDEBAR_WIDTH_DELTA = Number(process.env.TEST_VISUAL_MAX_SIDEBAR_DELTA || 24);
 mkdirSync(OUT_DIR, { recursive: true });
@@ -29,7 +29,7 @@ try {
   browser = await chromium.launch({ headless: true });
   const page = await browser.newPage({ viewport: report.viewport });
   const main = await inspectShell(page, `http://127.0.0.1:${PORT}/`, 'main');
-  const test = await inspectShell(page, `http://127.0.0.1:${PORT}/test/`, 'test');
+  const test = await inspectShell(page, `http://127.0.0.1:${PORT}/render/`, 'test');
   report.main = main.metrics;
   report.test = test.metrics;
   report.screenshots = { main: main.screenshot, test: test.screenshot };
@@ -83,7 +83,7 @@ async function inspectShell(page, url, name) {
   await page.goto(url, { waitUntil: 'domcontentloaded' });
   if (name === 'test') await page.waitForFunction(() => window.__civgraphTest?.metadataService?.layers?.length, null, { timeout: 30000 });
   await page.waitForTimeout(500);
-  const screenshot = `test/metadata/visual-snapshots/${name}-shell.png`;
+  const screenshot = `render/metadata/visual-snapshots/${name}-shell.png`;
   await page.screenshot({ path: resolve(ROOT, screenshot), fullPage: false });
   const metrics = await page.evaluate(() => {
     const box = (selector) => {

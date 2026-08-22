@@ -28,7 +28,7 @@ after the app had fully initialised.
 
 The homepage run is a genuine one: `__civgraphTest2BootStarted` true, a MapLibre
 canvas present, attribution rendered, and both catalogues fetched
-(`data/database/maps.json` and `test/metadata/maps-test-index.json`).
+(`data/database/maps.json` and `render/metadata/maps-test-index.json`).
 
 ## A trap worth recording
 

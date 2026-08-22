@@ -13,10 +13,10 @@ import { spawnSync } from 'node:child_process';
 import { getTileProfile } from './test-tile-profiles.mjs';
 
 const ROOT = resolve(process.cwd());
-const PLAN_PATH = resolve(ROOT, 'test/metadata/main-site-port-plan.json');
-const REPORT_PATH = resolve(ROOT, 'test/metadata/vector-conversion-report.json');
-const OUTPUT_ROOT = resolve(ROOT, 'test/tiles/generated');
-const SOURCE_CACHE_MANIFEST_PATH = resolve(ROOT, 'test/source-cache/vector-intake/manifest.json');
+const PLAN_PATH = resolve(ROOT, 'render/metadata/main-site-port-plan.json');
+const REPORT_PATH = resolve(ROOT, 'render/metadata/vector-conversion-report.json');
+const OUTPUT_ROOT = resolve(ROOT, 'render/tiles/generated');
+const SOURCE_CACHE_MANIFEST_PATH = resolve(ROOT, 'render/source-cache/vector-intake/manifest.json');
 const DECIDUOUS_LOD0_SOURCE = 'data/maps/biodiversity/habitat-deciduous-woodland-lod0.fgb';
 const DECIDUOUS_LOD1_SOURCE = 'data/maps/biodiversity/habitat-deciduous-woodland-lod1.fgb';
 const WGS84_UNKNOWN_SRS_IDS = new Set([
@@ -69,7 +69,7 @@ for (const row of plan.rows || []) {
     category: row.category,
     sourceFile: source.file,
     sourceBytes: statSize(localPath),
-    outputDirectory: `test/tiles/generated/${slugify(row.sourceMapId)}`
+    outputDirectory: `render/tiles/generated/${slugify(row.sourceMapId)}`
   });
 }
 

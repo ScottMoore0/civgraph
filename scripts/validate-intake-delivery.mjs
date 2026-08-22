@@ -5,7 +5,7 @@
  * WHY. On 2026-07-26 Phelim delivered 95 new .fgb files. Twenty were ingested on 31 July
  * and the remaining seventy-five were not. Nothing noticed for a month, because nothing
  * compared what arrived against what was taken in: the intake manifest lives under
- * test/source-cache/, which is gitignored, so there is no history of it and no review.
+ * render/source-cache/, which is gitignored, so there is no history of it and no review.
  * The gap surfaced only when the contributor reported that his maps had not changed.
  *
  * This reconciles data/intake/<delivery>.json -- the committed record of what arrived --
@@ -37,7 +37,7 @@ function readPathArgs(flag) {
 const intakeArg = readPathArgs('--intake-dir');
 const INTAKE_DIR = intakeArg.length ? resolve(intakeArg[0]) : resolve(ROOT, 'data/intake');
 const metadataArgs = readPathArgs('--metadata');
-const METADATA = metadataArgs.length ? metadataArgs : ['test/metadata/maps-test.json', 'test/metadata/maps-test-index.json'];
+const METADATA = metadataArgs.length ? metadataArgs : ['render/metadata/maps-test.json', 'render/metadata/maps-test-index.json'];
 
 if (!existsSync(INTAKE_DIR)) {
   console.log('validate-intake-delivery: no data/intake directory; nothing to check.');

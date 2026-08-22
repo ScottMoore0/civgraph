@@ -8,9 +8,9 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, extname, resolve } from 'node:path';
 
 const ROOT = resolve(process.cwd());
-const PLAN_PATH = resolve(ROOT, 'test/metadata/main-site-port-plan.json');
-const REPORT_PATH = resolve(ROOT, 'test/metadata/vector-conversion-report.json');
-const OUTPUT_PATH = resolve(ROOT, 'test/metadata/vector-intake-report.json');
+const PLAN_PATH = resolve(ROOT, 'render/metadata/main-site-port-plan.json');
+const REPORT_PATH = resolve(ROOT, 'render/metadata/vector-conversion-report.json');
+const OUTPUT_PATH = resolve(ROOT, 'render/metadata/vector-intake-report.json');
 const VECTOR_EXTENSIONS = new Set(['.fgb', '.geojson', '.json', '.gpkg', '.shp', '.zip']);
 
 const plan = JSON.parse(readFileSync(PLAN_PATH, 'utf8'));
@@ -43,7 +43,7 @@ const items = rows.map((row) => {
       'npm run build:test:metadata',
       'npm run check:test'
     ],
-    cdnRequirement: 'Upload generated /test/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host.'
+    cdnRequirement: 'Upload generated /render/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host.'
   };
 });
 

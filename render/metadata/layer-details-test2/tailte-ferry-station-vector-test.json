@@ -1,0 +1,160 @@
+{
+  "id": "tailte-ferry-station-vector-test",
+  "sourceMapId": "tailte-ferry-station",
+  "name": "Ferry Station (Tailte Éireann)",
+  "category": "Transport",
+  "group": "Built Environment",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Tailte Éireann"
+  ],
+  "description": "Ferry Station across the Republic of Ireland (23 features), from Tailte Éireann / Ordnance Survey Ireland open data. Ferry Station - National 250k Map Of Ireland The ferry station shall be identified for each ferry line and connected to them. There can be several ferry lines connected to one ferry station. The ferry station will possibly connect railway or road and the corresponding ferry line.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "point",
+  "tiles": "/render/tiles/generated/tailte-ferry-station/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-ferry-station-vector-test.pmtiles",
+  "tilesFallback": "/render/tiles/generated/tailte-ferry-station/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/render/tiles/generated/tailte-ferry-station/metadata.json",
+  "sourceLayer": "tailte_ferry_station",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.4395165,
+      -10.275125
+    ],
+    [
+      55.264749,
+      -6.1326655
+    ]
+  ],
+  "style": {
+    "color": "#C1440E",
+    "fillColor": "#C1440E",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Ferry Station — Tailte Éireann (data.gov.ie)",
+      "url": "https://data.gov.ie/dataset/ferry-station-national-250k-map-of-ireland",
+      "note": "Creative Commons Attribution 4.0"
+    },
+    {
+      "label": "Ferry Station — GeoJSON download",
+      "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/f82249abf3804483a6237edaa55fa3be/geojson?layers=0",
+      "note": ""
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "render/source-cache/vector-intake/tailte-ferry-station.fgb"
+    },
+    {
+      "label": "GeoJSON",
+      "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/f82249abf3804483a6237edaa55fa3be/geojson?layers=0"
+    }
+  ],
+  "sourceCredits": [
+    "Tailte Éireann"
+  ],
+  "keywords": [
+    "tailte éireann",
+    "osi",
+    "ireland",
+    "republic of ireland",
+    "ferry",
+    "station",
+    "Ferry Station (Tailte Éireann)",
+    "Transport",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "NAMN1",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#C1440E",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/render/metadata/feature-indexes/tailte-ferry-station-vector-test.json",
+  "sourceFile": "render/source-cache/vector-intake/tailte-ferry-station.fgb",
+  "sourceDatasetLayer": "_r",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "NAMN1",
+    "OBJECTID",
+    "FCsubtype"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "FCsubtype"
+  ],
+  "categoricalProperties": [
+    "NAMN1"
+  ],
+  "categoricalValues": {
+    "NAMN1": [
+      "Bunbeg",
+      "Cork",
+      "Dingle",
+      "Dublin",
+      "Galway",
+      "Kilimer",
+      "Kilronan",
+      "Rosslare",
+      "Skull",
+      "Tarbert",
+      "Baltimore",
+      "Bear Island",
+      "Cahersiveen",
+      "Castletown Bearhaven",
+      "Clear Island",
+      "Dun Laoghaire",
+      "Greencastle",
+      "Hare Island",
+      "Horse Island",
+      "Rossaveel",
+      "Sherkin Island",
+      "West Town"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from render/source-cache/vector-intake/tailte-ferry-station.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "render/source-cache/vector-intake/tailte-ferry-station.fgb",
+    "bytes": 18990,
+    "files": 93,
+    "pbfFiles": 92,
+    "maxTileBytes": 880
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "render/pmtiles/generated/tailte-ferry-station-vector-test.pmtiles",
+    "url": "/render/pmtiles/generated/tailte-ferry-station-vector-test.pmtiles",
+    "bytes": 16248,
+    "maxGithubBytes": 99614720,
+    "fallback": "/render/tiles/generated/tailte-ferry-station/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-ferry-station-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/tailte-ferry-station-vector-test.pmtiles",
+    "localUrl": "/render/pmtiles/generated/tailte-ferry-station-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-08-04T22:09:20.884Z"
+  }
+}

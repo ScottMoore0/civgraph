@@ -1,0 +1,192 @@
+{
+  "id": "osni-open-data-largescale-boundaries-local-government-districts-1993-vector-test",
+  "sourceMapId": "osni-open-data-largescale-boundaries-local-government-districts-1993",
+  "name": "Local Government Districts (1993) — OSNI Largescale",
+  "category": "Local Government Districts",
+  "group": "Elections and Government",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "OSNI"
+  ],
+  "description": "",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/render/tiles/generated/osni-open-data-largescale-boundaries-local-government-districts-1993/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/osni-open-data-largescale-boundaries-local-government-districts-1993-vector-test.pmtiles",
+  "tilesFallback": "/render/tiles/generated/osni-open-data-largescale-boundaries-local-government-districts-1993/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/render/tiles/generated/osni-open-data-largescale-boundaries-local-government-districts-1993/metadata.json",
+  "sourceLayer": "osni_open_data_largescale_boundaries_local_government_districts_1993",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0227244,
+      -8.1775025
+    ],
+    [
+      55.3129843,
+      -5.4327894
+    ]
+  ],
+  "style": {
+    "color": "#C0392B",
+    "fillColor": "#C0392B",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Local Government Districts (1993) — OSNI Largescale — Open Data NI",
+      "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-largescale-boundaries-local-government-districts-1993",
+      "note": "OGL v3.0"
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "render/source-cache/vector-intake/osni-open-data-largescale-boundaries-local-government-districts-1993.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "OSNI"
+  ],
+  "keywords": [
+    "local-government",
+    "local",
+    "government",
+    "districts",
+    "1993",
+    "osni",
+    "largescale",
+    "Local Government Districts (1993) — OSNI Largescale",
+    "Local Government Districts",
+    "Elections and Government",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "LGDNAME",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#C0392B",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/render/metadata/feature-indexes/osni-open-data-largescale-boundaries-local-government-districts-1993-vector-test.json",
+  "sourceFile": "render/source-cache/vector-intake/osni-open-data-largescale-boundaries-local-government-districts-1993.fgb",
+  "sourceDatasetLayer": "OSNI_Open_Data_-_Largescale_Boundaries_-_Local_Government_Districts_(1993)",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "LGDNAME",
+    "OBJECTID",
+    "LGD_ID",
+    "LGD_CODE",
+    "AreaSqKM",
+    "Shape_Length",
+    "Shape_Area"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "LGD_ID",
+    "AreaSqKM",
+    "Shape_Length",
+    "Shape_Area"
+  ],
+  "categoricalProperties": [
+    "LGDNAME",
+    "LGD_CODE"
+  ],
+  "categoricalValues": {
+    "LGDNAME": [
+      "ANTRIM",
+      "ARDS",
+      "ARMAGH",
+      "BELFAST",
+      "DERRY",
+      "DOWN",
+      "LARNE",
+      "LIMAVADY",
+      "LISBURN",
+      "MOYLE",
+      "OMAGH",
+      "STRABANE",
+      "BALLYMENA",
+      "BALLYMONEY",
+      "BANBRIDGE",
+      "CARRICKFERGUS",
+      "CASTLEREAGH",
+      "COLERAINE",
+      "COOKSTOWN",
+      "CRAIGAVON",
+      "DUNGANNON",
+      "FERMANAGH",
+      "MAGHERAFELT",
+      "NEWRY and MOURNE",
+      "NEWTOWNABBEY",
+      "NORTH DOWN"
+    ],
+    "LGD_CODE": [
+      "95AA",
+      "95BB",
+      "95CC",
+      "95DD",
+      "95EE",
+      "95FF",
+      "95GG",
+      "95HH",
+      "95II",
+      "95JJ",
+      "95KK",
+      "95LL",
+      "95MM",
+      "95NN",
+      "95OO",
+      "95PP",
+      "95QQ",
+      "95RR",
+      "95SS",
+      "95TT",
+      "95UU",
+      "95VV",
+      "95WW",
+      "95XX",
+      "95YY",
+      "95ZZ"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from render/source-cache/vector-intake/osni-open-data-largescale-boundaries-local-government-districts-1993.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "render/source-cache/vector-intake/osni-open-data-largescale-boundaries-local-government-districts-1993.fgb",
+    "bytes": 1895565,
+    "files": 757,
+    "pbfFiles": 756,
+    "maxTileBytes": 22069
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "render/pmtiles/generated/osni-open-data-largescale-boundaries-local-government-districts-1993-vector-test.pmtiles",
+    "url": "/render/pmtiles/generated/osni-open-data-largescale-boundaries-local-government-districts-1993-vector-test.pmtiles",
+    "bytes": 1151231,
+    "maxGithubBytes": 99614720,
+    "fallback": "/render/tiles/generated/osni-open-data-largescale-boundaries-local-government-districts-1993/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/osni-open-data-largescale-boundaries-local-government-districts-1993-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/osni-open-data-largescale-boundaries-local-government-districts-1993-vector-test.pmtiles",
+    "localUrl": "/render/pmtiles/generated/osni-open-data-largescale-boundaries-local-government-districts-1993-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-08-04T22:09:20.884Z"
+  }
+}

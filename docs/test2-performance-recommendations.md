@@ -35,8 +35,8 @@ Current local verification:
 | `app/build/chunks/*.js` | ~1.6 MB total | split runtime chunks |
 | `app/build/app.bundle.css` | 95,763 bytes | gzip ~13 KB |
 | `test2/index.html` | tiny compatibility redirect | not an app shell |
-| `test/metadata/maps-test.json` | 5,046,981 bytes | gzip ~543 KB, brotli ~323 KB |
-| `test/metadata/elections-test2.json` | 449,319 bytes | gzip ~21 KB, brotli ~14 KB |
+| `render/metadata/maps-test.json` | 5,046,981 bytes | gzip ~543 KB, brotli ~323 KB |
+| `render/metadata/elections-test2.json` | 449,319 bytes | gzip ~21 KB, brotli ~14 KB |
 | `data/database/maps.json` | 872,911 bytes | gzip ~83 KB, brotli ~60 KB |
 
 The initial app code imports `data-service`, `feature-loader`, `ui-controller`, the full `/test` metadata service, `Test2ElectionManager`, and the MapLibre adapter at module startup. The `init()` path waits for `dataService.init()`, `loadBooks()`, `metadataService.load()`, `elections.load()`, catalogue rendering, and MapLibre initialization before the route is fully ready.
@@ -45,9 +45,9 @@ The initial app code imports `data-service`, `feature-loader`, `ui-controller`, 
 
 | Data set | Count | Total size | Notes |
 | --- | ---: | ---: | --- |
-| `test/metadata/elections-test2/` | 268 files | ~159 MB | Biggest local-government bundles are 13-16 MB each. |
-| `test/metadata/feature-indexes/` | 479 files | ~172 MB | Some individual indexes are ~4.5 MB. |
-| `test/metadata/election-anchors-test2/` | 37 files | ~4.5 MB | One ROI local-authorities anchor file is ~3.8 MB. |
+| `render/metadata/elections-test2/` | 268 files | ~159 MB | Biggest local-government bundles are 13-16 MB each. |
+| `render/metadata/feature-indexes/` | 479 files | ~172 MB | Some individual indexes are ~4.5 MB. |
+| `render/metadata/election-anchors-test2/` | 37 files | ~4.5 MB | One ROI local-authorities anchor file is ~3.8 MB. |
 | `data/browse/` | 2,874 files | ~58 MB | `persons.json` and `elections.json` dominate. |
 
 ### Cache Headers
@@ -56,8 +56,8 @@ Live header checks on 2026-06-06 show:
 
 - `/test2/`: `Cache-Control: public, max-age=0, must-revalidate`.
 - `/app/build/app.bundle.js?v=test2-009`: `Cache-Control: public, max-age=14400, must-revalidate`.
-- `/test/metadata/maps-test.json`: `Cache-Control: public, max-age=0, must-revalidate`.
-- `/test/metadata/elections-test2.json`: `Cache-Control: public, max-age=0, must-revalidate`.
+- `/render/metadata/maps-test.json`: `Cache-Control: public, max-age=0, must-revalidate`.
+- `/render/metadata/elections-test2.json`: `Cache-Control: public, max-age=0, must-revalidate`.
 
 There is no dedicated `/test2` stanza in `_headers`. The bundle is versioned by a manually managed query string, not by content hash, so it cannot safely use long immutable caching.
 
@@ -103,7 +103,7 @@ ROI: Very high. Impact: high for repeat visits and deployment stability. Difficu
 
 Current problem:
 
-- `_headers` has `/test/` rules but no `/test2/` rules.
+- `_headers` has `/render/` rules but no `/test2/` rules.
 - The deployed `/test2` bundle uses `max-age=14400, must-revalidate`, not immutable caching.
 - The bundle URL uses `?v=test2-009`, which is manually managed and can drift.
 
@@ -133,7 +133,7 @@ ROI: Very high. Impact: high. Difficulty: medium.
 
 Current problem:
 
-- `/test2` loads `test/metadata/maps-test.json`, a 5 MB JSON file, before the route is fully ready.
+- `/test2` loads `render/metadata/maps-test.json`, a 5 MB JSON file, before the route is fully ready.
 - The metadata service normalizes all converted and unconverted layers up front.
 - It also builds search text for all layers up front.
 
@@ -141,10 +141,10 @@ Recommended change:
 
 Create generated metadata shards:
 
-- `test/metadata/maps-test-index.json`: minimal fields needed for first catalogue paint and active-layer lookup.
-- `test/metadata/maps-test-layer-details/{id}.json`: full per-layer metadata, source credits, references, downloads, variants, diagnostics.
-- `test/metadata/maps-test-search.json` or search shards: only fetched when the user searches.
-- `test/metadata/maps-test-converted-index.json`: minimal PMTiles/MVT runtime fields for loadable layers.
+- `render/metadata/maps-test-index.json`: minimal fields needed for first catalogue paint and active-layer lookup.
+- `render/metadata/maps-test-layer-details/{id}.json`: full per-layer metadata, source credits, references, downloads, variants, diagnostics.
+- `render/metadata/maps-test-search.json` or search shards: only fetched when the user searches.
+- `render/metadata/maps-test-converted-index.json`: minimal PMTiles/MVT runtime fields for loadable layers.
 
 Expected benefit:
 
@@ -200,7 +200,7 @@ ROI: High. Impact: high on large layers. Difficulty: medium.
 
 Current problem:
 
-- `test/src/map-controller.js` calls `loadDuplicateFeatureIds(layer)` before adding a layer.
+- `render/src/map-controller.js` calls `loadDuplicateFeatureIds(layer)` before adding a layer.
 - That function fetches `layer.featureIndexUrl` and scans it to find duplicate IDs.
 - Feature indexes total ~172 MB, with several individual indexes around 4.5 MB.
 
@@ -393,7 +393,7 @@ ROI: Medium high. Impact: high on repeat visits/offline-ish behaviour. Difficult
 Current problem:
 
 - `/test2/index.html` contains a service-worker placeholder, but it does not register a scoped `/test2` service worker.
-- `/test/` has a dedicated service worker/header setup, but `/test2` does not.
+- `/render/` has a dedicated service worker/header setup, but `/test2` does not.
 
 Recommended change:
 

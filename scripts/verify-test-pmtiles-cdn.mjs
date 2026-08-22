@@ -15,8 +15,8 @@ import { resolve } from 'node:path';
 import { mergeArtefactRecords, assertKnownFlags } from './lib/safe-artefact-write.mjs';
 
 const ROOT = resolve(process.cwd());
-const MANIFEST_PATH = resolve(ROOT, 'test/metadata/cdn-upload-manifest.json');
-const REPORT_PATH = resolve(ROOT, 'test/metadata/cdn-range-report.json');
+const MANIFEST_PATH = resolve(ROOT, 'render/metadata/cdn-upload-manifest.json');
+const REPORT_PATH = resolve(ROOT, 'render/metadata/cdn-range-report.json');
 const APPLY = process.argv.includes('--apply');
 const ORIGIN = process.env.TEST_CDN_VERIFY_ORIGIN || 'https://civgraph.net';
 assertKnownFlags(['--ids', '--apply']);

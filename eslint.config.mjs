@@ -31,7 +31,7 @@ export default [
       '**/node_modules/**',
       '.claude/**',
       'app/build/**',
-      'test/build/**',
+      'render/build/**',
       'archive/**',                        // dead Leaflet stack, genuinely
       'election-viewer-package/**',
       'app/election-viewer-package/**',
@@ -47,7 +47,7 @@ export default [
   },
   {
     files: [
-      'test/src/**/*.js',
+      'render/src/**/*.js',
       'app/src/**/*.js',
       'src/**/*.js',
       'browse/**/*.js',

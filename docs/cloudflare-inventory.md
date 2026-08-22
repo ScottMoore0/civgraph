@@ -149,7 +149,7 @@ looked healthy from outside.
   for `/missing.js`, `/missing.css` and `/app/build/missing.js`.
 - `.cfignore` excludes archival and local-only material from the deploy,
   including `scripts/`, `data/census/`, `data/timeline-transitions/` and
-  `test/tiles/`.
+  `render/tiles/`.
 
 **`scripts/` is not deployed.** That matters more than it sounds: `src/` *is*
 served as unbundled ES modules, so a browser-imported module cannot be moved

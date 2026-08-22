@@ -3,7 +3,7 @@ name: Test rewrite readiness
 on:
   pull_request:
     paths:
-      - 'test/**'
+      - 'render/**'
       - 'scripts/*test*.mjs'
       - 'scripts/verify-test-pmtiles-cdn.mjs'
       - 'scripts/validate-test-cdn-manifest.mjs'
@@ -17,7 +17,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'test/**'
+      - 'render/**'
       - 'scripts/*test*.mjs'
       - 'scripts/verify-test-pmtiles-cdn.mjs'
       - 'scripts/validate-test-cdn-manifest.mjs'

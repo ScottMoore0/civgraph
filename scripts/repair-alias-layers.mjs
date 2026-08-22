@@ -32,7 +32,7 @@ import { resolve } from 'node:path';
 import { writeArtefactJson } from './lib/safe-artefact-write.mjs';
 
 const ROOT = resolve(process.cwd());
-const FILES = ['test/metadata/maps-test.json', 'test/metadata/maps-test-index.json'];
+const FILES = ['render/metadata/maps-test.json', 'render/metadata/maps-test-index.json'];
 const CHECK_ONLY = process.argv.includes('--check');
 
 // Copied from the target, because an alias is a pointer to it. status and

@@ -76,8 +76,8 @@ data/maps/osni-originals/
 # /test MapLibre tile payloads are served from R2/CDN as PMTiles in production.
 # Directory MVT pyramids are local build/fallback artifacts and must not count
 # against the Cloudflare Pages deployment file limit.
-test/tiles/
-test/pmtiles/generated/
+render/tiles/
+render/pmtiles/generated/
 node_modules/
 
 # --- Not served by the site; excluded to stay under the Pages 20,000-file limit ---
@@ -94,7 +94,7 @@ node_modules/
 analysis/
 
 # Pipeline inputs: alignment CSVs, corrections and official-result sources consumed by
-# scripts at build time. Nothing under app/src or test/src fetches them.
+# scripts at build time. Nothing under app/src or render/src fetches them.
 data/elections/
 
 # Card thumbnail images are served from R2 (https://data.civgraph.net/assets/thumbnails/)

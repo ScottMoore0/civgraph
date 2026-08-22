@@ -29,7 +29,7 @@ reconstructed to full count-by-count transfer detail, wired to the map layer, an
 
 ## Verification
 
-- **Map/site:** rebuilt `test/metadata/elections-test2` — the 2011 local contest now reports
+- **Map/site:** rebuilt `render/metadata/elections-test2` — the 2011 local contest now reports
   **101/101 constituencies matched to geometry, 0 unmatched, `hasCountDetail = true` for all 101**
   (was first-prefs-only before). Each ward's stage-by-stage transfer chart now renders (e.g. North
   Down Abbey's 12-count fractional WIGM sequence).

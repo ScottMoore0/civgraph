@@ -41,7 +41,7 @@ function readPathArg(flag, fallback) {
 }
 
 const INTAKE_DIR = readPathArg('--intake-dir', 'data/intake');
-const INDEX = readPathArg('--index', 'test/metadata/maps-test-index.json');
+const INDEX = readPathArg('--index', 'render/metadata/maps-test-index.json');
 
 if (!existsSync(INTAKE_DIR) || !existsSync(INDEX)) {
   console.log('validate-composite-composition: no intake specs or metadata index; nothing to check.');

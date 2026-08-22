@@ -1,0 +1,143 @@
+{
+  "id": "osni-ortho-coverage-2008-vector-test",
+  "sourceMapId": "osni-ortho-coverage-2008",
+  "name": "OSNI Orthophoto Coverage 2008",
+  "category": "OSNI Reference Layers",
+  "group": "Built Environment",
+  "date": "2008",
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Land & Property Services (OSNI)"
+  ],
+  "description": "Geographic extent of OSNI orthophotography flown in 2008 (coverage outline). Source: Land & Property Services via OpenDataNI.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "line",
+  "tiles": "/render/tiles/generated/osni-ortho-coverage-2008/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/render/tiles/generated/osni-ortho-coverage-2008/metadata.json",
+  "sourceLayer": "osni_ortho_coverage_2008",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0230169,
+      -6.2851161
+    ],
+    [
+      55.3123751,
+      -5.4331416
+    ]
+  ],
+  "style": {
+    "color": "#1565C0",
+    "fillColor": "#1565C0",
+    "fillOpacity": 0,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Open Data NI — 2008 Ortho OSNI",
+      "url": "https://admin.opendatani.gov.uk/dataset/2008-ortho-osni2",
+      "note": ""
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "render/source-cache/vector-intake/osni-ortho-coverage-2008.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Land & Property Services (OSNI)"
+  ],
+  "keywords": [
+    "northern ireland",
+    "NI",
+    "OSNI",
+    "orthophoto",
+    "aerial imagery",
+    "coverage",
+    "extent",
+    "2008",
+    "OSNI Orthophoto Coverage 2008",
+    "OSNI Reference Layers",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": null,
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#1565C0",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "sourceFile": "https://data.civgraph.net/data/maps/osni/OSNI_Ortho_Coverage_2008.fgb",
+  "sourceDatasetLayer": "2008_Ortho_OSNI",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "OBJECTID",
+    "Id",
+    "Uncertainty",
+    "Date__mm_dd_yyyy_",
+    "Source",
+    "Caveat",
+    "Shape__Length"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "Id",
+    "Uncertainty",
+    "Shape__Length"
+  ],
+  "categoricalProperties": [
+    "Date__mm_dd_yyyy_",
+    "Source"
+  ],
+  "categoricalValues": {
+    "Date__mm_dd_yyyy_": [
+      "05/08/2008"
+    ],
+    "Source": [
+      "Orthophoto (OSNI)"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from render/source-cache/vector-intake/osni-ortho-coverage-2008.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "render/source-cache/vector-intake/osni-ortho-coverage-2008.fgb",
+    "bytes": 192421,
+    "files": 82,
+    "pbfFiles": 81,
+    "maxTileBytes": 8234
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "render/pmtiles/generated/osni-ortho-coverage-2008-vector-test.pmtiles",
+    "url": "/render/pmtiles/generated/osni-ortho-coverage-2008-vector-test.pmtiles",
+    "bytes": 128769,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-07-01T09:00:00.000Z",
+    "fallback": "/render/tiles/generated/osni-ortho-coverage-2008/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/osni-ortho-coverage-2008-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/osni-ortho-coverage-2008-vector-test.pmtiles",
+    "localUrl": "/render/pmtiles/generated/osni-ortho-coverage-2008-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-08-04T22:09:20.884Z"
+  },
+  "loadable": true,
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/osni-ortho-coverage-2008-vector-test.pmtiles",
+  "tilesFallback": "/render/tiles/generated/osni-ortho-coverage-2008/{z}/{x}/{y}.pbf"
+}

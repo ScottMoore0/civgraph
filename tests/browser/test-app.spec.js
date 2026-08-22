@@ -10,7 +10,7 @@ async function openMapTools(page) {
 }
 
 test('/test shell starts with main navigation and diagnostics', async ({ page }) => {
-  await page.goto('/test/');
+  await page.goto('/render/');
   await expect(page.getByRole('link', { name: 'Civgraph home' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Home', exact: true })).toBeVisible();
   await expect(page.getByRole('link', { name: 'About', exact: true })).toBeVisible();
@@ -35,7 +35,7 @@ test('/test shell starts with main navigation and diagnostics', async ({ page })
 });
 
 test('/test catalogue supports grouped detail navigation and shared unconverted entries', async ({ page }) => {
-  await page.goto('/test/');
+  await page.goto('/render/');
   await page.waitForFunction(() => window.__civgraphTest?.metadataService?.layers?.length);
   await expect(page.locator('.catalogue-flat__toc-table .catalogue-flat__toc-row').first()).toBeVisible();
   await expect(page.locator('#categoryPills')).toContainText('All');
@@ -57,7 +57,7 @@ test('/test catalogue supports grouped detail navigation and shared unconverted 
 });
 
 test('/test loads and renders a real MapLibre vector layer', async ({ page }) => {
-  await page.goto('/test/');
+  await page.goto('/render/');
   await page.waitForFunction(() => window.__civgraphTest?.metadataService?.layers?.length);
   const result = await page.evaluate(async () => {
     const app = window.__civgraphTest;
@@ -87,7 +87,7 @@ test('/test loads and renders a real MapLibre vector layer', async ({ page }) =>
 });
 
 test('/test supports keyboard shortcuts and accessibility smoke flow', async ({ page }) => {
-  await page.goto('/test/');
+  await page.goto('/render/');
   await page.waitForFunction(() => window.__civgraphTest?.metadataService?.layers?.length);
   const accessibilityScanResults = await new AxeBuilder({ page })
     .disableRules(['color-contrast'])
@@ -124,7 +124,7 @@ test('/test handles clipboard failures and preference import/export/reset', asyn
       value: { writeText: async () => { throw new Error('blocked clipboard'); } }
     });
   });
-  await page.goto('/test/');
+  await page.goto('/render/');
   await page.waitForFunction(() => window.__civgraphTest?.metadataService?.layers?.length);
   await openMapTools(page);
   await page.locator('#copyDiagnostics').click();
@@ -160,7 +160,7 @@ test('/test handles clipboard failures and preference import/export/reset', asyn
 
 test('/test restores collapsed panels from URL and honours reduced motion', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.goto('/test/#panelsCollapsed=catalogue%7Csources&sidebar=1');
+  await page.goto('/render/#panelsCollapsed=catalogue%7Csources&sidebar=1');
   await page.waitForFunction(() => window.__civgraphTest?.metadataService?.layers?.length);
   await expect(page.locator('[data-panel="sources"]')).toHaveClass(/test-panel--collapsed/);
   const duration = await page.locator('#testSidebar').evaluate((node) => getComputedStyle(node).transitionDuration);
@@ -173,7 +173,7 @@ test('/test restores collapsed panels from URL and honours reduced motion', asyn
 
 test('/test support modal and theme toggle match main shell behaviour', async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem('theme', 'light'));
-  await page.goto('/test/');
+  await page.goto('/render/');
   await page.locator('#supportBtn').click();
   await expect(page.locator('#supportModal')).toBeVisible();
   await expect(page.locator('#supportModal')).toContainText('Support Civgraph');
@@ -186,7 +186,7 @@ test('/test support modal and theme toggle match main shell behaviour', async ({
 });
 
 test('/test catalogue URL restores detail, search, filters, and sidebar state', async ({ page }) => {
-  await page.goto('/test/#catalogue=port-east-west-bann&q=bann&category=Regional+Divides&provider=OSNI%2C+Scott+Moore&sidebar=1&catView=table&catSort=provider&sourceQ=garda&diagSeverity=warn&panel=sources');
+  await page.goto('/render/#catalogue=port-east-west-bann&q=bann&category=Regional+Divides&provider=OSNI%2C+Scott+Moore&sidebar=1&catView=table&catSort=provider&sourceQ=garda&diagSeverity=warn&panel=sources');
   await page.waitForFunction(() => window.__civgraphTest?.metadataService?.layers?.length);
   await openMapTools(page);
   await expect(page.locator('body')).toHaveClass(/test-sidebar-open/);
@@ -204,7 +204,7 @@ test('/test catalogue URL restores detail, search, filters, and sidebar state', 
 });
 
 test('/test restores URL layer and style state', async ({ page }) => {
-  await page.goto('/test/#layers=roi-garda-regions-vector-test&style=roi-garda-regions-vector-test:categorical&styleAttr=roi-garda-regions-vector-test:REGION&lng=-8.05&lat=53.4&z=6');
+  await page.goto('/render/#layers=roi-garda-regions-vector-test&style=roi-garda-regions-vector-test:categorical&styleAttr=roi-garda-regions-vector-test:REGION&lng=-8.05&lat=53.4&z=6');
   await page.waitForFunction(() => window.__civgraphTest?.controller?.layers?.has('roi-garda-regions-vector-test'));
   await openMapTools(page);
   await expect(page.locator('#activeLayers')).toContainText('Garda Regions');
@@ -214,7 +214,7 @@ test('/test restores URL layer and style state', async ({ page }) => {
 
 test('/test shows PMTiles fallback warning when archive fetch fails', async ({ page }) => {
   await page.route('https://data.civgraph.net/data/maps/test/pmtiles/generated/civil-parishes-vector-test.pmtiles', (route) => route.abort());
-  await page.goto('/test/');
+  await page.goto('/render/');
   await page.waitForFunction(() => window.__civgraphTest?.metadataService?.layers?.length);
   await page.evaluate(async () => {
     const app = window.__civgraphTest;
@@ -226,7 +226,7 @@ test('/test shows PMTiles fallback warning when archive fetch fails', async ({ p
 test('/test mobile catalogue toggle is keyboard reachable', async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem('theme', 'light'));
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/test/');
+  await page.goto('/render/');
   const menu = page.locator('#mobileMenuBtn');
   await expect(menu).toBeVisible();
   await menu.focus();
@@ -252,7 +252,7 @@ test('/test source panel and feature details expose copy/context controls', asyn
       value: { writeText: async (value) => { window.__copiedText = value; } }
     });
   });
-  await page.goto('/test/');
+  await page.goto('/render/');
   await page.waitForFunction(() => window.__civgraphTest?.metadataService?.layers?.length);
   await page.evaluate(async () => {
     const app = window.__civgraphTest;
@@ -280,7 +280,7 @@ test('/test source panel and feature details expose copy/context controls', asyn
 });
 
 test('/test active layer controls include MapLibre layer actions', async ({ page }) => {
-  await page.goto('/test/#layers=roi-garda-regions-vector-test');
+  await page.goto('/render/#layers=roi-garda-regions-vector-test');
   await page.waitForFunction(() => window.__civgraphTest?.controller?.layers?.has('roi-garda-regions-vector-test'));
   await openMapTools(page);
   await expect(page.locator('#activeLayers')).toContainText('Garda Regions');
@@ -293,7 +293,7 @@ test('/test active layer controls include MapLibre layer actions', async ({ page
 });
 
 test('/test persists layer order and supports mobile landscape sidebar', async ({ page }) => {
-  await page.goto('/test/#layers=roi-garda-regions-vector-test,roi-garda-divisions-vector-test');
+  await page.goto('/render/#layers=roi-garda-regions-vector-test,roi-garda-divisions-vector-test');
   await page.waitForFunction(() => window.__civgraphTest?.controller?.layers?.size === 2);
   await openMapTools(page);
   await page.locator('#activeLayers [data-action="layer-down"]').first().click();
@@ -309,7 +309,7 @@ test('/test persists layer order and supports mobile landscape sidebar', async (
 
 test('/test reports service-worker cache status and device defaults', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/test/');
+  await page.goto('/render/');
   await page.waitForFunction(() => window.__civgraphTest?.metadataService?.layers?.length);
   await openMapTools(page);
   await expect(page.locator('#diagnostics')).toContainText('Service Worker Cache');

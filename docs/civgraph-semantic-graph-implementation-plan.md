@@ -174,7 +174,7 @@ It reads:
 - `data/database/ni-register-interests.json`
 - `data/database/spatial-index.json`
 - party IDs
-- `test/metadata/elections-test2.json`
+- `render/metadata/elections-test2.json`
 
 It writes:
 
@@ -966,7 +966,7 @@ Guardrails:
 
 Current source:
 
-- `test/metadata/elections-test2.json`
+- `render/metadata/elections-test2.json`
 - election detail files
 - result entries in Browse
 
@@ -1042,7 +1042,7 @@ Current source:
 
 - `data/database/maps.json`
 - `data/database/data-entries.json`
-- generated test/test2 metadata
+- generated render/test2 metadata
 - PMTiles/GeoJSON/source file metadata
 
 Target entity:

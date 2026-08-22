@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-21T14:35:39.837Z",
+  "mode": "execute",
+  "tools": {
+    "ogr2ogr": "C:\\Program Files\\GDAL\\ogr2ogr.exe",
+    "ogrinfo": "C:\\Program Files\\GDAL\\ogrinfo.exe",
+    "sqlite3": "C:\\Program Files\\GDAL\\sqlite3.exe"
+  },
+  "constrainedPath": "GDAL PMTiles driver",
+  "pmtilesDriver": true,
+  "outputDirectory": "render/pmtiles/generated",
+  "maxGithubBytes": 99614720,
+  "totals": {
+    "candidates": 1,
+    "converted": 1,
+    "skipped": 0,
+    "failed": 0,
+    "metadataPreferred": 1,
+    "oversizedArchives": 0
+  },
+  "converted": [
+    {
+      "layerId": "dlr-dlr-unfinished-housing-vector-test",
+      "sourceMapId": "dlr-dlr-unfinished-housing",
+      "name": "Dlr Unfinished Housing (DLR)",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/dlr-dlr-unfinished-housing-vector-test.pmtiles",
+      "bytes": 105120,
+      "exceedsGithubBudget": false
+    }
+  ],
+  "skipped": [],
+  "failed": [],
+  "notes": [
+    "Archives at or above the configured GitHub size budget are generated but not preferred in maps-test.json.",
+    "Each PMTiles metadata entry keeps tilesFallback and metadataUrl pointing at the directory MVT output.",
+    "Use --force to rebuild existing archives and --ids <id,id> to constrain a rebuild."
+  ]
+}

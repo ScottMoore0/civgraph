@@ -43,7 +43,7 @@ census_u=comp['C']*relrate['C']+comp['P']*relrate['P']+comp['N']*relrate['N']
 # party composition from most recent election (2022 Assembly)
 import json as J
 from collections import defaultdict
-j=J.load(open(f"{V.replace('/analysis/border-poll-dry-run/v9','')}/test/metadata/elections-test2/northern-ireland-assembly__2022-05-05.json"))
+j=J.load(open(f"{V.replace('/analysis/border-poll-dry-run/v9','')}/render/metadata/elections-test2/northern-ireland-assembly__2022-05-05.json"))
 pv=defaultdict(lambda:defaultdict(float))
 def pcat(p):
     d={'DUP':'DUP','UUP':'UUP','Sinn Féin':'SF','SDLP':'SDLP','Alliance':'Alliance','Green':'Green','TUV':'TUV'}

@@ -71,8 +71,8 @@ mislead you.** This section is the canonical layout;
 |---|---|
 | `app/` | **the live site** — MapLibre GL. Built bundle in `app/build/`, committed. |
 | `src/` | shared browser modules, served **unbundled**. Live, not legacy. |
-| `test/src/` | shared renderer source; `app/` builds from it |
-| `test/metadata/` | the render catalogue — see "three stores" below |
+| `render/src/` | shared renderer source; `app/` builds from it |
+| `render/metadata/` | the render catalogue — see "three stores" below |
 | `tests/` | the Playwright suite |
 | `test2/` | a compatibility redirect. Not a directory of tests. |
 | `apps/` | standalone apps (PRONI search). Unrelated to `app/`. |
@@ -92,7 +92,7 @@ Two traps in particular:
   README described `js/` as the entry point for months after that rename, which is
   where the "src/ is dead" belief came from; it cost 36,028 lines of live code its
   linting. See `docs/review/TECH-DEBT-AUDIT.md` item 4.
-- **`app/` and `apps/` are different things**, as are `test/`, `test2/` and
+- **`app/` and `apps/` are different things**, as are `render/`, `test2/` and
   `tests/`. Renaming them is planned but invalidates clones, so it is scheduled
   rather than done: `docs/directory-rename-runbook.md`.
 
@@ -105,10 +105,10 @@ with a `-vector-test` suffix on the render side.
 | Store | Owns |
 |---|---|
 | `data/database/maps.json` | provenance — licence, attribution, downloads |
-| `test/metadata/maps-test.json` | rendering — tiles, zoom, styling, labels |
+| `render/metadata/maps-test.json` | rendering — tiles, zoom, styling, labels |
 | `c1Cards` in `src/ui-controller.js` | navigation — what a user can click |
 
-`test/metadata/maps-test-index.json` and `test/metadata/layer-details-test2/` are
+`render/metadata/maps-test-index.json` and `render/metadata/layer-details-test2/` are
 **generated** from `maps-test.json`: edit the source, then run
 `node scripts/build-test2-metadata-shards.mjs`. The client fetches the generated
 detail shards, so editing only `maps.json` leaves the site showing the old values.
@@ -119,11 +119,11 @@ All three edges are guarded by validators in `npm run check`.
 
 | URL | Source |
 |---|---|
-| `/` | `index.html` + `app/build/` (from `test/src/`) + `src/` + `build/` |
+| `/` | `index.html` + `app/build/` (from `render/src/`) + `src/` + `build/` |
 | `/browse/` | `browse/` |
 | `/apps/`, `/apps/proni-search/` | `apps/` |
 | `/pages/about`, `/pages/census-explorer` | `pages/` |
-| `/test/` | `test/` — staging shell, not the public site |
+| `/render/` | `render/` — staging shell, not the public site |
 
 ## Build
 

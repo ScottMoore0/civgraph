@@ -27,15 +27,15 @@ const CSV_ZIP_PATH = resolve(DOBIH_DOWNLOAD_ROOT, 'hillcsv.zip');
 const CSV_EXTRACT_DIR = resolve(ROOT, 'tmp/dobih/source/hillcsv');
 const CSV_PATH = resolve(CSV_EXTRACT_DIR, 'DoBIH_v18_4.csv');
 const GENERATED_DIR = resolve(ROOT, 'tmp/dobih/generated');
-const VECTOR_INTAKE_DIR = resolve(ROOT, 'test/source-cache/vector-intake');
+const VECTOR_INTAKE_DIR = resolve(ROOT, 'render/source-cache/vector-intake');
 const SOURCE_MANIFEST_PATH = resolve(ROOT, 'data/database/source-manifests/dobih-v18-4-sources.json');
 const MAPS_PATH = resolve(ROOT, 'data/database/maps.json');
-const MAPLIBRE_PATH = resolve(ROOT, 'test/metadata/maps-test.json');
-const PORT_PLAN_PATH = resolve(ROOT, 'test/metadata/main-site-port-plan.json');
+const MAPLIBRE_PATH = resolve(ROOT, 'render/metadata/maps-test.json');
+const PORT_PLAN_PATH = resolve(ROOT, 'render/metadata/main-site-port-plan.json');
 const SPATIAL_INDEX_PATH = resolve(ROOT, 'data/database/spatial-index.json');
 const EXTERNAL_SOURCES_PATH = resolve(ROOT, 'data/database/external-sources.json');
-const FEATURE_INDEX_DIR = resolve(ROOT, 'test/metadata/feature-indexes');
-const CDN_RANGE_REPORT_PATH = resolve(ROOT, 'test/metadata/cdn-range-report.json');
+const FEATURE_INDEX_DIR = resolve(ROOT, 'render/metadata/feature-indexes');
+const CDN_RANGE_REPORT_PATH = resolve(ROOT, 'render/metadata/cdn-range-report.json');
 
 const DATASET_ID = 'dobih-v18-4';
 const DATASET_NAME = 'Database of British and Irish Hills v18.4';
@@ -626,8 +626,8 @@ function updateMapLibreMetadata(datasets, sourceInventory) {
       renderer: 'maplibre',
       sourceType: 'pmtiles',
       geometryType: 'point',
-      tiles: `/test/tiles/generated/${dataset.id}/{z}/{x}/{y}.pbf`,
-      metadataUrl: `/test/tiles/generated/${dataset.id}/metadata.json`,
+      tiles: `/render/tiles/generated/${dataset.id}/{z}/{x}/{y}.pbf`,
+      metadataUrl: `/render/tiles/generated/${dataset.id}/metadata.json`,
       sourceLayer: dataset.layerName,
       promoteId: 'Number',
       minzoom: 0,
@@ -676,7 +676,7 @@ function updateMapLibreMetadata(datasets, sourceInventory) {
         maxWidth: 14,
         lineHeight: 1.25
       },
-      featureIndexUrl: `/test/metadata/feature-indexes/${layerId}.json`,
+      featureIndexUrl: `/render/metadata/feature-indexes/${layerId}.json`,
       sourceFile: relativePath(dataset.fgbPath),
       sourceDatasetLayer: dataset.layerName,
       idProperty: 'Number',
@@ -717,16 +717,16 @@ function updateMapLibreMetadata(datasets, sourceInventory) {
         generatedAt: GENERATED_AT
       },
       tileUrl: `${TEST_PM_BASE}/${layerId}.pmtiles`,
-      tilesFallback: `/test/tiles/generated/${dataset.id}/{z}/{x}/{y}.pbf`,
+      tilesFallback: `/render/tiles/generated/${dataset.id}/{z}/{x}/{y}.pbf`,
       tilePackage: {
         preferred: true,
-        localPath: `test/pmtiles/generated/${layerId}.pmtiles`,
-        url: `/test/pmtiles/generated/${layerId}.pmtiles`,
-        fallback: `/test/tiles/generated/${dataset.id}/{z}/{x}/{y}.pbf`,
+        localPath: `render/pmtiles/generated/${layerId}.pmtiles`,
+        url: `/render/pmtiles/generated/${layerId}.pmtiles`,
+        fallback: `/render/tiles/generated/${dataset.id}/{z}/{x}/{y}.pbf`,
         serving: 'cdn',
         cdnUrl: `${TEST_PM_BASE}/${layerId}.pmtiles`,
         r2Key: `data/maps/test/pmtiles/generated/${layerId}.pmtiles`,
-        localUrl: `/test/pmtiles/generated/${layerId}.pmtiles`,
+        localUrl: `/render/pmtiles/generated/${layerId}.pmtiles`,
         byteRangeVerifiedAt: rangeVerified ? rangeReport.generatedAt : undefined
       }
     }));
@@ -823,7 +823,7 @@ function updateSpatialIndex(datasets) {
   }
   // DoBIH has 21k+ summits and classification children repeat many of them.
   // Keep global search lean for Pages; detailed summit search uses the
-  // generated per-layer feature indexes in test/metadata/feature-indexes/.
+  // generated per-layer feature indexes in render/metadata/feature-indexes/.
   spatial.maps.sort((a, b) => String(a.name || a.id).localeCompare(String(b.name || b.id)));
   spatial.features.sort((a, b) => `${a.mapId}:${a.name}`.localeCompare(`${b.mapId}:${b.name}`));
   spatial.generated = GENERATED_AT;

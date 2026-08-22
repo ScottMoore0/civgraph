@@ -1,0 +1,168 @@
+{
+  "id": "tailte-water-vector-test",
+  "sourceMapId": "tailte-water",
+  "name": "Water (Tailte Éireann)",
+  "category": "Physical Geography",
+  "group": "Physical Geography",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Tailte Éireann"
+  ],
+  "description": "Water across the Republic of Ireland (1,268 features), from Tailte Éireann / Ordnance Survey Ireland open data. Water - National 250k Map Of Ireland For each watercourse with a drainage basin ≥ 500 km2 the main drain class should be indicated. This dataset is provided by Tailte Éireann",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "line",
+  "tiles": "/render/tiles/generated/tailte-water/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-water-vector-test.pmtiles",
+  "tilesFallback": "/render/tiles/generated/tailte-water/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/render/tiles/generated/tailte-water/metadata.json",
+  "sourceLayer": "tailte_water",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.534912,
+      -10.354131
+    ],
+    [
+      55.28833,
+      -6.0492905
+    ]
+  ],
+  "style": {
+    "color": "#2E86AB",
+    "fillColor": "#2E86AB",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Water — Tailte Éireann (data.gov.ie)",
+      "url": "https://data.gov.ie/dataset/water-national-250k-map-of-ireland",
+      "note": "Creative Commons Attribution 4.0"
+    },
+    {
+      "label": "Water — GeoJSON download",
+      "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/e954e28f7ab24556977d05a3c3d4fd7d/geojson?layers=0",
+      "note": ""
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "render/source-cache/vector-intake/tailte-water.fgb"
+    },
+    {
+      "label": "GeoJSON",
+      "url": "https://data-osi.opendata.arcgis.com/api/download/v1/items/e954e28f7ab24556977d05a3c3d4fd7d/geojson?layers=0"
+    }
+  ],
+  "sourceCredits": [
+    "Tailte Éireann"
+  ],
+  "keywords": [
+    "tailte éireann",
+    "osi",
+    "ireland",
+    "republic of ireland",
+    "water",
+    "Water (Tailte Éireann)",
+    "Physical Geography",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "NAMN1",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#2E86AB",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "featureIndexUrl": "/render/metadata/feature-indexes/tailte-water-vector-test.json",
+  "sourceFile": "render/source-cache/vector-intake/tailte-water.fgb",
+  "sourceDatasetLayer": "_t",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "NAMN1",
+    "OBJECTID",
+    "FCsubtype"
+  ],
+  "numericProperties": [
+    "OBJECTID",
+    "FCsubtype"
+  ],
+  "categoricalProperties": [
+    "NAMN1"
+  ],
+  "categoricalValues": {
+    "NAMN1": [
+      "Aherlow",
+      "Anner",
+      "Araglin",
+      "Arrigle",
+      "Athboy",
+      "Aughrim",
+      "Avoca",
+      "Avonbeg",
+      "Avonmore",
+      "Bann",
+      "Barora",
+      "Barrow",
+      "Black",
+      "Bora",
+      "Boyne",
+      "Bride",
+      "Brosna",
+      "Burren",
+      "Camoor",
+      "Clodiagh",
+      "Cloghoge",
+      "Colligan",
+      "Cushina",
+      "Dale",
+      "Dalligan",
+      "Dee",
+      "Delvin",
+      "Derreen",
+      "Derry",
+      "Dinin",
+      "Dissour",
+      "Dodder"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from render/source-cache/vector-intake/tailte-water.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "render/source-cache/vector-intake/tailte-water.fgb",
+    "bytes": 1909716,
+    "files": 2345,
+    "pbfFiles": 2344,
+    "maxTileBytes": 56199
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "render/pmtiles/generated/tailte-water-vector-test.pmtiles",
+    "url": "/render/pmtiles/generated/tailte-water-vector-test.pmtiles",
+    "bytes": 1612831,
+    "maxGithubBytes": 99614720,
+    "fallback": "/render/tiles/generated/tailte-water/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tailte-water-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/tailte-water-vector-test.pmtiles",
+    "localUrl": "/render/pmtiles/generated/tailte-water-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-08-04T22:09:20.884Z"
+  }
+}

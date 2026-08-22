@@ -36,7 +36,7 @@ function makeWorkspace() {
   mkdirSync(join(dir, 'intake'), { recursive: true });
   cpSync(resolve(ROOT, 'data/intake'), join(dir, 'intake'), { recursive: true });
   for (const name of ['maps-test.json', 'maps-test-index.json']) {
-    const src = resolve(ROOT, 'test/metadata', name);
+    const src = resolve(ROOT, 'render/metadata', name);
     if (existsSync(src)) cpSync(src, join(dir, name));
   }
   return dir;
@@ -62,9 +62,9 @@ const cases = [
     corrupt(dir) {
       const p = join(dir, 'maps-test.json');
       const doc = readJson(p);
-      const layer = (doc.layers || []).find((l) => typeof l.sourceFile === 'string' && l.sourceFile.startsWith('test/source-cache/vector-intake/'));
+      const layer = (doc.layers || []).find((l) => typeof l.sourceFile === 'string' && l.sourceFile.startsWith('render/source-cache/vector-intake/'));
       if (!layer) return false;
-      layer.sourceFile = 'test/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Munster_1955.fgb';
+      layer.sourceFile = 'render/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Munster_1955.fgb';
       writeJson(p, doc);
       return true;
     },

@@ -1,0 +1,194 @@
+{
+  "id": "roi-townlands-vector-test",
+  "sourceMapId": "roi-townlands",
+  "name": "Ireland",
+  "category": "Townlands",
+  "group": "Communities",
+  "date": null,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "OSI"
+  ],
+  "description": "Republic of Ireland",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/render/tiles/generated/roi-townlands/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/roi-townlands-vector-test.pmtiles",
+  "tilesFallback": "/render/tiles/generated/roi-townlands/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/render/tiles/generated/roi-townlands/metadata.json",
+  "sourceLayer": "roi_townlands",
+  "promoteId": "OBJECTID",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.4198973,
+      -10.6186236
+    ],
+    [
+      55.4351414,
+      -5.9944947
+    ]
+  ],
+  "style": {
+    "color": "#A87000",
+    "fillColor": "#A87000",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Townlands - National Statutory Boundaries - Ungeneralised - 2024 (Tailte Éireann)",
+      "url": "https://data-osi.opendata.arcgis.com/datasets/osi::townlands-national-statutory-boundaries-ungeneralised-2024/about",
+      "note": "Creative Commons Attribution 4.0."
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "data/maps/townlands/OSI_Townlands.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "OSI"
+  ],
+  "keywords": [
+    "townland",
+    "townlands",
+    "republic of ireland",
+    "osi",
+    "tailte eireann",
+    "Ireland",
+    "Townlands",
+    "Communities",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "ENG_NAME_VALUE",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#A87000",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "sourceFile": "data/maps/townlands/OSI_Townlands.fgb",
+  "sourceDatasetLayer": "OSI_Townlands",
+  "idProperty": "OBJECTID",
+  "popupProperties": [
+    "ENG_NAME_VALUE",
+    "OBJECTID",
+    "GLE_NAME_VALUE"
+  ],
+  "numericProperties": [
+    "OBJECTID"
+  ],
+  "categoricalProperties": [
+    "ENG_NAME_VALUE",
+    "GLE_NAME_VALUE"
+  ],
+  "categoricalValues": {
+    "ENG_NAME_VALUE": [
+      "CAHER",
+      "CLASH",
+      "CURRAGH",
+      "DEERPARK",
+      "DROMORE",
+      "FOXHOLE",
+      "GALBALLY",
+      "GLENBEG",
+      "KILCASH",
+      "KILLESK",
+      "KILMACOE",
+      "KILMURRY",
+      "KNOCKROE",
+      "LONGFORD",
+      "MOANROE",
+      "NICHAREE",
+      "REAROE",
+      "SHOUKS",
+      "YOLETOWN",
+      "ADAMSTOWN",
+      "BALLINDONEY WEST",
+      "BALLYBANE",
+      "BALLYCLOHY",
+      "BALLYCONDON COMMONS",
+      "BALLYDAVID",
+      "BALLYDORGAN",
+      "BALLYDUFF UPPER",
+      "BALLYFAUSKEEN",
+      "BALLYGARRAN",
+      "BALLYGOMAN",
+      "BALLYGRANGANS",
+      "BALLYHOOK"
+    ],
+    "GLE_NAME_VALUE": [
+      "An Baile B�n",
+      "An Baile Dubh Uachtarach",
+      "An Bhuaile Bhu�",
+      "An Chathair",
+      "An Chlais",
+      "An Cloichre�n",
+      "An Cnoc Rua",
+      "An Coinic�ar �ochtarach",
+      "An Currach",
+      "An Curraich�n",
+      "An Drom M�r",
+      "An Drom Rua �ochtarach",
+      "An Eochair Riabhaigh",
+      "An Gallbhaile",
+      "An Garra� Dubh",
+      "An Gleann Beag",
+      "An Goirt�n Uachtarach",
+      "An Longfort",
+      "An Mh�in Rua",
+      "An R� Rua",
+      "An Sceich�n Uachtarach",
+      "An Seanbhaile",
+      "Baile Anra� Beag",
+      "Baile Anra� M�r",
+      "Baile Dh�ith",
+      "Baile Gh�main",
+      "Baile Grang�in",
+      "Baile Mhaoil�ir",
+      "Baile Mhich�l",
+      "Baile Ph�isc�n",
+      "Baile U� Dhearg�in",
+      "Baile U� Dhonnag�in"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from data/maps/townlands/OSI_Townlands.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "data/maps/townlands/OSI_Townlands.fgb",
+    "bytes": 88359993,
+    "files": 3308,
+    "pbfFiles": 3307,
+    "maxTileBytes": 3022371
+  },
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "render/pmtiles/generated/roi-townlands-vector-test.pmtiles",
+    "url": "/render/pmtiles/generated/roi-townlands-vector-test.pmtiles",
+    "bytes": 55157748,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "fallback": "/render/tiles/generated/roi-townlands/{z}/{x}/{y}.pbf",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/roi-townlands-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/roi-townlands-vector-test.pmtiles",
+    "localUrl": "/render/pmtiles/generated/roi-townlands-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-08-04T22:09:20.884Z"
+  }
+}

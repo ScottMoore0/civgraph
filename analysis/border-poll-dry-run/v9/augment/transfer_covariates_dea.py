@@ -1,7 +1,7 @@
 """DEA-level transfer covariates from the post-2014 local-government STV elections (2014/2019/2023,
 current 80-DEA geography). Same single-source elimination extraction as transfer_covariates.py."""
 import json,glob,os,collections,numpy as np,pandas as pd
-V="analysis/border-poll-dry-run/v9"; BASE='test/metadata/elections-test2'
+V="analysis/border-poll-dry-run/v9"; BASE='render/metadata/elections-test2'
 import importlib.util
 spec=importlib.util.spec_from_file_location("tc",f"{V}/augment/transfer_covariates.py")
 # reuse bloc() + elim_flows() without running the module's main body: re-declare minimal copies

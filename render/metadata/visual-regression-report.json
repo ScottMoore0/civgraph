@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-05-30T00:06:00.236Z",
+  "viewport": {
+    "width": 1366,
+    "height": 768
+  },
+  "checks": [
+    {
+      "name": "main header visible",
+      "ok": true,
+      "detail": "Main header detected."
+    },
+    {
+      "name": "test header visible",
+      "ok": true,
+      "detail": "Test header detected."
+    },
+    {
+      "name": "header height parity",
+      "ok": true,
+      "detail": "Main 64px, test 64px."
+    },
+    {
+      "name": "test catalogue visible",
+      "ok": true,
+      "detail": "Catalogue width 683px."
+    },
+    {
+      "name": "test map visible",
+      "ok": true,
+      "detail": "Map 683x704px."
+    },
+    {
+      "name": "catalogue width parity",
+      "ok": true,
+      "detail": "Main 683px, test 683px."
+    },
+    {
+      "name": "test uses main pane structure",
+      "ok": true,
+      "detail": "Main app/pane structure detected."
+    },
+    {
+      "name": "test has no product header above catalogue",
+      "ok": true,
+      "detail": "No /test product header detected."
+    },
+    {
+      "name": "test default catalogue is compact table",
+      "ok": true,
+      "detail": "140 compact catalogue rows detected."
+    }
+  ],
+  "screenshots": {
+    "main": "render/metadata/visual-snapshots/main-shell.png",
+    "test": "render/metadata/visual-snapshots/test-shell.png"
+  },
+  "pass": true,
+  "main": {
+    "header": {
+      "x": 0,
+      "y": 0,
+      "width": 1366,
+      "height": 64,
+      "background": "rgb(6, 90, 110)",
+      "color": "rgb(255, 255, 255)"
+    },
+    "brand": {
+      "x": 24,
+      "y": 5,
+      "width": 209,
+      "height": 55,
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(255, 255, 255)"
+    },
+    "sidebar": {
+      "x": 0,
+      "y": 64,
+      "width": 683,
+      "height": 704,
+      "background": "rgb(255, 255, 255)",
+      "color": "rgb(26, 32, 44)"
+    },
+    "map": {
+      "x": 689,
+      "y": 64,
+      "width": 683,
+      "height": 704,
+      "background": "rgb(237, 242, 247)",
+      "color": "rgb(26, 32, 44)"
+    },
+    "mainPane": {
+      "x": 0,
+      "y": 64,
+      "width": 1366,
+      "height": 704,
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(26, 32, 44)"
+    },
+    "infoPane": {
+      "x": 0,
+      "y": 64,
+      "width": 683,
+      "height": 704,
+      "background": "rgb(255, 255, 255)",
+      "color": "rgb(26, 32, 44)"
+    },
+    "mapPane": {
+      "x": 689,
+      "y": 64,
+      "width": 683,
+      "height": 704,
+      "background": "rgb(255, 255, 255)",
+      "color": "rgb(26, 32, 44)"
+    },
+    "testProductHeader": false,
+    "compactRows": 0,
+    "filterContainers": 2
+  },
+  "test": {
+    "header": {
+      "x": 0,
+      "y": 0,
+      "width": 1366,
+      "height": 64,
+      "background": "rgb(6, 90, 110)",
+      "color": "rgb(255, 255, 255)"
+    },
+    "brand": {
+      "x": 24,
+      "y": 5,
+      "width": 209,
+      "height": 55,
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(255, 255, 255)"
+    },
+    "sidebar": {
+      "x": 0,
+      "y": 64,
+      "width": 683,
+      "height": 704,
+      "background": "rgb(255, 255, 255)",
+      "color": "rgb(26, 32, 44)"
+    },
+    "map": {
+      "x": 689,
+      "y": 64,
+      "width": 683,
+      "height": 704,
+      "background": "rgb(247, 250, 252)",
+      "color": "rgb(26, 32, 44)"
+    },
+    "mainPane": {
+      "x": 0,
+      "y": 64,
+      "width": 1366,
+      "height": 704,
+      "background": "rgba(0, 0, 0, 0)",
+      "color": "rgb(26, 32, 44)"
+    },
+    "infoPane": {
+      "x": 0,
+      "y": 64,
+      "width": 683,
+      "height": 704,
+      "background": "rgb(255, 255, 255)",
+      "color": "rgb(26, 32, 44)"
+    },
+    "mapPane": {
+      "x": 689,
+      "y": 64,
+      "width": 683,
+      "height": 704,
+      "background": "rgb(237, 242, 247)",
+      "color": "rgb(26, 32, 44)"
+    },
+    "testProductHeader": false,
+    "compactRows": 140,
+    "filterContainers": 2
+  }
+}

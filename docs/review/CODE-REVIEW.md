@@ -31,7 +31,7 @@ production. Where a claim rests on reading alone, it says so.
 
     functions/     26 files    2,438 lines      browse/     3 files   5,481 lines
     app/src/        8 files   11,275 lines      src/       16 files  36,028 lines
-    test/src/      25 files    9,807 lines      scripts/  506 files 203,589 lines
+    render/src/      25 files    9,807 lines      scripts/  506 files 203,589 lines
 
     eslint warnings 18 (0 errors)     check: targets 31, all with a failure path
     TODO/FIXME/HACK markers in scope: 0
@@ -115,7 +115,7 @@ id, so the next regression is caught by the gate rather than by a reviewer.
 **CONFIRMED.** `eslint.config.mjs:28` scopes linting to:
 
 ```js
-files: ['test/src/**/*.js', 'app/src/**/*.js'],
+files: ['render/src/**/*.js', 'app/src/**/*.js'],
 ```
 
 Nothing else has any rules applied. Measured, that leaves unlinted:

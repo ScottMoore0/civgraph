@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """v9 phase 18 (stage 3) — STV transfer model, built from the repo's OWN count data.
 
-Source: test/metadata/elections-test2/*.json ->
+Source: render/metadata/elections-test2/*.json ->
         results[].animationPayload.Constituency.countGroup
         one row per candidate per count, carrying Total_Votes, Transfers, and
         Status/Occurred_On_Count marking when a candidate was Elected or Excluded.

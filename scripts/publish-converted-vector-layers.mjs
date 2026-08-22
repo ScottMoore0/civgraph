@@ -24,9 +24,9 @@ import { execFileSync } from 'node:child_process';
 const ROOT = resolve(process.cwd());
 const WORKLIST = resolve(ROOT, 'data/review-inputs/medium-priority-resolution-2026-07-08/conversion-resolution-worklist.json');
 const MAPS_PATH = resolve(ROOT, 'data/database/maps.json');
-const TEST_PATH = resolve(ROOT, 'test/metadata/maps-test.json');
-const INTAKE = resolve(ROOT, 'test/source-cache/vector-intake');
-const PMTILES_DIR = resolve(ROOT, 'test/pmtiles/generated');
+const TEST_PATH = resolve(ROOT, 'render/metadata/maps-test.json');
+const INTAKE = resolve(ROOT, 'render/source-cache/vector-intake');
+const PMTILES_DIR = resolve(ROOT, 'render/pmtiles/generated');
 const TMP = resolve(process.env.CLAUDE_JOB_DIR || ROOT, 'tmp/conv-pub');
 const DATA_HOST = 'https://data.civgraph.net';
 const NO_UPLOAD = process.argv.includes('--no-upload');
@@ -161,7 +161,7 @@ const layerIds = new Set((test.layers || []).map((l) => l.id));
 let added = 0;
 for (const [i, r] of (typeof authorable !== 'undefined' ? authorable : ok).entries()) {
   const lic = r.row.license; const colour = PALETTE[i % PALETTE.length];
-  const localUrl = `/test/pmtiles/generated/${r.layerId}.pmtiles`;
+  const localUrl = `/render/pmtiles/generated/${r.layerId}.pmtiles`;
   const r2Key = r.r2Key || `data/maps/test/pmtiles/generated/${r.layerId}.pmtiles`;
   const cdnUrl = `${DATA_HOST}/${r2Key}`;
   const cat = r.meta.geometryType === 'point' ? 'Points of Interest' : 'Boundaries';
@@ -181,13 +181,13 @@ for (const [i, r] of (typeof authorable !== 'undefined' ? authorable : ok).entri
     renderer: 'maplibre', sourceType: 'pmtiles', geometryType: r.meta.geometryType,
     sourceLayer: r.meta.sourceLayer, minzoom: 0, maxzoom: 12, bounds: r.meta.bounds,
     style: paint, references: [{ label: `${r.row.provider} — ${r.row.title}`, url: r.row.providerUrl, note: lic }],
-    sourceDownloads: [{ label: 'Source file used for /test conversion', file: `test/source-cache/vector-intake/${r.base}.fgb` }],
+    sourceDownloads: [{ label: 'Source file used for /test conversion', file: `render/source-cache/vector-intake/${r.base}.fgb` }],
     sourceCredits: [r.row.provider], keywords: ['open-data', LICENCE_KW[lic] || 'open', cat, 'maplibre', 'vector tiles'],
     labelProperty: r.meta.labelField, labelPropertyFallbacks: [], labelMinZoom: 0, labelMaxZoom: null,
     labelStyle: { color: colour, hoverColor: '#ff7a1a', selectedColor: '#111827', haloColor: '#ffffff', haloWidth: 1.2, haloBlur: 0, fontSize: 12, fontWeight: 'bold', maxWidth: 14, lineHeight: 1.25 },
-    sourceFile: `test/source-cache/vector-intake/${r.base}.fgb`, sourceDatasetLayer: r.base,
+    sourceFile: `render/source-cache/vector-intake/${r.base}.fgb`, sourceDatasetLayer: r.base,
     tileUrl: NO_UPLOAD ? localUrl : cdnUrl,
-    tilePackage: { preferred: true, localPath: `test/pmtiles/generated/${r.layerId}.pmtiles`, url: localUrl, bytes: r.bytes,
+    tilePackage: { preferred: true, localPath: `render/pmtiles/generated/${r.layerId}.pmtiles`, url: localUrl, bytes: r.bytes,
       maxGithubBytes: 99614720, generatedAt: '2026-07-08T00:00:00.000Z', serving: NO_UPLOAD ? 'local' : 'cdn',
       cdnUrl, r2Key, localUrl },
     popupProperties: r.meta.stringFields.slice(0, 6), numericProperties: r.meta.numericFields.slice(0, 6), categoricalProperties: []

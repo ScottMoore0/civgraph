@@ -727,7 +727,7 @@ class DataService {
  *    `mapConfig.files.fgb` silently yields undefined; only read it when it is
  *    actually an object.
  *  - `sourceFile` is usually a build-time input path such as
- *    `test/source-cache/vector-intake/<name>.fgb`, which is not a deployed
+ *    `render/source-cache/vector-intake/<name>.fgb`, which is not a deployed
  *    asset. Requesting it returns the SPA shell as text/html, so an unguarded
  *    download saves an HTML page with a .fgb extension.
  *

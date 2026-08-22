@@ -68,7 +68,7 @@ function tokens(value) {
     .join('');
 }
 
-const metadata = JSON.parse(readFileSync(path.join(ROOT, 'test/metadata/maps-test.json'), 'utf8'));
+const metadata = JSON.parse(readFileSync(path.join(ROOT, 'render/metadata/maps-test.json'), 'utf8'));
 const layersById = new Map((metadata.layers || []).map((l) => [l.id, l]));
 
 const nameCache = new Map();
@@ -79,7 +79,7 @@ async function featureNames(mapId) {
   let names = null;
   const layerId = `${mapId}-vector-test`;
 
-  const idxPath = path.join(ROOT, 'test/metadata/feature-indexes', `${layerId}.json`);
+  const idxPath = path.join(ROOT, 'render/metadata/feature-indexes', `${layerId}.json`);
   if (existsSync(idxPath)) {
     try {
       const doc = JSON.parse(readFileSync(idxPath, 'utf8'));
@@ -105,7 +105,7 @@ async function featureNames(mapId) {
     const layer = layersById.get(layerId);
     const candidates = [
       layer && layer.sourceFile ? path.resolve(ROOT, String(layer.sourceFile).replace(/^\//, '')) : null,
-      path.join(ROOT, 'test/source-cache/vector-intake', `${mapId}.fgb`),
+      path.join(ROOT, 'render/source-cache/vector-intake', `${mapId}.fgb`),
     ].filter(Boolean);
     for (const file of candidates) {
       if (!existsSync(file) || !file.endsWith('.fgb')) continue;
@@ -149,14 +149,14 @@ function candidateMapIds() {
     const id = String(layer.id || '').replace(/-vector-test$/, '');
     if (/^(dail|pc|assembly-areas|stormont|deas|roi-|ni-|forum|constitutional)/.test(id)) ids.add(id);
   }
-  for (const f of existsSync(path.join(ROOT, 'test/source-cache/vector-intake'))
-    ? readdirSync(path.join(ROOT, 'test/source-cache/vector-intake')) : []) {
+  for (const f of existsSync(path.join(ROOT, 'render/source-cache/vector-intake'))
+    ? readdirSync(path.join(ROOT, 'render/source-cache/vector-intake')) : []) {
     if (f.endsWith('.fgb')) ids.add(f.replace(/\.fgb$/, ''));
   }
   return [...ids];
 }
 
-const dir = path.join(ROOT, 'test/metadata/elections-test2');
+const dir = path.join(ROOT, 'render/metadata/elections-test2');
 const elections = readdirSync(dir).filter((f) => f.endsWith('.json')).map((f) => JSON.parse(readFileSync(path.join(dir, f), 'utf8')));
 const targets = elections.filter((e) => {
   if (ONLY_BODY && e.body !== ONLY_BODY) return false;

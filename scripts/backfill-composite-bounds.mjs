@@ -30,7 +30,7 @@ import { writeArtefactJson } from './lib/safe-artefact-write.mjs';
 
 const ROOT = resolve(process.cwd());
 const CATALOGUE = resolve(ROOT, 'data/database/maps.json');
-const INDEX = resolve(ROOT, 'test/metadata/maps-test-index.json');
+const INDEX = resolve(ROOT, 'render/metadata/maps-test-index.json');
 const CHECK_ONLY = process.argv.includes('--check');
 
 const catalogue = JSON.parse(readFileSync(CATALOGUE, 'utf8'));

@@ -4,7 +4,7 @@
 Implements the count directly (Gregory surplus method, as the source data's
 `votingSystem: "stv-gregory"` specifies). Written from the published STV rules
 rather than copied from any other project, and driven entirely by the repo's own
-data: first preferences and seat counts from test/metadata/elections-test2, and
+data: first preferences and seat counts from render/metadata/elections-test2, and
 the transfer matrix estimated in 18_transfer_model.py from the same files.
 
 Count rules implemented

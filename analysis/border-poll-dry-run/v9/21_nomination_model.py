@@ -94,7 +94,7 @@ def build_frame():
 
 
 def councils():
-    lf = json.load(open(f"{REPO}/test/metadata/elections-test2/"
+    lf = json.load(open(f"{REPO}/render/metadata/elections-test2/"
                         "local-government-local-government-districts__2023-05-18.json",
                         encoding='utf-8'))
     return lf['localBodyByConstituency']

@@ -93,7 +93,7 @@ election-viewer-package/data/elections/local-government/2011-05-05/{dea}.json   
         │  (countGroup now with Count_Number 1..N, Transfers, Total_Votes, Status)
         ├─► npm run build:test2:elections
         │        build-test2-election-manifest.mjs reads election-viewer-package/data/elections
-        │        → test/metadata/elections-test2/local-government-...__2011-05-05.json
+        │        → render/metadata/elections-test2/local-government-...__2011-05-05.json
         │
         ├─► regenerate _bundle.json / _aggregates.json for 2011  → council map colouring + summaries
         │
@@ -104,7 +104,7 @@ election-viewer-package/data/elections/local-government/2011-05-05/{dea}.json   
   `_aggregates` rollups are regenerated (the 2014 build step, pointed at 2011), the 2011 layer renders
   identically to 2014 — stage-by-stage transfers in the ward view, party totals on the council map.
 - **Model:** `analysis/border-poll-dry-run/v9/augment/transfer_covariates.py` (and `_dea.py`) read
-  `test/metadata/elections-test2/`. Because `build-test2-election-manifest.mjs` sources from the
+  `render/metadata/elections-test2/`. Because `build-test2-election-manifest.mjs` sources from the
   viewer-package tree, the digitised 2011 counts flow through to the metadata the covariate scripts
   already parse — `elim_flows()` picks up the single-source elimination stages with **no change to the
   model code**. That extends `transfer_openness_timeseries.py` and the DEA covariates back to 2011, and

@@ -29,7 +29,7 @@ DIR = ROOT / f"election-viewer-package/data/elections/local-government/{DATE}"
 WIKI = ROOT / f"_tmp_{YEAR}_lgov/bundle"
 # boundary vintages: 1973-1981 -> deas-1972; 1985/1989 -> deas-1984; 1993+ -> deas-1993.
 _GEOM = "deas-1972" if YEAR < 1985 else "deas-1984" if YEAR < 1993 else "deas-1993"
-IDX = ROOT / f"test/metadata/feature-indexes/{_GEOM}-vector-test.json"
+IDX = ROOT / f"render/metadata/feature-indexes/{_GEOM}-vector-test.json"
 
 COUNCIL = {
     'antrim':'Antrim','ards':'Ards','armagh':'Armagh','ballymena':'Ballymena',

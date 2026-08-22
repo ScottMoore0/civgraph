@@ -11,7 +11,7 @@
 // changing it is what flushes stale entries already sitting in visitors' browsers --
 // necessary here because the browse indexes cached under the previous routing rule
 // would otherwise outlive the fix below.
-const VERSION = 'root-maplibre-sw-f0b882659f46';
+const VERSION = 'root-maplibre-sw-a3d1fb6f349b';
 const STATIC_CACHE = `civgraph-root-maplibre-${VERSION}-static`;
 const RUNTIME_CACHE = `civgraph-root-maplibre-${VERSION}-runtime`;
 const CACHE_PREFIX = 'civgraph-root-maplibre-';
@@ -37,9 +37,9 @@ const CACHE_FIRST_PATHS = [
   '/assets/fonts/',
   '/assets/images/',
   '/assets/thumbnails/',
-  '/test/metadata/layer-details-test2/',
-  '/test/metadata/duplicate-feature-ids/',
-  '/test/metadata/elections-test2-summaries/'
+  '/render/metadata/layer-details-test2/',
+  '/render/metadata/duplicate-feature-ids/',
+  '/render/metadata/elections-test2-summaries/'
 ];
 
 const NETWORK_FIRST_PATHS = [
@@ -63,7 +63,7 @@ const NETWORK_FIRST_PATHS = [
   '/manifest.json',
   '/test2/',
   '/test2/index.html',
-  '/test/metadata/maps-test-index.json'
+  '/render/metadata/maps-test-index.json'
 ];
 
 const NEVER_CACHE_PATTERNS = [
@@ -183,7 +183,7 @@ function isRuntimeJson(url) {
     url.pathname.startsWith('/data/database/') ||
     url.pathname.startsWith('/data/browse/') ||
     url.pathname.startsWith('/data/graph/') ||
-    url.pathname.startsWith('/test/metadata/')
+    url.pathname.startsWith('/render/metadata/')
   );
 }
 

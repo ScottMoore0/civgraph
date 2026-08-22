@@ -10,8 +10,8 @@ import { chromium } from '@playwright/test';
 import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
 
 const ROOT = resolve(process.cwd());
-const METADATA_PATH = resolve(ROOT, 'test/metadata/maps-test.json');
-const REPORT_PATH = resolve(ROOT, 'test/metadata/mobile-smoke-report.json');
+const METADATA_PATH = resolve(ROOT, 'render/metadata/maps-test.json');
+const REPORT_PATH = resolve(ROOT, 'render/metadata/mobile-smoke-report.json');
 const PORT = Number(process.env.TEST_SMOKE_PORT || 4177);
 const MAX_LAYER_MS = Number(process.env.TEST_SMOKE_MAX_LAYER_MS || 12000);
 const DEFAULT_LAYER_IDS = [
@@ -54,7 +54,7 @@ try {
       });
     }
   });
-  await page.goto(`http://127.0.0.1:${PORT}/test/index.html`, { waitUntil: 'networkidle' });
+  await page.goto(`http://127.0.0.1:${PORT}/render/index.html`, { waitUntil: 'networkidle' });
   await page.waitForFunction(() => window.__civgraphTest?.metadataService?.layers?.length, null, { timeout: 30000 });
 
   const suiteStarted = Date.now();

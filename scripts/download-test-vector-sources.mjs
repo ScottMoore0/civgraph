@@ -10,10 +10,10 @@ import { Readable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
 
 const ROOT = resolve(process.cwd());
-const INTAKE_PATH = resolve(ROOT, 'test/metadata/vector-intake-report.json');
-const CACHE_ROOT = resolve(ROOT, 'test/source-cache/vector-intake');
+const INTAKE_PATH = resolve(ROOT, 'render/metadata/vector-intake-report.json');
+const CACHE_ROOT = resolve(ROOT, 'render/source-cache/vector-intake');
 const MANIFEST_PATH = resolve(CACHE_ROOT, 'manifest.json');
-const REPORT_PATH = resolve(ROOT, 'test/metadata/vector-source-download-report.json');
+const REPORT_PATH = resolve(ROOT, 'render/metadata/vector-source-download-report.json');
 const VECTOR_EXTENSIONS = new Set(['.fgb', '.geojson', '.json', '.gpkg', '.shp', '.zip']);
 const LIMIT = readNumberArg('--limit', Infinity);
 const ONLY_IDS = new Set(readStringArg('--ids', '').split(',').map((value) => value.trim()).filter(Boolean));
@@ -48,7 +48,7 @@ const manifestSources = mergeSources(existingManifest.sources || [], [...downloa
 const manifest = {
   schemaVersion: 1,
   generatedAt: new Date().toISOString(),
-  cacheRoot: 'test/source-cache/vector-intake',
+  cacheRoot: 'render/source-cache/vector-intake',
   sources: manifestSources
 };
 writeFileSync(MANIFEST_PATH, `${JSON.stringify(manifest, null, 2)}\n`);
@@ -56,8 +56,8 @@ writeFileSync(MANIFEST_PATH, `${JSON.stringify(manifest, null, 2)}\n`);
 const report = {
   schemaVersion: 1,
   generatedAt: new Date().toISOString(),
-  intake: 'test/metadata/vector-intake-report.json',
-  cacheManifest: 'test/source-cache/vector-intake/manifest.json',
+  intake: 'render/metadata/vector-intake-report.json',
+  cacheManifest: 'render/source-cache/vector-intake/manifest.json',
   totals: {
     selected: items.length,
     downloaded: downloaded.length,
@@ -82,7 +82,7 @@ async function processEntry(entry) {
   const { item, sources } = entry;
   const firstSource = sources[0];
   const extension = cleanExtension(firstSource.file) || '.fgb';
-  const localPath = `test/source-cache/vector-intake/${slugify(item.sourceMapId)}${extension}`;
+  const localPath = `render/source-cache/vector-intake/${slugify(item.sourceMapId)}${extension}`;
   const absolutePath = resolve(ROOT, localPath);
   const existing = existingById.get(item.sourceMapId);
   if (existsSync(absolutePath) && statSync(absolutePath).size > 0) {

@@ -15,10 +15,10 @@ import { isValidBounds } from './lib/layer-bounds.mjs';
 
 const ROOT = resolve(process.cwd());
 const MAIN_PATH = resolve(ROOT, 'data/database/maps.json');
-const PLAN_PATH = resolve(ROOT, 'test/metadata/main-site-port-plan.json');
-const REPORT_PATH = resolve(ROOT, 'test/metadata/vector-conversion-report.json');
-const TEST_PATH = resolve(ROOT, 'test/metadata/maps-test.json');
-const PMTILES_DIR = resolve(ROOT, 'test/pmtiles/generated');
+const PLAN_PATH = resolve(ROOT, 'render/metadata/main-site-port-plan.json');
+const REPORT_PATH = resolve(ROOT, 'render/metadata/vector-conversion-report.json');
+const TEST_PATH = resolve(ROOT, 'render/metadata/maps-test.json');
+const PMTILES_DIR = resolve(ROOT, 'render/pmtiles/generated');
 const MAX_GITHUB_BYTES = 95 * 1024 * 1024;
 const DATA_HOST = 'https://data.civgraph.net';
 const INCLUDE_RASTERS = !process.argv.includes('--no-rasters');
@@ -133,7 +133,7 @@ writeArtefactJson(TEST_PATH, next, {
   collection: 'layers',
   idKey: 'id',
   allowDeletions: allowDeletionsFlag(),
-  label: 'test/metadata/maps-test.json'
+  label: 'render/metadata/maps-test.json'
 });
 syncPortPlan(layers);
 console.log(`Promoted ${promotedVectorLayers.length} vector layer(s).`);
@@ -283,15 +283,15 @@ function buildVectorLayer(converted, row, map) {
   const id = `${row.sourceMapId}-vector-test`;
   const pmtilesPath = resolve(PMTILES_DIR, `${id}.pmtiles`);
   const pmtiles = existsSync(pmtilesPath) ? {
-    url: `/test/pmtiles/generated/${id}.pmtiles`,
+    url: `/render/pmtiles/generated/${id}.pmtiles`,
     bytes: statSize(pmtilesPath),
-    localPath: `test/pmtiles/generated/${id}.pmtiles`
+    localPath: `render/pmtiles/generated/${id}.pmtiles`
   } : null;
   // SIZE DOES NOT DECIDE THIS ANY MORE. The 95 MB gate dates from when tile assets lived
   // in the repo and GitHub's 100 MB file limit was the binding constraint. PMTiles
   // archives are gitignored and served from R2 over HTTP range requests, which is what
   // the format exists for, so a large archive is not a problem -- but being demoted to
-  // 'mvt' is: an mvt layer serves from /test/tiles/generated/..., a path excluded from the
+  // 'mvt' is: an mvt layer serves from /render/tiles/generated/..., a path excluded from the
   // Pages deploy, and promotion leaves its tileUrl empty. That is the state
   // tailte-hvd-cadastral-parcels-leasehold has been sitting in, and where the 224 MB
   // tailte-hvd-water-points archive would have landed. switch-test-pmtiles-to-cdn.mjs
@@ -782,6 +782,6 @@ function slugify(value) {
 
 function featureIndexUrlIfBuilt(sourceMapId, labelProperty) {
   if (!labelProperty) return undefined;
-  const rel = `/test/metadata/feature-indexes/${sourceMapId}-vector-test.json`;
+  const rel = `/render/metadata/feature-indexes/${sourceMapId}-vector-test.json`;
   return existsSync(resolve(ROOT, rel.replace(/^\//, ''))) ? rel : undefined;
 }

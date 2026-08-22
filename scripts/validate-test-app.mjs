@@ -8,31 +8,31 @@ import { resolve } from 'node:path';
 import { isValidBounds } from './lib/layer-bounds.mjs';
 
 const ROOT = resolve(process.cwd());
-const METADATA_PATH = resolve(ROOT, 'test/metadata/maps-test.json');
-const PORT_PLAN_PATH = resolve(ROOT, 'test/metadata/main-site-port-plan.json');
-const INDEX_PATH = resolve(ROOT, 'test/index.html');
-const APP_PATH = resolve(ROOT, 'test/src/app.js');
-const CONFIG_PATH = resolve(ROOT, 'test/src/config.js');
-const SERVICE_WORKER_PATH = resolve(ROOT, 'test/sw.js');
+const METADATA_PATH = resolve(ROOT, 'render/metadata/maps-test.json');
+const PORT_PLAN_PATH = resolve(ROOT, 'render/metadata/main-site-port-plan.json');
+const INDEX_PATH = resolve(ROOT, 'render/index.html');
+const APP_PATH = resolve(ROOT, 'render/src/app.js');
+const CONFIG_PATH = resolve(ROOT, 'render/src/config.js');
+const SERVICE_WORKER_PATH = resolve(ROOT, 'render/sw.js');
 const REQUIRED_MODULES = [
-  'test/src/config.js',
-  'test/src/dom.js',
-  'test/src/utils.js',
-  'test/src/labels.js',
-  'test/src/metadata-service.js',
-  'test/src/map-controller.js',
-  'test/src/catalogue-controller.js',
-  'test/src/active-layers.js',
-  'test/src/feature-details.js',
-  'test/src/source-panel.js',
-  'test/src/diagnostics.js',
-  'test/src/url-state.js',
-  'test/src/search-service.js',
-  'test/src/time-series-controller.js',
-  'test/src/time-series-panel.js',
-  'test/src/election-service.js',
-  'test/src/conditional-styling.js',
-  'test/src/migration-readiness.js'
+  'render/src/config.js',
+  'render/src/dom.js',
+  'render/src/utils.js',
+  'render/src/labels.js',
+  'render/src/metadata-service.js',
+  'render/src/map-controller.js',
+  'render/src/catalogue-controller.js',
+  'render/src/active-layers.js',
+  'render/src/feature-details.js',
+  'render/src/source-panel.js',
+  'render/src/diagnostics.js',
+  'render/src/url-state.js',
+  'render/src/search-service.js',
+  'render/src/time-series-controller.js',
+  'render/src/time-series-panel.js',
+  'render/src/election-service.js',
+  'render/src/conditional-styling.js',
+  'render/src/migration-readiness.js'
 ];
 
 function localPathFromUrlTemplate(value) {
@@ -191,13 +191,13 @@ function validateAssetVersions() {
   const configJs = readFileSync(CONFIG_PATH, 'utf8');
   const serviceWorker = readFileSync(SERVICE_WORKER_PATH, 'utf8');
 
-  const indexVersions = [...indexHtml.matchAll(/\/test\/build\/test\.bundle\.(?:js|css)\?v=(test-\d+)/g)]
+  const indexVersions = [...indexHtml.matchAll(/\/render\/build\/test\.bundle\.(?:js|css)\?v=(test-\d+)/g)]
     .map((match) => match[1]);
   const appVersion = configJs.match(/TEST_ASSET_VERSION\s*=\s*['"](test-\d+)['"]/)?.[1];
   const swVersion = serviceWorker.match(/const\s+TEST_CACHE_VERSION\s*=\s*['"]test-v(\d+)['"]/)?.[1];
 
   if (indexVersions.length !== 2) {
-    errors.push('/test index must version both JS and CSS bundle URLs');
+    errors.push('/render index must version both JS and CSS bundle URLs');
   }
 
   const uniqueIndexVersions = [...new Set(indexVersions)];
@@ -207,8 +207,8 @@ function validateAssetVersions() {
 
   const indexVersion = uniqueIndexVersions[0];
   const indexVersionNumber = indexVersion?.match(/^test-(\d+)$/)?.[1];
-  if (!appVersion) errors.push('test/src/config.js must define TEST_ASSET_VERSION');
-  if (!swVersion) errors.push('test/sw.js must define TEST_CACHE_VERSION as test-vN');
+  if (!appVersion) errors.push('render/src/config.js must define TEST_ASSET_VERSION');
+  if (!swVersion) errors.push('render/sw.js must define TEST_CACHE_VERSION as test-vN');
 
   if (indexVersion && appVersion && indexVersion !== appVersion) {
     errors.push(`/test app asset version mismatch: index uses ${indexVersion}, app uses ${appVersion}`);
@@ -225,7 +225,7 @@ function validateServiceWorkerDiscipline() {
   const errors = [];
   const serviceWorker = readFileSync(SERVICE_WORKER_PATH, 'utf8');
   for (const marker of ['TEST_MAX_CACHE_BYTES', 'trimCacheBytes', 'TEST_PMTILES_CACHE', 'storagePressure']) {
-    if (!serviceWorker.includes(marker)) errors.push(`test/sw.js missing service-worker cache discipline marker: ${marker}`);
+    if (!serviceWorker.includes(marker)) errors.push(`render/sw.js missing service-worker cache discipline marker: ${marker}`);
   }
   return errors;
 }
@@ -254,7 +254,7 @@ function validatePortPlan(metadata) {
   const errors = [];
   const warnings = [];
   if (!existsSync(PORT_PLAN_PATH)) {
-    warnings.push('test/metadata/main-site-port-plan.json is missing; run npm run build:test:metadata to refresh migration inventory');
+    warnings.push('render/metadata/main-site-port-plan.json is missing; run npm run build:test:metadata to refresh migration inventory');
     return { errors, warnings };
   }
   const plan = JSON.parse(readFileSync(PORT_PLAN_PATH, 'utf8'));
@@ -327,9 +327,9 @@ function main() {
   }
 
   console.log('Civgraph /test Validation');
-  console.log(`- metadata: test/metadata/maps-test.json`);
+  console.log(`- metadata: render/metadata/maps-test.json`);
   console.log(`- layers: ${layers.length}`);
-  if (existsSync(PORT_PLAN_PATH)) console.log(`- port plan: test/metadata/main-site-port-plan.json`);
+  if (existsSync(PORT_PLAN_PATH)) console.log(`- port plan: render/metadata/main-site-port-plan.json`);
 
   if (warnings.length) {
     console.log('\nWarnings:');

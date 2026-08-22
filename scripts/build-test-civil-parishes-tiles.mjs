@@ -11,7 +11,7 @@ import { spawnSync } from 'node:child_process';
 
 const ROOT = resolve(process.cwd());
 const SOURCE = resolve(ROOT, 'data/maps/baronies-parishes/Civil_Parishes_Ireland_v2.fgb');
-const OUTPUT = resolve(ROOT, 'test/tiles/civil-parishes-v3');
+const OUTPUT = resolve(ROOT, 'render/tiles/civil-parishes-v3');
 const LABEL_DIAG_SQL = `SQRT(
   (ST_MaxX(geometry) - ST_MinX(geometry)) * (ST_MaxX(geometry) - ST_MinX(geometry)) +
   (ST_MaxY(geometry) - ST_MinY(geometry)) * (ST_MaxY(geometry) - ST_MinY(geometry))

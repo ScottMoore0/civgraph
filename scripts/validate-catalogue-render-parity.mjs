@@ -8,7 +8,7 @@
  * string id:
  *
  *   data/database/maps.json       provenance -- licence, attribution, downloads
- *   test/metadata/maps-test.json  rendering  -- tiles, zoom, styling, labels
+ *   render/metadata/maps-test.json  rendering  -- tiles, zoom, styling, labels
  *   c1Cards in src/ui-controller.js  navigation -- what a user can click
  *
  * Two of those three edges are already guarded. `npm run check` asserts the
@@ -72,7 +72,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const CATALOGUE = resolve(ROOT, 'data/database/maps.json');
-const RENDER = resolve(ROOT, 'test/metadata/maps-test.json');
+const RENDER = resolve(ROOT, 'render/metadata/maps-test.json');
 const BASELINE = resolve(ROOT, 'data/database/catalogue-render-parity-baseline.json');
 
 const UPDATE = process.argv.includes('--update-baseline');

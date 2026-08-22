@@ -9,13 +9,13 @@ import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
 const ROOT = process.cwd();
 const ELECTION_ROOT = path.join(ROOT, 'election-viewer-package', 'data', 'elections');
 const ELECTION_INDEX = path.join(ROOT, 'election-viewer-package', 'data', 'elections_index.json');
-const MAP_METADATA = path.join(ROOT, 'test', 'metadata', 'maps-test.json');
-const FEATURE_INDEX_DIR = path.join(ROOT, 'test', 'metadata', 'feature-indexes');
+const MAP_METADATA = path.join(ROOT, 'render', 'metadata', 'maps-test.json');
+const FEATURE_INDEX_DIR = path.join(ROOT, 'render', 'metadata', 'feature-indexes');
 const FEATURE_INDEX_BASELINE = path.join(ROOT, 'data', 'database', 'election-feature-index-baseline.json');
-const OUT_DIR = path.join(ROOT, 'test', 'metadata', 'elections-test2');
-const OUT_ANCHOR_DIR = path.join(ROOT, 'test', 'metadata', 'election-anchors-test2');
-const OUT_MANIFEST = path.join(ROOT, 'test', 'metadata', 'elections-test2.json');
-const OUT_REPORT = path.join(ROOT, 'test', 'metadata', 'elections-test2-report.json');
+const OUT_DIR = path.join(ROOT, 'render', 'metadata', 'elections-test2');
+const OUT_ANCHOR_DIR = path.join(ROOT, 'render', 'metadata', 'election-anchors-test2');
+const OUT_MANIFEST = path.join(ROOT, 'render', 'metadata', 'elections-test2.json');
+const OUT_REPORT = path.join(ROOT, 'render', 'metadata', 'elections-test2-report.json');
 const DAIL_WIKIPEDIA_COUNTS_ROOT = path.join(ROOT, 'data', 'elections', 'dail-wikipedia-counts');
 const DAIL_OFFICIAL_RESULTS = path.join(ROOT, 'data', 'elections', 'dail-official-results.json');
 const DAIL_APPROVED_CANDIDATE_ALIASES = path.join(ROOT, 'data', 'elections', 'dail-approved-candidate-aliases.json');
@@ -375,7 +375,7 @@ async function main() {
       unmatchedConstituencySample: bundle.unmatchedConstituencies.slice(0, 30),
       unmatchedConstituencySampleLimit: 30,
       unmatchedConstituencies: bundle.unmatchedConstituencies.length <= 30 ? bundle.unmatchedConstituencies : undefined,
-      resultUrl: `/test/metadata/elections-test2/${bundle.key}.json`,
+      resultUrl: `/render/metadata/elections-test2/${bundle.key}.json`,
       anchorUrl: bundle.anchorUrl,
       previousKey: bundle.previousKey,
       previousDate: bundle.previousDate,
@@ -1272,7 +1272,7 @@ function parentMapIdForVariant(sourceMapId) {
  * loadable false -- and the build exits 0. Nothing distinguishes that from an election
  * that genuinely has no matching geography.
  *
- * On 2026-08-03 a build on a machine with an incomplete test/metadata/feature-indexes/
+ * On 2026-08-03 a build on a machine with an incomplete render/metadata/feature-indexes/
  * rewrote 246 elections that way. It was caught only because the diff was inspected by
  * hand; committed, it would have taken the constituency layer off every affected election
  * while leaving the site apparently healthy.
@@ -1348,7 +1348,7 @@ function assertFeatureIndexesPresent(entries, layerBySource, featureIndexes) {
   }
   log(`\nExpected at ${path.relative(ROOT, FEATURE_INDEX_DIR)}/<layer-id>.json.`);
   log('Build them with `npm run build:test:feature-indexes`, which needs the layer');
-  log('sources present in test/source-cache/.');
+  log('sources present in render/source-cache/.');
 
   if (allowPartial) {
     // Deliberate partial build. The affected elections will be written with zero matched
@@ -1442,7 +1442,7 @@ async function loadOrBuildAnchorIndex(layer, featureIndex) {
     sourceMapId: layer.sourceMapId || null,
     generatedFrom: layer.sourceFile || layer.featureIndexUrl || null,
     generatedFromSourceGeometry,
-    url: `/test/metadata/election-anchors-test2/${layer.id}.json`,
+    url: `/render/metadata/election-anchors-test2/${layer.id}.json`,
     items,
     byName
   };
@@ -1472,7 +1472,7 @@ function hydrateAnchorIndex(layer, persisted) {
     sourceMapId: persisted?.sourceMapId || layer.sourceMapId || null,
     generatedFrom: persisted?.generatedFrom || layer.sourceFile || layer.featureIndexUrl || null,
     generatedFromSourceGeometry: Boolean(persisted?.generatedFromSourceGeometry),
-    url: `/test/metadata/election-anchors-test2/${layer.id}.json`,
+    url: `/render/metadata/election-anchors-test2/${layer.id}.json`,
     items,
     byName
   };

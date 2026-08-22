@@ -1,7 +1,7 @@
 import maplibregl from 'maplibre-gl';
-import { TestMapLibreController } from '../../test/src/map-controller.js';
-import { repairFeatureProperties } from '../../test/src/feature-property-repairs.js';
-import { boundsToMapLibre } from '../../test/src/utils.js';
+import { TestMapLibreController } from '../../render/src/map-controller.js';
+import { repairFeatureProperties } from '../../render/src/feature-property-repairs.js';
+import { boundsToMapLibre } from '../../render/src/utils.js';
 import { waitForMapSettle } from './settle.js';
 
 const BASE_MAPS = {
@@ -1239,7 +1239,7 @@ export class Test2MapLibreMainAdapter {
     const localHost = ['localhost', '127.0.0.1', '::1'].includes(location.hostname);
     const shouldUseLocalFallback = globalThis.__civgraphUseLocalTileFallback === true;
     if (shouldUseLocalFallback && localHost && styledLayer.sourceType === 'pmtiles' && styledLayer.tilesFallback) {
-      // tilesFallback points at directory MVT output under test/tiles/, which is
+      // tilesFallback points at directory MVT output under render/tiles/, which is
       // .cfignore'd and untracked deliberately -- a local convenience, not a
       // distributed asset. The path is a correct pointer to where tiles WOULD be
       // written, not a promise that they exist, and a fresh clone has none of the
@@ -1249,7 +1249,7 @@ export class Test2MapLibreMainAdapter {
         this._warnedLocalTileFallback = true;
         console.warn(
           '[civgraph] __civgraphUseLocalTileFallback is on: serving layers from directory MVT under '
-          + '/test/tiles/generated/ instead of PMTiles. Those tiles are untracked and never deployed, '
+          + '/render/tiles/generated/ instead of PMTiles. Those tiles are untracked and never deployed, '
           + 'so unless you generated them locally every tile request will 404. Unset the flag to '
           + 'return to PMTiles.'
         );

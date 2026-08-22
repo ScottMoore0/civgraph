@@ -33,8 +33,8 @@ data/maps/townlands/chunks/*.fgb -filter -diff -merge -text
 
 # Generated metadata/report JSON is normalized so Windows regeneration does not
 # create CRLF-only dirty working-tree churn.
-test/metadata/*.json text eol=lf
-test/metadata/**/*.json text eol=lf
+render/metadata/*.json text eol=lf
+render/metadata/**/*.json text eol=lf
 data/browse/*.json text eol=lf
 data/browse/**/*.json text eol=lf
 test2/build/*.json text eol=lf

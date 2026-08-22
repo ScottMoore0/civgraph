@@ -57,7 +57,7 @@ cens_con.index = cens_con.index.str.upper().str.strip()
 cens_con23 = pd.read_csv(os.path.join(HERE, 'constituency_features_2023.csv')).set_index('con')
 cens_con23.index = cens_con23.index.str.upper().str.strip()
 cens_con23 = cens_con23[cens_con.columns]  # identical feature order
-lf = json.load(open(f"{REPO}/test/metadata/elections-test2/"
+lf = json.load(open(f"{REPO}/render/metadata/elections-test2/"
                     "local-government-local-government-districts__2023-05-18.json",
                     encoding='utf-8'))
 dea2council = lf['localBodyByConstituency']

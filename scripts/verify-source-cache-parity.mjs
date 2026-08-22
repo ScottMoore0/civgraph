@@ -9,7 +9,7 @@
  * what he submitted, three times, and he was told three times the fix was live.
  *
  * It was not. The map renders from PMTiles built from a THIRD copy of the geometry in
- * test/source-cache/vector-intake/, and that copy still held the pre-correction boundary
+ * render/source-cache/vector-intake/, and that copy still held the pre-correction boundary
  * -- dated 29 May. The download was right, the catalogue was right, the cache tokens
  * were right, the tiles were faithfully built from the source they had, and the map drew
  * the old boundary for a day and a half. Antrim was 66087 vertices where it should have
@@ -42,7 +42,7 @@ import { createHash } from 'node:crypto';
 import { existsSync, readFileSync } from 'node:fs';
 
 const CATALOGUE = 'data/database/maps.json';
-const RENDER = 'test/metadata/maps-test.json';
+const RENDER = 'render/metadata/maps-test.json';
 const CONCURRENCY = 8;
 
 const argv = process.argv.slice(2);

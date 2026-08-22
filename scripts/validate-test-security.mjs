@@ -4,18 +4,18 @@ import { resolve } from 'node:path';
 import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
 
 const ROOT = resolve(process.cwd());
-const REPORT_PATH = resolve(ROOT, 'test/metadata/security-dependency-report.json');
+const REPORT_PATH = resolve(ROOT, 'render/metadata/security-dependency-report.json');
 const files = {
-  index: readFileSync(resolve(ROOT, 'test/index.html'), 'utf8'),
-  utils: readFileSync(resolve(ROOT, 'test/src/utils.js'), 'utf8'),
-  telemetry: readFileSync(resolve(ROOT, 'test/src/telemetry.js'), 'utf8'),
-  sourcePanel: readFileSync(resolve(ROOT, 'test/src/source-panel.js'), 'utf8'),
-  activeLayers: readFileSync(resolve(ROOT, 'test/src/active-layers.js'), 'utf8')
+  index: readFileSync(resolve(ROOT, 'render/index.html'), 'utf8'),
+  utils: readFileSync(resolve(ROOT, 'render/src/utils.js'), 'utf8'),
+  telemetry: readFileSync(resolve(ROOT, 'render/src/telemetry.js'), 'utf8'),
+  sourcePanel: readFileSync(resolve(ROOT, 'render/src/source-panel.js'), 'utf8'),
+  activeLayers: readFileSync(resolve(ROOT, 'render/src/active-layers.js'), 'utf8')
 };
 
 const checks = [];
 check('No third-party scripts in /test shell', !/<script[^>]+src=["']https?:\/\//i.test(files.index), 'The /test shell should not add third-party script execution.');
-check('Service worker scoped to /test', /scope:\s*['"]\/test\/['"]/.test(files.index), 'Service worker registration must stay scoped before promotion.');
+check('Service worker scoped to /render', /scope:\s*['"]\/render\/['"]/.test(files.index), 'Service worker registration must stay scoped before promotion.');
 check('External support links use noopener noreferrer', !/target=["']_blank["'](?![^>]+rel=["'][^"']*noopener[^"']*noreferrer)/i.test(files.index), 'External links should not expose opener.');
 check('Clipboard writes use guarded helper', files.sourcePanel.includes('copyText(') && files.activeLayers.includes('copyText('), 'Clipboard calls should go through copyText.');
 check('Telemetry is sanitized and same-origin gated', files.telemetry.includes('sanitizeEvent') && files.telemetry.includes("sendBeacon('/_api/rum'") && /civgraph\\\.net|civgraph\.net/.test(files.telemetry), 'Runtime telemetry must be sanitized and same-origin.');

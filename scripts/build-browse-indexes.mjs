@@ -82,7 +82,7 @@ function main() {
   const sourceEnrichmentInputs = mergeSourceEnrichmentInputs(alreadyOnSiteEnrichmentsData, peatlandGeoportalSourcesData);
   const spatialIndex = readJson('data/database/spatial-index.json', { maps: [], features: [] });
   const partyIds = readJson('election-viewer-package/data/party-ids.json', { party_ids: [], aliases: {} });
-  const electionManifest = readJson('test/metadata/elections-test2.json', { elections: [], totals: {} });
+  const electionManifest = readJson('render/metadata/elections-test2.json', { elections: [], totals: {} });
   const thumbnailIds = readThumbnailManifest();
 
   const categoriesById = new Map((mapsData.categories || []).map((category) => [category.id, category]));
@@ -500,7 +500,7 @@ function buildElections(manifest, thumbnailIds) {
 function readElectionDetails(elections) {
   const detailFiles = new Map();
   for (const election of elections) {
-    const rel = String(election.resultUrl || `/test/metadata/elections-test2/${election.key}.json`).replace(/^\/+/, '');
+    const rel = String(election.resultUrl || `/render/metadata/elections-test2/${election.key}.json`).replace(/^\/+/, '');
     const fullPath = path.join(ROOT, rel);
     if (!existsSync(fullPath)) continue;
     try {

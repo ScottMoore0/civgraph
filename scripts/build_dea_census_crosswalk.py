@@ -31,7 +31,7 @@ DEAS = {
 }
 
 PROJ = 29903  # Irish Grid (metres) for accurate nearest-neighbour distances
-FEATURE_INDEX = Path("test/metadata/feature-indexes")
+FEATURE_INDEX = Path("render/metadata/feature-indexes")
 
 # DEA vintage -> its curated feature-index (authoritative labels + centroids the
 # election data uses). DEAs_1972.fgb has 2 null-NAME polygons and one label

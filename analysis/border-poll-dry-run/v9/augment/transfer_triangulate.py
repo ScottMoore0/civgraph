@@ -2,7 +2,7 @@
 unionist openness against the Assembly-pooled and local-pooled reads. If the three contest types
 agree, the transfer-openness signal is robust and not a single-election artifact."""
 import json,glob,os,collections,numpy as np
-BASE='test/metadata/elections-test2'; V="analysis/border-poll-dry-run/v9"
+BASE='render/metadata/elections-test2'; V="analysis/border-poll-dry-run/v9"
 def bloc(p):
     p=(p or '').lower()
     if any(k in p for k in['dup','democratic unionist']):return 'U'
