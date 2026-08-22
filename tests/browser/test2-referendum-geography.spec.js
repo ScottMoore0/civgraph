@@ -4,7 +4,14 @@ const { test, expect } = require('@playwright/test');
 // 1998 and 2011 NI referendums: turnout mode swaps geometry + data + style.
 test('/test2 2011 AV referendum geography toggle switches results <-> turnout', async ({ page }) => {
   await page.goto('/test2/');
-  await page.waitForFunction(() => window.__civgraphTest2?.app);
+  // Wait for whenIdle, NOT for app. The test surface is populated in stages: `app` is
+  // attached at the top of init(), long before mapController exists, so waiting on it
+  // returns a half-built runtime and the next call dies on a null map -- which is
+  // exactly how these two tests were failing ("Cannot read properties of null (reading
+  // 'resolveLayer')"). timeline-and-url-state.spec.js's bootApp already documents this;
+  // the lesson had simply not reached this file.
+  await page.waitForFunction(() => typeof window.__civgraphTest2?.whenIdle === 'function', null, { timeout: 60000 });
+  await page.evaluate(() => window.__civgraphTest2.restorePromise);
   await page.evaluate(async () => {
     const elections = await window.__civgraphTest2.app.ensureElections();
     window.__civgraphTest2.elections = elections;
@@ -64,7 +71,14 @@ test('/test2 2011 AV referendum geography toggle switches results <-> turnout', 
 
 test('/test2 1998 GFA referendum offers NI vs Constituency turnout toggle', async ({ page }) => {
   await page.goto('/test2/');
-  await page.waitForFunction(() => window.__civgraphTest2?.app);
+  // Wait for whenIdle, NOT for app. The test surface is populated in stages: `app` is
+  // attached at the top of init(), long before mapController exists, so waiting on it
+  // returns a half-built runtime and the next call dies on a null map -- which is
+  // exactly how these two tests were failing ("Cannot read properties of null (reading
+  // 'resolveLayer')"). timeline-and-url-state.spec.js's bootApp already documents this;
+  // the lesson had simply not reached this file.
+  await page.waitForFunction(() => typeof window.__civgraphTest2?.whenIdle === 'function', null, { timeout: 60000 });
+  await page.evaluate(() => window.__civgraphTest2.restorePromise);
   await page.evaluate(async () => {
     const elections = await window.__civgraphTest2.app.ensureElections();
     window.__civgraphTest2.elections = elections;

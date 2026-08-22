@@ -12,12 +12,24 @@
  * R2 gets a fresh mtime for free. An mtime records a filesystem operation. It says
  * nothing about content.
  *
- * WHY NOT THE SCHEMA AUDIT, which was built first and demoted. Reading attribute names
- * back out of the tiles cannot separate a stale archive from a column that is null
- * everywhere, because MVT omits nulls per feature. It reported 22, then 8, then 7 stale
- * layers across three attempts and most were its own artefacts; seven archives were
- * rebuilt and republished on the strength of findings that did not survive checking.
- * A content hash has no such failure mode. It is exact or it is silent.
+ * WHY NOT A SCHEMA COMPARISON. One was built first, and deleted on 2026-08-22 after
+ * this replaced it. The record is kept here because the reasoning is the valuable part
+ * and the code was not.
+ *
+ * It read attribute names back out of the built tiles and compared them against the
+ * source. That cannot work, and not for want of care: MVT omits a field from any feature
+ * whose value is null, so a tile's key dictionary is a LOWER BOUND on the schema, and
+ * GDAL's writer drops a column that is null across everything it writes. A sparse column
+ * and a dropped one are therefore indistinguishable in principle.
+ *
+ * Three generations of it reported 22, then 8, then 7 stale layers; each fall was a
+ * defect in its own probe rather than a change in the corpus, and of the final 7 at
+ * least five were artefacts. Seven archives were rebuilt and republished on the strength
+ * of findings that did not survive checking. Two of them still reported stale after
+ * being rebuilt from the exact source on disk minutes earlier, which is what finally
+ * settled it.
+ *
+ * A content hash has none of that. It is exact or it is silent.
  *
  * COST: 3.3 seconds for the whole 2.9 GB source corpus, measured at 876 MB/s. No cache,
  * no mtime pre-filter, no cleverness -- those would reintroduce the assumption this
@@ -33,7 +45,7 @@
  * than it does locally. Worth knowing before trusting it.
  */
 import { createHash } from 'node:crypto';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 
 const METADATA = 'test/metadata/maps-test.json';
 const doc = JSON.parse(readFileSync(METADATA, 'utf8'));
@@ -68,5 +80,40 @@ if (mismatched.length) {
   process.exit(1);
 }
 
+// A RATCHET ON THE UNRECORDED COUNT.
+//
+// 520 layers were built before sourceSha256 existed and carry no record of their input.
+// They cannot be backfilled: writing today's source hash against an archive built at an
+// unknown time would assert exactly the thing that is not known, and would do it
+// silently for every layer at once.
+//
+// So coverage grows the only honest way -- a layer becomes covered when it is next
+// rebuilt -- and this stops it going backwards in the meantime. A new layer that ships
+// without a hash, or a rebuild that stops recording one, pushes the count up and fails
+// here. The number may fall freely; it may never rise.
+const BASELINE = 'data/database/tile-content-hash-baseline.json';
+const baseline = existsSync(BASELINE)
+  ? JSON.parse(readFileSync(BASELINE, 'utf8'))
+  : { unrecorded: unrecorded.length };
+
+if (process.argv.includes('--update-baseline')) {
+  writeFileSync(BASELINE, `${JSON.stringify({ unrecorded: unrecorded.length }, null, 2)}
+`);
+  console.log(`Re-pinned baseline: ${unrecorded.length} layer(s) without a recorded source hash.`);
+  process.exit(0);
+}
+
+if (unrecorded.length > baseline.unrecorded) {
+  console.error(`FAIL: layers without a recorded source hash grew ${baseline.unrecorded} -> ${unrecorded.length}.`);
+  console.error(`  e.g. ${unrecorded.slice(0, 5).join(', ')}`);
+  console.error('');
+  console.error('  A layer becomes covered when it is rebuilt. Growth means either a new layer');
+  console.error('  shipped without one, or the build stopped recording it -- and the second');
+  console.error('  would silently uncover the whole corpus over time.');
+  console.error('  If the growth is genuinely intended: --update-baseline');
+  process.exit(1);
+}
+
 console.log(`PASS: ${checked} archive(s) match the source they record `
-  + `(${skipped} skipped: source not present locally; ${unrecorded.length} predate the hash).`);
+  + `(${skipped} skipped: source not present locally; ${unrecorded.length} of a permitted `
+  + `${baseline.unrecorded} predate the hash).`);
