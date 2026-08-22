@@ -259,3 +259,50 @@ a.ps-btn--export { text-decoration: none; display: inline-flex; align-items: cen
   .ps-provided__logo { height: 26px; }
   .ps-provided__note { font-size: 0.6rem; }
 }
+
+/* ── "Show more": expand in place, then open the modal ─────────────────────────
+   The cap is a max-height in CSS rather than a measured pixel value, so a short
+   truncated description settles at its natural height instead of animating to an
+   arbitrary fraction of one. 3x the collapsed height is the requested ceiling;
+   beyond that the modal is the better container anyway. */
+.ps-card__desc {
+  max-height: 7.5rem;
+  overflow: hidden;
+  transition: max-height 180ms ease-out;
+}
+.ps-card.is-expanded .ps-card__desc {
+  max-height: 22.5rem;   /* 3x */
+  overflow: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ps-card__desc { transition: none; }
+}
+
+/* ── 'All' view letter sections ───────────────────────────────────────────────
+   A sticky heading per letter, so the reader always knows which section they are
+   in while scrolling 9,404 records. */
+.ps-section {
+  list-style: none;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  margin: 1.2rem 0 0.4rem;
+  padding: 0.35rem 0.6rem;
+  background: #eef3f8;
+  border-bottom: 2px solid var(--brand, #12385f);
+  border-radius: 4px 4px 0 0;
+}
+.ps-section__title {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  color: var(--brand, #12385f);
+  margin: 0;
+}
+.ps-section__count { font-size: 0.85rem; color: #5c6b7a; }
+.ps-az__clear.is-active {
+  background: var(--brand, #12385f);
+  color: #fff;
+}

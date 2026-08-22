@@ -22,7 +22,24 @@ const els = {
   exportResults: $('exportResults'), exportAll: $('exportAll'),
 };
 
-const state = { offset: 0, done: false, loading: false, seen: new Set(), letter: '', reqId: 0, queryId: 0, total: null, levels: null };
+const state = { offset: 0, done: false, loading: false, seen: new Set(), letter: '', reqId: 0, queryId: 0, total: null, levels: null, allRoots: false };
+
+// Every top-level PRONI record (parent = ''), 9,404 of them, pre-built at
+// /data/browse/proni-roots.json. The 'All' view and letter browsing are both fully
+// enumerable and change only when PRONI's catalogue does, so they are served from this
+// static file rather than from D1: one cached fetch instead of a query per letter, and
+// the grouping and ordering happen locally and instantly.
+const ROOTS_URL = '/data/browse/proni-roots.json';
+let rootsPromise = null;
+function loadRoots() {
+  if (!rootsPromise) {
+    rootsPromise = fetch(ROOTS_URL)
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
+      .then((d) => d.roots || [])
+      .catch(() => { rootsPromise = null; return null; });
+  }
+  return rootsPromise;
+}
 
 // Archival hierarchy order for the letter-browse level breakdown.
 const LEVEL_ORDER = ['Fond', 'Sub-fond', 'Series', 'Sub-series', 'Sub-sub-series', 'Sub-sub-sub-series', 'Sub-sub-sub-sub-series', 'Sub-sub-sub-sub-sub-series', 'Sub-sub-sub-sub-sub-sub-series', 'File', 'Item'];
@@ -138,7 +155,7 @@ function params(offset) {
 function hasAnyInput() {
   return els.q.value.trim() || els.fTitle.value.trim() || els.fDescription.value.trim() ||
     els.fRef.value.trim() || els.fDates.value.trim() || els.fLevel.value || els.fAccess.value ||
-    yearOf(els.from.value) || yearOf(els.to.value) || state.letter;
+    yearOf(els.from.value) || yearOf(els.to.value) || state.letter || state.allRoots;
 }
 
 // The status line prefers the exact total once the (async, parallel) count
@@ -150,8 +167,18 @@ function updateStatus() {
   // letter alone browses fonds -> summarise everything under the letter by level;
   // letter + search terms is a filtered search -> show the matching-result count
   const browseMode = state.letter && !hasTextInput();
+  if (state.allRoots) {
+    els.status.textContent = state.total != null
+      ? `${state.total.toLocaleString()} top-level references, A–Z`
+      : 'Loading the full reference list…';
+    return;
+  }
   if (browseMode && state.levels && state.levels.length) {
-    els.status.textContent = `Reference ${state.letter} — ${formatLevels(state.levels)}`;
+    // The breakdown never carried a total, so browse mode was the one place the reader
+    // could not see how many records they were looking at. count.js already returns the
+    // per-level numbers; the total is their sum, not another query.
+    const total = state.levels.reduce((sum, l) => sum + (Number(l.n) || 0), 0);
+    els.status.textContent = `Reference ${state.letter} — ${total.toLocaleString()} record${total === 1 ? '' : 's'}: ${formatLevels(state.levels)}`;
     return;
   }
   if (state.total != null && !browseMode) {
@@ -159,9 +186,15 @@ function updateStatus() {
     els.status.textContent = state.total === 0 ? 'No matching records.' : `${state.total.toLocaleString()} result${state.total === 1 ? '' : 's'}${scope}`;
     return;
   }
+  // Deliberately no "N+" while the exact count is in flight. It is only ever wrong for a
+  // few hundred milliseconds, but a number that changes under the reader is worse than
+  // no number: it invites them to read a partial figure as the answer. Once state.done
+  // is set the loaded count IS exact, so it is shown then.
   const n = state.seen.size;
-  if (n) els.status.textContent = browseMode ? `Reference ${state.letter} — loading breakdown…` : `${n.toLocaleString()}${state.done ? '' : '+'} result${n === 1 ? '' : 's'}`;
-  else els.status.textContent = state.done ? 'No matching records.' : 'Searching…';
+  if (browseMode) { els.status.textContent = `Reference ${state.letter} — counting…`; return; }
+  if (state.done && n) els.status.textContent = `${n.toLocaleString()} result${n === 1 ? '' : 's'}`;
+  else if (state.done) els.status.textContent = 'No matching records.';
+  else els.status.textContent = 'Searching…';
 }
 
 async function fetchCount(qid) {
@@ -179,6 +212,57 @@ async function fetchCount(qid) {
   } catch { /* keep the loaded-so-far fallback */ }
 }
 
+/**
+ * The 'All' view: every top-level record, grouped by first letter.
+ *
+ * 'All' previously just cleared the letter filter, which returned the reader to "type to
+ * search" -- so the one control that sounds like "show me everything" showed nothing.
+ * It now renders all 9,404 top-level records in letter sections, and within each section
+ * in the same order a single letter would give (by reference), so moving between the two
+ * views does not reorder anything.
+ *
+ * Rendered a section at a time as the reader scrolls. 9,404 cards at once is several
+ * seconds of layout on a mid-range phone, and the letter sections are natural batch
+ * boundaries -- which is why grouping makes the paging easier rather than harder.
+ */
+const ALL_SECTION_BATCH = 3;
+
+function groupRootsByLetter(roots) {
+  const groups = new Map();
+  for (const r of roots) {
+    const letter = String(r.ref || '').charAt(0).toUpperCase() || '#';
+    if (!groups.has(letter)) groups.set(letter, []);
+    groups.get(letter).push(r);
+  }
+  return [...groups.entries()]
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .map(([letter, items]) => [letter, items.sort((a, b) => String(a.ref).localeCompare(String(b.ref), undefined, { numeric: true }))]);
+}
+
+async function renderAllRoots(reset) {
+  if (reset) { els.results.innerHTML = ''; state.allSections = null; state.allIndex = 0; state.done = false; }
+  const roots = await loadRoots();
+  if (!roots) {
+    els.status.textContent = 'Could not load the full reference list.';
+    state.done = true;
+    return;
+  }
+  if (!state.allSections) {
+    state.allSections = groupRootsByLetter(roots);
+    state.total = roots.length;
+    updateStatus();
+  }
+  const slice = state.allSections.slice(state.allIndex, state.allIndex + ALL_SECTION_BATCH);
+  for (const [letter, items] of slice) {
+    const heading = `<li class="ps-section" role="presentation"><h2 class="ps-section__title" id="ps-section-${esc(letter)}">${esc(letter)}</h2>`
+      + `<span class="ps-section__count">${items.length.toLocaleString()} record${items.length === 1 ? '' : 's'}</span></li>`;
+    els.results.insertAdjacentHTML('beforeend', heading + items.map((r) => card(r)).join(''));
+  }
+  state.allIndex += slice.length;
+  if (state.allIndex >= state.allSections.length) state.done = true;
+  updateStatus();
+}
+
 async function search(reset) {
   if (state.loading && !reset) return; // a new query interrupts an in-flight load; only pagination waits
   if (reset) { state.offset = 0; state.done = false; state.seen = new Set(); state.total = null; state.levels = null; state.queryId += 1; }
@@ -187,6 +271,11 @@ async function search(reset) {
     els.results.innerHTML = '';
     state.done = true;
     updateStatus();
+    return;
+  }
+  if (state.allRoots) {
+    state.loading = true;
+    try { await renderAllRoots(reset); } finally { state.loading = false; }
     return;
   }
   state.loading = true;
@@ -489,6 +578,65 @@ async function copyRef(el) {
 
 /* ============================= detail modal ============================= */
 
+/**
+ * "Show more" expands the card in place first, and opens the modal on the second press.
+ *
+ * It used to jump straight to the modal, which is a heavy response to "I would like to
+ * read a bit more" -- it covers the page, loses the reader's place in the results, and
+ * has to be dismissed to carry on scanning. Two presses now match two intentions: read a
+ * little more here, or leave the list and read the whole record.
+ *
+ * THE FULL TEXT IS FETCHED, NOT PRE-SENT. The search endpoint truncates descriptions to
+ * DESC_PREVIEW and flags `descTruncated`, so the card never had the rest of the text.
+ * Sending it with every result would multiply the search payload by 25 results a page
+ * for text most readers never open; fetching on the first press costs one request, only
+ * for the cards someone actually expands, and it is the same endpoint the modal already
+ * uses, so it is usually warm by the time they press again.
+ *
+ * The 3x cap is enforced in CSS via max-height rather than by measuring the text, so a
+ * short-but-truncated description does not animate to an odd fraction of a card.
+ *
+ * Scroll position is pinned across the expansion. Growing a card halfway down a long
+ * list otherwise pushes everything below it, and the thing the reader was pointing at
+ * moves out from under the cursor.
+ */
+async function expandOrOpen(button) {
+  const ref = button.getAttribute('data-more');
+  const card = button.closest('.ps-card');
+  if (!card) { openModal(ref); return; }
+
+  if (card.classList.contains('is-expanded')) { openModal(ref); return; }
+
+  const desc = card.querySelector('.ps-card__desc');
+  if (!desc) { openModal(ref); return; }
+
+  if (!card.dataset.fullLoaded) {
+    button.disabled = true;
+    const previous = button.textContent;
+    button.textContent = 'Loading…';
+    try {
+      const data = await (await fetch(`${NODE_API}?ref=${encodeURIComponent(ref)}`)).json();
+      const full = data?.item?.description;
+      if (full) { desc.textContent = full; card.dataset.fullLoaded = '1'; }
+    } catch {
+      // Leave the preview in place and fall through to the modal, which reports its own
+      // failure. A silent no-op on a button press is the one outcome to avoid.
+      button.disabled = false;
+      button.textContent = previous;
+      openModal(ref);
+      return;
+    }
+    button.disabled = false;
+  }
+
+  const before = card.getBoundingClientRect().top;
+  card.classList.add('is-expanded');
+  button.textContent = 'Show full record';
+  button.setAttribute('aria-expanded', 'true');
+  const after = card.getBoundingClientRect().top;
+  if (after !== before) window.scrollBy(0, after - before);
+}
+
 async function openModal(ref) {
   els.modal.hidden = false;
   els.modalBody.innerHTML = '<p class="ps-loading">Loading record…</p>';
@@ -523,6 +671,7 @@ function closeModal() { els.modal.hidden = true; document.body.style.overflow = 
 });
 const azClear = document.createElement('button');
 azClear.type = 'button'; azClear.className = 'ps-az__clear'; azClear.textContent = 'All';
+azClear.setAttribute('aria-pressed', 'false');
 els.az.appendChild(azClear);
 
 /* =============================== events =============================== */
@@ -563,8 +712,14 @@ els.az.addEventListener('click', (e) => {
     // toggle the letter; it filters alongside any active search terms
     state.letter = state.letter === btn.dataset.letter ? '' : btn.dataset.letter;
   } else if (e.target === azClear) {
+    // 'All' now MEANS all: every top-level record, grouped by letter. It used to clear
+    // the filter and leave an empty screen, which is the opposite of what the word says.
     state.letter = '';
+    state.allRoots = !state.allRoots;
+    azClear.classList.toggle('is-active', state.allRoots);
+    azClear.setAttribute('aria-pressed', String(state.allRoots));
   } else return;
+  if (btn) { state.allRoots = false; azClear.classList.remove('is-active'); azClear.setAttribute('aria-pressed', 'false'); }
   els.az.querySelectorAll('.ps-az__btn').forEach((b) => b.classList.toggle('is-active', b.dataset.letter === state.letter));
   search(true);
 });
@@ -579,7 +734,7 @@ document.addEventListener('click', (e) => {
   if (expandEl) { e.preventDefault(); toggleExpand(expandEl.getAttribute('data-expand'), expandEl); return; }
 
   const moreEl = e.target.closest('[data-more]');
-  if (moreEl) { e.preventDefault(); openModal(moreEl.getAttribute('data-more')); return; }
+  if (moreEl) { e.preventDefault(); expandOrOpen(moreEl); return; }
 
   if (e.target.closest('[data-close]')) { closeModal(); return; }
 
