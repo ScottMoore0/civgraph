@@ -27,9 +27,9 @@ VINTAGES = [
 
 def make_entry(year, name, date):
     return {
-        'id': f'roi-local-authorities-{year}',
+        'id': f'local-authorities-{year}',
         'name': name,
-        'slug': f'roi-local-authorities-{year}',
+        'slug': f'local-authorities-{year}',
         'category': 'local-government',
         'date': date,
         'provider': ['Phelim Birch', 'Paddy Matthews'],
@@ -67,7 +67,7 @@ def main():
 
     new_ids = []
     for year, label, date, name in VINTAGES:
-        eid = f'roi-local-authorities-{year}'
+        eid = f'local-authorities-{year}'
         new_ids.append(eid)
         if eid in existing_ids:
             print(f'  skip existing {eid}')
@@ -79,16 +79,16 @@ def main():
 
     # Update parent class maps[] (keep newest first, then 2014 + new ones)
     desired_order = [
-        'roi-local-authorities-2024',  # 2019 boundaries (legacy id)
-        'roi-local-authorities-2014',
-        'roi-local-authorities-2008',
-        'roi-local-authorities-2002',
-        'roi-local-authorities-1994',
-        'roi-local-authorities-1986',
-        'roi-local-authorities-1985',
-        'roi-local-authorities-1980',
-        'roi-local-authorities-1977',
-        'roi-local-authorities-1966',
+        'local-authorities-2024',  # 2019 boundaries (legacy id)
+        'local-authorities-2014',
+        'local-authorities-2008',
+        'local-authorities-2002',
+        'local-authorities-1994',
+        'local-authorities-1986',
+        'local-authorities-1985',
+        'local-authorities-1980',
+        'local-authorities-1977',
+        'local-authorities-1966',
     ]
     parent['maps'] = [mid for mid in desired_order if mid in {x['id'] for x in maps_list}]
     print(f'  parent class roi-local-authorities now lists {len(parent["maps"])} maps')

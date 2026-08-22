@@ -354,7 +354,7 @@ This alone would have caught all three complaints on 31 July.
 ### P5-2 · Source-generation consistency check
 
 `scripts/validate-source-generation.mjs`: group deployed layers by series (`eds-leinster-*`,
-`roi-local-authorities-*`, …) and fail when members span materially different generations
+`local-authorities-*`, …) and fail when members span materially different generations
 — cluster on deployed `Last-Modified` and archive size, which is precisely the signal that
 identified the ten stale ED layers and the Local Authorities cut-off.
 

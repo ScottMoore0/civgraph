@@ -3256,8 +3256,9 @@ class Test2App {
         await this.applyBaseMap(baseMap, { userChoice: true });
       }
 
-      const layers = (params.get('layers') || '').split(',').map((id) => id.trim()).filter(Boolean);
-      const featureMapId = params.get('featureMap') || '';
+      const layers = (params.get('layers') || '').split(',')
+        .map((id) => resolveLegacyLayerId(id.trim())).filter(Boolean);
+      const featureMapId = resolveLegacyLayerId(params.get('featureMap') || '');
       const featureIdParam = params.get('featureId') || '';
       const featureNameParam = params.get('featureName') || '';
       if (this.hasElectionURLState(params, layers)) {
@@ -3362,6 +3363,37 @@ app.init().catch((error) => {
   const target = document.getElementById('map') || document.body;
   target.insertAdjacentHTML('beforeend', `<div class="map-error">Failed to start Civgraph: ${escapeHtml(error.message)}</div>`);
 });
+
+/**
+ * Layer ids that have been renamed, mapped old -> new.
+ *
+ * A layer id is not private. It appears in `#layers=` share links, so renaming one
+ * breaks every link anyone has posted, bookmarked or cited -- silently, as an empty map
+ * rather than an error. This is the cost that makes id renames worth avoiding, and the
+ * reason to accept a slightly wrong id is usually stronger than it looks.
+ *
+ * `roi-local-authorities-*` was renamed to `local-authorities-*` on 2026-08-22. The
+ * prefix was wrong for four of the 26 layers outright -- 1915 and the three 1920 dates
+ * cover the whole island, before partition -- and anachronistic for a dozen more, since
+ * there was no republic before 1949. The fix was not a better jurisdiction prefix but
+ * none at all: the display name carries the scope, and encoding a jurisdiction that
+ * changes over the life of a series is what went wrong in the first place.
+ *
+ * Kept as a prefix rewrite rather than 26 entries so the table cannot fall out of step
+ * with the rename.
+ */
+const LEGACY_LAYER_ID_PREFIXES = [
+  ['roi-local-authorities-', 'local-authorities-']
+];
+
+function resolveLegacyLayerId(id) {
+  const value = String(id || '');
+  if (!value) return value;
+  for (const [from, to] of LEGACY_LAYER_ID_PREFIXES) {
+    if (value.startsWith(from)) return `${to}${value.slice(from.length)}`;
+  }
+  return value;
+}
 
 function escapeHtml(value) {
   return String(value ?? '').replace(/[&<>"']/g, (ch) => ({

@@ -33,6 +33,30 @@
  * way. Those are reported as unverifiable rather than passed, because "could not check"
  * and "matches" must never look the same in this file of all files.
  *
+ * THE HOP BEFORE THIS ONE IS NOT GUARDED, AND CANNOT BE FROM HERE.
+ *
+ * The pipeline has four hops. Three now have a check:
+ *
+ *   upstream provider -> published download    NOTHING
+ *   published download -> source cache          this file
+ *   source cache -> archive, by content         check:tile-content
+ *   source cache -> archive, by timestamp       check:tile-freshness
+ *
+ * The first is unguarded and that is accepted rather than pending. Verifying it means
+ * knowing what the provider actually supplied, which is a checksum recorded at INGEST --
+ * information that does not exist for anything already published and cannot be
+ * reconstructed after the fact. Re-downloading from the provider proves only that the
+ * provider serves what it serves today, which is a different claim and quietly wrong
+ * whenever a source has been revised upstream.
+ *
+ * The practical consequence: a corrupted or wrong file published to R2 will pass every
+ * check in this repository, because everything downstream faithfully agrees with it.
+ * What protects that hop is the review at the point of ingest, not automation.
+ *
+ * WORTH DOING FOR NEW INGESTS: record the provider's checksum, or failing that our own
+ * hash of the file as received, in the catalogue entry at the time it is added. That
+ * makes this hop checkable going forward without pretending to have checked the past.
+ *
  * Network-dependent: verify:, never check:.
  *
  *   npm run verify:source-cache

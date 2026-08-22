@@ -75,11 +75,11 @@ function sourceFamilyForRow(rowNumber) {
 
 const RESOLVED_ROW_TARGETS = new Map([
   [521, {
-    sourceTargetId: 'map-source:roi-local-authorities-2024',
+    sourceTargetId: 'map-source:local-authorities-2024',
     targetEntityKind: 'map',
-    targetEntityId: 'roi-local-authorities-2024',
+    targetEntityId: 'local-authorities-2024',
     targetTitle: 'Local Authorities 2024 source files',
-    targetBrowseUrl: '/browse/maps/roi-local-authorities-2024'
+    targetBrowseUrl: '/browse/maps/local-authorities-2024'
   }],
   [1005, {
     sourceTargetId: 'map-source:dcc-dcc-public-cycle-parking-stands',

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-21T13:57:49.540Z",
+  "generatedAt": "2026-08-22T22:45:21.457Z",
   "totals": {
-    "warnings": 0,
+    "warnings": 1,
     "errors": 0,
     "notes": 3
   },
@@ -11,6 +11,8 @@
     "706 PMTiles layer(s) retain local directory fallbacks for development only; production fallback is disabled by runtime guard.",
     "roi-counties-2011 quarantine has been superseded by the resolved PMTiles/CDN layer built from the valid FlatGeobuf source."
   ],
-  "warnings": [],
+  "warnings": [
+    "CDN range report is older than CDN upload manifest; rerun npm run verify:test:pmtiles-cdn after manifest changes"
+  ],
   "errors": []
 }

@@ -130,9 +130,9 @@ function assertCatalogueMetadata() {
   assert(uiControllerSource.includes("id: 'flat-provinces', name: 'Provinces', years: '1899-1955'"), 'Flat catalogue Provinces card must reflect the visible 1899-1955 records, not hidden Provinces 2019');
   assert(uiControllerSource.includes('shouldExpandVariantsByDefault(map)') && uiControllerSource.includes("'eds-1983'"), 'Flat catalogue must expand 1971/1977/1980/1983 ED/Ward province child variants by default');
 
-  const localAuthorities2008 = mapById.get('roi-local-authorities-2008');
+  const localAuthorities2008 = mapById.get('local-authorities-2008');
   assert(Array.isArray(localAuthorities2008?.provider) && localAuthorities2008.provider.includes('CSO') && !localAuthorities2008.provider.includes('Phelim Birch'), 'Local Authorities 2008 must be credited to CSO, not the collaborator');
-  const localAuthorities2008Layer = (testMetadata.layers || []).find((layer) => layer.sourceMapId === 'roi-local-authorities-2008');
+  const localAuthorities2008Layer = (testMetadata.layers || []).find((layer) => layer.sourceMapId === 'local-authorities-2008');
   assert(Array.isArray(localAuthorities2008Layer?.provider) && localAuthorities2008Layer.provider.includes('CSO') && !localAuthorities2008Layer.provider.includes('Phelim Birch'), 'Local Authorities 2008 generated MapLibre layer must be credited to CSO, not the collaborator');
 
   function variantIsLoadable(variant) {

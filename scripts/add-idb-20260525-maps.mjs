@@ -50,9 +50,9 @@ function makeCountyEntry(year, label, extraKeywords = []) {
 
 function makeLocalAuthorityEntry(year) {
   return {
-    id: `roi-local-authorities-${year}`,
+    id: `local-authorities-${year}`,
     name: `Local Authorities ${year}`,
-    slug: `roi-local-authorities-${year}`,
+    slug: `local-authorities-${year}`,
     category: 'local-government',
     date: `${year}-01-01`,
     provider: [
@@ -117,29 +117,29 @@ for (const year of localAuthorityYears) {
 const localAuthorityClass = classes.find((item) => item.id === 'roi-local-authorities');
 if (!localAuthorityClass) throw new Error('Missing roi-local-authorities class');
 localAuthorityClass.maps = orderedUnique([
-  'roi-local-authorities-2024',
-  'roi-local-authorities-2014',
-  'roi-local-authorities-2008',
-  'roi-local-authorities-2002',
-  'roi-local-authorities-1994',
-  'roi-local-authorities-1986',
-  'roi-local-authorities-1985',
-  'roi-local-authorities-1980',
-  'roi-local-authorities-1977',
-  'roi-local-authorities-1966',
-  'roi-local-authorities-1965',
-  'roi-local-authorities-1957',
-  'roi-local-authorities-1955',
-  'roi-local-authorities-1953',
-  'roi-local-authorities-1950',
-  'roi-local-authorities-1944',
-  'roi-local-authorities-1942',
-  'roi-local-authorities-1941',
-  'roi-local-authorities-1931',
-  'roi-local-authorities-1930'
+  'local-authorities-2024',
+  'local-authorities-2014',
+  'local-authorities-2008',
+  'local-authorities-2002',
+  'local-authorities-1994',
+  'local-authorities-1986',
+  'local-authorities-1985',
+  'local-authorities-1980',
+  'local-authorities-1977',
+  'local-authorities-1966',
+  'local-authorities-1965',
+  'local-authorities-1957',
+  'local-authorities-1955',
+  'local-authorities-1953',
+  'local-authorities-1950',
+  'local-authorities-1944',
+  'local-authorities-1942',
+  'local-authorities-1941',
+  'local-authorities-1931',
+  'local-authorities-1930'
 ]);
 
-const localAuthorities2008 = maps.find((map) => map.id === 'roi-local-authorities-2008');
+const localAuthorities2008 = maps.find((map) => map.id === 'local-authorities-2008');
 if (localAuthorities2008) localAuthorities2008.provider = ['CSO'];
 
 const countiesClass = classes.find((item) => item.id === 'ni-counties');

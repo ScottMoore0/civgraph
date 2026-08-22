@@ -133,7 +133,7 @@ production actually reads, and a request that looked healthy from outside.
   treated `keywords` as a benign superset on the strength of two sampled
   records; checking all 757 showed **166 layers where the render record dropped
   catalogue keywords**, and in 6 cases replaced the year outright —
-  `eds-connacht-1919` is tagged 1970, `roi-local-authorities-2024` is tagged
+  `eds-connacht-1919` is tagged 1970, `local-authorities-2024` is tagged
   2019. On a site whose central feature is a time slider, those layers are
   unfindable by their own year and surface under someone else's. The same pass
   wrongly proposed failing on `bounds`; the 61 differences are catalogue
@@ -225,10 +225,10 @@ larger barrier than any directory name.
   were removed — matching the DoBIH precedent, which drops the `files` key
   rather than leaving an empty object. No data was missing and nothing needed
   regenerating.
-- **`roi-local-authorities-2024` has an unresolved vintage.** Its id and its
+- **`local-authorities-2024` has an unresolved vintage.** Its id and its
   catalogue keyword say 2024; its catalogue `name` ("Local Authorities 2019")
   and `date` (`2019`) say 2019, and the render record agrees with those. All 27
-  sibling `roi-local-authorities-<year>` layers have id-year matching name-year,
+  sibling `local-authorities-<year>` layers have id-year matching name-year,
   so this one is the outlier. It was deliberately left alone when the other five
   wrong-year layers were corrected, because the evidence points both ways and
   editing either side could make it wrong: the fix depends on which vintage the

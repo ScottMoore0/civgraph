@@ -1,11 +1,27 @@
 # Renaming `render/`, `test2/` and `tests/` — runbook
 
-> **Status: current — prepared, NOT executed.** The `render/`, `test2/`, `tests/`
-> rename has not been done. The reference count is ratcheted by
-> `npm run check:dir-names` so the job cannot grow while it waits.
+> **Status: EXECUTED for `test/` on 2026-08-22.** `test/` is now `render/`, deployed
+> and verified: `/render/` returns 200, `/test/` 301s to it, and the published tile
+> prefix `data/maps/test` was deliberately left alone. 45,232 references were rewritten
+> by `scripts/migrate-test-to-render.mjs`, plus 14 bare path segments that no string
+> search could find and six escaped-regex forms the gate caught.
+>
+> **`test2/` will NOT be renamed or folded away, and that is now a decision rather than
+> a deferral.** It was re-proposed on 2026-08-22 as "fold test2/ into app/" by someone
+> (me) who had not looked inside it. It holds two files: a redirect that preserves
+> search and hash, and a service worker that UNREGISTERS the legacy `/test2/` worker and
+> clears its caches. A `_redirects` rule can do the first and cannot do the second — a
+> redirect never runs, so it can never unregister anything. Any visitor who loaded
+> `/test2/` before June still has that worker installed. Leave it.
+>
+> **`tests/` stays too.** It is the Playwright suite; the name is accurate. The
+> ambiguity that motivated this runbook was `test/` sitting beside it, and that is gone.
+>
+> The reference count remains ratcheted by `npm run check:dir-names`.
 
-Written 2026-08-11. **The rename has not been done.** This is the preparation
-for it, written while the evidence is fresh.
+Written 2026-08-11 as preparation, while the evidence was fresh. Executed 2026-08-22 for
+`test/` only. What follows is the original plan; the outcome is recorded above and in the
+commit that carried it out.
 
 ## Why this is treated as dangerous
 

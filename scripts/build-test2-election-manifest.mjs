@@ -140,13 +140,13 @@ const SOURCE_NAME_ALIASES = new Map([
   // Tipperary the 1979 and 1984 referendums report. LEIX is the period spelling of
   // Laois; these two layers use LAOIGHIS, others use LEIX, so both are aliased.
   // Aliasing the raw names restores the distinction before normalisation.
-  ['roi-local-authorities-1977', new Map([
+  ['local-authorities-1977', new Map([
     ['TIPPERARY (NORTH RIDING) COUNTY COUNCIL', 'North Tipperary'],
     ['TIPPERARY (SOUTH RIDING) COUNTY COUNCIL', 'South Tipperary'],
     ['LAOIGHIS COUNTY COUNCIL', 'Laois'],
     ['LEIX COUNTY COUNCIL', 'Laois']
   ])],
-  ['roi-local-authorities-1980', new Map([
+  ['local-authorities-1980', new Map([
     ['TIPPERARY (NORTH RIDING) COUNTY COUNCIL', 'North Tipperary'],
     ['TIPPERARY (SOUTH RIDING) COUNTY COUNCIL', 'South Tipperary'],
     ['LAOIGHIS COUNTY COUNCIL', 'Laois'],
@@ -193,13 +193,13 @@ const SOURCE_NAME_ALIASES = new Map([
   ['mep-1979', new Map([
     ['CONNACHT-ULSTER', 'Connaught Ulster']
   ])],
-  ['roi-local-authorities-1994', new Map([
+  ['local-authorities-1994', new Map([
     ['DUBLIN CORPORATION', 'Dublin City'],
     ['LAOIGHIS COUNTY COUNCIL', 'County Laois'],
     ['TIPPERARY (NORTH RIDING) COUNTY COUNCIL', 'Tipperary North'],
     ['TIPPERARY (SOUTH RIDING) COUNTY COUNCIL', 'Tipperary South']
   ])],
-  ['roi-local-authorities-2002', new Map([
+  ['local-authorities-2002', new Map([
     ['NORTH TIPPERARY COUNTY COUNCIL', 'Tipperary North'],
     ['SOUTH TIPPERARY COUNTY COUNCIL', 'Tipperary South']
   ])],
@@ -738,12 +738,12 @@ function resolveElectionGeography(entry) {
       const date = String(entry.date || '');
     if (isNationalAggregateElection(entry)) return { sourceMapId: 'roi-1938', singleConstituency: true };
     if (looksLikeRoiLocalAuthorityResults(entry)) {
-      if (year >= 2019) return { sourceMapId: 'roi-local-authorities-2024' };
-      if (year >= 2002) return { sourceMapId: 'roi-local-authorities-2002' };
-      if (year >= 1992) return { sourceMapId: 'roi-local-authorities-1994' };
+      if (year >= 2019) return { sourceMapId: 'local-authorities-2024' };
+      if (year >= 2002) return { sourceMapId: 'local-authorities-2002' };
+      if (year >= 1992) return { sourceMapId: 'local-authorities-1994' };
     }
     if (String(entry.date || '') >= '2024-11-29') return { sourceMapId: 'dail-2023' };
-    if (year === 2019) return { sourceMapId: 'roi-local-authorities-2024' };
+    if (year === 2019) return { sourceMapId: 'local-authorities-2024' };
     if (year >= 2017) return { sourceMapId: 'dail-2017' };
     // Every threshold below was one revision too late: it keyed on the year a
     // revision was NAMED, not the year it took effect. A constituency revision first
@@ -776,8 +776,8 @@ function resolveElectionGeography(entry) {
     // 29/31 partly by folding "Cork City" onto Cork County -- worse than a miss --
     // and has a single "Tipperary County" where these report the North and South
     // Ridings separately. The era-correct local-authority layers have exactly 31.
-    if (date.startsWith('1979-07-05')) return { sourceMapId: 'roi-local-authorities-1977' };
-    if (date.startsWith('1984-06-14')) return { sourceMapId: 'roi-local-authorities-1980' };
+    if (date.startsWith('1979-07-05')) return { sourceMapId: 'local-authorities-1977' };
+    if (date.startsWith('1984-06-14')) return { sourceMapId: 'local-authorities-1980' };
     if (year === 1972) return { sourceMapId: 'dail-1969' };
     return { sourceMapId: 'roi-counties-2011' };
   }

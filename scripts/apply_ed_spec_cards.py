@@ -231,7 +231,7 @@ def main():
     LA = ['1915', '1920-06-19', '1920-06-25', '1920-10-04', '1921', '1927']
     created_la = []
     for d in LA:
-        lid = f'roi-local-authorities-{d}'
+        lid = f'local-authorities-{d}'
         if lid in by_id:
             continue
         yr = d[:4]

@@ -236,7 +236,7 @@ edsClass.maps = orderedUnique([
   ].includes(id))
 ]);
 
-const localAuthorities2008 = mapById('roi-local-authorities-2008');
+const localAuthorities2008 = mapById('local-authorities-2008');
 if (localAuthorities2008) localAuthorities2008.provider = ['CSO'];
 
 for (const id of ['eds-roi-1921-05-03', 'eds-roi-1921-06-28']) {

@@ -56,6 +56,21 @@ async function resetMapState(page) {
 // whole point of this test is that loading a map patches the row IN PLACE instead of
 // re-rendering the flat catalogue, and that claim is meaningless if the catalogue is
 // absent.
+//
+// ATTEMPTED AND WITHDRAWN, 2026-08-22. Calling uiController.renderFlatView() first does
+// not produce a row either. Probed directly on /#layers=__none after the runtime settles:
+//
+//   .map-card 0   .class-member 0   .c1-grid-entry 0
+//   [data-map-id] 0   .catalogue-list 0   #mapList 0
+//
+// Not a stale selector -- there is no catalogue in the DOM at all. The test at line 264
+// ("first open renders a bounded subset") fails on the same measurement, independently,
+// asserting mapCards > 0 and receiving 0.
+//
+// Two tests and a direct probe agree, so this is a question about the app rather than
+// about the tests: does the catalogue render nothing until some interaction, and is that
+// intended? Answer that before touching either test. Loosening them to pass would erase
+// the only evidence that anything is wrong.
 test('map load patches catalogue state without rerendering the flat catalogue', async ({ page }) => {
   test.fail();
   await page.goto('/#layers=__none');

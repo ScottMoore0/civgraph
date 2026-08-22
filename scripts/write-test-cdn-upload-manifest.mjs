@@ -16,7 +16,7 @@
 
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
-import { assertKnownFlags } from './lib/safe-artefact-write.mjs';
+import { assertKnownFlags, mergeArtefactRecords } from './lib/safe-artefact-write.mjs';
 
 assertKnownFlags([]);
 
@@ -82,10 +82,24 @@ const manifest = {
     .map((asset) => `npx wrangler r2 object put boundaries-data/${asset.targetKey} --file ${asset.localPath} --remote --content-type application/octet-stream`)
 };
 
+// MERGE, DO NOT REPLACE.
+//
+// This is derived from the CURRENT metadata, so an archive still on disk that has
+// dropped out of maps-test.json -- superseded by a clone alias, or made non-loadable --
+// vanishes from the manifest entirely. check:test then reports "local PMTiles archive
+// is not represented in CDN manifest" for a file that was represented yesterday, and
+// the natural fix (revert the manifest) undoes whatever change prompted the
+// regeneration. That loop cost two rounds on 2026-08-22.
+//
+// Same shape as the three tools fixed on 2026-08-20: a generator producing a subset and
+// writing it as though it were the whole.
+const mergedAssets = mergeArtefactRecords(OUTPUT_PATH, assets, { collection: 'assets', idKey: 'layerId' });
+manifest.assets = mergedAssets.records;
+
 mkdirSync(dirname(OUTPUT_PATH), { recursive: true });
 writeFileSync(OUTPUT_PATH, `${JSON.stringify(manifest, null, 2)}\n`);
 console.log(`Wrote ${OUTPUT_PATH.replace(`${ROOT}\\`, '').replaceAll('\\', '/')}`);
-console.log(`Assets: ${assets.length}`);
+console.log(`Assets: ${manifest.assets.length} (${mergedAssets.kept} carried forward from earlier runs).`);
 if (carriedForward) {
   console.log(`Carried forward remoteVerified for ${carriedForward} layer(s) the range report did not cover.`);
 }

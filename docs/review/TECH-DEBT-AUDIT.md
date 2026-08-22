@@ -163,7 +163,7 @@ Verify any of this with a real browser, not static analysis —
 
 ### 5. `labelProperty` unset on four published layers — 20
 
-`roi-local-authorities-1915`, `-1920-06-19`, `-1920-06-25`, `-1920-10-04` have no
+`local-authorities-1915`, `-1920-06-19`, `-1920-06-25`, `-1920-10-04` have no
 `labelProperty`. Their geometry carries `ENGLISH`, `GAEILGE` and `COUNTYNAME`, so
 they currently render without labels.
 

@@ -1,26 +1,53 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-21T14:41:49.252Z",
+  "generatedAt": "2026-08-22T22:03:55.649Z",
   "bucket": "boundaries-data",
   "dryRun": false,
   "selectedIds": [
-    "dlr-dlr-unfinished-housing-vector-test"
+    "local-authorities-1921-vector-test",
+    "local-authorities-1927-vector-test",
+    "local-authorities-2014-vector-test",
+    "local-authorities-2024-vector-test"
   ],
   "totals": {
-    "assets": 1,
-    "processed": 1,
-    "ok": 1,
+    "assets": 4,
+    "processed": 4,
+    "ok": 4,
     "failed": 0,
-    "bytes": 105120
+    "bytes": 17476358
   },
   "results": [
     {
-      "layerId": "dlr-dlr-unfinished-housing-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/dlr-dlr-unfinished-housing-vector-test.pmtiles",
+      "layerId": "local-authorities-1921-vector-test",
+      "targetKey": "data/maps/test/pmtiles/generated/local-authorities-1921-vector-test.pmtiles",
       "ok": true,
       "status": "uploaded",
-      "bytes": 105120,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.125.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/dlr-dlr-unfinished-housing-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+      "bytes": 1819014,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.125.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/local-authorities-1921-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+    },
+    {
+      "layerId": "local-authorities-1927-vector-test",
+      "targetKey": "data/maps/test/pmtiles/generated/local-authorities-1927-vector-test.pmtiles",
+      "ok": true,
+      "status": "uploaded",
+      "bytes": 1818588,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.125.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/local-authorities-1927-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+    },
+    {
+      "layerId": "local-authorities-2014-vector-test",
+      "targetKey": "data/maps/test/pmtiles/generated/local-authorities-2014-vector-test.pmtiles",
+      "ok": true,
+      "status": "uploaded",
+      "bytes": 5093765,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.125.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/local-authorities-2014-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+    },
+    {
+      "layerId": "local-authorities-2024-vector-test",
+      "targetKey": "data/maps/test/pmtiles/generated/local-authorities-2024-vector-test.pmtiles",
+      "ok": true,
+      "status": "uploaded",
+      "bytes": 8744991,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.125.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/local-authorities-2024-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
     }
   ]
 }
