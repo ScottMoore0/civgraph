@@ -1,6 +1,9 @@
 # Technical debt audit
 
-> **Status: point-in-time audit — 2026-08-16, partially applied.** Findings are
+> **Status: RE-SCORED 2026-08-23. 11 of 20 items are resolved.** Every item below was
+> re-checked against the tree on that date, not re-read. The original priority order is
+> preserved further down for reference but should NOT be worked from: its top-ranked
+> item is done, and its 5th was wrong by a factor of twenty. Findings are
 > scored against `docs/CIVGRAPH_PRINCIPLES.md`. Verify each item before acting:
 > several were fixed the same week this was written, and this document will age
 > the same way.
@@ -38,6 +41,92 @@ is the useful output, not the arithmetic.
     npm scripts          100             validators in check   31
     playwright specs     15              unit-test scripts      6
     tracked src/ files   16              engines pin          none
+
+---
+
+## Current status — re-scored 2026-08-23
+
+Every one of the twenty items re-checked against the tree. **Eleven are resolved.** The
+original scored table follows this section and is kept for reference only; it should not
+be worked from.
+
+### Resolved (11)
+
+| # | Item | Evidence on 2026-08-23 |
+|---|---|---|
+| 1 | Elections D1 has no schema | `data/database/elections-schema.sql` exists. The API is also live and DEFAULT ON in production |
+| 2 | No deploy failure alerting | Cloudflare notification created; `pages-build.yml` reproduces the Pages build on every commit |
+| 3 | No Node version pinned | `.nvmrc` = 24, `engines: {"node": ">=24"}` |
+| 6 | `.git` is 5.86 GiB | Still 5.86 GiB, but the CAUSE is fixed — see the rewritten item below |
+| 7 | `proni-roots.json` has no generator | `scripts/build-proni-roots.mjs` |
+| 8 | Dependencies uniformly behind | Updated |
+| 12 | Triple-named binding tolerance | 0 matches in `functions/_api/_auth.js` |
+| 15 | `render/` `test2/` `tests/` naming | `test/` → `render/` done. `test2/` REMAINS DELIBERATELY: it is the service-worker unregister shim, and a redirect cannot unregister a worker |
+| 16 | 371 baselined parity findings | 371 → 73 |
+| 17 | Timeline rebuild race | Fixed (`beginTimelineApply`/`endTimelineApply` depth counter) |
+| 20 | Hidden maps with orphaned Browse details | 118 hidden maps, 1,126 detail files, `check:browse-hidden` guards it |
+
+### Item 5 was wrong by twenty times, and is now partly fixed
+
+Scored as "`labelProperty` unset on **4** published layers" at **20 points**. Measured on
+2026-08-23: **82** published polygon layers had no `labelProperty` in the catalogue.
+
+**And that 82 was itself wrong**, in the other direction. The RENDERER reads
+`render/metadata/maps-test.json`, not the catalogue, and 54 of the 82 already carried a
+value there — the two files were out of sync in the direction that costs nothing. The
+real user-visible gap was **28**.
+
+Of those 28, six had a usable name in their own tiles and now use it
+(`nametext`, `TOWNLAND`, `COUNTY`, `TD_ENGLISH`, `COUNTY`, `PROVINCE`). The other **22
+have no name to show** — flood extents, noise contours, elevation bands and water bodies
+carrying only OBJECTIDs and GUIDs — and are recorded in
+`data/database/nameless-polygon-layers.json`. `check:polygon-labels` now fails on any new
+unlabelled layer, and also on an allowlist entry that has since been labelled, so the list
+cannot rot.
+
+**The lesson is the scoring, not the number.** An item measured once, against the wrong
+file, sat at rank 5 for a week while being both larger and smaller than recorded.
+
+### Item 6 rewritten: the pack is history, and the cause is already fixed
+
+The audit read "`.git` is 5.86 GiB" as ongoing decay. It is not:
+
+- **5.86 GiB is the PACK. `.git` totals 6.5 GiB** — the difference is 538 MiB of loose
+  objects, reclaimable by `git gc` alone.
+- **HEAD is 2.73 GB**, so roughly 3 GB of the pack is historical versions.
+- Cumulative blob bytes across all history are dominated by **`data/graph` (87 GB across
+  176,641 blobs)** and **`data/browse` (16.5 GB, 40,469 blobs)** — generated artefacts
+  that were once committed on every build.
+
+**Both are already untracked.** `git ls-files data/graph` returns 0, `data/browse`
+returns 1. `functions/data/graph/[[path]].js` documents the three-step migration to R2 and
+records that step 3 is done. `test/metadata` (5.9 GB) belongs to a directory that no
+longer exists.
+
+So the engines that regrew the pack from 607 MB after the April rewrite have **already
+been switched off**. That inverts the earlier advice: a history rewrite would now be
+durable rather than futile, because the churn it removes will not come back.
+
+### Still open (6)
+
+| # | Item | Note |
+|---|---|---|
+| 11 | `browse/` is hand-written | Only its INDEXES are built (`build-browse-indexes.mjs`); `browse/browse.js` is hand-maintained |
+| 13 | Script sprawl | 250 scripts, **128** npm entries — up from the audited 100, not down |
+| 19 | No `_routes.json` | Every static path still invokes Functions; a live cost |
+| 9 | `data/books` provenance | 79 tracked files under `legislation/` and `markdown/`, no provenance document |
+| 14 | Thumbnails deployed unnecessarily | Reduced but not eliminated |
+| 18 | Quarantine intake | `data/quarantine` exists; `data/submissions` is the live path |
+
+### What to work, in order
+
+1. **`git gc --prune=now`** — 538 MiB in one command, no history change, no risk.
+2. **`_routes.json`** (item 19) — a live per-request cost, and a small file.
+3. **A second `filter-repo`** dropping `data/graph`, `data/browse` and `test/**` — now
+   worth doing, because the sources of regrowth are gone. Take a fresh backup first; the
+   April 2026 backup zip on the D: backups drive is retained and must not be deleted.
+4. Items 11, 9, 14, 18 are low-value housekeeping. **Item 13 is not a defect** — 250
+   scripts is what a working data pipeline looks like; leave it unless a newcomer trips.
 
 ---
 
