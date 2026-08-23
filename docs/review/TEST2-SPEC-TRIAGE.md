@@ -91,11 +91,36 @@ bug; two were my own test code, and I had mis-stated both.**
 | active-layer drag order persists | **test** | the drop landed 12px BELOW the row, outside the droppable region. Reordering was never broken |
 | loads converted child layers | **test** | "134 children" was the DIFF LINE COUNT. The five expected children arrived in the right order, as configs rather than id strings -- a shape `loadLayer(mapOrId)` accepts by design |
 
-| Still skipped | What was measured |
+Both remaining skips were resolved later the same day, and **one of them was a real,
+silent product bug**.
+
+| Was skipped | Verdict | What it actually was |
+|---|---|---|
+| election party and person links | **product fix** | `data/browse/persons.json` had been SHARDED (11,964 people across three files) and the map app still read `payload.items`, so the index resolved to `[]`. Every person link did nothing: no detail view, no error, one console warning. Party details lost their candidate summaries to the same cause |
+| loads generated election entries | **test** | asserted a per-constituency party table on the UK general election, which is single-seat FPTP -- the pane contract returns the FPTP table before it ever reaches the view switch |
+
+The persons reader now follows the shard manifest, as `browse/browse.js:3456` always
+has. Resolving one person walks the shards in order and stops at the first match rather
+than pulling all **24 MB**.
+
+The party-breakdown coverage moved to Dail 2024, where it applies and is the default of
+four views. **Nothing was loosened**: the FPTP test now asserts the table that flow does
+render, and the party table is asserted where it exists.
+
+**The suite itself had a capacity bug.** `python -m http.server` has a listen backlog of
+5; at 90 tests the parallel burst overflowed the accept queue and the OS refused
+connections, failing one test with ECONNREFUSED reproducibly in the suite and never
+alone. `scripts/test-server.py` raises it to 128. The faster suite then exposed a real
+race in the `/test` shell test, which read `window.__civgraphTest.controller` without
+waiting for it.
+
+```
+final:  90 passed, 1 skipped, 0 failed
+```
+
+| Still skipped | Why it is not a fix |
 |---|---|
-| loads generated election entries | `.election-results-table--constituency-party` count 0; the class still exists at election-manager.js:1656 |
-| election party and person links | detail view renders 4,412 chars, expected substring absent |
-| mobile catalogue first open (other file) | catalogue opens on a TOC and renders no cards |
+| mobile catalogue first open (other file) | the catalogue opens on a TOC and renders no cards. The assertion no longer describes the product, and what "bounded first open" should mean against a drill-down catalogue is a design decision, not a repair |
 
 **Two assertions inside the restore test were wrong about the data, not the product.**
 The row's label is the election's *name* and does not repeat the body, so the body is now
