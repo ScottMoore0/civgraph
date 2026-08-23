@@ -79,37 +79,33 @@ and the timeline now shows its date instead of the earliest in the series.
 ### Where it ended
 
 ```
-whole browser suite:  85 passed, 5 skipped, 0 failed
+whole browser suite:  87 passed, 3 skipped, 0 failed
 ```
 
-Five are `test.fixme()` — known broken, each carrying its measurement. None is a stale
-expectation left unexamined; every one has been reduced to a specific, checkable claim.
+Three of the five known-broken tests were resolved on 2026-08-23. **One was a product
+bug; two were my own test code, and I had mis-stated both.**
 
-| Skipped test | What was measured | Why it is not just widened |
+| Was skipped | Verdict | What it actually was |
 |---|---|---|
-| restores active Dáil election catalogue | **fails alone, passes in the full file** | it depends on a neighbour opening a decade, papering over a product bug |
-| active-layer drag order persists | real mouse drag; order unchanged (`a\|b`, expected `b\|a`) | the only remaining candidate for a genuine regression |
-| loads generated election entries | `.election-results-table--constituency-party` count 0; the class still exists at election-manager.js:1656 | only coverage of the per-constituency party breakdown |
-| loads converted child layers | 134 children where 5 are expected | a 27× change is either real broadening or a grown parent — find out which |
-| election party and person links | detail view renders 4,412 chars, expected substring absent | detail view opens; its text changed |
-| mobile catalogue first open (other file) | catalogue opens on a TOC and renders no cards | the assertion no longer describes the product |
+| restores active Dail election catalogue | **product fix** | the catalogue opens on a TOC, so election rows exist only inside an opened decade card. Restoring from a URL had nothing to mark. It now opens the decade holding the election, so the test no longer depends on a neighbour to set up its precondition |
+| active-layer drag order persists | **test** | the drop landed 12px BELOW the row, outside the droppable region. Reordering was never broken |
+| loads converted child layers | **test** | "134 children" was the DIFF LINE COUNT. The five expected children arrived in the right order, as configs rather than id strings -- a shape `loadLayer(mapOrId)` accepts by design |
 
-**Fixed along the way**, and neither was where I expected:
+| Still skipped | What was measured |
+|---|---|
+| loads generated election entries | `.election-results-table--constituency-party` count 0; the class still exists at election-manager.js:1656 |
+| election party and person links | detail view renders 4,412 chars, expected substring absent |
+| mobile catalogue first open (other file) | catalogue opens on a TOC and renders no cards |
 
-- **`setTimelineItems` matched the wrong item, always.** `item.mapId === requested.mapId ||
-  item.timestamp === requested.timestamp` — election items have neither field, so both read
-  `undefined === undefined`, matched the first item, and every election showed the earliest
-  date in its series. User-visible.
-- **`duplicate promoted IDs`** was not a regression: it forced the layer onto a gitignored
-  MVT dev fallback that no longer exists on disk. Now runs against PMTiles, as production
-  does.
+**Two assertions inside the restore test were wrong about the data, not the product.**
+The row's label is the election's *name* and does not repeat the body, so the body is now
+asserted from `data-election-body`. And sorting votes descending puts Fianna Fail
+(481,414) first, not Fine Gael (458,134) -- and asserting the first row could not have
+caught a broken sort in any case, because the default seats order also begins with Fianna
+Fail. The top three discriminate: seats order is FF, SF, FG; votes order is FF, FG, SF.
 
-**On the order-dependent test, I was wrong twice and the second correction is the useful
-one.** It fails alone and passes in company — the reverse of my first claim. That
-direction is the diagnosis: in company an earlier test has already opened a decade, so the
-rows exist. Alone, nothing has, and `focusActiveElectionCatalogueEntry` (instrumented:
-called twice with the correct entry, seeing `rows: 0` both times) has nothing to mark.
+**The pattern across all three.** In each case I had recorded a confident claim -- "the
+only remaining candidate for a genuine regression", "134 children where 5 are expected",
+"a 27x change" -- and in each case the measurement contradicted it. The one that was real
+was the one I had described as merely order-dependent.
 
-The fix belongs in the product — restoring an election from a URL should open the decade
-that holds it. Two attempts at that were written and reverted; a third guess is worth less
-than one measurement of which branch of `focusRow` actually runs.
