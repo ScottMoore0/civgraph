@@ -45,8 +45,12 @@ data/books/boundary-reports/lgb-revised-1992.pdf
 # URL is on that host and under an allowlisted prefix.
 #   markdown    213 MB  66 Hansard OCR volumes 1921-1945
 #   legislation 152 MB  13 NI Acts and SRO PDFs 1921-1932
-data/books/markdown/
-data/books/legislation/
+# Globs, not "dir/". The trailing-slash form was tried first and did NOT exclude
+# anything -- both directories still served 200 from Pages after a confirmed deploy,
+# while the file-path entries above (harrison-1984.pdf) correctly 404. Whatever
+# .cfignore honours here, it is matching paths rather than directories.
+data/books/markdown/*
+data/books/legislation/*
 data/downloads/
 OSNI original maps/
 data/maps/osni-originals/*.kml
