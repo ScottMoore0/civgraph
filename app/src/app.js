@@ -1082,15 +1082,53 @@ class Test2App {
       uiController.showCatalogueListView?.(false);
       this.updateMapList();
     };
-    const focusRow = (attempt = 0) => {
+    // The catalogue opens on a table of contents. Election rows exist only inside a
+    // decade card that has been opened, so restoring an election from a URL used to have
+    // nothing to mark: focusRow ran, saw rows: 0, and returned. It appeared to work only
+    // when some earlier interaction had already opened a decade -- which is why the
+    // browser test for it passed in company and failed alone.
+    //
+    // Open the decade that holds the election. The decade table lives in
+    // ui-controller.js (decadeDefs); rather than copy those 12 rows here and let the two
+    // drift, read the decade buttons the TOC has already rendered and match on label.
+    // A decade the catalogue does not offer is therefore a no-op, not a wrong guess.
+    const openDecadeForEntry = async () => {
+      const year = Number.parseInt(String(entry.date).slice(0, 4), 10);
+      if (!Number.isFinite(year)) return;
+      const label = `${Math.floor(year / 10) * 10}s`;
+      const button = [...document.querySelectorAll('#catalogueFlatView .catalogue-flat__toc-decade-btn')]
+        .find((el) => el.textContent.trim() === label);
+      const targetId = button?.dataset?.catalogueTarget;
+      if (!targetId) return;
+      // ensureCatalogueTargetRendered returns early when the card is already open, so
+      // retrying is free. Deliberately NOT handleFlatTocClick: that pushes a history
+      // entry, and restoring state from a URL must not rewrite the URL it came from.
+      await uiController.ensureCatalogueTargetRendered?.(targetId, 'elections');
+    };
+
+    // Budget in TIME, not in frames. The first version of this retried across four
+    // animation frames -- about 60ms -- and the decade buttons it needs are not in the
+    // DOM that early on a cold load, so every attempt found nothing and gave up before
+    // the catalogue had rendered. Measured: clicking the decade button yields 170 rows
+    // and the marking below then works, so the failure was purely one of timing.
+    const FOCUS_DEADLINE_MS = 8000;
+    const FOCUS_POLL_MS = 120;
+    const focusDeadline = performance.now() + FOCUS_DEADLINE_MS;
+    let listStateRestored = false;
+    const focusRow = () => {
       const rows = [...document.querySelectorAll('#catalogueFlatView .flat-election-entry')];
       const target = rows.find((row) => row.dataset.electionBody === entry.body && row.dataset.electionDate === entry.date);
-      if (!target && attempt === 0) {
-        restoreCatalogueListState();
-        requestAnimationFrame(() => focusRow(1));
+      if (!target) {
+        if (performance.now() >= focusDeadline) return;
+        if (!listStateRestored) {
+          listStateRestored = true;
+          restoreCatalogueListState();
+        }
+        Promise.resolve(openDecadeForEntry())
+          .catch(() => {})
+          .then(() => setTimeout(focusRow, FOCUS_POLL_MS));
         return;
       }
-      if (!target) return;
       rows.forEach((row) => {
         const active = row === target;
         row.classList.toggle('class-member--loaded', active);

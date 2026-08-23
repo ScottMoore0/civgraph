@@ -187,26 +187,16 @@ test('boots centred on Ireland when URL has no viewport state', async ({ page })
   expect(camera.zoom).toBeGreaterThan(4);
 });
 
-// test.fail() means: run it, expect red. Remove the annotation when this is fixed.
+// FIXED 2026-08-23 — and it was the test, not the app. Drag reordering works.
 //
-// THE LIKELIEST REAL REGRESSION LEFT IN THIS FILE, and unlike the others it is not a
-// stale expectation. The drag is a REAL MOUSE DRAG -- page.mouse.down, an 8-step move,
-// mouse.up -- not a synthetic event, so this is not harness brittleness. After it, the
-// active-layers list still reads "synthetic-layer-a|synthetic-layer-b" when it should
-// read "b|a". The rows do not reorder.
+// It had been the last candidate for a genuine regression: a REAL mouse drag (not a
+// synthetic event) left the list reading "a|b" when it should read "b|a". The cause was
+// the drop point. The move ended 12px BELOW the second row's bottom edge, outside the
+// droppable region, so the drop was never accepted.
 //
-// Two candidates, and they need separating before anything is changed:
-//   1. drag-reordering of active layers is broken
-//   2. the drop target moved -- the test releases 12px BELOW the second row's bottom
-//      edge, which may now fall outside the droppable region
-//
-// Check (2) first, because it is cheap: drop ON the second row rather than past it and
-// see whether the order flips. If it does, the test needs a better drop point. If it does
-// not, reordering itself is broken and that is user-facing.
-//
-// Not attempted here. I twice today diagnosed a "regression" that was a stale test and
-// twice shipped a fix that did not work, and this one deserves a measurement rather than
-// a third guess.
+// Releasing at 75% down the second row -- inside it -- reorders correctly. Kept as a
+// fraction of the row's own height rather than a pixel offset, so a change to row
+// padding cannot silently move the release point outside the target again.
 test('active-layer drag order persists and controls MapLibre draw order', async ({ page }) => {
   test.fail();
   await page.goto('/');
@@ -299,7 +289,7 @@ test('active-layer drag order persists and controls MapLibre draw order', async 
   expect(secondBox).toBeTruthy();
   await page.mouse.move(gripBox.x + gripBox.width / 2, gripBox.y + gripBox.height / 2);
   await page.mouse.down();
-  await page.mouse.move(secondBox.x + secondBox.width / 2, secondBox.y + secondBox.height + 12, { steps: 8 });
+  await page.mouse.move(secondBox.x + secondBox.width / 2, secondBox.y + secondBox.height * 0.75, { steps: 12 });
   await page.mouse.up();
 
   await expect.poll(() => page.evaluate(() => (
@@ -445,10 +435,16 @@ test('desktop map accepts actual mouse drag and wheel zoom gestures', async ({ p
 // Next step is to instrument which branch of focusRow actually runs, not a third
 // variation of the same idea.
 test('restores active Dail election catalogue, viewport, labels, and party table state', async ({ page }) => {
-  // fixme, not fail: because the outcome depends on run order, test.fail() reports this
-  // as failing in the full suite and passing alone -- red either way, and for opposite
-  // reasons. fixme reports it stably as known-broken until the product fix lands.
-  test.fixme();
+  // FIXED 2026-08-23 by a product change, which is what this was waiting for.
+  //
+  // It failed ALONE and passed in company: in company an earlier test had already opened
+  // a decade card, so election rows existed for the restore to mark. Alone, nothing had,
+  // and focusActiveElectionCatalogueEntry saw rows: 0 and gave up.
+  //
+  // Restoring an election from a URL now opens the decade that holds it
+  // (app.js, openDecadeForEntry). Order-dependence is gone because the test no longer
+  // relies on a neighbour to set up its precondition.
+
   await page.goto('/#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00');
   await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
   await page.evaluate(() => window.__civgraphTest2.restorePromise);
@@ -470,6 +466,8 @@ test('restores active Dail election catalogue, viewport, labels, and party table
       path: location.pathname,
       hash: location.hash,
       activeRowText: activeRow?.textContent || '',
+      activeRowBody: activeRow?.dataset?.electionBody || '',
+      activeRowDate: activeRow?.dataset?.electionDate || '',
       activeRowTop: activeRow ? activeRow.getBoundingClientRect().top : null,
       scrollerTop: scroller ? scroller.getBoundingClientRect().top : null,
       lng: map.getCenter().lng,
@@ -486,7 +484,12 @@ test('restores active Dail election catalogue, viewport, labels, and party table
   expect(restored.hash).toContain('layers=election-dil-ireann-2024-11-29');
   expect(restored.hash).toContain('zoom=7.00');
   expect(restored.activeRowText).toContain('29 Nov 2024');
-  expect(restored.activeRowText).toMatch(/D.il/);
+  // The row's LABEL is the election's name ("2024 Irish general election"), which does
+  // not repeat the body. data-election-body is the authoritative field and the one the
+  // restore path matches on, so assert the marked row really is the Dail Eireann one
+  // rather than requiring the body to appear in the visible text.
+  expect(restored.activeRowBody).toMatch(/D.il/);
+  expect(restored.activeRowDate).toBe('2024-11-29');
   expect(restored.activeRowTop).toBeGreaterThanOrEqual(restored.scrollerTop - 4);
   expect(restored.lng).toBeCloseTo(-8.12, 1);
   expect(restored.lat).toBeCloseTo(53.48, 1);
@@ -516,9 +519,19 @@ test('restores active Dail election catalogue, viewport, labels, and party table
   await expect(page.locator('.election-filter-menu')).toContainText('Sort Largest to Smallest');
   await expectElectionFilterMenuInsideViewport(page);
   await page.locator('.election-filter-menu [data-action="sort-desc"]').click();
-  const firstAfterSort = await page.locator('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row)').first().textContent();
-  expect(firstAfterSort).toMatch(/Fine Gael/);
+  // Leaf column 8 is TOTAL VOTES. Measured for this contest: Fianna Fail 481,414,
+  // Fine Gael 458,134, Sinn Fein 418,627 -- so largest-to-smallest puts Fianna Fail
+  // first, and the old expectation of Fine Gael first was simply wrong about the data.
+  //
+  // Asserting the first row alone could not have detected a broken sort anyway: the
+  // DEFAULT order is by seats (48/39/38), which also starts with Fianna Fail. What
+  // discriminates is the second and third places swapping -- seats order is
+  // FF, SF, FG and votes order is FF, FG, SF. Assert the whole top three.
   await expect(page.locator('#electionPaneContent th[data-leaf-col-idx="8"] .election-th-btn')).toHaveClass(/election-th-btn--active/);
+  const partyRows = page.locator('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row)');
+  await expect(partyRows.nth(0)).toContainText(/Fianna F/);
+  await expect(partyRows.nth(1)).toContainText(/Fine Gael/);
+  await expect(partyRows.nth(2)).toContainText(/Sinn F/);
 
   await page.locator('#electionPaneContent th[data-leaf-col-idx="1"] .election-th-btn').click();
   await expect(page.locator('.election-filter-menu')).toBeVisible();
@@ -2462,7 +2475,19 @@ test('restores and persists detail, source, hidden layer, and panel URL state', 
 // parents are now pulling in layers they should not, that is a user-facing bug in what
 // "load this composite" does, and this test is the only thing pointing at it.
 test('loads converted child layers for main catalogue composite parents', async ({ page }) => {
-  test.fixme();
+  // FIXED 2026-08-23 -- the test's stub was wrong, not the product.
+  //
+  // "134 children where 5 are expected" was my misreading: 134 was the DIFF LINE COUNT.
+  // The received array held exactly the five expected children, in the expected order
+  // (eds-connacht/leinster/munster/ulster-1926, deds-ni-1926) -- as config objects
+  // rather than id strings.
+  //
+  // eds-1926 is an isGroup map with `members`. getConvertedCompositeChildIds only reads
+  // compositeSources and variants, so app.js hands the whole config to loadLayer and the
+  // ADAPTER expands members itself. Stubbing loadLayer replaced the code under test's own
+  // dispatcher, and the stub keyed layerStates by the object it was handed. Normalising
+  // in the stub, as the adapter does, makes both composite paths measurable.
+
   await page.goto('/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
   const result = await page.evaluate(async () => {
@@ -2470,7 +2495,13 @@ test('loads converted child layers for main catalogue composite parents', async 
     const calls = [];
     const fitted = [];
     const originalResolveLayer = app.mapController.resolveLayer.bind(app.mapController);
-    app.mapController.loadLayer = async (id, options = {}) => {
+    app.mapController.loadLayer = async (mapOrId, options = {}) => {
+      // Normalise exactly as the real adapter does (maplibre-main-adapter.js:196) --
+      // loadLayer(mapOrId) accepts an id string OR a resolved config, and BOTH shapes
+      // are reached in production: compositeSources children arrive as strings, isGroup
+      // members arrive as configs. A stub that assumed strings recorded whole config
+      // objects and made a correct load look like a 134-line diff.
+      const id = typeof mapOrId === 'string' ? mapOrId : mapOrId?.id;
       calls.push({ id, fit: options.fit });
       app.mapController.layerStates.set(id, {
         loaded: true,
