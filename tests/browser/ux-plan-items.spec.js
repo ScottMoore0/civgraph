@@ -9,6 +9,30 @@ const { test, expect } = require('@playwright/test');
 test.use({ serviceWorkers: 'block' });
 const BASE = process.env.PARITY_BASE_URL || 'https://civgraph.net';
 
+/**
+ * Open a maps section so the catalogue's load buttons exist.
+ *
+ * The catalogue opens on a TABLE OF CONTENTS -- section headings and decade buttons, no
+ * cards. T1-01/T1-02 below probed the bare homepage for a load button, found none, and
+ * skipped ITSELF, so the only keyboard-and-announcement coverage in the suite had never
+ * run once. Measured 2026-08-23: clicking one maps section yields 61 load buttons, 20 of
+ * them visible.
+ *
+ * Navigate the product rather than loosening the assertions -- the claim under test is
+ * about focus and announcements during a real activation, and a presence check would
+ * stay green while testing nothing.
+ */
+async function openMapsSection(page) {
+  const section = page.locator('#catalogueFlatView .catalogue-flat__toc-map-btn').first();
+  await section.click({ timeout: 30000 });
+  await page.waitForFunction(
+    () => [...document.querySelectorAll('.load-btn[data-map-id], .c1-load-btn[data-map-id]')]
+      .some((button) => button.offsetParent),
+    null,
+    { timeout: 30000 },
+  );
+}
+
 test('T3-03 · no visible target under 24px except the focus-reveal skip links', async ({ page }) => {
   test.setTimeout(120000);
   await page.goto(`${BASE}/`, { waitUntil: 'domcontentloaded' });
@@ -83,6 +107,7 @@ test('T1-01 + T1-02 · a keyboard-driven load keeps focus and is announced', asy
   await page.goto(`${BASE}/`, { waitUntil: 'domcontentloaded' });
   await page.waitForFunction(() => window.__civgraphTest2?.app, null, { timeout: 60000 });
   await page.waitForTimeout(3000);
+  await openMapsSection(page);
 
   const result = await page.evaluate(async () => {
     // The real selector, from ui-controller.loadButtonSelector().
@@ -111,11 +136,10 @@ test('T1-01 + T1-02 · a keyboard-driven load keeps focus and is announced', asy
     };
   });
 
-  // The catalogue's load buttons do not exist in the default homepage view -- measured:
-  // zero .load-btn and zero [data-map-id] elements after load. They appear only once a
-  // category or list view is opened, which this probe does not do. Skip rather than fail,
-  // so the assertions below are ready for whoever scripts that navigation.
-  test.skip(Boolean(result.skipped), `no load button in the default view: ${result.skipped}`);
+  // Deliberately NOT test.skip() any more. Skipping on a missing button is what let this
+  // test sit green and unrun; if openMapsSection stops producing one, that is a finding
+  // about the catalogue and it should fail loudly.
+  expect(result.skipped, `no load button after opening a maps section: ${result.skipped}`).toBeUndefined();
   expect(result.focusedBefore).toBe(true);
   // T1-02: a start and an outcome, not silence
   expect(result.announcements.length, `announcements: ${JSON.stringify(result.announcements)}`).toBeGreaterThanOrEqual(2);

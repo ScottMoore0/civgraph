@@ -83,8 +83,19 @@ test('map load patches catalogue state without rerendering the flat catalogue', 
   //     <- ensureElections
   // With the warm-up settled first, a map load produces ZERO re-renders. The patching
   // works; the test was measuring something else.
+  // Bound the warm-up so this evaluate ALWAYS settles. Unbounded, it intermittently
+  // failed the whole test with "Resulting promise was garbage collected" -- the awaited
+  // promise had not resolved when the context went away, which under full-suite load is
+  // a slow election-catalogue fetch, not a product fault. This is a warm-up, not an
+  // assertion: waiting a bounded time for it is exactly as correct, and the measurement
+  // below is unchanged.
   await page.evaluate(async () => {
-    await window.__civgraphTest2?.app?.ensureElections?.({ refreshCatalogue: true });
+    const app = window.__civgraphTest2?.app;
+    if (!app?.ensureElections) return;
+    await Promise.race([
+      Promise.resolve(app.ensureElections({ refreshCatalogue: true })).catch(() => {}),
+      new Promise((resolve) => setTimeout(resolve, 20000))
+    ]);
   });
   await page.waitForTimeout(1500);
 

@@ -2790,6 +2790,13 @@ test('MapLibre controls handle opacity, labels, feature details, and active laye
   const firstLabelText = await firstLabel.textContent();
   await firstLabel.hover();
   await expect(firstLabel).toHaveClass(/map-label--hover/);
+  // The hover colour is a CSS TRANSITION, so the class landing does not mean the colour
+  // has arrived. Reading computed style immediately caught it mid-flight -- measured
+  // rgb(240, 111, 52), partway to rgb(255, 122, 26) -- which failed intermittently and
+  // looked like a styling change. Let it settle before capturing the rest.
+  await expect
+    .poll(() => firstLabel.evaluate((label) => getComputedStyle(label.querySelector('div')).color))
+    .toBe('rgb(255, 122, 26)');
   const hoverState = await firstLabel.evaluate((label) => {
     const app = window.__civgraphTest2;
     const id = label.dataset.featureId;
