@@ -71,18 +71,25 @@ for (const layer of render.layers || []) {
     }
   }
 
-  // provider is the same class of field as keywords, and it is ATTRIBUTION -- so a
-  // credit added to the catalogue and not propagated is a credit the reader never sees.
-  // Added on 2026-08-23 after restoring OSI to counties-ireland-1955 and having the
-  // parity check immediately report the render record still crediting only the digitiser.
+  // provider is ATTRIBUTION, and unlike keywords it is REPLACED, not unioned.
+  //
+  // It was unioned at first, by analogy with keywords. That is wrong, and the flaw only
+  // showed when a credit had to be CORRECTED rather than added: admin-areas-1966-07-04
+  // was changed from ["OSNI"] to ["XrysD"] on 2026-08-23, and the union left the render
+  // record claiming ["OSNI","XrysD"] -- asserting a joint provenance that does not exist
+  // and that nobody wrote. A union can only ever add, so a wrong credit is permanent.
+  //
+  // The catalogue is the reviewed source of truth for attribution, so the render record
+  // mirrors it exactly. Keywords stay a union because the render record legitimately adds
+  // its own ("maplibre", "vector tiles", the category name); no such case exists for
+  // provider -- a renderer has no credits of its own to contribute.
   const wantedProvider = Array.isArray(map.provider) ? map.provider.filter(Boolean) : [];
   if (wantedProvider.length) {
-    const havePr = new Set(Array.isArray(layer.provider) ? layer.provider : (layer.provider ? [layer.provider] : []));
-    const missingPr = wantedProvider.filter((v) => !havePr.has(v));
-    if (missingPr.length) {
+    const current = Array.isArray(layer.provider) ? layer.provider : (layer.provider ? [layer.provider] : []);
+    if (JSON.stringify(current) !== JSON.stringify(wantedProvider)) {
       providerLayers += 1;
-      providersAdded += missingPr.length;
-      if (!CHECK) layer.provider = [...havePr, ...missingPr];
+      providersAdded += Math.abs(wantedProvider.length - current.length) || wantedProvider.length;
+      if (!CHECK) layer.provider = [...wantedProvider];
     }
   }
 

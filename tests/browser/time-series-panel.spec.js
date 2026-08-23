@@ -37,3 +37,41 @@ test('/render time-series picker lists a chain and switches the loaded layer', a
   expect(result.loadedAfter).toContain('provinces-1899-vector-test');
   expect(result.loadedAfter).not.toContain('provinces-1955-vector-test');
 });
+
+// The generator first shipped handling only the `segments` shape, so it emitted 5 of 17
+// chains and the other 12 stayed as dead as before -- a fix that looked complete and
+// covered under a third of the catalogue. Assert the SHAPES are all resolved, because
+// that is the thing that silently regressed once already.
+test('/render time-series chains cover all four catalogue shapes', async ({ page }) => {
+  await page.goto('/render/');
+  await page.waitForFunction(() => window.__civgraphTest?.metadataService?.layers?.length, null, { timeout: 60000 });
+
+  const chains = await page.evaluate(() =>
+    (window.__civgraphTest.metadataService.metadata?.timeSeriesChains || [])
+      .map((chain) => ({ id: chain.id, count: (chain.maps || []).length })));
+
+  const byId = new Map(chains.map((chain) => [chain.id, chain.count]));
+  const atLeast = (id, n) => {
+    expect(byId.has(id), `chain ${id} is missing`).toBe(true);
+    expect(byId.get(id), `chain ${id} has too few entries`).toBeGreaterThanOrEqual(n);
+  };
+
+  atLeast('provinces', 3);              // segments
+  atLeast('settlements', 2);            // flat classIds
+  atLeast('osni-ortho-coverage', 10);   // maps listed directly
+  // parallel: one chain PER COLUMN, never merged into a single date list -- switching a
+  // Westminster constituency map to a Dail one is not a continuation.
+  atLeast('parliamentary:uk-parliament', 5);
+  atLeast('parliamentary:dail-eireann', 5);
+  atLeast('parliamentary:devolved-ni', 5);
+  expect(byId.has('parliamentary'), 'parallel chain must not be emitted merged').toBe(false);
+
+  // Undated maps cannot go in a date picker: their <option value> would be "undefined".
+  const undated = await page.evaluate(() =>
+    (window.__civgraphTest.metadataService.metadata?.timeSeriesChains || [])
+      .flatMap((chain) => (chain.maps || []).filter((entry) => !entry.date || entry.date === 'undefined')
+        .map((entry) => `${chain.id}/${entry.id}`)));
+  expect(undated).toEqual([]);
+
+  expect(chains.length).toBeGreaterThanOrEqual(18);
+});
