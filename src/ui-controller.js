@@ -1280,19 +1280,7 @@ class UIController {
         if (this.catalogueHistoryIndex > 0) {
             this.catalogueHistoryIndex--;
             const entry = this.catalogueHistory[this.catalogueHistoryIndex];
-            if (entry.type === 'tab') {
-                this.showTab(entry.tabId || 'catalogue');
-            } else if (entry.type === 'list') {
-                this.showCatalogueListView(false);
-            } else if (entry.type === 'book-viewer') {
-                this.openCatalogueBookViewer(entry.bookId, entry.format || 'pdf', false);
-            } else if (entry.type === 'detail') {
-                this.showCatalogueDetailView(entry.mapId, false);
-            } else if (entry.type === 'feature-detail') {
-                this.showFeatureDetailInCatalogue(entry.detailId, false);
-            } else if (entry.type === 'election-entity-detail') {
-                this.showElectionEntityDetailInCatalogue(entry.detailId, false);
-            }
+            this._applyCatalogueHistoryEntry(entry);
         }
         this.updateCatalogueNavButtons();
     }
@@ -1301,33 +1289,120 @@ class UIController {
         if (this.catalogueHistoryIndex < this.catalogueHistory.length - 1) {
             this.catalogueHistoryIndex++;
             const entry = this.catalogueHistory[this.catalogueHistoryIndex];
-            if (entry.type === 'tab') {
-                this.showTab(entry.tabId || 'catalogue');
-            } else if (entry.type === 'list') {
-                this.showCatalogueListView(false);
-            } else if (entry.type === 'book-viewer') {
-                this.openCatalogueBookViewer(entry.bookId, entry.format || 'pdf', false);
-            } else if (entry.type === 'detail') {
-                this.showCatalogueDetailView(entry.mapId, false);
-            } else if (entry.type === 'feature-detail') {
-                this.showFeatureDetailInCatalogue(entry.detailId, false);
-            } else if (entry.type === 'election-entity-detail') {
-                this.showElectionEntityDetailInCatalogue(entry.detailId, false);
-            }
+            this._applyCatalogueHistoryEntry(entry);
         }
         this.updateCatalogueNavButtons();
     }
 
+    /**
+     * Apply one history entry. Extracted from catalogueGoBack/GoForward, which held two
+     * byte-identical copies of this dispatch -- so a new entry type had to be added in
+     * both, and the History list below would have made it a third.
+     */
+    _applyCatalogueHistoryEntry(entry) {
+        if (!entry) return;
+        if (entry.type === 'tab') {
+            this.showTab(entry.tabId || 'catalogue');
+        } else if (entry.type === 'list') {
+            this.showCatalogueListView(false);
+        } else if (entry.type === 'book-viewer') {
+            this.openCatalogueBookViewer(entry.bookId, entry.format || 'pdf', false);
+        } else if (entry.type === 'detail') {
+            this.showCatalogueDetailView(entry.mapId, false);
+        } else if (entry.type === 'feature-detail') {
+            this.showFeatureDetailInCatalogue(entry.detailId, false);
+        } else if (entry.type === 'election-entity-detail') {
+            this.showElectionEntityDetailInCatalogue(entry.detailId, false);
+        }
+    }
+
+    /** A human label for a history entry. Falls back to the id rather than to nothing. */
+    _catalogueHistoryLabel(entry) {
+        if (!entry) return '';
+        switch (entry.type) {
+            case 'list': return 'Catalogue';
+            case 'tab': return entry.tabId ? entry.tabId.charAt(0).toUpperCase() + entry.tabId.slice(1) : 'Catalogue';
+            case 'book-viewer': return `Book: ${entry.bookId || ''}`;
+            case 'detail': {
+                const map = dataService.getMapById?.(entry.mapId);
+                return map?.name || entry.mapId || 'Map';
+            }
+            case 'feature-detail': return `Feature: ${entry.detailId || ''}`;
+            case 'election-entity-detail': return `Election: ${entry.detailId || ''}`;
+            default: return entry.type || 'Entry';
+        }
+    }
+
+    /**
+     * The History list.
+     *
+     * #catalogueHistory is a VISIBLE button in index.html titled "History", and until
+     * 2026-08-23 its entire body was a console.log -- so it had never done anything a
+     * user could see. The entries already existed and back/forward already worked; only
+     * the list was missing.
+     *
+     * A dismissible popup anchored to the button, not a modal: this is a navigation
+     * shortcut rather than a task, so it must not trap focus or demand dismissal before
+     * anything else can happen. Escape and outside-click close it, and focus returns to
+     * the button rather than falling to <body>.
+     */
     showCatalogueHistory() {
-        // UNIMPLEMENTED STUB, and #catalogueHistory is a VISIBLE button in index.html
-        // titled "History". Until 2026-08-23 its whole body was a console.log, so the
-        // control has always done nothing a user could see -- it printed to a console
-        // they do not have open. Removing the log does not change what the user gets; it
-        // just stops the pretence that something happened.
-        //
-        // this.catalogueHistory holds the entries, and catalogueGoBack/GoForward already
-        // work, so the missing piece is only the list UI. Left as a stub rather than
-        // hidden, because whether to build it or drop the button is a product decision.
+        const button = document.getElementById('catalogueHistory');
+        if (!button) return;
+
+        const existing = document.getElementById('catalogueHistoryPopup');
+        if (existing) { existing.remove(); button.setAttribute('aria-expanded', 'false'); return; }
+
+        const entries = this.catalogueHistory || [];
+        const popup = document.createElement('div');
+        popup.id = 'catalogueHistoryPopup';
+        popup.className = 'catalogue-history-popup';
+        popup.setAttribute('role', 'dialog');
+        popup.setAttribute('aria-label', 'Catalogue history');
+
+        if (!entries.length) {
+            popup.innerHTML = '<p class="catalogue-history-popup__empty">Nothing visited yet.</p>';
+        } else {
+            // Most recent first: the reason to open a history list is almost always to
+            // step back one or two places, not to return to the beginning.
+            const items = entries.map((entry, index) => {
+                const current = index === this.catalogueHistoryIndex;
+                return `<li><button type="button" class="catalogue-history-popup__item${current ? ' catalogue-history-popup__item--current' : ''}"`
+                    + ` data-history-index="${index}"${current ? ' aria-current="true"' : ''}>`
+                    + `${this.escapeHtml(this._catalogueHistoryLabel(entry))}</button></li>`;
+            }).reverse().join('');
+            popup.innerHTML = `<ul class="catalogue-history-popup__list">${items}</ul>`;
+        }
+
+        button.setAttribute('aria-expanded', 'true');
+        (button.parentElement || document.body).appendChild(popup);
+
+        const close = () => {
+            popup.remove();
+            button.setAttribute('aria-expanded', 'false');
+            document.removeEventListener('keydown', onKey, true);
+            document.removeEventListener('pointerdown', onOutside, true);
+            button.focus();
+        };
+        const onKey = (event) => { if (event.key === 'Escape') { event.preventDefault(); close(); } };
+        const onOutside = (event) => {
+            if (!popup.contains(event.target) && event.target !== button) close();
+        };
+        document.addEventListener('keydown', onKey, true);
+        document.addEventListener('pointerdown', onOutside, true);
+
+        popup.addEventListener('click', (event) => {
+            const item = event.target.closest?.('[data-history-index]');
+            if (!item) return;
+            const index = Number(item.dataset.historyIndex);
+            if (!Number.isInteger(index) || index < 0 || index >= entries.length) return;
+            this.catalogueHistoryIndex = index;
+            this._applyCatalogueHistoryEntry(entries[index]);
+            this.updateCatalogueNavButtons();
+            close();
+        });
+
+        popup.querySelector('.catalogue-history-popup__item')?.focus();
     }
 
     updateCatalogueNavButtons() {

@@ -114,6 +114,31 @@ function card(r, depth = 0) {
 
 /* =========================== search (home) =========================== */
 
+/**
+ * Show or clear the inverted-date-range message.
+ *
+ * An inverted range used to be sent to the API, match nothing, and render as "no
+ * records" -- which reads as "these records do not exist" rather than "this query is
+ * impossible". The message is in a live region so it is announced, and it is placed next
+ * to the date inputs rather than in the results area, because that is where the mistake
+ * is and where the fix has to be made.
+ */
+function reportDateRangeError(message) {
+  let box = document.getElementById('psDateError');
+  if (!box) {
+    if (!message) return;
+    box = document.createElement('p');
+    box.id = 'psDateError';
+    box.className = 'ps-date-error';
+    box.setAttribute('role', 'alert');
+    (els.from.closest('.ps-dates') || els.from.parentElement)?.appendChild(box);
+  }
+  box.textContent = message || '';
+  box.hidden = !message;
+  els.from.setAttribute('aria-invalid', message ? 'true' : 'false');
+  els.to.setAttribute('aria-invalid', message ? 'true' : 'false');
+}
+
 // Query + filters only (no paging/sort) — shared by count and export.
 function queryParams() {
   const p = new URLSearchParams();
@@ -126,6 +151,14 @@ function queryParams() {
   if (els.fLevel.value) p.set('level', els.fLevel.value);
   if (els.fAccess.value) p.set('access', els.fAccess.value);
   const from = yearOf(els.from.value), to = yearOf(els.to.value);
+  // An INVERTED range (From later than To) matched nothing and said nothing, so the app
+  // reported "no records" for a query that was never valid -- a wrong answer rather than
+  // an empty one. Report it instead of sending it (UX plan T3-09, #190).
+  if (from && to && Number(from) > Number(to)) {
+    reportDateRangeError(`From (${from}) is later than To (${to}).`);
+    return null;
+  }
+  reportDateRangeError(null);
   if (from) p.set('from', from);
   if (to) p.set('to', to);
   // A selected letter restricts to records whose reference begins with it. With
@@ -145,6 +178,7 @@ function hasTextInput() {
 
 function params(offset) {
   const p = queryParams();
+  if (!p) return null;   // inverted date range; reportDateRangeError has said so
   p.set('sort', els.sort.value);
   p.set('dir', els.dir.dataset.dir);
   p.set('limit', String(LIMIT));
@@ -204,7 +238,8 @@ async function fetchCount(qid) {
     const browseMode = state.letter && !hasTextInput();
     const url = browseMode
       ? `${COUNT_API}?letter=${encodeURIComponent(state.letter)}&breakdown=1`
-      : `${COUNT_API}?${queryParams()}`;
+      : (() => { const qp = queryParams(); return qp ? `${COUNT_API}?${qp}` : null; })();
+    if (!url) return;
     const data = await (await fetch(url)).json();
     if (qid !== state.queryId) return;                 // a newer query superseded this
     if (browseMode && Array.isArray(data.levels)) { state.levels = data.levels; state.total = data.count ?? null; updateStatus(); }
@@ -282,7 +317,15 @@ async function search(reset) {
   const rid = ++state.reqId;
   if (reset) { els.status.textContent = 'Searching…'; fetchCount(state.queryId); }
   try {
-    const resp = await fetch(`${API}?${params(state.offset)}`);
+    const search = params(state.offset);
+    if (!search) {
+      // Inverted date range. reportDateRangeError has already said so beside the inputs;
+      // saying "no records" here as well would contradict it.
+      els.status.textContent = 'Check the date range.';
+      state.done = true;
+      return;
+    }
+    const resp = await fetch(`${API}?${search}`);
     const data = await resp.json();
     if (rid !== state.reqId) return; // stale
     if (data.error) { els.status.textContent = 'Search error.'; state.done = true; return; }
@@ -711,7 +754,9 @@ els.adv.addEventListener('click', () => {
 els.clear.addEventListener('click', () => { els.q.value = ''; els.clear.hidden = true; search(true); els.q.focus(); });
 els.exportResults.addEventListener('click', () => {
   if (!hasAnyInput()) return;
-  window.location.href = `${EXPORT_API}?${queryParams()}`; // streamed CSV download
+  const qp = queryParams();
+  if (!qp) return;   // do not export a query the user cannot have meant
+  window.location.href = `${EXPORT_API}?${qp}`; // streamed CSV download
 });
 els.az.addEventListener('click', (e) => {
   const btn = e.target.closest('[data-letter]');

@@ -334,3 +334,19 @@ a.visually-hidden:focus-visible {
   outline: 3px solid currentColor;
   outline-offset: 2px;
 }
+
+/* Inverted date range (UX plan T3-09, #190). Sits beside the date inputs, not in the
+   results area: that is where the mistake is and where it has to be corrected. */
+.ps-date-error {
+  flex-basis: 100%;
+  margin: 0.35rem 0 0;
+  color: #b3261e;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.ps-date__input[aria-invalid="true"] {
+  border-color: #b3261e;
+  outline: 2px solid #b3261e;
+  outline-offset: 1px;
+}
