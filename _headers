@@ -184,3 +184,30 @@
 # Election data — rarely changes
 /election-viewer-package/data/*
   Cache-Control: public, max-age=604800
+
+# ------------------------------------------------------------------------------
+# Security headers (UX plan T3-02, finding #20)
+#
+# This file existed but carried CACHE rules only -- not one security directive.
+#
+# The CSP is deliberately permissive about scripts because the app is not currently
+# built for a strict one: the shell uses inline handlers and inline <style>, and
+# tightening those is a separate piece of work that would break the site if done
+# blind. What is here is the part that can be turned on WITHOUT a rewrite, and it
+# still closes the two things that matter most -- framing and transport.
+#
+#   frame-ancestors 'none'  clickjacking. Also sent as X-Frame-Options for older agents.
+#   object-src 'none'       no plugin content, ever.
+#   base-uri 'self'         stops an injected <base> retargeting every relative URL.
+#   form-action 'self'      an injected form cannot post credentials off-site.
+#   upgrade-insecure-requests   no mixed content.
+#
+# NOT set: default-src/script-src. Adding those before the inline handlers are
+# removed would break the map on the first request, and a CSP that has to be
+# reverted teaches everyone to distrust the file.
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Content-Security-Policy: frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests

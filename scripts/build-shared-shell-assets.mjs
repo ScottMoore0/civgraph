@@ -254,6 +254,13 @@ function buildAboutCss() {
   if (rootMatch) about += `${rootMatch[0]}\n`;
   about += `${headerRules.join('\n')}\n`;
   about += `${headerMedia.join('\n')}\n`;
+  // .visually-hidden is not an .app-header rule, so the extractor never carried it --
+  // which meant a skip link added to /apps rendered as ordinary visible body text.
+  // Included explicitly, with the focus escape, so the link stays hidden until focused
+  // and is properly visible when it is. A skip link nobody can see while focused is a
+  // silent stop in the tab order (T3-09 #41, T3-03 #12).
+  about += '.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}\n';
+  about += 'a.visually-hidden:focus,a.visually-hidden:focus-visible{position:fixed;top:.5rem;left:.5rem;width:auto;height:auto;min-height:44px;padding:.6rem 1rem;margin:0;overflow:visible;clip:auto;clip-path:none;z-index:10000;background:#fff;color:#12303a;border:2px solid currentColor;border-radius:.375rem;font-weight:600;line-height:1.9;text-decoration:none;outline:3px solid currentColor;outline-offset:2px}\n';
   writeTextIfChanged('build/about.css', about);
   console.log(`About CSS extracted: build/about.css (${(about.length / 1024).toFixed(1)} KB)`);
 }

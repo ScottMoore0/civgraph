@@ -1,3 +1,4 @@
+import { readStored, writeStored } from './storage-keys.mjs';
 /**
  * NI Boundaries - UI Controller
  * Handles split-pane layout, search, filtering, map catalogue, and UI interactions
@@ -18,7 +19,9 @@ class UIController {
             { id: 'map-full', label: 'Map only', mobileLabel: 'Map' }
         ];
         this.currentStateId = 'balanced';
-        this.storageKey = 'ni-boundaries.split-preference.v2';
+        // Read through storage-keys.mjs rather than naming the raw key, so the
+        // ni-boundaries -> civgraph migration happens on first read (T3-02 #110).
+        this.storageKey = 'split-preference.v2';
         this.isMobile = false;
         this.focusedCardIndex = -1;
         this._savedSliderValues = new Map();
@@ -105,7 +108,7 @@ class UIController {
                 // If no explicit desktop preference exists, default to balanced
                 // so that both panes are visible
                 try {
-                    const pref = JSON.parse(localStorage.getItem(this.storageKey) || '{}');
+                    const pref = JSON.parse(readStored(this.storageKey) || '{}');
                     if (pref.desktop && this.getAllowedStates().some(s => s.id === pref.desktop)) {
                         this.currentStateId = pref.desktop;
                     } else {
@@ -118,7 +121,7 @@ class UIController {
                 // Crossed from desktop ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ mobile: default to map-full
                 // unless a mobile preference was explicitly saved
                 try {
-                    const pref = JSON.parse(localStorage.getItem(this.storageKey) || '{}');
+                    const pref = JSON.parse(readStored(this.storageKey) || '{}');
                     if (pref.mobile && this.getAllowedStates().some(s => s.id === pref.mobile)) {
                         this.currentStateId = pref.mobile;
                     } else {
@@ -1806,7 +1809,7 @@ class UIController {
                 mobile: this.isMobile ? this.currentStateId : null,
                 last: this.currentStateId
             };
-            const existing = JSON.parse(localStorage.getItem(this.storageKey) || '{}');
+            const existing = JSON.parse(readStored(this.storageKey) || '{}');
             Object.assign(existing, pref);
             localStorage.setItem(this.storageKey, JSON.stringify(existing));
         } catch (err) { /* ignore */ }
@@ -2734,6 +2737,15 @@ class UIController {
         if (tabLink) {
             event.preventDefault();
             this.showTab(tabLink.dataset.tabTarget);
+            // T3-09 (#116): Tables switches PANE rather than scrolling to a flat-section
+            // anchor, so it never touched the hash -- leaving whatever the previous
+            // toplink set. Measured: click Books then Tables and the URL still reads
+            // #flat-section-books while the Tables pane is showing, so copying the link
+            // sends someone to the wrong place. Drop the stale anchor.
+            if (location.hash.startsWith('#flat-section-')) {
+                history.replaceState(null, '', location.pathname + location.search);
+            }
+            this._markActiveToplink(tabLink);
             this.updateCatalogueNavButtons();
             return;
         }
@@ -2853,8 +2865,28 @@ class UIController {
             && targetRect.top <= paneRect.bottom - 12;
     }
 
+    /**
+     * Mark which of the four catalogue toplinks is current.
+     *
+     * T3-09 (#49): none of Elections / Maps / Books / Tables carried ANY state, so
+     * nothing told a user -- or a screen reader -- which section they were looking at.
+     * The only aria-selected in the pane belonged to the hidden legacy tab bar, which is
+     * why the finding read as "leaves aria-selected on Tables".
+     *
+     * `aria-current` rather than `aria-selected`: three of the four are links to
+     * anchors, not tabs in a tablist, and aria-selected on a link is invalid.
+     */
+    _markActiveToplink(activeEl) {
+        const links = document.querySelectorAll('.catalogue-flat__toc-toplink');
+        links.forEach((el) => {
+            if (el === activeEl) el.setAttribute('aria-current', 'true');
+            else el.removeAttribute('aria-current');
+        });
+    }
+
     async handleFlatTocClick(event, link) {
         event.preventDefault();
+        if (link.classList.contains('catalogue-flat__toc-toplink')) this._markActiveToplink(link);
         const targetId = link.dataset.catalogueTarget || (link.getAttribute('href') || '').replace(/^#/, '');
         if (!targetId) return;
         const sectionKey = link.dataset.catalogueSection || this._flatTargetToSection?.get?.(targetId) || null;
@@ -3022,7 +3054,9 @@ class UIController {
         if (this._catalogueViewMode === 'flat') {
             this.requestFlatViewRender(this._lastMapListOptions, { defer: this.isMobile });
         }
-        this.updateFilterStats(maps.length, options.totalMaps || maps.length);
+        // shownMaps, when supplied, counts the same PUBLIC set as totalMaps. Counting
+        // `maps.length` against a public total produced "1,012 of 893 maps".
+        this.updateFilterStats(options.shownMaps ?? maps.length, options.totalMaps || maps.length);
 
         // Grouped view has been removed from runtime. Keep legacy code inert.
         if (!container) return;
@@ -3347,7 +3381,9 @@ class UIController {
             });
         });
 
-        this.updateFilterStats(maps.length, options.totalMaps || maps.length);
+        // shownMaps, when supplied, counts the same PUBLIC set as totalMaps. Counting
+        // `maps.length` against a public total produced "1,012 of 893 maps".
+        this.updateFilterStats(options.shownMaps ?? maps.length, options.totalMaps || maps.length);
     }
 
     updateFilterStats(shown, total) {
@@ -3421,7 +3457,7 @@ class UIController {
             providerPillsContainer.classList.toggle('hidden', isFlat);
         }
 
-        localStorage.setItem('ni-boundaries.catalogue-view', forcedMode);
+        writeStored('catalogue-view', forcedMode);
         this._catalogueViewMode = forcedMode;
         this.updateCatalogueHomeButton();
     }
@@ -11003,13 +11039,13 @@ class UIController {
     // Class collapse/expand persistence
     isClassCollapsed(classId) {
         try {
-            return localStorage.getItem(`ni-boundaries.class-collapsed.${classId}`) === 'true';
+            return readStored(`class-collapsed.${classId}`) === 'true';
         } catch { return false; }
     }
 
     setClassCollapsed(classId, collapsed) {
         try {
-            localStorage.setItem(`ni-boundaries.class-collapsed.${classId}`, collapsed ? 'true' : 'false');
+            writeStored(`class-collapsed.${classId}`, collapsed ? 'true' : 'false');
         } catch { /* ignore */ }
     }
 

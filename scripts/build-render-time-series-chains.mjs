@@ -52,6 +52,7 @@
  *   node scripts/build-render-time-series-chains.mjs --check
  */
 import { readFileSync, writeFileSync } from 'node:fs';
+import { isPublicMap } from '../src/public-map.mjs';
 
 const CATALOGUE = 'data/database/maps.json';
 const RENDER = 'render/metadata/maps-test.json';
@@ -173,6 +174,20 @@ if (CHECK) {
 }
 
 render.timeSeriesChains = chains;
+
+// STAMP THE PUBLIC MAP COUNT rather than letting each surface compute it.
+//
+// The homepage said 1,0xx, /browse said 993, and the file holds 1,031 entries. The first
+// attempt at a fix had the app apply the shared rule itself -- and it produced a THIRD
+// wrong answer, "1,012 of 893 maps", because the catalogue the browser holds is not
+// byte-identical to the file on disk and `shown` was still using the old filter. Two
+// computations of one number caused this; a third did not help.
+//
+// So it is computed ONCE, here, from the file, and read by everyone else.
+render.publicMapCount = (catalogue.maps || [])
+  .filter((map) => isPublicMap(map, (id) => mapById.get(id), (id) => layerByMapId.has(id)))
+  .length;
+
 writeFileSync(RENDER, `${JSON.stringify(render, null, 2)}\n`);
 const total = chains.reduce((sum, c) => sum + c.maps.length, 0);
 console.log(`Wrote ${chains.length} chain(s), ${total} entr(ies), into ${RENDER}.`);

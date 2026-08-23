@@ -1,6 +1,8 @@
 import dataService, { resolveMapDownloadUrl } from '../../src/data-service.js';
 import featureLoader from '../../src/feature-loader.js';
 import uiController from '../../src/ui-controller.js';
+import { publicMaps } from '../../src/public-map.mjs';
+import { readStored, writeStored } from '../../src/storage-keys.mjs';
 import { TestMetadataService } from '../../render/src/metadata-service.js';
 import { Test2MapLibreMainAdapter } from './maplibre-main-adapter.js';
 
@@ -406,7 +408,11 @@ class Test2App {
     toggle.classList.remove('mobile-toggle--navbar');
     toggle.classList.add('mobile-toggle--map-stack');
     toggle.removeAttribute('style');
-    toggle.setAttribute('aria-label', 'Show or hide catalogue');
+    // T3-09 (#104): this set a THIRD wording, "Show or hide catalogue", which then got
+    // replaced by updateMobilePaneToggleState()'s state-dependent "Show map" /
+    // "Show catalogue". Two sources for one label, briefly disagreeing. The
+    // state-dependent one wins because it says what pressing the button will DO.
+    this.updateMobilePaneToggleState();
     if (toggle.parentElement !== stack || toggle.nextElementSibling !== zoomControl) {
       stack.insertBefore(toggle, zoomControl);
     }
@@ -456,6 +462,23 @@ class Test2App {
     this._mobilePaneToggleInstalled = true;
     this.mobilePaneToggle = toggle;
     this.updateMobilePaneToggleState();
+  }
+
+  /**
+   * T3-09 (#105): on mobile the catalogue covers the map, so loading a layer left the
+   * user looking at the list they had just used rather than the thing they had asked
+   * for. They had to find the toggle and switch across manually, every time.
+   *
+   * Only on a mobile-like layout, and only when the catalogue is the full-screen pane --
+   * on a split or desktop layout both are visible and there is nothing to dismiss.
+   */
+  dismissMobileCatalogueAfterLoad() {
+    const mobileLike = Boolean(uiController.isMobile || window.matchMedia?.('(max-width: 768px), (pointer: coarse)')?.matches);
+    if (!mobileLike) return;
+    if (uiController.currentStateId !== 'info-full') return;
+    uiController.setSplitState('map-full');
+    this.updateMobilePaneToggleState();
+    setTimeout(() => this.mapController?.invalidateSize?.(), 250);
   }
 
   updateMobilePaneToggleState() {
@@ -774,6 +797,7 @@ class Test2App {
       await this.loadMap(mapId);
       this.syncCatalogueMapState();
       this.updateActiveLayers();
+      this.dismissMobileCatalogueAfterLoad();
       this.updateURLState();
       // Held until the tiles are actually drawn, so the catalogue's loading spinner spans
       // the wait the user experiences rather than just the style mutation, which returns
@@ -1065,8 +1089,35 @@ class Test2App {
       visibleIds: this.mapController.getVisibleLayers(),
       loadedIds: this.getLoadedLayerIds(),
       featureCounts,
-      totalMaps: allMaps.length
+      totalMaps: this.publicMapCount(),
+      // `shown` counted a DIFFERENT set from `total`, which is how "1,012 of 893 maps"
+      // happened: a filtered count under the old rule against a total under the new one.
+      shownMaps: Math.min(maps.length, this.publicMapCount())
     });
+  }
+
+  /**
+   * The number the catalogue shows as "N maps".
+   *
+   * It used to be getAllMaps().length, which filters only `hidden` -- so the homepage
+   * counted placeholders (dates known but not digitised, which cannot be looked at) and
+   * reported 1,0xx while /browse reported 993 and the file holds 1,031 entries. Three
+   * numbers for one question.
+   *
+   * The rule is in src/public-map.mjs and is shared with build-browse-indexes.mjs, so the
+   * two surfaces cannot drift again. Loadability is decided by the RENDER record, because
+   * the DoBIH layers carry no catalogue `files` yet draw perfectly.
+   */
+  publicMapCount() {
+    // READ the stamped number; do not recompute it. Computing it here from the browser's
+    // catalogue copy produced "1,012 of 893 maps" -- a third wrong answer -- because that
+    // copy is not byte-identical to the file the other surfaces measure.
+    // build-render-time-series-chains.mjs stamps it, and check:public-map-count pins it.
+    const stamped = this.metadataService?.metadata?.publicMapCount;
+    if (Number.isFinite(stamped)) return stamped;
+    // Fallback only for a metadata load that has not landed yet.
+    const layerIds = new Set((this.metadataService?.layers || []).map((layer) => layer.sourceMapId).filter(Boolean));
+    return publicMaps(dataService.maps?.maps || [], (id) => layerIds.has(id)).length;
   }
 
   focusActiveElectionCatalogueEntry(entry, options = {}) {
@@ -1481,13 +1532,13 @@ class Test2App {
       this.updateURLState();
     });
 
-    let textScale = Number(localStorage.getItem('ni-boundaries.textScale') || '100');
+    let textScale = Number(readStored('textScale') || '100');
     const textSteps = [50, 60, 70, 80, 90, 100, 110, 125, 150, 175, 200];
     const textValue = document.getElementById('textSizeValue');
     const applyTextScale = () => {
       if (textValue) textValue.textContent = `${textScale}%`;
       this.mapController.setTextScale(textScale);
-      localStorage.setItem('ni-boundaries.textScale', String(textScale));
+      writeStored('textScale', textScale);
       this.updateURLState();
     };
     document.getElementById('textSizeDecrease')?.addEventListener('click', () => {

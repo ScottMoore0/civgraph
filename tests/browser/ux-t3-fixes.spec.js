@@ -8,10 +8,22 @@ test('T3-01 · the map count is formatted and internal codes are gone', async ({
   await page.waitForFunction(() => window.__civgraphTest2?.app, null, { timeout: 60000 });
   await page.waitForTimeout(2500);
 
+  // The displayed count must equal the ONE stamped number, not a figure hard-coded here
+  // -- a literal would just become a fourth answer to the same question. The rule
+  // (visible, loadable, not a placeholder) lives in src/public-map.mjs and is stamped
+  // into the render metadata by build-render-time-series-chains.mjs.
+  const shown = await page.evaluate(() => {
+    const match = document.querySelector('#catalogueFlatView')?.textContent?.match(/([\d,]+)(?: of ([\d,]+))? maps/);
+    return match ? { first: match[1], second: match[2] || null } : null;
+  });
+  const stamped = await page.evaluate(() => window.__civgraphTest2.metadataService.metadata.publicMapCount);
+  expect(stamped, 'publicMapCount should be stamped into the metadata').toBeGreaterThan(0);
+  expect(shown, 'a map count should be rendered').toBeTruthy();
+  expect(shown.second || shown.first).toBe(stamped.toLocaleString('en-GB'));
+
+  // Four figures unseparated read as a typo, which is what "1011 maps" did.
   const text = await page.locator('#catalogueFlatView').textContent();
-  // Four figures unseparated read as a typo. This was the only unformatted number.
-  expect(text).toMatch(/1,0\d\d maps/);
-  expect(text).not.toMatch(/\b1\d{3} maps/);
+  expect(text).not.toMatch(/\b\d{4,} maps/);
 
   // Bracketed internal codes leaked into the UI as literal text.
   const body = await page.locator('body').textContent();

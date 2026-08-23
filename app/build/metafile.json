@@ -214,6 +214,11 @@
       "imports": [],
       "format": "esm"
     },
+    "src/storage-keys.mjs": {
+      "bytes": 1927,
+      "imports": [],
+      "format": "esm"
+    },
     "src/election-utils.js": {
       "bytes": 2451,
       "imports": [],
@@ -225,8 +230,13 @@
       "format": "esm"
     },
     "src/ui-controller.js": {
-      "bytes": 616135,
+      "bytes": 618219,
       "imports": [
+        {
+          "path": "src/storage-keys.mjs",
+          "kind": "import-statement",
+          "original": "./storage-keys.mjs"
+        },
         {
           "path": "src/data-service.js",
           "kind": "import-statement",
@@ -255,6 +265,11 @@
       ],
       "format": "esm"
     },
+    "src/public-map.mjs": {
+      "bytes": 2970,
+      "imports": [],
+      "format": "esm"
+    },
     "render/src/config.js": {
       "bytes": 848,
       "imports": [],
@@ -266,7 +281,7 @@
       "format": "esm"
     },
     "render/src/metadata-service.js": {
-      "bytes": 10015,
+      "bytes": 10099,
       "imports": [
         {
           "path": "render/src/config.js",
@@ -507,7 +522,7 @@
       "format": "esm"
     },
     "app/src/app.js": {
-      "bytes": 161002,
+      "bytes": 163897,
       "imports": [
         {
           "path": "src/data-service.js",
@@ -523,6 +538,16 @@
           "path": "src/ui-controller.js",
           "kind": "import-statement",
           "original": "../../src/ui-controller.js"
+        },
+        {
+          "path": "src/public-map.mjs",
+          "kind": "import-statement",
+          "original": "../../src/public-map.mjs"
+        },
+        {
+          "path": "src/storage-keys.mjs",
+          "kind": "import-statement",
+          "original": "../../src/storage-keys.mjs"
         },
         {
           "path": "render/src/metadata-service.js",
@@ -572,7 +597,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "app/build/chunks/app-IQITGAA3.js",
+          "path": "app/build/chunks/app-EZ4DSZHI.js",
           "kind": "dynamic-import"
         }
       ],
@@ -626,7 +651,7 @@
       },
       "bytes": 203790
     },
-    "app/build/chunks/app-IQITGAA3.js": {
+    "app/build/chunks/app-EZ4DSZHI.js": {
       "imports": [
         {
           "path": "app/build/chunks/chunk-ILBJKEQI.js",
@@ -650,6 +675,9 @@
         "src/feature-loader.js": {
           "bytesInOutput": 6260
         },
+        "src/storage-keys.mjs": {
+          "bytesInOutput": 379
+        },
         "src/election-utils.js": {
           "bytesInOutput": 1266
         },
@@ -657,7 +685,10 @@
           "bytesInOutput": 202
         },
         "src/ui-controller.js": {
-          "bytesInOutput": 339135
+          "bytesInOutput": 339384
+        },
+        "src/public-map.mjs": {
+          "bytesInOutput": 522
         },
         "render/src/config.js": {
           "bytesInOutput": 415
@@ -666,7 +697,7 @@
           "bytesInOutput": 662
         },
         "render/src/metadata-service.js": {
-          "bytesInOutput": 5559
+          "bytesInOutput": 5632
         },
         "app/src/maplibre-main-adapter.js": {
           "bytesInOutput": 34936
@@ -693,10 +724,10 @@
           "bytesInOutput": 358
         },
         "app/src/app.js": {
-          "bytesInOutput": 88907
+          "bytesInOutput": 89430
         }
       },
-      "bytes": 581880
+      "bytes": 583626
     },
     "app/build/chunks/chunk-ILBJKEQI.js": {
       "imports": [

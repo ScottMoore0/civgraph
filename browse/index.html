@@ -9,7 +9,7 @@
   <link rel="preload" href="../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
-  <link rel="stylesheet" href="browse.css?v=24ae2e63c80b">
+  <link rel="stylesheet" href="browse.css?v=447eb90db699">
 </head>
 
 <body>
@@ -45,7 +45,11 @@
     </div>
   </header>
 
-  <main class="browse-shell">
+  <!-- T3-09 (#41): these pages had no skip link at all, so a keyboard user
+       had to tab through the whole header on every page load. -->
+  <a href="#main-content" class="visually-hidden">Skip to main content</a>
+  <a href="#browseResults" class="visually-hidden">Skip to results</a>
+  <main id="main-content" class="browse-shell">
     <aside class="browse-sidebar" aria-label="Browse sections">
       <div class="browse-search">
         <label class="visually-hidden" for="browseSearch">Search browse data</label>

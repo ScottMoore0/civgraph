@@ -6,7 +6,7 @@
   <title>Independent PRONI Search</title>
   <meta name="description" content="Independent PRONI Search — an app made by Civgraph. Search all 1,538,177 records from the PRONI eCatalogue with a modern interface and powerful search.">
   <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg">
-  <link rel="stylesheet" href="/apps/proni-search/app.css?v=bb90321915bc">
+  <link rel="stylesheet" href="/apps/proni-search/app.css?v=fb3bbd9dae38">
 </head>
 <body>
   <header class="ps-header">
@@ -23,7 +23,11 @@
 
   <div class="ps-divider" role="separator"></div>
 
-  <main class="ps-main">
+  <!-- T3-09 (#41): these pages had no skip link at all, so a keyboard user
+       had to tab through the whole header on every page load. -->
+  <a href="#main-content" class="visually-hidden">Skip to main content</a>
+  <a href="#q" class="visually-hidden">Skip to search</a>
+  <main id="main-content" class="ps-main">
     <!-- ===================== SEARCH (home) ===================== -->
     <div id="viewSearch">
       <section class="ps-search" aria-label="Search">

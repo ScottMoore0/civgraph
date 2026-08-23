@@ -306,3 +306,31 @@ a.ps-btn--export { text-decoration: none; display: inline-flex; align-items: cen
   background: var(--brand, #12385f);
   color: #fff;
 }
+
+/* T3-09 (#41) / T3-03 (#12): a skip link clipped to 1x1 even when focused is a silent
+   stop in the tab order -- focus moves somewhere invisible and Enter appears to do
+   nothing. Scoped to links so .visually-hidden keeps its normal behaviour elsewhere. */
+a.visually-hidden:focus,
+a.visually-hidden:focus-visible {
+  position: fixed;
+  top: 0.5rem;
+  left: 0.5rem;
+  width: auto;
+  height: auto;
+  min-height: 44px;
+  padding: 0.6rem 1rem;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  clip-path: none;
+  z-index: 10000;
+  background: #ffffff;
+  color: #12303a;
+  border: 2px solid currentColor;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  line-height: 1.9;
+  text-decoration: none;
+  outline: 3px solid currentColor;
+  outline-offset: 2px;
+}

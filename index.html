@@ -54,7 +54,7 @@
 
   <!-- Modulepreload — start fetching the entry bundle before parser reaches
        the <script type=module> tag at the end of <body>. -->
-  <link rel="modulepreload" href="/app/build/app.bundle.js?v=a31e8dd174aa" fetchpriority="high">
+  <link rel="modulepreload" href="/app/build/app.bundle.js?v=d437881f1f03" fetchpriority="high">
   <style>
     @font-face {
       font-family: 'Inter';
@@ -89,8 +89,8 @@
   <!-- Deferred CSS: remaining ~186 KB (catalogue cards, modals, charts, …)
        loaded async via media=print + onload swap so it doesn't block first
        paint. Browsers without JS fall back via <noscript>. -->
-    <link rel="stylesheet" href="/build/main.css?v=94e92e7d2830" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="/build/main.css?v=94e92e7d2830"></noscript>
+    <link rel="stylesheet" href="/build/main.css?v=c9d8aec1a8f0" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="/build/main.css?v=c9d8aec1a8f0"></noscript>
   <link rel="stylesheet" href="/app/build/app.bundle.css?v=0922c1ff3605">
 
   <!-- Election Viewer & Animation CSS (deferred — not needed for first paint) -->
@@ -218,6 +218,12 @@
       <a href="/browse/" class="mobile-menu__link">Browse</a>
       <a href="/apps/" class="mobile-menu__link">Apps</a>
       <a href="pages/about.html" class="mobile-menu__link">About</a>
+      <!-- T3-09 (#183): dark mode was UNREACHABLE on mobile. app.js already wired
+           #themeToggleMobile alongside #themeToggle; the element simply did not exist,
+           so the only control lived in the desktop header. -->
+      <button type="button" id="themeToggleMobile" class="mobile-menu__link mobile-menu__link--action">
+        Toggle dark mode
+      </button>
     </div>
   </header>
 
@@ -727,7 +733,7 @@
        and animation code are loaded lazily by the /app module bundle. -->
 
   <!-- Application (bundled + minified) -->
-  <script type="module" src="/app/build/app.bundle.js?v=a31e8dd174aa"></script>
+  <script type="module" src="/app/build/app.bundle.js?v=d437881f1f03"></script>
 
   <!-- Service worker — repeat-visit cache + offline tolerance. Registered
        after window.load so it doesn't contend with critical resources.

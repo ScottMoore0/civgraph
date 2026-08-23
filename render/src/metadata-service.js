@@ -98,6 +98,10 @@ export function normalizeMetadata(raw, portPlan = null) {
     version: Number(raw.version || 1),
     schemaVersion: Number(raw.schemaVersion || 2),
     description: raw.description || '',
+    // Carried through deliberately. This object is rebuilt from an explicit field list,
+    // so anything not named here is DROPPED -- which is how the app silently fell back to
+    // computing the count itself and displayed 893 while every other surface said 794.
+    publicMapCount: Number.isFinite(raw.publicMapCount) ? raw.publicMapCount : undefined,
     categories,
     capabilities: raw.capabilities || {},
     readiness: raw.readiness || {},

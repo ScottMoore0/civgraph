@@ -3,6 +3,7 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync
 import path from 'node:path';
 import { resolveApprovedPublicationSources } from './lib/approved-publication-index.mjs';
 import { partyColour } from '../src/election-domain.mjs';
+import { isPublicMap } from '../src/public-map.mjs';
 import { canonicalElectionTitle, electionResultEntryLabel } from './lib/election-names.mjs';
 import { CDN_BASE } from '../src/cdn-url.js';
 
@@ -87,7 +88,21 @@ function main() {
 
   const categoriesById = new Map((mapsData.categories || []).map((category) => [category.id, category]));
   const mapClassInfoById = buildMapClassInfo(mapsData);
-  const maps = buildMaps(mapsData, dataEntriesData, categoriesById, mapClassInfoById, thumbnailIds);
+  // Browse lists the PUBLIC maps -- visible, loadable, not a placeholder -- using the
+  // shared rule in src/public-map.mjs. It used to apply its own filter and report 993
+  // while the homepage said 1,0xx and the file held 1,031 entries: three answers to one
+  // question, none of them wrong on its own terms. Loadability is decided by the RENDER
+  // record, since the DoBIH layers carry no catalogue `files` yet draw perfectly.
+  const renderLayerIds = new Set(
+    (readJson('render/metadata/maps-test.json', { layers: [] }).layers || [])
+      .map((layer) => layer.sourceMapId).filter(Boolean));
+  const rawMaps = mapsData.maps || [];
+  const rawById = new Map(rawMaps.map((map) => [map.id, map]));
+  const publicIds = new Set(rawMaps
+    .filter((map) => isPublicMap(map, (id) => rawById.get(id), (id) => renderLayerIds.has(id)))
+    .map((map) => map.id));
+  const maps = buildMaps(mapsData, dataEntriesData, categoriesById, mapClassInfoById, thumbnailIds)
+    .filter((entry) => publicIds.has(entry.id));
   let elections = buildElections(electionManifest, thumbnailIds);
   const parentElections = elections;
   const electionDetails = readElectionDetails(parentElections);

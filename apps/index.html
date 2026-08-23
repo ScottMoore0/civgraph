@@ -165,7 +165,10 @@
         </nav>
     </header>
 
-    <main class="page-container">
+    <!-- T3-09 (#41): these pages had no skip link at all, so a keyboard user
+         had to tab through the whole header on every page load. -->
+    <a href="#main-content" class="visually-hidden">Skip to main content</a>
+    <main id="main-content" class="page-container">
         <nav class="breadcrumb" aria-label="Breadcrumb">
             <a href="../index.html">Home</a>
             <span class="breadcrumb__separator">/</span>
