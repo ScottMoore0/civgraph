@@ -40,53 +40,74 @@ import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import path from 'node:path';
 
-const HTML = 'browse/index.html';
+// Both hand-written token sites in the repo. apps/proni-search/ was added on 2026-08-23
+// after its ?v=19 had to be bumped by hand when app.js changed -- exactly the condition
+// this check exists to remove, sitting in a second directory nobody had pointed it at.
+const HTML_FILES = ['browse/index.html', 'apps/proni-search/index.html'];
 const CHECK = process.argv.includes('--check');
 
-if (!existsSync(HTML)) {
-  console.error(`FAIL: ${HTML} not found.`);
-  process.exit(1);
+let totalChecked = 0;
+const allFindings = [];
+
+for (const HTML of HTML_FILES) {
+  if (!existsSync(HTML)) {
+    console.error(`FAIL: ${HTML} not found.`);
+    process.exit(1);
+  }
+
+  const html = readFileSync(HTML, 'utf8');
+
+  // Matches src="app.js?v=token" and href="app.css?v=token" in the same directory.
+  // Paths, not just bare filenames. browse/index.html references its assets as
+  // "browse.js"; apps/proni-search/index.html references them as
+  // "/apps/proni-search/app.js". The original bare-filename pattern matched nothing in
+  // the second file, so adding that file to the list made the check PASS VACUOUSLY --
+  // reporting success over tokens it had never looked at. A check that matches nothing
+  // and says PASS is worse than no check.
+  const PATTERN = /((?:src|href)=")([A-Za-z0-9._\/-]+\.(?:js|css))\?v=([A-Za-z0-9._-]+)(")/g;
+
+  const findings = [];
+  const dir = path.dirname(HTML);
+  const updated = html.replace(PATTERN, (match, lead, file, token, tail) => {
+    // A site-root reference resolves from the repository root, not from the HTML's
+    // directory.
+    const assetPath = file.startsWith('/') ? file.replace(/^\/+/, '') : path.join(dir, file);
+    if (!existsSync(assetPath)) {
+      findings.push({ file: `${HTML}: ${file}`, problem: `referenced but missing at ${assetPath}` });
+      return match;
+    }
+    totalChecked += 1;
+    // Raw bytes, NOT newline-normalised. These files are committed and served as-is
+    // rather than rebuilt on the runner, so the bytes on disk are the correct input.
+    // Normalising yields a different hash, which reads as a stale token and invites
+    // someone to "fix" a correct value. That mistake was made and reverted on 2026-08-21.
+    const hash = createHash('sha256').update(readFileSync(assetPath)).digest('hex').slice(0, 12);
+    if (token !== hash) findings.push({ file: `${HTML}: ${file}`, problem: `token is "${token}", content hash is "${hash}"` });
+    return `${lead}${file}?v=${hash}${tail}`;
+  });
+
+  if (!CHECK && updated !== html) writeFileSync(HTML, updated);
+  allFindings.push(...findings);
 }
 
-const html = readFileSync(HTML, 'utf8');
-
-// Matches src="browse.js?v=token" and href="browse.css?v=token".
-const PATTERN = /((?:src|href)=")([A-Za-z0-9._-]+\.(?:js|css))\?v=([A-Za-z0-9._-]+)(")/g;
-
-const findings = [];
-const updated = html.replace(PATTERN, (match, lead, file, token, tail) => {
-  const assetPath = path.join('browse', file);
-  if (!existsSync(assetPath)) {
-    findings.push({ file, problem: `referenced but missing at ${assetPath}` });
-    return match;
-  }
-  const hash = createHash('sha256').update(readFileSync(assetPath)).digest('hex').slice(0, 12);
-  if (token !== hash) findings.push({ file, problem: `token is "${token}", content hash is "${hash}"`, token, hash });
-  return `${lead}${file}?v=${hash}${tail}`;
-});
-
-if (!findings.length && PATTERN.test(html) === false && !html.includes('?v=')) {
-  console.error('FAIL: no versioned assets found in browse/index.html. Has the markup changed?');
+if (!totalChecked) {
+  console.error(`FAIL: no versioned assets found in ${HTML_FILES.join(' or ')}. Has the markup changed?`);
   process.exit(1);
 }
 
 if (CHECK) {
-  if (findings.length) {
-    console.error('FAIL: browse/ cache tokens are stale.');
-    for (const f of findings) console.error(`  - ${f.file}: ${f.problem}`);
+  if (allFindings.length) {
+    console.error('FAIL: cache tokens are stale.');
+    for (const f of allFindings) console.error(`  - ${f.file}: ${f.problem}`);
     console.error('');
     console.error('  A stale token means browsers keep running the OLD file. Fix with:');
     console.error('    node scripts/validate-browse-cache-tokens.mjs');
     process.exit(1);
   }
-  console.log('PASS: browse/ cache tokens match their file contents.');
+  console.log(`PASS: ${totalChecked} cache token(s) across ${HTML_FILES.length} file(s) match their contents.`);
   process.exit(0);
 }
 
-if (updated !== html) {
-  writeFileSync(HTML, updated);
-  console.log(`Updated ${findings.length} cache token(s) in ${HTML}:`);
-  for (const f of findings) console.log(`  ${f.file}: ${f.token} -> ${f.hash}`);
-} else {
-  console.log('Cache tokens already match their file contents.');
-}
+console.log(allFindings.length
+  ? `Updated ${allFindings.length} cache token(s).`
+  : `${totalChecked} cache token(s) already current.`);

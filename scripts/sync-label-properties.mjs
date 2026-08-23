@@ -95,13 +95,29 @@ for (const layer of render.layers || []) {
     adopted.push(`${layer.id}: ${layer.labelProperty ?? 'null'} -> ${wanted}`);
     if (WRITE) layer.labelProperty = wanted;
   } else {
-    rejected.push(`${layer.id}: catalogue says "${wanted}", not present in the tiles`);
+    // Suggest, do not guess silently. A case-only or punctuation-only difference is
+    // almost certainly the intended attribute renamed by the conversion; anything else
+    // needs a person. Reporting the candidates is what makes this actionable rather than
+    // just a list of complaints.
+    const norm = (v) => String(v).toLowerCase().replace(/[^a-z0-9]/g, '');
+    const near = [...attrs].filter((a) => norm(a) === norm(wanted));
+    const nameish = [...attrs].filter((a) => /name|title|label|address|ref|id$/i.test(a));
+    rejected.push({
+      id: layer.id,
+      wanted,
+      exact: near[0] || null,
+      candidates: (near.length ? near : nameish).slice(0, 4),
+      available: [...attrs].filter((a) => a !== 'civ_fid').slice(0, 8)
+    });
   }
 }
 
 console.log(`Adopted ${adopted.length}. Rejected ${rejected.length}. Unverifiable ${unverifiable.length}.`);
 for (const a of adopted.slice(0, 12)) console.log(`  + ${a}`);
-for (const r of rejected.slice(0, 8)) console.log(`  - ${r}`);
+for (const r of rejected) {
+  if (r.exact) console.log(`  ! ${r.id}: "${r.wanted}" -> "${r.exact}" (case/punctuation only, safe)`);
+  else console.log(`  - ${r.id}: "${r.wanted}" absent; candidates: ${r.candidates.join(', ') || '(none name-like)'} | available: ${r.available.join(', ')}`);
+}
 for (const u of unverifiable.slice(0, 6)) console.log(`  ? ${u}`);
 
 if (WRITE && adopted.length) {

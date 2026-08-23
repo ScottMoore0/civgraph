@@ -3420,7 +3420,19 @@ class UIController {
 
     async renderFlatView(options = {}) {
         const container = document.getElementById('catalogueFlatView');
-        if (!container) return;
+        if (!container) {
+            // A render that does nothing and says nothing is how a wrong diagnosis
+            // survives. On 2026-08-22 this returning silently was read as evidence that
+            // the catalogue rendered nothing at all -- it was written up as a production
+            // bug and reported as the highest-priority item on the backlog, and it was
+            // not one. The container was simply being asked for before it existed.
+            //
+            // Warn rather than throw: a missing container is a real condition on pages
+            // that legitimately have no catalogue, so failing hard would break them. But
+            // it must leave a trace.
+            console.warn('[catalogue] renderFlatView: #catalogueFlatView is not in the DOM; nothing rendered.');
+            return;
+        }
         if (this.shouldDeferMobileCatalogueRender()) {
             this.renderDeferredMobileCatalogueShell();
             return;

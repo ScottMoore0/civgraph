@@ -40,42 +40,51 @@ async function resetMapState(page) {
   });
 }
 
-// KNOWN BROKEN, DIAGNOSED 2026-08-22. test.fail() means: run it, expect red. If someone
-// fixes it, this turns "expected to fail but passed" and they will be told to remove the
-// annotation -- which is the point of recording it this way rather than deleting it or
-// loosening the assertion until it goes green.
+// FIXED 2026-08-22..23. The assertion was always right; its PREMISE was wrong, and so
+// was the first diagnosis of why.
 //
-// The assertion is still the right one; its PREMISE stopped holding. The test looks for
-// a catalogue row (.class-member / .c1-grid-entry / .map-card) carrying the loaded
-// class. Measured on this route there are 11 elements with data-map-id and every one is
-// an `active-layer-item` -- the Active Layers panel, not the catalogue. The catalogue
-// list is not rendered at all until it is opened, so the row the test wants has never
-// existed to be patched.
+// The catalogue renders a TABLE OF CONTENTS first -- 127 entries with thumbnails, no
+// data-map-id anywhere on them. Individual map rows only exist after a TOC entry is
+// opened. Measured: 0 rows before clicking, and 505 [data-map-id] / 20 .class-member /
+// 8 .map-card immediately after clicking the first entry.
 //
-// The fix is to open the catalogue before asserting, not to relax the selector: the
-// whole point of this test is that loading a map patches the row IN PLACE instead of
-// re-rendering the flat catalogue, and that claim is meaningless if the catalogue is
-// absent.
+// A previous note here claimed the catalogue rendered nothing at all. It does not:
+// #catalogueFlatView holds ~1,437 elements on load. That claim came from probing four
+// selectors which are all the markup of a flat card list, getting four zeros, and
+// reading them as four independent confirmations when they were one assumption repeated.
 //
-// ATTEMPTED AND WITHDRAWN, 2026-08-22. Calling uiController.renderFlatView() first does
-// not produce a row either. Probed directly on /#layers=__none after the runtime settles:
-//
-//   .map-card 0   .class-member 0   .c1-grid-entry 0
-//   [data-map-id] 0   .catalogue-list 0   #mapList 0
-//
-// Not a stale selector -- there is no catalogue in the DOM at all. The test at line 264
-// ("first open renders a bounded subset") fails on the same measurement, independently,
-// asserting mapCards > 0 and receiving 0.
-//
-// Two tests and a direct probe agree, so this is a question about the app rather than
-// about the tests: does the catalogue render nothing until some interaction, and is that
-// intended? Answer that before touching either test. Loosening them to pass would erase
-// the only evidence that anything is wrong.
+// The fix is to open a section before asserting -- NOT to loosen the selector. The claim
+// under test is that loading a map patches its row IN PLACE rather than re-rendering the
+// flat catalogue, and a selector loose enough to match a TOC link would make this pass
+// while testing nothing.
 test('map load patches catalogue state without rerendering the flat catalogue', async ({ page }) => {
+  // test.fail() means: run it, expect red. Removing this annotation is the signal that
+  // the regression below has been fixed.
+  //
+  // THE FIRST TWO ASSERTIONS NOW PASS. Fixing the premise (open a section, use a row
+  // that is actually on screen) revealed that the third does not: renderCalls is 1 and
+  // should be 0. Loading a map triggers a FULL re-render of the flat catalogue instead
+  // of patching the one row that changed.
+  //
+  // That is precisely the regression this test was written to catch, and it has been
+  // masked for as long as the test was failing earlier for unrelated reasons. A broken
+  // test is not a neutral thing: it hid a real one.
+  //
+  // Fix in src/ui-controller.js: the load/unload path calls renderFlatView where it
+  // should be calling applyLoadedStateToRows for the affected id.
   test.fail();
   await page.goto('/#layers=__none');
   await waitForApp(page);
   await resetMapState(page);
+
+  // Open a catalogue section so that map rows exist to be patched. Without this the
+  // only elements carrying a data-map-id are TOC links, which never gain a loaded class.
+  await page.locator('a.catalogue-flat__toc-link').first().click({ timeout: 20000 });
+  await page.waitForFunction(
+    () => document.querySelectorAll('.class-member[data-map-id], .c1-grid-entry[data-map-id], .map-card[data-map-id]').length > 0,
+    null,
+    { timeout: 30000 },
+  );
 
   const result = await page.evaluate(async () => {
     const uiController = window.uiController;
@@ -86,14 +95,23 @@ test('map load patches catalogue state without rerendering the flat catalogue', 
       return originalRenderFlatView(...args);
     };
 
-    await uiController.onMapLoad('roi-garda-sub-districts');
+    // Take the map id from a row that is ACTUALLY ON SCREEN, rather than naming one and
+    // hoping it is in the section that happens to be open. The test previously hard-coded
+    // roi-garda-sub-districts, which lives in a different section from the one opened, so
+    // the row it looked for was never there to be patched. What is under test is the
+    // patching, not which map does it.
+    const SEL = '.class-member[data-map-id], .c1-grid-entry[data-map-id], .map-card[data-map-id]';
+    const target = document.querySelector(SEL);
+    const mapId = target?.getAttribute('data-map-id');
+    if (!mapId) return { renderCalls, loaded: false, rowLoaded: false, mapId: null };
 
-    const row = document.querySelector(
-      '.class-member[data-map-id="roi-garda-sub-districts"], .c1-grid-entry[data-map-id="roi-garda-sub-districts"], .map-card[data-map-id="roi-garda-sub-districts"]'
-    );
+    await uiController.onMapLoad(mapId);
+
+    const row = document.querySelector(`[data-map-id="${CSS.escape(mapId)}"]`);
     return {
       renderCalls,
-      loaded: window.mapController.isLayerLoaded('roi-garda-sub-districts'),
+      mapId,
+      loaded: window.mapController.isLayerLoaded(mapId),
       rowLoaded: !!row && (
         row.classList.contains('class-member--loaded')
         || row.classList.contains('c1-grid-entry--loaded')
