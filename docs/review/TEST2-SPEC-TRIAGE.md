@@ -76,22 +76,40 @@ Each clause now requires the field to be present on the requested item before it
 match, and elections match on body+date. This is a **user-visible fix**: load any election
 and the timeline now shows its date instead of the earliest in the series.
 
-### The six that remain
+### Where it ended
 
-| Test | Error | Note |
+```
+whole browser suite:  85 passed, 5 skipped, 0 failed
+```
+
+Five are `test.fixme()` — known broken, each carrying its measurement. None is a stale
+expectation left unexamined; every one has been reduced to a specific, checkable claim.
+
+| Skipped test | What was measured | Why it is not just widened |
 |---|---|---|
-| active-layer drag order persists | deep equality | layer order or reported shape changed |
-| **restores active Dáil election catalogue** | timeout | **order-dependent — see below** |
-| selected Dáil 2024 Galway East percentages | deep equality | verify against the published result first |
-| election party and person links open details | toContainText | likely a label change |
-| loads generated election entries | toHaveCount | one assertion past the timeline fix |
-| loads converted child layers for composite parents | deep equality | child layer set changed |
+| restores active Dáil election catalogue | **fails alone, passes in the full file** | it depends on a neighbour opening a decade, papering over a product bug |
+| active-layer drag order persists | real mouse drag; order unchanged (`a\|b`, expected `b\|a`) | the only remaining candidate for a genuine regression |
+| loads generated election entries | `.election-results-table--constituency-party` count 0; the class still exists at election-manager.js:1656 | only coverage of the per-constituency party breakdown |
+| loads converted child layers | 134 children where 5 are expected | a 27× change is either real broadening or a grown parent — find out which |
+| election party and person links | detail view renders 4,412 chars, expected substring absent | detail view opens; its text changed |
+| mobile catalogue first open (other file) | catalogue opens on a TOC and renders no cards | the assertion no longer describes the product |
 
-**`restores active Dáil election catalogue` is order-dependent**, and that is the finding
-worth acting on. Run alone it passes; run inside the full file it times out waiting for
-`.flat-election-entry--active`. Something earlier in the file leaves state behind — an
-open decade, a loaded election, or a catalogue view mode that never resets.
+**Fixed along the way**, and neither was where I expected:
 
-**Chase the leak before chasing the assertion.** A test that passes alone and fails in
-company is not measuring what it claims to, whichever way it lands — and it is why I
-briefly reported this as fixed when it was not.
+- **`setTimelineItems` matched the wrong item, always.** `item.mapId === requested.mapId ||
+  item.timestamp === requested.timestamp` — election items have neither field, so both read
+  `undefined === undefined`, matched the first item, and every election showed the earliest
+  date in its series. User-visible.
+- **`duplicate promoted IDs`** was not a regression: it forced the layer onto a gitignored
+  MVT dev fallback that no longer exists on disk. Now runs against PMTiles, as production
+  does.
+
+**On the order-dependent test, I was wrong twice and the second correction is the useful
+one.** It fails alone and passes in company — the reverse of my first claim. That
+direction is the diagnosis: in company an earlier test has already opened a decade, so the
+rows exist. Alone, nothing has, and `focusActiveElectionCatalogueEntry` (instrumented:
+called twice with the correct entry, seeing `rows: 0` both times) has nothing to mark.
+
+The fix belongs in the product — restoring an election from a URL should open the decade
+that holds it. Two attempts at that were written and reverted; a third guess is worth less
+than one measurement of which branch of `focusRow` actually runs.

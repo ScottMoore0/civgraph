@@ -30,10 +30,15 @@ test('/test2/ reaches the app with search and hash intact', async ({ page }) => 
   await page.waitForFunction(() => window.location.pathname === '/', null, { timeout: 30000 });
 
   expect(new URL(page.url()).pathname).toBe('/');
-  // The hash is the whole point: it carries the layers, viewport and panel state that
-  // make an old shared link still resolve to what it described.
-  expect(page.url()).toContain('layers=__none');
+  // The hash is the whole point: it carries the viewport and panel state that make an old
+  // shared link still resolve to what it described.
+  //
+  // Asserting on zoom rather than layers. `layers=__none` is a sentinel meaning "no
+  // layers", and the app normalises it out of the URL once it has restored -- so it is
+  // absent afterwards for a legitimate reason, not because the redirect dropped it. My
+  // first version of this test asserted on it and failed for that reason.
   expect(page.url()).toContain('zoom=7.00');
+  expect(page.url()).toContain('lat=53.48');
 });
 
 test('/test2/ serves a service worker whose job is to unregister the legacy one', async ({ page }) => {
