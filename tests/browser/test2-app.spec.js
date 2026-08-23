@@ -5,6 +5,28 @@ const path = require('path');
 
 const CIVIL_PARISHES_FALLBACK_DIR = path.join(__dirname, '..', '..', 'render', 'tiles', 'civil-parishes-v3');
 
+/**
+ * Open a decade section so that election entries exist in the DOM.
+ *
+ * The catalogue opens on a TABLE OF CONTENTS. Election rows -- .flat-election-entry --
+ * are not rendered until a decade is chosen. Measured 2026-08-23: 0 before the click,
+ * 170 after clicking the first decade button, while `#catalogueFlatView table tr` (147)
+ * and `.catalogue-flat__toc-decade-btn` (15) are present from the start.
+ *
+ * That mix is why several tests here time out on one waitForFunction after two others
+ * have already passed: two of the three selectors describe the TOC, and the third
+ * describes what the TOC opens.
+ */
+async function openElectionDecade(page) {
+  const decade = page.locator('.catalogue-flat__toc-decade-btn').first();
+  await decade.click({ timeout: 20000 });
+  await page.waitForFunction(
+    () => document.querySelectorAll('#catalogueFlatView .flat-election-entry').length > 10,
+    null,
+    { timeout: 30000 },
+  );
+}
+
 async function loadCivilParishes(page) {
   const useLocalFallback = fs.existsSync(CIVIL_PARISHES_FALLBACK_DIR);
   return page.evaluate(async ({ useLocalFallback }) => {
@@ -111,7 +133,7 @@ test('/test2 boots the production shell with the MapLibre adapter', async ({ pag
   await expect(page.locator('#map')).toBeVisible();
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
   await page.waitForFunction(() => document.querySelectorAll('#catalogueFlatView table tr').length > 10);
-  await page.waitForFunction(() => document.querySelectorAll('#catalogueFlatView .flat-election-entry').length > 10);
+  await openElectionDecade(page);
   await page.waitForFunction(() => document.querySelectorAll('#catalogueFlatView .catalogue-flat__toc .catalogue-flat__toc-decade-btn').length > 10);
   const state = await page.evaluate(() => ({
     hasMapLibre: Boolean(window.__civgraphTest2.mapController.map),
@@ -134,7 +156,15 @@ test('/test2 boots the production shell with the MapLibre adapter', async ({ pag
   expect(state.decadeButtons).toBeGreaterThan(10);
   expect(state.electionTocRows).toBe(0);
   expect(state.firstElectionCard).not.toBeNull();
-  expect(state.firstElectionCard.text).toContain('Dáil');
+  // Accepts either wording. The first card now reads "29 Nov 2024 - 2024 Irish general
+  // election - 43 constituencies"; the test was written when it said "Dáil". That is an
+  // editorial change to a display label, not a structural one, and pinning a smoke check
+  // to one phrasing makes it fail on a rename that broke nothing.
+  //
+  // What is actually being smoke-checked is that the election catalogue rendered REAL
+  // entries rather than placeholders -- the [data-election-placeholder="0"] selector
+  // above already carries that -- so the wording only has to identify a national contest.
+  expect(state.firstElectionCard.text).toMatch(/Dáil|Irish general election/);
   expect(state.hasLeaflet).toBe(false);
 });
 
