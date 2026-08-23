@@ -38,6 +38,15 @@ tests/
 # Download-only files — served from Internet Archive or R2, not Pages
 data/books/boundary-reports/harrison-1984.pdf
 data/books/boundary-reports/lgb-revised-1992.pdf
+# 365 MB of source books, moved to R2 and Internet Archive on 2026-08-23. They were
+# shipping through Pages while also being the largest churning blobs in the git pack.
+# books.json now points `file` and `markdownFile` at https://data.civgraph.net/..., so
+# nothing resolves against these paths any more; check:book-files verifies every remote
+# URL is on that host and under an allowlisted prefix.
+#   markdown    213 MB  66 Hansard OCR volumes 1921-1945
+#   legislation 152 MB  13 NI Acts and SRO PDFs 1921-1932
+data/books/markdown/
+data/books/legislation/
 data/downloads/
 OSNI original maps/
 data/maps/osni-originals/*.kml

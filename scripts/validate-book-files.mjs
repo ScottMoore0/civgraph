@@ -36,7 +36,17 @@ const CATALOGUE = 'data/database/books.json';
 const raw = JSON.parse(readFileSync(CATALOGUE, 'utf8'));
 const books = Array.isArray(raw) ? raw : (raw.books || []);
 
+// Where a remote book file is allowed to live, and which keys may be served from there.
+// Read from the tracked allowlist rather than hard-coded, so the two cannot disagree.
+const R2_HOST = 'data.civgraph.net';
+const allowedPrefixes = (JSON.parse(readFileSync('data/database/r2-publication-allowlist.json', 'utf8')).prefixes || [])
+  .map((entry) => entry.prefix)
+  .filter(Boolean);
+
 const missing = [];
+const badRemote = [];
+let localCount = 0;
+let remoteCount = 0;
 const withheld = [];
 let offered = 0;
 let noFile = 0;
@@ -56,7 +66,45 @@ for (const book of books) {
   if (!file) { noFile += 1; continue; }
 
   offered += 1;
+
+  // REMOTE files are checked differently, and still fail closed.
+  //
+  // The Hansard and legislation books moved to R2 on 2026-08-23, so `file` and
+  // `markdownFile` are now absolute https URLs and existsSync() would fail every one of
+  // them. Dropping the check for remote URLs would have been the easy change and the
+  // wrong one: it would accept any URL at all, including a typo, and this validator
+  // exists precisely because a book that offers a download the reader cannot have looks
+  // identical to one that works.
+  //
+  // Instead a remote URL must be on the R2 host AND under a path the publication
+  // allowlist covers. That is derivable offline, so `check:` keeps its no-network
+  // property, and a URL pointing somewhere unpublished fails here rather than in a
+  // reader's browser.
+  if (/^https?:\/\//i.test(file)) {
+    let url;
+    try { url = new URL(file); } catch { badRemote.push(`${book.id} -> ${file} (not a URL)`); continue; }
+    if (url.protocol !== 'https:') { badRemote.push(`${book.id} -> ${file} (not https)`); continue; }
+    if (url.hostname !== R2_HOST) { badRemote.push(`${book.id} -> ${file} (unexpected host ${url.hostname})`); continue; }
+    const key = url.pathname.replace(/^\//, '');
+    if (!allowedPrefixes.some((prefix) => key.startsWith(prefix))) {
+      badRemote.push(`${book.id} -> ${file} (key is outside the R2 publication allowlist)`);
+    }
+    remoteCount += 1;
+    continue;
+  }
+
+  localCount += 1;
   if (!existsSync(file)) missing.push(`${book.id} -> ${file}`);
+}
+
+if (badRemote.length) {
+  console.error(`FAIL: ${badRemote.length} book(s) point at a remote file that cannot be served:`);
+  for (const b of badRemote) console.error(`  - ${b}`);
+  console.error('');
+  console.error('  A remote book file must be https, on ' + R2_HOST + ', and under a prefix in');
+  console.error('  data/database/r2-publication-allowlist.json. Anything else is a download the');
+  console.error('  reader cannot have -- the same defect this check was written for.');
+  process.exit(1);
 }
 
 if (missing.length) {
@@ -69,6 +117,7 @@ if (missing.length) {
   process.exit(1);
 }
 
-console.log(`PASS: all ${offered} offered book file(s) exist `
-  + `(${noFile} entries offer no download; ${withheld.length} withheld).`);
+console.log(`PASS: all ${offered} offered book file(s) resolve `
+  + `(${localCount} local, ${remoteCount} on ${R2_HOST}; `
+  + `${noFile} entries offer no download; ${withheld.length} withheld).`);
 for (const w of withheld) console.log(`  ${w}`);
