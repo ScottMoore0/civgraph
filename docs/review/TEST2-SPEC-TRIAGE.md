@@ -1,100 +1,100 @@
-# Triage — the 12 remaining `test2-app.spec.js` failures
+# `test2-app.spec.js` — retargeted at `/`, and what is left
 
-> **Status: diagnosed, not fixed. 2026-08-23.** Two of the original fourteen were fixed;
-> the remaining twelve share one cause that a setup tweak cannot repair.
+> **Status: retarget done, 2026-08-23. 14 failures → 7.** The remaining seven are
+> individual assertions, not one shared cause, and each needs its own answer.
 
-## Result
+## What was done
 
-```
-before   14 failed, 28 passed
-after     12 failed, 30 passed
-```
-
-## The two that were fixed
-
-**`boots the production shell with the MapLibre adapter`** — timed out waiting for
-`.flat-election-entry`. The catalogue opens on a table of contents; election rows are not
-rendered until a decade is chosen. Measured: **0 before the click, 170 after**. Two of the
-three selectors it waits on (`table tr` = 147, `.catalogue-flat__toc-decade-btn` = 15)
-describe the TOC and were present all along, which is why it failed on the third after two
-had passed. A shared `openElectionDecade(page)` helper now covers it.
-
-**The first-card assertion** expected `'Dáil'`; the card now reads *"29 Nov 2024 - 2024
-Irish general election - 43 constituencies"*. An editorial change to a display label, not
-a structural one. Now accepts either wording, because the thing actually being
-smoke-checked — that real entries rendered rather than placeholders — is already carried
-by the `[data-election-placeholder="0"]` selector.
-
-## The twelve, and the one cause underneath them
-
-**`/test2/` is no longer an app. It is a compatibility redirect.**
-
-The MapLibre stack was promoted to `/`, and `test2/` was reduced to two files: an
-`index.html` that preserves search and hash and calls `location.replace('/')`, and a
-service worker that unregisters the legacy `/test2/` worker. The server log shows it
-plainly:
+`/test2/` is not an app. It is a compatibility redirect: an `index.html` that preserves
+search and hash and calls `location.replace('/')`, plus a service worker whose only job is
+to unregister the legacy `/test2/` worker. The server log shows it firing:
 
 ```
 GET /test2/  200
-GET /        200      <- the redirect firing
+GET /        200
 ```
 
-So every test in this file navigates to a route that immediately becomes `/`. Thirty pass
-because what they assert is true of the app wherever it is served. Twelve fail because
-they assert something specific to `/test2/` — most visibly:
+So a 2,900-line acceptance suite had been navigating to a route that immediately became
+`/`. Thirty tests passed for the wrong reason and twelve failed on assertions about a path
+that no longer serves anything.
 
-```
-Expected: "/test2/"
-```
-
-| Test | Error class |
+| Change | Count |
 |---|---|
-| active-layer drag order persists | deep equality |
-| restores active Dáil election catalogue, viewport, labels | timeout |
-| selected Dáil constituency party pane matches main controller | **`map.eachLayer is not a function`** |
-| selected Dáil 2024 Galway East pane computes percentages | deep equality |
-| election party and person links open full catalogue details | toContainText |
-| duplicate promoted IDs do not cross-highlight distant DEAs | equality |
-| loads generated election entries with MapLibre styling | equality |
-| supports catalogue detail, unsupported notices, URL restore | equality |
-| restores and persists detail, source, hidden layer, panel URL state | equality |
-| loads converted child layers for composite parents | deep equality |
-| hash-only shell links preserve the test2 path | equality |
-| does not register the production service worker | deep equality |
+| navigations retargeted `'/test2/…'` → `'/…'` | 31 |
+| path assertions retargeted | 7 |
+| obsolete tests removed | 2 |
+| focused redirect guards added (`test2-redirect.spec.js`) | 2 |
+| tests fixed outright | 2 |
+| annotated with a measured product finding | 1 |
 
-Two are worth calling out separately:
+**Removed, not repaired:**
 
-- **`hash-only shell links ... preserve the test2 path`** and **`does not register the
-  production service worker`** are asserting the *old* arrangement outright. `/test2/`
-  preserving its own path and having its own service worker were true when it was an app.
-  They are false by design now.
-- **`selected Dáil constituency party pane matches main controller output`** walks Leaflet
-  layers — `map.eachLayer`, `getLatLng()`, `target.fire('click')` — to compare the /test2
-  pane against "the main controller". Both are MapLibre now, so it compares two things
-  that were meant to differ and no longer do, by a mechanism that no longer exists. Same
-  class as `map-loading-pilots.spec.js`, which was deleted on 2026-08-22 for exactly this.
+- **`does not register the production service worker`** — asserted that staging must not
+  register the production worker. At `/` it must, so the assertion is false by design.
+- **`selected Dáil constituency party pane matches main controller output`** — walked
+  Leaflet layers (`map.eachLayer`, `getLatLng()`, `target.fire('click')`) to compare
+  against "the main controller". Both are MapLibre now, so it compared two things meant to
+  differ that no longer do, by a mechanism that no longer exists.
 
-## What to do, and what not to do
+**The two redirect guards are the whole of what `/test2/` still needs.** A `_redirects`
+rule could do the first and cannot do the second — a redirect never runs, so it can never
+unregister a service worker, and anyone who loaded `/test2/` before June 2026 still has
+that worker installed. That is why `test2/` is kept.
 
-**Do not patch these individually.** Each fix would be a small lie: making a test pass
-against a redirect while it still claims to be testing `/test2/`.
+## The seven that remain
 
-The work is a decision followed by a rewrite:
+None share a cause. Each is an assertion whose expectation stopped matching the product.
 
-1. **Decide what this file is for.** If it is the acceptance suite for the app, point it
-   at `/` and delete the `/test2/`-path assertions. If it is a guard on the redirect
-   still working, it should be about six tests, not forty-two.
-2. **Retarget the survivors.** Thirty already pass; most would pass unchanged at `/`.
-3. **Delete or rewrite the Leaflet comparison test.** There is no longer a second
-   controller to compare against.
-4. **Keep two small tests for the redirect itself** — that `/test2/` reaches the app with
-   search and hash intact, and that its service worker unregisters cleanly. Those are the
-   only `/test2/`-specific behaviours that still exist, and they are worth guarding
-   precisely because `test2/` is deliberately being kept.
+| Test | What it needs |
+|---|---|
+| active-layer drag order persists and controls MapLibre draw order | deep-equality mismatch on layer order; check whether draw order or the reported shape changed |
+| **restores active Dáil election catalogue, viewport, labels, party table** | **annotated `test.fail()` — real finding, see below** |
+| selected Dáil 2024 Galway East pane computes percentages and resizes | deep-equality on computed percentages; verify against the published result before touching |
+| election party and person links open full catalogue details | `toContainText` — likely a label change, same class as "Dáil" → "Irish general election" |
+| duplicate promoted IDs do not cross-highlight distant DEAs | expected `true`, received `false`; this one is worth treating as a possible real regression |
+| loads generated election entries with MapLibre styling | expected `"04 Jul 2024"`, received `"15 Nov 1922"` — an **ordering** assumption, not a data fault |
+| loads converted child layers for composite parents | deep-equality on the child layer set |
 
-## Why this was not done here
+Two are worth separating from the rest:
 
-Twelve tests spread across a 2,900-line file, hinging on a product decision about what
-the file is for. Rushing it would produce forty-two tests that pass and assert nothing
-much — which this week has already shown is worse than a red suite, because a broken test
-that looks fixed stops anyone looking again.
+- **`duplicate promoted IDs do not cross-highlight distant DEAs`** is the only one whose
+  failure shape suggests a genuine behavioural regression rather than a stale expectation.
+  Start here.
+- **`loads generated election entries`** expects the first entry to be July 2024 and gets
+  November 1922. With a table-of-contents catalogue, "first" depends on which decade is
+  open. Assert on a located entry rather than on ordering.
+
+## The product finding
+
+**Restoring an election from a URL leaves the catalogue with no active indication.**
+
+Measured after loading `#layers=election-dil-ireann-2024-11-29`:
+
+```
+election rows rendered                            0
+rows marked --active                              0
+election pane present                           yes
+after opening the 2020s decade by hand:   170 rows, still 0 active
+```
+
+`focusActiveElectionCatalogueEntry` in `app/src/app.js` looks for a row among
+`#catalogueFlatView .flat-election-entry`, finds none because the catalogue defers
+election rows until a decade is chosen, retries once, and gives up. The election loads on
+the map and the catalogue shows no sign of which one it is.
+
+The retry logic exists precisely because this was meant to work, so this is a regression
+from the TOC redesign rather than a design decision.
+
+**An attempted fix was reverted.** Making `focusRow` open the decade itself — deriving
+"2020s" from the entry date, clicking the matching `.catalogue-flat__toc-decade-btn`, then
+polling for the rows — did not restore the active marking. Either the synthetic click does
+not reach the delegated handler, or `focusActiveElectionCatalogueEntry` is not on this
+restore path at all. Left out rather than committed half-working; it needs someone who
+knows the catalogue render lifecycle.
+
+## One naming loose end
+
+The file is still called `test2-app.spec.js` and its test titles still begin `/test2 …`,
+while every one of them now loads `/`. Renaming both is cosmetic and correct, and was left
+out of this pass only to keep the diff readable — the retarget is 38 substantive edits and
+a rename would have buried them.
