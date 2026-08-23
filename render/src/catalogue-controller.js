@@ -611,7 +611,7 @@ function countBy(layers, getValue) {
 function renderPillGroup(label, kind, entries, activeValue) {
   if (!entries.length) return '';
   const containerClass = kind === 'provider' ? 'provider-pills-container' : 'category-pills-container';
-  const labelClass = kind === 'provider' ? '<div class="provider-pills-label">Filter by Provider</div>' : '';
+  const labelClass = kind === 'provider' ? '<div class="provider-pills-label">Filter by Jurisdiction</div>' : '';
   return `
     <div class="${containerClass} catalogue-filter-group">
       ${labelClass || `<span>${escapeHtml(label)}</span>`}

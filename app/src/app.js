@@ -1324,8 +1324,64 @@ class Test2App {
     const modal = document.getElementById('supportModal');
     const buttons = [document.getElementById('supportBtn'), document.getElementById('mobileSupportBtn')].filter(Boolean);
     if (!modal || buttons.length === 0) return;
-    const open = () => modal.classList.remove('hidden');
-    const close = () => modal.classList.add('hidden');
+
+    // T3-06. The markup already declared role="dialog" aria-modal="true", which PROMISES
+    // a keyboard user that focus is confined to the dialog and returns when it closes.
+    // Nothing implemented that: focus stayed wherever it was, Tab walked straight out
+    // into the page behind, and closing left focus nowhere. aria-modal="true" also tells
+    // a screen reader the background is inert, so without this the announcement was
+    // simply untrue.
+    const FOCUSABLE = 'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
+    let lastFocused = null;
+
+    const focusables = () => [...modal.querySelectorAll(FOCUSABLE)].filter((el) => el.offsetParent !== null);
+
+    const trap = (event) => {
+      if (event.key !== 'Tab') return;
+      const items = focusables();
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      // Wrap at both ends, and also catch the case where focus has escaped the modal
+      // entirely (a click on the background, a browser quirk) by pulling it back.
+      if (event.shiftKey && (document.activeElement === first || !modal.contains(document.activeElement))) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && (document.activeElement === last || !modal.contains(document.activeElement))) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    // Everything that is NOT the modal, so the background can be made inert. Computed on
+    // open rather than cached: the shell is built at runtime and children change.
+    const backgroundSiblings = () => [...document.body.children].filter((el) => el !== modal);
+
+    const open = () => {
+      lastFocused = document.activeElement;
+      modal.classList.remove('hidden');
+      backgroundSiblings().forEach((el) => {
+        el.setAttribute('aria-hidden', 'true');
+        if ('inert' in el) el.inert = true;
+      });
+      document.addEventListener('keydown', trap, true);
+      (focusables()[0] || modal).focus();
+    };
+
+    const close = () => {
+      modal.classList.add('hidden');
+      backgroundSiblings().forEach((el) => {
+        el.removeAttribute('aria-hidden');
+        if ('inert' in el) el.inert = false;
+      });
+      document.removeEventListener('keydown', trap, true);
+      // Return focus to whatever opened it, not to <body>.
+      if (lastFocused && typeof lastFocused.focus === 'function' && document.contains(lastFocused)) {
+        lastFocused.focus();
+      }
+      lastFocused = null;
+    };
+
     buttons.forEach((button) => button.addEventListener('click', (event) => {
       event.preventDefault();
       open();

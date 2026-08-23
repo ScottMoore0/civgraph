@@ -1180,16 +1180,16 @@ export class Test2ElectionManager {
                 <th colspan="4">1st preferences</th>
               </tr>
               <tr>
-                ${this.renderMainParityLeafTh('No.', 2)}
-                ${this.renderMainParityLeafTh('+/-', 3)}
-                ${this.renderMainParityLeafTh('No.', 4)}
-                ${this.renderMainParityLeafTh('+/-', 5)}
-                ${this.renderMainParityLeafTh('%', 6)}
-                ${this.renderMainParityLeafTh('+/-', 7)}
-                ${this.renderMainParityLeafTh('No.', 8)}
-                ${this.renderMainParityLeafTh('+/-', 9)}
-                ${this.renderMainParityLeafTh('%', 10)}
-                ${this.renderMainParityLeafTh('+/-', 11)}
+                ${this.renderMainParityLeafTh('No.', 2, 'Candidates')}
+                ${this.renderMainParityLeafTh('+/-', 3, 'Candidates change')}
+                ${this.renderMainParityLeafTh('No.', 4, 'Seats')}
+                ${this.renderMainParityLeafTh('+/-', 5, 'Seats change')}
+                ${this.renderMainParityLeafTh('%', 6, 'Seats percentage')}
+                ${this.renderMainParityLeafTh('+/-', 7, 'Seats percentage change')}
+                ${this.renderMainParityLeafTh('No.', 8, 'First preference votes')}
+                ${this.renderMainParityLeafTh('+/-', 9, 'First preference votes change')}
+                ${this.renderMainParityLeafTh('%', 10, 'First preference vote share')}
+                ${this.renderMainParityLeafTh('+/-', 11, 'First preference vote share change')}
               </tr>
             </thead>
             <tbody>
@@ -1463,12 +1463,12 @@ export class Test2ElectionManager {
               <th colspan="2">Final count</th>
             </tr>
             <tr>
-              ${this.renderMainParityLeafTh('No.', 3)}
-              ${this.renderMainParityLeafTh('+/-', 4)}
-              ${this.renderMainParityLeafTh('%', 5)}
-              ${this.renderMainParityLeafTh('+/-', 6)}
-              ${this.renderMainParityLeafTh('No.', 7)}
-              ${this.renderMainParityLeafTh('Status', 8)}
+              ${this.renderMainParityLeafTh('No.', 3, 'First preference votes')}
+              ${this.renderMainParityLeafTh('+/-', 4, 'First preference votes change')}
+              ${this.renderMainParityLeafTh('%', 5, 'First preference vote share')}
+              ${this.renderMainParityLeafTh('+/-', 6, 'First preference vote share change')}
+              ${this.renderMainParityLeafTh('No.', 7, 'Final count votes')}
+              ${this.renderMainParityLeafTh('Status', 8, 'Final count status')}
             </tr>
           </thead>
           <tbody>
@@ -1552,12 +1552,12 @@ export class Test2ElectionManager {
                 <th rowspan="2" data-leaf-col-idx="9">Result</th>
               </tr>
               <tr>
-                ${this.renderMainParityLeafTh('No.', 3)}
-                ${this.renderMainParityLeafTh('Party +/-', 4)}
-                ${this.renderMainParityLeafTh('Candidate +/-', 5)}
-                ${this.renderMainParityLeafTh('%', 6)}
-                ${this.renderMainParityLeafTh('Party +/- %', 7)}
-                ${this.renderMainParityLeafTh('Candidate +/- %', 8)}
+                ${this.renderMainParityLeafTh('No.', 3, 'Votes')}
+                ${this.renderMainParityLeafTh('Party +/-', 4, 'Votes, party change')}
+                ${this.renderMainParityLeafTh('Candidate +/-', 5, 'Votes, candidate change')}
+                ${this.renderMainParityLeafTh('%', 6, 'Vote share')}
+                ${this.renderMainParityLeafTh('Party +/- %', 7, 'Vote share, party change')}
+                ${this.renderMainParityLeafTh('Candidate +/- %', 8, 'Vote share, candidate change')}
               </tr>
             </thead>
             <tbody>
@@ -1815,8 +1815,25 @@ export class Test2ElectionManager {
     return `<tr class="election-table-summary-row"><td class="election-rank-col">-</td><td></td><td><strong>${escapeHtml(label)}</strong></td><td class="election-num">${stoodValue === null || stoodValue === undefined ? '-' : formatNumber(stoodValue)}</td><td class="election-num">${stoodValue === null || stoodValue === undefined ? '-' : formatMainDelta(0)}</td><td class="election-num">${electedValue === null || electedValue === undefined ? '-' : formatNumber(electedValue)}</td><td class="election-num">${electedValue === null || electedValue === undefined ? '-' : formatMainDelta(0)}</td><td class="election-num election-cell-strong">${voteValue ? formatNumber(voteValue) : '-'}</td><td class="election-num">${hasVoteDelta ? formatMainDelta(voteDelta) : '-'}</td><td class="election-num election-cell-strong">${Number.isFinite(Number(pctValue)) ? formatFixedPercent(pctValue) : '-'}</td><td class="election-num">${hasPctDelta ? formatMainSelectedPercentDelta(pctDelta) : '-'}</td></tr>`;
   }
 
-  renderMainParityLeafTh(label, index) {
-    return `<th class="election-num" data-leaf-col-idx="${index}">${escapeHtml(label)}</th>`;
+  // The party tables use a two-row header: group cells (Candidates / Seats / 1st
+  // preferences) above leaf cells. Visually that disambiguates, so four columns can all
+  // read "+/-" and three can read "No." without confusing a sighted reader.
+  //
+  // It confuses everyone else. A screen reader announces the leaf cell alone, so a user
+  // heard "+/-" four times with no way to tell seats from votes, and the sort menu named
+  // the column the same way. `scope="col"` plus an explicit accessible name fixes both
+  // without changing a pixel: the VISIBLE text stays "+/-".
+  //
+  // The name is passed IN FULL, not composed from the group, for two reasons. The group
+  // alone is not enough -- "Seats" spans No., +/-, % and +/- again, so two of its four
+  // leaves would still have collided. And the same leaf INDEX means different things in
+  // different tables here, so it cannot be derived from the index either. Both were
+  // tried; both produced wrong names.
+  renderMainParityLeafTh(label, index, accessibleName = '') {
+    const qualified = accessibleName || label;
+    return `<th class="election-num" scope="col" data-leaf-col-idx="${index}"`
+      + ` aria-label="${escapeHtml(qualified)}" title="${escapeHtml(qualified)}">`
+      + `${escapeHtml(label)}</th>`;
   }
 
   renderTwoLineHeader(top, bottom) {
@@ -2950,12 +2967,12 @@ export class Test2ElectionManager {
               <th colspan="2">Turnout</th>
             </tr>
             <tr>
-              ${this.renderMainParityLeafTh('No.', 4)}
-              ${this.renderMainParityLeafTh('+/-', 5)}
-              ${this.renderMainParityLeafTh('No.', 6)}
-              ${this.renderMainParityLeafTh('+/-', 7)}
-              ${this.renderMainParityLeafTh('%', 8)}
-              ${this.renderMainParityLeafTh('+/-', 9)}
+              ${this.renderMainParityLeafTh('No.', 4, 'Seats')}
+              ${this.renderMainParityLeafTh('+/-', 5, 'Seats change')}
+              ${this.renderMainParityLeafTh('No.', 6, 'Valid votes')}
+              ${this.renderMainParityLeafTh('+/-', 7, 'Valid votes change')}
+              ${this.renderMainParityLeafTh('%', 8, 'Turnout percentage')}
+              ${this.renderMainParityLeafTh('+/-', 9, 'Turnout change')}
             </tr>
           </thead>
           <tbody>
@@ -3177,16 +3194,16 @@ export class Test2ElectionManager {
               <th colspan="4">1st preferences</th>
             </tr>
             <tr>
-              ${this.renderMainParityLeafTh('No.', 4)}
-              ${this.renderMainParityLeafTh('+/-', 5)}
-              ${this.renderMainParityLeafTh('No.', 6)}
-              ${this.renderMainParityLeafTh('+/-', 7)}
-              ${this.renderMainParityLeafTh('%', 8)}
-              ${this.renderMainParityLeafTh('+/-', 9)}
-              ${this.renderMainParityLeafTh('No.', 10)}
-              ${this.renderMainParityLeafTh('+/-', 11)}
-              ${this.renderMainParityLeafTh('%', 12)}
-              ${this.renderMainParityLeafTh('+/-', 13)}
+              ${this.renderMainParityLeafTh('No.', 4, 'Candidates')}
+              ${this.renderMainParityLeafTh('+/-', 5, 'Candidates change')}
+              ${this.renderMainParityLeafTh('No.', 6, 'Seats')}
+              ${this.renderMainParityLeafTh('+/-', 7, 'Seats change')}
+              ${this.renderMainParityLeafTh('%', 8, 'Seats percentage')}
+              ${this.renderMainParityLeafTh('+/-', 9, 'Seats percentage change')}
+              ${this.renderMainParityLeafTh('No.', 10, 'First preference votes')}
+              ${this.renderMainParityLeafTh('+/-', 11, 'First preference votes change')}
+              ${this.renderMainParityLeafTh('%', 12, 'First preference vote share')}
+              ${this.renderMainParityLeafTh('+/-', 13, 'First preference vote share change')}
             </tr>
           </thead>
           <tbody>
@@ -3631,10 +3648,10 @@ export class Test2ElectionManager {
                 <th colspan="2">Final count</th>
               </tr>
               <tr>
-                ${this.renderMainParityLeafTh('No.', 1)}
-                ${this.renderMainParityLeafTh('%', 2)}
-                ${this.renderMainParityLeafTh('No.', 3)}
-                ${this.renderMainParityLeafTh('Status', 4)}
+                ${this.renderMainParityLeafTh('No.', 1, 'First preference votes')}
+                ${this.renderMainParityLeafTh('%', 2, 'First preference vote share')}
+                ${this.renderMainParityLeafTh('No.', 3, 'Final count votes')}
+                ${this.renderMainParityLeafTh('Status', 4, 'Final count status')}
               </tr>
             </thead>
             <tbody>

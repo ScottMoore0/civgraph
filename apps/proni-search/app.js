@@ -550,11 +550,18 @@ function goBack() {
 /* ============================ clipboard ============================ */
 
 function fallbackCopy(text) {
+  // Restore focus afterwards. The textarea has to take focus for execCommand('copy') to
+  // work, and removing it leaves focus on <body> -- so a keyboard user who copied a
+  // reference lost their place in the results and had to tab back from the top.
+  const previous = document.activeElement;
   const ta = document.createElement('textarea');
   ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
   document.body.appendChild(ta); ta.focus(); ta.select();
   try { document.execCommand('copy'); } catch { /* no-op */ }
   document.body.removeChild(ta);
+  if (previous && typeof previous.focus === 'function' && document.contains(previous)) {
+    previous.focus();
+  }
 }
 
 async function copyRef(el) {

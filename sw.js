@@ -11,7 +11,7 @@
 // changing it is what flushes stale entries already sitting in visitors' browsers --
 // necessary here because the browse indexes cached under the previous routing rule
 // would otherwise outlive the fix below.
-const VERSION = 'root-maplibre-sw-fdabec297a94';
+const VERSION = 'root-maplibre-sw-a31e8dd174aa';
 const STATIC_CACHE = `civgraph-root-maplibre-${VERSION}-static`;
 const RUNTIME_CACHE = `civgraph-root-maplibre-${VERSION}-runtime`;
 const CACHE_PREFIX = 'civgraph-root-maplibre-';
@@ -30,7 +30,9 @@ const LEGACY_ROOT_CACHE_PREFIXES = [
   'civgraph-tile-'
 ];
 
-const PRECACHE_URLS = ['/', '/index.html'];
+// /offline.html is precached DELIBERATELY: it is the one page that must be available
+// when the network is not, so fetching it on demand would defeat its own purpose.
+const PRECACHE_URLS = ['/', '/index.html', '/offline.html'];
 
 const CACHE_FIRST_PATHS = [
   '/app/build/chunks/',
@@ -200,8 +202,34 @@ async function cacheFirstWithCap(request, cacheName, maxEntries) {
     await safePut(cache, request, response, maxEntries);
     return response;
   } catch {
-    return new Response('Offline', { status: 503, statusText: 'Offline' });
+    return offlineResponse(request);
   }
+}
+
+/**
+ * What to serve when the network is gone.
+ *
+ * This used to be `new Response('Offline')` -- the single word, with an empty <title>, no
+ * branding, no explanation and no way back. A user who lost connection got what looked
+ * like a broken blank page with no indication it was even Civgraph.
+ *
+ * A NAVIGATION gets the real offline page. Anything else -- a tile, a JSON shard, a
+ * bundle -- gets a plain 503, because handing HTML to code expecting JSON turns a clear
+ * network failure into a parse error somewhere further away.
+ */
+async function offlineResponse(request) {
+  if (request.mode === 'navigate') {
+    const cache = await caches.open(STATIC_CACHE);
+    const page = await cache.match('/offline.html');
+    if (page) {
+      return new Response(await page.blob(), {
+        status: 503,
+        statusText: 'Offline',
+        headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' }
+      });
+    }
+  }
+  return new Response('Offline', { status: 503, statusText: 'Offline' });
 }
 
 async function networkFirst(request, cacheName) {
@@ -217,7 +245,7 @@ async function networkFirst(request, cacheName) {
       const shell = await cache.match('/') || await cache.match('/index.html');
       if (shell) return shell;
     }
-    return new Response('Offline', { status: 503, statusText: 'Offline' });
+    return offlineResponse(request);
   }
 }
 

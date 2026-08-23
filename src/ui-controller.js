@@ -3351,7 +3351,9 @@ class UIController {
     }
 
     updateFilterStats(shown, total) {
-        const text = shown === total ? `${total} maps` : `${shown} of ${total} maps`;
+        const text = shown === total
+            ? `${total.toLocaleString('en-GB')} maps`
+            : `${shown.toLocaleString('en-GB')} of ${total.toLocaleString('en-GB')} maps`;
         // Cache so renderFlatView (which runs async after this call) can re-apply
         // the value once it has finished building the TOC and the
         // #catalogueTocStats element exists in the DOM.
@@ -3586,7 +3588,7 @@ class UIController {
             // ── Constituencies ──
             { id: 'flat-eu-parliament', name: 'European Parliament Constituencies (1979-)', years: '1979-2024', extent: 'Ireland', classIds: ['eu-parliament'] },
             { id: 'flat-uk-parliament', name: 'UK Parliamentary Constituencies (1885-)', years: '1885-2023', extent: 'Ireland / Northern Ireland', classIds: ['pre-1921-pcs', 'ni-pcs'] },
-            { id: 'flat-dail', name: 'Dáil Eireann Constituencies (1923-)', years: '1923-2023', extent: 'Republic of Ireland', classIds: ['roi-dail'] },
+            { id: 'flat-dail', name: 'Dáil Éireann Constituencies (1923-)', years: '1923-2023', extent: 'Republic of Ireland', classIds: ['roi-dail'] },
             { id: 'flat-ni-parliament', name: 'Parliament of Northern Ireland Constituencies (1920-1973)', years: '1920-1969', extent: 'Northern Ireland', classIds: ['ni-parliament'] },
             { id: 'flat-assembly-areas', name: 'Assembly Areas (1998-)', years: '1995-2023', extent: 'Northern Ireland', classIds: ['ni-assembly'] },
             { id: 'flat-assembly-1982', name: 'Assembly Constituencies (1982)', years: '1982', extent: 'Northern Ireland', classIds: ['ni-assembly-1982'] },
@@ -4617,7 +4619,7 @@ class UIController {
                 members: [
                     'European Parliament Constituencies',
                     'UK Parliamentary Constituencies',
-                    'Dáil Eireann Constituencies',
+                    'Dáil Éireann Constituencies',
                     'NI Devolved Constituencies',
                     'Referendum Counting Areas'
                 ]
@@ -7171,13 +7173,13 @@ class UIController {
 
         // Define groups with their IDs and display names
         const groups = [
-            { id: 'all', name: 'All', icon: '[all]' },
-            { id: 'communities', name: 'Communities', icon: '[com]' },
-            { id: 'history', name: 'History', icon: '[his]' },
-            { id: 'elections-and-government', name: 'Elections and Government', icon: '[gov]' },
-            { id: 'public-services', name: 'Public Services', icon: '[svc]' },
-            { id: 'physical-geography', name: 'Physical Geography', icon: '[geo]' },
-            { id: 'built-environment', name: 'Built Environment', icon: '[built]' }
+            { id: 'all', name: 'All', icon: '' },
+            { id: 'communities', name: 'Communities', icon: '' },
+            { id: 'history', name: 'History', icon: '' },
+            { id: 'elections-and-government', name: 'Elections and Government', icon: '' },
+            { id: 'public-services', name: 'Public Services', icon: '' },
+            { id: 'physical-geography', name: 'Physical Geography', icon: '' },
+            { id: 'built-environment', name: 'Built Environment', icon: '' }
         ];
 
         // Get total maps for 'All' button
@@ -7231,44 +7233,44 @@ class UIController {
         const providerCategories = [
             {
                 id: 'all-providers',
-                name: 'All Providers',
-                icon: '[all]',
+                name: 'All',
+                icon: '',
                 providers: [] // Empty means all
             },
             {
                 id: 'northern-ireland',
                 name: 'Northern Ireland',
-                icon: '[NI]',
+                icon: '',
                 providers: ['ABC Council', 'DAERA', 'Department for Communities', 'NIEA', 'NISRA', 'OSNI', 'OSNI Open Data', 'PRONI']
             },
             {
                 id: 'ireland',
                 name: 'Ireland',
-                icon: '[IE]',
+                icon: '',
                 providers: ['CSO', 'EPA', 'OSI', 'OSi', 'TÉ']
             },
             {
                 id: 'united-kingdom',
                 name: 'United Kingdom',
-                icon: '[UK]',
+                icon: '',
                 providers: ['Electoral Commission', 'Northern Ireland Office']
             },
             {
                 id: 'european-union',
                 name: 'European Union',
-                icon: '[EU]',
+                icon: '',
                 providers: ['European Commission', 'Eurostat']
             },
             {
                 id: 'organizations',
-                name: 'Organizations',
-                icon: '[org]',
+                name: 'Organisations',
+                icon: '',
                 providers: ['IHO', 'OpenTopography.org', 'OSM']
             },
             {
                 id: 'individuals',
                 name: 'Individuals',
-                icon: '[ind]',
+                icon: '',
                 providers: ['Global Watersheds', 'Paddy Matthews', 'Parlconst.org', 'Scott Moore', 'XrysD']
             }
         ];
@@ -9153,29 +9155,29 @@ class UIController {
             const opacityRows = isRaster ? `
                 <div class="active-layer-item__opacity">
                     <label class="active-layer-item__opacity-label">Opacity</label>
-                    <input type="range" class="active-layer-item__slider raster-opacity-slider" data-map-id="${map.id}" min="0" max="100" value="${curRasterOp}">
-                    <div class="active-layer-item__opacity-val"><input type="number" class="active-layer-item__opacity-input raster-opacity-input" data-map-id="${map.id}" min="0" max="100" value="${curRasterOp}"><span>%</span></div>
+                    <input type="range" class="active-layer-item__slider raster-opacity-slider" data-map-id="${map.id}" aria-label="Opacity, ${this.escapeHtml(layerTitle)}" min="0" max="100" value="${curRasterOp}">
+                    <div class="active-layer-item__opacity-val"><input type="number" class="active-layer-item__opacity-input raster-opacity-input" data-map-id="${map.id}" aria-label="Opacity percentage, ${this.escapeHtml(layerTitle)}" min="0" max="100" value="${curRasterOp}"><span>%</span></div>
                 </div>` : `
                 <div class="active-layer-item__opacity">
                     <label class="active-layer-item__opacity-label">Stroke</label>
-                    <input type="range" class="active-layer-item__slider stroke-opacity-slider" data-map-id="${map.id}" min="0" max="100" value="${curStrokeOp}">
-                    <div class="active-layer-item__opacity-val"><input type="number" class="active-layer-item__opacity-input stroke-opacity-input" data-map-id="${map.id}" min="0" max="100" value="${curStrokeOp}"><span>%</span></div>
+                    <input type="range" class="active-layer-item__slider stroke-opacity-slider" data-map-id="${map.id}" aria-label="Stroke opacity, ${this.escapeHtml(layerTitle)}" min="0" max="100" value="${curStrokeOp}">
+                    <div class="active-layer-item__opacity-val"><input type="number" class="active-layer-item__opacity-input stroke-opacity-input" data-map-id="${map.id}" aria-label="Stroke opacity percentage, ${this.escapeHtml(layerTitle)}" min="0" max="100" value="${curStrokeOp}"><span>%</span></div>
                 </div>
                 <div class="active-layer-item__opacity">
                     <label class="active-layer-item__opacity-label">Fill</label>
-                    <input type="range" class="active-layer-item__slider fill-opacity-slider" data-map-id="${map.id}" min="0" max="100" value="${curFillOp}">
-                    <div class="active-layer-item__opacity-val"><input type="number" class="active-layer-item__opacity-input fill-opacity-input" data-map-id="${map.id}" min="0" max="100" value="${curFillOp}"><span>%</span></div>
+                    <input type="range" class="active-layer-item__slider fill-opacity-slider" data-map-id="${map.id}" aria-label="Fill opacity, ${this.escapeHtml(layerTitle)}" min="0" max="100" value="${curFillOp}">
+                    <div class="active-layer-item__opacity-val"><input type="number" class="active-layer-item__opacity-input fill-opacity-input" data-map-id="${map.id}" aria-label="Fill opacity percentage, ${this.escapeHtml(layerTitle)}" min="0" max="100" value="${curFillOp}"><span>%</span></div>
                 </div>`;
             const opacityControls = `<div class="active-layer-item__opacity-panel" data-map-id="${map.id}" style="display:none;">${opacityRows}</div>`;
 
             return `
                 <div class="active-layer-item ${isVisible ? '' : 'active-layer-item--hidden'}${partial?.isPartial ? ' active-layer-item--partial' : ''}" data-map-id="${map.id}">
-                    <button type="button" class="active-layer-item__drag" data-map-id="${map.id}" title="Drag to reorder" aria-label="Drag to reorder layer">
+                    <button type="button" class="active-layer-item__drag" data-map-id="${map.id}" title="Drag to reorder, or use the arrow keys" aria-label="Reorder ${this.escapeHtml(layerTitle)}. Press the up or down arrow key to move it.">
                         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg>
                     </button>
                     <div class="active-layer-item__color" style="background: ${color}"></div>
                     <div class="active-layer-item__info">
-                        <span class="active-layer-item__name">${this.escapeHtml(layerTitle)}</span>
+                        <span class="active-layer-item__name">${this.escapeHtml(layerTitle)}</span>${isVisible ? '' : '<span class="active-layer-item__hidden-badge">Hidden</span>'}
                         <span class="active-layer-item__meta">
                             ${authors}${authors && date ? ' · ' : ''}${date ? `<em>${date}</em>` : ''}
                             ${partial?.featureItems?.length ? `<span class="active-layer-item__partial-badge">${partial.featureNames?.length || partial.featureItems.length || 1} feature${(partial.featureNames?.length || partial.featureItems.length || 1) > 1 ? 's' : ''}</span>` : ''}
@@ -9186,8 +9188,10 @@ class UIController {
                         <button class="active-layer-item__btn opacity-toggle-btn" data-map-id="${map.id}" title="Transparency">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" opacity="0.3"/><circle cx="12" cy="12" r="6"/></svg>
                         </button>
-                        <button class="active-layer-item__btn visibility-btn" data-map-id="${map.id}" title="${isVisible ? 'Hide' : 'Show'}">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        <button class="active-layer-item__btn visibility-btn${isVisible ? '' : ' visibility-btn--off'}" data-map-id="${map.id}" aria-pressed="${isVisible ? 'false' : 'true'}" title="${isVisible ? 'Hide' : 'Show'}" aria-label="${isVisible ? 'Hide' : 'Show'} ${this.escapeHtml(layerTitle)}">
+                            ${isVisible
+                                ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>'
+                                : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/><line x1="3" y1="21" x2="21" y2="3"/></svg>'}
                         </button>
                         ${partial?.isPartial ? `<button class="active-layer-item__btn expand-btn" data-map-id="${map.id}" title="Load full map"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>` : ''}
                         <button class="active-layer-item__btn remove-btn" data-map-id="${map.id}" title="Remove">
@@ -9318,6 +9322,45 @@ class UIController {
         if (!grips.length) return;
 
         const FLIP_DURATION = 180;
+
+        // T3-07 / WCAG 2.1.1: a keyboard alternative to drag-to-reorder.
+        //
+        // Reordering was reachable ONLY by dragging a 16px handle, so layer draw order --
+        // which decides what is visible on top of what -- was unavailable to anyone not
+        // using a mouse, and to anyone whose pointer accuracy is limited.
+        //
+        // Arrow keys on the focused handle move the row one step. Focus is deliberately
+        // restored to the same handle after the re-render, so a user can press Down three
+        // times without hunting for the control again; without that the list rebuilds and
+        // focus falls to <body>.
+        grips.forEach(grip => {
+            grip.addEventListener('keydown', (event) => {
+                if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return;
+                const row = grip.closest('.active-layer-item');
+                if (!row) return;
+                const rows = [...container.querySelectorAll('.active-layer-item')];
+                const index = rows.indexOf(row);
+                const target = event.key === 'ArrowUp' ? index - 1 : index + 1;
+                if (target < 0 || target >= rows.length) return;   // already at the end
+                event.preventDefault();
+
+                if (event.key === 'ArrowUp') container.insertBefore(row, rows[target]);
+                else container.insertBefore(rows[target], row);
+
+                const newOrder = [...container.querySelectorAll('.active-layer-item')].map(r => r.dataset.mapId);
+                if (typeof this.onReorderLayers === 'function') this.onReorderLayers(newOrder);
+
+                const name = row.querySelector('.active-layer-item__name')?.textContent?.trim() || 'Layer';
+                this.announce?.(`${name} moved to position ${newOrder.indexOf(row.dataset.mapId) + 1} of ${newOrder.length}`);
+
+                // The list re-renders asynchronously; re-find this layer's handle by id.
+                const mapId = grip.dataset.mapId;
+                requestAnimationFrame(() => {
+                    const again = container.querySelector(`.active-layer-item[data-map-id="${mapId}"] .active-layer-item__drag`);
+                    (again || grip).focus();
+                });
+            });
+        });
 
         grips.forEach(grip => {
             grip.addEventListener('pointerdown', (e) => {

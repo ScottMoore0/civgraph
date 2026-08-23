@@ -54,7 +54,7 @@
 
   <!-- Modulepreload — start fetching the entry bundle before parser reaches
        the <script type=module> tag at the end of <body>. -->
-  <link rel="modulepreload" href="/app/build/app.bundle.js?v=fdabec297a94" fetchpriority="high">
+  <link rel="modulepreload" href="/app/build/app.bundle.js?v=a31e8dd174aa" fetchpriority="high">
   <style>
     @font-face {
       font-family: 'Inter';
@@ -89,8 +89,8 @@
   <!-- Deferred CSS: remaining ~186 KB (catalogue cards, modals, charts, …)
        loaded async via media=print + onload swap so it doesn't block first
        paint. Browsers without JS fall back via <noscript>. -->
-    <link rel="stylesheet" href="/build/main.css?v=93e5a5e135de" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="/build/main.css?v=93e5a5e135de"></noscript>
+    <link rel="stylesheet" href="/build/main.css?v=94e92e7d2830" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="/build/main.css?v=94e92e7d2830"></noscript>
   <link rel="stylesheet" href="/app/build/app.bundle.css?v=0922c1ff3605">
 
   <!-- Election Viewer & Animation CSS (deferred — not needed for first paint) -->
@@ -310,7 +310,7 @@
 
           <!-- Provider Category Pills -->
           <div class="provider-pills-container">
-            <div class="provider-pills-label">Filter by Provider</div>
+            <div class="provider-pills-label">Filter by Jurisdiction</div>
             <div id="providerPills" class="category-pills" role="group" aria-label="Filter by provider category">
               <!-- Populated by JavaScript -->
             </div>
@@ -662,7 +662,7 @@
       </div>
 
       <!-- Active Layers Panel -->
-      <div id="activeLayers" class="active-layers hidden">
+      <div id="activeLayers" class="active-layers hidden" role="dialog" aria-label="Active layers">
         <div class="active-layers__header">
           <h3 class="active-layers__title">Active Layers</h3>
           <button id="activeLayersClose" class="active-layers__close" aria-label="Close panel">
@@ -678,7 +678,7 @@
       </div>
 
       <!-- Feature Info Panel -->
-      <div id="featureInfo" class="feature-info hidden">
+      <div id="featureInfo" class="feature-info hidden" role="dialog" aria-label="Feature details">
         <div class="feature-info__header">
           <h2 class="feature-info__title">Feature Details</h2>
           <button id="featureInfoClose" class="feature-info__close" aria-label="Close panel">
@@ -727,7 +727,7 @@
        and animation code are loaded lazily by the /app module bundle. -->
 
   <!-- Application (bundled + minified) -->
-  <script type="module" src="/app/build/app.bundle.js?v=fdabec297a94"></script>
+  <script type="module" src="/app/build/app.bundle.js?v=a31e8dd174aa"></script>
 
   <!-- Service worker — repeat-visit cache + offline tolerance. Registered
        after window.load so it doesn't contend with critical resources.

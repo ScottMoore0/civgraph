@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>You are offline — Civgraph</title>
+  <meta name="description" content="Civgraph could not be reached because this device is offline.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#065a6e">
+  <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16.png">
+  <style>
+    /* Deliberately SELF-CONTAINED, with no stylesheet link at all.
+       404.html can link /build/main.css because the network is up when it renders. This
+       page renders precisely when the network is NOT available, so an external stylesheet
+       would either be a cache hit or a blank unstyled page. Inlining removes the gamble. */
+    :root { color-scheme: light dark; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      color: #1a202c;
+      background: #ffffff;
+      line-height: 1.6;
+    }
+
+    .off-main {
+      max-width: 46rem;
+      margin: 0 auto;
+      padding: 4rem 1.5rem 6rem;
+    }
+
+    .off-code {
+      font-size: 0.8125rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #5a6678;
+      margin: 0 0 0.75rem;
+    }
+
+    .off-main h1 {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      line-height: 1.2;
+      margin: 0 0 1rem;
+      color: #12303a;
+    }
+
+    .off-lede {
+      font-size: 1.125rem;
+      margin: 0 0 2rem;
+    }
+
+    .off-main h2 {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #5a6678;
+      margin: 2.5rem 0 0.75rem;
+    }
+
+    .off-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin: 0 0 1rem;
+    }
+
+    .off-btn {
+      display: inline-block;
+      /* 44px min target: T3-03 raised controls to >= 24x24, and >= 44px on mobile. */
+      min-height: 44px;
+      padding: 0.6rem 1.25rem;
+      border: 1px solid #0b6d84;
+      border-radius: 0.375rem;
+      background: #0b6d84;
+      color: #ffffff;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      line-height: 1.9;
+    }
+
+    .off-btn--secondary {
+      background: transparent;
+      color: #0b6d84;
+    }
+
+    .off-btn:focus-visible {
+      outline: 3px solid #0b6d84;
+      outline-offset: 2px;
+    }
+
+    .off-note {
+      color: #5a6678;
+      font-size: 0.9375rem;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body { background: #10151b; color: #e6edf3; }
+      .off-main h1 { color: #cfe8f0; }
+      .off-code, .off-main h2, .off-note { color: #9bb0c0; }
+      .off-btn { background: #0b6d84; border-color: #0b6d84; }
+      .off-btn--secondary { background: transparent; color: #7fd4e8; border-color: #7fd4e8; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="off-main">
+    <p class="off-code">Offline</p>
+    <h1>You are offline</h1>
+    <p class="off-lede">
+      Civgraph could not be reached because this device has no network connection. Nothing
+      is wrong with the site.
+    </p>
+
+    <div class="off-actions">
+      <button type="button" class="off-btn" id="offlineRetry">Try again</button>
+      <a class="off-btn off-btn--secondary" href="/">Go to the map</a>
+    </div>
+
+    <p class="off-note" id="offlineStatus" role="status" aria-live="polite"></p>
+
+    <h2>What still works</h2>
+    <p class="off-note">
+      Pages you have already visited may still open, because they are stored on this
+      device. Map tiles and search need a connection.
+    </p>
+  </main>
+
+  <script>
+    // Retry rather than a dead end. Reloading the page the user actually wanted is the
+    // point -- sending them to "/" would lose it.
+    document.getElementById('offlineRetry').addEventListener('click', function () {
+      document.getElementById('offlineStatus').textContent = 'Retrying…';
+      location.reload();
+    });
+
+    // The browser tells us when the connection returns; say so rather than making the
+    // user guess when to press the button.
+    window.addEventListener('online', function () {
+      document.getElementById('offlineStatus').textContent = 'Connection restored. Reloading…';
+      location.reload();
+    });
+  </script>
+</body>
+
+</html>
