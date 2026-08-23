@@ -58,21 +58,6 @@ async function resetMapState(page) {
 // flat catalogue, and a selector loose enough to match a TOC link would make this pass
 // while testing nothing.
 test('map load patches catalogue state without rerendering the flat catalogue', async ({ page }) => {
-  // test.fail() means: run it, expect red. Removing this annotation is the signal that
-  // the regression below has been fixed.
-  //
-  // THE FIRST TWO ASSERTIONS NOW PASS. Fixing the premise (open a section, use a row
-  // that is actually on screen) revealed that the third does not: renderCalls is 1 and
-  // should be 0. Loading a map triggers a FULL re-render of the flat catalogue instead
-  // of patching the one row that changed.
-  //
-  // That is precisely the regression this test was written to catch, and it has been
-  // masked for as long as the test was failing earlier for unrelated reasons. A broken
-  // test is not a neutral thing: it hid a real one.
-  //
-  // Fix in src/ui-controller.js: the load/unload path calls renderFlatView where it
-  // should be calling applyLoadedStateToRows for the affected id.
-  test.fail();
   await page.goto('/#layers=__none');
   await waitForApp(page);
   await resetMapState(page);
@@ -85,6 +70,23 @@ test('map load patches catalogue state without rerendering the flat catalogue', 
     null,
     { timeout: 30000 },
   );
+
+  // Settle the background election-catalogue warm-up before measuring.
+  //
+  // scheduleElectionCatalogueWarm() fires on an idle callback with a 6-second timeout and
+  // ends in updateMapList(), which legitimately re-renders the flat catalogue because it
+  // has just added election entries to it. Landing inside the measurement window, it made
+  // renderCalls read 1 and looked exactly like the regression this test exists to catch.
+  //
+  // Traced by logging a stack on every renderFlatView call:
+  //   renderFlatView <- requestFlatViewRender <- renderMapList <- updateMapList
+  //     <- ensureElections
+  // With the warm-up settled first, a map load produces ZERO re-renders. The patching
+  // works; the test was measuring something else.
+  await page.evaluate(async () => {
+    await window.__civgraphTest2?.app?.ensureElections?.({ refreshCatalogue: true });
+  });
+  await page.waitForTimeout(1500);
 
   const result = await page.evaluate(async () => {
     const uiController = window.uiController;

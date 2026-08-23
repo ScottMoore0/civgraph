@@ -3419,6 +3419,10 @@ class UIController {
     }
 
     async renderFlatView(options = {}) {
+        if (typeof window !== 'undefined' && window.__civgraphTest2) {
+            const t = window.__civgraphTest2.flatRenders || (window.__civgraphTest2.flatRenders = []);
+            if (t.length < 50) t.push(String(new Error().stack || '').split(String.fromCharCode(10)).slice(1, 7).join(' | '));
+        }
         const container = document.getElementById('catalogueFlatView');
         if (!container) {
             // A render that does nothing and says nothing is how a wrong diagnosis
