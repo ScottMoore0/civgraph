@@ -54,9 +54,26 @@ const mismatched = [];
 const unrecorded = [];
 let checked = 0;
 let skipped = 0;
+let aliases = 0;
 
 for (const layer of doc.layers || []) {
   if (layer.sourceType !== 'pmtiles' || !layer.sourceFile) continue;
+
+  // ALIASES AND CLONES CANNOT CARRY THIS HASH, and counting them as missing one is a
+  // permanent, unclosable gap in the coverage number.
+  //
+  // The hash attests "the archive at this path was built from these source bytes". An
+  // alias has no archive of its own -- it points at a target layer's -- so there is
+  // nothing for the statement to be about. Its provenance IS its target's, and the target
+  // is checked on its own row.
+  //
+  // Measured 2026-08-23: of 73 unhashed layers that had a local source, all 73 were
+  // aliases and none had a local archive. Chasing that number would have meant either
+  // hashing something that does not exist or fabricating an attestation.
+  if (layer.aliasOf || layer.cloneOf || /-alias-test$/.test(String(layer.id || ''))) {
+    aliases += 1;
+    continue;
+  }
   if (!existsSync(layer.sourceFile)) { skipped += 1; continue; }
   const recorded = layer.tilePackage?.sourceSha256;
   if (!recorded) { unrecorded.push(layer.id); continue; }
@@ -115,5 +132,5 @@ if (unrecorded.length > baseline.unrecorded) {
 }
 
 console.log(`PASS: ${checked} archive(s) match the source they record `
-  + `(${skipped} skipped: source not present locally; ${unrecorded.length} of a permitted `
-  + `${baseline.unrecorded} predate the hash).`);
+  + `(${skipped} skipped: source not present locally; ${aliases} aliases inherit their target's; `
+  + `${unrecorded.length} of a permitted ${baseline.unrecorded} predate the hash).`);

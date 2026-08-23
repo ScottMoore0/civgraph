@@ -1,7 +1,7 @@
 {
   "note": "Known catalogue/render disagreements. Ratchet baseline for validate-catalogue-render-parity.mjs; this list may shrink, never grow.",
   "generated": "run with --update-baseline to re-cut",
-  "count": 76,
+  "count": 73,
   "findings": [
     {
       "key": "counties-ireland-1915::name",
@@ -292,12 +292,6 @@
       "why": "description differs or was blanked"
     },
     {
-      "key": "glpr-2020-03::labelProperty",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "label property differs; PMTiles conversion may have renamed the attribute"
-    },
-    {
       "key": "glpr-2021-03::labelProperty",
       "severity": "advisory",
       "kind": "conflict",
@@ -430,12 +424,6 @@
       "why": "label property differs; PMTiles conversion may have renamed the attribute"
     },
     {
-      "key": "roads-border-crossings-2018::labelProperty",
-      "severity": "advisory",
-      "kind": "missing",
-      "why": "label property differs; PMTiles conversion may have renamed the attribute"
-    },
-    {
       "key": "roads-pedestrian-crossings::labelProperty",
       "severity": "advisory",
       "kind": "missing",
@@ -449,12 +437,6 @@
     },
     {
       "key": "roi-national-planning-applications::labelProperty",
-      "severity": "advisory",
-      "kind": "conflict",
-      "why": "label property differs; PMTiles conversion may have renamed the attribute"
-    },
-    {
-      "key": "west-bann-sperrins::labelProperty",
       "severity": "advisory",
       "kind": "conflict",
       "why": "label property differs; PMTiles conversion may have renamed the attribute"
