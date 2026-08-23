@@ -1,23 +1,23 @@
 const { test, expect } = require('@playwright/test');
 
-// test.fail() means: run it, expect red. Remove the annotation when the finding below is
-// resolved.
+// RESOLVED 2026-08-23. It was neither a grouping regression nor a deliberate
+// restructure: the CLASS listed only two of the three layers.
 //
-// TWO OF THE THREE GROUPS NOW PASS. Fixing the premise (the catalogue renders a table of
-// contents; c1 cards only exist once a section is opened) took this from "times out
-// before any assertion" to "one specific assertion fails", and on the way it caught a
-// real attribution loss -- see the counties block below.
+// flat-provinces is composed from the `ireland-provinces` class in
+// data/database/maps.json, whose `maps` array held provinces-1955 and provinces-1899
+// and simply omitted `provinces` (Provinces of Ireland 2019). Category and parentId
+// were never the mechanism, which is why inspecting those explained nothing.
 //
-// WHAT STILL FAILS: metadata.provincesCurrent.exists is false. The flat-provinces card
-// contains provinces-1955 and provinces-1899 and NOT `provinces` (Provinces of Ireland
-// 2019), even though all three share category "counties" and none has a parentId.
+// The comparable case settles which way it should go: counties-ireland (1977, the modern
+// layer) is BOTH featured and a member of ni-counties, alongside five older vintages.
+// Provinces was the only category where the modern vintage sat outside its own class,
+// and it shares provider ["OSI", "Phelim Birch"] with provinces-1955 -- same lineage,
+// split for no recorded reason. Adding it to the class fixed this assertion.
 //
-// Unresolved on purpose. That is either a catalogue grouping regression -- the current
-// layer dropping out of its own card -- or a deliberate restructure, and I could not tell
-// which without more digging. Guessing would repeat a mistake already made three times
-// this week. Someone who knows how flat-provinces is composed can settle it in minutes.
+// A sweep for the same shape found four more classes with orphaned layers. Ten were
+// added; four were left out ON PURPOSE and the reasons are recorded in
+// docs/review/CLASS-MEMBERSHIP-SWEEP.md.
 test('1955 counties and provinces catalogue metadata is exposed correctly', async ({ page }) => {
-  test.fail();
   await page.goto('/#layers=__none');
 
   // Open a catalogue section first. The catalogue renders a table of contents on load --
