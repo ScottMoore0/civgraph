@@ -17,7 +17,7 @@ const { test, expect } = require('@playwright/test');
  * Functions do not exist under `python -m http.server`, so /_api/elections would 404.
  */
 
-const BASE = process.env.PARITY_BASE_URL || 'https://civgraph.net';
+const { BASE } = require('./helpers/base-url');
 // Spread across bodies, eras and voting systems. The Dail entries matter most: their
 // countGroup rows carry fields (Auto_Returned_Ceann_Comhairle, Synthetic_Scraper_Row)
 // that later elections lack, and that shape variance is what defeated reconstruction.
@@ -114,9 +114,31 @@ async function loadElection(page, { api, body, date }) {
   return { ...result, requests, consoleErrors };
 }
 
+// /_api/elections is a Pages Function. It does not exist under the static test server,
+// so against a local BASE the app correctly falls back to the static bundle and the
+// "the API path used the API" assertion fails -- reporting a working fallback as a
+// broken API. Probe once and skip with a reason rather than fail.
+//
+// Skipping is right ONLY because this spec's whole subject is the deployed transport.
+// The scheduled production-parity CI job runs it against civgraph.net, where the
+// endpoint exists and a failure means something.
+let apiAvailable = null;
+async function ensureApiAvailable(request) {
+  if (apiAvailable !== null) return apiAvailable;
+  try {
+    const response = await request.get(`${BASE}/_api/elections?lite=1&limit=1`, { timeout: 20000 });
+    apiAvailable = response.status() < 400;
+  } catch {
+    apiAvailable = false;
+  }
+  return apiAvailable;
+}
+
 for (const { body, date } of CASES) {
-  test(`D1 election API renders identically to the static bundle: ${body} ${date}`, async ({ page }) => {
+  test(`D1 election API renders identically to the static bundle: ${body} ${date}`, async ({ page, request }) => {
     test.setTimeout(240000);
+    test.skip(!(await ensureApiAvailable(request)),
+      `/_api/elections is not served by ${BASE} — set PARITY_BASE_URL to an origin with Pages Functions`);
 
     const staticRun = await loadElection(page, { api: false, body, date });
     const apiRun = await loadElection(page, { api: true, body, date });

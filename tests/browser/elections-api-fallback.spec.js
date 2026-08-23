@@ -14,7 +14,7 @@ const { test, expect } = require('@playwright/test');
 // forced failure silently does not happen. Block it so the interception is real.
 test.use({ serviceWorkers: 'block' });
 
-const BASE = process.env.PARITY_BASE_URL || 'https://civgraph.net';
+const { BASE } = require('./helpers/base-url');
 
 test('a failing elections API falls back to the static bundle and reports it', async ({ page }) => {
   test.setTimeout(180000);

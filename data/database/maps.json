@@ -5702,7 +5702,8 @@
         "urban district",
         "1966",
         "pre-reform"
-      ]
+      ],
+      "hiddenReason": "Duplicate of admin-areas-1966-07-04, which is already a member of the ni-admin-areas (Administrative Areas) class and is the visible record. Both point at the SAME file, https://data.civgraph.net/data/maps/local-government/LGDs_04-07-1966.fgb, with the same date and the same labelProperty. Kept hidden as an archived record rather than deleted, so existing links keep resolving. Deliberately NOT added to the class: that would put two entries on 1966-07-04 drawing one file. NOTE: the two records disagree on attribution -- this one credits XrysD, admin-areas-1966-07-04 credits OSNI. One is wrong and it is worth settling."
     },
     {
       "id": "pc-2023",
@@ -9486,7 +9487,7 @@
         "placeholder"
       ],
       "hidden": true,
-      "hiddenReason": "Empty placeholder: no files and no variants. The live eds-1971 serves this same 1971-04-15 card with four working province variants, so this record would render nothing. Hidden rather than deleted pending a decision on merging the two."
+      "hiddenReason": "Superseded by eds-1971, which serves this same 1971-04-15 vintage with four working province variants. This record is an empty placeholder: no files, no variants, no provider, so it can never render. Decision closed 2026-08-23 -- NOT merged and NOT deleted: it is kept hidden as an archived record, like the other 117 hidden entries, so existing links to /browse/maps/eds-roi-1971-04-15 keep resolving. Deliberately excluded from the eds-historic class; adding it would put two entries on one date, one of which draws nothing."
     },
     {
       "id": "eds-1926",

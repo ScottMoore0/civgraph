@@ -70,6 +70,33 @@ jobs:
       - run: npm run smoke:test:mobile
       - run: npm run test:performance:test
 
+  production-parity:
+    # The six specs that measure the DEPLOYED site rather than the working tree.
+    # They used to default to https://civgraph.net and run inside every local
+    # `npx playwright test`, so a green local run said nothing about local changes in
+    # them, and a broken deployment failed unrelated local work. Local is now the
+    # default (tests/browser/helpers/base-url.js); production is checked here, on
+    # purpose, on the schedule -- not on every push, which would hammer the live site.
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    env:
+      PARITY_BASE_URL: https://civgraph.net
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm ci --ignore-scripts
+      - run: npx playwright install --with-deps chromium
+      - run: >-
+          npx playwright test
+          tests/browser/ux-plan-items.spec.js
+          tests/browser/ux-t1-05-t1-03.spec.js
+          tests/browser/catalogue-load-a11y.spec.js
+          tests/browser/eds-1931-1936.spec.js
+          tests/browser/elections-api-fallback.spec.js
+          tests/browser/elections-api-parity.spec.js
+
   cdn-byte-range-monitor:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
