@@ -145,7 +145,6 @@ class UIController {
         this.setupMobileMenu();
         this.ensureThumbnailManifest().catch(() => {});
         this.ensureFeatureCountManifest().catch(() => {});
-        console.log('[UIController] Initialized');
         return this;
     }
 
@@ -1317,8 +1316,15 @@ class UIController {
     }
 
     showCatalogueHistory() {
-        // For now, just log history - could show a dropdown in future
-        console.log('[Catalogue History]', this.catalogueHistory);
+        // UNIMPLEMENTED STUB, and #catalogueHistory is a VISIBLE button in index.html
+        // titled "History". Until 2026-08-23 its whole body was a console.log, so the
+        // control has always done nothing a user could see -- it printed to a console
+        // they do not have open. Removing the log does not change what the user gets; it
+        // just stops the pretence that something happened.
+        //
+        // this.catalogueHistory holds the entries, and catalogueGoBack/GoForward already
+        // work, so the missing piece is only the list UI. Left as a stub rather than
+        // hidden, because whether to build it or drop the button is a product decision.
     }
 
     updateCatalogueNavButtons() {
@@ -9575,7 +9581,6 @@ class UIController {
 
         try {
             // Load the build manifest which contains all individual features
-            console.log('[UIController] Fetching build-manifest.json...');
             const response = await fetch('./data/build-manifest.json');
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -9583,7 +9588,6 @@ class UIController {
 
             const manifest = await response.json();
             this.tablesState.manifestData = manifest; // Cache for column recalculation
-            console.log('[UIController] Loaded build manifest with', Object.keys(manifest.files || {}).length, 'maps');
 
             const data = dataService.getData();
             const allFeatures = [];
@@ -9647,9 +9651,6 @@ class UIController {
             // Now calculate sorted columns since we have actual property values
             this.calculateSortedColumns();
 
-            console.log('[UIController] allFeatures loaded:', allFeatures.length, 'individual features');
-            console.log('[UIController] Property coverage:', columnCoverage.size, 'unique properties across', totalMapCount, 'maps');
-            console.log('[UIController] Columns:', this.tablesState.columns.length, 'visible of', this.tablesState.allColumns.length, 'total');
             this.filterAndRenderTable();
         } catch (e) {
             console.error('[UIController] Failed to load build manifest:', e);
@@ -9733,7 +9734,6 @@ class UIController {
         // Update columns to show
         this.tablesState.columns = this.tablesState.allColumns.slice(0, this.tablesState.visibleColumnCount);
 
-        console.log(`[UIController] Columns: ${universalCount} universal, ${highCoverageCount} high-coverage, ${sortedColumns.length} total dynamic, showing ${this.tablesState.columns.length}`);
     }
 
     calculateDynamicColumns(features) {

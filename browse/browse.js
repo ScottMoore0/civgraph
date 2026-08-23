@@ -1408,8 +1408,9 @@ function renderRegisterSourcePanel(item) {
       <p class="browse-supporting-note">These are the source rows merged into the readable record above. They are kept here for audit and provenance rather than repeated in the main text.</p>
       <div class="browse-table-wrap">
         <table class="browse-table browse-table--compact">
+          <caption class="visually-hidden">Provenance records</caption>
           <thead>
-            <tr><th>Date</th><th>Category</th><th>Source</th><th>Method</th><th>Confidence</th></tr>
+            <tr><th scope="col">Date</th><th scope="col">Category</th><th scope="col">Source</th><th scope="col">Method</th><th scope="col">Confidence</th></tr>
           </thead>
           <tbody>
             ${sourceRows.map((row) => `
@@ -1652,7 +1653,7 @@ async function renderMapFeaturesTable(item, entityId) {
   }));
   const columns = [];
   for (const attrs of attrMaps) for (const key of Object.keys(attrs)) if (!columns.includes(key)) columns.push(key);
-  const headerRow = `<tr><th>Thumbnail</th><th>Feature</th>${columns.map((col) => `<th>${escapeHtml(col)}</th>`).join('')}</tr>`;
+  const headerRow = `<tr><th scope="col">Thumbnail</th><th scope="col">Feature</th>${columns.map((col) => `<th scope="col">${escapeHtml(col)}</th>`).join('')}</tr>`;
   const bodyRows = shown.map((feature, index) => {
     const link = `<a href="#/entities/${encodeURIComponent(feature.subjectId)}" data-browse-link>${escapeHtml(feature.subjectLabel || feature.subjectId)}</a>`;
     const cells = columns.map((col) => {
@@ -1702,7 +1703,7 @@ async function renderMapFeaturesFromShards(mapId, meta, graphFeatures) {
   state.featureTables[mapId] = ctx;
   const rows = normalizeArray(firstPage).map((feature) => featureRowHtml(feature, ctx)).join('');
   ctx.loaded = normalizeArray(firstPage).length;
-  const headerRow = `<tr><th>Thumbnail</th><th>Feature</th><th>Bounding box</th>${attrColumns.map((col) => `<th>${escapeHtml(col)}</th>`).join('')}</tr>`;
+  const headerRow = `<tr><th scope="col">Thumbnail</th><th scope="col">Feature</th><th scope="col">Bounding box</th>${attrColumns.map((col) => `<th scope="col">${escapeHtml(col)}</th>`).join('')}</tr>`;
   const tbodyId = `feature-rows-${slugify(mapId)}`;
   const footer = ctx.nextPage < ctx.pageCount
     ? `<div class="browse-feature-more"><button type="button" class="browse-btn browse-btn--small" data-feature-load-more data-feature-map="${escapeAttr(mapId)}">Load more (${formatNumber(ctx.loaded)} of ${formatNumber(ctx.total)})</button></div>`
@@ -1825,7 +1826,8 @@ function renderMapVariants(item) {
       <p class="browse-supporting-note">Alternative editions or versions of this map layer. Each opens as its own layer in the interactive map.</p>
       <div class="browse-table-wrap">
         <table class="browse-table browse-table--compact">
-          <thead><tr><th>Variant</th><th>Date</th><th>Open</th></tr></thead>
+          <caption class="visually-hidden">Variants</caption>
+          <thead><tr><th scope="col">Variant</th><th scope="col">Date</th><th scope="col">Open</th></tr></thead>
           <tbody>${rows}</tbody>
         </table>
       </div>
@@ -2357,7 +2359,8 @@ function renderLinksPanel(item, options = {}) {
   const body = `
     <div class="browse-table-wrap">
       <table class="browse-table browse-table--compact">
-        <thead><tr><th>Type</th><th>Label</th><th>Link</th></tr></thead>
+        <caption class="visually-hidden">Related links</caption>
+        <thead><tr><th scope="col">Type</th><th scope="col">Label</th><th scope="col">Link</th></tr></thead>
         <tbody>
           ${rows.map((row) => `
             <tr>
@@ -2574,7 +2577,8 @@ function renderTechnicalTable(title, rows) {
       <h3>${escapeHtml(title)}</h3>
       <div class="browse-table-wrap">
         <table class="browse-table browse-table--technical">
-          <thead><tr><th>Field</th><th>Value</th></tr></thead>
+          <caption class="visually-hidden">Technical fields</caption>
+          <thead><tr><th scope="col">Field</th><th scope="col">Value</th></tr></thead>
           <tbody>${rows.map(([key, value]) => `<tr><td>${escapeHtml(key)}</td><td>${value}</td></tr>`).join('')}</tbody>
         </table>
       </div>
@@ -3372,7 +3376,7 @@ function renderTablePanel(title, headers, rows) {
       <h2>${escapeHtml(title)}</h2>
       <div class="browse-table-wrap">
         <table class="browse-table">
-          <thead><tr>${headers.map((header) => `<th>${escapeHtml(header)}</th>`).join('')}</tr></thead>
+          <thead><tr>${headers.map((header) => `<th scope="col">${escapeHtml(header)}</th>`).join('')}</tr></thead>
           <tbody>${rows.map((row) => `<tr>${row.map((cell) => `<td>${cell ?? ''}</td>`).join('')}</tr>`).join('')}</tbody>
         </table>
       </div>
@@ -3387,7 +3391,7 @@ function renderInlineTable(title, headers, rows) {
       <h3>${escapeHtml(title)}</h3>
       <div class="browse-table-wrap">
         <table class="browse-table browse-table--compact">
-          <thead><tr>${headers.map((header) => `<th>${escapeHtml(header)}</th>`).join('')}</tr></thead>
+          <thead><tr>${headers.map((header) => `<th scope="col">${escapeHtml(header)}</th>`).join('')}</tr></thead>
           <tbody>${rows.map((row) => `<tr>${row.map((cell) => `<td>${cell ?? ''}</td>`).join('')}</tr>`).join('')}</tbody>
         </table>
       </div>

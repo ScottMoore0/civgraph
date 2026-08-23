@@ -1,5 +1,12 @@
 # UX remediation plan — triage
 
+> **Status: updated 2026-08-23 — the four cheap UNVERIFIED items are now settled.**
+> `T1-08`, `T2-05`, `T2-10` and `T3-02` are done, each with a test or a measurement
+> rather than a reading. Seven unverified remain: three need a real exercise
+> (`T3-04` print, `T3-05` offline, `T3-06` dialog focus) and four are grab-bags that
+> should be split into real items before anyone works them (`T3-01`, `T3-07`, `T3-08`,
+> `T3-09`). See "Closed 2026-08-23" at the end.
+>
 > **Status: current as of 2026-08-17, updated after implementing three items.**
 > `T1-06`, `T0-04b` and `T2-09` moved to done — see "Closed since triage" at the
 > end. Reconciles `UX-REMEDIATION-PLAN.md`
@@ -229,3 +236,32 @@ that there was no way past it, not that it was silent.
 `T1-07` (one media query at 320px) and `T2-06` (no feature budget) are the only
 two items left in NOT DONE. After those, the work is the eleven unverified — and
 eight of those are T3 grab-bags that need splitting before they can be worked.
+
+## Closed 2026-08-23
+
+**`T3-02` production hygiene.** All 8 `console.log`/`debug` calls removed from
+`src/ui-controller.js`; the 17 `console.warn`/`error` calls stay, because those report
+real problems. One of the eight was not hygiene at all: `showCatalogueHistory()` was
+bound to `#catalogueHistory`, a VISIBLE button in `index.html` titled "History", and its
+entire body was a `console.log`. That control has always done nothing a user could see.
+Removing the log changes nothing for them; it stops the pretence. **The button is still
+there and still does nothing** — whether to build the list UI (the entries exist, and
+back/forward already work) or drop the button is a product decision, so it is left as a
+documented stub rather than quietly hidden.
+
+**`T2-05` census layers load, or are marked.** All 14 layers in the `census` category are
+unflagged, so the catalogue promises they work. `tests/browser/census-layers-load.spec.js`
+loads every one and asserts it reaches the map. All 14 pass. Now pinned, so a layer that
+starts failing is caught rather than left looking available.
+
+**`T2-10` table semantics.** All 8 tables in `browse/browse.js` already used real
+`<table>`/`<thead>`/`<th>`, but **none had `scope`** and none had an accessible name.
+Every header cell now carries `scope="col"` (0 bare `<th>` remain) and the four tables
+with a natural name gained a `<caption class="visually-hidden">`.
+
+**`T1-08` accessible names.** Could not be closed before because the original probe output
+was gone and nobody could say which three controls were meant. Settled by re-measuring
+against a stronger claim: **no** visible interactive control may lack an accessible name.
+Measured zero, on the default view and with the panels open.
+`tests/browser/accessible-names.spec.js` keeps it that way — "we fixed the three" decays
+the moment someone adds a fourth icon-only button.
