@@ -56,7 +56,7 @@
     "maplibre",
     "vector tiles"
   ],
-  "labelProperty": "URBAN_AREA_NAME",
+  "labelProperty": null,
   "labelPropertyFallbacks": [
     "COUNTY"
   ],
@@ -236,7 +236,7 @@
     "pbfFiles": 1938,
     "maxTileBytes": 123527
   },
-  "tileUrl": "/render/pmtiles/generated/cso-urban-areas-2022-vector-test.pmtiles",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/cso-urban-areas-2022-vector-test.pmtiles",
   "tilesFallback": "/render/tiles/generated/cso-urban-areas-2022/{z}/{x}/{y}.pbf",
   "tilePackage": {
     "preferred": true,
@@ -244,9 +244,14 @@
     "url": "/render/pmtiles/generated/cso-urban-areas-2022-vector-test.pmtiles",
     "bytes": 3197378,
     "maxGithubBytes": 99614720,
-    "generatedAt": "2026-08-23T00:08:06.335Z",
+    "generatedAt": "2026-08-23T00:43:28.687Z",
     "fallback": "/render/tiles/generated/cso-urban-areas-2022/{z}/{x}/{y}.pbf",
-    "sourceSha256": "c4b21a83c54f79ca36dab213f5cac35a2efba5b7db464b47f82be567bc51fe50"
+    "sourceSha256": "c4b21a83c54f79ca36dab213f5cac35a2efba5b7db464b47f82be567bc51fe50",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/cso-urban-areas-2022-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/cso-urban-areas-2022-vector-test.pmtiles",
+    "localUrl": "/render/pmtiles/generated/cso-urban-areas-2022-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-08-23T00:45:11.808Z"
   },
   "promoteId": "URBAN_AREA_GUID",
   "idProperty": "URBAN_AREA_GUID"
