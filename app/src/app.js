@@ -1511,11 +1511,10 @@ class Test2App {
   }
 
   async loadPersonBrowseDetail(key) {
-    const persons = await this.loadBrowsePersonsIndex();
     const wanted = slugifyEntityKey(key);
     const rawName = String(key || '').split('|')[0].trim();
     const rawNameSlug = slugifyEntityKey(rawName);
-    const item = persons.find((person) => {
+    const item = await this.findBrowsePerson((person) => {
       const slugs = [
         person.slug,
         person.id,
@@ -1625,16 +1624,55 @@ class Test2App {
     }
   }
 
+  // The browse persons index was SHARDED (11,964 people across three files) and this
+  // reader was not updated. persons.json is now a 628-byte manifest with no `items`, so
+  // `payload.items` was undefined, the index resolved to [], and every person link
+  // silently failed -- openElectionEntityDetailInCatalogue returned false, the handler
+  // logged a console warning, and nothing happened on screen. Party details lost their
+  // candidate summaries to the same cause without anything reporting it.
+  //
+  // Same manifest handling as browse/browse.js:3456, which has read it correctly all
+  // along. A flat payload still works, so this does not depend on the layout staying
+  // sharded.
+  async fetchBrowseIndexItems(url) {
+    const response = await fetch(url, { cache: 'force-cache' });
+    if (!response.ok) throw new Error(`Browse index failed: ${response.status} ${url}`);
+    const payload = await response.json();
+    if (payload?.indexLayout === 'sharded' && Array.isArray(payload.shards)) {
+      const shards = await Promise.all(payload.shards.map((shard) => this.fetchBrowseIndexItems(shard.url)));
+      return shards.flat();
+    }
+    return Array.isArray(payload.items) ? payload.items : [];
+  }
+
   async loadBrowsePersonsIndex() {
     if (!this.browsePersonsIndexPromise) {
-      this.browsePersonsIndexPromise = fetch('/data/browse/persons.json', { cache: 'force-cache' })
-        .then((response) => {
-          if (!response.ok) throw new Error(`Browse persons index failed: ${response.status}`);
-          return response.json();
-        })
-        .then((payload) => Array.isArray(payload.items) ? payload.items : []);
+      this.browsePersonsIndexPromise = this.fetchBrowseIndexItems('/data/browse/persons.json');
     }
     return this.browsePersonsIndexPromise;
+  }
+
+  // Resolving ONE person should not cost the whole index. The shards total 24 MB, so
+  // walk them in order and stop at the first match -- a person click usually pays for a
+  // single shard. Falls back to the full index for a flat payload, and reuses the full
+  // index when something else has already loaded it.
+  async findBrowsePerson(matches) {
+    if (this.browsePersonsIndexPromise) {
+      const all = await this.browsePersonsIndexPromise;
+      return all.find(matches) || null;
+    }
+    const response = await fetch('/data/browse/persons.json', { cache: 'force-cache' });
+    if (!response.ok) return null;
+    const payload = await response.json();
+    if (!(payload?.indexLayout === 'sharded' && Array.isArray(payload.shards))) {
+      return (Array.isArray(payload.items) ? payload.items : []).find(matches) || null;
+    }
+    for (const shard of payload.shards) {
+      const items = await this.fetchBrowseIndexItems(shard.url).catch(() => []);
+      const hit = items.find(matches);
+      if (hit) return hit;
+    }
+    return null;
   }
 
   mapPartyBrowseItem(item, persons = []) {

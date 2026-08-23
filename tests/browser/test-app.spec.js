@@ -27,6 +27,11 @@ test('/test shell starts with main navigation and diagnostics', async ({ page })
   await expect(page.locator('#diagnostics')).toContainText('CI guardrails');
   await expect(page.locator('#diagnostics')).toContainText('Deployment Discipline');
   await expect(page.locator('#diagnostics')).toContainText('Browser resources');
+  // Wait for the controller rather than assuming it exists. Under full-suite load this
+  // evaluate ran before app init and failed with "Cannot read properties of undefined
+  // (reading 'controller')" -- passing alone, failing in company. The sibling test below
+  // already waits on __civgraphTest; this one did not.
+  await page.waitForFunction(() => window.__civgraphTest?.controller?.map?.getCenter);
   const initialCenter = await page.evaluate(() => window.__civgraphTest.controller.map.getCenter().toArray());
   expect(initialCenter[0]).toBeGreaterThan(-11);
   expect(initialCenter[0]).toBeLessThan(-5);

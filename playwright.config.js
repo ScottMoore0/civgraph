@@ -15,7 +15,7 @@ module.exports = defineConfig({
     video: 'retain-on-failure'
   },
   webServer: {
-    command: 'python -m http.server 5050',
+    command: 'python scripts/test-server.py 5050',
     url: 'http://127.0.0.1:5050',
     reuseExistingServer: true,
     timeout: 30000

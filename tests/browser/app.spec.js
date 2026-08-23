@@ -935,7 +935,10 @@ test('Trends include-all scope stays within the active election jurisdiction', a
 });
 
 test('election party and person links open full catalogue details only', async ({ page }) => {
-  test.fixme();
+  // FIXED 2026-08-23 -- a real product bug: the browse persons index had been sharded
+  // and the map app's reader still expected a flat `items` array, so every person link
+  // silently did nothing.
+
   const hash = 'layers=election-dil-ireann-2024-11-29&electionView=party&lng=-8.12&lat=53.48&zoom=7.00';
   await page.goto(`/#${hash}`);
   await page.waitForFunction(() => window.__civgraphTest2?.restorePromise, null, { timeout: 60000 });
@@ -1808,7 +1811,8 @@ test('no-id vector layers still support labels, hover, and feature details', asy
 // Worth resolving rather than deleting: this is the only coverage of the per-constituency
 // party breakdown, which is a headline feature of the election view.
 test('loads generated election entries with MapLibre styling and enriched feature details', async ({ page }) => {
-  test.fixme();
+  // FIXED 2026-08-23 -- the assertion was on the wrong election, and the feature works.
+
   await page.goto('/');
   await page.waitForFunction(() => window.__civgraphTest2?.elections?.catalogue?.elections?.length);
 
@@ -1956,7 +1960,50 @@ test('loads generated election entries with MapLibre styling and enriched featur
   await expect(page.locator('#featureInfo')).toHaveClass(/hidden/);
   await expect(page.locator('#electionPaneBack')).not.toHaveClass(/hidden/);
   await expect(page.locator('#electionResultsPane')).toContainText(/Candidate|Party|Votes/);
+  // This election is the UK general election 2024, which is SINGLE-SEAT FPTP, and the
+  // pane contract returns the FPTP table BEFORE it ever reaches the view switch
+  // (election-main-pane-contract.mjs:128). So it asserted a table this flow is designed
+  // not to render. A per-constituency PARTY breakdown of a one-seat contest would just
+  // restate the candidate list; it is meaningful for multi-seat STV, and there it does
+  // render -- see the Dail test below, where it is the default view.
+  //
+  // Assert what this flow actually produces, which is real coverage rather than a
+  // loosened version of the old claim.
+  await expect(page.locator('#electionPaneContent .election-results-table--single-seat-fptp')).toHaveCount(1);
+});
+
+test('selected STV constituency renders the per-constituency party breakdown', async ({ page }) => {
+  // The coverage the UK-GE test above was reaching for, placed on an election where the
+  // per-constituency party table applies. Measured 2026-08-23: selecting a Dail 2024
+  // constituency renders it immediately -- "By Party" is the first of four views
+  // (By Party, By Count, Transfers, Trends) and is the default.
+  await page.goto('/#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00');
+  await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
+  await page.evaluate(() => window.__civgraphTest2.restorePromise);
+  await page.waitForFunction(() => window.__civgraphTest2.app.elections?.activeBundle?.results?.length);
+
+  const selected = await page.evaluate(async () => {
+    const app = window.__civgraphTest2.app;
+    const mapController = window.__civgraphTest2.mapController;
+    await new Promise((resolve) => mapController.map.once('idle', resolve));
+    const state = app.mapController.getLayerState(app.elections.activeEntry.sourceMapId);
+    const testLayerId = state?.testLayerId;
+    const record = mapController.renderer?.layers.get(testLayerId);
+    const layerIds = [`${testLayerId}-fill`, `${testLayerId}-line`].filter((id) => mapController.map.getLayer(id));
+    const feature = mapController.map.queryRenderedFeatures({ layers: layerIds }).find((candidate) => candidate?.properties);
+    if (!record || !feature) return null;
+    // Guard the premise: if this ever became a single-seat contest the party view would
+    // be bypassed by design and the assertion below would be wrong rather than failing.
+    const isFptp = Boolean(app.elections.isSingleSeatFptpResult?.(app.elections.activeBundle.results[0]));
+    mapController.renderer.selectFeature(record.config, feature);
+    return { isFptp };
+  });
+
+  expect(selected).toBeTruthy();
+  expect(selected.isFptp).toBe(false);
   await expect(page.locator('#electionPaneContent .election-results-table--constituency-party')).toHaveCount(1);
+  // The view tabs render in the pane HEADER, not in the content pane.
+  await expect(page.locator('#electionPaneHeaderRight .election-view-tab').filter({ hasText: 'By Party' })).toHaveCount(1);
 });
 
 test('active-layers remove unloads election seat-circle markers', async ({ page }) => {
