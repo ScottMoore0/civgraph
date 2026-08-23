@@ -1,68 +1,69 @@
-# The catalogue renders nothing on first load
+# The catalogue is NOT empty — this finding was wrong
 
-> **Status: confirmed and reproducible, not diagnosed to root cause. 2026-08-23.**
-> This is written up rather than fixed because the remaining step is a real debugging
-> session, and half-fixing it would have been worse than recording it accurately.
+> **Status: WITHDRAWN, 2026-08-23.** Kept rather than deleted because the mistake is more
+> instructive than the original claim, and because it was reported as the highest-priority
+> item on the backlog. It should not have been.
 
-## What happens
+## What I claimed
 
-Load `https://civgraph.net/` (or the local server at `/`). The catalogue pane shows its
-heading, its lede, the search box and "FILTER BY PROVIDER". It shows **no maps at all**.
+That the catalogue rendered zero entries on first load: 1,012 maps known to the
+controller, the shell rendered, and no rows. I recommended fixing it before anything else,
+on the grounds that "the site's primary surface is empty on arrival".
 
-Measured after the runtime settles:
+## What is actually true
+
+`#catalogueFlatView` contains **156,920 characters of rendered HTML**. It renders:
 
 ```
-totalMaps                     1012      the controller knows about them
-[data-map-id] elements           0
-.map-card / .class-member        0
-.c1-grid-entry                   0
-#mapList / .map-list             0
-catalogue shell elements     present     catalogue-sticky-shell, catalogue-intro,
-                                         catalogueNav (4 children, no text), catalogueBack
+ELECTIONS  MAPS  BOOKS  TABLES
+1012 maps
+Elections
+2020s  2010s  2000s  1990s  1980s  1970s  1960s  1950s  1940s  1930s  1920s  1910s ...
 ```
 
-So the data is loaded, the chrome is rendered, and the list is absent.
+The catalogue is a **sectioned, drill-down interface** — top-level tabs, a count, and
+decade groupings — not a flat list of map cards. `singleSectionFlatCatalogue` is `true`.
 
-## What is not the cause
+## Why I got it wrong, which is the useful part
 
-- **Not lazy rendering pending interaction.** Calling
-  `uiController.renderFlatView(uiController._lastMapListOptions)` directly completes
-  **without throwing** and produces no rows.
-- **Not a stale test selector.** Six different selectors were probed, including
-  `[data-map-id]`, which matches anything in the DOM carrying a map id. Zero.
-- **Not the console errors.** The two `501 (Unsupported method ('POST'))` and one `404`
-  come from the local static test server, which does not implement POST. They are absent
-  in production and unrelated.
+Every probe I ran asked the same question in four different costumes:
 
-## The lead
+```
+.map-card  .class-member  .c1-grid-entry  [data-map-id]
+```
 
-`uiController.els` is **null** at the point `renderFlatView` runs. The controller's
-element references were never bound, so the render has nowhere to write and exits
-quietly. `renderFlatView` returning cleanly while doing nothing is what made this hard to
-see from the outside — and is itself worth fixing, whatever the root cause.
+All four are the markup of a **flat card list**. This catalogue does not use that markup
+at the top level, so all four returned zero, and four zeroes read as corroboration. They
+were one measurement repeated, not four independent ones.
 
-Start at whatever populates `els` on the UI controller and work out why it is unset on
-this path, then check whether `renderFlatView` should be refusing loudly when it has no
-container.
+Then two failing browser tests appeared to confirm it. They use the same selectors. They
+are not independent evidence either — they are the same assumption, written down earlier.
 
-## How it was found
+And a production screenshot seemed to clinch it. I had taken it at a viewport where the
+left pane showed the heading, the search box and "FILTER BY PROVIDER", and I read the
+absence of cards as the absence of a catalogue.
 
-Two browser tests fail on this, independently, and had been dismissed as stale:
+**The correct probe was the one I ran last: ask the container what it contains, rather
+than asking the document for a shape I expected.** `container.innerHTML.length` settled in
+one measurement what four selector counts had obscured.
 
-- `mobile-catalogue-performance.spec.js:43` — asserts a catalogue row gains a loaded
-  class; the row never exists.
-- `mobile-catalogue-performance.spec.js:264` — asserts `mapCards > 0`; receives 0.
+## What IS true, and worth keeping
 
-Both were annotated `test.fail()` on 2026-08-22 with the diagnosis "the catalogue is not
-rendered until opened". That explanation was wrong. The catalogue is not rendered at all.
+- **The two browser tests have a genuinely stale premise.** They expect a flat card list
+  at the top level. The catalogue is sectioned. Rewrite them to drill in first — do not
+  loosen the selectors, because the claim under test (a row is patched in place rather
+  than the list re-rendered) is meaningful only against a real row.
+- **`renderFlatView` returns silently when `#catalogueFlatView` is absent.** That is real
+  and worth fixing on its own: a render function that does nothing and reports nothing is
+  what let a wrong diagnosis survive as long as it did.
+- **Whether drill-down works could not be confirmed.** A scripted `.click()` on the MAPS
+  tab changed nothing, and a Playwright click timed out waiting for the element to be
+  actionable. That may be an artefact of clicking a styled non-button, or it may be a real
+  problem. **This is the open question**, and it is much narrower than "the catalogue is
+  empty".
 
-**Do not loosen either assertion to make the suite green.** They are currently the only
-automated evidence that anything is wrong.
+## The lesson
 
-## Why this matters more than its ticket size suggests
-
-If this reproduces for real visitors, the site's primary surface — a catalogue of 1,012
-maps — is empty on arrival, and every other improvement to it is invisible. Confirm
-against production in a real browser before anything else; the local server and the
-deployed site agree on every other measurement taken this week, but this one is worth
-checking directly.
+Four measurements that share an assumption are one measurement. When several checks agree
+surprisingly strongly, the thing to test is the assumption they share — not the conclusion
+they point at.

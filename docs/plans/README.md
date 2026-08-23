@@ -11,15 +11,17 @@ and stating the decision that has to be made before the work starts.
 | [`PLAN-charts-and-performance-by-party.md`](PLAN-charts-and-performance-by-party.md) | "performance by party" first, chart/infographic creator as its generalisation | nothing for part 1 |
 | [`PLAN-stv-standard.md`](PLAN-stv-standard.md) | standardised STV count data across 99 contests and two transfer rules | nothing — **and it gets more expensive the longer it waits** |
 | [`PLAN-source-mirrors-and-provenance.md`](PLAN-source-mirrors-and-provenance.md) | original-vs-derived tiers, multiple versions per listing, the eight mirror apps | licensing checks per source |
+| [`PLAN-entity-model.md`](PLAN-entity-model.md) | continuity, containment and measures on the **existing** 193,132-entity graph | nothing |
 
-## Three things that recur across all four
+## Three things that recur across all five
 
-**The entity model is underneath everything.** Composable maps need stable join keys
-across changing boundaries. Charts of one area over time need that area to be an entity.
-STV counts need candidates to be people rather than name strings. Mirrors need a graph to
-hang originals and derivations off. It is one bullet on the goals list and it is the
-foundation the other four sit on. There is no plan file for it here because it deserves
-its own design session rather than a plan written alongside four others.
+**The entity model is underneath everything — and it already exists.** When these plans
+were written I believed it was unbuilt. It is not: 193,132 entities across 18 types,
+generated on every build, including candidatures, contests, people, parties and 14,615
+geographic features. What is missing is three relations — continuity across time,
+containment, and measures — plus a graph client in the map app, which currently does not
+read the graph at all. See `PLAN-entity-model.md`. Every "blocked by entity model" note in
+the other plans means those three relations, not a greenfield build.
 
 **Build the specific thing first, then generalise.** Performance-by-party before the
 chart builder. One hand-verified STV contest before the converter. One derivation before
