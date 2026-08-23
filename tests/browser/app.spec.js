@@ -121,7 +121,7 @@ async function getMapCanvasCenter(page) {
   };
 }
 
-test('/test2 boots the production shell with the MapLibre adapter', async ({ page }) => {
+test('boots the production shell with the MapLibre adapter', async ({ page }) => {
   await page.goto('/');
   await expect(page.getByRole('link', { name: 'Civgraph' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Home', exact: true })).toBeVisible();
@@ -168,7 +168,7 @@ test('/test2 boots the production shell with the MapLibre adapter', async ({ pag
   expect(state.hasLeaflet).toBe(false);
 });
 
-test('/test2 boots centred on Ireland when URL has no viewport state', async ({ page }) => {
+test('boots centred on Ireland when URL has no viewport state', async ({ page }) => {
   await page.goto('/');
   await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
   await page.evaluate(() => window.__civgraphTest2.restorePromise);
@@ -187,7 +187,7 @@ test('/test2 boots centred on Ireland when URL has no viewport state', async ({ 
   expect(camera.zoom).toBeGreaterThan(4);
 });
 
-test('/test2 active-layer drag order persists and controls MapLibre draw order', async ({ page }) => {
+test('active-layer drag order persists and controls MapLibre draw order', async ({ page }) => {
   await page.goto('/');
   await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
   await page.evaluate(() => window.__civgraphTest2.restorePromise);
@@ -318,7 +318,7 @@ test('/test2 active-layer drag order persists and controls MapLibre draw order',
   expect(restored.indexB).toBeGreaterThan(restored.indexA);
 });
 
-test('/test2 desktop map accepts actual mouse drag and wheel zoom gestures', async ({ page }) => {
+test('desktop map accepts actual mouse drag and wheel zoom gestures', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto('/');
   await page.waitForFunction(() => window.__civgraphTest2?.mapController?.map);
@@ -374,32 +374,36 @@ test('/test2 desktop map accepts actual mouse drag and wheel zoom gestures', asy
   expect(afterWheel).toBeGreaterThan(afterDrag.zoom + 0.1);
 });
 
-// test.fail() means: run it, expect red. Remove the annotation when the finding is fixed.
+// FIXED 2026-08-23, and by a one-line cause I had misdiagnosed as a catalogue problem.
 //
-// RESTORING AN ELECTION FROM A URL LEAVES THE CATALOGUE WITH NO ACTIVE INDICATION.
-// Measured 2026-08-23 after loading #layers=election-dil-ireann-2024-11-29:
+// Restoring an election from a URL left the catalogue with no active indication, and I
+// recorded it as the TOC deferring election rows. It was not. app/src/app.js
+// setTimelineItems matched the requested item with
 //
-//   election rows rendered        0
-//   rows marked --active          0
-//   election pane present         yes
-//   after opening the 2020s decade by hand:  170 rows, still 0 active
+//   item.mapId === requested.mapId || item.timestamp === requested.timestamp
 //
-// app/src/app.js focusActiveElectionCatalogueEntry looks for a row among
-// `#catalogueFlatView .flat-election-entry`, finds none because the catalogue renders a
-// table of contents and defers election rows until a decade is chosen, retries once and
-// gives up. So the election loads on the map and the catalogue shows no sign of which one
-// it is.
+// Election timeline items carry { label, body, date } and have NEITHER field, so both
+// comparisons read `undefined === undefined`, matched the FIRST item, and the slider
+// snapped to index 0. updateElectionTimeline had computed the correct index and handed
+// it over; it was discarded one function later.
 //
-// The retry logic exists precisely because this was meant to work, so this is a
-// regression from the TOC redesign rather than a design decision.
+// Measured: loading the 2024-07-04 UK general election gave activeEntry.date
+// "2024-07-04", a 60-item timeline starting 1922-11-15, and a slider reading
+// "15 Nov 1922". Each clause now requires the field to be PRESENT on the requested item
+// before it can match, and elections match on body+date, which is their real identity.
 //
-// I tried making focusRow open the decade itself -- deriving "2020s" from the entry date,
-// clicking the matching .catalogue-flat__toc-decade-btn, then polling for the rows. It
-// did not restore the active marking, so either the click does not reach the delegated
-// handler or focusActiveElectionCatalogueEntry is not on this restore path at all. That
-// change was reverted rather than left in half-working; it needs someone who knows the
-// catalogue render lifecycle, not more guessing.
-test('/test2 restores active Dail election catalogue, viewport, labels, and party table state', async ({ page }) => {
+// The identity fix was real and is kept -- "loads generated election entries" now reads
+// the right timeline date because of it. It did NOT fix this test.
+//
+// AND THIS TEST IS ORDER-DEPENDENT, which is the more useful finding. Run alone it
+// passes; run inside the full file it times out waiting for
+// `.flat-election-entry--active`. So something earlier in the file leaves state behind
+// that stops the active row being marked -- most likely an open decade, a loaded
+// election, or a catalogue view mode that never gets reset.
+//
+// Chase the leak before chasing the assertion. A test that passes alone and fails in
+// company is not measuring what it claims to, whichever way it lands.
+test('restores active Dail election catalogue, viewport, labels, and party table state', async ({ page }) => {
   test.fail();
   await page.goto('/#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00');
   await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
@@ -492,7 +496,7 @@ test('/test2 restores active Dail election catalogue, viewport, labels, and part
   await expect(page.locator('#electionPaneContent th[data-leaf-col-idx="1"] .election-th-btn')).not.toHaveClass(/election-th-btn--active/);
 });
 
-test('/test2 election sort/filter menu stays inside a constrained viewport', async ({ page }) => {
+test('election sort/filter menu stays inside a constrained viewport', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 420 });
   await page.goto('/#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00');
   await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
@@ -508,7 +512,7 @@ test('/test2 election sort/filter menu stays inside a constrained viewport', asy
   await expectElectionFilterMenuInsideViewport(page);
 });
 
-test('/test2 FPTP Results use pane-level scrolling and candidate-only N/A deltas', async ({ page }) => {
+test('FPTP Results use pane-level scrolling and candidate-only N/A deltas', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 820 });
   await page.goto('/#layers=election-house-of-commons-of-the-united-kingdom-2024-07-04&lng=-6.8&lat=54.6&zoom=8.00');
   await page.waitForFunction(() => window.__civgraphTest2?.restorePromise, null, { timeout: 60000 });
@@ -554,7 +558,7 @@ test('/test2 FPTP Results use pane-level scrolling and candidate-only N/A deltas
   expect(state.robinPartyDelta).not.toBe('N/A');
 });
 
-test('/test2 Dail 2024 election pane matches the main DOM contract for the compared state', async ({ browser }) => {
+test('Dail 2024 election pane matches the main DOM contract for the compared state', async ({ browser }) => {
   test.setTimeout(60000);
   const context = await browser.newContext({ viewport: { width: 960, height: 920 } });
   const mainPage = await context.newPage();
@@ -599,7 +603,7 @@ test('/test2 Dail 2024 election pane matches the main DOM contract for the compa
   await context.close();
 });
 
-test('/test2 Dail election candidate and count panes follow the main pane contract', async ({ browser }) => {
+test('Dail election candidate and count panes follow the main pane contract', async ({ browser }) => {
   const context = await browser.newContext({ viewport: { width: 1120, height: 920 } });
   const mainPage = await context.newPage();
   const test2Page = await context.newPage();
@@ -655,7 +659,7 @@ test('/test2 Dail election candidate and count panes follow the main pane contra
   await context.close();
 });
 
-test('/test2 selected Dail 2024 Cork North-Central pane uses constituency source values', async ({ page }) => {
+test('selected Dail 2024 Cork North-Central pane uses constituency source values', async ({ page }) => {
   const hash = 'layers=election-dil-ireann-2024-11-29&electionSelected=cork-north-central&electionView=party&lng=-8.12&lat=53.48&zoom=7.00';
   await page.goto(`/test2/#${hash}`);
   await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
@@ -758,7 +762,7 @@ test('/test2 selected Dail 2024 Cork North-Central pane uses constituency source
   expect(transferState.nonZeroTransfers).toBeGreaterThan(0);
 });
 
-test('/test2 selected Dail 2024 Galway East pane computes constituency percentages and resizes', async ({ page }) => {
+test('selected Dail 2024 Galway East pane computes constituency percentages and resizes', async ({ page }) => {
   test.setTimeout(90000);
   const hash = 'layers=election-dil-ireann-2024-11-29&electionSelected=galway-east&electionView=party&lng=-8.12&lat=53.48&zoom=7.00';
   await page.goto(`/test2/#${hash}`);
@@ -840,7 +844,7 @@ test('/test2 selected Dail 2024 Galway East pane computes constituency percentag
   expect(afterRerender.rootCssHeight).toBe(afterResize.cssHeight);
 });
 
-test('/test2 Trends tab renders without getting stuck on loading', async ({ page }) => {
+test('Trends tab renders without getting stuck on loading', async ({ page }) => {
   test.setTimeout(90000);
   const hash = 'layers=election-dil-ireann-2024-11-29&electionView=trends&lng=-8.12&lat=53.48&zoom=7.00';
   await page.goto(`/test2/#${hash}`);
@@ -851,7 +855,7 @@ test('/test2 Trends tab renders without getting stuck on loading', async ({ page
   await expect(page.locator('#test2ElectionTrendsChart .test2-election-trends__legend-item').first()).toBeVisible();
 });
 
-test('/test2 Trends include-all scope stays within the active election jurisdiction', async ({ page }) => {
+test('Trends include-all scope stays within the active election jurisdiction', async ({ page }) => {
   test.setTimeout(90000);
   const hash = 'layers=election-dil-ireann-2024-11-29&electionView=trends&lng=-8.12&lat=53.48&zoom=7.00';
   await page.goto(`/test2/#${hash}`);
@@ -866,7 +870,7 @@ test('/test2 Trends include-all scope stays within the active election jurisdict
   }, null, { timeout: 60000 });
 });
 
-test('/test2 election party and person links open full catalogue details only', async ({ page }) => {
+test('election party and person links open full catalogue details only', async ({ page }) => {
   const hash = 'layers=election-dil-ireann-2024-11-29&electionView=party&lng=-8.12&lat=53.48&zoom=7.00';
   await page.goto(`/#${hash}`);
   await page.waitForFunction(() => window.__civgraphTest2?.restorePromise, null, { timeout: 60000 });
@@ -890,7 +894,7 @@ test('/test2 election party and person links open full catalogue details only', 
   await expect(page.locator('#electionPaneContent .election-entity-page')).toHaveCount(0);
 });
 
-test('/test2 dismisses stuck mobile thumbnail previews on outside tap', async ({ page }) => {
+test('dismisses stuck mobile thumbnail previews on outside tap', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
   await page.waitForFunction(() => window.uiController?.ensureMobileThumbnailDismissal);
@@ -907,7 +911,7 @@ test('/test2 dismisses stuck mobile thumbnail previews on outside tap', async ({
   expect(dismissed).toBe(true);
 });
 
-test('/test2 production overlay controls do not overlap MapLibre controls', async ({ page }) => {
+test('production overlay controls do not overlap MapLibre controls', async ({ page }) => {
   await page.goto('/');
   await page.waitForFunction(() => window.__civgraphTest2?.mapController?.map);
   await page.waitForSelector('#activeLayersToggle');
@@ -962,7 +966,7 @@ test('/test2 production overlay controls do not overlap MapLibre controls', asyn
   expect(Math.abs(resetBearing.pitch)).toBeLessThan(0.5);
 });
 
-test('/test2 mobile map and catalogue controls do not collide', async ({ page }) => {
+test('mobile map and catalogue controls do not collide', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
   await page.waitForFunction(() => window.__civgraphTest2?.mapController?.map);
@@ -1068,7 +1072,7 @@ test('/test2 mobile map and catalogue controls do not collide', async ({ page })
   expect(catalogueLayout.toggleHomeOverlaps).toBe(false);
 });
 
-test('/test2 mobile catalogue renders TOC first, one active section, and map gestures stay enabled', async ({ page }) => {
+test('mobile catalogue renders TOC first, one active section, and map gestures stay enabled', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
   await page.waitForFunction(() => window.__civgraphTest2?.mapController?.map);
@@ -1270,7 +1274,7 @@ test('/test2 mobile catalogue renders TOC first, one active section, and map ges
   expect(gestureState.hasTouchDragPanClass).toBe(true);
 });
 
-test('/test2 mobile map accepts actual touch pan pinch and pitch gestures', async ({ browser }) => {
+test('mobile map accepts actual touch pan pinch and pitch gestures', async ({ browser }) => {
   const context = await browser.newContext({
     baseURL: 'http://127.0.0.1:5050',
     viewport: { width: 390, height: 844 },
@@ -1445,7 +1449,7 @@ test('/test2 mobile map accepts actual touch pan pinch and pitch gestures', asyn
   }
 });
 
-test('/test2 mobile election seat-circle overlays do not block map gestures', async ({ page }) => {
+test('mobile election seat-circle overlays do not block map gestures', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   let client = null;
   await page.goto('/#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00');
@@ -1525,7 +1529,7 @@ test('/test2 mobile election seat-circle overlays do not block map gestures', as
   }
 });
 
-test('/test2 loads a converted layer through the main catalogue map callback', async ({ page }) => {
+test('loads a converted layer through the main catalogue map callback', async ({ page }) => {
   await page.goto('/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
   await loadCivilParishes(page);
@@ -1549,7 +1553,7 @@ test('/test2 loads a converted layer through the main catalogue map callback', a
   expect(new URL(page.url()).pathname).toBe('/');
 });
 
-test('/test2 Settlements 2015 has labels, hover state, and feature details', async ({ page }) => {
+test('Settlements 2015 has labels, hover state, and feature details', async ({ page }) => {
   await page.goto('/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
   await page.evaluate(async () => {
@@ -1611,17 +1615,19 @@ test('/test2 Settlements 2015 has labels, hover state, and feature details', asy
   await expect(page.locator('#featureInfoContent')).not.toContainText('Unnamed Feature');
 });
 
-test('/test2 duplicate promoted IDs do not cross-highlight distant DEAs', async ({ page }) => {
+test('duplicate promoted IDs do not cross-highlight distant DEAs', async ({ page }) => {
   await page.goto('/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
   const state = await page.evaluate(async () => {
     const app = window.__civgraphTest2.app;
     const adapter = window.__civgraphTest2.mapController;
-    const layer = window.__civgraphTest2.metadataService.getLayer('deas-1972-vector-test');
-    if (layer?.tilesFallback) {
-      layer.sourceType = 'mvt';
-      layer.tiles = layer.tilesFallback;
-    }
+    // Tested against PMTiles, which is what production serves.
+    //
+    // This used to force the layer onto its MVT dev fallback
+    // (/render/tiles/generated/deas-1972/{z}/{x}/{y}.pbf). That directory is a gitignored
+    // local artefact and is not present, so the tiles 404ed, no features rendered, and
+    // duplicateIdDetected came back false -- which read as a hover regression and is not
+    // one. Testing the dev fallback also tested a path no visitor uses.
     await app.loadMap('deas-1972');
     const map = adapter.map;
     await new Promise((resolve) => map.once('idle', resolve));
@@ -1676,7 +1682,7 @@ test('/test2 duplicate promoted IDs do not cross-highlight distant DEAs', async 
   expect(state.hoverOverlayCount).toBeGreaterThan(0);
 });
 
-test('/test2 no-id vector layers still support labels, hover, and feature details', async ({ page }) => {
+test('no-id vector layers still support labels, hover, and feature details', async ({ page }) => {
   await page.goto('/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
   await page.evaluate(async () => {
@@ -1722,7 +1728,7 @@ test('/test2 no-id vector layers still support labels, hover, and feature detail
   await expect(page.locator('#featureInfoContent')).not.toContainText('Unnamed Feature');
 });
 
-test('/test2 loads generated election entries with MapLibre styling and enriched feature details', async ({ page }) => {
+test('loads generated election entries with MapLibre styling and enriched feature details', async ({ page }) => {
   await page.goto('/');
   await page.waitForFunction(() => window.__civgraphTest2?.elections?.catalogue?.elections?.length);
 
@@ -1818,7 +1824,10 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
   expect(loaded.mainParityRenderer).toBe(true);
   expect(loaded.groupedPartyTable).toBe(true);
   expect(loaded.paneTitle).toContain('Westminster');
-  expect(loaded.headerTabs).toEqual(['By Party', 'By Candidate', 'By Local Party']);
+  // "Trends" is a tab added since this test was written. Asserting containment rather
+  // than exact equality, so adding a pane view is not a test failure -- while still
+  // catching one of the three original tabs going missing, which would be.
+  expect(loaded.headerTabs).toEqual(expect.arrayContaining(['By Party', 'By Candidate', 'By Local Party']));
   expect(loaded.headerHasStyleControl).toBe(false);
   expect(loaded.mapDisplayControl).toBe(true);
 
@@ -1870,7 +1879,7 @@ test('/test2 loads generated election entries with MapLibre styling and enriched
   await expect(page.locator('#electionPaneContent .election-results-table--constituency-party')).toHaveCount(1);
 });
 
-test('/test2 active-layers remove unloads election seat-circle markers', async ({ page }) => {
+test('active-layers remove unloads election seat-circle markers', async ({ page }) => {
   await page.goto('/#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00');
   await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
   await page.evaluate(() => window.__civgraphTest2.restorePromise);
@@ -1913,7 +1922,7 @@ test('/test2 active-layers remove unloads election seat-circle markers', async (
   expect(after.hash).not.toContain('electionBody=');
 });
 
-test('/test2 direct election unload removes the backing feature layer', async ({ page }) => {
+test('direct election unload removes the backing feature layer', async ({ page }) => {
   await page.goto('/#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00');
   await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
   await page.evaluate(() => window.__civgraphTest2.restorePromise);
@@ -1943,7 +1952,7 @@ test('/test2 direct election unload removes the backing feature layer', async ({
   expect(state.hash).not.toContain('election-dil-ireann-2024-11-29');
 });
 
-test('/test2 ROI elections use ROI-wide aggregate percent labels', async ({ page }) => {
+test('ROI elections use ROI-wide aggregate percent labels', async ({ page }) => {
   await page.goto('/#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00');
   await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
   await page.evaluate(() => window.__civgraphTest2.restorePromise);
@@ -1970,7 +1979,7 @@ test('/test2 ROI elections use ROI-wide aggregate percent labels', async ({ page
   expect(labels.entityText).not.toContain('% of NI');
 });
 
-test('/test2 DOM seat circles keep main-style fixed dots while zooming', async ({ page }) => {
+test('DOM seat circles keep main-style fixed dots while zooming', async ({ page }) => {
   await page.goto('/#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00');
   await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
   await page.evaluate(() => window.__civgraphTest2.restorePromise);
@@ -2020,7 +2029,7 @@ test('/test2 DOM seat circles keep main-style fixed dots while zooming', async (
   }
 });
 
-test('/test2 DOM seat circles stay anchored while panning', async ({ page }) => {
+test('DOM seat circles stay anchored while panning', async ({ page }) => {
   await page.goto('/#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00');
   await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
   await page.evaluate(() => window.__civgraphTest2.restorePromise);
@@ -2067,7 +2076,7 @@ test('/test2 DOM seat circles stay anchored while panning', async ({ page }) => 
   expect(Math.abs(samples.during.groupCenter.x - samples.before.groupCenter.x)).toBeGreaterThan(5);
 });
 
-test('/test2 election bundles cover representative main-site election types', async ({ page }) => {
+test('election bundles cover representative main-site election types', async ({ page }) => {
   await page.goto('/');
   await page.waitForFunction(() => window.__civgraphTest2?.elections?.catalogue?.elections?.length);
 
@@ -2130,7 +2139,7 @@ test('/test2 election bundles cover representative main-site election types', as
   expect(coverage.recallOrPlaceholder).toBeTruthy();
 });
 
-test('/test2 election pane supports local-government aggregates and detailed counts', async ({ page }) => {
+test('election pane supports local-government aggregates and detailed counts', async ({ page }) => {
   await page.goto('/');
   await page.waitForFunction(() => window.__civgraphTest2?.elections?.catalogue?.elections?.length);
 
@@ -2275,7 +2284,7 @@ test('/test2 election pane supports local-government aggregates and detailed cou
   expect(state.after).toMatch(/Valid votes|transfer|Count/i);
 });
 
-test('/test2 supports catalogue detail, unsupported notices, and URL restore', async ({ page }) => {
+test('supports catalogue detail, unsupported notices, and URL restore', async ({ page }) => {
   await page.goto('/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
   await page.locator('#searchInput').fill('civil parishes');
@@ -2302,7 +2311,7 @@ test('/test2 supports catalogue detail, unsupported notices, and URL restore', a
   await expect(page.locator('#test2Status')).toContainText(/converted/i);
 });
 
-test('/test2 restores and persists detail, source, hidden layer, and panel URL state', async ({ page }) => {
+test('restores and persists detail, source, hidden layer, and panel URL state', async ({ page }) => {
   const hash = [
     'layers=civil-parishes-by-province',
     'hidden=civil-parishes-by-province',
@@ -2375,7 +2384,7 @@ test('/test2 restores and persists detail, source, hidden layer, and panel URL s
   await expect(page).not.toHaveURL(/activePanel=1/);
 });
 
-test('/test2 loads converted child layers for main catalogue composite parents', async ({ page }) => {
+test('loads converted child layers for main catalogue composite parents', async ({ page }) => {
   await page.goto('/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
   const result = await page.evaluate(async () => {
@@ -2454,7 +2463,7 @@ test('/test2 loads converted child layers for main catalogue composite parents',
   expect(result.fitted.length).toBeGreaterThanOrEqual(1);
 });
 
-test('/test2 adapter supports overlays, partial features, and rich loaded-feature payloads', async ({ page }) => {
+test('adapter supports overlays, partial features, and rich loaded-feature payloads', async ({ page }) => {
   await page.goto('/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
 
@@ -2573,7 +2582,7 @@ test('/test2 adapter supports overlays, partial features, and rich loaded-featur
   expect(partialState.expandedBaseLoaded).toBe(true);
 });
 
-test('/test2 hash-only shell links and legacy hash writers preserve the test2 path', async ({ page }) => {
+test('hash-only shell links and legacy hash writers preserve the test2 path', async ({ page }) => {
   await page.goto('/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
 
@@ -2590,7 +2599,7 @@ test('/test2 hash-only shell links and legacy hash writers preserve the test2 pa
   await expect(page).toHaveURL(/#manual-push-state$/);
 });
 
-test('/test2 MapLibre controls handle opacity, labels, feature details, and active layers', async ({ page }) => {
+test('MapLibre controls handle opacity, labels, feature details, and active layers', async ({ page }) => {
   await page.goto('/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
   await loadCivilParishes(page);
@@ -2777,7 +2786,7 @@ test('/test2 MapLibre controls handle opacity, labels, feature details, and acti
   await expect(page.locator('#featureInfoContent')).not.toContainText('Unnamed Feature');
 });
 
-test('/test2 mobile-sized feature taps select geometry without double-tap zoom', async ({ page }) => {
+test('mobile-sized feature taps select geometry without double-tap zoom', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
@@ -2840,7 +2849,7 @@ test('/test2 mobile-sized feature taps select geometry without double-tap zoom',
   expect(Math.abs(zoomAfter - target.zoom)).toBeLessThan(0.25);
 });
 
-test('/test2 mobile shell, support modal, theme toggle, and accessibility smoke pass', async ({ page }) => {
+test('mobile shell, support modal, theme toggle, and accessibility smoke pass', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);

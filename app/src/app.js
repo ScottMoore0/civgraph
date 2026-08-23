@@ -2068,10 +2068,31 @@ class Test2App {
       return;
     }
     const requestedItem = Array.isArray(items) ? items[Number(activeIndex)] : null;
-    const requestedIndex = this.timelineItems.findIndex((item) => Boolean(requestedItem) && (
-      item.mapId === requestedItem.mapId
-      || item.timestamp === requestedItem.timestamp
-    ));
+
+    /**
+     * Identity must not be satisfied by two undefined values.
+     *
+     * The previous predicate was `item.mapId === requested.mapId || item.timestamp ===
+     * requested.timestamp`. Election timeline items carry `{ label, body, date }` and have
+     * NEITHER field, so both comparisons read `undefined === undefined`, matched the FIRST
+     * item, and the slider silently snapped to index 0.
+     *
+     * Measured 2026-08-23: loading the 2024-07-04 UK general election gave
+     * activeEntry.date "2024-07-04", a 60-item timeline starting 1922-11-15, and a slider
+     * reading "15 Nov 1922" at index 0. updateElectionTimeline computed the right index
+     * and handed it over; it was discarded here.
+     *
+     * Each clause now requires the field to be present on the requested item before it
+     * can match, and elections match on body+date, which is their actual identity.
+     */
+    const sameTimelineItem = (item, requested) => {
+      if (!item || !requested) return false;
+      if (requested.mapId != null) return item.mapId === requested.mapId;
+      if (requested.timestamp != null) return item.timestamp === requested.timestamp;
+      if (requested.date != null) return item.date === requested.date && item.body === requested.body;
+      return false;
+    };
+    const requestedIndex = this.timelineItems.findIndex((item) => sameTimelineItem(item, requestedItem));
     const safeIndex = this.clampTimelineIndex(requestedIndex >= 0 ? requestedIndex : activeIndex);
     range.min = '0';
     range.max = String(this.timelineItems.length - 1);
