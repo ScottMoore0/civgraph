@@ -418,3 +418,22 @@ data/database/catalogue-d1-import.sql
 # here until it has been reviewed and its rights established, at which point the
 # reviewed OUTPUT goes through the normal publication gate -- not these files.
 data/quarantine/
+
+# Source books — R2 is the canonical store, Internet Archive is the public mirror.
+#
+# 365 MB of Hansard OCR (213 MB) and NI Acts/SRO PDFs (152 MB), uploaded 2026-08-23 to
+# s3://boundaries-data/data/books/ and to archive.org items civgraph-ni-hansard-1921-1945
+# and civgraph-ni-acts-sro-1921-1932. books.json points `file` and `markdownFile` at
+# https://data.civgraph.net/..., and check:book-files verifies every remote URL is on
+# that host and under an allowlisted prefix.
+#
+# UNTRACKED rather than only .cfignore'd because .cfignore did not exclude them: both
+# directories still served 200 from Pages after two confirmed deploys (the same commit's
+# books.json change WAS live), while `scripts/` and `ocr_output/` in the same file are
+# correctly excluded. Rather than keep guessing at the matcher, this removes them from
+# the build input entirely -- which is also what stops the pack growing, since these were
+# its largest churning blobs.
+#
+# They remain in git history, on R2 and on Internet Archive. Nothing is lost.
+data/books/markdown/
+data/books/legislation/
