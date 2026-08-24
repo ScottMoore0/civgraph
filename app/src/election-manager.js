@@ -332,6 +332,12 @@ export class Test2ElectionManager {
     this.announceUnmatchedGeography(entry);
     this.app.syncCatalogueMapState();
     this.app.updateActiveLayers();
+    // UX plan T3-08 (#96). loadMap fitted the map BEFORE this panel opened, and opening
+    // it halves the map: measured at 1280x800, the container goes 736px -> 374px while
+    // the camera keeps its zoom, so the view loses 2.3 degrees of latitude and the
+    // southern third of an all-island election falls outside it. Re-fit now that the
+    // pane has taken its space.
+    this.app.refitAfterElectionPane?.(entry.sourceMapId);
     this.app.focusActiveElectionCatalogueEntry?.(entry, { scroll: false });
     this.app.updateURLState();
   }

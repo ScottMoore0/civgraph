@@ -380,9 +380,14 @@ test('desktop map accepts actual mouse drag and wheel zoom gestures', async ({ p
 
   await page.mouse.move(center.x, center.y);
   await page.mouse.wheel(0, -600);
-  await page.waitForTimeout(650);
-  const afterWheel = await page.evaluate(() => window.__civgraphTest2.mapController.map.getZoom());
-  expect(afterWheel).toBeGreaterThan(afterDrag.zoom + 0.1);
+  // POLL rather than wait a fixed 650ms. Wheel zoom is animated, so under suite load the
+  // camera had not moved at all when the fixed wait expired -- afterWheel came back equal
+  // to afterDrag.zoom, which reads as "the wheel does nothing" rather than "the wheel is
+  // still easing". The claim is that the wheel zooms in; how long the ease takes is not
+  // part of it.
+  await expect
+    .poll(() => page.evaluate(() => window.__civgraphTest2.mapController.map.getZoom()), { timeout: 10000 })
+    .toBeGreaterThan(afterDrag.zoom + 0.1);
 });
 
 // FIXED 2026-08-23, and by a one-line cause I had misdiagnosed as a catalogue problem.

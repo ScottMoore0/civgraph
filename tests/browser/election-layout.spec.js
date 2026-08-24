@@ -4,24 +4,22 @@ const { test, expect } = require('@playwright/test');
 // are already correct, so these are guards rather than fixes. Recorded because the plan
 // still lists them and the next reader would otherwise re-investigate.
 
-// test.fixme(): known broken, measurement recorded. NOT a stale expectation.
+// FIXED 2026-08-24. The fit was never broken; the RESIZE after it was unhandled.
 //
-// The camera DOES move on load -- zoom 6.08 -> 5.21 on a cold start -- so the refit is
-// wired up and partly works. It does not FIT: the resulting view's south edge is
-// 53.4296 while the Dail 2024 layer's south edge is 51.8890, deterministically, across
-// three different starting states (leftover layers, a reset camera, and a re-measured
-// container). So roughly the southern third of the country is off-screen after loading
-// an all-island election.
+// Measured through the load at 1280x800: before the results pane opens the map is 736px
+// tall and the view already contains the whole layer (south edge 51.168 against the
+// layer's 51.389). The pane then opens, the container halves to 374px, and MapLibre keeps
+// the camera exactly where it was -- so the view loses 2.3 degrees of latitude, south
+// edge 53.430, and the southern third of an all-island election is off-screen. That is
+// what "12 of 18 constituencies below the fold" was describing.
 //
-// My earlier "17 of 18 seat circles visible" reading was a WEAKER check that happened to
-// look fine: seat circles cluster where the seats are, not at the layer's extremes, so
-// counting them does not test containment.
+// app.refitAfterElectionPane() re-fits once the pane has taken its space. After: zoom
+// 6.10 -> 4.96, south edge 50.879, layer contained.
 //
-// Left failing rather than loosened, because the plan's finding -- "12 of 18
-// constituencies below the fold" -- is describing this, and the fix belongs in whatever
-// computes the fit (very likely a padding or container-height term), not in the test.
+// My earlier "17 of 18 seat circles visible" reading was a WEAKER check that looked fine
+// while this was broken: seat circles cluster where the seats are, not at the layer's
+// extremes, so counting them never tested containment.
 test('T3-08 · loading an election refits the map to its constituencies', async ({ page }) => {
-  test.fixme();
   test.setTimeout(120000);
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto('/');

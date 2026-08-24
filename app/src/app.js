@@ -481,6 +481,31 @@ class Test2App {
     setTimeout(() => this.mapController?.invalidateSize?.(), 250);
   }
 
+  /**
+   * Re-fit the map once the election results pane has taken its space.
+   *
+   * UX plan T3-08 (#96), "12 of 18 constituencies below the fold". The fit itself was
+   * never broken -- loadMap fits correctly, and measured before the pane opens the view
+   * contains the whole layer (south edge 51.168 against the layer's 51.389). The pane
+   * then opens, the map container goes from 736px to 374px at 1280x800, and MapLibre
+   * keeps the camera where it was. The view loses 2.3 degrees of latitude and the
+   * southern third of an all-island election is simply off-screen.
+   *
+   * So this is a RE-fit after a resize, not a first fit.
+   *
+   * SKIPPED WHILE RESTORING FROM A URL. A viewport in the URL is an explicit request and
+   * must win; re-fitting would silently discard the lng/lat/zoom someone shared.
+   */
+  refitAfterElectionPane(sourceMapId) {
+    if (!sourceMapId || this._restoringURLState) return;
+    const map = this.mapController?.map;
+    if (!map) return;
+    // Measure the container first. Without this the fit is computed against the
+    // pre-pane height and lands in exactly the place this exists to correct.
+    map.resize();
+    this.mapController.fitToLayer?.(sourceMapId);
+  }
+
   updateMobilePaneToggleState() {
     const toggle = document.getElementById('mobilePaneToggle');
     if (!toggle) return;
