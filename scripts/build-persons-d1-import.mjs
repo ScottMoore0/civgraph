@@ -60,6 +60,28 @@ const q = (value) => (value === undefined || value === null
 const n = (value) => (Number.isFinite(Number(value)) ? Number(value) : 'NULL');
 const j = (value) => (value === undefined ? 'NULL' : `'${JSON.stringify(value).replace(/'/g, "''")}'`);
 
+/**
+ * The key the CLIENT looks a person up by -- not the same string as `slug`.
+ *
+ * app.js derives its entity key with slugifyEntityKey(), which strips a "name:" prefix.
+ * So the stored slug is "name-simon-harris" while the app asks for "simon-harris". A
+ * lookup keyed on `slug` alone therefore 404s for every person, and the client falls
+ * back to the 24 MB shard scan -- working, visibly, while doing the exact thing this
+ * migration exists to remove. That is the same silent-wrong-path failure as the original
+ * bug, so the key is stored explicitly rather than reconstructed in SQL.
+ *
+ * Kept character-for-character identical to slugifyEntityKey in app/src/app.js.
+ */
+const entityKey = (value) => String(value || '')
+  .split('|')[0]
+  .normalize('NFKD')
+  .replace(/[̀-ͯ]/g, '')
+  .toLowerCase()
+  .replace(/^(party|candidate|person|name):/, '')
+  .replace(/&/g, ' and ')
+  .replace(/[^a-z0-9]+/g, '-')
+  .replace(/^-+|-+$/g, '');
+
 /** Read the sharded index the same way browse.js does, so this cannot drift from it. */
 function readPersons() {
   const manifest = JSON.parse(readFileSync(MANIFEST, 'utf8'));
@@ -96,6 +118,8 @@ lines.push(`CREATE TABLE browse_persons (
   -- Lower-cased name, so a lookup can be case-insensitive without a scan. SQLite's
   -- LIKE is case-insensitive for ASCII only, and these names carry fadas.
   name_norm              TEXT,
+  -- The key app.js actually looks up by. See entityKey() above: it is NOT the slug.
+  key_norm               TEXT,
   first_year             INTEGER,
   last_year              INTEGER,
   name_count             INTEGER,
@@ -106,14 +130,16 @@ lines.push(`CREATE TABLE browse_persons (
 // ord preserves the source array order. Browse relies on index ordering in places, and
 // ORDER BY slug would silently reshuffle the whole list.
 lines.push('CREATE INDEX idx_browse_persons_name_norm ON browse_persons(name_norm);');
+lines.push('CREATE INDEX idx_browse_persons_key_norm ON browse_persons(key_norm);');
 lines.push('CREATE INDEX idx_browse_persons_years ON browse_persons(first_year, last_year);');
 lines.push('CREATE INDEX idx_browse_persons_id ON browse_persons(id);');
 lines.push('');
 
-const cols = '(slug, id, name, name_norm, first_year, last_year, name_count, related_election_count, ord, record)';
+const cols = '(slug, id, name, name_norm, key_norm, first_year, last_year, name_count, related_election_count, ord, record)';
 const rowSql = (p, ord) => `(${[
   q(p.slug), q(p.id), q(p.name || p.title),
   q(String(p.name || p.title || '').toLowerCase()),
+  q(entityKey(p.name || p.title || p.slug)),
   n(p.firstYear), n(p.lastYear), n(p.nameCount), n(p.relatedElectionCount),
   ord, j(p),
 ].join(', ')})`;
@@ -150,6 +176,7 @@ const writeChunked = (person, ord) => {
   lines.push(`INSERT INTO browse_persons ${cols} VALUES (${[
     q(person.slug), q(person.id), q(person.name || person.title),
     q(String(person.name || person.title || '').toLowerCase()),
+    q(entityKey(person.name || person.title || person.slug)),
     n(person.firstYear), n(person.lastYear), n(person.nameCount), n(person.relatedElectionCount),
     ord, esc(parts[0]),
   ].join(', ')});`);

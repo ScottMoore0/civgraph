@@ -34,7 +34,7 @@ import { reportError } from '../_error.js';
 // Bump when the RESPONSE SHAPE changes, not just when the data does. It is part of the
 // edge cache key and responses carry s-maxage, so a shape change without a bump keeps
 // serving the old shape to clean URLs while cache-busted ones show the new one.
-const CACHE_VERSION = 'persons-1';
+const CACHE_VERSION = 'persons-2';
 
 const MAX_LIMIT = 200;
 const DEFAULT_LIMIT = 50;
@@ -80,7 +80,18 @@ export async function onRequestGet(context) {
     // a miss is a 404, not an empty list, so the caller can tell "no such person" from
     // "the index failed to load".
     if (slug) {
-      const row = await db.prepare('SELECT record FROM browse_persons WHERE slug = ?1').bind(slug).first();
+      // MATCH THREE WAYS. The client's key is not the stored slug: app.js strips a
+      // "name:" prefix when it derives an entity key, so it asks for "simon-harris"
+      // while the row is "name-simon-harris". Matching on `slug` alone 404s for every
+      // person and sends the client back to the 24 MB shard scan -- working visibly
+      // while doing the exact thing this endpoint exists to stop. key_norm is stored
+      // for that reason; id is included because some callers hold "name:...".
+      const row = await db
+        .prepare(`SELECT record FROM browse_persons
+                  WHERE key_norm = ?1 OR slug = ?1 OR id = ?1
+                  LIMIT 1`)
+        .bind(slug)
+        .first();
       const person = parse(row);
       if (!person) return json({ error: 'person not found', slug }, 404, false);
       return json({ person });
