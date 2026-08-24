@@ -1633,7 +1633,7 @@ class Test2App {
         if (!response.ok) continue;
         const detail = await response.json();
         const item = detail.item || detail;
-        const persons = await this.loadBrowsePersonsIndex();
+        const persons = await this.loadPartyPersons(item);
         return this.mapPartyBrowseItem(item, persons);
       } catch (error) {
         console.warn('[Test2] Party Browse detail unavailable', candidateSlug, error);
@@ -1642,10 +1642,35 @@ class Test2App {
     return null;
   }
 
+  /**
+   * One person, by key. Served from D1 (/_api/persons?slug=), not from the shards.
+   *
+   * The entity key arrives as either a slug or "Name|Party", so two candidate slugs are
+   * tried. The endpoint 404s honestly on a miss, which the shard walk could not do -- it
+   * could not tell "no such person" from "the index failed to load", and on 2026-08-23
+   * it silently returned the latter for every person on the site.
+   *
+   * Falls back to the static shards if the endpoint is unavailable, so a Functions
+   * outage degrades rather than breaks. The fallback is deliberately second: it is the
+   * slow path (24 MB of shards) and should never be the normal one.
+   */
   async loadPersonBrowseDetail(key) {
     const wanted = slugifyEntityKey(key);
     const rawName = String(key || '').split('|')[0].trim();
     const rawNameSlug = slugifyEntityKey(rawName);
+
+    for (const slug of [...new Set([wanted, rawNameSlug].filter(Boolean))]) {
+      try {
+        const response = await fetch(`/_api/persons?slug=${encodeURIComponent(slug)}`, { cache: 'force-cache' });
+        if (response.status === 404) continue;          // a real miss; try the other slug
+        if (!response.ok) break;                        // endpoint trouble; use the fallback
+        const payload = await response.json();
+        if (payload?.person) return this.mapPersonBrowseItem(payload.person);
+      } catch {
+        break;
+      }
+    }
+
     const item = await this.findBrowsePerson((person) => {
       const slugs = [
         person.slug,
@@ -1656,6 +1681,36 @@ class Test2App {
       return slugs.includes(wanted) || (rawNameSlug && slugs.includes(rawNameSlug));
     });
     return item ? this.mapPersonBrowseItem(item) : null;
+  }
+
+  /**
+   * The persons who stood for one party, for its candidate summaries.
+   *
+   * buildPartyCandidateSummaries() matches on a party's aliases -- canonical name, title,
+   * observed names, known aliases -- so all of them are sent and the existing client-side
+   * filter is left untouched. That keeps the summary logic identical while replacing a
+   * 24 MB download with a query returning the handful of people it actually needs.
+   */
+  async loadPartyPersons(item = {}) {
+    const aliases = [...new Set([
+      item.canonicalName,
+      item.title,
+      ...(item.observedNames || []),
+      ...(item.knownAliases || []),
+    ].filter(Boolean))];
+    if (!aliases.length) return [];
+    const params = new URLSearchParams();
+    for (const alias of aliases) params.append('party', alias);
+    params.set('limit', '200');
+    try {
+      const response = await fetch(`/_api/persons?${params}`, { cache: 'force-cache' });
+      if (response.ok) {
+        const payload = await response.json();
+        if (Array.isArray(payload?.persons)) return payload.persons;
+      }
+    } catch { /* fall through */ }
+    // Same degradation as above: the whole index, only when the endpoint is unavailable.
+    return this.loadBrowsePersonsIndex().catch(() => []);
   }
 
   async loadAreaBrowseDetail(kind, key) {
