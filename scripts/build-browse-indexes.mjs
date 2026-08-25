@@ -1153,9 +1153,33 @@ function buildParties(partyIds, electionDetails) {
   return { parties: items, partyDetails: details };
 }
 
+/**
+ * A referendum has OPTIONS, not candidates.
+ *
+ * buildPersons walks every candidate row and mints a person from the name, which for a
+ * referendum means "Yes" and "No" become people. Measured 2026-08-24: those two entries
+ * had accumulated 1,207 elections each and weighed 437 KB apiece, against a median
+ * person record of 0.9 KB -- they were the only two rows in the whole 11,964-person
+ * index too large for a single D1 statement, and had to be written in chunks.
+ *
+ * The size was the symptom. The defect is that they are not people: they appear in the
+ * persons index, in person search, and as linkable entities from election panes, where
+ * clicking "Yes" offers a biography of a referendum option.
+ *
+ * Detected the same way the runtime does (election-manager.js isReferendumElection):
+ * by looking for "referendum" across the contest type, body and key, so one rule governs
+ * both and they cannot disagree.
+ */
+function isReferendumElection(election, key) {
+  return [election?.contestType, election?.type, election?.body, key]
+    .some((value) => String(value || '').toLowerCase().includes('referendum'));
+}
+
 function buildPersons(electionDetails) {
   const byId = new Map();
+  let referendumsSkipped = 0;
   for (const [key, election] of electionDetails) {
+    if (isReferendumElection(election, key)) { referendumsSkipped += 1; continue; }
     const context = {
       key,
       title: cleanText(election.displayTitle || canonicalElectionTitle(election) || election.body || key),
@@ -1250,6 +1274,9 @@ function buildPersons(electionDetails) {
     relatedElectionCount: person.elections.length
   })).sort((a, b) => (b.totals.elected - a.totals.elected) || (b.totals.stood - a.totals.stood) || a.title.localeCompare(b.title));
 
+  if (referendumsSkipped) {
+    console.log(`- persons: skipped ${referendumsSkipped} referendum(s); their options are not people`);
+  }
   return { persons: items, personDetails: details };
 }
 

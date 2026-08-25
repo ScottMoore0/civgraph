@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Regenerate the persons SQL and load it into civgraph-elections, in one command.
+ * Regenerate the browse index SQL and load it into civgraph-elections, in one command.
  *
  * Same shape and the same reasoning as deploy-catalogue-d1.mjs. The lesson that script
  * records is worth repeating here rather than relearning: `check:` proving the generated
@@ -12,7 +12,8 @@
  * scripts require), wrangler tries to use them for D1 and fails with a bare
  * "Authentication error [code: 10000]". They are cleared for this call.
  *
- *   npm run deploy:persons
+ *   npm run deploy:browse-indexes            # all three
+ *   npm run deploy:browse-indexes sources    # one
  */
 import { spawnSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
@@ -39,19 +40,24 @@ function run(label, command, args, env, useShell = false) {
   }
 }
 
-run('Regenerate the persons SQL from the browse index',
-  process.execPath, ['scripts/build-persons-d1-import.mjs']);
+const ENTITIES = process.argv.slice(2).filter((a) => !a.startsWith('--'));
+const names = ENTITIES.length ? ENTITIES : ['persons', 'register-interests', 'sources'];
+
+run('Regenerate the browse index SQL',
+  process.execPath, ['scripts/build-browse-index-d1-import.mjs', ...names]);
 
 const clean = { ...process.env };
 for (const key of ['CLOUDFLARE_API_TOKEN', 'CLOUDFLARE_ACCOUNT_ID', 'AWS_ACCESS_KEY_ID', 'AWS_SECRET_ACCESS_KEY']) {
   delete clean[key];
 }
 
-run('Load it into D1',
-  process.platform === 'win32' ? 'npx.cmd' : 'npx',
-  ['wrangler', 'd1', 'execute', 'civgraph-elections', '--remote',
-    '--file=data/database/persons-d1-import.sql', '-y'],
-  clean, true);
+for (const name of names) {
+  run(`Load ${name} into D1`,
+    process.platform === 'win32' ? 'npx.cmd' : 'npx',
+    ['wrangler', 'd1', 'execute', 'civgraph-elections', '--remote',
+      `--file=data/database/${name}-d1-import.sql`, '-y'],
+    clean, true);
+}
 
 // Verify rather than assume. A load that reports success and an endpoint that serves the
 // old rows look identical from here.

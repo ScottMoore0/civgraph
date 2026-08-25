@@ -442,6 +442,25 @@ async function renderCurrent() {
   state.currentDetail = null;
   setHero(config, null);
   els.results.innerHTML = '<div class="browse-loading">Loading browse data...</div>';
+
+  // A DEEP LINK TO ONE RECORD SHOULD NOT COST THE WHOLE INDEX.
+  //
+  // findItem() searches an in-memory list, so opening #/sources/<slug> used to require
+  // loadIndex() first -- 51 MB across nine shards to read one record. persons and
+  // register-interests had the same shape for the same reason: each was sharded only
+  // because a single file breached Cloudflare Pages' 25 MB per-file limit.
+  //
+  // Those three now live in D1, so ask for the one record. Falls through to the index if
+  // the endpoint is unavailable, so a Functions outage degrades rather than breaks -- and
+  // the fallback is deliberately second, because it is the slow path.
+  if (state.activeId && D1_INDEXES.has(state.activeType)) {
+    const item = await fetchIndexRecord(state.activeType, state.activeId);
+    if (item) {
+      await renderDetail(state.activeType, item);
+      return;
+    }
+  }
+
   const data = await loadIndex(state.activeType);
   if (state.activeType === 'features') {
     await renderFeatureGroups(data);
@@ -3451,6 +3470,29 @@ function renderListPage(items, renderItem) {
 function renderFilterSummary(count, total) {
   const suffix = state.query ? ` matching "${escapeHtml(state.query)}"` : '';
   return `<p class="browse-description">${formatNumber(count)} of ${formatNumber(total)} records${suffix}.</p>`;
+}
+
+// Browse indexes that have a D1 endpoint. The rest are still read as static files,
+// which is correct: features, maps, elections and parties are small enough that a whole
+// index is a reasonable download and the client filters it locally.
+const D1_INDEXES = new Set(['persons', 'sources', 'register-interests']);
+
+/**
+ * One record from D1, or null to fall back to the static index.
+ *
+ * Returns null on ANY failure -- a 404, a 500, an outage -- because the caller's fallback
+ * is correct in all three cases. Distinguishing them here would only let the page fail
+ * where it could instead be slow.
+ */
+async function fetchIndexRecord(type, id) {
+  try {
+    const response = await fetch(`/_api/${type}?slug=${encodeURIComponent(id)}`);
+    if (!response.ok) return null;
+    const payload = await response.json();
+    return payload.record || null;
+  } catch {
+    return null;
+  }
 }
 
 async function loadIndex(type) {
