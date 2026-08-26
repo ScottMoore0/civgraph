@@ -2452,7 +2452,10 @@ test('restores and persists detail, source, hidden layer, and panel URL state', 
     'source=civil-parishes-by-province',
     'activePanel=1',
     'controls=1',
-    'base=cartodb-positron',
+    // A basemap that is NOT the default, so 'the URL was honoured' is provable.
+    // Was cartodb-positron until 2026-08-26; CARTO now watermarks every tile
+    // without an API key, so those options were removed from the picker.
+    'base=opentopomap',
     'lng=-7.20',
     'lat=53.35',
     'zoom=6.25'
@@ -2473,7 +2476,7 @@ test('restores and persists detail, source, hidden layer, and panel URL state', 
   await expect(page.locator('#activeLayersList')).toContainText('Civil Parishes');
   await expect(page.locator('#activeLayersList .test2-source-btn').first()).toBeVisible();
   await expect(page.locator('#mapControlPanel')).toHaveClass(/map-control-panel--expanded/);
-  await expect(page.locator('#baseMapSelect')).toHaveValue('cartodb-positron');
+  await expect(page.locator('#baseMapSelect')).toHaveValue('opentopomap');
 
   const restored = await page.evaluate(() => {
     const app = window.__civgraphTest2.app;

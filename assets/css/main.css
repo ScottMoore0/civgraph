@@ -2046,7 +2046,15 @@ button.catalogue-flat__toc-toplink {
 /* T1-05: the catalogue heading and lede. Sized to read as a page heading without
    crowding the search field beneath it; the muted colour is the darkened value from
    T1-04 so it still clears 4.5:1 on the pane background. */
+/* FULL WIDTH, ABOVE EVERYTHING ELSE.
+   .catalogue-sticky-shell is a two-column grid (minmax(0,1fr) auto) and it has THREE
+   children: this intro, the search box and the catalogue nav. Without an explicit span
+   the intro took column 1, the search box took column 2 beside it, and the nav wrapped
+   to a second row -- which is how the search bar ended up jammed against the blurb and
+   the buttons stranded underneath. Spanning every column puts the blurb on its own row
+   and lets the search and nav share the row below, as they did before the blurb existed. */
 .catalogue-intro {
+  grid-column: 1 / -1;
   padding: 0 0 10px;
 }
 
@@ -2055,6 +2063,10 @@ button.catalogue-flat__toc-toplink {
   font-size: 1.05rem;
   font-weight: 700;
   line-height: 1.25;
+  /* --color-primary is #1a365d and is NOT overridden in dark mode, so the heading kept
+     rendering dark navy on a #0f1419 panel -- present, and effectively unreadable. The
+     dark rule below restores the brand tint at a legible lightness rather than dropping
+     to plain white, so the heading still reads as a heading. */
   color: var(--color-primary, #1a365d);
 }
 
@@ -2062,7 +2074,19 @@ button.catalogue-flat__toc-toplink {
   margin: 0;
   font-size: 0.82rem;
   line-height: 1.4;
-  color: #5A6678;
+  /* Was hardcoded #5A6678, which adapts to nothing. --color-text-muted is defined for
+     both themes (#718096 light, #8b949e dark). */
+  color: var(--color-text-muted, #5A6678);
+}
+
+[data-theme="dark"] .catalogue-intro__heading {
+  color: #9ec5fe;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .catalogue-intro__heading {
+    color: #9ec5fe;
+  }
 }
 
 @media (max-width: 640px) {

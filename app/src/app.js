@@ -3117,20 +3117,27 @@ class Test2App {
   }
 
   /**
-   * T1-06: follow the theme with the basemap, unless the user has picked one.
+   * Keep the basemap on OpenStreetMap.
    *
-   * In dark mode the UI went to #0F1419 while the basemap stayed fully light — a
-   * white landmass beside a black panel. The dark basemaps were already shipped
-   * (`cartodb-dark`, `cartodb-dark-nolabels` in maplibre-main-adapter.js); nothing
-   * connected them to the toggle.
+   * T1-06 originally made this follow the theme, switching to `cartodb-dark` in dark
+   * mode so a white landmass did not sit beside a black panel. That is no longer
+   * possible: CARTO's basemaps now require an API key, and rather than failing they
+   * serve tiles with "API KEY REQUIRED — carto.com/basemaps/apikey" printed across
+   * every one. Measured 2026-08-26: those requests return HTTP 200, so nothing in the
+   * app could detect it -- the map simply rendered the watermark, and looked broken to
+   * every visitor in dark mode.
    *
-   * Returns the id it applied, or null if it declined, so the caller and the tests
-   * can tell "followed the theme" from "respected a choice".
+   * OSM has no dark variant, so dark mode now keeps the standard basemap. That gives up
+   * T1-06's benefit and it is the right trade: a light basemap is a cosmetic mismatch,
+   * a watermarked one is a broken map. Restoring a dark basemap means either a keyed
+   * provider or a self-hosted style, which is a deliberate choice rather than a default.
+   *
+   * Kept as a method (rather than deleted) because callers and tests use its return
+   * value, and because this is where a future dark basemap would be reinstated.
    */
   async syncBasemapToTheme() {
     if (this.userPickedBasemap) return null;
-    const dark = document.documentElement.dataset.theme === 'dark';
-    const wanted = dark ? 'cartodb-dark' : 'osm-standard';
+    const wanted = 'osm-standard';
     if (this.baseMapId === wanted) return null;
     await this.applyBaseMap(wanted);
     // Keep the Map Settings control honest about what is actually displayed.
