@@ -14,18 +14,18 @@
  * A SECOND mismatch sat underneath, which would have bitten the moment the first was
  * fixed. TimeSeriesController reads `chain.maps` with entries carrying `.id` and `.date`,
  * and matches against RENDER layer ids ("provinces-1955-vector-test"), not catalogue map
- * ids ("provinces-1955"). And the catalogue describes membership FOUR different ways:
+ * ids ("provinces-1955").
  *
- *   segments: [{ classIds, from?, to? }]      5  wards, deas, local-govt, counties,
- *                                                provinces
- *   classIds: [...]                           9  settlements, referendums, eu-parliament,
- *                                                ttwa, the census series, roi-*
- *   maps: [...]                               2  osni-50k-transport, osni-ortho-coverage
- *   parallel + columns: [{ classIds, name }]  1  parliamentary
+ * ONE CHAIN SHAPE, since 2026-08-26. The catalogue used to describe membership FOUR ways
+ * -- `segments`, a flat `classIds`, a direct `maps` list, and `parallel` + `columns` --
+ * and the first version of this script handled only the first, so it emitted 5 of 17
+ * chains and left the other 12 exactly as dead as they had been. Nothing failed; the code
+ * found no chains and rendered a polite empty state.
  *
- * The first version of this script handled ONLY `segments`, so it emitted 5 of 17 chains
- * and left the other 12 exactly as dead as they had been. All four shapes are handled
- * now: 18 chains, 173 entries.
+ * The four were folded into `segments[]` upstream, in the catalogue, so this reads one
+ * shape and no longer compensates for four. Nothing was lost in the fold: a segment can
+ * name its members by CLASS (`classIds`) or by MAP (`mapIds`), carry a `from`/`to` window,
+ * and carry a `column` name for a parallel chain.
  *
  * Segment `from`/`to` are honoured. The `wards` chain is ni-wards from 1972 and ni-deds
  * to 1971; ignoring the window would pull post-1972 wards into a segment ending in 1971.
@@ -102,9 +102,22 @@ function toEntry(mapId, seen) {
   return { id: layer.id, mapId, date: String(map.date), name: map.name || mapId };
 }
 
-/** Collect entries from a list of classIds, optionally restricted to a date window. */
-function fromClassIds(classIds, window, seen, entries) {
-  for (const classId of classIds || []) {
+/**
+ * Collect one segment's entries.
+ *
+ * A segment names its members either by CLASS (`classIds`, the usual case) or by MAP
+ * (`mapIds`, for the two OSNI chains that have no class). Both are read here so the
+ * caller does not branch on which one a chain happens to use -- that branching, spread
+ * across four chain shapes, is what let the first version of this generator silently
+ * emit 5 of 17 chains.
+ *
+ * `from`/`to` restrict a segment to a date window. The wards chain is ni-wards from 1972
+ * and ni-deds to 1971; ignoring the window would pull post-1972 wards into a segment
+ * that ends in 1971.
+ */
+function collect(segment, seen, entries) {
+  const window = (segment.from || segment.to) ? segment : null;
+  for (const classId of segment.classIds || []) {
     const klass = classById.get(classId);
     if (!klass) continue;
     for (const mapId of klass.maps || []) {
@@ -114,6 +127,13 @@ function fromClassIds(classIds, window, seen, entries) {
       const entry = toEntry(mapId, seen);
       if (entry) entries.push(entry);
     }
+  }
+  for (const mapId of segment.mapIds || []) {
+    const map = mapById.get(mapId);
+    if (!map) continue;
+    if (window && !inWindow(map.date, window)) continue;
+    const entry = toEntry(mapId, seen);
+    if (entry) entries.push(entry);
   }
 }
 
@@ -128,17 +148,21 @@ function emit(id, name, entries) {
 
 for (const chain of catalogue.timeSeriesChains || []) {
   const name = chain.name || chain.id;
+  const segments = chain.segments || [];
 
-  // Shape 4: parallel columns -> ONE CHAIN PER COLUMN. See the header for why these are
-  // not merged, and why `predecessor` is reported rather than attached to a column.
-  if (chain.parallel && Array.isArray(chain.columns)) {
-    chain.columns.forEach((column, index) => {
+  // PARALLEL chains emit one chain PER COLUMN, not one merged list. parliamentary's three
+  // columns -- UK Parliament, Dail Eireann, Devolved NI -- are separate series that
+  // happen to be displayed side by side; merging them would let the picker "switch" a
+  // Westminster constituency map to a Dail one at a nearby date, which is not a
+  // continuation of anything.
+  if (chain.parallel) {
+    for (const segment of segments) {
       const seen = new Set();
       const entries = [];
-      fromClassIds(column.classIds, null, seen, entries);
-      const columnName = column.name || `${name} ${index + 1}`;
+      collect(segment, seen, entries);
+      const columnName = segment.column || name;
       emit(`${chain.id}:${slug(columnName)}`, columnName, entries);
-    });
+    }
     if (chain.predecessor) {
       notes.push(`${chain.id}: predecessor (${(chain.predecessor.classIds || []).join(', ')}) not attached to any column -- the data does not say which column it precedes.`);
     }
@@ -147,15 +171,7 @@ for (const chain of catalogue.timeSeriesChains || []) {
 
   const seen = new Set();
   const entries = [];
-  // Shape 1: segments, each with its own date window.
-  for (const segment of chain.segments || []) fromClassIds(segment.classIds, segment, seen, entries);
-  // Shape 2: classIds declared flat on the chain.
-  fromClassIds(chain.classIds, null, seen, entries);
-  // Shape 3: map ids listed directly, with no class indirection.
-  for (const mapId of chain.maps || []) {
-    const entry = toEntry(mapId, seen);
-    if (entry) entries.push(entry);
-  }
+  for (const segment of segments) collect(segment, seen, entries);
   emit(chain.id, name, entries);
 }
 

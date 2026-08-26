@@ -322,18 +322,18 @@
       "name": "Constituencies",
       "category": "parliamentary",
       "parallel": true,
-      "columns": [
+      "segments": [
         {
           "classIds": [
             "ni-pcs"
           ],
-          "name": "UK Parliament"
+          "column": "UK Parliament"
         },
         {
           "classIds": [
             "roi-dail"
           ],
-          "name": "Dáil Éireann"
+          "column": "Dáil Éireann"
         },
         {
           "classIds": [
@@ -344,7 +344,7 @@
             "ni-assembly-1973",
             "ni-parliament"
           ],
-          "name": "Devolved NI"
+          "column": "Devolved NI"
         }
       ],
       "predecessor": {
@@ -357,65 +357,101 @@
     {
       "id": "small-census",
       "name": "Small Census Areas",
-      "classIds": [
-        "ni-small-census"
+      "segments": [
+        {
+          "classIds": [
+            "ni-small-census"
+          ]
+        }
       ]
     },
     {
       "id": "super-census",
       "name": "Super Census Areas",
-      "classIds": [
-        "ni-super-census"
+      "segments": [
+        {
+          "classIds": [
+            "ni-super-census"
+          ]
+        }
       ]
     },
     {
       "id": "ttwa",
       "name": "Travel To Work Areas",
-      "classIds": [
-        "ni-ttwa"
+      "segments": [
+        {
+          "classIds": [
+            "ni-ttwa"
+          ]
+        }
       ]
     },
     {
       "id": "settlements",
       "name": "Settlements",
-      "classIds": [
-        "ni-settlements",
-        "roi-settlements"
+      "segments": [
+        {
+          "classIds": [
+            "ni-settlements",
+            "roi-settlements"
+          ]
+        }
       ]
     },
     {
       "id": "eu-parliament",
       "name": "European Parliament",
-      "classIds": [
-        "eu-parliament"
+      "segments": [
+        {
+          "classIds": [
+            "eu-parliament"
+          ]
+        }
       ]
     },
     {
       "id": "roi-electoral-divisions",
       "name": "Electoral Divisions (Republic of Ireland)",
-      "classIds": [
-        "eds-historic"
+      "segments": [
+        {
+          "classIds": [
+            "eds-historic"
+          ]
+        }
       ]
     },
     {
       "id": "roi-local-authorities",
       "name": "Local Authorities (Republic of Ireland)",
-      "classIds": [
-        "roi-local-authorities"
+      "segments": [
+        {
+          "classIds": [
+            "roi-local-authorities"
+          ]
+        }
       ]
     },
     {
       "id": "roi-small-census",
       "name": "Small Census Areas (Republic of Ireland)",
-      "classIds": [
-        "roi-small-census"
+      "segments": [
+        {
+          "classIds": [
+            "roi-small-census"
+          ]
+        }
       ]
     },
     {
       "id": "referendums",
       "name": "Referendum Counting Areas",
-      "classIds": [
-        "ni-referendum-areas"
+      "segments": [
+        {
+          "classIds": [
+            "ni-referendum-areas"
+          ]
+        }
       ]
     },
     {
@@ -423,9 +459,13 @@
       "name": "OSNI 50K Transport",
       "scope": "Northern Ireland",
       "category": "transport",
-      "maps": [
-        "osni-transport-text-labels",
-        "osni-transport-points"
+      "segments": [
+        {
+          "mapIds": [
+            "osni-transport-text-labels",
+            "osni-transport-points"
+          ]
+        }
       ]
     },
     {
@@ -433,20 +473,24 @@
       "name": "OSNI Orthophoto Coverage",
       "scope": "Northern Ireland",
       "category": "osni-reference",
-      "maps": [
-        "osni-ortho-coverage-2003",
-        "osni-ortho-coverage-2004",
-        "osni-ortho-coverage-2005",
-        "osni-ortho-coverage-2006",
-        "osni-ortho-coverage-2007",
-        "osni-ortho-coverage-2008",
-        "osni-ortho-coverage-2009",
-        "osni-ortho-coverage-2012",
-        "osni-ortho-coverage-2014",
-        "osni-ortho-coverage-2016",
-        "osni-ortho-coverage-2017",
-        "osni-ortho-coverage-2019",
-        "osni-ortho-coverage-2020"
+      "segments": [
+        {
+          "mapIds": [
+            "osni-ortho-coverage-2003",
+            "osni-ortho-coverage-2004",
+            "osni-ortho-coverage-2005",
+            "osni-ortho-coverage-2006",
+            "osni-ortho-coverage-2007",
+            "osni-ortho-coverage-2008",
+            "osni-ortho-coverage-2009",
+            "osni-ortho-coverage-2012",
+            "osni-ortho-coverage-2014",
+            "osni-ortho-coverage-2016",
+            "osni-ortho-coverage-2017",
+            "osni-ortho-coverage-2019",
+            "osni-ortho-coverage-2020"
+          ]
+        }
       ]
     }
   ],

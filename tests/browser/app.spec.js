@@ -378,16 +378,26 @@ test('desktop map accepts actual mouse drag and wheel zoom gestures', async ({ p
   });
   expect(Math.abs(afterDrag.lng - initial.lng) + Math.abs(afterDrag.lat - initial.lat)).toBeGreaterThan(0.01);
 
+  // WAIT FOR THE MAP TO SETTLE FIRST. A drag ends with inertia, and a wheel event that
+  // lands mid-inertia is swallowed -- the zoom then never changes at all, which polling
+  // cannot rescue because there is nothing on the way. Measured: a 10s poll sat at
+  // exactly afterDrag.zoom, so this reads as "the wheel does nothing" when it is really
+  // "the wheel arrived while the map was still moving".
+  await page.evaluate(() => new Promise((resolve) => {
+    const map = window.__civgraphTest2.mapController.map;
+    if (!map.isMoving()) { resolve(); return; }
+    map.once('idle', resolve);
+    setTimeout(resolve, 3000);   // never hang the test on a map that keeps animating
+  }));
+
   await page.mouse.move(center.x, center.y);
+  const zoomBeforeWheel = await page.evaluate(() => window.__civgraphTest2.mapController.map.getZoom());
   await page.mouse.wheel(0, -600);
-  // POLL rather than wait a fixed 650ms. Wheel zoom is animated, so under suite load the
-  // camera had not moved at all when the fixed wait expired -- afterWheel came back equal
-  // to afterDrag.zoom, which reads as "the wheel does nothing" rather than "the wheel is
-  // still easing". The claim is that the wheel zooms in; how long the ease takes is not
-  // part of it.
+  // Poll, because the zoom itself is animated: the claim is that the wheel zooms in, not
+  // that it finishes within any particular time.
   await expect
     .poll(() => page.evaluate(() => window.__civgraphTest2.mapController.map.getZoom()), { timeout: 10000 })
-    .toBeGreaterThan(afterDrag.zoom + 0.1);
+    .toBeGreaterThan(zoomBeforeWheel + 0.1);
 });
 
 // FIXED 2026-08-23, and by a one-line cause I had misdiagnosed as a catalogue problem.
