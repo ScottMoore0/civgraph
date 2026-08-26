@@ -204,9 +204,20 @@
       "bytes": 44921,
       "imports": []
     },
-    "src/data-service.js": {
-      "bytes": 23788,
+    "src/map-relations.mjs": {
+      "bytes": 2620,
       "imports": [],
+      "format": "esm"
+    },
+    "src/data-service.js": {
+      "bytes": 23076,
+      "imports": [
+        {
+          "path": "src/map-relations.mjs",
+          "kind": "import-statement",
+          "original": "./map-relations.mjs"
+        }
+      ],
       "format": "esm"
     },
     "src/feature-loader.js": {
@@ -230,8 +241,13 @@
       "format": "esm"
     },
     "src/ui-controller.js": {
-      "bytes": 621506,
+      "bytes": 621962,
       "imports": [
+        {
+          "path": "src/map-relations.mjs",
+          "kind": "import-statement",
+          "original": "./map-relations.mjs"
+        },
         {
           "path": "src/storage-keys.mjs",
           "kind": "import-statement",
@@ -417,7 +433,7 @@
       "format": "esm"
     },
     "app/src/maplibre-main-adapter.js": {
-      "bytes": 60026,
+      "bytes": 60350,
       "imports": [
         {
           "path": "node_modules/maplibre-gl/dist/maplibre-gl.js",
@@ -443,6 +459,11 @@
           "path": "app/src/settle.js",
           "kind": "import-statement",
           "original": "./settle.js"
+        },
+        {
+          "path": "src/map-relations.mjs",
+          "kind": "import-statement",
+          "original": "../../src/map-relations.mjs"
         }
       ],
       "format": "esm"
@@ -522,7 +543,7 @@
       "format": "esm"
     },
     "app/src/app.js": {
-      "bytes": 168134,
+      "bytes": 168253,
       "imports": [
         {
           "path": "src/data-service.js",
@@ -543,6 +564,11 @@
           "path": "src/public-map.mjs",
           "kind": "import-statement",
           "original": "../../src/public-map.mjs"
+        },
+        {
+          "path": "src/map-relations.mjs",
+          "kind": "import-statement",
+          "original": "../../src/map-relations.mjs"
         },
         {
           "path": "src/storage-keys.mjs",
@@ -597,7 +623,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "app/build/chunks/app-FGMGJWEJ.js",
+          "path": "app/build/chunks/app-BWKO57PW.js",
           "kind": "dynamic-import"
         }
       ],
@@ -651,7 +677,7 @@
       },
       "bytes": 203839
     },
-    "app/build/chunks/app-FGMGJWEJ.js": {
+    "app/build/chunks/app-BWKO57PW.js": {
       "imports": [
         {
           "path": "app/build/chunks/chunk-ILBJKEQI.js",
@@ -669,8 +695,11 @@
       "exports": [],
       "entryPoint": "app/src/app.js",
       "inputs": {
+        "src/map-relations.mjs": {
+          "bytesInOutput": 290
+        },
         "src/data-service.js": {
-          "bytesInOutput": 9525
+          "bytesInOutput": 9495
         },
         "src/feature-loader.js": {
           "bytesInOutput": 6260
@@ -685,7 +714,7 @@
           "bytesInOutput": 202
         },
         "src/ui-controller.js": {
-          "bytesInOutput": 341183
+          "bytesInOutput": 341137
         },
         "src/public-map.mjs": {
           "bytesInOutput": 522
@@ -700,7 +729,7 @@
           "bytesInOutput": 5632
         },
         "app/src/maplibre-main-adapter.js": {
-          "bytesInOutput": 34936
+          "bytesInOutput": 34898
         },
         "render/src/map-controller.js": {
           "bytesInOutput": 49961
@@ -724,10 +753,10 @@
           "bytesInOutput": 358
         },
         "app/src/app.js": {
-          "bytesInOutput": 90221
+          "bytesInOutput": 90061
         }
       },
-      "bytes": 586216
+      "bytes": 586232
     },
     "app/build/chunks/chunk-ILBJKEQI.js": {
       "imports": [

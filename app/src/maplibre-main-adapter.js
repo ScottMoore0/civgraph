@@ -3,6 +3,7 @@ import { TestMapLibreController } from '../../render/src/map-controller.js';
 import { repairFeatureProperties } from '../../render/src/feature-property-repairs.js';
 import { boundsToMapLibre } from '../../render/src/utils.js';
 import { waitForMapSettle } from './settle.js';
+import { compositeChildIds } from '../../src/map-relations.mjs';
 
 const BASE_MAPS = {
   'osm-standard': ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
@@ -202,12 +203,16 @@ export class Test2MapLibreMainAdapter {
       this.unloadLayer(mainId);
     }
 
-    if (config?.isGroup && Array.isArray(config.members) && config.members.length) {
-      const results = await Promise.all(config.members.map((memberId) => this.loadLayer(memberId, {
+    // compositeChildIds, not config.members: this branch and app.js's used DIFFERENT
+    // fields for the same relation, so which one expanded a composite depended on which
+    // field the map happened to carry. See src/map-relations.mjs.
+    const groupChildIds = compositeChildIds(config);
+    if (config?.isGroup && groupChildIds.length) {
+      const results = await Promise.all(groupChildIds.map((memberId) => this.loadLayer(memberId, {
         ...options,
         fit: false
       })));
-      if (options.fit !== false) this.fitToLayers(config.members);
+      if (options.fit !== false) this.fitToLayers(groupChildIds);
       return results[0] || null;
     }
 

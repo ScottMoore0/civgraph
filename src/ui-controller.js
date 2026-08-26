@@ -1,3 +1,4 @@
+import { compositeChildIds } from './map-relations.mjs';
 import { readStored, writeStored } from './storage-keys.mjs';
 /**
  * NI Boundaries - UI Controller
@@ -343,12 +344,17 @@ class UIController {
 
         // Build members HTML (for groups without explicit variants)
         let membersHtml = '';
-        if (map.isGroup && map.members && map.members.length > 0 && (!map.variants || map.variants.length === 0)) {
+        // Legacy `members` groups. Since 2026-08-26 the catalogue stores composites as
+        // `variants` only, so this renders nothing for current data -- kept because a
+        // cached or older catalogue can still carry the field, and rendering no members
+        // for a group map is worse than rendering them from the legacy shape.
+        const legacyMembers = (!map.variants || map.variants.length === 0) ? compositeChildIds(map) : [];
+        if (map.isGroup && legacyMembers.length > 0) {
             membersHtml = `
                 <div class="catalogue-detail__section">
-                    <div class="catalogue-detail__section-title">Members (${map.members.length})</div>
+                    <div class="catalogue-detail__section-title">Members (${legacyMembers.length})</div>
                     <div class="catalogue-detail__variants">
-                        ${map.members.map(memberId => {
+                        ${legacyMembers.map(memberId => {
                 const member = dataService.getMapById(memberId);
                 return member ? `
                                 <div class="catalogue-detail__variant" data-map-id="${member.id}">
@@ -796,8 +802,8 @@ class UIController {
             if (map.variants && map.variants.length > 0) {
                 const firstVariant = dataService.getMapById(map.variants[0].id);
                 effectiveFilePath = firstVariant?.files?.fgb || firstVariant?.files?.geojson;
-            } else if (map.members && map.members.length > 0) {
-                const firstMember = dataService.getMapById(map.members[0]);
+            } else if (compositeChildIds(map).length > 0) {
+                const firstMember = dataService.getMapById(compositeChildIds(map)[0]);
                 effectiveFilePath = firstMember?.files?.fgb || firstMember?.files?.geojson;
             }
         }

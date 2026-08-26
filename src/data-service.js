@@ -1,3 +1,4 @@
+import { compositeChildIds } from './map-relations.mjs';
 /**
  * NI Boundaries - Data Service
  * Handles loading and querying the maps/books database
@@ -175,7 +176,7 @@ class DataService {
         }
       }
 
-      if (Array.isArray(map.members) && map.members.includes(id)) {
+      if (compositeChildIds(map).includes(id)) {
         const member = maps.find(m => m.id === id);
         if (member) return member;
       }

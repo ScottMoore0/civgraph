@@ -2,6 +2,7 @@ import dataService, { resolveMapDownloadUrl } from '../../src/data-service.js';
 import featureLoader from '../../src/feature-loader.js';
 import uiController from '../../src/ui-controller.js';
 import { publicMaps } from '../../src/public-map.mjs';
+import { compositeChildIds } from '../../src/map-relations.mjs';
 import { readStored, writeStored } from '../../src/storage-keys.mjs';
 import { TestMetadataService } from '../../render/src/metadata-service.js';
 import { Test2MapLibreMainAdapter } from './maplibre-main-adapter.js';
@@ -846,8 +847,8 @@ class Test2App {
       const mapConfig = dataService.getMapById(mapId);
       if (this.mapController.getLayerState(mapId)?.isGroup) {
         this.mapController.unloadLayer(mapId);
-      } else if (mapConfig?.isGroup && Array.isArray(mapConfig.members)) {
-        mapConfig.members.forEach((memberId) => this.mapController.unloadLayer(memberId));
+      } else if (mapConfig?.isGroup && compositeChildIds(mapConfig).length) {
+        compositeChildIds(mapConfig).forEach((memberId) => this.mapController.unloadLayer(memberId));
       } else if (mapConfig?.isGroup && Array.isArray(mapConfig.variants)) {
         mapConfig.variants.forEach((variant) => this.mapController.unloadLayer(variant.id));
       } else {
@@ -978,9 +979,10 @@ class Test2App {
 
   async loadMap(mapId, options = {}) {
     const mapConfig = dataService.getMapById(mapId);
-    if (mapConfig?.isGroup && Array.isArray(mapConfig.members) && mapConfig.members.length) {
-      await Promise.all(mapConfig.members.map((memberId) => this.loadMap(memberId, { fit: options.fit !== false })));
-      this.mapController.markGroupLoaded(mapId, mapConfig, mapConfig.members);
+    if (mapConfig?.isGroup && compositeChildIds(mapConfig).length) {
+      const childIds = compositeChildIds(mapConfig);
+      await Promise.all(childIds.map((memberId) => this.loadMap(memberId, { fit: options.fit !== false })));
+      this.mapController.markGroupLoaded(mapId, mapConfig, childIds);
       return;
     }
     if (mapConfig?.isGroup && Array.isArray(mapConfig.variants) && mapConfig.variants.length) {
@@ -1069,8 +1071,8 @@ class Test2App {
     if (!mapConfig || this.isPlaceholderTimelineMap(mapConfig)) return false;
     const directLayer = this.mapController.resolveLayer(mapConfig.id || mapId);
     if (directLayer?.loadable) return true;
-    if (mapConfig.isGroup && Array.isArray(mapConfig.members) && mapConfig.members.length) {
-      return mapConfig.members.some((memberId) => this.isTimelineMapPlayable(memberId));
+    if (mapConfig.isGroup && compositeChildIds(mapConfig).length) {
+      return compositeChildIds(mapConfig).some((memberId) => this.isTimelineMapPlayable(memberId));
     }
     if (mapConfig.isGroup && Array.isArray(mapConfig.variants) && mapConfig.variants.length) {
       return mapConfig.variants.some((variant) => this.mapController.resolveLayer(variant?.id)?.loadable);
@@ -3011,8 +3013,8 @@ class Test2App {
     const mapConfig = dataService.getMapById(mapId);
     if (this.mapController.getLayerState(mapId)?.isGroup) {
       this.mapController.unloadLayer(mapId);
-    } else if (mapConfig?.isGroup && Array.isArray(mapConfig.members)) {
-      mapConfig.members.forEach((memberId) => this.mapController.unloadLayer(memberId));
+    } else if (mapConfig?.isGroup && compositeChildIds(mapConfig).length) {
+      compositeChildIds(mapConfig).forEach((memberId) => this.mapController.unloadLayer(memberId));
       this.mapController.unloadLayer(mapId);
     } else if (mapConfig?.isGroup && Array.isArray(mapConfig.variants)) {
       mapConfig.variants.forEach((variant) => this.mapController.unloadLayer(variant.id));
@@ -3058,7 +3060,7 @@ class Test2App {
     const mapConfig = dataService.getMapById(mapId);
     return new Set([
       mapId,
-      ...(Array.isArray(mapConfig?.members) ? mapConfig.members : []),
+      ...compositeChildIds(mapConfig),
       ...(Array.isArray(mapConfig?.variants) ? mapConfig.variants.map((variant) => variant?.id).filter(Boolean) : [])
     ].filter(Boolean));
   }
@@ -3327,7 +3329,8 @@ class Test2App {
       if (state.loaded && !groupedChildIds.has(id)) ids.add(id);
     }
     for (const map of dataService.getAllMaps()) {
-      if (map.isGroup && Array.isArray(map.members) && map.members.every((memberId) => ids.has(memberId))) {
+      const groupChildIds = compositeChildIds(map);
+      if (map.isGroup && groupChildIds.length && groupChildIds.every((memberId) => ids.has(memberId))) {
         ids.add(map.id);
       }
     }
@@ -3398,8 +3401,8 @@ class Test2App {
 
   isMapLoaded(mapId) {
     const mapConfig = dataService.getMapById(mapId);
-    if (mapConfig?.isGroup && Array.isArray(mapConfig.members)) {
-      return mapConfig.members.some((memberId) => this.mapController.isLayerLoaded(memberId));
+    if (mapConfig?.isGroup && compositeChildIds(mapConfig).length) {
+      return compositeChildIds(mapConfig).some((memberId) => this.mapController.isLayerLoaded(memberId));
     }
     return this.mapController.isLayerLoaded(mapId);
   }
