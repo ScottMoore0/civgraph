@@ -20,7 +20,12 @@ import { reportError } from '../_error.js';
 const base = browseIndexHandler({
   table: 'browse_persons',
   key: 'persons',
-  version: 'persons-3',
+  version: 'persons-4',
+  sorts: {
+    name: 'title_norm',
+    firstYear: 'first_year',
+    lastYear: 'last_year',
+  },
 });
 
 export async function onRequestGet(context) {

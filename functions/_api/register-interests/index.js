@@ -18,5 +18,20 @@ export const onRequestGet = browseIndexHandler({
     memberName: 'member_name',
     electedBody: 'elected_body',
     category: 'category',
+    memberType: 'member_type',
+    chamber: 'chamber',
+    constituency: 'constituency',
+    nilStatus: 'nil_status',
   },
+  // The six sort options browse.js offers, mapped to real columns. An unknown ?sort=
+  // falls back to `ord` rather than erroring -- a bad sort key should not blank the page.
+  sorts: {
+    date: 'date',
+    memberName: 'member_name',
+    electedBody: 'elected_body',
+    constituency: 'constituency',
+    interestCount: 'interest_count',
+    sourceCount: 'source_count',
+  },
+  facets: true,
 });

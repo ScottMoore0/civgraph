@@ -188,6 +188,11 @@ const state = {
   // navigation and every query change, so a filter never inherits a page depth
   // from the previous view.
   listShown: LIST_PAGE_SIZE,
+  // Pages accumulated from D1 for the current listing, and the facet options for each
+  // type. serverList is replaced (not appended) whenever the query, sort or filters
+  // change, because the earlier pages no longer describe the same result set.
+  serverList: { type: null, items: [], total: 0 },
+  serverFacets: new Map(),
   graph: {
     manifest: null,
     browseMapping: null,
@@ -262,6 +267,17 @@ function bindEvents() {
       event.preventDefault();
       const target = document.querySelector(portalJump.getAttribute('href'));
       target?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      return;
+    }
+
+    // Append the next page from D1. Separate from the in-memory path below because it
+    // fetches rather than slicing an array that is already present.
+    const serverMore = event.target.closest('[data-server-load-more]');
+    if (serverMore) {
+      event.preventDefault();
+      serverMore.disabled = true;
+      serverMore.textContent = 'Loading...';
+      renderServerList(state.serverList.type || state.activeType, { append: true });
       return;
     }
 
@@ -459,6 +475,14 @@ async function renderCurrent() {
       await renderDetail(state.activeType, item);
       return;
     }
+  }
+
+  // LIST VIEW FROM D1 for the three large indexes. Everything below this point still
+  // works from a loaded index, which is correct for the small ones: maps, elections,
+  // parties and features are a reasonable download and the client filters them locally.
+  if (D1_INDEXES.has(state.activeType)) {
+    await renderServerList(state.activeType);
+    return;
   }
 
   const data = await loadIndex(state.activeType);
@@ -737,7 +761,7 @@ function renderRegisterInterestControls(items, filteredCount, totalCount) {
         </div>
       </div>
       <div class="browse-filter-grid">
-        ${REGISTER_INTEREST_FILTERS.map((filter) => renderRegisterInterestFilter(filter, items)).join('')}
+        ${REGISTER_INTEREST_FILTERS.map((filter) => renderRegisterInterestFilter(filter, items, facets)).join('')}
       </div>
       <div class="browse-control-footer">
         <span>${formatNumber(filteredCount)} of ${formatNumber(totalCount)} records after controls${activeFilters ? `, ${activeFilters} active ${activeFilters === 1 ? 'filter' : 'filters'}` : ''}.</span>
@@ -747,9 +771,9 @@ function renderRegisterInterestControls(items, filteredCount, totalCount) {
   `;
 }
 
-function renderRegisterInterestFilter(filter, items) {
+function renderRegisterInterestFilter(filter, items, facets = null) {
   const value = state.registerInterestControls.filters[filter.key] || '';
-  const options = registerInterestFilterOptions(filter.key, items);
+  const options = registerInterestFilterOptions(filter.key, items, facets);
   return `
     <label class="browse-filter">
       <span>${escapeHtml(filter.label)}</span>
@@ -761,7 +785,7 @@ function renderRegisterInterestFilter(filter, items) {
   `;
 }
 
-function registerInterestFilterOptions(key, items) {
+function registerInterestFilterOptions(key, items, facets = null) {
   if (key === 'nilStatus') {
     return [
       { value: 'has-registrable', label: 'Has registrable interests' },
@@ -769,8 +793,15 @@ function registerInterestFilterOptions(key, items) {
       { value: 'includes-nil', label: 'Includes nil entries' }
     ];
   }
+  // Precomputed options when the listing came from D1. Deriving them from `items` would
+  // only ever see the page currently rendered -- so a filter built from page one would
+  // silently omit every value that appears later in the index.
+  if (facets && Array.isArray(facets[key])) {
+    // Same label mapping as the in-memory branch below; sourceKinds are stored as codes.
+    return facets[key].map((value) => ({ value, label: key === 'sourceKinds' ? sourceKindLabel(value) : value }));
+  }
   const values = new Set();
-  for (const item of items) {
+  for (const item of items || []) {
     for (const value of registerInterestFilterValues(item, key)) {
       if (value) values.add(value);
     }
@@ -3493,6 +3524,112 @@ async function fetchIndexRecord(type, id) {
   } catch {
     return null;
   }
+}
+
+/**
+ * One PAGE of an index, from D1.
+ *
+ * The list view used to load the whole index and filter, sort and slice it in the
+ * browser. For sources that is 51 MB before the first card renders. The query, the
+ * facet filters, the sort and the paging now all happen in SQL, so the client receives
+ * only the page it is about to draw.
+ *
+ * Returns null on any failure, so the caller can fall back to the static index. That
+ * fallback is what keeps a Functions outage slow rather than broken.
+ */
+async function fetchIndexPage(type, { query, sort, dir, filters, offset, limit }) {
+  const params = new URLSearchParams();
+  if (query) params.set('q', query);
+  if (sort) params.set('sort', sort);
+  if (dir) params.set('dir', dir);
+  params.set('limit', String(limit));
+  params.set('offset', String(offset));
+  for (const [key, value] of Object.entries(filters || {})) {
+    if (value) params.append(key, value);
+  }
+  try {
+    const response = await fetch(`/_api/${type}?${params}`);
+    if (!response.ok) return null;
+    const payload = await response.json();
+    const items = payload[type] || payload.records || null;
+    if (!Array.isArray(items)) return null;
+    return { items, total: Number(payload.total) || 0 };
+  } catch {
+    return null;
+  }
+}
+
+/** Facet dropdown options, precomputed at import and fetched once per type. */
+async function fetchIndexFacets(type) {
+  if (state.serverFacets.has(type)) return state.serverFacets.get(type);
+  let facets = {};
+  try {
+    const response = await fetch(`/_api/${type}?facets=1`);
+    if (response.ok) facets = (await response.json()).facets || {};
+  } catch { /* fall back to no options */ }
+  state.serverFacets.set(type, facets);
+  return facets;
+}
+
+/**
+ * Render a listing from D1 rather than from a loaded index.
+ *
+ * Pages ACCUMULATE: "Show more" fetches the next page and appends, so the rendered list
+ * only ever grows, which is what the existing renderListPage()/lastListRender() pair
+ * already expects. `append` is false whenever the query, sort or filters change, because
+ * those make the previously fetched pages meaningless.
+ */
+async function renderServerList(type, { append = false } = {}) {
+  const config = ENTITY_CONFIG[type];
+  const isRegister = type === 'register-interests';
+  const controls = state.registerInterestControls;
+  const request = {
+    query: state.query,
+    sort: isRegister ? controls.sortKey : '',
+    dir: isRegister ? controls.sortDir : '',
+    filters: isRegister ? controls.filters : {},
+    offset: append ? state.serverList.items.length : 0,
+    limit: LIST_PAGE_SIZE,
+  };
+
+  if (!append) els.results.innerHTML = '<div class="browse-loading">Loading browse data...</div>';
+  const page = await fetchIndexPage(type, request);
+  if (!page) {
+    // The endpoint is unavailable. Fall back to the static index, which still works.
+    const data = await loadIndex(type);
+    renderList(type, data.items || []);
+    return;
+  }
+
+  state.serverList = {
+    type,
+    items: append ? [...state.serverList.items, ...page.items] : page.items,
+    total: page.total,
+  };
+
+  const items = state.serverList.items;
+  const remaining = page.total - items.length;
+  const more = remaining > 0
+    ? `<div class="browse-load-more">
+         <button type="button" class="browse-btn" data-server-load-more>
+           Show ${formatNumber(Math.min(LIST_PAGE_SIZE, remaining))} more
+         </button>
+         <p class="browse-description">Showing ${formatNumber(items.length)} of ${formatNumber(page.total)}.</p>
+       </div>`
+    : '';
+
+  const facets = isRegister ? await fetchIndexFacets(type) : null;
+  // page.total is the count AFTER filtering. The unfiltered total comes from the browse
+  // manifest, so the summary can still read "120 of 40,327" rather than "120 of 120" --
+  // which would hide the fact that a filter is doing anything.
+  const unfiltered = (state.manifest?.counts || {})[type] || page.total;
+  els.results.innerHTML = `
+    ${isRegister ? renderRegisterInterestControls(null, page.total, unfiltered, facets) : ''}
+    ${renderFilterSummary(page.total, unfiltered)}
+    <div class="browse-grid">${items.map((item) => renderCard(type, item, config)).join('')}</div>
+    ${more}
+  `;
+  state.lastListRender = () => renderServerList(type);
 }
 
 async function loadIndex(type) {

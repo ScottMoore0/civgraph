@@ -54,8 +54,10 @@ const clampLimit = (raw) => {
  * @param {string} options.key     response key for the collection, e.g. "persons"
  * @param {string} options.version cache version; bump on RESPONSE SHAPE changes, not data
  * @param {Record<string,string>} [options.filters] query param -> column, for exact match
+ * @param {Record<string,string>} [options.sorts]   sort key -> column, for ORDER BY
+ * @param {boolean} [options.facets]  serve precomputed facet options at ?facets=1
  */
-export function browseIndexHandler({ table, key, version, filters = {} }) {
+export function browseIndexHandler({ table, key, version, filters = {}, sorts = {}, facets = false }) {
   return async function onRequestGet(context) {
     const url = new URL(context.request.url);
     const slug = url.searchParams.get('slug');
@@ -86,6 +88,16 @@ export function browseIndexHandler({ table, key, version, filters = {} }) {
         return json({ [key.replace(/s$/, '')]: record, record }, 200, true, version);
       }
 
+      // Facet options for the filter dropdowns, precomputed at import. browse.js used to
+      // derive these by scanning the whole loaded list; server-side that would be a
+      // SELECT DISTINCT per facet per request.
+      if (facets && url.searchParams.get('facets') === '1') {
+        const row = await db.prepare(`SELECT facets FROM ${table}_facets LIMIT 1`).first();
+        let parsed = {};
+        try { parsed = JSON.parse(row?.facets || '{}'); } catch { parsed = {}; }
+        return json({ facets: parsed }, 200, true, version);
+      }
+
       // Exact-match filters, declared per entity. Repeated params are ORed, because a
       // party or a body is known by several names across a century and accepting one
       // would silently undercount.
@@ -100,14 +112,28 @@ export function browseIndexHandler({ table, key, version, filters = {} }) {
         where.push(`${column} IN (${values.map(bind).join(', ')})`);
       }
 
-      if (query) where.push(`title_norm LIKE ${bind(`%${query.toLowerCase()}%`)}`);
+      // search_norm, not title_norm: browse.js's filter looks at ~32 fields including
+      // aliases, categories and party names. Matching the title alone would return
+      // fewer results than the client did and report nothing about the difference.
+      if (query) where.push(`search_norm LIKE ${bind(`%${query.toLowerCase()}%`)}`);
+
+      // ORDER BY. `ord` is the default and preserves the source index's order, which
+      // browse relies on; a named sort must be one this entity declared, so an unknown
+      // ?sort= cannot inject SQL or silently reorder into nonsense.
+      const sortKey = url.searchParams.get('sort') || '';
+      const sortColumn = Object.prototype.hasOwnProperty.call(sorts, sortKey) ? sorts[sortKey] : null;
+      const descending = (url.searchParams.get('dir') || '').toLowerCase() === 'desc';
+      // NULLS LAST both ways: a record with no date should not head the list.
+      const orderBy = sortColumn
+        ? `CASE WHEN ${sortColumn} IS NULL OR ${sortColumn} = '' THEN 1 ELSE 0 END, ${sortColumn} ${descending ? 'DESC' : 'ASC'}, ord`
+        : 'ord';
 
       const clause = where.length ? `WHERE ${where.join(' AND ')}` : '';
       // The COUNT runs with the filter binds only; the page adds limit/offset after them,
       // so the two statements deliberately do not share a bind list.
       const pageBinds = [...binds, limit, offset];
       const [rows, total] = await Promise.all([
-        db.prepare(`SELECT record FROM ${table} ${clause} ORDER BY ord LIMIT ?${binds.length + 1} OFFSET ?${binds.length + 2}`)
+        db.prepare(`SELECT record FROM ${table} ${clause} ORDER BY ${orderBy} LIMIT ?${binds.length + 1} OFFSET ?${binds.length + 2}`)
           .bind(...pageBinds).all(),
         db.prepare(`SELECT COUNT(*) AS n FROM ${table} ${clause}`).bind(...binds).first(),
       ]);

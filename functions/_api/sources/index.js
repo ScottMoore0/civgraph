@@ -22,4 +22,10 @@ export const onRequestGet = browseIndexHandler({
     category: 'category',
     publicationStatus: 'publication_status',
   },
+  sorts: {
+    date: 'date',
+    title: 'title_norm',
+    provider: 'provider',
+  },
+  facets: true,
 });
