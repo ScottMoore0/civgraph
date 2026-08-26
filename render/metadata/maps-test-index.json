@@ -333,6 +333,12 @@
       "name": "Electoral Wards",
       "maps": [
         {
+          "id": "ded-1921-05-03-vector-test",
+          "mapId": "ded-1921-05-03",
+          "date": "1921-05-03",
+          "name": "District Electoral Divisions 3 May 1921"
+        },
+        {
           "id": "ded-1930-04-01-vector-test",
           "mapId": "ded-1930-04-01",
           "date": "1930-04-01",
@@ -129735,10 +129741,146 @@
         "vector tiles"
       ],
       "detailUrl": "/render/metadata/layer-details-test2/tailte-hvd-water-points-vector-test.json"
+    },
+    {
+      "id": "ded-1921-05-03-vector-test",
+      "sourceMapId": "ded-1921-05-03",
+      "name": "District Electoral Divisions 3 May 1921",
+      "category": "Electoral Areas",
+      "group": "Elections and Government",
+      "provider": [
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "date": "1921-05-03",
+      "dateAdded": null,
+      "dateEffective": null,
+      "description": "Northern Ireland District Electoral Divisions as at 3 May 1921. A modified version of the 1911 DEDs/wards map, capturing the three changes made in the six counties between 1911 and partition: the DED of Gortahurk ceded six townlands to Cuilcagh (both in Fermanagh), and Portstewart and Ballycastle each split their DED into urban and rural.",
+      "notes": "Generated from render/source-cache/vector-intake/ded-1921-05-03.fgb with GDAL MVT output.",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "renderer": "maplibre",
+      "status": "converted",
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "minzoom": 0,
+      "maxzoom": 12,
+      "sourceLayer": "ded_1921_05_03",
+      "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ded-1921-05-03-vector-test.pmtiles",
+      "tiles": "/render/tiles/generated/ded-1921-05-03/{z}/{x}/{y}.pbf",
+      "tilesFallback": "/render/tiles/generated/ded-1921-05-03/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "preferred": true,
+        "localPath": "render/pmtiles/generated/ded-1921-05-03-vector-test.pmtiles",
+        "url": "/render/pmtiles/generated/ded-1921-05-03-vector-test.pmtiles",
+        "bytes": 5257756,
+        "maxGithubBytes": 99614720,
+        "generatedAt": "2026-08-26T20:46:21.525Z",
+        "fallback": "/render/tiles/generated/ded-1921-05-03/{z}/{x}/{y}.pbf",
+        "sourceSha256": "90469498709ef670c8c156ade33e58ecc607dbdddb9593ab9a9cd15c15c65b79",
+        "serving": "cdn",
+        "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ded-1921-05-03-vector-test.pmtiles",
+        "r2Key": "data/maps/test/pmtiles/generated/ded-1921-05-03-vector-test.pmtiles",
+        "localUrl": "/render/pmtiles/generated/ded-1921-05-03-vector-test.pmtiles",
+        "byteRangeVerifiedAt": "2026-08-26T20:59:32.421Z"
+      },
+      "metadataUrl": "/render/tiles/generated/ded-1921-05-03/metadata.json",
+      "style": {
+        "color": "#D2691E",
+        "fillColor": "#D2691E",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "labelProperty": "ED_NAME",
+      "labelPropertyFallbacks": [
+        "COUNTY"
+      ],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#D2691E",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "promoteId": "OBJECTID",
+      "idProperty": "OBJECTID",
+      "sourceFile": "render/source-cache/vector-intake/ded-1921-05-03.fgb",
+      "sourceDatasetLayer": "1921 NI",
+      "numericProperties": [
+        "OBJECTID",
+        "AREA_SQ_KM",
+        "PERIM_KM",
+        "CENTROID_X",
+        "CENTROID_Y",
+        "CO_ID",
+        "Shape_Leng",
+        "Shape.area"
+      ],
+      "categoricalProperties": [
+        "ED_NAME",
+        "PROVINCE",
+        "COUNTY",
+        "CSO_ID",
+        "CSO_P_NAME",
+        "CSO_COUNTY",
+        "minElev_m",
+        "maxElev_m",
+        "minElev_ft",
+        "maxElev_ft"
+      ],
+      "popupProperties": [
+        "ED_NAME",
+        "OBJECTID",
+        "ED_ID",
+        "PROVINCE",
+        "COUNTY",
+        "CSO_ID",
+        "CSO_P_NAME",
+        "CSO_I_NAME",
+        "CSO_COUNTY",
+        "LAU2_ID"
+      ],
+      "generatedFrom": {
+        "pipeline": "build-test-vector-batch",
+        "sourceFile": "render/source-cache/vector-intake/ded-1921-05-03.fgb",
+        "bytes": 8877112,
+        "files": 759,
+        "pbfFiles": 758,
+        "maxTileBytes": 170902
+      },
+      "keywords": [
+        "ded",
+        "electoral",
+        "divisions",
+        "1921",
+        "northern ireland",
+        "partition",
+        "District Electoral Divisions 3 May 1921",
+        "Electoral Areas",
+        "Elections and Government",
+        "maplibre",
+        "vector tiles"
+      ],
+      "detailUrl": "/render/metadata/layer-details-test2/ded-1921-05-03-vector-test.json"
     }
   ],
-  "publicMapCount": 794,
+  "publicMapCount": 795,
   "generatedFrom": "render/metadata/maps-test.json",
   "detailIndex": true,
-  "detailLayerCount": 1138
+  "detailLayerCount": 1139
 }

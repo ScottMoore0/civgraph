@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
   "mode": "execute",
-  "generatedAt": "2026-08-03T18:18:58.070Z",
+  "generatedAt": "2026-08-26T20:46:00.937Z",
   "tool": "ogr2ogr GDAL MVT",
   "tippecanoeAvailable": false,
   "perLayerTimeoutMs": 600000,
   "totals": {
-    "vectorRows": 0,
-    "feasibleLocalCandidates": 0,
-    "skipped": 23,
-    "selected": 0,
-    "converted": 0,
+    "vectorRows": 1,
+    "feasibleLocalCandidates": 1,
+    "skipped": 0,
+    "selected": 1,
+    "converted": 1,
     "skippedExisting": 0,
     "failed": 0
   },
@@ -19,103 +19,49 @@
     "Run npm run build:test:promote after reviewing converted outputs to register verified layers in /test metadata.",
     "PMTiles output is data-gated by the local availability of a PMTiles-capable CLI; see npm run build:test:pmtiles."
   ],
-  "candidates": [],
-  "selected": [],
-  "skippedExisting": [],
-  "converted": [],
-  "failed": [],
-  "skipped": [
+  "candidates": [
     {
-      "sourceMapId": "counties-ireland-1922",
-      "reason": "no local vector source file in supported format"
-    },
-    {
-      "sourceMapId": "counties-ireland-1927",
-      "reason": "no local vector source file in supported format"
-    },
-    {
-      "sourceMapId": "dublin-electoral-counties-1985",
-      "reason": "no local vector source file in supported format"
-    },
-    {
-      "sourceMapId": "eds-connacht-2022",
-      "reason": "no local vector source file in supported format"
-    },
-    {
-      "sourceMapId": "eds-leinster-2022",
-      "reason": "no local vector source file in supported format"
-    },
-    {
-      "sourceMapId": "eds-munster-2022",
-      "reason": "no local vector source file in supported format"
-    },
-    {
-      "sourceMapId": "eds-ulster-2022",
-      "reason": "no local vector source file in supported format"
-    },
-    {
-      "sourceMapId": "eds-connacht-2006",
-      "reason": "no local vector source file in supported format"
-    },
-    {
-      "sourceMapId": "eds-leinster-2006",
-      "reason": "no local vector source file in supported format"
-    },
-    {
-      "sourceMapId": "eds-munster-2006",
-      "reason": "no local vector source file in supported format"
-    },
-    {
-      "sourceMapId": "eds-ulster-2006",
-      "reason": "no local vector source file in supported format"
-    },
-    {
-      "sourceMapId": "dail-1959",
-      "reason": "no local vector source file in supported format"
-    },
-    {
-      "sourceMapId": "eds-connacht-2022",
-      "reason": "no local vector source file in supported format"
-    },
-    {
-      "sourceMapId": "eds-leinster-2022",
-      "reason": "no local vector source file in supported format"
-    },
-    {
-      "sourceMapId": "eds-munster-2022",
-      "reason": "no local vector source file in supported format"
-    },
-    {
-      "sourceMapId": "eds-ulster-2022",
-      "reason": "no local vector source file in supported format"
-    },
-    {
-      "sourceMapId": "eds-connacht-2006",
-      "reason": "no local vector source file in supported format"
-    },
-    {
-      "sourceMapId": "eds-leinster-2006",
-      "reason": "no local vector source file in supported format"
-    },
-    {
-      "sourceMapId": "eds-munster-2006",
-      "reason": "no local vector source file in supported format"
-    },
-    {
-      "sourceMapId": "eds-ulster-2006",
-      "reason": "no local vector source file in supported format"
-    },
-    {
-      "sourceMapId": "counties-ireland-1915",
-      "reason": "no local vector source file in supported format"
-    },
-    {
-      "sourceMapId": "counties-ireland-1955",
-      "reason": "no local vector source file in supported format"
-    },
-    {
-      "sourceMapId": "counties-ireland-1957",
-      "reason": "no local vector source file in supported format"
+      "sourceMapId": "ded-1921-05-03",
+      "name": "District Electoral Divisions 3 May 1921",
+      "category": "Electoral Areas",
+      "sourceFile": "render/source-cache/vector-intake/ded-1921-05-03.fgb",
+      "sourceBytes": 41044784,
+      "outputDirectory": "render/tiles/generated/ded-1921-05-03"
     }
-  ]
+  ],
+  "selected": [
+    {
+      "sourceMapId": "ded-1921-05-03",
+      "name": "District Electoral Divisions 3 May 1921",
+      "category": "Electoral Areas",
+      "sourceFile": "render/source-cache/vector-intake/ded-1921-05-03.fgb",
+      "sourceBytes": 41044784,
+      "outputDirectory": "render/tiles/generated/ded-1921-05-03"
+    }
+  ],
+  "skippedExisting": [],
+  "converted": [
+    {
+      "sourceMapId": "ded-1921-05-03",
+      "name": "District Electoral Divisions 3 May 1921",
+      "category": "Electoral Areas",
+      "sourceFile": "render/source-cache/vector-intake/ded-1921-05-03.fgb",
+      "sourceBytes": 41044784,
+      "outputDirectory": "render/tiles/generated/ded-1921-05-03",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "ded_1921_05_03",
+      "files": 759,
+      "pbfFiles": 758,
+      "bytes": 8877112,
+      "maxTileBytes": 170902
+    }
+  ],
+  "failed": [],
+  "skipped": []
 }

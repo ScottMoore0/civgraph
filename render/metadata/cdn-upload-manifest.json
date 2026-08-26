@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-23T00:43:42.156Z",
+  "generatedAt": "2026-08-26T20:56:37.374Z",
   "cdnBase": "https://data.civgraph.net/data/maps/test",
   "r2Prefix": "data/maps/test",
   "assets": [
@@ -7681,6 +7681,15 @@
       "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/local-authorities-2024-vector-test.pmtiles",
       "bytes": 8744991,
       "exists": true
+    },
+    {
+      "layerId": "ded-1921-05-03-vector-test",
+      "kind": "pmtiles",
+      "localPath": "render/pmtiles/generated/ded-1921-05-03-vector-test.pmtiles",
+      "targetKey": "data/maps/test/pmtiles/generated/ded-1921-05-03-vector-test.pmtiles",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ded-1921-05-03-vector-test.pmtiles",
+      "bytes": 5257756,
+      "exists": true
     }
   ],
   "commands": [
@@ -8172,6 +8181,7 @@
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/wq-surface-dwpa-vector-test.pmtiles --file render/pmtiles/generated/wq-surface-dwpa-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/wq-surface-water-bodies-2015-vector-test.pmtiles --file render/pmtiles/generated/wq-surface-water-bodies-2015-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/wq-wfd-monitoring-sites-vector-test.pmtiles --file render/pmtiles/generated/wq-wfd-monitoring-sites-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/wq-wfd-river-water-bodies-vector-test.pmtiles --file render/pmtiles/generated/wq-wfd-river-water-bodies-vector-test.pmtiles --remote --content-type application/octet-stream"
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/wq-wfd-river-water-bodies-vector-test.pmtiles --file render/pmtiles/generated/wq-wfd-river-water-bodies-vector-test.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/ded-1921-05-03-vector-test.pmtiles --file render/pmtiles/generated/ded-1921-05-03-vector-test.pmtiles --remote --content-type application/octet-stream"
   ]
 }
