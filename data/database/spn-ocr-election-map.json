@@ -1,0 +1,509 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-27",
+  "note": "Which Civgraph election each Belfast newspaper Statement of Persons Nominated belongs to. Keyed by the OCR file stem in archive/ocr/. NOT used by the build or the site: this is review material for a publication decision that has not been taken.",
+  "provenance": {
+    "sourceMaterial": "Scans of Belfast newspapers held by the British Newspaper Archive. The BL_ file stems encode the BNA title id and the issue date; the issue date is the only date here that is not model-derived.",
+    "extraction": "Raw OCR text (ocr_output/, 77 files) was passed to an LLM by scripts/extract_spn_llm.py via OpenRouter, which wrote the structured JSON now in archive/ocr/ (70 files). The extraction is UNVERIFIED against the scans.",
+    "mappingMethod": "Proposed by scripts/review/match-spn-ocr-candidates.mjs, NOT by hand and NOT from the LLM's own election_name field, which is wrong on at least three records. Each OCR file was scored against every Civgraph contest within 120 days of the newspaper's issue date by the share of candidate surnames the two have in common. Only files scoring >= 0.75 are recorded as mappings; the rest are listed under `unresolved` rather than guessed.",
+    "rightsPosition": "Not established. These are extracts from BNA-held newspaper scans. Factual candidate and nomination detail is unlikely to attract copyright, but that has not been confirmed and nothing here should be published until it is."
+  },
+  "thresholds": {
+    "windowDays": 120,
+    "acceptScore": 0.75
+  },
+  "mappings": {
+    "BL_0000038_19620524_471_0012 (1)": {
+      "electionKey": "parliament-of-northern-ireland__1962-05-31",
+      "paperDate": "1962-05-24",
+      "evidenceScore": 1,
+      "extractedName": "Northern Ireland Parliamentary Election 1962",
+      "basis": "surname-overlap"
+    },
+    "BL_0000953_19500218_081_0004": {
+      "electionKey": "house-of-commons-of-the-united-kingdom__1950-02-23",
+      "paperDate": "1950-02-18",
+      "evidenceScore": 1,
+      "extractedName": "Imperial Parliamentary Election 1950",
+      "basis": "surname-overlap"
+    },
+    "BL_0000953_19531017_137_0008": {
+      "electionKey": "parliament-of-northern-ireland__1953-10-22",
+      "paperDate": "1953-10-17",
+      "evidenceScore": 1,
+      "extractedName": "Northern Ireland General Election 1953",
+      "basis": "surname-overlap"
+    },
+    "BL_0000960_19531015_204_0004": {
+      "electionKey": "parliament-of-northern-ireland__1953-10-22",
+      "paperDate": "1953-10-15",
+      "evidenceScore": 1,
+      "extractedName": "Northern Ireland Parliamentary Election 1953",
+      "basis": "surname-overlap"
+    },
+    "BL_0000960_19850425_234_0041": {
+      "electionKey": "local-government__1985-05-15",
+      "paperDate": "1985-04-25",
+      "evidenceScore": 1,
+      "extractedName": "Local Elections (Northern Ireland) 1985 - Election of Councillors",
+      "basis": "surname-overlap"
+    },
+    "BL_0000960_19850425_235_0041": {
+      "electionKey": "local-government__1985-05-15",
+      "paperDate": "1985-04-25",
+      "evidenceScore": 1,
+      "extractedName": "Local Elections (Northern Ireland) 1985 - Election of Councillors",
+      "basis": "surname-overlap"
+    },
+    "BL_0000960_19850425_237_0042": {
+      "electionKey": "local-government__1985-05-15",
+      "paperDate": "1985-04-25",
+      "evidenceScore": 1,
+      "extractedName": "Local Elections (Northern Ireland) Order 1985",
+      "basis": "surname-overlap"
+    },
+    "BL_0000960_19850425_242_0044": {
+      "electionKey": "local-government__1985-05-15",
+      "paperDate": "1985-04-25",
+      "evidenceScore": 1,
+      "extractedName": "Local Elections 1985",
+      "basis": "surname-overlap"
+    },
+    "BL_0000960_19850425_651_0044": {
+      "electionKey": "local-government__1985-05-15",
+      "paperDate": "1985-04-25",
+      "evidenceScore": 1,
+      "extractedName": "Local Elections 1985",
+      "basis": "surname-overlap"
+    },
+    "BL_0001123_19700609_130_0007": {
+      "electionKey": "house-of-commons-of-the-united-kingdom__1970-06-18",
+      "paperDate": "1970-06-09",
+      "evidenceScore": 1,
+      "extractedName": "Westminster General Election 1970",
+      "basis": "surname-overlap"
+    },
+    "BL_0001123_19850426_384_0026": {
+      "electionKey": "local-government__1985-05-15",
+      "paperDate": "1985-04-26",
+      "evidenceScore": 0.81,
+      "extractedName": "Local Election 1985",
+      "basis": "surname-overlap"
+    },
+    "BL_0002021_19531016_128_0007 (1)": {
+      "electionKey": "parliament-of-northern-ireland__1953-10-22",
+      "paperDate": "1953-10-16",
+      "evidenceScore": 1,
+      "extractedName": "Northern Ireland Parliamentary Election 1953",
+      "basis": "surname-overlap"
+    },
+    "BL_0002021_19740221_231_0020": {
+      "electionKey": "house-of-commons-of-the-united-kingdom__1974-02-28",
+      "paperDate": "1974-02-21",
+      "evidenceScore": 0.8,
+      "extractedName": "Westminster General Election 1974 (February)",
+      "basis": "surname-overlap"
+    },
+    "BL_0002318_19580310_121_0008": {
+      "electionKey": "parliament-of-northern-ireland__1958-03-20",
+      "paperDate": "1958-03-10",
+      "evidenceScore": 1,
+      "extractedName": "Northern Ireland Parliamentary Election 1958",
+      "basis": "surname-overlap"
+    },
+    "BL_0002318_19700611_198_0012": {
+      "electionKey": "house-of-commons-of-the-united-kingdom__1970-06-18",
+      "paperDate": "1970-06-11",
+      "evidenceScore": 0.875,
+      "extractedName": "General Election for the Parliament of the United Kingdom, 1970",
+      "basis": "surname-overlap"
+    },
+    "BL_0002318_19741002_227_0017": {
+      "electionKey": "house-of-commons-of-the-united-kingdom__1974-10-10",
+      "paperDate": "1974-10-02",
+      "evidenceScore": 0.867,
+      "extractedName": "Westminster General Election 1974",
+      "basis": "surname-overlap"
+    },
+    "BL_0002318_19750416_173_0017": {
+      "electionKey": "northern-ireland-constitutional-convention__1975-05-01",
+      "paperDate": "1975-04-16",
+      "evidenceScore": 0.92,
+      "extractedName": "Northern Ireland Convention Election 1975",
+      "basis": "surname-overlap"
+    },
+    "BL_0002547_19531017_335_0012": {
+      "electionKey": "parliament-of-northern-ireland__1953-10-22",
+      "paperDate": "1953-10-17",
+      "evidenceScore": 0.75,
+      "extractedName": "NORTHERN IRELAND PARLIAMENTARY ELECTION FOR THE ARDS",
+      "basis": "surname-overlap"
+    },
+    "BL_0003475_19531017_031_0002": {
+      "electionKey": "parliament-of-northern-ireland__1953-10-22",
+      "paperDate": "1953-10-17",
+      "evidenceScore": 1,
+      "extractedName": "Unknown",
+      "basis": "surname-overlap"
+    },
+    "BL_0005119_19651116_232_0008": {
+      "electionKey": "parliament-of-northern-ireland__1965-11-25",
+      "paperDate": "1965-11-16",
+      "evidenceScore": 1,
+      "extractedName": "Northern Ireland Parliamentary Election, 1965",
+      "basis": "surname-overlap"
+    },
+    "BL_0005150_19850501_732_0040": {
+      "electionKey": "local-government__1985-05-15",
+      "paperDate": "1985-05-01",
+      "evidenceScore": 0.769,
+      "extractedName": "Local Election 1985",
+      "basis": "surname-overlap"
+    }
+  },
+  "unresolved": [
+    {
+      "file": "BL_0002318_19790425_240_0018.json",
+      "paperDate": "1979-04-25",
+      "extractedName": "Westminster General Election 1979",
+      "bestGuess": "house-of-commons-of-the-united-kingdom__1979-05-03",
+      "evidenceScore": 0.714
+    },
+    {
+      "file": "BL_0005119_19810810_289_0009.json",
+      "paperDate": "1981-08-10",
+      "extractedName": "Unknown",
+      "bestGuess": "local-government__1981-05-20",
+      "evidenceScore": 0.714
+    },
+    {
+      "file": "BL_0005154_19850503_698_0034.json",
+      "paperDate": "1985-05-03",
+      "extractedName": "Local Elections - Borough of Larne 1985",
+      "bestGuess": "local-government__1985-05-15",
+      "evidenceScore": 0.6
+    },
+    {
+      "file": "BL_0000960_19500216_038_0004.json",
+      "paperDate": "1950-02-16",
+      "extractedName": "Westminster General Election 1950",
+      "bestGuess": "house-of-commons-of-the-united-kingdom__1950-02-23",
+      "evidenceScore": 0.5
+    },
+    {
+      "file": "BL_0005562_19500217_104_0004.json",
+      "paperDate": "1950-02-17",
+      "extractedName": "Westminster General Election 1950",
+      "bestGuess": "house-of-commons-of-the-united-kingdom__1950-02-23",
+      "evidenceScore": 0.5
+    },
+    {
+      "file": "BL_0000038_19541123_034_0002.json",
+      "paperDate": "1954-11-23",
+      "extractedName": "Parliamentary By-Election 1954",
+      "bestGuess": "house-of-commons-of-the-united-kingdom__1954-11-20",
+      "evidenceScore": 0.5
+    },
+    {
+      "file": "BL_0005199_19830324_022_0002.json",
+      "paperDate": "1983-03-24",
+      "extractedName": "Unknown",
+      "bestGuess": "northern-ireland-assembly__1983-04-27",
+      "evidenceScore": 0.5
+    },
+    {
+      "file": "BL_0000960_19850425_239_0043 (1).json",
+      "paperDate": "1985-04-25",
+      "extractedName": "District of Newry and Mourne - District Electoral Area Crotlieve",
+      "bestGuess": "local-government__1985-05-15",
+      "evidenceScore": 0.5
+    },
+    {
+      "file": "BL_0000960_19850425_239_0043.json",
+      "paperDate": "1985-04-25",
+      "extractedName": "District of Newry and Mourne - District Electoral Area Crotlieve",
+      "bestGuess": "local-government__1985-05-15",
+      "evidenceScore": 0.5
+    },
+    {
+      "file": "BL_0005119_19860115_347_0020.json",
+      "paperDate": "1986-01-15",
+      "extractedName": "Westminster General Election 1986",
+      "bestGuess": "house-of-commons-of-the-united-kingdom__1986-01-23",
+      "evidenceScore": 0.5
+    },
+    {
+      "file": "BL_0005150_19850501_367_0036.json",
+      "paperDate": "1985-05-01",
+      "extractedName": "Election of Councillors - District of Derry 1985",
+      "bestGuess": "local-government__1985-05-15",
+      "evidenceScore": 0.455
+    },
+    {
+      "file": "BL_0000960_19850425_652_0045.json",
+      "paperDate": "1985-04-25",
+      "extractedName": "Unknown",
+      "bestGuess": "local-government__1985-05-15",
+      "evidenceScore": 0.444
+    },
+    {
+      "file": "BL_0005119_19820219_375_0010.json",
+      "paperDate": "1982-02-19",
+      "extractedName": "Unknown",
+      "bestGuess": "house-of-commons-of-the-united-kingdom__1982-03-04",
+      "evidenceScore": 0.429
+    },
+    {
+      "file": "BL_0005119_19700610_207_0009.json",
+      "paperDate": "1970-06-10",
+      "extractedName": "Westminster General Election 1970",
+      "bestGuess": "house-of-commons-of-the-united-kingdom__1970-06-18",
+      "evidenceScore": 0.375
+    },
+    {
+      "file": "BL_0001480_19700610_455_0023.json",
+      "paperDate": "1970-06-10",
+      "extractedName": "Westminster General Election 1970",
+      "bestGuess": "house-of-commons-of-the-united-kingdom__1970-06-18",
+      "evidenceScore": 0.333
+    },
+    {
+      "file": "BL_0005154_19850426_705_0034.json",
+      "paperDate": "1985-04-26",
+      "extractedName": "Unknown",
+      "bestGuess": "local-government__1985-05-15",
+      "evidenceScore": 0.311
+    },
+    {
+      "file": "BL_0005154_19850426_705_0034 (1).json",
+      "paperDate": "1985-04-26",
+      "extractedName": "Unknown",
+      "bestGuess": "local-government__1985-05-15",
+      "evidenceScore": 0.294
+    },
+    {
+      "file": "BL_0005119_19750416_225_0011.json",
+      "paperDate": "1975-04-16",
+      "extractedName": "Westminster General Election 1975",
+      "bestGuess": "northern-ireland-constitutional-convention__1975-05-01",
+      "evidenceScore": 0.282
+    },
+    {
+      "file": "BL_0005119_19830525_331_0010.json",
+      "paperDate": "1983-05-25",
+      "extractedName": "Westminster General Election 1983",
+      "bestGuess": "house-of-commons-of-the-united-kingdom__1983-06-09",
+      "evidenceScore": 0.258
+    },
+    {
+      "file": "BL_0001542_19550518_063_0004.json",
+      "paperDate": "1955-05-18",
+      "extractedName": "Unknown",
+      "bestGuess": "house-of-commons-of-the-united-kingdom__1955-05-26",
+      "evidenceScore": 0.25
+    },
+    {
+      "file": "BL_0005201_19740220_235_0019.json",
+      "paperDate": "1974-02-20",
+      "extractedName": "Unknown",
+      "bestGuess": "house-of-commons-of-the-united-kingdom__1974-02-28",
+      "evidenceScore": 0.25
+    },
+    {
+      "file": "BL_0005119_19790515_123_0009.json",
+      "paperDate": "1979-05-15",
+      "extractedName": "Westminster General Election 1979",
+      "bestGuess": "house-of-commons-of-the-united-kingdom__1979-05-03",
+      "evidenceScore": 0.25
+    },
+    {
+      "file": "BL_0005119_19750416_425_0012.json",
+      "paperDate": "1975-04-16",
+      "extractedName": "Westminster General Election 1975",
+      "bestGuess": "northern-ireland-constitutional-convention__1975-05-01",
+      "evidenceScore": 0.242
+    },
+    {
+      "file": "BL_0002318_19820219_163_0015.json",
+      "paperDate": "1982-02-19",
+      "extractedName": "Unknown",
+      "bestGuess": "house-of-commons-of-the-united-kingdom__1982-03-04",
+      "evidenceScore": 0.167
+    },
+    {
+      "file": "BL_0002006_19850425_465_0012 (1).json",
+      "paperDate": "1985-04-25",
+      "extractedName": "District Council Election 1985",
+      "bestGuess": "local-government__1985-05-15",
+      "evidenceScore": 0.143
+    },
+    {
+      "file": "BL_0002006_19850425_465_0012.json",
+      "paperDate": "1985-04-25",
+      "extractedName": "District Council Election 1985",
+      "bestGuess": "local-government__1985-05-15",
+      "evidenceScore": 0.143
+    },
+    {
+      "file": "BL_0000960_19850425_245_0046.json",
+      "paperDate": "1985-04-25",
+      "extractedName": "Unknown",
+      "bestGuess": "local-government__1985-05-15",
+      "evidenceScore": 0.1
+    },
+    {
+      "file": "BL_0002006_19850425_108_0013.json",
+      "paperDate": "1985-04-25",
+      "extractedName": "Unknown",
+      "bestGuess": "local-government__1985-05-15",
+      "evidenceScore": 0.087
+    },
+    {
+      "file": "BL_0002006_19850425_468_0013.json",
+      "paperDate": "1985-04-25",
+      "extractedName": "Unknown",
+      "bestGuess": "local-government__1985-05-15",
+      "evidenceScore": 0.087
+    },
+    {
+      "file": "BL_0005119_19741002_205_0009.json",
+      "paperDate": "1974-10-02",
+      "extractedName": "Unknown",
+      "bestGuess": "house-of-commons-of-the-united-kingdom__1974-10-10",
+      "evidenceScore": 0.025
+    },
+    {
+      "file": "BL_0001532_19531015_069_0005.json",
+      "paperDate": "1953-10-15",
+      "extractedName": "Unknown",
+      "bestGuess": "parliament-of-northern-ireland__1953-10-22",
+      "evidenceScore": 0
+    },
+    {
+      "file": "BL_0000999_19531017_098_0002.json",
+      "paperDate": "1953-10-17",
+      "extractedName": "Northern Ireland General Election 1953",
+      "bestGuess": "parliament-of-northern-ireland__1953-10-22",
+      "evidenceScore": 0
+    },
+    {
+      "file": "BL_0002318_19531017_073_0006.json",
+      "paperDate": "1953-10-17",
+      "extractedName": "",
+      "bestGuess": "parliament-of-northern-ireland__1953-10-22",
+      "evidenceScore": 0
+    },
+    {
+      "file": "BL_0002318_19580310_120_0008.json",
+      "paperDate": "1958-03-10",
+      "extractedName": "Northern Ireland Parliamentary Election 1958",
+      "bestGuess": "parliament-of-northern-ireland__1958-03-20",
+      "evidenceScore": 0
+    },
+    {
+      "file": "BL_0002318_19580310_124_0008.json",
+      "paperDate": "1958-03-10",
+      "extractedName": "Northern Ireland Parliamentary Election 1938",
+      "bestGuess": "parliament-of-northern-ireland__1958-03-20",
+      "evidenceScore": 0
+    },
+    {
+      "file": "BL_0002318_19740221_237_0014.json",
+      "paperDate": "1974-02-21",
+      "extractedName": "Parliamentary Election 1974",
+      "bestGuess": "house-of-commons-of-the-united-kingdom__1974-02-28",
+      "evidenceScore": 0
+    },
+    {
+      "file": "BL_0005229_19740222_219_0018 (1).json",
+      "paperDate": "1974-02-22",
+      "extractedName": "Westminster General Election 1974",
+      "bestGuess": "house-of-commons-of-the-united-kingdom__1974-02-28",
+      "evidenceScore": 0
+    },
+    {
+      "file": "BL_0005119_19750508_015_0001.json",
+      "paperDate": "1975-05-08",
+      "extractedName": "Unknown",
+      "bestGuess": "northern-ireland-constitutional-convention__1975-05-01",
+      "evidenceScore": 0
+    },
+    {
+      "file": "BL_0000960_19830324_563_0019.json",
+      "paperDate": "1983-03-24",
+      "extractedName": "Northern Ireland Assembly Bye-Election 1983",
+      "bestGuess": "northern-ireland-assembly__1983-04-27",
+      "evidenceScore": 0
+    },
+    {
+      "file": "BL_0005203_19830325_617_0017.json",
+      "paperDate": "1983-03-25",
+      "extractedName": "Unknown",
+      "bestGuess": "northern-ireland-assembly__1983-04-27",
+      "evidenceScore": 0
+    },
+    {
+      "file": "BL_0002318_19830525_332_0015.json",
+      "paperDate": "1983-05-25",
+      "extractedName": "",
+      "bestGuess": "house-of-commons-of-the-united-kingdom__1983-06-09",
+      "evidenceScore": 0
+    },
+    {
+      "file": "BL_0005119_19840302_384_0012.json",
+      "paperDate": "1984-03-02",
+      "extractedName": "Northern Ireland Assembly Bye-Election",
+      "bestGuess": "northern-ireland-assembly__1984-03-01",
+      "evidenceScore": 0
+    },
+    {
+      "file": "BL_0005119_19840517_353_0009.json",
+      "paperDate": "1984-05-17",
+      "extractedName": "Unknown",
+      "bestGuess": "european-parliament__1984-06-14",
+      "evidenceScore": 0
+    },
+    {
+      "file": "BL_0002006_19860501_535_0017.json",
+      "paperDate": "1986-05-01",
+      "extractedName": "District of Magherafelt Bye-Election 1986",
+      "bestGuess": "house-of-commons-of-the-united-kingdom__1986-01-23",
+      "evidenceScore": 0
+    },
+    {
+      "file": "BL_0005155_19870416_680_0041.json",
+      "paperDate": "1987-04-16",
+      "extractedName": "Unknown",
+      "bestGuess": "house-of-commons-of-the-united-kingdom__1987-06-11",
+      "evidenceScore": 0
+    },
+    {
+      "file": "BL_0005184_19870610_676_0033.json",
+      "paperDate": "1987-06-10",
+      "extractedName": "Unknown",
+      "bestGuess": "house-of-commons-of-the-united-kingdom__1987-06-11",
+      "evidenceScore": 0
+    },
+    {
+      "file": "BL_0005155_19880421_552_0030.json",
+      "paperDate": "1988-04-21",
+      "extractedName": "Unknown",
+      "bestGuess": null,
+      "evidenceScore": 0
+    },
+    {
+      "file": "BL_0005289_19880421_226_0030.json",
+      "paperDate": "1988-04-21",
+      "extractedName": "Unknown",
+      "bestGuess": null,
+      "evidenceScore": 0
+    },
+    {
+      "file": "BL_0000960_19880908_478_0028.json",
+      "paperDate": "1988-09-08",
+      "extractedName": "Unknown",
+      "bestGuess": null,
+      "evidenceScore": 0
+    }
+  ]
+}

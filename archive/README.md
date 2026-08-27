@@ -51,6 +51,17 @@ anywhere in `data/`, `app/data/` or `functions/`, and the published election sch
 agents are not recorded anywhere else in Civgraph. So this is 822 unpublished candidate
 records, not a duplicate of something already live.
 
+### Has it been assessed for publication?
+
+Yes, on 2026-08-27, and the answer was **not yet**. Only 228 of the 822 candidates (27.7%)
+join to an existing Civgraph candidate row. The extraction itself is sound -- every
+extracted name traces back to the source text -- but the raw OCR interleaves newspaper
+columns, so names arrive truncated, reordered, or contaminated with address fragments from
+the next column. The fix is re-OCR with column detection, not more matching logic.
+
+Full findings, method and the numbers: `docs/review/SPN-OCR-PROVENANCE.md`.
+Which election each file belongs to: `data/database/spn-ocr-election-map.json`.
+
 ### The input is not here
 
 The raw text this was extracted FROM is still at the repository root, in `ocr_output/`
