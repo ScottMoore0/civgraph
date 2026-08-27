@@ -401,7 +401,7 @@ def scan_local_workbook(local_workbook: Path) -> dict[str, int]:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--full-workbook", default="Full election tables.xlsx")
-    parser.add_argument("--website-json-root", default=r"election-viewer-package\data\elections")
+    parser.add_argument("--website-json-root", default=r"data/elections-source\data\elections")
     parser.add_argument("--local-workbook", default=r"_tmp_xls2rar_extract\out\wiki_lgov_modern\lgov-modern-wikipedia.stvfix.xlsx")
     args = parser.parse_args()
 

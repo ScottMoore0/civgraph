@@ -3,7 +3,7 @@ Add Belfast and Derry City & Strabane LGD entries to elections_index.json
 for the 2014, 2019 and 2023 NI local-government elections.
 
 The DEA-level data already exists in
-  election-viewer-package/data/elections/local-government/{date}/_aggregates.json
+  data/elections-source/data/elections/local-government/{date}/_aggregates.json
 and individual DEA JSON files are present too. Only the index that the
 election viewer uses to build the council picker is missing both
 councils.
@@ -12,8 +12,8 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-INDEX = ROOT / 'election-viewer-package' / 'data' / 'elections_index.json'
-LG_DIR = ROOT / 'election-viewer-package' / 'data' / 'elections' / 'local-government'
+INDEX = ROOT / 'data/elections-source' / 'data' / 'elections_index.json'
+LG_DIR = ROOT / 'data/elections-source' / 'data' / 'elections' / 'local-government'
 
 DATES = ['2014-05-22', '2019-05-02', '2023-05-18']
 COUNCILS = ['Belfast', 'Derry City and Strabane']

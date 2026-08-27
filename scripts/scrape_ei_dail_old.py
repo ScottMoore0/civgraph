@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 BASE = 'https://electionsireland.org'
 WAYBACK = 'https://web.archive.org/web/2024/'
 HEADERS = {'User-Agent': 'civgraph.net (NI/ROI civic-data project)'}
-OUT = Path(r'election-viewer-package/data/elections/dail-eireann')
+OUT = Path(r'data/elections-source/data/elections/dail-eireann')
 OUT.mkdir(parents=True, exist_ok=True)
 c = httpx.Client(headers=HEADERS, timeout=60.0, follow_redirects=True)
 

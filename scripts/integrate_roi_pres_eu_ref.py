@@ -33,11 +33,11 @@ import os
 import re
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-DATA = os.path.join(ROOT, 'election-viewer-package', 'data', 'elections')
+DATA = os.path.join(ROOT, 'data/elections-source', 'data', 'elections')
 PRES = os.path.join(DATA, 'ireland-president')
 EUR = os.path.join(DATA, 'ireland-european')
 REF = os.path.join(DATA, 'ireland-referendum')
-MASTER = os.path.join(ROOT, 'election-viewer-package', 'data', 'elections_index.json')
+MASTER = os.path.join(ROOT, 'data/elections-source', 'data', 'elections_index.json')
 
 
 PRES_YEAR_TO_ISO = {

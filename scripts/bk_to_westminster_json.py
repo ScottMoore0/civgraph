@@ -4,7 +4,7 @@ spreadsheet into per-constituency JSON files matching the existing
 'House of Commons of the United Kingdom' schema on the site.
 
 Source: bkniresults.xlsx in repo root.
-Output: election-viewer-package/data/elections/house-of-commons-of-the-united-kingdom/<date>/<slug>.json
+Output: data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/<date>/<slug>.json
 
 Each sheet covers one election year. Within a sheet, contests are stacked
 vertically. Each block starts with a title row of the form
@@ -27,7 +27,7 @@ from openpyxl import load_workbook
 
 REPO = Path(__file__).resolve().parent.parent
 SRC_XLSX = REPO / "bkniresults.xlsx"
-OUT_BASE = REPO / "election-viewer-package" / "data" / "elections" / "house-of-commons-of-the-united-kingdom"
+OUT_BASE = REPO / "data/elections-source" / "data" / "elections" / "house-of-commons-of-the-united-kingdom"
 
 # Sheet -> ISO date for the election (BK headers in title row are authoritative;
 # this map lets us locate the output folder before reading the sheet).

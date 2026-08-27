@@ -12,7 +12,7 @@ titled "General Election <date> : <Constituency>" or
 "By-election <date> : <Constituency>". We only keep general elections
 matching the 12 Stormont GE dates.
 
-Output: election-viewer-package/data/elections/parliament-of-northern-ireland/<date>/<slug>.json
+Output: data/elections-source/data/elections/parliament-of-northern-ireland/<date>/<slug>.json
 """
 import html as html_lib
 import json
@@ -25,7 +25,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 CACHE = REPO / "_tmp_stormont" / "pages"
 CACHE.mkdir(parents=True, exist_ok=True)
-OUT_BASE = REPO / "election-viewer-package" / "data" / "elections" / "parliament-of-northern-ireland"
+OUT_BASE = REPO / "data/elections-source" / "data" / "elections" / "parliament-of-northern-ireland"
 
 UA = "Mozilla/5.0 civgraph-scraper ([email removed]) - historical NI election archive"
 

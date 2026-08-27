@@ -7,7 +7,7 @@ from pathlib import Path
 import httpx
 from bs4 import BeautifulSoup
 
-OUT = Path('election-viewer-package/data/elections/dail-eireann/2024-11-29')
+OUT = Path('data/elections-source/data/elections/dail-eireann/2024-11-29')
 WAYBACK = 'https://web.archive.org/web/2025/'
 BASE = 'https://electionsireland.org'
 EI_URL = f'{BASE}/result.cfm?election=2024&cons=235'

@@ -135,7 +135,7 @@ artifact of one election type, which underwrites its use as a covariate in the s
 
 NI-wide unionist & nationalist transfer openness per STV election. **Data limit found — and pinned
 down precisely:** the pre-2014 local-government *results* **are** digitised (per-ward files back to
-1973 under `election-viewer-package/data/elections/local-government/<date>/`), but they contain
+1973 under `data/elections-source/data/elections/local-government/<date>/`), but they contain
 **first-preference votes + a final elected flag only** — `max Count_Number = 1`, no `Transfers`
 field. The **count-by-count transfer sheets begin in 2014** (that year's ward files jump to
 `Count_Number` up to 15 with signed `Transfers`, e.g. −618.19 eliminations, and gain the derived

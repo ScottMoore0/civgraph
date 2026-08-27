@@ -7,7 +7,7 @@ Source evidence: `_tmp_xls2rar_extract/out/wiki_election_gap_search/election-gap
 ## What was applied
 
 The 38 resolvable Wikipedia findings split into three mechanisms once cross-checked
-against the raw source files (`election-viewer-package/data/elections/local-government/<date>/`):
+against the raw source files (`data/elections-source/data/elections/local-government/<date>/`):
 
 1. **24 valid-poll corrections** — genuine import corruption (negative/truncated `Valid_Poll`,
    e.g. Ballyarnett 2023 `-179`, Armagh Area C 1973 `166`, and the 1975 Constitutional Convention
@@ -60,7 +60,7 @@ The 10 remaining Dáil candidate-row gaps were resolved, taking the `/test2` ele
 
 - **6 via source-file alias** — the combined 1921/1922 constituencies (`Cork East & North East`,
   `Cork Mid, North, South, South East & West` ×2 years, `Mayo North & West`, `Tipperary Mid, North & South`)
-  already had authoritative raw files in `election-viewer-package/data/elections/dail-eireann/<date>/`;
+  already had authoritative raw files in `data/elections-source/data/elections/dail-eireann/<date>/`;
   they were unmatched only because the manifest name (`&`) didn't slugify to the filename (`and`/omitted).
   Added to the now-generalised `election-source-file-aliases.json`.
 - **4 via populated raw results** (Wikipedia-sourced, with `source_url`):

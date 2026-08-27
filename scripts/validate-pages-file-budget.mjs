@@ -11,7 +11,7 @@ const MAX_FILE_BYTES = Number(process.env.MAX_PAGES_FILE_BYTES || 25 * 1024 * 10
 //
 // This script used to carry its own hand-maintained EXCLUDED_PREFIXES list. The two
 // drifted, and on 2026-08-03 the drift hid a real overage: the list here excluded
-// election-viewer-package/data/elections/ (7,402 files) while .cfignore did not, so
+// data/elections-source/data/elections/ (7,402 files) while .cfignore did not, so
 // this check reported a comfortable 13,562/18,500 while the deployment Cloudflare
 // would actually build was about 20,944 -- over the 20,000 hard limit. A guardrail
 // measuring a different thing from the one being guarded is worse than no guardrail,

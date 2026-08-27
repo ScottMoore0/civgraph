@@ -6,7 +6,7 @@ For each constituency:
 - Resolve a Wikipedia article via en.wikipedia.org/w/api.php (action=parse)
 - Find every wikitable with an election caption matching one of the 9 GEs
 - Extract candidate rows: party, candidate name, votes, %
-- Update the existing JSON files in election-viewer-package/data/elections/...
+- Update the existing JSON files in data/elections-source/data/elections/...
 """
 import argparse, csv, json, re, sys, time, urllib.parse, urllib.request, io
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
@@ -16,7 +16,7 @@ from collections import defaultdict
 import unicodedata
 
 REPO = Path(__file__).resolve().parent.parent
-EVP = REPO / "election-viewer-package"
+EVP = REPO / "data/elections-source"
 ELECTIONS_DIR = EVP / "data" / "elections" / "house-of-commons-of-the-united-kingdom"
 RESULTS_CSV = REPO / "data" / "external" / "parlconst" / "pre1922_westminster_results.csv"
 CACHE_DIR = REPO / "_tmp_parlconst" / "wiki_cache"

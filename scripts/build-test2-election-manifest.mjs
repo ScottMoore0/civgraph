@@ -7,8 +7,8 @@ import { canonicalElectionTitle, isElectionByElectionScope } from './lib/electio
 import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
 
 const ROOT = process.cwd();
-const ELECTION_ROOT = path.join(ROOT, 'election-viewer-package', 'data', 'elections');
-const ELECTION_INDEX = path.join(ROOT, 'election-viewer-package', 'data', 'elections_index.json');
+const ELECTION_ROOT = path.join(ROOT, 'data/elections-source', 'data', 'elections');
+const ELECTION_INDEX = path.join(ROOT, 'data/elections-source', 'data', 'elections_index.json');
 const MAP_METADATA = path.join(ROOT, 'render', 'metadata', 'maps-test.json');
 const FEATURE_INDEX_DIR = path.join(ROOT, 'render', 'metadata', 'feature-indexes');
 const FEATURE_INDEX_BASELINE = path.join(ROOT, 'data', 'database', 'election-feature-index-baseline.json');
@@ -407,7 +407,7 @@ async function main() {
   const manifest = {
     schemaVersion: 1,
     generatedAt: new Date().toISOString(),
-    source: 'election-viewer-package/data/elections',
+    source: 'data/elections-source/data/elections',
     totals: {
       elections: manifestEntries.length,
       loadable: manifestEntries.filter((entry) => entry.loadable).length,

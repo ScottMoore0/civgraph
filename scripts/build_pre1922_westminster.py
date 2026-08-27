@@ -5,9 +5,9 @@ _pre1970_index.json with the new dates.
 
 Outputs:
   data/external/parlconst/pre1922_westminster_results.csv  (unified table)
-  election-viewer-package/data/elections/house-of-commons-of-the-united-kingdom/<date>/<slug>.json
-  election-viewer-package/data/elections/house-of-commons-of-the-united-kingdom/_pre1970_index.json (updated)
-  election-viewer-package/data/elections_index.json (updated)
+  data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/<date>/<slug>.json
+  data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/_pre1970_index.json (updated)
+  data/elections-source/data/elections_index.json (updated)
 """
 import csv, json, re, sys, io, unicodedata
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
@@ -15,7 +15,7 @@ from openpyxl import load_workbook
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-EVP = REPO / "election-viewer-package"
+EVP = REPO / "data/elections-source"
 ELECTIONS_DIR = EVP / "data" / "elections" / "house-of-commons-of-the-united-kingdom"
 INDEX = ELECTIONS_DIR / "_pre1970_index.json"
 ELECTIONS_INDEX = EVP / "data" / "elections_index.json"

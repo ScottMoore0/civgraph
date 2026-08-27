@@ -13,7 +13,7 @@ import os
 import re
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-DAIL = os.path.join(ROOT, 'election-viewer-package', 'data', 'elections', 'dail-eireann')
+DAIL = os.path.join(ROOT, 'data/elections-source', 'data', 'elections', 'dail-eireann')
 
 
 def slugify(s):

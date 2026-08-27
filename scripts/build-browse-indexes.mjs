@@ -82,7 +82,7 @@ function main() {
   };
   const sourceEnrichmentInputs = mergeSourceEnrichmentInputs(alreadyOnSiteEnrichmentsData, peatlandGeoportalSourcesData);
   const spatialIndex = readJson('data/database/spatial-index.json', { maps: [], features: [] });
-  const partyIds = readJson('election-viewer-package/data/party-ids.json', { party_ids: [], aliases: {} });
+  const partyIds = readJson('data/elections-source/data/party-ids.json', { party_ids: [], aliases: {} });
   const electionManifest = readJson('render/metadata/elections-test2.json', { elections: [], totals: {} });
   const thumbnailIds = readThumbnailManifest();
 

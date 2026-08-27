@@ -5,8 +5,8 @@ import json
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-SUMMARY = REPO / "election-viewer-package" / "data" / "elections" / "parliament-of-northern-ireland" / "_index.json"
-INDEX = REPO / "election-viewer-package" / "data" / "elections_index.json"
+SUMMARY = REPO / "data/elections-source" / "data" / "elections" / "parliament-of-northern-ireland" / "_index.json"
+INDEX = REPO / "data/elections-source" / "data" / "elections_index.json"
 
 def main():
     summary = json.loads(SUMMARY.read_text(encoding="utf-8"))

@@ -112,7 +112,7 @@ def parse_constituency_meta(soup):
 
 def scrape_presidential():
     """Step 3: Presidential elections — national-level results."""
-    OUT = Path(r'election-viewer-package/data/elections/ireland-president')
+    OUT = Path(r'data/elections-source/data/elections/ireland-president')
     OUT.mkdir(parents=True, exist_ok=True)
 
     print('=== Step 3: Presidential ===')
@@ -161,7 +161,7 @@ def scrape_presidential():
 
 def scrape_european():
     """Step 4: European Parliament elections (ROI), per-constituency."""
-    OUT = Path(r'election-viewer-package/data/elections/ireland-european')
+    OUT = Path(r'data/elections-source/data/elections/ireland-european')
     OUT.mkdir(parents=True, exist_ok=True)
 
     print('\n=== Step 4: European (ROI) ===')

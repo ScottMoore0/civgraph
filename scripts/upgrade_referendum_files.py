@@ -1,5 +1,5 @@
 """Upgrade existing per-constituency referendum JSONs in
-election-viewer-package/data/elections/ireland-referendum/<event>/<cons>.json
+data/elections-source/data/elections/ireland-referendum/<event>/<cons>.json
 to the format the controller's _normaliseScraperPayload expects:
 
   - move flat electorate/turnout_pct/spoiled into a `meta` object
@@ -14,7 +14,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-BASE = Path('election-viewer-package/data/elections/ireland-referendum')
+BASE = Path('data/elections-source/data/elections/ireland-referendum')
 
 
 def upgrade(d: dict) -> dict | None:

@@ -66,7 +66,7 @@ remove_path "data/provider-mirror-audit"
 # Legacy/source election JSON is transformed into /render/metadata/elections-test2
 # bundles during the build. The browser no longer fetches these raw source
 # records directly, and deploying them costs several thousand Pages files.
-remove_path "election-viewer-package/data/elections"
+remove_path "data/elections-source/data/elections"
 
 # Approved publication source input is build-time source material. Browse
 # consumes the compact /data/browse/sources.json index plus sharded source

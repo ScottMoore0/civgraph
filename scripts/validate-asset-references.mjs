@@ -16,7 +16,7 @@
  * MATCHING IS ANCHORED ON PURPOSE. While investigating the above I repeatedly
  * matched substrings and drew false conclusions: 'js/web-vitals-4.iife.js'
  * matched inside 'assets/js/web-vitals-4.iife.js' and invented a bug that did
- * not exist; 'js/stages2.js' matched inside 'election-viewer-package/js/...'
+ * not exist; 'js/stages2.js' matched inside 'data/elections-source/js/...'
  * and implied the live app depended on the legacy directory. Every pattern here
  * captures a complete quoted path and resolves it, so a reference can never be
  * confused with a different file that merely ends the same way.

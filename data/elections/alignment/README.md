@@ -58,7 +58,7 @@ python scripts/apply_candidate_attributes.py --leads    # refresh endorsement le
 Idempotent. Re-run after any rebuild of `render/metadata/elections-test2/`.
 
 **Why the field lives there and not upstream.** The upstream source
-(`election-viewer-package/data/elections/<body>/<date>/<constituency>.json`) is raw
+(`data/elections-source/data/elections/<body>/<date>/<constituency>.json`) is raw
 EONI-shaped count data — one row per candidate *per count* — so there is no single
 object representing a candidacy to hang the field on. The test2 metadata is the form
 where each candidacy is exactly one object, and it is what both the site and the

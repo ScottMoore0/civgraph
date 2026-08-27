@@ -39,7 +39,7 @@ SPLITS: tuple[SplitContextAssignment, ...] = (
         name="David Taylor",
         contexts=(("1996-05-30", "Belfast West", "Green / Ecology"),),
         website_json_files=(
-            r"election-viewer-package/data/elections/northern-ireland-forum-for-political-dialogue/1996-05-30/belfast-west.json",
+            r"data/elections-source/data/elections/northern-ireland-forum-for-political-dialogue/1996-05-30/belfast-west.json",
         ),
     ),
     SplitContextAssignment(
@@ -49,7 +49,7 @@ SPLITS: tuple[SplitContextAssignment, ...] = (
         name="David Taylor",
         contexts=(("1996-05-30", "Foyle", "UKUP"),),
         website_json_files=(
-            r"election-viewer-package/data/elections/northern-ireland-forum-for-political-dialogue/1996-05-30/foyle.json",
+            r"data/elections-source/data/elections/northern-ireland-forum-for-political-dialogue/1996-05-30/foyle.json",
         ),
     ),
     SplitContextAssignment(
@@ -62,8 +62,8 @@ SPLITS: tuple[SplitContextAssignment, ...] = (
             ("1975-05-01", "Londonderry", "Vanguard Unionist Progressive Party"),
         ),
         website_json_files=(
-            r"election-viewer-package/data/elections/northern-ireland-assembly/1973-06-28/londonderry.json",
-            r"election-viewer-package/data/elections/northern-ireland-constitutional-convention/1975-05-01/londonderry.json",
+            r"data/elections-source/data/elections/northern-ireland-assembly/1973-06-28/londonderry.json",
+            r"data/elections-source/data/elections/northern-ireland-constitutional-convention/1975-05-01/londonderry.json",
         ),
     ),
     SplitContextAssignment(
@@ -73,7 +73,7 @@ SPLITS: tuple[SplitContextAssignment, ...] = (
         name="John Doherty",
         contexts=(("1996-05-30", "West Tyrone", "Workers Party / Republican Clubs"),),
         website_json_files=(
-            r"election-viewer-package/data/elections/northern-ireland-forum-for-political-dialogue/1996-05-30/west-tyrone.json",
+            r"data/elections-source/data/elections/northern-ireland-forum-for-political-dialogue/1996-05-30/west-tyrone.json",
         ),
     ),
     SplitContextAssignment(
@@ -86,8 +86,8 @@ SPLITS: tuple[SplitContextAssignment, ...] = (
             ("2016-05-05", "Upper Bann", "CISTA"),
         ),
         website_json_files=(
-            r"election-viewer-package/data/elections/house-of-commons-of-the-united-kingdom/2015-05-07/upper-bann.json",
-            r"election-viewer-package/data/elections/northern-ireland-assembly/2016-05-05/upper-bann.json",
+            r"data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/2015-05-07/upper-bann.json",
+            r"data/elections-source/data/elections/northern-ireland-assembly/2016-05-05/upper-bann.json",
         ),
     ),
     SplitContextAssignment(
@@ -100,8 +100,8 @@ SPLITS: tuple[SplitContextAssignment, ...] = (
             ("1996-05-30", "South Antrim", "UKUP"),
         ),
         website_json_files=(
-            r"election-viewer-package/data/elections/northern-ireland-forum-for-political-dialogue/1996-05-30/northern-ireland.json",
-            r"election-viewer-package/data/elections/northern-ireland-forum-for-political-dialogue/1996-05-30/south-antrim.json",
+            r"data/elections-source/data/elections/northern-ireland-forum-for-political-dialogue/1996-05-30/northern-ireland.json",
+            r"data/elections-source/data/elections/northern-ireland-forum-for-political-dialogue/1996-05-30/south-antrim.json",
         ),
     ),
     SplitContextAssignment(
@@ -114,8 +114,8 @@ SPLITS: tuple[SplitContextAssignment, ...] = (
             ("1975-05-01", "Belfast South", "DUP"),
         ),
         website_json_files=(
-            r"election-viewer-package/data/elections/northern-ireland-assembly/1973-06-28/belfast-south.json",
-            r"election-viewer-package/data/elections/northern-ireland-constitutional-convention/1975-05-01/belfast-south.json",
+            r"data/elections-source/data/elections/northern-ireland-assembly/1973-06-28/belfast-south.json",
+            r"data/elections-source/data/elections/northern-ireland-constitutional-convention/1975-05-01/belfast-south.json",
         ),
     ),
     SplitContextAssignment(
@@ -125,7 +125,7 @@ SPLITS: tuple[SplitContextAssignment, ...] = (
         name="Robert Stewart",
         contexts=(("1973-06-28", "Belfast South", "UUP"),),
         website_json_files=(
-            r"election-viewer-package/data/elections/northern-ireland-assembly/1973-06-28/belfast-south.json",
+            r"data/elections-source/data/elections/northern-ireland-assembly/1973-06-28/belfast-south.json",
         ),
     ),
 )

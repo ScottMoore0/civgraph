@@ -257,7 +257,7 @@ Seven times during this work, a success signal was wrong:
   em-dash breaking a PowerShell string)
 - substring matches produced three false "this is dead" conclusions
   (`js/web-vitals-4.iife.js` inside `assets/js/...`; `js/stages2.js` inside
-  `election-viewer-package/js/...`)
+  `data/elections-source/js/...`)
 
 **Verify against the thing itself, not against a report of it.** Both validators
 added here follow that rule: they ask the filesystem and the bucket what is

@@ -2,7 +2,7 @@
 """Build comprehensive election workbook from all available election data sources.
 
 Reads:
-  1. election-viewer-package/data/elections/ — JSON constituency files
+  1. data/elections-source/data/elections/ — JSON constituency files
      (Westminster 1970+, Assembly 1973+, European 1979+, Convention, Forum,
       Local Govt 2014+)
   2. _tmp_{year}_lgov/bundle/ — scraped 1973–2005 local election data
@@ -180,8 +180,8 @@ def load_elections_index(base_dir: Path) -> dict[str, dict[str, list[str]]]:
 
 
 def discover_election_viewer_data(base_dir: Path) -> list[dict]:
-    """Discover all constituency JSON files from the election-viewer-package."""
-    elections_dir = base_dir / "election-viewer-package" / "data" / "elections"
+    """Discover all constituency JSON files from the data/elections-source."""
+    elections_dir = base_dir / "data/elections-source" / "data" / "elections"
     if not elections_dir.exists():
         print(f"  Warning: {elections_dir} not found")
         return []

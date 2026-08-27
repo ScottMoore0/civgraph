@@ -1,7 +1,7 @@
 """Convert scraped Wikipedia per-constituency referendum tables (in
 _tmp_ref/wiki_samples/) into per-constituency JSON files alongside the
 existing aggregate `ireland.json` files in
-election-viewer-package/data/elections/ireland-referendum/<date>-<slug>/.
+data/elections-source/data/elections/ireland-referendum/<date>-<slug>/.
 
 Schema for each per-constituency file (e.g. dublin-central.json):
   {
@@ -23,7 +23,7 @@ import json, re
 from pathlib import Path
 
 SRC_DIR = Path('_tmp_ref/wiki_samples')
-DST_BASE = Path('election-viewer-package/data/elections/ireland-referendum')
+DST_BASE = Path('data/elections-source/data/elections/ireland-referendum')
 
 
 def slugify(s: str) -> str:

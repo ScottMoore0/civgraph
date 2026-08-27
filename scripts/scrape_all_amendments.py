@@ -4,7 +4,7 @@ results to _tmp_ref/wiki_samples/<date>-<slug>.json, plus an index of
 which events succeeded/failed.
 
 Pairs each amendment with the existing project referendum-event folder
-(election-viewer-package/data/elections/ireland-referendum/<date>-<slug>/)
+(data/elections-source/data/elections/ireland-referendum/<date>-<slug>/)
 so the next step can integrate per-constituency JSONs there.
 """
 from pathlib import Path
@@ -15,7 +15,7 @@ from scrape_wiki_referendums import scrape_amendment, slugify
 
 # Each tuple is (Wikipedia URL slug, ISO date, project folder slug, topic label).
 # project folder slug should match an existing folder under
-# election-viewer-package/data/elections/ireland-referendum/<date>-<slug>/.
+# data/elections-source/data/elections/ireland-referendum/<date>-<slug>/.
 AMENDMENTS = [
     ('Third_Amendment_of_the_Constitution_of_Ireland',     '1972-05-10', 'accession-to-the-european-communities', '3rd Amendment — EEC accession'),
     ('Fourth_Amendment_of_the_Constitution_of_Ireland',    '1972-12-07', 'voting-age',                            '4th Amendment — Voting age 18'),

@@ -4,7 +4,7 @@ from collections import Counter
 from pathlib import Path
 
 
-ROOT = Path("election-viewer-package/data/elections")
+ROOT = Path("data/elections-source/data/elections")
 PARTY_KEYS = {
     "Party_Name",
     "Party",

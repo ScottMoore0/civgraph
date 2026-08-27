@@ -14,7 +14,7 @@ import os
 import sys
 from pathlib import Path
 
-ELECTIONS_DIR = Path(__file__).resolve().parent.parent / 'election-viewer-package' / 'data' / 'elections'
+ELECTIONS_DIR = Path(__file__).resolve().parent.parent / 'data/elections-source' / 'data' / 'elections'
 
 # Candidate-level fields (stored once per candidate, not per count)
 CANDIDATE_FIELDS = [

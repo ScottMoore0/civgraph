@@ -1283,7 +1283,7 @@
 - [x] Record scope
   - Task: fix `/test2` transfer animation loading so Dail constituency Transfers panes can load the STV animation runtime, and report Irish general-election transfer-data gaps.
   - Symptom: selecting a Dail constituency transfer animation can show `The election animation engine could not load: /test2/js/jquery-shim.js`.
-  - Root cause to verify: `/test2/src/election-manager.js` lazy-loads static runtime scripts from `/test2/js/...` and `/test2/election-viewer-package/js/...`, but those assets are not currently present under the deployed `/test2` route.
+  - Root cause to verify: `/test2/src/election-manager.js` lazy-loads static runtime scripts from `/test2/js/...` and `/test2/data/elections-source/js/...`, but those assets are not currently present under the deployed `/test2` route.
   - Permanent prevention action: add route/build validation or browser coverage that verifies all lazy animation runtime script URLs referenced by `/test2` exist and at least one Dail Transfers view can initialise the engine.
 - [x] Implement runtime asset fix
   - Ensure `/test2` serves `jquery-shim.js` and the election-viewer animation scripts at the paths expected by `election-manager.js`.
@@ -1321,7 +1321,7 @@
 - [x] Record correction and scope
   - Task: replace the synthetic zero-transfer Dail rows with real per-count constituency rows derived from Wikipedia constituency count tables where those tables are available, for the 2024 Irish general election and all other Irish general elections.
   - Symptom: `/test2` now shows Dail count-stage rows and a Transfers pane, but transfer values are zero because the local scraper payload lacks the cumulative Wikipedia count columns.
-  - Root cause: the Dail source JSON under `election-viewer-package/data/elections/dail-eireann/...` stores first preferences plus encoded election/exclusion count markers, not the full per-count candidate totals shown in constituency Wikipedia articles.
+  - Root cause: the Dail source JSON under `data/elections-source/data/elections/dail-eireann/...` stores first preferences plus encoded election/exclusion count markers, not the full per-count candidate totals shown in constituency Wikipedia articles.
   - Permanent prevention action: add a data ingestion/audit path that compares Wikipedia-derived Dail count tables to generated `/test2` Dail bundles and fails if known available constituency count columns are not present.
 - [x] Build a Wikipedia count-table ingestion path
   - Fetch or read constituency Wikipedia pages for Irish general elections.
@@ -1434,7 +1434,7 @@
   - Completed: kept the initial mobile catalogue bounded while allowing TOC taps to hydrate full catalogue content only when needed; the Playwright mobile catalogue test now verifies a deferred TOC target hydrates, scrolls into the catalogue pane, loses deferred status, and clears the Show more control.
   - Verification evidence: `node --check js\ui-controller.js`; `node --check tests\browser\test2-app.spec.js`; `node --check scripts\validate-test2-route.mjs`; escalated `npm run build:test2`; escalated focused `npm run test:browser:test2 -- --grep "mobile catalogue stays bounded"`; `npm run check:test2`; escalated `npm run check`.
 - [x] Section 2 implementation: election-data/source correctness audit
-  - Build a canonical election audit index from `election-viewer-package/data/elections`, `test/metadata/elections-test2.json`, `test/metadata/elections-test2-summaries`, `data/browse/elections.json`, `data/browse/details/elections`, and source-reference records under `data/browse/details/sources`.
+  - Build a canonical election audit index from `data/elections-source/data/elections`, `test/metadata/elections-test2.json`, `test/metadata/elections-test2-summaries`, `data/browse/elections.json`, `data/browse/details/elections`, and source-reference records under `data/browse/details/sources`.
   - For each parent election and constituency/DEA/entity sub-entry, compare candidates, parties/labels, seats/elected status, first preferences, valid poll, turnout, quota, count totals, transfer-stage data, aggregate results, and previous-election deltas against all available corroborating sources.
   - Source priority: official electoral/statutory/result publications where present; ARK/CAIN for Northern Ireland election result breakdowns; ElectionsIreland/Oireachtas/electoral commission sources where present; Wikipedia as a useful secondary corroborator and party-colour source, not the sole authority.
   - Extend existing ARK/Wikipedia comparison scripts into one generated discrepancy report with machine-readable JSON plus human-readable Markdown.
@@ -3503,14 +3503,14 @@ Election party aliases and party IDs
     - Added an Ireland/NI audit alias so `PUP` resolves to `Progressive Unionist Party`, not the unrelated global abbreviation match.
     - Extended `scripts/normalize-election-party-names.py` for `DUP`, `PBP`, `Alliance`, and date-sensitive `Workers Party`/`Republican Clubs` labels.
     - The date rule treats exact-1977 `Workers Party / Republican Clubs` labels as `Republican Clubs`; post-1977 rows are `Workers Party`.
-    - Added `scripts/build-election-party-ids.py` and generated `election-viewer-package/data/party-ids.json` plus `tasks/ireland_election_party_ids.csv`.
+    - Added `scripts/build-election-party-ids.py` and generated `data/elections-source/data/party-ids.json` plus `tasks/ireland_election_party_ids.csv`.
     - Updated bundle/aggregate composite keys so stale names are not left in generated election data.
   - Verification:
     - `python -m py_compile scripts\normalize-election-party-names.py scripts\audit-ireland-election-party-colours.py scripts\build-election-party-ids.py`
     - `python scripts\normalize-election-party-names.py`
     - `python scripts\build-election-party-ids.py` wrote `850` party IDs and `1089` aliases.
     - `python scripts\audit-ireland-election-party-colours.py` produced `1173` audit rows: `71` match, `142` colour mismatch, `910` no election colour, `50` no Wikipedia match.
-    - `rg` found no remaining `Workers Party / Republican Clubs`, `Democratic Unionist Party`, `People Before Profit Alliance`, `People Before Profit`, `Alliance Party of Northern Ireland`, `Alliance Party`, or `Green / Ecology` strings under `election-viewer-package/data/elections`.
+    - `rg` found no remaining `Workers Party / Republican Clubs`, `Democratic Unionist Party`, `People Before Profit Alliance`, `People Before Profit`, `Alliance Party of Northern Ireland`, `Alliance Party`, or `Green / Ecology` strings under `data/elections-source/data/elections`.
     - Parsed `7344` election JSON files successfully.
 
 Election party aliases follow-up: DUP punctuation and Conservative plural
@@ -3561,7 +3561,7 @@ Election party aliases follow-up: NI Women's Coalition
     - `python scripts\normalize-election-party-names.py`
     - `python scripts\build-election-party-ids.py` wrote `812` party IDs and `1038` aliases.
     - `python scripts\audit-ireland-election-party-colours.py` produced `1107` audit rows: `71` match, `141` colour mismatch, `845` no election colour, `50` no Wikipedia match.
-    - `node --check election-viewer-package\js\stages2.js`
+    - `node --check data/elections-source\js\stages2.js`
     - A targeted scan found no old Women's Coalition variant values and `156` `NI Women's Coalition` values.
     - Audit rows for `NI Women's Coalition`: `109` explicit `#00FFFF` matches, `21` runtime fallback `#00FFFF` matches, and `26` no-colour source rows that still resolve to the correct Wikipedia party.
 
@@ -3662,7 +3662,7 @@ Ireland election party colour audit against Wikipedia
 - [x] Produce a review report with recommended fixes
   - What I did:
     - added `scripts/audit-ireland-election-party-colours.py`
-    - scanned 7,254 election JSON files under `election-viewer-package/data/elections`
+    - scanned 7,254 election JSON files under `data/elections-source/data/elections`
     - compared explicit `Party_Name`/`Party_Colour`, lower-case `party` entries, and runtime fallback colours against the Wikipedia colour extraction
     - matched Wikipedia by party name, abbreviation, shortname, and Ireland/NI-specific aliases for common forms such as `DUP`, `UUP`, `SDLP`, `TUV`, `Fianna Fail`, `Sinn Fein`, `Green/Comhaontas Glas`, and `People Before Profit Alliance`
     - wrote the full audit to `tasks/ireland_election_party_colour_wikipedia_audit.csv`
@@ -3893,7 +3893,7 @@ Local-election bundled loads and precomputed aggregates
     - `node --check js/election-controller.js`
     - Python AST parse of `privaterep_refactored/electionsni-master/scripts/build_lgov_from_workbook.py`
     - Builder rerun completed successfully and wrote `249` JSON files
-    - Sample verification confirmed `election-viewer-package/data/elections/local-government/2023-05-18/_bundle.json` and `_aggregates.json` exist alongside `airport.json`
+    - Sample verification confirmed `data/elections-source/data/elections/local-government/2023-05-18/_bundle.json` and `_aggregates.json` exist alongside `airport.json`
   - Rollback:
     - runtime rollback is metadata-free; simply remove or ignore `_bundle.json` / `_aggregates.json` and the loader falls back automatically
     - data rollback is additive-only; constituency JSON primitives remain the authoritative fallback path
@@ -4482,7 +4482,7 @@ Commit election party-normalisation data changes
 - [x] Commit the staged election data changes
   - Verification:
     - `python -m py_compile scripts\normalize-election-party-names.py scripts\audit-ireland-election-party-colours.py scripts\build-election-party-ids.py scripts\extract-wikipedia-party-colours.py`
-    - `node --check election-viewer-package\js\stages2.js`
+    - `node --check data/elections-source\js\stages2.js`
     - `python scripts\normalize-election-party-names.py` reported `changed_files=0`.
     - `python scripts\build-election-party-ids.py` wrote `759` party IDs and `1040` aliases.
     - `python scripts\audit-ireland-election-party-colours.py` wrote `1032` audit rows with counts `{no_election_colour: 777, colour_mismatch: 135, match: 73, no_wikipedia_match: 47}`.
@@ -5375,7 +5375,7 @@ Continue fixing missing labels/hover/click on no-id MapLibre layers
 
 Add election entries to /test2
 - [x] Record the implementation request and scope
-- [x] Generate a /test2 election catalogue manifest from `election-viewer-package/data/elections`
+- [x] Generate a /test2 election catalogue manifest from `data/elections-source/data/elections`
 - [x] Generate a geography crosswalk from election entry names to converted MapLibre layers
 - [x] Report unmatched election entries before promotion
 - [x] Add /test2 election browsing in the left catalogue
@@ -5732,7 +5732,7 @@ Add election entries to /test2
   - Review election manifests, generated Browse election/source records, raw result files, and scripts for source/corroboration references.
 - [x] Summarize findings
   - Explain confirmed sources, likely source roles, and any limits in the current metadata.
-  - Completed: confirmed source/corroboration evidence in `election-viewer-package`, Browse/test2 manifests, representative result JSON, and scripts including ARK/CAIN converters/comparators, Wikipedia scrapers/comparators, ElectionsIreland/Wayback scrapers, EONI archive/PDF scripts, and BKNI workbook comparison scripts.
+  - Completed: confirmed source/corroboration evidence in `data/elections-source`, Browse/test2 manifests, representative result JSON, and scripts including ARK/CAIN converters/comparators, Wikipedia scrapers/comparators, ElectionsIreland/Wayback scrapers, EONI archive/PDF scripts, and BKNI workbook comparison scripts.
   - Completed: final answer distinguishes embedded final `source_url` values from build/audit-only corroboration tooling, and notes that final result rows do not yet have uniform per-fact provenance.
 
 # Check Browse election reference exposure
@@ -6098,7 +6098,7 @@ Add election entries to /test2
 - [x] Summarize provenance, fields, coverage, and gaps
   - Scope: provide an explanation with file references and verification evidence.
 - Review:
-  - Website/runtime data: main reads `election-viewer-package/data/elections_index.json` plus per-result files under `election-viewer-package/data/elections`; `/test2` and Browse derive generated election bundles from that package.
+  - Website/runtime data: main reads `data/elections-source/data/elections_index.json` plus per-result files under `data/elections-source/data/elections`; `/test2` and Browse derive generated election bundles from that package.
   - Generated coverage evidence: `test/metadata/elections-test2.json` has 268 parent elections, 249 loadable entries, 19 placeholders, 4,004 matched constituency/area results, and 680 unmatched names; `data/browse/elections.json` has 5,220 Browse election items.
   - Source evidence: raw result files include 7,344 JSON files, with 2,727 detected ElectionsIreland URLs and 1,218 detected Wikipedia URLs; Browse parent references aggregate 339 Wikipedia, 169 ARK/CAIN, 98 ElectionsIreland, and 26 EONI references.
   - Inspected source pipelines: `build-test2-election-manifest.mjs`, `build-browse-indexes.mjs`, `election-domain.mjs`, `election-controller.js`, `ark_to_election_json.py`, `compare_ark_wiki.py`, and Wikipedia scrape scripts for parliamentary, Stormont, local, and referendum data.
@@ -7309,15 +7309,15 @@ Add election entries to /test2
 - The deployment failure is reproducible from tracked files after the current `scripts/clean-for-pages.sh` exclusions: `23,044` deployable tracked files versus the `20,000` Cloudflare Pages cap.
 - Largest remaining file-count buckets after current cleanup:
   - `data/browse/details`: 9,758 files, including 7,880 source-detail JSON files.
-  - `election-viewer-package/data/elections`: 7,356 files. These are legacy/source election JSON files; the promoted MapLibre app loads generated `/test/metadata/elections-test2/*.json` bundles instead.
+  - `data/elections-source/data/elections`: 7,356 files. These are legacy/source election JSON files; the promoted MapLibre app loads generated `/test/metadata/elections-test2/*.json` bundles instead.
   - `test/metadata/*`: 2,342 files, including layer details, duplicate feature ID sidecars, feature indexes, and election bundles.
-- Immediate safest deployment fix: exclude `election-viewer-package/data/elections/` from Pages output and from `scripts/validate-pages-file-budget.mjs`. That reduces deployable tracked files to about `15,688`, giving roughly `4,312` files of headroom without changing runtime fetch paths.
+- Immediate safest deployment fix: exclude `data/elections-source/data/elections/` from Pages output and from `scripts/validate-pages-file-budget.mjs`. That reduces deployable tracked files to about `15,688`, giving roughly `4,312` files of headroom without changing runtime fetch paths.
 - Longer-term pressure point: `data/browse/details/sources/` should be sharded or moved behind an index/bundle loader because it is 7,880 tiny files.
 - Separate single-file-size risk: `data/browse/sources.json` and `data/database/approved-publication-sources.json` exceed 25 MiB, so they need sharding rather than generic deletion during cleanup.
 
 # Implement Cloudflare Pages deploy-output fix
 - [x] Exclude legacy election source JSON from Pages output
-  - Task: remove `election-viewer-package/data/elections/` from the deployed asset set while keeping generated MapLibre election bundles available.
+  - Task: remove `data/elections-source/data/elections/` from the deployed asset set while keeping generated MapLibre election bundles available.
   - Completed: added the legacy election source tree to `scripts/clean-for-pages.sh` and `scripts/validate-pages-file-budget.mjs` exclusions. The runtime MapLibre election bundles under `test/metadata/elections-test2` remain deployable.
 - [x] Lower Pages file-budget guard
   - Task: fail local/CI validation before Cloudflare by using a safe deploy-file threshold below the hard 20,000 cap.

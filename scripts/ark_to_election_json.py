@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 """Convert ARK Local Government election XLS spreadsheets into the per-DEA
-JSON schema used by election-viewer-package/data/elections/local-government/.
+JSON schema used by data/elections-source/data/elections/local-government/.
 
 Usage:
     python scripts/ark_to_election_json.py YEAR [DATE]
 
 For each lg{YR}-{COUNTY}-{DEA}.xls in _tmp_xls2rar_extract/xls/lgov/{YEAR}/,
-emit election-viewer-package/data/elections/local-government/{DATE}/{dea}.json.
+emit data/elections-source/data/elections/local-government/{DATE}/{dea}.json.
 
 The ARK XLS layout (1985-2005) is:
     row 0  : "E' for Elected" | Number | Name of Candidates | Description | 1st Stage | Stage 2 | ... |
@@ -35,7 +35,7 @@ except ImportError:
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 ARK_DIR   = REPO_ROOT / "_tmp_xls2rar_extract" / "xls" / "lgov"
-OUT_BASE  = REPO_ROOT / "election-viewer-package" / "data" / "elections" / "local-government"
+OUT_BASE  = REPO_ROOT / "data/elections-source" / "data" / "elections" / "local-government"
 
 # Approximate election dates per year (2nd Wed of May, mostly)
 DEFAULT_DATES = {

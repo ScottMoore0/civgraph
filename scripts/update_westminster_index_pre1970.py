@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 """Add the pre-1970 Westminster dates emitted by bk_to_westminster_json.py to
-election-viewer-package/data/elections_index.json under
+data/elections-source/data/elections_index.json under
 'House of Commons of the United Kingdom'. Idempotent."""
 import json
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-HOC_DIR = REPO / "election-viewer-package" / "data" / "elections" / "house-of-commons-of-the-united-kingdom"
-INDEX = REPO / "election-viewer-package" / "data" / "elections_index.json"
+HOC_DIR = REPO / "data/elections-source" / "data" / "elections" / "house-of-commons-of-the-united-kingdom"
+INDEX = REPO / "data/elections-source" / "data" / "elections_index.json"
 
 def main():
     summary = json.loads((HOC_DIR / "_pre1970_index.json").read_text(encoding="utf-8"))

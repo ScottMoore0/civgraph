@@ -6,7 +6,7 @@ table with rows = constituencies, columns = electorate, total poll,
 yes votes, no votes, spoiled, yes %, no %.
 
 Output: one JSON per (event_date, topic_slug, constituency_slug) under
-  election-viewer-package/data/elections/ireland-referendum/<date>-<topic-slug>/
+  data/elections-source/data/elections/ireland-referendum/<date>-<topic-slug>/
 
 Plus an aggregate `_constituencies.json` listing the constituency rows.
 """
@@ -17,7 +17,7 @@ import httpx
 from bs4 import BeautifulSoup
 
 UA = {'User-Agent': 'civgraph.net (NI/ROI civic-data project)'}
-OUT_BASE = Path('election-viewer-package/data/elections/ireland-referendum')
+OUT_BASE = Path('data/elections-source/data/elections/ireland-referendum')
 
 
 def slugify(s: str) -> str:

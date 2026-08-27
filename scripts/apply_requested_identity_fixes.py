@@ -36,10 +36,10 @@ SPLITS: tuple[SplitContextAssignment, ...] = (
             ("1996-05-30", "East Antrim", "Workers Party / Republican Clubs"),
         ),
         website_json_files=(
-            r"election-viewer-package/data/elections/northern-ireland-assembly/1982-10-20/south-antrim.json",
-            r"election-viewer-package/data/elections/house-of-commons-of-the-united-kingdom/1983-06-09/east-antrim.json",
-            r"election-viewer-package/data/elections/house-of-commons-of-the-united-kingdom/1987-06-11/east-antrim.json",
-            r"election-viewer-package/data/elections/northern-ireland-forum-for-political-dialogue/1996-05-30/east-antrim.json",
+            r"data/elections-source/data/elections/northern-ireland-assembly/1982-10-20/south-antrim.json",
+            r"data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1983-06-09/east-antrim.json",
+            r"data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1987-06-11/east-antrim.json",
+            r"data/elections-source/data/elections/northern-ireland-forum-for-political-dialogue/1996-05-30/east-antrim.json",
         ),
     ),
     SplitContextAssignment(
@@ -52,8 +52,8 @@ SPLITS: tuple[SplitContextAssignment, ...] = (
             ("1975-05-01", "Belfast North", "NI Labour"),
         ),
         website_json_files=(
-            r"election-viewer-package/data/elections/northern-ireland-assembly/1973-06-28/belfast-north.json",
-            r"election-viewer-package/data/elections/northern-ireland-constitutional-convention/1975-05-01/belfast-north.json",
+            r"data/elections-source/data/elections/northern-ireland-assembly/1973-06-28/belfast-north.json",
+            r"data/elections-source/data/elections/northern-ireland-constitutional-convention/1975-05-01/belfast-north.json",
         ),
     ),
     SplitContextAssignment(
@@ -65,7 +65,7 @@ SPLITS: tuple[SplitContextAssignment, ...] = (
             ("1996-05-30", "Fermanagh and South Tyrone", "Natural Law"),
         ),
         website_json_files=(
-            r"election-viewer-package/data/elections/northern-ireland-forum-for-political-dialogue/1996-05-30/fermanagh-and-south-tyrone.json",
+            r"data/elections-source/data/elections/northern-ireland-forum-for-political-dialogue/1996-05-30/fermanagh-and-south-tyrone.json",
         ),
     ),
     SplitContextAssignment(
@@ -77,7 +77,7 @@ SPLITS: tuple[SplitContextAssignment, ...] = (
             ("1996-05-30", "Belfast West", "Independent (Alan Chambers)"),
         ),
         website_json_files=(
-            r"election-viewer-package/data/elections/northern-ireland-forum-for-political-dialogue/1996-05-30/belfast-west.json",
+            r"data/elections-source/data/elections/northern-ireland-forum-for-political-dialogue/1996-05-30/belfast-west.json",
         ),
     ),
 )

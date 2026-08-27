@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """Add DEA name, council name, and DEA-map vintage year to every per-DEA
-election JSON under election-viewer-package/data/elections/local-government/.
+election JSON under data/elections-source/data/elections/local-government/.
 
 Vintage rules:
   1973, 1977, 1981       -> DEAs from 1972/3 (post-reform initial set)
@@ -18,8 +18,8 @@ from pathlib import Path
 from collections import defaultdict
 
 REPO = Path(__file__).resolve().parent.parent
-ELECT_DIR = REPO / "election-viewer-package" / "data" / "elections" / "local-government"
-INDEX_PATH = REPO / "election-viewer-package" / "data" / "elections_index.json"
+ELECT_DIR = REPO / "data/elections-source" / "data" / "elections" / "local-government"
+INDEX_PATH = REPO / "data/elections-source" / "data" / "elections_index.json"
 
 DEA_VINTAGE = {
     "1973-05-30": "1972", "1977-05-18": "1972", "1981-05-20": "1972",

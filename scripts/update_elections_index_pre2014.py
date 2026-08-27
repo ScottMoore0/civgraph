@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Update election-viewer-package/data/elections_index.json with per-council
+"""Update data/elections-source/data/elections_index.json with per-council
 bodies for the pre-2014 26-district NI local-government councils, using
 the {slug -> council} lookup emitted by ark_to_election_json.py.
 
@@ -12,8 +12,8 @@ from pathlib import Path
 from collections import defaultdict
 
 REPO = Path(__file__).resolve().parent.parent
-INDEX_PATH = REPO / "election-viewer-package" / "data" / "elections_index.json"
-ELECT_DIR  = REPO / "election-viewer-package" / "data" / "elections" / "local-government"
+INDEX_PATH = REPO / "data/elections-source" / "data" / "elections_index.json"
+ELECT_DIR  = REPO / "data/elections-source" / "data" / "elections" / "local-government"
 
 DATES = ["1973-05-30", "1977-05-18", "1981-05-20", "1985-05-15", "1989-05-17",
          "1993-05-19", "1997-05-21", "2001-06-07", "2005-05-05", "2011-05-05"]

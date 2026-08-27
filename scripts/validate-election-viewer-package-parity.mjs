@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /**
- * Guard the duplicated election-viewer-package assets.
+ * Guard the duplicated data/elections-source assets.
  *
  * There are two copies of the viewer's js/ and css/:
  *
- *   election-viewer-package/       <- original; its data/ tree is a LIVE BUILD
+ *   data/elections-source/       <- original; its data/ tree is a LIVE BUILD
  *                                     INPUT (scripts/build-test2-election-manifest.mjs
  *                                     reads data/elections + elections_index.json)
  *   app/election-viewer-package/   <- the copy production actually serves
@@ -50,11 +50,14 @@ const problems = [];
 let compared = 0;
 
 for (const rel of MIRRORED) {
-  const source = path.join(ROOT, 'election-viewer-package', rel);
+  const source = path.join(ROOT, 'data/elections-source', rel);
+  // The SERVED copy keeps its original name: app/election-viewer-package/ is what
+  // index.html and election-manager.js load, and renaming it would 404 the election
+  // viewer in production. Only the SOURCE directory was renamed (2026-08-27).
   const served = path.join(ROOT, 'app', 'election-viewer-package', rel);
 
   if (!existsSync(source)) {
-    problems.push(`missing source copy: election-viewer-package/${rel}`);
+    problems.push(`missing source copy: data/elections-source/${rel}`);
     continue;
   }
   if (!existsSync(served)) {
@@ -69,7 +72,7 @@ for (const rel of MIRRORED) {
   if (sourceHash !== servedHash) {
     problems.push(
       `DRIFT: ${rel}\n` +
-      `    election-viewer-package/${rel}      ${sourceHash.slice(0, 16)}\n` +
+      `    data/elections-source/${rel}      ${sourceHash.slice(0, 16)}\n` +
       `    app/election-viewer-package/${rel}  ${servedHash.slice(0, 16)}\n` +
       `    (production serves the app/ copy)`
     );
@@ -82,4 +85,4 @@ if (problems.length) {
   process.exit(1);
 }
 
-console.log(`PASS: election-viewer-package mirrored assets identical (${compared}/${MIRRORED.length} files).`);
+console.log(`PASS: data/elections-source mirrored assets identical (${compared}/${MIRRORED.length} files).`);

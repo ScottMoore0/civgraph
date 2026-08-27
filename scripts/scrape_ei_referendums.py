@@ -1,6 +1,6 @@
 """Scrape ROI referendum results from ElectionsIreland.org.
 
-Output: per-referendum JSON files under election-viewer-package/data/elections/
+Output: per-referendum JSON files under data/elections-source/data/elections/
         ireland-referendum/{date}/{slug}.json (mirrors the site's existing layout).
 
 Covers all 41 referenda (1937-2024) listed on EI's index.
@@ -12,7 +12,7 @@ from bs4 import BeautifulSoup
 
 BASE = 'https://electionsireland.org'
 INDEX_URL = f'{BASE}/results/referendum/index.cfm'
-OUT_ROOT = Path(r'election-viewer-package/data/elections/ireland-referendum')
+OUT_ROOT = Path(r'data/elections-source/data/elections/ireland-referendum')
 HEADERS = {'User-Agent': 'civgraph.net (NI/ROI civic-data project; scrape: referendums; ~1 req/sec)'}
 
 c = httpx.Client(headers=HEADERS, timeout=30.0, follow_redirects=True)

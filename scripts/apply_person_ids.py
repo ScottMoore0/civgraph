@@ -36,7 +36,7 @@ def normalize_name_for_match(value: str) -> str:
 def main():
     base = Path(__file__).resolve().parents[1]
     scripts = base / "scripts"
-    elections_base = base / "election-viewer-package" / "data" / "elections" / "local-government"
+    elections_base = base / "data/elections-source" / "data" / "elections" / "local-government"
 
     # Load inputs
     registry_path = scripts / "person_registry.json"

@@ -30,8 +30,8 @@ except Exception as exc:  # pragma: no cover - local import guard
 ROOT = Path.cwd()
 DOWNLOADS = Path.home() / "Downloads"
 OUT_PATH = ROOT / "data" / "elections" / "dail-official-results.json"
-ELECTION_INDEX_PATH = ROOT / "election-viewer-package" / "data" / "elections_index.json"
-DAIL_ROOT = ROOT / "election-viewer-package" / "data" / "elections" / "dail-eireann"
+ELECTION_INDEX_PATH = ROOT / "data/elections-source" / "data" / "elections_index.json"
+DAIL_ROOT = ROOT / "data/elections-source" / "data" / "elections" / "dail-eireann"
 OIREACHTAS_DOWNLOAD_DIR = ROOT / "data" / "downloads" / "oireachtas-dail-pdfs"
 
 OIREACHTAS_DAIL_PDFS = [

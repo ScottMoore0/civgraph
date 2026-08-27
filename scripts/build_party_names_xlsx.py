@@ -14,8 +14,8 @@ from openpyxl import Workbook
 from openpyxl.styles import Alignment, Font, PatternFill
 
 REPO = Path(__file__).resolve().parent.parent
-ELECT_BASE = REPO / "election-viewer-package" / "data" / "elections"
-OUT_PATH = REPO / "election-viewer-package" / "data" / "party-names-by-election-type.xlsx"
+ELECT_BASE = REPO / "data/elections-source" / "data" / "elections"
+OUT_PATH = REPO / "data/elections-source" / "data" / "party-names-by-election-type.xlsx"
 
 POST2014_DATES = {"2014-05-22", "2018-10-18", "2019-05-02", "2023-05-18"}
 

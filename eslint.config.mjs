@@ -33,7 +33,7 @@ export default [
       'app/build/**',
       'render/build/**',
       'archive/**',                        // dead Leaflet stack, genuinely
-      'election-viewer-package/**',
+      'data/elections-source/**',
       'app/election-viewer-package/**',
       'electionsni-reference/**',
       'synth-osm/**',

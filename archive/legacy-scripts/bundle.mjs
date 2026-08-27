@@ -10,7 +10,7 @@
  *
  * Bundle and minify the ES module JS files using esbuild.
  * Code-splitting is enabled — dynamic import() calls produce separate chunks.
- * Non-module scripts (election-viewer-package, jquery-shim) are excluded —
+ * Non-module scripts (data/elections-source, jquery-shim) are excluded —
  * they set globals and remain as separate <script> tags.
  *
  * Usage:

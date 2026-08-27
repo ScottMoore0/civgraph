@@ -170,7 +170,7 @@ Create `_headers` in the repo root:
   Cache-Control: public, max-age=86400
 
 # Election data — rarely changes
-/election-viewer-package/data/*
+/data/elections-source/data/*
   Cache-Control: public, max-age=604800
 ```
 

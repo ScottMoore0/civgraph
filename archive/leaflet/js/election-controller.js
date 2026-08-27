@@ -1,6 +1,6 @@
 /**
  * Election Controller
- * Integrates the election-viewer-package with the boundaries website.
+ * Integrates the data/elections-source with the boundaries website.
  * Handles catalogue integration, FGB geography loading, map colouring,
  * split pane results, and seat circle / vote bar overlays.
  */
@@ -28,7 +28,7 @@ class ElectionController {
         this._countDetailedView = false;
         this.partyColours = {};       // party name -> colour
         this.splitPaneEl = null;
-        this.electionDataPath = 'election-viewer-package/data';
+        this.electionDataPath = 'data/elections-source/data';
         this.onStateChange = null;    // callback for URL state updates
         this.onOpenEntityDetail = null;
         this.onOpenElectionConstituencyFeature = null;

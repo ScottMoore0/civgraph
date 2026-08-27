@@ -9,8 +9,8 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
-const MASTER = path.join(ROOT, 'election-viewer-package/data/elections_index.json');
-const DAIL_DIR = path.join(ROOT, 'election-viewer-package/data/elections/dail-eireann');
+const MASTER = path.join(ROOT, 'data/elections-source/data/elections_index.json');
+const DAIL_DIR = path.join(ROOT, 'data/elections-source/data/elections/dail-eireann');
 
 const slugify = (text) => String(text)
     .normalize('NFKD').replace(/[̀-ͯ]/g, '')
@@ -172,7 +172,7 @@ for (const slug of ['ireland-president', 'ireland-european', 'ireland-referendum
     let missing = 0;
     for (const dateData of body.dates) {
         for (const cons of dateData.constituencies) {
-            const file = path.join(ROOT, `election-viewer-package/data/elections/${slug}/${dateData.date}/${slugify(cons)}.json`);
+            const file = path.join(ROOT, `data/elections-source/data/elections/${slug}/${dateData.date}/${slugify(cons)}.json`);
             if (!fs.existsSync(file)) { missing++; }
         }
     }

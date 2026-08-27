@@ -7,8 +7,8 @@ from datetime import date
 from pathlib import Path
 
 
-ROOT = Path("election-viewer-package/data/elections")
-OUT_JSON = Path("election-viewer-package/data/party-ids.json")
+ROOT = Path("data/elections-source/data/elections")
+OUT_JSON = Path("data/elections-source/data/party-ids.json")
 OUT_CSV = Path("tasks/ireland_election_party_ids.csv")
 
 PARTY_KEYS = {

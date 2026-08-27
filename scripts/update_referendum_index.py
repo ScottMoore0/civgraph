@@ -1,5 +1,5 @@
 """Walk every <event> folder under
-election-viewer-package/data/elections/ireland-referendum/ that has a
+data/elections-source/data/elections/ireland-referendum/ that has a
 _constituencies.json file (per-constituency referendum data exists),
 and update the master elections_index.json so the corresponding
 'Referendum (Ireland)' date entry lists the actual constituency names
@@ -11,8 +11,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-INDEX = Path('election-viewer-package/data/elections_index.json')
-EVENTS = Path('election-viewer-package/data/elections/ireland-referendum')
+INDEX = Path('data/elections-source/data/elections_index.json')
+EVENTS = Path('data/elections-source/data/elections/ireland-referendum')
 
 
 def main():

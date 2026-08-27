@@ -14,7 +14,7 @@ the current data is, what the target is, what each source offers, and the concre
 
 ## 1. What the 2011 data is *now*
 
-- **100 per-ward JSON files** at `election-viewer-package/data/elections/local-government/2011-05-05/`
+- **100 per-ward JSON files** at `data/elections-source/data/elections/local-government/2011-05-05/`
   (one per DEA), each `{ "Constituency": { "countInfo": {...}, "countGroup": [...] } }`.
 - `countInfo` has quota, electorate, total/valid poll, spoiled — **present and usable**.
 - `countGroup` is a flat candidate list with **first-preference votes + an `Elected` flag only**:
@@ -28,7 +28,7 @@ the current data is, what the target is, what each source offers, and the concre
   totals used for map colouring and summaries) exist only for **2014, 2018, 2019, 2023**. 2011 has none,
   so the council-level map/summary layer has nothing to draw from for that year.
 - **Not served as static JSON on R2** (`data.civgraph.net/.../2011-05-05/*.json` → 404); the live site
-  is a SPA that bundles this data from the `election-viewer-package` tree, so "showing on the site"
+  is a SPA that bundles this data from the `data/elections-source` tree, so "showing on the site"
   means fixing the bundled files + rebuild, not an R2 upload.
 
 ## 2. The target schema (what 2014 has and 2011 must match)
@@ -73,7 +73,7 @@ The repo already contains the scaffolding for all three sources — this is not 
   already extracts the per-count `count1..countN` columns and `numcounts`/quota/electorate.
 - `scripts/ark_to_election_json.py` — converts ARK per-DEA XLS (documented layout: stage columns +
   Non-transferable + Totals + metadata rows) **directly into the target
-  `election-viewer-package/data/elections/local-government/{DATE}/{dea}.json` schema**, 1973–2011.
+  `data/elections-source/data/elections/local-government/{DATE}/{dea}.json` schema**, 1973–2011.
 - `scripts/download_eoni_pdfs.py`, `scripts/parse_eoni_pdfs.py`, `scripts/scrape_eoni_archive.py` —
   the EONI PDF ingest path.
 - `scripts/scrape_and_compare_lgov_wikipedia.py`, `scripts/update_elections_index_pre2014.py`,
@@ -89,10 +89,10 @@ canonicalisation, and the person-ID plumbing already exist**.
 The build chain is already wired so that fixing the source files propagates automatically:
 
 ```
-election-viewer-package/data/elections/local-government/2011-05-05/{dea}.json   ← digitise here
+data/elections-source/data/elections/local-government/2011-05-05/{dea}.json   ← digitise here
         │  (countGroup now with Count_Number 1..N, Transfers, Total_Votes, Status)
         ├─► npm run build:test2:elections
-        │        build-test2-election-manifest.mjs reads election-viewer-package/data/elections
+        │        build-test2-election-manifest.mjs reads data/elections-source/data/elections
         │        → render/metadata/elections-test2/local-government-...__2011-05-05.json
         │
         ├─► regenerate _bundle.json / _aggregates.json for 2011  → council map colouring + summaries

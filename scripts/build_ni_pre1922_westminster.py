@@ -5,7 +5,7 @@ Tyrone+Londonderry).
 
 Same 9 GEs as the ROI build (1885, 1886, 1892, 1895, 1900, 1906, 1910 J,
 1910 D, 1918) emit per-constituency JSON files into
-election-viewer-package/data/elections/house-of-commons-of-the-united-kingdom/<date>/
+data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/<date>/
 and merge into _pre1970_index.json. Also append rows to the unified CSV
 data/external/parlconst/pre1922_westminster_results.csv.
 """
@@ -16,7 +16,7 @@ from pathlib import Path
 from collections import defaultdict
 
 REPO = Path(__file__).resolve().parent.parent
-EVP = REPO / "election-viewer-package"
+EVP = REPO / "data/elections-source"
 ELECTIONS_DIR = EVP / "data" / "elections" / "house-of-commons-of-the-united-kingdom"
 INDEX = ELECTIONS_DIR / "_pre1970_index.json"
 RESULTS_CSV = REPO / "data" / "external" / "parlconst" / "pre1922_westminster_results.csv"

@@ -81,7 +81,7 @@ Current problem:
 Recommended change:
 
 - Remove the two FGB preload links from `/test2/index.html` unless a measured `/test2` path still needs them.
-- Do not load `election-viewer-package/js/stages2.js`, `animation_preview.js`, `animation_preview_manager.js`, or `election_viewer.js` on initial page load. Lazy-load them only when the user opens a transfer/count animation view that actually needs them.
+- Do not load `data/elections-source/js/stages2.js`, `animation_preview.js`, `animation_preview_manager.js`, or `election_viewer.js` on initial page load. Lazy-load them only when the user opens a transfer/count animation view that actually needs them.
 - Replace the static import of `Test2ElectionManager` with a dynamic import when an election layer is selected or when the election catalogue is first opened.
 - Load `books.json` only when Browse/source/book functionality is requested.
 - Render the shell and initialize MapLibre first, then populate catalogue/election/search panels asynchronously.

@@ -96,12 +96,20 @@ node_modules/
 # --- Not served by the site; excluded to stay under the Pages 20,000-file limit ---
 # The deployment was measured at ~20,944 files on 2026-08-03, i.e. over the ceiling.
 #
-# Root election-viewer-package/ is the pre-app copy of the standalone viewer. Its only
-# consumer is js/election-controller.js, which no HTML file loads (the js/ Leaflet stack
-# is dead legacy). The live site loads app/election-viewer-package/ instead -- six CSS/JS
-# files, no data directory -- so the leading slash below is load-bearing: unanchored,
-# this pattern would match the app copy too and take the election viewer's styles with it.
-/election-viewer-package/
+# data/elections-source/ is the CANONICAL SOURCE of every election result: 7,402 JSON
+# files that build-test2-election-manifest.mjs reads as ELECTION_ROOT and
+# build-browse-indexes.mjs reads too. It is excluded from the DEPLOY, not from the build
+# -- the site serves elections from D1, so shipping 7,400 files to Pages would spend a
+# third of the 20,000-file budget on data nobody fetches.
+#
+# It was named election-viewer-package/ until 2026-08-27, which read as a dead viewer
+# bundle and got it mistaken for legacy more than once. Only SIX of its files were ever
+# duplicated -- the CSS/JS that app/election-viewer-package/ serves, kept identical by a
+# validator in build-test2-app.mjs.
+#
+# The leading slash below is load-bearing: unanchored, this pattern would also match
+# app/election-viewer-package/ and take the live election viewer's styles with it.
+/data/elections-source/
 
 # Working analysis, not site content.
 analysis/

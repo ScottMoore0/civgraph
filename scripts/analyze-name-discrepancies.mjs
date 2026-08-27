@@ -63,7 +63,7 @@ async function loadFgbNames(filename) {
 }
 
 // ── Step 2: Load election index ──
-const index = JSON.parse(fs.readFileSync('election-viewer-package/data/elections_index.json', 'utf8'));
+const index = JSON.parse(fs.readFileSync('data/elections-source/data/elections_index.json', 'utf8'));
 
 // ── Step 3: Cross-reference ──
 async function analyze() {

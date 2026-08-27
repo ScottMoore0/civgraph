@@ -1420,7 +1420,7 @@
 - Symptom: transfer animation rows were marked `Not Elected` from the start and dropped prematurely to the bottom before the final count.
 - Rule: `not_elected` is a final-state label, not an initial-state label. Do not surface it before the final round.
 - Guardrail:
-  - in `election-viewer-package/js/stages2.js`, `enforceStatusTiming(...)` must suppress `not_elected` until the last count
+  - in `data/elections-source/js/stages2.js`, `enforceStatusTiming(...)` must suppress `not_elected` until the last count
   - ordering logic must rely on the deferred display status rather than the final status
 
 
@@ -1699,7 +1699,8 @@
 
 ## Update 2026-03-06 (Encoding-Safe Label Replacements)
 - In legacy/non-UTF-clean JS files, replace visible symbols like � with ASCII labels such as +/-, then immediately grep for accidental operator corruption (??, ?., comparison chains) before considering the change complete.
-- Verification rule: after any broad text replacement in a JS file, run g for both the intended replacement text and the nearby operator forms, then run 
+- Verification rule: after any broad text replacement in a JS file, run 
+g for both the intended replacement text and the nearby operator forms, then run 
 ode --check on every touched JS file.
 
 ## 2026-03-06: Replacement-glyph audits must cover every live renderer file, not just the first file that reproduces the symptom
@@ -1811,13 +1812,15 @@ ode --check on every touched JS file.
 
 ### 2026-03-07 Current constituency payload lookups must canonicalize local DEA names, not just previous-election baselines
 - Symptom: Mid Ulster disappeared as a blank white area on the 2019 local-election map even though the tables had already been fixed.
-- Root cause: current-result runtime paths for map colouring, overlays, and constituency panel access still used direct esultsByConstituency[constName] indexing, while Mid Ulster 2019 DEA payload keys are seat-suffixed but the active 2012 DEA map feature names are not.
+- Root cause: current-result runtime paths for map colouring, overlays, and constituency panel access still used direct 
+esultsByConstituency[constName] indexing, while Mid Ulster 2019 DEA payload keys are seat-suffixed but the active 2012 DEA map feature names are not.
 - Permanent prevention action: use a shared helper for current constituency payload retrieval with _cleanConstituencyDisplayName(...) fallback, and route map/panel access through that helper instead of raw object indexing.
 - Verification evidence: syntax checks passed after replacing the direct current-payload lookups, and the fix specifically covers _colourMap, _addOverlays, and _showConstituencyPanel.
 
 ### 2026-03-07 Current constituency payload lookups must canonicalize local DEA names, not just previous-election baselines
 - Symptom: Mid Ulster disappeared as a blank white area on the 2019 local-election map even though the tables had already been fixed.
-- Root cause: current-result runtime paths for map colouring, overlays, and constituency panel access still used direct esultsByConstituency[constName] indexing, while Mid Ulster 2019 DEA payload keys are seat-suffixed but the active 2012 DEA map feature names are not.
+- Root cause: current-result runtime paths for map colouring, overlays, and constituency panel access still used direct 
+esultsByConstituency[constName] indexing, while Mid Ulster 2019 DEA payload keys are seat-suffixed but the active 2012 DEA map feature names are not.
 - Permanent prevention action: use a shared helper for current constituency payload retrieval with _cleanConstituencyDisplayName(...) fallback, and route map/panel access through that helper instead of raw object indexing.
 - Verification evidence: syntax checks passed after replacing the direct current-payload lookups, and the fix specifically covers _colourMap, _addOverlays, and _showConstituencyPanel.
 

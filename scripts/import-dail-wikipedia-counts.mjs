@@ -4,7 +4,7 @@ import path from 'node:path';
 import { fixText, normalizeName, parseNumber } from '../src/election-domain.mjs';
 
 const ROOT = process.cwd();
-const DAIL_ROOT = path.join(ROOT, 'election-viewer-package', 'data', 'elections', 'dail-eireann');
+const DAIL_ROOT = path.join(ROOT, 'data/elections-source', 'data', 'elections', 'dail-eireann');
 const OUT_ROOT = path.join(ROOT, 'data', 'elections', 'dail-wikipedia-counts');
 const REPORT_PATH = path.join(OUT_ROOT, '_report.json');
 const API_ENDPOINT = 'https://en.wikipedia.org/w/api.php';

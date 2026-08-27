@@ -16,8 +16,8 @@ import shutil
 import sys
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-DAIL_DIR = os.path.join(ROOT, 'election-viewer-package', 'data', 'elections', 'dail-eireann')
-MASTER_INDEX = os.path.join(ROOT, 'election-viewer-package', 'data', 'elections_index.json')
+DAIL_DIR = os.path.join(ROOT, 'data/elections-source', 'data', 'elections', 'dail-eireann')
+MASTER_INDEX = os.path.join(ROOT, 'data/elections-source', 'data', 'elections_index.json')
 
 # Original dirname -> ISO election date.
 DIR_TO_DATE = {

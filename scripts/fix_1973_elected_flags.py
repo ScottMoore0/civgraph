@@ -19,7 +19,7 @@ Edits the SOURCE per-DEA countGroup files so rebuilds stay correct.
 import json, glob, os, math
 from collections import defaultdict
 
-DIR = "election-viewer-package/data/elections/local-government/1973-05-30"
+DIR = "data/elections-source/data/elections/local-government/1973-05-30"
 # target magnitude override where the declared Number_Of_Seats is itself wrong,
 # each verified against Wikipedia + the Droop quota:
 #   omagh-area-c: declared 4 (Quota 667 copied from Omagh D, impossible for its

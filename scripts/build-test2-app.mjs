@@ -150,12 +150,12 @@ function copyAnimationRuntimeAssets() {
     // the HTML as a script -- so every FlatGeobuf layer load failed while the
     // URL still looked healthy to anything checking status codes.
     ['src/libs/flatgeobuf-geojson.min.js', 'app/js/libs/flatgeobuf-geojson.min.js'],
-    ['election-viewer-package/js/stages2.js', 'app/election-viewer-package/js/stages2.js'],
-    ['election-viewer-package/js/animation_preview.js', 'app/election-viewer-package/js/animation_preview.js'],
-    ['election-viewer-package/js/animation_preview_manager.js', 'app/election-viewer-package/js/animation_preview_manager.js'],
-    ['election-viewer-package/js/election_viewer.js', 'app/election-viewer-package/js/election_viewer.js'],
-    ['election-viewer-package/css/stages.css', 'app/election-viewer-package/css/stages.css'],
-    ['election-viewer-package/css/election-viewer.css', 'app/election-viewer-package/css/election-viewer.css']
+    ['data/elections-source/js/stages2.js', 'app/election-viewer-package/js/stages2.js'],
+    ['data/elections-source/js/animation_preview.js', 'app/election-viewer-package/js/animation_preview.js'],
+    ['data/elections-source/js/animation_preview_manager.js', 'app/election-viewer-package/js/animation_preview_manager.js'],
+    ['data/elections-source/js/election_viewer.js', 'app/election-viewer-package/js/election_viewer.js'],
+    ['data/elections-source/css/stages.css', 'app/election-viewer-package/css/stages.css'],
+    ['data/elections-source/css/election-viewer.css', 'app/election-viewer-package/css/election-viewer.css']
   ];
   for (const [source, target] of assets) {
     if (!existsSync(source)) {

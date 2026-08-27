@@ -9,9 +9,9 @@ from pathlib import Path
 import pandas as pd
 
 
-ROOT = Path("election-viewer-package/data/elections")
+ROOT = Path("data/elections-source/data/elections")
 WIKI_CSV = Path("tasks/wikipedia_political_party_colours.csv")
-STAGES_JS = Path("election-viewer-package/js/stages2.js")
+STAGES_JS = Path("data/elections-source/js/stages2.js")
 ELECTION_CONTROLLER_JS = Path("js/election-controller.js")
 OUT_CSV = Path("tasks/ireland_election_party_colour_wikipedia_audit.csv")
 HIGH_CONFIDENCE_CSV = Path("tasks/ireland_election_party_colour_wikipedia_high_confidence_mismatches.csv")

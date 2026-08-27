@@ -4,7 +4,7 @@ import { walkFiles, readText, printSection } from './_shared.mjs';
 
 const targetFiles = [
     ...walkFiles('assets/css', (relPath) => /\.css$/i.test(relPath)),
-    ...walkFiles('election-viewer-package/css', (relPath) => /\.css$/i.test(relPath)),
+    ...walkFiles('data/elections-source/css', (relPath) => /\.css$/i.test(relPath)),
     ...walkFiles('.', (relPath) => /^(index\.html|about\.html|pages\/.*\.html|partials\/.*\.html|js\/.*\.js)$/i.test(relPath))
 ];
 
