@@ -16,7 +16,7 @@
  *   npm run deploy:browse-indexes sources    # one
  */
 import { spawnSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 
 /**
  * `shell` is set ONLY for npx, never for node.
@@ -61,23 +61,50 @@ for (const name of names) {
 
 // Verify rather than assume. A load that reports success and an endpoint that serves the
 // old rows look identical from here.
-console.log('\n== Verify the endpoint serves what the file records');
-const manifest = JSON.parse(readFileSync('data/browse/persons.json', 'utf8'));
-const expected = Number(manifest.total) || 0;
+//
+// VERIFY WHAT WAS ACTUALLY DEPLOYED. This block used to check `persons` unconditionally,
+// whatever it had just loaded -- so `deploy:browse-indexes sources` printed "== Load sources
+// into D1" and then "PASS: D1 serves the persons index", a green line about an index the run
+// had not touched. That is worse than no check: it reads as confirmation. Caught 2026-08-28
+// while deploying the ElectionsNI attribution, when sources had in fact loaded correctly and
+// the passing line was still about persons.
+console.log('\n== Verify each deployed endpoint serves what its file records');
 
-const endpoint = 'https://civgraph.net/_api/persons?limit=1';
-const response = await fetch(endpoint, { cache: 'no-store' });
-if (!response.ok) {
-  console.error(`FAIL: ${endpoint} returned ${response.status}.`);
+let failed = false;
+for (const name of names) {
+  const manifestPath = `data/browse/${name}.json`;
+  if (!existsSync(manifestPath)) {
+    console.error(`  ${name}: FAIL -- ${manifestPath} is missing, cannot verify.`);
+    failed = true;
+    continue;
+  }
+  const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
+  const expected = Number(manifest.total) || 0;
+  const endpoint = `https://civgraph.net/_api/${name}?limit=1`;
+
+  let payload;
+  try {
+    const response = await fetch(endpoint, { cache: 'no-store' });
+    if (!response.ok) {
+      console.error(`  ${name}: FAIL -- ${endpoint} returned ${response.status}.`);
+      failed = true;
+      continue;
+    }
+    payload = await response.json();
+  } catch (error) {
+    console.error(`  ${name}: FAIL -- ${endpoint} did not respond (${error.message}).`);
+    failed = true;
+    continue;
+  }
+
+  const served = Number(payload.total) || 0;
+  const verdict = served === expected ? 'PASS' : 'FAIL';
+  if (verdict === 'FAIL') failed = true;
+  console.log(`  ${name.padEnd(18)} file ${String(expected).padStart(6)}   D1 ${String(served).padStart(6)}   ${verdict}`);
+}
+
+if (failed) {
+  console.error('\nFAIL: at least one deployed index is not served as its file records.');
   process.exit(1);
 }
-const payload = await response.json();
-console.log(`  endpoint : ${endpoint}`);
-console.log(`  file     : ${expected} persons`);
-console.log(`  D1       : ${payload.total} persons`);
-if (payload.total !== expected) {
-  console.error(`\nFAIL: D1 serves ${payload.total} persons; the index records ${expected}.`);
-  process.exit(1);
-}
-console.log('\nPASS: D1 serves the persons index exactly as the file records it.');
-console.log('Persons deployed: browse index -> SQL -> D1, verified.');
+console.log(`\nPASS: ${names.join(', ')} deployed -- browse index -> SQL -> D1, verified.`);
