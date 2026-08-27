@@ -19,7 +19,8 @@ let the match rate decide, verify a sample, and only then touch the schema.
 | Layer | What it is | Trustworthy? |
 |---|---|---|
 | Newspaper scans | British Newspaper Archive. The `BL_` stem encodes the BNA title id and issue date. | The issue date is the **only date in this pipeline not derived by a model**. |
-| `ocr_output/` (77 `.txt`) | Raw OCR of those scans. | Faithful but **column-scrambled** — see below. |
+| `archive/ocr/text/` (77 `.txt`) | Original OCR of those scans. | Faithful but **column-scrambled** — see below. |
+| `archive/ocr/text-v2/` (77 `.txt`) | Column-aware re-OCR, 2026-08-28. | +25.4% recoverable signal. Not yet re-extracted. |
 | `archive/ocr/` (70 `.json`) | LLM extraction by `scripts/extract_spn_llm.py` via OpenRouter. | Verified here for the first time. |
 | `data/database/spn-ocr-election-map.json` | Which Civgraph election each file belongs to. | **Derived from candidate-name evidence, not asserted.** |
 
@@ -145,3 +146,103 @@ node scripts/review/match-spn-ocr-candidates.mjs --verify    # extraction vs raw
 node scripts/review/match-spn-ocr-candidates.mjs --sample 50 # verification worksheet
 node scripts/review/match-spn-ocr-candidates.mjs --json      # everything, machine-readable
 ```
+
+---
+
+# Follow-up, 2026-08-28: re-OCR, rights, and the withdrawn nominations
+
+Three of the four "what would change the answer" items were worked. The headline is that
+**the biggest single cause of the low match rate turns out not to be an error at all.**
+
+## Withdrawn nominations — the finding that reframes the rest
+
+The October 1974 pages name candidates Civgraph has no record of, and I had flagged that as
+a coverage gap worth investigating. It is not a gap. Reading the raw text of
+`BL_0005119_19741002_205_0009`:
+
+> `THE ABOVE ST/ IR NOMINATIONS WERE WITHDRAWN.`
+> `THE FOLLOWING PERSO[NS] ... WERE NOMINATED. THEIR NOM[INATIONS]`
+
+A Statement of Persons Nominated lists **everyone nominated**, including those whose
+nominations were later **withdrawn** and who therefore never appeared on a ballot.
+Civgraph's election data is derived from *results*, so it structurally cannot contain them.
+
+**14 of the 77 scans carry withdrawn-nomination language**, and they are disproportionately
+the low-scoring files — 1974-10-02, 1975-04-16, 1979-04-25, 1983-05-25 are all in the
+bottom band.
+
+Civgraph's October 1974 coverage was checked directly and is complete: 3–5 candidates per
+constituency across all twelve seats, which matches the contest. Nothing is missing.
+
+So a substantial share of the 252 "surnames Civgraph has never seen" are not extraction
+damage and not gaps. **They are people who stood for nomination and withdrew** — real
+historical facts that a results-derived dataset cannot hold. That makes this material more
+valuable than the match rate implied, and it means the match rate was always the wrong
+single measure: a withdrawn nominee *should* fail to join.
+
+## Re-OCR with column detection — done, and it works
+
+`scripts/ocr/reocr-spn-columns.py`, output in `archive/ocr/text-v2/`.
+
+What did **not** work, recorded because it is the obvious approach: finding column gutters by
+ink density. It detected **one** column on the 1954 page. These are dense classified pages
+whose columns are separated by printed rules, not white space, so there is no gap to find.
+
+What works is Tesseract's own `--psm 4`, with `--psm 11` appended as an unordered
+supplement. Measured across all 77 scans, counting distinct Civgraph-known surnames
+findable in each page:
+
+| | Surnames recoverable |
+|---|---:|
+| original OCR | 8,208 |
+| re-OCR | **10,290 (+25.4%)** |
+
+**60 of 77 pages carry more signal, 10 fewer, 7 unchanged.** On the 1954 Armagh notice it
+recovers `ARMSTRONG`, `CHRISTOPHER` and `FAIRLEY` — none of which appear anywhere in the
+original text.
+
+**What re-OCR cannot fix.** Some scans are physically **cropped mid-column**. On
+`BL_0000960_19850425_239_0043` the surname column is cut off at the left edge, so the page
+itself reads `ARPER | Patrick Francis` — the candidate is Harper, which his own seconder
+"Mary A. Harper" confirms two columns away. `LIGAN` is the tail of Milligan and `HIRE` of
+Maguire, same page, same cause. Those need a better scan from the BNA, not a better OCR pass.
+
+**The end-to-end gain is not yet measurable.** The match rate is computed from the LLM
+*extraction*, and re-running that needs an OpenRouter key, which is deliberately not handled
+here. `scripts/extract_spn_llm.py` is now repaired and runnable; pointing `SPN_OCR_DIR` at
+`archive/ocr/text-v2/` and re-running it is the next step, and it is the one that would move
+the 27.7%.
+
+## Rights — position established, and it splits in two
+
+Read off the scans themselves. **36 of 77 carry a printed rights footer**, naming two
+copyright holders:
+
+- `Image © National World Publishing Ltd. Image created courtesy of THE BRITISH LIBRARY BOARD.`
+- `Image © Independent News and Media PLC. Image created courtesy of THE BRITISH LIBRARY BOARD.`
+
+24 distinct newspaper titles are involved.
+
+**The images are third-party copyright and must never be published.** The source PDFs stay
+gitignored; nothing in `archive/ocr/` contains an image.
+
+**The extracted facts are a different question, and the answer is more favourable.** A
+Statement of Persons Nominated is a **statutory public notice**, published by a Returning
+Officer under electoral law. The newspaper's rights in it are the typographical arrangement
+— 25 years in the UK, so expired for every one of these, the latest being 1988 — and there
+is no copyright in facts. Who was nominated, by whom, and who acted as agent are facts on a
+public notice.
+
+That is a considered position, not a clearance, and it is worth one look from someone
+qualified before publication. But it is not the blocker; the data quality is.
+
+## Where this leaves it
+
+The gate verdict is unchanged — **nothing published, no schema touched** — but the reasoning
+has moved. The obstacle is no longer "the extraction may be unreliable"; that was tested and
+it is sound. It is that the extraction was made from the *worse* of the two OCR passes, and
+that the match rate counts withdrawn nominees as failures when they are the most interesting
+records in the set.
+
+The next step is concrete and small: re-run `extract_spn_llm.py` against
+`archive/ocr/text-v2/`, then re-measure. That single run is what decides this.

@@ -39,7 +39,7 @@ which his own seconder "Mary A. Harper" confirms two columns away. "LIGAN" is th
 Milligan and "HIRE" of Maguire, on the same page, for the same reason. Those need a better
 scan from the British Newspaper Archive, not a better OCR pass.
 
-    python scripts/ocr/reocr-spn-columns.py                    # all PDFs -> ocr_output_v2/
+    python scripts/ocr/reocr-spn-columns.py                    # all PDFs -> archive/ocr/text-v2/
     python scripts/ocr/reocr-spn-columns.py --only BL_0000038  # one stem
     python scripts/ocr/reocr-spn-columns.py --dpi 300
 """
@@ -63,7 +63,7 @@ for _candidate in (os.environ.get("TESSERACT_CMD"), shutil.which("tesseract"), _
         pytesseract.pytesseract.tesseract_cmd = _candidate
         break
 
-OUT_DIR = "ocr_output_v2"
+OUT_DIR = "archive/ocr/text-v2"
 
 
 def page_image(page, dpi):

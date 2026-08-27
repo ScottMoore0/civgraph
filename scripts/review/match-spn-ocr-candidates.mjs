@@ -361,7 +361,15 @@ if (asJson) {
 // produced that has no basis in the text at all. Every value it reports as ABSENT is either
 // an OCR misread or an invention, and both need an eye on the scan.
 if (process.argv.includes('--verify')) {
-  const TEXT_DIRS = ['archive/ocr/text', 'ocr_output'];
+  // Check the extraction against the text it was ACTUALLY MADE FROM, which is text/ --
+  // the original OCR. text-v2/ is the better re-OCR, but pointing this at it answers a
+  // different and misleading question: it scores the old extraction against text the model
+  // never saw, and the rates drop (proposers 95.3% rather than 100%) purely because the
+  // newer pass renders some names differently. That would read as the extraction being
+  // less faithful than it is. Pass --against-v2 deliberately to compare the two passes.
+  const TEXT_DIRS = process.argv.includes('--against-v2')
+    ? ['archive/ocr/text-v2', 'archive/ocr/text']
+    : ['archive/ocr/text', 'archive/ocr/text-v2'];
   const textFor = (ocrFile) => {
     const stem = ocrFile.replace(/\.json$/, '');
     for (const dir of TEXT_DIRS) {
