@@ -1,3 +1,43 @@
+<!--
+  WHY THIS IS IN THE CIVGRAPH REPO
+  ================================
+  Everything below the horizontal rule is UPSTREAM's README, describing the ElectionsNI
+  project itself. It does not say what the directory is doing here. This preface does.
+-->
+
+# Why Civgraph holds this
+
+This is a **vendored copy of a third-party repository**, kept as provenance for Civgraph's
+Northern Ireland election data. It is reference material: nothing in the build reads it, and
+it is excluded from the Cloudflare Pages deployment.
+
+| | |
+|---|---|
+| Upstream | https://github.com/NICVA/electionsni |
+| Pinned at | `2dba8e545ece265f283fedf2b8cf6640fbb2cb64` (2019-06-04, *"updates for switch to new host"*) |
+| Files | 512, byte-identical to upstream except as noted below |
+| Licence | CC-BY-SA 4.0 (repo) and ODbL (the datasets). **Attribution is required.** |
+
+## The one local change
+
+`website/js/map.js` differs from upstream by two lines. The Leaflet basemap was switched
+from Mapbox to OpenStreetMap, which also removed a hardcoded Mapbox access token belonging
+to a third party. That is the *only* difference in the tree — worth knowing before anyone
+diffs against upstream and assumes the copy has drifted.
+
+## The attribution this is evidence for
+
+Civgraph's STV animation derives from ElectionsNI's `stages.css`. The derivation is recorded
+in a code comment — `app/election-viewer-package/css/election-viewer.css:9`, *"STV Animation
+(from stages.css / electionsni)"* — in **shipped** code, not reference material.
+
+Both licences above require attribution, and as of 2026-08-27 `data/database/sources.json`
+carries **no ElectionsNI entry**. So this directory is not only provenance in the abstract;
+it is the evidence for a credit that is currently owed and not given. Resolve the
+`sources.json` entry before deciding whether the 22 MB still needs to sit on disk.
+
+---
+
 # electionsni
 Open Data frameworks, datasets and front-end for elections in Northern Ireland
 
