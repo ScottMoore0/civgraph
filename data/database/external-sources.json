@@ -10395,6 +10395,67 @@
       ],
       "license": null,
       "publicationStatus": "metadata-in-repo; raw-source-mirrored-internet-archive"
+    },
+    {
+      "id": "external:electionsni:project",
+      "type": "dataset-source",
+      "title": "ElectionsNI open election data and front-end",
+      "subtitle": "2016 NI Assembly election datasets / ODI Belfast at NICVA",
+      "category": "Election data sources",
+      "date": "2019-06-04",
+      "provider": [
+        "ElectionsNI",
+        "ODI Belfast at NICVA",
+        "NI Open Government Network",
+        "Electoral Office for Northern Ireland"
+      ],
+      "description": "Open election datasets and visualisation front-end for Northern Ireland, produced by a collaboration led by ODI Belfast at NICVA and the NI Open Government Network. Cited here because Civgraph's STV animation derives from this project's stages.css, recorded in app/election-viewer-package/css/election-viewer.css. A copy of the upstream repository, pinned at commit 2dba8e545ece265f283fedf2b8cf6640fbb2cb64 (2019-06-04), is kept in this repository under archive/electionsni-reference/ as provenance; it is reference material and is not deployed. Both licences below require attribution, which is the purpose of this record.",
+      "url": "https://github.com/NICVA/electionsni",
+      "references": [
+        {
+          "label": "NICVA/electionsni on GitHub",
+          "url": "https://github.com/NICVA/electionsni",
+          "source": "GitHub",
+          "role": "online-database"
+        },
+        {
+          "label": "Upstream commit 2dba8e5 (pinned copy)",
+          "url": "https://github.com/NICVA/electionsni/commit/2dba8e545ece265f283fedf2b8cf6640fbb2cb64",
+          "source": "GitHub",
+          "role": "source-file"
+        },
+        {
+          "label": "electionsni.org",
+          "url": "http://electionsni.org",
+          "source": "ElectionsNI",
+          "role": "online-database"
+        },
+        {
+          "label": "Creative Commons Attribution-ShareAlike 4.0 International",
+          "url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "source": "Creative Commons",
+          "role": "license"
+        },
+        {
+          "label": "Open Database License (ODbL) v1.0",
+          "url": "https://opendatacommons.org/licenses/odbl/1-0/",
+          "source": "Open Data Commons",
+          "role": "license"
+        }
+      ],
+      "keywords": [
+        "ElectionsNI",
+        "NICVA",
+        "ODI Belfast",
+        "elections",
+        "Northern Ireland",
+        "STV",
+        "Assembly 2016",
+        "CC BY-SA 4.0",
+        "ODbL"
+      ],
+      "license": "CC BY-SA 4.0 (repository); ODbL 1.0 (datasets)",
+      "publicationStatus": "metadata-in-repo; source-copy-in-repo-archive"
     }
   ],
   "provenance": [
@@ -10407,6 +10468,11 @@
       "source": "Internet Archive advanced search and metadata API",
       "url": "https://archive.org/details/@ScottMoore0",
       "note": "Metadata-only index of likely large raster map image items. Raster images remain hotlinked from archive.org and are not stored by Civgraph."
+    },
+    {
+      "source": "ElectionsNI (NICVA)",
+      "url": "https://github.com/NICVA/electionsni",
+      "note": "Attribution record for the project Civgraph's STV animation derives from. The upstream repository is copied into archive/electionsni-reference/ at commit 2dba8e5; only metadata and links are indexed here."
     }
   ]
 }

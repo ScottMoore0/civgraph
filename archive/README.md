@@ -10,6 +10,9 @@ This directory contains working artifacts, old pages, research notes, and OCR ou
 - `ocr/` — **Extracted** candidate data from Belfast newspaper scans of Special Polling
   Notices. See "The OCR pair" below — this half is unpublished data, not scrap.
 - `legacy-scripts/` — Retired build/runtime scripts kept for reference only
+- `electionsni-reference/` — Vendored copy of github.com/NICVA/electionsni at `2dba8e5`,
+  kept as provenance for Civgraph's election data. See its own README for the attribution
+  it is evidence for.
 
 ## Moving files back
 

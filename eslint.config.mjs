@@ -32,10 +32,10 @@ export default [
       '.claude/**',
       'app/build/**',
       'render/build/**',
-      'archive/**',                        // dead Leaflet stack, genuinely
+      'archive/**',                        // dead Leaflet stack, plus vendored third-party
+                                           // reference copies. None of it is ours to fix.
       'data/elections-source/**',
       'app/election-viewer-package/**',
-      'electionsni-reference/**',
       'synth-osm/**',
       'tmp/**',
       'test-results/**',
