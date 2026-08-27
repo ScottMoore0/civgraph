@@ -89,7 +89,11 @@ a:hover {
 }
 
 .app-header__brand {
-  --brand-size: 60px;
+  /* Same clamp as assets/css/main.css. Browse carries its own copy of the header
+     styles, so a flat 60px here meant the brand overflowed on a phone independently of
+     the homepage fix. Logo and wordmark are both calc()'d from this, so one value
+     scales them together; it reaches 60px at ~750px so desktop is unchanged. */
+  --brand-size: clamp(28px, 8vw, 60px);
   display: flex;
   align-items: center;
   gap: calc(var(--brand-size) * .05);
@@ -111,6 +115,9 @@ a:hover {
   color: #fff;
   line-height: 1;
   letter-spacing: 0;
+  /* Never compress and never wrap: the brand shrinks by scaling, not by clipping. */
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .app-header__nav {
@@ -1884,7 +1891,11 @@ a:hover {
   }
 
   .app-header__brand {
-    --brand-size: 48px;
+    /* A flat 48px below 900px still overflowed a phone -- it just truncated slightly
+       later than the 60px above. The clamp already scales continuously, so this
+       breakpoint no longer needs to restate a size; it is kept only to hold the ceiling
+       a little lower on tablets. */
+    --brand-size: clamp(28px, 8vw, 48px);
   }
 
   .app-header__nav {

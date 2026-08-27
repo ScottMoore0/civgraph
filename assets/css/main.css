@@ -278,7 +278,14 @@ a:hover {
 }
 
 .app-header__brand {
-  --brand-size: 60px;
+  /* SCALE, DO NOT TRUNCATE.
+     This was a flat 60px at every width -- a 55px logo beside a 34px wordmark -- so on a
+     phone the brand simply did not fit and the mobile rules hid the overflow behind an
+     ellipsis ("Civgra...") and then hid the wordmark entirely below 360px.
+     The logo and wordmark are both calc()'d from this one value, so a clamp scales them
+     together and in proportion. It reaches the full 60px at ~750px viewport width, so
+     desktop is unchanged; at 390px it gives ~31px, and it never falls below 28px. */
+  --brand-size: clamp(28px, 8vw, 60px);
   display: flex;
   align-items: center;
   gap: calc(var(--brand-size) * 0.05);
@@ -316,6 +323,10 @@ a:hover {
   color: #ffffff;
   line-height: 1;
   letter-spacing: 0;
+  /* Never compress and never wrap: the brand shrinks by scaling the font, not by
+     squeezing or clipping the word. */
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .app-header__nav {
@@ -13799,21 +13810,18 @@ kbd {
     gap: var(--space-2);
   }
 
-  /* min-width: 0 is the whole fix. A flex item defaults to min-width: auto,
-     which means "never smaller than my content" -- so the brand kept its full
-     width and shoved everything after it off-screen. */
+  /* min-width: 0 stays -- a flex item defaults to min-width: auto, meaning "never
+     smaller than my content", which is what shoved the controls off-screen. But
+     overflow: hidden is gone: it was what made truncation possible, and the brand now
+     fits because it scales rather than because its overflow is clipped. */
   .app-header__brand {
     min-width: 0;
     flex-shrink: 1;
-    overflow: hidden;
   }
 
-  .app-header__wordmark {
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+  /* The ellipsis that used to live here is gone: --brand-size now scales the whole
+     brand down with the viewport, so there is nothing to truncate. Clipping a
+     five-letter wordmark to "Civgra..." made the site look broken rather than compact. */
 
   /* Controls hold their size and stay reachable. */
   .app-header__actions,
@@ -13824,12 +13832,10 @@ kbd {
 }
 
 @media (max-width: 360px) {
-  /* Below this the wordmark is costing more than it earns: the logo mark alone
-     still identifies the site, and the space goes to keeping every control on
-     screen. */
-  .app-header__wordmark {
-    display: none;
-  }
+  /* The wordmark used to be hidden entirely below 360px, on the reasoning that the
+     logo mark alone identifies the site. It no longer needs to be: at 320px the clamp
+     gives a 28px brand -- a 26px mark beside a 16px wordmark -- which fits alongside
+     every control. The site should say its own name on a phone. */
 
   /* "Support Us" drops to its icon. The accessible name comes from aria-label,
      so the control keeps its label for assistive technology while losing the
