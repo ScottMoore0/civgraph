@@ -49,6 +49,8 @@ for _candidate in (os.environ.get("TESSERACT_CMD"), shutil.which("tesseract"), _
 # Words that mark a nomination notice. "WITHDRAWN" is included deliberately: a page whose
 # only marker is the withdrawal paragraph still carries nomination content, and those are
 # the pages the join rate was worst on.
+LEFT_MARGIN = 0.22
+
 MARKERS = ("NOMINATED", "NOMINATION", "NOMINATIONS", "WITHDRAWN", "ASSENTORS", "SUBSCRIBERS")
 
 
@@ -80,7 +82,13 @@ def find_region(gray, pad_frac=0.02):
     rights = [data["left"][i] + data["width"][i] for i in hits]
     tops = [data["top"][i] for i in hits]
 
-    left = max(0, min(lefts) - int(width * 0.06))
+    # LEFT MARGIN IS GENEROUS ON PURPOSE. The heading words ("PERSONS NOMINATED") are
+    # centred over the notice, but the SURNAME column starts well to their left, so a
+    # margin sized to the heading cuts the surnames off -- which is exactly what happened
+    # on the 1953 South Down notice: every candidate read as ", Joseph, 57 Dominic Street"
+    # with no name. Over-including a neighbouring column costs nothing when a human is
+    # reading; losing the surname column costs the whole notice.
+    left = max(0, min(lefts) - int(width * LEFT_MARGIN))
     right = min(width, max(rights) + int(width * 0.14))
     top = max(0, min(tops) - int(height * 0.03))
     # Stop below the LAST marker rather than running to the foot of the page. Taking the
