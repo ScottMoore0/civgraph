@@ -393,6 +393,77 @@
         "Thompson’s seconder was recorded as “Joseph F. O’Neill”. The notice says Joseph Fisher. “Joseph F. O’Neill” was one of only three values the trace test could not find in the source text, and it is not on the notice.",
         "This notice lists candidates in BALLOT ORDER and says so explicitly, which the extraction did not capture. Ballot order is a fact about the contest and is recorded here."
       ]
+    },
+    {
+      "sourceFile": "BL_0000953_19531017_137_0008",
+      "publication": "Banbridge Chronicle",
+      "issueDate": "1953-10-17",
+      "title": "Northern Ireland Parliamentary Election for the Iveagh Constituency",
+      "formType": "Statement of Persons Nominated and Notice of Poll",
+      "statute": "Elections and Franchise Act (Northern Ireland), 1946-1953, and Ballot Act, 1872",
+      "county": "County of Down",
+      "pollDate": "1953-10-22",
+      "pollHours": "8.30 a.m. to 8.30 p.m.",
+      "noticeDate": "1953-10-12",
+      "returningOfficer": "J. H. Harvey",
+      "civgraphElectionKey": "parliament-of-northern-ireland__1953-10-22",
+      "constituencies": [
+        {
+          "name": "Iveagh",
+          "outcome": "contested - poll 22 October 1953",
+          "note": "Candidates listed in ballot order, as the notice states.",
+          "candidates": [
+            {
+              "surname": "McCracken",
+              "forenames": "William John",
+              "residence": "Tullyraine, Corbet, Banbridge, Co. Down",
+              "description": "Farm Manager",
+              "nominationStatus": "nominated",
+              "ballotOrder": 1,
+              "proposer": "George G. M’Cartney",
+              "seconder": "Thomas Richardson",
+              "assentors": [
+                "George F. Brown",
+                "Mary A. Wilson",
+                "John M. Callghan",
+                "Samuel J. M’Cullough",
+                "William H. Gamble",
+                "Alexander M’Coubrey",
+                "William S. Steele",
+                "Frederick Walsh"
+              ],
+              "agent": "John M’Cracken",
+              "agentAddress": "Church Street, Dromore, Co. Down"
+            },
+            {
+              "surname": "Maginess",
+              "forenames": "William Brian",
+              "residence": "Avonmore Lodge, Lisburn",
+              "description": "Queen’s Counsel",
+              "nominationStatus": "nominated",
+              "ballotOrder": 2,
+              "proposer": "Clarence J. Graham",
+              "seconder": "J. Stewart Johnstone",
+              "assentors": [
+                "George H. Coey",
+                "George Higgins",
+                "Joseph C. Mahon",
+                "William Dickson",
+                "Joseph H. Cresswell",
+                "Thomas C. M’Gifford",
+                "Samuel R. Stewart",
+                "Elizabeth Gilpin"
+              ],
+              "agent": "Henry A. Maginess",
+              "agentAddress": "28 Bow Street, Lisburn"
+            }
+          ]
+        }
+      ],
+      "correctsExtraction": [
+        "RESOLVES THE MAGINESS DISCREPANCY. The extraction gave this candidate as \"JAMES MAGINESS\" while Civgraph holds \"Brian Maginess\", and the mismatch was one of the cases that made the join look broken. The notice reads MAGINESS, WILLIAM BRIAN -- Civgraph is right and the extraction was wrong. He is the Brian Maginess who was Attorney General for Northern Ireland.",
+        "CONFIRMS THE INITIALS-ONLY FORENAME CASE. Civgraph records this candidate as \"W. J. McCracken\"; the notice gives McCRACKEN, WILLIAM JOHN. That is exactly the pattern forenamesAgree() was written for, and it is a real convention in the sources rather than a data defect."
+      ]
     }
   ]
 }
