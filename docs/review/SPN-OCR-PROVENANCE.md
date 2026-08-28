@@ -246,3 +246,75 @@ records in the set.
 
 The next step is concrete and small: re-run `extract_spn_llm.py` against
 `archive/ocr/text-v2/`, then re-measure. That single run is what decides this.
+
+---
+
+# Correction, 2026-08-28: the extraction DID fabricate. Reading the scans directly.
+
+**This retracts the central claim of the section above.** That section says "The extraction
+did not invent this data", on the strength of a *trace* test — did any 4-character run of
+each surname appear in the source text? It did, for 100% of names. **The test was too
+permissive and the conclusion was wrong.**
+
+`scripts/ocr/crop-spn-region.py` now locates the notice on a page and renders it large
+enough to read directly. Read that way, `BL_0000038_19541123_034_0002` — the 1954 Armagh
+notice, the very record quoted earlier as the exemplar of "clean structured data" — carries
+**exactly one candidate**, returned unopposed:
+
+> Armstrong, Christopher Wyborne. Dean's Hill, Armagh. **Farmer.**
+> Proposer Frederick N. L. Bell, seconder William T. W. Gracey.
+> Agent William H. Fairley, 24 Windsor Avenue, Lurgan.
+
+The extraction has **two**. The second — `McATEER, Edward`, with proposer "Patrick J.
+O'Hare", seconder "Patrick Agnew" and agent "James O'Reilly" — **does not appear on the
+notice at all**. It also gave Armstrong's description as "Ulster Unionist" where the form
+says "Farmer", his proposer as "Robert J. Bell" rather than Frederick N. L. Bell, and his
+agent's address as "74 Scotch Street, Armagh" rather than 24 Windsor Avenue, Lurgan.
+
+The trace test passed all of it because fragments of those strings occur elsewhere on a
+broadsheet page of cattle-market advertising. A weak test returning a reassuring number is
+worse than no test, and this one produced a headline conclusion that was the opposite of the
+truth.
+
+## What direct reading resolves
+
+`data/database/spn-verified.json` holds the transcriptions. Three notices so far, seven
+constituencies, eight candidates, **ten specific corrections** to the extraction.
+
+The most useful single result: **`Lawrence Percy Ossory`** — one of the 252 "surnames
+Civgraph has never seen" — is not a surname. The candidate is **Orr, Lawrence Percy Story**,
+and *Ossory* is the name of his house, read out of the Place of Residence column. He was UUP
+MP for South Down from 1950. Every one of the damaged-name cases is likely to be resolvable
+this way, and only this way.
+
+## Nomination status is now a modelled field
+
+Withdrawn nominees have their own status rather than counting as match failures. The
+vocabulary is taken from column 6 of the statutory form itself — *"Decision of returning
+officer that nomination paper is invalid, or other reason why a person nominated no longer
+stands nominated"* — giving `nominated`, `withdrawn`, `invalid`.
+
+This is a different axis from Civgraph's existing `candidates.status` (Elected / Excluded /
+Not Elected), all of which describe someone who reached a ballot. Re-run with that
+separation, the match report reads:
+
+| | Candidates | Share |
+|---|---:|---:|
+| matched | 228 | 27.7% |
+| unmatched **on a page carrying withdrawals** | 280 | 34.1% |
+| election resolved, genuinely no person | 213 | 25.9% |
+| no election resolved | 54 | 6.6% |
+| ambiguous | 47 | 5.7% |
+
+The 34.1% is the part that was being counted as failure and mostly is not.
+
+## Where this leaves the plan
+
+Re-running the LLM extraction is **off the table** — it is the component now shown to
+fabricate. Better OCR would not have helped either: the 1954 page's OCR is fine, and the
+invented candidate came from the model, not the text.
+
+That leaves direct reading, which works and is the only method that has produced a
+defensible record. It is roughly one to three page-crops per notice across 77 scans. The
+tooling is built and the schema is settled, so the remaining work is transcription rather
+than design.

@@ -126,6 +126,39 @@ const place = (value) => strip(value).replace(NOISE, ' ').replace(/\s+/g, ' ').t
 
 const days = (a, b) => Math.abs((new Date(a) - new Date(b)) / 86400000);
 
+/**
+ * NOMINATION STATUS -- a different axis from the count status Civgraph already records.
+ *
+ * `candidates.status` in the election data holds Elected / Excluded / Not Elected. Every one
+ * of those describes what happened to someone who WAS ON A BALLOT. A Statement of Persons
+ * Nominated covers an earlier moment, and lists people who never got that far.
+ *
+ * The vocabulary is not invented here. It is column 6 of the statutory form itself:
+ * "Decision of returning officer that nomination paper is invalid, or other reason why a
+ * person nominated no longer stands nominated". Read against the notice, a nominee is in
+ * exactly one of three states:
+ *
+ *   nominated  column 6 blank -- validly nominated, went to the poll (or was returned
+ *              unopposed), and SHOULD join to a Civgraph candidate row
+ *   withdrawn  "no longer stands nominated" -- stood down after nomination, never appeared
+ *              on a ballot, and CANNOT be in results-derived data
+ *   invalid    the returning officer rejected the nomination paper -- likewise never on a
+ *              ballot
+ *
+ * This matters for how the match rate is read. Civgraph's election data is derived from
+ * RESULTS, so a withdrawn or invalid nominee failing to join is the correct outcome, not a
+ * defect. Counting them as failures is what made the headline rate look worse than the data
+ * is: 14 of the 77 scans carry withdrawal language and they cluster in the lowest-scoring
+ * files.
+ */
+const NOMINATION_STATUS = ['nominated', 'withdrawn', 'invalid'];
+
+// Page-level detection. Per-candidate status needs the notice read directly -- column 6 is
+// a narrow column of mostly blank cells and neither OCR pass resolves it reliably -- so
+// this marks the FILE as carrying withdrawals and the unmatched candidates on it are
+// reported apart from true misses rather than silently counted as failures.
+const WITHDRAWAL_LANGUAGE = /\b(WITHDRAWN|WITHDREW|NO LONGER STAND|NOT VALIDLY NOMINATED|NOMINATION.{0,20}INVALID)\b/;
+
 /* ------------------------------------------------------- load the OCR records */
 
 const ocrRecords = [];
@@ -156,9 +189,18 @@ for (const file of readdirSync(OCR_DIR).sort()) {
       });
     }
   }
+  // Read the source text to see whether this page carries withdrawn nominations.
+  let carriesWithdrawals = false;
+  for (const dir of ['archive/ocr/text', 'archive/ocr/text-v2']) {
+    const textPath = path.join(dir, `${stem}.txt`);
+    if (!existsSync(textPath)) continue;
+    if (WITHDRAWAL_LANGUAGE.test(strip(readFileSync(textPath, 'utf8')))) { carriesWithdrawals = true; break; }
+  }
+
   ocrRecords.push({
     file,
     stem,
+    carriesWithdrawals,
     paper: dateMatch[1],
     paperDate: `${dateMatch[2]}-${dateMatch[3]}-${dateMatch[4]}`,
     electionName: payload.election_name || '',
@@ -248,6 +290,7 @@ for (const record of ocrRecords) {
     stem: record.stem,
     paperDate: record.paperDate,
     electionName: record.electionName,
+    carriesWithdrawals: record.carriesWithdrawals,
     candidates: record.candidates,
     surnameCount: surnames.size,
     best: best ? { key: best.key, score: Number(best.score.toFixed(3)), hits: best.hits.size } : null,
@@ -272,6 +315,7 @@ let matched = 0;
 let ambiguous = 0;
 let noElection = 0;
 let noPerson = 0;
+let unmatchedOnWithdrawalPage = 0;
 const matchedRows = [];
 
 for (const result of results) {
@@ -334,6 +378,7 @@ for (const result of results) {
         address: candidate.address,
       });
     } else if (hits.length > 1) ambiguous++;
+    else if (result.carriesWithdrawals) unmatchedOnWithdrawalPage++;
     else noPerson++;
   }
 }
@@ -343,7 +388,8 @@ for (const result of results) {
 if (asJson) {
   console.log(JSON.stringify({
     generatedAt: new Date().toISOString().slice(0, 10),
-    totals: { ocrFiles: ocrRecords.length, ocrCandidates: totalCandidates, matched, ambiguous, noElection, noPerson },
+    nominationStatusVocabulary: NOMINATION_STATUS,
+    totals: { ocrFiles: ocrRecords.length, ocrCandidates: totalCandidates, matched, ambiguous, noElection, noPerson, unmatchedOnWithdrawalPage },
     matchRate: totalCandidates ? Number((matched / totalCandidates).toFixed(4)) : 0,
     elections: results.map(({ candidates, ...rest }) => rest),
     matches: matchedRows,
@@ -479,6 +525,8 @@ console.log(`  OCR candidate records     ${totalCandidates}`);
 console.log(`  MATCHED to a candidate    ${matched}  (${pct(matched)})`);
 console.log(`  no election resolved      ${noElection}  (${pct(noElection)})`);
 console.log(`  election ok, no person    ${noPerson}  (${pct(noPerson)})`);
+console.log(`  unmatched on a page that`);
+console.log(`    carries WITHDRAWALS     ${unmatchedOnWithdrawalPage}  (${pct(unmatchedOnWithdrawalPage)})  <- not necessarily a defect`);
 console.log(`  ambiguous (>1 candidate)  ${ambiguous}  (${pct(ambiguous)})`);
 console.log('');
 

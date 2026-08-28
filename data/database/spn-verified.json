@@ -1,0 +1,203 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-28",
+  "note": "Statements of Persons Nominated transcribed by reading the newspaper scans DIRECTLY, notice by notice, rather than by OCR. This supersedes archive/ocr/ for every file listed here. Review material: not used by the build or the site, and nothing here is published.",
+  "why": [
+    "Two OCR passes and an LLM extraction all damaged this material, and the damage was not visible from inside the pipeline. Reading the scans is the only method that resolves a truncated surname, a residence merged into a name, or an assentor list whose columns were interleaved.",
+    "scripts/ocr/crop-spn-region.py locates the notice on the page and renders it large enough to read. Each record below was read off that crop.",
+    "The FABRICATION FINDING is why this exists at all. docs/review/SPN-OCR-PROVENANCE.md reported that the LLM extraction 'did not invent this data', on the strength of a trace test that looked for any 4-character run of each surname in the source text. That test was too permissive and the conclusion was WRONG. Read directly, BL_0000038_19541123 carries exactly ONE candidate; the extraction has two, the second being a wholly fabricated 'McATEER, Edward' with a fabricated proposer, seconder and agent address. The trace test passed it because fragments of those strings occur elsewhere on a page of cattle-market advertising."
+  ],
+  "nominationStatusVocabulary": {
+    "source": "Column 6 of the statutory form: 'Decision of returning officer that nomination paper is invalid, or other reason why a person nominated no longer stands nominated'.",
+    "values": {
+      "nominated": "Column 6 blank. Validly nominated; went to a poll or was returned unopposed. Should join to a Civgraph candidate row.",
+      "withdrawn": "No longer stands nominated. Never appeared on a ballot, so CANNOT appear in results-derived data. A failure to join is correct, not a defect.",
+      "invalid": "The returning officer rejected the nomination paper. Likewise never on a ballot."
+    }
+  },
+  "fieldNotes": {
+    "assentors": "The notice lists proposer, seconder and assentors in one column, in that order. The first two are recorded as proposer and seconder; the remainder as assentors. Where the form separates them into their own sub-columns (1962), that separation is used directly.",
+    "description": "The occupation or office printed in the 'Description' column. It is NOT the party. The 1954 extraction recorded 'Ulster Unionist' where the notice says 'Farmer'.",
+    "outcome": "Recorded only where the notice itself declares it, which the combined 'Statement of Persons Nominated and Declaration of Result' forms do for uncontested seats."
+  },
+  "notices": [
+    {
+      "sourceFile": "BL_0000038_19541123_034_0002",
+      "publication": "Belfast News-Letter",
+      "issueDate": "1954-11-23",
+      "title": "Parliamentary Election for the Armagh Constituency",
+      "formType": "Statement of Persons Nominated and Declaration of Result",
+      "pollDate": "1954-12-01",
+      "noticeDate": "1954-11-20",
+      "returningOfficer": "Eric McC. Thompson",
+      "civgraphElectionKey": "house-of-commons-of-the-united-kingdom__1954-11-20",
+      "constituencies": [
+        {
+          "name": "Armagh",
+          "outcome": "uncontested — duly elected",
+          "candidates": [
+            {
+              "surname": "Armstrong",
+              "forenames": "Christopher Wyborne",
+              "residence": "Dean's Hill, Armagh, Co. Armagh",
+              "description": "Farmer",
+              "nominationStatus": "nominated",
+              "proposer": "Frederick N. L. Bell",
+              "seconder": "William T. W. Gracey",
+              "assentors": [
+                "Noel S. Smith", "Joseph A. Anderson", "Alexander Smyth", "Joseph Twyble",
+                "Hugh A. Cushnie", "Joseph Bell", "Samuel S. Corbett", "Robert W. Whitten"
+              ],
+              "agent": "William H. Fairley",
+              "agentAddress": "24 Windsor Avenue, Lurgan, Co. Armagh"
+            }
+          ]
+        }
+      ],
+      "correctsExtraction": [
+        "The extraction invented a second candidate, 'McATEER, Edward', with proposer 'Patrick J. O'Hare', seconder 'Patrick Agnew' and agent 'James O'Reilly'. NONE of these appear on the notice. The seat was uncontested with a single nominee.",
+        "Description was recorded as 'Ulster Unionist'; the notice says 'Farmer'.",
+        "Proposer was recorded as 'Robert J. Bell'; the notice says 'Frederick N. L. Bell'.",
+        "Agent address was recorded as '74, Scotch Street, Armagh'; the notice says '24 Windsor Avenue, Lurgan, Co. Armagh'."
+      ]
+    },
+    {
+      "sourceFile": "BL_0000038_19620524_471_0012 (1)",
+      "publication": "Belfast News-Letter",
+      "issueDate": "1962-05-24",
+      "title": "Northern Ireland Parliamentary Election, 1962",
+      "formType": "Statement of Persons Nominated and Declaration of Results of Uncontested Elections",
+      "noticeDate": "1962-05-21",
+      "returningOfficer": "W. S. Henderson",
+      "returningOfficerAddress": "County Courthouse, Crumlin Road, Belfast 14",
+      "civgraphElectionKey": "parliament-of-northern-ireland__1962-05-31",
+      "constituencies": [
+        {
+          "name": "Antrim",
+          "outcome": "uncontested — duly elected",
+          "candidates": [
+            {
+              "surname": "Minford", "forenames": "Nathaniel Owens",
+              "residence": "Parkview, Templepatrick, Co. Antrim", "description": "Farmer",
+              "nominationStatus": "nominated",
+              "proposer": "Robert Moore", "seconder": "James Leslie",
+              "assentors": ["Joseph Anderson", "Robert A. Erwin", "Thomas Doole", "Daniel Bill",
+                            "Thomas Kelso", "James McDowell", "William Clark", "James Adair"]
+            }
+          ]
+        },
+        {
+          "name": "Bannside",
+          "outcome": "uncontested — duly elected",
+          "candidates": [
+            {
+              "surname": "O'Neill", "forenames": "Terence Marne",
+              "residence": "Glebe House, Ahoghill, Co. Antrim", "description": "Minister of Finance",
+              "nominationStatus": "nominated",
+              "proposer": "Adam G. Bailie", "seconder": "Robert H. Vaughan",
+              "assentors": ["Henry McCarton", "William J. F. Moore", "James A. Gaston",
+                            "William J. Harvey", "Hannah M. Hood", "Douglas C. Stevenson",
+                            "John T. McClure", "William J. Sands"]
+            }
+          ]
+        },
+        {
+          "name": "Mid-Antrim",
+          "outcome": "uncontested — duly elected",
+          "candidates": [
+            {
+              "surname": "Simpson", "forenames": "Robert",
+              "residence": "Random, Crebilly, Ballymena, Co. Antrim",
+              "description": "Medical Practitioner",
+              "nominationStatus": "nominated",
+              "proposer": "James Bailie", "seconder": "Joseph A. Stewart",
+              "assentors": ["Ruth Weir", "Phoebe Buchanan", "Thomas J. O'Neill", "Davis M. Perry",
+                            "Alfred Kennedy", "Robert S. Crawford", "James C. Hamilton", "James McVicker"]
+            }
+          ]
+        },
+        {
+          "name": "North Antrim",
+          "outcome": "uncontested — duly elected",
+          "candidates": [
+            {
+              "surname": "O'Neill", "forenames": "Phelim Robert Hugh",
+              "residence": "Lisard Manor, Aghadowey, Co. Londonderry", "description": "Gentleman",
+              "nominationStatus": "nominated",
+              "proposer": "Arthur G. Algeo", "seconder": "Annie Casement",
+              "assentors": ["Eleanor J. Lyle", "David Pettigrew", "Andrew Steele", "James Matthews",
+                            "Alexander Sharpe", "Samuel Boyd", "William Peden", "Daniel C. Baird"]
+            }
+          ]
+        },
+        {
+          "name": "South Antrim",
+          "outcome": "uncontested — duly elected",
+          "candidates": [
+            {
+              "surname": "McConnell", "forenames": "Robert William Brian",
+              "residence": "9 Harberton Pk., Belfast", "description": "Barrister-at-Law",
+              "nominationStatus": "nominated",
+              "proposer": "Jean F. Todd", "seconder": "James Barbour",
+              "assentors": ["Janet A. Dudgeon", "John Woods", "Muriel G. Linton", "Thomas Wilson",
+                            "Charles J. Woodburne", "Robert Kyle", "Samuel G. Weir", "John D. E. Cheyne"]
+            }
+          ]
+        }
+      ],
+      "correctsExtraction": [
+        "'O'NEILL, PHELEIM' — the notice reads Phelim Robert Hugh O'Neill.",
+        "Proposer recorded as 'Robert Hugh O'Neill.' — that is part of Phelim O'Neill's own forenames, read out of the adjacent column. His proposer was Arthur G. Algeo.",
+        "Proposer 'James S. M'Ilrath.' does not appear on this notice at all.",
+        "The extraction captured 3 of the 5 constituencies on this page."
+      ]
+    },
+    {
+      "sourceFile": "BL_0000953_19500218_081_0004",
+      "publication": "Banbridge Chronicle",
+      "issueDate": "1950-02-18",
+      "title": "Parliamentary Election for the South Down Constituency",
+      "formType": "Statement of Persons Nominated and Notice of Poll",
+      "pollDate": "1950-02-23",
+      "noticeDate": "1950-02-13",
+      "returningOfficer": "Wilfred S. Park",
+      "civgraphElectionKey": "house-of-commons-of-the-united-kingdom__1950-02-23",
+      "constituencies": [
+        {
+          "name": "South Down",
+          "outcome": "contested — poll 23 February 1950, 7am to 9pm",
+          "candidates": [
+            {
+              "surname": "MacGougan", "forenames": "John",
+              "residence": "199 Albertbridge Road, Belfast", "description": "Secretary",
+              "nominationStatus": "nominated",
+              "proposer": "Michael Murphy", "seconder": "Bernard Larkin",
+              "assentors": ["Rita Heaney", "Charles O'Donnell", "Alfred Matthews", "Joseph M'Conville",
+                            "Thomas Murphy", "Kevin M'Camley", "John T. Quinn", "Margaret Kelly",
+                            "James M'Mullan", "Michael Fay", "Patrick Barry", "James Ryan",
+                            "Thomas Duffy", "Alfred P. Davis", "Henry C. O'Hagan", "Patrick Daly",
+                            "Patrick J. Magill", "Christina Fay", "Thomas Morgan", "John Ruddy",
+                            "Richard Heaney", "James J. Campbell", "John Rodgers", "Daniel Mulholland",
+                            "Francis P. Small", "Michael Matthews", "Hugh D. Reilly", "Joseph Patterson"]
+            },
+            {
+              "surname": "Orr", "forenames": "Lawrence Percy Story",
+              "residence": "Ossory, Newcastle, Co. Down", "description": "Gentleman",
+              "nominationStatus": "nominated",
+              "proposer": "Charles Mullan", "seconder": "John E. Bailey",
+              "assentors": ["Alfred Eadie", "Henry O'Connor", "John Glass", "William J. Harris",
+                            "Alexander R. G. Gordon", "Michael Bruce", "Joseph Fisher",
+                            "Clarence J. Graham", "George Ervine", "James G. Pooler",
+                            "Samuel J. Neill", "David M. Little", "Thomas Rainey", "(Rev.) John Knowles",
+                            "William Douglas", "Edward Mateer", "John K. M'Cormick", "Thomas M'Namara"]
+            }
+          ]
+        }
+      ],
+      "correctsExtraction": [
+        "'Lawrence Percy Ossory' was one of the 252 surnames Civgraph had never seen, and it is not a surname at all. The candidate is ORR, Lawrence Percy Story; 'Ossory' is the name of his HOUSE, read out of the Place of Residence column. He sat as UUP MP for South Down from 1950.",
+        "'MACGOUGAN, John' was recorded with proposer 'Michael Fay' and seconder 'Bernard Larkin'. The notice gives Michael Murphy as proposer and Bernard Larkin as seconder; Michael Fay is an assentor further down the list."
+      ]
+    }
+  ]
+}
