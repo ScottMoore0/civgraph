@@ -54,6 +54,8 @@ let styleLayers = 0;
 let providerLayers = 0;
 let providersAdded = 0;
 let stylePropsAdded = 0;
+let textLayers = 0;
+let textFieldsAdded = 0;
 
 for (const layer of render.layers || []) {
   const mapId = layer.sourceMapId || String(layer.id || '').replace(/-vector-test$/, '');
@@ -93,6 +95,27 @@ for (const layer of render.layers || []) {
     }
   }
 
+  // NAME AND DESCRIPTION are catalogue-owned too, and REPLACED like provider.
+  //
+  // The parity check already fails when these disagree, but nothing propagated them, so
+  // renaming a layer in the catalogue produced a gate failure with no way to clear it
+  // except editing the render record by hand. Found renaming wards-2022-final-recommendations
+  // from "2022 (Final Recommendations)" to "Wards 2023": providers and keywords synced,
+  // name and description did not, and the gate stayed red.
+  //
+  // Not unioned, for the same reason as provider: a rename means the old value is wrong,
+  // and keeping both would leave the renderer showing the name the catalogue just retired.
+  for (const field of ['name', 'description']) {
+    const wanted = typeof map[field] === 'string' ? map[field].trim() : '';
+    if (!wanted) continue;
+    const current = typeof layer[field] === 'string' ? layer[field].trim() : '';
+    if (current !== wanted) {
+      textLayers += 1;
+      textFieldsAdded += 1;
+      if (!CHECK) layer[field] = map[field];
+    }
+  }
+
   if (map.style && typeof map.style === 'object') {
     const target = layer.style && typeof layer.style === 'object' ? layer.style : null;
     const missingProps = Object.keys(map.style).filter((k) => !target || !(k in target));
@@ -108,11 +131,12 @@ for (const layer of render.layers || []) {
 }
 
 if (CHECK) {
-  if (keywordLayers || styleLayers || providerLayers) {
+  if (keywordLayers || styleLayers || providerLayers || textLayers) {
     console.error('FAIL: the render record is missing catalogue display fields.');
     console.error(`  - ${keywordLayers} layer(s) missing ${keywordsAdded} keyword(s)`);
     console.error(`  - ${styleLayers} layer(s) missing ${stylePropsAdded} style propert(ies)`);
     console.error(`  - ${providerLayers} layer(s) missing ${providersAdded} provider credit(s)`);
+    console.error(`  - ${textLayers} layer(s) with a stale name or description`);
     console.error('');
     console.error('  Keywords are search terms: a layer tagged in the catalogue and not in the');
     console.error('  render record cannot be found by that term in the app.');
@@ -126,4 +150,5 @@ if (CHECK) {
 writeFileSync(RENDER, `${JSON.stringify(render, null, 2)}\n`);
 console.log(`Synced ${keywordsAdded} keyword(s) into ${keywordLayers} layer(s), `
   + `${stylePropsAdded} style propert(ies) into ${styleLayers} layer(s), `
-  + `and ${providersAdded} provider credit(s) into ${providerLayers} layer(s).`);
+  + `${providersAdded} provider credit(s) into ${providerLayers} layer(s), `
+  + `and ${textFieldsAdded} name/description field(s) into ${textLayers} layer(s).`);
