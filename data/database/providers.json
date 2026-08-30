@@ -1,0 +1,431 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-31",
+  "note": "Canonical list of organisations credited in data/database/maps.json. The provider field was free text, so the same body appeared under several spellings and nothing caught a new one. check:provider-names enforces this list. Aliases are spellings that have been merged away and must not reappear. pendingReview marks an unresolved question about how a body should be credited, not a defect in the data.",
+  "jurisdictions": {
+    "NI": "Northern Ireland public body",
+    "IE": "Republic of Ireland public body",
+    "UK": "United Kingdom-wide public body",
+    "international": "International or supranational body",
+    "community": "Independent or community project",
+    "individual": "Named individual contributor",
+    "portal": "Publishing portal rather than the originating body"
+  },
+  "providers": [
+    {
+      "id": "osni",
+      "name": "OSNI",
+      "jurisdiction": "NI",
+      "parent": "lps",
+      "aliases": [
+        "OSNI Open Data"
+      ],
+      "note": "Ordnance Survey of Northern Ireland, the mapping brand within Land & Property Services."
+    },
+    {
+      "id": "lps",
+      "name": "Land & Property Services",
+      "jurisdiction": "NI",
+      "pendingReview": true,
+      "note": "TIER B: appears both alone and as 'Land & Property Services (OSNI)'. Parent agency of OSNI. Decide whether to credit the agency, the brand, or both."
+    },
+    {
+      "id": "lps-osni",
+      "name": "Land & Property Services (OSNI)",
+      "jurisdiction": "NI",
+      "parent": "lps",
+      "pendingReview": true,
+      "note": "TIER B: the same body as 'osni' credited under its parent's name."
+    },
+    {
+      "id": "nisra",
+      "name": "NISRA",
+      "jurisdiction": "NI",
+      "note": "Northern Ireland Statistics and Research Agency."
+    },
+    {
+      "id": "daera",
+      "name": "DAERA",
+      "jurisdiction": "NI",
+      "aliases": [
+        "Department of Agriculture, Environment and Rural Affairs (DAERA)"
+      ]
+    },
+    {
+      "id": "niea",
+      "name": "NIEA",
+      "jurisdiction": "NI",
+      "parent": "daera",
+      "aliases": [
+        "Northern Ireland Environment Agency"
+      ]
+    },
+    {
+      "id": "gsni",
+      "name": "GSNI",
+      "jurisdiction": "NI",
+      "aliases": [
+        "Geological Survey of Northern Ireland (GSNI)"
+      ]
+    },
+    {
+      "id": "tellus",
+      "name": "Tellus",
+      "jurisdiction": "NI",
+      "parent": "gsni",
+      "note": "Geoscience survey programme."
+    },
+    {
+      "id": "dfi-roads",
+      "name": "Department for Infrastructure - Roads",
+      "jurisdiction": "NI",
+      "parent": "dfi",
+      "pendingReview": true,
+      "note": "TIER B: 'Roads NI' and bare 'DfI' also appear. Decide the level of credit."
+    },
+    {
+      "id": "dfi",
+      "name": "DfI",
+      "jurisdiction": "NI",
+      "pendingReview": true,
+      "note": "TIER B: parent of the Roads, Rivers and Walking and Cycling branches."
+    },
+    {
+      "id": "dfi-roads-ni",
+      "name": "Roads NI",
+      "jurisdiction": "NI",
+      "parent": "dfi",
+      "pendingReview": true,
+      "note": "TIER B: operating name of DfI Roads."
+    },
+    {
+      "id": "dfi-rivers",
+      "name": "Department for Infrastructure - Rivers",
+      "jurisdiction": "NI",
+      "parent": "dfi"
+    },
+    {
+      "id": "dfi-walking",
+      "name": "Department for Infrastructure - Walking and Cycling Branch",
+      "jurisdiction": "NI",
+      "parent": "dfi"
+    },
+    {
+      "id": "dfc-hed",
+      "name": "Department for Communities - Historic Environment Division",
+      "jurisdiction": "NI",
+      "parent": "dfc",
+      "aliases": [
+        "Dept for Communities — Historic Environment Division"
+      ]
+    },
+    {
+      "id": "dfc",
+      "name": "Department for Communities",
+      "jurisdiction": "NI",
+      "pendingReview": true,
+      "note": "TIER B: parent of the Historic Environment Division."
+    },
+    {
+      "id": "dfe-minerals",
+      "name": "Department for the Economy - Minerals and Petroleum Branch",
+      "jurisdiction": "NI"
+    },
+    {
+      "id": "doh-ni",
+      "name": "Department of Health (NI)",
+      "jurisdiction": "NI"
+    },
+    {
+      "id": "psni",
+      "name": "Police Service of Northern Ireland",
+      "jurisdiction": "NI"
+    },
+    {
+      "id": "translink",
+      "name": "Translink",
+      "jurisdiction": "NI"
+    },
+    {
+      "id": "ni-water",
+      "name": "NI Water",
+      "jurisdiction": "NI"
+    },
+    {
+      "id": "nio",
+      "name": "Northern Ireland Office",
+      "jurisdiction": "UK"
+    },
+    {
+      "id": "lgbc-ni",
+      "name": "Local Government Boundary Commission for Northern Ireland",
+      "jurisdiction": "NI"
+    },
+    {
+      "id": "bc-ni",
+      "name": "Boundary Commission for Northern Ireland",
+      "jurisdiction": "NI",
+      "note": "Parliamentary constituencies. A different body from the local government commission."
+    },
+    {
+      "id": "eoni",
+      "name": "Electoral Office for Northern Ireland",
+      "jurisdiction": "NI"
+    },
+    {
+      "id": "electoral-commission",
+      "name": "Electoral Commission",
+      "jurisdiction": "UK"
+    },
+    {
+      "id": "mid-ulster",
+      "name": "Mid Ulster District Council",
+      "jurisdiction": "NI"
+    },
+    {
+      "id": "abc-council",
+      "name": "ABC Council",
+      "jurisdiction": "NI",
+      "pendingReview": true,
+      "note": "TIER C: shorthand for Armagh City, Banbridge and Craigavon Borough Council. Expand."
+    },
+    {
+      "id": "ulster-wildlife",
+      "name": "Ulster Wildlife",
+      "jurisdiction": "community"
+    },
+    {
+      "id": "tailte",
+      "name": "Tailte Éireann",
+      "jurisdiction": "IE",
+      "note": "Formed 2023 from Ordnance Survey Ireland, the Property Registration Authority and the Valuation Office. See 'osi' for the pre-2023 name."
+    },
+    {
+      "id": "osi",
+      "name": "OSI",
+      "jurisdiction": "IE",
+      "pendingReview": true,
+      "note": "TIER B/6: Ordnance Survey Ireland, the same body as Tailte Éireann before 2023. Whether to credit the publication-era name or the current one is the open question."
+    },
+    {
+      "id": "cso",
+      "name": "CSO",
+      "jurisdiction": "IE",
+      "aliases": [
+        "Central Statistics Office"
+      ]
+    },
+    {
+      "id": "gsi",
+      "name": "Geological Survey Ireland",
+      "jurisdiction": "IE"
+    },
+    {
+      "id": "tii",
+      "name": "Transport Infrastructure Ireland",
+      "jurisdiction": "IE"
+    },
+    {
+      "id": "opw",
+      "name": "Office of Public Works",
+      "jurisdiction": "IE"
+    },
+    {
+      "id": "npws",
+      "name": "National Parks & Wildlife Service (NPWS)",
+      "jurisdiction": "IE"
+    },
+    {
+      "id": "epa-ie",
+      "name": "EPA",
+      "jurisdiction": "IE",
+      "note": "Environmental Protection Agency."
+    },
+    {
+      "id": "dhlgh",
+      "name": "Department of Housing, Local Government and Heritage",
+      "jurisdiction": "IE"
+    },
+    {
+      "id": "niah",
+      "name": "National Inventory of Architectural Heritage (NIAH)",
+      "jurisdiction": "IE"
+    },
+    {
+      "id": "dlr",
+      "name": "Dún Laoghaire-Rathdown County Council",
+      "jurisdiction": "IE"
+    },
+    {
+      "id": "dublin-city",
+      "name": "Dublin City Council",
+      "jurisdiction": "IE"
+    },
+    {
+      "id": "fingal",
+      "name": "Fingal County Council",
+      "jurisdiction": "IE"
+    },
+    {
+      "id": "south-dublin",
+      "name": "South Dublin County Council",
+      "jurisdiction": "IE"
+    },
+    {
+      "id": "cork-city",
+      "name": "Cork City Council",
+      "jurisdiction": "IE"
+    },
+    {
+      "id": "monaghan",
+      "name": "Monaghan County Council",
+      "jurisdiction": "IE"
+    },
+    {
+      "id": "data-gov-ie",
+      "name": "data.gov.ie",
+      "jurisdiction": "portal",
+      "note": "Open data portal, not the originating body."
+    },
+    {
+      "id": "open-data-ni",
+      "name": "Open Data NI",
+      "jurisdiction": "portal",
+      "note": "Open data portal, not the originating body."
+    },
+    {
+      "id": "tailte-osi-datagovie",
+      "name": "Tailte/OSI/data.gov.ie",
+      "jurisdiction": "portal",
+      "pendingReview": true,
+      "note": "TIER C: one string doing the work of three. Split into tailte, osi and data-gov-ie."
+    },
+    {
+      "id": "osm",
+      "name": "OSM",
+      "jurisdiction": "community",
+      "note": "OpenStreetMap contributors, ODbL."
+    },
+    {
+      "id": "parlconst",
+      "name": "Parlconst.org",
+      "jurisdiction": "community"
+    },
+    {
+      "id": "dobih",
+      "name": "Database of British and Irish Hills",
+      "jurisdiction": "community"
+    },
+    {
+      "id": "hill-bagging",
+      "name": "Hill Bagging",
+      "jurisdiction": "community",
+      "parent": "dobih",
+      "pendingReview": true,
+      "note": "TIER B: the site that publishes DoBIH. Decide whether they are one credit or two."
+    },
+    {
+      "id": "global-watersheds",
+      "name": "Global Watersheds",
+      "jurisdiction": "community"
+    },
+    {
+      "id": "opentopography",
+      "name": "OpenTopography.org",
+      "jurisdiction": "community"
+    },
+    {
+      "id": "ordnance-survey",
+      "name": "Ordnance Survey",
+      "jurisdiction": "UK",
+      "note": "TIER C, RESOLVED: the pre-partition Ordnance Survey, on the six-inch surveys. Deliberately NOT merged into osi or osni; the historic credit is correct."
+    },
+    {
+      "id": "bgs",
+      "name": "BGS",
+      "jurisdiction": "UK",
+      "aliases": [
+        "British Geological Survey"
+      ]
+    },
+    {
+      "id": "copernicus",
+      "name": "Copernicus",
+      "jurisdiction": "international",
+      "pendingReview": true,
+      "note": "TIER B: 'Copernicus DEM' and 'Copernicus Land Monitoring Service (EEA)' also appear."
+    },
+    {
+      "id": "copernicus-dem",
+      "name": "Copernicus DEM",
+      "jurisdiction": "international",
+      "parent": "copernicus",
+      "pendingReview": true,
+      "note": "TIER B: a product of Copernicus."
+    },
+    {
+      "id": "copernicus-clms",
+      "name": "Copernicus Land Monitoring Service (EEA)",
+      "jurisdiction": "international",
+      "parent": "copernicus",
+      "pendingReview": true,
+      "note": "TIER B: a service of Copernicus, delivered by the EEA."
+    },
+    {
+      "id": "esa",
+      "name": "ESA",
+      "jurisdiction": "international",
+      "note": "European Space Agency."
+    },
+    {
+      "id": "eurostat",
+      "name": "Eurostat",
+      "jurisdiction": "international"
+    },
+    {
+      "id": "iho",
+      "name": "IHO",
+      "jurisdiction": "international",
+      "note": "International Hydrographic Organization."
+    },
+    {
+      "id": "tcd",
+      "name": "Trinity College Dublin",
+      "jurisdiction": "IE"
+    },
+    {
+      "id": "phelim-birch",
+      "name": "Phelim Birch",
+      "jurisdiction": "individual"
+    },
+    {
+      "id": "paddy-matthews",
+      "name": "Paddy Matthews",
+      "jurisdiction": "individual"
+    },
+    {
+      "id": "scott-moore",
+      "name": "Scott Moore",
+      "jurisdiction": "individual"
+    },
+    {
+      "id": "xrysd",
+      "name": "XrysD",
+      "jurisdiction": "individual"
+    },
+    {
+      "id": "historic-maps",
+      "name": "Historic Maps",
+      "jurisdiction": "community",
+      "pendingReview": true,
+      "note": "TIER C: not an organisation. Sits on eight archaeological layers (ringforts, crannógs, bullaun stones). Identify who actually published them."
+    },
+    {
+      "id": "user-provided",
+      "name": "User Provided",
+      "jurisdiction": "individual",
+      "pendingReview": true,
+      "note": "TIER C: not an organisation. One layer (catholic-dioceses). Name the contributor."
+    }
+  ]
+}
