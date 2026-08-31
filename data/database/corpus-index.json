@@ -1,0 +1,515 @@
+{
+  "schemaVersion": 1,
+  "description": "Corpus-level map of where Civgraph's raw material lives and how to fetch it. Per-file resolution is deliberately not duplicated here: use the listVia endpoint for R2, raw-source-ia-mirrors.json for mirrored raw sources, or the Internet Archive item page.",
+  "measuredAt": "2026-08-31",
+  "stores": {
+    "r2": {
+      "base": "https://data.civgraph.net/",
+      "note": "Public prefixes are listable at /_api/data-index. Everything in the bucket, including unallowlisted prefixes, is listable by contributors at /_api/contributions/r2-index."
+    },
+    "internetArchive": {
+      "base": "https://archive.org/details/",
+      "note": "Free, permanent, no authentication. `ia download <identifier>` retrieves a whole item."
+    },
+    "localOnly": {
+      "note": "Held on the maintainer's disk and published nowhere. Listed so the gap is visible rather than forgotten."
+    }
+  },
+  "counts": {
+    "r2": 9,
+    "both": 2,
+    "internet-archive": 4,
+    "local-only": 6
+  },
+  "perFileIndexes": [
+    {
+      "file": "data/database/raw-source-ia-mirrors.json",
+      "covers": "252 sources, 736 files",
+      "note": "names, formats, sizes and checksums"
+    }
+  ],
+  "corpora": [
+    {
+      "id": "cso-pxstat",
+      "title": "CSO PxStat statistical cubes",
+      "provider": "CSO",
+      "jurisdiction": "IE",
+      "store": "r2",
+      "access": "public",
+      "r2": {
+        "prefix": "data/cso-pxstat/",
+        "baseUrl": "https://data.civgraph.net/data/cso-pxstat/",
+        "allowlisted": true,
+        "listVia": "https://civgraph.net/_api/data-index?prefix=data%2Fcso-pxstat%2F"
+      },
+      "rights": "CC BY 4.0, uniform across the collection. Not a new determination: CSO PxStat rights were confirmed clear in this repo on 2026-07-07 and are already relied on by the 12,314 gated cubes -- see scripts/census-emit-cso-carveout-records.mjs. Attribution is carried on every record: 'Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.' Per-cube metadata carries extension.copyright naming the CSO but no per-cube licence, so the basis is the collection licence, which is why it applies uniformly.",
+      "measured": {
+        "files": 25060,
+        "gigabytes": 7.9,
+        "measuredAt": "2026-08-31"
+      },
+      "note": "Complete: all 12,528 matrices in the live PxStat catalogue, as JSON-stat plus release metadata."
+    },
+    {
+      "id": "datagovie",
+      "title": "data.gov.ie mirror (Open Data Portal Ireland)",
+      "provider": "data.gov.ie",
+      "jurisdiction": "IE",
+      "store": "r2",
+      "access": "public",
+      "r2": {
+        "prefix": "data/datagovie/",
+        "baseUrl": "https://data.civgraph.net/data/datagovie/",
+        "allowlisted": true,
+        "listVia": "https://civgraph.net/_api/data-index?prefix=data%2Fdatagovie%2F"
+      },
+      "rights": "MIXED, AND NOT UNIFORMLY ESTABLISHED. Read the licence summary before treating anything here as open. Of 4,947 resources: 4,294 (18.31 GB) carry an explicitly open CKAN licence -- 4,234 CC BY 4.0, 51 CC BY-SA 4.0, 9 CC0 1.0. The remaining 653 (16.95 GB) do not: 583 resources (16.91 GB) have NO licence recorded on the portal at all, 27 are cc-by-nc, 5 cc-by-nc-nd and 1 other-nc (non-commercial terms), 27 me-custom and 10 psi/oir-psi. 'No licence recorded' means the publishing body did not state one on CKAN -- it is not a finding that the material is unlicensed or restricted, and it is not a finding that it is open. data.gov.ie federates other bodies' data, so the licence belongs to each publishing organisation and the portal's own terms do not govern the files, which were fetched from publisher hosts. The non-commercial subset is redistributable only for non-commercial purposes and must not be presented as open data. Publishing the full mirror rather than the open 18.31 GB subset was a decision taken by the project owner after being shown this split.",
+      "measured": {
+        "files": 4947,
+        "gigabytes": 35.3,
+        "measuredAt": "2026-08-31"
+      },
+      "note": "MIXED LICENCE. See data/database/datagovie-licence-summary.json before reuse: 18.31 GB carries an explicit open licence, 16.91 GB records none, and 33 resources are non-commercial."
+    },
+    {
+      "id": "maps",
+      "title": "Boundary geometry and map layers",
+      "provider": "various",
+      "jurisdiction": "IE/NI",
+      "store": "r2",
+      "access": "public",
+      "r2": {
+        "prefix": "data/maps/",
+        "baseUrl": "https://data.civgraph.net/data/maps/",
+        "allowlisted": true,
+        "listVia": "https://civgraph.net/_api/data-index?prefix=data%2Fmaps%2F"
+      },
+      "rights": "per-source; recorded on the individual Browse source records",
+      "note": "Runtime store for the map viewer. Must stay on R2: the site fetches it directly."
+    },
+    {
+      "id": "pointclouds",
+      "title": "Point clouds as 3D Tiles",
+      "provider": "OpenDataNI",
+      "jurisdiction": "NI",
+      "store": "r2",
+      "access": "public",
+      "r2": {
+        "prefix": "data/pointclouds/",
+        "baseUrl": "https://data.civgraph.net/data/pointclouds/",
+        "allowlisted": true,
+        "listVia": "https://civgraph.net/_api/data-index?prefix=data%2Fpointclouds%2F"
+      },
+      "rights": "Derived works from OpenDataNI lidar releases, which are Crown copyright under Open Government Licence v3.0. OGL v3.0 expressly permits adapting the Information and publishing the adaptation with attribution, which is what the LAS-to-3D-Tiles conversion is. Note this IS a derivative-rights judgement rather than a lookup: the licence on the source release is being read as covering Civgraph's converted tiles.",
+      "measured": {
+        "files": 393355,
+        "gigabytes": 32.95,
+        "measuredAt": "2026-08-31"
+      },
+      "note": "Runtime store: deck.gl Tile3DLayer fetches these directly, so they cannot move to IA."
+    },
+    {
+      "id": "books",
+      "title": "NI Hansard, Acts and boundary reports",
+      "provider": "Parliament of Northern Ireland",
+      "jurisdiction": "NI",
+      "store": "both",
+      "access": "public",
+      "r2": {
+        "prefix": "data/books/",
+        "baseUrl": "https://data.civgraph.net/data/books/",
+        "allowlisted": true,
+        "listVia": "https://civgraph.net/_api/data-index?prefix=data%2Fbooks%2F"
+      },
+      "internetArchive": [
+        {
+          "identifier": "civgraph-ni-hansard-1921-1945",
+          "details": "https://archive.org/details/civgraph-ni-hansard-1921-1945",
+          "download": "https://archive.org/download/civgraph-ni-hansard-1921-1945",
+          "bulk": "ia download civgraph-ni-hansard-1921-1945"
+        },
+        {
+          "identifier": "civgraph-ni-acts-sro-1921-1932",
+          "details": "https://archive.org/details/civgraph-ni-acts-sro-1921-1932",
+          "download": "https://archive.org/download/civgraph-ni-acts-sro-1921-1932",
+          "bulk": "ia download civgraph-ni-acts-sro-1921-1932"
+        }
+      ],
+      "rights": "ALREADY PUBLIC on civgraph.net, so this republishes nothing new. Underlying rights remain UNRESOLVED and this prefix does not settle them: NI Hansard and NI Acts are Crown copyright, and 33 of the tracked markdown files carry University of California library markings (UC-NRLF) identifying the scans they were transcribed from. Recording per-item source and licence in books.json is tracked separately as the books-provenance task."
+    },
+    {
+      "id": "nisra-files",
+      "title": "NISRA source mirror",
+      "provider": "NISRA",
+      "jurisdiction": "NI",
+      "store": "both",
+      "access": "public",
+      "r2": {
+        "prefix": "data/nisra-files/",
+        "baseUrl": "https://data.civgraph.net/data/nisra-files/",
+        "allowlisted": true,
+        "listVia": "https://civgraph.net/_api/data-index?prefix=data%2Fnisra-files%2F"
+      },
+      "internetArchive": [
+        {
+          "identifier": "civgraph-nisra-statistics-csv-tables",
+          "details": "https://archive.org/details/civgraph-nisra-statistics-csv-tables",
+          "download": "https://archive.org/download/civgraph-nisra-statistics-csv-tables",
+          "bulk": "ia download civgraph-nisra-statistics-csv-tables"
+        }
+      ],
+      "rights": "Crown copyright under Open Government Licence v3.0. Not a new determination: 4,044 approved-publication records already credit NISRA under OGL v3.0, and the censusNisraOgl tranche (645 records) rests on the same basis. This extends that licence from the catalogue records to the mirrored source files they describe -- an inference, but the same material under the same licence.",
+      "measured": {
+        "files": 33593,
+        "gigabytes": 7.52,
+        "measuredAt": "2026-08-31"
+      }
+    },
+    {
+      "id": "nisra-portal",
+      "title": "NISRA portal tables, cleaned",
+      "provider": "NISRA",
+      "jurisdiction": "NI",
+      "store": "r2",
+      "access": "public",
+      "r2": {
+        "prefix": "data/nisra-portal/",
+        "baseUrl": "https://data.civgraph.net/data/nisra-portal/",
+        "allowlisted": true,
+        "listVia": "https://civgraph.net/_api/data-index?prefix=data%2Fnisra-portal%2F"
+      },
+      "rights": "Crown copyright under Open Government Licence v3.0, same basis as data/nisra-files/. Cleaning and gzipping do not change the licence; OGL v3.0 permits adaptation with attribution.",
+      "measured": {
+        "files": 1115,
+        "gigabytes": 0.05,
+        "measuredAt": "2026-08-31"
+      }
+    },
+    {
+      "id": "deprivation",
+      "title": "NI Multiple Deprivation Measure originals",
+      "provider": "NISRA",
+      "jurisdiction": "NI",
+      "store": "r2",
+      "access": "public",
+      "r2": {
+        "prefix": "data/deprivation/",
+        "baseUrl": "https://data.civgraph.net/data/deprivation/",
+        "allowlisted": true,
+        "listVia": "https://civgraph.net/_api/data-index?prefix=data%2Fdeprivation%2F"
+      },
+      "rights": "Crown copyright under Open Government Licence v3.0. NIMDM is a NISRA publication and falls under the same OGL basis as data/nisra-files/.",
+      "measured": {
+        "files": 6,
+        "gigabytes": 0.007,
+        "measuredAt": "2026-08-31"
+      }
+    },
+    {
+      "id": "thumbnails",
+      "title": "Rendered feature thumbnails",
+      "provider": "Civgraph",
+      "jurisdiction": "IE/NI",
+      "store": "r2",
+      "access": "public",
+      "r2": {
+        "prefix": "data/thumbnails/",
+        "baseUrl": "https://data.civgraph.net/data/thumbnails/",
+        "allowlisted": true,
+        "listVia": "https://civgraph.net/_api/data-index?prefix=data%2Fthumbnails%2F"
+      },
+      "rights": "Renders Civgraph produced from map layers it already publishes; rights follow the source maps rather than existing independently. Same position data/maps/ takes: per-source, recorded on the individual Browse source records.",
+      "measured": {
+        "files": 47521,
+        "gigabytes": 0.204,
+        "measuredAt": "2026-08-31"
+      },
+      "note": "Derived renders. Rights follow the source maps."
+    },
+    {
+      "id": "oireachtas-fulltext",
+      "title": "Oireachtas debates, full text",
+      "provider": "Oireachtas",
+      "jurisdiction": "IE",
+      "store": "r2",
+      "access": "public",
+      "r2": {
+        "prefix": "data/sources/oireachtas-fulltext/",
+        "baseUrl": "https://data.civgraph.net/data/sources/oireachtas-fulltext/",
+        "allowlisted": true,
+        "listVia": "https://civgraph.net/_api/data-index?prefix=data%2Fsources%2Foireachtas-fulltext%2F"
+      }
+    },
+    {
+      "id": "polling",
+      "title": "LucidTalk polling tables and reports",
+      "provider": "LucidTalk",
+      "jurisdiction": "NI",
+      "store": "r2",
+      "access": "contributors",
+      "r2": {
+        "prefix": "data/polling/",
+        "baseUrl": "https://data.civgraph.net/data/polling/",
+        "allowlisted": false,
+        "listVia": "https://civgraph.net/_api/contributions/r2-index?prefix=data%2Fpolling%2F"
+      },
+      "measured": {
+        "files": 116,
+        "gigabytes": 0.036,
+        "measuredAt": "2026-08-31"
+      },
+      "note": "Deliberately NOT in the publication allowlist, so it is absent from the public index. Commercial polling material; no open-government licence reaches it. Objects remain fetchable by exact key -- omission from the index is discoverability, not access control."
+    },
+    {
+      "id": "opendatani",
+      "title": "Open Data NI mirror",
+      "provider": "OpenDataNI",
+      "jurisdiction": "NI",
+      "store": "internet-archive",
+      "access": "public",
+      "coverage": "PARTIAL",
+      "internetArchive": [
+        {
+          "identifier": "civgraph-opendatani-data-001",
+          "details": "https://archive.org/details/civgraph-opendatani-data-001",
+          "download": "https://archive.org/download/civgraph-opendatani-data-001",
+          "bulk": "ia download civgraph-opendatani-data-001"
+        },
+        {
+          "identifier": "civgraph-opendatani-data-004",
+          "details": "https://archive.org/details/civgraph-opendatani-data-004",
+          "download": "https://archive.org/download/civgraph-opendatani-data-004",
+          "bulk": "ia download civgraph-opendatani-data-004"
+        },
+        {
+          "identifier": "civgraph-opendatani-data-005",
+          "details": "https://archive.org/details/civgraph-opendatani-data-005",
+          "download": "https://archive.org/download/civgraph-opendatani-data-005",
+          "bulk": "ia download civgraph-opendatani-data-005"
+        },
+        {
+          "identifier": "civgraph-opendatani-data-006",
+          "details": "https://archive.org/details/civgraph-opendatani-data-006",
+          "download": "https://archive.org/download/civgraph-opendatani-data-006",
+          "bulk": "ia download civgraph-opendatani-data-006"
+        },
+        {
+          "identifier": "civgraph-opendatani-data-007",
+          "details": "https://archive.org/details/civgraph-opendatani-data-007",
+          "download": "https://archive.org/download/civgraph-opendatani-data-007",
+          "bulk": "ia download civgraph-opendatani-data-007"
+        },
+        {
+          "identifier": "civgraph-opendatani-data-008",
+          "details": "https://archive.org/details/civgraph-opendatani-data-008",
+          "download": "https://archive.org/download/civgraph-opendatani-data-008",
+          "bulk": "ia download civgraph-opendatani-data-008"
+        },
+        {
+          "identifier": "civgraph-opendatani-data-009",
+          "details": "https://archive.org/details/civgraph-opendatani-data-009",
+          "download": "https://archive.org/download/civgraph-opendatani-data-009",
+          "bulk": "ia download civgraph-opendatani-data-009"
+        },
+        {
+          "identifier": "civgraph-opendatani-data-010",
+          "details": "https://archive.org/details/civgraph-opendatani-data-010",
+          "download": "https://archive.org/download/civgraph-opendatani-data-010",
+          "bulk": "ia download civgraph-opendatani-data-010"
+        },
+        {
+          "identifier": "civgraph-opendatani-data-011",
+          "details": "https://archive.org/details/civgraph-opendatani-data-011",
+          "download": "https://archive.org/download/civgraph-opendatani-data-011",
+          "bulk": "ia download civgraph-opendatani-data-011"
+        }
+      ],
+      "rights": "OGL v3.0",
+      "measured": {
+        "localFiles": 5331,
+        "localGigabytes": 221.51,
+        "iaFiles": 2093,
+        "iaGigabytes": 38.94,
+        "measuredAt": "2026-08-31"
+      },
+      "note": "Held on IA rather than R2 by decision, 2026-08-31, for durability and to keep 221.5 GB off paid storage. Coverage is thin and should not be read as done: counted from the IA metadata API on 2026-08-31, the nine items hold 2,093 files / 38.94 GB against 5,331 local files / 221.51 GB -- 39 per cent of files but only 17.6 per cent by volume, so the large files are disproportionately the missing ones. Identifiers -002 and -003 return no files and are effectively absent. Completing this mirror is outstanding work."
+    },
+    {
+      "id": "cso-historical-reports",
+      "title": "CSO historical census and statistical reports",
+      "provider": "CSO",
+      "jurisdiction": "IE",
+      "store": "internet-archive",
+      "access": "public",
+      "internetArchive": [
+        {
+          "identifier": "civgraph-cso-historical-reports",
+          "details": "https://archive.org/details/civgraph-cso-historical-reports",
+          "download": "https://archive.org/download/civgraph-cso-historical-reports",
+          "bulk": "ia download civgraph-cso-historical-reports"
+        }
+      ],
+      "rights": "CC BY 4.0",
+      "measured": {
+        "localFiles": 5743,
+        "localGigabytes": 4.74,
+        "measuredAt": "2026-08-31"
+      },
+      "note": "2,172 reports, PDF 1841-1991 plus SAPS 2016/2022."
+    },
+    {
+      "id": "raw-sources",
+      "title": "Raw source files for Browse records",
+      "provider": "various",
+      "jurisdiction": "IE/NI",
+      "store": "internet-archive",
+      "access": "public",
+      "internetArchive": [
+        {
+          "identifier": "civgraph-data-gov-ie-raw-sources",
+          "details": "https://archive.org/details/civgraph-data-gov-ie-raw-sources",
+          "download": "https://archive.org/download/civgraph-data-gov-ie-raw-sources",
+          "bulk": "ia download civgraph-data-gov-ie-raw-sources"
+        },
+        {
+          "identifier": "civgraph-open-data-ni-raw-sources",
+          "details": "https://archive.org/details/civgraph-open-data-ni-raw-sources",
+          "download": "https://archive.org/download/civgraph-open-data-ni-raw-sources",
+          "bulk": "ia download civgraph-open-data-ni-raw-sources"
+        }
+      ],
+      "note": "Per-FILE resolution for these lives in data/database/raw-source-ia-mirrors.json, including names, formats, sizes and checksums."
+    },
+    {
+      "id": "scanned-maps",
+      "title": "Scanned historic maps",
+      "provider": "OSNI / Tailte Éireann / CSO / NISRA",
+      "jurisdiction": "IE/NI",
+      "store": "internet-archive",
+      "access": "public",
+      "internetArchive": [
+        {
+          "identifier": "civgraph-osni-maps",
+          "details": "https://archive.org/details/civgraph-osni-maps",
+          "download": "https://archive.org/download/civgraph-osni-maps",
+          "bulk": "ia download civgraph-osni-maps"
+        },
+        {
+          "identifier": "civgraph-tailte-eireann-maps",
+          "details": "https://archive.org/details/civgraph-tailte-eireann-maps",
+          "download": "https://archive.org/download/civgraph-tailte-eireann-maps",
+          "bulk": "ia download civgraph-tailte-eireann-maps"
+        },
+        {
+          "identifier": "civgraph-cso-maps",
+          "details": "https://archive.org/details/civgraph-cso-maps",
+          "download": "https://archive.org/download/civgraph-cso-maps",
+          "bulk": "ia download civgraph-cso-maps"
+        },
+        {
+          "identifier": "civgraph-nisra-maps",
+          "details": "https://archive.org/details/civgraph-nisra-maps",
+          "download": "https://archive.org/download/civgraph-nisra-maps",
+          "bulk": "ia download civgraph-nisra-maps"
+        },
+        {
+          "identifier": "civgraph-osi-maps",
+          "details": "https://archive.org/details/civgraph-osi-maps",
+          "download": "https://archive.org/download/civgraph-osi-maps",
+          "bulk": "ia download civgraph-osi-maps"
+        },
+        {
+          "identifier": "civgraph-osni-boundary-data",
+          "details": "https://archive.org/details/civgraph-osni-boundary-data",
+          "download": "https://archive.org/download/civgraph-osni-boundary-data",
+          "bulk": "ia download civgraph-osni-boundary-data"
+        }
+      ],
+      "note": "Plus ~120 per-sheet items for the 1974/1984/1992 LGD boundary map series, referenced individually from the map records rather than listed here."
+    },
+    {
+      "id": "nisra-wayback",
+      "title": "NISRA pages recovered from the Wayback Machine",
+      "provider": "NISRA",
+      "jurisdiction": "NI",
+      "store": "local-only",
+      "access": "none",
+      "rights": "OGL v3.0",
+      "measured": {
+        "localFiles": 24889,
+        "localGigabytes": 14.16,
+        "measuredAt": "2026-08-31"
+      },
+      "note": "Candidate for IA. OGL, not runtime-fetched."
+    },
+    {
+      "id": "proni",
+      "title": "PRONI eCatalogue material",
+      "provider": "PRONI",
+      "jurisdiction": "NI",
+      "store": "local-only",
+      "access": "none",
+      "measured": {
+        "localFiles": 5119,
+        "localGigabytes": 9.9,
+        "measuredAt": "2026-08-31"
+      },
+      "note": "The /proni app serves search from D1; these are the underlying files."
+    },
+    {
+      "id": "oireachtas-opendata",
+      "title": "Oireachtas open data, structured",
+      "provider": "Oireachtas",
+      "jurisdiction": "IE",
+      "store": "local-only",
+      "access": "none",
+      "measured": {
+        "localFiles": 5290,
+        "localGigabytes": 5.04,
+        "measuredAt": "2026-08-31"
+      },
+      "note": "The full-text side is already on R2; this is the structured counterpart."
+    },
+    {
+      "id": "tellus",
+      "title": "Tellus airborne geophysics",
+      "provider": "GSNI",
+      "jurisdiction": "NI",
+      "store": "local-only",
+      "access": "none",
+      "rights": "OGL v3.0",
+      "measured": {
+        "localFiles": 27435,
+        "localGigabytes": 4.94,
+        "measuredAt": "2026-08-31"
+      },
+      "note": "Derived rasters are already published under data/maps/; these are the source grids."
+    },
+    {
+      "id": "niassembly-xml",
+      "title": "NI Assembly XML dumps",
+      "provider": "NI Assembly",
+      "jurisdiction": "NI",
+      "store": "local-only",
+      "access": "none",
+      "measured": {
+        "localFiles": 2,
+        "localGigabytes": 4.47,
+        "measuredAt": "2026-08-31"
+      }
+    },
+    {
+      "id": "osni-fusion",
+      "title": "OSNI Fusion extracts",
+      "provider": "OSNI",
+      "jurisdiction": "NI",
+      "store": "local-only",
+      "access": "none",
+      "measured": {
+        "localFiles": 11,
+        "localGigabytes": 3.68,
+        "measuredAt": "2026-08-31"
+      }
+    }
+  ]
+}

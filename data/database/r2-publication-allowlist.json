@@ -67,6 +67,42 @@
       "rationale": "The complete CSO PxStat statistical corpus as JSON-stat: 12,528 cubes plus their release metadata, 7.9 GB. Civgraph holds a mirrored source portal for Northern Ireland (data/nisra-files/, data/nisra-portal/) but nothing equivalent for the Republic, where only boundary geometry was held and the statistics attached to it were links to cso.ie. This closes that asymmetry with the one southern corpus that carries a single, uniform, already-determined licence.",
       "evidence": "Mirrored by scripts/scrape_cso_pxstat.py via the public PxStat RESTful API; measured 2026-08-31 at 12,529 files / 7.9 GB against a catalogue of 12,528 matrices, i.e. complete. Every matrix now carries an approved-publication record: 12,314 from the earlier CSO tranches (censusCategory1, censusCsoNiCarveout, csoPxstatBacklog) and the last 214 from cat1-cso-pxstat-completion, emitted by scripts/cso-emit-pxstat-gap-records.mjs and asserted in validate-approved-publication-path.mjs.",
       "rights": "CC BY 4.0, uniform across the collection. Not a new determination: CSO PxStat rights were confirmed clear in this repo on 2026-07-07 and are already relied on by the 12,314 gated cubes -- see scripts/census-emit-cso-carveout-records.mjs. Attribution is carried on every record: 'Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.' Per-cube metadata carries extension.copyright naming the CSO but no per-cube licence, so the basis is the collection licence, which is why it applies uniformly."
+    },
+    {
+      "prefix": "data/nisra-files/",
+      "rationale": "NISRA source mirror: 33,593 objects, 7.52 GB. The northern counterpart to data/cso-pxstat/ -- the statistical source material behind the census and Browse records, held locally rather than linked, so the records survive NISRA reorganising its site.",
+      "evidence": "Measured 2026-08-31 against boundaries-data: 33,593 objects / 7.52 GB, publicly readable. Uploaded before the publication gate existed and never allowlisted; recorded here as observed production state. Referenced by scripts/census/{mirror-nisra-files-to-ia,plan-nisra-ia-mirror,reenrich-nisra-with-ia}.mjs.",
+      "rights": "Crown copyright under Open Government Licence v3.0. Not a new determination: 4,044 approved-publication records already credit NISRA under OGL v3.0, and the censusNisraOgl tranche (645 records) rests on the same basis. This extends that licence from the catalogue records to the mirrored source files they describe -- an inference, but the same material under the same licence."
+    },
+    {
+      "prefix": "data/nisra-portal/",
+      "rationale": "Cleaned NISRA portal tables as gzipped CSV: 1,115 objects, 48 MB. Normalised extracts of the data.nisra.gov.uk cubes, kept so the cleaned form is reproducible without re-crawling the portal.",
+      "evidence": "Measured 2026-08-31: 1,115 objects / 0.05 GB, publicly readable. No code outside the allowlist references the prefix; it is a data asset, not a served route. Uploaded before the gate existed.",
+      "rights": "Crown copyright under Open Government Licence v3.0, same basis as data/nisra-files/. Cleaning and gzipping do not change the licence; OGL v3.0 permits adaptation with attribution."
+    },
+    {
+      "prefix": "data/deprivation/",
+      "rationale": "NI Multiple Deprivation Measure source spreadsheets, 2001 and 2005: 6 objects, 7 MB. The originals behind the deprivation records, kept because the 2001 and 2005 releases are no longer straightforward to obtain from NISRA.",
+      "evidence": "Measured 2026-08-31: 6 objects / 0.007 GB, publicly readable, keys under data/deprivation/nimdm/{2001,2005}/originals/. Smallest prefix in the bucket.",
+      "rights": "Crown copyright under Open Government Licence v3.0. NIMDM is a NISRA publication and falls under the same OGL basis as data/nisra-files/."
+    },
+    {
+      "prefix": "data/pointclouds/",
+      "rationale": "Point clouds converted to 3D Tiles for the map viewer: 393,355 objects, 32.95 GB across the A26 corridor and Newry. The largest thing in the bucket. Served directly to the browser by the deck.gl Tile3DLayer, so the tiles must be publicly fetchable for the viewer to work at all.",
+      "evidence": "Measured 2026-08-31: 393,355 objects / 32.95 GB. Referenced by src/ui-controller.js and the built app chunk, i.e. this prefix is load-bearing for a live site feature. 347 approved-publication records match, carrying OGL v3.0 and CC BY 4.0.",
+      "rights": "Derived works from OpenDataNI lidar releases, which are Crown copyright under Open Government Licence v3.0. OGL v3.0 expressly permits adapting the Information and publishing the adaptation with attribution, which is what the LAS-to-3D-Tiles conversion is. Note this IS a derivative-rights judgement rather than a lookup: the licence on the source release is being read as covering Civgraph's converted tiles."
+    },
+    {
+      "prefix": "data/thumbnails/",
+      "rationale": "Rendered per-feature PNG thumbnails: 47,521 objects, 204 MB. Generated by Civgraph from its own map layers for Browse feature cards.",
+      "evidence": "Measured 2026-08-31: 47,521 objects / 0.20 GB. Referenced by scripts/render-feature-thumbnails.mjs, scripts/upload-feature-thumbnails-r2.mjs and data/database/feature-thumbnails/{rendered-assets,_manifest}.json. NOTE: the allowlist already carries assets/thumbnails/, which is NOT the prefix the uploader writes to -- upload-feature-thumbnails-r2.mjs defaults to data/thumbnails/features and package.json passes --skip-check, which is how these reached the bucket ungated. See docs/r2-prefix-reconciliation.md.",
+      "rights": "Renders Civgraph produced from map layers it already publishes; rights follow the source maps rather than existing independently. Same position data/maps/ takes: per-source, recorded on the individual Browse source records."
+    },
+    {
+      "prefix": "data/datagovie/",
+      "rationale": "The data.gov.ie (Open Data Portal Ireland) mirror in full: 4,947 resources, 35.3 GB, across 3,050 packages and 58 publishing organisations. Held locally rather than linked, so the 97 of 138 CSO/data.gov.ie catalogue entries that currently link out to somebody else's server survive that server changing. Published in full at the project owner's explicit direction, 2026-08-31.",
+      "evidence": "Mirrored by scripts/mirror_datagovie.py; manifest records 4,947 downloaded of 4,960 attempted. Licences harvested per package from CKAN package_show by scripts/harvest-datagovie-licences.mjs on 2026-08-31; per-package detail in gitignored data/external/datagovie-licences.json, rollup committed at data/database/datagovie-licence-summary.json.",
+      "rights": "MIXED, AND NOT UNIFORMLY ESTABLISHED. Read the licence summary before treating anything here as open. Of 4,947 resources: 4,294 (18.31 GB) carry an explicitly open CKAN licence -- 4,234 CC BY 4.0, 51 CC BY-SA 4.0, 9 CC0 1.0. The remaining 653 (16.95 GB) do not: 583 resources (16.91 GB) have NO licence recorded on the portal at all, 27 are cc-by-nc, 5 cc-by-nc-nd and 1 other-nc (non-commercial terms), 27 me-custom and 10 psi/oir-psi. 'No licence recorded' means the publishing body did not state one on CKAN -- it is not a finding that the material is unlicensed or restricted, and it is not a finding that it is open. data.gov.ie federates other bodies' data, so the licence belongs to each publishing organisation and the portal's own terms do not govern the files, which were fetched from publisher hosts. The non-commercial subset is redistributable only for non-commercial purposes and must not be presented as open data. Publishing the full mirror rather than the open 18.31 GB subset was a decision taken by the project owner after being shown this split."
     }
   ]
 }
