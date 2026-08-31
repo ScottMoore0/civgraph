@@ -126,6 +126,12 @@ function validateApprovedSources(validationReport, approvedSources) {
   // OGL catalogue-reference records with direct resource download links; datasets
   // already referenced in the gate are deduped out at emit time.
   const openDataNiPortal = approvedSources.counts?.openDataNiPortal?.publish || 0;
+  // csoPxstatCompletion = the last 214 PxStat matrices, which no earlier tranche reached
+  // because none of them are census cubes. Measured against the live catalogue on
+  // 2026-08-31: 12,528 published cubes, 12,314 already gated. Same CC BY 4.0 collection
+  // licence as the other CSO tranches -- no new rights decision, see
+  // scripts/cso-emit-pxstat-gap-records.mjs.
+  const csoPxstatCompletion = approvedSources.counts?.csoPxstatCompletion?.publish || 0;
   assert(censusCso === 6560, `Expected 6,560 approved CSO census records, found ${censusCso}.`);
   assert(censusNisra === 645, `Expected 645 approved NISRA census records, found ${censusNisra}.`);
   assert(censusCsoNiCarveout === 35, `Expected 35 approved CSO NI-carveout census records, found ${censusCsoNiCarveout}.`);
@@ -140,9 +146,11 @@ function validateApprovedSources(validationReport, approvedSources) {
   assert(openDataIePortal === 7290, `Expected 7,290 approved data.gov.ie portal records, found ${openDataIePortal}.`);
   assert(nisraPublications === 2940, `Expected 2,940 approved NISRA publication records, found ${nisraPublications}.`);
   assert(openDataNiPortal === 902, `Expected 902 approved Open Data NI portal records, found ${openDataNiPortal}.`);
+  assert(csoPxstatCompletion === 214, `Expected 214 approved CSO PxStat completion records, found ${csoPxstatCompletion}.`);
   const expectedTotal = 6679 + censusCso + censusNisra + censusCsoNiCarveout + localAuthoritySources
     + localAuthoritySourcesHeld + transportPublicAssets + sourceDownloadRecords + openDataSourceRecords + variantSourceRecords
-    + censusHistoricalReports + csoPxstatBacklog + openDataIePortal + nisraPublications + openDataNiPortal;
+    + censusHistoricalReports + csoPxstatBacklog + openDataIePortal + nisraPublications + openDataNiPortal
+    + csoPxstatCompletion;
   assert(approvedSources.counts?.total === expectedTotal, `Expected ${expectedTotal} approved source records, found ${approvedSources.counts?.total}.`);
   assert(Array.isArray(approvedSources.sources) && approvedSources.sources.length === expectedTotal, `Expected ${expectedTotal} approved source records in sources array, found ${approvedSources.sources?.length}.`);
   assert(approvedSources.counts?.remainingApproved?.publish === 26, `Expected 26 approved remaining publish records, found ${approvedSources.counts?.remainingApproved?.publish}.`);

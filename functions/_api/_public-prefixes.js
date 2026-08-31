@@ -12,6 +12,7 @@ export const PUBLIC_PREFIXES = [
   "data/books/",
   "data/browse/",
   "data/census/",
+  "data/cso-pxstat/",
   "data/documents/",
   "data/graph/",
   "data/maps/",
