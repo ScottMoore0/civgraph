@@ -134,4 +134,4 @@ if (result.status !== 0) {
 }
 
 console.log(`\nSet. Verify the name exists:  npx wrangler pages secret list --project-name ${PROJECT}`);
-console.log('The real test is the person loading /_api/r2-index and getting JSON, not a 403.');
+console.log('The real test is the person loading /_api/contributions/r2-index and getting JSON, not a 403.');

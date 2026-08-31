@@ -35,13 +35,49 @@ the live state observable by calling the endpoint.
 | `CIVGRAPH_CONTRIBUTION_QUEUE` | KV (`fca3f869…`) | `_api/contributions/{submit,list,decide}.js` | live, created 2026-08-13 |
 | `CIVGRAPH_SUBMISSIONS` | R2 (`.put`) | `_api/contributions/submit.js` fallback | not bound (KV is used) |
 | `CIVGRAPH_QUARANTINE` | R2 | `_api/contributions/intake.js` | **not bound — file intake returns 503 by design** |
-| `CIVGRAPH_ADMINS` / `CIVGRAPH_CONTRIBUTORS` | Pages secrets (email lists) | `_api/_auth.js` | live: 1 admin, 2 contributors |
+| `CIVGRAPH_ADMINS` / `CIVGRAPH_CONTRIBUTORS` | Pages secrets (email lists) | `_api/_auth.js` | live: 1 admin, 4 contributors (2026-08-31) |
 | `CIVGRAPH_DEV_AUTH_EMAIL` | var | `_api/_auth.js` | **must stay unset in production** |
 
 `_api/_auth.js` and `_api/contributions/submit.js` each read their binding under
 three names — `CIVGRAPH_*`, `CONTRIBUTOR_*`/`CONTRIBUTION_*`, and `BROWSE_*`.
 That is legacy tolerance from renames, not three separate bindings. Configure
 the `CIVGRAPH_*` form; the others are fallbacks.
+
+### Two gates, not one — and only one of them is readable
+
+Reaching a contributor-only endpoint requires passing **both**:
+
+1. **Cloudflare Access** decides who may authenticate at all. Zero Trust →
+   Access → Applications → policy `civgraph contributors`. This list is
+   ordinary config: readable and editable in the dashboard.
+2. **`CIVGRAPH_CONTRIBUTORS`** decides who is allowed once authenticated.
+   A Pages secret, therefore **write-only** — neither wrangler, the API, nor
+   the dashboard can read it back, and `secret put` overwrites rather than
+   appends. Use `scripts/set-contributors.mjs`, which assembles the list from
+   the gitignored `.contributors.local` so an addition cannot silently revoke
+   everyone else.
+
+The secret is necessarily a SUBSET of the Access policy: an address absent from
+Access can never present a JWT, so listing it in the secret does nothing. When
+the secret's contents are unknown, the Access policy is the upper bound and the
+best available evidence.
+
+Counts in the table above are dated for that reason. They are point-in-time
+observations, not live readings, and this document has drifted before — it
+claimed 9 allowlist prefixes for a fortnight while there were 10.
+
+**Pages binds secrets at deploy time.** Changing one does not affect running
+deployments; a rebuild is required before the new value takes effect.
+
+**The Access application covers the path `_api/contributions` and nothing
+else**, deliberately — widening it would put public Browse behind a login. Any
+new contributor-only endpoint must therefore live *under that prefix*. One that
+does not is unreachable by everybody, and it fails silently: an unprotected path
+returns `401` from `requireContributor`, which is indistinguishable from an
+ordinary not-signed-in refusal. The discriminator is the status code —
+
+    /_api/contributions/whoami   302   inside the application, redirects to sign-in
+    /_api/some-other-path        401   outside it, no identity was ever issued
 
 ### Verified live
 
@@ -122,7 +158,7 @@ Credentials for direct S3-API access live in `.env.local` (gitignored):
 
 Anything written to this bucket is public. `scripts/lib/r2-publication-gate.mjs`
 enforces a tracked allowlist at `data/database/r2-publication-allowlist.json`
-(9 prefixes as of 2026-08-16), and every upload script calls
+(10 prefixes as of 2026-08-31), and every upload script calls
 `assertPublishable()` before sending a byte. Uploads outside the allowlist fail
 closed.
 

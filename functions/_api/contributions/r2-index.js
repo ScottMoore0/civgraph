@@ -14,16 +14,32 @@
  * required S3 credentials and a local script, because nothing in the deployed system could
  * answer "what is in here". This closes that gap.
  *
- * ACCESS CONTROL is the same gate contributions uses: Cloudflare Access supplies a signed
- * identity, and requireContributor checks it against CIVGRAPH_CONTRIBUTORS /
- * CIVGRAPH_ADMINS. An unset allowlist means CLOSED, not open -- see _auth.js.
+ * WHY IT LIVES UNDER contributions/
+ *
+ * It was at /_api/r2-index and was unreachable by everyone, including correctly listed
+ * contributors. The Access application covers the path `_api/contributions` and nothing
+ * else -- deliberately, see login.js -- so Access never intercepted /_api/r2-index, never
+ * issued a JWT for it, and requireContributor found no identity to check.
+ *
+ * Measured on 2026-08-31, which is how the two cases are told apart:
+ *
+ *     /_api/contributions/whoami   302   Access intercepts, redirects to sign-in
+ *     /_api/r2-index               401   falls through to the Function, no identity
+ *
+ * A 401 alone looks like a normal "not signed in" refusal, which is why this survived
+ * review. Sitting inside the protected prefix means the protection is inherited from the
+ * path rather than depending on Zero Trust config staying in step with the repo.
+ *
+ * ACCESS CONTROL is the same gate the rest of contributions uses: Cloudflare Access
+ * supplies a signed identity, and requireContributor checks it against
+ * CIVGRAPH_CONTRIBUTORS / CIVGRAPH_ADMINS. An unset allowlist means CLOSED -- see _auth.js.
  *
  * Every entry is flagged with whether it falls inside the publication allowlist, so the
  * unreviewed prefixes are obvious rather than needing to be cross-referenced by hand.
  *
- *   GET /_api/r2-index                    top level
- *   GET /_api/r2-index?prefix=data/       one level down
- *   GET /_api/r2-index?prefix=data/maps/&cursor=...&limit=500
+ *   GET /_api/contributions/r2-index                    top level
+ *   GET /_api/contributions/r2-index?prefix=data/       one level down
+ *   GET /_api/contributions/r2-index?prefix=data/maps/&cursor=...&limit=500
  */
 import { jsonResponse, jsonNotAllowed, requireContributor, sanitizeAuth } from '../_auth.js';
 import { listLevel, normalisePrefix, parseLimit, publicUrl } from '../_r2-listing.js';
