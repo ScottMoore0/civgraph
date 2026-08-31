@@ -53,7 +53,7 @@
  *        --item-prefix civgraph-datagovie- --plan-only
  */
 import { readFileSync, writeFileSync, existsSync, statSync, readdirSync } from 'node:fs';
-import { spawnSync } from 'node:child_process';
+import { spawn } from 'node:child_process';
 import path from 'node:path';
 
 const args = process.argv.slice(2);
@@ -69,6 +69,8 @@ const LICENCES = opt('--licences');
 const MAX_ITEM_GB = Number(opt('--max-item-gb', '25'));
 const MAX_ITEM_FILES = Number(opt('--max-item-files', '700'));
 const LIMIT = opt('--limit') ? Number(opt('--limit')) : null;
+const ONLY_CLASS = opt('--only-class');
+const CONCURRENCY = Math.max(1, Number(opt('--concurrency', '8')));
 const PLAN_ONLY = args.includes('--plan-only');
 const IA = process.env.IA_CLI || 'ia';
 const SIDECAR = opt('--sidecar', 'data/database/ia-tree-mirrors.json');
@@ -76,7 +78,8 @@ const SIDECAR = opt('--sidecar', 'data/database/ia-tree-mirrors.json');
 if (!ROOT || !ITEM_PREFIX || (!MANIFEST && !LICENCES)) {
   console.error('Usage: node scripts/upload-tree-ia.mjs --root <dir> --item-prefix <prefix>');
   console.error('       (--manifest <csv> | --licences <json>)');
-  console.error('       [--max-item-gb 25] [--max-item-files 700] [--limit N] [--plan-only]');
+  console.error('       [--max-item-gb 25] [--max-item-files 700] [--limit N] [--only-class slug]');
+  console.error('       [--concurrency 8] [--plan-only]');
   console.error('  Paths are passed in: the mirror lives outside the repo.');
   process.exit(1);
 }
@@ -211,6 +214,9 @@ async function existingFor(prefix) {
 
 const plans = [];
 for (const [slug, group] of groups) {
+  // Class scoping serves smoke tests: packing is largest-file-first, so a bare --limit N
+  // would send the N biggest files of the first class rather than a small representative slice.
+  if (ONLY_CLASS && slug !== ONLY_CLASS) continue;
   const prefix = slug ? `${ITEM_PREFIX}${slug}-` : ITEM_PREFIX;
   const { present, items, highest } = await existingFor(prefix);
   const todo = group.files.filter((f) => !present.has(f.remote));
@@ -242,34 +248,63 @@ console.log(`\nTOTAL: ${plans.reduce((n, p) => n + p.items.length, 0)} new item(
 if (PLAN_ONLY) { console.log('\n--plan-only: nothing uploaded.'); process.exit(0); }
 
 // ---- upload ----
-let uploaded = 0;
-let failed = 0;
-let bytesSent = 0;
-outer:
+// IA throttles per CONNECTION (~360 KB/s measured), not per account or per line, so the pool
+// is what makes a 123 GB corpus take hours instead of days. Workers claim whole ITEMS, never
+// individual files, so no two processes ever write to the same item concurrently.
+const itemQueue = [];
 for (const plan of plans) {
   const meta = [
     `--metadata=title:${opt('--title', 'Open data mirror')} (${plan.info.name})`,
     `--metadata=licenseurl:${plan.info.url}`,
-    '--metadata=collection:opensource_data',
+    // opensource, not opensource_data: this account lacks write access to opensource_data
+    // (every PUT transfers fully, then dies with Access Denied), and the existing
+    // civgraph-opendatani-data items live in opensource with mediatype data.
+    '--metadata=collection:opensource',
+    '--metadata=mediatype:data',
   ];
-  for (const item of plan.items) {
+  for (const item of plan.items) itemQueue.push({ item, meta });
+}
+
+let uploaded = 0;
+let failed = 0;
+let bytesSent = 0;
+let limitReached = false;
+
+// No shell: metadata values contain spaces and parentheses, and cmd.exe would re-split them
+// into separate arguments (the win32 shell:true path fails every upload this way).
+// CreateProcess resolves the bare name to ia.exe on PATH without a shell's help.
+const uploadOne = (identifier, file, meta) => new Promise((resolve) => {
+  const child = spawn(IA, [
+    'upload', identifier, file.local, `--remote-name=${file.remote}`,
+    '--retries=5', '--no-derive', ...meta,
+  ], { stdio: ['ignore', 'pipe', 'pipe'] });
+  let out = '';
+  child.stdout.on('data', (d) => { out += d; });
+  child.stderr.on('data', (d) => { out += d; });
+  child.on('error', (e) => resolve({ code: -1, out: String(e) }));
+  child.on('close', (code) => resolve({ code, out }));
+});
+
+async function worker() {
+  while (itemQueue.length && !limitReached) {
+    const { item, meta } = itemQueue.shift();
     for (const file of item.files) {
-      if (LIMIT !== null && uploaded >= LIMIT) { console.log(`\n--limit ${LIMIT} reached.`); break outer; }
-      const result = spawnSync(IA, [
-        'upload', item.identifier, file.local, `--remote-name=${file.remote}`,
-        '--retries=5', '--no-derive', ...meta,
-      ], { encoding: 'utf8', shell: process.platform === 'win32' });
-      if (result.status === 0) {
+      if (LIMIT !== null && uploaded >= LIMIT) { limitReached = true; return; }
+      const { code, out } = await uploadOne(item.identifier, file, meta);
+      if (code === 0) {
         uploaded += 1;
         bytesSent += file.bytes;
         if (uploaded % 10 === 0) console.log(`  ${uploaded}/${plannedFiles}  ${(bytesSent / 1e9).toFixed(2)} GB  (${item.identifier})`);
       } else {
         failed += 1;
-        console.error(`  FAIL ${file.remote}: ${(result.stderr || result.stdout || '').trim().slice(0, 200)}`);
+        console.error(`  FAIL ${file.remote}: ${out.trim().slice(0, 200)}`);
       }
     }
   }
 }
+
+await Promise.all(Array.from({ length: Math.min(CONCURRENCY, itemQueue.length) }, worker));
+if (limitReached) console.log(`\n--limit ${LIMIT} reached.`);
 
 console.log(`\nuploaded ${uploaded}, failed ${failed}, ${(bytesSent / 1e9).toFixed(2)} GB sent.`);
 writeFileSync(SIDECAR, `${JSON.stringify({
