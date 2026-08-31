@@ -4,10 +4,14 @@
  *
  * WHY THIS IS THE GATE ON PUBLISHING THAT MIRROR
  *
- * scripts/mirror_datagovie.py pulled 4,947 resources (35.3 GB) to a local mirror. Its manifest
- * records id, package, organisation, format, url, size and status -- and no licence. So the
- * mirror has no publication basis recorded for any of it, and none of it can pass the R2
- * publication gate until that exists.
+ * scripts/mirror_datagovie.py and a later reconcile pass pulled 30,252 files (144.5 GB) across
+ * 20,700 packages to a local mirror. Nothing in it records a licence, so the mirror has no
+ * publication basis of its own.
+ *
+ * READ THE PACKAGE SET FROM THE TREE, NOT _manifest.csv. The manifest is from the first run
+ * and covers 4,947 resources across 3,050 packages -- about a sixth of what is on disk. A
+ * harvest driven from it produced a licence split that read as if it covered the corpus and
+ * covered a fraction, while the rest was already public on R2. Pass --root.
  *
  * data.gov.ie is a CKAN catalogue that FEDERATES other bodies' data: the licence belongs to
  * each publishing organisation and varies per package, and the files themselves were fetched
@@ -19,16 +23,16 @@
  * What it cannot do is decide the residue: packages with a missing, custom or non-open
  * licence are reported for a human to rule on, never guessed.
  *
- * ONLY the 3,050 packages actually mirrored are looked up, not the portal's full 22,013 --
- * a licence for something we hold no copy of decides nothing.
+ * ONLY packages actually mirrored are looked up, not the portal's full 22,013 -- a licence for
+ * something we hold no copy of decides nothing.
  *
  * RESUMABLE by re-reading its own output; re-running costs only the packages still missing.
  * Read-only against a public API, 6 concurrent, with a retry on transient failure.
  *
- *   node scripts/harvest-datagovie-licences.mjs --manifest <mirror>/_manifest.csv
- *   node scripts/harvest-datagovie-licences.mjs --manifest ... --summary-only
+ *   node scripts/harvest-datagovie-licences.mjs --root <mirror>
+ *   node scripts/harvest-datagovie-licences.mjs --root <mirror> --summary-only
  */
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, statSync } from 'node:fs';
 
 const args = process.argv.slice(2);
 const argOf = (name, fallback) => {
@@ -37,15 +41,17 @@ const argOf = (name, fallback) => {
 };
 
 const MANIFEST = argOf('--manifest');
+const ROOT = argOf('--root');
 const OUT = argOf('--out', 'data/external/datagovie-licences.json');
 const SUMMARY = argOf('--summary', 'data/database/datagovie-licence-summary.json');
 const CONCURRENCY = Number(argOf('--concurrency', '6'));
 const SUMMARY_ONLY = args.includes('--summary-only');
 const API = 'https://data.gov.ie/api/3/action/package_show?id=';
 
-if (!MANIFEST) {
-  console.error('FAIL: --manifest <path to _manifest.csv> is required.');
-  console.error('  The mirror lives outside the repo, so its path is passed in.');
+if (!MANIFEST && !ROOT) {
+  console.error('FAIL: pass --root <mirror dir> (preferred) or --manifest <_manifest.csv>.');
+  console.error('  --root derives the package set from the tree, which cannot go stale the way');
+  console.error('  the manifest did. The mirror lives outside the repo, so the path is passed in.');
   process.exit(1);
 }
 
@@ -90,16 +96,42 @@ function parseCsv(text) {
   return rows.filter((r) => r.length > 1).map((r) => Object.fromEntries(header.map((h, i) => [h, r[i]])));
 }
 
-const DONE = new Set(['ok', 'done', 'complete', 'completed', 'success']);
-const manifest = parseCsv(readFileSync(MANIFEST, 'utf8')).filter((r) => DONE.has((r.status || '').toLowerCase()));
-
 const packages = new Map();
-for (const row of manifest) {
-  if (!row.package_name) continue;
-  if (!packages.has(row.package_name)) packages.set(row.package_name, { organisation: row.organization, resources: 0, bytes: 0 });
-  const entry = packages.get(row.package_name);
-  entry.resources += 1;
-  entry.bytes += Number(row.downloaded_size || 0);
+
+if (ROOT) {
+  // Derive the package set from the MIRROR ITSELF, layout <organisation>/<package>/<file>.
+  //
+  // WHY NOT THE MANIFEST. _manifest.csv is from an early run and lists 4,947 completed
+  // resources across 3,050 packages. A later reconcile pass grew the mirror to 30,436
+  // expected resources -- see _reconcile_summary.txt -- so the manifest describes about a
+  // sixth of what is on disk. Harvesting from it produced a licence split that looked like
+  // it covered the corpus and covered a fraction, while the rest was already published.
+  // The directory cannot go stale in that way: it is what will actually be uploaded.
+  for (const org of readdirSync(ROOT, { withFileTypes: true })) {
+    if (!org.isDirectory()) continue;
+    for (const pkg of readdirSync(`${ROOT}/${org.name}`, { withFileTypes: true })) {
+      if (!pkg.isDirectory()) continue;
+      const entry = packages.get(pkg.name) || { organisation: org.name, resources: 0, bytes: 0 };
+      const walk = (dir) => {
+        for (const item of readdirSync(dir, { withFileTypes: true })) {
+          if (item.isDirectory()) walk(`${dir}/${item.name}`);
+          else { entry.resources += 1; entry.bytes += statSync(`${dir}/${item.name}`).size; }
+        }
+      };
+      walk(`${ROOT}/${org.name}/${pkg.name}`);
+      packages.set(pkg.name, entry);
+    }
+  }
+} else {
+  const DONE = new Set(['ok', 'done', 'complete', 'completed', 'success']);
+  const manifest = parseCsv(readFileSync(MANIFEST, 'utf8')).filter((r) => DONE.has((r.status || '').toLowerCase()));
+  for (const row of manifest) {
+    if (!row.package_name) continue;
+    if (!packages.has(row.package_name)) packages.set(row.package_name, { organisation: row.organization, resources: 0, bytes: 0 });
+    const entry = packages.get(row.package_name);
+    entry.resources += 1;
+    entry.bytes += Number(row.downloaded_size || 0);
+  }
 }
 
 const known = existsSync(OUT) ? JSON.parse(readFileSync(OUT, 'utf8')) : { packages: {} };

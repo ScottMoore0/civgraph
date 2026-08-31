@@ -61,8 +61,12 @@ const CORPORA = [
     note: 'Complete: all 12,528 matrices in the live PxStat catalogue, as JSON-stat plus release metadata.' },
   { id: 'datagovie', title: 'data.gov.ie mirror (Open Data Portal Ireland)', provider: 'data.gov.ie', jurisdiction: 'IE',
     store: 'r2', access: 'public', r2Prefix: 'data/datagovie/',
-    measured: { files: 4947, gigabytes: 35.3 },
-    note: 'MIXED LICENCE. See data/database/datagovie-licence-summary.json before reuse: 18.31 GB carries an explicit open licence, 16.91 GB records none, and 33 resources are non-commercial.' },
+    measured: { files: 30252, gigabytes: 144.54, packages: 20700 },
+    note: 'Licence is per package; see data/database/datagovie-licence-summary.json before reusing '
+      + 'files from a given package. The mirror\'s own _manifest.csv is from the first run and '
+      + 'describes 4,947 resources across 3,050 packages, about a sixth of what is here, so figures '
+      + 'taken from it understate this prefix roughly six-fold. Upload and licence harvest were both '
+      + 'in progress at measuredAt.' },
   { id: 'maps', title: 'Boundary geometry and map layers', provider: 'various', jurisdiction: 'IE/NI',
     store: 'r2', access: 'public', r2Prefix: 'data/maps/',
     note: 'Runtime store for the map viewer. Must stay on R2: the site fetches it directly.' },

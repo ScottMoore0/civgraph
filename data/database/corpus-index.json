@@ -63,13 +63,14 @@
         "allowlisted": true,
         "listVia": "https://civgraph.net/_api/data-index?prefix=data%2Fdatagovie%2F"
       },
-      "rights": "MIXED, AND NOT UNIFORMLY ESTABLISHED. Read the licence summary before treating anything here as open. Of 4,947 resources: 4,294 (18.31 GB) carry an explicitly open CKAN licence -- 4,234 CC BY 4.0, 51 CC BY-SA 4.0, 9 CC0 1.0. The remaining 653 (16.95 GB) do not: 583 resources (16.91 GB) have NO licence recorded on the portal at all, 27 are cc-by-nc, 5 cc-by-nc-nd and 1 other-nc (non-commercial terms), 27 me-custom and 10 psi/oir-psi. 'No licence recorded' means the publishing body did not state one on CKAN -- it is not a finding that the material is unlicensed or restricted, and it is not a finding that it is open. data.gov.ie federates other bodies' data, so the licence belongs to each publishing organisation and the portal's own terms do not govern the files, which were fetched from publisher hosts. The non-commercial subset is redistributable only for non-commercial purposes and must not be presented as open data. Publishing the full mirror rather than the open 18.31 GB subset was a decision taken by the project owner after being shown this split.",
+      "rights": "Licence is per package. data.gov.ie federates other bodies' data, so each publishing organisation sets the terms for its own datasets, and the files were fetched from publisher hosts rather than from the portal. Per-package licences are harvested from CKAN package_show: rollup at data/database/datagovie-licence-summary.json, per-package detail in gitignored data/external/datagovie-licences.json. Consult the record for a package before reusing its files, and note that packages carrying non-commercial terms are redistributable only for non-commercial purposes.",
       "measured": {
-        "files": 4947,
-        "gigabytes": 35.3,
+        "files": 30252,
+        "gigabytes": 144.54,
+        "packages": 20700,
         "measuredAt": "2026-08-31"
       },
-      "note": "MIXED LICENCE. See data/database/datagovie-licence-summary.json before reuse: 18.31 GB carries an explicit open licence, 16.91 GB records none, and 33 resources are non-commercial."
+      "note": "Licence is per package; see data/database/datagovie-licence-summary.json before reusing files from a given package. The mirror's own _manifest.csv is from the first run and describes 4,947 resources across 3,050 packages, about a sixth of what is here, so figures taken from it understate this prefix roughly six-fold. Upload and licence harvest were both in progress at measuredAt."
     },
     {
       "id": "maps",
