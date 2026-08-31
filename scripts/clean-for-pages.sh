@@ -41,6 +41,12 @@ remove_path "scripts"
 remove_path "tasks"
 remove_path "tests"
 
+# The R2 publication allowlist is operational config, not site content. .cfignore lists
+# it (line ~136) and yet https://civgraph.net/data/database/r2-publication-allowlist.json
+# still returned 200 with the real JSON on 2026-08-31 -- the same .cfignore failure that
+# put data/books/ on the public site. clean-for-pages.sh physically deletes, so it works.
+remove_path "data/database/r2-publication-allowlist.json"
+
 # Census CSV/reference dumps are local/source material and should not deploy as
 # individual Pages assets. The one exception is data/census/explorer-bundle.json,
 # which the Census Explorer frontend (pages/census-explorer.html) fetches at
