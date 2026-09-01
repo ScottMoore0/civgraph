@@ -307,6 +307,9 @@ let creationInFlight = false;
 //     Nothing is wrong with this account and waiting is the entire remedy, so pause and retry.
 const ACCOUNT_FLAG_RE = /appears to be spam/i;
 const GLOBAL_BUSY_RE = /exceeds global_limit|s3 is overloaded/i;
+// A congested IA also just drops connections. That is transient and must NOT be recorded as a
+// content failure: the file is fine and deserves another attempt shortly.
+const TRANSIENT_RE = /ConnectionError|ConnectionResetError|forcibly closed|RemoteDisconnected|Read timed out|Max retries exceeded|BrokenPipe/i;
 const MAX_ATTEMPTS = 3;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const retryQueue = [];
@@ -328,8 +331,9 @@ const uploadOne = (identifier, file, meta) => new Promise((resolve) => {
   child.on('close', (code) => resolve({ code, out }));
 });
 
-// Returns 'ok' | 'busy' | 'fail'. 'busy' is not a failure and is not counted as one: the
-// caller re-queues the file and waits for the global queue to drain.
+// Returns 'ok' | 'busy' | 'retry' | 'fail'. Only 'fail' is counted: it means IA judged this
+// FILE unacceptable (corrupt PDF, truncated zip), which no amount of retrying changes.
+// 'busy' and 'retry' are conditions of the service, so the caller re-queues the file.
 function classify({ code, out }, file, identifier) {
   if (code === 0) {
     uploaded += 1;
@@ -337,7 +341,10 @@ function classify({ code, out }, file, identifier) {
     if (uploaded % 10 === 0) console.log(`  ${uploaded}/${plannedFiles}  ${(bytesSent / 1e9).toFixed(2)} GB  (${identifier})`);
     return 'ok';
   }
-  if (GLOBAL_BUSY_RE.test(out) && !ACCOUNT_FLAG_RE.test(out)) return 'busy';
+  if (!ACCOUNT_FLAG_RE.test(out)) {
+    if (GLOBAL_BUSY_RE.test(out)) return 'busy';
+    if (TRANSIENT_RE.test(out)) return 'retry';
+  }
   failed += 1;
   // The actual error prints AFTER the tqdm progress bar, so strip bar lines and keep the
   // tail -- slicing the head gives 200 chars of progress bar and hides the reason.
@@ -418,10 +425,13 @@ async function createNextItem() {
     console.log(`  creating ${st.item.identifier} (${st.item.files.length} files queued)`);
     const verdict = classify(await uploadOne(st.item.identifier, file, st.meta), file, st.item.identifier);
     if (verdict === 'ok') st.exists = true;
-    // Congestion is not this file's fault: put it back so the item is created from it later.
+    // Service conditions are not this file's fault: put it back, so creation retries from it
+    // rather than silently consuming a file per failed attempt.
     else if (verdict === 'busy') { st.nextFile = idx; await waitForGlobalQueue(); }
-    // On a real failure the item stays closed; a later creation attempt retries it with its
-    // next file, after the interval -- the first file may itself be the unacceptable one.
+    else if (verdict === 'retry') { st.nextFile = idx; await sleep(30_000); }
+    // A genuine content rejection DOES consume the file -- otherwise one corrupt file would
+    // block its item's creation forever. The item stays closed and a later attempt uses the
+    // next file along.
   } finally {
     st.creating = false;
     creationInFlight = false;
@@ -436,14 +446,15 @@ async function worker() {
     if (claim) {
       const { st, file } = claim;
       const verdict = classify(await uploadOne(st.item.identifier, file, st.meta), file, st.item.identifier);
-      if (verdict === 'busy') {
+      if (verdict === 'busy' || verdict === 'retry') {
         file.attempts = (file.attempts || 0) + 1;
         if (file.attempts < MAX_ATTEMPTS) retryQueue.push({ st, file });
         else {
           failed += 1;
-          console.error(`  FAIL ${file.remote}: still congested after ${MAX_ATTEMPTS} attempts`);
+          console.error(`  FAIL ${file.remote}: IA still unavailable after ${MAX_ATTEMPTS} attempts`);
         }
-        await waitForGlobalQueue();
+        if (verdict === 'busy') await waitForGlobalQueue();
+        else await sleep(30_000);
       }
       continue;
     }
