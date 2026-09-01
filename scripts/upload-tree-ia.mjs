@@ -39,10 +39,20 @@
  * package slug is the stable identifier -- organisations get renamed and merged -- and it is
  * derivable from both sides, so it is also the dedup key.
  *
- * SHARDING. Items are capped by BOTH size and file count. File count usually binds first: the
- * data.gov.ie CC-BY class is 121 GB but 28,737 files, so at 700 files per item it needs 42
- * items rather than the 5 its size implies. Raise --max-item-files to trade item count for
- * item size.
+ * SHARDING. Items are capped by BOTH size and file count; file count usually binds first on
+ * catalogues of many small resources. The caps are deliberately GENEROUS (40 GB / 3,000
+ * files), because item COUNT is the liability, not item size -- see below.
+ *
+ * SPAM AVOIDANCE, LEARNED THE HARD WAY (2026-08-31). IA's anti-spam heuristics watch ITEM
+ * CREATION, not transfer volume: eight near-identically named items created within a minute
+ * got the account flagged ("appears to be spam"), while file PUTs into items that already
+ * existed sailed through at full rate. Hence:
+ *   - new items are created ONE at a time, --create-interval-min apart (a curator's cadence);
+ *   - parallel workers upload only into items that already exist -- ordinary S3 traffic that
+ *     at worst draws a retryable 503;
+ *   - the first spam/rate rejection ABORTS the whole run (exit 2): every further request
+ *     against a flagged account deepens the flag and burns uplink on guaranteed failures;
+ *   - --avoid skips identifiers a flagged run may have poisoned (e.g. ccby-009,ccby-010).
  *
  *   # one licence for the tree (Open Data NI)
  *   node scripts/upload-tree-ia.mjs --manifest <mirror>/_manifest.csv --root <mirror> \
@@ -66,11 +76,13 @@ const MANIFEST = opt('--manifest');
 const ROOT = opt('--root');
 const ITEM_PREFIX = opt('--item-prefix');
 const LICENCES = opt('--licences');
-const MAX_ITEM_GB = Number(opt('--max-item-gb', '25'));
-const MAX_ITEM_FILES = Number(opt('--max-item-files', '700'));
+const MAX_ITEM_GB = Number(opt('--max-item-gb', '40'));
+const MAX_ITEM_FILES = Number(opt('--max-item-files', '3000'));
 const LIMIT = opt('--limit') ? Number(opt('--limit')) : null;
 const ONLY_CLASS = opt('--only-class');
-const CONCURRENCY = Math.max(1, Number(opt('--concurrency', '8')));
+const CONCURRENCY = Math.max(1, Number(opt('--concurrency', '4')));
+const CREATE_INTERVAL_MS = Number(opt('--create-interval-min', '5')) * 60_000;
+const AVOID = new Set(opt('--avoid', '').split(',').map((s) => s.trim()).filter(Boolean));
 const PLAN_ONLY = args.includes('--plan-only');
 const IA = process.env.IA_CLI || 'ia';
 const SIDECAR = opt('--sidecar', 'data/database/ia-tree-mirrors.json');
@@ -78,8 +90,8 @@ const SIDECAR = opt('--sidecar', 'data/database/ia-tree-mirrors.json');
 if (!ROOT || !ITEM_PREFIX || (!MANIFEST && !LICENCES)) {
   console.error('Usage: node scripts/upload-tree-ia.mjs --root <dir> --item-prefix <prefix>');
   console.error('       (--manifest <csv> | --licences <json>)');
-  console.error('       [--max-item-gb 25] [--max-item-files 700] [--limit N] [--only-class slug]');
-  console.error('       [--concurrency 8] [--plan-only]');
+  console.error('       [--max-item-gb 40] [--max-item-files 3000] [--limit N] [--only-class slug]');
+  console.error('       [--concurrency 4] [--create-interval-min 5] [--avoid id,id] [--plan-only]');
   console.error('  Paths are passed in: the mirror lives outside the repo.');
   process.exit(1);
 }
@@ -228,16 +240,24 @@ for (const [slug, group] of groups) {
   const packed = [];
   let current = null;
   let next = highest + 1;
+  const nextIdentifier = () => {
+    let id = `${prefix}${String(next).padStart(3, '0')}`;
+    // Skip identifiers a flagged run may have poisoned: their metadata reads as absent, so the
+    // probe cannot distinguish them from never-created, but IA may still refuse them.
+    // Accepts the full identifier or the short form after the item prefix (e.g. ccby-009).
+    while (AVOID.has(id) || AVOID.has(id.slice(ITEM_PREFIX.length))) { next += 1; id = `${prefix}${String(next).padStart(3, '0')}`; }
+    next += 1;
+    return id;
+  };
   for (const file of [...todo].sort((a, b) => b.bytes - a.bytes)) {
     if (!current || current.bytes + file.bytes > MAX_ITEM_GB * 1e9 || current.files.length >= MAX_ITEM_FILES) {
-      current = { identifier: `${prefix}${String(next).padStart(3, '0')}`, files: [], bytes: 0 };
-      next += 1;
+      current = { identifier: nextIdentifier(), files: [], bytes: 0 };
       packed.push(current);
     }
     current.files.push(file);
     current.bytes += file.bytes;
   }
-  console.log(`  plan: ${packed.length} new item(s)`);
+  console.log(`  plan: ${packed.length} new item(s): ${packed.map((i) => i.identifier.slice(ITEM_PREFIX.length)).join(', ')}`);
   plans.push({ info: group.info, items: packed });
 }
 
@@ -248,10 +268,12 @@ console.log(`\nTOTAL: ${plans.reduce((n, p) => n + p.items.length, 0)} new item(
 if (PLAN_ONLY) { console.log('\n--plan-only: nothing uploaded.'); process.exit(0); }
 
 // ---- upload ----
-// IA throttles per CONNECTION (~360 KB/s measured), not per account or per line, so the pool
-// is what makes a 123 GB corpus take hours instead of days. Workers claim whole ITEMS, never
-// individual files, so no two processes ever write to the same item concurrently.
-const itemQueue = [];
+// Creation and transfer are DIFFERENT operations to IA's anti-spam heuristics (see docstring):
+// one new item is created at a time, spaced CREATE_INTERVAL_MS apart, while the worker pool
+// runs file-level parallelism only across items that already exist. Every planned item is new
+// (resume packs outstanding files into fresh identifiers), so the pool ramps up as creations
+// land: one connection at first, full width once a few items are open.
+const itemStates = [];
 for (const plan of plans) {
   const meta = [
     `--metadata=title:${opt('--title', 'Open data mirror')} (${plan.info.name})`,
@@ -262,13 +284,19 @@ for (const plan of plans) {
     '--metadata=collection:opensource',
     '--metadata=mediatype:data',
   ];
-  for (const item of plan.items) itemQueue.push({ item, meta });
+  for (const item of plan.items) itemStates.push({ item, meta, exists: false, creating: false, nextFile: 0 });
 }
 
 let uploaded = 0;
 let failed = 0;
 let bytesSent = 0;
 let limitReached = false;
+let aborted = false;
+let lastCreationAt = 0;
+let creationInFlight = false;
+
+const SPAM_RE = /appears to be spam|reduce your request rate/i;
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 // No shell: metadata values contain spaces and parentheses, and cmd.exe would re-split them
 // into separate arguments (the win32 shell:true path fails every upload this way).
@@ -285,25 +313,79 @@ const uploadOne = (identifier, file, meta) => new Promise((resolve) => {
   child.on('close', (code) => resolve({ code, out }));
 });
 
-async function worker() {
-  while (itemQueue.length && !limitReached) {
-    const { item, meta } = itemQueue.shift();
-    for (const file of item.files) {
-      if (LIMIT !== null && uploaded >= LIMIT) { limitReached = true; return; }
-      const { code, out } = await uploadOne(item.identifier, file, meta);
-      if (code === 0) {
-        uploaded += 1;
-        bytesSent += file.bytes;
-        if (uploaded % 10 === 0) console.log(`  ${uploaded}/${plannedFiles}  ${(bytesSent / 1e9).toFixed(2)} GB  (${item.identifier})`);
-      } else {
-        failed += 1;
-        console.error(`  FAIL ${file.remote}: ${out.trim().slice(0, 200)}`);
-      }
+function record({ code, out }, file, identifier) {
+  if (code === 0) {
+    uploaded += 1;
+    bytesSent += file.bytes;
+    if (uploaded % 10 === 0) console.log(`  ${uploaded}/${plannedFiles}  ${(bytesSent / 1e9).toFixed(2)} GB  (${identifier})`);
+    return true;
+  }
+  failed += 1;
+  // The actual error prints AFTER the tqdm progress bar, so strip bar lines and keep the
+  // tail -- slicing the head gives 200 chars of progress bar and hides the reason.
+  const reason = out.split(/\r|\n/).filter((l) => l.trim() && !l.includes('%|')).slice(-3).join(' | ');
+  console.error(`  FAIL ${file.remote}: ${reason.slice(0, 400)}`);
+  if (SPAM_RE.test(out)) {
+    aborted = true;
+    console.error('\nABORT: IA flagged this traffic as spam / rate-limited. Stopping the whole '
+      + 'run: every further request deepens the flag. Let it cool before resuming.');
+  }
+  return false;
+}
+
+// Claim one not-yet-taken file from any item that already exists on IA.
+function claimFile() {
+  for (const st of itemStates) {
+    if (st.exists && st.nextFile < st.item.files.length) return { st, idx: st.nextFile++ };
+  }
+  return null;
+}
+
+async function createNextItem() {
+  if (creationInFlight) return false;
+  const st = itemStates.find((s) => !s.exists && !s.creating && s.nextFile < s.item.files.length);
+  if (!st) return false;
+  st.creating = true;
+  creationInFlight = true;
+  try {
+    // Space creations out; sleep in short slices so an abort elsewhere ends the wait promptly.
+    while (Date.now() < lastCreationAt + CREATE_INTERVAL_MS) {
+      if (aborted || limitReached) return true;
+      await sleep(Math.min(5000, lastCreationAt + CREATE_INTERVAL_MS - Date.now()));
     }
+    lastCreationAt = Date.now();
+    const idx = st.nextFile++;
+    const file = st.item.files[idx];
+    console.log(`  creating ${st.item.identifier} (${st.item.files.length} files queued)`);
+    if (record(await uploadOne(st.item.identifier, file, st.meta), file, st.item.identifier)) {
+      st.exists = true;
+    }
+    // On failure the item stays closed; a later creation attempt retries it with its next
+    // file, after the interval -- the first file may itself be the unacceptable one.
+  } finally {
+    st.creating = false;
+    creationInFlight = false;
+  }
+  return true;
+}
+
+async function worker() {
+  while (!aborted && !limitReached) {
+    if (LIMIT !== null && uploaded >= LIMIT) { limitReached = true; break; }
+    const claim = claimFile();
+    if (claim) {
+      const file = claim.st.item.files[claim.idx];
+      record(await uploadOne(claim.st.item.identifier, file, claim.st.meta), file, claim.st.item.identifier);
+      continue;
+    }
+    if (await createNextItem()) continue;
+    // Nothing claimable: done, or waiting on the creation in flight to open an item.
+    if (!itemStates.some((s) => s.nextFile < s.item.files.length)) break;
+    await sleep(5000);
   }
 }
 
-await Promise.all(Array.from({ length: Math.min(CONCURRENCY, itemQueue.length) }, worker));
+await Promise.all(Array.from({ length: Math.min(CONCURRENCY, plannedFiles) }, worker));
 if (limitReached) console.log(`\n--limit ${LIMIT} reached.`);
 
 console.log(`\nuploaded ${uploaded}, failed ${failed}, ${(bytesSent / 1e9).toFixed(2)} GB sent.`);
@@ -314,7 +396,8 @@ writeFileSync(SIDECAR, `${JSON.stringify({
   itemPrefix: ITEM_PREFIX,
   classes: plans.map((p) => ({ licence: p.info.name, items: p.items.map((i) => i.identifier) })),
   skipped: { packages: skipped.packages, files: skipped.files, gigabytes: Number((skipped.bytes / 1e9).toFixed(2)) },
-  lastRun: { uploaded, failed, gigabytesSent: Number((bytesSent / 1e9).toFixed(2)) },
+  lastRun: { uploaded, failed, gigabytesSent: Number((bytesSent / 1e9).toFixed(2)), aborted },
 }, null, 2)}\n`);
 console.log(`Wrote ${SIDECAR}.`);
+if (aborted) process.exit(2);
 if (failed) process.exit(1);
