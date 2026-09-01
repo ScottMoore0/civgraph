@@ -64,7 +64,7 @@
  *   node scripts/upload-tree-ia.mjs --root <mirror> --licences data/external/datagovie-licences.json \
  *        --item-prefix civgraph-datagovie- --plan-only
  */
-import { readFileSync, writeFileSync, existsSync, statSync, readdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, statSync, readdirSync, openSync, readSync, closeSync } from 'node:fs';
 import { spawn } from 'node:child_process';
 import path from 'node:path';
 
@@ -141,6 +141,24 @@ function parseCsv(text) {
 // ---- collect the local files, and the licence class each belongs to ----
 const groups = new Map(); // classSlug -> { info, files[] }
 const skipped = { packages: 0, files: 0, bytes: 0, reasons: new Map() };
+const corrupt = { files: 0, bytes: 0, names: [] };
+
+/**
+ * True if a zip has no End Of Central Directory record, i.e. the download was cut short. IA
+ * validates archives on receipt and refuses broken ones, but only AFTER the whole file has
+ * transferred -- 25 such files in the data.gov.ie mirror, 27 GB, every byte of it wasted and
+ * each rejection also stalling an item. The record lives in the last bytes of a valid zip, so
+ * one short seek per archive settles it before anything is sent.
+ */
+function truncatedZip(local, bytes) {
+  const name = path.basename(local).toLowerCase();
+  if (bytes < 4_000_000 || !(name.endsWith('.zip') || name === 'zip')) return false;
+  const length = Math.min(66_000, bytes);
+  const buffer = Buffer.alloc(length);
+  const fd = openSync(local, 'r');
+  try { readSync(fd, buffer, 0, length, bytes - length); } finally { closeSync(fd); }
+  return !buffer.includes(Buffer.from([0x50, 0x4b, 0x05, 0x06]));
+}
 
 function addFile(classInfo, local, pkg, name) {
   const key = classInfo ? classInfo.slug : null;
@@ -148,6 +166,12 @@ function addFile(classInfo, local, pkg, name) {
   if (!key) {
     skipped.files += 1;
     skipped.bytes += bytes;
+    return;
+  }
+  if (truncatedZip(local, bytes)) {
+    corrupt.files += 1;
+    corrupt.bytes += bytes;
+    if (corrupt.names.length < 40) corrupt.names.push(`${pkg}/${name}`);
     return;
   }
   if (!groups.has(key)) groups.set(key, { info: classInfo, files: [] });
@@ -194,6 +218,10 @@ if (LICENCES) {
 
 const totalFiles = [...groups.values()].reduce((n, g) => n + g.files.length, 0);
 console.log(`local: ${totalFiles} file(s) across ${groups.size} licence class(es).`);
+if (corrupt.files) {
+  console.log(`corrupt: ${corrupt.files} truncated zip(s), ${(corrupt.bytes / 1e9).toFixed(2)} GB -- not uploaded (IA would reject them after transfer)`);
+  for (const n of corrupt.names.slice(0, 5)) console.log(`    ${n.slice(0, 90)}`);
+}
 if (skipped.files) {
   console.log(`skipped: ${skipped.files} file(s), ${(skipped.bytes / 1e9).toFixed(2)} GB from ${skipped.packages} package(s) with no recognised open licence`);
   for (const [reason, n] of [...skipped.reasons].sort((a, b) => b[1] - a[1]).slice(0, 8)) {
@@ -288,7 +316,9 @@ for (const plan of plans) {
     '--metadata=collection:opensource',
     '--metadata=mediatype:data',
   ];
-  for (const item of plan.items) itemStates.push({ item, meta, exists: false, creating: false, nextFile: 0 });
+  // pending is largest-first (as packed): parallel uploads shift from the front, while item
+  // CREATION pops from the back -- see createNextItem.
+  for (const item of plan.items) itemStates.push({ item, meta, exists: false, creating: false, pending: [...item.files] });
 }
 
 let uploaded = 0;
@@ -418,14 +448,14 @@ async function waitForGlobalQueue() {
 function claimFile() {
   if (retryQueue.length) return retryQueue.shift();
   for (const st of itemStates) {
-    if (st.exists && st.nextFile < st.item.files.length) return { st, file: st.item.files[st.nextFile++] };
+    if (st.exists && st.pending.length) return { st, file: st.pending.shift() };
   }
   return null;
 }
 
 async function createNextItem() {
   if (creationInFlight) return false;
-  const st = itemStates.find((s) => !s.exists && !s.creating && s.nextFile < s.item.files.length);
+  const st = itemStates.find((s) => !s.exists && !s.creating && s.pending.length);
   if (!st) return false;
   st.creating = true;
   creationInFlight = true;
@@ -436,22 +466,25 @@ async function createNextItem() {
       await sleep(Math.min(5000, lastCreationAt + CREATE_INTERVAL_MS - Date.now()));
     }
     lastCreationAt = Date.now();
-    const idx = st.nextFile++;
-    const file = st.item.files[idx];
-    console.log(`  creating ${st.item.identifier} (${st.item.files.length} files queued)`);
+    // Create with the SMALLEST pending file (pending is largest-first, so pop the tail). The
+    // first upload is what brings an item into being, and if it is refused the item stays shut
+    // for another interval -- so it should be the cheapest possible probe. Creating with the
+    // largest file instead cost a full gigabyte per rejection.
+    const file = st.pending.pop();
+    console.log(`  creating ${st.item.identifier} (${st.pending.length + 1} files queued)`);
     const verdict = classify(await uploadOne(st.item.identifier, file, st.meta), file, st.item.identifier);
     if (verdict === 'ok') st.exists = true;
     // Service conditions are not this file's fault: put it back, so creation retries from it
     // rather than silently consuming a file per failed attempt.
-    else if (verdict === 'busy') { st.nextFile = idx; await waitForGlobalQueue(); }
+    else if (verdict === 'busy') { st.pending.push(file); await waitForGlobalQueue(); }
     else if (verdict === 'retry') {
       console.log(`  retry creating ${st.item.identifier} (transient)`);
-      st.nextFile = idx;
+      st.pending.push(file);
       await sleep(30_000);
     }
     // A genuine content rejection DOES consume the file -- otherwise one corrupt file would
     // block its item's creation forever. The item stays closed and a later attempt uses the
-    // next file along.
+    // next-cheapest file.
   } finally {
     st.creating = false;
     creationInFlight = false;
@@ -483,7 +516,7 @@ async function worker() {
     }
     if (await createNextItem()) continue;
     // Nothing claimable: done, or waiting on the creation in flight to open an item.
-    if (!itemStates.some((s) => s.nextFile < s.item.files.length)) break;
+    if (!retryQueue.length && !itemStates.some((s) => s.pending.length)) break;
     await sleep(5000);
   }
 }
