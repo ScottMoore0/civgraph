@@ -85,6 +85,7 @@ const ONLY_CLASS = opt('--only-class');
 const CONCURRENCY = Math.max(1, Number(opt('--concurrency', '4')));
 const CREATE_INTERVAL_MS = Number(opt('--create-interval-min', '5')) * 60_000;
 const MAX_CONGESTION_WAIT_MS = Number(opt('--max-congestion-wait-min', '180')) * 60_000;
+const STALL_MS = Number(opt('--stall-timeout-min', '10')) * 60_000;
 const AVOID = new Set(opt('--avoid', '').split(',').map((s) => s.trim()).filter(Boolean));
 const PLAN_ONLY = args.includes('--plan-only');
 const IA = process.env.IA_CLI || 'ia';
@@ -325,10 +326,25 @@ const uploadOne = (identifier, file, meta) => new Promise((resolve) => {
     '--retries=5', '--no-derive', ...meta,
   ], { stdio: ['ignore', 'pipe', 'pipe'] });
   let out = '';
-  child.stdout.on('data', (d) => { out += d; });
-  child.stderr.on('data', (d) => { out += d; });
-  child.on('error', (e) => resolve({ code: -1, out: String(e) }));
-  child.on('close', (code) => resolve({ code, out }));
+  let settled = false;
+  let timer = null;
+  const finish = (result) => { if (settled) return; settled = true; clearTimeout(timer); resolve(result); };
+  // INACTIVITY watchdog, not a total-duration cap: the client streams a progress bar while it
+  // works, so silence means wedged, and a big file on a slow link is not punished for being
+  // slow. Without this a stalled socket holds a worker forever -- four of them sat blocked for
+  // 72 minutes with zero CPU and zero bytes read, and the run looked merely "slow".
+  const arm = () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      try { child.kill(); } catch { /* already gone */ }
+      finish({ code: -1, out: `${out}\nlocal watchdog: ConnectionError - no output for ${STALL_MS / 60_000} min, killed` });
+    }, STALL_MS);
+  };
+  child.stdout.on('data', (d) => { out += d; arm(); });
+  child.stderr.on('data', (d) => { out += d; arm(); });
+  child.on('error', (e) => finish({ code: -1, out: String(e) }));
+  child.on('close', (code) => finish({ code, out }));
+  arm();
 });
 
 // Returns 'ok' | 'busy' | 'retry' | 'fail'. Only 'fail' is counted: it means IA judged this
@@ -428,7 +444,11 @@ async function createNextItem() {
     // Service conditions are not this file's fault: put it back, so creation retries from it
     // rather than silently consuming a file per failed attempt.
     else if (verdict === 'busy') { st.nextFile = idx; await waitForGlobalQueue(); }
-    else if (verdict === 'retry') { st.nextFile = idx; await sleep(30_000); }
+    else if (verdict === 'retry') {
+      console.log(`  retry creating ${st.item.identifier} (transient)`);
+      st.nextFile = idx;
+      await sleep(30_000);
+    }
     // A genuine content rejection DOES consume the file -- otherwise one corrupt file would
     // block its item's creation forever. The item stays closed and a later attempt uses the
     // next file along.
@@ -448,6 +468,9 @@ async function worker() {
       const verdict = classify(await uploadOne(st.item.identifier, file, st.meta), file, st.item.identifier);
       if (verdict === 'busy' || verdict === 'retry') {
         file.attempts = (file.attempts || 0) + 1;
+        // Say so. Silent retrying is indistinguishable from working, which is exactly how a
+        // wedged run passed for a slow one.
+        console.log(`  retry ${file.remote} (${verdict}, attempt ${file.attempts}/${MAX_ATTEMPTS})`);
         if (file.attempts < MAX_ATTEMPTS) retryQueue.push({ st, file });
         else {
           failed += 1;
