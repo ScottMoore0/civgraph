@@ -50,8 +50,10 @@
  *   - new items are created ONE at a time, --create-interval-min apart (a curator's cadence);
  *   - parallel workers upload only into items that already exist -- ordinary S3 traffic that
  *     at worst draws a retryable 503;
- *   - the first spam/rate rejection ABORTS the whole run (exit 2): every further request
- *     against a flagged account deepens the flag and burns uplink on guaranteed failures;
+ *   - an ACCOUNT spam flag ("appears to be spam") aborts the whole run (exit 2): every further
+ *     request against a flagged account deepens the flag and burns uplink on certain failures.
+ *     IA-WIDE congestion ("exceeds global_limit") is a different animal that merely looks the
+ *     same -- it pauses and retries, because the account is fine and only waiting helps;
  *   - --avoid skips identifiers a flagged run may have poisoned (e.g. ccby-009,ccby-010).
  *
  *   # one licence for the tree (Open Data NI)
@@ -82,6 +84,7 @@ const LIMIT = opt('--limit') ? Number(opt('--limit')) : null;
 const ONLY_CLASS = opt('--only-class');
 const CONCURRENCY = Math.max(1, Number(opt('--concurrency', '4')));
 const CREATE_INTERVAL_MS = Number(opt('--create-interval-min', '5')) * 60_000;
+const MAX_CONGESTION_WAIT_MS = Number(opt('--max-congestion-wait-min', '180')) * 60_000;
 const AVOID = new Set(opt('--avoid', '').split(',').map((s) => s.trim()).filter(Boolean));
 const PLAN_ONLY = args.includes('--plan-only');
 const IA = process.env.IA_CLI || 'ia';
@@ -295,8 +298,20 @@ let aborted = false;
 let lastCreationAt = 0;
 let creationInFlight = false;
 
-const SPAM_RE = /appears to be spam|reduce your request rate/i;
+// Two very different refusals wear the same "Please reduce your request rate" prefix, and they
+// need OPPOSITE responses. Matching both as one condition (as this script first did) misreads
+// an IA-wide outage as an account ban:
+//   - "appears to be spam" is ACCOUNT-level and stateful. Pushing on deepens it, so abort.
+//   - "exceeds global_limit" / "s3 is overloaded" is IA-WIDE congestion affecting every user;
+//     our own accesskey_tasks_queued reads 0 while total_tasks_queued sits at the global cap.
+//     Nothing is wrong with this account and waiting is the entire remedy, so pause and retry.
+const ACCOUNT_FLAG_RE = /appears to be spam/i;
+const GLOBAL_BUSY_RE = /exceeds global_limit|s3 is overloaded/i;
+const MAX_ATTEMPTS = 3;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const retryQueue = [];
+let abortReason = null;
+let pausing = false;
 
 // No shell: metadata values contain spaces and parentheses, and cmd.exe would re-split them
 // into separate arguments (the win32 shell:true path fails every upload this way).
@@ -313,30 +328,74 @@ const uploadOne = (identifier, file, meta) => new Promise((resolve) => {
   child.on('close', (code) => resolve({ code, out }));
 });
 
-function record({ code, out }, file, identifier) {
+// Returns 'ok' | 'busy' | 'fail'. 'busy' is not a failure and is not counted as one: the
+// caller re-queues the file and waits for the global queue to drain.
+function classify({ code, out }, file, identifier) {
   if (code === 0) {
     uploaded += 1;
     bytesSent += file.bytes;
     if (uploaded % 10 === 0) console.log(`  ${uploaded}/${plannedFiles}  ${(bytesSent / 1e9).toFixed(2)} GB  (${identifier})`);
-    return true;
+    return 'ok';
   }
+  if (GLOBAL_BUSY_RE.test(out) && !ACCOUNT_FLAG_RE.test(out)) return 'busy';
   failed += 1;
   // The actual error prints AFTER the tqdm progress bar, so strip bar lines and keep the
   // tail -- slicing the head gives 200 chars of progress bar and hides the reason.
   const reason = out.split(/\r|\n/).filter((l) => l.trim() && !l.includes('%|')).slice(-3).join(' | ');
   console.error(`  FAIL ${file.remote}: ${reason.slice(0, 400)}`);
-  if (SPAM_RE.test(out)) {
+  if (ACCOUNT_FLAG_RE.test(out)) {
     aborted = true;
-    console.error('\nABORT: IA flagged this traffic as spam / rate-limited. Stopping the whole '
-      + 'run: every further request deepens the flag. Let it cool before resuming.');
+    abortReason = 'account flagged as spam';
+    console.error('\nABORT: IA flagged this ACCOUNT as spam. Stopping the whole run: every '
+      + 'further request deepens the flag. Let it cool before resuming.');
   }
-  return false;
+  return 'fail';
 }
 
-// Claim one not-yet-taken file from any item that already exists on IA.
+// IA-wide congestion: poll the documented limit endpoint until the global queue has room.
+// Only one waiter polls; the rest idle until it clears.
+async function waitForGlobalQueue() {
+  if (pausing) {
+    while (pausing && !aborted) await sleep(5000);
+    return;
+  }
+  pausing = true;
+  const started = Date.now();
+  console.log('  PAUSED: IA\'s global ingest queue is full. This is IA-wide, not this account '
+    + '-- waiting for it to drain rather than retrying into it.');
+  try {
+    while (!aborted) {
+      await sleep(120_000);
+      let queued = null;
+      let limit = null;
+      try {
+        const body = await (await fetch('https://s3.us.archive.org/?check_limit=1')).json();
+        queued = Number(body?.detail?.total_tasks_queued);
+        limit = Number(body?.detail?.total_global_limit);
+      } catch { /* transient; treat as still congested */ }
+      if (Number.isFinite(queued) && Number.isFinite(limit) && queued < limit * 0.9) {
+        console.log(`  resuming: global queue down to ${queued}/${limit}.`);
+        return;
+      }
+      if (queued !== null) console.log(`  still congested: ${queued}/${limit} queued globally.`);
+      if (Date.now() - started > MAX_CONGESTION_WAIT_MS) {
+        aborted = true;
+        abortReason = 'IA global queue stayed full';
+        console.error('  IA\'s global queue stayed full past --max-congestion-wait-min. '
+          + 'Stopping; nothing is wrong with this account, so just re-run later.');
+        return;
+      }
+    }
+  } finally {
+    pausing = false;
+  }
+}
+
+// Claim one not-yet-taken file: congestion retries first, then any item already on IA.
 function claimFile() {
+  if (retryQueue.length) return retryQueue.shift();
   for (const st of itemStates) {
-    if (st.exists && st.nextFile < st.item.files.length) return { st, idx: st.nextFile++ };
+    if (st.exists && st.nextFile < st.item.files.length) return { st, file: st.item.files[st.nextFile++] };
   }
   return null;
 }
@@ -357,11 +416,12 @@ async function createNextItem() {
     const idx = st.nextFile++;
     const file = st.item.files[idx];
     console.log(`  creating ${st.item.identifier} (${st.item.files.length} files queued)`);
-    if (record(await uploadOne(st.item.identifier, file, st.meta), file, st.item.identifier)) {
-      st.exists = true;
-    }
-    // On failure the item stays closed; a later creation attempt retries it with its next
-    // file, after the interval -- the first file may itself be the unacceptable one.
+    const verdict = classify(await uploadOne(st.item.identifier, file, st.meta), file, st.item.identifier);
+    if (verdict === 'ok') st.exists = true;
+    // Congestion is not this file's fault: put it back so the item is created from it later.
+    else if (verdict === 'busy') { st.nextFile = idx; await waitForGlobalQueue(); }
+    // On a real failure the item stays closed; a later creation attempt retries it with its
+    // next file, after the interval -- the first file may itself be the unacceptable one.
   } finally {
     st.creating = false;
     creationInFlight = false;
@@ -374,8 +434,17 @@ async function worker() {
     if (LIMIT !== null && uploaded >= LIMIT) { limitReached = true; break; }
     const claim = claimFile();
     if (claim) {
-      const file = claim.st.item.files[claim.idx];
-      record(await uploadOne(claim.st.item.identifier, file, claim.st.meta), file, claim.st.item.identifier);
+      const { st, file } = claim;
+      const verdict = classify(await uploadOne(st.item.identifier, file, st.meta), file, st.item.identifier);
+      if (verdict === 'busy') {
+        file.attempts = (file.attempts || 0) + 1;
+        if (file.attempts < MAX_ATTEMPTS) retryQueue.push({ st, file });
+        else {
+          failed += 1;
+          console.error(`  FAIL ${file.remote}: still congested after ${MAX_ATTEMPTS} attempts`);
+        }
+        await waitForGlobalQueue();
+      }
       continue;
     }
     if (await createNextItem()) continue;
@@ -396,7 +465,7 @@ writeFileSync(SIDECAR, `${JSON.stringify({
   itemPrefix: ITEM_PREFIX,
   classes: plans.map((p) => ({ licence: p.info.name, items: p.items.map((i) => i.identifier) })),
   skipped: { packages: skipped.packages, files: skipped.files, gigabytes: Number((skipped.bytes / 1e9).toFixed(2)) },
-  lastRun: { uploaded, failed, gigabytesSent: Number((bytesSent / 1e9).toFixed(2)), aborted },
+  lastRun: { uploaded, failed, gigabytesSent: Number((bytesSent / 1e9).toFixed(2)), aborted, abortReason },
 }, null, 2)}\n`);
 console.log(`Wrote ${SIDECAR}.`);
 if (aborted) process.exit(2);
