@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-02T12:25:52.789Z",
+  "corpus": "datagovie",
+  "fullIndex": "data/external/datagovie-provenance.json",
+  "coverage": {
+    "filesOnDisk": 30241,
+    "filesWithSingleSourceUrl": 28979,
+    "ofWhichFromDownloadManifest": 4496,
+    "ofWhichUniqueUrlMatch": 12974,
+    "ofWhichResolvedByContentSniff": 11509,
+    "filesWithAmbiguousCandidates": 72,
+    "filesWithNoResourceAtAll": 1190,
+    "resourcesAdvertised": 78583,
+    "resourcesAbsentLocally": 10796,
+    "packagesMissingFromCkan": 9,
+    "packagesForbiddenByCkan": 212,
+    "packagesUnresolved": 0
+  },
+  "note": "A file is ambiguous when several CKAN resources share the last URL segment the mirror named it after -- PxStat publishes every format at a URL ending in \"en\". Those entries list every candidate instead of asserting one.",
+  "samples": {
+    "resourcesAbsentLocally": [
+      {
+        "package": "archived-weather-warnings",
+        "url": "https://opendata2.met.ie/opendata2/warnings/archivedwarnings/Weather_warnings_25April2012_17February2021.ods"
+      },
+      {
+        "package": "archived-weather-warnings",
+        "url": "https://opendata2.met.ie/opendata2/warnings/archivedwarnings/Archived_Weather_warnings_2022.ods"
+      },
+      {
+        "package": "archived-weather-warnings",
+        "url": "https://opendata2.met.ie/opendata2/warnings/archivedwarnings/Archived_Weather_warnings_2023.ods"
+      },
+      {
+        "package": "archived-weather-warnings",
+        "url": "https://opendata2.met.ie/opendata2/warnings/archivedwarnings/Archived_Weather_warnings_2024.ods"
+      },
+      {
+        "package": "archived-weather-warnings",
+        "url": "https://opendata2.met.ie/opendata2/warnings/archivedwarnings/Archived_Weather_warnings_2025.ods"
+      },
+      {
+        "package": "radar",
+        "url": "https://opendata2.met.ie/radar/"
+      },
+      {
+        "package": "solar-radiation-data",
+        "url": "https://opendata2.met.ie/opendata2/awos/autosol14.zip"
+      },
+      {
+        "package": "solar-radiation-data",
+        "url": "https://opendata2.met.ie/opendata2/awos/autosol15.zip"
+      },
+      {
+        "package": "solar-radiation-data",
+        "url": "https://opendata2.met.ie/opendata2/awos/autosol16.zip"
+      },
+      {
+        "package": "solar-radiation-data",
+        "url": "https://opendata2.met.ie/opendata2/awos/autosol17.zip"
+      }
+    ],
+    "filesWithoutResource": [
+      "numerical-weather-prediction-data/NWP data",
+      "mtm04-wind-maximum-gale-gust-335-knots/Wind, Maximum Gale Gust (_33.5 Knots)",
+      "latest-observations/Latest Observations",
+      "border-exits-amp-entrances-national-1m-map-of-ireland/csv.sha256",
+      "High Value Dataset - National Land Cover 2018/filegdb.zip.sha256",
+      "Small Areas Ungeneralised - National Statistical Boundaries - 2015/filegdb.zip.sha256",
+      "Small Areas Ungeneralised - National Statistical Boundaries - 2015/filegdb.zip",
+      "Small Areas Generalised 100m - National Statistical Boundaries - 2015/filegdb.zip.sha256",
+      "Small Areas Generalised 100m - National Statistical Boundaries - 2015/filegdb.zip",
+      "Small Areas Generalised 50m - National Statistical Boundaries - 2015/filegdb.zip.sha256"
+    ]
+  }
+}

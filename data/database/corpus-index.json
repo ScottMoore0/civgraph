@@ -26,6 +26,12 @@
       "file": "data/database/raw-source-ia-mirrors.json",
       "covers": "252 sources, 736 files",
       "note": "names, formats, sizes and checksums"
+    },
+    {
+      "file": "data/external/datagovie-provenance.json",
+      "published": "https://data.civgraph.net/data/datagovie/_provenance.json",
+      "covers": "30,241 files across 20,700 packages; 28,979 (95.8%) resolved to a single publisher URL",
+      "note": "Per-file provenance for the data.gov.ie mirror: source URL, CKAN resource id, format, last-modified, publisher hash where given, licence and dataset page. Keyed <package>/<file>, matching the IA items; organisation is on each entry so the R2 key is derivable. Summary and coverage caveats in data/database/datagovie-provenance-summary.json."
     }
   ],
   "corpora": [
