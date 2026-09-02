@@ -86,6 +86,10 @@ const CONCURRENCY = Math.max(1, Number(opt('--concurrency', '4')));
 const CREATE_INTERVAL_MS = Number(opt('--create-interval-min', '5')) * 60_000;
 const MAX_CONGESTION_WAIT_MS = Number(opt('--max-congestion-wait-min', '180')) * 60_000;
 const STALL_MS = Number(opt('--stall-timeout-min', '10')) * 60_000;
+// Resume well BELOW the cap, not just under it. Resuming at 90% put four uploads straight back
+// into a queue that was one nudge from full, which re-congested it within seconds and produced
+// a pause/resume/pause thrash that made no progress at all.
+const RESUME_BELOW = Number(opt('--resume-below-pct', '70')) / 100;
 const AVOID = new Set(opt('--avoid', '').split(',').map((s) => s.trim()).filter(Boolean));
 const PLAN_ONLY = args.includes('--plan-only');
 const IA = process.env.IA_CLI || 'ia';
@@ -346,6 +350,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const retryQueue = [];
 let abortReason = null;
 let pausing = false;
+let congestionRequeues = 0;
 
 // No shell: metadata values contain spaces and parentheses, and cmd.exe would re-split them
 // into separate arguments (the win32 shell:true path fails every upload this way).
@@ -426,7 +431,7 @@ async function waitForGlobalQueue() {
         queued = Number(body?.detail?.total_tasks_queued);
         limit = Number(body?.detail?.total_global_limit);
       } catch { /* transient; treat as still congested */ }
-      if (Number.isFinite(queued) && Number.isFinite(limit) && queued < limit * 0.9) {
+      if (Number.isFinite(queued) && Number.isFinite(limit) && queued < limit * RESUME_BELOW) {
         console.log(`  resuming: global queue down to ${queued}/${limit}.`);
         return;
       }
@@ -499,18 +504,28 @@ async function worker() {
     if (claim) {
       const { st, file } = claim;
       const verdict = classify(await uploadOne(st.item.identifier, file, st.meta), file, st.item.identifier);
-      if (verdict === 'busy' || verdict === 'retry') {
+      if (verdict === 'busy') {
+        // Congestion must NOT consume the file's attempts. It says nothing about the file, and
+        // an oscillating queue would otherwise burn all three during a single bad hour and
+        // condemn a perfectly good file. Total waiting is already bounded by
+        // --max-congestion-wait-min, so this cannot spin forever.
+        congestionRequeues += 1;
+        if (congestionRequeues % 50 === 0) console.log(`  (${congestionRequeues} congestion requeues so far)`);
+        retryQueue.push({ st, file });
+        await waitForGlobalQueue();
+        continue;
+      }
+      if (verdict === 'retry') {
         file.attempts = (file.attempts || 0) + 1;
         // Say so. Silent retrying is indistinguishable from working, which is exactly how a
         // wedged run passed for a slow one.
-        console.log(`  retry ${file.remote} (${verdict}, attempt ${file.attempts}/${MAX_ATTEMPTS})`);
+        console.log(`  retry ${file.remote} (attempt ${file.attempts}/${MAX_ATTEMPTS})`);
         if (file.attempts < MAX_ATTEMPTS) retryQueue.push({ st, file });
         else {
           failed += 1;
           console.error(`  FAIL ${file.remote}: IA still unavailable after ${MAX_ATTEMPTS} attempts`);
         }
-        if (verdict === 'busy') await waitForGlobalQueue();
-        else await sleep(30_000);
+        await sleep(30_000);
       }
       continue;
     }
