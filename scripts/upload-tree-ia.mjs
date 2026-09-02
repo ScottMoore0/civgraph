@@ -241,7 +241,7 @@ async function itemFiles(identifier) {
   if (!body || !body.files) return null;
   return body.files
     .filter((f) => !String(f.name || '').startsWith('__ia') && !String(f.name || '').startsWith(identifier))
-    .map((f) => f.name);
+    .map((f) => ({ name: f.name, size: Number(f.size || 0) }));
 }
 
 async function existingFor(prefix) {
@@ -253,7 +253,11 @@ async function existingFor(prefix) {
     const identifier = `${prefix}${String(index).padStart(3, '0')}`;
     const files = await itemFiles(identifier);
     if (files === null || files.length === 0) misses += 1;
-    else { misses = 0; items.push({ identifier, files: files.length }); for (const n of files) present.add(n); }
+    else {
+      misses = 0;
+      items.push({ identifier, count: files.length, bytes: files.reduce((n, f) => n + f.size, 0) });
+      for (const f of files) present.add(f.name);
+    }
     index += 1;
   }
   const highest = items.length ? Math.max(...items.map((i) => Number(i.identifier.slice(-3)))) : 0;
@@ -273,8 +277,14 @@ for (const [slug, group] of groups) {
   console.log(`  to upload: ${todo.length} file(s), ${(todo.reduce((s, f) => s + f.bytes, 0) / 1e9).toFixed(2)} GB`);
   if (!todo.length) continue;
 
-  const packed = [];
-  let current = null;
+  // Top up items that ALREADY EXIST before creating any new one. Packing used to start at
+  // highest+1 unconditionally, so a resumed run could not upload a byte until IA accepted an
+  // item creation -- exactly what a saturated IA refuses, while ordinary uploads into an
+  // existing item still get through. Existing items also cost nothing against the anti-spam
+  // heuristics, which watch creation.
+  const packed = items
+    .filter((it) => it.count < MAX_ITEM_FILES && it.bytes < MAX_ITEM_GB * 1e9)
+    .map((it) => ({ identifier: it.identifier, files: [], bytes: it.bytes, count: it.count, exists: true }));
   let next = highest + 1;
   const nextIdentifier = () => {
     let id = `${prefix}${String(next).padStart(3, '0')}`;
@@ -286,20 +296,30 @@ for (const [slug, group] of groups) {
     return id;
   };
   for (const file of [...todo].sort((a, b) => b.bytes - a.bytes)) {
-    if (!current || current.bytes + file.bytes > MAX_ITEM_GB * 1e9 || current.files.length >= MAX_ITEM_FILES) {
-      current = { identifier: nextIdentifier(), files: [], bytes: 0 };
-      packed.push(current);
+    let slot = packed.find((s) => s.count < MAX_ITEM_FILES && s.bytes + file.bytes <= MAX_ITEM_GB * 1e9);
+    if (!slot) {
+      slot = { identifier: nextIdentifier(), files: [], bytes: 0, count: 0, exists: false };
+      packed.push(slot);
     }
-    current.files.push(file);
-    current.bytes += file.bytes;
+    slot.files.push(file);
+    slot.bytes += file.bytes;
+    slot.count += 1;
   }
-  console.log(`  plan: ${packed.length} new item(s): ${packed.map((i) => i.identifier.slice(ITEM_PREFIX.length)).join(', ')}`);
-  plans.push({ info: group.info, items: packed });
+  const assigned = packed.filter((i) => i.files.length);
+  const topUps = assigned.filter((i) => i.exists);
+  const fresh = assigned.filter((i) => !i.exists);
+  if (topUps.length) console.log(`  topping up ${topUps.length} existing item(s): ${topUps.map((i) => `${i.identifier.slice(ITEM_PREFIX.length)}(+${i.files.length})`).join(', ')}`);
+  console.log(`  plan: ${fresh.length} new item(s)${fresh.length ? `: ${fresh.map((i) => i.identifier.slice(ITEM_PREFIX.length)).join(', ')}` : ''}`);
+  plans.push({ info: group.info, items: assigned });
 }
 
 const plannedFiles = plans.reduce((n, p) => n + p.items.reduce((m, i) => m + i.files.length, 0), 0);
-const plannedBytes = plans.reduce((n, p) => n + p.items.reduce((m, i) => m + i.bytes, 0), 0);
-console.log(`\nTOTAL: ${plans.reduce((n, p) => n + p.items.length, 0)} new item(s), ${plannedFiles} file(s), ${(plannedBytes / 1e9).toFixed(2)} GB`);
+// Count only the files this run will send: item.bytes now also carries what IA already holds,
+// so summing it would overstate the work by everything already uploaded.
+const plannedBytes = plans.reduce((n, p) => n + p.items.reduce((m, i) => m + i.files.reduce((b, f) => b + f.bytes, 0), 0), 0);
+const freshItems = plans.reduce((n, p) => n + p.items.filter((i) => !i.exists).length, 0);
+const toppedUp = plans.reduce((n, p) => n + p.items.length, 0) - freshItems;
+console.log(`\nTOTAL: ${freshItems} new item(s) + ${toppedUp} topped up, ${plannedFiles} file(s), ${(plannedBytes / 1e9).toFixed(2)} GB`);
 
 if (PLAN_ONLY) { console.log('\n--plan-only: nothing uploaded.'); process.exit(0); }
 
@@ -322,7 +342,7 @@ for (const plan of plans) {
   ];
   // pending is largest-first (as packed): parallel uploads shift from the front, while item
   // CREATION pops from the back -- see createNextItem.
-  for (const item of plan.items) itemStates.push({ item, meta, exists: false, creating: false, pending: [...item.files] });
+  for (const item of plan.items) itemStates.push({ item, meta, exists: !!item.exists, creating: false, pending: [...item.files] });
 }
 
 let uploaded = 0;
@@ -486,7 +506,7 @@ async function createNextItem() {
     if (verdict === 'ok') st.exists = true;
     // Service conditions are not this file's fault: put it back, so creation retries from it
     // rather than silently consuming a file per failed attempt.
-    else if (verdict === 'busy') { st.pending.push(file); await backOffForCongestion(); }
+    else if (verdict === 'busy') { st.pending.push(file); busyStreak += 1; await backOffForCongestion(); }
     else if (verdict === 'retry') {
       console.log(`  retry creating ${st.item.identifier} (transient)`);
       st.pending.push(file);
