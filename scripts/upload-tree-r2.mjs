@@ -36,16 +36,22 @@ import { assertPublishable } from './lib/r2-publication-gate.mjs';
 const args = process.argv.slice(2);
 const argVal = (n, d) => { const i = args.indexOf(`--${n}`); return i >= 0 && args[i + 1] ? args[i + 1] : d; };
 const DIR = argVal('dir', null);
+// A SUBSET of a tree, as [{local, rel}], instead of everything under --dir. Needed when the
+// selection is not "this directory" but the result of a filter -- rights, integrity, or what
+// another store already holds -- which the tree layout itself cannot express.
+const MANIFEST = argVal('manifest', null);
 const PREFIX = (argVal('prefix', '') || '').replace(/^\/+/, '').replace(/\/*$/, '/');
 const CONCURRENCY = Math.max(1, Number(argVal('concurrency', 8)));
 const VERIFY_ONLY = args.includes('--verify-only');
 const DRY = args.includes('--dry');
 
-if (!DIR || PREFIX === '/') {
-  console.error('Usage: node scripts/upload-tree-r2.mjs --dir <dir> --prefix <r2/prefix/> [--concurrency 8] [--verify-only]');
+if ((!DIR && !MANIFEST) || PREFIX === '/') {
+  console.error('Usage: node scripts/upload-tree-r2.mjs (--dir <dir> | --manifest <json>) --prefix <r2/prefix/>');
+  console.error('       [--concurrency 8] [--verify-only] [--dry]');
   process.exit(2);
 }
-if (!existsSync(DIR)) { console.error(`Missing directory: ${DIR}`); process.exit(2); }
+if (DIR && !existsSync(DIR)) { console.error(`Missing directory: ${DIR}`); process.exit(2); }
+if (MANIFEST && !existsSync(MANIFEST)) { console.error(`Missing manifest: ${MANIFEST}`); process.exit(2); }
 
 const ENDPOINT = process.env.R2_S3_ENDPOINT;
 const BUCKET = process.env.R2_BUCKET;
@@ -80,14 +86,16 @@ function walk(dir) {
 }
 
 console.log('R2 tree upload');
-console.log(`  dir    : ${DIR}`);
+console.log(`  source : ${MANIFEST ? `manifest ${MANIFEST}` : DIR}`);
 console.log(`  prefix : ${PREFIX}`);
 
-const files = walk(DIR);
+const entries = MANIFEST
+  ? JSON.parse(readFileSync(MANIFEST, 'utf8')).map((e) => [e.local, e.rel])
+  : walk(DIR).map((abs) => [abs, path.relative(DIR, abs).split(path.sep).join('/')]);
 const local = new Map();   // key -> {abs, size}
 let totalBytes = 0;
-for (const abs of files) {
-  const rel = path.relative(DIR, abs).split(path.sep).join('/');
+for (const [abs, rel] of entries) {
+  if (!existsSync(abs)) { console.warn(`  missing locally, skipped: ${abs}`); continue; }
   const size = statSync(abs).size;
   local.set(PREFIX + rel, { abs, size });
   totalBytes += size;
