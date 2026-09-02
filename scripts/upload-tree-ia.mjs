@@ -86,10 +86,10 @@ const CONCURRENCY = Math.max(1, Number(opt('--concurrency', '4')));
 const CREATE_INTERVAL_MS = Number(opt('--create-interval-min', '5')) * 60_000;
 const MAX_CONGESTION_WAIT_MS = Number(opt('--max-congestion-wait-min', '180')) * 60_000;
 const STALL_MS = Number(opt('--stall-timeout-min', '10')) * 60_000;
-// Resume well BELOW the cap, not just under it. Resuming at 90% put four uploads straight back
-// into a queue that was one nudge from full, which re-congested it within seconds and produced
-// a pause/resume/pause thrash that made no progress at all.
-const RESUME_BELOW = Number(opt('--resume-below-pct', '70')) / 100;
+// Consecutive congestion refusals, for the backoff in backOffForCongestion(). Reset by any
+// successful upload, so a service that is merely busy does not compound into a long sleep.
+let busyStreak = 0;
+let lastSuccessAt = Date.now();
 const AVOID = new Set(opt('--avoid', '').split(',').map((s) => s.trim()).filter(Boolean));
 const PLAN_ONLY = args.includes('--plan-only');
 const IA = process.env.IA_CLI || 'ia';
@@ -389,6 +389,8 @@ function classify({ code, out }, file, identifier) {
   if (code === 0) {
     uploaded += 1;
     bytesSent += file.bytes;
+    busyStreak = 0;
+    lastSuccessAt = Date.now();
     if (uploaded % 10 === 0) console.log(`  ${uploaded}/${plannedFiles}  ${(bytesSent / 1e9).toFixed(2)} GB  (${identifier})`);
     return 'ok';
   }
@@ -410,40 +412,43 @@ function classify({ code, out }, file, identifier) {
   return 'fail';
 }
 
-// IA-wide congestion: poll the documented limit endpoint until the global queue has room.
-// Only one waiter polls; the rest idle until it clears.
-async function waitForGlobalQueue() {
+/**
+ * Back off after a congestion refusal, then let the caller try again.
+ *
+ * This deliberately does NOT wait for the global queue to fall below a threshold. That was the
+ * previous design and it parked the run for hours: IA sat at 90-100% all day, while the 540
+ * files uploaded at 94% prove the service still accepts work at those levels -- the refusal
+ * comes from the queue being momentarily AT the cap, not from being generally busy. Waiting for
+ * a quiet queue meant waiting for something that never came.
+ *
+ * So: exponential backoff on consecutive refusals (1, 2, 4, 8, capped at 15 min), reset by any
+ * success. That finds whatever capacity exists instead of predicting it, and since congestion
+ * no longer spends a file's attempts, an over-eager retry costs one request and nothing else.
+ * The run gives up only when NOTHING has succeeded for --max-congestion-wait-min.
+ */
+async function backOffForCongestion() {
   if (pausing) {
     while (pausing && !aborted) await sleep(5000);
     return;
   }
+  if (Date.now() - lastSuccessAt > MAX_CONGESTION_WAIT_MS) {
+    aborted = true;
+    abortReason = 'IA refused everything for --max-congestion-wait-min';
+    console.error('\nABORT: nothing has uploaded for the whole congestion budget. Nothing is '
+      + 'wrong with this account -- IA is saturated. Re-run later; progress is kept.');
+    return;
+  }
   pausing = true;
-  const started = Date.now();
-  console.log('  PAUSED: IA\'s global ingest queue is full. This is IA-wide, not this account '
-    + '-- waiting for it to drain rather than retrying into it.');
   try {
-    while (!aborted) {
-      await sleep(120_000);
-      let queued = null;
-      let limit = null;
-      try {
-        const body = await (await fetch('https://s3.us.archive.org/?check_limit=1')).json();
-        queued = Number(body?.detail?.total_tasks_queued);
-        limit = Number(body?.detail?.total_global_limit);
-      } catch { /* transient; treat as still congested */ }
-      if (Number.isFinite(queued) && Number.isFinite(limit) && queued < limit * RESUME_BELOW) {
-        console.log(`  resuming: global queue down to ${queued}/${limit}.`);
-        return;
-      }
-      if (queued !== null) console.log(`  still congested: ${queued}/${limit} queued globally.`);
-      if (Date.now() - started > MAX_CONGESTION_WAIT_MS) {
-        aborted = true;
-        abortReason = 'IA global queue stayed full';
-        console.error('  IA\'s global queue stayed full past --max-congestion-wait-min. '
-          + 'Stopping; nothing is wrong with this account, so just re-run later.');
-        return;
-      }
-    }
+    const wait = Math.min(60_000 * 2 ** Math.min(busyStreak, 4), 900_000);
+    let level = '';
+    try {
+      const body = await (await fetch('https://s3.us.archive.org/?check_limit=1')).json();
+      const d = body?.detail || {};
+      level = ` (IA queue ${d.total_tasks_queued}/${d.total_global_limit})`;
+    } catch { /* informational only */ }
+    console.log(`  congested${level}: backing off ${Math.round(wait / 60_000)} min, then retrying.`);
+    await sleep(wait);
   } finally {
     pausing = false;
   }
@@ -481,7 +486,7 @@ async function createNextItem() {
     if (verdict === 'ok') st.exists = true;
     // Service conditions are not this file's fault: put it back, so creation retries from it
     // rather than silently consuming a file per failed attempt.
-    else if (verdict === 'busy') { st.pending.push(file); await waitForGlobalQueue(); }
+    else if (verdict === 'busy') { st.pending.push(file); await backOffForCongestion(); }
     else if (verdict === 'retry') {
       console.log(`  retry creating ${st.item.identifier} (transient)`);
       st.pending.push(file);
@@ -510,9 +515,10 @@ async function worker() {
         // condemn a perfectly good file. Total waiting is already bounded by
         // --max-congestion-wait-min, so this cannot spin forever.
         congestionRequeues += 1;
+        busyStreak += 1;
         if (congestionRequeues % 50 === 0) console.log(`  (${congestionRequeues} congestion requeues so far)`);
         retryQueue.push({ st, file });
-        await waitForGlobalQueue();
+        await backOffForCongestion();
         continue;
       }
       if (verdict === 'retry') {
