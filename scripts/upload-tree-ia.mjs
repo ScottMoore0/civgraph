@@ -240,7 +240,14 @@ async function itemFiles(identifier) {
   const body = await response.json();
   if (!body || !body.files) return null;
   return body.files
-    .filter((f) => !String(f.name || '').startsWith('__ia') && !String(f.name || '').startsWith(identifier))
+    // history/ holds IA's own old-version copies (<name>.~N~), kept whenever a file is
+    // re-uploaded under an existing name -- which happens on a resume whenever IA's metadata
+    // lags its task queue. They are not corpus files: counting them inflated "files on IA" by
+    // 1,120 and would let a history entry masquerade as present content.
+    .filter((f) => {
+      const name = String(f.name || '');
+      return !name.startsWith('__ia') && !name.startsWith(identifier) && !name.startsWith('history/');
+    })
     .map((f) => ({ name: f.name, size: Number(f.size || 0) }));
 }
 

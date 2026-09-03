@@ -61,7 +61,7 @@
       "title": "data.gov.ie mirror (Open Data Portal Ireland)",
       "provider": "data.gov.ie",
       "jurisdiction": "IE",
-      "store": "r2",
+      "store": "both",
       "access": "public",
       "r2": {
         "prefix": "data/datagovie/",
@@ -71,12 +71,126 @@
       },
       "rights": "Licence is per package. data.gov.ie federates other bodies' data, so each publishing organisation sets the terms for its own datasets, and the files were fetched from publisher hosts rather than from the portal. Per-package licences are harvested from CKAN package_show: rollup at data/database/datagovie-licence-summary.json, per-package detail in gitignored data/external/datagovie-licences.json. Consult the record for a package before reusing its files, and note that packages carrying non-commercial terms are redistributable only for non-commercial purposes.",
       "measured": {
-        "files": 30252,
+        "files": 30241,
         "gigabytes": 144.54,
         "packages": 20700,
-        "measuredAt": "2026-08-31"
+        "measuredAt": "2026-09-03",
+        "onInternetArchive": {
+          "distinctFiles": 29380,
+          "gigabytes": 96.28,
+          "items": 14,
+          "measuredAt": "2026-09-03",
+          "byLicenceClass": {
+            "CC BY 4.0": 28669,
+            "CC BY-SA 4.0": 636,
+            "CC0 1.0": 75
+          },
+          "excluded": {
+            "noRecognisedOpenLicence": {
+              "files": 792,
+              "gigabytes": 31.89,
+              "packages": 312
+            },
+            "truncatedZips": {
+              "files": 25,
+              "gigabytes": 27.09,
+              "note": "cut short by the original download run at ~1.08 GB; IA refuses them after transfer"
+            },
+            "refusedByIaValidation": {
+              "files": 44,
+              "note": "malformed PDFs; the only uploadable files not on IA"
+            }
+          },
+          "duplication": "IA holds 30,383 live objects for 29,380 distinct keys (~1,003 files present in two items) plus 1,120 old-version copies under history/ -- both from re-sends during the 2026-09-01..02 ingest congestion, when the metadata API lagged its task queue and resumed runs could not see files already accepted. Same bytes, same package, same licence as the live file beside them."
+        }
       },
-      "note": "Licence is per package; see data/database/datagovie-licence-summary.json before reusing files from a given package. The mirror's own _manifest.csv is from the first run and describes 4,947 resources across 3,050 packages, about a sixth of what is here, so figures taken from it understate this prefix roughly six-fold. Upload and licence harvest were both in progress at measuredAt."
+      "note": "Licence is per package; see data/database/datagovie-licence-summary.json before reusing files from a given package. IA is the permanent home: every file with a recognised open licence that IA will accept is there, one item per licence class (civgraph-datagovie-<ccby|ccbysa|cc0>-NNN), each carrying the matching licenceurl. R2 data/datagovie/ is the full mirror including material IA excludes. R2 data/sources/datagovie-pending-ia/ was a temporary holding copy taken while IA was saturated and is now fully superseded by the IA items. Per-file provenance: data/datagovie/_provenance.json on R2.",
+      "internetArchive": [
+        {
+          "identifier": "civgraph-datagovie-ccby-004",
+          "details": "https://archive.org/details/civgraph-datagovie-ccby-004",
+          "download": "https://archive.org/download/civgraph-datagovie-ccby-004",
+          "bulk": "ia download civgraph-datagovie-ccby-004"
+        },
+        {
+          "identifier": "civgraph-datagovie-ccby-005",
+          "details": "https://archive.org/details/civgraph-datagovie-ccby-005",
+          "download": "https://archive.org/download/civgraph-datagovie-ccby-005",
+          "bulk": "ia download civgraph-datagovie-ccby-005"
+        },
+        {
+          "identifier": "civgraph-datagovie-ccby-006",
+          "details": "https://archive.org/details/civgraph-datagovie-ccby-006",
+          "download": "https://archive.org/download/civgraph-datagovie-ccby-006",
+          "bulk": "ia download civgraph-datagovie-ccby-006"
+        },
+        {
+          "identifier": "civgraph-datagovie-ccby-007",
+          "details": "https://archive.org/details/civgraph-datagovie-ccby-007",
+          "download": "https://archive.org/download/civgraph-datagovie-ccby-007",
+          "bulk": "ia download civgraph-datagovie-ccby-007"
+        },
+        {
+          "identifier": "civgraph-datagovie-ccby-008",
+          "details": "https://archive.org/details/civgraph-datagovie-ccby-008",
+          "download": "https://archive.org/download/civgraph-datagovie-ccby-008",
+          "bulk": "ia download civgraph-datagovie-ccby-008"
+        },
+        {
+          "identifier": "civgraph-datagovie-ccby-011",
+          "details": "https://archive.org/details/civgraph-datagovie-ccby-011",
+          "download": "https://archive.org/download/civgraph-datagovie-ccby-011",
+          "bulk": "ia download civgraph-datagovie-ccby-011"
+        },
+        {
+          "identifier": "civgraph-datagovie-ccby-012",
+          "details": "https://archive.org/details/civgraph-datagovie-ccby-012",
+          "download": "https://archive.org/download/civgraph-datagovie-ccby-012",
+          "bulk": "ia download civgraph-datagovie-ccby-012"
+        },
+        {
+          "identifier": "civgraph-datagovie-ccby-013",
+          "details": "https://archive.org/details/civgraph-datagovie-ccby-013",
+          "download": "https://archive.org/download/civgraph-datagovie-ccby-013",
+          "bulk": "ia download civgraph-datagovie-ccby-013"
+        },
+        {
+          "identifier": "civgraph-datagovie-ccby-014",
+          "details": "https://archive.org/details/civgraph-datagovie-ccby-014",
+          "download": "https://archive.org/download/civgraph-datagovie-ccby-014",
+          "bulk": "ia download civgraph-datagovie-ccby-014"
+        },
+        {
+          "identifier": "civgraph-datagovie-ccby-015",
+          "details": "https://archive.org/details/civgraph-datagovie-ccby-015",
+          "download": "https://archive.org/download/civgraph-datagovie-ccby-015",
+          "bulk": "ia download civgraph-datagovie-ccby-015"
+        },
+        {
+          "identifier": "civgraph-datagovie-ccby-016",
+          "details": "https://archive.org/details/civgraph-datagovie-ccby-016",
+          "download": "https://archive.org/download/civgraph-datagovie-ccby-016",
+          "bulk": "ia download civgraph-datagovie-ccby-016"
+        },
+        {
+          "identifier": "civgraph-datagovie-ccby-017",
+          "details": "https://archive.org/details/civgraph-datagovie-ccby-017",
+          "download": "https://archive.org/download/civgraph-datagovie-ccby-017",
+          "bulk": "ia download civgraph-datagovie-ccby-017"
+        },
+        {
+          "identifier": "civgraph-datagovie-ccbysa-001",
+          "details": "https://archive.org/details/civgraph-datagovie-ccbysa-001",
+          "download": "https://archive.org/download/civgraph-datagovie-ccbysa-001",
+          "bulk": "ia download civgraph-datagovie-ccbysa-001"
+        },
+        {
+          "identifier": "civgraph-datagovie-cc0-001",
+          "details": "https://archive.org/details/civgraph-datagovie-cc0-001",
+          "download": "https://archive.org/download/civgraph-datagovie-cc0-001",
+          "bulk": "ia download civgraph-datagovie-cc0-001"
+        }
+      ]
     },
     {
       "id": "maps",
