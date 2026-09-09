@@ -217,10 +217,17 @@ const stamp = {
   provenance: PROVENANCE,
 };
 
-writeFileSync(OUT, `${JSON.stringify(stamp, null, 2)}\n`);
+// Rewritten only when a figure actually moved. `generatedAt` alone changing on every
+// build would leave this file permanently dirty in `git status`, which trains everyone
+// to ignore it -- and this is a file whose whole job is to be noticed when it changes.
+const previous = existsSync(OUT) ? JSON.parse(readFileSync(OUT, 'utf8')) : null;
+const unchanged = previous && JSON.stringify(previous.stats) === JSON.stringify(stats);
+if (!unchanged) writeFileSync(OUT, `${JSON.stringify(stamp, null, 2)}\n`);
 
 console.log('Site stats');
 for (const [key, value] of Object.entries(stats)) {
   console.log(`  ${LABELS[key].padEnd(20)} ${fmt(value).padStart(8)}   ${PROVENANCE[key]}`);
 }
-console.log(`\nWrote ${path.relative(ROOT, OUT)}`);
+console.log(unchanged
+  ? `\nUnchanged; ${path.relative(ROOT, OUT)} left as it is.`
+  : `\nWrote ${path.relative(ROOT, OUT)}`);
