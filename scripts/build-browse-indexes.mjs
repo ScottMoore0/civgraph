@@ -5,6 +5,7 @@ import { resolveApprovedPublicationSources } from './lib/approved-publication-in
 import { partyColour } from '../src/election-domain.mjs';
 import { isPublicMap } from '../src/public-map.mjs';
 import { canonicalElectionTitle, electionResultEntryLabel } from './lib/election-names.mjs';
+import { buildPartyVocabulary, classifyPersonName, NOT_A_PERSON } from './lib/person-name-artefacts.mjs';
 import { CDN_BASE } from '../src/cdn-url.js';
 
 const ROOT = process.cwd();
@@ -122,7 +123,7 @@ function main() {
   elections = [...parentElections, ...electionResultEntries];
   const featureGroups = buildFeatureGroups(spatialIndex, maps, parentElections);
   const { parties, partyDetails } = buildParties(partyIds, electionDetails);
-  const { persons, personDetails } = buildPersons(electionDetails);
+  const { persons, personDetails } = buildPersons(electionDetails, parties);
   const registerInterests = buildRegisterInterests(niRegisterInterestsData);
   const sources = buildSources(booksData, dataEntriesData, maps, parentElections, thumbnailIds, browseSourceInputs, sourceEnrichmentInputs);
   const rawMapsById = new Map((mapsData.maps || []).map((map) => [map.id, map]));
@@ -1175,9 +1176,34 @@ function isReferendumElection(election, key) {
     .some((value) => String(value || '').toLowerCase().includes('referendum'));
 }
 
-function buildPersons(electionDetails) {
+/**
+ * A person URL that a reader can recognise and still resolve uniquely.
+ *
+ * Person ids became registry ids when the candidacies were stamped, and slugifying an id
+ * directly gave URLs like /browse/persons/84105 -- correct, unshareable, and impossible
+ * to sanity-check by eye. The name alone is not enough either, because the registry
+ * deliberately keeps distinct people who share a name apart, which is the whole reason
+ * it exists. So the readable part carries the name and the id keeps it unique.
+ *
+ * Where a candidacy could not be resolved the id is already `name:<slug>`, one entry per
+ * name by construction, so the name alone is unique and no suffix is added.
+ */
+function personSlug(personId, name) {
+  const id = String(personId || '');
+  const readable = slugify(name);
+  if (id.startsWith('name:')) return readable || slugify(id);
+  return readable ? `${readable}-${slugify(id)}` : slugify(id);
+}
+
+function buildPersons(electionDetails, partyRecords) {
   const byId = new Map();
   let referendumsSkipped = 0;
+  // Same reasoning as the referendum skip above: these names are not people, so they
+  // must not become entries here. Suppressed at the person, never at the candidate row,
+  // because the votes are real and only the name is missing. See
+  // scripts/lib/person-name-artefacts.mjs.
+  const partyVocabulary = buildPartyVocabulary(partyRecords);
+  const notPeople = new Map();
   for (const [key, election] of electionDetails) {
     if (isReferendumElection(election, key)) { referendumsSkipped += 1; continue; }
     const context = {
@@ -1191,11 +1217,16 @@ function buildPersons(electionDetails) {
       for (const candidate of extractCandidates(result)) {
         const name = cleanText(candidate.name || candidate.candidate || candidate.Candidate);
         if (!name) continue;
+        const artefactRule = classifyPersonName(name, partyVocabulary);
+        if (NOT_A_PERSON.has(artefactRule)) {
+          notPeople.set(name, (notPeople.get(name) || 0) + 1);
+          continue;
+        }
         const personId = cleanText(candidate.personId || candidate.person_id || candidate.personID || '') || `name:${slugify(name)}`;
         if (!byId.has(personId)) {
           byId.set(personId, {
             id: personId,
-            slug: slugify(personId),
+            slug: personSlug(personId, name),
             type: 'person',
             title: name,
             name,
@@ -1276,6 +1307,12 @@ function buildPersons(electionDetails) {
 
   if (referendumsSkipped) {
     console.log(`- persons: skipped ${referendumsSkipped} referendum(s); their options are not people`);
+  }
+  if (notPeople.size) {
+    const total = [...notPeople.values()].reduce((sum, n) => sum + n, 0);
+    const names = [...notPeople.entries()].sort((a, b) => b[1] - a[1])
+      .map(([name, n]) => `${name} (${n})`).join(', ');
+    console.log(`- persons: skipped ${total} candidacy row(s) whose name is not a person: ${names}`);
   }
   return { persons: items, personDetails: details };
 }

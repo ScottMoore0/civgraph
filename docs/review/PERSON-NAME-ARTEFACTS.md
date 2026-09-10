@@ -1,6 +1,55 @@
-# Persons index: 14 entries that are not people
+# Persons index: entries that are not people
 
-> **Status: findings for review — 2026-08-26. NOTHING HAS BEEN CHANGED.** Prepared at
+> **Status: mostly resolved — 2026-09-10.** 10 records remain flagged, both kinds being
+> modelling questions rather than junk. The original 2026-08-26 findings are kept below
+> unchanged; this section records what has happened since.
+
+## Update, 2026-09-10
+
+**Step 1 is answered: the names are NOT recoverable.** The source rows in
+`data/elections-source/data/elections/local-government/` already carry `"Firstname": ""`
+with the party fragment sitting in `Surname`, so the real candidate name is absent rather
+than mangled. The defect predates this repo's ingest and nothing held locally can recover
+it. The `Candidate_Id` survives, so recovery would mean an external lookup against EONI.
+
+That changes the shape of the fix. These are real candidacies with real votes, several of
+them winning ones, and only the name is missing. Deleting the rows would discard genuine
+results, so the candidate rows are left exactly as they are and only the **person** is
+suppressed.
+
+**Step 2 is done.** `scripts/validate-candidate-name-party.mjs` implements the rule this
+document asked for and is wired into `npm run check` as `check:candidate-name-party`. It
+pins the known artefacts and fails on new ones, so the defect cannot grow. Note it reads
+the source bundles (19,199 rows), a different and smaller population than the published
+metadata (29,697 candidacies).
+
+**New: the persons index no longer mints people from these names.** The rule now lives in
+`scripts/lib/person-name-artefacts.mjs`, shared by `buildPersons` and the audit so the two
+cannot disagree, and the build reports what it skipped:
+
+```
+- persons: skipped 67 candidacy row(s) whose name is not a person:
+  Party (47), Ireland (7), Voice (5), (politician) (3), Féin (3), NI21 (1), UKIP (1)
+```
+
+**NI21 and UKIP are decided.** Both were left open below. Both are single rows in the 2014
+local government election, both `name` exactly equal to `party`, both elected. Same defect
+family as the fragments, so both are suppressed as non-people.
+
+**The count moved twice, for reasons worth recording.** Stamping real person ids onto
+candidacies split the artefacts apart: one merged "Party" person carrying 47 elections
+became 47 separate people, and the flagged total went from 14 to 76. Name-slugging had
+been concealing the scale by collapsing every occurrence into a single record. Suppression
+now takes it to **10**. The affected elections are 2014, 2019 and **2023**, one more than
+recorded below.
+
+**What is left, both needing a decision rather than a cleanup:** the 4 candidate lists and
+the 6 Wikipedia disambiguators, exactly as analysed in the two sections below. Neither is
+junk and neither should be deleted.
+
+---
+
+> **Original findings, 2026-08-26. NOTHING HAD BEEN CHANGED at that point.** Prepared at
 > your request rather than rolled into production. `scripts/review/audit-person-name-artefacts.mjs`
 > reproduces every number here and is not wired into `build` or `check`.
 
