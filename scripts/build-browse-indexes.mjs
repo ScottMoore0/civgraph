@@ -1240,7 +1240,7 @@ function buildPersons(electionDetails, partyRecords) {
             totals: { stood: 0, elected: 0, firstPrefs: 0 },
             firstYear: null,
             lastYear: null,
-            browseUrl: `/browse/persons/${encodeURIComponent(slugify(personId))}`
+            browseUrl: `/browse/persons/${encodeURIComponent(personSlug(personId, name))}`
           });
         }
         const person = byId.get(personId);
@@ -1279,6 +1279,41 @@ function buildPersons(electionDetails, partyRecords) {
       }
     }
   }
+
+  // Old person URLs, kept resolvable.
+  //
+  // Before candidacies carried registry ids, a person's id was `name:<slugified name>`
+  // and the slug was that id slugified again, so Peter Robinson lived at
+  // /browse/#/persons/name-peter-robinson. Those links are in the wild and the string no
+  // longer appears in any field.
+  //
+  // This cannot be a redirect. Browse is hash-routed, and a fragment is never sent to
+  // the server, so _redirects would never see the slug. findItem() already matches on
+  // slug, id or key, so the fix is to make the old form something a record still
+  // carries.
+  //
+  // Only where the name identifies ONE person. Registry ids deliberately separate people
+  // who share a name, and the old URL conflated them: pointing it at whichever record
+  // happened to sort first would assert an identity the data does not support. An
+  // ambiguous old link is better left unresolved than silently answered wrong.
+  const byName = new Map();
+  for (const person of byId.values()) {
+    const key = slugify(person.name);
+    if (key) byName.set(key, (byName.get(key) || 0) + 1);
+  }
+  let aliased = 0;
+  let ambiguousAliases = 0;
+  for (const person of byId.values()) {
+    const key = slugify(person.name);
+    if (!key) continue;
+    if (byName.get(key) > 1) { ambiguousAliases += 1; continue; }
+    const previous = slugify(`name:${key}`);
+    if (previous && previous !== person.slug) {
+      person.previousSlugs = [previous];
+      aliased += 1;
+    }
+  }
+  console.log(`- persons: ${aliased} record(s) carry their pre-registry slug; ${ambiguousAliases} left unaliased because the name is shared`);
 
   const details = Object.fromEntries([...byId.values()].map((person) => {
     const parties = mapToSortedArray(person.parties);
