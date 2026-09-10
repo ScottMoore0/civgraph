@@ -3765,7 +3765,15 @@ function searchableText(item) {
 
 function findItem(items, id) {
   const needle = decodeURIComponent(id || '').toLowerCase();
-  return items.find((item) => String(item.slug || '').toLowerCase() === needle || String(item.id || '').toLowerCase() === needle || String(item.key || '').toLowerCase() === needle);
+  // previousSlugs keeps links from an earlier id scheme working. Person slugs changed
+  // when candidacies gained registry ids, and these are hash URLs, so the server never
+  // sees the slug and a redirect could not catch them. Matched last, so a current slug
+  // always wins over another record's old one.
+  return items.find((item) => String(item.slug || '').toLowerCase() === needle
+      || String(item.id || '').toLowerCase() === needle
+      || String(item.key || '').toLowerCase() === needle)
+    || items.find((item) => (item.previousSlugs || [])
+      .some((slug) => String(slug || '').toLowerCase() === needle));
 }
 
 function metaForItem(type, item) {
