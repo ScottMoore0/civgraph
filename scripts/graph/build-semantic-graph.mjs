@@ -283,7 +283,9 @@ async function main() {
     quality: {
       validationSummary: '/data/graph/quality/validation-summary.json'
     },
-    exports: exportIndex
+    exports: exportIndex,
+    // See inputStamps: lets the validator detect a graph built from older indexes.
+    inputs: { ...inputStamps }
   };
   await writeJson(path.join(OUTPUT_DIR, 'manifest.json'), manifest);
 
@@ -1602,8 +1604,22 @@ function addBrowseMappings(type, item, entityId) {
   }
 }
 
+/**
+ * What each browse index said when the graph was built.
+ *
+ * The graph is derived from the browse indexes and nothing tied the two together, so a
+ * graph built before an index changed still validated: validate-semantic-graph.mjs checks
+ * internal consistency, which a stale graph has perfectly. Measured 2026-09-11, the graph
+ * was 1,020 entities behind the persons index and passed anyway.
+ *
+ * Recording each input's generatedAt lets the validator answer the question the internal
+ * checks cannot: was this built from what is on disk now?
+ */
+const inputStamps = {};
+
 async function loadBrowseItems(fileName) {
   const data = await readJson(path.join(BROWSE_DIR, fileName));
+  if (data && !Array.isArray(data) && data.generatedAt) inputStamps[fileName] = data.generatedAt;
   if (data.indexLayout === 'sharded' && Array.isArray(data.shards)) {
     const items = [];
     for (const shard of requireArray(data.shards, `${fileName} shards`)) {
