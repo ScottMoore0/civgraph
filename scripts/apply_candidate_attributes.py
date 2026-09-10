@@ -45,7 +45,9 @@ import os, sys, csv, json, glob, argparse, collections, importlib.util
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..'))
-META = os.path.join(REPO, 'test', 'metadata', 'elections-test2')
+# render/, not test/: the directory was renamed and these constants were not.
+# Every one of these scripts globbed an empty path and did nothing, silently.
+META = os.path.join(REPO, 'render', 'metadata', 'elections-test2')
 ALIGN = os.path.join(REPO, 'data', 'elections', 'alignment')
 RULES = os.path.join(ALIGN, 'alignment_rules.json')
 OVERRIDES = os.path.join(ALIGN, 'alignment_overrides.csv')

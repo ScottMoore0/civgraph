@@ -28,15 +28,22 @@ other id's aliases, match keys and source ids across. Every merge is recorded.
 
 Usage:  python scripts/merge_person_ids.py [--check]
 """
-import os, sys, json, glob, csv, argparse, collections
+import os, re, sys, json, glob, csv, argparse, collections
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..'))
-META = os.path.join(REPO, 'test', 'metadata', 'elections-test2')
+# render/, not test/: the directory was renamed and these constants were not.
+# Every one of these scripts globbed an empty path and did nothing, silently.
+META = os.path.join(REPO, 'render', 'metadata', 'elections-test2')
 PERS = os.path.join(REPO, 'data', 'elections', 'persons')
 REG = os.path.join(PERS, 'person_registry.json')
 LOG = os.path.join(PERS, 'person_id_merges.csv')
 FORUM = 'northern-ireland-forum-for-political-dialogue__1996-05-30'
+# A Wikipedia disambiguator, e.g. "Frederick Thompson (Northern Irish politician)".
+# Tested against displayName, not the match key: matchkey() strips punctuation, so by
+# the time a name is a key the brackets are gone and the qualifier is indistinguishable
+# from someone actually named "... Northern Irish Politician".
+DISAMBIGUATED = re.compile(r'\([^)]*\bpolitician\b[^)]*\)', re.I)
 
 
 def observations():
@@ -107,6 +114,21 @@ def main():
                                 cls = 'LGR-2014'
                             else:
                                 skipped['LGR-2014 party mismatch'] += 1
+                # --- Wikipedia-disambiguated title: the qualifier IS the mechanism
+                #
+                # A name like "Frederick Thompson (Northern Irish politician)" is a
+                # Wikipedia article title, and a disambiguated title identifies exactly
+                # one person by construction -- disambiguating is what the qualifier is
+                # for. So two ids sharing a disambiguated title were matched to the same
+                # article and are the same person. That is a mechanical cause, not a
+                # judgement about who someone is, which is the bar this script sets.
+                #
+                # This is NOT a general same-name rule. A bare shared name proves
+                # nothing, and the registry is right to keep those apart. The qualifier
+                # is the whole evidence, so the test requires it.
+                if cls is None and DISAMBIGUATED.search(ents[a].get('displayName') or '') \
+                        and DISAMBIGUATED.search(ents[b].get('displayName') or ''):
+                    cls = 'WIKI-DISAMBIGUATED'
                 if cls is None:
                     continue
                 keep, drop = (a, b) if a < b else (b, a)

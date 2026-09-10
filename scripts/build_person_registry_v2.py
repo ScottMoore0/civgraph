@@ -36,7 +36,9 @@ import os, re, sys, json, glob, argparse, collections, unicodedata
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..'))
-META = os.path.join(REPO, 'test', 'metadata', 'elections-test2')
+# render/, not test/: the directory was renamed and these constants were not.
+# Every one of these scripts globbed an empty path and did nothing, silently.
+META = os.path.join(REPO, 'render', 'metadata', 'elections-test2')
 OLD = os.path.join(HERE, 'person_registry.json')
 OUT = os.path.join(REPO, 'data', 'elections', 'persons')
 REG = os.path.join(OUT, 'person_registry.json')

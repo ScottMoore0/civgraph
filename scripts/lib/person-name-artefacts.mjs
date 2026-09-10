@@ -119,6 +119,24 @@ export function classifyPersonName(rawName, vocabulary) {
   return null;
 }
 
+/**
+ * Removes a Wikipedia disambiguator from a display name.
+ *
+ * "Frederick Thompson (Northern Irish politician)" is an article title; the qualifier is
+ * scaffolding from the source, not part of anyone's name. It is stripped for display
+ * only, leaving the candidate rows saying what the source said.
+ *
+ * Safe to do now and not before. The qualifier existed precisely because more than one
+ * Frederick Thompson does, so removing it used to risk presenting two people as one.
+ * Identity now rides on the registry id, which is in the slug, and the three ids that
+ * were really one man were merged as WIKI-DISAMBIGUATED first.
+ */
+export function stripWikipediaQualifier(rawName) {
+  const name = String(rawName || '').trim();
+  if (classifyPersonName(name, null) !== 'wikipedia-disambiguator') return name;
+  return name.replace(/\s*\([^)]*\bpolitician\b[^)]*\)\s*$/i, '').trim() || name;
+}
+
 /** True when the name must not become an entry in the persons index. */
 export function isNotAPerson(rawName, vocabulary) {
   return NOT_A_PERSON.has(classifyPersonName(rawName, vocabulary));
