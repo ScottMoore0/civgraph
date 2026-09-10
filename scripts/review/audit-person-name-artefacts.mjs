@@ -44,6 +44,7 @@
  *   node scripts/review/audit-person-name-artefacts.mjs --json
  */
 import { readFileSync, existsSync } from 'node:fs';
+import { buildPartyVocabulary, classifyPersonName, RULE_NOTES } from '../lib/person-name-artefacts.mjs';
 
 const MANIFEST = 'data/browse/persons.json';
 const PARTIES = 'data/browse/parties.json';
@@ -64,23 +65,12 @@ function readIndex(path) {
 
 const persons = readIndex(MANIFEST);
 
-// Party names, so "is this name actually a party" is answered from the data rather than
-// from a hardcoded list that would rot.
-const partyNames = new Set();
-if (existsSync(PARTIES)) {
-  for (const party of JSON.parse(readFileSync(PARTIES, 'utf8')).items || []) {
-    for (const value of [party.title, party.canonicalName, ...(party.observedNames || [])]) {
-      if (value) partyNames.add(String(value).toLowerCase().trim());
-    }
-  }
-}
-// Every whitespace-separated word of a multi-word party name, which is what the ingest
-// defect actually produced.
-const partyWords = new Set();
-for (const name of partyNames) {
-  const words = name.split(/\s+/);
-  if (words.length > 1) for (const word of words) if (word.length > 3) partyWords.add(word);
-}
+// The rule itself lives in scripts/lib/person-name-artefacts.mjs, because buildPersons
+// applies it too and the two must not disagree about what counts as a person.
+const partyRecords = existsSync(PARTIES)
+  ? (JSON.parse(readFileSync(PARTIES, 'utf8')).items || [])
+  : [];
+const vocabulary = buildPartyVocabulary(partyRecords);
 
 const findings = [];
 const flag = (person, rule, note) => findings.push({
@@ -95,27 +85,8 @@ const flag = (person, rule, note) => findings.push({
 for (const person of persons) {
   const name = String(person.name || person.title || '').trim();
   if (!name) continue;
-  const lower = name.toLowerCase();
-
-  if (partyNames.has(lower)) {
-    flag(person, 'name-is-a-party', 'the name is exactly a known party name');
-    continue;
-  }
-  if (!name.includes(' ') && partyWords.has(lower)) {
-    flag(person, 'party-name-fragment', 'a single word that is part of a multi-word party name');
-    continue;
-  }
-  if (/^\(.*\)$/.test(name)) {
-    flag(person, 'bare-disambiguator', 'the whole name is a parenthesised qualifier');
-    continue;
-  }
-  if (/\(.*\)/.test(name) && /\blist\b/i.test(name)) {
-    flag(person, 'candidate-list', 'this is a list name, not a person');
-    continue;
-  }
-  if (/\((politician|Northern Irish politician|Northern Ireland politician)\)/i.test(name)) {
-    flag(person, 'wikipedia-disambiguator', 'a real person whose name kept a Wikipedia qualifier');
-  }
+  const rule = classifyPersonName(name, vocabulary);
+  if (rule) flag(person, rule, RULE_NOTES[rule]);
 }
 
 if (asJson) {
