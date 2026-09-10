@@ -18,7 +18,13 @@ import os, re, sys, json, glob, argparse, collections, unicodedata
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..'))
-META = os.path.join(REPO, 'test', 'metadata', 'elections-test2')
+# The election metadata the rest of the build actually reads. This pointed at
+# `test/metadata/elections-test2` for a long time, a directory that does not exist:
+# the glob matched nothing, no candidacy was ever stamped, and the only symptom was a
+# ZeroDivisionError on the summary line below, which says nothing about paths. So it is
+# an argument with a default now, and an empty match is a hard error rather than a
+# silent no-op. build-elections-sqlite.mjs reads the same directory.
+DEFAULT_META = os.path.join(REPO, 'render', 'metadata', 'elections-test2')
 REG = os.path.join(REPO, 'data', 'elections', 'persons', 'person_registry.json')
 
 
@@ -33,7 +39,16 @@ def matchkey(v):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--check', action='store_true')
+    ap.add_argument('--meta', default=DEFAULT_META,
+                    help='directory of election metadata JSON (default: render/metadata/elections-test2)')
     args = ap.parse_args()
+    meta = args.meta
+
+    files = sorted(glob.glob(os.path.join(meta, '*.json')))
+    if not files:
+        sys.exit(f'FAIL: no election JSON found in {meta}\n'
+                 '  Nothing would be stamped. Check the path rather than the data:\n'
+                 '  the live metadata lives in render/metadata/elections-test2.')
 
     doc = json.load(open(REG, encoding='utf-8'))
     by_srcid, name_hits = {}, collections.defaultdict(set)
@@ -47,7 +62,7 @@ def main():
 
     stats = collections.Counter()
     changed = 0
-    for path in sorted(glob.glob(os.path.join(META, '*.json'))):
+    for path in files:
         doc2 = json.load(open(path, encoding='utf-8'))
         dirty = False
 
