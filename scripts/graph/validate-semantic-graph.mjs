@@ -56,6 +56,28 @@ async function main() {
   }
 
   const manifest = await readJson(path.join(GRAPH_DIR, 'manifest.json'));
+  // Freshness, which none of the checks below can see.
+  //
+  // Everything else here validates the graph against itself, and a graph built from older
+  // browse indexes is perfectly consistent with itself. On 2026-09-11 this file reported
+  // a pass on a graph that was 1,020 entities behind the persons index. So compare what
+  // each input said when the graph was built against what it says now.
+  const recordedInputs = manifest.inputs || {};
+  if (!Object.keys(recordedInputs).length) {
+    errors.push('manifest.json records no inputs, so the graph cannot be shown to be current. Rebuild with scripts/graph/build-semantic-graph.mjs.');
+  }
+  for (const [fileName, builtFrom] of Object.entries(recordedInputs)) {
+    const inputPath = path.join(BROWSE_DIR, fileName);
+    if (!(await exists(inputPath))) {
+      errors.push(`Graph was built from ${fileName}, which no longer exists.`);
+      continue;
+    }
+    const current = (await readJson(inputPath))?.generatedAt;
+    if (current && current !== builtFrom) {
+      errors.push(`Graph is stale against ${fileName}: built from ${builtFrom}, on disk ${current}. Re-run scripts/graph/build-semantic-graph.mjs.`);
+    }
+  }
+
   const entityTypesPayload = await readJson(siteUrlToPath(manifest.registries?.entityTypes));
   const propertiesPayload = await readJson(siteUrlToPath(manifest.registries?.properties));
   const entityTypes = requireArray(entityTypesPayload.types, 'entity type registry');
