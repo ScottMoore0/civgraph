@@ -34,7 +34,9 @@ import os, sys, csv, json, glob, argparse, collections, datetime
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..'))
-META = os.path.join(REPO, 'test', 'metadata', 'elections-test2')
+# render/, not test/: the directory was renamed and these constants were not.
+# Every one of these scripts globbed an empty path and did nothing, silently.
+META = os.path.join(REPO, 'render', 'metadata', 'elections-test2')
 LIFE = os.path.join(REPO, 'data', 'elections', 'parties', 'party_lifespans.json')
 OUT = os.path.dirname(LIFE)
 

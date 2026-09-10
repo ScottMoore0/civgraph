@@ -160519,11 +160519,13 @@
     "frederick thompson northern irish politician"
    ],
    "sourceIds": [
-    "12754883"
+    "12754883",
+    "6584687",
+    "9006393"
    ],
-   "candidacies": 1,
+   "candidacies": 3,
    "contests": 1,
-   "firstYear": 1945,
+   "firstYear": 1937,
    "lastYear": 1945,
    "bodies": [
     "parliament-of-northern-ireland"
@@ -160534,7 +160536,11 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    105872,
+    106178
+   ]
   },
   {
    "id": "p104113",
@@ -163896,12 +163902,13 @@
     "robert alexander northern ireland politician"
    ],
    "sourceIds": [
-    "13783657"
+    "13783657",
+    "7810909"
    ],
-   "candidacies": 1,
+   "candidacies": 2,
    "contests": 1,
    "firstYear": 1945,
-   "lastYear": 1945,
+   "lastYear": 1949,
    "bodies": [
     "parliament-of-northern-ireland"
    ],
@@ -163911,7 +163918,10 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    106028
+   ]
   },
   {
    "id": "p104237",
@@ -207815,34 +207825,6 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
-   "id": "p105872",
-   "personId": 105872,
-   "displayName": "Frederick Thompson (Northern Irish politician)",
-   "aliases": [
-    "Frederick Thompson (Northern Irish politician)"
-   ],
-   "matchKeys": [
-    "frederick thompson northern irish politician"
-   ],
-   "sourceIds": [
-    "6584687"
-   ],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1937,
-   "lastYear": 1937,
-   "bodies": [
-    "parliament-of-northern-ireland"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p105873",
    "personId": 105873,
    "displayName": "Stephen McFarland",
@@ -212027,34 +212009,6 @@
    "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
-   "id": "p106028",
-   "personId": 106028,
-   "displayName": "Robert Alexander (Northern Ireland politician)",
-   "aliases": [
-    "Robert Alexander (Northern Ireland politician)"
-   ],
-   "matchKeys": [
-    "robert alexander northern ireland politician"
-   ],
-   "sourceIds": [
-    "7810909"
-   ],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1949,
-   "lastYear": 1949,
-   "bodies": [
-    "parliament-of-northern-ireland"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
-  },
-  {
    "id": "p106030",
    "personId": 106030,
    "displayName": "Mark Glasgow",
@@ -216156,34 +216110,6 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true
-  },
-  {
-   "id": "p106178",
-   "personId": 106178,
-   "displayName": "Frederick Thompson (Northern Irish politician)",
-   "aliases": [
-    "Frederick Thompson (Northern Irish politician)"
-   ],
-   "matchKeys": [
-    "frederick thompson northern irish politician"
-   ],
-   "sourceIds": [
-    "9006393"
-   ],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1938,
-   "lastYear": 1938,
-   "bodies": [
-    "parliament-of-northern-ireland"
-   ],
-   "parties": [
-    "UUP"
-   ],
-   "keyedBy": "id",
-   "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p106179",
@@ -339379,10 +339305,9 @@
   }
  ],
  "corrections": {
-  "mergedIds": 266,
+  "mergedIds": 3,
   "classes": {
-   "LGR-2014": 166,
-   "FORUM-DUPLICATE": 100
+   "WIKI-DISAMBIGUATED": 4
   },
   "note": "Only the two mechanically-caused classes were merged; see scripts/merge_person_ids.py for the tests applied."
  }

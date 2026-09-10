@@ -5,7 +5,7 @@ import { resolveApprovedPublicationSources } from './lib/approved-publication-in
 import { partyColour } from '../src/election-domain.mjs';
 import { isPublicMap } from '../src/public-map.mjs';
 import { canonicalElectionTitle, electionResultEntryLabel } from './lib/election-names.mjs';
-import { buildPartyVocabulary, classifyPersonName, NOT_A_PERSON } from './lib/person-name-artefacts.mjs';
+import { buildPartyVocabulary, classifyPersonName, stripWikipediaQualifier, NOT_A_PERSON } from './lib/person-name-artefacts.mjs';
 import { CDN_BASE } from '../src/cdn-url.js';
 
 const ROOT = process.cwd();
@@ -1204,6 +1204,7 @@ function buildPersons(electionDetails, partyRecords) {
   // scripts/lib/person-name-artefacts.mjs.
   const partyVocabulary = buildPartyVocabulary(partyRecords);
   const notPeople = new Map();
+  const qualifiersStripped = new Set();
   for (const [key, election] of electionDetails) {
     if (isReferendumElection(election, key)) { referendumsSkipped += 1; continue; }
     const context = {
@@ -1222,14 +1223,18 @@ function buildPersons(electionDetails, partyRecords) {
           notPeople.set(name, (notPeople.get(name) || 0) + 1);
           continue;
         }
+        // The candidate row keeps the source's name; only the person is shown without
+        // the Wikipedia scaffolding.
+        const displayName = stripWikipediaQualifier(name);
+        if (displayName !== name) qualifiersStripped.add(name);
         const personId = cleanText(candidate.personId || candidate.person_id || candidate.personID || '') || `name:${slugify(name)}`;
         if (!byId.has(personId)) {
           byId.set(personId, {
             id: personId,
-            slug: personSlug(personId, name),
+            slug: personSlug(personId, displayName),
             type: 'person',
-            title: name,
-            name,
+            title: displayName,
+            name: displayName,
             parties: new Map(),
             constituencies: new Map(),
             genders: new Map(),
@@ -1240,7 +1245,7 @@ function buildPersons(electionDetails, partyRecords) {
             totals: { stood: 0, elected: 0, firstPrefs: 0 },
             firstYear: null,
             lastYear: null,
-            browseUrl: `/browse/persons/${encodeURIComponent(personSlug(personId, name))}`
+            browseUrl: `/browse/persons/${encodeURIComponent(personSlug(personId, displayName))}`
           });
         }
         const person = byId.get(personId);
@@ -1314,6 +1319,9 @@ function buildPersons(electionDetails, partyRecords) {
     }
   }
   console.log(`- persons: ${aliased} record(s) carry their pre-registry slug; ${ambiguousAliases} left unaliased because the name is shared`);
+  if (qualifiersStripped.size) {
+    console.log(`- persons: stripped a Wikipedia qualifier from ${qualifiersStripped.size} name(s): ${[...qualifiersStripped].join(', ')}`);
+  }
 
   const details = Object.fromEntries([...byId.values()].map((person) => {
     const parties = mapToSortedArray(person.parties);
