@@ -152,21 +152,42 @@ const fmt = (n) => n.toLocaleString('en-GB');
  */
 function stampInto(html) {
   const changes = [];
+  const satisfied = new Set();
+
+  // Two forms are accepted, because two pages state the same numbers in different markup.
+  //
+  // The stats row keys on its visible label, which only exists on a page built that way.
+  // The About page states the same figures in a prose table, and leaving that unguarded
+  // is precisely how they drifted, so any element may opt in with data-stat="<key>".
+  // A figure is guarded if EITHER form carries it.
   for (const [key, value] of Object.entries(stats)) {
-    const label = LABELS[key];
-    const pattern = new RegExp(
-      `(data-count=")(\\d+)(">)([\\d,]+)(</div><div class="stat__l">${label}</div>)`,
+    const byAttribute = new RegExp(`(<[^>]*\\bdata-stat="${key}"[^>]*>)([\\d,]+)(<)`, 'g');
+    html = html.replace(byAttribute, (_m, open, old, close) => {
+      satisfied.add(key);
+      if (old !== fmt(value)) changes.push(`${LABELS[key]}: ${old} -> ${fmt(value)}`);
+      return `${open}${fmt(value)}${close}`;
+    });
+
+    const byLabel = new RegExp(
+      `(data-count=")(\\d+)(">)([\\d,]+)(</div><div class="stat__l">${LABELS[key]}</div>)`,
       'g',
     );
-    let hits = 0;
-    html = html.replace(pattern, (_m, a, oldCount, b, oldText, c) => {
-      hits += 1;
+    html = html.replace(byLabel, (_m, a, oldCount, b, oldText, c) => {
+      satisfied.add(key);
       if (String(value) !== oldCount || fmt(value) !== oldText) {
-        changes.push(`${label}: ${oldText} -> ${fmt(value)}`);
+        changes.push(`${LABELS[key]}: ${oldText} -> ${fmt(value)}`);
       }
       return `${a}${value}${b}${fmt(value)}${c}`;
     });
-    if (hits === 0) changes.push(`MISSING: no "${label}" stat found in the page`);
+  }
+
+  if (!satisfied.size) {
+    changes.push('MISSING: the page carries none of these figures in a form this can check. '
+      + 'Add data-stat="<key>" to the element holding each one.');
+  } else {
+    for (const key of Object.keys(stats)) {
+      if (!satisfied.has(key)) changes.push(`MISSING: no "${LABELS[key]}" figure found in the page`);
+    }
   }
   return { html, changes };
 }
