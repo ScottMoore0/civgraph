@@ -67,6 +67,7 @@ def scan():
                 if not nm:
                     continue
                 rows.append({'id': str(c.get('id') or '').strip(), 'name': nm,
+                             'src': str(c.get('sourcePersonId') or '').strip(),
                              'key': d.get('key'), 'body': d.get('bodySlug'),
                              'year': int(yr) if yr.isdigit() else 0,
                              'party': (c.get('party') or '').strip()})
@@ -79,6 +80,30 @@ def main():
     args = ap.parse_args()
     if os.path.exists(REG) and not args.force:
         sys.exit(f'{REG} exists; it is the hand-edited source of truth. --force to rebuild.')
+
+    # The registry this run replaces. Its ids are load-bearing: they are stamped into
+    # render/metadata/elections-test2, carried into the browse indexes and D1, and they
+    # appear in person URLs. Rebuilding from scratch would renumber everybody, so every
+    # group that still corresponds to a person already in the registry keeps that
+    # person's id. Only groups that genuinely changed -- a fused career split apart, a
+    # split career joined -- see new numbers, and a retired id is never handed out again.
+    prev = {}
+    prev_max = 0
+    if os.path.exists(REG):
+        old_reg = json.load(open(REG, encoding='utf-8'))
+        for e in old_reg.get('entities') or []:
+            prev[e['personId']] = e
+            prev_max = max(prev_max, int(e['personId']))
+    prev_by_person = collections.defaultdict(set)
+    prev_by_source = collections.defaultdict(set)
+    prev_by_key = collections.defaultdict(set)
+    for pid, e in prev.items():
+        for sp in e.get('sourcePersonIds') or []:
+            prev_by_person[sp].add(pid)
+        for sid in e.get('sourceIds') or []:
+            prev_by_source[sid].add(pid)
+        for mk in e.get('matchKeys') or []:
+            prev_by_key[mk].add(pid)
 
     curated = {}
     if os.path.exists(OLD):
@@ -97,10 +122,35 @@ def main():
             names_by_id[r['id']].add(r['name'])
     bad_ids = {i for i, n in names_by_id.items() if len(n) > 1}
 
+    # Three keys, strongest first.
+    #
+    #   src   the person as the SOURCE names them. ElectionsIreland links every
+    #         candidate to candidate.cfm?ID=<n> and that id is the person: it follows
+    #         Seamus Pattison from 1961 to 1997, and the two Jim Gibbonses of
+    #         Carlow-Kilkenny hold ids of their own. This is the only key in the set
+    #         that is evidence rather than inference, and it is the only one that can
+    #         separate two people who share a name.
+    #   id    the candidacy id, where it is not a row index.
+    #   name  the fallback, and the cause of both failure modes the audit reports.
     groups = collections.defaultdict(list)
     for r in rows:
-        k = ('id', r['id']) if (r['id'] and r['id'] not in bad_ids) else ('name', matchkey(r['name']))
+        if r['src']:
+            k = ('src', r['src'])
+        elif r['id'] and r['id'] not in bad_ids:
+            k = ('id', r['id'])
+        else:
+            k = ('name', matchkey(r['name']))
         groups[k].append(r)
+
+    # NOTHING IS FOLDED IN ON A NAME. An earlier version of this pulled name-keyed
+    # groups into a src group wherever exactly one src group answered to that name and
+    # the two had never shared a contest, on the theory that it was one person whose
+    # other contests had not been harvested. It merged a Northern Ireland local-
+    # government Seamus Doyle into a Dail Seamus Doyle and produced 231 source-keyed
+    # people with hundred-year careers -- the precise defect the ids were harvested to
+    # cure, reintroduced with a longer reach. A person whose contests are only partly
+    # harvested is left split, because a split is visible and fixable and a wrong merge
+    # is neither.
 
     by_name = collections.defaultdict(list)
     for k, v in groups.items():
@@ -125,7 +175,34 @@ def main():
     for k, v in groups.items():
         merged[merges.get(k, k)].extend(v)
 
-    entities, matched, seen_pid = [], 0, set()
+    next_id = max(next_id, prev_max + 1)
+
+    def reclaim(person_ids, source_ids, match_keys, claimed):
+        """The id this group already had, if it still clearly belongs to it.
+
+        Groups are visited largest first, so where a fused career has been split the
+        larger half keeps the number and the smaller half is issued a new one. An id is
+        handed out at most once."""
+        best, best_score = None, (0, 0, 0)
+        seen = set()
+        for sp in person_ids:
+            seen |= prev_by_person.get(sp, set())
+        for sid in source_ids:
+            seen |= prev_by_source.get(sid, set())
+        for mk in match_keys:
+            seen |= prev_by_key.get(mk, set())
+        for pid in sorted(seen):
+            if pid in claimed:
+                continue
+            e = prev[pid]
+            score = (len(set(e.get('sourcePersonIds') or []) & set(person_ids)),
+                     len(set(e.get('sourceIds') or []) & set(source_ids)),
+                     len(set(e.get('matchKeys') or []) & set(match_keys)))
+            if score > best_score:
+                best, best_score = pid, score
+        return best if best_score > (0, 0, 0) else None
+
+    entities, matched, reclaimed, seen_pid = [], 0, 0, set()
     for k, v in sorted(merged.items(), key=lambda kv: (-len(kv[1]), str(kv[0]))):
         names = sorted({r['name'] for r in v}, key=lambda s: (-len(s), s))
         mks = {matchkey(n) for n in names}
@@ -139,13 +216,24 @@ def main():
                            key=lambda s: (-len(s), s))
             prov, src = False, 'curated (Full election tables.xlsx, carried forward)'
         else:
-            pid, disp = next_id, names[0]
-            next_id += 1
+            group_sources = sorted({r['id'] for r in v if r['id'] and r['id'] not in bad_ids})
+            group_persons = sorted({r['src'] for r in v if r['src']})
+            kept = reclaim(group_persons, group_sources, mks, seen_pid)
+            if kept is not None:
+                pid, disp = kept, names[0]
+                seen_pid.add(pid)
+                reclaimed += 1
+            else:
+                pid, disp = next_id, names[0]
+                next_id += 1
             prov, src = True, 'derived from candidate ids in render/metadata/elections-test2'
+            if k[0] == 'src':
+                src = f"keyed on the source's own candidate id ({k[1]})"
         yrs = [r['year'] for r in v if r['year']]
         e = {'id': f'p{pid}', 'personId': pid, 'displayName': disp,
              'aliases': names, 'matchKeys': sorted(mks),
              'sourceIds': sorted({r['id'] for r in v if r['id'] and r['id'] not in bad_ids}),
+             'sourcePersonIds': sorted({r['src'] for r in v if r['src']}),
              'candidacies': len(v), 'contests': len({r['key'] for r in v}),
              'firstYear': min(yrs) if yrs else None, 'lastYear': max(yrs) if yrs else None,
              'bodies': sorted({r['body'] for r in v if r['body']}),
@@ -189,6 +277,8 @@ def main():
     print(f'persons emitted             : {len(entities):,}')
     print(f'  matched to curated registry: {matched:,} of 2,388 curated')
     print(f'  newly derived (provisional): {sum(1 for e in entities if e["provisional"]):,}')
+    print(f'  ids carried from prior build: {reclaimed:,}')
+    print(f'  keyed by SOURCE person id  : {sum(1 for e in entities if e["keyedBy"]=="src"):,}')
     print(f'  keyed by candidate id      : {sum(1 for e in entities if e["keyedBy"]=="id"):,}')
     print(f'  keyed by name only         : {sum(1 for e in entities if e["keyedBy"]=="name"):,}')
     print(f'  flagged needsReview        : {sum(1 for e in entities if e.get("needsReview")):,}')

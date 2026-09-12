@@ -7,8 +7,19 @@ which it always was. Populating it means a name correction changes a person's la
 instead of silently creating a new person and orphaning the old.
 
 RESOLUTION ORDER, strongest evidence first:
-  1. the candidacy's own `id`, where that id is a real person id and not a row index
-  2. the normalised name, but only where it identifies exactly ONE registry entity
+  1. `sourcePersonId` -- the person as the SOURCE names them, harvested back off the
+     ElectionsIreland result pages by scripts/harvest_ei_candidate_ids.py. This is the
+     only rung of the ladder that is evidence rather than inference, and the only one
+     that can tell two people who share a name apart.
+  2. the candidacy's own `id`, where that id is a real person id and not a row index
+  3. the normalised name, but only where it identifies exactly ONE registry entity
+  4. a name shared by several entities, resolved to the ONE of them that carries no
+     source person id -- and only for a candidacy that has none itself. This mirrors
+     how the registry grouped the row rather than guessing: a row with neither a source
+     id nor a usable candidacy id was grouped by its name, into the entity keyed by that
+     name. Left unstamped, such a candidacy (Austin Stack, Laois 2024, detached from the
+     1920s TD's id on the source's own dates) reached browse keyed by bare name and took
+     the bare-name URL, so an old /austin-stack link opened the wrong man.
 
 A name shared by two entities is left unresolved rather than guessed. That is the same
 conservatism the registry is built on: an unresolved candidacy is visible, a wrongly
@@ -51,14 +62,26 @@ def main():
                  '  the live metadata lives in render/metadata/elections-test2.')
 
     doc = json.load(open(REG, encoding='utf-8'))
-    by_srcid, name_hits = {}, collections.defaultdict(set)
+    by_person, by_srcid, name_hits = {}, {}, collections.defaultdict(set)
     for e in doc['entities']:
+        for s in e.get('sourcePersonIds') or []:
+            by_person[s] = e['personId']
         for s in e['sourceIds']:
             by_srcid[s] = e['personId']
         for m in e['matchKeys']:
             name_hits[m].add(e['personId'])
     by_name = {m: list(v)[0] for m, v in name_hits.items() if len(v) == 1}
     ambiguous = {m for m, v in name_hits.items() if len(v) > 1}
+    without_source = collections.defaultdict(set)
+    for e in doc['entities']:
+        # Name-keyed entities only. A candidacy reaches this rung only when it has no usable
+        # candidacy id, and the registry puts exactly those rows in the group keyed by the
+        # name; an id-keyed entity of the same name (a 1992 Westminster Daniel O'Leary beside
+        # a 1973 Dail one) is a different group and must not make the name look ambiguous.
+        if e.get('keyedBy') == 'name' and not (e.get('sourcePersonIds') or []):
+            for m in e['matchKeys']:
+                without_source[m].add(e['personId'])
+    by_name_group = {m: next(iter(v)) for m, v in without_source.items() if len(v) == 1 and m in ambiguous}
 
     stats = collections.Counter()
     changed = 0
@@ -68,13 +91,19 @@ def main():
 
         def stamp(c):
             nonlocal dirty
-            cid = str(c.get('id') or '').strip()
-            pid = by_srcid.get(cid)
-            how = 'by-id' if pid else None
+            spid = str(c.get('sourcePersonId') or '').strip()
+            pid = by_person.get(spid) if spid else None
+            how = 'by-source-person' if pid else None
+            if not pid:
+                cid = str(c.get('id') or '').strip()
+                pid = by_srcid.get(cid)
+                how = 'by-id' if pid else None
             if not pid:
                 mk = matchkey(c.get('name') or '')
                 if mk in by_name:
                     pid, how = by_name[mk], 'by-name'
+                elif mk in by_name_group and not spid:
+                    pid, how = by_name_group[mk], 'by-name-group'
                 elif mk in ambiguous:
                     how = 'ambiguous-name'
                 else:
@@ -91,7 +120,10 @@ def main():
         for c in (doc2.get('mainLikeCandidateSummary') or []):
             if (c.get('name') or '').strip():
                 cid = str(c.get('id') or '').strip()
-                pid = by_srcid.get(cid) or by_name.get(matchkey(c.get('name') or ''))
+                spid = str(c.get('sourcePersonId') or '').strip()
+                mk = matchkey(c.get('name') or '')
+                pid = ((by_person.get(spid) if spid else None) or by_srcid.get(cid) or by_name.get(mk)
+                       or (by_name_group.get(mk) if not spid else None))
                 if c.get('personId') != pid:
                     c['personId'] = pid
                     dirty = True
@@ -104,9 +136,9 @@ def main():
 
     tot = sum(stats.values())
     print(f'{tot:,} named candidacies')
-    for k in ('by-id', 'by-name', 'ambiguous-name', 'unresolved'):
+    for k in ('by-source-person', 'by-id', 'by-name', 'by-name-group', 'ambiguous-name', 'unresolved'):
         print(f'   {stats[k]:7,}  {k}')
-    res = stats['by-id'] + stats['by-name']
+    res = stats['by-source-person'] + stats['by-id'] + stats['by-name'] + stats['by-name-group']
     print(f'   resolved {res:,}/{tot:,} ({100*res/tot:.1f}%)')
     print(f'   ambiguous names (shared by >1 entity): {len(ambiguous):,}')
     print(f"\nfiles {'that would change' if args.check else 'written'}: {changed}")

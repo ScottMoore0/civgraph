@@ -1,28 +1,40 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-04T14:42:14.677Z",
+  "generatedAt": "2026-09-12T19:59:31.842Z",
   "totals": {
-    "elections": 281,
-    "loadable": 269,
+    "elections": 284,
+    "loadable": 272,
     "placeholders": 12,
-    "matchedConstituencies": 4307,
-    "unmatchedConstituencies": 399
+    "matchedConstituencies": 4429,
+    "unmatchedConstituencies": 401
   },
-  "unmatchedElections": 34,
+  "unmatchedElections": 35,
   "residualSummary": {
     "main-geography-unsourced": 342,
-    "unclassified-needs-review": 32,
+    "unclassified-needs-review": 34,
     "stormont-seat-not-in-source": 15,
     "referendum-boundary-split-merge": 10
   },
   "closureSummary": {
     "byStatus": {
       "blocked-on-data": 357,
-      "needs-review": 32,
+      "needs-review": 34,
       "blocked-on-aggregation": 10
     },
-    "feasibleUnmatchedRemaining": 32,
+    "feasibleUnmatchedRemaining": 34,
     "feasibleExamples": [
+      {
+        "constituency": "Cork City North",
+        "code": "unclassified-needs-review",
+        "parityStatus": "needs-review",
+        "reason": "No safe deterministic mapping has been identified yet."
+      },
+      {
+        "constituency": "Cork City South",
+        "code": "unclassified-needs-review",
+        "parityStatus": "needs-review",
+        "reason": "No safe deterministic mapping has been identified yet."
+      },
       {
         "constituency": "Cork City North",
         "code": "unclassified-needs-review",
@@ -127,18 +139,6 @@
       },
       {
         "constituency": "Dublin South West",
-        "code": "unclassified-needs-review",
-        "parityStatus": "needs-review",
-        "reason": "No safe deterministic mapping has been identified yet."
-      },
-      {
-        "constituency": "Cork Borough",
-        "code": "unclassified-needs-review",
-        "parityStatus": "needs-review",
-        "reason": "No safe deterministic mapping has been identified yet."
-      },
-      {
-        "constituency": "Dublin North Central",
         "code": "unclassified-needs-review",
         "parityStatus": "needs-review",
         "reason": "No safe deterministic mapping has been identified yet."
@@ -304,6 +304,38 @@
       ],
       "residualSummary": {
         "referendum-boundary-split-merge": 2
+      }
+    },
+    {
+      "key": "dail-eireann__1973-02-28",
+      "body": "Dáil Éireann",
+      "date": "1973-02-28",
+      "bodyGroup": null,
+      "sourceMapId": "dail-1969",
+      "layerId": "dail-1969-vector-test",
+      "loadable": true,
+      "matchedCount": 40,
+      "unmatchedCount": 2,
+      "unmatchedConstituencies": [
+        "Cork City North",
+        "Cork City South"
+      ],
+      "unmatchedDetails": [
+        {
+          "constituency": "Cork City North",
+          "code": "unclassified-needs-review",
+          "parityStatus": "needs-review",
+          "reason": "No safe deterministic mapping has been identified yet."
+        },
+        {
+          "constituency": "Cork City South",
+          "code": "unclassified-needs-review",
+          "parityStatus": "needs-review",
+          "reason": "No safe deterministic mapping has been identified yet."
+        }
+      ],
+      "residualSummary": {
+        "unclassified-needs-review": 2
       }
     },
     {

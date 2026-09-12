@@ -109,6 +109,30 @@ export function summarizeForumRows(rows = []) {
   });
 }
 
+// Harvest bookkeeping that must not reach the published bundles. ei_candidate_id rides
+// on the intermediate count rows only so summarizeCandidateRows can read it, and
+// ei_candidates is the raw roster of the source page; the published identity is the
+// candidate's sourcePersonId. Carried through verbatim they added over a hundred
+// thousand lines to the election bundles -- on every count row and inside the raw
+// animation payload -- and from there to the browse indexes and D1.
+const HARVEST_FIELDS = new Set(['ei_candidate_id', 'eiCandidateId', 'ei_candidates']);
+function withoutHarvestFields(value) {
+  if (Array.isArray(value)) return value.map(withoutHarvestFields);
+  if (!value || typeof value !== 'object') return value;
+  const out = {};
+  for (const [key, inner] of Object.entries(value)) {
+    if (!HARVEST_FIELDS.has(key)) out[key] = withoutHarvestFields(inner);
+  }
+  return out;
+}
+
+function sourcePersonIdFor(row) {
+  const ei = String(row?.ei_candidate_id ?? row?.eiCandidateId ?? '').trim();
+  if (/^\d+$/.test(ei)) return `ei:${Number(ei)}`;
+  const existing = String(row?.sourcePersonId || '').trim();
+  return existing || '';
+}
+
 export function summarizeCandidateRows(rows = []) {
   const byCandidate = new Map();
   for (const row of Array.isArray(rows) ? rows : []) {
@@ -133,6 +157,13 @@ export function summarizeCandidateRows(rows = []) {
       dailAbbreviation: fixText(row.Dail_Abbreviation || row.Party_Abbreviation || row.dailAbbreviation || row.partyAbbreviation || ''),
       officialCandidateId: fixText(row.Official_Candidate_Id || row.officialCandidateId || ''),
       officialStatus: fixText(row.Official_Status || row.officialStatus || ''),
+      // The PERSON, where the source names one. `id` above is a candidacy key and on
+      // older contests it is a row index -- id '1' sits on 2,260 candidacies under
+      // unrelated names -- so it cannot carry identity. ElectionsIreland does name the
+      // person, and the same id follows Seamus Pattison from 1961 to 1997 while the two
+      // Jim Gibbonses keep ids of their own. Namespaced, because a second source with
+      // its own numbering must not silently collide with this one.
+      sourcePersonId: sourcePersonIdFor(row),
       counts: []
     };
     const countNo = parseNumber(row.Count_Number) || 1;
@@ -153,6 +184,7 @@ export function summarizeCandidateRows(rows = []) {
     if (!existing.officialStatus && (row.Official_Status || row.officialStatus)) {
       existing.officialStatus = fixText(row.Official_Status || row.officialStatus || '');
     }
+    if (!existing.sourcePersonId) existing.sourcePersonId = sourcePersonIdFor(row);
     if (statusKind(status) === 'elected' || row.Elected === true || row.counted_as_elected === true) {
       existing.elected = true;
       existing.electedAt ||= countNo;
@@ -170,6 +202,12 @@ export function summarizeCandidateRows(rows = []) {
       firstPrefs: firstPref
     });
     byCandidate.set(key, existing);
+  }
+  // Carried only where the source names a person. Emitting an empty string on every
+  // candidacy would add a quarter of a million meaningless lines to the metadata, the
+  // browse indexes and D1, and would make "we do not know who this is" look like data.
+  for (const candidate of byCandidate.values()) {
+    if (!candidate.sourcePersonId) delete candidate.sourcePersonId;
   }
   return [...byCandidate.values()].sort((a, b) => numberOrZero(b.firstPrefs) - numberOrZero(a.firstPrefs));
 }
@@ -200,7 +238,11 @@ export function normalizeScraperPayloadForMain(payload, fallbackConstituency = '
       : [1];
     return rowCountNumbers.map((countNumber) => ({
       Auto_Returned_Ceann_Comhairle: autoReturned ? '1' : '',
+      // A ROW INDEX, despite the name, and the reason the person registry cannot key
+      // on it: '1' is whoever happened to be listed first, in every contest. The
+      // person travels in ei_candidate_id below instead.
       Candidate_Id: String(index + 1),
+      ei_candidate_id: candidate.ei_candidate_id ?? candidate.eiCandidateId ?? '',
       Candidate_First_Pref_Votes: String(firstPref),
       Constituency_Number: String(payload.constituencyNumber || payload.officialDail?.constituencyNumber || meta.Constituency_Number || ''),
       Count_Number: String(countNumber),
@@ -897,14 +939,14 @@ export function summarizeResult(raw, fallbackConstituency) {
     candidates,
     elected,
     countInfo: info,
-    countGroup: Array.isArray(source.countGroup) ? source.countGroup : [],
+    countGroup: Array.isArray(source.countGroup) ? withoutHarvestFields(source.countGroup) : [],
     syntheticCountGroup,
     nonTransferable: summarizeNonTransferableRows(rows),
     forum: source.forum || null,
     countNumbers,
     ...(recallPetition ? { recallPetition } : {}),
     hasCountDetail: countNumbers.length > 1 || candidates.some((candidate) => (candidate.counts || []).length > 1),
-    animationPayload: mainPayload || raw || null,
+    animationPayload: withoutHarvestFields(mainPayload || raw || null),
     constituencyId: raw?.constituencyId || raw?.officialDail?.constituencyId || null,
     constituencyNumber: raw?.constituencyNumber || raw?.officialDail?.constituencyNumber || info.Constituency_Number || null,
     officialDail: raw?.officialDail || null
