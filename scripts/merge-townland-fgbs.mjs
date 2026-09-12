@@ -5,6 +5,14 @@
  *   Phase 1: Read each FGB, normalise properties, write features as newline-delimited GeoJSON
  *   Phase 2: Read the NDJSON back and serialize to a single FGB
  *
+ * A county that cannot be read in full stops the merge. It used to be caught, logged as
+ * a "Partial read" warning and merged anyway with whatever had been read before the
+ * error, and the published all-Ireland file lost most of west Donegal: about 1,200
+ * townlands west of 8 degrees W were absent from the map while every other county
+ * looked complete. A warning in a console nobody was watching is not a safeguard, so a
+ * short or missing county is now an error, and every county is re-counted against its
+ * own file after the output is written.
+ *
  * Usage:  node --max-old-space-size=4096 scripts/merge-townland-fgbs.mjs
  * Output: data/maps/townlands/Townlands_AllIreland.fgb
  */
@@ -64,10 +72,11 @@ const NI_FILES = new Set([
 async function phase1() {
     const ws = fs.createWriteStream(TEMP_NDJSON);
     let totalWritten = 0;
+    const perCounty = {};
 
     for (const [filename, county] of Object.entries(COUNTY_MAP)) {
         const fgbPath = path.join(TOWNLANDS_DIR, filename);
-        if (!fs.existsSync(fgbPath)) { console.warn(`⚠  Missing: ${fgbPath}`); continue; }
+        if (!fs.existsSync(fgbPath)) throw new Error(`Missing county file: ${fgbPath}. All 32 are required.`);
 
         const isNI = NI_FILES.has(filename);
         const buf = fs.readFileSync(fgbPath);
@@ -87,8 +96,9 @@ async function phase1() {
                 count++;
             }
         } catch (err) {
-            console.warn(`   ⚠  Partial read of ${filename} (got ${count}, error: ${err.message})`);
+            throw new Error(`Could not read ${filename} in full: stopped after ${count} feature(s) (${err.message}). Refusing to merge a partial county.`);
         }
+        perCounty[county] = count;
 
         totalWritten += count;
         console.log(`✓  ${county}: ${count.toLocaleString()} (total: ${totalWritten.toLocaleString()})`);
@@ -101,7 +111,7 @@ async function phase1() {
     });
 
     console.log(`\nPhase 1 complete: ${totalWritten.toLocaleString()} features → ${TEMP_NDJSON}`);
-    return totalWritten;
+    return { totalWritten, perCounty };
 }
 
 // ── Phase 2: Read NDJSON → serialize to FGB ──
@@ -137,9 +147,30 @@ async function phase2(expectedCount) {
     console.log(`✓  Written ${OUTPUT_FILE} (${sizeMB} MB, ${features.length.toLocaleString()} features)`);
 }
 
+/** Re-read the written file and compare every county with what its own file held. */
+async function verifyOutput(perCounty) {
+    const buf = fs.readFileSync(OUTPUT_FILE);
+    const got = {};
+    let total = 0;
+    for await (const feature of deserialize(new Uint8Array(buf))) {
+        const county = feature.properties?.County || '?';
+        got[county] = (got[county] || 0) + 1;
+        total++;
+    }
+    const short = Object.entries(perCounty).filter(([county, n]) => (got[county] || 0) !== n);
+    if (short.length) {
+        throw new Error(`Written file does not match its inputs: ${short.map(([c, n]) => `${c} ${got[c] || 0}/${n}`).join(', ')}`);
+    }
+    console.log(`✓  Verified ${total.toLocaleString()} features across ${Object.keys(perCounty).length} counties, each matching its source file.`);
+}
+
 async function main() {
-    const count = await phase1();
-    await phase2(count);
+    const { totalWritten, perCounty } = await phase1();
+    if (Object.keys(perCounty).length !== Object.keys(COUNTY_MAP).length) {
+        throw new Error(`Only ${Object.keys(perCounty).length} of ${Object.keys(COUNTY_MAP).length} counties were read.`);
+    }
+    await phase2(totalWritten);
+    await verifyOutput(perCounty);
 }
 
 main().catch(err => {
