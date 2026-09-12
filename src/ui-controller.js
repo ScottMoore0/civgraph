@@ -7604,23 +7604,35 @@ class UIController {
             let area = props.Area || props.area || props.AREA || props.Shape_Area || props.SHAPE_AREA || props.Shape__Area || props.SHAPE__AREA;
             let perimeter = props.Perimeter || props.perimeter || props.PERIMETER;
 
-            // Calculate geodesic metrics if not provided, but ONLY from geometry that is
-            // the whole feature.
+            // Derived metrics are LABELLED when the geometry they came from is a fragment.
             //
-            // A feature clicked on the map comes from queryRenderedFeatures and is clipped
-            // to its tile, so measuring it yields the area of whichever piece was under
-            // the cursor. That is how the same feature reported one area when opened from
-            // the search results and another when clicked: Lisburn 1984 read 71 km²
-            // against a district of roughly 440. The two are not both right and neither
-            // said which it was.
+            // Geometry reaches here from queryRenderedFeatures, which clips to the tile a
+            // feature was drawn in. A polygon wholly inside one tile measures correctly; one
+            // crossing a boundary measures only the piece that was found. That is how the
+            // same feature reported 446.84 km² one way and 71.15 km² the other, with
+            // nothing to say which was which -- Lisburn's district is about 440.
             //
-            // So a clipped feature shows the stored attributes if it has them, and shows
-            // nothing if it does not. A missing figure is visible; a wrong one is not.
-            if (geometry && !feature.geometryIsClipped && (!area || !perimeter)) {
+            // Suppressing the figure entirely was the first attempt and it was worse: BOTH
+            // paths here use rendered features, so it removed the correct 446.84 as well.
+            // A stored attribute such as Shape_Area is duplicated onto every fragment and
+            // is always whole, so where one exists it is used and the label stays plain.
+            // Where none exists the measurement is still shown, as "Part area" and
+            // "Part perimeter" -- the same words renderTimelineTransitionFeatureInfo uses
+            // for the same reason a few hundred lines above.
+            let metricsArePartial = false;
+            if (geometry && (!area || !perimeter)) {
                 const metrics = this.calculateGeodesicMetrics(geometry);
-                if (!area && metrics.area) area = metrics.area;
-                if (!perimeter && metrics.perimeter) perimeter = metrics.perimeter;
+                if (!area && metrics.area) {
+                    area = metrics.area;
+                    if (feature.geometryIsClipped) metricsArePartial = true;
+                }
+                if (!perimeter && metrics.perimeter) {
+                    perimeter = metrics.perimeter;
+                    if (feature.geometryIsClipped) metricsArePartial = true;
+                }
             }
+            const areaLabel = metricsArePartial ? 'Part area' : 'Area';
+            const perimeterLabel = metricsArePartial ? 'Part perimeter' : 'Perimeter';
 
             // Get elevation data
             const minElevM = props.minElev_m;
@@ -7650,7 +7662,7 @@ class UIController {
                     if (!isNaN(areaKm2)) {
                         const areaSqMi = areaKm2 * 0.386102;
                         html += `<div class="feature-info__metric feature-info__metric--clickable feature-info__metric--top" data-area-km="${areaKm2}" data-area-mi="${areaSqMi}" data-precision="2">
-                            <span class="feature-info__metric-label">Area</span>
+                            <span class="feature-info__metric-label">${areaLabel}</span>
                             <span class="feature-info__metric-value feature-info__metric-value--underline">
                                 <span class="metric-km">${this.formatNumber(areaKm2, 2)} km<sup>2</sup></span><br>
                                 <span class="metric-mi">(${this.formatNumber(areaSqMi, 2)} sq mi)</span>
@@ -7666,7 +7678,7 @@ class UIController {
                     if (!isNaN(perimKm)) {
                         const perimMi = perimKm * 0.621371;
                         html += `<div class="feature-info__metric feature-info__metric--clickable feature-info__metric--top" data-perim-km="${perimKm}" data-perim-mi="${perimMi}" data-precision="2">
-                            <span class="feature-info__metric-label">Perimeter</span>
+                            <span class="feature-info__metric-label">${perimeterLabel}</span>
                             <span class="feature-info__metric-value feature-info__metric-value--underline">
                                 <span class="metric-km">${this.formatNumber(perimKm, 2)} km</span><br>
                                 <span class="metric-mi">(${this.formatNumber(perimMi, 2)} mi)</span>
