@@ -23,7 +23,9 @@ import { reportError } from '../_error.js';
 // bundle-mode fields were added without bumping it, clean URLs kept serving the old
 // shape for a day while cache-busted ones showed the new one -- which briefly looked
 // like a failed deploy.
-const CACHE_VERSION = 'elections-6';
+// elections-7: entityIndex candidates keyed by id with a name|party `key`, and summary rows
+// carrying sourcePersonId. Clean URLs served the elections-6 shape from cache after the reload.
+const CACHE_VERSION = 'elections-7';
 
 const ELECTION_COLS =
   'key, body, body_slug AS bodySlug, body_group AS bodyGroup, display_title AS displayTitle, '
