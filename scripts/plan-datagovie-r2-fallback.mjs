@@ -21,7 +21,7 @@
  * Keys keep the IA convention, <package>/<file>, so the two stores are directly comparable and
  * the R2 copies can be matched off against IA items when the backlog clears.
  *
- *   node scripts/plan-datagovie-r2-fallback.mjs --root D:/datagovie \
+ *   node scripts/plan-datagovie-r2-fallback.mjs --root <datagovie-mirror> \
  *        --licences data/external/datagovie-licences.json --out <manifest.json>
  */
 import { readFileSync, writeFileSync, readdirSync, statSync, openSync, readSync, closeSync } from 'node:fs';
