@@ -3720,7 +3720,11 @@ export class Test2ElectionManager {
   renderEntityPanel(kind, key, options = {}) {
     const index = this.activeBundle?.entityIndex || buildEntityIndex(this.currentResults());
     const entity = kind === 'candidate'
-      ? (index.candidates || []).find((item) => String(item.personId) === String(key))
+      // Matched on any of the entry's keys: `id` (the source person id, or name|party),
+      // `key` (the name|party form every candidate button links with), or personId, which
+      // bundles built before the index switched to `id` still carry.
+      ? (index.candidates || []).find((item) => [item.id, item.key, item.personId]
+        .some((value) => value !== undefined && value !== null && String(value) === String(key)))
       : (index.parties || []).find((item) => normalizeName(item.name) === normalizeName(key));
     if (!entity) return;
     const pane = this.ensurePanel();
@@ -3732,7 +3736,7 @@ export class Test2ElectionManager {
     this.activeEntityKey = key;
     this.activeEntityReturnView = this.activePanelView || 'party';
     this.activeSelectedResultKey = null;
-    title.textContent = entity.name || entity.personId || 'Election entity';
+    title.textContent = entity.name || entity.id || 'Election entity';
     back?.classList.remove('hidden');
     content.innerHTML = this.mainPaneContract.renderEntityPanel(kind, entity);
     back?.addEventListener('click', () => {
@@ -3793,7 +3797,7 @@ export class Test2ElectionManager {
           <div>
             <div class="election-entity-page__eyebrow">Candidate Information</div>
             <h3 class="election-entity-page__title">${escapeHtml(entity.name || '')}</h3>
-            <p class="election-entity-page__subtitle">${escapeHtml(entity.party || '')} - Person ID ${escapeHtml(entity.personId || '')}</p>
+            <p class="election-entity-page__subtitle">${escapeHtml(entity.party || '')}</p>
           </div>
         </div>
         <div class="election-entity-metrics">
