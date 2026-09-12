@@ -193,6 +193,9 @@ async function buildMainCss() {
 
   await esbuild.build({
     entryPoints: ['_tmp_css/shared-critical.css'],
+    // Site-absolute font URLs are served as they are, not bundled: esbuild would try to
+    // resolve /assets/fonts/... on disk relative to the CSS and fail the build.
+    external: ['/assets/fonts/*'],
     outfile: 'build/main.critical.css',
     minify: true,
     bundle: true,
@@ -200,6 +203,9 @@ async function buildMainCss() {
   });
   await esbuild.build({
     entryPoints: ['_tmp_css/shared-rest.css'],
+    // Site-absolute font URLs are served as they are, not bundled: esbuild would try to
+    // resolve /assets/fonts/... on disk relative to the CSS and fail the build.
+    external: ['/assets/fonts/*'],
     outfile: 'build/main.css',
     minify: true,
     bundle: true,

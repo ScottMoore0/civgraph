@@ -11268,6 +11268,39 @@ kbd {
   max-width: 100%;
 }
 
+/* Condensed face for table contents. The election tables are wide grids of numbers in
+   narrow columns, and Inter has no width axis, so no CSS setting could narrow it.
+   Roboto Condensed is self-hosted like Inter (same origin, cached by the service worker,
+   no third-party request), one variable file covering the 400-700 weights the tables use.
+   It is not preloaded: it is only needed once an election is opened, and swap shows the
+   fallback until then. Licence: assets/fonts/roboto-condensed-LICENSE.txt */
+@font-face {
+  font-family: 'Roboto Condensed';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/assets/fonts/roboto-condensed-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+.election-party-table,
+.election-count-table,
+.test2-election-table {
+  /* Written out rather than a --font-table token: the font tokens live in the critical CSS,
+     which the /maps/ page inlines separately, so a new token there is invalid on that page
+     and the declaration silently fell back to Inter. */
+  font-family: 'Roboto Condensed', 'Arial Narrow', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Buttons and form controls do not inherit the font by default, and the tables render
+   candidate and party names as buttons. */
+.election-party-table :is(button, input, select),
+.election-count-table :is(button, input, select),
+.test2-election-table :is(button, input, select) {
+  font-family: inherit;
+}
+
 .election-count-table {
   width: 100%;
   border-collapse: collapse;
@@ -12038,14 +12071,21 @@ kbd {
   box-shadow: 0 0 0 2px rgba(20, 60, 122, 0.2);
 }
 
-/* The header cell is the sort and filter trigger (no separate button). */
+/* The header cell is the sort and filter trigger (no separate button), so it has to look
+   like one on hover: a pointer and a clear tint, in every theme.
+
+   The tint is a background-image layered over the cell's own colour, which leaves the
+   1px box-shadows that draw the sticky header's borders untouched. It is !important
+   because the theme rules paint header cells with the `background:` shorthand, which
+   resets background-image: the first version of this tint (8%, no !important) was
+   barely visible in the light theme and did not appear at all in the dark theme. */
 th.election-th--menu {
   cursor: pointer;
   user-select: none;
 }
 
 th.election-th--menu:hover {
-  background-image: linear-gradient(rgba(37, 99, 235, 0.08), rgba(37, 99, 235, 0.08));
+  background-image: linear-gradient(rgba(37, 99, 235, 0.16), rgba(37, 99, 235, 0.16)) !important;
 }
 
 th.election-th--menu:focus-visible {
@@ -12055,7 +12095,27 @@ th.election-th--menu:focus-visible {
 
 th.election-th--menu.election-th-btn--open,
 th.election-th--menu.election-th-btn--active {
-  background-image: linear-gradient(rgba(37, 99, 235, 0.16), rgba(37, 99, 235, 0.16));
+  background-image: linear-gradient(rgba(37, 99, 235, 0.22), rgba(37, 99, 235, 0.22)) !important;
+}
+
+[data-theme="dark"] th.election-th--menu:hover {
+  background-image: linear-gradient(rgba(147, 197, 253, 0.2), rgba(147, 197, 253, 0.2)) !important;
+}
+
+[data-theme="dark"] th.election-th--menu.election-th-btn--open,
+[data-theme="dark"] th.election-th--menu.election-th-btn--active {
+  background-image: linear-gradient(rgba(147, 197, 253, 0.28), rgba(147, 197, 253, 0.28)) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) th.election-th--menu:hover {
+    background-image: linear-gradient(rgba(147, 197, 253, 0.2), rgba(147, 197, 253, 0.2)) !important;
+  }
+
+  :root:not([data-theme="light"]) th.election-th--menu.election-th-btn--open,
+  :root:not([data-theme="light"]) th.election-th--menu.election-th-btn--active {
+    background-image: linear-gradient(rgba(147, 197, 253, 0.28), rgba(147, 197, 253, 0.28)) !important;
+  }
 }
 
 .election-th-indicator {
