@@ -83,10 +83,10 @@
 <table>
 <tr><th>Maps</th><td class="num" data-stat="publicMaps">795</td><td>public map layers, from <span data-stat="catalogueEntries">1,031</span> catalogue entries and <span data-stat="renderedLayers">1,139</span> rendered layers</td></tr>
 <tr><th>Elections</th><td class="num" data-stat="electionContests">4,706</td><td>constituency contests across <span data-stat="elections">281</span> elections, holding <span data-stat="candidacies">29,697</span> candidacies</td></tr>
-<tr><th>People</th><td class="num" data-stat="people">12,870</td><td>candidates and elected representatives, linked to the contests they stood in</td></tr>
+<tr><th>People</th><td class="num" data-stat="people">12,281</td><td>candidates and elected representatives, linked to the contests they stood in</td></tr>
 <tr><th>Books</th><td class="num" data-stat="scannedBooks">67</td><td>scanned volumes, including Parliament of Northern Ireland debates and Acts</td></tr>
 <tr><th>Sources</th><td class="num" data-stat="cataloguedSources">40,543</td><td>catalogued source records, each with its provenance</td></tr>
-<tr><th>Graph</th><td class="num" data-stat="graphEntities">191,880</td><td>entities and 1.29 million statements linking them</td></tr>
+<tr><th>Graph</th><td class="num" data-stat="graphEntities">191,291</td><td>entities and 1.29 million statements linking them</td></tr>
 </table>
 <div class="note">
 <strong>Note for review.</strong> These figures are no longer typed in by hand. <code>scripts/build-site-stats.mjs</code> computes the headline set at build time from a single source each and records where each came from, and <code>--check</code> fails a page that has drifted. The table above is still prose rather than generated markup, so it is checked by eye and should be wired to the same stamp. Two map counts are live and they measure different things: <strong>795</strong> public, loadable layers in both the map application and <strong>/browse</strong>, against <strong data-stat="catalogueEntries">1,031</strong> entries in the catalogue file. The Open Graph preview is still stale: captured on 5 August, it advertises “1012 maps” and a <em>Census</em> nav link that no longer exists, on every link shared anywhere.</div>

@@ -1352,6 +1352,15 @@ function buildPersons(electionDetails, partyRecords) {
     const constituencies = mapToSortedArray(person.constituencies);
     const genders = mapToSortedArray(person.genders);
     const names = [...person.names.values()].sort((a, b) => b.count - a.count);
+    // Largest gap between consecutive candidacy years, which is what makes a span
+    // implausible rather than merely long: a 60-year career is possible, a 60-year gap
+    // in the middle of one is not.
+    const years = [...new Set((person.elections || [])
+      .map((e) => Number(e.year)).filter((y) => Number.isFinite(y) && y > 0))].sort((a, b) => a - b);
+    let careerGapYears = 0;
+    for (let i = 1; i < years.length; i += 1) {
+      careerGapYears = Math.max(careerGapYears, years[i] - years[i - 1]);
+    }
     const detail = {
       ...person,
       parties,
@@ -1365,6 +1374,26 @@ function buildPersons(electionDetails, partyRecords) {
       alsoStoodAs: [...new Set(names.slice(1).map((n) => n.name))]
         .filter((n) => n && n !== person.name),
       gender: genders[0]?.name || null,
+      // An implausible career is almost certainly several people under one name.
+      //
+      // audit_person_ids flags 163 of these. "Austin Stack" carries candidacies from 1918
+      // and 2024, a 97-year gap; nobody stood in both. They cannot be split mechanically:
+      // the candidacy ids on these rows are ROW INDICES -- '1', '8', '2', each carrying
+      // many different names -- so there is nothing to attach the two halves to, and a
+      // split would leave both unresolvable by anything but the shared name.
+      //
+      // What can be fixed is the claim. The record no longer presents a 106-year career as
+      // a fact; it says the span is implausible and why. A visible doubt beats a confident
+      // wrong answer, which is the same reason the registry flags the opposite case
+      // needsReview rather than merging on a name.
+      ...(careerGapYears >= 40 ? {
+        spanImplausible: true,
+        careerGapYears,
+        reviewNote: `Candidacies ${careerGapYears} years apart are recorded under this name. `
+          + 'That is longer than a career, so this is probably more than one person; the '
+          + 'records cannot be separated automatically because the source rows carry no '
+          + 'usable person identifier.',
+      } : {}),
       subtitle: compactJoin([parties[0]?.name, formatYearRange(person.firstYear, person.lastYear), `${person.totals.stood} contests`]),
       interactiveUrl: person.elections[0]?.interactiveUrl || null
     };

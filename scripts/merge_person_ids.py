@@ -24,9 +24,11 @@ it is a screen, not a proof. Each class is re-tested here on its own mechanism:
          continuing councillor who also changed party is rare enough to leave alone.
   Wiki:  a disambiguated Wikipedia title identifies one person by construction.
   Stray: one side curated, the other a derived id with exactly ONE candidacy, same name,
-         same party, in a year inside or beside that curated career. Addresses 173 of the
-         1,093 under-merges the audit flags; the rest are two derived ids with nothing to
-         say which way they should go, and are deliberately left.
+         same party, in a year inside or beside that curated career.
+  Seat:  two derived ids, same party, same constituency, same body, careers that do not
+         overlap, one to ten years apart, and no Jr/Snr/numeral in either name. The gaps
+         cluster on four and five years, which is an election cycle and the shape of one
+         career rather than two people sharing a name, a party and a seat.
 
 Merges keep the LOWER personId, preferring the curated 1-100011 block, and carry the
 other id's aliases, match keys and source ids across. Every merge is recorded.
@@ -49,6 +51,9 @@ FORUM = 'northern-ireland-forum-for-political-dialogue__1996-05-30'
 # the time a name is a key the brackets are gone and the qualifier is indistinguishable
 # from someone actually named "... Northern Irish Politician".
 DISAMBIGUATED = re.compile(r'\([^)]*\bpolitician\b[^)]*\)', re.I)
+# Jr / Snr / a regnal numeral: the one way SAME-SEAT-SEQUENCE below could fuse a father
+# and son who held the same seat for the same party.
+SUCCESSOR_SUFFIX = re.compile(r'(jn?r|jun|junior|sn?r|sen|senior|[IVX]{2,})', re.I)
 
 
 def observations():
@@ -119,6 +124,37 @@ def main():
                                 cls = 'LGR-2014'
                             else:
                                 skipped['LGR-2014 party mismatch'] += 1
+                # --- The same seat, the same party, consecutive elections
+                #
+                # Two DERIVED ids under one name, standing for the SAME party in the SAME
+                # constituency of the SAME body, with careers that do not overlap and a gap
+                # of one to ten years. John Maginnis is 104503 in 1959 and 105598 in 1964,
+                # same seat, same party: one man at consecutive elections, split because the
+                # two rows reached the registry under different ids.
+                #
+                # The gaps corroborate it. Across the 850 pairs this matches they cluster on
+                # 4 years (286) and 5 (118) -- election cycles -- which is the shape of one
+                # career, not of two people who happen to share a name, a party and a seat.
+                #
+                # A same-named successor in the same seat is the way this could be wrong, so
+                # anything carrying Jr, Snr or a numeral is excluded. None currently are.
+                if cls is None and a > 100011 and b > 100011:
+                    pa = {x['party'] for x in oa if x['party']}
+                    pb = {x['party'] for x in ob if x['party']}
+                    ca = {x['con'].upper() for x in oa if x['con']}
+                    cb = {x['con'].upper() for x in ob if x['con']}
+                    ba = {x['body'] for x in oa}
+                    bb = {x['body'] for x in ob}
+                    ya = (min(x['y'] for x in oa), max(x['y'] for x in oa))
+                    yb = (min(x['y'] for x in ob), max(x['y'] for x in ob))
+                    if ya[1] < yb[0] or yb[1] < ya[0]:
+                        gap = yb[0] - ya[1] if ya[1] < yb[0] else ya[0] - yb[1]
+                        named = f"{ents[a]['displayName']} {ents[b]['displayName']}"
+                        if (pa & pb and ca & cb and ba & bb and 0 < gap <= 10
+                                and not SUCCESSOR_SUFFIX.search(named)):
+                            cls = 'SAME-SEAT-SEQUENCE'
+
+
                 # --- A single stray candidacy falling inside a curated career
                 #
                 # person_registry carries 2,388 CURATED ids below 100012, hand-verified,
