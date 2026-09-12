@@ -1,0 +1,21 @@
+/* Corrections callout. Given its own affordance because the review found that someone who
+   knows the boundaries but not QGIS had no way to report an error: map submission is gated
+   behind an approved-contributor list, and everything else assumed you could produce a
+   corrected map. */
+.correction-box {
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--header-green);
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  background: var(--color-gray-50);
+  padding: 1.15rem 1.35rem;
+  margin: 1.5rem 0 2rem;
+  max-width: 68ch;
+}
+.correction-box h3 {
+  margin: 0 0 .5rem;
+  font-size: 1.05rem;
+  font-family: var(--font-display);
+  color: var(--color-primary-dark);
+}
+.correction-box p { margin: 0 0 .9rem; font-size: .95rem; }
+.correction-box .btn { font-size: .92rem; padding: .6rem 1.15rem; }

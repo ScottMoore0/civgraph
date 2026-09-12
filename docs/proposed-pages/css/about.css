@@ -1,0 +1,101 @@
+/* About page hero. Same gradient, type scale and entrance as the Home page, but a
+   single column and shorter: the node-graph island is the Home page's signature and
+   repeating it here would dilute it and push the actual copy below the fold. */
+.hero--interior {
+  min-height: 0;
+  padding: clamp(3.25rem, 8vh, 5rem) 0 calc(var(--hero-overlap) + clamp(2rem, 5vh, 3rem));
+}
+.hero__grid--single { grid-template-columns: 1fr; }
+.hero--interior .lede { max-width: 60ch; }
+
+/* Text-led page: give the prose a comfortable measure and a little more air. */
+main > .wrap > section > p,
+main > .wrap > section > ul { max-width: 68ch; }
+main > .wrap > section > h2 { margin-top: 2.6rem; }
+
+/* .shot-hero exists on the Home page to pull the lead screenshot UP into the gradient
+   hero it sits directly beneath. On this page the first figure follows three paragraphs
+   of introduction instead, so the negative top margin just crowds the text above it.
+   The class is kept because the GSAP scroll-reveal targets it; only the offset is undone. */
+.hero--interior ~ main .shot-hero { margin-top: 1.5rem; }
+
+/* Numbered method steps. The review asked for the digitising process as a step by step
+   example rather than narrative prose, so it is an <ol> and reads as a procedure. */
+.method-steps { counter-reset: step; list-style: none; padding-left: 0; max-width: 68ch; }
+.method-steps > li {
+  counter-increment: step;
+  position: relative;
+  padding-left: 2.75rem;
+  margin-bottom: 1.05rem;
+}
+.method-steps > li::before {
+  content: counter(step);
+  position: absolute; left: 0; top: .1rem;
+  width: 1.9rem; height: 1.9rem;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--header-green), var(--header-teal));
+  color: #fff; font-weight: 700; font-size: .85rem;
+  font-family: var(--font-display);
+}
+.method-steps > li strong { color: var(--color-primary-dark); }
+
+/* Corrections callout. Given its own affordance because the review found that someone who
+   knows the boundaries but not QGIS had no way to report an error: map submission is gated
+   behind an approved-contributor list, and everything else assumed you could produce a
+   corrected map. */
+.correction-box {
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--header-green);
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  background: var(--color-gray-50);
+  padding: 1.15rem 1.35rem;
+  margin: 1.5rem 0 2rem;
+  max-width: 68ch;
+}
+.correction-box h3 {
+  margin: 0 0 .5rem;
+  font-size: 1.05rem;
+  font-family: var(--font-display);
+  color: var(--color-primary-dark);
+}
+.correction-box p { margin: 0 0 .9rem; font-size: .95rem; }
+.correction-box .btn { font-size: .92rem; padding: .6rem 1.15rem; }
+
+/* Source categories. The review asked for the breadth of sources to be shown rather than
+   asserted, as grouped categories with examples. Generated from the catalogue's provider
+   field, so it stays true: 58 organisations across 75 provider strings. */
+.sources-list { margin: 1.1rem 0 1.4rem; padding: 0; list-style: none; max-width: 72ch; }
+.sources-list > li {
+  padding: .55rem 0 .55rem 1rem;
+  border-left: 2px solid var(--color-border);
+  margin-bottom: .5rem;
+}
+.sources-list > li:hover { border-left-color: var(--header-green); }
+.sources-list strong {
+  display: block;
+  font-family: var(--font-display);
+  color: var(--color-primary-dark);
+  font-size: .95rem;
+  margin-bottom: .15rem;
+}
+.sources-list span { color: var(--color-gray-600); font-size: .93rem; }
+
+/* Named projects. Distinct from the broad "ways to contribute" list above it: that list
+   answers "how can I help", this one answers "what specifically needs doing". */
+.project-list { list-style: none; padding: 0; margin: 1rem 0 1.3rem; max-width: 70ch; }
+.project-list > li {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: .85rem 1.1rem;
+  margin-bottom: .7rem;
+  background: var(--color-surface);
+}
+.project-list strong {
+  display: block;
+  font-family: var(--font-display);
+  color: var(--color-primary-dark);
+  font-size: .98rem;
+  margin-bottom: .2rem;
+}
+.project-list span { color: var(--color-gray-600); font-size: .93rem; }

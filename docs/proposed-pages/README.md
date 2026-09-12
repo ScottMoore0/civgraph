@@ -9,8 +9,28 @@ working drafts, not served routes.
 | `home.html` | the map application at `/` |
 | `about.html` | `pages/about.html` |
 
-Both are self-contained: GSAP animation, images inlined as base64, no external asset
-references to speak of.
+## Layout
+
+```
+home.html  about.html      markup only
+css/shared.css             1,962 lines common to both pages
+css/home.css  about.css    the per-page tail
+js/01..10-*.js             one file per original inline block, shared by both pages
+assets/                    images and favicon, content-hashed
+```
+
+They arrived as single self-contained files with GSAP, ScrollTrigger, eight page scripts
+and every image inlined as base64: 1,512 KB and 861 KB. That was the right shape for a
+draft meant to be *sent to someone*, and the wrong one once they were in the repo, where
+base64 defeats caching entirely and nothing can be diffed.
+
+Split 2026-09-12 to 45 KB and 27 KB of markup. Every script block became its own file
+rather than being concatenated, because the blocks are not adjacent -- two sit in `<head>`
+and eight at the end of `<body>` -- and merging them would have changed execution order
+and timing. The numeric prefixes are that order. All ten are byte-identical between the
+two pages, so there is one copy of each.
+
+Nothing is inlined now: no `data:` URIs remain in either page.
 
 ## Why they live here now
 
