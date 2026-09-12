@@ -893,6 +893,10 @@ export class Test2ElectionManager {
     this.activeSelectedResultKey = selectedResult ? normalizeName(selectedResult.matchName || selectedResult.constituency || '') : null;
     this.activeEntityKind = null;
     this.activeEntityKey = null;
+    if (selectedResult) {
+      this.hydrateSelectedResult(selectedResult)
+        .catch((error) => console.warn('[test2 elections] Could not load constituency count detail', error));
+    }
     this.renderPanelTitle(title, selectedResult);
     back?.classList.toggle('hidden', !selectedResult);
     const headerRight = pane.querySelector('.election-pane__header-right');
@@ -1735,8 +1739,13 @@ export class Test2ElectionManager {
     const electedCandidates = new Set();
     const candidateFinalById = new Map();
     const candidateMetaById = new Map();
+    // The fallback carries the candidate's name because isMainStyleCandidateRow rejects a
+    // row without one. Before it did, every fallback row was discarded and the party table
+    // came up with only its summary lines -- which on the API path, where countGroup is
+    // absent until a constituency's detail arrives, was every constituency table.
     const rows = countGroup.length ? countGroup : fallbackCandidates.map((candidate, index) => ({
       Candidate_Id: candidate.id || candidate.candidateId || String(index + 1),
+      candidateName: candidate.name || candidate.candidate || '',
       Count_Number: '1',
       Party_Name: candidate.party || 'Independent/Other',
       Party_Colour: this.mainPanePartyColour(candidate.party, candidate.colour),
@@ -3523,11 +3532,11 @@ export class Test2ElectionManager {
    * same constituency twice costs one request. On the static path the payload is
    * already present and this returns immediately.
    */
-  async ensureAnimationPayload(result) {
+  async ensureAnimationPayload(result, bundle = this.activeBundle) {
     if (!result || result.animationPayload) return result?.animationPayload || null;
     if (!useElectionsApi()) return null;
-    const key = this.activeBundle?.key;
-    const seq = (this.activeBundle?.results || []).indexOf(result);
+    const key = bundle?.key;
+    const seq = (bundle?.results || []).indexOf(result);
     if (!key || seq < 0) return null;
     try {
       const response = await fetch(
@@ -3551,6 +3560,35 @@ export class Test2ElectionManager {
       reportElectionsApiIssue('elections-api-animation-failed', error && error.message ? error.message : String(error), key);
       return null;
     }
+  }
+
+  /**
+   * Fetch count detail for an opened constituency and redraw once it arrives.
+   *
+   * The lite API bundle leaves countGroup out of every result, and until today the detail
+   * was only fetched to play the animation. The tables were drawn from what the bundle
+   * had, so on the default path the party table showed nothing but its summary lines, and
+   * the count and transfer views had nothing to show at all. The previous election's
+   * matching result is fetched too, because every +/- column is computed against it.
+   *
+   * Each result is requested at most once, so a failed fetch cannot become a redraw loop.
+   */
+  async hydrateSelectedResult(selectedResult) {
+    if (!selectedResult || !useElectionsApi()) return;
+    this.countDetailRequested ||= new WeakSet();
+    const pending = [];
+    const request = (result, bundle) => {
+      if (!result || Array.isArray(result.countGroup) || this.countDetailRequested.has(result)) return;
+      this.countDetailRequested.add(result);
+      pending.push(this.ensureAnimationPayload(result, bundle));
+    };
+    request(selectedResult, this.activeBundle);
+    request(this.findPreviousSelectedResult(selectedResult), this.previousBundle);
+    if (!pending.length) return;
+    await Promise.all(pending);
+    const stillSelected = this.activeSelectedResultKey
+      === normalizeName(selectedResult.matchName || selectedResult.constituency || '');
+    if (stillSelected && !this.activeEntityKind) this.renderPanel(selectedResult, this.activePanelView);
   }
 
   async runAnimation(result) {
