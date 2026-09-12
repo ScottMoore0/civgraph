@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Merge the two SAFE classes of split person ids found by audit_person_ids.py.
+"""Merge the SAFE classes of split person ids found by audit_person_ids.py.
 
-Only two classes are touched, both because they have a known mechanical cause rather
-than needing a judgement about who someone is.
+Only classes with a known mechanical cause are touched, never a judgement about who
+someone is.
 
   FORUM-DUPLICATE   The 1996 Forum file carries a synthetic NI-wide top-up row that
                     repeats the same ballots as the 18 constituency rows, so a candidate
@@ -22,6 +22,11 @@ it is a screen, not a proof. Each class is re-tested here on its own mechanism:
   LGR:   both ids must be local-government, one ending by 2011 and the other starting
          from 2014, AND standing for the same party. A party match is not proof, but a
          continuing councillor who also changed party is rare enough to leave alone.
+  Wiki:  a disambiguated Wikipedia title identifies one person by construction.
+  Stray: one side curated, the other a derived id with exactly ONE candidacy, same name,
+         same party, in a year inside or beside that curated career. Addresses 173 of the
+         1,093 under-merges the audit flags; the rest are two derived ids with nothing to
+         say which way they should go, and are deliberately left.
 
 Merges keep the LOWER personId, preferring the curated 1-100011 block, and carry the
 other id's aliases, match keys and source ids across. Every merge is recorded.
@@ -114,6 +119,41 @@ def main():
                                 cls = 'LGR-2014'
                             else:
                                 skipped['LGR-2014 party mismatch'] += 1
+                # --- A single stray candidacy falling inside a curated career
+                #
+                # person_registry carries 2,388 CURATED ids below 100012, hand-verified,
+                # and derives the rest. audit_person_ids flags 1,093 probable under-merges;
+                # its own header calls that a screen rather than a proof, and most of them
+                # are two derived ids where nothing says which way to go.
+                #
+                # This is the subset where something does. One side is curated. The other
+                # is a derived id with EXACTLY ONE candidacy, under the same name, for the
+                # same party, in a year inside that curated career or immediately beside
+                # it. For those to be two people you would need two same-named candidates
+                # in one party with overlapping careers, one of whom stood exactly once.
+                #
+                # A weaker bar than this is already accepted: LGR-2014 above merges on a
+                # party match alone. Every merge is written to person_id_merges.csv, so a
+                # wrong one is visible and reversible rather than silent.
+                if cls is None:
+                    lo_hi = [(min(x['y'] for x in o), max(x['y'] for x in o)) for o in (oa, ob)]
+                    for cur, stray, (lo, hi) in ((a, b, lo_hi[0]), (b, a, lo_hi[1])):
+                        if cur > 100011 or stray <= 100011:
+                            continue
+                        stray_obs = obs.get(stray, [])
+                        if len(stray_obs) != 1:
+                            continue
+                        cur_obs = obs.get(cur, [])
+                        parties = {x['party'] for x in cur_obs if x['party']}
+                        year = stray_obs[0]['y']
+                        party = stray_obs[0]['party']
+                        if not (lo - 1 <= year <= hi + 1):
+                            continue
+                        if party and parties and party not in parties:
+                            continue
+                        cls = 'STRAY-INTO-CURATED'
+                        break
+
                 # --- Wikipedia-disambiguated title: the qualifier IS the mechanism
                 #
                 # A name like "Frederick Thompson (Northern Irish politician)" is a
