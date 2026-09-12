@@ -2499,6 +2499,18 @@ export class Test2ElectionManager {
         const entryJurisdiction = electionTrendJurisdiction(entry);
         if (activeJurisdiction && entryJurisdiction && entryJurisdiction !== activeJurisdiction) return false;
         if (includeAllTypes && activeJurisdiction && !entryJurisdiction) return false;
+        // A by-election is not a comparable contest.
+        //
+        // electionTrendFamily reads the BODY, so a Dáil by-election is classified as an
+        // "Irish general elections" contest and was plotted alongside them. The chart
+        // said "Showing comparable Irish general elections contests" while charting
+        // Labour at 30.66% in the 2021 Dáil, which is a single-seat by-election in one
+        // constituency, against a national share. One seat and a whole country are not
+        // the same measurement and the line joining them means nothing.
+        //
+        // The toggle already offers everything for this geography; this is what "by
+        // default" in the caption was always supposed to mean.
+        if (!includeAllTypes && entry.isByElection) return false;
         return includeAllTypes || electionTrendFamily(entry) === activeFamily;
       })
       .sort((a, b) => String(a.date || '').localeCompare(String(b.date || '')));

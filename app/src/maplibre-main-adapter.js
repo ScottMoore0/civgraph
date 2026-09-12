@@ -1378,6 +1378,18 @@ export class Test2MapLibreMainAdapter {
       color: layerConfig.style?.color || layerConfig.style?.fillColor || '#3388ff',
       properties,
       geometry: feature.geometry || null,
+      // Geometry from queryRenderedFeatures is CLIPPED to the tile it was drawn in, so a
+      // polygon crossing a tile boundary arrives as whichever piece was under the cursor.
+      // Deriving area or perimeter from it measures that piece, not the feature: Lisburn
+      // 1984 read 71 km² against a district of roughly 440. The feature details pane
+      // showed one figure when a layer was loaded from the search results, where geometry
+      // comes whole from the source, and a different one after clicking the same feature
+      // on the map.
+      //
+      // The flag says which kind this is, so the consumer can decline to measure rather
+      // than measure the wrong thing. Stored attributes such as Shape_Area are duplicated
+      // onto every fragment and stay correct either way.
+      geometryIsClipped: true,
       sourceLayer: feature.sourceLayer || layerConfig.sourceLayer || null
     };
   }

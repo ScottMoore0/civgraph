@@ -3558,7 +3558,20 @@ class Test2App {
       if (this.hasElectionURLState(params, layers)) {
         await this.ensureElections({ refreshCatalogue: true });
       }
-      const mapLayers = layers.filter((id) => !this.elections?.isCanonicalElectionLayerId?.(id) && (!featureMapId || id !== featureMapId));
+      // Election ids are recognised by their SHAPE, not by a catalogue lookup.
+      //
+      // isCanonicalElectionLayerId answers by searching the election catalogue, so it
+      // returns false while that catalogue is still loading -- and then the id falls
+      // through to loadMap, which has no such layer and raises "election-... is not
+      // converted for the MapLibre route yet". The election itself loads a moment later
+      // when restoreURLState runs, so the page ends up correct with an error banner over
+      // it, which is why every "Open in interactive map" link from Browse looked broken.
+      //
+      // hasElectionURLState above already trusts the prefix for exactly this reason. No
+      // catalogue map or render layer begins with `election-`, checked against both.
+      const mapLayers = layers.filter((id) => !String(id).startsWith('election-')
+        && !this.elections?.isCanonicalElectionLayerId?.(id)
+        && (!featureMapId || id !== featureMapId));
       await Promise.all(mapLayers.map((id) => this.loadMap(id).catch((error) => this.showMapError(error))));
 
       await this.elections?.restoreURLState?.(params);

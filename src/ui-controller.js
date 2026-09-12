@@ -1750,12 +1750,25 @@ class UIController {
             return Math.max(minPercent, Math.min(maxPercent, percent));
         };
 
+        // The split position is set on the SHELL rather than on .app-main.
+        //
+        // .app-main is the two-column grid, so setting it there looks right and is where
+        // this used to write. But the election results pane sits BESIDE .app-main, not
+        // inside it, and a custom property does not reach a sibling -- so the pane could
+        // never align to the map column and spanned the full width instead. Writing to the
+        // shell lets both resolve it; .app-main inherits the value unchanged.
+        const splitHost = document.body.classList.contains('app-shell')
+            ? document.body
+            : (appMain.closest('.app-shell') || document.body);
+
         const startDrag = (e) => {
             isDragging = true;
             startX = e.touches ? e.touches[0].clientX : e.clientX;
 
-            // Get current position from CSS variable
-            const currentPos = getComputedStyle(appMain).getPropertyValue('--split-position');
+            // Read from the shell, which is where the variable is now SET. See the write
+            // below: the election pane is a sibling of .app-main, so a value set on
+            // .app-main never reaches it and the pane cannot follow the drag.
+            const currentPos = getComputedStyle(splitHost).getPropertyValue('--split-position');
             startPosition = parseFloat(currentPos) || 50;
 
             document.body.classList.add('split-dragging');
@@ -1766,7 +1779,7 @@ class UIController {
             if (!isDragging) return;
 
             const position = getPosition(e);
-            appMain.style.setProperty('--split-position', `${position}%`);
+            splitHost.style.setProperty('--split-position', `${position}%`);
 
             // Update state based on position
             if (position < 10) {
@@ -1817,7 +1830,7 @@ class UIController {
         // Double-click to reset to balanced
         splitDrag.addEventListener('dblclick', () => {
             this.setSplitState('balanced');
-            appMain.style.setProperty('--split-position', '50%');
+            splitHost.style.setProperty('--split-position', '50%');
         });
     }
 
@@ -7591,8 +7604,19 @@ class UIController {
             let area = props.Area || props.area || props.AREA || props.Shape_Area || props.SHAPE_AREA || props.Shape__Area || props.SHAPE__AREA;
             let perimeter = props.Perimeter || props.perimeter || props.PERIMETER;
 
-            // Calculate geodesic metrics if not provided
-            if (geometry && (!area || !perimeter)) {
+            // Calculate geodesic metrics if not provided, but ONLY from geometry that is
+            // the whole feature.
+            //
+            // A feature clicked on the map comes from queryRenderedFeatures and is clipped
+            // to its tile, so measuring it yields the area of whichever piece was under
+            // the cursor. That is how the same feature reported one area when opened from
+            // the search results and another when clicked: Lisburn 1984 read 71 km²
+            // against a district of roughly 440. The two are not both right and neither
+            // said which it was.
+            //
+            // So a clipped feature shows the stored attributes if it has them, and shows
+            // nothing if it does not. A missing figure is visible; a wrong one is not.
+            if (geometry && !feature.geometryIsClipped && (!area || !perimeter)) {
                 const metrics = this.calculateGeodesicMetrics(geometry);
                 if (!area && metrics.area) area = metrics.area;
                 if (!perimeter && metrics.perimeter) perimeter = metrics.perimeter;
