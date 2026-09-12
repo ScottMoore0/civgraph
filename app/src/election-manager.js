@@ -3610,6 +3610,77 @@ export class Test2ElectionManager {
     if (stillSelected && !this.activeEntityKind) this.renderPanel(selectedResult, this.activePanelView);
   }
 
+  /**
+   * Scale the transfer animation, as one block, to the width of the pane.
+   *
+   * stages2.js fits its vote bars into the maxWidth it is given, then adds a fixed
+   * allowance for the status text ("Made Quota", transfer amounts), 40px of right padding,
+   * and draws every label at a fixed 24.98px. The stage therefore always came out wider
+   * than the pane, and the quota figure and the status column were cut off at the right
+   * edge. It records the size it used as `boundingBox` "so the controller can scale the
+   * animation to fit within the results pane", and nothing did.
+   *
+   * The whole container is scaled, not the stage alone. Scaling only the stage left the
+   * "Stages 1 2 3" row above it at full size, towering over rows drawn at half that, and
+   * would have done the same to the count and transfer tables stages2.js writes beneath
+   * it. The container is given its natural width, scaled from the top-left, and the
+   * layout space the unscaled box still occupies is taken back with negative margins so
+   * nothing below it is pushed down or sideways.
+   *
+   * Scaled down only, never up. Below MIN_SCALE the text stops being readable, so it stops
+   * shrinking there and the pane scrolls sideways instead. Refitted whenever the pane is
+   * resized, without restarting the animation.
+   */
+  fitAnimationToPane() {
+    const MIN_SCALE = 0.45;
+    const container = document.getElementById('electionAnimationContainer');
+    const stage = document.getElementById('animation');
+    const content = document.getElementById('electionPaneContent');
+    if (!container || !stage || !content) return;
+    const topRow = container.querySelector('.ev-animation-top-row');
+    const apply = () => {
+      // Measure at natural size: undo any previous fit first.
+      container.style.transform = '';
+      container.style.transformOrigin = '';
+      container.style.width = '';
+      container.style.marginRight = '';
+      container.style.marginBottom = '';
+      stage.style.transform = '';
+      stage.style.marginRight = '';
+      stage.style.marginBottom = '';
+      const box = window.$?.(stage)?.data?.('boundingBox');
+      const cs = getComputedStyle(container);
+      const padX = (parseFloat(cs.paddingLeft) || 0) + (parseFloat(cs.paddingRight) || 0);
+      const borderX = (parseFloat(cs.borderLeftWidth) || 0) + (parseFloat(cs.borderRightWidth) || 0);
+      const stageWidth = Math.max((Number(box?.width) || 0) + 40, stage.offsetWidth || 0, stage.scrollWidth || 0);
+      const naturalWidth = Math.ceil(Math.max(stageWidth, topRow?.scrollWidth || 0) + padX + borderX);
+      if (!naturalWidth) return;
+      const contentRect = content.getBoundingClientRect();
+      const paddingRight = parseFloat(getComputedStyle(content).paddingRight) || 0;
+      const available = Math.max(0, contentRect.right - paddingRight - container.getBoundingClientRect().left - 4);
+      const fitted = Math.min(1, available / naturalWidth);
+      if (fitted >= 1) return;
+      const scale = Math.max(MIN_SCALE, fitted);
+      container.style.width = `${naturalWidth}px`;
+      container.style.maxWidth = 'none';
+      const naturalHeight = container.offsetHeight;
+      container.style.transformOrigin = '0 0';
+      container.style.transform = `scale(${scale})`;
+      container.style.marginRight = `${-naturalWidth * (1 - scale)}px`;
+      container.style.marginBottom = `${-naturalHeight * (1 - scale)}px`;
+    };
+    apply();
+    this.animationResizeObserver?.disconnect();
+    if (typeof ResizeObserver === 'function') {
+      let frame = 0;
+      this.animationResizeObserver = new ResizeObserver(() => {
+        cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(apply);
+      });
+      this.animationResizeObserver.observe(content);
+    }
+  }
+
   async runAnimation(result) {
     const container = document.getElementById('electionAnimationContainer');
     const status = document.getElementById('test2ElectionAnimationStatus');
@@ -3637,6 +3708,7 @@ export class Test2ElectionManager {
         constituency: result.constituency,
         maxWidth: Math.max(320, (document.getElementById('electionPaneContent')?.clientWidth || 0) - 16)
       });
+      this.fitAnimationToPane();
     } catch (error) {
       console.error('[test2 elections] Animation failed', error);
       if (status) status.textContent = `Animation failed: ${error.message}`;
