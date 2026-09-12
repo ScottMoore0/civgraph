@@ -10843,15 +10843,25 @@ kbd {
   display: flex;
   flex-direction: column;
   /* Below the MAP pane only, which is what the "Split pane below map" heading above
-     always said it was. It previously spanned the shell's full width, so results sat
-     under the catalogue list as well, and the catalogue had a second pane beneath it
-     that had nothing to do with it. Offset by the split position plus the handle, so
-     the pane's left edge meets the map's. */
-  margin-left: calc(var(--clamped-split) + var(--split-handle-width, 6px));
-  width: calc(100% - var(--clamped-split) - var(--split-handle-width, 6px));
-  /* Default height; overridden by drag logic */
-  height: calc(40vh - 6px);
-  max-height: min(42vh, max(120px, calc(100vh - var(--header-height, 64px) - var(--map-min-height, 220px) - var(--timeline-row-height, 58px) - 6px)));
+     always said it was. Two earlier attempts got half of this right. Spanning the
+     shell's full width put results under the catalogue list as well. Keeping that
+     full-width box but pushing it right with a margin left the catalogue with a blank
+     band beneath it, because the shell had grown a third grid row that only the map
+     column filled. So the pane is taken out of flow entirely: it is pinned to the
+     bottom of the map column, and the map column alone gives up the height. The
+     catalogue keeps the full viewport, which is what it had before any of this. */
+  position: absolute;
+  left: calc(var(--clamped-split) + var(--split-handle-width, 6px));
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+  /* Default height; overridden by the drag logic, which writes the same custom
+     property that the map column reads to shrink itself. One number, one source. */
+  /* No max-height here. The custom property already carries its own clamp, and the
+     drag logic clamps to the same bounds before writing it. A second clamp at this
+     level would silently disagree with the map column's calc(100% - <the same
+     property>) and let the pane ride up over the timeline. One number, one clamp. */
+  height: var(--test2-election-pane-height, calc(40vh - 6px));
   min-height: 120px;
   animation: electionSlideUp 0.25s ease;
   overflow-y: auto;
