@@ -1335,7 +1335,11 @@ function buildPersons(electionDetails, partyRecords) {
       genders,
       names,
       nameCount: names.length,
-      alsoStoodAs: names.slice(1).map((n) => n.name),
+      // Distinct NAMES, not distinct name records. The name layer keys on name_id, so one
+      // person can hold two ids carrying the same spelling, and listing those produced
+      // "Eamon de Valera, also stood as Eamon de Valera" on 14 records.
+      alsoStoodAs: [...new Set(names.slice(1).map((n) => n.name))]
+        .filter((n) => n && n !== person.name),
       gender: genders[0]?.name || null,
       subtitle: compactJoin([parties[0]?.name, formatYearRange(person.firstYear, person.lastYear), `${person.totals.stood} contests`]),
       interactiveUrl: person.elections[0]?.interactiveUrl || null

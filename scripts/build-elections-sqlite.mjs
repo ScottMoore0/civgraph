@@ -321,7 +321,9 @@ const KEY_COLS = {
 };
 
 // D1 imports SQL, not SQLite files, so emit a dump alongside the database.
-// `wrangler d1 import <name> --file=<this>` is then the whole load step.
+// `wrangler d1 execute <name> --remote --file=<this>` is then the whole load step.
+// NOT `d1 import`: that subcommand does not exist in wrangler 4.x, and the command this
+// comment used to name printed the help text and exited 0-ish, which reads as success.
 let sqlBytes = 0;
 if (!args.includes('--no-sql')) {
   const sqlPath = OUT.replace(/\.sqlite$/, '') + '.sql';

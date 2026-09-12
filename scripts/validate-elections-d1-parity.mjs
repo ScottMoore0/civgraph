@@ -191,7 +191,7 @@ if (problems.length) {
   if (problems.length > 12) console.error(`  ... and ${problems.length - 12} more`);
   console.error('\n  Regenerate and reload:');
   console.error('    node scripts/build-elections-sqlite.mjs');
-  console.error(`    npx wrangler d1 import ${DB} --file=tmp/elections.sql`);
+  console.error(`    npx wrangler d1 execute ${DB} --remote --file=tmp/elections.sql`);
   process.exit(1);
 }
 
