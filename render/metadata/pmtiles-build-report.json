@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-26T20:46:21.525Z",
+  "generatedAt": "2026-09-12T21:17:29.044Z",
   "mode": "execute",
   "tools": {
     "ogr2ogr": "C:\\Program Files\\GDAL\\ogr2ogr.exe",
@@ -21,20 +21,20 @@
   },
   "converted": [
     {
-      "layerId": "ded-1921-05-03-vector-test",
-      "sourceMapId": "ded-1921-05-03",
-      "name": "District Electoral Divisions 3 May 1921",
-      "sourceType": "mvt",
+      "layerId": "ni-townlands-1844-vector-test",
+      "sourceMapId": "ni-townlands-1844",
+      "name": "Townlands 1844",
+      "sourceType": "pmtiles",
       "status": "converted",
       "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
+        "maxSize": "4500000",
+        "maxFeatures": "4500000",
+        "simplification": "10",
+        "simplificationMaxZoom": "8",
+        "note": "Retuned for NI townlands 1844 low-zoom tile pressure while preserving high-zoom detail."
       },
-      "output": "render/pmtiles/generated/ded-1921-05-03-vector-test.pmtiles",
-      "bytes": 5257756,
+      "output": "render/pmtiles/generated/ni-townlands-1844-vector-test.pmtiles",
+      "bytes": 34527003,
       "exceedsGithubBudget": false
     }
   ],
