@@ -2531,7 +2531,10 @@ function interactiveLayerUrl(layerId, extra = {}) {
   for (const [key, value] of Object.entries(extra)) {
     if (value !== null && value !== undefined && value !== '') params.set(key, value);
   }
-  return `/#${params.toString()}`;
+  // /maps/, not /: the interactive map moved there when the landing page took the root.
+  // Links already published in the old form still work -- assets/pages/js/00-legacy-map-links.js
+  // forwards them from the home page, which is the only place a fragment can be read.
+  return `/maps/#${params.toString()}`;
 }
 
 function sortByTitle(a, b) {

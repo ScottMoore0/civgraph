@@ -10,7 +10,10 @@ function read(path) {
   return readFileSync(path, 'utf8');
 }
 
-const rootHtml = read('index.html');
+// The MapLibre application is at maps/index.html. It was the root until the landing
+// page took that slot; every assertion below is about the page that carries the runtime,
+// so it follows the application rather than the URL. `appHtml` is named for what it is.
+const appHtml = read('maps/index.html');
 const test2Html = read('test2/index.html');
 const rootServiceWorker = read('sw.js');
 const appSource = read('app/src/app.js');
@@ -22,19 +25,19 @@ const archiveDocExists = existsSync('archive/leaflet-main-before-maplibre-root-2
 const archivedBundleExists = existsSync('archive/legacy-scripts/bundle.mjs');
 const buildScript = String(packageJson.scripts?.build || '');
 
-assert(rootHtml.includes('Root MapLibre shell'), 'Root index must carry the MapLibre marker.');
-assert(rootHtml.includes('/app/build/app.bundle.js'), 'Root index must load the MapLibre JS runtime from /app.');
-assert(rootHtml.includes('/app/build/app.bundle.css'), 'Root index must load the MapLibre CSS runtime from /app.');
-assert(rootHtml.includes('/app/election-viewer-package/css/election-viewer.css'), 'Root index must preserve the election pane CSS under /app.');
-assert(rootHtml.includes('id="map"'), 'Root index must contain the MapLibre map container.');
-assert(rootHtml.includes('class="app-shell"'), 'Root index must use the production shell structure.');
-assert(rootHtml.includes('class="pane pane--info"'), 'Root index must preserve the catalogue pane.');
-assert(rootHtml.includes('class="pane pane--map"'), 'Root index must preserve the map pane.');
-assert(rootHtml.includes('href="/browse/"'), 'Root index must preserve the Browse navbar route.');
-assert(rootHtml.includes('href="/"'), 'Root index must preserve root Home/brand routes.');
-assert(!/(?:src|href)=["']\/build\/app\.bundle\.js/i.test(rootHtml), 'Root index must not load the archived Leaflet app bundle.');
-assert(!/leaflet-1\.9\.4/i.test(rootHtml), 'Root index must not load the archived Leaflet assets.');
-assert(rootHtml.includes('Root service-worker owns production cache'), 'Root index must document root service-worker cache ownership.');
+assert(appHtml.includes('Root MapLibre shell'), 'maps/index.html must carry the MapLibre marker.');
+assert(appHtml.includes('/app/build/app.bundle.js'), 'maps/index.html must load the MapLibre JS runtime from /app.');
+assert(appHtml.includes('/app/build/app.bundle.css'), 'maps/index.html must load the MapLibre CSS runtime from /app.');
+assert(appHtml.includes('/app/election-viewer-package/css/election-viewer.css'), 'maps/index.html must preserve the election pane CSS under /app.');
+assert(appHtml.includes('id="map"'), 'maps/index.html must contain the MapLibre map container.');
+assert(appHtml.includes('class="app-shell"'), 'maps/index.html must use the production shell structure.');
+assert(appHtml.includes('class="pane pane--info"'), 'maps/index.html must preserve the catalogue pane.');
+assert(appHtml.includes('class="pane pane--map"'), 'maps/index.html must preserve the map pane.');
+assert(appHtml.includes('href="/browse/"'), 'maps/index.html must preserve the Browse navbar route.');
+assert(appHtml.includes('href="/"'), 'maps/index.html must preserve root Home/brand routes.');
+assert(!/(?:src|href)=["']\/build\/app\.bundle\.js/i.test(appHtml), 'maps/index.html must not load the archived Leaflet app bundle.');
+assert(!/leaflet-1\.9\.4/i.test(appHtml), 'maps/index.html must not load the archived Leaflet assets.');
+assert(appHtml.includes('Root service-worker owns production cache'), 'maps/index.html must document root service-worker cache ownership.');
 
 assert(test2Html.includes('window.location.replace') && test2Html.includes('nextUrl.search') && test2Html.includes('nextUrl.hash'), '/test2 compatibility route must redirect while preserving query and hash state.');
 assert(!test2Html.includes('/app/build/app.bundle.js') && !test2Html.includes('id="map"'), '/test2 compatibility route must not duplicate the live app shell.');

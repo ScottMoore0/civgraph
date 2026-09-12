@@ -34,10 +34,14 @@
  */
 import { readFileSync, existsSync } from 'node:fs';
 
-const CORE = ['Home', 'Browse', 'Apps', 'About'];
+// Maps joined the core set when the interactive map moved from / to /maps/ and the
+// landing page took the root. Before that the map WAS the home page, so it needed no
+// link of its own; now it is reachable only by name.
+const CORE = ['Home', 'Maps', 'Browse', 'Apps', 'About'];
 
 const PAGES = [
   'index.html',
+  'maps/index.html',
   'browse/index.html',
   'apps/index.html',
   'pages/about.html',

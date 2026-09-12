@@ -14,7 +14,7 @@
  * 1200x630 is the Open Graph standard; Twitter/X accepts the same for summary_large_image.
  *
  * Usage:
- *   node scripts/build-og-preview.mjs [--url https://civgraph.net/] [--layer eds-roi-1941]
+ *   node scripts/build-og-preview.mjs [--url https://civgraph.net/maps/] [--layer eds-roi-1941]
  *   node scripts/build-og-preview.mjs --check     # verify the committed file only
  */
 import { createRequire } from 'node:module';
@@ -53,7 +53,10 @@ if (args.includes('--check')) {
   process.exit(0);
 }
 
-const URL_ = argVal('--url', 'https://civgraph.net/');
+// /maps/, not /: the interactive map moved there when the landing page took the root.
+// The preview is meant to show what a visitor gets, and what they get from a shared map
+// link is the map. Capturing / now would produce a picture of the landing page.
+const URL_ = argVal('--url', 'https://civgraph.net/maps/');
 // A counties layer, deliberately. The first attempt used eds-roi-1941, whose ~4,000
 // electoral divisions render as overlapping labels -- visual noise at the thumbnail size
 // a social card is actually viewed at. Counties are recognisable and readable when small.

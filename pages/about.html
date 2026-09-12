@@ -1,218 +1,183 @@
 <!DOCTYPE html>
-<html lang="en">
 
+<html lang="en-GB">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="About the NI Boundaries website - interactive maps of Northern Ireland boundaries.">
-    <title>About - Boundaries Website</title>
-
-    <style>
-        @font-face {
-            font-family: 'Inter';
-            font-style: normal;
-            font-weight: 400 700;
-            font-display: swap;
-            src: url(../assets/fonts/inter-latin.woff2) format('woff2');
-        }
-        @font-face {
-            font-family: 'Plus Jakarta Sans';
-            font-style: normal;
-            font-weight: 600 700;
-            font-display: swap;
-            src: url(../assets/fonts/plus-jakarta-sans-latin.woff2) format('woff2');
-        }
-    </style>
-    <link rel="stylesheet" href="../build/about.css">
-
-    <style>
-        .page-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: var(--space-8);
-        }
-
-        .page-header {
-            margin-bottom: var(--space-8);
-        }
-
-        .page-title {
-            font-size: var(--text-4xl);
-            font-weight: var(--font-bold);
-            margin-bottom: var(--space-4);
-        }
-
-        .page-content {
-            line-height: var(--leading-relaxed);
-        }
-
-        .page-content h2 {
-            font-size: var(--text-2xl);
-            margin-top: var(--space-8);
-            margin-bottom: var(--space-4);
-        }
-
-        .page-content p {
-            margin-bottom: var(--space-4);
-            color: var(--color-text);
-        }
-
-        .page-content a {
-            color: var(--color-primary-light);
-            text-decoration: underline;
-        }
-
-        .page-content a:hover {
-            color: var(--color-accent);
-        }
-
-        .breadcrumb {
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-            font-size: var(--text-sm);
-            color: var(--color-text-muted);
-            margin-bottom: var(--space-4);
-        }
-
-        .breadcrumb a {
-            color: var(--color-primary-light);
-            text-decoration: none;
-        }
-
-        .breadcrumb a:hover {
-            text-decoration: underline;
-        }
-
-        .breadcrumb__separator {
-            color: var(--color-text-muted);
-        }
-    </style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>About — Civgraph</title>
+<link href="/assets/pages/img/19df3a5428cb.png" rel="icon"/>
+<link rel="stylesheet" href="/assets/pages/css/shared.css">
+<link rel="stylesheet" href="/assets/pages/css/about.css">
+<!-- GSAP 3.15.0, vendored rather than loaded from a CDN. Licence header retained
+     below; see https://gsap.com/standard-license. Inlined so this page makes no
+     third-party request and works with no network at all. -->
+<script src="/assets/pages/js/01-gsap-3.15.0.min.js"></script>
+<script src="/assets/pages/js/02-scrolltrigger-3.15.0.min.js"></script>
 </head>
-
-<body style="overflow: auto; height: auto;">
-    <header class="app-header">
-        <a href="../index.html" class="app-header__brand">
-            <img src="../assets/images/civgraph-logo-icon.svg" alt="" class="app-header__logo-icon">
-            <span class="app-header__wordmark">Civgraph</span>
-        </a>
-
-        <nav class="app-header__nav" aria-label="Main navigation">
-            <a href="../index.html" class="app-header__link">Home</a>
-            <a href="../browse/" class="app-header__link">Browse</a>
-            <a href="/apps/" class="app-header__link">Apps</a>
-            <a href="about.html" class="app-header__link app-header__link--active">About</a>
-            <a href="https://ko-fi.com/scottmoore0" class="support-btn" target="_blank" rel="noopener noreferrer">
-                <svg class="support-btn__icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true">
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z" />
-                </svg>
-                <span>Support Us</span>
-            </a>
-        </nav>
-    </header>
-
-    <main class="page-container">
-        <!-- Breadcrumb Navigation -->
-        <nav class="breadcrumb" aria-label="Breadcrumb">
-            <a href="../index.html">Maps</a>
-            <span class="breadcrumb__separator">/</span>
-            <span>About</span>
-        </nav>
-
-        <header class="page-header">
-            <h1 class="page-title">About</h1>
-        </header>
-
-        <article class="page-content">
-            <p>
-                This NI Boundaries Website brings together many different Northern Ireland boundaries. It mainly focuses
-                on local government boundaries, but it also covers parliamentary constituencies, historic cadastral
-                boundaries like civil parishes and baronies, physical boundaries like rivers, valleys, basins and
-                watersheds, townlands, counties, and statistical areas.
-            </p>
-
-            <p>
-                I, Scott Moore, took inspiration for this website from Spatial NI, a service run by the Ordnance Survey
-                of Northern Ireland (OSNI). Spatial NI primarily provides access to maps produced by public bodies - but
-                not those by citizen creators. Thus, they can't make the 1984 council ward map digitised by myself
-                available on their website - but OSNI maps, volunteer-made maps and many others are all available
-                together on this website.
-            </p>
-
-            <p>
-                I am continuing to digitise historic and contemporary maps alike, and <a
-                    href="https://twitter.com/scottmoore0" target="_blank" rel="noopener noreferrer">I post my progress
-                    on Twitter regularly.</a>
-            </p>
-
-            <p>
-                I also scan historic books - mainly reports of local government boundaries, but others besides this too.
-                You can find these all on <a href="https://archive.org/details/@ScottMoore0" target="_blank"
-                    rel="noopener noreferrer">my Internet Archive account</a>, alongside rasters of scanned original
-                historic boundary maps, provided to me mainly by OSNI.
-            </p>
-
-            <p>
-                I have spent considerable money on upgrading my hardware to be able to run the software to process
-                digitised maps, and I have spent considerable time on my research, including accessing libraries and
-                archives. If you appreciate my work, <a href="https://ko-fi.com/scottmoore0" target="_blank"
-                    rel="noopener noreferrer">please consider supporting me on Ko-fi with a tip</a> - though be assured
-                I will continue to do this work for free and there is no obligation to tip me if you don't want to.
-            </p>
-
-            <h2>Place names</h2>
-
-            <p>
-                Numerous place names in Northern Ireland are politically contested. These include the town of Craigavon,
-                named after the baronial title of the former Prime Minister of Northern Ireland; Royal Hillsborough,
-                which has acquired a 'Royal' prefix in recent years; the name of Northern Ireland itself, which did not
-                exist in law before the 1920s; various streets, settlements and places named after British royal or
-                state figures such as Chichester Street and Cromwell Street in Belfast; historic wards and DEAs which
-                carried names such as "Royal Portrush" and "Victoria"; and the city, county, council district and
-                historic constituencies variably known as Derry or Londonderry.
-            </p>
-
-            <p>
-                This website seeks, in part, to record and document the administrative history of Northern Ireland,
-                primarily through the medium of maps. As such, all place names used in the datasets reflect the names
-                used in the original sources. For example, the pre-1973 county borough is known as "Londonderry", while
-                the post-1973 district council used "Derry" from the 1980s onwards. NISRA, which compiles settlement
-                population statistics, has referred to "Derry City" since at least 2011, and also to "County
-                Londonderry", and these are reflected in the settlement and county maps.
-            </p>
-
-            <p>
-                The usage of place names on this website should not, in and of itself, be taken to suggest any
-                preference on my part for particular place names.
-            </p>
-
-            <p>
-                The map layers do not currently support the display of place names or other information in the Irish or
-                Ulster-Scots languages. I would love to implement this, but the only barrier is getting the time to do
-                so. If you have any queries about this, please feel free to get in touch.
-            </p>
-
-            <h2>Acknowledgements</h2>
-
-            <p>
-                Basemap and some layers are via OpenStreetMap. These layers contain public sector data licensed under
-                the Open Government License v3.0, including from OSNI, Armagh City Banbridge and Craigavon Borough
-                Council, NISRA, and all other public bodies listed. Thanks to Parlconst.org for historic parliamentary
-                constituency boundaries. I (Scott Moore) have produced some of the layers myself in a digital format,
-                usually based on source data derived primarily from public sector sources available under the OGL v3.0
-                license. 1966 Northern Ireland Local Government District map courtesy of <a
-                    href="https://commons.wikimedia.org/wiki/File:NorthernIreland1967AdminMap.png" target="_blank"
-                    rel="noopener noreferrer">XrysD</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0"
-                    target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>, via Wikimedia Commons. Any maps I have
-                digitised myself are likewise available under the <a
-                    href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener noreferrer">CC
-                    BY-SA 4.0</a> license. Website design directly inspired by Alex Donald's <a
-                    href="https://better-open-data.com/" target="_blank" rel="noopener noreferrer">Better Open Data</a>
-                site.
-            </p>
-        </article>
-    </main>
+<body>
+<!-- Real Civgraph header: live class names, real logo SVG, real gradient. -->
+<header class="app-header">
+<a class="app-header__brand" href="/">
+<img alt="" class="app-header__logo-icon" src="/assets/pages/img/bd2feea987bf.svg"/>
+<span class="app-header__wordmark">Civgraph</span>
+</a>
+<button aria-controls="mainNav" aria-expanded="false" aria-label="Open navigation" class="mobile-menu-toggle" type="button">
+<svg aria-hidden="true" class="mobile-menu-toggle__menu" data-icon="lucide" data-icon-name="menu" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M4 12h16"></path><path d="M4 6h16"></path><path d="M4 18h16"></path>
+</svg>
+<svg aria-hidden="true" class="mobile-menu-toggle__close" data-icon="lucide" data-icon-name="x" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M18 6 6 18"></path><path d="m6 6 12 12"></path>
+</svg>
+</button><nav aria-label="Main navigation" class="app-header__nav" id="mainNav">
+<a class="app-header__link" href="/"><svg aria-hidden="true" class="icon" data-icon="lucide" data-icon-name="house" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+<path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Home</span></a>
+<a class="app-header__link" href="/maps/"><svg aria-hidden="true" class="icon" data-icon="lucide" data-icon-name="map" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"></path>
+<path d="M15 5.764v15"></path><path d="M9 3.236v15"></path></svg><span>Maps</span></a>
+<a class="app-header__link" href="/browse/"><svg aria-hidden="true" class="icon" data-icon="lucide" data-icon-name="search" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<circle cx="11" cy="11" r="8"></circle>
+<path d="m21 21-4.3-4.3"></path></svg><span>Browse</span></a>
+<a class="app-header__link" href="/apps/"><svg aria-hidden="true" class="icon" data-icon="lucide" data-icon-name="layout-grid" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<rect height="7" rx="1" width="7" x="3" y="3"></rect>
+<rect height="7" rx="1" width="7" x="14" y="3"></rect>
+<rect height="7" rx="1" width="7" x="14" y="14"></rect>
+<rect height="7" rx="1" width="7" x="3" y="14"></rect></svg><span>Apps</span></a>
+<a class="app-header__link app-header__link--active" href="/pages/about.html"><svg aria-hidden="true" class="icon" data-icon="lucide" data-icon-name="info" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<circle cx="12" cy="12" r="10"></circle>
+<path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg><span>About</span></a>
+<button class="support-btn" title="Support Civgraph" type="button">
+<svg aria-hidden="true" class="support-btn__icon" data-icon="lucide" data-icon-name="heart" fill="currentColor" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16">
+<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+<span class="support-btn__text">Support Us</span>
+</button>
+<button aria-label="Toggle dark mode" class="theme-toggle" id="themeToggle" title="Toggle dark mode" type="button">
+<svg aria-hidden="true" class="theme-toggle__icon--sun" data-icon="lucide" data-icon-name="sun" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<circle cx="12" cy="12" r="4"></circle>
+<path d="M12 2v2"></path><path d="M12 20v2"></path>
+<path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path>
+<path d="M2 12h2"></path><path d="M20 12h2"></path>
+<path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+<svg aria-hidden="true" class="theme-toggle__icon--moon" data-icon="lucide" data-icon-name="moon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9"></path></svg>
+</button>
+</nav>
+</header>
+<section class="hero hero--interior">
+<div class="wrap hero__grid hero__grid--single"><div class="hero__copy"><h1>About Civgraph</h1><p class="lede">Civgraph brings together the civic record of Ireland, tied to people, places and events.</p></div></div>
+</section>
+<main>
+<div class="wrap"><section>
+<p>Civgraph aspires to bring together a wide range of information of all kinds: elections and the candidates; censuses and statistics; deprivation measures; opinion polls; geology and terrain; Parliamentary debates; how politicians voted; archives and scanned books; and political and administrative boundaries. Most of this already exists somewhere public, scattered across portals, archives and old reports, in formats that cannot be easily compared, with some of it not online at all before.</p>
+<p>Civgraph includes multiple layers, such as the original sources, kept whole and verbatim, as texts, maps and tables, scanned or digital; the data derived from them in cleaned, labelled and linked formats, encompassing people, places, geographies and statistics; and tools which take that data as an input and turn it into something usable. The tools are part of the project, not an extension of it.</p>
+<p>Some of those tools exist today. The longer aim is that the whole linked record can be queried and analysed by anyone, and that any practically possible tool can be built on it.</p>
+<p>The boundaries and geography are the backbone. Wards, districts, constituencies and census geographies are redrawn every 10-15 years. Nothing recorded about these geographies can be read across decades unless the boundaries themselves exist in digital form. Most of the historic ones didn’t.</p>
+<p>Civgraph is a home for the digitising, scanning and research of volunteer contributors to coexist alongside the original sources, always clearly distinguished from them. Many of our maps are scanned and digitised by our volunteers where no official digitised version existed, mirrored and backed up for the years to come, and made available in full.</p>
+<p>Its scope is the island of Ireland, its seas and outlying islands, and openly available civic data about it, whether that comes from governments and public bodies or from private organisations, groups and individuals. It is meant as a factual work of reference on Irish civic life, released under open licences and built to be easy for anyone to use.</p>
+<p>Civgraph took its original inspiration from <a href="https://www.spatialni.gov.uk/" rel="noopener noreferrer" target="_blank">Spatial NI</a> , the service run by Ordnance Survey of Northern Ireland (OSNI). Spatial NI publishes maps produced by public bodies, which excludes maps made by citizens, so the 1984 council ward map we digitised could not appear there. On Civgraph they sit alongside everything else.</p><p>That breadth is the point. The catalogue draws on <strong>58 organisations</strong> north and south, and every layer is credited to the body that made it:</p><ul class="sources-list"><li><strong>Northern Ireland government and agencies</strong><span>OSNI and Land &amp; Property Services, NISRA, DAERA, the Northern Ireland Environment Agency, the Geological Survey of Northern Ireland, the Tellus survey, the Department for Infrastructure, the Department for Communities, the Police Service of Northern Ireland, Translink, NI Water and the Department of Health.</span></li><li><strong>Republic of Ireland government and agencies</strong><span>Tailte Éireann, the Central Statistics Office, Geological Survey Ireland, Transport Infrastructure Ireland, the Office of Public Works, the National Parks and Wildlife Service, the Environmental Protection Agency, and the Department of Housing, Local Government and Heritage.</span></li><li><strong>Local authorities, north and south</strong><span>Dún Laoghaire-Rathdown, Dublin City, Fingal, South Dublin, Cork City and Monaghan county councils; Mid Ulster District Council; and Armagh City, Banbridge and Craigavon Borough Council.</span></li><li><strong>Boundary and electoral bodies</strong><span>the Local Government Boundaries Commissioner for Northern Ireland, the Boundary Commission for Northern Ireland, the Electoral Office for Northern Ireland and the Electoral Commission.</span></li><li><strong>Open data portals</strong><span>Open Data NI and data.gov.ie, through which much of the above is published.</span></li><li><strong>Independent and community projects</strong><span>OpenStreetMap, parlconst.org, the Database of British and Irish Hills, Ulster Wildlife and the National Inventory of Architectural Heritage.</span></li><li><strong>Scientific and international</strong><span>Copernicus and the European Space Agency, Eurostat, the British Geological Survey, OpenTopography, the International Hydrographic Organization and Trinity College Dublin.</span></li><li><strong>Volunteers</strong><span>individual contributors, credited by name on the maps they made, among them Phelim Birch, Paddy Matthews and Scott Moore.</span></li></ul>
+</section><figure class="shot-hero">
+<img alt="Civgraph showing the 1984 Northern Ireland ward boundaries, 552 named wards outlined in red, with a date slider reading 1984." class="shot" height="1000" loading="lazy" src="/assets/pages/img/8568bdbacee1.jpg" width="1600"/>
+<figcaption>The 1984 council wards, the map Civgraph began with. No digital version existed, so its wards were digitised in QGIS from OSNI scans and townland geometry. <span class="attrib">Basemap © OpenStreetMap contributors, ODbL.</span></figcaption>
+</figure><section>
+<h2>What's in Civgraph</h2>
+<table>
+<tr><th>Maps</th><td class="num" data-stat="publicMaps">795</td><td>public map layers, from <span data-stat="catalogueEntries">1,031</span> catalogue entries and <span data-stat="renderedLayers">1,139</span> rendered layers</td></tr>
+<tr><th>Elections</th><td class="num" data-stat="electionContests">4,706</td><td>constituency contests across <span data-stat="elections">281</span> elections, holding <span data-stat="candidacies">29,697</span> candidacies</td></tr>
+<tr><th>People</th><td class="num" data-stat="people">13,043</td><td>candidates and elected representatives, linked to the contests they stood in</td></tr>
+<tr><th>Books</th><td class="num" data-stat="scannedBooks">67</td><td>scanned volumes, including Parliament of Northern Ireland debates and Acts</td></tr>
+<tr><th>Sources</th><td class="num" data-stat="cataloguedSources">40,543</td><td>catalogued source records, each with its provenance</td></tr>
+<tr><th>Graph</th><td class="num" data-stat="graphEntities">192,053</td><td>entities and 1.29 million statements linking them</td></tr>
+</table>
+<div class="note">
+<strong>Note for review.</strong> These figures are no longer typed in by hand. <code>scripts/build-site-stats.mjs</code> computes the headline set at build time from a single source each and records where each came from, and <code>--check</code> fails a page that has drifted. The table above is still prose rather than generated markup, so it is checked by eye and should be wired to the same stamp. Two map counts are live and they measure different things: <strong>795</strong> public, loadable layers in both the map application and <strong>/browse</strong>, against <strong data-stat="catalogueEntries">1,031</strong> entries in the catalogue file. The Open Graph preview is still stale: captured on 5 August, it advertises “1012 maps” and a <em>Census</em> nav link that no longer exists, on every link shared anywhere.</div>
+</section><section><h2>How we made the boundaries</h2><p>This is where Civgraph started, and it is still the bulk of the work. The 1993 and 2012 Northern Ireland ward maps were digitised and publicly available; the 1984 and 1971 ones were not, and neither were most boundary maps between 1920 and 1971. We asked the Ordnance Survey of Northern Ireland and they gave us scanned maps of local government boundaries going back to 1973, which they agreed to publish on Open Data NI. But a scan is an image, not a boundary: it cannot be zoomed, queried or compared. So we learned QGIS and did it ourselves.</p><p>Digitising one historic boundary map goes roughly like this:</p><ol class="method-steps"><li><strong>Start from what already exists.</strong> Some boundaries do not change between reviews. Several 1992 wards were unchanged from 1985, so they can be copied across from a later digital map rather than redrawn.</li><li><strong>Build from townlands where you can.</strong> Many historic wards are simply stacks of townlands, and Tailte Éireann and OSNI both publish digital townland boundaries. Where a ward is a whole number of townlands, the work becomes a jigsaw rather than a drawing exercise.</li><li><strong>Borrow edges from other geographies.</strong> Historic parliamentary constituency maps, such as those at <a href="https://parlconst.org/" rel="noopener noreferrer" target="_blank">parlconst.org</a>, line up with some ward edges exactly, so those edges can be reused instead of traced.</li><li><strong>Digitise the rest by hand.</strong> What is left gets drawn in QGIS against the scan, following streets, fences, field boundaries and rail lines, which is what the original surveyors used too.</li><li><strong>Check every boundary against the scan.</strong> The finished layer is compared back to the scanned map sheet by sheet. This is the slow part, and the part that decides whether the result is trustworthy.</li></ol><p>The 1984 ward map took months of evenings this way. The same method has since been applied to Republic of Ireland electoral divisions, and it is the work we most need help with. Alongside it we scan books from libraries: first boundary commissioners' reports explaining why boundaries were drawn where they were, then other volumes that weren't online and could legally be scanned and redistributed.</p></section><figure>
+<img alt="The baronies of Ireland across the whole island, each outlined and named." class="shot" height="687" loading="lazy" src="/assets/pages/img/8f4ef4626378.jpg" width="1100"/>
+<figcaption>The <strong>baronies of Ireland</strong>.</figcaption>
+</figure><section>
+<h2>Why this matters</h2>
+<p>Wards, DEAs, councils, constituencies, settlements and census data zones all have data attached to them: census and demographic statistics, election results, deprivation indicators, who stood and who won, public spending, geology, rivers, and distance to a hospital or a railway station.</p>
+<p>The obstacle to using any of it together is that the boundaries move. Census geographies change, wards and constituencies are redrawn every ten to fifteen years, and almost nothing can be compared like-for-like across decades unless you know precisely which boundaries were in force when. That's the gap Civgraph fills.</p>
+</section><section>
+<h2>Where this is going</h2>
+<p>The maps are the means, not the end. Civgraph exists so that the data attached to Irish places can be compared across time by anyone who wants to, and not only by people who have GIS software and the patience to reconcile forty years of boundary changes before they can start.</p>
+<p>Almost everything recorded about a place is recorded against an area. Census and demographic statistics, election results and transfers, deprivation indicators, who stood and who won, what representatives said in the chamber and how they voted, public spending, opinion polls, and the physical geography underneath all of it, from rivers and basins to how far it is to a hospital or a railway station. Each of these is published somewhere already. Taken together, across decades, they are close to unusable, because the areas they are attached to keep being redrawn. Holding the boundaries steady is what makes the rest comparable, and that is what the catalogue, the election records, the person index and the source archive are for.</p>
+<p>The part still to be built is the analysis layer. The intention is a section of the site where you choose some areas and a period, combine variables across them, and get back a chart or a map in which every figure can be traced to the record it came from. No GIS software, no reconciling census geographies by hand, and nothing taken on trust. Where a comparison is unsafe because the underlying geography changed, it should say so rather than quietly averaging across the join.</p>
+<p>Some analysis of this kind has already been done here by hand rather than by the site: projections of support for Irish unity from 1989 to 2025, what a fifty per cent plus one result would actually require, and how that support is distributed geographically. That is precisely the sort of work the site should let other people do for themselves, on whatever questions they care about. The constitutional future of Ireland is only the most obvious of them, and it is not the only one that turns on being able to compare like with like over time.</p>
+<p>None of this is finished and none of it is promised by a date. It is what the archive is being assembled for.</p>
+</section><figure>
+<img alt="The Civgraph data directory, listing maps, elections, features, parties, persons,
+                register interests and sources with a count beside each." class="shot" height="687" loading="lazy" src="/assets/pages/img/ccfb1b501bbd.jpg" width="1100"/>
+<figcaption>Every catalogued entity, with its count, at <strong>/browse</strong>. Each record links through to where it came from.</figcaption>
+</figure><section>
+<h2>Provenance and licensing</h2>
+<p>We aim to record where every item came from. That's the discipline Civgraph runs on, and automated checks enforce it rather than leaving it to memory.</p>
+<ul>
+<li><strong>Open Government Licence</strong>: OSNI and NISRA material in the north, Tailte Éireann and Central Statistics Office material in the south, and PRONI eCatalogue records.</li>
+<li><strong>Crown copyright</strong>: Parliament of Northern Ireland debates and Acts, scanned from physical copies. No licence is asserted over the underlying material.</li>
+<li><strong>CC BY-SA 4.0 and ODbL</strong>: ElectionsNI, the ODI Belfast / NICVA open data project. Civgraph's STV count animation derives from their work, and they and the Electoral Office for Northern Ireland are credited accordingly.</li>
+<li><strong>CC BY 4.0</strong>: the Database of British and Irish Hills.</li>
+<li><strong>Contributed maps</strong>: credited to their creators by name, with the original's rights recorded separately from the digitisation.</li>
+</ul>
+<p>Our data is also mirrored to the Internet Archive, so it stays available independently of this site. Civgraph holds a mirror of all data from Open Data NI and the Open Data Portal Ireland. Where a rights position hasn't been established, we record it as unestablished and the material stays unpublished until it's settled.</p>
+</section><section>
+<h2>Place names</h2>
+<p>
+        Numerous place names in Northern Ireland are politically contested. These include the town of
+        Craigavon, named after the baronial title of the former Prime Minister of Northern Ireland;
+        Royal Hillsborough, which has acquired a 'Royal' prefix in recent years; the name of Northern
+        Ireland itself, which did not exist in law before the 1920s; various streets, settlements and
+        places named after British royal or state figures, such as Chichester Street and Cromwell
+        Street in Belfast; historic wards and DEAs carrying names such as "Royal Portrush" and
+        "Victoria"; and the city, county, council district and historic constituencies variably known
+        as Derry or Londonderry.
+      </p><p>The same is true south of the border, where many names were changed after independence: Queen's County and King's County became Laois and Offaly, Maryborough became Portlaoise, Kingstown became Dún Laoghaire and Queenstown became Cobh. Civgraph holds maps from both before and after those changes, so both forms appear in the data.</p>
+<p>Civgraph seeks, in part, to record and document the administrative history of Ireland, primarily through maps. So all place names used in the datasets reflect the names used in the original sources. The pre-1973 county borough is recorded as "Londonderry", while the post-1973 district council used "Derry" from the 1980s onwards. NISRA, which compiles settlement population statistics, has referred to "Derry City" since at least 2011, and also to "County Londonderry", and these are reflected in the settlement and county maps.</p>
+<p>The map layers do not currently support the display of place names or other information in the Irish or Ulster-Scots languages. We would like to implement this, and the only barrier is finding the time. If you have any queries about this, please get in touch.</p></section><section id="contributing">
+<h2>Contributing</h2>
+<p>Maps, scans, corrections and sources are all welcome. Contributed maps are credited to their creators, and our submission route records the contributor alongside the original's rights holder.</p>
+<p>Civgraph is built by a small group of volunteers and the work carries on regardless, but we're always looking for people to join, and you can contribute as much or as little as you want. There's no need to know your way around GIS.</p><p>You can contribute by:</p>
+<ul><li>Scanning historic maps, books and records, be they openly-licenced or under expired copyright</li><li>Digitising historic maps using tools such as QGIS, so they can be made available on the site</li><li>Finding and reporting bugs on the site, and any errors, mistakes or inaccuracies you find on the site, including in the data and maps</li><li>Finding and cleaning openly-available data you find online</li><li>Helping us with programming and developing the website and the project</li><li>Supporting us with the financial costs of running and building the project</li></ul>
+<p>Map submissions go through an approved-contributor list, so the submission form only opens once an email address has been given access. If you would like to submit a map, email <a href="mailto:scott@civgraph.net">scott@civgraph.net</a> and we'll set you up.</p><h3>Projects you could take on</h3><p>These are concrete pieces of work that would each make a real difference, and none of them are started. Phelim Birch, who has contributed a large part of the catalogue already, has offered to guide anyone who wants to take one on.</p><ul class="project-list"><li><strong>Historic Local Electoral Area digitisation</strong><span>Turning the legal documents that define Local Electoral Area boundaries in the Republic — most of them freely available online — into digital boundaries, so local election results can be mapped to the areas that were actually in use. No scanned LEA maps exist, so the boundaries have to be built from the statutory descriptions.</span></li><li><strong>Historic town and urban district digitisation</strong><span>The town commissioners and urban districts that governed Irish towns until town councils were abolished in 2014, none of which exist as digital boundaries.</span></li><li><strong>19th century Electoral Division maps</strong><span>Civgraph's electoral divisions currently start in 1911. Extending them back into the nineteenth century would connect the census and poor law records that use them.</span></li><li><strong>Dáil election data collection</strong><span>Compiling results, candidates and transfers for Dáil elections into the same structure the rest of the election data uses. Civgraph already holds 1918–1969 and 2002–2024; the gap is 1973–1997, nine general elections.</span></li></ul><p>If one of these appeals, email <a href="mailto:scott@civgraph.net">scott@civgraph.net</a> and we'll put you in touch and get you started.</p><div class="correction-box"><h3>Spotted something wrong?</h3><p>You do not need to be able to use GIS software, and you do not need a corrected map. If you know a boundary, a date, a name or a result is wrong, tell us what it should be and where you know it from, and we'll check it and credit you if you'd like.</p><div class="cta-row"><a class="btn btn--onlight" href="mailto:scott@civgraph.net?subject=Civgraph%20correction&amp;body=Which%20record%20is%20wrong%20%28a%20map%2C%20election%2C%20person%20or%20source%20-%20a%20link%20or%20its%20name%20is%20ideal%29%3A%0A%0A%0AWhat%20is%20wrong%3A%0A%0A%0AWhat%20it%20should%20be%3A%0A%0A%0AWhere%20you%20know%20this%20from%20%28a%20document%2C%20a%20published%20map%2C%20a%20report%20-%20anything%20we%20can%20check%29%3A%0A%0A%0AYour%20name%2C%20if%20you%20would%20like%20the%20correction%20credited%3A%0A%0A">Report a correction</a></div></div><p>To learn more, contact <a href="mailto:scott@civgraph.net">scott@civgraph.net</a>.</p>
+</section><div class="note">
+<strong>Decisions left open in this draft.</strong>
+      (1) The current About page carries a Ko-fi paragraph, and the source blog post also asks for
+      paid Substack subscriptions; neither is included here, because how prominently the project
+      asks for money is your call.
+      (2) The current page links a personal Twitter account for progress updates - worth deciding
+      whether that stays, moves, or is replaced by something on-site.
+      (3) The counts in “What is in it” must be generated, not typed.
+    </div><footer class="ftr">
+      Civgraph - draft About page, 28 August 2026. Not published.
+    </footer></div>
+</main>
+<footer class="ftr">
+<div class="wrap ftr__inner">
+<div class="ftr__top">
+<a aria-label="Civgraph home" class="ftr__brand" href="/">
+<img alt="" class="ftr__logo" src="/assets/pages/img/bd2feea987bf.svg"/>
+<span class="ftr__wordmark">Civgraph</span>
+</a>
+<nav aria-label="Footer navigation" class="ftr__nav">
+<a href="#">Maps</a>
+<a href="#">Browse</a>
+<a href="/pages/about.html">About</a>
+<a href="#">Submit a map</a>
+</nav>
+</div>
+<div class="ftr__rule"></div>
+<div class="ftr__bottom">
+<p class="ftr__tagline">All the data on Ireland’s history, geography, politics and demographics.</p>
+<div class="ftr__meta">© Civgraph</div>
+</div>
+</div>
+</footer>
+<script src="/assets/pages/js/03-theme-toggle.js"></script>
+<script src="/assets/pages/js/04-constellation.js"></script>
+<script src="/assets/pages/js/05-header-shadow.js"></script>
+<script src="/assets/pages/js/06-fallback-shell.js"></script>
+<script src="/assets/pages/js/07-fallback-stats.js"></script>
+<script src="/assets/pages/js/08-fallback-reveal.js"></script>
+<script src="/assets/pages/js/09-animations.js"></script>
+<script src="/assets/pages/js/10-header-progress.js"></script>
 </body>
-
 </html>
