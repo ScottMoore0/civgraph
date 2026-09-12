@@ -1,0 +1,1960 @@
+/* Civgraph page drafts — shared styling.
+   The header, brand scaling, gradients, nav, support button and theme toggle are lifted
+   from assets/css/main.css so these drafts show the REAL branding rather than an
+   approximation. Everything else is self-contained: system font stack, no external
+   requests, so the files open correctly straight off the local disk. */
+
+:root {
+  --header-height: 76px;
+  --hero-overlap: 5.25rem;
+  /* Primary palette — deep professional blues (main.css) */
+  --color-primary: #1a365d;
+  --color-primary-light: #2c5282;
+  --color-primary-dark: #0f2744;
+  --color-primary-50: #ebf4ff;
+
+  /* Accent */
+  --color-accent: #38a169;
+  --color-accent-dark: #276749;
+
+  /* Header gradient stops (main.css .app-header) */
+  --header-base: #065a6e;
+  --header-green: #0fa55a;
+  --header-navy: #003870;
+  --header-teal: #0a7a78;
+
+  --color-gray-50: #f7fafc;
+  --color-gray-100: #edf2f7;
+  --color-gray-200: #e2e8f0;
+  --color-gray-500: #718096;
+  --color-gray-600: #4a5568;
+  --color-gray-700: #2d3748;
+
+  --color-surface: #ffffff;
+  --color-text: #1a202c;
+  --color-text-muted: #718096;
+  --color-text-inverse: #ffffff;
+  --color-border: #e2e8f0;
+
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -1px rgba(0, 0, 0, .06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, .1), 0 4px 6px -2px rgba(0, 0, 0, .05);
+
+  --font-display: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+
+/* ---------------------------------------------------------------- app header
+   Copied from main.css: the three-stop radial gradient over #065a6e, and the
+   --brand-size clamp that scales logo and wordmark together so the brand never
+   truncates. Do not replace the clamp with a fixed size. */
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .5rem 1.5rem;
+  background: var(--header-base);
+  background-image:
+    radial-gradient(circle at 0% 50%, var(--header-green) 0%, transparent 50%),
+    radial-gradient(circle at 100% 50%, var(--header-navy) 0%, transparent 50%),
+    radial-gradient(circle at 40% 100%, var(--header-teal) 0%, transparent 60%);
+  color: var(--color-text-inverse);
+  box-shadow: var(--shadow-md);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  overflow: visible;
+  gap: 1rem;
+}
+
+.app-header__brand {
+  /* SCALE, DO NOT TRUNCATE — see main.css for the full note. Logo and wordmark are
+     both calc()'d from this one value so they shrink together and in proportion. */
+  --brand-size: clamp(28px, 8vw, 60px);
+  display: flex;
+  align-items: center;
+  gap: calc(var(--brand-size) * 0.05);
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--color-text-inverse);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.app-header__logo-icon {
+  width: calc(var(--brand-size) * 0.917);
+  height: calc(var(--brand-size) * 0.917);
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.app-header__wordmark {
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+  font-size: calc(var(--brand-size) * 0.567);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1;
+  letter-spacing: 0;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.app-header__nav {
+  display: flex;
+  align-items: center;
+  gap: .25rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.app-header__link {
+  display: inline-flex;
+  align-items: center;
+  padding: .5rem 1rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: all .15s ease;
+  font-size: .95rem;
+}
+.app-header__link:hover,
+.app-header__link--active {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.support-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: #22c55e;
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-full);
+  font-size: .875rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  margin-left: .5rem;
+  font-family: inherit;
+  transition: background .15s ease, transform .15s ease;
+}
+.support-btn:hover { background: #16a34a; transform: translateY(-1px); }
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px; height: 36px;
+  margin-left: .35rem;
+  border: none;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  cursor: pointer;
+  transition: background .15s ease;
+}
+.theme-toggle:hover { background: rgba(255, 255, 255, 0.28); }
+.theme-toggle__icon--moon { display: none; }
+
+/* ------------------------------------------------------------------- layout */
+
+.wrap { max-width: 860px; margin: 0 auto; padding: 0 1.5rem; }
+.wrap--wide { max-width: 1120px; }
+
+/* Hero, on the same gradient family as the header so the brand carries down the page */
+.hero {
+  background: var(--header-base);
+  background-image:
+    radial-gradient(circle at 10% 10%, var(--header-green) 0%, transparent 45%),
+    radial-gradient(circle at 95% 30%, var(--header-navy) 0%, transparent 55%),
+    radial-gradient(circle at 50% 110%, var(--header-teal) 0%, transparent 60%);
+  color: #fff;
+  padding: 5.5rem 0 7rem;
+  margin-bottom: 0;
+  min-height: calc(100svh - var(--header-height) + var(--hero-overlap));
+  display: flex;
+  align-items: center;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  line-height: 1.08;
+  letter-spacing: -.03em;
+  margin: 0 0 1rem;
+  color: #fff;
+}
+.hero .lede {
+  font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+  color: rgba(255, 255, 255, .92);
+  margin: 0 0 1.8rem;
+  max-width: 52ch;
+}
+.hero--compact { padding: 3rem 0 2.5rem; }
+
+.cta-row { display: flex; gap: .8rem; flex-wrap: wrap; }
+.btn {
+  display: inline-block;
+  padding: .8rem 1.6rem;
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: .98rem;
+  border: 1px solid transparent;
+  transition: all .15s ease;
+}
+.btn--primary { background: #22c55e; color: #fff; box-shadow: var(--shadow-md); }
+.btn--primary:hover { background: #16a34a; transform: translateY(-1px); }
+.btn--ghost { border-color: rgba(255,255,255,.55); color: #fff; }
+.btn--ghost:hover { background: rgba(255,255,255,.14); }
+.btn--onlight { background: var(--color-primary); color: #fff; }
+.btn--onlight:hover { background: var(--color-primary-light); }
+.btn--ghostlight { border-color: var(--color-border); color: var(--color-primary); }
+
+/* Numbers */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1px;
+  background: var(--color-border);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin: 0 0 2.5rem;
+  box-shadow: var(--shadow-md);
+}
+.stat { background: var(--color-surface); padding: 1.35rem 1.1rem; }
+.stat__n {
+  font-family: var(--font-display);
+  font-size: 1.8rem; font-weight: 700; letter-spacing: -.02em; line-height: 1.1;
+  background: linear-gradient(135deg, var(--header-green) 0%, var(--header-navy) 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.stat__l { font-size: .8rem; color: var(--color-text-muted); margin-top: .3rem; }
+
+/* Cards */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.1rem; margin: 1.6rem 0; }
+.card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+.card::before {
+  content: ""; position: absolute; inset: 0 0 auto 0; height: 3px;
+  background: linear-gradient(90deg, var(--header-green), var(--header-teal), var(--header-navy));
+}
+.card h3 { font-family: var(--font-display); margin: .2rem 0 .5rem; font-size: 1.1rem; color: var(--color-primary-dark); }
+.card p { margin: 0 0 .85rem; color: var(--color-gray-600); font-size: .93rem; }
+.card a { color: var(--color-accent-dark); font-weight: 600; text-decoration: none; font-size: .9rem; }
+.card a:hover { text-decoration: underline; }
+
+/* Body copy */
+main section { padding: 1.4rem 0; }
+h2 {
+  font-family: var(--font-display);
+  font-size: 1.6rem; letter-spacing: -.02em; color: var(--color-primary-dark);
+  margin: 2.2rem 0 .9rem;
+}
+h3 { font-family: var(--font-display); font-size: 1.1rem; color: var(--color-primary-dark); margin: 1.6rem 0 .5rem; }
+p { margin: 0 0 1.05rem; }
+a { color: var(--color-accent-dark); }
+ul { margin: 0 0 1.05rem; padding-left: 1.25rem; }
+li { margin-bottom: .45rem; }
+
+
+table { width: 100%; border-collapse: collapse; margin: 1.2rem 0; font-size: .92rem; }
+th, td { text-align: left; padding: .6rem .7rem; border-bottom: 1px solid var(--color-border); vertical-align: top; }
+th { color: var(--color-primary-dark); font-weight: 700; }
+td.num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+
+.ftr {
+  border-top: 1px solid var(--color-border);
+  margin-top: 3rem; padding: 2rem 0 3rem;
+  color: var(--color-text-muted); font-size: .88rem;
+}
+
+/* ------------------------------------------------------------------ theming
+   Three states, as main.css requires: explicit light, explicit dark, and system
+   default with nothing stamped on the root. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-surface: #0f1720;
+    --color-text: #e6edf3;
+    --color-text-muted: #8fa1b3;
+    --color-border: #23303d;
+    --color-gray-50: #131c26;
+    --color-gray-100: #18222d;
+    --color-gray-600: #b3c2d1;
+    --color-gray-700: #cdd9e5;
+    --color-primary: #7aa7dd;
+    --color-primary-dark: #cfe0f5;
+    --color-primary-light: #a8c6ea;
+    --color-accent-dark: #6cd39a;
+  }
+}
+:root[data-theme="dark"] {
+  --color-surface: #0f1720;
+  --color-text: #e6edf3;
+  --color-text-muted: #8fa1b3;
+  --color-border: #23303d;
+  --color-gray-50: #131c26;
+  --color-gray-100: #18222d;
+  --color-gray-600: #b3c2d1;
+  --color-gray-700: #cdd9e5;
+  --color-primary: #7aa7dd;
+  --color-primary-dark: #cfe0f5;
+  --color-primary-light: #a8c6ea;
+  --color-accent-dark: #6cd39a;
+}
+:root[data-theme="dark"] .theme-toggle__icon--sun { display: none; }
+:root[data-theme="dark"] .theme-toggle__icon--moon { display: block; }
+
+/* ------------------------------------------------------------------ figures
+   Screenshots are of the live site, taken with Playwright the same way
+   scripts/build-og-preview.mjs takes the Open Graph image — reproducible, so they
+   can be regenerated when the design changes rather than drifting into a picture
+   of a site that no longer exists.
+
+   The OSM attribution control must stay visible in any map screenshot: the
+   basemap is OpenStreetMap under ODbL and the credit is a licence condition, not
+   decoration. Do not crop it out. */
+
+figure { margin: 0 0 1.6rem; }
+
+.shot {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-lg);
+  background: var(--color-gray-50);
+}
+
+figcaption {
+  margin-top: .6rem;
+  font-size: .82rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+/* Hero screenshot, overlapping the gradient band above it */
+.shot-hero { margin: calc(-1 * var(--hero-overlap)) 0 2.5rem; position: relative; z-index: 2; }
+.shot-hero .shot { box-shadow: 0 18px 45px -12px rgba(6, 40, 61, .45); }
+
+/* Screenshot inside a card */
+.card__shot {
+  display: block; width: 100%; height: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  margin: 0 0 .9rem;
+}
+
+/* Desktop + phone side by side */
+.shot-pair {
+  display: grid;
+  grid-template-columns: minmax(0, 2.1fr) minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: start;
+  margin: 1.4rem 0;
+}
+@media (max-width: 720px) { .shot-pair { grid-template-columns: 1fr; } }
+
+
+/* ================================================================= icons
+   Interface glyphs marked data-icon="lucide" use Lucide icons from the
+   open-source lucide-icons/lucide project. Navigation, buttons, cards,
+   theme controls and statistics now share the same 24x24 viewBox,
+   currentColor stroke, rounded caps/joins and 2px stroke. */
+
+.icon {
+  width: 1em; height: 1em;
+  flex-shrink: 0;
+  vertical-align: -.125em;
+}
+
+.app-header__link { gap: .45rem; }
+.app-header__link .icon { width: 17px; height: 17px; opacity: .95; }
+
+/* ------------------------------------------------------------- hero layout
+   Two columns on desktop: copy left, the island right. Below 900px the
+   graphic drops under the copy and shrinks rather than being hidden — it
+   carries the OSM-free, data-derived reading of the island and is the one
+   image on the page that costs no network request. */
+
+.hero__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
+  gap: 2.5rem;
+  align-items: center;
+}
+@media (max-width: 900px) {
+  .hero__grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  .hero__graphic { max-width: 340px; margin: 0 auto; }
+}
+
+
+/* ----------------------------------------------------- the constellation
+   The coastline is Natural Earth 10m physical land (public domain), the
+   Ireland ring simplified with Douglas-Peucker to 390 points and projected
+   to Web Mercator. The nodes are Natural Earth 10m populated places — real,
+   named towns, radius scaled by population — joined to their three nearest
+   neighbours plus a spanning tree so the graph is connected.
+
+   The visual language is the logo's: white nodes, thin white links. The
+   logo (assets/images/civgraph-logo-icon.svg) is 10 nodes and 18 lines; this
+   is the same idea at island scale. */
+
+.constellation {
+  position: relative;
+  width: 100%;
+  max-width: 430px;
+  margin-left: auto;
+}
+.constellation__svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+.constellation__plate { transition: transform .45s cubic-bezier(.22,.61,.36,1); }
+
+.constellation__halo { fill: #22c55e; opacity: .28; }
+.constellation__land {
+  stroke: rgba(126, 226, 168, .85);
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+}
+
+.cg-edge {
+  stroke: rgba(214, 255, 232, .38);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  transition: stroke .2s ease, stroke-width .2s ease;
+}
+.cg-edge.is-lit { stroke: rgba(255, 255, 255, .95); stroke-width: 2.4; }
+
+.cg-node { cursor: pointer; outline: none; }
+.cg-node__hit { fill: transparent; }
+.cg-node__dot {
+  fill: #ffffff;
+  transition: r .2s ease, fill .2s ease;
+}
+.cg-node__glow { opacity: .5; transition: opacity .25s ease; }
+
+.cg-node:hover .cg-node__glow,
+.cg-node:focus-visible .cg-node__glow,
+.cg-node.is-active .cg-node__glow { opacity: 1; }
+.cg-node:hover .cg-node__dot,
+.cg-node:focus-visible .cg-node__dot,
+.cg-node.is-active .cg-node__dot { fill: #eafff2; }
+.cg-node:focus-visible .cg-node__hit {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 2;
+  stroke-dasharray: 3 3;
+}
+
+.cg-signal { fill: #ffffff; }
+
+
+
+/* Nodes breathe on a slow stagger; the whole animation layer is switched off
+   for anyone who has asked for reduced motion, and the graphic stays legible
+   because none of the meaning lives in the movement. */
+@media (prefers-reduced-motion: no-preference) {
+  .cg-node__glow { animation: cg-breathe 5.5s ease-in-out infinite; }
+  @keyframes cg-breathe {
+    0%, 100% { opacity: .32; }
+    50%      { opacity: .72; }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .constellation__plate { transition: none; }
+}
+
+/* ------------------------------------------------------------ stat icons */
+.stat { display: flex; flex-direction: column; align-items: flex-start; gap: .1rem; }
+.stat__icon {
+  width: 26px; height: 26px;
+  color: var(--header-green);
+  margin-bottom: .45rem;
+}
+.card__icon { width: 20px; height: 20px; color: var(--header-green); vertical-align: -.2em; margin-right: .4rem; }
+.card h3 { display: flex; align-items: center; }
+
+/* Hero gradient intentionally left exactly as in the original Civgraph draft. */
+
+/* Buttons carry icons now, so they need to lay out as flex rather than as an
+   inline-block with a glyph jammed against the label. */
+.btn { display: inline-flex; align-items: center; gap: .55rem; }
+.btn .icon { width: 18px; height: 18px; }
+
+/* A little more lift on the nodes — at the scrim's opacity the earlier glow
+   read as haze rather than as light. */
+.cg-node__glow { opacity: .62; }
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes cg-breathe {
+    0%, 100% { opacity: .45; }
+    50%      { opacity: .92; }
+  }
+}
+.constellation__halo { opacity: .36; }
+
+
+@media (max-width: 900px) {
+  :root { --hero-overlap: 4rem; }
+  .hero {
+    min-height: calc(100svh - var(--header-height) + var(--hero-overlap));
+    padding: 4.5rem 0 6rem;
+  }
+}
+
+
+/* First hero screenshot: keep the overlap, but reveal it only after the user
+   has begun scrolling into it. */
+.shot-hero {
+  opacity: 0;
+  transform: translateY(38px);
+  transition:
+    opacity .52s cubic-bezier(.22,.61,.36,1) .05s,
+    transform .6s cubic-bezier(.22,.61,.36,1) .05s;
+  will-change: opacity, transform;
+}
+.shot-hero.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .shot-hero {
+    transition: opacity .2s ease;
+    transform: none;
+  }
+}
+
+
+/* Stats count up from zero once when the row scrolls into view. */
+.stat__n {
+  font-variant-numeric: tabular-nums;
+}
+
+
+/* Why it exists: reveal the two supporting images as they scroll into view. */
+.why-exists-images .scroll-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity .52s cubic-bezier(.22,.61,.36,1),
+    transform .62s cubic-bezier(.22,.61,.36,1);
+  will-change: opacity, transform;
+}
+.why-exists-images .scroll-reveal.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+.why-exists-images .scroll-reveal[data-reveal-index="1"] {
+  transition-delay: .09s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .why-exists-images .scroll-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+.support-btn__icon {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  display: block;
+}
+
+/* =====================================================================
+   Responsive hardening
+   Keeps the original Civgraph palette, gradient, logo, imagery and motion.
+   ===================================================================== */
+
+html {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+figure,
+.hero__copy,
+.hero__graphic,
+.card,
+.stat,
+.shot-pair > * {
+  min-width: 0;
+}
+
+.wrap {
+  width: 100%;
+  padding-left: clamp(1rem, 3vw, 1.5rem);
+  padding-right: clamp(1rem, 3vw, 1.5rem);
+}
+
+/* Use the measured sticky-header height so the hero fills the opening
+   viewport on laptops, tablets and phones. The existing svh rule remains
+   the fallback; dvh handles mobile browser chrome more accurately. */
+.hero {
+  min-height: calc(100dvh - var(--header-height) + var(--hero-overlap));
+  box-sizing: border-box;
+}
+
+.hero > .wrap {
+  width: 100%;
+}
+
+.hero__grid {
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr);
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.constellation {
+  max-width: min(430px, 36vw);
+}
+
+.shot,
+.card__shot {
+  max-width: 100%;
+}
+
+/* Mobile menu is absent on desktop. */
+.mobile-menu-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, .15);
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-menu-toggle:hover,
+.mobile-menu-toggle:focus-visible {
+  background: rgba(255, 255, 255, .28);
+}
+
+.mobile-menu-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+
+.mobile-menu-toggle__close {
+  display: none;
+}
+
+.app-header.nav-open .mobile-menu-toggle__menu {
+  display: none;
+}
+
+.app-header.nav-open .mobile-menu-toggle__close {
+  display: block;
+}
+
+/* Compact laptop widths without changing the desktop structure. */
+@media (min-width: 901px) and (max-width: 1180px) {
+  .app-header {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    gap: .65rem;
+  }
+
+  .app-header__brand {
+    --brand-size: clamp(46px, 5vw, 56px);
+  }
+
+  .app-header__nav {
+    gap: .05rem;
+  }
+
+  .app-header__link {
+    padding: .48rem .68rem;
+    gap: .35rem;
+    font-size: .9rem;
+  }
+
+  .app-header__link .icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .support-btn {
+    padding: 6px 10px;
+    margin-left: .2rem;
+  }
+
+  .theme-toggle {
+    margin-left: .1rem;
+  }
+
+  .hero {
+    padding-top: clamp(3rem, 7vh, 4.75rem);
+    padding-bottom: calc(var(--hero-overlap) + clamp(2.75rem, 6vh, 4rem));
+  }
+
+  .constellation {
+    max-width: min(390px, 37vw);
+  }
+}
+
+/* Tablet and mobile header. */
+@media (max-width: 900px) {
+  .app-header {
+    flex-wrap: nowrap;
+    padding: .55rem max(.9rem, env(safe-area-inset-right))
+             .55rem max(.9rem, env(safe-area-inset-left));
+    gap: .65rem;
+  }
+
+  .app-header__brand {
+    --brand-size: 46px;
+    min-width: 0;
+  }
+
+  .mobile-menu-toggle {
+    display: inline-flex;
+    margin-left: auto;
+  }
+
+  .app-header__nav {
+    position: absolute;
+    top: calc(100% + 1px);
+    left: max(.65rem, env(safe-area-inset-left));
+    right: max(.65rem, env(safe-area-inset-right));
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: .2rem;
+    padding: .65rem;
+    max-height: calc(100dvh - var(--header-height) - 1rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--header-base);
+    background-image:
+      radial-gradient(circle at 0% 50%, var(--header-green) 0%, transparent 50%),
+      radial-gradient(circle at 100% 50%, var(--header-navy) 0%, transparent 50%),
+      radial-gradient(circle at 40% 100%, var(--header-teal) 0%, transparent 60%);
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .app-header.nav-open .app-header__nav {
+    display: flex;
+  }
+
+  .app-header__link {
+    width: 100%;
+    min-height: 44px;
+    justify-content: flex-start;
+    padding: .68rem .8rem;
+    font-size: .95rem;
+  }
+
+  .app-header__link .icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .support-btn {
+    width: 100%;
+    min-height: 44px;
+    justify-content: center;
+    margin: .25rem 0 0;
+  }
+
+  .theme-toggle {
+    width: 44px;
+    height: 44px;
+    margin: .15rem 0 0 auto;
+  }
+
+  .hero__grid {
+    /* Undo the earlier 900px one-column rule on medium tablets.
+       The actual single-column breakpoint is below. */
+    grid-template-columns: minmax(0, 1.12fr) minmax(250px, .88fr);
+    gap: clamp(1.2rem, 3vw, 2rem);
+  }
+
+  .hero__graphic {
+    max-width: none;
+    margin: 0;
+  }
+
+  .constellation {
+    max-width: min(350px, 39vw);
+    margin: 0 auto;
+  }
+
+  .stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .cards {
+    grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+  }
+}
+
+/* Phone / narrow tablet layout. */
+@media (max-width: 760px) {
+  :root {
+    --hero-overlap: 3.5rem;
+  }
+
+  .app-header__brand {
+    --brand-size: 42px;
+  }
+
+  .hero {
+    padding-top: clamp(2rem, 5vh, 3rem);
+    padding-bottom: calc(var(--hero-overlap) + clamp(2rem, 5vh, 3rem));
+    min-height: calc(100dvh - var(--header-height) + var(--hero-overlap));
+  }
+
+  .hero__grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(1rem, 3.5vh, 1.6rem);
+    align-content: center;
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 8.6vw, 2.65rem);
+    line-height: 1.06;
+  }
+
+  .hero .lede {
+    max-width: none;
+    font-size: clamp(.98rem, 3.7vw, 1.12rem);
+    line-height: 1.55;
+    margin-bottom: 1.35rem;
+  }
+
+  .hero__graphic {
+    width: 100%;
+    max-width: none;
+    margin: 0 auto;
+  }
+
+  .constellation {
+    width: min(68vw, 270px);
+    max-width: 270px;
+    margin: 0 auto;
+  }
+
+  .cta-row {
+    gap: .65rem;
+  }
+
+  .hero .cta-row .btn {
+    flex: 1 1 210px;
+    justify-content: center;
+    min-height: 46px;
+  }
+
+  .shot-hero {
+    margin-top: calc(-1 * var(--hero-overlap));
+    margin-bottom: 2rem;
+  }
+
+  main section {
+    padding: 1rem 0;
+  }
+
+  h2 {
+    margin-top: 1.8rem;
+  }
+
+  .shot-pair {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  .cards {
+    gap: .9rem;
+  }
+
+  .card {
+    padding: 1.2rem;
+  }
+
+  .ftr {
+    margin-top: 2rem;
+    padding: 1.6rem 0 2.25rem;
+  }
+
+  table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Typical phones: two-column stats, full-width CTAs and tighter spacing. */
+@media (max-width: 520px) {
+  :root {
+    --hero-overlap: 3.1rem;
+  }
+
+  .app-header {
+    padding-top: .45rem;
+    padding-bottom: .45rem;
+  }
+
+  .app-header__brand {
+    --brand-size: 38px;
+  }
+
+  .app-header__wordmark {
+    font-size: calc(var(--brand-size) * .56);
+  }
+
+  .mobile-menu-toggle {
+    width: 40px;
+    height: 40px;
+    flex-basis: 40px;
+  }
+
+  .hero {
+    padding-top: clamp(1.6rem, 4vh, 2.35rem);
+    padding-bottom: calc(var(--hero-overlap) + clamp(1.55rem, 4vh, 2.25rem));
+  }
+
+  .hero h1 {
+    font-size: clamp(1.95rem, 9.4vw, 2.4rem);
+  }
+
+  .hero .lede {
+    font-size: .98rem;
+    margin-bottom: 1.05rem;
+  }
+
+  .constellation {
+    width: min(66vw, 250px);
+    max-width: 250px;
+  }
+
+  .hero .cta-row {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .hero .cta-row .btn {
+    width: 100%;
+    flex: none;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-radius: var(--radius-md);
+  }
+
+  .stat {
+    padding: 1rem .9rem;
+  }
+
+  .stat__icon {
+    width: 23px;
+    height: 23px;
+    margin-bottom: .3rem;
+  }
+
+  .stat__n {
+    font-size: clamp(1.4rem, 7vw, 1.75rem);
+  }
+
+  .stat__l {
+    font-size: .76rem;
+    line-height: 1.35;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .card__shot {
+    margin-bottom: .75rem;
+  }
+
+  .shot-pair {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .cta-row .btn--onlight,
+  .cta-row .btn--ghostlight {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Small/short phones: keep the whole hero composition usable without
+   pushing the island excessively far below the initial screen. */
+@media (max-width: 760px) and (max-height: 740px) {
+  :root {
+    --hero-overlap: 2.9rem;
+  }
+
+  .hero {
+    padding-top: 1.25rem;
+    padding-bottom: calc(var(--hero-overlap) + 1.25rem);
+  }
+
+  .hero__grid {
+    gap: .75rem;
+  }
+
+  .hero h1 {
+    font-size: clamp(1.8rem, 8.5vw, 2.2rem);
+    margin-bottom: .65rem;
+  }
+
+  .hero .lede {
+    font-size: .93rem;
+    line-height: 1.45;
+    margin-bottom: .85rem;
+  }
+
+  .hero .cta-row .btn {
+    min-height: 42px;
+    padding-top: .65rem;
+    padding-bottom: .65rem;
+  }
+
+  .constellation {
+    width: min(58vw, 215px);
+    max-width: 215px;
+  }
+}
+
+/* Very narrow devices. */
+@media (max-width: 350px) {
+  .app-header__brand {
+    --brand-size: 34px;
+  }
+
+  .app-header__wordmark {
+    font-size: calc(var(--brand-size) * .52);
+  }
+
+  .wrap {
+    padding-left: .85rem;
+    padding-right: .85rem;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .constellation {
+    width: min(62vw, 205px);
+  }
+}
+
+/* Landscape phones and shallow laptop windows. */
+@media (min-width: 700px) and (max-height: 600px) {
+  :root {
+    --hero-overlap: 2.75rem;
+  }
+
+  .hero {
+    min-height: calc(100dvh - var(--header-height) + var(--hero-overlap));
+    padding-top: 1.2rem;
+    padding-bottom: calc(var(--hero-overlap) + 1.2rem);
+  }
+
+  .hero__grid {
+    grid-template-columns: minmax(0, 1.2fr) minmax(220px, .8fr);
+    gap: 1.25rem;
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 4.4vw, 2.7rem);
+    margin-bottom: .65rem;
+  }
+
+  .hero .lede {
+    font-size: 1rem;
+    line-height: 1.45;
+    margin-bottom: .9rem;
+  }
+
+  .constellation {
+    max-width: min(250px, 30vw);
+  }
+
+  .hero .btn {
+    padding-top: .65rem;
+    padding-bottom: .65rem;
+  }
+}
+
+/* Touch devices: don't leave hover-only transforms stuck after taps. */
+@media (hover: none) {
+  .btn:hover,
+  .support-btn:hover {
+    transform: none;
+  }
+}
+
+/* Mobile hero order:
+   heading + copy -> Ireland network -> action buttons. */
+@media (max-width: 760px) {
+  .hero__copy {
+    display: contents;
+  }
+
+  .hero__grid > .hero__copy > h1 {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .hero__grid > .hero__copy > .lede {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .hero__grid > .hero__graphic {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .hero__grid > .hero__copy > .cta-row {
+    grid-column: 1;
+    grid-row: 4;
+    margin-top: .35rem;
+  }
+}
+
+
+/* Smooth mobile navigation open/close transition. */
+@media (max-width: 900px) {
+  .app-header__nav {
+    display: flex;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-10px) scale(.985);
+    transform-origin: top center;
+    max-height: 0;
+    overflow: hidden;
+    transition:
+      opacity .22s ease,
+      transform .28s cubic-bezier(.22,.61,.36,1),
+      max-height .32s cubic-bezier(.22,.61,.36,1),
+      visibility 0s linear .32s;
+  }
+
+  .app-header.nav-open .app-header__nav {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+    max-height: calc(100dvh - var(--header-height) - 1rem);
+    overflow-y: auto;
+    transition:
+      opacity .22s ease,
+      transform .28s cubic-bezier(.22,.61,.36,1),
+      max-height .32s cubic-bezier(.22,.61,.36,1),
+      visibility 0s linear 0s;
+  }
+
+  .mobile-menu-toggle svg {
+    transition: opacity .18s ease, transform .22s ease;
+  }
+
+  .mobile-menu-toggle__menu {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+
+  .mobile-menu-toggle__close {
+    display: block;
+    position: absolute;
+    opacity: 0;
+    transform: rotate(-70deg) scale(.75);
+  }
+
+  .mobile-menu-toggle {
+    position: relative;
+  }
+
+  .app-header.nav-open .mobile-menu-toggle__menu {
+    display: block;
+    opacity: 0;
+    transform: rotate(70deg) scale(.75);
+  }
+
+  .app-header.nav-open .mobile-menu-toggle__close {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-header__nav,
+  .mobile-menu-toggle svg {
+    transition: none !important;
+  }
+}
+
+
+/* Slightly larger mobile brand with a little extra breathing room. */
+@media (max-width: 900px) {
+  .app-header {
+    padding-top: .68rem;
+    padding-bottom: .68rem;
+  }
+
+  .app-header__brand {
+    --brand-size: 49px;
+  }
+}
+
+@media (max-width: 520px) {
+  .app-header {
+    padding-top: .58rem;
+    padding-bottom: .58rem;
+  }
+
+  .app-header__brand {
+    --brand-size: 44px;
+  }
+}
+
+@media (max-width: 350px) {
+  .app-header__brand {
+    --brand-size: 40px;
+  }
+}
+
+
+/* Stronger mobile brand presence and more vertical breathing room. */
+@media (max-width: 900px) {
+  .app-header {
+    padding-top: .9rem;
+    padding-bottom: .9rem;
+  }
+
+  .app-header__brand {
+    --brand-size: 58px;
+  }
+}
+
+@media (max-width: 520px) {
+  .app-header {
+    padding-top: .78rem;
+    padding-bottom: .78rem;
+  }
+
+  .app-header__brand {
+    --brand-size: 52px;
+  }
+}
+
+@media (max-width: 350px) {
+  .app-header {
+    padding-top: .7rem;
+    padding-bottom: .7rem;
+  }
+
+  .app-header__brand {
+    --brand-size: 47px;
+  }
+}
+
+
+/* =====================================================================
+   iPad / tablet fixes
+   Portrait iPads use the same stable vertical hero flow as mobile.
+   Landscape touch iPads keep the two-column hero, but use the compact
+   collapsible navigation so the header never crowds or wraps.
+   ===================================================================== */
+
+/* iPad portrait: 768 / 810 / 820 / 834 CSS-pixel widths. */
+@media (min-width: 521px) and (max-width: 900px) {
+  :root {
+    --hero-overlap: 4rem;
+  }
+
+  .hero {
+    min-height: calc(100svh - var(--header-height) + var(--hero-overlap));
+    min-height: calc(100dvh - var(--header-height) + var(--hero-overlap));
+    padding-top: clamp(2.6rem, 5vh, 3.6rem);
+    padding-bottom: calc(var(--hero-overlap) + clamp(2.6rem, 5vh, 3.6rem));
+  }
+
+  .hero__grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.35rem;
+    align-content: center;
+  }
+
+  /* Keep the requested tablet/mobile reading order:
+     copy -> Ireland -> buttons. */
+  .hero__copy {
+    display: contents;
+  }
+
+  .hero__grid > .hero__copy > h1 {
+    grid-column: 1;
+    grid-row: 1;
+    max-width: 760px;
+    font-size: clamp(2.65rem, 6.6vw, 3.65rem);
+    line-height: 1.04;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  .hero__grid > .hero__copy > .lede {
+    grid-column: 1;
+    grid-row: 2;
+    max-width: 680px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: .25rem;
+    text-align: center;
+    font-size: clamp(1rem, 2.25vw, 1.18rem);
+  }
+
+  .hero__grid > .hero__graphic {
+    grid-column: 1;
+    grid-row: 3;
+    width: 100%;
+    max-width: none;
+    margin: 0 auto;
+  }
+
+  .constellation {
+    width: min(46vw, 340px);
+    max-width: 340px;
+    margin: 0 auto;
+  }
+
+  .hero__grid > .hero__copy > .cta-row {
+    grid-column: 1;
+    grid-row: 4;
+    justify-content: center;
+    gap: .75rem;
+    margin-top: .2rem;
+  }
+
+  .hero .cta-row .btn {
+    min-width: 210px;
+    min-height: 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+  }
+
+  /* Avoid cramped split screenshots on portrait tablets. */
+  .shot-pair {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.15rem;
+  }
+
+  /* Six metrics read cleanly as two rows of three. */
+  .stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  /* Three cards should not squeeze into narrow thirds. */
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cards > .card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Very tall portrait iPads can give the island a little more presence. */
+@media (min-width: 760px) and (max-width: 900px) and (min-height: 1000px) {
+  .constellation {
+    width: min(48vw, 365px);
+    max-width: 365px;
+  }
+}
+
+/* iPad landscape / other touch tablets: collapse navigation up to 1180px
+   instead of trying to fit every text link into one row. */
+@media (hover: none) and (pointer: coarse) and (min-width: 901px) and (max-width: 1180px) {
+  .app-header {
+    flex-wrap: nowrap;
+    padding:
+      .78rem max(1.1rem, env(safe-area-inset-right))
+      .78rem max(1.1rem, env(safe-area-inset-left));
+    gap: .75rem;
+  }
+
+  .app-header__brand {
+    --brand-size: 54px;
+    min-width: 0;
+  }
+
+  .mobile-menu-toggle {
+    display: inline-flex;
+    margin-left: auto;
+    width: 44px;
+    height: 44px;
+    flex-basis: 44px;
+  }
+
+  .app-header__nav {
+    position: absolute;
+    top: calc(100% + 1px);
+    left: max(.85rem, env(safe-area-inset-left));
+    right: max(.85rem, env(safe-area-inset-right));
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: .2rem;
+    padding: .7rem;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-10px) scale(.985);
+    transform-origin: top center;
+    max-height: 0;
+    overflow: hidden;
+    background: var(--header-base);
+    background-image:
+      radial-gradient(circle at 0% 50%, var(--header-green) 0%, transparent 50%),
+      radial-gradient(circle at 100% 50%, var(--header-navy) 0%, transparent 50%),
+      radial-gradient(circle at 40% 100%, var(--header-teal) 0%, transparent 60%);
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    transition:
+      opacity .22s ease,
+      transform .28s cubic-bezier(.22,.61,.36,1),
+      max-height .32s cubic-bezier(.22,.61,.36,1),
+      visibility 0s linear .32s;
+  }
+
+  .app-header.nav-open .app-header__nav {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+    max-height: calc(100dvh - var(--header-height) - 1rem);
+    overflow-y: auto;
+    transition:
+      opacity .22s ease,
+      transform .28s cubic-bezier(.22,.61,.36,1),
+      max-height .32s cubic-bezier(.22,.61,.36,1),
+      visibility 0s linear 0s;
+  }
+
+  .app-header__link {
+    width: 100%;
+    min-height: 46px;
+    justify-content: flex-start;
+    padding: .7rem .85rem;
+    font-size: .96rem;
+  }
+
+  .app-header__link .icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .support-btn {
+    width: 100%;
+    min-height: 46px;
+    justify-content: center;
+    margin: .25rem 0 0;
+  }
+
+  .theme-toggle {
+    width: 44px;
+    height: 44px;
+    margin: .15rem 0 0 auto;
+  }
+
+  .hero {
+    min-height: calc(100svh - var(--header-height) + var(--hero-overlap));
+    min-height: calc(100dvh - var(--header-height) + var(--hero-overlap));
+    padding-top: clamp(2.2rem, 5vh, 3.5rem);
+    padding-bottom: calc(var(--hero-overlap) + clamp(2.2rem, 5vh, 3.5rem));
+  }
+
+  .hero__grid {
+    grid-template-columns: minmax(0, 1.08fr) minmax(300px, .92fr);
+    gap: clamp(1.5rem, 4vw, 2.5rem);
+  }
+
+  .constellation {
+    width: 100%;
+    max-width: min(360px, 31vw);
+  }
+
+  .stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* iPad portrait has touch input too: make sure hover transforms do not
+   leave controls in a shifted/stuck state after tapping. */
+@media (hover: none) and (pointer: coarse) {
+  .card,
+  .shot,
+  .card__shot,
+  .constellation {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .cg-node {
+    cursor: default;
+  }
+}
+
+
+/* iPad: keep the desktop-style paired-image treatment.
+   The wider screenshot remains dominant and the phone screenshot stays
+   narrower beside it, instead of stacking into two full-width images. */
+@media (min-width: 700px) and (max-width: 900px) {
+  .why-exists-images.shot-pair {
+    grid-template-columns: minmax(0, 2.05fr) minmax(0, 1fr);
+    gap: 1rem;
+    align-items: start;
+  }
+
+  .why-exists-images > figure {
+    min-width: 0;
+    margin-bottom: 1.6rem;
+  }
+
+  .why-exists-images .shot {
+    width: 100%;
+    height: auto;
+  }
+
+  /* Match the desktop reveal exactly on iPad. */
+  .why-exists-images .scroll-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition:
+      opacity .52s cubic-bezier(.22,.61,.36,1),
+      transform .62s cubic-bezier(.22,.61,.36,1);
+  }
+
+  .why-exists-images .scroll-reveal.is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .why-exists-images .scroll-reveal[data-reveal-index="1"] {
+    transition-delay: .09s;
+  }
+}
+
+/* The 760px phone breakpoint previously forced every shot-pair to one
+   column. On iPad-sized widths, the rule above intentionally restores the
+   desktop composition. */
+
+
+/* Full-width footer, using the same Civgraph gradient as the navigation bar. */
+.ftr {
+  margin-top: 3.5rem;
+  padding: 1.4rem 0;
+  border-top: 0;
+  background: var(--header-base);
+  background-image:
+    radial-gradient(circle at 0% 50%, var(--header-green) 0%, transparent 50%),
+    radial-gradient(circle at 100% 50%, var(--header-navy) 0%, transparent 50%),
+    radial-gradient(circle at 40% 100%, var(--header-teal) 0%, transparent 60%);
+  color: #fff;
+  box-shadow: 0 -4px 16px rgba(15, 39, 68, .08);
+}
+
+.ftr__inner {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+}
+
+.ftr__brand {
+  --footer-brand-size: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--footer-brand-size) * .05);
+  color: #fff;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.ftr__logo {
+  width: calc(var(--footer-brand-size) * .917);
+  height: calc(var(--footer-brand-size) * .917);
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+
+.ftr__wordmark {
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+  font-size: calc(var(--footer-brand-size) * .567);
+  line-height: 1;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.ftr__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: .3rem;
+}
+
+.ftr__nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: .45rem .72rem;
+  border-radius: var(--radius-md);
+  color: rgba(255,255,255,.88);
+  text-decoration: none;
+  font-size: .9rem;
+  font-weight: 500;
+  transition: color .15s ease, background .15s ease;
+}
+
+.ftr__nav a:hover,
+.ftr__nav a:focus-visible {
+  color: #fff;
+  background: rgba(255,255,255,.14);
+}
+
+.ftr__meta {
+  color: rgba(255,255,255,.72);
+  font-size: .82rem;
+  white-space: nowrap;
+}
+
+/* Tablet footer. */
+@media (max-width: 900px) {
+  .ftr {
+    margin-top: 3rem;
+    padding: 1.45rem 0;
+  }
+
+  .ftr__inner {
+    grid-template-columns: auto 1fr;
+    gap: .9rem 1.3rem;
+  }
+
+  .ftr__brand {
+    --footer-brand-size: 48px;
+  }
+
+  .ftr__nav {
+    justify-content: flex-end;
+  }
+
+  .ftr__meta {
+    grid-column: 1 / -1;
+    text-align: center;
+  }
+}
+
+/* Mobile footer. */
+@media (max-width: 600px) {
+  .ftr {
+    margin-top: 2.5rem;
+    padding: 1.7rem 0 calc(1.7rem + env(safe-area-inset-bottom));
+  }
+
+  .ftr__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .85rem;
+    text-align: center;
+  }
+
+  .ftr__brand {
+    --footer-brand-size: 50px;
+  }
+
+  .ftr__nav {
+    justify-content: center;
+    gap: .1rem;
+  }
+
+  .ftr__nav a {
+    min-height: 42px;
+    padding: .5rem .62rem;
+  }
+
+  .ftr__meta {
+    margin-top: .1rem;
+  }
+}
+
+/* Footer redesign: restrained and editorial, not a second navigation bar. */
+.ftr {
+  margin-top: 4.5rem;
+  padding: 2.4rem 0 2rem;
+  border-top: 0;
+  background: var(--header-base);
+  background-image:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--header-base) 88%, var(--header-navy) 12%),
+      color-mix(in srgb, var(--header-base) 76%, var(--header-teal) 24%)
+    );
+  color: #fff;
+  box-shadow: none;
+}
+
+.ftr__inner {
+  display: block;
+}
+
+.ftr__top,
+.ftr__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem 2rem;
+}
+
+.ftr__brand {
+  --footer-brand-size: 42px;
+  display: inline-flex;
+  align-items: center;
+  gap: .18rem;
+  color: #fff;
+  text-decoration: none;
+  flex: 0 0 auto;
+}
+
+.ftr__logo {
+  width: calc(var(--footer-brand-size) * .917);
+  height: calc(var(--footer-brand-size) * .917);
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+
+.ftr__wordmark {
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+  font-size: calc(var(--footer-brand-size) * .555);
+  line-height: 1;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.ftr__nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: .2rem .9rem;
+}
+
+.ftr__nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: auto;
+  padding: .2rem 0;
+  border-radius: 0;
+  color: rgba(255,255,255,.84);
+  text-decoration: none;
+  font-size: .9rem;
+  font-weight: 500;
+  transition: color .15s ease, opacity .15s ease;
+}
+
+.ftr__nav a:hover,
+.ftr__nav a:focus-visible {
+  color: #fff;
+  background: none;
+}
+
+.ftr__rule {
+  height: 1px;
+  margin: 1.45rem 0 1.15rem;
+  background: rgba(255,255,255,.16);
+}
+
+.ftr__bottom {
+  align-items: flex-end;
+}
+
+.ftr__tagline {
+  margin: 0;
+  max-width: 34rem;
+  color: rgba(255,255,255,.72);
+  font-size: .84rem;
+  line-height: 1.55;
+}
+
+.ftr__meta {
+  color: rgba(255,255,255,.58);
+  font-size: .8rem;
+  white-space: nowrap;
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .ftr {
+    margin-top: 3.5rem;
+    padding: 2.2rem 0 1.8rem;
+  }
+
+  .ftr__brand {
+    --footer-brand-size: 44px;
+  }
+
+  .ftr__top {
+    align-items: flex-start;
+  }
+
+  .ftr__nav {
+    gap: .25rem .8rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .ftr {
+    margin-top: 3rem;
+    padding: 2rem 0 calc(1.8rem + env(safe-area-inset-bottom));
+  }
+
+  .ftr__top,
+  .ftr__bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ftr__top {
+    gap: 1rem;
+  }
+
+  .ftr__brand {
+    --footer-brand-size: 46px;
+  }
+
+  .ftr__nav {
+    justify-content: flex-start;
+    gap: .3rem 1rem;
+  }
+
+  .ftr__nav a {
+    font-size: .92rem;
+  }
+
+  .ftr__rule {
+    margin: 1.25rem 0 1rem;
+  }
+
+  .ftr__bottom {
+    gap: .65rem;
+  }
+
+  .ftr__tagline {
+    max-width: 28rem;
+  }
+}
+
+
+/* GSAP progressively enhances motion; CSS/IntersectionObserver remain fallback. */
+@media (prefers-reduced-motion: no-preference) {
+  .shot-hero,
+  .why-exists-images .scroll-reveal {
+    will-change: transform, opacity;
+  }
+}
+
+
+/* Hero CTA safety: buttons must never disappear if a GSAP timeline is
+   interrupted, refreshed, or a media query changes. */
+.hero .cta-row .btn {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+
+/* Review notes. Restored 2026-08-30: both were dropped when this version was made, and
+   the counts note records a defect that is live on the site, so it should travel with
+   the page for as long as the figures below are hard-coded. */
+.note {
+  border-left: 3px solid var(--header-green);
+  background: var(--color-gray-50);
+  padding: 1rem 1.25rem;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  margin: 1.5rem 0 2.5rem;
+  font-size: .94rem;
+  line-height: 1.6;
+  color: var(--color-gray-700);
+}
+.note code {
+  background: var(--color-gray-100);
+  padding: .1em .4em;
+  border-radius: 4px;
+  font-size: .92em;
+}
+.note strong { color: var(--color-primary-dark); }
+
+/* Attribution lines. Directive, 2026-08-30: smallest permissible size, on a new line.
+   Floor is 0.75rem (12px) rather than smaller -- the OSM credit is an ODbL licence
+   condition and a credit that cannot be read does not discharge it. In rem so it still
+   scales under browser zoom (WCAG 1.4.4). */
+.attrib {
+  display: block;
+  margin-top: .4rem;
+  font-size: .75rem;
+  line-height: 1.45;
+  color: var(--color-text-muted);
+}
