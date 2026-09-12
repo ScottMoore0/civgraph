@@ -21,6 +21,7 @@ export const PUBLIC_PREFIXES = [
   "data/nisra-files/",
   "data/nisra-portal/",
   "data/pointclouds/",
+  "data/sources/datagovie-pending-ia/",
   "data/sources/oireachtas-fulltext/",
   "data/sources/tailte-national-land-cover-2018/",
   "data/thumbnails/",
