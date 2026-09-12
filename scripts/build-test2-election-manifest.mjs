@@ -1126,6 +1126,10 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
   const previousDate = previousKey ? previousKey.split('__').pop()?.replace(/-/g, '-') : null;
   const mainLikePartySummary = ElectionDomain.buildMainLikePartySummaryFromRawResults(rawEntries);
   const mainLikeCandidateSummary = ElectionDomain.buildMainLikeCandidateSummaryFromRawResults(rawEntries);
+  // Summary rows now carry source person ids as well, so the same lifespan evidence has to
+  // apply to them: otherwise the 2024 Laois candidate filed under Austin Stack's id would be
+  // detached in the results and quietly re-attached through the summary.
+  applyLifespanEvidence(entry, { candidates: mainLikeCandidateSummary.rows });
   const partySummary = entry.bodySlug === 'dail-eireann'
     ? mainLikePartySummary.rows
     : ElectionDomain.buildPartySummary(results);

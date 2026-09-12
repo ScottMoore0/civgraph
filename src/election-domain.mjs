@@ -133,6 +133,12 @@ function sourcePersonIdFor(row) {
   return existing || '';
 }
 
+/** `{ sourcePersonId }` when the source names the person, otherwise nothing at all. */
+function sourcePersonIdEntry(row) {
+  const id = sourcePersonIdFor(row);
+  return id ? { sourcePersonId: id } : {};
+}
+
 export function summarizeCandidateRows(rows = []) {
   const byCandidate = new Map();
   for (const row of Array.isArray(rows) ? rows : []) {
@@ -745,7 +751,14 @@ export function buildMainLikeCandidateSummaryFromRawResults(rawEntries = []) {
         const status = autoReturned ? 'Elected (auto returned)' : (elected ? 'Elected' : (excluded ? 'Excluded' : fixText(candidate.status || '') || 'Not Elected'));
         rows.push({
           id: String(index + 1),
-          personId: String(index + 1),
+          // `id` is a per-constituency row index, not a person. The real personId is
+          // stamped afterwards by scripts/apply_person_ids_v2.py; until then it is unknown.
+          personId: null,
+          // The person as the source names them, so the stamper resolves this row on
+          // evidence. Without it the row fell back to its name, and 1,627 summary rows
+          // disagreed with the results they summarise: the 1918 Austin Stack was filed
+          // under the 2024 candidate of the same name.
+          ...sourcePersonIdEntry(candidate),
           constituency,
           name,
           party,
@@ -800,7 +813,9 @@ export function buildMainLikeCandidateSummaryFromRawResults(rawEntries = []) {
         const party = normalizeParty(row.Party_Name);
         byCandidate.set(cid, {
           id: cid,
-          personId: cid,
+          // Candidate_Id is a row index here too; see the scraper branch above.
+          personId: null,
+          ...sourcePersonIdEntry(row),
           constituency,
           name,
           party,
@@ -1000,10 +1015,18 @@ export function buildEntityIndex(results = []) {
   for (const result of results) {
     totalValid += numberOrZero(result.validPoll);
     for (const candidate of result.candidates || []) {
-      const personId = candidate.id || `${candidate.name}|${candidate.party}`;
-      if (!candidates.has(personId)) {
-        candidates.set(personId, {
-          personId,
+      // Keyed on the person where the source names one, otherwise on name and party, and
+      // never on candidate.id. That id is a per-constituency row index on most contests,
+      // so keying on it filed the first-listed candidate of every constituency under one
+      // entry: the 2024 "John McGuinness" page listed 43 unrelated people, and 1969 "Tom
+      // Nolan" 42. The index carries `id` rather than personId, because a name-and-party
+      // key is not a person; `key` is the name|party form the candidate buttons link with.
+      const key = `${candidate.name}|${candidate.party}`;
+      const id = candidate.sourcePersonId || key;
+      if (!candidates.has(id)) {
+        candidates.set(id, {
+          id,
+          key,
           name: candidate.name,
           party: candidate.party,
           colour: candidate.colour || partyColour(candidate.party),
@@ -1014,7 +1037,7 @@ export function buildEntityIndex(results = []) {
           appearances: []
         });
       }
-      const candidateEntry = candidates.get(personId);
+      const candidateEntry = candidates.get(id);
       candidateEntry.firstPrefs += numberOrZero(candidate.firstPrefs);
       candidateEntry.finalVotes += numberOrZero(candidate.finalVotes);
       if (candidate.elected) candidateEntry.electedCount += 1;
@@ -1049,7 +1072,7 @@ export function buildEntityIndex(results = []) {
       if (candidate.elected) partyEntry.elected += 1;
       partyEntry.constituencies.add(result.constituency);
       partyEntry.candidates.push({
-        personId,
+        id,
         name: candidate.name,
         constituency: result.constituency,
         firstPref: numberOrZero(candidate.firstPrefs),
