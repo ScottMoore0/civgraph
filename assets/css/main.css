@@ -244,12 +244,20 @@ a:hover {
   overflow: hidden;
   --split-position: 50%;
   /* Default 50/50 split */
+  /* Width of .split-drag, the handle between the two panes. Named here so the election
+     pane can align to the map column without hardcoding it in two places. */
+  --split-handle-width: 6px;
+  /* Clamp split position to keep at least 20px on each side for tabs.
+     Declared on the shell rather than on .app-main so that BOTH the panes inside
+     .app-main and the election pane, which is a sibling of .app-main rather than a
+     child, can resolve it. A custom property does not reach a sibling, and that is why
+     the election pane spanned the full width: it had no way to know where the map
+     column started. .app-main inherits this unchanged. */
+  --clamped-split: clamp(20px, var(--split-position), calc(100% - 20px));
 }
 
 .app-main {
   display: grid;
-  /* Clamp split position to keep at least 20px on each side for tabs */
-  --clamped-split: clamp(20px, var(--split-position), calc(100% - 20px));
   grid-template-columns: var(--clamped-split) auto calc(100% - var(--clamped-split));
   height: calc(100vh - var(--header-height));
   min-height: min(calc(100vh - var(--header-height)), calc(var(--map-min-height) + var(--timeline-row-height)));
@@ -2066,7 +2074,12 @@ button.catalogue-flat__toc-toplink {
    and lets the search and nav share the row below, as they did before the blurb existed. */
 .catalogue-intro {
   grid-column: 1 / -1;
-  padding: 0 0 10px;
+  /* Vertically centred in the band between the header and the search row, rather than
+     sitting against the header. The shell's row-gap is 12px and cannot be undercut from
+     here, so the balance is struck by matching it above: 12px of clear space on each
+     side of the text. Padding-bottom is 0 precisely because that 12px gap already
+     provides the space below; adding to it would push the block upwards again. */
+  padding: 11px 0 0;
 }
 
 .catalogue-intro__heading {
@@ -10829,7 +10842,13 @@ kbd {
 .election-results-pane--open {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  /* Below the MAP pane only, which is what the "Split pane below map" heading above
+     always said it was. It previously spanned the shell's full width, so results sat
+     under the catalogue list as well, and the catalogue had a second pane beneath it
+     that had nothing to do with it. Offset by the split position plus the handle, so
+     the pane's left edge meets the map's. */
+  margin-left: calc(var(--clamped-split) + var(--split-handle-width, 6px));
+  width: calc(100% - var(--clamped-split) - var(--split-handle-width, 6px));
   /* Default height; overridden by drag logic */
   height: calc(40vh - 6px);
   max-height: min(42vh, max(120px, calc(100vh - var(--header-height, 64px) - var(--map-min-height, 220px) - var(--timeline-row-height, 58px) - 6px)));
