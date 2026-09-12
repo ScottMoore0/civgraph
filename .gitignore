@@ -269,9 +269,12 @@ data/browse/*
 # 2026-08-12 rebuilt 2,278 of 2,386 files from clean; the 107 map details it did
 # not rebuild are all legitimately stale (98 are hidden:true in the catalogue, 9
 # are the retired eds-YYYY-province naming set), but this file is different:
-# NOTHING in scripts/ generates it. It is source material, browse/browse.js
-# fetches it with a silent `.catch(() => null)`, so if it were ever lost the only
-# symptom would be a Browse section quietly going empty.
+# it is the only tracked file in an otherwise generated directory, and `npm run
+# build` does not produce it -- scripts/build-proni-roots.mjs does, from the PRONI
+# D1 database, and that is not part of the build. browse/browse.js fetches it with
+# a silent `.catch(() => null)`, so if it were ever lost the only symptom would be
+# a Browse section quietly going empty. `npm run check` now runs
+# build-proni-roots.mjs --check so absence or staleness fails loudly instead.
 !data/browse/proni-roots.json
 
 # Dublin development-plan scans: 12 files, 167 MB, already on R2 and already
