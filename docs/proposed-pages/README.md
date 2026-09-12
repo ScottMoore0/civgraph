@@ -42,8 +42,18 @@ To bring a page up to date after the data moves:
 node scripts/build-site-stats.mjs --apply docs/proposed-pages/home.html
 ```
 
-Figures stated in prose rather than inside a tagged element are **not** covered. There are
-still some, and the review notes on both pages say so.
+Figures stated in prose are covered too, where a computed key exists: they are wrapped in
+`<span data-stat="...">`. Six further keys beyond the headline set are available for this
+(`elections`, `catalogueEntries`, `renderedLayers`, `proniRecords`, `graphEntities`), and
+are checked only on pages that actually claim them. What remains unguarded is figures with
+no computed source, such as "552 boundaries" for the 1984 wards.
+
+## These are the only current copies
+
+Older lineages are archived, dated, under
+`Desktop\Civgraph proposed pages\superseded\`, with a pointer file beside them.
+Nothing outside this directory is current, including the copy marked "EDITED IN ERROR",
+which is the 2026-09-11 pass that went into the wrong lineage before being redone here.
 
 ## Open questions
 
@@ -51,8 +61,7 @@ still some, and the review notes on both pages say so.
   Birch. A later suggested amendment, adding that the tools are part of the project rather
   than an extension and that wider querying is an aim rather than a current feature, was
   never accepted or rejected.
-- Whether the Acknowledgements section should return to the About page. It was removed on
-  the grounds that provenance is recorded throughout the site; Phelim was asked whether
-  anything specifically belonged there and the record does not show an answer.
-- The Open Graph preview image is still the one captured on 5 August, advertising
-  "1012 maps" and a `Census` nav link that no longer exists.
+- ~~Whether the Acknowledgements section should return to the About page.~~ Decided
+  2026-09-12: no Acknowledgements section. Provenance is recorded throughout the site.
+- ~~The Open Graph preview image is stale.~~ Regenerated 2026-09-12: it now reads 795 maps
+  and carries the current nav. `check:og-preview` holds it.
