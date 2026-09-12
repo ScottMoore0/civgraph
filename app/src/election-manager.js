@@ -2541,14 +2541,14 @@ export class Test2ElectionManager {
       }
       for (const row of rows) points.push(row);
     }
-    const markup = this.renderTrendChart(points, selectedResult, includeAllTypes);
+    const markup = this.renderTrendChart(points, selectedResult, includeAllTypes, entries.length);
     rememberLimitedCache(this.trendRenderCache, renderCacheKey, markup, ELECTION_TREND_RENDER_CACHE_LIMIT);
     if (chart.dataset.trendRequestKey === renderCacheKey) {
       chart.innerHTML = markup;
     }
   }
 
-  renderTrendChart(points = [], selectedResult = null, includeAllTypes = false) {
+  renderTrendChart(points = [], selectedResult = null, includeAllTypes = false, comparableCount = 0) {
     if (!points.length) {
       return '<p class="election-no-data">No trend data is available for this selection.</p>';
     }
@@ -2571,6 +2571,23 @@ export class Test2ElectionManager {
     const series = [...byParty.values()]
       .sort((a, b) => numberOrZero(b.latestShare) - numberOrZero(a.latestShare) || numberOrZero(b.maxShare) - numberOrZero(a.maxShare))
       .slice(0, 8);
+    // Why a constituency series can be short, said out loud.
+    //
+    // A point is matched to a constituency by NAME, and constituencies are renamed and
+    // redrawn. Donegal returns three points -- 2016, 2020, 2024 -- because before that it
+    // was Donegal North-East and Donegal South-West, which share no name with it and
+    // nothing links them. The line is correct for the name and looks like a bug.
+    //
+    // Joining them needs a constituency-successor registry, the way people needed a person
+    // registry, and that does not exist yet. Until it does, a chart that explains its own
+    // gap is far better than one that appears broken.
+    const selectionName = selectedResult ? (selectedResult.constituency || selectedResult.featureName || '') : '';
+    const shortSeriesNote = (selectionName && comparableCount > electionOrder.length + 1)
+      ? `<p class="test2-election-trends__note">Showing ${electionOrder.length} of ${comparableCount} comparable elections. `
+        + `${escapeHtml(selectionName)} appears under this name in those elections only; constituencies are `
+        + 'renamed and redrawn, and a predecessor under a different name is not yet linked to it.</p>'
+      : '';
+
     const width = 860;
     const height = 330;
     const pad = { left: 46, right: 24, top: 22, bottom: 70 };
@@ -2617,6 +2634,7 @@ export class Test2ElectionManager {
         ${xLabels}
       </svg>
       <p class="test2-election-trends__note">${includeAllTypes ? 'Showing all election types available for this geography.' : 'Showing the current election family. Use the toggle to include all election types.'}</p>
+      ${shortSeriesNote}
     `;
   }
 
