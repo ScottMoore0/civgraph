@@ -79,7 +79,11 @@ def main():
             reasons.append('NI+RoI bodies'); sev += 2
         if not reasons:
             continue
+        # A span the SOURCE itself asserts is a different claim from one we inferred by
+        # name. Both are worth a look -- a 60-year career is unusual either way -- but
+        # only the inferred kind is our bug, so the reviewer is told which it is.
         rows.append({'personId': pid, 'name': e['displayName'], 'kind': 'OVER-MERGE',
+                     'sourceAsserted': 'yes' if e.get('sourcePersonIds') else '',
                      'keyedBy': e['keyedBy'], 'candidacies': len(xs),
                      'firstYear': ys[0], 'lastYear': ys[-1], 'span': span,
                      'largest_gap': big[0], 'bodies': len(bodies),
@@ -100,9 +104,19 @@ def main():
             if not (a.get('lastYear') and b.get('firstYear')):
                 continue
             gap = b['firstYear'] - a['lastYear']
+            # Not an under-merge if the SOURCE says they are two people. Where both
+            # entities carry harvested ElectionsIreland person ids and those sets do not
+            # overlap, the archive itself distinguishes them, and a shared name plus a
+            # short gap is then a coincidence rather than evidence. Flagging it anyway
+            # would be asking a reviewer to second-guess the only hard identity in the
+            # data.
+            asp, bsp = set(a.get('sourcePersonIds') or []), set(b.get('sourcePersonIds') or [])
+            if asp and bsp and not (asp & bsp):
+                continue
             if 0 <= gap <= 10 and a['personId'] != b['personId']:
                 rows.append({'personId': f"{a['personId']}+{b['personId']}",
                              'name': a['displayName'], 'kind': 'UNDER-MERGE',
+                             'sourceAsserted': '',
                              'keyedBy': f"{a['keyedBy']}/{b['keyedBy']}",
                              'candidacies': a['candidacies'] + b['candidacies'],
                              'firstYear': a.get('firstYear'), 'lastYear': b.get('lastYear'),
@@ -125,6 +139,8 @@ def main():
           f"(over-merge {len(over):,}, under-merge {len(under):,})")
     kb = collections.Counter(r['keyedBy'] for r in over)
     print(f"  over-merges by keying: {dict(kb)}")
+    asserted = sum(1 for r in over if r['sourceAsserted'])
+    print(f"  of those, asserted by the source (not inferred from the name): {asserted:,}")
     print(f"\n  worst OVER-MERGES (distinct people probably fused):")
     print(f"    {'id':>7} {'name':26} {'span':>5} {'cands':>5} {'key':>5}  reasons")
     for r in over[:14]:

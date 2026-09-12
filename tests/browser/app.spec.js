@@ -883,10 +883,14 @@ test('selected Dail 2024 Galway East pane computes constituency percentages and 
   const beforeResize = await page.evaluate(() => {
     const pane = document.getElementById('electionResultsPane').getBoundingClientRect();
     const appMain = document.querySelector('.app-main').getBoundingClientRect();
+    const map = document.querySelector('.pane--map').getBoundingClientRect();
+    const catalogue = document.querySelector('.pane--info').getBoundingClientRect();
     const handle = document.querySelector('[data-election-pane-resize]').getBoundingClientRect();
     return {
       paneHeight: Math.round(pane.height),
       appMainHeight: Math.round(appMain.height),
+      mapHeight: Math.round(map.height),
+      catalogueHeight: Math.round(catalogue.height),
       handleX: Math.round(handle.left + handle.width / 2),
       handleY: Math.round(handle.top + handle.height / 2)
     };
@@ -899,14 +903,27 @@ test('selected Dail 2024 Galway East pane computes constituency percentages and 
   const afterResize = await page.evaluate(() => {
     const pane = document.getElementById('electionResultsPane').getBoundingClientRect();
     const appMain = document.querySelector('.app-main').getBoundingClientRect();
+    const map = document.querySelector('.pane--map').getBoundingClientRect();
+    const catalogue = document.querySelector('.pane--info').getBoundingClientRect();
     return {
       paneHeight: Math.round(pane.height),
+      paneLeft: Math.round(pane.left),
       appMainHeight: Math.round(appMain.height),
+      mapHeight: Math.round(map.height),
+      mapLeft: Math.round(map.left),
+      catalogueHeight: Math.round(catalogue.height),
+      catalogueRight: Math.round(catalogue.right),
       cssHeight: getComputedStyle(document.body).getPropertyValue('--test2-election-pane-height').trim()
     };
   });
   expect(afterResize.paneHeight).toBeGreaterThan(beforeResize.paneHeight + 20);
-  expect(afterResize.appMainHeight).toBeLessThan(beforeResize.appMainHeight - 20);
+  // The pane sits below the map column only: the map gives up the height, while the
+  // catalogue and the shell keep the full viewport.
+  expect(afterResize.mapHeight).toBeLessThan(beforeResize.mapHeight - 20);
+  expect(afterResize.catalogueHeight).toBe(beforeResize.catalogueHeight);
+  expect(afterResize.appMainHeight).toBe(beforeResize.appMainHeight);
+  expect(afterResize.paneLeft).toBeGreaterThanOrEqual(afterResize.catalogueRight);
+  expect(Math.abs(afterResize.paneLeft - afterResize.mapLeft)).toBeLessThanOrEqual(1);
   expect(afterResize.cssHeight).toMatch(/px$/);
   const afterRerender = await page.evaluate(async () => {
     window.__civgraphTest2.app.elections.renderPanel(null, 'candidate');

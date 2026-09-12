@@ -19,6 +19,9 @@ const OUT_REPORT = path.join(ROOT, 'render', 'metadata', 'elections-test2-report
 const DAIL_WIKIPEDIA_COUNTS_ROOT = path.join(ROOT, 'data', 'elections', 'dail-wikipedia-counts');
 const DAIL_OFFICIAL_RESULTS = path.join(ROOT, 'data', 'elections', 'dail-official-results.json');
 const DAIL_APPROVED_CANDIDATE_ALIASES = path.join(ROOT, 'data', 'elections', 'dail-approved-candidate-aliases.json');
+// Birth and death dates ElectionsIreland publishes for source person ids whose careers
+// look impossible. Written by scripts/harvest_ei_candidate_ids.py --lifespans.
+const EI_CANDIDATE_LIFESPANS = path.join(ROOT, 'data', 'elections', 'persons', 'ei-candidate-lifespans.json');
 const dailOfficialResults = existsSync(DAIL_OFFICIAL_RESULTS)
   ? readJson(DAIL_OFFICIAL_RESULTS)
   : { elections: {} };
@@ -308,13 +311,17 @@ async function main() {
   const layerBySource = buildLayerLookup(layers);
   const featureIndexes = loadFeatureIndexes(layers);
   const entries = buildUniqueElectionEntries(electionIndex);
-  const previousKeyByKey = buildPreviousElectionKeyLookup(entries);
 
   // Before the wipe, not after. Refusing to build is only an improvement if the previous
   // good output survives the refusal; checking after rmSync would delete every bundle and
   // then decline to replace them, which is worse than the silent corruption it guards
   // against. I made exactly that mistake in the first version of this check.
-  assertFeatureIndexesPresent(entries, layerBySource, featureIndexes);
+  const withheld = assertFeatureIndexesPresent(entries, layerBySource, featureIndexes);
+  const buildable = withheld.size ? entries.filter((entry) => !withheld.has(electionKey(entry))) : entries;
+  // Chained over the BUILDABLE set, not every entry. A withheld election must not
+  // become some later election's `previous`: the trend would point at a bundle that
+  // was never written, and the comparison would silently come back empty.
+  const previousKeyByKey = buildPreviousElectionKeyLookup(buildable);
 
   rmSync(OUT_DIR, { recursive: true, force: true });
   mkdirSync(OUT_DIR, { recursive: true });
@@ -325,7 +332,7 @@ async function main() {
   let totalMatched = 0;
   let totalUnmatched = 0;
 
-  for (const entry of entries) {
+  for (const entry of buildable) {
     const geography = resolveElectionGeography(entry);
     const councilGeography = resolveLocalGovernmentCouncilGeography(entry);
     const layer = geography?.sourceMapId ? layerBySource.get(geography.sourceMapId) : null;
@@ -1023,6 +1030,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     const enrichedRawResult = applyNiLocalValidPollCorrection(key, constituency, wikiEnrichedRawResult);
     if (officialRawResult) rawEntries.push({ constituency, raw: officialRawResult });
     const result = ElectionDomain.summarizeResult(enrichedRawResult, constituency);
+    applyLifespanEvidence(entry, result);
     const resultMetadata = classifyElectionResult(entry, result, electionMetadata);
     const matchEntry = matchEntryForConstituency(entry, result.constituency || constituency);
     const localBody = entry.bodyGroup === 'local-government' ? matchEntry.body : null;
@@ -1071,6 +1079,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
       const enrichedRawResult = applyNiLocalValidPollCorrection(key, constituency, wikiEnrichedRawResult);
       rawEntries.push({ constituency, raw: officialRawResult });
       const result = ElectionDomain.summarizeResult(enrichedRawResult, constituency);
+      applyLifespanEvidence(entry, result);
       const resultMetadata = classifyElectionResult(entry, result, electionMetadata);
       const matchEntry = matchEntryForConstituency(entry, result.constituency);
       const localBody = entry.bodyGroup === 'local-government' ? matchEntry.body : null;
@@ -1309,6 +1318,7 @@ function featureIndexForLayer(featureIndexes, layer, extraKey = null) {
     || null;
 }
 
+/** Returns the election keys to withhold from this build (empty unless asked). */
 function assertFeatureIndexesPresent(entries, layerBySource, featureIndexes) {
   let missing = new Map();
   for (const entry of entries) {
@@ -1319,7 +1329,7 @@ function assertFeatureIndexesPresent(entries, layerBySource, featureIndexes) {
     if (!missing.has(layer.id)) missing.set(layer.id, []);
     missing.get(layer.id).push(electionKey(entry));
   }
-  if (!missing.size) return;
+  if (!missing.size) return new Set();
 
   // Layers already known to be missing an index are recorded in a committed baseline.
   // They still produce wrong output, but it is the output already deployed, so failing
@@ -1335,7 +1345,7 @@ function assertFeatureIndexesPresent(entries, layerBySource, featureIndexes) {
     console.warn(`${baselined.size} geography layer(s) have no feature index (baselined), affecting ${n} election(s).`);
     console.warn(`Those elections will be written with matchedCount 0. See ${path.relative(ROOT, FEATURE_INDEX_BASELINE)}.`);
   }
-  if (!newlyMissing.size) return;
+  if (!newlyMissing.size) return new Set();
 
   missing = newlyMissing;
   const affected = [...missing.values()].reduce((sum, list) => sum + list.length, 0);
@@ -1355,10 +1365,28 @@ function assertFeatureIndexesPresent(entries, layerBySource, featureIndexes) {
     // constituencies, so the output is fine to inspect and must not be committed.
     log('\n--allow-missing-feature-indexes given: continuing. The elections listed above');
     log('will be written with matchedCount 0 and loadable false. DO NOT COMMIT THAT OUTPUT.\n');
-    return;
+    return new Set();
+  }
+  if (process.argv.includes('--withhold-unmappable')) {
+    // Hold the election back rather than publish it empty. These are contests whose
+    // results we have and whose geography we do not: the six Dail elections recovered
+    // from the 1973-1997 gap are waiting on their constituency boundaries. Publishing
+    // them with matchedCount 0 would put six elections on the site that draw nothing and
+    // answer nothing, and refusing to build at all blocks every unrelated change to the
+    // other 281. Withholding is the honest third option, and it is not silent: the keys
+    // are listed above and the results stay in data/elections-source, so the day the
+    // boundaries land the election appears with no further work.
+    //
+    // Only ever applies to NEWLY missing layers. A baselined gap keeps its current
+    // behaviour, because that output is already deployed and withholding it would
+    // silently remove live elections.
+    log('\n--withhold-unmappable given: the elections listed above are held back from');
+    log('this build. They will appear as soon as their feature index exists.\n');
+    return new Set([...missing.values()].flat());
   }
   log('\nRefusing to write elections that would all report zero matched constituencies.');
-  log('Pass --allow-missing-feature-indexes if you are deliberately building a partial set.\n');
+  log('Pass --withhold-unmappable to hold them back and build the rest, or');
+  log('--allow-missing-feature-indexes to build them empty for inspection.\n');
   process.exit(1);
 }
 
@@ -2027,7 +2055,71 @@ function enrichDailResultWithWikipediaCounts(entry, resultPath, rawResult, fallb
   return buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency);
 }
 
+let eiLifespans = null;
+function loadEiLifespans() {
+  if (!eiLifespans) {
+    eiLifespans = existsSync(EI_CANDIDATE_LIFESPANS) ? (readJson(EI_CANDIDATE_LIFESPANS).persons || {}) : {};
+  }
+  return eiLifespans;
+}
+
+/**
+ * Detach a candidacy from its source person id when the source's own lifespan for that
+ * person rules it out.
+ *
+ * A source id is the best identity evidence in the data, but it is not infallible:
+ * ElectionsIreland files a 2024 Laois candidate under ID 1021, which is Austin Stack,
+ * born 1879 and dead since 1929, and its own page for 1021 gives both dates. Believing
+ * the id over the dates would rebuild the 106-year career the ids were harvested to
+ * break up. Only a stated lifespan decides anything here -- a contest after the death,
+ * or before the age of 21. A long gap with no dates is left alone and stays flagged,
+ * because splitting on it would be a guess.
+ *
+ * The id is kept on the candidacy as sourcePersonIdRejected, with the reason and the
+ * page that gives the evidence, so the decision can be checked and reversed.
+ */
+function applyLifespanEvidence(entry, result) {
+  const lifespans = loadEiLifespans();
+  const date = String(entry?.date || '');
+  if (!date || !result) return result;
+  const people = [...(result.candidates || []), ...(result.elected || [])];
+  for (const candidate of people) {
+    const id = candidate?.sourcePersonId;
+    const life = id ? lifespans[id] : null;
+    if (!life) continue;
+    let reason = null;
+    if (life.died && date > life.died) {
+      reason = `contest ${date} is after the death recorded for ${id} (${life.died})`;
+    } else if (life.born && Number(date.slice(0, 4)) - Number(life.born.slice(0, 4)) < 21) {
+      reason = `contest ${date} is before ${id} turned 21 (born ${life.born})`;
+    }
+    if (!reason) continue;
+    candidate.sourcePersonIdRejected = { id, reason, evidence: life.url };
+    delete candidate.sourcePersonId;
+  }
+  return result;
+}
+
 function buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency = '') {
+  // Every candidate the ElectionsIreland page listed, by name. The sidecar supplies
+  // candidacies our own scrape of that page missed -- 1,380 of them between 1922 and
+  // 1969 -- and those people are on the page, just not in our file. Without this they
+  // reach the site with no identity at all, and the same person ends up split between
+  // the elections we named them in and the ones we did not.
+  //
+  // A name the page links to more than one id resolves to NOTHING. The 1923 Donegal
+  // page links "Peter Ward" twice, to 961 (the sitting TD) and to 1126 (a Meath
+  // candidate of 2002), and a plain map kept whichever came last -- filing the 1923
+  // TD under a man who stood eighty years later. The matching pass in the harvester
+  // already refuses such a name; this lookup has to refuse it too.
+  const eiRosterIds = new Map();
+  for (const entry of rawResult?.ei_candidates || []) {
+    if (!entry?.id) continue;
+    const key = normalizeName(entry.name || '');
+    if (!eiRosterIds.has(key)) eiRosterIds.set(key, new Set());
+    eiRosterIds.get(key).add(entry.id);
+  }
+  const eiRoster = new Map([...eiRosterIds].filter(([, ids]) => ids.size === 1).map(([key, ids]) => [key, [...ids][0]]));
   const localCandidates = new Map();
   const localCandidatesByFirstPref = new Map();
   for (const candidate of rawResult?.candidates || []) {
@@ -2062,6 +2154,12 @@ function buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency
         Dail_Abbreviation: localCandidate?.dailAbbreviation || localCandidate?.partyAbbreviation || '',
         Firstname: nameParts.firstname,
         Gender: localCandidate?.gender || '',
+        // Carried over from the matched local candidate, like Gender and the official
+        // id above. These rows are rebuilt from the Wikipedia count sidecar, which knows
+        // the votes but not who the person is; dropping this here is what left every
+        // Dail election from 1923 on unable to tell two same-named candidates apart.
+        ei_candidate_id: localCandidate?.ei_candidate_id ?? localCandidate?.eiCandidateId
+          ?? eiRoster.get(normalizeName(name)) ?? '',
         Official_Candidate_Id: localCandidate?.officialCandidateId || '',
         Official_Status: localCandidate?.officialStatus || '',
         Party_Abbreviation: localCandidate?.partyAbbreviation || localCandidate?.dailAbbreviation || '',
