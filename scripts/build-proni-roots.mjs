@@ -2,6 +2,11 @@
 /**
  * Generate data/browse/proni-roots.json from the PRONI D1 database.
  *
+ * Runs as the first step of `npm run build:browse`, NOT of `npm run build`. It reads D1,
+ * and `npm run build` is what Cloudflare Pages executes on a clean checkout with no
+ * database access -- putting a network-dependent step there fails the deploy, which is
+ * exactly how build-site-stats.mjs broke production earlier this month.
+ *
  * WHY THIS EXISTS
  *
  * Tech-debt item 7. The file is 1.4 MB of top-level PRONI records, fetched by
