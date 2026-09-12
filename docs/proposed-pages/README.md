@@ -57,10 +57,11 @@ which is the 2026-09-11 pass that went into the wrong lineage before being redon
 
 ## Open questions
 
-- The mission statement on the About page is the six-paragraph text agreed with Phelim
-  Birch. A later suggested amendment, adding that the tools are part of the project rather
-  than an extension and that wider querying is an aim rather than a current feature, was
-  never accepted or rejected.
+- ~~Whether to take the suggested amendment to the mission statement.~~ Decided
+  2026-09-12: taken. The About page carries the text agreed with Phelim Birch plus two
+  changes -- the tools are stated to be part of the project rather than an extension, and
+  wider querying is stated as an aim rather than a current feature, which was the point
+  his review raised.
 - ~~Whether the Acknowledgements section should return to the About page.~~ Decided
   2026-09-12: no Acknowledgements section. Provenance is recorded throughout the site.
 - ~~The Open Graph preview image is stale.~~ Regenerated 2026-09-12: it now reads 795 maps
