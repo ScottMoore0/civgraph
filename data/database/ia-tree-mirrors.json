@@ -2,42 +2,30 @@
   "schemaVersion": 1,
   "note": "Written by scripts/upload-tree-ia.mjs. Counts are from the last run and are not a completeness claim -- re-run with --plan-only to see what is still outstanding.",
   "itemPrefix": "civgraph-datagovie-",
-  "classes": [
-    {
-      "licence": "CC BY 4.0",
-      "items": [
-        "civgraph-datagovie-ccby-004",
-        "civgraph-datagovie-ccby-005",
-        "civgraph-datagovie-ccby-006",
-        "civgraph-datagovie-ccby-007",
-        "civgraph-datagovie-ccby-008",
-        "civgraph-datagovie-ccby-011",
-        "civgraph-datagovie-ccby-012",
-        "civgraph-datagovie-ccby-013"
-      ]
-    },
-    {
-      "licence": "CC BY-SA 4.0",
-      "items": [
-        "civgraph-datagovie-ccbysa-001"
-      ]
-    },
-    {
-      "licence": "CC0 1.0",
-      "items": [
-        "civgraph-datagovie-cc0-001"
-      ]
-    }
-  ],
+  "classes": [],
   "skipped": {
     "packages": 312,
     "files": 792,
     "gigabytes": 31.89
   },
+  "rejected": [
+    {
+      "file": "audit-report/2021%20Kildare%20County%20Council%20%20Audit%20Report.pdf",
+      "reason": "recorded by an earlier run"
+    },
+    {
+      "file": "finance-publications-annual-financial-statements/Annual%20Financial%20Statements%202021%20Kildare%20County%20Council.pdf",
+      "reason": "recorded by an earlier run"
+    },
+    {
+      "file": "flat-rate-expense-allowances/flat-rate-expenses.pdf",
+      "reason": "recorded by an earlier run"
+    }
+  ],
   "lastRun": {
-    "uploaded": 18948,
-    "failed": 44,
-    "gigabytesSent": 1.17,
+    "uploaded": 0,
+    "failed": 0,
+    "gigabytesSent": 0,
     "aborted": false,
     "abortReason": null
   }

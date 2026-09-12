@@ -146,6 +146,21 @@ function parseCsv(text) {
 const groups = new Map(); // classSlug -> { info, files[] }
 const skipped = { packages: 0, files: 0, bytes: 0, reasons: new Map() };
 const corrupt = { files: 0, bytes: 0, names: [] };
+// Files the Internet Archive has refused as unacceptable. Recorded by path so a later run
+// can skip them instead of retrying something that cannot succeed.
+const rejected = [];
+const UNACCEPTABLE_RE = /Uploaded content is unacceptable/i;
+const NEWLINE_RE = new RegExp(String.fromCharCode(13) + "|" + String.fromCharCode(10));
+const BAR_MARK = "%|";
+const PREVIOUSLY_REJECTED = new Set(
+  (() => {
+    try {
+      return (JSON.parse(readFileSync(SIDECAR, 'utf8')).rejected || []).map((r) => r.file);
+    } catch { return []; }
+  })(),
+);
+const misnamed = { files: 0, bytes: 0, names: [] };
+let previouslyRejected = 0;
 
 /**
  * True if a zip has no End Of Central Directory record, i.e. the download was cut short. IA
@@ -164,6 +179,32 @@ function truncatedZip(local, bytes) {
   return !buffer.includes(Buffer.from([0x50, 0x4b, 0x05, 0x06]));
 }
 
+/**
+ * A file whose bytes do not match its extension, which the Internet Archive checks and
+ * refuses.
+ *
+ * 44 files failed every run with "Uploaded content is unacceptable - error checking pdf
+ * file", and no amount of retrying moved them, because they are not PDFs: the harvest
+ * saved HTTP error pages under a .pdf name. Their first bytes are `<!DOC` and several are
+ * zero length. IA is right to reject them and the mirror is wrong to hold them.
+ *
+ * Caught here, beside the truncated-zip check, for the same reason: it costs one short
+ * read to find out before anything is sent, and a permanent failure reported as a
+ * retryable one hides a real data problem behind a number that never goes down.
+ */
+function misnamedDocument(local, bytes) {
+  const name = path.basename(local).toLowerCase();
+  if (!/\.(pdf|zip|csv|xlsx?|docx?)$/.test(name)) return false;
+  if (bytes === 0) return true;
+  const length = Math.min(512, bytes);
+  const buffer = Buffer.alloc(length);
+  const fd = openSync(local, 'r');
+  try { readSync(fd, buffer, 0, length, 0); } finally { closeSync(fd); }
+  const head = buffer.toString('latin1').trimStart().slice(0, 64).toLowerCase();
+  if (!(head.startsWith('<!doctype') || head.startsWith('<html'))) return false;
+  return true;
+}
+
 function addFile(classInfo, local, pkg, name) {
   const key = classInfo ? classInfo.slug : null;
   const bytes = statSync(local).size;
@@ -176,6 +217,16 @@ function addFile(classInfo, local, pkg, name) {
     corrupt.files += 1;
     corrupt.bytes += bytes;
     if (corrupt.names.length < 40) corrupt.names.push(`${pkg}/${name}`);
+    return;
+  }
+  if (PREVIOUSLY_REJECTED.has(`${pkg}/${name}`)) {
+    previouslyRejected += 1;
+    return;
+  }
+  if (misnamedDocument(local, bytes)) {
+    misnamed.files += 1;
+    misnamed.bytes += bytes;
+    if (misnamed.names.length < 40) misnamed.names.push(`${pkg}/${name}`);
     return;
   }
   if (!groups.has(key)) groups.set(key, { info: classInfo, files: [] });
@@ -222,6 +273,13 @@ if (LICENCES) {
 
 const totalFiles = [...groups.values()].reduce((n, g) => n + g.files.length, 0);
 console.log(`local: ${totalFiles} file(s) across ${groups.size} licence class(es).`);
+if (previouslyRejected) {
+  console.log(`already refused by IA: ${previouslyRejected} file(s) skipped -- see "rejected" in the sidecar.`);
+}
+if (misnamed.files) {
+  console.log(`not a document: ${misnamed.files} file(s), ${(misnamed.bytes / 1e6).toFixed(2)} MB -- an HTML page or an empty file under a .pdf/.zip name, so the harvest saved an error page. IA rejects these and always will.`);
+  for (const n of misnamed.names.slice(0, 5)) console.log(`    ${n.slice(0, 90)}`);
+}
 if (corrupt.files) {
   console.log(`corrupt: ${corrupt.files} truncated zip(s), ${(corrupt.bytes / 1e9).toFixed(2)} GB -- not uploaded (IA would reject them after transfer)`);
   for (const n of corrupt.names.slice(0, 5)) console.log(`    ${n.slice(0, 90)}`);
@@ -426,6 +484,13 @@ function classify({ code, out }, file, identifier) {
     if (TRANSIENT_RE.test(out)) return 'retry';
   }
   failed += 1;
+  // A refusal of the FILE is permanent, so record WHICH file and why. Counting it without
+  // naming it is how "failed: 44" survived every run for weeks while meaning nothing that
+  // could be acted on. A later run reads these back and skips them.
+  if (UNACCEPTABLE_RE.test(out)) {
+    const lines = out.split(NEWLINE_RE).filter((l) => l.trim() && !l.includes(BAR_MARK));
+    rejected.push({ file: file.remote, reason: (lines[lines.length - 1] || "").trim().slice(-180) });
+  }
   // The actual error prints AFTER the tqdm progress bar, so strip bar lines and keep the
   // tail -- slicing the head gives 200 chars of progress bar and hides the reason.
   const reason = out.split(/\r|\n/).filter((l) => l.trim() && !l.includes('%|')).slice(-3).join(' | ');
@@ -580,6 +645,8 @@ writeFileSync(SIDECAR, `${JSON.stringify({
   itemPrefix: ITEM_PREFIX,
   classes: plans.map((p) => ({ licence: p.info.name, items: p.items.map((i) => i.identifier) })),
   skipped: { packages: skipped.packages, files: skipped.files, gigabytes: Number((skipped.bytes / 1e9).toFixed(2)) },
+  rejected: [...new Map([...PREVIOUSLY_REJECTED].map((f) => [f, { file: f, reason: 'recorded by an earlier run' }])
+    .concat(rejected.map((r) => [r.file, r]))).values()],
   lastRun: { uploaded, failed, gigabytesSent: Number((bytesSent / 1e9).toFixed(2)), aborted, abortReason },
 }, null, 2)}\n`);
 console.log(`Wrote ${SIDECAR}.`);

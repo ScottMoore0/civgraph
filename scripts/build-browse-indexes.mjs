@@ -1205,6 +1205,7 @@ function buildPersons(electionDetails, partyRecords) {
   const partyVocabulary = buildPartyVocabulary(partyRecords);
   const notPeople = new Map();
   const qualifiersStripped = new Set();
+  const candidateLists = new Set();
   for (const [key, election] of electionDetails) {
     if (isReferendumElection(election, key)) { referendumsSkipped += 1; continue; }
     const context = {
@@ -1227,12 +1228,20 @@ function buildPersons(electionDetails, partyRecords) {
         // the Wikipedia scaffolding.
         const displayName = stripWikipediaQualifier(name);
         if (displayName !== name) qualifiersStripped.add(name);
+        // "Independent (Alan Chambers) list" is a real thing that stood in real elections
+        // and is not a person. Suppressing it would hide 19 elections' worth of genuine
+        // results behind an entity model that does not exist yet, so it stays in the index
+        // and is MARKED instead: the record says what it is rather than implying a person.
+        // See docs/review/PERSON-NAME-ARTEFACTS.md, "a modelling question, not a cleanup".
+        const entryKind = artefactRule === 'candidate-list' ? 'candidate-list' : 'person';
+        if (entryKind === 'candidate-list') candidateLists.add(displayName);
         const personId = cleanText(candidate.personId || candidate.person_id || candidate.personID || '') || `name:${slugify(name)}`;
         if (!byId.has(personId)) {
           byId.set(personId, {
             id: personId,
             slug: personSlug(personId, displayName),
             type: 'person',
+            entryKind,
             title: displayName,
             name: displayName,
             parties: new Map(),
@@ -1312,13 +1321,28 @@ function buildPersons(electionDetails, partyRecords) {
     const key = slugify(person.name);
     if (!key) continue;
     if (byName.get(key) > 1) { ambiguousAliases += 1; continue; }
-    const previous = slugify(`name:${key}`);
-    if (previous && previous !== person.slug) {
-      person.previousSlugs = [previous];
+    // Two forms are carried, not one.
+    //
+    //   name-peter-robinson   the pre-registry slug, from before candidacies had ids
+    //   peter-robinson        the bare name
+    //
+    // The bare name is the one that matters going forward. The current slug ends in a
+    // registry id, and those ids move whenever the registry is rebuilt or people are
+    // merged -- which has already happened twice this month. An alias keyed only on the
+    // OLD form would leave today's URLs just as fragile as yesterday's. Keyed on the
+    // name, a person stays reachable across any number of id changes, for as long as the
+    // name identifies them uniquely.
+    const aliases = [slugify(`name:${key}`), key]
+      .filter((alias) => alias && alias !== person.slug);
+    if (aliases.length) {
+      person.previousSlugs = [...new Set(aliases)];
       aliased += 1;
     }
   }
-  console.log(`- persons: ${aliased} record(s) carry their pre-registry slug; ${ambiguousAliases} left unaliased because the name is shared`);
+  console.log(`- persons: ${aliased} record(s) carry name aliases so their URLs survive an id change; ${ambiguousAliases} left unaliased because the name is shared`);
+  if (candidateLists.size) {
+    console.log(`- persons: ${candidateLists.size} record(s) marked entryKind "candidate-list", not people: ${[...candidateLists].join(', ')}`);
+  }
   if (qualifiersStripped.size) {
     console.log(`- persons: stripped a Wikipedia qualifier from ${qualifiersStripped.size} name(s): ${[...qualifiersStripped].join(', ')}`);
   }
