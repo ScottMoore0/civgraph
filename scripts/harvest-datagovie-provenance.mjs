@@ -28,8 +28,8 @@
  * quietly covered only what it could match would repeat the manifest's failure of looking
  * complete while describing a fraction.
  *
- *   node scripts/harvest-datagovie-provenance.mjs --root D:/datagovie
- *   node scripts/harvest-datagovie-provenance.mjs --root D:/datagovie --emit-only
+ *   node scripts/harvest-datagovie-provenance.mjs --root <datagovie-mirror>
+ *   node scripts/harvest-datagovie-provenance.mjs --root <datagovie-mirror> --emit-only
  */
 import { readFileSync, writeFileSync, existsSync, readdirSync, statSync, mkdirSync, openSync, readSync, closeSync } from 'node:fs';
 
