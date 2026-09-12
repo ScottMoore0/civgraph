@@ -60,13 +60,20 @@ const CORPORA = [
     measured: { files: 25060, gigabytes: 7.9 },
     note: 'Complete: all 12,528 matrices in the live PxStat catalogue, as JSON-stat plus release metadata.' },
   { id: 'datagovie', title: 'data.gov.ie mirror (Open Data Portal Ireland)', provider: 'data.gov.ie', jurisdiction: 'IE',
-    store: 'r2', access: 'public', r2Prefix: 'data/datagovie/',
-    measured: { files: 30252, gigabytes: 144.54, packages: 20700 },
+    // 'both', and the newer note: the Internet Archive upload finished on 2026-09-03 and
+    // the committed index was updated by hand to say so, while this table was not. The
+    // merge below preserves hand-added fields but cannot correct a field the generator
+    // itself emits, so a stale entry here reopened the same four-line diff every rebuild.
+    store: 'both', access: 'public', r2Prefix: 'data/datagovie/',
+    measured: { files: 30241, gigabytes: 144.54, packages: 20700, measuredAt: '2026-09-03' },
     note: 'Licence is per package; see data/database/datagovie-licence-summary.json before reusing '
-      + 'files from a given package. The mirror\'s own _manifest.csv is from the first run and '
-      + 'describes 4,947 resources across 3,050 packages, about a sixth of what is here, so figures '
-      + 'taken from it understate this prefix roughly six-fold. Upload and licence harvest were both '
-      + 'in progress at measuredAt.' },
+      + 'files from a given package. IA is the permanent home: every file with a recognised open '
+      + 'licence that IA will accept is there, one item per licence class '
+      + '(civgraph-datagovie-<ccby|ccbysa|cc0>-NNN), each carrying the matching licenceurl. '
+      + 'R2 data/datagovie/ is the full mirror including material IA excludes. '
+      + 'R2 data/sources/datagovie-pending-ia/ was a temporary holding copy taken while IA was '
+      + 'saturated and is now fully superseded by the IA items. Per-file provenance: '
+      + 'data/datagovie/_provenance.json on R2.' },
   { id: 'maps', title: 'Boundary geometry and map layers', provider: 'various', jurisdiction: 'IE/NI',
     store: 'r2', access: 'public', r2Prefix: 'data/maps/',
     note: 'Runtime store for the map viewer. Must stay on R2: the site fetches it directly.' },
@@ -199,7 +206,12 @@ const entries = CORPORA.map((corpus) => {
   }
   const rights = corpus.licence || (corpus.r2Prefix ? rightsByPrefix.get(corpus.r2Prefix) : undefined);
   if (rights) entry.rights = rights;
-  if (corpus.measured) entry.measured = { ...corpus.measured, measuredAt: MEASURED_AT };
+  // A corpus may carry its own measuredAt. datagovie was re-measured on 2026-09-03 when the
+  // Internet Archive upload finished, after the sweep that produced MEASURED_AT, and stamping
+  // the sweep date over it would misdate a figure that is newer than the sweep.
+  if (corpus.measured) {
+    entry.measured = { measuredAt: MEASURED_AT, ...corpus.measured };
+  }
   if (corpus.note) entry.note = corpus.note;
   return entry;
 });
@@ -227,7 +239,47 @@ const index = {
   corpora: entries,
 };
 
-const body = `${JSON.stringify(index, null, 2)}\n`;
+/**
+ * Keep what this generator does not produce.
+ *
+ * The table above is this script's own knowledge: ids, stores, prefixes, measured sizes.
+ * The committed file also carries things measured or written elsewhere and added by hand --
+ * Internet Archive identifiers and download hints for 14 items, the per-file datagovie
+ * provenance index, licence-class breakdowns, truncated-zip counts. Rebuilding used to drop
+ * 124 lines of that, because the generator emits an object and an object replaces a file.
+ *
+ * So a rebuild MERGES: every field this script computes wins, and every field it knows
+ * nothing about is carried across untouched. The alternative was what actually happened --
+ * the gate called the file stale, rebuilding it destroyed the richer half, and the only
+ * safe move was to leave a failing check in place and tell people to ignore it.
+ */
+function preserveUnknown(generated, existing) {
+  if (!existing || typeof existing !== 'object' || Array.isArray(existing)) return generated;
+  if (!generated || typeof generated !== 'object' || Array.isArray(generated)) return generated;
+  const merged = { ...generated };
+  for (const [key, value] of Object.entries(existing)) {
+    merged[key] = (key in merged) ? preserveUnknown(merged[key], value) : value;
+  }
+  return merged;
+}
+
+function mergeWithExisting(generated) {
+  if (!existsSync(OUT)) return generated;
+  let previous;
+  try { previous = JSON.parse(readFileSync(OUT, 'utf8')); } catch { return generated; }
+  const byId = new Map((previous.corpora || []).map((c) => [c.id, c]));
+  const corpora = (generated.corpora || []).map((c) => preserveUnknown(c, byId.get(c.id)));
+  // perFileIndexes is a list of hand-recorded pointers and the generator knows only one of
+  // them, so union by file rather than replace.
+  const known = new Set((generated.perFileIndexes || []).map((p) => p.file));
+  const perFileIndexes = [
+    ...(generated.perFileIndexes || []),
+    ...(previous.perFileIndexes || []).filter((p) => !known.has(p.file)),
+  ];
+  return preserveUnknown({ ...generated, corpora, perFileIndexes }, previous);
+}
+
+const body = `${JSON.stringify(mergeWithExisting(index), null, 2)}\n`;
 
 if (CHECK) {
   const current = existsSync(OUT) ? readFileSync(OUT, 'utf8') : '';
