@@ -16,8 +16,8 @@
     }
   },
   "counts": {
-    "r2": 9,
-    "both": 2,
+    "r2": 8,
+    "both": 3,
     "internet-archive": 4,
     "local-only": 6
   },
@@ -50,9 +50,9 @@
       },
       "rights": "CC BY 4.0, uniform across the collection. Not a new determination: CSO PxStat rights were confirmed clear in this repo on 2026-07-07 and are already relied on by the 12,314 gated cubes -- see scripts/census-emit-cso-carveout-records.mjs. Attribution is carried on every record: 'Contains Irish Public Sector Data licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence.' Per-cube metadata carries extension.copyright naming the CSO but no per-cube licence, so the basis is the collection licence, which is why it applies uniformly.",
       "measured": {
+        "measuredAt": "2026-08-31",
         "files": 25060,
-        "gigabytes": 7.9,
-        "measuredAt": "2026-08-31"
+        "gigabytes": 7.9
       },
       "note": "Complete: all 12,528 matrices in the live PxStat catalogue, as JSON-stat plus release metadata."
     },
@@ -71,10 +71,10 @@
       },
       "rights": "Licence is per package. data.gov.ie federates other bodies' data, so each publishing organisation sets the terms for its own datasets, and the files were fetched from publisher hosts rather than from the portal. Per-package licences are harvested from CKAN package_show: rollup at data/database/datagovie-licence-summary.json, per-package detail in gitignored data/external/datagovie-licences.json. Consult the record for a package before reusing its files, and note that packages carrying non-commercial terms are redistributable only for non-commercial purposes.",
       "measured": {
+        "measuredAt": "2026-09-03",
         "files": 30241,
         "gigabytes": 144.54,
         "packages": 20700,
-        "measuredAt": "2026-09-03",
         "onInternetArchive": {
           "distinctFiles": 29380,
           "gigabytes": 96.28,
@@ -223,9 +223,9 @@
       },
       "rights": "Derived works from OpenDataNI lidar releases, which are Crown copyright under Open Government Licence v3.0. OGL v3.0 expressly permits adapting the Information and publishing the adaptation with attribution, which is what the LAS-to-3D-Tiles conversion is. Note this IS a derivative-rights judgement rather than a lookup: the licence on the source release is being read as covering Civgraph's converted tiles.",
       "measured": {
+        "measuredAt": "2026-08-31",
         "files": 393355,
-        "gigabytes": 32.95,
-        "measuredAt": "2026-08-31"
+        "gigabytes": 32.95
       },
       "note": "Runtime store: deck.gl Tile3DLayer fetches these directly, so they cannot move to IA."
     },
@@ -281,9 +281,9 @@
       ],
       "rights": "Crown copyright under Open Government Licence v3.0. Not a new determination: 4,044 approved-publication records already credit NISRA under OGL v3.0, and the censusNisraOgl tranche (645 records) rests on the same basis. This extends that licence from the catalogue records to the mirrored source files they describe -- an inference, but the same material under the same licence.",
       "measured": {
+        "measuredAt": "2026-08-31",
         "files": 33593,
-        "gigabytes": 7.52,
-        "measuredAt": "2026-08-31"
+        "gigabytes": 7.52
       }
     },
     {
@@ -301,9 +301,9 @@
       },
       "rights": "Crown copyright under Open Government Licence v3.0, same basis as data/nisra-files/. Cleaning and gzipping do not change the licence; OGL v3.0 permits adaptation with attribution.",
       "measured": {
+        "measuredAt": "2026-08-31",
         "files": 1115,
-        "gigabytes": 0.05,
-        "measuredAt": "2026-08-31"
+        "gigabytes": 0.05
       }
     },
     {
@@ -321,9 +321,9 @@
       },
       "rights": "Crown copyright under Open Government Licence v3.0. NIMDM is a NISRA publication and falls under the same OGL basis as data/nisra-files/.",
       "measured": {
+        "measuredAt": "2026-08-31",
         "files": 6,
-        "gigabytes": 0.007,
-        "measuredAt": "2026-08-31"
+        "gigabytes": 0.007
       }
     },
     {
@@ -341,9 +341,9 @@
       },
       "rights": "Renders Civgraph produced from map layers it already publishes; rights follow the source maps rather than existing independently. Same position data/maps/ takes: per-source, recorded on the individual Browse source records.",
       "measured": {
+        "measuredAt": "2026-08-31",
         "files": 47521,
-        "gigabytes": 0.204,
-        "measuredAt": "2026-08-31"
+        "gigabytes": 0.204
       },
       "note": "Derived renders. Rights follow the source maps."
     },
@@ -375,9 +375,9 @@
         "listVia": "https://civgraph.net/_api/contributions/r2-index?prefix=data%2Fpolling%2F"
       },
       "measured": {
+        "measuredAt": "2026-08-31",
         "files": 116,
-        "gigabytes": 0.036,
-        "measuredAt": "2026-08-31"
+        "gigabytes": 0.036
       },
       "note": "Deliberately NOT in the publication allowlist, so it is absent from the public index. Commercial polling material; no open-government licence reaches it. Objects remain fetchable by exact key -- omission from the index is discoverability, not access control."
     },
@@ -447,11 +447,11 @@
       ],
       "rights": "OGL v3.0",
       "measured": {
+        "measuredAt": "2026-08-31",
         "localFiles": 5331,
         "localGigabytes": 221.51,
         "iaFiles": 2093,
-        "iaGigabytes": 38.94,
-        "measuredAt": "2026-08-31"
+        "iaGigabytes": 38.94
       },
       "note": "Held on IA rather than R2 by decision, 2026-08-31, for durability and to keep 221.5 GB off paid storage. Coverage is thin and should not be read as done: counted from the IA metadata API on 2026-08-31, the nine items hold 2,093 files / 38.94 GB against 5,331 local files / 221.51 GB -- 39 per cent of files but only 17.6 per cent by volume, so the large files are disproportionately the missing ones. Identifiers -002 and -003 return no files and are effectively absent. Completing this mirror is outstanding work."
     },
@@ -472,9 +472,9 @@
       ],
       "rights": "CC BY 4.0",
       "measured": {
+        "measuredAt": "2026-08-31",
         "localFiles": 5743,
-        "localGigabytes": 4.74,
-        "measuredAt": "2026-08-31"
+        "localGigabytes": 4.74
       },
       "note": "2,172 reports, PDF 1841-1991 plus SAPS 2016/2022."
     },
@@ -557,9 +557,9 @@
       "access": "none",
       "rights": "OGL v3.0",
       "measured": {
+        "measuredAt": "2026-08-31",
         "localFiles": 24889,
-        "localGigabytes": 14.16,
-        "measuredAt": "2026-08-31"
+        "localGigabytes": 14.16
       },
       "note": "Candidate for IA. OGL, not runtime-fetched."
     },
@@ -571,9 +571,9 @@
       "store": "local-only",
       "access": "none",
       "measured": {
+        "measuredAt": "2026-08-31",
         "localFiles": 5119,
-        "localGigabytes": 9.9,
-        "measuredAt": "2026-08-31"
+        "localGigabytes": 9.9
       },
       "note": "The /proni app serves search from D1; these are the underlying files."
     },
@@ -585,9 +585,9 @@
       "store": "local-only",
       "access": "none",
       "measured": {
+        "measuredAt": "2026-08-31",
         "localFiles": 5290,
-        "localGigabytes": 5.04,
-        "measuredAt": "2026-08-31"
+        "localGigabytes": 5.04
       },
       "note": "The full-text side is already on R2; this is the structured counterpart."
     },
@@ -600,9 +600,9 @@
       "access": "none",
       "rights": "OGL v3.0",
       "measured": {
+        "measuredAt": "2026-08-31",
         "localFiles": 27435,
-        "localGigabytes": 4.94,
-        "measuredAt": "2026-08-31"
+        "localGigabytes": 4.94
       },
       "note": "Derived rasters are already published under data/maps/; these are the source grids."
     },
@@ -614,9 +614,9 @@
       "store": "local-only",
       "access": "none",
       "measured": {
+        "measuredAt": "2026-08-31",
         "localFiles": 2,
-        "localGigabytes": 4.47,
-        "measuredAt": "2026-08-31"
+        "localGigabytes": 4.47
       }
     },
     {
@@ -627,9 +627,9 @@
       "store": "local-only",
       "access": "none",
       "measured": {
+        "measuredAt": "2026-08-31",
         "localFiles": 11,
-        "localGigabytes": 3.68,
-        "measuredAt": "2026-08-31"
+        "localGigabytes": 3.68
       }
     }
   ]
