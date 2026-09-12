@@ -299,8 +299,6 @@
 <path d="M10 12h4"></path>
 </svg><div class="stat__n" data-count="40546">40,546</div><div class="stat__l">catalogued sources</div></div>
 </div>
-<div class="note">
-<strong>Note for review.</strong> The six figures above are now generated at build time by <code>scripts/build-site-stats.mjs</code>, which computes each one from a single source and records where it came from, so no page hard-codes them again. <code>--check</code> fails if a page has drifted. Four of the six were wrong at some point and are now correct: <em>election contests</em> reads 4,706, one constituency in one election, replacing an "elections" label carrying 5,268, which is the count of election browse entries and not a count of elections; there are <span data-stat="elections">284</span> elections. <em>Candidacies</em> reads 29,697, the number of times someone stood, and is deliberately not called candidates, because it is not a count of people. <em>Catalogued sources</em> reads 40,543, and <em>people</em> 13,043, the latter having moved on 11 September when 67 candidacy rows whose name was a fragment of a party name stopped being minted as people and several over-split registry entries were merged. Maps (795) and books (67) were always right. Candidates can now be linked to people: 29,058 of the 29,697 candidacies carry a registry person id, the remaining 639 having names shared by more than one person and deliberately left unresolved. The elections database still serves that column empty until it is reloaded. Two map counts are live and they measure different things: <strong>795</strong> public, loadable layers in both the map application and <strong>/browse</strong>, against <strong data-stat="catalogueEntries">1,031</strong> entries in the catalogue file. The page should say which it means. The Open Graph preview shows the same failure: captured on 5 August, it still advertises “1012 maps” and a <em>Census</em> nav link that no longer exists, on every link shared anywhere. The hero screenshot has been retaken. <code>featured: false</code> was only half the cause: the running site reads the catalogue from D1, not from the repository file, and the D1 copy had drifted on 22 records. It still carried the layer under its old name, "2022 (Final Recommendations)", so it neither read as a ward set nor answered a search for "Wards". D1 was reconciled on 10 September and the layer now serves as "Wards 2023"; the image shows it in the panel beside 1972, 1993 and 2012. The apps paragraph was rewritten on the same day: the Census Explorer now on <code>/apps</code> was built as a temporary check that census data was integrating correctly, not as a finished feature, and the site currently describes it as though it were one — "Explore census data across Ireland and Northern Ireland… and chart the results". Either that description is softened or the app is replaced by the intended all-Ireland census app. The STV animation is likewise part of the results pane, not an app.</div>
 <section>
 <h2>Start anywhere</h2>
 <div class="cards">
@@ -373,13 +371,6 @@
 <path d="M12 3v12"></path>
 <path d="m17 8-5-5-5 5"></path>
 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path></svg>Submit a map</a>
-</div>
-<div class="note">
-<strong>Decision needed:</strong> the header already carries the live <em>Support Us</em>
-  button, so the funding ask is present in the chrome. The blog post this copy draws on also seeks
-  paid Substack subscriptions and Ko-fi tips, and the current About page carries a Ko-fi paragraph.
-  Whether any of that is repeated in the page body is an editorial call rather than a copy one, so
-  it is left out here rather than assumed either way.
 </div>
 </section>
 </div>
