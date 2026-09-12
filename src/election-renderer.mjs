@@ -338,7 +338,7 @@ export class SharedElectionRenderer {
   }
 
   renderNonTransferableRow(nonTransferable, countNumbers) {
-    return `<tr class="test2-election-table__summary"><th>Non-transferable</th><td></td>${countNumbers.map((count) => {
+    return `<tr class="test2-election-table__summary"><th>Non-<br>transferable</th><td></td>${countNumbers.map((count) => {
       const row = nonTransferable.get(Number(count));
       if (!row) return '<td></td>';
       return `<td><span>${formatNumber(row.total)}</span>${this.host.countDetailedView && Number.isFinite(Number(row.transfers)) ? `<div class="test2-election-count-detail"><small>${formatSigned(row.transfers)} transfer</small></div>` : ''}</td>`;
