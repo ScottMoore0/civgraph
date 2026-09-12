@@ -11254,8 +11254,12 @@ kbd {
   border-color: var(--color-primary, #1a365d);
 }
 
+/* The active tab keeps its own text colour on hover. .election-view-tab:hover outranks
+   the active rule's white text once :hover counts, which left a navy pill with an
+   invisible label under the pointer. */
 .election-view-tab--active:hover {
   background: var(--color-primary-dark, #153e75);
+  color: #fff;
 }
 
 /* Full count pivot table */
@@ -11553,6 +11557,12 @@ kbd {
 
 .cs-btn--accent i {
   margin-right: 4px;
+}
+
+/* The status line above the transfer animation is cleared once the animation starts,
+   but its padding kept a 48px blank band between the pane header and the stage. */
+#test2ElectionAnimationStatus:empty {
+  display: none;
 }
 
 .election-animation-container {
@@ -13161,6 +13171,7 @@ th.election-th--menu.election-th-btn--active {
 
 [data-theme="dark"] .election-view-tab--active:hover {
   background: #3468b0;
+  color: #ffffff;
 }
 
 /* Even-row zebra stripe — base rule hardcodes #fafafa (light). */
@@ -13436,6 +13447,10 @@ th.election-th--menu.election-th-btn--active {
   :root:not([data-theme="light"]) .election-view-tab--active {
     background: #2a5a9e;
     border-color: #2a5a9e;
+    color: #ffffff;
+  }
+
+  :root:not([data-theme="light"]) .election-view-tab--active:hover {
     color: #ffffff;
   }
 
