@@ -2079,15 +2079,21 @@ export class Test2ElectionManager {
       requestAnimationFrame(() => this.syncResultsTableStickyWidths(table.closest('#electionResultsPane') || table.parentElement));
 
       headers.forEach((header, idx) => {
-        const button = header.querySelector('[data-table-filter-sort-btn]');
-        if (!button) return;
+        const indicator = header.querySelector('[data-table-filter-sort-indicator]');
+        if (!indicator) return;
         const column = headerColumnIndex(header, idx);
         const filtered = filterState.has(column) && (filterState.get(column)?.size ?? 0) > 0;
         const sorted = sortState.col === column && sortState.dir !== 'default';
-        button.classList.toggle('election-th-btn--active', filtered || sorted);
-        if (sorted && sortState.dir === 'asc') button.innerHTML = '&#8593;';
-        else if (sorted && sortState.dir === 'desc') button.innerHTML = '&#8595;';
-        else button.innerHTML = '&#8645;';
+        header.classList.toggle('election-th-btn--active', filtered || sorted);
+        // Only a column that has been changed shows anything. An idle column carries no
+        // glyph at all, which is the width the button used to cost on every header.
+        if (sorted && sortState.dir === 'asc') indicator.innerHTML = '&#8593;';
+        else if (sorted && sortState.dir === 'desc') indicator.innerHTML = '&#8595;';
+        else if (filtered) indicator.innerHTML = '&#8226;';
+        else indicator.innerHTML = '';
+        const state = sorted ? (sortState.dir === 'asc' ? 'sorted ascending' : 'sorted descending') : (filtered ? 'filtered' : '');
+        const name = header.querySelector('.election-th-label')?.textContent?.trim() || 'column';
+        header.setAttribute('aria-label', `${name}${state ? `, ${state}` : ''}. Sort and filter`);
       });
     };
 
@@ -2238,23 +2244,36 @@ export class Test2ElectionManager {
       wrap.appendChild(labelSpan);
 
       if (!header.classList.contains('election-colour-col')) {
-        const actions = document.createElement('span');
-        actions.className = 'election-th-actions';
-        const menuBtn = document.createElement('button');
-        menuBtn.type = 'button';
-        menuBtn.className = 'election-th-btn';
-        menuBtn.setAttribute('data-table-filter-sort-btn', '1');
-        menuBtn.setAttribute('aria-label', 'Sort and Filter');
-        menuBtn.setAttribute('title', 'Sort and Filter');
-        menuBtn.innerHTML = '&#8645;';
-        menuBtn.addEventListener('click', (event) => {
+        // The header cell itself opens the sort and filter menu. It used to hold a
+        // separate button, which put a fixed-width control in every header and made the
+        // narrow numeric columns wider than their numbers. The cell is the larger, more
+        // obvious target, and it keeps a button's keyboard behaviour: it is focusable
+        // and opens on Enter or Space.
+        const indicator = document.createElement('span');
+        indicator.className = 'election-th-indicator';
+        indicator.setAttribute('data-table-filter-sort-indicator', '1');
+        indicator.setAttribute('aria-hidden', 'true');
+        wrap.appendChild(indicator);
+        header.classList.add('election-th--menu');
+        header.setAttribute('tabindex', '0');
+        header.setAttribute('aria-haspopup', 'dialog');
+        header.setAttribute('title', 'Sort and filter');
+        const toggleMenu = () => {
+          if (activeMenu && activeMenuBtn === header) closeMenu();
+          else openMenuForColumn(idx, header);
+        };
+        header.addEventListener('click', (event) => {
+          // A link or control inside a heading keeps its own behaviour.
+          if (event.target.closest('a, button, input, select, label')) return;
           event.preventDefault();
           event.stopPropagation();
-          if (activeMenu && activeMenuBtn === menuBtn) closeMenu();
-          else openMenuForColumn(idx, menuBtn);
+          toggleMenu();
         });
-        actions.appendChild(menuBtn);
-        wrap.appendChild(actions);
+        header.addEventListener('keydown', (event) => {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+          toggleMenu();
+        });
       }
 
       header.appendChild(wrap);
@@ -3435,7 +3454,7 @@ export class Test2ElectionManager {
               <tr class="election-table-summary-row">
                 <td class="election-rank-col">-</td>
                 <td></td>
-                <td><strong>Non-transferable</strong></td>
+                <td><strong>Non-<br>transferable</strong></td>
                 <td>-</td>
                 <td>-</td>
                 <td class="election-num">-</td>
@@ -5206,12 +5225,10 @@ function formatNotApplicable() {
   return '<span class="election-na"><em>N/A</em></span>';
 }
 
+// Plain numbers in the # column. The ordinal suffix (1st, 2nd, 3rd) cost width in the
+// narrowest column of every table and told the reader nothing the column heading does not.
 function rankLabel(index) {
-  const n = Number(index) + 1;
-  if (n % 10 === 1 && n % 100 !== 11) return `${n}st`;
-  if (n % 10 === 2 && n % 100 !== 12) return `${n}nd`;
-  if (n % 10 === 3 && n % 100 !== 13) return `${n}rd`;
-  return `${n}th`;
+  return String(Number(index) + 1);
 }
 
 function shortElectionBody(name) {
@@ -5364,8 +5381,10 @@ function inferCountTransferOutEvents(result = {}, candidates = [], countNumbers 
       else excluded.push(surname);
     }
     const labels = [];
-    if (elected.length) labels.push(`Election of ${uniqueNameList(elected)}`);
-    if (excluded.length) labels.push(`Exclusion of ${uniqueNameList(excluded)}`);
+    // Name first, outcome after: "Smyth, Jones elected" rather than "Election of Smyth,
+    // Jones". The name is what the reader scans a count header for.
+    if (elected.length) labels.push(`${uniqueNameList(elected)} elected`);
+    if (excluded.length) labels.push(`${uniqueNameList(excluded)} excluded`);
     if (labels.length) events.push({ count: Number(count), label: labels.join('; ') });
   }
   return events;

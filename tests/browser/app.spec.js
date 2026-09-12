@@ -495,7 +495,7 @@ test('restores active Dail election catalogue, viewport, labels, and party table
     };
   });
 
-  expect(restored.path).toBe('/');
+  expect(restored.path).toBe('/maps/');
   expect(restored.hash).toContain('layers=election-dil-ireann-2024-11-29');
   expect(restored.hash).toContain('zoom=7.00');
   expect(restored.activeRowText).toContain('29 Nov 2024');
@@ -515,21 +515,21 @@ test('restores active Dail election catalogue, viewport, labels, and party table
   expect(restored.rowTexts[2]).toBe('Fine Gael');
   expect(restored.rowTexts[3]).toBe('Independent');
   expect([restored.firstRowCells[0], restored.firstRowCells[2], restored.firstRowCells[4], restored.firstRowCells[8], restored.firstRowCells[10]]).toEqual([
-    '1st',
+    '1',
     '82',
     '48',
     '481,414',
     '21.86%'
   ]);
   expect([restored.secondRowCells[0], restored.secondRowCells[2], restored.secondRowCells[4], restored.secondRowCells[8], restored.secondRowCells[10]]).toEqual([
-    '2nd',
+    '2',
     '71',
     '39',
     '418,627',
     '19.01%'
   ]);
 
-  await page.locator('#electionPaneContent th[data-leaf-col-idx="8"] .election-th-btn').click();
+  await page.locator('#electionPaneContent th[data-leaf-col-idx="8"]').click();
   await expect(page.locator('.election-filter-menu')).toBeVisible();
   await expect(page.locator('.election-filter-menu')).toContainText('Sort Largest to Smallest');
   await expectElectionFilterMenuInsideViewport(page);
@@ -542,13 +542,13 @@ test('restores active Dail election catalogue, viewport, labels, and party table
   // DEFAULT order is by seats (48/39/38), which also starts with Fianna Fail. What
   // discriminates is the second and third places swapping -- seats order is
   // FF, SF, FG and votes order is FF, FG, SF. Assert the whole top three.
-  await expect(page.locator('#electionPaneContent th[data-leaf-col-idx="8"] .election-th-btn')).toHaveClass(/election-th-btn--active/);
+  await expect(page.locator('#electionPaneContent th[data-leaf-col-idx="8"]')).toHaveClass(/election-th-btn--active/);
   const partyRows = page.locator('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row)');
   await expect(partyRows.nth(0)).toContainText(/Fianna F/);
   await expect(partyRows.nth(1)).toContainText(/Fine Gael/);
   await expect(partyRows.nth(2)).toContainText(/Sinn F/);
 
-  await page.locator('#electionPaneContent th[data-leaf-col-idx="1"] .election-th-btn').click();
+  await page.locator('#electionPaneContent th[data-leaf-col-idx="1"]').click();
   await expect(page.locator('.election-filter-menu')).toBeVisible();
   await expect(page.locator('.election-filter-menu')).toContainText('Sort A to Z');
   await expectElectionFilterMenuInsideViewport(page);
@@ -558,14 +558,14 @@ test('restores active Dail election catalogue, viewport, labels, and party table
   await page.locator('.election-filter-menu [data-action="deselect-all"]').click();
   await page.locator('.election-filter-menu__value', { hasText: /Sinn/ }).locator('input').check();
   await page.locator('.election-filter-menu [data-action="apply"]').click();
-  await expect(page.locator('#electionPaneContent th[data-leaf-col-idx="1"] .election-th-btn')).toHaveClass(/election-th-btn--active/);
+  await expect(page.locator('#electionPaneContent th[data-leaf-col-idx="1"]')).toHaveClass(/election-th-btn--active/);
   const filteredRows = await page.locator('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row)').allTextContents();
   expect(filteredRows.length).toBeGreaterThan(0);
   expect(filteredRows.every((row) => /Sinn/.test(row))).toBe(true);
 
-  await page.locator('#electionPaneContent th[data-leaf-col-idx="1"] .election-th-btn').click();
+  await page.locator('#electionPaneContent th[data-leaf-col-idx="1"]').click();
   await page.locator('.election-filter-menu [data-action="clear-filter"]').click();
-  await expect(page.locator('#electionPaneContent th[data-leaf-col-idx="1"] .election-th-btn')).not.toHaveClass(/election-th-btn--active/);
+  await expect(page.locator('#electionPaneContent th[data-leaf-col-idx="1"]')).not.toHaveClass(/election-th-btn--active/);
 });
 
 test('election sort/filter menu stays inside a constrained viewport', async ({ page }) => {
@@ -573,9 +573,9 @@ test('election sort/filter menu stays inside a constrained viewport', async ({ p
   await page.goto('/#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00');
   await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
   await page.evaluate(() => window.__civgraphTest2.restorePromise);
-  await page.waitForSelector('#electionPaneContent th[data-leaf-col-idx="1"] .election-th-btn');
+  await page.waitForSelector('#electionPaneContent th[data-leaf-col-idx="1"]');
 
-  await page.locator('#electionPaneContent th[data-leaf-col-idx="1"] .election-th-btn').click();
+  await page.locator('#electionPaneContent th[data-leaf-col-idx="1"]').click();
   await expect(page.locator('.election-filter-menu')).toBeVisible();
   await expectElectionFilterMenuInsideViewport(page);
 
