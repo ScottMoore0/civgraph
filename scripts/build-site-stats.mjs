@@ -105,6 +105,9 @@ for (const file of readdirSync(electionDirFull).filter((f) => f.endsWith('.json'
 }
 if (electionFiles === 0) fail(`${ELECTION_DIR} holds no election files.`);
 
+const browseIndex = readJson('data/browse/index.json');
+const graphManifest = readJson('data/graph/manifest.json');
+const catalogue = readJson('data/database/maps.json');
 const persons = readJson('data/browse/persons.json');
 const sources = readJson('data/browse/sources.json');
 const books = readJson('data/database/books.json');
@@ -116,7 +119,19 @@ const stats = {
   people: persons.total,
   scannedBooks: (books.books || []).length,
   cataloguedSources: sources.total,
+  // Opt-in figures: stated on some pages, not all. See CORE_KEYS.
+  elections: electionFiles,
+  catalogueEntries: (catalogue.maps || []).length,
+  renderedLayers: (mapsMeta.layers || []).length,
+  proniRecords: browseIndex.counts?.proni,
+  graphEntities: graphManifest.entities?.total,
 };
+
+// Every page carrying figures states these six; the rest are opt-in and only checked
+// where a page actually claims them. Requiring all eleven everywhere would fail the
+// About page for not mentioning scanned books, which is not a defect.
+const CORE_KEYS = new Set(['publicMaps', 'electionContests', 'candidacies', 'people',
+  'scannedBooks', 'cataloguedSources']);
 
 for (const [key, value] of Object.entries(stats)) {
   if (!Number.isFinite(value) || value <= 0) fail(`${key} came out as ${value}, which cannot be right.`);
@@ -130,6 +145,11 @@ const LABELS = {
   people: 'people',
   scannedBooks: 'scanned books',
   cataloguedSources: 'catalogued sources',
+  elections: 'elections',
+  catalogueEntries: 'catalogue entries',
+  renderedLayers: 'rendered layers',
+  proniRecords: 'PRONI records',
+  graphEntities: 'graph entities',
 };
 
 const PROVENANCE = {
@@ -139,6 +159,11 @@ const PROVENANCE = {
   people: 'data/browse/persons.json :: total',
   scannedBooks: 'data/database/books.json :: books[]',
   cataloguedSources: 'data/browse/sources.json :: total',
+  elections: `${ELECTION_DIR}/*.json :: file count`,
+  catalogueEntries: 'data/database/maps.json :: maps[]',
+  renderedLayers: 'render/metadata/maps-test.json :: layers[]',
+  proniRecords: 'data/browse/index.json :: counts.proni',
+  graphEntities: 'data/graph/manifest.json :: entities.total',
 };
 
 const fmt = (n) => n.toLocaleString('en-GB');
@@ -186,6 +211,7 @@ function stampInto(html) {
       + 'Add data-stat="<key>" to the element holding each one.');
   } else {
     for (const key of Object.keys(stats)) {
+      if (!CORE_KEYS.has(key)) continue;
       if (!satisfied.has(key)) changes.push(`MISSING: no "${LABELS[key]}" figure found in the page`);
     }
   }
