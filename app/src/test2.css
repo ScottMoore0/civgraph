@@ -466,26 +466,23 @@ body.app-shell .app-main {
   }
 }
 
+/* The election pane is pinned to the bottom of the map column rather than given a
+   grid row of its own. A third row would have spanned the catalogue too, and since
+   only the map column had anything to put there, the catalogue ended up with a blank
+   band under it. The shell keeps its two rows; the map column alone gives up the
+   height, and the pane is positioned into the space it vacates. */
 body.app-shell.test2-election-open {
-  grid-template-rows:
-    var(--header-height, 64px)
-    minmax(calc(var(--map-min-height, 220px) + var(--timeline-row-height, 58px)), 1fr)
-    minmax(120px, var(--test2-election-pane-height));
+  position: relative;
 }
 
-body.app-shell.test2-election-open .app-main {
-  min-height: 0;
-  height: 100%;
+body.app-shell.test2-election-open .pane--map {
+  height: calc(100% - var(--test2-election-pane-height));
+  min-height: var(--map-min-height, 220px);
 }
 
 body.app-shell.test2-election-open #electionResultsPane.election-results-pane--open {
-  grid-row: 3;
-  grid-column: 1 / -1;
-  align-self: stretch;
   display: flex;
   flex-direction: column;
-  height: auto;
-  min-height: 0;
   overflow: hidden;
 }
 
