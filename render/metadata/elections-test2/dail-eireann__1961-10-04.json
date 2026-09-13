@@ -27,7 +27,7 @@
   "previousKey": "dail-eireann__1957-03-05",
   "previousDate": "1957-03-05",
   "loadable": true,
-  "displaySubtitle": "38 constituencies; 1 unmatched",
+  "displaySubtitle": "38 constituencies",
   "displayProvider": "Dáil Éireann",
   "constituencies": [
     "Carlow Kilkenny",
@@ -71,11 +71,9 @@
   ],
   "isByElection": false,
   "totalConstituencies": 38,
-  "matchedCount": 37,
-  "unmatchedCount": 1,
-  "unmatchedConstituencies": [
-    "Cork Borough"
-  ],
+  "matchedCount": 38,
+  "unmatchedCount": 0,
+  "unmatchedConstituencies": [],
   "availableStyleModes": [
     "winner",
     "leadingParty",
@@ -26478,13 +26476,29 @@
       "transferDataExpected": true,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/dail-eireann/1961-10-04/cork-borough.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "anchor": null,
+      "featureId": "1",
+      "featureName": "Cork",
+      "featureAliases": [
+        "Cork",
+        "Corcaigh"
+      ],
+      "matchName": "Cork",
+      "anchor": {
+        "center": [
+          -8.487214,
+          51.921141
+        ],
+        "bounds": {
+          "west": -8.584358,
+          "south": 51.866047,
+          "east": -8.390071,
+          "north": 51.976234
+        },
+        "method": "largest-ring-bounds-center",
+        "area": 0.010569011783231611
+      },
       "syntheticRegion": null,
-      "matched": false
+      "matched": true
     },
     {
       "constituency": "Cork Mid",
