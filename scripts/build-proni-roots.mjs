@@ -75,7 +75,22 @@ function fetchRoots() {
   return roots;
 }
 
-const roots = fetchRoots();
+// A check that cannot reach D1 has nothing to compare against, so it skips rather than
+// fails, the same as check:elections-d1 and check:r2-parity without credentials. In CI
+// there is no CLOUDFLARE_API_TOKEN, wrangler refuses to run, and the uncaught error ended
+// the whole `npm run check` in the Data readiness workflow. Regenerating is different:
+// without D1 there is no file to write, so that still fails loudly.
+let roots;
+try {
+  roots = fetchRoots();
+} catch (error) {
+  if (!CHECK) throw error;
+  const detail = String(error?.stdout || error?.message || error)
+    .match(/"text":\s*"([^"]+)"/)?.[1] || String(error?.message || error).split('\n')[0];
+  console.log(`SKIP: could not query ${DATABASE} (${detail.slice(0, 200)}).`);
+  console.log('  This check compares data/browse/proni-roots.json with live D1 and needs Cloudflare credentials.');
+  process.exit(0);
+}
 const doc = { roots, count: roots.length };
 
 if (CHECK) {
