@@ -266,107 +266,6 @@ a:hover {
 }
 
 /* ============================================
-   Header
-   ============================================ */
-.app-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--space-2) var(--space-6);
-  background: #065a6e;
-  background-image:
-    radial-gradient(circle at 0% 50%, #0fa55a 0%, transparent 50%),
-    radial-gradient(circle at 100% 50%, #003870 0%, transparent 50%),
-    radial-gradient(circle at 40% 100%, #0a7a78 0%, transparent 60%);
-  color: var(--color-text-inverse);
-  box-shadow: var(--shadow-md);
-  z-index: var(--z-sticky);
-  position: relative;
-  overflow: visible;
-}
-
-.app-header__brand {
-  /* SCALE, DO NOT TRUNCATE.
-     This was a flat 60px at every width -- a 55px logo beside a 34px wordmark -- so on a
-     phone the brand simply did not fit and the mobile rules hid the overflow behind an
-     ellipsis ("Civgra...") and then hid the wordmark entirely below 360px.
-     The logo and wordmark are both calc()'d from this one value, so a clamp scales them
-     together and in proportion. It reaches the full 60px at ~750px viewport width, so
-     desktop is unchanged; at 390px it gives ~31px, and it never falls below 28px. */
-  --brand-size: clamp(28px, 8vw, 60px);
-  display: flex;
-  align-items: center;
-  gap: calc(var(--brand-size) * 0.05);
-  font-family: var(--font-display);
-  font-size: var(--text-xl);
-  font-weight: var(--font-bold);
-  color: var(--color-text-inverse);
-  text-decoration: none;
-}
-
-.app-header__logo {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-lg);
-  object-fit: contain;
-}
-
-.app-header__logo-wordmark {
-  height: 36px;
-  width: auto;
-  object-fit: contain;
-}
-
-.app-header__logo-icon {
-  width: calc(var(--brand-size) * 0.917);
-  height: calc(var(--brand-size) * 0.917);
-  object-fit: contain;
-  flex-shrink: 0;
-}
-
-.app-header__wordmark {
-  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
-  font-size: calc(var(--brand-size) * 0.567);
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 1;
-  letter-spacing: 0;
-  /* Never compress and never wrap: the brand shrinks by scaling the font, not by
-     squeezing or clipping the word. */
-  flex-shrink: 0;
-  white-space: nowrap;
-}
-
-.app-header__nav {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-}
-
-.app-header__link {
-  display: inline-flex;
-  align-items: center;
-  padding: var(--space-2) var(--space-4);
-  color: rgba(255, 255, 255, 0.9);
-  font-weight: var(--font-medium);
-  border-radius: var(--radius-md);
-  transition: all var(--transition-fast);
-}
-
-.app-header__link:hover,
-.app-header__link--active {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.15);
-}
-
-/* Mobile-only menu (hidden on desktop) */
-.mobile-menu-btn,
-.mobile-menu,
-.mobile-support-btn {
-  display: none;
-}
-
-/* ============================================
    Panes
    ============================================ */
 .pane {
@@ -2061,7 +1960,6 @@ button.catalogue-flat__toc-toplink {
   margin-bottom: var(--space-2);
 }
 
-
 /* T1-05: the catalogue heading and lede. Sized to read as a page heading without
    crowding the search field beneath it; the muted colour is the darkened value from
    T1-04 so it still clears 4.5:1 on the pane background. */
@@ -2400,7 +2298,6 @@ button.catalogue-flat__toc-toplink {
 .map-list--columns>.category-section {
   grid-column: 1 / -1;
 }
-
 
 /* Sticky headers work within grid columns too */
 .map-list--columns .class-card__header {
@@ -2811,7 +2708,6 @@ button.catalogue-flat__toc-toplink {
 .flat-election-entry--by {
   padding-left: 16px;
 }
-
 
 /* Hover state for member name link */
 .class-member:not(.class-member--placeholder):hover .class-member__name {
@@ -3549,8 +3445,6 @@ button.catalogue-flat__toc-toplink {
   align-items: flex-end;
 }
 
-
-
 /* Align row heights across columns - button on right edge */
 .c1-card__row--stacked-columns .class-member {
   min-height: 2.5em;
@@ -3605,7 +3499,6 @@ button.catalogue-flat__toc-toplink {
   gap: 0;
   overflow: visible;
 }
-
 
 /* C1 Sections (individual C2s within C1) */
 .c1-card__section {
@@ -3972,7 +3865,6 @@ button.catalogue-flat__toc-toplink {
   padding: 0.25em 0.5em;
   box-sizing: border-box;
 }
-
 
 /* Entry content (label + year) */
 .c1-entry-content {
@@ -4744,7 +4636,6 @@ button.catalogue-flat__toc-toplink {
 .layer-changed {
   animation: layerHighlight 1s ease-out;
 }
-
 
 /* Map Settings Toggle (compact 2-icon button) */
 .map-controls-toggle {
@@ -5936,130 +5827,6 @@ html:not([data-theme]) .feature-info__value,
     --header-height: 56px;
   }
 
-  .app-header {
-    padding: 0 var(--space-4);
-  }
-
-  .app-header__brand {
-    font-size: var(--text-base);
-  }
-
-  .app-header__nav {
-    display: none;
-  }
-
-  /* Mobile menu button — triangle dropdown */
-  .mobile-menu-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    background: rgba(255, 255, 255, 0.15);
-    border: none;
-    border-radius: var(--radius-md);
-    color: #ffffff;
-    cursor: pointer;
-    transition: background var(--transition-fast);
-  }
-
-  .mobile-menu-btn:hover {
-    background: rgba(255, 255, 255, 0.25);
-  }
-
-  .mobile-menu-btn[aria-expanded="true"] {
-    background: rgba(255, 255, 255, 0.25);
-  }
-
-  .mobile-menu-btn[aria-expanded="true"] svg {
-    transform: rotate(180deg);
-  }
-
-  .mobile-menu-btn svg {
-    transition: transform var(--transition-fast);
-  }
-
-  /* Mobile dropdown menu */
-  .mobile-menu {
-    display: block;
-    position: absolute;
-    top: 100%;
-    right: var(--space-3);
-    min-width: 160px;
-    background: var(--color-surface-elevated);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-xl);
-    z-index: 4000;
-    overflow: hidden;
-    animation: mobileMenuSlide 0.15s ease-out;
-  }
-
-  @keyframes mobileMenuSlide {
-    from {
-      opacity: 0;
-      transform: translateY(-8px);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .mobile-menu.hidden {
-    display: none !important;
-  }
-
-  .mobile-menu__link {
-    display: block;
-    padding: var(--space-3) var(--space-4);
-    color: var(--color-text);
-    text-decoration: none;
-    font-size: var(--text-sm);
-    font-weight: var(--font-medium);
-    transition: background var(--transition-fast);
-  }
-
-  .mobile-menu__link:hover {
-    background: var(--color-primary-50);
-    color: var(--color-primary);
-  }
-
-  .mobile-menu__link+.mobile-menu__link {
-    border-top: 1px solid var(--color-border);
-  }
-
-  #mobileMenuSupport {
-    background: #2e7d32;
-    color: #fff;
-  }
-
-  #mobileMenuSupport:hover {
-    background: #1b5e20;
-    color: #fff;
-  }
-
-  .mobile-support-btn {
-    display: inline-flex;
-    align-items: center;
-    padding: 4px 12px;
-    background: #2e7d32;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    font-size: var(--text-xs);
-    font-weight: var(--font-semibold);
-    cursor: pointer;
-    transition: background var(--transition-fast);
-    white-space: nowrap;
-  }
-
-  .mobile-support-btn:hover {
-    background: #1b5e20;
-  }
-
   /* Stack panes vertically on mobile */
   .app-main {
     display: block;
@@ -6261,7 +6028,6 @@ html:not([data-theme]) .feature-info__value,
    Print Styles
    ============================================ */
 @media print {
-
   /* Hide UI controls */
   .app-header,
   .split-toggle,
@@ -6613,52 +6379,6 @@ a.visually-hidden:focus-visible {
   --gradient-surface: linear-gradient(180deg, #ffffff 0%, var(--color-gray-50) 100%);
 }
 
-/* Dark mode toggle button - styled to match header */
-.theme-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  margin-left: var(--space-3);
-  background: transparent;
-  border: none;
-  border-radius: var(--radius-md);
-  color: rgba(255, 255, 255, 0.8);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.theme-toggle:hover {
-  background: rgba(255, 255, 255, 0.15);
-  color: #ffffff;
-}
-
-.theme-toggle__icon--sun,
-.theme-toggle__icon--moon {
-  display: none;
-}
-
-/* Show sun when in light mode (indicates current mode) */
-[data-theme="light"] .theme-toggle__icon--sun {
-  display: block;
-}
-
-/* Default (no theme set) - show sun */
-html:not([data-theme]) .theme-toggle__icon--sun {
-  display: block;
-}
-
-/* Show moon ONLY when in dark mode */
-[data-theme="dark"] .theme-toggle__icon--moon {
-  display: block;
-}
-
-/* Explicitly hide sun in dark mode */
-[data-theme="dark"] .theme-toggle__icon--sun {
-  display: none !important;
-}
-
 /* FQI 5: Custom scrollbar styling */
 ::-webkit-scrollbar {
   width: 8px;
@@ -6736,7 +6456,6 @@ html:not([data-theme]) .theme-toggle__icon--sun {
 
 /* FQI 7: Header gradient animation */
 @keyframes gradientShift {
-
   0%,
   100% {
     background-position: 0% 50%;
@@ -6820,10 +6539,6 @@ html:not([data-theme]) .theme-toggle__icon--sun {
 /* ============================================
    Site Title Always Visible
    ============================================ */
-.app-header__brand,
-.app-header__brand span {
-  color: #ffffff !important;
-}
 
 /* ============================================
    Address Search Component
@@ -8028,7 +7743,6 @@ html:not([data-theme]) .theme-toggle__icon--sun {
   justify-content: space-between;
   gap: var(--space-2);
 }
-
 
 .th-label {
   flex: 1;
@@ -9428,8 +9142,6 @@ th.filter-active .th-filter-btn {
   line-height: 1;
 }
 
-
-
 /* ============================================
    Single Map in Category - Full Width
    ============================================ */
@@ -9696,7 +9408,6 @@ kbd {
 }
 
 @keyframes skeleton-pulse {
-
   0%,
   100% {
     opacity: 1;
@@ -9739,8 +9450,6 @@ kbd {
   width: 26px;
   height: 26px;
 }
-
-
 
 /* When sidebar is narrow (under 450px) or on mobile, use 2x2 grid */
 @media (max-width: 768px) {
@@ -9998,7 +9707,6 @@ kbd {
   padding-bottom: var(--space-2) !important;
 }
 
-
 #catalogueFlatView .c1-card__title {
   font-size: var(--text-base) !important;
   line-height: 1.15 !important;
@@ -10207,224 +9915,11 @@ kbd {
   border-color: var(--color-gray-700);
 }
 
-/* ============================
-   Support Button (Navbar)
-   ============================ */
-.support-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 14px;
-  background: #22c55e;
-  color: #fff;
-  border: none;
-  border-radius: var(--radius-full);
-  font-size: var(--text-sm);
-  font-weight: var(--font-semibold);
-  cursor: pointer;
-  transition: background var(--transition-fast), transform var(--transition-fast);
-  white-space: nowrap;
-}
-
-.support-btn:hover {
-  background: #16a34a;
-  transform: translateY(-1px);
-}
-
-.support-btn:active {
-  transform: translateY(0);
-}
-
-.support-btn__icon {
-  flex-shrink: 0;
-}
-
 /* On small screens, show only the icon */
-@media (max-width: 640px) {
-  .support-btn__text {
-    display: none;
-  }
-
-  .support-btn {
-    padding: 6px;
-    border-radius: 50%;
-  }
-}
-
-/* ============================
-   Support Modal
-   ============================ */
-.support-modal {
-  position: fixed;
-  inset: 0;
-  z-index: 10000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: supportFadeIn 0.2s ease;
-}
-
-.support-modal.hidden {
-  display: none;
-}
-
-.support-modal__backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
-}
-
-.support-modal__content {
-  position: relative;
-  background: var(--color-surface);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-xl, 0 25px 50px -12px rgba(0, 0, 0, 0.25));
-  padding: var(--space-6);
-  max-width: 520px;
-  width: 90%;
-  max-height: 85vh;
-  overflow-y: auto;
-  z-index: 1;
-}
-
-.support-modal__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: var(--space-3);
-}
-
-.support-modal__title {
-  font-size: var(--text-lg);
-  font-weight: var(--font-bold);
-  color: var(--color-text);
-  margin: 0;
-}
-
-.support-modal__close {
-  background: none;
-  border: none;
-  font-size: 24px;
-  color: var(--color-text-muted);
-  cursor: pointer;
-  padding: var(--space-1);
-  line-height: 1;
-  border-radius: var(--radius-sm);
-  transition: color var(--transition-fast), background var(--transition-fast);
-}
-
-.support-modal__close:hover {
-  color: var(--color-text);
-  background: var(--color-surface-elevated);
-}
 
 /* Author section */
-.support-modal__author {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  margin-bottom: var(--space-3);
-}
-
-.support-modal__avatar {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid var(--color-border-light);
-}
-
-.support-modal__author-label {
-  font-size: var(--text-base);
-  font-weight: var(--font-semibold);
-  color: var(--color-text);
-  margin: 0;
-  font-style: italic;
-}
 
 /* Message text */
-.support-modal__message {
-  margin-bottom: var(--space-4);
-}
-
-.support-modal__message p {
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
-  line-height: 1.6;
-  margin: 0 0 var(--space-2) 0;
-}
-
-.support-modal__message p:first-child {
-  font-weight: var(--font-semibold);
-  color: var(--color-text);
-  font-size: var(--text-base);
-}
-
-.support-modal__message p:last-child {
-  margin-bottom: 0;
-}
-
-.support-modal__desc {
-  color: var(--color-text-muted);
-  font-size: var(--text-sm);
-  margin: 0 0 var(--space-4) 0;
-  line-height: 1.5;
-}
-
-.support-modal__options {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-}
-
-.support-modal__option {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  padding: var(--space-3) var(--space-4);
-  border-radius: var(--radius-md);
-  text-decoration: none;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-}
-
-.support-modal__option:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.support-modal__option strong {
-  display: block;
-  font-size: var(--text-base);
-  margin-bottom: 2px;
-}
-
-.support-modal__option span {
-  font-size: var(--text-sm);
-  opacity: 0.85;
-}
-
-.support-modal__option--kofi {
-  background: #ff5e5b;
-  color: #fff;
-}
-
-.support-modal__option--kofi:hover {
-  background: #e54e4b;
-}
-
-.support-modal__option--sub {
-  background: #22c55e;
-  color: #fff;
-}
-
-.support-modal__option--sub:hover {
-  background: #16a34a;
-}
-
-.support-modal__option svg {
-  flex-shrink: 0;
-}
 
 @keyframes supportFadeIn {
   from {
@@ -10434,11 +9929,6 @@ kbd {
   to {
     opacity: 1;
   }
-}
-
-[data-theme="dark"] .support-modal__content {
-  background: var(--color-gray-800);
-  border: 1px solid var(--color-gray-700);
 }
 
 /* ============================================
@@ -13921,7 +13411,6 @@ th.election-th--menu.election-th-btn--active {
   }
 }
 
-
 /* ===========================================================================
    T1-07 · Header reflow at 320px
    ===========================================================================
@@ -13938,47 +13427,18 @@ th.election-th--menu.election-th-btn--active {
    a cosmetic loss; a clipped button is a dead end. */
 
 @media (max-width: 480px) {
-  .app-header {
-    /* Tighter gutters buy ~24px before anything has to give. */
-    padding-left: var(--space-3);
-    padding-right: var(--space-3);
-    gap: var(--space-2);
-  }
-
-  /* min-width: 0 stays -- a flex item defaults to min-width: auto, meaning "never
-     smaller than my content", which is what shoved the controls off-screen. But
-     overflow: hidden is gone: it was what made truncation possible, and the brand now
-     fits because it scales rather than because its overflow is clipped. */
-  .app-header__brand {
-    min-width: 0;
-    flex-shrink: 1;
-  }
-
   /* The ellipsis that used to live here is gone: --brand-size now scales the whole
      brand down with the viewport, so there is nothing to truncate. Clipping a
      five-letter wordmark to "Civgra..." made the site look broken rather than compact. */
 
   /* Controls hold their size and stay reachable. */
-  .app-header__actions,
-  .mobile-menu-btn,
-  .app-header__nav {
-    flex-shrink: 0;
   }
-}
 
 @media (max-width: 360px) {
   /* The wordmark used to be hidden entirely below 360px, on the reasoning that the
      logo mark alone identifies the site. It no longer needs to be: at 320px the clamp
      gives a 28px brand -- a 26px mark beside a 16px wordmark -- which fits alongside
      every control. The site should say its own name on a phone. */
-
-  /* "Support Us" drops to its icon. The accessible name comes from aria-label,
-     so the control keeps its label for assistive technology while losing the
-     visible text. */
-  .app-header__support-label,
-  .app-header__link--support .app-header__label {
-    display: none;
-  }
 }
 
 /* ==========================================================================

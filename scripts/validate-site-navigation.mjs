@@ -56,7 +56,7 @@ const PAGES = [
 const EXEMPT = new Map([
   ['render/index.html', 'staging shell, not the public site — see the README layout table'],
   ['test2/index.html', 'a compatibility redirect, not a page'],
-  ['apps/proni-search/index.html', 'standalone app with its own ps-header chrome'],
+  ['apps/proni-search/index.html', 'standalone app with its own partials (partials/proni-header.html, partials/proni-footer.html)'],
   ['404.html', 'error page; kept deliberately minimal'],
 ]);
 
@@ -85,14 +85,18 @@ function navLabels(html) {
     .filter(Boolean);
 }
 
-/** Does the page use the shared header markup, so it inherits shared CSS? */
+/**
+ * Does the page carry the shared header partial, so it inherits the shared CSS and
+ * behaviour? Since 2026-09 every public page does (partials/site-header.html, stamped in
+ * by scripts/build-site-partials.mjs), so a page without it is a failure, not a note.
+ * Whether the stamped copy is current is build-site-partials.mjs --check's job.
+ */
 function usesSharedHeader(html) {
-  return /<nav[^>]*class="[^"]*app-header__nav/i.test(html);
+  return /<!-- site:header\b/.test(html) && /<header class="app-header" data-site-chrome\b/.test(html);
 }
 
 const failures = [];
 const extras = [];
-const markupOutliers = [];
 let checked = 0;
 
 for (const page of PAGES) {
@@ -107,7 +111,7 @@ for (const page of PAGES) {
     continue;
   }
   checked += 1;
-  if (!usesSharedHeader(html)) markupOutliers.push(page);
+  if (!usesSharedHeader(html)) failures.push(`${page}: does not use the shared site header (<!-- site:header --> from partials/site-header.html)`);
 
   const missing = CORE.filter((c) => !labels.includes(c));
   if (missing.length) {
@@ -140,11 +144,6 @@ console.log(`PASS: ${checked} public page(s) share the core nav (${CORE.join(', 
 if (extras.length) {
   console.log('  Editorial, not enforced — these pages offer extra destinations:');
   for (const e of extras) console.log(`    ${e}`);
-}
-if (markupOutliers.length) {
-  console.log('  Navigable but NOT using the shared app-header markup, so they do');
-  console.log('  not inherit its styling or behaviour:');
-  for (const p of markupOutliers) console.log(`    ${p}`);
 }
 if (unlisted.length) {
   console.log(`  Not checked, and referenced by nothing: ${unlisted.join(', ')}`);

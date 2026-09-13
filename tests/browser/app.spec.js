@@ -3051,12 +3051,14 @@ test('mobile shell, support modal, theme toggle, and accessibility smoke pass', 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
-  await page.locator('#mobileMenuBtn').click();
-  await expect(page.locator('#mobileMenu')).toBeVisible();
-  await page.locator('#mobileSupportBtn').click();
+  // The shared site header: one toggle opens the same nav that holds Support Us.
+  await page.locator('.app-header .mobile-menu-toggle').click();
+  await expect(page.locator('#mainNav')).toBeVisible();
+  await page.locator('#supportBtn').click();
   await expect(page.locator('#supportModal')).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(page.locator('#supportModal')).toBeHidden();
+  await expect(page.locator('#supportBtn')).toBeFocused();
   await page.evaluate(() => document.getElementById('themeToggle')?.click());
   await expect(page.locator('html')).toHaveAttribute('data-theme', /dark|light/);
   const results = await new AxeBuilder({ page })
