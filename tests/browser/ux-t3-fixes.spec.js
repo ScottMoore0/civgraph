@@ -120,10 +120,11 @@ test('T3-07 · a hidden layer looks hidden, and reorder works from the keyboard'
   const start = await order();
   await page.locator(`#activeLayersList .active-layer-item[data-map-id="${start[0]}"] .active-layer-item__drag`).focus();
   await page.keyboard.press('ArrowDown');
-  await page.waitForTimeout(600);
-  const moved = await order();
-  expect(moved[0]).toBe(start[1]);
-  expect(moved[1]).toBe(start[0]);
+  // The move re-renders the panel after the map reorders its layers, which is not instant.
+  // A fixed 600 ms wait read the old order whenever the machine was busy (it failed under a
+  // full suite run and passed alone), so this retries until the rows have swapped. A reorder
+  // that never happens still fails, at the 10 s timeout.
+  await expect.poll(async () => (await order()).slice(0, 2), { timeout: 10000 }).toEqual([start[1], start[0]]);
 });
 
 test('T3-08 · duplicate election column names are disambiguated for assistive tech', async ({ page }) => {
