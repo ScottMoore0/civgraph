@@ -422,7 +422,12 @@ async function main() {
       councilLayerId: bundle.councilLayerId,
       councilLabelProperty: bundle.councilLabelProperty,
       loadable: bundle.loadable,
-      placeholder: !bundle.loadable,
+      // An RoI local election with results but no boundary layer for its year (1991-2004:
+      // the LEA maps are not yet obtained). Not loadable -- nothing to draw -- but not a
+      // placeholder either: the catalogue lists it and the election pane shows its results
+      // with no map layer.
+      resultsOnly: resultsOnlyElection(bundle),
+      placeholder: !bundle.loadable && !resultsOnlyElection(bundle),
       matchedCount: bundle.matchedCount,
       unmatchedCount: bundle.unmatchedCount,
       totalConstituencies: bundle.totalConstituencies,
@@ -2416,6 +2421,13 @@ function sourceByYear(year, rows) {
     if (year >= fromYear) return { sourceMapId };
   }
   return { sourceMapId: null };
+}
+
+function resultsOnlyElection(bundle) {
+  return !bundle.loadable
+    && bundle.bodySlug === 'ireland-local'
+    && !bundle.sourceMapId
+    && (bundle.results || []).some((result) => (result.candidates || []).length > 0);
 }
 
 function formatElectionSubtitle(entry, results, unmatchedCount, hasMap = true) {
