@@ -27,6 +27,8 @@ attributed one is not.
 """
 import os, re, sys, json, glob, argparse, collections, unicodedata
 
+from generated_json import dump_generated_json
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..'))
 # The election metadata the rest of the build actually reads. This pointed at
@@ -164,9 +166,7 @@ def main():
         if dirty:
             changed += 1
             if not args.check:
-                with open(path, 'w', encoding='utf-8', newline='\n') as fh:
-                    json.dump(doc2, fh, ensure_ascii=False, indent=2)
-                    fh.write('\n')
+                dump_generated_json(path, doc2)
 
     tot = sum(stats.values())
     print(f'{tot:,} named candidacies')

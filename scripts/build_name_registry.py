@@ -35,6 +35,8 @@ Output: data/elections/persons/name_registry.json, alias_candidates.csv
 """
 import os, re, sys, json, glob, csv, argparse, collections, unicodedata
 
+from generated_json import dump_generated_json
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..'))
 # render/, not test/: the directory was renamed and these constants were not.
@@ -242,9 +244,7 @@ def main():
                 dirty = True
         if dirty:
             changed += 1
-            with open(f, 'w', encoding='utf-8', newline='\n') as fh:
-                json.dump(d, fh, ensure_ascii=False, indent=2)
-                fh.write('\n')
+            dump_generated_json(f, d)
     print(f"\n  stamped name_id on {stamped:,} candidacies across {changed} files")
     print(f"  wrote {REG}")
     if cand:
