@@ -3530,8 +3530,8 @@ class Test2App {
       subject = null;
     }
     const next = subject
-      ? `${String(subject).replace(/\s+/g, ' ').trim()} — ${SUFFIX}`
-      : `${SUFFIX} — Maps of Irish administrative geography and history`;
+      ? `${String(subject).replace(/\s+/g, ' ').trim()} - ${SUFFIX}`
+      : `${SUFFIX} - Maps of Irish administrative geography and history`;
     if (document.title !== next) document.title = next;
   }
 

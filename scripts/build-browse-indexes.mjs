@@ -671,7 +671,7 @@ function addElectionEnrichmentReferences(refs, election, detail) {
   const key = election?.key || detail?.key || election?.id;
   for (const d of (ELECTION_SOURCE_ENRICHMENTS.get(key) || [])) {
     addReference(refs, {
-      label: `${d.title} — ${d.provider || 'data.gov.ie'} (${d.license})`,
+      label: `${d.title} - ${d.provider || 'data.gov.ie'} (${d.license})`,
       url: d.providerUrl,
       source: d.provider || 'data.gov.ie',
       role: 'external-dataset-source',

@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description"
-    content="Interactive maps of the administrative geography and history of Ireland — local government districts, parliamentary constituencies, wards, townlands, elections, censuses and historic administrative areas.">
+    content="Interactive maps of the administrative geography and history of Ireland - local government districts, parliamentary constituencies, wards, townlands, elections, censuses and historic administrative areas.">
   <meta name="keywords"
     content="Ireland, Northern Ireland, boundaries, maps, GIS, local government, constituencies, wards, DEAs, townlands, elections, census">
   <meta name="author" content="Scott Moore">
@@ -21,7 +21,7 @@
   {
     "@context": "https://schema.org",
     "@type": "Dataset",
-    "name": "Civgraph — maps and administrative geography of Ireland",
+    "name": "Civgraph - maps and administrative geography of Ireland",
     "description": "1,000+ interactive map layers (boundaries, electoral areas, townlands, physical features, thematic data) plus statistical sources and a semantic graph. Machine-readable catalogue and FlatGeobuf geometries for programmatic use; see /llms.txt and /agent/guide.md.",
     "url": "https://civgraph.net",
     "creator": { "@type": "Person", "name": "Scott Moore" },
@@ -33,7 +33,7 @@
   }
   </script>
 
-  <title>Civgraph — Maps of Irish administrative geography and history</title>
+  <title>Civgraph - Maps of Irish administrative geography and history</title>
   <!-- Root MapLibre shell. Leaflet root archived at git tag leaflet-main-before-maplibre-root-20260612. -->
   <base href="/">
 
@@ -54,7 +54,7 @@
 
   <!-- Modulepreload — start fetching the entry bundle before parser reaches
        the <script type=module> tag at the end of <body>. -->
-  <link rel="modulepreload" href="/app/build/app.bundle.js?v=a21798fad2ec" fetchpriority="high">
+  <link rel="modulepreload" href="/app/build/app.bundle.js?v=91acf0df313b" fetchpriority="high">
   <style>
     @font-face {
       font-family: 'Inter';
@@ -120,9 +120,9 @@
 
   <!-- OpenGraph Meta Tags (Social Sharing) -->
   <meta property="og:site_name" content="Civgraph">
-  <meta property="og:title" content="Civgraph — maps of Irish administrative geography and history">
+  <meta property="og:title" content="Civgraph - maps of Irish administrative geography and history">
   <meta property="og:description"
-    content="Interactive maps of the administrative geography and history of Ireland — boundaries, elections, censuses and archives.">
+    content="Interactive maps of the administrative geography and history of Ireland - boundaries, elections, censuses and archives.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://civgraph.net/maps/">
   <meta property="og:image" content="https://civgraph.net/assets/images/og-preview.png">
@@ -135,9 +135,9 @@
     content="The Civgraph map viewer showing county boundaries across the island of Ireland.">
   <!-- twitter:card was declared with no twitter:image behind it. X does fall back to
        og:image, but only by convention -- state it. -->
-  <meta name="twitter:title" content="Civgraph — maps of Irish administrative geography and history">
+  <meta name="twitter:title" content="Civgraph - maps of Irish administrative geography and history">
   <meta name="twitter:description"
-    content="Interactive maps of the administrative geography and history of Ireland — boundaries, elections, censuses and archives.">
+    content="Interactive maps of the administrative geography and history of Ireland - boundaries, elections, censuses and archives.">
   <meta name="twitter:image" content="https://civgraph.net/assets/images/og-preview.png">
   <meta name="twitter:image:alt"
     content="The Civgraph map viewer showing county boundaries across the island of Ireland.">
@@ -150,13 +150,13 @@
       <p>Interactive maps of the administrative geography and history of Ireland.
       The map viewer needs JavaScript (it renders with MapLibre GL / WebGL).</p>
       <p><strong>Using the data programmatically (incl. AI agents):</strong> the
-      full catalogue and geometries are static and machine-readable — you do not
+      full catalogue and geometries are static and machine-readable - you do not
       need this UI.</p>
       <ul>
-        <li><a href="/llms.txt">/llms.txt</a> — overview for automated clients</li>
-        <li><a href="/agent/guide.md">/agent/guide.md</a> — how to find maps, fetch geometry, and compute feature correspondence (tested recipe)</li>
-        <li><a href="/agent/maps-index.json">/agent/maps-index.json</a> — slim catalogue: every layer with a direct FlatGeobuf geometry link</li>
-        <li><a href="/data/database/maps.json">/data/database/maps.json</a> — full catalogue</li>
+        <li><a href="/llms.txt">/llms.txt</a> - overview for automated clients</li>
+        <li><a href="/agent/guide.md">/agent/guide.md</a> - how to find maps, fetch geometry, and compute feature correspondence (tested recipe)</li>
+        <li><a href="/agent/maps-index.json">/agent/maps-index.json</a> - slim catalogue: every layer with a direct FlatGeobuf geometry link</li>
+        <li><a href="/data/database/maps.json">/data/database/maps.json</a> - full catalogue</li>
       </ul>
     </div>
   </noscript>
@@ -242,7 +242,7 @@
           <div class="catalogue-intro">
             <h1 class="catalogue-intro__heading">Maps of Irish administrative geography and history</h1>
             <p class="catalogue-intro__lede">Interactive maps of the administrative geography and history of
-              Ireland &mdash; boundaries, elections, censuses and archives.</p>
+              Ireland - boundaries, elections, censuses and archives.</p>
           </div>
           <!-- Search -->
           <div class="search-input">
@@ -724,7 +724,7 @@
        and animation code are loaded lazily by the /app module bundle. -->
 
   <!-- Application (bundled + minified) -->
-  <script type="module" src="/app/build/app.bundle.js?v=a21798fad2ec"></script>
+  <script type="module" src="/app/build/app.bundle.js?v=91acf0df313b"></script>
 
   <!-- Service worker — repeat-visit cache + offline tolerance. Registered
        after window.load so it doesn't contend with critical resources.

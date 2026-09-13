@@ -30,7 +30,8 @@ const BOOT_TIMEOUT = 45000;
 
 /** Load the app and wait for the runtime, failing with the real reason. */
 async function bootApp(page) {
-  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  // The map app is at /maps/; / is the landing page and never boots the runtime.
+  await page.goto('/maps/', { waitUntil: 'domcontentloaded' });
 
   const booted = await page
     .waitForFunction(() => window.__civgraphTest2BootStarted === true, null, { timeout: BOOT_TIMEOUT })
@@ -121,7 +122,7 @@ test.describe('timeline, share URLs and the slider', () => {
     const before = await page.evaluate(() => window.location.hash);
     expect(before).toMatch(/lng=/);
 
-    await page.goto(`/${before}`, { waitUntil: 'domcontentloaded' });
+    await page.goto(`/maps/${before}`, { waitUntil: 'domcontentloaded' });
     await page.waitForFunction(() => window.__civgraphTest2BootStarted === true, null, { timeout: BOOT_TIMEOUT });
     await page.waitForFunction(() => typeof window.__civgraphTest2?.whenIdle === 'function', null, { timeout: BOOT_TIMEOUT });
     await page.evaluate(() => window.__civgraphTest2.restorePromise);

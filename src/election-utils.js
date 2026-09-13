@@ -42,8 +42,9 @@ export function escapeHtml(str) {
 export function renderElectionConstituencyFeatureLink(body, date, constituency, label, extraClass = '', level = 'dea') {
     const safeLabel = escapeHtml(label || '');
     const safeName = String(constituency || '').trim();
-    if (!safeName || safeName === '—') {
-        return `<span class="election-cell-wrap ${extraClass}">${safeLabel || '—'}</span>`;
+    // '-' is the renderers' empty placeholder; an em dash can still arrive from data.
+    if (!safeName || safeName === '-' || safeName === '—') {
+        return `<span class="election-cell-wrap ${extraClass}">${safeLabel || '-'}</span>`;
     }
     const classAttr = ['election-entity-link', extraClass].filter(Boolean).join(' ');
     return `<button type="button"

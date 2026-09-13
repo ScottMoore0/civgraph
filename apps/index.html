@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Apps by Civgraph — independent tools built on public data, including Independent PRONI Search.">
+        content="Apps by Civgraph - independent tools built on public data, including Independent PRONI Search.">
     <title>Apps - Civgraph</title>
 
     <style>
@@ -32,6 +32,23 @@
     <link rel="stylesheet" href="../build/about.css">
 
     <style>
+        /* Page ground and dark theme. build/about.css carries the light tokens only;
+           the site theme toggle stamps data-theme on <html>. Same dark palette as
+           Home and About. The app cards keep their own fixed palettes (below). */
+        body {
+            background: var(--color-surface);
+            color: var(--color-text);
+        }
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+            --color-surface: #0f1720;
+            --color-surface-elevated: #131c26;
+            --color-text: #e6edf3;
+            --color-text-muted: #8fa1b3;
+            --color-border: #23303d;
+            --color-primary-light: #a8c6ea;
+            --color-accent: #6cd39a;
+        }
         .page-container {
             max-width: 800px;
             margin: 0 auto;
@@ -221,7 +238,7 @@
                 <h2 class="app-card__title">Independent PRONI Search</h2>
                 <p class="app-card__desc">
                     A faster, independent interface to search all 1,538,177 records in the Public Record
-                    Office of Northern Ireland (PRONI) eCatalogue — with advanced search, exportable
+                    Office of Northern Ireland (PRONI) eCatalogue - with advanced search, exportable
                     spreadsheets of record data, and easily shareable record links. Built by Civgraph using
                     PRONI data; not an official PRONI service.
                 </p>
@@ -236,7 +253,7 @@
             <a class="app-card" href="/pages/census-explorer.html">
                 <h2 class="app-card__title">Census Explorer</h2>
                 <p class="app-card__desc">
-                    Explore census data across Ireland and Northern Ireland — compare
+                    Explore census data across Ireland and Northern Ireland - compare
                     variables between areas and across time, and chart the results. The
                     underlying census boundaries and tables are catalogued in Browse.
                 </p>

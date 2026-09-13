@@ -2189,3 +2189,109 @@ a.visually-hidden:focus-visible {
   outline: 3px solid currentColor;
   outline-offset: 2px;
 }
+
+/* ============================================================ dark theme
+   Follows the site theme toggle (assets/site/site-chrome.js stamps data-theme on
+   <html> before first paint). Same palette as Home and About
+   (assets/pages/css/shared.css), so the pages match when a reader moves between them.
+   Map thumbnails keep their light ground on purpose -- see .browse-thumb above. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-primary: #7aa7dd;
+  --color-primary-light: #a8c6ea;
+  --color-accent: #6cd39a;
+  --color-surface: #0f1720;
+  --color-surface-elevated: #131c26;
+  --color-text: #e6edf3;
+  --color-text-muted: #8fa1b3;
+  --color-border: #23303d;
+  --browse-dark-tint: rgba(122, 167, 221, .14);
+  --browse-dark-panel: #18222d;
+}
+
+/* Solid primary fills carry white text, so they keep a dark enough blue. */
+:root[data-theme="dark"] .contributor-btn--primary,
+:root[data-theme="dark"] .browse-btn--primary,
+:root[data-theme="dark"] .browse-control-btn:hover,
+:root[data-theme="dark"] .browse-control-btn--active,
+:root[data-theme="dark"] .browse-tab--active {
+  background: #2c5282;
+}
+
+:root[data-theme="dark"] .contributor-btn--primary:hover,
+:root[data-theme="dark"] .browse-btn--primary:hover {
+  background: #3867a5;
+}
+
+:root[data-theme="dark"] .contributor-btn:hover,
+:root[data-theme="dark"] .browse-group-link:hover,
+:root[data-theme="dark"] .browse-group-link--active,
+:root[data-theme="dark"] .browse-portal-jump a:hover,
+:root[data-theme="dark"] .browse-portal-section__count:hover,
+:root[data-theme="dark"] .browse-portal-search-note,
+:root[data-theme="dark"] .browse-actions--contributor,
+:root[data-theme="dark"] .browse-btn:hover {
+  background: var(--browse-dark-tint);
+}
+
+:root[data-theme="dark"] .browse-portal-section__header {
+  background: linear-gradient(180deg, #18222d 0%, #131c26 100%);
+}
+
+:root[data-theme="dark"] .browse-thumb--detail,
+:root[data-theme="dark"] .browse-detail__panel--supporting,
+:root[data-theme="dark"] .browse-interest-entry__number,
+:root[data-theme="dark"] .browse-interest-entry__status,
+:root[data-theme="dark"] .browse-interest-entry__sources span,
+:root[data-theme="dark"] .browse-detail__panel--technical,
+:root[data-theme="dark"] .browse-graph__summary span,
+:root[data-theme="dark"] .browse-graph-group__property,
+:root[data-theme="dark"] .browse-graph-statement__qualifiers span,
+:root[data-theme="dark"] .browse-graph-statement__references span,
+:root[data-theme="dark"] .browse-map-lead__preview,
+:root[data-theme="dark"] .browse-features-table .browse-feature-thumb {
+  background: var(--browse-dark-panel);
+}
+
+:root[data-theme="dark"] .browse-field-json,
+:root[data-theme="dark"] .browse-raw pre {
+  background: var(--browse-dark-panel);
+  color: var(--color-text);
+}
+
+:root[data-theme="dark"] .browse-card__status--available {
+  color: #9ae6b4;
+  background: rgba(56, 161, 105, .16);
+  border-color: rgba(154, 230, 180, .45);
+}
+
+:root[data-theme="dark"] .browse-card__status--not-yet-converted,
+:root[data-theme="dark"] .browse-card__status--metadata-only {
+  color: #fcd34d;
+  background: rgba(252, 211, 77, .12);
+  border-color: rgba(252, 211, 77, .45);
+}
+
+:root[data-theme="dark"] .browse-note {
+  color: #fde68a;
+  background: rgba(252, 211, 77, .1);
+  border-color: rgba(252, 211, 77, .45);
+}
+
+:root[data-theme="dark"] .browse-thumb--election {
+  color: #fde68a;
+  background: linear-gradient(135deg, #3a3217 0%, #1b2a3d 100%);
+}
+
+:root[data-theme="dark"] .browse-thumb--party {
+  color: #9ae6b4;
+  background: linear-gradient(135deg, #173a26 0%, #18222d 100%);
+}
+
+:root[data-theme="dark"] .browse-thumb--person {
+  color: #c4b5fd;
+  background: linear-gradient(135deg, #2e2350 0%, #18222d 100%);
+}
+
+:root[data-theme="dark"] .contributor-form__status--error { color: #fca5a5; }
+:root[data-theme="dark"] .contributor-form__status--success { color: #86efac; }

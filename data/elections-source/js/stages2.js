@@ -539,7 +539,7 @@ function animateForumElection(constituency) {
         label.css({ top: top, left: leftPadding });
         decorateLabel(label, entry.colour);
         var nameSpan = $("<span class='forum-party-name'></span>");
-        nameSpan.text(entry.name || '—');
+        nameSpan.text(entry.name || '-');
         label.append(nameSpan);
         animation.append(label);
 
