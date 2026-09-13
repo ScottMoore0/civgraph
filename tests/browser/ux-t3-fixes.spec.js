@@ -4,7 +4,7 @@ const { test, expect } = require('@playwright/test');
 // item described, not the presence of the code that implements it.
 
 test('T3-01 · the map count is formatted and internal codes are gone', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.app, null, { timeout: 60000 });
   await page.waitForTimeout(2500);
 
@@ -39,7 +39,7 @@ test('T3-01 · the map count is formatted and internal codes are gone', async ({
 });
 
 test('T3-06 · the support modal traps focus, inerts the background, and restores focus', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.app, null, { timeout: 60000 });
   await page.waitForTimeout(2000);
 
@@ -82,7 +82,7 @@ test('T3-06 · the support modal traps focus, inerts the background, and restore
 
 test('T3-07 · a hidden layer looks hidden, and reorder works from the keyboard', async ({ page }) => {
   test.setTimeout(120000);
-  await page.goto('/');
+  await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length, null, { timeout: 60000 });
 
   await page.evaluate(async () => {

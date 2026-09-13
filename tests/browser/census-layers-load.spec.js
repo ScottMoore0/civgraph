@@ -18,7 +18,7 @@ const CENSUS_LAYERS = [
 
 test('every unflagged census layer actually loads', async ({ page }) => {
   test.setTimeout(300000);
-  await page.goto('/');
+  await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length, null, { timeout: 60000 });
 
   const results = await page.evaluate(async (ids) => {

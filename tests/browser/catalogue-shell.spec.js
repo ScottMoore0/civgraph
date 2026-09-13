@@ -4,7 +4,7 @@ const { test, expect } = require('@playwright/test');
 // All three regressed together and none had a test.
 
 test('the basemap is OpenStreetMap in both themes', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.app, null, { timeout: 60000 });
   await page.waitForTimeout(1500);
 
@@ -20,7 +20,7 @@ test('the basemap is OpenStreetMap in both themes', async ({ page }) => {
 });
 
 test('no basemap option points at a source that needs a key or is gone', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/maps/');
   await page.waitForSelector('#baseMapSelect', { state: 'attached', timeout: 60000 });
   const values = await page.evaluate(() =>
     [...document.querySelectorAll('#baseMapSelect option')].map((o) => o.value));
@@ -33,7 +33,7 @@ test('no basemap option points at a source that needs a key or is gone', async (
 
 test('the blurb sits on its own row above the search bar', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
-  await page.goto('/');
+  await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.app, null, { timeout: 60000 });
   await page.waitForTimeout(2000);
 
@@ -59,7 +59,7 @@ test('the blurb sits on its own row above the search bar', async ({ page }) => {
 });
 
 test('the blurb is legible in dark mode', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.app, null, { timeout: 60000 });
   await page.waitForTimeout(1500);
   await page.locator('#themeToggle').click();

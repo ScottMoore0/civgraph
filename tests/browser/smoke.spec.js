@@ -1,7 +1,7 @@
 const { test, expect } = require('@playwright/test');
 
 test('homepage shell loads', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/maps/');
 
   await expect(page.getByRole('link', { name: 'Home' })).toBeVisible();
   await expect(page.getByRole('button', { name: /support us/i })).toBeVisible();

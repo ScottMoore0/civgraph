@@ -21,7 +21,7 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
   if (event.request.mode === 'navigate' && (url.pathname === '/test2' || url.pathname.startsWith('/test2/'))) {
-    const target = new URL('/', self.location.origin);
+    const target = new URL('/maps/', self.location.origin);
     target.search = url.search;
     event.respondWith(Response.redirect(target.href, 302));
   }
