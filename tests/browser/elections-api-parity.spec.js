@@ -40,7 +40,7 @@ async function loadElection(page, { api, body, date }) {
   page.on('pageerror', (e) => consoleErrors.push(`pageerror: ${e.message}`));
 
   // The API path is now the default, so the static run must opt out explicitly.
-  await page.goto(`${BASE}/?electionsApi=${api ? '1' : '0'}`, { waitUntil: 'domcontentloaded' });
+  await page.goto(`${BASE}/maps/?electionsApi=${api ? '1' : '0'}`, { waitUntil: 'domcontentloaded' });
   await page.waitForFunction(() => window.__civgraphTest2?.elections, null, { timeout: 60000 });
 
   const result = await page.evaluate(async ({ body, date }) => {
@@ -192,14 +192,21 @@ for (const { body, date } of CASES) {
     // Once opened, countGroup resolves to the same rows as the static path...
     expect(apiRun.animationRun.countGroupAfterOpen).toBe(staticRun.animationRun.countGroupAfterOpen);
     // ...and the panel rendered from it is identical.
+    //
+    // Except for one thing that is measured rather than rendered: fitAnimationToPane scales
+    // the animation to the pane and writes its natural width, scale and margins as inline
+    // styles on #electionAnimationContainer and #animation. That width comes from layout
+    // after fonts load, and differed between two loads of the same data (1100px vs 1140px).
+    // Those two style attributes are dropped before comparing; everything else must match.
+    const withoutFit = (html) => html.replace(/(<div id="(?:electionAnimationContainer|animation)"[^>]*?)\sstyle="[^"]*"/g, '$1');
     expect(apiRun.animationRun.panelHTML.length).toBeGreaterThan(0);
-    expect(apiRun.animationRun.panelHTML).toBe(staticRun.animationRun.panelHTML);
+    expect(withoutFit(apiRun.animationRun.panelHTML)).toBe(withoutFit(staticRun.animationRun.panelHTML));
 
     // And the rendered output itself -- the whole point of the exercise.
     expect(staticRun.paneHTML.length).toBeGreaterThan(0);
     expect(apiRun.paneHTML.length).toBeGreaterThan(0);
     expect(apiRun.paneTitle).toBe(staticRun.paneTitle);
-    expect(apiRun.paneHTML).toBe(staticRun.paneHTML);
+    expect(withoutFit(apiRun.paneHTML)).toBe(withoutFit(staticRun.paneHTML));
 
     expect(apiRun.consoleErrors).toEqual([]);
   });

@@ -39,7 +39,7 @@ test('T1-01/T1-02: a keyboard-driven layer load announces itself and keeps focus
   const consoleErrors = [];
   page.on('pageerror', (e) => consoleErrors.push(`pageerror: ${e.message}`));
 
-  await page.goto(`${BASE}/`, { waitUntil: 'domcontentloaded' });
+  await page.goto(`${BASE}/maps/`, { waitUntil: 'domcontentloaded' });
   await page.waitForFunction(() => window.__civgraphTest2?.app, null, { timeout: 90000 });
   await page.waitForTimeout(2500);
 
