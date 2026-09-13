@@ -3,6 +3,12 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync } from 'node:f
 import path from 'node:path';
 import { deserialize } from 'flatgeobuf/lib/mjs/geojson.js';
 import * as ElectionDomain from '../src/election-domain.mjs';
+import { namesCompatible } from './lib/name-compatibility.mjs';
+
+// Decorations on the Republic's local electoral area names; see buildFeatureLookup.
+const LEA_SEAT_SUFFIX = /\s*\(\d+\)\s*$/;
+// Usually " LEA-6", but some 2019 names join it with a hyphen ("BALLINAMORE-LEA-6").
+const LEA_CODE_SUFFIX = /[\s-]+LEA-\d+\s*$/i;
 import { canonicalElectionTitle, isElectionByElectionScope } from './lib/election-names.mjs';
 import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
 
@@ -154,6 +160,22 @@ const SOURCE_NAME_ALIASES = new Map([
     ['TIPPERARY (SOUTH RIDING) COUNTY COUNCIL', 'South Tipperary'],
     ['LAOIGHIS COUNTY COUNCIL', 'Laois'],
     ['LEIX COUNTY COUNCIL', 'Laois']
+  ])],
+  // ElectionsIreland's spellings of Republic local electoral areas, where the boundary file
+  // spells them otherwise.
+  ['roi-lea-2008', new Map([
+    ['Muinebeag', 'Muinebheag'],
+    ['Ennistimon', 'Ennistymon'],
+    ['Connamara', 'Conamara'],
+    ['Castleblayney', 'Castleblaney']
+  ])],
+  ['roi-lea-2014', new Map([
+    ['MUINEBEAG (8)', 'Muinebheag'],
+    ['CAPPAMORE — KILMALLOCK (7)', 'Cappaghmore Kilmallock'],
+    ['CARRICKMACROSS — CASTLEBLAYNEY (6)', 'Carrickmacross Castleblaney']
+  ])],
+  ['roi-lea-2019', new Map([
+    ['MUINEBEAG LEA-5', 'Muinebheag']
   ])],
   ['dail-2023', new Map([
     ['Limerick County (3)', 'Limerick']
@@ -491,7 +513,10 @@ function buildUniqueElectionEntries(index) {
         bodyGroup,
         date: dateEntry.date,
         bodyIndexes: [bodyIndex],
-        constituencies: unique(dateEntry.constituencies || [])
+        constituencies: unique(dateEntry.constituencies || []),
+        // How many areas the election had, where the index lists only those with results
+        // (the Republic's local elections, which ElectionsIreland holds only in part).
+        totalAreas: dateEntry.totalAreas || null
       });
     }
   }
@@ -670,6 +695,17 @@ function compareElectionEntriesAsc(a, b) {
 function resolveElectionGeography(entry) {
   const year = Number(String(entry.date).slice(0, 4));
   const body = entry.body;
+  if (entry.bodySlug === 'ireland-local') {
+    // The Republic's local electoral areas. There is no layer before 2008, so 1991-2004
+    // publish as results without a map. 2024 was contested on areas revised in 2023; until
+    // a 2024 layer exists it is matched against the 2019 set, and areas that changed stay
+    // unmatched rather than drawn on the wrong shape.
+    return sourceByYear(year, [
+      [2019, 'roi-lea-2019'],
+      [2014, 'roi-lea-2014'],
+      [2009, 'roi-lea-2008']
+    ]);
+  }
   if (entry.bodyGroup === 'local-government') {
     return sourceByYear(year, [
       [2014, 'deas-2012'],
@@ -1140,6 +1176,8 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     body: entry.body,
     bodySlug: entry.bodySlug,
     bodyGroup: entry.bodyGroup,
+    // Only the Republic's local elections carry these, so no other bundle changes.
+    ...(entry.bodySlug === 'ireland-local' ? { areaLabel: 'LEA', totalAreas: entry.totalAreas || null } : {}),
     displayTitle: publicDisplayTitle,
     ...electionMetadata,
     localBodies: entry.bodies || null,
@@ -1158,7 +1196,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     previousKey,
     previousDate,
     loadable: Boolean(layer && geography?.sourceMapId && results.length > 0 && matchedCount > 0),
-    displaySubtitle: formatElectionSubtitle(entry, results, unmatchedCount),
+    displaySubtitle: formatElectionSubtitle(entry, results, unmatchedCount, Boolean(layer && geography?.sourceMapId)),
     displayProvider: entry.displayProvider || (entry.bodyGroup === 'local-government' ? `Local government: ${entry.body}` : entry.body),
     constituencies: entry.constituencies,
     isByElection: electionMetadata.kind === 'by-election',
@@ -1739,10 +1777,33 @@ function buildFeatureLookup(index, sourceMapId) {
       const alias = sourceAliases.get(name);
       if (alias) explicitAliases.push(alias);
     }
-    const names = unique([item.name, ...(item.aliases || []), ...explicitAliases]);
+    // The Republic's local electoral area files decorate their names: the 2014 set carries
+    // each area's seat count ("WEXFORD (10)") and the 2019 set an LEA code ("WEXFORD LEA-7").
+    // For those layers only, the name is also matched without the decoration.
+    const roiLea = String(sourceMapId || '').startsWith('roi-lea');
+    // Their aliases are not other names for the area: they are its county (and, in 2008, its
+    // number). Taken as names, the first Cavan area in the file matched a result for the
+    // Cavan LEA and the first Roscommon one, Athlone, a result for Roscommon. The county
+    // only qualifies the name, so the two Athlones can be told apart: "Athlone Westmeath".
+    const counties = roiLea
+      ? (item.aliases || []).filter((alias) => alias && alias !== item.name && !/^\d+$/.test(alias))
+      : [];
+    const ownNames = roiLea ? [item.name] : [item.name, ...(item.aliases || [])];
+    const undecorated = roiLea
+      ? ownNames.map((name) => String(name || '').replace(LEA_SEAT_SUFFIX, '').replace(LEA_CODE_SUFFIX, '').trim())
+        .filter((name) => name && !ownNames.includes(name))
+      : [];
+    const names = unique([...ownNames, ...explicitAliases, ...undecorated]);
     for (const name of names) {
       for (const key of nameKeys(name)) {
         if (!byName.has(key)) byName.set(key, item);
+      }
+    }
+    for (const county of counties) {
+      for (const name of unique([...undecorated, ...explicitAliases, item.name])) {
+        for (const key of nameKeys(`${name} ${county}`)) {
+          if (!byName.has(key)) byName.set(key, item);
+        }
       }
     }
     for (const alias of explicitAliases) {
@@ -1817,7 +1878,13 @@ function matchNameKeys(value, entry = null) {
 
 function candidateMatchNames(value, entry = null) {
   const raw = fixText(value || '').trim();
-  const candidates = new Set([raw]);
+  // An RoI local area name two councils share carries its council ("Athlone (Westmeath)"),
+  // and normalizeName() deletes parentheses. Tried first, the council-qualified form reaches
+  // the feature qualified by the same county before the bare name reaches either.
+  const councilQualified = entry?.bodySlug === 'ireland-local' && /\([^)]+\)\s*$/.test(raw)
+    ? raw.replace(/\s*\(([^)]+)\)\s*$/, ' $1')
+    : null;
+  const candidates = new Set(councilQualified ? [councilQualified, raw] : [raw]);
   const normalized = normalizeName(raw);
   if (!raw) return [];
 
@@ -2134,6 +2201,30 @@ function buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency
       localCandidatesByFirstPref.get(firstPref).push(candidate);
     }
   }
+  // Second evidence, as in the harvester: a sidecar name that is the page's name written
+  // differently ("Richard Mulcahy" for "General Richard Mulcahy"). Only a unique compatible
+  // roster name nobody else has claimed, and only when no other unresolved sidecar name is
+  // compatible with it, so two same-named candidates are never guessed between.
+  const compatibleRosterIds = new Map();
+  {
+    const claimed = new Set((rawResult?.candidates || []).map((c) => c?.ei_candidate_id).filter(Boolean));
+    const unresolved = [];
+    (sidecar?.candidates || []).forEach((candidate, index) => {
+      const localCandidate = localCandidateForWikipediaCount(candidate, localCandidates, localCandidatesByFirstPref);
+      const name = fixText(localCandidate?.name || candidate.name || '').trim();
+      const exact = eiRoster.get(normalizeName(name));
+      if (localCandidate?.ei_candidate_id) return;
+      if (exact) { claimed.add(exact); return; }
+      unresolved.push({ index, name });
+    });
+    const roster = (rawResult?.ei_candidates || []).filter((entry) => entry?.id && !claimed.has(entry.id));
+    for (const row of unresolved) {
+      const hits = roster.filter((entry) => namesCompatible(row.name, entry.name));
+      if (hits.length !== 1) continue;
+      if (unresolved.some((other) => other !== row && namesCompatible(other.name, hits[0].name))) continue;
+      compatibleRosterIds.set(row.index, hits[0].id);
+    }
+  }
   const numCounts = Number(sidecar.numCounts || 0) || Math.max(1, ...sidecar.candidates.flatMap((candidate) => candidate.counts?.map((value, index) => value !== null && value !== undefined ? index + 1 : 0) || []));
   const countGroup = sidecar.candidates.flatMap((candidate, index) => {
     const localCandidate = localCandidateForWikipediaCount(candidate, localCandidates, localCandidatesByFirstPref);
@@ -2163,7 +2254,7 @@ function buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency
         // the votes but not who the person is; dropping this here is what left every
         // Dail election from 1923 on unable to tell two same-named candidates apart.
         ei_candidate_id: localCandidate?.ei_candidate_id ?? localCandidate?.eiCandidateId
-          ?? eiRoster.get(normalizeName(name)) ?? '',
+          ?? eiRoster.get(normalizeName(name)) ?? compatibleRosterIds.get(index) ?? '',
         Official_Candidate_Id: localCandidate?.officialCandidateId || '',
         Official_Status: localCandidate?.officialStatus || '',
         Party_Abbreviation: localCandidate?.partyAbbreviation || localCandidate?.dailAbbreviation || '',
@@ -2302,11 +2393,18 @@ function sourceByYear(year, rows) {
   return { sourceMapId: null };
 }
 
-function formatElectionSubtitle(entry, results, unmatchedCount) {
+function formatElectionSubtitle(entry, results, unmatchedCount, hasMap = true) {
   const total = results.length || entry.constituencies.length;
-  const prefix = entry.bodyGroup === 'local-government'
-    ? (entry.bodies?.length > 1 ? `${total} DEAs` : entry.body)
-    : `${total} constituencies`;
+  const prefix = entry.bodySlug === 'ireland-local'
+    // Coverage is stated, because ElectionsIreland holds results for only some areas of
+    // some years: 2024 has 63 of 166.
+    ? (entry.totalAreas && entry.totalAreas > total ? `results for ${total} of ${entry.totalAreas} LEAs` : `${total} LEAs`)
+    : entry.bodyGroup === 'local-government'
+      ? (entry.bodies?.length > 1 ? `${total} DEAs` : entry.body)
+      : `${total} constituencies`;
+  // RoI local years with no boundary map (1991-2004) have nothing to match against, so a
+  // count of every area as "unmatched" would read as a matching failure.
+  if (entry.bodySlug === 'ireland-local' && !hasMap) return prefix;
   return unmatchedCount > 0 ? `${prefix}; ${unmatchedCount} unmatched` : prefix;
 }
 
