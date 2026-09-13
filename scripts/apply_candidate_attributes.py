@@ -43,6 +43,8 @@ Usage:
 """
 import os, sys, csv, json, glob, argparse, collections, importlib.util
 
+from generated_json import dump_generated_json
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..'))
 # render/, not test/: the directory was renamed and these constants were not.
@@ -259,9 +261,7 @@ def main():
         if dirty:
             changed += 1
             if not (args.check or args.leads):
-                with open(path, 'w', encoding='utf-8', newline='\n') as fh:
-                    json.dump(doc, fh, ensure_ascii=False, indent=2)
-                    fh.write('\n')
+                dump_generated_json(path, doc)
 
     if self_endorse:
         print(f"  WARNING: {len(self_endorse)} endorsement rows name the candidate's own "

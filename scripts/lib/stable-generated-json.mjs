@@ -1,6 +1,9 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
+// 24 MiB: a margin under Cloudflare Pages' 25 MiB per-file limit.
+const PAGES_SAFE_BYTES = 24 * 1024 * 1024;
+
 function cloneJson(value) {
   return JSON.parse(JSON.stringify(value));
 }
@@ -72,7 +75,13 @@ export function preserveVolatileFields(file, data, volatilePaths = ['generatedAt
 export function writeStableGeneratedJson(file, data, options = {}) {
   const volatilePaths = options.volatilePaths || ['generatedAt'];
   const nextData = preserveVolatileFields(file, data, volatilePaths);
-  const nextText = `${JSON.stringify(nextData, null, 2)}\n`;
+  // Indented for readable diffs, unless that would pass Cloudflare Pages' 25 MiB per-file
+  // limit: clean-for-pages.sh deletes such files from the deploy, so an oversized election
+  // bundle would silently stop being served. scripts/generated_json.py applies the same rule.
+  const indented = `${JSON.stringify(nextData, null, 2)}\n`;
+  const nextText = Buffer.byteLength(indented, 'utf8') > PAGES_SAFE_BYTES
+    ? `${JSON.stringify(nextData)}\n`
+    : indented;
   const currentText = existsSync(file) ? readFileSync(file, 'utf8') : null;
   if (currentText !== nextText) {
     mkdirSync(path.dirname(file), { recursive: true });
