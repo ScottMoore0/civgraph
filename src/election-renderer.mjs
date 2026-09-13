@@ -79,7 +79,7 @@ export class SharedElectionRenderer {
         ], view)}
         <div class="test2-election-panel__summary">
           <dl class="test2-election-panel__stats">
-            <div><dt>${model.localGovernment ? 'DEAs' : 'Constituencies'}</dt><dd>${formatNumber(results.length)}</dd></div>
+            <div><dt>${this.host.activeBundle?.areaLabel ? `${this.host.activeBundle.areaLabel}s` : (model.localGovernment ? 'DEAs' : 'Constituencies')}</dt><dd>${formatNumber(results.length)}</dd></div>
             <div><dt>Matched</dt><dd>${formatNumber(model.coverage.matched)}</dd></div>
             <div><dt>Unmatched</dt><dd>${formatNumber(model.coverage.unmatched)}</dd></div>
             ${model.totals.totalSeats ? `<div><dt>Seats</dt><dd>${formatNumber(model.totals.totalSeats)}</dd></div>` : ''}
@@ -106,7 +106,7 @@ export class SharedElectionRenderer {
       Number(Boolean(b.elected)) - Number(Boolean(a.elected))
       || Number(b.finalVotes ?? b.firstPrefs ?? b.votes ?? 0) - Number(a.finalVotes ?? a.firstPrefs ?? a.votes ?? 0)
     );
-    const areaLabel = this.host.isLocalGovernmentElection() ? 'DEA' : 'Constituency';
+    const areaLabel = this.host.activeBundle?.areaLabel || (this.host.isLocalGovernmentElection() ? 'DEA' : 'Constituency');
     return `
       <section class="test2-election-panel shared-election-renderer" data-election-renderer="shared" aria-label="${escapeHtml(result.constituency)} results">
         ${this.renderViewTabs([

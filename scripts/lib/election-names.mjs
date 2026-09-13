@@ -197,6 +197,10 @@ export function canonicalElectionTitle({
 } = {}) {
   if (specialDisplayName) return specialDisplayName;
   const { year, dayMonthYear } = dateParts(date);
+  // The Republic's local elections are one body contested across every council on the same
+  // day, never a by-election and not the Northern Ireland local-government group, so they
+  // are named before either of those checks can claim them.
+  if (bodySlug === 'ireland-local') return `${year} Irish local elections`.trim();
   const normalizedBody = normalizeName(body);
   const inferredSpecialType = specialType
     || (normalizedBody === 'house of commons of the united kingdom' && String(date || '').slice(0, 10) === '2018-08-29' ? 'recall-petition' : null);
