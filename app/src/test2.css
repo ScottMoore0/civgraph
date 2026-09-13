@@ -374,8 +374,10 @@ body.app-shell .app-main {
     outline-offset: 2px;
   }
 
-  body.app-shell .mobile-menu-btn {
+  /* The pane toggle takes the auto margin, so the menu toggle sits beside it. */
+  body.app-shell .mobile-menu-toggle {
     order: 99;
+    margin-left: 0;
   }
 
   .pane--map > #timelineSlider.timeline-slider {

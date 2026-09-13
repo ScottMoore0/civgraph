@@ -434,7 +434,7 @@ class Test2App {
       toggle.type = 'button';
       toggle.className = 'mobile-pane-toggle';
       toggle.innerHTML = '<span aria-hidden="true">☰</span>';
-      const menuButton = document.getElementById('mobileMenuBtn');
+      const menuButton = header.querySelector(':scope > .mobile-menu-toggle') || document.getElementById('mobileMenuBtn');
       if (menuButton?.parentElement === header) {
         header.insertBefore(toggle, menuButton);
       } else {
@@ -1377,6 +1377,14 @@ class Test2App {
   }
 
   setupThemeToggle() {
+    // The shared site header (partials/site-header.html) brings its own toggle, wired by
+    // assets/site/site-chrome.js. The map only follows the theme, so binding a second click
+    // handler here would flip it twice.
+    if (document.querySelector('.app-header[data-site-chrome]')) {
+      void this.syncBasemapToTheme();
+      document.addEventListener('civgraph:themechange', () => void this.syncBasemapToTheme());
+      return;
+    }
     const toggles = [document.getElementById('themeToggle'), document.getElementById('themeToggleMobile')].filter(Boolean);
     const savedTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
@@ -1399,6 +1407,8 @@ class Test2App {
   }
 
   setupSupportModal() {
+    // Owned by assets/site/site-chrome.js when the shared site header is present.
+    if (document.querySelector('.app-header[data-site-chrome]')) return;
     const modal = document.getElementById('supportModal');
     const buttons = [document.getElementById('supportBtn'), document.getElementById('mobileSupportBtn')].filter(Boolean);
     if (!modal || buttons.length === 0) return;

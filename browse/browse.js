@@ -224,8 +224,6 @@ const els = {
   search: document.getElementById('browseSearch'),
   hero: document.getElementById('browseHero'),
   results: document.getElementById('browseResults'),
-  menuBtn: document.getElementById('browseMenuBtn'),
-  mobileMenu: document.getElementById('browseMobileMenu'),
   contributorPanel: document.getElementById('contributorPanel'),
   contributorModal: document.getElementById('contributorModal'),
   contributorForm: document.getElementById('contributorForm'),
@@ -254,11 +252,6 @@ function bindEvents() {
     state.query = els.search.value.trim();
     state.listShown = LIST_PAGE_SIZE;   // T2-09: a new query starts at page one
     renderCurrent();
-  });
-
-  els.menuBtn?.addEventListener('click', () => {
-    const open = els.mobileMenu.classList.toggle('hidden') === false;
-    els.menuBtn.setAttribute('aria-expanded', String(open));
   });
 
   document.addEventListener('click', (event) => {
@@ -316,13 +309,7 @@ function bindEvents() {
     if (link) {
       event.preventDefault();
       location.hash = link.getAttribute('href').replace(/^.*#/, '#');
-      els.mobileMenu?.classList.add('hidden');
-      els.menuBtn?.setAttribute('aria-expanded', 'false');
       return;
-    }
-    if (els.mobileMenu && !els.mobileMenu.classList.contains('hidden') && !event.target.closest('.mobile-menu') && !event.target.closest('.mobile-menu-btn')) {
-      els.mobileMenu.classList.add('hidden');
-      els.menuBtn?.setAttribute('aria-expanded', 'false');
     }
 
     const registerSort = event.target.closest('[data-register-sort]');

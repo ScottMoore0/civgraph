@@ -1,8 +1,8 @@
-/* Civgraph page drafts — shared styling.
-   The header, brand scaling, gradients, nav, support button and theme toggle are lifted
-   from assets/css/main.css so these drafts show the REAL branding rather than an
-   approximation. Everything else is self-contained: system font stack, no external
-   requests, so the files open correctly straight off the local disk. */
+/* Civgraph pages (Home, About) — shared page styling.
+   The header, navigation, Support Us button and footer are NOT styled here: they are
+   shared with every page and live in assets/site/site-chrome.css, with the markup in
+   partials/. Everything else is self-contained: system font stack, no external
+   requests. */
 
 :root {
   --header-height: 76px;
@@ -56,123 +56,6 @@ body {
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
 }
-
-
-/* ---------------------------------------------------------------- app header
-   Copied from main.css: the three-stop radial gradient over #065a6e, and the
-   --brand-size clamp that scales logo and wordmark together so the brand never
-   truncates. Do not replace the clamp with a fixed size. */
-
-.app-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: .5rem 1.5rem;
-  background: var(--header-base);
-  background-image:
-    radial-gradient(circle at 0% 50%, var(--header-green) 0%, transparent 50%),
-    radial-gradient(circle at 100% 50%, var(--header-navy) 0%, transparent 50%),
-    radial-gradient(circle at 40% 100%, var(--header-teal) 0%, transparent 60%);
-  color: var(--color-text-inverse);
-  box-shadow: var(--shadow-md);
-  position: sticky;
-  top: 0;
-  z-index: 40;
-  overflow: visible;
-  gap: 1rem;
-}
-
-.app-header__brand {
-  /* SCALE, DO NOT TRUNCATE — see main.css for the full note. Logo and wordmark are
-     both calc()'d from this one value so they shrink together and in proportion. */
-  --brand-size: clamp(28px, 8vw, 60px);
-  display: flex;
-  align-items: center;
-  gap: calc(var(--brand-size) * 0.05);
-  font-family: var(--font-display);
-  font-weight: 700;
-  color: var(--color-text-inverse);
-  text-decoration: none;
-  flex-shrink: 0;
-}
-
-.app-header__logo-icon {
-  width: calc(var(--brand-size) * 0.917);
-  height: calc(var(--brand-size) * 0.917);
-  object-fit: contain;
-  flex-shrink: 0;
-}
-
-.app-header__wordmark {
-  font-family: "Inter", "Segoe UI", Arial, sans-serif;
-  font-size: calc(var(--brand-size) * 0.567);
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 1;
-  letter-spacing: 0;
-  flex-shrink: 0;
-  white-space: nowrap;
-}
-
-.app-header__nav {
-  display: flex;
-  align-items: center;
-  gap: .25rem;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-}
-
-.app-header__link {
-  display: inline-flex;
-  align-items: center;
-  padding: .5rem 1rem;
-  color: rgba(255, 255, 255, 0.9);
-  font-weight: 500;
-  border-radius: var(--radius-md);
-  text-decoration: none;
-  transition: all .15s ease;
-  font-size: .95rem;
-}
-.app-header__link:hover,
-.app-header__link--active {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.15);
-}
-
-.support-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 14px;
-  background: #22c55e;
-  color: #fff;
-  border: none;
-  border-radius: var(--radius-full);
-  font-size: .875rem;
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
-  margin-left: .5rem;
-  font-family: inherit;
-  transition: background .15s ease, transform .15s ease;
-}
-.support-btn:hover { background: #16a34a; transform: translateY(-1px); }
-
-.theme-toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px; height: 36px;
-  margin-left: .35rem;
-  border: none;
-  border-radius: var(--radius-full);
-  background: rgba(255, 255, 255, 0.15);
-  color: #fff;
-  cursor: pointer;
-  transition: background .15s ease;
-}
-.theme-toggle:hover { background: rgba(255, 255, 255, 0.28); }
-.theme-toggle__icon--moon { display: none; }
 
 /* ------------------------------------------------------------------- layout */
 
@@ -282,17 +165,10 @@ a { color: var(--color-accent-dark); }
 ul { margin: 0 0 1.05rem; padding-left: 1.25rem; }
 li { margin-bottom: .45rem; }
 
-
 table { width: 100%; border-collapse: collapse; margin: 1.2rem 0; font-size: .92rem; }
 th, td { text-align: left; padding: .6rem .7rem; border-bottom: 1px solid var(--color-border); vertical-align: top; }
 th { color: var(--color-primary-dark); font-weight: 700; }
 td.num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
-
-.ftr {
-  border-top: 1px solid var(--color-border);
-  margin-top: 3rem; padding: 2rem 0 3rem;
-  color: var(--color-text-muted); font-size: .88rem;
-}
 
 /* ------------------------------------------------------------------ theming
    Three states, as main.css requires: explicit light, explicit dark, and system
@@ -327,8 +203,6 @@ td.num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600
   --color-primary-light: #a8c6ea;
   --color-accent-dark: #6cd39a;
 }
-:root[data-theme="dark"] .theme-toggle__icon--sun { display: none; }
-:root[data-theme="dark"] .theme-toggle__icon--moon { display: block; }
 
 /* ------------------------------------------------------------------ figures
    Screenshots are of the live site, taken with Playwright the same way
@@ -381,7 +255,6 @@ figcaption {
 }
 @media (max-width: 720px) { .shot-pair { grid-template-columns: 1fr; } }
 
-
 /* ================================================================= icons
    Interface glyphs marked data-icon="lucide" use Lucide icons from the
    open-source lucide-icons/lucide project. Navigation, buttons, cards,
@@ -393,9 +266,6 @@ figcaption {
   flex-shrink: 0;
   vertical-align: -.125em;
 }
-
-.app-header__link { gap: .45rem; }
-.app-header__link .icon { width: 17px; height: 17px; opacity: .95; }
 
 /* ------------------------------------------------------------- hero layout
    Two columns on desktop: copy left, the island right. Below 900px the
@@ -413,7 +283,6 @@ figcaption {
   .hero__grid { grid-template-columns: 1fr; gap: 1.5rem; }
   .hero__graphic { max-width: 340px; margin: 0 auto; }
 }
-
 
 /* ----------------------------------------------------- the constellation
    The coastline is Natural Earth 10m physical land (public domain), the
@@ -474,8 +343,6 @@ figcaption {
 
 .cg-signal { fill: #ffffff; }
 
-
-
 /* Nodes breathe on a slow stagger; the whole animation layer is switched off
    for anyone who has asked for reduced motion, and the graphic stays legible
    because none of the meaning lives in the movement. */
@@ -518,7 +385,6 @@ figcaption {
 }
 .constellation__halo { opacity: .36; }
 
-
 @media (max-width: 900px) {
   :root { --hero-overlap: 4rem; }
   .hero {
@@ -526,7 +392,6 @@ figcaption {
     padding: 4.5rem 0 6rem;
   }
 }
-
 
 /* First hero screenshot: keep the overlap, but reveal it only after the user
    has begun scrolling into it. */
@@ -549,12 +414,10 @@ figcaption {
   }
 }
 
-
 /* Stats count up from zero once when the row scrolls into view. */
 .stat__n {
   font-variant-numeric: tabular-nums;
 }
-
 
 /* Why it exists: reveal the two supporting images as they scroll into view. */
 .why-exists-images .scroll-reveal {
@@ -578,13 +441,6 @@ figcaption {
     transform: none;
     transition: none;
   }
-}
-
-.support-btn__icon {
-  width: 16px;
-  height: 16px;
-  flex: 0 0 16px;
-  display: block;
 }
 
 /* =====================================================================
@@ -651,82 +507,8 @@ figure,
   max-width: 100%;
 }
 
-/* Mobile menu is absent on desktop. */
-.mobile-menu-toggle {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  width: 42px;
-  height: 42px;
-  flex: 0 0 42px;
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-full);
-  background: rgba(255, 255, 255, .15);
-  color: #fff;
-  cursor: pointer;
-  font: inherit;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.mobile-menu-toggle:hover,
-.mobile-menu-toggle:focus-visible {
-  background: rgba(255, 255, 255, .28);
-}
-
-.mobile-menu-toggle svg {
-  width: 20px;
-  height: 20px;
-}
-
-.mobile-menu-toggle__close {
-  display: none;
-}
-
-.app-header.nav-open .mobile-menu-toggle__menu {
-  display: none;
-}
-
-.app-header.nav-open .mobile-menu-toggle__close {
-  display: block;
-}
-
 /* Compact laptop widths without changing the desktop structure. */
 @media (min-width: 901px) and (max-width: 1180px) {
-  .app-header {
-    padding-left: 1rem;
-    padding-right: 1rem;
-    gap: .65rem;
-  }
-
-  .app-header__brand {
-    --brand-size: clamp(46px, 5vw, 56px);
-  }
-
-  .app-header__nav {
-    gap: .05rem;
-  }
-
-  .app-header__link {
-    padding: .48rem .68rem;
-    gap: .35rem;
-    font-size: .9rem;
-  }
-
-  .app-header__link .icon {
-    width: 16px;
-    height: 16px;
-  }
-
-  .support-btn {
-    padding: 6px 10px;
-    margin-left: .2rem;
-  }
-
-  .theme-toggle {
-    margin-left: .1rem;
-  }
-
   .hero {
     padding-top: clamp(3rem, 7vh, 4.75rem);
     padding-bottom: calc(var(--hero-overlap) + clamp(2.75rem, 6vh, 4rem));
@@ -739,76 +521,6 @@ figure,
 
 /* Tablet and mobile header. */
 @media (max-width: 900px) {
-  .app-header {
-    flex-wrap: nowrap;
-    padding: .55rem max(.9rem, env(safe-area-inset-right))
-             .55rem max(.9rem, env(safe-area-inset-left));
-    gap: .65rem;
-  }
-
-  .app-header__brand {
-    --brand-size: 46px;
-    min-width: 0;
-  }
-
-  .mobile-menu-toggle {
-    display: inline-flex;
-    margin-left: auto;
-  }
-
-  .app-header__nav {
-    position: absolute;
-    top: calc(100% + 1px);
-    left: max(.65rem, env(safe-area-inset-left));
-    right: max(.65rem, env(safe-area-inset-right));
-    display: none;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: flex-start;
-    gap: .2rem;
-    padding: .65rem;
-    max-height: calc(100dvh - var(--header-height) - 1rem);
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    background: var(--header-base);
-    background-image:
-      radial-gradient(circle at 0% 50%, var(--header-green) 0%, transparent 50%),
-      radial-gradient(circle at 100% 50%, var(--header-navy) 0%, transparent 50%),
-      radial-gradient(circle at 40% 100%, var(--header-teal) 0%, transparent 60%);
-    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-    box-shadow: var(--shadow-lg);
-  }
-
-  .app-header.nav-open .app-header__nav {
-    display: flex;
-  }
-
-  .app-header__link {
-    width: 100%;
-    min-height: 44px;
-    justify-content: flex-start;
-    padding: .68rem .8rem;
-    font-size: .95rem;
-  }
-
-  .app-header__link .icon {
-    width: 18px;
-    height: 18px;
-  }
-
-  .support-btn {
-    width: 100%;
-    min-height: 44px;
-    justify-content: center;
-    margin: .25rem 0 0;
-  }
-
-  .theme-toggle {
-    width: 44px;
-    height: 44px;
-    margin: .15rem 0 0 auto;
-  }
-
   .hero__grid {
     /* Undo the earlier 900px one-column rule on medium tablets.
        The actual single-column breakpoint is below. */
@@ -839,10 +551,6 @@ figure,
 @media (max-width: 760px) {
   :root {
     --hero-overlap: 3.5rem;
-  }
-
-  .app-header__brand {
-    --brand-size: 42px;
   }
 
   .hero {
@@ -917,11 +625,6 @@ figure,
     padding: 1.2rem;
   }
 
-  .ftr {
-    margin-top: 2rem;
-    padding: 1.6rem 0 2.25rem;
-  }
-
   table {
     display: block;
     max-width: 100%;
@@ -934,25 +637,6 @@ figure,
 @media (max-width: 520px) {
   :root {
     --hero-overlap: 3.1rem;
-  }
-
-  .app-header {
-    padding-top: .45rem;
-    padding-bottom: .45rem;
-  }
-
-  .app-header__brand {
-    --brand-size: 38px;
-  }
-
-  .app-header__wordmark {
-    font-size: calc(var(--brand-size) * .56);
-  }
-
-  .mobile-menu-toggle {
-    width: 40px;
-    height: 40px;
-    flex-basis: 40px;
   }
 
   .hero {
@@ -1069,14 +753,6 @@ figure,
 
 /* Very narrow devices. */
 @media (max-width: 350px) {
-  .app-header__brand {
-    --brand-size: 34px;
-  }
-
-  .app-header__wordmark {
-    font-size: calc(var(--brand-size) * .52);
-  }
-
   .wrap {
     padding-left: .85rem;
     padding-right: .85rem;
@@ -1131,8 +807,7 @@ figure,
 
 /* Touch devices: don't leave hover-only transforms stuck after taps. */
 @media (hover: none) {
-  .btn:hover,
-  .support-btn:hover {
+  .btn:hover {
     transform: none;
   }
 }
@@ -1165,144 +840,6 @@ figure,
     margin-top: .35rem;
   }
 }
-
-
-/* Smooth mobile navigation open/close transition. */
-@media (max-width: 900px) {
-  .app-header__nav {
-    display: flex;
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transform: translateY(-10px) scale(.985);
-    transform-origin: top center;
-    max-height: 0;
-    overflow: hidden;
-    transition:
-      opacity .22s ease,
-      transform .28s cubic-bezier(.22,.61,.36,1),
-      max-height .32s cubic-bezier(.22,.61,.36,1),
-      visibility 0s linear .32s;
-  }
-
-  .app-header.nav-open .app-header__nav {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    transform: translateY(0) scale(1);
-    max-height: calc(100dvh - var(--header-height) - 1rem);
-    overflow-y: auto;
-    transition:
-      opacity .22s ease,
-      transform .28s cubic-bezier(.22,.61,.36,1),
-      max-height .32s cubic-bezier(.22,.61,.36,1),
-      visibility 0s linear 0s;
-  }
-
-  .mobile-menu-toggle svg {
-    transition: opacity .18s ease, transform .22s ease;
-  }
-
-  .mobile-menu-toggle__menu {
-    opacity: 1;
-    transform: rotate(0deg) scale(1);
-  }
-
-  .mobile-menu-toggle__close {
-    display: block;
-    position: absolute;
-    opacity: 0;
-    transform: rotate(-70deg) scale(.75);
-  }
-
-  .mobile-menu-toggle {
-    position: relative;
-  }
-
-  .app-header.nav-open .mobile-menu-toggle__menu {
-    display: block;
-    opacity: 0;
-    transform: rotate(70deg) scale(.75);
-  }
-
-  .app-header.nav-open .mobile-menu-toggle__close {
-    opacity: 1;
-    transform: rotate(0deg) scale(1);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .app-header__nav,
-  .mobile-menu-toggle svg {
-    transition: none !important;
-  }
-}
-
-
-/* Slightly larger mobile brand with a little extra breathing room. */
-@media (max-width: 900px) {
-  .app-header {
-    padding-top: .68rem;
-    padding-bottom: .68rem;
-  }
-
-  .app-header__brand {
-    --brand-size: 49px;
-  }
-}
-
-@media (max-width: 520px) {
-  .app-header {
-    padding-top: .58rem;
-    padding-bottom: .58rem;
-  }
-
-  .app-header__brand {
-    --brand-size: 44px;
-  }
-}
-
-@media (max-width: 350px) {
-  .app-header__brand {
-    --brand-size: 40px;
-  }
-}
-
-
-/* Stronger mobile brand presence and more vertical breathing room. */
-@media (max-width: 900px) {
-  .app-header {
-    padding-top: .9rem;
-    padding-bottom: .9rem;
-  }
-
-  .app-header__brand {
-    --brand-size: 58px;
-  }
-}
-
-@media (max-width: 520px) {
-  .app-header {
-    padding-top: .78rem;
-    padding-bottom: .78rem;
-  }
-
-  .app-header__brand {
-    --brand-size: 52px;
-  }
-}
-
-@media (max-width: 350px) {
-  .app-header {
-    padding-top: .7rem;
-    padding-bottom: .7rem;
-  }
-
-  .app-header__brand {
-    --brand-size: 47px;
-  }
-}
-
 
 /* =====================================================================
    iPad / tablet fixes
@@ -1421,99 +958,6 @@ figure,
 /* iPad landscape / other touch tablets: collapse navigation up to 1180px
    instead of trying to fit every text link into one row. */
 @media (hover: none) and (pointer: coarse) and (min-width: 901px) and (max-width: 1180px) {
-  .app-header {
-    flex-wrap: nowrap;
-    padding:
-      .78rem max(1.1rem, env(safe-area-inset-right))
-      .78rem max(1.1rem, env(safe-area-inset-left));
-    gap: .75rem;
-  }
-
-  .app-header__brand {
-    --brand-size: 54px;
-    min-width: 0;
-  }
-
-  .mobile-menu-toggle {
-    display: inline-flex;
-    margin-left: auto;
-    width: 44px;
-    height: 44px;
-    flex-basis: 44px;
-  }
-
-  .app-header__nav {
-    position: absolute;
-    top: calc(100% + 1px);
-    left: max(.85rem, env(safe-area-inset-left));
-    right: max(.85rem, env(safe-area-inset-right));
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: flex-start;
-    gap: .2rem;
-    padding: .7rem;
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transform: translateY(-10px) scale(.985);
-    transform-origin: top center;
-    max-height: 0;
-    overflow: hidden;
-    background: var(--header-base);
-    background-image:
-      radial-gradient(circle at 0% 50%, var(--header-green) 0%, transparent 50%),
-      radial-gradient(circle at 100% 50%, var(--header-navy) 0%, transparent 50%),
-      radial-gradient(circle at 40% 100%, var(--header-teal) 0%, transparent 60%);
-    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-    box-shadow: var(--shadow-lg);
-    transition:
-      opacity .22s ease,
-      transform .28s cubic-bezier(.22,.61,.36,1),
-      max-height .32s cubic-bezier(.22,.61,.36,1),
-      visibility 0s linear .32s;
-  }
-
-  .app-header.nav-open .app-header__nav {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    transform: translateY(0) scale(1);
-    max-height: calc(100dvh - var(--header-height) - 1rem);
-    overflow-y: auto;
-    transition:
-      opacity .22s ease,
-      transform .28s cubic-bezier(.22,.61,.36,1),
-      max-height .32s cubic-bezier(.22,.61,.36,1),
-      visibility 0s linear 0s;
-  }
-
-  .app-header__link {
-    width: 100%;
-    min-height: 46px;
-    justify-content: flex-start;
-    padding: .7rem .85rem;
-    font-size: .96rem;
-  }
-
-  .app-header__link .icon {
-    width: 18px;
-    height: 18px;
-  }
-
-  .support-btn {
-    width: 100%;
-    min-height: 46px;
-    justify-content: center;
-    margin: .25rem 0 0;
-  }
-
-  .theme-toggle {
-    width: 44px;
-    height: 44px;
-    margin: .15rem 0 0 auto;
-  }
-
   .hero {
     min-height: calc(100svh - var(--header-height) + var(--hero-overlap));
     min-height: calc(100dvh - var(--header-height) + var(--hero-overlap));
@@ -1554,7 +998,6 @@ figure,
     cursor: default;
   }
 }
-
 
 /* iPad: keep the desktop-style paired-image treatment.
    The wider screenshot remains dominant and the phone screenshot stays
@@ -1599,316 +1042,6 @@ figure,
    column. On iPad-sized widths, the rule above intentionally restores the
    desktop composition. */
 
-
-/* Full-width footer, using the same Civgraph gradient as the navigation bar. */
-.ftr {
-  margin-top: 3.5rem;
-  padding: 1.4rem 0;
-  border-top: 0;
-  background: var(--header-base);
-  background-image:
-    radial-gradient(circle at 0% 50%, var(--header-green) 0%, transparent 50%),
-    radial-gradient(circle at 100% 50%, var(--header-navy) 0%, transparent 50%),
-    radial-gradient(circle at 40% 100%, var(--header-teal) 0%, transparent 60%);
-  color: #fff;
-  box-shadow: 0 -4px 16px rgba(15, 39, 68, .08);
-}
-
-.ftr__inner {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: clamp(1.25rem, 3vw, 2.5rem);
-}
-
-.ftr__brand {
-  --footer-brand-size: 44px;
-  display: inline-flex;
-  align-items: center;
-  gap: calc(var(--footer-brand-size) * .05);
-  color: #fff;
-  text-decoration: none;
-  flex-shrink: 0;
-}
-
-.ftr__logo {
-  width: calc(var(--footer-brand-size) * .917);
-  height: calc(var(--footer-brand-size) * .917);
-  object-fit: contain;
-  flex: 0 0 auto;
-}
-
-.ftr__wordmark {
-  font-family: "Inter", "Segoe UI", Arial, sans-serif;
-  font-size: calc(var(--footer-brand-size) * .567);
-  line-height: 1;
-  font-weight: 700;
-  color: #fff;
-  white-space: nowrap;
-}
-
-.ftr__nav {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: .3rem;
-}
-
-.ftr__nav a {
-  display: inline-flex;
-  align-items: center;
-  min-height: 40px;
-  padding: .45rem .72rem;
-  border-radius: var(--radius-md);
-  color: rgba(255,255,255,.88);
-  text-decoration: none;
-  font-size: .9rem;
-  font-weight: 500;
-  transition: color .15s ease, background .15s ease;
-}
-
-.ftr__nav a:hover,
-.ftr__nav a:focus-visible {
-  color: #fff;
-  background: rgba(255,255,255,.14);
-}
-
-.ftr__meta {
-  color: rgba(255,255,255,.72);
-  font-size: .82rem;
-  white-space: nowrap;
-}
-
-/* Tablet footer. */
-@media (max-width: 900px) {
-  .ftr {
-    margin-top: 3rem;
-    padding: 1.45rem 0;
-  }
-
-  .ftr__inner {
-    grid-template-columns: auto 1fr;
-    gap: .9rem 1.3rem;
-  }
-
-  .ftr__brand {
-    --footer-brand-size: 48px;
-  }
-
-  .ftr__nav {
-    justify-content: flex-end;
-  }
-
-  .ftr__meta {
-    grid-column: 1 / -1;
-    text-align: center;
-  }
-}
-
-/* Mobile footer. */
-@media (max-width: 600px) {
-  .ftr {
-    margin-top: 2.5rem;
-    padding: 1.7rem 0 calc(1.7rem + env(safe-area-inset-bottom));
-  }
-
-  .ftr__inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: .85rem;
-    text-align: center;
-  }
-
-  .ftr__brand {
-    --footer-brand-size: 50px;
-  }
-
-  .ftr__nav {
-    justify-content: center;
-    gap: .1rem;
-  }
-
-  .ftr__nav a {
-    min-height: 42px;
-    padding: .5rem .62rem;
-  }
-
-  .ftr__meta {
-    margin-top: .1rem;
-  }
-}
-
-/* Footer redesign: restrained and editorial, not a second navigation bar. */
-.ftr {
-  margin-top: 4.5rem;
-  padding: 2.4rem 0 2rem;
-  border-top: 0;
-  background: var(--header-base);
-  background-image:
-    linear-gradient(
-      135deg,
-      color-mix(in srgb, var(--header-base) 88%, var(--header-navy) 12%),
-      color-mix(in srgb, var(--header-base) 76%, var(--header-teal) 24%)
-    );
-  color: #fff;
-  box-shadow: none;
-}
-
-.ftr__inner {
-  display: block;
-}
-
-.ftr__top,
-.ftr__bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem 2rem;
-}
-
-.ftr__brand {
-  --footer-brand-size: 42px;
-  display: inline-flex;
-  align-items: center;
-  gap: .18rem;
-  color: #fff;
-  text-decoration: none;
-  flex: 0 0 auto;
-}
-
-.ftr__logo {
-  width: calc(var(--footer-brand-size) * .917);
-  height: calc(var(--footer-brand-size) * .917);
-  object-fit: contain;
-  flex: 0 0 auto;
-}
-
-.ftr__wordmark {
-  font-family: "Inter", "Segoe UI", Arial, sans-serif;
-  font-size: calc(var(--footer-brand-size) * .555);
-  line-height: 1;
-  font-weight: 700;
-  color: #fff;
-  white-space: nowrap;
-}
-
-.ftr__nav {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  flex-wrap: wrap;
-  gap: .2rem .9rem;
-}
-
-.ftr__nav a {
-  display: inline-flex;
-  align-items: center;
-  min-height: auto;
-  padding: .2rem 0;
-  border-radius: 0;
-  color: rgba(255,255,255,.84);
-  text-decoration: none;
-  font-size: .9rem;
-  font-weight: 500;
-  transition: color .15s ease, opacity .15s ease;
-}
-
-.ftr__nav a:hover,
-.ftr__nav a:focus-visible {
-  color: #fff;
-  background: none;
-}
-
-.ftr__rule {
-  height: 1px;
-  margin: 1.45rem 0 1.15rem;
-  background: rgba(255,255,255,.16);
-}
-
-.ftr__bottom {
-  align-items: flex-end;
-}
-
-.ftr__tagline {
-  margin: 0;
-  max-width: 34rem;
-  color: rgba(255,255,255,.72);
-  font-size: .84rem;
-  line-height: 1.55;
-}
-
-.ftr__meta {
-  color: rgba(255,255,255,.58);
-  font-size: .8rem;
-  white-space: nowrap;
-}
-
-/* Tablet */
-@media (max-width: 900px) {
-  .ftr {
-    margin-top: 3.5rem;
-    padding: 2.2rem 0 1.8rem;
-  }
-
-  .ftr__brand {
-    --footer-brand-size: 44px;
-  }
-
-  .ftr__top {
-    align-items: flex-start;
-  }
-
-  .ftr__nav {
-    gap: .25rem .8rem;
-  }
-}
-
-/* Mobile */
-@media (max-width: 600px) {
-  .ftr {
-    margin-top: 3rem;
-    padding: 2rem 0 calc(1.8rem + env(safe-area-inset-bottom));
-  }
-
-  .ftr__top,
-  .ftr__bottom {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .ftr__top {
-    gap: 1rem;
-  }
-
-  .ftr__brand {
-    --footer-brand-size: 46px;
-  }
-
-  .ftr__nav {
-    justify-content: flex-start;
-    gap: .3rem 1rem;
-  }
-
-  .ftr__nav a {
-    font-size: .92rem;
-  }
-
-  .ftr__rule {
-    margin: 1.25rem 0 1rem;
-  }
-
-  .ftr__bottom {
-    gap: .65rem;
-  }
-
-  .ftr__tagline {
-    max-width: 28rem;
-  }
-}
-
-
 /* GSAP progressively enhances motion; CSS/IntersectionObserver remain fallback. */
 @media (prefers-reduced-motion: no-preference) {
   .shot-hero,
@@ -1917,14 +1050,12 @@ figure,
   }
 }
 
-
 /* Hero CTA safety: buttons must never disappear if a GSAP timeline is
    interrupted, refreshed, or a media query changes. */
 .hero .cta-row .btn {
   opacity: 1 !important;
   visibility: visible !important;
 }
-
 
 /* Review notes. Restored 2026-08-30: both were dropped when this version was made, and
    the counts note records a defect that is live on the site, so it should travel with

@@ -23,7 +23,10 @@ import {
   writeFileSync
 } from 'node:fs';
 
-const HTML_TARGETS = ['index.html'];
+// maps/index.html is the map app since the landing page took the root. It was left off
+// this list, so its inlined critical CSS froze -- and kept header rules that have since
+// moved to assets/site/site-chrome.css. index.html has no markers and is skipped.
+const HTML_TARGETS = ['index.html', 'maps/index.html'];
 const CSS_BUDGET_BYTES = 230_000;
 
 export function hashFile(filePath, length = 12, salt = '') {
@@ -274,10 +277,7 @@ function buildAboutCss() {
 function versionSharedCss() {
   const cssVersion = sharedCssVersion();
 
-  // maps/index.html (the MapLibre app since the landing page took the root) links main.css
-  // too, but was never a target, so its token froze. Only versioning is extended to it;
-  // critical-CSS inlining keeps its own target list.
-  for (const htmlPath of [...HTML_TARGETS, 'maps/index.html']) {
+  for (const htmlPath of HTML_TARGETS) {
     if (!existsSync(htmlPath)) continue;
     const html = readFileSync(htmlPath, 'utf8');
     writeTextIfChanged(htmlPath, updateAssetVersion(html, '/build/main.css', cssVersion));

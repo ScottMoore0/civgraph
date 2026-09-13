@@ -1,0 +1,48 @@
+<header class="app-header" data-site-chrome data-header-layout="{{layout}}">
+<a class="app-header__brand" href="/">
+<img alt="" class="app-header__logo-icon" src="/assets/pages/img/bd2feea987bf.svg"/>
+<span class="app-header__wordmark">Civgraph</span>
+</a>
+<button aria-controls="mainNav" aria-expanded="false" aria-label="Open navigation" class="mobile-menu-toggle" type="button">
+<svg aria-hidden="true" class="mobile-menu-toggle__menu" data-icon="lucide" data-icon-name="menu" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<path d="M4 12h16"></path><path d="M4 6h16"></path><path d="M4 18h16"></path>
+</svg>
+<svg aria-hidden="true" class="mobile-menu-toggle__close" data-icon="lucide" data-icon-name="x" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<path d="M18 6 6 18"></path><path d="m6 6 12 12"></path>
+</svg>
+</button>
+<nav aria-label="Main navigation" class="app-header__nav" id="mainNav">
+<a class="app-header__link{{active:home}}" href="/"{{current:home}}><svg aria-hidden="true" class="icon" data-icon="lucide" data-icon-name="house" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+<path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Home</span></a>
+<a class="app-header__link{{active:maps}}" href="/maps/"{{current:maps}}><svg aria-hidden="true" class="icon" data-icon="lucide" data-icon-name="map" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"></path>
+<path d="M15 5.764v15"></path><path d="M9 3.236v15"></path></svg><span>Maps</span></a>
+<a class="app-header__link{{active:browse}}" href="/browse/"{{current:browse}}><svg aria-hidden="true" class="icon" data-icon="lucide" data-icon-name="search" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<circle cx="11" cy="11" r="8"></circle>
+<path d="m21 21-4.3-4.3"></path></svg><span>Browse</span></a>
+<a class="app-header__link{{active:apps}}" href="/apps/"{{current:apps}}><svg aria-hidden="true" class="icon" data-icon="lucide" data-icon-name="layout-grid" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<rect height="7" rx="1" width="7" x="3" y="3"></rect>
+<rect height="7" rx="1" width="7" x="14" y="3"></rect>
+<rect height="7" rx="1" width="7" x="14" y="14"></rect>
+<rect height="7" rx="1" width="7" x="3" y="14"></rect></svg><span>Apps</span></a>
+<a class="app-header__link{{active:about}}" href="/pages/about.html"{{current:about}}><svg aria-hidden="true" class="icon" data-icon="lucide" data-icon-name="info" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<circle cx="12" cy="12" r="10"></circle>
+<path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg><span>About</span></a>
+<button aria-controls="supportModal" aria-haspopup="dialog" class="support-btn" data-support-open id="supportBtn" title="Support Civgraph" type="button">
+<svg aria-hidden="true" class="support-btn__icon" data-icon="lucide" data-icon-name="heart" fill="currentColor" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="16">
+<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+<span class="support-btn__text">Support Us</span>
+</button>
+<button aria-label="Toggle dark mode" class="theme-toggle" data-theme-toggle id="themeToggle" title="Toggle dark mode" type="button">
+<svg aria-hidden="true" class="theme-toggle__icon--sun" data-icon="lucide" data-icon-name="sun" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<circle cx="12" cy="12" r="4"></circle>
+<path d="M12 2v2"></path><path d="M12 20v2"></path>
+<path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path>
+<path d="M2 12h2"></path><path d="M20 12h2"></path>
+<path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+<svg aria-hidden="true" class="theme-toggle__icon--moon" data-icon="lucide" data-icon-name="moon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9"></path></svg>
+</button>
+</nav>
+</header>
