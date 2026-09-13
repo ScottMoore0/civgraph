@@ -452,3 +452,7 @@ data/database/sources-d1-import.sql
 # Personal data: never committed, for the same reason wrangler.toml keeps the
 # CIVGRAPH_CONTRIBUTORS secret out of the repository.
 .contributors.local
+
+# Per-candidacy match report written by scripts/harvest_ei_candidate_ids.py --report.
+# Regenerable from the page cache, and 2.8 MB; the ids themselves live in the source files.
+data/elections/persons/ei-candidate-id-harvest.csv
