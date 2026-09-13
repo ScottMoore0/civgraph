@@ -251,7 +251,9 @@ export class Test2ElectionManager {
     return (this.catalogue?.elections || []).map((entry) => ({
       ...entry,
       canonicalLayerId: this.getCanonicalLayerId(entry),
-      placeholder: !entry.loadable,
+      // A results-only election (no boundary layer for its year) is listed and opens like
+      // any other; only an election with neither a map nor results is a placeholder.
+      placeholder: !entry.loadable && !entry.resultsOnly,
       displaySubtitle: this.getMainCatalogueSubtitle(entry),
       displayProvider: this.getMainCatalogueProvider(entry),
       displayTitle: entry.displayTitle || entry.body
@@ -285,7 +287,7 @@ export class Test2ElectionManager {
     const requestId = ++this.loadSerial;
     const entry = this.findEntry(body, date);
     if (!entry) throw new Error(`Election not found: ${body} ${date}`);
-    if (!entry.loadable) {
+    if (!entry.loadable && !entry.resultsOnly) {
       throw new Error(`${body} ${date} is in the election catalogue, but its geography is not converted for MapLibre yet.`);
     }
 
@@ -294,7 +296,8 @@ export class Test2ElectionManager {
     }
 
     this.renderLoadingPanel(entry);
-    const mapPromise = this.app.loadMap(entry.sourceMapId);
+    // Results-only: there is no boundary layer for this year, so nothing is added to the map.
+    const mapPromise = entry.resultsOnly ? Promise.resolve(null) : this.app.loadMap(entry.sourceMapId);
     const bundlePromise = this.loadBundle(entry);
     const previousBundlePromise = this.loadPreviousBundle(entry);
     const featureIndexPromise = bundlePromise
@@ -337,7 +340,7 @@ export class Test2ElectionManager {
     // the camera keeps its zoom, so the view loses 2.3 degrees of latitude and the
     // southern third of an all-island election falls outside it. Re-fit now that the
     // pane has taken its space.
-    this.app.refitAfterElectionPane?.(entry.sourceMapId);
+    if (entry.sourceMapId) this.app.refitAfterElectionPane?.(entry.sourceMapId);
     this.app.focusActiveElectionCatalogueEntry?.(entry, { scroll: false });
     this.app.updateURLState();
   }
@@ -2548,7 +2551,7 @@ export class Test2ElectionManager {
     chart.dataset.trendRequestKey = renderCacheKey;
     chart.textContent = 'Loading trend data...';
     const entries = (this.catalogue?.elections || [])
-      .filter((entry) => entry?.loadable && entry.resultUrl && normalizeName(entry.contestType || 'election') === 'election')
+      .filter((entry) => (entry?.loadable || entry?.resultsOnly) && entry.resultUrl && normalizeName(entry.contestType || 'election') === 'election')
       .filter((entry) => {
         const entryJurisdiction = electionTrendJurisdiction(entry);
         if (activeJurisdiction && entryJurisdiction && entryJurisdiction !== activeJurisdiction) return false;
@@ -3968,6 +3971,8 @@ export class Test2ElectionManager {
   async renderElectionOverlay() {
     this.removeElectionOverlays();
     if (!this.activeBundle) return;
+    // Seat circles and vote bars are anchored to boundaries; a results-only election has none.
+    if (this.activeEntry?.resultsOnly) return;
     if (this.shouldRenderRecallLabels()) {
       await this.renderRecallLabels();
       return;
@@ -4690,6 +4695,13 @@ export class Test2ElectionManager {
    * error, and a screen-reader user currently gets nothing at all from the grey.
    */
   announceUnmatchedGeography(entry) {
+    if (entry?.resultsOnly) {
+      const message = 'There is no boundary map for this election yet, so its results are shown in the election pane without a map layer.';
+      const announcer = document.getElementById('announcer');
+      if (announcer) announcer.textContent = message;
+      console.info('[civgraph] %s', message);
+      return;
+    }
     const unmatched = Number(entry?.unmatchedCount) || 0;
     if (!unmatched) return;
     const total = Number(entry?.totalConstituencies) || Number(entry?.matchedCount) + unmatched || 0;
@@ -4708,7 +4720,7 @@ export class Test2ElectionManager {
   updateElectionTimeline() {
     if (!this.activeEntry || !this.catalogue?.elections) return;
     const entries = this.catalogue.elections
-      .filter((entry) => entry.loadable && entry.body === this.activeEntry.body)
+      .filter((entry) => (entry.loadable || entry.resultsOnly) && entry.body === this.activeEntry.body)
       .sort((a, b) => String(a.date).localeCompare(String(b.date)));
     const activeIndex = entries.findIndex((entry) => entry.body === this.activeEntry.body && entry.date === this.activeEntry.date);
     this.app.setTimelineItems(entries.map((entry) => ({
