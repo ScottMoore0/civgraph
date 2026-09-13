@@ -39,11 +39,25 @@ const metadataIndexVersion = createHash('sha256')
   .digest('hex')
   .slice(0, 12);
 
+// Content hashes of the election animation runtime, injected as __VIEWER_ASSET_VERSIONS__.
+//
+// The same failure as above, and it did happen: /app/election-viewer-package/* and
+// /app/js/* are served immutable for a year, and the loader asked for stages2.js?v=2 and
+// the rest with no token at all. The edge kept serving the old stages2.js hours after a
+// deploy changed it, and a stages.css 43 days old. The files are copied first so their
+// hashes exist when the bundle that requests them is built.
+const viewerAssetVersions = Object.fromEntries(
+  copyAnimationRuntimeAssets().map((target) => [`/${target}`, contentHash(target)])
+);
+
 const result = await esbuild.build({
   entryPoints: ['app/src/boot.js'],
   bundle: true,
   minify: true,
-  define: { __METADATA_INDEX_VERSION__: JSON.stringify(metadataIndexVersion) },
+  define: {
+    __METADATA_INDEX_VERSION__: JSON.stringify(metadataIndexVersion),
+    __VIEWER_ASSET_VERSIONS__: JSON.stringify(viewerAssetVersions)
+  },
   // Keep inline @license banners that packages ship in their source. Only
   // maplibre-gl has one; the rest declare a licence but carry no comment, which
   // is why build-third-party-notices.mjs assembles the full set from their
@@ -92,8 +106,7 @@ const jsVersion = contentHash(ENTRY_JS);
 const cssVersion = existsSync(ENTRY_CSS)
   ? contentHash(ENTRY_CSS)
   : jsVersion;
-copyAnimationRuntimeAssets();
-updateHtmlVersions(jsVersion, cssVersion);
+updateHtmlVersions(jsVersion, cssVersion, viewerAssetVersions);
 updateServiceWorkerVersion(jsVersion);
 
 console.log(`MapLibre bundle: ${(jsBytes / 1024).toFixed(1)} KB`);
@@ -116,15 +129,22 @@ function contentHash(file) {
   return createHash('sha256').update(readFileSync(file)).digest('hex').slice(0, 12);
 }
 
-function updateHtmlVersions(jsVersion, cssVersion) {
-  const htmlPath = 'index.html';
-  if (!existsSync(htmlPath)) return;
-  const html = readFileSync(htmlPath, 'utf8')
-    .replace(/\/(?:test2\/)?build\/test2\.bundle\.js\?v=[^"']+/g, `${APP_BASE}/build/app.bundle.js?v=${jsVersion}`)
-    .replace(/\/app\/build\/app\.bundle\.js\?v=[^"']+/g, `${APP_BASE}/build/app.bundle.js?v=${jsVersion}`)
-    .replace(/\/(?:test2\/)?build\/test2\.bundle\.css\?v=[^"']+/g, `${APP_BASE}/build/app.bundle.css?v=${cssVersion}`)
-    .replace(/\/app\/build\/app\.bundle\.css\?v=[^"']+/g, `${APP_BASE}/build/app.bundle.css?v=${cssVersion}`);
-  writeFileSync(htmlPath, html);
+function updateHtmlVersions(jsVersion, cssVersion, viewerAssetVersions) {
+  // maps/index.html is the MapLibre app since the landing page took the root. Only
+  // index.html was stamped, and it loads none of these, so the app's tokens had frozen.
+  for (const htmlPath of ['index.html', 'maps/index.html']) {
+    if (!existsSync(htmlPath)) continue;
+    let html = readFileSync(htmlPath, 'utf8')
+      .replace(/\/(?:test2\/)?build\/test2\.bundle\.js\?v=[^"']+/g, `${APP_BASE}/build/app.bundle.js?v=${jsVersion}`)
+      .replace(/\/app\/build\/app\.bundle\.js\?v=[^"']+/g, `${APP_BASE}/build/app.bundle.js?v=${jsVersion}`)
+      .replace(/\/(?:test2\/)?build\/test2\.bundle\.css\?v=[^"']+/g, `${APP_BASE}/build/app.bundle.css?v=${cssVersion}`)
+      .replace(/\/app\/build\/app\.bundle\.css\?v=[^"']+/g, `${APP_BASE}/build/app.bundle.css?v=${cssVersion}`);
+    for (const assetPath of ['/app/election-viewer-package/css/stages.css', '/app/election-viewer-package/css/election-viewer.css']) {
+      const escaped = assetPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      html = html.replace(new RegExp(`${escaped}(?:\\?v=[^"'>\\s]+)?`, 'g'), `${assetPath}?v=${viewerAssetVersions[assetPath]}`);
+    }
+    writeFileSync(htmlPath, html);
+  }
 }
 
 function updateServiceWorkerVersion(jsVersion) {
@@ -166,4 +186,5 @@ function copyAnimationRuntimeAssets() {
     const content = readFileSync(target, 'utf8').replace(/[ \t]+$/gm, '');
     writeFileSync(target, content);
   }
+  return assets.map(([, target]) => target);
 }

@@ -76,6 +76,10 @@
 /app/src/*
   Cache-Control: no-cache, must-revalidate
 
+# Safe ONLY because every request for these carries ?v=<content hash of the file>,
+# injected at build time (build-test2-app.mjs -> __VIEWER_ASSET_VERSIONS__, and the
+# stamped links in maps/index.html). With fixed tokens the edge served a stages2.js hours
+# old and a stages.css 43 days old after deploys had changed both.
 /app/js/*
   Cache-Control: public, max-age=31536000, immutable
 

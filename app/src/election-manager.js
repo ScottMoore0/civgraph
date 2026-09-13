@@ -4997,12 +4997,17 @@ function ensureElectionAnimationRuntime() {
     return Promise.resolve();
   }
   if (!electionAnimationRuntimePromise) {
+    // Each URL carries a hash of the file's bytes, injected at build time as
+    // __VIEWER_ASSET_VERSIONS__ (build-test2-app.mjs). These paths are served immutable for a
+    // year, so a fixed token pinned the edge to old copies: stages2.js?v=2 was still served
+    // hours after a deploy changed it, and the unversioned files for weeks.
+    const versioned = (assetPath) => `${assetPath}?v=${__VIEWER_ASSET_VERSIONS__[assetPath]}`;
     const scripts = [
-      '/app/js/jquery-shim.js',
-      '/app/election-viewer-package/js/stages2.js?v=2',
-      '/app/election-viewer-package/js/animation_preview.js',
-      '/app/election-viewer-package/js/animation_preview_manager.js',
-      '/app/election-viewer-package/js/election_viewer.js'
+      versioned('/app/js/jquery-shim.js'),
+      versioned('/app/election-viewer-package/js/stages2.js'),
+      versioned('/app/election-viewer-package/js/animation_preview.js'),
+      versioned('/app/election-viewer-package/js/animation_preview_manager.js'),
+      versioned('/app/election-viewer-package/js/election_viewer.js')
     ];
     electionAnimationRuntimePromise = scripts.reduce(
       (promise, src) => promise.then(() => loadScriptOnce(src)),
