@@ -2106,8 +2106,20 @@ export class Test2ElectionManager {
         else if (filtered) indicator.innerHTML = '&#8226;';
         else indicator.innerHTML = '';
         const state = sorted ? (sortState.dir === 'asc' ? 'sorted ascending' : 'sorted descending') : (filtered ? 'filtered' : '');
-        const name = header.querySelector('.election-th-label')?.textContent?.trim() || 'column';
+        // The first pass keeps the header's own accessible name: renderMainParityLeafTh gives
+        // each leaf a group-qualified one ("Seats +/-"), because four columns read "+/-".
+        // Rebuilt from the visible text on every update, the label announced "+/-" four
+        // times again (ux-t3-fixes T3-08).
+        if (!header.dataset.accessibleName) {
+          header.dataset.accessibleName = header.getAttribute('aria-label')
+            || header.querySelector('.election-th-label')?.textContent?.trim()
+            || 'column';
+        }
+        const name = header.dataset.accessibleName;
         header.setAttribute('aria-label', `${name}${state ? `, ${state}` : ''}. Sort and filter`);
+        // Every sortable header is a column header. "#" and "Party" come from a path that
+        // never set scope, and once they carried a name they announced as unscoped cells.
+        if (header.tagName === 'TH' && !header.hasAttribute('scope')) header.setAttribute('scope', 'col');
       });
     };
 
