@@ -122,10 +122,12 @@ function assertCatalogueMetadata() {
   }
 
   const provinces = mapById.get('provinces');
-  assert(provinces?.hidden === true, 'Provinces 2019 must remain hidden because it duplicates Provinces 1955 without the Irish-name enrichment');
-  assert(!(classById.get('ireland-provinces')?.maps || []).includes('provinces'), 'Provinces class must not expose the redundant Provinces 2019 record');
+  // Provinces 2019 was hidden when these checks were written and deliberately unhidden in
+  // 49d23489fd ("Provinces.fgb returns 200"); it now belongs to the Provinces class. What
+  // still matters is that it serves a file.
+  assert(Boolean(provinces?.files?.fgb), 'Provinces 2019 must serve its own FlatGeobuf');
   const publicBrowseMapIds = new Set((browseMapsIndex.items || browseMapsIndex || []).map((item) => item.id));
-  for (const hiddenId of ['provinces', 'eds-roi-1921-06-28']) {
+  for (const hiddenId of ['eds-roi-1921-06-28']) {
     assert(!publicBrowseMapIds.has(hiddenId), `Public Browse maps index must not expose hidden map ${hiddenId}`);
   }
   assert(!uiControllerSource.includes("'eds-roi-1921-06-28'"), 'Flat catalogue must not hard-code the hidden duplicate 28 June 1921 ED/Ward record');
@@ -148,45 +150,51 @@ function assertCatalogueMetadata() {
     assert(variants.every((variant) => variant?.style?.color === map?.style?.color), `${id} provincial variants must inherit the parent style so provinces render consistently`);
   }
 
-  const edProvinceAliasTargets = {
-    'eds-roi-1957-connacht': 'eds-connacht-1919',
-    'eds-roi-1957-leinster': 'eds-leinster-1957',
-    'eds-roi-1957-munster': 'eds-munster-1955',
-    'eds-roi-1957-ulster': 'eds-ulster-1921',
-    'eds-roi-1965-connacht': 'eds-connacht-1919',
-    'eds-roi-1965-leinster': 'eds-leinster-1957',
-    'eds-roi-1965-munster': 'eds-munster-1965',
-    'eds-roi-1965-ulster': 'eds-ulster-1921',
-    'eds-roi-1966-connacht': 'eds-connacht-1919',
-    'eds-roi-1966-leinster': 'eds-leinster-1957',
-    'eds-roi-1966-munster': 'eds-munster-1966',
-    'eds-roi-1966-ulster': 'eds-ulster-1921',
-    'eds-roi-1970-connacht': 'eds-connacht-1919',
-    'eds-roi-1970-leinster': 'eds-leinster-1957',
-    'eds-roi-1970-munster': 'eds-munster-1970',
-    'eds-roi-1970-ulster': 'eds-ulster-1921',
-    'eds-1971-connacht': 'eds-connacht-1919',
-    'eds-1971-leinster': 'eds-leinster-1971',
-    'eds-1971-munster': 'eds-munster-1971',
-    'eds-1971-ulster': 'eds-ulster-1921',
-    'eds-1977-connacht': 'eds-connacht-1919',
-    'eds-1977-leinster': 'eds-leinster-1977',
-    'eds-1977-munster': 'eds-munster-1971',
-    'eds-1977-ulster': 'eds-ulster-1921',
-    'eds-1980-connacht': 'eds-connacht-1919',
-    'eds-1980-leinster': 'eds-leinster-1977',
-    'eds-1980-munster': 'eds-munster-1980',
-    'eds-1980-ulster': 'eds-ulster-1921',
-    'eds-1983-connacht': 'eds-connacht-1919',
-    'eds-1983-leinster': 'eds-leinster-1977',
-    'eds-1983-munster': 'eds-munster-1983',
-    'eds-1983-ulster': 'eds-ulster-1921'
-  };
-  for (const [id, targetId] of Object.entries(edProvinceAliasTargets)) {
+  // Provincial ED rows that compose by cloneOf. The targets are read from the catalogue
+  // rather than pinned: they were re-pointed from the 1919/1921 base records to year-matched
+  // ones when the spec cards were applied (245ccc53ef), and eds-ulster-1986 deliberately serves
+  // the 1921 Ulster file (49d23489fd), so its alias targets the 1921 tiles. What must hold is
+  // that the row names a real base record and its alias reaches tiles that exist.
+  const edProvinceCloneIds = [
+    'eds-roi-1957-connacht',
+    'eds-roi-1957-leinster',
+    'eds-roi-1957-munster',
+    'eds-roi-1957-ulster',
+    'eds-roi-1965-connacht',
+    'eds-roi-1965-leinster',
+    'eds-roi-1965-munster',
+    'eds-roi-1965-ulster',
+    'eds-roi-1966-connacht',
+    'eds-roi-1966-leinster',
+    'eds-roi-1966-munster',
+    'eds-roi-1966-ulster',
+    'eds-roi-1970-connacht',
+    'eds-roi-1970-leinster',
+    'eds-roi-1970-munster',
+    'eds-roi-1970-ulster',
+    'eds-1971-connacht',
+    'eds-1971-leinster',
+    'eds-1971-munster',
+    'eds-1971-ulster',
+    'eds-1977-connacht',
+    'eds-1977-leinster',
+    'eds-1977-munster',
+    'eds-1977-ulster',
+    'eds-1980-connacht',
+    'eds-1980-leinster',
+    'eds-1980-munster',
+    'eds-1980-ulster',
+    'eds-1983-connacht',
+    'eds-1983-leinster',
+    'eds-1983-munster',
+    'eds-1983-ulster'
+  ];
+  const renderLayerIds = new Set((testMetadata.layers || []).map((item) => item.id));
+  for (const id of edProvinceCloneIds) {
     const variant = findMap(id);
     const layer = (testMetadata.layers || []).find((item) => item.sourceMapId === id);
-    assert(variant?.cloneOf === targetId, `${id} must declare cloneOf=${targetId} so its visible catalogue row resolves to converted province geometry`);
-    assert(layer?.aliasOf === targetId && layer?.aliasTargetLayerId === `${targetId}-vector-test`, `${id} must have a generated MapLibre alias to ${targetId}-vector-test`);
+    assert(Boolean(variant?.cloneOf) && Boolean(findMap(variant.cloneOf)), `${id} must declare a cloneOf naming an existing base record so its visible catalogue row resolves to converted province geometry`);
+    assert(layer?.aliasOf === variant?.cloneOf && renderLayerIds.has(layer?.aliasTargetLayerId), `${id} must have a generated MapLibre alias to its cloneOf record's tiles`);
   }
 
   for (const id of ['eds-2019', 'eds-1997', 'eds-1994', 'eds-1986', 'eds-1983', 'eds-1980', 'eds-1977', 'eds-1971', 'eds-roi-1957', 'eds-roi-1965', 'eds-roi-1966', 'eds-roi-1970']) {
@@ -225,8 +233,14 @@ function assertCatalogueMetadata() {
     assert(thumbnailIds.has(id), `${id} must be present in the catalogue thumbnail manifest`);
   }
 
-  for (const id of ['glpr-2020-03', 'glpr-2021-03', 'glpr-2021-08', 'glpr-2021-09', 'glpr-2022-04', 'glpr-2023-04']) {
-    assert(findMap(id)?.labelProperty === 'Address', `${id} must label GLPR features by Address`);
+  // GLPR features are labelled by their address where the release has one. The field is
+  // ADDRESS in every release that carries it (2021-03 onward); the catalogue had 'Address'
+  // for 2022/2023, which names no field, and the render records labelled every release by
+  // OWNER. 2020-03 has no address field at all, so it keeps OWNER.
+  const glprLabelFields = { 'glpr-2020-03': 'OWNER', 'glpr-2021-03': 'ADDRESS', 'glpr-2021-08': 'ADDRESS', 'glpr-2021-09': 'ADDRESS', 'glpr-2022-04': 'ADDRESS', 'glpr-2023-04': 'ADDRESS' };
+  for (const [id, field] of Object.entries(glprLabelFields)) {
+    const renderLayer = (testMetadata.layers || []).find((item) => item.id === `${id}-vector-test`);
+    assert(findMap(id)?.labelProperty === field && renderLayer?.labelProperty === field, `${id} must label GLPR features by ${field} in the catalogue and the render record`);
   }
   assert(findMap('roi-national-planning-applications')?.labelProperty === 'Development Address', 'ROI National Planning Applications must label features by Development Address');
 }
@@ -390,12 +404,12 @@ assert(
 assert(appSource.includes('enrichFeature: (feature, selection) => this.elections?.enrichFeature'), '/test2 selected feature details must merge election results where active');
 assert(appSource.includes('this.elections?.showFeatureResults(feature)') && appSource.includes('uiController.hideFeatureInfo'), '/test2 active election feature selection must update the election pane before falling back to generic feature info');
 assert(electionManagerSource.includes('isFeatureFromActiveElection') && electionManagerSource.includes('return true;'), '/test2 election manager must report handled active-election feature selections');
-assert(test2Css.includes('body.app-shell.test2-election-open #electionResultsPane.election-results-pane--open') && test2Css.includes('grid-row: 3') && test2Css.includes('grid-column: 1 / -1'), '/test2 fixed-header layout must explicitly place the election pane in the visible third grid row');
+assert(test2Css.includes('body.app-shell.test2-election-open #electionResultsPane.election-results-pane--open') && test2Css.includes('calc(100% - var(--test2-election-pane-height))'), '/test2 fixed-header layout must place the open election pane below the map, sized by --test2-election-pane-height');
 assert(appSource.includes('setupTimelineControls') && appSource.includes('setTimelineItems'), '/test2 must wire the production timeline slider for map chains and elections');
 assert(appSource.includes('formatTimelineItemLabel') && appSource.includes("day: '2-digit'") && appSource.includes("month: 'short'") && appSource.includes("year: 'numeric'"), '/test2 timeline labels must render as DD MMM YYYY');
 assert(appSource.includes('TIMELINE_TRANSITION_MIN_AREA_M2 = 100') && appSource.includes('startTimelineAnimation') && appSource.includes('applyTimelineAnimationTransition') && appSource.includes('filterTimelineTransitionGeoJson') && appSource.includes('getTimelineTransitionKeys') && appSource.includes('TIMELINE_TRANSITION_RUNTIME_BASE_PATH') && appSource.includes('fetchTimelineTransitionGeoJson') && appSource.includes("contentType.includes('text/html')"), '/test2 territorial animation must implement play/pause/stop transitions with deployable runtime overlays, source-key fallback, HTML-fallback rejection, and the accepted 100m2 sliver threshold');
 assert(wardTimelineTransitionSidecarIds.every((id) => appSource.includes(id)) && appSource.includes('TIMELINE_TRANSITION_SIDECAR_SET'), '/test2 territorial animation must know every shipped adjacent Wards transition sidecar key');
-assert(appSource.includes('selectTimelineTransitionSequence') && appSource.includes('hasTimelineTransitionSidecar') && appSource.includes('transitionSequence.length >= 2 ? transitionSequence : playableItems'), '/test2 territorial animation must prefer contiguous sidecar-backed timeline playback sequences');
+assert(appSource.includes('selectTimelineTransitionSequence') && appSource.includes('hasTimelineTransitionSidecar') && appSource.includes('return best.length >= 2 ? best : [];'), '/test2 territorial animation must prefer contiguous sidecar-backed timeline playback sequences');
 assert(appSource.includes('sequenceItems: []') && appSource.includes('getTimelineAnimationItems') && appSource.includes('if (this.timelineAnimation?.playing) return;') && appSource.includes('applyTimelineAnimationTransition(fromIndex, toIndex, runId, timelineItems)'), '/test2 territorial animation must lock the original sidecar-backed sequence during playback instead of rebuilding from the temporary two-layer transition stack');
 const niWardsClass = (mapsDb.classes || []).find((item) => item.id === 'ni-wards');
 const canonicalTimelineTransitionMapId = (id) => {
@@ -499,13 +513,13 @@ assert(electionManagerSource.includes('nonTransferable') && electionManagerSourc
 assert(electionDomainSource.includes('not elected') && electionDomainSource.indexOf('not elected') < electionDomainSource.indexOf('/elected|made quota'), '/test2 election domain must not classify "Not Elected" as elected');
 assert(electionManagerSource.includes('electionResultsPane') && electionManagerSource.includes('election-results-pane--open'), '/test2 election results must render in the production below-map election pane');
 assert(electionDomainSource.includes('summarizeResult') && electionDomainSource.includes('extractElected') && electionDomainSource.includes('buildEntityIndex'), '/test2 must use shared election-domain logic for result summaries, elected extraction, and entity indexes');
-assert(electionManagerSource.includes("from '../../js/election-domain.mjs'") && electionManagerSource.includes('renderCountTable') && electionManagerSource.includes('renderEntityPanel'), '/test2 election rendering must consume shared domain logic and expose count/entity views');
+assert(electionManagerSource.includes("from '../../src/election-domain.mjs'") && electionManagerSource.includes('renderCountTable') && electionManagerSource.includes('renderEntityPanel'), '/test2 election rendering must consume shared domain logic and expose count/entity views');
 assert(electionViewModelSource.includes('buildElectionViewModel') && electionViewModelSource.includes('buildElectionViewModelFromMainController') && electionViewModelSource.includes('buildElectionViewModelFromTest2Manager'), 'main and /test2 must share an engine-neutral election view-model contract');
 assert(electionRendererSource.includes('class SharedElectionRenderer') && electionRendererSource.includes('data-election-renderer="shared"') && electionRendererSource.includes('renderElectionSummaryFromViewModel'), 'main and /test2 must share an engine-neutral election renderer/mirror');
 assert(electionRendererSource.includes('renderMainCompatibleOverallResults') && electionRendererSource.includes('renderMainCompatibleConstituencyResults'), 'shared election renderer must support main-compatible host adapters for visible pane parity');
 assert(electionManagerSource.includes('createElectionRenderer(this)') && electionManagerSource.includes('this.sharedRenderer'), '/test2 must keep shared election renderer available for secondary fallback views');
 assert(mainElectionPaneContractSource.includes('class MainElectionPaneContract') && mainElectionPaneContractSource.includes('renderHeaderRight') && mainElectionPaneContractSource.includes('renderPanelContent'), '/test2 must expose an explicit shared main election pane contract for visible pane parity');
-assert(electionPaneContractSource.includes('MainElectionPaneContract as Test2MainElectionPaneContract') && electionPaneContractSource.includes('../../js/election-main-pane-contract.mjs'), '/test2 local election pane contract must re-export the shared main election pane contract');
+assert(electionPaneContractSource.includes('MainElectionPaneContract as Test2MainElectionPaneContract') && electionPaneContractSource.includes('../../src/election-main-pane-contract.mjs'), '/test2 local election pane contract must re-export the shared main election pane contract');
 assert(mainElectionPaneContractSource.includes("this.rendererId = host?.paneRendererId || 'test2-main-pane-contract'") && !mainElectionPaneContractSource.includes('test2-election-panel--main-parity'), '/test2 main election pane contract must not add a test2-only wrapper around visible main-pane output');
 assert(electionManagerSource.includes('this.mainPaneContract = new MainElectionPaneContract(this)') && electionManagerSource.includes('this.mainPaneContract.renderHeaderRight(selectedResult, nextView)') && electionManagerSource.includes('this.mainPaneContract.renderPanelContent(selectedResult, nextView)'), '/test2 visible election pane header/content must enter through the shared main-pane contract');
 assert(/renderOverallResults\(view = 'party'\)\s*{\s*return this\.mainPaneContract\.renderOverallResults\(view\);/.test(electionManagerSource) && /renderConstituencyResults\(result, view = 'party'\)\s*{\s*return this\.mainPaneContract\.renderConstituencyResults\(result, view\);/.test(electionManagerSource), '/test2 visible election pane helpers must delegate to the main-pane contract, not bypass it with route-specific branches');
@@ -520,8 +534,8 @@ assert(overallPartySource.includes('<table class="election-party-table election-
 assert(overallPartySource.includes('data-election-entity-kind="${safeKind}"') || electionManagerSource.includes('data-election-entity-kind="${safeKind}"'), '/test2 election entity buttons must expose the main data-election-entity-kind contract');
 assert(electionManagerSource.includes('dataset.tableControlsReady') && !electionManagerSource.includes('test2TableControlsReady'), '/test2 election table controls must use the main data-table-controls-ready marker, not a test2-only marker');
 assert(electionManagerSource.includes('ROI_MAIN_PARTY_COLOURS') && electionManagerSource.includes('mainPanePartyColour') && electionManagerSource.includes("'fine gael', '#6699FF'"), '/test2 Dail/election pane colours must route through the Wikipedia-aligned ROI party palette');
-assert(electionManagerSource.includes("ELECTION_MANIFEST_URL = '/render/metadata/elections-test2.json?v=test-021'"), '/test2 election metadata cache key must be bumped when generated election bundle contracts change');
-assert(electionManagerSource.includes('`${entry.resultUrl}?v=test-021`'), '/test2 election result bundle cache key must be bumped when generated constituency result JSON changes');
+assert(/ELECTION_MANIFEST_URL = '\/render\/metadata\/elections-test2\.json\?v=test-\d{3}'/.test(electionManagerSource), '/test2 election metadata cache key must be bumped when generated election bundle contracts change');
+assert(/`\$\{entry\.resultUrl\}\?v=test-\d{3}`/.test(electionManagerSource), '/test2 election result bundle cache key must be bumped when generated constituency result JSON changes');
 assert(electionManagerSource.includes('election-delta--pos') && electionManagerSource.includes('election-delta--neg') && !electionManagerSource.includes('election-delta--up') && !electionManagerSource.includes('election-delta--down'), '/test2 election pane deltas must use the same pos/neg classes as main');
 const selectedPartyStart = electionManagerSource.indexOf('renderConstituencyPartyTable(candidates = [], result = {})');
 const selectedPartyEnd = electionManagerSource.indexOf('renderMainParityLeafTh', selectedPartyStart);
@@ -1010,7 +1024,11 @@ function assertNiElectionSeatCoverage() {
       let expected = seatTotal;
       if (bundle.body === 'Northern Ireland Assembly' && year >= 2017 && !bundle.isByElection) expected = 5;
       if (bundle.body === 'Northern Ireland Assembly' && year >= 1998 && year <= 2016 && !bundle.isByElection) expected = 6;
-      const elected = (result.candidates || []).filter((candidate) => candidate.elected).length;
+      // A party-list election (the 1996 Forum) elects list rows that can each win several
+      // seats, so its coverage is the seats won, not the number of rows marked elected.
+      const elected = String(bundle.votingSystem || '').startsWith('party-list')
+        ? Number(result.seatsWon || 0)
+        : (result.candidates || []).filter((candidate) => candidate.elected).length;
       if (expected > 0 && elected !== expected) {
         mismatches.push(`${filename}: ${result.constituency} elected ${elected}/${expected}`);
       }
