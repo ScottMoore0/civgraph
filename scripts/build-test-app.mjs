@@ -60,11 +60,16 @@ async function buildMainShellCss() {
   mkdirSync('_tmp_css', { recursive: true });
   writeFileSync('_tmp_css/test-critical.css', source.slice(0, index));
   writeFileSync('_tmp_css/test-main.css', source.slice(index));
+  // Self-hosted fonts are referenced by root-relative URL and served from /assets/fonts at
+  // runtime. esbuild cannot resolve a root-relative path on disk, so bundling main.css failed
+  // ("Could not resolve /assets/fonts/roboto-condensed-latin.woff2") and took the test build
+  // down with it; build-shared-shell-assets.mjs already leaves these to the browser.
   await esbuild.build({
     entryPoints: ['_tmp_css/test-critical.css'],
     outfile: 'build/main.critical.css',
     minify: true,
     bundle: true,
+    external: ['/assets/fonts/*'],
     logLevel: 'silent'
   });
   await esbuild.build({
@@ -72,6 +77,7 @@ async function buildMainShellCss() {
     outfile: 'build/main.css',
     minify: true,
     bundle: true,
+    external: ['/assets/fonts/*'],
     logLevel: 'silent'
   });
   try { unlinkSync('_tmp_css/test-critical.css'); } catch {}
