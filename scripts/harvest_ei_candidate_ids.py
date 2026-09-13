@@ -79,6 +79,44 @@ def matchkey(value):
     return re.sub(r'\s+', ' ', re.sub(r"[^a-z0-9 ]+", ' ', text)).strip()
 
 
+NAME_TITLES = {
+    'general', 'gen', 'sir', 'major', 'maj', 'captain', 'capt', 'dr', 'doctor', 'countess',
+    'count', 'lady', 'lord', 'colonel', 'col', 'lt', 'lieutenant', 'commandant', 'comdt',
+    'professor', 'prof', 'rev', 'reverend', 'fr', 'father', 'mrs', 'mr', 'ms', 'miss',
+    'senator', 'sen', 'cllr', 'councillor', 'alderman', 'ald', 'the', 'hon', 'dame', 'madame',
+}
+NAME_PARTICLES = {'o', 'de', 'di', 'da', 'van', 'von', 'mac', 'mc', 'ni', 'ui', 'la', 'le'}
+
+
+def name_parts(value):
+    """(surname, forenames) with titles dropped and particles kept out of the forenames."""
+    tokens = [t for t in matchkey(value).split() if t not in NAME_TITLES]
+    if not tokens:
+        return None, []
+    return tokens[-1], [t for t in tokens[:-1] if t not in NAME_PARTICLES]
+
+
+def forenames_compatible(a, b):
+    for x, y in zip(a, b):
+        if not (x == y or (len(x) == 1 and y.startswith(x)) or (len(y) == 1 and x.startswith(y))):
+            return False
+    return True
+
+
+def names_compatible(a, b):
+    """The same person written two ways, as far as the letters can show.
+
+    Same surname, and forenames that agree as far as both go, where an initial agrees
+    with any name it begins. So "General Richard Mulcahy" is Richard Mulcahy, "P. J.
+    Ruttledge" is Patrick J Ruttledge and "Arthur MacMurrough-Kavanagh" is Arthur
+    Kavanagh, but "Edmund Wall" is not Edward Wall and "Eugene Doherty" is not Joseph
+    O'Doherty. It is only ever used inside one contest's page, and only for a unique hit.
+    """
+    sa, fa = name_parts(a)
+    sb, fb = name_parts(b)
+    return bool(sa) and sa == sb and bool(fa) and bool(fb) and forenames_compatible(fa, fb)
+
+
 def cache_path(url):
     digest = hashlib.sha1(url.encode('utf-8')).hexdigest()
     return os.path.join(CACHE, digest[:2], digest + '.html')
@@ -149,6 +187,24 @@ def assign(page_candidates, file_candidates):
             used.add(hits[0])
             assignments[index] = page_candidates[hits[0]]['id']
             how[index] = 'name'
+
+    # Second pass: the same person written differently on the page ("General Richard
+    # Mulcahy", "P. J. Ruttledge"). Taken only when exactly one unused page name is
+    # compatible with this row AND no other unassigned row is compatible with that page
+    # name, so two Patrick Ryans in one contest are never guessed between.
+    open_rows = [i for i in range(len(file_candidates)) if i not in assignments]
+    for index in open_rows:
+        hits = [j for j in range(len(page_candidates)) if j not in used
+                and names_compatible(file_candidates[index].get('name'), page_candidates[j]['name'])]
+        if len(hits) != 1:
+            continue
+        rivals = [k for k in open_rows if k != index and k not in assignments
+                  and names_compatible(file_candidates[k].get('name'), page_candidates[hits[0]]['name'])]
+        if rivals:
+            continue
+        used.add(hits[0])
+        assignments[index] = page_candidates[hits[0]]['id']
+        how[index] = 'compatible-name'
 
     # Positional fallback, and only when the two lists are the same length. A page with
     # a different number of candidates than the file is a different reading of the
@@ -473,12 +529,12 @@ def main():
             writer.writeheader()
             writer.writerows(rows)
 
-    total = sum(stats['candidacy:' + k] for k in ('name', 'positional', 'unmatched'))
+    total = sum(stats['candidacy:' + k] for k in ('name', 'compatible-name', 'positional', 'unmatched'))
     print(f'\npages: {stats["fetched"]:,} fetched, {stats["cached"]:,} from cache, '
           f'{stats["page:failed"]:,} failed, {stats["page:no-candidate-links"]:,} without links')
     print(f'files written: {stats["files:written"]:,}')
     print(f'candidacies: {total:,} seen')
-    for kind in ('name', 'positional', 'unmatched'):
+    for kind in ('name', 'compatible-name', 'positional', 'unmatched'):
         count = stats['candidacy:' + kind]
         share = (100.0 * count / total) if total else 0.0
         print(f'  {kind:11} {count:>7,}  {share:5.1f}%')

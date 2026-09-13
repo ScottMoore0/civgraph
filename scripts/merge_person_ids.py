@@ -236,6 +236,11 @@ def main():
     if args.check:
         print("\n--check: nothing written")
         return
+    if not merges:
+        # The loop has converged. Writing now would replace the last pass's merge log with
+        # an empty one, and there is no header to write it with.
+        print("\n  nothing to merge: registry and merge log left as they are")
+        return
 
     for drop, keep in final.items():
         if drop == keep:

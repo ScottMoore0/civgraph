@@ -62,14 +62,28 @@ def main():
                  '  the live metadata lives in render/metadata/elections-test2.')
 
     doc = json.load(open(REG, encoding='utf-8'))
-    by_person, by_srcid, name_hits = {}, {}, collections.defaultdict(set)
+    # An id can belong to more than one entity when the registry split an implausible
+    # career at a long silence; each half records its `era`, and a contest's year picks it.
+    by_person, by_srcid, name_hits = collections.defaultdict(list), collections.defaultdict(list), collections.defaultdict(set)
     for e in doc['entities']:
+        era = e.get('era') or [0, 9999]
         for s in e.get('sourcePersonIds') or []:
-            by_person[s] = e['personId']
+            by_person[s].append((era[0], era[1], e['personId']))
         for s in e['sourceIds']:
-            by_srcid[s] = e['personId']
+            by_srcid[s].append((era[0], era[1], e['personId']))
         for m in e['matchKeys']:
             name_hits[m].add(e['personId'])
+
+    def pick(options, year):
+        if not options:
+            return None
+        if len(options) == 1:
+            return options[0][2]
+        for lo, hi, pid in options:
+            if lo <= year <= hi:
+                return pid
+        return min(options, key=lambda o: min(abs(year - o[0]), abs(year - o[1])))[2]
+
     by_name = {m: list(v)[0] for m, v in name_hits.items() if len(v) == 1}
     ambiguous = {m for m, v in name_hits.items() if len(v) > 1}
     without_source = collections.defaultdict(set)
@@ -88,15 +102,17 @@ def main():
     for path in files:
         doc2 = json.load(open(path, encoding='utf-8'))
         dirty = False
+        date = str(doc2.get('date') or '')
+        year = int(date[:4]) if date[:4].isdigit() else 0
 
         def stamp(c):
             nonlocal dirty
             spid = str(c.get('sourcePersonId') or '').strip()
-            pid = by_person.get(spid) if spid else None
+            pid = pick(by_person.get(spid, []), year) if spid else None
             how = 'by-source-person' if pid else None
             if not pid:
                 cid = str(c.get('id') or '').strip()
-                pid = by_srcid.get(cid)
+                pid = pick(by_srcid.get(cid, []), year)
                 how = 'by-id' if pid else None
             if not pid:
                 mk = matchkey(c.get('name') or '')
@@ -113,16 +129,34 @@ def main():
                 c['personId'] = pid
                 dirty = True
 
+        # Referendum options are not people: strip any personId rather than stamp one.
+        referendum = str(doc2.get('contestType') or '') == 'referendum'
         for r in doc2.get('results') or []:
             for c in (r.get('candidates') or []):
-                if (c.get('name') or '').strip():
+                if referendum:
+                    if c.pop('personId', None) is not None:
+                        dirty = True
+                elif (c.get('name') or '').strip():
                     stamp(c)
+        # A summary row restates a candidacy stamped just above, so it takes that stamp.
+        # Re-derived from the summary row's own fields, 25 rows carried an id their own
+        # candidacy did not.
+        stamped = collections.defaultdict(set)
+        for r in doc2.get('results') or []:
+            for c in (r.get('candidates') or []):
+                stamped[(str(r.get('constituency') or '').strip(), (c.get('name') or '').strip())].add(c.get('personId'))
         for c in (doc2.get('mainLikeCandidateSummary') or []):
+            if referendum:
+                if c.pop('personId', None) is not None:
+                    dirty = True
+                continue
             if (c.get('name') or '').strip():
                 cid = str(c.get('id') or '').strip()
                 spid = str(c.get('sourcePersonId') or '').strip()
                 mk = matchkey(c.get('name') or '')
-                pid = ((by_person.get(spid) if spid else None) or by_srcid.get(cid) or by_name.get(mk)
+                own = stamped.get((str(c.get('constituency') or '').strip(), (c.get('name') or '').strip()), set())
+                pid = (next(iter(own)) if len(own) == 1 and None not in own else None) or (
+                       (pick(by_person.get(spid, []), year) if spid else None) or pick(by_srcid.get(cid, []), year) or by_name.get(mk)
                        or (by_name_group.get(mk) if not spid else None))
                 if c.get('personId') != pid:
                     c['personId'] = pid

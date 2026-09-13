@@ -60,6 +60,10 @@ def scan():
     rows = []
     for f in sorted(glob.glob(os.path.join(META, '*.json'))):
         d = json.load(open(f, encoding='utf-8'))
+        # Referendum options ("Yes", "No") are not people. Registered as two, they carried
+        # 1,207 candidacies each across 87 years and headed every over-merge report.
+        if str(d.get('contestType') or '') == 'referendum':
+            continue
         yr = str(d.get('date') or '')[:4]
         for r in d.get('results') or []:
             for c in (r.get('candidates') or []):
@@ -142,6 +146,31 @@ def main():
             k = ('name', matchkey(r['name']))
         groups[k].append(r)
 
+    # IMPLAUSIBLE CAREERS ARE SPLIT AT THEIR LONGEST SILENCE. An id -- the source's own
+    # person id or a candidacy id -- that spans more than 60 years with a gap of 25 or more
+    # is not one career: John Hanna, Belfast Labour at Stormont in 1921, is not the UUP
+    # councillor of 1989-2011, and William Graham, Independent Unionist in 1929, is not the
+    # UUP candidate of 1997-2011. Measured on the data, this rule separates exactly those
+    # four Northern Ireland ids and the source-asserted ones with the same shape, and
+    # nothing else. It is still a rule, not a proof, and it only ever splits: a wrong split
+    # is visible and fixable, a wrong merge is neither. Each half keeps the id and records
+    # its years as `era`, which the stamper uses to pick the right half for a contest.
+    MAX_PLAUSIBLE_SPAN, MIN_SILENCE = 60, 25
+    career_splits = []
+    for k in [k for k in groups if k[0] in ('src', 'id')]:
+        yrs = sorted({r['year'] for r in groups[k] if r['year']})
+        if len(yrs) < 2 or yrs[-1] - yrs[0] <= MAX_PLAUSIBLE_SPAN:
+            continue
+        gap, last_before, first_after = max((yrs[i + 1] - yrs[i], yrs[i], yrs[i + 1]) for i in range(len(yrs) - 1))
+        if gap < MIN_SILENCE:
+            continue
+        early = [r for r in groups[k] if (r['year'] or 0) <= last_before]
+        late = [r for r in groups[k] if (r['year'] or 0) >= first_after]
+        del groups[k]
+        groups[k + ('%d-%d' % (yrs[0], last_before),)] = early
+        groups[k + ('%d-%d' % (first_after, yrs[-1]),)] = late
+        career_splits.append((k, last_before, first_after))
+
     # NOTHING IS FOLDED IN ON A NAME. An earlier version of this pulled name-keyed
     # groups into a src group wherever exactly one src group answered to that name and
     # the two had never shared a contest, on the theory that it was one person whose
@@ -175,6 +204,50 @@ def main():
     for k, v in groups.items():
         merged[merges.get(k, k)].extend(v)
 
+    # Keep the joins the prior registry made. merge_person_ids.py joins groups this build
+    # keeps apart -- a councillor's local-government ids with his Assembly id (Declan
+    # O'Loan, 81112), or one TD's two ElectionsIreland ids -- and the registry records the
+    # result. Rebuilt without them, one half reclaimed the id, the other was renumbered,
+    # and the merge pass, which tests only its own classes, did not find the pair again.
+    # So groups whose strongest source evidence names the same prior person are one group
+    # again, unless they stood in the same contest or one is half of a split career.
+    def strongest_prior(v):
+        persons = {r['src'] for r in v if r['src']}
+        sources = {r['id'] for r in v if r['id'] and r['id'] not in bad_ids}
+        prior = set().union(*[prev_by_person.get(s, set()) for s in persons],
+                            *[prev_by_source.get(s, set()) for s in sources])
+        best, best_score = None, (0, 0)
+        for pid in sorted(prior):
+            e = prev[pid]
+            score = (len(set(e.get('sourcePersonIds') or []) & persons),
+                     len(set(e.get('sourceIds') or []) & sources))
+            if score > best_score:
+                best, best_score = pid, score
+        return best
+
+    by_prior = collections.defaultdict(list)
+    for k, v in merged.items():
+        if len(k) > 2:
+            continue
+        pid = strongest_prior(v)
+        if pid is not None:
+            by_prior[pid].append(k)
+    rejoined = 0
+    for pid, keys in by_prior.items():
+        if len(keys) < 2:
+            continue
+        keys.sort(key=lambda k: (-len(merged[k]), str(k)))
+        lead = keys[0]
+        contests = {r['key'] for r in merged[lead]}
+        for k in keys[1:]:
+            theirs = {r['key'] for r in merged[k]}
+            if contests & theirs:
+                continue
+            contests |= theirs
+            merged[lead].extend(merged.pop(k))
+            rejoined += 1
+    print(f'prior joins kept            : {rejoined:,}')
+
     next_id = max(next_id, prev_max + 1)
 
     def reclaim(person_ids, source_ids, match_keys, claimed):
@@ -202,12 +275,51 @@ def main():
                 best, best_score = pid, score
         return best if best_score > (0, 0, 0) else None
 
-    entities, matched, reclaimed, seen_pid = [], 0, 0, set()
+    # Reclaim by evidence first, not in visiting order. Visiting largest group first let a
+    # group that shared only a NAME with a prior entity take its id before the group
+    # holding that entity's own source ids got there: once the RoI local elections gave an
+    # ElectionsIreland Mick Murphy an eighth candidacy, it took the curated 33264 by name and
+    # the curated career was renumbered; a second Tom Campbell took 116687 from the one whose
+    # candidate id it was. So every group first claims the prior id its source evidence points
+    # to -- source person ids, then candidate ids, and where a fused career has been split the
+    # larger half. Names decide only what evidence leaves unclaimed.
+    evidence = []
+    for k, v in merged.items():
+        persons = {r['src'] for r in v if r['src']}
+        sources = {r['id'] for r in v if r['id'] and r['id'] not in bad_ids}
+        prior = set()
+        for sp in persons:
+            prior |= prev_by_person.get(sp, set())
+        for sid in sources:
+            prior |= prev_by_source.get(sid, set())
+        for pid in prior:
+            e = prev[pid]
+            score = (len(set(e.get('sourcePersonIds') or []) & persons),
+                     len(set(e.get('sourceIds') or []) & sources), 0)
+            evidence.append((score, len(v), -pid, str(k), k, pid))
+        # A name-keyed group has no source evidence, but the prior name-keyed entity under
+        # its name is still its own. Without this, a larger RoI local group of the same name
+        # visited first took the id by name: Thomas Kelly of the 1922 Dail lost 113101.
+        if k[0] == 'name':
+            for pid in prev_by_key.get(k[1], set()):
+                if prev[pid].get('keyedBy') == 'name':
+                    evidence.append(((0, 0, 1), len(v), -pid, str(k), k, pid))
+    by_evidence = {}
+    for score, _size, _neg, _sk, k, pid in sorted(evidence, key=lambda t: t[:4], reverse=True):
+        if k in by_evidence or pid in by_evidence.values():
+            continue
+        by_evidence[k] = pid
+    curated_by_pid = {pid: p for pid, p in curated.values()}
+
+    entities, matched, reclaimed, seen_pid = [], 0, 0, set(by_evidence.values())
     for k, v in sorted(merged.items(), key=lambda kv: (-len(kv[1]), str(kv[0]))):
         names = sorted({r['name'] for r in v}, key=lambda s: (-len(s), s))
         mks = {matchkey(n) for n in names}
         hit = next((curated[m] for m in mks if m in curated), None)
-        if hit and hit[0] not in seen_pid:
+        if k in by_evidence:
+            owned = by_evidence[k]
+            hit = (owned, curated_by_pid[owned]) if owned in curated_by_pid else None
+        if hit and (hit[0] not in seen_pid or by_evidence.get(k) == hit[0]):
             pid, cur = hit
             seen_pid.add(pid)
             matched += 1
@@ -218,7 +330,9 @@ def main():
         else:
             group_sources = sorted({r['id'] for r in v if r['id'] and r['id'] not in bad_ids})
             group_persons = sorted({r['src'] for r in v if r['src']})
-            kept = reclaim(group_persons, group_sources, mks, seen_pid)
+            kept = by_evidence.get(k)
+            if kept is None:
+                kept = reclaim(group_persons, group_sources, mks, seen_pid)
             if kept is not None:
                 pid, disp = kept, names[0]
                 seen_pid.add(pid)
@@ -239,6 +353,11 @@ def main():
              'bodies': sorted({r['body'] for r in v if r['body']}),
              'parties': sorted({r['party'] for r in v if r['party']})[:6],
              'keyedBy': k[0], 'provenance': src, 'provisional': prov}
+        if len(k) > 2:
+            lo, hi = (int(x) for x in k[2].split('-'))
+            e['era'] = [lo, hi]
+            e['eraReason'] = ('split from a career spanning more than 60 years at a gap of 25 '
+                              'or more; the same id continues in the other era')
         if len(names) > 1:
             e['nameVariants'] = True
         if matchkey(disp) in review:
@@ -272,6 +391,9 @@ def main():
 
     print(f'candidacies scanned         : {len(rows):,}')
     print(f'row-index ids discarded     : {len(bad_ids)}')
+    print(f'implausible careers split   : {len(career_splits)}')
+    for k, a, b in career_splits:
+        print(f'    {k[0]} {k[1]}: split between {a} and {b}')
     print(f'cross-system merges applied : {len(merges):,}')
     print(f'same-name splits flagged    : {len(review):,}')
     print(f'persons emitted             : {len(entities):,}')
