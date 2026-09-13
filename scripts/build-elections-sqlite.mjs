@@ -29,6 +29,7 @@
 import { readdirSync, readFileSync, existsSync, mkdirSync, rmSync, statSync, createWriteStream } from 'node:fs';
 import { DatabaseSync } from 'node:sqlite';
 import path from 'node:path';
+import { createHash } from 'node:crypto';
 
 const ROOT = process.cwd();
 const SRC_DIR = path.join(ROOT, 'render/metadata/elections-test2');
@@ -41,6 +42,13 @@ const OUT = path.resolve(argVal('--out', 'tmp/elections.sqlite'));
 const LIMIT = Number(argVal('--limit', Infinity));
 
 export const SCHEMA = `
+-- dataset.version is a hash of every source file this database was built from. The
+-- elections API puts it in its edge cache key, so a reload invalidates cached responses
+-- by itself instead of waiting a day or depending on someone bumping CACHE_VERSION.
+CREATE TABLE dataset (
+  key   TEXT PRIMARY KEY,
+  value TEXT
+);
 CREATE TABLE elections (
   key                     TEXT PRIMARY KEY,
   body                    TEXT,
@@ -225,12 +233,15 @@ const CAND_COLS = ['id', 'name', 'party', 'party_id', 'personId', 'firstPrefs', 
 let nElections = 0, nCons = 0, nCand = 0, nCounts = 0, nFeat = 0, nMatched = 0, nAnim = 0;
 const files = readdirSync(SRC_DIR).filter((f) => f.endsWith('.json')).sort().slice(0, LIMIT);
 let srcBytes = 0;
+const datasetHash = createHash('sha256');
 
 db.exec('BEGIN');
 for (const file of files) {
   const full = path.join(SRC_DIR, file);
   srcBytes += statSync(full).size;
-  const d = JSON.parse(readFileSync(full, 'utf8'));
+  const rawText = readFileSync(full, 'utf8');
+  datasetHash.update(`${file}:${rawText.length}:`).update(rawText);
+  const d = JSON.parse(rawText);
   const results = Array.isArray(d.results) ? d.results : [];
 
   insElection.run(
@@ -308,6 +319,12 @@ for (const file of files) {
     }
   });
 }
+{
+  const insDataset = db.prepare('INSERT INTO dataset VALUES (?, ?)');
+  insDataset.run('version', datasetHash.digest('hex').slice(0, 16));
+  insDataset.run('builtAt', new Date().toISOString());
+  insDataset.run('sourceFiles', String(files.length));
+}
 db.exec('COMMIT');
 db.exec('VACUUM');
 db.close();
@@ -339,11 +356,11 @@ if (!args.includes('--no-sql')) {
   // Idempotent: reloading D1 after a schema change would otherwise collide with the
   // existing tables, and `d1 execute` has no --replace.
   for (const t of ['elections', 'constituencies', 'candidates', 'counts',
-    'constituency_features', 'constituency_animation']) {
+    'constituency_features', 'constituency_animation', 'dataset']) {
     await write(`DROP TABLE IF EXISTS ${t};\n`);
   }
   await write(SCHEMA.replace(/^\s*--.*$/gm, '').replace(/\n{2,}/g, '\n'));
-  for (const table of ['elections', 'constituencies', 'candidates', 'counts', 'constituency_features', 'constituency_animation']) {
+  for (const table of ['elections', 'constituencies', 'candidates', 'counts', 'constituency_features', 'constituency_animation', 'dataset']) {
     const cols = dump.prepare(`SELECT name FROM pragma_table_info('${table}')`).all().map((r) => r.name);
     const rows = dump.prepare(`SELECT * FROM ${table}`).all();
     // Batched multi-row INSERTs, capped by BYTES rather than row count. D1 rejects an

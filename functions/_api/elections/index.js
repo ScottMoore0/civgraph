@@ -67,10 +67,32 @@ function withMeta(row) {
   }
 }
 
+// The loaded data's version, read from the dataset table and remembered per isolate for a
+// minute. It joins CACHE_VERSION in the edge cache key, so reloading the database
+// invalidates cached responses on its own. Before this, a reload stayed invisible on
+// clean URLs for up to a day unless someone also bumped CACHE_VERSION, which is what
+// happened on 2026-09-12. A database without the table, or any read failure, yields ''
+// and the cache behaves exactly as it did.
+let datasetVersionMemo = { value: '', expires: 0 };
+async function currentDatasetVersion(db) {
+  const now = Date.now();
+  if (now < datasetVersionMemo.expires) return datasetVersionMemo.value;
+  let value = '';
+  try {
+    const row = db ? await db.prepare("SELECT value FROM dataset WHERE key = 'version'").first() : null;
+    value = row?.value || '';
+  } catch {
+    value = '';
+  }
+  datasetVersionMemo = { value, expires: now + 60_000 };
+  return value;
+}
+
 export async function onRequestGet(context) {
   const cache = caches.default;
   const keyUrl = new URL(context.request.url);
   keyUrl.searchParams.set('_cv', CACHE_VERSION);
+  keyUrl.searchParams.set('_dv', await currentDatasetVersion(context.env.ELECTIONS_DB));
   const cacheKey = new Request(keyUrl.toString(), { method: 'GET' });
   const hit = await cache.match(cacheKey);
   if (hit) return hit;
