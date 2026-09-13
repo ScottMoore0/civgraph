@@ -1,5 +1,7 @@
 # ElectionsIreland.org: possible data issues
 
+> **Status:** point-in-time (2026-09-13), draft, not sent. Built from the ElectionsIreland page cache as harvested on that date; re-check each linked page before reporting an item, since the site may already have corrected it.
+
 Draft for the site's maintainers, prepared from Civgraph's harvest of ElectionsIreland candidate ids
 (`candidate.cfm?ID=`). Nothing here has been sent. Every item links the ElectionsIreland pages it rests on,
 so each can be checked on the site itself.
