@@ -3728,7 +3728,7 @@ class UIController {
             { id: 'flat-referendum', name: 'Referendum Counting Areas (1975-)', years: '1973-2016', extent: 'Northern Ireland', classIds: ['ni-referendum-areas'] },
             // ── Census 2021 Data (Northern Ireland) ──
             {
-                id: 'flat-data-2021-population', name: 'Data — Census 2021: Usual resident population', years: '2021', extent: 'Northern Ireland',
+                id: 'flat-data-2021-population', name: 'Data - Census 2021: Usual resident population', years: '2021', extent: 'Northern Ireland',
                 mapIds: [
                     'data-2021-population-lgd',
                     'data-2021-population-dea',
@@ -3739,7 +3739,7 @@ class UIController {
                 ]
             },
             {
-                id: 'flat-data-2021-population-density', name: 'Data — Census 2021: Population density', years: '2021', extent: 'Northern Ireland',
+                id: 'flat-data-2021-population-density', name: 'Data - Census 2021: Population density', years: '2021', extent: 'Northern Ireland',
                 mapIds: [
                     'data-2021-population-density-lgd',
                     'data-2021-population-density-dea',
@@ -3748,7 +3748,7 @@ class UIController {
                 ]
             },
             {
-                id: 'flat-data-2021-households', name: 'Data — Census 2021: Total households', years: '2021', extent: 'Northern Ireland',
+                id: 'flat-data-2021-households', name: 'Data - Census 2021: Total households', years: '2021', extent: 'Northern Ireland',
                 mapIds: [
                     'data-2021-households-lgd',
                     'data-2021-households-dea',
@@ -3759,7 +3759,7 @@ class UIController {
                 ]
             },
             {
-                id: 'flat-data-2021-household-size', name: 'Data — Census 2021: Average household size', years: '2021', extent: 'Northern Ireland',
+                id: 'flat-data-2021-household-size', name: 'Data - Census 2021: Average household size', years: '2021', extent: 'Northern Ireland',
                 mapIds: [
                     'data-2021-household-size-lgd',
                     'data-2021-household-size-dea',
@@ -3770,7 +3770,7 @@ class UIController {
                 ]
             },
             {
-                id: 'flat-data-2021-female-share', name: 'Data — Census 2021: Female population share', years: '2021', extent: 'Northern Ireland',
+                id: 'flat-data-2021-female-share', name: 'Data - Census 2021: Female population share', years: '2021', extent: 'Northern Ireland',
                 mapIds: [
                     'data-2021-female-share-lgd',
                     'data-2021-female-share-ward',
@@ -3778,7 +3778,7 @@ class UIController {
                 ]
             },
             {
-                id: 'flat-data-2021-born-in-ni', name: 'Data — Census 2021: Born in Northern Ireland', years: '2021', extent: 'Northern Ireland',
+                id: 'flat-data-2021-born-in-ni', name: 'Data - Census 2021: Born in Northern Ireland', years: '2021', extent: 'Northern Ireland',
                 mapIds: [
                     'data-2021-born-in-ni-lgd',
                     'data-2021-born-in-ni-ward',
@@ -3786,7 +3786,7 @@ class UIController {
                 ]
             },
             {
-                id: 'flat-data-2021-irish-knowledge', name: 'Data — Census 2021: Some ability in Irish', years: '2021', extent: 'Northern Ireland',
+                id: 'flat-data-2021-irish-knowledge', name: 'Data - Census 2021: Some ability in Irish', years: '2021', extent: 'Northern Ireland',
                 mapIds: [
                     'data-2021-irish-knowledge-lgd',
                     'data-2021-irish-knowledge-ward',
@@ -3794,7 +3794,7 @@ class UIController {
                 ]
             },
             {
-                id: 'flat-data-2021-ulster-scots-knowledge', name: 'Data — Census 2021: Some ability in Ulster-Scots', years: '2021', extent: 'Northern Ireland',
+                id: 'flat-data-2021-ulster-scots-knowledge', name: 'Data - Census 2021: Some ability in Ulster-Scots', years: '2021', extent: 'Northern Ireland',
                 mapIds: [
                     'data-2021-ulster-scots-knowledge-lgd',
                     'data-2021-ulster-scots-knowledge-ward',
@@ -3802,7 +3802,7 @@ class UIController {
                 ]
             },
             {
-                id: 'flat-data-2021-religion-catholic', name: 'Data — Census 2021: Religion (% Catholic)', years: '2021', extent: 'Northern Ireland',
+                id: 'flat-data-2021-religion-catholic', name: 'Data - Census 2021: Religion (% Catholic)', years: '2021', extent: 'Northern Ireland',
                 mapIds: [
                     'data-2021-religion-catholic-lgd',
                     'data-2021-religion-catholic-ward',
@@ -3810,7 +3810,7 @@ class UIController {
                 ]
             },
             {
-                id: 'flat-data-2021-catholic-background', name: 'Data — Census 2021: Catholic community background', years: '2021', extent: 'Northern Ireland',
+                id: 'flat-data-2021-catholic-background', name: 'Data - Census 2021: Catholic community background', years: '2021', extent: 'Northern Ireland',
                 mapIds: [
                     'data-2021-catholic-background-lgd',
                     'data-2021-catholic-background-ward',
@@ -3818,7 +3818,7 @@ class UIController {
                 ]
             },
             {
-                id: 'flat-data-2021-limiting-condition', name: 'Data — Census 2021: Day-to-day activities limited', years: '2021', extent: 'Northern Ireland',
+                id: 'flat-data-2021-limiting-condition', name: 'Data - Census 2021: Day-to-day activities limited', years: '2021', extent: 'Northern Ireland',
                 mapIds: [
                     'data-2021-limiting-condition-lgd',
                     'data-2021-limiting-condition-ward',
@@ -3826,7 +3826,7 @@ class UIController {
                 ]
             },
             {
-                id: 'flat-data-2021-unpaid-care', name: 'Data — Census 2021: Provides unpaid care', years: '2021', extent: 'Northern Ireland',
+                id: 'flat-data-2021-unpaid-care', name: 'Data - Census 2021: Provides unpaid care', years: '2021', extent: 'Northern Ireland',
                 mapIds: [
                     'data-2021-unpaid-care-lgd',
                     'data-2021-unpaid-care-ward',
@@ -3834,7 +3834,7 @@ class UIController {
                 ]
             },
             {
-                id: 'flat-data-2021-no-car', name: 'Data — Census 2021: Households with no car or van', years: '2021', extent: 'Northern Ireland',
+                id: 'flat-data-2021-no-car', name: 'Data - Census 2021: Households with no car or van', years: '2021', extent: 'Northern Ireland',
                 mapIds: [
                     'data-2021-no-car-lgd',
                     'data-2021-no-car-ward',
@@ -3842,7 +3842,7 @@ class UIController {
                 ]
             },
             {
-                id: 'flat-data-2021-owner-occupied', name: 'Data — Census 2021: Owner-occupied households', years: '2021', extent: 'Northern Ireland',
+                id: 'flat-data-2021-owner-occupied', name: 'Data - Census 2021: Owner-occupied households', years: '2021', extent: 'Northern Ireland',
                 mapIds: [
                     'data-2021-owner-occupied-lgd',
                     'data-2021-owner-occupied-ward',
@@ -3850,7 +3850,7 @@ class UIController {
                 ]
             },
             {
-                id: 'flat-data-2021-social-rented', name: 'Data — Census 2021: Social-rented households', years: '2021', extent: 'Northern Ireland',
+                id: 'flat-data-2021-social-rented', name: 'Data - Census 2021: Social-rented households', years: '2021', extent: 'Northern Ireland',
                 mapIds: [
                     'data-2021-social-rented-lgd',
                     'data-2021-social-rented-ward',
@@ -3858,7 +3858,7 @@ class UIController {
                 ]
             },
             {
-                id: 'flat-data-2021-private-rented', name: 'Data — Census 2021: Private-rented households', years: '2021', extent: 'Northern Ireland',
+                id: 'flat-data-2021-private-rented', name: 'Data - Census 2021: Private-rented households', years: '2021', extent: 'Northern Ireland',
                 mapIds: [
                     'data-2021-private-rented-lgd',
                     'data-2021-private-rented-ward',
@@ -3866,7 +3866,7 @@ class UIController {
                 ]
             },
             {
-                id: 'flat-data-2021-no-quals', name: 'Data — Census 2021: No qualifications', years: '2021', extent: 'Northern Ireland',
+                id: 'flat-data-2021-no-quals', name: 'Data - Census 2021: No qualifications', years: '2021', extent: 'Northern Ireland',
                 mapIds: [
                     'data-2021-no-quals-lgd',
                     'data-2021-no-quals-ward',
@@ -3874,7 +3874,7 @@ class UIController {
                 ]
             },
             {
-                id: 'flat-data-2021-level-4-plus', name: 'Data — Census 2021: Level 4+ qualifications', years: '2021', extent: 'Northern Ireland',
+                id: 'flat-data-2021-level-4-plus', name: 'Data - Census 2021: Level 4+ qualifications', years: '2021', extent: 'Northern Ireland',
                 mapIds: [
                     'data-2021-level-4-plus-lgd',
                     'data-2021-level-4-plus-ward',
@@ -3882,7 +3882,7 @@ class UIController {
                 ]
             },
             {
-                id: 'flat-data-2021-unemployed', name: 'Data — Census 2021: Unemployed', years: '2021', extent: 'Northern Ireland',
+                id: 'flat-data-2021-unemployed', name: 'Data - Census 2021: Unemployed', years: '2021', extent: 'Northern Ireland',
                 mapIds: [
                     'data-2021-unemployed-lgd',
                     'data-2021-unemployed-ward',
@@ -3890,7 +3890,7 @@ class UIController {
                 ]
             },
             {
-                id: 'flat-data-2021-work-from-home', name: 'Data — Census 2021: Work mainly at or from home', years: '2021', extent: 'Northern Ireland',
+                id: 'flat-data-2021-work-from-home', name: 'Data - Census 2021: Work mainly at or from home', years: '2021', extent: 'Northern Ireland',
                 mapIds: [
                     'data-2021-work-from-home-lgd',
                     'data-2021-work-from-home-ward',
@@ -4049,7 +4049,7 @@ class UIController {
                 ]
             },
             {
-                id: 'flat-rwq-parameters', name: 'River Water Quality 1990–2018 — by parameter', years: '1990-2018', extent: 'Northern Ireland',
+                id: 'flat-rwq-parameters', name: 'River Water Quality 1990–2018 - by parameter', years: '1990-2018', extent: 'Northern Ireland',
                 mapIds: [
                     'wq-rwq-ph',
                     'wq-rwq-dissolved-oxygen',
@@ -4075,7 +4075,7 @@ class UIController {
                   'opw-fsu-catchments-gauged',
                   'rivers-coastal-flood-2018'
               ] },
-            { id: 'flat-gsi', name: 'Geological Survey Ireland — Bedrock & Karst', years: '', extent: 'Republic of Ireland',
+            { id: 'flat-gsi', name: 'Geological Survey Ireland - Bedrock & Karst', years: '', extent: 'Republic of Ireland',
               mapIds: [
                   'gsi-bedrock-boreholes-50k', 'gsi-karst-data',
                   'gsi-groundwater-flooding-low', 'gsi-groundwater-flooding-medium'
@@ -4121,10 +4121,10 @@ class UIController {
                 ]
             },
             {
-                id: 'flat-tellus-raw', name: 'Tellus Airborne — raw flight-line data', years: '2005-2008', extent: 'Northern Ireland',
+                id: 'flat-tellus-raw', name: 'Tellus Airborne - raw flight-line data', years: '2005-2008', extent: 'Northern Ireland',
                 mapIds: ['tellus-mag-raw', 'tellus-em-raw', 'tellus-rad-raw']
             },
-            { id: 'flat-tellus-flightlines', name: 'Tellus Airborne Survey — Flight Lines', years: '2005-2008', extent: 'Northern Ireland',
+            { id: 'flat-tellus-flightlines', name: 'Tellus Airborne Survey - Flight Lines', years: '2005-2008', extent: 'Northern Ireland',
               mapIds: ['tellus-flight-tracks'] },
             {
                 id: 'flat-noise', name: 'Environmental Noise (END 2017)', years: '2017', extent: 'Northern Ireland',
@@ -4234,7 +4234,7 @@ class UIController {
                 ]
             },
             // ── Local Authority Open Data ──
-            { id: 'flat-dcc', name: 'Dublin City Council — Open Data', years: '', extent: 'Republic of Ireland',
+            { id: 'flat-dcc', name: 'Dublin City Council - Open Data', years: '', extent: 'Republic of Ireland',
               mapIds: [
                   'dcc-accessible-parking-spaces', 'dcc-adult-learning-centres',
                   'dcc-allotments-and-community-gardens', 'dcc-beaches',
@@ -4267,7 +4267,7 @@ class UIController {
                   'dcc-traffic-signals-and-scats-sites-locations',
                   'dcc-universities-and-colleges', 'dcc-wifi4eu-access-points'
               ] },
-            { id: 'flat-dlr', name: 'Dún Laoghaire-Rathdown — Open Data', years: '', extent: 'Republic of Ireland',
+            { id: 'flat-dlr', name: 'Dún Laoghaire-Rathdown - Open Data', years: '', extent: 'Republic of Ireland',
               mapIds: [
                   'dlr-access-points-to-main-parks', 'dlr-accessible-parking-bays',
                   'dlr-administrative-area', 'dlr-bicycle-counter-locations',
@@ -4302,9 +4302,9 @@ class UIController {
                   'dlr-trim-trails', 'dlr-views-prospects',
                   'dlr-wifi4eu-access-points'
               ] },
-            { id: 'flat-sdcc', name: 'South Dublin County Council — Open Data', years: '', extent: 'Republic of Ireland',
+            { id: 'flat-sdcc', name: 'South Dublin County Council - Open Data', years: '', extent: 'Republic of Ireland',
               mapIds: ['sdcc-bicycle-parking-stands', 'sdcc-monthly-river-quality-data-sdcc1'] },
-            { id: 'flat-fingal', name: 'Fingal — Open Data', years: '', extent: 'Republic of Ireland',
+            { id: 'flat-fingal', name: 'Fingal - Open Data', years: '', extent: 'Republic of Ireland',
               mapIds: ['fingal-polling-station-data', 'fingal-trees'] },
             // ── LiDAR & 3D ──
             { id: 'flat-lidar-pointclouds', name: 'LiDAR Point Clouds (3D)', years: '2019-2022', extent: 'Northern Ireland',
@@ -4775,15 +4775,15 @@ class UIController {
                     'NIEA Catchments, Waste & Water Bodies',
                     'NI Mineral & Mining Licences', 'NI Livestock Density',
                     'Water Quality and Hydrology',
-                    'River Water Quality 1990–2018 — by parameter',
+                    'River Water Quality 1990–2018 - by parameter',
                     'River Basin Districts', 'River Basins',
                     'OPW Flood Extents',
-                    'Geological Survey Ireland — Bedrock & Karst',
+                    'Geological Survey Ireland - Bedrock & Karst',
                     'GSNI Bedrock and Surface Geology',
                     'Tellus Stream Sediments and Soils',
                     'Tellus Airborne Geophysics',
-                    'Tellus Airborne — raw flight-line data',
-                    'Tellus Airborne Survey — Flight Lines',
+                    'Tellus Airborne - raw flight-line data',
+                    'Tellus Airborne Survey - Flight Lines',
                     'Environmental Noise',
                     'Copernicus 30m DEM',
                     'Secondary maps'
@@ -4818,10 +4818,10 @@ class UIController {
             {
                 heading: 'Local Authority Open Data',
                 members: [
-                    'Dublin City Council — Open Data',
-                    'Dún Laoghaire-Rathdown — Open Data',
-                    'South Dublin County Council — Open Data',
-                    'Fingal — Open Data'
+                    'Dublin City Council - Open Data',
+                    'Dún Laoghaire-Rathdown - Open Data',
+                    'South Dublin County Council - Open Data',
+                    'Fingal - Open Data'
                 ]
             }
         ];
@@ -7849,13 +7849,13 @@ class UIController {
                 ${this.escapeHtml(label)}
             </a>`;
         const renderLeadingParty = (row) => {
-            if (!row?.winnerParty) return '—';
+            if (!row?.winnerParty) return '-';
             const colour = this.escapeHtml(row.winnerColour || '#b0bec5');
             return `<span class="catalogue-detail__leading-party"><span class="catalogue-detail__leading-party-tab" style="background:${colour}"></span>${renderEntityLink('party', row.winnerParty, row.winnerParty)}</span>`;
         };
         const renderDeaList = (row) => {
             const deas = row?.districtElectoralAreas || [];
-            if (!deas.length) return '—';
+            if (!deas.length) return '-';
             const links = deas.map((dea) => renderEntityLink('dea', dea, dea)).join(', ');
             return `
                 <details class="catalogue-detail__inline-list">
@@ -8374,10 +8374,10 @@ class UIController {
     }
 
     _renderConstituencyEntryList(entries = []) {
-        if (!Array.isArray(entries) || entries.length === 0) return '—';
+        if (!Array.isArray(entries) || entries.length === 0) return '-';
         return entries.map((entry) => {
             const showYear = entry.constituency && entry.constituency !== 'Northern Ireland' && entry.mapLayerYear;
-            const label = `${entry.constituency || '—'}${showYear ? ` (${entry.mapLayerYear})` : ''}`;
+            const label = `${entry.constituency || '-'}${showYear ? ` (${entry.mapLayerYear})` : ''}`;
             const link = `
                 <a href="#"
                     class="catalogue-detail__entity-link catalogue-detail__entity-link--text catalogue-detail__entity-link--constituency"
@@ -8439,7 +8439,7 @@ class UIController {
         };
         const ord = (n) => {
             const num = Number(n || 0);
-            if (!num) return '—';
+            if (!num) return '-';
             if (num % 10 === 1 && num % 100 !== 11) return `${num}st`;
             if (num % 10 === 2 && num % 100 !== 12) return `${num}nd`;
             if (num % 10 === 3 && num % 100 !== 13) return `${num}rd`;
@@ -8463,13 +8463,13 @@ class UIController {
             </a>
         `;
         const renderLeadingParty = (row) => {
-            if (!row?.winnerParty) return '—';
+            if (!row?.winnerParty) return '-';
             const colour = this.escapeHtml(row.winnerColour || '#b0bec5');
             return `<span class="catalogue-detail__leading-party"><span class="catalogue-detail__leading-party-tab" style="background:${colour}"></span>${renderEntityLink('party', row.winnerParty, row.winnerParty)}</span>`;
         };
         const renderDeaList = (row) => {
             const deas = row?.districtElectoralAreas || [];
-            if (!deas.length) return '—';
+            if (!deas.length) return '-';
             const links = deas.map((dea) => renderEntityLink('dea', dea, dea)).join(', ');
             return `
                 <details class="catalogue-detail__inline-list">
@@ -8546,10 +8546,10 @@ class UIController {
         const summaryHtml = summaryRows.map(([label, value, isHtml]) => `
             <div class="catalogue-detail__meta-row">
                 <span class="catalogue-detail__meta-label">${this.escapeHtml(label)}</span>
-                <span class="catalogue-detail__meta-value">${isHtml ? (value || '—') : this.escapeHtml(value || '—')}</span>
+                <span class="catalogue-detail__meta-value">${isHtml ? (value || '-') : this.escapeHtml(value || '-')}</span>
             </div>
         `).join('');
-        const recallOr = (row, rendered) => row?.isRecallPetition ? '—' : rendered;
+        const recallOr = (row, rendered) => row?.isRecallPetition ? '-' : rendered;
 
         const rankedCandidateSummaries = (entry.candidateSummaries || []).map((row, idx) => ({
             ...row,
@@ -8559,24 +8559,24 @@ class UIController {
         const partyHistoryColumns = [
             { key: 'electionDisplayName', label: 'Election', kind: 'text', getValue: (row) => row.electionDisplayName, render: (row) => renderElectionLink(row, row.electionDisplayName, false) },
             { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => this.escapeHtml(shortDate(row.date || '')) },
-            { key: 'electionType', label: 'Type', kind: 'text', getValue: (row) => row.electionType || '—', render: (row) => this.escapeHtml(row.electionType || '—') },
-            { key: 'rank', label: '#', kind: 'ordinal', align: 'num', getValue: (row) => row.rank, render: (row) => recallOr(row, row.contested ? ord(row.rank) : '—') },
+            { key: 'electionType', label: 'Type', kind: 'text', getValue: (row) => row.electionType || '-', render: (row) => this.escapeHtml(row.electionType || '-') },
+            { key: 'rank', label: '#', kind: 'ordinal', align: 'num', getValue: (row) => row.rank, render: (row) => recallOr(row, row.contested ? ord(row.rank) : '-') },
             { key: 'rankDelta', label: '+/-', kind: 'ordinal', align: 'num', getValue: (row) => row.rankDelta, render: (row) => recallOr(row, this._formatEntityRankDelta(row.rankDelta)) },
-            { key: 'elected', label: 'Seats won', kind: 'numeric', align: 'num', getValue: (row) => row.elected, render: (row) => recallOr(row, row.contested ? fmt(row.elected) : '—') },
+            { key: 'elected', label: 'Seats won', kind: 'numeric', align: 'num', getValue: (row) => row.elected, render: (row) => recallOr(row, row.contested ? fmt(row.elected) : '-') },
             { key: 'electedDelta', label: '+/-', kind: 'numeric', align: 'num', getValue: (row) => row.electedDelta, render: (row) => recallOr(row, this._formatEntityDelta(row.electedDelta)) },
-            { key: 'seatPct', label: '% seats won', kind: 'numeric', align: 'num', getValue: (row) => row.seatPct, render: (row) => recallOr(row, row.contested ? pct(row.seatPct) : '—') },
+            { key: 'seatPct', label: '% seats won', kind: 'numeric', align: 'num', getValue: (row) => row.seatPct, render: (row) => recallOr(row, row.contested ? pct(row.seatPct) : '-') },
             { key: 'seatPctDelta', label: '+/-', kind: 'numeric', align: 'num', getValue: (row) => row.seatPctDelta, render: (row) => recallOr(row, this._formatEntityDelta(row.seatPctDelta, 2, '%')) },
             { key: 'totalSeats', label: 'Total seats', kind: 'numeric', align: 'num', getValue: (row) => row.totalSeats, render: (row) => recallOr(row, fmt(row.totalSeats)) },
-            { key: 'totalSeatsDelta', label: '+/-', kind: 'numeric', align: 'num', getValue: (row) => row.totalSeatsDelta, render: (row) => recallOr(row, row.isByElection ? '—' : this._formatEntityDelta(row.totalSeatsDelta)) },
+            { key: 'totalSeatsDelta', label: '+/-', kind: 'numeric', align: 'num', getValue: (row) => row.totalSeatsDelta, render: (row) => recallOr(row, row.isByElection ? '-' : this._formatEntityDelta(row.totalSeatsDelta)) },
             { key: 'stood', label: 'Candidates stood', kind: 'numeric', align: 'num', getValue: (row) => row.stood, filterValue: (row) => row.contested ? row.stood : 'N/A', render: (row) => recallOr(row, row.contested ? fmt(row.stood) : 'N/A') },
             { key: 'stoodDelta', label: '+/-', kind: 'numeric', align: 'num', getValue: (row) => row.stoodDelta, render: (row) => recallOr(row, this._formatEntityDelta(row.stoodDelta)) },
             { key: 'constituenciesContested', label: 'Constituencies', kind: 'numeric', align: 'num', getValue: (row) => row.constituenciesContested, render: (row) => recallOr(row, fmt(row.constituenciesContested)) },
             { key: 'constituenciesContestedDelta', label: '+/-', kind: 'numeric', align: 'num', getValue: (row) => row.constituenciesContestedDelta, render: (row) => recallOr(row, this._formatEntityDelta(row.constituenciesContestedDelta)) },
             { key: 'totalConstituencies', label: 'Total constituencies', kind: 'numeric', align: 'num', getValue: (row) => row.totalConstituencies, render: (row) => recallOr(row, fmt(row.totalConstituencies)) },
             { key: 'totalConstituenciesDelta', label: '+/-', kind: 'numeric', align: 'num', getValue: (row) => row.totalConstituenciesDelta, render: (row) => recallOr(row, row.isByElection ? '' : this._formatEntityDelta(row.totalConstituenciesDelta)) },
-            { key: 'firstPrefs', label: '1st prefs', kind: 'numeric', align: 'num', getValue: (row) => row.firstPrefs, render: (row) => recallOr(row, row.contested ? fmt(row.firstPrefs) : '—') },
+            { key: 'firstPrefs', label: '1st prefs', kind: 'numeric', align: 'num', getValue: (row) => row.firstPrefs, render: (row) => recallOr(row, row.contested ? fmt(row.firstPrefs) : '-') },
             { key: 'firstPrefsDelta', label: '+/-', kind: 'numeric', align: 'num', getValue: (row) => row.firstPrefsDelta, render: (row) => recallOr(row, this._formatEntityDelta(row.firstPrefsDelta)) },
-            { key: 'validVotePct', label: '% 1st prefs', kind: 'numeric', align: 'num', getValue: (row) => row.validVotePct, render: (row) => recallOr(row, row.contested ? pct(row.validVotePct) : '—') },
+            { key: 'validVotePct', label: '% 1st prefs', kind: 'numeric', align: 'num', getValue: (row) => row.validVotePct, render: (row) => recallOr(row, row.contested ? pct(row.validVotePct) : '-') },
             { key: 'validVotePctDelta', label: '+/-', kind: 'numeric', align: 'num', getValue: (row) => row.validVotePctDelta, render: (row) => recallOr(row, this._formatEntityDelta(row.validVotePctDelta, 2, '%')) }
         ];
         partyHistoryColumns.headerRows = [
@@ -8671,14 +8671,14 @@ class UIController {
         const candidateHistoryColumns = [
             { key: 'electionDisplayName', label: 'Election', kind: 'text', getValue: (row) => row.electionDisplayName, render: (row) => renderElectionLink(row, row.electionDisplayName, true) },
             { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => this.escapeHtml(formatElectionDate(row.date || '')) },
-            { key: 'electionType', label: 'Type', kind: 'text', getValue: (row) => row.electionType || '—', render: (row) => this.escapeHtml(row.electionType || '—') },
+            { key: 'electionType', label: 'Type', kind: 'text', getValue: (row) => row.electionType || '-', render: (row) => this.escapeHtml(row.electionType || '-') },
             {
                 key: 'constituency',
                 label: 'Constituency',
                 kind: 'text',
                 getValue: (row) => row.constituency,
                 render: (row) => {
-                    const label = row.constituency || '—';
+                    const label = row.constituency || '-';
                     if (!row.constituency || !row.body || !row.date) return this.escapeHtml(label);
                     return renderElectionConstituencyFeatureLink(
                         row.body,
@@ -8696,8 +8696,8 @@ class UIController {
                 kind: 'text',
                 getValue: (row) => row.bodyLabel || row.body,
                 render: (row) => {
-                    const label = row.bodyLabel || row.body || '—';
-                    if (row.electionType === 'Local' && label !== '—' && row.body && row.date) {
+                    const label = row.bodyLabel || row.body || '-';
+                    if (row.electionType === 'Local' && label !== '-' && row.body && row.date) {
                         return renderElectionConstituencyFeatureLink(
                             row.body,
                             row.date,
@@ -8710,13 +8710,13 @@ class UIController {
                     return `<span class="election-cell-wrap election-cell-wrap--full">${this.escapeHtml(label)}</span>`;
                 }
             },
-            { key: 'status', label: 'Status', kind: 'text', getValue: (row) => row.status, render: (row) => this.escapeHtml(row.status || '—') },
+            { key: 'status', label: 'Status', kind: 'text', getValue: (row) => row.status, render: (row) => this.escapeHtml(row.status || '-') },
             { key: 'firstPref', label: 'Valid votes', kind: 'numeric', align: 'num', getValue: (row) => row.firstPref, render: (row) => fmt(row.firstPref) },
             { key: 'firstPrefPct', label: 'Valid vote %', kind: 'numeric', align: 'num', getValue: (row) => row.firstPrefPct, render: (row) => pct(row.firstPrefPct) },
             { key: 'overallStandingNumber', label: 'Overall standing', kind: 'ordinal', getValue: (row) => row.overallStandingNumber, render: (row) => `${ord(row.overallStandingNumber)} time standing` },
-            { key: 'overallElectedNumber', label: 'Overall elected', kind: 'ordinal', getValue: (row) => row.overallElectedNumber, render: (row) => row.overallElectedNumber ? `${ord(row.overallElectedNumber)} time elected` : '—' },
+            { key: 'overallElectedNumber', label: 'Overall elected', kind: 'ordinal', getValue: (row) => row.overallElectedNumber, render: (row) => row.overallElectedNumber ? `${ord(row.overallElectedNumber)} time elected` : '-' },
             { key: 'bodyStandingNumber', label: 'Type standing', kind: 'ordinal', getValue: (row) => row.bodyStandingNumber, render: (row) => `${ord(row.bodyStandingNumber)} ${this.escapeHtml(row.electionType || 'unknown')} election` },
-            { key: 'bodyElectedNumber', label: 'Type elected', kind: 'ordinal', getValue: (row) => row.bodyElectedNumber, render: (row) => row.bodyElectedNumber ? `${ord(row.bodyElectedNumber)} ${this.escapeHtml(row.electionType || 'unknown')} win` : '—' }
+            { key: 'bodyElectedNumber', label: 'Type elected', kind: 'ordinal', getValue: (row) => row.bodyElectedNumber, render: (row) => row.bodyElectedNumber ? `${ord(row.bodyElectedNumber)} ${this.escapeHtml(row.electionType || 'unknown')} win` : '-' }
         ];
 
         const latestSummaryHtml = entry.kind === 'candidate' && entry.latestAppearance ? `
@@ -8741,15 +8741,15 @@ class UIController {
                     </div>
                     <div class="catalogue-detail__meta-row">
                         <span class="catalogue-detail__meta-label">Constituency</span>
-                        <span class="catalogue-detail__meta-value">${this.escapeHtml(entry.latestAppearance.constituency || '—')}</span>
+                        <span class="catalogue-detail__meta-value">${this.escapeHtml(entry.latestAppearance.constituency || '-')}</span>
                     </div>
                     <div class="catalogue-detail__meta-row">
                         <span class="catalogue-detail__meta-label">Elected body</span>
-                        <span class="catalogue-detail__meta-value">${this.escapeHtml(entry.latestAppearance.bodyLabel || entry.latestAppearance.body || '—')}</span>
+                        <span class="catalogue-detail__meta-value">${this.escapeHtml(entry.latestAppearance.bodyLabel || entry.latestAppearance.body || '-')}</span>
                     </div>
                     <div class="catalogue-detail__meta-row">
                         <span class="catalogue-detail__meta-label">Status</span>
-                        <span class="catalogue-detail__meta-value">${this.escapeHtml(entry.latestAppearance.status || '—')}</span>
+                        <span class="catalogue-detail__meta-value">${this.escapeHtml(entry.latestAppearance.status || '-')}</span>
                     </div>
                 </div>
             </div>

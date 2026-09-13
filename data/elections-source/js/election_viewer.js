@@ -163,7 +163,7 @@
             const pct = validPoll > 0 ? (c.firstPref / validPoll * 100) : 0;
             const statusClass = c.status === 'Elected' ? 'ev-status-elected'
                 : c.status === 'Excluded' ? 'ev-status-excluded' : '';
-            const statusText = c.status || '—';
+            const statusText = c.status || '-';
 
             html.push('<tr>');
             html.push('<td class="ev-rank">' + (idx + 1) + '</td>');
@@ -268,7 +268,7 @@
      */
     function startAnimation(container, payload) {
         if (typeof animateStages !== 'function') {
-            console.warn('ElectionViewer: stages2.js not loaded — animation unavailable');
+            console.warn('ElectionViewer: stages2.js not loaded - animation unavailable');
             return false;
         }
         try {

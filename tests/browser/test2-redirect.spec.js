@@ -27,9 +27,10 @@ test('/test2/ reaches the app with search and hash intact', async ({ page }) => 
   await page.goto(`/test2/${hash}`);
 
   // The redirect is client-side, so wait for it rather than reading the URL immediately.
-  await page.waitForFunction(() => window.location.pathname === '/', null, { timeout: 30000 });
+  // It lands on /maps/, where the map app moved when the landing page took the root.
+  await page.waitForFunction(() => window.location.pathname === '/maps/', null, { timeout: 30000 });
 
-  expect(new URL(page.url()).pathname).toBe('/');
+  expect(new URL(page.url()).pathname).toBe('/maps/');
   // The hash is the whole point: it carries the viewport and panel state that make an old
   // shared link still resolve to what it described.
   //

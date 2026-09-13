@@ -197,7 +197,7 @@ function hasAnyInput() {
 function updateStatus() {
   const hasInput = hasAnyInput();
   if (els.exportResults) els.exportResults.disabled = !hasInput || state.total === 0;
-  if (!hasInput) { els.status.textContent = 'Type to search 1,538,177 PRONI catalogue records — or pick a starting letter.'; return; }
+  if (!hasInput) { els.status.textContent = 'Type to search 1,538,177 PRONI catalogue records - or pick a starting letter.'; return; }
   // letter alone browses fonds -> summarise everything under the letter by level;
   // letter + search terms is a filtered search -> show the matching-result count
   const browseMode = state.letter && !hasTextInput();
@@ -212,7 +212,7 @@ function updateStatus() {
     // could not see how many records they were looking at. count.js already returns the
     // per-level numbers; the total is their sum, not another query.
     const total = state.levels.reduce((sum, l) => sum + (Number(l.n) || 0), 0);
-    els.status.textContent = `Reference ${state.letter} — ${total.toLocaleString()} record${total === 1 ? '' : 's'}: ${formatLevels(state.levels)}`;
+    els.status.textContent = `Reference ${state.letter} - ${total.toLocaleString()} record${total === 1 ? '' : 's'}: ${formatLevels(state.levels)}`;
     return;
   }
   if (state.total != null && !browseMode) {
@@ -225,7 +225,7 @@ function updateStatus() {
   // no number: it invites them to read a partial figure as the answer. Once state.done
   // is set the loaded count IS exact, so it is shown then.
   const n = state.seen.size;
-  if (browseMode) { els.status.textContent = `Reference ${state.letter} — counting…`; return; }
+  if (browseMode) { els.status.textContent = `Reference ${state.letter} - counting…`; return; }
   if (state.done && n) els.status.textContent = `${n.toLocaleString()} result${n === 1 ? '' : 's'}`;
   else if (state.done) els.status.textContent = 'No matching records.';
   else els.status.textContent = 'Searching…';
@@ -427,7 +427,7 @@ async function renderRecord(ref) {
   currentView = 'record';
   els.viewSearch.hidden = true; els.viewEcat.hidden = true; els.viewRecord.hidden = false;
   window.scrollTo(0, 0);
-  document.title = `${ref} — Independent PRONI Search`;
+  document.title = `${ref} - Independent PRONI Search`;
   els.viewRecord.innerHTML = '<p class="ps-loading">Loading record…</p>';
   const token = routeToken;
 
@@ -446,7 +446,7 @@ async function renderRecord(ref) {
 
   const it = data.item;
   const nav = data.nav || {};
-  const digital = it.digitalRecord ? 'Digitised — held by PRONI' : '';
+  const digital = it.digitalRecord ? 'Digitised - held by PRONI' : '';
   const rows = [
     ['Repository', 'Public Record Office of Northern Ireland'],
     ['PRONI Reference', refWidget(it.ref, false)],
@@ -516,7 +516,7 @@ function renderEcat(ref) {
   currentView = 'ecat';
   els.viewSearch.hidden = true; els.viewRecord.hidden = true; els.viewEcat.hidden = false;
   window.scrollTo(0, 0);
-  document.title = 'View on PRONI eCatalogue — Independent PRONI Search';
+  document.title = 'View on PRONI eCatalogue - Independent PRONI Search';
   const rid = esc(ref);
   els.viewEcat.innerHTML = `
     <div class="ps-rec__toolbar"><button type="button" class="ps-back" data-back>← Back</button></div>
@@ -536,7 +536,7 @@ function renderEcat(ref) {
               <span class="ps-shotframe__url">apps.proni.gov.uk/eCatNI_IE/BrowseSearchPage.aspx</span>
             </div>
             <img class="ps-guide__shot" src="/apps/proni-search/proni-ecatalogue-browse.png" alt="The official PRONI eCatalogue browse page, showing the 'Input a PRONI reference' field and a Search button">
-            <figcaption class="ps-shotframe__cap">📷 Example screenshot of the official PRONI eCatalogue — not part of this page</figcaption>
+            <figcaption class="ps-shotframe__cap">📷 Example screenshot of the official PRONI eCatalogue - not part of this page</figcaption>
           </figure>
         </li>
         <li>
@@ -697,7 +697,7 @@ async function openModal(ref) {
     if (!it) { els.modalBody.innerHTML = '<p class="ps-empty">Record not found.</p>'; return; }
     const rows = [
       ['PRONI reference', it.ref], ['Title', it.title], ['Level', it.level], ['Dates', it.dates],
-      ['Access', it.access], ['Digital record', it.digitalRecord ? 'Digitised — held by PRONI' : ''],
+      ['Access', it.access], ['Digital record', it.digitalRecord ? 'Digitised - held by PRONI' : ''],
       ['Repository', 'Public Record Office of Northern Ireland'],
     ].filter(([, v]) => v).map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('');
     els.modalBody.innerHTML = `
@@ -741,7 +741,7 @@ els.dir.addEventListener('click', () => {
   els.dir.dataset.dir = next;
   els.dir.querySelector('.ps-sortdir__label').textContent = next === 'asc' ? 'A–Z' : 'Z–A';
   els.dir.querySelector('.ps-sortdir__arrow').textContent = next === 'asc' ? '▲' : '▼';
-  els.dir.title = next === 'asc' ? 'Sort ascending — click for descending' : 'Sort descending — click for ascending';
+  els.dir.title = next === 'asc' ? 'Sort ascending - click for descending' : 'Sort descending - click for ascending';
   els.dir.setAttribute('aria-label', `Sort direction: ${next === 'asc' ? 'ascending' : 'descending'}`);
   search(true);
 });

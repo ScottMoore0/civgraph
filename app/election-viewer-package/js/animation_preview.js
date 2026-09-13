@@ -40,7 +40,7 @@
     }
     const numeric = parseNumber(value);
     if (numeric === null) {
-      return '—';
+      return '-';
     }
     return Number(numeric).toLocaleString('en-GB');
   }
@@ -238,7 +238,7 @@
     if (constituency && !labelPieces.includes(constituency)) {
       labelPieces.push(String(constituency));
     }
-    const resolvedLabel = labelPieces.filter(Boolean).join(' — ') || 'this election';
+    const resolvedLabel = labelPieces.filter(Boolean).join(' - ') || 'this election';
 
     button.dataset.previewLabel = resolvedLabel;
     button.setAttribute('aria-label', `Open interactive count animation for ${resolvedLabel}`);

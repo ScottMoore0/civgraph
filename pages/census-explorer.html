@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Census Explorer — Civgraph</title>
+  <title>Census Explorer - Civgraph</title>
   <meta name="description" content="Interactive explorer over the Northern Ireland census: concept availability across 2001/2011/2021 and historical reports (1841–1991), plus a finder over 644 logical NISRA source tables." />
 <!-- site:head -->
 <script>(function(){var t=null;try{t=localStorage.getItem('theme');}catch(e){}if(t!=='dark'&&t!=='light'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;})();</script>
@@ -401,7 +401,7 @@
           if (histYears.length) {
             histTd.appendChild(el('span', { class: 'hist-badge', text: histYears.length + ' yr' + (histYears.length > 1 ? 's' : '') + ' · ' + histYears[0] + '–' + histYears[histYears.length - 1] }));
           } else {
-            histTd.appendChild(el('span', { class: 'cell-unavail', text: '—' }));
+            histTd.appendChild(el('span', { class: 'cell-unavail', text: '-' }));
           }
           tr.appendChild(histTd);
           tbody.appendChild(tr);
@@ -512,7 +512,7 @@
           mount.appendChild(card);
         });
         if (list.length > 600) {
-          mount.appendChild(el('div', { class: 'empty', text: 'Showing first 600 — refine filters to narrow further.' }));
+          mount.appendChild(el('div', { class: 'empty', text: 'Showing first 600 - refine filters to narrow further.' }));
         }
       }
 
@@ -553,7 +553,7 @@
           ]));
           mount.appendChild(card);
         });
-        if (list.length > 600) mount.appendChild(el('div', { class: 'empty', text: 'Showing first 600 — refine filters to narrow further.' }));
+        if (list.length > 600) mount.appendChild(el('div', { class: 'empty', text: 'Showing first 600 - refine filters to narrow further.' }));
       }
 
       var TABS = ['matrix', 'finder', 'roi'];

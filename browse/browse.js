@@ -920,7 +920,7 @@ function renderProniLanding(config, items) {
   els.results.innerHTML = `
     <section class="proni-search">
       <input type="search" id="proni-search-input" class="proni-search-input" autocomplete="off"
-             placeholder="Search ${formatNumber(1538177)} PRONI records — title, reference, or dates…"
+             placeholder="Search ${formatNumber(1538177)} PRONI records - title, reference, or dates…"
              value="${escapeAttr(state.proniQuery || '')}" aria-label="Search PRONI records">
       <div id="proni-search-results" class="proni-search-results"></div>
     </section>
@@ -1013,7 +1013,7 @@ function proniMetaRows(it) {
     ['Level', it.level],
     ['Dates', it.dates],
     ['Access', it.access],
-    ['Digitised', it.digitalRecord ? 'Yes — digital image held by PRONI' : ''],
+    ['Digitised', it.digitalRecord ? 'Yes - digital image held by PRONI' : ''],
     ['Repository', it.repository]
   ].filter(([, v]) => v);
   return rows.map(([k, v]) => `
