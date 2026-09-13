@@ -35,7 +35,7 @@ async function openMapsSection(page) {
 
 test('T3-03 · no visible target under 24px except the focus-reveal skip links', async ({ page }) => {
   test.setTimeout(120000);
-  await page.goto(`${BASE}/`, { waitUntil: 'domcontentloaded' });
+  await page.goto(`${BASE}/maps/`, { waitUntil: 'domcontentloaded' });
   await page.waitForFunction(() => window.__civgraphTest2?.app, null, { timeout: 60000 });
   await page.waitForTimeout(2500);
   const bad = await page.evaluate(() => [...document.querySelectorAll('button, a, [role="button"]')]
@@ -71,7 +71,7 @@ test('T3-03 · no visible target under 24px except the focus-reveal skip links',
  */
 test('T2-08 · the search field does not advertise a popup it never shows', async ({ page }) => {
   test.setTimeout(120000);
-  await page.goto(`${BASE}/`, { waitUntil: 'domcontentloaded' });
+  await page.goto(`${BASE}/maps/`, { waitUntil: 'domcontentloaded' });
   await page.waitForFunction(() => window.__civgraphTest2?.app, null, { timeout: 60000 });
   const state = await page.evaluate(() => {
     const i = document.getElementById('searchInput');
@@ -84,7 +84,7 @@ test('T2-08 · the search field does not advertise a popup it never shows', asyn
 
 test('T1-09 · Escape closes the map control panel', async ({ page }) => {
   test.setTimeout(120000);
-  await page.goto(`${BASE}/`, { waitUntil: 'domcontentloaded' });
+  await page.goto(`${BASE}/maps/`, { waitUntil: 'domcontentloaded' });
   await page.waitForFunction(() => window.__civgraphTest2?.app, null, { timeout: 60000 });
   await page.waitForTimeout(2000);
   const result = await page.evaluate(async () => {
@@ -104,7 +104,7 @@ test('T1-09 · Escape closes the map control panel', async ({ page }) => {
 
 test('T1-01 + T1-02 · a keyboard-driven load keeps focus and is announced', async ({ page }) => {
   test.setTimeout(180000);
-  await page.goto(`${BASE}/`, { waitUntil: 'domcontentloaded' });
+  await page.goto(`${BASE}/maps/`, { waitUntil: 'domcontentloaded' });
   await page.waitForFunction(() => window.__civgraphTest2?.app, null, { timeout: 60000 });
   await page.waitForTimeout(3000);
   await openMapsSection(page);

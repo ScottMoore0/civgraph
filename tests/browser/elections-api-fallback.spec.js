@@ -44,7 +44,7 @@ test('a failing elections API falls back to the static bundle and reports it', a
     if (/elections-test2\/.*\.json/.test(r.url())) staticFetches.push(r.url());
   });
 
-  await page.goto(`${BASE}/`, { waitUntil: 'domcontentloaded' });
+  await page.goto(`${BASE}/maps/`, { waitUntil: 'domcontentloaded' });
   await page.waitForFunction(() => window.__civgraphTest2?.elections, null, { timeout: 60000 });
 
   const loaded = await page.evaluate(async () => {

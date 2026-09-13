@@ -14,7 +14,7 @@ const { BASE } = require('./helpers/base-url');
 for (const [year, expectLayer] of [['1931', 'eds_leinster_1931'], ['1936', 'eds_leinster_1936']]) {
   test(`eds-roi-${year} is present and renders its own Leinster geometry`, async ({ page }) => {
     test.setTimeout(180000);
-    await page.goto(`${BASE}/`, { waitUntil: 'domcontentloaded' });
+    await page.goto(`${BASE}/maps/`, { waitUntil: 'domcontentloaded' });
     await page.waitForFunction(() => window.__civgraphTest2?.app, null, { timeout: 60000 });
     await page.waitForTimeout(2500);
 
@@ -63,7 +63,7 @@ test('both years are reachable: listed in the card and resolvable as layers', as
   expect(bundleHasBoth.has1931, 'eds-roi-1931 is not in the shipped catalogue card').toBe(true);
   expect(bundleHasBoth.has1936).toBe(true);
 
-  await page.goto(`${BASE}/`, { waitUntil: 'domcontentloaded' });
+  await page.goto(`${BASE}/maps/`, { waitUntil: 'domcontentloaded' });
   // metadataService attaches slightly after app; wait for the thing actually used.
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService, null, { timeout: 60000 });
   const resolvable = await page.evaluate(() => ({
