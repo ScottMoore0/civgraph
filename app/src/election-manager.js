@@ -1877,20 +1877,34 @@ export class Test2ElectionManager {
     requestAnimationFrame(() => this.syncResultsTableStickyWidths(container));
   }
 
+  /**
+   * Pin each frozen column where the columns before it actually end.
+   *
+   * Results tables size every column to its values, so the CSS offsets, which assumed
+   * fixed column widths, no longer line up. Frozen columns are among the first four, so
+   * only header cells and the first four cells of each row are examined. Sticky
+   * positioning is switched off while they are measured, so a pane scrolled sideways
+   * does not shift the measurement, and offsets rather than client rects are used, so a
+   * scaled pane does not either.
+   */
   syncResultsTableStickyWidths(container) {
-    const tables = [...(container?.querySelectorAll?.('.election-party-table--district-local-party-sticky4') || [])];
+    const tables = [...(container?.querySelectorAll?.('.election-party-table, .election-count-table') || [])];
     for (const table of tables) {
-      const row = table.querySelector('tbody tr:not(.election-table-summary-row):not(.election-table-note-row)') || table.querySelector('tbody tr');
-      if (!row) continue;
-      const cells = [...row.children];
-      const measuredWidth = (index, fallback) => {
-        const width = cells[index]?.getBoundingClientRect?.().width;
-        return Math.max(fallback, Math.ceil(Number.isFinite(width) && width > 0 ? width : fallback));
-      };
-      table.style.setProperty('--results-sticky-col-1-width', `${measuredWidth(0, 56)}px`);
-      table.style.setProperty('--results-sticky-col-2-width', `${measuredWidth(1, 28)}px`);
-      table.style.setProperty('--results-sticky-district-party-name-width', `${measuredWidth(2, 150)}px`);
-      table.style.setProperty('--results-sticky-district-dea-width', `${measuredWidth(3, 128)}px`);
+      const sticky = [...table.querySelectorAll('thead th, tbody td:nth-child(-n+4)')].filter((cell) => {
+        const style = getComputedStyle(cell);
+        return style.position === 'sticky' && style.left !== 'auto';
+      });
+      if (!sticky.length) continue;
+      sticky.forEach((cell) => { cell.style.position = 'static'; });
+      const offsets = sticky.map((cell) => {
+        let left = 0;
+        for (let node = cell; node && node !== table; node = node.offsetParent) left += node.offsetLeft;
+        return Math.max(0, Math.round(left));
+      });
+      sticky.forEach((cell, index) => {
+        cell.style.position = '';
+        cell.style.left = `${offsets[index]}px`;
+      });
     }
   }
 

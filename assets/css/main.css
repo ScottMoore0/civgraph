@@ -14087,3 +14087,48 @@ th.election-th--menu.election-th-btn--active {
   padding: 0.65rem;
   color: var(--color-text-muted, #5a6678);
 }
+
+/* Results tables: every column as wide as its widest value.
+   The fixed tracks above gave each kind of column one width whatever it held, so a
+   column of four-digit numbers was as wide as one of eight-digit ones and a table
+   stretched well past its values. Cells do not wrap (the status cell breaks with its
+   own <br>), headers wrap at spaces, and min-content makes each column the wider of its
+   widest value and its header's longest word. Frozen columns are pinned from measured
+   positions by syncResultsTableStickyWidths in election-manager.js. */
+.election-party-table,
+.election-count-table,
+.election-results-table--fixed.election-party-table,
+.election-results-table--fixed.election-count-table {
+  table-layout: auto !important;
+  width: min-content !important;
+  min-width: 0 !important;
+}
+
+.election-party-table th,
+.election-party-table td,
+.election-count-table th,
+.election-count-table td {
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+}
+
+.election-party-table td,
+.election-count-table td {
+  white-space: nowrap;
+}
+
+/* Results tables: cell wrappers take their value's width.
+   .election-cell-wrap clamps a name, party or status to two lines of at most 15ch and
+   cuts the rest off ("Jennifer Murnane."). With columns fitted to their values it would
+   instead decide the column's width and wrap every name; inside results tables it is
+   plain text on one line, and the status cell still breaks at its own <br>. */
+.election-party-table .election-cell-wrap,
+.election-count-table .election-cell-wrap {
+  display: inline !important;
+  max-width: none !important;
+  overflow: visible !important;
+  white-space: nowrap !important;
+  text-overflow: clip !important;
+  -webkit-line-clamp: none !important;
+}

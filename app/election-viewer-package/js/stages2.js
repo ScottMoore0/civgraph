@@ -2401,7 +2401,8 @@ function animateStages(selectionOrYear, constituencyFolder) {
         // For ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â°Ãƒâ€šÃ‚Â¤14 stages, mark top row for single-line flex layout
         $('.inline-quota').remove();
         var topRow = document.querySelector('.ev-animation-top-row');
-        if (counts <= 4) {
+        // Up to 15 stages, the stage numbers, pause/play and the quota share one line.
+        if (counts <= 15) {
             if (topRow) topRow.setAttribute('data-inline-quota', 'true');
             topMargin = 5; // no quota header in animation area
         } else {
@@ -2510,7 +2511,7 @@ function animateStages(selectionOrYear, constituencyFolder) {
         $('#quota-header-label, #quota-bracket').remove(); // remove any existing
         if (quotaValue !== null && quotaValue > 0 && quotaLinePosition !== null) {
             var quotaHeaderText = '<span style="font-family:Inter,sans-serif;">Quota </span>' + formatVoteNumber(quotaValue);
-            if (counts <= 4) {
+            if (counts <= 15) {
                 // Append to menuBar so it's on the same visual line as stage buttons
                 var quotaHeader = $('<div id="quota-header-label" style="' +
                     'position:absolute;top:50%;left:' + quotaLinePosition + 'px;' +
@@ -2522,6 +2523,17 @@ function animateStages(selectionOrYear, constituencyFolder) {
                     'white-space:nowrap;pointer-events:none;' +
                     '">' + quotaHeaderText + '</div>');
                 quotaHeader.appendTo('.ev-animation-top-row');
+                // Right-aligned on the quota line, the label can reach back over a long run of
+                // stage numbers; it then sits just after the last number instead. Offsets, not
+                // client rects: the pane may be scaled to fit.
+                var numbersEl = document.getElementById('stageNumbers');
+                if (numbersEl && quotaHeader[0]) {
+                    var numbersRight = numbersEl.offsetLeft + numbersEl.offsetWidth;
+                    var labelWidth = quotaHeader[0].offsetWidth;
+                    if (quotaLinePosition - labelWidth < numbersRight + 15) {
+                        quotaHeader.css('left', (numbersRight + 15 + labelWidth) + 'px');
+                    }
+                }
             } else {
                 // For >14 stages, position inside #animation above first candidate row
                 var quotaHeader = $('<div id="quota-header-label" style="' +
@@ -2535,7 +2547,7 @@ function animateStages(selectionOrYear, constituencyFolder) {
                 quotaHeader.appendTo('#animation');
                 // Bracket line showing quota width
                 var bracketWidth = quotaLinePosition - startLeft;
-                if (bracketWidth > 0 && counts > 4) {
+                if (bracketWidth > 0 && counts > 15) {
                     var bracket = $('<div id="quota-bracket" style="' +
                         'position:absolute;top:37px;left:' + startLeft + 'px;' +
                         'width:' + bracketWidth + 'px;height:0;' +
