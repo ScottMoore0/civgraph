@@ -2,7 +2,9 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 
 const failures = [];
-const index = readFileSync('index.html', 'utf8');
+// The MapLibre app. It was index.html until the landing page took the root; this kept
+// reading index.html, so every shell assertion below was checking the Home page.
+const index = readFileSync('maps/index.html', 'utf8');
 const compatibilityIndex = readFileSync('test2/index.html', 'utf8');
 const bootSource = readFileSync('app/src/boot.js', 'utf8');
 const appSource = readFileSync('app/src/app.js', 'utf8');
@@ -549,7 +551,7 @@ const resultHasAnimationSource = resultHasAnimationStart >= 0 && resultHasAnimat
 assert(resultHasAnimationSource.includes('result.syntheticCountGroup') && resultHasAnimationSource.includes('animationRows.length') && resultHasAnimationSource.includes('Number(row.Count_Number) > 1') && !resultHasAnimationSource.includes('if (result.animationPayload) return true'), '/test2 selected result Transfers tab must expose Dail scraper stage payloads while still requiring an animation payload');
 assert(electionManagerSource.includes('renderCountTable') && electionManagerSource.includes('election-count-row') && electionManagerSource.includes('election-count-wrapper--pane-sticky') && electionManagerSource.includes('visibleCounts'), '/test2 count panes must use the main visible-count table contract');
 assert(electionManagerSource.includes('terminalTransferOutCount') && electionManagerSource.includes('terminalTransferOutDisplayRow') && electionManagerSource.includes('previousSourceCount') && electionManagerSource.includes('negativeAbs') && electionManagerSource.includes('shouldDashAfterTerminalTransfer') && !electionManagerSource.includes('quotaHoldStartCount') && !electionManagerSource.includes('laterHeldAtQuota || candidate.elected'), '/test2 STV By Count panes must show real transfer-out terminal counts and must not infer fictional post-final deductions from elected/not-elected state alone');
-assert(electionManagerSource.includes('inferCountTransferOutEvents') && electionManagerSource.includes('Election of ${uniqueNameList(elected)}') && electionManagerSource.includes('Exclusion of ${uniqueNameList(excluded)}') && electionManagerSource.includes('candidateEventSurname') && electionManagerSource.includes('? inferCountTransferOutEvents(result, candidates, rawCountNumbers)'), '/test2 STV Detailed By Count headers must label transfer-out donor events as Election/Exclusion of candidate surnames');
+assert(electionManagerSource.includes('inferCountTransferOutEvents') && electionManagerSource.includes('${uniqueNameList(elected)} elected') && electionManagerSource.includes('${uniqueNameList(excluded)} excluded') && electionManagerSource.includes('candidateEventSurname') && electionManagerSource.includes('? inferCountTransferOutEvents(result, candidates, rawCountNumbers)'), '/test2 STV Detailed By Count headers must label transfer-out donor events with candidate surnames ("Smyth elected", "Smyth, Jones excluded")');
 assert(electionDomainSource.includes('__syntheticCountGroup: true') && electionDomainSource.includes('__syntheticCountStages') && electionDomainSource.includes('Synthetic_Scraper_Stage_Row') && electionManagerSource.includes('const rawCountNumbers = sourceCountNumbers') && !electionManagerSource.includes('Not Elected<br>Count 1/1'), '/test2 scraper-style election results must expose available encoded Dail count stages without hard-coding all synthetic rows as first-count-only');
 assert(existsSync('scripts/import-dail-wikipedia-counts.mjs') && electionManifestBuilderSource.includes('DAIL_WIKIPEDIA_COUNTS_ROOT') && electionManifestBuilderSource.includes('Wikipedia_Count_Row') && electionManifestBuilderSource.includes('buildDailWikipediaCountPayload'), '/test2 Dail bundles must prefer locally imported Wikipedia count-table sidecars over synthetic scraper rows where available');
 assert(
