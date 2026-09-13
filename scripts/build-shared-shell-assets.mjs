@@ -274,7 +274,10 @@ function buildAboutCss() {
 function versionSharedCss() {
   const cssVersion = sharedCssVersion();
 
-  for (const htmlPath of HTML_TARGETS) {
+  // maps/index.html (the MapLibre app since the landing page took the root) links main.css
+  // too, but was never a target, so its token froze. Only versioning is extended to it;
+  // critical-CSS inlining keeps its own target list.
+  for (const htmlPath of [...HTML_TARGETS, 'maps/index.html']) {
     if (!existsSync(htmlPath)) continue;
     const html = readFileSync(htmlPath, 'utf8');
     writeTextIfChanged(htmlPath, updateAssetVersion(html, '/build/main.css', cssVersion));
