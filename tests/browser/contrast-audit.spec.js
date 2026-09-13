@@ -49,7 +49,7 @@ async function runAxe(page, modeLabel) {
 }
 
 test('contrast audit — light + dark', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/maps/');
   await expect(page.locator('#searchInput')).toBeVisible();
 
   // Light mode

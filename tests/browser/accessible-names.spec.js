@@ -37,7 +37,7 @@ async function unnamedControls(page) {
 
 test('every visible control has an accessible name', async ({ page }) => {
   test.setTimeout(120000);
-  await page.goto('/');
+  await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.app, null, { timeout: 60000 });
   await page.waitForTimeout(3000);
 

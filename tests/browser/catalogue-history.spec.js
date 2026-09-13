@@ -5,7 +5,7 @@ const { test, expect } = require('@playwright/test');
 // entries already existed and back/forward already worked; only the list was missing.
 test('the History button lists visited entries and navigates to one', async ({ page }) => {
   test.setTimeout(120000);
-  await page.goto('/');
+  await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length, null, { timeout: 60000 });
   await page.waitForTimeout(2000);
 

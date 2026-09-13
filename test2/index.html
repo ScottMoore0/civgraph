@@ -38,7 +38,7 @@
   </style>
   <script>
     (() => {
-      const nextUrl = new URL('/', window.location.origin);
+      const nextUrl = new URL('/maps/', window.location.origin);
       nextUrl.search = window.location.search;
       nextUrl.hash = window.location.hash;
       window.location.replace(nextUrl.href);
@@ -48,12 +48,12 @@
 <body>
   <main>
     <h1>Civgraph has moved</h1>
-    <p>The MapLibre app now lives at the site root. Old <code>/test2</code> links are redirected automatically while bookmarks settle.</p>
-    <p><a id="redirectLink" href="/">Continue to Civgraph</a></p>
+    <p>The map app now lives at <code>/maps/</code>. Old <code>/test2</code> links are redirected automatically while bookmarks settle.</p>
+    <p><a id="redirectLink" href="/maps/">Continue to Civgraph</a></p>
   </main>
   <script>
     const link = document.getElementById('redirectLink');
-    const nextUrl = new URL('/', window.location.origin);
+    const nextUrl = new URL('/maps/', window.location.origin);
     nextUrl.search = window.location.search;
     nextUrl.hash = window.location.hash;
     link.href = nextUrl.href;

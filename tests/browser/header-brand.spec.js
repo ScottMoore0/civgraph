@@ -36,7 +36,7 @@ async function readBrand(page) {
 for (const width of PHONE_WIDTHS) {
   test(`wordmark is whole and unclipped at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 800 });
-    await page.goto('/');
+    await page.goto('/maps/');
     await page.waitForFunction(() => window.__civgraphTest2?.app, null, { timeout: 60000 });
     await page.waitForTimeout(1200);
 
@@ -67,7 +67,7 @@ for (const [name, url] of PAGES) {
 
 test('the desktop brand is unchanged', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
-  await page.goto('/');
+  await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.app, null, { timeout: 60000 });
   await page.waitForTimeout(1200);
   const brand = await readBrand(page);

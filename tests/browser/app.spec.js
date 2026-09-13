@@ -122,7 +122,7 @@ async function getMapCanvasCenter(page) {
 }
 
 test('boots the production shell with the MapLibre adapter', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/maps/');
   await expect(page.getByRole('link', { name: 'Civgraph' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Home', exact: true })).toBeVisible();
   await expect(page.locator('body.app-shell')).toBeVisible();
@@ -169,7 +169,7 @@ test('boots the production shell with the MapLibre adapter', async ({ page }) =>
 });
 
 test('boots centred on Ireland when URL has no viewport state', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
   await page.evaluate(() => window.__civgraphTest2.restorePromise);
   const camera = await page.evaluate(() => {
@@ -199,7 +199,7 @@ test('boots centred on Ireland when URL has no viewport state', async ({ page })
 // padding cannot silently move the release point outside the target again.
 test('active-layer drag order persists and controls MapLibre draw order', async ({ page }) => {
   test.fail();
-  await page.goto('/');
+  await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
   await page.evaluate(() => window.__civgraphTest2.restorePromise);
   await page.evaluate(() => {
@@ -331,7 +331,7 @@ test('active-layer drag order persists and controls MapLibre draw order', async 
 
 test('desktop map accepts actual mouse drag and wheel zoom gestures', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
-  await page.goto('/');
+  await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.mapController?.map);
   await page.waitForFunction(() => {
     const diagnostics = window.__civgraphTest2?.mapController?.getMobileGestureDiagnostics?.();
@@ -644,7 +644,7 @@ test('Dail 2024 election pane matches the main DOM contract for the compared sta
   };
 
   await Promise.all([
-    mainPage.goto('/'),
+    mainPage.goto('/maps/'),
     test2Page.goto(`/test2/#${hash}`)
   ]);
   await mainPage.waitForFunction(() => window.uiController?.onLoadElection);
@@ -693,7 +693,7 @@ test('Dail election candidate and count panes follow the main pane contract', as
   }));
 
   await Promise.all([
-    mainPage.goto('/'),
+    mainPage.goto('/maps/'),
     test2Page.goto(`/test2/#${hash}`)
   ]);
   await mainPage.waitForFunction(() => window.uiController?.onLoadElection);
@@ -996,7 +996,7 @@ test('election party and person links open full catalogue details only', async (
 
 test('dismisses stuck mobile thumbnail previews on outside tap', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/');
+  await page.goto('/maps/');
   await page.waitForFunction(() => window.uiController?.ensureMobileThumbnailDismissal);
   const dismissed = await page.evaluate(() => {
     window.uiController.ensureMobileThumbnailDismissal();
@@ -1012,7 +1012,7 @@ test('dismisses stuck mobile thumbnail previews on outside tap', async ({ page }
 });
 
 test('production overlay controls do not overlap MapLibre controls', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.mapController?.map);
   await page.waitForSelector('#activeLayersToggle');
   await page.waitForSelector('.test2-main-zoom-control');
@@ -1068,7 +1068,7 @@ test('production overlay controls do not overlap MapLibre controls', async ({ pa
 
 test('mobile map and catalogue controls do not collide', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/');
+  await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.mapController?.map);
   await page.waitForSelector('#mobileToggle');
   await page.waitForSelector('#mobilePaneToggle');
@@ -1174,7 +1174,7 @@ test('mobile map and catalogue controls do not collide', async ({ page }) => {
 
 test('mobile catalogue renders TOC first, one active section, and map gestures stay enabled', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/');
+  await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.mapController?.map);
 
   await page.evaluate(() => window.uiController?.setSplitState?.('info-full'));
@@ -1385,7 +1385,7 @@ test('mobile map accepts actual touch pan pinch and pitch gestures', async ({ br
   const page = await context.newPage();
   let client = null;
   try {
-    await page.goto('/');
+    await page.goto('/maps/');
     await page.waitForFunction(() => window.__civgraphTest2?.mapController?.map);
     await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
     await page.evaluate(async () => {
@@ -1630,7 +1630,7 @@ test('mobile election seat-circle overlays do not block map gestures', async ({ 
 });
 
 test('loads a converted layer through the main catalogue map callback', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
   await loadCivilParishes(page);
   const result = await page.evaluate(async () => {
@@ -1650,11 +1650,11 @@ test('loads a converted layer through the main catalogue map callback', async ({
   expect(result.visible).toBe(true);
   expect(result.features).toBeGreaterThan(0);
   expect(result.canvasWidth).toBeGreaterThan(100);
-  expect(new URL(page.url()).pathname).toBe('/');
+  expect(new URL(page.url()).pathname).toBe('/maps/');
 });
 
 test('Settlements 2015 has labels, hover state, and feature details', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
   await page.evaluate(async () => {
     const app = window.__civgraphTest2.app;
@@ -1716,7 +1716,7 @@ test('Settlements 2015 has labels, hover state, and feature details', async ({ p
 });
 
 test('duplicate promoted IDs do not cross-highlight distant DEAs', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
   const state = await page.evaluate(async () => {
     const app = window.__civgraphTest2.app;
@@ -1783,7 +1783,7 @@ test('duplicate promoted IDs do not cross-highlight distant DEAs', async ({ page
 });
 
 test('no-id vector layers still support labels, hover, and feature details', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
   await page.evaluate(async () => {
     const app = window.__civgraphTest2.app;
@@ -1845,7 +1845,7 @@ test('no-id vector layers still support labels, hover, and feature details', asy
 test('loads generated election entries with MapLibre styling and enriched feature details', async ({ page }) => {
   // FIXED 2026-08-23 -- the assertion was on the wrong election, and the feature works.
 
-  await page.goto('/');
+  await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.elections?.catalogue?.elections?.length);
 
   const loaded = await page.evaluate(async () => {
@@ -2236,7 +2236,7 @@ test('DOM seat circles stay anchored while panning', async ({ page }) => {
 });
 
 test('election bundles cover representative main-site election types', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.elections?.catalogue?.elections?.length);
 
   const coverage = await page.evaluate(async () => {
@@ -2299,7 +2299,7 @@ test('election bundles cover representative main-site election types', async ({ 
 });
 
 test('election pane supports local-government aggregates and detailed counts', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.elections?.catalogue?.elections?.length);
 
   const state = await page.evaluate(async () => {
@@ -2444,14 +2444,14 @@ test('election pane supports local-government aggregates and detailed counts', a
 });
 
 test('supports catalogue detail, unsupported notices, and URL restore', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
   await page.locator('#searchInput').fill('civil parishes');
   await page.keyboard.press('Enter');
   await expect(page.locator('#catalogueFlatView')).toContainText('Civil Parishes');
   await page.evaluate(async () => window.__civgraphTest2.app.loadMap('civil-parishes-by-province'));
   await expect(page).toHaveURL(/layers=civil-parishes-by-province/);
-  expect(new URL(page.url()).pathname).toBe('/');
+  expect(new URL(page.url()).pathname).toBe('/maps/');
   await page.reload();
   await page.waitForFunction(() => window.__civgraphTest2?.mapController?.isLayerLoaded('civil-parishes-by-province'));
   await expect(page.locator('#catalogueFlatView')).toContainText('Civil Parishes');
@@ -2525,7 +2525,7 @@ test('restores and persists detail, source, hidden layer, and panel URL state', 
   expect(restored.lng).toBeCloseTo(-7.2, 1);
   expect(restored.lat).toBeCloseTo(53.35, 1);
   expect(restored.zoom).toBeCloseTo(6.25, 1);
-  expect(new URL(page.url()).pathname).toBe('/');
+  expect(new URL(page.url()).pathname).toBe('/maps/');
   await expect(page).toHaveURL(/hidden=civil-parishes-by-province/);
   await expect(page).toHaveURL(/detail=civil-parishes-by-province/);
   await expect(page).toHaveURL(/source=civil-parishes-by-province/);
@@ -2570,7 +2570,7 @@ test('loads converted child layers for main catalogue composite parents', async 
   // dispatcher, and the stub keyed layerStates by the object it was handed. Normalising
   // in the stub, as the adapter does, makes both composite paths measurable.
 
-  await page.goto('/');
+  await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
   const result = await page.evaluate(async () => {
     const app = window.__civgraphTest2.app;
@@ -2655,7 +2655,7 @@ test('loads converted child layers for main catalogue composite parents', async 
 });
 
 test('adapter supports overlays, partial features, and rich loaded-feature payloads', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
 
   const overlayState = await page.evaluate(() => {
@@ -2774,24 +2774,24 @@ test('adapter supports overlays, partial features, and rich loaded-feature paylo
 });
 
 test('hash-only shell links and legacy hash writers preserve the test2 path', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
 
   await page.locator('a[href="#flat-section-maps"]').first().click();
-  expect(new URL(page.url()).pathname).toBe('/');
+  expect(new URL(page.url()).pathname).toBe('/maps/');
   await expect(page).toHaveURL(/#flat-section-maps$/);
 
   await page.evaluate(() => history.replaceState(null, '', '#manual-hash-state'));
-  expect(new URL(page.url()).pathname).toBe('/');
+  expect(new URL(page.url()).pathname).toBe('/maps/');
   await expect(page).toHaveURL(/#manual-hash-state$/);
 
   await page.evaluate(() => history.pushState(null, '', '#manual-push-state'));
-  expect(new URL(page.url()).pathname).toBe('/');
+  expect(new URL(page.url()).pathname).toBe('/maps/');
   await expect(page).toHaveURL(/#manual-push-state$/);
 });
 
 test('MapLibre controls handle opacity, labels, feature details, and active layers', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
   await loadCivilParishes(page);
   await expect(page.locator('.maplibre-dom-label:not([hidden])').first()).toBeVisible();
@@ -2986,7 +2986,7 @@ test('MapLibre controls handle opacity, labels, feature details, and active laye
 
 test('mobile-sized feature taps select geometry without double-tap zoom', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/');
+  await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
   await page.evaluate(() => window.uiController?.setSplitState?.('map-full'));
   await loadCivilParishes(page);
@@ -3049,7 +3049,7 @@ test('mobile-sized feature taps select geometry without double-tap zoom', async 
 
 test('mobile shell, support modal, theme toggle, and accessibility smoke pass', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/');
+  await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
   await page.locator('#mobileMenuBtn').click();
   await expect(page.locator('#mobileMenu')).toBeVisible();
