@@ -27,7 +27,7 @@
   "previousKey": "dail-eireann__1965-04-07",
   "previousDate": "1965-04-07",
   "loadable": true,
-  "displaySubtitle": "42 constituencies; 2 unmatched",
+  "displaySubtitle": "42 constituencies",
   "displayProvider": "Dáil Éireann",
   "constituencies": [
     "Carlow Kilkenny",
@@ -75,12 +75,9 @@
   ],
   "isByElection": false,
   "totalConstituencies": 42,
-  "matchedCount": 40,
-  "unmatchedCount": 2,
-  "unmatchedConstituencies": [
-    "Cork City North",
-    "Cork City South"
-  ],
+  "matchedCount": 42,
+  "unmatchedCount": 0,
+  "unmatchedConstituencies": [],
   "availableStyleModes": [
     "winner",
     "leadingParty",
@@ -30487,13 +30484,29 @@
       "transferDataExpected": true,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/dail-eireann/1969-06-18/cork-city-north.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "anchor": null,
+      "featureId": "5",
+      "featureName": "Cork North-West",
+      "featureAliases": [
+        "Cork North-West",
+        "Cathair Chorcaí (Thiar Thuaidh)"
+      ],
+      "matchName": "Cork North-West",
+      "anchor": {
+        "center": [
+          -8.467916,
+          51.899846
+        ],
+        "bounds": {
+          "west": -8.541806,
+          "south": 51.870394,
+          "east": -8.394025,
+          "north": 51.929299
+        },
+        "method": "largest-ring-bounds-center",
+        "area": 0.0027348093279811487
+      },
       "syntheticRegion": null,
-      "matched": false
+      "matched": true
     },
     {
       "constituency": "Cork City South",
@@ -31989,13 +32002,29 @@
       "transferDataExpected": true,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/dail-eireann/1969-06-18/cork-city-south.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "anchor": null,
+      "featureId": "6",
+      "featureName": "Cork South-East",
+      "featureAliases": [
+        "Cork South-East",
+        "Cathair Chorcaí (Thoir Theas)"
+      ],
+      "matchName": "Cork South-East",
+      "anchor": {
+        "center": [
+          -8.450528,
+          51.88833
+        ],
+        "bounds": {
+          "west": -8.511577,
+          "south": 51.874291,
+          "east": -8.389479,
+          "north": 51.902369
+        },
+        "method": "largest-ring-bounds-center",
+        "area": 0.0024357956967168684
+      },
       "syntheticRegion": null,
-      "matched": false
+      "matched": true
     },
     {
       "constituency": "Cork Mid",
@@ -103983,7 +104012,6 @@
               "firstPrefs": 529
             }
           ],
-          "personId": null,
           "name_id": "n-michael-murphy"
         },
         {

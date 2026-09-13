@@ -177,6 +177,31 @@ const SOURCE_NAME_ALIASES = new Map([
   ['roi-lea-2019', new Map([
     ['MUINEBEAG LEA-5', 'Muinebheag']
   ])],
+  // Dail layers whose city constituencies never matched. Each is settled by elimination:
+  // every other Cork and Dublin feature in the layer already matches a result, and what is
+  // left pairs one-to-one with the results left over.
+  //   dail-1947: normalizeName() deletes brackets, so all six "Dublin North (Central)"-style
+  //     names collapsed to "dublin north"/"dublin south" and could match nothing. "Cork"
+  //     is the only unclaimed Cork feature beside Cork East/North/South/West: Cork Borough.
+  //   dail-1961: "Cork" beside Mid-, North-East and South-West Cork is again Cork Borough.
+  //   dail-1969: the 1969 Act's two city seats, filed here by compass point ("Cork
+  //     North-West", "Cork South-East") and in the results as Cork City North and South.
+  ['dail-1947', new Map([
+    ['Cork', 'Cork Borough'],
+    ['Dublin North (Central)', 'Dublin North Central'],
+    ['Dublin North (East)', 'Dublin North East'],
+    ['Dublin North (West)', 'Dublin North West'],
+    ['Dublin South (Central)', 'Dublin South Central'],
+    ['Dublin South (East)', 'Dublin South East'],
+    ['Dublin South (West)', 'Dublin South West']
+  ])],
+  ['dail-1961', new Map([
+    ['Cork', 'Cork Borough']
+  ])],
+  ['dail-1969', new Map([
+    ['Cork North-West', 'Cork City North'],
+    ['Cork South-East', 'Cork City South']
+  ])],
   ['dail-2023', new Map([
     ['Limerick County (3)', 'Limerick']
   ])],
