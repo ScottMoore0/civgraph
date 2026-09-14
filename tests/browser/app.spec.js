@@ -510,10 +510,11 @@ test('restores active Dail election catalogue, viewport, labels, and party table
   expect(restored.lat).toBeCloseTo(53.48, 1);
   expect(restored.zoom).toBeCloseTo(7, 1);
   expect(restored.domLabels).toBe(0);
-  expect(restored.rowTexts[0]).toMatch(/Fianna F.il/);
-  expect(restored.rowTexts[1]).toMatch(/Sinn F.in/);
-  expect(restored.rowTexts[2]).toBe('Fine Gael');
-  expect(restored.rowTexts[3]).toBe('Independent');
+  // Results tables show party abbreviations, with the full name on hover (src/party-names.mjs).
+  expect(restored.rowTexts[0]).toBe('FF');
+  expect(restored.rowTexts[1]).toBe('SF');
+  expect(restored.rowTexts[2]).toBe('FG');
+  expect(restored.rowTexts[3]).toBe('Ind');
   expect([restored.firstRowCells[0], restored.firstRowCells[2], restored.firstRowCells[4], restored.firstRowCells[8], restored.firstRowCells[10]]).toEqual([
     '1',
     '82',
@@ -544,24 +545,26 @@ test('restores active Dail election catalogue, viewport, labels, and party table
   // FF, SF, FG and votes order is FF, FG, SF. Assert the whole top three.
   await expect(page.locator('#electionPaneContent th[data-leaf-col-idx="8"]')).toHaveClass(/election-th-btn--active/);
   const partyRows = page.locator('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row)');
-  await expect(partyRows.nth(0)).toContainText(/Fianna F/);
-  await expect(partyRows.nth(1)).toContainText(/Fine Gael/);
-  await expect(partyRows.nth(2)).toContainText(/Sinn F/);
+  // Party cells show abbreviations (full names on hover).
+  await expect(partyRows.nth(0)).toContainText('FF');
+  await expect(partyRows.nth(1)).toContainText('FG');
+  await expect(partyRows.nth(2)).toContainText('SF');
 
   await page.locator('#electionPaneContent th[data-leaf-col-idx="1"]').click();
   await expect(page.locator('.election-filter-menu')).toBeVisible();
   await expect(page.locator('.election-filter-menu')).toContainText('Sort A to Z');
   await expectElectionFilterMenuInsideViewport(page);
-  await page.locator('.election-filter-menu__search').fill('Sinn');
-  await expect(page.locator('.election-filter-menu__value', { hasText: /Sinn/ })).toBeVisible();
+  // The party column shows abbreviations (SF for Sinn Féin), so its filter values do too.
+  await page.locator('.election-filter-menu__search').fill('SF');
+  await expect(page.locator('.election-filter-menu__value', { hasText: /^SF$/ })).toBeVisible();
   await expectElectionFilterMenuInsideViewport(page);
   await page.locator('.election-filter-menu [data-action="deselect-all"]').click();
-  await page.locator('.election-filter-menu__value', { hasText: /Sinn/ }).locator('input').check();
+  await page.locator('.election-filter-menu__value', { hasText: /^SF$/ }).locator('input').check();
   await page.locator('.election-filter-menu [data-action="apply"]').click();
   await expect(page.locator('#electionPaneContent th[data-leaf-col-idx="1"]')).toHaveClass(/election-th-btn--active/);
   const filteredRows = await page.locator('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row)').allTextContents();
   expect(filteredRows.length).toBeGreaterThan(0);
-  expect(filteredRows.every((row) => /Sinn/.test(row))).toBe(true);
+  expect(filteredRows.every((row) => /\bSF\b/.test(row))).toBe(true);
 
   await page.locator('#electionPaneContent th[data-leaf-col-idx="1"]').click();
   await page.locator('.election-filter-menu [data-action="clear-filter"]').click();
@@ -579,8 +582,9 @@ test('election sort/filter menu stays inside a constrained viewport', async ({ p
   await expect(page.locator('.election-filter-menu')).toBeVisible();
   await expectElectionFilterMenuInsideViewport(page);
 
-  await page.locator('.election-filter-menu__search').fill('Sinn');
-  await expect(page.locator('.election-filter-menu__value', { hasText: /Sinn/ })).toBeVisible();
+  // The party column shows abbreviations (SF for Sinn Féin), so its filter values do too.
+  await page.locator('.election-filter-menu__search').fill('SF');
+  await expect(page.locator('.election-filter-menu__value', { hasText: /^SF$/ })).toBeVisible();
   await expectElectionFilterMenuInsideViewport(page);
 });
 
@@ -667,11 +671,11 @@ test('Dail 2024 election pane matches the main DOM contract for the compared sta
     expect(row[8], `${party} first preferences`).toBe(votes);
     expect(row[10], `${party} vote share`).toBe(share);
   };
-  expect(test2Rows.map((row) => row[1])).toEqual(['Fianna F\u00e1il', 'Sinn F\u00e9in', 'Fine Gael', 'Independent']);
-  expectPartySummary('Fianna F\u00e1il', { stood: 82, seats: 48, votes: '481,414', share: '21.86%' });
-  expectPartySummary('Sinn F\u00e9in', { stood: 71, seats: 39, votes: '418,627', share: '19.01%' });
-  expectPartySummary('Fine Gael', { stood: 80, seats: 38, votes: '458,134', share: '20.80%' });
-  expectPartySummary('Independent', { stood: 171, seats: 16, votes: '290,748', share: '13.20%' });
+  expect(test2Rows.map((row) => row[1])).toEqual(['FF', 'SF', 'FG', 'Ind']);
+  expectPartySummary('FF', { stood: 82, seats: 48, votes: '481,414', share: '21.86%' });
+  expectPartySummary('SF', { stood: 71, seats: 39, votes: '418,627', share: '19.01%' });
+  expectPartySummary('FG', { stood: 80, seats: 38, votes: '458,134', share: '20.80%' });
+  expectPartySummary('Ind', { stood: 171, seats: 16, votes: '290,748', share: '13.20%' });
   await context.close();
 });
 
@@ -742,9 +746,12 @@ test('selected Dail 2024 Cork North-Central pane uses constituency source values
     const rows = [...document.querySelectorAll('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row):not(.election-table-note-row)')]
       .slice(0, 5)
       .map((row) => [...row.children].map((cell) => cell.textContent.trim().replace(/\s+/g, ' ')).slice(0, 11));
-    const swatches = [...document.querySelectorAll('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row):not(.election-table-note-row) .election-party-dot')]
+    // The party colour is a tab: a table's own colour column, or the ::before of a party cell.
+    const swatches = [...document.querySelectorAll('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row):not(.election-table-note-row) :is(td.election-colour-col, td.election-party-cell)')]
       .slice(0, 5)
-      .map((dot) => getComputedStyle(dot).backgroundColor);
+      .map((cell) => (cell.classList.contains('election-colour-col')
+        ? getComputedStyle(cell).backgroundColor
+        : getComputedStyle(cell, '::before').backgroundColor));
     const tabs = [...document.querySelectorAll('#electionPaneHeaderRight .election-view-tab')].map((button) => button.textContent.trim());
     const manager = window.__civgraphTest2.app.elections;
     const result = manager.activeBundle.results.find((row) => row.constituency === 'Cork North Central');
@@ -763,7 +770,7 @@ test('selected Dail 2024 Cork North-Central pane uses constituency source values
   expect(state.countNumbers.some((count) => Number(count) > 1)).toBe(true);
   expect(state.wikipediaRowsAboveFirst).toBeGreaterThan(0);
   expect(state.tabs).toContain('Transfers');
-  expect(state.rows.map((row) => row[2])).toEqual(['Fianna F\u00e1il', 'Sinn F\u00e9in', 'Fine Gael', 'Irish Labour', 'Independent Ireland']);
+  expect(state.rows.map((row) => row[2])).toEqual(['FF', 'SF', 'FG', 'LAB', 'II']);
   expect(state.rows.map((row) => [row[3], row[5], row[7]])).toEqual([
     ['3', '1', '13,892'],
     ['2', '1', '10,293'],
@@ -863,12 +870,12 @@ test('selected Dail 2024 Galway East pane computes constituency percentages and 
   expect(state.countInfoValidPoll).toBe('54214');
   expect(state.wikipediaRowsAboveFirst).toBeGreaterThan(0);
   expect(state.rows.map((row) => [row[2], row[3], row[5], row[7], row[9]])).toEqual([
-    ['Fianna F\u00e1il', '2', '1', '14,196', '26.19%'],
-    ['Fine Gael', '3', '1', '11,744', '21.66%'],
-    ['Independent', '3', '1', '11,000', '20.29%'],
-    ['Sinn F\u00e9in', '1', '1', '7,459', '13.76%'],
-    ['Independent Ireland', '1', '0', '5,150', '9.50%'],
-    ['Aont\u00fa', '1', '0', '1,554', '2.87%']
+    ['FF', '2', '1', '14,196', '26.19%'],
+    ['FG', '3', '1', '11,744', '21.66%'],
+    ['Ind', '3', '1', '11,000', '20.29%'],
+    ['SF', '1', '1', '7,459', '13.76%'],
+    ['II', '1', '0', '5,150', '9.50%'],
+    ['AO', '1', '0', '1,554', '2.87%']
   ]);
   // Turnout, Spoiled and Did-not-vote were added to the summary after this test was
   // written. Containment rather than exact equality: adding a summary row is not a
@@ -977,7 +984,9 @@ test('election party and person links open full catalogue details only', async (
   await page.evaluate(() => window.__civgraphTest2.restorePromise);
 
   const beforeTitle = await page.locator('#electionPaneTitle').textContent();
-  const partyLabel = await page.locator('#electionPaneContent [data-election-entity="party"]').first().textContent();
+  // The link shows the abbreviation; the catalogue page carries the full name (its hover title).
+  const partyLabel = await page.locator('#electionPaneContent [data-election-entity="party"]').first()
+    .evaluate((link) => link.querySelector('abbr')?.title || link.textContent);
   await page.locator('#electionPaneContent [data-election-entity="party"]').first().click();
   await expect(page.locator('#catalogueDetailView')).toBeVisible();
   await expect(page.locator('#catalogueDetailView')).toContainText((partyLabel || '').trim());

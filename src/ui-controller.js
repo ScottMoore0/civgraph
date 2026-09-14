@@ -9,6 +9,7 @@ import dataService, { resolveMapDownloadUrl } from './data-service.js';
 import featureLoader from './feature-loader.js';
 import { formatElectionDate, shortBodyName, renderElectionConstituencyFeatureLink } from './election-utils.js';
 import { cdnUrl } from './cdn-url.js';
+import { partyLabelHtml } from './party-names.mjs';
 
 class UIController {
     constructor() {
@@ -7848,10 +7849,11 @@ class UIController {
                 data-election-entity-detail-key="${this.escapeHtml(key)}">
                 ${this.escapeHtml(label)}
             </a>`;
+        const renderPartyLink = (key) => `<a href="#" class="catalogue-detail__entity-link catalogue-detail__entity-link--text" data-election-entity-detail-kind="party" data-election-entity-detail-key="${this.escapeHtml(key)}">${partyLabelHtml(key, (value) => this.escapeHtml(value))}</a>`;
         const renderLeadingParty = (row) => {
             if (!row?.winnerParty) return '-';
             const colour = this.escapeHtml(row.winnerColour || '#b0bec5');
-            return `<span class="catalogue-detail__leading-party"><span class="catalogue-detail__leading-party-tab" style="background:${colour}"></span>${renderEntityLink('party', row.winnerParty, row.winnerParty)}</span>`;
+            return `<span class="catalogue-detail__leading-party"><span class="catalogue-detail__leading-party-tab" style="background:${colour}"></span>${renderPartyLink(row.winnerParty)}</span>`;
         };
         const renderDeaList = (row) => {
             const deas = row?.districtElectoralAreas || [];
@@ -8462,10 +8464,11 @@ class UIController {
                 ${this.escapeHtml(label)}
             </a>
         `;
+        const renderPartyLink = (key) => `<a href="#" class="catalogue-detail__entity-link catalogue-detail__entity-link--text" data-election-entity-detail-kind="party" data-election-entity-detail-key="${this.escapeHtml(key)}">${partyLabelHtml(key, (value) => this.escapeHtml(value))}</a>`;
         const renderLeadingParty = (row) => {
             if (!row?.winnerParty) return '-';
             const colour = this.escapeHtml(row.winnerColour || '#b0bec5');
-            return `<span class="catalogue-detail__leading-party"><span class="catalogue-detail__leading-party-tab" style="background:${colour}"></span>${renderEntityLink('party', row.winnerParty, row.winnerParty)}</span>`;
+            return `<span class="catalogue-detail__leading-party"><span class="catalogue-detail__leading-party-tab" style="background:${colour}"></span>${renderPartyLink(row.winnerParty)}</span>`;
         };
         const renderDeaList = (row) => {
             const deas = row?.districtElectoralAreas || [];
