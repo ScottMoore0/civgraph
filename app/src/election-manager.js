@@ -18,6 +18,7 @@ import {
   partyColour as electionPartyColour,
   seatPositions
 } from '../../src/election-domain.mjs';
+import { partyLabelHtml } from '../../src/party-names.mjs';
 
 const ELECTION_MANIFEST_URL = '/render/metadata/elections-test2.json?v=test-023';
 
@@ -1214,7 +1215,7 @@ export class Test2ElectionManager {
                 return `
                   <tr>
                     <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
-                    <td><span class="election-party-dot" style="background:${escapeHtml(this.mainPanePartyColour(row.party, row.colour))}"></span>${this.renderElectionEntityButton('party', row.party, escapeHtml(row.party), 'election-cell-wrap')}</td>
+                    <td${this.partyCellAttrs(this.mainPanePartyColour(row.party, row.colour))}>${this.renderElectionEntityButton('party', row.party, this.partyLabel(row.party), 'election-cell-wrap')}</td>
                     <td class="election-num">${formatNumber(row.stood)}</td>
                     <td class="election-num">${formatMainDelta(row.deltas?.stood)}</td>
                     <td class="election-num">${formatNumber(row.seats)}</td>
@@ -1295,7 +1296,7 @@ export class Test2ElectionManager {
     return `
       <tr class="election-table-note-row election-table-note-row--referendum">
         <td class="election-rank-col">-</td>
-        <td class="election-colour-col"><span class="election-party-dot" style="background:${escapeHtml(this.mainPanePartyColour(winner.outcome, winner.colour))}"></span></td>
+        <td class="election-colour-col"${this.colourTabStyle(this.mainPanePartyColour(winner.outcome, winner.colour))}></td>
         <td colspan="${colspan}"><strong>${escapeHtml(this.referendumProposalResultText(winner))}</strong></td>
       </tr>
     `;
@@ -1343,7 +1344,7 @@ export class Test2ElectionManager {
               ${rows.map((row, index) => `
                 <tr class="${row.elected || row === winner ? 'election-row--elected test2-election-table__elected' : ''}">
                   <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
-                  <td class="election-colour-col"><span class="election-party-dot" style="background:${escapeHtml(row.colour)}"></span></td>
+                  <td class="election-colour-col"${this.colourTabStyle(row.colour)}></td>
                   <td>${this.renderElectionEntityButton('party', row.outcome, escapeHtml(row.outcome), 'election-cell-wrap')}</td>
                   <td class="election-num">${row.constituencies === null ? '-' : formatNumber(row.constituencies)}</td>
                   <td class="election-num election-cell-strong">${formatNumber(row.votes)}</td>
@@ -1386,7 +1387,7 @@ export class Test2ElectionManager {
             ${rows.map((row, index) => `
               <tr class="${row.elected || row === winner ? 'election-row--elected test2-election-table__elected' : ''}">
                 <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
-                <td class="election-colour-col"><span class="election-party-dot" style="background:${escapeHtml(row.colour)}"></span></td>
+                <td class="election-colour-col"${this.colourTabStyle(row.colour)}></td>
                 <td>${this.renderElectionEntityButton('party', row.outcome, escapeHtml(row.outcome), 'election-cell-wrap')}</td>
                 <td class="election-num election-cell-strong">${formatNumber(row.votes)}</td>
                 <td class="election-num election-cell-strong">${row.share === null ? '-' : formatFixedPercent(row.share)}</td>
@@ -1443,7 +1444,7 @@ export class Test2ElectionManager {
                 <tr>
                   <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
                   <td><button type="button" class="election-entity-link election-cell-wrap" data-election-result-key="${escapeHtml(normalizeName(name))}">${escapeHtml(name)}</button></td>
-                  <td>${winner ? `<span class="election-party-dot" style="background:${escapeHtml(winner.colour)}"></span>${escapeHtml(this.referendumProposalResultText(winner))}` : '-'}</td>
+                  <td${winner ? this.partyCellAttrs(winner.colour) : ''}>${winner ? escapeHtml(this.referendumProposalResultText(winner)) : '-'}</td>
                   <td class="election-num">${row.yes ? formatNumber(row.yes.votes) : '-'}</td>
                   <td class="election-num">${row.yes?.share === null || row.yes?.share === undefined ? '-' : formatFixedPercent(row.yes.share)}</td>
                   <td class="election-num">${row.no ? formatNumber(row.no.votes) : '-'}</td>
@@ -1494,7 +1495,7 @@ export class Test2ElectionManager {
                 <tr class="${candidate.elected ? 'election-row--elected test2-election-table__elected' : ''}">
                   <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
                   <td>${this.renderElectionEntityButton('candidate', `${candidate.name || candidate.candidate || candidate.id || ''}|${candidate.party || ''}`, candidate.name || candidate.candidate || '', 'election-cell-wrap')}</td>
-                  <td>${this.renderElectionEntityButton('party', candidate.party, `<span class="election-party-dot" style="background:${escapeHtml(this.mainPanePartyColour(candidate.party, candidate.colour))}"></span>${escapeHtml(candidate.party || '')}`, 'election-cell-wrap')}</td>
+                  <td${this.partyCellAttrs(this.mainPanePartyColour(candidate.party, candidate.colour))}>${this.renderElectionEntityButton('party', candidate.party, this.partyLabel(candidate.party), 'election-cell-wrap')}</td>
                   <td class="election-num">${formatNumber(firstPrefs)}</td>
                   <td class="election-num">${candidateDelta.deltas ? formatMainDelta(candidateDelta.deltas.firstPrefs) : formatNotApplicable()}</td>
                   <td class="election-num">${firstPrefPct === null ? '' : formatFixedPercent(firstPrefPct)}</td>
@@ -1519,6 +1520,7 @@ export class Test2ElectionManager {
     const previousPartyRows = previousResult ? (this.buildMainStyleConstituencyPartyRows(previousResult, previousResult.candidates || []).rows || []) : [];
     const previousPartyByParty = new Map(previousPartyRows.map((row) => [normalizeName(row.party), row]));
     const hasPreviousElection = Boolean(previousResult);
+    const isWestminster = this.isWestminsterElection();
     const rows = candidates.map((candidate, index) => {
       const candidateDelta = this.candidateDeltaForResultCandidate(candidate, result);
       const votes = numberOrZero(candidate.firstPrefs ?? candidate.votes ?? candidate.finalVotes ?? candidate.total);
@@ -1562,7 +1564,7 @@ export class Test2ElectionManager {
                 <th rowspan="2" data-leaf-col-idx="1">Candidate</th>
                 <th rowspan="2" data-leaf-col-idx="2">Party</th>
                 <th colspan="6">Votes</th>
-                <th rowspan="2" data-leaf-col-idx="9">Result</th>
+                ${isWestminster ? '<th rowspan="2" class="election-col-elected" data-leaf-col-idx="9">Elected</th>' : '<th rowspan="2" data-leaf-col-idx="9">Result</th>'}
               </tr>
               <tr>
                 ${this.renderMainParityLeafTh('No.', 3, 'Votes')}
@@ -1580,14 +1582,14 @@ export class Test2ElectionManager {
                   <tr class="${statusKind === 'elected' ? 'election-row--elected test2-election-table__elected' : ''}">
                     <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
                     <td>${this.renderElectionEntityButton('candidate', `${row.name || candidate.id || ''}|${row.party || ''}`, escapeHtml(row.name), 'election-cell-wrap')}</td>
-                    <td>${this.renderElectionEntityButton('party', row.party, `<span class="election-party-dot" style="background:${escapeHtml(row.colour)}"></span>${escapeHtml(row.party)}`, 'election-cell-wrap')}</td>
+                    <td${this.partyCellAttrs(row.colour)}>${this.renderElectionEntityButton('party', row.party, this.partyLabel(row.party), 'election-cell-wrap')}</td>
                     <td class="election-num">${formatNumber(votes)}</td>
                     <td class="election-num">${partyVoteDelta === null || partyVoteDelta === undefined ? formatNotApplicable() : formatMainDelta(partyVoteDelta)}</td>
                     <td class="election-num">${candidateVoteDelta === null || candidateVoteDelta === undefined ? formatNotApplicable() : formatMainDelta(candidateVoteDelta)}</td>
                     <td class="election-num">${votePct === null ? '' : formatFixedPercent(votePct)}</td>
                     <td class="election-num">${partyPctDelta === null || partyPctDelta === undefined ? formatNotApplicable() : formatMainPercentDelta(partyPctDelta)}</td>
                     <td class="election-num">${candidatePctDelta === null || candidatePctDelta === undefined ? formatNotApplicable() : formatMainPercentDelta(candidatePctDelta)}</td>
-                    <td>${escapeHtml(statusText)}</td>
+                    ${isWestminster ? `<td class="election-col-elected">${this.electedMark(statusKind === 'elected')}</td>` : `<td>${escapeHtml(statusText)}</td>`}
                   </tr>
                 `;
               }).join('')}
@@ -1699,8 +1701,8 @@ export class Test2ElectionManager {
                   data-firstprefspct="${row.pct}"
                   data-firstprefspctdelta="${row.pctDelta}">
                   <td class="election-rank-col${isSeatWinner ? ' election-party-emphasis' : ''}">${escapeHtml(rankLabel(index))}</td>
-                  <td class="election-colour-col"><span class="election-party-dot" style="background:${escapeHtml(this.mainPanePartyColour(row.party, row.colour))}"></span></td>
-                  <td class="${isSeatWinner ? ' election-party-emphasis' : ''}">${this.renderElectionEntityButton('party', row.party, escapeHtml(row.party), 'election-cell-wrap')}</td>
+                  <td class="election-colour-col"${this.colourTabStyle(this.mainPanePartyColour(row.party, row.colour))}></td>
+                  <td class="${isSeatWinner ? ' election-party-emphasis' : ''}">${this.renderElectionEntityButton('party', row.party, this.partyLabel(row.party), 'election-cell-wrap')}</td>
                   <td class="election-num">${formatNumber(row.stood)}</td>
                   <td class="election-num">${formatMainDelta(row.stoodDelta)}</td>
                   <td class="election-num${isSeatWinner ? ' election-party-emphasis' : ''}">${formatNumber(row.seats)}</td>
@@ -1861,6 +1863,32 @@ export class Test2ElectionManager {
   renderElectionEntityButton(kind, key, labelHtml, extraClass = '') {
     const safeKind = escapeHtml(kind);
     return `<button type="button" class="election-entity-link ${extraClass}" data-election-entity="${safeKind}" data-election-entity-kind="${safeKind}" data-election-entity-key="${escapeHtml(key || '')}">${labelHtml}</button>`;
+  }
+
+  /** A party name in a results table: its abbreviation, with the full name on hover. */
+  partyLabel(party) {
+    return partyLabelHtml(party, escapeHtml);
+  }
+
+  /** Attributes for a cell showing a party: the party colour as a narrow tab down its left edge. */
+  partyCellAttrs(colour, extraClass = '') {
+    return ` class="election-party-cell${extraClass ? ` ${extraClass}` : ''}" style="--party-colour:${escapeHtml(colour || 'transparent')}"`;
+  }
+
+  /** Style for a table's own colour column, which is drawn as the tab. */
+  colourTabStyle(colour) {
+    return ` style="--party-colour:${escapeHtml(colour || 'transparent')}"`;
+  }
+
+  isWestminsterElection() {
+    return normalizeName(this.activeBundle?.body || this.activeEntry?.body || '') === 'house of commons of the united kingdom';
+  }
+
+  /** Westminster results show a tick or a cross rather than "Elected" / "Not elected" and a count of 1/1. */
+  electedMark(elected) {
+    return elected
+      ? '<span class="election-elected-mark election-elected-mark--yes" role="img" aria-label="Elected" title="Elected">✓</span>'
+      : '<span class="election-elected-mark election-elected-mark--no" role="img" aria-label="Not elected" title="Not elected">✕</span>';
   }
 
   orderPartyRowsLikeMain(rows = []) {
@@ -3074,7 +3102,7 @@ export class Test2ElectionManager {
                 <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
                 <td><button type="button" class="election-entity-link election-cell-wrap" data-election-result-key="${escapeHtml(normalizeName(row.council))}">${escapeHtml(row.council)}</button></td>
                 <td class="election-num">${formatNumber(row.deas)}</td>
-                <td>${this.renderElectionEntityButton('party', row.leadingParty, `<span class="election-party-dot" style="background:${escapeHtml(this.mainPanePartyColour(row.leadingParty, row.colour))}"></span>${escapeHtml(row.leadingParty || '')}`, 'election-cell-wrap')}</td>
+                <td${this.partyCellAttrs(this.mainPanePartyColour(row.leadingParty, row.colour))}>${this.renderElectionEntityButton('party', row.leadingParty, this.partyLabel(row.leadingParty || ''), 'election-cell-wrap')}</td>
                 <td class="election-num">${formatNumber(row.seats)}</td>
                 <td class="election-num">${row.deltas ? formatMainDelta(row.deltas.seats) : ''}</td>
                 <td class="election-num">${formatNumber(row.validPoll)}</td>
@@ -3097,7 +3125,7 @@ export class Test2ElectionManager {
           <tbody>
             ${rows.map((row) => `
               <tr>
-                <td><button type="button" class="test2-election-link" data-election-entity="party" data-election-entity-key="${escapeHtml(normalizeName(row.party))}"><span class="test2-party-swatch" style="background:${escapeHtml(row.colour)}"></span>${escapeHtml(row.party)}</button></td>
+                <td${this.partyCellAttrs(row.colour)}><button type="button" class="test2-election-link" data-election-entity="party" data-election-entity-key="${escapeHtml(normalizeName(row.party))}">${this.partyLabel(row.party)}</button></td>
                 <td>${formatNumber(row.stood)}</td>
                 <td>${formatNumber(row.seats)}</td>
                 <td>${row.deltas ? formatSigned(row.deltas.seats) : ''}</td>
@@ -3163,6 +3191,7 @@ export class Test2ElectionManager {
   renderCandidateSummaryTable(candidates, options = {}) {
     if (!candidates.length) return '<p class="election-no-data">No candidate summary is available for this election.</p>';
     const isLocal = this.isLocalGovernmentElection();
+    const isWestminster = !isLocal && this.isWestminsterElection();
     const widePercentLabel = options.widePercentLabel || this.getElectionWidePercentLabel();
     const resultsForTotals = Array.isArray(options.results) ? options.results : this.currentResults();
     const previousResultsForTotals = Array.isArray(options.previousResults) ? options.previousResults : (this.previousBundle?.results || []);
@@ -3178,7 +3207,8 @@ export class Test2ElectionManager {
     const geographyHeaders = isLocal
       ? '<th colspan="2">Geography</th>'
       : '<th rowspan="3" data-leaf-col-idx="3">Constituency</th>';
-    const leafStart = isLocal ? 7 : 6;
+    // Westminster: one "Elected" column (tick or cross) replaces Status > Outcome / Count.
+    const leafStart = isLocal ? 7 : (isWestminster ? 5 : 6);
     return `
       <div class="election-count-wrapper election-count-wrapper--pane-sticky">
         <table class="election-count-table election-count-table--grouped election-count-table--candidate-sticky3 election-results-table--fixed${isLocal ? ' election-results-table--local' : ' election-results-table--nonlocal'}">
@@ -3188,14 +3218,14 @@ export class Test2ElectionManager {
               <th rowspan="3" data-leaf-col-idx="1">Name</th>
               <th rowspan="3" data-leaf-col-idx="2">Party</th>
               ${geographyHeaders}
-              <th colspan="2">Status</th>
+              ${isWestminster ? '<th rowspan="3" class="election-col-elected" data-leaf-col-idx="4">Elected</th>' : '<th colspan="2">Status</th>'}
               <th colspan="4">1st preferences</th>
               <th colspan="2">${escapeHtml(widePercentLabel)}</th>
             </tr>
             <tr>
               ${isLocal ? `<th rowspan="2" data-leaf-col-idx="3">District</th><th rowspan="2" data-leaf-col-idx="4">DEA</th>` : ''}
-              <th rowspan="2" data-leaf-col-idx="${isLocal ? 5 : 4}">Outcome</th>
-              <th rowspan="2" class="election-num election-col-status-count" data-leaf-col-idx="${isLocal ? 6 : 5}">Count</th>
+              ${isWestminster ? '' : `<th rowspan="2" data-leaf-col-idx="${isLocal ? 5 : 4}">Outcome</th>
+              <th rowspan="2" class="election-num election-col-status-count" data-leaf-col-idx="${isLocal ? 6 : 5}">Count</th>`}
               <th colspan="2">No.</th>
               <th colspan="2">%</th>
               <th colspan="2">%</th>
@@ -3226,11 +3256,11 @@ export class Test2ElectionManager {
                 <tr class="${candidate.elected ? 'election-row--elected' : ''}">
                   <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
                   <td>${this.renderElectionEntityButton('candidate', `${candidate.name || candidate.id || ''}|${candidate.party || ''}`, escapeHtml(candidate.name || ''), 'election-cell-wrap')}</td>
-                  <td>${this.renderElectionEntityButton('party', candidate.party, `<span class="election-party-dot" style="background:${escapeHtml(this.mainPanePartyColour(candidate.party, candidate.colour))}"></span>${escapeHtml(candidate.party || '')}`, 'election-cell-wrap')}</td>
+                  <td${this.partyCellAttrs(this.mainPanePartyColour(candidate.party, candidate.colour))}>${this.renderElectionEntityButton('party', candidate.party, this.partyLabel(candidate.party), 'election-cell-wrap')}</td>
                   ${isLocal ? `<td><span class="election-cell-wrap">${escapeHtml(localBody)}</span></td>` : ''}
                   <td><button type="button" class="election-entity-link election-cell-wrap" data-election-result-key="${escapeHtml(normalizeName(candidate.constituency || ''))}">${escapeHtml(candidate.constituency || '')}</button></td>
-                  <td><span class="election-cell-wrap">${status === 'Elected' ? '<strong>Elected</strong>' : escapeHtml(status)}</span></td>
-                  <td class="election-num election-col-status-count"><span class="election-cell-wrap">${escapeHtml(countValue)}</span></td>
+                  ${isWestminster ? `<td class="election-col-elected">${this.electedMark(candidate.elected)}</td>` : `<td><span class="election-cell-wrap">${status === 'Elected' ? '<strong>Elected</strong>' : escapeHtml(status)}</span></td>
+                  <td class="election-num election-col-status-count"><span class="election-cell-wrap">${escapeHtml(countValue)}</span></td>`}
                   <td class="election-num election-cell-strong election-col-votes">${formatNumber(firstPrefs)}</td>
                   <td class="election-num election-col-delta-votes">${candidate.deltas ? formatMainDelta(candidate.deltas.firstPrefs) : formatNotApplicable()}</td>
                   <td class="election-num election-col-pct-main">${formatFixedPercent(candidate.firstPrefPct)}</td>
@@ -3257,7 +3287,7 @@ export class Test2ElectionManager {
               <tr>
                 <td><button type="button" class="test2-election-link" data-election-result-key="${escapeHtml(normalizeName(result.matchName || result.constituency || ''))}">${escapeHtml(result.constituency || result.matchName || '')}</button></td>
                 <td>${escapeHtml(result.winnerName || result.leadingName || '')}</td>
-                <td><span class="test2-party-swatch" style="background:${escapeHtml(electionPartyColour(result.winnerParty || result.leadingParty))}"></span>${escapeHtml(result.winnerParty || result.leadingParty || '')}</td>
+                <td${this.partyCellAttrs(electionPartyColour(result.winnerParty || result.leadingParty))}>${this.partyLabel(result.winnerParty || result.leadingParty || '')}</td>
                 <td>${formatNumber(result.seatsWon ?? result.seatsTotal ?? '')}</td>
                 <td>${result.deltas ? formatSigned(result.deltas.seatsWon) : ''}</td>
                 <td>${formatPercent(result.turnoutPct)}</td>
@@ -3274,6 +3304,11 @@ export class Test2ElectionManager {
     const rows = this.withLocalPartyDeltas(buildLocalPartySummary(results), options);
     if (!rows.length) return '<p class="election-no-data">No local-party summary is available for this election.</p>';
     const areaLabel = options.areaLabel || (this.isLocalGovernmentElection() ? 'DEA' : 'Constituency');
+    // Single-seat Westminster constituencies: a party's seat share is always 100% or 0%, and its
+    // change +100%, -100% or 0%, so those two columns are left out.
+    const singleSeat = this.isWestminsterElection() && results.length > 0
+      && results.every((result) => numberOrZero(result.seatsTotal ?? result.seatsWon ?? 1) <= 1);
+    const prefStart = singleSeat ? 8 : 10;
     return `
       <div class="election-party-wrapper election-party-wrapper--pane-sticky">
         <table class="election-party-table election-party-table--grouped election-party-table--district-sticky3 election-party-table--district-local-party-sticky4 election-results-table--fixed election-results-table--district">
@@ -3283,7 +3318,7 @@ export class Test2ElectionManager {
               <th rowspan="2" colspan="2" data-leaf-col-idx="2">Party</th>
               <th rowspan="2" data-leaf-col-idx="3">${escapeHtml(areaLabel)}</th>
               <th colspan="2">Candidates</th>
-              <th colspan="4">Seats</th>
+              <th colspan="${singleSeat ? 2 : 4}">Seats</th>
               <th colspan="4">1st preferences</th>
             </tr>
             <tr>
@@ -3291,27 +3326,27 @@ export class Test2ElectionManager {
               ${this.renderMainParityLeafTh('+/-', 5, 'Candidates change')}
               ${this.renderMainParityLeafTh('No.', 6, 'Seats')}
               ${this.renderMainParityLeafTh('+/-', 7, 'Seats change')}
-              ${this.renderMainParityLeafTh('%', 8, 'Seats percentage')}
-              ${this.renderMainParityLeafTh('+/-', 9, 'Seats percentage change')}
-              ${this.renderMainParityLeafTh('No.', 10, 'First preference votes')}
-              ${this.renderMainParityLeafTh('+/-', 11, 'First preference votes change')}
-              ${this.renderMainParityLeafTh('%', 12, 'First preference vote share')}
-              ${this.renderMainParityLeafTh('+/-', 13, 'First preference vote share change')}
+              ${singleSeat ? '' : `${this.renderMainParityLeafTh('%', 8, 'Seats percentage')}
+              ${this.renderMainParityLeafTh('+/-', 9, 'Seats percentage change')}`}
+              ${this.renderMainParityLeafTh('No.', prefStart, 'First preference votes')}
+              ${this.renderMainParityLeafTh('+/-', prefStart + 1, 'First preference votes change')}
+              ${this.renderMainParityLeafTh('%', prefStart + 2, 'First preference vote share')}
+              ${this.renderMainParityLeafTh('+/-', prefStart + 3, 'First preference vote share change')}
             </tr>
           </thead>
           <tbody>
             ${rows.map((row, index) => `
               <tr>
                 <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
-                <td class="election-colour-col"><span class="election-party-dot" style="background:${escapeHtml(this.mainPanePartyColour(row.party, row.colour))}"></span></td>
-                <td>${this.renderElectionEntityButton('party', row.party, escapeHtml(row.party), 'election-cell-wrap')}</td>
+                <td class="election-colour-col"${this.colourTabStyle(this.mainPanePartyColour(row.party, row.colour))}></td>
+                <td>${this.renderElectionEntityButton('party', row.party, this.partyLabel(row.party), 'election-cell-wrap')}</td>
                 <td><button type="button" class="election-entity-link election-cell-wrap" data-election-result-key="${escapeHtml(row.resultKey)}">${escapeHtml(row.constituency)}</button></td>
                 <td class="election-num">${formatNumber(row.stood)}</td>
                 <td class="election-num">${row.deltas ? formatMainDelta(row.deltas.stood) : ''}</td>
                 <td class="election-num">${formatNumber(row.seats)}</td>
                 <td class="election-num">${row.deltas ? formatMainDelta(row.deltas.seats) : ''}</td>
-                <td class="election-num">${formatPercent(row.seatShare)}</td>
-                <td class="election-num">${row.deltas?.seatShare !== null && row.deltas?.seatShare !== undefined ? formatMainPercentDelta(row.deltas.seatShare) : ''}</td>
+                ${singleSeat ? '' : `<td class="election-num">${formatPercent(row.seatShare)}</td>
+                <td class="election-num">${row.deltas?.seatShare !== null && row.deltas?.seatShare !== undefined ? formatMainPercentDelta(row.deltas.seatShare) : ''}</td>`}
                 <td class="election-num">${formatNumber(row.firstPrefs)}</td>
                 <td class="election-num">${row.deltas ? formatMainDelta(row.deltas.firstPrefs) : ''}</td>
                 <td class="election-num">${formatPercent(row.share)}</td>
@@ -3446,9 +3481,9 @@ export class Test2ElectionManager {
               return `
                 <tr class="election-count-row${candidate.elected ? ' election-count-row--elected' : ''}">
                   <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
-                  <td class="election-colour-col"><span class="election-party-dot" style="background:${escapeHtml(this.mainPanePartyColour(candidate.party, candidate.colour))}"></span></td>
+                  <td class="election-colour-col"${this.colourTabStyle(this.mainPanePartyColour(candidate.party, candidate.colour))}></td>
                   <td class="election-col-name">${this.renderElectionEntityButton('candidate', `${candidate.name || candidate.id || ''}|${candidate.party || ''}`, escapeHtml(candidate.name || ''), 'election-cell-wrap election-cell-wrap--count-name')}</td>
-                  <td class="election-col-party">${this.renderElectionEntityButton('party', candidate.party, escapeHtml(candidate.party || ''), 'election-cell-wrap election-cell-wrap--count-party')}</td>
+                  <td class="election-col-party">${this.renderElectionEntityButton('party', candidate.party, this.partyLabel(candidate.party || ''), 'election-cell-wrap election-cell-wrap--count-party')}</td>
                   <td class="election-col-status"><span class="election-cell-wrap election-cell-wrap--count-status">${statusCount}</span></td>
                   <td class="election-num">${!result.syntheticCountGroup && candidateDelta.deltas ? formatMainDelta(candidateDelta.deltas.firstPrefs) : formatNotApplicable()}</td>
                   <td class="election-num">${formatFixedPercent(firstPrefPct)}</td>
@@ -3541,7 +3576,7 @@ export class Test2ElectionManager {
           <div class="test2-election-table-wrap">
             <table class="test2-election-table catalogue-detail__entity-table">
               <thead><tr><th>Incumbent</th><th>Party</th><th>Outcome</th></tr></thead>
-              <tbody><tr><td>${escapeHtml(petition.incumbent || '')}</td><td>${escapeHtml(petition.incumbentParty || '')}</td><td>${triggered ? 'Seat vacated' : 'Seat retained'}</td></tr></tbody>
+              <tbody><tr><td>${escapeHtml(petition.incumbent || '')}</td><td>${this.partyLabel(petition.incumbentParty || '')}</td><td>${triggered ? 'Seat vacated' : 'Seat retained'}</td></tr></tbody>
             </table>
           </div>
         ` : ''}

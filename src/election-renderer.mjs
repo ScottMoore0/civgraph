@@ -13,6 +13,7 @@ import {
   sumNumbers
 } from './election-view-model.mjs';
 
+import { partyLabelHtml } from './party-names.mjs';
 export function createElectionRenderer(host) {
   return new SharedElectionRenderer(host);
 }
@@ -201,7 +202,7 @@ export class SharedElectionRenderer {
           <thead><tr><th>Party</th><th>Stood</th><th>Seats</th><th>Votes</th><th>Share</th><th>Change</th></tr></thead>
           <tbody>${rows.map((row) => `
             <tr>
-              <td><button type="button" class="test2-election-link election-entity-link" data-election-entity="party" data-election-entity-key="${escapeHtml(normalizeName(row.party))}"><span class="test2-party-swatch election-party-dot" style="background:${escapeHtml(row.colour)}"></span>${escapeHtml(row.party)}</button></td>
+              <td class="election-party-cell" style="--party-colour:${escapeHtml(row.colour)}"><button type="button" class="test2-election-link election-entity-link" data-election-entity="party" data-election-entity-key="${escapeHtml(normalizeName(row.party))}">${partyLabelHtml(row.party, escapeHtml)}</button></td>
               <td>${formatNumber(row.stood)}</td><td>${formatNumber(row.seats)}</td><td>${formatNumber(row.votes)}</td><td>${formatPercent(row.share)}</td><td>${formatDeltaPair(row.deltas?.seats, row.deltas?.votes)}</td>
             </tr>`).join('')}</tbody>
         </table>
@@ -216,7 +217,7 @@ export class SharedElectionRenderer {
           <tbody>${candidates.map((candidate) => `
             <tr class="${candidate.elected ? 'test2-election-table__elected' : ''}">
               <td><button type="button" class="test2-election-link election-entity-link" data-election-entity="candidate" data-election-entity-key="${escapeHtml(candidate.id || `${candidate.name}|${candidate.party}`)}">${escapeHtml(candidate.name || candidate.candidate || '')}</button></td>
-              <td><button type="button" class="test2-election-link election-entity-link" data-election-entity="party" data-election-entity-key="${escapeHtml(normalizeName(candidate.party))}"><span class="test2-party-swatch election-party-dot" style="background:${escapeHtml(partyColour(candidate.party) || candidate.colour || '#6b7280')}"></span>${escapeHtml(candidate.party || '')}</button></td>
+              <td class="election-party-cell" style="--party-colour:${escapeHtml(partyColour(candidate.party) || candidate.colour || '#6b7280')}"><button type="button" class="test2-election-link election-entity-link" data-election-entity="party" data-election-entity-key="${escapeHtml(normalizeName(candidate.party))}">${partyLabelHtml(candidate.party || '', escapeHtml)}</button></td>
               <td>${formatNumber(candidate.firstPrefs ?? candidate.votes ?? '')}</td><td>${candidate.deltas ? formatSigned(candidate.deltas.firstPrefs) : ''}</td><td>${formatNumber(candidate.finalVotes ?? candidate.firstPrefs ?? candidate.votes ?? '')}</td><td>${candidate.elected ? 'Elected' : escapeHtml(candidate.status || '')}</td>
             </tr>`).join('')}</tbody>
         </table>
@@ -231,7 +232,7 @@ export class SharedElectionRenderer {
           <tbody>${candidates.map((candidate) => `
             <tr class="${candidate.elected ? 'test2-election-table__elected' : ''}">
               <td><button type="button" class="test2-election-link election-entity-link" data-election-entity="candidate" data-election-entity-key="${escapeHtml(candidate.id || `${candidate.name}|${candidate.party}`)}">${escapeHtml(candidate.name || '')}</button></td>
-              <td><button type="button" class="test2-election-link election-entity-link" data-election-entity="party" data-election-entity-key="${escapeHtml(normalizeName(candidate.party))}"><span class="test2-party-swatch election-party-dot" style="background:${escapeHtml(candidate.colour || partyColour(candidate.party))}"></span>${escapeHtml(candidate.party || '')}</button></td>
+              <td class="election-party-cell" style="--party-colour:${escapeHtml(candidate.colour || partyColour(candidate.party))}"><button type="button" class="test2-election-link election-entity-link" data-election-entity="party" data-election-entity-key="${escapeHtml(normalizeName(candidate.party))}">${partyLabelHtml(candidate.party || '', escapeHtml)}</button></td>
               <td>${escapeHtml(candidate.constituency || '')}</td><td>${formatNumber(candidate.firstPrefs)}</td><td>${formatPercent(candidate.firstPrefPct)}</td><td>${candidate.deltas ? formatSigned(candidate.deltas.firstPrefs) : ''}</td><td>${candidate.elected ? 'Elected' : escapeHtml(candidate.status || '')}</td>
             </tr>`).join('')}</tbody>
         </table>
@@ -246,7 +247,7 @@ export class SharedElectionRenderer {
           <tbody>${results.map((result) => `
             <tr>
               <td><button type="button" class="test2-election-link" data-election-result-key="${escapeHtml(normalizeName(result.matchName || result.constituency || ''))}">${escapeHtml(result.constituency || result.matchName || '')}</button></td>
-              <td>${escapeHtml(result.winnerName || result.leadingName || '')}</td><td><span class="test2-party-swatch election-party-dot" style="background:${escapeHtml(partyColour(result.winnerParty || result.leadingParty))}"></span>${escapeHtml(result.winnerParty || result.leadingParty || '')}</td><td>${formatNumber(result.seatsWon ?? result.seatsTotal ?? '')}</td><td>${result.deltas ? formatSigned(result.deltas.seatsWon) : ''}</td><td>${formatPercent(result.turnoutPct)}</td><td>${formatNumber(result.majority)}</td>
+              <td>${escapeHtml(result.winnerName || result.leadingName || '')}</td><td class="election-party-cell" style="--party-colour:${escapeHtml(partyColour(result.winnerParty || result.leadingParty))}">${partyLabelHtml(result.winnerParty || result.leadingParty || '', escapeHtml)}</td><td>${formatNumber(result.seatsWon ?? result.seatsTotal ?? '')}</td><td>${result.deltas ? formatSigned(result.deltas.seatsWon) : ''}</td><td>${formatPercent(result.turnoutPct)}</td><td>${formatNumber(result.majority)}</td>
             </tr>`).join('')}</tbody>
         </table>
       </div>`;
@@ -261,7 +262,7 @@ export class SharedElectionRenderer {
           <thead><tr><th>Party</th><th>DEA</th><th>Stood</th><th>Seats</th><th>Seat change</th><th>First prefs</th><th>Vote change</th><th>DEA share</th><th>Share change</th></tr></thead>
           <tbody>${rows.map((row) => `
             <tr>
-              <td><button type="button" class="test2-election-link election-entity-link" data-election-entity="party" data-election-entity-key="${escapeHtml(normalizeName(row.party))}"><span class="test2-party-swatch election-party-dot" style="background:${escapeHtml(row.colour)}"></span>${escapeHtml(row.party)}</button></td>
+              <td class="election-party-cell" style="--party-colour:${escapeHtml(row.colour)}"><button type="button" class="test2-election-link election-entity-link" data-election-entity="party" data-election-entity-key="${escapeHtml(normalizeName(row.party))}">${partyLabelHtml(row.party, escapeHtml)}</button></td>
               <td><button type="button" class="test2-election-link" data-election-result-key="${escapeHtml(row.resultKey)}">${escapeHtml(row.constituency)}</button></td><td>${formatNumber(row.stood)}</td><td>${formatNumber(row.seats)}</td><td>${row.deltas ? formatSigned(row.deltas.seats) : ''}</td><td>${formatNumber(row.firstPrefs)}</td><td>${row.deltas ? formatSigned(row.deltas.firstPrefs) : ''}</td><td>${formatPercent(row.share)}</td><td>${row.deltas?.share !== null && row.deltas?.share !== undefined ? formatSignedPercent(row.deltas.share) : ''}</td>
             </tr>`).join('')}</tbody>
         </table>
@@ -274,7 +275,7 @@ export class SharedElectionRenderer {
         <table class="test2-election-table catalogue-detail__entity-table election-party-table">
           <thead><tr><th>Council</th><th>DEAs</th><th>Leading party</th><th>Seats</th><th>Seat change</th><th>Valid votes</th><th>Vote change</th><th>Turnout</th><th>Turnout change</th></tr></thead>
           <tbody>${rows.map((row) => `
-            <tr><td>${escapeHtml(row.council)}</td><td>${formatNumber(row.deas)}</td><td><span class="test2-party-swatch election-party-dot" style="background:${escapeHtml(row.colour)}"></span>${escapeHtml(row.leadingParty || '')}</td><td>${formatNumber(row.seats)}</td><td>${row.deltas ? formatSigned(row.deltas.seats) : ''}</td><td>${formatNumber(row.validPoll)}</td><td>${row.deltas ? formatSigned(row.deltas.validPoll) : ''}</td><td>${formatPercent(row.turnoutPct)}</td><td>${row.deltas?.turnoutPct !== null && row.deltas?.turnoutPct !== undefined ? formatSignedPercent(row.deltas.turnoutPct) : ''}</td></tr>
+            <tr><td>${escapeHtml(row.council)}</td><td>${formatNumber(row.deas)}</td><td class="election-party-cell" style="--party-colour:${escapeHtml(row.colour)}">${partyLabelHtml(row.leadingParty || '', escapeHtml)}</td><td>${formatNumber(row.seats)}</td><td>${row.deltas ? formatSigned(row.deltas.seats) : ''}</td><td>${formatNumber(row.validPoll)}</td><td>${row.deltas ? formatSigned(row.deltas.validPoll) : ''}</td><td>${formatPercent(row.turnoutPct)}</td><td>${row.deltas?.turnoutPct !== null && row.deltas?.turnoutPct !== undefined ? formatSignedPercent(row.deltas.turnoutPct) : ''}</td></tr>
           `).join('')}</tbody>
         </table>
       </div>`;
@@ -286,7 +287,7 @@ export class SharedElectionRenderer {
         <table class="test2-election-table catalogue-detail__entity-table election-party-table">
           <thead><tr><th>Party</th><th>Candidates</th><th>Seats</th><th>Seat change</th><th>First prefs</th><th>Vote share</th><th>Vote change</th></tr></thead>
           <tbody>${rows.map((row) => `
-            <tr><td><button type="button" class="test2-election-link election-entity-link" data-election-entity="party" data-election-entity-key="${escapeHtml(normalizeName(row.party))}"><span class="test2-party-swatch election-party-dot" style="background:${escapeHtml(row.colour)}"></span>${escapeHtml(row.party)}</button></td><td>${formatNumber(row.stood)}</td><td>${formatNumber(row.seats)}</td><td>${row.deltas ? formatSigned(row.deltas.seats) : ''}</td><td>${formatNumber(row.votes)}</td><td>${formatPercent(row.share)}</td><td>${row.deltas ? `${formatSigned(row.deltas.votes)}${row.deltas.share !== null ? ` (${formatSignedPercent(row.deltas.share)})` : ''}` : ''}</td></tr>
+            <tr><td class="election-party-cell" style="--party-colour:${escapeHtml(row.colour)}"><button type="button" class="test2-election-link election-entity-link" data-election-entity="party" data-election-entity-key="${escapeHtml(normalizeName(row.party))}">${partyLabelHtml(row.party, escapeHtml)}</button></td><td>${formatNumber(row.stood)}</td><td>${formatNumber(row.seats)}</td><td>${row.deltas ? formatSigned(row.deltas.seats) : ''}</td><td>${formatNumber(row.votes)}</td><td>${formatPercent(row.share)}</td><td>${row.deltas ? `${formatSigned(row.deltas.votes)}${row.deltas.share !== null ? ` (${formatSignedPercent(row.deltas.share)})` : ''}` : ''}</td></tr>
           `).join('')}</tbody>
         </table>
       </div>`;
@@ -323,7 +324,7 @@ export class SharedElectionRenderer {
 
   renderCountCandidateRow(candidate, countNumbers, result) {
     const counts = new Map((candidate.counts || []).map((count) => [Number(count.count), count]));
-    return `<tr class="${candidate.elected ? 'test2-election-table__elected' : ''}"><td>${escapeHtml(candidate.name || '')}</td><td><span class="test2-party-swatch election-party-dot" style="background:${escapeHtml(candidate.colour || partyColour(candidate.party))}"></span>${escapeHtml(candidate.party || '')}</td>${countNumbers.map((count) => {
+    return `<tr class="${candidate.elected ? 'test2-election-table__elected' : ''}"><td>${escapeHtml(candidate.name || '')}</td><td class="election-party-cell" style="--party-colour:${escapeHtml(candidate.colour || partyColour(candidate.party))}">${partyLabelHtml(candidate.party || '', escapeHtml)}</td>${countNumbers.map((count) => {
       const row = counts.get(Number(count));
       if (!row) return '<td></td>';
       const value = row.total ?? row.firstPrefs;

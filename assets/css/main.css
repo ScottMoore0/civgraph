@@ -10814,8 +10814,11 @@ kbd {
   z-index: 1;
 }
 
+/* First header ROW only: "th:first-child" also matched the first cell of the second and third
+   header rows ("Outcome", "No."), which the frozen-column script then pinned in place, so their
+   labels stayed put while their columns scrolled away. */
 .election-count-table td:first-child,
-.election-count-table th:first-child {
+.election-count-table thead tr:first-child th:first-child {
   text-align: left;
   position: sticky;
   left: 0;
@@ -11291,7 +11294,7 @@ kbd {
 .election-party-table,
 .election-count-table {
   --results-sticky-col-1-width: 56px;
-  --results-sticky-col-2-width: 24px;
+  --results-sticky-col-2-width: 6px;
   --results-sticky-col-3-width: 150px;
   --results-sticky-col-4-width: 120px;
   --results-col-compact-width: 54px;
@@ -11314,7 +11317,7 @@ kbd {
 
 .election-results-table--fixed {
   --results-track-rank-width: 56px;
-  --results-track-dot-width: 28px;
+  --results-track-dot-width: 6px;
   --results-track-name-width: 148px;
   --results-track-party-width: 118px;
   --results-track-constituency-width: 126px;
@@ -12307,12 +12310,83 @@ th.election-th--menu.election-th-btn--active {
   box-shadow: 1px 0 0 #d6d8dc, 0 1px 0 #d6d8dc;
 }
 
-.election-colour-col .election-party-dot {
-  width: 14px;
-  height: 24px;
-  border-radius: 2px;
-  margin: 0;
-  vertical-align: middle;
+/* Party colour: a narrow tab down the left edge of the party cell, not a square beside the
+   name. A table with its own colour column fills that (now narrow) column instead; a party cell
+   carries the colour in --party-colour and draws the tab itself. */
+/* Scoped to the results tables and !important: a later rule sets every results-table cell to
+   width: auto !important; min-width: 0 !important, and an empty cell in an auto-layout table
+   then collapses to about 2px. */
+.election-party-table td.election-colour-col,
+.election-count-table td.election-colour-col,
+td.election-colour-col {
+  width: 6px !important;
+  min-width: 6px !important;
+  max-width: 6px;
+  padding: 0 !important;
+  background: var(--party-colour, transparent) !important;
+}
+
+th.election-colour-col {
+  width: 6px;
+  min-width: 6px;
+  max-width: 6px;
+  padding: 0 !important;
+}
+
+td.election-party-cell {
+  position: relative;
+  padding-left: 12px;
+}
+
+td.election-party-cell::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 5px;
+  background: var(--party-colour, transparent);
+}
+
+abbr.party-abbr {
+  text-decoration: none;
+  cursor: help;
+}
+
+/* Westminster: one "Elected" column with a tick or a cross (the count is always 1/1). */
+.election-col-elected {
+  text-align: center !important;
+}
+
+.election-elected-mark {
+  font-weight: 700;
+  font-size: 1.05em;
+}
+
+.election-elected-mark--yes {
+  color: #15803d;
+}
+
+.election-elected-mark--no {
+  color: #b91c1c;
+}
+
+[data-theme="dark"] .election-elected-mark--yes {
+  color: #4ade80;
+}
+
+[data-theme="dark"] .election-elected-mark--no {
+  color: #f87171;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .election-elected-mark--yes {
+    color: #4ade80;
+  }
+
+  :root:not([data-theme="light"]) .election-elected-mark--no {
+    color: #f87171;
+  }
 }
 
 .election-cell-strong {
