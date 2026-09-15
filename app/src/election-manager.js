@@ -58,6 +58,25 @@ function electionBundleUrl(entry) {
 }
 
 /**
+ * Where each result in an election came from, and how far that was checked.
+ *
+ * One small file per election, written by scripts/build-election-provenance.mjs and keyed by the
+ * constituency name as rendered. Only 213 elections have any attribution yet, so a miss is the
+ * normal case and must never disturb the results themselves: every failure returns null and the
+ * pane simply shows no source line.
+ */
+async function loadProvenanceShard(key) {
+    try {
+        const response = await fetch(`/render/metadata/election-provenance/${encodeURIComponent(key)}.json`, { cache: 'force-cache' });
+        if (!response.ok) return null;
+        const shard = await response.json();
+        return shard?.contests || null;
+    } catch {
+        return null;
+    }
+}
+
+/**
  * Report an elections-API problem so it is visible outside one user's console.
  *
  * The API is the default path and falls back to the static bundles on failure, which
@@ -522,6 +541,7 @@ export class Test2ElectionManager {
     }
     if (!response.ok) throw new Error(`Failed to load election results for ${entry.body} ${entry.date}: ${response.status}`);
     const bundle = await response.json();
+    bundle.provenance = await loadProvenanceShard(entry.key);
     rememberLimitedCache(this.bundleCache, entry.key, bundle, ELECTION_BUNDLE_CACHE_LIMIT);
     return bundle;
   }

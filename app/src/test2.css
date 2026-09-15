@@ -1129,11 +1129,13 @@ body.test2-election-pane-resizing * {
   align-items: center;
 }
 
+.test2-election-source-note,
 .test2-election-coverage-notice,
 .test2-election-count-toolbar {
   margin: 8px 0;
 }
 
+.test2-election-source-note,
 .test2-election-coverage-notice {
   padding: 8px 10px;
   border: 1px solid var(--color-border, #d8e0ea);
@@ -1406,6 +1408,7 @@ body.test2-election-pane-resizing * {
 [data-theme="dark"] .test2-source-panel,
 [data-theme="dark"] .test2-election-panel,
 [data-theme="dark"] .test2-election-table-wrap,
+[data-theme="dark"] .test2-election-source-note,
 [data-theme="dark"] .test2-election-coverage-notice,
 [data-theme="dark"] .test2-election-trends,
 [data-theme="dark"] .test2-election-animation-ready,
@@ -1483,6 +1486,7 @@ body.test2-election-pane-resizing * {
   :root:not([data-theme="light"]) .test2-source-panel,
   :root:not([data-theme="light"]) .test2-election-panel,
   :root:not([data-theme="light"]) .test2-election-table-wrap,
+  :root:not([data-theme="light"]) .test2-election-source-note,
   :root:not([data-theme="light"]) .test2-election-coverage-notice,
   :root:not([data-theme="light"]) .test2-election-trends,
   :root:not([data-theme="light"]) .test2-election-animation-ready,
