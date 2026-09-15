@@ -1,0 +1,119 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://civgraph.net/schema/election-provenance.schema.json",
+  "title": "Civgraph election provenance contract",
+  "description": "One record per election contest, saying where its figures come from and how far that has been checked. Written by scripts/build-election-provenance.mjs; validated by the same script with --check. A contest is identified by its file path relative to data/elections-source/data/elections, which is the only identifier shared by every body. Sources come from two layers: the source_url recorded when the contest was imported, and the citations Wikipedia gives for the same contest, which Civgraph fetched and compared against the figures. This file lists citations (titles, publishers, URLs) and never copied source text.",
+  "type": "object",
+  "required": ["schemaVersion", "generatedAt", "counts", "contests"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "licence": {
+      "type": "string",
+      "description": "Standing note on what may be reproduced from the listed sources."
+    },
+    "counts": {
+      "type": "object",
+      "description": "Coverage summary, recomputed on every build and compared by --check.",
+      "required": ["contests", "withAnySource", "verified", "byBody"],
+      "properties": {
+        "contests": { "type": "integer" },
+        "withAnySource": { "type": "integer" },
+        "verified": { "type": "integer" },
+        "byBody": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "required": ["contests", "withAnySource", "verified"],
+            "properties": {
+              "contests": { "type": "integer" },
+              "withAnySource": { "type": "integer" },
+              "verified": { "type": "integer" }
+            }
+          }
+        }
+      }
+    },
+    "contests": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/contest" }
+    }
+  },
+  "definitions": {
+    "contest": {
+      "type": "object",
+      "required": ["file", "body", "date", "constituency", "status", "sources"],
+      "properties": {
+        "file": {
+          "type": "string",
+          "description": "Path relative to data/elections-source/data/elections, e.g. ireland-local/1974-06-18/buncrana.json. The join key.",
+          "pattern": "^[a-z0-9-]+/[0-9]{4}-[0-9]{2}-[0-9]{2}/.+\\.json$"
+        },
+        "body": { "type": "string", "description": "Body slug, the first path segment." },
+        "date": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+        "constituency": { "type": "string", "description": "As named in the contest file, not the slug." },
+        "status": {
+          "enum": ["verified", "cited", "recorded", "unsourced"],
+          "description": "verified: a source was fetched and found to contain these candidates (and usually their votes). cited: a source is named for this contest but its contents were not confirmed. recorded: only the source_url captured at import, not checked. unsourced: nothing at all."
+        },
+        "relatedWikipedia": {
+          "type": ["string", "null"],
+          "description": "Article about this contest. Context for a reader, never a citation in itself."
+        },
+        "sources": {
+          "type": "array",
+          "description": "Most dependable first. Empty only when status is unsourced.",
+          "items": { "$ref": "#/definitions/source" }
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": ["url", "origin", "checked"],
+      "properties": {
+        "title": { "type": ["string", "null"] },
+        "publisher": { "type": ["string", "null"] },
+        "url": { "type": "string" },
+        "archiveUrl": { "type": ["string", "null"], "description": "Wayback or other archived copy, where the live page has gone." },
+        "host": { "type": ["string", "null"] },
+        "kind": {
+          "type": ["string", "null"],
+          "description": "What sort of source it is: official, academic, news, compilation, and so on."
+        },
+        "origin": {
+          "enum": ["import", "wikipedia-citation"],
+          "description": "import: the source_url recorded when the contest was imported. wikipedia-citation: a source Wikipedia cites for this contest, found by scripts/harvest_wikipedia_cited_sources.py."
+        },
+        "basis": {
+          "type": ["string", "null"],
+          "description": "How the citation was attached to the result in the article: inline-citation, section-citation, inline-link, external-link, body-link; or source-url for the import layer."
+        },
+        "scope": {
+          "enum": ["this contest", "same section", "article", null],
+          "description": "What the citation was given for, narrowest first. 'this contest' means it was attached to this constituency's own result, so it stands as a citation for this contest. 'same section' means it was given for the section the result sits in, such as one council within a multi-council article. 'article' means it was given for the election as a whole, so it supports this contest only as far as the source covers it -- which is what the checked flag and the check text record. Null for the import layer."
+        },
+        "checked": {
+          "type": "boolean",
+          "description": "True only when Civgraph fetched this source and found these candidates in it. Never true for the import layer, which was recorded but not verified."
+        },
+        "check": {
+          "type": ["string", "null"],
+          "description": "Plain-language result of that comparison, e.g. contains the candidates and their votes."
+        },
+        "match": {
+          "enum": ["exact", "area-only", "fuzzy", null],
+          "description": "How confidently the article's contest was matched to this Civgraph contest. exact: names agree. area-only: the area is unique for that year. fuzzy: name tokens agree in any order. Anything other than exact should be shown as a weaker claim."
+        },
+        "document": {
+          "type": ["object", "null"],
+          "description": "A file linked from the cited page which is what was actually checked, e.g. a council's results spreadsheet.",
+          "properties": {
+            "url": { "type": "string" },
+            "archiveUrl": { "type": ["string", "null"] },
+            "label": { "type": ["string", "null"] }
+          }
+        }
+      }
+    }
+  }
+}
