@@ -30,12 +30,15 @@
  * --check is the gate: it fails when the committed file no longer matches what the inputs produce,
  * so provenance cannot fall out of step with the data unnoticed.
  */
-import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, readdirSync, unlinkSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
 const ELECTIONS = path.join('data', 'elections-source', 'data', 'elections');
 const REVIEW = path.join('data', 'review-inputs', 'wikipedia-cited-sources', 'contest-sources.json');
 const OUT = path.join('data', 'database', 'election-provenance.json');
+// Per-election shards for the browser. The whole file is 10 MB, far too much to fetch, so the app
+// loads only the election it is showing, keyed by the constituency name it already has.
+const SHARD_DIR = path.join('render', 'metadata', 'election-provenance');
 const CHECK = process.argv.includes('--check');
 
 const readJson = (p) => JSON.parse(readFileSync(p, 'utf8'));
@@ -210,6 +213,52 @@ const summary = () => {
 
 const stable = (d) => JSON.stringify({ ...d, generatedAt: null });
 
+/** The app renders a constituency name; this is the key both sides can compute from it. */
+const nameKey = (s) => (s || '').toLowerCase().replace(/[^a-z0-9]+/g, '');
+
+/**
+ * One small file per election holding the best source for each of its contests: checked before
+ * unchecked, then the narrowest citation. Keyed by constituency name, so the app can look up what
+ * it is showing without knowing anything about contest file paths.
+ */
+function buildShards(provenance) {
+  const rank = { 'this contest': 3, 'same section': 2, article: 1 };
+  const byKey = new Map();
+  for (const c of provenance.contests) {
+    if (!c.sources.length) continue;
+    const key = `${c.body}__${c.date}`;
+    const best = [...c.sources].sort((a, b) => Number(b.checked) - Number(a.checked)
+      || (rank[b.scope] ?? 0) - (rank[a.scope] ?? 0))[0];
+    const shard = byKey.get(key) ?? { schemaVersion: 1, key, contests: {} };
+    shard.contests[nameKey(c.constituency)] = {
+      constituency: c.constituency,
+      status: c.status,
+      relatedWikipedia: c.relatedWikipedia,
+      source: {
+        title: best.title,
+        publisher: best.publisher,
+        url: best.url,
+        archiveUrl: best.archiveUrl,
+        host: best.host,
+        scope: best.scope,
+        checked: best.checked,
+        check: best.check,
+      },
+      otherSources: c.sources.length - 1,
+    };
+    byKey.set(key, shard);
+  }
+  return byKey;
+}
+
+const shardText = (shard) => `${JSON.stringify({
+  ...shard,
+  contests: Object.fromEntries(Object.keys(shard.contests).sort().map((k) => [k, shard.contests[k]])),
+}, null, 1)}\n`;
+
+const shards = buildShards(doc);
+const shardFiles = () => (existsSync(SHARD_DIR) ? readdirSync(SHARD_DIR).filter((f) => f.endsWith('.json')) : []);
+
 if (CHECK) {
   if (!existsSync(OUT)) {
     console.error(`${OUT} does not exist. Run: node scripts/build-election-provenance.mjs`);
@@ -217,14 +266,25 @@ if (CHECK) {
   }
   const committed = readJson(OUT);
   summary();
-  if (stable(committed) !== stable(doc)) {
-    console.error('\nelection provenance is stale: the committed file no longer matches its inputs.');
+  const staleShards = shardFiles().length !== shards.size
+    || [...shards].some(([key, shard]) => {
+      const p = path.join(SHARD_DIR, `${key}.json`);
+      return !existsSync(p) || readFileSync(p, 'utf8') !== shardText(shard);
+    });
+  if (stable(committed) !== stable(doc) || staleShards) {
+    console.error(`\nelection provenance is stale: the committed ${staleShards ? 'shards no longer match' : 'file no longer matches'} its inputs.`);
     console.error('Run: node scripts/build-election-provenance.mjs');
     process.exit(1);
   }
-  console.log('\nelection provenance is up to date.');
+  console.log(`\nelection provenance is up to date (${shards.size} per-election shards).`);
 } else {
   writeFileSync(OUT, `${JSON.stringify(doc, null, 1)}\n`);
-  console.log(`wrote ${OUT}`);
+  mkdirSync(SHARD_DIR, { recursive: true });
+  const wanted = new Set([...shards.keys()].map((k) => `${k}.json`));
+  for (const f of shardFiles()) {
+    if (!wanted.has(f)) unlinkSync(path.join(SHARD_DIR, f));
+  }
+  for (const [key, shard] of shards) writeFileSync(path.join(SHARD_DIR, `${key}.json`), shardText(shard));
+  console.log(`wrote ${OUT} and ${shards.size} per-election shards in ${SHARD_DIR}`);
   summary();
 }

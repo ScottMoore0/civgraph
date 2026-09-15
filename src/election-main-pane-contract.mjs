@@ -78,9 +78,42 @@ export class MainElectionPaneContract {
 
   renderPanelContent(selectedResult = null, view = 'party') {
     const content = selectedResult
-      ? this.renderConstituencyResults(selectedResult, view)
+      ? `${this.renderSourceNote(selectedResult)}${this.renderConstituencyResults(selectedResult, view)}`
       : this.renderOverallResults(view);
     return `<div data-election-renderer="${escapeHtml(this.rendererId)}">${content}</div>`;
+  }
+
+  /**
+   * Where this contest's figures come from, and how far that was checked.
+   *
+   * The election manager attaches the provenance shard to the bundle; most elections have none
+   * yet, so the usual outcome is no note at all rather than an empty one. The wording follows the
+   * citation's scope, because the two are different claims: a citation given for this contest
+   * stands as its source, while one given for the election as a whole was only found to contain
+   * these figures. An unchecked citation says so plainly. The Wikipedia article is offered as
+   * related reading, never as the citation.
+   */
+  renderSourceNote(result) {
+    const contests = this.host.activeBundle?.provenance;
+    const name = result?.constituency || result?.localBody || '';
+    if (!contests || !name) return '';
+    const entry = contests[name.toLowerCase().replace(/[^a-z0-9]+/g, '')];
+    const source = entry?.source;
+    if (!source?.url) return '';
+    const link = (url, text) => `<a href="${escapeHtml(url)}" target="_blank" rel="noopener">${escapeHtml(text)}</a>`;
+    const cited = link(source.url, source.title || source.publisher || source.host || 'the source');
+    const publisher = source.title && source.publisher ? ` (${escapeHtml(source.publisher)})` : '';
+    const attachedHere = source.scope === 'this contest' || source.scope === 'same section';
+    const body = source.checked && attachedHere
+      ? `Source: ${cited}${publisher}.`
+      : source.checked
+      ? `Figures confirmed against ${cited}${publisher}, a source for this election.`
+      : entry.status === 'recorded'
+      ? `Imported from ${cited}${publisher}.`
+      : `Cited by Wikipedia: ${cited}${publisher}. Not checked against these figures.`;
+    const archived = source.archiveUrl ? ` ${link(source.archiveUrl, 'Archived copy')}.` : '';
+    const related = entry.relatedWikipedia ? ` ${link(entry.relatedWikipedia, 'Related Wikipedia article')}.` : '';
+    return `<div class="test2-election-source-note" role="note">${body}${archived}${related}</div>`;
   }
 
   renderOverallResults(view = 'party') {
