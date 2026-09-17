@@ -126,6 +126,22 @@ const PARTIES = [
   ['UIV', "Ulster's Independent Voice"],
   ['SRP', 'Socialist Republican Party'],
   ['KIA', 'Kerry Independent Alliance'],
+  ['PPP', "People's Progressive Party"],
+  ['CLP', 'Commonwealth Labour Party'],
+  ['UCP', 'Ulster Constitution Party'],
+  // The bare "Unity" spelling in the data resolves here too: the abbreviation is itself
+  // a key, and both refer to the same 1970s Northern Ireland anti-unionist Unity label.
+  ['Unity', 'Unity (Northern Ireland)'],
+  ['PAW', 'Party for Animal Welfare'],
+  ['UPA', 'Ulster Protestant Action'],
+  ['UPL', 'Ulster Protestant League'],
+  ['SBU', 'South Belfast Unionists'],
+  ['Centre', 'Centre Party of Ireland'],
+  ['ISN', 'Irish Socialist Network'],
+  ['NDUK', 'National Democrats (UK)'],
+  ['DP', 'Democratic Partnership'],
+  ['NI1ST', 'Northern Ireland First'],
+  ['IDP', 'Irish Democratic Party'],
 ];
 
 function key(value) {
