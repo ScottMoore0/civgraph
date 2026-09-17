@@ -11,15 +11,17 @@
 
 // [abbreviation, full name, ...other spellings in the data]
 const PARTIES = [
-  ['DUP', 'Democratic Unionist Party'],
-  ['UUP', 'Ulster Unionist Party', 'Ulster Unionist', 'Official Unionist Party', 'Official Unionist'],
+  ['DUP', 'Democratic Unionist Party', 'DUP Civil Servant (Retired)'],
+  ['UUP', 'Ulster Unionist Party', 'Ulster Unionist', 'Official Unionist Party', 'Official Unionist',
+    'Shopkeeper, Ulster Unionist', 'Businssman Ulster Unionist'],
   ['AP', 'Alliance Party', 'Alliance', 'Alliance Party of Northern Ireland'],
   ['SDLP', 'Social Democratic and Labour Party'],
   ['SF', 'Sinn Féin', 'Sinn Fein'],
-  ['Ind U', 'Independent Unionist'],
+  ['Ind U', 'Independent Unionist', 'Independent  Progressive Unionist', 'Independent Liberal Unionist'],
   ['Ind O', 'Independent Other'],
-  ['Ind N', 'Independent Nationalist', 'Ind Nat'],
-  ['Ind', 'Independent', 'Non party/Independent', 'Non-party', 'Non party', 'NON-P', 'Independent - Northern Ireland independence'],
+  ['Ind N', 'Independent Nationalist', 'Ind Nat', 'unofficial (non-party) Sinn Féin'],
+  ['Ind', 'Independent', 'Non party/Independent', 'Non-party', 'Non party', 'NON-P', 'Independent - Northern Ireland independence',
+    "Non party/An Chomhdhail Phobail | People's Convention", 'Non party/Fathers Rights Responsibilities'],
   ['GP', 'Green Party', 'Green', 'Green Party Northern Ireland', 'Green / Ecology', 'Green/Comhaontas Glas', 'Green Alliance/Comhaontas Glas', 'G.P.'],
   ['PBP', 'People Before Profit', 'People Before Profit Alliance', 'P.B.P.A.'],
   ['S-PBP', 'Solidarity–People Before Profit', 'Solidarity-PBP', 'S.P.B.P.'],
@@ -107,6 +109,23 @@ const PARTIES = [
   ['ULA', 'United Left Alliance'],
   ['IHA', 'Independent Health Alliance'],
   ['CC', 'Ceann Comhairle (Speaker)'],
+  // Labels reviewed against the source data one by one. The "Lozenge" spellings are
+  // ballot-paper artefacts of the same party; key() strips a trailing "Lozenge" before
+  // matching, so one entry covers both, but they are listed where they occur in the data.
+  ['RDT', 'Vote For Yourself / Rainbow Dream Ticket / Make Politicians History'],
+  ['Joint', 'Joint Panel Nomination (Pro/Anti Treaty)'],
+  ['ARG', 'An Rabharta Glas – Green Left', 'An Rabharta Glas – Green Left Lozenge'],
+  ['HRRA', 'Housing Rights and Reform Alliance'],
+  ['DLTU', 'Derry Labour and Trade Union Party'],
+  ['UCDP', 'Ulster Christian Democratic Party'],
+  ['SKIA', 'South Kerry Independent Alliance'],
+  ['ILPU', 'Irish Loyal and Patriotic Union'],
+  ['AÉ', 'Aontacht Eireann (Irish Unity)'],
+  ['LTUG', 'Labour and Trade Union Group'],
+  ['3W', 'Third Way (UK organisation)'],
+  ['UIV', "Ulster's Independent Voice"],
+  ['SRP', 'Socialist Republican Party'],
+  ['KIA', 'Kerry Independent Alliance'],
 ];
 
 function key(value) {
