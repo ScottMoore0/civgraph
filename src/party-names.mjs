@@ -142,6 +142,9 @@ const PARTIES = [
   ['DP', 'Democratic Partnership'],
   ['NI1ST', 'Northern Ireland First'],
   ['IDP', 'Irish Democratic Party'],
+  // The apostrophe is dropped before matching, so this covers both spellings in the data.
+  ['TTA', "Town Tenants' Association", 'Town Tenants Association'],
+  ['VPP', 'Volunteer Political Party'],
 ];
 
 function key(value) {
