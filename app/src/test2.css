@@ -1145,6 +1145,19 @@ body.test2-election-pane-resizing * {
   font-size: 12px;
 }
 
+/* The citation rides at the foot of the scrolling results area rather than waiting at the
+   very end of it. It is the last element in the panel, so its resting place is below the
+   fold on any table worth scrolling; sticking it to the bottom of .election-pane__content
+   -- the pane's scrolling box -- keeps it in view the whole way down and lets it settle
+   into place when the last row arrives. It needs to sit above the rows passing behind it,
+   hence the z-index and the opaque background it already carries. */
+.test2-election-source-note {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  margin-bottom: 0;
+}
+
 .test2-election-coverage-notice p {
   margin: 4px 0 0;
 }
