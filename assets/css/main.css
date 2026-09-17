@@ -10357,6 +10357,20 @@ kbd {
   overflow-y: auto;
 }
 
+/* Below the stacking breakpoint the panes sit on top of each other rather than side by
+   side, so there is no map column for the results to line up beside. --clamped-split
+   still resolves to half the shell, though, and the rule above positions against it, so
+   results were pinned to the right-hand half of a phone screen with a dead band beside
+   them and the candidate names cut off at the edge. With no split to avoid, the pane
+   takes the full width. This has to come after that rule rather than live with the other
+   mobile rules further up: the two selectors have equal specificity, so whichever is
+   written last wins. */
+@media (max-width: 768px) {
+  .election-results-pane--open {
+    left: 0;
+  }
+}
+
 .election-split-drag {
   height: 6px;
   background: var(--color-primary-100, #c3dafe);
