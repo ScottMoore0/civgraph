@@ -77,8 +77,11 @@ export class MainElectionPaneContract {
   }
 
   renderPanelContent(selectedResult = null, view = 'party') {
+    // The citation follows the figures it is a citation for. Above the table it sat between the
+    // tabs and the results, pushing the first rows down and reading as a heading rather than an
+    // attribution; the table's own header row is what stays put while the pane scrolls.
     const content = selectedResult
-      ? `${this.renderSourceNote(selectedResult)}${this.renderConstituencyResults(selectedResult, view)}`
+      ? `${this.renderConstituencyResults(selectedResult, view)}${this.renderSourceNote(selectedResult)}`
       : this.renderOverallResults(view);
     return `<div data-election-renderer="${escapeHtml(this.rendererId)}">${content}</div>`;
   }
