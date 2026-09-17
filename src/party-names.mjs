@@ -39,6 +39,7 @@ const PARTIES = [
   ['VUPP', 'Vanguard Unionist Progressive Party'],
   ['NILP', 'Northern Ireland Labour Party', 'NI Labour'],
   ['LPNI', 'Labour Party of Northern Ireland'],
+  ['NALAB', 'Newtownabbey Labour'],
   ['NILRC', 'Northern Ireland Labour Representation Committee'],
   ['PD', 'Progressive Democrats', 'P.D.'],
   ['IIP', 'Irish Independence Party'],
