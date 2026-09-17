@@ -17,11 +17,13 @@ const PARTIES = [
   ['AP', 'Alliance Party', 'Alliance', 'Alliance Party of Northern Ireland'],
   ['SDLP', 'Social Democratic and Labour Party'],
   ['SF', 'Sinn Féin', 'Sinn Fein'],
-  ['Ind U', 'Independent Unionist', 'Independent  Progressive Unionist', 'Independent Liberal Unionist'],
+  ['Ind U', 'Independent Unionist', 'Independent  Progressive Unionist', 'Independent Liberal Unionist',
+    'Unofficial Unionist'],
   ['Ind O', 'Independent Other'],
-  ['Ind N', 'Independent Nationalist', 'Ind Nat', 'unofficial (non-party) Sinn Féin'],
+  ['Ind N', 'Independent Nationalist', 'Ind Nat', 'unofficial (non-party) Sinn Féin', 'Irish Republican'],
   ['Ind', 'Independent', 'Non party/Independent', 'Non-party', 'Non party', 'NON-P', 'Independent - Northern Ireland independence',
-    "Non party/An Chomhdhail Phobail | People's Convention", 'Non party/Fathers Rights Responsibilities'],
+    "Non party/An Chomhdhail Phobail | People's Convention", 'Non party/Fathers Rights Responsibilities',
+    'Independent Farmer'],
   ['GP', 'Green Party', 'Green', 'Green Party Northern Ireland', 'Green / Ecology', 'Green/Comhaontas Glas', 'Green Alliance/Comhaontas Glas', 'G.P.'],
   ['PBP', 'People Before Profit', 'People Before Profit Alliance', 'P.B.P.A.'],
   ['S-PBP', 'Solidarity–People Before Profit', 'Solidarity-PBP', 'S.P.B.P.'],
@@ -145,7 +147,28 @@ const PARTIES = [
   // The apostrophe is dropped before matching, so this covers both spellings in the data.
   ['TTA', "Town Tenants' Association", 'Town Tenants Association'],
   ['VPP', 'Volunteer Political Party'],
+  ['NF', 'National Front', 'National Front (UK)'],
+  // Shown as written: the "Lozenge" spelling is a ballot-paper artefact of the same
+  // label, and key() strips it, so this one entry answers both.
+  ['Socialist', 'Socialist', 'Socialist Lozenge'],
+  // Distinct from PAW, Party for Animal Welfare: separate labels in the data.
+  ['AWP', 'Animal Welfare Party'],
+  // The British LRC of 1906, not the NILRC already listed above.
+  ['LRC', 'Labour Representation Committee', 'Labour Repr. Cmte.'],
+  ['WSP', 'World Socialist Party'],
+  ['FOL', 'Federation of Labour'],
+  ['NIM', 'New Ireland Movement'],
+  ['U3W', 'Ulster Third Way'],
 ];
+
+/**
+ * Labels that turn up in the party column but are not parties. "Non-transferable" is STV
+ * count bookkeeping -- 2,928 rows of it in the source data -- and it is already dropped
+ * before the built summaries, so nothing downstream treats it as a party. It is named here
+ * so an audit of unabbreviated parties stops offering it and nobody gives it an
+ * abbreviation by mistake.
+ */
+const NOT_PARTIES = ['Non-transferable'];
 
 function key(value) {
   return String(value ?? '')
@@ -166,6 +189,13 @@ for (const [abbreviation, fullName, ...spellings] of PARTIES) {
     const k = key(spelling);
     if (k && !BY_KEY.has(k)) BY_KEY.set(k, { abbreviation, fullName });
   }
+}
+
+const NOT_PARTY_KEYS = new Set(NOT_PARTIES.map(key));
+
+/** True for a label that is not a party at all, so callers can leave it out of party lists. */
+export function isNonParty(value) {
+  return NOT_PARTY_KEYS.has(key(value));
 }
 
 /** {abbreviation, fullName} for a party as spelled in the data, or null if unlisted. */
