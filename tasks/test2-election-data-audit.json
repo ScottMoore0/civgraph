@@ -1,66 +1,307 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-21T13:33:35.781Z",
-  "failOnBlocking": false,
+  "generatedAt": "2026-09-13T19:06:09.050Z",
+  "failOnBlocking": true,
   "stats": {
     "manifest": {
       "schemaVersion": 1,
-      "generatedAt": "2026-07-21T13:27:23.842Z",
-      "entries": 281,
+      "generatedAt": "2026-09-13T17:31:41.700Z",
+      "entries": 291,
       "totals": {
-        "elections": 281,
-        "loadable": 262,
-        "placeholders": 19,
-        "matchedConstituencies": 3855,
-        "unmatchedConstituencies": 851
+        "elections": 291,
+        "loadable": 276,
+        "placeholders": 12,
+        "matchedConstituencies": 4918,
+        "unmatchedConstituencies": 828
       }
     },
     "browse": {
-      "total": 5277,
-      "parents": 281,
-      "subEntries": 4996,
-      "overallSubEntries": 281,
-      "constituencySubEntries": 4715
+      "total": 6328,
+      "parents": 291,
+      "subEntries": 6037,
+      "overallSubEntries": 291,
+      "constituencySubEntries": 5746
     },
     "sources": {
-      "sourceDetailFiles": 281,
-      "resultBundles": 281,
-      "summaryBundles": 281,
+      "sourceDetailFiles": 291,
+      "resultBundles": 291,
+      "summaryBundles": 291,
       "parentSourceRecordsMissing": 0,
       "sourceRecordsWithNoReferences": 0,
       "sourceRecordsWithOneReference": 0,
-      "sourceRecordsWithMultipleReferences": 281,
+      "sourceRecordsWithMultipleReferences": 291,
       "subEntriesWithNoReferences": 0,
       "subEntriesWithOneReference": 0,
-      "subEntriesWithMultipleReferences": 4996
+      "subEntriesWithMultipleReferences": 6037
     },
     "resultBundles": {
-      "loaded": 281,
+      "loaded": 291,
       "missing": 0,
-      "resultRows": 4706,
-      "matchedRows": 3855,
-      "unmatchedRows": 851,
-      "candidateRows": 29693,
-      "electedRows": 14231,
-      "rowsWithCountDetail": 4683,
-      "rowsWithAnimationPayload": 4683,
-      "rowsExpectedTransferData": 2339,
-      "rowsMissingExpectedTransferData": 0,
+      "resultRows": 5746,
+      "matchedRows": 4918,
+      "unmatchedRows": 828,
+      "candidateRows": 41344,
+      "electedRows": 19481,
+      "rowsWithCountDetail": 5710,
+      "rowsWithAnimationPayload": 5710,
+      "rowsExpectedTransferData": 3376,
+      "rowsMissingExpectedTransferData": 13,
       "candidateRowsWithoutParty": 0
     },
     "colours": {
-      "auditFilePresent": false,
-      "highConfidenceFilePresent": false,
+      "auditFilePresent": true,
+      "highConfidenceFilePresent": true,
       "reviewFilePresent": true,
-      "reviewedMismatches": 0,
-      "observations": 0,
-      "matches": 0,
-      "mismatches": 0,
-      "highConfidenceMismatches": 0,
-      "noElectionColour": 0,
-      "noWikipediaMatch": 0,
-      "ambiguousWikipediaMatch": 0,
-      "examples": []
+      "reviewedMismatches": 10,
+      "observations": 1032,
+      "matches": 73,
+      "mismatches": 135,
+      "highConfidenceMismatches": 85,
+      "noElectionColour": 777,
+      "noWikipediaMatch": 684,
+      "ambiguousWikipediaMatch": 31,
+      "examples": [
+        {
+          "party": "100% Redress",
+          "electionColour": "#C0C0C0",
+          "wikipediaName": "100% Redress",
+          "wikipediaColour": "#F90606",
+          "observations": 1,
+          "review": {
+            "party": "100% Redress",
+            "electionColour": "#C0C0C0",
+            "wikipediaName": "100% Redress",
+            "wikipediaColour": "#F90606",
+            "observations": 1,
+            "status": "needs-canonical-colour-decision",
+            "note": "Single-observation mismatch; verify whether Civgraph should keep a neutral local-label colour or adopt the saved Wikipedia colour."
+          }
+        },
+        {
+          "party": "An Rabharta Glas – Green Left",
+          "electionColour": "#C0C0C0",
+          "wikipediaName": "Rabharta",
+          "wikipediaColour": "#488A89",
+          "observations": 4,
+          "review": {
+            "party": "An Rabharta Glas - Green Left",
+            "electionColour": "#C0C0C0",
+            "wikipediaName": "Rabharta",
+            "wikipediaColour": "#488A89",
+            "observations": 4,
+            "status": "needs-canonical-colour-decision",
+            "note": "Verify label naming and whether the Wikipedia/Rabharta colour should be canonical for this election label."
+          }
+        },
+        {
+          "party": "Anti-Austerity Alliance",
+          "electionColour": "#E3170D",
+          "wikipediaName": "Anti-Austerity Alliance",
+          "wikipediaColour": "#FFFF00",
+          "observations": 46,
+          "review": {
+            "party": "Anti-Austerity Alliance",
+            "electionColour": "#E3170D",
+            "wikipediaName": "Anti-Austerity Alliance",
+            "wikipediaColour": "#FFFF00",
+            "observations": 46,
+            "status": "needs-canonical-colour-decision",
+            "note": "High-observation mismatch; decide whether historical Civgraph red or saved Wikipedia yellow is the canonical display colour."
+          }
+        },
+        {
+          "party": "Anti-Treaty Sinn Féin",
+          "electionColour": "#C0C0C0",
+          "wikipediaName": "Sinn Féin (Anti-Treaty)",
+          "wikipediaColour": "#326760",
+          "observations": 57,
+          "review": {
+            "party": "Anti-Treaty Sinn Fein",
+            "electionColour": "#C0C0C0",
+            "wikipediaName": "Sinn Fein (Anti-Treaty)",
+            "wikipediaColour": "#326760",
+            "observations": 57,
+            "status": "needs-canonical-colour-decision",
+            "note": "Historic Sinn Fein label mismatch; verify whether this should inherit modern Sinn Fein green or remain neutral."
+          }
+        },
+        {
+          "party": "Aontú",
+          "electionColour": "#C62828",
+          "wikipediaName": "Aontú",
+          "wikipediaColour": "#44532A",
+          "observations": 126,
+          "review": {
+            "party": "Aontu",
+            "electionColour": "#C62828",
+            "wikipediaName": "Aontu",
+            "wikipediaColour": "#44532A",
+            "observations": 126,
+            "status": "needs-canonical-colour-decision",
+            "note": "High-observation mismatch; likely canonical colour-map update candidate after checking existing Civgraph visual conventions."
+          }
+        },
+        {
+          "party": "Clann na Poblachta",
+          "electionColour": "#C0C0C0",
+          "wikipediaName": "Clann na Poblachta",
+          "wikipediaColour": "#BBE549",
+          "observations": 111,
+          "review": {
+            "party": "Clann na Poblachta",
+            "electionColour": "#C0C0C0",
+            "wikipediaName": "Clann na Poblachta",
+            "wikipediaColour": "#BBE549",
+            "observations": 111,
+            "status": "needs-canonical-colour-decision",
+            "note": "Historic party currently neutral; verify whether saved Wikipedia colour should be adopted."
+          }
+        },
+        {
+          "party": "Clann na Talmhan",
+          "electionColour": "#C0C0C0",
+          "wikipediaName": "Clann na Talmhan",
+          "wikipediaColour": "#BDB76B",
+          "observations": 50,
+          "review": {
+            "party": "Clann na Talmhan",
+            "electionColour": "#C0C0C0",
+            "wikipediaName": "Clann na Talmhan",
+            "wikipediaColour": "#BDB76B",
+            "observations": 50,
+            "status": "needs-canonical-colour-decision",
+            "note": "Historic party currently neutral; verify whether saved Wikipedia colour should be adopted."
+          }
+        },
+        {
+          "party": "Commonwealth Labour Party",
+          "electionColour": "#FF6666",
+          "wikipediaName": "Commonwealth Labour Party",
+          "wikipediaColour": "#B22222",
+          "observations": 6,
+          "review": {
+            "party": "Commonwealth Labour Party",
+            "electionColour": "#FF6666",
+            "wikipediaName": "Commonwealth Labour Party",
+            "wikipediaColour": "#B22222",
+            "observations": 6,
+            "status": "needs-canonical-colour-decision",
+            "note": "Low-observation historic label; verify whether to use the saved Wikipedia colour or existing Labour-family colour."
+          }
+        },
+        {
+          "party": "Communist Party of Ireland",
+          "electionColour": "#FF3300",
+          "wikipediaName": "Communist Party of Ireland",
+          "wikipediaColour": "#E3170D",
+          "observations": 6,
+          "review": {
+            "party": "Communist Party of Ireland",
+            "electionColour": "#FF3300",
+            "wikipediaName": "Communist Party of Ireland",
+            "wikipediaColour": "#E3170D",
+            "observations": 6,
+            "status": "needs-canonical-colour-decision",
+            "note": "Related red shades; verify whether exact Wikipedia shade should replace the existing display colour."
+          }
+        },
+        {
+          "party": "Communist Party of Ireland (Marxist-Leninist)",
+          "electionColour": "#E3170D",
+          "wikipediaName": "Communist Party of Ireland (Marxist–Leninist)",
+          "wikipediaColour": "#660000",
+          "observations": 3,
+          "review": {
+            "party": "Communist Party of Ireland (Marxist-Leninist)",
+            "electionColour": "#E3170D",
+            "wikipediaName": "Communist Party of Ireland (Marxist-Leninist)",
+            "wikipediaColour": "#660000",
+            "observations": 3,
+            "status": "needs-canonical-colour-decision",
+            "note": "Low-observation historic split label; verify before changing the canonical display colour."
+          }
+        },
+        {
+          "party": "Conservative",
+          "electionColour": "#0E7C42",
+          "wikipediaName": "Conservative and Unionist Party (UK)",
+          "wikipediaColour": "#0087DC",
+          "observations": 61,
+          "review": null
+        },
+        {
+          "party": "Conservative",
+          "electionColour": "#1F4E8C",
+          "wikipediaName": "Conservative and Unionist Party (UK)",
+          "wikipediaColour": "#0087DC",
+          "observations": 11,
+          "review": null
+        },
+        {
+          "party": "Conservative",
+          "electionColour": "#888888",
+          "wikipediaName": "Conservative and Unionist Party (UK)",
+          "wikipediaColour": "#0087DC",
+          "observations": 13,
+          "review": null
+        },
+        {
+          "party": "Conservative",
+          "electionColour": "#9E9E9E",
+          "wikipediaName": "Conservative and Unionist Party (UK)",
+          "wikipediaColour": "#0087DC",
+          "observations": 254,
+          "review": null
+        },
+        {
+          "party": "Cumann na nGaedheal",
+          "electionColour": "#C0C0C0",
+          "wikipediaName": "Cumann na nGaedheal",
+          "wikipediaColour": "#87CEFA",
+          "observations": 360,
+          "review": null
+        },
+        {
+          "party": "Democracy First",
+          "electionColour": "#000000",
+          "wikipediaName": "Democracy First",
+          "wikipediaColour": "#FF8C00",
+          "observations": 2,
+          "review": null
+        },
+        {
+          "party": "Democratic Left",
+          "electionColour": "#DC241F",
+          "wikipediaName": "Democratic Left (Ireland)",
+          "wikipediaColour": "#C700C7",
+          "observations": 21,
+          "review": null
+        },
+        {
+          "party": "Democratic Partnership",
+          "electionColour": "#FF9800",
+          "wikipediaName": "Democratic Partnership",
+          "wikipediaColour": "#F0E68C",
+          "observations": 10,
+          "review": null
+        },
+        {
+          "party": "Direct Democracy Ireland",
+          "electionColour": "#FFFF00",
+          "wikipediaName": "Direct Democracy Ireland",
+          "wikipediaColour": "#87CEFA",
+          "observations": 41,
+          "review": null
+        },
+        {
+          "party": "Éirígí",
+          "electionColour": "#C0C0C0",
+          "wikipediaName": "Éirígí",
+          "wikipediaColour": "#00A550",
+          "observations": 6,
+          "review": null
+        }
+      ]
     },
     "reviewSidecars": {
       "validPollRecords": 0,
@@ -70,20 +311,51 @@
   },
   "issueSummary": {
     "bySeverity": {
-      "warning": 34
+      "warning": 19
     },
     "byCategory": {
-      "browse-constituency-count": 7,
-      "first-pref-sum": 7,
-      "elected-count": 20
+      "candidate-list-missing": 13,
+      "elected-count": 2,
+      "first-pref-sum": 3,
+      "candidate-name-missing": 1
     }
   },
   "issues": [
     {
       "severity": "warning",
-      "category": "browse-constituency-count",
-      "key": "local-government-local-government-districts__2011-05-05",
-      "message": "Browse has 102 constituency/DEA sub-entries; manifest expects 101."
+      "category": "candidate-list-missing",
+      "key": "ireland-local__2024-06-07",
+      "message": "No candidates found for Athlone (Roscommon)."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-list-missing",
+      "key": "ireland-local__2019-05-24",
+      "message": "No candidates found for Athlone (Roscommon)."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-list-missing",
+      "key": "ireland-local__2014-05-23",
+      "message": "No candidates found for Athlone (Roscommon)."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-list-missing",
+      "key": "ireland-local__2014-05-23",
+      "message": "No candidates found for Athlone (Westmeath)."
+    },
+    {
+      "severity": "warning",
+      "category": "elected-count",
+      "key": "ireland-local__2014-05-23",
+      "message": "Cobh has 7 elected candidate rows but seatsWon is 6."
+    },
+    {
+      "severity": "warning",
+      "category": "elected-count",
+      "key": "ireland-local__2014-05-23",
+      "message": "Dundalk South has 7 elected candidate rows but seatsWon is 5."
     },
     {
       "severity": "warning",
@@ -93,27 +365,15 @@
     },
     {
       "severity": "warning",
-      "category": "browse-constituency-count",
-      "key": "local-government-local-government-districts__2005-05-05",
-      "message": "Browse has 101 constituency/DEA sub-entries; manifest expects 100."
+      "category": "candidate-list-missing",
+      "key": "ireland-local__2009-06-05",
+      "message": "No candidates found for Athlone (Roscommon)."
     },
     {
       "severity": "warning",
-      "category": "first-pref-sum",
-      "key": "local-government-local-government-districts__2005-05-05",
-      "message": "Castle first-preference sum 10914 exceeds valid poll ceiling 3009."
-    },
-    {
-      "severity": "warning",
-      "category": "elected-count",
-      "key": "local-government-local-government-districts__2005-05-05",
-      "message": "Castle has 6 elected candidate rows but seatsWon is 5."
-    },
-    {
-      "severity": "warning",
-      "category": "elected-count",
-      "key": "local-government-local-government-districts__2005-05-05",
-      "message": "Coleraine East has 6 elected candidate rows but seatsWon is 5."
+      "category": "candidate-list-missing",
+      "key": "ireland-local__2009-06-05",
+      "message": "No candidates found for Athlone (Westmeath)."
     },
     {
       "severity": "warning",
@@ -123,9 +383,15 @@
     },
     {
       "severity": "warning",
-      "category": "browse-constituency-count",
-      "key": "local-government-local-government-districts__2001-06-07",
-      "message": "Browse has 103 constituency/DEA sub-entries; manifest expects 100."
+      "category": "candidate-list-missing",
+      "key": "ireland-local__2004-06-11",
+      "message": "No candidates found for Athlone (Roscommon)."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-list-missing",
+      "key": "ireland-local__2004-06-11",
+      "message": "No candidates found for Athlone (Westmeath)."
     },
     {
       "severity": "warning",
@@ -135,153 +401,39 @@
     },
     {
       "severity": "warning",
-      "category": "browse-constituency-count",
-      "key": "local-government-local-government-districts__1997-05-21",
-      "message": "Browse has 102 constituency/DEA sub-entries; manifest expects 101."
+      "category": "candidate-list-missing",
+      "key": "ireland-local__1999-06-10",
+      "message": "No candidates found for Athlone (Roscommon)."
     },
     {
       "severity": "warning",
-      "category": "first-pref-sum",
-      "key": "local-government-local-government-districts__1997-05-21",
-      "message": "Castle first-preference sum 11952 exceeds valid poll ceiling 2758."
+      "category": "candidate-list-missing",
+      "key": "ireland-local__1999-06-10",
+      "message": "No candidates found for Athlone (Westmeath)."
     },
     {
       "severity": "warning",
-      "category": "elected-count",
-      "key": "local-government-local-government-districts__1997-05-21",
-      "message": "Castle has 6 elected candidate rows but seatsWon is 5."
+      "category": "candidate-list-missing",
+      "key": "dail-eireann__1997-06-06",
+      "message": "No candidates found for Dún Laoghaire."
     },
     {
       "severity": "warning",
-      "category": "browse-constituency-count",
-      "key": "local-government-local-government-districts__1993-05-19",
-      "message": "Browse has 102 constituency/DEA sub-entries; manifest expects 101."
+      "category": "candidate-name-missing",
+      "key": "dail-eireann__1997-06-06",
+      "message": "Candidate row without a name in Mayo."
     },
     {
       "severity": "warning",
-      "category": "first-pref-sum",
-      "key": "local-government-local-government-districts__1993-05-19",
-      "message": "Castle first-preference sum 11985 exceeds valid poll ceiling 3052."
+      "category": "candidate-list-missing",
+      "key": "dail-eireann__1992-11-25",
+      "message": "No candidates found for Dún Laoghaire."
     },
     {
       "severity": "warning",
-      "category": "elected-count",
-      "key": "local-government-local-government-districts__1993-05-19",
-      "message": "Castle has 6 elected candidate rows but seatsWon is 5."
-    },
-    {
-      "severity": "warning",
-      "category": "browse-constituency-count",
-      "key": "local-government-local-government-districts__1989-05-17",
-      "message": "Browse has 99 constituency/DEA sub-entries; manifest expects 98."
-    },
-    {
-      "severity": "warning",
-      "category": "elected-count",
-      "key": "local-government-local-government-districts__1989-05-17",
-      "message": "Castle has 6 elected candidate rows but seatsWon is 5."
-    },
-    {
-      "severity": "warning",
-      "category": "browse-constituency-count",
-      "key": "local-government-local-government-districts__1985-05-15",
-      "message": "Browse has 99 constituency/DEA sub-entries; manifest expects 98."
-    },
-    {
-      "severity": "warning",
-      "category": "first-pref-sum",
-      "key": "local-government-local-government-districts__1985-05-15",
-      "message": "Castle first-preference sum 13013 exceeds valid poll ceiling 3359."
-    },
-    {
-      "severity": "warning",
-      "category": "elected-count",
-      "key": "local-government-local-government-districts__1985-05-15",
-      "message": "Castle has 6 elected candidate rows but seatsWon is 5."
-    },
-    {
-      "severity": "warning",
-      "category": "elected-count",
-      "key": "local-government-local-government-districts__1981-05-20",
-      "message": "Armagh Area D has 6 elected candidate rows but seatsWon is 5."
-    },
-    {
-      "severity": "warning",
-      "category": "elected-count",
-      "key": "local-government-local-government-districts__1981-05-20",
-      "message": "Ballymoney Area C has 5 elected candidate rows but seatsWon is 4."
-    },
-    {
-      "severity": "warning",
-      "category": "elected-count",
-      "key": "local-government-local-government-districts__1981-05-20",
-      "message": "Fermanagh Area D has 5 elected candidate rows but seatsWon is 4."
-    },
-    {
-      "severity": "warning",
-      "category": "elected-count",
-      "key": "local-government-local-government-districts__1981-05-20",
-      "message": "Omagh Area D has 7 elected candidate rows but seatsWon is 4."
-    },
-    {
-      "severity": "warning",
-      "category": "elected-count",
-      "key": "local-government-local-government-districts__1977-05-18",
-      "message": "Armagh Area D has 6 elected candidate rows but seatsWon is 5."
-    },
-    {
-      "severity": "warning",
-      "category": "elected-count",
-      "key": "local-government-local-government-districts__1977-05-18",
-      "message": "Ballymoney Area C has 5 elected candidate rows but seatsWon is 4."
-    },
-    {
-      "severity": "warning",
-      "category": "elected-count",
-      "key": "local-government-local-government-districts__1977-05-18",
-      "message": "Fermanagh Area D has 5 elected candidate rows but seatsWon is 4."
-    },
-    {
-      "severity": "warning",
-      "category": "elected-count",
-      "key": "local-government-local-government-districts__1977-05-18",
-      "message": "Moyle Area C has 5 elected candidate rows but seatsWon is 4."
-    },
-    {
-      "severity": "warning",
-      "category": "elected-count",
-      "key": "local-government-local-government-districts__1977-05-18",
-      "message": "Omagh Area D has 7 elected candidate rows but seatsWon is 4."
-    },
-    {
-      "severity": "warning",
-      "category": "elected-count",
-      "key": "local-government-local-government-districts__1973-05-30",
-      "message": "Armagh Area D has 6 elected candidate rows but seatsWon is 5."
-    },
-    {
-      "severity": "warning",
-      "category": "elected-count",
-      "key": "local-government-local-government-districts__1973-05-30",
-      "message": "Ballymoney Area C has 5 elected candidate rows but seatsWon is 4."
-    },
-    {
-      "severity": "warning",
-      "category": "elected-count",
-      "key": "local-government-local-government-districts__1973-05-30",
-      "message": "Moyle Area C has 5 elected candidate rows but seatsWon is 4."
-    },
-    {
-      "severity": "warning",
-      "category": "elected-count",
-      "key": "local-government-local-government-districts__1973-05-30",
-      "message": "Omagh Area C corrected has 7 elected candidate rows but seatsWon is 4."
-    },
-    {
-      "severity": "warning",
-      "category": "elected-count",
-      "key": "local-government-local-government-districts__1973-05-30",
-      "message": "Omagh Area D has 7 elected candidate rows but seatsWon is 4."
+      "category": "candidate-list-missing",
+      "key": "ireland-local__1991-06-27",
+      "message": "No candidates found for Athlone* (Roscommon)."
     }
   ]
 }

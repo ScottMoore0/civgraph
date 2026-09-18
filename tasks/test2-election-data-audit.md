@@ -1,6 +1,6 @@
 # Test2 Election Data Audit
 
-Generated: 2026-07-21T13:33:35.781Z
+Generated: 2026-09-13T19:06:09.050Z
 
 This is a repeatable repository-local audit of the generated /test2 election data, Browse election entries, source/reference records, transfer/count payload availability, and saved Wikipedia party-colour comparison outputs. It intentionally does not fetch live web pages, so CI can run it deterministically.
 
@@ -8,25 +8,25 @@ This is a repeatable repository-local audit of the generated /test2 election dat
 
 |area|value|
 |---|---:|
-|parent elections in manifest|281|
-|manifest loadable elections|262|
-|manifest placeholders|19|
-|Browse parent election entries|281|
-|Browse constituency/DEA sub-entries|4715|
-|Browse overall sub-entries|281|
-|source detail records|281|
-|result bundles loaded|281|
-|result rows audited|4706|
-|candidate rows audited|29693|
-|rows with count detail|4683|
-|rows with animation payload|4683|
-|rows expected to have transfer/count data|2339|
-|expected transfer/count rows missing detail|0|
+|parent elections in manifest|291|
+|manifest loadable elections|276|
+|manifest placeholders|12|
+|Browse parent election entries|291|
+|Browse constituency/DEA sub-entries|5746|
+|Browse overall sub-entries|291|
+|source detail records|291|
+|result bundles loaded|291|
+|result rows audited|5746|
+|candidate rows audited|41344|
+|rows with count detail|5710|
+|rows with animation payload|5710|
+|rows expected to have transfer/count data|3376|
+|expected transfer/count rows missing detail|13|
 |valid-poll review sidecar records|0|
 |candidate-row review sidecar records|0|
 |party-colour review sidecar records|10|
 |blocking issues|0|
-|warnings|34|
+|warnings|19|
 
 ## Blocking Structural Issues
 
@@ -36,40 +36,25 @@ _None._
 
 |severity|category|key|message|
 |---|---|---|---|
-|warning|browse-constituency-count|local-government-local-government-districts__2011-05-05|Browse has 102 constituency/DEA sub-entries; manifest expects 101.|
+|warning|candidate-list-missing|ireland-local__2024-06-07|No candidates found for Athlone (Roscommon).|
+|warning|candidate-list-missing|ireland-local__2019-05-24|No candidates found for Athlone (Roscommon).|
+|warning|candidate-list-missing|ireland-local__2014-05-23|No candidates found for Athlone (Roscommon).|
+|warning|candidate-list-missing|ireland-local__2014-05-23|No candidates found for Athlone (Westmeath).|
+|warning|elected-count|ireland-local__2014-05-23|Cobh has 7 elected candidate rows but seatsWon is 6.|
+|warning|elected-count|ireland-local__2014-05-23|Dundalk South has 7 elected candidate rows but seatsWon is 5.|
 |warning|first-pref-sum|local-government-local-government-districts__2011-05-05|Castle first-preference sum 10024 exceeds valid poll ceiling 2462.|
-|warning|browse-constituency-count|local-government-local-government-districts__2005-05-05|Browse has 101 constituency/DEA sub-entries; manifest expects 100.|
-|warning|first-pref-sum|local-government-local-government-districts__2005-05-05|Castle first-preference sum 10914 exceeds valid poll ceiling 3009.|
-|warning|elected-count|local-government-local-government-districts__2005-05-05|Castle has 6 elected candidate rows but seatsWon is 5.|
-|warning|elected-count|local-government-local-government-districts__2005-05-05|Coleraine East has 6 elected candidate rows but seatsWon is 5.|
+|warning|candidate-list-missing|ireland-local__2009-06-05|No candidates found for Athlone (Roscommon).|
+|warning|candidate-list-missing|ireland-local__2009-06-05|No candidates found for Athlone (Westmeath).|
 |warning|first-pref-sum|local-government-local-government-districts__2005-05-05|Cusher first-preference sum 8261 exceeds valid poll ceiling 8061.|
-|warning|browse-constituency-count|local-government-local-government-districts__2001-06-07|Browse has 103 constituency/DEA sub-entries; manifest expects 100.|
+|warning|candidate-list-missing|ireland-local__2004-06-11|No candidates found for Athlone (Roscommon).|
+|warning|candidate-list-missing|ireland-local__2004-06-11|No candidates found for Athlone (Westmeath).|
 |warning|first-pref-sum|local-government-local-government-districts__2001-06-07|Castle first-preference sum 14132 exceeds valid poll ceiling 3583.|
-|warning|browse-constituency-count|local-government-local-government-districts__1997-05-21|Browse has 102 constituency/DEA sub-entries; manifest expects 101.|
-|warning|first-pref-sum|local-government-local-government-districts__1997-05-21|Castle first-preference sum 11952 exceeds valid poll ceiling 2758.|
-|warning|elected-count|local-government-local-government-districts__1997-05-21|Castle has 6 elected candidate rows but seatsWon is 5.|
-|warning|browse-constituency-count|local-government-local-government-districts__1993-05-19|Browse has 102 constituency/DEA sub-entries; manifest expects 101.|
-|warning|first-pref-sum|local-government-local-government-districts__1993-05-19|Castle first-preference sum 11985 exceeds valid poll ceiling 3052.|
-|warning|elected-count|local-government-local-government-districts__1993-05-19|Castle has 6 elected candidate rows but seatsWon is 5.|
-|warning|browse-constituency-count|local-government-local-government-districts__1989-05-17|Browse has 99 constituency/DEA sub-entries; manifest expects 98.|
-|warning|elected-count|local-government-local-government-districts__1989-05-17|Castle has 6 elected candidate rows but seatsWon is 5.|
-|warning|browse-constituency-count|local-government-local-government-districts__1985-05-15|Browse has 99 constituency/DEA sub-entries; manifest expects 98.|
-|warning|first-pref-sum|local-government-local-government-districts__1985-05-15|Castle first-preference sum 13013 exceeds valid poll ceiling 3359.|
-|warning|elected-count|local-government-local-government-districts__1985-05-15|Castle has 6 elected candidate rows but seatsWon is 5.|
-|warning|elected-count|local-government-local-government-districts__1981-05-20|Armagh Area D has 6 elected candidate rows but seatsWon is 5.|
-|warning|elected-count|local-government-local-government-districts__1981-05-20|Ballymoney Area C has 5 elected candidate rows but seatsWon is 4.|
-|warning|elected-count|local-government-local-government-districts__1981-05-20|Fermanagh Area D has 5 elected candidate rows but seatsWon is 4.|
-|warning|elected-count|local-government-local-government-districts__1981-05-20|Omagh Area D has 7 elected candidate rows but seatsWon is 4.|
-|warning|elected-count|local-government-local-government-districts__1977-05-18|Armagh Area D has 6 elected candidate rows but seatsWon is 5.|
-|warning|elected-count|local-government-local-government-districts__1977-05-18|Ballymoney Area C has 5 elected candidate rows but seatsWon is 4.|
-|warning|elected-count|local-government-local-government-districts__1977-05-18|Fermanagh Area D has 5 elected candidate rows but seatsWon is 4.|
-|warning|elected-count|local-government-local-government-districts__1977-05-18|Moyle Area C has 5 elected candidate rows but seatsWon is 4.|
-|warning|elected-count|local-government-local-government-districts__1977-05-18|Omagh Area D has 7 elected candidate rows but seatsWon is 4.|
-|warning|elected-count|local-government-local-government-districts__1973-05-30|Armagh Area D has 6 elected candidate rows but seatsWon is 5.|
-|warning|elected-count|local-government-local-government-districts__1973-05-30|Ballymoney Area C has 5 elected candidate rows but seatsWon is 4.|
-|warning|elected-count|local-government-local-government-districts__1973-05-30|Moyle Area C has 5 elected candidate rows but seatsWon is 4.|
-|warning|elected-count|local-government-local-government-districts__1973-05-30|Omagh Area C corrected has 7 elected candidate rows but seatsWon is 4.|
-|warning|elected-count|local-government-local-government-districts__1973-05-30|Omagh Area D has 7 elected candidate rows but seatsWon is 4.|
+|warning|candidate-list-missing|ireland-local__1999-06-10|No candidates found for Athlone (Roscommon).|
+|warning|candidate-list-missing|ireland-local__1999-06-10|No candidates found for Athlone (Westmeath).|
+|warning|candidate-list-missing|dail-eireann__1997-06-06|No candidates found for Dún Laoghaire.|
+|warning|candidate-name-missing|dail-eireann__1997-06-06|Candidate row without a name in Mayo.|
+|warning|candidate-list-missing|dail-eireann__1992-11-25|No candidates found for Dún Laoghaire.|
+|warning|candidate-list-missing|ireland-local__1991-06-27|No candidates found for Athlone* (Roscommon).|
 
 ## Source And Reference Coverage
 
@@ -78,30 +63,51 @@ _None._
 |parent source records missing|0|
 |source records with no references|0|
 |source records with one reference|0|
-|source records with multiple references|281|
+|source records with multiple references|291|
 |Browse sub-entries with no references|0|
 |Browse sub-entries with one reference|0|
-|Browse sub-entries with multiple references|4996|
+|Browse sub-entries with multiple references|6037|
 
 ## Party Colour Audit
 
 |metric|value|
 |---|---:|
-|saved Wikipedia colour audit present|no|
-|high-confidence mismatch file present|no|
+|saved Wikipedia colour audit present|yes|
+|high-confidence mismatch file present|yes|
 |review override file present|yes|
-|sampled mismatches already reviewed|0|
-|unique colour observations|0|
-|colour matches|0|
-|colour mismatches|0|
-|high-confidence mismatches|0|
-|entries with no explicit election colour|0|
-|entries with no Wikipedia match|0|
-|ambiguous Wikipedia matches|0|
+|sampled mismatches already reviewed|10|
+|unique colour observations|1032|
+|colour matches|73|
+|colour mismatches|135|
+|high-confidence mismatches|85|
+|entries with no explicit election colour|777|
+|entries with no Wikipedia match|684|
+|ambiguous Wikipedia matches|31|
 
 ### High-Confidence Colour Examples
 
-_None found from the saved audit._
+|party/label|election colour|Wikipedia match|Wikipedia colour|observations|review|
+|---|---|---|---|---:|---|
+|100% Redress|#C0C0C0|100% Redress|#F90606|1|needs-canonical-colour-decision|
+|An Rabharta Glas – Green Left|#C0C0C0|Rabharta|#488A89|4|needs-canonical-colour-decision|
+|Anti-Austerity Alliance|#E3170D|Anti-Austerity Alliance|#FFFF00|46|needs-canonical-colour-decision|
+|Anti-Treaty Sinn Féin|#C0C0C0|Sinn Féin (Anti-Treaty)|#326760|57|needs-canonical-colour-decision|
+|Aontú|#C62828|Aontú|#44532A|126|needs-canonical-colour-decision|
+|Clann na Poblachta|#C0C0C0|Clann na Poblachta|#BBE549|111|needs-canonical-colour-decision|
+|Clann na Talmhan|#C0C0C0|Clann na Talmhan|#BDB76B|50|needs-canonical-colour-decision|
+|Commonwealth Labour Party|#FF6666|Commonwealth Labour Party|#B22222|6|needs-canonical-colour-decision|
+|Communist Party of Ireland|#FF3300|Communist Party of Ireland|#E3170D|6|needs-canonical-colour-decision|
+|Communist Party of Ireland (Marxist-Leninist)|#E3170D|Communist Party of Ireland (Marxist–Leninist)|#660000|3|needs-canonical-colour-decision|
+|Conservative|#0E7C42|Conservative and Unionist Party (UK)|#0087DC|61||
+|Conservative|#1F4E8C|Conservative and Unionist Party (UK)|#0087DC|11||
+|Conservative|#888888|Conservative and Unionist Party (UK)|#0087DC|13||
+|Conservative|#9E9E9E|Conservative and Unionist Party (UK)|#0087DC|254||
+|Cumann na nGaedheal|#C0C0C0|Cumann na nGaedheal|#87CEFA|360||
+|Democracy First|#000000|Democracy First|#FF8C00|2||
+|Democratic Left|#DC241F|Democratic Left (Ireland)|#C700C7|21||
+|Democratic Partnership|#FF9800|Democratic Partnership|#F0E68C|10||
+|Direct Democracy Ireland|#FFFF00|Direct Democracy Ireland|#87CEFA|41||
+|Éirígí|#C0C0C0|Éirígí|#00A550|6||
 
 ## Next Fix Queue
 
