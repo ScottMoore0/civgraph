@@ -3649,14 +3649,18 @@ class UIController {
             { id: 'flat-civil-parishes', name: 'Civil Parishes', years: '', extent: 'Ireland', classIds: ['ireland-civil-parishes'], thumbMapId: 'civil-parishes-by-province' },
             { id: 'flat-baronies', name: 'Baronies', years: '', extent: 'Ireland', mapIds: ['baronies-all-ireland'] },
             { id: 'flat-counties', name: 'Counties (Ireland)', years: '1899-1977', extent: 'Ireland', classIds: ['ni-counties'] },
-            { id: 'flat-provinces', name: 'Provinces', years: '1899-1955', extent: 'Ireland', classIds: ['ireland-provinces'] },
+            { id: 'flat-provinces', name: 'Provinces', years: '1899-1955', extent: 'Ireland', classIds: ['ireland-provinces'], mapIds: ['tailte-province-boundaries-generalised-20m'] },
             { id: 'flat-polities', name: 'Polities', years: '', extent: '', mapIds: ['ni-1921', 'roi-1938'] },
             // ── Topography ──
             { id: 'flat-place-names', name: 'Place Names (Northern Ireland)', years: '', extent: 'Northern Ireland', mapIds: ['place-names-gazetteer'] },
             { id: 'flat-street-names', name: 'Street Names (Northern Ireland)', years: '', extent: 'Northern Ireland', mapIds: ['streetnames-gazetteer'] },
             { id: 'flat-tailte-physical', name: 'Physical Features (Republic of Ireland, Tailte Éireann)', years: '', extent: 'Republic of Ireland', mapIds: ['tailte-boundaries-seawater-area', 'tailte-boundaries-seawater-line', 'tailte-coast', 'tailte-high-water-mark', 'tailte-hydro-nodes', 'tailte-lakes-reservoirs', 'tailte-mountains', 'tailte-reservoirs', 'tailte-shore', 'tailte-vegetation-areas', 'tailte-water', 'tailte-watercourse-start-end-points', 'tailte-waterfalls', 'tailte-low-water-mark'] },
             { id: 'flat-tailte-transport', name: 'Transport Network (Republic of Ireland, Tailte Éireann)', years: '', extent: 'Republic of Ireland', mapIds: ['tailte-airfield-area', 'tailte-airports', 'tailte-border-exits-entrances', 'tailte-ferry-crossing', 'tailte-main-harbours', 'tailte-motorway-access-exit-points', 'tailte-other-harbours', 'tailte-rail-network', 'tailte-railway-stations', 'tailte-road-rail-intersections', 'tailte-road-interchanges', 'tailte-road-intersections', 'tailte-roads', 'tailte-runways', 'tailte-ferry-station'] },
-            { id: 'flat-tailte-regions', name: 'Regions & Boundaries (Republic of Ireland, Tailte Éireann)', years: '', extent: 'Republic of Ireland', mapIds: ['tailte-gaeltacht-boundaries-generalised-20m', 'tailte-gaeltacht-language-planning-area-boundaries-generalised-20m', 'tailte-nuts2-boundaries-ungeneralised', 'tailte-nuts3-boundaries-generalised-20m', 'tailte-province-boundaries-generalised-20m', 'tailte-rural-areas'] },
+            // Was a Tailte grab-bag: Gaeltacht, NUTS 2, NUTS 3 and provinces all sat here purely
+            // because Tailte published them together, while the catalogue already had a card for
+            // each of those subjects. They now sit with their own kind; rural areas has nowhere
+            // to go yet and keeps this card alive on its own.
+            { id: 'flat-tailte-regions', name: 'Regions & Boundaries (Republic of Ireland, Tailte Éireann)', years: '', extent: 'Republic of Ireland', mapIds: ['tailte-rural-areas'] },
             { id: 'flat-tailte-settlements', name: 'Settlements & Names (Republic of Ireland, Tailte Éireann)', years: '', extent: 'Republic of Ireland', mapIds: ['tailte-centres-of-population', 'tailte-geographical-names', 'tailte-settlements-generalised-20m'] },
             { id: 'flat-tailte-built', name: 'Heritage & Infrastructure (Republic of Ireland, Tailte Éireann)', years: '', extent: 'Republic of Ireland', mapIds: ['tailte-heritage', 'tailte-power-plant'] },
             { id: 'flat-tailte-hvd', name: 'High Value Datasets (Republic of Ireland, Tailte Éireann)', years: '', extent: 'Republic of Ireland', mapIds: ['tailte-hvd-rail-points', 'tailte-hvd-water-single-stream', 'tailte-hvd-locales', 'tailte-hvd-building-groups', 'tailte-hvd-rail-network-segment', 'tailte-hvd-way-points', 'tailte-hvd-way-gdf2', 'tailte-hvd-sites', 'tailte-hvd-cadastral-parcels-leasehold', 'tailte-hvd-water-points'] },
@@ -3676,7 +3680,8 @@ class UIController {
             { id: 'flat-elb', name: 'Education and Library Boards (Northern Ireland)', years: '1984-1993', extent: 'Northern Ireland', classIds: ['ni-elb'] },
             { id: 'flat-hsct', name: 'Health and Social Care Trusts (Northern Ireland) (2007)', years: '2007', extent: 'Northern Ireland', mapIds: ['hsct-2007'] },
             { id: 'flat-roi-garda-areas', name: 'An Garda Síochána Areas (Republic of Ireland)', years: '2011', extent: 'Republic of Ireland', classIds: ['roi-garda-areas'] },
-            { id: 'flat-roi-gaeltacht', name: 'Gaeltacht Areas (Republic of Ireland)', years: '1926-1982', extent: 'Republic of Ireland', classIds: ['roi-gaeltacht'] },
+            { id: 'flat-roi-gaeltacht', name: 'Gaeltacht Areas (Republic of Ireland)', years: '1926-1982', extent: 'Republic of Ireland', classIds: ['roi-gaeltacht'],
+              mapIds: ['tailte-gaeltacht-boundaries-generalised-20m', 'tailte-gaeltacht-language-planning-area-boundaries-generalised-20m'] },
             // ── District-level Electoral Units ──
             { id: 'flat-roi-lea', name: 'Local Electoral Areas (Republic of Ireland)', years: '2008', extent: 'Republic of Ireland', classIds: ['roi-lea'] },
             { id: 'flat-deas', name: 'District Electoral Areas (1973-)', years: '1972-2012', extent: 'Northern Ireland', classIds: ['ni-deas'] },
@@ -3714,8 +3719,8 @@ class UIController {
             { id: 'flat-super-census', name: 'Super Census Units (Northern Ireland) (2001-present)', years: '2001-2021', extent: 'Northern Ireland', classIds: ['ni-super-census'] },
             { id: 'flat-ttwa', name: 'Travel To Work Areas (Northern Ireland) (2007-present)', years: '2007-2011', extent: 'Northern Ireland', classIds: ['ni-ttwa'] },
             { id: 'flat-census-grid', name: 'Census Grid (2021) (Northern Ireland)', years: '2021', extent: 'Northern Ireland', mapIds: ['census-grid-2021'] },
-            { id: 'flat-nuts2', name: 'NUTS 2 Regions (Ireland)', years: '2011', extent: 'Ireland', mapIds: ['nuts-2-all-ireland', 'nuts-2-roi'] },
-            { id: 'flat-nuts3', name: 'NUTS 3 Regions (2003) (Northern Ireland)', years: '2003', extent: 'Northern Ireland', mapIds: ['nuts-3'] },
+            { id: 'flat-nuts2', name: 'NUTS 2 Regions (Ireland)', years: '2011', extent: 'Ireland', mapIds: ['nuts-2-all-ireland', 'nuts-2-roi', 'tailte-nuts2-boundaries-ungeneralised'] },
+            { id: 'flat-nuts3', name: 'NUTS 3 Regions (2003) (Northern Ireland)', years: '2003', extent: 'Northern Ireland', mapIds: ['nuts-3', 'tailte-nuts3-boundaries-generalised-20m'] },
             // ── Constituencies ──
             { id: 'flat-eu-parliament', name: 'European Parliament Constituencies (1979-)', years: '1979-2024', extent: 'Ireland', classIds: ['eu-parliament'] },
             { id: 'flat-uk-parliament', name: 'UK Parliamentary Constituencies (1885-)', years: '1885-2023', extent: 'Ireland / Northern Ireland', classIds: ['pre-1921-pcs', 'ni-pcs'] },
