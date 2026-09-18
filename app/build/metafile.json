@@ -220,7 +220,7 @@
       "format": "esm"
     },
     "src/data-service.js": {
-      "bytes": 23076,
+      "bytes": 24150,
       "imports": [
         {
           "path": "src/map-relations.mjs",
@@ -291,12 +291,17 @@
       "format": "esm"
     },
     "src/ui-controller.js": {
-      "bytes": 637134,
+      "bytes": 643054,
       "imports": [
         {
           "path": "src/map-relations.mjs",
           "kind": "import-statement",
           "original": "./map-relations.mjs"
+        },
+        {
+          "path": "src/data-service.js",
+          "kind": "import-statement",
+          "original": "./data-service.js"
         },
         {
           "path": "src/storage-keys.mjs",
@@ -806,7 +811,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "app/build/chunks/app-5QB5UQHT.js",
+          "path": "app/build/chunks/app-BHCDMRN3.js",
           "kind": "dynamic-import"
         }
       ],
@@ -860,7 +865,7 @@
       },
       "bytes": 208885
     },
-    "app/build/chunks/app-5QB5UQHT.js": {
+    "app/build/chunks/app-BHCDMRN3.js": {
       "imports": [
         {
           "path": "app/build/chunks/chunk-V4IEUOVV.js",
@@ -882,7 +887,7 @@
           "bytesInOutput": 90381
         },
         "src/data-service.js": {
-          "bytesInOutput": 9499
+          "bytesInOutput": 9908
         },
         "src/map-relations.mjs": {
           "bytesInOutput": 294
@@ -891,7 +896,7 @@
           "bytesInOutput": 6264
         },
         "src/ui-controller.js": {
-          "bytesInOutput": 341460
+          "bytesInOutput": 342999
         },
         "src/storage-keys.mjs": {
           "bytesInOutput": 383
@@ -924,7 +929,7 @@
           "bytesInOutput": 14537
         },
         "node_modules/fflate/esm/browser.js": {
-          "bytesInOutput": 4670
+          "bytesInOutput": 4702
         },
         "render/src/point-cloud-layer.js": {
           "bytesInOutput": 3842
@@ -939,7 +944,7 @@
           "bytesInOutput": 362
         }
       },
-      "bytes": 587017
+      "bytes": 588997
     },
     "app/build/chunks/chunk-V4IEUOVV.js": {
       "imports": [
