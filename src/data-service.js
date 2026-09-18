@@ -1,4 +1,17 @@
 import { compositeChildIds } from './map-relations.mjs';
+
+/**
+ * Is the reorganised catalogue being previewed? Read from the query string each time rather
+ * than cached at module load, because the pane is also constructed in tests and workers where
+ * `window` may not exist.
+ */
+export function catalogueV2Requested() {
+  try {
+    return new URLSearchParams(window.location.search).get('catalogue') === 'v2';
+  } catch {
+    return false;
+  }
+}
 /**
  * NI Boundaries - Data Service
  * Handles loading and querying the maps/books database
@@ -30,6 +43,18 @@ class DataService {
    * the two honest, so the fallback cannot quietly serve stale data.
    */
   async loadCatalogue() {
+    // ?catalogue=v2 loads the restructured document instead: same shape plus `shelves`,
+    // `subjects` and `entries`, and a `subject` on every map. It is a preview of the
+    // reorganisation and is never the default, so production is unaffected either way.
+    if (catalogueV2Requested()) {
+      try {
+        const doc = await this.loadJson('data/database/maps-v2.json');
+        if (Array.isArray(doc?.entries) && doc.entries.length) return doc;
+        console.warn('[DataService] maps-v2.json has no entries; using the live catalogue');
+      } catch (error) {
+        console.warn('[DataService] maps-v2.json unavailable; using the live catalogue', error);
+      }
+    }
     try {
       const response = await fetch('/_api/catalogue', { headers: { Accept: 'application/json' } });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);

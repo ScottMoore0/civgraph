@@ -1,4 +1,5 @@
 import { compositeChildIds } from './map-relations.mjs';
+import { catalogueV2Requested } from './data-service.js';
 import { readStored, writeStored } from './storage-keys.mjs';
 /**
  * NI Boundaries - UI Controller
@@ -4639,6 +4640,10 @@ class UIController {
         //     position in the parent heading's member list rather than at
         //     top-level. The `canonicalName` is matched against the
         //     heading's `members` array.
+        // Is the reorganised catalogue being previewed? The document has to carry entries as
+        // well, so a stale or missing maps-v2.json falls back to the hand-authored arrays.
+        const catalogueV2 = catalogueV2Requested() && Array.isArray(dataService.maps?.entries)
+            && dataService.maps.entries.length > 0;
         const tocMerges = [
             {
                 canonicalName: 'Settlements',
@@ -4682,6 +4687,9 @@ class UIController {
                 thumbMapId: 'dobih-v18-4'
             }
         ];
+        // Entry derivation has already merged what these rules merge by hand, so applying
+        // them again would collapse entries that are deliberately distinct.
+        if (catalogueV2) tocMerges.length = 0;
         const mergedIdSet = new Set(tocMerges.flatMap(m => m.mergedIds));
         // Top-level merges (no inHeading) get rendered during the main
         // c1Cards iteration; heading-scoped merges defer to the heading loop.
@@ -4831,7 +4839,76 @@ class UIController {
                 ]
             }
         ];
-        const mapSectionButtonsHtml = tocGroups.map(group => {
+        // ---- reorganised catalogue (?catalogue=v2) ----------------------------------
+        // The document carries shelves, subjects and entries; the pane stops authoring them.
+        // c1Cards becomes a projection of `entries` and the shelf list is derived from
+        // `shelves`, both keyed on id rather than on a display string.
+        let tocGroupsActive = tocGroups;
+        if (catalogueV2) {
+            const doc = dataService.maps;
+            const subjectById = new Map((doc.subjects || []).map(s => [s.id, s]));
+            const entriesBySubject = new Map();
+            for (const entry of doc.entries) {
+                if (!entriesBySubject.has(entry.subject)) entriesBySubject.set(entry.subject, []);
+                entriesBySubject.get(entry.subject).push(entry);
+            }
+            // One card per entry. The years and extent shown on a card are derived from its
+            // maps rather than restated, so they cannot drift from what the entry holds.
+            const cardForEntry = (entry) => {
+                const maps = entry.mapIds.map(id => mapById.get(id)).filter(Boolean);
+                const years = maps.map(m => this.getYear(m?.date)).filter(Boolean).sort();
+                const extents = [...new Set(maps.map(m => m?.scope).filter(Boolean))];
+                return {
+                    id: entry.id,
+                    name: entry.name,
+                    years: years.length ? (years[0] === years[years.length - 1] ? String(years[0]) : years[0] + '-' + years[years.length - 1]) : '',
+                    extent: extents.length === 1 ? extents[0] : '',
+                    mapIds: entry.mapIds,
+                    thumbMapId: entry.mapIds[0] || null,
+                    subjectId: entry.subject
+                };
+            };
+            const projected = [];
+            for (const shelf of doc.shelves || []) {
+                for (const subjectId of shelf.subjects || []) {
+                    for (const entry of entriesBySubject.get(subjectId) || []) projected.push(cardForEntry(entry));
+                }
+            }
+            // A shelf is a heading whose members are subjects; a subject's entries sit under
+            // it. The pane renders one level of heading, so the subject name is the heading
+            // and the shelf is announced above its first subject.
+            tocGroupsActive = [];
+            for (const shelf of doc.shelves || []) {
+                for (const subjectId of shelf.subjects || []) {
+                    const subject = subjectById.get(subjectId);
+                    if (!subject) continue;
+                    const memberIds = (entriesBySubject.get(subjectId) || []).map(e => e.id);
+                    if (!memberIds.length) continue;
+                    tocGroupsActive.push({
+                        heading: subject.name,
+                        shelf: shelf.name,
+                        kind: subject.kind,
+                        memberIds
+                    });
+                }
+            }
+            // 4. Assert rather than hope. Both bugs this structure has already produced --
+            // a card belonging to no section, and a section naming a card that does not
+            // exist -- are silent in the renderer and loud here.
+            const cardIds = new Set(projected.map(c => c.id));
+            const placed = new Set(tocGroupsActive.flatMap(g => g.memberIds));
+            const homeless = projected.filter(c => !placed.has(c.id));
+            const dangling = [...placed].filter(id => !cardIds.has(id));
+            if (homeless.length || dangling.length) {
+                console.error('[catalogue v2] ' + homeless.length + ' entr(ies) on no shelf, '
+                    + dangling.length + ' shelf member(s) naming no entry',
+                    { homeless: homeless.slice(0, 5).map(c => c.id), dangling: dangling.slice(0, 5) });
+            }
+            c1Cards.length = 0;
+            c1Cards.push(...projected);
+        }
+
+        const mapSectionButtonsHtml = tocGroupsActive.map(group => {
             const sectionKey = mapSectionKeyForHeading(group.heading);
             const targetId = addFlatTocTarget('flat-section-map-' + sectionSlug(group.heading), sectionKey);
             return '<a href="#' + this.escapeHtml(targetId) + '" class="catalogue-flat__toc-map-btn" data-catalogue-target="' + this.escapeHtml(targetId) + '" data-catalogue-section="' + this.escapeHtml(sectionKey) + '">' + this.escapeHtml(group.heading) + '</a>';
@@ -4841,12 +4918,17 @@ class UIController {
         }
 
         const groupByMemberName = new Map();
+        const groupByMemberId = new Map();
         const groupByHeading = new Map();
-        tocGroups.forEach(group => {
+        tocGroupsActive.forEach(group => {
             groupByHeading.set(group.heading, group);
-            group.members.forEach(memberName => groupByMemberName.set(memberName, group.heading));
+            // v2 addresses members by entry id; the hand-authored arrays address them by the
+            // card's display name. Both land in the same lookup so one resolution path serves.
+            (group.memberIds || []).forEach(id => groupByMemberId.set(id, group.heading));
+            (group.members || []).forEach(memberName => groupByMemberName.set(memberName, group.heading));
         });
 
+        const cardsById = new Map(c1Cards.map(card => [card.id, card]));
         const cardsByStrippedName = new Map();
         c1Cards.forEach(card => {
             const strippedName = stripBracketParts(card.name);
@@ -4946,8 +5028,11 @@ class UIController {
             if (headingScopedMerge) {
                 heading = headingScopedMerge.inHeading;
             } else {
-                const strippedName = stripBracketParts(card.name);
-                heading = groupByMemberName.get(strippedName);
+                // By id when the arrangement provides one. Name keying is what let a renamed
+                // heading silently drop a card, and what stops two cards sharing a name from
+                // being shelved apart.
+                heading = groupByMemberId.get(card.id);
+                if (!heading) heading = groupByMemberName.get(stripBracketParts(card.name));
             }
             if (!heading) {
                 appendTocRow(card, false, `map:${card.id}`);
@@ -4973,6 +5058,17 @@ class UIController {
             renderedHeadings.add(heading);
 
             const group = groupByHeading.get(heading);
+            // A v2 section addresses its rows by entry id. Emitting only `members` left every
+            // heading on screen with nothing under it, because v2 groups carry no names.
+            if (group?.memberIds) {
+                group.memberIds.forEach(memberId => {
+                    const memberCard = cardsById.get(memberId);
+                    if (memberCard && !renderedCards.has(memberCard.id)) {
+                        appendTocRow(memberCard, true, headingSectionKey);
+                    }
+                });
+                return;
+            }
             (group?.members || []).forEach(memberName => {
                 // Prefer a heading-scoped merge over individual cards.
                 const merge = headingMergeByName.get(`${heading}::${memberName}`);
@@ -4996,7 +5092,7 @@ class UIController {
         const renderOptions = options || {};
         let renderedMobileMapCards = 0;
         const shouldRenderFlatSection = (sectionKey) => !singleSectionCatalogue || activeSectionKey === sectionKey;
-        const headingBySectionKey = new Map(tocGroups.map(group => [mapSectionKeyForHeading(group.heading), group.heading]));
+        const headingBySectionKey = new Map(tocGroupsActive.map(group => [mapSectionKeyForHeading(group.heading), group.heading]));
         const shouldRenderMapCard = (def) => {
             if (!singleSectionCatalogue) return true;
             const sectionKey = flatMapCardSectionKeyById.get(def.id) || `map:${def.id}`;
