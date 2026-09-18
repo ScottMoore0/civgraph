@@ -132,11 +132,16 @@ const ENTITIES = {
       category: (item) => text(item.category),
       publication_status: (item) => text(item.publicationStatus),
       date: (item) => text(item.date),
+      license: (item) => licenseLabel(item.license),
     },
     facets: {
       provider: (item) => arr(item.provider),
       category: (item) => [item.category],
       publicationStatus: (item) => [item.publicationStatus],
+      // 79.4% of sources carry one. The gap is worth showing rather than hiding: an
+      // unlicensed source is one that cannot be republished, which is a fact about the
+      // catalogue, not a rendering problem.
+      license: (item) => [licenseLabel(item.license)],
     },
   },
 };
@@ -146,6 +151,18 @@ const q = (value) => (value === undefined || value === null
   : `'${String(value).replace(/'/g, "''")}'`);
 const num = (value) => (Number.isFinite(Number(value)) ? Number(value) : null);
 const text = (value) => (value === undefined || value === null ? null : String(value));
+/**
+ * A source's licence is a string for 29,279 records and `{status, note}` for 2,928, where
+ * the status is always something like "provider-specific" -- a real answer, not a missing
+ * one. String(value) on the object form yields "[object Object]", which would have shipped
+ * as a facet option.
+ */
+const licenseLabel = (value) => {
+  if (!value) return null;
+  if (typeof value === 'string') return value.trim() || null;
+  if (typeof value === 'object' && value.status) return String(value.status);
+  return null;
+};
 const lit = (value) => (value === null || value === undefined ? 'NULL'
   : typeof value === 'number' ? value : q(value));
 

@@ -16,11 +16,12 @@ export const onRequestGet = browseIndexHandler({
   table: 'browse_sources',
   key: 'sources',
   // Bump on RESPONSE SHAPE changes, not data changes: it is part of the edge cache key.
-  version: 'sources-1',
+  version: 'sources-2',
   filters: {
     provider: 'provider',
     category: 'category',
     publicationStatus: 'publication_status',
+    license: 'license',
   },
   sorts: {
     date: 'date',

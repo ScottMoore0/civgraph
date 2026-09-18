@@ -74,6 +74,7 @@
        had to tab through the whole header on every page load. -->
   <a href="#main-content" class="visually-hidden">Skip to main content</a>
   <a href="#browseResults" class="visually-hidden">Skip to results</a>
+<!-- site:browse-shell -->
   <main id="main-content" class="browse-shell">
     <aside class="browse-sidebar" aria-label="Browse sections">
       <div class="browse-search">
@@ -107,6 +108,18 @@
       <div id="browseResults" class="browse-results" aria-live="polite"></div>
     </section>
   </main>
+
+  <div id="contributorModal" class="contributor-modal hidden" role="dialog" aria-modal="true" aria-labelledby="contributorModalTitle">
+    <div class="contributor-modal__backdrop" data-contributor-close></div>
+    <section class="contributor-modal__panel">
+      <header class="contributor-modal__header">
+        <h2 id="contributorModalTitle">Contributor submission</h2>
+        <button type="button" class="contributor-modal__close" data-contributor-close aria-label="Close">×</button>
+      </header>
+      <form id="contributorForm" class="contributor-form"></form>
+    </section>
+  </div>
+<!-- /site:browse-shell -->
 <!-- site:footer -->
 <footer class="ftr">
 <div class="ftr__inner">
@@ -131,16 +144,6 @@
 </footer>
 <!-- /site:footer -->
 
-  <div id="contributorModal" class="contributor-modal hidden" role="dialog" aria-modal="true" aria-labelledby="contributorModalTitle">
-    <div class="contributor-modal__backdrop" data-contributor-close></div>
-    <section class="contributor-modal__panel">
-      <header class="contributor-modal__header">
-        <h2 id="contributorModalTitle">Contributor submission</h2>
-        <button type="button" class="contributor-modal__close" data-contributor-close aria-label="Close">×</button>
-      </header>
-      <form id="contributorForm" class="contributor-form"></form>
-    </section>
-  </div>
 
 <!-- site:support-modal -->
 <div aria-label="Support Civgraph" aria-modal="true" class="support-modal hidden" id="supportModal" role="dialog">
@@ -186,7 +189,7 @@
 </div>
 </div>
 <!-- /site:support-modal -->
-  <script type="module" src="browse.js?v=52e464ce2189"></script>
+  <script type="module" src="browse.js?v=82f54fd9fc50"></script>
 </body>
 
 </html>
