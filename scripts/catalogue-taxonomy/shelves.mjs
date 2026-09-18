@@ -20,7 +20,7 @@ const SHELVES = [
 
   ['Government & Administration',
    'Who administers what, and the areas they administer it over.',
-   ['Local Government Areas', 'Administrative Boundaries', 'Public Service Areas']],
+   ['Local Government Areas', 'Public Service Areas']],
 
   ['Elections & Representation',
    'The geography of voting: the areas, where the vote happens, and how it came out.',
@@ -29,12 +29,12 @@ const SHELVES = [
   ['People & Places',
    'Where people are, what the places are called, and how they are counted.',
    ['Census & Statistical Geographies', 'Settlements & Urban Areas', 'Place & Street Names',
-    'Health', 'Deprivation & Regeneration', 'Conflict & Segregation']],
+    'Health', 'Conflict & Segregation']],
 
   ['Planning & Property',
    'What is proposed, permitted and owned.',
-   ['Development Plans & Zoning', 'Planning Applications & Registers', 'Housing & Accommodation',
-    'Property & Land Registry', 'Buildings & Sites']],
+   ['Development Plans & Zoning', 'Planning Applications & Registers', 'Housing & Regeneration',
+    'Property, Land & Buildings']],
 
   ['Transport',
    'Getting about, by every mode.',

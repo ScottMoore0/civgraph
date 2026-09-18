@@ -29,7 +29,16 @@ node scripts/catalogue-taxonomy/merge.mjs      build/catalogue-prototype/subject
 node scripts/catalogue-taxonomy/entries.mjs    build/catalogue-prototype/subjects.json   build/catalogue-prototype/entries.json
 node scripts/catalogue-taxonomy/shelves.mjs    build/catalogue-prototype/entries.json    build/catalogue-prototype/shelves.json
 node scripts/catalogue-taxonomy/stubs.mjs      build/catalogue-prototype/subjects-unrenderable.json
+node scripts/catalogue-taxonomy/consolidate.mjs   build/catalogue-prototype/entries.json
+node scripts/catalogue-taxonomy/shelves.mjs       build/catalogue-prototype/entries.json build/catalogue-prototype/shelves.json
+node scripts/catalogue-taxonomy/build-catalogue-v2.mjs
+node scripts/catalogue-taxonomy/check-catalogue-v2.mjs
 ```
+
+`consolidate.mjs` runs **after** `entries.mjs` and rewrites `entries.json` in place, so keep a
+copy (`entries-preconsolidation.json`) if you want the before/after. Re-run `shelves.mjs`
+afterwards: consolidation can empty a subject, and the script prints which ones to remove from
+the `SHELVES` list.
 
 Then the review pages:
 
@@ -53,6 +62,9 @@ Scripts must be run from the repository root.
 | `entries.mjs` | groups maps into entries: same stem after stripping years, dates and bracketed publishers; then lone maps sharing a prefix; then named singular/plural pairs |
 | `shelves.mjs` | groups the subjects onto shelves; fails if a subject sits on two shelves or none |
 | `stubs.mjs` | assigns a subject to the 273 rows that cannot draw anything yet (155 stubs, 118 hidden), by category rather than by name |
+| `consolidate.mjs` | merges entries that are one thing named several ways, and applies the editorial placements: which card a map belongs in, which map a map is a *variant of*, and card/subject renames. Run with no output path for a dry run that prints every group it would form |
+| `build-catalogue-v2.mjs` | folds subjects, entries and shelves into `data/database/maps-v2.json`, a complete catalogue document the pane loads under `?catalogue=v2` |
+| `check-catalogue-v2.mjs` | runs the pane's own invariants against that document outside the browser |
 | `build*.mjs` | render the three review pages |
 
 ## Two rules the assignments depend on
