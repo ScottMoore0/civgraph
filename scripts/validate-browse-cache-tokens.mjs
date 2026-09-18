@@ -43,7 +43,15 @@ import path from 'node:path';
 // Both hand-written token sites in the repo. apps/proni-search/ was added on 2026-08-23
 // after its ?v=19 had to be bumped by hand when app.js changed -- exactly the condition
 // this check exists to remove, sitting in a second directory nobody had pointed it at.
-const HTML_FILES = ['browse/index.html', 'apps/proni-search/index.html'];
+// /catalogue/ and /records/ load the same browse.js and browse.css by site-root path.
+// Left off this list they would keep whatever token they were created with and serve the
+// previous JavaScript after a deploy -- the same stale-asset bug in two more directories.
+const HTML_FILES = [
+  'browse/index.html',
+  'catalogue/index.html',
+  'records/index.html',
+  'apps/proni-search/index.html',
+];
 const CHECK = process.argv.includes('--check');
 
 let totalChecked = 0;

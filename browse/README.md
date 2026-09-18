@@ -1,24 +1,47 @@
-# `browse/` — the catalogue browser at `/browse/`
+# `browse/` — the browser behind `/browse/`, `/catalogue/` and `/records/`
 
-> **Status: current — three files, no build step.**
+> **Status: current — one app, three scoped entry points, no build step for the page itself.**
 
 A plain HTML/CSS/JS page. No framework, no bundler; the browser loads
 `browse.js` directly.
 
 | File | What it is |
 |---|---|
-| `index.html` | The page |
+| `index.html` | The unscoped page at `/browse/` |
 | `browse.js` | All the behaviour: list views, filters, facets, detail records |
-| `browse.css` | All the styling, **including its own copy of the site header** |
+| `browse.css` | All the styling |
 
-## Two things that have caused real bugs
+## Three entry points, one application
 
-**The header is duplicated here.** `browse.css` carries its own copy of the
-`.app-header` rules rather than importing them from `assets/css/main.css`. A
-header change made in one place does not reach the other, and it has an
-independent `900px` breakpoint that overrides the shared values again. Fixing the
-mobile wordmark in August required editing both, and the second was only found by
-measuring all three pages.
+The three layers in `docs/CIVGRAPH_1.0.md` are the reason there is more than one
+route. Each entity in `ENTITY_CONFIG` declares the `layer` it belongs to, and each
+shell page declares which layer it shows:
+
+| Route | `data-browse-section` | Shows |
+|---|---|---|
+| `/catalogue/` | `source` | Books / Tables / Sources, PRONI Records |
+| `/records/` | `data` | Maps, Elections, Features, Parties, Persons, Register Interests |
+| `/browse/` | *(none)* | everything, so no existing link breaks |
+
+All three load the **same** `browse.js` and `browse.css`, and take their body from
+`partials/browse-shell.html` through the site-partials mechanism. Forking the page
+would have produced three copies to keep in step — the failure this repository has
+already paid for once (see below). A deep link into the other layer still resolves:
+only the directory rail and the default view are scoped.
+
+The data-layer route is `/records/`, not `/data/`, because `/data/browse/*`,
+`/data/graph/*` and `/data/maps/*` are Functions routes and `scripts/clean-for-pages.sh`
+already deletes inside `data/`.
+
+## One thing that has caused real bugs
+
+**The header used to be duplicated here.** `browse.css` carried its own copy of the
+`.app-header` rules with an independent `900px` breakpoint, so a header change made
+in one place did not reach the other; fixing the mobile wordmark in August required
+editing both. That is **no longer true** — the header now comes from
+`partials/site-header.html` and `assets/site/site-chrome.css`, and `browse.css`
+contains no header rules at all. The warning is kept here because the shape of the
+mistake is worth remembering, not because the defect is live.
 
 **Some indexes are served from D1, not from JSON.** `D1_INDEXES` at the top of
 `browse.js` names them — currently `persons`, `sources`, `register-interests`.

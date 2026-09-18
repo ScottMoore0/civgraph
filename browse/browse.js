@@ -2,16 +2,62 @@ const DATA_ROOT = '../data/browse';
 const GRAPH_ROOT = '../data/graph';
 const BROWSE_DATA_VERSION = '20260702-proni-4';
 const THUMBNAIL_ASSET_VERSION = '20260604-tight-admin-frame';
+// `layer` is the Civgraph 1.0 layer each entity belongs to (docs/CIVGRAPH_1.0.md):
+// 'source' is original material as published, 'data' is what has been derived from it.
+// The same app serves /catalogue/ (source) and /records/ (data) and scopes itself by the
+// section the shell page declares; /browse/ declares none and still shows everything, so
+// no existing link breaks.
 const ENTITY_CONFIG = {
-  maps: { label: 'Maps', singular: 'Map', index: 'maps.json', detailDir: 'maps', action: 'Open in interactive map' },
-  elections: { label: 'Elections', singular: 'Election', index: 'elections.json', detailDir: 'elections', action: 'Open election layer' },
-  features: { label: 'Features', singular: 'Feature group', index: 'features.json', detailDir: null, action: 'Open source map' },
-  parties: { label: 'Parties / Labels', singular: 'Party / label', index: 'parties.json', detailDir: 'parties' },
-  persons: { label: 'Persons', singular: 'Person', index: 'persons.json', detailDir: null },
-  'register-interests': { label: 'Register Interests', singular: 'Register interest', index: 'register-interests.json', detailDir: 'register-interests' },
-  sources: { label: 'Books / Tables / Sources', singular: 'Source', index: 'sources.json', detailDir: 'sources' },
-  proni: { label: 'PRONI Records', singular: 'PRONI record', index: 'proni.json', detailDir: 'proni' }
+  maps: { label: 'Maps', singular: 'Map', index: 'maps.json', detailDir: 'maps', action: 'Open in interactive map', layer: 'data' },
+  elections: { label: 'Elections', singular: 'Election', index: 'elections.json', detailDir: 'elections', action: 'Open election layer', layer: 'data' },
+  features: { label: 'Features', singular: 'Feature group', index: 'features.json', detailDir: null, action: 'Open source map', layer: 'data' },
+  parties: { label: 'Parties / Labels', singular: 'Party / label', index: 'parties.json', detailDir: 'parties', layer: 'data' },
+  persons: { label: 'Persons', singular: 'Person', index: 'persons.json', detailDir: null, layer: 'data' },
+  'register-interests': { label: 'Register Interests', singular: 'Register interest', index: 'register-interests.json', detailDir: 'register-interests', layer: 'data' },
+  sources: { label: 'Books / Tables / Sources', singular: 'Source', index: 'sources.json', detailDir: 'sources', layer: 'source' },
+  proni: { label: 'PRONI Records', singular: 'PRONI record', index: 'proni.json', detailDir: 'proni', layer: 'source' }
 };
+
+// Which layer this page is scoped to: 'source', 'data', or null for the unscoped /browse/.
+const SECTION_LAYER = (() => {
+  const v = document.documentElement.dataset.browseSection;
+  return v === 'source' || v === 'data' ? v : null;
+})();
+
+const SECTION_COPY = {
+  source: {
+    kicker: 'Catalogue',
+    title: 'Civgraph source catalogue',
+    description: 'Original sources as published: books, tables, datasets, map downloads, source files and archival records, with their publisher, licence and files. This is the source layer — material as it was issued, before anything was derived from it.'
+  },
+  data: {
+    kicker: 'Records',
+    title: 'Civgraph records',
+    description: 'What has been derived from the sources: map layers, elections, boundary features, parties and labels, people, and register entries, linked to one another and back to the source each came from.'
+  }
+};
+
+// Entity types visible in this section, in ENTITY_CONFIG order.
+function sectionTypes() {
+  const all = Object.keys(ENTITY_CONFIG);
+  if (!SECTION_LAYER) return all;
+  return all.filter((type) => ENTITY_CONFIG[type].layer === SECTION_LAYER);
+}
+
+function inSection(type) {
+  return !SECTION_LAYER || ENTITY_CONFIG[type]?.layer === SECTION_LAYER;
+}
+
+// The Catalogue's facet bar. Each key is already a filter the /_api/sources endpoint
+// accepts and a key in its precomputed facets blob, so adding one here is a server change
+// (a column and a facet in build-browse-index-d1-import.mjs) plus a line below -- never a
+// scan of the 40,553 records in the browser, which is what this listing used to do.
+const SOURCE_FILTERS = [
+  { key: 'provider', label: 'Publisher' },
+  { key: 'category', label: 'Category' },
+  { key: 'license', label: 'Licence' },
+  { key: 'publicationStatus', label: 'Publication status' },
+];
 
 const REGISTER_INTEREST_SORT_OPTIONS = [
   { key: 'date', label: 'Date' },
@@ -193,6 +239,9 @@ const state = {
   // change, because the earlier pages no longer describe the same result set.
   serverList: { type: null, items: [], total: 0 },
   serverFacets: new Map(),
+  // Catalogue facets, in the shape the /_api/sources filters already accept. Empty string
+  // means "All", which is also what the endpoint treats as absent.
+  sourceFilters: { provider: '', category: '', publicationStatus: '', license: '' },
   graph: {
     manifest: null,
     browseMapping: null,
@@ -336,6 +385,14 @@ function bindEvents() {
       return;
     }
 
+    const clearSourceFilters = event.target.closest('[data-source-clear-filters]');
+    if (clearSourceFilters) {
+      event.preventDefault();
+      for (const key of Object.keys(state.sourceFilters)) state.sourceFilters[key] = '';
+      renderCurrent();
+      return;
+    }
+
     const contributorAction = event.target.closest('[data-contributor-action]');
     if (contributorAction) {
       event.preventDefault();
@@ -353,6 +410,16 @@ function bindEvents() {
   });
 
   document.addEventListener('change', (event) => {
+    const sourceFilter = event.target.closest('[data-source-filter]');
+    if (sourceFilter) {
+      const key = sourceFilter.dataset.sourceFilter;
+      // Changing a facet invalidates the accumulated pages, so renderCurrent() re-requests
+      // from offset 0 rather than appending to a list built under the old filter.
+      if (key && key in state.sourceFilters) state.sourceFilters[key] = sourceFilter.value || '';
+      renderCurrent();
+      return;
+    }
+
     const filter = event.target.closest('[data-register-filter]');
     if (!filter) return;
     const key = filter.dataset.registerFilter;
@@ -390,21 +457,26 @@ function parseRoute() {
   const hash = decodeURIComponent(location.hash.replace(/^#\/?/, ''));
   const parts = hash.split('/').filter(Boolean);
   const params = new URLSearchParams(location.search);
+  // The fallback type is the first one this section owns, not always 'maps' -- on
+  // /catalogue/ that would land the reader in a section the page does not show.
+  const fallback = sectionTypes()[0] || 'maps';
   const hasExplicitType = params.has('type') || parts.length > 0;
   if (!hasExplicitType) {
-    return { isHome: true, type: 'maps', id: null, params };
+    return { isHome: true, type: fallback, id: null, params };
   }
-  let type = params.get('type') || parts[0] || 'maps';
+  let type = params.get('type') || parts[0] || fallback;
   let id = params.get('id') || parts[1] || null;
   if (type === 'people') type = 'persons';
   if (type === 'entities') return { isHome: false, type, id, params };
-  if (!ENTITY_CONFIG[type]) type = 'maps';
+  // A deep link to the other layer still resolves rather than 404ing, so shared URLs keep
+  // working; only the directory and the default view are scoped.
+  if (!ENTITY_CONFIG[type]) type = fallback;
   return { isHome: false, type, id, params };
 }
 
 function renderGroups() {
   const counts = state.manifest?.counts || {};
-  els.groups.innerHTML = (state.manifest?.groups || []).map((group) => {
+  els.groups.innerHTML = (state.manifest?.groups || []).filter((group) => inSection(group.id)).map((group) => {
     const count = countForGroup(group.id, counts);
     const active = !state.isHome && group.id === state.activeType ? ' browse-group-link--active' : '';
     return `
@@ -498,20 +570,54 @@ function setPortalHero() {
     + (counts.persons || 0)
     + (counts['register-interests'] || 0)
     + (counts.sources || 0);
+  const copy = SECTION_COPY[SECTION_LAYER] || {
+    kicker: 'Browse',
+    title: 'Civgraph data directory',
+    description: 'A structured portal into maps, elections, boundary features, parties and labels, people, books, tables, downloads, and source records. Use the directory below to browse by subject, or search within a chosen section.'
+  };
+  // PRONI is deliberately absent from the unscoped totals: at 1.5m records it is larger
+  // than everything else combined, so adding it to one "total" tells the reader nothing.
+  // The source section counts it on its own tile instead.
+  const stats = SECTION_LAYER === 'source'
+    ? `${renderPortalStat('Sources', counts.sources)}
+       ${renderPortalStat('PRONI records', counts.proni)}`
+    : SECTION_LAYER === 'data'
+      ? `${renderPortalStat('Maps', counts.maps)}
+         ${renderPortalStat('Elections', counts.elections)}
+         ${renderPortalStat('Feature groups', counts.featureGroups)}
+         ${renderPortalStat('Parties / labels', counts.parties)}
+         ${renderPortalStat('Persons', counts.persons)}
+         ${renderPortalStat('Register interests', counts['register-interests'])}
+         ${renderPortalStat('Total records', total - (counts.sources || 0))}`
+      : `${renderPortalStat('Maps', counts.maps)}
+         ${renderPortalStat('Elections', counts.elections)}
+         ${renderPortalStat('Feature groups', counts.featureGroups)}
+         ${renderPortalStat('Parties / labels', counts.parties)}
+         ${renderPortalStat('Persons', counts.persons)}
+         ${renderPortalStat('Register interests', counts['register-interests'])}
+         ${renderPortalStat('Sources', counts.sources)}
+         ${renderPortalStat('Total entries', total)}`;
   els.hero.innerHTML = `
-    <p class="browse-kicker">Browse</p>
-    <h1 class="browse-title">Civgraph data directory</h1>
-    <p class="browse-description">A structured portal into maps, elections, boundary features, parties and labels, people, books, tables, downloads, and source records. Use the directory below to browse by subject, or search within a chosen section.</p>
+    <p class="browse-kicker">${escapeHtml(copy.kicker)}</p>
+    <h1 class="browse-title">${escapeHtml(copy.title)}</h1>
+    <p class="browse-description">${escapeHtml(copy.description)}</p>
     <div class="browse-portal-stats" aria-label="Browse totals">
-      ${renderPortalStat('Maps', counts.maps)}
-      ${renderPortalStat('Elections', counts.elections)}
-      ${renderPortalStat('Feature groups', counts.featureGroups)}
-      ${renderPortalStat('Parties / labels', counts.parties)}
-      ${renderPortalStat('Persons', counts.persons)}
-      ${renderPortalStat('Register interests', counts['register-interests'])}
-      ${renderPortalStat('Sources', counts.sources)}
-      ${renderPortalStat('Total entries', total)}
+      ${stats}
     </div>
+    ${renderSectionSwitch()}
+  `;
+}
+
+// A reader who lands in one layer needs a way across to the other.
+function renderSectionSwitch() {
+  if (!SECTION_LAYER) return '';
+  const to = SECTION_LAYER === 'source'
+    ? { href: '/records/', label: 'Records', note: 'maps, elections, people and parties derived from these sources' }
+    : { href: '/catalogue/', label: 'Catalogue', note: 'the original sources these records were derived from' };
+  return `
+    <p class="browse-section-switch">
+      Looking for <a href="${to.href}">${escapeHtml(to.label)}</a>? &mdash; ${escapeHtml(to.note)}.
+    </p>
   `;
 }
 
@@ -544,6 +650,10 @@ function renderPortalSections() {
 }
 
 function portalSections() {
+  return allPortalSections().filter((section) => inSection(section.id));
+}
+
+function allPortalSections() {
   const counts = state.manifest?.counts || {};
   return [
     {
@@ -753,6 +863,42 @@ function renderRegisterInterestControls(items, filteredCount, totalCount) {
       <div class="browse-control-footer">
         <span>${formatNumber(filteredCount)} of ${formatNumber(totalCount)} records after controls${activeFilters ? `, ${activeFilters} active ${activeFilters === 1 ? 'filter' : 'filters'}` : ''}.</span>
         <button type="button" class="browse-btn" data-register-clear-filters>Clear filters</button>
+      </div>
+    </section>
+  `;
+}
+
+/**
+ * The Catalogue facet bar, in the shape every open-data portal uses: publisher, category,
+ * licence and status, each a single select over values precomputed server-side.
+ *
+ * Options come from `/_api/sources?facets=1`, never from the rendered page: a filter built
+ * from the 200 records currently on screen would silently omit every value that appears
+ * later in the 40,553.
+ */
+function renderSourceControls(filteredCount, totalCount, facets) {
+  const active = SOURCE_FILTERS.filter((f) => state.sourceFilters[f.key]).length;
+  const selects = SOURCE_FILTERS.map((filter) => {
+    const options = Array.isArray(facets?.[filter.key]) ? facets[filter.key] : [];
+    if (!options.length) return '';
+    const value = state.sourceFilters[filter.key] || '';
+    return `
+      <label class="browse-filter">
+        <span>${escapeHtml(filter.label)}</span>
+        <select data-source-filter="${escapeAttr(filter.key)}">
+          <option value="">All</option>
+          ${options.map((option) => `<option value="${escapeAttr(option)}"${option === value ? ' selected' : ''}>${escapeHtml(option)}</option>`).join('')}
+        </select>
+      </label>
+    `;
+  }).join('');
+  if (!selects) return '';
+  return `
+    <section class="browse-controls" aria-label="Catalogue filters">
+      <div class="browse-filter-grid">${selects}</div>
+      <div class="browse-control-footer">
+        <span>${formatNumber(filteredCount)} of ${formatNumber(totalCount)} sources${active ? `, ${active} active ${active === 1 ? 'filter' : 'filters'}` : ''}.</span>
+        <button type="button" class="browse-btn" data-source-clear-filters>Clear filters</button>
       </div>
     </section>
   `;
@@ -3569,12 +3715,13 @@ async function fetchIndexFacets(type) {
 async function renderServerList(type, { append = false } = {}) {
   const config = ENTITY_CONFIG[type];
   const isRegister = type === 'register-interests';
+  const isSources = type === 'sources';
   const controls = state.registerInterestControls;
   const request = {
     query: state.query,
     sort: isRegister ? controls.sortKey : '',
     dir: isRegister ? controls.sortDir : '',
-    filters: isRegister ? controls.filters : {},
+    filters: isRegister ? controls.filters : isSources ? state.sourceFilters : {},
     offset: append ? state.serverList.items.length : 0,
     limit: LIST_PAGE_SIZE,
   };
@@ -3605,13 +3752,14 @@ async function renderServerList(type, { append = false } = {}) {
        </div>`
     : '';
 
-  const facets = isRegister ? await fetchIndexFacets(type) : null;
+  const facets = (isRegister || isSources) ? await fetchIndexFacets(type) : null;
   // page.total is the count AFTER filtering. The unfiltered total comes from the browse
   // manifest, so the summary can still read "120 of 40,327" rather than "120 of 120" --
   // which would hide the fact that a filter is doing anything.
   const unfiltered = (state.manifest?.counts || {})[type] || page.total;
   els.results.innerHTML = `
     ${isRegister ? renderRegisterInterestControls(null, page.total, unfiltered, facets) : ''}
+    ${isSources ? renderSourceControls(page.total, unfiltered, facets) : ''}
     ${renderFilterSummary(page.total, unfiltered)}
     <div class="browse-grid">${items.map((item) => renderCard(type, item, config)).join('')}</div>
     ${more}

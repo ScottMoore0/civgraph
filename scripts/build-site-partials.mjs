@@ -44,11 +44,17 @@ const SITE_PAGE = ['site:head', 'site:header', 'site:support-modal', 'site:foote
 
 /** Every page that uses partials, and exactly which. A region a page must not have is as
  *  much a decision as one it must: the map app has no footer. */
+// /browse/, /catalogue/ and /records/ are the same application scoped to different layers,
+// so they share a body region too. Without that, splitting the section would have produced
+// three copies of the shell to keep in step -- the failure this mechanism exists to prevent.
+const BROWSE_PAGE = [...SITE_PAGE, 'site:browse-shell'];
 const PAGES = new Map([
   ['index.html', SITE_PAGE],
   ['pages/about.html', SITE_PAGE],
   ['maps/index.html', ['site:head', 'site:header', 'site:support-modal']],
-  ['browse/index.html', SITE_PAGE],
+  ['browse/index.html', BROWSE_PAGE],
+  ['catalogue/index.html', BROWSE_PAGE],
+  ['records/index.html', BROWSE_PAGE],
   ['apps/index.html', SITE_PAGE],
   ['pages/census-explorer.html', SITE_PAGE],
   ['apps/proni-search/index.html', ['proni:header', 'proni:footer']],
@@ -59,6 +65,7 @@ const PARTIAL_FILES = {
   'site:header': 'partials/site-header.html',
   'site:support-modal': 'partials/support-modal.html',
   'site:footer': 'partials/site-footer.html',
+  'site:browse-shell': 'partials/browse-shell.html',
   'proni:header': 'partials/proni-header.html',
   'proni:footer': 'partials/proni-footer.html',
 };
