@@ -49,7 +49,14 @@ const UPDATE = process.argv.includes('--update-baseline');
 // preceded by another letter. That distinction is what the lookbehind encodes.
 // Measured precision: 94 files flagged, of which the only false positives are
 // the two that legitimately contain this pattern as a regex of their own.
-const LOCAL_PATH_RE = /(?<![A-Za-z])[A-Za-z]:[\\/]/;
+//
+// The second lookbehind covers a case the first cannot: a printf placeholder
+// immediately before the separator, as in Python's '%s://%s' % (scheme, netloc).
+// There the 's' of '%s' is preceded by '%' rather than a letter, so the drive-
+// letter test passes and a URL built by interpolation flags. Excluding a '%'
+// costs no real detection -- a hardcoded path does not begin '%C:\' -- and a
+// path assembled from a placeholder is by definition not hardcoded.
+const LOCAL_PATH_RE = /(?<![A-Za-z])(?<!%)[A-Za-z]:[\\/]/;
 
 const ROOTS = ['scripts', 'analysis'];
 const EXTENSIONS = new Set(['.mjs', '.js', '.py', '.md', '.json', '.ps1', '.sh', '.yml', '.yaml']);

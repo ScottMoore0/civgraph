@@ -80,27 +80,29 @@ jobs:
       # re-running check:external-sources, which passed.
       - run: node scripts/build-browse-indexes.mjs
 
-      # check:catalogue-sql compares data/database/catalogue-d1-import.sql to what
-      # the builder would emit, but that file is gitignored (build output, 1.3 MB),
-      # so on a clean checkout it does not exist and the check fails outright --
-      # the same shape as main.css and data/browse above, green locally only
-      # because the file sits untracked on the developer's disk.
+      # These two build the D1 import SQL. They are here for the builders' own
+      # guards, NOT for a staleness comparison:
       #
-      # Reads only data/database/maps.json, which is tracked, so a clean checkout
-      # is enough. Generating it here also means the check actually compares
-      # something rather than failing on a missing input.
+      #   - build-catalogue-d1-import.mjs enforces the D1 per-statement size limit
+      #     and refuses an empty source.
+      #   - build-browse-index-d1-import.mjs enforces the same limit, refuses an
+      #     empty index, and fails on a shard missing from disk.
+      #
+      # Both read tracked inputs (data/database/maps.json) or the data/browse
+      # indexes built above, so a clean checkout is enough.
+      #
+      # check:catalogue-sql and check:browse-index-sql used to run in `npm run
+      # check` and compared these files to what the builders would emit. They were
+      # removed from that chain on 2026-09-19. Two reasons: in CI both sides are
+      # generated from the same inputs, so the comparison is a tautology; and on a
+      # developer disk it cannot fire either, because deploy-catalogue-d1.mjs and
+      # deploy-browse-indexes-d1.mjs both regenerate the SQL as their first step
+      # before touching D1. A stale file is unreachable on the deploy path. The
+      # real guard against deploying the wrong records is the network verification
+      # inside those deploy scripts -- see the header of deploy-catalogue-d1.mjs.
+      #
+      # The npm scripts are still defined for ad-hoc use; they are just not gates.
       - run: node scripts/build-catalogue-d1-import.mjs
-
-      # Same again for check:browse-index-sql, which compares the three
-      # *-d1-import.sql files to the data/browse indexes built above. Both sides
-      # are gitignored, and only the indexes were being built, so the check
-      # reported all three as stale on every run (a missing file reads as stale).
-      #
-      # Worth being clear about what this buys: with both sides generated from
-      # the same inputs the comparison cannot catch drift here -- that gate only
-      # means something on a developer disk, before a deploy. What CI does get is
-      # the builders themselves running against real data, which is where the
-      # per-statement D1 size limits and the empty-index guards are enforced.
       - run: node scripts/build-browse-index-d1-import.mjs --all
 
       - run: npm run check
