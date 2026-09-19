@@ -956,6 +956,37 @@ button.catalogue-flat__toc-toplink {
   vertical-align: middle;
 }
 
+/* The reorganised contents writes a short jurisdiction code (IRE / ROI / NI) rather than
+   a full country name, and it belongs beside the year, not in a column of its own several
+   percent away. It is emitted inside the year cell; the third column stays in the markup so
+   the two arrangements share one table shape, and simply renders empty under v2. */
+.catalogue-flat__toc-scope {
+  margin-left: 6px;
+  font-size: 0.85em;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted, #718096);
+  white-space: nowrap;
+}
+
+.catalogue-flat__toc-table--v2.catalogue-flat__toc-table--v2 td:nth-child(1),
+.catalogue-flat__toc-table--v2.catalogue-flat__toc-table--v2 th:nth-child(1) {
+  width: 76%;
+}
+
+.catalogue-flat__toc-table--v2.catalogue-flat__toc-table--v2 td:nth-child(2),
+.catalogue-flat__toc-table--v2.catalogue-flat__toc-table--v2 th:nth-child(2) {
+  width: 24%;
+  text-align: right;
+  white-space: nowrap;
+  overflow: visible;
+}
+
+.catalogue-flat__toc-table--v2.catalogue-flat__toc-table--v2 td:nth-child(3),
+.catalogue-flat__toc-table--v2.catalogue-flat__toc-table--v2 th:nth-child(3) {
+  width: 0;
+  padding: 0;
+}
+
 .catalogue-flat__toc-table th {
   font-weight: 700;
   color: var(--color-text, #1a202c);

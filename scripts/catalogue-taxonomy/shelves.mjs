@@ -16,11 +16,11 @@ const SHELVES = [
   ['Land Divisions',
    'The territorial fabric: the units Ireland has been divided into, from the townland up.',
    ['Townlands', 'Civil Parishes & Baronies', 'Counties & Provinces', 'States & Polities',
-    'Regional Divides', 'Ecclesiastical Areas', 'Language & Gaeltacht']],
+    'Local Government Areas', 'Ecclesiastical Areas', 'Language & Gaeltacht']],
 
   ['Government & Administration',
    'Who administers what, and the areas they administer it over.',
-   ['Local Government Areas', 'Public Service Areas']],
+   ['Public Service Areas']],
 
   ['Elections & Representation',
    'The geography of voting: the areas, where the vote happens, and how it came out.',
@@ -66,6 +66,10 @@ const SHELVES = [
    'What is under the ground and the shape of what is on top of it.',
    ['Geology & Soils', 'Geophysics & Geochemical Survey', 'Hills & Uplands',
     'Aerial Imagery & Elevation']],
+
+  ['Regional Divides',
+   'Lines drawn across the island that are neither administrative nor physical.',
+   ['Regional Divides']],
 ];
 
 const entries = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
@@ -88,7 +92,7 @@ const out = SHELVES.map(([name, blurb, subs]) => {
   const subjects = subs.map(s => {
     const items = entries.filter(e => e.subject === s);
     return { name: s, kind: items[0].kind, entries: items.length, maps: items.reduce((a, e) => a + e.n, 0) };
-  }).sort((a, b) => b.entries - a.entries);
+  });   // declared order, not sorted: the sequence above IS the contents order
   return {
     name, blurb, subjects,
     entries: subjects.reduce((a, s) => a + s.entries, 0),

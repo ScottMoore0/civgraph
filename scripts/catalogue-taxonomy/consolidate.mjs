@@ -16,6 +16,73 @@
  */
 import fs from 'fs';
 
+const CATALOGUE = JSON.parse(fs.readFileSync('data/database/maps.json', 'utf8'));
+const MAP_BY_ID = new Map(CATALOGUE.maps.map((m) => [m.id, m]));
+const CLASS_SCOPE = new Map();
+for (const c of CATALOGUE.classes || []) for (const id of c.maps || []) if (!CLASS_SCOPE.has(id)) CLASS_SCOPE.set(id, c.scope || '');
+
+/**
+ * Which jurisdiction a map covers, as IRE / ROI / NI.
+ *
+ * No map record carries this directly, so it is read from the strongest signal available:
+ * the class scope, then the name, then keywords, then the publisher, then the id prefix.
+ * That resolves all but a handful; the rest are listed explicitly below rather than guessed
+ * by a looser rule that would mislabel others.
+ */
+const NI_PROVIDERS = /OSNI|NISRA|DAERA|NIEA|GSNI|Translink|Police Service of Northern Ireland|Department for Infrastructure|Department for Communities|Land & Property Services|Tellus|Ulster Wildlife|EONI/i;
+const ROI_PROVIDERS = /Tailte|Ordnance Survey Ireland|\bOSI\b|CSO|data\.gov\.ie|OPW|Geological Survey Ireland|Transport Infrastructure Ireland|County Council|City Council|Uisce/i;
+const SCOPE_BY_ID = new Map(Object.entries({
+  'pc-1884': 'IRE', 'pc-1918': 'IRE', bcni2018: 'NI', 'nuts-3': 'NI',
+  'transport-carriageway-defects-2021': 'NI',
+  'historic-ringfort-cashel': 'NI', 'historic-ringfort-rath': 'NI',
+  'historic-ringfort-unclassified': 'NI',
+  'river-and-lake-monitoring-points-2024': 'ROI',
+}));
+const scopeOfMap = (m) => {
+  if (!m) return null;
+  if (SCOPE_BY_ID.has(m.id)) return SCOPE_BY_ID.get(m.id);
+  const cs = CLASS_SCOPE.get(m.id) || '';
+  if (/northern ireland \/ ireland/i.test(cs)) return 'IRE';
+  if (/northern ireland/i.test(cs)) return 'NI';
+  if (/republic of ireland/i.test(cs)) return 'ROI';
+  if (/^ireland$/i.test(cs)) return 'IRE';
+  const name = String(m.name || '');
+  if (/all[- ]island|pre-partition|these islands|\(Ireland/i.test(name)) return 'IRE';
+  if (/northern ireland|\(NI\)/i.test(name)) return 'NI';
+  if (/republic of ireland|\(ROI\)/i.test(name)) return 'ROI';
+  if (/mid ulster/i.test(name)) return 'NI';
+  const kw = (m.keywords || []).map((x) => String(x).toUpperCase());
+  if (kw.includes('NI')) return 'NI';
+  if (kw.includes('ROI')) return 'ROI';
+  const prov = [].concat(m.provider || []).join(' ');
+  if (NI_PROVIDERS.test(prov)) return 'NI';
+  if (ROI_PROVIDERS.test(prov)) return 'ROI';
+  if (/^(ni|osni|translink|niea|gsni|deas|lgd|wards|elb|hsct)[-\d]/i.test(m.id)) return 'NI';
+  if (/^(roi|tailte|cso|oda-map|dlr|dcc|sdcc|fcc)[-\d]/i.test(m.id)) return 'ROI';
+  return null;
+};
+/** An entry covering more than one jurisdiction is all-Ireland for display purposes. */
+const scopeOfEntry = (maps) => {
+  const seen = new Set(maps.map((m) => scopeOfMap(MAP_BY_ID.get(m.id))).filter(Boolean));
+  if (!seen.size) return null;
+  if (seen.size === 1) return [...seen][0];
+  return 'IRE';
+};
+
+/** The most recent four-digit year any of an entry's maps refers to, for chronological order. */
+const yearOfEntry = (maps) => {
+  let best = null;
+  for (const m of maps) {
+    const rec = MAP_BY_ID.get(m.id) || {};
+    const text = `${rec.date || ''} ${rec.dateEffective || ''} ${m.name || ''}`;
+    for (const y of text.match(/\b(1[6-9]\d{2}|20\d{2})\b/g) || []) {
+      const n = Number(y);
+      if (best === null || n > best) best = n;
+    }
+  }
+  return best;
+};
+
 const IN = 'build/catalogue-prototype/entries.json';
 const entries = JSON.parse(fs.readFileSync(IN, 'utf8'));
 const out = process.argv[2] || null;
@@ -187,17 +254,26 @@ const ASSIGN_TO_CARD = new Map(Object.entries({
   'tailte-hvd-building-groups': 'Property & Land Registry :: Building Groups',
   'tailte-hvd-sites': 'Property & Land Registry :: Topographic Sites',
   'nra': 'Housing & Accommodation :: Neighbourhood Renewal Areas',
+
+  // Polling districts are where the vote happens, not a tier of local government geography.
+  'oda-map-00150-co-wicklow-polling-districts': 'Elections & Voting :: Polling Districts',
+  'oda-map-00358-galway-city-polling-districts-opendata': 'Elections & Voting :: Polling Districts',
+  'oda-map-00156-polling-districts-roscommon': 'Elections & Voting :: Polling Districts',
+  'oda-map-00157-polling-districts-2019-sdcc': 'Elections & Voting :: Polling Districts',
 }));
 
 /** Card names set by hand where the derived one reads badly. */
 const CARD_RENAME = new Map(Object.entries({
   'civil-parishes-by-province': 'Civil Parishes',
+  'counties-ireland': 'Counties',
+  'provinces': 'Provinces',
   'dcc-journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system': 'Journey Times',
   'dlr-dlr-roads-schedule': 'Roads Schedule',
   'dcc-dcc-public-bin-locations': 'Public Bins',
   'dcc-eligible-entities-for-wifi': 'WiFi4EU Eligible Entities',
   'dlr-coco-markets': 'County Council Markets',
   'oda-map-00205-4dublin-pipeline-all': '4Dublin Pipeline',
+  'oda-map-00647-operational-areas-roscommon': 'Operational Areas',
 }));
 
 /**
@@ -217,6 +293,29 @@ const VARIANT_OF = new Map(Object.entries({
   'dlr-administrative-area': 'local-authorities-2024',
   'tailte-nuts2-boundaries-ungeneralised': 'nuts-2-roi',
   'tailte-nuts3-boundaries-generalised-20m': 'nuts-3',
+
+  // Wards, DEAs and Electoral Divisions: council and OSNI copies of a specific edition.
+  // Years come from the source record where the catalogue carries no date -- ed-boundaries-dlr
+  // says 2019, local-election-areas describes the 2018 review (the 2019 areas), and
+  // electoral-areas-roscommon5 describes the 2014 review.
+  'osni-open-data-50k-boundaries-wards-1993': 'wards-1993',
+  'mid-ulster-council-wards2': 'wards-2012',
+  'osni-open-data-50k-boundaries-district-electoral-areas-1993': 'deas-1993',
+  'mid-ulster-council-district-electoral-areas2': 'deas-2012',
+  'ed-boundaries-dlr': 'eds-2019',
+  'dlr-ed-boundaries': 'eds-2019',
+  'dlr-local-electoral-areas': 'roi-lea-2019',
+  'oda-map-00153-local-election-areas': 'roi-lea-2019',
+  'oda-map-00140-electoral-areas-roscommon': 'roi-lea-2014',
+}));
+
+/**
+ * Display names for individual maps INSIDE a card. Distinct from CARD_RENAME, which names the
+ * card itself. "03 May 1921" is a four-digit-year edition whose name happens to be a date; it
+ * is its own edition rather than a variant, because the card holds no other 1921 divisions.
+ */
+const MAP_RENAME = new Map(Object.entries({
+  'eds-roi-1921-05-03': 'Electoral Divisions 1921',
 }));
 
 /** Subjects renamed to match what they now hold. */
@@ -390,6 +489,12 @@ for (const e of consolidated) if (SUBJECT_RENAME.has(e.subject)) e.subject = SUB
   const live = new Set(consolidated.map((e) => e.subject));
   const gone = [...new Set(E_SUBJECTS)].filter((s) => !live.has(s) && !SUBJECT_RENAME.has(s));
   if (gone.length) console.log(`\nsubjects now empty (remove from shelves.mjs): ${gone.join(', ')}`);
+}
+
+for (const e of consolidated) {
+  for (const m of e.maps) if (MAP_RENAME.has(m.id)) m.name = MAP_RENAME.get(m.id);
+  e.scope = scopeOfEntry(e.maps);
+  e.year = yearOfEntry(e.maps);
 }
 
 consolidated.sort((a, b) => b.n - a.n);
