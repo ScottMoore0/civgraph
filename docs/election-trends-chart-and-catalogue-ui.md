@@ -1,5 +1,11 @@
 # Election Trends chart redesign, election tables, catalogue section bar and Books layout
 
+> **Status: completed — the changes described here are merged and live.** Written to
+> review the contributed pull request that introduced them; merged 2026-09-19 as
+> 728e0bab38 and deployed the same day. Kept as the record of what that change did
+> and why, so nothing here is outstanding work. The catalogue contents table has
+> moved on since: see the reorganised catalogue behind ?catalogue=v2.
+
 Everything this change touches, file by file, with the reasoning. Written for review of
 the pull request that introduces it.
 
