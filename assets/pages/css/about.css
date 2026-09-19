@@ -8,9 +8,10 @@
 .hero__grid--single { grid-template-columns: 1fr; }
 .hero--interior .lede { max-width: 60ch; }
 
-/* Text-led page: give the prose a comfortable measure and a little more air. */
+/* The prose runs the full width of the same wide wrapper the Home page uses, so the two
+   pages line up; only a little more air between sections. */
 main > .wrap > section > p,
-main > .wrap > section > ul { max-width: 68ch; }
+main > .wrap > section > ul { max-width: none; }
 main > .wrap > section > h2 { margin-top: 2.6rem; }
 
 /* .shot-hero exists on the Home page to pull the lead screenshot UP into the gradient
@@ -21,7 +22,7 @@ main > .wrap > section > h2 { margin-top: 2.6rem; }
 
 /* Numbered method steps. The review asked for the digitising process as a step by step
    example rather than narrative prose, so it is an <ol> and reads as a procedure. */
-.method-steps { counter-reset: step; list-style: none; padding-left: 0; max-width: 68ch; }
+.method-steps { counter-reset: step; list-style: none; padding-left: 0; }
 .method-steps > li {
   counter-increment: step;
   position: relative;
@@ -51,7 +52,6 @@ main > .wrap > section > h2 { margin-top: 2.6rem; }
   background: var(--color-gray-50);
   padding: 1.15rem 1.35rem;
   margin: 1.5rem 0 2rem;
-  max-width: 68ch;
 }
 .correction-box h3 {
   margin: 0 0 .5rem;
@@ -65,7 +65,7 @@ main > .wrap > section > h2 { margin-top: 2.6rem; }
 /* Source categories. The review asked for the breadth of sources to be shown rather than
    asserted, as grouped categories with examples. Generated from the catalogue's provider
    field, so it stays true: 58 organisations across 75 provider strings. */
-.sources-list { margin: 1.1rem 0 1.4rem; padding: 0; list-style: none; max-width: 72ch; }
+.sources-list { margin: 1.1rem 0 1.4rem; padding: 0; list-style: none; }
 .sources-list > li {
   padding: .55rem 0 .55rem 1rem;
   border-left: 2px solid var(--color-border);
@@ -83,7 +83,7 @@ main > .wrap > section > h2 { margin-top: 2.6rem; }
 
 /* Named projects. Distinct from the broad "ways to contribute" list above it: that list
    answers "how can I help", this one answers "what specifically needs doing". */
-.project-list { list-style: none; padding: 0; margin: 1rem 0 1.3rem; max-width: 70ch; }
+.project-list { list-style: none; padding: 0; margin: 1rem 0 1.3rem; }
 .project-list > li {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
