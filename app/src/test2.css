@@ -279,6 +279,21 @@ body.app-shell .app-main {
   right: 14px !important;
 }
 
+/* Once the panel is open the button has done its job. Leaving it pinned above the panel
+   cost 44px of map and offered an affordance for something already on screen, so the panel
+   sat lower than it needed to. The panel has its own close control (#activeLayersClose),
+   so hiding the button does not strip the only way out. */
+#map .active-layers-toggle[aria-expanded="true"] {
+  display: none !important;
+}
+
+/* Not `#map .active-layers` -- the panel is a sibling of the map inside .pane, not a child
+   of it, so a #map-scoped selector never matched. The toggle above IS inside #map. */
+.active-layers:not(.hidden) {
+  top: 14px;
+  right: 14px;
+}
+
 #map .map-controls {
   bottom: 14px;
   left: 14px;
