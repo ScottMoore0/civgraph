@@ -121,6 +121,11 @@ body.app-shell .app-main {
   flex: 0 0 auto;
 }
 
+/* Hidden while an election is open: there is no boundary sequence to play. */
+.pane--map > #timelineSlider.timeline-slider .timeline-playback-group--hidden {
+  display: none;
+}
+
 .pane--map > #timelineSlider.timeline-slider .timeline-btn--play.is-playing,
 .pane--map > #timelineSlider.timeline-slider .timeline-btn--play.is-replay {
   color: #fff;
@@ -1297,109 +1302,358 @@ body.test2-election-pane-resizing * {
 }
 
 .test2-election-trends {
+  --trend-surface: var(--color-surface, #fff);
+  --trend-text: var(--color-text, #111827);
+  --trend-muted: var(--color-text-muted, #6b7280);
+  --trend-grid: rgba(15, 23, 42, .09);
+  --trend-baseline: rgba(15, 23, 42, .3);
+  --trend-crosshair: rgba(15, 23, 42, .4);
+  --trend-hover: rgba(15, 23, 42, .06);
   display: grid;
-  gap: 10px;
-  padding: 10px;
-  border: 1px solid var(--color-border, #d8e0ea);
+  gap: 6px;
+  padding: 10px 12px 6px;
   border-radius: 6px;
-  background: var(--color-surface, #fff);
+  background: var(--trend-surface);
+  color: var(--trend-text);
+  font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
 }
 
 .test2-election-trends__header {
   display: flex;
-  align-items: start;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 14px;
+  gap: 12px 18px;
   flex-wrap: wrap;
 }
 
 .test2-election-trends__header h3 {
   margin: 0;
-  color: var(--color-text, #111827);
+  color: var(--trend-text);
   font-size: 15px;
-  line-height: 1.2;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
 }
 
-.test2-election-trends__header p,
-.test2-election-trends__note {
-  margin: 3px 0 0;
-  color: var(--color-text-muted, #64748b);
-  font-size: 12px;
+.test2-election-trends__header p {
+  margin: 2px 0 0;
+  color: var(--trend-muted);
+  font-size: 12.5px;
+  line-height: 1.4;
 }
 
 .test2-election-trends__scope {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  color: var(--color-text, #111827);
+  gap: 6px;
+  color: var(--trend-muted);
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.test2-election-trends__scope input {
+  margin: 0;
+  accent-color: var(--color-accent, #2563eb);
 }
 
 .test2-election-trends__chart {
+  min-width: 0;
   max-width: 100%;
-  overflow-x: auto;
 }
 
+.test2-election-trends__loading,
+.test2-election-trends__chart > .election-no-data {
+  margin: 0;
+  padding: 18px 0;
+  color: var(--trend-muted);
+  font-size: 12.5px;
+}
+
+.trend-chart {
+  position: relative;
+  display: grid;
+  gap: 4px;
+}
+
+/* Compact key. Doubles as the touch-friendly party focus control. */
 .test2-election-trends__legend {
   display: flex;
   align-items: center;
-  gap: 10px;
   flex-wrap: wrap;
-  margin-bottom: 4px;
-  color: var(--color-text, #111827);
-  font-size: 12px;
-  font-weight: 700;
+  gap: 0 6px;
+  margin: 0 0 0 -4px;
+  font-size: 11.5px;
+  line-height: 1.25;
 }
 
 .test2-election-trends__legend-item {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
+  margin: 0;
+  padding: 2px 4px;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  color: var(--trend-text);
+  font: inherit;
+  font-size: 11.5px;
+  cursor: pointer;
+  transition: opacity .15s ease, background-color .15s ease;
 }
 
-.test2-election-trends__legend-item span {
-  width: 18px;
-  height: 4px;
-  border: 1px solid rgba(15, 23, 42, .35);
-  border-radius: 999px;
+.test2-election-trends__legend-item:hover {
+  background: var(--trend-hover);
+}
+
+.test2-election-trends__legend-item:focus-visible {
+  outline: 2px solid var(--color-accent, #2563eb);
+  outline-offset: 1px;
+}
+
+.test2-election-trends__legend-item[aria-pressed="true"] {
+  font-weight: 700;
+}
+
+.test2-election-trends__legend-swatch {
+  flex: 0 0 auto;
+  width: 14px;
+  height: 3px;
+  border-radius: 2px;
+}
+
+.trend-chart__stage {
+  position: relative;
+  min-width: 0;
 }
 
 .test2-election-trends__svg {
-  width: 100%;
-  min-width: 680px;
-  height: auto;
   display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  font-family: inherit;
+  touch-action: pan-y;
+  outline: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.test2-election-trends__svg:focus-visible {
+  outline: 2px solid var(--color-accent, #2563eb);
+  outline-offset: 4px;
+  border-radius: 2px;
 }
 
 .trend-grid {
-  stroke: var(--color-border, #d8e0ea);
+  stroke: var(--trend-grid);
   stroke-width: 1;
+  shape-rendering: crispEdges;
 }
 
-.trend-axis,
-.trend-axis-line {
-  fill: var(--color-text-muted, #64748b);
-  stroke: var(--color-text-muted, #64748b);
-  font-size: 11px;
+.trend-grid--baseline {
+  stroke: var(--trend-baseline);
 }
 
-.trend-axis-line {
-  stroke-width: 1.2;
+.trend-election-tick {
+  stroke: var(--trend-baseline);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.trend-axis {
+  fill: var(--trend-muted);
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.trend-series {
+  transition: opacity .15s ease;
 }
 
 .trend-line {
   fill: none;
   stroke: var(--trend-colour, #64748b);
-  stroke-width: 3.5;
+  stroke-width: 2.25;
   stroke-linecap: round;
   stroke-linejoin: round;
+  transition: stroke-width .15s ease;
+}
+
+.trend-hit {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 14;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: stroke;
+  cursor: pointer;
+}
+
+.trend-dot {
+  fill: var(--trend-colour, #64748b);
+}
+
+.trend-gap {
+  fill: none;
+  stroke: var(--trend-colour, #64748b);
+  stroke-width: 1.25;
+  stroke-dasharray: 2 4;
+  stroke-linecap: round;
+  opacity: .5;
 }
 
 .trend-marker {
   fill: var(--trend-colour, #64748b);
-  stroke: #111827;
-  stroke-width: 2.3;
+  stroke: var(--trend-surface);
+  stroke-width: 1.5;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .12s ease;
+}
+
+.trend-marker.is-active,
+.trend-series.is-focused .trend-marker {
+  opacity: 1;
+}
+
+.trend-series.is-focused .trend-line {
+  stroke-width: 3;
+}
+
+.trend-chart[data-trend-focus] .trend-series:not(.is-focused) {
+  opacity: .16;
+}
+
+.trend-chart[data-trend-focus] .trend-label:not(.is-focused) {
+  opacity: .28;
+}
+
+.trend-chart[data-trend-focus] .test2-election-trends__legend-item:not(.is-focused) {
+  opacity: .45;
+}
+
+.trend-label {
+  cursor: pointer;
+  transition: opacity .15s ease;
+}
+
+.trend-label text {
+  fill: var(--trend-colour, #64748b);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  paint-order: stroke;
+  stroke: var(--trend-surface);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.trend-label__value {
+  font-weight: 600;
+}
+
+.trend-label-leader {
+  stroke: var(--trend-colour, #64748b);
+  stroke-width: 1;
+  opacity: .55;
+}
+
+.trend-crosshair {
+  display: none;
+  stroke: var(--trend-crosshair);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+  pointer-events: none;
+  shape-rendering: crispEdges;
+}
+
+.trend-crosshair.is-active {
+  display: block;
+}
+
+.trend-tooltip {
+  position: absolute;
+  z-index: 5;
+  min-width: 150px;
+  max-width: 250px;
+  padding: 7px 10px 8px;
+  border: 1px solid var(--color-border, #d8e0ea);
+  border-radius: 6px;
+  background: var(--trend-surface);
+  color: var(--trend-text);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, .14);
+  font-size: 12px;
+  line-height: 1.35;
+  pointer-events: none;
+}
+
+.trend-tooltip__title {
+  font-weight: 700;
+}
+
+.trend-tooltip__subtitle {
+  color: var(--trend-muted);
+  font-size: 11px;
+}
+
+.trend-tooltip__table {
+  width: 100%;
+  margin-top: 4px;
+  border-collapse: collapse;
+}
+
+.trend-tooltip__table td {
+  padding: 1px 0;
+  white-space: nowrap;
+}
+
+.trend-tooltip__table tr.is-focused td {
+  font-weight: 700;
+}
+
+.trend-tooltip__value {
+  padding-left: 14px !important;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.trend-tooltip__swatch {
+  display: inline-block;
+  width: 10px;
+  height: 3px;
+  margin: 0 6px 3px 0;
+  border-radius: 2px;
+  vertical-align: middle;
+}
+
+.test2-election-trends__notes {
+  display: grid;
+  gap: 2px;
+}
+
+.test2-election-trends__note {
+  margin: 0;
+  color: var(--trend-muted);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+@media (max-width: 640px) {
+  .test2-election-trends {
+    padding: 10px 8px 6px;
+  }
+
+  .test2-election-trends__header h3 {
+    font-size: 14px;
+  }
+
+  .trend-tooltip {
+    max-width: 200px;
+  }
 }
 
 @media (max-width: 1100px) {
@@ -1435,35 +1689,22 @@ body.test2-election-pane-resizing * {
 [data-theme="dark"] .test2-source-panel__group,
 [data-theme="dark"] .test2-election-table th,
 [data-theme="dark"] .test2-election-table__summary,
-[data-theme="dark"] .test2-election-trends__legend,
 [data-theme="dark"] .test2-fptp-vote-graphic__title {
   background: var(--color-surface-elevated, #1c2128);
   border-color: var(--color-border, #3d444d);
   color: var(--color-text, #f7fafc);
 }
 
-[data-theme="dark"] .test2-election-trends__header h3,
-[data-theme="dark"] .test2-election-trends__scope {
-  color: var(--color-text, #f7fafc);
+[data-theme="dark"] .test2-election-trends {
+  --trend-muted: var(--color-text-muted, #a8b3c5);
+  --trend-grid: rgba(255, 255, 255, .1);
+  --trend-baseline: rgba(255, 255, 255, .32);
+  --trend-crosshair: rgba(255, 255, 255, .45);
+  --trend-hover: rgba(255, 255, 255, .08);
 }
 
-[data-theme="dark"] .test2-election-trends__header p,
-[data-theme="dark"] .test2-election-trends__note {
-  color: var(--color-text-muted, #a8b3c5);
-}
-
-[data-theme="dark"] .trend-grid {
-  stroke: #3d444d;
-}
-
-[data-theme="dark"] .trend-axis,
-[data-theme="dark"] .trend-axis-line {
-  fill: #a8b3c5;
-  stroke: #a8b3c5;
-}
-
-[data-theme="dark"] .trend-marker {
-  stroke: #f7fafc;
+[data-theme="dark"] .trend-tooltip {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .5);
 }
 
 [data-theme="dark"] .test2-election-table td,
@@ -1513,35 +1754,22 @@ body.test2-election-pane-resizing * {
   :root:not([data-theme="light"]) .test2-source-panel__group,
   :root:not([data-theme="light"]) .test2-election-table th,
   :root:not([data-theme="light"]) .test2-election-table__summary,
-  :root:not([data-theme="light"]) .test2-election-trends__legend,
   :root:not([data-theme="light"]) .test2-fptp-vote-graphic__title {
     background: var(--color-surface-elevated, #1c2128);
     border-color: var(--color-border, #3d444d);
     color: var(--color-text, #f7fafc);
   }
 
-  :root:not([data-theme="light"]) .test2-election-trends__header h3,
-  :root:not([data-theme="light"]) .test2-election-trends__scope {
-    color: var(--color-text, #f7fafc);
+  :root:not([data-theme="light"]) .test2-election-trends {
+    --trend-muted: var(--color-text-muted, #a8b3c5);
+    --trend-grid: rgba(255, 255, 255, .1);
+    --trend-baseline: rgba(255, 255, 255, .32);
+    --trend-crosshair: rgba(255, 255, 255, .45);
+    --trend-hover: rgba(255, 255, 255, .08);
   }
 
-  :root:not([data-theme="light"]) .test2-election-trends__header p,
-  :root:not([data-theme="light"]) .test2-election-trends__note {
-    color: var(--color-text-muted, #a8b3c5);
-  }
-
-  :root:not([data-theme="light"]) .trend-grid {
-    stroke: #3d444d;
-  }
-
-  :root:not([data-theme="light"]) .trend-axis,
-  :root:not([data-theme="light"]) .trend-axis-line {
-    fill: #a8b3c5;
-    stroke: #a8b3c5;
-  }
-
-  :root:not([data-theme="light"]) .trend-marker {
-    stroke: #f7fafc;
+  :root:not([data-theme="light"]) .trend-tooltip {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, .5);
   }
 
   :root:not([data-theme="light"]) .test2-election-table td,
@@ -1929,5 +2157,236 @@ body.test2-election-pane-resizing * {
   :root:not([data-theme="light"]) .catalogue-search__meta,
   :root:not([data-theme="light"]) .catalogue-search__empty {
     color: var(--color-text-muted, #a8b3c5);
+  }
+}
+
+/* ------------------------------------------------------------------------------------------
+   Election pane tables (By Party, By Candidate, By Local Party), restyled to sit with the
+   Trends chart: white surface, hairline row rules, no vertical grid, quiet bold headers,
+   plain dark links, softer change colours. Scoped to the map app's election pane so the
+   shared table rules in assets/css/main.css keep serving the rest of the site unchanged.
+   ------------------------------------------------------------------------------------------ */
+.election-pane__content {
+  --table-surface: var(--color-surface, #fff);
+  --table-text: var(--color-text, #111827);
+  --table-muted: var(--color-text-muted, #6b7280);
+  --table-rule: rgba(15, 23, 42, .1);
+  --table-header-rule: rgba(15, 23, 42, .35);
+  --table-hover: rgba(15, 23, 42, .045);
+  --table-pos: #1f7a46;
+  --table-neg: #b83a2c;
+  --table-link: var(--color-primary, #1a4b8c);
+  --table-link-rule: rgba(26, 75, 140, .35);
+}
+
+.election-pane__content .election-party-wrapper,
+.election-pane__content .election-count-wrapper {
+  border: 0;
+  border-radius: 0;
+  background: var(--table-surface);
+}
+
+.election-pane__content .election-party-table,
+.election-pane__content .election-count-table {
+  background: var(--table-surface);
+  color: var(--table-text);
+  font-family: var(--font-sans, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+  font-size: 0.76rem;
+  line-height: 1.3;
+}
+
+.election-pane__content .election-party-table th,
+.election-pane__content .election-party-table td,
+.election-pane__content .election-count-table th,
+.election-pane__content .election-count-table td {
+  border: 0;
+  border-bottom: 1px solid var(--table-rule);
+  padding: 6px 8px;
+  background: var(--table-surface);
+  color: var(--table-text);
+}
+
+/* Header rows: no fill, bold labels, one firmer rule under the last header row. */
+.election-pane__content .election-party-table th,
+.election-pane__content .election-count-table th,
+.election-pane__content .election-party-table th:first-child,
+.election-pane__content .election-count-table th:first-child,
+.election-pane__content .election-party-table--grouped thead tr:nth-child(1) th,
+.election-pane__content .election-count-table--grouped thead tr:nth-child(1) th,
+.election-pane__content .election-party-table--grouped thead tr:nth-child(2) th,
+.election-pane__content .election-count-table--grouped thead tr:nth-child(2) th,
+.election-pane__content .election-party-table--grouped thead tr:nth-child(3) th,
+.election-pane__content .election-count-table--grouped thead tr:nth-child(3) th {
+  background: var(--table-surface);
+  color: var(--table-text);
+  font-weight: 700;
+  border-bottom: 0;
+  box-shadow: 0 1px 0 var(--table-rule);
+}
+
+.election-pane__content .election-party-table--grouped thead tr:nth-child(1) th:not([rowspan]),
+.election-pane__content .election-count-table--grouped thead tr:nth-child(1) th:not([rowspan]),
+.election-pane__content .election-count-table--grouped thead tr:nth-child(2) th:not([rowspan]) {
+  color: var(--table-muted);
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+}
+
+.election-pane__content .election-party-table thead tr:last-child th,
+.election-pane__content .election-count-table thead tr:last-child th,
+.election-pane__content .election-party-table thead th[rowspan],
+.election-pane__content .election-count-table thead th[rowspan] {
+  box-shadow: 0 1.5px 0 var(--table-header-rule);
+}
+
+.election-pane__content .election-th-indicator {
+  color: var(--color-accent, #2563eb);
+}
+
+/* Cell fills and rules. The shared sheet pins frozen columns with their own grey fills and
+   shadows through many specific selectors (and dark-theme copies of each), so this layer
+   states the fill once, with !important, for every body cell except the party colour tab. */
+.election-pane__content .election-party-table tbody td:not(.election-colour-col),
+.election-pane__content .election-count-table tbody td:not(.election-colour-col) {
+  background: var(--table-surface) !important;
+  border: 0 !important;
+  box-shadow: inset 0 -1px 0 var(--table-rule) !important;
+  color: var(--table-text);
+}
+
+.election-pane__content .election-party-table thead th,
+.election-pane__content .election-count-table thead th {
+  border: 0 !important;
+  box-shadow: inset 0 -1px 0 var(--table-rule) !important;
+}
+
+.election-pane__content .election-party-table thead tr:last-child th,
+.election-pane__content .election-count-table thead tr:last-child th,
+.election-pane__content .election-party-table thead th[rowspan],
+.election-pane__content .election-count-table thead th[rowspan] {
+  box-shadow: inset 0 -1.5px 0 var(--table-header-rule) !important;
+}
+
+/* No zebra striping; a light wash on hover only. */
+.election-pane__content .election-party-table tbody tr:hover td:not(.election-colour-col),
+.election-pane__content .election-count-table tbody tr:hover td:not(.election-colour-col) {
+  background: var(--table-hover) !important;
+}
+
+/* Totals row: bold, upright, closed with a firmer rule above. */
+.election-pane__content .election-table-summary-row td:not(.election-colour-col) {
+  color: var(--table-text);
+  font-style: normal;
+  font-weight: 600;
+  box-shadow: inset 0 1.5px 0 var(--table-header-rule), inset 0 -1px 0 var(--table-rule) !important;
+}
+
+/* Text reads from the left; numbers stay on the right. */
+.election-pane__content .election-party-table tbody td:has(.election-entity-link),
+.election-pane__content .election-count-table tbody td:has(.election-entity-link),
+.election-pane__content td.election-party-cell {
+  text-align: left;
+}
+
+/* One link per row: the row's own name (candidate, party or constituency) in dark text with a
+   quiet underline. The other linked cells in the row are plain until hovered. */
+.election-pane__content .election-entity-link {
+  color: var(--table-text);
+  text-decoration: underline;
+  text-decoration-color: var(--table-link-rule);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+.election-pane__content .election-count-table .election-entity-link:not([data-election-entity-kind="candidate"]),
+.election-pane__content .election-results-table--district .election-entity-link[data-election-entity-kind="party"] {
+  text-decoration-color: transparent;
+}
+
+.election-pane__content .election-entity-link:hover,
+.election-pane__content .election-entity-link:focus-visible {
+  color: var(--table-link);
+  text-decoration-color: currentColor;
+}
+
+.election-pane__content .election-party-table .election-rank-col,
+.election-pane__content .election-count-table .election-rank-col {
+  color: var(--table-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.election-pane__content td.election-party-cell::before {
+  width: 3px;
+  top: 5px;
+  bottom: 5px;
+  border-radius: 2px;
+}
+
+/* Changes: counts and votes in muted grey with their sign; only the share change is coloured. */
+.election-pane__content .election-delta,
+.election-pane__content .count-transfer--pos,
+.election-pane__content .count-transfer--neg,
+.election-pane__content .election-delta--neutral,
+.election-pane__content .election-na {
+  color: var(--table-muted);
+}
+
+.election-pane__content .election-delta--share.election-delta--pos {
+  color: var(--table-pos);
+}
+
+.election-pane__content .election-delta--share.election-delta--neg {
+  color: var(--table-neg);
+}
+
+.election-pane__content .election-na em {
+  font-style: normal;
+}
+
+/* Elected: a filled dot rather than a green tick; the label stays for screen readers. */
+.election-pane__content .election-elected-mark {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  overflow: hidden;
+  color: transparent;
+  font-size: 0;
+  line-height: 0;
+  vertical-align: middle;
+}
+
+.election-pane__content .election-elected-mark--yes {
+  background: var(--table-text);
+}
+
+.election-pane__content .election-elected-mark--no {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--table-rule);
+}
+
+[data-theme="dark"] .election-pane__content {
+  --table-link: #8fb4ff;
+  --table-link-rule: rgba(143, 180, 255, .4);
+  --table-muted: var(--color-text-muted, #a8b3c5);
+  --table-rule: rgba(255, 255, 255, .1);
+  --table-header-rule: rgba(255, 255, 255, .38);
+  --table-hover: rgba(255, 255, 255, .06);
+  --table-pos: #4ade80;
+  --table-neg: #f87171;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .election-pane__content {
+    --table-link: #8fb4ff;
+    --table-link-rule: rgba(143, 180, 255, .4);
+    --table-muted: var(--color-text-muted, #a8b3c5);
+    --table-rule: rgba(255, 255, 255, .1);
+    --table-header-rule: rgba(255, 255, 255, .38);
+    --table-hover: rgba(255, 255, 255, .06);
+    --table-pos: #4ade80;
+    --table-neg: #f87171;
   }
 }
