@@ -11252,6 +11252,19 @@ kbd {
   pointer-events: auto !important;
 }
 
+/* On a touch device these labels made the map hard to move. A MapLibre marker is a DOM
+   element, so a drag that begins on one is swallowed rather than forwarded to the canvas --
+   and a densely labelled layer covers much of the screen, so panning kept dying on a place
+   name. Taking labels out of hit-testing for coarse pointers restores the gesture; the
+   feature underneath is still selectable by tapping its symbol, which the map canvas
+   hit-tests itself. Fine pointers are unaffected, where the label is a useful click target. */
+@media (pointer: coarse) {
+  .map-label--clickable {
+    pointer-events: none !important;
+    cursor: default;
+  }
+}
+
 .map-label--clickable div {
   transition: text-decoration 0.15s;
 }

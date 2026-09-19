@@ -54,7 +54,7 @@
 
   <!-- Modulepreload — start fetching the entry bundle before parser reaches
        the <script type=module> tag at the end of <body>. -->
-  <link rel="modulepreload" href="/app/build/app.bundle.js?v=0c6953d67be1" fetchpriority="high">
+  <link rel="modulepreload" href="/app/build/app.bundle.js?v=1d8c8e726c36" fetchpriority="high">
   <style>
     @font-face {
       font-family: 'Inter';
@@ -94,9 +94,9 @@
   <!-- Deferred CSS: remaining ~186 KB (catalogue cards, modals, charts, …)
        loaded async via media=print + onload swap so it doesn't block first
        paint. Browsers without JS fall back via <noscript>. -->
-    <link rel="stylesheet" href="/build/main.css?v=1d49834ae65a" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="/build/main.css?v=1d49834ae65a"></noscript>
-  <link rel="stylesheet" href="/app/build/app.bundle.css?v=4346949a063e">
+    <link rel="stylesheet" href="/build/main.css?v=2286301c2d90" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="/build/main.css?v=2286301c2d90"></noscript>
+  <link rel="stylesheet" href="/app/build/app.bundle.css?v=ac94ae21ed2e">
 
   <!-- Election Viewer & Animation CSS (deferred — not needed for first paint) -->
   <link rel="stylesheet" href="/app/election-viewer-package/css/election-viewer.css?v=a999f742cbb1" media="print" onload="this.media='all'">
@@ -714,9 +714,13 @@
   </div>
 
   <!-- Mobile Toggle Button (hidden on desktop, shown on mobile above zoom controls) -->
-  <button id="mobileToggle" class="mobile-toggle" style="display: none;" aria-label="Toggle catalogue">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M3 12h18M3 6h18M3 18h18" />
+  <!-- A panel icon, not a hamburger. This button and the header's navigation toggle drew the
+       same three-line glyph, so on a phone the page showed two identical menu buttons doing
+       different things. This one opens the catalogue panel; the header's opens the site nav. -->
+  <button id="mobileToggle" class="mobile-toggle" style="display: none;" aria-label="Show catalogue">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="3" y="3" width="18" height="18" rx="2" />
+      <path d="M9 3v18" />
     </svg>
   </button>
 
@@ -724,7 +728,7 @@
        and animation code are loaded lazily by the /app module bundle. -->
 
   <!-- Application (bundled + minified) -->
-  <script type="module" src="/app/build/app.bundle.js?v=0c6953d67be1"></script>
+  <script type="module" src="/app/build/app.bundle.js?v=1d8c8e726c36"></script>
 
   <!-- Service worker — repeat-visit cache + offline tolerance. Registered
        after window.load so it doesn't contend with critical resources.

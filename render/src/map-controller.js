@@ -1856,12 +1856,15 @@ export class TestMapLibreController {
       generated
     };
     this.setDomLabelHover(layer.id, id, true);
-    if (!generated) {
+    // Same reasoning as selectFeature: the overlay already draws the hovered point or line,
+    // and feature state would additionally light every feature sharing the promoted id.
+    const highlightViaOverlay = generated || layer.geometryType === 'point' || layer.geometryType === 'line';
+    if (!generated && !highlightViaOverlay) {
       try {
         this.map.setFeatureState({ source: record.sourceId, sourceLayer: layer.sourceLayer, id }, { hover: true });
       } catch {}
     }
-    if (generated || layer.geometryType === 'point' || layer.geometryType === 'line') {
+    if (highlightViaOverlay) {
       this.setInteractionOverlay(layer.id, 'hover', feature);
     } else {
       this.clearInteractionOverlay(layer.id, 'hover');
@@ -1900,12 +1903,18 @@ export class TestMapLibreController {
       generated,
       properties: normalizedFeature.properties
     };
-    if (!generated) {
+    // Points and lines are highlighted by the interaction overlay below, which draws exactly
+    // the clicked feature. Setting feature state as well was redundant AND unsafe: it applies
+    // to every feature sharing the promoted id, and duplicate detection cannot see duplicates
+    // for a layer whose feature index holds synthetic row ids (`<layerId>-0`, `-1`, ...) rather
+    // than the promoted property. That is why clicking one Centre of Population lit all 2,022.
+    const highlightViaOverlay = generated || layer.geometryType === 'point' || layer.geometryType === 'line';
+    if (!generated && !highlightViaOverlay) {
       try {
         this.map.setFeatureState({ source: record.sourceId, sourceLayer: layer.sourceLayer, id }, { selected: true });
       } catch {}
     }
-    if (generated || layer.geometryType === 'point' || layer.geometryType === 'line') {
+    if (highlightViaOverlay) {
       this.setInteractionOverlay(layer.id, 'selected', normalizedFeature);
     } else {
       this.clearInteractionOverlay(layer.id, 'selected');
