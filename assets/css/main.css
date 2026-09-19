@@ -677,6 +677,198 @@ button.catalogue-flat__toc-toplink {
   cursor: pointer;
 }
 
+/* Section switcher above the contents box: one segmented bar, the active section filled
+   with the site gradient. The links inside keep .catalogue-flat__toc-toplink for the click
+   handling; everything visual comes from the tab class. */
+.catalogue-flat__sections {
+  position: sticky;
+  /* Just below the sticky title-and-search shell; the value is measured by the controller. */
+  top: calc(var(--catalogue-sticky-shell-height, 110px) - var(--space-5, 20px));
+  z-index: 6;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 4px;
+  margin: 8px 6px 2px;
+  padding: 4px;
+  background: var(--color-surface-elevated, #f7fafc);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, .06);
+}
+
+.catalogue-flat__sections .catalogue-flat__section-tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 9px;
+  background: var(--color-surface, #fff);
+  color: var(--color-text, #1a202c);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  text-decoration: none;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 1px 0 rgba(15, 23, 42, .04);
+  transition: background-color .15s ease, color .15s ease;
+}
+
+.catalogue-flat__sections .catalogue-flat__section-tab:hover {
+  background: var(--color-gray-100, #edf2f7);
+  text-decoration: none;
+}
+
+.catalogue-flat__sections .catalogue-flat__section-tab:focus-visible {
+  outline: 2px solid var(--color-accent, #2563eb);
+  outline-offset: 2px;
+}
+
+.catalogue-flat__sections .catalogue-flat__section-tab[aria-current="true"] {
+  background: linear-gradient(135deg, #12a35f 0%, #0b8a6a 55%, #0a6f79 100%);
+  color: #fff;
+  box-shadow: 0 1px 2px rgba(10, 111, 121, .35);
+}
+
+.catalogue-flat__section-icon {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+}
+
+/* Section and category headings inside the catalogue: icon beside the title. */
+.category-group-title,
+.category-section__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.category-group-title {
+  margin: 20px 0 10px;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--color-text, #1a202c);
+}
+
+.category-group-title--pane {
+  margin: 4px 0 12px;
+}
+
+.category-section__header {
+  margin: 16px 0 8px;
+}
+
+.category-section__title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-text, #1a202c);
+}
+
+.category-section__icon {
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-primary, #1a365d);
+}
+
+.category-group-title .catalogue-flat__section-icon,
+.category-section__icon .catalogue-flat__section-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--color-primary, #1a365d);
+}
+
+[data-theme="dark"] .category-group-title .catalogue-flat__section-icon,
+[data-theme="dark"] .category-section__icon .catalogue-flat__section-icon {
+  color: #8fb4ff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .category-group-title .catalogue-flat__section-icon,
+  :root:not([data-theme="light"]) .category-section__icon .catalogue-flat__section-icon {
+    color: #8fb4ff;
+  }
+}
+
+.catalogue-flat__toc-toplinks--stats-only {
+  justify-content: flex-end;
+  margin-bottom: 4px;
+}
+
+.catalogue-flat__toc-toplinks--stats-only:empty,
+.catalogue-flat__toc-toplinks--stats-only:has(.catalogue-flat__toc-stats:empty) {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .catalogue-flat__sections .catalogue-flat__section-tab {
+    gap: 6px;
+    padding: 6px 6px;
+    font-size: 12px;
+  }
+}
+
+[data-theme="dark"] .catalogue-flat__sections {
+  background: var(--color-surface-elevated, #1c2128);
+  border-color: var(--color-border, #3d444d);
+}
+
+[data-theme="dark"] .catalogue-flat__toc-heading .catalogue-flat__section-icon {
+  color: #8fb4ff;
+}
+
+[data-theme="dark"] .catalogue-flat__sections .catalogue-flat__section-tab,
+[data-theme="dark"] .catalogue-flat__sections button.catalogue-flat__section-tab {
+  background: var(--color-surface, #0f1419);
+  color: var(--color-text, #f7fafc);
+}
+
+[data-theme="dark"] .catalogue-flat__sections .catalogue-flat__section-tab:hover,
+[data-theme="dark"] .catalogue-flat__sections button.catalogue-flat__section-tab:hover {
+  background: #232a33;
+}
+
+[data-theme="dark"] .catalogue-flat__sections .catalogue-flat__section-tab[aria-current="true"],
+[data-theme="dark"] .catalogue-flat__sections button.catalogue-flat__section-tab[aria-current="true"] {
+  background: linear-gradient(135deg, #12a35f 0%, #0b8a6a 55%, #0a6f79 100%);
+  color: #fff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .catalogue-flat__sections {
+    background: var(--color-surface-elevated, #1c2128);
+    border-color: var(--color-border, #3d444d);
+  }
+
+  :root:not([data-theme="light"]) .catalogue-flat__toc-heading .catalogue-flat__section-icon {
+    color: #8fb4ff;
+  }
+
+  :root:not([data-theme="light"]) .catalogue-flat__sections .catalogue-flat__section-tab,
+  :root:not([data-theme="light"]) .catalogue-flat__sections button.catalogue-flat__section-tab {
+    background: var(--color-surface, #0f1419);
+    color: var(--color-text, #f7fafc);
+  }
+
+  :root:not([data-theme="light"]) .catalogue-flat__sections .catalogue-flat__section-tab:hover,
+  :root:not([data-theme="light"]) .catalogue-flat__sections button.catalogue-flat__section-tab:hover {
+    background: #232a33;
+  }
+
+  :root:not([data-theme="light"]) .catalogue-flat__sections .catalogue-flat__section-tab[aria-current="true"],
+  :root:not([data-theme="light"]) .catalogue-flat__sections button.catalogue-flat__section-tab[aria-current="true"] {
+    background: linear-gradient(135deg, #12a35f 0%, #0b8a6a 55%, #0a6f79 100%);
+    color: #fff;
+  }
+}
+
 .catalogue-flat__toc-title {
   margin: 0 0 var(--space-3) 0;
   font-size: var(--text-base, 1rem);
@@ -799,15 +991,34 @@ button.catalogue-flat__toc-toplink {
 }
 
 .catalogue-flat__toc-heading-row td {
-  padding-top: 12px;
-  padding-bottom: 4px;
+  padding-top: 10px;
+  padding-bottom: 6px;
+}
+
+/* Each section after the first starts with a rule and a clear gap above it. */
+.catalogue-flat__toc-heading-row:not(:first-child) td {
+  padding-top: 20px;
+  border-top: 1px solid var(--color-border, #e2e8f0);
+}
+
+.catalogue-flat__toc-heading-row + tr td,
+.catalogue-flat__toc-decade-row td {
+  padding-bottom: 14px;
 }
 
 .catalogue-flat__toc-heading {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-size: 0.95rem;
   font-weight: 800;
   color: var(--color-text, #1a202c);
+}
+
+.catalogue-flat__toc-heading .catalogue-flat__section-icon {
+  width: 17px;
+  height: 17px;
+  color: var(--color-primary, #1a365d);
 }
 
 .catalogue-flat__toc-subheading-row td {
@@ -3121,8 +3332,14 @@ button.catalogue-flat__toc-toplink {
 }
 
 .book-card__thumbnail-icon {
+  display: inline-flex;
   font-size: 14px;
   line-height: 1;
+}
+
+.book-card__thumbnail-icon .catalogue-flat__section-icon {
+  width: 16px;
+  height: 16px;
 }
 
 .book-card__thumbnail-label {
@@ -3186,6 +3403,85 @@ button.catalogue-flat__toc-toplink {
   margin: 0;
 }
 
+/* ------------------------------------------------------------------------------------------
+   Books section layout. The category heading spans the card grid (it used to take the first
+   grid cell, pushing the first card to the right column); the thumbnail fallback really hides
+   once an image is present; and each card is a compact row -- cover at the left, title,
+   author and date and the actions at the right -- instead of a tall stack.
+   ------------------------------------------------------------------------------------------ */
+.category-section > .category-section__header {
+  grid-column: 1 / -1;
+  margin: 6px 0 2px;
+}
+
+.category-section:has(> .book-card) {
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.book-card__thumbnail-fallback[hidden] {
+  display: none !important;
+}
+
+#catalogueFlatView .category-section > .book-card,
+.category-section > .book-card {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  min-height: 0;
+  border-radius: 10px;
+}
+
+.category-section > .book-card .thumb-zone {
+  align-self: flex-start;
+  margin: 0;
+}
+
+.category-section > .book-card .book-card__content {
+  flex: 1 1 auto;
+  min-width: 0;
+  gap: 4px;
+}
+
+.category-section > .book-card .book-card__title {
+  font-size: 0.9rem;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+.book-card__meta {
+  margin: 0;
+  font-size: var(--text-xs);
+  line-height: 1.4;
+  color: var(--color-text-muted);
+}
+
+.book-card__meta .book-card__author {
+  color: var(--color-primary-light);
+}
+
+.book-card__meta .book-card__author:empty {
+  display: none;
+}
+
+.book-card__meta .book-card__author:not(:empty) + .book-card__date:not(:empty)::before {
+  content: '\00b7';
+  margin: 0 6px;
+  color: var(--color-text-muted);
+}
+
+.category-section > .book-card .book-card__actions {
+  margin-top: 6px;
+  gap: 6px;
+}
+
 #catalogueListView {
   display: flex;
   flex-direction: column;
@@ -3196,6 +3492,16 @@ button.catalogue-flat__toc-toplink {
 .catalogue-flat-view {
   flex: 1 1 auto;
   min-height: 0;
+}
+
+/* The catalogue list is as tall as its content, not the pane. With flex sizing the view was
+   clipped to the pane height and its content simply overflowed, which is invisible until
+   something inside is position: sticky: a sticky child is confined to its parent's box, so
+   the section bar scrolled away after the first screenful. The book viewer keeps the bounded
+   height because it scrolls internally. */
+.catalogue-flat-view:not(.catalogue-flat-view--book-viewer) {
+  flex: 0 0 auto;
+  min-height: auto;
 }
 
 .catalogue-flat-view--book-viewer {
