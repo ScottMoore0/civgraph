@@ -201,7 +201,7 @@
       ]
     },
     "app/src/test2.css": {
-      "bytes": 46041,
+      "bytes": 57308,
       "imports": []
     },
     "<define:__VIEWER_ASSET_VERSIONS__>": {
@@ -236,7 +236,7 @@
       "format": "esm"
     },
     "src/feature-loader.js": {
-      "bytes": 16953,
+      "bytes": 16494,
       "imports": [
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
@@ -269,7 +269,7 @@
       "format": "esm"
     },
     "src/cdn-url.js": {
-      "bytes": 1397,
+      "bytes": 1366,
       "imports": [
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
@@ -280,7 +280,7 @@
       "format": "esm"
     },
     "src/party-names.mjs": {
-      "bytes": 11023,
+      "bytes": 10794,
       "imports": [
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
@@ -291,7 +291,7 @@
       "format": "esm"
     },
     "src/ui-controller.js": {
-      "bytes": 637134,
+      "bytes": 630947,
       "imports": [
         {
           "path": "src/map-relations.mjs",
@@ -353,7 +353,7 @@
       "format": "esm"
     },
     "render/src/config.js": {
-      "bytes": 848,
+      "bytes": 824,
       "imports": [
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
@@ -434,7 +434,7 @@
       "format": "esm"
     },
     "render/src/point-cloud-layer.js": {
-      "bytes": 7008,
+      "bytes": 6842,
       "imports": [
         {
           "path": "node_modules/maplibre-gl/dist/maplibre-gl.js",
@@ -450,7 +450,7 @@
       "format": "esm"
     },
     "render/src/point-cloud-stream-layer.js": {
-      "bytes": 34805,
+      "bytes": 34086,
       "imports": [
         {
           "path": "node_modules/maplibre-gl/dist/maplibre-gl.js",
@@ -503,7 +503,7 @@
       "format": "esm"
     },
     "render/src/map-controller.js": {
-      "bytes": 94277,
+      "bytes": 91918,
       "imports": [
         {
           "path": "node_modules/maplibre-gl/dist/maplibre-gl.js",
@@ -554,7 +554,7 @@
       "format": "esm"
     },
     "app/src/settle.js": {
-      "bytes": 2433,
+      "bytes": 2380,
       "imports": [
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
@@ -606,7 +606,7 @@
       "format": "esm"
     },
     "src/election-domain.mjs": {
-      "bytes": 55473,
+      "bytes": 54169,
       "imports": [
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
@@ -633,7 +633,7 @@
       "format": "esm"
     },
     "src/election-renderer.mjs": {
-      "bytes": 38454,
+      "bytes": 37953,
       "imports": [
         {
           "path": "src/election-domain.mjs",
@@ -659,7 +659,7 @@
       "format": "esm"
     },
     "src/election-main-pane-contract.mjs": {
-      "bytes": 10324,
+      "bytes": 10135,
       "imports": [
         {
           "path": "src/election-domain.mjs",
@@ -674,8 +674,19 @@
       ],
       "format": "esm"
     },
+    "src/election-trend-chart.mjs": {
+      "bytes": 32235,
+      "imports": [
+        {
+          "path": "<define:__VIEWER_ASSET_VERSIONS__>",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
     "app/src/election-manager.js": {
-      "bytes": 289816,
+      "bytes": 281046,
       "imports": [
         {
           "path": "render/src/feature-property-repairs.js",
@@ -708,6 +719,11 @@
           "original": "../../src/party-names.mjs"
         },
         {
+          "path": "src/election-trend-chart.mjs",
+          "kind": "import-statement",
+          "original": "../../src/election-trend-chart.mjs"
+        },
+        {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
           "kind": "import-statement",
           "external": true
@@ -716,7 +732,7 @@
       "format": "esm"
     },
     "app/src/app.js": {
-      "bytes": 169760,
+      "bytes": 170132,
       "imports": [
         {
           "path": "src/data-service.js",
@@ -802,11 +818,11 @@
     "app/build/app.bundle.js": {
       "imports": [
         {
-          "path": "app/build/chunks/chunk-2YPEAJVR.js",
+          "path": "app/build/chunks/chunk-57HMLXXU.js",
           "kind": "import-statement"
         },
         {
-          "path": "app/build/chunks/app-5QB5UQHT.js",
+          "path": "app/build/chunks/app-RDZI4COH.js",
           "kind": "dynamic-import"
         }
       ],
@@ -826,14 +842,14 @@
       },
       "bytes": 757
     },
-    "app/build/chunks/election-manager-ZWKCF5OK.js": {
+    "app/build/chunks/election-manager-MOZS4OJM.js": {
       "imports": [
         {
-          "path": "app/build/chunks/chunk-V4IEUOVV.js",
+          "path": "app/build/chunks/chunk-MJD6VXSO.js",
           "kind": "import-statement"
         },
         {
-          "path": "app/build/chunks/chunk-2YPEAJVR.js",
+          "path": "app/build/chunks/chunk-57HMLXXU.js",
           "kind": "import-statement"
         }
       ],
@@ -843,35 +859,38 @@
       "entryPoint": "app/src/election-manager.js",
       "inputs": {
         "app/src/election-manager.js": {
-          "bytesInOutput": 163758
+          "bytesInOutput": 161310
         },
         "src/election-renderer.mjs": {
-          "bytesInOutput": 27290
+          "bytesInOutput": 27294
         },
         "src/election-domain.mjs": {
-          "bytesInOutput": 8253
+          "bytesInOutput": 8254
         },
         "src/election-view-model.mjs": {
-          "bytesInOutput": 3395
+          "bytesInOutput": 3396
         },
         "src/election-main-pane-contract.mjs": {
-          "bytesInOutput": 6031
+          "bytesInOutput": 6032
+        },
+        "src/election-trend-chart.mjs": {
+          "bytesInOutput": 14432
         }
       },
-      "bytes": 208885
+      "bytes": 220884
     },
-    "app/build/chunks/app-5QB5UQHT.js": {
+    "app/build/chunks/app-RDZI4COH.js": {
       "imports": [
         {
-          "path": "app/build/chunks/chunk-V4IEUOVV.js",
+          "path": "app/build/chunks/chunk-MJD6VXSO.js",
           "kind": "import-statement"
         },
         {
-          "path": "app/build/chunks/chunk-2YPEAJVR.js",
+          "path": "app/build/chunks/chunk-57HMLXXU.js",
           "kind": "import-statement"
         },
         {
-          "path": "app/build/chunks/election-manager-ZWKCF5OK.js",
+          "path": "app/build/chunks/election-manager-MOZS4OJM.js",
           "kind": "dynamic-import"
         }
       ],
@@ -879,7 +898,7 @@
       "entryPoint": "app/src/app.js",
       "inputs": {
         "app/src/app.js": {
-          "bytesInOutput": 90381
+          "bytesInOutput": 90480
         },
         "src/data-service.js": {
           "bytesInOutput": 9499
@@ -891,7 +910,7 @@
           "bytesInOutput": 6264
         },
         "src/ui-controller.js": {
-          "bytesInOutput": 341460
+          "bytesInOutput": 344890
         },
         "src/storage-keys.mjs": {
           "bytesInOutput": 383
@@ -939,12 +958,12 @@
           "bytesInOutput": 362
         }
       },
-      "bytes": 587017
+      "bytes": 590546
     },
-    "app/build/chunks/chunk-V4IEUOVV.js": {
+    "app/build/chunks/chunk-MJD6VXSO.js": {
       "imports": [
         {
-          "path": "app/build/chunks/chunk-2YPEAJVR.js",
+          "path": "app/build/chunks/chunk-57HMLXXU.js",
           "kind": "import-statement"
         }
       ],
@@ -953,22 +972,23 @@
         "b",
         "c",
         "d",
-        "e"
+        "e",
+        "f"
       ],
       "inputs": {
         "node_modules/maplibre-gl/dist/maplibre-gl.js": {
           "bytesInOutput": 1044249
         },
         "src/party-names.mjs": {
-          "bytesInOutput": 7170
+          "bytesInOutput": 7237
         },
         "render/src/feature-property-repairs.js": {
           "bytesInOutput": 1438
         }
       },
-      "bytes": 1053175
+      "bytes": 1053250
     },
-    "app/build/chunks/chunk-2YPEAJVR.js": {
+    "app/build/chunks/chunk-57HMLXXU.js": {
       "imports": [],
       "exports": [
         "a",
@@ -1187,10 +1207,10 @@
           "bytesInOutput": 69917
         },
         "app/src/test2.css": {
-          "bytesInOutput": 35895
+          "bytesInOutput": 46235
         }
       },
-      "bytes": 105813
+      "bytes": 116153
     }
   }
 }
