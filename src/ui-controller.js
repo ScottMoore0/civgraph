@@ -11,6 +11,42 @@ import { formatElectionDate, shortBodyName, renderElectionConstituencyFeatureLin
 import { cdnUrl } from './cdn-url.js';
 import { partyLabelHtml } from './party-names.mjs';
 
+/**
+ * Lucide icons used by the catalogue: the section bar, the headings inside the contents box,
+ * and the Books categories, which previously relied on emoji from data/database/books.json.
+ * Inline paths keep this a zero-dependency module; each string is the icon's Lucide markup.
+ */
+const LUCIDE_ICON_PATHS = {
+    vote: '<path d="m9 12 2 2 4-4"/><path d="M5 7c0-1.1.9-2 2-2h10a2 2 0 0 1 2 2v12H5V7Z"/><path d="M22 19H2"/>',
+    map: '<path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/>',
+    'book-open': '<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
+    table: '<path d="M12 3v18"/><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/>',
+    'clipboard-list': '<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/>',
+    landmark: '<path d="M10 18v-7"/><path d="M11.12 2.198a2 2 0 0 1 1.76.006l7.866 3.847c.476.233.31.949-.22.949H3.474c-.53 0-.695-.716-.22-.949z"/><path d="M14 18v-7"/><path d="M18 18v-7"/><path d="M3 22h18"/><path d="M6 18v-7"/>',
+    'chart-column': '<path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>',
+    scale: '<path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>',
+    library: '<path d="m16 6 4 14"/><path d="M12 6v14"/><path d="M8 8v12"/><path d="M4 4v16"/>'
+};
+
+/** Book category id -> Lucide icon name. Anything unlisted gets an open book. */
+const BOOK_CATEGORY_ICONS = {
+    'boundary-reports': 'clipboard-list',
+    'parliamentary-debates': 'landmark',
+    'election-results': 'vote',
+    'census-reports': 'chart-column',
+    legislation: 'scale',
+    other: 'library'
+};
+
+function lucideIcon(name, className = 'catalogue-flat__section-icon') {
+    const paths = LUCIDE_ICON_PATHS[name] || LUCIDE_ICON_PATHS['book-open'];
+    return `<svg aria-hidden="true" class="${className}" data-icon="lucide" data-icon-name="${name}" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">${paths}</svg>`;
+}
+
+function bookCategoryIcon(category) {
+    return lucideIcon(BOOK_CATEGORY_ICONS[category?.id] || 'book-open');
+}
+
 class UIController {
     constructor() {
         this.splitStates = [
@@ -1552,20 +1588,18 @@ class UIController {
                 </button>`
             : '';
         const markdownViewButton = book.markdownFile
-            ? `<button type="button" class="btn btn--sm btn--outline book-card__btn" data-book-view="${this.escapeHtml(book.id)}" data-book-format="markdown">Markdown</button>`
+            ? `<button type="button" class="btn btn--sm btn--outline book-card__btn" data-book-view="${this.escapeHtml(book.id)}" data-book-format="markdown"${book.transcriptionNotice ? ` title="${this.escapeHtml(book.transcriptionNotice)}"` : ''}>Markdown</button>`
             : '';
         return `
             ${this.renderBookThumbnail(book, category, fallbackLabel)}
             <div class="book-card__content">
                 <h4 class="book-card__title">${this.escapeHtml(book.title)}</h4>
-                <p class="book-card__author">${this.escapeHtml((book.authors || []).join(', '))}</p>
-                <p class="book-card__date">${this.escapeHtml(book.dateDisplay || book.date || '')}</p>
+                <p class="book-card__meta"><span class="book-card__author">${this.escapeHtml((book.authors || []).join(', '))}</span><span class="book-card__date">${this.escapeHtml(book.dateDisplay || book.date || '')}</span></p>
                 <div class="book-card__actions">
                     ${pdfViewButton}
                     ${markdownViewButton}
                     ${book.archiveUrl ? `<a href="${book.archiveUrl}" target="_blank" rel="noopener" class="btn btn--sm btn--outline book-card__btn">Archive.org</a>` : ''}
                 </div>
-                ${book.transcriptionNotice ? `<p class="book-card__notice">${this.escapeHtml(book.transcriptionNotice)}</p>` : ''}
             </div>
         `;
     }
@@ -2147,7 +2181,7 @@ class UIController {
                 <span class="book-card__thumb">
                     ${imageHtml}
                     <span class="book-card__thumbnail-fallback${categoryClass}"${imageHtml ? ' hidden' : ''}>
-                        <span class="book-card__thumbnail-icon">${this.escapeHtml(category?.icon || '[book]')}</span>
+                        <span class="book-card__thumbnail-icon">${bookCategoryIcon(category)}</span>
                         <span class="book-card__thumbnail-label">${this.escapeHtml(fallbackLabel)}</span>
                     </span>
                 </span>
@@ -2932,8 +2966,7 @@ class UIController {
         if (!targetEl || !pane) return false;
         const paneRect = pane.getBoundingClientRect();
         const targetRect = targetEl.getBoundingClientRect();
-        const stickyShell = pane.querySelector('.catalogue-sticky-shell');
-        const stickyHeight = stickyShell?.getBoundingClientRect?.().height || 0;
+        const stickyHeight = this._catalogueStickyHeight(pane);
         const offset = Math.max(12, stickyHeight + 10);
         const nextTop = pane.scrollTop + targetRect.top - paneRect.top - offset;
         const reduceMotion = typeof window !== 'undefined'
@@ -2954,8 +2987,7 @@ class UIController {
         if (!targetEl || !pane) return false;
         const paneRect = pane.getBoundingClientRect();
         const targetRect = targetEl.getBoundingClientRect();
-        const stickyShell = pane.querySelector('.catalogue-sticky-shell');
-        const stickyHeight = stickyShell?.getBoundingClientRect?.().height || 0;
+        const stickyHeight = this._catalogueStickyHeight(pane);
         return targetRect.top >= paneRect.top + stickyHeight
             && targetRect.top <= paneRect.bottom - 12;
     }
@@ -2971,7 +3003,39 @@ class UIController {
      * `aria-current` rather than `aria-selected`: three of the four are links to
      * anchors, not tabs in a tablist, and aria-selected on a link is invalid.
      */
+    /**
+     * The section bar is position: sticky under the title-and-search shell, which is sticky
+     * too and whose height depends on how the title wraps. The shell's measured height is
+     * published as a custom property on the scroller so the bar's `top` can follow it.
+     */
+    /** Height of everything pinned to the top of the catalogue scroller: the shell plus the section bar. */
+    _catalogueStickyHeight(pane) {
+        const shell = pane?.querySelector?.('.catalogue-sticky-shell');
+        const sections = pane?.querySelector?.('.catalogue-flat__sections');
+        const shellHeight = shell?.getBoundingClientRect?.().height || 0;
+        const sectionsHeight = sections && getComputedStyle(sections).position === 'sticky'
+            ? (sections.getBoundingClientRect().height || 0) + 8
+            : 0;
+        return shellHeight + sectionsHeight;
+    }
+
+    _syncCatalogueShellHeight() {
+        const pane = this.getCataloguePaneScroller?.();
+        const shell = pane?.querySelector?.('.catalogue-sticky-shell');
+        if (!pane || !shell) return;
+        const apply = () => {
+            const height = Math.round(shell.getBoundingClientRect().height);
+            if (height > 0) pane.style.setProperty('--catalogue-sticky-shell-height', `${height}px`);
+        };
+        apply();
+        if (!this._catalogueShellResizeObserver && typeof ResizeObserver === 'function') {
+            this._catalogueShellResizeObserver = new ResizeObserver(apply);
+            this._catalogueShellResizeObserver.observe(shell);
+        }
+    }
+
     _markActiveToplink(activeEl) {
+        this._activeSectionTab = activeEl?.dataset?.catalogueTarget || activeEl?.dataset?.tabTarget || this._activeSectionTab;
         const links = document.querySelectorAll('.catalogue-flat__toc-toplink');
         links.forEach((el) => {
             if (el === activeEl) el.setAttribute('aria-current', 'true');
@@ -3425,7 +3489,7 @@ class UIController {
                 // Create books group header
                 const booksGroupHeader = document.createElement('div');
                 booksGroupHeader.className = 'category-group-header';
-                booksGroupHeader.innerHTML = `<h3 class="category-group-title">Books & Documents</h3>`;
+                booksGroupHeader.innerHTML = `<h3 class="category-group-title">${lucideIcon('book-open')}<span>Books &amp; Documents</span></h3>`;
                 container.appendChild(booksGroupHeader);
 
                 // Group books by category
@@ -3452,7 +3516,7 @@ class UIController {
                     catSection.className = 'category-section';
                     catSection.innerHTML = `
                         <div class="category-section__header">
-                            <span class="category-section__icon">${cat.icon || '[book]'}</span>
+                            <span class="category-section__icon">${bookCategoryIcon(cat)}</span>
                             <h3 class="category-section__title">${this.escapeHtml(cat.name)}</h3>
                         </div>
                     `;
@@ -4599,15 +4663,28 @@ class UIController {
         addFlatTocTarget('flat-section-maps', 'maps-index');
         addFlatTocTarget('flat-section-books', 'books');
 
+        // Section switcher: a segmented bar above the contents box rather than a row of text
+        // links inside it. The links keep their classes and data attributes, so click handling
+        // and aria-current marking are unchanged; only the wrapper and the icons are new.
+        const SECTION_ICONS = {
+            elections: lucideIcon('vote'),
+            maps: lucideIcon('map'),
+            books: lucideIcon('book-open'),
+            tables: lucideIcon('table')
+        };
+        // The flat view is re-rendered whenever a section is expanded, so the active tab is
+        // remembered on the controller rather than read back from the old markup.
+        const activeSectionTab = this._activeSectionTab || 'flat-section-elections';
+        const current = (key) => (activeSectionTab === key ? ' aria-current="true"' : '');
         let tocHtml = `
+            <nav class="catalogue-flat__sections" aria-label="Catalogue sections">
+                <a href="#flat-section-elections" class="catalogue-flat__toc-toplink catalogue-flat__section-tab" data-catalogue-target="flat-section-elections" data-catalogue-section="elections"${current('flat-section-elections')}>${SECTION_ICONS.elections}<span>Elections</span></a>
+                <a href="#flat-section-maps" class="catalogue-flat__toc-toplink catalogue-flat__section-tab" data-catalogue-target="flat-section-maps" data-catalogue-section="maps-index"${current('flat-section-maps')}>${SECTION_ICONS.maps}<span>Maps</span></a>
+                <a href="#flat-section-books" class="catalogue-flat__toc-toplink catalogue-flat__section-tab" data-catalogue-target="flat-section-books" data-catalogue-section="books"${current('flat-section-books')}>${SECTION_ICONS.books}<span>Books</span></a>
+                <button type="button" class="catalogue-flat__toc-toplink catalogue-flat__toc-toplink--tab catalogue-flat__section-tab" data-tab-target="tables"${current('tables')}>${SECTION_ICONS.tables}<span>Tables</span></button>
+            </nav>
             <div class="catalogue-flat__toc">
-                <div class="catalogue-flat__toc-toplinks">
-                    <span class="catalogue-flat__toc-toplinks-left">
-                        <a href="#flat-section-elections" class="catalogue-flat__toc-toplink" data-catalogue-target="flat-section-elections" data-catalogue-section="elections">Elections</a>
-                        <a href="#flat-section-maps" class="catalogue-flat__toc-toplink" data-catalogue-target="flat-section-maps" data-catalogue-section="maps-index">Maps</a>
-                        <a href="#flat-section-books" class="catalogue-flat__toc-toplink" data-catalogue-target="flat-section-books" data-catalogue-section="books">Books</a>
-                        <button type="button" class="catalogue-flat__toc-toplink catalogue-flat__toc-toplink--tab" data-tab-target="tables">Tables</button>
-                    </span>
+                <div class="catalogue-flat__toc-toplinks catalogue-flat__toc-toplinks--stats-only">
                     <span class="catalogue-flat__toc-stats" id="catalogueTocStats" aria-hidden="true"></span>
                 </div>
                 <table class="catalogue-flat__toc-table">
@@ -4622,7 +4699,7 @@ class UIController {
         tocHtml += `
                 <tr class="catalogue-flat__toc-heading-row">
                     <td colspan="3">
-                        <span class="catalogue-flat__toc-heading">Elections</span>
+                        <span class="catalogue-flat__toc-heading">${SECTION_ICONS.elections}<span>Elections</span></span>
                     </td>
                 </tr>
                 <tr class="catalogue-flat__toc-decade-row">
@@ -4632,7 +4709,7 @@ class UIController {
                 </tr>`;
         tocHtml += `
                 <tr class="catalogue-flat__toc-heading-row">
-                    <td colspan="3"><span class="catalogue-flat__toc-heading">Maps</span></td>
+                    <td colspan="3"><span class="catalogue-flat__toc-heading">${SECTION_ICONS.maps}<span>Maps</span></span></td>
                 </tr>`;
         // Merge multiple cards into one TOC row.
         //   inHeading (optional): when set, the merged row appears at that
@@ -4992,6 +5069,7 @@ class UIController {
         this._flatTargetToSection = flatTargetToSection;
         this._flatSectionTargets = flatSectionTargets;
         container.innerHTML = tocHtml + '<div class="catalogue-flat__cards" id="catalogueFlatCards"></div>';
+        this._syncCatalogueShellHeight();
         const cardsContainer = container.querySelector('#catalogueFlatCards');
         const renderOptions = options || {};
         let renderedMobileMapCards = 0;
@@ -5215,7 +5293,7 @@ class UIController {
             cardsContainer.appendChild(booksAnchor);
             const booksGroupHeader = document.createElement('div');
             booksGroupHeader.className = 'category-group-header';
-            booksGroupHeader.innerHTML = `<h3 class="category-group-title">Books & Documents</h3>`;
+            booksGroupHeader.innerHTML = `<h3 class="category-group-title">${lucideIcon('book-open')}<span>Books &amp; Documents</span></h3>`;
             cardsContainer.appendChild(booksGroupHeader);
 
             const bookCategories = this.booksData.categories || [];
@@ -5238,7 +5316,7 @@ class UIController {
                 catSection.className = 'category-section';
                 catSection.innerHTML = `
                     <div class="category-section__header">
-                        <span class="category-section__icon">${cat.icon || '[book]'}</span>
+                        <span class="category-section__icon">${bookCategoryIcon(cat)}</span>
                         <h3 class="category-section__title">${this.escapeHtml(cat.name)}</h3>
                     </div>
                 `;
