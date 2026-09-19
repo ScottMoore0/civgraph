@@ -18,7 +18,8 @@ import {
   partyColour as electionPartyColour,
   seatPositions
 } from '../../src/election-domain.mjs';
-import { partyLabelHtml } from '../../src/party-names.mjs';
+import { partyAbbreviation, partyLabelHtml } from '../../src/party-names.mjs';
+import { buildTrendChartModel, mountTrendChart } from '../../src/election-trend-chart.mjs';
 
 const ELECTION_MANIFEST_URL = '/render/metadata/elections-test2.json?v=test-023';
 
@@ -240,6 +241,7 @@ export class Test2ElectionManager {
     this.trendSummaryCache = new Map();
     this.trendSummaryPromiseCache = new Map();
     this.trendRenderCache = new Map();
+    this.trendChart = null;
     this.featureIndexCache = new Map();
     this.resultsByLayer = new Map();
     this.seatCircleClickBound = false;
@@ -557,7 +559,12 @@ export class Test2ElectionManager {
       } else if (this.bundleCache.has(entry.key)) {
         bundle = this.bundleCache.get(entry.key);
       } else {
-        const response = await fetch(electionBundleUrl(entry), { cache: 'force-cache' });
+        let response = await fetch(electionBundleUrl(entry), { cache: 'force-cache' });
+        // Same fallback as loadBundle: the static bundles are always deployed, so an API
+        // miss (or a local static server with no API at all) still yields a full history.
+        if (!response.ok && useElectionsApi()) {
+          response = await fetch(`${entry.resultUrl}?v=test-023`, { cache: 'force-cache' });
+        }
         if (!response.ok) throw new Error(`Failed to load trend data for ${entry.body} ${entry.date}: ${response.status}`);
         bundle = await response.json();
       }
@@ -1010,6 +1017,10 @@ export class Test2ElectionManager {
     });
     if (selectedResult && nextView === 'animation' && this.resultHasAnimation(selectedResult)) {
       window.requestAnimationFrame(() => this.runAnimation(selectedResult));
+    }
+    if (nextView !== 'trends' && this.trendChart) {
+      this.trendChart.destroy();
+      this.trendChart = null;
     }
     if (nextView === 'trends') {
       const scopeToggle = pane.querySelector('#test2ElectionTrendsScope');
@@ -2553,12 +2564,13 @@ export class Test2ElectionManager {
 
   renderTrendsPanel(selectedResult = null) {
     const area = selectedResult?.constituency || selectedResult?.localBody || '';
-    const title = area ? `Trend: ${area}` : 'Election trends';
+    const title = area ? `Party vote share in ${area}` : 'Party vote share';
     const family = electionTrendFamily(this.activeEntry || this.activeBundle || {});
     const jurisdiction = electionTrendJurisdiction(this.activeEntry || this.activeBundle || {});
-    const scopeText = family
-      ? `Showing comparable ${family} contests${jurisdiction ? ` in ${jurisdiction}` : ''} by default.`
-      : `Showing comparable contests${jurisdiction ? ` in ${jurisdiction}` : ''} by default.`;
+    const familyText = family || 'comparable elections';
+    const place = jurisdiction === 'Republic of Ireland' ? 'the Republic of Ireland' : jurisdiction;
+    const placeText = place && !familyText.toLowerCase().includes(String(jurisdiction).toLowerCase()) ? ` in ${place}` : '';
+    const scopeText = `Share of the vote at ${familyText}${placeText}.`;
     return `
       <section class="test2-election-trends" aria-label="${escapeHtml(title)}">
         <div class="test2-election-trends__header">
@@ -2568,11 +2580,11 @@ export class Test2ElectionManager {
           </div>
           <label class="test2-election-trends__scope">
             <input id="test2ElectionTrendsScope" type="checkbox">
-            <span>Include all election types for this geography</span>
+            <span>Include all election types</span>
           </label>
         </div>
-        <div id="test2ElectionTrendsChart" class="test2-election-trends__chart" role="img" aria-live="polite">
-          Loading trend data...
+        <div id="test2ElectionTrendsChart" class="test2-election-trends__chart" aria-busy="true">
+          <p class="test2-election-trends__loading">Loading trend data...</p>
         </div>
       </section>
     `;
@@ -2593,11 +2605,13 @@ export class Test2ElectionManager {
       selectedKeyLabel
     ].join('::');
     if (this.trendRenderCache.has(renderCacheKey)) {
-      chart.innerHTML = this.trendRenderCache.get(renderCacheKey);
+      const cached = this.trendRenderCache.get(renderCacheKey);
+      this.renderTrendChart(chart, cached.points, selectedResult, includeAllTypes, cached.comparableCount);
       return;
     }
     chart.dataset.trendRequestKey = renderCacheKey;
-    chart.textContent = 'Loading trend data...';
+    chart.setAttribute('aria-busy', 'true');
+    chart.innerHTML = '<p class="test2-election-trends__loading">Loading trend data...</p>';
     const entries = (this.catalogue?.elections || [])
       .filter((entry) => (entry?.loadable || entry?.resultsOnly) && entry.resultUrl && normalizeName(entry.contestType || 'election') === 'election')
       .filter((entry) => {
@@ -2646,36 +2660,29 @@ export class Test2ElectionManager {
       }
       for (const row of rows) points.push(row);
     }
-    const markup = this.renderTrendChart(points, selectedResult, includeAllTypes, entries.length);
-    rememberLimitedCache(this.trendRenderCache, renderCacheKey, markup, ELECTION_TREND_RENDER_CACHE_LIMIT);
+    rememberLimitedCache(this.trendRenderCache, renderCacheKey, { points, comparableCount: entries.length }, ELECTION_TREND_RENDER_CACHE_LIMIT);
     if (chart.dataset.trendRequestKey === renderCacheKey) {
-      chart.innerHTML = markup;
+      this.renderTrendChart(chart, points, selectedResult, includeAllTypes, entries.length);
     }
   }
 
-  renderTrendChart(points = [], selectedResult = null, includeAllTypes = false, comparableCount = 0) {
+  /**
+   * Mount the trends chart into its container. The drawing itself lives in
+   * src/election-trend-chart.mjs; this method only decides the caption text and the notes
+   * that explain the data, then hands over the points.
+   */
+  renderTrendChart(chart, points = [], selectedResult = null, includeAllTypes = false, comparableCount = 0) {
+    this.trendChart?.destroy();
+    this.trendChart = null;
+    chart.removeAttribute('aria-busy');
     if (!points.length) {
-      return '<p class="election-no-data">No trend data is available for this selection.</p>';
+      chart.innerHTML = '<p class="election-no-data">No trend data is available for this selection.</p>';
+      return;
     }
-    const byParty = new Map();
-    const electionOrder = [];
-    const electionByKey = new Map();
-    for (const point of points) {
-      const entryKey = point.entry?.key || `${point.entry?.body}|${point.entry?.date}`;
-      if (!electionByKey.has(entryKey)) {
-        electionByKey.set(entryKey, point.entry);
-        electionOrder.push(entryKey);
-      }
-      const partyKey = normalizeName(point.party);
-      if (!byParty.has(partyKey)) byParty.set(partyKey, { party: point.party, colour: point.colour, points: new Map(), maxShare: 0, latestShare: 0 });
-      const series = byParty.get(partyKey);
-      series.points.set(entryKey, point);
-      series.maxShare = Math.max(series.maxShare, numberOrZero(point.share));
-      series.latestShare = numberOrZero(point.share);
-    }
-    const series = [...byParty.values()]
-      .sort((a, b) => numberOrZero(b.latestShare) - numberOrZero(a.latestShare) || numberOrZero(b.maxShare) - numberOrZero(a.maxShare))
-      .slice(0, 8);
+    const model = buildTrendChartModel(points, {
+      abbreviate: (party) => partyAbbreviation(party),
+      bodyLabel: (entry) => shortElectionBody(entry.body || entry.displayProvider || entry.displayTitle || '')
+    });
     // Why a constituency series can be short, said out loud.
     //
     // A point is matched to a constituency by NAME, and constituencies are renamed and
@@ -2687,60 +2694,37 @@ export class Test2ElectionManager {
     // registry, and that does not exist yet. Until it does, a chart that explains its own
     // gap is far better than one that appears broken.
     const selectionName = selectedResult ? (selectedResult.constituency || selectedResult.featureName || '') : '';
-    const shortSeriesNote = (selectionName && comparableCount > electionOrder.length + 1)
-      ? `<p class="test2-election-trends__note">Showing ${electionOrder.length} of ${comparableCount} comparable elections. `
-        + `${escapeHtml(selectionName)} appears under this name in those elections only; constituencies are `
-        + 'renamed and redrawn, and a predecessor under a different name is not yet linked to it.</p>'
-      : '';
-
-    const width = 860;
-    const height = 330;
-    const pad = { left: 46, right: 24, top: 22, bottom: 70 };
-    const plotWidth = width - pad.left - pad.right;
-    const plotHeight = height - pad.top - pad.bottom;
-    const maxShare = Math.max(40, Math.ceil(Math.max(...series.flatMap((item) => [...item.points.values()].map((point) => numberOrZero(point.share)))) / 10) * 10);
-    const xFor = (index) => pad.left + (electionOrder.length <= 1 ? plotWidth / 2 : (index / (electionOrder.length - 1)) * plotWidth);
-    const yFor = (share) => pad.top + plotHeight - (numberOrZero(share) / maxShare) * plotHeight;
-    const grid = [0, 10, 20, 30, 40, 50, 60].filter((value) => value <= maxShare).map((value) => {
-      const y = yFor(value);
-      return `<line x1="${pad.left}" y1="${y.toFixed(1)}" x2="${(width - pad.right).toFixed(1)}" y2="${y.toFixed(1)}" class="trend-grid"/><text x="${pad.left - 8}" y="${(y + 4).toFixed(1)}" class="trend-axis trend-axis--y">${value}%</text>`;
-    }).join('');
-    const xLabels = electionOrder.map((key, index) => {
-      if (electionOrder.length > 14 && index % Math.ceil(electionOrder.length / 10) !== 0 && index !== electionOrder.length - 1) return '';
-      const entry = electionByKey.get(key);
-      return `<text x="${xFor(index).toFixed(1)}" y="${height - 10}" class="trend-axis trend-axis--x" transform="rotate(-35 ${xFor(index).toFixed(1)} ${height - 10})">${escapeHtml(shortTrendLabel(entry))}</text>`;
-    }).join('');
-    const seriesMarkup = series.map((item) => {
-      const orderedPoints = electionOrder
-        .map((key, index) => ({ key, index, point: item.points.get(key) }))
-        .filter((row) => row.point);
-      const linePoints = orderedPoints.map((row) => `${xFor(row.index).toFixed(1)},${yFor(row.point.share).toFixed(1)}`).join(' ');
-      const markers = orderedPoints.map((row) => trendMarkerSvg(
-        trendMarkerKind(row.point.entry),
-        xFor(row.index),
-        yFor(row.point.share),
-        safeCssColour(item.colour),
-        `${item.party}: ${formatFixedPercent(row.point.share)} at ${shortTrendLabel(row.point.entry)}`
-      )).join('');
-      return `<polyline class="trend-line" points="${linePoints}" style="--trend-colour:${escapeHtml(safeCssColour(item.colour))}"></polyline>${markers}`;
-    }).join('');
-    const legend = series.map((item) => `
-      <span class="test2-election-trends__legend-item">
-        <span style="background:${escapeHtml(safeCssColour(item.colour))}"></span>${escapeHtml(item.party)}
-      </span>
-    `).join('');
+    const notes = [];
+    notes.push(includeAllTypes
+      ? 'All election types available for this geography. A line is dotted across elections where the party has no comparable result.'
+      : 'Current election family only; by-elections are excluded. A line is dotted across elections where the party has no comparable result.');
+    if (model.totalSeries > model.series.length) {
+      notes.push(`The ${model.series.length} largest parties at the most recent election are shown; ${model.totalSeries - model.series.length} others are not drawn.`);
+    }
+    if (selectionName && comparableCount > model.elections.length + 1) {
+      notes.push(`Showing ${model.elections.length} of ${comparableCount} comparable elections. `
+        + `${selectionName} appears under this name in those elections only; constituencies are `
+        + 'renamed and redrawn, and a predecessor under a different name is not yet linked to it.');
+    }
+    const footnotes = `<div class="test2-election-trends__notes">${notes.map((note) => `<p class="test2-election-trends__note">${escapeHtml(note)}</p>`).join('')}</div>`;
     const geography = selectedResult?.constituency || selectedResult?.localBody || 'overall results';
-    return `
-      <div class="test2-election-trends__legend">${legend}</div>
-      <svg class="test2-election-trends__svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="${escapeHtml(`Election trends for ${geography}`)}">
-        ${grid}
-        <line x1="${pad.left}" y1="${(height - pad.bottom).toFixed(1)}" x2="${(width - pad.right).toFixed(1)}" y2="${(height - pad.bottom).toFixed(1)}" class="trend-axis-line"/>
-        ${seriesMarkup}
-        ${xLabels}
-      </svg>
-      <p class="test2-election-trends__note">${includeAllTypes ? 'Showing all election types available for this geography.' : 'Showing the current election family. Use the toggle to include all election types.'}</p>
-      ${shortSeriesNote}
-    `;
+    // Fit the drawing to the pane. The lower pane is short by default and the reader can drag
+    // it taller; the chart follows, between a floor that keeps the grid legible and a ceiling
+    // that stops it sprawling.
+    const paneContent = chart.closest('.election-pane__content');
+    const chartHeight = (width) => {
+      const chrome = 150; // Title, caption, key and footnotes above and below the drawing.
+      const available = paneContent ? paneContent.clientHeight - chrome : 0;
+      const ceiling = width < 560 ? 216 : width >= 900 ? 320 : 256;
+      return Math.max(200, Math.min(ceiling, available || ceiling));
+    };
+    this.trendChart = mountTrendChart(chart, model, {
+      ariaLabel: `Party vote share over time for ${geography}`,
+      formatDate: formatElectionDate,
+      footnotes,
+      height: chartHeight,
+      fitTo: paneContent
+    });
   }
 
   formatNumberForPane(value) {
@@ -5381,17 +5365,19 @@ function formatMainDelta(value) {
   return `<span class="${className}">${number > 0 ? '+' : ''}${number.toLocaleString('en-GB')}</span>`;
 }
 
+// Share changes carry `election-delta--share` so the pane can colour them alone: a table where
+// every count change is also green or red says nothing about which change matters.
 function formatMainPercentDelta(value) {
   const number = Number(value);
   if (!Number.isFinite(number)) return '';
-  const className = number > 0 ? 'election-delta election-delta--pos' : number < 0 ? 'election-delta election-delta--neg' : 'election-delta';
+  const className = number > 0 ? 'election-delta election-delta--share election-delta--pos' : number < 0 ? 'election-delta election-delta--share election-delta--neg' : 'election-delta election-delta--share';
   return `<span class="${className}">${number > 0 ? '+' : ''}${number.toFixed(2)}%</span>`;
 }
 
 function formatMainSelectedPercentDelta(value) {
   const number = Number(value);
   if (!Number.isFinite(number)) return '';
-  const className = number > 0 ? 'election-delta election-delta--pos' : number < 0 ? 'election-delta election-delta--neg' : 'election-delta';
+  const className = number > 0 ? 'election-delta election-delta--share election-delta--pos' : number < 0 ? 'election-delta election-delta--share election-delta--neg' : 'election-delta election-delta--share';
   return `<span class="${className}">${number > 0 ? '+' : ''}${number.toFixed(2)}</span>`;
 }
 
@@ -5474,47 +5460,6 @@ function electionTrendJurisdiction(entry = {}) {
   }
   if (/referendum/.test(body) && /ireland/.test(haystack)) return 'Republic of Ireland';
   return null;
-}
-
-function shortTrendLabel(entry = {}) {
-  const date = String(entry.date || '');
-  const year = date.slice(0, 4) || '';
-  const body = shortElectionBody(entry.body || entry.displayProvider || entry.displayTitle || '');
-  return [year, body].filter(Boolean).join(' ');
-}
-
-function trendMarkerKind(entry = {}) {
-  const family = electionTrendFamily(entry);
-  if (/westminster|uk general/.test(family)) return 'triangle';
-  if (/local/.test(family)) return 'square';
-  if (/european/.test(family)) return 'diamond';
-  if (/devolved/.test(family)) return 'circle';
-  if (/irish general/.test(family)) return 'pentagon';
-  return 'circle';
-}
-
-function trendMarkerSvg(kind, x, y, colour, label) {
-  const safeColour = escapeHtml(safeCssColour(colour));
-  const safeLabel = escapeHtml(label || '');
-  const cx = Number(x).toFixed(1);
-  const cy = Number(y).toFixed(1);
-  if (kind === 'triangle') {
-    return `<polygon class="trend-marker" points="${cx},${(Number(y) - 7).toFixed(1)} ${(Number(x) - 7).toFixed(1)},${(Number(y) + 6).toFixed(1)} ${(Number(x) + 7).toFixed(1)},${(Number(y) + 6).toFixed(1)}" style="--trend-colour:${safeColour}"><title>${safeLabel}</title></polygon>`;
-  }
-  if (kind === 'square') {
-    return `<rect class="trend-marker" x="${(Number(x) - 6).toFixed(1)}" y="${(Number(y) - 6).toFixed(1)}" width="12" height="12" style="--trend-colour:${safeColour}"><title>${safeLabel}</title></rect>`;
-  }
-  if (kind === 'diamond') {
-    return `<polygon class="trend-marker" points="${cx},${(Number(y) - 8).toFixed(1)} ${(Number(x) + 8).toFixed(1)},${cy} ${cx},${(Number(y) + 8).toFixed(1)} ${(Number(x) - 8).toFixed(1)},${cy}" style="--trend-colour:${safeColour}"><title>${safeLabel}</title></polygon>`;
-  }
-  if (kind === 'pentagon') {
-    const points = [0, 1, 2, 3, 4].map((index) => {
-      const angle = -Math.PI / 2 + index * 2 * Math.PI / 5;
-      return `${(Number(x) + Math.cos(angle) * 7).toFixed(1)},${(Number(y) + Math.sin(angle) * 7).toFixed(1)}`;
-    }).join(' ');
-    return `<polygon class="trend-marker" points="${points}" style="--trend-colour:${safeColour}"><title>${safeLabel}</title></polygon>`;
-  }
-  return `<circle class="trend-marker" cx="${cx}" cy="${cy}" r="6.5" style="--trend-colour:${safeColour}"><title>${safeLabel}</title></circle>`;
 }
 
 function inferCountEvents(candidates = [], countNumbers = []) {

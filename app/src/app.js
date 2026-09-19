@@ -2642,6 +2642,10 @@ class Test2App {
     const play = document.getElementById('timelinePlay');
     const stop = document.getElementById('timelineStop');
     if (!play || !stop) return;
+    // The playback buttons animate boundary layers through time. An election has nothing to
+    // animate, so canAnimateTimeline() always refuses while one is open; rather than sit
+    // there greyed out, the pair is hidden until the election is closed.
+    play.parentElement?.classList.toggle('timeline-playback-group--hidden', Boolean(this.elections?.activeEntry));
     const canAnimate = this.canAnimateTimeline();
     const { playing, paused, atEnd, originalLayerId } = this.timelineAnimation;
     play.disabled = !canAnimate;
