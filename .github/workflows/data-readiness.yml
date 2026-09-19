@@ -91,6 +91,18 @@ jobs:
       # something rather than failing on a missing input.
       - run: node scripts/build-catalogue-d1-import.mjs
 
+      # Same again for check:browse-index-sql, which compares the three
+      # *-d1-import.sql files to the data/browse indexes built above. Both sides
+      # are gitignored, and only the indexes were being built, so the check
+      # reported all three as stale on every run (a missing file reads as stale).
+      #
+      # Worth being clear about what this buys: with both sides generated from
+      # the same inputs the comparison cannot catch drift here -- that gate only
+      # means something on a developer disk, before a deploy. What CI does get is
+      # the builders themselves running against real data, which is where the
+      # per-statement D1 size limits and the empty-index guards are enforced.
+      - run: node scripts/build-browse-index-d1-import.mjs --all
+
       - run: npm run check
 
   lint:
