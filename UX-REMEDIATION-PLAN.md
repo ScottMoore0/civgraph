@@ -401,7 +401,7 @@ Pass: `buttons === withUrl`, and clicking one produces a `download` event whose 
 | `data/books/boundary-reports/lgb-revised-1992.pdf` | missing |
 | `data/books/boundary-reports/dea-final-1992.pdf` | missing |
 | `data/books/boundary-reports/harrison-1984.pdf` | missing |
-| `data/books/legislation/northern-ireland-acts-1921.pdf` | **present**, 1,774,867 bytes |
+| `data/books/legislation/northern-ireland-acts-1921.pdf` | **present** in the data store, 1,774,867 bytes — but `data/books/legislation/` is gitignored, so it is absent from a fresh clone |
 
 The Markdown derivatives *do* exist and serve as `text/markdown`.
 
