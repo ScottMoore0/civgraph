@@ -4688,7 +4688,7 @@ class UIController {
                 <div class="catalogue-flat__toc-toplinks catalogue-flat__toc-toplinks--stats-only">
                     <span class="catalogue-flat__toc-stats" id="catalogueTocStats" aria-hidden="true"></span>
                 </div>
-                <table class="catalogue-flat__toc-table">
+                <table class="catalogue-flat__toc-table${catalogueV2 ? ' catalogue-flat__toc-table--v2' : ''}">
                     <tbody>`;
 
         // Elections heading + horizontal row of decade buttons in place of the
@@ -4939,16 +4939,26 @@ class UIController {
                     id: entry.id,
                     name: entry.name,
                     years: years.length ? (years[0] === years[years.length - 1] ? String(years[0]) : years[0] + '-' + years[years.length - 1]) : '',
-                    extent: extents.length === 1 ? extents[0] : '',
+                    // The contents already has a scope column; v2 fills it with the derived
+                    // jurisdiction code rather than leaving it blank.
+                    extent: entry.scope || '',
                     mapIds: entry.mapIds,
                     thumbMapId: entry.mapIds[0] || null,
-                    subjectId: entry.subject
+                    subjectId: entry.subject,
+                    scope: entry.scope || null,
+                    sortYear: entry.year || null
                 };
             };
             const projected = [];
             for (const shelf of doc.shelves || []) {
                 for (const subjectId of shelf.subjects || []) {
-                    for (const entry of entriesBySubject.get(subjectId) || []) projected.push(cardForEntry(entry));
+                    const SCOPE_RANK = { IRE: 0, ROI: 1, NI: 2 };
+                    const rank = e => (e.scope && SCOPE_RANK[e.scope] !== undefined ? SCOPE_RANK[e.scope] : 3);
+                    const ordered = [...(entriesBySubject.get(subjectId) || [])].sort((a, b) =>
+                        rank(a) - rank(b)
+                        || (b.year || 0) - (a.year || 0)
+                        || String(a.name).localeCompare(String(b.name)));
+                    for (const entry of ordered) projected.push(cardForEntry(entry));
                 }
             }
             // A shelf is a heading whose members are subjects; a subject's entries sit under
@@ -4959,7 +4969,13 @@ class UIController {
                 for (const subjectId of shelf.subjects || []) {
                     const subject = subjectById.get(subjectId);
                     if (!subject) continue;
-                    const memberIds = (entriesBySubject.get(subjectId) || []).map(e => e.id);
+                    const SCOPE_RANK = { IRE: 0, ROI: 1, NI: 2 };
+                    const rank = e => (e.scope && SCOPE_RANK[e.scope] !== undefined ? SCOPE_RANK[e.scope] : 3);
+                    const ordered = [...(entriesBySubject.get(subjectId) || [])].sort((a, b) =>
+                        rank(a) - rank(b)
+                        || (b.year || 0) - (a.year || 0)
+                        || String(a.name).localeCompare(String(b.name)));
+                    const memberIds = ordered.map(e => e.id);
                     if (!memberIds.length) continue;
                     tocGroupsActive.push({
                         heading: subject.name,
@@ -5038,8 +5054,8 @@ class UIController {
                             </span>
                         </a>
                     </td>
-                    <td>${this.escapeHtml(card.years || '')}</td>
-                    <td>${this.escapeHtml(card.extent || '')}</td>
+                    <td class="catalogue-flat__toc-when">${this.escapeHtml(card.years || '')}${card.scope ? `<span class="catalogue-flat__toc-scope">${this.escapeHtml(card.scope)}</span>` : ''}</td>
+                    <td>${this.escapeHtml(card.scope ? '' : (card.extent || ''))}</td>
                 </tr>`;
             renderedCards.add(card.id);
         };

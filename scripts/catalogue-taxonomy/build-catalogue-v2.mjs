@@ -110,6 +110,10 @@ const entryDocs = entries.map((e) => {
     subject: subjectIdByName.get(e.subject),
     kind: e.kind,
     axis: e.axis,
+    // IRE / ROI / NI, and the most recent year any of the entry's maps refers to. Both are
+    // derived in consolidate.mjs; the pane orders and labels by them rather than re-deriving.
+    scope: e.scope || null,
+    year: e.year || null,
     mapIds,
     // child map id -> the map it is a rendering of, within this entry
     ...(e.maps.some((m) => m.variantOf) ? { variantOf: Object.fromEntries(e.maps.filter((m) => m.variantOf).map((m) => [m.id, m.variantOf])) } : {}),
