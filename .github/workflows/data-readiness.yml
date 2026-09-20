@@ -5,6 +5,16 @@ name: Data readiness
 # tracked files -- matched no path filter and shipped unvalidated. This closes
 # that gap, most importantly by running the approved-publication gate
 # (validate-approved-publication-path.mjs) on every data change.
+#
+# docs/** and root *.md were added 2026-09-20 for the same reason, one level up:
+# `npm run check` includes check:doc-status and check:doc-paths, which read
+# exactly those paths (validate-doc-status.mjs walks docs/ plus root markdown
+# matching PLAN|REVIEW|AUDIT|PRINCIPLES|RUNBOOK; validate-doc-paths.mjs reads
+# five root files). Neither was in the filter, so the two validators could not be
+# triggered by the documents they validate. That is how
+# docs/election-trends-chart-and-catalogue-ui.md shipped with no status line, and
+# why the fix for UX-REMEDIATION-PLAN.md then went unverified by CI --
+# the commit correcting a doc-paths failure did not run doc-paths.
 
 on:
   pull_request:
@@ -12,6 +22,8 @@ on:
       - 'data/**'
       - 'scripts/validate-*.mjs'
       - 'scripts/graph/**'
+      - 'docs/**'
+      - '*.md'
       - 'package.json'
       - '.github/workflows/data-readiness.yml'
   push:
@@ -20,6 +32,8 @@ on:
       - 'data/**'
       - 'scripts/validate-*.mjs'
       - 'scripts/graph/**'
+      - 'docs/**'
+      - '*.md'
       - 'package.json'
       - '.github/workflows/data-readiness.yml'
   workflow_dispatch:
