@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'render/**'
+      - 'src/**'
+      - 'app/build/**'
       - 'scripts/*test*.mjs'
       - 'scripts/verify-test-pmtiles-cdn.mjs'
       - 'scripts/validate-test-cdn-manifest.mjs'
@@ -18,6 +20,8 @@ on:
     branches: [main]
     paths:
       - 'render/**'
+      - 'src/**'
+      - 'app/build/**'
       - 'scripts/*test*.mjs'
       - 'scripts/verify-test-pmtiles-cdn.mjs'
       - 'scripts/validate-test-cdn-manifest.mjs'
@@ -53,6 +57,15 @@ jobs:
       - run: npm run check:intake
       - run: npx playwright install --with-deps chromium
       - run: npm run test:browser:test
+      # The spec that asserts the catalogue pane renders with a clean console.
+      # It is also in production-parity below, but that job is schedule-only, so
+      # nothing ran it before a deploy: a357cc5c66 put `catalogueV2` in its own
+      # temporal dead zone, every load threw "Cannot access 'm' before
+      # initialization", the pane rendered blank, and the nightly caught it
+      # sixteen hours later. Local is the default base URL (see
+      # tests/browser/helpers/base-url.js) and playwright.config.js starts the
+      # server itself, so this measures the working tree. 4.7s locally.
+      - run: npx playwright test tests/browser/catalogue-load-a11y.spec.js
       - run: npm run test:visual:test
 
   mobile-smoke:
