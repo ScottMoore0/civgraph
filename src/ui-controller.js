@@ -4677,6 +4677,16 @@ class UIController {
         // remembered on the controller rather than read back from the old markup.
         const activeSectionTab = this._activeSectionTab || 'flat-section-elections';
         const current = (key) => (activeSectionTab === key ? ' aria-current="true"' : '');
+        // Is the reorganised catalogue being previewed? The document has to carry entries as
+        // well, so a stale or missing maps-v2.json falls back to the hand-authored arrays.
+        //
+        // Declared HERE, above `tocHtml`, and not beside `tocMerges` where it used to sit:
+        // the opening table tag interpolates it, so a declaration further down put the whole
+        // of renderFlatView in its temporal dead zone. Live for a day as
+        // "Cannot access 'm' before initialization" -- the catalogue pane rendered blank
+        // while the map itself was fine.
+        const catalogueV2 = catalogueV2Requested() && Array.isArray(dataService.maps?.entries)
+            && dataService.maps.entries.length > 0;
         let tocHtml = `
             <nav class="catalogue-flat__sections" aria-label="Catalogue sections">
                 <a href="#flat-section-elections" class="catalogue-flat__toc-toplink catalogue-flat__section-tab" data-catalogue-target="flat-section-elections" data-catalogue-section="elections"${current('flat-section-elections')}>${SECTION_ICONS.elections}<span>Elections</span></a>
@@ -4717,10 +4727,6 @@ class UIController {
         //     position in the parent heading's member list rather than at
         //     top-level. The `canonicalName` is matched against the
         //     heading's `members` array.
-        // Is the reorganised catalogue being previewed? The document has to carry entries as
-        // well, so a stale or missing maps-v2.json falls back to the hand-authored arrays.
-        const catalogueV2 = catalogueV2Requested() && Array.isArray(dataService.maps?.entries)
-            && dataService.maps.entries.length > 0;
         const tocMerges = [
             {
                 canonicalName: 'Settlements',
