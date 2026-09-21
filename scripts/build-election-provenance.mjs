@@ -3,19 +3,24 @@
  * Build data/database/election-provenance.json: one record per election contest saying where its
  * figures come from and how far that has been checked.
  *
- * Two layers go in, against the contract in data/database/election-provenance.schema.json:
+ * Three layers go in, against the contract in data/database/election-provenance.schema.json:
  *
  *   import             the source_url recorded when the contest was imported. Present for most
  *                      Republic of Ireland contests (electionsireland.org) and the referendums;
  *                      absent from every Northern Ireland body, whose files carry no source field.
  *                      Recorded, never checked.
+ *   bibliography       a printed work whose own stated coverage includes this body and date,
+ *                      declared in data/elections/walker-volumes.json. Cited, never checked: the
+ *                      volume demonstrably covers the contest, but its figures have not been read
+ *                      page by page against ours. The books themselves are in copyright and are
+ *                      NOT published by this project -- only these citations are.
  *   wikipedia-citation the sources Wikipedia cites for the same contest, harvested by
  *                      scripts/harvest_wikipedia_cited_sources.py and fetched by Civgraph, which
  *                      compared each one against the candidates and votes it holds. Those that
  *                      matched are marked checked, and are the only citations this project can
  *                      stand behind.
  *
- * The second layer comes from data/review-inputs/wikipedia-cited-sources/contest-sources.json,
+ * The wikipedia-citation layer comes from data/review-inputs/wikipedia-cited-sources/contest-sources.json,
  * which is working material and is not committed. Only the citation fields are carried across --
  * titles, publishers, URLs, what was checked -- never text copied from a source, and never the
  * candidate lists the review file holds for comparison.
@@ -35,6 +40,7 @@ import path from 'node:path';
 
 const ELECTIONS = path.join('data', 'elections-source', 'data', 'elections');
 const REVIEW = path.join('data', 'review-inputs', 'wikipedia-cited-sources', 'contest-sources.json');
+const BIBLIOGRAPHY = path.join('data', 'elections', 'walker-volumes.json');
 const OUT = path.join('data', 'database', 'election-provenance.json');
 // Per-election shards for the browser. The whole file is 10 MB, far too much to fetch, so the app
 // loads only the election it is showing, keyed by the constituency name it already has.
@@ -133,9 +139,51 @@ function wikipediaLayer() {
   return [map, { present: true, rows: rows.length, unmatched, licence }];
 }
 
+/**
+ * Printed works whose stated coverage includes a contest. Coverage is declared per body and date
+ * range in walker-volumes.json, read from each volume's own contents page; nothing is inferred
+ * from the scans. A contest can be covered by more than one volume -- the 1918 general election is
+ * in both -- and each is cited separately, because they are different books a reader may consult.
+ */
+function bibliographyLayer() {
+  if (!existsSync(BIBLIOGRAPHY)) return [new Map(), { present: false, volumes: 0, rows: 0 }];
+  const doc = readJson(BIBLIOGRAPHY);
+  const rules = [];
+  for (const v of doc.volumes ?? []) {
+    for (const r of v.rules ?? []) rules.push({ v, r });
+  }
+  const forContest = (body, date) => {
+    const day = String(date).slice(0, 10);
+    const out = [];
+    for (const { v, r } of rules) {
+      if (r.body !== body || day < r.from || day > r.to) continue;
+      out.push({
+        title: v.title,
+        publisher: v.publisher,
+        url: null,
+        archiveUrl: null,
+        host: null,
+        kind: v.kind ?? 'academic',
+        origin: 'bibliography',
+        basis: 'stated-coverage',
+        scope: 'this contest',
+        checked: false,
+        check: 'the volume covers this body and date; its figures have not been checked against ours',
+        match: null,
+        document: null,
+        locator: r.section ?? null,
+        edition: [v.editor, v.year].filter(Boolean).join(', ') || null,
+      });
+    }
+    return out;
+  };
+  return [forContest, { present: true, volumes: (doc.volumes ?? []).length, rules: rules.length }];
+}
+
 function build() {
   const disk = contestsOnDisk();
   const [wiki, stats] = wikipediaLayer();
+  const [bibliographyFor, bibStats] = bibliographyLayer();
   const contests = disk.map((c) => {
     const extra = wiki.get(c.file);
     const sources = [];
@@ -157,9 +205,12 @@ function build() {
       });
     }
     sources.push(...(extra?.sources ?? []));
+    // Printed citations last: they are the broadest claim, and anything fetched and compared
+    // should sort above them.
+    if (typeof bibliographyFor === 'function') sources.push(...bibliographyFor(c.body, c.date));
     const checked = sources.some((s) => s.checked);
     const status = checked ? 'verified'
-      : sources.some((s) => s.origin === 'wikipedia-citation') ? 'cited'
+      : sources.some((s) => s.origin === 'wikipedia-citation' || s.origin === 'bibliography') ? 'cited'
         : sources.length ? 'recorded' : 'unsourced';
     // Anything checked outranks anything not.
     sources.sort((a, b) => Number(b.checked) - Number(a.checked));
@@ -182,6 +233,7 @@ function build() {
     if (c.status === 'verified') b.verified += 1;
   }
   return {
+    bibStats,
     doc: {
       schemaVersion: 1,
       generatedAt: new Date().toISOString(),
@@ -198,7 +250,7 @@ function build() {
   };
 }
 
-const { doc, stats } = build();
+const { doc, stats, bibStats } = build();
 const summary = () => {
   const { counts } = doc;
   console.log(`  contests            ${counts.contests}`);
@@ -206,6 +258,8 @@ const summary = () => {
   console.log(`  verified            ${counts.verified} (${(100 * counts.verified / counts.contests).toFixed(1)}%)`);
   if (!stats.present) console.log(`  ! ${REVIEW} is absent: the citation layer is missing from this build`);
   else console.log(`  review rows ${stats.rows}, of which ${stats.unmatched} matched no contest and were dropped`);
+  if (bibStats?.present) console.log(`  bibliography        ${bibStats.volumes} volume(s), ${bibStats.rules} coverage rule(s)`);
+  else console.log(`  ! ${BIBLIOGRAPHY} is absent: no printed citations in this build`);
   for (const [body, b] of Object.entries(counts.byBody).sort((a, b) => b[1].contests - a[1].contests)) {
     console.log(`    ${body.padEnd(46)} ${String(b.contests).padStart(5)} contests  ${String(b.withAnySource).padStart(5)} sourced  ${String(b.verified).padStart(5)} verified`);
   }
@@ -243,6 +297,10 @@ function buildShards(provenance) {
         scope: best.scope,
         checked: best.checked,
         check: best.check,
+        // A printed source has no URL, so these two carry what identifies it instead:
+        // where in the volume the contest is tabulated, and which edition.
+        locator: best.locator ?? null,
+        edition: best.edition ?? null,
       },
       otherSources: c.sources.length - 1,
     };

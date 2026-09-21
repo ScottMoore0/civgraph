@@ -10,6 +10,45 @@ import { CDN_BASE } from '../src/cdn-url.js';
 
 const ROOT = process.cwd();
 
+/**
+ * Printed works whose stated coverage includes an election, from the same declaration the
+ * provenance builder uses (data/elections/walker-volumes.json) so the two cannot drift apart.
+ *
+ * These are citations, not links: the volumes are in copyright and are not published by this
+ * project. addReference keeps a reference with no url as long as it carries a note, which is
+ * exactly the shape a printed source needs.
+ */
+const BIBLIOGRAPHY_PATH = path.join(ROOT, 'data', 'elections', 'walker-volumes.json');
+// Loaded on first use, not at module scope: the build runs before this point in the file,
+// so a const here sits in its own temporal dead zone and every election fails to read.
+let bibliographyRulesCache = null;
+function bibliographyRules() {
+  if (bibliographyRulesCache) return bibliographyRulesCache;
+  try {
+    const doc = JSON.parse(readFileSync(BIBLIOGRAPHY_PATH, 'utf8'));
+    bibliographyRulesCache = (doc.volumes || []).flatMap((v) => (v.rules || []).map((r) => ({ v, r })));
+  } catch {
+    bibliographyRulesCache = [];
+  }
+  return bibliographyRulesCache;
+}
+
+function addBibliographyReferences(refs, bodySlug, date, scope) {
+  if (!bodySlug || !date) return;
+  const day = String(date).slice(0, 10);
+  for (const { v, r } of bibliographyRules()) {
+    if (r.body !== bodySlug || day < r.from || day > r.to) continue;
+    addReference(refs, {
+      label: `${v.title} — ${v.editor}`,
+      source: v.publisher,
+      role: refs.length ? 'corroboration' : 'result-source',
+      scope: scope || '',
+      note: `Printed source, ${v.year}. ${r.section}. Not reproduced here; consult the volume.`,
+    });
+  }
+}
+
+
 // IA download links for agency map layers (mirrored by scripts/build-agency-ia-mirror.mjs).
 const AGENCY_IA_MIRRORS = (() => {
   try { return JSON.parse(readFileSync(path.join(ROOT, 'data/database/agency-ia-mirrors.json'), 'utf8')).items || {}; }
@@ -686,6 +725,7 @@ function buildElectionReferences(election, detail) {
   addElectionOverviewReferences(refs, election, detail);
   addElectionCorpusReferences(refs, election, detail);
   addElectionEnrichmentReferences(refs, election, detail);
+  addBibliographyReferences(refs, election?.bodySlug || detail?.bodySlug, election?.date || detail?.date, 'whole election');
 
   const resultSourceUrls = new Set();
   for (const result of normalizeArray(detail?.results)) {
@@ -721,6 +761,7 @@ function buildElectionResultReferences(parent, detail, result, options = {}) {
   if (options.overall) {
     addElectionOverviewReferences(refs, parent, detail);
     addElectionCorpusReferences(refs, parent, detail);
+    addBibliographyReferences(refs, parent?.bodySlug, parent?.date, 'whole election');
     return dedupeReferences(refs);
   }
 
@@ -749,6 +790,7 @@ function buildElectionResultReferences(parent, detail, result, options = {}) {
 
   addElectionOverviewReferences(refs, parent, detail, { role: refs.length ? 'corroboration' : 'election-overview' });
   addElectionCorpusReferences(refs, parent, detail, { compact: true });
+  addBibliographyReferences(refs, parent?.bodySlug, parent?.date, resultScopeForElection(parent, result));
   return dedupeReferences(refs);
 }
 

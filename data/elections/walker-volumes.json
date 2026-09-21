@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "note": "Bibliographic coverage of the two Walker volumes, as a citation layer for election-provenance.json. This file records WHICH CONTESTS EACH VOLUME COVERS and nothing else: no results, no page images, no text from either book. The volumes are in copyright (Royal Irish Academy) and are not published by this project; only these citations are. Coverage ranges are taken from each volume's own contents page. A contest matching a rule is cited, not verified: the volume demonstrably covers that body and date, but the figures have not been checked page by page against it.",
+  "volumes": [
+    {
+      "id": "walker-1801-1922",
+      "title": "Parliamentary Election Results in Ireland, 1801-1922",
+      "editor": "Brian M. Walker (ed.)",
+      "publisher": "Royal Irish Academy",
+      "year": 1978,
+      "series": "A New History of Ireland, Ancillary Publications II",
+      "kind": "academic",
+      "rules": [
+        {
+          "body": "house-of-commons-of-the-united-kingdom",
+          "from": "1801-01-01",
+          "to": "1922-12-31",
+          "section": "Results of general elections and by-elections, 1801-1918",
+          "note": "Covers every Irish seat at Westminster for the whole period. Civgraph's earliest Westminster contest is 1885-11-24, so the volume reaches back further than the data does."
+        },
+        {
+          "body": "dail-eireann",
+          "from": "1918-12-14",
+          "to": "1918-12-14",
+          "section": "General election, 1918 (pp. 187-196)",
+          "note": "Civgraph files the 1918 general election under dail-eireann because its returned members formed the First Dail. Walker tabulates the same contest as a United Kingdom general election."
+        }
+      ]
+    },
+    {
+      "id": "walker-1918-1992",
+      "title": "Parliamentary Election Results in Ireland, 1918-92",
+      "editor": "Brian M. Walker (ed.)",
+      "publisher": "Royal Irish Academy",
+      "year": 1992,
+      "kind": "academic",
+      "rules": [
+        {
+          "body": "house-of-commons-of-the-united-kingdom",
+          "from": "1918-01-01",
+          "to": "1922-12-31",
+          "section": "I. Parliament of the United Kingdom of Great Britain and Ireland, 1918-22 (pp. 4-12)"
+        },
+        {
+          "body": "dail-eireann",
+          "from": "1918-12-14",
+          "to": "1918-12-14",
+          "section": "I. Parliament of the United Kingdom of Great Britain and Ireland, 1918-22 (pp. 4-12)"
+        },
+        {
+          "body": "house-of-commons-of-the-united-kingdom",
+          "from": "1923-01-01",
+          "to": "1990-12-31",
+          "section": "II. Parliament of the United Kingdom of Great Britain and Northern Ireland, 1922-90 (pp. 15-42)"
+        },
+        {
+          "body": "house-of-commons-of-the-united-kingdom",
+          "from": "1992-01-01",
+          "to": "1992-12-31",
+          "section": "Appendix: general election, 1992 (pp. 287-290)"
+        },
+        {
+          "body": "parliament-of-northern-ireland",
+          "from": "1921-01-01",
+          "to": "1973-12-31",
+          "section": "III. Parliament of Northern Ireland, 1921-73 (pp. 45-98)"
+        },
+        {
+          "body": "northern-ireland-assembly",
+          "from": "1973-01-01",
+          "to": "1975-12-31",
+          "section": "III. Northern Ireland Assembly, 1973-5 (pp. 45-98)"
+        },
+        {
+          "body": "northern-ireland-constitutional-convention",
+          "from": "1975-01-01",
+          "to": "1976-12-31",
+          "section": "III. Northern Ireland Constitutional Convention, 1975-6 (pp. 45-98)"
+        },
+        {
+          "body": "northern-ireland-assembly",
+          "from": "1982-01-01",
+          "to": "1986-12-31",
+          "section": "III. Northern Ireland Assembly, 1982-6 (pp. 45-98)"
+        },
+        {
+          "body": "dail-eireann",
+          "from": "1921-01-01",
+          "to": "1989-12-31",
+          "section": "IV. Dail Eireann, 1921-89 (pp. 101-278)"
+        },
+        {
+          "body": "european-parliament",
+          "from": "1973-01-01",
+          "to": "1989-12-31",
+          "section": "V. European Parliament, 1973-89 (pp. 281-286)"
+        },
+        {
+          "body": "ireland-european",
+          "from": "1973-01-01",
+          "to": "1989-12-31",
+          "section": "V. European Parliament, 1973-89 (pp. 281-286)"
+        }
+      ]
+    }
+  ],
+  "excluded": {
+    "note": "Bodies and periods neither volume covers, recorded so the gap is deliberate rather than forgotten.",
+    "bodies": [
+      "ireland-referendum",
+      "northern-ireland-referendum",
+      "ireland-local",
+      "local-government",
+      "ireland-president",
+      "northern-ireland-forum-for-political-dialogue"
+    ],
+    "periods": [
+      "Any contest after 1992: the later volume stops at the 1992 United Kingdom general election.",
+      "Northern Ireland Assembly elections from 1998 onward: the 1992 volume covers only the 1973-5 and 1982-6 assemblies.",
+      "Seven scans are missing from the 1918-92 volume (pages 2, 12, 40, 42, 96, 98, 278), four of which are the final results page of a section. Citations here are to the published volume, not to the incomplete scan set, so they stand regardless; but figures cannot be checked against those pages until they are sourced."
+    ]
+  }
+}
