@@ -269,11 +269,19 @@ def extract_page(pdf_path, index):
                 constituency = None
                 continue
             divisional = re.match(r'^(North|South|East|West|Mid)\b', name, re.I)
+            previous = constituency
             if divisional and county:
                 constituency = f'{county} {name}'
             elif not divisional:
                 constituency = name
                 county = None
+            # The elector count is printed once per contest and carried down its
+            # candidate rows -- but it must NOT survive into the next contest. It did,
+            # and all four Antrim divisions of 1918 came out sharing one electorate,
+            # 8,821, which against their real vote totals then looked like evidence of
+            # two-member seats.
+            if constituency != previous:
+                electorate = None
         d = text.get('date', '')
         if d and MONTH_RE.match(d.split()[0] if d.split() else ''):
             date = d
