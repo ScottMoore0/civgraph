@@ -1,0 +1,1280 @@
+{
+ "schemaVersion": 1,
+ "description": "Elector counts for pre-1918 Westminster contests, read from Walker and NOT held by Civgraph, which has none for this period. These are proposed additions, not corrections: no existing value is being changed. Each figure was kept only if it is at least the number of votes Civgraph records as cast in that contest, implies a turnout at or below 100%, and falls in a plausible range; a constituency read twice had to read the same both times.",
+ "provenance": {
+  "method": "scripts/walker/harvest_electorates.py",
+  "extractor": "scripts/walker/extract.py",
+  "source": {
+   "title": "Parliamentary Election Results in Ireland, 1801-1922",
+   "editor": "Brian M. Walker (ed.)",
+   "publisher": "Royal Irish Academy",
+   "year": 1978
+  },
+  "licence": "Figures only. Election results are facts and carry no copyright; the volume is in copyright, is not held in this repository, and no text from it is reproduced.",
+  "alignment": "Pages are tied to an election by the candidate votes they reproduce, not by the year in the running head, which is wrong by one election.",
+  "caveat": "OCR-derived. The checks above catch a figure that is too small, but a misread that leaves it plausible will pass. Treat as proposed until spot-checked against the page."
+ },
+ "counts": {
+  "figures": 110,
+  "byElection": {
+   "1885-11-24": 18,
+   "1892-07-04": 3,
+   "1895-07-13": 8,
+   "1900-09-26": 9,
+   "1906-01-12": 20,
+   "1910-01-15": 14,
+   "1910-12-03": 2,
+   "1918-12-14": 36
+  },
+  "conflicts": 10,
+  "rejected": 2,
+  "sharedFigures": 0,
+  "pagesUnaligned": 12
+ },
+ "records": [
+  {
+   "date": "1885-11-24",
+   "constituency": "Cork City",
+   "electorate": 14569,
+   "votesCast": 16117,
+   "turnoutPct": 55.3,
+   "seats": 2,
+   "page": 147,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1885-11-24/cork-city.json",
+   "seatsInferredFrom": "votes cast exceed the electorate, so the seat returns two members"
+  },
+  {
+   "date": "1885-11-24",
+   "constituency": "Cork E",
+   "electorate": 6934,
+   "votesCast": 4580,
+   "turnoutPct": 66.1,
+   "seats": 1,
+   "page": 147,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1885-11-24/cork-e.json"
+  },
+  {
+   "date": "1885-11-24",
+   "constituency": "Cork N",
+   "electorate": 7827,
+   "votesCast": 5084,
+   "turnoutPct": 65.0,
+   "seats": 1,
+   "page": 147,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1885-11-24/cork-n.json"
+  },
+  {
+   "date": "1885-11-24",
+   "constituency": "Cork NE",
+   "electorate": 8175,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 147,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1885-11-24/cork-ne.json"
+  },
+  {
+   "date": "1885-11-24",
+   "constituency": "Donegal E",
+   "electorate": 7840,
+   "votesCast": 7081,
+   "turnoutPct": 90.3,
+   "seats": 1,
+   "page": 147,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1885-11-24/donegal-e.json"
+  },
+  {
+   "date": "1885-11-24",
+   "constituency": "Donegal N",
+   "electorate": 6932,
+   "votesCast": 5549,
+   "turnoutPct": 80.0,
+   "seats": 1,
+   "page": 147,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1885-11-24/donegal-n.json"
+  },
+  {
+   "date": "1885-11-24",
+   "constituency": "Donegal S",
+   "electorate": 7854,
+   "votesCast": 6424,
+   "turnoutPct": 81.8,
+   "seats": 1,
+   "page": 147,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1885-11-24/donegal-s.json"
+  },
+  {
+   "date": "1885-11-24",
+   "constituency": "Donegal W",
+   "electorate": 7377,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 147,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1885-11-24/donegal-w.json"
+  },
+  {
+   "date": "1885-11-24",
+   "constituency": "Down E",
+   "electorate": 9805,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 147,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1885-11-24/down-e.json"
+  },
+  {
+   "date": "1885-11-24",
+   "constituency": "Down N",
+   "electorate": 9277,
+   "votesCast": 7156,
+   "turnoutPct": 77.1,
+   "seats": 1,
+   "page": 147,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1885-11-24/down-n.json"
+  },
+  {
+   "date": "1885-11-24",
+   "constituency": "Down W",
+   "electorate": 9695,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 147,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1885-11-24/down-w.json"
+  },
+  {
+   "date": "1885-11-24",
+   "constituency": "Tyrone E",
+   "electorate": 7946,
+   "votesCast": 7280,
+   "turnoutPct": 91.6,
+   "seats": 1,
+   "page": 151,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1885-11-24/tyrone-e.json"
+  },
+  {
+   "date": "1885-11-24",
+   "constituency": "Tyrone Mid",
+   "electorate": 8083,
+   "votesCast": 6956,
+   "turnoutPct": 86.1,
+   "seats": 1,
+   "page": 151,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1885-11-24/tyrone-mid.json"
+  },
+  {
+   "date": "1885-11-24",
+   "constituency": "Tyrone N",
+   "electorate": 6810,
+   "votesCast": 6267,
+   "turnoutPct": 92.0,
+   "seats": 1,
+   "page": 151,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1885-11-24/tyrone-n.json"
+  },
+  {
+   "date": "1885-11-24",
+   "constituency": "Tyrone S",
+   "electorate": 7725,
+   "votesCast": 6817,
+   "turnoutPct": 88.2,
+   "seats": 1,
+   "page": 151,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1885-11-24/tyrone-s.json"
+  },
+  {
+   "date": "1885-11-24",
+   "constituency": "Waterford City",
+   "electorate": 3946,
+   "votesCast": 2696,
+   "turnoutPct": 68.3,
+   "seats": 1,
+   "page": 151,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1885-11-24/waterford-city.json"
+  },
+  {
+   "date": "1885-11-24",
+   "constituency": "Wexford N",
+   "electorate": 9768,
+   "votesCast": 7448,
+   "turnoutPct": 76.2,
+   "seats": 1,
+   "page": 151,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1885-11-24/wexford-n.json"
+  },
+  {
+   "date": "1885-11-24",
+   "constituency": "Wexford S",
+   "electorate": 9577,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 151,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1885-11-24/wexford-s.json"
+  },
+  {
+   "date": "1892-07-04",
+   "constituency": "Birr",
+   "electorate": 5253,
+   "votesCast": 3949,
+   "turnoutPct": 75.2,
+   "seats": 1,
+   "page": 163,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1892-07-04/birr.json"
+  },
+  {
+   "date": "1892-07-04",
+   "constituency": "Kilkenny City",
+   "electorate": 1806,
+   "votesCast": 1348,
+   "turnoutPct": 74.6,
+   "seats": 1,
+   "page": 163,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1892-07-04/kilkenny-city.json"
+  },
+  {
+   "date": "1892-07-04",
+   "constituency": "Tullamore",
+   "electorate": 5295,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 163,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1892-07-04/tullamore.json"
+  },
+  {
+   "date": "1895-07-13",
+   "constituency": "Connemara",
+   "electorate": 7155,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 169,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1895-07-13/connemara.json"
+  },
+  {
+   "date": "1895-07-13",
+   "constituency": "Dublin St Patrick's",
+   "electorate": 9691,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 169,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1895-07-13/dublin-st-patrick-s.json"
+  },
+  {
+   "date": "1895-07-13",
+   "constituency": "Fermanagh N",
+   "electorate": 5632,
+   "votesCast": 5188,
+   "turnoutPct": 92.1,
+   "seats": 1,
+   "page": 169,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1895-07-13/fermanagh-n.json"
+  },
+  {
+   "date": "1895-07-13",
+   "constituency": "Fermanagh S",
+   "electorate": 5519,
+   "votesCast": 4888,
+   "turnoutPct": 88.6,
+   "seats": 1,
+   "page": 169,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1895-07-13/fermanagh-s.json"
+  },
+  {
+   "date": "1895-07-13",
+   "constituency": "Kerry E",
+   "electorate": 5763,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 169,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1895-07-13/kerry-e.json"
+  },
+  {
+   "date": "1895-07-13",
+   "constituency": "Kerry N",
+   "electorate": 5744,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 169,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1895-07-13/kerry-n.json"
+  },
+  {
+   "date": "1895-07-13",
+   "constituency": "Kerry S",
+   "electorate": 3472,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 169,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1895-07-13/kerry-s.json"
+  },
+  {
+   "date": "1895-07-13",
+   "constituency": "Kerry W",
+   "electorate": 5839,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 169,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1895-07-13/kerry-w.json"
+  },
+  {
+   "date": "1900-09-26",
+   "constituency": "Birr",
+   "electorate": 4792,
+   "votesCast": 2632,
+   "turnoutPct": 54.9,
+   "seats": 1,
+   "page": 177,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1900-09-26/birr.json"
+  },
+  {
+   "date": "1900-09-26",
+   "constituency": "Cork City",
+   "electorate": 13153,
+   "votesCast": 15545,
+   "turnoutPct": 59.1,
+   "seats": 2,
+   "page": 175,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1900-09-26/cork-city.json",
+   "seatsInferredFrom": "votes cast exceed the electorate, so the seat returns two members"
+  },
+  {
+   "date": "1900-09-26",
+   "constituency": "Leitrim N",
+   "electorate": 7670,
+   "votesCast": 4408,
+   "turnoutPct": 57.5,
+   "seats": 1,
+   "page": 177,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1900-09-26/leitrim-n.json"
+  },
+  {
+   "date": "1900-09-26",
+   "constituency": "Leitrim S",
+   "electorate": 8242,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 177,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1900-09-26/leitrim-s.json"
+  },
+  {
+   "date": "1900-09-26",
+   "constituency": "Limerick City",
+   "electorate": 5297,
+   "votesCast": 2995,
+   "turnoutPct": 56.5,
+   "seats": 1,
+   "page": 177,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1900-09-26/limerick-city.json"
+  },
+  {
+   "date": "1900-09-26",
+   "constituency": "Limerick E",
+   "electorate": 8422,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 177,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1900-09-26/limerick-e.json"
+  },
+  {
+   "date": "1900-09-26",
+   "constituency": "Limerick W",
+   "electorate": 8851,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 177,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1900-09-26/limerick-w.json"
+  },
+  {
+   "date": "1900-09-26",
+   "constituency": "Mayo N",
+   "electorate": 7686,
+   "votesCast": 3620,
+   "turnoutPct": 47.1,
+   "seats": 1,
+   "page": 177,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1900-09-26/mayo-n.json"
+  },
+  {
+   "date": "1900-09-26",
+   "constituency": "Tullamore",
+   "electorate": 4939,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 177,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1900-09-26/tullamore.json"
+  },
+  {
+   "date": "1906-01-12",
+   "constituency": "Antrim E",
+   "electorate": 8606,
+   "votesCast": 6641,
+   "turnoutPct": 77.2,
+   "seats": 1,
+   "page": 181,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1906-01-12/antrim-e.json"
+  },
+  {
+   "date": "1906-01-12",
+   "constituency": "Antrim S",
+   "electorate": 9960,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 181,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1906-01-12/antrim-s.json"
+  },
+  {
+   "date": "1906-01-12",
+   "constituency": "Armagh Mid",
+   "electorate": 6974,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 181,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1906-01-12/armagh-mid.json"
+  },
+  {
+   "date": "1906-01-12",
+   "constituency": "Armagh N",
+   "electorate": 7555,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 181,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1906-01-12/armagh-n.json"
+  },
+  {
+   "date": "1906-01-12",
+   "constituency": "Armagh S",
+   "electorate": 7186,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 181,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1906-01-12/armagh-s.json"
+  },
+  {
+   "date": "1906-01-12",
+   "constituency": "Belfast N",
+   "electorate": 10762,
+   "votesCast": 9523,
+   "turnoutPct": 88.5,
+   "seats": 1,
+   "page": 181,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1906-01-12/belfast-n.json"
+  },
+  {
+   "date": "1906-01-12",
+   "constituency": "Leix",
+   "electorate": 4867,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 185,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1906-01-12/leix.json"
+  },
+  {
+   "date": "1906-01-12",
+   "constituency": "Newry",
+   "electorate": 1905,
+   "votesCast": 1538,
+   "turnoutPct": 80.7,
+   "seats": 1,
+   "page": 185,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1906-01-12/newry.json"
+  },
+  {
+   "date": "1906-01-12",
+   "constituency": "Ossory",
+   "electorate": 4824,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 185,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1906-01-12/ossory.json"
+  },
+  {
+   "date": "1906-01-12",
+   "constituency": "Sligo N",
+   "electorate": 8350,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 185,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1906-01-12/sligo-n.json"
+  },
+  {
+   "date": "1906-01-12",
+   "constituency": "Sligo S",
+   "electorate": 7273,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 185,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1906-01-12/sligo-s.json"
+  },
+  {
+   "date": "1906-01-12",
+   "constituency": "Tipperary E",
+   "electorate": 5279,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 185,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1906-01-12/tipperary-e.json"
+  },
+  {
+   "date": "1906-01-12",
+   "constituency": "Tipperary Mid",
+   "electorate": 5997,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 185,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1906-01-12/tipperary-mid.json"
+  },
+  {
+   "date": "1906-01-12",
+   "constituency": "Tipperary N",
+   "electorate": 5659,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 185,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1906-01-12/tipperary-n.json"
+  },
+  {
+   "date": "1906-01-12",
+   "constituency": "Tipperary S",
+   "electorate": 5093,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 185,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1906-01-12/tipperary-s.json"
+  },
+  {
+   "date": "1906-01-12",
+   "constituency": "Tyrone E",
+   "electorate": 6299,
+   "votesCast": 6075,
+   "turnoutPct": 96.4,
+   "seats": 1,
+   "page": 185,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1906-01-12/tyrone-e.json"
+  },
+  {
+   "date": "1906-01-12",
+   "constituency": "Tyrone Mid",
+   "electorate": 6795,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 185,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1906-01-12/tyrone-mid.json"
+  },
+  {
+   "date": "1906-01-12",
+   "constituency": "Tyrone N",
+   "electorate": 6181,
+   "votesCast": 5923,
+   "turnoutPct": 95.8,
+   "seats": 1,
+   "page": 185,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1906-01-12/tyrone-n.json"
+  },
+  {
+   "date": "1906-01-12",
+   "constituency": "Tyrone S",
+   "electorate": 5982,
+   "votesCast": 5625,
+   "turnoutPct": 94.0,
+   "seats": 1,
+   "page": 185,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1906-01-12/tyrone-s.json"
+  },
+  {
+   "date": "1906-01-12",
+   "constituency": "Waterford City",
+   "electorate": 3354,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 185,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1906-01-12/waterford-city.json"
+  },
+  {
+   "date": "1910-01-15",
+   "constituency": "Armagh S",
+   "electorate": 7024,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 187,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1910-01-15/armagh-s.json"
+  },
+  {
+   "date": "1910-01-15",
+   "constituency": "Clare W",
+   "electorate": 8854,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 187,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1910-01-15/clare-w.json"
+  },
+  {
+   "date": "1910-01-15",
+   "constituency": "Cork City",
+   "electorate": 13605,
+   "votesCast": 19039,
+   "turnoutPct": 70.0,
+   "seats": 2,
+   "page": 187,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1910-01-15/cork-city.json",
+   "seatsInferredFrom": "votes cast exceed the electorate, so the seat returns two members"
+  },
+  {
+   "date": "1910-01-15",
+   "constituency": "Donegal E",
+   "electorate": 6454,
+   "votesCast": 5617,
+   "turnoutPct": 87.0,
+   "seats": 1,
+   "page": 189,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1910-01-15/donegal-e.json"
+  },
+  {
+   "date": "1910-01-15",
+   "constituency": "Donegal N",
+   "electorate": 6650,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 189,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1910-01-15/donegal-n.json"
+  },
+  {
+   "date": "1910-01-15",
+   "constituency": "Donegal S",
+   "electorate": 6091,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 189,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1910-01-15/donegal-s.json"
+  },
+  {
+   "date": "1910-01-15",
+   "constituency": "Donegal W",
+   "electorate": 6642,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 189,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1910-01-15/donegal-w.json"
+  },
+  {
+   "date": "1910-01-15",
+   "constituency": "Down E",
+   "electorate": 7895,
+   "votesCast": 7082,
+   "turnoutPct": 89.7,
+   "seats": 1,
+   "page": 189,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1910-01-15/down-e.json"
+  },
+  {
+   "date": "1910-01-15",
+   "constituency": "Down N",
+   "electorate": 9912,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 189,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1910-01-15/down-n.json"
+  },
+  {
+   "date": "1910-01-15",
+   "constituency": "Down S",
+   "electorate": 7753,
+   "votesCast": 6995,
+   "turnoutPct": 90.2,
+   "seats": 1,
+   "page": 189,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1910-01-15/down-s.json"
+  },
+  {
+   "date": "1910-01-15",
+   "constituency": "Down W",
+   "electorate": 8233,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 187,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1910-01-15/down-w.json"
+  },
+  {
+   "date": "1910-01-15",
+   "constituency": "Dublin St Patrick's",
+   "electorate": 8882,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 189,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1910-01-15/dublin-st-patrick-s.json"
+  },
+  {
+   "date": "1910-01-15",
+   "constituency": "Kilkenny S",
+   "electorate": 5002,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 187,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1910-01-15/kilkenny-s.json"
+  },
+  {
+   "date": "1910-01-15",
+   "constituency": "Sligo N",
+   "electorate": 8082,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 187,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1910-01-15/sligo-n.json"
+  },
+  {
+   "date": "1910-12-03",
+   "constituency": "Down N",
+   "electorate": 9912,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 193,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1910-12-03/down-n.json"
+  },
+  {
+   "date": "1910-12-03",
+   "constituency": "Dublin Harbour",
+   "electorate": 9038,
+   "votesCast": 3875,
+   "turnoutPct": 42.9,
+   "seats": 1,
+   "page": 193,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1910-12-03/dublin-harbour.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Cavan E",
+   "electorate": 8821,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 201,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/cavan-e.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Cork E",
+   "electorate": 19022,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 203,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/cork-e.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Cork N",
+   "electorate": 17949,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 203,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/cork-n.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Cork NE",
+   "electorate": 18239,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 203,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/cork-ne.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Donegal E",
+   "electorate": 16015,
+   "votesCast": 12439,
+   "turnoutPct": 77.7,
+   "seats": 1,
+   "page": 203,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/donegal-e.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Donegal N",
+   "electorate": 17538,
+   "votesCast": 10078,
+   "turnoutPct": 57.5,
+   "seats": 1,
+   "page": 203,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/donegal-n.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Donegal S",
+   "electorate": 16894,
+   "votesCast": 10539,
+   "turnoutPct": 62.4,
+   "seats": 1,
+   "page": 203,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/donegal-s.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Donegal W",
+   "electorate": 19296,
+   "votesCast": 10828,
+   "turnoutPct": 56.1,
+   "seats": 1,
+   "page": 203,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/donegal-w.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Down E",
+   "electorate": 17846,
+   "votesCast": 14245,
+   "turnoutPct": 79.8,
+   "seats": 1,
+   "page": 203,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/down-e.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Down Mid",
+   "electorate": 17195,
+   "votesCast": 11346,
+   "turnoutPct": 66.0,
+   "seats": 1,
+   "page": 203,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/down-mid.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Down N",
+   "electorate": 18399,
+   "votesCast": 11353,
+   "turnoutPct": 61.7,
+   "seats": 1,
+   "page": 203,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/down-n.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Down S",
+   "electorate": 18708,
+   "votesCast": 14798,
+   "turnoutPct": 79.1,
+   "seats": 1,
+   "page": 203,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/down-s.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Down W",
+   "electorate": 17997,
+   "votesCast": 12284,
+   "turnoutPct": 68.3,
+   "seats": 1,
+   "page": 203,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/down-w.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Dublin Clontarf",
+   "electorate": 14588,
+   "votesCast": 9202,
+   "turnoutPct": 63.1,
+   "seats": 1,
+   "page": 203,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/dublin-clontarf.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Kerry E",
+   "electorate": 17222,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 205,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/kerry-e.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Kerry N",
+   "electorate": 17600,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 205,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/kerry-n.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Kerry S",
+   "electorate": 16835,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 205,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/kerry-s.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Kerry W",
+   "electorate": 18853,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 205,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/kerry-w.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Kildare N",
+   "electorate": 13274,
+   "votesCast": 8701,
+   "turnoutPct": 65.5,
+   "seats": 1,
+   "page": 205,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/kildare-n.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Kildare S",
+   "electorate": 13925,
+   "votesCast": 8649,
+   "turnoutPct": 62.1,
+   "seats": 1,
+   "page": 205,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/kildare-s.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Kilkenny N",
+   "electorate": 16113,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 205,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/kilkenny-n.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Kilkenny S",
+   "electorate": 16410,
+   "votesCast": 10540,
+   "turnoutPct": 64.2,
+   "seats": 1,
+   "page": 205,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/kilkenny-s.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "King's County",
+   "electorate": 4601,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 201,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/king-s-county.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Leitrim",
+   "electorate": 30079,
+   "votesCast": 20807,
+   "turnoutPct": 69.2,
+   "seats": 1,
+   "page": 205,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/leitrim.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Limerick City",
+   "electorate": 17121,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 205,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/limerick-city.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Limerick E",
+   "electorate": 21095,
+   "votesCast": 16358,
+   "turnoutPct": 77.5,
+   "seats": 1,
+   "page": 205,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/limerick-e.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Limerick W",
+   "electorate": 22562,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 205,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/limerick-w.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Londonderry City",
+   "electorate": 16736,
+   "votesCast": 14475,
+   "turnoutPct": 86.5,
+   "seats": 1,
+   "page": 205,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/londonderry-city.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Longford",
+   "electorate": 20449,
+   "votesCast": 15295,
+   "turnoutPct": 74.8,
+   "seats": 1,
+   "page": 205,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/longford.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Louth",
+   "electorate": 29176,
+   "votesCast": 21285,
+   "turnoutPct": 73.0,
+   "seats": 1,
+   "page": 205,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/louth.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Waterford City",
+   "electorate": 12063,
+   "votesCast": 9346,
+   "turnoutPct": 77.5,
+   "seats": 1,
+   "page": 207,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/waterford-city.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Westmeath",
+   "electorate": 24014,
+   "votesCast": 16496,
+   "turnoutPct": 68.7,
+   "seats": 1,
+   "page": 207,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/westmeath.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Wexford N",
+   "electorate": 23022,
+   "votesCast": 17351,
+   "turnoutPct": 75.4,
+   "seats": 1,
+   "page": 207,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/wexford-n.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Wexford S",
+   "electorate": 23168,
+   "votesCast": 16940,
+   "turnoutPct": 73.1,
+   "seats": 1,
+   "page": 207,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/wexford-s.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Wicklow E",
+   "electorate": 15241,
+   "votesCast": 10982,
+   "turnoutPct": 72.1,
+   "seats": 1,
+   "page": 207,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/wicklow-e.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Wicklow W",
+   "electorate": 11673,
+   "votesCast": 7609,
+   "turnoutPct": 65.2,
+   "seats": 1,
+   "page": 207,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/wicklow-w.json"
+  }
+ ],
+ "conflicts": [
+  {
+   "date": "1885-11-24",
+   "constituency": "Cork E",
+   "read": [
+    6934,
+    6124
+   ],
+   "pages": [
+    147,
+    147
+   ]
+  },
+  {
+   "date": "1885-11-24",
+   "constituency": "Cork E",
+   "read": [
+    6934,
+    6124
+   ],
+   "pages": [
+    147,
+    147
+   ]
+  },
+  {
+   "date": "1895-07-13",
+   "constituency": "Connemara",
+   "read": [
+    7155,
+    10034
+   ],
+   "pages": [
+    169,
+    169
+   ]
+  },
+  {
+   "date": "1895-07-13",
+   "constituency": "Connemara",
+   "read": [
+    7155,
+    10034
+   ],
+   "pages": [
+    169,
+    169
+   ]
+  },
+  {
+   "date": "1900-09-26",
+   "constituency": "Mayo N",
+   "read": [
+    7686,
+    9436
+   ],
+   "pages": [
+    177,
+    177
+   ]
+  },
+  {
+   "date": "1900-09-26",
+   "constituency": "Mayo N",
+   "read": [
+    7686,
+    8225
+   ],
+   "pages": [
+    177,
+    177
+   ]
+  },
+  {
+   "date": "1910-01-15",
+   "constituency": "Down W",
+   "read": [
+    8233,
+    8253
+   ],
+   "pages": [
+    187,
+    189
+   ]
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Cork E",
+   "read": [
+    19022,
+    16659
+   ],
+   "pages": [
+    203,
+    203
+   ]
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Cork NE",
+   "read": [
+    18239,
+    17419
+   ],
+   "pages": [
+    203,
+    203
+   ]
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "King's County",
+   "read": [
+    4601,
+    25702
+   ],
+   "pages": [
+    201,
+    205
+   ]
+  }
+ ],
+ "sharedFigures": [],
+ "rejected": [
+  {
+   "date": "1918-12-14",
+   "constituency": "Waterford",
+   "electorate": 2972,
+   "votesCast": 17107,
+   "seats": 1,
+   "reason": "more votes cast than two members could explain"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Antrim E",
+   "electorate": 1919,
+   "votesCast": 16067,
+   "seats": 1,
+   "reason": "more votes cast than two members could explain"
+  }
+ ]
+}
