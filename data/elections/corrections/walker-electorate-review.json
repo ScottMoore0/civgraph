@@ -1,0 +1,235 @@
+{
+ "schemaVersion": 1,
+ "description": "Electorate figures where B. M. Walker's printed tables disagree with Civgraph. These records do NOT alter generated results: they are proposed corrections for review. Each was reached by extracting the figure from the scan, discarding any value that is the same seat's figure in another election or another seat's figure in the same election (both are row-bleed artefacts), and then reading the printed figure by eye. Vote figures were compared at the same time and are NOT listed: across roughly 585 vote comparisons every apparent disagreement failed Civgraph's own valid-poll reconciliation, marking it an OCR misread rather than an error in the data.",
+ "provenance": {
+  "method": "scripts/walker/check_against_civgraph.py",
+  "extractor": "scripts/walker/extract.py",
+  "sources": [
+   {
+    "title": "Parliamentary Election Results in Ireland, 1801-1922",
+    "editor": "Brian M. Walker (ed.)",
+    "publisher": "Royal Irish Academy",
+    "year": 1978
+   },
+   {
+    "title": "Parliamentary Election Results in Ireland, 1918-92",
+    "editor": "Brian M. Walker (ed.)",
+    "publisher": "Royal Irish Academy",
+    "year": 1992
+   }
+  ],
+  "licence": "Citations and figures only. Election results are facts and carry no copyright; the volumes themselves are in copyright, are not held in this repository, and no text from them is reproduced.",
+  "caveat": "Three of these differ by 455 to 793 (Dublin County 1922, Waterford and Wexford 1923), which is too large for a transcription slip and may reflect a different electorate basis -- at dissolution versus at the poll -- rather than an error. Establish the basis before applying."
+ },
+ "records": [
+  {
+   "electionKey": "dail-eireann__1918-12-14",
+   "constituency": "Kildare South",
+   "field": "electorate",
+   "currentValue": 13923,
+   "proposedValue": 13925,
+   "difference": 2,
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1918-12-14/kildare-south.json",
+   "source": {
+    "title": "Parliamentary Election Results in Ireland, 1918-92",
+    "editor": "Brian M. Walker (ed.)",
+    "publisher": "Royal Irish Academy",
+    "year": 1992,
+    "note": "Printed volume, in copyright and not reproduced. Figure only; consult the volume.",
+    "alsoIn": {
+     "title": "Parliamentary Election Results in Ireland, 1801-1922",
+     "year": 1978
+    }
+   },
+   "confirmedBy": "both volumes independently; figure inspected in the scan",
+   "status": "proposed"
+  },
+  {
+   "electionKey": "dail-eireann__1918-12-14",
+   "constituency": "Kilkenny South",
+   "field": "electorate",
+   "currentValue": 16610,
+   "proposedValue": 16410,
+   "difference": -200,
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1918-12-14/kilkenny-south.json",
+   "source": {
+    "title": "Parliamentary Election Results in Ireland, 1918-92",
+    "editor": "Brian M. Walker (ed.)",
+    "publisher": "Royal Irish Academy",
+    "year": 1992,
+    "note": "Printed volume, in copyright and not reproduced. Figure only; consult the volume.",
+    "alsoIn": {
+     "title": "Parliamentary Election Results in Ireland, 1801-1922",
+     "year": 1978
+    }
+   },
+   "confirmedBy": "both volumes independently; figure inspected in the scan",
+   "status": "proposed"
+  },
+  {
+   "electionKey": "dail-eireann__1918-12-14",
+   "constituency": "Sligo North",
+   "field": "electorate",
+   "currentValue": 18488,
+   "proposedValue": 18448,
+   "difference": -40,
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1918-12-14/sligo-north.json",
+   "source": {
+    "title": "Parliamentary Election Results in Ireland, 1918-92",
+    "editor": "Brian M. Walker (ed.)",
+    "publisher": "Royal Irish Academy",
+    "year": 1992,
+    "note": "Printed volume, in copyright and not reproduced. Figure only; consult the volume.",
+    "alsoIn": {
+     "title": "Parliamentary Election Results in Ireland, 1801-1922",
+     "year": 1978
+    }
+   },
+   "confirmedBy": "both volumes independently; figure inspected in the scan",
+   "status": "proposed"
+  },
+  {
+   "electionKey": "dail-eireann__1918-12-14",
+   "constituency": "Mayo North",
+   "field": "electorate",
+   "currentValue": 20212,
+   "proposedValue": 21212,
+   "difference": 1000,
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1918-12-14/mayo-north.json",
+   "source": {
+    "title": "Parliamentary Election Results in Ireland, 1918-92",
+    "editor": "Brian M. Walker (ed.)",
+    "publisher": "Royal Irish Academy",
+    "year": 1992,
+    "note": "Printed volume, in copyright and not reproduced. Figure only; consult the volume."
+   },
+   "confirmedBy": "figure inspected in the scan",
+   "status": "proposed"
+  },
+  {
+   "electionKey": "dail-eireann__1922-06-16",
+   "constituency": "Dublin County",
+   "field": "electorate",
+   "currentValue": 79174,
+   "proposedValue": 78381,
+   "difference": -793,
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1922-06-16/dublin-county.json",
+   "source": {
+    "title": "Parliamentary Election Results in Ireland, 1918-92",
+    "editor": "Brian M. Walker (ed.)",
+    "publisher": "Royal Irish Academy",
+    "year": 1992,
+    "note": "Printed volume, in copyright and not reproduced. Figure only; consult the volume."
+   },
+   "confirmedBy": "figure inspected in the scan",
+   "status": "proposed"
+  },
+  {
+   "electionKey": "dail-eireann__1923-08-27",
+   "constituency": "Waterford",
+   "field": "electorate",
+   "currentValue": 45849,
+   "proposedValue": 46304,
+   "difference": 455,
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1923-08-27/waterford.json",
+   "source": {
+    "title": "Parliamentary Election Results in Ireland, 1918-92",
+    "editor": "Brian M. Walker (ed.)",
+    "publisher": "Royal Irish Academy",
+    "year": 1992,
+    "note": "Printed volume, in copyright and not reproduced. Figure only; consult the volume."
+   },
+   "confirmedBy": "alignment unambiguous (scored 51 against 1923, 0 against every other Dail election); figure inspected in the scan",
+   "status": "proposed"
+  },
+  {
+   "electionKey": "dail-eireann__1923-08-27",
+   "constituency": "Wexford",
+   "field": "electorate",
+   "currentValue": 60171,
+   "proposedValue": 60251,
+   "difference": 80,
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1923-08-27/wexford.json",
+   "source": {
+    "title": "Parliamentary Election Results in Ireland, 1918-92",
+    "editor": "Brian M. Walker (ed.)",
+    "publisher": "Royal Irish Academy",
+    "year": 1992,
+    "note": "Printed volume, in copyright and not reproduced. Figure only; consult the volume."
+   },
+   "confirmedBy": "alignment unambiguous; figure inspected in the scan",
+   "status": "proposed"
+  },
+  {
+   "electionKey": "house-of-commons-of-the-united-kingdom__1964-10-15",
+   "constituency": "Mid Ulster",
+   "field": "electorate",
+   "currentValue": 67467,
+   "proposedValue": 67647,
+   "difference": 180,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1964-10-15/mid-ulster.json",
+   "source": {
+    "title": "Parliamentary Election Results in Ireland, 1918-92",
+    "editor": "Brian M. Walker (ed.)",
+    "publisher": "Royal Irish Academy",
+    "year": 1992,
+    "note": "Printed volume, in copyright and not reproduced. Figure only; consult the volume."
+   },
+   "confirmedBy": "figure inspected in the scan",
+   "status": "proposed"
+  },
+  {
+   "electionKey": "house-of-commons-of-the-united-kingdom__1970-06-18",
+   "constituency": "Londonderry",
+   "field": "electorate",
+   "currentValue": 90800,
+   "proposedValue": 90302,
+   "difference": -498,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1970-06-18/londonderry.json",
+   "source": {
+    "title": "Parliamentary Election Results in Ireland, 1918-92",
+    "editor": "Brian M. Walker (ed.)",
+    "publisher": "Royal Irish Academy",
+    "year": 1992,
+    "note": "Printed volume, in copyright and not reproduced. Figure only; consult the volume."
+   },
+   "confirmedBy": "figure inspected in the scan",
+   "status": "proposed"
+  },
+  {
+   "electionKey": "house-of-commons-of-the-united-kingdom__1974-02-28",
+   "constituency": "Belfast North",
+   "field": "electorate",
+   "currentValue": 71033,
+   "proposedValue": 71083,
+   "difference": 50,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1974-02-28/belfast-north.json",
+   "source": {
+    "title": "Parliamentary Election Results in Ireland, 1918-92",
+    "editor": "Brian M. Walker (ed.)",
+    "publisher": "Royal Irish Academy",
+    "year": 1992,
+    "note": "Printed volume, in copyright and not reproduced. Figure only; consult the volume."
+   },
+   "confirmedBy": "figure inspected in the scan",
+   "status": "proposed"
+  }
+ ],
+ "systematicGaps": [
+  {
+   "scope": "house-of-commons-of-the-united-kingdom, 1885-1918 (9 elections)",
+   "finding": "No electorate figure is held for any pre-1918 Westminster contest. Votes are complete at 96 of 96 in every election; electorate is empty in all of them. Figures first appear in 1922 (4 of 10) and are mostly present by 1950 (10 of 12).",
+   "walkerSupplies": "An elector count for every constituency, so roughly 860 figures across the nine elections."
+  },
+  {
+   "scope": "house-of-commons-of-the-united-kingdom, 1885-1918 (9 elections)",
+   "finding": "Dublin University is absent entirely. It returned two members throughout the period.",
+   "walkerSupplies": "The contest, in both volumes."
+  },
+  {
+   "scope": "house-of-commons-of-the-united-kingdom, 1885-1918 (9 elections)",
+   "finding": "Cork City is recorded as Number_Of_Seats \"1\" in every election while carrying 4 to 6 candidates. It returned two members.",
+   "walkerSupplies": "The page head states it: \"Each constituency returns one M.P., except Cork city and Dublin University with two each.\" Corroborated by Wikipedia: 101 constituencies, 103 MPs."
+  }
+ ]
+}
