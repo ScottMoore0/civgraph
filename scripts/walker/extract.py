@@ -202,6 +202,46 @@ def header_columns(words, page_h):
     return cols
 
 
+def infer_columns(cols, words, page_w, page_h):
+    """Fill in any column whose header word the OCR missed.
+
+    Requiring a complete header threw away most of the volume: of twelve pages of the
+    1886 tables only four had all six header words read, and the other eight returned
+    nothing at all even though their columns were perfectly legible. The header is the
+    best anchor when it is readable, but the content itself locates a column well enough
+    when it is not -- party codes cluster within about two per cent of the page width,
+    and the vote column is simply the figures to their right.
+    """
+    body = [w for w in words if w['cy'] > page_h * 0.22]
+    if not body:
+        return cols
+    cols = dict(cols)
+    parties = [w['cx'] for w in body if PARTY_RE.match(w['text'])]
+    if 'party' not in cols and len(parties) >= 4:
+        cols['party'] = statistics.median(parties)
+    if 'party' not in cols:
+        return cols                      # without it nothing else can be placed
+    p = cols['party']
+    right = [w['cx'] for w in body if NUM_RE.match(w['text']) and w['cx'] > p]
+    if 'votes' not in cols and right:
+        cols['votes'] = statistics.median(right)
+    left_nums = [w['cx'] for w in body if NUM_RE.match(w['text']) and w['cx'] < p * 0.75]
+    if 'elec' not in cols and left_nums:
+        cols['elec'] = statistics.median(left_nums)
+    months = [w['cx'] for w in body if MONTH_RE.match(w['text'])]
+    if 'date' not in cols and months:
+        cols['date'] = statistics.median(months)
+    if 'cons' not in cols:
+        anchor_x = min(x for x in (cols.get('date'), cols.get('elec'), p) if x is not None)
+        leftmost = [w['cx'] for w in body if w['cx'] < anchor_x * 0.7]
+        cols['cons'] = statistics.median(leftmost) if leftmost else page_w * 0.14
+    if 'cand' not in cols:
+        lo = max(x for x in (cols.get('elec'), cols.get('date'), cols['cons']) if x is not None)
+        between = [w['cx'] for w in body if lo < w['cx'] < p and not NUM_RE.match(w['text'])]
+        cols['cand'] = statistics.median(between) if between else (lo + p) / 2
+    return cols
+
+
 def two_member_seats(words, page_h):
     """Seats returning two members, from the page's own head note."""
     head = ' '.join(w['text'] for w in words if w['cy'] <= page_h * 0.22)
@@ -217,9 +257,9 @@ def extract_page(pdf_path, index):
     words, (pw, ph) = words_of(im)
     if not words:
         return [], {}
-    cols = header_columns(words, ph)
+    cols = infer_columns(header_columns(words, ph), words, pw, ph)
     if 'party' not in cols or 'cand' not in cols:
-        return [], {'reason': 'no column header on this page'}
+        return [], {'reason': 'no party column could be located on this page'}
     two = two_member_seats(words, ph)
 
     def nearest(w):
