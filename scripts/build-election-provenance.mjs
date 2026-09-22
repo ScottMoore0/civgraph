@@ -41,6 +41,7 @@ import path from 'node:path';
 const ELECTIONS = path.join('data', 'elections-source', 'data', 'elections');
 const REVIEW = path.join('data', 'review-inputs', 'wikipedia-cited-sources', 'contest-sources.json');
 const BIBLIOGRAPHY = path.join('data', 'elections', 'walker-volumes.json');
+const BIBLIOGRAPHY_VERIFIED = path.join('data', 'elections', 'walker-verified-contests.json');
 const OUT = path.join('data', 'database', 'election-provenance.json');
 // Per-election shards for the browser. The whole file is 10 MB, far too much to fetch, so the app
 // loads only the election it is showing, keyed by the constituency name it already has.
@@ -152,8 +153,22 @@ function bibliographyLayer() {
   for (const v of doc.volumes ?? []) {
     for (const r of v.rules ?? []) rules.push({ v, r });
   }
-  const forContest = (body, date) => {
+  // Contests whose figures have actually been read against the volume and agreed.
+  // Without this every citation says `checked: false`, which understates what is known:
+  // a citation nobody has opened and one whose figures were compared and matched are
+  // different claims. A contest is listed only where every compared figure agreed.
+  const verified = new Map();
+  if (existsSync(BIBLIOGRAPHY_VERIFIED)) {
+    for (const r of readJson(BIBLIOGRAPHY_VERIFIED).records ?? []) {
+      // The verified list records a repo-relative path; a contest here is keyed by
+      // its path relative to the elections directory. Without trimming the prefix the
+      // two never meet and every citation stays unchecked.
+      if (r.file) verified.set(String(r.file).replace('data/elections-source/data/elections/', ''), r);
+    }
+  }
+  const forContest = (body, date, file) => {
     const day = String(date).slice(0, 10);
+    const check = verified.get(file) ?? null;
     const out = [];
     for (const { v, r } of rules) {
       if (r.body !== body || day < r.from || day > r.to) continue;
@@ -167,8 +182,10 @@ function bibliographyLayer() {
         origin: 'bibliography',
         basis: 'stated-coverage',
         scope: 'this contest',
-        checked: false,
-        check: 'the volume covers this body and date; its figures have not been checked against ours',
+        checked: Boolean(check),
+        check: check
+          ? `${check.figuresAgreed} figure(s) read from the volume and agreed with ours`
+          : 'the volume covers this body and date; its figures have not been checked against ours',
         match: null,
         document: null,
         locator: r.section ?? null,
@@ -207,7 +224,7 @@ function build() {
     sources.push(...(extra?.sources ?? []));
     // Printed citations last: they are the broadest claim, and anything fetched and compared
     // should sort above them.
-    if (typeof bibliographyFor === 'function') sources.push(...bibliographyFor(c.body, c.date));
+    if (typeof bibliographyFor === 'function') sources.push(...bibliographyFor(c.body, c.date, c.file));
     const checked = sources.some((s) => s.checked);
     const status = checked ? 'verified'
       : sources.some((s) => s.origin === 'wikipedia-citation' || s.origin === 'bibliography') ? 'cited'

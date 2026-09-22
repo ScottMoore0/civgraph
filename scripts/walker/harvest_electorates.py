@@ -158,10 +158,36 @@ def main():
             if inferred:
                 slot['seatsInferredFrom'] = 'votes cast exceed the electorate, so the seat returns two members'
 
+    # A division cannot hold its whole city's electorate. Belfast Cromac 1918 came out
+    # with 91,673 -- Belfast's city-wide total, printed once above its divisions -- which
+    # implies a 16.3% turnout where the median across these elections is 75%. Two checks
+    # catch that class: a figure far above the rest of its own election, and a turnout
+    # far below what the period ever shows.
+    per_election = {}
+    for rec in harvested.values():
+        per_election.setdefault(rec['date'], []).append(rec['electorate'])
+    import statistics as _stats
+    medians = {d: _stats.median(v) for d, v in per_election.items() if v}
+    for rec in list(harvested.values()):
+        med = medians.get(rec['date'])
+        if med and rec['electorate'] > med * 3.5:
+            rejected.append({'date': rec['date'], 'constituency': rec['constituency'],
+                             'electorate': rec['electorate'], 'electionMedian': med,
+                             'reason': 'far above every other seat in the same election'})
+            rec['_drop'] = True
+        elif rec.get('turnoutPct') is not None and rec['turnoutPct'] < 35:
+            rejected.append({'date': rec['date'], 'constituency': rec['constituency'],
+                             'electorate': rec['electorate'],
+                             'turnoutPct': rec['turnoutPct'],
+                             'reason': 'turnout too low to be credible for the period'})
+            rec['_drop'] = True
+
     # One electorate cannot belong to two seats in the same election. Where it appears
     # to, the figure was carried across contests rather than read, so neither is kept.
     groups = {}
     for rec in harvested.values():
+        if rec.get('_drop'):
+            continue
         groups.setdefault((rec['date'], rec['electorate']), []).append(rec)
     shared = []
     for (date, value), group in groups.items():
