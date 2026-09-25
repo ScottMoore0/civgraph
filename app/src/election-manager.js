@@ -1091,7 +1091,9 @@ export class Test2ElectionManager {
       || this.activeEntry?.votingSystem
       || ''
     );
-    if (votingSystem !== 'fptp' && votingSystem !== 'first past the post' && votingSystem !== 'first past post') return false;
+    // A two-member seat elected by block vote is plurality voting too, and is classed so.
+    const plurality = ['fptp', 'first past the post', 'first past post', 'block vote', 'block-vote'];
+    if (!plurality.includes(votingSystem)) return false;
     const explicitSeats = [
       result.seatsTotal,
       result.seatsWon,
@@ -1102,12 +1104,17 @@ export class Test2ElectionManager {
     ]
       .map(finiteNumber)
       .filter((value) => value !== null && value > 0);
-    if (explicitSeats.length) return Math.max(...explicitSeats) === 1;
+    // A two-member plurality seat (Cork City and Dublin University before 1918,
+    // Antrim and Down 1922-45) reads as a candidate list too: each candidate is marked
+    // elected from their own status. The party table these seats used to fall through to
+    // is built for STV and showed an unopposed double return as "Valid votes 0" with no
+    // names at all. The method keeps its name for its callers.
+    if (explicitSeats.length) return Math.max(...explicitSeats) >= 1;
     const electedCount = (result.candidates || []).filter((candidate) => {
       if (candidate.elected) return true;
       return selectedPaneStatusKind(candidate.status || candidate.Status) === 'elected';
     }).length;
-    return electedCount === 1;
+    return electedCount >= 1;
   }
 
   isReferendumElection(result = null) {
@@ -1552,6 +1559,9 @@ export class Test2ElectionManager {
     const previousPartyByParty = new Map(previousPartyRows.map((row) => [normalizeName(row.party), row]));
     const hasPreviousElection = Boolean(previousResult);
     const isWestminster = this.isWestminsterElection();
+    // No vote was polled: every candidate was returned unopposed. Showing 0 votes, and a
+    // fall of thousands against the last contested election, misreads that as a collapse.
+    const unopposed = validPoll === 0;
     const rows = candidates.map((candidate, index) => {
       const candidateDelta = this.candidateDeltaForResultCandidate(candidate, result);
       const votes = numberOrZero(candidate.firstPrefs ?? candidate.votes ?? candidate.finalVotes ?? candidate.total);
@@ -1614,12 +1624,12 @@ export class Test2ElectionManager {
                     <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
                     <td>${this.renderElectionEntityButton('candidate', `${row.name || candidate.id || ''}|${row.party || ''}`, escapeHtml(row.name), 'election-cell-wrap')}</td>
                     <td${this.partyCellAttrs(row.colour)}>${this.renderElectionEntityButton('party', row.party, this.partyLabel(row.party), 'election-cell-wrap')}</td>
-                    <td class="election-num">${formatNumber(votes)}</td>
-                    <td class="election-num">${partyVoteDelta === null || partyVoteDelta === undefined ? formatNotApplicable() : formatMainDelta(partyVoteDelta)}</td>
-                    <td class="election-num">${candidateVoteDelta === null || candidateVoteDelta === undefined ? formatNotApplicable() : formatMainDelta(candidateVoteDelta)}</td>
-                    <td class="election-num">${votePct === null ? '' : formatFixedPercent(votePct)}</td>
-                    <td class="election-num">${partyPctDelta === null || partyPctDelta === undefined ? formatNotApplicable() : formatMainPercentDelta(partyPctDelta)}</td>
-                    <td class="election-num">${candidatePctDelta === null || candidatePctDelta === undefined ? formatNotApplicable() : formatMainPercentDelta(candidatePctDelta)}</td>
+                    <td class="election-num">${unopposed ? 'Unopposed' : formatNumber(votes)}</td>
+                    <td class="election-num">${unopposed || partyVoteDelta === null || partyVoteDelta === undefined ? formatNotApplicable() : formatMainDelta(partyVoteDelta)}</td>
+                    <td class="election-num">${unopposed || candidateVoteDelta === null || candidateVoteDelta === undefined ? formatNotApplicable() : formatMainDelta(candidateVoteDelta)}</td>
+                    <td class="election-num">${unopposed || votePct === null ? '' : formatFixedPercent(votePct)}</td>
+                    <td class="election-num">${unopposed || partyPctDelta === null || partyPctDelta === undefined ? formatNotApplicable() : formatMainPercentDelta(partyPctDelta)}</td>
+                    <td class="election-num">${unopposed || candidatePctDelta === null || candidatePctDelta === undefined ? formatNotApplicable() : formatMainPercentDelta(candidatePctDelta)}</td>
                     ${isWestminster ? `<td class="election-col-elected">${this.electedMark(statusKind === 'elected')}</td>` : `<td>${escapeHtml(statusText)}</td>`}
                   </tr>
                 `;
