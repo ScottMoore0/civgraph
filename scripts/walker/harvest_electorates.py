@@ -111,6 +111,12 @@ def main():
         for r in rows:
             if not r['electorate']:
                 continue
+            # A by-election row carries its year in the date column. Its electorate is a
+            # by-election register, not the general election's -- the spot-check's one
+            # error was exactly this: King's County's April 1918 by-election figure,
+            # 4,601, filed as the 1918 general election's, which was 25,702.
+            if r.get('dateYear'):
+                continue
             key = resolve(r['constituency'], civ.keys())
             if not key:
                 continue
