@@ -913,6 +913,39 @@ export class Test2ElectionManager {
     return this.mainPanePartyColour(party, colourCandidate?.colour || explicit);
   }
 
+  /**
+   * One line naming where this constituency's figures come from.
+   *
+   * The provenance shard has been fetched with every bundle for some time but nothing read it,
+   * so the citations behind a result -- the import URL, the sources Wikipedia gives, the Walker
+   * volumes -- were in the data and invisible in the pane. This shows the best one (checked
+   * before unchecked, narrowest before broadest, as the shard builder ranks them), whether it was
+   * verified, how many others exist, and the election's Wikipedia article. A miss renders nothing.
+   */
+  renderSourceLine(result) {
+    const shard = this.activeBundle?.provenance;
+    if (!shard) return '';
+    const key = (result.matchName || result.constituency || '').toLowerCase().replace(/[^a-z0-9]+/g, '');
+    const entry = shard[key]
+      || shard[(result.constituency || '').toLowerCase().replace(/[^a-z0-9]+/g, '')];
+    if (!entry?.source) return '';
+    const s = entry.source;
+    const label = s.title || s.host || 'source';
+    const where = s.locator ? `, ${s.locator}` : '';
+    const edition = s.edition ? ` (${s.edition})` : '';
+    const named = s.url
+      ? `<a href="${escapeHtml(s.url)}" target="_blank" rel="noopener">${escapeHtml(label)}</a>`
+      : `<cite>${escapeHtml(label)}</cite>`;
+    const status = s.checked ? 'figures checked against this source'
+      : 'cited, not yet checked against our figures';
+    const more = entry.otherSources ? ` · ${entry.otherSources} more source${entry.otherSources === 1 ? '' : 's'}` : '';
+    const wiki = entry.relatedWikipedia
+      ? ` · <a href="${escapeHtml(entry.relatedWikipedia)}" target="_blank" rel="noopener">Wikipedia</a>`
+      : '';
+    return `<p class="election-pane__source" data-provenance-status="${escapeHtml(entry.status || '')}">`
+      + `Source: ${named}${escapeHtml(where)}${escapeHtml(edition)} — ${status}${more}${wiki}</p>`;
+  }
+
   renderPanel(selectedResult = null, view = null) {
     const pane = this.ensurePanel();
     const content = document.getElementById('electionPaneContent');
@@ -934,7 +967,8 @@ export class Test2ElectionManager {
     if (headerRight) {
       headerRight.innerHTML = this.mainPaneContract.renderHeaderRight(selectedResult, nextView);
     }
-    content.innerHTML = this.mainPaneContract.renderPanelContent(selectedResult, nextView);
+    content.innerHTML = this.mainPaneContract.renderPanelContent(selectedResult, nextView)
+      + (selectedResult ? this.renderSourceLine(selectedResult) : '');
     pane.classList.add('election-results-pane--open');
     document.body.classList.add('test2-election-open');
     back?.addEventListener('click', () => this.renderPanel(null, 'party'));
