@@ -15,20 +15,20 @@
   "caveat": "OCR-derived. The checks above catch a figure that is too small, but a misread that leaves it plausible will pass. Treat as proposed until spot-checked against the page."
  },
  "counts": {
-  "figures": 229,
+  "figures": 230,
   "byElection": {
    "1885-11-24": 35,
-   "1886-07-01": 12,
+   "1886-07-01": 16,
    "1892-07-04": 15,
-   "1895-07-13": 20,
+   "1895-07-13": 21,
    "1900-09-26": 9,
-   "1906-01-12": 29,
-   "1910-01-15": 30,
+   "1906-01-12": 28,
+   "1910-01-15": 27,
    "1910-12-03": 22,
    "1918-12-14": 57
   },
-  "conflicts": 27,
-  "rejected": 91,
+  "conflicts": 22,
+  "rejected": 101,
   "sharedFigures": 1,
   "pagesUnaligned": 28
  },
@@ -383,6 +383,46 @@
    "seats": 1,
    "page": 151,
    "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1885-11-24/wexford-s.json"
+  },
+  {
+   "date": "1886-07-01",
+   "constituency": "Down N",
+   "electorate": 9805,
+   "votesCast": 5923,
+   "turnoutPct": 60.4,
+   "seats": 1,
+   "page": 154,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1886-07-01/down-n.json"
+  },
+  {
+   "date": "1886-07-01",
+   "constituency": "Dublin College Green",
+   "electorate": 10797,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 154,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1886-07-01/dublin-college-green.json"
+  },
+  {
+   "date": "1886-07-01",
+   "constituency": "Dublin Harbour",
+   "electorate": 11282,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 154,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1886-07-01/dublin-harbour.json"
+  },
+  {
+   "date": "1886-07-01",
+   "constituency": "Dublin University",
+   "electorate": 4155,
+   "votesCast": 3831,
+   "turnoutPct": 92.2,
+   "seats": 1,
+   "page": 154,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1886-07-01/dublin-university.json"
   },
   {
    "date": "1886-07-01",
@@ -766,6 +806,16 @@
   },
   {
    "date": "1895-07-13",
+   "constituency": "Dublin University",
+   "electorate": 4506,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 169,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1895-07-13/dublin-university.json"
+  },
+  {
+   "date": "1895-07-13",
    "constituency": "Fermanagh N",
    "electorate": 5632,
    "votesCast": 5188,
@@ -994,16 +1044,6 @@
    "seats": 1,
    "page": 181,
    "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1906-01-12/armagh-s.json"
-  },
-  {
-   "date": "1906-01-12",
-   "constituency": "Belfast N",
-   "electorate": 10762,
-   "votesCast": 9523,
-   "turnoutPct": 88.5,
-   "seats": 1,
-   "page": 181,
-   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1906-01-12/belfast-n.json"
   },
   {
    "date": "1906-01-12",
@@ -1237,42 +1277,22 @@
   },
   {
    "date": "1910-01-15",
-   "constituency": "Armagh S",
-   "electorate": 7024,
+   "constituency": "Carlow",
+   "electorate": 5881,
    "votesCast": null,
    "turnoutPct": null,
    "seats": 1,
    "page": 187,
-   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1910-01-15/armagh-s.json"
-  },
-  {
-   "date": "1910-01-15",
-   "constituency": "Carlow",
-   "electorate": 5905,
-   "votesCast": null,
-   "turnoutPct": null,
-   "seats": 1,
-   "page": 188,
    "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1910-01-15/carlow.json"
   },
   {
    "date": "1910-01-15",
-   "constituency": "Clare W",
-   "electorate": 8854,
-   "votesCast": null,
-   "turnoutPct": null,
-   "seats": 1,
-   "page": 187,
-   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1910-01-15/clare-w.json"
-  },
-  {
-   "date": "1910-01-15",
    "constituency": "Cork City",
-   "electorate": 13605,
+   "electorate": 13797,
    "votesCast": 19039,
-   "turnoutPct": 70.0,
+   "turnoutPct": 69.0,
    "seats": 2,
-   "page": 187,
+   "page": 188,
    "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1910-01-15/cork-city.json",
    "seatsInferredFrom": "votes cast exceed the electorate, so the seat returns two members"
   },
@@ -1369,11 +1389,11 @@
   {
    "date": "1910-01-15",
    "constituency": "Down W",
-   "electorate": 8233,
+   "electorate": 8253,
    "votesCast": null,
    "turnoutPct": null,
    "seats": 1,
-   "page": 187,
+   "page": 189,
    "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1910-01-15/down-w.json"
   },
   {
@@ -1388,13 +1408,13 @@
   },
   {
    "date": "1910-01-15",
-   "constituency": "Kilkenny S",
-   "electorate": 5002,
+   "constituency": "Dublin University",
+   "electorate": 5020,
    "votesCast": null,
    "turnoutPct": null,
    "seats": 1,
-   "page": 187,
-   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1910-01-15/kilkenny-s.json"
+   "page": 189,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1910-01-15/dublin-university.json"
   },
   {
    "date": "1910-01-15",
@@ -1455,16 +1475,6 @@
    "seats": 1,
    "page": 191,
    "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1910-01-15/mayo-s.json"
-  },
-  {
-   "date": "1910-01-15",
-   "constituency": "Sligo N",
-   "electorate": 8082,
-   "votesCast": null,
-   "turnoutPct": null,
-   "seats": 1,
-   "page": 187,
-   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1910-01-15/sligo-n.json"
   },
   {
    "date": "1910-01-15",
@@ -1548,16 +1558,6 @@
   },
   {
    "date": "1910-12-03",
-   "constituency": "Down N",
-   "electorate": 9912,
-   "votesCast": null,
-   "turnoutPct": null,
-   "seats": 1,
-   "page": 193,
-   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1910-12-03/down-n.json"
-  },
-  {
-   "date": "1910-12-03",
    "constituency": "Dublin College Green",
    "electorate": 8739,
    "votesCast": null,
@@ -1585,6 +1585,16 @@
    "seats": 1,
    "page": 195,
    "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1910-12-03/dublin-st-patrick-s.json"
+  },
+  {
+   "date": "1910-12-03",
+   "constituency": "Dublin University",
+   "electorate": 5020,
+   "votesCast": null,
+   "turnoutPct": null,
+   "seats": 1,
+   "page": 195,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1910-12-03/dublin-university.json"
   },
   {
    "date": "1910-12-03",
@@ -1808,16 +1818,6 @@
   },
   {
    "date": "1918-12-14",
-   "constituency": "Cavan E",
-   "electorate": 8821,
-   "votesCast": null,
-   "turnoutPct": null,
-   "seats": 1,
-   "page": 201,
-   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/cavan-e.json"
-  },
-  {
-   "date": "1918-12-14",
    "constituency": "Cork E",
    "electorate": 19022,
    "votesCast": null,
@@ -1965,6 +1965,16 @@
    "seats": 1,
    "page": 204,
    "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/dublin-st-patrick-s.json"
+  },
+  {
+   "date": "1918-12-14",
+   "constituency": "Dublin University",
+   "electorate": 4541,
+   "votesCast": 2954,
+   "turnoutPct": 65.1,
+   "seats": 1,
+   "page": 204,
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1918-12-14/dublin-university.json"
   },
   {
    "date": "1918-12-14",
@@ -2510,74 +2520,14 @@
   },
   {
    "date": "1910-01-15",
-   "constituency": "Cork City",
+   "constituency": "Carlow",
    "read": [
-    13605,
-    13797
+    5881,
+    5905
    ],
    "pages": [
     187,
     188
-   ]
-  },
-  {
-   "date": "1910-01-15",
-   "constituency": "Cork City",
-   "read": [
-    13605,
-    13797
-   ],
-   "pages": [
-    187,
-    188
-   ]
-  },
-  {
-   "date": "1910-01-15",
-   "constituency": "Cork City",
-   "read": [
-    13605,
-    13797
-   ],
-   "pages": [
-    187,
-    188
-   ]
-  },
-  {
-   "date": "1910-01-15",
-   "constituency": "Cork City",
-   "read": [
-    13605,
-    13797
-   ],
-   "pages": [
-    187,
-    188
-   ]
-  },
-  {
-   "date": "1910-01-15",
-   "constituency": "Cork City",
-   "read": [
-    13605,
-    13797
-   ],
-   "pages": [
-    187,
-    188
-   ]
-  },
-  {
-   "date": "1910-01-15",
-   "constituency": "Down W",
-   "read": [
-    8233,
-    8253
-   ],
-   "pages": [
-    187,
-    189
    ]
   },
   {
@@ -2678,6 +2628,60 @@
    "reason": "outside a plausible range"
   },
   {
+   "date": "1886-07-01",
+   "constituency": "Down N",
+   "electorate": 18,
+   "reason": "outside a plausible range"
+  },
+  {
+   "date": "1886-07-01",
+   "constituency": "Down N",
+   "electorate": 16,
+   "reason": "outside a plausible range"
+  },
+  {
+   "date": "1886-07-01",
+   "constituency": "Down N",
+   "electorate": 16,
+   "reason": "outside a plausible range"
+  },
+  {
+   "date": "1886-07-01",
+   "constituency": "Down N",
+   "electorate": 12,
+   "reason": "outside a plausible range"
+  },
+  {
+   "date": "1886-07-01",
+   "constituency": "Down N",
+   "electorate": 12,
+   "reason": "outside a plausible range"
+  },
+  {
+   "date": "1886-07-01",
+   "constituency": "Fermanagh N",
+   "electorate": 13,
+   "reason": "outside a plausible range"
+  },
+  {
+   "date": "1886-07-01",
+   "constituency": "Fermanagh N",
+   "electorate": 13,
+   "reason": "outside a plausible range"
+  },
+  {
+   "date": "1886-07-01",
+   "constituency": "Fermanagh S",
+   "electorate": 15,
+   "reason": "outside a plausible range"
+  },
+  {
+   "date": "1886-07-01",
+   "constituency": "Fermanagh S",
+   "electorate": 15,
+   "reason": "outside a plausible range"
+  },
+  {
    "date": "1892-07-04",
    "constituency": "Cork E",
    "electorate": 18,
@@ -2705,6 +2709,12 @@
    "date": "1892-07-04",
    "constituency": "Donegal W",
    "electorate": 11,
+   "reason": "outside a plausible range"
+  },
+  {
+   "date": "1892-07-04",
+   "constituency": "Donegal S",
+   "electorate": 15,
    "reason": "outside a plausible range"
   },
   {
@@ -2867,6 +2877,12 @@
   },
   {
    "date": "1892-07-04",
+   "constituency": "Tyrone E",
+   "electorate": 11,
+   "reason": "outside a plausible range"
+  },
+  {
+   "date": "1892-07-04",
    "constituency": "Tyrone S",
    "electorate": 13,
    "reason": "outside a plausible range"
@@ -2899,6 +2915,12 @@
    "date": "1892-07-04",
    "constituency": "Westmeath N",
    "electorate": 12,
+   "reason": "outside a plausible range"
+  },
+  {
+   "date": "1895-07-13",
+   "constituency": "Cork City",
+   "electorate": 27,
    "reason": "outside a plausible range"
   },
   {
@@ -2953,78 +2975,6 @@
    "date": "1895-07-13",
    "constituency": "Longford S",
    "electorate": 19,
-   "reason": "outside a plausible range"
-  },
-  {
-   "date": "1895-07-13",
-   "constituency": "Louth N",
-   "electorate": 20,
-   "reason": "outside a plausible range"
-  },
-  {
-   "date": "1895-07-13",
-   "constituency": "Louth N",
-   "electorate": 20,
-   "reason": "outside a plausible range"
-  },
-  {
-   "date": "1895-07-13",
-   "constituency": "Louth S",
-   "electorate": 25,
-   "reason": "outside a plausible range"
-  },
-  {
-   "date": "1895-07-13",
-   "constituency": "Louth S",
-   "electorate": 25,
-   "reason": "outside a plausible range"
-  },
-  {
-   "date": "1895-07-13",
-   "constituency": "Meath N",
-   "electorate": 26,
-   "reason": "outside a plausible range"
-  },
-  {
-   "date": "1895-07-13",
-   "constituency": "Meath N",
-   "electorate": 26,
-   "reason": "outside a plausible range"
-  },
-  {
-   "date": "1895-07-13",
-   "constituency": "Meath S",
-   "electorate": 23,
-   "reason": "outside a plausible range"
-  },
-  {
-   "date": "1895-07-13",
-   "constituency": "Meath S",
-   "electorate": 23,
-   "reason": "outside a plausible range"
-  },
-  {
-   "date": "1895-07-13",
-   "constituency": "Monaghan N",
-   "electorate": 19,
-   "reason": "outside a plausible range"
-  },
-  {
-   "date": "1895-07-13",
-   "constituency": "Monaghan N",
-   "electorate": 19,
-   "reason": "outside a plausible range"
-  },
-  {
-   "date": "1895-07-13",
-   "constituency": "Monaghan S",
-   "electorate": 24,
-   "reason": "outside a plausible range"
-  },
-  {
-   "date": "1895-07-13",
-   "constituency": "Monaghan S",
-   "electorate": 24,
    "reason": "outside a plausible range"
   }
  ]
