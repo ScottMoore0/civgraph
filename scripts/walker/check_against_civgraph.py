@@ -108,8 +108,31 @@ def load_civ(body, date):
                        'votes': to_int(g.get('Candidate_First_Pref_Votes'))}
                        for g in (c.get('countGroup') or [])],
                    'file': f'data/elections-source/data/elections/{body}/{date}/{f}'}
+        # An electorate Civgraph now takes FROM Walker cannot be checked against Walker:
+        # agreement would be circular, and the raw file's figure is no longer the one shown.
+        if rec['file'] in walker_supplied_electorates():
+            rec['electorate'] = None
         out[norm(rec['name'])] = rec
     return out
+
+
+_SUPPLIED = None
+
+
+def walker_supplied_electorates():
+    """Source files whose electorate the manifest overlay replaces with Walker's figure."""
+    global _SUPPLIED
+    if _SUPPLIED is None:
+        _SUPPLIED = set()
+        corr = os.path.join(ROOT, 'data', 'elections', 'corrections')
+        review = os.path.join(corr, 'walker-electorate-review.json')
+        if os.path.exists(review):
+            _SUPPLIED |= {r['sourceFile'] for r in json.load(open(review, encoding='utf-8'))['records']
+                          if r.get('status') == 'applied' and r.get('field') == 'electorate'}
+        pre = os.path.join(corr, 'walker-pre1918-electorates.json')
+        if os.path.exists(pre):
+            _SUPPLIED |= {r['sourceFile'] for r in json.load(open(pre, encoding='utf-8'))['records']}
+    return _SUPPLIED
 
 
 def dates_of(body):

@@ -181,6 +181,16 @@ def main():
     # harvested is left split, because a split is visible and fixable and a wrong merge
     # is neither.
 
+    # A NAME DOES NOT CARRY A MAN ACROSS A GENERATION. The 1885-1910 Westminster results
+    # have no candidate ids; each row's id is its name and party, a system of its own, so
+    # the one-per-system join below put 23 of them into modern people: a West Cork Daniel
+    # O'Leary of 1910 with a Belfast North one of 1992, Sir Daniel Dixon (died 1907) with a
+    # Stormont candidate of 1950. A group lying wholly before 1918 is not joined to one that
+    # begins 25 years or more after it ends. No group without pre-1918 rows is affected.
+    def across_a_generation(vs):
+        spans = sorted((min(ys), max(ys)) for ys in ([r['year'] for r in v if r['year']] for v in vs) if ys)
+        return any(a[1] < 1918 and b[0] - a[1] >= MIN_SILENCE for a, b in zip(spans, spans[1:]))
+
     by_name = collections.defaultdict(list)
     for k, v in groups.items():
         if k[0] == 'id':
@@ -193,7 +203,8 @@ def main():
         for k in keys:
             systems[ns(k[1])].append(k)
         if len(systems) > 1 and all(len(v) == 1 for v in systems.values()):
-            if not set.intersection(*[{r['key'] for r in groups[k]} for k in keys]):
+            if not set.intersection(*[{r['key'] for r in groups[k]} for k in keys]) \
+                    and not across_a_generation([groups[k] for k in keys]):
                 for k in keys[1:]:
                     merges[k] = keys[0]
                 continue
