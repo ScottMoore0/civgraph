@@ -283,6 +283,18 @@ def main():
     # candidate id it was. So every group first claims the prior id its source evidence points
     # to -- source person ids, then candidate ids, and where a fused career has been split the
     # larger half. Names decide only what evidence leaves unclaimed.
+    # Two halves of a split career carry the same source ids, so evidence ties between them and
+    # size alone decided which kept the prior id -- and the two Sean Lynches of ei:1879 (a TD
+    # of 1937-48, a Drumlish councillor of 1991-2009) swapped numbers when one half grew. The
+    # prior entity's own career span settles it: the id stays with the half whose years it held.
+    def span_fit(pid, v):
+        e = prev[pid]
+        lo, hi = e.get('firstYear'), e.get('lastYear')
+        yrs = [r['year'] for r in v if r['year']]
+        if not yrs or lo is None or hi is None:
+            return 0.0
+        return sum(1 for y in yrs if lo <= y <= hi) / len(yrs)
+
     evidence = []
     for k, v in merged.items():
         persons = {r['src'] for r in v if r['src']}
@@ -296,16 +308,16 @@ def main():
             e = prev[pid]
             score = (len(set(e.get('sourcePersonIds') or []) & persons),
                      len(set(e.get('sourceIds') or []) & sources), 0)
-            evidence.append((score, len(v), -pid, str(k), k, pid))
+            evidence.append((score, span_fit(pid, v), len(v), -pid, str(k), k, pid))
         # A name-keyed group has no source evidence, but the prior name-keyed entity under
         # its name is still its own. Without this, a larger RoI local group of the same name
         # visited first took the id by name: Thomas Kelly of the 1922 Dail lost 113101.
         if k[0] == 'name':
             for pid in prev_by_key.get(k[1], set()):
                 if prev[pid].get('keyedBy') == 'name':
-                    evidence.append(((0, 0, 1), len(v), -pid, str(k), k, pid))
+                    evidence.append(((0, 0, 1), span_fit(pid, v), len(v), -pid, str(k), k, pid))
     by_evidence = {}
-    for score, _size, _neg, _sk, k, pid in sorted(evidence, key=lambda t: t[:4], reverse=True):
+    for score, _fit, _size, _neg, _sk, k, pid in sorted(evidence, key=lambda t: t[:5], reverse=True):
         if k in by_evidence or pid in by_evidence.values():
             continue
         by_evidence[k] = pid

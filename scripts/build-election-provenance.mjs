@@ -166,13 +166,42 @@ function bibliographyLayer() {
       if (r.file) verified.set(String(r.file).replace('data/elections-source/data/elections/', ''), r);
     }
   }
+  // Figures the manifest build takes FROM a volume (the Walker corrections overlay), and figures
+  // where the volume and Civgraph disagree and the disagreement is still open. Both belong on the
+  // citation: the first says what the reader is looking at came from this book, the second that
+  // this book says otherwise.
+  const supplied = new Map();
+  const note = (file, title, text) => {
+    if (!file || !title) return;
+    const key = String(file).replace('data/elections-source/data/elections/', '');
+    const byTitle = supplied.get(key) ?? new Map();
+    byTitle.set(title, [...(byTitle.get(title) ?? []), text]);
+    supplied.set(key, byTitle);
+  };
+  const corrections = (name) => {
+    const full = path.join('data', 'elections', 'corrections', name);
+    return existsSync(full) ? readJson(full) : null;
+  };
+  for (const r of corrections('walker-electorate-review.json')?.records ?? []) {
+    if (r.status === 'applied') note(r.sourceFile, r.source?.title, `electorate ${r.proposedValue.toLocaleString('en-GB')} taken from this volume`);
+    if (r.status === 'held') note(r.sourceFile, r.source?.title, `this volume gives an electorate of ${r.proposedValue.toLocaleString('en-GB')}; the difference is unresolved`);
+  }
+  const pre1918 = corrections('walker-pre1918-electorates.json');
+  for (const r of pre1918?.records ?? []) note(r.sourceFile, pre1918.provenance?.source?.title, `electorate ${r.electorate.toLocaleString('en-GB')} taken from this volume`);
+  const seats = corrections('walker-seat-corrections.json');
+  for (const r of seats?.records ?? []) {
+    if (r.status === 'applied') note(r.sourceFile, seats.provenance?.source?.title, `seat count (${r.proposedValue}) taken from this volume`);
+  }
+
   const forContest = (body, date, file) => {
     const day = String(date).slice(0, 10);
     const check = verified.get(file) ?? null;
     const out = [];
     for (const { v, r } of rules) {
       if (r.body !== body || day < r.from || day > r.to) continue;
+      const notes = supplied.get(file)?.get(v.title) ?? [];
       out.push({
+        ...(notes.length ? { supplies: notes } : {}),
         title: v.title,
         publisher: v.publisher,
         url: null,
@@ -406,6 +435,9 @@ function buildShards(provenance) {
       },
       otherSources: c.sources.length - 1,
     };
+    // Figures a printed volume supplied, or disputes, whatever source ranks first.
+    const notes = c.sources.flatMap((s) => (s.supplies ?? []).map((text) => ({ title: s.title, text })));
+    if (notes.length) shard.contests[nameKey(c.constituency)].figureNotes = notes;
     byKey.set(key, shard);
   }
   return byKey;

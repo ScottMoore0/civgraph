@@ -83,6 +83,91 @@ function applyNiLocalValidPollCorrection(electionKey, constituency, rawResult) {
   return rawResult;
 }
 
+// Walker corrections overlay electorate and seat figures read from Walker's two volumes, keyed by
+// the imported source file. Only records marked 'applied' in the review file are used; the
+// pre-1918 electorates fill a field every imported pre-1918 file leaves empty, so they never
+// overwrite a figure that is already held.
+const WALKER_CORRECTIONS_DIR = path.join(ROOT, 'data', 'elections', 'corrections');
+const walkerCorrectionIndex = new Map();
+function addWalkerCorrection(sourceFile, field, value, onlyIfEmpty = false) {
+  if (!sourceFile || value == null) return;
+  const key = sourceFile.replace(/\\/g, '/');
+  const record = walkerCorrectionIndex.get(key) || {};
+  record[field] = { value, onlyIfEmpty };
+  walkerCorrectionIndex.set(key, record);
+}
+for (const [file, read] of [
+  ['walker-electorate-review.json', (doc) => (doc.records || [])
+    .filter((r) => r.status === 'applied' && r.field === 'electorate')
+    .forEach((r) => addWalkerCorrection(r.sourceFile, 'electorate', r.proposedValue))],
+  ['walker-pre1918-electorates.json', (doc) => (doc.records || [])
+    .forEach((r) => addWalkerCorrection(r.sourceFile, 'electorate', r.electorate, true))],
+  ['walker-seat-corrections.json', (doc) => (doc.records || [])
+    .filter((r) => r.status === 'applied' && r.field === 'seats')
+    .forEach((r) => addWalkerCorrection(r.sourceFile, 'seats', r.proposedValue))]
+]) {
+  const full = path.join(WALKER_CORRECTIONS_DIR, file);
+  if (existsSync(full)) read(readJson(full));
+}
+
+function applyWalkerCorrections(resultPath, rawResult) {
+  if (!resultPath || !rawResult) return rawResult;
+  const record = walkerCorrectionIndex.get(slash(path.relative(ROOT, resultPath)));
+  if (!record) return rawResult;
+  const info = rawResult.Constituency?.countInfo;
+  const meta = !info && rawResult.meta ? rawResult.meta : null;
+  if (record.electorate) {
+    const { value, onlyIfEmpty } = record.electorate;
+    if (info && !(onlyIfEmpty && parseNumber(info.Total_Electorate))) info.Total_Electorate = String(value);
+    if (meta && !(onlyIfEmpty && parseNumber(meta.Total_Electorate ?? meta.electorate))) {
+      meta.electorate = value;
+      if ('Total_Electorate' in meta) meta.Total_Electorate = value;
+    }
+  }
+  if (record.seats && info) {
+    const seats = record.seats.value;
+    info.Number_Of_Seats = String(seats);
+    // The second member was imported as defeated. Top the poll by votes; an unopposed double
+    // return carries no votes, and then every candidate returned was elected.
+    const rows = rawResult.Constituency.countGroup || [];
+    const isElected = (row) => /^elected$/i.test(String(row.Status || '').trim());
+    if (rows.filter(isElected).length < seats) {
+      const polled = rows.filter((row) => parseNumber(row.Total_Votes) > 0);
+      const winners = polled.length
+        ? [...polled].sort((a, b) => parseNumber(b.Total_Votes) - parseNumber(a.Total_Votes)).slice(0, seats)
+        : (rows.length <= seats ? rows : []);
+      for (const row of winners) row.Status = 'Elected';
+    }
+  }
+  return rawResult;
+}
+
+// An unopposed return was imported with its columns shifted: the member's name in the vote
+// columns and the party split across Firstname and Surname, so the pane named "Irish Unionist"
+// as the MP. 446 of 1,355 pre-1918 Westminster rows came in this way. Restore name and party;
+// an unopposed return has no vote. Checked against Wikipedia's lists of MPs elected: 410 of the
+// 411 restored names that could be matched to a seat name the member Wikipedia gives.
+function repairShiftedUnopposedRows(rawResult) {
+  const rows = rawResult?.Constituency?.countGroup;
+  if (!Array.isArray(rows)) return rawResult;
+  for (const row of rows) {
+    const shifted = String(row.Total_Votes || '').trim();
+    if (!shifted || /^[\d,.\s]+$/.test(shifted) || !/[A-Za-z]{2}/.test(shifted)) continue;
+    if (String(row.Candidate_First_Pref_Votes || '').trim() !== shifted) continue;
+    const party = String(row.candidateName || `${row.Firstname || ''} ${row.Surname || ''}`).trim();
+    const member = shifted.replace(/\s*\[[^\]]*\]/g, '').trim();   // "J. J. Shee [ n 1 ]"
+    const parts = member.split(/\s+/);
+    row.Party_Name = row.Party_Name || party;
+    row.candidateName = member;
+    row.Surname = parts.pop();
+    row.Firstname = parts.join(' ');
+    row.Total_Votes = '';
+    row.Candidate_First_Pref_Votes = '';
+    row.unopposed = true;
+  }
+  return rawResult;
+}
+
 const STYLE_MODES = ['winner', 'leadingParty', 'voteShare', 'turnout', 'majority', 'seats', 'quota'];
 const LOCAL_GOVERNMENT_BODIES = new Set([
   'Antrim and Newtownabbey',
@@ -1093,7 +1178,8 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     const rawResult = resultPath ? readJson(resultPath) : null;
     const officialRawResult = enrichDailResultWithOfficialData(entry, rawResult, constituency);
     const wikiEnrichedRawResult = enrichDailResultWithWikipediaCounts(entry, resultPath, officialRawResult, constituency);
-    const enrichedRawResult = applyNiLocalValidPollCorrection(key, constituency, wikiEnrichedRawResult);
+    const enrichedRawResult = applyWalkerCorrections(resultPath,
+      repairShiftedUnopposedRows(applyNiLocalValidPollCorrection(key, constituency, wikiEnrichedRawResult)));
     if (officialRawResult) rawEntries.push({ constituency, raw: officialRawResult });
     const result = ElectionDomain.summarizeResult(enrichedRawResult, constituency);
     applyLifespanEvidence(entry, result);
@@ -1142,7 +1228,8 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
       const constituency = file.replace(/\.json$/, '');
       const officialRawResult = enrichDailResultWithOfficialData(entry, rawResult, constituency);
       const wikiEnrichedRawResult = enrichDailResultWithWikipediaCounts(entry, resultPath, officialRawResult, constituency);
-      const enrichedRawResult = applyNiLocalValidPollCorrection(key, constituency, wikiEnrichedRawResult);
+      const enrichedRawResult = applyWalkerCorrections(resultPath,
+        repairShiftedUnopposedRows(applyNiLocalValidPollCorrection(key, constituency, wikiEnrichedRawResult)));
       rawEntries.push({ constituency, raw: officialRawResult });
       const result = ElectionDomain.summarizeResult(enrichedRawResult, constituency);
       applyLifespanEvidence(entry, result);

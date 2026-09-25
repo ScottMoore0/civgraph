@@ -102,10 +102,16 @@ export class MainElectionPaneContract {
     if (!contests || !name) return '';
     const entry = contests[name.toLowerCase().replace(/[^a-z0-9]+/g, '')];
     const source = entry?.source;
-    if (!source?.url) return '';
+    if (!source) return '';
     const link = (url, text) => `<a href="${escapeHtml(url)}" target="_blank" rel="noopener">${escapeHtml(text)}</a>`;
-    const cited = link(source.url, source.title || source.publisher || source.host || 'the source');
-    const publisher = source.title && source.publisher ? ` (${escapeHtml(source.publisher)})` : '';
+    const label = source.title || source.publisher || source.host || 'the source';
+    // A printed volume has no URL; what identifies it is where in it the contest is tabulated,
+    // and which edition -- "Walker (ed.), 1978, General election, 1918 (pp. 187-196)".
+    const printed = !source.url;
+    const cited = printed ? `<cite>${escapeHtml(label)}</cite>` : link(source.url, label);
+    const publisher = printed
+      ? [source.edition, source.locator].filter(Boolean).map((s) => `, ${escapeHtml(s)}`).join('')
+      : source.title && source.publisher ? ` (${escapeHtml(source.publisher)})` : '';
     const attachedHere = source.scope === 'this contest' || source.scope === 'same section';
     const body = source.checked && attachedHere
       ? `Source: ${cited}${publisher}.`
@@ -113,10 +119,16 @@ export class MainElectionPaneContract {
       ? `Figures confirmed against ${cited}${publisher}, a source for this election.`
       : entry.status === 'recorded'
       ? `Imported from ${cited}${publisher}.`
+      : printed
+      ? `Also recorded in ${cited}${publisher}. Not yet checked against these figures.`
       : `Cited by Wikipedia: ${cited}${publisher}. Not checked against these figures.`;
     const archived = source.archiveUrl ? ` ${link(source.archiveUrl, 'Archived copy')}.` : '';
     const related = entry.relatedWikipedia ? ` ${link(entry.relatedWikipedia, 'Related Wikipedia article')}.` : '';
-    return `<div class="test2-election-source-note" role="note">${body}${archived}${related}</div>`;
+    // A figure a printed volume supplied, or disputes: the reader should know that this
+    // electorate came from somewhere else, or that another source gives a different one.
+    const figures = (entry.figureNotes || [])
+      .map((n) => `<br><cite>${escapeHtml(n.title || '')}</cite>: ${escapeHtml(n.text || '')}.`).join('');
+    return `<div class="test2-election-source-note" role="note">${body}${archived}${related}${figures}</div>`;
   }
 
   renderOverallResults(view = 'party') {
