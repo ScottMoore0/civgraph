@@ -79,7 +79,7 @@ CREATE TABLE browse_sources (
   date       TEXT,
   ord        INTEGER NOT NULL,
   record     TEXT NOT NULL
-);
+, license TEXT);
 
 CREATE TABLE browse_sources_facets (facets TEXT NOT NULL);
 
