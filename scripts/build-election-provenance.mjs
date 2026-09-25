@@ -197,10 +197,86 @@ function bibliographyLayer() {
   return [forContest, { present: true, volumes: (doc.volumes ?? []).length, rules: rules.length }];
 }
 
+/**
+ * The Wikipedia article for a whole general election, and the sources it cites.
+ *
+ * Harvested by scripts/walker/harvest_wikipedia_full.py from the two categories of UK general
+ * elections in Ireland and Northern Ireland, and committed, so this layer -- unlike the
+ * per-contest wikipedia-citation layer above -- builds without any working material.
+ *
+ * These are ARTICLE-scope citations: given for the election as a whole, not for one seat. They
+ * sort below anything narrower and never make a contest verified. Thirteen category entries are
+ * redirects to the UK-wide article (no Ireland-specific article exists for 1802-1852); they carry
+ * no citations and are skipped.
+ *
+ * An article is matched to the Civgraph election of the same body whose date falls in its year,
+ * taking the date with the most contests so by-elections in the same year are not mistaken for
+ * the general election. Where two general elections share a year (1910, 1974) the month in the
+ * title decides.
+ */
+const WIKIPEDIA_ELECTIONS = path.join('data', 'elections', 'wikipedia-uk-elections-ireland.json');
+const MONTHS = { january: '01', february: '02', october: '10', december: '12' };
+
+function wikipediaArticleLayer() {
+  if (!existsSync(WIKIPEDIA_ELECTIONS)) return [new Map(), { present: false, articles: 0, matched: 0 }];
+  const doc = readJson(WIKIPEDIA_ELECTIONS);
+  const byElection = new Map();
+  let matched = 0;
+  const datesOf = (body) => {
+    const dir = path.join(ELECTIONS, body);
+    if (!existsSync(dir)) return [];
+    return readdirSync(dir, { withFileTypes: true })
+      .filter((d) => d.isDirectory() && /^\d{4}-\d{2}-\d{2}/.test(d.name))
+      .map((d) => ({ date: d.name, n: readdirSync(path.join(dir, d.name)).filter((f) => f.endsWith('.json')).length }));
+  };
+  for (const rec of doc.records ?? []) {
+    if (rec.isRedirect || !rec.year) continue;
+    const month = Object.entries(MONTHS).find(([name]) => rec.title.toLowerCase().startsWith(name))?.[1];
+    const prefix = month ? `${rec.year}-${month}` : String(rec.year);
+    const bodies = ['house-of-commons-of-the-united-kingdom'];
+    // Civgraph files the 1918 general election under dail-eireann as well, because its
+    // returned members formed the First Dail.
+    if (rec.category === 'Ireland' && rec.year === 1918) bodies.push('dail-eireann');
+    const cites = [];
+    const seen = new Set();
+    for (const c of rec.citations ?? []) {
+      const key = c.url || c.title;
+      if (!key || seen.has(key)) continue;
+      seen.add(key);
+      cites.push({
+        title: c.title ?? null,
+        publisher: null,
+        url: c.url ?? null,
+        archiveUrl: null,
+        host: c.url ? hostOf(c.url) : null,
+        kind: null,
+        origin: 'wikipedia-citation',
+        basis: 'article-citation',
+        scope: 'article',
+        checked: false,
+        check: `cited by the Wikipedia article on this election (${rec.title}); not checked against our figures`,
+        match: null,
+        document: null,
+      });
+    }
+    for (const body of bodies) {
+      const candidates = datesOf(body).filter((d) => d.date.startsWith(prefix));
+      if (!candidates.length) continue;
+      const best = candidates.sort((a, b) => b.n - a.n)[0];
+      if (best.n < 5) continue;                       // no general election on this body that year
+      byElection.set(`${body}__${best.date}`, { url: rec.url, sources: cites });
+      matched += 1;
+    }
+  }
+  const forContest = (body, date) => byElection.get(`${body}__${date}`) ?? null;
+  return [forContest, { present: true, articles: (doc.records ?? []).filter((r) => !r.isRedirect).length, matched }];
+}
+
 function build() {
   const disk = contestsOnDisk();
   const [wiki, stats] = wikipediaLayer();
   const [bibliographyFor, bibStats] = bibliographyLayer();
+  const [articleFor, articleStats] = wikipediaArticleLayer();
   const contests = disk.map((c) => {
     const extra = wiki.get(c.file);
     const sources = [];
@@ -225,6 +301,13 @@ function build() {
     // Printed citations last: they are the broadest claim, and anything fetched and compared
     // should sort above them.
     if (typeof bibliographyFor === 'function') sources.push(...bibliographyFor(c.body, c.date, c.file));
+    // Article-level citations last of all: the broadest claim of any layer.
+    const article = typeof articleFor === 'function' ? articleFor(c.body, c.date) : null;
+    for (const s of article?.sources ?? []) {
+      if (!sources.some((p) => (p.url && p.url === s.url) || (!p.url && !s.url && p.title === s.title))) {
+        sources.push(s);
+      }
+    }
     const checked = sources.some((s) => s.checked);
     const status = checked ? 'verified'
       : sources.some((s) => s.origin === 'wikipedia-citation' || s.origin === 'bibliography') ? 'cited'
@@ -237,7 +320,7 @@ function build() {
       date: c.date,
       constituency: c.constituency,
       status,
-      relatedWikipedia: extra?.relatedWikipedia ?? null,
+      relatedWikipedia: extra?.relatedWikipedia ?? article?.url ?? null,
       sources,
     };
   });
@@ -251,6 +334,7 @@ function build() {
   }
   return {
     bibStats,
+    articleStats,
     doc: {
       schemaVersion: 1,
       generatedAt: new Date().toISOString(),
@@ -267,7 +351,7 @@ function build() {
   };
 }
 
-const { doc, stats, bibStats } = build();
+const { doc, stats, bibStats, articleStats } = build();
 const summary = () => {
   const { counts } = doc;
   console.log(`  contests            ${counts.contests}`);
@@ -276,6 +360,7 @@ const summary = () => {
   if (!stats.present) console.log(`  ! ${REVIEW} is absent: the citation layer is missing from this build`);
   else console.log(`  review rows ${stats.rows}, of which ${stats.unmatched} matched no contest and were dropped`);
   if (bibStats?.present) console.log(`  bibliography        ${bibStats.volumes} volume(s), ${bibStats.rules} coverage rule(s)`);
+  if (articleStats?.present) console.log(`  wikipedia articles  ${articleStats.articles} article(s), matched to ${articleStats.matched} election(s)`);
   else console.log(`  ! ${BIBLIOGRAPHY} is absent: no printed citations in this build`);
   for (const [body, b] of Object.entries(counts.byBody).sort((a, b) => b[1].contests - a[1].contests)) {
     console.log(`    ${body.padEnd(46)} ${String(b.contests).padStart(5)} contests  ${String(b.withAnySource).padStart(5)} sourced  ${String(b.verified).padStart(5)} verified`);
