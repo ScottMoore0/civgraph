@@ -58,7 +58,8 @@ if TESSERACT:
 WALKER_DIR = os.environ.get('WALKER_DIR', '.')
 
 PARTY_RE = re.compile(r"^[\[({]?(SF|IU|LU|APN|PN|HR|LRC|Nat|Conf|Loy|Ind|Lab|N|U|L|C|P|R)"
-                      r"[.,]?(\.?U|\.?N|\.?C|\.?L)?[\])}]?[.,]?$", re.I)
+                      r"[.,]?(\.?U|\.?N|\.?C|\.?L)?(\((Ind|R|Lib|Con|C|L)\.?\)?)?"
+                      r"[\])}]?[.,]?$", re.I)
 NUM_RE = re.compile(r"^\d{1,3}[,.]\d{3}$|^\d{2,6}$")
 MONTH_RE = re.compile(r"^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sept?|Oct|Nov|Dec)[.,]?$", re.I)
 SEATS_RE = re.compile(r"^\((\d{1,2})\)$")
@@ -67,9 +68,26 @@ HEAD_TOKENS = {'constituency': 'cons', 'date': 'date', 'electors': 'elec',
 # Lines between contests that record why a seat changed hands: "T. P. O'Connor elects to
 # sit for Liverpool Scotland". They are facts about the contest, not noise, so they are
 # kept against it rather than discarded.
-NOTE_RE = re.compile(r'\b(elects to sit|app\.|appointed|resigns?|created|death of|'
-                     r'unseated|petition|succeeded|declared)\b', re.I)
+NOTE_RE = re.compile(r'\b(elects to sit|app\.|appointed|resigns?|created|death of|on death|'
+                     r'unseated|petition|succeeded|declared|new writ|writ issued|void)(?=\W|$)', re.I)
 SEATS_NOTE_RE = re.compile(r'except ([^.]+?) with two each', re.I)
+YMD_RE = re.compile(r'\b(1[789]\d{2})\s+(Jan|Feb|Mar|Apr|May|June?|July?|Aug|Sept?|Oct|Nov|Dec)'
+                    r'[a-z]*\.?,?\s*(\d{1,2})\b', re.I)
+TITLE_RE = re.compile(r'\b(Sir|Hon|Capt|Captain|Col|Major|Dr|Lord|Viscount|Earl|Rt|Gen)\b\.?')
+
+def clean_name(text):
+    """A stray mark left of the name column ("= FitzStephen French") is not part of it."""
+    return re.sub(r"^[^A-Za-z]+", "", text).strip()
+
+
+def clean_party(text):
+    """Strip enclosing brackets only when they enclose the whole label: "L(Ind.)" keeps its own."""
+    p = (text or '').strip(' .,')
+    p = re.sub(r"^[\[({](.*)[\])}]$", r"\1", p)
+    if '(' in p and ')' not in p:
+        p += ')'
+    return p or None
+
 
 _readers = {}
 
@@ -113,8 +131,21 @@ def words_of(im, psm=6, scale=1.6, threshold=150):
         out.append({'text': text, 'x': data['left'][i], 'y': data['top'][i],
                     'w': data['width'][i], 'h': data['height'][i],
                     'cx': data['left'][i] + data['width'][i] / 2,
-                    'cy': data['top'][i] + data['height'][i] / 2})
+                    'cy': data['top'][i] + data['height'][i] / 2,
+                    'line': (data['block_num'][i], data['par_num'][i], data['line_num'][i])})
     return out, im.size
+
+
+def rows_by_line(words, page_h, top=0.0):
+    """Rows as Tesseract read them. On a bowed page the flattened-baseline grouping in
+    rows_of chains adjacent lines of the four-column tables together, whose rows are set
+    tighter than the later ones; Tesseract's own line segmentation follows each line."""
+    groups = {}
+    for w in words:
+        if w['cy'] > page_h * top:
+            groups.setdefault(w['line'], []).append(w)
+    rows = [sorted(g, key=lambda z: z['x']) for g in groups.values()]
+    return sorted(rows, key=lambda r: statistics.median(w['cy'] for w in r))
 
 
 def _rough_rows(words, tol_frac=0.75):
@@ -251,6 +282,157 @@ def two_member_seats(words, page_h):
     return {p.strip().lower() for p in re.split(r'\band\b|,', m.group(1)) if p.strip()}
 
 
+CONTINUED = '(continued from the previous page)'
+
+
+def extract_unaffiliated_page(pdf_path, index):
+    """Contest rows from a table with no electorate and no affiliation column.
+
+    Before the Reform Act of 1832 Walker prints four columns -- constituency, date,
+    candidates, votes polled -- because electorates were not recorded and parties are not
+    assigned. extract_page anchors on the affiliation column, so every one of the 46 pages
+    covering 1802-1831 came back empty. Here a candidate is any line in the candidates
+    column; a line indented past the column's left edge continues the name above it
+    ("Lord William Charles O'Brien / Fitzgerald"); votes are read where printed, and an
+    unopposed return has none.
+    """
+    im = page_image(pdf_path, index)
+    words, (pw, ph) = words_of(im)
+    if not words:
+        return [], {}
+    cols = {k: v for k, v in header_columns(words, ph).items() if k in ('cons', 'date', 'cand', 'votes')}
+    body = [w for w in words if w['cy'] > ph * 0.12]
+    if 'votes' not in cols:
+        right = [w['cx'] for w in body if NUM_RE.match(w['text']) and w['cx'] > pw * 0.8]
+        if right:
+            cols['votes'] = statistics.median(right)
+    if 'date' not in cols:
+        months = [w['cx'] for w in body if MONTH_RE.match(w['text'])]
+        if months:
+            cols['date'] = statistics.median(months)
+    if 'date' not in cols:
+        return [], {'reason': 'no date column could be located on this page'}
+    cols.setdefault('votes', pw * 0.92)
+    # The candidates column is wide and ranged left, so a word's nearest column CENTRE puts
+    # first names in the date column. Columns are bounded by left edges instead; the
+    # candidates' edge is where the names right of the dates start.
+    votes_left = cols['votes'] - pw * 0.04
+    date_left = cols['date'] - pw * 0.07
+    firsts = []
+    for r in rows_by_line(words, ph, top=0.12):
+        names = [w for w in r if w['cx'] > cols['date'] + pw * 0.03 and w['cx'] < votes_left
+                 and re.match(r"^[A-Z(“\"']", w['text']) and not MONTH_RE.match(w['text'])
+                 and not re.match(r'^\d', w['text'])]
+        if names:
+            firsts.append(min(w['x'] for w in names))
+    firsts.sort()
+    if not firsts:
+        return [], {'reason': 'no candidates column could be located on this page'}
+    cand_left = firsts[len(firsts) // 10] - pw * 0.005
+
+    def column(w):
+        if w['cx'] >= votes_left and NUM_RE.match(w['text']):
+            return 'votes'
+        if w['x'] >= cand_left:
+            return 'cand'
+        if w['cx'] >= date_left:
+            return 'date'
+        return 'cons'
+
+    rows = rows_by_line(words, ph, top=0.12)
+
+    # Pass 1: each printed line, split into its columns.
+    lines = []
+    for r in rows:
+        joined = ' '.join(w['text'] for w in r)
+        if re.search(r'GENERAL ELECTION|BY-ELECTION|constituency|candidates|votes|polled'
+                     r'|and reason|for election', joined, re.I):
+            continue
+        cells = {}
+        for w in r:
+            cells.setdefault(column(w), []).append(w)
+        text = {k: ' '.join(x['text'] for x in v).strip(' .|,') for k, v in cells.items()}
+        date_words = cells.get('date', [])
+        ymd = YMD_RE.search(joined)
+        # A date is a month, or a bare day figure where the month did not read ("t. 17").
+        has_date = bool(ymd) or any(MONTH_RE.match(w['text']) for w in date_words) \
+            or any(re.match(r'^\d{1,2}$', w['text']) for w in date_words)
+        lines.append({'cells': cells, 'text': text, 'joined': joined, 'ymd': ymd, 'has_date': has_date})
+
+    # Pass 2: a contest opens at each dated line. In the general-election lists the seat's
+    # name is centred on its candidate lines, so it often sits on the SECOND line of the
+    # contest while the date sits on the first; the name is therefore the first entry in the
+    # constituency column anywhere in the contest, and what follows it there is the italic
+    # note on why the seat fell vacant.
+    blocks, cur = [], []
+    for ln in lines:
+        if ln['has_date'] and cur:
+            blocks.append(cur)
+            cur = []
+        cur.append(ln)
+    if cur:
+        blocks.append(cur)
+
+    out, notes = [], []
+    for bi, block in enumerate(blocks):
+        constituency, note_parts = None, []
+        for ln in block:
+            raw = ln['text'].get('cons', '')
+            if not raw:
+                continue
+            cons = re.sub(r'\(?contd\)?', '', raw, flags=re.I).strip(' .|,“”"')
+            # The gutter shadow on the inner margin reads as stray marks before the name:
+            # "] publin city", "q Louth county", "‘ Tralee".
+            cons = re.sub(r"^(?:[^A-Za-z]+|[A-Za-z](?=\s))\s*", '', cons).strip()
+            cons = re.sub(r"^(?:[^A-Za-z]+|[A-Za-z](?=\s))\s*", '', cons).strip()
+            if not cons or len(re.sub(r'[^A-Za-z]', '', cons)) < 3:
+                continue
+            if constituency is None and not NOTE_RE.search(cons) and not re.search(r'\bsucceeds\b|\belects\b', cons, re.I):
+                constituency = cons
+            else:
+                note_parts.append(cons)
+        if constituency is None and bi == 0:
+            constituency = CONTINUED        # the last contest of the previous page runs on
+        if note_parts:
+            notes.append({'constituency': constituency, 'text': ' '.join(note_parts)})
+        if constituency is None:
+            continue
+        head = block[0]
+        date_year = int(head['ymd'].group(1)) if head['ymd'] else None
+        if head['ymd']:
+            date = f"{head['ymd'].group(2)[:3].title()}. {int(head['ymd'].group(3))}"
+        else:
+            d = head['text'].get('date', '')
+            date = d if d and MONTH_RE.match(d.split()[0] if d.split() else '') else None
+        contest = []
+        for ln in block:
+            cand_words = ln['cells'].get('cand', [])
+            vw = next((w['text'] for w in ln['cells'].get('votes', []) if NUM_RE.match(w['text'])), None)
+            votes = int(vw.replace(',', '').replace('.', '')) if vw else None
+            if not cand_words:
+                if votes is not None and contest and contest[-1]['votes'] is None:
+                    contest[-1]['votes'] = votes
+                continue
+            name = clean_name(' '.join(w['text'] for w in cand_words).strip(' .|,»'))
+            indented = min(w['x'] for w in cand_words) > cand_left + pw * 0.015
+            if indented and contest:
+                if name.startswith('(') or name.lower().startswith('afterwards'):
+                    contest[-1].setdefault('aliases', []).append(name.strip('()'))
+                else:
+                    contest[-1]['candidate'] = f"{contest[-1]['candidate']} {name}".strip()
+                    if votes is not None and contest[-1]['votes'] is None:
+                        contest[-1]['votes'] = votes
+                continue
+            if len(re.sub(r'[^A-Za-z]', '', name)) < 3:
+                continue
+            titles = len(TITLE_RE.findall(name))
+            contest.append({'constituency': constituency, 'electorate': None, 'date': date,
+                            'dateYear': date_year, 'candidate': name, 'party': None, 'votes': votes,
+                            'seats': None, 'suspectMerged': titles >= 2 or len(name.split()) > 7})
+        out.extend(contest)
+    return out, {'columns': cols, 'notes': notes, 'layout': 'unaffiliated'}
+
+
 def extract_page(pdf_path, index):
     """Contest rows from one chronological table page. Returns (rows, meta)."""
     im = page_image(pdf_path, index)
@@ -267,6 +449,7 @@ def extract_page(pdf_path, index):
 
     out, notes = [], []
     county = constituency = date = None
+    date_year = None
     electorate = None
     pending = ''
     for r in rows_of(words, pw, top=0.22, page_h=ph):
@@ -274,13 +457,25 @@ def extract_page(pdf_path, index):
         if re.search(r'GENERAL ELECTION|BY-ELECTION|constituency|electors|candidates'
                      r'|votes polled|pol\.', joined, re.I):
             continue
-        if NOTE_RE.search(joined):
-            notes.append({'constituency': constituency, 'text': joined})
-            continue
         cells = {}
         for w in r:
             cells.setdefault(nearest(w), []).append(w)
         text = {k: ' '.join(x['text'] for x in v).strip(' .|,') for k, v in cells.items()}
+        # Walker sets the reason for a by-election in italics under the seat's name -- "Johnson
+        # app. S.G.", "and new writ issued" -- often on the same line as the second candidate.
+        # Read as a constituency, it renamed the contest mid-way and reset its by-election year;
+        # dropping the whole row lost the candidate beside it. Take the note, keep the candidate.
+        left = ' '.join(text.get(k, '') for k in ('cons', 'date', 'elec')).strip()
+        if left and NOTE_RE.search(left):
+            notes.append({'constituency': constituency, 'text': left})
+            for k in ('cons', 'date', 'elec'):
+                text.pop(k, None)
+                cells.pop(k, None)
+            if not text.get('cand'):
+                continue
+        elif NOTE_RE.search(joined) and not text.get('party') and not text.get('votes'):
+            notes.append({'constituency': constituency, 'text': joined})
+            continue
 
         # The elector cell routinely catches the first word of the candidate name, since
         # candidate text starts left of the header centre: "14,569 Charles". Reading the
@@ -322,16 +517,38 @@ def extract_page(pdf_path, index):
             # two-member seats.
             if constituency != previous:
                 electorate = None
-        d = text.get('date', '')
-        if d and MONTH_RE.match(d.split()[0] if d.split() else ''):
-            date = d
+                date = date_year = None
+                pending = ''
+        # A by-election prints its YEAR in the date column -- "1875 Apr. 28", "1884 Feb. 23"
+        # -- and a general election does not, because the whole table is one election.
+        # That is the only reliable signal of which kind of contest a row belongs to: the
+        # running head is unreadable on ~44% of pages, and a spot-check found 8 of 21
+        # sampled 1802-1880 contests filed under the wrong election for want of it.
+        ymd = YMD_RE.search(joined)
+        if ymd:
+            date_year = int(ymd.group(1))
+            date = f'{ymd.group(2)[:3].title()}. {int(ymd.group(3))}'
+        else:
+            d = text.get('date', '')
+            if d and MONTH_RE.match(d.split()[0] if d.split() else ''):
+                date = d
         if elec_num:
             electorate = int(elec_num.replace(',', '').replace('.', ''))
         cand = ' '.join(spill + [text.get('cand', '')]).strip(' .|,')
         if not party:
-            if cand and not any(ch.isdigit() for ch in cand):
-                pending = (pending + ' ' + cand).strip()
-            continue
+            vw = next((w['text'] for w in cells.get('votes', []) if NUM_RE.match(w['text'])), None)
+            if vw and cand and constituency:
+                # A candidate whose party did not read -- "L(Ind.)", a speck -- is still a
+                # candidate. Holding the name over as the first line of a wrapped name put
+                # it in front of the NEXT candidate: a spot-check found 5 of 16 names
+                # carrying the names printed above them.
+                party, votes = '', int(vw.replace(',', '').replace('.', ''))
+            else:
+                # A name wraps onto at most one further line, and the party and votes are
+                # printed on the last. Only the line immediately above can be its first half.
+                if cand and not any(ch.isdigit() for ch in cand):
+                    pending = cand
+                continue
         if pending:
             cand = (pending + ' ' + cand).strip()
             pending = ''
@@ -340,9 +557,14 @@ def extract_page(pdf_path, index):
             votes = int(vw.replace(',', '').replace('.', '')) if vw else None
         if not constituency or len(cand) < 3:
             continue
+        titles = len(TITLE_RE.findall(cand))
         out.append({'constituency': constituency, 'electorate': electorate, 'date': date,
-                    'candidate': cand, 'party': party.strip('[](){}.,'), 'votes': votes,
-                    'seats': 2 if constituency.lower() in two else 1})
+                    'dateYear': date_year,
+                    'candidate': clean_name(cand), 'party': clean_party(party), 'votes': votes,
+                    'seats': 2 if constituency.lower() in two else 1,
+                    # Two candidates' names read into one -- "Hon. Cecil John Lawless Thomas
+                    # Henry Barton" -- is the other error class the spot-check found.
+                    'suspectMerged': titles >= 2 or len(cand.split()) > 6})
     return out, {'columns': cols, 'notes': notes, 'twoMemberSeats': sorted(two)}
 
 

@@ -84,5 +84,32 @@ apparent disagreement failed that test — no vote discrepancy has been found.
 
 ## Output
 
-Findings go to `data/elections/corrections/walker-electorate-review.json` as proposals.
-Nothing here edits election data.
+| file | from | status |
+|---|---|---|
+| `data/elections/corrections/walker-electorate-review.json` | `check_against_civgraph.py` | 7 applied, 3 held (1922-23 Dáil electorates whose basis no source settles) |
+| `data/elections/corrections/walker-pre1918-electorates.json` | `harvest_electorates.py` | general-election electorates for 1885-1918; by-election registers excluded |
+| `data/elections/corrections/walker-seat-corrections.json` | by hand, from the page heads | Cork City returned two members, 1885-1918 |
+| `data/elections/walker-verified-contests.json` | `record_verified.py` | contests whose figures Walker reproduces; they cite him as checked |
+| `data/elections/walker-pre1885-results.json` | `harvest_pre1885.py`, `crosscheck_wikipedia_members.py` | 1802-1880 contests, unverified; general elections marked with whether Wikipedia's members agree |
+| `data/elections/walker-byelections-1885-1922.json` | `harvest_byelections.py` | 1885-1922 by-elections, unverified |
+| `data/elections/walker-constituency-histories.json` | `harvest_constituency_section.py` | member succession per seat, unverified |
+| `data/elections/walker-abbreviations.json` | transcribed | the party legends and stated sources of each section of the 1918-92 volume |
+| `data/elections/wikipedia-mp-lists-ireland.json` | `harvest_wikipedia_mp_lists.py` | members for Irish seats at every general election 1802-1918 |
+
+The corrections are applied at manifest build time by the Walker overlay in
+`scripts/build-test2-election-manifest.mjs`, keyed by source file; the imported files are
+left as they are. The overlay also restores the 446 pre-1918 unopposed returns that were
+imported with their columns shifted. `scripts/build-election-provenance.mjs` notes on each
+contest which figures came from Walker, and which Walker disputes.
+
+## Measured accuracy
+
+`spot_check.py` draws a fixed-seed sample and crops each figure from the page for checking by
+eye; the crops are written outside the repository.
+
+- pre-1918 electorates: 23 of 24 right; the one error (a by-election register) is now excluded.
+- 1802-1880 results, after three rounds of fixes: election and votes right in 20 and 19 of 20,
+  every field right in 15 of 20. Against Wikipedia's lists of members, 766 of 970 comparable
+  general-election contests agree.
+- 1885-1922 by-elections: figures right in 14 of 16, every field right in 7 of 16.
+- constituency histories: about two in three locatable entries right; not import-grade.
