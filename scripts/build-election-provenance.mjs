@@ -185,6 +185,11 @@ function bibliographyLayer() {
   for (const r of corrections('walker-electorate-review.json')?.records ?? []) {
     if (r.status === 'applied') note(r.sourceFile, r.source?.title, `electorate ${r.proposedValue.toLocaleString('en-GB')} taken from this volume`);
     if (r.status === 'held') note(r.sourceFile, r.source?.title, `this volume gives an electorate of ${r.proposedValue.toLocaleString('en-GB')}; the difference is unresolved`);
+    // Settled by a third compilation that agrees with the figure shown: say so, and which.
+    if (r.status === 'resolved-kept') {
+      note(r.sourceFile, r.source?.title, `this volume gives an electorate of ${r.proposedValue.toLocaleString('en-GB')}; `
+        + `${r.resolvedBy?.author ?? 'a third source'}, ${r.resolvedBy?.title ?? ''} (${r.resolvedBy?.year ?? ''}), ${r.resolvedBy?.locator ?? ''}, gives ${r.currentValue.toLocaleString('en-GB')}, the figure shown`);
+    }
   }
   const pre1918 = corrections('walker-pre1918-electorates.json');
   for (const r of pre1918?.records ?? []) note(r.sourceFile, pre1918.provenance?.source?.title, `electorate ${r.electorate.toLocaleString('en-GB')} taken from this volume`);

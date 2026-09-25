@@ -86,7 +86,7 @@ apparent disagreement failed that test — no vote discrepancy has been found.
 
 | file | from | status |
 |---|---|---|
-| `data/elections/corrections/walker-electorate-review.json` | `check_against_civgraph.py` | 7 applied, 3 held (1922-23 Dáil electorates whose basis no source settles) |
+| `data/elections/corrections/walker-electorate-review.json` | `check_against_civgraph.py` | 7 applied; 3 resolved in favour of the figure held, by Gallagher, Irish Elections 1922-44 (1993) |
 | `data/elections/corrections/walker-pre1918-electorates.json` | `harvest_electorates.py` | general-election electorates for 1885-1918; by-election registers excluded |
 | `data/elections/corrections/walker-seat-corrections.json` | by hand, from the page heads | Cork City returned two members, 1885-1918 |
 | `data/elections/walker-verified-contests.json` | `record_verified.py` | contests whose figures Walker reproduces; they cite him as checked |
