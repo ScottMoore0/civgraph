@@ -2405,3 +2405,24 @@ body.test2-election-pane-resizing * {
     --table-neg: #f87171;
   }
 }
+
+/* Where a constituency's figures come from, under its result. Muted: it is provenance, not
+   content, and should not compete with the result above it. */
+#electionResultsPane .election-pane__source {
+  margin: 12px 0 4px;
+  padding-top: 8px;
+  border-top: 1px solid var(--color-border, #e2e8f0);
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--color-text-muted, #718096);
+}
+
+#electionResultsPane .election-pane__source a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+#electionResultsPane .election-pane__source cite {
+  font-style: italic;
+}
