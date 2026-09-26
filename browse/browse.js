@@ -2386,7 +2386,7 @@ async function loadGraphStatementsForEntity(entityId) {
 }
 
 async function graphEntityIdForBrowseItem(type, item) {
-  const mapping = await loadGraphBrowseMapping();
+  const mapping = await loadGraphBrowseMapping(type);
   for (const key of graphBrowseKeys(type, item)) {
     if (mapping[key]) return mapping[key];
   }
@@ -2409,12 +2409,17 @@ async function loadGraphManifest() {
   return state.graph.manifest;
 }
 
-async function loadGraphBrowseMapping() {
-  if (state.graph.browseMapping) return state.graph.browseMapping;
+// The map is written one file per Browse type (`byType`), so a record page loads only its own
+// type's keys; a single-file map (`items`) is used as it is.
+async function loadGraphBrowseMapping(type) {
+  state.graph.browseMapping ||= new Map();
+  if (state.graph.browseMapping.has(type)) return state.graph.browseMapping.get(type);
   const manifest = await loadGraphManifest();
-  const mapping = await loadJson(manifest.indexes.browseRecordToEntity);
-  state.graph.browseMapping = mapping.items || {};
-  return state.graph.browseMapping;
+  const head = await loadJson(manifest.indexes.browseRecordToEntity);
+  const url = head.byType?.[type];
+  const items = url ? (await loadJson(url)).items || {} : head.items || {};
+  state.graph.browseMapping.set(type, items);
+  return items;
 }
 
 // The entity indexes are written in parts (each file must stay under Cloudflare Pages' 25 MiB

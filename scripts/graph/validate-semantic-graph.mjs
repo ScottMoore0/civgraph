@@ -168,7 +168,14 @@ async function main() {
   if (!declaredInterestCount) errors.push('No declared-interest statements were generated.');
 
   const mappingPayload = await readJson(siteUrlToPath(manifest.indexes?.browseRecordToEntity));
-  const mappingItems = mappingPayload.items || {};
+  // Written one file per Browse type (byType); older builds wrote one file (items).
+  const mappingItems = { ...(mappingPayload.items || {}) };
+  for (const url of Object.values(mappingPayload.byType || {})) {
+    Object.assign(mappingItems, (await readJson(siteUrlToPath(url))).items || {});
+  }
+  if (mappingPayload.byType && Object.keys(mappingItems).length !== mappingPayload.total) {
+    errors.push(`Browse mapping parts hold ${Object.keys(mappingItems).length} keys; the index says ${mappingPayload.total}.`);
+  }
   await validateBrowseMappings(mappingItems, errors);
   const registerIndexItems = await loadRegisterInterestIndexItems();
   const missingRegisterMappings = [];

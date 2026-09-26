@@ -25,8 +25,9 @@ def _text(el):
     return s.strip()
 
 
-def grid(table):
-    """The table as a grid of (text, was_a_header_cell), with spans expanded."""
+def grid(table, elements=False):
+    """The table as a grid of (text, was_a_header_cell), with spans expanded; with
+    `elements`, (text, was_a_header_cell, cell) so a caller can read the cell's links."""
     rows = table.find_all('tr')
     out, pending = [], {}
     for r_i, tr in enumerate(rows):
@@ -40,7 +41,7 @@ def grid(table):
                 rs = int(cell.get('rowspan', 1))
             except ValueError:
                 cs = rs = 1
-            val = (_text(cell), cell.name == 'th')
+            val = (_text(cell), cell.name == 'th') + ((cell,) if elements else ())
             for k in range(cs):
                 row.append(val)
                 for extra in range(1, rs):
