@@ -250,9 +250,20 @@ def main():
         keys.sort(key=lambda k: (-len(merged[k]), str(k)))
         lead = keys[0]
         contests = {r['key'] for r in merged[lead]}
+        # A prior join the source now contradicts is not kept. Two groups naming different
+        # source persons were one prior person only because they shared a name and party --
+        # Sir William Verner, 1st Baronet (1832-59) and his grandson the 3rd (1880), before
+        # their Wikipedia articles told them apart. A join the prior entity recorded between
+        # the two source ids (one TD's two ElectionsIreland ids) names both, and stays.
+        prior_persons = set(prev[pid].get('sourcePersonIds') or [])
         for k in keys[1:]:
             theirs = {r['key'] for r in merged[k]}
             if contests & theirs:
+                continue
+            ours_src = {r['src'] for r in merged[lead] if r['src']}
+            their_src = {r['src'] for r in merged[k] if r['src']}
+            if ours_src and their_src and ours_src.isdisjoint(their_src) \
+                    and not (ours_src & prior_persons and their_src & prior_persons):
                 continue
             contests |= theirs
             merged[lead].extend(merged.pop(k))

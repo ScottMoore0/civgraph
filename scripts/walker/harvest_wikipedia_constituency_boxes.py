@@ -18,6 +18,7 @@ import os
 import re
 import sys
 import time
+from urllib.parse import unquote
 
 import requests
 from bs4 import BeautifulSoup
@@ -43,6 +44,31 @@ def fetch(title, cache):
             return r.text
         time.sleep(3 * (attempt + 1))
     return None
+
+
+def resolve_redirects(titles, cache):
+    """Map each linked title to the article it lands on, so a person linked by two spellings
+    ("Daniel O'Connell Jnr" and "Daniel O'Connell (junior)") is one key. Cached; 50 a query."""
+    path = os.path.join(cache, 'redirects.json')
+    known = json.load(open(path, encoding='utf-8')) if os.path.exists(path) else {}
+    todo = sorted({t for t in titles if t and t not in known})
+    for i in range(0, len(todo), 50):
+        batch = todo[i:i + 50]
+        r = requests.get('https://en.wikipedia.org/w/api.php', headers=UA, timeout=60, params={
+            'action': 'query', 'titles': '|'.join(batch), 'redirects': 1, 'format': 'json', 'formatversion': 2})
+        r.raise_for_status()
+        q = r.json()['query']
+        norm = {n['from']: n['to'] for n in q.get('normalized', [])}
+        redir = {n['from']: n['to'] for n in q.get('redirects', [])}
+        missing = {p['title'] for p in q.get('pages', []) if p.get('missing')}
+        for t in batch:
+            n = norm.get(t, t)
+            n = redir.get(n, n)
+            known[t] = None if n in missing else n
+        time.sleep(0.5)
+    os.makedirs(cache, exist_ok=True)
+    json.dump(known, open(path, 'w', encoding='utf-8'), indent=0, ensure_ascii=False, sort_keys=True)
+    return known
 
 
 def text(el):
@@ -78,8 +104,8 @@ def parse_box(table):
         return None
     cands, extra = [], {}
     for tr in table.find_all('tr'):
-        cells = [text(td) for td in tr.find_all(['td', 'th'])]
-        cells = [c for c in cells if c != '']
+        els = [td for td in tr.find_all(['td', 'th']) if text(td) != '']
+        cells = [text(td) for td in els]
         if not cells:
             continue
         head = cells[0].lower()
@@ -108,7 +134,13 @@ def parse_box(table):
                 continue
             bold = bool(tr.find('b'))
             name = re.sub(r'\s*\(.*?\)\s*$', '', name).strip()
-            cands.append({'name': name, 'party': party, 'votes': votes, 'unopposed': unopposed, 'bold': bold})
+            # The article the name links to is who the candidate is: the Dundalk box shows
+            # "Daniel O'Connell" and links "Daniel O'Connell Jnr". A red link still names the
+            # intended article; a name with no link at all has no such key.
+            a = els[1].find('a', href=re.compile(r'^\./'))
+            article = unquote(a['href'][2:].split('?')[0].split('#')[0]).replace('_', ' ') if a else None
+            cands.append({'name': name, 'party': party, 'votes': votes, 'unopposed': unopposed, 'bold': bold,
+                          'article': article, 'redLink': bool(a and 'redlink=1' in a['href'])})
     if not cands:
         return None
     return {'caption': caption, 'kind': kind, 'date': date, 'year': year, 'month': month,
@@ -148,6 +180,10 @@ def main():
     args = ap.parse_args()
     titles = json.load(open(args.articles, encoding='utf-8'))
     boxes = harvest(titles, args.cache)
+    landing = resolve_redirects([c['article'] for b in boxes for c in b['candidates']], args.cache)
+    for b in boxes:
+        for c in b['candidates']:
+            c['person'] = landing.get(c['article']) if c['article'] else None
     doc = {'schemaVersion': 1,
            'description': ('Election boxes from Wikipedia\'s Irish UK Parliament constituency articles, 1832-1922: '
                            'the clean-source reading of the 1832-1880 general elections and the 1832-1922 '

@@ -231,6 +231,9 @@ def main():
     indent = len(re.search(r'\n( +)"bodies"', raw).group(1))
     open(ipath, 'w', encoding='utf-8').write(json.dumps(index, indent=indent, ensure_ascii=False) + ('\n' if raw.endswith('\n') else ''))
     print(f'wrote {sum(len(v) for v in by_date.values())} files over {len(by_date)} dates')
+    # Who each candidate is comes from the article his name links to; see that script.
+    import stamp_wikipedia_person_ids
+    stamp_wikipedia_person_ids.main(write=True)
 
 
 if __name__ == '__main__':
