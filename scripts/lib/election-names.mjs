@@ -170,6 +170,11 @@ export function isElectionByElectionScope({ body = '', bodyGroup = null, date = 
   // held seven by-elections on one day (11 March 1925) and three on another (18 November
   // 1924); at two or fewer those read as the "1925 Irish general election".
   if (normalizedBody === 'dail eireann') return names.length < 20;
+  // Before partition every Westminster general election in Ireland covered 60 seats or more;
+  // afterwards Northern Ireland's have 10 to 18, so the rule applies only before November 1922.
+  if (normalizedBody === 'house of commons of the united kingdom' && String(date || '').slice(0, 10) < '1922-11-15') {
+    return names.length < 20;
+  }
   return names.length <= 2;
 }
 
@@ -218,7 +223,8 @@ export function canonicalElectionTitle({
 
   if (byElection) {
     if (names.length > 1) {
-      return `${year} ${byElectionRegion(body, bodyGroup)} by-elections`.trim();
+      const partitioned = !(normalizedBody === 'house of commons of the united kingdom' && String(date || '').slice(0, 10) < '1922-11-15');
+      return `${year} ${partitioned ? byElectionRegion(body, bodyGroup) : 'Irish'} by-elections`.trim();
     }
     return `${year} ${names[0]} by-election`.trim();
   }
@@ -231,7 +237,18 @@ export function canonicalElectionTitle({
   if (normalizedBody === 'european parliament ireland') return `${year} European election in the Republic of Ireland`.trim();
   if (normalizedBody === 'european parliament') return `${year} European election in Northern Ireland`.trim();
   if (normalizedBody === 'northern ireland assembly') return `${year} Northern Ireland Assembly election`.trim();
-  if (normalizedBody === 'house of commons of the united kingdom') return `${year} UK general election in Northern Ireland`.trim();
+  if (normalizedBody === 'house of commons of the united kingdom') {
+    // Before partition the Westminster elections in Ireland were all-Ireland; the first held in
+    // Northern Ireland alone was on 15 November 1922. 1910 had two, told apart by month.
+    const day = String(date || '').slice(0, 10);
+    if (day && day < '1922-11-15') {
+      const month = year === '1910' || year === 1910
+        ? (day.slice(5, 7) === '01' ? 'January ' : day.slice(5, 7) === '12' ? 'December ' : '')
+        : '';
+      return `${month}${year} UK general election in Ireland`.trim();
+    }
+    return `${year} UK general election in Northern Ireland`.trim();
+  }
   if (normalizedBody === 'northern ireland forum for political dialogue') return '1996 Northern Ireland Forum election';
   if (normalizedBody === 'northern ireland constitutional convention') return '1975 Northern Ireland Constitutional Convention election';
   if (normalizedBody === 'parliament of northern ireland') return `${year} Parliament of Northern Ireland election`.trim();

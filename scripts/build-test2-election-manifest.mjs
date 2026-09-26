@@ -917,6 +917,13 @@ function resolveElectionGeography(entry) {
     ]);
   }
   if (body === 'House of Commons of the United Kingdom') {
+    // Before the redistribution of 1885 Ireland's seats were counties and boroughs no
+    // converted layer draws; the 1885 divisions would be the wrong map. Results only.
+    if (String(entry.date || '') < '1885-11-01') return { sourceMapId: null };
+    // By the day, not the year: the 1918 by-elections before December were fought on the
+    // 1885 divisions, and the 1918 map served until the Northern Ireland election of 1922.
+    if (String(entry.date || '') < '1918-12-14') return { sourceMapId: 'pc-1885-ireland' };
+    if (String(entry.date || '') < '1922-11-15') return { sourceMapId: 'pc-1918-ireland' };
     return sourceByYear(year, [
       [2024, 'pc-2023'],
       [2005, 'pc-2008'],
@@ -1979,7 +1986,18 @@ function buildFeatureLookup(index, sourceMapId) {
     const explicitAliases = [];
     for (const name of [item.name, ...(item.aliases || [])]) {
       const alias = sourceAliases.get(name);
-      if (alias) explicitAliases.push(alias);
+      if (Array.isArray(alias)) explicitAliases.push(...alias);
+      else if (alias) explicitAliases.push(alias);
+      // The pre-1922 layers abbreviate ("Down N", "Tyrone NE") where Wikipedia's by-election
+      // records write the name out ("North Down") and call a borough a borough ("Galway
+      // Borough" for the layer's "Galway City").
+      if (sourceMapId === 'pc-1885-ireland' || sourceMapId === 'pc-1918-ireland') {
+        const COMPASS = { N: 'North', S: 'South', E: 'East', W: 'West', NE: 'North East', NW: 'North West', SE: 'South East', Mid: 'Mid' };
+        const m = String(name || '').match(/^(.+?) (N|S|E|W|NE|NW|SE|Mid)$/);
+        if (m) explicitAliases.push(`${COMPASS[m[2]]} ${m[1]}`);
+        const city = String(name || '').match(/^(.+) City$/i);
+        if (city) explicitAliases.push(`${city[1]} Borough`);
+      }
     }
     // The Republic's local electoral area files decorate their names: the 2014 set carries
     // each area's seat count ("WEXFORD (10)") and the 2019 set an LEA code ("WEXFORD LEA-7").

@@ -2417,10 +2417,26 @@ async function loadGraphBrowseMapping() {
   return state.graph.browseMapping;
 }
 
+// The entity indexes are written in parts (each file must stay under Cloudflare Pages' 25 MiB
+// limit): the index file lists them in `parts`, and they are merged here. A single-file index
+// (no `parts`) is used as it is.
+async function loadIndexWithParts(url) {
+  const head = await loadJson(url);
+  if (!Array.isArray(head?.parts)) return head;
+  const pieces = await Promise.all(head.parts.map((partUrl) => loadJson(partUrl)));
+  const merged = { ...head, items: [], bySlug: {}, byIdShard: {} };
+  for (const piece of pieces) {
+    if (Array.isArray(piece.items)) merged.items.push(...piece.items);
+    Object.assign(merged.bySlug, piece.bySlug || {});
+    Object.assign(merged.byIdShard, piece.byIdShard || {});
+  }
+  return merged;
+}
+
 async function loadGraphEntityIndex() {
   if (state.graph.entityIndex) return state.graph.entityIndex;
   const manifest = await loadGraphManifest();
-  const index = await loadJson(manifest.indexes.entitySlugs);
+  const index = await loadIndexWithParts(manifest.indexes.entitySlugs);
   state.graph.entityIndex = index;
   return state.graph.entityIndex;
 }
@@ -2428,7 +2444,7 @@ async function loadGraphEntityIndex() {
 async function loadGraphEntitySearch() {
   if (state.graph.entitySearch) return state.graph.entitySearch;
   const manifest = await loadGraphManifest();
-  state.graph.entitySearch = await loadJson(manifest.indexes.entitySearch);
+  state.graph.entitySearch = await loadIndexWithParts(manifest.indexes.entitySearch);
   return state.graph.entitySearch;
 }
 
