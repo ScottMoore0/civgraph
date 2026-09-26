@@ -102,6 +102,10 @@ for (const [file, read] of [
     .forEach((r) => addWalkerCorrection(r.sourceFile, 'electorate', r.proposedValue))],
   ['walker-pre1918-electorates.json', (doc) => (doc.records || [])
     .forEach((r) => addWalkerCorrection(r.sourceFile, 'electorate', r.electorate, true))],
+  // Gallagher's electorate for every 1922-44 Dail contest: supplied where the site has none,
+  // and put in place of the site's figure only where a recorded tiebreak decided for it.
+  ['gallagher-dail-electorates.json', (doc) => (doc.records || [])
+    .forEach((r) => addWalkerCorrection(r.sourceFile, 'electorate', r.gallagher?.electorate, r.decision !== 'gallagher'))],
   ['walker-seat-corrections.json', (doc) => (doc.records || [])
     .filter((r) => r.status === 'applied' && r.field === 'seats')
     .forEach((r) => addWalkerCorrection(r.sourceFile, 'seats', r.proposedValue))]

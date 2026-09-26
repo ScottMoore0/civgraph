@@ -198,28 +198,60 @@ function bibliographyLayer() {
     if (r.status === 'applied') note(r.sourceFile, seats.provenance?.source?.title, `seat count (${r.proposedValue}) taken from this volume`);
   }
 
+  // Gallagher, Irish Elections 1922-44: a contest is checked where his valid poll is ours; the
+  // electorates the overlay takes from him, and the tiebreaks decided for him, are noted; the
+  // 1923-44 by-elections were built from him and cross-checked against two other sources.
+  const gallagher = (doc.volumes ?? []).find((v) => v.id === 'gallagher-1922-44');
+  const gallagherChecked = new Map();
+  if (gallagher) {
+    for (const r of corrections('gallagher-dail-electorates.json')?.records ?? []) {
+      const key = String(r.sourceFile || '').replace('data/elections-source/data/elections/', '');
+      const g = r.gallagher ?? {};
+      if (g.validVotes && r.site?.validVotes === g.validVotes) {
+        gallagherChecked.set(key, 'valid poll read from the volume and agreed with ours');
+      }
+      if (r.status === 'fill') note(r.sourceFile, gallagher.title, `electorate ${g.electorate.toLocaleString('en-GB')} taken from this volume`);
+      if (r.decision === 'gallagher') {
+        note(r.sourceFile, gallagher.title, `electorate ${g.electorate.toLocaleString('en-GB')} taken from this volume in place of ${Number(r.site?.electorate).toLocaleString('en-GB')}`);
+      }
+    }
+    const byes = path.join('data', 'elections', 'gallagher-byelections-1923-44.json');
+    if (existsSync(byes)) {
+      const slug = (s) => String(s).normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+      for (const b of readJson(byes).records ?? []) {
+        gallagherChecked.set(`dail-eireann/${b.date}/${slug(b.constituency)}.json`,
+          'results taken from this volume and cross-checked against ElectionsIreland and Wikipedia');
+      }
+    }
+    note('data/elections-source/data/elections/dail-eireann/1932-02-16/carlow-kilkenny.json', gallagher.title,
+      "Richard Holohan's result and Denis Gorey's final count restored from this volume (p. 126); the Wikipedia table lost them");
+  }
+
   const forContest = (body, date, file) => {
     const day = String(date).slice(0, 10);
-    const check = verified.get(file) ?? null;
     const out = [];
     for (const { v, r } of rules) {
       if (r.body !== body || day < r.from || day > r.to) continue;
       const notes = supplied.get(file)?.get(v.title) ?? [];
+      // Each volume answers for its own check: Walker's list says nothing about Gallagher.
+      const walkerCheck = String(v.id || '').startsWith('walker') ? (verified.get(file) ?? null) : null;
+      const ownCheck = v.id === 'gallagher-1922-44' ? (gallagherChecked.get(file) ?? null) : null;
       out.push({
         ...(notes.length ? { supplies: notes } : {}),
         title: v.title,
         publisher: v.publisher,
-        url: null,
-        archiveUrl: null,
-        host: null,
+        url: v.url ?? null,
+        archiveUrl: v.archiveUrl ?? null,
+        host: v.url ? new URL(v.url).host : null,
         kind: v.kind ?? 'academic',
         origin: 'bibliography',
         basis: 'stated-coverage',
         scope: 'this contest',
-        checked: Boolean(check),
-        check: check
-          ? `${check.figuresAgreed} figure(s) read from the volume and agreed with ours`
-          : 'the volume covers this body and date; its figures have not been checked against ours',
+        checked: Boolean(walkerCheck || ownCheck),
+        check: walkerCheck
+          ? `${walkerCheck.figuresAgreed} figure(s) read from the volume and agreed with ours`
+          : ownCheck
+          ?? 'the volume covers this body and date; its figures have not been checked against ours',
         match: null,
         document: null,
         locator: r.section ?? null,

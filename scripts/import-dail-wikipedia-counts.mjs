@@ -382,7 +382,10 @@ function matchSection(sections, date) {
   if (!candidates.length) return null;
   if (candidates.length === 1) return candidates[0];
   const monthMatch = candidates.find((section) => section.month === month);
-  return monthMatch || candidates[0];
+  // Never fall back to a section that names a different month: 1927 had two general
+  // elections, and falling back to the first section of the year filed Mayo North's and
+  // Mayo South's "September 1927" counts under June, replacing the June results.
+  return monthMatch || candidates.find((section) => !section.month) || null;
 }
 
 function parseCandidateTemplate(source, index, numCounts) {
