@@ -98,6 +98,10 @@ def main():
             for m in e['matchKeys']:
                 without_source[m].add(e['personId'])
     by_name_group = {m: next(iter(v)) for m, v in without_source.items() if len(v) == 1 and m in ambiguous}
+    span = {e['personId']: (e.get('firstYear') or 0, e.get('lastYear') or 9999) for e in doc['entities']}
+
+    def modern_for(mk):
+        return [p for p in name_hits.get(mk, ()) if span.get(p, (0, 9999))[1] >= 1918]
 
     stats = collections.Counter()
     changed = 0
@@ -122,6 +126,13 @@ def main():
                     pid, how = by_name[mk], 'by-name'
                 elif mk in by_name_group and not spid:
                     pid, how = by_name_group[mk], 'by-name-group'
+                elif mk in ambiguous and year >= 1918 and len(modern_for(mk)) == 1:
+                    # The 1832-1918 Westminster results added namesakes -- a James Cosgrave
+                    # of 1914, a William Browne of 1841 -- to names that were unique among the
+                    # post-1918 records, and made them ambiguous. A post-1918 contest takes
+                    # the one post-1918 person of that name, exactly as it did before; a name
+                    # shared among post-1918 people stays unresolved, as it always has.
+                    pid, how = modern_for(mk)[0], 'by-name-modern'
                 elif mk in ambiguous:
                     how = 'ambiguous-name'
                 else:

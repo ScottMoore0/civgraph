@@ -1776,14 +1776,36 @@ async function writeEntitySlugIndex(items, allowedEntityIds) {
       if (!bySlug[summary.slug]) bySlug[summary.slug] = entityId;
     }
   }
+  // Written in parts: one file passed the 25 MiB Cloudflare Pages per-file limit once the
+  // 1832-1922 Westminster results were added. entity-slugs.json lists the parts; browse.js
+  // loads them and merges bySlug and byIdShard.
+  const parts = await writeIndexParts('entity-slugs', [bySlug, byIdShard], ([slugs, ids]) => ({ bySlug: slugs, byIdShard: ids }));
   await writeJson(path.join(OUTPUT_DIR, 'indexes', 'entity-slugs.json'), {
     schemaVersion: 1,
     generatedAt: GENERATED_AT,
     total: entries.length,
-    bySlug,
-    byIdShard,
+    parts,
     shards
   });
+}
+
+// Split each map (or array) into pieces by position and write one file per piece. (A constant,
+// not a module-level const: the build runs on import, before a later const is initialised.)
+async function writeIndexParts(name, collections, shape) {
+  const INDEX_PARTS = 4;
+  const urls = [];
+  const split = collections.map((c) => {
+    const list = Array.isArray(c) ? c : Object.entries(c);
+    const size = Math.ceil(list.length / INDEX_PARTS);
+    return Array.from({ length: INDEX_PARTS }, (_, i) => list.slice(i * size, (i + 1) * size));
+  });
+  for (let i = 0; i < INDEX_PARTS; i += 1) {
+    const pieces = split.map((pieceList, k) => (Array.isArray(collections[k]) ? pieceList[i] : Object.fromEntries(pieceList[i])));
+    const file = `${name}-part-${i}.json`;
+    await writeJson(path.join(OUTPUT_DIR, 'indexes', file), { schemaVersion: 1, generatedAt: GENERATED_AT, part: i, ...shape(pieces) }, { pretty: false });
+    urls.push(`/data/graph/indexes/${file}`);
+  }
+  return urls;
 }
 
 function buildEntitySummaryById(items, allowedEntityIds) {
@@ -1824,11 +1846,13 @@ async function writeEntitySearchIndex(entitySummaryById) {
     }))
     .sort((a, b) => String(a.label || '').localeCompare(String(b.label || ''), 'en') || a.entityId.localeCompare(b.entityId, 'en'));
   const url = '/data/graph/indexes/entity-search.json';
+  // In parts, like entity-slugs.json: the single file passed the 25 MiB per-file limit.
+  const parts = await writeIndexParts('entity-search', [items], ([piece]) => ({ items: piece }));
   await writeJson(path.join(OUTPUT_DIR, 'indexes', 'entity-search.json'), {
     schemaVersion: 1,
     generatedAt: GENERATED_AT,
     total: items.length,
-    items
+    parts
   }, { pretty: false });
   return { url, count: items.length };
 }
