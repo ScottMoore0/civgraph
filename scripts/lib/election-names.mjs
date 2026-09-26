@@ -166,6 +166,10 @@ export function isElectionByElectionScope({ body = '', bodyGroup = null, date = 
   if (bodyGroup === 'local-government') return names.length <= 2;
   if (normalizedBody === 'european parliament' || normalizedBody === 'european parliament ireland') return false;
   if (normalizedBody === 'president of ireland' || normalizedBody === 'referendum ireland') return false;
+  // The Dail has never held a general election in fewer than 22 constituencies, but it has
+  // held seven by-elections on one day (11 March 1925) and three on another (18 November
+  // 1924); at two or fewer those read as the "1925 Irish general election".
+  if (normalizedBody === 'dail eireann') return names.length < 20;
   return names.length <= 2;
 }
 

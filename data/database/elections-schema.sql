@@ -17,7 +17,7 @@
 -- Cloudflare-internal objects (_cf_*) and SQLite internals are excluded: they
 -- are not ours, and they change without us.
 
--- Tables: 12   Indexes: 33
+-- Tables: 12   Indexes: 34
 CREATE TABLE browse_persons (
   slug       TEXT PRIMARY KEY,
   id         TEXT,
@@ -77,9 +77,10 @@ CREATE TABLE browse_sources (
   category   TEXT,
   publication_status TEXT,
   date       TEXT,
+  license    TEXT,
   ord        INTEGER NOT NULL,
   record     TEXT NOT NULL
-, license TEXT);
+);
 
 CREATE TABLE browse_sources_facets (facets TEXT NOT NULL);
 
@@ -238,6 +239,8 @@ CREATE INDEX idx_browse_sources_date ON browse_sources(date);
 CREATE INDEX idx_browse_sources_id ON browse_sources(id);
 
 CREATE INDEX idx_browse_sources_key_norm ON browse_sources(key_norm);
+
+CREATE INDEX idx_browse_sources_license ON browse_sources(license);
 
 CREATE INDEX idx_browse_sources_provider ON browse_sources(provider);
 
