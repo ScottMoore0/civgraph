@@ -214,12 +214,7 @@ async function main() {
 
   await fs.mkdir(path.join(OUTPUT_DIR, 'indexes'), { recursive: true });
   await writeEntitySlugIndex(sortedEntities, publicEntityIds);
-  await writeJson(path.join(OUTPUT_DIR, 'indexes', 'browse-record-to-entity.json'), {
-    schemaVersion: 1,
-    generatedAt: GENERATED_AT,
-    total: Object.keys(browseRecordToEntity).length,
-    items: sortObjectByKey(browseRecordToEntity)
-  });
+  await writeBrowseRecordToEntity(browseRecordToEntity);
   const subjectStatementIndex = await writeSubjectStatementShards(compactBySubject);
   const entitySearch = await writeEntitySearchIndex(entitySummaryById);
   const reverseEntityValueIndex = await writeReverseEntityValueIndex(sortedStatements, entitySummaryById);
@@ -1806,6 +1801,31 @@ async function writeIndexParts(name, collections, shape) {
     urls.push(`/data/graph/indexes/${file}`);
   }
   return urls;
+}
+
+// The Browse-record-to-entity map, one file per Browse type. A record page needs only its own
+// type's keys ("persons:...", "sources:..."), and as one file the map passed the Pages 25 MiB
+// limit when the 1801-1831 results were added, so browse.js loads just the type it is showing.
+async function writeBrowseRecordToEntity(mapping) {
+  const byTypeItems = {};
+  for (const [key, entityId] of Object.entries(sortObjectByKey(mapping))) {
+    const type = key.slice(0, key.indexOf(':'));
+    (byTypeItems[type] ??= {})[key] = entityId;
+  }
+  const byType = {};
+  for (const [type, items] of Object.entries(byTypeItems)) {
+    const file = `browse-record-to-entity-${slugify(type)}.json`;
+    await writeJson(path.join(OUTPUT_DIR, 'indexes', file), {
+      schemaVersion: 1, generatedAt: GENERATED_AT, type, total: Object.keys(items).length, items
+    }, { pretty: false });
+    byType[type] = `/data/graph/indexes/${file}`;
+  }
+  await writeJson(path.join(OUTPUT_DIR, 'indexes', 'browse-record-to-entity.json'), {
+    schemaVersion: 1,
+    generatedAt: GENERATED_AT,
+    total: Object.keys(mapping).length,
+    byType
+  });
 }
 
 function buildEntitySummaryById(items, allowedEntityIds) {
