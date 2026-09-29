@@ -11,7 +11,7 @@
 // changing it is what flushes stale entries already sitting in visitors' browsers --
 // necessary here because the browse indexes cached under the previous routing rule
 // would otherwise outlive the fix below.
-const VERSION = 'root-maplibre-sw-a50aa2d99615';
+const VERSION = 'root-maplibre-sw-591604c0f865';
 const STATIC_CACHE = `civgraph-root-maplibre-${VERSION}-static`;
 const RUNTIME_CACHE = `civgraph-root-maplibre-${VERSION}-runtime`;
 const CACHE_PREFIX = 'civgraph-root-maplibre-';
@@ -143,6 +143,14 @@ self.addEventListener('fetch', (event) => {
   const sameOrigin = url.origin === self.location.origin;
   if (!sameOrigin) return;
   if (shouldNeverCache(url)) return;
+
+  // The thumbnail images never change under a name, but the manifest listing them does:
+  // cache-first kept serving the old list, so new thumbnails stayed blank until the
+  // worker's version changed. It is fetched network-first, like the other indexes.
+  if (url.pathname === '/assets/thumbnails/manifest.json') {
+    event.respondWith(networkFirst(request, RUNTIME_CACHE));
+    return;
+  }
 
   if (matchesPath(url, CACHE_FIRST_PATHS)) {
     event.respondWith(cacheFirstWithCap(request, STATIC_CACHE, MAX_STATIC_ENTRIES));
