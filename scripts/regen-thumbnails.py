@@ -270,6 +270,10 @@ def context_span(map_config, feature_span):
     large floor makes the features too small. Scale context from the feature
     footprint and then bound it by catalogue scope.
     """
+    # A city-sized layer (Belfast's cycle network, ~15 km) was a speck in the 260 km
+    # regional frame; it keeps enough coast to place it and stays legible.
+    if 0 < feature_span < 40000:
+        return max(feature_span * 2.5, 45000)
     text = ' '.join(str(map_config.get(key, '')) for key in (
         'id', 'name', 'title', 'category', 'group', 'provider'
     )).lower()
@@ -293,10 +297,19 @@ def context_span(map_config, feature_span):
         return min(max(feature_span * 1.28, ALL_IRELAND_MIN_CONTEXT_SPAN), MAX_CONTEXT_SPAN)
     return min(max(feature_span * 1.75, DEFAULT_MIN_CONTEXT_SPAN), MAX_CONTEXT_SPAN)
 
-def render_thumbnail(map_config, land_polys, out_path):
+def render_thumbnail(map_config, land_polys, out_path, geoms=None, raster=None):
     """Render a single thumbnail on a square canvas. Handles polygons,
-    lines, and points; if a layer contains a mix, all are drawn."""
-    geoms = load_map_geometries(map_config)
+    lines, and points; if a layer contains a mix, all are drawn.
+
+    `geoms` lets a caller supply the geometry (in the thumbnail projection) rather than
+    have it read from the map's files -- render-catalogue-thumbnails.py reads it from the
+    layer's vector tiles. `raster` is (RGBA array, (minx, miny, maxx, maxy)) for image and
+    raster-tile layers; its extent frames the thumbnail and it is drawn over the land."""
+    if raster is not None:
+        rminx, rminy, rmaxx, rmaxy = raster[1]
+        geoms = {'polys': [], 'lines': [], 'points': [(rminx, rminy), (rmaxx, rmaxy)]}
+    elif geoms is None:
+        geoms = load_map_geometries(map_config)
     if not (geoms['polys'] or geoms['lines'] or geoms['points']):
         return False
 
@@ -369,6 +382,13 @@ def render_thumbnail(map_config, land_polys, out_path):
     color = map_config.get('style', {}).get('color', '#3388ff')
     weight = map_config.get('style', {}).get('weight', 2)
     lw = max(0.5, weight * 0.4)
+
+    if raster is not None:
+        ax.imshow(raster[0], extent=(rminx, rmaxx, rminy, rmaxy), origin='upper',
+                  interpolation='bilinear', zorder=2)
+        ax.set_xlim(minx, maxx)   # imshow autoscales to its own extent
+        ax.set_ylim(miny, maxy)
+        geoms = _empty_geoms()   # the two corner points only framed the view
 
     if geoms['polys']:
         map_patches = polys_to_patches(geoms['polys'])

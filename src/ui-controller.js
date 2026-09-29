@@ -4561,7 +4561,10 @@ class UIController {
                 else if (year >= 1965) thumb = 'dail-1969';
                 else if (year >= 1957) thumb = 'dail-1961';
                 else if (year >= 1937) thumb = 'dail-1947';
-                else if (year >= 1923) thumb = 'dail-1935';
+                // No map of the 1923 or 1935 constituencies exists (dail-1923 and dail-1935
+                // are placeholders), so those rows had no picture; the counties they were
+                // drawn from stand in.
+                else if (year >= 1923) thumb = 'counties-ireland-1927';
                 else thumb = 'pc-1918-ireland';
             } else if (body === 'President of Ireland') {
                 // Presidential elections use whole-state polity — pick a
