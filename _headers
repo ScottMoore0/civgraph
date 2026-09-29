@@ -159,6 +159,13 @@
 /assets/thumbnails/*
   Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
 
+# ...except the manifest listing them, which changes whenever thumbnails are added. With
+# the rule above it was kept for 30 days, so new thumbnails stayed blank for returning
+# visitors. `!` drops the inherited value; Pages would otherwise join the two.
+/assets/thumbnails/manifest.json
+  ! Cache-Control
+  Cache-Control: public, max-age=0, must-revalidate
+
 # Spatial index chunks — cache for 1 week
 /data/database/spatial-index/*
   Cache-Control: public, max-age=604800

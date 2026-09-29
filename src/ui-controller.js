@@ -1972,7 +1972,9 @@ class UIController {
             // The manifest stays on the origin deliberately: build-shared-shell-assets
             // regenerates it from the local directory on every build, so serving it from
             // R2 would let the list and the deploy drift apart. Only the images are on CDN.
-            this._thumbnailManifestPromise = fetch('assets/thumbnails/manifest.json', { cache: 'force-cache' })
+            // Not 'force-cache': that serves a cached copy however old, so a deploy that
+            // added thumbnails left returning visitors with blank rows.
+            this._thumbnailManifestPromise = fetch('assets/thumbnails/manifest.json')
                 .then((response) => response.ok ? response.json() : [])
                 .then((ids) => {
                     this._thumbnailIds = new Set(Array.isArray(ids) ? ids.map(String) : []);
@@ -3719,8 +3721,8 @@ class UIController {
             // ── Topography ──
             { id: 'flat-place-names', name: 'Place Names (Northern Ireland)', years: '', extent: 'Northern Ireland', mapIds: ['place-names-gazetteer'] },
             { id: 'flat-street-names', name: 'Street Names (Northern Ireland)', years: '', extent: 'Northern Ireland', mapIds: ['streetnames-gazetteer'] },
-            { id: 'flat-tailte-physical', name: 'Physical Features (Republic of Ireland, Tailte Éireann)', years: '', extent: 'Republic of Ireland', mapIds: ['tailte-boundaries-seawater-area', 'tailte-boundaries-seawater-line', 'tailte-coast', 'tailte-high-water-mark', 'tailte-hydro-nodes', 'tailte-lakes-reservoirs', 'tailte-mountains', 'tailte-reservoirs', 'tailte-shore', 'tailte-vegetation-areas', 'tailte-water', 'tailte-watercourse-start-end-points', 'tailte-waterfalls', 'tailte-low-water-mark'] },
-            { id: 'flat-tailte-transport', name: 'Transport Network (Republic of Ireland, Tailte Éireann)', years: '', extent: 'Republic of Ireland', mapIds: ['tailte-airfield-area', 'tailte-airports', 'tailte-border-exits-entrances', 'tailte-ferry-crossing', 'tailte-main-harbours', 'tailte-motorway-access-exit-points', 'tailte-other-harbours', 'tailte-rail-network', 'tailte-railway-stations', 'tailte-road-rail-intersections', 'tailte-road-interchanges', 'tailte-road-intersections', 'tailte-roads', 'tailte-runways', 'tailte-ferry-station'] },
+            { id: 'flat-tailte-physical', name: 'Physical Features (Republic of Ireland, Tailte Éireann)', years: '', extent: 'Republic of Ireland', thumbMapId: 'tailte-lakes-reservoirs', mapIds: ['tailte-boundaries-seawater-area', 'tailte-boundaries-seawater-line', 'tailte-coast', 'tailte-high-water-mark', 'tailte-hydro-nodes', 'tailte-lakes-reservoirs', 'tailte-mountains', 'tailte-reservoirs', 'tailte-shore', 'tailte-vegetation-areas', 'tailte-water', 'tailte-watercourse-start-end-points', 'tailte-waterfalls', 'tailte-low-water-mark'] },
+            { id: 'flat-tailte-transport', name: 'Transport Network (Republic of Ireland, Tailte Éireann)', years: '', extent: 'Republic of Ireland', thumbMapId: 'tailte-roads', mapIds: ['tailte-airfield-area', 'tailte-airports', 'tailte-border-exits-entrances', 'tailte-ferry-crossing', 'tailte-main-harbours', 'tailte-motorway-access-exit-points', 'tailte-other-harbours', 'tailte-rail-network', 'tailte-railway-stations', 'tailte-road-rail-intersections', 'tailte-road-interchanges', 'tailte-road-intersections', 'tailte-roads', 'tailte-runways', 'tailte-ferry-station'] },
             // Was a Tailte grab-bag: Gaeltacht, NUTS 2, NUTS 3 and provinces all sat here purely
             // because Tailte published them together, while the catalogue already had a card for
             // each of those subjects. They now sit with their own kind; rural areas has nowhere
@@ -4456,6 +4458,17 @@ class UIController {
         // so renaming it to 'More Electoral Divisions' silently moved it out of the Wards &
         // Electoral Divisions section it belongs in. Where that collides with an existing
         // card of the same name, the subtitle distinguishes them instead.
+        // A category whose name is exactly an existing card's joins that card instead: the
+        // catalogue showed two 'Townlands' rows and two 'Townlands' cards, the second a
+        // 'Further layers' card holding the 1844 townlands and the council and OSNI 50k
+        // townland layers, which are the same subject and belong on the one card.
+        const cardByName = new Map(c1Cards.map(card => [String(card.name || ''), card]));
+        [...unclaimedByCategory.entries()].forEach(([categoryId, mapIds]) => {
+            const home = cardByName.get(String(categoryNameById.get(categoryId) || categoryId));
+            if (!home) return;
+            home.mapIds = [...(home.mapIds || []), ...mapIds.filter(id => !(home.mapIds || []).includes(id))];
+            unclaimedByCategory.delete(categoryId);
+        });
         const existingCardNames = new Set(c1Cards.map(card => String(card.name || '')));
         [...unclaimedByCategory.entries()]
             .sort((a, b) => b[1].length - a[1].length || String(a[0]).localeCompare(String(b[0])))
@@ -4695,9 +4708,6 @@ class UIController {
                 <button type="button" class="catalogue-flat__toc-toplink catalogue-flat__toc-toplink--tab catalogue-flat__section-tab" data-tab-target="tables"${current('tables')}>${SECTION_ICONS.tables}<span>Tables</span></button>
             </nav>
             <div class="catalogue-flat__toc">
-                <div class="catalogue-flat__toc-toplinks catalogue-flat__toc-toplinks--stats-only">
-                    <span class="catalogue-flat__toc-stats" id="catalogueTocStats" aria-hidden="true"></span>
-                </div>
                 <table class="catalogue-flat__toc-table${catalogueV2 ? ' catalogue-flat__toc-table--v2' : ''}">
                     <tbody>`;
 
@@ -4710,7 +4720,10 @@ class UIController {
         tocHtml += `
                 <tr class="catalogue-flat__toc-heading-row">
                     <td colspan="3">
-                        <span class="catalogue-flat__toc-heading">${SECTION_ICONS.elections}<span>Elections</span></span>
+                        <div class="catalogue-flat__toc-heading-line">
+                            <span class="catalogue-flat__toc-heading">${SECTION_ICONS.elections}<span>Elections</span></span>
+                            <span class="catalogue-flat__toc-stats" id="catalogueTocStats" aria-hidden="true"></span>
+                        </div>
                     </td>
                 </tr>
                 <tr class="catalogue-flat__toc-decade-row">

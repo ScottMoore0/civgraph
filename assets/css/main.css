@@ -797,16 +797,6 @@ button.catalogue-flat__toc-toplink {
   }
 }
 
-.catalogue-flat__toc-toplinks--stats-only {
-  justify-content: flex-end;
-  margin-bottom: 4px;
-}
-
-.catalogue-flat__toc-toplinks--stats-only:empty,
-.catalogue-flat__toc-toplinks--stats-only:has(.catalogue-flat__toc-stats:empty) {
-  display: none;
-}
-
 @media (max-width: 480px) {
   .catalogue-flat__sections .catalogue-flat__section-tab {
     gap: 6px;
@@ -1035,6 +1025,14 @@ button.catalogue-flat__toc-toplink {
 .catalogue-flat__toc-heading-row + tr td,
 .catalogue-flat__toc-decade-row td {
   padding-bottom: 14px;
+}
+
+/* The map count sits at the right of the first heading ("Elections"), on its line. */
+.catalogue-flat__toc-heading-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .catalogue-flat__toc-heading {
