@@ -297,7 +297,7 @@ def context_span(map_config, feature_span):
         return min(max(feature_span * 1.28, ALL_IRELAND_MIN_CONTEXT_SPAN), MAX_CONTEXT_SPAN)
     return min(max(feature_span * 1.75, DEFAULT_MIN_CONTEXT_SPAN), MAX_CONTEXT_SPAN)
 
-def render_thumbnail(map_config, land_polys, out_path, geoms=None, raster=None):
+def render_thumbnail(map_config, land_polys, out_path, geoms=None, raster=None, tight=False, land=True):
     """Render a single thumbnail on a square canvas. Handles polygons,
     lines, and points; if a layer contains a mix, all are drawn.
 
@@ -339,7 +339,8 @@ def render_thumbnail(map_config, land_polys, out_path, geoms=None, raster=None):
 
     # Preserve a recognizable land underlay. Without this, small maps crop
     # coastlines into abstract grey fragments at thumbnail size.
-    span_floor = context_span(map_config, max(dx, dy))
+    # `tight` frames the layer itself (terrain relief is the picture; context shrinks it).
+    span_floor = max(dx, dy) * (1.6 if geoms['points'] and not raster else 1.0) if tight         else context_span(map_config, max(dx, dy))
     if dx < span_floor:
         cx = (minx + maxx) / 2
         minx = cx - span_floor / 2
@@ -371,8 +372,9 @@ def render_thumbnail(map_config, land_polys, out_path, geoms=None, raster=None):
     fig.patch.set_alpha(1)
     ax.set_facecolor(BG_COLOR)
 
-    # Draw land background
-    land_patches = polys_to_patches(land_polys)
+    # Draw land background -- `land=False` under close-framed terrain, where the relief is
+    # the land and the coarse coastline would sit visibly off it.
+    land_patches = polys_to_patches(land_polys) if land else []
     if land_patches:
         land_coll = PatchCollection(land_patches, facecolor=LAND_COLOR,
                                      edgecolor=LAND_EDGE, linewidth=0.3, zorder=1)
