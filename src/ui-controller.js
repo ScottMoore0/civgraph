@@ -2101,7 +2101,41 @@ class UIController {
     getThumbnailId(mapOrId) {
         if (!mapOrId) return '';
         if (typeof mapOrId === 'string') return mapOrId;
-        return mapOrId.cloneOf || mapOrId.id || '';
+        const own = mapOrId.cloneOf || mapOrId.id || '';
+        if (!own || !this._thumbnailIds || this.hasThumbnailAsset(own)) return own;
+        return this.getStandInThumbnailId(mapOrId) || own;
+    }
+
+    // A map with nothing to draw -- a placeholder for a series not yet digitised, like the
+    // County Electoral Divisions of each year 1921-69 -- showed an empty box. It shows the
+    // nearest-dated map of its own series instead (county-ed-1969-04-01 -> the 1957 one),
+    // else a map of its category; the row's "To Be Added" badge still says what it is.
+    getStandInThumbnailId(map) {
+        const id = String(map.id || '');
+        const stemOf = (value) => String(value).replace(/[-_]?\d{4}(?:-\d{2}(?:-\d{2})?)?$/, '');
+        const yearOf = (value) => Number((String(value).match(/(\d{4})(?:-\d{2}(?:-\d{2})?)?$/) || [])[1]) || null;
+        if (!this._thumbnailStandIns) {
+            const byStem = new Map();
+            const byCategory = new Map();
+            (dataService.maps?.maps || []).forEach((candidate) => {
+                const cid = candidate.cloneOf || candidate.id;
+                if (!cid || candidate.hidden || !this.hasThumbnailAsset(cid)) return;
+                const stem = stemOf(candidate.id);
+                if (!byStem.has(stem)) byStem.set(stem, []);
+                byStem.get(stem).push(cid);
+                const category = candidate.category || '';
+                if (category && !byCategory.has(category)) byCategory.set(category, cid);
+            });
+            this._thumbnailStandIns = { byStem, byCategory };
+        }
+        const { byStem, byCategory } = this._thumbnailStandIns;
+        const series = byStem.get(stemOf(id)) || [];
+        if (series.length) {
+            const year = yearOf(id);
+            if (!year) return series[0];
+            return series.reduce((best, cid) => (Math.abs((yearOf(cid) || 0) - year) < Math.abs((yearOf(best) || 0) - year) ? cid : best));
+        }
+        return byCategory.get(map.category || '') || '';
     }
 
     thumbnailPath(id, sizeSuffix = '') {
@@ -5054,14 +5088,23 @@ class UIController {
         const renderedHeadings = new Set();
         const renderedCards = new Set();
 
+        // A row's picture: the card's chosen map, else its first map that has a thumbnail --
+        // not simply the newest, which in a series still being digitised is a placeholder
+        // (County Electoral Divisions 1969, Stormont 1969) and showed an empty box.
+        const pickPreview = (override, maps) => {
+            const has = (m) => m && this.hasThumbnailAsset(m.cloneOf || m.id);
+            if (has(override)) return override;
+            return maps.map(entry => entry.map).find(has) || override || maps[0]?.map || null;
+        };
+
         const appendTocRow = (card, indented = false, sectionKey = null) => {
             const resolvedSectionKey = sectionKey || `map:${card.id}`;
             flatMapCardSectionKeyById.set(card.id, resolvedSectionKey);
             const targetId = addFlatTocTarget(`flat-card-${card.id}`, resolvedSectionKey);
             const maps = collectCardMaps(card);
             const override = card.thumbMapId ? (mapById.get(card.thumbMapId) || dataService.getMapById(card.thumbMapId)) : null;
-            const preview = override || maps[0]?.map || null;
-            const previewThumb = preview ? (preview.cloneOf || preview.id) : '';
+            const preview = pickPreview(override, maps);
+            const previewThumb = preview ? this.getThumbnailId(preview) : '';
             const previewColor = preview?.style?.color || '#888';
             const strippedName = stripBracketParts(card.name);
             const tocName = card.id === 'flat-historic-sites' ? 'Historic Sites' : strippedName;
@@ -5090,8 +5133,8 @@ class UIController {
             const maps = firstCard ? collectCardMaps(firstCard) : [];
             const overrideId = firstCard?.thumbMapId || merge.thumbMapId;
             const override = overrideId ? (mapById.get(overrideId) || dataService.getMapById(overrideId)) : null;
-            const preview = override || maps[0]?.map || null;
-            const previewThumb = preview ? (preview.cloneOf || preview.id) : '';
+            const preview = pickPreview(override, maps);
+            const previewThumb = preview ? this.getThumbnailId(preview) : '';
             const previewColor = preview?.style?.color || '#888';
             tocHtml += `
                 <tr class="${indented ? 'catalogue-flat__toc-row--indented' : ''}">
