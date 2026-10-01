@@ -1237,8 +1237,68 @@ function personSlug(personId, name) {
   return readable ? `${readable}-${slugify(id)}` : slugify(id);
 }
 
+/**
+ * The History of Parliament's biographies of the Irish members, 1790-1832 (scripts/hop), keyed
+ * by the sourcePersonId a candidacy carries: "wikipedia:<article>" through Wikidata's HoP ID
+ * (P1614), "hop:<page>" for a member with no article, and "person:<id>" where
+ * link_hop_members.py matched him by seat. Each page is cited and linked; the birth and death
+ * dates are the only facts taken from it, never the Trust's text.
+ */
+function loadHopPages() {
+  const members = readJson('data/elections/hop/hop-irish-members.json', { members: [] }).members || [];
+  if (!members.length) return new Map();
+  const volumes = readJson('data/elections/hop/hop-irish-constituencies.json', { volumes: {} }).volumes || {};
+  const enwiki = new Map((readJson('data/elections/hop/wikidata-hop-ids.json', { records: [] }).records || [])
+    .filter((r) => r.enwiki).map((r) => [`/volume/${r.hop}`.toLowerCase(), r.enwiki]));
+  const links = readJson('data/elections/hop/hop-person-links.json', { links: [] }).links || [];
+  const byKey = new Map();
+  // A page reached through its own id or Wikidata is strong evidence; one matched by seat and
+  // surname (link_hop_members.py) is weaker, and gives way where the two disagree.
+  const add = (key, page, strong) => {
+    if (!key) return;
+    const list = byKey.get(key) || [];
+    const at = list.findIndex((p) => p.page.url === page.url);
+    if (at < 0) list.push({ page, strong });
+    else if (strong) list[at].strong = true;
+    byKey.set(key, list);
+  };
+  const pageOf = new Map();
+  for (const m of members) {
+    const v = volumes[m.volume] || {};
+    const page = compactObject({
+      title: v.title, edition: [v.editor, v.year].filter(Boolean).join(', '), volume: m.volume,
+      url: m.url, heading: m.heading.replace(/\s*\(.*$/, ''), born: m.born, died: m.died,
+      // One man has a page in each volume, not always under the same slug ("prittie-hon-
+      // francis-aldborough-1779-1853", "prittie-hon-francis-1779-1853"): his surname and his
+      // years are who he is.
+      member: memberIdentity(m.path)
+    });
+    pageOf.set(m.path.toLowerCase(), page);
+    add(`hop:${m.path.replace(/^\/volume\//, '')}`, page, true);
+    const article = enwiki.get(m.path.toLowerCase());
+    if (article) add(`wikipedia:${article}`, page, true);
+  }
+  for (const l of links) {
+    const page = pageOf.get(String(l.hop || '').toLowerCase());
+    if (page && l.personKey) add(l.personKey, page, l.method === 'wikidata');
+  }
+  return byKey;
+}
+
+function memberIdentity(path) {
+  const slug = path.replace(/^.*\/member\//, '').replace(/\d{4,}(?=[a-z])/g, '');   // "o8217brien"
+  const years = slug.match(/(\d{4})-(\d{4})$/);
+  return years ? `${slug.split('-')[0]}:${years[1]}-${years[2]}` : slug;
+}
+
+// The more precise of two dates: "1776-08-01" over "1776".
+function preciser(a, b) {
+  return !a ? b : !b ? a : b.length > a.length ? b : a;
+}
+
 function buildPersons(electionDetails, partyRecords) {
   const byId = new Map();
+  const hopPages = loadHopPages();
   let referendumsSkipped = 0;
   // Same reasoning as the referendum skip above: these names are not people, so they
   // must not become entries here. Suppressed at the person, never at the candidate row,
@@ -1293,6 +1353,7 @@ function buildPersons(electionDetails, partyRecords) {
             // is a list, not a field: see data/elections/persons/name_registry.json.
             names: new Map(),
             elections: [],
+            sourceKeys: new Set([`person:${personId}`]),
             totals: { stood: 0, elected: 0, firstPrefs: 0 },
             firstYear: null,
             lastYear: null,
@@ -1300,6 +1361,7 @@ function buildPersons(electionDetails, partyRecords) {
           });
         }
         const person = byId.get(personId);
+        if (candidate.sourcePersonId) person.sourceKeys.add(String(candidate.sourcePersonId));
         const nameId = cleanText(candidate.name_id || '');
         if (nameId) {
           const seen = person.names.get(nameId) || { nameId, name, count: 0 };
@@ -1389,7 +1451,24 @@ function buildPersons(electionDetails, partyRecords) {
     console.log(`- persons: stripped a Wikipedia qualifier from ${qualifiersStripped.size} name(s): ${[...qualifiersStripped].join(', ')}`);
   }
 
-  const details = Object.fromEntries([...byId.values()].map((person) => {
+  let withHop = 0;
+  let severalMembers = 0;
+  const details = Object.fromEntries([...byId.values()].map(({ sourceKeys, ...person }) => {
+    const reached = [];
+    for (const key of sourceKeys) {
+      for (const r of hopPages.get(key) || []) {
+        const seen = reached.find((x) => x.page.url === r.page.url);
+        if (!seen) reached.push({ ...r });
+        else if (r.strong) seen.strong = true;
+      }
+    }
+    const strong = reached.filter((r) => r.strong);
+    const hop = (strong.length ? strong : reached).map((r) => r.page);
+    hop.sort((a, b) => a.volume.localeCompare(b.volume));
+    // Pages for two different members on one record (Mervyn Archdall, father and son) mean
+    // the record is several people; neither biography, nor its dates, is this record's.
+    if (new Set(hop.map((p) => p.member)).size > 1) { severalMembers += 1; hop.length = 0; }
+    if (hop.length) withHop += 1;
     const parties = mapToSortedArray(person.parties);
     const constituencies = mapToSortedArray(person.constituencies);
     const genders = mapToSortedArray(person.genders);
@@ -1437,10 +1516,19 @@ function buildPersons(electionDetails, partyRecords) {
           + 'usable person identifier.',
       } : {}),
       subtitle: compactJoin([parties[0]?.name, formatYearRange(person.firstYear, person.lastYear), `${person.totals.stood} contests`]),
-      interactiveUrl: person.elections[0]?.interactiveUrl || null
+      interactiveUrl: person.elections[0]?.interactiveUrl || null,
+      ...(hop.length ? {
+        historyOfParliament: hop.map(({ born, died, member, ...page }) => page),
+        born: hop.map((p) => p.born).reduce(preciser, null),
+        died: hop.map((p) => p.died).reduce(preciser, null),
+      } : {})
     };
     return [detail.slug, detail];
   }));
+  if (hopPages.size) {
+    console.log(`- persons: ${withHop} record(s) cite their History of Parliament biography; `
+      + `${severalMembers} left without, because pages for more than one member reach them`);
+  }
 
   const items = Object.values(details).map((person) => compactObject({
     ...person,

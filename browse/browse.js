@@ -1634,7 +1634,8 @@ function renderOverviewPanel(type, item) {
   } else if (type === 'parties') {
     rows.push(['Canonical name', item.canonicalName], ['Observed labels', joinList(item.observedNames?.slice(0, 8))], ['Years', item.subtitle], ['Occurrences', item.occurrenceCount]);
   } else if (type === 'persons') {
-    rows.push(['Name', item.name], ['Years', item.subtitle], ['Parties', joinList(item.parties?.slice(0, 5).map((party) => party.name))], ['Contests', item.totals?.stood], ['Elected', item.totals?.elected]);
+    rows.push(['Name', item.name], ['Years', item.subtitle], ['Parties', joinList(item.parties?.slice(0, 5).map((party) => party.name))], ['Contests', item.totals?.stood], ['Elected', item.totals?.elected],
+      ['Born', formatDate(item.born)], ['Died', formatDate(item.died)]);
   } else if (type === 'register-interests') {
     rows.push(
       ['Elected body', item.electedBody],
@@ -1979,7 +1980,14 @@ function renderRelatedPanel(type, item) {
     escapeHtml(row.party || ''),
     escapeHtml(row.constituency || ''),
     escapeHtml(row.status || (row.elected ? 'Elected' : ''))
-  ]);
+  ]) + (item.historyOfParliament?.length
+    // The member's biography in the History of Parliament, cited and linked; the Trust's
+    // text is not reproduced. Born and died in the overview come from these pages.
+    ? renderSimpleTable('History of Parliament', ['Volume', 'Biography'], item.historyOfParliament, (row) => [
+      escapeHtml([row.title, row.edition].filter(Boolean).join(', ')),
+      `<a href="${escapeAttr(row.url)}" rel="noopener">${escapeHtml(row.heading || row.url)}</a>`
+    ])
+    : '');
   if (type === 'register-interests') return renderRegisterInterestRelated(item);
   if (type === 'maps') return renderMapVariants(item);
   return '';
