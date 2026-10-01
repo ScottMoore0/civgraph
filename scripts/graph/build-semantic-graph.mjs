@@ -99,7 +99,10 @@ const PROP = {
   date: 'cg:property:date',
   year: 'cg:property:year',
   constituency: 'cg:property:constituency',
-  jurisdiction: 'cg:property:jurisdiction'
+  jurisdiction: 'cg:property:jurisdiction',
+  historyOfParliament: 'cg:property:history-of-parliament-biography',
+  dateOfBirth: 'cg:property:date-of-birth',
+  dateOfDeath: 'cg:property:date-of-death'
 };
 
 // Parent-card values that correspond to an elected body, mapped (by slug key)
@@ -695,6 +698,32 @@ function buildElectionEntities(items, browseElectionSource) {
   }
 }
 
+/**
+ * A member's History of Parliament biography, and the birth and death dates it gives, each
+ * referenced to that page. The volume is the source entity; the page is the reference's URL.
+ */
+function addHistoryOfParliament(id, item) {
+  const pages = normalizeArray(item.historyOfParliament);
+  if (!pages.length) return;
+  const refs = pages.map((page) => {
+    const sourceId = getGenericSourceEntity({
+      label: [page.title, page.edition].filter(Boolean).join(', '),
+      url: `https://www.historyofparliamentonline.org/volume/${page.volume}`
+    }, { sourceKind: 'history-of-parliament' });
+    return compactObject({ sourceId, sourceTitle: entities.get(sourceId)?.label, sourceUrl: page.url });
+  });
+  pages.forEach((page, i) => addStatement({
+    subjectId: id,
+    propertyId: PROP.historyOfParliament,
+    value: urlValue(page.url),
+    references: [refs[i]]
+  }));
+  // Every page that gives the date is cited for it, not only the most precise.
+  for (const [prop, key] of [[PROP.dateOfBirth, 'born'], [PROP.dateOfDeath, 'died']]) {
+    if (item[key]) addStatement({ subjectId: id, propertyId: prop, value: dateValue(item[key]), references: refs });
+  }
+}
+
 function buildPersonEntities(items, browsePersonSource) {
   for (const item of items) {
     const id = makeEntityId('person', item.slug || item.id || item.name || item.title);
@@ -720,6 +749,7 @@ function buildPersonEntities(items, browsePersonSource) {
       })
     });
     addBrowseMappings('persons', item, id);
+    addHistoryOfParliament(id, item);
     const nameKey = normalizePersonName(item.name || item.title || item.id);
     if (nameKey && !personByNormalizedName.has(nameKey)) personByNormalizedName.set(nameKey, id);
 

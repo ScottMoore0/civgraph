@@ -42,6 +42,9 @@ const ELECTIONS = path.join('data', 'elections-source', 'data', 'elections');
 const REVIEW = path.join('data', 'review-inputs', 'wikipedia-cited-sources', 'contest-sources.json');
 const BIBLIOGRAPHY = path.join('data', 'elections', 'walker-volumes.json');
 const BIBLIOGRAPHY_VERIFIED = path.join('data', 'elections', 'walker-verified-contests.json');
+// The History of Parliament page each 1801-1832 Irish contest cites, with what was compared
+// against it and what was taken from it (scripts/walker/import_walker_1801_1831.py).
+const HOP_CITATIONS = path.join('data', 'elections', 'hop', 'hop-contest-citations.json');
 const OUT = path.join('data', 'database', 'election-provenance.json');
 // Per-election shards for the browser. The whole file is 10 MB, far too much to fetch, so the app
 // loads only the election it is showing, keyed by the constituency name it already has.
@@ -338,11 +341,43 @@ function wikipediaArticleLayer() {
   return [forContest, { present: true, articles: (doc.records ?? []).filter((r) => !r.isRedirect).length, matched }];
 }
 
+/**
+ * The History of Parliament: a printed history (1986, 2009) whose constituency pages are online.
+ * Unlike a bibliography rule this is cited per contest, to the page itself, and says whether its
+ * members and figures were read against ours. Citations only: the Trust's text is never copied.
+ */
+function hopLayer() {
+  if (!existsSync(HOP_CITATIONS)) return new Map();
+  const map = new Map();
+  for (const r of readJson(HOP_CITATIONS).records ?? []) {
+    map.set(r.file, {
+      ...(r.supplies?.length ? { supplies: r.supplies } : {}),
+      title: r.title,
+      publisher: r.publisher,
+      url: r.url,
+      archiveUrl: null,
+      host: hostOf(r.url),
+      kind: 'academic',
+      origin: 'bibliography',
+      basis: 'contest-page',
+      scope: 'this contest',
+      checked: Boolean(r.checked),
+      check: r.check ?? null,
+      match: null,
+      document: null,
+      locator: null,
+      edition: [r.editor, r.year].filter(Boolean).join(', ') || null,
+    });
+  }
+  return map;
+}
+
 function build() {
   const disk = contestsOnDisk();
   const [wiki, stats] = wikipediaLayer();
   const [bibliographyFor, bibStats] = bibliographyLayer();
   const [articleFor, articleStats] = wikipediaArticleLayer();
+  const hop = hopLayer();
   const contests = disk.map((c) => {
     const extra = wiki.get(c.file);
     const sources = [];
@@ -367,6 +402,7 @@ function build() {
     // Printed citations last: they are the broadest claim, and anything fetched and compared
     // should sort above them.
     if (typeof bibliographyFor === 'function') sources.push(...bibliographyFor(c.body, c.date, c.file));
+    if (hop.has(c.file)) sources.push(hop.get(c.file));
     // Article-level citations last of all: the broadest claim of any layer.
     const article = typeof articleFor === 'function' ? articleFor(c.body, c.date) : null;
     for (const s of article?.sources ?? []) {
