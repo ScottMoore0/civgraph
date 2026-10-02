@@ -53,7 +53,7 @@ FORUM = 'northern-ireland-forum-for-political-dialogue__1996-05-30'
 DISAMBIGUATED = re.compile(r'\([^)]*\bpolitician\b[^)]*\)', re.I)
 # Jr / Snr / a regnal numeral: the one way SAME-SEAT-SEQUENCE below could fuse a father
 # and son who held the same seat for the same party.
-SUCCESSOR_SUFFIX = re.compile(r'(jn?r|jun|junior|sn?r|sen|senior|[IVX]{2,})', re.I)
+SUCCESSOR_SUFFIX = re.compile(r'\b(jn?r|jun|junior|sn?r|sen|senior|[IVX]{2,})\b', re.I)
 
 
 def observations():
@@ -150,7 +150,14 @@ def main():
                     if ya[1] < yb[0] or yb[1] < ya[0]:
                         gap = yb[0] - ya[1] if ya[1] < yb[0] else ya[0] - yb[1]
                         named = f"{ents[a]['displayName']} {ents[b]['displayName']}"
-                        if (pa & pb and ca & cb and ba & bb and 0 < gap <= 10
+                        # Two different Wikipedia articles are two men, whatever the seat:
+                        # Thomas Knox, 2nd Earl of Ranfurly (Dungannon to 1837) and his son
+                        # the 3rd (from 1838) were joined by this rule before it looked.
+                        wa = {s for s in ents[a].get('sourcePersonIds') or [] if s.startswith('wikipedia:')}
+                        wb = {s for s in ents[b].get('sourcePersonIds') or [] if s.startswith('wikipedia:')}
+                        if wa and wb and wa.isdisjoint(wb):
+                            skipped['SAME-SEAT-SEQUENCE: two Wikipedia articles'] += 1
+                        elif (pa & pb and ca & cb and ba & bb and 0 < gap <= 10
                                 and not SUCCESSOR_SUFFIX.search(named)):
                             cls = 'SAME-SEAT-SEQUENCE'
 

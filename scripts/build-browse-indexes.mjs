@@ -1248,8 +1248,11 @@ function loadHopPages() {
   const members = readJson('data/elections/hop/hop-irish-members.json', { members: [] }).members || [];
   if (!members.length) return new Map();
   const volumes = readJson('data/elections/hop/hop-irish-constituencies.json', { volumes: {} }).volumes || {};
-  const enwiki = new Map((readJson('data/elections/hop/wikidata-hop-ids.json', { records: [] }).records || [])
-    .filter((r) => r.enwiki).map((r) => [`/volume/${r.hop}`.toLowerCase(), r.enwiki]));
+  const wikidata = readJson('data/elections/hop/wikidata-hop-ids.json', { records: [] }).records || [];
+  const enwiki = new Map(wikidata.filter((r) => r.enwiki).map((r) => [hopPageKey(`/volume/${r.hop}`), r.enwiki]));
+  // The Wikidata item a page describes: the two volumes can head one man differently
+  // (FOSTER, later SKEFFINGTON) or disagree on an uncertain birth year (Ruthven ?1772, 1773).
+  const item = new Map(wikidata.filter((r) => r.wikidata).map((r) => [hopPageKey(`/volume/${r.hop}`), r.wikidata]));
   const links = readJson('data/elections/hop/hop-person-links.json', { links: [] }).links || [];
   const byKey = new Map();
   // A page reached through its own id or Wikidata is strong evidence; one matched by seat and
@@ -1269,20 +1272,26 @@ function loadHopPages() {
       title: v.title, edition: [v.editor, v.year].filter(Boolean).join(', '), volume: m.volume,
       url: m.url, heading: m.heading.replace(/\s*\(.*$/, ''), born: m.born, died: m.died,
       // One man has a page in each volume, not always under the same slug ("prittie-hon-
-      // francis-aldborough-1779-1853", "prittie-hon-francis-1779-1853"): his surname and his
-      // years are who he is.
-      member: memberIdentity(m.path)
+      // francis-aldborough-1779-1853", "prittie-hon-francis-1779-1853"): his Wikidata item
+      // is who he is, else his surname and years.
+      member: item.get(hopPageKey(m.path)) || memberIdentity(m.path)
     });
-    pageOf.set(m.path.toLowerCase(), page);
+    pageOf.set(hopPageKey(m.path), page);
     add(`hop:${m.path.replace(/^\/volume\//, '')}`, page, true);
-    const article = enwiki.get(m.path.toLowerCase());
+    const article = enwiki.get(hopPageKey(m.path));
     if (article) add(`wikipedia:${article}`, page, true);
   }
   for (const l of links) {
-    const page = pageOf.get(String(l.hop || '').toLowerCase());
+    const page = pageOf.get(hopPageKey(String(l.hop || '')));
     if (page && l.personKey) add(l.personKey, page, l.method === 'wikidata');
   }
   return byKey;
+}
+
+// HoP's links percent-encode the apostrophe in O'Grady (o%E2%80%99grady); Wikidata stores
+// the character. Both are looked up decoded.
+function hopPageKey(p) {
+  try { return decodeURIComponent(p).toLowerCase(); } catch { return p.toLowerCase(); }
 }
 
 function memberIdentity(path) {

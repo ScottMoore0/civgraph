@@ -40,56 +40,375 @@
     "King's County"
   ],
   "availableStyleModes": [],
-  "partySummary": [],
-  "mainLikePartySummary": [],
+  "partySummary": [
+    {
+      "party": "Whig",
+      "seats": 1,
+      "stood": 1,
+      "votes": 426,
+      "colour": "#6b7280",
+      "share": 66.98113207547169
+    },
+    {
+      "party": "Conservative",
+      "seats": 0,
+      "stood": 1,
+      "votes": 210,
+      "colour": "#0087dc",
+      "share": 33.0188679245283
+    }
+  ],
+  "mainLikePartySummary": [
+    {
+      "party": "Whig",
+      "seats": 1,
+      "stood": 0,
+      "votes": 0,
+      "colour": "#888888",
+      "share": null
+    }
+  ],
   "mainLikeTotals": {
     "validPoll": 0,
     "totalPoll": 0,
-    "totalElectorate": 0,
+    "totalElectorate": 1078,
     "totalSpoiled": 0,
-    "totalSeats": 0
+    "totalSeats": 1
   },
   "mainLikeCandidateSummary": [],
   "mainLikeCandidateTotals": {
     "validPoll": 0
   },
   "entityIndex": {
-    "totalValid": 0,
-    "parties": [],
-    "candidates": []
+    "totalValid": 636,
+    "parties": [
+      {
+        "name": "Whig",
+        "colour": "#888888",
+        "firstPrefs": 426,
+        "finalVotes": 426,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "King's County"
+        ],
+        "candidates": [
+          {
+            "id": "wikipedia:Sir Andrew Armstrong, 1st Baronet",
+            "name": "Andrew Armstrong",
+            "constituency": "King's County",
+            "firstPref": 426,
+            "finalVotes": 426,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 66.98113207547169
+      },
+      {
+        "name": "Conservative",
+        "colour": "#888888",
+        "firstPrefs": 210,
+        "finalVotes": 210,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "King's County"
+        ],
+        "candidates": [
+          {
+            "id": "Thomas Bernard|Conservative",
+            "name": "Thomas Bernard",
+            "constituency": "King's County",
+            "firstPref": 210,
+            "finalVotes": 210,
+            "status": "Not elected"
+          }
+        ],
+        "shareOfTotal": 33.0188679245283
+      }
+    ],
+    "candidates": [
+      {
+        "id": "wikipedia:Sir Andrew Armstrong, 1st Baronet",
+        "key": "Andrew Armstrong|Whig",
+        "name": "Andrew Armstrong",
+        "party": "Whig",
+        "colour": "#888888",
+        "firstPrefs": 426,
+        "finalVotes": 426,
+        "electedCount": 1,
+        "constituencies": [
+          "King's County"
+        ],
+        "appearances": [
+          {
+            "constituency": "King's County",
+            "firstPref": 426,
+            "finalVotes": 426,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 66.98113207547169
+      },
+      {
+        "id": "Thomas Bernard|Conservative",
+        "key": "Thomas Bernard|Conservative",
+        "name": "Thomas Bernard",
+        "party": "Conservative",
+        "colour": "#888888",
+        "firstPrefs": 210,
+        "finalVotes": 210,
+        "electedCount": 0,
+        "constituencies": [
+          "King's County"
+        ],
+        "appearances": [
+          {
+            "constituency": "King's County",
+            "firstPref": 210,
+            "finalVotes": 210,
+            "status": "Not elected"
+          }
+        ],
+        "shareOfTotal": 33.0188679245283
+      }
+    ]
   },
   "results": [
     {
       "constituency": "King's County",
-      "winnerParty": null,
-      "winnerName": null,
-      "leadingParty": null,
-      "leadingName": null,
-      "leadingVotes": null,
-      "leadingPct": null,
+      "winnerParty": "Whig",
+      "winnerName": "Andrew Armstrong",
+      "leadingParty": "Whig",
+      "leadingName": "Andrew Armstrong",
+      "leadingVotes": 426,
+      "leadingPct": 66.98,
       "turnoutPct": null,
-      "majority": null,
-      "majorityPct": null,
-      "seatsWon": null,
-      "seatsTotal": null,
+      "majority": 216,
+      "majorityPct": 33.96,
+      "seatsWon": 1,
+      "seatsTotal": 1,
       "quota": null,
-      "electorate": null,
+      "electorate": 1078,
       "totalPoll": null,
       "spoiled": null,
-      "validPoll": null,
-      "totalVotes": null,
+      "validPoll": 636,
+      "totalVotes": 636,
       "colour": "#6b7280",
       "leadingColour": "#6b7280",
-      "candidates": [],
-      "elected": [],
-      "countInfo": {},
-      "countGroup": [],
+      "candidates": [
+        {
+          "id": "Andrew Armstrong|Whig",
+          "name": "Andrew Armstrong",
+          "party": "Whig",
+          "firstPrefs": 426,
+          "finalVotes": 426,
+          "elected": true,
+          "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#888888",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "sourcePersonId": "wikipedia:Sir Andrew Armstrong, 1st Baronet",
+          "counts": [
+            {
+              "count": 1,
+              "total": 426,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 426
+            }
+          ],
+          "personId": 126504,
+          "name_id": "n-andrew-armstrong"
+        },
+        {
+          "id": "Thomas Bernard|Conservative",
+          "name": "Thomas Bernard",
+          "party": "Conservative",
+          "firstPrefs": 210,
+          "finalVotes": 210,
+          "elected": false,
+          "electedAt": null,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Not elected",
+          "colour": "#888888",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "counts": [
+            {
+              "count": 1,
+              "total": 210,
+              "transfers": 0,
+              "status": "Not elected",
+              "firstPrefs": 210
+            }
+          ],
+          "personId": 126518,
+          "name_id": "n-thomas-bernard"
+        }
+      ],
+      "elected": [
+        {
+          "id": "Andrew Armstrong|Whig",
+          "name": "Andrew Armstrong",
+          "party": "Whig",
+          "firstPrefs": 426,
+          "finalVotes": 426,
+          "elected": true,
+          "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#888888",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "sourcePersonId": "wikipedia:Sir Andrew Armstrong, 1st Baronet",
+          "counts": [
+            {
+              "count": 1,
+              "total": 426,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 426
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "King's County",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "1078",
+        "Total_Poll": "",
+        "Valid_Poll": ""
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "426",
+          "Candidate_Id": "",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Andrew",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#888888",
+          "Party_Name": "Whig",
+          "Status": "Elected",
+          "Surname": "Armstrong",
+          "Total_Votes": "426",
+          "Transfers": "0.00",
+          "candidateName": "Andrew Armstrong",
+          "id": 0,
+          "sourcePersonId": "wikipedia:Sir Andrew Armstrong, 1st Baronet"
+        },
+        {
+          "Candidate_First_Pref_Votes": "210",
+          "Candidate_Id": "",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Thomas",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#888888",
+          "Party_Name": "Conservative",
+          "Status": "Not elected",
+          "Surname": "Bernard",
+          "Total_Votes": "210",
+          "Transfers": "0.00",
+          "candidateName": "Thomas Bernard",
+          "id": 1
+        }
+      ],
       "syntheticCountGroup": false,
       "nonTransferable": [],
       "forum": null,
-      "countNumbers": [],
+      "countNumbers": [
+        1
+      ],
       "hasCountDetail": false,
-      "animationPayload": null,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "King's County",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "1078",
+            "Total_Poll": "",
+            "Valid_Poll": ""
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "426",
+              "Candidate_Id": "",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Andrew",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#888888",
+              "Party_Name": "Whig",
+              "Status": "Elected",
+              "Surname": "Armstrong",
+              "Total_Votes": "426",
+              "Transfers": "0.00",
+              "candidateName": "Andrew Armstrong",
+              "id": 0,
+              "sourcePersonId": "wikipedia:Sir Andrew Armstrong, 1st Baronet"
+            },
+            {
+              "Candidate_First_Pref_Votes": "210",
+              "Candidate_Id": "",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Thomas",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#888888",
+              "Party_Name": "Conservative",
+              "Status": "Not elected",
+              "Surname": "Bernard",
+              "Total_Votes": "210",
+              "Transfers": "0.00",
+              "candidateName": "Thomas Bernard",
+              "id": 1
+            }
+          ]
+        },
+        "kind": "by-election",
+        "source_url": "https://en.wikipedia.org/wiki/King's_County_(UK_Parliament_constituency)",
+        "sources": [
+          {
+            "title": "King's County (UK Parliament constituency)",
+            "publisher": "Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/King's_County_(UK_Parliament_constituency)"
+          },
+          {
+            "title": "Parliamentary Election Results in Ireland, 1801-1922",
+            "editor": "Brian M. Walker (ed.)",
+            "publisher": "Royal Irish Academy",
+            "year": 1978,
+            "note": "Printed volume, in copyright and not reproduced."
+          },
+          {
+            "title": "List of United Kingdom by-elections",
+            "publisher": "Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/List_of_United_Kingdom_by-elections_(1832–1847)"
+          }
+        ],
+        "checked": "winner agrees with Wikipedia's list of by-elections; 2 figure(s) compared with Walker, all agreeing",
+        "cause": "Resignation"
+      },
       "constituencyId": null,
       "constituencyNumber": null,
       "officialDail": null,
@@ -100,7 +419,7 @@
       "candidateRowsExpected": true,
       "transferDataExpected": false,
       "localBody": null,
-      "sourceFile": null,
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1841-02-24/king-s-county.json",
       "featureId": null,
       "featureName": null,
       "featureAliases": [],
