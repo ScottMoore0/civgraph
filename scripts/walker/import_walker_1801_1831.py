@@ -35,7 +35,7 @@ from crosscheck_constituency_boxes import exact, surname  # noqa: E402
 from crosscheck_walker_1801_1831 import keys, fuzzy, member, plain, seat_keys  # noqa: E402
 from import_wikipedia_boxes import BODY, SRC, WALKER, slug  # noqa: E402
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'hop'))
-from hop_overlay import Overlay, cite, titled  # noqa: E402
+from hop_overlay import Overlay, cite, titled, forenames, forenames_agree  # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
 D = os.path.join(ROOT, 'data', 'elections')
@@ -151,6 +151,7 @@ def main(write=False):
         for v in json.load(open(VOTE_REVIEW, encoding='utf-8')):
             review_rows[(v['constituency'], v['date'])].append(v)
     hop_check = {}
+    relinked = []
     report, held, files = collections.Counter(), [], []
     hop_used = set()
     for w in walker:
@@ -212,11 +213,27 @@ def main(write=False):
             if cand.get('returned') or name in (w.get('seatedOnPetition') or []):
                 hit = [r for r in listed if keys(r['name']) & keys(name)] or \
                       [r for r in listed if fuzzy(keys(r['name']), keys(name))]
+                # A surname is not a man where two of the contest's candidates share it: the
+                # 1802 list links Rt Hon. John Stewart for Tyrone and not his colleague James
+                # Stewart, who must not take his article. With one candidate of the name, the
+                # list's man is Walker's even where their forenames differ (Walter Bagenal,
+                # whom Walker prints as William).
+                namesakes = [x for x in w['candidates'] if keys(x['name']) & keys(name)]
+                if len(namesakes) > 1:
+                    hit = [r for r in hit if forenames_agree(keys(name) | keys(r['name']), forenames(name), forenames(r['name']))]
                 if len(hit) == 1:
                     person = hit[0]['person']
                     # "Rowley re-elected": Walker prints the surname only; the list has the name.
                     if len(full.split()) == 1:
                         full = member(hit[0]['name'])
+                    # The list links the wrong man where Wikidata makes its article a
+                    # different HoP member from the one who held the seat that day.
+                    m = hop.member_for(seat_id, contest_day, name)
+                    if hop.contradicts(person, m):
+                        relinked.append({'contest': f"{w['constituency']} {contest_day}", 'name': name,
+                                         'list': person, 'hop': hop.person_key(m), 'hopPage': m['url']})
+                        report['list link replaced by the History of Parliament member'] += 1
+                        person = None
             hop_key = None
             if not person and (cand.get('returned') or name in (w.get('seatedOnPetition') or [])):
                 # The HoP member who held this seat on this day under this name: his
@@ -394,7 +411,7 @@ def main(write=False):
                 and not ('--overwrite' in sys.argv and d < '1832')
                 for f in os.listdir(os.path.join(SRC, d)) if f.endswith('.json')}
     report['would overwrite an existing file'] = sum(1 for d, s, _ in unique if (d, slug(s)) in existing)
-    json.dump({'schemaVersion': 1, 'counts': dict(report), 'held': held},
+    json.dump({'schemaVersion': 1, 'counts': dict(report), 'held': held, 'relinkedByHistoryOfParliament': relinked},
               open(os.path.join(D, 'walker-1801-1831-import-report.json'), 'w', encoding='utf-8'), indent=1, ensure_ascii=False)
     print(json.dumps(dict(report), indent=1))
     if not write:

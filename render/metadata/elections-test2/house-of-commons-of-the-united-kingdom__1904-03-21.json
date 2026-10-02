@@ -37,57 +37,382 @@
   "matchedCount": 1,
   "unmatchedCount": 0,
   "unmatchedConstituencies": [],
-  "availableStyleModes": [],
-  "partySummary": [],
-  "mainLikePartySummary": [],
+  "availableStyleModes": [
+    "winner",
+    "leadingParty",
+    "voteShare",
+    "majority",
+    "seats"
+  ],
+  "partySummary": [
+    {
+      "party": "Irish Parliamentary",
+      "seats": 1,
+      "stood": 1,
+      "votes": 3457,
+      "colour": "#6b7280",
+      "share": 55.0653074227461
+    },
+    {
+      "party": "Irish Unionist",
+      "seats": 0,
+      "stood": 1,
+      "votes": 2821,
+      "colour": "#6b7280",
+      "share": 44.934692577253905
+    }
+  ],
+  "mainLikePartySummary": [
+    {
+      "party": "Irish Parliamentary",
+      "seats": 1,
+      "stood": 0,
+      "votes": 0,
+      "colour": "#888888",
+      "share": null
+    }
+  ],
   "mainLikeTotals": {
     "validPoll": 0,
     "totalPoll": 0,
-    "totalElectorate": 0,
+    "totalElectorate": 8018,
     "totalSpoiled": 0,
-    "totalSeats": 0
+    "totalSeats": 1
   },
   "mainLikeCandidateSummary": [],
   "mainLikeCandidateTotals": {
     "validPoll": 0
   },
   "entityIndex": {
-    "totalValid": 0,
-    "parties": [],
-    "candidates": []
+    "totalValid": 6278,
+    "parties": [
+      {
+        "name": "Irish Parliamentary",
+        "colour": "#888888",
+        "firstPrefs": 3457,
+        "finalVotes": 3457,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Dublin St Stephen's Green"
+        ],
+        "candidates": [
+          {
+            "id": "wikipedia:Laurence Ambrose Waldron",
+            "name": "Laurence Ambrose Waldron",
+            "constituency": "Dublin St Stephen's Green",
+            "firstPref": 3457,
+            "finalVotes": 3457,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 55.0653074227461
+      },
+      {
+        "name": "Irish Unionist",
+        "colour": "#888888",
+        "firstPrefs": 2821,
+        "finalVotes": 2821,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Dublin St Stephen's Green"
+        ],
+        "candidates": [
+          {
+            "id": "Charles Louis Matheson|Irish Unionist",
+            "name": "Charles Louis Matheson",
+            "constituency": "Dublin St Stephen's Green",
+            "firstPref": 2821,
+            "finalVotes": 2821,
+            "status": "Not elected"
+          }
+        ],
+        "shareOfTotal": 44.934692577253905
+      }
+    ],
+    "candidates": [
+      {
+        "id": "wikipedia:Laurence Ambrose Waldron",
+        "key": "Laurence Ambrose Waldron|Irish Parliamentary",
+        "name": "Laurence Ambrose Waldron",
+        "party": "Irish Parliamentary",
+        "colour": "#888888",
+        "firstPrefs": 3457,
+        "finalVotes": 3457,
+        "electedCount": 1,
+        "constituencies": [
+          "Dublin St Stephen's Green"
+        ],
+        "appearances": [
+          {
+            "constituency": "Dublin St Stephen's Green",
+            "firstPref": 3457,
+            "finalVotes": 3457,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 55.0653074227461
+      },
+      {
+        "id": "Charles Louis Matheson|Irish Unionist",
+        "key": "Charles Louis Matheson|Irish Unionist",
+        "name": "Charles Louis Matheson",
+        "party": "Irish Unionist",
+        "colour": "#888888",
+        "firstPrefs": 2821,
+        "finalVotes": 2821,
+        "electedCount": 0,
+        "constituencies": [
+          "Dublin St Stephen's Green"
+        ],
+        "appearances": [
+          {
+            "constituency": "Dublin St Stephen's Green",
+            "firstPref": 2821,
+            "finalVotes": 2821,
+            "status": "Not elected"
+          }
+        ],
+        "shareOfTotal": 44.934692577253905
+      }
+    ]
   },
   "results": [
     {
       "constituency": "Dublin St Stephen's Green",
-      "winnerParty": null,
-      "winnerName": null,
-      "leadingParty": null,
-      "leadingName": null,
-      "leadingVotes": null,
-      "leadingPct": null,
+      "winnerParty": "Irish Parliamentary",
+      "winnerName": "Laurence Ambrose Waldron",
+      "leadingParty": "Irish Parliamentary",
+      "leadingName": "Laurence Ambrose Waldron",
+      "leadingVotes": 3457,
+      "leadingPct": 55.07,
       "turnoutPct": null,
-      "majority": null,
-      "majorityPct": null,
-      "seatsWon": null,
-      "seatsTotal": null,
+      "majority": 636,
+      "majorityPct": 10.13,
+      "seatsWon": 1,
+      "seatsTotal": 1,
       "quota": null,
-      "electorate": null,
+      "electorate": 8018,
       "totalPoll": null,
       "spoiled": null,
-      "validPoll": null,
-      "totalVotes": null,
+      "validPoll": 6278,
+      "totalVotes": 6278,
       "colour": "#6b7280",
       "leadingColour": "#6b7280",
-      "candidates": [],
-      "elected": [],
-      "countInfo": {},
-      "countGroup": [],
+      "candidates": [
+        {
+          "id": "Laurence Ambrose Waldron|Irish Parliamentary",
+          "name": "Laurence Ambrose Waldron",
+          "party": "Irish Parliamentary",
+          "firstPrefs": 3457,
+          "finalVotes": 3457,
+          "elected": true,
+          "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#888888",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "sourcePersonId": "wikipedia:Laurence Ambrose Waldron",
+          "counts": [
+            {
+              "count": 1,
+              "total": 3457,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 3457
+            }
+          ],
+          "personId": 123381,
+          "name_id": "n-laurence-ambrose-waldron"
+        },
+        {
+          "id": "Charles Louis Matheson|Irish Unionist",
+          "name": "Charles Louis Matheson",
+          "party": "Irish Unionist",
+          "firstPrefs": 2821,
+          "finalVotes": 2821,
+          "elected": false,
+          "electedAt": null,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Not elected",
+          "colour": "#888888",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "counts": [
+            {
+              "count": 1,
+              "total": 2821,
+              "transfers": 0,
+              "status": "Not elected",
+              "firstPrefs": 2821
+            }
+          ],
+          "personId": 126554,
+          "name_id": "n-charles-louis-matheson"
+        }
+      ],
+      "elected": [
+        {
+          "id": "Laurence Ambrose Waldron|Irish Parliamentary",
+          "name": "Laurence Ambrose Waldron",
+          "party": "Irish Parliamentary",
+          "firstPrefs": 3457,
+          "finalVotes": 3457,
+          "elected": true,
+          "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#888888",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "sourcePersonId": "wikipedia:Laurence Ambrose Waldron",
+          "counts": [
+            {
+              "count": 1,
+              "total": 3457,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 3457
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Dublin St Stephen's Green",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "8018",
+        "Total_Poll": "",
+        "Valid_Poll": ""
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "3,457",
+          "Candidate_Id": "",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Laurence Ambrose",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#888888",
+          "Party_Name": "Irish Parliamentary",
+          "Status": "Elected",
+          "Surname": "Waldron",
+          "Total_Votes": "3,457",
+          "Transfers": "0.00",
+          "candidateName": "Laurence Ambrose Waldron",
+          "id": 0,
+          "sourcePersonId": "wikipedia:Laurence Ambrose Waldron"
+        },
+        {
+          "Candidate_First_Pref_Votes": "2,821",
+          "Candidate_Id": "",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Charles Louis",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#888888",
+          "Party_Name": "Irish Unionist",
+          "Status": "Not elected",
+          "Surname": "Matheson",
+          "Total_Votes": "2,821",
+          "Transfers": "0.00",
+          "candidateName": "Charles Louis Matheson",
+          "id": 1
+        }
+      ],
       "syntheticCountGroup": false,
       "nonTransferable": [],
       "forum": null,
-      "countNumbers": [],
+      "countNumbers": [
+        1
+      ],
       "hasCountDetail": false,
-      "animationPayload": null,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Dublin St Stephen's Green",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "8018",
+            "Total_Poll": "",
+            "Valid_Poll": ""
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "3,457",
+              "Candidate_Id": "",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Laurence Ambrose",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#888888",
+              "Party_Name": "Irish Parliamentary",
+              "Status": "Elected",
+              "Surname": "Waldron",
+              "Total_Votes": "3,457",
+              "Transfers": "0.00",
+              "candidateName": "Laurence Ambrose Waldron",
+              "id": 0,
+              "sourcePersonId": "wikipedia:Laurence Ambrose Waldron"
+            },
+            {
+              "Candidate_First_Pref_Votes": "2,821",
+              "Candidate_Id": "",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Charles Louis",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#888888",
+              "Party_Name": "Irish Unionist",
+              "Status": "Not elected",
+              "Surname": "Matheson",
+              "Total_Votes": "2,821",
+              "Transfers": "0.00",
+              "candidateName": "Charles Louis Matheson",
+              "id": 1
+            }
+          ]
+        },
+        "kind": "by-election",
+        "source_url": "https://en.wikipedia.org/wiki/Dublin_St_Stephen's_Green",
+        "sources": [
+          {
+            "title": "Dublin St Stephen's Green",
+            "publisher": "Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Dublin_St_Stephen's_Green"
+          },
+          {
+            "title": "Parliamentary Election Results in Ireland, 1801-1922",
+            "editor": "Brian M. Walker (ed.)",
+            "publisher": "Royal Irish Academy",
+            "year": 1978,
+            "note": "Printed volume, in copyright and not reproduced."
+          },
+          {
+            "title": "List of United Kingdom by-elections",
+            "publisher": "Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/List_of_United_Kingdom_by-elections_(1900–1918)"
+          }
+        ],
+        "checked": "winner agrees with Wikipedia's list of by-elections; figures not compared with Walker",
+        "cause": "Death"
+      },
       "constituencyId": null,
       "constituencyNumber": null,
       "officialDail": null,
@@ -98,7 +423,7 @@
       "candidateRowsExpected": true,
       "transferDataExpected": false,
       "localBody": null,
-      "sourceFile": null,
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1904-03-21/dublin-st-stephen-s-green.json",
       "featureId": "66",
       "featureName": "St Stephens Green",
       "featureAliases": [

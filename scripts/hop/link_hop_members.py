@@ -25,6 +25,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from crosscheck_walker_1801_1831 import keys, fuzzy  # noqa: E402
 from crosscheck_hop_1801_1832 import hop_seat  # noqa: E402
+from hop_overlay import same_man, seat_end, Overlay, page_key, forenames, surname_words  # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
 HOP = os.path.join(ROOT, 'data', 'elections', 'hop')
@@ -32,9 +33,13 @@ META = os.path.join(ROOT, 'render', 'metadata', 'elections-test2')
 REGISTRY = os.path.join(ROOT, 'data', 'elections', 'persons', 'person_registry.json')
 
 
+BOROUGHS = set()   # HoP's Irish borough slugs, filled in main()
+
+
 def civgraph_seat(name):
-    n = re.sub(r"[^a-z' ]", ' ', name.lower()).replace("'", '').strip()
-    n = re.sub(r'\s+', ' ', n)
+    n = re.sub(r"['’]", '', name.lower())          # King's, King’s
+    n = re.sub(r'[^a-z ]', ' ', n)
+    n = re.sub(r'\s+', ' ', n).strip()
     if n in ('dublin university', 'university of dublin'):
         return ('university', 'dublin')
     if n.startswith('kings county'):
@@ -45,12 +50,17 @@ def civgraph_seat(name):
     if m:
         return ('county', m.group(1).replace(' ', '-'))
     stem = re.sub(r' (city|borough|town)$', '', n).replace(' ', '-')
-    return ('borough', 'bandon' if stem == 'bandon-bridge' else stem)
+    stem = 'bandon' if stem == 'bandon-bridge' else stem
+    # A bare name with no borough of that name is the county: "Clare", "Leitrim", "Westmeath".
+    return ('borough', stem) if stem in BOROUGHS or n.endswith((' city', ' borough', ' town')) else ('county', stem)
+
+
+member_display = Overlay._member_name
 
 
 def main():
     members = json.load(open(os.path.join(HOP, 'hop-irish-members.json'), encoding='utf-8'))['members']
-    wd = {('/volume/' + r['hop']).lower(): r for r in json.load(open(os.path.join(HOP, 'wikidata-hop-ids.json'), encoding='utf-8'))['records']}
+    wd = {page_key('/volume/' + r['hop']): r for r in json.load(open(os.path.join(HOP, 'wikidata-hop-ids.json'), encoding='utf-8'))['records']}
     registry = json.load(open(REGISTRY, encoding='utf-8'))['entities']
     wiki_keys = {s for e in registry for s in (e.get('sourcePersonIds') or []) if s.startswith('wikipedia:')}
     entity_of = {}
@@ -58,8 +68,10 @@ def main():
         for s in e.get('sourcePersonIds') or []:
             entity_of[s] = e
     by_pid = {e['personId']: e for e in registry}
+    cons = json.load(open(os.path.join(HOP, 'hop-irish-constituencies.json'), encoding='utf-8'))['constituencies']
+    BOROUGHS.update(hop_seat(c['slug'])[1] for c in cons if hop_seat(c['slug'])[0] == 'borough')
 
-    # Civgraph's returned members, 1801-1832, by seat: (date, name, personId).
+    # Civgraph's candidates, 1801-1832, by seat: (date, name, personId, returned).
     returned = collections.defaultdict(list)
     for f in glob.glob(os.path.join(META, 'house-of-commons-of-the-united-kingdom__18[0-3]*.json')):
         d = json.load(open(f, encoding='utf-8'))
@@ -68,14 +80,14 @@ def main():
             continue
         for r in d.get('results') or []:
             for c in r.get('candidates') or []:
-                if c.get('elected') or c.get('status') == 'Elected':
-                    returned[civgraph_seat(r.get('constituency') or '')].append((date, c.get('name') or '', c.get('personId')))
+                won = bool(c.get('elected') or c.get('status') == 'Elected')
+                returned[civgraph_seat(r.get('constituency') or '')].append((date, c.get('name') or '', c.get('personId'), won))
 
     links, tally = [], collections.Counter()
     for m in members:
         rec = {'hop': m['path'], 'url': m['url'], 'volume': m['volume'], 'heading': m['heading'],
                'born': m['born'], 'died': m['died']}
-        w = wd.get(m['path'].lower())
+        w = wd.get(page_key(m['path']))
         if w:
             rec['wikidata'] = w['wikidata']
         key = 'wikipedia:' + w['enwiki'] if w and w.get('enwiki') else None
@@ -85,15 +97,26 @@ def main():
             tally['linked through Wikidata'] += 1
             links.append(rec)
             continue
-        # By seat: who Civgraph has returned for the member's seats within his dates.
-        surname_keys = keys(re.sub(r'\(.*$', '', m['heading']).split(',')[0])
-        found = set()
+        # By seat: who Civgraph has returned for the member's seats within his dates; failing
+        # that, who stood there under his name (an 1801 member Civgraph has only as a loser in
+        # 1802, the Union returns not being elections).
+        display = member_display(m['heading'])
+        found, stood, named = set(), set(), set()
         for s in m['seats']:
             seat = hop_seat(s['constituency'].rstrip('/').rsplit('/', 1)[-1])
-            lo, hi = (s['from'] or '0000')[:4], (s['to'] or '9999')[:4]
-            for date, name, pid in returned.get(seat, []):
-                if lo <= date[:4] <= hi and pid and (surname_keys & keys(name) or fuzzy(surname_keys, keys(name))):
-                    found.add(pid)
+            # To the day where HoP gives one: Richard Power I died in 1814 and the by-election
+            # that year returned his son.
+            lo, hi = (s['from'] or '0000'), seat_end(s)
+            for date, name, pid, won in returned.get(seat, []):
+                if lo[:len(date)] <= date[:len(lo)] and date[:len(hi)] <= hi and pid and same_man(m['heading'], display, name):
+                    (found if won else stood).add(pid)
+                    if forenames(name) - surname_words(m['heading']):
+                        named.add(pid)
+        found = found or stood
+        # Where a bare surname ("Stewart re-elected") reaches a second person, the ones whose
+        # rows give forenames that agree with his decide.
+        if len(found) > 1 and len(found & named) == 1:
+            found = found & named
         if len(found) == 1:
             pid = found.pop()
             ent = by_pid.get(pid) or {}

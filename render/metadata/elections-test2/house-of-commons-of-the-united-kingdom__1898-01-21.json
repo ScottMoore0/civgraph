@@ -41,22 +41,32 @@
   "availableStyleModes": [
     "winner",
     "leadingParty",
+    "voteShare",
+    "majority",
     "seats"
   ],
   "partySummary": [
     {
       "party": "Irish Unionist",
-      "seats": 1,
-      "stood": 1,
-      "votes": 0,
+      "seats": 2,
+      "stood": 2,
+      "votes": 3525,
       "colour": "#6b7280",
-      "share": null
+      "share": 50.998263888888886
+    },
+    {
+      "party": "Irish National League",
+      "seats": 0,
+      "stood": 1,
+      "votes": 3387,
+      "colour": "#6b7280",
+      "share": 49.00173611111111
     }
   ],
   "mainLikePartySummary": [
     {
       "party": "Irish Unionist",
-      "seats": 1,
+      "seats": 2,
       "stood": 0,
       "votes": 0,
       "colour": "#888888",
@@ -66,28 +76,37 @@
   "mainLikeTotals": {
     "validPoll": 0,
     "totalPoll": 0,
-    "totalElectorate": 0,
+    "totalElectorate": 8735,
     "totalSpoiled": 0,
-    "totalSeats": 1
+    "totalSeats": 2
   },
   "mainLikeCandidateSummary": [],
   "mainLikeCandidateTotals": {
     "validPoll": 0
   },
   "entityIndex": {
-    "totalValid": 0,
+    "totalValid": 6912,
     "parties": [
       {
         "name": "Irish Unionist",
         "colour": "#888888",
-        "firstPrefs": 0,
-        "finalVotes": 0,
-        "stood": 1,
-        "elected": 1,
+        "firstPrefs": 3525,
+        "finalVotes": 3525,
+        "stood": 2,
+        "elected": 2,
         "constituencies": [
+          "Dublin St Stephen's Green",
           "Mid Armagh"
         ],
         "candidates": [
+          {
+            "id": "wikipedia:James Campbell, 1st Baron Glenavy",
+            "name": "James Campbell",
+            "constituency": "Dublin St Stephen's Green",
+            "firstPref": 3525,
+            "finalVotes": 3525,
+            "status": "Elected"
+          },
           {
             "id": "wikipedia:Dunbar Barton",
             "name": "Dunbar Barton",
@@ -97,10 +116,54 @@
             "status": "Elected"
           }
         ],
-        "shareOfTotal": null
+        "shareOfTotal": 50.998263888888886
+      },
+      {
+        "name": "Irish National League",
+        "colour": "#888888",
+        "firstPrefs": 3387,
+        "finalVotes": 3387,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Dublin St Stephen's Green"
+        ],
+        "candidates": [
+          {
+            "id": "wikipedia:George Noble Plunkett",
+            "name": "George Plunkett",
+            "constituency": "Dublin St Stephen's Green",
+            "firstPref": 3387,
+            "finalVotes": 3387,
+            "status": "Not elected"
+          }
+        ],
+        "shareOfTotal": 49.00173611111111
       }
     ],
     "candidates": [
+      {
+        "id": "wikipedia:James Campbell, 1st Baron Glenavy",
+        "key": "James Campbell|Irish Unionist",
+        "name": "James Campbell",
+        "party": "Irish Unionist",
+        "colour": "#888888",
+        "firstPrefs": 3525,
+        "finalVotes": 3525,
+        "electedCount": 1,
+        "constituencies": [
+          "Dublin St Stephen's Green"
+        ],
+        "appearances": [
+          {
+            "constituency": "Dublin St Stephen's Green",
+            "firstPref": 3525,
+            "finalVotes": 3525,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 50.998263888888886
+      },
       {
         "id": "wikipedia:Dunbar Barton",
         "key": "Dunbar Barton|Irish Unionist",
@@ -121,42 +184,270 @@
             "status": "Elected"
           }
         ],
-        "shareOfTotal": null
+        "shareOfTotal": 0
+      },
+      {
+        "id": "wikipedia:George Noble Plunkett",
+        "key": "George Plunkett|Irish National League",
+        "name": "George Plunkett",
+        "party": "Irish National League",
+        "colour": "#888888",
+        "firstPrefs": 3387,
+        "finalVotes": 3387,
+        "electedCount": 0,
+        "constituencies": [
+          "Dublin St Stephen's Green"
+        ],
+        "appearances": [
+          {
+            "constituency": "Dublin St Stephen's Green",
+            "firstPref": 3387,
+            "finalVotes": 3387,
+            "status": "Not elected"
+          }
+        ],
+        "shareOfTotal": 49.00173611111111
       }
     ]
   },
   "results": [
     {
       "constituency": "Dublin St Stephen's Green",
-      "winnerParty": null,
-      "winnerName": null,
-      "leadingParty": null,
-      "leadingName": null,
-      "leadingVotes": null,
-      "leadingPct": null,
+      "winnerParty": "Irish Unionist",
+      "winnerName": "James Campbell",
+      "leadingParty": "Irish Unionist",
+      "leadingName": "James Campbell",
+      "leadingVotes": 3525,
+      "leadingPct": 51,
       "turnoutPct": null,
-      "majority": null,
-      "majorityPct": null,
-      "seatsWon": null,
-      "seatsTotal": null,
+      "majority": 138,
+      "majorityPct": 2,
+      "seatsWon": 1,
+      "seatsTotal": 1,
       "quota": null,
-      "electorate": null,
+      "electorate": 8735,
       "totalPoll": null,
       "spoiled": null,
-      "validPoll": null,
-      "totalVotes": null,
+      "validPoll": 6912,
+      "totalVotes": 6912,
       "colour": "#6b7280",
       "leadingColour": "#6b7280",
-      "candidates": [],
-      "elected": [],
-      "countInfo": {},
-      "countGroup": [],
+      "candidates": [
+        {
+          "id": "James Campbell|Irish Unionist",
+          "name": "James Campbell",
+          "party": "Irish Unionist",
+          "firstPrefs": 3525,
+          "finalVotes": 3525,
+          "elected": true,
+          "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#888888",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "sourcePersonId": "wikipedia:James Campbell, 1st Baron Glenavy",
+          "counts": [
+            {
+              "count": 1,
+              "total": 3525,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 3525
+            }
+          ],
+          "personId": 124108,
+          "name_id": "n-james-campbell"
+        },
+        {
+          "id": "George Plunkett|Irish National League",
+          "name": "George Plunkett",
+          "party": "Irish National League",
+          "firstPrefs": 3387,
+          "finalVotes": 3387,
+          "elected": false,
+          "electedAt": null,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Not elected",
+          "colour": "#888888",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "sourcePersonId": "wikipedia:George Noble Plunkett",
+          "counts": [
+            {
+              "count": 1,
+              "total": 3387,
+              "transfers": 0,
+              "status": "Not elected",
+              "firstPrefs": 3387
+            }
+          ],
+          "personId": 123237,
+          "name_id": "n-george-plunkett"
+        }
+      ],
+      "elected": [
+        {
+          "id": "James Campbell|Irish Unionist",
+          "name": "James Campbell",
+          "party": "Irish Unionist",
+          "firstPrefs": 3525,
+          "finalVotes": 3525,
+          "elected": true,
+          "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#888888",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "sourcePersonId": "wikipedia:James Campbell, 1st Baron Glenavy",
+          "counts": [
+            {
+              "count": 1,
+              "total": 3525,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 3525
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Dublin St Stephen's Green",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "8735",
+        "Total_Poll": "",
+        "Valid_Poll": ""
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "3,525",
+          "Candidate_Id": "",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "James",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#888888",
+          "Party_Name": "Irish Unionist",
+          "Status": "Elected",
+          "Surname": "Campbell",
+          "Total_Votes": "3,525",
+          "Transfers": "0.00",
+          "candidateName": "James Campbell",
+          "id": 0,
+          "sourcePersonId": "wikipedia:James Campbell, 1st Baron Glenavy"
+        },
+        {
+          "Candidate_First_Pref_Votes": "3,387",
+          "Candidate_Id": "",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "George",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#888888",
+          "Party_Name": "Irish National League",
+          "Status": "Not elected",
+          "Surname": "Plunkett",
+          "Total_Votes": "3,387",
+          "Transfers": "0.00",
+          "candidateName": "George Plunkett",
+          "id": 1,
+          "sourcePersonId": "wikipedia:George Noble Plunkett"
+        }
+      ],
       "syntheticCountGroup": false,
       "nonTransferable": [],
       "forum": null,
-      "countNumbers": [],
+      "countNumbers": [
+        1
+      ],
       "hasCountDetail": false,
-      "animationPayload": null,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Dublin St Stephen's Green",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "8735",
+            "Total_Poll": "",
+            "Valid_Poll": ""
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "3,525",
+              "Candidate_Id": "",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "James",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#888888",
+              "Party_Name": "Irish Unionist",
+              "Status": "Elected",
+              "Surname": "Campbell",
+              "Total_Votes": "3,525",
+              "Transfers": "0.00",
+              "candidateName": "James Campbell",
+              "id": 0,
+              "sourcePersonId": "wikipedia:James Campbell, 1st Baron Glenavy"
+            },
+            {
+              "Candidate_First_Pref_Votes": "3,387",
+              "Candidate_Id": "",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "George",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#888888",
+              "Party_Name": "Irish National League",
+              "Status": "Not elected",
+              "Surname": "Plunkett",
+              "Total_Votes": "3,387",
+              "Transfers": "0.00",
+              "candidateName": "George Plunkett",
+              "id": 1,
+              "sourcePersonId": "wikipedia:George Noble Plunkett"
+            }
+          ]
+        },
+        "kind": "by-election",
+        "source_url": "https://en.wikipedia.org/wiki/Dublin_St_Stephen's_Green",
+        "sources": [
+          {
+            "title": "Dublin St Stephen's Green",
+            "publisher": "Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Dublin_St_Stephen's_Green"
+          },
+          {
+            "title": "Parliamentary Election Results in Ireland, 1801-1922",
+            "editor": "Brian M. Walker (ed.)",
+            "publisher": "Royal Irish Academy",
+            "year": 1978,
+            "note": "Printed volume, in copyright and not reproduced."
+          },
+          {
+            "title": "List of United Kingdom by-elections",
+            "publisher": "Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/List_of_United_Kingdom_by-elections_(1885–1900)"
+          }
+        ],
+        "checked": "winner agrees with Wikipedia's list of by-elections; figures not compared with Walker",
+        "cause": "Resignation"
+      },
       "constituencyId": null,
       "constituencyNumber": null,
       "officialDail": null,
@@ -167,7 +458,7 @@
       "candidateRowsExpected": true,
       "transferDataExpected": false,
       "localBody": null,
-      "sourceFile": null,
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1898-01-21/dublin-st-stephen-s-green.json",
       "featureId": "66",
       "featureName": "St Stephens Green",
       "featureAliases": [
@@ -240,8 +531,8 @@
               "firstPrefs": null
             }
           ],
-          "name_id": "n-dunbar-barton",
-          "personId": 122931
+          "personId": 122931,
+          "name_id": "n-dunbar-barton"
         }
       ],
       "elected": [

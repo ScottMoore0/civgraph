@@ -37,57 +37,382 @@
   "matchedCount": 1,
   "unmatchedCount": 0,
   "unmatchedConstituencies": [],
-  "availableStyleModes": [],
-  "partySummary": [],
-  "mainLikePartySummary": [],
+  "availableStyleModes": [
+    "winner",
+    "leadingParty",
+    "voteShare",
+    "majority",
+    "seats"
+  ],
+  "partySummary": [
+    {
+      "party": "Liberal",
+      "seats": 1,
+      "stood": 1,
+      "votes": 4819,
+      "colour": "#6b7280",
+      "share": 62.172622887369364
+    },
+    {
+      "party": "Irish Conservative",
+      "seats": 0,
+      "stood": 1,
+      "votes": 2932,
+      "colour": "#6b7280",
+      "share": 37.82737711263063
+    }
+  ],
+  "mainLikePartySummary": [
+    {
+      "party": "Liberal",
+      "seats": 1,
+      "stood": 0,
+      "votes": 0,
+      "colour": "#888888",
+      "share": null
+    }
+  ],
   "mainLikeTotals": {
     "validPoll": 0,
     "totalPoll": 0,
-    "totalElectorate": 0,
+    "totalElectorate": 10530,
     "totalSpoiled": 0,
-    "totalSeats": 0
+    "totalSeats": 1
   },
   "mainLikeCandidateSummary": [],
   "mainLikeCandidateTotals": {
     "validPoll": 0
   },
   "entityIndex": {
-    "totalValid": 0,
-    "parties": [],
-    "candidates": []
+    "totalValid": 7751,
+    "parties": [
+      {
+        "name": "Liberal",
+        "colour": "#888888",
+        "firstPrefs": 4819,
+        "finalVotes": 4819,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Dublin St Stephen's Green"
+        ],
+        "candidates": [
+          {
+            "id": "wikipedia:Thomas Alexander Dickson",
+            "name": "Thomas Alexander Dickson",
+            "constituency": "Dublin St Stephen's Green",
+            "firstPref": 4819,
+            "finalVotes": 4819,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 62.172622887369364
+      },
+      {
+        "name": "Irish Conservative",
+        "colour": "#888888",
+        "firstPrefs": 2932,
+        "finalVotes": 2932,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Dublin St Stephen's Green"
+        ],
+        "candidates": [
+          {
+            "id": "Robert Sexton|Irish Conservative",
+            "name": "Robert Sexton",
+            "constituency": "Dublin St Stephen's Green",
+            "firstPref": 2932,
+            "finalVotes": 2932,
+            "status": "Not elected"
+          }
+        ],
+        "shareOfTotal": 37.82737711263063
+      }
+    ],
+    "candidates": [
+      {
+        "id": "wikipedia:Thomas Alexander Dickson",
+        "key": "Thomas Alexander Dickson|Liberal",
+        "name": "Thomas Alexander Dickson",
+        "party": "Liberal",
+        "colour": "#888888",
+        "firstPrefs": 4819,
+        "finalVotes": 4819,
+        "electedCount": 1,
+        "constituencies": [
+          "Dublin St Stephen's Green"
+        ],
+        "appearances": [
+          {
+            "constituency": "Dublin St Stephen's Green",
+            "firstPref": 4819,
+            "finalVotes": 4819,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 62.172622887369364
+      },
+      {
+        "id": "Robert Sexton|Irish Conservative",
+        "key": "Robert Sexton|Irish Conservative",
+        "name": "Robert Sexton",
+        "party": "Irish Conservative",
+        "colour": "#888888",
+        "firstPrefs": 2932,
+        "finalVotes": 2932,
+        "electedCount": 0,
+        "constituencies": [
+          "Dublin St Stephen's Green"
+        ],
+        "appearances": [
+          {
+            "constituency": "Dublin St Stephen's Green",
+            "firstPref": 2932,
+            "finalVotes": 2932,
+            "status": "Not elected"
+          }
+        ],
+        "shareOfTotal": 37.82737711263063
+      }
+    ]
   },
   "results": [
     {
       "constituency": "Dublin St Stephen's Green",
-      "winnerParty": null,
-      "winnerName": null,
-      "leadingParty": null,
-      "leadingName": null,
-      "leadingVotes": null,
-      "leadingPct": null,
+      "winnerParty": "Liberal",
+      "winnerName": "Thomas Alexander Dickson",
+      "leadingParty": "Liberal",
+      "leadingName": "Thomas Alexander Dickson",
+      "leadingVotes": 4819,
+      "leadingPct": 62.17,
       "turnoutPct": null,
-      "majority": null,
-      "majorityPct": null,
-      "seatsWon": null,
-      "seatsTotal": null,
+      "majority": 1887,
+      "majorityPct": 24.35,
+      "seatsWon": 1,
+      "seatsTotal": 1,
       "quota": null,
-      "electorate": null,
+      "electorate": 10530,
       "totalPoll": null,
       "spoiled": null,
-      "validPoll": null,
-      "totalVotes": null,
+      "validPoll": 7751,
+      "totalVotes": 7751,
       "colour": "#6b7280",
       "leadingColour": "#6b7280",
-      "candidates": [],
-      "elected": [],
-      "countInfo": {},
-      "countGroup": [],
+      "candidates": [
+        {
+          "id": "Thomas Alexander Dickson|Liberal",
+          "name": "Thomas Alexander Dickson",
+          "party": "Liberal",
+          "firstPrefs": 4819,
+          "finalVotes": 4819,
+          "elected": true,
+          "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#888888",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "sourcePersonId": "wikipedia:Thomas Alexander Dickson",
+          "counts": [
+            {
+              "count": 1,
+              "total": 4819,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 4819
+            }
+          ],
+          "personId": 123062,
+          "name_id": "n-thomas-alexander-dickson"
+        },
+        {
+          "id": "Robert Sexton|Irish Conservative",
+          "name": "Robert Sexton",
+          "party": "Irish Conservative",
+          "firstPrefs": 2932,
+          "finalVotes": 2932,
+          "elected": false,
+          "electedAt": null,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Not elected",
+          "colour": "#888888",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "counts": [
+            {
+              "count": 1,
+              "total": 2932,
+              "transfers": 0,
+              "status": "Not elected",
+              "firstPrefs": 2932
+            }
+          ],
+          "personId": 126585,
+          "name_id": "n-robert-sexton"
+        }
+      ],
+      "elected": [
+        {
+          "id": "Thomas Alexander Dickson|Liberal",
+          "name": "Thomas Alexander Dickson",
+          "party": "Liberal",
+          "firstPrefs": 4819,
+          "finalVotes": 4819,
+          "elected": true,
+          "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#888888",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "sourcePersonId": "wikipedia:Thomas Alexander Dickson",
+          "counts": [
+            {
+              "count": 1,
+              "total": 4819,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 4819
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Dublin St Stephen's Green",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "10530",
+        "Total_Poll": "",
+        "Valid_Poll": ""
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "4,819",
+          "Candidate_Id": "",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Thomas Alexander",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#888888",
+          "Party_Name": "Liberal",
+          "Status": "Elected",
+          "Surname": "Dickson",
+          "Total_Votes": "4,819",
+          "Transfers": "0.00",
+          "candidateName": "Thomas Alexander Dickson",
+          "id": 0,
+          "sourcePersonId": "wikipedia:Thomas Alexander Dickson"
+        },
+        {
+          "Candidate_First_Pref_Votes": "2,932",
+          "Candidate_Id": "",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Robert",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#888888",
+          "Party_Name": "Irish Conservative",
+          "Status": "Not elected",
+          "Surname": "Sexton",
+          "Total_Votes": "2,932",
+          "Transfers": "0.00",
+          "candidateName": "Robert Sexton",
+          "id": 1
+        }
+      ],
       "syntheticCountGroup": false,
       "nonTransferable": [],
       "forum": null,
-      "countNumbers": [],
+      "countNumbers": [
+        1
+      ],
       "hasCountDetail": false,
-      "animationPayload": null,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Dublin St Stephen's Green",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "10530",
+            "Total_Poll": "",
+            "Valid_Poll": ""
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "4,819",
+              "Candidate_Id": "",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Thomas Alexander",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#888888",
+              "Party_Name": "Liberal",
+              "Status": "Elected",
+              "Surname": "Dickson",
+              "Total_Votes": "4,819",
+              "Transfers": "0.00",
+              "candidateName": "Thomas Alexander Dickson",
+              "id": 0,
+              "sourcePersonId": "wikipedia:Thomas Alexander Dickson"
+            },
+            {
+              "Candidate_First_Pref_Votes": "2,932",
+              "Candidate_Id": "",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Robert",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#888888",
+              "Party_Name": "Irish Conservative",
+              "Status": "Not elected",
+              "Surname": "Sexton",
+              "Total_Votes": "2,932",
+              "Transfers": "0.00",
+              "candidateName": "Robert Sexton",
+              "id": 1
+            }
+          ]
+        },
+        "kind": "by-election",
+        "source_url": "https://en.wikipedia.org/wiki/Dublin_St_Stephen's_Green",
+        "sources": [
+          {
+            "title": "Dublin St Stephen's Green",
+            "publisher": "Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Dublin_St_Stephen's_Green"
+          },
+          {
+            "title": "Parliamentary Election Results in Ireland, 1801-1922",
+            "editor": "Brian M. Walker (ed.)",
+            "publisher": "Royal Irish Academy",
+            "year": 1978,
+            "note": "Printed volume, in copyright and not reproduced."
+          },
+          {
+            "title": "List of United Kingdom by-elections",
+            "publisher": "Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/List_of_United_Kingdom_by-elections_(1885–1900)"
+          }
+        ],
+        "checked": "winner agrees with Wikipedia's list of by-elections; figures not compared with Walker",
+        "cause": "Death"
+      },
       "constituencyId": null,
       "constituencyNumber": null,
       "officialDail": null,
@@ -98,7 +423,7 @@
       "candidateRowsExpected": true,
       "transferDataExpected": false,
       "localBody": null,
-      "sourceFile": null,
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1888-05-12/dublin-st-stephen-s-green.json",
       "featureId": "66",
       "featureName": "St Stephens Green",
       "featureAliases": [

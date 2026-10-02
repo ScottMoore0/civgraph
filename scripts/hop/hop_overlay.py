@@ -9,6 +9,7 @@ is never copied, and every fact cites its HoP page.
 """
 import collections
 import json
+import urllib.parse
 import os
 import re
 import sys
@@ -16,7 +17,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'walker'))
 import crosscheck_hop_1801_1832 as xc  # noqa: E402
-from crosscheck_walker_1801_1831 import keys, fuzzy  # noqa: E402
+from crosscheck_walker_1801_1831 import keys, fuzzy, near  # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
 HOP = os.path.join(ROOT, 'data', 'elections', 'hop')
@@ -57,10 +58,50 @@ def forenames(name):
     """The given names in a name, lower case: 'Hon. John Bruce Richard O'Neill' -> {john, bruce,
     richard}. A peer's family name in brackets is what counts: 'Viscount Castlereagh (Frederick
     William Robert Stewart)' -> {frederick, william, robert}."""
+    # "(afterwards Viscount Dunlo)", "(formerly Foster)": a later or earlier name, not the
+    # family name in a peer's brackets.
+    name = re.sub(r'\s*[(]\s*(?:afterwards|formerly|later)\b[^)]*[)]', '', name, flags=re.I)
     inner = re.findall(r'[(]([^)]*)[)]', name)
     words = re.findall(r"[a-z]+", (inner[-1] if inner else re.sub(r',.*$', '', name)).lower())
-    words = [w for w in words if w not in STYLES and len(w) > 1]
+    words = [w for w in words if w not in STYLES and w not in NUMERALS and len(w) > 1]
     return set(words[:-1])
+
+
+NUMERALS = {'ii', 'iii', 'iv'}
+
+
+def surname_words(heading):
+    """Every word of a member's surname, and of any he took later: 'MASSY (afterwards MASSY
+    DAWSON), James Hewitt' -> {massy, dawson}; 'PARNELL HAYES, William' -> {parnell, hayes}."""
+    head = heading.split(',')[0].lower().replace('afterwards', ' ')
+    return {w for w in re.findall(r'[a-z]+', re.sub(r"['’]", '', head)) if len(w) > 2}
+
+
+def same_man(heading, display, name):
+    """Whether a name in the results can be this HoP member: it carries a word of his surname
+    (HoP's 'LATOUCHE' is the results' 'La Touche', so adjacent words are also read joined),
+    and its forenames, if it gives any, do not contradict his. A surname word is not a
+    forename: 'Christopher Hely-Hutchinson' is not John Hely-Hutchinson."""
+    words = re.findall(r'[a-z]+', re.sub(r"['’]", '', name.lower()))
+    tokens = set(words) | {a + b for a, b in zip(words, words[1:])}
+    sur = surname_words(heading)
+    # Spelt two ways is still the one name: Kiely and Keily, Smyth and Smythe.
+    if not (sur & tokens or keys(heading.split(',')[0]) & keys(name)
+            or any(near(a, b) for a in sur for b in tokens)):
+        return False
+    return forenames_agree(sur, forenames(name), forenames(display))
+
+
+def forenames_agree(sur, given, his):
+    # Words of the surname, whole or within a joined one ('la' of 'latouche'), are not forenames.
+    drop = lambda names: {w for w in names if not any(w == t or w in t for t in sur)}
+    given, his = drop(given), drop(his)
+    # Gerrard and Gerard, Quinton and Quintin, Mathew and Matthew agree.
+    return not given or not his or any(near(g, h) for g in given for h in his)
+
+
+def same_man_forenames(m, name):
+    return forenames_agree(surname_words(m['heading']), forenames(name), forenames(m['display']))
 
 
 def parse_electorate(value):
@@ -72,6 +113,37 @@ def parse_electorate(value):
 
 
 VOLUMES = {}
+
+
+def page_key(path):
+    """A member page's path as a lookup key. HoP's own links percent-encode the apostrophe
+    in O'Grady (o%E2%80%99grady); Wikidata stores it as the character."""
+    return urllib.parse.unquote(path).lower()
+
+
+def member_identity(path, wd=None):
+    """Who a member page describes. His Wikidata item where it has one: the two volumes can
+    head one man differently ('FOSTER', later 'SKEFFINGTON') or disagree on an uncertain
+    birth year (Ruthven ?1772, 1773). Else '/volume/1820-1832/member/prittie-hon-francis-
+    1779-1853' -> 'prittie:1779-1853'."""
+    qid = ((wd or {}).get(page_key(path)) or {}).get('wikidata')
+    if qid:
+        return qid
+    slug = path.rstrip('/').rsplit('/', 1)[-1].lower().replace('%e2%80%99', '')
+    slug = re.sub(r'[^a-z0-9-]', '', slug)                         # o’grady, as Wikidata spells it
+    slug = re.sub(r'\d{4,}(?=[a-z])', '', slug)                  # "o8217brien"
+    years = re.search(r'(\d{4})-(\d{4})$', slug) or re.search(r'(\d{4})$', slug)
+    return f"{slug.split('-')[0]}:{years.group(0)}" if years else slug
+
+
+def seat_end(seat):
+    """The day a member's tenure ended; where HoP prints it loosely ('c. July 1805') and the
+    extract has none, its year, never an open end."""
+    if seat.get('to'):
+        return seat['to']
+    tail = (seat.get('dates') or '').split('-')[-1] if '-' in (seat.get('dates') or '') else ''
+    year = re.findall(r'\d{4}', tail)
+    return year[-1] if year else '9999'
 
 
 class Overlay:
@@ -92,29 +164,47 @@ class Overlay:
                         self.electorate[seat].setdefault(year, (n, approx, b['label'], c['volume'], c['url']))
         # Members by seat, for naming the people Walker and the lists leave unidentified.
         members = json.load(open(os.path.join(HOP, 'hop-irish-members.json'), encoding='utf-8'))['members']
-        wd = {('/volume/' + r['hop']).lower(): r for r in
+        wd = {page_key('/volume/' + r['hop']): r for r in
               json.load(open(os.path.join(HOP, 'wikidata-hop-ids.json'), encoding='utf-8'))['records']}
+        # One man has a page in each volume he sat in, not always under the same slug; his
+        # surname and years are who he is. Every page of his answers with one key, so all his
+        # candidacies become one person: his Wikipedia article if any page of his has one,
+        # else his latest page.
+        ident = collections.defaultdict(list)
+        for m in members:
+            ident[member_identity(m['path'], wd)].append(m)
+        # Which HoP member each Wikipedia article is, by Wikidata, across every volume.
+        self.article_identity = collections.defaultdict(set)
+        for r in wd.values():
+            if r.get('enwiki'):
+                self.article_identity[r['enwiki']].add(member_identity('/volume/' + r['hop'], wd))
+        canon = {}
+        for i, pages in ident.items():
+            enwiki = next((wd[page_key(p['path'])]['enwiki'] for p in pages if (wd.get(page_key(p['path'])) or {}).get('enwiki')), None)
+            canon[i] = (enwiki, max(pages, key=lambda p: p['volume'])['path'])
         self.seat_members = collections.defaultdict(list)
         self.by_path = {}
         for m in members:
-            self.by_path[m['path'].lower()] = {'path': m['path'], 'url': m['url'], 'volume': m['volume'],
-                                               'enwiki': (wd.get(m['path'].lower()) or {}).get('enwiki'),
-                                               'display': self._member_name(m['heading'])}
-            enwiki = (wd.get(m['path'].lower()) or {}).get('enwiki')
-            surname_keys = keys(re.sub(r'\(.*$', '', m['heading']).split(',')[0])
+            i = member_identity(m['path'], wd)
+            enwiki, path = canon[i]
             display = self._member_name(m['heading'])
+            self.by_path[m['path'].lower()] = {'path': path, 'url': m['url'], 'volume': m['volume'],
+                                               'enwiki': enwiki, 'display': display, 'identity': i}
+            surname_keys = keys(re.sub(r'\(.*$', '', m['heading']).split(',')[0])
             for s in m['seats']:
                 seat = xc.hop_seat(s['constituency'].rstrip('/').rsplit('/', 1)[-1])
-                self.seat_members[seat].append({'from': (s['from'] or '0000'), 'to': (s['to'] or '9999'), 'path': m['path'],
+                self.seat_members[seat].append({'from': (s['from'] or '0000'), 'to': seat_end(s), 'path': path,
                                                 'url': m['url'], 'volume': m['volume'], 'keys': surname_keys,
+                                                'heading': m['heading'], 'identity': i,
                                                 'enwiki': enwiki, 'display': display})
 
     @staticmethod
     def _member_name(heading):
         """'O'NEILL, Hon. John Bruce Richard (1780-1855), of ...' -> 'Hon. John Bruce Richard O'Neill'."""
-        head = re.sub(r'\s*\(.*$', '', heading)
+        head = re.sub(r'\s*\(afterwards[^)]*\)', '', heading)    # "BUTLER (afterwards BUTLER CLARKE ...), Hon. Charles"
+        head = re.sub(r'\s*\(.*$', '', head)
         surname, _, rest = head.partition(',')
-        rest = re.sub(r',?\s*\d+(st|nd|rd|th) (Bt|Baron|Visct|Earl)\.?.*$', '', rest).strip()
+        rest = re.sub(r',?\s*\d+(st|nd|rd|th) (Bt|Bar|Baron|Visct|Earl)\.?.*$', '', rest, flags=re.I).strip()   # HoP prints '1st bt.'
         return re.sub(r'\s+', ' ', f'{rest} {titled(surname.strip())}').strip()
 
     def pair(self, walker_record):
@@ -133,13 +223,23 @@ class Overlay:
         # Forenames, where the name gives any, must not contradict the member's: Walker's
         # "John Stewart" at Down in 1826 shares a surname, not a man, with Viscount
         # Castlereagh (Frederick William Robert Stewart), who held the seat.
-        given = forenames(name)
         hits = [m for m in self.seat_members.get(seat, [])
                 if m['from'][:len(day)] <= day <= (m['to'] + '-12-31')[:10]
-                and (k & m['keys'] or fuzzy(k, m['keys']))
-                and (not given or not forenames(m['display']) or given & forenames(m['display']))]
-        paths = {m['path'] for m in hits}
-        return hits[0] if len(paths) == 1 else None
+                and (same_man(m['heading'], m['display'], name) or k & m['keys'] or fuzzy(k, m['keys']))
+                and same_man_forenames(m, name)]
+        if len({m['identity'] for m in hits}) > 1:
+            # In the year one man's tenure ends and another's begins ("1806 - 1812", "1812 -
+            # 1818"), the contest that year returned the one who begins: the 2nd Earl of
+            # Ranfurly at Tyrone in October 1812, not his father.
+            hits = [m for m in hits if m['from'][:4] == day[:4]] or hits
+        return hits[0] if len({m['identity'] for m in hits}) == 1 else None
+
+    def contradicts(self, article, member):
+        """Whether a Wikipedia article a list links is, by Wikidata, a different HoP member from
+        the one who held the seat that day: the list's "Thomas Knox, 3rd Earl of Ranfurly" (born
+        1816) for the Dungannon member of 1818-30, who was the 2nd Earl."""
+        others = self.article_identity.get(article)
+        return bool(others and member and member['identity'] not in others)
 
     def member_by_path(self, path):
         """A member the 1820-1832 tables link, losers included."""

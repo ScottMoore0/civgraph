@@ -2175,6 +2175,13 @@ function findResultFile(dateDir, constituency) {
     const base = file.replace(/\.json$/, '');
     if (normalizeName(base) === target || nameKeys(base).includes(target)) return path.join(dateDir, file);
   }
+  // "King's County" is filed as king-s-county.json (the apostrophe became a hyphen) but
+  // slugifies to kings-county: without this every King's and Queen's County contest built
+  // with no candidates. Compared with spaces and hyphens ignored, as a last resort.
+  const squashed = target.replace(/[\s-]+/g, '');
+  for (const file of files) {
+    if (normalizeName(file.replace(/\.json$/, '')).replace(/[\s-]+/g, '') === squashed) return path.join(dateDir, file);
+  }
   return null;
 }
 

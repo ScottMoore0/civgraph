@@ -37,57 +37,385 @@
   "matchedCount": 1,
   "unmatchedCount": 0,
   "unmatchedConstituencies": [],
-  "availableStyleModes": [],
-  "partySummary": [],
-  "mainLikePartySummary": [],
+  "availableStyleModes": [
+    "winner",
+    "leadingParty",
+    "voteShare",
+    "majority",
+    "seats"
+  ],
+  "partySummary": [
+    {
+      "party": "Liberal Unionist",
+      "seats": 1,
+      "stood": 1,
+      "votes": 3325,
+      "colour": "#6b7280",
+      "share": 53.47378578321004
+    },
+    {
+      "party": "Irish National League",
+      "seats": 0,
+      "stood": 1,
+      "votes": 2893,
+      "colour": "#6b7280",
+      "share": 46.52621421678996
+    }
+  ],
+  "mainLikePartySummary": [
+    {
+      "party": "Liberal Unionist",
+      "seats": 1,
+      "stood": 0,
+      "votes": 0,
+      "colour": "#888888",
+      "share": null
+    }
+  ],
   "mainLikeTotals": {
     "validPoll": 0,
     "totalPoll": 0,
-    "totalElectorate": 0,
+    "totalElectorate": 8697,
     "totalSpoiled": 0,
-    "totalSeats": 0
+    "totalSeats": 1
   },
   "mainLikeCandidateSummary": [],
   "mainLikeCandidateTotals": {
     "validPoll": 0
   },
   "entityIndex": {
-    "totalValid": 0,
-    "parties": [],
-    "candidates": []
+    "totalValid": 6218,
+    "parties": [
+      {
+        "name": "Liberal Unionist",
+        "colour": "#888888",
+        "firstPrefs": 3325,
+        "finalVotes": 3325,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Dublin St Stephen's Green"
+        ],
+        "candidates": [
+          {
+            "id": "wikipedia:William Kenny (Irish politician)",
+            "name": "William Kenny",
+            "constituency": "Dublin St Stephen's Green",
+            "firstPref": 3325,
+            "finalVotes": 3325,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 53.47378578321004
+      },
+      {
+        "name": "Irish National League",
+        "colour": "#888888",
+        "firstPrefs": 2893,
+        "finalVotes": 2893,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Dublin St Stephen's Green"
+        ],
+        "candidates": [
+          {
+            "id": "wikipedia:Pierce Charles de Lacy O'Mahony",
+            "name": "Pierce Mahoney",
+            "constituency": "Dublin St Stephen's Green",
+            "firstPref": 2893,
+            "finalVotes": 2893,
+            "status": "Not elected"
+          }
+        ],
+        "shareOfTotal": 46.52621421678996
+      }
+    ],
+    "candidates": [
+      {
+        "id": "wikipedia:William Kenny (Irish politician)",
+        "key": "William Kenny|Liberal Unionist",
+        "name": "William Kenny",
+        "party": "Liberal Unionist",
+        "colour": "#888888",
+        "firstPrefs": 3325,
+        "finalVotes": 3325,
+        "electedCount": 1,
+        "constituencies": [
+          "Dublin St Stephen's Green"
+        ],
+        "appearances": [
+          {
+            "constituency": "Dublin St Stephen's Green",
+            "firstPref": 3325,
+            "finalVotes": 3325,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 53.47378578321004
+      },
+      {
+        "id": "wikipedia:Pierce Charles de Lacy O'Mahony",
+        "key": "Pierce Mahoney|Irish National League",
+        "name": "Pierce Mahoney",
+        "party": "Irish National League",
+        "colour": "#888888",
+        "firstPrefs": 2893,
+        "finalVotes": 2893,
+        "electedCount": 0,
+        "constituencies": [
+          "Dublin St Stephen's Green"
+        ],
+        "appearances": [
+          {
+            "constituency": "Dublin St Stephen's Green",
+            "firstPref": 2893,
+            "finalVotes": 2893,
+            "status": "Not elected"
+          }
+        ],
+        "shareOfTotal": 46.52621421678996
+      }
+    ]
   },
   "results": [
     {
       "constituency": "Dublin St Stephen's Green",
-      "winnerParty": null,
-      "winnerName": null,
-      "leadingParty": null,
-      "leadingName": null,
-      "leadingVotes": null,
-      "leadingPct": null,
+      "winnerParty": "Liberal Unionist",
+      "winnerName": "William Kenny",
+      "leadingParty": "Liberal Unionist",
+      "leadingName": "William Kenny",
+      "leadingVotes": 3325,
+      "leadingPct": 53.47,
       "turnoutPct": null,
-      "majority": null,
-      "majorityPct": null,
-      "seatsWon": null,
-      "seatsTotal": null,
+      "majority": 432,
+      "majorityPct": 6.95,
+      "seatsWon": 1,
+      "seatsTotal": 1,
       "quota": null,
-      "electorate": null,
+      "electorate": 8697,
       "totalPoll": null,
       "spoiled": null,
-      "validPoll": null,
-      "totalVotes": null,
+      "validPoll": 6218,
+      "totalVotes": 6218,
       "colour": "#6b7280",
       "leadingColour": "#6b7280",
-      "candidates": [],
-      "elected": [],
-      "countInfo": {},
-      "countGroup": [],
+      "candidates": [
+        {
+          "id": "William Kenny|Liberal Unionist",
+          "name": "William Kenny",
+          "party": "Liberal Unionist",
+          "firstPrefs": 3325,
+          "finalVotes": 3325,
+          "elected": true,
+          "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#888888",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "sourcePersonId": "wikipedia:William Kenny (Irish politician)",
+          "counts": [
+            {
+              "count": 1,
+              "total": 3325,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 3325
+            }
+          ],
+          "personId": 123093,
+          "name_id": "n-william-kenny"
+        },
+        {
+          "id": "Pierce Mahoney|Irish National League",
+          "name": "Pierce Mahoney",
+          "party": "Irish National League",
+          "firstPrefs": 2893,
+          "finalVotes": 2893,
+          "elected": false,
+          "electedAt": null,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Not elected",
+          "colour": "#888888",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "sourcePersonId": "wikipedia:Pierce Charles de Lacy O'Mahony",
+          "counts": [
+            {
+              "count": 1,
+              "total": 2893,
+              "transfers": 0,
+              "status": "Not elected",
+              "firstPrefs": 2893
+            }
+          ],
+          "personId": 123426,
+          "name_id": "n-pierce-mahoney"
+        }
+      ],
+      "elected": [
+        {
+          "id": "William Kenny|Liberal Unionist",
+          "name": "William Kenny",
+          "party": "Liberal Unionist",
+          "firstPrefs": 3325,
+          "finalVotes": 3325,
+          "elected": true,
+          "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#888888",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "sourcePersonId": "wikipedia:William Kenny (Irish politician)",
+          "counts": [
+            {
+              "count": 1,
+              "total": 3325,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 3325
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Dublin St Stephen's Green",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "1",
+        "Spoiled": "",
+        "Total_Electorate": "8697",
+        "Total_Poll": "",
+        "Valid_Poll": ""
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "3,325",
+          "Candidate_Id": "",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "William",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#888888",
+          "Party_Name": "Liberal Unionist",
+          "Status": "Elected",
+          "Surname": "Kenny",
+          "Total_Votes": "3,325",
+          "Transfers": "0.00",
+          "candidateName": "William Kenny",
+          "id": 0,
+          "sourcePersonId": "wikipedia:William Kenny (Irish politician)"
+        },
+        {
+          "Candidate_First_Pref_Votes": "2,893",
+          "Candidate_Id": "",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Pierce",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#888888",
+          "Party_Name": "Irish National League",
+          "Status": "Not elected",
+          "Surname": "Mahoney",
+          "Total_Votes": "2,893",
+          "Transfers": "0.00",
+          "candidateName": "Pierce Mahoney",
+          "id": 1,
+          "sourcePersonId": "wikipedia:Pierce Charles de Lacy O'Mahony"
+        }
+      ],
       "syntheticCountGroup": false,
       "nonTransferable": [],
       "forum": null,
-      "countNumbers": [],
+      "countNumbers": [
+        1
+      ],
       "hasCountDetail": false,
-      "animationPayload": null,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Dublin St Stephen's Green",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "1",
+            "Spoiled": "",
+            "Total_Electorate": "8697",
+            "Total_Poll": "",
+            "Valid_Poll": ""
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "3,325",
+              "Candidate_Id": "",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "William",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#888888",
+              "Party_Name": "Liberal Unionist",
+              "Status": "Elected",
+              "Surname": "Kenny",
+              "Total_Votes": "3,325",
+              "Transfers": "0.00",
+              "candidateName": "William Kenny",
+              "id": 0,
+              "sourcePersonId": "wikipedia:William Kenny (Irish politician)"
+            },
+            {
+              "Candidate_First_Pref_Votes": "2,893",
+              "Candidate_Id": "",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Pierce",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#888888",
+              "Party_Name": "Irish National League",
+              "Status": "Not elected",
+              "Surname": "Mahoney",
+              "Total_Votes": "2,893",
+              "Transfers": "0.00",
+              "candidateName": "Pierce Mahoney",
+              "id": 1,
+              "sourcePersonId": "wikipedia:Pierce Charles de Lacy O'Mahony"
+            }
+          ]
+        },
+        "kind": "by-election",
+        "source_url": "https://en.wikipedia.org/wiki/Dublin_St_Stephen's_Green",
+        "sources": [
+          {
+            "title": "Dublin St Stephen's Green",
+            "publisher": "Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Dublin_St_Stephen's_Green"
+          },
+          {
+            "title": "Parliamentary Election Results in Ireland, 1801-1922",
+            "editor": "Brian M. Walker (ed.)",
+            "publisher": "Royal Irish Academy",
+            "year": 1978,
+            "note": "Printed volume, in copyright and not reproduced."
+          },
+          {
+            "title": "List of United Kingdom by-elections",
+            "publisher": "Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/List_of_United_Kingdom_by-elections_(1885–1900)"
+          }
+        ],
+        "checked": "winner agrees with Wikipedia's list of by-elections; figures not compared with Walker",
+        "cause": "Solicitor General for Ireland"
+      },
       "constituencyId": null,
       "constituencyNumber": null,
       "officialDail": null,
@@ -98,7 +426,7 @@
       "candidateRowsExpected": true,
       "transferDataExpected": false,
       "localBody": null,
-      "sourceFile": null,
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1895-09-02/dublin-st-stephen-s-green.json",
       "featureId": "66",
       "featureName": "St Stephens Green",
       "featureAliases": [

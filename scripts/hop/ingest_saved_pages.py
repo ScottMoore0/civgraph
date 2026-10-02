@@ -4,7 +4,8 @@
     python scripts/hop/ingest_saved_pages.py --archive <archive.sqlite> --urls <list.txt> <folder>
 
 The site now puts a JavaScript bot check in front of its pages, so the ones the crawl lost
-(401s) are saved one at a time from a browser ("Save page as", HTML only) into <folder>.
+(401s) are saved one at a time from a browser ("Save page as", HTML only, or Chrome's
+single-file .mhtml) into <folder>.
 Each saved file is matched to the URL it came from by its <title> -- a member page's title
 carries his surname and years ("WYSE, Thomas (1791-1862)"), a constituency page's its
 name ("Co. Longford") -- and stored under that URL with status 200, replacing the 401.
@@ -13,6 +14,8 @@ Pages can also come from the Internet Archive's own copies (web.archive.org/web/
 the page as captured): pass --source wayback. Run extract_hop_ireland.py afterwards.
 """
 import argparse
+import email
+import email.policy
 import glob
 import json
 import os
@@ -44,6 +47,13 @@ def page_key(html):
     return ('constituency', re.sub(r'^(co\.?|county)\s+', '', title.lower()).strip(), None)
 
 
+def from_mhtml(raw):
+    """Chrome's "Webpage, single file" (.mhtml): the page is the first text/html part."""
+    msg = email.message_from_bytes(raw, policy=email.policy.default)
+    part = next((p for p in msg.walk() if p.get_content_type() == 'text/html'), None)
+    return part.get_payload(decode=True) if part else b''
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--archive', default=os.environ.get('HOP_ARCHIVE'))
@@ -57,8 +67,11 @@ def main():
         by_key.setdefault(wanted_key(u), []).append(u)
     db = sqlite3.connect(args.archive)
     done, skipped = [], []
-    for f in sorted(glob.glob(os.path.join(args.folder, '*.htm*'))):
+    files = glob.glob(os.path.join(args.folder, '*.htm*')) + glob.glob(os.path.join(args.folder, '*.mhtml'))
+    for f in sorted(files):
         raw = open(f, 'rb').read()
+        if f.lower().endswith('.mhtml'):
+            raw = from_mhtml(raw)
         html = raw.decode('utf-8', 'replace')
         if 'Bot check' in html[:3000] or 'restricted to logged in users' in html:
             skipped.append((os.path.basename(f), 'bot check or login page, not the page itself'))
