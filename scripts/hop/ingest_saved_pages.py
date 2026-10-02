@@ -9,7 +9,8 @@ Each saved file is matched to the URL it came from by its <title> -- a member pa
 carries his surname and years ("WYSE, Thomas (1791-1862)"), a constituency page's its
 name ("Co. Longford") -- and stored under that URL with status 200, replacing the 401.
 Files that are a bot check, a login wall, or match no wanted URL are reported and skipped.
-Run extract_hop_ireland.py afterwards.
+Pages can also come from the Internet Archive's own copies (web.archive.org/web/<ts>id_/<url>,
+the page as captured): pass --source wayback. Run extract_hop_ireland.py afterwards.
 """
 import argparse
 import glob
@@ -36,7 +37,8 @@ def page_key(html):
     title = re.search(r'<title>(.*?)</title>', html, re.S | re.I)
     title = re.sub(r'\s+', ' ', title.group(1)) if title else ''
     title = title.split('|')[0].strip()
-    m = re.match(r"^([^,(]+),.*?\((\d{4})-(\d{4})\)", title)
+    # Uncertain years are printed "?1793" or "c.1750"; the slug has the bare year.
+    m = re.match(r"^([^,(]+),.*?\((?:\?|c\.\s*)?(\d{4})-(?:\?|c\.\s*)?(\d{4})\)", title)
     if m:
         return ('member', re.sub(r'[^a-z]', '', m.group(1).lower().split()[0]), f'{m.group(2)}-{m.group(3)}')
     return ('constituency', re.sub(r'^(co\.?|county)\s+', '', title.lower()).strip(), None)
@@ -46,6 +48,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--archive', default=os.environ.get('HOP_ARCHIVE'))
     ap.add_argument('--urls', required=True)
+    ap.add_argument('--source', default='manual-save', help='recorded on each row, e.g. "wayback" for Internet Archive copies')
     ap.add_argument('folder')
     args = ap.parse_args()
     urls = [u.strip() for u in open(args.urls, encoding='utf-8') if u.strip()]
@@ -68,7 +71,7 @@ def main():
         key = re.sub(r'^https?://(www\.)?', '', url)
         db.execute('insert or replace into responses (url, status, reason, headers, body, fetched, source, key) '
                    'values (?, 200, ?, ?, ?, ?, ?, ?)',
-                   (url, 'OK', json.dumps([['Content-Type', 'text/html']]), raw, time.time(), 'manual-save', key))
+                   (url, 'OK', json.dumps([['Content-Type', 'text/html']]), raw, time.time(), args.source, key))
         done.append(url)
     db.commit()
     left = sorted(set(urls) - set(done))

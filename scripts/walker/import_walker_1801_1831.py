@@ -218,11 +218,12 @@ def main(write=False):
                     if len(full.split()) == 1:
                         full = member(hit[0]['name'])
             hop_key = None
-            if not person:
+            if not person and (cand.get('returned') or name in (w.get('seatedOnPetition') or [])):
                 # The HoP member who held this seat on this day under this name: his
                 # Wikipedia article if Wikidata gives one, else his HoP page. One key for
                 # every candidacy of his, so a man the lists do not link is still one person
-                # (Charles Harward Butler stood as four before this).
+                # (Charles Harward Butler stood as four before this). Only for a man who won
+                # the seat: a defeated candidate is not its member, whatever his surname.
                 m = hop.member_for(seat_id, contest_day, name)
                 if m:
                     hop_key = hop.person_key(m)

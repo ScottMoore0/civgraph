@@ -49,6 +49,20 @@ def titled(name):
     return ' '.join(words)
 
 
+STYLES = {'sir', 'hon', 'lord', 'lady', 'rt', 'right', 'col', 'lt', 'capt', 'maj', 'major', 'gen', 'adm', 'rev', 'dr',
+          'viscount', 'visct', 'earl', 'baron', 'marquess', 'bt', 'the', 'knight', 'of', 'mr', 'jun', 'sen'}
+
+
+def forenames(name):
+    """The given names in a name, lower case: 'Hon. John Bruce Richard O'Neill' -> {john, bruce,
+    richard}. A peer's family name in brackets is what counts: 'Viscount Castlereagh (Frederick
+    William Robert Stewart)' -> {frederick, william, robert}."""
+    inner = re.findall(r'[(]([^)]*)[)]', name)
+    words = re.findall(r"[a-z]+", (inner[-1] if inner else re.sub(r',.*$', '', name)).lower())
+    words = [w for w in words if w not in STYLES and len(w) > 1]
+    return set(words[:-1])
+
+
 def parse_electorate(value):
     """'about 800 in 1812' / '3,261 in 1829; 1,078 in 1830' -> {year: (number, approximate)}."""
     out = {}
@@ -116,9 +130,14 @@ class Overlay:
         """The one HoP member who held this seat on this date and bears this name."""
         k = keys(name)
         day = (date or '')[:10]
+        # Forenames, where the name gives any, must not contradict the member's: Walker's
+        # "John Stewart" at Down in 1826 shares a surname, not a man, with Viscount
+        # Castlereagh (Frederick William Robert Stewart), who held the seat.
+        given = forenames(name)
         hits = [m for m in self.seat_members.get(seat, [])
                 if m['from'][:len(day)] <= day <= (m['to'] + '-12-31')[:10]
-                and (k & m['keys'] or fuzzy(k, m['keys']))]
+                and (k & m['keys'] or fuzzy(k, m['keys']))
+                and (not given or not forenames(m['display']) or given & forenames(m['display']))]
         paths = {m['path'] for m in hits}
         return hits[0] if len(paths) == 1 else None
 
