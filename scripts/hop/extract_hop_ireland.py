@@ -164,13 +164,25 @@ def member(path, volume, page):
         seats.append({'constituency': cons, 'dates': d, 'from': iso(a) if a else None, 'to': iso(b) if b else None})
     fam = re.search(r'<h3 id="family-relations"[^>]*>.*?</h3>(.*?)<h3', page, re.S)
     fam_text = re.sub(r'\b([bmd]|educ|suc)\s+\.', r'\1.', text(fam.group(1)) if fam else '')
-    born = re.search(r'\bb\.\s*(?:c\.\s*)?(\d{1,2}\s+[A-Za-z]+\.?\s+\d{4}|[A-Za-z]+\.?\s+\d{4}|\d{4})', fam_text)
-    died = re.search(r'\bd\.\s*(\d{1,2}\s+[A-Za-z]+\.?\s+\d{4}|[A-Za-z]+\.?\s+\d{4}|\d{4})\.?\s*$', fam_text) or \
-        re.search(r'\bd\.\s*(\d{1,2}\s+[A-Za-z]+\.?\s+\d{4})', fam_text)
-    life = re.search(r'\((?:c\.\s*)?(\d{4})\??-(\d{4})\??\)', title)
+    # The heading's years are the member's own; the family paragraph also dates his father's
+    # and wife's deaths, and "d." there can be "daughter". A dated b./d. is taken only when its
+    # year is the heading's (Sir John Stewart, 1758-1825, is not the "d. 28 May 1795" of a
+    # relative); otherwise the heading's year stands.
+    life = re.search(r'\((?:c\.\s*|\?)?(\d{4})?\??-(?:c\.\s*|\?)?(\d{4})\??\)', title)
+    date = r'(\d{1,2}\s+[A-Za-z]+\.?\s+\d{4}|[A-Za-z]+\.?\s+\d{4}|\d{4})'
+    def own(marker, year):
+        hits = [m.group(1) for m in re.finditer(r'\b' + marker + r'\.\s*(?:c\.\s*)?' + date, fam_text)]
+        if year:
+            hits = [h for h in hits if h[-4:] == year]
+            return iso(hits[-1 if marker == 'd' else 0]) if hits else year
+        if marker == 'd':
+            # No year to check against: only the paragraph's closing "d. <date>." is his.
+            end = re.search(r'\bd\.\s*' + date + r'\.?\s*$', fam_text)
+            return iso(end.group(1)) if end else None
+        return iso(hits[0]) if hits else None
     return {'path': path, 'url': SITE + path, 'volume': volume, 'heading': title,
-            'born': iso(born.group(1)) if born else (life.group(1) if life else None),
-            'died': iso(died.group(1)) if died else (life.group(2) if life else None),
+            'born': own('b', life.group(1) if life else None),
+            'died': own('d', life.group(2) if life else None),
             'seats': seats}
 
 

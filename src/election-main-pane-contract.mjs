@@ -161,6 +161,11 @@ export class MainElectionPaneContract {
   }
 
   renderConstituencyResults(result, view = 'party') {
+    const body = this.renderConstituencyResultsBody(result, view);
+    return view === 'trends' ? body : body + renderContestNotes(result);
+  }
+
+  renderConstituencyResultsBody(result, view = 'party') {
     if (view === 'trends') return this.host.renderTrendsPanel?.(result) || '<p class="election-no-data">No trend data is available.</p>';
     if (this.host.isTurnoutGeographyMode?.()) return this.host.renderTurnoutConstituencyDetail(result);
     if (this.host.isCouncilAggregateResult?.(result)) return this.host.renderCouncilAggregateResults(result, view);
@@ -188,6 +193,16 @@ export class MainElectionPaneContract {
       ? this.host.renderCandidateEntity(entity)
       : this.host.renderPartyEntity(entity);
   }
+}
+
+// What the source says about a contest beyond its figures (cause of a by-election, petition,
+// right of election...), set by the manifest from the contest file.
+function renderContestNotes(result = {}) {
+  const notes = Array.isArray(result.contestNotes) ? result.contestNotes : [];
+  if (!notes.length) return '';
+  return `<dl class="test2-election-panel__stats election-contest-notes">${notes
+    .map((note) => `<div><dt>${escapeHtml(note.label)}</dt><dd>${escapeHtml(note.text)}</dd></div>`)
+    .join('')}</dl>`;
 }
 
 function escapeHtml(value) {

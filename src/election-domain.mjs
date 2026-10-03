@@ -897,6 +897,8 @@ export function buildMainLikeCandidateSummaryFromRawResults(rawEntries = []) {
   };
 }
 
+export const NO_PARTY_RECORDED = 'No party recorded';
+
 export function summarizeResult(raw, fallbackConstituency) {
   const mainPayload = normalizeScraperPayloadForMain(raw, fallbackConstituency);
   const source = mainPayload?.Constituency || raw?.Constituency || raw || {};
@@ -907,6 +909,12 @@ export function summarizeResult(raw, fallbackConstituency) {
   const constituency = fixText(source.constituency || raw?.constituency || info.Constituency_Name || fallbackConstituency);
   const recallPetition = source.recallPetition || raw?.recallPetition || raw?.petition || null;
   let candidates = forumRows ? summarizeForumRows(forumRows) : summarizeCandidateRows(rows);
+  // Before 1832 no party was printed against a candidate. Such a contest says so
+  // (partyLabels: "none-recorded") and a blank party reads "No party recorded" rather than
+  // falling through to "Independent", which nobody was.
+  if ((raw?.partyLabels || source.partyLabels) === 'none-recorded') {
+    candidates = candidates.map((candidate) => (candidate.party ? candidate : { ...candidate, party: NO_PARTY_RECORDED }));
+  }
   const ranked = [...candidates].sort((a, b) => numberOrZero(b.firstPrefs) - numberOrZero(a.firstPrefs));
   const seatsTotal = parseNumber(info.Number_Of_Seats ?? raw?.meta?.seats ?? raw?.seats);
   if (!forumRows) candidates = completeElectedCandidateSet(candidates, seatsTotal);

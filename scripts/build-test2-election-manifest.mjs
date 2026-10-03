@@ -1276,6 +1276,8 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
       repairShiftedUnopposedRows(applyNiLocalValidPollCorrection(key, constituency, wikiEnrichedRawResult)));
     if (officialRawResult) rawEntries.push({ constituency, raw: officialRawResult });
     const result = ElectionDomain.summarizeResult(enrichedRawResult, constituency);
+    const notes = contestNotes(rawResult);
+    if (notes.length) result.contestNotes = notes;
     applyLifespanEvidence(entry, result);
     const resultMetadata = classifyElectionResult(entry, result, electionMetadata);
     const matchEntry = matchEntryForConstituency(entry, result.constituency || constituency);
@@ -2165,10 +2167,49 @@ function escapeRegExp(value) {
   return String(value || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
+const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+/**
+ * What a contest file says about the contest beyond its figures -- the cause of a by-election,
+ * the day polling began where it differs from the election's date, the outcome of a petition,
+ * an estimated electorate, the right of election -- for the result panel. The 1801-1832 files
+ * carry these from Walker and the History of Parliament; until now none of it left the file.
+ */
+function contestNotes(raw) {
+  if (!raw || typeof raw !== 'object') return [];
+  const day = (iso) => {
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso || ''));
+    return m ? `${Number(m[3])} ${MONTH_NAMES[Number(m[2]) - 1]} ${m[1]}` : String(iso || '');
+  };
+  return [
+    ['Cause', raw.cause],
+    ['Polling began', raw.pollDate ? day(raw.pollDate) : null],
+    ['Note', raw.note && raw.note !== 'Returned unopposed.' ? raw.note : null],
+    ['Electorate', raw.electorateNote
+      || (raw.electorateSource && Number(raw.Constituency?.countInfo?.Total_Electorate)
+        ? `${Number(raw.Constituency.countInfo.Total_Electorate).toLocaleString('en-GB')}: ${raw.electorateSource.replace(/,\s*(\d{4})/, ' in $1')}`
+        : null)],
+    ['Right of election', raw.franchise],
+  ].filter(([, text]) => typeof text === 'string' && text.trim())
+    .map(([label, text]) => ({ label, text: text.trim() }));
+}
+
 function findResultFile(dateDir, constituency) {
   if (!existsSync(dateDir)) return null;
   const direct = path.join(dateDir, `${slugify(constituency)}.json`);
   if (existsSync(direct)) return direct;
+  // Two more spellings of the file name before any fuzzy match. With the bracket kept:
+  // normalizeName drops "(Roscommon)", so both Athlones and all three "County Cork (...
+  // Division)" counting areas looked for one file that does not exist. And with accented
+  // letters dropped rather than decomposed, as the importer that wrote dn-laoghaire.json did.
+  const plain = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  for (const name of [
+    fixText(constituency).normalize('NFKD').replace(/[̀-ͯ]/g, ''),
+    fixText(constituency).replace(/[^\x00-\x7f]/g, '')
+  ]) {
+    const candidate = path.join(dateDir, `${plain(name)}.json`);
+    if (existsSync(candidate)) return candidate;
+  }
   const files = readdirSync(dateDir).filter((name) => name.endsWith('.json') && name !== '_index.json');
   const target = normalizeName(constituency);
   for (const file of files) {

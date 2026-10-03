@@ -40,6 +40,13 @@ NI = {'house-of-commons-of-the-united-kingdom', 'northern-ireland-assembly',
 ROI = {'dail-eireann', 'ireland-european', 'ireland-president'}
 
 
+
+def party_of(c):
+    """A candidate's party; "No party recorded" (before 1832) is none, so it is never
+    evidence that two candidates are one man."""
+    p = (c.get('party') or '').strip()
+    return '' if p == 'No party recorded' else p
+
 def main():
     reg = json.load(open(REG, encoding='utf-8'))
     ents = {e['personId']: e for e in reg['entities']}
@@ -56,7 +63,7 @@ def main():
                     continue
                 obs[pid].append({'y': int(yr), 'body': body,
                                  'name': (c.get('name') or '').strip(),
-                                 'party': (c.get('party') or '').strip(),
+                                 'party': party_of(c),
                                  'con': str(r.get('constituency') or '')})
 
     rows = []

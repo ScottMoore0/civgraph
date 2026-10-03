@@ -1980,6 +1980,9 @@ function renderRelatedPanel(type, item) {
     escapeHtml(row.party || ''),
     escapeHtml(row.constituency || ''),
     escapeHtml(row.status || (row.elected ? 'Elected' : ''))
+  ]) + renderSimpleTable('Seats in the Commons (History of Parliament)', ['Constituency', 'Held'], item.seatsHeld || [], (row) => [
+    escapeHtml(row.constituency || ''),
+    row.source ? `<a href="${escapeAttr(row.source)}" rel="noopener">${escapeHtml(row.dates || '')}</a>` : escapeHtml(row.dates || '')
   ]) + (item.historyOfParliament?.length
     // The member's biography in the History of Parliament, cited and linked; the Trust's
     // text is not reproduced. Born and died in the overview come from these pages.

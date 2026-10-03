@@ -4526,30 +4526,25 @@ class UIController {
                 });
             });
 
-        const decadeDefs = [
-            { id: 'flat-elections-2020s', name: '2020s', from: 2020, to: 2029 },
-            { id: 'flat-elections-2010s', name: '2010s', from: 2010, to: 2019 },
-            { id: 'flat-elections-2000s', name: '2000s', from: 2000, to: 2009 },
-            { id: 'flat-elections-1990s', name: '1990s', from: 1990, to: 1999 },
-            { id: 'flat-elections-1980s', name: '1980s', from: 1980, to: 1989 },
-            { id: 'flat-elections-1970s', name: '1970s', from: 1970, to: 1979 },
-            { id: 'flat-elections-1960s', name: '1960s', from: 1960, to: 1969 },
-            { id: 'flat-elections-1950s', name: '1950s', from: 1950, to: 1959 },
-            { id: 'flat-elections-1940s', name: '1940s', from: 1940, to: 1949 },
-            { id: 'flat-elections-1930s', name: '1930s', from: 1930, to: 1939 },
-            { id: 'flat-elections-1920s', name: '1920s', from: 1920, to: 1929 },
-            { id: 'flat-elections-1910s', name: '1910s', from: 1910, to: 1919 },
-            { id: 'flat-elections-1900s', name: '1900s', from: 1900, to: 1909 },
-            { id: 'flat-elections-1890s', name: '1890s', from: 1890, to: 1899 },
-            { id: 'flat-elections-1880s', name: '1880s', from: 1880, to: 1889 }
-        ];
-
         let electionCatalogueCards = [];
         try {
             electionCatalogueCards = this.onBuildElectionCatalogueCards ? await this.onBuildElectionCatalogueCards() : [];
         } catch (err) {
             console.error('[UI] Failed to build flat-view election cards:', err);
             electionCatalogueCards = [];
+        }
+
+        // One card per decade, from the newest down to the oldest election there is. The
+        // list was written out by hand and stopped at the 1880s, so the 1801-1879 Irish
+        // Westminster results, once added, had no card to open.
+        const electionYears = electionCatalogueCards
+            .map(c => parseInt(String(c.date).slice(0, 4), 10))
+            .filter(Number.isFinite);
+        const newestDecade = Math.floor(Math.max(new Date().getFullYear(), ...electionYears) / 10) * 10;
+        const oldestDecade = electionYears.length ? Math.floor(Math.min(...electionYears) / 10) * 10 : 1880;
+        const decadeDefs = [];
+        for (let from = newestDecade; from >= oldestDecade; from -= 10) {
+            decadeDefs.push({ id: `flat-elections-${from}s`, name: `${from}s`, from, to: from + 9 });
         }
 
         const getElectionAppearance = (body, date, bodyGroup = null) => {
@@ -4650,7 +4645,8 @@ class UIController {
                 id: def.id,
                 name: def.name,
                 years: `${def.from}-${def.to}`,
-                extent: hasRoi ? 'Ireland' : 'Northern Ireland',
+                // Before partition every election here was all-Ireland.
+                extent: hasRoi || def.from < 1920 ? 'Ireland' : 'Northern Ireland',
                 electionEntries: entries
             };
         });

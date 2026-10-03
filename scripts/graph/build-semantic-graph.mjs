@@ -102,7 +102,8 @@ const PROP = {
   jurisdiction: 'cg:property:jurisdiction',
   historyOfParliament: 'cg:property:history-of-parliament-biography',
   dateOfBirth: 'cg:property:date-of-birth',
-  dateOfDeath: 'cg:property:date-of-death'
+  dateOfDeath: 'cg:property:date-of-death',
+  seatHeld: 'cg:property:seat-held'
 };
 
 // Parent-card values that correspond to an elected body, mapped (by slug key)
@@ -679,6 +680,7 @@ function buildElectionEntities(items, browseElectionSource) {
       });
     }
     for (const party of item.partySummary || []) {
+      if ((party.party || party.name || party.label) === 'No party recorded') continue;
       const partyId = getPartyEntity(party.party || party.name || party.label);
       addStatement({
         subjectId: partyId,
@@ -718,6 +720,16 @@ function addHistoryOfParliament(id, item) {
     value: urlValue(page.url),
     references: [refs[i]]
   }));
+  // The seats he held and when, each referenced to the page that lists it.
+  for (const seat of normalizeArray(item.seatsHeld)) {
+    const ref = refs[pages.findIndex((page) => page.url === seat.source)] || refs[0];
+    addStatement({
+      subjectId: id,
+      propertyId: PROP.seatHeld,
+      value: stringValue(`${seat.constituency}, ${seat.dates}`),
+      references: [ref]
+    });
+  }
   // Every page that gives the date is cited for it, not only the most precise.
   for (const [prop, key] of [[PROP.dateOfBirth, 'born'], [PROP.dateOfDeath, 'died']]) {
     if (item[key]) addStatement({ subjectId: id, propertyId: prop, value: dateValue(item[key]), references: refs });
@@ -754,6 +766,8 @@ function buildPersonEntities(items, browsePersonSource) {
     if (nameKey && !personByNormalizedName.has(nameKey)) personByNormalizedName.set(nameKey, id);
 
     for (const party of item.parties || []) {
+      // "No party recorded" (before 1832) is the absence of a party, not membership of one.
+      if ((party.name || party.title || party) === 'No party recorded') continue;
       const partyId = getPartyEntity(party.name || party.title || party);
       addStatement({
         subjectId: id,
@@ -776,7 +790,7 @@ function buildPersonEntities(items, browsePersonSource) {
           resultKind: 'constituency-result'
         }
       });
-      const partyId = election.party ? getPartyEntity(election.party) : null;
+      const partyId = election.party && election.party !== 'No party recorded' ? getPartyEntity(election.party) : null;
       const candidatureId = makeEntityId('candidature', `${id}|${contestId}|${partyId || election.party || ''}|${election.status || ''}`);
       addEntity(candidatureId, {
         typeIds: [TYPE.candidature],
