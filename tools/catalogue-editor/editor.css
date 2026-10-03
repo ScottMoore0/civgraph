@@ -1,0 +1,93 @@
+/* Catalogue editor (tools/catalogue-editor). Loaded only by the local editor server. */
+:root {
+  --ce-accent: #2563eb;
+  --ce-changed: rgba(250, 204, 21, 0.38);
+  --ce-pin: #e11d48;
+  --ce-panel: #ffffff;
+  --ce-ink: #111827;
+  --ce-muted: #6b7280;
+  --ce-line: #d1d5db;
+}
+
+/* Editable fields */
+.ce-on .ce-field { outline: 1px dashed rgba(37, 99, 235, 0.45); outline-offset: 1px; border-radius: 2px; cursor: text; }
+.ce-on .ce-field:hover { outline-color: var(--ce-accent); background: rgba(37, 99, 235, 0.06); }
+.ce-on .ce-field:focus { outline: 2px solid var(--ce-accent); background: rgba(37, 99, 235, 0.08); }
+.ce-field.ce-changed { background: var(--ce-changed); }
+.ce-extent:empty, .ce-when:empty { display: inline-block; min-width: 2.5em; min-height: 1em; }
+
+/* Row and entry tools: only in Edit mode */
+.ce-rowtools, .ce-entrytools, .ce-addsub { display: none; }
+.ce-on .ce-rowtools, .ce-on .ce-entrytools { display: inline-flex; align-items: center; gap: 2px; margin-right: 4px; vertical-align: middle; }
+.ce-on .ce-addsub { display: inline-block; margin-left: 8px; }
+.ce-handle { cursor: grab; color: var(--ce-muted); font-size: 13px; padding: 0 2px; user-select: none; }
+.ce-btn {
+  font: 600 11px/1.2 system-ui, sans-serif; color: var(--ce-ink); background: #f3f4f6; border: 1px solid var(--ce-line);
+  border-radius: 4px; padding: 2px 6px; cursor: pointer;
+}
+.ce-btn:hover { background: #e5e7eb; }
+.ce-btn:focus-visible { outline: 2px solid var(--ce-accent); outline-offset: 1px; }
+.ce-rowtools .ce-btn, .ce-entrytools .ce-btn { padding: 0 4px; font-size: 10px; }
+
+tr.ce-removed td { opacity: 0.45; text-decoration: line-through; }
+tr.ce-added-row td { background: rgba(37, 99, 235, 0.07); }
+.ce-dragging { opacity: 0.4; }
+.ce-drop-before { box-shadow: inset 0 3px 0 var(--ce-accent); }
+.ce-drop-after { box-shadow: inset 0 -3px 0 var(--ce-accent); }
+.ce-attr-changed { box-shadow: inset 3px 0 0 #f59e0b; }
+.ce-attr-changed[data-ce-proposed]:not([data-ce-proposed=""])::after {
+  content: "Proposed: " attr(data-ce-proposed); display: block; font: 11px/1.3 system-ui, sans-serif; color: #92400e; padding: 2px 6px;
+}
+
+/* Bar */
+.ce-bar {
+  position: fixed; left: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); z-index: 2147483000;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px; max-width: min(760px, calc(100vw - 24px));
+  padding: 8px 10px; background: var(--ce-panel); color: var(--ce-ink); border: 1px solid var(--ce-line); border-radius: 8px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18); font: 12px/1.35 system-ui, sans-serif;
+}
+.ce-bar strong { font-size: 12px; }
+.ce-status { color: #047857; font-weight: 600; }
+.ce-status.ce-bad { color: #b91c1c; }
+.ce-help { flex-basis: 100%; color: var(--ce-muted); font-size: 11px; }
+
+/* Pins */
+#ce-pins { position: fixed; inset: 0; pointer-events: none; z-index: 2147483001; }
+.ce-pin {
+  position: fixed; transform: translate(-50%, -50%); pointer-events: auto; width: 22px; height: 22px; border-radius: 50%;
+  border: 2px solid #fff; background: var(--ce-pin); color: #fff; font: 700 11px/18px system-ui, sans-serif; text-align: center;
+  padding: 0; cursor: pointer; box-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+}
+.ce-pin:hover { transform: translate(-50%, -50%) scale(1.15); }
+
+/* Popovers */
+.ce-pop {
+  position: fixed; z-index: 2147483002; width: 320px; max-width: calc(100vw - 16px); background: var(--ce-panel); color: var(--ce-ink);
+  border: 1px solid var(--ce-line); border-radius: 8px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25); padding: 10px;
+  font: 12px/1.4 system-ui, sans-serif; display: grid; gap: 6px;
+}
+.ce-pop__title { font-weight: 700; display: flex; flex-direction: column; gap: 2px; }
+.ce-pop__id { font-weight: 400; color: var(--ce-muted); font-size: 11px; word-break: break-all; }
+.ce-pop label { display: grid; gap: 2px; color: #374151; }
+.ce-pop label.ce-check { display: flex; align-items: center; gap: 6px; }
+.ce-pop input:not([type="checkbox"]), .ce-pop textarea {
+  font: 12px/1.4 system-ui, sans-serif; color: var(--ce-ink); background: #fff; border: 1px solid var(--ce-line); border-radius: 4px; padding: 4px 6px; width: 100%; box-sizing: border-box;
+}
+.ce-pop textarea { resize: vertical; }
+.ce-pop__meta { color: var(--ce-muted); font-size: 11px; }
+.ce-pop__btns { display: flex; gap: 6px; justify-content: flex-end; }
+.ce-pop__btns button { font: 600 12px/1.2 system-ui, sans-serif; padding: 4px 10px; border-radius: 4px; border: 1px solid var(--ce-line); background: #f3f4f6; cursor: pointer; }
+.ce-pop__btns .ce-save { background: var(--ce-accent); border-color: var(--ce-accent); color: #fff; }
+
+/* Review panel */
+.ce-review {
+  position: fixed; z-index: 2147483002; inset: 6vh 50% auto auto; transform: translateX(50%); width: min(900px, calc(100vw - 24px));
+  max-height: 86vh; overflow: auto; background: var(--ce-panel); color: var(--ce-ink); border: 1px solid var(--ce-line); border-radius: 10px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3); padding: 14px 16px; font: 12px/1.45 system-ui, sans-serif;
+}
+.ce-review__head { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; margin-bottom: 8px; }
+.ce-review__head span { color: var(--ce-muted); flex: 1; }
+.ce-review table { width: 100%; border-collapse: collapse; }
+.ce-review th, .ce-review td { text-align: left; border-bottom: 1px solid #e5e7eb; padding: 4px 6px; vertical-align: top; }
+.ce-review th { font-size: 11px; color: var(--ce-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.ce-review h4 { margin: 12px 0 4px; }
