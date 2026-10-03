@@ -4851,7 +4851,7 @@ class UIController {
             {
                 heading: 'Local Government',
                 members: [
-                    'Local Government Districts', 'Local Authorities',
+                    'Local Government Districts', 'Local Authorities', 'Municipal Districts',
                     'Administrative Counties',
                     'Administrative Areas',
                 ]
