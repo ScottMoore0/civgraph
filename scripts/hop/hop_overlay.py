@@ -154,11 +154,15 @@ class Overlay:
         self.cross = json.load(open(os.path.join(HOP, 'hop-crosscheck-1801-1832.json'), encoding='utf-8'))['records']
         self.by_walker = {(r['walker']['page'], r['walker']['constituency'], r['walker']['date']): r
                           for r in self.cross if r.get('walker')}
-        # Electorates by seat and year, from each volume's background block.
+        # Electorates by seat and year, from each volume's background block; and the right of
+        # election (the franchise) each volume gives the seat.
         self.electorate = collections.defaultdict(dict)
+        self.franchise = {}
         for c in cons['constituencies']:
             seat = xc.hop_seat(c['slug'])
             for b in c['background']:
+                if b['label'].lower() == 'right of election' and b['value']:
+                    self.franchise[(seat, c['volume'])] = (b['value'], c['url'])
                 if b['label'].lower() in ELECTORATE_LABELS:
                     for year, (n, approx) in parse_electorate(b['value']).items():
                         self.electorate[seat].setdefault(year, (n, approx, b['label'], c['volume'], c['url']))
@@ -212,6 +216,11 @@ class Overlay:
 
     def seat(self, walker_name):
         return xc.walker_seat(walker_name)
+
+    def franchise_for(self, seat, day):
+        """The right of election in the volume covering this day, or the other volume's."""
+        vol = '1790-1820' if (day or '')[:4] < '1820' else '1820-1832'
+        return self.franchise.get((seat, vol)) or self.franchise.get((seat, '1820-1832' if vol == '1790-1820' else '1790-1820'))
 
     def electorate_for(self, seat, year):
         return self.electorate.get(seat, {}).get(int(year))

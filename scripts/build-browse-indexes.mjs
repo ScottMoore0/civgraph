@@ -2,7 +2,7 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { resolveApprovedPublicationSources } from './lib/approved-publication-index.mjs';
-import { partyColour } from '../src/election-domain.mjs';
+import { partyColour, NO_PARTY_RECORDED } from '../src/election-domain.mjs';
 import { isPublicMap } from '../src/public-map.mjs';
 import { canonicalElectionTitle, electionResultEntryLabel } from './lib/election-names.mjs';
 import { buildPartyVocabulary, classifyPersonName, stripWikipediaQualifier, NOT_A_PERSON } from './lib/person-name-artefacts.mjs';
@@ -1127,7 +1127,8 @@ function buildParties(partyIds, electionDetails) {
   for (const [key, detail] of electionDetails) {
     for (const row of normalizeArray(detail.mainLikePartySummary || detail.partySummary)) {
       const partyName = cleanText(row.party || row.name);
-      if (!partyName) continue;
+      // "No party recorded" (before 1832) is the absence of a party, not one.
+      if (!partyName || partyName === NO_PARTY_RECORDED) continue;
       const id = aliasToId.get(normalizeName(partyName)) || `party:${slugify(partyName)}`;
       if (!byId.has(id)) {
         byId.set(id, {
@@ -1247,7 +1248,12 @@ function personSlug(personId, name) {
 function loadHopPages() {
   const members = readJson('data/elections/hop/hop-irish-members.json', { members: [] }).members || [];
   if (!members.length) return new Map();
-  const volumes = readJson('data/elections/hop/hop-irish-constituencies.json', { volumes: {} }).volumes || {};
+  const consData = readJson('data/elections/hop/hop-irish-constituencies.json', { volumes: {}, constituencies: [] });
+  const volumes = consData.volumes || {};
+  // Seat names as HoP gives them ("Co. Antrim"); a seat outside Ireland is named from its slug.
+  const seatName = new Map((consData.constituencies || []).map((c) => [hopPageKey(c.path), c.name]));
+  const nameSeat = (path) => seatName.get(hopPageKey(path))
+    || String(path).replace(/\/$/, '').split('/').pop().split('-').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
   const wikidata = readJson('data/elections/hop/wikidata-hop-ids.json', { records: [] }).records || [];
   const enwiki = new Map(wikidata.filter((r) => r.enwiki).map((r) => [hopPageKey(`/volume/${r.hop}`), r.enwiki]));
   // The Wikidata item a page describes: the two volumes can head one man differently
@@ -1271,6 +1277,12 @@ function loadHopPages() {
     const page = compactObject({
       title: v.title, edition: [v.editor, v.year].filter(Boolean).join(', '), volume: m.volume,
       url: m.url, heading: m.heading.replace(/\s*\(.*$/, ''), born: m.born, died: m.died,
+      seats: (m.seats || []).map((seat) => ({
+        constituency: nameSeat(seat.constituency),
+        dates: seat.dates,
+        // The seat itself (co-antrim and county-antrim are one) and the year he took it.
+        key: `${String(seat.constituency).split('/').pop().replace(/^(co|county)-/, '').replace(/^queens-co$/, 'queens-county')}|${String(seat.from || '').slice(0, 4)}`
+      })),
       // One man has a page in each volume, not always under the same slug ("prittie-hon-
       // francis-aldborough-1779-1853", "prittie-hon-francis-1779-1853"): his Wikidata item
       // is who he is, else his surname and years.
@@ -1527,7 +1539,19 @@ function buildPersons(electionDetails, partyRecords) {
       subtitle: compactJoin([parties[0]?.name, formatYearRange(person.firstYear, person.lastYear), `${person.totals.stood} contests`]),
       interactiveUrl: person.elections[0]?.interactiveUrl || null,
       ...(hop.length ? {
-        historyOfParliament: hop.map(({ born, died, member, ...page }) => page),
+        historyOfParliament: hop.map(({ born, died, member, seats, ...page }) => page),
+        // The seats he held and when, as HoP gives them; both volumes list the same seats,
+        // so each seat and span is kept once, with the page it came from.
+        seatsHeld: (() => {
+          const seen = new Map();
+          for (const page of hop) {
+            for (const seat of page.seats || []) {
+              const { key, ...shown } = seat;
+              if (!seen.has(key)) seen.set(key, { ...shown, source: page.url });
+            }
+          }
+          return [...seen.values()];
+        })(),
         born: hop.map((p) => p.born).reduce(preciser, null),
         died: hop.map((p) => p.died).reduce(preciser, null),
       } : {})

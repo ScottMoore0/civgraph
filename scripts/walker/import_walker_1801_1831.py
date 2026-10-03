@@ -85,10 +85,14 @@ def apply_hop(doc, hp, hop, seat_id, day, report):
     """What the History of Parliament adds to a contest: the citation, the cause of a
     by-election, the electorate that year, and how a petition ended."""
     doc['sources'].append(cite(hp['hopVolume'], hp['hopUrl']))
+    f = hop.franchise_for(seat_id, day)
+    if f:
+        doc['franchise'] = f[0][:1].upper() + f[0][1:]
+        report['franchise from the History of Parliament'] += 1
     returned = [h for h in hp['hop'] if h['returned']]
     cause = next((h['note'] for h in returned if h.get('note') and re.match(r'^(vice|re-elected)\b', h['note'])), None)
     if hp['byElection'] and cause and not doc.get('cause'):
-        doc['cause'] = cause[0].upper() + cause[1:]
+        doc['cause'] = cause[0].upper() + cause[1:] + ' (History of Parliament)'
         report['by-election cause from the History of Parliament'] += 1
     e = hop.electorate_for(seat_id, (day or '')[:4]) if day else None
     if e:
@@ -103,7 +107,7 @@ def apply_hop(doc, hp, hop, seat_id, day, report):
     for p in hp.get('petitions') or []:
         if not any('petition' in n.lower() for n in notes):
             notes.append(f"On petition {titled(p['seated'])} was seated in place of {p['unseated']}"
-                         + (f", {p['date']}" if p.get('date') else '') + '.')
+                         + (f", {p['date']}" if p.get('date') else '') + ' (History of Parliament).')
             report['petition outcome from the History of Parliament'] += 1
     for o in hp.get('outcomes') or []:
         if not any(o.lower()[:20] in n.lower() for n in notes):
@@ -287,7 +291,9 @@ def main(write=False):
                 {'title': 'List of MPs elected in the United Kingdom general election'
                  if w['kind'] == 'general' else 'List of United Kingdom by-elections',
                  'publisher': 'Wikipedia', 'url': (listed[0]['list'] if listed else None)}]),
-            'checked': summary}
+            'checked': summary,
+            # No party was printed against a candidate before 1832; the site says so.
+            'partyLabels': 'none-recorded'}
         if w.get('dateAsPrinted') and w['kind'] == 'general':
             doc['pollDate'] = w['date']
         if w.get('outcomeFacts'):
@@ -369,7 +375,8 @@ def main(write=False):
             'Spoiled': '', 'Total_Electorate': '', 'Total_Poll': '', 'Valid_Poll': ''}, 'countGroup': rows},
             'kind': 'general' if general else 'by-election',
             'sources': [],
-            'checked': 'from the History of Parliament; Walker\'s pages as scanned do not print it'}
+            'checked': 'from the History of Parliament; Walker\'s pages as scanned do not print it',
+            'partyLabels': 'none-recorded'}
         # A by-election Walker prints but misdates (or leaves undated) and so was held: HoP's
         # day settles it, and Walker's page is cited beside it.
         wh = next((x for x in held if x['kind'] == 'by-election' and not general and hop.seat(x['constituency']) == sid

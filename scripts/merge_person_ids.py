@@ -56,6 +56,13 @@ DISAMBIGUATED = re.compile(r'\([^)]*\bpolitician\b[^)]*\)', re.I)
 SUCCESSOR_SUFFIX = re.compile(r'\b(jn?r|jun|junior|sn?r|sen|senior|[IVX]{2,})\b', re.I)
 
 
+
+def party_of(c):
+    """A candidate's party; "No party recorded" (before 1832) is none, so it is never
+    evidence that two candidates are one man."""
+    p = (c.get('party') or '').strip()
+    return '' if p == 'No party recorded' else p
+
 def observations():
     obs = collections.defaultdict(list)
     for f in sorted(glob.glob(os.path.join(META, '*.json'))):
@@ -70,7 +77,7 @@ def observations():
                     continue
                 obs[pid].append({'key': key, 'body': body, 'con': con,
                                  'y': int(yr) if yr.isdigit() else 0,
-                                 'party': (c.get('party') or '').strip()})
+                                 'party': party_of(c)})
     return obs
 
 

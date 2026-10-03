@@ -44,6 +44,13 @@ OUT = os.path.join(REPO, 'data', 'elections', 'persons')
 REG = os.path.join(OUT, 'person_registry.json')
 
 
+
+def party_of(c):
+    """A candidate's party; "No party recorded" (before 1832) is none, so it is never
+    evidence that two candidates are one man."""
+    p = (c.get('party') or '').strip()
+    return '' if p == 'No party recorded' else p
+
 def matchkey(v):
     t = re.sub(r'\s+', ' ', str(v or '')).strip()
     t = unicodedata.normalize('NFKD', t)
@@ -74,7 +81,7 @@ def scan():
                              'src': str(c.get('sourcePersonId') or '').strip(),
                              'key': d.get('key'), 'body': d.get('bodySlug'),
                              'year': int(yr) if yr.isdigit() else 0,
-                             'party': (c.get('party') or '').strip()})
+                             'party': party_of(c)})
     return rows
 
 
