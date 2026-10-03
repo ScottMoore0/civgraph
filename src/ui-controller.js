@@ -3769,17 +3769,24 @@ class UIController {
             { id: 'flat-islands', name: 'Islands', years: '', extent: '', mapIds: ['ireland-island'] },
             { id: 'flat-rivers', name: 'Rivers (2016) (Northern Ireland)', years: '2016', extent: 'Northern Ireland', mapIds: ['rivers-2016'] },
             // ── Local Government ──
-            { id: 'flat-lgds', name: 'Local Government Districts (Northern Ireland) (1973-)', years: '1972-2022', extent: 'Northern Ireland', classIds: ['ni-lgds'] },
+            { id: 'flat-lgds', name: 'Local Government Districts (Northern Ireland) (1973-)', years: '1972-2022', extent: 'Northern Ireland', classIds: ['ni-lgds'],
+              // OSNI's own 1993 LGD layers; without a card they formed a second "Local
+              // Government Districts" row (the category's name) with the trusts below.
+              mapIds: ['osni-open-data-50k-boundaries-local-government-districts-1993', 'osni-open-data-largescale-boundaries-local-government-districts-1993'] },
             // Three local-authority cards, split by jurisdiction and partition. The
             // pre-partition set is all-Ireland: before 1921 there was one system, created
             // by the Local Government (Ireland) Act 1898 and effective from 1899, which is
             // why that card's range opens earlier than its earliest map.
             { id: 'flat-ireland-local-authorities-pre-partition', name: 'Local Authorities (Ireland, pre-partition)', years: '1899-1920', extent: 'Ireland', classIds: ['ireland-local-authorities-pre-partition'] },
             { id: 'flat-roi-local-authorities', name: 'Local Authorities (Republic of Ireland)', years: '1921-2019', extent: 'Republic of Ireland', classIds: ['roi-local-authorities'] },
+            // Its own card: without one it fell into the catch-all for the category and was
+            // titled "Local Government Districts", a second row of that name holding a
+            // Republic of Ireland layer.
+            { id: 'flat-roi-municipal-districts', name: 'Municipal Districts (Republic of Ireland)', years: '2019', extent: 'Republic of Ireland', classIds: ['roi-municipal-districts'] },
             { id: 'flat-admin-counties', name: 'Local Authorities (Northern Ireland) (1921)', years: '1921', extent: 'Northern Ireland', classIds: ['ni-admin-counties'] },
             { id: 'flat-admin-areas', name: 'Administrative Areas (Northern Ireland) (1920-1973)', years: '1921-1969', extent: 'Northern Ireland', classIds: ['ni-admin-areas'] },
             { id: 'flat-elb', name: 'Education and Library Boards (Northern Ireland)', years: '1984-1993', extent: 'Northern Ireland', classIds: ['ni-elb'] },
-            { id: 'flat-hsct', name: 'Health and Social Care Trusts (Northern Ireland) (2007)', years: '2007', extent: 'Northern Ireland', mapIds: ['hsct-2007'] },
+            { id: 'flat-hsct', name: 'Health and Social Care Trusts (Northern Ireland) (2007)', years: '2007', extent: 'Northern Ireland', mapIds: ['hsct-2007', 'ni-health-trust-boundaries'] },
             { id: 'flat-roi-garda-areas', name: 'An Garda Síochána Areas (Republic of Ireland)', years: '2011', extent: 'Republic of Ireland', classIds: ['roi-garda-areas'] },
             { id: 'flat-roi-gaeltacht', name: 'Gaeltacht Areas (Republic of Ireland)', years: '1926-1982', extent: 'Republic of Ireland', classIds: ['roi-gaeltacht'],
               mapIds: ['tailte-gaeltacht-boundaries-generalised-20m', 'tailte-gaeltacht-language-planning-area-boundaries-generalised-20m'] },
