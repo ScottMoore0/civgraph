@@ -43,7 +43,7 @@
   "partySummary": [
     {
       "party": "Home Rule",
-      "seats": 1,
+      "seats": 2,
       "stood": 3,
       "votes": 3928,
       "colour": "#6b7280",
@@ -65,7 +65,7 @@
     "totalPoll": 0,
     "totalElectorate": 3608,
     "totalSpoiled": 0,
-    "totalSeats": 1
+    "totalSeats": 2
   },
   "mainLikeCandidateSummary": [],
   "mainLikeCandidateTotals": {
@@ -80,7 +80,7 @@
         "firstPrefs": 3928,
         "finalVotes": 3928,
         "stood": 3,
-        "elected": 1,
+        "elected": 2,
         "constituencies": [
           "Mayo"
         ],
@@ -99,7 +99,7 @@
             "constituency": "Mayo",
             "firstPref": 1319,
             "finalVotes": 1319,
-            "status": "Not elected"
+            "status": "Elected"
           },
           {
             "id": "wikipedia:Thomas Tighe (MP)",
@@ -144,7 +144,7 @@
         "colour": "#888888",
         "firstPrefs": 1319,
         "finalVotes": 1319,
-        "electedCount": 0,
+        "electedCount": 1,
         "constituencies": [
           "Mayo"
         ],
@@ -153,7 +153,7 @@
             "constituency": "Mayo",
             "firstPref": 1319,
             "finalVotes": 1319,
-            "status": "Not elected"
+            "status": "Elected"
           }
         ],
         "shareOfTotal": 33.579429735234214
@@ -186,7 +186,7 @@
     {
       "constituency": "Mayo",
       "winnerParty": "Home Rule",
-      "winnerName": "George Eakins Browne",
+      "winnerName": "2 elected",
       "leadingParty": "Home Rule",
       "leadingName": "George Eakins Browne",
       "leadingVotes": 1330,
@@ -194,8 +194,8 @@
       "turnoutPct": null,
       "majority": 11,
       "majorityPct": 0.28,
-      "seatsWon": 1,
-      "seatsTotal": 1,
+      "seatsWon": 2,
+      "seatsTotal": 2,
       "quota": null,
       "electorate": 3608,
       "totalPoll": null,
@@ -241,12 +241,12 @@
           "party": "Home Rule",
           "firstPrefs": 1319,
           "finalVotes": 1319,
-          "elected": false,
-          "electedAt": null,
+          "elected": true,
+          "electedAt": 1,
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Not elected",
+          "status": "Elected",
           "colour": "#888888",
           "gender": "",
           "dailAbbreviation": "",
@@ -258,7 +258,7 @@
               "count": 1,
               "total": 1319,
               "transfers": 0,
-              "status": "Not elected",
+              "status": "Elected",
               "firstPrefs": 1319
             }
           ],
@@ -324,12 +324,40 @@
               "firstPrefs": 1330
             }
           ]
+        },
+        {
+          "id": "John O'Connor Power|Home Rule",
+          "name": "John O'Connor Power",
+          "party": "Home Rule",
+          "firstPrefs": 1319,
+          "finalVotes": 1319,
+          "elected": true,
+          "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#888888",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "sourcePersonId": "wikipedia:John O'Connor Power",
+          "counts": [
+            {
+              "count": 1,
+              "total": 1319,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 1319
+            }
+          ]
         }
       ],
       "countInfo": {
         "Constituency_Name": "Mayo",
         "Constituency_Number": "",
-        "Number_Of_Seats": "1",
+        "Number_Of_Seats": "2",
         "Spoiled": "",
         "Total_Electorate": "3608",
         "Total_Poll": "",
@@ -362,7 +390,7 @@
           "Occurred_On_Count": "",
           "Party_Colour": "#888888",
           "Party_Name": "Home Rule",
-          "Status": "Not elected",
+          "Status": "Elected",
           "Surname": "Power",
           "Total_Votes": "1,319",
           "Transfers": "0.00",
@@ -400,7 +428,7 @@
           "countInfo": {
             "Constituency_Name": "Mayo",
             "Constituency_Number": "",
-            "Number_Of_Seats": "1",
+            "Number_Of_Seats": "2",
             "Spoiled": "",
             "Total_Electorate": "3608",
             "Total_Poll": "",
@@ -433,7 +461,7 @@
               "Occurred_On_Count": "",
               "Party_Colour": "#888888",
               "Party_Name": "Home Rule",
-              "Status": "Not elected",
+              "Status": "Elected",
               "Surname": "Power",
               "Total_Votes": "1,319",
               "Transfers": "0.00",
@@ -474,14 +502,9 @@
             "publisher": "Royal Irish Academy",
             "year": 1978,
             "note": "Printed volume, in copyright and not reproduced."
-          },
-          {
-            "title": "List of United Kingdom by-elections",
-            "publisher": "Wikipedia",
-            "url": "https://en.wikipedia.org/wiki/List_of_United_Kingdom_by-elections_(1868–1885)"
           }
         ],
-        "checked": "winner agrees with Wikipedia's list of by-elections; figures not compared with Walker",
+        "checked": "held at import (no election box found); read against Walker's printed page, p. 136; two seats: Browne and O'Connor Power both elected",
         "cause": "Void Election"
       },
       "constituencyId": null,
@@ -495,10 +518,11 @@
       ],
       "contestType": "election",
       "kind": "by-election",
-      "votingSystem": "fptp",
+      "votingSystem": "block-vote",
       "contestStatus": "contested",
       "candidateRowsExpected": true,
       "transferDataExpected": false,
+      "votesPerElector": 2,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1874-05-29/mayo.json",
       "featureId": null,

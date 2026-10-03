@@ -4,7 +4,7 @@
   "body": "House of Commons of the United Kingdom",
   "bodySlug": "house-of-commons-of-the-united-kingdom",
   "bodyGroup": null,
-  "displayTitle": "1853 Tralee by-election",
+  "displayTitle": "1853 Irish by-elections",
   "contestType": "election",
   "kind": "by-election",
   "votingSystem": "fptp",
@@ -27,38 +27,64 @@
   "previousKey": "house-of-commons-of-the-united-kingdom__1852-07-07",
   "previousDate": "1852-07-07",
   "loadable": false,
-  "displaySubtitle": "1 constituencies; 1 unmatched",
+  "displaySubtitle": "2 constituencies; 2 unmatched",
   "displayProvider": "House of Commons of the United Kingdom",
   "constituencies": [
+    "Clare",
     "Tralee"
   ],
   "isByElection": true,
-  "totalConstituencies": 1,
+  "totalConstituencies": 2,
   "matchedCount": 0,
-  "unmatchedCount": 1,
+  "unmatchedCount": 2,
   "unmatchedConstituencies": [
+    "Clare",
     "Tralee"
   ],
   "availableStyleModes": [],
   "partySummary": [
     {
       "party": "Whig",
-      "seats": 1,
-      "stood": 1,
-      "votes": 150,
+      "seats": 2,
+      "stood": 2,
+      "votes": 1501,
       "colour": "#6b7280",
-      "share": 93.75
+      "share": 35.831940797326325
     },
     {
       "party": "Independent Irish",
+      "seats": 1,
+      "stood": 2,
+      "votes": 1386,
+      "colour": "#6b7280",
+      "share": 33.086655526378614
+    },
+    {
+      "party": "Conservative",
       "seats": 0,
       "stood": 1,
-      "votes": 10,
-      "colour": "#6b7280",
-      "share": 6.25
+      "votes": 1299,
+      "colour": "#0087dc",
+      "share": 31.00978753879207
+    },
+    {
+      "party": "Independent",
+      "seats": 0,
+      "stood": 1,
+      "votes": 3,
+      "colour": "#b8b8b8",
+      "share": 0.07161613750298401
     }
   ],
   "mainLikePartySummary": [
+    {
+      "party": "Independent Irish",
+      "seats": 1,
+      "stood": 0,
+      "votes": 0,
+      "colour": "#888888",
+      "share": null
+    },
     {
       "party": "Whig",
       "seats": 1,
@@ -71,28 +97,37 @@
   "mainLikeTotals": {
     "validPoll": 0,
     "totalPoll": 0,
-    "totalElectorate": 315,
+    "totalElectorate": 3459,
     "totalSpoiled": 0,
-    "totalSeats": 1
+    "totalSeats": 3
   },
   "mainLikeCandidateSummary": [],
   "mainLikeCandidateTotals": {
     "validPoll": 0
   },
   "entityIndex": {
-    "totalValid": 160,
+    "totalValid": 4189,
     "parties": [
       {
         "name": "Whig",
         "colour": "#888888",
-        "firstPrefs": 150,
-        "finalVotes": 150,
-        "stood": 1,
-        "elected": 1,
+        "firstPrefs": 1501,
+        "finalVotes": 1501,
+        "stood": 2,
+        "elected": 2,
         "constituencies": [
+          "Clare",
           "Tralee"
         ],
         "candidates": [
+          {
+            "id": "wikipedia:John Forster FitzGerald",
+            "name": "John Forster FitzGerald",
+            "constituency": "Clare",
+            "firstPref": 1351,
+            "finalVotes": 1351,
+            "status": "Elected"
+          },
           {
             "id": "wikipedia:Daniel O'Connell Jnr",
             "name": "Daniel O'Connell Jnr",
@@ -102,19 +137,28 @@
             "status": "Elected"
           }
         ],
-        "shareOfTotal": 93.75
+        "shareOfTotal": 35.831940797326325
       },
       {
         "name": "Independent Irish",
         "colour": "#888888",
-        "firstPrefs": 10,
-        "finalVotes": 10,
-        "stood": 1,
-        "elected": 0,
+        "firstPrefs": 1386,
+        "finalVotes": 1386,
+        "stood": 2,
+        "elected": 1,
         "constituencies": [
+          "Clare",
           "Tralee"
         ],
         "candidates": [
+          {
+            "id": "wikipedia:Cornelius O'Brien (County Clare)",
+            "name": "Cornelius O'Brien",
+            "constituency": "Clare",
+            "firstPref": 1376,
+            "finalVotes": 1376,
+            "status": "Elected"
+          },
           {
             "id": "Thomas Fitzgerald|Independent Irish",
             "name": "Thomas Fitzgerald",
@@ -124,10 +168,98 @@
             "status": "Not elected"
           }
         ],
-        "shareOfTotal": 6.25
+        "shareOfTotal": 33.086655526378614
+      },
+      {
+        "name": "Conservative",
+        "colour": "#888888",
+        "firstPrefs": 1299,
+        "finalVotes": 1299,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Clare"
+        ],
+        "candidates": [
+          {
+            "id": "wikipedia:Crofton Moore Vandeleur",
+            "name": "Crofton Moore Vandeleur",
+            "constituency": "Clare",
+            "firstPref": 1299,
+            "finalVotes": 1299,
+            "status": "Not elected"
+          }
+        ],
+        "shareOfTotal": 31.00978753879207
+      },
+      {
+        "name": "Independent",
+        "colour": "#888888",
+        "firstPrefs": 3,
+        "finalVotes": 3,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Clare"
+        ],
+        "candidates": [
+          {
+            "id": "Henry Stuart Burton|Independent",
+            "name": "Henry Stuart Burton",
+            "constituency": "Clare",
+            "firstPref": 3,
+            "finalVotes": 3,
+            "status": "Not elected"
+          }
+        ],
+        "shareOfTotal": 0.07161613750298401
       }
     ],
     "candidates": [
+      {
+        "id": "wikipedia:Cornelius O'Brien (County Clare)",
+        "key": "Cornelius O'Brien|Independent Irish",
+        "name": "Cornelius O'Brien",
+        "party": "Independent Irish",
+        "colour": "#888888",
+        "firstPrefs": 1376,
+        "finalVotes": 1376,
+        "electedCount": 1,
+        "constituencies": [
+          "Clare"
+        ],
+        "appearances": [
+          {
+            "constituency": "Clare",
+            "firstPref": 1376,
+            "finalVotes": 1376,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 32.84793506803533
+      },
+      {
+        "id": "wikipedia:John Forster FitzGerald",
+        "key": "John Forster FitzGerald|Whig",
+        "name": "John Forster FitzGerald",
+        "party": "Whig",
+        "colour": "#888888",
+        "firstPrefs": 1351,
+        "finalVotes": 1351,
+        "electedCount": 1,
+        "constituencies": [
+          "Clare"
+        ],
+        "appearances": [
+          {
+            "constituency": "Clare",
+            "firstPref": 1351,
+            "finalVotes": 1351,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 32.25113392217713
+      },
       {
         "id": "wikipedia:Daniel O'Connell Jnr",
         "key": "Daniel O'Connell Jnr|Whig",
@@ -148,7 +280,29 @@
             "status": "Elected"
           }
         ],
-        "shareOfTotal": 93.75
+        "shareOfTotal": 3.5808068751492006
+      },
+      {
+        "id": "wikipedia:Crofton Moore Vandeleur",
+        "key": "Crofton Moore Vandeleur|Conservative",
+        "name": "Crofton Moore Vandeleur",
+        "party": "Conservative",
+        "colour": "#888888",
+        "firstPrefs": 1299,
+        "finalVotes": 1299,
+        "electedCount": 0,
+        "constituencies": [
+          "Clare"
+        ],
+        "appearances": [
+          {
+            "constituency": "Clare",
+            "firstPref": 1299,
+            "finalVotes": 1299,
+            "status": "Not elected"
+          }
+        ],
+        "shareOfTotal": 31.00978753879207
       },
       {
         "id": "Thomas Fitzgerald|Independent Irish",
@@ -170,11 +324,444 @@
             "status": "Not elected"
           }
         ],
-        "shareOfTotal": 6.25
+        "shareOfTotal": 0.23872045834328004
+      },
+      {
+        "id": "Henry Stuart Burton|Independent",
+        "key": "Henry Stuart Burton|Independent",
+        "name": "Henry Stuart Burton",
+        "party": "Independent",
+        "colour": "#888888",
+        "firstPrefs": 3,
+        "finalVotes": 3,
+        "electedCount": 0,
+        "constituencies": [
+          "Clare"
+        ],
+        "appearances": [
+          {
+            "constituency": "Clare",
+            "firstPref": 3,
+            "finalVotes": 3,
+            "status": "Not elected"
+          }
+        ],
+        "shareOfTotal": 0.07161613750298401
       }
     ]
   },
   "results": [
+    {
+      "constituency": "Clare",
+      "winnerParty": "Independent Irish",
+      "winnerName": "2 elected",
+      "leadingParty": "Independent Irish",
+      "leadingName": "Cornelius O'Brien",
+      "leadingVotes": 1376,
+      "leadingPct": 34.15,
+      "turnoutPct": null,
+      "majority": 25,
+      "majorityPct": 0.62,
+      "seatsWon": 2,
+      "seatsTotal": 2,
+      "quota": null,
+      "electorate": 3144,
+      "totalPoll": null,
+      "spoiled": null,
+      "validPoll": 4029,
+      "totalVotes": 4029,
+      "colour": "#6b7280",
+      "leadingColour": "#6b7280",
+      "candidates": [
+        {
+          "id": "Cornelius O'Brien|Independent Irish",
+          "name": "Cornelius O'Brien",
+          "party": "Independent Irish",
+          "firstPrefs": 1376,
+          "finalVotes": 1376,
+          "elected": true,
+          "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#888888",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "sourcePersonId": "wikipedia:Cornelius O'Brien (County Clare)",
+          "counts": [
+            {
+              "count": 1,
+              "total": 1376,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 1376
+            }
+          ],
+          "personId": 123877,
+          "name_id": "n-cornelius-o-brien"
+        },
+        {
+          "id": "John Forster FitzGerald|Whig",
+          "name": "John Forster FitzGerald",
+          "party": "Whig",
+          "firstPrefs": 1351,
+          "finalVotes": 1351,
+          "elected": true,
+          "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#888888",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "sourcePersonId": "wikipedia:John Forster FitzGerald",
+          "counts": [
+            {
+              "count": 1,
+              "total": 1351,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 1351
+            }
+          ],
+          "personId": 124744,
+          "name_id": "n-john-forster-fitzgerald"
+        },
+        {
+          "id": "Crofton Moore Vandeleur|Conservative",
+          "name": "Crofton Moore Vandeleur",
+          "party": "Conservative",
+          "firstPrefs": 1299,
+          "finalVotes": 1299,
+          "elected": false,
+          "electedAt": null,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Not elected",
+          "colour": "#888888",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "sourcePersonId": "wikipedia:Crofton Moore Vandeleur",
+          "counts": [
+            {
+              "count": 1,
+              "total": 1299,
+              "transfers": 0,
+              "status": "Not elected",
+              "firstPrefs": 1299
+            }
+          ],
+          "personId": 123780,
+          "name_id": "n-crofton-moore-vandeleur"
+        },
+        {
+          "id": "Henry Stuart Burton|Independent",
+          "name": "Henry Stuart Burton",
+          "party": "Independent",
+          "firstPrefs": 3,
+          "finalVotes": 3,
+          "elected": false,
+          "electedAt": null,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Not elected",
+          "colour": "#888888",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "counts": [
+            {
+              "count": 1,
+              "total": 3,
+              "transfers": 0,
+              "status": "Not elected",
+              "firstPrefs": 3
+            }
+          ],
+          "personId": 127035,
+          "name_id": "n-henry-stuart-burton"
+        }
+      ],
+      "elected": [
+        {
+          "id": "Cornelius O'Brien|Independent Irish",
+          "name": "Cornelius O'Brien",
+          "party": "Independent Irish",
+          "firstPrefs": 1376,
+          "finalVotes": 1376,
+          "elected": true,
+          "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#888888",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "sourcePersonId": "wikipedia:Cornelius O'Brien (County Clare)",
+          "counts": [
+            {
+              "count": 1,
+              "total": 1376,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 1376
+            }
+          ]
+        },
+        {
+          "id": "John Forster FitzGerald|Whig",
+          "name": "John Forster FitzGerald",
+          "party": "Whig",
+          "firstPrefs": 1351,
+          "finalVotes": 1351,
+          "elected": true,
+          "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#888888",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "sourcePersonId": "wikipedia:John Forster FitzGerald",
+          "counts": [
+            {
+              "count": 1,
+              "total": 1351,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 1351
+            }
+          ]
+        }
+      ],
+      "countInfo": {
+        "Constituency_Name": "Clare",
+        "Constituency_Number": "",
+        "Number_Of_Seats": "2",
+        "Spoiled": "",
+        "Total_Electorate": "3144",
+        "Total_Poll": "",
+        "Valid_Poll": ""
+      },
+      "countGroup": [
+        {
+          "Candidate_First_Pref_Votes": "1,376",
+          "Candidate_Id": "",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Cornelius",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#888888",
+          "Party_Name": "Independent Irish",
+          "Status": "Elected",
+          "Surname": "O'Brien",
+          "Total_Votes": "1,376",
+          "Transfers": "0.00",
+          "candidateName": "Cornelius O'Brien",
+          "id": 0,
+          "sourcePersonId": "wikipedia:Cornelius O'Brien (County Clare)"
+        },
+        {
+          "Candidate_First_Pref_Votes": "1,351",
+          "Candidate_Id": "",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "John Forster",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#888888",
+          "Party_Name": "Whig",
+          "Status": "Elected",
+          "Surname": "FitzGerald",
+          "Total_Votes": "1,351",
+          "Transfers": "0.00",
+          "candidateName": "John Forster FitzGerald",
+          "id": 1,
+          "sourcePersonId": "wikipedia:John Forster FitzGerald"
+        },
+        {
+          "Candidate_First_Pref_Votes": "1,299",
+          "Candidate_Id": "",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Crofton Moore",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#888888",
+          "Party_Name": "Conservative",
+          "Status": "Not elected",
+          "Surname": "Vandeleur",
+          "Total_Votes": "1,299",
+          "Transfers": "0.00",
+          "candidateName": "Crofton Moore Vandeleur",
+          "id": 2,
+          "sourcePersonId": "wikipedia:Crofton Moore Vandeleur"
+        },
+        {
+          "Candidate_First_Pref_Votes": "3",
+          "Candidate_Id": "",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Henry Stuart",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#888888",
+          "Party_Name": "Independent",
+          "Status": "Not elected",
+          "Surname": "Burton",
+          "Total_Votes": "3",
+          "Transfers": "0.00",
+          "candidateName": "Henry Stuart Burton",
+          "id": 3
+        }
+      ],
+      "syntheticCountGroup": false,
+      "nonTransferable": [],
+      "forum": null,
+      "countNumbers": [
+        1
+      ],
+      "hasCountDetail": false,
+      "animationPayload": {
+        "Constituency": {
+          "countInfo": {
+            "Constituency_Name": "Clare",
+            "Constituency_Number": "",
+            "Number_Of_Seats": "2",
+            "Spoiled": "",
+            "Total_Electorate": "3144",
+            "Total_Poll": "",
+            "Valid_Poll": ""
+          },
+          "countGroup": [
+            {
+              "Candidate_First_Pref_Votes": "1,376",
+              "Candidate_Id": "",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Cornelius",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#888888",
+              "Party_Name": "Independent Irish",
+              "Status": "Elected",
+              "Surname": "O'Brien",
+              "Total_Votes": "1,376",
+              "Transfers": "0.00",
+              "candidateName": "Cornelius O'Brien",
+              "id": 0,
+              "sourcePersonId": "wikipedia:Cornelius O'Brien (County Clare)"
+            },
+            {
+              "Candidate_First_Pref_Votes": "1,351",
+              "Candidate_Id": "",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "John Forster",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#888888",
+              "Party_Name": "Whig",
+              "Status": "Elected",
+              "Surname": "FitzGerald",
+              "Total_Votes": "1,351",
+              "Transfers": "0.00",
+              "candidateName": "John Forster FitzGerald",
+              "id": 1,
+              "sourcePersonId": "wikipedia:John Forster FitzGerald"
+            },
+            {
+              "Candidate_First_Pref_Votes": "1,299",
+              "Candidate_Id": "",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Crofton Moore",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#888888",
+              "Party_Name": "Conservative",
+              "Status": "Not elected",
+              "Surname": "Vandeleur",
+              "Total_Votes": "1,299",
+              "Transfers": "0.00",
+              "candidateName": "Crofton Moore Vandeleur",
+              "id": 2,
+              "sourcePersonId": "wikipedia:Crofton Moore Vandeleur"
+            },
+            {
+              "Candidate_First_Pref_Votes": "3",
+              "Candidate_Id": "",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Henry Stuart",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#888888",
+              "Party_Name": "Independent",
+              "Status": "Not elected",
+              "Surname": "Burton",
+              "Total_Votes": "3",
+              "Transfers": "0.00",
+              "candidateName": "Henry Stuart Burton",
+              "id": 3
+            }
+          ]
+        },
+        "kind": "by-election",
+        "source_url": "https://en.wikipedia.org/wiki/Clare_(UK_Parliament_constituency)",
+        "sources": [
+          {
+            "title": "Clare (UK Parliament constituency)",
+            "publisher": "Wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Clare_(UK_Parliament_constituency)"
+          },
+          {
+            "title": "Parliamentary Election Results in Ireland, 1801-1922",
+            "editor": "Brian M. Walker (ed.)",
+            "publisher": "Royal Irish Academy",
+            "year": 1978,
+            "note": "Printed volume, in copyright and not reproduced."
+          }
+        ],
+        "checked": "held at import (box winner differs from the list); read against Walker's printed page, p. 102; H. S. Burton's 3 votes kept, as the box has them; Walker omits him",
+        "cause": "Void election"
+      },
+      "constituencyId": null,
+      "constituencyNumber": null,
+      "officialDail": null,
+      "contestNotes": [
+        {
+          "label": "Cause",
+          "text": "Void election"
+        }
+      ],
+      "contestType": "election",
+      "kind": "by-election",
+      "votingSystem": "block-vote",
+      "contestStatus": "contested",
+      "candidateRowsExpected": true,
+      "transferDataExpected": false,
+      "votesPerElector": 2,
+      "localBody": null,
+      "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1853-07-04/clare.json",
+      "featureId": null,
+      "featureName": null,
+      "featureAliases": [],
+      "matchName": null,
+      "anchor": null,
+      "syntheticRegion": null,
+      "matched": false
+    },
     {
       "constituency": "Tralee",
       "winnerParty": "Whig",
