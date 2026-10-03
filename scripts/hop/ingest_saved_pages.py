@@ -67,10 +67,10 @@ def main():
         by_key.setdefault(wanted_key(u), []).append(u)
     db = sqlite3.connect(args.archive)
     done, skipped = [], []
-    files = glob.glob(os.path.join(args.folder, '*.htm*')) + glob.glob(os.path.join(args.folder, '*.mhtml'))
+    files = glob.glob(os.path.join(args.folder, '*.htm*')) + glob.glob(os.path.join(args.folder, '*.mht*'))
     for f in sorted(files):
         raw = open(f, 'rb').read()
-        if f.lower().endswith('.mhtml'):
+        if f.lower().endswith(('.mhtml', '.mht')):
             raw = from_mhtml(raw)
         html = raw.decode('utf-8', 'replace')
         if 'Bot check' in html[:3000] or 'restricted to logged in users' in html:
