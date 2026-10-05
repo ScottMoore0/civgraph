@@ -3496,6 +3496,8 @@ class Test2App {
         if (electionState.entityReturnView) params.set('electionEntityReturnView', electionState.entityReturnView);
       }
     }
+    const catalogueRoute = uiController.catalogueNextRoute?.();
+    if (catalogueRoute) params.set('cat', catalogueRoute);
     const path = `${location.pathname}${location.search || ''}`;
     const next = params.toString() ? `${path}#${params.toString()}` : path;
     history.replaceState(null, '', next);
