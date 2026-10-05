@@ -13,13 +13,13 @@ export const CATALOGUE_CSS = `
 .cn { --cn-surface: var(--color-surface, #fff); --cn-raised: var(--color-surface-elevated, #f7fafc);
   --cn-text: var(--color-text, #1a202c); --cn-muted: var(--color-text-muted, #5f6b7a); --cn-line: var(--color-border, #e2e8f0);
   --cn-hover: color-mix(in srgb, var(--cn-text) 7%, transparent); --cn-press: color-mix(in srgb, var(--cn-text) 12%, transparent);
-  --cn-focus: var(--color-accent, #2563eb); --cn-grad: linear-gradient(135deg, #12a35f 0%, #0b8a6a 55%, #0a6f79 100%);
+  --cn-link: #0b7a55; --cn-focus: var(--color-accent, #2563eb); --cn-grad: linear-gradient(135deg, #12a35f 0%, #0b8a6a 55%, #0a6f79 100%);
   --cn-amber-bg: #fdf1dc; --cn-amber-ink: #8a5a12; --cn-hit: #f5c84c;
   --cn-sticky: calc(var(--catalogue-sticky-shell-height, 110px) - var(--space-5, 20px));
   container-type: inline-size; font-family: var(--font-sans, system-ui, sans-serif); color: var(--cn-text);
   font-size: 14px; line-height: 1.45; padding: 0 2px 84px; }
-[data-theme="dark"] .cn { --cn-amber-bg: rgba(234, 170, 60, .16); --cn-amber-ink: #f0c36c; --cn-hit: #c9a227; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cn { --cn-amber-bg: rgba(234, 170, 60, .16); --cn-amber-ink: #f0c36c; --cn-hit: #c9a227; } }
+[data-theme="dark"] .cn { --cn-link: #6ee7b7; --cn-amber-bg: rgba(234, 170, 60, .16); --cn-amber-ink: #f0c36c; --cn-hit: #c9a227; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cn { --cn-link: #6ee7b7; --cn-amber-bg: rgba(234, 170, 60, .16); --cn-amber-ink: #f0c36c; --cn-hit: #c9a227; } }
 .cn *, .cn *::before, .cn *::after { box-sizing: border-box; }
 /* Zero specificity, so the current pane's own buttons reused here (book cards, search actions) keep their styles. */
 :where(.cn) button { font: inherit; color: inherit; }
@@ -29,7 +29,7 @@ export const CATALOGUE_CSS = `
 .cn-muted { color: var(--cn-muted); }
 .cn-count { color: var(--cn-muted); font-weight: 500; font-variant-numeric: tabular-nums; }
 .cn-label { font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--cn-muted); }
-.cn-link { background: none; border: 0; padding: 0; color: var(--color-primary-light, var(--cn-focus)); cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
+.cn-link { background: none; border: 0; padding: 0; color: var(--cn-link); cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
 .cn-badge { display: inline-flex; align-items: center; border-radius: 999px; padding: 0 7px; font-size: 11px; font-weight: 700; line-height: 18px;
   background: var(--cn-hover); color: var(--cn-muted); white-space: nowrap; }
 .cn-badge--todo { background: var(--cn-amber-bg); color: var(--cn-amber-ink); }
@@ -80,7 +80,6 @@ export const CATALOGUE_CSS = `
 .cn-range input:focus-visible { outline: none; }
 .cn-range input:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px color-mix(in srgb, var(--cn-focus) 45%, transparent); }
 .cn-range input:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 3px color-mix(in srgb, var(--cn-focus) 45%, transparent); }
-.cn-years__ends { display: flex; justify-content: space-between; font-size: 11px; color: var(--cn-muted); padding: 0 4px; }
 
 .cn-summary { margin: 0 4px 6px; color: var(--cn-muted); font-size: 13px; }
 
@@ -234,7 +233,7 @@ export const CATALOGUE_CSS = `
   border: 1px solid var(--cn-line); background: color-mix(in srgb, #0b8a6a 10%, var(--cn-surface)); }
 .cn-person-banner > .cn-icon { color: #0b8a6a; }
 .cn-person-banner > span { flex: 1; min-width: 12em; }
-.cn-person-banner a { color: var(--color-primary-light, var(--cn-focus)); }
+.cn-person-banner a { color: var(--cn-link); }
 .cn-person-note { color: var(--cn-text); }
 
 /* Elections */

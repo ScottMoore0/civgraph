@@ -125,7 +125,8 @@ test('C08 a map\'s details page opens', async ({ page }) => {
 test('C09 provider and feature count are shown', async ({ page }) => {
   await open(page);
   await row(page, LGD).locator('[data-cn-expand]').click();
-  await expect(row(page, LGD).locator('.cn-facts')).toContainText('Local Government Boundary Commission');
+  // The opened row leaves out the title, authors and geometry (user, 2026-10-05).
+  await expect(row(page, LGD).locator('.cn-facts')).not.toContainText('Local Government Boundary Commission');
   await expect(row(page, LGD).locator(`.cn-chips [data-cn-toggle="${LGD_NEWEST}"]`)).toHaveAttribute('title', /Local Government Boundary Commission/);
   await expect(row(page, 'census-small-areas--ni').locator('.cn-row__meta')).toContainText(/\d,\d{3} /);
 });
@@ -354,7 +355,8 @@ test('N06 opening a row shows the timeline; choosing a dot changes the edition s
   await row(page, LGD).locator('[data-cn-expand]').click();
   await expect(row(page, LGD).locator('.cn-tick')).toHaveCount(lgd.members.filter((m) => !m.of).length);
   await row(page, LGD).locator('.cn-tick[aria-label="1984"]').click();
-  await expect(row(page, LGD).locator('.cn-ed__title')).toContainText('1984');
+  await expect(row(page, LGD).locator('.cn-tick[aria-label="1984"]')).toHaveAttribute('aria-pressed', 'true');
+  await expect(row(page, LGD).locator('.cn-ed__title')).toHaveCount(0);
   await expect.poll(() => route(page)).toMatch(new RegExp(`^series/${LGD}/`));
 });
 

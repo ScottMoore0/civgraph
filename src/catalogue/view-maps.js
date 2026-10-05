@@ -166,11 +166,9 @@ export function panelHtml(c, s) {
   const r = c.rec(sel.id);
   const dated = editions.filter((m) => c.decimalYear(c.rec(m.id).date) !== null);
   const timeline = s.arrangement === 'editions' && dated.length >= 2;
-  const extra = c.nameBeyondLabel(r.name, sel.label, s.name);
   return `${timeline ? timelineHtml(c, s, dated, sel) : ''}
     ${!timeline && s.members.length > 1 ? memberListHtml(c, s, sel) : ''}
     <div class="cn-ed">
-      <h4 class="cn-ed__title">${esc(s.members.length > 1 ? sel.label : (r.name || sel.label))}${s.members.length > 1 && extra ? ` <span class="cn-muted">· ${esc(extra)}</span>` : ''}</h4>
       ${factsHtml(c, sel, r)}
       ${r.description ? `<p class="cn-desc">${esc(r.description)}</p>${r.description.length > 320 ? '<button type="button" class="cn-link" data-cn-act="more-text">Read more</button>' : ''}` : ''}
       ${versionsHtml(c, s, sel)}
@@ -210,8 +208,6 @@ function memberListHtml(c, s, sel) {
 function factsHtml(c, sel, r) {
   const rows = [
     r.date && ['Date', longDate(r.date)],
-    c.providerLine(sel.id, { full: true }) && ['From', c.providerLine(sel.id, { full: true })],
-    r.geometry && ['Geometry', r.geometry],
     r.licence && ['Licence', r.licence],
     r.status && r.status !== 'ready' && ['Status', r.status === 'placeholder' ? 'To be added: listed, not yet drawn' : 'Incomplete'],
     r.note && ['Note', r.note],
