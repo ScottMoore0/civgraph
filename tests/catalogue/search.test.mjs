@@ -113,6 +113,6 @@ test('a year keeps the people active then', () => {
 });
 
 test('every person links to a Browse page, and every contest to a catalogue election', () => {
-  assert.equal(PeopleSearch.url(people.query('sammy wilson')[0].row), '/browse/persons/sammy-wilson-96356');
+  assert.equal(PeopleSearch.url(people.query('sammy wilson')[0].row), '/browse/#/persons/sammy-wilson-96356');
   for (const row of peopleDoc.people) for (const c of row[8]) assert.ok(catalogue.elections[c[0]], `${row[1]}: contest ${c[0]}`);
 });
