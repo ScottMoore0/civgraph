@@ -8,6 +8,10 @@ import { sliderHtml } from './slider.js';
 import { extrasHtml } from './view-maps.js';
 import { PeopleSearch } from './search.js';
 
+// Browse's slug for an election: its key lower-cased, runs of other characters as '-'
+// (dail-eireann__2024-11-29 -> dail-eireann-2024-11-29). Browse routes live in the hash.
+const browseSlug = (key) => String(key).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
 /** What a row calls each body: short, and the same everywhere. */
 export const BODY_SHORT = {
   'dail-eireann': 'Dáil',
@@ -121,7 +125,7 @@ export function rowHtml(c, e) {
     <span class="cn-erow__date">${esc(shortDate(e.date))}</span>
     <span class="cn-erow__main"><span class="cn-erow__title">${esc(e.title)}</span><span class="cn-erow__meta">${meta.join('')}</span></span>
     <span class="cn-erow__end">
-      <a class="cn-iconbtn" href="/browse/elections/${encodeURIComponent(e.key)}" aria-label="${esc(e.title)}: results page" title="Results page: candidates, votes and sources">${icon('file-text')}</a>
+      <a class="cn-iconbtn" href="/browse/#/elections/${encodeURIComponent(browseSlug(e.key))}" aria-label="${esc(e.title)}: results page" title="Results page: candidates, votes and sources">${icon('file-text')}</a>
       <button type="button" class="cn-add" data-cn-election-toggle="${esc(e.key)}" aria-pressed="false" aria-label="${esc(e.title)}: open on the map">${icon('plus', 'cn-icon cn-when-off')}${icon('check', 'cn-icon cn-when-on')}<span class="cn-when-off">Open</span><span class="cn-when-on">On map</span></button>
     </span>
   </li>`;

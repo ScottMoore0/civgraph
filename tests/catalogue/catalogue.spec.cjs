@@ -188,7 +188,7 @@ test('C14 elections by decade, with thumbnails, open in one click and link to th
   const first = pane(page).locator('.cn-erow').first();
   await expect(first.locator('.catalogue-flat__toc-thumbwrap')).toHaveCount(1);
   await expect.poll(() => first.locator('img.catalogue-flat__toc-thumb').evaluate((img) => img.naturalWidth > 1)).toBe(true);
-  await expect(first.locator('a.cn-iconbtn')).toHaveAttribute('href', /^\/browse\/elections\//);
+  await expect(first.locator('a.cn-iconbtn')).toHaveAttribute('href', /^\/browse\/#\/elections\/[a-z0-9-]+$/);
   await expect(pane(page).locator('.cn-decade__head').first()).toHaveText(/\d{3}0s/);
   await first.locator('[data-cn-election-toggle]').click();
   await expect.poll(() => page.evaluate(() => Boolean(window.__civgraphTest2.app.elections?.activeEntry)), { timeout: 30000 }).toBe(true);
@@ -425,7 +425,7 @@ test('N11 search finds people; their elections show where they stood and whether
   await search(page, 'sammy wilson');
   const person = pane(page).locator('.cn-person--row').first();
   await expect(person.locator('.cn-person__name')).toHaveText('Sammy Wilson', { timeout: 20000 });
-  await expect(person.locator('.cn-person__name')).toHaveAttribute('href', '/browse/persons/sammy-wilson-96356');
+  await expect(person.locator('.cn-person__name')).toHaveAttribute('href', '/browse/#/persons/sammy-wilson-96356');
   await expect(person).toContainText('DUP');
   await person.locator('[data-cn-person]').click();
   await expect.poll(() => route(page)).toBe('elections/person/96356');

@@ -295,6 +295,7 @@ export class PeopleSearch {
   /** A person's Browse page. */
   static url(row) {
     const slug = row[10] || `${String(row[1]).normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}-${row[0]}`;
-    return `/browse/persons/${slug}`;
+    // Browse routes in the hash: /browse/persons/<slug> is not served (404).
+    return `/browse/#/persons/${encodeURIComponent(slug)}`;
   }
 }
