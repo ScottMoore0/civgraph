@@ -17,7 +17,7 @@ Run: `npm run test:catalogue` (unit tests, then the browser tests against the te
 | C06 | Download the provider's own files (GeoJSON, KML, Shapefile, CSV, print rasters) and the original GeoJSON | All listed under Download, as before | kept |
 | C07 | Variants of a map behind a ▼ button | Other versions of an edition (e.g. 1993 at 1:50k and large scale) and parts (county sheets, LiDAR tiles) as chips in the opened row | kept |
 | C08 | A map's details page (style, keywords, references, attributes) | Details opens the same page | kept |
-| C09 | Provider and feature count on each map | On each chip's tooltip, on single-map rows, and in the opened row | kept |
+| C09 | Provider and feature count on each map | On each chip's tooltip and on single-map rows (the opened row leaves out title, authors and geometry, at the user's request) | kept |
 | C10 | The colour each layer is drawn in, as a stripe | Each chip's dot, and its fill while on the map; the row's stripe | kept |
 | C11 | Thumbnail preview on hover | Same preview, same code | kept |
 | C12 | "Show N to be added" on each card | "Show N to be added" on each series that has them; the maps join its chips in date order. Cards with nothing drawable yet (e.g. Assembly Areas) are rows of their own | kept |

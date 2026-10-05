@@ -107,6 +107,7 @@ const cssVersion = existsSync(ENTRY_CSS)
   ? contentHash(ENTRY_CSS)
   : jsVersion;
 updateHtmlVersions(jsVersion, cssVersion, viewerAssetVersions);
+writeCatalogueTestPage();
 updateServiceWorkerVersion(jsVersion);
 
 console.log(`MapLibre bundle: ${(jsBytes / 1024).toFixed(1)} KB`);
@@ -145,6 +146,20 @@ function updateHtmlVersions(jsVersion, cssVersion, viewerAssetVersions) {
     }
     writeFileSync(htmlPath, html);
   }
+}
+
+// civgraph.net/maps/test: the maps page with the rebuilt catalogue (src/catalogue/) switched
+// on, for review before it replaces the current pane. Written from maps/index.html on every
+// build so the two never drift; kept out of search engines.
+function writeCatalogueTestPage() {
+  const source = 'maps/index.html';
+  if (!existsSync(source)) return;
+  const html = readFileSync(source, 'utf8')
+    .replace(/<head>/i, `<head>\n  <meta name="robots" content="noindex, nofollow">\n  <script>window.CIVGRAPH_CATALOGUE = 'next';</script>`)
+    .replace('<meta property="og:url" content="https://civgraph.net/maps/">', '<meta property="og:url" content="https://civgraph.net/maps/test/">');
+  if (!html.includes("window.CIVGRAPH_CATALOGUE = 'next'")) throw new Error('maps/test: could not switch the catalogue on');
+  mkdirSync('maps/test', { recursive: true });
+  writeFileSync('maps/test/index.html', html);
 }
 
 function updateServiceWorkerVersion(jsVersion) {

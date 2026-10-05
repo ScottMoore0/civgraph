@@ -59,7 +59,6 @@ export function sliderHtml(key, bins, counts, from, to, noun) {
       <input type="range" min="0" max="${last}" step="1" value="${from}" data-cn-range="from" data-key="${esc(key)}" aria-label="Earliest decade" aria-valuetext="${esc(bins[from].label)}">
       <input type="range" min="0" max="${last}" step="1" value="${to}" data-cn-range="to" data-key="${esc(key)}" aria-label="Latest decade" aria-valuetext="${esc(bins[to].label)}">
     </div>
-    <div class="cn-years__ends" aria-hidden="true"><span>${esc(bins[0].label)}</span><span>${esc(bins[last].label)}</span></div>
   </div>`;
 }
 
