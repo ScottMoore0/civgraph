@@ -10,6 +10,8 @@ import dataService, { resolveMapDownloadUrl } from './data-service.js';
 import featureLoader from './feature-loader.js';
 import { formatElectionDate, shortBodyName, renderElectionConstituencyFeatureLink } from './election-utils.js';
 import { cdnUrl } from './cdn-url.js';
+import { catalogueNextRequested, initialCatalogueRoute } from './catalogue/flag.js';
+import { installSplit } from './catalogue/split.js';
 import { partyLabelHtml } from './party-names.mjs';
 
 /**
@@ -1868,6 +1870,10 @@ class UIController {
             this.setSplitState('balanced');
             splitHost.style.setProperty('--split-position', '50%');
         });
+
+        // With the rebuilt catalogue (test site only), the pane takes the width its content
+        // needs rather than half the screen: see src/catalogue/split.js.
+        if (catalogueNextRequested()) this._catalogueSplit = installSplit(this, { host: splitHost, splitDrag });
     }
 
     setSplitState(stateId) {
@@ -2714,6 +2720,12 @@ class UIController {
     }
 
     async renderCatalogueSearchResults(query, options = {}) {
+        if (catalogueNextRequested()) {
+            this._catalogueSearchQuery = String(query || '').trim();
+            const container = document.getElementById('catalogueFlatView');
+            if (container && !this._catalogueBookView) await this._renderCatalogueNext(container, { query: this._catalogueSearchQuery });
+            return [];
+        }
         const normalizedQuery = this.normalizeCatalogueSearchText(query);
         this._catalogueSearchQuery = String(query || '').trim();
         const token = ++this._catalogueSearchToken;
@@ -3187,8 +3199,36 @@ class UIController {
         if (zoom) zoom.classList.remove('catalogue-flat__toc-thumbzoom--visible');
     }
 
+    /**
+     * The rebuilt catalogue (src/catalogue/), mounted in place of the flat view when
+     * catalogueNextRequested() -- on the test site only, until it is approved. Loaded on demand,
+     * so the live pane carries none of its code.
+     */
+    async _renderCatalogueNext(container, options = {}) {
+        if (!this._catalogueNext) {
+            // One instance however many renders ask at once: each listens to the page's history.
+            this._catalogueNextLoading = this._catalogueNextLoading || import('./catalogue/index.js')
+                .then(({ CatalogueNext }) => { this._catalogueNext = new CatalogueNext(this); });
+            await this._catalogueNextLoading;
+        }
+        container.classList.remove('catalogue-flat-view--search', 'catalogue-flat-view--book-viewer');
+        await this._catalogueNext.render(container, options);
+        container.dataset.rendered = 'next';
+        return true;
+    }
+
+    /** The rebuilt catalogue's current view, for the page address (app.updateURLState). */
+    catalogueNextRoute() {
+        if (this._catalogueNext) return this._catalogueNext.routeString();
+        return catalogueNextRequested() ? initialCatalogueRoute() : '';
+    }
+
     syncMapCatalogueState(options = {}) {
         this._lastMapListOptions = { ...(this._lastMapListOptions || {}), ...(options || {}) };
+        if (this._catalogueNext) {
+            this._catalogueNext.syncState();
+            return;
+        }
         const root = document.getElementById('catalogueFlatView') || document;
         const visibleIds = new Set(options.visibleIds || this._lastMapListOptions.visibleIds || []);
 
@@ -3676,6 +3716,10 @@ class UIController {
             // it must leave a trace.
             console.warn('[catalogue] renderFlatView: #catalogueFlatView is not in the DOM; nothing rendered.');
             return;
+        }
+        if (catalogueNextRequested() && !this._catalogueBookView) {
+            await this._renderCatalogueNext(container, options);
+            return true;
         }
         if (this.shouldDeferMobileCatalogueRender()) {
             this.renderDeferredMobileCatalogueShell();
