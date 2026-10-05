@@ -74,7 +74,63 @@ DECISIONS = {
     ('by-election', 1817, 'Wicklow county'): ('import', 'William Hayes Parnell is the list\'s William Parnell Hayes'),
     ('by-election', 1825, 'Donegal county'): ('import', 'Mountcharles and Mount Charles are one title'),
 }
-NAME_FIXES = {('general', 1831, 'Kildare county', 'Sir Josiah William Hart, bt'): 'Sir Josiah William Hort, bt'}
+NAME_FIXES = {('general', 1831, 'Kildare county', 'Sir Josiah William Hart, bt'): 'Sir Josiah William Hort, bt',
+              # Walker's spellings; the History of Parliament and Wikipedia agree on these.
+              ('general', 1830, 'Westmeath county', 'Gerald Deane'): 'Gerald Dease',
+              ('general', 1831, 'Longford county', 'John Dennis Mullins'): 'Joseph Denis Mullen'}
+
+# Settled 2026-10-05 where the History of Parliament and Wikipedia's constituency article
+# agree against Walker's page (Wikipedia cites Walker, Stooks Smith's 1842 register and HoP).
+# Changed figures for candidates Walker prints are in hop-vote-review.json; this adds what
+# Walker does not print, and the note each contest shows. Key: (kind, year, constituency).
+SETTLED = {
+    ('general', 1830, 'Athlone'): {
+        'votes': {'Richard Handcock': 34, 'James Talbot': 2},
+        'note': 'Walker prints both names without figures; the votes are those the History of '
+                'Parliament and Wikipedia give.'},
+    ('general', 1830, 'Coleraine'): {
+        'votes': {'Sir John William Head Brydges': 22}, 'add': [('John Thomas Thorp', 15)],
+        'note': 'Brydges was returned on 22 votes of the corporation. Votes tendered by inhabitants '
+                'claiming the freedom, 2 for Brydges and the 15 shown for Thorp, were rejected. Walker '
+                'prints Brydges as returned unopposed; the poll is from the History of Parliament and '
+                'Wikipedia.'},
+    ('general', 1830, 'Leitrim county'): {
+        'add': [('Luke White', 4)],
+        'note': "Luke White's 4 votes are from the History of Parliament and Wikipedia; Walker leaves "
+                'him out.'},
+    ('general', 1831, 'Coleraine'): {
+        'note': "Copeland's 70 were votes tendered by freemen and rejected at the poll, where Brydges was "
+                "returned on the corporation's 16; Walker prints the two figures against the other "
+                'names. On petition 23 of the tendered votes were allowed and Copeland was seated '
+                '(History of Parliament; Wikipedia).'},
+    ('general', 1831, 'Longford county'): {
+        'note': 'Figures as the History of Parliament and Wikipedia give them; Walker prints 223, 214 '
+                'and 141 for the first three, and the fourth candidate as John Dennis Mullins.'},
+    ('general', 1831, 'Dublin city'): {
+        'note': "Moore's and Shaw's figures are as the History of Parliament and Wikipedia give them; "
+                'Walker prints them the other way round.'},
+    ('general', 1830, 'Westmeath county'): {
+        'note': 'Walker prints the fourth candidate as Gerald Deane; the History of Parliament and '
+                'Wikipedia name him Gerald Dease.'},
+}
+
+
+def settle(w):
+    """Walker's record with what SETTLED adds: figures he does not print, a candidate he
+    leaves out, and the note."""
+    s = SETTLED.get((w['kind'], w['electionYear'], w['constituency']))
+    if not s:
+        return w
+    w = json.loads(json.dumps(w))
+    for c in w['candidates']:
+        if c['name'] in s.get('votes', {}):
+            c['votes'] = s['votes'][c['name']]
+    for name, votes in s.get('add', []):
+        w['candidates'].append({'name': name, 'votes': votes, 'returned': False})
+    if s.get('votes') or s.get('add'):
+        w['unopposed'] = False
+    w['outcomeFacts'] = ' '.join(x[0].upper() + x[1:].rstrip('.') + '.' for x in (w.get('outcomeFacts'), s['note']) if x)
+    return w
 
 
 def display(name):
@@ -159,6 +215,7 @@ def main(write=False):
     report, held, files = collections.Counter(), [], []
     hop_used = set()
     for w in walker:
+        w = settle(w)
         c = check_of[(w['page'], w['kind'], w['electionYear'], w['constituency'], w['date'])]
         decision = DECISIONS.get((w['kind'], w['electionYear'], w['constituency']))
         hp = hop.pair(w)
