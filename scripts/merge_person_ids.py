@@ -29,13 +29,20 @@ it is a screen, not a proof. Each class is re-tested here on its own mechanism:
          overlap, one to ten years apart, and no Jr/Snr/numeral in either name. The gaps
          cluster on four and five years, which is an election cycle and the shape of one
          career rather than two people sharing a name, a party and a seat.
+  Bio:   pairs listed in person_id_confirmed_merges.csv: one Wikipedia biography names a
+         constituency (or council) of EACH id, in one of that id's years, as somewhere the
+         person stood or sat. Written by scripts/find_split_persons.py, which records the
+         article and both pieces of evidence.
+
+Parties are compared ignoring case, accents and punctuation ("Workers' Party" is "Workers
+Party"), so a spelling difference between source systems no longer blocks LGR-2014.
 
 Merges keep the LOWER personId, preferring the curated 1-100011 block, and carry the
 other id's aliases, match keys and source ids across. Every merge is recorded.
 
 Usage:  python scripts/merge_person_ids.py [--check]
 """
-import os, re, sys, json, glob, csv, argparse, collections
+import os, re, sys, json, glob, csv, argparse, collections, unicodedata
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..'))
@@ -54,14 +61,59 @@ DISAMBIGUATED = re.compile(r'\([^)]*\bpolitician\b[^)]*\)', re.I)
 # Jr / Snr / a regnal numeral: the one way SAME-SEAT-SEQUENCE below could fuse a father
 # and son who held the same seat for the same party.
 SUCCESSOR_SUFFIX = re.compile(r'\b(jn?r|jun|junior|sn?r|sen|senior|[IVX]{2,})\b', re.I)
+# Pairs one Wikipedia biography shows to be the same person; see find_split_persons.py.
+CONFIRMED = os.path.join(PERS, 'person_id_confirmed_merges.csv')
 
+
+def confirmed_pairs(ents):
+    """{frozenset((pid, pid)): row} for each confirmed pair, found by the stable keys the
+    row records (source person ids, candidacy ids, or the name for rows with neither) so
+    that a registry rebuild that renumbers or re-splits a person cannot lose the pair."""
+    if not os.path.exists(CONFIRMED):
+        return {}
+    index = collections.defaultdict(set)
+    for pid, e in ents.items():
+        for k in list(e.get('sourcePersonIds') or []) + list(e.get('sourceIds') or []):
+            index[k].add(pid)
+        named = list(e.get('nameKeyedRows') or [])
+        if e.get('keyedBy') == 'name':
+            named += e.get('matchKeys') or []
+        for m in named:
+            index[f'name:{m}'].add(pid)
+
+    def resolve(keys):
+        pids = set()
+        for k in (x.strip() for x in keys.split(' ; ')):
+            if k:
+                pids |= index.get(k, set())
+        return pids
+
+    out = {}
+    with open(CONFIRMED, encoding='utf-8', newline='') as fh:
+        for r in csv.DictReader(fh):
+            # Every entity now holding a row of either half is the one person: a rebuild
+            # may have regrouped the rows (Philip James Woods stood in two Belfast seats in
+            # 1925, and the rebuild will not join groups that share an election).
+            pids = resolve(r.get('keep_keys') or '') | resolve(r.get('drop_keys') or '')
+            if not pids:
+                pids = {p for p in (int(r['keep']), int(r['drop'])) if p in ents}
+            if len(pids) < 2:
+                continue
+            lead = min(pids)
+            for p in pids - {lead}:
+                out[frozenset((lead, p))] = r
+    return out
 
 
 def party_of(c):
-    """A candidate's party; "No party recorded" (before 1832) is none, so it is never
-    evidence that two candidates are one man."""
+    """A candidate's party, as a comparison key: "Workers' Party" and "Workers Party", or
+    "Sinn Féin" and "Sinn Fein", are one party. "No party recorded" (before 1832) is none,
+    so it is never evidence that two candidates are one man."""
     p = (c.get('party') or '').strip()
-    return '' if p == 'No party recorded' else p
+    if p == 'No party recorded':
+        return ''
+    p = ''.join(ch for ch in unicodedata.normalize('NFKD', p) if not unicodedata.combining(ch))
+    return re.sub(r'\s+', ' ', re.sub(r"[^a-z0-9 ]+", '', p.lower())).strip()
 
 def observations():
     obs = collections.defaultdict(list)
@@ -89,6 +141,7 @@ def main():
     reg = json.load(open(REG, encoding='utf-8'))
     ents = {e['personId']: e for e in reg['entities']}
     obs = observations()
+    confirmed = confirmed_pairs(ents)
 
     bykey = collections.defaultdict(list)
     for e in reg['entities']:
@@ -219,14 +272,39 @@ def main():
                 if cls is None and DISAMBIGUATED.search(ents[a].get('displayName') or '') \
                         and DISAMBIGUATED.search(ents[b].get('displayName') or ''):
                     cls = 'WIKI-DISAMBIGUATED'
+                # --- One Wikipedia biography covers both halves
+                #
+                # person_id_confirmed_merges.csv lists pairs where a single Wikipedia article
+                # about a person with this name says, in one sentence or one infobox office,
+                # that they stood for or held a constituency of EACH id in one of that id's
+                # years (Ian Paisley: Bannside 1969-70 at Stormont, North Antrim from 1970).
+                # The article and both pieces of evidence are recorded with every pair.
+                evidence = ''
+                hit = confirmed.get(frozenset((a, b)))
+                if hit:
+                    evidence = f"{hit['article']}: {hit['evidence_keep']} / {hit['evidence_drop']}"
+                    if cls is None:
+                        cls = 'WIKIPEDIA-BIOGRAPHY'
                 if cls is None:
                     continue
                 keep, drop = (a, b) if a < b else (b, a)
                 merges.append({'class': cls, 'keep': keep, 'drop': drop,
                                'name': ents[keep]['displayName'],
                                'keep_years': f"{ents[keep].get('firstYear')}-{ents[keep].get('lastYear')}",
-                               'drop_years': f"{ents[drop].get('firstYear')}-{ents[drop].get('lastYear')}"})
+                               'drop_years': f"{ents[drop].get('firstYear')}-{ents[drop].get('lastYear')}",
+                               'evidence': evidence})
                 seen.add((a, b))
+    # A confirmed pair whose names no longer share a match key is still one person.
+    for pair, hit in confirmed.items():
+        a, b = sorted(pair)
+        if (a, b) in seen or a not in ents or b not in ents:
+            continue
+        merges.append({'class': 'WIKIPEDIA-BIOGRAPHY', 'keep': a, 'drop': b,
+                       'name': ents[a]['displayName'],
+                       'keep_years': f"{ents[a].get('firstYear')}-{ents[a].get('lastYear')}",
+                       'drop_years': f"{ents[b].get('firstYear')}-{ents[b].get('lastYear')}",
+                       'evidence': f"{hit['article']}: {hit['evidence_keep']} / {hit['evidence_drop']}"})
+        seen.add((a, b))
 
     # resolve chains so a->b->c collapses to one survivor
     parent = {}
@@ -262,9 +340,30 @@ def main():
         de, ke = ents.get(drop), ents.get(keep)
         if not de or not ke:
             continue
+        # Rows with no usable id (most 1918-1922 Dail rows) reach a person only by name,
+        # through the one name-keyed entity of that name with no source id. Joined to a
+        # sourced career, the entity gains a source id and would stop answering to the
+        # name: nameKeyedRows keeps it answering (apply_person_ids_v2.py), and keeps the
+        # join when the registry is rebuilt (build_person_registry_v2.py).
+        named = set(ke.get('nameKeyedRows') or []) | set(de.get('nameKeyedRows') or [])
+        for e in (ke, de):
+            if e.get('keyedBy') == 'name':
+                named |= set(e['matchKeys'])
+        if named:
+            ke['nameKeyedRows'] = sorted(named)
         ke['aliases'] = sorted(set(ke['aliases']) | set(de['aliases']), key=lambda s: (-len(s), s))
         ke['matchKeys'] = sorted(set(ke['matchKeys']) | set(de['matchKeys']))
         ke['sourceIds'] = sorted(set(ke['sourceIds']) | set(de['sourceIds']))
+        # The source's own person ids (ElectionsIreland, Wikipedia) are what
+        # apply_person_ids_v2.py resolves first: a candidacy carrying the dropped id's
+        # "ei:" id would otherwise match no entity and lose its personId.
+        ke['sourcePersonIds'] = sorted(set(ke.get('sourcePersonIds') or []) | set(de.get('sourcePersonIds') or []))
+        for f in ('bodies', 'parties'):
+            if ke.get(f) is not None or de.get(f) is not None:
+                ke[f] = sorted(set(ke.get(f) or []) | set(de.get(f) or []))
+        if de.get('nameVariants'):
+            ke['nameVariants'] = True
+        ke['contests'] = (ke.get('contests') or 0) + (de.get('contests') or 0)
         ke['candidacies'] = ke['candidacies'] + de['candidacies']
         for f, fn in (('firstYear', min), ('lastYear', max)):
             vs = [x for x in (ke.get(f), de.get(f)) if x]

@@ -108,6 +108,7 @@ def main():
     prev_by_person = collections.defaultdict(set)
     prev_by_source = collections.defaultdict(set)
     prev_by_key = collections.defaultdict(set)
+    prev_by_namerows = collections.defaultdict(set)
     for pid, e in prev.items():
         for sp in e.get('sourcePersonIds') or []:
             prev_by_person[sp].add(pid)
@@ -115,6 +116,8 @@ def main():
             prev_by_source[sid].add(pid)
         for mk in e.get('matchKeys') or []:
             prev_by_key[mk].add(pid)
+        for mk in e.get('nameKeyedRows') or []:
+            prev_by_namerows[mk].add(pid)
 
     curated = {}
     if os.path.exists(OLD):
@@ -248,9 +251,16 @@ def main():
         if len(k) > 2:
             continue
         pid = strongest_prior(v)
+        if pid is None and k[0] == 'name' and len(prev_by_namerows.get(k[1], ())) == 1:
+            # Rows with no usable id that merge_person_ids.py joined to a sourced career on
+            # a Wikipedia biography's evidence (Dan Breen's 1922 Dail row and his
+            # ElectionsIreland id): the prior entity recorded them as nameKeyedRows, and the
+            # join is kept like any other prior join.
+            pid = next(iter(prev_by_namerows[k[1]]))
         if pid is not None:
             by_prior[pid].append(k)
     rejoined = 0
+    name_joined = collections.defaultdict(set)
     for pid, keys in by_prior.items():
         if len(keys) < 2:
             continue
@@ -274,6 +284,9 @@ def main():
                 continue
             contests |= theirs
             merged[lead].extend(merged.pop(k))
+            for g in (lead, k):
+                if g[0] == 'name':
+                    name_joined[lead].add(g[1])
             rejoined += 1
     print(f'prior joins kept            : {rejoined:,}')
 
@@ -399,6 +412,8 @@ def main():
             e['era'] = [lo, hi]
             e['eraReason'] = ('split from a career spanning more than 60 years at a gap of 25 '
                               'or more; the same id continues in the other era')
+        if name_joined.get(k):
+            e['nameKeyedRows'] = sorted(name_joined[k])
         if len(names) > 1:
             e['nameVariants'] = True
         if matchkey(disp) in review:
