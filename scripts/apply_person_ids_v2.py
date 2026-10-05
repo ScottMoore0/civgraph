@@ -97,6 +97,11 @@ def main():
         if e.get('keyedBy') == 'name' and not (e.get('sourcePersonIds') or []):
             for m in e['matchKeys']:
                 without_source[m].add(e['personId'])
+        # A name-keyed entity merge_person_ids.py joined to a sourced career (Dan Breen's
+        # 1922 row to his ElectionsIreland id) carries a source id now, but still holds
+        # the rows of its name that have none.
+        for m in e.get('nameKeyedRows') or []:
+            without_source[m].add(e['personId'])
     by_name_group = {m: next(iter(v)) for m, v in without_source.items() if len(v) == 1 and m in ambiguous}
     span = {e['personId']: (e.get('firstYear') or 0, e.get('lastYear') or 9999) for e in doc['entities']}
 
