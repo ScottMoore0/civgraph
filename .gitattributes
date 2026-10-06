@@ -43,3 +43,12 @@ tasks/test2-election-data-audit.md text eol=lf
 
 # Byte-counted generated shards must stay LF (validator stat-compares recorded vs on-disk bytes)
 data/database/ni-register-browse-records/*.json text eol=lf
+# Assets whose ?v= cache tokens are content hashes (scripts/validate-browse-cache-tokens.mjs).
+# Always LF on disk, as CI checks them out and Pages serves them: a CRLF working copy on
+# Windows stamped tokens for bytes no one is served, and Data readiness failed on them.
+browse/browse.js text eol=lf
+browse/browse.css text eol=lf
+apps/proni-search/app.js text eol=lf
+apps/proni-search/app.css text eol=lf
+assets/site/site-chrome.js text eol=lf
+assets/site/site-chrome.css text eol=lf
