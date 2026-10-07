@@ -380,6 +380,95 @@ def harvest_lifespans(client, refresh=False, delay=1.2, max_span=45, max_gap=25)
     print('wrote ' + LIFESPANS)
 
 
+def parse_person_links(html):
+    """(ElectionsIreland's own name for the candidate, {id: relation}, [namesake ids]).
+
+    The name is the page's disambiguated heading -- "Brian Lenihan 1 Snr", where the h1
+    says only "Brian Lenihan". Relatives sit in one cell, each link followed by the
+    relation in <em>; namesakes in another, linked as "?ID=<n>"."""
+    soup = BeautifulSoup(html or '', 'html.parser')
+    head = soup.find('h3') or soup.find('h1')
+    name = ' '.join(head.get_text(' ', strip=True).split()) if head else ''
+    relatives, namesakes = {}, []
+    for label in soup.find_all(['strong', 'em']):
+        text = label.get_text(strip=True)
+        cell = label.find_parent('td')
+        if cell is None:
+            continue
+        if text == 'Relatives:':
+            for anchor in cell.find_all('a', href=True):
+                found = CANDIDATE_ID.search(anchor['href'])
+                if found:
+                    role = anchor.find('em')
+                    relatives[int(found.group(1))] = role.get_text(strip=True) if role else ''
+        elif text.startswith('Other candidates with same name'):
+            for anchor in cell.find_all('a', href=True):
+                found = CANDIDATE_ID.search(anchor['href'])
+                if found:
+                    namesakes.append(int(found.group(1)))
+    return name, relatives, namesakes
+
+
+def harvest_relatives(client, ids=None, refresh=False, delay=1.2):
+    """What each candidate's page says about other people: relatives, and the other ids it
+    files under the same name. Read by merge_person_ids.py (through ei_relatives.py), which
+    never joins two ids the source names as father and son, or as a Snr and a Jnr.
+
+    By default every source id that shares a name with another source id in the rendered
+    data is fetched -- the only ids a name-based merge rule can ever put together. Ids can
+    be given instead (merge_person_ids.py prints the ones a merge it made has not had
+    checked). Entries already on file are kept unless --refresh."""
+    from ei_relatives import RELATIVES
+    if not ids:
+        by_name = collections.defaultdict(set)
+        for path in glob.glob(os.path.join(RENDERED, '*.json')):
+            with open(path, encoding='utf-8') as fh:
+                data = json.load(fh)
+            for result in data.get('results') or []:
+                for candidate in result.get('candidates') or []:
+                    spid = candidate.get('sourcePersonId') or candidate.get('sourcePersonIdRejected', {}).get('id')
+                    if spid and str(spid).startswith('ei:'):
+                        by_name[matchkey(candidate.get('name'))].add(str(spid))
+        ids = sorted({int(s.split(':')[1]) for v in by_name.values() if len(v) > 1 for s in v})
+    existing = {}
+    if os.path.exists(RELATIVES):
+        with open(RELATIVES, encoding='utf-8') as fh:
+            existing = json.load(fh).get('persons') or {}
+    wanted = [i for i in sorted(set(ids)) if refresh or 'ei:%d' % i not in existing]
+    print('relatives: %d ids asked for, %d to read' % (len(set(ids)), len(wanted)), flush=True)
+    for n, number in enumerate(wanted, 1):
+        url = 'https://electionsireland.org/candidate.cfm?ID=%d' % number
+        html, _ = fetch(client, url, refresh=refresh, delay=delay)
+        if not html:
+            print('  failed: ' + url, flush=True)
+            continue
+        name, relatives, namesakes = parse_person_links(html)
+        existing['ei:%d' % number] = {
+            'name': name,
+            'relatives': {'ei:%d' % k: v for k, v in sorted(relatives.items())},
+            'namesakes': ['ei:%d' % k for k in sorted(set(namesakes))],
+            'url': url,
+        }
+        if n % 100 == 0:
+            print('  %d/%d' % (n, len(wanted)), flush=True)
+    doc = {
+        'description': 'What ElectionsIreland candidate pages say about other candidates: '
+                       'relatives (with the relation) and the ids filed under the same '
+                       'name. merge_person_ids.py and build_person_registry_v2.py never '
+                       'put two ids the source names as relatives, or as a Snr and a Jnr, '
+                       'into one person. Namesakes are recorded for review, not used.',
+        'generatedBy': 'scripts/harvest_ei_candidate_ids.py --relatives',
+        'persons': dict(sorted(existing.items(), key=lambda kv: int(kv[0].split(':')[1]))),
+    }
+    os.makedirs(os.path.dirname(RELATIVES), exist_ok=True)
+    with open(RELATIVES, 'w', encoding='utf-8', newline='\n') as fh:
+        json.dump(doc, fh, ensure_ascii=False, indent=1)
+        fh.write('\n')
+    families = sum(1 for v in existing.values() if v['relatives'])
+    print('relatives: %d ids on file, %d with relatives' % (len(existing), families))
+    print('wrote ' + RELATIVES)
+
+
 def source_files(bodies=None):
     out = []
     for path in sorted(glob.glob(os.path.join(ELECTIONS, '*', '*', '*.json'))):
@@ -406,6 +495,9 @@ def main():
     parser.add_argument('--workers', type=int, default=4, help='concurrent prefetch workers.')
     parser.add_argument('--lifespans', action='store_true',
                         help='fetch birth/death dates for source ids with impossible careers, then stop.')
+    parser.add_argument('--relatives', nargs='*', type=int, metavar='ID',
+                        help='read candidate pages for relatives and namesakes, then stop. '
+                             'With no ids: every source id that shares a name with another.')
     parser.add_argument('--byelections', action='store_true',
                         help="also recover source urls for by-elections, which carry none.")
     args = parser.parse_args()
@@ -415,6 +507,9 @@ def main():
     client = httpx.Client(headers=HEADERS, timeout=60.0, follow_redirects=True)
     if args.lifespans:
         harvest_lifespans(client, refresh=args.refresh, delay=args.delay)
+        return
+    if args.relatives is not None:
+        harvest_relatives(client, ids=args.relatives, refresh=args.refresh, delay=args.delay)
         return
     byelections = byelection_index(client, refresh=args.refresh, delay=args.delay)         if args.byelections else {}
     if args.byelections:

@@ -34,6 +34,8 @@ wrong split is visible and fixable. Nothing is merged on name alone.
 """
 import os, re, sys, json, glob, argparse, collections, unicodedata
 
+import ei_relatives
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..'))
 # render/, not test/: the directory was renamed and these constants were not.
@@ -261,6 +263,7 @@ def main():
             by_prior[pid].append(k)
     rejoined = 0
     name_joined = collections.defaultdict(set)
+    ei_people = ei_relatives.load()
     for pid, keys in by_prior.items():
         if len(keys) < 2:
             continue
@@ -281,6 +284,11 @@ def main():
             their_src = {r['src'] for r in merged[k] if r['src']}
             if ours_src and their_src and ours_src.isdisjoint(their_src) \
                     and not (ours_src & prior_persons and their_src & prior_persons):
+                continue
+            # Nor one the source's own pages contradict, however it was made: the ids of a
+            # father and son (ei_relatives.py) are two people even where a prior registry
+            # recorded them as one.
+            if ei_relatives.distinct(ei_people, ours_src, their_src):
                 continue
             contests |= theirs
             merged[lead].extend(merged.pop(k))
@@ -388,7 +396,12 @@ def main():
             if kept is None:
                 kept = reclaim(group_persons, group_sources, mks, seen_pid)
             if kept is not None:
-                pid, disp = kept, names[0]
+                # The name the person already goes by, while the group still uses it. Picking
+                # afresh (longest, then alphabetical) put "Sean Tubridy" for "Seán Tubridy"
+                # once a merge's evidence let the rebuild make the join itself; a name the
+                # data no longer uses still gives way.
+                had = prev[kept].get('displayName')
+                pid, disp = kept, (had if had in names else names[0])
                 seen_pid.add(pid)
                 reclaimed += 1
             else:
