@@ -70,6 +70,10 @@ export const CATALOGUE_CSS = `
 .cn-years__out { font-weight: 600; font-variant-numeric: tabular-nums; }
 .cn-years__head .cn-link { margin-left: auto; font-size: 12px; }
 .cn-range { position: relative; height: 22px; }
+.cn-years__boxes { display: flex; align-items: center; gap: 6px; color: var(--cn-muted); }
+.cn-years__box { width: 6.5em; min-height: 28px; padding: 2px 8px; border: 1px solid var(--cn-line); border-radius: 8px;
+  background: var(--cn-surface); color: var(--cn-text); font: inherit; font-size: 13px; font-variant-numeric: tabular-nums; }
+.cn-years__box::placeholder { color: var(--cn-muted); }
 .cn-range::before { content: ""; position: absolute; left: 9px; right: 9px; top: 10px; height: 3px; border-radius: 2px; background: var(--cn-line); }
 .cn-range input { position: absolute; inset: 0; width: 100%; margin: 0; background: none; pointer-events: none; -webkit-appearance: none; appearance: none; height: 22px; }
 .cn-range input::-webkit-slider-thumb { pointer-events: auto; -webkit-appearance: none; appearance: none; width: 18px; height: 18px; border-radius: 50%;

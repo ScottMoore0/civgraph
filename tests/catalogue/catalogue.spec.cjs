@@ -401,7 +401,7 @@ test('N08 elections: grouped bodies, and where they were held', async ({ page })
 
 test('N09 rows put their details beside the name; no blurbs, no histogram', async ({ page }) => {
   await open(page);
-  const r = row(page, 'civil-parishes-baronies');
+  const r = row(page, 'counties-counties');
   const [name, meta] = await Promise.all([r.locator('.cn-row__name').boundingBox(), r.locator('.cn-row__meta').boundingBox()]);
   expect(Math.abs(name.y - meta.y)).toBeLessThan(8);
   expect(meta.x).toBeGreaterThan(name.x + name.width - 1);
