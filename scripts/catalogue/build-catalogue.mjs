@@ -32,6 +32,8 @@ const read = (p) => JSON.parse(readFileSync(rel(p), 'utf8'));
 const CHECK = process.argv.includes('--check');
 
 const source = read('data/catalogue/catalogue.source.json');
+// Maps kept out of the pane on purpose, each with its reason; their parts may be placed instead.
+const hiddenIds = new Set((source.hidden || []).map((h) => h.id));
 const { records: mapById, parts: partsOf } = loadRecords(ROOT);
 const layerIndex = read('render/metadata/maps-test-index.json').layers || [];
 const thumbs = new Set(read('assets/thumbnails/manifest.json'));
@@ -135,7 +137,9 @@ function editionLabel(series, rec, all) {
   }
   // A set's member is named by what distinguishes it from the series: "Habitat Network — Bog".
   const stem = series.name.toLowerCase();
-  let label = rec.name.replace(/\s*[—–-]\s*/g, ' — ');
+  // A spaced dash ("Electoral Areas - Roscommon") separates parts of a name and becomes an em
+  // dash; a hyphen inside a word ("Sub-Districts", "Dún Laoghaire-Rathdown") is left alone.
+  let label = rec.name.replace(/\s+[—–-]\s+|\s*[—–]\s*/g, ' — ');
   if (label.toLowerCase().startsWith(stem)) label = label.slice(stem.length).replace(/^[\s—:–-]+/, '').replace(/^(of|in|for|the)\s+/i, '') || rec.name;
   return label.replace(/^\((.*)\)$/, '$1');
 }
@@ -172,6 +176,14 @@ for (const s of source.series) {
   }
   // A variant's label drops the edition's year it repeats: "(1993) — OSNI 50k" -> "OSNI 50k".
   for (const m of members) if (m.of) m.label = m.label.replace(YEAR, '').replace(/^[\s()—–:-]+/, '').replace(/\(\s*\)/g, '').trim() || m.label;
+  // A part placed as a map of its own, because its parent is hidden (source.hidden), is named as
+  // its parent names it ("Northern Ireland"), not by its record's name ("Ireland").
+  for (const m of members) {
+    const parent = mapById.get(m.id)?.partOf;
+    if (!parent || !hiddenIds.has(parent)) continue;
+    const label = partsOf.get(parent)?.find((p) => p.id === m.id)?.label;
+    if (label) { m.label = label; out.maps[m.id].name = label; }
+  }
   // Two editions with one date (a national map and a council's copy) are told apart by who
   // published them, or failing that by name.
   const byLabel = new Map();
@@ -239,7 +251,9 @@ const electionsOut = elections.map((e) => {
   if (e.placeholder || e.loadable === false) rec.mapless = true;
   if (e.displaySubtitle) rec.subtitle = e.displaySubtitle;
   // Where it was held: Westminster elections before 1922 were all-Ireland ones.
-  rec.scope = ['dail-eireann', 'ireland-referendum', 'ireland-local', 'ireland-european', 'ireland-president'].includes(e.bodySlug) ? 'Republic of Ireland'
+  // The 1918 general election, filed as the first Dail's, was an all-island Westminster election.
+  rec.scope = e.bodySlug === 'dail-eireann' && String(e.date) < '1921-05-03' ? 'Ireland'
+    : ['dail-eireann', 'ireland-referendum', 'ireland-local', 'ireland-european', 'ireland-president'].includes(e.bodySlug) ? 'Republic of Ireland'
     : e.bodySlug === 'house-of-commons-of-the-united-kingdom' && String(e.date) < '1922' ? 'Ireland' : 'Northern Ireland';
   // The map the election is drawn on, for its thumbnail.
   const own = [e.sourceMapId, e.layerId, mapById.get(e.sourceMapId)?.cloneOf].find((id) => id && thumbs.has(id));

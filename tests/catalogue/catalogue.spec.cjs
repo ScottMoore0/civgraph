@@ -111,7 +111,16 @@ test('C07 other versions of an edition and a map\'s parts are reachable', async 
   const town = row(page, 'townlands-townlands');
   await town.scrollIntoViewIfNeeded();
   await town.locator('[data-cn-expand]').click();
-  await expect(town.locator('.cn-sub', { hasText: 'Parts' })).toContainText('Northern Ireland');
+  await town.locator('[data-cn-select="townlands-townlands|ni-townlands-1844"]').click();
+  await expect(town.locator('.cn-sub', { hasText: 'Parts' })).toContainText('Antrim');
+});
+
+test('N12 a hidden map is left out and its parts stand as maps of their own', async ({ page }) => {
+  await open(page);
+  const town = row(page, 'townlands-townlands');
+  await expect(town.locator('.cn-chips [data-cn-toggle="ni-townlands"]')).toContainText('Northern Ireland');
+  await expect(town.locator('.cn-chips [data-cn-toggle="roi-townlands"]')).toContainText('Republic of Ireland');
+  await expect(pane(page).locator('[data-cn-toggle="all-ireland-townlands"]')).toHaveCount(0);
 });
 
 test('C08 a map\'s details page opens', async ({ page }) => {
@@ -304,6 +313,9 @@ test('N01 filters narrow the list in place: where, kind, years', async ({ page }
   await page.keyboard.press('End');
   await expect(pane(page).locator('[data-cn-years-out]')).toContainText('2020s');
   await expect.poll(() => pane(page).locator('.cn-row').count()).toBeLessThan(all);
+  // A map with no date is taken to cover all time, so it stays whatever years are chosen.
+  await expect(row(page, 'civil-parishes-civil-parishes')).toHaveCount(1);
+  await expect(row(page, 'civil-parishes-baronies')).toHaveCount(1);
   await pane(page).locator('[data-cn-act="years-reset"]').click();
   await expect(pane(page).locator('.cn-row')).toHaveCount(all);
 });

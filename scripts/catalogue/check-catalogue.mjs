@@ -64,10 +64,17 @@ for (const sub of source.subjects) {
     seriesInSubject.set(id, sub.id);
   }
 }
+// Maps kept out of the pane on purpose (source.hidden, each with its reason). A hidden map's
+// parts may then be placed as maps of their own.
+const hiddenIds = new Set((source.hidden || []).map((h) => h.id));
+for (const h of source.hidden || []) {
+  if (!mapById.has(h.id)) fail(`hidden names map ${h.id}, which the site does not define`);
+  if (!h.why) fail(`hidden map ${h.id} gives no reason`);
+}
 const placed = new Map();
 const place = (mapId, where) => {
   if (!mapById.has(mapId)) { fail(`${where} names map ${mapId}, which the site does not define (scripts/catalogue/records.mjs)`); return; }
-  if (mapById.get(mapId).partOf) fail(`${where} names ${mapId}, which is a part of ${mapById.get(mapId).partOf}: parts are reached through their parent`);
+  if (mapById.get(mapId).partOf && !hiddenIds.has(mapById.get(mapId).partOf)) fail(`${where} names ${mapId}, which is a part of ${mapById.get(mapId).partOf}: parts are reached through their parent`);
   if (placed.has(mapId)) fail(`map ${mapId} is in two places (${placed.get(mapId)}, ${where})`);
   placed.set(mapId, where);
 };
@@ -94,7 +101,8 @@ for (const sub of source.subjects) for (const m of sub.toBeAdded || []) place(m,
 
 let unplaced = 0;
 for (const m of placeable(mapById)) {
-  if (placed.has(m.id)) continue;
+  if (hiddenIds.has(m.id) && placed.has(m.id)) fail(`map ${m.id} is hidden but placed in ${placed.get(m.id)}`);
+  if (placed.has(m.id) || hiddenIds.has(m.id)) continue;
   unplaced += 1;
   if (unplaced <= 25) fail(`map ${m.id} (${m.name}) is not hidden but is in no series and not listed as to be added`);
 }
