@@ -114,7 +114,8 @@ function addMap(id) {
   const color = m.style?.color || m.style?.fillColor || (m.origin === 'data' ? '#21918c' : '');
   if (/^#[0-9a-f]{6}$/i.test(color)) rec.color = color.toLowerCase();
   const parts = partsOf.get(id);
-  if (parts?.length) rec.parts = dropSharedPrefix(parts.map((p) => ({ id: p.id, label: shortPart(p.label, m.name) })));
+  const shown = (parts || []).filter((p) => !hiddenIds.has(p.id));
+  if (shown.length) rec.parts = dropSharedPrefix(shown.map((p) => ({ id: p.id, label: shortPart(p.label, m.name) })));
   out.maps[id] = rec;
   return rec;
 }
@@ -144,10 +145,25 @@ function editionLabel(series, rec, all) {
   return label.replace(/^\((.*)\)$/, '$1');
 }
 
+// What a series draws, for the Kind filter: areas with edges, places and routes (points and
+// lines), or figures mapped onto areas. The curator can say (`kind`); otherwise a Boundary
+// subject's series are boundaries, census figures are statistics, and the rest places & routes.
+function kindOf(s, recs) {
+  if (s.kind) return s.kind;
+  const sub = subjectById.get(s.subject);
+  if (sub?.seriesKind) return sub.seriesKind;
+  if (sub?.kind === 'Boundary') return 'Boundary';
+  if (recs.length && recs.every((r) => r.kind === 'statistic')) return 'Statistics';
+  return 'Places';
+}
+
 const seriesOut = [];
 const slugsSeen = new Set();
 for (const s of source.series) {
   const recs = s.members.map((id) => ({ id, ...addMap(id) }));
+  // A series of geographies treated as constant (townlands, like civil parishes) carries no
+  // dates: its maps are not editions, and the year filter always shows them.
+  if (s.undated) for (const r of recs) { r.date = ''; out.maps[r.id].date = ''; }
   if (s.arrangement === 'editions') recs.sort((a, b) => String(b.date).localeCompare(String(a.date)));
   const years = recs.map((r) => yearOfDate(r.date)).filter(Boolean);
   let slug = slugify(s.name) || s.id;
@@ -157,7 +173,7 @@ for (const s of source.series) {
   const statusCounts = recs.reduce((a, r) => ((a[r.status] = (a[r.status] || 0) + 1), a), {});
   // Variants (another scale, a council's excerpt) are labelled as a set member is, by what sets
   // them apart, and listed straight after the edition they are a version of.
-  const variantOf = s.arrangement === 'editions' ? (s.variantOf || {}) : {};
+  const variantOf = s.variantOf || {};
   const editions = recs.filter((r) => !variantOf[r.id]);
   const members = [];
   for (const r of editions) {
@@ -198,6 +214,8 @@ for (const s of source.series) {
       m.label = `${m.label} · ${useProvider ? provs[i] : (name || m.id)}`;
     });
   }
+  // A label the curator gives (catalogue.source.json `labels`) wins over a derived one.
+  for (const m of members) if (s.labels?.[m.id]) m.label = s.labels[m.id];
   const entry = {
     id: s.id,
     slug,
@@ -206,6 +224,7 @@ for (const s of source.series) {
     shelf: shelfOfSubject.get(s.subject),
     scope: s.scope || '',
     arrangement: s.arrangement,
+    kind: kindOf(s, recs),
     members,
   };
   // Maps listed but not yet drawn, which a row shows on request ("52 to be added"), labelled
@@ -213,7 +232,7 @@ for (const s of source.series) {
   const todoRecs = (s.toBeAdded || []).map((id) => ({ id, ...addMap(id) }));
   if (todoRecs.length) {
     if (s.arrangement === 'editions') todoRecs.sort((a, b) => String(b.date).localeCompare(String(a.date)));
-    entry.todo = todoRecs.map((r) => ({ id: r.id, label: editionLabel(s, r, [...editions, ...todoRecs]) }));
+    entry.todo = todoRecs.map((r) => ({ id: r.id, label: s.labels?.[r.id] || editionLabel(s, r, [...editions, ...todoRecs]) }));
   }
   const todoYears = todoRecs.map((r) => yearOfDate(r.date)).filter(Boolean);
   if (years.length) entry.years = [Math.min(...years), Math.max(...years)];
@@ -254,7 +273,10 @@ const electionsOut = elections.map((e) => {
   // The 1918 general election, filed as the first Dail's, was an all-island Westminster election.
   rec.scope = e.bodySlug === 'dail-eireann' && String(e.date) < '1921-05-03' ? 'Ireland'
     : ['dail-eireann', 'ireland-referendum', 'ireland-local', 'ireland-european', 'ireland-president'].includes(e.bodySlug) ? 'Republic of Ireland'
-    : e.bodySlug === 'house-of-commons-of-the-united-kingdom' && String(e.date) < '1922' ? 'Ireland' : 'Northern Ireland';
+    // Partition took effect on 3 May 1921: the Westminster by-elections after it (Mid Down, West
+    // Down, South Londonderry, and Belfast Duncairn, Mid Armagh and North Down on 23 June) were
+    // all for Northern Ireland seats.
+    : e.bodySlug === 'house-of-commons-of-the-united-kingdom' && String(e.date) < '1921-05-03' ? 'Ireland' : 'Northern Ireland';
   // The map the election is drawn on, for its thumbnail.
   const own = [e.sourceMapId, e.layerId, mapById.get(e.sourceMapId)?.cloneOf].find((id) => id && thumbs.has(id));
   if (own) rec.thumb = own;

@@ -5,7 +5,7 @@
  * (index.js) owns state and behaviour, and is passed in as `c`.
  */
 import { icon, SHELF_LOOK } from './icons.js';
-import { esc, plural, span, inkOn, longDate, SCOPE_SHORT } from './util.js';
+import { esc, plural, span, inkOn, longDate, SCOPE_SHORT, KINDS } from './util.js';
 import { sliderHtml } from './slider.js';
 import { PeopleSearch } from './search.js';
 
@@ -24,9 +24,9 @@ export function toolbarHtml(c) {
     <div class="cn-filters">
       <div class="cn-frow">
         <span class="cn-fgroup" role="group" aria-label="Where"><span class="cn-label">Where</span>${chip('scope', '', 'All')}${chip('scope', 'Northern Ireland', SCOPE_SHORT['Northern Ireland'])}${chip('scope', 'Republic of Ireland', SCOPE_SHORT['Republic of Ireland'])}${chip('scope', 'Ireland', SCOPE_SHORT.Ireland)}</span>
-        <span class="cn-fgroup" role="group" aria-label="Kind"><span class="cn-label">Kind</span>${chip('kind', 'Boundary', 'Boundaries')}${chip('kind', 'Dataset', 'Data')}</span>
+        <span class="cn-fgroup" role="group" aria-label="Kind"><span class="cn-label">Kind</span>${KINDS.map(([v, l]) => chip('kind', v, l)).join('')}</span>
       </div>
-      ${sliderHtml('maps', c.mapBins, c.mapCounts(), i, j, 'dated map')}
+      ${sliderHtml('maps', c.mapBins, i, j, c.yearState('maps'))}
     </div>
   </div>`;
 }
@@ -54,9 +54,16 @@ function shelfHtml(c, { sh, subjects, count }) {
     <h3 class="cn-shelf__head" id="cn-shelf-h-${esc(sh.id)}"><button type="button" class="cn-shelf__toggle" data-cn-shelf="${esc(sh.id)}" aria-expanded="${open}">
       <span class="cn-shelf__icon">${icon(ic)}</span><span class="cn-shelf__name">${esc(sh.name)}</span><span class="cn-count">${plural(count, 'series', 'series')}</span>${icon('chevron-down', 'cn-icon cn-shelf__chev')}</button></h3>
     <div class="cn-shelf__body"${open ? '' : ' hidden'}>
-      ${subjects.map((x) => subjectHtml(c, x)).join('')}
+      ${sh.flat ? flatHtml(c, subjects) : subjects.map((x) => subjectHtml(c, x)).join('')}
     </div>
   </section>`;
+}
+
+/** A small section lists its series straight, without the subheadings a large one needs. */
+function flatHtml(c, subjects) {
+  return `<div class="cn-subject cn-subject--flat">
+    <ul class="cn-list" role="list">${subjects.flatMap((x) => x.series).map((s) => seriesRowHtml(c, s)).join('')}</ul>
+  </div>`;
 }
 
 function subjectHtml(c, { sub, series }) {
@@ -170,7 +177,8 @@ export function panelHtml(c, s) {
     ${!timeline && s.members.length > 1 ? memberListHtml(c, s, sel) : ''}
     <div class="cn-ed">
       ${factsHtml(c, sel, r)}
-      ${r.description ? `<p class="cn-desc">${esc(r.description)}</p>${r.description.length > 320 ? '<button type="button" class="cn-link" data-cn-act="more-text">Read more</button>' : ''}` : ''}
+      ${/* Descriptions are hidden until people write standard ones (Phelim Birch's review,
+          2026-10-06); the text stays in the data. */ ''}
       ${versionsHtml(c, s, sel)}
       ${partsHtml(c, s, sel, r)}
       ${actionsHtml(c, s, sel, r)}

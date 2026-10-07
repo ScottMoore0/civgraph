@@ -4,24 +4,26 @@
  "shelves": [
   {
    "id": "land-divisions",
-   "name": "Land Divisions",
+   "name": "Historic Geographies",
    "blurb": "The territorial fabric: the units Ireland has been divided into, from the townland up.",
    "subjects": [
     "townlands",
     "civil-parishes",
     "counties",
-    "polities",
-    "local-government",
     "ecclesiastical-areas",
-    "language-and-gaeltacht"
-   ]
+    "regional-divides"
+   ],
+   "flat": true
   },
   {
    "id": "government-and-administration",
    "name": "Government & Administration",
    "blurb": "Who administers what, and the areas they administer it over.",
    "subjects": [
-    "public-service-areas"
+    "polities",
+    "local-government",
+    "public-service-areas",
+    "language-and-gaeltacht"
    ]
   },
   {
@@ -129,14 +131,6 @@
     "hills-and-mountains",
     "aerial-imagery-and-elevation"
    ]
-  },
-  {
-   "id": "regional-divides",
-   "name": "Regional Divides",
-   "blurb": "Lines drawn across the island that are neither administrative nor physical.",
-   "subjects": [
-    "regional-divides"
-   ]
   }
  ],
  "subjects": [
@@ -165,7 +159,6 @@
    "kind": "Boundary",
    "series": [
     "counties-counties",
-    "counties-counties--ni",
     "counties-provinces"
    ],
    "toBeAdded": []
@@ -189,7 +182,9 @@
     "local-government-local-authorities--ireland",
     "local-government-local-government-districts",
     "local-government-municipal-districts",
-    "local-government-operational-areas"
+    "local-government-operational-areas",
+    "counties-counties--ni",
+    "settlements-legal-towns-and-cities"
    ],
    "toBeAdded": []
   },
@@ -247,12 +242,7 @@
     "constituencies-d-il-ireann-constituencies",
     "constituencies-parliamentary-constituencies",
     "constituencies-european-parliament-constituencies",
-    "constituencies-ni-parliament",
-    "constituencies-ni-assembly",
-    "constituencies-ni-forum",
-    "constituencies-ni-constitutional-convention",
-    "constituencies-ni-assembly-1973",
-    "constituencies-ni-assembly-1982"
+    "constituencies-ni-parliament"
    ],
    "toBeAdded": []
   },
@@ -264,10 +254,6 @@
     "elections-and-voting-polling-stations",
     "elections-and-voting-polling-districts",
     "elections-and-voting-local-election-results-roscommon",
-    "elections-and-voting-polling-station-locations-sdcc",
-    "elections-and-voting-polling-stations-for-general-election-fcc",
-    "elections-and-voting-polling-stations-presidential-election-fcc",
-    "elections-and-voting-polling-station-data",
     "elections-and-voting-av-referendum-counting-areas"
    ],
    "toBeAdded": []
@@ -301,7 +287,6 @@
     "settlements-rural-areas",
     "settlements-centres-of-population",
     "settlements-geographical-names",
-    "settlements-legal-towns-and-cities",
     "settlements-cso-urban-areas",
     "settlements-highlands-without-settlements"
    ],
@@ -341,35 +326,16 @@
    "name": "Development Plans & Zoning",
    "kind": "Dataset",
    "series": [
-    "development-plans-and-zoning-ballaghaderreen-lap-roscommon",
-    "development-plans-and-zoning-boyle-lap-roscommon",
-    "development-plans-and-zoning-castlerea-lap-roscommon",
-    "development-plans-and-zoning-monksland-bellanamullia-lap-roscommon",
-    "development-plans-and-zoning-roscommon-lap-roscommon",
-    "development-plans-and-zoning-development-plans",
-    "development-plans-and-zoning-land-use-zoning",
-    "development-plans-and-zoning-specific-local-objectives-polygon",
-    "development-plans-and-zoning-areas-under-urban-influence-roscommon-cdp",
-    "development-plans-and-zoning-cootehall-lap-roscommon",
-    "development-plans-and-zoning-core-retail-areas-roscommon-cdp",
-    "development-plans-and-zoning-cork-city-zoning-development-plan",
-    "development-plans-and-zoning-cortober-lap-roscommon",
-    "development-plans-and-zoning-elphin-lap-roscommon",
-    "development-plans-and-zoning-generalised-zoning-types",
-    "development-plans-and-zoning-hodson-bay-lap-roscommon",
-    "development-plans-and-zoning-lough-key-lap-roscommon",
-    "development-plans-and-zoning-roosky-lap-roscommon",
-    "development-plans-and-zoning-settlement-boundaries-roscommon-cdp",
-    "development-plans-and-zoning-town-core-residential-opportunity-sites-roscommon",
-    "development-plans-and-zoning-use-zoning-objectives",
-    "development-plans-and-zoning-boundary-plan-areas",
-    "development-plans-and-zoning-cherrywood-adapted-planning-scheme",
-    "development-plans-and-zoning-dlr-development-plan-zoning-objectives",
-    "development-plans-and-zoning-institutional-lands",
-    "development-plans-and-zoning-mews-development",
-    "development-plans-and-zoning-strategic-land-reserve"
+    "development-plans-and-zoning-roscommon-county-development-plan",
+    "development-plans-and-zoning-roscommon-local-area-plans",
+    "development-plans-and-zoning-dun-laoghaire-rathdown",
+    "development-plans-and-zoning-dublin-city",
+    "development-plans-and-zoning-south-dublin",
+    "development-plans-and-zoning-cork-city",
+    "development-plans-and-zoning-generalised-zoning-types"
    ],
-   "toBeAdded": []
+   "toBeAdded": [],
+   "seriesKind": "Boundary"
   },
   {
    "id": "planning-applications-and-registers",
@@ -1033,13 +999,12 @@
   },
   {
    "id": "local-government-local-authorities",
-   "name": "Local Authorities (Republic of Ireland)",
+   "name": "Administrative Counties (Republic of Ireland)",
    "subject": "local-government",
    "scope": "Republic of Ireland",
    "arrangement": "editions",
    "members": [
     "local-authorities-2024",
-    "dlr-administrative-area",
     "local-authorities-2014",
     "local-authorities-2008",
     "local-authorities-2002",
@@ -1062,22 +1027,26 @@
     "local-authorities-1927",
     "local-authorities-1921"
    ],
-   "variantOf": {
-    "dlr-administrative-area": "local-authorities-2024"
-   }
+   "variantOf": {}
   },
   {
    "id": "local-government-local-authorities--ireland",
-   "name": "Local Authorities (Ireland before partition)",
+   "name": "Administrative Counties (Ireland before partition)",
    "subject": "local-government",
    "scope": "Ireland",
-   "arrangement": "set",
+   "arrangement": "editions",
    "members": [
     "local-authorities-1920-10-04",
     "local-authorities-1920-06-25",
     "local-authorities-1920-06-19",
     "local-authorities-1915"
-   ]
+   ],
+   "labels": {
+    "local-authorities-1920-10-04": "04/10/1920",
+    "local-authorities-1920-06-25": "25/06/1920",
+    "local-authorities-1920-06-19": "19/06/1920",
+    "local-authorities-1915": "1915"
+   }
   },
   {
    "id": "nature-habitats-and-designated-sites-habitat-network",
@@ -1139,7 +1108,13 @@
    "toBeAdded": [
     "dail-1935",
     "dail-1923"
-   ]
+   ],
+   "variantOf": {
+    "oda-map-00101-dail-constituencies-2013-sdcc": "dail-2013"
+   },
+   "labels": {
+    "oda-map-00101-dail-constituencies-2013-sdcc": "South Dublin (data.gov.ie)"
+   }
   },
   {
    "id": "roads-and-traffic-ni-road-surface-defects",
@@ -1198,7 +1173,7 @@
   },
   {
    "id": "constituencies-parliamentary-constituencies",
-   "name": "Parliamentary Constituencies",
+   "name": "Westminster Constituencies",
    "subject": "constituencies",
    "scope": "Ireland",
    "arrangement": "editions",
@@ -1216,7 +1191,19 @@
     "pc-1920",
     "osni-open-data-50k-boundaries-parliamentary-constituencies",
     "bcni2018"
-   ]
+   ],
+   "variantOf": {
+    "pc-1918": "pc-1918-ireland",
+    "pc-1884": "pc-1885-ireland",
+    "osni-open-data-50k-boundaries-parliamentary-constituencies": "pc-2008"
+   },
+   "labels": {
+    "pc-1918": "Northern Ireland part",
+    "pc-1918-ireland": "1918",
+    "pc-1885-ireland": "1885",
+    "pc-1884": "Northern Ireland part",
+    "osni-open-data-50k-boundaries-parliamentary-constituencies": "OSNI 50k"
+   }
   },
   {
    "id": "aerial-imagery-and-elevation-osni-orthophoto-coverage",
@@ -1248,17 +1235,11 @@
    "arrangement": "editions",
    "members": [
     "eds-1926",
-    "dcc-electoral-divisions",
     "eds-roi-1921-05-03",
     "eds-1997",
     "eds-2019",
-    "ed-boundaries-dlr",
-    "dlr-ed-boundaries",
     "eds-2006",
     "eds-2022",
-    "electoral-divisions-fcc2",
-    "district-electoral-divisions-boundaries",
-    "oda-map-00343-galway-city-electoral-divisions",
     "eds-roi-1931",
     "eds-roi-1936",
     "eds-roi-1941",
@@ -1282,10 +1263,7 @@
     "eds-1986",
     "eds-1994"
    ],
-   "variantOf": {
-    "ed-boundaries-dlr": "eds-2019",
-    "dlr-ed-boundaries": "eds-2019"
-   }
+   "variantOf": {}
   },
   {
    "id": "roads-and-traffic-pothole-enquiries",
@@ -1315,13 +1293,16 @@
     "ni-townlands",
     "roi-townlands",
     "ni-townlands-1844",
-    "osni-open-data-50k-boundaries-townlands",
-    "mid-ulster-council-townlands2",
-    "townland-boundaries",
-    "townlands-in-fcc3",
-    "townlands-2015-sdcc1",
-    "dlr-townland-boundaries"
-   ]
+    "osni-open-data-50k-boundaries-townlands"
+   ],
+   "undated": true,
+   "variantOf": {
+    "osni-open-data-50k-boundaries-townlands": "ni-townlands"
+   },
+   "labels": {
+    "ni-townlands-1844": "1844 Townland Valuation",
+    "osni-open-data-50k-boundaries-townlands": "OSNI 50k"
+   }
   },
   {
    "id": "local-government-local-government-districts",
@@ -1352,20 +1333,18 @@
    "members": [
     "wards-2022-final-recommendations",
     "wards-2012",
-    "mid-ulster-council-wards2",
     "wards-1993",
     "osni-open-data-50k-boundaries-wards-1993",
     "wards-1984",
     "wards-1972"
    ],
    "variantOf": {
-    "mid-ulster-council-wards2": "wards-2012",
     "osni-open-data-50k-boundaries-wards-1993": "wards-1993"
    }
   },
   {
    "id": "counties-counties",
-   "name": "Counties (Ireland)",
+   "name": "Counties",
    "subject": "counties",
    "scope": "Ireland",
    "arrangement": "editions",
@@ -1380,8 +1359,8 @@
   },
   {
    "id": "counties-counties--ni",
-   "name": "Counties (Northern Ireland)",
-   "subject": "counties",
+   "name": "Administrative Counties (Northern Ireland)",
+   "subject": "local-government",
    "scope": "Northern Ireland",
    "arrangement": "set",
    "members": [
@@ -1413,16 +1392,9 @@
    "members": [
     "roi-lea-2008",
     "roi-lea-2014",
-    "oda-map-00140-electoral-areas-roscommon",
-    "roi-lea-2019",
-    "dlr-local-electoral-areas",
-    "oda-map-00153-local-election-areas"
+    "roi-lea-2019"
    ],
-   "variantOf": {
-    "oda-map-00140-electoral-areas-roscommon": "roi-lea-2014",
-    "dlr-local-electoral-areas": "roi-lea-2019",
-    "oda-map-00153-local-election-areas": "roi-lea-2019"
-   }
+   "variantOf": {}
   },
   {
    "id": "electoral-divisions-district-electoral-areas",
@@ -1432,14 +1404,12 @@
    "arrangement": "editions",
    "members": [
     "deas-2012",
-    "mid-ulster-council-district-electoral-areas2",
     "deas-1993",
     "osni-open-data-50k-boundaries-district-electoral-areas-1993",
     "deas-1984",
     "deas-1972"
    ],
    "variantOf": {
-    "mid-ulster-council-district-electoral-areas2": "deas-2012",
     "osni-open-data-50k-boundaries-district-electoral-areas-1993": "deas-1993"
    }
   },
@@ -1578,11 +1548,16 @@
    "scope": "Ireland",
    "arrangement": "editions",
    "members": [
-    "provinces",
     "provinces-1955",
     "provinces-1899",
     "tailte-province-boundaries-generalised-20m"
-   ]
+   ],
+   "variantOf": {
+    "tailte-province-boundaries-generalised-20m": "provinces-1955"
+   },
+   "labels": {
+    "tailte-province-boundaries-generalised-20m": "Generalised (Tailte Éireann)"
+   }
   },
   {
    "id": "geophysics-and-geochemical-survey-tellus-stream-sediments",
@@ -1607,8 +1582,22 @@
     "eoni-polling-stations",
     "oda-map-00152-galway-county-council-polling-stations",
     "oda-map-00159-polling-stations-roscommon",
-    "co-wicklow-polling-stations"
-   ]
+    "co-wicklow-polling-stations",
+    "oda-map-00158-polling-station-locations-2024-sdcc",
+    "oda-map-00120-polling-stations-for-general-election-2024-fcc",
+    "oda-map-00121-polling-stations-presidential-election-2025-fcc",
+    "fingal-polling-station-data"
+   ],
+   "labels": {
+    "eoni-polling-stations": "Northern Ireland (EONI)",
+    "oda-map-00152-galway-county-council-polling-stations": "Galway County",
+    "oda-map-00159-polling-stations-roscommon": "Roscommon",
+    "co-wicklow-polling-stations": "Wicklow",
+    "oda-map-00158-polling-station-locations-2024-sdcc": "South Dublin (2024)",
+    "oda-map-00120-polling-stations-for-general-election-2024-fcc": "Fingal (2024 general election)",
+    "oda-map-00121-polling-stations-presidential-election-2025-fcc": "Fingal (2025 presidential election)",
+    "fingal-polling-station-data": "Fingal (polling station data)"
+   }
   },
   {
    "id": "public-service-areas-garda-areas",
@@ -1673,7 +1662,8 @@
     "oda-map-00150-co-wicklow-polling-districts",
     "oda-map-00157-polling-districts-2019-sdcc",
     "oda-map-00358-galway-city-polling-districts-opendata"
-   ]
+   ],
+   "kind": "Boundary"
   },
   {
    "id": "electoral-divisions-district-electoral-divisions",
@@ -1931,7 +1921,14 @@
     "tailte-gaeltacht-boundaries-generalised-20m",
     "tailte-gaeltacht-language-planning-area-boundaries-generalised-20m",
     "roi-gaeltacht-areas"
-   ]
+   ],
+   "variantOf": {
+    "tailte-gaeltacht-boundaries-generalised-20m": "roi-gaeltacht-areas"
+   },
+   "labels": {
+    "tailte-gaeltacht-boundaries-generalised-20m": "Generalised (Tailte Éireann)",
+    "tailte-gaeltacht-language-planning-area-boundaries-generalised-20m": "Language Planning Areas (Tailte Éireann)"
+   }
   },
   {
    "id": "polities-polities",
@@ -1943,7 +1940,15 @@
     "roi-1938",
     "osni-ni-outline",
     "ni-1921"
-   ]
+   ],
+   "labels": {
+    "roi-1938": "Republic of Ireland",
+    "ni-1921": "Northern Ireland",
+    "osni-ni-outline": "OSNI 50k outline"
+   },
+   "variantOf": {
+    "osni-ni-outline": "ni-1921"
+   }
   },
   {
    "id": "water-quality-water-monitoring-points",
@@ -1997,8 +2002,7 @@
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
-    "roi-municipal-districts-2019",
-    "oda-map-00639-municipal-district"
+    "roi-municipal-districts-2019"
    ]
   },
   {
@@ -2014,7 +2018,7 @@
   },
   {
    "id": "constituencies-ni-parliament",
-   "name": "NI Parliament",
+   "name": "Northern Ireland Constituencies",
    "subject": "constituencies",
    "scope": "Northern Ireland",
    "arrangement": "editions",
@@ -2023,8 +2027,27 @@
     "stormont-1920"
    ],
    "toBeAdded": [
-    "stormont-1969"
-   ]
+    "stormont-1969",
+    "assembly-areas-2023",
+    "assembly-areas-2008",
+    "assembly-areas-1995",
+    "forum-1995",
+    "constitutional-convention-1975",
+    "assembly-areas-1970",
+    "assembly-areas-1982"
+   ],
+   "labels": {
+    "stormont-1920": "1920 Parliament",
+    "stormont-1929": "1929 Parliament",
+    "stormont-1969": "1969 Parliament",
+    "assembly-areas-1970": "1973 Assembly",
+    "constitutional-convention-1975": "1975 Convention",
+    "assembly-areas-1982": "1982 Assembly",
+    "forum-1995": "1996 Forum",
+    "assembly-areas-1995": "1998 Assembly",
+    "assembly-areas-2008": "2008 Assembly",
+    "assembly-areas-2023": "2023 Assembly"
+   }
   },
   {
    "id": "roads-and-traffic-tii-collision-rates",
@@ -2178,94 +2201,6 @@
    "members": [
     "hed-industrial-heritage",
     "ni-industrial-heritage"
-   ]
-  },
-  {
-   "id": "development-plans-and-zoning-ballaghaderreen-lap-roscommon",
-   "name": "Ballaghaderreen LAP - Roscommon",
-   "subject": "development-plans-and-zoning",
-   "scope": "Republic of Ireland",
-   "arrangement": "editions",
-   "members": [
-    "oda-map-00398-ballaghaderreen-lap-2012-2018-expired-roscommon",
-    "oda-map-00399-ballaghaderreen-lap-2017-2023-expired-roscommon"
-   ]
-  },
-  {
-   "id": "development-plans-and-zoning-boyle-lap-roscommon",
-   "name": "Boyle LAP - Roscommon",
-   "subject": "development-plans-and-zoning",
-   "scope": "Republic of Ireland",
-   "arrangement": "editions",
-   "members": [
-    "oda-map-00421-boyle-lap-2012-2018-expired-roscommon",
-    "oda-map-00422-boyle-lap-2015-2021-roscommon"
-   ]
-  },
-  {
-   "id": "development-plans-and-zoning-castlerea-lap-roscommon",
-   "name": "Castlerea LAP - Roscommon",
-   "subject": "development-plans-and-zoning",
-   "scope": "Republic of Ireland",
-   "arrangement": "editions",
-   "members": [
-    "oda-map-00439-castlerea-lap-2012-2018-expired-roscommon",
-    "oda-map-00440-castlerea-lap-2016-2022-expired-roscommon"
-   ]
-  },
-  {
-   "id": "development-plans-and-zoning-monksland-bellanamullia-lap-roscommon",
-   "name": "Monksland Bellanamullia LAP - Roscommon",
-   "subject": "development-plans-and-zoning",
-   "scope": "Republic of Ireland",
-   "arrangement": "editions",
-   "members": [
-    "oda-map-00634-monksland-bellanamullia-lap-2010-2016-expired-roscommon",
-    "oda-map-00635-monksland-bellanamullia-lap-2016-2022-roscommon"
-   ]
-  },
-  {
-   "id": "development-plans-and-zoning-roscommon-lap-roscommon",
-   "name": "Roscommon LAP - Roscommon",
-   "subject": "development-plans-and-zoning",
-   "scope": "Republic of Ireland",
-   "arrangement": "editions",
-   "members": [
-    "oda-map-00707-roscommon-lap-2008-2014-expired-roscommon",
-    "oda-map-00708-roscommon-lap-2014-2020-expired-roscommon"
-   ]
-  },
-  {
-   "id": "development-plans-and-zoning-development-plans",
-   "name": "Development Plans",
-   "subject": "development-plans-and-zoning",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dlr-development-plans",
-    "dcc-development-plan-dcc-2022-2028"
-   ]
-  },
-  {
-   "id": "development-plans-and-zoning-land-use-zoning",
-   "name": "Land Use Zoning",
-   "subject": "development-plans-and-zoning",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00610-land-use-zoning-roscommon-cdp-2022-2028",
-    "dlr-land-use-zoning"
-   ]
-  },
-  {
-   "id": "development-plans-and-zoning-specific-local-objectives-polygon",
-   "name": "Specific Local Objectives Polygon",
-   "subject": "development-plans-and-zoning",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dlr-specific-local-objectives-point",
-    "dlr-specific-local-objectives-polygon"
    ]
   },
   {
@@ -2565,9 +2500,9 @@
   },
   {
    "id": "regional-divides-the-bann-divide",
-   "name": "The Bann Divide",
+   "name": "Regional Divides",
    "subject": "regional-divides",
-   "scope": "Northern Ireland",
+   "scope": "Ireland",
    "arrangement": "set",
    "members": [
     "east-west-bann",
@@ -2640,9 +2575,7 @@
    "subject": "electoral-divisions",
    "scope": "Northern Ireland",
    "arrangement": "set",
-   "members": [
-    "county-ed-1957-04-01"
-   ],
+   "members": [],
    "toBeAdded": [
     "county-ed-1969-04-01",
     "county-ed-1968-04-01",
@@ -3102,7 +3035,7 @@
   {
    "id": "settlements-legal-towns-and-cities",
    "name": "Legal Towns and Cities",
-   "subject": "settlements",
+   "subject": "local-government",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
@@ -3283,66 +3216,6 @@
    ]
   },
   {
-   "id": "development-plans-and-zoning-areas-under-urban-influence-roscommon-cdp",
-   "name": "Areas Under Urban Influence - Roscommon CDP",
-   "subject": "development-plans-and-zoning",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00384-areas-under-urban-influence-roscommon-cdp-2022-2028"
-   ]
-  },
-  {
-   "id": "development-plans-and-zoning-cootehall-lap-roscommon",
-   "name": "Cootehall LAP - Roscommon",
-   "subject": "development-plans-and-zoning",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00469-cootehall-lap-2009-2015-expired-roscommon"
-   ]
-  },
-  {
-   "id": "development-plans-and-zoning-core-retail-areas-roscommon-cdp",
-   "name": "Core Retail Areas - Roscommon CDP",
-   "subject": "development-plans-and-zoning",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00471-core-retail-areas-roscommon-cdp-2022-2028"
-   ]
-  },
-  {
-   "id": "development-plans-and-zoning-cork-city-zoning-development-plan",
-   "name": "Cork City Zoning - Development Plan",
-   "subject": "development-plans-and-zoning",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-01068-cork-city-zoning-development-plan-2022-2028"
-   ]
-  },
-  {
-   "id": "development-plans-and-zoning-cortober-lap-roscommon",
-   "name": "Cortober LAP - Roscommon",
-   "subject": "development-plans-and-zoning",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00472-cortober-lap-2014-2020-expired-roscommon"
-   ]
-  },
-  {
-   "id": "development-plans-and-zoning-elphin-lap-roscommon",
-   "name": "Elphin LAP - Roscommon",
-   "subject": "development-plans-and-zoning",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00553-elphin-lap-2014-2020-expired-roscommon"
-   ]
-  },
-  {
    "id": "development-plans-and-zoning-generalised-zoning-types",
    "name": "Generalised Zoning Types",
    "subject": "development-plans-and-zoning",
@@ -3350,126 +3223,6 @@
    "arrangement": "set",
    "members": [
     "oda-map-00224-gzt-current-plan"
-   ]
-  },
-  {
-   "id": "development-plans-and-zoning-hodson-bay-lap-roscommon",
-   "name": "Hodson Bay LAP - Roscommon",
-   "subject": "development-plans-and-zoning",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00591-hodson-bay-lap-2014-2020-expired-roscommon"
-   ]
-  },
-  {
-   "id": "development-plans-and-zoning-lough-key-lap-roscommon",
-   "name": "Lough Key LAP - Roscommon",
-   "subject": "development-plans-and-zoning",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00627-lough-key-lap-2015-2021-expired-roscommon"
-   ]
-  },
-  {
-   "id": "development-plans-and-zoning-roosky-lap-roscommon",
-   "name": "Roosky LAP - Roscommon",
-   "subject": "development-plans-and-zoning",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00704-roosky-lap-2009-2015-expired-roscommon"
-   ]
-  },
-  {
-   "id": "development-plans-and-zoning-settlement-boundaries-roscommon-cdp",
-   "name": "Settlement Boundaries - Roscommon CDP",
-   "subject": "development-plans-and-zoning",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00125-settlement-boundaries-roscommon-cdp-2022-2028"
-   ]
-  },
-  {
-   "id": "development-plans-and-zoning-town-core-residential-opportunity-sites-roscommon",
-   "name": "Town Core Residential Opportunity Sites - Roscommon CDP",
-   "subject": "development-plans-and-zoning",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00792-town-core-residential-opportunity-sites-roscommon-cdp-2022-2028"
-   ]
-  },
-  {
-   "id": "development-plans-and-zoning-use-zoning-objectives",
-   "name": "Use Zoning Objectives",
-   "subject": "development-plans-and-zoning",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "use-zoning-objectives1"
-   ]
-  },
-  {
-   "id": "development-plans-and-zoning-boundary-plan-areas",
-   "name": "Boundary Plan Areas",
-   "subject": "development-plans-and-zoning",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dlr-boundary-plan-areas"
-   ]
-  },
-  {
-   "id": "development-plans-and-zoning-cherrywood-adapted-planning-scheme",
-   "name": "Cherrywood Adapted Planning Scheme",
-   "subject": "development-plans-and-zoning",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dlr-cherrywood-adapted-planning-scheme"
-   ]
-  },
-  {
-   "id": "development-plans-and-zoning-dlr-development-plan-zoning-objectives",
-   "name": "Dlr Development Plan Zoning Objectives",
-   "subject": "development-plans-and-zoning",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dlr-dlr-development-plan-2016-2022-zoning-objectives"
-   ]
-  },
-  {
-   "id": "development-plans-and-zoning-institutional-lands",
-   "name": "Institutional Lands",
-   "subject": "development-plans-and-zoning",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dlr-institutional-lands"
-   ]
-  },
-  {
-   "id": "development-plans-and-zoning-mews-development",
-   "name": "Mews Development",
-   "subject": "development-plans-and-zoning",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dlr-mews-development"
-   ]
-  },
-  {
-   "id": "development-plans-and-zoning-strategic-land-reserve",
-   "name": "Strategic Land Reserve",
-   "subject": "development-plans-and-zoning",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dlr-strategic-land-reserve"
    ]
   },
   {
@@ -3493,46 +3246,6 @@
    ]
   },
   {
-   "id": "elections-and-voting-polling-station-locations-sdcc",
-   "name": "Polling Station Locations SDCC",
-   "subject": "elections-and-voting",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00158-polling-station-locations-2024-sdcc"
-   ]
-  },
-  {
-   "id": "elections-and-voting-polling-stations-for-general-election-fcc",
-   "name": "Polling Stations for General Election FCC",
-   "subject": "elections-and-voting",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00120-polling-stations-for-general-election-2024-fcc"
-   ]
-  },
-  {
-   "id": "elections-and-voting-polling-stations-presidential-election-fcc",
-   "name": "Polling Stations Presidential Election FCC",
-   "subject": "elections-and-voting",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00121-polling-stations-presidential-election-2025-fcc"
-   ]
-  },
-  {
-   "id": "elections-and-voting-polling-station-data",
-   "name": "Polling Station Data",
-   "subject": "elections-and-voting",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "fingal-polling-station-data"
-   ]
-  },
-  {
    "id": "elections-and-voting-av-referendum-counting-areas",
    "name": "AV Referendum Counting Areas",
    "subject": "elections-and-voting",
@@ -3547,7 +3260,8 @@
     "border-poll-1973",
     "av-turnout-2011",
     "belfast-agreement-1998"
-   ]
+   ],
+   "kind": "Boundary"
   },
   {
    "id": "sport-and-recreation-angling-stands-roscommon",
@@ -5546,63 +5260,6 @@
    ]
   },
   {
-   "id": "constituencies-ni-assembly",
-   "name": "Assembly Areas",
-   "subject": "constituencies",
-   "scope": "Northern Ireland",
-   "arrangement": "editions",
-   "members": [],
-   "toBeAdded": [
-    "assembly-areas-2023",
-    "assembly-areas-2008",
-    "assembly-areas-1995"
-   ]
-  },
-  {
-   "id": "constituencies-ni-forum",
-   "name": "Forum Constituencies",
-   "subject": "constituencies",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [],
-   "toBeAdded": [
-    "forum-1995"
-   ]
-  },
-  {
-   "id": "constituencies-ni-constitutional-convention",
-   "name": "Constitutional Convention Constituencies",
-   "subject": "constituencies",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [],
-   "toBeAdded": [
-    "constitutional-convention-1975"
-   ]
-  },
-  {
-   "id": "constituencies-ni-assembly-1973",
-   "name": "Assembly Constituencies",
-   "subject": "constituencies",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [],
-   "toBeAdded": [
-    "assembly-areas-1970"
-   ]
-  },
-  {
-   "id": "constituencies-ni-assembly-1982",
-   "name": "Assembly Constituencies (1982)",
-   "subject": "constituencies",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [],
-   "toBeAdded": [
-    "assembly-areas-1982"
-   ]
-  },
-  {
    "id": "water-quality-wq-river-quality-1990-2018",
    "name": "River Water Quality Monitoring 1990–2018 (14 chemistry parameters)",
    "subject": "water-quality",
@@ -5717,12 +5374,230 @@
     "dobih-v18-4-synges",
     "dobih-v18-4-fellrangers"
    ]
+  },
+  {
+   "id": "development-plans-and-zoning-roscommon-local-area-plans",
+   "name": "Local Area Plans (Roscommon)",
+   "subject": "development-plans-and-zoning",
+   "scope": "Republic of Ireland",
+   "arrangement": "set",
+   "members": [
+    "oda-map-00398-ballaghaderreen-lap-2012-2018-expired-roscommon",
+    "oda-map-00399-ballaghaderreen-lap-2017-2023-expired-roscommon",
+    "oda-map-00421-boyle-lap-2012-2018-expired-roscommon",
+    "oda-map-00422-boyle-lap-2015-2021-roscommon",
+    "oda-map-00439-castlerea-lap-2012-2018-expired-roscommon",
+    "oda-map-00440-castlerea-lap-2016-2022-expired-roscommon",
+    "oda-map-00469-cootehall-lap-2009-2015-expired-roscommon",
+    "oda-map-00472-cortober-lap-2014-2020-expired-roscommon",
+    "oda-map-00553-elphin-lap-2014-2020-expired-roscommon",
+    "oda-map-00591-hodson-bay-lap-2014-2020-expired-roscommon",
+    "oda-map-00627-lough-key-lap-2015-2021-expired-roscommon",
+    "oda-map-00634-monksland-bellanamullia-lap-2010-2016-expired-roscommon",
+    "oda-map-00635-monksland-bellanamullia-lap-2016-2022-roscommon",
+    "oda-map-00704-roosky-lap-2009-2015-expired-roscommon",
+    "oda-map-00707-roscommon-lap-2008-2014-expired-roscommon",
+    "oda-map-00708-roscommon-lap-2014-2020-expired-roscommon"
+   ],
+   "labels": {
+    "oda-map-00398-ballaghaderreen-lap-2012-2018-expired-roscommon": "Ballaghaderreen 2012–2018",
+    "oda-map-00399-ballaghaderreen-lap-2017-2023-expired-roscommon": "Ballaghaderreen 2017–2023",
+    "oda-map-00421-boyle-lap-2012-2018-expired-roscommon": "Boyle 2012–2018",
+    "oda-map-00422-boyle-lap-2015-2021-roscommon": "Boyle 2015–2021",
+    "oda-map-00439-castlerea-lap-2012-2018-expired-roscommon": "Castlerea 2012–2018",
+    "oda-map-00440-castlerea-lap-2016-2022-expired-roscommon": "Castlerea 2016–2022",
+    "oda-map-00469-cootehall-lap-2009-2015-expired-roscommon": "Cootehall 2009–2015",
+    "oda-map-00472-cortober-lap-2014-2020-expired-roscommon": "Cortober 2014–2020",
+    "oda-map-00553-elphin-lap-2014-2020-expired-roscommon": "Elphin 2014–2020",
+    "oda-map-00591-hodson-bay-lap-2014-2020-expired-roscommon": "Hodson Bay 2014–2020",
+    "oda-map-00627-lough-key-lap-2015-2021-expired-roscommon": "Lough Key 2015–2021",
+    "oda-map-00634-monksland-bellanamullia-lap-2010-2016-expired-roscommon": "Monksland Bellanamullia 2010–2016",
+    "oda-map-00635-monksland-bellanamullia-lap-2016-2022-roscommon": "Monksland Bellanamullia 2016–2022",
+    "oda-map-00704-roosky-lap-2009-2015-expired-roscommon": "Roosky 2009–2015",
+    "oda-map-00707-roscommon-lap-2008-2014-expired-roscommon": "Roscommon 2008–2014",
+    "oda-map-00708-roscommon-lap-2014-2020-expired-roscommon": "Roscommon 2014–2020"
+   }
+  },
+  {
+   "id": "development-plans-and-zoning-roscommon-county-development-plan",
+   "name": "County Development Plan 2022–2028 (Roscommon)",
+   "subject": "development-plans-and-zoning",
+   "scope": "Republic of Ireland",
+   "arrangement": "set",
+   "members": [
+    "oda-map-00610-land-use-zoning-roscommon-cdp-2022-2028",
+    "oda-map-00125-settlement-boundaries-roscommon-cdp-2022-2028",
+    "oda-map-00384-areas-under-urban-influence-roscommon-cdp-2022-2028",
+    "oda-map-00471-core-retail-areas-roscommon-cdp-2022-2028",
+    "oda-map-00792-town-core-residential-opportunity-sites-roscommon-cdp-2022-2028"
+   ],
+   "labels": {
+    "oda-map-00610-land-use-zoning-roscommon-cdp-2022-2028": "Land-use Zoning",
+    "oda-map-00125-settlement-boundaries-roscommon-cdp-2022-2028": "Settlement Boundaries",
+    "oda-map-00384-areas-under-urban-influence-roscommon-cdp-2022-2028": "Areas Under Urban Influence",
+    "oda-map-00471-core-retail-areas-roscommon-cdp-2022-2028": "Core Retail Areas",
+    "oda-map-00792-town-core-residential-opportunity-sites-roscommon-cdp-2022-2028": "Town Core Residential Opportunity Sites"
+   }
+  },
+  {
+   "id": "development-plans-and-zoning-dun-laoghaire-rathdown",
+   "name": "Development Plan (Dún Laoghaire-Rathdown)",
+   "subject": "development-plans-and-zoning",
+   "scope": "Republic of Ireland",
+   "arrangement": "set",
+   "members": [
+    "dlr-development-plans",
+    "dlr-land-use-zoning",
+    "dlr-dlr-development-plan-2016-2022-zoning-objectives",
+    "dlr-specific-local-objectives-polygon",
+    "dlr-specific-local-objectives-point",
+    "dlr-boundary-plan-areas",
+    "dlr-cherrywood-adapted-planning-scheme",
+    "dlr-institutional-lands",
+    "dlr-mews-development",
+    "dlr-strategic-land-reserve"
+   ],
+   "labels": {
+    "dlr-development-plans": "Development Plans",
+    "dlr-land-use-zoning": "Land Use Zoning",
+    "dlr-dlr-development-plan-2016-2022-zoning-objectives": "Zoning Objectives 2016–2022",
+    "dlr-specific-local-objectives-polygon": "Specific Local Objectives (areas)",
+    "dlr-specific-local-objectives-point": "Specific Local Objectives (points)",
+    "dlr-boundary-plan-areas": "Boundary Plan Areas",
+    "dlr-cherrywood-adapted-planning-scheme": "Cherrywood Planning Scheme",
+    "dlr-institutional-lands": "Institutional Lands",
+    "dlr-mews-development": "Mews Development",
+    "dlr-strategic-land-reserve": "Strategic Land Reserve"
+   }
+  },
+  {
+   "id": "development-plans-and-zoning-dublin-city",
+   "name": "Development Plan (Dublin City)",
+   "subject": "development-plans-and-zoning",
+   "scope": "Republic of Ireland",
+   "arrangement": "set",
+   "members": [
+    "dcc-development-plan-dcc-2022-2028"
+   ],
+   "labels": {
+    "dcc-development-plan-dcc-2022-2028": "2022–2028"
+   }
+  },
+  {
+   "id": "development-plans-and-zoning-cork-city",
+   "name": "Development Plan (Cork City)",
+   "subject": "development-plans-and-zoning",
+   "scope": "Republic of Ireland",
+   "arrangement": "set",
+   "members": [
+    "oda-map-01068-cork-city-zoning-development-plan-2022-2028"
+   ],
+   "labels": {
+    "oda-map-01068-cork-city-zoning-development-plan-2022-2028": "Zoning 2022–2028"
+   }
+  },
+  {
+   "id": "development-plans-and-zoning-south-dublin",
+   "name": "Development Plan (South Dublin)",
+   "subject": "development-plans-and-zoning",
+   "scope": "Republic of Ireland",
+   "arrangement": "set",
+   "members": [
+    "use-zoning-objectives1"
+   ],
+   "labels": {
+    "use-zoning-objectives1": "Use Zoning Objectives"
+   }
   }
  ],
  "hidden": [
   {
    "id": "all-ireland-townlands",
    "why": "User, 2026-10-06: show its two parts (NI, ROI) as maps of their own beside the other townland maps instead of the two-part Ireland map."
+  },
+  {
+   "id": "civil-parishes",
+   "why": "Phelim Birch's review, 2026-10-06: the Civil Parishes \"Northern Ireland\" part covers the whole island; the province parts cover it."
+  },
+  {
+   "id": "county-ed-1957-04-01",
+   "why": "Phelim Birch's review, 2026-10-06: this is his 1957 county map, not County Electoral Divisions, and is not to be credited as a CED map. To be placed after the source check."
+  },
+  {
+   "id": "dcc-electoral-divisions",
+   "why": "Phelim Birch's review, 2026-10-06: a map of one council's area is not kept beside the national maps of the same thing."
+  },
+  {
+   "id": "district-electoral-divisions-boundaries",
+   "why": "Phelim Birch's review, 2026-10-06: a map of one council's area is not kept beside the national maps of the same thing."
+  },
+  {
+   "id": "dlr-administrative-area",
+   "why": "Phelim Birch's review, 2026-10-06: a map of one council's area is not kept beside the national maps of the same thing."
+  },
+  {
+   "id": "dlr-ed-boundaries",
+   "why": "Phelim Birch's review, 2026-10-06: a map of one council's area is not kept beside the national maps of the same thing."
+  },
+  {
+   "id": "dlr-local-electoral-areas",
+   "why": "Phelim Birch's review, 2026-10-06: a map of one council's area is not kept beside the national maps of the same thing."
+  },
+  {
+   "id": "dlr-townland-boundaries",
+   "why": "Phelim Birch's review, 2026-10-06: townland maps are kept only where they come from a different provider (OSI/OSNI, the 1844 Townland Valuation, later townlands.ie); council copies are not."
+  },
+  {
+   "id": "ed-boundaries-dlr",
+   "why": "Phelim Birch's review, 2026-10-06: a map of one council's area is not kept beside the national maps of the same thing."
+  },
+  {
+   "id": "electoral-divisions-fcc2",
+   "why": "Phelim Birch's review, 2026-10-06: a map of one council's area is not kept beside the national maps of the same thing."
+  },
+  {
+   "id": "mid-ulster-council-district-electoral-areas2",
+   "why": "Phelim Birch's review, 2026-10-06: a map of one council's area is not kept beside the national maps of the same thing."
+  },
+  {
+   "id": "mid-ulster-council-townlands2",
+   "why": "Phelim Birch's review, 2026-10-06: townland maps are kept only where they come from a different provider (OSI/OSNI, the 1844 Townland Valuation, later townlands.ie); council copies are not."
+  },
+  {
+   "id": "mid-ulster-council-wards2",
+   "why": "Phelim Birch's review, 2026-10-06: a map of one council's area is not kept beside the national maps of the same thing."
+  },
+  {
+   "id": "oda-map-00140-electoral-areas-roscommon",
+   "why": "Phelim Birch's review, 2026-10-06: a map of one council's area is not kept beside the national maps of the same thing."
+  },
+  {
+   "id": "oda-map-00153-local-election-areas",
+   "why": "Phelim Birch's review, 2026-10-06: a map of one council's area is not kept beside the national maps of the same thing."
+  },
+  {
+   "id": "oda-map-00343-galway-city-electoral-divisions",
+   "why": "Phelim Birch's review, 2026-10-06: a map of one council's area is not kept beside the national maps of the same thing."
+  },
+  {
+   "id": "oda-map-00639-municipal-district",
+   "why": "Phelim Birch's review, 2026-10-06: the Westmeath-only municipal districts map has no reason to sit beside the national one."
+  },
+  {
+   "id": "provinces",
+   "why": "Phelim Birch's review, 2026-10-06: the 2019 provinces map is the 1955 map (no change since 1955)."
+  },
+  {
+   "id": "townland-boundaries",
+   "why": "Phelim Birch's review, 2026-10-06: townland maps are kept only where they come from a different provider (OSI/OSNI, the 1844 Townland Valuation, later townlands.ie); council copies are not."
+  },
+  {
+   "id": "townlands-2015-sdcc1",
+   "why": "Phelim Birch's review, 2026-10-06: townland maps are kept only where they come from a different provider (OSI/OSNI, the 1844 Townland Valuation, later townlands.ie); council copies are not."
+  },
+  {
+   "id": "townlands-in-fcc3",
+   "why": "Phelim Birch's review, 2026-10-06: townland maps are kept only where they come from a different provider (OSI/OSNI, the 1844 Townland Valuation, later townlands.ie); council copies are not."
   }
  ]
 }
