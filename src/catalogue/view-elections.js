@@ -3,7 +3,7 @@
  * opens it on the map in one click, grouped by decade. Rendering only; `c` is the controller.
  */
 import { icon } from './icons.js';
-import { esc, plural, shortDate, yearOf, SCOPE_SHORT } from './util.js';
+import { esc, plural, shortDate, yearOf, ESCOPE_SHORT } from './util.js';
 import { sliderHtml } from './slider.js';
 import { extrasHtml } from './view-maps.js';
 import { PeopleSearch } from './search.js';
@@ -60,9 +60,9 @@ export function toolbarHtml(c) {
       </div>
       <div class="cn-frow">
         <span class="cn-fgroup" role="group" aria-label="Kind"><span class="cn-label">Kind</span>${chip('ekind', '', 'All')}${chip('ekind', 'general', 'General elections')}${chip('ekind', 'by-election', 'By-elections')}</span>
-        <span class="cn-fgroup" role="group" aria-label="Where"><span class="cn-label">Where</span>${chip('escope', 'Northern Ireland', SCOPE_SHORT['Northern Ireland'])}${chip('escope', 'Republic of Ireland', SCOPE_SHORT['Republic of Ireland'])}${chip('escope', 'Ireland', SCOPE_SHORT.Ireland)}</span>
+        <span class="cn-fgroup" role="group" aria-label="Where"><span class="cn-label">Where</span>${chip('escope', 'Northern Ireland', ESCOPE_SHORT['Northern Ireland'])}${chip('escope', 'Republic of Ireland', ESCOPE_SHORT['Republic of Ireland'])}${chip('escope', 'Ireland', ESCOPE_SHORT.Ireland)}</span>
       </div>
-      ${sliderHtml('elections', c.electionBins, c.electionCounts(), i, j, 'election')}
+      ${sliderHtml('elections', c.electionBins, i, j, c.yearState('elections'))}
     </div>
   </div>`;
 }

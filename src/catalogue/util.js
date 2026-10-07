@@ -35,4 +35,10 @@ export function inkOn(hex) {
 }
 
 /** Short names for the jurisdictions, as the filters and rows show them. */
-export const SCOPE_SHORT = { 'Northern Ireland': 'NI', 'Republic of Ireland': 'ROI', Ireland: 'Ireland' };
+export const SCOPE_SHORT = { 'Northern Ireland': 'NI', 'Republic of Ireland': 'ROI', Ireland: 'All-island' };
+// An election held before partition (3 May 1921) covered the island because the island was
+// one jurisdiction: Phelim Birch's "pre-partition" says that, where "all-island" would not.
+export const ESCOPE_SHORT = { 'Northern Ireland': 'NI', 'Republic of Ireland': 'ROI', Ireland: 'Pre-partition' };
+// What a series draws: areas with edges, places and routes (points and lines), or figures
+// mapped onto areas.
+export const KINDS = [['Boundary', 'Boundaries'], ['Places', 'Places & routes'], ['Statistics', 'Statistics']];

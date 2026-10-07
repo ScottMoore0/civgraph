@@ -26,7 +26,7 @@ import { initialCatalogueRoute } from './flag.js';
 import { icon, SHELF_LOOK, BOOK_CATEGORY_ICONS } from './icons.js';
 import { esc, yearOf } from './util.js';
 import { openMenu, closeMenu } from './menu.js';
-import { decadeDomain, binCounts, indexOf, updateSlider } from './slider.js';
+import { decadeDomain, binCounts, indexOf, updateSlider, stepYear } from './slider.js';
 import * as MapsView from './view-maps.js';
 import * as ElectionsView from './view-elections.js';
 import { BODY_GROUPS, groupOfBody, decadesOf } from './view-elections.js';
@@ -55,6 +55,8 @@ export class CatalogueNext {
     // "On the map" has no button for now, so it cannot be left on unseen; "to be added" is per row.
     this.filters.onMap = false;
     delete this.filters.toAdd;
+    // The kinds were Boundary and Dataset before Statistics and Places & routes were split out.
+    if (this.filters.kind && !['Boundary', 'Places', 'Statistics'].includes(this.filters.kind)) this.filters.kind = null;
     this.efilters = { ...BLANK_EFILTERS, ...(saved.efilters || {}) };
     this.collapsed = new Set(saved.collapsed || []);
     this.filtersOpen = false;
@@ -115,6 +117,9 @@ export class CatalogueNext {
         const editionYears = [];
         for (const s of this.data.series) for (const m of s.members) editionYears.push(yearOf(this.rec(m.id).date));
         this.mapBins = decadeDomain(editionYears);
+        const span2 = (ys) => { const v = ys.filter(Number.isFinite); return v.length ? [Math.min(...v), Math.max(...v)] : [null, null]; };
+        this.allMapYears = span2(editionYears);
+        this.allElectionYears = span2(this.data.elections.map((e) => yearOf(e.date)));
         this.electionBins = decadeDomain(this.data.elections.map((e) => yearOf(e.date)));
         this.applyRoute(this.resolveRoute(initialCatalogueRoute()) || this.routeFromLocation() || 'maps');
       })();
@@ -163,6 +168,7 @@ export class CatalogueNext {
     this.root.addEventListener('click', (e) => this.onClick(e));
     this.root.addEventListener('keydown', (e) => this.onKeyDown(e));
     this.root.addEventListener('input', (e) => this.onInput(e));
+    this.root.addEventListener('change', (e) => this.onYearTyped(e));
     // Thumbnail hover previews and the reused search and book buttons are handled by the
     // current pane's delegates on the container.
     this.ui.bindFlatViewDelegates?.(container);
@@ -234,7 +240,7 @@ export class CatalogueNext {
     }
     const { i, j } = this.yearRange(key);
     const bins = key === 'maps' ? this.mapBins : this.electionBins;
-    updateSlider(bar.querySelector('[data-cn-slider]'), bins, key === 'maps' ? this.mapCounts() : this.electionCounts(), i, j, key === 'maps' ? 'dated map' : 'election');
+    updateSlider(bar.querySelector('[data-cn-slider]'), bins, i, j, this.yearState(key));
     const n = this.activeFilterCount(key);
     const toggle = bar.querySelector('.cn-filters-toggle');
     if (toggle) toggle.innerHTML = `${icon('sliders')}Filters${n ? ` <span class="cn-badge">${n}</span>` : ''}`;
@@ -358,9 +364,27 @@ export class CatalogueNext {
     const f = key === 'maps' ? this.filters : this.efilters;
     const bins = key === 'maps' ? this.mapBins : this.electionBins;
     const last = Math.max(0, bins.length - 1);
-    const i = indexOf(bins, f.from, 0);
-    const j = Math.max(i, indexOf(bins, f.to, last));
-    return { i, j, lo: bins[i]?.start ?? -Infinity, hi: bins[j]?.end ?? Infinity, narrowed: i > 0 || j < last };
+    // The years are exact (typed, or a decade's first year from a handle); the handles show
+    // the decades they fall in.
+    const from = Number.isFinite(f.from) ? f.from : null;
+    const to = Number.isFinite(f.to) ? f.to : null;
+    const i = indexOf(bins, from, 0);
+    const j = Math.max(i, indexOf(bins, to, last));
+    return { i, j, from, to, lo: from ?? -Infinity, hi: to ?? Infinity, narrowed: from !== null || to !== null };
+  }
+
+  /** What the year filter shows: the chosen years, the data's span, and how many it holds. */
+  yearState(key) {
+    const r = this.yearRange(key);
+    const years = key === 'maps'
+      ? this.data.series.filter((s) => this.seriesShown(s, { ignoreYears: true })).flatMap((s) => s.members.map((m) => yearOf(this.rec(m.id).date)))
+      : this.data.elections.filter((e) => this.electionShown(e, { ignoreYears: true })).map((e) => yearOf(e.date));
+    const all = key === 'maps' ? this.allMapYears : this.allElectionYears;
+    return {
+      from: r.from, to: r.to, min: all[0], max: all[1],
+      total: years.filter((y) => Number.isFinite(y) && y >= r.lo && y <= r.hi).length,
+      noun: key === 'maps' ? 'dated map' : 'election',
+    };
   }
 
   inYears(key, y) {
@@ -391,7 +415,7 @@ export class CatalogueNext {
   seriesShown(s, { ignoreYears = false } = {}) {
     const f = this.filters;
     if (f.scope && s.scope !== f.scope) return false;
-    if (f.kind && this.subjectById.get(s.subject)?.kind !== f.kind) return false;
+    if (f.kind && s.kind !== f.kind) return false;
     if (!ignoreYears && this.yearRange('maps').narrowed && !s.members.some((m) => this.editionInYears(m.id))) return false;
     if (f.onMap && !this.seriesOnMap(s)) return false;
     if (this.query && !this.searchHits?.has(s.id)) return false;
@@ -797,13 +821,28 @@ export class CatalogueNext {
       if (r === a) { to = from; b.value = String(to); } else { from = to; a.value = String(from); }
     }
     const f = key === 'maps' ? this.filters : this.efilters;
-    // Decades are stored by their first year; the "before 1800" step by 0.
-    f.from = from === 0 ? null : (Number.isFinite(bins[from].start) ? bins[from].start : 0);
-    f.to = to === bins.length - 1 ? null : (Number.isFinite(bins[to].start) ? bins[to].start : 0);
+    // A handle stands for its decade's first year (1830, 1840 ...); at either end, no limit.
+    f.from = stepYear(bins, from, 'from');
+    f.to = stepYear(bins, to, 'to');
     this.saveStore();
-    updateSlider(wrap, bins, key === 'maps' ? this.mapCounts() : this.electionCounts(), from, to, key === 'maps' ? 'dated map' : 'election');
+    updateSlider(wrap, bins, from, to, this.yearState(key));
     cancelAnimationFrame(this.rangeRaf);
     this.rangeRaf = requestAnimationFrame(() => this.refreshResults());
+  }
+
+  /** A year typed into a box: applied when the box is left or Enter is pressed, not per key. */
+  onYearTyped(e) {
+    const box = e.target.closest?.('[data-cn-year]');
+    if (!box) return;
+    const key = box.dataset.key;
+    const f = key === 'maps' ? this.filters : this.efilters;
+    const v = box.value.trim() === '' ? null : Math.round(Number(box.value));
+    f[box.dataset.cnYear] = Number.isFinite(v) ? v : null;
+    if (f.from !== null && f.to !== null && f.from > f.to) [f.from, f.to] = [f.to, f.from];
+    this.saveStore();
+    const r = this.yearRange(key);
+    updateSlider(box.closest('[data-cn-slider]'), key === 'maps' ? this.mapBins : this.electionBins, r.i, r.j, this.yearState(key));
+    this.refreshResults();
   }
 
   rovingChips(scope) {
@@ -966,7 +1005,7 @@ export class CatalogueNext {
     for (const { sh, subjects, count } of this.visibleShelves()) {
       const [ic, col] = SHELF_LOOK[sh.id] || ['map', '#7a8699'];
       out.push({ id: `cn-shelf-${sh.id}`, label: sh.name, count, level: 1, icon: ic, colour: col });
-      for (const { sub, series } of subjects) out.push({ id: `cn-subject-${sub.id}`, label: sub.name, count: series.length, level: 2 });
+      if (!sh.flat) for (const { sub, series } of subjects) out.push({ id: `cn-subject-${sub.id}`, label: sub.name, count: series.length, level: 2 });
     }
     return out;
   }

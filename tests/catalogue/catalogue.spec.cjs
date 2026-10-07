@@ -301,8 +301,9 @@ test('N01 filters narrow the list in place: where, kind, years', async ({ page }
   expect(ni).toBeLessThan(all);
   for (const meta of (await pane(page).locator('.cn-row__meta').allTextContents()).slice(0, 25)) expect(meta).toContain('NI');
   await pane(page).locator('[data-cn-filter="scope"][data-value=""]').click();
-  await expect(pane(page).locator('[data-cn-filter="scope"]')).toHaveText(['All', 'NI', 'ROI', 'Ireland']);
-  const data = pane(page).locator('[data-cn-filter="kind"][data-value="Dataset"]');
+  await expect(pane(page).locator('[data-cn-filter="scope"]')).toHaveText(['All', 'NI', 'ROI', 'All-island']);
+  await expect(pane(page).locator('[data-cn-filter="kind"]')).toHaveText(['Boundaries', 'Places & routes', 'Statistics']);
+  const data = pane(page).locator('[data-cn-filter="kind"][data-value="Places"]');
   await data.click();
   expect(await pane(page).locator('.cn-row').count()).toBeLessThan(all);
   await data.click();
@@ -311,7 +312,7 @@ test('N01 filters narrow the list in place: where, kind, years', async ({ page }
   const from = pane(page).locator('[data-cn-range="from"][data-key="maps"]');
   await from.focus();
   await page.keyboard.press('End');
-  await expect(pane(page).locator('[data-cn-years-out]')).toContainText('2020s');
+  await expect(pane(page).locator('[data-cn-years-out]')).toContainText('2020');
   await expect.poll(() => pane(page).locator('.cn-row').count()).toBeLessThan(all);
   // A map with no date is taken to cover all time, so it stays whatever years are chosen.
   await expect(row(page, 'civil-parishes-civil-parishes')).toHaveCount(1);
@@ -400,7 +401,7 @@ test('N08 elections: grouped bodies, and where they were held', async ({ page })
 
 test('N09 rows put their details beside the name; no blurbs, no histogram', async ({ page }) => {
   await open(page);
-  const r = row(page, 'townlands-townlands');
+  const r = row(page, 'civil-parishes-baronies');
   const [name, meta] = await Promise.all([r.locator('.cn-row__name').boundingBox(), r.locator('.cn-row__meta').boundingBox()]);
   expect(Math.abs(name.y - meta.y)).toBeLessThan(8);
   expect(meta.x).toBeGreaterThan(name.x + name.width - 1);

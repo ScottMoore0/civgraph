@@ -15,11 +15,14 @@
  *   - a thumbnail the catalogue names is not in assets/thumbnails/manifest.json;
  *   - an election names a layer the site does not have;
  *   - an old card link redirects to a series that does not exist;
- *   - the built files are stale (run build-catalogue.mjs).
+ *   - the built files are stale (run build-catalogue.mjs);
+ *   - a map in a series lacks a provider, a source link or something to draw, beyond the
+ *     problems pinned in data/catalogue/quality-baseline.json; or is new and not signed off
+ *     (catalogue.source.json `signedOff`). Re-pin with --update-baseline only deliberately.
  * Reports (without failing) the maps placed in a series but still placeholders, so that placeholders
  * are shown on purpose rather than by accident.
  */
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import path from 'node:path';
 import { loadRecords, placeable } from './records.mjs';
@@ -139,6 +142,57 @@ if (existsSync(peoplePath)) {
   }
   if (bad) fail(`${bad} people or contests in people.json point at elections, parties or constituencies that do not exist: rebuild it`);
 }
+// ---- curator fields: kinds, labels, versions in sets, flat sections
+const KINDS = new Set(['Boundary', 'Places', 'Statistics']);
+for (const s of source.series) {
+  if (s.kind && !KINDS.has(s.kind)) fail(`series ${s.id} has kind "${s.kind}"; use Boundary, Places or Statistics`);
+  for (const id of Object.keys(s.labels || {})) {
+    if (!s.members.includes(id) && !(s.toBeAdded || []).includes(id)) fail(`series ${s.id} labels ${id}, which is not one of its maps`);
+  }
+}
+for (const sub of source.subjects) if (sub.seriesKind && !KINDS.has(sub.seriesKind)) fail(`subject ${sub.id} has seriesKind "${sub.seriesKind}"`);
+
+// ---- quality: what every map in a series needs (Phelim Birch's review, 2026-10-06)
+//
+// A provider; at least one source link (references, a source download, or the statistic's
+// source); and something the map can draw (a file, a tile set or a renderer layer). Failures
+// already present when the rule came in are pinned in data/catalogue/quality-baseline.json and
+// may only shrink. A map not in that baseline also needs a reviewer's sign-off
+// (catalogue.source.json `signedOff`: {id, by, date}) before it may be placed.
+const qualityIssues = (id) => {
+  const r = mapById.get(id) || {};
+  const rec = built.maps[id] || {};
+  const issues = [];
+  if (!(rec.provider || []).length) issues.push('no provider');
+  if (!((r.references || []).length || (r.sourceDownloads || []).length || r.source || (r.downloads && Object.keys(r.downloads).length))) issues.push('no source link');
+  if (!(r.files || r.tileUrl || r.origin === 'layer' || r.origin === 'data' || layerIds.has(id) || r.placeholder)) issues.push('nothing to draw');
+  return issues;
+};
+const BASELINE = 'data/catalogue/quality-baseline.json';
+const live = {};
+for (const s of source.series) for (const id of s.members) { const q = qualityIssues(id); if (q.length) live[id] = q; }
+if (process.argv.includes('--update-baseline')) {
+  const known = [...new Set(source.series.flatMap((s) => s.members))].sort();
+  writeFileSync(path.join(ROOT, BASELINE), `${JSON.stringify({
+    about: 'Maps placed before the quality rule (check-catalogue.mjs), and the problems they already had. May only shrink.',
+    known, issues: live,
+  }, null, 1)}
+`);
+  console.log(`quality baseline: ${known.length} maps, ${Object.keys(live).length} with known problems`);
+}
+if (existsSync(path.join(ROOT, BASELINE))) {
+  const base = read(BASELINE);
+  const known = new Set(base.known || []);
+  const signed = new Set((source.signedOff || []).map((x) => x.id));
+  for (const [id, issues] of Object.entries(live)) {
+    const old = new Set(base.issues?.[id] || []);
+    for (const q of issues) if (!old.has(q)) fail(`map ${id}: ${q} (every map in a series needs a provider, a source link and something to draw)`);
+  }
+  for (const s of source.series) for (const id of s.members) {
+    if (!known.has(id) && !signed.has(id)) fail(`map ${id} is new in series ${s.id} and has no sign-off: add {"id": "${id}", "by": "...", "date": "..."} to signedOff once it has been reviewed`);
+  }
+} else fail(`${BASELINE} is missing: create it with --update-baseline`);
+
 const builtSeries = new Set(built.series.map((s) => s.id));
 for (const [card, sid] of Object.entries(built.redirects || {})) if (!builtSeries.has(sid)) fail(`old card ${card} redirects to series ${sid}, which does not exist`);
 
