@@ -24,7 +24,9 @@ it is a screen, not a proof. Each class is re-tested here on its own mechanism:
          continuing councillor who also changed party is rare enough to leave alone.
   Wiki:  a disambiguated Wikipedia title identifies one person by construction.
   Stray: one side curated, the other a derived id with exactly ONE candidacy, same name,
-         same party, in a year inside or beside that curated career.
+         same party, in a year inside or beside that curated career. "Independent" is not
+         a party, and a stray the source filed under its own person id in an election the
+         curated career also stood in is someone else.
   Seat:  two derived ids, same party, same constituency, same body, careers that do not
          overlap, one to ten years apart, and no Jr/Snr/numeral in either name. The gaps
          cluster on four and five years, which is an election cycle and the shape of one
@@ -37,12 +39,20 @@ it is a screen, not a proof. Each class is re-tested here on its own mechanism:
 Parties are compared ignoring case, accents and punctuation ("Workers' Party" is "Workers
 Party"), so a spelling difference between source systems no longer blocks LGR-2014.
 
+No class joins two people ElectionsIreland's own pages tell apart: ids it names as father
+and son (or any relatives), or files as a Snr and a Jnr (ei_relatives.py). Pairs are joined
+evidence first, and the test is made against everything already joined on either side, so
+a row with no id of its own cannot carry a father into his son's career: the 1992 Dublin
+West Brian Lenihan, joined to Snr on his biography, is not then joined to Jnr on the seat.
+
 Merges keep the LOWER personId, preferring the curated 1-100011 block, and carry the
 other id's aliases, match keys and source ids across. Every merge is recorded.
 
 Usage:  python scripts/merge_person_ids.py [--check]
 """
 import os, re, sys, json, glob, csv, argparse, collections, unicodedata
+
+import ei_relatives
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..'))
@@ -115,6 +125,11 @@ def party_of(c):
     p = ''.join(ch for ch in unicodedata.normalize('NFKD', p) if not unicodedata.combining(ch))
     return re.sub(r'\s+', ' ', re.sub(r"[^a-z0-9 ]+", '', p.lower())).strip()
 
+# Standing without a party is not a party two candidates can share. Matched on it,
+# STRAY-INTO-CURATED put a Laois-Offaly independent of 2002 and a Kilkenny one of 2019
+# (ElectionsIreland's John Kelly 6 and John Kelly 10) into the Sinn Fein MLA for Mid Ulster.
+NO_PARTY = {'', 'independent', 'ind', 'non party', 'nonparty'}
+
 def observations():
     obs = collections.defaultdict(list)
     for f in sorted(glob.glob(os.path.join(META, '*.json'))):
@@ -129,7 +144,8 @@ def observations():
                     continue
                 obs[pid].append({'key': key, 'body': body, 'con': con,
                                  'y': int(yr) if yr.isdigit() else 0,
-                                 'party': party_of(c)})
+                                 'party': party_of(c),
+                                 'src': str(c.get('sourcePersonId') or '').strip()})
     return obs
 
 
@@ -252,7 +268,19 @@ def main():
                         party = stray_obs[0]['party']
                         if not (lo - 1 <= year <= hi + 1):
                             continue
-                        if party and parties and party not in parties:
+                        # The party is the only thing besides the name, so it has to be one.
+                        if party in NO_PARTY or party not in parties:
+                            continue
+                        # A man can stand twice in one election (Jack Beattie fought Belfast
+                        # Central and Pottinger in 1953), but the source then files him once.
+                        # ElectionsIreland filed Michael Kennedy 1 (Longford-Westmeath) and
+                        # Michael Kennedy 2 (Tipperary) in June 1927, and Michael Pat Murphy
+                        # (Cork South-West) and Michael Murphy 3 (Limerick West) in 1969,
+                        # under ids of their own: two people each time.
+                        mine = stray_obs[0]['src']
+                        if mine and any(x['key'] == stray_obs[0]['key'] and x['src'] and x['src'] != mine
+                                        for x in cur_obs):
+                            skipped['STRAY-INTO-CURATED: another source id in the same election'] += 1
                             continue
                         cls = 'STRAY-INTO-CURATED'
                         break
@@ -306,17 +334,42 @@ def main():
                        'evidence': f"{hit['article']}: {hit['evidence_keep']} / {hit['evidence_drop']}"})
         seen.add((a, b))
 
-    # resolve chains so a->b->c collapses to one survivor
+    # Resolve chains so a->b->c collapses to one survivor: evidence first, and never into
+    # one person two ids that ElectionsIreland's own pages tell apart. The test is made
+    # against everything each side has been joined to so far, not pair by pair: the 1992
+    # Dublin West Brian Lenihan carries no id of its own, so nothing in the pair stopped
+    # SAME-SEAT-SEQUENCE joining it to Jnr after his father's biography had joined it to
+    # Snr, and the two pairs together made father and son one man.
+    people = ei_relatives.load()
+    held = collections.defaultdict(set)
+    for pid, e in ents.items():
+        held[pid] |= set(e.get('sourcePersonIds') or [])
+    for pid, xs in obs.items():
+        held[pid] |= {x['src'] for x in xs if x['src']}
+    order = {c: i for i, c in enumerate(('WIKIPEDIA-BIOGRAPHY', 'WIKI-DISAMBIGUATED', 'FORUM-DUPLICATE',
+                                         'LGR-2014', 'SAME-SEAT-SEQUENCE', 'STRAY-INTO-CURATED'))}
     parent = {}
     def find(x):
         while parent.get(x, x) != x:
             x = parent[x]
         return x
-    for mg in merges:
+    applied, vetoed, unchecked = [], [], set()
+    for mg in sorted(merges, key=lambda m: (order.get(m['class'], len(order)), m['keep'], m['drop'])):
         ka, kb = find(mg['keep']), find(mg['drop'])
         if ka != kb:
+            why = ei_relatives.distinct(people, held[ka], held[kb])
+            if why:
+                vetoed.append((mg, why))
+                continue
+            ours = {s for s in held[ka] if s.startswith('ei:')}
+            theirs = {s for s in held[kb] if s.startswith('ei:')}
+            if ours and theirs and ours.isdisjoint(theirs):
+                unchecked |= {s for s in ours | theirs if s not in people}
             lo, hi = min(ka, kb), max(ka, kb)
             parent[hi] = lo
+            held[lo] |= held.pop(hi, set())
+        applied.append(mg)
+    merges = applied
     final = {d: find(d) for d in parent}
 
     print(f"merge pairs found: {len(merges):,}")
@@ -324,6 +377,12 @@ def main():
         print(f"    {n:5}  {c}")
     for k, n in skipped.items():
         print(f"    {n:5}  SKIPPED: {k}")
+    for mg, why in vetoed:
+        print(f"        VETOED {mg['class']} {mg['keep']}+{mg['drop']} {mg['name']}: {why}")
+    if unchecked:
+        print(f"  {len(unchecked)} ElectionsIreland ids were joined to another without their pages on file:\n"
+              f"    python scripts/harvest_ei_candidate_ids.py --relatives "
+              + ' '.join(s.split(':')[1] for s in sorted(unchecked, key=lambda s: int(s.split(':')[1]))))
     print(f"  distinct ids to retire: {len(final):,}")
     if args.check:
         print("\n--check: nothing written")
