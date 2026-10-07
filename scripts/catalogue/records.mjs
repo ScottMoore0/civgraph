@@ -36,7 +36,7 @@ export function loadRecords(root = process.cwd()) {
       if (!id || id === m.id) continue;
       const rec = records.get(id);
       if (rec) rec.partOf = rec.partOf || m.id;
-      else records.set(id, { id, name: v.label || v.name || id, origin: 'part', partOf: m.id });
+      else records.set(id, { ...(typeof v === 'string' ? {} : v), id, name: v.label || v.name || id, origin: 'part', partOf: m.id });
     }
   }
   // Children of each map, in the order their parent lists them, then the renderer's children.

@@ -47,12 +47,13 @@ test('every word must match', () => {
 });
 
 test('a year narrows a series to its editions of that year', () => {
-  const r = search.query('census 1911');
-  assert.ok(r.series.length, 'census 1911 finds a series');
+  // (Was "census 1911", which found only the DED map now dated 1910, as Phelim Birch corrected.)
+  const r = search.query('wards 1993');
+  assert.ok(r.series.length, 'wards 1993 finds a series');
   for (const hit of r.series) {
     for (const id of hit.members) {
       const year = Number(/(\d{4})/.exec(catalogue.maps[id].date || '')?.[1]);
-      assert.equal(year, 1911, `${id} is a 1911 edition`);
+      assert.equal(year, 1993, `${id} is a 1993 edition`);
     }
   }
 });

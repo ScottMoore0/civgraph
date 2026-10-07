@@ -369,7 +369,12 @@ export class CatalogueNext {
     return Number.isFinite(y) && y >= r.lo && y <= r.hi;
   }
 
-  editionInYears(id) { return this.inYears('maps', yearOf(this.rec(id).date)); }
+  // A map with no date (Civil Parishes, Baronies) is taken to cover all time: it stays in view
+  // whatever years are chosen.
+  editionInYears(id) {
+    const y = yearOf(this.rec(id).date);
+    return !Number.isFinite(y) || this.inYears('maps', y);
+  }
 
   activeFilterCount(key) {
     const f = key === 'maps' ? this.filters : this.efilters;

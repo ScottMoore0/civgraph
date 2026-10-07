@@ -58,7 +58,11 @@ for (const r of rows) {
 }
 // A part (a county sheet, a river-basin tile) is reached through its parent's series.
 const asPart = [...todayMaps].filter((id) => !inSeries.has(id) && !toBeAdded.has(id) && inSeries.has(records.get(id)?.partOf));
-const missingMaps = [...todayMaps].filter((id) => !inSeries.has(id) && !toBeAdded.has(id) && !asPart.includes(id));
+// A map hidden on purpose (source.hidden) whose parts the rebuilt catalogue places itself.
+const hiddenIds = new Set((source.hidden || []).map((h) => h.id));
+const viaParts = [...todayMaps].filter((id) => !inSeries.has(id) && hiddenIds.has(id)
+  && [...records.values()].some((r) => r.partOf === id && inSeries.has(r.id)));
+const missingMaps = [...todayMaps].filter((id) => !inSeries.has(id) && !toBeAdded.has(id) && !asPart.includes(id) && !viaParts.includes(id));
 const nowToBeAdded = [...todayMaps].filter((id) => !inSeries.has(id) && toBeAdded.has(id));
 const missingElections = [...todayElections].filter((k) => !electionIds.has(k));
 const added = [...inSeries.keys()].filter((id) => !todayMaps.has(id));
@@ -72,6 +76,7 @@ const lines = [
   `- Maps shown today that the rebuilt catalogue places in a series: ${todayMaps.size - missingMaps.length - nowToBeAdded.length - asPart.length}`,
   `- Maps shown today that the rebuilt catalogue shows as parts of a map in a series: ${asPart.length}`,
   `- Maps shown today that the rebuilt catalogue lists as to be added: ${nowToBeAdded.length}`,
+  `- Maps shown today that the rebuilt catalogue hides and shows through their parts instead: ${viaParts.length}`,
   `- Maps shown today that the rebuilt catalogue does not have: **${missingMaps.length}**`,
   `- Elections shown today that the rebuilt catalogue does not have: **${missingElections.length}**`,
   `- Maps in the rebuilt catalogue's series that today's pane does not show: ${added.length}`,
