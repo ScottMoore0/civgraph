@@ -94,6 +94,7 @@ for (const s of source.series) {
   }
   for (const m of s.members || []) place(m, `series ${s.id}`);
   for (const m of s.toBeAdded || []) place(m, `series ${s.id} (to be added)`);
+  for (const m of s.local || []) place(m, `series ${s.id} (local)`);
 }
 for (const id of seriesInSubject.keys()) if (!seriesById.has(id)) fail(`a subject names series ${id}, which does not exist`);
 // Names are what readers search and scan by: two series must never share one.
@@ -147,7 +148,7 @@ const KINDS = new Set(['Boundary', 'Places', 'Statistics']);
 for (const s of source.series) {
   if (s.kind && !KINDS.has(s.kind)) fail(`series ${s.id} has kind "${s.kind}"; use Boundary, Places or Statistics`);
   for (const id of Object.keys(s.labels || {})) {
-    if (!s.members.includes(id) && !(s.toBeAdded || []).includes(id)) fail(`series ${s.id} labels ${id}, which is not one of its maps`);
+    if (!s.members.includes(id) && !(s.toBeAdded || []).includes(id) && !(s.local || []).includes(id)) fail(`series ${s.id} labels ${id}, which is not one of its maps`);
   }
 }
 for (const sub of source.subjects) if (sub.seriesKind && !KINDS.has(sub.seriesKind)) fail(`subject ${sub.id} has seriesKind "${sub.seriesKind}"`);

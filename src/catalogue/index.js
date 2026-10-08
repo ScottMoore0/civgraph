@@ -67,6 +67,7 @@ export class CatalogueNext {
     this.moreChips = new Set();
     this.moreParts = new Set();
     this.showTodo = new Set();
+    this.showLocal = new Set();
     this.limits = {};
     this.query = '';
     this.searchHits = null;
@@ -108,7 +109,7 @@ export class CatalogueNext {
         this.subjectById = new Map(this.data.subjects.map((s) => [s.id, s]));
         this.shelfById = new Map(this.data.shelves.map((s) => [s.id, s]));
         this.seriesOfMap = new Map();
-        for (const s of this.data.series) for (const m of s.members) this.seriesOfMap.set(m.id, s.id);
+        for (const s of this.data.series) for (const m of [...s.members, ...(s.local || [])]) this.seriesOfMap.set(m.id, s.id);
         for (const s of this.data.series) for (const m of s.members) for (const p of this.data.maps[m.id]?.parts || []) if (!this.seriesOfMap.has(p.id)) this.seriesOfMap.set(p.id, s.id);
         this.electionByKey = new Map(this.data.elections.map((e) => [e.key, e]));
         try { this.books = await dataService.ensureBooksLoaded(); } catch { this.books = null; }
@@ -409,7 +410,7 @@ export class CatalogueNext {
   }
 
   seriesOnMap(s) {
-    return s.members.some((m) => this.isLoaded(m.id) || (this.rec(m.id).parts || []).some((p) => this.isLoaded(p.id)));
+    return [...s.members, ...(s.local || [])].some((m) => this.isLoaded(m.id) || (this.rec(m.id).parts || []).some((p) => this.isLoaded(p.id)));
   }
 
   seriesShown(s, { ignoreYears = false } = {}) {
@@ -767,6 +768,14 @@ export class CatalogueNext {
     if ((el = b('[data-cn-filter]'))) { e.preventDefault(); this.setFilter(el.dataset.cnFilter, el.dataset.value || ''); return; }
     if ((el = b('[data-cn-shelf]'))) { e.preventDefault(); this.toggleShelf(el); return; }
     if ((el = b('[data-cn-person]'))) { e.preventDefault(); this.showPersonElections(el.dataset.cnPerson); return; }
+    if ((el = b('[data-cn-local]'))) {
+      e.preventDefault();
+      const id = el.dataset.cnLocal;
+      if (this.showLocal.has(id)) this.showLocal.delete(id); else this.showLocal.add(id);
+      this.rerenderRow(id);
+      this.root.querySelector(`[data-cn-series="${cssId(id)}"] [data-cn-local]`)?.focus({ preventScroll: true });
+      return;
+    }
     if ((el = b('[data-cn-todo]'))) {
       e.preventDefault();
       const id = el.dataset.cnTodo;
@@ -1189,10 +1198,11 @@ export class CatalogueNext {
 
   async cite(id, s, btn) {
     const r = this.rec(id);
-    const m = s?.members.find((x) => x.id === id);
+    const local = s?.local?.find((x) => x.id === id);
+    const m = s?.members.find((x) => x.id === id) || local;
     const year = yearOf(r.date);
     const who = r.provider?.join(', ') || 'Civgraph';
-    const title = s && s.members.length > 1 ? `${s.name}, ${m?.label || ''}` : (s?.name || r.name || id);
+    const title = s && (s.members.length > 1 || local) ? `${s.name}, ${m?.label || ''}` : (s?.name || r.name || id);
     const accessed = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
     await this.copyText(`${who}. ${title}${year && !String(m?.label || '').includes(String(year)) ? ` (${year})` : ''} [map layer]. Civgraph, ${this.shareUrl(id)} (accessed ${accessed}).`, 'Citation');
     this.flash(btn, 'Citation copied');
@@ -1248,6 +1258,8 @@ export class CatalogueNext {
   labelOf(id) {
     const s = this.seriesById.get(this.seriesOfMap.get(id));
     const m = s?.members.find((x) => x.id === id);
+    const local = s?.local?.find((x) => x.id === id);
+    if (local) return `${s.name}: ${local.label}`;
     return m ? (s.members.length > 1 ? m.label : s.name) : (this.rec(id).name || id);
   }
 

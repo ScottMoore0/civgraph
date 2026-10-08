@@ -71,7 +71,7 @@ export function sliderHtml(key, bins, i, j, st) {
       <input type="range" min="0" max="${last}" step="1" value="${i}" data-cn-range="from" data-key="${esc(key)}" aria-label="Earliest year" aria-valuetext="${esc(bins[i].label)}">
       <input type="range" min="0" max="${last}" step="1" value="${j}" data-cn-range="to" data-key="${esc(key)}" aria-label="Latest year" aria-valuetext="${esc(bins[j].label)}">
     </div>
-    <div class="cn-years__boxes">${box('from', st.from, 'First year', `From ${st.min}`)}<span aria-hidden="true">–</span>${box('to', st.to, 'Last year', `To ${st.max}`)}</div>
+    <div class="cn-years__boxes">${box('from', st.from, 'First year', 'From')}<span aria-hidden="true">–</span>${box('to', st.to, 'Last year', 'To')}</div>
   </div>`;
 }
 

@@ -245,6 +245,14 @@ for (const s of source.series) {
     if (s.arrangement === 'editions') todoRecs.sort((a, b) => String(b.date).localeCompare(String(a.date)));
     entry.todo = todoRecs.map((r) => ({ id: r.id, label: s.labels?.[r.id] || editionLabel(s, r, [...editions, ...todoRecs]) }));
   }
+  // One council's copy of a national map (`local`): kept off the row until a reader asks for
+  // the local maps, labelled by the council the curator names.
+  const localRecs = (s.local || []).map((id) => ({ id, ...addMap(id) }));
+  if (s.undated) for (const r of localRecs) { r.date = ''; out.maps[r.id].date = ''; }
+  if (localRecs.length) {
+    localRecs.sort((a, b) => String(s.labels?.[a.id] || a.name).localeCompare(String(s.labels?.[b.id] || b.name)));
+    entry.local = localRecs.map((r) => ({ id: r.id, label: s.labels?.[r.id] || editionLabel({ ...s, arrangement: 'set' }, r, localRecs) }));
+  }
   const todoYears = todoRecs.map((r) => yearOfDate(r.date)).filter(Boolean);
   if (years.length) entry.years = [Math.min(...years), Math.max(...years)];
   else if (todoYears.length) entry.years = [Math.min(...todoYears), Math.max(...todoYears)];

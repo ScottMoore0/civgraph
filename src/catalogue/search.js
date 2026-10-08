@@ -94,7 +94,7 @@ export class CatalogueSearch {
     const shelfName = new Map(catalogue.shelves.map((s) => [s.id, s.name]));
     this.docs = [];
     for (const s of catalogue.series) {
-      const members = s.members.map((m) => {
+      const members = [...s.members, ...(s.local || [])].map((m) => {
         const rec = catalogue.maps[m.id] || {};
         const year = /(\d{4})/.exec(rec.date || '');
         return { id: m.id, tokens: tokenise(`${m.label} ${rec.name || ''}`), year: year ? Number(year[1]) : null };

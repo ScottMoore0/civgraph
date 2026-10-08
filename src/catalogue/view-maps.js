@@ -98,7 +98,7 @@ export function seriesRowHtml(c, s, hit = c.hitFor(s)) {
   const title = drawable
     ? `<button type="button" class="cn-row__title" data-cn-expand="${esc(s.id)}" aria-expanded="${open}" aria-controls="cn-panel-${esc(s.id)}">${text}${icon('chevron-down', 'cn-icon cn-row__chev')}</button>`
     : `<div class="cn-row__title cn-row__title--static">${text}</div>`;
-  const chips = !single || todo.length;
+  const chips = !single || todo.length || s.local?.length;
   return `<li class="cn-row${open ? ' cn-row--open' : ''}${drawable ? '' : ' cn-row--todo'}" data-cn-series="${esc(s.id)}" style="--c:${s.color || FALLBACK}">
     <span class="cn-row__stripe" aria-hidden="true"></span>
     <span class="cn-row__thumb">${s.thumb ? c.thumb(s.thumb) : `<span class="cn-thumb-none" aria-hidden="true">${icon('map')}</span>`}</span>
@@ -118,7 +118,8 @@ function addButtonHtml(c, s, m) {
   return `<button type="button" class="cn-add" data-cn-toggle="${esc(m.id)}" data-series="${esc(s.id)}" aria-pressed="false" aria-label="${esc(name)}: on the map" style="--c:${col};--on:${inkOn(col)}">${icon('plus', 'cn-icon cn-when-off')}${icon('check', 'cn-icon cn-when-on')}<span class="cn-when-off">Add</span><span class="cn-when-on">On map</span></button>`;
 }
 
-/** The editions as chips; the maps still to be added join them, in date order, when asked for. */
+/** The editions as chips; the maps still to be added join them, in date order, when asked for,
+ * and so do a series' local maps (one council's copy of a national map). */
 function chipsHtml(c, s, editions, hit) {
   const hits = new Set(hit?.members || []);
   const todo = s.todo || [];
@@ -143,9 +144,14 @@ function chipsHtml(c, s, editions, hit) {
   }
   const dimByPeriod = Boolean(c.searchPeriod && hits.size);
   const rest = editions.length - items.filter((x) => !x.todo).length;
-  return items.map(({ m, todo: isTodo }) => (isTodo ? todoChipHtml(c, m)
-    : chipHtml(c, s, m, { hit: hits.has(m.id) && (c.query || c.here), out: !c.editionInYears(m.id) || (dimByPeriod && !hits.has(m.id)) }))).join('')
+  const local = s.local || [];
+  // A search that matched a local map shows the local maps without being asked.
+  const showLocal = c.showLocal.has(s.id) || (Boolean(c.query || c.here) && local.some((m) => hits.has(m.id)));
+  const chip = (m) => chipHtml(c, s, m, { hit: hits.has(m.id) && (c.query || c.here), out: !c.editionInYears(m.id) || (dimByPeriod && !hits.has(m.id)) });
+  return items.map(({ m, todo: isTodo }) => (isTodo ? todoChipHtml(c, m) : chip(m))).join('')
     + (rest > 0 ? `<button type="button" class="cn-chip cn-chip--more" data-cn-more="${esc(s.id)}" aria-label="Show ${rest} more of ${esc(s.name)}">+${rest} more</button>` : '')
+    + (showLocal ? local.map(chip).join('') : '')
+    + (local.length ? `<button type="button" class="cn-chip cn-chip--local-toggle" data-cn-local="${esc(s.id)}" aria-pressed="${showLocal}" title="${local.length} local ${local.length === 1 ? 'map' : 'maps'}: one council's area each">${icon(showLocal ? 'x' : 'plus')}${showLocal ? 'Hide' : 'Show'} local maps</button>` : '')
     + (todo.length ? `<button type="button" class="cn-chip cn-chip--todo-toggle" data-cn-todo="${esc(s.id)}" aria-pressed="${showTodo}">${icon(showTodo ? 'x' : 'plus')}${showTodo ? 'Hide' : 'Show'} ${todo.length} to be added</button>` : '');
 }
 

@@ -44,7 +44,7 @@ const source = JSON.parse(readFileSync('data/catalogue/catalogue.source.json', '
 
 const { records } = loadRecords();
 const inSeries = new Map();
-for (const s of catalogue.series) for (const m of s.members) inSeries.set(m.id, s.id);
+for (const s of catalogue.series) for (const m of [...s.members, ...(s.local || [])]) inSeries.set(m.id, s.id);
 const toBeAdded = new Set([...source.subjects.flatMap((s) => s.toBeAdded || []), ...source.series.flatMap((s) => s.toBeAdded || [])]);
 const electionIds = new Set(catalogue.elections.map((e) => `${e.body} ${e.date}`));
 
