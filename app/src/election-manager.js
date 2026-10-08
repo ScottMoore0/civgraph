@@ -334,7 +334,7 @@ export class Test2ElectionManager {
     if (requestId !== this.loadSerial) return;
     this.activeEntry = entry;
     this.activeBundle = bundle;
-    this.previousBundle = previousBundle;
+    this.previousBundle = entry.isByElection ? sameAreaPreviousBundle(previousBundle, bundle) : previousBundle;
     this.activeMode = entry.stylingModes?.includes(this.activeMode)
       ? this.activeMode
       : (entry.stylingModes?.find((mode) => DEFAULT_MODE_ORDER.includes(mode)) || 'winner');
@@ -4807,6 +4807,29 @@ function mainElectionSlug(value) {
     .replace(/[^\w\s-]/g, '')
     .replace(/[\s]+/g, '-')
     .replace(/-+/g, '-');
+}
+
+/**
+ * A by-election is compared with the last result in its own area, not with the whole general
+ * election before it: the previous bundle keeps only the contests the by-election was held in,
+ * and its election-wide summaries are dropped so every table is rebuilt from those contests.
+ * Null when the area had no contest last time (renamed or new), so no change is shown at all
+ * rather than a change against the whole country.
+ */
+function sameAreaPreviousBundle(previous, current) {
+  if (!previous || !current) return previous;
+  const keys = new Set((current.results || []).flatMap(resultKeys));
+  const results = (previous.results || []).filter((result) => resultKeys(result).some((key) => keys.has(key)));
+  if (!results.length) return null;
+  if (results.length === (previous.results || []).length) return previous;
+  return {
+    ...previous,
+    results,
+    partySummary: null,
+    mainLikePartySummary: null,
+    mainLikeCandidateSummary: null,
+    mainLikeTotals: null
+  };
 }
 
 function resultKeys(result) {
