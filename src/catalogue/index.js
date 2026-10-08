@@ -110,7 +110,7 @@ export class CatalogueNext {
         this.shelfById = new Map(this.data.shelves.map((s) => [s.id, s]));
         this.seriesOfMap = new Map();
         for (const s of this.data.series) for (const m of [...s.members, ...(s.local || [])]) this.seriesOfMap.set(m.id, s.id);
-        for (const s of this.data.series) for (const m of s.members) for (const p of this.data.maps[m.id]?.parts || []) if (!this.seriesOfMap.has(p.id)) this.seriesOfMap.set(p.id, s.id);
+        for (const s of this.data.series) for (const m of s.members) for (const p of [...(this.data.maps[m.id]?.parts || []), ...(this.data.maps[m.id]?.counties || [])]) if (!this.seriesOfMap.has(p.id)) this.seriesOfMap.set(p.id, s.id);
         this.electionByKey = new Map(this.data.elections.map((e) => [e.key, e]));
         try { this.books = await dataService.ensureBooksLoaded(); } catch { this.books = null; }
         if (this.books && !this.ui.booksData) this.ui.booksData = this.books;
@@ -763,7 +763,7 @@ export class CatalogueNext {
     if ((el = b('[data-cn-select]'))) { e.preventDefault(); const [sid, mid] = el.dataset.cnSelect.split('|'); this.select(sid, mid); return; }
     if ((el = b('[data-cn-menu]'))) { e.preventDefault(); this.openSeriesMenu(el, el.dataset.cnMenu); return; }
     if ((el = b('[data-cn-more]'))) { e.preventDefault(); this.moreChips.add(el.dataset.cnMore); this.rerenderRow(el.dataset.cnMore, { focus: 'chips' }); return; }
-    if ((el = b('[data-cn-more-parts]'))) { e.preventDefault(); this.moreParts.add(el.dataset.cnMoreParts); this.rerenderPanel(this.seriesOfMap.get(el.dataset.cnMoreParts)); return; }
+    if ((el = b('[data-cn-more-parts]'))) { e.preventDefault(); this.moreParts.add(el.dataset.cnMoreParts); this.rerenderPanel(this.seriesOfMap.get(el.dataset.cnMoreParts.replace(/:counties$/, ''))); return; }
     if ((el = b('[data-cn-visibility]'))) { e.preventDefault(); this.toggleVisible(el.dataset.cnVisibility); return; }
     if ((el = b('[data-cn-filter]'))) { e.preventDefault(); this.setFilter(el.dataset.cnFilter, el.dataset.value || ''); return; }
     if ((el = b('[data-cn-shelf]'))) { e.preventDefault(); this.toggleShelf(el); return; }

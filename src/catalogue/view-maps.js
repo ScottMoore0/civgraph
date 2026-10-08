@@ -239,6 +239,21 @@ function versionsHtml(c, s, sel) {
 }
 
 function partsHtml(c, s, sel, r) {
+  return partsGroupHtml(c, s, sel, r) + countiesHtml(c, s, sel, r);
+}
+
+/** The same map split by county (`counties`, from another map's county parts): one button each. */
+function countiesHtml(c, s, sel, r) {
+  if (!r.counties?.length) return '';
+  const key = `${sel.id}:counties`;
+  const shown = c.moreParts.has(key) ? r.counties : r.counties.slice(0, 12);
+  const col = colourOf(c, s, sel.id);
+  return `<div class="cn-sub"><span class="cn-label">By county · ${r.counties.length}</span>
+    <div class="cn-chips">${shown.map((p) => `<button type="button" class="cn-chip" data-cn-toggle="${esc(p.id)}" aria-pressed="false" aria-label="${esc(`${s.name}: County ${p.label}`)}" title="${esc(`County ${p.label}`)}" style="--c:${col};--on:${inkOn(col)}"><span class="cn-chip__dot" aria-hidden="true"></span>${icon('check', 'cn-icon cn-chip__check')}<span class="cn-chip__label">${esc(p.label)}</span></button>`).join('')}
+    ${r.counties.length > shown.length ? `<button type="button" class="cn-chip cn-chip--more" data-cn-more-parts="${esc(key)}">+${r.counties.length - shown.length} more</button>` : ''}</div></div>`;
+}
+
+function partsGroupHtml(c, s, sel, r) {
   if (!r.parts?.length) return '';
   const all = c.moreParts.has(sel.id);
   const shown = all ? r.parts : r.parts.slice(0, 12);

@@ -111,21 +111,26 @@ test('C07 other versions of an edition and a map\'s parts are reachable', async 
   const town = row(page, 'townlands-townlands');
   await town.scrollIntoViewIfNeeded();
   await town.locator('[data-cn-expand]').click();
-  await town.locator('[data-cn-select="townlands-townlands|ni-townlands-1844"]').click();
-  await expect(town.locator('.cn-sub', { hasText: 'Parts' })).toContainText('Antrim');
+  await expect(town.locator('.cn-sub', { hasText: 'Parts' })).toContainText('Republic of Ireland');
+  await expect(town.locator('.cn-sub', { hasText: 'By county' })).toContainText('Antrim');
 });
 
-test('N12 Townlands is one all-island map, like Civil Parishes; the 1844 Valuation and the NI and ROI parts wait in the opened row', async ({ page }) => {
+test('N12 Townlands is one all-island map, like Civil Parishes; its parts and county maps wait in the opened row', async ({ page }) => {
   await open(page);
   const town = row(page, 'townlands-townlands');
   await expect(town.locator('.cn-row__end [data-cn-toggle="all-ireland-townlands"]')).toHaveCount(1);
-  await expect(town.locator('[data-cn-toggle="ni-townlands-1844"]')).toHaveCount(0);
   await expect(town.locator('.cn-chips [data-cn-toggle]')).toHaveCount(0);
+  await expect(pane(page).locator('[data-cn-toggle="ni-townlands-1844"]')).toHaveCount(0);
   await town.locator('[data-cn-expand]').click();
-  await expect(town.locator('.cn-panel [data-cn-toggle="ni-townlands-1844"]').first()).toBeVisible();
-  await expect(town.locator('.cn-panel')).toContainText('1844 Townland Valuation');
-  await expect(town.locator('.cn-panel')).toContainText('Northern Ireland');
-  await expect(town.locator('.cn-panel')).toContainText('Republic of Ireland');
+  const panel = town.locator('.cn-panel');
+  await expect(panel).toContainText('Northern Ireland');
+  await expect(panel).toContainText('Republic of Ireland');
+  await expect(panel).toContainText('By county · 32');
+  await expect(panel).not.toContainText('1844');
+  await panel.locator('[data-cn-more-parts$=":counties"]').click();
+  await expect(town.locator('.cn-panel [data-cn-toggle="tyrone-townlands"]')).toHaveCount(1);
+  await town.locator('.cn-panel [data-cn-toggle="cork-townlands"]').click();
+  await expect.poll(() => loaded(page)).toEqual(expect.arrayContaining([expect.stringContaining('cork-townlands')]));
 });
 
 test('N13 a council\'s copy of a national map waits behind "Show local maps" on its row', async ({ page }) => {
