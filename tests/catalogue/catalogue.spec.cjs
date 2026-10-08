@@ -123,6 +123,26 @@ test('N12 a hidden map is left out and its parts stand as maps of their own', as
   await expect(pane(page).locator('[data-cn-toggle="all-ireland-townlands"]')).toHaveCount(0);
 });
 
+test('N13 a council\'s copy of a national map waits behind "Show local maps" on its row', async ({ page }) => {
+  await open(page);
+  const withLocal = catalogue.series.filter((s) => s.local?.length);
+  await expect(pane(page).locator('[data-cn-local]')).toHaveCount(withLocal.length);
+  const town = row(page, 'townlands-townlands');
+  const local = withLocal.find((s) => s.id === 'townlands-townlands').local;
+  const chip = town.locator(`.cn-chips [data-cn-toggle="${local[0].id}"]`);
+  await expect(chip).toHaveCount(0);
+  await town.locator('[data-cn-local]').click();
+  await expect(town.locator('[data-cn-local]')).toHaveText('Hide local maps');
+  for (const m of local) await expect(town.locator(`.cn-chips [data-cn-toggle="${m.id}"]`)).toHaveCount(1);
+  await chip.click();
+  await expect.poll(() => loaded(page)).toEqual(expect.arrayContaining([expect.stringContaining(local[0].id)]));
+  await town.locator('[data-cn-local]').click();
+  await expect(town.locator('[data-cn-local]')).toHaveText('Show local maps');
+  await expect(chip).toHaveCount(0);
+  // A one-map series (Westmeath's municipal districts beside the national map) has the button too.
+  await expect(row(page, 'local-government-municipal-districts').locator('[data-cn-local]')).toHaveText('Show local maps');
+});
+
 test('C08 a map\'s details page opens', async ({ page }) => {
   await open(page);
   await row(page, LGD).locator('[data-cn-expand]').click();

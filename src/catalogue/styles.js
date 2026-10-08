@@ -71,8 +71,11 @@ export const CATALOGUE_CSS = `
 .cn-years__head .cn-link { margin-left: auto; font-size: 12px; }
 .cn-range { position: relative; height: 22px; }
 .cn-years__boxes { display: flex; align-items: center; gap: 6px; color: var(--cn-muted); }
-.cn-years__box { width: 6.5em; min-height: 28px; padding: 2px 8px; border: 1px solid var(--cn-line); border-radius: 8px;
-  background: var(--cn-surface); color: var(--cn-text); font: inherit; font-size: 13px; font-variant-numeric: tabular-nums; }
+.cn-years__box { box-sizing: content-box; width: 5ch; min-height: 24px; padding: 2px 10px; border: 1px solid var(--cn-line); border-radius: 8px;
+  background: var(--cn-surface); color: var(--cn-text); font: inherit; font-size: 13px; font-variant-numeric: tabular-nums; text-overflow: clip;
+  -moz-appearance: textfield; appearance: textfield; }
+/* No spin arrows: in a box this narrow they read as a scroll bar and cover the year. */
+.cn-years__box::-webkit-inner-spin-button, .cn-years__box::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 .cn-years__box::placeholder { color: var(--cn-muted); }
 .cn-range::before { content: ""; position: absolute; left: 9px; right: 9px; top: 10px; height: 3px; border-radius: 2px; background: var(--cn-line); }
 .cn-range input { position: absolute; inset: 0; width: 100%; margin: 0; background: none; pointer-events: none; -webkit-appearance: none; appearance: none; height: 22px; }
@@ -155,6 +158,11 @@ export const CATALOGUE_CSS = `
 .cn-chip--todo-toggle { color: var(--cn-amber-ink); border-style: dashed; border-color: color-mix(in srgb, var(--cn-amber-ink) 55%, transparent); background: none; }
 .cn-chip--todo-toggle:hover { background: var(--cn-amber-bg); border-color: var(--cn-amber-ink); }
 .cn-chip--todo-toggle .cn-icon { width: 14px; height: 14px; }
+/* Show/hide a series' local maps: one council's copy of a national map. */
+.cn-chip.cn-chip--local-toggle { color: var(--cn-muted); border: 1px dashed var(--cn-line); background: none; }
+.cn-chip.cn-chip--local-toggle:hover { color: var(--cn-text); border-color: var(--cn-muted); }
+.cn-chip--local-toggle .cn-icon { width: 14px; height: 14px; }
+.cn-chip.cn-chip--local-toggle[aria-pressed="true"] { color: var(--cn-text); background: none; border-style: solid; border-color: var(--cn-line); }
 .cn-chip--todo-toggle[aria-pressed="true"] { background: var(--cn-amber-bg); color: var(--cn-amber-ink); border-color: transparent; }
 .cn-chips[role="group"] .cn-chip[aria-busy="true"] { opacity: .6; }
 

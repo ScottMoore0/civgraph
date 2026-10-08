@@ -75,6 +75,9 @@ function contestsOnDisk() {
           date: date.name,
           constituency: named,
           sourceUrl: typeof doc.source_url === 'string' ? doc.source_url : null,
+          // A printed source the figures were transcribed from (a newspaper report), recorded
+          // in the contest file as {title, publisher, check}.
+          printed: doc.source && typeof doc.source === 'object' && doc.source.title ? doc.source : null,
         });
       }
     }
@@ -395,6 +398,23 @@ function build() {
         checked: false,
         check: 'recorded when the contest was imported; not checked against the figures',
         match: null,
+        document: null,
+      });
+    }
+    if (c.printed) {
+      sources.push({
+        title: c.printed.title,
+        publisher: c.printed.publisher ?? null,
+        url: null,
+        archiveUrl: null,
+        host: null,
+        kind: c.printed.kind ?? 'news',
+        origin: 'import',
+        basis: 'transcribed',
+        scope: 'this contest',
+        checked: true,
+        check: c.printed.check ?? 'figures transcribed from this source',
+        match: 'exact',
         document: null,
       });
     }
