@@ -225,6 +225,12 @@ for (const s of source.series) {
       m.label = `${m.label} · ${useProvider ? provs[i] : (name || m.id)}`;
     });
   }
+  // A map that also comes split by county elsewhere (`countiesFrom`: {map: map whose parts are
+  // its counties}) lists those county maps as buttons of its own when the row is opened.
+  for (const [mapId, from] of Object.entries(s.countiesFrom || {})) {
+    const counties = (partsOf.get(from) || []).map((p) => ({ id: p.id, label: p.label.replace(/^County\s+/i, '') }));
+    if (counties.length && out.maps[mapId]) out.maps[mapId].counties = counties.sort((a, b) => a.label.localeCompare(b.label));
+  }
   // A label the curator gives (catalogue.source.json `labels`) wins over a derived one.
   for (const m of members) if (s.labels?.[m.id]) m.label = s.labels[m.id];
   const entry = {

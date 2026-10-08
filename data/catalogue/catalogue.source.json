@@ -1310,16 +1310,13 @@
    "arrangement": "set",
    "members": [
     "all-ireland-townlands",
-    "ni-townlands-1844",
     "osni-open-data-50k-boundaries-townlands"
    ],
    "undated": true,
    "variantOf": {
-    "ni-townlands-1844": "all-ireland-townlands",
     "osni-open-data-50k-boundaries-townlands": "all-ireland-townlands"
    },
    "labels": {
-    "ni-townlands-1844": "1844 Townland Valuation",
     "osni-open-data-50k-boundaries-townlands": "OSNI 50k (Northern Ireland)",
     "dlr-townland-boundaries": "Dún Laoghaire-Rathdown",
     "townlands-in-fcc3": "Fingal",
@@ -1334,7 +1331,10 @@
     "mid-ulster-council-townlands2",
     "townland-boundaries",
     "townlands-2015-sdcc1"
-   ]
+   ],
+   "countiesFrom": {
+    "all-ireland-townlands": "ni-townlands-1844"
+   }
   },
   {
    "id": "local-government-local-government-districts",
@@ -5597,6 +5597,10 @@
   {
    "id": "dlr-ed-boundaries",
    "why": "Byte-identical to ed-boundaries-dlr (the same DLR electoral divisions file, 69 features); that one, with its data.gov.ie record, is listed as the Dún Laoghaire-Rathdown local map."
+  },
+  {
+   "id": "ni-townlands-1844",
+   "why": "User, 2026-10-08: not an 1844 survey but the modern townlands (OSNI and Tailte Éireann 2024; Cork matches exactly) split into 32 counties. Its county maps are shown as buttons under Townlands instead."
   }
  ],
  "signedOff": [
