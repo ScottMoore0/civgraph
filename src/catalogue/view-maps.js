@@ -79,7 +79,9 @@ export function seriesRowHtml(c, s, hit = c.hitFor(s)) {
   const versions = s.members.length - editions.length;
   const todo = s.todo || [];
   const drawable = s.members.length > 0;
-  const single = s.members.length === 1;
+  // One map (its other versions, such as Townlands' 1844 Valuation, wait in the opened row):
+  // the row has a single Add button, as Civil Parishes does.
+  const single = editions.length === 1;
   const open = drawable && c.expanded.has(s.id);
   const meta = [
     SCOPE_SHORT[s.scope] || s.scope,
