@@ -1309,23 +1309,24 @@
    "scope": "Ireland",
    "arrangement": "set",
    "members": [
-    "ni-townlands",
-    "roi-townlands",
+    "all-ireland-townlands",
     "ni-townlands-1844",
     "osni-open-data-50k-boundaries-townlands"
    ],
    "undated": true,
    "variantOf": {
-    "osni-open-data-50k-boundaries-townlands": "ni-townlands"
+    "ni-townlands-1844": "all-ireland-townlands",
+    "osni-open-data-50k-boundaries-townlands": "all-ireland-townlands"
    },
    "labels": {
     "ni-townlands-1844": "1844 Townland Valuation",
-    "osni-open-data-50k-boundaries-townlands": "OSNI 50k",
+    "osni-open-data-50k-boundaries-townlands": "OSNI 50k (Northern Ireland)",
     "dlr-townland-boundaries": "Dún Laoghaire-Rathdown",
     "townlands-in-fcc3": "Fingal",
     "mid-ulster-council-townlands2": "Mid Ulster",
     "townland-boundaries": "Monaghan",
-    "townlands-2015-sdcc1": "South Dublin (2015)"
+    "townlands-2015-sdcc1": "South Dublin (2015)",
+    "all-ireland-townlands": "All-island"
    },
    "local": [
     "dlr-townland-boundaries",
@@ -5582,10 +5583,6 @@
  ],
  "hidden": [
   {
-   "id": "all-ireland-townlands",
-   "why": "User, 2026-10-06: show its two parts (NI, ROI) as maps of their own beside the other townland maps instead of the two-part Ireland map."
-  },
-  {
    "id": "civil-parishes",
    "why": "Phelim Birch's review, 2026-10-06: the Civil Parishes \"Northern Ireland\" part covers the whole island; the province parts cover it."
   },
@@ -5600,6 +5597,13 @@
   {
    "id": "dlr-ed-boundaries",
    "why": "Byte-identical to ed-boundaries-dlr (the same DLR electoral divisions file, 69 features); that one, with its data.gov.ie record, is listed as the Dún Laoghaire-Rathdown local map."
+  }
+ ],
+ "signedOff": [
+  {
+   "id": "all-ireland-townlands",
+   "by": "Scott Moore",
+   "date": "2026-10-08"
   }
  ]
 }

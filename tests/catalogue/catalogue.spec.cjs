@@ -115,12 +115,17 @@ test('C07 other versions of an edition and a map\'s parts are reachable', async 
   await expect(town.locator('.cn-sub', { hasText: 'Parts' })).toContainText('Antrim');
 });
 
-test('N12 a hidden map is left out and its parts stand as maps of their own', async ({ page }) => {
+test('N12 Townlands is one all-island map, like Civil Parishes; the 1844 Valuation and the NI and ROI parts wait in the opened row', async ({ page }) => {
   await open(page);
   const town = row(page, 'townlands-townlands');
-  await expect(town.locator('.cn-chips [data-cn-toggle="ni-townlands"]')).toContainText('Northern Ireland');
-  await expect(town.locator('.cn-chips [data-cn-toggle="roi-townlands"]')).toContainText('Republic of Ireland');
-  await expect(pane(page).locator('[data-cn-toggle="all-ireland-townlands"]')).toHaveCount(0);
+  await expect(town.locator('.cn-row__end [data-cn-toggle="all-ireland-townlands"]')).toHaveCount(1);
+  await expect(town.locator('[data-cn-toggle="ni-townlands-1844"]')).toHaveCount(0);
+  await expect(town.locator('.cn-chips [data-cn-toggle]')).toHaveCount(0);
+  await town.locator('[data-cn-expand]').click();
+  await expect(town.locator('.cn-panel [data-cn-toggle="ni-townlands-1844"]').first()).toBeVisible();
+  await expect(town.locator('.cn-panel')).toContainText('1844 Townland Valuation');
+  await expect(town.locator('.cn-panel')).toContainText('Northern Ireland');
+  await expect(town.locator('.cn-panel')).toContainText('Republic of Ireland');
 });
 
 test('N13 a council\'s copy of a national map waits behind "Show local maps" on its row', async ({ page }) => {
