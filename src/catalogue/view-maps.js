@@ -5,7 +5,7 @@
  * (index.js) owns state and behaviour, and is passed in as `c`.
  */
 import { icon, SHELF_LOOK } from './icons.js';
-import { esc, plural, span, inkOn, longDate, SCOPE_SHORT, KINDS } from './util.js';
+import { esc, plural, span, inkOn, longDate, SCOPE_SHORT } from './util.js';
 import { sliderHtml } from './slider.js';
 import { PeopleSearch } from './search.js';
 
@@ -24,9 +24,9 @@ export function toolbarHtml(c) {
     <div class="cn-filters">
       <div class="cn-frow">
         <span class="cn-fgroup" role="group" aria-label="Where"><span class="cn-label">Where</span>${chip('scope', '', 'All')}${chip('scope', 'Northern Ireland', SCOPE_SHORT['Northern Ireland'])}${chip('scope', 'Republic of Ireland', SCOPE_SHORT['Republic of Ireland'])}${chip('scope', 'Ireland', SCOPE_SHORT.Ireland)}</span>
-        <span class="cn-fgroup" role="group" aria-label="Kind"><span class="cn-label">Kind</span>${KINDS.map(([v, l]) => chip('kind', v, l)).join('')}</span>
       </div>
       ${sliderHtml('maps', c.mapBins, i, j, c.yearState('maps'))}
+      <label class="cn-check" data-cn-undated-wrap${c.yearRange('maps').narrowed ? '' : ' hidden'}><input type="checkbox" id="cn-undated" data-cn-undated${c.filters.undated ? ' checked' : ''}> Include undated maps</label>
     </div>
   </div>`;
 }
@@ -78,6 +78,7 @@ export function seriesRowHtml(c, s, hit = c.hitFor(s)) {
   const editions = s.members.filter((m) => !m.of);
   const versions = s.members.length - editions.length;
   const todo = s.todo || [];
+  const local = s.local || [];
   const drawable = s.members.length > 0;
   // One map (its other versions, such as Townlands' 1844 Valuation, wait in the opened row):
   // the row has a single Add button, as Civil Parishes does.
@@ -92,15 +93,19 @@ export function seriesRowHtml(c, s, hit = c.hitFor(s)) {
   if (!drawable) meta.push('<span class="cn-badge cn-badge--todo">To be added</span>');
   else if (s.status?.incomplete) meta.push('<span class="cn-badge cn-badge--warn">Incomplete</span>');
   if (single) {
-    const from = c.providerLine(s.members[0].id);
+    const from = c.mapSummary(s.members[0].id, { date: false });
     if (from) meta.push(`<span>${esc(from)}</span>`);
   }
-  const text = `<span class="cn-row__text"><span class="cn-row__name">${esc(s.name)}</span><span class="cn-row__meta">${meta.join('<span class="cn-row__dot" aria-hidden="true">·</span>')}</span></span>`;
+  if (local.length) meta.push(`<span>${esc(plural(local.length, 'council map'))}</span>`);
+  const credit = !single && s.provider?.length ? `<span class="cn-row__credit">${esc(s.provider.join(', '))}</span>` : '';
+  const text = `<span class="cn-row__text"><span class="cn-row__name">${esc(s.name)}</span><span class="cn-row__meta">${meta.join('<span class="cn-row__dot" aria-hidden="true">·</span>')}</span>${credit}</span>`;
   // A series with nothing to draw yet is a heading and its list of maps to come: nothing to open.
+  const tip = single ? c.mapSummary(s.members[0].id) : '';
   const title = drawable
-    ? `<button type="button" class="cn-row__title" data-cn-expand="${esc(s.id)}" aria-expanded="${open}" aria-controls="cn-panel-${esc(s.id)}">${text}${icon('chevron-down', 'cn-icon cn-row__chev')}</button>`
+    ? `<button type="button" class="cn-row__title" data-cn-expand="${esc(s.id)}" aria-expanded="${open}" aria-controls="cn-panel-${esc(s.id)}"${tip ? ` title="${esc(tip)}"` : ''}>${text}${icon('chevron-down', 'cn-icon cn-row__chev')}</button>`
     : `<div class="cn-row__title cn-row__title--static">${text}</div>`;
-  const chips = !single || todo.length || s.local?.length;
+  const localHits = localHitsOf(c, s, hit);
+  const chips = !single || todo.length || localHits.length;
   return `<li class="cn-row${open ? ' cn-row--open' : ''}${drawable ? '' : ' cn-row--todo'}" data-cn-series="${esc(s.id)}" style="--c:${s.color || FALLBACK}">
     <span class="cn-row__stripe" aria-hidden="true"></span>
     <span class="cn-row__thumb">${s.thumb ? c.thumb(s.thumb) : `<span class="cn-thumb-none" aria-hidden="true">${icon('map')}</span>`}</span>
@@ -120,54 +125,61 @@ function addButtonHtml(c, s, m) {
   return `<button type="button" class="cn-add" data-cn-toggle="${esc(m.id)}" data-series="${esc(s.id)}" aria-pressed="false" aria-label="${esc(name)}: on the map" style="--c:${col};--on:${inkOn(col)}">${icon('plus', 'cn-icon cn-when-off')}${icon('check', 'cn-icon cn-when-on')}<span class="cn-when-off">Add</span><span class="cn-when-on">On map</span></button>`;
 }
 
-/** The editions as chips; the maps still to be added join them, in date order, when asked for,
- * and so do a series' local maps (one council's copy of a national map). */
+/** A series' council maps that a search or "What's here?" found: they show on the row; the rest
+ * wait in the opened row. */
+function localHitsOf(c, s, hit) {
+  const hits = new Set(hit?.members || []);
+  return (c.query || c.here) ? (s.local || []).filter((m) => hits.has(m.id)) : [];
+}
+
+/** The editions as chips; the maps still to be added join them, in date order, when asked for.
+ * With years chosen, the maps in those years come first (Counties before 1930: 1927, 1922, 1915). */
 function chipsHtml(c, s, editions, hit) {
   const hits = new Set(hit?.members || []);
+  if (c.yearRange('maps').narrowed) editions = [...editions.filter((m) => c.editionInYears(m.id)), ...editions.filter((m) => !c.editionInYears(m.id))];
   const todo = s.todo || [];
   const showTodo = c.showTodo.has(s.id);
   let items = editions.map((m) => ({ m, todo: false }));
   if (showTodo) {
     items = [...items, ...todo.map((m) => ({ m, todo: true }))];
     if (s.arrangement === 'editions') items.sort((a, b) => String(c.rec(b.m.id).date).localeCompare(String(c.rec(a.m.id).date)));
-  } else if (!c.moreChips.has(s.id)) {
-    // As many chips as fit two short lines, the ones a search matched first. Opening a row does
-    // not spill every chip: its timeline shows all the editions; "+N more" shows every chip.
-    const ordered = hits.size ? [...editions.filter((m) => hits.has(m.id)), ...editions.filter((m) => !hits.has(m.id))] : editions;
-    const keep = new Set();
-    let used = 0;
-    for (const m of ordered) {
-      const w = m.label.length + 5;
-      if (keep.size >= 2 && (used + w > 70 || keep.size >= 9)) break;
-      keep.add(m.id);
-      used += w;
-    }
-    items = items.filter((x) => keep.has(x.m.id));
   }
+  // As many chips as fit two short lines, the ones a search matched first. Opening a row does
+  // not spill every chip: its timeline shows all the editions; "+N more" shows every chip, and
+  // "Show fewer" goes back to the short list.
+  const ordered = hits.size ? [...editions.filter((m) => hits.has(m.id)), ...editions.filter((m) => !hits.has(m.id))] : editions;
+  const keep = new Set();
+  let used = 0;
+  for (const m of ordered) {
+    const w = m.label.length + 5;
+    if (keep.size >= 2 && (used + w > 70 || keep.size >= 9)) break;
+    keep.add(m.id);
+    used += w;
+  }
+  const expandedChips = c.moreChips.has(s.id);
+  if (!showTodo && !expandedChips) items = items.filter((x) => keep.has(x.m.id));
+  const fewer = !showTodo && expandedChips && keep.size < editions.length;
   const dimByPeriod = Boolean(c.searchPeriod && hits.size);
   const rest = editions.length - items.filter((x) => !x.todo).length;
-  const local = s.local || [];
-  // A search that matched a local map shows the local maps without being asked.
-  const showLocal = c.showLocal.has(s.id) || (Boolean(c.query || c.here) && local.some((m) => hits.has(m.id)));
   const chip = (m) => chipHtml(c, s, m, { hit: hits.has(m.id) && (c.query || c.here), out: !c.editionInYears(m.id) || (dimByPeriod && !hits.has(m.id)) });
   return items.map(({ m, todo: isTodo }) => (isTodo ? todoChipHtml(c, m) : chip(m))).join('')
     + (rest > 0 ? `<button type="button" class="cn-chip cn-chip--more" data-cn-more="${esc(s.id)}" aria-label="Show ${rest} more of ${esc(s.name)}">+${rest} more</button>` : '')
-    + (showLocal ? local.map(chip).join('') : '')
-    + (local.length ? `<button type="button" class="cn-chip cn-chip--local-toggle" data-cn-local="${esc(s.id)}" aria-pressed="${showLocal}" title="${local.length} local ${local.length === 1 ? 'map' : 'maps'}: one council's area each">${icon(showLocal ? 'x' : 'plus')}${showLocal ? 'Hide' : 'Show'} local maps</button>` : '')
+    + (fewer ? `<button type="button" class="cn-chip cn-chip--more" data-cn-fewer="${esc(s.id)}">Show fewer</button>` : '')
+    + localHitsOf(c, s, hit).map(chip).join('')
     + (todo.length ? `<button type="button" class="cn-chip cn-chip--todo-toggle" data-cn-todo="${esc(s.id)}" aria-pressed="${showTodo}">${icon(showTodo ? 'x' : 'plus')}${showTodo ? 'Hide' : 'Show'} ${todo.length} to be added</button>` : '');
 }
 
 function todoChipHtml(c, m) {
   const r = c.rec(m.id);
-  const tip = [r.name || m.label, r.date ? longDate(r.date) : ''].filter(Boolean).join(' · ');
-  return `<span class="cn-chip cn-chip--todo" title="${esc(tip)}: to be added, not yet on the map"><span class="cn-chip__dot" aria-hidden="true"></span><span class="cn-chip__label">${esc(m.label)}</span></span>`;
+  const tip = c.mapSummary(m.id);
+  return `<span class="cn-chip cn-chip--todo" title="${esc(tip ? `${tip}: to be added` : 'To be added')}, not yet on the map"><span class="cn-chip__dot" aria-hidden="true"></span><span class="cn-chip__label">${esc(m.label)}</span></span>`;
 }
 
 export function chipHtml(c, s, m, { hit = false, out = false, label = m.label } = {}) {
   const r = c.rec(m.id);
   const col = colourOf(c, s, m.id);
   const versions = s.members.filter((x) => x.of === m.id).length;
-  const tip = [label, r.date && r.date !== label ? longDate(r.date) : '', c.providerLine(m.id), r.status === 'incomplete' ? 'incomplete' : ''].filter(Boolean).join(' · ');
+  const tip = [c.mapSummary(m.id), r.status === 'incomplete' ? 'incomplete' : ''].filter(Boolean).join(' · ');
   if (r.status === 'placeholder') {
     return `<span class="cn-chip cn-chip--todo" title="${esc(tip)}: to be added, not yet on the map"><span class="cn-chip__dot" aria-hidden="true"></span><span class="cn-chip__label">${esc(label)}</span></span>`;
   }
@@ -182,13 +194,14 @@ export function panelHtml(c, s) {
   const dated = editions.filter((m) => c.decimalYear(c.rec(m.id).date) !== null);
   const timeline = s.arrangement === 'editions' && dated.length >= 2;
   return `${timeline ? timelineHtml(c, s, dated, sel) : ''}
-    ${!timeline && s.members.length > 1 ? memberListHtml(c, s, sel) : ''}
+    ${!timeline && s.members.filter((m) => !m.of).length > 1 ? memberListHtml(c, s, sel) : ''}
     <div class="cn-ed">
       ${factsHtml(c, sel, r)}
       ${/* Descriptions are hidden until people write standard ones (Phelim Birch's review,
           2026-10-06); the text stays in the data. */ ''}
       ${versionsHtml(c, s, sel)}
       ${partsHtml(c, s, sel, r)}
+      ${localHtml(c, s)}
       ${actionsHtml(c, s, sel, r)}
     </div>`;
 }
@@ -206,16 +219,16 @@ function timelineHtml(c, s, dated, sel) {
     const show = px - last >= 40 || m.id === selBase;
     if (show) last = px;
     const label = m.label.length <= 6 ? m.label : String(Math.floor(t));
-    return `<button type="button" class="cn-tick" style="left:${pct.toFixed(2)}%;--c:${colourOf(c, s, m.id)}" data-cn-select="${esc(s.id)}|${esc(m.id)}" data-cn-dot="${esc(m.id)}" aria-pressed="${m.id === selBase}" aria-label="${esc(m.label)}" title="${esc(`${m.label} · ${c.providerLine(m.id) || ''}`)}"><span class="cn-tick__dot" aria-hidden="true"></span><span class="cn-tick__label" aria-hidden="true">${show ? esc(label) : ''}</span></button>`;
+    return `<button type="button" class="cn-tick" style="left:${pct.toFixed(2)}%;--c:${colourOf(c, s, m.id)}" data-cn-select="${esc(s.id)}|${esc(m.id)}" data-cn-dot="${esc(m.id)}" aria-pressed="${m.id === selBase}" aria-label="${esc(m.label)}" title="${esc(c.mapSummary(m.id))}"><span class="cn-tick__dot" aria-hidden="true"></span><span class="cn-tick__label" aria-hidden="true">${show ? esc(label) : ''}</span></button>`;
   }).join('');
   return `<div class="cn-tl" role="group" aria-label="${esc(s.name)} on a timeline: choose an edition"><div class="cn-tl__track" style="min-width:${width}px"><span class="cn-tl__axis" aria-hidden="true"></span>${ticks}</div></div>`;
 }
 
 function memberListHtml(c, s, sel) {
-  return `<ul class="cn-mlist" aria-label="${esc(s.name)}: choose a map">${s.members.map((m) => {
+  return `<ul class="cn-mlist" aria-label="${esc(s.name)}: choose a map">${s.members.filter((m) => !m.of).map((m) => {
     const r = c.rec(m.id);
-    return `<li class="cn-mlist__item${m.of ? ' cn-mlist__item--version' : ''}" style="--c:${colourOf(c, s, m.id)}">
-      <button type="button" class="cn-mlist__name" data-cn-select="${esc(s.id)}|${esc(m.id)}" aria-current="${m.id === sel.id}">${esc(m.label)}</button>
+    return `<li class="cn-mlist__item" style="--c:${colourOf(c, s, m.id)}">
+      <button type="button" class="cn-mlist__name" data-cn-select="${esc(s.id)}|${esc(m.id)}" aria-current="${m.id === sel.id || m.id === sel.of}" title="${esc(c.mapSummary(m.id))}">${esc(m.label)}</button>
       ${r.status === 'placeholder' ? '<span class="cn-badge cn-badge--todo">To be added</span>' : addButtonHtml(c, s, m)}
     </li>`;
   }).join('')}</ul>`;
@@ -233,9 +246,26 @@ function factsHtml(c, sel, r) {
 
 function versionsHtml(c, s, sel) {
   const base = sel.of || sel.id;
-  const others = s.members.filter((m) => m.id !== sel.id && (m.id === base || m.of === base));
-  if (!others.length) return '';
-  return `<div class="cn-sub"><span class="cn-label">Other versions of this edition</span><div class="cn-chips">${others.map((m) => chipHtml(c, s, m, { label: m.of ? m.label : `${m.label} (main)` })).join('')}</div></div>`;
+  const all = s.members.filter((m) => m.id === base || m.of === base);
+  if (all.length < 2) return '';
+  return `<div class="cn-sub"><span class="cn-label">Versions</span><ul class="cn-vlist">${all.map((m) => {
+    const label = m.of ? m.label : (m.version || `${m.label} (main)`);
+    return `<li class="cn-vlist__item" style="--c:${colourOf(c, s, m.id)}">
+      <span class="cn-vlist__name" title="${esc(c.mapSummary(m.id))}">${esc(label)}</span>
+      <span class="cn-vlist__acts">
+        ${c.rec(m.id).status === 'placeholder' ? '<span class="cn-badge cn-badge--todo">To be added</span>' : addButtonHtml(c, s, m)}
+        ${c.full(m.id) ? `<button type="button" class="cn-iconbtn" data-cn-act="details" data-map="${esc(m.id)}" aria-label="${esc(label)}: details" title="Details">${icon('info')}</button>` : ''}
+        ${c.downloadsFor(m.id).length ? `<button type="button" class="cn-iconbtn" data-cn-act="downloads" data-map="${esc(m.id)}" aria-haspopup="menu" aria-expanded="false" aria-label="${esc(label)}: download" title="Download">${icon('download')}</button>` : ''}
+      </span></li>`;
+  }).join('')}</ul></div>`;
+}
+
+/** A series' council maps (one council's copy of a national map), beside the county maps. */
+function localHtml(c, s) {
+  const local = s.local || [];
+  if (!local.length) return '';
+  return `<div class="cn-sub"><span class="cn-label">Council maps · ${local.length}</span>
+    <div class="cn-chips">${local.map((m) => chipHtml(c, s, m)).join('')}</div></div>`;
 }
 
 function partsHtml(c, s, sel, r) {

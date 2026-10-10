@@ -20,10 +20,8 @@
    "name": "Government & Administration",
    "blurb": "Who administers what, and the areas they administer it over.",
    "subjects": [
-    "polities",
-    "local-government",
-    "public-service-areas",
-    "language-and-gaeltacht"
+    "government-current",
+    "government-former"
    ]
   },
   {
@@ -31,9 +29,8 @@
    "name": "Elections & Representation",
    "blurb": "The geography of voting: the areas, where the vote happens, and how it came out.",
    "subjects": [
-    "electoral-divisions",
-    "constituencies",
-    "elections-and-voting"
+    "elections-current",
+    "elections-former"
    ]
   },
   {
@@ -45,9 +42,9 @@
     "census-statistics",
     "settlements",
     "place-and-street-names",
-    "health",
-    "conflict-and-segregation"
-   ]
+    "health"
+   ],
+   "flat": true
   },
   {
    "id": "planning-and-property",
@@ -58,7 +55,8 @@
     "planning-applications-and-registers",
     "housing-and-regeneration",
     "property-land-and-buildings"
-   ]
+   ],
+   "flat": true
   },
   {
    "id": "transport",
@@ -70,7 +68,8 @@
     "rail-and-public-transport",
     "air-and-sea-transport",
     "parking"
-   ]
+   ],
+   "flat": true
   },
   {
    "id": "heritage-and-culture",
@@ -81,7 +80,8 @@
     "archaeology-and-monuments",
     "culture-and-the-arts",
     "historic-and-printed-maps"
-   ]
+   ],
+   "flat": true
   },
   {
    "id": "local-services-and-amenities",
@@ -94,7 +94,8 @@
     "community-education-and-civic-facilities",
     "emergency-services",
     "enterprise-and-economy"
-   ]
+   ],
+   "flat": true
   },
   {
    "id": "water",
@@ -105,7 +106,8 @@
     "rivers-lakes-and-catchments",
     "flooding-and-coastal-risk",
     "coasts-seas-and-islands"
-   ]
+   ],
+   "flat": true
   },
   {
    "id": "environment-and-land-use",
@@ -119,7 +121,8 @@
     "agriculture-and-land-management",
     "energy-and-climate",
     "noise-and-air-quality"
-   ]
+   ],
+   "flat": true
   },
   {
    "id": "earth-and-terrain",
@@ -130,7 +133,8 @@
     "geophysics-and-geochemical-survey",
     "hills-and-mountains",
     "aerial-imagery-and-elevation"
-   ]
+   ],
+   "flat": true
   }
  ],
  "subjects": [
@@ -164,97 +168,12 @@
    "toBeAdded": []
   },
   {
-   "id": "polities",
-   "name": "States & Polities",
-   "kind": "Boundary",
-   "series": [
-    "polities-polities"
-   ],
-   "toBeAdded": []
-  },
-  {
-   "id": "local-government",
-   "name": "Local Government Areas",
-   "kind": "Boundary",
-   "series": [
-    "local-government-administrative-areas",
-    "local-government-local-authorities",
-    "local-government-local-authorities--ireland",
-    "local-government-local-government-districts",
-    "local-government-municipal-districts",
-    "local-government-operational-areas",
-    "counties-counties--ni",
-    "settlements-legal-towns-and-cities"
-   ],
-   "toBeAdded": []
-  },
-  {
    "id": "ecclesiastical-areas",
    "name": "Ecclesiastical Areas",
    "kind": "Boundary",
    "series": [
     "ecclesiastical-areas-catholic-dioceses-and-parishes",
     "ecclesiastical-areas-catholic-dioceses-and-parishes--ireland"
-   ],
-   "toBeAdded": []
-  },
-  {
-   "id": "language-and-gaeltacht",
-   "name": "Language & Gaeltacht",
-   "kind": "Boundary",
-   "series": [
-    "language-and-gaeltacht-gaeltacht-areas"
-   ],
-   "toBeAdded": []
-  },
-  {
-   "id": "public-service-areas",
-   "name": "Public Service Areas",
-   "kind": "Boundary",
-   "series": [
-    "public-service-areas-garda-areas",
-    "public-service-areas-education-and-library-boards",
-    "public-service-areas-health-and-social-care-trusts"
-   ],
-   "toBeAdded": []
-  },
-  {
-   "id": "electoral-divisions",
-   "name": "Electoral Boundaries",
-   "kind": "Boundary",
-   "series": [
-    "electoral-divisions-electoral-divisions",
-    "electoral-divisions-wards",
-    "electoral-divisions-local-electoral-areas",
-    "electoral-divisions-district-electoral-areas",
-    "electoral-divisions-district-electoral-divisions",
-    "electoral-divisions-district-electoral-divisions--ireland",
-    "electoral-divisions-county-electoral-divisions",
-    "electoral-divisions-dublin-electoral-counties"
-   ],
-   "toBeAdded": []
-  },
-  {
-   "id": "constituencies",
-   "name": "Constituencies",
-   "kind": "Boundary",
-   "series": [
-    "constituencies-d-il-ireann-constituencies",
-    "constituencies-parliamentary-constituencies",
-    "constituencies-european-parliament-constituencies",
-    "constituencies-ni-parliament"
-   ],
-   "toBeAdded": []
-  },
-  {
-   "id": "elections-and-voting",
-   "name": "Elections & Voting",
-   "kind": "Dataset",
-   "series": [
-    "elections-and-voting-polling-stations",
-    "elections-and-voting-polling-districts",
-    "elections-and-voting-local-election-results-roscommon",
-    "elections-and-voting-av-referendum-counting-areas"
    ],
    "toBeAdded": []
   },
@@ -266,13 +185,9 @@
     "census-small-areas",
     "census-census-electoral-divisions",
     "census-small-areas--ni",
+    "census-super-output-area",
     "census-nuts-2-regions",
     "census-travel-to-work-areas",
-    "census-nuts-3-regions",
-    "census-data-zone",
-    "census-output-area",
-    "census-super-data-zone",
-    "census-super-output-area",
     "census-census-grid"
    ],
    "toBeAdded": []
@@ -314,15 +229,6 @@
    "toBeAdded": []
   },
   {
-   "id": "conflict-and-segregation",
-   "name": "Conflict & Segregation",
-   "kind": "Dataset",
-   "series": [
-    "conflict-and-segregation-peacelines"
-   ],
-   "toBeAdded": []
-  },
-  {
    "id": "development-plans-and-zoning",
    "name": "Development Plans & Zoning",
    "kind": "Dataset",
@@ -330,10 +236,7 @@
     "development-plans-and-zoning-roscommon-county-development-plan",
     "development-plans-and-zoning-roscommon-local-area-plans",
     "development-plans-and-zoning-dun-laoghaire-rathdown",
-    "development-plans-and-zoning-dublin-city",
-    "development-plans-and-zoning-south-dublin",
-    "development-plans-and-zoning-cork-city",
-    "development-plans-and-zoning-generalised-zoning-types"
+    "development-plans-and-zoning-other-councils"
    ],
    "toBeAdded": [],
    "seriesKind": "Boundary"
@@ -345,12 +248,7 @@
    "series": [
     "planning-applications-and-registers-planning-application-boundaries",
     "planning-applications-and-registers-planning-exemptions",
-    "planning-applications-and-registers-certificate-of-registration-locations-sdcc",
-    "planning-applications-and-registers-planning-register",
-    "planning-applications-and-registers-eia-location-point",
-    "planning-applications-and-registers-derelict-sites-register",
-    "planning-applications-and-registers-proposed-education-sites",
-    "planning-applications-and-registers-roi-national-planning-applications"
+    "planning-applications-and-registers-planning-registers"
    ],
    "toBeAdded": []
   },
@@ -359,10 +257,7 @@
    "name": "Housing & Regeneration",
    "kind": "Dataset",
    "series": [
-    "housing-and-regeneration-dlr-residential-land-availability",
-    "housing-and-regeneration-dlr-unfinished-housing",
-    "housing-and-regeneration-traveller-accommodation",
-    "housing-and-regeneration-neighbourhood-renewal-areas"
+    "housing-and-regeneration-housing-and-land"
    ],
    "toBeAdded": []
   },
@@ -372,9 +267,7 @@
    "kind": "Dataset",
    "series": [
     "property-land-and-buildings-ni-government-land-and-property-register",
-    "property-land-and-buildings-cadastral-parcels-leasehold",
-    "property-land-and-buildings-building-groups",
-    "property-land-and-buildings-topographic-sites"
+    "property-land-and-buildings-parcels-buildings-and-sites"
    ],
    "toBeAdded": []
   },
@@ -392,18 +285,8 @@
     "roads-and-traffic-way-network",
     "roads-and-traffic-traffic-signals",
     "roads-and-traffic-tii-roadside-sensors",
-    "roads-and-traffic-winter-service-plan-routes-roscommon",
-    "roads-and-traffic-dublin-city-council-traffic-poles-with-cctv",
-    "roads-and-traffic-dublin-city-council-variable-message-signs",
-    "roads-and-traffic-journey-times",
-    "roads-and-traffic-bridges",
-    "roads-and-traffic-roads-schedule",
-    "roads-and-traffic-speed-signs",
-    "roads-and-traffic-transport-network",
-    "roads-and-traffic-border-exits-and-entrances",
-    "roads-and-traffic-roads",
-    "roads-and-traffic-tii-national-road-network",
-    "roads-and-traffic-tii-roadside-marker-plates"
+    "roads-and-traffic-traffic-management-and-signs",
+    "roads-and-traffic-road-network"
    ],
    "toBeAdded": []
   },
@@ -415,23 +298,9 @@
     "cycling-and-walking-bicycle-parking-stands",
     "cycling-and-walking-border-crossings",
     "cycling-and-walking-pedestrian-crossings",
-    "cycling-and-walking-cycleways-sdcc",
-    "cycling-and-walking-gda-cycle-network-survey",
-    "cycling-and-walking-greater-dublin-area-cycle-infrastructure",
-    "cycling-and-walking-bicycle-warning-signs-fcc",
-    "cycling-and-walking-bleeperbike",
-    "cycling-and-walking-dublin-metropolitan-area-existing-protected-cycle-infrastr",
-    "cycling-and-walking-dublin-public-cycle-parking-facilities",
-    "cycling-and-walking-dublinbikes-api",
-    "cycling-and-walking-moby-bikes",
-    "cycling-and-walking-pedestrian-and-cycle-counter-api-for-dublin-region",
-    "cycling-and-walking-public-cycle-parking-stands",
-    "cycling-and-walking-bicycle-counter-locations",
-    "cycling-and-walking-bicycle-maintenance-stands",
-    "cycling-and-walking-right-of-way",
-    "cycling-and-walking-the-metals",
-    "cycling-and-walking-trim-trails",
-    "cycling-and-walking-belfast-cycle-network"
+    "cycling-and-walking-cycle-network",
+    "cycling-and-walking-counters",
+    "cycling-and-walking-walking-routes"
    ],
    "toBeAdded": []
   },
@@ -442,17 +311,9 @@
    "series": [
     "rail-and-public-transport-ni-railways-infrastructure",
     "rail-and-public-transport-rail-network",
-    "rail-and-public-transport-railway-stations",
-    "rail-and-public-transport-railway-stations--ni",
-    "rail-and-public-transport-core-bus-corridors",
-    "rail-and-public-transport-road-and-rail-intersections",
-    "rail-and-public-transport-railways",
-    "rail-and-public-transport-transport-lines",
-    "rail-and-public-transport-translink-bus-stops",
-    "rail-and-public-transport-belfast-metro-and-glider-bus-routes",
-    "rail-and-public-transport-ni-railways-signal-posts",
-    "rail-and-public-transport-ulsterbus-and-goldliner-bus-routes",
-    "rail-and-public-transport-luas-tram-stops"
+    "rail-and-public-transport-stations-and-stops",
+    "rail-and-public-transport-railway-lines",
+    "rail-and-public-transport-bus"
    ],
    "toBeAdded": []
   },
@@ -461,15 +322,8 @@
    "name": "Air & Sea Transport",
    "kind": "Dataset",
    "series": [
-    "air-and-sea-transport-public-moorings-and-piers-roscommon",
-    "air-and-sea-transport-public-slipways-roscommon",
-    "air-and-sea-transport-airfield-area",
-    "air-and-sea-transport-airports",
-    "air-and-sea-transport-ferry-crossing",
-    "air-and-sea-transport-main-harbours",
-    "air-and-sea-transport-other-harbours",
-    "air-and-sea-transport-runways",
-    "air-and-sea-transport-ferry-station"
+    "air-and-sea-transport-airports-group",
+    "air-and-sea-transport-harbours-and-ferries"
    ],
    "toBeAdded": []
   },
@@ -480,8 +334,7 @@
    "series": [
     "parking-accessible-parking",
     "parking-parking-meters",
-    "parking-car-parking-locations-roscommon",
-    "parking-coach-parking"
+    "parking-car-and-coach-parking"
    ],
    "toBeAdded": []
   },
@@ -496,16 +349,8 @@
     "built-heritage-and-protected-structures-listed-buildings",
     "built-heritage-and-protected-structures-defence-heritage-sites",
     "built-heritage-and-protected-structures-industrial-heritage-record",
-    "built-heritage-and-protected-structures-niah-buildings",
-    "built-heritage-and-protected-structures-thatch-building-survey-roscommon",
-    "built-heritage-and-protected-structures-heritage-sites-historic-monuments-and-",
-    "built-heritage-and-protected-structures-burial-grounds",
-    "built-heritage-and-protected-structures-existing-conservation-areas",
-    "built-heritage-and-protected-structures-industrial-heritage-survey-sites",
-    "built-heritage-and-protected-structures-heritage-features",
-    "built-heritage-and-protected-structures-rock-scribing",
-    "built-heritage-and-protected-structures-wedge-tomb",
-    "built-heritage-and-protected-structures-world-heritage-site"
+    "built-heritage-and-protected-structures-heritage-surveys-and-sites",
+    "archaeology-and-monuments-monument-types"
    ],
    "toBeAdded": []
   },
@@ -516,11 +361,7 @@
    "series": [
     "archaeology-and-monuments-ringfort",
     "archaeology-and-monuments-scheduled-historic-monument-areas",
-    "archaeology-and-monuments-record-of-monuments-and-place",
-    "archaeology-and-monuments-bullaun-stones",
-    "archaeology-and-monuments-crannog",
-    "archaeology-and-monuments-standing-stones",
-    "archaeology-and-monuments-sites-and-monuments-record"
+    "archaeology-and-monuments-sites-and-monuments-records"
    ],
    "toBeAdded": []
   },
@@ -530,19 +371,8 @@
    "kind": "Dataset",
    "series": [
     "culture-and-the-arts-libraries",
-    "culture-and-the-arts-museums-collections-archives",
-    "culture-and-the-arts-art-in-the-parks-a-guide-to-sculpture-in-parks-dcc",
-    "culture-and-the-arts-arts-facilities-roscommon",
-    "culture-and-the-arts-tourism-attractions-roscommon",
-    "culture-and-the-arts-westmeath-county-council-libraries",
-    "culture-and-the-arts-dublin-canvas-public-art",
-    "culture-and-the-arts-galleries-exhibition-spaces-open-studios",
-    "culture-and-the-arts-museums-and-archives",
-    "culture-and-the-arts-public-artworks-in-dublin-city",
-    "culture-and-the-arts-theatres-arts-centres-performance-spaces",
-    "culture-and-the-arts-dlr-arts-venues",
-    "culture-and-the-arts-public-art",
-    "culture-and-the-arts-sculpture-trail"
+    "culture-and-the-arts-museums-galleries-and-venues",
+    "culture-and-the-arts-public-artworks"
    ],
    "toBeAdded": []
   },
@@ -554,10 +384,7 @@
     "historic-and-printed-maps-osni-1-1m-thematic",
     "historic-and-printed-maps-osni-map-sheet-coverage-grid",
     "historic-and-printed-maps-osni-historical-six-inch-maps",
-    "historic-and-printed-maps-osni-benchmarks",
-    "historic-and-printed-maps-osni-mid-scale-raster-1-10-000",
-    "historic-and-printed-maps-osni-streetmaps-town-sheets",
-    "historic-and-printed-maps-osni-ire-thuaidh-irish-translated-map"
+    "historic-and-printed-maps-osni-mapping-products"
    ],
    "toBeAdded": []
   },
@@ -571,14 +398,8 @@
     "municipal-services-and-utilities-wifi4eu-access-points",
     "municipal-services-and-utilities-authorised-waste-sites",
     "municipal-services-and-utilities-street-lighting",
-    "municipal-services-and-utilities-water-district-areas-roscommon",
-    "municipal-services-and-utilities-licensed-waste-facilities",
-    "municipal-services-and-utilities-4dublin-pipeline",
-    "municipal-services-and-utilities-civic-amenity-sites-roscommon",
-    "municipal-services-and-utilities-recycle-bring-banks-roscommon",
-    "municipal-services-and-utilities-public-bins",
-    "municipal-services-and-utilities-wifi4eu-eligible-entities",
-    "municipal-services-and-utilities-noise-maps-from-traffic-sources-in-dublin-cit"
+    "municipal-services-and-utilities-water-supply",
+    "municipal-services-and-utilities-waste-and-recycling"
    ],
    "toBeAdded": []
   },
@@ -588,15 +409,8 @@
    "kind": "Dataset",
    "series": [
     "parks-and-open-space-playgrounds",
-    "parks-and-open-space-cork-city-parks",
-    "parks-and-open-space-roscommon-community-parks",
-    "parks-and-open-space-roscommon-public-parks",
-    "parks-and-open-space-allotments-and-community-gardens",
-    "parks-and-open-space-parks-and-open-spaces",
-    "parks-and-open-space-parks-gardens-and-public-spaces",
-    "parks-and-open-space-access-points-to-main-parks",
-    "parks-and-open-space-council-allotments",
-    "parks-and-open-space-main-parks"
+    "parks-and-open-space-parks",
+    "parks-and-open-space-allotments"
    ],
    "toBeAdded": []
   },
@@ -606,14 +420,7 @@
    "kind": "Dataset",
    "series": [
     "sport-and-recreation-skateboard-parks",
-    "sport-and-recreation-angling-stands-roscommon",
-    "sport-and-recreation-sports-facilities-roscommon",
-    "sport-and-recreation-sport-pitches-and-facilities",
-    "sport-and-recreation-swimming-pools",
-    "sport-and-recreation-golf-courses",
-    "sport-and-recreation-leisure-centres",
-    "sport-and-recreation-muga",
-    "sport-and-recreation-tennis-clubs"
+    "sport-and-recreation-sports-and-leisure-facilities"
    ],
    "toBeAdded": []
   },
@@ -622,15 +429,8 @@
    "name": "Community, Education & Civic Facilities",
    "kind": "Dataset",
    "series": [
-    "community-education-and-civic-facilities-county-council-offices-roscommon",
-    "community-education-and-civic-facilities-other-community-facilities",
-    "community-education-and-civic-facilities-adult-learning-centres",
-    "community-education-and-civic-facilities-community-centres",
-    "community-education-and-civic-facilities-local-authority-offices",
-    "community-education-and-civic-facilities-places-of-worship",
-    "community-education-and-civic-facilities-universities-and-colleges",
-    "community-education-and-civic-facilities-council-offices",
-    "community-education-and-civic-facilities-spacefinder-app-locations"
+    "community-education-and-civic-facilities-council-offices-group",
+    "community-education-and-civic-facilities-community-and-education"
    ],
    "toBeAdded": []
   },
@@ -639,9 +439,7 @@
    "name": "Emergency Services",
    "kind": "Dataset",
    "series": [
-    "emergency-services-fire-stations",
-    "emergency-services-dublin-fire-brigade-stations-dublin-region",
-    "emergency-services-garda-station"
+    "emergency-services-fire-stations"
    ],
    "toBeAdded": []
   },
@@ -650,8 +448,7 @@
    "name": "Enterprise & Economy",
    "kind": "Dataset",
    "series": [
-    "enterprise-and-economy-enterprise-centres",
-    "enterprise-and-economy-county-council-markets"
+    "enterprise-and-economy-enterprise-centres-and-markets"
    ],
    "toBeAdded": []
   },
@@ -666,13 +463,9 @@
     "water-quality-water-monitoring-points",
     "water-quality-water-monitoring-points--roi",
     "water-quality-drinking-water-protected-areas",
-    "water-quality-water-framework-directive-2nd-cycle-interim-status",
-    "water-quality-niea-catchment-stakeholder-groups",
-    "water-quality-niea-local-management-areas",
-    "water-quality-niea-river-segments",
-    "water-quality-wfd-surface-water-bodies-status",
-    "water-quality-agricultural-critical-risk-areas",
-    "water-quality-daera-network-contribution-scimap-modelled-pollution-scores-by-r",
+    "water-quality-wfd-status",
+    "water-quality-catchment-management-areas",
+    "water-quality-pollution-risk",
     "water-quality-wq-river-quality-1990-2018",
     "water-quality-wq-aquatroll-realtime",
     "water-quality-wq-ni-water-drinking"
@@ -685,16 +478,8 @@
    "kind": "Dataset",
    "series": [
     "rivers-lakes-and-catchments-water",
-    "rivers-lakes-and-catchments-hydro-nodes",
-    "rivers-lakes-and-catchments-lakes-and-reservoirs",
-    "rivers-lakes-and-catchments-reservoirs",
-    "rivers-lakes-and-catchments-watercourse-start-end-points",
-    "rivers-lakes-and-catchments-waterfalls",
-    "rivers-lakes-and-catchments-water-single-stream",
-    "rivers-lakes-and-catchments-rivers",
-    "rivers-lakes-and-catchments-river-basin-districts",
-    "rivers-lakes-and-catchments-river-basins",
-    "rivers-lakes-and-catchments-major-river-and-coastal-basins"
+    "rivers-lakes-and-catchments-rivers-and-lakes",
+    "rivers-lakes-and-catchments-river-basins-group"
    ],
    "toBeAdded": []
   },
@@ -705,12 +490,7 @@
    "series": [
     "flooding-and-coastal-risk-community-scale-coastal-flood-extents",
     "flooding-and-coastal-risk-groundwater-flooding",
-    "flooding-and-coastal-risk-settlement-flood-zones-roscommon-cdp",
-    "flooding-and-coastal-risk-community-scale-flood-model-nodes-current-scenario",
-    "flooding-and-coastal-risk-national-coastal-flood-extents-current-scenario",
-    "flooding-and-coastal-risk-nifm-river-flood-extents-current-scenario",
-    "flooding-and-coastal-risk-fsu-catchment-boundaries-gauged",
-    "flooding-and-coastal-risk-coastal-flood-boundary-extreme-sea-levels"
+    "flooding-and-coastal-risk-flood-extents"
    ],
    "toBeAdded": []
   },
@@ -720,13 +500,8 @@
    "kind": "Dataset",
    "series": [
     "coasts-seas-and-islands-boundaries-seawater-area",
-    "coasts-seas-and-islands-beaches",
-    "coasts-seas-and-islands-coast",
-    "coasts-seas-and-islands-high-water-mark",
-    "coasts-seas-and-islands-shore",
-    "coasts-seas-and-islands-low-water-mark",
-    "coasts-seas-and-islands-seas",
-    "coasts-seas-and-islands-island-of-ireland"
+    "coasts-seas-and-islands-coastline",
+    "coasts-seas-and-islands-seas-and-island"
    ],
    "toBeAdded": []
   },
@@ -738,10 +513,7 @@
     "nature-habitats-and-designated-sites-habitat-network",
     "nature-habitats-and-designated-sites-designated-and-protected-sites",
     "nature-habitats-and-designated-sites-wetlands-survey",
-    "nature-habitats-and-designated-sites-priority-habitats-peatland",
-    "nature-habitats-and-designated-sites-west-fermanagh-scarplands-sac-habitat-map",
-    "nature-habitats-and-designated-sites-fossitt-habitats-town",
-    "nature-habitats-and-designated-sites-vegetation-areas"
+    "nature-habitats-and-designated-sites-habitat-maps"
    ],
    "toBeAdded": []
   },
@@ -751,12 +523,8 @@
    "kind": "Dataset",
    "series": [
     "trees-hedgerows-and-woodland-wicklow-county-council",
-    "trees-hedgerows-and-woodland-hedgerows",
-    "trees-hedgerows-and-woodland-treelines",
-    "trees-hedgerows-and-woodland-wildlife-corridors",
-    "trees-hedgerows-and-woodland-tree-preservation-orders",
-    "trees-hedgerows-and-woodland-trees-and-woodlands",
-    "trees-hedgerows-and-woodland-trees"
+    "trees-hedgerows-and-woodland-hedgerows-and-corridors",
+    "trees-hedgerows-and-woodland-trees-woodlands-and-tpos"
    ],
    "toBeAdded": []
   },
@@ -768,9 +536,7 @@
     "landscape-and-scenic-amenity-landscape-character-areas",
     "landscape-and-scenic-amenity-scenic-routes-roscommon-cdp",
     "landscape-and-scenic-amenity-scenic-views-roscommon-cdp",
-    "landscape-and-scenic-amenity-landscape-character-types",
-    "landscape-and-scenic-amenity-scenic-views-extents-roscommon-cdp",
-    "landscape-and-scenic-amenity-views-prospects"
+    "landscape-and-scenic-amenity-landscape-character-types"
    ],
    "toBeAdded": []
   },
@@ -779,9 +545,7 @@
    "name": "Land Cover & Land Use",
    "kind": "Dataset",
    "series": [
-    "land-cover-and-land-use-historic-land-use",
-    "land-cover-and-land-use-corine-land-cover",
-    "land-cover-and-land-use-northern-ireland-land-classification"
+    "land-cover-and-land-use-land-cover"
    ],
    "toBeAdded": []
   },
@@ -790,11 +554,7 @@
    "name": "Agriculture & Land Management",
    "kind": "Dataset",
    "series": [
-    "agriculture-and-land-management-ni-bovine-holdings",
-    "agriculture-and-land-management-ni-caprine-holdings",
-    "agriculture-and-land-management-ni-ovine-holdings",
-    "agriculture-and-land-management-ni-porcine-holdings",
-    "agriculture-and-land-management-ni-poultry-holdings"
+    "agriculture-and-land-management-livestock-holdings"
    ],
    "toBeAdded": []
   },
@@ -803,12 +563,8 @@
    "name": "Energy & Climate",
    "kind": "Dataset",
    "series": [
-    "energy-and-climate-areas-suitable-for-windfarm-development-roscommon-cdp",
-    "energy-and-climate-average-wind-speeds-roscommon-cdp",
-    "energy-and-climate-wind-energy-development-potential-roscommon-cdp",
-    "energy-and-climate-dlr-decarbonising-zone",
-    "energy-and-climate-public-ev-charging-points",
-    "energy-and-climate-power-plant"
+    "energy-and-climate-wind-energy-roscommon",
+    "energy-and-climate-energy-infrastructure"
    ],
    "toBeAdded": []
   },
@@ -827,18 +583,9 @@
    "kind": "Dataset",
    "series": [
     "geology-and-soils-bedrock-geology-1-250-000",
-    "geology-and-soils-irish-peat-soils-map",
-    "geology-and-soils-geological-sites-audit-roscommon",
-    "geology-and-soils-northern-ireland-geology",
-    "geology-and-soils-bedrock-boreholes-1-100-000-ireland-itm",
-    "geology-and-soils-bedrock-geology-1-1-000-000-ireland-itm",
-    "geology-and-soils-ni-mineral-prospecting-licences",
-    "geology-and-soils-ni-mining-leases",
-    "geology-and-soils-bedrock-boreholes-1-50-000",
-    "geology-and-soils-karst-data",
-    "geology-and-soils-superficial-geology-1-250-000",
-    "geology-and-soils-mineral-resources",
-    "geology-and-soils-gsni-core-and-cuttings-register"
+    "geology-and-soils-geology-maps",
+    "geology-and-soils-boreholes-and-cores",
+    "geology-and-soils-minerals-and-mining"
    ],
    "toBeAdded": []
   },
@@ -852,7 +599,6 @@
     "geophysics-and-geochemical-survey-tellus-stream-sediments",
     "geophysics-and-geochemical-survey-tellus-magnetic",
     "geophysics-and-geochemical-survey-tellus-electromagnetic",
-    "geophysics-and-geochemical-survey-tellus-stream-waters",
     "geophysics-and-geochemical-survey-tellus-airborne-survey-flight-lines",
     "geophysics-and-geochemical-survey-tellus-mag-raw",
     "geophysics-and-geochemical-survey-tellus-em-raw",
@@ -865,11 +611,7 @@
    "name": "Hills & Uplands",
    "kind": "Dataset",
    "series": [
-    "hills-and-mountains-mountains",
-    "hills-and-mountains-irish-hill-summit-domains",
-    "hills-and-mountains-irish-hill-prominence-domains",
-    "hills-and-mountains-highlands-above-199m",
-    "hills-and-mountains-uninhabited-highlands",
+    "hills-and-mountains-hills-and-highlands",
     "hills-and-mountains-dobih-britain-ireland-hills-and-mountains",
     "hills-and-mountains-dobih-scotland-hills-and-mountains",
     "hills-and-mountains-dobih-england-wales-hills-and-mountains"
@@ -882,8 +624,7 @@
    "kind": "Dataset",
    "series": [
     "aerial-imagery-and-elevation-osni-orthophoto-coverage",
-    "aerial-imagery-and-elevation-osni-river-basin-lidar-stonyford",
-    "aerial-imagery-and-elevation-copernicus-dem-30m",
+    "aerial-imagery-and-elevation-elevation-models",
     "ireland-3d-terrain",
     "ni-river-basin-lidar-3d",
     "lidar-point-clouds"
@@ -895,7 +636,8 @@
    "name": "Regional Divides",
    "kind": "Boundary",
    "series": [
-    "regional-divides-the-bann-divide"
+    "regional-divides-the-bann-divide",
+    "conflict-and-segregation-peacelines"
    ],
    "toBeAdded": []
   },
@@ -932,23 +674,92 @@
     "census-statistics-population-change-1971-1981"
    ],
    "toBeAdded": []
+  },
+  {
+   "id": "government-current",
+   "name": "Current",
+   "kind": "Boundary",
+   "series": [
+    "local-government-municipal-districts",
+    "local-government-local-authorities",
+    "local-government-local-government-districts",
+    "polities-polities",
+    "public-service-areas-garda-areas",
+    "public-service-areas-health-and-social-care-trusts",
+    "language-and-gaeltacht-gaeltacht-areas"
+   ],
+   "toBeAdded": []
+  },
+  {
+   "id": "government-former",
+   "name": "Former",
+   "kind": "Boundary",
+   "series": [
+    "settlements-legal-towns-and-cities",
+    "local-government-administrative-areas",
+    "counties-counties--ni",
+    "local-government-local-authorities--ireland",
+    "public-service-areas-education-and-library-boards"
+   ],
+   "toBeAdded": []
+  },
+  {
+   "id": "elections-current",
+   "name": "Current",
+   "kind": "Boundary",
+   "series": [
+    "electoral-divisions-electoral-divisions",
+    "electoral-divisions-wards",
+    "elections-and-voting-polling-districts",
+    "electoral-divisions-local-electoral-areas",
+    "electoral-divisions-district-electoral-areas",
+    "constituencies-d-il-ireann-constituencies",
+    "constituencies-parliamentary-constituencies",
+    "constituencies-ni-parliament",
+    "constituencies-european-parliament-constituencies",
+    "elections-and-voting-polling-stations",
+    "elections-and-voting-polling-stations--ni",
+    "elections-and-voting-local-election-results-roscommon"
+   ],
+   "toBeAdded": []
+  },
+  {
+   "id": "elections-former",
+   "name": "Former",
+   "kind": "Boundary",
+   "series": [
+    "electoral-divisions-district-electoral-divisions",
+    "electoral-divisions-district-electoral-divisions--ireland",
+    "electoral-divisions-county-electoral-divisions",
+    "electoral-divisions-county-electoral-divisions--ireland",
+    "electoral-divisions-dublin-electoral-counties",
+    "elections-and-voting-av-referendum-counting-areas"
+   ],
+   "toBeAdded": []
   }
  ],
  "series": [
   {
    "id": "local-government-administrative-areas",
    "name": "Administrative Areas",
-   "subject": "local-government",
+   "subject": "government-former",
    "scope": "Northern Ireland",
    "arrangement": "editions",
    "members": [
     "admin-areas-1969-04-01",
-    "admin-areas-1968-04-01",
-    "admin-areas-1967-04-01",
     "admin-areas-1966-07-04",
     "admin-areas-1965-04-01",
-    "admin-areas-1964-06-02",
     "admin-areas-1964-04-01",
+    "admin-areas-1949-04-01",
+    "admin-areas-1937-04-01",
+    "admin-areas-1936-04-01",
+    "admin-areas-1930-04-01"
+   ],
+   "kind": "Boundary",
+   "toBeAdded": [
+    "admin-areas-1968-04-01",
+    "admin-areas-1967-04-01",
+    "admin-areas-1964-06-02",
     "admin-areas-1963-09-13",
     "admin-areas-1963-04-01",
     "admin-areas-1962-04-01",
@@ -961,7 +772,6 @@
     "admin-areas-1949-07-07",
     "admin-areas-1949-07-01",
     "admin-areas-1949-05-30",
-    "admin-areas-1949-04-01",
     "admin-areas-1948-04-01",
     "admin-areas-1947-10-02",
     "admin-areas-1947-04-01",
@@ -972,14 +782,11 @@
     "admin-areas-1938-05-23",
     "admin-areas-1938-05-16",
     "admin-areas-1938-04-01",
-    "admin-areas-1937-04-01",
-    "admin-areas-1936-04-01",
     "admin-areas-1935-06-26",
     "admin-areas-1935-06-25",
     "admin-areas-1934-08-01",
     "admin-areas-1933-04-24",
     "admin-areas-1930-11-25",
-    "admin-areas-1930-04-01",
     "admin-areas-1929-01-23",
     "admin-areas-1929-01-01",
     "admin-areas-1928-04-17",
@@ -1001,7 +808,7 @@
   {
    "id": "local-government-local-authorities",
    "name": "Administrative Counties (Republic of Ireland)",
-   "subject": "local-government",
+   "subject": "government-current",
    "scope": "Republic of Ireland",
    "arrangement": "editions",
    "members": [
@@ -1034,12 +841,13 @@
    ],
    "labels": {
     "dlr-administrative-area": "Dún Laoghaire-Rathdown"
-   }
+   },
+   "kind": "Boundary"
   },
   {
    "id": "local-government-local-authorities--ireland",
    "name": "Administrative Counties (Ireland before partition)",
-   "subject": "local-government",
+   "subject": "government-former",
    "scope": "Ireland",
    "arrangement": "editions",
    "members": [
@@ -1053,7 +861,8 @@
     "local-authorities-1920-06-25": "25/06/1920",
     "local-authorities-1920-06-19": "19/06/1920",
     "local-authorities-1915": "1915"
-   }
+   },
+   "kind": "Boundary"
   },
   {
    "id": "nature-habitats-and-designated-sites-habitat-network",
@@ -1091,7 +900,7 @@
   {
    "id": "constituencies-d-il-ireann-constituencies",
    "name": "Dáil Éireann Constituencies",
-   "subject": "constituencies",
+   "subject": "elections-current",
    "scope": "Republic of Ireland",
    "arrangement": "editions",
    "members": [
@@ -1109,19 +918,20 @@
     "dail-1969",
     "dail-1961",
     "dail-1959",
-    "dail-1947",
-    "oda-map-00101-dail-constituencies-2013-sdcc"
+    "dail-1947"
    ],
    "toBeAdded": [
     "dail-1935",
     "dail-1923"
    ],
-   "variantOf": {
-    "oda-map-00101-dail-constituencies-2013-sdcc": "dail-2013"
-   },
+   "variantOf": {},
    "labels": {
-    "oda-map-00101-dail-constituencies-2013-sdcc": "South Dublin (data.gov.ie)"
-   }
+    "oda-map-00101-dail-constituencies-2013-sdcc": "South Dublin (2013)"
+   },
+   "local": [
+    "oda-map-00101-dail-constituencies-2013-sdcc"
+   ],
+   "kind": "Boundary"
   },
   {
    "id": "roads-and-traffic-ni-road-surface-defects",
@@ -1181,7 +991,7 @@
   {
    "id": "constituencies-parliamentary-constituencies",
    "name": "Westminster Constituencies",
-   "subject": "constituencies",
+   "subject": "elections-current",
    "scope": "Ireland",
    "arrangement": "editions",
    "members": [
@@ -1210,7 +1020,8 @@
     "pc-1885-ireland": "1885",
     "pc-1884": "Northern Ireland part",
     "osni-open-data-50k-boundaries-parliamentary-constituencies": "OSNI 50k"
-   }
+   },
+   "kind": "Boundary"
   },
   {
    "id": "aerial-imagery-and-elevation-osni-orthophoto-coverage",
@@ -1237,7 +1048,7 @@
   {
    "id": "electoral-divisions-electoral-divisions",
    "name": "Electoral Divisions (Republic of Ireland)",
-   "subject": "electoral-divisions",
+   "subject": "elections-current",
    "scope": "Republic of Ireland",
    "arrangement": "editions",
    "members": [
@@ -1277,12 +1088,14 @@
     "district-electoral-divisions-boundaries"
    ],
    "labels": {
-    "dcc-electoral-divisions": "Dublin City",
-    "ed-boundaries-dlr": "Dún Laoghaire-Rathdown",
-    "electoral-divisions-fcc2": "Fingal",
-    "oda-map-00343-galway-city-electoral-divisions": "Galway City",
-    "district-electoral-divisions-boundaries": "Monaghan"
-   }
+    "dcc-electoral-divisions": "Dublin City (2019)",
+    "ed-boundaries-dlr": "Dún Laoghaire-Rathdown (2019)",
+    "electoral-divisions-fcc2": "Fingal (2019)",
+    "oda-map-00343-galway-city-electoral-divisions": "Galway City (2019)",
+    "district-electoral-divisions-boundaries": "Monaghan (2019)",
+    "eds-roi-1921-05-03": "3 May 1921 (1926 boundaries)"
+   },
+   "kind": "Boundary"
   },
   {
    "id": "roads-and-traffic-pothole-enquiries",
@@ -1339,7 +1152,7 @@
   {
    "id": "local-government-local-government-districts",
    "name": "Local Government Districts",
-   "subject": "local-government",
+   "subject": "government-current",
    "scope": "Northern Ireland",
    "arrangement": "editions",
    "members": [
@@ -1354,12 +1167,13 @@
    "variantOf": {
     "osni-open-data-50k-boundaries-local-government-districts-1993": "lgd-1993",
     "osni-open-data-largescale-boundaries-local-government-districts-1993": "lgd-1993"
-   }
+   },
+   "kind": "Boundary"
   },
   {
    "id": "electoral-divisions-wards",
    "name": "Wards",
-   "subject": "electoral-divisions",
+   "subject": "elections-current",
    "scope": "Northern Ireland",
    "arrangement": "editions",
    "members": [
@@ -1377,8 +1191,9 @@
     "mid-ulster-council-wards2"
    ],
    "labels": {
-    "mid-ulster-council-wards2": "Mid Ulster"
-   }
+    "mid-ulster-council-wards2": "Mid Ulster (2012)"
+   },
+   "kind": "Boundary"
   },
   {
    "id": "counties-counties",
@@ -1398,12 +1213,13 @@
   {
    "id": "counties-counties--ni",
    "name": "Administrative Counties (Northern Ireland)",
-   "subject": "local-government",
+   "subject": "government-former",
    "scope": "Northern Ireland",
    "arrangement": "set",
    "members": [
     "counties-county-boroughs-1915"
-   ]
+   ],
+   "kind": "Boundary"
   },
   {
    "id": "nature-habitats-and-designated-sites-designated-and-protected-sites",
@@ -1424,7 +1240,7 @@
   {
    "id": "electoral-divisions-local-electoral-areas",
    "name": "Local Electoral Areas",
-   "subject": "electoral-divisions",
+   "subject": "elections-current",
    "scope": "Republic of Ireland",
    "arrangement": "editions",
    "members": [
@@ -1439,15 +1255,16 @@
     "oda-map-00153-local-election-areas"
    ],
    "labels": {
-    "dlr-local-electoral-areas": "Dún Laoghaire-Rathdown",
-    "oda-map-00140-electoral-areas-roscommon": "Roscommon",
-    "oda-map-00153-local-election-areas": "Galway County"
-   }
+    "dlr-local-electoral-areas": "Dún Laoghaire-Rathdown (2019)",
+    "oda-map-00140-electoral-areas-roscommon": "Roscommon (2014)",
+    "oda-map-00153-local-election-areas": "Galway County (2019)"
+   },
+   "kind": "Boundary"
   },
   {
    "id": "electoral-divisions-district-electoral-areas",
    "name": "District Electoral Areas",
-   "subject": "electoral-divisions",
+   "subject": "elections-current",
    "scope": "Northern Ireland",
    "arrangement": "editions",
    "members": [
@@ -1464,13 +1281,14 @@
     "mid-ulster-council-district-electoral-areas2"
    ],
    "labels": {
-    "mid-ulster-council-district-electoral-areas2": "Mid Ulster"
-   }
+    "mid-ulster-council-district-electoral-areas2": "Mid Ulster (2012)"
+   },
+   "kind": "Boundary"
   },
   {
    "id": "constituencies-european-parliament-constituencies",
    "name": "European Parliament Constituencies",
-   "subject": "constituencies",
+   "subject": "elections-current",
    "scope": "Ireland",
    "arrangement": "editions",
    "members": [
@@ -1480,7 +1298,8 @@
     "mep-2009",
     "mep-2004",
     "mep-1979"
-   ]
+   ],
+   "kind": "Boundary"
   },
   {
    "id": "roads-and-traffic-psni-road-traffic-collisions",
@@ -1610,12 +1429,15 @@
     "tailte-province-boundaries-generalised-20m": "provinces-1955"
    },
    "labels": {
-    "tailte-province-boundaries-generalised-20m": "Generalised (Tailte Éireann)"
+    "tailte-province-boundaries-generalised-20m": "Generalised 20m"
+   },
+   "versionLabels": {
+    "provinces-1955": "Ungeneralised"
    }
   },
   {
    "id": "geophysics-and-geochemical-survey-tellus-stream-sediments",
-   "name": "Tellus Stream Sediments",
+   "name": "Tellus Stream Sediments & Waters",
    "subject": "geophysics-and-geochemical-survey",
    "scope": "Northern Ireland",
    "arrangement": "set",
@@ -1623,17 +1445,21 @@
     "gsni-tellus-stream-sediments-xrf",
     "gsni-tellus-stream-sediments-xrf-set2",
     "gsni-tellus-stream-sediments-au-pge",
-    "gsni-tellus-stream-sediments-boron"
-   ]
+    "gsni-tellus-stream-sediments-boron",
+    "gsni-tellus-stream-waters-icp"
+   ],
+   "labels": {
+    "gsni-tellus-stream-waters-icp": "Tellus Stream Waters"
+   },
+   "kind": "Places"
   },
   {
    "id": "elections-and-voting-polling-stations",
-   "name": "Polling Stations",
-   "subject": "elections-and-voting",
-   "scope": "Ireland",
+   "name": "Polling Stations (Republic of Ireland)",
+   "subject": "elections-current",
+   "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
-    "eoni-polling-stations",
     "oda-map-00152-galway-county-council-polling-stations",
     "oda-map-00159-polling-stations-roscommon",
     "co-wicklow-polling-stations",
@@ -1643,7 +1469,6 @@
     "fingal-polling-station-data"
    ],
    "labels": {
-    "eoni-polling-stations": "Northern Ireland (EONI)",
     "oda-map-00152-galway-county-council-polling-stations": "Galway County",
     "oda-map-00159-polling-stations-roscommon": "Roscommon",
     "co-wicklow-polling-stations": "Wicklow",
@@ -1651,12 +1476,27 @@
     "oda-map-00120-polling-stations-for-general-election-2024-fcc": "Fingal (2024 general election)",
     "oda-map-00121-polling-stations-presidential-election-2025-fcc": "Fingal (2025 presidential election)",
     "fingal-polling-station-data": "Fingal (polling station data)"
+   },
+   "kind": "Places"
+  },
+  {
+   "id": "elections-and-voting-polling-stations--ni",
+   "name": "Polling Stations (Northern Ireland)",
+   "subject": "elections-current",
+   "scope": "Northern Ireland",
+   "arrangement": "set",
+   "members": [
+    "eoni-polling-stations"
+   ],
+   "kind": "Places",
+   "labels": {
+    "eoni-polling-stations": "EONI"
    }
   },
   {
    "id": "public-service-areas-garda-areas",
    "name": "Garda Areas",
-   "subject": "public-service-areas",
+   "subject": "government-current",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
@@ -1664,7 +1504,8 @@
     "roi-garda-divisions",
     "roi-garda-districts",
     "roi-garda-sub-districts"
-   ]
+   ],
+   "kind": "Boundary"
   },
   {
    "id": "water-quality-water-bodies",
@@ -1708,7 +1549,7 @@
   {
    "id": "elections-and-voting-polling-districts",
    "name": "Polling Districts",
-   "subject": "elections-and-voting",
+   "subject": "elections-current",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
@@ -1722,11 +1563,12 @@
   {
    "id": "electoral-divisions-district-electoral-divisions",
    "name": "District Electoral Divisions (Northern Ireland)",
-   "subject": "electoral-divisions",
+   "subject": "elections-former",
    "scope": "Northern Ireland",
    "arrangement": "editions",
    "members": [
     "ded-1930-04-01",
+    "deds-ni-1926",
     "ded-1921-05-03"
    ],
    "toBeAdded": [
@@ -1782,12 +1624,16 @@
     "ded-1922-11-09",
     "ded-1922-11-06",
     "ded-1922-10-31"
-   ]
+   ],
+   "kind": "Boundary",
+   "labels": {
+    "deds-ni-1926": "1926"
+   }
   },
   {
    "id": "electoral-divisions-district-electoral-divisions--ireland",
    "name": "District Electoral Divisions (Ireland before partition)",
-   "subject": "electoral-divisions",
+   "subject": "elections-former",
    "scope": "Ireland",
    "arrangement": "editions",
    "members": [
@@ -1798,7 +1644,8 @@
     "eds-1914",
     "eds-1915",
     "eds-1919-04-01"
-   ]
+   ],
+   "kind": "Boundary"
   },
   {
    "id": "geophysics-and-geochemical-survey-tellus-magnetic",
@@ -1825,49 +1672,73 @@
   },
   {
    "id": "census-small-areas--ni",
-   "name": "Small Areas (Northern Ireland)",
+   "name": "Smallest Census Areas (Northern Ireland)",
    "subject": "census",
    "scope": "Northern Ireland",
-   "arrangement": "set",
+   "arrangement": "editions",
    "members": [
-    "sa-2011"
-   ]
+    "dz-2021",
+    "sa-2011",
+    "oa-2001"
+   ],
+   "labels": {
+    "dz-2021": "2021 Data Zones",
+    "sa-2011": "2011 Small Areas",
+    "oa-2001": "2001 Output Areas"
+   }
   },
   {
    "id": "census-nuts-2-regions",
-   "name": "NUTS 2 Regions",
+   "name": "NUTS Regions",
    "subject": "census",
    "scope": "Ireland",
    "arrangement": "set",
    "members": [
     "nuts-2-all-ireland",
     "tailte-nuts2-boundaries-ungeneralised",
-    "nuts-2-roi"
-   ]
+    "nuts-3",
+    "tailte-nuts3-boundaries-generalised-20m"
+   ],
+   "labels": {
+    "nuts-2-all-ireland": "NUTS 2 (2011)",
+    "tailte-nuts2-boundaries-ungeneralised": "NUTS 2 (2018, Republic of Ireland)",
+    "nuts-3": "NUTS 3 (2003, Northern Ireland)",
+    "tailte-nuts3-boundaries-generalised-20m": "NUTS 3 (2018, Republic of Ireland, generalised 20m)"
+   }
   },
   {
    "id": "noise-and-air-quality-environmental-noise",
    "name": "Environmental Noise",
    "subject": "noise-and-air-quality",
-   "scope": "Northern Ireland",
+   "scope": "Ireland",
    "arrangement": "set",
    "members": [
     "env-noise-major-roads-lden",
     "env-noise-agglomeration-lden",
-    "env-noise-major-rail-lden"
-   ]
+    "env-noise-major-rail-lden",
+    "dcc-noise-maps-from-traffic-sources-in-dublin-city-council"
+   ],
+   "labels": {
+    "dcc-noise-maps-from-traffic-sources-in-dublin-city-council": "Noise Maps From Traffic Sources In Dublin City Council"
+   },
+   "kind": "Places"
   },
   {
    "id": "built-heritage-and-protected-structures-architectural-conservation-areas",
    "name": "Architectural Conservation Areas",
    "subject": "built-heritage-and-protected-structures",
    "scope": "Republic of Ireland",
-   "arrangement": "editions",
+   "arrangement": "set",
    "members": [
     "oda-map-00376-architectural-conservation-areas-roscommon-cdp-2014-2020-expired",
     "oda-map-00377-architectural-conservation-areas-roscommon-cdp-2022-2028",
-    "oda-map-01042-architectural-conservation-areas"
-   ]
+    "oda-map-01042-architectural-conservation-areas",
+    "dlr-existing-conservation-areas"
+   ],
+   "labels": {
+    "dlr-existing-conservation-areas": "Existing Conservation Areas (DLR)"
+   },
+   "kind": "Places"
   },
   {
    "id": "built-heritage-and-protected-structures-protected-structures",
@@ -1895,15 +1766,30 @@
   },
   {
    "id": "cycling-and-walking-bicycle-parking-stands",
-   "name": "Bicycle Parking Stands",
+   "name": "Cycle Parking & Bike Share",
    "subject": "cycling-and-walking",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
     "dlr-bicycle-parking-stands",
     "sdcc-bicycle-parking-stands",
-    "dcc-bike-parking-stands"
-   ]
+    "dcc-bike-parking-stands",
+    "dcc-dublin-public-cycle-parking-facilities",
+    "dcc-dcc-public-cycle-parking-stands",
+    "dlr-bicycle-maintenance-stands",
+    "dcc-bleeperbike",
+    "dcc-dublinbikes-api",
+    "dcc-moby-bikes"
+   ],
+   "labels": {
+    "dcc-dublin-public-cycle-parking-facilities": "Dublin Public Cycle Parking Facilities",
+    "dcc-dcc-public-cycle-parking-stands": "Public Cycle Parking Stands (Dublin City)",
+    "dlr-bicycle-maintenance-stands": "Bicycle Maintenance Stands (DLR)",
+    "dcc-bleeperbike": "Bleeperbike (Dublin City)",
+    "dcc-dublinbikes-api": "Dublinbikes",
+    "dcc-moby-bikes": "Moby Bikes (Dublin City)"
+   },
+   "kind": "Places"
   },
   {
    "id": "cycling-and-walking-border-crossings",
@@ -1938,8 +1824,13 @@
    "members": [
     "oda-map-00620-libraries-roscommon",
     "dcc-dublin-city-libraries",
-    "dlr-libraries"
-   ]
+    "dlr-libraries",
+    "oda-map-00829-westmeath-county-council-libraries"
+   ],
+   "labels": {
+    "oda-map-00829-westmeath-county-council-libraries": "Westmeath County Council Libraries"
+   },
+   "kind": "Places"
   },
   {
    "id": "rail-and-public-transport-rail-network",
@@ -1968,7 +1859,7 @@
   {
    "id": "language-and-gaeltacht-gaeltacht-areas",
    "name": "Gaeltacht Areas",
-   "subject": "language-and-gaeltacht",
+   "subject": "government-current",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
@@ -1980,14 +1871,15 @@
     "tailte-gaeltacht-boundaries-generalised-20m": "roi-gaeltacht-areas"
    },
    "labels": {
-    "tailte-gaeltacht-boundaries-generalised-20m": "Generalised (Tailte Éireann)",
-    "tailte-gaeltacht-language-planning-area-boundaries-generalised-20m": "Language Planning Areas (Tailte Éireann)"
-   }
+    "tailte-gaeltacht-boundaries-generalised-20m": "Generalised 20m",
+    "tailte-gaeltacht-language-planning-area-boundaries-generalised-20m": "Language Planning Areas"
+   },
+   "kind": "Boundary"
   },
   {
    "id": "polities-polities",
    "name": "Polities",
-   "subject": "polities",
+   "subject": "government-current",
    "scope": "Ireland",
    "arrangement": "set",
    "members": [
@@ -2002,7 +1894,8 @@
    },
    "variantOf": {
     "osni-ni-outline": "ni-1921"
-   }
+   },
+   "kind": "Boundary"
   },
   {
    "id": "water-quality-water-monitoring-points",
@@ -2052,18 +1945,21 @@
   {
    "id": "local-government-municipal-districts",
    "name": "Municipal Districts",
-   "subject": "local-government",
+   "subject": "government-current",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
     "roi-municipal-districts-2019"
    ],
    "local": [
-    "oda-map-00639-municipal-district"
+    "oda-map-00639-municipal-district",
+    "oda-map-00647-operational-areas-roscommon"
    ],
    "labels": {
-    "oda-map-00639-municipal-district": "Westmeath"
-   }
+    "oda-map-00639-municipal-district": "Westmeath (2019)",
+    "oda-map-00647-operational-areas-roscommon": "Roscommon (operational areas)"
+   },
+   "kind": "Boundary"
   },
   {
    "id": "nature-habitats-and-designated-sites-wetlands-survey",
@@ -2079,7 +1975,7 @@
   {
    "id": "constituencies-ni-parliament",
    "name": "Northern Ireland Constituencies",
-   "subject": "constituencies",
+   "subject": "elections-current",
    "scope": "Northern Ireland",
    "arrangement": "editions",
    "members": [
@@ -2107,7 +2003,8 @@
     "assembly-areas-1995": "1998 Assembly",
     "assembly-areas-2008": "2008 Assembly",
     "assembly-areas-2023": "2023 Assembly"
-   }
+   },
+   "kind": "Boundary"
   },
   {
    "id": "roads-and-traffic-tii-collision-rates",
@@ -2133,14 +2030,19 @@
   },
   {
    "id": "municipal-services-and-utilities-wifi4eu-access-points",
-   "name": "Wifi4eu Access Points",
+   "name": "WiFi4EU",
    "subject": "municipal-services-and-utilities",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
     "dcc-wifi4eu-access-points",
-    "dlr-wifi4eu-access-points"
-   ]
+    "dlr-wifi4eu-access-points",
+    "dcc-eligible-entities-for-wifi"
+   ],
+   "labels": {
+    "dcc-eligible-entities-for-wifi": "WiFi4EU Eligible Entities (Dublin City)"
+   },
+   "kind": "Places"
   },
   {
    "id": "municipal-services-and-utilities-authorised-waste-sites",
@@ -2209,17 +2111,6 @@
    ]
   },
   {
-   "id": "census-nuts-3-regions",
-   "name": "NUTS 3 Regions",
-   "subject": "census",
-   "scope": "Ireland",
-   "arrangement": "set",
-   "members": [
-    "tailte-nuts3-boundaries-generalised-20m",
-    "nuts-3"
-   ]
-  },
-  {
    "id": "built-heritage-and-protected-structures-record-of-protected-structures-roscomm",
    "name": "Record of Protected Structures - Roscommon CDP",
    "subject": "built-heritage-and-protected-structures",
@@ -2276,14 +2167,21 @@
   },
   {
    "id": "landscape-and-scenic-amenity-scenic-views-roscommon-cdp",
-   "name": "Scenic Views - Roscommon CDP",
+   "name": "Scenic Views & Prospects",
    "subject": "landscape-and-scenic-amenity",
    "scope": "Republic of Ireland",
-   "arrangement": "editions",
+   "arrangement": "set",
    "members": [
     "oda-map-00734-scenic-views-roscommon-cdp-2014-2020",
-    "oda-map-00735-scenic-views-roscommon-cdp-2022-2028"
-   ]
+    "oda-map-00735-scenic-views-roscommon-cdp-2022-2028",
+    "oda-map-00736-scenic-views-extents-roscommon-cdp-2022-2028",
+    "dlr-views-prospects"
+   ],
+   "labels": {
+    "oda-map-00736-scenic-views-extents-roscommon-cdp-2022-2028": "Scenic Views Extents (Roscommon)",
+    "dlr-views-prospects": "Views Prospects (DLR)"
+   },
+   "kind": "Places"
   },
   {
    "id": "landscape-and-scenic-amenity-landscape-character-types",
@@ -2299,13 +2197,14 @@
   {
    "id": "elections-and-voting-local-election-results-roscommon",
    "name": "Local Election Results - Roscommon",
-   "subject": "elections-and-voting",
+   "subject": "elections-current",
    "scope": "Republic of Ireland",
    "arrangement": "editions",
    "members": [
     "oda-map-00154-local-election-results-2014-roscommon",
     "oda-map-00155-local-election-results-2019-roscommon"
-   ]
+   ],
+   "kind": "Places"
   },
   {
    "id": "sport-and-recreation-skateboard-parks",
@@ -2332,24 +2231,28 @@
   {
    "id": "public-service-areas-education-and-library-boards",
    "name": "Education and Library Boards",
-   "subject": "public-service-areas",
+   "subject": "government-former",
    "scope": "Northern Ireland",
    "arrangement": "editions",
    "members": [
     "elb-1993",
     "elb-1984"
-   ]
+   ],
+   "kind": "Boundary"
   },
   {
    "id": "public-service-areas-health-and-social-care-trusts",
    "name": "Health and Social Care Trusts",
-   "subject": "public-service-areas",
+   "subject": "government-current",
    "scope": "Northern Ireland",
    "arrangement": "set",
    "members": [
-    "ni-health-trust-boundaries",
-    "hsct-2007"
-   ]
+    "ni-health-trust-boundaries"
+   ],
+   "kind": "Boundary",
+   "labels": {
+    "ni-health-trust-boundaries": "2007"
+   }
   },
   {
    "id": "geology-and-soils-bedrock-geology-1-250-000",
@@ -2408,14 +2311,21 @@
   },
   {
    "id": "emergency-services-fire-stations",
-   "name": "Fire Stations",
+   "name": "Fire & Garda Stations",
    "subject": "emergency-services",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
     "wicklow-fire-stations",
-    "dcc-fire-stations"
-   ]
+    "dcc-fire-stations",
+    "dcc-dublin-fire-brigade-stations-dublin-region",
+    "dcc-garda-station"
+   ],
+   "labels": {
+    "dcc-dublin-fire-brigade-stations-dublin-region": "Dublin Fire Brigade Stations Dublin Region",
+    "dcc-garda-station": "Garda Station (Dublin City)"
+   },
+   "kind": "Places"
   },
   {
    "id": "parking-parking-meters",
@@ -2451,24 +2361,22 @@
    ]
   },
   {
-   "id": "rail-and-public-transport-railway-stations",
-   "name": "Railway Stations (Republic of Ireland)",
+   "id": "rail-and-public-transport-stations-and-stops",
+   "name": "Rail & Tram Stations",
    "subject": "rail-and-public-transport",
-   "scope": "Republic of Ireland",
+   "scope": "Ireland",
    "arrangement": "set",
    "members": [
-    "tailte-railway-stations"
-   ]
-  },
-  {
-   "id": "rail-and-public-transport-railway-stations--ni",
-   "name": "Railway Stations (Northern Ireland)",
-   "subject": "rail-and-public-transport",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "translink-rail-stations"
-   ]
+    "tailte-railway-stations",
+    "translink-rail-stations",
+    "tii-luas-stops"
+   ],
+   "labels": {
+    "tailte-railway-stations": "Railway Stations (Republic of Ireland)",
+    "translink-rail-stations": "Railway Stations (Northern Ireland)",
+    "tii-luas-stops": "Luas Tram Stops (TII)"
+   },
+   "kind": "Places"
   },
   {
    "id": "archaeology-and-monuments-scheduled-historic-monument-areas",
@@ -2577,7 +2485,8 @@
    "arrangement": "set",
    "members": [
     "catholic-dublin-parishes"
-   ]
+   ],
+   "undated": true
   },
   {
    "id": "ecclesiastical-areas-catholic-dioceses-and-parishes--ireland",
@@ -2590,49 +2499,29 @@
    ]
   },
   {
-   "id": "nature-habitats-and-designated-sites-priority-habitats-peatland",
-   "name": "Priority Habitats — Peatland",
+   "id": "nature-habitats-and-designated-sites-habitat-maps",
+   "name": "Habitat Maps",
    "subject": "nature-habitats-and-designated-sites",
-   "scope": "Northern Ireland",
+   "scope": "Ireland",
    "arrangement": "set",
    "members": [
-    "ni-priority-habitats-peatland"
-   ]
-  },
-  {
-   "id": "nature-habitats-and-designated-sites-west-fermanagh-scarplands-sac-habitat-map",
-   "name": "West Fermanagh Scarplands SAC Habitat Map",
-   "subject": "nature-habitats-and-designated-sites",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "west-fermanagh-scarplands-sac-habitat"
-   ]
-  },
-  {
-   "id": "nature-habitats-and-designated-sites-fossitt-habitats-town",
-   "name": "Fossitt Habitats — Town",
-   "subject": "nature-habitats-and-designated-sites",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00571-fossit-3-town"
-   ]
-  },
-  {
-   "id": "nature-habitats-and-designated-sites-vegetation-areas",
-   "name": "Vegetation Areas",
-   "subject": "nature-habitats-and-designated-sites",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
+    "ni-priority-habitats-peatland",
+    "west-fermanagh-scarplands-sac-habitat",
+    "oda-map-00571-fossit-3-town",
     "tailte-vegetation-areas"
-   ]
+   ],
+   "labels": {
+    "ni-priority-habitats-peatland": "Priority Habitats — Peatland",
+    "west-fermanagh-scarplands-sac-habitat": "West Fermanagh Scarplands SAC Habitat Map",
+    "oda-map-00571-fossit-3-town": "Fossitt Habitats — Town",
+    "tailte-vegetation-areas": "Vegetation Areas"
+   },
+   "kind": "Places"
   },
   {
    "id": "electoral-divisions-county-electoral-divisions",
    "name": "County Electoral Divisions",
-   "subject": "electoral-divisions",
+   "subject": "elections-former",
    "scope": "Northern Ireland",
    "arrangement": "set",
    "members": [],
@@ -2690,327 +2579,198 @@
     "county-ed-1922-11-06",
     "county-ed-1922-10-31",
     "county-ed-1921-05-03"
-   ]
+   ],
+   "kind": "Boundary"
+  },
+  {
+   "id": "electoral-divisions-county-electoral-divisions--ireland",
+   "name": "County Electoral Divisions (Ireland before partition)",
+   "subject": "elections-former",
+   "scope": "Ireland",
+   "arrangement": "editions",
+   "members": [
+    "county-ed-1911"
+   ],
+   "kind": "Boundary"
   },
   {
    "id": "electoral-divisions-dublin-electoral-counties",
    "name": "Dublin Electoral Counties",
-   "subject": "electoral-divisions",
+   "subject": "elections-former",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
     "dublin-electoral-counties-1985"
-   ]
+   ],
+   "kind": "Boundary"
   },
   {
-   "id": "aerial-imagery-and-elevation-osni-river-basin-lidar-stonyford",
-   "name": "OSNI River Basin LiDAR — Stonyford",
-   "subject": "aerial-imagery-and-elevation",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "osni-lidar-stonyford-2014"
-   ]
-  },
-  {
-   "id": "aerial-imagery-and-elevation-copernicus-dem-30m",
-   "name": "Copernicus DEM 30m",
+   "id": "aerial-imagery-and-elevation-elevation-models",
+   "name": "Elevation Models",
    "subject": "aerial-imagery-and-elevation",
    "scope": "Ireland",
    "arrangement": "set",
    "members": [
-    "copernicus-dem-30m-ireland"
-   ]
+    "copernicus-dem-30m-ireland",
+    "osni-lidar-stonyford-2014"
+   ],
+   "labels": {
+    "copernicus-dem-30m-ireland": "Copernicus DEM 30m",
+    "osni-lidar-stonyford-2014": "River Basin LiDAR — Stonyford"
+   },
+   "kind": "Places"
   },
   {
-   "id": "roads-and-traffic-winter-service-plan-routes-roscommon",
-   "name": "Winter Service Plan Routes - Roscommon",
+   "id": "roads-and-traffic-traffic-management-and-signs",
+   "name": "Traffic Management & Road Signs",
    "subject": "roads-and-traffic",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
+    "dcc-dublin-city-council-traffic-poles-with-cctv",
+    "dcc-dublin-city-council-variable-message-signs",
+    "dcc-journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system",
+    "dlr-speed-signs",
+    "tii-marker-plates",
     "oda-map-00862-winter-service-plan-routes-roscommon"
-   ]
+   ],
+   "labels": {
+    "dcc-dublin-city-council-traffic-poles-with-cctv": "Traffic Poles With Cctv (Dublin City)",
+    "dcc-dublin-city-council-variable-message-signs": "Variable Message Signs (Dublin City)",
+    "dcc-journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system": "Journey Times (Dublin City)",
+    "dlr-speed-signs": "Speed Signs (DLR)",
+    "tii-marker-plates": "Roadside Marker Plates (TII)",
+    "oda-map-00862-winter-service-plan-routes-roscommon": "Winter Service Plan Routes (Roscommon)"
+   },
+   "kind": "Places"
   },
   {
-   "id": "roads-and-traffic-dublin-city-council-traffic-poles-with-cctv",
-   "name": "Dublin City Council Traffic Poles With Cctv",
+   "id": "roads-and-traffic-road-network",
+   "name": "Road Network",
    "subject": "roads-and-traffic",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
-    "dcc-dublin-city-council-traffic-poles-with-cctv"
-   ]
-  },
-  {
-   "id": "roads-and-traffic-dublin-city-council-variable-message-signs",
-   "name": "Dublin City Council Variable Message Signs",
-   "subject": "roads-and-traffic",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dcc-dublin-city-council-variable-message-signs"
-   ]
-  },
-  {
-   "id": "roads-and-traffic-journey-times",
-   "name": "Journey Times",
-   "subject": "roads-and-traffic",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dcc-journey-times-across-dublin-city-from-dublin-city-council-traffic-departments-trips-system"
-   ]
-  },
-  {
-   "id": "roads-and-traffic-bridges",
-   "name": "Bridges",
-   "subject": "roads-and-traffic",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
+    "tailte-roads",
+    "tii-national-road-network",
+    "tailte-border-exits-entrances",
+    "dlr-transport",
+    "dlr-dlr-roads-schedule",
     "dlr-bridges"
-   ]
+   ],
+   "labels": {
+    "tailte-roads": "Roads",
+    "tii-national-road-network": "National Road Network (TII)",
+    "tailte-border-exits-entrances": "Border Exits & Entrances",
+    "dlr-transport": "Transport Network (DLR)",
+    "dlr-dlr-roads-schedule": "Roads Schedule (DLR)",
+    "dlr-bridges": "Bridges (DLR)"
+   },
+   "kind": "Places"
   },
   {
-   "id": "roads-and-traffic-roads-schedule",
-   "name": "Roads Schedule",
-   "subject": "roads-and-traffic",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dlr-dlr-roads-schedule"
-   ]
-  },
-  {
-   "id": "roads-and-traffic-speed-signs",
-   "name": "Speed Signs",
-   "subject": "roads-and-traffic",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dlr-speed-signs"
-   ]
-  },
-  {
-   "id": "roads-and-traffic-transport-network",
-   "name": "Transport Network",
-   "subject": "roads-and-traffic",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dlr-transport"
-   ]
-  },
-  {
-   "id": "roads-and-traffic-border-exits-and-entrances",
-   "name": "Border Exits & Entrances",
-   "subject": "roads-and-traffic",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "tailte-border-exits-entrances"
-   ]
-  },
-  {
-   "id": "roads-and-traffic-roads",
-   "name": "Roads",
-   "subject": "roads-and-traffic",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "tailte-roads"
-   ]
-  },
-  {
-   "id": "roads-and-traffic-tii-national-road-network",
-   "name": "TII National Road Network",
-   "subject": "roads-and-traffic",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "tii-national-road-network"
-   ]
-  },
-  {
-   "id": "roads-and-traffic-tii-roadside-marker-plates",
-   "name": "TII Roadside Marker Plates",
-   "subject": "roads-and-traffic",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "tii-marker-plates"
-   ]
-  },
-  {
-   "id": "water-quality-water-framework-directive-2nd-cycle-interim-status",
-   "name": "Water Framework Directive 2nd Cycle Interim Status",
+   "id": "water-quality-wfd-status",
+   "name": "Water Framework Directive Status (Northern Ireland)",
    "subject": "water-quality",
-   "scope": "",
+   "scope": "Ireland",
    "arrangement": "set",
    "members": [
-    "water-framework-directive-2nd-cycle-interim-status1"
-   ]
-  },
-  {
-   "id": "water-quality-niea-catchment-stakeholder-groups",
-   "name": "NIEA Catchment Stakeholder Groups",
-   "subject": "water-quality",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "niea-catchment-stakeholder-groups"
-   ]
-  },
-  {
-   "id": "water-quality-niea-local-management-areas",
-   "name": "NIEA Local Management Areas",
-   "subject": "water-quality",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "niea-local-management-areas"
-   ]
-  },
-  {
-   "id": "water-quality-niea-river-segments",
-   "name": "NIEA River Segments",
-   "subject": "water-quality",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
+    "water-framework-directive-2nd-cycle-interim-status1",
+    "wq-surface-water-bodies-2015",
     "niea-river-segments"
-   ]
+   ],
+   "labels": {
+    "water-framework-directive-2nd-cycle-interim-status1": "Water Framework Directive 2nd Cycle Interim Status",
+    "wq-surface-water-bodies-2015": "WFD Surface Water Bodies — Status",
+    "niea-river-segments": "River Segments"
+   },
+   "kind": "Places"
   },
   {
-   "id": "water-quality-wfd-surface-water-bodies-status",
-   "name": "WFD Surface Water Bodies — Status",
+   "id": "water-quality-catchment-management-areas",
+   "name": "Catchment Management Areas (Northern Ireland)",
    "subject": "water-quality",
    "scope": "Northern Ireland",
    "arrangement": "set",
    "members": [
-    "wq-surface-water-bodies-2015"
-   ]
+    "niea-catchment-stakeholder-groups",
+    "niea-local-management-areas"
+   ],
+   "labels": {
+    "niea-catchment-stakeholder-groups": "Catchment Stakeholder Groups",
+    "niea-local-management-areas": "Local Management Areas"
+   },
+   "kind": "Places"
   },
   {
-   "id": "water-quality-agricultural-critical-risk-areas",
-   "name": "Agricultural Critical Risk Areas",
+   "id": "water-quality-pollution-risk",
+   "name": "Water Pollution Risk (Northern Ireland)",
    "subject": "water-quality",
    "scope": "Northern Ireland",
    "arrangement": "set",
    "members": [
-    "wq-agricultural-critical-risk"
-   ]
-  },
-  {
-   "id": "water-quality-daera-network-contribution-scimap-modelled-pollution-scores-by-r",
-   "name": "DAERA Network Contribution — SciMAP modelled pollution scores by river basin",
-   "subject": "water-quality",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
+    "wq-agricultural-critical-risk",
     "wq-network-contribution"
-   ]
+   ],
+   "labels": {
+    "wq-agricultural-critical-risk": "Agricultural Critical Risk Areas",
+    "wq-network-contribution": "DAERA Network Contribution — SciMAP modelled pollution scores by river basin"
+   },
+   "kind": "Places"
   },
   {
-   "id": "property-land-and-buildings-cadastral-parcels-leasehold",
-   "name": "Cadastral Parcels Leasehold",
+   "id": "property-land-and-buildings-parcels-buildings-and-sites",
+   "name": "Parcels, Buildings & Sites",
    "subject": "property-land-and-buildings",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
-    "tailte-hvd-cadastral-parcels-leasehold"
-   ]
+    "tailte-hvd-cadastral-parcels-leasehold",
+    "tailte-hvd-building-groups",
+    "tailte-hvd-sites"
+   ],
+   "labels": {
+    "tailte-hvd-cadastral-parcels-leasehold": "Cadastral Parcels Leasehold",
+    "tailte-hvd-building-groups": "Building Groups",
+    "tailte-hvd-sites": "Topographic Sites"
+   },
+   "kind": "Places"
   },
   {
-   "id": "municipal-services-and-utilities-water-district-areas-roscommon",
-   "name": "Water District Areas - Roscommon",
+   "id": "municipal-services-and-utilities-water-supply",
+   "name": "Water Supply Areas & Pipelines",
    "subject": "municipal-services-and-utilities",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
-    "oda-map-00822-water-district-areas-roscommon"
-   ]
-  },
-  {
-   "id": "municipal-services-and-utilities-licensed-waste-facilities",
-   "name": "Licensed Waste Facilities",
-   "subject": "municipal-services-and-utilities",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "ni-licensed-waste-facilities"
-   ]
-  },
-  {
-   "id": "municipal-services-and-utilities-4dublin-pipeline",
-   "name": "4Dublin Pipeline",
-   "subject": "municipal-services-and-utilities",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
+    "oda-map-00822-water-district-areas-roscommon",
     "oda-map-00205-4dublin-pipeline-all"
-   ]
+   ],
+   "labels": {
+    "oda-map-00822-water-district-areas-roscommon": "Water District Areas (Roscommon)",
+    "oda-map-00205-4dublin-pipeline-all": "4Dublin Pipeline"
+   },
+   "kind": "Places"
   },
   {
-   "id": "municipal-services-and-utilities-civic-amenity-sites-roscommon",
-   "name": "Civic Amenity Sites - Roscommon",
+   "id": "municipal-services-and-utilities-waste-and-recycling",
+   "name": "Waste & Recycling",
    "subject": "municipal-services-and-utilities",
-   "scope": "Republic of Ireland",
+   "scope": "Ireland",
    "arrangement": "set",
    "members": [
-    "oda-map-00454-civic-amenity-sites-roscommon"
-   ]
-  },
-  {
-   "id": "municipal-services-and-utilities-recycle-bring-banks-roscommon",
-   "name": "Recycle Bring Banks - Roscommon",
-   "subject": "municipal-services-and-utilities",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00698-recycle-bring-banks-roscommon"
-   ]
-  },
-  {
-   "id": "municipal-services-and-utilities-public-bins",
-   "name": "Public Bins",
-   "subject": "municipal-services-and-utilities",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
+    "ni-licensed-waste-facilities",
+    "oda-map-00454-civic-amenity-sites-roscommon",
+    "oda-map-00698-recycle-bring-banks-roscommon",
     "dcc-dcc-public-bin-locations"
-   ]
-  },
-  {
-   "id": "municipal-services-and-utilities-wifi4eu-eligible-entities",
-   "name": "WiFi4EU Eligible Entities",
-   "subject": "municipal-services-and-utilities",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dcc-eligible-entities-for-wifi"
-   ]
-  },
-  {
-   "id": "municipal-services-and-utilities-noise-maps-from-traffic-sources-in-dublin-cit",
-   "name": "Noise Maps From Traffic Sources In Dublin City Council",
-   "subject": "municipal-services-and-utilities",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dcc-noise-maps-from-traffic-sources-in-dublin-city-council"
-   ]
-  },
-  {
-   "id": "geophysics-and-geochemical-survey-tellus-stream-waters",
-   "name": "Tellus Stream Waters",
-   "subject": "geophysics-and-geochemical-survey",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "gsni-tellus-stream-waters-icp"
-   ]
+   ],
+   "labels": {
+    "ni-licensed-waste-facilities": "Licensed Waste Facilities",
+    "oda-map-00454-civic-amenity-sites-roscommon": "Civic Amenity Sites (Roscommon)",
+    "oda-map-00698-recycle-bring-banks-roscommon": "Recycle Bring Banks (Roscommon)",
+    "dcc-dcc-public-bin-locations": "Public Bins (Dublin City)"
+   },
+   "kind": "Places"
   },
   {
    "id": "geophysics-and-geochemical-survey-tellus-airborne-survey-flight-lines",
@@ -3023,44 +2783,24 @@
    ]
   },
   {
-   "id": "historic-and-printed-maps-osni-benchmarks",
-   "name": "OSNI Benchmarks",
+   "id": "historic-and-printed-maps-osni-mapping-products",
+   "name": "OSNI Mapping Products",
    "subject": "historic-and-printed-maps",
    "scope": "Northern Ireland",
    "arrangement": "set",
    "members": [
-    "osni-benchmarks"
-   ]
-  },
-  {
-   "id": "historic-and-printed-maps-osni-mid-scale-raster-1-10-000",
-   "name": "OSNI Mid-Scale Raster — 1:10,000",
-   "subject": "historic-and-printed-maps",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "osni-mid-scale-raster"
-   ]
-  },
-  {
-   "id": "historic-and-printed-maps-osni-streetmaps-town-sheets",
-   "name": "OSNI StreetMaps — Town Sheets",
-   "subject": "historic-and-printed-maps",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "osni-streetmaps"
-   ]
-  },
-  {
-   "id": "historic-and-printed-maps-osni-ire-thuaidh-irish-translated-map",
-   "name": "OSNI Éire Thuaidh — Irish-Translated Map",
-   "subject": "historic-and-printed-maps",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
+    "osni-benchmarks",
+    "osni-mid-scale-raster",
+    "osni-streetmaps",
     "osni-eire-thuaidh"
-   ]
+   ],
+   "labels": {
+    "osni-benchmarks": "Benchmarks",
+    "osni-mid-scale-raster": "Mid-Scale Raster — 1:10,000",
+    "osni-streetmaps": "StreetMaps — Town Sheets",
+    "osni-eire-thuaidh": "Éire Thuaidh — Irish-Translated Map"
+   },
+   "kind": "Places"
   },
   {
    "id": "settlements-rural-areas",
@@ -3095,12 +2835,13 @@
   {
    "id": "settlements-legal-towns-and-cities",
    "name": "Legal Towns and Cities",
-   "subject": "local-government",
+   "subject": "government-former",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
     "roi-legal-towns-and-cities"
-   ]
+   ],
+   "kind": "Boundary"
   },
   {
    "id": "settlements-cso-urban-areas",
@@ -3123,47 +2864,21 @@
    ]
   },
   {
-   "id": "census-data-zone",
-   "name": "Data Zone",
-   "subject": "census",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "dz-2021"
-   ]
-  },
-  {
-   "id": "census-output-area",
-   "name": "Output Area",
-   "subject": "census",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "oa-2001"
-   ]
-  },
-  {
-   "id": "census-super-data-zone",
-   "name": "Super Data Zone",
-   "subject": "census",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "sdz-2021"
-   ],
-   "toBeAdded": [
-    "wards-2001"
-   ]
-  },
-  {
    "id": "census-super-output-area",
-   "name": "Super Output Area",
+   "name": "Intermediate Census Areas (Northern Ireland)",
    "subject": "census",
    "scope": "Northern Ireland",
-   "arrangement": "set",
+   "arrangement": "editions",
    "members": [
-    "soa-2011"
-   ]
+    "sdz-2021",
+    "soa-2011",
+    "wards-2001"
+   ],
+   "labels": {
+    "sdz-2021": "2021 Super Data Zones",
+    "soa-2011": "2011 Super Output Areas",
+    "wards-2001": "2001 Wards (the 1993 wards)"
+   }
   },
   {
    "id": "census-census-grid",
@@ -3176,1492 +2891,666 @@
    ]
   },
   {
-   "id": "built-heritage-and-protected-structures-niah-buildings",
-   "name": "NIAH Buildings",
+   "id": "built-heritage-and-protected-structures-heritage-surveys-and-sites",
+   "name": "Heritage Surveys & Sites",
    "subject": "built-heritage-and-protected-structures",
-   "scope": "",
+   "scope": "Ireland",
    "arrangement": "set",
    "members": [
-    "niah-buildings"
-   ]
-  },
-  {
-   "id": "built-heritage-and-protected-structures-thatch-building-survey-roscommon",
-   "name": "Thatch Building Survey - Roscommon",
-   "subject": "built-heritage-and-protected-structures",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00786-thatch-building-survey-roscommon"
-   ]
-  },
-  {
-   "id": "built-heritage-and-protected-structures-heritage-sites-historic-monuments-and-",
-   "name": "Heritage Sites Historic Monuments And Government Buildings",
-   "subject": "built-heritage-and-protected-structures",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dcc-heritage-sites-historic-monuments-and-government-buildings"
-   ]
-  },
-  {
-   "id": "built-heritage-and-protected-structures-burial-grounds",
-   "name": "Burial Grounds",
-   "subject": "built-heritage-and-protected-structures",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dlr-burial-grounds"
-   ]
-  },
-  {
-   "id": "built-heritage-and-protected-structures-existing-conservation-areas",
-   "name": "Existing Conservation Areas",
-   "subject": "built-heritage-and-protected-structures",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dlr-existing-conservation-areas"
-   ]
-  },
-  {
-   "id": "built-heritage-and-protected-structures-industrial-heritage-survey-sites",
-   "name": "Industrial Heritage Survey Sites",
-   "subject": "built-heritage-and-protected-structures",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dlr-industrial-heritage-survey-sites"
-   ]
-  },
-  {
-   "id": "built-heritage-and-protected-structures-heritage-features",
-   "name": "Heritage Features",
-   "subject": "built-heritage-and-protected-structures",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "tailte-heritage"
-   ]
-  },
-  {
-   "id": "built-heritage-and-protected-structures-rock-scribing",
-   "name": "Rock Scribing",
-   "subject": "built-heritage-and-protected-structures",
-   "scope": "",
-   "arrangement": "set",
-   "members": [
-    "historic-rock-scribing"
-   ]
-  },
-  {
-   "id": "built-heritage-and-protected-structures-wedge-tomb",
-   "name": "Wedge Tomb",
-   "subject": "built-heritage-and-protected-structures",
-   "scope": "",
-   "arrangement": "set",
-   "members": [
-    "historic-wedge-tomb"
-   ]
-  },
-  {
-   "id": "built-heritage-and-protected-structures-world-heritage-site",
-   "name": "World Heritage Site",
-   "subject": "built-heritage-and-protected-structures",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
+    "niah-buildings",
+    "oda-map-00786-thatch-building-survey-roscommon",
+    "dlr-industrial-heritage-survey-sites",
+    "dcc-heritage-sites-historic-monuments-and-government-buildings",
+    "tailte-heritage",
+    "dlr-burial-grounds",
     "designated-whs"
-   ]
+   ],
+   "labels": {
+    "niah-buildings": "NIAH Buildings",
+    "oda-map-00786-thatch-building-survey-roscommon": "Thatch Building Survey (Roscommon)",
+    "dlr-industrial-heritage-survey-sites": "Industrial Heritage Survey Sites (DLR)",
+    "dcc-heritage-sites-historic-monuments-and-government-buildings": "Heritage Sites Historic Monuments And Government Buildings (Dublin City)",
+    "tailte-heritage": "Heritage Features",
+    "dlr-burial-grounds": "Burial Grounds (DLR)",
+    "designated-whs": "World Heritage Site"
+   },
+   "kind": "Places"
   },
   {
-   "id": "development-plans-and-zoning-generalised-zoning-types",
-   "name": "Generalised Zoning Types",
-   "subject": "development-plans-and-zoning",
-   "scope": "Republic of Ireland",
+   "id": "archaeology-and-monuments-monument-types",
+   "name": "Monuments by Type (Historic Maps)",
+   "subject": "built-heritage-and-protected-structures",
+   "scope": "",
    "arrangement": "set",
    "members": [
-    "oda-map-00224-gzt-current-plan"
-   ]
-  },
-  {
-   "id": "landscape-and-scenic-amenity-scenic-views-extents-roscommon-cdp",
-   "name": "Scenic Views Extents - Roscommon CDP",
-   "subject": "landscape-and-scenic-amenity",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00736-scenic-views-extents-roscommon-cdp-2022-2028"
-   ]
-  },
-  {
-   "id": "landscape-and-scenic-amenity-views-prospects",
-   "name": "Views Prospects",
-   "subject": "landscape-and-scenic-amenity",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dlr-views-prospects"
-   ]
+    "historic-rock-scribing",
+    "historic-wedge-tomb",
+    "historic-bullaun-stones",
+    "historic-crannog",
+    "historic-standing-stones"
+   ],
+   "labels": {
+    "historic-rock-scribing": "Rock Scribing",
+    "historic-wedge-tomb": "Wedge Tomb",
+    "historic-bullaun-stones": "Bullaun Stones",
+    "historic-crannog": "Crannog",
+    "historic-standing-stones": "Standing Stones"
+   },
+   "kind": "Places"
   },
   {
    "id": "elections-and-voting-av-referendum-counting-areas",
    "name": "AV Referendum Counting Areas",
-   "subject": "elections-and-voting",
+   "subject": "elections-former",
    "scope": "Northern Ireland",
    "arrangement": "set",
    "members": [
     "av-referendum-2011"
    ],
-   "toBeAdded": [
-    "eu-referendum-2016",
-    "common-market-1975",
-    "border-poll-1973",
-    "av-turnout-2011",
-    "belfast-agreement-1998"
-   ],
+   "toBeAdded": [],
    "kind": "Boundary"
   },
   {
-   "id": "sport-and-recreation-angling-stands-roscommon",
-   "name": "Angling Stands - Roscommon",
+   "id": "sport-and-recreation-sports-and-leisure-facilities",
+   "name": "Sports & Leisure Facilities",
    "subject": "sport-and-recreation",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
-    "oda-map-00370-angling-stands-roscommon"
-   ]
-  },
-  {
-   "id": "sport-and-recreation-sports-facilities-roscommon",
-   "name": "Sports Facilities - Roscommon",
-   "subject": "sport-and-recreation",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00755-sports-facilities-roscommon"
-   ]
-  },
-  {
-   "id": "sport-and-recreation-sport-pitches-and-facilities",
-   "name": "Sport Pitches And Facilities",
-   "subject": "sport-and-recreation",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dcc-sport-pitches-and-facilities"
-   ]
-  },
-  {
-   "id": "sport-and-recreation-swimming-pools",
-   "name": "Swimming Pools",
-   "subject": "sport-and-recreation",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dcc-swimming-pools"
-   ]
-  },
-  {
-   "id": "sport-and-recreation-golf-courses",
-   "name": "Golf Courses",
-   "subject": "sport-and-recreation",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dlr-golf-courses"
-   ]
-  },
-  {
-   "id": "sport-and-recreation-leisure-centres",
-   "name": "Leisure Centres",
-   "subject": "sport-and-recreation",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dlr-leisure-centres"
-   ]
-  },
-  {
-   "id": "sport-and-recreation-muga",
-   "name": "Muga",
-   "subject": "sport-and-recreation",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dlr-muga"
-   ]
-  },
-  {
-   "id": "sport-and-recreation-tennis-clubs",
-   "name": "Tennis Clubs",
-   "subject": "sport-and-recreation",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
+    "oda-map-00370-angling-stands-roscommon",
+    "oda-map-00755-sports-facilities-roscommon",
+    "dcc-sport-pitches-and-facilities",
+    "dcc-swimming-pools",
+    "dlr-golf-courses",
+    "dlr-leisure-centres",
+    "dlr-muga",
     "dlr-tennis-clubs"
-   ]
+   ],
+   "labels": {
+    "oda-map-00370-angling-stands-roscommon": "Angling Stands (Roscommon)",
+    "oda-map-00755-sports-facilities-roscommon": "Sports Facilities (Roscommon)",
+    "dcc-sport-pitches-and-facilities": "Sport Pitches And Facilities (Dublin City)",
+    "dcc-swimming-pools": "Swimming Pools (Dublin City)",
+    "dlr-golf-courses": "Golf Courses (DLR)",
+    "dlr-leisure-centres": "Leisure Centres (DLR)",
+    "dlr-muga": "Muga (DLR)",
+    "dlr-tennis-clubs": "Tennis Clubs (DLR)"
+   },
+   "kind": "Places"
   },
   {
-   "id": "cycling-and-walking-cycleways-sdcc",
-   "name": "Cycleways SDCC",
+   "id": "cycling-and-walking-cycle-network",
+   "name": "Cycle Network & Infrastructure",
    "subject": "cycling-and-walking",
-   "scope": "Republic of Ireland",
+   "scope": "Ireland",
    "arrangement": "set",
    "members": [
-    "oda-map-00497-cycleways-sdcc"
-   ]
-  },
-  {
-   "id": "cycling-and-walking-gda-cycle-network-survey",
-   "name": "GDA Cycle Network Survey",
-   "subject": "cycling-and-walking",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "cycle-network-survey"
-   ]
-  },
-  {
-   "id": "cycling-and-walking-greater-dublin-area-cycle-infrastructure",
-   "name": "Greater Dublin Area Cycle Infrastructure",
-   "subject": "cycling-and-walking",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "greater-dublin-area-cycle-infrastructure-nta"
-   ]
-  },
-  {
-   "id": "cycling-and-walking-bicycle-warning-signs-fcc",
-   "name": "Bicycle Warning Signs FCC",
-   "subject": "cycling-and-walking",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
+    "oda-map-00497-cycleways-sdcc",
+    "cycle-network-survey",
+    "greater-dublin-area-cycle-infrastructure-nta",
+    "dcc-dublin-metropolitan-area-existing-protected-cycle-infrastructure-2025",
+    "belfast-cycle-network",
     "oda-map-00415-bicycle-warning-signs-fcc"
-   ]
+   ],
+   "labels": {
+    "oda-map-00497-cycleways-sdcc": "Cycleways (South Dublin)",
+    "cycle-network-survey": "GDA Cycle Network Survey",
+    "greater-dublin-area-cycle-infrastructure-nta": "Greater Dublin Area Cycle Infrastructure",
+    "dcc-dublin-metropolitan-area-existing-protected-cycle-infrastructure-2025": "Dublin Metropolitan Area Existing Protected Cycle Infrastructure",
+    "belfast-cycle-network": "Belfast Cycle Network",
+    "oda-map-00415-bicycle-warning-signs-fcc": "Bicycle Warning Signs (Fingal)"
+   },
+   "kind": "Places"
   },
   {
-   "id": "cycling-and-walking-bleeperbike",
-   "name": "Bleeperbike",
+   "id": "cycling-and-walking-counters",
+   "name": "Cycle & Pedestrian Counters",
    "subject": "cycling-and-walking",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
-    "dcc-bleeperbike"
-   ]
-  },
-  {
-   "id": "cycling-and-walking-dublin-metropolitan-area-existing-protected-cycle-infrastr",
-   "name": "Dublin Metropolitan Area Existing Protected Cycle Infrastructure",
-   "subject": "cycling-and-walking",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dcc-dublin-metropolitan-area-existing-protected-cycle-infrastructure-2025"
-   ]
-  },
-  {
-   "id": "cycling-and-walking-dublin-public-cycle-parking-facilities",
-   "name": "Dublin Public Cycle Parking Facilities",
-   "subject": "cycling-and-walking",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dcc-dublin-public-cycle-parking-facilities"
-   ]
-  },
-  {
-   "id": "cycling-and-walking-dublinbikes-api",
-   "name": "Dublinbikes Api",
-   "subject": "cycling-and-walking",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dcc-dublinbikes-api"
-   ]
-  },
-  {
-   "id": "cycling-and-walking-moby-bikes",
-   "name": "Moby Bikes",
-   "subject": "cycling-and-walking",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dcc-moby-bikes"
-   ]
-  },
-  {
-   "id": "cycling-and-walking-pedestrian-and-cycle-counter-api-for-dublin-region",
-   "name": "Pedestrian And Cycle Counter Api For Dublin Region",
-   "subject": "cycling-and-walking",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dcc-pedestrian-and-cycle-counter-api-for-dublin-region"
-   ]
-  },
-  {
-   "id": "cycling-and-walking-public-cycle-parking-stands",
-   "name": "Public Cycle Parking Stands",
-   "subject": "cycling-and-walking",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dcc-dcc-public-cycle-parking-stands"
-   ]
-  },
-  {
-   "id": "cycling-and-walking-bicycle-counter-locations",
-   "name": "Bicycle Counter Locations",
-   "subject": "cycling-and-walking",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
+    "dcc-pedestrian-and-cycle-counter-api-for-dublin-region",
     "dlr-bicycle-counter-locations"
-   ]
+   ],
+   "labels": {
+    "dcc-pedestrian-and-cycle-counter-api-for-dublin-region": "Pedestrian And Cycle Counter Api For Dublin Region",
+    "dlr-bicycle-counter-locations": "Bicycle Counter Locations (DLR)"
+   },
+   "kind": "Places"
   },
   {
-   "id": "cycling-and-walking-bicycle-maintenance-stands",
-   "name": "Bicycle Maintenance Stands",
+   "id": "cycling-and-walking-walking-routes",
+   "name": "Walking Routes & Rights of Way",
    "subject": "cycling-and-walking",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
-    "dlr-bicycle-maintenance-stands"
-   ]
-  },
-  {
-   "id": "cycling-and-walking-right-of-way",
-   "name": "Right Of Way",
-   "subject": "cycling-and-walking",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dlr-right-of-way"
-   ]
-  },
-  {
-   "id": "cycling-and-walking-the-metals",
-   "name": "The Metals",
-   "subject": "cycling-and-walking",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dlr-the-metals"
-   ]
-  },
-  {
-   "id": "cycling-and-walking-trim-trails",
-   "name": "Trim Trails",
-   "subject": "cycling-and-walking",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
+    "dlr-right-of-way",
+    "dlr-the-metals",
     "dlr-trim-trails"
-   ]
+   ],
+   "labels": {
+    "dlr-right-of-way": "Right Of Way (DLR)",
+    "dlr-the-metals": "The Metals (DLR)",
+    "dlr-trim-trails": "Trim Trails (DLR)"
+   },
+   "kind": "Places"
   },
   {
-   "id": "cycling-and-walking-belfast-cycle-network",
-   "name": "Belfast Cycle Network",
-   "subject": "cycling-and-walking",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "belfast-cycle-network"
-   ]
-  },
-  {
-   "id": "geology-and-soils-irish-peat-soils-map",
-   "name": "Irish Peat Soils Map",
+   "id": "geology-and-soils-geology-maps",
+   "name": "Geology & Soils Maps",
    "subject": "geology-and-soils",
-   "scope": "",
+   "scope": "Ireland",
    "arrangement": "set",
    "members": [
-    "irish-peat-soils-map"
-   ]
-  },
-  {
-   "id": "geology-and-soils-geological-sites-audit-roscommon",
-   "name": "Geological Sites Audit - Roscommon",
-   "subject": "geology-and-soils",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
+    "ni-250k-geology",
+    "bedrock-geology-11000000-ireland-roini-itm",
+    "gsni-superficial-geology-polygons-250k",
+    "irish-peat-soils-map",
+    "gsi-karst-data",
     "oda-map-00583-geological-sites-audit-2012-roscommon"
-   ]
+   ],
+   "labels": {
+    "ni-250k-geology": "Northern Ireland Geology",
+    "bedrock-geology-11000000-ireland-roini-itm": "Bedrock Geology 1:1,000,000 Ireland ITM",
+    "gsni-superficial-geology-polygons-250k": "Superficial Geology 1:250,000",
+    "irish-peat-soils-map": "Irish Peat Soils Map",
+    "gsi-karst-data": "Karst Data",
+    "oda-map-00583-geological-sites-audit-2012-roscommon": "Geological Sites Audit (Roscommon)"
+   },
+   "kind": "Places"
   },
   {
-   "id": "geology-and-soils-northern-ireland-geology",
-   "name": "Northern Ireland Geology",
-   "subject": "geology-and-soils",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "ni-250k-geology"
-   ]
-  },
-  {
-   "id": "geology-and-soils-bedrock-boreholes-1-100-000-ireland-itm",
-   "name": "Bedrock Boreholes 1:100,000 Ireland ITM",
-   "subject": "geology-and-soils",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "bedrock-boreholes-150000-ireland-roi-itm-unverified"
-   ]
-  },
-  {
-   "id": "geology-and-soils-bedrock-geology-1-1-000-000-ireland-itm",
-   "name": "Bedrock Geology 1:1,000,000 Ireland ITM",
-   "subject": "geology-and-soils",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "bedrock-geology-11000000-ireland-roini-itm"
-   ]
-  },
-  {
-   "id": "geology-and-soils-ni-mineral-prospecting-licences",
-   "name": "NI Mineral Prospecting Licences",
-   "subject": "geology-and-soils",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "ni-mineral-prospecting-licences"
-   ]
-  },
-  {
-   "id": "geology-and-soils-ni-mining-leases",
-   "name": "NI Mining Leases",
-   "subject": "geology-and-soils",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "ni-mining-leases"
-   ]
-  },
-  {
-   "id": "geology-and-soils-bedrock-boreholes-1-50-000",
-   "name": "Bedrock Boreholes 1:50,000",
-   "subject": "geology-and-soils",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "gsi-bedrock-boreholes-50k"
-   ]
-  },
-  {
-   "id": "geology-and-soils-karst-data",
-   "name": "Karst Data",
+   "id": "geology-and-soils-boreholes-and-cores",
+   "name": "Boreholes & Cores",
    "subject": "geology-and-soils",
    "scope": "Ireland",
    "arrangement": "set",
    "members": [
-    "gsi-karst-data"
-   ]
-  },
-  {
-   "id": "geology-and-soils-superficial-geology-1-250-000",
-   "name": "Superficial Geology 1:250,000",
-   "subject": "geology-and-soils",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "gsni-superficial-geology-polygons-250k"
-   ]
-  },
-  {
-   "id": "geology-and-soils-mineral-resources",
-   "name": "Mineral Resources",
-   "subject": "geology-and-soils",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "gsni-mineral-resources"
-   ]
-  },
-  {
-   "id": "geology-and-soils-gsni-core-and-cuttings-register",
-   "name": "GSNI Core and Cuttings Register",
-   "subject": "geology-and-soils",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
+    "bedrock-boreholes-150000-ireland-roi-itm-unverified",
+    "gsi-bedrock-boreholes-50k",
     "gsni-core-cuttings-register"
-   ]
+   ],
+   "labels": {
+    "bedrock-boreholes-150000-ireland-roi-itm-unverified": "Bedrock Boreholes 1:100,000 Ireland ITM",
+    "gsi-bedrock-boreholes-50k": "Bedrock Boreholes 1:50,000",
+    "gsni-core-cuttings-register": "GSNI Core and Cuttings Register"
+   },
+   "kind": "Places"
   },
   {
-   "id": "planning-applications-and-registers-certificate-of-registration-locations-sdcc",
-   "name": "Certificate of Registration Locations SDCC",
+   "id": "geology-and-soils-minerals-and-mining",
+   "name": "Minerals & Mining (Northern Ireland)",
+   "subject": "geology-and-soils",
+   "scope": "Northern Ireland",
+   "arrangement": "set",
+   "members": [
+    "gsni-mineral-resources",
+    "ni-mineral-prospecting-licences",
+    "ni-mining-leases"
+   ],
+   "labels": {
+    "gsni-mineral-resources": "Mineral Resources",
+    "ni-mineral-prospecting-licences": "Mineral Prospecting Licences",
+    "ni-mining-leases": "Mining Leases"
+   },
+   "kind": "Places"
+  },
+  {
+   "id": "planning-applications-and-registers-planning-registers",
+   "name": "Planning Registers",
    "subject": "planning-applications-and-registers",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
-    "oda-map-00451-certificate-of-registration-locations-sdcc"
-   ]
-  },
-  {
-   "id": "planning-applications-and-registers-planning-register",
-   "name": "Planning Register",
-   "subject": "planning-applications-and-registers",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00302-planning-register"
-   ]
-  },
-  {
-   "id": "planning-applications-and-registers-eia-location-point",
-   "name": "EIA Location Point",
-   "subject": "planning-applications-and-registers",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00221-eia-location-point"
-   ]
-  },
-  {
-   "id": "planning-applications-and-registers-derelict-sites-register",
-   "name": "Derelict Sites Register",
-   "subject": "planning-applications-and-registers",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
+    "roi-national-planning-applications",
+    "oda-map-00302-planning-register",
+    "oda-map-00221-eia-location-point",
+    "oda-map-00451-certificate-of-registration-locations-sdcc",
     "dlr-derelict-sites-register"
-   ]
+   ],
+   "labels": {
+    "roi-national-planning-applications": "ROI National Planning Applications",
+    "oda-map-00302-planning-register": "Planning Register",
+    "oda-map-00221-eia-location-point": "EIA Location Point",
+    "oda-map-00451-certificate-of-registration-locations-sdcc": "Certificate of Registration Locations (South Dublin)",
+    "dlr-derelict-sites-register": "Derelict Sites Register (DLR)"
+   },
+   "kind": "Places"
   },
   {
-   "id": "planning-applications-and-registers-proposed-education-sites",
-   "name": "Proposed Education Sites",
-   "subject": "planning-applications-and-registers",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dlr-proposed-education-sites"
-   ]
-  },
-  {
-   "id": "planning-applications-and-registers-roi-national-planning-applications",
-   "name": "ROI National Planning Applications",
-   "subject": "planning-applications-and-registers",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "roi-national-planning-applications"
-   ]
-  },
-  {
-   "id": "flooding-and-coastal-risk-settlement-flood-zones-roscommon-cdp",
-   "name": "Settlement Flood Zones - Roscommon CDP",
+   "id": "flooding-and-coastal-risk-flood-extents",
+   "name": "Flood Extents & Zones",
    "subject": "flooding-and-coastal-risk",
-   "scope": "Republic of Ireland",
+   "scope": "Ireland",
    "arrangement": "set",
    "members": [
-    "oda-map-00741-settlement-flood-zones-roscommon-cdp-2022-2028"
-   ]
-  },
-  {
-   "id": "flooding-and-coastal-risk-community-scale-flood-model-nodes-current-scenario",
-   "name": "Community-Scale Flood Model Nodes - Current Scenario",
-   "subject": "flooding-and-coastal-risk",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "community-scale-flood-model-nodes-current-scenario"
-   ]
-  },
-  {
-   "id": "flooding-and-coastal-risk-national-coastal-flood-extents-current-scenario",
-   "name": "National Coastal Flood Extents — Current Scenario",
-   "subject": "flooding-and-coastal-risk",
-   "scope": "",
-   "arrangement": "set",
-   "members": [
-    "opw-coastal-flood-extents-2021-current"
-   ]
-  },
-  {
-   "id": "flooding-and-coastal-risk-nifm-river-flood-extents-current-scenario",
-   "name": "NIFM River Flood Extents — Current Scenario",
-   "subject": "flooding-and-coastal-risk",
-   "scope": "",
-   "arrangement": "set",
-   "members": [
-    "opw-nifm-river-flood-extents-current"
-   ]
-  },
-  {
-   "id": "flooding-and-coastal-risk-fsu-catchment-boundaries-gauged",
-   "name": "FSU Catchment Boundaries — Gauged",
-   "subject": "flooding-and-coastal-risk",
-   "scope": "",
-   "arrangement": "set",
-   "members": [
-    "opw-fsu-catchments-gauged"
-   ]
-  },
-  {
-   "id": "flooding-and-coastal-risk-coastal-flood-boundary-extreme-sea-levels",
-   "name": "Coastal Flood Boundary — Extreme Sea Levels",
-   "subject": "flooding-and-coastal-risk",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
+    "opw-coastal-flood-extents-2021-current",
+    "opw-nifm-river-flood-extents-current",
+    "community-scale-flood-model-nodes-current-scenario",
+    "oda-map-00741-settlement-flood-zones-roscommon-cdp-2022-2028",
     "rivers-coastal-flood-2018"
-   ]
+   ],
+   "labels": {
+    "opw-coastal-flood-extents-2021-current": "National Coastal Flood Extents — Current Scenario",
+    "opw-nifm-river-flood-extents-current": "NIFM River Flood Extents — Current Scenario",
+    "community-scale-flood-model-nodes-current-scenario": "Community-Scale Flood Model Nodes - Current Scenario",
+    "oda-map-00741-settlement-flood-zones-roscommon-cdp-2022-2028": "Settlement Flood Zones (Roscommon)",
+    "rivers-coastal-flood-2018": "Coastal Flood Boundary — Extreme Sea Levels"
+   },
+   "kind": "Places"
   },
   {
-   "id": "trees-hedgerows-and-woodland-hedgerows",
-   "name": "Hedgerows",
+   "id": "trees-hedgerows-and-woodland-hedgerows-and-corridors",
+   "name": "Hedgerows, Treelines & Wildlife Corridors",
    "subject": "trees-hedgerows-and-woodland",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
-    "oda-map-00589-hedgerows"
-   ]
-  },
-  {
-   "id": "trees-hedgerows-and-woodland-treelines",
-   "name": "Treelines",
-   "subject": "trees-hedgerows-and-woodland",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00808-treelines"
-   ]
-  },
-  {
-   "id": "trees-hedgerows-and-woodland-wildlife-corridors",
-   "name": "Wildlife Corridors",
-   "subject": "trees-hedgerows-and-woodland",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
+    "oda-map-00589-hedgerows",
+    "oda-map-00808-treelines",
     "oda-map-00859-wildlife-corridors"
-   ]
+   ],
+   "labels": {
+    "oda-map-00589-hedgerows": "Hedgerows",
+    "oda-map-00808-treelines": "Treelines",
+    "oda-map-00859-wildlife-corridors": "Wildlife Corridors"
+   },
+   "kind": "Places"
   },
   {
-   "id": "trees-hedgerows-and-woodland-tree-preservation-orders",
-   "name": "Tree Preservation Orders",
+   "id": "trees-hedgerows-and-woodland-trees-woodlands-and-tpos",
+   "name": "Trees & Woodlands",
    "subject": "trees-hedgerows-and-woodland",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
+    "dlr-trees-and-woodlands",
+    "fingal-trees",
     "dlr-tree-preservation-orders"
-   ]
+   ],
+   "labels": {
+    "dlr-trees-and-woodlands": "Trees And Woodlands (DLR)",
+    "fingal-trees": "Trees (Fingal)",
+    "dlr-tree-preservation-orders": "Tree Preservation Orders (DLR)"
+   },
+   "kind": "Places"
   },
   {
-   "id": "trees-hedgerows-and-woodland-trees-and-woodlands",
-   "name": "Trees And Woodlands",
-   "subject": "trees-hedgerows-and-woodland",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dlr-trees-and-woodlands"
-   ]
-  },
-  {
-   "id": "trees-hedgerows-and-woodland-trees",
-   "name": "Trees",
-   "subject": "trees-hedgerows-and-woodland",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "fingal-trees"
-   ]
-  },
-  {
-   "id": "energy-and-climate-areas-suitable-for-windfarm-development-roscommon-cdp",
-   "name": "Areas Suitable for Windfarm Development - Roscommon CDP",
+   "id": "energy-and-climate-wind-energy-roscommon",
+   "name": "Wind Energy (Roscommon CDP)",
    "subject": "energy-and-climate",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
-    "oda-map-00383-areas-suitable-for-windfarm-development-roscommon-cdp-2022-2028"
-   ]
-  },
-  {
-   "id": "energy-and-climate-average-wind-speeds-roscommon-cdp",
-   "name": "Average Wind Speeds - Roscommon CDP",
-   "subject": "energy-and-climate",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00394-average-wind-speeds-roscommon-cdp-2014-2020-expired"
-   ]
-  },
-  {
-   "id": "energy-and-climate-wind-energy-development-potential-roscommon-cdp",
-   "name": "Wind Energy Development Potential - Roscommon CDP",
-   "subject": "energy-and-climate",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
+    "oda-map-00383-areas-suitable-for-windfarm-development-roscommon-cdp-2022-2028",
+    "oda-map-00394-average-wind-speeds-roscommon-cdp-2014-2020-expired",
     "oda-map-00860-wind-energy-development-potential-roscommon-cdp-2014-2020-expire"
-   ]
+   ],
+   "labels": {
+    "oda-map-00383-areas-suitable-for-windfarm-development-roscommon-cdp-2022-2028": "Areas Suitable for Windfarm Development (Roscommon)",
+    "oda-map-00394-average-wind-speeds-roscommon-cdp-2014-2020-expired": "Average Wind Speeds (Roscommon)",
+    "oda-map-00860-wind-energy-development-potential-roscommon-cdp-2014-2020-expire": "Wind Energy Development Potential (Roscommon)"
+   },
+   "kind": "Places"
   },
   {
-   "id": "energy-and-climate-dlr-decarbonising-zone",
-   "name": "Dlr Decarbonising Zone",
+   "id": "energy-and-climate-energy-infrastructure",
+   "name": "Energy Infrastructure & Decarbonisation",
    "subject": "energy-and-climate",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
+    "tailte-power-plant",
+    "dlr-public-ev-charging-points",
     "dlr-dlr-decarbonising-zone"
-   ]
+   ],
+   "labels": {
+    "tailte-power-plant": "Power Plant",
+    "dlr-public-ev-charging-points": "Public Ev Charging Points (DLR)",
+    "dlr-dlr-decarbonising-zone": "Decarbonising Zone (DLR)"
+   },
+   "kind": "Places"
   },
   {
-   "id": "energy-and-climate-public-ev-charging-points",
-   "name": "Public Ev Charging Points",
-   "subject": "energy-and-climate",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dlr-public-ev-charging-points"
-   ]
-  },
-  {
-   "id": "energy-and-climate-power-plant",
-   "name": "Power Plant",
-   "subject": "energy-and-climate",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "tailte-power-plant"
-   ]
-  },
-  {
-   "id": "land-cover-and-land-use-historic-land-use",
-   "name": "Historic Land Use",
-   "subject": "land-cover-and-land-use",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "ni-historic-landuse"
-   ]
-  },
-  {
-   "id": "land-cover-and-land-use-corine-land-cover",
-   "name": "CORINE Land Cover",
+   "id": "land-cover-and-land-use-land-cover",
+   "name": "Land Cover & Land Use",
    "subject": "land-cover-and-land-use",
    "scope": "Ireland",
    "arrangement": "set",
    "members": [
-    "corine-land-cover-2018"
-   ]
+    "corine-land-cover-2018",
+    "ni-land-classification",
+    "ni-historic-landuse"
+   ],
+   "labels": {
+    "corine-land-cover-2018": "CORINE Land Cover",
+    "ni-land-classification": "Northern Ireland Land Classification",
+    "ni-historic-landuse": "Historic Land Use"
+   },
+   "kind": "Places"
   },
   {
-   "id": "land-cover-and-land-use-northern-ireland-land-classification",
-   "name": "Northern Ireland Land Classification",
-   "subject": "land-cover-and-land-use",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "ni-land-classification"
-   ]
-  },
-  {
-   "id": "emergency-services-dublin-fire-brigade-stations-dublin-region",
-   "name": "Dublin Fire Brigade Stations Dublin Region",
-   "subject": "emergency-services",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dcc-dublin-fire-brigade-stations-dublin-region"
-   ]
-  },
-  {
-   "id": "emergency-services-garda-station",
-   "name": "Garda Station",
-   "subject": "emergency-services",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dcc-garda-station"
-   ]
-  },
-  {
-   "id": "culture-and-the-arts-museums-collections-archives",
-   "name": "Museums Collections Archives",
+   "id": "culture-and-the-arts-museums-galleries-and-venues",
+   "name": "Museums, Galleries & Arts Venues",
    "subject": "culture-and-the-arts",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
-    "museums-collections-archives"
-   ]
-  },
-  {
-   "id": "culture-and-the-arts-art-in-the-parks-a-guide-to-sculpture-in-parks-dcc",
-   "name": "Art in the Parks - A Guide to Sculpture in Parks DCC",
-   "subject": "culture-and-the-arts",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "art-in-the-parks-a-guide-to-sculpture-in-dublin-city-council-parks"
-   ]
-  },
-  {
-   "id": "culture-and-the-arts-arts-facilities-roscommon",
-   "name": "Arts Facilities - Roscommon",
-   "subject": "culture-and-the-arts",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00387-arts-facilities-roscommon"
-   ]
-  },
-  {
-   "id": "culture-and-the-arts-tourism-attractions-roscommon",
-   "name": "Tourism Attractions - Roscommon",
-   "subject": "culture-and-the-arts",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
+    "museums-collections-archives",
+    "dcc-museums-and-archives",
+    "dcc-galleries-exhibition-spaces-open-studios",
+    "dcc-theatres-arts-centres-performance-spaces",
+    "dlr-dlr-arts-venues",
+    "oda-map-00387-arts-facilities-roscommon",
     "oda-map-00791-tourism-attractions-roscommon"
-   ]
+   ],
+   "labels": {
+    "museums-collections-archives": "Museums Collections Archives",
+    "dcc-museums-and-archives": "Museums And Archives (Dublin City)",
+    "dcc-galleries-exhibition-spaces-open-studios": "Galleries Exhibition Spaces Open Studios (Dublin City)",
+    "dcc-theatres-arts-centres-performance-spaces": "Theatres Arts Centres Performance Spaces (Dublin City)",
+    "dlr-dlr-arts-venues": "Arts Venues (DLR)",
+    "oda-map-00387-arts-facilities-roscommon": "Arts Facilities (Roscommon)",
+    "oda-map-00791-tourism-attractions-roscommon": "Tourism Attractions (Roscommon)"
+   },
+   "kind": "Places"
   },
   {
-   "id": "culture-and-the-arts-westmeath-county-council-libraries",
-   "name": "Westmeath County Council Libraries",
-   "subject": "culture-and-the-arts",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00829-westmeath-county-council-libraries"
-   ]
-  },
-  {
-   "id": "culture-and-the-arts-dublin-canvas-public-art",
-   "name": "Dublin Canvas Public Art",
-   "subject": "culture-and-the-arts",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dcc-dublin-canvas-public-art"
-   ]
-  },
-  {
-   "id": "culture-and-the-arts-galleries-exhibition-spaces-open-studios",
-   "name": "Galleries Exhibition Spaces Open Studios",
-   "subject": "culture-and-the-arts",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dcc-galleries-exhibition-spaces-open-studios"
-   ]
-  },
-  {
-   "id": "culture-and-the-arts-museums-and-archives",
-   "name": "Museums And Archives",
-   "subject": "culture-and-the-arts",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dcc-museums-and-archives"
-   ]
-  },
-  {
-   "id": "culture-and-the-arts-public-artworks-in-dublin-city",
-   "name": "Public Artworks In Dublin City",
-   "subject": "culture-and-the-arts",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dcc-public-artworks-in-dublin-city"
-   ]
-  },
-  {
-   "id": "culture-and-the-arts-theatres-arts-centres-performance-spaces",
-   "name": "Theatres Arts Centres Performance Spaces",
-   "subject": "culture-and-the-arts",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dcc-theatres-arts-centres-performance-spaces"
-   ]
-  },
-  {
-   "id": "culture-and-the-arts-dlr-arts-venues",
-   "name": "Dlr Arts Venues",
-   "subject": "culture-and-the-arts",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dlr-dlr-arts-venues"
-   ]
-  },
-  {
-   "id": "culture-and-the-arts-public-art",
+   "id": "culture-and-the-arts-public-artworks",
    "name": "Public Art",
    "subject": "culture-and-the-arts",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
-    "dlr-public-art"
-   ]
-  },
-  {
-   "id": "culture-and-the-arts-sculpture-trail",
-   "name": "Sculpture Trail",
-   "subject": "culture-and-the-arts",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
+    "art-in-the-parks-a-guide-to-sculpture-in-dublin-city-council-parks",
+    "dcc-dublin-canvas-public-art",
+    "dcc-public-artworks-in-dublin-city",
+    "dlr-public-art",
     "dlr-sculpture-trail"
-   ]
+   ],
+   "labels": {
+    "art-in-the-parks-a-guide-to-sculpture-in-dublin-city-council-parks": "Art in the Parks - A Guide to Sculpture in Parks (Dublin City)",
+    "dcc-dublin-canvas-public-art": "Dublin Canvas Public Art",
+    "dcc-public-artworks-in-dublin-city": "Public Artworks In Dublin City",
+    "dlr-public-art": "Public Art (DLR)",
+    "dlr-sculpture-trail": "Sculpture Trail (DLR)"
+   },
+   "kind": "Places"
   },
   {
-   "id": "parking-car-parking-locations-roscommon",
-   "name": "Car Parking Locations - Roscommon",
+   "id": "parking-car-and-coach-parking",
+   "name": "Car & Coach Parking",
    "subject": "parking",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
-    "oda-map-00438-car-parking-locations-roscommon"
-   ]
-  },
-  {
-   "id": "parking-coach-parking",
-   "name": "Coach Parking",
-   "subject": "parking",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
+    "oda-map-00438-car-parking-locations-roscommon",
     "dcc-coach-parking"
-   ]
+   ],
+   "labels": {
+    "oda-map-00438-car-parking-locations-roscommon": "Car Parking Locations (Roscommon)",
+    "dcc-coach-parking": "Coach Parking (Dublin City)"
+   },
+   "kind": "Places"
   },
   {
-   "id": "parks-and-open-space-cork-city-parks",
-   "name": "Cork City Parks",
+   "id": "parks-and-open-space-parks",
+   "name": "Parks & Open Spaces",
    "subject": "parks-and-open-space",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
-    "cork-city-parks"
-   ]
-  },
-  {
-   "id": "parks-and-open-space-roscommon-community-parks",
-   "name": "Roscommon Community Parks",
-   "subject": "parks-and-open-space",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00705-roscommon-community-parks"
-   ]
-  },
-  {
-   "id": "parks-and-open-space-roscommon-public-parks",
-   "name": "Roscommon Public Parks",
-   "subject": "parks-and-open-space",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00709-roscommon-public-parks"
-   ]
-  },
-  {
-   "id": "parks-and-open-space-allotments-and-community-gardens",
-   "name": "Allotments And Community Gardens",
-   "subject": "parks-and-open-space",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dcc-allotments-and-community-gardens"
-   ]
-  },
-  {
-   "id": "parks-and-open-space-parks-and-open-spaces",
-   "name": "Parks And Open Spaces",
-   "subject": "parks-and-open-space",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dcc-parks-and-open-spaces"
-   ]
-  },
-  {
-   "id": "parks-and-open-space-parks-gardens-and-public-spaces",
-   "name": "Parks Gardens And Public Spaces",
-   "subject": "parks-and-open-space",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dcc-parks-gardens-and-public-spaces"
-   ]
-  },
-  {
-   "id": "parks-and-open-space-access-points-to-main-parks",
-   "name": "Access Points To Main Parks",
-   "subject": "parks-and-open-space",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
+    "cork-city-parks",
+    "oda-map-00705-roscommon-community-parks",
+    "oda-map-00709-roscommon-public-parks",
+    "dcc-parks-and-open-spaces",
+    "dcc-parks-gardens-and-public-spaces",
+    "dlr-main-parks",
     "dlr-access-points-to-main-parks"
-   ]
+   ],
+   "labels": {
+    "cork-city-parks": "Cork City Parks",
+    "oda-map-00705-roscommon-community-parks": "Community Parks (Roscommon)",
+    "oda-map-00709-roscommon-public-parks": "Public Parks (Roscommon)",
+    "dcc-parks-and-open-spaces": "Parks And Open Spaces (Dublin City)",
+    "dcc-parks-gardens-and-public-spaces": "Parks Gardens And Public Spaces (Dublin City)",
+    "dlr-main-parks": "Main Parks (DLR)",
+    "dlr-access-points-to-main-parks": "Access Points To Main Parks (DLR)"
+   },
+   "kind": "Places"
   },
   {
-   "id": "parks-and-open-space-council-allotments",
-   "name": "Council Allotments",
+   "id": "parks-and-open-space-allotments",
+   "name": "Allotments & Community Gardens",
    "subject": "parks-and-open-space",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
+    "dcc-allotments-and-community-gardens",
     "dlr-council-allotments"
-   ]
+   ],
+   "labels": {
+    "dcc-allotments-and-community-gardens": "Allotments And Community Gardens (Dublin City)",
+    "dlr-council-allotments": "Council Allotments (DLR)"
+   },
+   "kind": "Places"
   },
   {
-   "id": "parks-and-open-space-main-parks",
-   "name": "Main Parks",
-   "subject": "parks-and-open-space",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dlr-main-parks"
-   ]
-  },
-  {
-   "id": "community-education-and-civic-facilities-county-council-offices-roscommon",
-   "name": "County Council Offices - Roscommon",
-   "subject": "community-education-and-civic-facilities",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00475-county-council-offices-roscommon"
-   ]
-  },
-  {
-   "id": "community-education-and-civic-facilities-other-community-facilities",
-   "name": "Other Community Facilities",
-   "subject": "community-education-and-civic-facilities",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00649-other-community-facilities"
-   ]
-  },
-  {
-   "id": "community-education-and-civic-facilities-adult-learning-centres",
-   "name": "Adult Learning Centres",
-   "subject": "community-education-and-civic-facilities",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dcc-adult-learning-centres"
-   ]
-  },
-  {
-   "id": "community-education-and-civic-facilities-community-centres",
-   "name": "Community Centres",
-   "subject": "community-education-and-civic-facilities",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dcc-community-centres"
-   ]
-  },
-  {
-   "id": "community-education-and-civic-facilities-local-authority-offices",
-   "name": "Local Authority Offices",
-   "subject": "community-education-and-civic-facilities",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dcc-local-authority-offices"
-   ]
-  },
-  {
-   "id": "community-education-and-civic-facilities-places-of-worship",
-   "name": "Places Of Worship",
-   "subject": "community-education-and-civic-facilities",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dcc-places-of-worship"
-   ]
-  },
-  {
-   "id": "community-education-and-civic-facilities-universities-and-colleges",
-   "name": "Universities And Colleges",
-   "subject": "community-education-and-civic-facilities",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dcc-universities-and-colleges"
-   ]
-  },
-  {
-   "id": "community-education-and-civic-facilities-council-offices",
+   "id": "community-education-and-civic-facilities-council-offices-group",
    "name": "Council Offices",
    "subject": "community-education-and-civic-facilities",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
+    "oda-map-00475-county-council-offices-roscommon",
+    "dcc-local-authority-offices",
     "dlr-council-offices"
-   ]
+   ],
+   "labels": {
+    "oda-map-00475-county-council-offices-roscommon": "County Council Offices (Roscommon)",
+    "dcc-local-authority-offices": "Local Authority Offices (Dublin City)",
+    "dlr-council-offices": "Council Offices (DLR)"
+   },
+   "kind": "Places"
   },
   {
-   "id": "community-education-and-civic-facilities-spacefinder-app-locations",
-   "name": "Spacefinder App Locations",
+   "id": "community-education-and-civic-facilities-community-and-education",
+   "name": "Community & Education Facilities",
    "subject": "community-education-and-civic-facilities",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
+    "oda-map-00649-other-community-facilities",
+    "dcc-adult-learning-centres",
+    "dcc-community-centres",
+    "dcc-places-of-worship",
+    "dcc-universities-and-colleges",
     "dlr-spacefinder-app-locations"
-   ]
+   ],
+   "labels": {
+    "oda-map-00649-other-community-facilities": "Other Community Facilities",
+    "dcc-adult-learning-centres": "Adult Learning Centres (Dublin City)",
+    "dcc-community-centres": "Community Centres (Dublin City)",
+    "dcc-places-of-worship": "Places Of Worship (Dublin City)",
+    "dcc-universities-and-colleges": "Universities And Colleges (Dublin City)",
+    "dlr-spacefinder-app-locations": "Spacefinder App Locations (DLR)"
+   },
+   "kind": "Places"
   },
   {
-   "id": "air-and-sea-transport-public-moorings-and-piers-roscommon",
-   "name": "Public Moorings and Piers - Roscommon",
+   "id": "air-and-sea-transport-airports-group",
+   "name": "Airports & Airfields",
    "subject": "air-and-sea-transport",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
-    "oda-map-00687-public-moorings-and-piers-roscommon"
-   ]
-  },
-  {
-   "id": "air-and-sea-transport-public-slipways-roscommon",
-   "name": "Public Slipways - Roscommon",
-   "subject": "air-and-sea-transport",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00689-public-slipways-roscommon"
-   ]
-  },
-  {
-   "id": "air-and-sea-transport-airfield-area",
-   "name": "Airfield Area",
-   "subject": "air-and-sea-transport",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "tailte-airfield-area"
-   ]
-  },
-  {
-   "id": "air-and-sea-transport-airports",
-   "name": "Airports",
-   "subject": "air-and-sea-transport",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "tailte-airports"
-   ]
-  },
-  {
-   "id": "air-and-sea-transport-ferry-crossing",
-   "name": "Ferry Crossing",
-   "subject": "air-and-sea-transport",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "tailte-ferry-crossing"
-   ]
-  },
-  {
-   "id": "air-and-sea-transport-main-harbours",
-   "name": "Main Harbours",
-   "subject": "air-and-sea-transport",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "tailte-main-harbours"
-   ]
-  },
-  {
-   "id": "air-and-sea-transport-other-harbours",
-   "name": "Other Harbours",
-   "subject": "air-and-sea-transport",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "tailte-other-harbours"
-   ]
-  },
-  {
-   "id": "air-and-sea-transport-runways",
-   "name": "Runways",
-   "subject": "air-and-sea-transport",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
+    "tailte-airports",
+    "tailte-airfield-area",
     "tailte-runways"
-   ]
+   ],
+   "labels": {
+    "tailte-airports": "Airports",
+    "tailte-airfield-area": "Airfield Area",
+    "tailte-runways": "Runways"
+   },
+   "kind": "Places"
   },
   {
-   "id": "air-and-sea-transport-ferry-station",
-   "name": "Ferry Station",
+   "id": "air-and-sea-transport-harbours-and-ferries",
+   "name": "Harbours, Ferries & Piers",
    "subject": "air-and-sea-transport",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
-    "tailte-ferry-station"
-   ]
+    "tailte-main-harbours",
+    "tailte-other-harbours",
+    "tailte-ferry-crossing",
+    "tailte-ferry-station",
+    "oda-map-00687-public-moorings-and-piers-roscommon",
+    "oda-map-00689-public-slipways-roscommon"
+   ],
+   "labels": {
+    "tailte-main-harbours": "Main Harbours",
+    "tailte-other-harbours": "Other Harbours",
+    "tailte-ferry-crossing": "Ferry Crossing",
+    "tailte-ferry-station": "Ferry Station",
+    "oda-map-00687-public-moorings-and-piers-roscommon": "Public Moorings and Piers (Roscommon)",
+    "oda-map-00689-public-slipways-roscommon": "Public Slipways (Roscommon)"
+   },
+   "kind": "Places"
   },
   {
-   "id": "coasts-seas-and-islands-beaches",
-   "name": "Beaches",
+   "id": "coasts-seas-and-islands-coastline",
+   "name": "Coastline & Tide Marks",
    "subject": "coasts-seas-and-islands",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
+    "tailte-coast",
+    "tailte-high-water-mark",
+    "tailte-low-water-mark",
+    "tailte-shore",
     "dcc-beaches"
-   ]
+   ],
+   "labels": {
+    "tailte-coast": "Coast",
+    "tailte-high-water-mark": "High Water Mark",
+    "tailte-low-water-mark": "Low Water Mark",
+    "tailte-shore": "Shore",
+    "dcc-beaches": "Beaches (Dublin City)"
+   },
+   "kind": "Places"
   },
   {
-   "id": "coasts-seas-and-islands-coast",
-   "name": "Coast",
+   "id": "coasts-seas-and-islands-seas-and-island",
+   "name": "Seas & the Island of Ireland",
    "subject": "coasts-seas-and-islands",
-   "scope": "Republic of Ireland",
+   "scope": "Ireland",
    "arrangement": "set",
    "members": [
-    "tailte-coast"
-   ]
-  },
-  {
-   "id": "coasts-seas-and-islands-high-water-mark",
-   "name": "High Water Mark",
-   "subject": "coasts-seas-and-islands",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "tailte-high-water-mark"
-   ]
-  },
-  {
-   "id": "coasts-seas-and-islands-shore",
-   "name": "Shore",
-   "subject": "coasts-seas-and-islands",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "tailte-shore"
-   ]
-  },
-  {
-   "id": "coasts-seas-and-islands-low-water-mark",
-   "name": "Low Water Mark",
-   "subject": "coasts-seas-and-islands",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "tailte-low-water-mark"
-   ]
-  },
-  {
-   "id": "coasts-seas-and-islands-seas",
-   "name": "Seas",
-   "subject": "coasts-seas-and-islands",
-   "scope": "",
-   "arrangement": "set",
-   "members": [
-    "britain-ireland-seas"
-   ]
-  },
-  {
-   "id": "coasts-seas-and-islands-island-of-ireland",
-   "name": "Island of Ireland",
-   "subject": "coasts-seas-and-islands",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
+    "britain-ireland-seas",
     "ireland-island"
-   ]
+   ],
+   "labels": {
+    "britain-ireland-seas": "Seas",
+    "ireland-island": "Island of Ireland"
+   },
+   "kind": "Places"
   },
   {
-   "id": "enterprise-and-economy-enterprise-centres",
-   "name": "Enterprise Centres",
+   "id": "enterprise-and-economy-enterprise-centres-and-markets",
+   "name": "Enterprise Centres & Markets",
    "subject": "enterprise-and-economy",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
-    "dcc-enterprise-centres"
-   ]
-  },
-  {
-   "id": "enterprise-and-economy-county-council-markets",
-   "name": "County Council Markets",
-   "subject": "enterprise-and-economy",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
+    "dcc-enterprise-centres",
     "dlr-coco-markets"
-   ]
+   ],
+   "labels": {
+    "dcc-enterprise-centres": "Enterprise Centres (Dublin City)",
+    "dlr-coco-markets": "County Council Markets (DLR)"
+   },
+   "kind": "Places"
   },
   {
-   "id": "rail-and-public-transport-core-bus-corridors",
-   "name": "Core Bus Corridors",
+   "id": "rail-and-public-transport-railway-lines",
+   "name": "Railway Lines & Signalling",
    "subject": "rail-and-public-transport",
-   "scope": "Republic of Ireland",
+   "scope": "Ireland",
    "arrangement": "set",
    "members": [
-    "dlr-core-bus-corridors"
-   ]
-  },
-  {
-   "id": "rail-and-public-transport-road-and-rail-intersections",
-   "name": "Road & Rail Intersections",
-   "subject": "rail-and-public-transport",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "tailte-road-rail-intersections"
-   ]
-  },
-  {
-   "id": "rail-and-public-transport-railways",
-   "name": "Railways",
-   "subject": "rail-and-public-transport",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "railways-network"
-   ]
-  },
-  {
-   "id": "rail-and-public-transport-transport-lines",
-   "name": "Transport Lines",
-   "subject": "rail-and-public-transport",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "transport-lines-road-rail"
-   ]
-  },
-  {
-   "id": "rail-and-public-transport-translink-bus-stops",
-   "name": "Translink Bus Stops",
-   "subject": "rail-and-public-transport",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "translink-bus-stops-2024"
-   ]
-  },
-  {
-   "id": "rail-and-public-transport-belfast-metro-and-glider-bus-routes",
-   "name": "Belfast Metro & Glider Bus Routes",
-   "subject": "rail-and-public-transport",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "translink-metro-glider-routes"
-   ]
-  },
-  {
-   "id": "rail-and-public-transport-ni-railways-signal-posts",
-   "name": "NI Railways Signal Posts",
-   "subject": "rail-and-public-transport",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
+    "railways-network",
+    "transport-lines-road-rail",
+    "tailte-road-rail-intersections",
     "translink-rail-signal-posts"
-   ]
+   ],
+   "labels": {
+    "railways-network": "Railways (Translink)",
+    "transport-lines-road-rail": "Transport Lines",
+    "tailte-road-rail-intersections": "Road & Rail Intersections",
+    "translink-rail-signal-posts": "Railways Signal Posts (Translink)"
+   },
+   "kind": "Places"
   },
   {
-   "id": "rail-and-public-transport-ulsterbus-and-goldliner-bus-routes",
-   "name": "Ulsterbus & Goldliner Bus Routes",
+   "id": "rail-and-public-transport-bus",
+   "name": "Bus Routes & Stops",
    "subject": "rail-and-public-transport",
-   "scope": "Northern Ireland",
+   "scope": "Ireland",
    "arrangement": "set",
    "members": [
-    "translink-ulsterbus-goldliner-routes"
-   ]
+    "translink-bus-stops-2024",
+    "translink-metro-glider-routes",
+    "translink-ulsterbus-goldliner-routes",
+    "dlr-core-bus-corridors"
+   ],
+   "labels": {
+    "translink-bus-stops-2024": "Translink Bus Stops",
+    "translink-metro-glider-routes": "Belfast Metro & Glider Bus Routes (Translink)",
+    "translink-ulsterbus-goldliner-routes": "Ulsterbus & Goldliner Bus Routes (Translink)",
+    "dlr-core-bus-corridors": "Core Bus Corridors (DLR)"
+   },
+   "kind": "Places"
   },
   {
-   "id": "rail-and-public-transport-luas-tram-stops",
-   "name": "Luas Tram Stops",
-   "subject": "rail-and-public-transport",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "tii-luas-stops"
-   ]
-  },
-  {
-   "id": "housing-and-regeneration-dlr-residential-land-availability",
-   "name": "Dlr Residential Land Availability",
+   "id": "housing-and-regeneration-housing-and-land",
+   "name": "Housing, Land & Regeneration",
    "subject": "housing-and-regeneration",
-   "scope": "Republic of Ireland",
+   "scope": "Ireland",
    "arrangement": "set",
    "members": [
-    "dlr-dlr-residential-land-availability"
-   ]
+    "dlr-dlr-residential-land-availability",
+    "dlr-dlr-unfinished-housing",
+    "dlr-traveller-accommodation",
+    "nra",
+    "dlr-proposed-education-sites"
+   ],
+   "labels": {
+    "dlr-dlr-residential-land-availability": "Residential Land Availability (DLR)",
+    "dlr-dlr-unfinished-housing": "Unfinished Housing (DLR)",
+    "dlr-traveller-accommodation": "Traveller Accommodation (DLR)",
+    "nra": "Neighbourhood Renewal Areas",
+    "dlr-proposed-education-sites": "Proposed Education Sites (DLR)"
+   },
+   "kind": "Places"
   },
   {
-   "id": "housing-and-regeneration-dlr-unfinished-housing",
-   "name": "Dlr Unfinished Housing",
-   "subject": "housing-and-regeneration",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dlr-dlr-unfinished-housing"
-   ]
-  },
-  {
-   "id": "housing-and-regeneration-traveller-accommodation",
-   "name": "Traveller Accommodation",
-   "subject": "housing-and-regeneration",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "dlr-traveller-accommodation"
-   ]
-  },
-  {
-   "id": "archaeology-and-monuments-record-of-monuments-and-place",
-   "name": "Record Of Monuments And Place",
+   "id": "archaeology-and-monuments-sites-and-monuments-records",
+   "name": "Sites & Monuments Records",
    "subject": "archaeology-and-monuments",
-   "scope": "Republic of Ireland",
+   "scope": "Ireland",
    "arrangement": "set",
    "members": [
-    "dlr-record-of-monuments-and-place"
-   ]
-  },
-  {
-   "id": "archaeology-and-monuments-bullaun-stones",
-   "name": "Bullaun Stones",
-   "subject": "archaeology-and-monuments",
-   "scope": "",
-   "arrangement": "set",
-   "members": [
-    "historic-bullaun-stones"
-   ]
-  },
-  {
-   "id": "archaeology-and-monuments-crannog",
-   "name": "Crannog",
-   "subject": "archaeology-and-monuments",
-   "scope": "",
-   "arrangement": "set",
-   "members": [
-    "historic-crannog"
-   ]
-  },
-  {
-   "id": "archaeology-and-monuments-standing-stones",
-   "name": "Standing Stones",
-   "subject": "archaeology-and-monuments",
-   "scope": "",
-   "arrangement": "set",
-   "members": [
-    "historic-standing-stones"
-   ]
-  },
-  {
-   "id": "archaeology-and-monuments-sites-and-monuments-record",
-   "name": "Sites and Monuments Record",
-   "subject": "archaeology-and-monuments",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
+    "dlr-record-of-monuments-and-place",
     "hed-sites-and-monuments"
-   ]
+   ],
+   "labels": {
+    "dlr-record-of-monuments-and-place": "Record Of Monuments And Place (DLR)",
+    "hed-sites-and-monuments": "Sites and Monuments Record"
+   },
+   "kind": "Places"
   },
   {
    "id": "civil-parishes-civil-parishes",
@@ -4714,260 +3603,111 @@
    ]
   },
   {
-   "id": "rivers-lakes-and-catchments-hydro-nodes",
-   "name": "Hydro Nodes",
+   "id": "rivers-lakes-and-catchments-rivers-and-lakes",
+   "name": "Rivers, Lakes & Waterfalls",
    "subject": "rivers-lakes-and-catchments",
-   "scope": "Republic of Ireland",
+   "scope": "Ireland",
    "arrangement": "set",
    "members": [
+    "rivers-2016",
+    "tailte-lakes-reservoirs",
+    "tailte-reservoirs",
+    "tailte-waterfalls",
+    "tailte-hvd-water-single-stream",
+    "tailte-watercourse-start-end-points",
     "tailte-hydro-nodes"
-   ]
+   ],
+   "labels": {
+    "rivers-2016": "Rivers",
+    "tailte-lakes-reservoirs": "Lakes & Reservoirs",
+    "tailte-reservoirs": "Reservoirs",
+    "tailte-waterfalls": "Waterfalls",
+    "tailte-hvd-water-single-stream": "Water Single Stream",
+    "tailte-watercourse-start-end-points": "Watercourse Start End Points",
+    "tailte-hydro-nodes": "Hydro Nodes"
+   },
+   "kind": "Places"
   },
   {
-   "id": "rivers-lakes-and-catchments-lakes-and-reservoirs",
-   "name": "Lakes & Reservoirs",
+   "id": "rivers-lakes-and-catchments-river-basins-group",
+   "name": "River Basins & Catchments",
    "subject": "rivers-lakes-and-catchments",
-   "scope": "Republic of Ireland",
+   "scope": "Ireland",
    "arrangement": "set",
    "members": [
-    "tailte-lakes-reservoirs"
-   ]
+    "river-basin-districts",
+    "river-basins",
+    "major-river-basins",
+    "opw-fsu-catchments-gauged"
+   ],
+   "labels": {
+    "river-basin-districts": "River Basin Districts",
+    "river-basins": "River Basins",
+    "major-river-basins": "Major River and Coastal Basins",
+    "opw-fsu-catchments-gauged": "FSU Catchment Boundaries — Gauged"
+   },
+   "kind": "Places"
   },
   {
-   "id": "rivers-lakes-and-catchments-reservoirs",
-   "name": "Reservoirs",
-   "subject": "rivers-lakes-and-catchments",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "tailte-reservoirs"
-   ]
-  },
-  {
-   "id": "rivers-lakes-and-catchments-watercourse-start-end-points",
-   "name": "Watercourse Start End Points",
-   "subject": "rivers-lakes-and-catchments",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "tailte-watercourse-start-end-points"
-   ]
-  },
-  {
-   "id": "rivers-lakes-and-catchments-waterfalls",
-   "name": "Waterfalls",
-   "subject": "rivers-lakes-and-catchments",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "tailte-waterfalls"
-   ]
-  },
-  {
-   "id": "rivers-lakes-and-catchments-water-single-stream",
-   "name": "Water Single Stream",
-   "subject": "rivers-lakes-and-catchments",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "tailte-hvd-water-single-stream"
-   ]
-  },
-  {
-   "id": "rivers-lakes-and-catchments-rivers",
-   "name": "Rivers",
-   "subject": "rivers-lakes-and-catchments",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "rivers-2016"
-   ]
-  },
-  {
-   "id": "rivers-lakes-and-catchments-river-basin-districts",
-   "name": "River Basin Districts",
-   "subject": "rivers-lakes-and-catchments",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "river-basin-districts"
-   ]
-  },
-  {
-   "id": "rivers-lakes-and-catchments-river-basins",
-   "name": "River Basins",
-   "subject": "rivers-lakes-and-catchments",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "river-basins"
-   ]
-  },
-  {
-   "id": "rivers-lakes-and-catchments-major-river-and-coastal-basins",
-   "name": "Major River and Coastal Basins",
-   "subject": "rivers-lakes-and-catchments",
-   "scope": "",
-   "arrangement": "set",
-   "members": [
-    "major-river-basins"
-   ]
-  },
-  {
-   "id": "hills-and-mountains-mountains",
-   "name": "Mountains",
-   "subject": "hills-and-mountains",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "tailte-mountains"
-   ]
-  },
-  {
-   "id": "hills-and-mountains-irish-hill-summit-domains",
-   "name": "Irish Hill Summit Domains",
+   "id": "hills-and-mountains-hills-and-highlands",
+   "name": "Hills, Highlands & Mountains",
    "subject": "hills-and-mountains",
    "scope": "Ireland",
    "arrangement": "set",
    "members": [
-    "irish-hill-summit-domains"
+    "tailte-mountains",
+    "irish-hill-summit-domains",
+    "irish-hill-prominence-domains",
+    "highlands-above-199m",
+    "uninhabited-highlands"
    ],
+   "labels": {
+    "tailte-mountains": "Mountains",
+    "irish-hill-summit-domains": "Irish Hill Summit Domains",
+    "irish-hill-prominence-domains": "Irish Hill Prominence Domains",
+    "highlands-above-199m": "Highlands Above 199m",
+    "uninhabited-highlands": "Uninhabited Highlands"
+   },
    "toBeAdded": [
     "dobih-v18-4-arderins",
     "dobih-v18-4-vandeleur-lynams",
     "dobih-v18-4-carns",
     "dobih-v18-4-binnions"
-   ]
-  },
-  {
-   "id": "hills-and-mountains-irish-hill-prominence-domains",
-   "name": "Irish Hill Prominence Domains",
-   "subject": "hills-and-mountains",
-   "scope": "Ireland",
-   "arrangement": "set",
-   "members": [
-    "irish-hill-prominence-domains"
-   ]
-  },
-  {
-   "id": "hills-and-mountains-highlands-above-199m",
-   "name": "Highlands Above 199m",
-   "subject": "hills-and-mountains",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "highlands-above-199m"
-   ]
-  },
-  {
-   "id": "hills-and-mountains-uninhabited-highlands",
-   "name": "Uninhabited Highlands",
-   "subject": "hills-and-mountains",
-   "scope": "",
-   "arrangement": "set",
-   "members": [
-    "uninhabited-highlands"
-   ]
+   ],
+   "kind": "Places"
   },
   {
    "id": "conflict-and-segregation-peacelines",
    "name": "Peacelines",
-   "subject": "conflict-and-segregation",
-   "scope": "",
+   "subject": "regional-divides",
+   "scope": "Northern Ireland",
    "arrangement": "set",
    "members": [
     "peacelines"
-   ]
+   ],
+   "kind": "Boundary"
   },
   {
-   "id": "agriculture-and-land-management-ni-bovine-holdings",
-   "name": "NI Bovine Holdings",
+   "id": "agriculture-and-land-management-livestock-holdings",
+   "name": "Livestock Holdings (Northern Ireland)",
    "subject": "agriculture-and-land-management",
    "scope": "Northern Ireland",
    "arrangement": "set",
    "members": [
-    "ni-livestock-bovine"
-   ]
-  },
-  {
-   "id": "agriculture-and-land-management-ni-caprine-holdings",
-   "name": "NI Caprine Holdings",
-   "subject": "agriculture-and-land-management",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
+    "ni-livestock-bovine",
+    "ni-livestock-ovine",
+    "ni-livestock-porcine",
+    "ni-livestock-poultry",
     "ni-livestock-caprine"
-   ]
-  },
-  {
-   "id": "agriculture-and-land-management-ni-ovine-holdings",
-   "name": "NI Ovine Holdings",
-   "subject": "agriculture-and-land-management",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "ni-livestock-ovine"
-   ]
-  },
-  {
-   "id": "agriculture-and-land-management-ni-porcine-holdings",
-   "name": "NI Porcine Holdings",
-   "subject": "agriculture-and-land-management",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "ni-livestock-porcine"
-   ]
-  },
-  {
-   "id": "agriculture-and-land-management-ni-poultry-holdings",
-   "name": "NI Poultry Holdings",
-   "subject": "agriculture-and-land-management",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "ni-livestock-poultry"
-   ]
-  },
-  {
-   "id": "local-government-operational-areas",
-   "name": "Operational Areas",
-   "subject": "local-government",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-00647-operational-areas-roscommon"
-   ]
-  },
-  {
-   "id": "property-land-and-buildings-building-groups",
-   "name": "Building Groups",
-   "subject": "property-land-and-buildings",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "tailte-hvd-building-groups"
-   ]
-  },
-  {
-   "id": "property-land-and-buildings-topographic-sites",
-   "name": "Topographic Sites",
-   "subject": "property-land-and-buildings",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "tailte-hvd-sites"
-   ]
-  },
-  {
-   "id": "housing-and-regeneration-neighbourhood-renewal-areas",
-   "name": "Neighbourhood Renewal Areas",
-   "subject": "housing-and-regeneration",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "nra"
-   ]
+   ],
+   "labels": {
+    "ni-livestock-bovine": "Bovine Holdings",
+    "ni-livestock-ovine": "Ovine Holdings",
+    "ni-livestock-porcine": "Porcine Holdings",
+    "ni-livestock-poultry": "Poultry Holdings",
+    "ni-livestock-caprine": "Caprine Holdings"
+   },
+   "kind": "Places"
   },
   {
    "id": "ireland-3d-terrain",
@@ -5531,47 +4271,28 @@
    }
   },
   {
-   "id": "development-plans-and-zoning-dublin-city",
-   "name": "Development Plan (Dublin City)",
+   "id": "development-plans-and-zoning-other-councils",
+   "name": "Development Plans & Zoning (other councils)",
    "subject": "development-plans-and-zoning",
    "scope": "Republic of Ireland",
    "arrangement": "set",
    "members": [
-    "dcc-development-plan-dcc-2022-2028"
+    "dcc-development-plan-dcc-2022-2028",
+    "use-zoning-objectives1",
+    "oda-map-01068-cork-city-zoning-development-plan-2022-2028",
+    "oda-map-00224-gzt-current-plan"
    ],
    "labels": {
-    "dcc-development-plan-dcc-2022-2028": "2022–2028"
-   }
-  },
-  {
-   "id": "development-plans-and-zoning-cork-city",
-   "name": "Development Plan (Cork City)",
-   "subject": "development-plans-and-zoning",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "oda-map-01068-cork-city-zoning-development-plan-2022-2028"
-   ],
-   "labels": {
-    "oda-map-01068-cork-city-zoning-development-plan-2022-2028": "Zoning 2022–2028"
-   }
-  },
-  {
-   "id": "development-plans-and-zoning-south-dublin",
-   "name": "Development Plan (South Dublin)",
-   "subject": "development-plans-and-zoning",
-   "scope": "Republic of Ireland",
-   "arrangement": "set",
-   "members": [
-    "use-zoning-objectives1"
-   ],
-   "labels": {
-    "use-zoning-objectives1": "Use Zoning Objectives"
-   }
+    "dcc-development-plan-dcc-2022-2028": "Development Plan (Dublin City) — 2022–2028",
+    "use-zoning-objectives1": "Development Plan (South Dublin) — Use Zoning Objectives",
+    "oda-map-01068-cork-city-zoning-development-plan-2022-2028": "Development Plan (Cork City) — Zoning 2022–2028",
+    "oda-map-00224-gzt-current-plan": "Generalised Zoning Types"
+   },
+   "kind": "Boundary"
   },
   {
    "id": "census-census-electoral-divisions",
-   "name": "Census Electoral Divisions (CSO)",
+   "name": "Census Electoral Divisions",
    "subject": "census",
    "scope": "Republic of Ireland",
    "arrangement": "editions",
@@ -5601,6 +4322,30 @@
   {
    "id": "ni-townlands-1844",
    "why": "User, 2026-10-08: not an 1844 survey but the modern townlands (OSNI and Tailte Éireann 2024; Cork matches exactly) split into 32 counties. Its county maps are shown as buttons under Townlands instead."
+  },
+  {
+   "id": "hsct-2007",
+   "why": "User, 2026-10-09: the same five trusts as ni-health-trust-boundaries (shapes within 0.72 km2); its elevation figures were merged into that map, which is kept."
+  },
+  {
+   "id": "eu-referendum-2016",
+   "why": "User, 2026-10-09: Results and turnout were by Westminster constituency (the 2008 constituencies): no map of its own."
+  },
+  {
+   "id": "belfast-agreement-1998",
+   "why": "User, 2026-10-09: Turnout was by Westminster constituency (the 1995 constituencies) and the result for Northern Ireland as a whole: no map of its own."
+  },
+  {
+   "id": "av-turnout-2011",
+   "why": "User, 2026-10-09: Turnout was by Westminster constituency (the 2008 constituencies): no map of its own."
+  },
+  {
+   "id": "border-poll-1973",
+   "why": "User, 2026-10-09: Counted for Northern Ireland as a whole: no area below Northern Ireland."
+  },
+  {
+   "id": "common-market-1975",
+   "why": "User, 2026-10-09: Counted for Northern Ireland as a whole: no area below Northern Ireland."
   }
  ],
  "signedOff": [
@@ -5608,6 +4353,21 @@
    "id": "all-ireland-townlands",
    "by": "Scott Moore",
    "date": "2026-10-08"
+  },
+  {
+   "id": "county-ed-1911",
+   "by": "Scott Moore",
+   "date": "2026-10-09"
+  },
+  {
+   "id": "deds-ni-1926",
+   "by": "Scott Moore",
+   "date": "2026-10-09"
+  },
+  {
+   "id": "wards-2001",
+   "by": "Scott Moore",
+   "date": "2026-10-10"
   }
  ]
 }

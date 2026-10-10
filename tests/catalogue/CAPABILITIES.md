@@ -24,14 +24,14 @@ Run: `npm run test:catalogue` (unit tests, then the browser tests against the te
 | C13 | Category chips at the top, jumping to a section | A contents button left of the search box: a panel from the right lists every shelf and subject (decades on Elections, categories on Books), marks where you are, and jumps there | replaced: one list for every section, always in reach |
 | C14 | Elections by decade, with thumbnails, loaded in one click | Same, plus filters by body (devolved, European and referendum bodies grouped), kind, where and years, and a link to each election's results page | kept |
 | C15 | "Show N more" by-elections in each decade | Kind filter: all, general elections, by-elections | replaced: one filter for all decades |
-| C16 | Books with covers, View, Markdown and Archive.org | Same cards, built by the same code, under the same category icons | kept |
+| C16 | Books with covers, View, Markdown and Archive.org | Same cards, built by the same code; no longer a tab (Books are in Browse), reached by an old `cat=books` link | replaced (2026-10-09) |
 | C17 | Search finds places (named features), each with thumbnail and load, show, link and download buttons | Places, grouped by name, each map's copy with the same buttons | kept |
 | C18 | Search finds maps and elections | The same list, filtered in place; typos and years understood; constituency names find their elections | kept |
 | C19 | Search finds parties (and people and sources, where indexed) | Same records, same links | kept |
-| C20 | Tables tab | Tables in the section bar | kept |
+| C20 | Tables tab | Out of the pane: Tables are in Browse (Phelim Birch's review, 2026-10-08) | replaced (2026-10-09) |
 | C21 | Links to cards (`#flat-card-…`) | Land on the series, opened | kept |
 | C22 | History, Back and Home buttons by the search box | Untouched | kept |
-| C23 | The section bar (Maps, Elections, Books, Tables) | Same bar and styling, with counts; Maps first | kept |
+| C23 | The section bar (Maps, Elections, Books, Tables) | Same bar and styling, with counts: Boundaries, Places & routes, Statistics, Elections; Boundaries first. The kind is the section, so the Kind filter is gone | replaced (2026-10-09) |
 
 New in the rebuilt pane (no counterpart in the current one): filters by jurisdiction (NI, ROI,
 Ireland), kind and years (a slider), the timeline of editions, compare two editions, cite, an

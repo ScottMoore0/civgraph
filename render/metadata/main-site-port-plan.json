@@ -3,12 +3,13 @@
   "source": "data/database/maps.json",
   "testMetadata": "render/metadata/maps-test.json",
   "totals": {
-    "total": 1266,
-    "converted": 1147,
-    "convertedDirect": 961,
+    "total": 1259,
+    "converted": 1140,
+    "convertedDirect": 954,
     "convertedComposite": 29,
     "convertedAlias": 157,
     "needsVectorTileConversion": 0,
+    "needsRasterStrategy": 0,
     "metadataOnly": 119,
     "needsMapLibreSourceMapping": 0
   },
@@ -328,10 +329,6 @@
       },
       "sourceFiles": [
         {
-          "kind": "geojson",
-          "file": "Settlements_Ungeneralised_-6398853129460496398.geojson"
-        },
-        {
           "kind": "fgb",
           "file": "https://data.civgraph.net/data/maps/physical/Settlements_ROI_Ungeneralised.fgb"
         }
@@ -382,11 +379,11 @@
       "sourceFiles": [
         {
           "kind": "geojson",
-          "file": "data/maps/physical/ROI_Legal_Towns_and_Cities.geojson"
+          "file": "https://data.civgraph.net/data/maps/physical/ROI_Legal_Towns_and_Cities.geojson"
         },
         {
           "kind": "fgb",
-          "file": "data/maps/physical/ROI_Legal_Towns_and_Cities.fgb"
+          "file": "https://data.civgraph.net/data/maps/physical/ROI_Legal_Towns_and_Cities.fgb"
         }
       ],
       "references": [],
@@ -435,11 +432,11 @@
       "sourceFiles": [
         {
           "kind": "geojson",
-          "file": "data/maps/physical/ROI_Settlements_2011.geojson"
+          "file": "https://data.civgraph.net/data/maps/physical/ROI_Settlements_2011.geojson"
         },
         {
           "kind": "fgb",
-          "file": "data/maps/physical/ROI_Settlements_2011.fgb"
+          "file": "https://data.civgraph.net/data/maps/physical/ROI_Settlements_2011.fgb"
         }
       ],
       "references": [],
@@ -544,11 +541,11 @@
       "sourceFiles": [
         {
           "kind": "geojson",
-          "file": "data/maps/local-government/ROI_Garda_Regions.geojson"
+          "file": "https://data.civgraph.net/data/maps/local-government/ROI_Garda_Regions.geojson"
         },
         {
           "kind": "fgb",
-          "file": "data/maps/local-government/ROI_Garda_Regions.fgb"
+          "file": "https://data.civgraph.net/data/maps/local-government/ROI_Garda_Regions.fgb"
         }
       ],
       "references": [],
@@ -597,11 +594,11 @@
       "sourceFiles": [
         {
           "kind": "geojson",
-          "file": "data/maps/local-government/ROI_Garda_Divisions.geojson"
+          "file": "https://data.civgraph.net/data/maps/local-government/ROI_Garda_Divisions.geojson"
         },
         {
           "kind": "fgb",
-          "file": "data/maps/local-government/ROI_Garda_Divisions.fgb"
+          "file": "https://data.civgraph.net/data/maps/local-government/ROI_Garda_Divisions.fgb"
         }
       ],
       "references": [],
@@ -650,11 +647,11 @@
       "sourceFiles": [
         {
           "kind": "geojson",
-          "file": "data/maps/local-government/ROI_Garda_Districts.geojson"
+          "file": "https://data.civgraph.net/data/maps/local-government/ROI_Garda_Districts.geojson"
         },
         {
           "kind": "fgb",
-          "file": "data/maps/local-government/ROI_Garda_Districts.fgb"
+          "file": "https://data.civgraph.net/data/maps/local-government/ROI_Garda_Districts.fgb"
         }
       ],
       "references": [],
@@ -703,11 +700,11 @@
       "sourceFiles": [
         {
           "kind": "geojson",
-          "file": "data/maps/local-government/ROI_Garda_Sub_Districts.geojson"
+          "file": "https://data.civgraph.net/data/maps/local-government/ROI_Garda_Sub_Districts.geojson"
         },
         {
           "kind": "fgb",
-          "file": "data/maps/local-government/ROI_Garda_Sub_Districts.fgb"
+          "file": "https://data.civgraph.net/data/maps/local-government/ROI_Garda_Sub_Districts.fgb"
         }
       ],
       "references": [],
@@ -756,11 +753,11 @@
       "sourceFiles": [
         {
           "kind": "geojson",
-          "file": "data/maps/local-government/ROI_Gaeltacht_Areas.geojson"
+          "file": "https://data.civgraph.net/data/maps/local-government/ROI_Gaeltacht_Areas.geojson"
         },
         {
           "kind": "fgb",
-          "file": "data/maps/local-government/ROI_Gaeltacht_Areas.fgb"
+          "file": "https://data.civgraph.net/data/maps/local-government/ROI_Gaeltacht_Areas.fgb"
         }
       ],
       "references": [],
@@ -809,11 +806,11 @@
       "sourceFiles": [
         {
           "kind": "geojson",
-          "file": "data/maps/local-government/ROI_LEA_2008.geojson"
+          "file": "https://data.civgraph.net/data/maps/local-government/ROI_LEA_2008.geojson"
         },
         {
           "kind": "fgb",
-          "file": "data/maps/local-government/ROI_LEA_2008.fgb"
+          "file": "https://data.civgraph.net/data/maps/local-government/ROI_LEA_2008.fgb"
         }
       ],
       "references": [],
@@ -845,11 +842,11 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          51.4198973,
-          -10.6629709
+          51.41989727,
+          -10.66297089
         ],
         [
-          55.4465803,
+          55.44658035,
           -5.9962778
         ]
       ],
@@ -899,11 +896,11 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          51.4198973,
-          -10.6629709
+          51.41989727,
+          -10.66297089
         ],
         [
-          55.4465803,
+          55.44658035,
           -5.9962778
         ]
       ],
@@ -953,12 +950,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          51.4198973,
-          -10.6629709
+          51.41989727,
+          -10.66297089
         ],
         [
-          55.4351416,
-          -5.9980455
+          55.43514161,
+          -5.99804553
         ]
       ],
       "style": {
@@ -1080,11 +1077,11 @@
       "sourceFiles": [
         {
           "kind": "geojson",
-          "file": "data/maps/local-government/ROI_Small_Areas_2011.geojson"
+          "file": "https://data.civgraph.net/data/maps/local-government/ROI_Small_Areas_2011.geojson"
         },
         {
           "kind": "fgb",
-          "file": "data/maps/local-government/ROI_Small_Areas_2011.fgb"
+          "file": "https://data.civgraph.net/data/maps/local-government/ROI_Small_Areas_2011.fgb"
         }
       ],
       "references": [],
@@ -1200,7 +1197,7 @@
       "sourceFiles": [
         {
           "kind": "geojson",
-          "file": "data/maps/local-government/Administrative_Areas_Ungeneralised_-2482101372601611780.geojson"
+          "file": "https://data.civgraph.net/data/maps/local-government/Administrative_Areas_Ungeneralised_-2482101372601611780.geojson"
         },
         {
           "kind": "fgb",
@@ -1450,12 +1447,12 @@
       "dateEffective": null,
       "provider": [
         "Scott Moore",
-        "OSNI Open Data"
+        "OSNI"
       ],
       "description": "Areas of Northern Ireland at 243m (797ft) or higher elevation - above the highest point within any settlement (Hannahstown at 242.9m). Generated from OSNI 50m DTM.",
       "sourceCredits": [
         "Scott Moore",
-        "OSNI Open Data"
+        "OSNI"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -1601,12 +1598,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSi"
+        "Tailte Éireann"
       ],
       "description": null,
       "sourceCredits": [
         "OSNI",
-        "OSi"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -1684,7 +1681,7 @@
       "sourceFiles": [
         {
           "kind": "xyz",
-          "file": "data/maps/physical/copernicus-dem-30m-ireland-tiles/{z}/{x}/{y}.webp?v=20260225-stripingfix1"
+          "file": "https://data.civgraph.net/data/maps/physical/copernicus-dem-30m-ireland-tiles/{z}/{x}/{y}.webp?v=20260225-stripingfix1"
         }
       ],
       "references": [],
@@ -1907,12 +1904,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": null,
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -1920,12 +1917,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          51.4198973,
-          -10.6186236
+          51.419897,
+          -10.618624
         ],
         [
-          55.4351414,
-          -5.4327894
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -1975,12 +1972,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Townlands in County Antrim",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -1988,12 +1985,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          54.4772344,
-          -6.66919
+          51.419897,
+          -10.618624
         ],
         [
-          55.3129843,
-          -5.6880468
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -2043,12 +2040,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Townlands in County Armagh",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -2056,12 +2053,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          54.0365065,
-          -6.8780548
+          51.419897,
+          -10.618624
         ],
         [
-          54.5209273,
-          -6.2798615
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -2111,12 +2108,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Townlands in County Down",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -2124,12 +2121,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          54.0227244,
-          -6.4003686
+          51.419897,
+          -10.618624
         ],
         [
-          54.6992227,
-          -5.4327894
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -2179,12 +2176,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Townlands in County Fermanagh",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -2192,12 +2189,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          54.1133128,
-          -8.1775025
+          51.419897,
+          -10.618624
         ],
         [
-          54.6105329,
-          -7.1414223
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -2247,12 +2244,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Townlands in County Londonderry",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -2260,12 +2257,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          54.6279663,
-          -7.4074713
+          51.419897,
+          -10.618624
         ],
         [
-          55.1998312,
-          -6.4578371
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -2315,12 +2312,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Townlands in County Tyrone",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -2328,12 +2325,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          54.3251955,
-          -7.9210137
+          51.419897,
+          -10.618624
         ],
         [
-          54.9448189,
-          -6.4986185
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -2383,12 +2380,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Townlands in County Carlow",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -2396,12 +2393,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          52.4639749,
-          -7.1079378
+          51.419897,
+          -10.618624
         ],
         [
-          52.9179638,
-          -6.5049166
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -2451,12 +2448,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Townlands in County Cavan",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -2464,12 +2461,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          53.7655741,
-          -8.0582343
+          51.419897,
+          -10.618624
         ],
         [
-          54.3020874,
-          -6.7620096
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -2519,12 +2516,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Townlands in County Clare",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -2532,12 +2529,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          52.5545047,
-          -9.9386797
+          51.419897,
+          -10.618624
         ],
         [
-          53.1687606,
-          -8.2893159
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -2587,12 +2584,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Townlands in County Cork",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -2600,12 +2597,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          51.4198973,
-          -10.2378557
+          51.419897,
+          -10.618624
         ],
         [
-          52.387957,
-          -7.8411446
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -2655,12 +2652,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Townlands in County Donegal",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -2668,12 +2665,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          54.4590718,
-          -8.8330346
+          51.419897,
+          -10.618624
         ],
         [
-          55.4351414,
-          -6.9221457
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -2723,12 +2720,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Townlands in County Dublin",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -2736,12 +2733,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          53.1781974,
-          -6.5468853
+          51.419897,
+          -10.618624
         ],
         [
-          53.6347253,
-          -5.9944947
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -2791,12 +2788,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Townlands in County Galway",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -2804,12 +2801,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          52.9681498,
-          -10.3023131
+          51.419897,
+          -10.618624
         ],
         [
-          53.7189075,
-          -7.9687426
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -2859,12 +2856,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Townlands in County Kerry",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -2872,12 +2869,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          51.6883137,
-          -10.6186236
+          51.419897,
+          -10.618624
         ],
         [
-          52.5914103,
-          -9.1187836
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -2927,12 +2924,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Townlands in County Kildare",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -2940,12 +2937,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          52.8575798,
-          -7.1689352
+          51.419897,
+          -10.618624
         ],
         [
-          53.4512373,
-          -6.4599688
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -2995,12 +2992,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Townlands in County Kilkenny",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -3008,12 +3005,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          52.2435436,
-          -7.6740824
+          51.419897,
+          -10.618624
         ],
         [
-          52.8939951,
-          -6.9146405
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -3063,12 +3060,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Townlands in County Laois",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -3076,12 +3073,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          52.7812697,
-          -7.7346514
+          51.419897,
+          -10.618624
         ],
         [
-          53.2156647,
-          -6.931939
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -3131,12 +3128,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Townlands in County Leitrim",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -3144,12 +3141,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          53.8059671,
-          -8.4276501
+          51.419897,
+          -10.618624
         ],
         [
-          54.4743682,
-          -7.584171
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -3199,12 +3196,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Townlands in County Limerick",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -3212,12 +3209,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          52.2802285,
-          -9.3652232
+          51.419897,
+          -10.618624
         ],
         [
-          52.7569239,
-          -8.1563129
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -3267,12 +3264,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Townlands in County Longford",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -3280,12 +3277,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          53.5269051,
-          -8.0352918
+          51.419897,
+          -10.618624
         ],
         [
-          53.9420805,
-          -7.3749071
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -3335,12 +3332,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Townlands in County Louth",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -3348,12 +3345,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          53.6984912,
-          -6.6953457
+          51.419897,
+          -10.618624
         ],
         [
-          54.1139379,
-          -6.1029984
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -3403,12 +3400,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Townlands in County Mayo",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -3416,12 +3413,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          53.4718997,
-          -10.2593938
+          51.419897,
+          -10.618624
         ],
         [
-          54.3454312,
-          -8.5828481
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -3471,12 +3468,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Townlands in County Meath",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -3484,12 +3481,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          53.3818665,
-          -7.3354228
+          51.419897,
+          -10.618624
         ],
         [
-          53.9176684,
-          -6.0965955
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -3539,12 +3536,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Townlands in County Monaghan",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -3552,12 +3549,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          53.9006794,
-          -7.3394857
+          51.419897,
+          -10.618624
         ],
         [
-          54.4213802,
-          -6.5497295
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -3607,12 +3604,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Townlands in County Offaly",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -3620,12 +3617,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          52.8481355,
-          -8.0831899
+          51.419897,
+          -10.618624
         ],
         [
-          53.424279,
-          -6.9777125
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -3675,12 +3672,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Townlands in County Roscommon",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -3688,12 +3685,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          53.271333,
-          -8.8237208
+          51.419897,
+          -10.618624
         ],
         [
-          54.1251139,
-          -7.8802344
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -3743,12 +3740,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Townlands in County Sligo",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -3756,12 +3753,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          53.9149515,
-          -9.1364748
+          51.419897,
+          -10.618624
         ],
         [
-          54.4729892,
-          -8.1530085
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -3811,12 +3808,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Townlands in County Tipperary",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -3824,12 +3821,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          52.2019588,
-          -8.4797808
+          51.419897,
+          -10.618624
         ],
         [
-          53.1675821,
-          -7.3720564
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -3879,12 +3876,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Townlands in County Waterford",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -3892,12 +3889,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          51.9379991,
-          -8.1627603
+          51.419897,
+          -10.618624
         ],
         [
-          55.4351414,
-          -6.9500081
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -3947,12 +3944,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Townlands in County Westmeath",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -3960,12 +3957,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          53.3179625,
-          -7.9729562
+          51.419897,
+          -10.618624
         ],
         [
-          53.7881095,
-          -6.9547883
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -4015,12 +4012,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Townlands in County Wexford",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -4028,12 +4025,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          52.1092161,
-          -7.0156746
+          51.419897,
+          -10.618624
         ],
         [
-          52.7974716,
-          -6.1406604
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -4083,12 +4080,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Townlands in County Wicklow",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -4096,12 +4093,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          52.6819623,
-          -6.7921771
+          51.419897,
+          -10.618624
         ],
         [
-          53.2344022,
-          -5.9979127
+          55.435141,
+          -5.432789
         ]
       ],
       "style": {
@@ -4151,12 +4148,12 @@
       "dateEffective": null,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": "Ireland",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "convertedComposite",
       "recommendedTarget": "composite-vector-tiles",
@@ -4181,7 +4178,7 @@
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "data/maps/townlands/Townlands_AllIreland.fgb"
+          "file": "https://data.civgraph.net/data/maps/townlands/Townlands_AllIreland.fgb"
         },
         {
           "kind": "fgb",
@@ -4219,7 +4216,7 @@
       "description": "Northern Ireland",
       "sourceCredits": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -4227,12 +4224,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          54.0227241,
-          -8.1775033
+          54.022724,
+          -8.177503
         ],
         [
-          55.3129855,
-          -5.4327843
+          55.312985,
+          -5.432784
         ]
       ],
       "style": {
@@ -4244,7 +4241,7 @@
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "data/maps/townlands/OSNI_Townlands.fgb"
+          "file": "https://data.civgraph.net/data/maps/townlands/Townlands_AllIreland.fgb"
         },
         {
           "kind": "fgb",
@@ -4282,7 +4279,8 @@
       "description": "Republic of Ireland",
       "sourceCredits": [
         "OSI",
-        "OSNI"
+        "OSNI",
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -4290,12 +4288,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          51.4198973,
-          -10.6186236
+          51.419897,
+          -10.618624
         ],
         [
-          55.4351414,
-          -5.9944947
+          55.435141,
+          -5.994495
         ]
       ],
       "style": {
@@ -4307,7 +4305,7 @@
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "data/maps/townlands/OSI_Townlands.fgb"
+          "file": "https://data.civgraph.net/data/maps/townlands/Townlands_AllIreland.fgb"
         },
         {
           "kind": "fgb",
@@ -4379,7 +4377,7 @@
       "sourceMapId": "wards-2022-final-recommendations",
       "cloneOf": null,
       "parentId": null,
-      "name": "2022 (Final Recommendations)",
+      "name": "Wards 2023",
       "category": "Electoral Areas",
       "categoryId": "wards",
       "group": "Elections and Government",
@@ -4390,7 +4388,7 @@
         "Local Government Boundary Commission for Northern Ireland",
         "Land & Property Services"
       ],
-      "description": "Northern Ireland's 462 wards as set out in the LGBC Final Recommendations published May 2022. Same ward count as the existing 2014 boundaries but with substantially redrawn lines. New WardCode scheme. Each ward includes its electorate count and the LGD it sits in. These are recommendations and may not yet be in legal force — verify current statutory status before using for official purposes.",
+      "description": "Northern Ireland's 462 wards, as recommended by the Local Government Boundaries Commissioner in the Final Recommendations published in May 2022 and used at the May 2023 local government elections. Same ward count as the 2014 boundaries but with substantially redrawn lines, and a new WardCode scheme. Each ward carries its electorate count and the local government district it sits in. Confirm the current statutory position before relying on these for official purposes.",
       "sourceCredits": [
         "Local Government Boundary Commission for Northern Ireland",
         "Land & Property Services"
@@ -4646,7 +4644,7 @@
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/local-government/Wards_2012_FullRes.fgb"
+          "file": "https://data.civgraph.net/data/maps/local-government/Wards_2012.fgb"
         }
       ],
       "references": [
@@ -9848,11 +9846,11 @@
       "sourceMapId": "pc-1884",
       "cloneOf": null,
       "parentId": null,
-      "name": "Parliamentary Constituencies 1884 (pre-partition)",
+      "name": "Parliamentary Constituencies 1885 (Northern Ireland)",
       "category": "Parliamentary Constituencies",
       "categoryId": "parliamentary",
       "group": "Elections and Government",
-      "date": 1884,
+      "date": 1885,
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
@@ -9986,13 +9984,13 @@
       "dateEffective": null,
       "provider": [
         "Paddy Matthews",
-        "OSI",
+        "Tailte Éireann",
         "OSNI"
       ],
       "description": null,
       "sourceCredits": [
         "Paddy Matthews",
-        "OSI",
+        "Tailte Éireann",
         "OSNI"
       ],
       "conversionStatus": "converted",
@@ -10364,7 +10362,7 @@
       "cloneOf": null,
       "parentId": null,
       "name": "2023",
-      "category": "Dáil Eireann Constituencies",
+      "category": "Dáil Éireann Constituencies",
       "categoryId": "dail",
       "group": "Elections and Government",
       "date": 2023,
@@ -10443,7 +10441,7 @@
       "cloneOf": null,
       "parentId": null,
       "name": "2017",
-      "category": "Dáil Eireann Constituencies",
+      "category": "Dáil Éireann Constituencies",
       "categoryId": "dail",
       "group": "Elections and Government",
       "date": 2017,
@@ -10522,7 +10520,7 @@
       "cloneOf": null,
       "parentId": null,
       "name": "2013",
-      "category": "Dáil Eireann Constituencies",
+      "category": "Dáil Éireann Constituencies",
       "categoryId": "dail",
       "group": "Elections and Government",
       "date": 2013,
@@ -10601,7 +10599,7 @@
       "cloneOf": null,
       "parentId": null,
       "name": "2009",
-      "category": "Dáil Eireann Constituencies",
+      "category": "Dáil Éireann Constituencies",
       "categoryId": "dail",
       "group": "Elections and Government",
       "date": 2009,
@@ -10657,12 +10655,12 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
+        "Tailte Éireann",
         "Phelim Birch"
       ],
       "description": "Current provinces layer using the 2019 OSI statutory province geometry. The boundaries match the 1955/enriched province layer, so the MapLibre layer reuses that converted geometry to retain the Irish province-name field (CUIGE) instead of dropping the translation.",
       "sourceCredits": [
-        "OSI",
+        "Tailte Éireann",
         "Phelim Birch"
       ],
       "conversionStatus": "convertedAlias",
@@ -10787,13 +10785,11 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
-        "Phelim Birch"
+        "Tailte Éireann"
       ],
       "description": null,
       "sourceCredits": [
-        "OSI",
-        "Phelim Birch"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -11091,7 +11087,7 @@
       "category": "Counties",
       "categoryId": "counties",
       "group": "History",
-      "date": "2011",
+      "date": "1977",
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
@@ -11323,7 +11319,7 @@
         "Parlconst.org"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
+      "recommendedTarget": "catalogue-metadata",
       "testLayerId": "counties-county-boroughs-1915-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
@@ -11345,20 +11341,13 @@
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/baronies-parishes/CountiesandCountyBoroughs1915.fgb"
+          "file": "https://data.civgraph.net/data/maps/baronies-parishes/CountiesandCountyBoroughs1915.fgb?v=5a6c30b0f9a44f0054b67f5fd864a768"
         }
       ],
       "references": [],
       "sourceDownloads": [],
       "variants": 0,
-      "unsupportedReason": null,
-      "keywords": [
-        "county",
-        "county borough",
-        "1915",
-        "pre-reform",
-        "northern ireland"
-      ]
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "dublin-electoral-counties-1985",
@@ -11747,12 +11736,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          54.0227248,
-          -8.1774835
+          54.022725,
+          -8.177484
         ],
         [
-          55.3129847,
-          -5.4327895
+          55.312985,
+          -5.43279
         ]
       ],
       "style": {
@@ -11826,12 +11815,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          54.0227248,
-          -8.1774835
+          54.022725,
+          -8.177484
         ],
         [
-          55.3129847,
-          -5.4327895
+          55.312985,
+          -5.43279
         ]
       ],
       "style": {
@@ -11880,12 +11869,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          54.0227249,
-          -8.1775025
+          54.022725,
+          -8.177502
         ],
         [
-          55.3129665,
-          -5.4327894
+          55.312967,
+          -5.432789
         ]
       ],
       "style": {
@@ -11951,12 +11940,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          54.0227249,
-          -8.1775025
+          54.022725,
+          -8.177502
         ],
         [
-          55.3129665,
-          -5.4327894
+          55.312967,
+          -5.432789
         ]
       ],
       "style": {
@@ -12026,12 +12015,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          54.0227249,
-          -8.1775025
+          54.022725,
+          -8.177502
         ],
         [
-          55.3129653,
-          -5.4327894
+          55.312965,
+          -5.432789
         ]
       ],
       "style": {
@@ -12170,16 +12159,67 @@
       "sourceFiles": [
         {
           "kind": "geojson",
-          "file": "data/maps/census-areas/NUTS2_All_Ireland.geojson"
+          "file": "https://data.civgraph.net/data/maps/census-areas/NUTS2_All_Ireland.geojson"
         },
         {
           "kind": "fgb",
-          "file": "data/maps/census-areas/NUTS2_All_Ireland.fgb"
+          "file": "https://data.civgraph.net/data/maps/census-areas/NUTS2_All_Ireland.fgb"
         }
       ],
       "references": [],
       "sourceDownloads": [],
-      "variants": 0,
+      "variants": 1,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "nuts-2-roi",
+      "cloneOf": null,
+      "parentId": "nuts-2-all-ireland",
+      "name": "NUTS 2 Regions (All Ireland)",
+      "category": "Census Statistical Areas",
+      "categoryId": "census",
+      "group": "Public Services",
+      "date": "2011",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "CSO",
+        "OSNI"
+      ],
+      "description": "NUTS 2 regions in the Republic of Ireland (2011)",
+      "sourceCredits": [
+        "CSO",
+        "OSNI"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "nuts-2-roi-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.4198971,
+          -10.6628504
+        ],
+        [
+          55.4465759,
+          -5.9962842
+        ]
+      ],
+      "style": {
+        "color": "#8E6C00",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/census-areas/ROI_NUTS2.fgb"
+        }
+      ],
+      "references": [],
+      "sourceDownloads": [],
+      "variants": 1,
       "unsupportedReason": null
     },
     {
@@ -12223,11 +12263,11 @@
       "sourceFiles": [
         {
           "kind": "geojson",
-          "file": "data/maps/census-areas/ROI_NUTS2.geojson"
+          "file": "https://data.civgraph.net/data/maps/census-areas/ROI_NUTS2.geojson"
         },
         {
           "kind": "fgb",
-          "file": "data/maps/census-areas/ROI_NUTS2.fgb"
+          "file": "https://data.civgraph.net/data/maps/census-areas/ROI_NUTS2.fgb"
         }
       ],
       "references": [],
@@ -12352,12 +12392,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          52.9681498,
-          -10.3207471
+          51.419897,
+          -10.662971
         ],
         [
-          54.4743682,
-          -7.584171
+          55.44658,
+          -5.996278
         ]
       ],
       "style": {
@@ -12401,12 +12441,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          52.1092161,
-          -8.0838745
+          51.419897,
+          -10.662971
         ],
         [
-          54.1139509,
-          -5.9962778
+          55.44658,
+          -5.996278
         ]
       ],
       "style": {
@@ -12450,12 +12490,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          51.4198973,
-          -10.6629709
+          51.419897,
+          -10.662971
         ],
         [
-          53.168769,
-          -6.9499934
+          55.44658,
+          -5.996278
         ]
       ],
       "style": {
@@ -12499,12 +12539,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          53.7655741,
-          -8.8347879
+          51.419897,
+          -10.662971
         ],
         [
-          55.4465803,
-          -6.5497295
+          55.44658,
+          -5.996278
         ]
       ],
       "style": {
@@ -12592,12 +12632,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          52.9681508,
-          -10.3022896
+          51.419897,
+          -10.66285
         ],
         [
-          54.4743437,
-          -7.5841891
+          55.446576,
+          -5.996284
         ]
       ],
       "style": {
@@ -12641,12 +12681,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          52.1092119,
-          -8.0838724
+          51.419897,
+          -10.66285
         ],
         [
-          54.1139483,
-          -5.9962842
+          55.446576,
+          -5.996284
         ]
       ],
       "style": {
@@ -12690,12 +12730,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          51.4198971,
-          -10.6628504
+          51.419897,
+          -10.66285
         ],
         [
-          53.1687699,
-          -6.9500213
+          55.446576,
+          -5.996284
         ]
       ],
       "style": {
@@ -12739,12 +12779,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          53.7655749,
-          -8.8347882
+          51.419897,
+          -10.66285
         ],
         [
-          55.4465759,
-          -6.5497282
+          55.446576,
+          -5.996284
         ]
       ],
       "style": {
@@ -12788,12 +12828,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          51.4198971,
-          -10.6628504
+          51.419897,
+          -10.66285
         ],
         [
-          55.4465759,
-          -5.9962842
+          55.446576,
+          -5.996284
         ]
       ],
       "style": {
@@ -12817,21 +12857,19 @@
       "sourceMapId": "eds-1911",
       "cloneOf": null,
       "parentId": null,
-      "name": "District Electoral Divisions 1911",
+      "name": "District Electoral Divisions 1910",
       "category": "Electoral Areas",
       "categoryId": "wards",
       "group": "Elections and Government",
       "date": 1911,
       "dateAdded": null,
-      "dateEffective": null,
+      "dateEffective": "1910",
       "provider": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "description": null,
       "sourceCredits": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "conversionStatus": "convertedComposite",
       "recommendedTarget": "composite-vector-tiles",
@@ -12863,21 +12901,19 @@
       "sourceMapId": "eds-connacht-1911",
       "cloneOf": null,
       "parentId": "eds-1911",
-      "name": "District Electoral Divisions 1911",
+      "name": "District Electoral Divisions 1910",
       "category": "Electoral Areas",
       "categoryId": "wards",
       "group": "Elections and Government",
       "date": 1911,
       "dateAdded": null,
-      "dateEffective": null,
+      "dateEffective": "1910",
       "provider": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "description": "Electoral Divisions in Connacht province",
       "sourceCredits": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -12885,12 +12921,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          52.9681502,
-          -10.3207473
+          51.388858,
+          -10.662971
         ],
         [
-          54.4743687,
-          -7.5841712
+          55.446581,
+          -5.426788
         ]
       ],
       "style": {
@@ -12914,21 +12950,19 @@
       "sourceMapId": "eds-leinster-1911",
       "cloneOf": null,
       "parentId": "eds-1911",
-      "name": "District Electoral Divisions 1911",
+      "name": "District Electoral Divisions 1910",
       "category": "Electoral Areas",
       "categoryId": "wards",
       "group": "Elections and Government",
       "date": 1911,
       "dateAdded": null,
-      "dateEffective": null,
+      "dateEffective": "1910",
       "provider": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "description": "Electoral Divisions in Leinster province",
       "sourceCredits": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -12936,12 +12970,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          52.1092166,
-          -8.0838746
+          51.388858,
+          -10.662971
         ],
         [
-          54.1139514,
-          -5.9962778
+          55.446581,
+          -5.426788
         ]
       ],
       "style": {
@@ -12965,21 +12999,19 @@
       "sourceMapId": "eds-munster-1911",
       "cloneOf": null,
       "parentId": "eds-1911",
-      "name": "District Electoral Divisions 1911",
+      "name": "District Electoral Divisions 1910",
       "category": "Electoral Areas",
       "categoryId": "wards",
       "group": "Elections and Government",
       "date": 1911,
       "dateAdded": null,
-      "dateEffective": null,
+      "dateEffective": "1910",
       "provider": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "description": "Electoral Divisions in Munster province",
       "sourceCredits": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -12987,12 +13019,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          51.3888584,
+          51.388858,
           -10.662971
         ],
         [
-          53.1687695,
-          -6.9499935
+          55.446581,
+          -5.426788
         ]
       ],
       "style": {
@@ -13016,21 +13048,19 @@
       "sourceMapId": "eds-ulster-1911",
       "cloneOf": null,
       "parentId": "eds-1911",
-      "name": "District Electoral Divisions 1911",
+      "name": "District Electoral Divisions 1910",
       "category": "Electoral Areas",
       "categoryId": "wards",
       "group": "Elections and Government",
       "date": 1911,
       "dateAdded": null,
-      "dateEffective": null,
+      "dateEffective": "1910",
       "provider": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "description": "Electoral Divisions in Ulster province",
       "sourceCredits": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -13038,12 +13068,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          53.7655746,
-          -8.834788
+          51.388858,
+          -10.662971
         ],
         [
-          55.4465808,
-          -5.4267884
+          55.446581,
+          -5.426788
         ]
       ],
       "style": {
@@ -13179,12 +13209,12 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "description": "Southern Ireland Electoral Divisions on 3 May 1921 (Government of Ireland Act commencement) - boundaries unchanged through to 1926, rendered using the 1926 ROI ED dataset since pre-1926 distinct geography is not yet digitised.",
       "sourceCredits": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "conversionStatus": "convertedComposite",
@@ -13225,12 +13255,12 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "description": "Southern Ireland Electoral Divisions on 3 May 1921 (Government of Ireland Act commencement) - boundaries unchanged through to 1926, rendered using the 1926 ROI ED dataset since pre-1926 distinct geography is not yet digitised.",
       "sourceCredits": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "conversionStatus": "converted",
@@ -13239,12 +13269,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          52.9681502,
-          -10.3207473
+          51.388858,
+          -10.662971
         ],
         [
-          54.4743687,
-          -7.5841712
+          55.446581,
+          -5.996278
         ]
       ],
       "style": {
@@ -13276,12 +13306,12 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "description": "Southern Ireland Electoral Divisions on 3 May 1921 (Government of Ireland Act commencement) - boundaries unchanged through to 1926, rendered using the 1926 ROI ED dataset since pre-1926 distinct geography is not yet digitised.",
       "sourceCredits": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "conversionStatus": "converted",
@@ -13290,12 +13320,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          52.1092165,
-          -8.0838746
+          51.388858,
+          -10.662971
         ],
         [
-          54.1139514,
-          -5.9962778
+          55.446581,
+          -5.996278
         ]
       ],
       "style": {
@@ -13327,12 +13357,12 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "description": "Southern Ireland Electoral Divisions on 3 May 1921 (Government of Ireland Act commencement) - boundaries unchanged through to 1926, rendered using the 1926 ROI ED dataset since pre-1926 distinct geography is not yet digitised.",
       "sourceCredits": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "conversionStatus": "converted",
@@ -13341,12 +13371,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          51.3888583,
+          51.388858,
           -10.662971
         ],
         [
-          53.1687694,
-          -6.9499935
+          55.446581,
+          -5.996278
         ]
       ],
       "style": {
@@ -13378,12 +13408,12 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "description": "Southern Ireland Electoral Divisions on 3 May 1921 (Government of Ireland Act commencement) - boundaries unchanged through to 1926, rendered using the 1926 ROI ED dataset since pre-1926 distinct geography is not yet digitised.",
       "sourceCredits": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "conversionStatus": "converted",
@@ -13392,12 +13422,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          53.7655746,
-          -8.834788
+          51.388858,
+          -10.662971
         ],
         [
-          55.4465808,
-          -6.5497296
+          55.446581,
+          -5.996278
         ]
       ],
       "style": {
@@ -13429,12 +13459,12 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "description": "Southern Ireland Electoral Divisions on 28 June 1921 — boundaries unchanged through to the 1926 census, rendered using the 1926 ROI ED dataset since pre-1926 distinct geography is not yet digitised.",
       "sourceCredits": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "conversionStatus": "convertedComposite",
@@ -13466,12 +13496,12 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "description": "Southern Ireland Electoral Divisions on 28 June 1921 — boundaries unchanged through to the 1926 census, rendered using the 1926 ROI ED dataset since pre-1926 distinct geography is not yet digitised.",
       "sourceCredits": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "conversionStatus": "converted",
@@ -13517,12 +13547,12 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "description": "Southern Ireland Electoral Divisions on 28 June 1921 — boundaries unchanged through to the 1926 census, rendered using the 1926 ROI ED dataset since pre-1926 distinct geography is not yet digitised.",
       "sourceCredits": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "conversionStatus": "converted",
@@ -13568,12 +13598,12 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "description": "Southern Ireland Electoral Divisions on 28 June 1921 — boundaries unchanged through to the 1926 census, rendered using the 1926 ROI ED dataset since pre-1926 distinct geography is not yet digitised.",
       "sourceCredits": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "conversionStatus": "converted",
@@ -13619,12 +13649,12 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "description": "Southern Ireland Electoral Divisions on 28 June 1921 — boundaries unchanged through to the 1926 census, rendered using the 1926 ROI ED dataset since pre-1926 distinct geography is not yet digitised.",
       "sourceCredits": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "conversionStatus": "converted",
@@ -13739,12 +13769,12 @@
       "aliasTargetLayerId": "eds-connacht-1919-vector-test",
       "bounds": [
         [
-          52.9681498,
-          -10.3207471
+          51.4,
+          -10.75
         ],
         [
-          54.4743682,
-          -7.584171
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -13799,12 +13829,12 @@
       "aliasTargetLayerId": "eds-leinster-1936-vector-test",
       "bounds": [
         [
-          52.1092161,
-          -8.0838745
+          51.4,
+          -10.75
         ],
         [
-          54.1139509,
-          -5.9962778
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -13813,12 +13843,7 @@
         "fillOpacity": null,
         "weight": 2
       },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1936.fgb"
-        }
-      ],
+      "sourceFiles": [],
       "references": [
         {
           "label": "District Electoral Divisions/Wards 1941 source notes",
@@ -13859,12 +13884,12 @@
       "aliasTargetLayerId": "eds-munster-1921-vector-test",
       "bounds": [
         [
-          51.4198973,
-          -10.6629709
+          51.4,
+          -10.75
         ],
         [
-          53.168769,
-          -6.9499934
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -13919,12 +13944,12 @@
       "aliasTargetLayerId": "eds-ulster-1921-vector-test",
       "bounds": [
         [
-          53.7655741,
-          -8.8347879
+          51.4,
+          -10.75
         ],
         [
-          55.4465803,
-          -6.5497295
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -14038,12 +14063,12 @@
       "aliasTargetLayerId": "eds-connacht-1919-vector-test",
       "bounds": [
         [
-          52.9681498,
-          -10.3207471
+          51.4,
+          -10.75
         ],
         [
-          54.4743682,
-          -7.584171
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -14102,12 +14127,12 @@
       "aliasTargetLayerId": "eds-leinster-1943-vector-test",
       "bounds": [
         [
-          52.1092161,
-          -8.0838745
+          51.4,
+          -10.75
         ],
         [
-          54.1139509,
-          -5.9962778
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -14166,12 +14191,12 @@
       "aliasTargetLayerId": "eds-munster-1944-vector-test",
       "bounds": [
         [
-          51.419897,
-          -10.662971
+          51.4,
+          -10.75
         ],
         [
-          53.168769,
-          -6.949993
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -14227,15 +14252,15 @@
       "conversionStatus": "convertedAlias",
       "recommendedTarget": "maplibre-clone-alias",
       "testLayerId": "eds-roi-1944-ulster-alias-test",
-      "aliasTargetLayerId": "eds-ulster-1986-vector-test",
+      "aliasTargetLayerId": "eds-ulster-1921-vector-test",
       "bounds": [
         [
-          53.7655741,
-          -8.8347879
+          51.4,
+          -10.75
         ],
         [
-          55.4465803,
-          -6.5497295
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -14349,12 +14374,12 @@
       "aliasTargetLayerId": "eds-connacht-1919-vector-test",
       "bounds": [
         [
-          52.9681498,
-          -10.3207471
+          51.4,
+          -10.75
         ],
         [
-          54.4743682,
-          -7.584171
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -14409,12 +14434,12 @@
       "aliasTargetLayerId": "eds-leinster-1949-vector-test",
       "bounds": [
         [
-          52.109216,
-          -8.083874
+          51.4,
+          -10.75
         ],
         [
-          54.113951,
-          -5.996278
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -14469,12 +14494,12 @@
       "aliasTargetLayerId": "eds-munster-1950-vector-test",
       "bounds": [
         [
-          51.419897,
-          -10.662971
+          51.4,
+          -10.75
         ],
         [
-          53.168769,
-          -6.949993
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -14526,15 +14551,15 @@
       "conversionStatus": "convertedAlias",
       "recommendedTarget": "maplibre-clone-alias",
       "testLayerId": "eds-roi-1950-ulster-alias-test",
-      "aliasTargetLayerId": "eds-ulster-1986-vector-test",
+      "aliasTargetLayerId": "eds-ulster-1921-vector-test",
       "bounds": [
         [
-          53.7655741,
-          -8.8347879
+          51.4,
+          -10.75
         ],
         [
-          55.4465803,
-          -6.5497295
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -14644,12 +14669,12 @@
       "aliasTargetLayerId": "eds-connacht-1919-vector-test",
       "bounds": [
         [
-          52.9681498,
-          -10.3207471
+          51.4,
+          -10.75
         ],
         [
-          54.4743682,
-          -7.584171
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -14704,12 +14729,12 @@
       "aliasTargetLayerId": "eds-leinster-1954-vector-test",
       "bounds": [
         [
-          52.109216,
-          -8.083874
+          51.4,
+          -10.75
         ],
         [
-          54.113951,
-          -5.996278
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -14764,12 +14789,12 @@
       "aliasTargetLayerId": "eds-munster-1950-vector-test",
       "bounds": [
         [
-          51.419897,
-          -10.662971
+          51.4,
+          -10.75
         ],
         [
-          53.168769,
-          -6.949993
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -14821,15 +14846,15 @@
       "conversionStatus": "convertedAlias",
       "recommendedTarget": "maplibre-clone-alias",
       "testLayerId": "eds-roi-1954-ulster-alias-test",
-      "aliasTargetLayerId": "eds-ulster-1986-vector-test",
+      "aliasTargetLayerId": "eds-ulster-1921-vector-test",
       "bounds": [
         [
-          53.7655741,
-          -8.8347879
+          51.4,
+          -10.75
         ],
         [
-          55.4465803,
-          -6.5497295
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -14955,12 +14980,12 @@
       "aliasTargetLayerId": "eds-connacht-1957-vector-test",
       "bounds": [
         [
-          52.9681498,
-          -10.3207471
+          51.4,
+          -10.75
         ],
         [
-          54.4743682,
-          -7.584171
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -15031,12 +15056,12 @@
       "aliasTargetLayerId": "eds-leinster-1957-vector-test",
       "bounds": [
         [
-          52.1092161,
-          -8.0838745
+          51.4,
+          -10.75
         ],
         [
-          54.1139509,
-          -5.9962778
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -15107,12 +15132,12 @@
       "aliasTargetLayerId": "eds-munster-1957-vector-test",
       "bounds": [
         [
-          51.4198973,
-          -10.6629709
+          51.4,
+          -10.75
         ],
         [
-          53.168769,
-          -6.9499934
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -15180,15 +15205,15 @@
       "conversionStatus": "convertedAlias",
       "recommendedTarget": "maplibre-clone-alias",
       "testLayerId": "eds-roi-1957-ulster-alias-test",
-      "aliasTargetLayerId": "eds-ulster-1986-vector-test",
+      "aliasTargetLayerId": "eds-ulster-1921-vector-test",
       "bounds": [
         [
-          53.7655741,
-          -8.8347879
+          51.4,
+          -10.75
         ],
         [
-          55.4465803,
-          -6.5497295
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -15322,12 +15347,12 @@
       "aliasTargetLayerId": "eds-connacht-1957-vector-test",
       "bounds": [
         [
-          52.9681498,
-          -10.3207471
+          51.4,
+          -10.75
         ],
         [
-          54.4743682,
-          -7.584171
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -15390,12 +15415,12 @@
       "aliasTargetLayerId": "eds-leinster-1963-vector-test",
       "bounds": [
         [
-          52.1092161,
-          -8.0838745
+          51.4,
+          -10.75
         ],
         [
-          54.1139509,
-          -5.9962778
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -15458,12 +15483,12 @@
       "aliasTargetLayerId": "eds-munster-1965-vector-test",
       "bounds": [
         [
-          51.4198973,
-          -10.6629709
+          51.4,
+          -10.75
         ],
         [
-          53.168769,
-          -6.9499934
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -15526,12 +15551,12 @@
       "aliasTargetLayerId": "eds-ulster-1963-vector-test",
       "bounds": [
         [
-          53.7655741,
-          -8.8347879
+          51.4,
+          -10.75
         ],
         [
-          55.4465803,
-          -6.5497295
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -15649,12 +15674,12 @@
       "aliasTargetLayerId": "eds-connacht-1957-vector-test",
       "bounds": [
         [
-          52.9681498,
-          -10.3207471
+          51.4,
+          -10.75
         ],
         [
-          54.4743682,
-          -7.584171
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -15709,12 +15734,12 @@
       "aliasTargetLayerId": "eds-leinster-1963-vector-test",
       "bounds": [
         [
-          52.1092161,
-          -8.0838745
+          51.4,
+          -10.75
         ],
         [
-          54.1139509,
-          -5.9962778
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -15769,12 +15794,12 @@
       "aliasTargetLayerId": "eds-munster-1966-vector-test",
       "bounds": [
         [
-          51.4198973,
-          -10.6629709
+          51.4,
+          -10.75
         ],
         [
-          53.168769,
-          -6.9499934
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -15829,12 +15854,12 @@
       "aliasTargetLayerId": "eds-ulster-1963-vector-test",
       "bounds": [
         [
-          53.7655741,
-          -8.8347879
+          51.4,
+          -10.75
         ],
         [
-          55.4465803,
-          -6.5497295
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -15968,12 +15993,12 @@
       "aliasTargetLayerId": "eds-connacht-1957-vector-test",
       "bounds": [
         [
-          52.9681498,
-          -10.3207471
+          51.4,
+          -10.75
         ],
         [
-          54.4743682,
-          -7.584171
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -16052,12 +16077,12 @@
       "aliasTargetLayerId": "eds-leinster-1963-vector-test",
       "bounds": [
         [
-          52.1092161,
-          -8.0838745
+          51.4,
+          -10.75
         ],
         [
-          54.1139509,
-          -5.9962778
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -16136,12 +16161,12 @@
       "aliasTargetLayerId": "eds-munster-1970-vector-test",
       "bounds": [
         [
-          51.4198973,
-          -10.6629709
+          51.4,
+          -10.75
         ],
         [
-          53.168769,
-          -6.9499934
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -16220,12 +16245,12 @@
       "aliasTargetLayerId": "eds-ulster-1963-vector-test",
       "bounds": [
         [
-          53.7655741,
-          -8.8347879
+          51.4,
+          -10.75
         ],
         [
-          55.4465803,
-          -6.5497295
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -16308,7 +16333,7 @@
       "sourceMapId": "eds-1926",
       "cloneOf": null,
       "parentId": null,
-      "name": "Electoral Divisions 1926",
+      "name": "Electoral Divisions 1926 (Irish Free State)",
       "category": "Electoral Divisions",
       "categoryId": "electoral-divisions",
       "group": "Built Environment",
@@ -16316,17 +16341,15 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "description": null,
       "sourceCredits": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "conversionStatus": "convertedComposite",
       "recommendedTarget": "composite-vector-tiles",
-      "testLayerId": "composite:eds-connacht-1926,eds-leinster-1926,eds-munster-1926,eds-ulster-1926,deds-ni-1926",
+      "testLayerId": "composite:eds-connacht-1926,eds-leinster-1926,eds-munster-1926,eds-ulster-1926",
       "aliasTargetLayerId": null,
       "bounds": [
         [
@@ -16347,14 +16370,14 @@
       "sourceFiles": [],
       "references": [],
       "sourceDownloads": [],
-      "variants": 5,
+      "variants": 4,
       "unsupportedReason": null
     },
     {
       "sourceMapId": "eds-connacht-1926",
       "cloneOf": null,
       "parentId": "eds-1926",
-      "name": "Electoral Divisions 1926",
+      "name": "Electoral Divisions 1926 (Irish Free State)",
       "category": "Electoral Divisions",
       "categoryId": "electoral-divisions",
       "group": "Built Environment",
@@ -16362,13 +16385,11 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "description": "Electoral Divisions in Connacht province",
       "sourceCredits": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -16376,12 +16397,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          52.9681502,
-          -10.3207473
+          51.388858,
+          -10.662971
         ],
         [
-          54.4743687,
-          -7.5841712
+          55.446581,
+          -5.426788
         ]
       ],
       "style": {
@@ -16398,14 +16419,14 @@
       ],
       "references": [],
       "sourceDownloads": [],
-      "variants": 5,
+      "variants": 4,
       "unsupportedReason": null
     },
     {
       "sourceMapId": "eds-leinster-1926",
       "cloneOf": null,
       "parentId": "eds-1926",
-      "name": "Electoral Divisions 1926",
+      "name": "Electoral Divisions 1926 (Irish Free State)",
       "category": "Electoral Divisions",
       "categoryId": "electoral-divisions",
       "group": "Built Environment",
@@ -16413,13 +16434,11 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "description": "Electoral Divisions in Leinster province",
       "sourceCredits": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -16427,12 +16446,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          52.1092165,
-          -8.0838746
+          51.388858,
+          -10.662971
         ],
         [
-          54.1139514,
-          -5.9962778
+          55.446581,
+          -5.426788
         ]
       ],
       "style": {
@@ -16449,14 +16468,14 @@
       ],
       "references": [],
       "sourceDownloads": [],
-      "variants": 5,
+      "variants": 4,
       "unsupportedReason": null
     },
     {
       "sourceMapId": "eds-munster-1926",
       "cloneOf": null,
       "parentId": "eds-1926",
-      "name": "Electoral Divisions 1926",
+      "name": "Electoral Divisions 1926 (Irish Free State)",
       "category": "Electoral Divisions",
       "categoryId": "electoral-divisions",
       "group": "Built Environment",
@@ -16464,13 +16483,11 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "description": "Electoral Divisions in Munster province",
       "sourceCredits": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -16478,12 +16495,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          51.3888583,
+          51.388858,
           -10.662971
         ],
         [
-          53.1687694,
-          -6.9499935
+          55.446581,
+          -5.426788
         ]
       ],
       "style": {
@@ -16500,14 +16517,14 @@
       ],
       "references": [],
       "sourceDownloads": [],
-      "variants": 5,
+      "variants": 4,
       "unsupportedReason": null
     },
     {
       "sourceMapId": "eds-ulster-1926",
       "cloneOf": null,
       "parentId": "eds-1926",
-      "name": "Electoral Divisions 1926",
+      "name": "Electoral Divisions 1926 (Irish Free State)",
       "category": "Electoral Divisions",
       "categoryId": "electoral-divisions",
       "group": "Built Environment",
@@ -16515,13 +16532,11 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "description": "Electoral Divisions in Ulster (Republic of Ireland portion)",
       "sourceCredits": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -16529,12 +16544,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          53.7655746,
-          -8.834788
+          51.388858,
+          -10.662971
         ],
         [
-          55.4465808,
-          -6.5497296
+          55.446581,
+          -5.426788
         ]
       ],
       "style": {
@@ -16551,58 +16566,7 @@
       ],
       "references": [],
       "sourceDownloads": [],
-      "variants": 5,
-      "unsupportedReason": null
-    },
-    {
-      "sourceMapId": "deds-ni-1926",
-      "cloneOf": null,
-      "parentId": "eds-1926",
-      "name": "Electoral Divisions 1926",
-      "category": "Electoral Divisions",
-      "categoryId": "electoral-divisions",
-      "group": "Built Environment",
-      "date": 1926,
-      "dateAdded": null,
-      "dateEffective": null,
-      "provider": [
-        "OSI",
-        "OSM"
-      ],
-      "description": "DEDs in Northern Ireland",
-      "sourceCredits": [
-        "OSI",
-        "OSM"
-      ],
-      "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": "deds-ni-1926-vector-test",
-      "aliasTargetLayerId": null,
-      "bounds": [
-        [
-          54.0227248,
-          -8.1779384
-        ],
-        [
-          55.3129847,
-          -5.4267884
-        ]
-      ],
-      "style": {
-        "color": "#CD853F",
-        "fillColor": null,
-        "fillOpacity": null,
-        "weight": 2
-      },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/electoral-divisions/NorthernIrelandDEDs1926.fgb"
-        }
-      ],
-      "references": [],
-      "sourceDownloads": [],
-      "variants": 5,
+      "variants": 4,
       "unsupportedReason": null
     },
     {
@@ -16617,12 +16581,12 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "description": "Unified all-Ireland civil parish boundaries. The interactive layer uses overview LODs at low and medium zooms, then viewport chunks at high zooms.",
       "sourceCredits": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "conversionStatus": "converted",
@@ -16673,12 +16637,12 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "description": "Civil Parishes in Connacht",
       "sourceCredits": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "conversionStatus": "converted",
@@ -16687,12 +16651,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          52.9681498,
-          -10.3023128
+          51.35,
+          -10.75
         ],
         [
-          54.4743682,
-          -7.584171
+          55.55,
+          -5.35
         ]
       ],
       "style": {
@@ -16729,12 +16693,12 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "description": "Civil Parishes in Leinster",
       "sourceCredits": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "conversionStatus": "converted",
@@ -16743,12 +16707,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          52.1092161,
-          -8.0838746
+          51.35,
+          -10.75
         ],
         [
-          54.1126758,
-          -5.9962778
+          55.55,
+          -5.35
         ]
       ],
       "style": {
@@ -16785,12 +16749,12 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "description": "Civil Parishes in Munster",
       "sourceCredits": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "conversionStatus": "converted",
@@ -16799,12 +16763,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          51.3888583,
-          -10.662971
+          51.35,
+          -10.75
         ],
         [
-          53.209314,
-          -6.9499934
+          55.55,
+          -5.35
         ]
       ],
       "style": {
@@ -16841,12 +16805,12 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "description": "Civil Parishes in Ulster",
       "sourceCredits": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "conversionStatus": "converted",
@@ -16855,12 +16819,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          53.7671609,
-          -8.834788
+          51.35,
+          -10.75
         ],
         [
-          55.4465808,
-          -5.4267884
+          55.55,
+          -5.35
         ]
       ],
       "style": {
@@ -16904,7 +16868,7 @@
       "sourceCredits": [
         "OSM",
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "convertedAlias",
       "recommendedTarget": "maplibre-clone-alias",
@@ -16959,12 +16923,12 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
+        "Tailte Éireann",
         "OSNI"
       ],
       "description": null,
       "sourceCredits": [
-        "OSI",
+        "Tailte Éireann",
         "OSNI"
       ],
       "conversionStatus": "converted",
@@ -17010,12 +16974,12 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
+        "Tailte Éireann",
         "OSNI"
       ],
       "description": null,
       "sourceCredits": [
-        "OSI",
+        "Tailte Éireann",
         "OSNI"
       ],
       "conversionStatus": "converted",
@@ -17061,12 +17025,12 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
+        "Tailte Éireann",
         "OSNI"
       ],
       "description": null,
       "sourceCredits": [
-        "OSI",
+        "Tailte Éireann",
         "OSNI"
       ],
       "conversionStatus": "converted",
@@ -17112,12 +17076,12 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
+        "Tailte Éireann",
         "OSNI"
       ],
       "description": null,
       "sourceCredits": [
-        "OSI",
+        "Tailte Éireann",
         "OSNI"
       ],
       "conversionStatus": "converted",
@@ -17163,12 +17127,12 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
+        "Tailte Éireann",
         "OSNI"
       ],
       "description": null,
       "sourceCredits": [
-        "OSI",
+        "Tailte Éireann",
         "OSNI"
       ],
       "conversionStatus": "converted",
@@ -17214,12 +17178,12 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
+        "Tailte Éireann",
         "OSNI"
       ],
       "description": null,
       "sourceCredits": [
-        "OSI",
+        "Tailte Éireann",
         "OSNI"
       ],
       "conversionStatus": "converted",
@@ -17258,7 +17222,7 @@
       "cloneOf": null,
       "parentId": null,
       "name": "1995",
-      "category": "Dáil Eireann Constituencies",
+      "category": "Dáil Éireann Constituencies",
       "categoryId": "dail",
       "group": "Elections and Government",
       "date": 1995,
@@ -17307,7 +17271,7 @@
       "cloneOf": null,
       "parentId": null,
       "name": "1998",
-      "category": "Dáil Eireann Constituencies",
+      "category": "Dáil Éireann Constituencies",
       "categoryId": "dail",
       "group": "Elections and Government",
       "date": 1998,
@@ -17356,7 +17320,7 @@
       "cloneOf": null,
       "parentId": null,
       "name": "2005",
-      "category": "Dáil Eireann Constituencies",
+      "category": "Dáil Éireann Constituencies",
       "categoryId": "dail",
       "group": "Elections and Government",
       "date": 2005,
@@ -17405,7 +17369,7 @@
       "cloneOf": null,
       "parentId": null,
       "name": "1990",
-      "category": "Dáil Eireann Constituencies",
+      "category": "Dáil Éireann Constituencies",
       "categoryId": "dail",
       "group": "Elections and Government",
       "date": 1990,
@@ -17454,7 +17418,7 @@
       "cloneOf": null,
       "parentId": null,
       "name": "1983",
-      "category": "Dáil Eireann Constituencies",
+      "category": "Dáil Éireann Constituencies",
       "categoryId": "dail",
       "group": "Elections and Government",
       "date": 1983,
@@ -17503,7 +17467,7 @@
       "cloneOf": null,
       "parentId": null,
       "name": "1980",
-      "category": "Dáil Eireann Constituencies",
+      "category": "Dáil Éireann Constituencies",
       "categoryId": "dail",
       "group": "Elections and Government",
       "date": 1980,
@@ -17552,7 +17516,7 @@
       "cloneOf": null,
       "parentId": null,
       "name": "1974",
-      "category": "Dáil Eireann Constituencies",
+      "category": "Dáil Éireann Constituencies",
       "categoryId": "dail",
       "group": "Elections and Government",
       "date": 1974,
@@ -17601,7 +17565,7 @@
       "cloneOf": null,
       "parentId": null,
       "name": "1969",
-      "category": "Dáil Eireann Constituencies",
+      "category": "Dáil Éireann Constituencies",
       "categoryId": "dail",
       "group": "Elections and Government",
       "date": 1969,
@@ -17650,7 +17614,7 @@
       "cloneOf": null,
       "parentId": null,
       "name": "1961",
-      "category": "Dáil Eireann Constituencies",
+      "category": "Dáil Éireann Constituencies",
       "categoryId": "dail",
       "group": "Elections and Government",
       "date": 1961,
@@ -17699,7 +17663,7 @@
       "cloneOf": null,
       "parentId": null,
       "name": "1959",
-      "category": "Dáil Eireann Constituencies",
+      "category": "Dáil Éireann Constituencies",
       "categoryId": "dail",
       "group": "Elections and Government",
       "date": 1959,
@@ -17748,7 +17712,7 @@
       "cloneOf": null,
       "parentId": null,
       "name": "1947",
-      "category": "Dáil Eireann Constituencies",
+      "category": "Dáil Éireann Constituencies",
       "categoryId": "dail",
       "group": "Elections and Government",
       "date": 1947,
@@ -17797,7 +17761,7 @@
       "cloneOf": null,
       "parentId": null,
       "name": "1935",
-      "category": "Dáil Eireann Constituencies",
+      "category": "Dáil Éireann Constituencies",
       "categoryId": "dail",
       "group": "Elections and Government",
       "date": 1935,
@@ -17828,7 +17792,7 @@
       "cloneOf": null,
       "parentId": null,
       "name": "1923",
-      "category": "Dáil Eireann Constituencies",
+      "category": "Dáil Éireann Constituencies",
       "categoryId": "dail",
       "group": "Elections and Government",
       "date": 1923,
@@ -18025,12 +17989,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          54.0144357,
-          -8.1858276
+          54.014436,
+          -8.185828
         ],
         [
-          55.3203144,
-          -5.4230903
+          55.320314,
+          -5.42309
         ]
       ],
       "style": {
@@ -18123,11 +18087,11 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSNI"
+        "XrysD"
       ],
       "description": null,
       "sourceCredits": [
-        "OSNI"
+        "XrysD"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -18171,9 +18135,13 @@
       "date": 2001,
       "dateAdded": null,
       "dateEffective": null,
-      "provider": null,
-      "description": "Same boundaries as 1993 Wards, used for 2001 Census",
-      "sourceCredits": [],
+      "provider": [
+        "OSNI"
+      ],
+      "description": "The 1993 wards, reused unchanged as an output geography for the 2001 Census. Northern Ireland had no Super Output Areas or Super Data Zones in 2001, so wards carried the small-area statistics that later censuses publish on those geographies. \"Wards 2001\" is therefore a census output geography rather than a separate set of boundaries.",
+      "sourceCredits": [
+        "OSNI"
+      ],
       "conversionStatus": "convertedAlias",
       "recommendedTarget": "maplibre-clone-alias",
       "testLayerId": "wards-2001-alias-test",
@@ -18201,402 +18169,6 @@
           "url": null
         }
       ],
-      "sourceDownloads": [],
-      "variants": 0,
-      "unsupportedReason": null
-    },
-    {
-      "sourceMapId": "eds-1926-ulster",
-      "cloneOf": null,
-      "parentId": null,
-      "name": "Ulster Electoral Divisions 1926",
-      "category": "Historic Boundaries",
-      "categoryId": "historic",
-      "group": "Built Environment",
-      "date": 1926,
-      "dateAdded": null,
-      "dateEffective": null,
-      "provider": [
-        "OSNI",
-        "OSI"
-      ],
-      "description": null,
-      "sourceCredits": [
-        "OSNI",
-        "OSI"
-      ],
-      "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": "eds-1926-ulster-vector-test",
-      "aliasTargetLayerId": null,
-      "bounds": [
-        [
-          53.7655746,
-          -8.834788
-        ],
-        [
-          55.4465808,
-          -6.5497296
-        ]
-      ],
-      "style": {
-        "color": "#8B4513",
-        "fillColor": null,
-        "fillOpacity": null,
-        "weight": 1
-      },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Ulster1926EDs.fgb"
-        }
-      ],
-      "references": [],
-      "sourceDownloads": [],
-      "variants": 0,
-      "unsupportedReason": null
-    },
-    {
-      "sourceMapId": "eds-1926-connacht",
-      "cloneOf": null,
-      "parentId": null,
-      "name": "Connacht Electoral Divisions 1926",
-      "category": "Historic Boundaries",
-      "categoryId": "historic",
-      "group": "Built Environment",
-      "date": 1926,
-      "dateAdded": null,
-      "dateEffective": null,
-      "provider": [
-        "OSI"
-      ],
-      "description": null,
-      "sourceCredits": [
-        "OSI"
-      ],
-      "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": "eds-1926-connacht-vector-test",
-      "aliasTargetLayerId": null,
-      "bounds": [
-        [
-          52.9681502,
-          -10.3207473
-        ],
-        [
-          54.4743687,
-          -7.5841712
-        ]
-      ],
-      "style": {
-        "color": "#8B4513",
-        "fillColor": null,
-        "fillOpacity": null,
-        "weight": 1
-      },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Connacht1926EDs.fgb"
-        }
-      ],
-      "references": [],
-      "sourceDownloads": [],
-      "variants": 0,
-      "unsupportedReason": null
-    },
-    {
-      "sourceMapId": "eds-1926-leinster",
-      "cloneOf": null,
-      "parentId": null,
-      "name": "Leinster Electoral Divisions 1926",
-      "category": "Historic Boundaries",
-      "categoryId": "historic",
-      "group": "Built Environment",
-      "date": 1926,
-      "dateAdded": null,
-      "dateEffective": null,
-      "provider": [
-        "OSI"
-      ],
-      "description": null,
-      "sourceCredits": [
-        "OSI"
-      ],
-      "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": "eds-1926-leinster-vector-test",
-      "aliasTargetLayerId": null,
-      "bounds": [
-        [
-          52.1092165,
-          -8.0838746
-        ],
-        [
-          54.1139514,
-          -5.9962778
-        ]
-      ],
-      "style": {
-        "color": "#8B4513",
-        "fillColor": null,
-        "fillOpacity": null,
-        "weight": 1
-      },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Leinster1926EDs.fgb"
-        }
-      ],
-      "references": [],
-      "sourceDownloads": [],
-      "variants": 0,
-      "unsupportedReason": null
-    },
-    {
-      "sourceMapId": "eds-1926-munster",
-      "cloneOf": null,
-      "parentId": null,
-      "name": "Munster Electoral Divisions 1926",
-      "category": "Historic Boundaries",
-      "categoryId": "historic",
-      "group": "Built Environment",
-      "date": 1926,
-      "dateAdded": null,
-      "dateEffective": null,
-      "provider": [
-        "OSI"
-      ],
-      "description": null,
-      "sourceCredits": [
-        "OSI"
-      ],
-      "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": "eds-1926-munster-vector-test",
-      "aliasTargetLayerId": null,
-      "bounds": [
-        [
-          51.3888583,
-          -10.662971
-        ],
-        [
-          53.1687694,
-          -6.9499935
-        ]
-      ],
-      "style": {
-        "color": "#8B4513",
-        "fillColor": null,
-        "fillOpacity": null,
-        "weight": 1
-      },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Munster1926EDs.fgb"
-        }
-      ],
-      "references": [],
-      "sourceDownloads": [],
-      "variants": 0,
-      "unsupportedReason": null
-    },
-    {
-      "sourceMapId": "eds-1911-ulster",
-      "cloneOf": null,
-      "parentId": null,
-      "name": "Ulster Electoral Divisions 1911",
-      "category": "Historic Boundaries",
-      "categoryId": "historic",
-      "group": "Built Environment",
-      "date": 1911,
-      "dateAdded": null,
-      "dateEffective": null,
-      "provider": [
-        "OSNI",
-        "OSI"
-      ],
-      "description": null,
-      "sourceCredits": [
-        "OSNI",
-        "OSI"
-      ],
-      "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": "eds-1911-ulster-vector-test",
-      "aliasTargetLayerId": null,
-      "bounds": [
-        [
-          53.7655746,
-          -8.834788
-        ],
-        [
-          55.4465808,
-          -5.4267884
-        ]
-      ],
-      "style": {
-        "color": "#A0522D",
-        "fillColor": null,
-        "fillOpacity": null,
-        "weight": 1
-      },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/electoral-divisions/UlsterElectoralDivisions1911.fgb"
-        }
-      ],
-      "references": [],
-      "sourceDownloads": [],
-      "variants": 0,
-      "unsupportedReason": null
-    },
-    {
-      "sourceMapId": "eds-1911-connacht",
-      "cloneOf": null,
-      "parentId": null,
-      "name": "Connacht Electoral Divisions 1911",
-      "category": "Historic Boundaries",
-      "categoryId": "historic",
-      "group": "Built Environment",
-      "date": 1911,
-      "dateAdded": null,
-      "dateEffective": null,
-      "provider": [
-        "OSI"
-      ],
-      "description": null,
-      "sourceCredits": [
-        "OSI"
-      ],
-      "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": "eds-1911-connacht-vector-test",
-      "aliasTargetLayerId": null,
-      "bounds": [
-        [
-          52.9681502,
-          -10.3207473
-        ],
-        [
-          54.4743687,
-          -7.5841712
-        ]
-      ],
-      "style": {
-        "color": "#A0522D",
-        "fillColor": null,
-        "fillOpacity": null,
-        "weight": 1
-      },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/electoral-divisions/ConnachtElectoralDivisions1911.fgb"
-        }
-      ],
-      "references": [],
-      "sourceDownloads": [],
-      "variants": 0,
-      "unsupportedReason": null
-    },
-    {
-      "sourceMapId": "eds-1911-leinster",
-      "cloneOf": null,
-      "parentId": null,
-      "name": "Leinster Electoral Divisions 1911",
-      "category": "Historic Boundaries",
-      "categoryId": "historic",
-      "group": "Built Environment",
-      "date": 1911,
-      "dateAdded": null,
-      "dateEffective": null,
-      "provider": [
-        "OSI"
-      ],
-      "description": null,
-      "sourceCredits": [
-        "OSI"
-      ],
-      "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": "eds-1911-leinster-vector-test",
-      "aliasTargetLayerId": null,
-      "bounds": [
-        [
-          52.1092166,
-          -8.0838746
-        ],
-        [
-          54.1139514,
-          -5.9962778
-        ]
-      ],
-      "style": {
-        "color": "#A0522D",
-        "fillColor": null,
-        "fillOpacity": null,
-        "weight": 1
-      },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/electoral-divisions/LeinsterElectoralDivisions1911.fgb"
-        }
-      ],
-      "references": [],
-      "sourceDownloads": [],
-      "variants": 0,
-      "unsupportedReason": null
-    },
-    {
-      "sourceMapId": "eds-1911-munster",
-      "cloneOf": null,
-      "parentId": null,
-      "name": "Munster Electoral Divisions 1911",
-      "category": "Historic Boundaries",
-      "categoryId": "historic",
-      "group": "Built Environment",
-      "date": 1911,
-      "dateAdded": null,
-      "dateEffective": null,
-      "provider": [
-        "OSI"
-      ],
-      "description": null,
-      "sourceCredits": [
-        "OSI"
-      ],
-      "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": "eds-1911-munster-vector-test",
-      "aliasTargetLayerId": null,
-      "bounds": [
-        [
-          51.3888584,
-          -10.662971
-        ],
-        [
-          53.1687695,
-          -6.9499935
-        ]
-      ],
-      "style": {
-        "color": "#A0522D",
-        "fillColor": null,
-        "fillOpacity": null,
-        "weight": 1
-      },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/electoral-divisions/MunsterElectoralDivisions1911.fgb"
-        }
-      ],
-      "references": [],
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": null
@@ -18662,11 +18234,11 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI"
+        "Tailte Éireann"
       ],
       "description": null,
       "sourceCredits": [
-        "OSI"
+        "Tailte Éireann"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -22942,7 +22514,7 @@
         "Phelim Birch"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "catalogue-metadata",
+      "recommendedTarget": "mvt-or-pmtiles",
       "testLayerId": "ded-1921-05-03-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
@@ -22955,12 +22527,35 @@
           -5.4267884
         ]
       ],
-      "style": null,
-      "sourceFiles": [],
-      "references": [],
+      "style": {
+        "color": "#D2691E",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/NI_DEDs_1921.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Alteration of Electoral Divisions in the Rural District of Enniskillen — Local Government Board for Ireland order (transcript)",
+          "url": "https://data.civgraph.net/data/documents/ded-1921-05-03/enniskillen-electoral-divisions-order.pdf"
+        },
+        {
+          "label": "Belfast Gazette issue 104 (Portstewart)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/104/data.pdf"
+        },
+        {
+          "label": "Belfast Gazette issue 128 (Ballycastle)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/128/data.pdf"
+        }
+      ],
       "sourceDownloads": [],
       "variants": 0,
-      "sourceFile": "render/source-cache/vector-intake/ded-1921-05-03.fgb"
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "county-ed-1969-04-01",
@@ -24369,6 +23964,59 @@
       "unsupportedReason": "no direct source file recorded"
     },
     {
+      "sourceMapId": "county-ed-1911",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "County Electoral Divisions 1911",
+      "category": "Electoral Areas",
+      "categoryId": "wards",
+      "group": "Elections and Government",
+      "date": "1911",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Paddy Matthews"
+      ],
+      "description": "County Electoral Divisions of Ireland in 1911, before partition: the divisions that elected county councillors under the Local Government (Ireland) Act 1898. Digitised by Paddy Matthews.",
+      "sourceCredits": [
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "county-ed-1911-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.388858,
+          -10.662971
+        ],
+        [
+          55.446581,
+          -5.426788
+        ]
+      ],
+      "style": {
+        "color": "#8E44AD",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/County_Electoral_Divisions_1911.fgb"
+        },
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/County_Electoral_Divisions_1911.fgb"
+        }
+      ],
+      "references": [],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
       "sourceMapId": "county-ed-1921-05-03",
       "cloneOf": null,
       "parentId": null,
@@ -25109,11 +24757,11 @@
       "sourceFiles": [
         {
           "kind": "geojson",
-          "file": "data/maps/local-government/Catholic_Parishes_Dublin.geojson"
+          "file": "https://data.civgraph.net/data/maps/local-government/Catholic_Parishes_Dublin.geojson"
         },
         {
           "kind": "fgb",
-          "file": "data/maps/local-government/Catholic_Parishes_Dublin.fgb"
+          "file": "https://data.civgraph.net/data/maps/local-government/Catholic_Parishes_Dublin.fgb"
         }
       ],
       "references": [
@@ -25275,12 +24923,12 @@
       "aliasTargetLayerId": "eds-connacht-1957-vector-test",
       "bounds": [
         [
-          52.9681498,
-          -10.3207471
+          51.4198973,
+          -10.6629709
         ],
         [
-          54.4743682,
-          -7.584171
+          55.4465803,
+          -5.9962778
         ]
       ],
       "style": {
@@ -25331,11 +24979,11 @@
       "aliasTargetLayerId": "eds-leinster-1971-vector-test",
       "bounds": [
         [
-          52.1092161,
-          -8.0838745
+          51.4198973,
+          -10.6629709
         ],
         [
-          54.1139509,
+          55.4465803,
           -5.9962778
         ]
       ],
@@ -25391,8 +25039,8 @@
           -10.6629709
         ],
         [
-          53.168769,
-          -6.9499934
+          55.4465803,
+          -5.9962778
         ]
       ],
       "style": {
@@ -25443,12 +25091,12 @@
       "aliasTargetLayerId": "eds-ulster-1963-vector-test",
       "bounds": [
         [
-          53.7655741,
-          -8.8347879
+          51.4198973,
+          -10.6629709
         ],
         [
           55.4465803,
-          -6.5497295
+          -5.9962778
         ]
       ],
       "style": {
@@ -25550,12 +25198,12 @@
       "aliasTargetLayerId": "eds-connacht-1957-vector-test",
       "bounds": [
         [
-          52.9681498,
-          -10.3207471
+          51.4198973,
+          -10.6629709
         ],
         [
-          54.4743682,
-          -7.584171
+          55.4465803,
+          -5.9962778
         ]
       ],
       "style": {
@@ -25606,11 +25254,11 @@
       "aliasTargetLayerId": "eds-leinster-1977-vector-test",
       "bounds": [
         [
-          52.1092161,
-          -8.0838745
+          51.4198973,
+          -10.6629709
         ],
         [
-          54.1139509,
+          55.4465803,
           -5.9962778
         ]
       ],
@@ -25666,8 +25314,8 @@
           -10.6629709
         ],
         [
-          53.168769,
-          -6.9499934
+          55.4465803,
+          -5.9962778
         ]
       ],
       "style": {
@@ -25718,12 +25366,12 @@
       "aliasTargetLayerId": "eds-ulster-1963-vector-test",
       "bounds": [
         [
-          53.7655741,
-          -8.8347879
+          51.4198973,
+          -10.6629709
         ],
         [
           55.4465803,
-          -6.5497295
+          -5.9962778
         ]
       ],
       "style": {
@@ -25825,12 +25473,12 @@
       "aliasTargetLayerId": "eds-connacht-1957-vector-test",
       "bounds": [
         [
-          52.9681498,
-          -10.3207471
+          51.4198973,
+          -10.6629709
         ],
         [
-          54.4743682,
-          -7.584171
+          55.4465803,
+          -5.9962778
         ]
       ],
       "style": {
@@ -25881,11 +25529,11 @@
       "aliasTargetLayerId": "eds-leinster-1977-vector-test",
       "bounds": [
         [
-          52.1092161,
-          -8.0838745
+          51.4198973,
+          -10.6629709
         ],
         [
-          54.1139509,
+          55.4465803,
           -5.9962778
         ]
       ],
@@ -25941,8 +25589,8 @@
           -10.6629709
         ],
         [
-          53.168769,
-          -6.9499934
+          55.4465803,
+          -5.9962778
         ]
       ],
       "style": {
@@ -25993,12 +25641,12 @@
       "aliasTargetLayerId": "eds-ulster-1963-vector-test",
       "bounds": [
         [
-          53.7655741,
-          -8.8347879
+          51.4198973,
+          -10.6629709
         ],
         [
           55.4465803,
-          -6.5497295
+          -5.9962778
         ]
       ],
       "style": {
@@ -26100,12 +25748,12 @@
       "aliasTargetLayerId": "eds-connacht-1957-vector-test",
       "bounds": [
         [
-          52.9681498,
-          -10.3207471
+          51.4198973,
+          -10.6629709
         ],
         [
-          54.4743682,
-          -7.584171
+          55.4465803,
+          -5.9962778
         ]
       ],
       "style": {
@@ -26156,11 +25804,11 @@
       "aliasTargetLayerId": "eds-leinster-1977-vector-test",
       "bounds": [
         [
-          52.1092161,
-          -8.0838745
+          51.4198973,
+          -10.6629709
         ],
         [
-          54.1139509,
+          55.4465803,
           -5.9962778
         ]
       ],
@@ -26216,8 +25864,8 @@
           -10.6629709
         ],
         [
-          53.168769,
-          -6.9499934
+          55.4465803,
+          -5.9962778
         ]
       ],
       "style": {
@@ -26268,12 +25916,12 @@
       "aliasTargetLayerId": "eds-ulster-1963-vector-test",
       "bounds": [
         [
-          53.7655741,
-          -8.8347879
+          51.4198973,
+          -10.6629709
         ],
         [
           55.4465803,
-          -6.5497295
+          -5.9962778
         ]
       ],
       "style": {
@@ -26371,12 +26019,12 @@
       "aliasTargetLayerId": "eds-connacht-1996-vector-test",
       "bounds": [
         [
-          52.9681498,
-          -10.3207471
+          51.419897,
+          -10.662971
         ],
         [
-          54.4743682,
-          -7.584171
+          55.44658,
+          -5.996278
         ]
       ],
       "style": {
@@ -26425,12 +26073,12 @@
       "aliasTargetLayerId": "eds-leinster-1997-vector-test",
       "bounds": [
         [
-          52.1092161,
-          -8.0838745
+          51.419897,
+          -10.662971
         ],
         [
-          54.1139509,
-          -5.9962778
+          55.44658,
+          -5.996278
         ]
       ],
       "style": {
@@ -26479,12 +26127,12 @@
       "aliasTargetLayerId": "eds-munster-2019-vector-test",
       "bounds": [
         [
-          51.4198973,
-          -10.6629709
+          51.419897,
+          -10.662971
         ],
         [
-          53.168769,
-          -6.9499934
+          55.44658,
+          -5.996278
         ]
       ],
       "style": {
@@ -26533,12 +26181,12 @@
       "aliasTargetLayerId": "eds-ulster-1996-vector-test",
       "bounds": [
         [
-          53.7655741,
-          -8.8347879
+          51.419897,
+          -10.662971
         ],
         [
-          55.4465803,
-          -6.5497295
+          55.44658,
+          -5.996278
         ]
       ],
       "style": {
@@ -26636,12 +26284,12 @@
       "aliasTargetLayerId": "eds-connacht-1996-vector-test",
       "bounds": [
         [
-          52.9681498,
-          -10.3207471
+          51.419897,
+          -10.662971
         ],
         [
-          54.4743682,
-          -7.584171
+          55.44658,
+          -5.996278
         ]
       ],
       "style": {
@@ -26690,12 +26338,12 @@
       "aliasTargetLayerId": "eds-leinster-1997-vector-test",
       "bounds": [
         [
-          52.1092161,
-          -8.0838745
+          51.419897,
+          -10.662971
         ],
         [
-          54.1139509,
-          -5.9962778
+          55.44658,
+          -5.996278
         ]
       ],
       "style": {
@@ -26744,12 +26392,12 @@
       "aliasTargetLayerId": "eds-munster-1996-vector-test",
       "bounds": [
         [
-          51.4198973,
-          -10.6629709
+          51.419897,
+          -10.662971
         ],
         [
-          53.168769,
-          -6.9499934
+          55.44658,
+          -5.996278
         ]
       ],
       "style": {
@@ -26798,12 +26446,12 @@
       "aliasTargetLayerId": "eds-ulster-1996-vector-test",
       "bounds": [
         [
-          53.7655741,
-          -8.8347879
+          51.419897,
+          -10.662971
         ],
         [
-          55.4465803,
-          -6.5497295
+          55.44658,
+          -5.996278
         ]
       ],
       "style": {
@@ -26901,12 +26549,12 @@
       "aliasTargetLayerId": "eds-connacht-1986-vector-test",
       "bounds": [
         [
-          52.9681498,
-          -10.3207471
+          51.4,
+          -10.75
         ],
         [
-          54.4743682,
-          -7.584171
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -26955,12 +26603,12 @@
       "aliasTargetLayerId": "eds-leinster-1994-vector-test",
       "bounds": [
         [
-          52.1092161,
-          -8.0838745
+          51.4,
+          -10.75
         ],
         [
-          54.1139509,
-          -5.9962778
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -27009,12 +26657,12 @@
       "aliasTargetLayerId": "eds-munster-1983-vector-test",
       "bounds": [
         [
-          51.4198973,
-          -10.6629709
+          51.4,
+          -10.75
         ],
         [
-          53.168769,
-          -6.9499934
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -27063,12 +26711,12 @@
       "aliasTargetLayerId": "eds-ulster-1963-vector-test",
       "bounds": [
         [
-          53.7655741,
-          -8.8347879
+          51.4,
+          -10.75
         ],
         [
-          55.4465803,
-          -6.5497295
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -27166,12 +26814,12 @@
       "aliasTargetLayerId": "eds-connacht-1986-vector-test",
       "bounds": [
         [
-          52.9681498,
-          -10.3207471
+          51.4,
+          -10.75
         ],
         [
-          54.4743682,
-          -7.584171
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -27220,12 +26868,12 @@
       "aliasTargetLayerId": "eds-leinster-1986-vector-test",
       "bounds": [
         [
-          52.1092161,
-          -8.0838745
+          51.4,
+          -10.75
         ],
         [
-          54.1139509,
-          -5.9962778
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -27274,12 +26922,12 @@
       "aliasTargetLayerId": "eds-munster-1983-vector-test",
       "bounds": [
         [
-          51.4198973,
-          -10.6629709
+          51.4,
+          -10.75
         ],
         [
-          53.168769,
-          -6.9499934
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -27328,12 +26976,12 @@
       "aliasTargetLayerId": "eds-ulster-1963-vector-test",
       "bounds": [
         [
-          53.7655741,
-          -8.8347879
+          51.4,
+          -10.75
         ],
         [
-          55.4465803,
-          -6.5497295
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -27762,13 +27410,11 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "description": null,
       "sourceCredits": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -27813,13 +27459,11 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "description": null,
       "sourceCredits": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -27864,13 +27508,11 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "description": null,
       "sourceCredits": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -27915,13 +27557,11 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "description": null,
       "sourceCredits": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -27966,13 +27606,11 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "description": null,
       "sourceCredits": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -28017,13 +27655,11 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "description": null,
       "sourceCredits": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -28068,13 +27704,11 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "description": null,
       "sourceCredits": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -28168,13 +27802,11 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "description": null,
       "sourceCredits": [
-        "OSI",
-        "OSM"
+        "Paddy Matthews"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -28219,13 +27851,11 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "OSNI",
-        "PRONI"
+        "Paddy Matthews"
       ],
       "description": null,
       "sourceCredits": [
-        "OSNI",
-        "PRONI"
+        "Paddy Matthews"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -28251,6 +27881,10 @@
         {
           "kind": "fgb",
           "file": "https://data.civgraph.net/data/maps/electoral-divisions/NorthernIrelandDEDs1926.fgb"
+        },
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/NorthernIrelandDEDs1926.fgb"
         }
       ],
       "references": [],
@@ -28270,12 +27904,12 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "Tailte Eireann",
+        "Tailte Éireann",
         "Phelim Birch"
       ],
       "description": "Connacht electoral divisions for 2019. Per the IDB boundary-change log, Connacht ED boundaries were unchanged from the 1986 redrawing (when the Galway county borough was established) through to 2019, so this file is the same as the 1986 dataset. Vintage note: the id says 2019 but this record serves Wards_DEDs_Connacht_1986.fgb, the vintage the spec cards call for at that date. The id/file mismatch is expected, not a bug -- do not 'correct' it.",
       "sourceCredits": [
-        "Tailte Eireann",
+        "Tailte Éireann",
         "Phelim Birch"
       ],
       "conversionStatus": "converted",
@@ -28321,12 +27955,12 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "Tailte Eireann",
+        "Tailte Éireann",
         "Phelim Birch"
       ],
       "description": "Vintage note: the id says 2019 but this record serves EDs_Leinster_1997.fgb, the vintage the spec cards call for at that date. The id/file mismatch is expected, not a bug -- do not 'correct' it.",
       "sourceCredits": [
-        "Tailte Eireann",
+        "Tailte Éireann",
         "Phelim Birch"
       ],
       "conversionStatus": "converted",
@@ -28372,12 +28006,12 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "Tailte Eireann",
+        "Tailte Éireann",
         "Phelim Birch"
       ],
       "description": null,
       "sourceCredits": [
-        "Tailte Eireann",
+        "Tailte Éireann",
         "Phelim Birch"
       ],
       "conversionStatus": "converted",
@@ -28423,12 +28057,12 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "Tailte Eireann",
+        "Tailte Éireann",
         "Phelim Birch"
       ],
       "description": "Electoral divisions for the three Ulster counties in the Republic of Ireland (Cavan, Donegal, Monaghan), 2019. Per the IDB boundary-change log, no DED changes are recorded for these three counties from 1921 onwards, so this file is the canonical ROI Ulster ED dataset. Vintage note: the id says 2019 but this record serves DEDs_Ulster_1921.fgb, the vintage the spec cards call for at that date. The id/file mismatch is expected, not a bug -- do not 'correct' it.",
       "sourceCredits": [
-        "Tailte Eireann",
+        "Tailte Éireann",
         "Phelim Birch"
       ],
       "conversionStatus": "converted",
@@ -29587,7 +29221,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards85-antrim-1.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards85-antrim-1.png"
         }
       ],
       "references": [],
@@ -29632,7 +29266,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards85-ards-1.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards85-ards-1.png"
         }
       ],
       "references": [],
@@ -29677,7 +29311,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards85-armagh-1.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards85-armagh-1.png"
         }
       ],
       "references": [],
@@ -29722,7 +29356,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards85-ballymena-1.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards85-ballymena-1.png"
         }
       ],
       "references": [],
@@ -29767,7 +29401,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards85-ballymoney.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards85-ballymoney.png"
         }
       ],
       "references": [],
@@ -29812,7 +29446,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards85-banbridge.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards85-banbridge.png"
         }
       ],
       "references": [],
@@ -29857,7 +29491,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards85-belfast-1.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards85-belfast-1.png"
         }
       ],
       "references": [],
@@ -29902,7 +29536,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards85-carrickfergus.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards85-carrickfergus.png"
         }
       ],
       "references": [],
@@ -29947,7 +29581,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards85-coleraine-1.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards85-coleraine-1.png"
         }
       ],
       "references": [],
@@ -29992,7 +29626,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards85-cookstown.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards85-cookstown.png"
         }
       ],
       "references": [],
@@ -30037,7 +29671,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards85-craigavon-1.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards85-craigavon-1.png"
         }
       ],
       "references": [],
@@ -30082,7 +29716,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards85-derry-1.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards85-derry-1.png"
         }
       ],
       "references": [],
@@ -30127,7 +29761,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards85-down-1.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards85-down-1.png"
         }
       ],
       "references": [],
@@ -30172,7 +29806,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards85-dungannon-1.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards85-dungannon-1.png"
         }
       ],
       "references": [],
@@ -30217,7 +29851,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards85-larne.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards85-larne.png"
         }
       ],
       "references": [],
@@ -30262,7 +29896,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards85-limavady.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards85-limavady.png"
         }
       ],
       "references": [],
@@ -30307,7 +29941,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards85-lisburn-1.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards85-lisburn-1.png"
         }
       ],
       "references": [],
@@ -30352,7 +29986,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards85-magherafelt.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards85-magherafelt.png"
         }
       ],
       "references": [],
@@ -30397,7 +30031,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards85-moyle.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards85-moyle.png"
         }
       ],
       "references": [],
@@ -30442,7 +30076,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards85-newry-mourne-1.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards85-newry-mourne-1.png"
         }
       ],
       "references": [],
@@ -30487,7 +30121,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards85-newtownabbey-1.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards85-newtownabbey-1.png"
         }
       ],
       "references": [],
@@ -30532,7 +30166,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards85-north-down-1.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards85-north-down-1.png"
         }
       ],
       "references": [],
@@ -30577,7 +30211,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards85-omagh-1.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards85-omagh-1.png"
         }
       ],
       "references": [],
@@ -30622,7 +30256,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards85-strabane-1.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards85-strabane-1.png"
         }
       ],
       "references": [],
@@ -30667,7 +30301,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards73-belfast.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards73-belfast.png"
         }
       ],
       "references": [],
@@ -30712,7 +30346,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards73-strabane.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards73-strabane.png"
         }
       ],
       "references": [],
@@ -30757,7 +30391,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards92-antrim.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards92-antrim.png"
         }
       ],
       "references": [],
@@ -30802,7 +30436,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards92-ards.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards92-ards.png"
         }
       ],
       "references": [],
@@ -30847,7 +30481,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards92-armagh.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards92-armagh.png"
         }
       ],
       "references": [],
@@ -30892,7 +30526,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards92-banbridge.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards92-banbridge.png"
         }
       ],
       "references": [],
@@ -30937,7 +30571,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards92-belfast-1.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards92-belfast-1.png"
         }
       ],
       "references": [],
@@ -30982,7 +30616,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards92-ballymena.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards92-ballymena.png"
         }
       ],
       "references": [],
@@ -31027,7 +30661,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards92-ballymoney.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards92-ballymoney.png"
         }
       ],
       "references": [],
@@ -31072,7 +30706,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards92-coleraine.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards92-coleraine.png"
         }
       ],
       "references": [],
@@ -31117,7 +30751,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards92-cookstown.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards92-cookstown.png"
         }
       ],
       "references": [],
@@ -31162,7 +30796,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards92-craigavon.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards92-craigavon.png"
         }
       ],
       "references": [],
@@ -31207,7 +30841,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards92-derry.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards92-derry.png"
         }
       ],
       "references": [],
@@ -31252,7 +30886,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards92-down.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards92-down.png"
         }
       ],
       "references": [],
@@ -31297,7 +30931,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards92-dungannon.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards92-dungannon.png"
         }
       ],
       "references": [],
@@ -31342,7 +30976,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards92-larne.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards92-larne.png"
         }
       ],
       "references": [],
@@ -31387,7 +31021,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards92-limavady.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards92-limavady.png"
         }
       ],
       "references": [],
@@ -31432,7 +31066,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards92-lisburn.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards92-lisburn.png"
         }
       ],
       "references": [],
@@ -31477,7 +31111,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards92-magherafelt.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards92-magherafelt.png"
         }
       ],
       "references": [],
@@ -31522,7 +31156,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards92-moyle.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards92-moyle.png"
         }
       ],
       "references": [],
@@ -31567,7 +31201,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards92-newtownabbey.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards92-newtownabbey.png"
         }
       ],
       "references": [],
@@ -31612,7 +31246,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards92-newry-mourne-1.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards92-newry-mourne-1.png"
         }
       ],
       "references": [],
@@ -31657,7 +31291,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards92-north-down.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards92-north-down.png"
         }
       ],
       "references": [],
@@ -31702,7 +31336,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards92-omagh.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards92-omagh.png"
         }
       ],
       "references": [],
@@ -31747,7 +31381,7 @@
       "sourceFiles": [
         {
           "kind": "image",
-          "file": "data/maps/raster/wards92-strabane.png"
+          "file": "https://data.civgraph.net/data/maps/raster/wards92-strabane.png"
         }
       ],
       "references": [],
@@ -31948,12 +31582,12 @@
       "dateEffective": null,
       "provider": [
         "GSNI",
-        "British Geological Survey"
+        "BGS"
       ],
       "description": "Solid bedrock geology of Northern Ireland at 1:250,000 scale — polygon fills coloured by rock classification (LEX/RCS).",
       "sourceCredits": [
         "GSNI",
-        "British Geological Survey"
+        "BGS"
       ],
       "conversionStatus": "convertedComposite",
       "recommendedTarget": "composite-vector-tiles",
@@ -32011,12 +31645,12 @@
       "dateEffective": null,
       "provider": [
         "GSNI",
-        "British Geological Survey"
+        "BGS"
       ],
       "description": "Bedrock geology coloured by lithological formation using the official BGS / GSNI 1:250K palette extracted from the QGIS style file published with the dataset. Each of the 234 named formations gets its specific colour.",
       "sourceCredits": [
         "GSNI",
-        "British Geological Survey"
+        "BGS"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -32024,12 +31658,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          54.0224547,
-          -8.8342635
+          54.022455,
+          -8.834263
         ],
         [
-          55.4496687,
-          -5.4291309
+          55.449669,
+          -5.429131
         ]
       ],
       "style": {
@@ -32084,12 +31718,12 @@
       "dateEffective": null,
       "provider": [
         "GSNI",
-        "British Geological Survey"
+        "BGS"
       ],
       "description": "Bedrock geology coloured by geological period / era using the IUGS / International Commission on Stratigraphy palette (the textbook age-coloured map). Coarser than the formation view but immediately legible — Carboniferous teal, Cretaceous green, Palaeogene orange, etc.",
       "sourceCredits": [
         "GSNI",
-        "British Geological Survey"
+        "BGS"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -32097,12 +31731,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          54.0224547,
-          -8.8342635
+          54.022455,
+          -8.834263
         ],
         [
-          55.4496687,
-          -5.4291309
+          55.449669,
+          -5.429131
         ]
       ],
       "style": {
@@ -32157,12 +31791,12 @@
       "dateEffective": null,
       "provider": [
         "GSNI",
-        "British Geological Survey"
+        "BGS"
       ],
       "description": "Faults, bedrock boundaries, fold axial traces, dykes and bedrock lineaments across Northern Ireland at 1:250,000 scale.",
       "sourceCredits": [
         "GSNI",
-        "British Geological Survey"
+        "BGS"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -32226,12 +31860,12 @@
       "dateEffective": null,
       "provider": [
         "GSNI",
-        "British Geological Survey"
+        "BGS"
       ],
       "description": "Superficial (Quaternary) deposits — glacial till, alluvium, peat, raised beach and other surface materials — mapped at 1:250,000 scale.",
       "sourceCredits": [
         "GSNI",
-        "British Geological Survey"
+        "BGS"
       ],
       "conversionStatus": "convertedComposite",
       "recommendedTarget": "composite-vector-tiles",
@@ -32285,12 +31919,12 @@
       "dateEffective": null,
       "provider": [
         "GSNI",
-        "British Geological Survey"
+        "BGS"
       ],
       "description": "Quaternary superficial deposits coloured by deposit-type using the official BGS / GSNI 1:250K palette from the published QGIS style file. ALLUVIUM yellow, TILL pale cyan, PEAT brown, GLACIAL SAND AND GRAVEL pink — the colours used in the BGS Geology of Britain Viewer.",
       "sourceCredits": [
         "GSNI",
-        "British Geological Survey"
+        "BGS"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -32298,12 +31932,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          54.0235661,
-          -8.1748816
+          54.023566,
+          -8.174882
         ],
         [
-          55.3041939,
-          -5.4294086
+          55.304194,
+          -5.429409
         ]
       ],
       "style": {
@@ -32354,12 +31988,12 @@
       "dateEffective": null,
       "provider": [
         "GSNI",
-        "British Geological Survey"
+        "BGS"
       ],
       "description": "Quaternary superficial deposits coloured using the conventional textbook earth-tone palette (TILL brown, ALLUVIUM yellow, BLOWN SAND cream) rather than the BGS-pink convention.",
       "sourceCredits": [
         "GSNI",
-        "British Geological Survey"
+        "BGS"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -32367,12 +32001,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          54.0235661,
-          -8.1748816
+          54.023566,
+          -8.174882
         ],
         [
-          55.3041939,
-          -5.4294086
+          55.304194,
+          -5.429409
         ]
       ],
       "style": {
@@ -37847,12 +37481,12 @@
       "dateEffective": null,
       "provider": [
         "DAERA",
-        "Northern Ireland Environment Agency"
+        "NIEA"
       ],
       "description": "Eight Areas of Outstanding Natural Beauty designated under Article 14 of the Nature Conservation and Amenity Lands (Northern Ireland) Order 1985 for landscape protection. Includes the Mournes, Antrim Coast & Glens, Causeway Coast, Ring of Gullion, Sperrins, Strangford Lough, Erne Lakeland and Lagan Valley AONBs.",
       "sourceCredits": [
         "DAERA",
-        "Northern Ireland Environment Agency"
+        "NIEA"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -37903,12 +37537,12 @@
       "dateEffective": null,
       "provider": [
         "DAERA",
-        "Northern Ireland Environment Agency"
+        "NIEA"
       ],
       "description": "Areas of Special Scientific Interest provide statutory protection under the Nature Conservation and Amenity Lands (NI) Order 1985 for the best examples of NI's flora, fauna, geological or physiographical features. The 394 ASSIs are NI's principal site-based wildlife protection mechanism.",
       "sourceCredits": [
         "DAERA",
-        "Northern Ireland Environment Agency"
+        "NIEA"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -37959,12 +37593,12 @@
       "dateEffective": null,
       "provider": [
         "DAERA",
-        "Northern Ireland Environment Agency"
+        "NIEA"
       ],
       "description": "Statutory nature reserves declared under the Nature Conservation and Amenity Lands (NI) Order 1985 for areas of importance for flora, fauna, geological or other special features. The 50 NNRs are managed primarily for conservation, with the highest level of legal site protection in NI.",
       "sourceCredits": [
         "DAERA",
-        "Northern Ireland Environment Agency"
+        "NIEA"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -38015,12 +37649,12 @@
       "dateEffective": null,
       "provider": [
         "DAERA",
-        "Northern Ireland Environment Agency"
+        "NIEA"
       ],
       "description": "Wetlands of international importance designated under the 1971 Ramsar Convention on Wetlands. The 20 NI Ramsar sites cover loughs, estuaries and bogs of internationally significant ecological character.",
       "sourceCredits": [
         "DAERA",
-        "Northern Ireland Environment Agency"
+        "NIEA"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -38071,12 +37705,12 @@
       "dateEffective": null,
       "provider": [
         "DAERA",
-        "Northern Ireland Environment Agency"
+        "NIEA"
       ],
       "description": "SACs are habitats and species given the greatest protection under the EU Habitats Directive (transposed into UK law via the Conservation Regulations). 58 sites in NI form part of the Natura 2000 network — the highest level of habitat protection in European law.",
       "sourceCredits": [
         "DAERA",
-        "Northern Ireland Environment Agency"
+        "NIEA"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -38127,12 +37761,12 @@
       "dateEffective": null,
       "provider": [
         "DAERA",
-        "Northern Ireland Environment Agency"
+        "NIEA"
       ],
       "description": "Designated under the EU Birds Directive for vulnerable, migratory and other significant bird species. 16 SPAs in NI form part of the Natura 2000 network. Many overlap with Ramsar / SAC / ASSI designations.",
       "sourceCredits": [
         "DAERA",
-        "Northern Ireland Environment Agency"
+        "NIEA"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -38183,12 +37817,12 @@
       "dateEffective": null,
       "provider": [
         "DAERA",
-        "Northern Ireland Environment Agency"
+        "NIEA"
       ],
       "description": "Northern Ireland's sole UNESCO World Heritage Site: the Giant's Causeway and Causeway Coast. Inscribed in 1986 under criteria (vii) and (viii) for its outstanding geological and natural features — the famous columnar basalt formations and associated coastal landscape.",
       "sourceCredits": [
         "DAERA",
-        "Northern Ireland Environment Agency"
+        "NIEA"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -38239,12 +37873,12 @@
       "dateEffective": null,
       "provider": [
         "DAERA",
-        "Northern Ireland Environment Agency"
+        "NIEA"
       ],
       "description": "The Northern Ireland Landscape Character Assessment (NIEA, 2000) subdivides the countryside into 130 Landscape Character Areas based on local geology, landform, land use, settlement and ecology. LCAs underpin landscape policy and planning decisions.",
       "sourceCredits": [
         "DAERA",
-        "Northern Ireland Environment Agency"
+        "NIEA"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -38529,11 +38163,7 @@
       "references": [],
       "sourceDownloads": [],
       "variants": 0,
-      "unsupportedReason": null,
-      "labelProperties": [
-        "Address",
-        "HB_ref"
-      ]
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "hed-sites-and-monuments",
@@ -38582,11 +38212,7 @@
       "references": [],
       "sourceDownloads": [],
       "variants": 0,
-      "unsupportedReason": null,
-      "labelProperties": [
-        "Edited_Typ",
-        "SMRNo"
-      ]
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "hed-scheduled-monument-areas",
@@ -38846,12 +38472,12 @@
       "dateEffective": null,
       "provider": [
         "Tailte Éireann",
-        "Central Statistics Office"
+        "CSO"
       ],
       "description": "Census 2022 urban area definitions — ungeneralised statistical boundaries from Tailte Éireann / CSO.",
       "sourceCredits": [
         "Tailte Éireann",
-        "Central Statistics Office"
+        "CSO"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -51257,7 +50883,7 @@
         "Hill Bagging"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
+      "recommendedTarget": "catalogue-metadata",
       "testLayerId": "dobih-v18-4-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
@@ -51276,12 +50902,7 @@
         "fillOpacity": 0.9,
         "weight": 1
       },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/physical/dobih-v18-4.fgb"
-        }
-      ],
+      "sourceFiles": [],
       "references": [
         {
           "label": "Hill Bagging - DoBIH downloads",
@@ -51294,6 +50915,10 @@
         {
           "label": "Creative Commons Attribution 4.0 International",
           "url": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "label": "Internet Archive mirror - DoBIH v18.4 source files",
+          "url": "https://archive.org/details/civgraph-dobih-v18-4-source-files"
         }
       ],
       "sourceDownloads": [
@@ -51370,7 +50995,7 @@
         "Hill Bagging"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
+      "recommendedTarget": "catalogue-metadata",
       "testLayerId": "dobih-v18-4-munros-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
@@ -51389,12 +51014,7 @@
         "fillOpacity": 0.9,
         "weight": 1
       },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/physical/dobih-v18-4-munros.fgb"
-        }
-      ],
+      "sourceFiles": [],
       "references": [
         {
           "label": "Hill Bagging - DoBIH downloads",
@@ -51407,6 +51027,10 @@
         {
           "label": "Creative Commons Attribution 4.0 International",
           "url": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "label": "Internet Archive mirror - DoBIH v18.4 source files",
+          "url": "https://archive.org/details/civgraph-dobih-v18-4-source-files"
         }
       ],
       "sourceDownloads": [
@@ -51483,7 +51107,7 @@
         "Hill Bagging"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
+      "recommendedTarget": "catalogue-metadata",
       "testLayerId": "dobih-v18-4-munro-tops-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
@@ -51502,12 +51126,7 @@
         "fillOpacity": 0.9,
         "weight": 1
       },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/physical/dobih-v18-4-munro-tops.fgb"
-        }
-      ],
+      "sourceFiles": [],
       "references": [
         {
           "label": "Hill Bagging - DoBIH downloads",
@@ -51520,6 +51139,10 @@
         {
           "label": "Creative Commons Attribution 4.0 International",
           "url": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "label": "Internet Archive mirror - DoBIH v18.4 source files",
+          "url": "https://archive.org/details/civgraph-dobih-v18-4-source-files"
         }
       ],
       "sourceDownloads": [
@@ -51596,7 +51219,7 @@
         "Hill Bagging"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
+      "recommendedTarget": "catalogue-metadata",
       "testLayerId": "dobih-v18-4-furths-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
@@ -51615,12 +51238,7 @@
         "fillOpacity": 0.9,
         "weight": 1
       },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/physical/dobih-v18-4-furths.fgb"
-        }
-      ],
+      "sourceFiles": [],
       "references": [
         {
           "label": "Hill Bagging - DoBIH downloads",
@@ -51633,6 +51251,10 @@
         {
           "label": "Creative Commons Attribution 4.0 International",
           "url": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "label": "Internet Archive mirror - DoBIH v18.4 source files",
+          "url": "https://archive.org/details/civgraph-dobih-v18-4-source-files"
         }
       ],
       "sourceDownloads": [
@@ -51709,7 +51331,7 @@
         "Hill Bagging"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
+      "recommendedTarget": "catalogue-metadata",
       "testLayerId": "dobih-v18-4-corbetts-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
@@ -51728,12 +51350,7 @@
         "fillOpacity": 0.9,
         "weight": 1
       },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/physical/dobih-v18-4-corbetts.fgb"
-        }
-      ],
+      "sourceFiles": [],
       "references": [
         {
           "label": "Hill Bagging - DoBIH downloads",
@@ -51746,6 +51363,10 @@
         {
           "label": "Creative Commons Attribution 4.0 International",
           "url": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "label": "Internet Archive mirror - DoBIH v18.4 source files",
+          "url": "https://archive.org/details/civgraph-dobih-v18-4-source-files"
         }
       ],
       "sourceDownloads": [
@@ -51822,7 +51443,7 @@
         "Hill Bagging"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
+      "recommendedTarget": "catalogue-metadata",
       "testLayerId": "dobih-v18-4-grahams-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
@@ -51841,12 +51462,7 @@
         "fillOpacity": 0.9,
         "weight": 1
       },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/physical/dobih-v18-4-grahams.fgb"
-        }
-      ],
+      "sourceFiles": [],
       "references": [
         {
           "label": "Hill Bagging - DoBIH downloads",
@@ -51859,6 +51475,10 @@
         {
           "label": "Creative Commons Attribution 4.0 International",
           "url": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "label": "Internet Archive mirror - DoBIH v18.4 source files",
+          "url": "https://archive.org/details/civgraph-dobih-v18-4-source-files"
         }
       ],
       "sourceDownloads": [
@@ -51935,7 +51555,7 @@
         "Hill Bagging"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
+      "recommendedTarget": "catalogue-metadata",
       "testLayerId": "dobih-v18-4-donalds-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
@@ -51954,12 +51574,7 @@
         "fillOpacity": 0.9,
         "weight": 1
       },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/physical/dobih-v18-4-donalds.fgb"
-        }
-      ],
+      "sourceFiles": [],
       "references": [
         {
           "label": "Hill Bagging - DoBIH downloads",
@@ -51972,6 +51587,10 @@
         {
           "label": "Creative Commons Attribution 4.0 International",
           "url": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "label": "Internet Archive mirror - DoBIH v18.4 source files",
+          "url": "https://archive.org/details/civgraph-dobih-v18-4-source-files"
         }
       ],
       "sourceDownloads": [
@@ -52048,7 +51667,7 @@
         "Hill Bagging"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
+      "recommendedTarget": "catalogue-metadata",
       "testLayerId": "dobih-v18-4-donald-tops-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
@@ -52067,12 +51686,7 @@
         "fillOpacity": 0.9,
         "weight": 1
       },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/physical/dobih-v18-4-donald-tops.fgb"
-        }
-      ],
+      "sourceFiles": [],
       "references": [
         {
           "label": "Hill Bagging - DoBIH downloads",
@@ -52085,6 +51699,10 @@
         {
           "label": "Creative Commons Attribution 4.0 International",
           "url": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "label": "Internet Archive mirror - DoBIH v18.4 source files",
+          "url": "https://archive.org/details/civgraph-dobih-v18-4-source-files"
         }
       ],
       "sourceDownloads": [
@@ -52161,7 +51779,7 @@
         "Hill Bagging"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
+      "recommendedTarget": "catalogue-metadata",
       "testLayerId": "dobih-v18-4-marilyns-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
@@ -52180,12 +51798,7 @@
         "fillOpacity": 0.9,
         "weight": 1
       },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/physical/dobih-v18-4-marilyns.fgb"
-        }
-      ],
+      "sourceFiles": [],
       "references": [
         {
           "label": "Hill Bagging - DoBIH downloads",
@@ -52198,6 +51811,10 @@
         {
           "label": "Creative Commons Attribution 4.0 International",
           "url": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "label": "Internet Archive mirror - DoBIH v18.4 source files",
+          "url": "https://archive.org/details/civgraph-dobih-v18-4-source-files"
         }
       ],
       "sourceDownloads": [
@@ -52274,7 +51891,7 @@
         "Hill Bagging"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
+      "recommendedTarget": "catalogue-metadata",
       "testLayerId": "dobih-v18-4-humps-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
@@ -52293,12 +51910,7 @@
         "fillOpacity": 0.9,
         "weight": 1
       },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/physical/dobih-v18-4-humps.fgb"
-        }
-      ],
+      "sourceFiles": [],
       "references": [
         {
           "label": "Hill Bagging - DoBIH downloads",
@@ -52311,6 +51923,10 @@
         {
           "label": "Creative Commons Attribution 4.0 International",
           "url": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "label": "Internet Archive mirror - DoBIH v18.4 source files",
+          "url": "https://archive.org/details/civgraph-dobih-v18-4-source-files"
         }
       ],
       "sourceDownloads": [
@@ -52387,7 +52003,7 @@
         "Hill Bagging"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
+      "recommendedTarget": "catalogue-metadata",
       "testLayerId": "dobih-v18-4-tumps-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
@@ -52406,12 +52022,7 @@
         "fillOpacity": 0.9,
         "weight": 1
       },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/physical/dobih-v18-4-tumps.fgb"
-        }
-      ],
+      "sourceFiles": [],
       "references": [
         {
           "label": "Hill Bagging - DoBIH downloads",
@@ -52424,6 +52035,10 @@
         {
           "label": "Creative Commons Attribution 4.0 International",
           "url": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "label": "Internet Archive mirror - DoBIH v18.4 source files",
+          "url": "https://archive.org/details/civgraph-dobih-v18-4-source-files"
         }
       ],
       "sourceDownloads": [
@@ -52500,7 +52115,7 @@
         "Hill Bagging"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
+      "recommendedTarget": "catalogue-metadata",
       "testLayerId": "dobih-v18-4-simms-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
@@ -52519,12 +52134,7 @@
         "fillOpacity": 0.9,
         "weight": 1
       },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/physical/dobih-v18-4-simms.fgb"
-        }
-      ],
+      "sourceFiles": [],
       "references": [
         {
           "label": "Hill Bagging - DoBIH downloads",
@@ -52537,6 +52147,10 @@
         {
           "label": "Creative Commons Attribution 4.0 International",
           "url": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "label": "Internet Archive mirror - DoBIH v18.4 source files",
+          "url": "https://archive.org/details/civgraph-dobih-v18-4-source-files"
         }
       ],
       "sourceDownloads": [
@@ -52613,7 +52227,7 @@
         "Hill Bagging"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
+      "recommendedTarget": "catalogue-metadata",
       "testLayerId": "dobih-v18-4-hewitts-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
@@ -52632,12 +52246,7 @@
         "fillOpacity": 0.9,
         "weight": 1
       },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/physical/dobih-v18-4-hewitts.fgb"
-        }
-      ],
+      "sourceFiles": [],
       "references": [
         {
           "label": "Hill Bagging - DoBIH downloads",
@@ -52650,6 +52259,10 @@
         {
           "label": "Creative Commons Attribution 4.0 International",
           "url": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "label": "Internet Archive mirror - DoBIH v18.4 source files",
+          "url": "https://archive.org/details/civgraph-dobih-v18-4-source-files"
         }
       ],
       "sourceDownloads": [
@@ -52726,7 +52339,7 @@
         "Hill Bagging"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
+      "recommendedTarget": "catalogue-metadata",
       "testLayerId": "dobih-v18-4-nuttalls-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
@@ -52745,12 +52358,7 @@
         "fillOpacity": 0.9,
         "weight": 1
       },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/physical/dobih-v18-4-nuttalls.fgb"
-        }
-      ],
+      "sourceFiles": [],
       "references": [
         {
           "label": "Hill Bagging - DoBIH downloads",
@@ -52763,6 +52371,10 @@
         {
           "label": "Creative Commons Attribution 4.0 International",
           "url": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "label": "Internet Archive mirror - DoBIH v18.4 source files",
+          "url": "https://archive.org/details/civgraph-dobih-v18-4-source-files"
         }
       ],
       "sourceDownloads": [
@@ -52839,7 +52451,7 @@
         "Hill Bagging"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
+      "recommendedTarget": "catalogue-metadata",
       "testLayerId": "dobih-v18-4-wainwrights-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
@@ -52858,12 +52470,7 @@
         "fillOpacity": 0.9,
         "weight": 1
       },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/physical/dobih-v18-4-wainwrights.fgb"
-        }
-      ],
+      "sourceFiles": [],
       "references": [
         {
           "label": "Hill Bagging - DoBIH downloads",
@@ -52876,6 +52483,10 @@
         {
           "label": "Creative Commons Attribution 4.0 International",
           "url": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "label": "Internet Archive mirror - DoBIH v18.4 source files",
+          "url": "https://archive.org/details/civgraph-dobih-v18-4-source-files"
         }
       ],
       "sourceDownloads": [
@@ -52952,7 +52563,7 @@
         "Hill Bagging"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
+      "recommendedTarget": "catalogue-metadata",
       "testLayerId": "dobih-v18-4-birketts-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
@@ -52971,12 +52582,7 @@
         "fillOpacity": 0.9,
         "weight": 1
       },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/physical/dobih-v18-4-birketts.fgb"
-        }
-      ],
+      "sourceFiles": [],
       "references": [
         {
           "label": "Hill Bagging - DoBIH downloads",
@@ -52989,6 +52595,10 @@
         {
           "label": "Creative Commons Attribution 4.0 International",
           "url": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "label": "Internet Archive mirror - DoBIH v18.4 source files",
+          "url": "https://archive.org/details/civgraph-dobih-v18-4-source-files"
         }
       ],
       "sourceDownloads": [
@@ -53065,7 +52675,7 @@
         "Hill Bagging"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
+      "recommendedTarget": "catalogue-metadata",
       "testLayerId": "dobih-v18-4-synges-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
@@ -53084,12 +52694,7 @@
         "fillOpacity": 0.9,
         "weight": 1
       },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/physical/dobih-v18-4-synges.fgb"
-        }
-      ],
+      "sourceFiles": [],
       "references": [
         {
           "label": "Hill Bagging - DoBIH downloads",
@@ -53102,6 +52707,10 @@
         {
           "label": "Creative Commons Attribution 4.0 International",
           "url": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "label": "Internet Archive mirror - DoBIH v18.4 source files",
+          "url": "https://archive.org/details/civgraph-dobih-v18-4-source-files"
         }
       ],
       "sourceDownloads": [
@@ -53178,7 +52787,7 @@
         "Hill Bagging"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
+      "recommendedTarget": "catalogue-metadata",
       "testLayerId": "dobih-v18-4-fellrangers-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
@@ -53197,12 +52806,7 @@
         "fillOpacity": 0.9,
         "weight": 1
       },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/physical/dobih-v18-4-fellrangers.fgb"
-        }
-      ],
+      "sourceFiles": [],
       "references": [
         {
           "label": "Hill Bagging - DoBIH downloads",
@@ -53215,6 +52819,10 @@
         {
           "label": "Creative Commons Attribution 4.0 International",
           "url": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "label": "Internet Archive mirror - DoBIH v18.4 source files",
+          "url": "https://archive.org/details/civgraph-dobih-v18-4-source-files"
         }
       ],
       "sourceDownloads": [
@@ -53291,7 +52899,7 @@
         "Hill Bagging"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
+      "recommendedTarget": "catalogue-metadata",
       "testLayerId": "dobih-v18-4-arderins-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
@@ -53310,12 +52918,7 @@
         "fillOpacity": 0.9,
         "weight": 1
       },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/physical/dobih-v18-4-arderins.fgb"
-        }
-      ],
+      "sourceFiles": [],
       "references": [
         {
           "label": "Hill Bagging - DoBIH downloads",
@@ -53328,6 +52931,10 @@
         {
           "label": "Creative Commons Attribution 4.0 International",
           "url": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "label": "Internet Archive mirror - DoBIH v18.4 source files",
+          "url": "https://archive.org/details/civgraph-dobih-v18-4-source-files"
         }
       ],
       "sourceDownloads": [
@@ -53404,7 +53011,7 @@
         "Hill Bagging"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
+      "recommendedTarget": "catalogue-metadata",
       "testLayerId": "dobih-v18-4-vandeleur-lynams-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
@@ -53423,12 +53030,7 @@
         "fillOpacity": 0.9,
         "weight": 1
       },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/physical/dobih-v18-4-vandeleur-lynams.fgb"
-        }
-      ],
+      "sourceFiles": [],
       "references": [
         {
           "label": "Hill Bagging - DoBIH downloads",
@@ -53441,6 +53043,10 @@
         {
           "label": "Creative Commons Attribution 4.0 International",
           "url": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "label": "Internet Archive mirror - DoBIH v18.4 source files",
+          "url": "https://archive.org/details/civgraph-dobih-v18-4-source-files"
         }
       ],
       "sourceDownloads": [
@@ -53517,7 +53123,7 @@
         "Hill Bagging"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
+      "recommendedTarget": "catalogue-metadata",
       "testLayerId": "dobih-v18-4-carns-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
@@ -53536,12 +53142,7 @@
         "fillOpacity": 0.9,
         "weight": 1
       },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/physical/dobih-v18-4-carns.fgb"
-        }
-      ],
+      "sourceFiles": [],
       "references": [
         {
           "label": "Hill Bagging - DoBIH downloads",
@@ -53554,6 +53155,10 @@
         {
           "label": "Creative Commons Attribution 4.0 International",
           "url": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "label": "Internet Archive mirror - DoBIH v18.4 source files",
+          "url": "https://archive.org/details/civgraph-dobih-v18-4-source-files"
         }
       ],
       "sourceDownloads": [
@@ -53630,7 +53235,7 @@
         "Hill Bagging"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
+      "recommendedTarget": "catalogue-metadata",
       "testLayerId": "dobih-v18-4-binnions-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
@@ -53649,12 +53254,7 @@
         "fillOpacity": 0.9,
         "weight": 1
       },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/physical/dobih-v18-4-binnions.fgb"
-        }
-      ],
+      "sourceFiles": [],
       "references": [
         {
           "label": "Hill Bagging - DoBIH downloads",
@@ -53667,6 +53267,10 @@
         {
           "label": "Creative Commons Attribution 4.0 International",
           "url": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "label": "Internet Archive mirror - DoBIH v18.4 source files",
+          "url": "https://archive.org/details/civgraph-dobih-v18-4-source-files"
         }
       ],
       "sourceDownloads": [
@@ -53743,7 +53347,7 @@
         "Hill Bagging"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
+      "recommendedTarget": "catalogue-metadata",
       "testLayerId": "dobih-v18-4-county-tops-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
@@ -53762,12 +53366,7 @@
         "fillOpacity": 0.9,
         "weight": 1
       },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/physical/dobih-v18-4-county-tops.fgb"
-        }
-      ],
+      "sourceFiles": [],
       "references": [
         {
           "label": "Hill Bagging - DoBIH downloads",
@@ -53780,6 +53379,10 @@
         {
           "label": "Creative Commons Attribution 4.0 International",
           "url": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "label": "Internet Archive mirror - DoBIH v18.4 source files",
+          "url": "https://archive.org/details/civgraph-dobih-v18-4-source-files"
         }
       ],
       "sourceDownloads": [
@@ -53856,7 +53459,7 @@
         "Hill Bagging"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
+      "recommendedTarget": "catalogue-metadata",
       "testLayerId": "dobih-v18-4-significant-islands-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
@@ -53875,12 +53478,7 @@
         "fillOpacity": 0.9,
         "weight": 1
       },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/physical/dobih-v18-4-significant-islands.fgb"
-        }
-      ],
+      "sourceFiles": [],
       "references": [
         {
           "label": "Hill Bagging - DoBIH downloads",
@@ -53893,6 +53491,10 @@
         {
           "label": "Creative Commons Attribution 4.0 International",
           "url": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "label": "Internet Archive mirror - DoBIH v18.4 source files",
+          "url": "https://archive.org/details/civgraph-dobih-v18-4-source-files"
         }
       ],
       "sourceDownloads": [
@@ -54234,11 +53836,11 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "Department of Agriculture, Environment and Rural Affairs (DAERA)"
+        "DAERA"
       ],
       "description": "Northern Ireland Priority Habitats — Peatland (6,469 polygons), published by DAERA. Licence confirmed.",
       "sourceCredits": [
-        "Department of Agriculture, Environment and Rural Affairs (DAERA)"
+        "DAERA"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -54246,12 +53848,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          54.0387162,
-          -8.1585689
+          54.03871616,
+          -8.15856891
         ],
         [
-          55.3101679,
-          -5.4916336
+          55.31016795,
+          -5.49163357
         ]
       ],
       "style": {
@@ -55154,11 +54756,11 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "Geological Survey of Northern Ireland (GSNI)"
+        "GSNI"
       ],
       "description": "Northern Ireland Geology (1:250,000) — Northern Ireland. Source: Geological Survey of Northern Ireland (GSNI) (via the Peatlands Geoportal, QUB).",
       "sourceCredits": [
-        "Geological Survey of Northern Ireland (GSNI)"
+        "GSNI"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -55370,11 +54972,11 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "Dept for Communities — Historic Environment Division"
+        "Department for Communities - Historic Environment Division"
       ],
       "description": "Historic Land Use (NI) — Northern Ireland. Source: Dept for Communities — Historic Environment Division (via the Peatlands Geoportal, QUB).",
       "sourceCredits": [
-        "Dept for Communities — Historic Environment Division"
+        "Department for Communities - Historic Environment Division"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -55545,11 +55147,11 @@
       "bounds": [
         [
           51.195618,
-          -11.0327295
+          -11.03272951
         ],
         [
-          55.7888304,
-          -5.188285
+          55.78883044,
+          -5.18828502
         ]
       ],
       "style": {
@@ -55561,7 +55163,7 @@
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "data/maps/environment/CORINE_Land_Use_2018.fgb"
+          "file": "https://data.civgraph.net/data/maps/environment/CORINE_Land_Use_2018.fgb"
         },
         {
           "kind": "fgb",
@@ -55606,12 +55208,12 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          51.413382,
+          51.41338203,
           -10.5140327
         ],
         [
           55.432392,
-          -6.0005797
+          -6.00057974
         ]
       ],
       "style": {
@@ -55623,7 +55225,7 @@
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "data/maps/built-environment/NIAH_Buildings.fgb"
+          "file": "https://data.civgraph.net/data/maps/built-environment/NIAH_Buildings.fgb"
         },
         {
           "kind": "fgb",
@@ -56288,7 +55890,7 @@
       "sourceMapId": "townlands-2015-sdcc1",
       "cloneOf": null,
       "parentId": null,
-      "name": "Townlands (2015) — South Dublin",
+      "name": "Townlands — South Dublin",
       "category": "Townlands",
       "categoryId": "townlands",
       "group": "Communities",
@@ -62311,11 +61913,13 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "Tailte/OSI/data.gov.ie"
+        "Tailte Éireann",
+        "data.gov.ie"
       ],
       "description": null,
       "sourceCredits": [
-        "Tailte/OSI/data.gov.ie"
+        "Tailte Éireann",
+        "data.gov.ie"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "catalogue-metadata",
@@ -62360,11 +61964,13 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "Tailte/OSI/data.gov.ie"
+        "Tailte Éireann",
+        "data.gov.ie"
       ],
       "description": null,
       "sourceCredits": [
-        "Tailte/OSI/data.gov.ie"
+        "Tailte Éireann",
+        "data.gov.ie"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "catalogue-metadata",
@@ -62831,12 +62437,12 @@
       "aliasTargetLayerId": "eds-connacht-1919-vector-test",
       "bounds": [
         [
-          52.9681498,
-          -10.3207471
+          51.4,
+          -10.75
         ],
         [
-          54.4743682,
-          -7.584171
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -62891,12 +62497,12 @@
       "aliasTargetLayerId": "eds-leinster-1946-vector-test",
       "bounds": [
         [
-          52.109216,
-          -8.083874
+          51.4,
+          -10.75
         ],
         [
-          54.113951,
-          -5.996278
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -62951,12 +62557,12 @@
       "aliasTargetLayerId": "eds-munster-1944-vector-test",
       "bounds": [
         [
-          51.419897,
-          -10.662971
+          51.4,
+          -10.75
         ],
         [
-          53.168769,
-          -6.949993
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -63008,15 +62614,15 @@
       "conversionStatus": "convertedAlias",
       "recommendedTarget": "maplibre-clone-alias",
       "testLayerId": "eds-roi-1946-ulster-alias-test",
-      "aliasTargetLayerId": "eds-ulster-1986-vector-test",
+      "aliasTargetLayerId": "eds-ulster-1921-vector-test",
       "bounds": [
         [
-          53.7655741,
-          -8.8347879
+          51.4,
+          -10.75
         ],
         [
-          55.4465803,
-          -6.5497295
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -63138,12 +62744,12 @@
       "aliasTargetLayerId": "eds-connacht-1919-vector-test",
       "bounds": [
         [
-          52.9681498,
-          -10.3207471
+          51.4,
+          -10.75
         ],
         [
-          54.4743682,
-          -7.584171
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -63210,12 +62816,12 @@
       "aliasTargetLayerId": "eds-leinster-1953-vector-test",
       "bounds": [
         [
-          52.109216,
-          -8.083874
+          51.4,
+          -10.75
         ],
         [
-          54.113951,
-          -5.996278
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -63282,12 +62888,12 @@
       "aliasTargetLayerId": "eds-munster-1950-vector-test",
       "bounds": [
         [
-          51.419897,
-          -10.662971
+          51.4,
+          -10.75
         ],
         [
-          53.168769,
-          -6.949993
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -63351,15 +62957,15 @@
       "conversionStatus": "convertedAlias",
       "recommendedTarget": "maplibre-clone-alias",
       "testLayerId": "eds-roi-1953-ulster-alias-test",
-      "aliasTargetLayerId": "eds-ulster-1986-vector-test",
+      "aliasTargetLayerId": "eds-ulster-1921-vector-test",
       "bounds": [
         [
-          53.7655741,
-          -8.8347879
+          51.4,
+          -10.75
         ],
         [
-          55.4465803,
-          -6.5497295
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -63481,12 +63087,12 @@
       "aliasTargetLayerId": "eds-connacht-1919-vector-test",
       "bounds": [
         [
-          52.9681498,
-          -10.3207471
+          51.4,
+          -10.75
         ],
         [
-          54.4743682,
-          -7.584171
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -63541,12 +63147,12 @@
       "aliasTargetLayerId": "eds-leinster-1954-vector-test",
       "bounds": [
         [
-          52.109216,
-          -8.083874
+          51.4,
+          -10.75
         ],
         [
-          54.113951,
-          -5.996278
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -63601,12 +63207,12 @@
       "aliasTargetLayerId": "eds-munster-1955-vector-test",
       "bounds": [
         [
-          51.4198973,
-          -10.6629709
+          51.4,
+          -10.75
         ],
         [
-          53.168769,
-          -6.9499934
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -63658,15 +63264,15 @@
       "conversionStatus": "convertedAlias",
       "recommendedTarget": "maplibre-clone-alias",
       "testLayerId": "eds-roi-1955-ulster-alias-test",
-      "aliasTargetLayerId": "eds-ulster-1986-vector-test",
+      "aliasTargetLayerId": "eds-ulster-1921-vector-test",
       "bounds": [
         [
-          53.7655741,
-          -8.8347879
+          51.4,
+          -10.75
         ],
         [
-          55.4465803,
-          -6.5497295
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -64203,7 +63809,7 @@
       "sourceMapId": "tailte-gaeltacht-boundaries-generalised-20m",
       "cloneOf": null,
       "parentId": null,
-      "name": "Gaeltacht Boundaries Generalised 20m (Tailte Éireann)",
+      "name": "Gaeltacht Boundaries Generalised 20m",
       "category": "Regional Divides",
       "categoryId": "regional-divides",
       "group": "Physical Geography",
@@ -64266,7 +63872,7 @@
       "sourceMapId": "tailte-gaeltacht-language-planning-area-boundaries-generalised-20m",
       "cloneOf": null,
       "parentId": null,
-      "name": "Gaeltacht Language Planning Area Boundaries Generalised 20m (Tailte Éireann)",
+      "name": "Gaeltacht Language Planning Area Boundaries Generalised 20m",
       "category": "Regional Divides",
       "categoryId": "regional-divides",
       "group": "Physical Geography",
@@ -65085,7 +64691,7 @@
       "sourceMapId": "tailte-province-boundaries-generalised-20m",
       "cloneOf": null,
       "parentId": null,
-      "name": "Province Boundaries Generalised 20m (Tailte Éireann)",
+      "name": "Province Boundaries Generalised 20m",
       "category": "Regional Divides",
       "categoryId": "regional-divides",
       "group": "Physical Geography",
@@ -66866,7 +66472,7 @@
         "Paddy Matthews"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
+      "recommendedTarget": "catalogue-metadata",
       "testLayerId": "eds-leinster-1931-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
@@ -66885,12 +66491,7 @@
         "fillOpacity": null,
         "weight": 2
       },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1931.fgb"
-        }
-      ],
+      "sourceFiles": [],
       "references": [],
       "sourceDownloads": [],
       "variants": 0,
@@ -66917,7 +66518,7 @@
         "Paddy Matthews"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
+      "recommendedTarget": "catalogue-metadata",
       "testLayerId": "eds-leinster-1936-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
@@ -66936,12 +66537,7 @@
         "fillOpacity": null,
         "weight": 2
       },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1936.fgb"
-        }
-      ],
+      "sourceFiles": [],
       "references": [],
       "sourceDownloads": [],
       "variants": 0,
@@ -67130,12 +66726,12 @@
       "aliasTargetLayerId": "eds-connacht-1919-vector-test",
       "bounds": [
         [
-          52.9681498,
-          -10.3207471
+          51.4,
+          -10.75
         ],
         [
-          54.4743682,
-          -7.584171
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -67190,12 +66786,12 @@
       "aliasTargetLayerId": "eds-leinster-1931-vector-test",
       "bounds": [
         [
-          52.1092161,
-          -8.0838745
+          51.4,
+          -10.75
         ],
         [
-          54.1139509,
-          -5.9962778
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -67204,12 +66800,7 @@
         "fillOpacity": null,
         "weight": 2
       },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1931.fgb"
-        }
-      ],
+      "sourceFiles": [],
       "references": [
         {
           "label": "District Electoral Divisions/Wards 1941 source notes",
@@ -67250,12 +66841,12 @@
       "aliasTargetLayerId": "eds-munster-1921-vector-test",
       "bounds": [
         [
-          51.4198973,
-          -10.6629709
+          51.4,
+          -10.75
         ],
         [
-          53.168769,
-          -6.9499934
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -67310,12 +66901,12 @@
       "aliasTargetLayerId": "eds-ulster-1921-vector-test",
       "bounds": [
         [
-          53.7655741,
-          -8.8347879
+          51.4,
+          -10.75
         ],
         [
-          55.4465803,
-          -6.5497295
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -67425,12 +67016,12 @@
       "aliasTargetLayerId": "eds-connacht-1919-vector-test",
       "bounds": [
         [
-          52.9681498,
-          -10.3207471
+          51.4,
+          -10.75
         ],
         [
-          54.4743682,
-          -7.584171
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -67485,12 +67076,12 @@
       "aliasTargetLayerId": "eds-leinster-1941-vector-test",
       "bounds": [
         [
-          52.1092161,
-          -8.0838745
+          51.4,
+          -10.75
         ],
         [
-          54.1139509,
-          -5.9962778
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -67545,12 +67136,12 @@
       "aliasTargetLayerId": "eds-munster-1921-vector-test",
       "bounds": [
         [
-          51.4198973,
-          -10.6629709
+          51.4,
+          -10.75
         ],
         [
-          53.168769,
-          -6.9499934
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -67602,15 +67193,15 @@
       "conversionStatus": "convertedAlias",
       "recommendedTarget": "maplibre-clone-alias",
       "testLayerId": "eds-roi-1941-ulster-alias-test",
-      "aliasTargetLayerId": "eds-ulster-1986-vector-test",
+      "aliasTargetLayerId": "eds-ulster-1921-vector-test",
       "bounds": [
         [
-          53.7655741,
-          -8.8347879
+          51.4,
+          -10.75
         ],
         [
-          55.4465803,
-          -6.5497295
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -67771,12 +67362,12 @@
       "aliasTargetLayerId": "eds-connacht-1919-vector-test",
       "bounds": [
         [
-          52.9681498,
-          -10.3207471
+          51.4,
+          -10.75
         ],
         [
-          54.4743682,
-          -7.584171
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -67831,12 +67422,12 @@
       "aliasTargetLayerId": "eds-leinster-1942-vector-test",
       "bounds": [
         [
-          52.1092161,
-          -8.0838745
+          51.4,
+          -10.75
         ],
         [
-          54.1139509,
-          -5.9962778
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -67891,12 +67482,12 @@
       "aliasTargetLayerId": "eds-munster-1921-vector-test",
       "bounds": [
         [
-          51.4198973,
-          -10.6629709
+          51.4,
+          -10.75
         ],
         [
-          53.168769,
-          -6.9499934
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -67948,15 +67539,15 @@
       "conversionStatus": "convertedAlias",
       "recommendedTarget": "maplibre-clone-alias",
       "testLayerId": "eds-roi-1942-ulster-alias-test",
-      "aliasTargetLayerId": "eds-ulster-1986-vector-test",
+      "aliasTargetLayerId": "eds-ulster-1921-vector-test",
       "bounds": [
         [
-          53.7655741,
-          -8.8347879
+          51.4,
+          -10.75
         ],
         [
-          55.4465803,
-          -6.5497295
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -68117,12 +67708,12 @@
       "aliasTargetLayerId": "eds-connacht-1919-vector-test",
       "bounds": [
         [
-          52.9681498,
-          -10.3207471
+          51.4,
+          -10.75
         ],
         [
-          54.4743682,
-          -7.584171
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -68177,12 +67768,12 @@
       "aliasTargetLayerId": "eds-leinster-1943-vector-test",
       "bounds": [
         [
-          52.1092161,
-          -8.0838745
+          51.4,
+          -10.75
         ],
         [
-          54.1139509,
-          -5.9962778
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -68237,12 +67828,12 @@
       "aliasTargetLayerId": "eds-munster-1921-vector-test",
       "bounds": [
         [
-          51.4198973,
-          -10.6629709
+          51.4,
+          -10.75
         ],
         [
-          53.168769,
-          -6.9499934
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -68294,15 +67885,15 @@
       "conversionStatus": "convertedAlias",
       "recommendedTarget": "maplibre-clone-alias",
       "testLayerId": "eds-roi-1943-ulster-alias-test",
-      "aliasTargetLayerId": "eds-ulster-1986-vector-test",
+      "aliasTargetLayerId": "eds-ulster-1921-vector-test",
       "bounds": [
         [
-          53.7655741,
-          -8.8347879
+          51.4,
+          -10.75
         ],
         [
-          55.4465803,
-          -6.5497295
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -68714,12 +68305,12 @@
       "aliasTargetLayerId": "eds-connacht-1957-vector-test",
       "bounds": [
         [
-          52.9681498,
-          -10.3207471
+          51.4,
+          -10.75
         ],
         [
-          54.4743682,
-          -7.584171
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -68770,12 +68361,12 @@
       "aliasTargetLayerId": "eds-leinster-1985-vector-test",
       "bounds": [
         [
-          52.1092161,
-          -8.0838745
+          51.4,
+          -10.75
         ],
         [
-          54.1139509,
-          -5.9962778
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -68826,12 +68417,12 @@
       "aliasTargetLayerId": "eds-munster-1983-vector-test",
       "bounds": [
         [
-          51.4198973,
-          -10.6629709
+          51.4,
+          -10.75
         ],
         [
-          53.168769,
-          -6.9499934
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -68882,12 +68473,12 @@
       "aliasTargetLayerId": "eds-ulster-1963-vector-test",
       "bounds": [
         [
-          53.7655741,
-          -8.8347879
+          51.4,
+          -10.75
         ],
         [
-          55.4465803,
-          -6.5497295
+          55.5,
+          -5.4
         ]
       ],
       "style": {
@@ -69084,7 +68675,7 @@
         "Phelim Birch"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
+      "recommendedTarget": "catalogue-metadata",
       "testLayerId": "local-authorities-1915-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
@@ -69106,7 +68697,7 @@
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1915.fgb"
+          "file": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1915.fgb?v=abc360d66f4dec0a2405b311920e7e72"
         }
       ],
       "references": [],
@@ -69133,7 +68724,7 @@
         "Phelim Birch"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
+      "recommendedTarget": "catalogue-metadata",
       "testLayerId": "local-authorities-1920-06-19-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
@@ -69155,7 +68746,7 @@
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1920-06-19.fgb"
+          "file": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1920-06-19.fgb?v=777e5687834655f391e9e7c391b5c574"
         }
       ],
       "references": [],
@@ -69182,7 +68773,7 @@
         "Phelim Birch"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
+      "recommendedTarget": "catalogue-metadata",
       "testLayerId": "local-authorities-1920-06-25-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
@@ -69204,7 +68795,7 @@
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1920-06-25.fgb"
+          "file": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1920-06-25.fgb?v=a6d41694167bd1473db1743c54d51f99"
         }
       ],
       "references": [],
@@ -69231,7 +68822,7 @@
         "Phelim Birch"
       ],
       "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
+      "recommendedTarget": "catalogue-metadata",
       "testLayerId": "local-authorities-1920-10-04-vector-test",
       "aliasTargetLayerId": null,
       "bounds": [
@@ -69253,7 +68844,7 @@
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1920-10-04.fgb"
+          "file": "https://data.civgraph.net/data/maps/local-government/ROI_Local_Authorities_1920-10-04.fgb?v=d06bac802dab8c945b413c9928a92b04"
         }
       ],
       "references": [],

@@ -1,6 +1,6 @@
 # Test2 Election Data Audit
 
-Generated: 2026-09-13T19:06:09.050Z
+Generated: 2026-10-10T12:12:06.066Z
 
 This is a repeatable repository-local audit of the generated /test2 election data, Browse election entries, source/reference records, transfer/count payload availability, and saved Wikipedia party-colour comparison outputs. It intentionally does not fetch live web pages, so CI can run it deterministically.
 
@@ -8,20 +8,20 @@ This is a repeatable repository-local audit of the generated /test2 election dat
 
 |area|value|
 |---|---:|
-|parent elections in manifest|291|
-|manifest loadable elections|276|
-|manifest placeholders|12|
-|Browse parent election entries|291|
-|Browse constituency/DEA sub-entries|5746|
-|Browse overall sub-entries|291|
-|source detail records|291|
-|result bundles loaded|291|
-|result rows audited|5746|
-|candidate rows audited|41344|
-|rows with count detail|5710|
-|rows with animation payload|5710|
-|rows expected to have transfer/count data|3376|
-|expected transfer/count rows missing detail|13|
+|parent elections in manifest|1025|
+|manifest loadable elections|456|
+|manifest placeholders|566|
+|Browse parent election entries|1025|
+|Browse constituency/DEA sub-entries|8694|
+|Browse overall sub-entries|1025|
+|source detail records|1025|
+|result bundles loaded|1025|
+|result rows audited|8694|
+|candidate rows audited|46807|
+|rows with count detail|8674|
+|rows with animation payload|8674|
+|rows expected to have transfer/count data|3378|
+|expected transfer/count rows missing detail|0|
 |valid-poll review sidecar records|0|
 |candidate-row review sidecar records|0|
 |party-colour review sidecar records|10|
@@ -36,25 +36,25 @@ _None._
 
 |severity|category|key|message|
 |---|---|---|---|
-|warning|candidate-list-missing|ireland-local__2024-06-07|No candidates found for Athlone (Roscommon).|
-|warning|candidate-list-missing|ireland-local__2019-05-24|No candidates found for Athlone (Roscommon).|
-|warning|candidate-list-missing|ireland-local__2014-05-23|No candidates found for Athlone (Roscommon).|
-|warning|candidate-list-missing|ireland-local__2014-05-23|No candidates found for Athlone (Westmeath).|
 |warning|elected-count|ireland-local__2014-05-23|Cobh has 7 elected candidate rows but seatsWon is 6.|
 |warning|elected-count|ireland-local__2014-05-23|Dundalk South has 7 elected candidate rows but seatsWon is 5.|
 |warning|first-pref-sum|local-government-local-government-districts__2011-05-05|Castle first-preference sum 10024 exceeds valid poll ceiling 2462.|
-|warning|candidate-list-missing|ireland-local__2009-06-05|No candidates found for Athlone (Roscommon).|
-|warning|candidate-list-missing|ireland-local__2009-06-05|No candidates found for Athlone (Westmeath).|
 |warning|first-pref-sum|local-government-local-government-districts__2005-05-05|Cusher first-preference sum 8261 exceeds valid poll ceiling 8061.|
-|warning|candidate-list-missing|ireland-local__2004-06-11|No candidates found for Athlone (Roscommon).|
-|warning|candidate-list-missing|ireland-local__2004-06-11|No candidates found for Athlone (Westmeath).|
 |warning|first-pref-sum|local-government-local-government-districts__2001-06-07|Castle first-preference sum 14132 exceeds valid poll ceiling 3583.|
-|warning|candidate-list-missing|ireland-local__1999-06-10|No candidates found for Athlone (Roscommon).|
-|warning|candidate-list-missing|ireland-local__1999-06-10|No candidates found for Athlone (Westmeath).|
-|warning|candidate-list-missing|dail-eireann__1997-06-06|No candidates found for Dún Laoghaire.|
 |warning|candidate-name-missing|dail-eireann__1997-06-06|Candidate row without a name in Mayo.|
-|warning|candidate-list-missing|dail-eireann__1992-11-25|No candidates found for Dún Laoghaire.|
-|warning|candidate-list-missing|ireland-local__1991-06-27|No candidates found for Athlone* (Roscommon).|
+|warning|elected-count|house-of-commons-of-the-united-kingdom__1880-03-31|Clonmel has 2 elected candidate rows but seatsWon is 1.|
+|warning|elected-count|house-of-commons-of-the-united-kingdom__1872-04-26|Wexford has 2 elected candidate rows but seatsWon is 1.|
+|warning|elected-count|house-of-commons-of-the-united-kingdom__1847-07-29|Clare has 3 elected candidate rows but seatsWon is 2.|
+|warning|elected-count|house-of-commons-of-the-united-kingdom__1837-07-24|County Limerick has 3 elected candidate rows but seatsWon is 2.|
+|warning|elected-count|house-of-commons-of-the-united-kingdom__1837-07-24|Queen's County has 3 elected candidate rows but seatsWon is 2.|
+|warning|elected-count|house-of-commons-of-the-united-kingdom__1836-05-06|Mayo has 2 elected candidate rows but seatsWon is 1.|
+|warning|elected-count|house-of-commons-of-the-united-kingdom__1835-01-06|Clare has 3 elected candidate rows but seatsWon is 2.|
+|warning|elected-count|house-of-commons-of-the-united-kingdom__1835-01-06|Mayo has 3 elected candidate rows but seatsWon is 2.|
+|warning|elected-count|house-of-commons-of-the-united-kingdom__1832-12-08|Belfast has 3 elected candidate rows but seatsWon is 2.|
+|warning|elected-count|house-of-commons-of-the-united-kingdom__1832-12-08|Sligo has 2 elected candidate rows but seatsWon is 1.|
+|warning|candidate-party-missing|house-of-commons-of-the-united-kingdom__1832-08-08|1 candidate rows have no party/label. Examples: Robert Otway Cave in County Tipperary.|
+|warning|candidate-party-missing|house-of-commons-of-the-united-kingdom__1832-02-28|1 candidate rows have no party/label. Examples: Sir Augustine Fitzgerald in Ennis.|
+|warning|elected-count|house-of-commons-of-the-united-kingdom__1831-08-18|Dublin has 2 elected candidate rows but seatsWon is 1.|
 
 ## Source And Reference Coverage
 
@@ -63,10 +63,10 @@ _None._
 |parent source records missing|0|
 |source records with no references|0|
 |source records with one reference|0|
-|source records with multiple references|291|
+|source records with multiple references|1025|
 |Browse sub-entries with no references|0|
 |Browse sub-entries with one reference|0|
-|Browse sub-entries with multiple references|6037|
+|Browse sub-entries with multiple references|9719|
 
 ## Party Colour Audit
 

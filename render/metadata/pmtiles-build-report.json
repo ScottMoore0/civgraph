@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-12T21:17:29.044Z",
+  "generatedAt": "2026-10-09T16:50:39.866Z",
   "mode": "execute",
   "tools": {
     "ogr2ogr": "C:\\Program Files\\GDAL\\ogr2ogr.exe",
@@ -16,25 +16,25 @@
     "converted": 1,
     "skipped": 0,
     "failed": 0,
-    "metadataPreferred": 1,
+    "metadataPreferred": 0,
     "oversizedArchives": 0
   },
   "converted": [
     {
-      "layerId": "ni-townlands-1844-vector-test",
-      "sourceMapId": "ni-townlands-1844",
-      "name": "Townlands 1844",
+      "layerId": "ni-health-trust-boundaries-vector-test",
+      "sourceMapId": "ni-health-trust-boundaries",
+      "name": "Health & Social Care Trust Boundaries (NI)",
       "sourceType": "pmtiles",
       "status": "converted",
       "profile": {
-        "maxSize": "4500000",
-        "maxFeatures": "4500000",
-        "simplification": "10",
-        "simplificationMaxZoom": "8",
-        "note": "Retuned for NI townlands 1844 low-zoom tile pressure while preserving high-zoom detail."
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
       },
-      "output": "render/pmtiles/generated/ni-townlands-1844-vector-test.pmtiles",
-      "bytes": 34527003,
+      "output": "render/pmtiles/generated/ni-health-trust-boundaries-vector-test.pmtiles",
+      "bytes": 695358,
       "exceedsGithubBudget": false
     }
   ],

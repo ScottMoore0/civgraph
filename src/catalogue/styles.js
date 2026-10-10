@@ -37,7 +37,9 @@ export const CATALOGUE_CSS = `
 .cn-empty { padding: 18px 8px; color: var(--cn-muted); }
 
 /* Section bar: the current pane's, reused (.catalogue-flat__sections); counts and Tables added. */
-.cn-tabs.catalogue-flat__sections { margin: 8px 0 6px; }
+.cn-tabs.catalogue-flat__sections { margin: 8px 0 6px; display: flex; flex-wrap: wrap; gap: 6px; overflow: visible; }
+/* Four sections with counts: on a narrow pane they wrap to two rows rather than squeeze a label. */
+.cn-tabs .cn-tab { flex: 1 1 auto; white-space: nowrap; justify-content: center; }
 .cn-tab .cn-tab__count { font-weight: 500; opacity: .75; font-variant-numeric: tabular-nums; }
 @container (max-width: 430px) { .cn-tab .cn-tab__count { display: none; } }
 
@@ -125,6 +127,7 @@ export const CATALOGUE_CSS = `
 .cn-row__title:hover { background: var(--cn-hover); }
 .cn-row__text { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; min-width: 0; }
 .cn-row__name { font-weight: 700; font-size: 14px; line-height: 1.3; }
+.cn-row__credit { flex-basis: 100%; color: var(--cn-muted); font-size: 12px; line-height: 1.3; }
 .cn-row__meta { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 2px 6px; color: var(--cn-muted); font-size: 12.5px; line-height: 1.3; }
 .cn-row__dot { color: var(--cn-muted); }
 .cn-row__chev { color: var(--cn-muted); transition: transform .15s ease; }
@@ -158,6 +161,14 @@ export const CATALOGUE_CSS = `
 .cn-chip--todo-toggle { color: var(--cn-amber-ink); border-style: dashed; border-color: color-mix(in srgb, var(--cn-amber-ink) 55%, transparent); background: none; }
 .cn-chip--todo-toggle:hover { background: var(--cn-amber-bg); border-color: var(--cn-amber-ink); }
 .cn-chip--todo-toggle .cn-icon { width: 14px; height: 14px; }
+/* A map's versions, each with its own buttons. */
+.cn-vlist { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.cn-vlist__item { display: flex; align-items: center; gap: 8px; padding: 3px 0 3px 10px; border-left: 3px solid var(--c); }
+.cn-vlist__name { flex: 1; min-width: 0; font-weight: 600; overflow-wrap: anywhere; }
+.cn-vlist__acts { display: inline-flex; align-items: center; gap: 4px; }
+/* Include undated maps (shown while years are chosen). */
+.cn-check { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--cn-muted); cursor: pointer; }
+.cn-check input { margin: 0; accent-color: #0b8a6a; }
 /* Show/hide a series' local maps: one council's copy of a national map. */
 .cn-chip.cn-chip--local-toggle { color: var(--cn-muted); border: 1px dashed var(--cn-line); background: none; }
 .cn-chip.cn-chip--local-toggle:hover { color: var(--cn-text); border-color: var(--cn-muted); }

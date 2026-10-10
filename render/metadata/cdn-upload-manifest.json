@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-26T20:56:37.374Z",
+  "generatedAt": "2026-10-09T14:20:07.948Z",
   "cdnBase": "https://data.civgraph.net/data/maps/test",
   "r2Prefix": "data/maps/test",
   "assets": [
@@ -4285,9 +4285,8 @@
       "localPath": "render/pmtiles/generated/ni-townlands-1844-vector-test.pmtiles",
       "targetKey": "data/maps/test/pmtiles/generated/ni-townlands-1844-vector-test.pmtiles",
       "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ni-townlands-1844-vector-test.pmtiles",
-      "bytes": 76947169,
-      "exists": false,
-      "remoteVerified": true
+      "bytes": 34527003,
+      "exists": true
     },
     {
       "layerId": "ni-townlands-vector-test",
@@ -7690,6 +7689,15 @@
       "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ded-1921-05-03-vector-test.pmtiles",
       "bytes": 5257756,
       "exists": true
+    },
+    {
+      "layerId": "county-ed-1911-vector-test",
+      "kind": "pmtiles",
+      "localPath": "render/pmtiles/generated/county-ed-1911-vector-test.pmtiles",
+      "targetKey": "data/maps/test/pmtiles/generated/county-ed-1911-vector-test.pmtiles",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/county-ed-1911-vector-test.pmtiles",
+      "bytes": 14712962,
+      "exists": true
     }
   ],
   "commands": [
@@ -8015,6 +8023,7 @@
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/ni-mining-leases-vector-test.pmtiles --file render/pmtiles/generated/ni-mining-leases-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/ni-priority-habitats-peatland-vector-test.pmtiles --file render/pmtiles/generated/ni-priority-habitats-peatland-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/ni-scheduled-monument-areas-vector-test.pmtiles --file render/pmtiles/generated/ni-scheduled-monument-areas-vector-test.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/ni-townlands-1844-vector-test.pmtiles --file render/pmtiles/generated/ni-townlands-1844-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/niah-buildings-vector-test.pmtiles --file render/pmtiles/generated/niah-buildings-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/niea-catchment-stakeholder-groups-vector-test.pmtiles --file render/pmtiles/generated/niea-catchment-stakeholder-groups-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/niea-landfill-sites-2013-vector-test.pmtiles --file render/pmtiles/generated/niea-landfill-sites-2013-vector-test.pmtiles --remote --content-type application/octet-stream",
@@ -8182,6 +8191,7 @@
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/wq-surface-water-bodies-2015-vector-test.pmtiles --file render/pmtiles/generated/wq-surface-water-bodies-2015-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/wq-wfd-monitoring-sites-vector-test.pmtiles --file render/pmtiles/generated/wq-wfd-monitoring-sites-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/wq-wfd-river-water-bodies-vector-test.pmtiles --file render/pmtiles/generated/wq-wfd-river-water-bodies-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/ded-1921-05-03-vector-test.pmtiles --file render/pmtiles/generated/ded-1921-05-03-vector-test.pmtiles --remote --content-type application/octet-stream"
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/ded-1921-05-03-vector-test.pmtiles --file render/pmtiles/generated/ded-1921-05-03-vector-test.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/county-ed-1911-vector-test.pmtiles --file render/pmtiles/generated/county-ed-1911-vector-test.pmtiles --remote --content-type application/octet-stream"
   ]
 }

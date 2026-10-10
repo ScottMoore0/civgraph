@@ -154,6 +154,9 @@ for (const s of source.series) {
   for (const id of Object.keys(s.labels || {})) {
     if (!s.members.includes(id) && !(s.toBeAdded || []).includes(id) && !(s.local || []).includes(id)) fail(`series ${s.id} labels ${id}, which is not one of its maps`);
   }
+  for (const id of Object.keys(s.versionLabels || {})) {
+    if (!s.members.includes(id) || s.variantOf?.[id]) fail(`series ${s.id} gives a version label to ${id}, which is not one of its main maps`);
+  }
 }
 for (const sub of source.subjects) if (sub.seriesKind && !KINDS.has(sub.seriesKind)) fail(`subject ${sub.id} has seriesKind "${sub.seriesKind}"`);
 

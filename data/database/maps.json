@@ -2679,7 +2679,7 @@
       "featured": true,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/physical/Ireland.fgb"
@@ -2864,7 +2864,7 @@
       "chunked": true,
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "style": {
         "color": "#A87000",
@@ -3251,7 +3251,7 @@
       },
       "provider": [
         "OSNI",
-        "OSI"
+        "Tailte Éireann"
       ],
       "style": {
         "color": "#A87000",
@@ -6180,7 +6180,7 @@
     },
     {
       "id": "pc-1884",
-      "name": "Parliamentary Constituencies 1884 (pre-partition)",
+      "name": "Parliamentary Constituencies 1885 (Northern Ireland)",
       "slug": "pc-1884",
       "category": "parliamentary",
       "featured": true,
@@ -6202,7 +6202,7 @@
         "1884",
         "pre-partition"
       ],
-      "date": 1884
+      "date": 1885
     },
     {
       "id": "pc-1885-ireland",
@@ -6259,7 +6259,7 @@
       "category": "devolved",
       "provider": [
         "Paddy Matthews",
-        "OSI",
+        "Tailte Éireann",
         "OSNI"
       ],
       "files": {
@@ -6708,7 +6708,7 @@
       "category": "counties",
       "date": "2019",
       "provider": [
-        "OSI",
+        "Tailte Éireann",
         "Phelim Birch"
       ],
       "files": {
@@ -6806,7 +6806,7 @@
       "category": "counties",
       "date": "1955",
       "provider": [
-        "OSI"
+        "Tailte Éireann"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Provinces_1955.fgb"
@@ -6936,7 +6936,7 @@
       "variants": [
         {
           "id": "counties-ni-1915",
-          "label": "Counties of Northern Ireland",
+          "label": "Northern Ireland",
           "slug": "counties-ni-1915",
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/baronies-parishes/Counties_1915.fgb"
@@ -7065,7 +7065,7 @@
         },
         {
           "id": "roi-counties-2011",
-          "label": "Administrative Counties 2011",
+          "label": "Republic of Ireland",
           "slug": "roi-counties-2011",
           "files": {
             "geojson": "data/maps/baronies-parishes/ROI_Counties_2011.geojson",
@@ -7074,7 +7074,7 @@
               "shapefile": "data/downloads/ROI_Counties_2011.zip"
             }
           },
-          "date": "2011",
+          "date": "1977",
           "useLOD": true,
           "provider": [
             "CSO"
@@ -7798,7 +7798,17 @@
         "northern ireland",
         "all ireland"
       ],
-      "labelProperty": "NUTS2NAME"
+      "labelProperty": "NUTS2NAME",
+      "variants": [
+        {
+          "id": "nuts-2-roi",
+          "label": "Republic of Ireland",
+          "description": "NUTS 2 regions in the Republic of Ireland (2011)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/census-areas/ROI_NUTS2.fgb"
+          }
+        }
+      ]
     },
     {
       "id": "nuts-2-roi",
@@ -8164,7 +8174,7 @@
       "date": "1921-05-03",
       "featured": true,
       "provider": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "keywords": [
@@ -8251,7 +8261,7 @@
       "date": "1921-06-28",
       "featured": true,
       "provider": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "style": {
@@ -9459,7 +9469,7 @@
     },
     {
       "id": "eds-1926",
-      "name": "Electoral Divisions 1926",
+      "name": "Electoral Divisions 1926 (Irish Free State)",
       "slug": "electoral-divisions-1926",
       "category": "electoral-divisions",
       "featured": true,
@@ -9513,15 +9523,6 @@
             "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Ulster1926EDs.fgb"
           },
           "useLOD": true
-        },
-        {
-          "id": "deds-ni-1926",
-          "label": "Northern Ireland District Electoral Divisions 1926",
-          "description": "DEDs in Northern Ireland",
-          "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/NorthernIrelandDEDs1926.fgb"
-          },
-          "useLOD": true
         }
       ],
       "date": 1926,
@@ -9544,7 +9545,7 @@
       "category": "civil-parishes",
       "featured": true,
       "provider": [
-        "OSI",
+        "Tailte Éireann",
         "OSM"
       ],
       "style": {
@@ -9678,7 +9679,7 @@
       "category": "european",
       "featured": true,
       "provider": [
-        "OSI",
+        "Tailte Éireann",
         "OSNI"
       ],
       "files": {
@@ -9704,7 +9705,7 @@
       "category": "european",
       "featured": true,
       "provider": [
-        "OSI",
+        "Tailte Éireann",
         "OSNI"
       ],
       "files": {
@@ -9730,7 +9731,7 @@
       "category": "european",
       "featured": true,
       "provider": [
-        "OSI",
+        "Tailte Éireann",
         "OSNI"
       ],
       "files": {
@@ -9766,7 +9767,7 @@
       "category": "european",
       "featured": true,
       "provider": [
-        "OSI",
+        "Tailte Éireann",
         "OSNI"
       ],
       "files": {
@@ -9792,7 +9793,7 @@
       "category": "european",
       "featured": true,
       "provider": [
-        "OSI",
+        "Tailte Éireann",
         "OSNI"
       ],
       "files": {
@@ -9819,7 +9820,7 @@
       "category": "european",
       "featured": true,
       "provider": [
-        "OSI",
+        "Tailte Éireann",
         "OSNI"
       ],
       "files": {
@@ -10351,6 +10352,9 @@
       "name": "2001 Wards",
       "slug": "wards-2001",
       "category": "census",
+      "provider": [
+        "OSNI"
+      ],
       "featured": true,
       "cloneOf": "wards-1993",
       "note": "Same boundaries as 1993 Wards, used as a 2001 Census output geography",
@@ -10409,7 +10413,7 @@
       "category": "polities",
       "featured": true,
       "provider": [
-        "OSI"
+        "Tailte Éireann"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/physical/RepublicOfIreland.fgb"
@@ -13746,6 +13750,50 @@
       ]
     },
     {
+      "id": "county-ed-1911",
+      "name": "County Electoral Divisions 1911",
+      "slug": "county-ed-1911",
+      "category": "wards",
+      "date": "1911",
+      "featured": true,
+      "provider": [
+        "Paddy Matthews"
+      ],
+      "keywords": [
+        "county electoral divisions",
+        "ced",
+        "county council",
+        "electoral",
+        "divisions",
+        "1911",
+        "pre-partition",
+        "ireland"
+      ],
+      "description": "County Electoral Divisions of Ireland in 1911, before partition: the divisions that elected county councillors under the Local Government (Ireland) Act 1898. Digitised by Paddy Matthews.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/County_Electoral_Divisions_1911.fgb"
+      },
+      "downloads": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/County_Electoral_Divisions_1911.fgb"
+      },
+      "labelProperty": "ED_NAME",
+      "style": {
+        "color": "#8E44AD",
+        "weight": 2
+      },
+      "sourceNotes": "From Paddy Matthews's file county_electoral_divisions_1911.fgb in Phelim Birch's Civgraph Drive folder (678 divisions, TM65 Irish Grid, reprojected to WGS84). Licence not yet stated by the digitiser.",
+      "bounds": [
+        [
+          51.388858,
+          -10.662971
+        ],
+        [
+          55.446581,
+          -5.426788
+        ]
+      ]
+    },
+    {
       "id": "county-ed-1921-05-03",
       "name": "County Electoral Divisions 3 May 1921",
       "slug": "county-ed-1921-05-03",
@@ -15758,8 +15806,10 @@
       "name": "Northern Ireland DEDs 1926",
       "slug": "deds-ni-1926",
       "category": "electoral-divisions",
-      "hidden": true,
       "featured": true,
+      "downloads": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/NorthernIrelandDEDs1926.fgb"
+      },
       "provider": [
         "Paddy Matthews"
       ],
@@ -31946,7 +31996,6 @@
       "category": "counties",
       "date": "1955",
       "provider": [
-        "OSI",
         "Phelim Birch"
       ],
       "files": {
@@ -41210,7 +41259,8 @@
       "slug": "oda-map-00913-covid-19-hse-daily-booster-vaccination-figures",
       "category": "Points of Interest",
       "provider": [
-        "Tailte/OSI/data.gov.ie"
+        "Tailte Éireann",
+        "data.gov.ie"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -41238,7 +41288,8 @@
       "slug": "oda-map-00914-covid-19-hse-daily-vaccination-figures",
       "category": "Points of Interest",
       "provider": [
-        "Tailte/OSI/data.gov.ie"
+        "Tailte Éireann",
+        "data.gov.ie"
       ],
       "dateAdded": null,
       "license": "CC BY 4.0",
@@ -42231,7 +42282,7 @@
     },
     {
       "id": "tailte-gaeltacht-boundaries-generalised-20m",
-      "name": "Gaeltacht Boundaries Generalised 20m (Tailte Éireann)",
+      "name": "Gaeltacht Boundaries Generalised 20m",
       "slug": "tailte-gaeltacht-boundaries-generalised-20m",
       "category": "regional-divides",
       "provider": [
@@ -42277,7 +42328,7 @@
     },
     {
       "id": "tailte-gaeltacht-language-planning-area-boundaries-generalised-20m",
-      "name": "Gaeltacht Language Planning Area Boundaries Generalised 20m (Tailte Éireann)",
+      "name": "Gaeltacht Language Planning Area Boundaries Generalised 20m",
       "slug": "tailte-gaeltacht-language-planning-area-boundaries-generalised-20m",
       "category": "regional-divides",
       "provider": [
@@ -42862,7 +42913,7 @@
     },
     {
       "id": "tailte-province-boundaries-generalised-20m",
-      "name": "Province Boundaries Generalised 20m (Tailte Éireann)",
+      "name": "Province Boundaries Generalised 20m",
       "slug": "tailte-province-boundaries-generalised-20m",
       "category": "regional-divides",
       "provider": [
