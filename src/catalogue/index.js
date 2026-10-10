@@ -42,10 +42,16 @@ const BLANK_EFILTERS = { body: '', ekind: '', escope: '', from: null, to: null }
 const app = () => (typeof window !== 'undefined' ? window.__civgraphTest2?.app : null);
 const readStore = () => { try { return JSON.parse(sessionStorage.getItem(STORE)) || {}; } catch { return {}; } };
 // The map sections, each the maps of one kind.
-export const SECTIONS = [['boundaries', 'Boundary', 'Boundaries', 'land-divisions'], ['places', 'Places', 'Places & routes', 'route'], ['statistics', 'Statistics', 'Statistics', 'chart-column']];
+export const SECTIONS = [['boundaries', 'Boundary', 'Boundaries', 'land-divisions'], ['places', 'Places', 'Places & routes', 'route'], ['statistics', 'Statistics', 'Statistics', 'chart-column'], ['historic', 'Historic', 'Historic Maps', 'landmark']];
 const KIND_OF_SECTION = Object.fromEntries(SECTIONS.map(([id, kind]) => [id, kind]));
 const SECTION_OF_KIND = Object.fromEntries(SECTIONS.map(([id, kind]) => [kind, id]));
 export const sectionOfKind = (kind) => SECTION_OF_KIND[kind] || 'boundaries';
+
+/** A count's noun, singular for one: "1 County", "32 Counties". */
+export function unitWord(unit, n) {
+  if (n !== 1) return unit;
+  return String(unit).replace(/(\w+)$/, (w) => (/ies$/i.test(w) ? w.slice(0, -3) + 'y' : /(ches|shes|sses|xes)$/i.test(w) ? w.slice(0, -2) : /s$/i.test(w) && !/ss$/i.test(w) ? w.slice(0, -1) : w));
+}
 
 const cssId = (s) => (window.CSS?.escape ? CSS.escape(s) : String(s).replace(/["\\]/g, '\\$&'));
 
@@ -283,7 +289,9 @@ export class CatalogueNext {
   /** Series per section (those a search found, while searching) and elections. */
   tabCounts() {
     const out = { elections: this.query ? this.electionHits?.size || 0 : this.data.elections.length, books: this.query ? this.bookHits?.size || 0 : this.books?.books?.length || 0 };
-    for (const [id, kind] of SECTIONS) out[id] = this.data.series.filter((s) => s.kind === kind && (!this.query || this.searchHits?.has(s.id))).length;
+    // Each section counts its maps (every map a row can add: editions, versions, council maps), not its rows.
+    const mapsIn = (s) => (this.query ? (this.searchHits?.get(s.id)?.members?.length || s.members.length) : s.members.length + (s.local?.length || 0));
+    for (const [id, kind] of SECTIONS) out[id] = this.data.series.filter((s) => s.kind === kind && (!this.query || this.searchHits?.has(s.id))).reduce((n, s) => n + mapsIn(s), 0);
     return out;
   }
 
@@ -423,9 +431,8 @@ export class CatalogueNext {
     const m = this.full(id);
     const providers = (r.provider?.length ? r.provider : [m?.provider || []].flat()).filter(Boolean).join(', ');
     let count = '';
-    const n = m && this.ui.getMapFeatureCount ? this.ui.getMapFeatureCount(m) : null;
-    if (Number.isFinite(n)) count = `${n.toLocaleString('en-GB')} ${this.ui.getMapFeatureUnitLabel ? this.ui.getMapFeatureUnitLabel(m, n) : 'features'}`;
-    else if (r.features) count = `${r.features.toLocaleString('en-GB')} features`;
+    const n = r.features || (m && this.ui.getMapFeatureCount ? this.ui.getMapFeatureCount(m) : null);
+    if (Number.isFinite(n) && n > 0) count = `${n.toLocaleString('en-GB')} ${unitWord(r.unit || (m && this.ui.getMapFeatureUnitLabel ? this.ui.getMapFeatureUnitLabel(m, n) : 'features'), n)}`;
     return [date && r.date ? longDate(r.date) : '', providers, count].filter(Boolean).join(' · ');
   }
 
@@ -1319,7 +1326,7 @@ export class CatalogueNext {
     this.setFade(50);
     this.drawCompare();
     this.syncState();
-    this.compareEl.querySelector('[data-cn-fade]')?.focus();
+    this.compareEl.querySelector('[data-cn-fade]')?.focus({ preventScroll: true });
   }
 
   drawCompare() {

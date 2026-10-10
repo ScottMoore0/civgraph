@@ -95,6 +95,10 @@ for (const s of source.series) {
   for (const m of s.members || []) place(m, `series ${s.id}`);
   for (const m of s.toBeAdded || []) place(m, `series ${s.id} (to be added)`);
   for (const m of s.local || []) place(m, `series ${s.id} (local)`);
+  for (const [m, of] of Object.entries(s.localOf || {})) {
+    if (!(s.local || []).includes(m)) fail(`series ${s.id} gives an edition to ${m}, which is not one of its council maps`);
+    if (!s.members.includes(of)) fail(`series ${s.id} ties ${m} to ${of}, which is not one of its maps`);
+  }
   for (const [m, from] of Object.entries(s.countiesFrom || {})) {
     if (!s.members.includes(m)) fail(`series ${s.id} gives counties to ${m}, which is not one of its maps`);
     if (!mapById.has(from)) fail(`series ${s.id} takes counties from ${from}, which the site does not define`);
@@ -148,9 +152,9 @@ if (existsSync(peoplePath)) {
   if (bad) fail(`${bad} people or contests in people.json point at elections, parties or constituencies that do not exist: rebuild it`);
 }
 // ---- curator fields: kinds, labels, versions in sets, flat sections
-const KINDS = new Set(['Boundary', 'Places', 'Statistics']);
+const KINDS = new Set(['Boundary', 'Places', 'Statistics', 'Historic']);
 for (const s of source.series) {
-  if (s.kind && !KINDS.has(s.kind)) fail(`series ${s.id} has kind "${s.kind}"; use Boundary, Places or Statistics`);
+  if (s.kind && !KINDS.has(s.kind)) fail(`series ${s.id} has kind "${s.kind}"; use Boundary, Places, Statistics or Historic`);
   for (const id of Object.keys(s.labels || {})) {
     if (!s.members.includes(id) && !(s.toBeAdded || []).includes(id) && !(s.local || []).includes(id)) fail(`series ${s.id} labels ${id}, which is not one of its maps`);
   }

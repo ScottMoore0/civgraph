@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
   "mode": "execute",
-  "generatedAt": "2026-10-09T16:50:09.463Z",
+  "generatedAt": "2026-10-10T19:29:59.410Z",
   "tool": "ogr2ogr GDAL MVT",
   "tippecanoeAvailable": false,
   "perLayerTimeoutMs": 600000,
   "totals": {
-    "vectorRows": 0,
-    "feasibleLocalCandidates": 1,
+    "vectorRows": 7,
+    "feasibleLocalCandidates": 6,
     "skipped": 0,
-    "selected": 1,
-    "converted": 1,
-    "skippedExisting": 0,
+    "selected": 6,
+    "converted": 3,
+    "skippedExisting": 3,
     "failed": 0
   },
   "notes": [
@@ -21,33 +21,156 @@
   ],
   "candidates": [
     {
-      "sourceMapId": "ni-health-trust-boundaries",
-      "name": "Health & Social Care Trust Boundaries (NI)",
-      "category": "Local Government Districts",
-      "sourceFile": "render/source-cache/vector-intake/ni-health-trust-boundaries.fgb",
-      "sourceBytes": 5756920,
-      "outputDirectory": "render/tiles/generated/ni-health-trust-boundaries"
+      "sourceMapId": "townlands-cities-and-islands",
+      "name": "Townlands — Cork, Dublin and Galway cities and islands",
+      "category": "Townlands",
+      "sourceFile": "render/source-cache/vector-intake/townlands-cities-and-islands.fgb",
+      "sourceBytes": 4216344,
+      "outputDirectory": "render/tiles/generated/townlands-cities-and-islands"
+    },
+    {
+      "sourceMapId": "townlands-cities-and-islands",
+      "name": "Ireland",
+      "category": "Townlands",
+      "sourceFile": "render/source-cache/vector-intake/townlands-cities-and-islands.fgb",
+      "sourceBytes": 4216344,
+      "outputDirectory": "render/tiles/generated/townlands-cities-and-islands"
+    },
+    {
+      "sourceMapId": "pc-1918-26-counties",
+      "name": "Parliamentary Constituencies 1918 (26 counties)",
+      "category": "Parliamentary Constituencies",
+      "sourceFile": "render/source-cache/vector-intake/pc-1918-26-counties.fgb",
+      "sourceBytes": 29724144,
+      "outputDirectory": "render/tiles/generated/pc-1918-26-counties"
+    },
+    {
+      "sourceMapId": "pc-1918-26-counties",
+      "name": "Parliamentary Constituencies 1918 (Ireland — all-island)",
+      "category": "Parliamentary Constituencies",
+      "sourceFile": "render/source-cache/vector-intake/pc-1918-26-counties.fgb",
+      "sourceBytes": 29724144,
+      "outputDirectory": "render/tiles/generated/pc-1918-26-counties"
+    },
+    {
+      "sourceMapId": "pc-1885-26-counties",
+      "name": "Parliamentary Constituencies 1885 (26 counties)",
+      "category": "Parliamentary Constituencies",
+      "sourceFile": "render/source-cache/vector-intake/pc-1885-26-counties.fgb",
+      "sourceBytes": 2203360,
+      "outputDirectory": "render/tiles/generated/pc-1885-26-counties"
+    },
+    {
+      "sourceMapId": "pc-1885-26-counties",
+      "name": "Parliamentary Constituencies 1885 (Ireland — all-island)",
+      "category": "Parliamentary Constituencies",
+      "sourceFile": "render/source-cache/vector-intake/pc-1885-26-counties.fgb",
+      "sourceBytes": 2203360,
+      "outputDirectory": "render/tiles/generated/pc-1885-26-counties"
     }
   ],
   "selected": [
     {
-      "sourceMapId": "ni-health-trust-boundaries",
-      "name": "Health & Social Care Trust Boundaries (NI)",
-      "category": "Local Government Districts",
-      "sourceFile": "render/source-cache/vector-intake/ni-health-trust-boundaries.fgb",
-      "sourceBytes": 5756920,
-      "outputDirectory": "render/tiles/generated/ni-health-trust-boundaries"
+      "sourceMapId": "townlands-cities-and-islands",
+      "name": "Townlands — Cork, Dublin and Galway cities and islands",
+      "category": "Townlands",
+      "sourceFile": "render/source-cache/vector-intake/townlands-cities-and-islands.fgb",
+      "sourceBytes": 4216344,
+      "outputDirectory": "render/tiles/generated/townlands-cities-and-islands"
+    },
+    {
+      "sourceMapId": "townlands-cities-and-islands",
+      "name": "Ireland",
+      "category": "Townlands",
+      "sourceFile": "render/source-cache/vector-intake/townlands-cities-and-islands.fgb",
+      "sourceBytes": 4216344,
+      "outputDirectory": "render/tiles/generated/townlands-cities-and-islands"
+    },
+    {
+      "sourceMapId": "pc-1918-26-counties",
+      "name": "Parliamentary Constituencies 1918 (26 counties)",
+      "category": "Parliamentary Constituencies",
+      "sourceFile": "render/source-cache/vector-intake/pc-1918-26-counties.fgb",
+      "sourceBytes": 29724144,
+      "outputDirectory": "render/tiles/generated/pc-1918-26-counties"
+    },
+    {
+      "sourceMapId": "pc-1918-26-counties",
+      "name": "Parliamentary Constituencies 1918 (Ireland — all-island)",
+      "category": "Parliamentary Constituencies",
+      "sourceFile": "render/source-cache/vector-intake/pc-1918-26-counties.fgb",
+      "sourceBytes": 29724144,
+      "outputDirectory": "render/tiles/generated/pc-1918-26-counties"
+    },
+    {
+      "sourceMapId": "pc-1885-26-counties",
+      "name": "Parliamentary Constituencies 1885 (26 counties)",
+      "category": "Parliamentary Constituencies",
+      "sourceFile": "render/source-cache/vector-intake/pc-1885-26-counties.fgb",
+      "sourceBytes": 2203360,
+      "outputDirectory": "render/tiles/generated/pc-1885-26-counties"
+    },
+    {
+      "sourceMapId": "pc-1885-26-counties",
+      "name": "Parliamentary Constituencies 1885 (Ireland — all-island)",
+      "category": "Parliamentary Constituencies",
+      "sourceFile": "render/source-cache/vector-intake/pc-1885-26-counties.fgb",
+      "sourceBytes": 2203360,
+      "outputDirectory": "render/tiles/generated/pc-1885-26-counties"
     }
   ],
-  "skippedExisting": [],
+  "skippedExisting": [
+    {
+      "sourceMapId": "townlands-cities-and-islands",
+      "name": "Ireland",
+      "category": "Townlands",
+      "sourceFile": "render/source-cache/vector-intake/townlands-cities-and-islands.fgb",
+      "sourceBytes": 4216344,
+      "outputDirectory": "render/tiles/generated/townlands-cities-and-islands",
+      "reason": "existing verified generated output",
+      "sourceLayer": "townlands_cities_and_islands",
+      "files": 324,
+      "pbfFiles": 323,
+      "bytes": 1618831,
+      "maxTileBytes": 56666
+    },
+    {
+      "sourceMapId": "pc-1918-26-counties",
+      "name": "Parliamentary Constituencies 1918 (Ireland — all-island)",
+      "category": "Parliamentary Constituencies",
+      "sourceFile": "render/source-cache/vector-intake/pc-1918-26-counties.fgb",
+      "sourceBytes": 29724144,
+      "outputDirectory": "render/tiles/generated/pc-1918-26-counties",
+      "reason": "existing verified generated output",
+      "sourceLayer": "pc_1918_26_counties",
+      "files": 3329,
+      "pbfFiles": 3328,
+      "bytes": 6704910,
+      "maxTileBytes": 50140
+    },
+    {
+      "sourceMapId": "pc-1885-26-counties",
+      "name": "Parliamentary Constituencies 1885 (Ireland — all-island)",
+      "category": "Parliamentary Constituencies",
+      "sourceFile": "render/source-cache/vector-intake/pc-1885-26-counties.fgb",
+      "sourceBytes": 2203360,
+      "outputDirectory": "render/tiles/generated/pc-1885-26-counties",
+      "reason": "existing verified generated output",
+      "sourceLayer": "pc_1885_26_counties",
+      "files": 3333,
+      "pbfFiles": 3332,
+      "bytes": 2757639,
+      "maxTileBytes": 61579
+    }
+  ],
   "converted": [
     {
-      "sourceMapId": "ni-health-trust-boundaries",
-      "name": "Health & Social Care Trust Boundaries (NI)",
-      "category": "Local Government Districts",
-      "sourceFile": "render/source-cache/vector-intake/ni-health-trust-boundaries.fgb",
-      "sourceBytes": 5756920,
-      "outputDirectory": "render/tiles/generated/ni-health-trust-boundaries",
+      "sourceMapId": "townlands-cities-and-islands",
+      "name": "Townlands — Cork, Dublin and Galway cities and islands",
+      "category": "Townlands",
+      "sourceFile": "render/source-cache/vector-intake/townlands-cities-and-islands.fgb",
+      "sourceBytes": 4216344,
+      "outputDirectory": "render/tiles/generated/townlands-cities-and-islands",
       "profile": {
         "maxSize": "10000000",
         "maxFeatures": "10000000",
@@ -55,11 +178,51 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "sourceLayer": "ni_health_trust_boundaries",
-      "files": 757,
-      "pbfFiles": 756,
-      "bytes": 1301332,
-      "maxTileBytes": 13254
+      "sourceLayer": "townlands_cities_and_islands",
+      "files": 324,
+      "pbfFiles": 323,
+      "bytes": 1618831,
+      "maxTileBytes": 56666
+    },
+    {
+      "sourceMapId": "pc-1918-26-counties",
+      "name": "Parliamentary Constituencies 1918 (26 counties)",
+      "category": "Parliamentary Constituencies",
+      "sourceFile": "render/source-cache/vector-intake/pc-1918-26-counties.fgb",
+      "sourceBytes": 29724144,
+      "outputDirectory": "render/tiles/generated/pc-1918-26-counties",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "pc_1918_26_counties",
+      "files": 3329,
+      "pbfFiles": 3328,
+      "bytes": 6704910,
+      "maxTileBytes": 50140
+    },
+    {
+      "sourceMapId": "pc-1885-26-counties",
+      "name": "Parliamentary Constituencies 1885 (26 counties)",
+      "category": "Parliamentary Constituencies",
+      "sourceFile": "render/source-cache/vector-intake/pc-1885-26-counties.fgb",
+      "sourceBytes": 2203360,
+      "outputDirectory": "render/tiles/generated/pc-1885-26-counties",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "pc_1885_26_counties",
+      "files": 3333,
+      "pbfFiles": 3332,
+      "bytes": 2757639,
+      "maxTileBytes": 61579
     }
   ],
   "failed": [],

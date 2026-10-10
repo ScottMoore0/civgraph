@@ -97,6 +97,27 @@ function dropSharedPrefix(items) {
   return k ? items.map((x, i) => ({ ...x, label: parts[i].slice(k).join(' — ') })) : items;
 }
 const out = { maps: {} };
+// Feature counts (data/database/map-feature-counts.json, from each map's FlatGeobuf header or its
+// tiles' statistics), built into the catalogue so every hover shows one whenever one is known.
+const featureCounts = (() => { try { return read('data/database/map-feature-counts.json').counts || {}; } catch { return {}; } })();
+
+// What a map counts, as a plural noun ("32 Counties"): the map's own unit, else its row's
+// (`unit`, or `units` per map), else the row's name without its qualifiers; in a row that gathers
+// different things (`unitFromLabel`), the map's own label.
+const DATE_WORDS = /\b\d{1,2}\s+[A-Z][a-z]+\s+\d{4}\b|\b(1[5-9]\d\d|20\d\d)\b/g;
+const cleanUnit = (text) => String(text || '').replace(/\([^)]*\)/g, '').replace(DATE_WORDS, '').replace(/[—–-]\s*$/, '').replace(/\s{2,}/g, ' ').trim();
+function unitFor(s, id, label) {
+  const own = mapById.get(id)?.featureUnit;
+  if (own) return own;
+  if (s.units?.[id]) return s.units[id];
+  if (s.unit) return s.unit;
+  if (s.unitFromLabel) {
+    const u = cleanUnit(label);
+    if (/[a-z]{3}/i.test(u)) return u;
+  }
+  return cleanUnit(s.name) || s.name;
+}
+
 function addMap(id) {
   if (out.maps[id]) return out.maps[id];
   const m = mapById.get(id);
@@ -112,7 +133,8 @@ function addMap(id) {
   if (t) rec.thumb = t;
   const b = boundsOf(m);
   if (b) rec.bounds = b;
-  if (m.featureCount) rec.features = m.featureCount;
+  const n = m.featureCount || featureCounts[id] || (m.cloneOf && featureCounts[m.cloneOf]) || (m.aliasOf && featureCounts[m.aliasOf]);
+  if (Number.isFinite(n) && n > 0) rec.features = n;
   if (layer?.geometryType) rec.geometry = layer.geometryType;
   if (m.description) rec.description = String(m.description).slice(0, 600);
   if (m.changeNote) rec.note = String(m.changeNote).slice(0, 300);
@@ -238,6 +260,7 @@ for (const s of source.series) {
   for (const m of members) if (s.versionLabels?.[m.id]) m.version = s.versionLabels[m.id];
   // A label the curator gives (catalogue.source.json `labels`) wins over a derived one.
   for (const m of members) if (s.labels?.[m.id]) m.label = s.labels[m.id];
+  for (const m of members) if (!out.maps[m.id].unit) out.maps[m.id].unit = unitFor(s, m.id, m.label);
   const entry = {
     id: s.id,
     slug,
@@ -262,7 +285,8 @@ for (const s of source.series) {
   if (s.undated) for (const r of localRecs) { r.date = ''; out.maps[r.id].date = ''; }
   if (localRecs.length) {
     localRecs.sort((a, b) => String(s.labels?.[a.id] || a.name).localeCompare(String(s.labels?.[b.id] || b.name)));
-    entry.local = localRecs.map((r) => ({ id: r.id, label: s.labels?.[r.id] || editionLabel({ ...s, arrangement: 'set' }, r, localRecs) }));
+    entry.local = localRecs.map((r) => ({ id: r.id, label: s.labels?.[r.id] || editionLabel({ ...s, arrangement: 'set' }, r, localRecs), ...(s.localOf?.[r.id] ? { of: s.localOf[r.id] } : {}) }));
+    for (const m of entry.local) if (!out.maps[m.id].unit) out.maps[m.id].unit = unitFor({ ...s, unitFromLabel: false }, m.id, m.label);
   }
   const todoYears = todoRecs.map((r) => yearOfDate(r.date)).filter(Boolean);
   // The span takes in the maps still to be added: Northern Ireland's constituencies run from

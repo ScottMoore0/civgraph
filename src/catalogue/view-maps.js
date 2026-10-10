@@ -47,8 +47,14 @@ export function resultsHtml(c) {
     ${shelves.map((x) => shelfHtml(c, x)).join('')}`;
 }
 
+const SHELF_NAME_IN = { boundaries: { 'people-and-places': 'Census & Statistical Areas' } };
+
 function shelfHtml(c, { sh, subjects, count }) {
   const [ic, col] = SHELF_LOOK[sh.id] || ['map', FALLBACK];
+  if (c.section === 'statistics') {
+    return `<section class="cn-shelf cn-shelf--bare" id="cn-shelf-${esc(sh.id)}" data-cn-section="${esc(sh.id)}">${flatHtml(c, subjects)}</section>`;
+  }
+  sh = { ...sh, name: SHELF_NAME_IN[c.section]?.[sh.id] || sh.name };
   const open = !c.collapsed.has(sh.id) || Boolean(c.query);
   return `<section class="cn-shelf" id="cn-shelf-${esc(sh.id)}" data-cn-section="${esc(sh.id)}" style="--shelf:${col}" aria-labelledby="cn-shelf-h-${esc(sh.id)}">
     <h3 class="cn-shelf__head" id="cn-shelf-h-${esc(sh.id)}"><button type="button" class="cn-shelf__toggle" data-cn-shelf="${esc(sh.id)}" aria-expanded="${open}">
@@ -84,20 +90,19 @@ export function seriesRowHtml(c, s, hit = c.hitFor(s)) {
   // the row has a single Add button, as Civil Parishes does.
   const single = editions.length === 1;
   const open = drawable && c.expanded.has(s.id);
-  const meta = [
-    SCOPE_SHORT[s.scope] || s.scope,
-    span(s.years),
+  const meta = [SCOPE_SHORT[s.scope] || s.scope, span(s.years)].filter(Boolean).map((t) => `<span>${esc(t)}</span>`);
+  const tally = [
     editions.length > 1 ? plural(editions.length, s.arrangement === 'editions' ? 'edition' : 'map') : '',
     versions ? plural(versions, 'other version') : '',
-  ].filter(Boolean).map((t) => `<span>${esc(t)}</span>`);
+    local.length ? plural(local.length, 'council map') : '',
+  ].filter(Boolean);
   if (!drawable) meta.push('<span class="cn-badge cn-badge--todo">To be added</span>');
   else if (s.status?.incomplete) meta.push('<span class="cn-badge cn-badge--warn">Incomplete</span>');
-  if (single) {
-    const from = c.mapSummary(s.members[0].id, { date: false });
-    if (from) meta.push(`<span>${esc(from)}</span>`);
-  }
-  if (local.length) meta.push(`<span>${esc(plural(local.length, 'council map'))}</span>`);
-  const credit = !single && s.provider?.length ? `<span class="cn-row__credit">${esc(s.provider.join(', '))}</span>` : '';
+  // A row of census figures says which areas they are counted by ("by Ward 2014").
+  const by = s.kind === 'Statistics' && single ? /\bby ([^,)]+)\)?\s*$/.exec(c.rec(s.members[0].id).name || '')?.[1] : '';
+  const who = single ? c.mapSummary(s.members[0].id, { date: false }) : (s.provider || []).join(', ');
+  const second = [by ? `by ${by}` : '', who, ...tally].filter(Boolean);
+  const credit = second.length ? `<span class="cn-row__credit">${second.map((t) => esc(t)).join('<span class="cn-row__dot" aria-hidden="true"> · </span>')}</span>` : '';
   const text = `<span class="cn-row__text"><span class="cn-row__name">${esc(s.name)}</span><span class="cn-row__meta">${meta.join('<span class="cn-row__dot" aria-hidden="true">·</span>')}</span>${credit}</span>`;
   // A series with nothing to draw yet is a heading and its list of maps to come: nothing to open.
   const tip = single ? c.mapSummary(s.members[0].id) : '';
@@ -201,7 +206,7 @@ export function panelHtml(c, s) {
           2026-10-06); the text stays in the data. */ ''}
       ${versionsHtml(c, s, sel)}
       ${partsHtml(c, s, sel, r)}
-      ${localHtml(c, s)}
+      ${localHtml(c, s, sel)}
       ${actionsHtml(c, s, sel, r)}
     </div>`;
 }
@@ -261,11 +266,12 @@ function versionsHtml(c, s, sel) {
 }
 
 /** A series' council maps (one council's copy of a national map), beside the county maps. */
-function localHtml(c, s) {
-  const local = s.local || [];
+function localHtml(c, s, sel) {
+  const base = sel ? sel.of || sel.id : null;
+  const local = (s.local || []).filter((m) => !m.of || m.of === base);
   if (!local.length) return '';
   return `<div class="cn-sub"><span class="cn-label">Council maps · ${local.length}</span>
-    <div class="cn-chips">${local.map((m) => chipHtml(c, s, m)).join('')}</div></div>`;
+    <div class="cn-chips">${local.map((m) => itemHtml(c, chipHtml(c, s, m), m.id, m.label, { details: true })).join('')}</div></div>`;
 }
 
 function partsHtml(c, s, sel, r) {
@@ -279,8 +285,16 @@ function countiesHtml(c, s, sel, r) {
   const shown = c.moreParts.has(key) ? r.counties : r.counties.slice(0, 12);
   const col = colourOf(c, s, sel.id);
   return `<div class="cn-sub"><span class="cn-label">By county · ${r.counties.length}</span>
-    <div class="cn-chips">${shown.map((p) => `<button type="button" class="cn-chip" data-cn-toggle="${esc(p.id)}" aria-pressed="false" aria-label="${esc(`${s.name}: County ${p.label}`)}" title="${esc(`County ${p.label}`)}" style="--c:${col};--on:${inkOn(col)}"><span class="cn-chip__dot" aria-hidden="true"></span>${icon('check', 'cn-icon cn-chip__check')}<span class="cn-chip__label">${esc(p.label)}</span></button>`).join('')}
+    <div class="cn-chips">${shown.map((p) => itemHtml(c, `<button type="button" class="cn-chip" data-cn-toggle="${esc(p.id)}" aria-pressed="false" aria-label="${esc(`${s.name}: County ${p.label}`)}" title="${esc(`County ${p.label}`)}" style="--c:${col};--on:${inkOn(col)}"><span class="cn-chip__dot" aria-hidden="true"></span>${icon('check', 'cn-icon cn-chip__check')}<span class="cn-chip__label">${esc(p.label)}</span></button>`, p.id, `County ${p.label}`)).join('')}
     ${r.counties.length > shown.length ? `<button type="button" class="cn-chip cn-chip--more" data-cn-more-parts="${esc(key)}">+${r.counties.length - shown.length} more</button>` : ''}</div></div>`;
+}
+
+/** One part, county map or council map: its chip, then its own Details (when it has a page) and Download. */
+function itemHtml(c, chip, id, label, { details = false } = {}) {
+  const dl = c.downloadsFor(id).length;
+  const info = details && c.full(id);
+  if (!dl && !info) return chip;
+  return `<span class="cn-item">${chip}${info ? `<button type="button" class="cn-iconbtn cn-iconbtn--sm" data-cn-act="details" data-map="${esc(id)}" aria-label="${esc(label)}: details" title="Details">${icon('info')}</button>` : ''}${dl ? `<button type="button" class="cn-iconbtn cn-iconbtn--sm" data-cn-act="downloads" data-map="${esc(id)}" aria-haspopup="menu" aria-expanded="false" aria-label="${esc(label)}: download" title="Download">${icon('download')}</button>` : ''}</span>`;
 }
 
 function partsGroupHtml(c, s, sel, r) {
@@ -289,7 +303,7 @@ function partsGroupHtml(c, s, sel, r) {
   const shown = all ? r.parts : r.parts.slice(0, 12);
   const col = colourOf(c, s, sel.id);
   return `<div class="cn-sub"><span class="cn-label">Parts · ${r.parts.length}</span>
-    <div class="cn-chips">${shown.map((p) => `<button type="button" class="cn-chip" data-cn-toggle="${esc(p.id)}" aria-pressed="false" aria-label="${esc(`${r.name || sel.label}: ${p.label}`)}" title="${esc(p.label)}" style="--c:${col};--on:${inkOn(col)}"><span class="cn-chip__dot" aria-hidden="true"></span>${icon('check', 'cn-icon cn-chip__check')}<span class="cn-chip__label">${esc(p.label)}</span></button>`).join('')}
+    <div class="cn-chips">${shown.map((p) => itemHtml(c, `<button type="button" class="cn-chip" data-cn-toggle="${esc(p.id)}" aria-pressed="false" aria-label="${esc(`${r.name || sel.label}: ${p.label}`)}" title="${esc(p.label)}" style="--c:${col};--on:${inkOn(col)}"><span class="cn-chip__dot" aria-hidden="true"></span>${icon('check', 'cn-icon cn-chip__check')}<span class="cn-chip__label">${esc(p.label)}</span></button>`, p.id, p.label)).join('')}
     ${r.parts.length > shown.length ? `<button type="button" class="cn-chip cn-chip--more" data-cn-more-parts="${esc(sel.id)}">+${r.parts.length - shown.length} more</button>` : ''}</div>
     ${r.parts.length > 1 ? `<div><button type="button" class="cn-link" data-cn-act="add-parts" data-map="${esc(sel.id)}">Add all ${r.parts.length} parts</button></div>` : ''}</div>`;
 }

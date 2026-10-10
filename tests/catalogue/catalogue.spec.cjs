@@ -13,7 +13,8 @@ const lgd = catalogue.series.find((s) => s.id === LGD);
 const LGD_NEWEST = lgd.members[0].id;
 
 const ofKind = (kind) => catalogue.series.filter((s) => s.kind === kind);
-const SECTION_TABS = [['boundaries', 'Boundary', 'Boundaries'], ['places', 'Places', 'Places & routes'], ['statistics', 'Statistics', 'Statistics']];
+const SECTION_TABS = [['boundaries', 'Boundary', 'Boundaries'], ['places', 'Places', 'Places & routes'], ['statistics', 'Statistics', 'Statistics'], ['historic', 'Historic', 'Historic Maps']];
+const mapsOf = (kind) => ofKind(kind).reduce((n, s) => n + s.members.length + (s.local?.length || 0), 0);
 const pane = (page) => page.locator('#catalogueFlatView [data-cn-root]');
 const row = (page, id) => pane(page).locator(`[data-cn-series="${id}"]`);
 const menuItem = (page, text) => page.locator('.cn-menu [role="menuitem"]', { hasText: text });
@@ -116,7 +117,7 @@ test('C07 other versions of an edition and a map\'s parts are reachable', async 
   await row(page, LGD).locator('[data-cn-expand]').click();
   await row(page, LGD).locator('.cn-tick[aria-label="1993"]').click();
   const versions = row(page, LGD).locator('.cn-sub', { hasText: 'Versions' });
-  await expect(versions).toContainText('OSNI 50k');
+  await expect(versions).toContainText('OSNI 1:50,000');
   // Each version has its own Add, Details and Download.
   await expect(versions.locator('[data-cn-act="details"]')).toHaveCount(await versions.locator('.cn-vlist__item').count());
   const town = row(page, 'townlands-townlands');
@@ -149,7 +150,7 @@ test('N13 council maps (one council\'s copy of a national map) wait in the opene
   const town = row(page, 'townlands-townlands');
   const local = catalogue.series.find((s) => s.id === 'townlands-townlands').local;
   await expect(pane(page).locator('[data-cn-local]')).toHaveCount(0);
-  await expect(town.locator('.cn-row__meta')).toContainText(`${local.length} council maps`);
+  await expect(town.locator('.cn-row__credit')).toContainText(`${local.length} council maps`);
   await expect(town.locator(`[data-cn-toggle="${local[0].id}"]`)).toHaveCount(0);
   await town.locator('[data-cn-expand]').click();
   const council = town.locator('.cn-sub', { hasText: 'Council maps' });
@@ -177,7 +178,7 @@ test('C09 provider and feature count are shown', async ({ page }) => {
   // The opened row leaves out the title, authors and geometry (user, 2026-10-05).
   await expect(row(page, LGD).locator('.cn-facts')).not.toContainText('Local Government Boundary Commission');
   await expect(row(page, LGD).locator(`.cn-chips [data-cn-toggle="${LGD_NEWEST}"]`)).toHaveAttribute('title', /Local Government Boundary Commission/);
-  await expect(row(page, 'census-census-grid').locator('.cn-row__meta')).toContainText(/\d,\d{3} /);
+  await expect(row(page, 'census-census-grid').locator('.cn-row__credit')).toContainText(/\d,\d{3} /);
 });
 
 test('C10 each map shows the colour it is drawn in', async ({ page }) => {
@@ -326,10 +327,13 @@ test('C22 the History, Back and Home controls are still there', async ({ page })
 test('C23 the sections are what a map draws, then Elections; Boundaries first', async ({ page }) => {
   await open(page);
   const tabs = pane(page).locator('.catalogue-flat__sections .catalogue-flat__section-tab');
-  await expect(tabs).toHaveCount(4);
-  await expect(tabs).toContainText(['Boundaries', 'Places & routes', 'Statistics', 'Elections']);
+  await expect(tabs).toHaveCount(5);
+  await expect(tabs).toContainText(['Boundaries', 'Places & routes', 'Statistics', 'Historic Maps', 'Elections']);
   await expect(tabs.first()).toHaveAttribute('aria-current', 'true');
-  for (const [id, kind] of SECTION_TABS) await expect(pane(page).locator(`[data-cn-tab="${id}"] .cn-tab__count`)).toHaveText(String(ofKind(kind).length));
+  // Each section counts its maps, not its rows (Phelim Birch, 2026-10-10).
+  for (const [id, kind] of SECTION_TABS) await expect(pane(page).locator(`[data-cn-tab="${id}"] .cn-tab__count`)).toHaveText(mapsOf(kind).toLocaleString('en-GB'));
+  // Among the boundaries, People & Places is called Census & Statistical Areas.
+  await expect(pane(page).locator('#cn-shelf-people-and-places .cn-shelf__name')).toHaveText('Census & Statistical Areas');
   // Government & Administration and Elections & Representation split into Current and Former;
   // every other shelf lists its series without subject headings.
   await expect(pane(page).locator('#cn-shelf-government-and-administration .cn-subject__head')).toContainText(['Current', 'Former']);
@@ -383,7 +387,7 @@ test('N14 with years chosen, the maps in those years lead their row', async ({ p
 test('N15 the 1911 County Electoral Divisions (Paddy Matthews) are listed and draw', async ({ page }) => {
   await open(page);
   const r = row(page, 'electoral-divisions-county-electoral-divisions--ireland');
-  await expect(r.locator('.cn-row__meta')).toContainText('Paddy Matthews');
+  await expect(r.locator('.cn-row__credit')).toContainText('Paddy Matthews');
   await r.locator('[data-cn-toggle="county-ed-1911"]').click();
   await expect.poll(() => loaded(page)).toEqual(expect.arrayContaining([expect.stringContaining('county-ed-1911')]));
 });
@@ -398,6 +402,32 @@ test('N16 "+N more" can be undone with "Show fewer"', async ({ page }) => {
   await r.locator('[data-cn-fewer]').click();
   await expect(chips).toHaveCount(short);
   await expect(r.locator('[data-cn-more]')).toHaveCount(1);
+});
+
+test('N17 council maps follow their edition; hovers name the unit; parts download; compare keeps the place', async ({ page }) => {
+  await open(page);
+  // Hover text: date · providers · count in the map's own unit.
+  await expect(row(page, 'counties-counties').locator('.cn-chips [data-cn-toggle]').first()).toHaveAttribute('title', /· 32 Counties$/);
+  // The 2019 ED council maps show with the 2019 edition only.
+  const ed = row(page, 'electoral-divisions-electoral-divisions');
+  await ed.locator('[data-cn-expand]').click();
+  await ed.locator('.cn-tick[aria-label="2019"]').click();
+  await expect(ed.locator('.cn-sub', { hasText: 'Council maps' })).toContainText('Fingal (2019)');
+  await ed.locator('.cn-tick[aria-label="1997"]').click();
+  await expect(ed.locator('.cn-sub', { hasText: 'Council maps' })).toHaveCount(0);
+  // Parts have their own download.
+  const town = row(page, 'townlands-townlands');
+  await town.locator('[data-cn-expand]').click();
+  await expect(town.locator('.cn-sub', { hasText: 'Parts' }).locator('[data-cn-act="downloads"]').first()).toBeVisible();
+  await expect(town.locator('.cn-sub', { hasText: 'Parts' })).toContainText('Cork, Dublin and Galway cities and islands');
+  // Starting a comparison leaves the list where it was.
+  const scroller = await page.evaluate(() => { const el = document.querySelector('#catalogueFlatView [data-cn-root]').closest('.pane__content, .catalogue-flat, .pane') ; return !!el; });
+  expect(scroller).toBe(true);
+  const before = await page.evaluate(() => [...document.querySelectorAll('*')].filter((e) => e.scrollHeight > e.clientHeight + 50 && /(auto|scroll)/.test(getComputedStyle(e).overflowY)).map((e) => e.scrollTop));
+  await page.evaluate(() => window.uiController._catalogueNext.startCompare('counties-ireland-1955', 'counties-ireland-1957'));
+  await page.waitForTimeout(800);
+  const after = await page.evaluate(() => [...document.querySelectorAll('*')].filter((e) => e.scrollHeight > e.clientHeight + 50 && /(auto|scroll)/.test(getComputedStyle(e).overflowY)).map((e) => e.scrollTop));
+  expect(after).toEqual(before);
 });
 
 test('N02 every view has an address; Back and Forward move between them', async ({ page }) => {

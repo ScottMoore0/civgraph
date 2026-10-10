@@ -456,7 +456,7 @@
     },
     {
       "id": "osni-50k-transport",
-      "name": "OSNI 50K Transport",
+      "name": "OSNI 1:50,000 Transport",
       "scope": "Northern Ireland",
       "category": "transport",
       "segments": [
@@ -3238,6 +3238,37 @@
       ]
     },
     {
+      "id": "townlands-cities-and-islands",
+      "name": "Townlands — Cork, Dublin and Galway cities and islands",
+      "slug": "townlands-cities-and-islands",
+      "category": "townlands",
+      "provider": [
+        "Paddy Matthews"
+      ],
+      "featureUnit": "Townlands",
+      "description": "The townlands Tailte Éireann's townland data leaves out: those of Cork, Dublin and Galway cities, and islands and rocks off those counties. Mapped by Paddy Matthews from an earlier OSi townland edition; 1,089 townlands.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/townlands/Townlands_Cities_Paddy_Matthews.fgb"
+      },
+      "downloads": {
+        "fgb": "https://data.civgraph.net/data/maps/townlands/Townlands_Cities_Paddy_Matthews.fgb"
+      },
+      "labelProperty": "Name",
+      "style": {
+        "color": "#A87000",
+        "weight": 2
+      },
+      "keywords": [
+        "townlands",
+        "cork",
+        "dublin",
+        "galway",
+        "city",
+        "islands",
+        "paddy matthews"
+      ]
+    },
+    {
       "id": "all-ireland-townlands",
       "name": "Ireland",
       "slug": "townlands-all-ireland",
@@ -3250,8 +3281,9 @@
         "fgb": "https://archive.org/download/civgraph-townlands-allireland-fgb/Townlands_AllIreland.fgb"
       },
       "provider": [
+        "Tailte Éireann",
         "OSNI",
-        "Tailte Éireann"
+        "Paddy Matthews"
       ],
       "style": {
         "color": "#A87000",
@@ -3391,6 +3423,13 @@
               -5.994495
             ]
           ]
+        },
+        {
+          "id": "townlands-cities-and-islands",
+          "label": "Cork, Dublin and Galway cities and islands (Paddy Matthews)",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/townlands/Townlands_Cities_Paddy_Matthews.fgb"
+          }
         }
       ],
       "chunked": true,
@@ -3606,7 +3645,7 @@
         },
         {
           "id": "wards-1993-50k",
-          "label": "50K",
+          "label": "1:50,000",
           "description": "OSNI 50K boundary resolution",
           "files": {
             "fgb": "data/maps/local-government/Wards_1993_50k.fgb"
@@ -5627,19 +5666,19 @@
       "date": 1993,
       "osniDownloads": [
         {
-          "label": "OSNI 50k GeoJSON",
+          "label": "OSNI 1:50,000 GeoJSON",
           "file": "https://archive.org/download/civgraph-osni-boundary-data/osni_open_data_50k_boundaries_local_government_districts_1993.geojson"
         },
         {
-          "label": "OSNI 50k KML",
+          "label": "OSNI 1:50,000 KML",
           "file": "https://archive.org/download/civgraph-osni-boundary-data/osni_open_data_50k_boundaries_local_government_districts_1993.kml"
         },
         {
-          "label": "OSNI 50k CSV",
+          "label": "OSNI 1:50,000 CSV",
           "file": "https://archive.org/download/civgraph-osni-boundary-data/osni_open_data_50k_boundaries_local_government_districts_1993.csv"
         },
         {
-          "label": "OSNI 50k Shapefile (ZIP)",
+          "label": "OSNI 1:50,000 Shapefile (ZIP)",
           "file": "https://archive.org/download/civgraph-osni-boundary-data/osni_open_data_50k_boundaries_local_government_districts_1993.zip"
         }
       ],
@@ -6125,7 +6164,7 @@
     },
     {
       "id": "pc-1918",
-      "name": "Parliamentary Constituencies 1918 (pre-partition)",
+      "name": "Parliamentary Constituencies 1918 (Northern Ireland)",
       "slug": "pc-1918",
       "category": "parliamentary",
       "featured": true,
@@ -6148,6 +6187,36 @@
         "pre-partition"
       ],
       "date": 1918
+    },
+    {
+      "id": "pc-1918-26-counties",
+      "name": "Parliamentary Constituencies 1918 (26 counties)",
+      "slug": "pc-1918-26-counties",
+      "category": "parliamentary",
+      "date": 1918,
+      "provider": [
+        "Parlconst.org"
+      ],
+      "featureUnit": "Constituencies",
+      "description": "The 1918 Westminster constituencies in the 26 counties that became the Irish Free State: the all-island 1918 map less its Northern Ireland part.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/parliamentary/PC_1918_26_Counties.fgb"
+      },
+      "downloads": {
+        "fgb": "https://data.civgraph.net/data/maps/parliamentary/PC_1918_26_Counties.fgb"
+      },
+      "labelProperty": "Name",
+      "style": {
+        "color": "#7B5BA8",
+        "weight": 2
+      },
+      "keywords": [
+        "parliamentary",
+        "constituencies",
+        "1918",
+        "westminster",
+        "26 counties"
+      ]
     },
     {
       "id": "pc-1918-ireland",
@@ -6176,7 +6245,23 @@
         "ireland"
       ],
       "description": "All-Ireland Westminster parliamentary constituencies after the 1918 Representation of the People Act. 107 constituencies covering the whole island, in use for the December 1918 General Election. Built by dissolving parlconst's per-section boundary mosaics (105–111 ROI + the parlconst NI 1918 layer).",
-      "date": 1918
+      "date": 1918,
+      "variants": [
+        {
+          "id": "pc-1918",
+          "label": "Northern Ireland",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/parliamentary/PC1918.fgb"
+          }
+        },
+        {
+          "id": "pc-1918-26-counties",
+          "label": "26 counties",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/parliamentary/PC_1918_26_Counties.fgb"
+          }
+        }
+      ]
     },
     {
       "id": "pc-1884",
@@ -6205,6 +6290,36 @@
       "date": 1885
     },
     {
+      "id": "pc-1885-26-counties",
+      "name": "Parliamentary Constituencies 1885 (26 counties)",
+      "slug": "pc-1885-26-counties",
+      "category": "parliamentary",
+      "date": 1885,
+      "provider": [
+        "Parlconst.org"
+      ],
+      "featureUnit": "Constituencies",
+      "description": "The 1885 Westminster constituencies in the 26 counties that became the Irish Free State: the all-island 1885 map less its Northern Ireland part.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/parliamentary/PC_1885_26_Counties.fgb"
+      },
+      "downloads": {
+        "fgb": "https://data.civgraph.net/data/maps/parliamentary/PC_1885_26_Counties.fgb"
+      },
+      "labelProperty": "C1885",
+      "style": {
+        "color": "#5B7AA8",
+        "weight": 2
+      },
+      "keywords": [
+        "parliamentary",
+        "constituencies",
+        "1885",
+        "westminster",
+        "26 counties"
+      ]
+    },
+    {
       "id": "pc-1885-ireland",
       "name": "Parliamentary Constituencies 1885 (Ireland — all-island)",
       "slug": "pc-1885-ireland",
@@ -6231,7 +6346,23 @@
         "ireland"
       ],
       "description": "All-Ireland Westminster parliamentary constituencies after the 1885 Redistribution of Seats Act. 101 territorial constituencies covering the whole island, in use 1885–1918.",
-      "date": 1885
+      "date": 1885,
+      "variants": [
+        {
+          "id": "pc-1884",
+          "label": "Northern Ireland",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/parliamentary/PC_1884.fgb"
+          }
+        },
+        {
+          "id": "pc-1885-26-counties",
+          "label": "26 counties",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/parliamentary/PC_1885_26_Counties.fgb"
+          }
+        }
+      ]
     },
     {
       "id": "stormont-1969",
@@ -6464,7 +6595,10 @@
         "1982",
         "convention"
       ],
-      "labelProperty": "Name"
+      "labelProperty": "Name",
+      "downloads": {
+        "fgb": "https://data.civgraph.net/data/maps/parliamentary/PC1970.fgb"
+      }
     },
     {
       "id": "assembly-areas-1982",
@@ -6487,7 +6621,10 @@
         "constituency",
         "1982"
       ],
-      "labelProperty": "Name"
+      "labelProperty": "Name",
+      "downloads": {
+        "fgb": "https://data.civgraph.net/data/maps/parliamentary/PC1970.fgb"
+      }
     },
     {
       "id": "dail-2023",
@@ -6963,7 +7100,7 @@
               "note": ""
             },
             {
-              "label": "OSNI Open Data - 50K Boundaries - NI Counties (www.data.gov.uk)",
+              "label": "OSNI Open Data - 1:50,000 Boundaries - NI Counties (www.data.gov.uk)",
               "url": "https://www.data.gov.uk/dataset/db209d57-bee0-4ecc-bb8f-5915130c2505/osni-open-data-50k-boundaries-ni-counties6",
               "note": ""
             },
@@ -8168,15 +8305,11 @@
     },
     {
       "id": "eds-roi-1921-05-03",
-      "name": "03 May 1921",
+      "name": "Electoral Divisions 3 May 1921",
       "slug": "eds-roi-1921-05-03",
       "category": "electoral-divisions",
       "date": "1921-05-03",
-      "featured": true,
-      "provider": [
-        "Tailte Éireann",
-        "OSM"
-      ],
+      "provider": [],
       "keywords": [
         "electoral",
         "division",
@@ -8190,68 +8323,8 @@
         "weight": 2
       },
       "labelProperty": "ED_NAME",
-      "description": "Southern Ireland Electoral Divisions on 3 May 1921 (Government of Ireland Act commencement) - boundaries unchanged through to 1926, rendered using the 1926 ROI ED dataset since pre-1926 distinct geography is not yet digitised.",
-      "variants": [
-        {
-          "id": "eds-roi-1921-connacht",
-          "label": "Connacht",
-          "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Connacht1926EDs.fgb"
-          },
-          "useLOD": true,
-          "style": {
-            "color": "#9C6E3F",
-            "weight": 2
-          }
-        },
-        {
-          "id": "eds-roi-1921-leinster",
-          "label": "Leinster",
-          "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Leinster1926EDs.fgb"
-          },
-          "useLOD": true,
-          "style": {
-            "color": "#9C6E3F",
-            "weight": 2
-          }
-        },
-        {
-          "id": "eds-roi-1921-munster",
-          "label": "Munster",
-          "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Munster1926EDs.fgb"
-          },
-          "useLOD": true,
-          "style": {
-            "color": "#9C6E3F",
-            "weight": 2
-          }
-        },
-        {
-          "id": "eds-roi-1921-ulster",
-          "label": "Ulster (outside Northern Ireland)",
-          "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Ulster1926EDs.fgb"
-          },
-          "useLOD": true,
-          "style": {
-            "color": "#9C6E3F",
-            "weight": 2
-          }
-        }
-      ],
-      "isGroup": true,
-      "bounds": [
-        [
-          51.388858,
-          -10.662971
-        ],
-        [
-          55.446581,
-          -5.996278
-        ]
-      ]
+      "placeholder": true,
+      "note": "Partition date. No map of these boundaries yet: the files it used to draw were the 1 October 1921 map (eds-1926)."
     },
     {
       "id": "eds-roi-1921-06-28",
@@ -9469,7 +9542,7 @@
     },
     {
       "id": "eds-1926",
-      "name": "Electoral Divisions 1926 (Irish Free State)",
+      "name": "Electoral Divisions 1 October 1921",
       "slug": "electoral-divisions-1926",
       "category": "electoral-divisions",
       "featured": true,
@@ -9525,7 +9598,7 @@
           "useLOD": true
         }
       ],
-      "date": 1926,
+      "date": "1921-10-01",
       "isGroup": true,
       "bounds": [
         [
@@ -14124,12 +14197,12 @@
       ],
       "references": [
         {
-          "label": "OSNI Open Data - 50K Transport - Transport lines - Open Data NI (admin.opendatani.gov.uk)",
+          "label": "OSNI Open Data - 1:50,000 Transport - Transport lines - Open Data NI (admin.opendatani.gov.uk)",
           "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-transport-transport-lines",
           "note": ""
         },
         {
-          "label": "OSNI Open Data - 50K Transport - Transport lines (www.data.gov.uk)",
+          "label": "OSNI Open Data - 1:50,000 Transport - Transport lines (www.data.gov.uk)",
           "url": "https://www.data.gov.uk/dataset/092bebf4-97c9-45a9-957d-2bf6822c32d8/osni-open-data-50k-transport-transport-lines5",
           "note": ""
         },
@@ -14274,7 +14347,7 @@
       "slug": "catholic-dioceses",
       "category": "built-environment",
       "provider": [
-        "User Provided"
+        "CSO"
       ],
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/built-environment/CatholicDioceses.fgb"
@@ -18575,7 +18648,7 @@
       ],
       "references": [
         {
-          "label": "OSNI Open Data - Coverage Grid - 50K",
+          "label": "OSNI Open Data - Coverage Grid - 1:50,000",
           "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-coverage-grid-50k",
           "note": ""
         }
@@ -35928,7 +36001,7 @@
     },
     {
       "id": "osni-transport-text-labels",
-      "name": "OSNI 50K Transport — Text Labelling",
+      "name": "OSNI 1:50,000 Transport — Text Labelling",
       "slug": "osni-transport-text-labels",
       "category": "transport",
       "provider": [
@@ -35954,7 +36027,7 @@
       "description": "OSNI 50K Transport — Text Labelling — OSNI Open Data 50K, via Land & Property Services.",
       "references": [
         {
-          "label": "Open Data NI — OSNI 50K Transport — Text Labelling",
+          "label": "Open Data NI — OSNI 1:50,000 Transport — Text Labelling",
           "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-transport-text-labels",
           "note": ""
         }
@@ -35963,7 +36036,7 @@
     },
     {
       "id": "osni-transport-points",
-      "name": "OSNI 50K Transport — Transport Points",
+      "name": "OSNI 1:50,000 Transport — Transport Points",
       "slug": "osni-transport-points",
       "category": "transport",
       "provider": [
@@ -35989,7 +36062,7 @@
       "description": "OSNI 50K Transport — Transport Points — OSNI Open Data 50K, via Land & Property Services.",
       "references": [
         {
-          "label": "Open Data NI — OSNI 50K Transport — Transport Points",
+          "label": "Open Data NI — OSNI 1:50,000 Transport — Transport Points",
           "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-transport-points",
           "note": ""
         }
@@ -36083,7 +36156,7 @@
     },
     {
       "id": "osni-ni-outline",
-      "name": "Northern Ireland Outline (OSNI 50K)",
+      "name": "Northern Ireland Outline (OSNI 1:50,000)",
       "slug": "osni-ni-outline",
       "category": "osni-reference",
       "provider": [
@@ -36109,7 +36182,7 @@
       "description": "Northern Ireland outline at OSNI 50K scale — Land & Property Services (OSNI Open Data).",
       "references": [
         {
-          "label": "Open Data NI — OSNI Open Data 50K Boundaries NI Outline",
+          "label": "Open Data NI — OSNI Open Data 1:50,000 Boundaries NI Outline",
           "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-ni-outline",
           "note": ""
         }
@@ -37098,7 +37171,7 @@
     },
     {
       "id": "osni-open-data-50k-boundaries-district-electoral-areas-1993",
-      "name": "District Electoral Areas (1993) — OSNI 50k",
+      "name": "District Electoral Areas (1993) — OSNI 1:50,000",
       "slug": "osni-open-data-50k-boundaries-district-electoral-areas-1993",
       "category": "deas",
       "provider": [
@@ -37134,7 +37207,7 @@
       ],
       "references": [
         {
-          "label": "District Electoral Areas (1993) — OSNI 50k — Open Data NI",
+          "label": "District Electoral Areas (1993) — OSNI 1:50,000 — Open Data NI",
           "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-district-electoral-areas-1993",
           "note": "OGL v3.0"
         }
@@ -37142,7 +37215,7 @@
     },
     {
       "id": "osni-open-data-50k-boundaries-local-government-districts-1993",
-      "name": "Local Government Districts (1993) — OSNI 50k",
+      "name": "Local Government Districts (1993) — OSNI 1:50,000",
       "slug": "osni-open-data-50k-boundaries-local-government-districts-1993",
       "category": "local-government",
       "provider": [
@@ -37178,7 +37251,7 @@
       ],
       "references": [
         {
-          "label": "Local Government Districts (1993) — OSNI 50k — Open Data NI",
+          "label": "Local Government Districts (1993) — OSNI 1:50,000 — Open Data NI",
           "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-local-government-districts-1993",
           "note": "OGL v3.0"
         }
@@ -37186,7 +37259,7 @@
     },
     {
       "id": "osni-open-data-50k-boundaries-parliamentary-constituencies",
-      "name": "Parliamentary Constituencies — OSNI 50k",
+      "name": "Parliamentary Constituencies — OSNI 1:50,000",
       "slug": "osni-open-data-50k-boundaries-parliamentary-constituencies",
       "category": "parliamentary",
       "provider": [
@@ -37220,7 +37293,7 @@
       ],
       "references": [
         {
-          "label": "Parliamentary Constituencies — OSNI 50k — Open Data NI",
+          "label": "Parliamentary Constituencies — OSNI 1:50,000 — Open Data NI",
           "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-parliamentary-constituencies",
           "note": "OGL v3.0"
         }
@@ -37228,7 +37301,7 @@
     },
     {
       "id": "osni-open-data-50k-boundaries-townlands",
-      "name": "Townlands — OSNI 50k",
+      "name": "Townlands — OSNI 1:50,000",
       "slug": "osni-open-data-50k-boundaries-townlands",
       "category": "townlands",
       "provider": [
@@ -37261,7 +37334,7 @@
       ],
       "references": [
         {
-          "label": "Townlands — OSNI 50k — Open Data NI",
+          "label": "Townlands — OSNI 1:50,000 — Open Data NI",
           "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-townlands",
           "note": "OGL v3.0"
         }
@@ -37269,7 +37342,7 @@
     },
     {
       "id": "osni-open-data-50k-boundaries-wards-1993",
-      "name": "Wards (1993) — OSNI 50k",
+      "name": "Wards (1993) — OSNI 1:50,000",
       "slug": "osni-open-data-50k-boundaries-wards-1993",
       "category": "wards",
       "provider": [
@@ -37303,7 +37376,7 @@
       ],
       "references": [
         {
-          "label": "Wards (1993) — OSNI 50k — Open Data NI",
+          "label": "Wards (1993) — OSNI 1:50,000 — Open Data NI",
           "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-wards-1993",
           "note": "OGL v3.0"
         }
@@ -37690,7 +37763,7 @@
     },
     {
       "id": "osni-open-data-50k-transport-text-labelling",
-      "name": "Transport Text Labelling — OSNI 50k",
+      "name": "Transport Text Labelling — OSNI 1:50,000",
       "slug": "osni-open-data-50k-transport-text-labelling",
       "category": "transport",
       "provider": [
@@ -37725,7 +37798,7 @@
       ],
       "references": [
         {
-          "label": "Transport Text Labelling — OSNI 50k — Open Data NI",
+          "label": "Transport Text Labelling — OSNI 1:50,000 — Open Data NI",
           "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-transport-text-labelling",
           "note": "OGL v3.0"
         }
@@ -37733,7 +37806,7 @@
     },
     {
       "id": "osni-open-data-50k-transport-transport-points",
-      "name": "Transport Points — OSNI 50k",
+      "name": "Transport Points — OSNI 1:50,000",
       "slug": "osni-open-data-50k-transport-transport-points",
       "category": "transport",
       "provider": [
@@ -37767,7 +37840,7 @@
       ],
       "references": [
         {
-          "label": "Transport Points — OSNI 50k — Open Data NI",
+          "label": "Transport Points — OSNI 1:50,000 — Open Data NI",
           "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-transport-transport-points",
           "note": "OGL v3.0"
         }
