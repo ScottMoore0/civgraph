@@ -618,7 +618,8 @@ assert(
     && mainElectionPaneContractSource.includes('isSingleSeatFptpResult')
     && mainElectionPaneContractSource.includes('renderSingleSeatFptpResultsTable')
     && electionManagerSource.includes('isSingleSeatFptpResult(result = {})')
-    && electionManagerSource.includes("votingSystem !== 'fptp'")
+    // Plurality, not only 'fptp': block-vote two-member seats count too (4ecf840c5b, 2026-09-25).
+    && electionManagerSource.includes('if (!plurality.includes(votingSystem)) return false;')
     && electionManagerSource.includes("return value === 'trends' ? 'trends' : 'results'")
     && electionManagerSource.includes('election-results-table--single-seat-fptp')
     && electionManagerSource.includes('renderSingleSeatFptpVoteGraphic')

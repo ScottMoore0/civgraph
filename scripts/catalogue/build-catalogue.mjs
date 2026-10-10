@@ -176,7 +176,9 @@ for (const s of source.series) {
   // dates: its maps are not editions, and the year filter always shows them.
   if (s.undated) for (const r of recs) { r.date = ''; out.maps[r.id].date = ''; }
   if (s.arrangement === 'editions') recs.sort((a, b) => String(b.date).localeCompare(String(a.date)));
-  const years = recs.map((r) => yearOfDate(r.date)).filter(Boolean);
+  // A series spans the years of its editions, not of their versions (the NI part of the 1885
+  // Westminster map is no edition of its own).
+  const years = recs.filter((r) => !s.variantOf?.[r.id]).map((r) => yearOfDate(r.date)).filter(Boolean);
   let slug = slugify(s.name) || s.id;
   if (slugsSeen.has(`${s.subject}/${slug}`)) slug = `${slug}-${slugify(s.scope || s.id)}`;
   slugsSeen.add(`${s.subject}/${slug}`);
@@ -231,6 +233,9 @@ for (const s of source.series) {
     const counties = (partsOf.get(from) || []).map((p) => ({ id: p.id, label: p.label.replace(/^County\s+/i, '') }));
     if (counties.length && out.maps[mapId]) out.maps[mapId].counties = counties.sort((a, b) => a.label.localeCompare(b.label));
   }
+  // What sets a main map apart from its versions (`versionLabels`: "Ungeneralised" beside
+  // "Generalised 20m"), shown with its versions.
+  for (const m of members) if (s.versionLabels?.[m.id]) m.version = s.versionLabels[m.id];
   // A label the curator gives (catalogue.source.json `labels`) wins over a derived one.
   for (const m of members) if (s.labels?.[m.id]) m.label = s.labels[m.id];
   const entry = {
@@ -260,13 +265,15 @@ for (const s of source.series) {
     entry.local = localRecs.map((r) => ({ id: r.id, label: s.labels?.[r.id] || editionLabel({ ...s, arrangement: 'set' }, r, localRecs) }));
   }
   const todoYears = todoRecs.map((r) => yearOfDate(r.date)).filter(Boolean);
-  if (years.length) entry.years = [Math.min(...years), Math.max(...years)];
-  else if (todoYears.length) entry.years = [Math.min(...todoYears), Math.max(...todoYears)];
+  // The span takes in the maps still to be added: Northern Ireland's constituencies run from
+  // the 1920 Parliament to the 2023 Assembly, though only two are drawn yet.
+  const allYears = [...years, ...todoYears];
+  if (allYears.length) entry.years = [Math.min(...allYears), Math.max(...allYears)];
   const t = recs.find((r) => r.thumb)?.thumb || todoRecs.find((r) => r.thumb)?.thumb;
   if (t) entry.thumb = t;
   const c = members.map((x) => out.maps[x.id]?.color).find(Boolean) || todoRecs.map((r) => r.color).find(Boolean);
   if (c) entry.color = c;
-  if (provs.length) entry.provider = provs.slice(0, 6);
+  if (provs.length) entry.provider = provs;
   if (!recs.length) entry.status = { placeholder: todoRecs.length };
   else if (statusCounts.ready !== recs.length) entry.status = statusCounts;
   if (s.aliases?.length) entry.aliases = s.aliases;

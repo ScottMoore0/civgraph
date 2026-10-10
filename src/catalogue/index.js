@@ -24,7 +24,7 @@ import { CATALOGUE_CSS } from './styles.js';
 import dataService, { resolveMapDownloadUrl } from '../data-service.js';
 import { initialCatalogueRoute } from './flag.js';
 import { icon, SHELF_LOOK, BOOK_CATEGORY_ICONS } from './icons.js';
-import { esc, yearOf } from './util.js';
+import { esc, yearOf, longDate } from './util.js';
 import { openMenu, closeMenu } from './menu.js';
 import { decadeDomain, binCounts, indexOf, updateSlider, stepYear } from './slider.js';
 import * as MapsView from './view-maps.js';
@@ -36,11 +36,17 @@ const DATA_URL = '/data/catalogue/catalogue.json';
 const PLACES_URL = '/data/catalogue/places.json';
 const PEOPLE_URL = '/data/catalogue/people.json';
 const STORE = 'civgraph.catalogueNext.v2';
-const BLANK_FILTERS = { scope: '', kind: '', from: null, to: null, onMap: false };
+const BLANK_FILTERS = { scope: '', kind: '', from: null, to: null, onMap: false, undated: false };
 const BLANK_EFILTERS = { body: '', ekind: '', escope: '', from: null, to: null };
 
 const app = () => (typeof window !== 'undefined' ? window.__civgraphTest2?.app : null);
 const readStore = () => { try { return JSON.parse(sessionStorage.getItem(STORE)) || {}; } catch { return {}; } };
+// The map sections, each the maps of one kind.
+export const SECTIONS = [['boundaries', 'Boundary', 'Boundaries', 'land-divisions'], ['places', 'Places', 'Places & routes', 'route'], ['statistics', 'Statistics', 'Statistics', 'chart-column']];
+const KIND_OF_SECTION = Object.fromEntries(SECTIONS.map(([id, kind]) => [id, kind]));
+const SECTION_OF_KIND = Object.fromEntries(SECTIONS.map(([id, kind]) => [kind, id]));
+export const sectionOfKind = (kind) => SECTION_OF_KIND[kind] || 'boundaries';
+
 const cssId = (s) => (window.CSS?.escape ? CSS.escape(s) : String(s).replace(/["\\]/g, '\\$&'));
 
 export class CatalogueNext {
@@ -51,12 +57,13 @@ export class CatalogueNext {
     this.root = null;
     const saved = readStore();
     this.tab = 'maps';
+    this.section = 'boundaries';
     this.filters = { ...BLANK_FILTERS, ...(saved.filters || {}) };
     // "On the map" has no button for now, so it cannot be left on unseen; "to be added" is per row.
     this.filters.onMap = false;
     delete this.filters.toAdd;
-    // The kinds were Boundary and Dataset before Statistics and Places & routes were split out.
-    if (this.filters.kind && !['Boundary', 'Places', 'Statistics'].includes(this.filters.kind)) this.filters.kind = null;
+    // The kind is the section now, not a filter.
+    this.filters.kind = '';
     this.efilters = { ...BLANK_EFILTERS, ...(saved.efilters || {}) };
     this.collapsed = new Set(saved.collapsed || []);
     this.filtersOpen = false;
@@ -239,9 +246,11 @@ export class CatalogueNext {
         if (el) el.textContent = n.toLocaleString('en-GB');
       });
     }
-    const { i, j } = this.yearRange(key);
+    const { i, j, narrowed } = this.yearRange(key);
     const bins = key === 'maps' ? this.mapBins : this.electionBins;
     updateSlider(bar.querySelector('[data-cn-slider]'), bins, i, j, this.yearState(key));
+    const undated = bar.querySelector('[data-cn-undated-wrap]');
+    if (undated) undated.hidden = !narrowed;
     const n = this.activeFilterCount(key);
     const toggle = bar.querySelector('.cn-filters-toggle');
     if (toggle) toggle.innerHTML = `${icon('sliders')}Filters${n ? ` <span class="cn-badge">${n}</span>` : ''}`;
@@ -262,25 +271,29 @@ export class CatalogueNext {
     if (this.scrollTarget) requestAnimationFrame(() => this.scrollToTarget());
   }
 
+  /** The open section: one of SECTIONS' ids, or elections (or books, reached only by an old link). */
+  get openSection() { return this.tab === 'maps' ? this.section : this.tab; }
+
   tabsHtml() {
     const counts = this.tabCounts();
-    const tab = (id, ic, label, n) => `<button type="button" class="catalogue-flat__section-tab cn-tab" data-cn-tab="${id}" aria-current="${String(this.tab === id)}">${icon(ic, 'catalogue-flat__section-icon')}<span>${label}</span><span class="cn-tab__count">${n.toLocaleString('en-GB')}</span></button>`;
-    return tab('maps', 'map', 'Maps', counts.maps) + tab('elections', 'vote', 'Elections', counts.elections) + tab('books', 'book-open', 'Books', counts.books)
-      + `<button type="button" class="catalogue-flat__section-tab cn-tab" data-cn-act="tables">${icon('table', 'catalogue-flat__section-icon')}<span>Tables</span></button>`;
+    const tab = (id, ic, label, n) => `<button type="button" class="catalogue-flat__section-tab cn-tab" data-cn-tab="${id}" aria-current="${String(this.openSection === id)}">${icon(ic, 'catalogue-flat__section-icon')}<span>${label}</span><span class="cn-tab__count">${n.toLocaleString('en-GB')}</span></button>`;
+    return SECTIONS.map(([id, , label, ic]) => tab(id, ic, label, counts[id])).join('') + tab('elections', 'vote', 'Elections', counts.elections);
   }
 
+  /** Series per section (those a search found, while searching) and elections. */
   tabCounts() {
-    if (!this.query) return { maps: this.data.series.length, elections: this.data.elections.length, books: this.books?.books?.length || 0 };
-    return { maps: this.searchHits?.size || 0, elections: this.electionHits?.size || 0, books: this.bookHits?.size || 0 };
+    const out = { elections: this.query ? this.electionHits?.size || 0 : this.data.elections.length, books: this.query ? this.bookHits?.size || 0 : this.books?.books?.length || 0 };
+    for (const [id, kind] of SECTIONS) out[id] = this.data.series.filter((s) => s.kind === kind && (!this.query || this.searchHits?.has(s.id))).length;
+    return out;
   }
 
   /** When the open section has nothing for a search but another does, say so. */
   otherTabHint() {
     if (!this.query) return '';
     const n = this.tabCounts();
-    const others = [['maps', 'maps', n.maps], ['elections', 'elections', n.elections], ['books', 'books', n.books]].filter(([id, , k]) => id !== this.tab && k);
+    const others = [...SECTIONS.map(([id, , label]) => [id, label.toLowerCase(), n[id]]), ['elections', 'elections', n.elections]].filter(([id, , k]) => id !== this.openSection && k);
     if (!others.length) return '';
-    return ` ${others.map(([id, label, k]) => `<button type="button" class="cn-link" data-cn-tab="${id}">${k.toLocaleString('en-GB')} ${label}</button>`).join(' and ')} match it.`;
+    return ` ${others.map(([id, label, k]) => `<button type="button" class="cn-link" data-cn-tab="${id}">${k.toLocaleString('en-GB')} in ${label}</button>`).join(', ')} match it.`;
   }
 
   /* ================================================================ data helpers (used by the views) */
@@ -363,7 +376,8 @@ export class CatalogueNext {
 
   yearRange(key) {
     const f = key === 'maps' ? this.filters : this.efilters;
-    const bins = key === 'maps' ? this.mapBins : this.electionBins;
+    // The pane can be drawn before the year bins exist (a slow first load): treat them as empty.
+    const bins = (key === 'maps' ? this.mapBins : this.electionBins) || [];
     const last = Math.max(0, bins.length - 1);
     // The years are exact (typed, or a decade's first year from a handle); the handles show
     // the decades they fall in.
@@ -394,11 +408,25 @@ export class CatalogueNext {
     return Number.isFinite(y) && y >= r.lo && y <= r.hi;
   }
 
-  // A map with no date (Civil Parishes, Baronies) is taken to cover all time: it stays in view
-  // whatever years are chosen.
+  // A map with no date (Civil Parishes, Baronies) shows until years are chosen; then only if the
+  // reader includes undated maps (Phelim Birch's review, 2026-10-08: off by default).
   editionInYears(id) {
     const y = yearOf(this.rec(id).date);
-    return !Number.isFinite(y) || this.inYears('maps', y);
+    if (Number.isFinite(y)) return this.inYears('maps', y);
+    return !this.yearRange('maps').narrowed || Boolean(this.filters.undated);
+  }
+
+  /** What a map is, in one form everywhere (hover, rows): "date · provider · count", the date
+   * left out when there is none. */
+  mapSummary(id, { date = true } = {}) {
+    const r = this.rec(id);
+    const m = this.full(id);
+    const providers = (r.provider?.length ? r.provider : [m?.provider || []].flat()).filter(Boolean).join(', ');
+    let count = '';
+    const n = m && this.ui.getMapFeatureCount ? this.ui.getMapFeatureCount(m) : null;
+    if (Number.isFinite(n)) count = `${n.toLocaleString('en-GB')} ${this.ui.getMapFeatureUnitLabel ? this.ui.getMapFeatureUnitLabel(m, n) : 'features'}`;
+    else if (r.features) count = `${r.features.toLocaleString('en-GB')} features`;
+    return [date && r.date ? longDate(r.date) : '', providers, count].filter(Boolean).join(' · ');
   }
 
   activeFilterCount(key) {
@@ -413,10 +441,10 @@ export class CatalogueNext {
     return [...s.members, ...(s.local || [])].some((m) => this.isLoaded(m.id) || (this.rec(m.id).parts || []).some((p) => this.isLoaded(p.id)));
   }
 
-  seriesShown(s, { ignoreYears = false } = {}) {
+  seriesShown(s, { ignoreYears = false, ignoreSection = false } = {}) {
     const f = this.filters;
     if (f.scope && s.scope !== f.scope) return false;
-    if (f.kind && s.kind !== f.kind) return false;
+    if (!ignoreSection && s.kind !== KIND_OF_SECTION[this.section]) return false;
     if (!ignoreYears && this.yearRange('maps').narrowed && !s.members.some((m) => this.editionInYears(m.id))) return false;
     if (f.onMap && !this.seriesOnMap(s)) return false;
     if (this.query && !this.searchHits?.has(s.id)) return false;
@@ -661,7 +689,7 @@ export class CatalogueNext {
       const sel = this.selected.get(this.focusSeries);
       return `series/${this.focusSeries}${sel ? `/${sel}` : ''}`;
     }
-    return 'maps';
+    return this.section;
   }
 
   applyRoute(route) {
@@ -669,6 +697,7 @@ export class CatalogueNext {
     this.here = null;
     if (view === 'series' && this.seriesById.has(a)) {
       this.tab = 'maps';
+      this.section = sectionOfKind(this.seriesById.get(a).kind);
       this.expanded.add(a);
       this.focusSeries = a;
       if (b) this.selected.set(a, b);
@@ -676,6 +705,8 @@ export class CatalogueNext {
       this.scrollTarget = a;
     } else if (view === 'subject' && this.subjectById.has(a)) {
       this.tab = 'maps';
+      const first = this.seriesById.get(this.subjectById.get(a).series?.[0]);
+      if (first) this.section = sectionOfKind(first.kind);
       this.scrollTarget = `subject:${a}`;
     } else if (view === 'elections' && a === 'person' && b) {
       this.tab = 'elections';
@@ -689,6 +720,9 @@ export class CatalogueNext {
       if (a !== undefined) this.efilters.body = BODY_GROUPS.some((g) => g.id === a) ? a : groupOfBody(a);
     } else if (view === 'books') {
       this.tab = 'books';
+    } else if (KIND_OF_SECTION[view]) {
+      this.tab = 'maps';
+      this.section = view;
     } else if (view === 'here' && a && b && Number.isFinite(Number(a)) && Number.isFinite(Number(b))) {
       this.tab = 'maps';
       this.here = { lng: Number(a), lat: Number(b) };
@@ -754,7 +788,7 @@ export class CatalogueNext {
     let el;
     if ((el = b('[data-cn-tab]'))) {
       e.preventDefault();
-      if (el.dataset.cnTab !== this.tab || this.here) this.go(el.dataset.cnTab === 'elections' ? `elections${this.efilters.body ? `/${this.efilters.body}` : ''}` : el.dataset.cnTab);
+      if (el.dataset.cnTab !== this.openSection || this.here) this.go(el.dataset.cnTab === 'elections' ? `elections${this.efilters.body ? `/${this.efilters.body}` : ''}` : el.dataset.cnTab);
       return;
     }
     if ((el = b('[data-cn-toggle]'))) { e.preventDefault(); this.toggleMap(el.dataset.cnToggle, el); return; }
@@ -763,6 +797,7 @@ export class CatalogueNext {
     if ((el = b('[data-cn-select]'))) { e.preventDefault(); const [sid, mid] = el.dataset.cnSelect.split('|'); this.select(sid, mid); return; }
     if ((el = b('[data-cn-menu]'))) { e.preventDefault(); this.openSeriesMenu(el, el.dataset.cnMenu); return; }
     if ((el = b('[data-cn-more]'))) { e.preventDefault(); this.moreChips.add(el.dataset.cnMore); this.rerenderRow(el.dataset.cnMore, { focus: 'chips' }); return; }
+    if ((el = b('[data-cn-fewer]'))) { e.preventDefault(); this.moreChips.delete(el.dataset.cnFewer); this.rerenderRow(el.dataset.cnFewer, { focus: 'chips' }); return; }
     if ((el = b('[data-cn-more-parts]'))) { e.preventDefault(); this.moreParts.add(el.dataset.cnMoreParts); this.rerenderPanel(this.seriesOfMap.get(el.dataset.cnMoreParts.replace(/:counties$/, ''))); return; }
     if ((el = b('[data-cn-visibility]'))) { e.preventDefault(); this.toggleVisible(el.dataset.cnVisibility); return; }
     if ((el = b('[data-cn-filter]'))) { e.preventDefault(); this.setFilter(el.dataset.cnFilter, el.dataset.value || ''); return; }
@@ -789,6 +824,8 @@ export class CatalogueNext {
       const sid = el.dataset.cnGoto;
       if (!sid) return;
       this.here = null;
+      this.tab = 'maps';
+      this.section = sectionOfKind(this.seriesById.get(sid)?.kind);
       this.expanded.add(sid);
       this.focusSeries = sid;
       if (el.dataset.map) this.selected.set(sid, el.dataset.map);
@@ -841,6 +878,12 @@ export class CatalogueNext {
 
   /** A year typed into a box: applied when the box is left or Enter is pressed, not per key. */
   onYearTyped(e) {
+    if (e.target.matches?.('[data-cn-undated]')) {
+      this.filters.undated = e.target.checked;
+      this.saveStore();
+      this.refreshResults();
+      return;
+    }
     const box = e.target.closest?.('[data-cn-year]');
     if (!box) return;
     const key = box.dataset.key;
@@ -1040,7 +1083,7 @@ export class CatalogueNext {
     if (!pane) return;
     const list = this.sections();
     const current = this.currentSection(list);
-    const tabName = { maps: 'Maps', elections: 'Elections', books: 'Books' }[this.tab] || 'Maps';
+    const tabName = this.tab === 'maps' ? (SECTIONS.find(([id]) => id === this.section)?.[2] || 'Maps') : ({ elections: 'Elections', books: 'Books' }[this.tab] || 'Maps');
     const el = document.createElement('div');
     el.className = 'cn-drawer';
     el.innerHTML = `<div class="cn-drawer__scrim" data-cn-drawer-close></div>
@@ -1061,8 +1104,11 @@ export class CatalogueNext {
       if (go) { this.closeContents({ focus: false }); this.goToSection(go.dataset.cnGotoSection); return; }
       if (e.target.closest('[data-cn-drawer-close]')) this.closeContents();
     });
+    // Escape closes the panel wherever focus is: it moves into the panel a frame after opening,
+    // and a key pressed before then would otherwise be lost.
+    this.onContentsKey = (e) => { if (e.key === 'Escape' && this.contentsEl) { e.preventDefault(); this.closeContents(); } };
+    document.addEventListener('keydown', this.onContentsKey, true);
     el.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') { e.preventDefault(); this.closeContents(); return; }
       if (e.key !== 'Tab') return;
       const focusables = [...el.querySelectorAll('button')];
       const i = focusables.indexOf(document.activeElement);
@@ -1090,6 +1136,7 @@ export class CatalogueNext {
     if (!el) return;
     this.contentsEl = null;
     window.removeEventListener('resize', this.onContentsResize);
+    document.removeEventListener('keydown', this.onContentsKey, true);
     this.contentsBtn?.setAttribute('aria-expanded', 'false');
     el.classList.remove('cn-drawer--open');
     const done = () => el.remove();
