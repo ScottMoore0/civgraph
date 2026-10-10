@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-09T14:20:07.948Z",
+  "generatedAt": "2026-10-10T19:30:24.693Z",
   "cdnBase": "https://data.civgraph.net/data/maps/test",
   "r2Prefix": "data/maps/test",
   "assets": [
@@ -4150,7 +4150,7 @@
       "localPath": "render/pmtiles/generated/ni-health-trust-boundaries-vector-test.pmtiles",
       "targetKey": "data/maps/test/pmtiles/generated/ni-health-trust-boundaries-vector-test.pmtiles",
       "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ni-health-trust-boundaries-vector-test.pmtiles",
-      "bytes": 634893,
+      "bytes": 695358,
       "exists": true
     },
     {
@@ -7698,6 +7698,33 @@
       "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/county-ed-1911-vector-test.pmtiles",
       "bytes": 14712962,
       "exists": true
+    },
+    {
+      "layerId": "townlands-cities-and-islands-vector-test",
+      "kind": "pmtiles",
+      "localPath": "render/pmtiles/generated/townlands-cities-and-islands-vector-test.pmtiles",
+      "targetKey": "data/maps/test/pmtiles/generated/townlands-cities-and-islands-vector-test.pmtiles",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/townlands-cities-and-islands-vector-test.pmtiles",
+      "bytes": 1048503,
+      "exists": true
+    },
+    {
+      "layerId": "pc-1918-26-counties-vector-test",
+      "kind": "pmtiles",
+      "localPath": "render/pmtiles/generated/pc-1918-26-counties-vector-test.pmtiles",
+      "targetKey": "data/maps/test/pmtiles/generated/pc-1918-26-counties-vector-test.pmtiles",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/pc-1918-26-counties-vector-test.pmtiles",
+      "bytes": 4439441,
+      "exists": true
+    },
+    {
+      "layerId": "pc-1885-26-counties-vector-test",
+      "kind": "pmtiles",
+      "localPath": "render/pmtiles/generated/pc-1885-26-counties-vector-test.pmtiles",
+      "targetKey": "data/maps/test/pmtiles/generated/pc-1885-26-counties-vector-test.pmtiles",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/pc-1885-26-counties-vector-test.pmtiles",
+      "bytes": 2265645,
+      "exists": true
     }
   ],
   "commands": [
@@ -8192,6 +8219,9 @@
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/wq-wfd-monitoring-sites-vector-test.pmtiles --file render/pmtiles/generated/wq-wfd-monitoring-sites-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/wq-wfd-river-water-bodies-vector-test.pmtiles --file render/pmtiles/generated/wq-wfd-river-water-bodies-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/ded-1921-05-03-vector-test.pmtiles --file render/pmtiles/generated/ded-1921-05-03-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/county-ed-1911-vector-test.pmtiles --file render/pmtiles/generated/county-ed-1911-vector-test.pmtiles --remote --content-type application/octet-stream"
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/county-ed-1911-vector-test.pmtiles --file render/pmtiles/generated/county-ed-1911-vector-test.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/townlands-cities-and-islands-vector-test.pmtiles --file render/pmtiles/generated/townlands-cities-and-islands-vector-test.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/pc-1918-26-counties-vector-test.pmtiles --file render/pmtiles/generated/pc-1918-26-counties-vector-test.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/pc-1885-26-counties-vector-test.pmtiles --file render/pmtiles/generated/pc-1885-26-counties-vector-test.pmtiles --remote --content-type application/octet-stream"
   ]
 }

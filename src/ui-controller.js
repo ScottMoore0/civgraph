@@ -325,7 +325,8 @@ class UIController {
         // Build badges HTML
         let badgesHtml = '';
         const badges = [];
-        if (map.featured) badges.push('<span class="catalogue-detail__badge catalogue-detail__badge--featured">Featured</span>');
+        const nextCatalogue = typeof window !== 'undefined' && (window.CIVGRAPH_CATALOGUE === 'next' || /[?&]catalogue=next\b/.test(window.location.search));
+        if (map.featured && !nextCatalogue) badges.push('<span class="catalogue-detail__badge catalogue-detail__badge--featured">Featured</span>');
         if (map.isGroup) badges.push('<span class="catalogue-detail__badge catalogue-detail__badge--group">Group</span>');
         if (map.hidden) badges.push('<span class="catalogue-detail__badge catalogue-detail__badge--hidden">Hidden</span>');
         if (badges.length > 0) {
@@ -333,7 +334,7 @@ class UIController {
         }
 
         // Build description HTML
-        const descriptionHtml = map.description
+        const descriptionHtml = map.description && !nextCatalogue
             ? `<div class="catalogue-detail__description">${this.escapeHtml(map.description)}</div>`
             : '';
 
@@ -358,8 +359,8 @@ class UIController {
         // Build style info
         const styleInfo = [];
         if (map.style?.color) styleInfo.push(`Color: ${map.style.color}`);
-        if (map.style?.weight) styleInfo.push(`Weight: ${map.style.weight}`);
-        if (map.style?.fillOpacity !== undefined) styleInfo.push(`Fill: ${map.style.fillOpacity}`);
+        if (map.style?.weight && !nextCatalogue) styleInfo.push(`Weight: ${map.style.weight}`);
+        if (map.style?.fillOpacity !== undefined && !nextCatalogue) styleInfo.push(`Fill: ${map.style.fillOpacity}`);
         const styleStr = styleInfo.join(', ');
 
         // Build variants HTML
@@ -436,7 +437,7 @@ class UIController {
                     <span class="catalogue-detail__meta-label">Category</span>
                     <span class="catalogue-detail__meta-value">${this.escapeHtml(categoryName)}</span>
                 </div>
-                ${map.slug ? `
+                ${map.slug && !nextCatalogue ? `
                 <div class="catalogue-detail__meta-row">
                     <span class="catalogue-detail__meta-label">Slug</span>
                     <span class="catalogue-detail__meta-value catalogue-detail__meta-value--mono">${this.escapeHtml(map.slug)}</span>

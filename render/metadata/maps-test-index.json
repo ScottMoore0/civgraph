@@ -10427,7 +10427,7 @@
       "category": "Built Environment",
       "group": "Built Environment",
       "provider": [
-        "User Provided"
+        "CSO"
       ],
       "date": null,
       "dateAdded": null,
@@ -97369,7 +97369,7 @@
     {
       "id": "osni-ni-outline-vector-test",
       "sourceMapId": "osni-ni-outline",
-      "name": "Northern Ireland Outline (OSNI 50K)",
+      "name": "Northern Ireland Outline (OSNI 1:50,000)",
       "category": "OSNI Reference Layers",
       "group": "Built Environment",
       "provider": [
@@ -97487,7 +97487,7 @@
     {
       "id": "osni-open-data-50k-boundaries-district-electoral-areas-1993-vector-test",
       "sourceMapId": "osni-open-data-50k-boundaries-district-electoral-areas-1993",
-      "name": "District Electoral Areas (1993) — OSNI 50k",
+      "name": "District Electoral Areas (1993) — OSNI 1:50,000",
       "category": "District Electoral Areas",
       "group": "Elections and Government",
       "provider": [
@@ -97602,7 +97602,7 @@
     {
       "id": "osni-open-data-50k-boundaries-local-government-districts-1993-vector-test",
       "sourceMapId": "osni-open-data-50k-boundaries-local-government-districts-1993",
-      "name": "Local Government Districts (1993) — OSNI 50k",
+      "name": "Local Government Districts (1993) — OSNI 1:50,000",
       "category": "Local Government Districts",
       "group": "Elections and Government",
       "provider": [
@@ -97727,7 +97727,7 @@
     {
       "id": "osni-open-data-50k-boundaries-parliamentary-constituencies-vector-test",
       "sourceMapId": "osni-open-data-50k-boundaries-parliamentary-constituencies",
-      "name": "Parliamentary Constituencies — OSNI 50k",
+      "name": "Parliamentary Constituencies — OSNI 1:50,000",
       "category": "Parliamentary Constituencies",
       "group": "Elections and Government",
       "provider": [
@@ -97839,7 +97839,7 @@
     {
       "id": "osni-open-data-50k-boundaries-townlands-vector-test",
       "sourceMapId": "osni-open-data-50k-boundaries-townlands",
-      "name": "Townlands — OSNI 50k",
+      "name": "Townlands — OSNI 1:50,000",
       "category": "Townlands",
       "group": "Communities",
       "provider": [
@@ -97964,7 +97964,7 @@
     {
       "id": "osni-open-data-50k-boundaries-wards-1993-vector-test",
       "sourceMapId": "osni-open-data-50k-boundaries-wards-1993",
-      "name": "Wards (1993) — OSNI 50k",
+      "name": "Wards (1993) — OSNI 1:50,000",
       "category": "Electoral Areas",
       "group": "Elections and Government",
       "provider": [
@@ -98088,7 +98088,7 @@
     {
       "id": "osni-open-data-50k-transport-text-labelling-vector-test",
       "sourceMapId": "osni-open-data-50k-transport-text-labelling",
-      "name": "Transport Text Labelling — OSNI 50k",
+      "name": "Transport Text Labelling — OSNI 1:50,000",
       "category": "Transport",
       "group": "Built Environment",
       "provider": [
@@ -98198,7 +98198,7 @@
     {
       "id": "osni-open-data-50k-transport-transport-points-vector-test",
       "sourceMapId": "osni-open-data-50k-transport-transport-points",
-      "name": "Transport Points — OSNI 50k",
+      "name": "Transport Points — OSNI 1:50,000",
       "category": "Transport",
       "group": "Built Environment",
       "provider": [
@@ -100168,7 +100168,7 @@
     {
       "id": "osni-transport-points-vector-test",
       "sourceMapId": "osni-transport-points",
-      "name": "OSNI 50K Transport — Transport Points",
+      "name": "OSNI 1:50,000 Transport — Transport Points",
       "category": "Transport",
       "group": "Built Environment",
       "provider": [
@@ -100278,7 +100278,7 @@
     {
       "id": "osni-transport-text-labels-vector-test",
       "sourceMapId": "osni-transport-text-labels",
-      "name": "OSNI 50K Transport — Text Labelling",
+      "name": "OSNI 1:50,000 Transport — Text Labelling",
       "category": "Transport",
       "group": "Built Environment",
       "provider": [
@@ -100753,7 +100753,7 @@
     {
       "id": "pc-1918-vector-test",
       "sourceMapId": "pc-1918",
-      "name": "Parliamentary Constituencies 1918 (pre-partition)",
+      "name": "Parliamentary Constituencies 1918 (Northern Ireland)",
       "category": "Parliamentary Constituencies",
       "group": "Elections and Government",
       "provider": [
@@ -130037,10 +130037,369 @@
         "vector tiles"
       ],
       "detailUrl": "/render/metadata/layer-details-test2/county-ed-1911-vector-test.json"
+    },
+    {
+      "id": "townlands-cities-and-islands-vector-test",
+      "sourceMapId": "townlands-cities-and-islands",
+      "name": "Townlands — Cork, Dublin and Galway cities and islands",
+      "category": "Townlands",
+      "group": "Communities",
+      "provider": [
+        "Paddy Matthews"
+      ],
+      "date": null,
+      "dateAdded": null,
+      "dateEffective": null,
+      "description": "The townlands Tailte Éireann's townland data leaves out: those of Cork, Dublin and Galway cities, and islands and rocks off those counties. Mapped by Paddy Matthews from an earlier OSi townland edition; 1,089 townlands.",
+      "notes": "Generated from render/source-cache/vector-intake/townlands-cities-and-islands.fgb with GDAL MVT output.",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "renderer": "maplibre",
+      "status": "converted",
+      "bounds": [
+        [
+          51.3888583,
+          -10.3027747
+        ],
+        [
+          53.6349377,
+          -6.0040561
+        ]
+      ],
+      "minzoom": 0,
+      "maxzoom": 12,
+      "sourceLayer": "townlands_cities_and_islands",
+      "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/townlands-cities-and-islands-vector-test.pmtiles",
+      "tiles": "/render/tiles/generated/townlands-cities-and-islands/{z}/{x}/{y}.pbf",
+      "tilesFallback": "/render/tiles/generated/townlands-cities-and-islands/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "preferred": true,
+        "localPath": "render/pmtiles/generated/townlands-cities-and-islands-vector-test.pmtiles",
+        "url": "/render/pmtiles/generated/townlands-cities-and-islands-vector-test.pmtiles",
+        "bytes": 1048503,
+        "maxGithubBytes": 99614720,
+        "generatedAt": "2026-10-10T19:30:24.455Z",
+        "fallback": "/render/tiles/generated/townlands-cities-and-islands/{z}/{x}/{y}.pbf",
+        "sourceSha256": "04d1033e46bd7b442c32d9685149db570f3c938b3e6ca825d6063cea5561c407",
+        "serving": "cdn",
+        "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/townlands-cities-and-islands-vector-test.pmtiles",
+        "r2Key": "data/maps/test/pmtiles/generated/townlands-cities-and-islands-vector-test.pmtiles",
+        "localUrl": "/render/pmtiles/generated/townlands-cities-and-islands-vector-test.pmtiles",
+        "byteRangeVerifiedAt": "2026-10-10T19:30:47.107Z"
+      },
+      "metadataUrl": "/render/tiles/generated/townlands-cities-and-islands/metadata.json",
+      "style": {
+        "color": "#A87000",
+        "fillColor": "#A87000",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "labelProperty": "Name",
+      "labelPropertyFallbacks": [],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#A87000",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "promoteId": "civ_fid",
+      "sourceFile": "render/source-cache/vector-intake/townlands-cities-and-islands.fgb",
+      "sourceDatasetLayer": "townlands_cities",
+      "numericProperties": [],
+      "categoricalProperties": [
+        "Name",
+        "IrishName",
+        "County",
+        "TD_ID",
+        "Source"
+      ],
+      "popupProperties": [
+        "Name",
+        "IrishName",
+        "County",
+        "TD_ID",
+        "Source"
+      ],
+      "generatedFrom": {
+        "pipeline": "build-test-vector-batch",
+        "sourceFile": "render/source-cache/vector-intake/townlands-cities-and-islands.fgb",
+        "bytes": 1618831,
+        "files": 324,
+        "pbfFiles": 323,
+        "maxTileBytes": 56666
+      },
+      "keywords": [
+        "townland",
+        "townlands",
+        "ireland",
+        "all ireland",
+        "osni",
+        "osi",
+        "Ireland",
+        "Townlands",
+        "Communities",
+        "maplibre",
+        "vector tiles",
+        "cork",
+        "dublin",
+        "galway",
+        "city",
+        "islands",
+        "paddy matthews"
+      ],
+      "detailUrl": "/render/metadata/layer-details-test2/townlands-cities-and-islands-vector-test.json"
+    },
+    {
+      "id": "pc-1918-26-counties-vector-test",
+      "sourceMapId": "pc-1918-26-counties",
+      "name": "Parliamentary Constituencies 1918 (26 counties)",
+      "category": "Parliamentary Constituencies",
+      "group": "Elections and Government",
+      "provider": [
+        "Parlconst.org"
+      ],
+      "date": 1918,
+      "dateAdded": null,
+      "dateEffective": null,
+      "description": "The 1918 Westminster constituencies in the 26 counties that became the Irish Free State: the all-island 1918 map less its Northern Ireland part.",
+      "notes": "Generated from render/source-cache/vector-intake/pc-1918-26-counties.fgb with GDAL MVT output.",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "renderer": "maplibre",
+      "status": "converted",
+      "bounds": [
+        [
+          51.4139219,
+          -10.5801067
+        ],
+        [
+          55.3829435,
+          -5.9980455
+        ]
+      ],
+      "minzoom": 0,
+      "maxzoom": 12,
+      "sourceLayer": "pc_1918_26_counties",
+      "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/pc-1918-26-counties-vector-test.pmtiles",
+      "tiles": "/render/tiles/generated/pc-1918-26-counties/{z}/{x}/{y}.pbf",
+      "tilesFallback": "/render/tiles/generated/pc-1918-26-counties/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "preferred": true,
+        "localPath": "render/pmtiles/generated/pc-1918-26-counties-vector-test.pmtiles",
+        "url": "/render/pmtiles/generated/pc-1918-26-counties-vector-test.pmtiles",
+        "bytes": 4439441,
+        "maxGithubBytes": 99614720,
+        "generatedAt": "2026-10-10T19:30:24.455Z",
+        "fallback": "/render/tiles/generated/pc-1918-26-counties/{z}/{x}/{y}.pbf",
+        "sourceSha256": "5d6e328e9e0b02d0423915c04ba53a6b017f6c2edc7293ca27534573c8e1b030",
+        "serving": "cdn",
+        "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/pc-1918-26-counties-vector-test.pmtiles",
+        "r2Key": "data/maps/test/pmtiles/generated/pc-1918-26-counties-vector-test.pmtiles",
+        "localUrl": "/render/pmtiles/generated/pc-1918-26-counties-vector-test.pmtiles",
+        "byteRangeVerifiedAt": "2026-10-10T19:30:47.107Z"
+      },
+      "metadataUrl": "/render/tiles/generated/pc-1918-26-counties/metadata.json",
+      "style": {
+        "color": "#7B5BA8",
+        "fillColor": "#7B5BA8",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "labelProperty": "Name",
+      "labelPropertyFallbacks": [],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#7B5BA8",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "promoteId": "Name",
+      "idProperty": "Name",
+      "sourceFile": "render/source-cache/vector-intake/pc-1918-26-counties.fgb",
+      "sourceDatasetLayer": "pc_1918_26_counties",
+      "numericProperties": [],
+      "categoricalProperties": [
+        "Name"
+      ],
+      "popupProperties": [
+        "Name"
+      ],
+      "generatedFrom": {
+        "pipeline": "build-test-vector-batch",
+        "sourceFile": "render/source-cache/vector-intake/pc-1918-26-counties.fgb",
+        "bytes": 6704910,
+        "files": 3329,
+        "pbfFiles": 3328,
+        "maxTileBytes": 50140
+      },
+      "keywords": [
+        "constituency",
+        "westminster",
+        "parliament",
+        "1918",
+        "pre-partition",
+        "all-ireland",
+        "ireland",
+        "Parliamentary Constituencies 1918 (Ireland — all-island)",
+        "Parliamentary Constituencies",
+        "Elections and Government",
+        "maplibre",
+        "vector tiles",
+        "parliamentary",
+        "constituencies",
+        "26 counties"
+      ],
+      "detailUrl": "/render/metadata/layer-details-test2/pc-1918-26-counties-vector-test.json"
+    },
+    {
+      "id": "pc-1885-26-counties-vector-test",
+      "sourceMapId": "pc-1885-26-counties",
+      "name": "Parliamentary Constituencies 1885 (26 counties)",
+      "category": "Parliamentary Constituencies",
+      "group": "Elections and Government",
+      "provider": [
+        "Parlconst.org"
+      ],
+      "date": 1885,
+      "dateAdded": null,
+      "dateEffective": null,
+      "description": "The 1885 Westminster constituencies in the 26 counties that became the Irish Free State: the all-island 1885 map less its Northern Ireland part.",
+      "notes": "Generated from render/source-cache/vector-intake/pc-1885-26-counties.fgb with GDAL MVT output.",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "renderer": "maplibre",
+      "status": "converted",
+      "bounds": [
+        [
+          51.4194306,
+          -10.6624538
+        ],
+        [
+          55.4466053,
+          -5.9952892
+        ]
+      ],
+      "minzoom": 0,
+      "maxzoom": 12,
+      "sourceLayer": "pc_1885_26_counties",
+      "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/pc-1885-26-counties-vector-test.pmtiles",
+      "tiles": "/render/tiles/generated/pc-1885-26-counties/{z}/{x}/{y}.pbf",
+      "tilesFallback": "/render/tiles/generated/pc-1885-26-counties/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "preferred": true,
+        "localPath": "render/pmtiles/generated/pc-1885-26-counties-vector-test.pmtiles",
+        "url": "/render/pmtiles/generated/pc-1885-26-counties-vector-test.pmtiles",
+        "bytes": 2265645,
+        "maxGithubBytes": 99614720,
+        "generatedAt": "2026-10-10T19:30:24.455Z",
+        "fallback": "/render/tiles/generated/pc-1885-26-counties/{z}/{x}/{y}.pbf",
+        "sourceSha256": "e32446f451ae8be716936da6bfd667ccf8d810e7e11d60ced3babe63919d7c69",
+        "serving": "cdn",
+        "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/pc-1885-26-counties-vector-test.pmtiles",
+        "r2Key": "data/maps/test/pmtiles/generated/pc-1885-26-counties-vector-test.pmtiles",
+        "localUrl": "/render/pmtiles/generated/pc-1885-26-counties-vector-test.pmtiles",
+        "byteRangeVerifiedAt": "2026-10-10T19:30:47.107Z"
+      },
+      "metadataUrl": "/render/tiles/generated/pc-1885-26-counties/metadata.json",
+      "style": {
+        "color": "#5B7AA8",
+        "fillColor": "#5B7AA8",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "labelProperty": "C1885",
+      "labelPropertyFallbacks": [],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#5B7AA8",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "promoteId": "OBJECTID",
+      "idProperty": "OBJECTID",
+      "sourceFile": "render/source-cache/vector-intake/pc-1885-26-counties.fgb",
+      "sourceDatasetLayer": "pc_1885_26_counties",
+      "numericProperties": [
+        "fid",
+        "OBJECTID",
+        "Shape_Leng",
+        "Shape_Area",
+        "minElev_m",
+        "maxElev_m",
+        "minElev_ft",
+        "maxElev_ft",
+        "meanElev_m",
+        "meanElev_ft"
+      ],
+      "categoricalProperties": [
+        "C1885"
+      ],
+      "popupProperties": [
+        "C1885",
+        "OBJECTID",
+        "fid",
+        "Shape_Leng",
+        "Shape_Area",
+        "minElev_m",
+        "maxElev_m",
+        "minElev_ft",
+        "maxElev_ft",
+        "meanElev_m"
+      ],
+      "generatedFrom": {
+        "pipeline": "build-test-vector-batch",
+        "sourceFile": "render/source-cache/vector-intake/pc-1885-26-counties.fgb",
+        "bytes": 2757639,
+        "files": 3333,
+        "pbfFiles": 3332,
+        "maxTileBytes": 61579
+      },
+      "keywords": [
+        "constituency",
+        "westminster",
+        "parliament",
+        "1885",
+        "pre-partition",
+        "all-ireland",
+        "ireland",
+        "Parliamentary Constituencies 1885 (Ireland — all-island)",
+        "Parliamentary Constituencies",
+        "Elections and Government",
+        "maplibre",
+        "vector tiles",
+        "parliamentary",
+        "constituencies",
+        "26 counties"
+      ],
+      "detailUrl": "/render/metadata/layer-details-test2/pc-1885-26-counties-vector-test.json"
     }
   ],
-  "publicMapCount": 797,
+  "publicMapCount": 799,
   "generatedFrom": "render/metadata/maps-test.json",
   "detailIndex": true,
-  "detailLayerCount": 1140
+  "detailLayerCount": 1143
 }

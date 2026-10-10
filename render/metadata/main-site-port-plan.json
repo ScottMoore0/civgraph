@@ -3,14 +3,14 @@
   "source": "data/database/maps.json",
   "testMetadata": "render/metadata/maps-test.json",
   "totals": {
-    "total": 1259,
-    "converted": 1140,
-    "convertedDirect": 954,
-    "convertedComposite": 29,
+    "total": 1263,
+    "converted": 1143,
+    "convertedDirect": 958,
+    "convertedComposite": 28,
     "convertedAlias": 157,
     "needsVectorTileConversion": 0,
     "needsRasterStrategy": 0,
-    "metadataOnly": 119,
+    "metadataOnly": 120,
     "needsMapLibreSourceMapping": 0
   },
   "rows": [
@@ -4136,6 +4136,59 @@
       "unsupportedReason": null
     },
     {
+      "sourceMapId": "townlands-cities-and-islands",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "Townlands — Cork, Dublin and Galway cities and islands",
+      "category": "Townlands",
+      "categoryId": "townlands",
+      "group": "Communities",
+      "date": null,
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Paddy Matthews"
+      ],
+      "description": "The townlands Tailte Éireann's townland data leaves out: those of Cork, Dublin and Galway cities, and islands and rocks off those counties. Mapped by Paddy Matthews from an earlier OSi townland edition; 1,089 townlands.",
+      "sourceCredits": [
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "townlands-cities-and-islands-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.3888583,
+          -10.3027747
+        ],
+        [
+          53.6349377,
+          -6.0040561
+        ]
+      ],
+      "style": {
+        "color": "#A87000",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/townlands/Townlands_Cities_Paddy_Matthews.fgb"
+        },
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/townlands/Townlands_Cities_Paddy_Matthews.fgb"
+        }
+      ],
+      "references": [],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
       "sourceMapId": "all-ireland-townlands",
       "cloneOf": null,
       "parentId": null,
@@ -4147,17 +4200,19 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
+        "Tailte Éireann",
         "OSNI",
-        "Tailte Éireann"
+        "Paddy Matthews"
       ],
       "description": "Ireland",
       "sourceCredits": [
+        "Tailte Éireann",
         "OSNI",
-        "Tailte Éireann"
+        "Paddy Matthews"
       ],
       "conversionStatus": "convertedComposite",
       "recommendedTarget": "composite-vector-tiles",
-      "testLayerId": "composite:ni-townlands,roi-townlands",
+      "testLayerId": "composite:ni-townlands,roi-townlands,townlands-cities-and-islands",
       "aliasTargetLayerId": null,
       "bounds": [
         [
@@ -4196,7 +4251,7 @@
         }
       ],
       "sourceDownloads": [],
-      "variants": 2,
+      "variants": 3,
       "unsupportedReason": null
     },
     {
@@ -4216,7 +4271,8 @@
       "description": "Northern Ireland",
       "sourceCredits": [
         "OSNI",
-        "Tailte Éireann"
+        "Tailte Éireann",
+        "Paddy Matthews"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -4259,7 +4315,7 @@
         }
       ],
       "sourceDownloads": [],
-      "variants": 2,
+      "variants": 3,
       "unsupportedReason": null
     },
     {
@@ -4279,8 +4335,9 @@
       "description": "Republic of Ireland",
       "sourceCredits": [
         "OSI",
+        "Tailte Éireann",
         "OSNI",
-        "Tailte Éireann"
+        "Paddy Matthews"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -4319,7 +4376,73 @@
         }
       ],
       "sourceDownloads": [],
-      "variants": 2,
+      "variants": 3,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "townlands-cities-and-islands",
+      "cloneOf": null,
+      "parentId": "all-ireland-townlands",
+      "name": "Ireland",
+      "category": "Townlands",
+      "categoryId": "townlands",
+      "group": "Communities",
+      "date": null,
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Tailte Éireann",
+        "OSNI",
+        "Paddy Matthews"
+      ],
+      "description": "Ireland",
+      "sourceCredits": [
+        "Tailte Éireann",
+        "OSNI",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "townlands-cities-and-islands-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.419897,
+          -10.618624
+        ],
+        [
+          55.435141,
+          -5.432784
+        ]
+      ],
+      "style": {
+        "color": "#A87000",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/townlands/Townlands_Cities_Paddy_Matthews.fgb"
+        },
+        {
+          "kind": "fgb",
+          "file": "https://archive.org/download/civgraph-townlands-allireland-fgb/Townlands_AllIreland.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "OSNI Open Data - Largescale Boundaries - Townlands",
+          "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-largescale-boundaries-townlands"
+        },
+        {
+          "label": "Townlands - National Statutory Boundaries - Ungeneralised - 2024 (Tailte Éireann)",
+          "url": "https://data-osi.opendata.arcgis.com/datasets/osi::townlands-national-statutory-boundaries-ungeneralised-2024/about"
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 3,
       "unsupportedReason": null
     },
     {
@@ -8730,19 +8853,19 @@
       "references": [],
       "sourceDownloads": [
         {
-          "label": "OSNI 50k GeoJSON",
+          "label": "OSNI 1:50,000 GeoJSON",
           "url": "https://archive.org/download/civgraph-osni-boundary-data/osni_open_data_50k_boundaries_local_government_districts_1993.geojson"
         },
         {
-          "label": "OSNI 50k KML",
+          "label": "OSNI 1:50,000 KML",
           "url": "https://archive.org/download/civgraph-osni-boundary-data/osni_open_data_50k_boundaries_local_government_districts_1993.kml"
         },
         {
-          "label": "OSNI 50k CSV",
+          "label": "OSNI 1:50,000 CSV",
           "url": "https://archive.org/download/civgraph-osni-boundary-data/osni_open_data_50k_boundaries_local_government_districts_1993.csv"
         },
         {
-          "label": "OSNI 50k Shapefile (ZIP)",
+          "label": "OSNI 1:50,000 Shapefile (ZIP)",
           "url": "https://archive.org/download/civgraph-osni-boundary-data/osni_open_data_50k_boundaries_local_government_districts_1993.zip"
         }
       ],
@@ -9748,7 +9871,7 @@
       "sourceMapId": "pc-1918",
       "cloneOf": null,
       "parentId": null,
-      "name": "Parliamentary Constituencies 1918 (pre-partition)",
+      "name": "Parliamentary Constituencies 1918 (Northern Ireland)",
       "category": "Parliamentary Constituencies",
       "categoryId": "parliamentary",
       "group": "Elections and Government",
@@ -9786,6 +9909,59 @@
         {
           "kind": "fgb",
           "file": "https://data.civgraph.net/data/maps/parliamentary/PC1918.fgb"
+        }
+      ],
+      "references": [],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "pc-1918-26-counties",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "Parliamentary Constituencies 1918 (26 counties)",
+      "category": "Parliamentary Constituencies",
+      "categoryId": "parliamentary",
+      "group": "Elections and Government",
+      "date": 1918,
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Parlconst.org"
+      ],
+      "description": "The 1918 Westminster constituencies in the 26 counties that became the Irish Free State: the all-island 1918 map less its Northern Ireland part.",
+      "sourceCredits": [
+        "Parlconst.org"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "pc-1918-26-counties-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.4139219,
+          -10.5801067
+        ],
+        [
+          55.3829435,
+          -5.9980455
+        ]
+      ],
+      "style": {
+        "color": "#C0392B",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/parliamentary/PC_1918_26_Counties.fgb"
+        },
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/parliamentary/PC_1918_26_Counties.fgb"
         }
       ],
       "references": [],
@@ -9839,7 +10015,105 @@
       ],
       "references": [],
       "sourceDownloads": [],
-      "variants": 0,
+      "variants": 2,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "pc-1918",
+      "cloneOf": null,
+      "parentId": "pc-1918-ireland",
+      "name": "Parliamentary Constituencies 1918 (Ireland — all-island)",
+      "category": "Parliamentary Constituencies",
+      "categoryId": "parliamentary",
+      "group": "Elections and Government",
+      "date": 1918,
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Parlconst.org"
+      ],
+      "description": "All-Ireland Westminster parliamentary constituencies after the 1918 Representation of the People Act. 107 constituencies covering the whole island, in use for the December 1918 General Election. Built by dissolving parlconst's per-section boundary mosaics (105–111 ROI + the parlconst NI 1918 layer).",
+      "sourceCredits": [
+        "Parlconst.org"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "pc-1918-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          54.0227186,
+          -8.1774905
+        ],
+        [
+          55.3129748,
+          -5.4327734
+        ]
+      ],
+      "style": {
+        "color": "#7B5BA8",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/parliamentary/PC1918.fgb"
+        }
+      ],
+      "references": [],
+      "sourceDownloads": [],
+      "variants": 2,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "pc-1918-26-counties",
+      "cloneOf": null,
+      "parentId": "pc-1918-ireland",
+      "name": "Parliamentary Constituencies 1918 (Ireland — all-island)",
+      "category": "Parliamentary Constituencies",
+      "categoryId": "parliamentary",
+      "group": "Elections and Government",
+      "date": 1918,
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Parlconst.org"
+      ],
+      "description": "All-Ireland Westminster parliamentary constituencies after the 1918 Representation of the People Act. 107 constituencies covering the whole island, in use for the December 1918 General Election. Built by dissolving parlconst's per-section boundary mosaics (105–111 ROI + the parlconst NI 1918 layer).",
+      "sourceCredits": [
+        "Parlconst.org"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "pc-1918-26-counties-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.4139219,
+          -10.5801067
+        ],
+        [
+          55.3829435,
+          -5.9980455
+        ]
+      ],
+      "style": {
+        "color": "#7B5BA8",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/parliamentary/PC_1918_26_Counties.fgb"
+        }
+      ],
+      "references": [],
+      "sourceDownloads": [],
+      "variants": 2,
       "unsupportedReason": null
     },
     {
@@ -9884,6 +10158,59 @@
         {
           "kind": "fgb",
           "file": "https://data.civgraph.net/data/maps/parliamentary/PC_1884.fgb"
+        }
+      ],
+      "references": [],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "pc-1885-26-counties",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "Parliamentary Constituencies 1885 (26 counties)",
+      "category": "Parliamentary Constituencies",
+      "categoryId": "parliamentary",
+      "group": "Elections and Government",
+      "date": 1885,
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Parlconst.org"
+      ],
+      "description": "The 1885 Westminster constituencies in the 26 counties that became the Irish Free State: the all-island 1885 map less its Northern Ireland part.",
+      "sourceCredits": [
+        "Parlconst.org"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "pc-1885-26-counties-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.4194306,
+          -10.6624538
+        ],
+        [
+          55.4466053,
+          -5.9952892
+        ]
+      ],
+      "style": {
+        "color": "#C0392B",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/parliamentary/PC_1885_26_Counties.fgb"
+        },
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/parliamentary/PC_1885_26_Counties.fgb"
         }
       ],
       "references": [],
@@ -9937,7 +10264,105 @@
       ],
       "references": [],
       "sourceDownloads": [],
-      "variants": 0,
+      "variants": 2,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "pc-1884",
+      "cloneOf": null,
+      "parentId": "pc-1885-ireland",
+      "name": "Parliamentary Constituencies 1885 (Ireland — all-island)",
+      "category": "Parliamentary Constituencies",
+      "categoryId": "parliamentary",
+      "group": "Elections and Government",
+      "date": 1885,
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Parlconst.org"
+      ],
+      "description": "All-Ireland Westminster parliamentary constituencies after the 1885 Redistribution of Seats Act. 101 territorial constituencies covering the whole island, in use 1885–1918.",
+      "sourceCredits": [
+        "Parlconst.org"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "pc-1884-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          54.0227186,
+          -8.1774905
+        ],
+        [
+          55.3129748,
+          -5.4327734
+        ]
+      ],
+      "style": {
+        "color": "#5B7AA8",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/parliamentary/PC_1884.fgb"
+        }
+      ],
+      "references": [],
+      "sourceDownloads": [],
+      "variants": 2,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "pc-1885-26-counties",
+      "cloneOf": null,
+      "parentId": "pc-1885-ireland",
+      "name": "Parliamentary Constituencies 1885 (Ireland — all-island)",
+      "category": "Parliamentary Constituencies",
+      "categoryId": "parliamentary",
+      "group": "Elections and Government",
+      "date": 1885,
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Parlconst.org"
+      ],
+      "description": "All-Ireland Westminster parliamentary constituencies after the 1885 Redistribution of Seats Act. 101 territorial constituencies covering the whole island, in use 1885–1918.",
+      "sourceCredits": [
+        "Parlconst.org"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "pc-1885-26-counties-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.4194306,
+          -10.6624538
+        ],
+        [
+          55.4466053,
+          -5.9952892
+        ]
+      ],
+      "style": {
+        "color": "#5B7AA8",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/parliamentary/PC_1885_26_Counties.fgb"
+        }
+      ],
+      "references": [],
+      "sourceDownloads": [],
+      "variants": 2,
       "unsupportedReason": null
     },
     {
@@ -10307,7 +10732,12 @@
         "fillOpacity": null,
         "weight": 2
       },
-      "sourceFiles": [],
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/parliamentary/PC1970.fgb"
+        }
+      ],
       "references": [],
       "sourceDownloads": [],
       "variants": 0,
@@ -10351,7 +10781,12 @@
         "fillOpacity": null,
         "weight": 2
       },
-      "sourceFiles": [],
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/parliamentary/PC1970.fgb"
+        }
+      ],
       "references": [],
       "sourceDownloads": [],
       "variants": 0,
@@ -10990,7 +11425,7 @@
           "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-largescale-boundaries-county-boundaries"
         },
         {
-          "label": "OSNI Open Data - 50K Boundaries - NI Counties (www.data.gov.uk)",
+          "label": "OSNI Open Data - 1:50,000 Boundaries - NI Counties (www.data.gov.uk)",
           "url": "https://www.data.gov.uk/dataset/db209d57-bee0-4ecc-bb8f-5915130c2505/osni-open-data-50k-boundaries-ni-counties6"
         },
         {
@@ -13201,36 +13636,21 @@
       "sourceMapId": "eds-roi-1921-05-03",
       "cloneOf": null,
       "parentId": null,
-      "name": "03 May 1921",
+      "name": "Electoral Divisions 3 May 1921",
       "category": "Electoral Divisions",
       "categoryId": "electoral-divisions",
       "group": "Built Environment",
       "date": "1921-05-03",
       "dateAdded": null,
       "dateEffective": null,
-      "provider": [
-        "Tailte Éireann",
-        "OSM"
-      ],
-      "description": "Southern Ireland Electoral Divisions on 3 May 1921 (Government of Ireland Act commencement) - boundaries unchanged through to 1926, rendered using the 1926 ROI ED dataset since pre-1926 distinct geography is not yet digitised.",
-      "sourceCredits": [
-        "Tailte Éireann",
-        "OSM"
-      ],
-      "conversionStatus": "convertedComposite",
-      "recommendedTarget": "composite-vector-tiles",
-      "testLayerId": "composite:eds-roi-1921-connacht,eds-roi-1921-leinster,eds-roi-1921-munster,eds-roi-1921-ulster",
+      "provider": [],
+      "description": "Partition date. No map of these boundaries yet: the files it used to draw were the 1 October 1921 map (eds-1926).",
+      "sourceCredits": [],
+      "conversionStatus": "metadataOnly",
+      "recommendedTarget": "catalogue-metadata",
+      "testLayerId": null,
       "aliasTargetLayerId": null,
-      "bounds": [
-        [
-          51.388858,
-          -10.662971
-        ],
-        [
-          55.446581,
-          -5.996278
-        ]
-      ],
+      "bounds": null,
       "style": {
         "color": "#9C6E3F",
         "fillColor": null,
@@ -13240,212 +13660,8 @@
       "sourceFiles": [],
       "references": [],
       "sourceDownloads": [],
-      "variants": 4,
-      "unsupportedReason": null
-    },
-    {
-      "sourceMapId": "eds-roi-1921-connacht",
-      "cloneOf": null,
-      "parentId": "eds-roi-1921-05-03",
-      "name": "03 May 1921",
-      "category": "Electoral Divisions",
-      "categoryId": "electoral-divisions",
-      "group": "Built Environment",
-      "date": "1921-05-03",
-      "dateAdded": null,
-      "dateEffective": null,
-      "provider": [
-        "Tailte Éireann",
-        "OSM"
-      ],
-      "description": "Southern Ireland Electoral Divisions on 3 May 1921 (Government of Ireland Act commencement) - boundaries unchanged through to 1926, rendered using the 1926 ROI ED dataset since pre-1926 distinct geography is not yet digitised.",
-      "sourceCredits": [
-        "Tailte Éireann",
-        "OSM"
-      ],
-      "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": "eds-roi-1921-connacht-vector-test",
-      "aliasTargetLayerId": null,
-      "bounds": [
-        [
-          51.388858,
-          -10.662971
-        ],
-        [
-          55.446581,
-          -5.996278
-        ]
-      ],
-      "style": {
-        "color": "#9C6E3F",
-        "fillColor": null,
-        "fillOpacity": null,
-        "weight": 2
-      },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Connacht1926EDs.fgb"
-        }
-      ],
-      "references": [],
-      "sourceDownloads": [],
-      "variants": 4,
-      "unsupportedReason": null
-    },
-    {
-      "sourceMapId": "eds-roi-1921-leinster",
-      "cloneOf": null,
-      "parentId": "eds-roi-1921-05-03",
-      "name": "03 May 1921",
-      "category": "Electoral Divisions",
-      "categoryId": "electoral-divisions",
-      "group": "Built Environment",
-      "date": "1921-05-03",
-      "dateAdded": null,
-      "dateEffective": null,
-      "provider": [
-        "Tailte Éireann",
-        "OSM"
-      ],
-      "description": "Southern Ireland Electoral Divisions on 3 May 1921 (Government of Ireland Act commencement) - boundaries unchanged through to 1926, rendered using the 1926 ROI ED dataset since pre-1926 distinct geography is not yet digitised.",
-      "sourceCredits": [
-        "Tailte Éireann",
-        "OSM"
-      ],
-      "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": "eds-roi-1921-leinster-vector-test",
-      "aliasTargetLayerId": null,
-      "bounds": [
-        [
-          51.388858,
-          -10.662971
-        ],
-        [
-          55.446581,
-          -5.996278
-        ]
-      ],
-      "style": {
-        "color": "#9C6E3F",
-        "fillColor": null,
-        "fillOpacity": null,
-        "weight": 2
-      },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Leinster1926EDs.fgb"
-        }
-      ],
-      "references": [],
-      "sourceDownloads": [],
-      "variants": 4,
-      "unsupportedReason": null
-    },
-    {
-      "sourceMapId": "eds-roi-1921-munster",
-      "cloneOf": null,
-      "parentId": "eds-roi-1921-05-03",
-      "name": "03 May 1921",
-      "category": "Electoral Divisions",
-      "categoryId": "electoral-divisions",
-      "group": "Built Environment",
-      "date": "1921-05-03",
-      "dateAdded": null,
-      "dateEffective": null,
-      "provider": [
-        "Tailte Éireann",
-        "OSM"
-      ],
-      "description": "Southern Ireland Electoral Divisions on 3 May 1921 (Government of Ireland Act commencement) - boundaries unchanged through to 1926, rendered using the 1926 ROI ED dataset since pre-1926 distinct geography is not yet digitised.",
-      "sourceCredits": [
-        "Tailte Éireann",
-        "OSM"
-      ],
-      "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": "eds-roi-1921-munster-vector-test",
-      "aliasTargetLayerId": null,
-      "bounds": [
-        [
-          51.388858,
-          -10.662971
-        ],
-        [
-          55.446581,
-          -5.996278
-        ]
-      ],
-      "style": {
-        "color": "#9C6E3F",
-        "fillColor": null,
-        "fillOpacity": null,
-        "weight": 2
-      },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Munster1926EDs.fgb"
-        }
-      ],
-      "references": [],
-      "sourceDownloads": [],
-      "variants": 4,
-      "unsupportedReason": null
-    },
-    {
-      "sourceMapId": "eds-roi-1921-ulster",
-      "cloneOf": null,
-      "parentId": "eds-roi-1921-05-03",
-      "name": "03 May 1921",
-      "category": "Electoral Divisions",
-      "categoryId": "electoral-divisions",
-      "group": "Built Environment",
-      "date": "1921-05-03",
-      "dateAdded": null,
-      "dateEffective": null,
-      "provider": [
-        "Tailte Éireann",
-        "OSM"
-      ],
-      "description": "Southern Ireland Electoral Divisions on 3 May 1921 (Government of Ireland Act commencement) - boundaries unchanged through to 1926, rendered using the 1926 ROI ED dataset since pre-1926 distinct geography is not yet digitised.",
-      "sourceCredits": [
-        "Tailte Éireann",
-        "OSM"
-      ],
-      "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": "eds-roi-1921-ulster-vector-test",
-      "aliasTargetLayerId": null,
-      "bounds": [
-        [
-          51.388858,
-          -10.662971
-        ],
-        [
-          55.446581,
-          -5.996278
-        ]
-      ],
-      "style": {
-        "color": "#9C6E3F",
-        "fillColor": null,
-        "fillOpacity": null,
-        "weight": 2
-      },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Ulster1926EDs.fgb"
-        }
-      ],
-      "references": [],
-      "sourceDownloads": [],
-      "variants": 4,
-      "unsupportedReason": null
+      "variants": 0,
+      "unsupportedReason": "no direct source file recorded"
     },
     {
       "sourceMapId": "eds-roi-1921-06-28",
@@ -16333,11 +16549,11 @@
       "sourceMapId": "eds-1926",
       "cloneOf": null,
       "parentId": null,
-      "name": "Electoral Divisions 1926 (Irish Free State)",
+      "name": "Electoral Divisions 1 October 1921",
       "category": "Electoral Divisions",
       "categoryId": "electoral-divisions",
       "group": "Built Environment",
-      "date": 1926,
+      "date": "1921-10-01",
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
@@ -16377,11 +16593,11 @@
       "sourceMapId": "eds-connacht-1926",
       "cloneOf": null,
       "parentId": "eds-1926",
-      "name": "Electoral Divisions 1926 (Irish Free State)",
+      "name": "Electoral Divisions 1 October 1921",
       "category": "Electoral Divisions",
       "categoryId": "electoral-divisions",
       "group": "Built Environment",
-      "date": 1926,
+      "date": "1921-10-01",
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
@@ -16426,11 +16642,11 @@
       "sourceMapId": "eds-leinster-1926",
       "cloneOf": null,
       "parentId": "eds-1926",
-      "name": "Electoral Divisions 1926 (Irish Free State)",
+      "name": "Electoral Divisions 1 October 1921",
       "category": "Electoral Divisions",
       "categoryId": "electoral-divisions",
       "group": "Built Environment",
-      "date": 1926,
+      "date": "1921-10-01",
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
@@ -16475,11 +16691,11 @@
       "sourceMapId": "eds-munster-1926",
       "cloneOf": null,
       "parentId": "eds-1926",
-      "name": "Electoral Divisions 1926 (Irish Free State)",
+      "name": "Electoral Divisions 1 October 1921",
       "category": "Electoral Divisions",
       "categoryId": "electoral-divisions",
       "group": "Built Environment",
-      "date": 1926,
+      "date": "1921-10-01",
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
@@ -16524,11 +16740,11 @@
       "sourceMapId": "eds-ulster-1926",
       "cloneOf": null,
       "parentId": "eds-1926",
-      "name": "Electoral Divisions 1926 (Irish Free State)",
+      "name": "Electoral Divisions 1 October 1921",
       "category": "Electoral Divisions",
       "categoryId": "electoral-divisions",
       "group": "Built Environment",
-      "date": 1926,
+      "date": "1921-10-01",
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
@@ -24631,11 +24847,11 @@
       ],
       "references": [
         {
-          "label": "OSNI Open Data - 50K Transport - Transport lines - Open Data NI (admin.opendatani.gov.uk)",
+          "label": "OSNI Open Data - 1:50,000 Transport - Transport lines - Open Data NI (admin.opendatani.gov.uk)",
           "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-transport-transport-lines"
         },
         {
-          "label": "OSNI Open Data - 50K Transport - Transport lines (www.data.gov.uk)",
+          "label": "OSNI Open Data - 1:50,000 Transport - Transport lines (www.data.gov.uk)",
           "url": "https://www.data.gov.uk/dataset/092bebf4-97c9-45a9-957d-2bf6822c32d8/osni-open-data-50k-transport-transport-lines5"
         },
         {
@@ -24795,11 +25011,11 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
-        "User Provided"
+        "CSO"
       ],
       "description": null,
       "sourceCredits": [
-        "User Provided"
+        "CSO"
       ],
       "conversionStatus": "converted",
       "recommendedTarget": "mvt-or-pmtiles",
@@ -32502,7 +32718,7 @@
       ],
       "references": [
         {
-          "label": "OSNI Open Data - Coverage Grid - 50K",
+          "label": "OSNI Open Data - Coverage Grid - 1:50,000",
           "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-coverage-grid-50k"
         }
       ],
@@ -53720,7 +53936,7 @@
       "sourceMapId": "osni-transport-text-labels",
       "cloneOf": null,
       "parentId": null,
-      "name": "OSNI 50K Transport — Text Labelling",
+      "name": "OSNI 1:50,000 Transport — Text Labelling",
       "category": "Transport",
       "categoryId": "transport",
       "group": "Built Environment",
@@ -53762,7 +53978,7 @@
       ],
       "references": [
         {
-          "label": "Open Data NI — OSNI 50K Transport — Text Labelling",
+          "label": "Open Data NI — OSNI 1:50,000 Transport — Text Labelling",
           "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-transport-text-labels"
         }
       ],
@@ -53774,7 +53990,7 @@
       "sourceMapId": "osni-transport-points",
       "cloneOf": null,
       "parentId": null,
-      "name": "OSNI 50K Transport — Transport Points",
+      "name": "OSNI 1:50,000 Transport — Transport Points",
       "category": "Transport",
       "categoryId": "transport",
       "group": "Built Environment",
@@ -53816,7 +54032,7 @@
       ],
       "references": [
         {
-          "label": "Open Data NI — OSNI 50K Transport — Transport Points",
+          "label": "Open Data NI — OSNI 1:50,000 Transport — Transport Points",
           "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-transport-points"
         }
       ],
@@ -53936,7 +54152,7 @@
       "sourceMapId": "osni-ni-outline",
       "cloneOf": null,
       "parentId": null,
-      "name": "Northern Ireland Outline (OSNI 50K)",
+      "name": "Northern Ireland Outline (OSNI 1:50,000)",
       "category": "OSNI Reference Layers",
       "categoryId": "osni-reference",
       "group": "Built Environment",
@@ -53978,7 +54194,7 @@
       ],
       "references": [
         {
-          "label": "Open Data NI — OSNI Open Data 50K Boundaries NI Outline",
+          "label": "Open Data NI — OSNI Open Data 1:50,000 Boundaries NI Outline",
           "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-ni-outline"
         }
       ],
@@ -55404,7 +55620,7 @@
       "sourceMapId": "osni-open-data-50k-boundaries-district-electoral-areas-1993",
       "cloneOf": null,
       "parentId": null,
-      "name": "District Electoral Areas (1993) — OSNI 50k",
+      "name": "District Electoral Areas (1993) — OSNI 1:50,000",
       "category": "District Electoral Areas",
       "categoryId": "deas",
       "group": "Elections and Government",
@@ -55446,7 +55662,7 @@
       ],
       "references": [
         {
-          "label": "District Electoral Areas (1993) — OSNI 50k — Open Data NI",
+          "label": "District Electoral Areas (1993) — OSNI 1:50,000 — Open Data NI",
           "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-district-electoral-areas-1993"
         }
       ],
@@ -55458,7 +55674,7 @@
       "sourceMapId": "osni-open-data-50k-boundaries-local-government-districts-1993",
       "cloneOf": null,
       "parentId": null,
-      "name": "Local Government Districts (1993) — OSNI 50k",
+      "name": "Local Government Districts (1993) — OSNI 1:50,000",
       "category": "Local Government Districts",
       "categoryId": "local-government",
       "group": "Elections and Government",
@@ -55500,7 +55716,7 @@
       ],
       "references": [
         {
-          "label": "Local Government Districts (1993) — OSNI 50k — Open Data NI",
+          "label": "Local Government Districts (1993) — OSNI 1:50,000 — Open Data NI",
           "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-local-government-districts-1993"
         }
       ],
@@ -55512,7 +55728,7 @@
       "sourceMapId": "osni-open-data-50k-boundaries-parliamentary-constituencies",
       "cloneOf": null,
       "parentId": null,
-      "name": "Parliamentary Constituencies — OSNI 50k",
+      "name": "Parliamentary Constituencies — OSNI 1:50,000",
       "category": "Parliamentary Constituencies",
       "categoryId": "parliamentary",
       "group": "Elections and Government",
@@ -55554,7 +55770,7 @@
       ],
       "references": [
         {
-          "label": "Parliamentary Constituencies — OSNI 50k — Open Data NI",
+          "label": "Parliamentary Constituencies — OSNI 1:50,000 — Open Data NI",
           "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-parliamentary-constituencies"
         }
       ],
@@ -55566,7 +55782,7 @@
       "sourceMapId": "osni-open-data-50k-boundaries-townlands",
       "cloneOf": null,
       "parentId": null,
-      "name": "Townlands — OSNI 50k",
+      "name": "Townlands — OSNI 1:50,000",
       "category": "Townlands",
       "categoryId": "townlands",
       "group": "Communities",
@@ -55608,7 +55824,7 @@
       ],
       "references": [
         {
-          "label": "Townlands — OSNI 50k — Open Data NI",
+          "label": "Townlands — OSNI 1:50,000 — Open Data NI",
           "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-townlands"
         }
       ],
@@ -55620,7 +55836,7 @@
       "sourceMapId": "osni-open-data-50k-boundaries-wards-1993",
       "cloneOf": null,
       "parentId": null,
-      "name": "Wards (1993) — OSNI 50k",
+      "name": "Wards (1993) — OSNI 1:50,000",
       "category": "Electoral Areas",
       "categoryId": "wards",
       "group": "Elections and Government",
@@ -55662,7 +55878,7 @@
       ],
       "references": [
         {
-          "label": "Wards (1993) — OSNI 50k — Open Data NI",
+          "label": "Wards (1993) — OSNI 1:50,000 — Open Data NI",
           "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-boundaries-wards-1993"
         }
       ],
@@ -56160,7 +56376,7 @@
       "sourceMapId": "osni-open-data-50k-transport-text-labelling",
       "cloneOf": null,
       "parentId": null,
-      "name": "Transport Text Labelling — OSNI 50k",
+      "name": "Transport Text Labelling — OSNI 1:50,000",
       "category": "Transport",
       "categoryId": "transport",
       "group": "Built Environment",
@@ -56202,7 +56418,7 @@
       ],
       "references": [
         {
-          "label": "Transport Text Labelling — OSNI 50k — Open Data NI",
+          "label": "Transport Text Labelling — OSNI 1:50,000 — Open Data NI",
           "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-transport-text-labelling"
         }
       ],
@@ -56214,7 +56430,7 @@
       "sourceMapId": "osni-open-data-50k-transport-transport-points",
       "cloneOf": null,
       "parentId": null,
-      "name": "Transport Points — OSNI 50k",
+      "name": "Transport Points — OSNI 1:50,000",
       "category": "Transport",
       "categoryId": "transport",
       "group": "Built Environment",
@@ -56256,7 +56472,7 @@
       ],
       "references": [
         {
-          "label": "Transport Points — OSNI 50k — Open Data NI",
+          "label": "Transport Points — OSNI 1:50,000 — Open Data NI",
           "url": "https://admin.opendatani.gov.uk/dataset/osni-open-data-50k-transport-transport-points"
         }
       ],

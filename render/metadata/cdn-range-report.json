@@ -1,18 +1,20 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-09T14:20:52.106Z",
+  "generatedAt": "2026-10-10T19:30:47.107Z",
   "rangeRequest": "bytes=0-15",
   "origin": "https://civgraph.net",
   "totals": {
-    "assets": 820,
-    "ok": 820,
+    "assets": 823,
+    "ok": 823,
     "failed": 0
   },
   "scopedRun": {
     "ids": [
-      "county-ed-1911-vector-test"
+      "townlands-cities-and-islands-vector-test",
+      "pc-1885-26-counties-vector-test",
+      "pc-1918-26-counties-vector-test"
     ],
-    "checked": 1
+    "checked": 3
   },
   "results": [
     {
@@ -10671,6 +10673,45 @@
       "acceptRanges": "bytes",
       "contentLength": "16",
       "contentRange": "bytes 0-15/14712962",
+      "accessControlAllowOrigin": "https://civgraph.net",
+      "accessControlExposeHeaders": "Accept-Ranges,Content-Length,Content-Range,ETag",
+      "cacheStatus": "DYNAMIC"
+    },
+    {
+      "layerId": "townlands-cities-and-islands-vector-test",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/townlands-cities-and-islands-vector-test.pmtiles",
+      "ok": true,
+      "status": 206,
+      "bodyBytes": 16,
+      "acceptRanges": "bytes",
+      "contentLength": "16",
+      "contentRange": "bytes 0-15/1048503",
+      "accessControlAllowOrigin": "https://civgraph.net",
+      "accessControlExposeHeaders": "Accept-Ranges,Content-Length,Content-Range,ETag",
+      "cacheStatus": "DYNAMIC"
+    },
+    {
+      "layerId": "pc-1918-26-counties-vector-test",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/pc-1918-26-counties-vector-test.pmtiles",
+      "ok": true,
+      "status": 206,
+      "bodyBytes": 16,
+      "acceptRanges": "bytes",
+      "contentLength": "16",
+      "contentRange": "bytes 0-15/4439441",
+      "accessControlAllowOrigin": "https://civgraph.net",
+      "accessControlExposeHeaders": "Accept-Ranges,Content-Length,Content-Range,ETag",
+      "cacheStatus": "DYNAMIC"
+    },
+    {
+      "layerId": "pc-1885-26-counties-vector-test",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/pc-1885-26-counties-vector-test.pmtiles",
+      "ok": true,
+      "status": 206,
+      "bodyBytes": 16,
+      "acceptRanges": "bytes",
+      "contentLength": "16",
+      "contentRange": "bytes 0-15/2265645",
       "accessControlAllowOrigin": "https://civgraph.net",
       "accessControlExposeHeaders": "Accept-Ranges,Content-Length,Content-Range,ETag",
       "cacheStatus": "DYNAMIC"

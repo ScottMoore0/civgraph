@@ -1,26 +1,44 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-10T12:26:52.449Z",
+  "generatedAt": "2026-10-10T19:30:46.078Z",
   "bucket": "boundaries-data",
   "dryRun": false,
   "selectedIds": [
-    "ni-health-trust-boundaries-vector-test"
+    "townlands-cities-and-islands-vector-test",
+    "pc-1885-26-counties-vector-test",
+    "pc-1918-26-counties-vector-test"
   ],
   "totals": {
-    "assets": 1,
-    "processed": 1,
-    "ok": 1,
+    "assets": 3,
+    "processed": 3,
+    "ok": 3,
     "failed": 0,
-    "bytes": 695358
+    "bytes": 7753589
   },
   "results": [
     {
-      "layerId": "ni-health-trust-boundaries-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/ni-health-trust-boundaries-vector-test.pmtiles",
+      "layerId": "townlands-cities-and-islands-vector-test",
+      "targetKey": "data/maps/test/pmtiles/generated/townlands-cities-and-islands-vector-test.pmtiles",
       "ok": true,
       "status": "uploaded",
-      "bytes": 695358,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.149.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/ni-health-trust-boundaries-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+      "bytes": 1048503,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.149.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/townlands-cities-and-islands-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+    },
+    {
+      "layerId": "pc-1918-26-counties-vector-test",
+      "targetKey": "data/maps/test/pmtiles/generated/pc-1918-26-counties-vector-test.pmtiles",
+      "ok": true,
+      "status": "uploaded",
+      "bytes": 4439441,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.149.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/pc-1918-26-counties-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+    },
+    {
+      "layerId": "pc-1885-26-counties-vector-test",
+      "targetKey": "data/maps/test/pmtiles/generated/pc-1885-26-counties-vector-test.pmtiles",
+      "ok": true,
+      "status": "uploaded",
+      "bytes": 2265645,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.149.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/pc-1885-26-counties-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
     }
   ]
 }

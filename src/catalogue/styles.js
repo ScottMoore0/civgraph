@@ -161,6 +161,11 @@ export const CATALOGUE_CSS = `
 .cn-chip--todo-toggle { color: var(--cn-amber-ink); border-style: dashed; border-color: color-mix(in srgb, var(--cn-amber-ink) 55%, transparent); background: none; }
 .cn-chip--todo-toggle:hover { background: var(--cn-amber-bg); border-color: var(--cn-amber-ink); }
 .cn-chip--todo-toggle .cn-icon { width: 14px; height: 14px; }
+/* A part, county map or council map with its own small buttons. */
+.cn-item { display: inline-flex; align-items: center; gap: 2px; }
+.cn-iconbtn.cn-iconbtn--sm { width: 26px; height: 26px; min-width: 26px; }
+.cn-iconbtn--sm .cn-icon, .cn-iconbtn--sm svg { width: 14px; height: 14px; }
+.cn-shelf--bare { border: 0; }
 /* A map's versions, each with its own buttons. */
 .cn-vlist { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
 .cn-vlist__item { display: flex; align-items: center; gap: 8px; padding: 3px 0 3px 10px; border-left: 3px solid var(--c); }
