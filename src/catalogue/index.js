@@ -738,7 +738,7 @@ export class CatalogueNext {
       const link = this.data?.mapLinks?.[id];
       if (link?.route) return link.route;
       if (link && this.seriesById?.has(link.series)) {
-        if (link.todo) this.showTodo.add(link.series);
+        if (link.todo) return `series/${link.series}/${id}`;
         return link.map ? `series/${link.series}/${link.map}` : `series/${link.series}`;
       }
       const old = this.data?.redirects?.[id];
@@ -772,7 +772,9 @@ export class CatalogueNext {
       this.section = sectionOfKind(this.seriesById.get(a).kind);
       this.expanded.add(a);
       this.focusSeries = a;
-      if (b) this.selected.set(a, b);
+      // A map still to be added is shown in its row's list of maps to come.
+      if (b && this.seriesById.get(a).todo?.some((t) => t.id === b)) this.showTodo.add(a);
+      else if (b) this.selected.set(a, b);
       this.revealSeries(this.seriesById.get(a));
       this.scrollTarget = a;
     } else if (view === 'subject' && this.subjectById.has(a)) {
@@ -1308,7 +1310,22 @@ export class CatalogueNext {
     try { await navigator.clipboard.writeText(text); this.announce(`${what} copied`); return true; } catch { window.prompt(`Copy the ${what.toLowerCase()}:`, text); return false; }
   }
 
-  shareUrl(id) { return app()?.buildLayerShareUrl?.(id) || `${location.origin}/maps/#layers=${encodeURIComponent(id)}`; }
+  /** A map's link opens its row at that map, whatever the pane showed when it was copied (a link
+   * copied with the row closed said only cat=boundaries; Phelim Birch's review, 2026-10-11). */
+  shareUrl(id) {
+    const url = app()?.buildLayerShareUrl?.(id) || `${location.origin}/maps/#layers=${encodeURIComponent(id)}`;
+    const route = this.resolveRoute(`map/${id}`);
+    if (!route) return url;
+    try {
+      const u = new URL(url);
+      const params = new URLSearchParams(u.hash.slice(1));
+      params.set('cat', route);
+      u.hash = params.toString();
+      return u.toString();
+    } catch {
+      return url;
+    }
+  }
 
   async copyLink(id, btn) {
     await this.copyText(this.shareUrl(id), 'Link');

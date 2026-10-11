@@ -27,7 +27,10 @@ const INITIAL = (() => {
   try {
     const params = new URLSearchParams(hash);
     const layers = (params.get('layers') || '').split(',').filter(Boolean);
-    return params.get('cat') || (layers.length === 1 ? `map/${layers[0]}` : '');
+    const cat = params.get('cat') || '';
+    // One map and at most a section (a link copied before links named their row): the map's row.
+    if (layers.length === 1 && /^(maps|boundaries|places|statistics|historic)?$/.test(cat)) return `map/${layers[0]}`;
+    return cat;
   } catch { return ''; }
 })();
 export const initialCatalogueRoute = () => INITIAL;

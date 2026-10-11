@@ -656,3 +656,16 @@ test('N21 links to maps without a row: to be added, hidden, and results listed u
   await open(page, 'layers=oda-map-00154-local-election-results-2014-roscommon', { shelves: 'closed' });
   await expect.poll(() => route(page)).toBe('elections/irish-local');
 });
+
+test('N22 a copied map link opens its row, even one that named only the section', async ({ page }) => {
+  // Phelim Birch's link (2026-10-11), copied while the row was closed: it says only cat=boundaries.
+  await open(page, 'layers=eds-2019&lng=-8.05000&lat=53.50197&zoom=5.86&cat=boundaries', { shelves: 'closed' });
+  const ed = row(page, 'electoral-divisions-electoral-divisions');
+  await expect(ed.locator('[data-cn-expand]')).toHaveAttribute('aria-expanded', 'true');
+  await expect(ed.locator('.cn-tick[aria-label="2019"]')).toHaveAttribute('aria-pressed', 'true');
+  await expect(ed).toBeInViewport();
+  // "Copy link" now names the row and edition, whatever the pane is showing.
+  await pane(page).locator('[data-cn-tab="historic"]').click();
+  const link = await page.evaluate(() => window.uiController._catalogueNext.shareUrl('eds-1986'));
+  expect(new URLSearchParams(new URL(link).hash.slice(1)).get('cat')).toBe('series/electoral-divisions-electoral-divisions/eds-1986');
+});
