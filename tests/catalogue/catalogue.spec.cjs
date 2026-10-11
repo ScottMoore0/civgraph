@@ -23,7 +23,9 @@ const loaded = (page) => page.evaluate(() => window.__civgraphTest2.app.getLoade
 
 // Shelves start closed; most tests work inside them, so they start with every shelf open
 // (as a reader who had opened them this session) unless a test asks for the default.
-const SHELF_IDS = [...catalogue.shelves.map((s) => s.id), 'environment'];
+const ELECTION_SHELVES = ['dail', 'westminster', 'ni-devolved', 'ni-local', 'irish-local', 'european', 'referendum', 'presidential'];
+const SHELF_IDS = [...catalogue.shelves.map((s) => s.id), 'environment', ...ELECTION_SHELVES.map((g) => `e-${g}`)];
+const generals = catalogue.elections.filter((e) => e.kind !== 'by-election');
 async function open(page, hash = '', { shelves = 'open' } = {}) {
   const errors = [];
   page.on('pageerror', (e) => errors.push(String(e)));
@@ -242,13 +244,13 @@ test('C13 the contents panel jumps to any shelf or subject', async ({ page }) =>
   await expect(pane(page).locator('.cn-jump')).toHaveCount(0);
 });
 
-test('C14 elections by decade, with thumbnails, open in one click and link to their results', async ({ page }) => {
+test('C14 elections on a shelf per body, with thumbnails, open in one click and link to their results', async ({ page }) => {
   await open(page, 'cat=elections');
   const first = pane(page).locator('.cn-erow').first();
   await expect(first.locator('.catalogue-flat__toc-thumbwrap')).toHaveCount(1);
   await expect.poll(() => first.locator('img.catalogue-flat__toc-thumb').evaluate((img) => img.naturalWidth > 1)).toBe(true);
   await expect(first.locator('a.cn-iconbtn')).toHaveAttribute('href', /^\/browse\/#\/elections\/[a-z0-9-]+$/);
-  await expect(pane(page).locator('.cn-decade__head').first()).toHaveText(/\d{3}0s/);
+  await expect(pane(page).locator('.cn-shelf__name').first()).toHaveText('Dáil');
   await first.locator('[data-cn-election-toggle]').click();
   await expect.poll(() => page.evaluate(() => Boolean(window.__civgraphTest2.app.elections?.activeEntry)), { timeout: 30000 }).toBe(true);
   await expect(first.locator('[data-cn-election-toggle]')).toHaveAttribute('aria-pressed', 'true');
@@ -567,18 +569,15 @@ test('N07 with the switch off the current catalogue is unchanged', async ({ page
 test('N08 elections: grouped bodies, and where they were held', async ({ page }) => {
   await open(page, 'cat=elections');
   const devolved = ['northern-ireland-assembly', 'parliament-of-northern-ireland', 'northern-ireland-constitutional-convention', 'northern-ireland-forum-for-political-dialogue'];
-  const chip = pane(page).locator('[data-cn-filter="body"][data-value="ni-devolved"]');
-  await expect(chip).toContainText('NI Devolved');
-  await chip.click();
-  await expect(pane(page).locator('.cn-erow')).toHaveCount(catalogue.elections.filter((e) => devolved.includes(e.bodySlug)).length);
-  await expect.poll(() => route(page)).toBe('elections/ni-devolved');
-  await pane(page).locator('[data-cn-filter="body"][data-value=""]').click();
-  await expect(pane(page).locator('[data-cn-filter="body"]')).toHaveCount(9);
+  // One shelf per body group, in order; no body filter any more.
+  await expect(pane(page).locator('.cn-shelf__name')).toHaveText(['Dáil', 'Westminster', 'NI Devolved', 'NI local', 'Irish local', 'European', 'Referendum', 'Presidential']);
+  await expect(pane(page).locator('[data-cn-filter="body"]')).toHaveCount(0);
+  await expect(pane(page).locator('#cn-shelf-e-ni-devolved .cn-erow')).toHaveCount(generals.filter((e) => devolved.includes(e.bodySlug)).length);
   const ni = pane(page).locator('[data-cn-filter="escope"][data-value="Northern Ireland"]');
   await ni.click();
-  await expect(pane(page).locator('.cn-erow')).toHaveCount(catalogue.elections.filter((e) => e.scope === 'Northern Ireland').length);
+  await expect(pane(page).locator('.cn-erow')).toHaveCount(generals.filter((e) => e.scope === 'Northern Ireland').length);
   await ni.click();
-  await expect(pane(page).locator('.cn-erow')).toHaveCount(catalogue.elections.length);
+  await expect(pane(page).locator('.cn-erow')).toHaveCount(generals.length);
   await expect(pane(page).locator('.cn-jump, .cn-hist')).toHaveCount(0);
 });
 
@@ -635,7 +634,7 @@ test('N11 search finds people; their elections show where they stood and whether
   await page.reload();
   await expect(pane(page).locator('.cn-person-banner')).toContainText('Sammy Wilson', { timeout: 45000 });
   await pane(page).locator('[data-cn-act="clear-person"]').click();
-  await expect(pane(page).locator('.cn-erow')).toHaveCount(catalogue.elections.length);
+  await expect(pane(page).locator('.cn-erow')).toHaveCount(generals.length);
   await expect.poll(() => route(page)).toBe('elections');
 });
 
@@ -654,7 +653,7 @@ test('N21 links to maps without a row: to be added, hidden, and results listed u
   // Roscommon's local results files go to the Irish local elections.
   await page.goto('about:blank'); // links arrive as a fresh page load, as from Browse
   await open(page, 'layers=oda-map-00154-local-election-results-2014-roscommon', { shelves: 'closed' });
-  await expect.poll(() => route(page)).toBe('elections/irish-local');
+  await expect(pane(page).locator('#cn-shelf-e-irish-local [data-cn-shelf]')).toHaveAttribute('aria-expanded', 'true');
 });
 
 test('N22 a copied map link opens its row, even one that named only the section', async ({ page }) => {
@@ -671,4 +670,39 @@ test('N22 a copied map link opens its row, even one that named only the section'
   await pane(page).locator('[data-cn-tab="historic"]').click();
   const link = await page.evaluate(() => window.uiController._catalogueNext.shareUrl('eds-1986'));
   expect(new URLSearchParams(new URL(link).hash.slice(1)).get('cat')).toBe('series/electoral-divisions-electoral-divisions/eds-1986');
+});
+
+test('N23 elections: shelves start closed, general elections by default, by-elections one click away', async ({ page }) => {
+  await open(page, 'cat=elections', { shelves: 'closed' });
+  for (const v of await pane(page).locator('[data-cn-shelf]').evaluateAll((els) => els.map((e) => e.getAttribute('aria-expanded')))) expect(v).toBe('false');
+  await expect(pane(page).locator('[data-cn-filter="ekind"][data-value="general"]')).toHaveAttribute('aria-pressed', 'true');
+  await expect(pane(page).locator('.cn-erow')).toHaveCount(generals.length);
+  await expect(pane(page).locator('.cn-filters-toggle .cn-badge')).toHaveCount(0);
+  // The summary offers the by-elections the default leaves out.
+  const by = catalogue.elections.length - generals.length;
+  const show = pane(page).locator('.cn-summary [data-cn-filter="ekind"][data-value=""]');
+  await expect(show).toHaveText(`Show ${by.toLocaleString('en-GB')} by-elections too`);
+  await show.click();
+  await expect(pane(page).locator('.cn-erow')).toHaveCount(catalogue.elections.length);
+  // A link to a body opens its shelf.
+  await page.goto('about:blank');
+  await open(page, 'cat=elections/irish-local', { shelves: 'closed' });
+  await expect(pane(page).locator('#cn-shelf-e-irish-local [data-cn-shelf]')).toHaveAttribute('aria-expanded', 'true');
+  await expect(pane(page).locator('#cn-shelf-e-dail [data-cn-shelf]')).toHaveAttribute('aria-expanded', 'false');
+});
+
+test('N24 a county townland map downloads its own file, as every part does', async ({ page }) => {
+  await open(page);
+  const wrong = await page.evaluate(() => {
+    const c = window.uiController._catalogueNext;
+    const out = [];
+    for (const s of c.data.series) for (const m of s.members) for (const x of [...(c.rec(m.id).parts || []), ...(c.rec(m.id).counties || [])]) {
+      const f = c.full(x.id);
+      const own = f?.files?.fgb;
+      const url = f && (f.downloads?.fgb || f.files?.fgb || f.sourceFile);
+      if (own && url !== own) out.push(x.id);
+    }
+    return out;
+  });
+  expect(wrong).toEqual([]);
 });

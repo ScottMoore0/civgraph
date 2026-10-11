@@ -29,7 +29,7 @@ import { openMenu, closeMenu } from './menu.js';
 import { decadeDomain, binCounts, indexOf, updateSlider, stepYear } from './slider.js';
 import * as MapsView from './view-maps.js';
 import * as ElectionsView from './view-elections.js';
-import { BODY_GROUPS, groupOfBody, decadesOf } from './view-elections.js';
+import { BODY_GROUPS, groupOfBody, shelvesOf } from './view-elections.js';
 import * as BooksView from './view-books.js';
 
 const DATA_URL = '/data/catalogue/catalogue.json';
@@ -37,7 +37,7 @@ const PLACES_URL = '/data/catalogue/places.json';
 const PEOPLE_URL = '/data/catalogue/people.json';
 const STORE = 'civgraph.catalogueNext.v2';
 const BLANK_FILTERS = { scope: '', kind: '', from: null, to: null, onMap: false, undated: false };
-const BLANK_EFILTERS = { body: '', ekind: '', escope: '', from: null, to: null };
+const BLANK_EFILTERS = { body: '', ekind: 'general', escope: '', from: null, to: null };
 
 const app = () => (typeof window !== 'undefined' ? window.__civgraphTest2?.app : null);
 const readStore = () => { try { return JSON.parse(sessionStorage.getItem(STORE)) || {}; } catch { return {}; } };
@@ -70,7 +70,10 @@ export class CatalogueNext {
     delete this.filters.toAdd;
     // The kind is the section now, not a filter.
     this.filters.kind = '';
-    this.efilters = { ...BLANK_EFILTERS, ...(saved.efilters || {}) };
+    // Before v3 an empty kind was the default (All); General elections are now.
+    const efilters = { ...(saved.efilters || {}) };
+    if ((saved.v || 0) < 3) delete efilters.ekind;
+    this.efilters = { ...BLANK_EFILTERS, ...efilters, body: '' };
     this.opened = new Set(saved.opened || []);
     this.filtersOpen = false;
     this.expanded = new Set();
@@ -272,14 +275,6 @@ export class CatalogueNext {
       const on = g === 'onMap' ? Boolean(f[g]) : (f[g] || '') === (b.dataset.value || '');
       b.setAttribute('aria-pressed', String(on));
     });
-    if (key === 'elections') {
-      const counts = this.electionBodyCounts();
-      bar.querySelectorAll('[data-cn-filter="body"]').forEach((b) => {
-        const n = b.dataset.value ? counts[b.dataset.value] || 0 : counts.all;
-        const el = b.querySelector('.cn-count');
-        if (el) el.textContent = n.toLocaleString('en-GB');
-      });
-    }
     const { i, j, narrowed } = this.yearRange(key);
     const bins = key === 'maps' ? this.mapBins : this.electionBins;
     updateSlider(bar.querySelector('[data-cn-slider]'), bins, i, j, this.yearState(key));
@@ -471,7 +466,7 @@ export class CatalogueNext {
     const f = key === 'maps' ? this.filters : this.efilters;
     const n = key === 'maps'
       ? [f.scope, f.kind, f.onMap].filter(Boolean).length
-      : [f.body, f.ekind, f.escope].filter(Boolean).length;
+      : [f.ekind !== 'general', f.escope].filter(Boolean).length;
     return n + (this.yearRange(key).narrowed ? 1 : 0);
   }
 
@@ -532,12 +527,13 @@ export class CatalogueNext {
     return binCounts(this.mapBins, years);
   }
 
-  electionShown(e, { ignoreYears = false, ignoreBody = false } = {}) {
+  electionShown(e, { ignoreYears = false, ignoreKind = false } = {}) {
     const f = this.efilters;
-    if (!ignoreBody && f.body && groupOfBody(e.bodySlug) !== f.body) return false;
     if (f.escope && e.scope !== f.escope) return false;
-    if (f.ekind === 'by-election' && e.kind !== 'by-election') return false;
-    if (f.ekind === 'general' && e.kind === 'by-election') return false;
+    // A person's record is every contest they stood in, by-elections included.
+    const kind = ignoreKind || this.person ? '' : f.ekind;
+    if (kind === 'by-election' && e.kind !== 'by-election') return false;
+    if (kind === 'general' && e.kind === 'by-election') return false;
     if (!ignoreYears && !this.inYears('elections', yearOf(e.date))) return false;
     if (this.query && !this.electionHits?.has(e.key)) return false;
     if (this.person && !this.person.contests.has(e.key)) return false;
@@ -548,15 +544,9 @@ export class CatalogueNext {
 
   electionCounts() { return binCounts(this.electionBins, this.data.elections.filter((e) => this.electionShown(e, { ignoreYears: true })).map((e) => yearOf(e.date))); }
 
-  electionBodyCounts() {
-    const counts = { all: 0 };
-    for (const e of this.data.elections) {
-      if (!this.electionShown(e, { ignoreBody: true })) continue;
-      counts.all += 1;
-      const g = groupOfBody(e.bodySlug);
-      counts[g] = (counts[g] || 0) + 1;
-    }
-    return counts;
+  /** By-elections the default (general elections only) leaves out of the list as it stands. */
+  byElectionsHidden() {
+    return this.data.elections.filter((e) => e.kind === 'by-election' && this.electionShown(e, { ignoreKind: true })).length;
   }
 
   /** Where and body are one-of-several with an All; kind (maps) and where (elections) have no All:
@@ -565,12 +555,10 @@ export class CatalogueNext {
     if (group === 'scope') this.filters.scope = value;
     else if (group === 'kind') this.filters.kind = this.filters.kind === value ? '' : value;
     else if (group === 'onMap') this.filters.onMap = !this.filters.onMap;
-    else if (group === 'body') this.efilters.body = value;
     else if (group === 'ekind') this.efilters.ekind = value;
     else if (group === 'escope') this.efilters.escope = this.efilters.escope === value ? '' : value;
     this.saveStore();
     this.refreshResults();
-    if (group === 'body') this.replaceRoute();
   }
 
   clearFilters() {
@@ -583,7 +571,7 @@ export class CatalogueNext {
 
   saveStore() {
     try {
-      sessionStorage.setItem(STORE, JSON.stringify({ filters: this.filters, efilters: this.efilters, opened: [...this.opened] }));
+      sessionStorage.setItem(STORE, JSON.stringify({ v: 3, filters: this.filters, efilters: this.efilters, opened: [...this.opened] }));
     } catch { /* private mode */ }
   }
 
@@ -754,7 +742,7 @@ export class CatalogueNext {
     if (this.here) return `here/${this.here.lng.toFixed(5)}/${this.here.lat.toFixed(5)}`;
     if (this.tab === 'elections') {
       if (this.person) return `elections/person/${this.person.id}`;
-      return this.efilters.body ? `elections/${this.efilters.body}` : 'elections';
+      return 'elections';
     }
     if (this.tab === 'books') return 'books';
     if (this.focusSeries && this.expanded.has(this.focusSeries)) {
@@ -791,7 +779,9 @@ export class CatalogueNext {
     } else if (view === 'elections') {
       this.tab = 'elections';
       this.person = null;
-      if (a !== undefined) this.efilters.body = BODY_GROUPS.some((g) => g.id === a) ? a : groupOfBody(a);
+      // elections/<body>: that body's shelf, opened (the body filter it once set is gone).
+      const g = a && (BODY_GROUPS.some((x) => x.id === a) ? a : groupOfBody(a));
+      if (g) { this.opened.add(`e-${g}`); this.scrollTarget = `shelf:e-${g}`; }
     } else if (view === 'books') {
       this.tab = 'books';
     } else if (KIND_OF_SECTION[view]) {
@@ -847,9 +837,9 @@ export class CatalogueNext {
     const t = this.scrollTarget;
     this.scrollTarget = null;
     if (!t || !this.root) return;
-    const el = t.startsWith('subject:')
-      ? this.root.querySelector(`[data-cn-subject="${cssId(t.slice(8))}"]`)
-      : this.root.querySelector(`[data-cn-series="${cssId(t)}"]`);
+    const el = t.startsWith('subject:') ? this.root.querySelector(`[data-cn-subject="${cssId(t.slice(8))}"]`)
+      : t.startsWith('shelf:') ? this.root.querySelector(`#cn-shelf-${cssId(t.slice(6))}`)
+        : this.root.querySelector(`[data-cn-series="${cssId(t)}"]`);
     if (!el) return;
     el.scrollIntoView({ block: 'start' });
     // The section tabs stick to the top of the pane: start the row just below them, not under them.
@@ -866,7 +856,7 @@ export class CatalogueNext {
     let el;
     if ((el = b('[data-cn-tab]'))) {
       e.preventDefault();
-      if (el.dataset.cnTab !== this.openSection || this.here) this.go(el.dataset.cnTab === 'elections' ? `elections${this.efilters.body ? `/${this.efilters.body}` : ''}` : el.dataset.cnTab);
+      if (el.dataset.cnTab !== this.openSection || this.here) this.go(el.dataset.cnTab);
       return;
     }
     if ((el = b('[data-cn-toggle]'))) { e.preventDefault(); this.toggleMap(el.dataset.cnToggle, el); return; }
@@ -1122,7 +1112,7 @@ export class CatalogueNext {
   /** Each section of the open tab: { id (an element's id), label, count, level, icon, colour }. */
   sections() {
     if (this.tab === 'elections') {
-      return [...decadesOf(this.visibleElections()).entries()].map(([d, es]) => ({ id: `cn-decade-${d}`, label: `${d}s`, count: es.length, level: 1 }));
+      return shelvesOf(this.visibleElections()).map(({ g, es }) => ({ id: `cn-shelf-e-${g.id}`, label: g.label, count: es.length, level: 1, icon: g.icon, colour: g.colour }));
     }
     if (this.tab === 'books') {
       const all = this.books?.books || [];
@@ -1230,7 +1220,7 @@ export class CatalogueNext {
     const toggle = shelf?.querySelector('[data-cn-shelf][aria-expanded="false"]');
     if (toggle) this.toggleShelf(toggle);
     el.scrollIntoView({ block: 'start' });
-    const focusTarget = el.querySelector('[data-cn-shelf], .cn-subject__head, .cn-decade__head, .category-section__title');
+    const focusTarget = el.querySelector('[data-cn-shelf], .cn-subject__head, .category-section__title');
     if (focusTarget) {
       if (!focusTarget.matches('button')) focusTarget.tabIndex = -1;
       focusTarget.focus({ preventScroll: true });

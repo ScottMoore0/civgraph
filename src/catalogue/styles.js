@@ -269,8 +269,6 @@ export const CATALOGUE_CSS = `
 .cn-person-note { color: var(--cn-text); }
 
 /* Elections */
-.cn-decade { margin: 0 0 12px; scroll-margin-top: calc(var(--cn-sticky) + 62px); }
-.cn-decade__head { display: flex; align-items: baseline; gap: 8px; margin: 8px 6px 6px; font-family: var(--font-display, inherit); font-size: 16px; font-weight: 800; }
 .cn-erow { display: grid; grid-template-columns: 40px 92px minmax(0, 1fr) auto; column-gap: 10px; align-items: center; padding: 7px 8px; border-top: 1px solid var(--cn-line); }
 .cn-erow:first-child { border-top: 0; }
 .cn-erow--on { box-shadow: inset 4px 0 0 #0b8a6a; }

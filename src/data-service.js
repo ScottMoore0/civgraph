@@ -190,6 +190,9 @@ class DataService {
             ...map,
             ...variant,
             parentId: map.id,
+            // A part with a file of its own downloads that file, not its parent's whole-map
+            // download (Phelim Birch, 2026-10-11: a county townland map gave the all-island file).
+            downloads: variant.downloads || (variant.files?.fgb || variant.sourceFile ? undefined : map.downloads),
             style: variant.style || map.style,
             labelProperty: variant.labelProperty || map.labelProperty,
             priorityProperty: variant.priorityProperty || map.priorityProperty,
