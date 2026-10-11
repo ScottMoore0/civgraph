@@ -638,3 +638,21 @@ test('N11 search finds people; their elections show where they stood and whether
   await expect(pane(page).locator('.cn-erow')).toHaveCount(catalogue.elections.length);
   await expect.poll(() => route(page)).toBe('elections');
 });
+
+test('N21 links to maps without a row: to be added, hidden, and results listed under Elections', async ({ page }) => {
+  // A map still to be added opens its row with the maps to come showing.
+  await open(page, 'layers=admin-areas-1924-04-01', { shelves: 'closed' });
+  const admin = row(page, 'local-government-administrative-areas');
+  await expect(admin.locator('[data-cn-expand]')).toHaveAttribute('aria-expanded', 'true');
+  await expect(admin.locator('[data-cn-todo]')).toHaveAttribute('aria-pressed', 'true');
+  await expect(admin).toBeVisible();
+  // A hidden part opens the row of the map it belongs to.
+  await page.goto('about:blank'); // links arrive as a fresh page load, as from Browse
+  await open(page, 'layers=pc-1884', { shelves: 'closed' });
+  await expect.poll(() => route(page)).toBe('series/constituencies-parliamentary-constituencies/pc-1885-ireland');
+  await expect(row(page, 'constituencies-parliamentary-constituencies')).toBeVisible();
+  // Roscommon's local results files go to the Irish local elections.
+  await page.goto('about:blank'); // links arrive as a fresh page load, as from Browse
+  await open(page, 'layers=oda-map-00154-local-election-results-2014-roscommon', { shelves: 'closed' });
+  await expect.poll(() => route(page)).toBe('elections/irish-local');
+});

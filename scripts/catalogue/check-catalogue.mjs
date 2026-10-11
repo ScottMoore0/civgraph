@@ -73,6 +73,8 @@ const hiddenIds = new Set((source.hidden || []).map((h) => h.id));
 for (const h of source.hidden || []) {
   if (!mapById.has(h.id)) fail(`hidden names map ${h.id}, which the site does not define`);
   if (!h.why) fail(`hidden map ${h.id} gives no reason`);
+  if (h.route && !/^elections(\/[a-z-]+)?$/.test(h.route)) fail(`hidden map ${h.id} sends its links to "${h.route}", which is not an elections view`);
+  if (h.to && !mapById.has(h.to) && !source.series.some((s) => s.id === h.to)) fail(`hidden map ${h.id} sends its links to ${h.to}, which is neither a map nor a series`);
 }
 const placed = new Map();
 const place = (mapId, where) => {

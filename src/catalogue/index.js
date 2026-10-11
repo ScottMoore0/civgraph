@@ -731,9 +731,18 @@ export class CatalogueNext {
     const [view, id] = route.split('/');
     // A link to one map or set (Browse's "open on the map"): the row it is in, opened at it.
     if (view === 'map') {
-      const sid = this.seriesOfMap?.get(id) || this.data?.redirects?.[id];
-      if (!sid || !this.seriesById?.has(sid)) return '';
-      return this.seriesById.get(sid).members.some((m) => m.id === id) ? `series/${sid}/${id}` : `series/${sid}`;
+      const sid = this.seriesOfMap?.get(id);
+      if (sid && this.seriesById?.has(sid)) return this.seriesById.get(sid).members.some((m) => m.id === id) ? `series/${sid}/${id}` : `series/${sid}`;
+      // A map to be added opens its row with the maps to come showing; a hidden map, the row of
+      // the map it belongs to (built into mapLinks).
+      const link = this.data?.mapLinks?.[id];
+      if (link?.route) return link.route;
+      if (link && this.seriesById?.has(link.series)) {
+        if (link.todo) this.showTodo.add(link.series);
+        return link.map ? `series/${link.series}/${link.map}` : `series/${link.series}`;
+      }
+      const old = this.data?.redirects?.[id];
+      return old && this.seriesById?.has(old) ? `series/${old}` : '';
     }
     if (view === 'series' && !this.seriesById?.has(id)) return 'maps';
     if (view === 'subject' && !this.subjectById?.has(id)) return 'maps';

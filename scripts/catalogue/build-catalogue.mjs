@@ -443,6 +443,33 @@ const peopleDoc = (() => {
   return { schemaVersion: 1, parties, constituencies, people };
 })();
 
+// ------------------------------------------------------------------ links to maps without a row
+// A link to one map (Browse's "open on the map", #layers=<id>) opens that map's row. A map still
+// to be added opens its row with the maps to come showing; a hidden map opens the row of the map
+// it is part of, a version of or the source of (or the row its `hidden` entry names in `to`, or
+// the catalogue view in `route`: Roscommon's local results go to the Irish local elections).
+const mapLinks = {};
+const rowOfMap = new Map();
+for (const s of seriesOut) for (const m of [...s.members, ...(s.local || [])]) rowOfMap.set(m.id, { series: s.id, map: m.id });
+for (const s of seriesOut) for (const m of s.members) {
+  for (const p of [...(out.maps[m.id]?.parts || []), ...(out.maps[m.id]?.counties || [])]) if (!rowOfMap.has(p.id)) rowOfMap.set(p.id, { series: s.id, map: m.id });
+}
+for (const s of seriesOut) for (const t of s.todo || []) mapLinks[t.id] = { series: s.id, todo: true };
+const holderOf = (id) => {
+  for (const [pid, m] of mapById) {
+    if (pid !== id && ((m.variants || []).some((v) => v.id === id) || (partsOf.get(pid) || []).some((p) => p.id === id)) && rowOfMap.has(pid)) return rowOfMap.get(pid);
+  }
+  const own = mapById.get(id);
+  for (const k of [own?.parentId, own?.cloneOf, own?.aliasOf]) if (k && rowOfMap.has(k)) return rowOfMap.get(k);
+  for (const s of source.series) for (const [main, from] of Object.entries(s.countiesFrom || {})) if (from === id && rowOfMap.has(main)) return rowOfMap.get(main);
+  return null;
+};
+for (const h of source.hidden || []) {
+  const to = h.to ? (rowOfMap.get(h.to) || (seriesOut.some((s) => s.id === h.to) ? { series: h.to } : null)) : holderOf(h.id);
+  if (h.route) mapLinks[h.id] = { route: h.route };
+  else if (to) mapLinks[h.id] = to;
+}
+
 // ------------------------------------------------------------------ write
 const catalogue = {
   schemaVersion: 1,
@@ -455,6 +482,7 @@ const catalogue = {
   electionBodies: bodies,
   contestIndex,
   redirects,
+  mapLinks,
 };
 const placesDoc = { schemaVersion: 1, maps: placeMaps, places };
 const files = [['data/catalogue/catalogue.json', catalogue], ['data/catalogue/places.json', placesDoc]];
