@@ -265,6 +265,8 @@ for (const s of source.series) {
   for (const m of members) if (s.versionLabels?.[m.id]) m.version = s.versionLabels[m.id];
   // A label the curator gives (catalogue.source.json `labels`) wins over a derived one.
   for (const m of members) if (s.labels?.[m.id]) m.label = s.labels[m.id];
+  // A row's own note on one of its maps (why 2001 Wards sit with the census areas).
+  for (const [id, note] of Object.entries(s.notes || {})) if (out.maps[id]) out.maps[id].note = note;
   for (const m of members) if (!out.maps[m.id].unit) out.maps[m.id].unit = unitFor(s, m.id, m.label);
   const entry = {
     id: s.id,

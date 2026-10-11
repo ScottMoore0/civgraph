@@ -197,7 +197,7 @@ export function chipHtml(c, s, m, { hit = false, out = false, label = m.label } 
   const r = c.rec(m.id);
   const col = colourOf(c, s, m.id);
   const versions = s.members.filter((x) => x.of === m.id).length;
-  const tip = [c.mapSummary(m.id), r.status === 'incomplete' ? 'incomplete' : ''].filter(Boolean).join(' · ');
+  const tip = [[c.mapSummary(m.id), r.status === 'incomplete' ? 'incomplete' : ''].filter(Boolean).join(' · '), r.note].filter(Boolean).join('\n');
   if (r.status === 'placeholder') {
     return `<span class="cn-chip cn-chip--todo" title="${esc(tip)}: to be added, not yet on the map"><span class="cn-chip__dot" aria-hidden="true"></span><span class="cn-chip__label">${esc(label)}</span></span>`;
   }

@@ -165,6 +165,14 @@ for (const s of source.series) {
   for (const id of Object.keys(s.versionLabels || {})) {
     if (!s.members.includes(id) || s.variantOf?.[id]) fail(`series ${s.id} gives a version label to ${id}, which is not one of its main maps`);
   }
+  // A main map with other versions says how it differs ("Ungeneralised (CSO)"), or the pane
+  // could only call it "<row name> (main)" (Phelim Birch's review, 2026-10-11).
+  for (const main of new Set(Object.values(s.variantOf || {}))) {
+    if (!s.versionLabels?.[main]) fail(`series ${s.id}: ${main} has other versions but no versionLabels entry saying how it differs from them`);
+  }
+  for (const id of Object.keys(s.notes || {})) {
+    if (!s.members.includes(id) && !(s.local || []).includes(id)) fail(`series ${s.id} has a note on ${id}, which is not one of its maps`);
+  }
 }
 for (const sub of source.subjects) if (sub.seriesKind && !KINDS.has(sub.seriesKind)) fail(`subject ${sub.id} has seriesKind "${sub.seriesKind}"`);
 

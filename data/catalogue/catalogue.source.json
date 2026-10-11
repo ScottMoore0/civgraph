@@ -1169,15 +1169,16 @@
     "lgd-2012",
     "lgd-1993",
     "osni-open-data-50k-boundaries-local-government-districts-1993",
-    "osni-open-data-largescale-boundaries-local-government-districts-1993",
     "lgd-1984",
     "lgd-1972"
    ],
    "variantOf": {
-    "osni-open-data-50k-boundaries-local-government-districts-1993": "lgd-1993",
-    "osni-open-data-largescale-boundaries-local-government-districts-1993": "lgd-1993"
+    "osni-open-data-50k-boundaries-local-government-districts-1993": "lgd-1993"
    },
-   "kind": "Boundary"
+   "kind": "Boundary",
+   "versionLabels": {
+    "lgd-1993": "OSNI Largescale"
+   }
   },
   {
    "id": "electoral-divisions-wards",
@@ -1962,6 +1963,9 @@
    "unit": "Areas",
    "units": {
     "tailte-gaeltacht-language-planning-area-boundaries-generalised-20m": "Language Planning Areas"
+   },
+   "versionLabels": {
+    "roi-gaeltacht-areas": "Ungeneralised (CSO)"
    }
   },
   {
@@ -3001,12 +3005,15 @@
    "labels": {
     "sdz-2021": "2021 Super Data Zones",
     "soa-2011": "2011 Super Output Areas",
-    "wards-2001": "2001 Wards (the 1993 wards)"
+    "wards-2001": "2001 Wards"
    },
    "units": {
     "sdz-2021": "Super Data Zones",
     "soa-2011": "Super Output Areas",
     "wards-2001": "Wards"
+   },
+   "notes": {
+    "wards-2001": "In the 2001 Census NISRA used the 1993 wards as its larger census areas, the role Super Output Areas played in 2011 and Super Data Zones in 2021. Same map as Wards 1993."
    }
   },
   {
@@ -4568,6 +4575,26 @@
   {
    "id": "hed-industrial-heritage",
    "why": "Phelim Birch / user, 2026-10-10: the same records as ni-industrial-heritage (same feature count; files differ by 8 bytes). The OpenDataNI copy, with its downloads and source link, is kept."
+  },
+  {
+   "id": "pc-1884",
+   "why": "User's decision, 2026-10-11: the pre-partition Westminster maps show as one all-island map, not split into parts."
+  },
+  {
+   "id": "pc-1885-26-counties",
+   "why": "User's decision, 2026-10-11: the pre-partition Westminster maps show as one all-island map, not split into parts."
+  },
+  {
+   "id": "pc-1918",
+   "why": "User's decision, 2026-10-11: the pre-partition Westminster maps show as one all-island map, not split into parts."
+  },
+  {
+   "id": "pc-1918-26-counties",
+   "why": "User's decision, 2026-10-11: the pre-partition Westminster maps show as one all-island map, not split into parts."
+  },
+  {
+   "id": "osni-open-data-largescale-boundaries-local-government-districts-1993",
+   "why": "Phelim Birch's review, 2026-10-11: the same OSNI Largescale data as lgd-1993, which the row shows as 'OSNI Largescale'."
   }
  ],
  "signedOff": [

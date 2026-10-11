@@ -490,6 +490,18 @@ test('N20 placeholders, transport order, constituency hovers and dates', async (
   expect(catalogue.maps['fingal-polling-station-data'].years).toEqual([2011, 2016]);
   const g = catalogue.series.find((s) => s.id === 'language-and-gaeltacht-gaeltacht-areas');
   expect(g.members.find((m) => m.id === 'tailte-gaeltacht-boundaries-generalised-20m').of).toBe('roi-gaeltacht-areas');
+  // Every main map with other versions says how it differs: none is "<row> (main)".
+  for (const s of catalogue.series) for (const m of s.members) if (s.members.some((v) => v.of === m.id)) expect(m.version, `${s.id} ${m.id}`).toBeTruthy();
+  // Pre-partition Westminster maps are one all-island map each, with no parts.
+  expect(catalogue.maps['pc-1885-ireland'].parts).toBeUndefined();
+  expect(catalogue.maps['pc-1918-ireland'].parts).toBeUndefined();
+  // 2001 Wards keep their place among the census areas, with a note saying why.
+  const ward01 = row(page, 'census-super-output-area').locator('.cn-chips [data-cn-toggle="wards-2001"]');
+  await pane(page).locator('[data-cn-tab="boundaries"]').click();
+  const more = row(page, 'census-super-output-area').locator('[data-cn-more]');
+  if (await more.count()) await more.click();
+  await expect(ward01).toHaveText(/2001 Wards/);
+  expect(await ward01.getAttribute('title')).toContain('Same map as Wards 1993');
 });
 
 test('N02 every view has an address; Back and Forward move between them', async ({ page }) => {
