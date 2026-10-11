@@ -15,7 +15,8 @@ export function catalogueNextRequested() {
 }
 
 /**
- * The catalogue view the page was opened at (#...&cat=<route>, or an old #flat-card-<id> link),
+ * The catalogue view the page was opened at (#...&cat=<route>, or an old #flat-card-<id> link, or
+ * a link that opens one map or set, #layers=<id>, as Browse's links do: its row),
  * read when this module first runs: the app rewrites the address while it starts, before the
  * catalogue's own code has loaded, so the catalogue cannot read it from the address itself.
  */
@@ -23,6 +24,10 @@ const INITIAL = (() => {
   if (typeof window === 'undefined') return '';
   const hash = String(window.location.hash || '').replace(/^#/, '');
   if (hash.startsWith('flat-card-')) return hash;
-  try { return new URLSearchParams(hash).get('cat') || ''; } catch { return ''; }
+  try {
+    const params = new URLSearchParams(hash);
+    const layers = (params.get('layers') || '').split(',').filter(Boolean);
+    return params.get('cat') || (layers.length === 1 ? `map/${layers[0]}` : '');
+  } catch { return ''; }
 })();
 export const initialCatalogueRoute = () => INITIAL;

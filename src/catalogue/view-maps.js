@@ -4,7 +4,7 @@
  * its actions; maps still to be added show on request, row by row. Rendering only: the controller
  * (index.js) owns state and behaviour, and is passed in as `c`.
  */
-import { icon, SHELF_LOOK } from './icons.js';
+import { icon, SHELF_LOOK, FLAT_SECTIONS } from './icons.js';
 import { esc, plural, span, inkOn, longDate, SCOPE_SHORT } from './util.js';
 import { sliderHtml } from './slider.js';
 import { PeopleSearch } from './search.js';
@@ -28,6 +28,7 @@ export function toolbarHtml(c) {
       ${sliderHtml('maps', c.mapBins, i, j, c.yearState('maps'))}
       <label class="cn-check" data-cn-undated-wrap${c.yearRange('maps').narrowed ? '' : ' hidden'}><input type="checkbox" id="cn-undated" data-cn-undated${c.filters.undated ? ' checked' : ''}> Include undated maps</label>
     </div>
+    <p class="cn-key"><span class="cn-key__item"><span class="cn-chip__dot cn-chip__dot--part" aria-hidden="true"></span>Incomplete: some areas not yet drawn</span><span class="cn-key__item"><span class="cn-chip__dot cn-chip__dot--todo" aria-hidden="true"></span>To be added</span></p>
   </div>`;
 }
 
@@ -44,37 +45,46 @@ export function resultsHtml(c) {
   return `<div data-cn-extras>${c.query ? extrasHtml(c) : ''}</div>
     ${summary ? `<p class="cn-summary" role="status">${summary}</p>` : ''}
     ${empty}
-    ${shelves.map((x) => shelfHtml(c, x)).join('')}`;
+    ${shelves.map((x) => shelfHtml(c, x, shelves.length === 1)).join('')}`;
 }
 
 const SHELF_NAME_IN = { boundaries: { 'people-and-places': 'Census & Statistical Areas' } };
 
-function shelfHtml(c, { sh, subjects, count }) {
+function shelfHtml(c, { sh, subjects, count }, alone = false) {
   const [ic, col] = SHELF_LOOK[sh.id] || ['map', FALLBACK];
-  if (c.section === 'statistics') {
-    return `<section class="cn-shelf cn-shelf--bare" id="cn-shelf-${esc(sh.id)}" data-cn-section="${esc(sh.id)}">${flatHtml(c, subjects)}</section>`;
+  if (FLAT_SECTIONS.has(c.section)) {
+    return `<section class="cn-shelf cn-shelf--bare" id="cn-shelf-${esc(sh.id)}" data-cn-section="${esc(sh.id)}">${flatHtml(c, subjects, sh)}</section>`;
   }
   sh = { ...sh, name: SHELF_NAME_IN[c.section]?.[sh.id] || sh.name };
-  const open = !c.collapsed.has(sh.id) || Boolean(c.query);
+  // Shelves start closed (Phelim Birch's review, 2026-10-11); a search, or a section with one
+  // shelf, opens them.
+  const open = c.opened.has(sh.id) || Boolean(c.query) || alone;
   return `<section class="cn-shelf" id="cn-shelf-${esc(sh.id)}" data-cn-section="${esc(sh.id)}" style="--shelf:${col}" aria-labelledby="cn-shelf-h-${esc(sh.id)}">
     <h3 class="cn-shelf__head" id="cn-shelf-h-${esc(sh.id)}"><button type="button" class="cn-shelf__toggle" data-cn-shelf="${esc(sh.id)}" aria-expanded="${open}">
       <span class="cn-shelf__icon">${icon(ic)}</span><span class="cn-shelf__name">${esc(sh.name)}</span><span class="cn-count">${plural(count, 'series', 'series')}</span>${icon('chevron-down', 'cn-icon cn-shelf__chev')}</button></h3>
     <div class="cn-shelf__body"${open ? '' : ' hidden'}>
-      ${sh.flat ? flatHtml(c, subjects) : subjects.map((x) => subjectHtml(c, x)).join('')}
+      ${sh.flat ? flatHtml(c, subjects, sh) : subjects.map((x) => subjectHtml(c, x, subjects.length > 1)).join('')}
     </div>
   </section>`;
 }
 
 /** A small section lists its series straight, without the subheadings a large one needs. */
-function flatHtml(c, subjects) {
+function flatHtml(c, subjects, sh = {}) {
+  // A shelf may send some rows to the end (Transport: collisions and road defects after every
+  // route and network), whichever subject they sit in.
+  const last = sh.last || [];
+  const rows = subjects.flatMap((x) => x.series);
+  const ordered = c.query ? rows : [...rows.filter((s) => !last.includes(s.id)), ...last.map((id) => rows.find((s) => s.id === id)).filter(Boolean)];
   return `<div class="cn-subject cn-subject--flat">
-    <ul class="cn-list" role="list">${subjects.flatMap((x) => x.series).map((s) => seriesRowHtml(c, s)).join('')}</ul>
+    <ul class="cn-list" role="list">${ordered.map((s) => seriesRowHtml(c, s)).join('')}</ul>
   </div>`;
 }
 
-function subjectHtml(c, { sub, series }) {
+function subjectHtml(c, { sub, series }, heading = true) {
+  // A shelf showing one subject (Elections & Representation under Places & routes: only
+  // "Current") needs no heading for it.
   return `<div class="cn-subject" id="cn-subject-${esc(sub.id)}" data-cn-subject="${esc(sub.id)}">
-    <h4 class="cn-subject__head">${esc(sub.name)} <span class="cn-count">${series.length}</span></h4>
+    ${heading ? `<h4 class="cn-subject__head">${esc(sub.name)} <span class="cn-count">${series.length}</span></h4>` : ''}
     <ul class="cn-list" role="list">${series.map((s) => seriesRowHtml(c, s)).join('')}</ul>
   </div>`;
 }
@@ -96,7 +106,8 @@ export function seriesRowHtml(c, s, hit = c.hitFor(s)) {
     versions ? plural(versions, 'other version') : '',
     local.length ? plural(local.length, 'council map') : '',
   ].filter(Boolean);
-  if (!drawable) meta.push('<span class="cn-badge cn-badge--todo">To be added</span>');
+  const allTodo = !drawable || s.members.every((m) => c.rec(m.id).status === 'placeholder');
+  if (allTodo) meta.push('<span class="cn-badge cn-badge--todo">To be added</span>');
   else if (s.status?.incomplete) meta.push('<span class="cn-badge cn-badge--warn">Incomplete</span>');
   // A row of census figures says which areas they are counted by ("by Ward 2014").
   const by = s.kind === 'Statistics' && single ? /\bby ([^,)]+)\)?\s*$/.exec(c.rec(s.members[0].id).name || '')?.[1] : '';
@@ -154,10 +165,12 @@ function chipsHtml(c, s, editions, hit) {
   // "Show fewer" goes back to the short list.
   const ordered = hits.size ? [...editions.filter((m) => hits.has(m.id)), ...editions.filter((m) => !hits.has(m.id))] : editions;
   const keep = new Set();
+  const budget = c.chipBudget();
+  const cap = Math.max(9, Math.round(budget / 8));
   let used = 0;
   for (const m of ordered) {
     const w = m.label.length + 5;
-    if (keep.size >= 2 && (used + w > 70 || keep.size >= 9)) break;
+    if (keep.size >= 2 && (used + w > budget || keep.size >= cap)) break;
     keep.add(m.id);
     used += w;
   }
@@ -188,7 +201,7 @@ export function chipHtml(c, s, m, { hit = false, out = false, label = m.label } 
   if (r.status === 'placeholder') {
     return `<span class="cn-chip cn-chip--todo" title="${esc(tip)}: to be added, not yet on the map"><span class="cn-chip__dot" aria-hidden="true"></span><span class="cn-chip__label">${esc(label)}</span></span>`;
   }
-  return `<button type="button" class="cn-chip${hit ? ' cn-chip--hit' : ''}${out ? ' cn-chip--out' : ''}" data-cn-toggle="${esc(m.id)}" data-series="${esc(s.id)}" aria-pressed="false" aria-label="${esc(`${s.name}, ${label}`)}" title="${esc(tip)}" style="--c:${col};--on:${inkOn(col)}"><span class="cn-chip__dot" aria-hidden="true"></span>${icon('check', 'cn-icon cn-chip__check')}<span class="cn-chip__label">${esc(label)}</span>${versions ? `<span class="cn-chip__more" aria-hidden="true">+${versions}</span>` : ''}</button>`;
+  return `<button type="button" class="cn-chip${hit ? ' cn-chip--hit' : ''}${out ? ' cn-chip--out' : ''}${r.status === 'incomplete' ? ' cn-chip--part' : ''}" data-cn-toggle="${esc(m.id)}" data-series="${esc(s.id)}" aria-pressed="false" aria-label="${esc(`${s.name}, ${label}`)}" title="${esc(tip)}" style="--c:${col};--on:${inkOn(col)}"><span class="cn-chip__dot" aria-hidden="true"></span>${icon('check', 'cn-icon cn-chip__check')}<span class="cn-chip__label">${esc(label)}</span>${versions ? `<span class="cn-chip__more" aria-hidden="true">+${versions}</span>` : ''}</button>`;
 }
 
 /** The opened row: timeline or list, then the chosen edition's facts and every action. */
@@ -216,11 +229,13 @@ function timelineHtml(c, s, dated, sel) {
   const min = pts[0].t;
   const max = pts[pts.length - 1].t;
   const width = Math.max(240, pts.length * 46);
+  // Labels are thinned to fit the track as drawn: at least its minimum, wider in a wider pane.
+  const drawn = Math.max(width, (c.paneWidth || 0) - 120);
   const selBase = sel.of || sel.id;
   let last = -Infinity;
   const ticks = pts.map(({ m, t }) => {
     const pct = max === min ? 50 : ((t - min) / (max - min)) * 100;
-    const px = (pct / 100) * width;
+    const px = (pct / 100) * drawn;
     const show = px - last >= 40 || m.id === selBase;
     if (show) last = px;
     const label = m.label.length <= 6 ? m.label : String(Math.floor(t));

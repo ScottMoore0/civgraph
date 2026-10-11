@@ -95,6 +95,10 @@ for (const s of source.series) {
   for (const m of s.members || []) place(m, `series ${s.id}`);
   for (const m of s.toBeAdded || []) place(m, `series ${s.id} (to be added)`);
   for (const m of s.local || []) place(m, `series ${s.id} (local)`);
+  for (const [m, more] of Object.entries(s.moreYears || {})) {
+    if (!s.members.includes(m)) fail(`series ${s.id} gives more years to ${m}, which is not one of its maps`);
+    if (!Array.isArray(more) || !more.every(Number.isInteger)) fail(`series ${s.id}: moreYears for ${m} must be a list of years`);
+  }
   for (const [m, of] of Object.entries(s.localOf || {})) {
     if (!(s.local || []).includes(m)) fail(`series ${s.id} gives an edition to ${m}, which is not one of its council maps`);
     if (!s.members.includes(of)) fail(`series ${s.id} ties ${m} to ${of}, which is not one of its maps`);

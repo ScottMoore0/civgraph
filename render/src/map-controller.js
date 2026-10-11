@@ -1551,6 +1551,7 @@ export class TestMapLibreController {
       if (camera) {
         const currentPitch = this.map.getPitch();
         const pitch = currentPitch < TERRAIN_AUTOTILT_THRESHOLD ? TERRAIN_LOAD_PITCH : currentPitch;
+        if (pitch !== currentPitch) this.autoTilted = true;
         this.map.easeTo({
           center: camera.center,
           zoom: camera.zoom,
@@ -1561,7 +1562,26 @@ export class TestMapLibreController {
         return;
       }
     }
+    if (!options.terrain && this.flattenAfter3d(boundsValue)) return;
     this.map.fitBounds(bounds, { padding: 36, duration: 400 });
+  }
+
+  /**
+   * The camera this controller tilted for a 3D layer goes flat again once no 3D layer is left and
+   * a flat map is shown (Phelim Birch's review, 2026-10-11); a tilt the reader chose stays. True
+   * when it eased the camera to these bounds (south-west/north-east as [lat, lng] pairs, or in
+   * MapLibre's own [lng, lat] order with `mapLibre`).
+   */
+  flattenAfter3d(boundsValue, { mapLibre = false } = {}) {
+    const is3d = (r) => r.config?.sourceType === 'raster-dem' || r.config?.sourceType === 'point-cloud';
+    if (!this.autoTilted || [...this.layers.values()].some(is3d)) return false;
+    this.autoTilted = false;
+    const bounds = mapLibre ? boundsValue : boundsToMapLibre(boundsValue);
+    if (!bounds || !(this.map.getPitch() > 0) || typeof this.map.cameraForBounds !== 'function') return false;
+    const camera = this.map.cameraForBounds(bounds, { padding: 36, bearing: 0 });
+    if (!camera) return false;
+    this.map.easeTo({ center: camera.center, zoom: camera.zoom, bearing: 0, pitch: 0, duration: 600 });
+    return true;
   }
 
   buildSource(layer) {

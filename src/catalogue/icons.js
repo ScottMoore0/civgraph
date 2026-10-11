@@ -70,7 +70,17 @@ export const SHELF_LOOK = {
   'environment-and-land-use': ['leaf', '#3e9b4f'],
   'earth-and-terrain': ['mountain', '#8c7b6b'],
   'regional-divides': ['split', '#7a8597'],
+  environment: ['leaf', '#3e9b4f'],
 };
+
+/** Shelves a section shows as one (Phelim Birch's review, 2026-10-11): Boundaries has a few rows
+ * on each of these, so they share an Environment shelf there. */
+export const MERGED_SHELVES = {
+  boundaries: { environment: { name: 'Environment', shelves: ['local-services-and-amenities', 'water', 'environment-and-land-use', 'earth-and-terrain'] } },
+};
+
+/** Sections that list their rows straight, with no shelf or subject headings. */
+export const FLAT_SECTIONS = new Set(['statistics', 'historic']);
 
 /** Book category id -> icon, as in the current pane. */
 export const BOOK_CATEGORY_ICONS = {

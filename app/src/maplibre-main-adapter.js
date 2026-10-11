@@ -948,6 +948,7 @@ export class Test2MapLibreMainAdapter {
   fitToBounds(bounds, options = {}) {
     const normalized = normalizeBounds(bounds);
     if (!normalized || !this.map) return;
+    if (this.renderer?.flattenAfter3d?.(normalized, { mapLibre: true })) return;
     this.map.fitBounds(normalized, { padding: 36, duration: options?.smooth === false ? 0 : 400, maxZoom: 14 });
   }
 

@@ -201,6 +201,11 @@ for (const s of source.series) {
   // A series spans the years of its editions, not of their versions (the NI part of the 1885
   // Westminster map is no edition of its own).
   const years = recs.filter((r) => !s.variantOf?.[r.id]).map((r) => yearOfDate(r.date)).filter(Boolean);
+  // A map drawn for more than one year (Fingal's polling stations, 2011 and 2016) is in each.
+  for (const [id, more] of Object.entries(s.moreYears || {})) {
+    out.maps[id].years = [...new Set([yearOfDate(out.maps[id].date), ...more].filter(Boolean))].sort();
+    years.push(...more);
+  }
   let slug = slugify(s.name) || s.id;
   if (slugsSeen.has(`${s.subject}/${slug}`)) slug = `${slug}-${slugify(s.scope || s.id)}`;
   slugsSeen.add(`${s.subject}/${slug}`);

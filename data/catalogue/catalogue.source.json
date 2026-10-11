@@ -63,12 +63,18 @@
    "blurb": "Getting about, by every mode.",
    "subjects": [
     "roads-and-traffic",
-    "cycling-and-walking",
     "rail-and-public-transport",
+    "cycling-and-walking",
     "air-and-sea-transport",
     "parking"
    ],
-   "flat": true
+   "flat": true,
+   "last": [
+    "roads-and-traffic-psni-road-traffic-collisions",
+    "roads-and-traffic-tii-collision-rates",
+    "roads-and-traffic-pothole-enquiries",
+    "roads-and-traffic-ni-road-surface-defects"
+   ]
   },
   {
    "id": "heritage-and-culture",
@@ -270,17 +276,17 @@
    "name": "Roads & Traffic",
    "kind": "Dataset",
    "series": [
-    "roads-and-traffic-ni-road-surface-defects",
-    "roads-and-traffic-pothole-enquiries",
-    "roads-and-traffic-psni-road-traffic-collisions",
-    "roads-and-traffic-osni-50k-transport",
-    "roads-and-traffic-road-junctions-and-interchanges",
-    "roads-and-traffic-tii-collision-rates",
+    "roads-and-traffic-road-network",
     "roads-and-traffic-way-network",
+    "roads-and-traffic-road-junctions-and-interchanges",
+    "roads-and-traffic-osni-50k-transport",
     "roads-and-traffic-traffic-signals",
-    "roads-and-traffic-tii-roadside-sensors",
     "roads-and-traffic-traffic-management-and-signs",
-    "roads-and-traffic-road-network"
+    "roads-and-traffic-tii-roadside-sensors",
+    "roads-and-traffic-psni-road-traffic-collisions",
+    "roads-and-traffic-tii-collision-rates",
+    "roads-and-traffic-pothole-enquiries",
+    "roads-and-traffic-ni-road-surface-defects"
    ],
    "toBeAdded": []
   },
@@ -289,12 +295,12 @@
    "name": "Cycling & Walking",
    "kind": "Dataset",
    "series": [
-    "cycling-and-walking-bicycle-parking-stands",
-    "cycling-and-walking-border-crossings",
-    "cycling-and-walking-pedestrian-crossings",
     "cycling-and-walking-cycle-network",
-    "cycling-and-walking-counters",
-    "cycling-and-walking-walking-routes"
+    "cycling-and-walking-walking-routes",
+    "cycling-and-walking-pedestrian-crossings",
+    "cycling-and-walking-border-crossings",
+    "cycling-and-walking-bicycle-parking-stands",
+    "cycling-and-walking-counters"
    ],
    "toBeAdded": []
   },
@@ -303,11 +309,11 @@
    "name": "Rail & Public Transport",
    "kind": "Dataset",
    "series": [
-    "rail-and-public-transport-ni-railways-infrastructure",
     "rail-and-public-transport-rail-network",
-    "rail-and-public-transport-stations-and-stops",
     "rail-and-public-transport-railway-lines",
-    "rail-and-public-transport-bus"
+    "rail-and-public-transport-stations-and-stops",
+    "rail-and-public-transport-bus",
+    "rail-and-public-transport-ni-railways-infrastructure"
    ],
    "toBeAdded": []
   },
@@ -1509,7 +1515,12 @@
     "oda-map-00121-polling-stations-presidential-election-2025-fcc": "Fingal (2025 presidential election)",
     "fingal-polling-station-data": "Fingal (2011 and 2016 general elections)"
    },
-   "kind": "Places"
+   "kind": "Places",
+   "moreYears": {
+    "fingal-polling-station-data": [
+     2016
+    ]
+   }
   },
   {
    "id": "elections-and-voting-polling-stations--ni",
@@ -1939,14 +1950,19 @@
     "tailte-gaeltacht-language-planning-area-boundaries-generalised-20m",
     "roi-gaeltacht-areas"
    ],
-   "variantOf": {},
+   "variantOf": {
+    "tailte-gaeltacht-boundaries-generalised-20m": "roi-gaeltacht-areas"
+   },
    "labels": {
-    "tailte-gaeltacht-boundaries-generalised-20m": "Gaeltacht Areas (generalised 20m)",
+    "tailte-gaeltacht-boundaries-generalised-20m": "Generalised 20m (Tailte Éireann)",
     "tailte-gaeltacht-language-planning-area-boundaries-generalised-20m": "Language Planning Areas"
    },
    "kind": "Boundary",
    "undated": true,
-   "unit": "Areas"
+   "unit": "Areas",
+   "units": {
+    "tailte-gaeltacht-language-planning-area-boundaries-generalised-20m": "Language Planning Areas"
+   }
   },
   {
    "id": "polities-polities",

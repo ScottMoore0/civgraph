@@ -23,7 +23,7 @@ import { CatalogueSearch, PeopleSearch, coveringPoint, normalise } from './searc
 import { CATALOGUE_CSS } from './styles.js';
 import dataService, { resolveMapDownloadUrl } from '../data-service.js';
 import { initialCatalogueRoute } from './flag.js';
-import { icon, SHELF_LOOK, BOOK_CATEGORY_ICONS } from './icons.js';
+import { icon, SHELF_LOOK, BOOK_CATEGORY_ICONS, MERGED_SHELVES, FLAT_SECTIONS } from './icons.js';
 import { esc, yearOf, longDate } from './util.js';
 import { openMenu, closeMenu } from './menu.js';
 import { decadeDomain, binCounts, indexOf, updateSlider, stepYear } from './slider.js';
@@ -71,7 +71,7 @@ export class CatalogueNext {
     // The kind is the section now, not a filter.
     this.filters.kind = '';
     this.efilters = { ...BLANK_EFILTERS, ...(saved.efilters || {}) };
-    this.collapsed = new Set(saved.collapsed || []);
+    this.opened = new Set(saved.opened || []);
     this.filtersOpen = false;
     this.expanded = new Set();
     this.selected = new Map();
@@ -188,6 +188,34 @@ export class CatalogueNext {
     this.ui.bindFlatViewDelegates?.(container);
     this.drawn = false;
     this.scroller = this.findScroller();
+    // Dragging the divider between the pane and the map changes how many chips fit on a row's
+    // two lines and how far apart a timeline's labels sit: redraw the list once the width
+    // settles (Phelim Birch's review, 2026-10-11). The layout itself follows by container queries.
+    if (typeof ResizeObserver === 'function') {
+      this.resizeObs?.disconnect();
+      this.paneWidth = 0;
+      this.resizeObs = new ResizeObserver(([entry]) => {
+        const w = Math.round(entry.contentRect.width);
+        if (!w || Math.abs(w - (this.paneWidth || 0)) < 24) return;
+        const first = !this.paneWidth;
+        this.paneWidth = w;
+        if (first) return;
+        clearTimeout(this.resizeTimer);
+        this.resizeTimer = setTimeout(() => {
+          if (this.tab !== 'maps' || this.here || !this.drawn) return;
+          const s = this.scroller || this.findScroller();
+          const top = s?.scrollTop;
+          this.refreshResults();
+          if (s) s.scrollTop = top;
+        }, 200);
+      });
+      this.resizeObs.observe(this.root);
+    }
+  }
+
+  /** How many characters of chip labels fit on a row's two lines at the pane's width. */
+  chipBudget() {
+    return Math.max(40, Math.round(70 * (this.paneWidth || 450) / 450));
   }
 
   findScroller() {
@@ -419,7 +447,9 @@ export class CatalogueNext {
   // A map with no date (Civil Parishes, Baronies) shows until years are chosen; then only if the
   // reader includes undated maps (Phelim Birch's review, 2026-10-08: off by default).
   editionInYears(id) {
-    const y = yearOf(this.rec(id).date);
+    const r = this.rec(id);
+    if (r.years?.length) return r.years.some((y) => this.inYears('maps', y));
+    const y = yearOf(r.date);
     if (Number.isFinite(y)) return this.inYears('maps', y);
     return !this.yearRange('maps').narrowed || Boolean(this.filters.undated);
   }
@@ -433,7 +463,8 @@ export class CatalogueNext {
     let count = '';
     const n = r.features || (m && this.ui.getMapFeatureCount ? this.ui.getMapFeatureCount(m) : null);
     if (Number.isFinite(n) && n > 0) count = `${n.toLocaleString('en-GB')} ${unitWord(r.unit || (m && this.ui.getMapFeatureUnitLabel ? this.ui.getMapFeatureUnitLabel(m, n) : 'features'), n)}`;
-    return [date && r.date ? longDate(r.date) : '', providers, count].filter(Boolean).join(' · ');
+    const constituencies = /^constituencies-/.test(this.seriesOfMap?.get(id) || '');
+    return [date && r.date && !constituencies ? longDate(r.date) : '', providers, count].filter(Boolean).join(' · ');
   }
 
   activeFilterCount(key) {
@@ -458,6 +489,12 @@ export class CatalogueNext {
     return true;
   }
 
+  /** The shelf a series sits on in the open section (Boundaries merges four into Environment). */
+  shelfIn(s) {
+    for (const [id, m] of Object.entries(MERGED_SHELVES[this.section] || {})) if (m.shelves.includes(s.shelf)) return id;
+    return s.shelf;
+  }
+
   visibleShelves() {
     const score = (s) => this.searchHits?.get(s.id)?.score || 0;
     let shelves = this.data.shelves.map((sh) => {
@@ -469,6 +506,19 @@ export class CatalogueNext {
       if (this.query) subjects.sort((a, b) => b.best - a.best);
       return { sh, subjects, count: subjects.reduce((n, x) => n + x.series.length, 0), best: Math.max(0, ...subjects.map((x) => x.best)) };
     }).filter((x) => x.subjects.length);
+    for (const [id, m] of Object.entries(MERGED_SHELVES[this.section] || {})) {
+      const parts = shelves.filter((x) => m.shelves.includes(x.sh.id));
+      if (!parts.length) continue;
+      const merged = {
+        sh: { id, name: m.name, subjects: parts.flatMap((x) => x.sh.subjects), flat: true },
+        subjects: parts.flatMap((x) => x.subjects),
+        count: parts.reduce((n, x) => n + x.count, 0),
+        best: Math.max(...parts.map((x) => x.best)),
+      };
+      const at = shelves.indexOf(parts[0]);
+      shelves = shelves.filter((x) => !parts.includes(x));
+      shelves.splice(at, 0, merged);
+    }
     if (this.query) shelves = shelves.filter((x) => x.count).sort((a, b) => b.best - a.best);
     return shelves;
   }
@@ -533,7 +583,7 @@ export class CatalogueNext {
 
   saveStore() {
     try {
-      sessionStorage.setItem(STORE, JSON.stringify({ filters: this.filters, efilters: this.efilters, collapsed: [...this.collapsed] }));
+      sessionStorage.setItem(STORE, JSON.stringify({ filters: this.filters, efilters: this.efilters, opened: [...this.opened] }));
     } catch { /* private mode */ }
   }
 
@@ -679,6 +729,12 @@ export class CatalogueNext {
       return s ? `series/${s}` : 'maps';
     }
     const [view, id] = route.split('/');
+    // A link to one map or set (Browse's "open on the map"): the row it is in, opened at it.
+    if (view === 'map') {
+      const sid = this.seriesOfMap?.get(id) || this.data?.redirects?.[id];
+      if (!sid || !this.seriesById?.has(sid)) return '';
+      return this.seriesById.get(sid).members.some((m) => m.id === id) ? `series/${sid}/${id}` : `series/${sid}`;
+    }
     if (view === 'series' && !this.seriesById?.has(id)) return 'maps';
     if (view === 'subject' && !this.subjectById?.has(id)) return 'maps';
     return route;
@@ -742,7 +798,7 @@ export class CatalogueNext {
   /** A linked series must be visible: open its shelf, and lift filters that would hide it. */
   revealSeries(s) {
     if (!s) return;
-    this.collapsed.delete(s.shelf);
+    this.opened.add(this.shelfIn(s));
     if (!this.query && !this.seriesShown(s)) {
       this.filters = { ...BLANK_FILTERS };
       this.saveStore();
@@ -1012,7 +1068,7 @@ export class CatalogueNext {
   toggleShelf(btn) {
     const id = btn.dataset.cnShelf;
     const open = btn.getAttribute('aria-expanded') !== 'true';
-    if (open) this.collapsed.delete(id); else this.collapsed.add(id);
+    if (open) this.opened.add(id); else this.opened.delete(id);
     btn.setAttribute('aria-expanded', String(open));
     const body = btn.closest('.cn-shelf')?.querySelector('.cn-shelf__body');
     if (body) body.hidden = !open;
@@ -1064,7 +1120,7 @@ export class CatalogueNext {
     for (const { sh, subjects, count } of this.visibleShelves()) {
       const [ic, col] = SHELF_LOOK[sh.id] || ['map', '#7a8699'];
       out.push({ id: `cn-shelf-${sh.id}`, label: sh.name, count, level: 1, icon: ic, colour: col });
-      if (!sh.flat) for (const { sub, series } of subjects) out.push({ id: `cn-subject-${sub.id}`, label: sub.name, count: series.length, level: 2 });
+      if (!sh.flat && subjects.length > 1 && !FLAT_SECTIONS.has(this.section)) for (const { sub, series } of subjects) out.push({ id: `cn-subject-${sub.id}`, label: sub.name, count: series.length, level: 2 });
     }
     return out;
   }

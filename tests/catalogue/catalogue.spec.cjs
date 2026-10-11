@@ -21,9 +21,18 @@ const menuItem = (page, text) => page.locator('.cn-menu [role="menuitem"]', { ha
 const route = (page) => page.evaluate(() => new URLSearchParams(location.hash.slice(1)).get('cat'));
 const loaded = (page) => page.evaluate(() => window.__civgraphTest2.app.getLoadedLayerIds());
 
-async function open(page, hash = '') {
+// Shelves start closed; most tests work inside them, so they start with every shelf open
+// (as a reader who had opened them this session) unless a test asks for the default.
+const SHELF_IDS = [...catalogue.shelves.map((s) => s.id), 'environment'];
+async function open(page, hash = '', { shelves = 'open' } = {}) {
   const errors = [];
   page.on('pageerror', (e) => errors.push(String(e)));
+  if (shelves === 'open') {
+    await page.addInitScript((ids) => {
+      const KEY = 'civgraph.catalogueNext.v2';
+      if (!sessionStorage.getItem(KEY)) sessionStorage.setItem(KEY, JSON.stringify({ opened: ids }));
+    }, SHELF_IDS);
+  }
   await page.goto(`/maps/${hash ? `#${hash}` : ''}`);
   await expect(pane(page).locator('[data-cn-results]')).toBeVisible({ timeout: 45000 });
   await page.waitForFunction(() => window.__civgraphTest2?.app?.mapController?.map?.loaded?.(), null, { timeout: 30000 }).catch(() => {});
@@ -430,6 +439,59 @@ test('N17 council maps follow their edition; hovers name the unit; parts downloa
   expect(after).toEqual(before);
 });
 
+test('N18 shelves start closed; a link to a set opens its section, shelf and row', async ({ page }) => {
+  await open(page, '', { shelves: 'closed' });
+  const toggles = pane(page).locator('[data-cn-shelf]');
+  expect(await toggles.count()).toBeGreaterThan(3);
+  for (const v of await toggles.evaluateAll((els) => els.map((e) => e.getAttribute('aria-expanded')))) expect(v).toBe('false');
+  // Boundaries gathers its environment rows on one shelf; the key explains the chip dots.
+  await expect(pane(page).locator('.cn-shelf__name', { hasText: /^Environment$/ })).toHaveCount(1);
+  await expect(pane(page).locator('.cn-key')).toContainText('Incomplete');
+  // Historic Maps lists its rows straight, as Statistics does.
+  await pane(page).locator('[data-cn-tab="historic"]').click();
+  await expect(pane(page).locator('.cn-shelf__head, .cn-subject__head')).toHaveCount(0);
+  await expect(pane(page).locator('.cn-row').first()).toBeVisible();
+  // From there, a link to Provinces goes to Boundaries with its shelf and row open.
+  await page.evaluate(() => { location.hash = 'cat=series/counties-provinces'; });
+  await expect(pane(page).locator('[data-cn-tab="boundaries"]')).toHaveAttribute('aria-current', 'true');
+  await expect(row(page, 'counties-provinces').locator('[data-cn-expand]')).toHaveAttribute('aria-expanded', 'true');
+  await expect(row(page, 'counties-provinces')).toBeVisible();
+  await expect(row(page, 'counties-provinces')).toBeInViewport();
+});
+
+test('N19 a link that opens one map (Browse) opens its row at that map', async ({ page }) => {
+  await open(page, 'layers=eds-1983', { shelves: 'closed' });
+  const ed = row(page, 'electoral-divisions-electoral-divisions');
+  await expect(ed.locator('[data-cn-expand]')).toHaveAttribute('aria-expanded', 'true');
+  await expect(ed).toBeVisible();
+  await expect(ed.locator('.cn-tick[aria-label="1983"]')).toHaveAttribute('aria-pressed', 'true');
+});
+
+test('N20 placeholders, transport order, constituency hovers and dates', async ({ page }) => {
+  await open(page);
+  // Every Statistics row whose maps are all still to come says so.
+  await pane(page).locator('[data-cn-tab="statistics"]').click();
+  const stats = ofKind('Statistics').filter((s) => s.members.every((m) => catalogue.maps[m.id].status === 'placeholder'));
+  expect(stats.length).toBeGreaterThan(0);
+  for (const s of stats.slice(0, 5)) await expect(row(page, s.id).locator('.cn-badge--todo')).toHaveCount(1);
+  // Transport: routes and networks first, collisions and road defects last.
+  await pane(page).locator('[data-cn-tab="places"]').click();
+  const names = await pane(page).locator('#cn-shelf-transport .cn-row__name').allTextContents();
+  expect(names[0]).toBe('Road Network');
+  expect(names.slice(-4)).toEqual(['PSNI Road Traffic Collisions', 'TII Collision Rates', 'Pothole Enquiries', 'NI Road Surface Defects']);
+  // A constituency map's hover gives no election-day date; its label keeps the year.
+  await pane(page).locator('[data-cn-tab="boundaries"]').click();
+  const wm = row(page, 'constituencies-parliamentary-constituencies').locator('.cn-chips [data-cn-toggle="pc-2023"]');
+  await expect(wm).toHaveText(/2024/);
+  expect(await wm.getAttribute('title')).not.toMatch(/July/);
+  // Exact dates; Fingal's polling stations count in both their years; Gaeltacht's generalised map is a version.
+  expect(catalogue.maps['dublin-electoral-counties-1985'].date).toBe('1985-04-03');
+  expect(catalogue.maps['eds-1986'].date).toBe('1986-04-12');
+  expect(catalogue.maps['fingal-polling-station-data'].years).toEqual([2011, 2016]);
+  const g = catalogue.series.find((s) => s.id === 'language-and-gaeltacht-gaeltacht-areas');
+  expect(g.members.find((m) => m.id === 'tailte-gaeltacht-boundaries-generalised-20m').of).toBe('roi-gaeltacht-areas');
+});
+
 test('N02 every view has an address; Back and Forward move between them', async ({ page }) => {
   await open(page, `cat=series/${LGD}`);
   await expect(row(page, LGD).locator('[data-cn-expand]')).toHaveAttribute('aria-expanded', 'true');
@@ -476,8 +538,8 @@ test('N06 opening a row shows the timeline; choosing a dot changes the edition s
   await open(page);
   await row(page, LGD).locator('[data-cn-expand]').click();
   await expect(row(page, LGD).locator('.cn-tick')).toHaveCount(lgd.members.filter((m) => !m.of).length);
-  await row(page, LGD).locator('.cn-tick[aria-label="1984"]').click();
-  await expect(row(page, LGD).locator('.cn-tick[aria-label="1984"]')).toHaveAttribute('aria-pressed', 'true');
+  await row(page, LGD).locator('.cn-tick[aria-label="1985"]').click();
+  await expect(row(page, LGD).locator('.cn-tick[aria-label="1985"]')).toHaveAttribute('aria-pressed', 'true');
   await expect(row(page, LGD).locator('.cn-ed__title')).toHaveCount(0);
   await expect.poll(() => route(page)).toMatch(new RegExp(`^series/${LGD}/`));
 });

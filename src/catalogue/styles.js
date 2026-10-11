@@ -156,7 +156,11 @@ export const CATALOGUE_CSS = `
 .cn-chip--out:not([aria-pressed="true"]) { opacity: .45; }
 .cn-chip--more { padding: 2px 10px; color: var(--cn-muted); border-style: dashed; }
 .cn-chip--todo { cursor: default; border-style: dashed; color: var(--cn-amber-ink); background: var(--cn-amber-bg); border-color: transparent; }
-.cn-chip--todo .cn-chip__dot { background: transparent; box-shadow: inset 0 0 0 1.5px currentColor; }
+.cn-chip--todo .cn-chip__dot, .cn-chip__dot--todo { background: transparent; box-shadow: inset 0 0 0 1.5px currentColor; }
+.cn-chip--part .cn-chip__dot, .cn-chip__dot--part { background: linear-gradient(90deg, var(--c, #7a8699) 50%, transparent 50%); box-shadow: inset 0 0 0 1.5px var(--c, #7a8699); }
+.cn-key { flex-basis: 100%; display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 2px 0 0; font-size: 12px; color: var(--cn-muted); }
+.cn-key__item { display: inline-flex; align-items: center; gap: 6px; }
+.cn-key .cn-chip__dot--todo { color: var(--cn-amber-ink); }
 .cn-chip--todo:hover { background: var(--cn-amber-bg); border-color: transparent; }
 .cn-chip--todo-toggle { color: var(--cn-amber-ink); border-style: dashed; border-color: color-mix(in srgb, var(--cn-amber-ink) 55%, transparent); background: none; }
 .cn-chip--todo-toggle:hover { background: var(--cn-amber-bg); border-color: var(--cn-amber-ink); }
@@ -303,7 +307,9 @@ a.cn-iconbtn { text-decoration: none; }
 .cn-pick .cn-btn { margin-left: auto; color: var(--cn-text); }
 .cn-here__head { display: flex; align-items: center; gap: 8px; margin: 4px 4px 8px; }
 .cn-here__head h3 { margin: 0; font-size: 16px; font-weight: 800; flex: 1; }
-.cn-compare { position: sticky; bottom: 8px; z-index: 7; display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; gap: 10px; align-items: center;
+/* The bar's wrapper is what sticks: the bar alone is its wrapper's only content, so it had nowhere to move. */
+.cn > [data-cn-compare] { position: sticky; bottom: 8px; z-index: 7; }
+.cn-compare { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; gap: 10px; align-items: center;
   margin-top: 10px; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--cn-line); background: var(--cn-surface); box-shadow: 0 6px 22px rgba(0,0,0,.18); }
 .cn-compare__labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--cn-muted); gap: 8px; }
 .cn-compare input[type="range"] { width: 100%; accent-color: #0b8a6a; }
