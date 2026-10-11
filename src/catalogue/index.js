@@ -852,6 +852,10 @@ export class CatalogueNext {
       : this.root.querySelector(`[data-cn-series="${cssId(t)}"]`);
     if (!el) return;
     el.scrollIntoView({ block: 'start' });
+    // The section tabs stick to the top of the pane: start the row just below them, not under them.
+    const s = this.scroller || this.findScroller();
+    const under = (this.tabsEl?.getBoundingClientRect().bottom || 0) + 8 - el.getBoundingClientRect().top;
+    if (s && under > 0) s.scrollTop -= under;
     el.querySelector('[data-cn-expand]')?.focus({ preventScroll: true });
   }
 

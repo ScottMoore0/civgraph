@@ -664,6 +664,9 @@ test('N22 a copied map link opens its row, even one that named only the section'
   await expect(ed.locator('[data-cn-expand]')).toHaveAttribute('aria-expanded', 'true');
   await expect(ed.locator('.cn-tick[aria-label="2019"]')).toHaveAttribute('aria-pressed', 'true');
   await expect(ed).toBeInViewport();
+  // The row's title starts below the sticky section tabs, not under them.
+  const [tabsBottom, titleTop] = await page.evaluate(() => [document.querySelector('[data-cn-tabs]').getBoundingClientRect().bottom, document.querySelector('[data-cn-series="electoral-divisions-electoral-divisions"] .cn-row__name').getBoundingClientRect().top]);
+  expect(titleTop).toBeGreaterThanOrEqual(tabsBottom);
   // "Copy link" now names the row and edition, whatever the pane is showing.
   await pane(page).locator('[data-cn-tab="historic"]').click();
   const link = await page.evaluate(() => window.uiController._catalogueNext.shareUrl('eds-1986'));
