@@ -228,7 +228,7 @@ export class TestMapLibreController {
       zoom: 5.8,
       minZoom: 4,
       maxZoom: 22,
-      attributionControl: true,
+      attributionControl: false,
       fadeDuration: this.runtimeProfile.fadeDuration,
       maxTileCacheSize: this.runtimeProfile.maxTileCacheSize,
       pixelRatio: this.runtimeProfile.pixelRatio,
@@ -243,6 +243,17 @@ export class TestMapLibreController {
       scrollZoom: true,
       cooperativeGestures: false
     });
+    // The map credits (OpenStreetMap contributors, MapLibre) start folded behind their (i) button,
+    // at every width, and open only when the reader clicks it. MapLibre unfolds a compact credit
+    // when it first goes compact; this folds it at that moment and leaves the reader's clicks alone.
+    const attribution = new maplibregl.AttributionControl({ compact: true });
+    const updateCompact = attribution._updateCompact;
+    attribution._updateCompact = () => {
+      const was = attribution._container?.classList.contains('maplibregl-compact');
+      updateCompact();
+      if (!was && attribution._container?.classList.contains('maplibregl-compact')) attribution._container.classList.remove('maplibregl-compact-show');
+    };
+    this.map.addControl(attribution);
 
     this.recordMetric({
       event: 'runtime-profile',

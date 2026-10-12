@@ -1,16 +1,17 @@
 /**
- * Whether the rebuilt catalogue (src/catalogue/) replaces the current pane. Off on the live site:
- * it is switched on by ?catalogue=next, or by the test-site server (tools/test-site/), which sets
- * window.CIVGRAPH_CATALOGUE = 'next' on every page it serves. Kept apart from the catalogue
- * itself so that checking the switch never loads the catalogue's code.
+ * Whether the rebuilt catalogue (src/catalogue/) replaces the classic pane. It is the site's
+ * catalogue since 2026-10-12 (civgraph.net/maps): only the archived classic page
+ * (civgraph.net/maps/classic/, window.CIVGRAPH_CATALOGUE = 'classic') or ?catalogue=classic
+ * shows the classic pane. Kept apart from the catalogue itself so that checking the switch never
+ * loads the catalogue's code.
  */
 export function catalogueNextRequested() {
   if (typeof window === 'undefined') return false;
-  if (window.CIVGRAPH_CATALOGUE === 'next') return true;
+  if (window.CIVGRAPH_CATALOGUE === 'classic') return false;
   try {
-    return new URLSearchParams(window.location.search).get('catalogue') === 'next';
+    return new URLSearchParams(window.location.search).get('catalogue') !== 'classic';
   } catch {
-    return false;
+    return true;
   }
 }
 

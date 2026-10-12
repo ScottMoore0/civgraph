@@ -325,7 +325,7 @@ class UIController {
         // Build badges HTML
         let badgesHtml = '';
         const badges = [];
-        const nextCatalogue = typeof window !== 'undefined' && (window.CIVGRAPH_CATALOGUE === 'next' || /[?&]catalogue=next\b/.test(window.location.search));
+        const nextCatalogue = catalogueNextRequested();
         if (map.featured && !nextCatalogue) badges.push('<span class="catalogue-detail__badge catalogue-detail__badge--featured">Featured</span>');
         if (map.isGroup) badges.push('<span class="catalogue-detail__badge catalogue-detail__badge--group">Group</span>');
         if (map.hidden) badges.push('<span class="catalogue-detail__badge catalogue-detail__badge--hidden">Hidden</span>');

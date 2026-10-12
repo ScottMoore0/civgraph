@@ -50,7 +50,7 @@ test('T1-05 · the title reflects a loaded layer', async ({ page }) => {
 
 test('T1-03 · the live region is the summary only, and typing announces once', async ({ page }) => {
   test.setTimeout(120000);
-  await page.goto(`${BASE}/maps/`, { waitUntil: 'domcontentloaded' });
+  await page.goto(`${BASE}/maps/?catalogue=classic`, { waitUntil: 'domcontentloaded' });
   await page.waitForFunction(() => window.__civgraphTest2?.app, null, { timeout: 60000 });
   await page.waitForTimeout(2000);
   await page.evaluate(() => {

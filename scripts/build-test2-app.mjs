@@ -148,18 +148,27 @@ function updateHtmlVersions(jsVersion, cssVersion, viewerAssetVersions) {
   }
 }
 
-// civgraph.net/maps/test: the maps page with the rebuilt catalogue (src/catalogue/) switched
-// on, for review before it replaces the current pane. Written from maps/index.html on every
-// build so the two never drift; kept out of search engines.
+// The rebuilt catalogue (src/catalogue/) became civgraph.net/maps on 2026-10-12. Two more pages
+// are written from maps/index.html on every build, so they never drift from it, and kept out of
+// search engines:
+//   maps/test     -- where it was reviewed; links shared from there keep working.
+//   maps/classic  -- the archived classic pane, kept in case anything is needed from it or the
+//                    switch is reverted (git tag maps-classic-2026-10-12 is the last commit that
+//                    served it at /maps).
 function writeCatalogueTestPage() {
   const source = 'maps/index.html';
   if (!existsSync(source)) return;
-  const html = readFileSync(source, 'utf8')
-    .replace(/<head>/i, `<head>\n  <meta name="robots" content="noindex, nofollow">\n  <script>window.CIVGRAPH_CATALOGUE = 'next';</script>`)
-    .replace('<meta property="og:url" content="https://civgraph.net/maps/">', '<meta property="og:url" content="https://civgraph.net/maps/test/">');
-  if (!html.includes("window.CIVGRAPH_CATALOGUE = 'next'")) throw new Error('maps/test: could not switch the catalogue on');
-  mkdirSync('maps/test', { recursive: true });
-  writeFileSync('maps/test/index.html', html);
+  const base = readFileSync(source, 'utf8');
+  const page = (dir, flag) => {
+    const html = base
+      .replace(/<head>/i, `<head>\n  <meta name="robots" content="noindex, nofollow">\n  <script>window.CIVGRAPH_CATALOGUE = '${flag}';</script>`)
+      .replace('<meta property="og:url" content="https://civgraph.net/maps/">', `<meta property="og:url" content="https://civgraph.net/maps/${dir}/">`);
+    if (!html.includes(`window.CIVGRAPH_CATALOGUE = '${flag}'`)) throw new Error(`maps/${dir}: could not set the catalogue switch`);
+    mkdirSync(`maps/${dir}`, { recursive: true });
+    writeFileSync(`maps/${dir}/index.html`, html);
+  };
+  page('test', 'next');
+  page('classic', 'classic');
 }
 
 function updateServiceWorkerVersion(jsVersion) {

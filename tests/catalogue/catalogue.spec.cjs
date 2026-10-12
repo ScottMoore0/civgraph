@@ -558,8 +558,8 @@ test('N06 opening a row shows the timeline; choosing a dot changes the edition s
   await expect.poll(() => route(page)).toMatch(new RegExp(`^series/${LGD}/`));
 });
 
-test('N07 with the switch off the current catalogue is unchanged', async ({ page }) => {
-  await page.addInitScript(() => { Object.defineProperty(window, 'CIVGRAPH_CATALOGUE', { value: 'current', writable: false }); });
+test('N07 the archived classic catalogue (/maps/classic/) is unchanged', async ({ page }) => {
+  await page.addInitScript(() => { Object.defineProperty(window, 'CIVGRAPH_CATALOGUE', { value: 'classic', writable: false }); });
   await page.goto('/maps/');
   await expect(page.locator('#catalogueFlatView .catalogue-flat__sections')).toBeVisible({ timeout: 30000 });
   await expect(page.locator('#catalogueFlatView')).toHaveAttribute('data-rendered', 'true');
