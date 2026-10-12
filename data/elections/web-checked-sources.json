@@ -1,0 +1,4499 @@
+{
+ "schemaVersion": 1,
+ "about": "Sources Civgraph fetched and compared figure by figure with its own contest files (origin web-check in data/database/election-provenance.json). checked is true only where every compared figure agreed; otherwise check and disagreements say what differed. Citations and comparison notes only: no text is copied from the sources. Read by scripts/build-election-provenance.mjs.",
+ "batches": [
+  {
+   "id": "unsourced-2026-10-13",
+   "note": "The 203 contests that had no source: NI local government (ARK; one Irish News), NI Forum 1996 (ARK), Westminster by-elections and European 2019 (ARK), Dáil 2014 (electionsireland.org), ROI referendums (Department of Housing CSVs on data.gov.ie; electionsireland.org)."
+  }
+ ],
+ "records": [
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1973-05-30/belfast-area-f.json",
+   "title": "Local Government Elections 1973 - 1981: Belfast",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgbelfast.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 19 candidates against the 1973 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1973-05-30/derry-area-a.json",
+   "title": "Local Government Elections 1973 - 1981: Derry/Londonderry",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgderry.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "ARK lists Carig (Un Loy) 1294, absent from ours",
+    "ARK lists Bond (Un Loy) 1126, absent from ours",
+    "ARK lists Robinson (Un Loy) 960, absent from ours",
+    "ARK lists Hegarty (Un Loy) 767, absent from ours",
+    "valid: ours 862, ARK 8262",
+    "spoilt: ours 74, ARK 94"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 10 candidates against the 1973 block for this area on the ARK council page. Disagreements: ARK lists Carig (Un Loy) 1294, absent from ours; ARK lists Bond (Un Loy) 1126, absent from ours; ARK lists Robinson (Un Loy) 960, absent from ours; ARK lists Hegarty (Un Loy) 767, absent from ours; valid: ours 862, ARK 8262; spoilt: ours 74, ARK 94. Ours omits all four United Loyalist candidates (ARK: United Loyalist won 3 of the 6 seats) and records valid poll 862 for 8,262; spoilt 74 vs ARK 94. ARK candidate figures sum exactly to its valid poll."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1973-05-30/derry-area-b.json",
+   "title": "Local Government Elections 1973 - 1981: Derry/Londonderry",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgderry.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "ARK lists Barr (Un Loy) 1659, absent from ours",
+    "ARK lists Jeffrey (Un Loy) 960, absent from ours",
+    "ARK lists Hay (Un Loy) 875, absent from ours",
+    "ARK lists Heathley (Un Loy) 874, absent from ours",
+    "spoilt: ours 105, ARK 104"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 9 candidates against the 1973 block for this area on the ARK council page. Disagreements: ARK lists Barr (Un Loy) 1659, absent from ours; ARK lists Jeffrey (Un Loy) 960, absent from ours; ARK lists Hay (Un Loy) 875, absent from ours; ARK lists Heathley (Un Loy) 874, absent from ours; spoilt: ours 105, ARK 104. Ours omits the four United Loyalist candidates; ARK candidate figures sum to the valid poll both sides record (7,502)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1973-05-30/derry-area-c.json",
+   "title": "Local Government Elections 1973 - 1981: Derry/Londonderry",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgderry.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 12 candidates against the 1973 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1973-05-30/derry-area-d.json",
+   "title": "Local Government Elections 1973 - 1981: Derry/Londonderry",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgderry.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "ARK lists Mrs Jefferson (Un Loy) 1041, absent from ours"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 14 candidates against the 1973 block for this area on the ARK council page. Disagreements: ARK lists Mrs Jefferson (Un Loy) 1041, absent from ours. Ours omits the United Loyalist candidate; ARK figures sum to the shared valid poll (4,445)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1973-05-30/derry-area-e.json",
+   "title": "Local Government Elections 1973 - 1981: Derry/Londonderry",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgderry.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "ARK lists Allen (Un Loy) 1519, absent from ours",
+    "ARK lists McCartney (Un Loy) 893, absent from ours",
+    "ARK lists Walker (Un Loy) 515, absent from ours"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 16 candidates against the 1973 block for this area on the ARK council page. Disagreements: ARK lists Allen (Un Loy) 1519, absent from ours; ARK lists McCartney (Un Loy) 893, absent from ours; ARK lists Walker (Un Loy) 515, absent from ours. Ours omits the three United Loyalist candidates; ARK figures sum to the shared valid poll (8,704). Name spellings differ (figures match): ours \"A. Gallagher\" vs ARK \"Mrs A. Galllagher\" (284 votes both)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1973-05-30/lg73-nam-area-a.json",
+   "title": "Local Government Elections 1973 - 1981: Newry and Mourne",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 13 candidates against the 1973 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1973-05-30/lg73-nam-area-b.json",
+   "title": "Local Government Elections 1973 - 1981: Newry and Mourne",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 12 candidates against the 1973 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1973-05-30/lg73-nam-area-c.json",
+   "title": "Local Government Elections 1973 - 1981: Newry and Mourne",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 9 candidates against the 1973 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1973-05-30/lg73-nam-area-d.json",
+   "title": "Local Government Elections 1973 - 1981: Newry and Mourne",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 20 candidates against the 1973 block for this area on the ARK council page. All agree. Name spellings differ (figures match): ours \"Victor Frizell\" vs ARK \"Victor Frizzell\" (372 votes both)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1973-05-30/lg73-nam-area-e.json",
+   "title": "Local Government Elections 1973 - 1981: Newry and Mourne",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 12 candidates against the 1973 block for this area on the ARK council page. All agree. Name spellings differ (figures match): ours \"James McPartland\" vs ARK \"McParland\" (286 votes both)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1973-05-30/lg73-nam-area-f.json",
+   "title": "Local Government Elections 1973 - 1981: Newry and Mourne",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 11 candidates against the 1973 block for this area on the ARK council page. All agree. Name spellings differ (figures match): ours \"Sean Hollywood\" vs ARK \"Sean Holywood\" (607 votes both)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1973-05-30/lg73-nod-area-a.json",
+   "title": "Local Government Elections 1973 - 1981: North Down",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "ARK lists Thomas Barkley (Loyalist) 444, absent from ours",
+    "ARK lists Campbell McCormick (Loyalist) 344, absent from ours"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 8 candidates against the 1973 block for this area on the ARK council page. Disagreements: ARK lists Thomas Barkley (Loyalist) 444, absent from ours; ARK lists Campbell McCormick (Loyalist) 344, absent from ours. Ours omits the two Loyalist candidates; ARK figures sum to the shared valid poll."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1973-05-30/lg73-nod-area-b.json",
+   "title": "Local Government Elections 1973 - 1981: North Down",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "ARK lists George Green (Loyalist) 934, absent from ours",
+    "ARK lists Thomas Braniff (Loyalist) 685, absent from ours",
+    "ARK lists Bruce Mulligan (Loyalist) 498, absent from ours",
+    "ARK lists Thomas O'Brien (Loyalist) 136, absent from ours"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 7 candidates against the 1973 block for this area on the ARK council page. Disagreements: ARK lists George Green (Loyalist) 934, absent from ours; ARK lists Thomas Braniff (Loyalist) 685, absent from ours; ARK lists Bruce Mulligan (Loyalist) 498, absent from ours; ARK lists Thomas O'Brien (Loyalist) 136, absent from ours. Ours omits the four Loyalist candidates; ARK figures sum to the shared valid poll."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1973-05-30/lg73-nod-area-c.json",
+   "title": "Local Government Elections 1973 - 1981: North Down",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "ARK lists Mary O'Fee (Loyalist) 638, absent from ours",
+    "ARK lists Christopher Miller (Loyalist) 286, absent from ours"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 10 candidates against the 1973 block for this area on the ARK council page. Disagreements: ARK lists Mary O'Fee (Loyalist) 638, absent from ours; ARK lists Christopher Miller (Loyalist) 286, absent from ours. Ours omits the two Loyalist candidates; ARK figures sum to the shared valid poll."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1973-05-30/lg73-nod-area-d.json",
+   "title": "Local Government Elections 1973 - 1981: North Down",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "ARK lists Ian Kerr (Loyalist) 461, absent from ours",
+    "ARK lists Arthur Millar (Loyalist) 212, absent from ours"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 10 candidates against the 1973 block for this area on the ARK council page. Disagreements: ARK lists Ian Kerr (Loyalist) 461, absent from ours; ARK lists Arthur Millar (Loyalist) 212, absent from ours. Ours omits the two Loyalist candidates; ARK figures sum to the shared valid poll. Name spellings differ (figures match): ours \"David McCormick\" vs ARK \"David McCormack\" (479 votes both)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1977-05-18/belfast-area-f.json",
+   "title": "Local Government Elections 1973 - 1981: Belfast",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgbelfast.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "ARK lists J. Stewart (CPI) 115, absent from ours",
+    "electorate: ours 21177, ARK 21022"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 10 candidates against the 1977 block for this area on the ARK council page. Disagreements: ARK lists J. Stewart (CPI) 115, absent from ours; electorate: ours 21177, ARK 21022. Ours omits the Communist Party candidate (115); ARK figures sum to the shared valid poll."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1977-05-18/derry-area-a.json",
+   "title": "Local Government Elections 1973 - 1981: Derry/Londonderry",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgderry.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "electorate: ours 10859, ARK 10699"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 13 candidates against the 1977 block for this area on the ARK council page. Candidates and votes agree; only the electorate differs (ours 10859, ARK 10699). Ours is about 1% higher than ARK in every 1977 area checked, which suggests a different register figure rather than a typo."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1977-05-18/derry-area-b.json",
+   "title": "Local Government Elections 1973 - 1981: Derry/Londonderry",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgderry.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "ARK lists T.G. Heathley (Loy UUUC) 189, absent from ours",
+    "ARK lists W. Gurney (Loy UUUC) 84, absent from ours",
+    "electorate: ours 10601, ARK 10485"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 11 candidates against the 1977 block for this area on the ARK council page. Disagreements: ARK lists T.G. Heathley (Loy UUUC) 189, absent from ours; ARK lists W. Gurney (Loy UUUC) 84, absent from ours; electorate: ours 10601, ARK 10485. Ours omits the two Loyalist (UUUC) candidates; ARK figures sum to the shared valid poll."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1977-05-18/derry-area-c.json",
+   "title": "Local Government Elections 1973 - 1981: Derry/Londonderry",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgderry.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "electorate: ours 9318, ARK 9168"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 11 candidates against the 1977 block for this area on the ARK council page. Candidates and votes agree; only the electorate differs (ours 9318, ARK 9168). Ours is about 1% higher than ARK in every 1977 area checked, which suggests a different register figure rather than a typo. Name spellings differ (figures match): ours \"John McChrystal\" vs ARK \"J.G. McCrystal\" (466 votes both)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1977-05-18/derry-area-d.json",
+   "title": "Local Government Elections 1973 - 1981: Derry/Londonderry",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgderry.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "electorate: ours 5973, ARK 5912"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 9 candidates against the 1977 block for this area on the ARK council page. Candidates and votes agree; only the electorate differs (ours 5973, ARK 5912). Ours is about 1% higher than ARK in every 1977 area checked, which suggests a different register figure rather than a typo. Name spellings differ (figures match): ours \"Joe Cosgrove\" vs ARK \"J. Grosgrove\" (265 votes both)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1977-05-18/derry-area-e.json",
+   "title": "Local Government Elections 1973 - 1981: Derry/Londonderry",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgderry.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "electorate: ours 13995, ARK 13846",
+    "poll: ours 8005, ARK 8003"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 12 candidates against the 1977 block for this area on the ARK council page. Disagreements: electorate: ours 13995, ARK 13846; poll: ours 8005, ARK 8003."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1977-05-18/lg77-ant-area-b.json",
+   "title": "Local Government Elections 1973 - 1981: Antrim",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgantrim.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "electorate: ours 5907, ARK 5858",
+    "poll: ours 5966, ARK 2966"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, total poll, spoilt votes for all 9 candidates against the 1977 block for this area on the ARK council page. Disagreements: electorate: ours 5907, ARK 5858; poll: ours 5966, ARK 2966. Our total poll 5,966 exceeds our own electorate (5,907), so ours is wrong; ARK has 2,966."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1977-05-18/lg77-nam-area-a.json",
+   "title": "Local Government Elections 1973 - 1981: Newry and Mourne",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "electorate: ours 8225, ARK 8104"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 9 candidates against the 1977 block for this area on the ARK council page. Candidates and votes agree; only the electorate differs (ours 8225, ARK 8104). Ours is about 1% higher than ARK in every 1977 area checked, which suggests a different register figure rather than a typo. Name spellings differ (figures match): ours \"Doreen Leitch\" vs ARK \"Mrs D. Lieitch\" (127 votes both)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1977-05-18/lg77-nam-area-b.json",
+   "title": "Local Government Elections 1973 - 1981: Newry and Mourne",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "electorate: ours 6723, ARK 6643"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 9 candidates against the 1977 block for this area on the ARK council page. Candidates and votes agree; only the electorate differs (ours 6723, ARK 6643). Ours is about 1% higher than ARK in every 1977 area checked, which suggests a different register figure rather than a typo."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1977-05-18/lg77-nam-area-c.json",
+   "title": "Local Government Elections 1973 - 1981: Newry and Mourne",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "electorate: ours 5658, ARK 5593"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 5 candidates against the 1977 block for this area on the ARK council page. Candidates and votes agree; only the electorate differs (ours 5658, ARK 5593). Ours is about 1% higher than ARK in every 1977 area checked, which suggests a different register figure rather than a typo."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1977-05-18/lg77-nam-area-d.json",
+   "title": "Local Government Elections 1973 - 1981: Newry and Mourne",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "electorate: ours 11390, ARK 11280"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 13 candidates against the 1977 block for this area on the ARK council page. Candidates and votes agree; only the electorate differs (ours 11390, ARK 11280). Ours is about 1% higher than ARK in every 1977 area checked, which suggests a different register figure rather than a typo. Name spellings differ (figures match): ours \"Edward McGeown\" vs ARK \"E. McKeown\" (150 votes both)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1977-05-18/lg77-nam-area-e.json",
+   "title": "Local Government Elections 1973 - 1981: Newry and Mourne",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "electorate: ours 9174, ARK 9145"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 9 candidates against the 1977 block for this area on the ARK council page. Candidates and votes agree; only the electorate differs (ours 9174, ARK 9145). Ours is about 1% higher than ARK in every 1977 area checked, which suggests a different register figure rather than a typo. Name spellings differ (figures match): ours \"Peter McMahon\" vs ARK \"P.J. McMohan\" (807 votes both)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1977-05-18/lg77-nam-area-f.json",
+   "title": "Local Government Elections 1973 - 1981: Newry and Mourne",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "electorate: ours 7173, ARK 7103"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 7 candidates against the 1977 block for this area on the ARK council page. Candidates and votes agree; only the electorate differs (ours 7173, ARK 7103). Ours is about 1% higher than ARK in every 1977 area checked, which suggests a different register figure rather than a typo."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1977-05-18/lg77-nod-area-a.json",
+   "title": "Local Government Elections 1973 - 1981: North Down",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "electorate: ours 11231, ARK 11112"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 9 candidates against the 1977 block for this area on the ARK council page. Candidates and votes agree; only the electorate differs (ours 11231, ARK 11112). Ours is about 1% higher than ARK in every 1977 area checked, which suggests a different register figure rather than a typo."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1977-05-18/lg77-nod-area-b.json",
+   "title": "Local Government Elections 1973 - 1981: North Down",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "electorate: ours 12454, ARK 12337",
+    "quota: ours 163, ARK 763"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 9 candidates against the 1977 block for this area on the ARK council page. Disagreements: electorate: ours 12454, ARK 12337; quota: ours 163, ARK 763. Candidates agree (ARK prints Shields with a broken party bracket). Our quota 163 is a typo: 4,573 valid / 6 + 1 = 763, as ARK gives. Name spellings differ (figures match): ours \"Bruce Mulligan\" vs ARK \"J. Shields\" (498 votes both); ours \"William Alexander\" vs ARK \"W. Alaxander\" (164 votes both)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1977-05-18/lg77-nod-area-c.json",
+   "title": "Local Government Elections 1973 - 1981: North Down",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "electorate: ours 9940, ARK 9874"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 9 candidates against the 1977 block for this area on the ARK council page. Candidates and votes agree; only the electorate differs (ours 9940, ARK 9874). Ours is about 1% higher than ARK in every 1977 area checked, which suggests a different register figure rather than a typo."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1977-05-18/lg77-nod-area-d.json",
+   "title": "Local Government Elections 1973 - 1981: North Down",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "electorate: ours 9242, ARK 9147"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 8 candidates against the 1977 block for this area on the ARK council page. Candidates and votes agree; only the electorate differs (ours 9242, ARK 9147). Ours is about 1% higher than ARK in every 1977 area checked, which suggests a different register figure rather than a typo."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1981-05-20/belfast-area-f.json",
+   "title": "Local Government Elections 1973 - 1981: Belfast",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgbelfast.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 13 candidates against the 1981 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1981-05-20/derry-area-a.json",
+   "title": "Local Government Elections 1973 - 1981: Derry/Londonderry",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgderry.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 12 candidates against the 1981 block for this area on the ARK council page. All agree. Name spellings differ (figures match): ours \"William Hay\" vs ARK \"W. May\" (906 votes both)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1981-05-20/derry-area-b.json",
+   "title": "Local Government Elections 1973 - 1981: Derry/Londonderry",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgderry.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 10 candidates against the 1981 block for this area on the ARK council page. All agree. Name spellings differ (figures match): ours \"Anna Hay\" vs ARK \"Mrs A.M. May\" (1586 votes both); ours \"Thomas McGlinchey\" vs ARK \"T. McGlinchley\" (410 votes both)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1981-05-20/derry-area-c.json",
+   "title": "Local Government Elections 1973 - 1981: Derry/Londonderry",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgderry.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 14 candidates against the 1981 block for this area on the ARK council page. All agree. Name spellings differ (figures match): ours \"John McChrystal\" vs ARK \"J. McCrystal\" (599 votes both); ours \"Patrick Harkin\" vs ARK \"P. Markin\" (125 votes both)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1981-05-20/derry-area-d.json",
+   "title": "Local Government Elections 1973 - 1981: Derry/Londonderry",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgderry.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 10 candidates against the 1981 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1981-05-20/derry-area-e.json",
+   "title": "Local Government Elections 1973 - 1981: Derry/Londonderry",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgderry.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 15 candidates against the 1981 block for this area on the ARK council page. All agree. Name spellings differ (figures match): ours \"Annette Hetherington\" vs ARK \"Ann Netherington\" (560 votes both)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1981-05-20/lg81-nam-area-a.json",
+   "title": "Local Government Elections 1973 - 1981: Newry and Mourne",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "spoilt: ours 2.2, ARK 212"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 7 candidates against the 1981 block for this area on the ARK council page. Disagreements: spoilt: ours 2.2, ARK 212. Our spoilt figure is stored as a percentage (2.2); ARK gives 212 spoilt votes."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1981-05-20/lg81-nam-area-b.json",
+   "title": "Local Government Elections 1973 - 1981: Newry and Mourne",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "first preferences for P. J. Bradley: ours 1084, ARK 1048"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 11 candidates against the 1981 block for this area on the ARK council page. Disagreements: first preferences for P. J. Bradley: ours 1084, ARK 1048. Ours is internally consistent (candidates sum to valid poll 4,867). ARK's 1,048 for Bradley does not sum to its own valid poll, so ARK probably transposed digits."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1981-05-20/lg81-nam-area-c.json",
+   "title": "Local Government Elections 1973 - 1981: Newry and Mourne",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "first preferences for Annie Copeland: ours 446, ARK 466"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 7 candidates against the 1981 block for this area on the ARK council page. Disagreements: first preferences for Annie Copeland: ours 446, ARK 466. Ours sums to the valid poll (4,066); ARK's 466 for Copeland does not, so ARK is probably in error."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1981-05-20/lg81-nam-area-d.json",
+   "title": "Local Government Elections 1973 - 1981: Newry and Mourne",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "quota: ours 962, ARK 967"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 12 candidates against the 1981 block for this area on the ARK council page. Disagreements: quota: ours 962, ARK 967. Our quota 962 is wrong: 7,730 valid / 8 + 1 = 967, as ARK gives. Name spellings differ (figures match): ours \"Andy Moffett\" vs ARK \"A. Hoffett\" (805 votes both)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1981-05-20/lg81-nam-area-e.json",
+   "title": "Local Government Elections 1973 - 1981: Newry and Mourne",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "valid: ours 7730, ARK 6970",
+    "poll: ours 8010, ARK 7212",
+    "spoilt: ours 280, ARK 242"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 12 candidates against the 1981 block for this area on the ARK council page. Disagreements: valid: ours 7730, ARK 6970; poll: ours 8010, ARK 7212; spoilt: ours 280, ARK 242. Our poll, valid and spoilt are Area D's figures copied. ARK's valid 6,970 equals the candidates' sum. Name spellings differ (figures match): ours \"Elizabeth McDowell\" vs ARK \"Mrs E. McConnell\" (530 votes both); ours \"Sean Reavey\" vs ARK \"S. Reavy\" (83 votes both)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1981-05-20/lg81-nam-area-f.json",
+   "title": "Local Government Elections 1973 - 1981: Newry and Mourne",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 13 candidates against the 1981 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1981-05-20/lg81-nod-area-a.json",
+   "title": "Local Government Elections 1973 - 1981: North Down",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "first preferences for Bruce Mulligan: ours 693, ARK 683",
+    "electorate: ours 12648, ARK 6459",
+    "valid: ours 6893, ARK 5444",
+    "quota: ours 1149, ARK 908",
+    "poll: ours 7067, ARK 5610",
+    "spoilt: ours 174, ARK 166"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 12 candidates against the 1981 block for this area on the ARK council page. Disagreements: first preferences for Bruce Mulligan: ours 693, ARK 683; electorate: ours 12648, ARK 6459; valid: ours 6893, ARK 5444; quota: ours 1149, ARK 908; poll: ours 7067, ARK 5610; spoilt: ours 174, ARK 166. Mulligan: ours 693, ARK 683. With ARK's figure the candidates sum to our valid poll 6,893, so ours is a typo. ARK's stats line (electorate 6,459, valid 5,444) does not fit its own candidate figures, so ARK's totals look wrong. Name spellings differ (figures match): ours \"William Bailie\" vs ARK \"W. Baillie\" (655 votes both); ours \"Valerie Kinghan\" vs ARK \"Mrs V.J. Kingham\" (279 votes both)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1981-05-20/lg81-nod-area-b.json",
+   "title": "Local Government Elections 1973 - 1981: North Down",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 14 candidates against the 1981 block for this area on the ARK council page. All agree. Name spellings differ (figures match): ours \"Cecil Braniff\" vs ARK \"C. Baniff\" (306 votes both); ours \"Chalmers Quee\" vs ARK \"C. Qufe\" (386 votes both); ours \"George McMurtry\" vs ARK \"G. McMurthy\" (663 votes both)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1981-05-20/lg81-nod-area-c.json",
+   "title": "Local Government Elections 1973 - 1981: North Down",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "poll: ours 5120, ARK 5720"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 9 candidates against the 1981 block for this area on the ARK council page. Disagreements: poll: ours 5120, ARK 5720. Our total poll 5,120 is below our own valid poll 5,585, so ours is wrong; ARK has 5,720. Name spellings differ (figures match): ours \"Maisie McMullan\" vs ARK \"Mrs M. McMullen\" (273 votes both)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1981-05-20/lg81-nod-area-d.json",
+   "title": "Local Government Elections 1973 - 1981: North Down",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/73-81lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 11 candidates against the 1981 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1985-05-15/braid.json",
+   "title": "Local Government Elections 1985-1989: Ballymena",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/85-89lgballymena.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 8 candidates against the 1985 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1985-05-15/lg85-nam-crotlieve.json",
+   "title": "Local Government Elections 1985-1989: Newry and Mourne",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/85-89lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 13 candidates against the 1985 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1985-05-15/lg85-nam-fews.json",
+   "title": "Local Government Elections 1985-1989: Newry and Mourne",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/85-89lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 12 candidates against the 1985 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1985-05-15/lg85-nam-mournes.json",
+   "title": "Local Government Elections 1985-1989: Newry and Mourne",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/85-89lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 7 candidates against the 1985 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1985-05-15/lg85-nam-newry-town.json",
+   "title": "Local Government Elections 1985-1989: Newry and Mourne",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/85-89lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 14 candidates against the 1985 block for this area on the ARK council page. All agree. Name spellings differ (figures match): ours \"Sean Gallogly\" vs ARK \"S. Galloghy\" (918 votes both)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1985-05-15/lg85-nam-slieve-gullion.json",
+   "title": "Local Government Elections 1985-1989: Newry and Mourne",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/85-89lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "ARK lists S. Murphy (SF) 261, absent from ours"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 9 candidates against the 1985 block for this area on the ARK council page. Disagreements: ARK lists S. Murphy (SF) 261, absent from ours. ARK lists S. Murphy (SF) 261, whom ours lacks. Both sides give valid poll 5,888, which our candidates sum to and ARK's (with Murphy) exceed by 261. Unresolved; needs the EONI sheet."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1985-05-15/lg85-new-antrim-line.json",
+   "title": "Local Government Elections 1985-1989: Newtownabbey",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/85-89lgnewtownabbey.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "ARK lists T. Davidson (NLP) 81, absent from ours",
+    "ARK lists L. Prior (NLP) 37, absent from ours"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 8 candidates against the 1985 block for this area on the ARK council page. Disagreements: ARK lists T. Davidson (NLP) 81, absent from ours; ARK lists L. Prior (NLP) 37, absent from ours. Ours omits two candidates ARK labels NLP (81, 37); with them ARK sums to the shared valid poll 5,100."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1985-05-15/lg85-nod-abbey.json",
+   "title": "Local Government Elections 1985-1989: North Down",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/85-89lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 10 candidates against the 1985 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1985-05-15/lg85-nod-ballyholme-and-groomsport.json",
+   "title": "Local Government Elections 1985-1989: North Down",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/85-89lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 11 candidates against the 1985 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1985-05-15/lg85-nod-bangor-west.json",
+   "title": "Local Government Elections 1985-1989: North Down",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/85-89lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 12 candidates against the 1985 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1985-05-15/lg85-nod-holywood.json",
+   "title": "Local Government Elections 1985-1989: North Down",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/85-89lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 9 candidates against the 1985 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1989-05-17/antrim-northwest.json",
+   "title": "Local Government Elections 1985-1989: Antrim",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/85-89lgantrim.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 6 candidates against the 1989 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1989-05-17/antrim-southeast.json",
+   "title": "Local Government Elections 1985-1989: Antrim",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/85-89lgantrim.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 10 candidates against the 1989 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1989-05-17/braid.json",
+   "title": "Local Government Elections 1985-1989: Ballymena",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/85-89lgballymena.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 8 candidates against the 1989 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1989-05-17/lg89-col-bann.json",
+   "title": "Local Government Elections 1985-1989: Coleraine",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/85-89lgcoleraine.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 8 candidates against the 1989 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1989-05-17/lg89-col-skerries.json",
+   "title": "Local Government Elections 1985-1989: Coleraine",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/85-89lgcoleraine.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "poll: ours 6.36, ARK 6359"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 13 candidates against the 1989 block for this area on the ARK council page. Disagreements: poll: ours 6.36, ARK 6359. Our total poll 6.36 is a formatting error for 6,359. Name spellings differ (figures match): ours \"Malcolm Samuels\" vs ARK \"M. H. Samuel\" (71 votes both)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1989-05-17/lg89-lim-town.json",
+   "title": "Local Government Elections 1985-1989: Limavady",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/85-89lglimavady.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "valid: ours 4057, ARK 4037"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 7 candidates against the 1989 block for this area on the ARK council page. Disagreements: valid: ours 4057, ARK 4037. Our valid poll 4,057 is a typo: the candidates sum to 4,037, as ARK gives."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1989-05-17/lg89-nam-crotlieve.json",
+   "title": "Local Government Elections 1985-1989: Newry and Mourne",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/85-89lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 10 candidates against the 1989 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1989-05-17/lg89-nam-fews.json",
+   "title": "Local Government Elections 1985-1989: Newry and Mourne",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/85-89lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 9 candidates against the 1989 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1989-05-17/lg89-nam-mournes.json",
+   "title": "Local Government Elections 1985-1989: Newry and Mourne",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/85-89lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "ARK lists G. Graham (PROT) 1754, absent from ours"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 7 candidates against the 1989 block for this area on the ARK council page. Disagreements: ARK lists G. Graham (PROT) 1754, absent from ours. Ours omits G. Graham (PROT) 1,754, who topped the poll and won a seat per ARK; ours instead marks the DUP candidate elected. ARK figures sum to the shared valid poll 6,966."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1989-05-17/lg89-nam-newry-town.json",
+   "title": "Local Government Elections 1985-1989: Newry and Mourne",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/85-89lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 16 candidates against the 1989 block for this area on the ARK council page. All agree. Name spellings differ (figures match): ours \"Frank Feely\" vs ARK \"F. Feeley\" (957 votes both)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1989-05-17/lg89-nam-slieve-gullion.json",
+   "title": "Local Government Elections 1985-1989: Newry and Mourne",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/85-89lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 7 candidates against the 1989 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1989-05-17/lg89-nod-abbey.json",
+   "title": "Local Government Elections 1985-1989: North Down",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/85-89lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "ARK lists G. McMurtry (DUP) 298, absent from ours",
+    "electorate: ours 17233, ARK 11789",
+    "valid: ours 8565, ARK 4096",
+    "quota: ours 1071, ARK 586",
+    "poll: ours 8703, ARK 4284",
+    "spoilt: ours 138, ARK 188"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 11 candidates against the 1989 block for this area on the ARK council page. Disagreements: ARK lists G. McMurtry (DUP) 298, absent from ours; electorate: ours 17233, ARK 11789; valid: ours 8565, ARK 4096; quota: ours 1071, ARK 586; poll: ours 8703, ARK 4284; spoilt: ours 138, ARK 188. Ours omits G. McMurtry (DUP) 298. Our electorate, poll, valid and quota (17,233 / 8,703 / 8,565 / 1,071) do not fit our own candidates; ARK's totals (11,789 / 4,284 / 4,096 / 586) do. Name spellings differ (figures match): ours \"Valerie Kinghan\" vs ARK \"V. J. Kingham\" (745 votes both)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1989-05-17/lg89-nod-ballyholme-and-groomsport.json",
+   "title": "Local Government Elections 1985-1989: North Down",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/85-89lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 12 candidates against the 1989 block for this area on the ARK council page. All agree. Name spellings differ (figures match): ours \"William McLean\" vs ARK \"W. J. McClean\" (319 votes both)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1989-05-17/lg89-nod-bangor-west.json",
+   "title": "Local Government Elections 1985-1989: North Down",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/85-89lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 16 candidates against the 1989 block for this area on the ARK council page. All agree. Name spellings differ (figures match): ours \"William Bailie\" vs ARK \"W. Baillie\" (414 votes both)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1989-05-17/lg89-nod-holywood.json",
+   "title": "Local Government Elections 1985-1989: North Down",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/85-89lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 10 candidates against the 1989 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1993-05-19/antrim-northwest.json",
+   "title": "Antrim Borough Council, 1993-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgantrim.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 6 candidates against the 1993 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1993-05-19/antrim-southeast.json",
+   "title": "Antrim Borough Council, 1993-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgantrim.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 10 candidates against the 1993 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1993-05-19/lg93-nam-crotlieve.json",
+   "title": "Newry and Mourne District Council, 1993 - 2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 10 candidates against the 1993 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1993-05-19/lg93-nam-fews.json",
+   "title": "Newry and Mourne District Council, 1993 - 2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 7 candidates against the 1993 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1993-05-19/lg93-nam-mournes.json",
+   "title": "Newry and Mourne District Council, 1993 - 2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 6 candidates against the 1993 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1993-05-19/lg93-nam-newry-town.json",
+   "title": "Newry and Mourne District Council, 1993 - 2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 13 candidates against the 1993 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1993-05-19/lg93-nam-slieve-gullion.json",
+   "title": "Newry and Mourne District Council, 1993 - 2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 7 candidates against the 1993 block for this area on the ARK council page. All agree. Name spellings differ (figures match): ours \"Terry Mulkerns\" vs ARK \"T. Mulkems\" (795 votes both)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1993-05-19/lg93-nod-abbey.json",
+   "title": "North Down Council Elections 1997-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 9 candidates against the 1993 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1993-05-19/lg93-nod-ballyholme-groomsport.json",
+   "title": "North Down Council Elections 1997-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 12 candidates against the 1993 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1993-05-19/lg93-nod-bangor-west.json",
+   "title": "North Down Council Elections 1997-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 15 candidates against the 1993 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1993-05-19/lg93-nod-holywood.json",
+   "title": "North Down Council Elections 1997-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "first preferences for James White: ours 340, ARK 341"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 9 candidates against the 1993 block for this area on the ARK council page. Disagreements: first preferences for James White: ours 340, ARK 341. White: ours 340, ARK 341. Ours sums to the shared valid poll 4,421 and ARK's does not, so ARK is probably off by one."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1997-05-21/antrim-northwest.json",
+   "title": "Antrim Borough Council, 1993-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgantrim.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota for all 7 candidates against the 1997 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1997-05-21/antrim-southeast.json",
+   "title": "Antrim Borough Council, 1993-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgantrim.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota"
+   ],
+   "disagreements": [
+    "electorate: ours 12301, ARK 11431"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota for all 11 candidates against the 1997 block for this area on the ARK council page. Candidates and votes agree; only the electorate differs (ours 12301, ARK 11431)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1997-05-21/dunmurray-cross.json",
+   "title": "Lisburn City Council, 1993 - 2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lglisburn.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota for all 13 candidates against the 1997 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1997-05-21/knockveagh.json",
+   "title": "Banbridge District Council, 1993-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgbanbridge.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "candidate Mary Cook (197) not found on ARK block",
+    "valid: ours 6198, ARK 6001",
+    "spoilt: ours 75, ARK 272"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 8 candidates against the 1997 block for this area on the ARK council page. Disagreements: candidate Mary Cook (197) not found on ARK block; valid: ours 6198, ARK 6001; spoilt: ours 75, ARK 272. ARK omits Mary Cook (Alliance) 197 and gives valid 6,001 / spoilt 272. Ours includes her with valid 6,198 / spoilt 75, so the 197 has moved between spoilt and valid. Unresolved; needs the EONI 1997 sheet."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1997-05-21/lg97-nam-crotlieve.json",
+   "title": "Newry and Mourne District Council, 1993 - 2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota"
+   ],
+   "disagreements": [
+    "quota: ours 1058, ARK 1068"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota for all 10 candidates against the 1997 block for this area on the ARK council page. Disagreements: quota: ours 1058, ARK 1068. Our quota 1,058 is right (8,460 / 8 + 1 = 1,058); ARK's 1,068 is a typo."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1997-05-21/lg97-nam-fews.json",
+   "title": "Newry and Mourne District Council, 1993 - 2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota for all 7 candidates against the 1997 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1997-05-21/lg97-nam-mournes.json",
+   "title": "Newry and Mourne District Council, 1993 - 2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota for all 9 candidates against the 1997 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1997-05-21/lg97-nam-newry-town.json",
+   "title": "Newry and Mourne District Council, 1993 - 2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota for all 11 candidates against the 1997 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1997-05-21/lg97-nam-slieve-gullion.json",
+   "title": "Newry and Mourne District Council, 1993 - 2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota for all 6 candidates against the 1997 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1997-05-21/lg97-nod-abbey.json",
+   "title": "North Down Council Elections 1997-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota"
+   ],
+   "disagreements": [
+    "electorate: ours 13415, ARK 13537"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota for all 10 candidates against the 1997 block for this area on the ARK council page. Candidates and votes agree; only the electorate differs (ours 13415, ARK 13537)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1997-05-21/lg97-nod-ballyholme-and-groomsport.json",
+   "title": "North Down Council Elections 1997-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota"
+   ],
+   "disagreements": [
+    "electorate: ours 16947, ARK 17156"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota for all 11 candidates against the 1997 block for this area on the ARK council page. Candidates and votes agree; only the electorate differs (ours 16947, ARK 17156). Name spellings differ (figures match): ours \"Marsden Fitzsimons\" vs ARK \"Marsden Fitzsimmons\" (770 votes both); ours \"Ronald Dorrian\" vs ARK \"Ronald Dorian\" (106 votes both)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1997-05-21/lg97-nod-bangor-west.json",
+   "title": "North Down Council Elections 1997-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota"
+   ],
+   "disagreements": [
+    "electorate: ours 15442, ARK 15587"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota for all 14 candidates against the 1997 block for this area on the ARK council page. Candidates and votes agree; only the electorate differs (ours 15442, ARK 15587)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/1997-05-21/lg97-nod-holywood.json",
+   "title": "North Down Council Elections 1997-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota"
+   ],
+   "disagreements": [
+    "electorate: ours 10434, ARK 10538"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota for all 9 candidates against the 1997 block for this area on the ARK council page. Candidates and votes agree; only the electorate differs (ours 10434, ARK 10538)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2001-06-07/antrim-northwest.json",
+   "title": "Antrim Borough Council, 1993-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgantrim.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, valid poll, quota, total poll, spoilt votes for all 9 candidates against the 2001 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2001-06-07/antrim-southeast.json",
+   "title": "Antrim Borough Council, 1993-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgantrim.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 11 candidates against the 2001 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2001-06-07/lg01-nam-crotlieve.json",
+   "title": "Newry and Mourne District Council, 1993 - 2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 12 candidates against the 2001 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2001-06-07/lg01-nam-fews.json",
+   "title": "Newry and Mourne District Council, 1993 - 2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 9 candidates against the 2001 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2001-06-07/lg01-nam-mournes.json",
+   "title": "Newry and Mourne District Council, 1993 - 2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 7 candidates against the 2001 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2001-06-07/lg01-nam-newry-town.json",
+   "title": "Newry and Mourne District Council, 1993 - 2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 11 candidates against the 2001 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2001-06-07/lg01-nam-slieve-gullion.json",
+   "title": "Newry and Mourne District Council, 1993 - 2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 7 candidates against the 2001 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2001-06-07/lg01-nod-abbey.json",
+   "title": "North Down Council Elections 1997-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "electorate: ours 13445, ARK 13455"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 12 candidates against the 2001 block for this area on the ARK council page. Candidates and votes agree; only the electorate differs (ours 13445, ARK 13455)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2001-06-07/lg01-nod-ballyholme-groomsport.json",
+   "title": "North Down Council Elections 1997-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 14 candidates against the 2001 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2001-06-07/lg01-nod-bangor-west.json",
+   "title": "North Down Council Elections 1997-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 11 candidates against the 2001 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2001-06-07/lg01-nod-holywood.json",
+   "title": "North Down Council Elections 1997-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 10 candidates against the 2001 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2005-05-05/antrim-northwest.json",
+   "title": "Antrim Borough Council, 1993-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgantrim.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 8 candidates against the 2005 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2005-05-05/antrim-southeast.json",
+   "title": "Antrim Borough Council, 1993-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgantrim.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 12 candidates against the 2005 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2005-05-05/lg05-nam-crotlieve.json",
+   "title": "Newry and Mourne District Council, 1993 - 2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 14 candidates against the 2005 block for this area on the ARK council page. All agree. Name spellings differ (figures match): ours \"Wilma McCullough\" vs ARK \"Wilma McCulllough\" (300 votes both)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2005-05-05/lg05-nam-fews.json",
+   "title": "Newry and Mourne District Council, 1993 - 2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 9 candidates against the 2005 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2005-05-05/lg05-nam-mournes.json",
+   "title": "Newry and Mourne District Council, 1993 - 2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 9 candidates against the 2005 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2005-05-05/lg05-nam-newry-town.json",
+   "title": "Newry and Mourne District Council, 1993 - 2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 13 candidates against the 2005 block for this area on the ARK council page. All agree. Name spellings differ (figures match): ours \"John McArdle\" vs ARK \"John McCardle\" (899 votes both)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2005-05-05/lg05-nam-slieve-gullion.json",
+   "title": "Newry and Mourne District Council, 1993 - 2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 7 candidates against the 2005 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2005-05-05/lg05-nod-abbey.json",
+   "title": "North Down Council Elections 1997-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 12 candidates against the 2005 block for this area on the ARK council page. All agree. Name spellings differ (figures match): ours \"Valerie Kinghan\" vs ARK \"Valerie Kingham\" (292 votes both)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2005-05-05/lg05-nod-ballyholme-groomsport.json",
+   "title": "North Down Council Elections 1997-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 11 candidates against the 2005 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2005-05-05/lg05-nod-bangor-west.json",
+   "title": "North Down Council Elections 1997-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "electorate: ours 14658, ARK 14858"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 12 candidates against the 2005 block for this area on the ARK council page. Candidates and votes agree; only the electorate differs (ours 14658, ARK 14858)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2005-05-05/lg05-nod-holywood.json",
+   "title": "North Down Council Elections 1997-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 6 candidates against the 2005 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2011-05-05/antrim-northwest.json",
+   "title": "Antrim Borough Council, 1993-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgantrim.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 8 candidates against the 2011 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2011-05-05/antrim-southeast.json",
+   "title": "Antrim Borough Council, 1993-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgantrim.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 12 candidates against the 2011 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2011-05-05/craigavon-central.json",
+   "title": "Craigavon Borough Council, 1993 - 2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgcraigavon.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 13 candidates against the 2011 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2011-05-05/giants-causeway.json",
+   "title": "Moyle Council Elections 1993-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgmoyle.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 8 candidates against the 2011 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2011-05-05/lg11-nam-crotlieve.json",
+   "title": "Newry and Mourne District Council, 1993 - 2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 10 candidates against the 2011 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2011-05-05/lg11-nam-fews.json",
+   "title": "Newry and Mourne District Council, 1993 - 2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 9 candidates against the 2011 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2011-05-05/lg11-nam-mournes.json",
+   "title": "Newry and Mourne District Council, 1993 - 2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 10 candidates against the 2011 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2011-05-05/lg11-nam-newry-town.json",
+   "title": "Newry and Mourne District Council, 1993 - 2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 12 candidates against the 2011 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2011-05-05/lg11-nam-slieve-gullion.json",
+   "title": "Newry and Mourne District Council, 1993 - 2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "valid: ours 0, ARK 7624"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 6 candidates against the 2011 block for this area on the ARK council page. Disagreements: valid: ours 0, ARK 7624. Our valid poll is 0; the candidates sum to 7,624, as ARK gives."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2011-05-05/lg11-nod-abbey.json",
+   "title": "North Down Council Elections 1997-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "candidate Christopher Carter (39) not found on ARK block",
+    "ARK lists Mark Gordon (Cmty Prtshp) 365, absent from ours",
+    "ARK lists Karen Worrall (Cmty Prtshp) 76, absent from ours"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 14 candidates against the 2011 block for this area on the ARK council page. Disagreements: candidate Christopher Carter (39) not found on ARK block; ARK lists Mark Gordon (Cmty Prtshp) 365, absent from ours; ARK lists Karen Worrall (Cmty Prtshp) 76, absent from ours. Ours omits both Community Partnership candidates (365, 76). ARK omits Christopher Carter (Ind) 39, whom ours has; ARK's figures fall 39 short of its valid poll 5,367, so Carter is genuine. Name spellings differ (figures match): ours \"Ed Simpson\" vs ARK \"Ed Simspon\" (44 votes both)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2011-05-05/lg11-nod-ballyholme-and-groomsport.json",
+   "title": "North Down Council Elections 1997-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 14 candidates against the 2011 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2011-05-05/lg11-nod-bangor-west.json",
+   "title": "North Down Council Elections 1997-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [
+    "ARK lists Alison Blayney (Cmty Prtshp) 192, absent from ours",
+    "ARK lists Jamie Bryson (Cmty Prtshp) 167, absent from ours"
+   ],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 11 candidates against the 2011 block for this area on the ARK council page. Disagreements: ARK lists Alison Blayney (Cmty Prtshp) 192, absent from ours; ARK lists Jamie Bryson (Cmty Prtshp) 167, absent from ours. Ours omits both Community Partnership candidates (192, 167); ARK figures sum to the shared valid poll 6,991."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2011-05-05/lg11-nod-holywood.json",
+   "title": "North Down Council Elections 1997-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 8 candidates against the 2011 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2011-05-05/omagh-west-tyrone.json",
+   "title": "Omagh Council Elections 1997-2011",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/lgomagh.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "electorate",
+    "seats",
+    "valid poll",
+    "quota",
+    "total poll",
+    "spoilt votes"
+   ],
+   "disagreements": [],
+   "check": "Compared candidate names, first-preference votes, electorate, seats, valid poll, quota, total poll, spoilt votes for all 9 candidates against the 2011 block for this area on the ARK council page. All agree."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "local-government/2018-10-18/carrick-castle.json",
+   "title": "DUP's Peter Johnston wins Mid and East Antrim council by-election",
+   "publisher": "The Irish News",
+   "url": "https://www.irishnews.com/news/2018/10/20/news/dup-s-peter-johnston-wins-mid-and-east-antrim-council-by-election-1463868/",
+   "accessed": "2026-10-12",
+   "kind": "newspaper",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "first-preference votes",
+    "total poll"
+   ],
+   "disagreements": [],
+   "check": "All five candidates' first preferences agree (Johnston 1,106; McDermott 668; Gray 556; Harvey 448; Sibley 71), summing to our valid poll of 2,849, and the total poll of 2,873 agrees. The report gives 21.8% turnout but no electorate, spoilt votes or quota. ARK's Mid and East Antrim page does not cover this by-election."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "northern-ireland-forum-for-political-dialogue/1996-05-30/belfast-east.json",
+   "title": "East Belfast (1996 Forum election section)",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/aeb.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "party list votes",
+    "electorate",
+    "total poll",
+    "spoilt votes",
+    "valid poll"
+   ],
+   "disagreements": [
+    "poll: ours 38499, ARK 38419",
+    "valid: ours 38419, ARK 38339"
+   ],
+   "check": "All 20 party votes agree (sum 38,339). Our valid poll (38,419) and total poll (38,499) are each 80 too high: ARK gives valid 38,339 and poll 38,419, which fits the party votes plus 80 spoilt. Ours is wrong."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "northern-ireland-forum-for-political-dialogue/1996-05-30/belfast-north.json",
+   "title": "North Belfast (1996 Forum election section)",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/anb.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "party list votes",
+    "electorate",
+    "total poll",
+    "spoilt votes",
+    "valid poll"
+   ],
+   "disagreements": [],
+   "check": "All 17 party votes ARK prints agree, as do electorate, poll, spoilt and valid (40,423). ARK prints no line for Natural Law (ours 14), but its valid total equals our sum including that 14."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "northern-ireland-forum-for-political-dialogue/1996-05-30/belfast-south.json",
+   "title": "South Belfast (1996 Forum election section)",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/asb.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "party list votes",
+    "electorate",
+    "total poll",
+    "spoilt votes",
+    "valid poll"
+   ],
+   "disagreements": [
+    "ours Natural Law 20 has no equal vote figure on ARK",
+    "ARK  13 has no equal vote figure in ours"
+   ],
+   "check": "Natural Law: ours 20, ARK 13. The other 18 parties and the totals agree. Our party votes sum to the shared valid poll 37,808 and ARK's fall 7 short, so ARK is probably wrong."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "northern-ireland-forum-for-political-dialogue/1996-05-30/belfast-west.json",
+   "title": "West Belfast (1996 Forum election section)",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/awb.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "party list votes",
+    "electorate",
+    "total poll",
+    "spoilt votes",
+    "valid poll"
+   ],
+   "disagreements": [],
+   "check": "All party list votes agree, as do electorate, total poll, spoilt and valid votes (from the 1996 Forum section of ARK's constituency page)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "northern-ireland-forum-for-political-dialogue/1996-05-30/east-antrim.json",
+   "title": "East Antrim (1996 Forum election section)",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/aea.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "party list votes",
+    "electorate",
+    "total poll",
+    "spoilt votes",
+    "valid poll"
+   ],
+   "disagreements": [],
+   "check": "All party list votes agree, as do electorate, total poll, spoilt and valid votes (from the 1996 Forum section of ARK's constituency page)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "northern-ireland-forum-for-political-dialogue/1996-05-30/east-londonderry.json",
+   "title": "East Londonderry (1996 Forum election section)",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/ael.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "party list votes",
+    "electorate",
+    "total poll",
+    "spoilt votes",
+    "valid poll"
+   ],
+   "disagreements": [
+    "ours Green 186 has no equal vote figure on ARK",
+    "ARK Green Party 189 has no equal vote figure in ours"
+   ],
+   "check": "Green: ours 186, ARK 189. Everything else agrees. Ours sums to the shared valid poll 36,794 and ARK's exceed it by 3, so ARK is probably wrong."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "northern-ireland-forum-for-political-dialogue/1996-05-30/fermanagh-and-south-tyrone.json",
+   "title": "Fermanagh and South Tyrone (1996 Forum election section)",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/afst.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "party list votes",
+    "electorate",
+    "total poll",
+    "spoilt votes",
+    "valid poll"
+   ],
+   "disagreements": [],
+   "check": "All party list votes agree, as do electorate, total poll, spoilt and valid votes (from the 1996 Forum section of ARK's constituency page)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "northern-ireland-forum-for-political-dialogue/1996-05-30/foyle.json",
+   "title": "Foyle (1996 Forum election section)",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/afoy.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "party list votes",
+    "electorate",
+    "total poll",
+    "spoilt votes",
+    "valid poll"
+   ],
+   "disagreements": [],
+   "check": "All party list votes agree, as do electorate, total poll, spoilt and valid votes (from the 1996 Forum section of ARK's constituency page)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "northern-ireland-forum-for-political-dialogue/1996-05-30/lagan-valley.json",
+   "title": "Lagan Valley (1996 Forum election section)",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/alv.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "party list votes",
+    "electorate",
+    "total poll",
+    "spoilt votes",
+    "valid poll"
+   ],
+   "disagreements": [],
+   "check": "All party votes ARK prints agree, as do electorate, poll, spoilt and valid (43,455). ARK gives only percentages for UDP (7%) and UKUP (5%); our 3,007 and 2,252 fit those percentages and the valid total."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "northern-ireland-forum-for-political-dialogue/1996-05-30/mid-ulster.json",
+   "title": "Mid Ulster (1996 Forum election section)",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/amu.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "party list votes",
+    "electorate",
+    "total poll",
+    "spoilt votes",
+    "valid poll"
+   ],
+   "disagreements": [],
+   "check": "All party list votes agree, as do electorate, total poll, spoilt and valid votes (from the 1996 Forum section of ARK's constituency page)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "northern-ireland-forum-for-political-dialogue/1996-05-30/newry-and-armagh.json",
+   "title": "Newry and Armagh (1996 Forum election section)",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/ananda.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "party list votes",
+    "electorate",
+    "total poll",
+    "spoilt votes",
+    "valid poll"
+   ],
+   "disagreements": [],
+   "check": "All party list votes agree, as do electorate, total poll, spoilt and valid votes (from the 1996 Forum section of ARK's constituency page)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "northern-ireland-forum-for-political-dialogue/1996-05-30/north-antrim.json",
+   "title": "North Antrim (1996 Forum election section)",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/ana.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "party list votes",
+    "electorate",
+    "total poll",
+    "spoilt votes",
+    "valid poll"
+   ],
+   "disagreements": [],
+   "check": "All party list votes agree, as do electorate, total poll, spoilt and valid votes (from the 1996 Forum section of ARK's constituency page)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "northern-ireland-forum-for-political-dialogue/1996-05-30/north-down.json",
+   "title": "North Down (1996 Forum election section)",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/and.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "party list votes",
+    "electorate",
+    "total poll",
+    "spoilt votes",
+    "valid poll"
+   ],
+   "disagreements": [],
+   "check": "All party list votes agree, as do electorate, total poll, spoilt and valid votes (from the 1996 Forum section of ARK's constituency page)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "northern-ireland-forum-for-political-dialogue/1996-05-30/northern-ireland.json",
+   "title": "The 1996 Forum Elections",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/ff96.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this election",
+   "checked": true,
+   "compared": [
+    "party list votes"
+   ],
+   "disagreements": [],
+   "check": "All 24 party totals for Northern Ireland agree with the overall results table on ARK's 1996 Forum page. The page gives no electorate, poll or spoilt figures, so those were not compared."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "northern-ireland-forum-for-political-dialogue/1996-05-30/south-antrim.json",
+   "title": "South Antrim (1996 Forum election section)",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/asa.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "party list votes",
+    "electorate",
+    "total poll",
+    "spoilt votes",
+    "valid poll"
+   ],
+   "disagreements": [
+    "ours Independent (Arthur Templeton) 350 has no equal vote figure on ARK",
+    "ARK Independent Templeton 250 has no equal vote figure in ours"
+   ],
+   "check": "Independent Templeton: ours 350, ARK 250. Everything else agrees. Ours sums to the shared valid poll 39,797 and ARK's falls 100 short, so ARK is probably wrong."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "northern-ireland-forum-for-political-dialogue/1996-05-30/south-down.json",
+   "title": "South Down (1996 Forum election section)",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/asd.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "party list votes",
+    "electorate",
+    "total poll",
+    "spoilt votes",
+    "valid poll"
+   ],
+   "disagreements": [],
+   "check": "All party list votes agree, as do electorate, total poll, spoilt and valid votes (from the 1996 Forum section of ARK's constituency page)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "northern-ireland-forum-for-political-dialogue/1996-05-30/strangford.json",
+   "title": "Strangford (1996 Forum election section)",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/astr.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "party list votes",
+    "electorate",
+    "total poll",
+    "spoilt votes",
+    "valid poll"
+   ],
+   "disagreements": [],
+   "check": "All party list votes agree, as do electorate, total poll, spoilt and valid votes (from the 1996 Forum section of ARK's constituency page)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "northern-ireland-forum-for-political-dialogue/1996-05-30/upper-bann.json",
+   "title": "Upper Bann (1996 Forum election section)",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/aub.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "party list votes",
+    "electorate",
+    "total poll",
+    "spoilt votes",
+    "valid poll"
+   ],
+   "disagreements": [],
+   "check": "All party list votes agree, as do electorate, total poll, spoilt and valid votes (from the 1996 Forum section of ARK's constituency page)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "northern-ireland-forum-for-political-dialogue/1996-05-30/west-tyrone.json",
+   "title": "West Tyrone (1996 Forum election section)",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/awt.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "party list votes",
+    "electorate",
+    "total poll",
+    "spoilt votes",
+    "valid poll"
+   ],
+   "disagreements": [],
+   "check": "All party list votes agree, as do electorate, total poll, spoilt and valid votes (from the 1996 Forum section of ARK's constituency page)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "house-of-commons-of-the-united-kingdom/1995-06-15/north-down.json",
+   "title": "The 1995 North Down by-election",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/fnd95.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "votes"
+   ],
+   "disagreements": [
+    "Michael Brooks: ours 108, ARK 109"
+   ],
+   "check": "Seven of eight candidates agree. Brooks: ours 108, ARK 109; ours sums to our valid poll 27,388 and ARK's exceed it by 1. ARK gives no electorate, poll or spoilt figures. The party labels for Brooks and Carter differ: ARK has \"Free Para Lee Clegg\" and Ulster's Independent Voice, where ours has Independent Unionist for both."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "house-of-commons-of-the-united-kingdom/2000-09-21/south-antrim.json",
+   "title": "South Antrim by-election 2000",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/fsa00.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "votes"
+   ],
+   "disagreements": [],
+   "check": "All six candidates' votes agree. ARK gives turnout only as a percentage (43%), so electorate and poll were not compared."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "house-of-commons-of-the-united-kingdom/2011-06-06/belfast-west.json",
+   "title": "West Belfast",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/awb.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "votes",
+    "electorate",
+    "total poll",
+    "spoilt votes",
+    "valid poll",
+    "polling date"
+   ],
+   "disagreements": [
+    "polling date: ours 2011-06-06, ARK and Wikipedia 9 June 2011",
+    "electorate: ours 61,441, ARK 61,768",
+    "total poll: ours 23,048, ARK 23,057"
+   ],
+   "check": "All six candidates' votes agree, as do spoilt (97) and valid (22,951). Ours is internally consistent (22,951 + 97 = 23,048) and ARK's poll is not. The contest date is wrong: the by-election was held on 9 June 2011."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "house-of-commons-of-the-united-kingdom/2013-03-07/mid-ulster.json",
+   "title": "Mid Ulster",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/amu.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "candidate names",
+    "votes"
+   ],
+   "disagreements": [],
+   "check": "All four candidates' votes agree (2013 by-election section of ARK's Mid Ulster page). ARK gives no electorate or poll for this contest."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "house-of-commons-of-the-united-kingdom/2018-05-03/west-tyrone.json",
+   "title": "West Tyrone",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/awt.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate names",
+    "votes",
+    "electorate",
+    "total poll",
+    "spoilt votes",
+    "valid poll"
+   ],
+   "disagreements": [
+    "total poll: ours 35,334, ARK 35,337",
+    "spoilt/invalid: ours 305, ARK 308"
+   ],
+   "check": "All five candidates' votes, the electorate (64,101) and valid votes (35,029) agree. Wikipedia also gives a turnout of 35,337, matching ARK, so our poll and spoilt figures are probably 3 too low."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "european-parliament/2019-05-23/northern-ireland.json",
+   "title": "The 2019 European Election",
+   "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+   "url": "https://www.ark.ac.uk/elections/fe19.htm",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this election",
+   "checked": false,
+   "compared": [
+    "candidate first preferences",
+    "invalid votes",
+    "valid poll",
+    "quota",
+    "total poll"
+   ],
+   "disagreements": [
+    "total poll: ours 577,096, ARK 577,275"
+   ],
+   "check": "All 11 candidates' first preferences agree, as do invalid (4,649), valid (572,447) and quota (143,112). ARK's total poll of 577,275 is 179 more than valid plus invalid; ours is the sum. The electorate is not on ARK."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "dail-eireann/2014-10-10/roscommon-south-leitrim.json",
+   "title": "Roscommon-South Leitrim by-election 2014 (31st Dáil)",
+   "publisher": "ElectionsIreland.org",
+   "url": "https://electionsireland.org/result.cfm?election=2011B&cons=729",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": false,
+   "compared": [
+    "candidate first preferences",
+    "electorate",
+    "total poll",
+    "spoilt votes",
+    "valid poll",
+    "quota"
+   ],
+   "disagreements": [
+    "first preferences: 8 of 10 candidates differ, because ours holds each continuing candidate's second-count transfer: Connaughton 168 vs 7,334, Fitzmaurice 151 vs 6,220, Kenny 278 vs 5,906, Hopkins 149 vs 5,593, McDermott 74 vs 2,944, Kelly 23 vs 2,037, Corcoran 43 vs 1,262, Crosby 33 vs 1,030. Only Guckian 902 and O'Boyle 82 (excluded first) agree.",
+    "electorate: ours 62,369, source 62,359"
+   ],
+   "check": "Poll (33,572), spoilt (262), valid (33,310) and quota (16,656) agree. The candidate figures are wrong because the import read the count-2 column as first preferences. Wikipedia's count table, which cites this page, gives the same first preferences. The sibling 2014-10-10 Dublin South West file looks to have the same defect (Declan Burke 30)."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/1937-07-01-plebiscite-on-the-draft-constitution/ireland.json",
+   "title": "Plebiscite on the Draft Constitution 1937",
+   "publisher": "Department of Housing, Local Government and Heritage (via data.gov.ie)",
+   "url": "https://data.gov.ie/dataset/plebiscite-on-the-draft-constitution-1937",
+   "accessed": "2026-10-12",
+   "kind": "official",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 685,105, No 526,945 (56.52% / 43.48%) against our outcome. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/1959-06-17-change-in-voting-system/ireland.json",
+   "title": "1958 Third Amendment to the constitution",
+   "publisher": "Department of Housing, Local Government and Heritage (via data.gov.ie)",
+   "url": "https://data.gov.ie/dataset/1958-third-amendment-to-the-constitution",
+   "accessed": "2026-10-12",
+   "kind": "official",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 453,322, No 486,989 (48.21% / 51.79%) against our outcome. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/1968-10-16-change-in-voting-system/ireland.json",
+   "title": "1968fourthamendment.csv",
+   "publisher": "Department of Housing, Local Government and Heritage (via data.gov.ie)",
+   "url": "https://data.gov.ie/dataset/1968fourthamendmentcsv",
+   "accessed": "2026-10-12",
+   "kind": "official",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 423,496, No 657,898 (39.16% / 60.84%) against our outcome. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/1968-10-16-formation-of-dail-constituencies/ireland.json",
+   "title": "1968thirdamendment.csv",
+   "publisher": "Department of Housing, Local Government and Heritage (via data.gov.ie)",
+   "url": "https://data.gov.ie/dataset/1968thirdamendmentcsv",
+   "accessed": "2026-10-12",
+   "kind": "official",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 424,185, No 656,803 (39.24% / 60.76%) against our outcome. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/1972-05-10-accession-to-the-european-communities/ireland.json",
+   "title": "Referendum on Third Amendment of Constitution Bill 1971",
+   "publisher": "Department of Housing, Local Government and Heritage (via data.gov.ie)",
+   "url": "https://data.gov.ie/dataset/referendum-on-third-amendment-of-constitution-bill-1971",
+   "accessed": "2026-10-12",
+   "kind": "official",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 1,041,890, No 211,891 (83.1% / 16.9%) against our outcome. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/1972-12-07-recognition-of-specified-religions/ireland.json",
+   "title": "Referendum on the Fifth Amendment of the Constitution Bill 1972",
+   "publisher": "Department of Housing, Local Government and Heritage (via data.gov.ie)",
+   "url": "https://data.gov.ie/dataset/referendum-on-the-fifth-amendment-of-the-constitution-bill-1972",
+   "accessed": "2026-10-12",
+   "kind": "official",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 721,003, No 133,430 (84.38% / 15.62%) against our outcome. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/1972-12-07-voting-age/ireland.json",
+   "title": "Referendum on the Fourth Amendment of the Constitution Bill 1972",
+   "publisher": "Department of Housing, Local Government and Heritage (via data.gov.ie)",
+   "url": "https://data.gov.ie/dataset/referendum-on-the-fourth-amendment-of-the-constitution-bill-1972",
+   "accessed": "2026-10-12",
+   "kind": "official",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 724,836, No 131,514 (84.64% / 15.36%) against our outcome. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/1979-07-05-adoption/ireland.json",
+   "title": "Referendum on the Sixth Amendment of the Constitution Bill 1978",
+   "publisher": "Department of Housing, Local Government and Heritage (via data.gov.ie)",
+   "url": "https://data.gov.ie/dataset/referendum-on-the-sixth-amendment-of-the-constitution-bill-1978",
+   "accessed": "2026-10-12",
+   "kind": "official",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 601,694, No 6,265 (98.97% / 1.03%) against our outcome. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/1979-07-05-university-representation-in-seanad/ireland.json",
+   "title": "Referendum on the Seventh Amendment of the Constitution Bill 1979",
+   "publisher": "Department of Housing, Local Government and Heritage (via data.gov.ie)",
+   "url": "https://data.gov.ie/dataset/referendum-on-the-seventh-amendment-of-the-constitution-bill-1979",
+   "accessed": "2026-10-12",
+   "kind": "official",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 552,600, No 45,484 (92.4% / 7.6%) against our outcome. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/1983-09-07-right-to-life-of-the-unborn/ireland.json",
+   "title": "Referendum on the Eight Amendment of the Constitution Bill 1982",
+   "publisher": "Department of Housing, Local Government and Heritage (via data.gov.ie)",
+   "url": "https://data.gov.ie/dataset/referendum-on-the-eight-amendment-of-the-constitution-bill-1982",
+   "accessed": "2026-10-12",
+   "kind": "official",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 841,233, No 416,136 (66.9% / 33.1%) against our outcome. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/1984-06-14-extension-of-voting-right-at-dail-elections/ireland.json",
+   "title": "Referendum on the Ninth Amendment of the Constitution Bill 1984",
+   "publisher": "Department of Housing, Local Government and Heritage (via data.gov.ie)",
+   "url": "https://data.gov.ie/dataset/referendum-on-the-ninth-amendment-of-the-constitution-bill-1984",
+   "accessed": "2026-10-12",
+   "kind": "official",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 828,483, No 270,250 (75.4% / 24.6%) against our outcome. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/1986-06-26-dissolution-of-marriage/ireland.json",
+   "title": "Referendum on the Tenth Amendment of the Constitution Bill 1986",
+   "publisher": "Department of Housing, Local Government and Heritage (via data.gov.ie)",
+   "url": "https://data.gov.ie/dataset/referendum-on-the-tenth-amendment-of-the-constitution-bill-1986",
+   "accessed": "2026-10-12",
+   "kind": "official",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 538,279, No 935,843 (36.52% / 63.48%) against our outcome. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/1987-05-26-ratification-of-the-single-european-act/ireland.json",
+   "title": "Referendum on the Tenth Amendment of the Constitution Bill 1987",
+   "publisher": "Department of Housing, Local Government and Heritage (via data.gov.ie)",
+   "url": "https://data.gov.ie/dataset/referendum-on-the-tenth-amendment-of-the-constitution-bill-1987",
+   "accessed": "2026-10-12",
+   "kind": "official",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 755,423, No 324,977 (69.92% / 30.08%) against our outcome. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/1992-06-18-european-union/ireland.json",
+   "title": "Referendum on the Eleventh Amendment of the Constitution Bill1992",
+   "publisher": "Department of Housing, Local Government and Heritage (via data.gov.ie)",
+   "url": "https://data.gov.ie/dataset/referendum-on-the-eleventh-amendment-of-the-constitution-bill1992",
+   "accessed": "2026-10-12",
+   "kind": "official",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 1,001,076, No 448,655 (69.05% / 30.95%) against our outcome. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/1992-11-25-information/ireland.json",
+   "title": "Referendum on the Fourteenth Amendment of the Constitution Bill 1992",
+   "publisher": "Department of Housing, Local Government and Heritage (via data.gov.ie)",
+   "url": "https://data.gov.ie/dataset/referendum-on-the-fourteenth-amendment-of-the-constitution-bill-1992",
+   "accessed": "2026-10-12",
+   "kind": "official",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome",
+    "yes %",
+    "no %"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 992,833, No 665,106 (59.88% / 40.12%) against our outcome, yes %, no %. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome and the percentages could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/1992-11-25-right-to-life/ireland.json",
+   "title": "Referendum on the Twelfth Amendment of the Constitution Bill 1992",
+   "publisher": "Department of Housing, Local Government and Heritage (via data.gov.ie)",
+   "url": "https://data.gov.ie/dataset/referendum-on-the-twelfth-amendment-of-the-constitution-bill-1992",
+   "accessed": "2026-10-12",
+   "kind": "official",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome",
+    "yes %",
+    "no %"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 572,177, No 1,079,297 (34.65% / 65.35%) against our outcome, yes %, no %. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome and the percentages could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/1992-11-25-travel/ireland.json",
+   "title": "Referendum on the Thirteenth Amendment of the Constitution Bill 1992",
+   "publisher": "Department of Housing, Local Government and Heritage (via data.gov.ie)",
+   "url": "https://data.gov.ie/dataset/referendum-on-the-thirteenth-amendment-of-the-constitution-bill-1992",
+   "accessed": "2026-10-12",
+   "kind": "official",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome",
+    "yes %",
+    "no %"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 1,035,308, No 624,059 (62.39% / 37.61%) against our outcome, yes %, no %. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome and the percentages could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/1995-11-24-dissolution-of-marriage/ireland.json",
+   "title": "Referendum on the Fifteenth Amendment of the Constitution Bill 1995",
+   "publisher": "Department of Housing, Local Government and Heritage (via data.gov.ie)",
+   "url": "https://data.gov.ie/dataset/referendum-on-the-fifteenth-amendment-of-the-constitution-bill-1995",
+   "accessed": "2026-10-12",
+   "kind": "official",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome",
+    "yes %",
+    "no %"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 818,842, No 809,728 (50.28% / 49.72%) against our outcome, yes %, no %. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome and the percentages could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/1996-11-28-bail/ireland.json",
+   "title": "Referendum on the Sixteenth Amendment of the Constitution Bill 1996",
+   "publisher": "Department of Housing, Local Government and Heritage (via data.gov.ie)",
+   "url": "https://data.gov.ie/dataset/referendum-on-the-sixteenth-amendment-of-the-constitution-bill-1996",
+   "accessed": "2026-10-12",
+   "kind": "official",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome",
+    "yes %",
+    "no %"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 579,740, No 194,968 (74.83% / 25.17%) against our outcome, yes %, no %. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome and the percentages could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/1997-10-30-cabinet-confidentiality/ireland.json",
+   "title": "Referendum on the Seventeenth Amendment of the Constitution Bill 1997",
+   "publisher": "Department of Housing, Local Government and Heritage (via data.gov.ie)",
+   "url": "https://data.gov.ie/dataset/referendum-on-the-seventeenth-amendment-of-the-constitution-bill-1997",
+   "accessed": "2026-10-12",
+   "kind": "official",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome",
+    "yes %",
+    "no %"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 632,777, No 569,175 (52.65% / 47.35%) against our outcome, yes %, no %. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome and the percentages could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/1998-05-22-northern-ireland/ireland.json",
+   "title": "Referendum results: Northern Ireland (1998)",
+   "publisher": "ElectionsIreland.org",
+   "url": "https://electionsireland.org/results/referendum/refresult.cfm?ref=199819R",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome",
+    "yes %",
+    "no %"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 1,442,583, No 85,748 (94.39% / 5.61%) against our outcome, yes %, no %. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome and the percentages could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/1998-05-22-treaty-of-amsterdam/ireland.json",
+   "title": "Referendum results: Treaty of Amsterdam (1998)",
+   "publisher": "ElectionsIreland.org",
+   "url": "https://electionsireland.org/results/referendum/refresult.cfm?ref=199818R",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome",
+    "yes %",
+    "no %"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 932,632, No 578,070 (61.74% / 38.26%) against our outcome, yes %, no %. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome and the percentages could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/1999-06-10-recognition-for-local-government/ireland.json",
+   "title": "Referendum results: Recognition for Local Government (1999)",
+   "publisher": "ElectionsIreland.org",
+   "url": "https://electionsireland.org/results/referendum/refresult.cfm?ref=1999R",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome",
+    "yes %",
+    "no %"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 1,024,850, No 291,965 (77.83% / 22.17%) against our outcome, yes %, no %. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome and the percentages could be checked; the source counts could fill them. The Department's data.gov.ie CSV for the 20th Amendment actually holds the 2001 21st Amendment figures (610,455 / 372,950), so ElectionsIreland was used."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/2002-03-06-protection-of-human-life-in-pregnancy/ireland.json",
+   "title": "Referendum on the Twenty-fifth Amendment of the Constitution Bill 2001",
+   "publisher": "Department of Housing, Local Government and Heritage (via data.gov.ie)",
+   "url": "https://data.gov.ie/dataset/referendum-on-the-twenty-fifth-amendment-of-the-constitution-bill-2001",
+   "accessed": "2026-10-12",
+   "kind": "official",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome",
+    "yes %",
+    "no %"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 618,485, No 629,041 (49.58% / 50.42%) against our outcome, yes %, no %. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome and the percentages could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/2002-10-19-treaty-of-nice-ii/ireland.json",
+   "title": "Referendum on the Twenty-sixth Amendment of the Constitution Bill 2002",
+   "publisher": "Department of Housing, Local Government and Heritage (via data.gov.ie)",
+   "url": "https://data.gov.ie/dataset/referendum-on-the-twenty-sixth-amendment-of-the-constitution-bill-2002",
+   "accessed": "2026-10-12",
+   "kind": "official",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome",
+    "yes %",
+    "no %"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 906,317, No 534,887 (62.89% / 37.11%) against our outcome, yes %, no %. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome and the percentages could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/2004-06-11-irish-citizenship/ireland.json",
+   "title": "Referendum on the Twenty-seventh Amendment of the Constitution Bill 2004",
+   "publisher": "Department of Housing, Local Government and Heritage (via data.gov.ie)",
+   "url": "https://data.gov.ie/dataset/referendum-on-the-twenty-seventh-amendment-of-the-constitution-bill-2004",
+   "accessed": "2026-10-12",
+   "kind": "official",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome",
+    "yes %",
+    "no %"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 1,427,520, No 375,695 (79.17% / 20.83%) against our outcome, yes %, no %. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome and the percentages could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/2008-06-12-treaty-of-lisbon-i/ireland.json",
+   "title": "Referendum results: Treaty of Lisbon I (2008)",
+   "publisher": "ElectionsIreland.org",
+   "url": "https://electionsireland.org/results/referendum/refresult.cfm?ref=2008R",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome",
+    "yes %",
+    "no %"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 752,451, No 862,415 (46.6% / 53.4%) against our outcome, yes %, no %. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome and the percentages could be checked; the source counts could fill them. The data.gov.ie dataset for the 2008 28th Amendment carries the 2009 (Lisbon II) file, so ElectionsIreland was used."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/2009-10-02-treaty-of-lisbon-ii/ireland.json",
+   "title": "Referendum on the Twenty-eighth Amendment of the Constitution Bill 2009",
+   "publisher": "Department of Housing, Local Government and Heritage (via data.gov.ie)",
+   "url": "https://data.gov.ie/dataset/referendum-on-the-twenty-eighth-amendment-of-the-constitution-bill-2009",
+   "accessed": "2026-10-12",
+   "kind": "official",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome",
+    "yes %",
+    "no %"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 1,214,268, No 594,606 (67.13% / 32.87%) against our outcome, yes %, no %. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome and the percentages could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/2011-10-27-houses-of-the-oireachtas-inquiries/ireland.json",
+   "title": "Referendum on the Thirtieth Amendment of the Constitution Bill 2011",
+   "publisher": "Department of Housing, Local Government and Heritage (via data.gov.ie)",
+   "url": "https://data.gov.ie/dataset/referendum-on-the-thirtieth-amendment-of-the-constitution-bill-2011",
+   "accessed": "2026-10-12",
+   "kind": "official",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome",
+    "yes %",
+    "no %"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 812,008, No 928,175 (46.66% / 53.34%) against our outcome, yes %, no %. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome and the percentages could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/2011-10-27-judges-remuneration/ireland.json",
+   "title": "Referendum on the Twenty-ninth Amendment of the Constitution Bill 2011",
+   "publisher": "Department of Housing, Local Government and Heritage (via data.gov.ie)",
+   "url": "https://data.gov.ie/dataset/referendum-on-the-twenty-ninth-amendment-of-the-constitution-bill-2011",
+   "accessed": "2026-10-12",
+   "kind": "official",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome",
+    "yes %",
+    "no %"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 1,393,877, No 354,134 (79.74% / 20.26%) against our outcome, yes %, no %. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome and the percentages could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/2012-05-31-fiscal-treaty/ireland.json",
+   "title": "Referendum results: Fiscal Treaty (2012)",
+   "publisher": "ElectionsIreland.org",
+   "url": "https://electionsireland.org/results/referendum/refresult.cfm?ref=2012R",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome",
+    "yes %",
+    "no %"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 955,091, No 629,088 (60.29% / 39.71%) against our outcome, yes %, no %. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome and the percentages could be checked; the source counts could fill them. The data.gov.ie resource for the 2012 30th Amendment returns an HTML page, not the CSV."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/2012-11-10-children/ireland.json",
+   "title": "Referendum on the Thirty-first Amendment of the Constitution Bill 2012",
+   "publisher": "Department of Housing, Local Government and Heritage (via data.gov.ie)",
+   "url": "https://data.gov.ie/dataset/referendum-on-the-thirty-first-amendment-of-the-constitution-bill-2012",
+   "accessed": "2026-10-12",
+   "kind": "official",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome",
+    "yes %",
+    "no %"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 615,731, No 445,863 (58% / 42%) against our outcome, yes %, no %. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome and the percentages could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/2013-10-04-abolition-of-the-seanad/ireland.json",
+   "title": "Referendum on the Thirty-second Amendment of the Constitution Bill 2013",
+   "publisher": "Department of Housing, Local Government and Heritage (via data.gov.ie)",
+   "url": "https://data.gov.ie/dataset/referendum-on-the-thirty-second-amendment-of-the-constitution-bill-2013",
+   "accessed": "2026-10-12",
+   "kind": "official",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome",
+    "yes %",
+    "no %"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 591,937, No 634,437 (48.27% / 51.73%) against our outcome, yes %, no %. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome and the percentages could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/2013-10-04-court-of-appeal/ireland.json",
+   "title": "Referendum on the Thirty-third Amendment of the Constitution Bill 2013",
+   "publisher": "Department of Housing, Local Government and Heritage (via data.gov.ie)",
+   "url": "https://data.gov.ie/dataset/referendum-on-the-thirty-third-amendment-of-the-constitution-bill-2013",
+   "accessed": "2026-10-12",
+   "kind": "official",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome",
+    "yes %",
+    "no %"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 795,008, No 425,047 (65.16% / 34.84%) against our outcome, yes %, no %. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome and the percentages could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/2015-05-22-age-of-president/ireland.json",
+   "title": "Referendum results: Age of President (2015)",
+   "publisher": "ElectionsIreland.org",
+   "url": "https://electionsireland.org/results/referendum/refresult.cfm?ref=201535R",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome",
+    "yes %",
+    "no %"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 520,898, No 1,412,602 (26.94% / 73.06%) against our outcome, yes %, no %. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome and the percentages could be checked; the source counts could fill them. The data.gov.ie CSV still has the uncorrected Yes total of 521,798. The certified figure is 520,898 (corrected by the Department in 2016), which ours matches."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/2015-05-22-equal-marriage/ireland.json",
+   "title": "Referendum on the Thirty-fourth Amendment of the Constitution Bill 2015",
+   "publisher": "Department of Housing, Local Government and Heritage (via data.gov.ie)",
+   "url": "https://data.gov.ie/dataset/referendum-on-the-thirty-fourth-amendment-of-the-constitution-bill-2015",
+   "accessed": "2026-10-12",
+   "kind": "official",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome",
+    "yes %",
+    "no %"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 1,201,607, No 734,300 (62.07% / 37.93%) against our outcome, yes %, no %. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome and the percentages could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/2018-05-25-regulation-of-termination-of-pregnancy-repeal-of-8th-amendment/ireland.json",
+   "title": "Referendum results on the Thirty-sixth Amendment of the Constitution Bill 2018",
+   "publisher": "Department of Housing, Local Government and Heritage (via data.gov.ie)",
+   "url": "https://data.gov.ie/dataset/referendum-results-on-the-thirty-sixth-amendment-of-the-constitution-bill-2018",
+   "accessed": "2026-10-12",
+   "kind": "official",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome",
+    "yes %",
+    "no %"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 1,429,981, No 723,632 (66.4% / 33.6%) against our outcome, yes %, no %. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome and the percentages could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/2018-10-26-repeal-of-blasphemy-offence/ireland.json",
+   "title": "Referendum results: Repeal of Blasphemy Offence (2018)",
+   "publisher": "ElectionsIreland.org",
+   "url": "https://electionsireland.org/results/referendum/refresult.cfm?ref=201837R",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome",
+    "yes %",
+    "no %"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 951,650, No 515,808 (64.85% / 35.15%) against our outcome, yes %, no %. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome and the percentages could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/2019-05-24-regulation-of-divorce/ireland.json",
+   "title": "Referendum results: Regulation of Divorce (2019)",
+   "publisher": "ElectionsIreland.org",
+   "url": "https://electionsireland.org/results/referendum/refresult.cfm?ref=201938R",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome",
+    "yes %",
+    "no %"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 1,384,192, No 302,319 (82.07% / 17.93%) against our outcome, yes %, no %. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome and the percentages could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/2024-03-08-care/ireland.json",
+   "title": "Referendum results: Care (2024)",
+   "publisher": "ElectionsIreland.org",
+   "url": "https://electionsireland.org/results/referendum/refresult.cfm?ref=202440R",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome",
+    "yes %",
+    "no %"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 393,053, No 1,114,620 (26.07% / 73.93%) against our outcome, yes %, no %. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome and the percentages could be checked; the source counts could fill them."
+  },
+  {
+   "batch": "unsourced-2026-10-13",
+   "file": "ireland-referendum/2024-03-08-the-family/ireland.json",
+   "title": "Referendum results: The Family (2024)",
+   "publisher": "ElectionsIreland.org",
+   "url": "https://electionsireland.org/results/referendum/refresult.cfm?ref=202439R",
+   "accessed": "2026-10-12",
+   "kind": "results-compilation",
+   "scope": "this contest",
+   "checked": true,
+   "compared": [
+    "outcome",
+    "yes %",
+    "no %"
+   ],
+   "disagreements": [],
+   "check": "National result compared: Yes 487,564, No 1,021,546 (32.31% / 67.69%) against our outcome, yes %, no %. Agrees. Our file holds no vote counts (Yes and No are 0), so only the outcome and the percentages could be checked; the source counts could fill them."
+  }
+ ]
+}

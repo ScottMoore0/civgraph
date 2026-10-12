@@ -177,9 +177,10 @@
      "enum": [
       "import",
       "wikipedia-citation",
-      "bibliography"
+      "bibliography",
+      "web-check"
      ],
-     "description": "import: the source_url recorded when the contest was imported. wikipedia-citation: a source Wikipedia cites for this contest, found by scripts/harvest_wikipedia_cited_sources.py. bibliography: a printed work whose stated coverage includes this body and date, attached from data/elections/walker-volumes.json."
+     "description": "import: the source_url recorded when the contest was imported. wikipedia-citation: a source Wikipedia cites for this contest, found by scripts/harvest_wikipedia_cited_sources.py. bibliography: a printed work whose stated coverage includes this body and date, attached from data/elections/walker-volumes.json. web-check: a source Civgraph fetched and compared figure by figure with the contest (data/elections/web-checked-sources.json); checked only where every compared figure agreed."
     },
     "basis": {
      "type": [

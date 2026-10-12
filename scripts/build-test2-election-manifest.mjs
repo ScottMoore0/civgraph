@@ -106,6 +106,15 @@ for (const [file, read] of [
   // and put in place of the site's figure only where a recorded tiebreak decided for it.
   ['gallagher-dail-electorates.json', (doc) => (doc.records || [])
     .forEach((r) => addWalkerCorrection(r.sourceFile, 'electorate', r.gallagher?.electorate, r.decision !== 'gallagher'))],
+  // Electorates from Wikipedia's constituency election boxes, for contests whose files record none;
+  // the article is named in the panel's Electorate note.
+  ['wikipedia-electorates.json', (doc) => (doc.records || []).forEach((r) => {
+    addWalkerCorrection(r.sourceFile, 'electorate', r.electorate, true);
+    addWalkerCorrection(r.sourceFile, 'electorateSource', `Wikipedia, ${r.source?.title || 'constituency article'}`, true);
+  })],
+  // By-election causes from Wikipedia's lists, for contests whose files record none.
+  ['wikipedia-byelection-causes.json', (doc) => (doc.records || [])
+    .forEach((r) => addWalkerCorrection(r.sourceFile, 'cause', `${r.cause} (Wikipedia, ${r.source?.title || 'list of by-elections'})`, true))],
   ['walker-seat-corrections.json', (doc) => (doc.records || [])
     .filter((r) => r.status === 'applied' && r.field === 'seats')
     .forEach((r) => addWalkerCorrection(r.sourceFile, 'seats', r.proposedValue))]
@@ -122,12 +131,15 @@ function applyWalkerCorrections(resultPath, rawResult) {
   const meta = !info && rawResult.meta ? rawResult.meta : null;
   if (record.electorate) {
     const { value, onlyIfEmpty } = record.electorate;
+    const held = parseNumber(info?.Total_Electorate) || parseNumber(meta?.Total_Electorate ?? meta?.electorate);
+    if (!held && record.electorateSource && !rawResult.electorateSource) rawResult.electorateSource = record.electorateSource.value;
     if (info && !(onlyIfEmpty && parseNumber(info.Total_Electorate))) info.Total_Electorate = String(value);
     if (meta && !(onlyIfEmpty && parseNumber(meta.Total_Electorate ?? meta.electorate))) {
       meta.electorate = value;
       if ('Total_Electorate' in meta) meta.Total_Electorate = value;
     }
   }
+  if (record.cause && !(typeof rawResult.cause === 'string' && rawResult.cause.trim())) rawResult.cause = record.cause.value;
   if (record.seats && info) {
     const seats = record.seats.value;
     info.Number_Of_Seats = String(seats);
@@ -1276,7 +1288,13 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
       repairShiftedUnopposedRows(applyNiLocalValidPollCorrection(key, constituency, wikiEnrichedRawResult)));
     if (officialRawResult) rawEntries.push({ constituency, raw: officialRawResult });
     const result = ElectionDomain.summarizeResult(enrichedRawResult, constituency);
-    const notes = contestNotes(rawResult);
+    // A cause supplied by an overlay (Wikipedia's by-election lists) counts as the file's own.
+    const notes = contestNotes(rawResult ? {
+      ...rawResult,
+      cause: rawResult.cause || enrichedRawResult?.cause,
+      electorateSource: rawResult.electorateSource || enrichedRawResult?.electorateSource,
+      Constituency: rawResult.Constituency?.countInfo?.Total_Electorate ? rawResult.Constituency : (enrichedRawResult?.Constituency || rawResult.Constituency),
+    } : rawResult);
     if (notes.length) result.contestNotes = notes;
     applyLifespanEvidence(entry, result);
     const resultMetadata = classifyElectionResult(entry, result, electionMetadata);
