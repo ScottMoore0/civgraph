@@ -30,8 +30,10 @@ try {
   const page = await browser.newPage({ viewport: report.viewport });
   // The map app, which has been at /maps/ since the landing page took the root. Measured
   // at /, there was no catalogue to compare and every run failed "Catalogue width
-  // comparison unavailable".
-  const main = await inspectShell(page, `http://127.0.0.1:${PORT}/maps/`, 'main');
+  // comparison unavailable". /render/ mirrors the classic catalogue pane (half the width), so
+  // it is compared with that pane, archived since 2026-10-12 (?catalogue=classic): the
+  // rebuilt catalogue at /maps/ is deliberately narrower.
+  const main = await inspectShell(page, `http://127.0.0.1:${PORT}/maps/?catalogue=classic`, 'main');
   const test = await inspectShell(page, `http://127.0.0.1:${PORT}/render/`, 'test');
   report.main = main.metrics;
   report.test = test.metrics;
