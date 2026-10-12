@@ -38,7 +38,7 @@ const ALLOWED_EXTENSIONS = new Set([
 ]);
 
 export async function onRequestPost(context) {
-  const { auth, response } = requireContributor(context);
+  const { auth, response } = await requireContributor(context);
   if (response) return response;
 
   const bucket = context.env?.CIVGRAPH_QUARANTINE;

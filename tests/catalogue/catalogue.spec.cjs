@@ -726,3 +726,31 @@ test('N25 descriptions: an opened row, an election and a map Details page say wh
   await expect(ge).toContainText('Election for the 34th Dáil');
   await expect(pane(page).locator('.cn-erow__about')).toHaveCount(Object.keys(desc.elections).length);
 });
+
+// The site's service worker answers /_api requests itself, out of reach of page.route: block it here.
+test.describe('contributor editing', () => {
+test.use({ serviceWorkers: 'block' });
+test('N26 a contributor suggests an edit to a map from the catalogue; others are sent to sign in', async ({ page }) => {
+  let sent = null;
+  await page.route('**/_api/auth/status', (r) => r.fulfill({ json: { ok: true, auth: { authenticated: false, allowed: false } } }));
+  await page.route('**/_api/contributions/whoami', (r) => r.fulfill({ json: { ok: true, auth: { authenticated: true, allowed: true, email: 'editor@example.org' } } }));
+  await page.route('**/_api/contributions/submit', async (r) => { sent = JSON.parse(r.request().postData()); await r.fulfill({ json: { ok: true, submission: { id: 'sub_test' } } }); });
+  await open(page, `cat=series/${LGD}`);
+  await expect.poll(() => page.evaluate(() => Boolean(window.uiController._catalogueNext.auth?.allowed))).toBe(true);
+  const btn = row(page, LGD).locator('[data-cn-act="edit"]');
+  await expect(btn).toBeVisible();
+  await btn.click();
+  const dialog = page.locator('dialog.cn-edit');
+  await expect(dialog).toBeVisible();
+  const name = await dialog.locator('input[name="name"]').inputValue();
+  expect(name.length).toBeGreaterThan(0);
+  await dialog.locator('textarea[name="description"]').fill('A clearer description.');
+  await dialog.locator('textarea[name="summary"]').fill('Rewrote the description.');
+  await dialog.locator('[data-edit-submit]').click();
+  await expect(dialog.locator('.cn-edit__status')).toContainText('Sent for review (sub_test)');
+  expect(sent.kind).toBe('metadata-edit');
+  expect(sent.entityType).toBe('map');
+  expect(sent.entityId).toBe(LGD_NEWEST);
+  expect(sent.patch).toEqual({ description: 'A clearer description.' });
+});
+});

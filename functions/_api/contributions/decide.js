@@ -27,7 +27,7 @@ import { methodGuard } from '../_method.js';
 const VALID_DECISIONS = new Set(['approved', 'rejected']);
 
 export async function onRequestPost(context) {
-  const { auth, response } = requireAdmin(context);
+  const { auth, response } = await requireAdmin(context);
   if (response) return response;
 
   let payload;

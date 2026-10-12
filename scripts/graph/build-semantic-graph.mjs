@@ -3,7 +3,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
-import { gzip } from 'node:zlib';
+import { gunzip, gzip } from 'node:zlib';
 import { isGraphExcludedSource } from './graph-source-exclusions.mjs';
 import { buildTimestamp } from '../lib/build-timestamp.mjs';
 
@@ -12,11 +12,10 @@ const ROOT_DIR = path.resolve(SCRIPT_DIR, '..', '..');
 const OUTPUT_DIR = path.join(ROOT_DIR, 'data', 'graph');
 const BROWSE_DIR = path.join(ROOT_DIR, 'data', 'browse');
 const REGISTRY_DIR = path.join(ROOT_DIR, 'data', 'database');
-// Deterministic, NOT wall-clock. resetOutputDirectory() rm -rf's data/graph before
-// each build, so no prior timestamp can be read back. Measured: two consecutive
-// builds produced byte-identical payloads yet 3,870 of 4,646 files still differed,
-// purely because of this stamp -- which also forces a full re-upload on any
-// incremental sync to R2.
+// Deterministic, NOT wall-clock: the last commit's time. That still changes with every commit,
+// so a file whose content is unchanged but for this stamp is left as it was on disk
+// (writeIfChanged): on 2026-10-12 every publish re-uploaded ~4,440 graph files to R2 that
+// differed only in generatedAt.
 const GENERATED_AT = buildTimestamp();
 const ENTITY_SHARD_SIZE = 5000;
 const STATEMENT_SHARD_SIZE = 2500;
@@ -32,6 +31,7 @@ const STATEMENT_SHARD_SIZE = 2500;
 const COMPACT_REFERENCE_LIMIT = 3;
 const COMPACT_DESCRIPTION_LIMIT = 600;
 const gzipAsync = promisify(gzip);
+const gunzipAsync = promisify(gunzip);
 
 const TYPE = {
   person: 'cg:entity-type:person',
@@ -288,7 +288,9 @@ async function main() {
   };
   await writeJson(path.join(OUTPUT_DIR, 'manifest.json'), manifest);
 
+  const removed = await removeUnwrittenOutputs();
   console.log(`Built Civgraph semantic graph: ${sortedEntities.length.toLocaleString('en-GB')} entities, ${sortedStatements.length.toLocaleString('en-GB')} statements, ${Object.keys(browseRecordToEntity).length.toLocaleString('en-GB')} Browse mappings.`);
+  console.log(`  ${writtenOutputs.size - keptUnchanged} file(s) written, ${keptUnchanged} unchanged but for the build stamp (kept as they were), ${removed} stale file(s) removed.`);
 }
 
 function seedRegistryEntities() {
@@ -2320,7 +2322,7 @@ async function writeNdjsonManifest(filePath, manifest, shards) {
     compactObject({ recordType: 'manifest', ...manifest }),
     ...shards.map((shard) => compactObject({ recordType: 'shard', ...shard }))
   ];
-  await fs.writeFile(filePath, `${rows.map((row) => JSON.stringify(row)).join('\n')}\n`);
+  await writeIfChanged(filePath, `${rows.map((row) => JSON.stringify(row)).join('\n')}\n`);
 }
 
 async function writeGzipJson(filePath, payload) {
@@ -2330,8 +2332,7 @@ async function writeGzipJson(filePath, payload) {
 }
 
 async function writeGzipText(filePath, text) {
-  await fs.mkdir(path.dirname(filePath), { recursive: true });
-  await fs.writeFile(filePath, await gzipAsync(Buffer.from(text)));
+  await writeIfChanged(filePath, text, { gzipped: true });
 }
 
 function dedupeRelations(relations) {
@@ -2518,12 +2519,59 @@ async function writeShards(items, dirName, baseName, shardSize) {
   return shards;
 }
 
+// The output is no longer wiped before a build: files are rewritten only when their content
+// changes (writeIfChanged), and removeUnwrittenOutputs() deletes, after the build, whatever this
+// build did not write, so nothing stale survives.
+const previousOutputs = new Set();
+const writtenOutputs = new Set();
+let keptUnchanged = 0;
+
+async function listFiles(dir, out) {
+  let entries = [];
+  try { entries = await fs.readdir(dir, { withFileTypes: true }); } catch { return out; }
+  for (const entry of entries) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) await listFiles(full, out); else out.add(path.resolve(full));
+  }
+  return out;
+}
+
 async function resetOutputDirectory() {
   const resolved = path.resolve(OUTPUT_DIR);
   const expected = path.join(ROOT_DIR, 'data', 'graph');
   if (resolved !== expected) throw new Error(`Refusing to reset unexpected graph output path: ${resolved}`);
-  await fs.rm(OUTPUT_DIR, { recursive: true, force: true });
   await fs.mkdir(OUTPUT_DIR, { recursive: true });
+  await listFiles(OUTPUT_DIR, previousOutputs);
+}
+
+async function removeUnwrittenOutputs() {
+  let removed = 0;
+  for (const file of previousOutputs) {
+    if (writtenOutputs.has(file)) continue;
+    await fs.rm(file, { force: true });
+    removed += 1;
+  }
+  return removed;
+}
+
+const withoutStamp = (text) => text.replace(/"generatedAt":\s*"[^"]*"/g, '"generatedAt":""');
+
+/** Write `text` (gzipped when `gzipped`), unless the file already holds the same content apart
+ * from its generatedAt stamp, in which case it is kept, stamp and all. */
+async function writeIfChanged(filePath, text, { gzipped = false } = {}) {
+  const resolved = path.resolve(filePath);
+  writtenOutputs.add(resolved);
+  if (previousOutputs.has(resolved)) {
+    try {
+      const raw = await fs.readFile(resolved);
+      const old = gzipped ? (await gunzipAsync(raw)).toString('utf8') : raw.toString('utf8');
+      if (old === text || withoutStamp(old) === withoutStamp(text)) { keptUnchanged += 1; return; }
+    } catch {
+      // unreadable or not gzip: write it afresh
+    }
+  }
+  await fs.mkdir(path.dirname(resolved), { recursive: true });
+  await fs.writeFile(resolved, gzipped ? await gzipAsync(Buffer.from(text)) : text);
 }
 
 async function readJson(filePath) {
@@ -2533,7 +2581,7 @@ async function readJson(filePath) {
 async function writeJson(filePath, data, options = {}) {
   await fs.mkdir(path.dirname(filePath), { recursive: true });
   const pretty = options.pretty !== false;
-  await fs.writeFile(filePath, `${JSON.stringify(data, null, pretty ? 2 : 0)}\n`);
+  await writeIfChanged(filePath, `${JSON.stringify(data, null, pretty ? 2 : 0)}\n`);
 }
 
 function siteUrlToPath(url) {

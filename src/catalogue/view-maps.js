@@ -344,6 +344,7 @@ function actionsHtml(c, s, sel, r) {
     ${c.downloadsFor(sel.id).length ? `<button type="button" class="cn-btn" data-cn-act="downloads" data-map="${esc(sel.id)}" aria-haspopup="menu" aria-expanded="false">${icon('download')}<span>Download</span>${icon('chevron-down')}</button>` : ''}
     <button type="button" class="cn-btn" data-cn-act="copy-link" data-map="${esc(sel.id)}">${icon('link')}<span>Copy link</span></button>
     <button type="button" class="cn-btn" data-cn-act="cite" data-map="${esc(sel.id)}" data-series="${esc(s.id)}">${icon('quote')}<span>Cite</span></button>
+    ${c.auth?.allowed && full ? `<button type="button" class="cn-btn" data-cn-act="edit" data-map="${esc(sel.id)}">${icon('pencil')}<span>Suggest an edit</span></button>` : ''}
     ${others.length ? `<button type="button" class="cn-btn" data-cn-act="compare" data-map="${esc(sel.id)}" data-series="${esc(s.id)}" aria-haspopup="menu" aria-expanded="false">${icon('columns')}<span>Compare</span>${icon('chevron-down')}</button>` : ''}
   </div>`;
 }

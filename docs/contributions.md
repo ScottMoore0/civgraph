@@ -181,3 +181,19 @@ is the authority, and a mismatch means something wrote one and not the other.
   are still policy questions, not code ones.
 - **An attended queue.** An unattended one is worse than a closed door: people
   submit, nothing happens, and the site looks abandoned.
+
+## Suggesting edits from the catalogue (2026-10-13)
+
+Signed-in contributors also see **Suggest an edit** on a map in the catalogue at /maps (the opened
+row's actions, and the row's ⋯ menu; anyone else is sent to the Access sign-in). It edits a map's
+name, description, date, licence, keywords and references, and sends a `metadata-edit` to the same
+review queue as Browse's form (`src/catalogue/edit.js` → `/_api/contributions/submit`). Nothing
+changes on the site until an administrator approves it and `scripts/apply-contributions.mjs`
+applies it through git. Provider is not offered: the submit schema takes it as one string, while
+map records hold a list.
+
+Identity now comes only from a **verified** Access JWT (`verifyAccessJwt` in
+`functions/_api/_auth.js`: RS256 signature against the team's certs, issuer, expiry, and the
+application audience when `CIVGRAPH_ACCESS_AUD` is set). The bare `CF-Access-Authenticated-User-Email`
+header is no longer trusted on its own. `scripts/test-access-jwt.mjs` (part of
+`npm run check:contributions`) covers forged, expired, wrong-issuer and wrong-audience tokens.

@@ -2,7 +2,7 @@ import { getContributorAuth, jsonResponse, jsonNotAllowed, sanitizeAuth } from '
 import { methodGuard } from '../_method.js';
 
 export async function onRequestGet(context) {
-  const auth = getContributorAuth(context);
+  const auth = await getContributorAuth(context);
   return jsonResponse({
     ok: true,
     auth: sanitizeAuth(auth),

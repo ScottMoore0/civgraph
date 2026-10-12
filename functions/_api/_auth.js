@@ -30,14 +30,19 @@ export function jsonNotAllowed(method) {
   return jsonResponse({ ok: false, error: 'Method Not Allowed' }, { status: 405, headers: { Allow: method } });
 }
 
-export function getContributorAuth(context) {
+export async function getContributorAuth(context) {
   const request = context.request;
   const env = context.env || {};
   const jwtAssertion = firstHeader(request, ACCESS_JWT_HEADERS);
   const jwtPresent = Boolean(jwtAssertion);
-  const email = firstHeader(request, ACCESS_EMAIL_HEADERS)
-    || emailFromAccessJwt(jwtAssertion)
-    || devEmail(env);
+  // Identity comes from the Access JWT, and only once its signature, issuer and expiry check
+  // out (verifyAccessJwt). A JWT that fails is no identity at all, whatever the email header
+  // says. The bare email header is trusted on its own only by the offline tests, which have no
+  // Access keys to sign with (CIVGRAPH_TEST_TRUST_EMAIL_HEADER, never set in production).
+  const verified = jwtPresent ? await verifyAccessJwt(jwtAssertion, env) : null;
+  const headerEmail = firstHeader(request, ACCESS_EMAIL_HEADERS);
+  const testHeader = String(env.CIVGRAPH_TEST_TRUST_EMAIL_HEADER || '').toLowerCase() === 'true' && !jwtPresent ? headerEmail : null;
+  const email = verified?.email || testHeader || devEmail(env);
   // One name each. This used to accept CONTRIBUTOR_EMAILS/BROWSE_CONTRIBUTORS and
   // CONTRIBUTOR_ADMINS/BROWSE_ADMINS as fallbacks, from before the CIVGRAPH_
   // prefix settled. Nothing set them: verified 2026-08-17 against wrangler.toml,
@@ -76,6 +81,7 @@ export function getContributorAuth(context) {
     email: authenticated ? normalizedEmail : null,
     source: authenticated ? (devEmail(env) ? 'dev' : 'cloudflare-access') : 'anonymous',
     accessJwtPresent: jwtPresent,
+    accessJwtVerified: Boolean(verified),
     allowlistConfigured,
     // COUNTS ONLY, never the addresses.
     //
@@ -97,8 +103,8 @@ export function getContributorAuth(context) {
   };
 }
 
-export function requireContributor(context) {
-  const auth = getContributorAuth(context);
+export async function requireContributor(context) {
+  const auth = await getContributorAuth(context);
   if (!auth.authenticated) {
     return { auth, response: jsonResponse({ ok: false, error: 'Authentication required', auth }, { status: 401 }) };
   }
@@ -140,8 +146,8 @@ export function requireContributor(context) {
  * PROPOSE never implies being allowed to APPROVE. The two lists are separate and
  * an admin must be named explicitly in the admin one.
  */
-export function requireAdmin(context) {
-  const auth = getContributorAuth(context);
+export async function requireAdmin(context) {
+  const auth = await getContributorAuth(context);
   if (!auth.authenticated) {
     return { auth, response: jsonResponse({ ok: false, error: 'Authentication required', auth }, { status: 401 }) };
   }
@@ -172,47 +178,66 @@ export function sanitizeAuth(auth) {
     // "Access authenticated the caller but no identity could be read", which
     // otherwise look identical from outside and cost an afternoon on 2026-08-15.
     accessJwtPresent: auth.accessJwtPresent,
+    accessJwtVerified: auth.accessJwtVerified,
     loginUrl: auth.loginUrl,
     logoutUrl: auth.logoutUrl
   };
 }
 
 /**
- * Read the email claim out of the Access JWT.
+ * The email in a Cloudflare Access JWT, once the token is shown to be genuine: signed (RS256) by
+ * one of the Access team's current keys, issued by the team, not expired, and -- when
+ * CIVGRAPH_ACCESS_AUD is set -- for this Access application. Anything else returns null.
  *
- * WHY THIS IS NEEDED AT ALL
+ * Until 2026-10-12 the token was only decoded, on the strength of Cloudflare stripping
+ * client-supplied CF-Access-* headers at the edge (verified by experiment 2026-08-13). That held
+ * for requests through Cloudflare, but it was a trust assumption, not a check: any other route to
+ * these Functions would have accepted a hand-made token. Contributor editing on /maps widens who
+ * signs in, so the token is now verified as Cloudflare recommends.
  *
- * On 2026-08-15, with Access live and a valid session, /_api/contributions/whoami
- * returned 200 (so the request had passed Access) with authenticated:false --
- * because CF-Access-Authenticated-User-Email was not present on the request.
- * Access forwards identity as a signed JWT in Cf-Access-Jwt-Assertion whether or
- * not it also sets the convenience header, so the JWT is the reliable source.
- *
- * WHY THE SIGNATURE IS NOT VERIFIED
- *
- * The same reason the email header was trusted before it: Cloudflare strips
- * client-supplied CF-Access-* headers at the edge. That was verified by
- * experiment on 2026-08-13 -- sending CF-Access-Authenticated-User-Email by hand
- * to both civgraph.net and boundaries-website.pages.dev produced
- * authenticated:false, source "anonymous". A caller cannot forge either header,
- * so decoding is no weaker than the arrangement it replaces.
- *
- * That said, it IS a trust assumption about Cloudflare's behaviour rather than
- * something this code checks. If these endpoints ever become reachable other
- * than through Cloudflare -- a different host, a tunnel, a proxy in front --
- * verify the signature against the team's public keys at
- * https://<team>.cloudflareaccess.com/cdn-cgi/access/certs before trusting it.
+ * Keys: https://<team>/cdn-cgi/access/certs, cached for an hour per Worker instance. The team
+ * domain is public (docs/cloudflare-inventory.md); CIVGRAPH_ACCESS_TEAM_DOMAIN overrides it.
  */
-function emailFromAccessJwt(assertion) {
-  if (!assertion) return null;
-  const parts = String(assertion).split('.');
-  if (parts.length < 2) return null;
+const ACCESS_TEAM_DOMAIN = 'icy-mouse-ce2a.cloudflareaccess.com';
+const KEY_CACHE_MS = 60 * 60 * 1000;
+let accessKeys = { team: null, at: 0, keys: null };
+
+async function accessSigningKeys(team) {
+  if (accessKeys.team === team && accessKeys.keys && Date.now() - accessKeys.at < KEY_CACHE_MS) return accessKeys.keys;
+  const res = await fetch(`https://${team}/cdn-cgi/access/certs`, { cf: { cacheTtl: 300 } });
+  if (!res.ok) throw new Error(`Access certs: HTTP ${res.status}`);
+  const body = await res.json();
+  accessKeys = { team, at: Date.now(), keys: Array.isArray(body?.keys) ? body.keys : [] };
+  return accessKeys.keys;
+}
+
+function base64UrlBytes(part) {
+  const padded = String(part).replace(/-/g, '+').replace(/_/g, '/');
+  const bin = atob(padded + '='.repeat((4 - (padded.length % 4)) % 4));
+  return Uint8Array.from(bin, (c) => c.charCodeAt(0));
+}
+
+export async function verifyAccessJwt(assertion, env = {}) {
+  const parts = String(assertion || '').split('.');
+  if (parts.length !== 3) return null;
   try {
-    // base64url -> base64, then decode. atob is available in Workers.
-    const padded = parts[1].replace(/-/g, '+').replace(/_/g, '/');
-    const payload = JSON.parse(atob(padded + '='.repeat((4 - (padded.length % 4)) % 4)));
-    const value = payload?.email || payload?.identity?.email || null;
-    return typeof value === 'string' && value.includes('@') ? value : null;
+    const header = JSON.parse(new TextDecoder().decode(base64UrlBytes(parts[0])));
+    const payload = JSON.parse(new TextDecoder().decode(base64UrlBytes(parts[1])));
+    if (header?.alg !== 'RS256') return null;
+    const team = String(env.CIVGRAPH_ACCESS_TEAM_DOMAIN || ACCESS_TEAM_DOMAIN).replace(/^https?:\/\//, '').replace(/\/$/, '');
+    const now = Math.floor(Date.now() / 1000);
+    if (typeof payload?.exp !== 'number' || payload.exp < now - 30) return null;
+    if (typeof payload?.nbf === 'number' && payload.nbf > now + 30) return null;
+    if (payload?.iss !== `https://${team}`) return null;
+    const aud = String(env.CIVGRAPH_ACCESS_AUD || '').trim();
+    if (aud && !(Array.isArray(payload.aud) ? payload.aud : [payload.aud]).includes(aud)) return null;
+    const jwk = (await accessSigningKeys(team)).find((k) => k.kid === header.kid);
+    if (!jwk) return null;
+    const key = await crypto.subtle.importKey('jwk', jwk, { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' }, false, ['verify']);
+    const ok = await crypto.subtle.verify('RSASSA-PKCS1-v1_5', key, base64UrlBytes(parts[2]), new TextEncoder().encode(`${parts[0]}.${parts[1]}`));
+    if (!ok) return null;
+    const email = payload.email || payload.identity?.email || null;
+    return typeof email === 'string' && email.includes('@') ? { email, payload } : null;
   } catch {
     return null;
   }

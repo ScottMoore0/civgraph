@@ -77,7 +77,9 @@ function makeContext({ email, method = 'POST', body, url = 'https://civgraph.net
       text: async () => (typeof body === 'string' ? body : JSON.stringify(body ?? {})),
       json: async () => (typeof body === 'string' ? JSON.parse(body) : (body ?? {})),
     },
-    env,
+    // These tests sign in by the email header alone, which only this test switch allows: real
+    // requests must carry a verified Access JWT (functions/_api/_auth.js).
+    env: env ? { ...env, CIVGRAPH_TEST_TRUST_EMAIL_HEADER: 'true' } : env,
   };
 }
 

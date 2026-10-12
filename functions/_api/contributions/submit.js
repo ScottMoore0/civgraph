@@ -32,7 +32,7 @@ const MAX_JSON_BYTES = 96 * 1024;
 const MAX_QUARANTINE_KEYS = 20;
 
 export async function onRequestPost(context) {
-  const { auth, response } = requireContributor(context);
+  const { auth, response } = await requireContributor(context);
   if (response) return response;
 
   const contentType = context.request.headers.get('Content-Type') || '';

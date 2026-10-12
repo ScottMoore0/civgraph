@@ -33,7 +33,7 @@ import { methodGuard } from '../_method.js';
  * login -- as "not signed in". That is the normal anonymous case, not an error.
  */
 export async function onRequestGet(context) {
-  const auth = getContributorAuth(context);
+  const auth = await getContributorAuth(context);
   return jsonResponse({
     ok: true,
     auth: sanitizeAuth(auth),

@@ -48,7 +48,7 @@ import { isPublicPrefix } from '../_public-prefixes.js';
 export async function onRequest(context) {
   if (context.request.method !== 'GET') return jsonNotAllowed(context.request.method);
 
-  const { auth, response } = requireContributor(context);
+  const { auth, response } = await requireContributor(context);
   if (response) return response;
 
   const bucket = context.env.MAPS_BUCKET;

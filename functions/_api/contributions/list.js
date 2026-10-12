@@ -25,7 +25,7 @@ const MAX_LIMIT = 200;
 const MAX_SCAN = 2000;
 
 export async function onRequestGet(context) {
-  const { auth, response } = requireAdmin(context);
+  const { auth, response } = await requireAdmin(context);
   if (response) return response;
 
   const url = new URL(context.request.url);

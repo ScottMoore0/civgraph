@@ -158,6 +158,19 @@ export const CATALOGUE_CSS = `
 .cn-chip--todo { cursor: default; border-style: dashed; color: var(--cn-amber-ink); background: var(--cn-amber-bg); border-color: transparent; }
 .cn-chip--todo .cn-chip__dot, .cn-chip__dot--todo { background: transparent; box-shadow: inset 0 0 0 1.5px currentColor; }
 .cn-chip--part .cn-chip__dot, .cn-chip__dot--part { background: linear-gradient(90deg, var(--c, #7a8699) 50%, transparent 50%); box-shadow: inset 0 0 0 1.5px var(--c, #7a8699); }
+.cn-edit { width: min(640px, calc(100vw - 32px)); max-height: calc(100vh - 48px); border: 1px solid var(--cn-line); border-radius: 14px; padding: 0; background: var(--cn-surface); color: var(--cn-text); box-shadow: 0 18px 48px rgba(0,0,0,.25); }
+.cn-edit::backdrop { background: rgba(10, 20, 30, .45); }
+.cn-edit__form { display: grid; gap: 10px; padding: 18px 20px; font-family: var(--font-sans, system-ui, sans-serif); font-size: 14px; }
+.cn-edit h2 { margin: 0; font-size: 17px; }
+.cn-edit label { display: grid; gap: 4px; font-weight: 600; font-size: 13px; }
+.cn-edit input, .cn-edit textarea { font: inherit; font-weight: 400; padding: 7px 9px; border: 1px solid var(--cn-line); border-radius: 8px; background: var(--cn-raised); color: var(--cn-text); }
+.cn-edit__pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.cn-edit__refs { display: grid; gap: 6px; border: 1px solid var(--cn-line); border-radius: 10px; padding: 8px 10px; }
+.cn-edit__refs legend { font-weight: 600; font-size: 13px; padding: 0 4px; }
+.cn-edit__ref { display: grid; grid-template-columns: 1fr 1.4fr 1fr auto; gap: 6px; align-items: center; }
+.cn-edit__status { margin: 0; min-height: 1.2em; color: var(--cn-muted); }
+.cn-edit__buttons { display: flex; justify-content: flex-end; gap: 8px; }
+@media (max-width: 560px) { .cn-edit__pair, .cn-edit__ref { grid-template-columns: 1fr; } }
 .cn-about { margin: 0 0 10px; font-size: 13.5px; line-height: 1.5; color: var(--cn-text); max-width: 68ch; }
 .cn-about p { margin: 0 0 6px; }
 .cn-about .cn-label { display: block; margin-bottom: 4px; }

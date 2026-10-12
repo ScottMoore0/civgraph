@@ -131,7 +131,7 @@
     "verify": "npm run verify:proxies && npm run verify:map-tokens && npm run check:elections-schema && npm run verify:proni-roots && npm run verify:deploy && npm run verify:catalogue-d1 && npm run verify:source-cache",
     "contributions:list": "node scripts/apply-contributions.mjs --list",
     "contributions:apply": "node scripts/apply-contributions.mjs",
-    "check:contributions": "node scripts/test-contribution-schema.mjs && node scripts/test-contribution-flow.mjs",
+    "check:contributions": "node scripts/test-contribution-schema.mjs && node scripts/test-contribution-flow.mjs && node scripts/test-access-jwt.mjs",
     "check:method-guards": "node scripts/test-method-guards.mjs",
     "check:browse-cache": "node scripts/validate-browse-cache-tokens.mjs --check",
     "check:app-shell-cache": "node scripts/validate-app-shell-cache-tokens.mjs",

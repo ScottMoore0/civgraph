@@ -324,7 +324,7 @@
       "format": "esm"
     },
     "src/catalogue/styles.js": {
-      "bytes": 31795,
+      "bytes": 33174,
       "imports": [
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
@@ -335,7 +335,7 @@
       "format": "esm"
     },
     "src/catalogue/icons.js": {
-      "bytes": 8639,
+      "bytes": 8814,
       "imports": [
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
@@ -377,6 +377,27 @@
       ],
       "format": "esm"
     },
+    "src/catalogue/edit.js": {
+      "bytes": 8479,
+      "imports": [
+        {
+          "path": "src/catalogue/util.js",
+          "kind": "import-statement",
+          "original": "./util.js"
+        },
+        {
+          "path": "src/catalogue/icons.js",
+          "kind": "import-statement",
+          "original": "./icons.js"
+        },
+        {
+          "path": "<define:__VIEWER_ASSET_VERSIONS__>",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
     "src/catalogue/slider.js": {
       "bytes": 4789,
       "imports": [
@@ -394,7 +415,7 @@
       "format": "esm"
     },
     "src/catalogue/view-maps.js": {
-      "bytes": 33172,
+      "bytes": 33349,
       "imports": [
         {
           "path": "src/catalogue/icons.js",
@@ -482,7 +503,7 @@
       "format": "esm"
     },
     "src/catalogue/index.js": {
-      "bytes": 73880,
+      "bytes": 74865,
       "imports": [
         {
           "path": "src/catalogue/search.js",
@@ -518,6 +539,11 @@
           "path": "src/catalogue/menu.js",
           "kind": "import-statement",
           "original": "./menu.js"
+        },
+        {
+          "path": "src/catalogue/edit.js",
+          "kind": "import-statement",
+          "original": "./edit.js"
         },
         {
           "path": "src/catalogue/slider.js",
@@ -1104,7 +1130,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "app/build/chunks/app-YPTYQVEP.js",
+          "path": "app/build/chunks/app-INBPYG4Y.js",
           "kind": "dynamic-import"
         }
       ],
@@ -1124,7 +1150,7 @@
       },
       "bytes": 757
     },
-    "app/build/chunks/catalogue-57PVJUB2.js": {
+    "app/build/chunks/catalogue-U6MKBSGF.js": {
       "imports": [
         {
           "path": "app/build/chunks/chunk-YSFGRPQS.js",
@@ -1144,16 +1170,16 @@
       "entryPoint": "src/catalogue/index.js",
       "inputs": {
         "src/catalogue/index.js": {
-          "bytesInOutput": 45838
+          "bytesInOutput": 46456
         },
         "src/catalogue/search.js": {
           "bytesInOutput": 5893
         },
         "src/catalogue/styles.js": {
-          "bytesInOutput": 31132
+          "bytesInOutput": 32511
         },
         "src/catalogue/icons.js": {
-          "bytesInOutput": 7412
+          "bytesInOutput": 7583
         },
         "src/catalogue/util.js": {
           "bytesInOutput": 1074
@@ -1161,11 +1187,14 @@
         "src/catalogue/menu.js": {
           "bytesInOutput": 2643
         },
+        "src/catalogue/edit.js": {
+          "bytesInOutput": 5565
+        },
         "src/catalogue/slider.js": {
           "bytesInOutput": 2630
         },
         "src/catalogue/view-maps.js": {
-          "bytesInOutput": 23513
+          "bytesInOutput": 23674
         },
         "src/catalogue/view-elections.js": {
           "bytesInOutput": 6992
@@ -1174,7 +1203,7 @@
           "bytesInOutput": 1247
         }
       },
-      "bytes": 128548
+      "bytes": 136443
     },
     "app/build/chunks/election-manager-3VNNTS4U.js": {
       "imports": [
@@ -1213,7 +1242,7 @@
       },
       "bytes": 221957
     },
-    "app/build/chunks/app-YPTYQVEP.js": {
+    "app/build/chunks/app-INBPYG4Y.js": {
       "imports": [
         {
           "path": "app/build/chunks/chunk-YSFGRPQS.js",
@@ -1228,7 +1257,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "app/build/chunks/catalogue-57PVJUB2.js",
+          "path": "app/build/chunks/catalogue-U6MKBSGF.js",
           "kind": "dynamic-import"
         },
         {

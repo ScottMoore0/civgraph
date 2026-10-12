@@ -26,6 +26,7 @@ import { initialCatalogueRoute } from './flag.js';
 import { icon, SHELF_LOOK, BOOK_CATEGORY_ICONS, MERGED_SHELVES, FLAT_SECTIONS } from './icons.js';
 import { esc, yearOf, longDate } from './util.js';
 import { openMenu, closeMenu } from './menu.js';
+import { loadAuth, loginHref, openEditDialog } from './edit.js';
 import { decadeDomain, binCounts, indexOf, updateSlider, stepYear } from './slider.js';
 import * as MapsView from './view-maps.js';
 import * as ElectionsView from './view-elections.js';
@@ -122,6 +123,7 @@ export class CatalogueNext {
         if (!res.ok) throw new Error(`catalogue data: ${res.status}`);
         this.data = await res.json();
         this.seriesById = new Map(this.data.series.map((s) => [s.id, s]));
+        loadAuth().then((auth) => { this.auth = auth; if (auth.allowed && this.drawn && this.expanded.size) this.refreshResults(); }).catch(() => {});
         this.subjectById = new Map(this.data.subjects.map((s) => [s.id, s]));
         this.shelfById = new Map(this.data.shelves.map((s) => [s.id, s]));
         this.seriesOfMap = new Map();
@@ -311,7 +313,7 @@ export class CatalogueNext {
 
   /** Series per section (those a search found, while searching) and elections. */
   tabCounts() {
-    const out = { elections: this.query ? this.electionHits?.size || 0 : this.data.elections.length, books: this.query ? this.bookHits?.size || 0 : this.books?.books?.length || 0 };
+    const out = { elections: this.visibleElections().length, books: this.query ? this.bookHits?.size || 0 : this.books?.books?.length || 0 };
     // Each section counts its maps (every map a row can add: editions, versions, council maps), not its rows.
     const mapsIn = (s) => (this.query ? (this.searchHits?.get(s.id)?.members?.length || s.members.length) : s.members.length + (s.local?.length || 0));
     for (const [id, kind] of SECTIONS) out[id] = this.data.series.filter((s) => s.kind === kind && (!this.query || this.searchHits?.has(s.id))).reduce((n, s) => n + mapsIn(s), 0);
@@ -460,6 +462,18 @@ export class CatalogueNext {
     if (Number.isFinite(n) && n > 0) count = `${n.toLocaleString('en-GB')} ${unitWord(r.unit || (m && this.ui.getMapFeatureUnitLabel ? this.ui.getMapFeatureUnitLabel(m, n) : 'features'), n)}`;
     const constituencies = /^constituencies-/.test(this.seriesOfMap?.get(id) || '');
     return [date && r.date && !constituencies ? longDate(r.date) : '', providers, count].filter(Boolean).join(' · ');
+  }
+
+  /** Contributors suggest edits to a map; anyone else is sent to sign in first (src/catalogue/edit.js). */
+  suggestEdit(id) {
+    const record = this.full(id);
+    if (!record) return;
+    if (!this.auth?.allowed) {
+      if (this.auth?.authenticated) { this.announce?.('Your account is not on the contributor list.'); window.alert(`Signed in as ${this.auth.email}, which is not on the contributor list. Ask the site owner to add it.`); return; }
+      location.href = loginHref();
+      return;
+    }
+    openEditDialog(record, { host: this.root || document.body });
   }
 
   /** The description of the row a map is in, for its Details page ('' when it has none). */
@@ -1002,6 +1016,7 @@ export class CatalogueNext {
       case 'clear-person': this.person = null; this.draw(); this.replaceRoute(); break;
       case 'zoom': this.zoom(id); break;
       case 'details': this.details(id); break;
+      case 'edit': this.suggestEdit(id); break;
       case 'downloads': openMenu(el, this.downloadsFor(id), { label: 'Download' }); break;
       case 'copy-link': this.copyLink(id, el); break;
       case 'cite': this.cite(id, this.seriesById.get(el.dataset.series), el); break;
@@ -1375,6 +1390,7 @@ export class CatalogueNext {
     const dls = this.downloadsFor(t.id);
     if (dls.length) items.push({ separator: true }, { heading: 'Download' }, ...dls);
     items.push({ separator: true }, { label: 'Copy link', icon: 'link', onSelect: () => this.copyLink(t.id) }, { label: 'Cite', icon: 'quote', onSelect: () => this.cite(t.id, s) });
+    if (this.full(t.id)) items.push({ label: this.auth?.allowed ? 'Suggest an edit' : 'Suggest an edit (contributor sign-in)', icon: 'pencil', onSelect: () => this.suggestEdit(t.id) });
     const others = s.members.filter((m) => m.id !== t.id && this.rec(m.id).status !== 'placeholder');
     if (others.length) {
       items.push({ separator: true }, { heading: `Compare ${t.label} with` }, ...others.slice(0, 8).map((m) => ({ label: m.label, icon: 'columns', onSelect: () => this.startCompare(t.id, m.id) })));
