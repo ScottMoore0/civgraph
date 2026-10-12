@@ -706,3 +706,23 @@ test('N24 a county townland map downloads its own file, as every part does', asy
   });
   expect(wrong).toEqual([]);
 });
+
+test('N25 descriptions: an opened row, an election and a map Details page say what they are', async ({ page }) => {
+  const desc = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/catalogue/descriptions.json'), 'utf8'));
+  await open(page);
+  // The opened row starts with its description and links.
+  const town = row(page, 'townlands-townlands');
+  await town.locator('[data-cn-expand]').click();
+  await expect(town.locator('.cn-about').first()).toContainText(desc.rows['townlands-townlands'].text[0]);
+  await expect(town.locator('.cn-about a', { hasText: 'Wikipedia: Townland' })).toHaveAttribute('href', 'https://en.wikipedia.org/wiki/Townland');
+  // A map's Details page shows its row's description.
+  await page.evaluate(() => window.uiController.showCatalogueDetailView('counties-ireland-1957'));
+  await expect(page.locator('.catalogue-detail__description')).toContainText(desc.rows['counties-counties'].text[0].slice(0, 60));
+  // An election with a description can be expanded in the Elections tab.
+  await page.goto('about:blank');
+  await open(page, 'cat=elections');
+  const ge = pane(page).locator('[data-cn-election="dail-eireann__2024-11-29"] .cn-erow__about');
+  await ge.locator('summary').click();
+  await expect(ge).toContainText('Election for the 34th Dáil');
+  await expect(pane(page).locator('.cn-erow__about')).toHaveCount(Object.keys(desc.elections).length);
+});

@@ -334,9 +334,11 @@ class UIController {
         }
 
         // Build description HTML
-        const descriptionHtml = map.description && !nextCatalogue
-            ? `<div class="catalogue-detail__description">${this.escapeHtml(map.description)}</div>`
-            : '';
+        // The rebuilt catalogue shows the description of the map's row (Phelim Birch's descriptions
+        // document); the old per-map descriptions stay hidden until rewritten.
+        const descriptionHtml = nextCatalogue
+            ? (this._catalogueNext?.rowAboutHtml?.(map.id) ? `<div class="catalogue-detail__description">${this._catalogueNext.rowAboutHtml(map.id)}</div>` : '')
+            : (map.description ? `<div class="catalogue-detail__description">${this.escapeHtml(map.description)}</div>` : '');
 
         // Build keywords HTML
         const keywordsHtml = (map.keywords || []).map(k =>

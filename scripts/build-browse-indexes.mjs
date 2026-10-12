@@ -504,8 +504,19 @@ function escapeRegExp(value) {
   return String(value || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
+// What an election is, in a few sentences with links (Phelim Birch's descriptions document,
+// data/catalogue/descriptions.json): the election page's lede, its links among the references.
+// (A function, read on first use: main() runs before this module's later constants exist.)
+function electionAboutFor(key) {
+  if (!electionAboutFor.all) {
+    try { electionAboutFor.all = JSON.parse(readFileSync(path.join(ROOT, 'data/catalogue/descriptions.json'), 'utf8')).elections || {}; } catch { electionAboutFor.all = {}; }
+  }
+  return electionAboutFor.all[key];
+}
+
 function buildElections(manifest, thumbnailIds) {
   return (manifest.elections || []).map((entry) => {
+    const about = electionAboutFor(entry.key);
     const title = cleanText(entry.displayTitle || canonicalElectionTitle(entry) || entry.body || entry.bodySlug || entry.key);
     const layerId = mainElectionLayerId(entry);
     const decade = Number.isFinite(Number(entry.date?.slice(0, 4))) ? `${Math.floor(Number(entry.date.slice(0, 4)) / 10) * 10}s` : null;
@@ -521,6 +532,7 @@ function buildElections(manifest, thumbnailIds) {
       year: entry.year || Number(entry.date?.slice(0, 4)) || null,
       decade,
       subtitle: cleanText(entry.displaySubtitle || ''),
+      description: about ? about.text.join(' ') : undefined,
       provider: cleanText(entry.displayProvider || entry.body || ''),
       category: 'Elections',
       geography: electionGeographyLabel(entry),
@@ -543,7 +555,7 @@ function buildElections(manifest, thumbnailIds) {
       status: entry.placeholder ? 'not yet converted' : entry.loadable ? 'available' : 'metadata only',
       resultUrl: entry.resultUrl || null,
       anchorUrl: entry.anchorUrl || null,
-      references: normalizeReferences(entry.references || []),
+      references: normalizeReferences([...(entry.references || []), ...(about?.links || [])]),
       previousKey: entry.previousKey || null,
       thumbnail: thumbnailForCandidates(thumbnailIds, [entry.sourceMapId, entry.layerId], title, 'election'),
       interactiveUrl: interactiveLayerUrl(layerId),

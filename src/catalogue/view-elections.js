@@ -6,7 +6,7 @@
 import { icon } from './icons.js';
 import { esc, plural, shortDate, ESCOPE_SHORT } from './util.js';
 import { sliderHtml } from './slider.js';
-import { extrasHtml } from './view-maps.js';
+import { extrasHtml, aboutHtml } from './view-maps.js';
 import { PeopleSearch } from './search.js';
 
 // Browse's slug for an election: its key lower-cased, runs of other characters as '-'
@@ -132,5 +132,6 @@ export function rowHtml(c, e) {
       <a class="cn-iconbtn" href="/browse/#/elections/${encodeURIComponent(browseSlug(e.key))}" aria-label="${esc(e.title)}: results page" title="Results page: candidates, votes and sources">${icon('file-text')}</a>
       <button type="button" class="cn-add" data-cn-election-toggle="${esc(e.key)}" aria-pressed="false" aria-label="${esc(e.title)}: open on the map">${icon('plus', 'cn-icon cn-when-off')}${icon('check', 'cn-icon cn-when-on')}<span class="cn-when-off">Open</span><span class="cn-when-on">On map</span></button>
     </span>
+    ${e.about ? `<details class="cn-erow__about"><summary>About this election</summary>${aboutHtml(e.about)}</details>` : ''}
   </li>`;
 }

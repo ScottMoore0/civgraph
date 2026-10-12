@@ -157,6 +157,20 @@ if (existsSync(peoplePath)) {
   }
   if (bad) fail(`${bad} people or contests in people.json point at elections, parties or constituencies that do not exist: rebuild it`);
 }
+// ---- descriptions (data/catalogue/descriptions.json): each names a row or an election that exists,
+// and is text with links the page can show.
+{
+  const desc = read('data/catalogue/descriptions.json');
+  const seriesIds = new Set(source.series.map((s) => s.id));
+  const electionKeys = new Set((read('render/metadata/elections-test2.json').elections || []).map((e) => e.key));
+  const checkOne = (where, d) => {
+    if (!Array.isArray(d?.text) || !d.text.length || !d.text.every((p) => typeof p === 'string' && p.trim())) fail(`descriptions: ${where} has no text`);
+    for (const l of d?.links || []) if (!l?.label || !/^https?:\/\//.test(l.url || '')) fail(`descriptions: ${where} has a link without a label or an http(s) address`);
+  };
+  for (const [id, d] of Object.entries(desc.rows || {})) { if (!seriesIds.has(id)) fail(`descriptions: row ${id} is not a catalogue series`); checkOne(`row ${id}`, d); }
+  for (const [key, d] of Object.entries(desc.elections || {})) { if (!electionKeys.has(key)) fail(`descriptions: election ${key} does not exist`); checkOne(`election ${key}`, d); }
+}
+
 // ---- curator fields: kinds, labels, versions in sets, flat sections
 const KINDS = new Set(['Boundary', 'Places', 'Statistics', 'Historic']);
 for (const s of source.series) {

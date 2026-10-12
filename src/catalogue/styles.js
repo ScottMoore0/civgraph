@@ -158,6 +158,14 @@ export const CATALOGUE_CSS = `
 .cn-chip--todo { cursor: default; border-style: dashed; color: var(--cn-amber-ink); background: var(--cn-amber-bg); border-color: transparent; }
 .cn-chip--todo .cn-chip__dot, .cn-chip__dot--todo { background: transparent; box-shadow: inset 0 0 0 1.5px currentColor; }
 .cn-chip--part .cn-chip__dot, .cn-chip__dot--part { background: linear-gradient(90deg, var(--c, #7a8699) 50%, transparent 50%); box-shadow: inset 0 0 0 1.5px var(--c, #7a8699); }
+.cn-about { margin: 0 0 10px; font-size: 13.5px; line-height: 1.5; color: var(--cn-text); max-width: 68ch; }
+.cn-about p { margin: 0 0 6px; }
+.cn-about .cn-label { display: block; margin-bottom: 4px; }
+.cn-about__links { font-size: 12.5px; color: var(--cn-muted); }
+.cn-about__links a { color: var(--cn-link); }
+.cn-erow__about { grid-column: 1 / -1; margin: 2px 0 2px; font-size: 13px; }
+.cn-erow__about > summary { cursor: pointer; color: var(--cn-link); font-size: 12.5px; width: max-content; }
+.cn-erow__about[open] > summary { margin-bottom: 6px; }
 .cn-key { flex-basis: 100%; display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 2px 0 0; font-size: 12px; color: var(--cn-muted); }
 .cn-key__item { display: inline-flex; align-items: center; gap: 6px; }
 .cn-key .cn-chip__dot--todo { color: var(--cn-amber-ink); }

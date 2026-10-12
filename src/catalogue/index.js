@@ -462,6 +462,12 @@ export class CatalogueNext {
     return [date && r.date && !constituencies ? longDate(r.date) : '', providers, count].filter(Boolean).join(' · ');
   }
 
+  /** The description of the row a map is in, for its Details page ('' when it has none). */
+  rowAboutHtml(mapId) {
+    const s = this.seriesById?.get(this.seriesOfMap?.get(mapId));
+    return s?.about ? MapsView.aboutHtml(s.about, { heading: s.name }) : '';
+  }
+
   activeFilterCount(key) {
     const f = key === 'maps' ? this.filters : this.efilters;
     const n = key === 'maps'

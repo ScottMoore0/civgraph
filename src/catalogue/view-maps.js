@@ -204,14 +204,22 @@ export function chipHtml(c, s, m, { hit = false, out = false, label = m.label } 
   return `<button type="button" class="cn-chip${hit ? ' cn-chip--hit' : ''}${out ? ' cn-chip--out' : ''}${r.status === 'incomplete' ? ' cn-chip--part' : ''}" data-cn-toggle="${esc(m.id)}" data-series="${esc(s.id)}" aria-pressed="false" aria-label="${esc(`${s.name}, ${label}`)}" title="${esc(tip)}" style="--c:${col};--on:${inkOn(col)}"><span class="cn-chip__dot" aria-hidden="true"></span>${icon('check', 'cn-icon cn-chip__check')}<span class="cn-chip__label">${esc(label)}</span>${versions ? `<span class="cn-chip__more" aria-hidden="true">+${versions}</span>` : ''}</button>`;
 }
 
-/** The opened row: timeline or list, then the chosen edition's facts and every action. */
+/** What a row or an election is (data/catalogue/descriptions.json): its paragraphs, then its links. */
+export function aboutHtml(about, { heading = '' } = {}) {
+  if (!about?.text?.length) return '';
+  const links = (about.links || []).map((l) => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`);
+  return `<div class="cn-about">${heading ? `<span class="cn-label">${esc(heading)}</span>` : ''}${about.text.map((p) => `<p>${esc(p)}</p>`).join('')}${links.length ? `<p class="cn-about__links">${links.join('<span aria-hidden="true"> · </span>')}</p>` : ''}</div>`;
+}
+
+/** The opened row: what it is, timeline or list, then the chosen edition's facts and every action. */
 export function panelHtml(c, s) {
   const editions = s.members.filter((m) => !m.of);
   const sel = c.selectedMember(s);
   const r = c.rec(sel.id);
   const dated = editions.filter((m) => c.decimalYear(c.rec(m.id).date) !== null);
   const timeline = s.arrangement === 'editions' && dated.length >= 2;
-  return `${timeline ? timelineHtml(c, s, dated, sel) : ''}
+  return `${aboutHtml(s.about)}
+    ${timeline ? timelineHtml(c, s, dated, sel) : ''}
     ${!timeline && s.members.filter((m) => !m.of).length > 1 ? memberListHtml(c, s, sel) : ''}
     <div class="cn-ed">
       ${factsHtml(c, sel, r)}

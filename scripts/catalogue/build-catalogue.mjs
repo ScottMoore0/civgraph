@@ -32,6 +32,9 @@ const read = (p) => JSON.parse(readFileSync(rel(p), 'utf8'));
 const CHECK = process.argv.includes('--check');
 
 const source = read('data/catalogue/catalogue.source.json');
+// What a row or an election is, in a few sentences with their links (Phelim Birch's
+// descriptions document): shown when it is opened, on a map's Details page and on Browse.
+const descriptions = read('data/catalogue/descriptions.json');
 // Maps kept out of the pane on purpose, each with its reason; their parts may be placed instead.
 const hiddenIds = new Set((source.hidden || []).map((h) => h.id));
 const { records: mapById, parts: partsOf } = loadRecords(ROOT);
@@ -309,6 +312,7 @@ for (const s of source.series) {
   else if (statusCounts.ready !== recs.length) entry.status = statusCounts;
   if (s.aliases?.length) entry.aliases = s.aliases;
   if (s.description) entry.description = s.description;
+  if (descriptions.rows?.[s.id]) entry.about = descriptions.rows[s.id];
   seriesOut.push(entry);
 }
 for (const sub of source.subjects) for (const id of sub.toBeAdded || []) addMap(id);
@@ -332,6 +336,7 @@ const electionsOut = elections.map((e) => {
   if (e.bodyGroup) rec.bodyGroup = e.bodyGroup;
   if (e.placeholder || e.loadable === false) rec.mapless = true;
   if (e.displaySubtitle) rec.subtitle = e.displaySubtitle;
+  if (descriptions.elections?.[e.key]) rec.about = descriptions.elections[e.key];
   // Where it was held: Westminster elections before 1922 were all-Ireland ones.
   // The 1918 general election, filed as the first Dail's, was an all-island Westminster election.
   rec.scope = e.bodySlug === 'dail-eireann' && String(e.date) < '1921-05-03' ? 'Ireland'

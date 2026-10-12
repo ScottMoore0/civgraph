@@ -1,0 +1,473 @@
+{
+ "schemaVersion": 1,
+ "about": "Descriptions shown when a catalogue row or an election is opened, on a map's Details page and on an election's Browse page. Keyed by catalogue series id (rows) and election key (elections). Built into data/catalogue/catalogue.json (as about) and Browse's election records by scripts/catalogue/build-catalogue.mjs and scripts/build-browse-indexes.mjs; checked by scripts/catalogue/check-catalogue.mjs.",
+ "source": "Phelim Birch, Civgraph descriptions document (Google Doc 13JPxXeZxjXDqv_JIlmxtAWDZeT_8GEOqfHPbl121THo), as of 2026-10-12.",
+ "rows": {
+  "townlands-townlands": {
+   "text": [
+    "Townlands are the smallest territorial division that cover the entirety of Ireland, and are grouped to make up larger areas such as civil parishes and electoral divisions. Townland boundaries have changed little over the centuries.",
+    "For an online index of digitally mapped townlands, see the Townlands.ie project."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: Townland",
+     "url": "https://en.wikipedia.org/wiki/Townland"
+    },
+    {
+     "label": "Townlands.ie",
+     "url": "http://townlands.ie"
+    }
+   ]
+  },
+  "civil-parishes-civil-parishes": {
+   "text": [
+    "Civil parishes (not to be confused with Catholic parishes or Church of Ireland parishes) are small territorial divisions that were used for administrative purposes before the advent of poor law unions and electoral divisions in the 19th century. Civil parishes are grouped to make up baronies, and both are occasionally used today for legal purposes."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: Civil parishes of Ireland",
+     "url": "https://en.wikipedia.org/wiki/Civil_parishes_of_Ireland"
+    },
+    {
+     "label": "Wikipedia: List of civil parishes of Ireland",
+     "url": "https://en.wikipedia.org/wiki/List_of_civil_parishes_of_Ireland"
+    }
+   ]
+  },
+  "civil-parishes-baronies": {
+   "text": [
+    "Baronies are historical subdivisions of counties. They largely stopped being used for administrative purposes following the Local Government (Ireland) Act 1898, and their boundaries (maritime boundaries excluded) have not changed since."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: Barony (Ireland)",
+     "url": "https://en.wikipedia.org/wiki/Barony_(Ireland)"
+    },
+    {
+     "label": "Wikipedia: List of baronies of Ireland",
+     "url": "https://en.wikipedia.org/wiki/List_of_baronies_of_Ireland"
+    }
+   ]
+  },
+  "counties-counties": {
+   "text": [
+    "The traditional counties of Ireland, which date back to the Norman conquest, are used as a basis for administrative counties and parliamentary constituencies. They are also notably used by the GAA, which still treats county boundaries as they were at its foundation in 1884. County boundaries have significantly changed over the centuries, with the modern boundaries being based on their corresponding administrative counties."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: Counties of Ireland",
+     "url": "https://en.wikipedia.org/wiki/Counties_of_Ireland"
+    }
+   ]
+  },
+  "counties-provinces": {
+   "text": [
+    "The four provinces of Ireland are purely cultural (and not administrative) regions made up of groups of counties. They are based on historical kingdoms and (much like the counties that make them up) their boundaries have significantly changed over the centuries, with the modern boundaries being based on administrative counties."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: Provinces of Ireland",
+     "url": "https://en.wikipedia.org/wiki/Provinces_of_Ireland"
+    }
+   ]
+  },
+  "ecclesiastical-areas-catholic-dioceses-and-parishes": {
+   "text": [
+    "Catholic parishes (not to be confused with civil parishes) are the smallest territorial division used by the Catholic Church and typically centre around a single church/priest. Parishes are grouped together to make dioceses. As of now, our map only contains parishes within the diocese of Dublin."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: Parish (Catholic Church)",
+     "url": "https://en.wikipedia.org/wiki/Parish_(Catholic_Church)"
+    }
+   ]
+  },
+  "ecclesiastical-areas-catholic-dioceses-and-parishes--ireland": {
+   "text": [
+    "Dioceses are large territorial divisions made up of groups of parishes and centred around a bishop. Ireland has 26 Catholic dioceses, two of which are wholly in Northern Ireland and four of which have territory on both sides of the border."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: Diocese § Catholic Church",
+     "url": "https://en.wikipedia.org/wiki/Diocese#Catholic_Church"
+    },
+    {
+     "label": "Wikipedia: List of Catholic dioceses in Ireland",
+     "url": "https://en.wikipedia.org/wiki/List_of_Catholic_dioceses_in_Ireland"
+    }
+   ]
+  },
+  "conflict-and-segregation-peacelines": {
+   "text": [
+    "Peacelines (also known as peace walls) are physical barriers, built from 1969 onwards, to separate predominantly unionist neighbourhoods from nationalist ones in Northern Ireland. They were intended to reduce the risk of inter-communal violence, but have been criticised for segregating communities."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: Peace lines",
+     "url": "https://en.wikipedia.org/wiki/Peace_lines"
+    }
+   ]
+  },
+  "local-government-municipal-districts": {
+   "text": [
+    "Municipal districts are local authorities that are a tier below county councils. They were established in 2014 to replace town councils and are defined based on local electoral areas."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: Local electoral area § Municipal districts",
+     "url": "https://en.wikipedia.org/wiki/Local_electoral_area#Municipal_districts"
+    }
+   ]
+  },
+  "local-government-local-authorities": {
+   "text": [
+    "Administrative counties, also known as local authorities or council areas, are the areas represented by the Republic of Ireland’s county and city councils. They are the same as the traditional counties with the exceptions of Cork and Galway being split into city and county and Dublin being split into its city and three separate counties."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: Local government in the Republic of Ireland",
+     "url": "https://en.wikipedia.org/wiki/Local_government_in_the_Republic_of_Ireland"
+    }
+   ]
+  },
+  "local-government-local-government-districts": {
+   "text": [
+    "Local Government Districts are the areas covered by Northern Ireland’s 11 District Councils. They were formed in 2015, following mergers of the 26 councils which were formed in 1973."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: Local government in Northern Ireland § Local government districts (since 2015)",
+     "url": "https://en.wikipedia.org/wiki/Local_government_in_Northern_Ireland#Local_government_districts_(since_2015)"
+    }
+   ]
+  },
+  "polities-polities": {
+   "text": [
+    "The two polities on the island of Ireland: the Republic of Ireland and Northern Ireland."
+   ],
+   "links": []
+  },
+  "public-service-areas-garda-areas": {
+   "text": [
+    "Divisions of the Republic of Ireland used by the Garda Síochána."
+   ],
+   "links": [
+    {
+     "label": "Garda Síochána: organisational structure",
+     "url": "https://www.garda.ie/en/about-us/organisational-structure/"
+    }
+   ]
+  },
+  "public-service-areas-health-and-social-care-trusts": {
+   "text": [
+    "Health and Social Care Trusts are organisations which administer the healthcare system in five major regions of Northern Ireland, similar in shape to the Education and Library Boards. They were formed in 2007, following the merger of the old 19 health and social services trusts."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: Health and Social Care (Northern Ireland) § Trusts",
+     "url": "https://en.wikipedia.org/wiki/Health_and_Social_Care_(Northern_Ireland)#Trusts"
+    }
+   ]
+  },
+  "language-and-gaeltacht-gaeltacht-areas": {
+   "text": [
+    "Areas of the Republic of Ireland legally defined as being predominantly Irish-speaking."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: Gaeltacht",
+     "url": "https://en.wikipedia.org/wiki/Gaeltacht"
+    }
+   ]
+  },
+  "settlements-legal-towns-and-cities": {
+   "text": [
+    "Areas represented by the Republic of Ireland’s city councils and town councils before two of the former (Limerick and Waterford) and all of the latter were abolished in 2014."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: Town council (Ireland)",
+     "url": "https://en.wikipedia.org/wiki/Town_council_(Ireland)"
+    },
+    {
+     "label": "Wikipedia: City status in Ireland § Republic of Ireland",
+     "url": "https://en.wikipedia.org/wiki/City_status_in_Ireland#Republic_of_Ireland"
+    }
+   ]
+  },
+  "local-government-administrative-areas": {
+   "text": [
+    "Administrative areas were the local authorities of Northern Ireland prior to the formation of the 26 unitary District Councils in 1973. They consisted of a lower tier of Urban Districts, Municipal Boroughs (both covering towns), Rural Districts (covering countryside areas); an upper tier of Administrative Counties; and the two County Boroughs, Belfast and Londonderry, which were unitary authorities with the powers of both tiers."
+   ],
+   "links": []
+  },
+  "counties-counties--ni": {
+   "text": [
+    "The administrative counties consisted of the county boroughs of Belfast and Londonderry, plus the six other administrative counties of Antrim, Armagh, Down, Fermanagh, Londonderry and Tyrone, which are almost the same as the traditional counties, except for the areas covered by the two county boroughs. Today, these areas have no administrative function, and are only used for ceremonial purposes as the Lieutenancy areas. The boundaries of the administrative counties saw no changes after 1915."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: Administrative county § Ireland",
+     "url": "https://en.wikipedia.org/wiki/Administrative_county#Ireland"
+    }
+   ]
+  },
+  "local-government-local-authorities--ireland": {
+   "text": [
+    "Ireland’s administrative counties were set up under the Local Government (Ireland) Act 1898 and were based on the preceding system of judicial counties. These administrative counties, with a few modifications, are still used in the Republic of Ireland today, and were used in Northern Ireland until 1973."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: Administrative counties of Ireland",
+     "url": "https://en.wikipedia.org/wiki/Administrative_counties_of_Ireland"
+    }
+   ]
+  },
+  "public-service-areas-education-and-library-boards": {
+   "text": [
+    "The Education and Library Boards were set up in the early 1970s following the Macrory Report into public administration. They covered five regions of Northern Ireland, made up of combinations of Local Government Districts. The Boards were abolished in 2015, and became regions of the unified Education Authority."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: Education in Northern Ireland § Administration",
+     "url": "https://en.wikipedia.org/wiki/Education_in_Northern_Ireland#Administration"
+    }
+   ]
+  },
+  "electoral-divisions-electoral-divisions": {
+   "text": [
+    "Electoral divisions (EDs) are small areas used for statistical reporting and creating electoral constituencies such as Dáil constituencies and local electoral areas. Before 1996, EDs in cities were known as wards and EDs outside of cities were known as district electoral divisions."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: Electoral division (Ireland)",
+     "url": "https://en.wikipedia.org/wiki/Electoral_division_(Ireland)"
+    }
+   ]
+  },
+  "electoral-divisions-wards": {
+   "text": [
+    "Electoral Wards are the basic unit of political representation in Northern Ireland today. Historically, they were the units of Urban Districts and Municipal Boroughs, each electing one or more councillors. Since 1973, they have been formed by subdividing Local Government Districts, and have served as the building blocks of the District Electoral Areas (which elect one councillor for each ward they have), and of the Parliamentary Constituencies."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: Wards and electoral divisions of the United Kingdom § Northern Ireland",
+     "url": "https://en.wikipedia.org/wiki/Wards_and_electoral_divisions_of_the_United_Kingdom#Northern_Ireland"
+    }
+   ]
+  },
+  "electoral-divisions-local-electoral-areas": {
+   "text": [
+    "Local electoral areas are subdivisions of administrative counties used for city/county council elections. Their boundaries are usually redrawn for every set of local elections."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: Local electoral area",
+     "url": "https://en.wikipedia.org/wiki/Local_electoral_area"
+    }
+   ]
+  },
+  "electoral-divisions-district-electoral-areas": {
+   "text": [
+    "District Electoral Areas are the basic unit of representation in Local Government Districts. Each elects 5, 6 or 7 councillors, depending on whether they have 5, 6 or 7 Wards (before 1985, some DEAs had 4 or 8 Councillors/Wards). DEAs are the most granular unit in Northern Ireland for which election results are available."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: Wards and electoral divisions of the United Kingdom § Northern Ireland",
+     "url": "https://en.wikipedia.org/wiki/Wards_and_electoral_divisions_of_the_United_Kingdom#Northern_Ireland"
+    }
+   ]
+  },
+  "constituencies-d-il-ireann-constituencies": {
+   "text": [
+    "Subdivisions of the Republic of Ireland used for elections to Dáil Éireann. Their boundaries are usually redrawn after every census. Each constituency elects 3, 4 or 5 Teachtaí Dála (with constituencies of up to 9 TDs existing historically)."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: Dáil constituencies",
+     "url": "https://en.wikipedia.org/wiki/D%C3%A1il_constituencies"
+    },
+    {
+     "label": "Wikipedia: Historic Dáil constituencies",
+     "url": "https://en.wikipedia.org/wiki/Historic_D%C3%A1il_constituencies"
+    }
+   ]
+  },
+  "constituencies-parliamentary-constituencies": {
+   "text": [
+    "Westminster Constituencies are the constituencies used for elections to the Parliament of the United Kingdom in Westminster. Each one elects 1 member (up to 2 prior to 1950), and covers a territorial area (or a university, prior to 1950)."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: List of UK Parliament constituencies in Northern Ireland",
+     "url": "https://en.wikipedia.org/wiki/List_of_UK_Parliament_constituencies_in_Northern_Ireland"
+    },
+    {
+     "label": "Wikipedia: List of United Kingdom parliamentary constituencies in Ireland 1801–1885",
+     "url": "https://en.wikipedia.org/wiki/List_of_United_Kingdom_parliamentary_constituencies_in_Ireland_1801%E2%80%931885"
+    }
+   ]
+  },
+  "constituencies-ni-parliament": {
+   "text": [
+    "Northern Ireland Constituencies are the constituencies used for the Northern Ireland Assembly and past devolved legislatures. Since 1973, these have always followed the Westminster constituencies, as was the case with the Northern Ireland Forum (1996), Northern Ireland Constitutional Convention (1975), the old Northern Ireland Assemblies (1973, 1982). The Parliament of Northern Ireland had its own constituencies until its disbandment in 1972, except for 1921 and 1925, when it used the Westminster constituencies."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: Northern Ireland Assembly constituencies",
+     "url": "https://en.wikipedia.org/wiki/Northern_Ireland_Assembly_constituencies"
+    },
+    {
+     "label": "Wikipedia: Northern Ireland Parliament constituencies",
+     "url": "https://en.wikipedia.org/wiki/Northern_Ireland_Parliament_constituencies"
+    }
+   ]
+  },
+  "constituencies-european-parliament-constituencies": {
+   "text": [
+    "Subdivisions of the Republic of Ireland (as well as the Northern Ireland constituency, which existed up until Brexit) for elections to the European Parliament."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: European Parliament constituencies in the Republic of Ireland",
+     "url": "https://en.wikipedia.org/wiki/European_Parliament_constituencies_in_the_Republic_of_Ireland"
+    },
+    {
+     "label": "Wikipedia: Northern Ireland (European Parliament constituency)",
+     "url": "https://en.wikipedia.org/wiki/Northern_Ireland_(European_Parliament_constituency)"
+    }
+   ]
+  },
+  "elections-and-voting-polling-districts": {
+   "text": [
+    "Polling districts used for elections and referendums in the Republic of Ireland."
+   ],
+   "links": []
+  },
+  "electoral-divisions-district-electoral-divisions": {
+   "text": [
+    "District electoral divisions (DEDs) were used for elections to local authorities in Northern Ireland from its creation in 1921, until 1973 when they were all replaced with Wards. Each DED elected one or more councillors, either a single councillor serving a term of a few years, or three councillors serving three-year cycles and with one seat being up for election each year. In almost all cases in urban areas, DEDs were coterminous with Wards."
+   ],
+   "links": []
+  },
+  "electoral-divisions-district-electoral-divisions--ireland": {
+   "text": [
+    "District electoral divisions (DEDs), which succeeded the previous system of poor law electoral divisions in 1899, were used for elections to rural district councils, as well as for statistical reporting and creating county electoral divisions. They were last used as constituencies in the 1914 local elections, having that purpose replaced by district electoral areas (themselves combinations of DEDs) by the next set of elections in 1920."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: Electoral division (Ireland) § History until partition",
+     "url": "https://en.wikipedia.org/wiki/Electoral_division_(Ireland)#History_until_partition"
+    }
+   ]
+  },
+  "electoral-divisions-county-electoral-divisions": {
+   "text": [
+    "County electoral divisions were combinations of district electoral divisions, used to elect county councillors to administrative counties in Northern Ireland, prior to the abolition of the administrative counties in 1973."
+   ],
+   "links": []
+  },
+  "electoral-divisions-county-electoral-divisions--ireland": {
+   "text": [
+    "County electoral divisions were combinations of district electoral divisions used for elections to the county council system established in 1899."
+   ],
+   "links": []
+  },
+  "electoral-divisions-dublin-electoral-counties": {
+   "text": [
+    "County Dublin was split into three “electoral counties”, groups of local electoral areas, in 1985 to prepare for the splitting of the county and its council into three new administrative counties, which happened in 1994."
+   ],
+   "links": []
+  },
+  "elections-and-voting-av-referendum-counting-areas": {
+   "text": [
+    "In 2011, the UK held a referendum on the Alternative Vote (AV) system. While local authorities and devolved constituencies were used as the counting areas in England, Scotland and Wales, in Northern Ireland the results were reported based on ‘counting areas’, made up of combinations of 2-3 Westminster constituencies, while the turnout was reported based on the Westminster constituencies themselves."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: 2011 United Kingdom Alternative Vote referendum",
+     "url": "https://en.wikipedia.org/wiki/2011_United_Kingdom_Alternative_Vote_referendum"
+    }
+   ]
+  }
+ },
+ "elections": {
+  "dail-eireann__2024-11-29": {
+   "text": [
+    "Election for the 34th Dáil, triggered due to the end of the 33rd Dáil’s tenure. A second Fianna Fáil-Fine Gael coalition government (swapping out the Green Party for a group of 9 independents) was elected, with Micheál Martin and Simon Harris being reappointed as rotating Taoisigh."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: 2024 Irish general election",
+     "url": "https://en.wikipedia.org/wiki/2024_Irish_general_election"
+    }
+   ]
+  },
+  "dail-eireann__2020-02-08": {
+   "text": [
+    "Election for the 33rd Dáil, triggered due to instability within the 32nd Dáil. An unprecedented Fianna Fáil-Fine Gael-Green Party coalition government was elected, with Micheál Martin and Leo Varadkar being appointed as rotating Taoisigh. Simon Harris was appointed as Taoiseach after Varadkar’s resignation in April 2024."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: 2020 Irish general election",
+     "url": "https://en.wikipedia.org/wiki/2020_Irish_general_election"
+    }
+   ]
+  },
+  "dail-eireann__2016-02-26": {
+   "text": [
+    "Election for the 32nd Dáil, triggered due to the end of the 31st Dáil’s tenure. A Fine Gael government (in coalition with 9 independents) was elected, with Enda Kenny being reappointed as Taoiseach. Leo Varadkar was appointed as Taoiseach after Kenny’s resignation in June 2017."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: 2016 Irish general election",
+     "url": "https://en.wikipedia.org/wiki/2016_Irish_general_election"
+    }
+   ]
+  },
+  "dail-eireann__2011-02-25": {
+   "text": [
+    "Election for the 31st Dáil, triggered due to economic downturn and the withdrawal of the Green Party from the ruling coalition. A Fine Gael-Labour coalition government was elected, with Enda Kenny being appointed as Taoiseach."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: 2011 Irish general election",
+     "url": "https://en.wikipedia.org/wiki/2011_Irish_general_election"
+    }
+   ]
+  },
+  "dail-eireann__2007-05-24": {
+   "text": [
+    "Election for the 30th Dáil, triggered due to the end of the 29th Dáil’s tenure. A Fianna Fáil-Green Party-Progressive Democrats coalition government (also including 4 independents) was elected, with Bertie Ahern being reappointed as Taoiseach. Brian Cowen was appointed as Taoiseach after Ahern’s resignation in May 2008. The Progressive Democrats dissolved in November 2009 (with its two TDs remaining in the coalition as independents), and the Green Party withdrew from the coalition in January 2011."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: 2007 Irish general election",
+     "url": "https://en.wikipedia.org/wiki/2007_Irish_general_election"
+    }
+   ]
+  },
+  "dail-eireann__2002-05-17": {
+   "text": [
+    "Election for the 29th Dáil, triggered due to the end of the 28th Dáil’s tenure. A Fianna Fáil-Progressive Democrats coalition government was re-elected, with Bertie Ahern being reappointed as Taoiseach."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: 2002 Irish general election",
+     "url": "https://en.wikipedia.org/wiki/2002_Irish_general_election"
+    }
+   ]
+  },
+  "dail-eireann__1997-06-06": {
+   "text": [
+    "Election for the 28th Dáil, triggered due to the end of the 27th Dáil’s tenure. A Fianna Fáil-Progressive Democrats coalition government was elected, with Bertie Ahern being appointed as Taoiseach."
+   ],
+   "links": [
+    {
+     "label": "Wikipedia: 1997 Irish general election",
+     "url": "https://en.wikipedia.org/wiki/1997_Irish_general_election"
+    }
+   ]
+  }
+ }
+}
