@@ -555,7 +555,12 @@ function buildElections(manifest, thumbnailIds) {
       status: entry.placeholder ? 'not yet converted' : entry.loadable ? 'available' : 'metadata only',
       resultUrl: entry.resultUrl || null,
       anchorUrl: entry.anchorUrl || null,
-      references: normalizeReferences([...(entry.references || []), ...(about?.links || [])]),
+      references: normalizeReferences([
+        ...(entry.references || []),
+        ...(about?.links || []),
+        // The election's Wikidata item, where Wikipedia has an article for it (2026-10-13).
+        ...(resolvedElectionArticle(entry.key)?.qid ? [{ label: `Wikidata: ${resolvedElectionArticle(entry.key).qid}`, url: `https://www.wikidata.org/wiki/${resolvedElectionArticle(entry.key).qid}`, source: 'Wikidata' }] : []),
+      ]),
       previousKey: entry.previousKey || null,
       thumbnail: thumbnailForCandidates(thumbnailIds, [entry.sourceMapId, entry.layerId], title, 'election'),
       interactiveUrl: interactiveLayerUrl(layerId),
@@ -816,6 +821,9 @@ function addElectionOverviewReferences(refs, election, detail, options = {}) {
       role: options.role || 'election-overview',
       scope: 'election'
     });
+    // The election's Wikidata item, where Wikipedia has an article for it (2026-10-13).
+    const qid = resolvedElectionArticle(election?.key || detail?.key)?.qid;
+    if (qid) addReference(refs, { label: `Wikidata: ${qid}`, url: `https://www.wikidata.org/wiki/${qid}`, source: 'Wikidata', role: options.role || 'election-overview', scope: 'election' });
   }
 }
 
@@ -925,7 +933,19 @@ function extractSourceUrls(value, urls = new Set()) {
   return urls;
 }
 
+// The Wikipedia article for each election, resolved against Wikipedia rather than guessed
+// (data/elections/wikipedia-election-articles.json): 783 of the 1,025 guesses below named pages
+// that do not exist (audit 2026-10-13). The guesses stay as the fallback for elections it lacks.
+function resolvedElectionArticle(key) {
+  if (!resolvedElectionArticle.all) {
+    try { resolvedElectionArticle.all = JSON.parse(readFileSync(path.join(ROOT, 'data/elections/wikipedia-election-articles.json'), 'utf8')).elections || {}; } catch { resolvedElectionArticle.all = {}; }
+  }
+  return key ? resolvedElectionArticle.all[key] : null;
+}
+
 function wikipediaElectionReferenceUrl(election, detail) {
+  const resolved = resolvedElectionArticle(election?.key || detail?.key);
+  if (resolved?.url) return resolved.url;
   const bodySlug = election?.bodySlug || detail?.bodySlug;
   const body = cleanText(election?.body || detail?.body || '');
   const date = cleanText(election?.date || detail?.date || '');

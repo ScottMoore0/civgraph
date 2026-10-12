@@ -45,6 +45,9 @@ const BIBLIOGRAPHY_VERIFIED = path.join('data', 'elections', 'walker-verified-co
 // The History of Parliament page each 1801-1832 Irish contest cites, with what was compared
 // against it and what was taken from it (scripts/walker/import_walker_1801_1831.py).
 const HOP_CITATIONS = path.join('data', 'elections', 'hop', 'hop-contest-citations.json');
+// Sources Civgraph fetched and compared figure by figure (data/elections/web-checked-sources.json):
+// checked only where every compared figure agreed; otherwise the check says what differed.
+const WEB_CHECKED = path.join('data', 'elections', 'web-checked-sources.json');
 const OUT = path.join('data', 'database', 'election-provenance.json');
 // Per-election shards for the browser. The whole file is 10 MB, far too much to fetch, so the app
 // loads only the election it is showing, keyed by the constituency name it already has.
@@ -375,8 +378,37 @@ function hopLayer() {
   return map;
 }
 
+/** web-check: a source fetched by Civgraph and compared with the contest's own figures. */
+function webCheckLayer() {
+  const map = new Map();
+  if (!existsSync(WEB_CHECKED)) return map;
+  for (const r of readJson(WEB_CHECKED).records ?? []) {
+    const disagreed = (r.disagreements || []).length;
+    const entry = {
+      title: r.title ?? null,
+      publisher: r.publisher ?? null,
+      url: r.url ?? null,
+      archiveUrl: null,
+      host: hostOf(r.url),
+      kind: r.kind ?? null,
+      origin: 'web-check',
+      basis: 'figures-compared',
+      scope: r.scope ?? 'this contest',
+      checked: Boolean(r.checked),
+      check: r.check ?? (disagreed ? `compared; ${disagreed} figure(s) differ` : 'compared; all figures agree'),
+      match: r.checked ? 'exact' : null,
+      document: null,
+      ...(r.accessed ? { accessed: r.accessed } : {}),
+    };
+    if (!map.has(r.file)) map.set(r.file, []);
+    map.get(r.file).push(entry);
+  }
+  return map;
+}
+
 function build() {
   const disk = contestsOnDisk();
+  const webChecked = webCheckLayer();
   const [wiki, stats] = wikipediaLayer();
   const [bibliographyFor, bibStats] = bibliographyLayer();
   const [articleFor, articleStats] = wikipediaArticleLayer();
@@ -418,6 +450,7 @@ function build() {
         document: null,
       });
     }
+    for (const s of webChecked.get(c.file) ?? []) if (!sources.some((p) => p.url && p.url === s.url)) sources.push(s);
     sources.push(...(extra?.sources ?? []));
     // Printed citations last: they are the broadest claim, and anything fetched and compared
     // should sort above them.
@@ -432,7 +465,7 @@ function build() {
     }
     const checked = sources.some((s) => s.checked);
     const status = checked ? 'verified'
-      : sources.some((s) => s.origin === 'wikipedia-citation' || s.origin === 'bibliography') ? 'cited'
+      : sources.some((s) => s.origin === 'wikipedia-citation' || s.origin === 'bibliography' || s.origin === 'web-check') ? 'cited'
         : sources.length ? 'recorded' : 'unsourced';
     // Anything checked outranks anything not.
     sources.sort((a, b) => Number(b.checked) - Number(a.checked));
