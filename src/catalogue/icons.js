@@ -3,6 +3,8 @@
  * them (src/ui-controller.js, lucideIcon) -- 24px grid, 2px round strokes, currentColor. The four
  * section icons are the same paths as the current pane's section bar.
  */
+import { CUSTOM_ICONS } from './custom-icons.js';
+
 const PATHS = {
   // Sections, as in the current pane
   vote: '<path d="m9 12 2 2 4-4"/><path d="M5 7c0-1.1.9-2 2-2h10a2 2 0 0 1 2 2v12H5V7Z"/><path d="M22 19H2"/>',
@@ -54,18 +56,19 @@ const PATHS = {
 };
 
 export function icon(name, cls = 'cn-icon') {
+  if (CUSTOM_ICONS[name]) return `<svg aria-hidden="true" class="${cls}" fill="currentColor" viewBox="0 0 512 512">${CUSTOM_ICONS[name]}</svg>`;
   return `<svg aria-hidden="true" class="${cls}" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">${PATHS[name] || PATHS.map}</svg>`;
 }
 
 /** Each shelf's icon and colour: the colour marks the shelf's icon and heading, nothing else. */
 export const SHELF_LOOK = {
-  'land-divisions': ['layout-grid', '#c08a3e'],
+  'land-divisions': ['open-atlas', '#c08a3e'],
   'government-and-administration': ['landmark', '#6875d6'],
   'elections-and-representation': ['vote', '#c84b8f'],
   'people-and-places': ['users', '#1f9e8f'],
-  'planning-and-property': ['house', '#8a63d2'],
+  'planning-and-property': ['cadastral-map', '#8a63d2'],
   transport: ['route', '#e07b2a'],
-  'heritage-and-culture': ['castle', '#c0504d'],
+  'heritage-and-culture': ['castle-harp', '#c0504d'],
   'local-services-and-amenities': ['building', '#2f8fce'],
   water: ['droplets', '#3a6fd8'],
   'environment-and-land-use': ['leaf', '#3e9b4f'],
@@ -73,6 +76,13 @@ export const SHELF_LOOK = {
   'regional-divides': ['split', '#7a8597'],
   environment: ['leaf', '#3e9b4f'],
 };
+
+/** A shelf's name in a section that calls it something else (its rows there are mostly census
+ * geographies), for the shelf list and the contents panel alike. */
+export const SHELF_NAME_IN = { boundaries: { 'people-and-places': 'Census & Statistical Areas' } };
+
+/** A shelf's icon where SHELF_NAME_IN renames it. */
+export const SHELF_ICON_IN = { boundaries: { 'people-and-places': 'census-statistics' } };
 
 /** Shelves a section shows as one (Phelim Birch's review, 2026-10-11): Boundaries has a few rows
  * on each of these, so they share an Environment shelf there. */

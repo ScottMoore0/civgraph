@@ -1368,7 +1368,7 @@ test('mobile catalogue renders TOC first, one active section, and map gestures s
   expect(gestureState.dragPanEnabled).toBe(true);
   expect(gestureState.dragRotateEnabled).toBe(true);
   expect(gestureState.touchZoomEnabled).toBe(true);
-  expect(gestureState.touchPitchEnabled).toBe(true);
+  expect(gestureState.touchPitchEnabled).toBe(false);
   expect(gestureState.doubleClickZoomDisabled).toBe(true);
   expect(gestureState.canvasTouchAction).toBe('none');
   expect(gestureState.canvasContainerTouchAction).toBe('none');
@@ -1412,7 +1412,7 @@ test('mobile map accepts actual touch pan pinch and pitch gestures', async ({ br
         && diagnostics.nativeGesturePrimary
         && diagnostics.dragPanEnabled
         && diagnostics.touchZoomEnabled
-        && diagnostics.touchPitchEnabled
+        && !diagnostics.touchPitchEnabled
         && diagnostics.directPanGestureInstalled
         && diagnostics.guardTargetCount >= 2;
     });
@@ -1611,7 +1611,7 @@ test('mobile election seat-circle overlays do not block map gestures', async ({ 
   expect(overlayState.dragPanEnabled).toBe(true);
   expect(overlayState.dragRotateEnabled).toBe(true);
   expect(overlayState.touchZoomEnabled).toBe(true);
-  expect(overlayState.touchPitchEnabled).toBe(true);
+  expect(overlayState.touchPitchEnabled).toBe(false);
 
   try {
     client = await enableTouchInput(page);

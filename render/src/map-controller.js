@@ -237,8 +237,10 @@ export class TestMapLibreController {
       interactive: true,
       dragRotate: true,
       dragPan: true,
+      // Two fingers zoom, pan and, given a deliberate twist, rotate, as Google Maps does. Tilting
+      // by touch is off: it turned the slight up-or-down drift of a pinch into a tilted map.
       touchZoomRotate: true,
-      touchPitch: true,
+      touchPitch: false,
       pitchWithRotate: true,
       scrollZoom: true,
       cooperativeGestures: false
@@ -368,7 +370,7 @@ export class TestMapLibreController {
     this.map.dragRotate?.enable?.();
     this.map.touchZoomRotate?.enable?.();
     this.map.touchZoomRotate?.enableRotation?.();
-    this.map.touchPitch?.enable?.();
+    this.map.touchPitch?.disable?.();
     this.map.scrollZoom?.enable?.();
     this.map.keyboard?.enable?.();
     this.applyMobileTouchContract();
@@ -664,7 +666,16 @@ export class TestMapLibreController {
       const next = this.directTwoFingerGesturePending;
       this.directTwoFingerGesturePending = null;
       if (!next || !this.map) return;
-      this.map.jumpTo(next);
+      // Zoom and turn, then move the map so the place first pinched stays between the fingers.
+      this.map.jumpTo({ zoom: next.zoom, bearing: next.bearing });
+      const anchorPoint = this.map.project(next.anchor);
+      const centerPoint = this.map.project(this.map.getCenter());
+      this.map.jumpTo({
+        center: this.map.unproject([
+          centerPoint.x + (anchorPoint.x - next.point.x),
+          centerPoint.y + (anchorPoint.y - next.point.y)
+        ])
+      });
     };
     const scheduleTwoFingerGesture = (next) => {
       this.directTwoFingerGesturePending = next;
@@ -678,23 +689,32 @@ export class TestMapLibreController {
       }
       applyPendingTwoFingerGesture();
     };
+    // Touch points are relative to the page; the map projects points relative to its container.
+    const toMapPoint = (point) => {
+      const rect = root.getBoundingClientRect();
+      return { x: point.x - rect.left, y: point.y - rect.top };
+    };
+    // Zoom by how far the fingers have spread, around the place between them, and pan as they
+    // move together. Rotate as MapLibre's own TwoFingersTouchRotateHandler does: only once the
+    // twist has moved the fingers ROTATION_THRESHOLD_PX around the circle they make (measured on
+    // the narrowest that circle has been, so pinching in and out does not set it off), then
+    // following the fingers from there, with no jump, the map turning as they turn. Pitch is
+    // left alone, as MapLibre's touch handling leaves it (no touchPitch).
+    const ROTATION_THRESHOLD_PX = 25;
     const computeTwoFingerCamera = (state, points) => {
       const nextDistance = distance(points);
       if (!state || !Number.isFinite(nextDistance) || nextDistance <= 0) return null;
-      const nextMidpoint = midpoint(points);
-      const centerPoint = this.map.project(state.center);
       const minZoom = typeof this.map.getMinZoom === 'function' ? this.map.getMinZoom() : 0;
       const maxZoom = typeof this.map.getMaxZoom === 'function' ? this.map.getMaxZoom() : 22;
       const scale = nextDistance / state.distance;
       const zoom = clamp(state.zoom + Math.log2(Math.max(scale, 0.01)), minZoom, maxZoom);
-      const bearingDelta = normalizeDeltaDegrees(radiansToDegrees(angle(points) - state.angle));
-      const bearing = state.bearing + bearingDelta;
-      const pitch = clamp(state.pitch - ((nextMidpoint.y - state.midpoint.y) * 0.18), 0, 60);
-      const center = this.map.unproject([
-        centerPoint.x - (nextMidpoint.x - state.midpoint.x),
-        centerPoint.y - (nextMidpoint.y - state.midpoint.y)
-      ]);
-      return { center, zoom, bearing, pitch };
+      const twist = normalizeDeltaDegrees(radiansToDegrees(angle(points) - state.angle));
+      state.minDistance = Math.min(state.minDistance, nextDistance);
+      if (state.twistFrom === null && Math.abs(twist) >= ROTATION_THRESHOLD_PX / (Math.PI * state.minDistance) * 360) {
+        state.twistFrom = twist;
+      }
+      const bearing = state.twistFrom === null ? state.bearing : state.bearing - (twist - state.twistFrom);
+      return { zoom, bearing, anchor: state.anchor, point: toMapPoint(midpoint(points)) };
     };
     const scheduleNativeFailureCheck = (state) => {
       if (state.nativeCheckFrame || state.fallbackActive || state.nativeMoved) return;
@@ -708,6 +728,9 @@ export class TestMapLibreController {
         const next = state.latestPoints ? computeTwoFingerCamera(state, state.latestPoints) : null;
         if (!next) return;
         state.fallbackActive = true;
+        // One hand on the camera at a time: MapLibre's pinch handler is switched back on when
+        // the fingers lift (enableGestureHandlers in end()).
+        this.map.touchZoomRotate?.disable?.();
         this.directTwoFingerFallbackActivations += 1;
         this.directGestureActive = true;
         scheduleTwoFingerGesture(next);
@@ -724,7 +747,10 @@ export class TestMapLibreController {
       this.directTwoFingerGestureState = {
         distance: initialDistance,
         midpoint: midpoint(points),
+        anchor: this.map.unproject(toMapPoint(midpoint(points))),
         angle: angle(points),
+        minDistance: initialDistance,
+        twistFrom: null,
         center,
         zoom: this.map.getZoom(),
         pitch: this.map.getPitch(),

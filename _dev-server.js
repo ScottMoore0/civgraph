@@ -50,8 +50,13 @@ const server = http.createServer((req, res) => {
 
   // Local file serving
   let filePath = path.join(ROOT, pathname);
-  if (filePath.endsWith(path.sep) || pathname === '/') {
-    filePath = path.join(ROOT, 'index.html');
+  if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
+    if (!pathname.endsWith('/')) {
+      res.writeHead(301, { Location: `${pathname}/${parsed.search || ''}` });
+      res.end();
+      return;
+    }
+    filePath = path.join(filePath, 'index.html');
   }
 
   if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {

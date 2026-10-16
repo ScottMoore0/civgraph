@@ -23,7 +23,7 @@ import { CatalogueSearch, PeopleSearch, coveringPoint, normalise } from './searc
 import { CATALOGUE_CSS } from './styles.js';
 import dataService, { resolveMapDownloadUrl } from '../data-service.js';
 import { initialCatalogueRoute } from './flag.js';
-import { icon, SHELF_LOOK, BOOK_CATEGORY_ICONS, MERGED_SHELVES, FLAT_SECTIONS } from './icons.js';
+import { icon, SHELF_LOOK, SHELF_ICON_IN, SHELF_NAME_IN, BOOK_CATEGORY_ICONS, MERGED_SHELVES, FLAT_SECTIONS } from './icons.js';
 import { esc, yearOf, longDate } from './util.js';
 import { openMenu, closeMenu } from './menu.js';
 import { loadAuth, loginHref, openEditDialog } from './edit.js';
@@ -34,6 +34,9 @@ import { BODY_GROUPS, groupOfBody, shelvesOf } from './view-elections.js';
 import * as BooksView from './view-books.js';
 
 const DATA_URL = '/data/catalogue/catalogue.json';
+/** The catalogue's outline while its data loads: the same one maps/index.html shows before this
+ * code has loaded (styled in assets/css/main.css, which also hides the still-empty section tabs). */
+const CATALOGUE_SKELETON = `<div class="cn-skeleton" role="status"><span class="cn-skeleton__label">Loading the catalogue…</span><div class="cn-skeleton__block cn-skeleton__block--tabs"></div><div class="cn-skeleton__block cn-skeleton__block--filters"></div>${'<div class="cn-skeleton__block cn-skeleton__block--shelf"></div>'.repeat(6)}</div>`;
 const PLACES_URL = '/data/catalogue/places.json';
 const PEOPLE_URL = '/data/catalogue/people.json';
 const STORE = 'civgraph.catalogueNext.v2';
@@ -176,7 +179,7 @@ export class CatalogueNext {
     container.innerHTML = `<div class="cn" data-cn-root>
       <nav class="catalogue-flat__sections cn-tabs" aria-label="Catalogue sections" data-cn-tabs></nav>
       <div class="cn-pick" data-cn-pick role="status" hidden></div>
-      <div class="cn-view" data-cn-view><p class="cn-empty">Loading the catalogue…</p></div>
+      <div class="cn-view" data-cn-view>${CATALOGUE_SKELETON}</div>
       <div data-cn-compare></div>
     </div>`;
     this.root = container.querySelector('[data-cn-root]');
@@ -1144,8 +1147,9 @@ export class CatalogueNext {
     if (this.here) return [];
     const out = [];
     for (const { sh, subjects, count } of this.visibleShelves()) {
-      const [ic, col] = SHELF_LOOK[sh.id] || ['map', '#7a8699'];
-      out.push({ id: `cn-shelf-${sh.id}`, label: sh.name, count, level: 1, icon: ic, colour: col });
+      const [look, col] = SHELF_LOOK[sh.id] || ['map', '#7a8699'];
+      const ic = SHELF_ICON_IN[this.section]?.[sh.id] || look;
+      out.push({ id: `cn-shelf-${sh.id}`, label: SHELF_NAME_IN[this.section]?.[sh.id] || sh.name, count, level: 1, icon: ic, colour: col });
       if (!sh.flat && subjects.length > 1 && !FLAT_SECTIONS.has(this.section)) for (const { sub, series } of subjects) out.push({ id: `cn-subject-${sub.id}`, label: sub.name, count: series.length, level: 2 });
     }
     return out;
@@ -1208,7 +1212,14 @@ export class CatalogueNext {
     requestAnimationFrame(() => {
       el.classList.add('cn-drawer--open');
       const target = el.querySelector('[aria-current="true"]') || el.querySelector('.cn-toc__link') || el.querySelector('[data-cn-drawer-close]');
-      target?.scrollIntoView({ block: 'nearest' });
+      // Scroll only the list to the current section: scrollIntoView would also scroll the drawer
+      // itself sideways to reach the panel while it is still sliding in, and the two movements
+      // made the panel shake as it opened.
+      const toc = el.querySelector('.cn-toc');
+      if (target && toc?.contains(target)) {
+        const top = target.getBoundingClientRect().top - toc.getBoundingClientRect().top;
+        if (top < 0 || top + target.offsetHeight > toc.clientHeight) toc.scrollTop += top - (toc.clientHeight - target.offsetHeight) / 2;
+      }
       target?.focus({ preventScroll: true });
     });
   }
