@@ -22,9 +22,10 @@
 import { CatalogueSearch, PeopleSearch, coveringPoint, normalise } from './search.js';
 import { CATALOGUE_CSS } from './styles.js';
 import dataService, { resolveMapDownloadUrl } from '../data-service.js';
-import { initialCatalogueRoute } from './flag.js';
+import { initialCatalogueRoute, takeCatalogueData } from './flag.js';
 import { icon, SHELF_LOOK, BOOK_CATEGORY_ICONS, MERGED_SHELVES, FLAT_SECTIONS } from './icons.js';
 import { esc, yearOf, longDate } from './util.js';
+import { formatDisplayDate } from '../date-format.mjs';
 import { openMenu, closeMenu } from './menu.js';
 import { loadAuth, loginHref, openEditDialog } from './edit.js';
 import { decadeDomain, binCounts, indexOf, updateSlider, stepYear } from './slider.js';
@@ -33,7 +34,6 @@ import * as ElectionsView from './view-elections.js';
 import { BODY_GROUPS, groupOfBody, shelvesOf } from './view-elections.js';
 import * as BooksView from './view-books.js';
 
-const DATA_URL = '/data/catalogue/catalogue.json';
 const PLACES_URL = '/data/catalogue/places.json';
 const PEOPLE_URL = '/data/catalogue/people.json';
 const STORE = 'civgraph.catalogueNext.v2';
@@ -115,8 +115,10 @@ export class CatalogueNext {
     if (this.data) return;
     if (!this.loading) {
       this.loading = (async () => {
+        // The books list is fetched alongside the catalogue rather than after it.
+        const books = dataService.ensureBooksLoaded().catch(() => null);
         const [res] = await Promise.all([
-          fetch(DATA_URL, { cache: 'no-cache' }),
+          takeCatalogueData(),
           this.ui.ensureThumbnailManifest?.().catch(() => null),
           this.ui.ensureFeatureCountManifest?.().catch(() => null),
         ]);
@@ -130,7 +132,7 @@ export class CatalogueNext {
         for (const s of this.data.series) for (const m of [...s.members, ...(s.local || [])]) this.seriesOfMap.set(m.id, s.id);
         for (const s of this.data.series) for (const m of s.members) for (const p of [...(this.data.maps[m.id]?.parts || []), ...(this.data.maps[m.id]?.counties || [])]) if (!this.seriesOfMap.has(p.id)) this.seriesOfMap.set(p.id, s.id);
         this.electionByKey = new Map(this.data.elections.map((e) => [e.key, e]));
-        try { this.books = await dataService.ensureBooksLoaded(); } catch { this.books = null; }
+        this.books = await books;
         if (this.books && !this.ui.booksData) this.ui.booksData = this.books;
         this.search = new CatalogueSearch(this.data, { books: this.books?.books || [] });
         const editionYears = [];
@@ -1145,7 +1147,7 @@ export class CatalogueNext {
     const out = [];
     for (const { sh, subjects, count } of this.visibleShelves()) {
       const [ic, col] = SHELF_LOOK[sh.id] || ['map', '#7a8699'];
-      out.push({ id: `cn-shelf-${sh.id}`, label: sh.name, count, level: 1, icon: ic, colour: col });
+      out.push({ id: `cn-shelf-${sh.id}`, label: MapsView.shelfName(this.section, sh), count, level: 1, icon: ic, colour: col });
       if (!sh.flat && subjects.length > 1 && !FLAT_SECTIONS.has(this.section)) for (const { sub, series } of subjects) out.push({ id: `cn-subject-${sub.id}`, label: sub.name, count: series.length, level: 2 });
     }
     return out;
@@ -1354,7 +1356,7 @@ export class CatalogueNext {
     const year = yearOf(r.date);
     const who = r.provider?.join(', ') || 'Civgraph';
     const title = s && (s.members.length > 1 || local) ? `${s.name}, ${m?.label || ''}` : (s?.name || r.name || id);
-    const accessed = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+    const accessed = formatDisplayDate(new Date(Date.now() - new Date().getTimezoneOffset() * 60000));
     await this.copyText(`${who}. ${title}${year && !String(m?.label || '').includes(String(year)) ? ` (${year})` : ''} [map layer]. Civgraph, ${this.shareUrl(id)} (accessed ${accessed}).`, 'Citation');
     this.flash(btn, 'Citation copied');
   }

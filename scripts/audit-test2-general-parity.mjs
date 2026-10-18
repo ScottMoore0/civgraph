@@ -654,7 +654,7 @@ try {
   await runCheck('timeline', async () => {
     const state = await extractTimeline(test2Page);
     const text = [state.text, ...state.labels].join(' ');
-    assert(/\b\d{2} [A-Z][a-z]{2} \d{4}\b/.test(text), `/test2 timeline does not expose DD MMM YYYY text: ${text}`);
+    assert(/\b\d{1,2} [A-Z][a-z]{2} \d{4}\b/.test(text), `/test2 timeline does not expose "1 Jan 1950"-style date text: ${text}`);
     return state;
   });
 

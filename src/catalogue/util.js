@@ -1,22 +1,13 @@
 /** Small helpers shared by the rebuilt catalogue's views. */
+import { formatDisplayDate } from '../date-format.mjs';
 
 export const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
 export const plural = (n, one, many = `${one}s`) => `${Number(n).toLocaleString('en-GB')} ${n === 1 ? one : many}`;
 
-const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
-/** "1993-04-01" -> "1 April 1993"; a year alone stays a year. */
-export function longDate(d) {
-  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(d || ''));
-  return m ? `${Number(m[3])} ${MONTHS[Number(m[2]) - 1]} ${m[1]}` : String(d || '');
-}
-
-/** "1993-04-01" -> "1 Apr 1993". */
-export function shortDate(d) {
-  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(d || ''));
-  return m ? `${Number(m[3])} ${MONTHS[Number(m[2]) - 1].slice(0, 3)} ${m[1]}` : String(d || '');
-}
+/** "1993-04-01" -> "1 Apr 1993"; a year alone stays a year (src/date-format.mjs). */
+export const longDate = (d) => formatDisplayDate(d);
+export const shortDate = (d) => formatDisplayDate(d);
 
 export const yearOf = (d) => {
   const m = /(1[5-9]\d\d|20\d\d)/.exec(String(d || ''));

@@ -48,14 +48,18 @@ export function resultsHtml(c) {
     ${shelves.map((x) => shelfHtml(c, x, shelves.length === 1)).join('')}`;
 }
 
+// A shelf can go by another name inside one section: under Boundaries, "People & Places" holds
+// the census and statistical areas. The Contents drawer uses the same name (shelfName), so its
+// entry and the heading it scrolls to agree.
 const SHELF_NAME_IN = { boundaries: { 'people-and-places': 'Census & Statistical Areas' } };
+export const shelfName = (section, sh) => SHELF_NAME_IN[section]?.[sh.id] || sh.name;
 
 function shelfHtml(c, { sh, subjects, count }, alone = false) {
   const [ic, col] = SHELF_LOOK[sh.id] || ['map', FALLBACK];
   if (FLAT_SECTIONS.has(c.section)) {
     return `<section class="cn-shelf cn-shelf--bare" id="cn-shelf-${esc(sh.id)}" data-cn-section="${esc(sh.id)}">${flatHtml(c, subjects, sh)}</section>`;
   }
-  sh = { ...sh, name: SHELF_NAME_IN[c.section]?.[sh.id] || sh.name };
+  sh = { ...sh, name: shelfName(c.section, sh) };
   // Shelves start closed (Phelim Birch's review, 2026-10-11); a search, or a section with one
   // shelf, opens them.
   const open = c.opened.has(sh.id) || Boolean(c.query) || alone;

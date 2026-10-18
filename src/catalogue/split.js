@@ -5,12 +5,16 @@
  * The catalogue's lists read best at about 400-560px, so the pane takes that -- about 36% of a
  * laptop screen, less of a large monitor -- rather than half, and the map keeps the rest. While
  * the pane shows something wide it widens, and narrows again after:
+ *   election  narrower, while an election is on the map, so the map has the room
  *   medium  election results, a map's or feature's details
  *   wide    the Tables tab, a book open in the viewer
  * A width the reader drags to is kept (and remembered) instead; double-clicking the handle goes
  * back to choosing automatically. Phones, which show one pane at a time, are left alone.
  */
 export const SPLIT_WIDTHS = {
+  // While an election is on the map the map is what the reader is looking at, so the pane gives
+  // it room (about 180px more map on a laptop) until the election is closed.
+  election: 'clamp(340px, 28%, 460px)',
   catalogue: 'clamp(400px, 36%, 560px)',
   medium: 'clamp(460px, 42%, 680px)',
   wide: 'clamp(560px, 55%, 1000px)',
@@ -24,10 +28,11 @@ const writeSaved = (v) => { try { if (v) localStorage.setItem(KEY, JSON.stringif
 export function paneContent(doc = document) {
   const tab = doc.querySelector('.pane--info .pane-tab-content:not(.pane-tab-content--hidden)')?.dataset.tabContent || 'catalogue';
   if (tab === 'tables') return 'wide';
-  if (tab === 'elections') return 'medium';
   if (doc.getElementById('catalogueFlatView')?.classList.contains('catalogue-flat-view--book-viewer')) return 'wide';
   const detail = doc.getElementById('catalogueDetailView');
   if (detail && !detail.classList.contains('hidden')) return 'medium';
+  if (doc.body?.classList.contains('test2-election-open')) return 'election';
+  if (tab === 'elections') return 'medium';
   return 'catalogue';
 }
 
@@ -70,9 +75,11 @@ export function installSplit(ui, { host, splitDrag }) {
   });
 
   // Follow what the pane shows: which tab is open, a details page, the book viewer.
-  const observer = new MutationObserver(() => { if (!manual) apply(); });
+  // Not mid-drag: the page's classes change while the handle is held, and following them then
+  // put the pane back at its automatic width under the reader's pointer.
+  const observer = new MutationObserver(() => { if (!manual && !dragging) apply(); });
   const watch = () => {
-    document.querySelectorAll('.pane--info .pane-tab-content, #catalogueDetailView, #catalogueFlatView').forEach((el) => {
+    document.querySelectorAll('body, .pane--info .pane-tab-content, #catalogueDetailView, #catalogueFlatView').forEach((el) => {
       if (el.dataset.cnSplitWatched) return;
       el.dataset.cnSplitWatched = '1';
       observer.observe(el, { attributes: true, attributeFilter: ['class'] });

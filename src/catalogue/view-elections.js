@@ -34,14 +34,14 @@ export const bodyShort = (e) => BODY_SHORT[e.bodySlug] || e.body;
 /** The shelves: the four Northern Ireland devolved bodies share one, as do the two European
  * Parliament constituencies and the two referendum series. */
 export const BODY_GROUPS = [
-  { id: 'dail', label: 'Dáil', bodies: ['dail-eireann'], icon: 'landmark', colour: '#169b62' },
-  { id: 'westminster', label: 'Westminster', bodies: ['house-of-commons-of-the-united-kingdom'], icon: 'landmark', colour: '#2f5da8' },
-  { id: 'ni-devolved', label: 'NI Devolved', bodies: ['northern-ireland-assembly', 'parliament-of-northern-ireland', 'northern-ireland-constitutional-convention', 'northern-ireland-forum-for-political-dialogue'], icon: 'landmark', colour: '#c84b8f' },
-  { id: 'ni-local', label: 'NI local', bodies: ['local-government'], icon: 'building', colour: '#e07b2a' },
-  { id: 'irish-local', label: 'Irish local', bodies: ['ireland-local'], icon: 'building', colour: '#0b8a6a' },
-  { id: 'european', label: 'European', bodies: ['european-parliament', 'ireland-european'], icon: 'flag', colour: '#2f8fce' },
-  { id: 'referendum', label: 'Referendum', bodies: ['ireland-referendum', 'northern-ireland-referendum'], icon: 'vote', colour: '#8a63d2' },
-  { id: 'presidential', label: 'Presidential', bodies: ['ireland-president'], icon: 'user', colour: '#c08a3e' },
+  { id: 'dail', label: 'Dáil', bodies: ['dail-eireann'], icon: 'portico', colour: '#169b62' },
+  { id: 'westminster', label: 'Westminster', bodies: ['house-of-commons-of-the-united-kingdom'], icon: 'clock-tower', colour: '#2f5da8' },
+  { id: 'ni-devolved', label: 'NI Devolved', bodies: ['northern-ireland-assembly', 'parliament-of-northern-ireland', 'northern-ireland-constitutional-convention', 'northern-ireland-forum-for-political-dialogue'], icon: 'stormont', colour: '#c84b8f' },
+  { id: 'ni-local', label: 'NI local', bodies: ['local-government'], icon: 'offices', colour: '#e07b2a' },
+  { id: 'irish-local', label: 'Irish local', bodies: ['ireland-local'], icon: 'town-hall', colour: '#0b8a6a' },
+  { id: 'european', label: 'European', bodies: ['european-parliament', 'ireland-european'], icon: 'eu-flag', colour: '#2f8fce' },
+  { id: 'referendum', label: 'Referendum', bodies: ['ireland-referendum', 'northern-ireland-referendum'], icon: 'ballot-box', colour: '#8a63d2' },
+  { id: 'presidential', label: 'Presidential', bodies: ['ireland-president'], icon: 'lectern', colour: '#c08a3e' },
 ];
 export const groupOfBody = (slug) => BODY_GROUPS.find((g) => g.bodies.includes(slug))?.id || '';
 

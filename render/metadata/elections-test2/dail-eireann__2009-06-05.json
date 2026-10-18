@@ -44,9 +44,18 @@
     "voteShare",
     "turnout",
     "majority",
+    "seats",
     "quota"
   ],
   "partySummary": [
+    {
+      "party": "Non-party",
+      "seats": 1,
+      "stood": 4,
+      "votes": 8812,
+      "colour": "#6b7280",
+      "share": 10.953659506762133
+    },
     {
       "party": "Fine Gael",
       "seats": 0,
@@ -88,12 +97,12 @@
       "share": 3.3126988862370728
     },
     {
-      "party": "Non-party",
+      "party": "Immigration Control Platform",
       "seats": 0,
-      "stood": 3,
-      "votes": 1173,
+      "stood": 1,
+      "votes": 614,
       "colour": "#6b7280",
-      "share": 1.4580847255369926
+      "share": 0.7632259347653142
     },
     {
       "party": "W.P.",
@@ -114,6 +123,14 @@
   ],
   "mainLikePartySummary": [
     {
+      "party": "Non-party",
+      "seats": 1,
+      "stood": 4,
+      "votes": 8812,
+      "colour": "#6b7280",
+      "share": 10.953659506762133
+    },
+    {
       "party": "Fine Gael",
       "seats": 0,
       "stood": 2,
@@ -154,12 +171,12 @@
       "share": 3.3126988862370728
     },
     {
-      "party": "Non-party",
+      "party": "Immigration Control Platform",
       "seats": 0,
-      "stood": 3,
-      "votes": 1173,
+      "stood": 1,
+      "votes": 614,
       "colour": "#6b7280",
-      "share": 1.4580847255369926
+      "share": 0.7632259347653142
     },
     {
       "party": "W.P.",
@@ -218,6 +235,39 @@
       ],
       "candidateKey": "george lee|fine gael",
       "name_id": "n-george-lee"
+    },
+    {
+      "id": "8",
+      "personId": 103499,
+      "sourcePersonId": "ei:9267",
+      "constituency": "Dublin Central",
+      "name": "Maureen O'Sullivan",
+      "party": "Non-party",
+      "colour": "#6b7280",
+      "firstPrefs": 7639,
+      "votes": 7639,
+      "constPct": 26.886526819653668,
+      "firstPrefPct": 26.886526819653668,
+      "finalVotes": 7639,
+      "elected": true,
+      "electedAt": 1,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": null,
+      "countDisplay": "",
+      "status": "Elected",
+      "autoReturnedCeannComhairle": false,
+      "counts": [
+        {
+          "total": 7639,
+          "transfers": 0,
+          "status": "Elected",
+          "firstPrefs": 7639,
+          "count": 1
+        }
+      ],
+      "candidateKey": "maureen o'sullivan|non-party",
+      "name_id": "n-maureen-o-sullivan"
     },
     {
       "id": "4",
@@ -517,6 +567,39 @@
       "name_id": "n-david-geary"
     },
     {
+      "id": "9",
+      "personId": 110310,
+      "sourcePersonId": "ei:6201",
+      "constituency": "Dublin Central",
+      "name": "Pat Talbot",
+      "party": "Immigration Control Platform",
+      "colour": "#6b7280",
+      "firstPrefs": 614,
+      "votes": 614,
+      "constPct": 2.1610587075883427,
+      "firstPrefPct": 2.1610587075883427,
+      "finalVotes": 614,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": null,
+      "countDisplay": "",
+      "status": "Not Elected",
+      "autoReturnedCeannComhairle": false,
+      "counts": [
+        {
+          "total": 614,
+          "transfers": 0,
+          "status": "",
+          "firstPrefs": 614,
+          "count": 1
+        }
+      ],
+      "candidateKey": "pat talbot|immigration control platform",
+      "name_id": "n-pat-talbot"
+    },
+    {
       "id": "7",
       "personId": 101185,
       "sourcePersonId": "ei:9414",
@@ -689,6 +772,53 @@
     "totalValid": 80448,
     "parties": [
       {
+        "name": "Non-party",
+        "colour": "#6b7280",
+        "firstPrefs": 8812,
+        "finalVotes": 8812,
+        "stood": 4,
+        "elected": 1,
+        "constituencies": [
+          "Dublin Central",
+          "Dublin South"
+        ],
+        "candidates": [
+          {
+            "id": "ei:9267",
+            "name": "Maureen O'Sullivan",
+            "constituency": "Dublin Central",
+            "firstPref": 7639,
+            "finalVotes": 7639,
+            "status": "Elected"
+          },
+          {
+            "id": "ei:9415",
+            "name": "Ross O’Mullane",
+            "constituency": "Dublin South",
+            "firstPref": 650,
+            "finalVotes": 650,
+            "status": ""
+          },
+          {
+            "id": "ei:9511",
+            "name": "Frank O’Gorman",
+            "constituency": "Dublin South",
+            "firstPref": 351,
+            "finalVotes": 351,
+            "status": ""
+          },
+          {
+            "id": "ei:8788",
+            "name": "Noel O’Gara",
+            "constituency": "Dublin South",
+            "firstPref": 172,
+            "finalVotes": 172,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 10.953659506762133
+      },
+      {
         "name": "Fine Gael",
         "colour": "#6699ff",
         "firstPrefs": 34207,
@@ -844,42 +974,26 @@
         "shareOfTotal": 3.3126988862370728
       },
       {
-        "name": "Non-party",
+        "name": "Immigration Control Platform",
         "colour": "#6b7280",
-        "firstPrefs": 1173,
-        "finalVotes": 1173,
-        "stood": 3,
+        "firstPrefs": 614,
+        "finalVotes": 614,
+        "stood": 1,
         "elected": 0,
         "constituencies": [
-          "Dublin South"
+          "Dublin Central"
         ],
         "candidates": [
           {
-            "id": "ei:9415",
-            "name": "Ross O’Mullane",
-            "constituency": "Dublin South",
-            "firstPref": 650,
-            "finalVotes": 650,
-            "status": ""
-          },
-          {
-            "id": "ei:9511",
-            "name": "Frank O’Gorman",
-            "constituency": "Dublin South",
-            "firstPref": 351,
-            "finalVotes": 351,
-            "status": ""
-          },
-          {
-            "id": "ei:8788",
-            "name": "Noel O’Gara",
-            "constituency": "Dublin South",
-            "firstPref": 172,
-            "finalVotes": 172,
+            "id": "ei:6201",
+            "name": "Pat Talbot",
+            "constituency": "Dublin Central",
+            "firstPref": 614,
+            "finalVotes": 614,
             "status": ""
           }
         ],
-        "shareOfTotal": 1.4580847255369926
+        "shareOfTotal": 0.7632259347653142
       },
       {
         "name": "W.P.",
@@ -927,6 +1041,28 @@
       }
     ],
     "candidates": [
+      {
+        "id": "ei:9267",
+        "key": "Maureen O'Sullivan|Non-party",
+        "name": "Maureen O'Sullivan",
+        "party": "Non-party",
+        "colour": "#6b7280",
+        "firstPrefs": 7639,
+        "finalVotes": 7639,
+        "electedCount": 1,
+        "constituencies": [
+          "Dublin Central"
+        ],
+        "appearances": [
+          {
+            "constituency": "Dublin Central",
+            "firstPref": 7639,
+            "finalVotes": 7639,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 9.49557478122514
+      },
       {
         "id": "ei:9413",
         "key": "George Lee|Fine Gael",
@@ -1170,6 +1306,28 @@
         "shareOfTotal": 0.8079753381066029
       },
       {
+        "id": "ei:6201",
+        "key": "Pat Talbot|Immigration Control Platform",
+        "name": "Pat Talbot",
+        "party": "Immigration Control Platform",
+        "colour": "#6b7280",
+        "firstPrefs": 614,
+        "finalVotes": 614,
+        "electedCount": 0,
+        "constituencies": [
+          "Dublin Central"
+        ],
+        "appearances": [
+          {
+            "constituency": "Dublin Central",
+            "firstPref": 614,
+            "finalVotes": 614,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 0.7632259347653142
+      },
+      {
         "id": "ei:9414",
         "key": "Malachy Steenson|W.P.",
         "name": "Malachy Steenson",
@@ -1262,26 +1420,56 @@
   "results": [
     {
       "constituency": "Dublin Central",
-      "winnerParty": "Fine Gael",
-      "winnerName": "Paschal Donohoe",
-      "leadingParty": "Fine Gael",
-      "leadingName": "Paschal Donohoe",
-      "leadingVotes": 6439,
-      "leadingPct": 22.66,
+      "winnerParty": "Non-party",
+      "winnerName": "Maureen O'Sullivan",
+      "leadingParty": "Non-party",
+      "leadingName": "Maureen O'Sullivan",
+      "leadingVotes": 7639,
+      "leadingPct": 26.89,
       "turnoutPct": 48.43,
-      "majority": 1513,
-      "majorityPct": 5.33,
-      "seatsWon": null,
-      "seatsTotal": null,
+      "majority": 1200,
+      "majorityPct": 4.22,
+      "seatsWon": 1,
+      "seatsTotal": 1,
       "quota": 14207,
       "electorate": 59476,
       "totalPoll": 28803,
       "spoiled": 391,
       "validPoll": 28412,
       "totalVotes": 28412,
-      "colour": "#6699ff",
-      "leadingColour": "#6699ff",
+      "colour": "#6b7280",
+      "leadingColour": "#6b7280",
       "candidates": [
+        {
+          "id": "8",
+          "name": "Maureen O'Sullivan",
+          "party": "Non-party",
+          "firstPrefs": 7639,
+          "finalVotes": 7639,
+          "elected": true,
+          "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#6b7280",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "sourcePersonId": "ei:9267",
+          "counts": [
+            {
+              "count": 1,
+              "total": 7639,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 7639
+            }
+          ],
+          "personId": 103499,
+          "name_id": "n-maureen-o-sullivan"
+        },
         {
           "id": "4",
           "name": "Paschal Donohoe",
@@ -1433,6 +1621,36 @@
           "name_id": "n-david-geary"
         },
         {
+          "id": "9",
+          "name": "Pat Talbot",
+          "party": "Immigration Control Platform",
+          "firstPrefs": 614,
+          "finalVotes": 614,
+          "elected": false,
+          "electedAt": null,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "",
+          "colour": "#6b7280",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "sourcePersonId": "ei:6201",
+          "counts": [
+            {
+              "count": 1,
+              "total": 614,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 614
+            }
+          ],
+          "personId": 110310,
+          "name_id": "n-pat-talbot"
+        },
+        {
           "id": "7",
           "name": "Malachy Steenson",
           "party": "W.P.",
@@ -1493,11 +1711,40 @@
           "name_id": "n-paul-o-loughlin-2"
         }
       ],
-      "elected": [],
+      "elected": [
+        {
+          "id": "8",
+          "name": "Maureen O'Sullivan",
+          "party": "Non-party",
+          "firstPrefs": 7639,
+          "finalVotes": 7639,
+          "elected": true,
+          "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#6b7280",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "sourcePersonId": "ei:9267",
+          "counts": [
+            {
+              "count": 1,
+              "total": 7639,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 7639
+            }
+          ]
+        }
+      ],
       "countInfo": {
         "Constituency_Name": "Dublin Central",
         "Constituency_Number": "",
-        "Number_Of_Seats": "",
+        "Number_Of_Seats": "1",
         "Quota": "14207",
         "Spoiled": "391",
         "Total_Electorate": "59476",
@@ -1672,6 +1919,54 @@
           "Transfers": "0",
           "candidateName": "Malachy Steenson",
           "id": 6
+        },
+        {
+          "Auto_Returned_Ceann_Comhairle": "",
+          "Candidate_Id": "8",
+          "Candidate_First_Pref_Votes": "7639",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Dail_Abbreviation": "",
+          "Firstname": "Maureen",
+          "Gender": "",
+          "Official_Candidate_Id": "",
+          "Official_Status": "",
+          "Party_Abbreviation": "",
+          "Surname": "O'Sullivan",
+          "Occurred_On_Count": "1",
+          "Party_Colour": "#6b7280",
+          "Party_Name": "Non-party",
+          "Status": "Elected",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "",
+          "Total_Votes": "7639",
+          "Transfers": "0",
+          "candidateName": "Maureen O'Sullivan",
+          "id": 7
+        },
+        {
+          "Auto_Returned_Ceann_Comhairle": "",
+          "Candidate_Id": "9",
+          "Candidate_First_Pref_Votes": "614",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Dail_Abbreviation": "",
+          "Firstname": "Pat",
+          "Gender": "",
+          "Official_Candidate_Id": "",
+          "Official_Status": "",
+          "Party_Abbreviation": "",
+          "Surname": "Talbot",
+          "Occurred_On_Count": "1",
+          "Party_Colour": "#6b7280",
+          "Party_Name": "Immigration Control Platform",
+          "Status": "",
+          "Synthetic_Scraper_Row": "1",
+          "Synthetic_Scraper_Stage_Row": "",
+          "Total_Votes": "614",
+          "Transfers": "0",
+          "candidateName": "Pat Talbot",
+          "id": 8
         }
       ],
       "syntheticCountGroup": true,
@@ -1688,7 +1983,7 @@
           "countInfo": {
             "Constituency_Name": "Dublin Central",
             "Constituency_Number": "",
-            "Number_Of_Seats": "",
+            "Number_Of_Seats": "1",
             "Quota": "14207",
             "Spoiled": "391",
             "Total_Electorate": "59476",
@@ -1863,6 +2158,54 @@
               "Transfers": "0",
               "candidateName": "Malachy Steenson",
               "id": 6
+            },
+            {
+              "Auto_Returned_Ceann_Comhairle": "",
+              "Candidate_Id": "8",
+              "Candidate_First_Pref_Votes": "7639",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Dail_Abbreviation": "",
+              "Firstname": "Maureen",
+              "Gender": "",
+              "Official_Candidate_Id": "",
+              "Official_Status": "",
+              "Party_Abbreviation": "",
+              "Surname": "O'Sullivan",
+              "Occurred_On_Count": "1",
+              "Party_Colour": "#6b7280",
+              "Party_Name": "Non-party",
+              "Status": "Elected",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "",
+              "Total_Votes": "7639",
+              "Transfers": "0",
+              "candidateName": "Maureen O'Sullivan",
+              "id": 7
+            },
+            {
+              "Auto_Returned_Ceann_Comhairle": "",
+              "Candidate_Id": "9",
+              "Candidate_First_Pref_Votes": "614",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Dail_Abbreviation": "",
+              "Firstname": "Pat",
+              "Gender": "",
+              "Official_Candidate_Id": "",
+              "Official_Status": "",
+              "Party_Abbreviation": "",
+              "Surname": "Talbot",
+              "Occurred_On_Count": "1",
+              "Party_Colour": "#6b7280",
+              "Party_Name": "Immigration Control Platform",
+              "Status": "",
+              "Synthetic_Scraper_Row": "1",
+              "Synthetic_Scraper_Stage_Row": "",
+              "Total_Votes": "614",
+              "Transfers": "0",
+              "candidateName": "Pat Talbot",
+              "id": 8
             }
           ]
         },
@@ -1901,6 +2244,10 @@
         {
           "label": "Cause",
           "text": "Death of Tony Gregory (Ind.) (Wikipedia, List of Dáil by-elections)"
+        },
+        {
+          "label": "Corrected",
+          "text": "The winner, Maureen O'Sullivan (7,639), and Patrick Talbot (614) were missing, so first preferences added up to 20,159; ElectionsIreland gives all nine candidates, whose first preferences add up to the valid poll of 28,412, and Wikipedia gives the eight counts, O'Sullivan elected on the last. (ElectionsIreland.org, ElectionsIreland.org: 30th Dáil By Elections - Dublin Central)"
         }
       ],
       "contestType": "election",
@@ -1908,7 +2255,7 @@
       "votingSystem": "stv-hare",
       "contestStatus": "contested",
       "candidateRowsExpected": true,
-      "transferDataExpected": true,
+      "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/dail-eireann/2009-06-05/dublin-central.json",
       "featureId": "11",
