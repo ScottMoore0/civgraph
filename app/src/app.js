@@ -1,4 +1,6 @@
 import dataService, { resolveMapDownloadUrl } from '../../src/data-service.js';
+import { prefetchCatalogueData } from '../../src/catalogue/flag.js';
+import { formatDisplayDate } from '../../src/date-format.mjs';
 import featureLoader from '../../src/feature-loader.js';
 import uiController from '../../src/ui-controller.js';
 import { publicMaps } from '../../src/public-map.mjs';
@@ -191,6 +193,9 @@ class Test2App {
     };
     this.installRouteGuard();
     this.registerServiceWorker();
+    // The catalogue pane's data and code, started now so they arrive alongside the map index
+    // rather than after it (src/catalogue/flag.js).
+    if (prefetchCatalogueData()) import('../../src/catalogue/index.js').catch(() => {});
 
     await dataService.init({ loadBooks: false, loadGeographies: false });
     dataService.fuse = null;
@@ -505,6 +510,33 @@ class Test2App {
     // pre-pane height and lands in exactly the place this exists to correct.
     map.resize();
     this.mapController.fitToLayer?.(sourceMapId);
+    // The layout is not finished when the pane opens: the catalogue pane changes width a
+    // moment later (src/catalogue/split.js) and the pane slides up, so that fit was made for a
+    // larger map than the one left. Fit again each time the map's box changes over the next
+    // second, then stop listening, so a reader's own panning is never undone.
+    const container = map.getContainer?.();
+    if (!container || typeof ResizeObserver === 'undefined') return;
+    this._electionRefitObserver?.disconnect();
+    let last = `${container.clientWidth}x${container.clientHeight}`;
+    let frame = 0;
+    const observer = new ResizeObserver(() => {
+      const size = `${container.clientWidth}x${container.clientHeight}`;
+      if (size === last) return;
+      last = size;
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        if (this.elections?.activeEntry?.sourceMapId !== sourceMapId) return;
+        map.resize();
+        this.mapController.fitToLayer?.(sourceMapId);
+      });
+    });
+    this._electionRefitObserver = observer;
+    observer.observe(container);
+    setTimeout(() => {
+      if (this._electionRefitObserver !== observer) return;
+      observer.disconnect();
+      this._electionRefitObserver = null;
+    }, 1200);
   }
 
   updateMobilePaneToggleState() {
@@ -540,7 +572,7 @@ class Test2App {
     this._electionPaneResizeReady = true;
     const storageKey = 'civgraph:test2:electionPaneHeight';
     const minPaneHeight = 120;
-    const defaultPaneHeight = () => Math.round(Math.min(window.innerHeight * 0.38, Math.max(minPaneHeight, window.innerHeight * 0.32)));
+    const defaultPaneHeight = () => Math.round(Math.min(window.innerHeight * 0.30, Math.max(minPaneHeight, window.innerHeight * 0.26)));
     const parseCssPx = (value, fallback) => {
       const number = Number.parseFloat(String(value || '').trim());
       return Number.isFinite(number) ? number : fallback;
@@ -2580,12 +2612,7 @@ class Test2App {
   }
 
   formatTimelineDate(date) {
-    return date.toLocaleDateString('en-GB', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-      timeZone: 'UTC'
-    });
+    return formatDisplayDate(date);
   }
 
   async applyTimelineTimestamp(timestamp, options = {}) {
@@ -3548,7 +3575,7 @@ class Test2App {
   async restoreURLState(options = {}) {
     this._restoringURLState = true;
     const shouldUpdateAfterRestore = options.updateAfterRestore !== false;
-    const params = this.getCurrentURLParams();
+    const params = renameElectionDatesInParams(this.getCurrentURLParams());
     const query = params.get('q');
     try {
       this.searchQuery = query || '';
@@ -3708,6 +3735,30 @@ app.init().catch((error) => {
 const LEGACY_LAYER_ID_PREFIXES = [
   ['roi-local-authorities-', 'local-authorities-']
 ];
+
+// Elections whose polling date was corrected, which changed their keys: old links keep working.
+// [body slug, old date, new date]
+const RENAMED_ELECTION_DATES = [
+  ['house-of-commons-of-the-united-kingdom', '1968-04-17', '1969-04-17'], // Mid Ulster by-election (Devlin)
+  ['house-of-commons-of-the-united-kingdom', '2011-06-06', '2011-06-09'], // Belfast West by-election
+  ['northern-ireland-assembly', '1983-04-27', '1983-04-20'] // Armagh by-election
+];
+
+function renameElectionDatesInParams(params) {
+  for (const [name, value] of [...params.entries()]) {
+    let next = value;
+    for (const [body, from, to] of RENAMED_ELECTION_DATES) {
+      next = next.split(`${body}__${from}`).join(`${body}__${to}`).split(`${body}:${from}`).join(`${body}:${to}`);
+      if (name === 'electionDate' && next === from && slugifyBody(params.get('electionBody')) === body) next = to;
+    }
+    if (next !== value) params.set(name, next);
+  }
+  return params;
+}
+
+function slugifyBody(value) {
+  return String(value || '').toLowerCase().trim().replace(/[^\w\s-]/g, '').replace(/[\s]+/g, '-').replace(/-+/g, '-');
+}
 
 function resolveLegacyLayerId(id) {
   const value = String(id || '');

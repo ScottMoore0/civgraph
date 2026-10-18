@@ -85,7 +85,22 @@ export function writeStableGeneratedJson(file, data, options = {}) {
   const currentText = existsSync(file) ? readFileSync(file, 'utf8') : null;
   if (currentText !== nextText) {
     mkdirSync(path.dirname(file), { recursive: true });
-    writeFileSync(file, nextText, 'utf8');
+    writeWithLockRetry(file, nextText);
   }
   return nextData;
+}
+
+// Windows Defender and the search indexer briefly lock a large file just written or read, and
+// the write then fails with UNKNOWN / EBUSY / EPERM. The lock clears within seconds, so wait and
+// retry rather than fail a long build on one file. scripts/generated_json.py does the same.
+function writeWithLockRetry(file, text) {
+  for (let attempt = 0; ; attempt += 1) {
+    try {
+      writeFileSync(file, text, 'utf8');
+      return;
+    } catch (error) {
+      if (!['UNKNOWN', 'EBUSY', 'EPERM', 'EACCES'].includes(error.code) || attempt >= 7) throw error;
+      Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 1000 * (attempt + 1));
+    }
+  }
 }

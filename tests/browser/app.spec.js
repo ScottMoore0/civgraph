@@ -1383,7 +1383,7 @@ test('mobile catalogue renders TOC first, one active section, and map gestures s
   expect(gestureState.hasTouchDragPanClass).toBe(true);
 });
 
-test('mobile map accepts actual touch pan pinch and pitch gestures', async ({ browser }) => {
+test('mobile map accepts actual touch pan pinch and pitch gestures, and a twist does not rotate it', async ({ browser }) => {
   const context = await browser.newContext({
     baseURL: 'http://127.0.0.1:5050',
     viewport: { width: 390, height: 844 },
@@ -1513,8 +1513,11 @@ test('mobile map accepts actual touch pan pinch and pitch gestures', async ({ br
       { id: 2, x: rotateCenter.x + 18, y: rotateCenter.y + 72 }
     ], 12);
     await page.waitForTimeout(350);
+    // A touch screen does not rotate the map: a pinch with a twist in it should only zoom
+    // (Alessio Coci, 2026-10-18). The compass button and a mouse right-drag still rotate it.
     const afterRotate = await page.evaluate(() => window.__civgraphTest2.mapController.map.getBearing());
-    expect(Math.abs(afterRotate)).toBeGreaterThan(5);
+    expect(Math.abs(afterRotate)).toBeLessThan(1);
+    expect(initial.diagnostics.touchRotationAllowed).toBe(false);
 
     const postPinchPanCenter = await getMapCanvasCenter(page);
     await performTouchGesture(client, [

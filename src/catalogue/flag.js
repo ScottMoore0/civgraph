@@ -35,3 +35,24 @@ const INITIAL = (() => {
   } catch { return ''; }
 })();
 export const initialCatalogueRoute = () => INITIAL;
+
+/**
+ * The catalogue's data, asked for as the app starts rather than after the map index, the port
+ * plan and the catalogue's code have loaded one after another: that wait was most of the two or
+ * three seconds the pane stood empty on a first visit (Alessio Coci, 2026-10-18). The catalogue
+ * takes the response once (takeCatalogueData); a second call fetches afresh.
+ */
+export const CATALOGUE_DATA_URL = '/data/catalogue/catalogue.json';
+let prefetched = null;
+export function prefetchCatalogueData() {
+  if (!prefetched && catalogueNextRequested() && typeof fetch === 'function') {
+    prefetched = fetch(CATALOGUE_DATA_URL, { cache: 'no-cache' });
+    prefetched.catch(() => {});
+  }
+  return prefetched;
+}
+export function takeCatalogueData() {
+  const p = prefetched;
+  prefetched = null;
+  return p || fetch(CATALOGUE_DATA_URL, { cache: 'no-cache' });
+}

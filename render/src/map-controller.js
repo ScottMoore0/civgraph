@@ -362,12 +362,27 @@ export class TestMapLibreController {
     this.directPanGestureState = null;
   }
 
+  /**
+   * Whether two fingers may turn the map. Not on a touch screen: a pinch there should zoom, and
+   * with rotation on, the slightest twist of a pinch turned the map as well (Alessio Coci,
+   * 2026-10-18). The compass button still turns it back to north, and a mouse can still rotate
+   * with a right-drag.
+   */
+  touchRotationAllowed() {
+    try {
+      return !globalThis.matchMedia?.('(pointer: coarse)')?.matches;
+    } catch {
+      return true;
+    }
+  }
+
   enableGestureHandlers() {
     if (!this.map) return;
     this.map.dragPan?.enable?.();
     this.map.dragRotate?.enable?.();
     this.map.touchZoomRotate?.enable?.();
-    this.map.touchZoomRotate?.enableRotation?.();
+    if (this.touchRotationAllowed()) this.map.touchZoomRotate?.enableRotation?.();
+    else this.map.touchZoomRotate?.disableRotation?.();
     this.map.touchPitch?.enable?.();
     this.map.scrollZoom?.enable?.();
     this.map.keyboard?.enable?.();
@@ -687,14 +702,29 @@ export class TestMapLibreController {
       const maxZoom = typeof this.map.getMaxZoom === 'function' ? this.map.getMaxZoom() : 22;
       const scale = nextDistance / state.distance;
       const zoom = clamp(state.zoom + Math.log2(Math.max(scale, 0.01)), minZoom, maxZoom);
+      // On a touch screen the fallback, like the native handler, only zooms and pans: it used to
+      // turn and tilt the map with no threshold at all, so nearly every pinch also rotated it.
+      const turns = this.touchRotationAllowed();
       const bearingDelta = normalizeDeltaDegrees(radiansToDegrees(angle(points) - state.angle));
-      const bearing = state.bearing + bearingDelta;
-      const pitch = clamp(state.pitch - ((nextMidpoint.y - state.midpoint.y) * 0.18), 0, 60);
+      const bearing = turns ? state.bearing + bearingDelta : state.bearing;
+      const pitch = turns ? clamp(state.pitch - ((nextMidpoint.y - state.midpoint.y) * 0.18), 0, 60) : state.pitch;
       const center = this.map.unproject([
         centerPoint.x - (nextMidpoint.x - state.midpoint.x),
         centerPoint.y - (nextMidpoint.y - state.midpoint.y)
       ]);
       return { center, zoom, bearing, pitch };
+    };
+    // MapLibre deliberately holds still at the start of a pinch (it waits for a clear zoom), so a
+    // still camera one frame in is not a failure: the fallback used to take over almost every
+    // pinch and fight the native handler. It now waits several frames and for a clear change in
+    // the fingers' spread or position before deciding the native handler is not running.
+    const NATIVE_GRACE_FRAMES = 8;
+    const clearlyMoving = (state) => {
+      const points = state.latestPoints;
+      if (!points) return false;
+      const spread = Math.abs(Math.log2(Math.max(distance(points) / state.distance, 0.01)));
+      const mid = midpoint(points);
+      return spread > 0.2 || Math.hypot(mid.x - state.midpoint.x, mid.y - state.midpoint.y) > 24;
     };
     const scheduleNativeFailureCheck = (state) => {
       if (state.nativeCheckFrame || state.fallbackActive || state.nativeMoved) return;
@@ -703,6 +733,11 @@ export class TestMapLibreController {
         if (this.directTwoFingerGestureState !== state || state.fallbackActive || state.nativeMoved) return;
         if (this.cameraMovedSince(state.camera)) {
           state.nativeMoved = true;
+          return;
+        }
+        state.stillFrames = (state.stillFrames || 0) + 1;
+        if (state.stillFrames < NATIVE_GRACE_FRAMES || !clearlyMoving(state)) {
+          scheduleNativeFailureCheck(state);
           return;
         }
         const next = state.latestPoints ? computeTwoFingerCamera(state, state.latestPoints) : null;
@@ -876,6 +911,7 @@ export class TestMapLibreController {
       dragRotateEnabled: typeof this.map.dragRotate?.isEnabled === 'function' ? this.map.dragRotate.isEnabled() : true,
       touchZoomEnabled: typeof this.map.touchZoomRotate?.isEnabled === 'function' ? this.map.touchZoomRotate.isEnabled() : true,
       touchPitchEnabled: typeof this.map.touchPitch?.isEnabled === 'function' ? this.map.touchPitch.isEnabled() : true,
+      touchRotationAllowed: this.touchRotationAllowed(),
       guardTargetCount: this.mobileGestureGuardTargetCount || 0,
       resizeObserverTargets: this.mobileGestureResizeObserver ? 1 : 0,
       resizeObserverMobileEligible: this.mobileGestureResizeObserverEligible,

@@ -728,6 +728,28 @@ test('N25 descriptions: an opened row, an election and a map Details page say wh
 });
 
 // The site's service worker answers /_api requests itself, out of reach of page.route: block it here.
+test('N27 an open election gets more of the screen: a narrower catalogue, shorter results that fold away', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  const paneWidth = () => page.evaluate(() => Math.round(document.querySelector('.pane--info').getBoundingClientRect().width));
+  const resultsHeight = () => page.evaluate(() => Math.round(document.getElementById('electionResultsPane').getBoundingClientRect().height));
+  await open(page, 'cat=elections');
+  await expect.poll(paneWidth).toBe(461);
+  await pane(page).locator('.cn-erow').first().locator('[data-cn-election-toggle]').click();
+  await expect.poll(() => page.evaluate(() => Boolean(window.__civgraphTest2.app.elections?.activeEntry)), { timeout: 30000 }).toBe(true);
+  // The catalogue gives the map room while the election is open (28% of 1280 = 358px)...
+  await expect.poll(paneWidth).toBe(358);
+  // ...and the results take 30% of the window by default, not 38%.
+  await expect.poll(resultsHeight).toBe(240);
+  // The results fold down to their header, and open again.
+  const fold = page.locator('#electionPaneCollapse');
+  await expect(fold).toHaveAttribute('aria-expanded', 'true');
+  await fold.click();
+  await expect(fold).toHaveAttribute('aria-expanded', 'false');
+  await expect.poll(resultsHeight).toBe(40);
+  await fold.click();
+  await expect.poll(resultsHeight).toBe(240);
+});
+
 test.describe('contributor editing', () => {
 test.use({ serviceWorkers: 'block' });
 test('N26 a contributor suggests an edit to a map from the catalogue; others are sent to sign in', async ({ page }) => {

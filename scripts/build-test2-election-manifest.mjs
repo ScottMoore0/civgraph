@@ -158,6 +158,56 @@ function applyWalkerCorrections(resultPath, rawResult) {
   return rawResult;
 }
 
+// Source-checked fixes: corrections found by comparing contests with a named source
+// (data/elections/corrections/source-checked-fixes.json). Each record names the imported file,
+// the source page that shows the right figure, and why; the raw file is left as imported and the
+// fix is laid over it at build time, so every changed figure traces to its source. Operations:
+//   set              { path: 'meta.quota' | 'Constituency.countInfo.Valid_Poll', value }
+//   candidate        { name, set: { field: value } } -- every row of that candidate
+//   addCandidate     { row } -- a row in the file's own format; skipped if the name is present
+//   replaceCandidates{ candidates } -- the whole list (scraper format), for contests imported empty
+const SOURCE_CHECKED_FIXES = path.join(ROOT, 'data', 'elections', 'corrections', 'source-checked-fixes.json');
+const sourceCheckedFixIndex = new Map(
+  (existsSync(SOURCE_CHECKED_FIXES) ? readJson(SOURCE_CHECKED_FIXES).records || [] : [])
+    .map((record) => [String(record.sourceFile).replace(/\\/g, '/'), record])
+);
+
+function fixCandidateName(row) {
+  return normalizeName(row?.candidateName || row?.name || `${row?.Firstname || ''} ${row?.Surname || ''}`);
+}
+
+function applySourceCheckedFixes(resultPath, rawResult) {
+  if (!resultPath || !rawResult) return rawResult;
+  const record = sourceCheckedFixIndex.get(slash(path.relative(ROOT, resultPath)));
+  if (!record) return rawResult;
+  const rows = () => rawResult.Constituency?.countGroup || rawResult.candidates || [];
+  for (const op of record.operations || []) {
+    if (op.op === 'set') {
+      const keys = String(op.path).split('.');
+      let target = rawResult;
+      for (const key of keys.slice(0, -1)) target = target[key] ??= {};
+      target[keys.at(-1)] = op.value;
+    } else if (op.op === 'candidate') {
+      const want = normalizeName(op.name);
+      const matched = rows().filter((row) => fixCandidateName(row) === want);
+      if (!matched.length) throw new Error(`source-checked-fixes: ${record.sourceFile} has no candidate "${op.name}"`);
+      for (const row of matched) Object.assign(row, op.set);
+    } else if (op.op === 'addCandidate') {
+      const list = rawResult.Constituency?.countGroup || (rawResult.candidates ??= []);
+      if (!list.some((row) => fixCandidateName(row) === fixCandidateName(op.row))) list.push({ ...op.row });
+    } else if (op.op === 'replaceCandidates') {
+      rawResult.candidates = op.candidates.map((candidate) => ({ ...candidate }));
+    } else {
+      throw new Error(`source-checked-fixes: unknown operation ${op.op} for ${record.sourceFile}`);
+    }
+  }
+  const source = record.source || {};
+  const named = [source.publisher, source.title].filter(Boolean).join(', ');
+  const note = `${record.reason}${named ? ` (${named})` : ''}`;
+  rawResult.correctionNote = rawResult.correctionNote ? `${rawResult.correctionNote} ${note}` : note;
+  return rawResult;
+}
+
 // An unopposed return was imported with its columns shifted: the member's name in the vote
 // columns and the party split across Firstname and Surname, so the pane named "Irish Unionist"
 // as the MP. 446 of 1,355 pre-1918 Westminster rows came in this way. Restore name and party;
@@ -298,6 +348,17 @@ const SOURCE_NAME_ALIASES = new Map([
   ])],
   ['dail-1961', new Map([
     ['Cork', 'Cork Borough']
+  ])],
+  //   dail-1974: the 1974 Act's Dublin seats (fought in 1977) are filed "Dublin (Artane)", which
+  //     normalizeName() reduces to "dublin"; the results name them "Dublin Artane". The layer's
+  //     "Dublin (Rathmines West)" is the results' "Dublin Rathmines".
+  ['dail-1974', new Map([
+    ['Dublin (Artane)', 'Dublin Artane'],
+    ['Dublin (Ballyfermot)', 'Dublin Ballyfermot'],
+    ['Dublin (Cabra)', 'Dublin Cabra'],
+    ['Dublin (Clontarf)', 'Dublin Clontarf'],
+    ['Dublin (Finglas)', 'Dublin Finglas'],
+    ['Dublin (Rathmines West)', 'Dublin Rathmines']
   ])],
   ['dail-1969', new Map([
     ['Cork North-West', 'Cork City North'],
@@ -1284,8 +1345,8 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     const rawResult = resultPath ? readJson(resultPath) : null;
     const officialRawResult = enrichDailResultWithOfficialData(entry, rawResult, constituency);
     const wikiEnrichedRawResult = enrichDailResultWithWikipediaCounts(entry, resultPath, officialRawResult, constituency);
-    const enrichedRawResult = applyWalkerCorrections(resultPath,
-      repairShiftedUnopposedRows(applyNiLocalValidPollCorrection(key, constituency, wikiEnrichedRawResult)));
+    const enrichedRawResult = applySourceCheckedFixes(resultPath, applyWalkerCorrections(resultPath,
+      repairShiftedUnopposedRows(applyNiLocalValidPollCorrection(key, constituency, wikiEnrichedRawResult))));
     if (officialRawResult) rawEntries.push({ constituency, raw: officialRawResult });
     const result = ElectionDomain.summarizeResult(enrichedRawResult, constituency);
     // A cause supplied by an overlay (Wikipedia's by-election lists) counts as the file's own.
@@ -1293,6 +1354,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
       ...rawResult,
       cause: rawResult.cause || enrichedRawResult?.cause,
       electorateSource: rawResult.electorateSource || enrichedRawResult?.electorateSource,
+      correctionNote: enrichedRawResult?.correctionNote,
       Constituency: rawResult.Constituency?.countInfo?.Total_Electorate ? rawResult.Constituency : (enrichedRawResult?.Constituency || rawResult.Constituency),
     } : rawResult);
     if (notes.length) result.contestNotes = notes;
@@ -1342,8 +1404,8 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
       const constituency = file.replace(/\.json$/, '');
       const officialRawResult = enrichDailResultWithOfficialData(entry, rawResult, constituency);
       const wikiEnrichedRawResult = enrichDailResultWithWikipediaCounts(entry, resultPath, officialRawResult, constituency);
-      const enrichedRawResult = applyWalkerCorrections(resultPath,
-        repairShiftedUnopposedRows(applyNiLocalValidPollCorrection(key, constituency, wikiEnrichedRawResult)));
+      const enrichedRawResult = applySourceCheckedFixes(resultPath, applyWalkerCorrections(resultPath,
+        repairShiftedUnopposedRows(applyNiLocalValidPollCorrection(key, constituency, wikiEnrichedRawResult))));
       rawEntries.push({ constituency, raw: officialRawResult });
       const result = ElectionDomain.summarizeResult(enrichedRawResult, constituency);
       applyLifespanEvidence(entry, result);
@@ -2208,6 +2270,7 @@ function contestNotes(raw) {
         ? `${Number(raw.Constituency.countInfo.Total_Electorate).toLocaleString('en-GB')}: ${raw.electorateSource.replace(/,\s*(\d{4})/, ' in $1')}`
         : null)],
     ['Right of election', raw.franchise],
+    ['Corrected', raw.correctionNote],
   ].filter(([, text]) => typeof text === 'string' && text.trim())
     .map(([label, text]) => ({ label, text: text.trim() }));
 }

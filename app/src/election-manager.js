@@ -20,6 +20,7 @@ import {
 } from '../../src/election-domain.mjs';
 import { partyAbbreviation, partyLabelHtml } from '../../src/party-names.mjs';
 import { buildTrendChartModel, mountTrendChart } from '../../src/election-trend-chart.mjs';
+import { formatDisplayDate } from '../../src/date-format.mjs';
 
 const ELECTION_MANIFEST_URL = '/render/metadata/elections-test2.json?v=test-023';
 
@@ -3974,18 +3975,41 @@ export class Test2ElectionManager {
   ensurePanel() {
     const pane = document.getElementById('electionResultsPane');
     if (!pane) return null;
-    if (!pane.querySelector('#electionPaneTitle') || !pane.querySelector('#electionPaneContent') || !pane.querySelector('#electionPaneHeaderRight')) {
+    if (!pane.querySelector('#electionPaneTitle') || !pane.querySelector('#electionPaneContent') || !pane.querySelector('#electionPaneHeaderRight') || !pane.querySelector('#electionPaneCollapse')) {
       pane.innerHTML = `
         <div class="test2-election-pane-resizer" data-election-pane-resize role="separator" aria-label="Resize election results pane" aria-orientation="horizontal" tabindex="0" title="Drag to resize election results"></div>
         <div class="election-pane__header">
           <button type="button" id="electionPaneBack" class="election-pane__back hidden" aria-label="Back to overall election results">&lt;</button>
           <h3 id="electionPaneTitle" class="election-pane__title">Election results</h3>
           <div class="election-pane__header-right" id="electionPaneHeaderRight"></div>
+          <button type="button" id="electionPaneCollapse" class="election-pane__collapse" aria-controls="electionPaneContent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
         </div>
         <div id="electionPaneContent" class="election-pane__content"></div>
       `;
+      pane.querySelector('#electionPaneCollapse').addEventListener('click', () => this.setPaneCollapsed(!document.body.classList.contains('test2-election-collapsed')));
+      this.setPaneCollapsed(this.readPaneCollapsed(), { refit: false });
     }
     return pane;
+  }
+
+  /** Fold the results down to their header so the election map takes the column, or open them
+   * again. Remembered for the next election and the next visit. */
+  setPaneCollapsed(collapsed, { refit = true } = {}) {
+    document.body.classList.toggle('test2-election-collapsed', Boolean(collapsed));
+    const button = document.getElementById('electionPaneCollapse');
+    if (button) {
+      const label = collapsed ? 'Show the election results' : 'Hide the election results to see more of the map';
+      button.setAttribute('aria-expanded', String(!collapsed));
+      button.setAttribute('aria-label', label);
+      button.title = label;
+    }
+    try { localStorage.setItem('civgraph:test2:electionPaneCollapsed', collapsed ? '1' : '0'); } catch { /* private mode */ }
+    if (refit && this.activeEntry?.sourceMapId) this.app.refitAfterElectionPane?.(this.activeEntry.sourceMapId);
+    else requestAnimationFrame(() => this.app.mapController?.invalidateSize?.());
+  }
+
+  readPaneCollapsed() {
+    try { return localStorage.getItem('civgraph:test2:electionPaneCollapsed') === '1'; } catch { return false; }
   }
 
   renderLoadingPanel(entry) {
@@ -4014,7 +4038,7 @@ export class Test2ElectionManager {
     const pane = document.getElementById('electionResultsPane');
     pane?.classList.remove('election-results-pane--open');
     if (pane) pane.innerHTML = '';
-    document.body.classList.remove('test2-election-open');
+    document.body.classList.remove('test2-election-open', 'test2-election-collapsed');
   }
 
   async renderElectionOverlay() {
@@ -5444,10 +5468,7 @@ function shortElectionBody(name) {
 function formatElectionDate(value) {
   const match = String(value || '').match(/^(\d{4})-(\d{2})-(\d{2})/);
   if (!match) return String(value || '');
-  const [, year, month, day] = match;
-  const date = new Date(`${year}-${month}-${day}T00:00:00Z`);
-  if (Number.isNaN(date.getTime())) return String(value || '');
-  return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'UTC' });
+  return formatDisplayDate(match[0]);
 }
 
 function electionTrendFamily(entry = {}) {

@@ -3999,7 +3999,9 @@ function formatDate(value) {
   if (!value) return '';
   const date = new Date(`${value}T00:00:00Z`);
   if (Number.isNaN(date.getTime())) return String(value);
-  return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  // "1 Jan 1950", as everywhere on the site (src/date-format.mjs): no zero-padded day, and a
+  // fixed month list because en-GB's short month for September is "Sept".
+  return `${date.getUTCDate()} ${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][date.getUTCMonth()]} ${date.getUTCFullYear()}`;
 }
 
 function formatNumber(value) {

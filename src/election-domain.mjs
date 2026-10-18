@@ -115,7 +115,7 @@ export function summarizeForumRows(rows = []) {
 // candidate's sourcePersonId. Carried through verbatim they added over a hundred
 // thousand lines to the election bundles -- on every count row and inside the raw
 // animation payload -- and from there to the browse indexes and D1.
-const HARVEST_FIELDS = new Set(['ei_candidate_id', 'eiCandidateId', 'ei_candidates']);
+const HARVEST_FIELDS = new Set(['ei_candidate_id', 'eiCandidateId', 'ei_candidates', 'source_person_id']);
 function withoutHarvestFields(value) {
   if (Array.isArray(value)) return value.map(withoutHarvestFields);
   if (!value || typeof value !== 'object') return value;
@@ -129,7 +129,9 @@ function withoutHarvestFields(value) {
 function sourcePersonIdFor(row) {
   const ei = String(row?.ei_candidate_id ?? row?.eiCandidateId ?? '').trim();
   if (/^\d+$/.test(ei)) return `ei:${Number(ei)}`;
-  const existing = String(row?.sourcePersonId || '').trim();
+  // Another source's own person id ("ie:<n>" from IrelandElection.com), carried on scraper
+  // rows that ElectionsIreland has no page for (source-checked fills).
+  const existing = String(row?.sourcePersonId || row?.source_person_id || '').trim();
   return existing || '';
 }
 
@@ -249,6 +251,7 @@ export function normalizeScraperPayloadForMain(payload, fallbackConstituency = '
       // person travels in ei_candidate_id below instead.
       Candidate_Id: String(index + 1),
       ei_candidate_id: candidate.ei_candidate_id ?? candidate.eiCandidateId ?? '',
+      source_person_id: candidate.sourcePersonId || '',
       Candidate_First_Pref_Votes: String(firstPref),
       Constituency_Number: String(payload.constituencyNumber || payload.officialDail?.constituencyNumber || meta.Constituency_Number || ''),
       Count_Number: String(countNumber),

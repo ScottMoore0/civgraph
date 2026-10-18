@@ -54,7 +54,7 @@
 
   <!-- Modulepreload — start fetching the entry bundle before parser reaches
        the <script type=module> tag at the end of <body>. -->
-  <link rel="modulepreload" href="/app/build/app.bundle.js?v=6c6de966afa3" fetchpriority="high">
+  <link rel="modulepreload" href="/app/build/app.bundle.js?v=bfc95b9a9316" fetchpriority="high">
   <style>
     @font-face {
       font-family: 'Inter';
@@ -94,9 +94,9 @@
   <!-- Deferred CSS: remaining ~186 KB (catalogue cards, modals, charts, …)
        loaded async via media=print + onload swap so it doesn't block first
        paint. Browsers without JS fall back via <noscript>. -->
-    <link rel="stylesheet" href="/build/main.css?v=3ba11691cb39" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="/build/main.css?v=3ba11691cb39"></noscript>
-  <link rel="stylesheet" href="/app/build/app.bundle.css?v=df5c25312294">
+    <link rel="stylesheet" href="/build/main.css?v=c05624910ad6" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="/build/main.css?v=c05624910ad6"></noscript>
+  <link rel="stylesheet" href="/app/build/app.bundle.css?v=be5d2f89d208">
 
   <!-- Election Viewer & Animation CSS (deferred — not needed for first paint) -->
   <link rel="stylesheet" href="/app/election-viewer-package/css/election-viewer.css?v=a999f742cbb1" media="print" onload="this.media='all'">
@@ -144,6 +144,21 @@
 </head>
 
 <body class="app-shell" data-split-state="balanced">
+  <script>
+    /* The catalogue pane's width before the first paint: about a third of the screen (or the
+       width the reader dragged it to), as src/catalogue/split.js sets it once the app runs.
+       Without this the pane opened at half the screen and snapped narrower seconds later. */
+    (function () {
+      try {
+        if (window.CIVGRAPH_CATALOGUE === 'classic' || /[?&]catalogue=classic(&|$)/.test(location.search)) return;
+        if (window.matchMedia && matchMedia('(max-width: 768px)').matches) return;
+        var saved = null;
+        try { saved = JSON.parse(localStorage.getItem('civgraph.catalogueNext.split.v1')); } catch (e) { /* private mode */ }
+        var manual = saved && Number(saved.manual);
+        document.body.style.setProperty('--split-position', manual ? manual + '%' : 'clamp(400px, 36%, 560px)');
+      } catch (e) { /* leave the stylesheet's split */ }
+    })();
+  </script>
   <noscript>
     <div style="max-width:44rem;margin:2rem auto;padding:1rem 1.25rem;font-family:system-ui,sans-serif;line-height:1.5">
       <h1>Civgraph</h1>
@@ -318,7 +333,13 @@
 
           <!-- Map List (Grouped view — default) -->
           <div id="catalogueFlatView" class="catalogue-flat-view">
-            <!-- Populated by JavaScript -->
+            <!-- A placeholder in the catalogue's shape while its data loads; the catalogue
+                 replaces it when it mounts. -->
+            <div class="catalogue-skeleton" aria-busy="true">
+              <span class="visually-hidden">Loading the catalogue…</span>
+              <div class="catalogue-skeleton__tabs" aria-hidden="true"><span class="skeleton"></span><span class="skeleton"></span><span class="skeleton"></span><span class="skeleton"></span></div>
+              <div class="catalogue-skeleton__rows" aria-hidden="true"><span class="skeleton"></span><span class="skeleton"></span><span class="skeleton"></span><span class="skeleton"></span><span class="skeleton"></span><span class="skeleton"></span><span class="skeleton"></span></div>
+            </div>
           </div>
 
           <!-- Error Container -->
@@ -729,7 +750,7 @@
        and animation code are loaded lazily by the /app module bundle. -->
 
   <!-- Application (bundled + minified) -->
-  <script type="module" src="/app/build/app.bundle.js?v=6c6de966afa3"></script>
+  <script type="module" src="/app/build/app.bundle.js?v=bfc95b9a9316"></script>
 
   <!-- Service worker — repeat-visit cache + offline tolerance. Registered
        after window.load so it doesn't contend with critical resources.

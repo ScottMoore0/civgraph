@@ -25,6 +25,7 @@
 import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { loadRecords } from './records.mjs';
+import { formatDatesInText } from '../../src/date-format.mjs';
 
 const ROOT = process.cwd();
 const rel = (p) => path.join(ROOT, p);
@@ -268,6 +269,9 @@ for (const s of source.series) {
   for (const m of members) if (s.versionLabels?.[m.id]) m.version = s.versionLabels[m.id];
   // A label the curator gives (catalogue.source.json `labels`) wins over a derived one.
   for (const m of members) if (s.labels?.[m.id]) m.label = s.labels[m.id];
+  // Dates in labels follow the site's one form, "1 Apr 1969" (src/date-format.mjs), whether they
+  // came from a map's name ("01 April 1969") or a curator's label ("04/10/1920").
+  for (const m of members) m.label = formatDatesInText(m.label);
   // A row's own note on one of its maps (why 2001 Wards sit with the census areas).
   for (const [id, note] of Object.entries(s.notes || {})) if (out.maps[id]) out.maps[id].note = note;
   for (const m of members) if (!out.maps[m.id].unit) out.maps[m.id].unit = unitFor(s, m.id, m.label);
@@ -287,7 +291,7 @@ for (const s of source.series) {
   const todoRecs = (s.toBeAdded || []).map((id) => ({ id, ...addMap(id) }));
   if (todoRecs.length) {
     if (s.arrangement === 'editions') todoRecs.sort((a, b) => String(b.date).localeCompare(String(a.date)));
-    entry.todo = todoRecs.map((r) => ({ id: r.id, label: s.labels?.[r.id] || editionLabel(s, r, [...editions, ...todoRecs]) }));
+    entry.todo = todoRecs.map((r) => ({ id: r.id, label: formatDatesInText(s.labels?.[r.id] || editionLabel(s, r, [...editions, ...todoRecs])) }));
   }
   // One council's copy of a national map (`local`): kept off the row until a reader asks for
   // the local maps, labelled by the council the curator names.
@@ -295,7 +299,7 @@ for (const s of source.series) {
   if (s.undated) for (const r of localRecs) { r.date = ''; out.maps[r.id].date = ''; }
   if (localRecs.length) {
     localRecs.sort((a, b) => String(s.labels?.[a.id] || a.name).localeCompare(String(s.labels?.[b.id] || b.name)));
-    entry.local = localRecs.map((r) => ({ id: r.id, label: s.labels?.[r.id] || editionLabel({ ...s, arrangement: 'set' }, r, localRecs), ...(s.localOf?.[r.id] ? { of: s.localOf[r.id] } : {}) }));
+    entry.local = localRecs.map((r) => ({ id: r.id, label: formatDatesInText(s.labels?.[r.id] || editionLabel({ ...s, arrangement: 'set' }, r, localRecs)), ...(s.localOf?.[r.id] ? { of: s.localOf[r.id] } : {}) }));
     for (const m of entry.local) if (!out.maps[m.id].unit) out.maps[m.id].unit = unitFor({ ...s, unitFromLabel: false }, m.id, m.label);
   }
   const todoYears = todoRecs.map((r) => yearOfDate(r.date)).filter(Boolean);

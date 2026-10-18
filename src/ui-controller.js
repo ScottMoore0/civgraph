@@ -1,6 +1,7 @@
 import { compositeChildIds } from './map-relations.mjs';
 import { catalogueV2Requested } from './data-service.js';
 import { readStored, writeStored } from './storage-keys.mjs';
+import { formatDisplayDate } from './date-format.mjs';
 /**
  * NI Boundaries - UI Controller
  * Handles split-pane layout, search, filtering, map catalogue, and UI interactions
@@ -7326,14 +7327,8 @@ class UIController {
         const str = String(dateStr);
         const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         if (/^\d{4}$/.test(str)) return str;
-        if (/^\d{4}-\d{2}$/.test(str)) {
-            const [y, m] = str.split('-').map(Number);
-            return `<span class="date-mono">${months[m - 1]} ${y}</span>`;
-        }
-        if (/^\d{4}-\d{2}-\d{2}$/.test(str)) {
-            const [y, m, d] = str.split('-').map(Number);
-            const dayStr = String(d).padStart(2, '0');
-            return `<span class="date-mono">${dayStr} ${months[m - 1]} ${y}</span>`;
+        if (/^\d{4}-\d{2}(-\d{2})?$/.test(str)) {
+            return `<span class="date-mono">${formatDisplayDate(str)}</span>`;
         }
         return str;
     }
@@ -8741,14 +8736,7 @@ class UIController {
 
         const fmt = (value) => this.formatNumber(Math.round(Number(value) || 0), 0);
         const pct = (value) => `${Number(value || 0).toFixed(2)}%`;
-        const shortDate = (dateStr) => {
-            const d = new Date(`${dateStr}T00:00:00`);
-            if (Number.isNaN(d.getTime())) return String(dateStr || '');
-            const day = String(d.getDate()).padStart(2, '0');
-            const mon = d.toLocaleDateString('en-GB', { month: 'short' });
-            const year = d.getFullYear();
-            return `${day} ${mon} ${year}`;
-        };
+        const shortDate = (dateStr) => formatDisplayDate(dateStr);
         const ord = (n) => {
             const num = Number(n || 0);
             if (!num) return '-';
@@ -9590,10 +9578,11 @@ class UIController {
 
         if (!loadedMaps || loadedMaps.length === 0) {
             container.innerHTML = '<p class="text-muted text-sm">No layers loaded</p>';
+            this._activeLayersHtml = null;
             return;
         }
 
-        container.innerHTML = loadedMaps.map(map => {
+        const html = loadedMaps.map(map => {
             const isVisible = visibilityMap?.get(map.id) ?? true;
             const partial = partialLayerInfo?.get(map.id);
             const color = map.style?.color || '#3388ff';
@@ -9667,6 +9656,13 @@ class UIController {
                     ${opacityControls}
                 </div>`;
         }).join('');
+
+        // The list is asked for again after every camera move and every idle map. Redrawing it
+        // when nothing in it changed replaced every node under the reader's pointer, replayed the
+        // hover styles and made the panel shake (Alessio Coci, 2026-10-18): leave it as it is.
+        if (html === this._activeLayersHtml && container.querySelector('.active-layer-item')) return;
+        this._activeLayersHtml = html;
+        container.innerHTML = html;
 
         // Add event listeners
         container.querySelectorAll('.visibility-btn').forEach(btn => {

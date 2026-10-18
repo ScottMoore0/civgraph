@@ -54,7 +54,9 @@ body.app-shell .app-main {
 .app-shell {
   --map-min-height: 220px;
   --timeline-row-height: 58px;
-  --test2-election-pane-height: min(38vh, max(120px, calc(100vh - var(--header-height, 64px) - var(--map-min-height, 220px) - var(--timeline-row-height, 58px) - 6px)));
+  /* 30% of the window by default (38% until 2026-10-18): at 1280x800 the results took the map
+     from 736px tall to 374px, and elections looked small. The reader can drag it taller. */
+  --test2-election-pane-height: min(30vh, max(120px, calc(100vh - var(--header-height, 64px) - var(--map-min-height, 220px) - var(--timeline-row-height, 58px) - 6px)));
 }
 
 .pane--map {
@@ -506,6 +508,57 @@ body.app-shell.test2-election-open #electionResultsPane.election-results-pane--o
   display: flex;
   flex-direction: column;
   overflow: hidden;
+}
+
+/* The results folded down to their header bar (the button at its right), so the election map
+   takes the whole column. !important because the drag handle writes the height inline. */
+body.app-shell.test2-election-open.test2-election-collapsed {
+  --test2-election-pane-height: 40px !important;
+}
+
+body.app-shell.test2-election-collapsed #electionResultsPane.election-results-pane--open {
+  min-height: 0;
+}
+
+body.app-shell.test2-election-collapsed #electionResultsPane .election-pane__content,
+body.app-shell.test2-election-collapsed #electionResultsPane .test2-election-pane-resizer {
+  display: none;
+}
+
+.election-pane__collapse {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  margin-left: auto;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 6px;
+  background: var(--color-surface, #fff);
+  color: var(--color-text, #1a202c);
+  cursor: pointer;
+}
+
+.election-pane__collapse:hover,
+.election-pane__collapse:focus-visible {
+  border-color: var(--color-primary-200, #a3bffa);
+}
+
+.election-pane__collapse svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.15s ease;
+}
+
+body.test2-election-collapsed .election-pane__collapse svg {
+  transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .election-pane__collapse svg {
+    transition: none;
+  }
 }
 
 .test2-election-pane-resizer {

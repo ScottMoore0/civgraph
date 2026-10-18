@@ -5680,13 +5680,15 @@ html:not([data-theme]) .feature-info__value,
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  transition: all var(--transition-fast);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
+/* No lift on hover: the list is redrawn as the map moves, and the 1px lift replayed on every
+   redraw and toggled at an item's lower edge, which made the panel shake (Alessio Coci,
+   2026-10-18). */
 .active-layer-item:hover {
   border-color: var(--color-primary-200);
   box-shadow: var(--shadow-sm);
-  transform: translateY(-1px);
 }
 
 .active-layer-item__color {
@@ -6104,6 +6106,44 @@ html:not([data-theme]) .feature-info__value,
   background-size: 200% 100%;
   animation: skeleton-shimmer 1.5s infinite;
   border-radius: var(--radius-md);
+}
+
+/* The catalogue pane before its data arrives (maps/index.html): section tabs and rows in the
+   catalogue's own proportions, so the pane is not a large blank while it loads. */
+.catalogue-skeleton {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-1);
+}
+
+.catalogue-skeleton__tabs {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.catalogue-skeleton__tabs .skeleton {
+  width: 72px;
+  height: 30px;
+  border-radius: var(--radius-full);
+}
+
+.catalogue-skeleton__rows {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.catalogue-skeleton__rows .skeleton {
+  height: 52px;
+}
+
+.catalogue-skeleton__rows .skeleton:nth-child(3n + 2) {
+  width: 92%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .catalogue-skeleton .skeleton {
+    animation: none;
+  }
 }
 
 @keyframes skeleton-shimmer {
@@ -10686,7 +10726,7 @@ kbd {
      drag logic clamps to the same bounds before writing it. A second clamp at this
      level would silently disagree with the map column's calc(100% - <the same
      property>) and let the pane ride up over the timeline. One number, one clamp. */
-  height: var(--test2-election-pane-height, calc(40vh - 6px));
+  height: var(--test2-election-pane-height, calc(30vh - 6px));
   min-height: 120px;
   animation: electionSlideUp 0.25s ease;
   overflow-y: auto;

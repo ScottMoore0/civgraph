@@ -201,7 +201,7 @@
       ]
     },
     "app/src/test2.css": {
-      "bytes": 60368,
+      "bytes": 59526,
       "imports": []
     },
     "<define:__VIEWER_ASSET_VERSIONS__>": {
@@ -227,6 +227,28 @@
           "kind": "import-statement",
           "original": "./map-relations.mjs"
         },
+        {
+          "path": "<define:__VIEWER_ASSET_VERSIONS__>",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "src/catalogue/flag.js": {
+      "bytes": 2649,
+      "imports": [
+        {
+          "path": "<define:__VIEWER_ASSET_VERSIONS__>",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "src/date-format.mjs": {
+      "bytes": 2482,
+      "imports": [
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
           "kind": "import-statement",
@@ -279,19 +301,8 @@
       ],
       "format": "esm"
     },
-    "src/catalogue/flag.js": {
-      "bytes": 1785,
-      "imports": [
-        {
-          "path": "<define:__VIEWER_ASSET_VERSIONS__>",
-          "kind": "import-statement",
-          "external": true
-        }
-      ],
-      "format": "esm"
-    },
     "src/catalogue/split.js": {
-      "bytes": 3879,
+      "bytes": 4442,
       "imports": [
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
@@ -335,7 +346,7 @@
       "format": "esm"
     },
     "src/catalogue/icons.js": {
-      "bytes": 8814,
+      "bytes": 13056,
       "imports": [
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
@@ -346,8 +357,13 @@
       "format": "esm"
     },
     "src/catalogue/util.js": {
-      "bytes": 2285,
+      "bytes": 1873,
       "imports": [
+        {
+          "path": "src/date-format.mjs",
+          "kind": "import-statement",
+          "original": "../date-format.mjs"
+        },
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
           "kind": "import-statement",
@@ -415,7 +431,7 @@
       "format": "esm"
     },
     "src/catalogue/view-maps.js": {
-      "bytes": 33349,
+      "bytes": 33653,
       "imports": [
         {
           "path": "src/catalogue/icons.js",
@@ -446,7 +462,7 @@
       "format": "esm"
     },
     "src/catalogue/view-elections.js": {
-      "bytes": 9683,
+      "bytes": 9697,
       "imports": [
         {
           "path": "src/catalogue/icons.js",
@@ -503,7 +519,7 @@
       "format": "esm"
     },
     "src/catalogue/index.js": {
-      "bytes": 74865,
+      "bytes": 74982,
       "imports": [
         {
           "path": "src/catalogue/search.js",
@@ -534,6 +550,11 @@
           "path": "src/catalogue/util.js",
           "kind": "import-statement",
           "original": "./util.js"
+        },
+        {
+          "path": "src/date-format.mjs",
+          "kind": "import-statement",
+          "original": "../date-format.mjs"
         },
         {
           "path": "src/catalogue/menu.js",
@@ -579,7 +600,7 @@
       "format": "esm"
     },
     "src/ui-controller.js": {
-      "bytes": 645423,
+      "bytes": 645348,
       "imports": [
         {
           "path": "src/map-relations.mjs",
@@ -595,6 +616,11 @@
           "path": "src/storage-keys.mjs",
           "kind": "import-statement",
           "original": "./storage-keys.mjs"
+        },
+        {
+          "path": "src/date-format.mjs",
+          "kind": "import-statement",
+          "original": "./date-format.mjs"
         },
         {
           "path": "src/data-service.js",
@@ -811,7 +837,7 @@
       "format": "esm"
     },
     "render/src/map-controller.js": {
-      "bytes": 97096,
+      "bytes": 96577,
       "imports": [
         {
           "path": "node_modules/maplibre-gl/dist/maplibre-gl.js",
@@ -914,7 +940,7 @@
       "format": "esm"
     },
     "src/election-domain.mjs": {
-      "bytes": 55965,
+      "bytes": 54918,
       "imports": [
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
@@ -994,7 +1020,7 @@
       "format": "esm"
     },
     "app/src/election-manager.js": {
-      "bytes": 288554,
+      "bytes": 284520,
       "imports": [
         {
           "path": "render/src/feature-property-repairs.js",
@@ -1032,6 +1058,11 @@
           "original": "../../src/election-trend-chart.mjs"
         },
         {
+          "path": "src/date-format.mjs",
+          "kind": "import-statement",
+          "original": "../../src/date-format.mjs"
+        },
+        {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
           "kind": "import-statement",
           "external": true
@@ -1040,12 +1071,22 @@
       "format": "esm"
     },
     "app/src/app.js": {
-      "bytes": 170255,
+      "bytes": 172927,
       "imports": [
         {
           "path": "src/data-service.js",
           "kind": "import-statement",
           "original": "../../src/data-service.js"
+        },
+        {
+          "path": "src/catalogue/flag.js",
+          "kind": "import-statement",
+          "original": "../../src/catalogue/flag.js"
+        },
+        {
+          "path": "src/date-format.mjs",
+          "kind": "import-statement",
+          "original": "../../src/date-format.mjs"
         },
         {
           "path": "src/feature-loader.js",
@@ -1086,6 +1127,11 @@
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
           "kind": "import-statement",
           "external": true
+        },
+        {
+          "path": "src/catalogue/index.js",
+          "kind": "dynamic-import",
+          "original": "../../src/catalogue/index.js"
         },
         {
           "path": "app/src/election-manager.js",
@@ -1130,7 +1176,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "app/build/chunks/app-INBPYG4Y.js",
+          "path": "app/build/chunks/app-3N3SBDEG.js",
           "kind": "dynamic-import"
         }
       ],
@@ -1150,10 +1196,14 @@
       },
       "bytes": 757
     },
-    "app/build/chunks/catalogue-U6MKBSGF.js": {
+    "app/build/chunks/catalogue-YW4W5THY.js": {
       "imports": [
         {
-          "path": "app/build/chunks/chunk-YSFGRPQS.js",
+          "path": "app/build/chunks/chunk-GAGVEE5N.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "app/build/chunks/chunk-YAFSJJE2.js",
           "kind": "import-statement"
         },
         {
@@ -1170,7 +1220,7 @@
       "entryPoint": "src/catalogue/index.js",
       "inputs": {
         "src/catalogue/index.js": {
-          "bytesInOutput": 46456
+          "bytesInOutput": 46380
         },
         "src/catalogue/search.js": {
           "bytesInOutput": 5893
@@ -1179,10 +1229,10 @@
           "bytesInOutput": 32511
         },
         "src/catalogue/icons.js": {
-          "bytesInOutput": 7583
+          "bytesInOutput": 11430
         },
         "src/catalogue/util.js": {
-          "bytesInOutput": 1074
+          "bytesInOutput": 688
         },
         "src/catalogue/menu.js": {
           "bytesInOutput": 2643
@@ -1194,21 +1244,25 @@
           "bytesInOutput": 2630
         },
         "src/catalogue/view-maps.js": {
-          "bytesInOutput": 23674
+          "bytesInOutput": 23692
         },
         "src/catalogue/view-elections.js": {
-          "bytesInOutput": 6992
+          "bytesInOutput": 7009
         },
         "src/catalogue/view-books.js": {
           "bytesInOutput": 1247
         }
       },
-      "bytes": 136443
+      "bytes": 139911
     },
-    "app/build/chunks/election-manager-3VNNTS4U.js": {
+    "app/build/chunks/election-manager-ZWDFO5JB.js": {
       "imports": [
         {
           "path": "app/build/chunks/chunk-N5LII4MN.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "app/build/chunks/chunk-YAFSJJE2.js",
           "kind": "import-statement"
         },
         {
@@ -1222,7 +1276,7 @@
       "entryPoint": "app/src/election-manager.js",
       "inputs": {
         "app/src/election-manager.js": {
-          "bytesInOutput": 161747
+          "bytesInOutput": 162848
         },
         "src/election-renderer.mjs": {
           "bytesInOutput": 27294
@@ -1240,12 +1294,12 @@
           "bytesInOutput": 14432
         }
       },
-      "bytes": 221957
+      "bytes": 223099
     },
-    "app/build/chunks/app-INBPYG4Y.js": {
+    "app/build/chunks/app-3N3SBDEG.js": {
       "imports": [
         {
-          "path": "app/build/chunks/chunk-YSFGRPQS.js",
+          "path": "app/build/chunks/chunk-GAGVEE5N.js",
           "kind": "import-statement"
         },
         {
@@ -1253,15 +1307,23 @@
           "kind": "import-statement"
         },
         {
+          "path": "app/build/chunks/chunk-YAFSJJE2.js",
+          "kind": "import-statement"
+        },
+        {
           "path": "app/build/chunks/chunk-2YPEAJVR.js",
           "kind": "import-statement"
         },
         {
-          "path": "app/build/chunks/catalogue-U6MKBSGF.js",
+          "path": "app/build/chunks/catalogue-YW4W5THY.js",
           "kind": "dynamic-import"
         },
         {
-          "path": "app/build/chunks/election-manager-3VNNTS4U.js",
+          "path": "app/build/chunks/catalogue-YW4W5THY.js",
+          "kind": "dynamic-import"
+        },
+        {
+          "path": "app/build/chunks/election-manager-ZWDFO5JB.js",
           "kind": "dynamic-import"
         }
       ],
@@ -1269,13 +1331,13 @@
       "entryPoint": "app/src/app.js",
       "inputs": {
         "app/src/app.js": {
-          "bytesInOutput": 90529
+          "bytesInOutput": 91613
         },
         "src/feature-loader.js": {
           "bytesInOutput": 6264
         },
         "src/ui-controller.js": {
-          "bytesInOutput": 349016
+          "bytesInOutput": 348735
         },
         "src/storage-keys.mjs": {
           "bytesInOutput": 383
@@ -1287,7 +1349,7 @@
           "bytesInOutput": 206
         },
         "src/catalogue/split.js": {
-          "bytesInOutput": 1839
+          "bytesInOutput": 1923
         },
         "src/public-map.mjs": {
           "bytesInOutput": 526
@@ -1305,7 +1367,7 @@
           "bytesInOutput": 34973
         },
         "render/src/map-controller.js": {
-          "bytesInOutput": 50811
+          "bytesInOutput": 51339
         },
         "node_modules/pmtiles/dist/esm/index.js": {
           "bytesInOutput": 14537
@@ -1326,9 +1388,9 @@
           "bytesInOutput": 362
         }
       },
-      "bytes": 587775
+      "bytes": 589239
     },
-    "app/build/chunks/chunk-YSFGRPQS.js": {
+    "app/build/chunks/chunk-GAGVEE5N.js": {
       "imports": [
         {
           "path": "app/build/chunks/chunk-2YPEAJVR.js",
@@ -1341,7 +1403,9 @@
         "c",
         "d",
         "e",
-        "f"
+        "f",
+        "g",
+        "h"
       ],
       "inputs": {
         "src/map-relations.mjs": {
@@ -1351,10 +1415,10 @@
           "bytesInOutput": 9971
         },
         "src/catalogue/flag.js": {
-          "bytesInOutput": 549
+          "bytesInOutput": 761
         }
       },
-      "bytes": 10904
+      "bytes": 11130
     },
     "app/build/chunks/chunk-N5LII4MN.js": {
       "imports": [
@@ -1383,6 +1447,23 @@
         }
       },
       "bytes": 1053250
+    },
+    "app/build/chunks/chunk-YAFSJJE2.js": {
+      "imports": [
+        {
+          "path": "app/build/chunks/chunk-2YPEAJVR.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "a"
+      ],
+      "inputs": {
+        "src/date-format.mjs": {
+          "bytesInOutput": 976
+        }
+      },
+      "bytes": 1032
     },
     "app/build/chunks/chunk-2YPEAJVR.js": {
       "imports": [],
@@ -1603,10 +1684,10 @@
           "bytesInOutput": 69917
         },
         "app/src/test2.css": {
-          "bytesInOutput": 46353
+          "bytesInOutput": 47408
         }
       },
-      "bytes": 116271
+      "bytes": 117326
     }
   }
 }
