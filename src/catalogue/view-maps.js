@@ -4,7 +4,7 @@
  * its actions; maps still to be added show on request, row by row. Rendering only: the controller
  * (index.js) owns state and behaviour, and is passed in as `c`.
  */
-import { icon, SHELF_LOOK, FLAT_SECTIONS } from './icons.js';
+import { icon, SHELF_LOOK, SHELF_ICON_IN, FLAT_SECTIONS } from './icons.js';
 import { esc, plural, span, inkOn, longDate, SCOPE_SHORT } from './util.js';
 import { sliderHtml } from './slider.js';
 import { PeopleSearch } from './search.js';
@@ -55,7 +55,8 @@ const SHELF_NAME_IN = { boundaries: { 'people-and-places': 'Census & Statistical
 export const shelfName = (section, sh) => SHELF_NAME_IN[section]?.[sh.id] || sh.name;
 
 function shelfHtml(c, { sh, subjects, count }, alone = false) {
-  const [ic, col] = SHELF_LOOK[sh.id] || ['map', FALLBACK];
+  const [look, col] = SHELF_LOOK[sh.id] || ['map', FALLBACK];
+  const ic = SHELF_ICON_IN[c.section]?.[sh.id] || look;
   if (FLAT_SECTIONS.has(c.section)) {
     return `<section class="cn-shelf cn-shelf--bare" id="cn-shelf-${esc(sh.id)}" data-cn-section="${esc(sh.id)}">${flatHtml(c, subjects, sh)}</section>`;
   }

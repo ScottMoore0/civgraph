@@ -335,7 +335,18 @@
       "format": "esm"
     },
     "src/catalogue/styles.js": {
-      "bytes": 33174,
+      "bytes": 33176,
+      "imports": [
+        {
+          "path": "<define:__VIEWER_ASSET_VERSIONS__>",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "src/catalogue/custom-icons.js": {
+      "bytes": 136861,
       "imports": [
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
@@ -346,8 +357,13 @@
       "format": "esm"
     },
     "src/catalogue/icons.js": {
-      "bytes": 13056,
+      "bytes": 9339,
       "imports": [
+        {
+          "path": "src/catalogue/custom-icons.js",
+          "kind": "import-statement",
+          "original": "./custom-icons.js"
+        },
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
           "kind": "import-statement",
@@ -431,7 +447,7 @@
       "format": "esm"
     },
     "src/catalogue/view-maps.js": {
-      "bytes": 33653,
+      "bytes": 33726,
       "imports": [
         {
           "path": "src/catalogue/icons.js",
@@ -462,7 +478,7 @@
       "format": "esm"
     },
     "src/catalogue/view-elections.js": {
-      "bytes": 9697,
+      "bytes": 9706,
       "imports": [
         {
           "path": "src/catalogue/icons.js",
@@ -519,7 +535,7 @@
       "format": "esm"
     },
     "src/catalogue/index.js": {
-      "bytes": 74982,
+      "bytes": 75591,
       "imports": [
         {
           "path": "src/catalogue/search.js",
@@ -1176,7 +1192,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "app/build/chunks/app-3N3SBDEG.js",
+          "path": "app/build/chunks/app-3WV4SO2Y.js",
           "kind": "dynamic-import"
         }
       ],
@@ -1196,7 +1212,7 @@
       },
       "bytes": 757
     },
-    "app/build/chunks/catalogue-YW4W5THY.js": {
+    "app/build/chunks/catalogue-3M76LWIF.js": {
       "imports": [
         {
           "path": "app/build/chunks/chunk-GAGVEE5N.js",
@@ -1220,16 +1236,19 @@
       "entryPoint": "src/catalogue/index.js",
       "inputs": {
         "src/catalogue/index.js": {
-          "bytesInOutput": 46380
+          "bytesInOutput": 46580
         },
         "src/catalogue/search.js": {
           "bytesInOutput": 5893
         },
         "src/catalogue/styles.js": {
-          "bytesInOutput": 32511
+          "bytesInOutput": 32513
         },
         "src/catalogue/icons.js": {
-          "bytesInOutput": 11430
+          "bytesInOutput": 7755
+        },
+        "src/catalogue/custom-icons.js": {
+          "bytesInOutput": 136504
         },
         "src/catalogue/util.js": {
           "bytesInOutput": 688
@@ -1244,16 +1263,16 @@
           "bytesInOutput": 2630
         },
         "src/catalogue/view-maps.js": {
-          "bytesInOutput": 23692
+          "bytesInOutput": 23723
         },
         "src/catalogue/view-elections.js": {
-          "bytesInOutput": 7009
+          "bytesInOutput": 7018
         },
         "src/catalogue/view-books.js": {
           "bytesInOutput": 1247
         }
       },
-      "bytes": 139911
+      "bytes": 272982
     },
     "app/build/chunks/election-manager-ZWDFO5JB.js": {
       "imports": [
@@ -1296,7 +1315,7 @@
       },
       "bytes": 223099
     },
-    "app/build/chunks/app-3N3SBDEG.js": {
+    "app/build/chunks/app-3WV4SO2Y.js": {
       "imports": [
         {
           "path": "app/build/chunks/chunk-GAGVEE5N.js",
@@ -1315,11 +1334,11 @@
           "kind": "import-statement"
         },
         {
-          "path": "app/build/chunks/catalogue-YW4W5THY.js",
+          "path": "app/build/chunks/catalogue-3M76LWIF.js",
           "kind": "dynamic-import"
         },
         {
-          "path": "app/build/chunks/catalogue-YW4W5THY.js",
+          "path": "app/build/chunks/catalogue-3M76LWIF.js",
           "kind": "dynamic-import"
         },
         {
