@@ -44,6 +44,7 @@ META = os.path.join(REPO, 'render', 'metadata', 'elections-test2')
 OLD = os.path.join(HERE, 'person_registry.json')
 OUT = os.path.join(REPO, 'data', 'elections', 'persons')
 REG = os.path.join(OUT, 'person_registry.json')
+CROSSWALK = os.path.join(OUT, 'official-person-crosswalk.json')
 
 
 
@@ -65,6 +66,20 @@ def ns(i):
     return 'T' if i.startswith('T') else ('N' if i.isdigit() else 'O')
 
 
+_crosswalk = None
+
+
+def official_ids(c):
+    """A candidacy's official person ids, with the Wikidata item that holds them
+    ("wikidata:Q..."), so ids of one person in two systems meet in one key."""
+    global _crosswalk
+    if _crosswalk is None:
+        _crosswalk = json.load(open(CROSSWALK, encoding='utf-8')).get('ids', {}) if os.path.exists(CROSSWALK) else {}
+    offs = set(c.get('officialPersonIds') or [])
+    offs |= {'wikidata:' + _crosswalk[o] for o in offs if o in _crosswalk}
+    return tuple(sorted(offs))
+
+
 def scan():
     rows = []
     for f in sorted(glob.glob(os.path.join(META, '*.json'))):
@@ -83,7 +98,8 @@ def scan():
                              'src': str(c.get('sourcePersonId') or '').strip(),
                              'key': d.get('key'), 'body': d.get('bodySlug'),
                              'year': int(yr) if yr.isdigit() else 0,
-                             'party': party_of(c)})
+                             'party': party_of(c),
+                             'off': official_ids(c)})
     return rows
 
 
@@ -182,6 +198,175 @@ def main():
         groups[k + ('%d-%d' % (yrs[0], last_before),)] = early
         groups[k + ('%d-%d' % (first_after, yrs[-1]),)] = late
         career_splits.append((k, last_before, first_after))
+
+    # OFFICIAL IDS DECIDE. The Houses of the Oireachtas, the NI Assembly, the UK Parliament
+    # and Democracy Club each give a person one id (data/elections/persons/
+    # official-person-ids.json, carried on candidacies as officialPersonIds). They are the
+    # strongest evidence in the data, stronger than ElectionsIreland's ids, which fuse some
+    # namesakes (two Patrick O'Reillys of Cavan share ei:1986):
+    #   a group holding two ids of one system is two people, and is split by the id, each
+    #     row without an id going with the id-holding rows nearest it in time and body;
+    #   groups holding the same id are one person, and are joined, unless that would put
+    #     two ids of one system together or the groups stood in the same contest.
+    # Split halves are keyed (src, id, 'official:<id>') so the prior-join pass below leaves
+    # them apart; each half records the years it covers as its `era`.
+    def off_by_system(offs):
+        out = collections.defaultdict(set)
+        for o in offs:
+            out[o.split(':', 1)[0]].add(o)
+        return out
+
+    # Wikidata ties one person's ids in different systems together (data/elections/persons/
+    # official-person-crosswalk.json): Roy Beggs Sr is UK Parliament 646, his son NI Assembly 8
+    # and Democracy Club 7132, and nothing in the ids alone says those are two men.
+    crosswalk, lifespans = {}, {}
+    if os.path.exists(CROSSWALK):
+        _cw = json.load(open(CROSSWALK, encoding='utf-8'))
+        crosswalk, lifespans = _cw.get('ids') or {}, _cw.get('people') or {}
+
+    def outside_life(offs, year):
+        """True when Wikidata's dates for the person these ids name rule the year out:
+        before he turned 18 (the youngest anyone may stand, for a council) or after his death."""
+        if not year:
+            return False
+        for o in offs:
+            if not o.startswith('wikidata:'):
+                continue
+            life = lifespans.get(o[9:]) or {}
+            born, died = str(life.get('born') or '')[:4], str(life.get('died') or '')[:4]
+            if (born.isdigit() and year < int(born) + 18) or (died.isdigit() and year > int(died)):
+                return True
+        return False
+
+    def conflicts(a, b):
+        sa, sb = off_by_system(a), off_by_system(b)
+        if any(sa[s] and sb[s] and sa[s].isdisjoint(sb[s]) for s in sa):
+            return True
+        qa = {crosswalk[o] for o in a if o in crosswalk}
+        qb = {crosswalk[o] for o in b if o in crosswalk}
+        return bool(qa and qb and qa.isdisjoint(qb))
+
+    # A group whose official ids name two people is split. Rows sharing an id are one person;
+    # those pieces are then joined, nearest in time first, wherever no id (or Wikidata) says
+    # they are two people: Mark Durkan's Assembly rows (AIMS 32) join his Westminster rows
+    # (UK Parliament 1594), not his nephew's (AIMS 287). Rows with no id go to the piece
+    # nearest them in time, in the same body where there is one.
+    official_splits = 0
+    for k in list(groups):
+        v = groups[k]
+        offs = {o for r in v for o in r['off']}
+        if len(offs) < 2:
+            continue
+        pieces = []
+        for r in v:
+            if not r['off']:
+                continue
+            hit = [pc for pc in pieces if pc['ids'] & set(r['off'])]
+            merged_pc = {'ids': set(r['off']), 'rows': [r]}
+            for pc in hit:
+                merged_pc['ids'] |= pc['ids']
+                merged_pc['rows'] += pc['rows']
+                pieces.remove(pc)
+            pieces.append(merged_pc)
+        if not any(conflicts(a['ids'], b['ids']) for i, a in enumerate(pieces) for b in pieces[i + 1:]):
+            continue
+        def years(pc):
+            ys = [r['year'] for r in pc['rows'] if r['year']] or [0]
+            return min(ys), max(ys)
+        while True:
+            best = None
+            for i, a in enumerate(pieces):
+                for b in pieces[i + 1:]:
+                    if conflicts(a['ids'], b['ids']):
+                        continue
+                    (a0, a1), (b0, b1) = years(a), years(b)
+                    gap = max(0, max(a0, b0) - min(a1, b1))
+                    if best is None or gap < best[0]:
+                        best = (gap, a, b)
+            if best is None:
+                break
+            _, a, b = best
+            a['ids'] |= b['ids']
+            a['rows'] += b['rows']
+            pieces.remove(b)
+        if len(pieces) < 2:
+            continue
+        for r in v:
+            if r['off']:
+                continue
+            def distance(pc):
+                # Never a person Wikidata's dates rule out (the 1982 Assembly's Roy Beggs is the
+                # father: the son was 20, which allows it, but the father is not ruled out and the
+                # name and body decide). Then the piece whose rows go by this row's exact name
+                # ("Roy Beggs", not "Roy Beggs Jr"), one in the same body, the nearest in time.
+                same_name = sum(1 for x in pc['rows'] if x['name'] == r['name']) / len(pc['rows'])
+                same_body = [x for x in pc['rows'] if x['body'] == r['body']]
+                near = same_body or pc['rows']
+                # Nor a piece already standing in this contest: one person is one candidacy
+                # (the losing Patrick O'Reilly of Cavan 1951 is not the one elected beside him).
+                same_contest = any(x['key'] == r['key'] for x in pc['rows'])
+                return (same_contest, outside_life(pc['ids'], r['year']), -same_name, 0 if same_body else 1,
+                        min(abs((x['year'] or 0) - (r['year'] or 0)) for x in near), -len(pc['rows']))
+            min(pieces, key=distance)['rows'].append(r)
+        # A candidacy id the source put on both people (Mark H. Durkan's 2016 Foyle row carries
+        # his uncle's 16260) stays with the piece that holds most of its rows. Elsewhere it is
+        # dropped, or it would carry the uncle's other ids and prior joins into the nephew.
+        holders = collections.defaultdict(collections.Counter)
+        for i, pc in enumerate(pieces):
+            for r in pc['rows']:
+                if r['id']:
+                    holders[r['id']][i] += 1
+        for i, pc in enumerate(pieces):
+            for j, r in enumerate(pc['rows']):
+                if r['id'] and len(holders[r['id']]) > 1 and holders[r['id']].most_common(1)[0][0] != i:
+                    pc['rows'][j] = dict(r, id='')
+        del groups[k]
+        for pc in pieces:
+            groups[k[:2] + ('official:' + min(pc['ids']),)] = pc['rows']
+        official_splits += 1
+
+    official_joins = 0
+    by_official = collections.defaultdict(list)
+    for k, v in groups.items():
+        for o in {o for r in v for o in r['off']}:
+            by_official[o].append(k)
+    for o, keys in sorted(by_official.items()):
+        keys = [k for k in dict.fromkeys(keys) if k in groups]
+        if len(keys) < 2:
+            continue
+        keys.sort(key=lambda k: (-len(groups[k]), str(k)))
+        lead = keys[0]
+        for k in keys[1:]:
+            if k not in groups or lead not in groups:
+                continue
+            lead_offs = {x for r in groups[lead] for x in r['off']}
+            their_offs = {x for r in groups[k] for x in r['off']}
+            if conflicts(lead_offs, their_offs):
+                continue
+            if {r['key'] for r in groups[lead]} & {r['key'] for r in groups[k]}:
+                continue
+            groups[lead].extend(groups.pop(k))
+            for oo in their_offs:
+                by_official[oo] = [lead if x == k else x for x in by_official[oo]]
+            official_joins += 1
+    # A LIFE IS A LIMIT. Where a group's official ids name one person whose dates Wikidata
+    # gives, a row of that group falling before he was 18 or after his death is someone else:
+    # the 1927 Cumann na nGaedheal TD John O'Neill is not the Naas councillor of 1974-99. Such
+    # rows, having no official id of their own, become a group of their own.
+    outside_life_rows = 0
+    for k in list(groups):
+        v = groups[k]
+        qids = {o for r in v for o in r['off'] if o.startswith('wikidata:')}
+        if len(qids) != 1:
+            continue
+        out = [r for r in v if not r['off'] and outside_life(qids, r['year'])]
+        if not out:
+            continue
+        groups[k] = [r for r in v if r not in out]
+        groups[k[:2] + ('outside-life',)] = out
+        outside_life_rows += len(out)
+    print(f'official ids: {official_splits:,} group(s) split, {official_joins:,} join(s); '
+          f'{outside_life_rows:,} row(s) outside the life of the person their group names')
 
     # NOTHING IS FOLDED IN ON A NAME. An earlier version of this pulled name-keyed
     # groups into a src group wherever exactly one src group answered to that name and
@@ -289,6 +474,8 @@ def main():
             # father and son (ei_relatives.py) are two people even where a prior registry
             # recorded them as one.
             if ei_relatives.distinct(ei_people, ours_src, their_src):
+                continue
+            if conflicts({o for r in merged[lead] for o in r['off']}, {o for r in merged[k] for o in r['off']}):
                 continue
             contests |= theirs
             merged[lead].extend(merged.pop(k))
@@ -415,12 +602,21 @@ def main():
              'aliases': names, 'matchKeys': sorted(mks),
              'sourceIds': sorted({r['id'] for r in v if r['id'] and r['id'] not in bad_ids}),
              'sourcePersonIds': sorted({r['src'] for r in v if r['src']}),
+             'officialPersonIds': sorted({o for r in v for o in r['off']}),
              'candidacies': len(v), 'contests': len({r['key'] for r in v}),
              'firstYear': min(yrs) if yrs else None, 'lastYear': max(yrs) if yrs else None,
              'bodies': sorted({r['body'] for r in v if r['body']}),
              'parties': sorted({r['party'] for r in v if r['party']})[:6],
              'keyedBy': k[0], 'provenance': src, 'provisional': prov}
-        if len(k) > 2:
+        if len(k) > 2 and k[2] == 'outside-life':
+            e['era'] = [min(yrs), max(yrs)] if yrs else [0, 9999]
+            e['eraReason'] = ('rows of a name or id whose official person, by the dates Wikidata '
+                              'gives, was under 18 or dead at the time')
+        elif len(k) > 2 and str(k[2]).startswith('official:'):
+            e['era'] = [min(yrs), max(yrs)] if yrs else [0, 9999]
+            e['eraReason'] = (f'split by its official person id ({k[2][9:]}): the source id it '
+                              'shares is held by another person with another official id')
+        elif len(k) > 2:
             lo, hi = (int(x) for x in k[2].split('-'))
             e['era'] = [lo, hi]
             e['eraReason'] = ('split from a career spanning more than 60 years at a gap of 25 '

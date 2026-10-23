@@ -81,10 +81,30 @@ def main():
             return None
         if len(options) == 1:
             return options[0][2]
-        for lo, hi, pid in options:
-            if lo <= year <= hi:
-                return pid
+        # The narrowest era holding the year: a person split off by official id or lifespan
+        # has the years of his own rows, the rest of the id keeps [0, 9999].
+        holding = [o for o in options if o[0] <= year <= o[1]]
+        if holding:
+            return min(holding, key=lambda o: (o[1] - o[0], o[2]))[2]
         return min(options, key=lambda o: min(abs(year - o[0]), abs(year - o[1])))[2]
+
+    explicit_era = {e['personId']: tuple(e['era']) for e in doc['entities']
+                    if e.get('era') and str(e.get('eraReason') or '').startswith(('split by its official', 'rows of a name'))}
+
+    def narrow(pids, year):
+        """Entities of one name, less those split off for years that do not hold this one."""
+        pids = set(pids)
+        held = {p for p in pids if p in explicit_era and explicit_era[p][0] <= year <= explicit_era[p][1]}
+        if held:
+            return held
+        return {p for p in pids if p not in explicit_era} or pids
+
+    # An official person id (Oireachtas, NI Assembly, UK Parliament, Democracy Club) names
+    # exactly one person, and decides before anything else.
+    by_official = collections.defaultdict(set)
+    for e in doc['entities']:
+        for o in e.get('officialPersonIds') or []:
+            by_official[o].add(e['personId'])
 
     by_name = {m: list(v)[0] for m, v in name_hits.items() if len(v) == 1}
     ambiguous = {m for m, v in name_hits.items() if len(v) > 1}
@@ -119,15 +139,25 @@ def main():
         def stamp(c):
             nonlocal dirty
             spid = str(c.get('sourcePersonId') or '').strip()
-            pid = pick(by_person.get(spid, []), year) if spid else None
-            how = 'by-source-person' if pid else None
+            owners = {p for o in c.get('officialPersonIds') or [] for p in by_official.get(o, ())}
+            pid = next(iter(owners)) if len(owners) == 1 else None
+            how = 'by-official-id' if pid else None
+            if not pid:
+                pid = pick(by_person.get(spid, []), year) if spid else None
+                how = 'by-source-person' if pid else None
             if not pid:
                 cid = str(c.get('id') or '').strip()
                 pid = pick(by_srcid.get(cid, []), year)
                 how = 'by-id' if pid else None
             if not pid:
                 mk = matchkey(c.get('name') or '')
-                if mk in by_name:
+                # A name made ambiguous only by a split-off person (official id, lifespan) still
+                # names one person in a year outside that split.
+                split_name = mk in ambiguous and any(p in explicit_era for p in name_hits.get(mk, ()))
+                narrowed = narrow(name_hits.get(mk, ()), year) if split_name else set()
+                if len(narrowed) == 1:
+                    pid, how = next(iter(narrowed)), 'by-name'
+                elif mk in by_name:
                     pid, how = by_name[mk], 'by-name'
                 elif mk in by_name_group and not spid:
                     pid, how = by_name_group[mk], 'by-name-group'
@@ -186,9 +216,9 @@ def main():
 
     tot = sum(stats.values())
     print(f'{tot:,} named candidacies')
-    for k in ('by-source-person', 'by-id', 'by-name', 'by-name-group', 'ambiguous-name', 'unresolved'):
+    for k in ('by-official-id', 'by-source-person', 'by-id', 'by-name', 'by-name-group', 'ambiguous-name', 'unresolved'):
         print(f'   {stats[k]:7,}  {k}')
-    res = stats['by-source-person'] + stats['by-id'] + stats['by-name'] + stats['by-name-group']
+    res = stats['by-official-id'] + stats['by-source-person'] + stats['by-id'] + stats['by-name'] + stats['by-name-group']
     print(f'   resolved {res:,}/{tot:,} ({100*res/tot:.1f}%)')
     print(f'   ambiguous names (shared by >1 entity): {len(ambiguous):,}')
     print(f"\nfiles {'that would change' if args.check else 'written'}: {changed}")
