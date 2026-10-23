@@ -97,9 +97,9 @@ export const CATALOGUE_CSS = `
 .cn-shelf__head { margin: 0; }
 .cn-shelf__toggle { display: flex; align-items: center; gap: 10px; width: 100%; padding: 10px 6px 8px; border: 0; border-bottom: 2px solid var(--shelf, var(--cn-line));
   background: none; cursor: pointer; text-align: left; font-family: var(--font-display, inherit); font-size: 16px; font-weight: 800; }
-.cn-shelf__icon { display: inline-flex; width: 30px; height: 30px; border-radius: 8px; align-items: center; justify-content: center;
+.cn-shelf__icon { display: inline-flex; width: 42px; height: 42px; border-radius: 10px; align-items: center; justify-content: center;
   background: color-mix(in srgb, var(--shelf, #888) 16%, transparent); color: var(--shelf, currentColor); }
-.cn-shelf__icon .cn-icon { width: 18px; height: 18px; }
+.cn-shelf__icon .cn-icon { width: 30px; height: 30px; }
 .cn-shelf__name { flex: 1; }
 .cn-shelf__toggle .cn-count { font-size: 13px; }
 .cn-shelf__chev { transition: transform .15s ease; color: var(--cn-muted); }
@@ -376,15 +376,15 @@ a.cn-iconbtn { text-decoration: none; }
 .cn-drawer .cn-iconbtn .cn-icon { width: 16px; height: 16px; }
 .cn-toc { list-style: none; margin: 0; padding: 8px; overflow-y: auto; flex: 1; }
 .cn-toc__item--l1:not(:first-child) { margin-top: 6px; }
-.cn-toc__link { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 34px; padding: 5px 10px; border: 0; border-radius: 8px;
+.cn-toc__link { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 40px; padding: 5px 10px; border: 0; border-radius: 8px;
   background: none; color: inherit; text-align: left; cursor: pointer; font: inherit; font-size: 13.5px; }
 .cn-toc__item--l1 > .cn-toc__link { font-weight: 800; font-size: 14px; }
-.cn-toc__item--l2 > .cn-toc__link { padding-left: 44px; }
+.cn-toc__item--l2 > .cn-toc__link { padding-left: 58px; }
 .cn-toc__link:hover, .cn-toc__link:focus-visible { background: color-mix(in srgb, var(--color-text, #1a202c) 8%, transparent); outline: none; }
 .cn-toc__link[aria-current="true"] { box-shadow: inset 3px 0 0 #0b8a6a; background: color-mix(in srgb, #0b8a6a 12%, transparent); }
-.cn-toc__icon { display: inline-flex; width: 26px; height: 26px; border-radius: 7px; align-items: center; justify-content: center; flex: none;
+.cn-toc__icon { display: inline-flex; width: 40px; height: 40px; border-radius: 10px; align-items: center; justify-content: center; flex: none;
   color: var(--shelf, currentColor); background: color-mix(in srgb, var(--shelf, #888) 16%, transparent); }
-.cn-toc__icon .cn-icon { width: 16px; height: 16px; }
+.cn-toc__icon .cn-icon { width: 28px; height: 28px; }
 .cn-toc__label { flex: 1; min-width: 0; }
 .cn-toc .cn-count { color: var(--color-text-muted, #5f6b7a); font-weight: 500; font-variant-numeric: tabular-nums; }
 `;

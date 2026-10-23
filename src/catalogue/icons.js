@@ -3,6 +3,8 @@
  * them (src/ui-controller.js, lucideIcon) -- 24px grid, 2px round strokes, currentColor. The four
  * section icons are the same paths as the current pane's section bar.
  */
+import { CUSTOM_ICONS } from './custom-icons.js';
+
 const PATHS = {
   // Sections, as in the current pane
   vote: '<path d="m9 12 2 2 4-4"/><path d="M5 7c0-1.1.9-2 2-2h10a2 2 0 0 1 2 2v12H5V7Z"/><path d="M22 19H2"/>',
@@ -51,36 +53,21 @@ const PATHS = {
   'file-text': '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>',
   sliders: '<path d="M21 4h-7"/><path d="M10 4H3"/><path d="M21 12h-9"/><path d="M8 12H3"/><path d="M21 20h-5"/><path d="M12 20H3"/><path d="M14 2v4"/><path d="M8 10v4"/><path d="M16 18v4"/>',
   'arrow-left-right': '<path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/>',
-  // Drawn for Civgraph after Alessio Coci's sketches (2026-10-18): the election bodies and three
-  // Boundaries shelves each get a picture of their own instead of sharing a generic building.
-  'portico': '<path d="M3 8.5 12 3.5l9 5z"/><path d="M4 10.5h16"/><path d="M6.5 10.5v7"/><path d="M10 10.5v7"/><path d="M14 10.5v7"/><path d="M17.5 10.5v7"/><path d="M4 17.5h16"/><path d="M2.5 20.5h19"/>',
-  'clock-tower': '<path d="M10 21.5V7.5h4v14"/><path d="M10 7.5 12 2.5l2 5"/><circle cx="12" cy="10.5" r="1.4"/><path d="M2.5 21.5h19"/><path d="M4 21.5v-6h6"/><path d="M14 15.5h6v6"/><path d="M4 15.5v-2"/><path d="M7 15.5v-2"/><path d="M17 15.5v-2"/><path d="M20 15.5v-2"/><path d="M6.5 18.5v1"/><path d="M17.5 18.5v1"/>',
-  'stormont': '<path d="M12 7V2"/><path d="M12 2h3.5l-.9 1.2.9 1.2H12"/><path d="M8.5 10.5a3.5 3.5 0 0 1 7 0"/><path d="M3 21v-8h18v8"/><path d="M7.5 13v-2.5h9V13"/><path d="M2 21h20"/><path d="M10 21v-5"/><path d="M12 21v-5"/><path d="M14 21v-5"/><path d="M5.5 15.5h1"/><path d="M5.5 18.5h1"/><path d="M17.5 15.5h1"/><path d="M17.5 18.5h1"/>',
-  'offices': '<path d="M2.5 21h19"/><path d="M4.5 21V3.5h8V21"/><path d="M12.5 8.5h7V21"/><path d="M7 7h.5"/><path d="M10 7h.5"/><path d="M7 10.5h.5"/><path d="M10 10.5h.5"/><path d="M7 14h.5"/><path d="M10 14h.5"/><path d="M7.5 21v-3h2v3"/><path d="M15.5 12h1.5"/><path d="M15.5 15h1.5"/><path d="M15.5 18h1.5"/>',
-  'town-hall': '<path d="M12 6V2"/><path d="M12 2h3.5l-.9 1.2.9 1.2H12"/><path d="M7.5 10.5 12 6.5l4.5 4"/><circle cx="12" cy="11" r="1.3"/><path d="M3 21v-7.5l4.5-3h9l4.5 3V21"/><path d="M2 21h20"/><path d="M10.5 21v-3a1.5 1.5 0 0 1 3 0v3"/><path d="M5.5 15.5h1.5"/><path d="M5.5 18.5h1.5"/><path d="M17 15.5h1.5"/><path d="M17 18.5h1.5"/>',
-  'eu-flag': '<path d="M4 22V3"/><path d="M4 4c2.7-1.3 5.3 1.3 8 0s5.3-1.3 8 0v9.5c-2.7-1.3-5.3 1.3-8 0s-5.3-1.3-8 0"/><circle cx="12.00" cy="5.90" r="0.5" fill="currentColor" stroke="none"/><circle cx="13.35" cy="6.26" r="0.5" fill="currentColor" stroke="none"/><circle cx="14.34" cy="7.25" r="0.5" fill="currentColor" stroke="none"/><circle cx="14.70" cy="8.60" r="0.5" fill="currentColor" stroke="none"/><circle cx="14.34" cy="9.95" r="0.5" fill="currentColor" stroke="none"/><circle cx="13.35" cy="10.94" r="0.5" fill="currentColor" stroke="none"/><circle cx="12.00" cy="11.30" r="0.5" fill="currentColor" stroke="none"/><circle cx="10.65" cy="10.94" r="0.5" fill="currentColor" stroke="none"/><circle cx="9.66" cy="9.95" r="0.5" fill="currentColor" stroke="none"/><circle cx="9.30" cy="8.60" r="0.5" fill="currentColor" stroke="none"/><circle cx="9.66" cy="7.25" r="0.5" fill="currentColor" stroke="none"/><circle cx="10.65" cy="6.26" r="0.5" fill="currentColor" stroke="none"/>',
-  'ballot-box': '<path d="M4 11.5h16V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="m4 11.5 2-3h12l2 3"/><path d="M10 10V8.5"/><path d="M10 8.5 11.7 3l4 1.2-1.5 4.3"/><path d="m9 16.5 2 2 4-4"/>',
-  'lectern': '<circle cx="12" cy="4.5" r="2.3"/><path d="M7.5 11.5a4.5 4.5 0 0 1 9 0"/><path d="M5 11.5h14l-1.2 3H6.2z"/><path d="M9 14.5v6"/><path d="M15 14.5v6"/><path d="M6.5 20.5h11"/><path d="M12.5 11.5 14 9.5"/>',
-  'atlas': '<path d="M2 5.5 7 4l5 1.8L17 4l5 1.5v14L17 18l-5 1.8L7 18l-5 1.5z"/><path d="M12 5.8v14"/><path d="M4.5 9c1.2 1 2.2 0 3.2 1.2s.3 2.2 1.6 2.8"/><path d="M4.8 15.2c1-.6 2.2.4 3.4-.4"/><path d="M14.5 8.5h.01"/><path d="M16.2 10h.01"/><path d="M17.8 11.6h.01"/><path d="M19.2 13.4h.01"/>',
-  'land-parcel': '<path d="M3 5.5 12 3l9 3-1.2 14L9 21.5 3.5 19z"/><path d="M15.4 4.2 14 20.7"/><path d="M3.3 12.5l11.4-.4"/><path d="m14.4 15 5.8-.3"/><path d="M5.8 9.6 8 7.8l2.2 1.8v2.2H5.8z"/>',
-  'castle-harp': '<path d="M3.5 21V8.5H5V6.5h2v2h1.5V6.5h2v2H12V21"/><path d="M2 21h11.5"/><path d="M6.3 21v-2.8a1.5 1.5 0 0 1 3 0V21"/><path d="M15.2 8.8c-.4 4.3.1 8.6 1.2 12.2"/><path d="M15.2 8.8c2.3-.4 4.2-1.9 5.8-4"/><path d="M21 4.8 16.4 21"/><path d="M17.3 8v8.5"/><path d="M19.2 6.6v6.4"/>',
 };
 
-// The drawn icons carry more detail than Lucide's, so they use a finer line to stay legible at 18px.
-const FINE = new Set(['portico', 'clock-tower', 'stormont', 'offices', 'town-hall', 'eu-flag', 'ballot-box', 'lectern', 'atlas', 'land-parcel', 'castle-harp']);
-
 export function icon(name, cls = 'cn-icon') {
-  const width = FINE.has(name) ? 1.6 : 2;
-  return `<svg aria-hidden="true" class="${cls}" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="${width}" viewBox="0 0 24 24">${PATHS[name] || PATHS.map}</svg>`;
+  // Alessio Coci's hand-drawn icons (custom-icons.js) are drawn on a 512px grid and filled.
+  if (CUSTOM_ICONS[name]) return `<svg aria-hidden="true" class="${cls}" fill="currentColor" viewBox="0 0 512 512">${CUSTOM_ICONS[name]}</svg>`;
+  return `<svg aria-hidden="true" class="${cls}" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">${PATHS[name] || PATHS.map}</svg>`;
 }
 
 /** Each shelf's icon and colour: the colour marks the shelf's icon and heading, nothing else. */
 export const SHELF_LOOK = {
-  'land-divisions': ['atlas', '#c08a3e'],
+  'land-divisions': ['open-atlas', '#c08a3e'],
   'government-and-administration': ['landmark', '#6875d6'],
   'elections-and-representation': ['vote', '#c84b8f'],
   'people-and-places': ['users', '#1f9e8f'],
-  'planning-and-property': ['land-parcel', '#8a63d2'],
+  'planning-and-property': ['cadastral-map', '#8a63d2'],
   transport: ['route', '#e07b2a'],
   'heritage-and-culture': ['castle-harp', '#c0504d'],
   'local-services-and-amenities': ['building', '#2f8fce'],
@@ -90,6 +77,10 @@ export const SHELF_LOOK = {
   'regional-divides': ['split', '#7a8597'],
   environment: ['leaf', '#3e9b4f'],
 };
+
+/** A shelf's icon in a section that renames it (view-maps.js shelfName): under Boundaries, the
+ * census and statistical areas. */
+export const SHELF_ICON_IN = { boundaries: { 'people-and-places': 'census-statistics' } };
 
 /** Shelves a section shows as one (Phelim Birch's review, 2026-10-11): Boundaries has a few rows
  * on each of these, so they share an Environment shelf there. */

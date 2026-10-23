@@ -23,7 +23,7 @@ import { CatalogueSearch, PeopleSearch, coveringPoint, normalise } from './searc
 import { CATALOGUE_CSS } from './styles.js';
 import dataService, { resolveMapDownloadUrl } from '../data-service.js';
 import { initialCatalogueRoute, takeCatalogueData } from './flag.js';
-import { icon, SHELF_LOOK, BOOK_CATEGORY_ICONS, MERGED_SHELVES, FLAT_SECTIONS } from './icons.js';
+import { icon, SHELF_LOOK, SHELF_ICON_IN, BOOK_CATEGORY_ICONS, MERGED_SHELVES, FLAT_SECTIONS } from './icons.js';
 import { esc, yearOf, longDate } from './util.js';
 import { formatDisplayDate } from '../date-format.mjs';
 import { openMenu, closeMenu } from './menu.js';
@@ -1146,7 +1146,8 @@ export class CatalogueNext {
     if (this.here) return [];
     const out = [];
     for (const { sh, subjects, count } of this.visibleShelves()) {
-      const [ic, col] = SHELF_LOOK[sh.id] || ['map', '#7a8699'];
+      const [look, col] = SHELF_LOOK[sh.id] || ['map', '#7a8699'];
+      const ic = SHELF_ICON_IN[this.section]?.[sh.id] || look;
       out.push({ id: `cn-shelf-${sh.id}`, label: MapsView.shelfName(this.section, sh), count, level: 1, icon: ic, colour: col });
       if (!sh.flat && subjects.length > 1 && !FLAT_SECTIONS.has(this.section)) for (const { sub, series } of subjects) out.push({ id: `cn-subject-${sub.id}`, label: sub.name, count: series.length, level: 2 });
     }
@@ -1210,7 +1211,14 @@ export class CatalogueNext {
     requestAnimationFrame(() => {
       el.classList.add('cn-drawer--open');
       const target = el.querySelector('[aria-current="true"]') || el.querySelector('.cn-toc__link') || el.querySelector('[data-cn-drawer-close]');
-      target?.scrollIntoView({ block: 'nearest' });
+      // Scroll only the list to the current section: scrollIntoView would also scroll the drawer
+      // itself sideways to reach the panel while it is still sliding in, and the two movements
+      // made the panel shake as it opened (Alessio Coci).
+      const toc = el.querySelector('.cn-toc');
+      if (target && toc?.contains(target)) {
+        const top = target.getBoundingClientRect().top - toc.getBoundingClientRect().top;
+        if (top < 0 || top + target.offsetHeight > toc.clientHeight) toc.scrollTop += top - (toc.clientHeight - target.offsetHeight) / 2;
+      }
       target?.focus({ preventScroll: true });
     });
   }
