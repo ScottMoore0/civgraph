@@ -366,14 +366,25 @@ export class TestMapLibreController {
    * Whether two fingers may turn the map. Not on a touch screen: a pinch there should zoom, and
    * with rotation on, the slightest twist of a pinch turned the map as well (Alessio Coci,
    * 2026-10-18). The compass button still turns it back to north, and a mouse can still rotate
-   * with a right-drag.
+   * with a right-drag. The exception is a 3D view (terrain or a point cloud), where turning to
+   * look around is the point: there a deliberate twist rotates, as Alessio's PR #12 proposed;
+   * MapLibre only starts rotating once the fingers have turned well past a pinch's wobble.
    */
   touchRotationAllowed() {
+    if (this.has3dLayer()) return true;
     try {
       return !globalThis.matchMedia?.('(pointer: coarse)')?.matches;
     } catch {
       return true;
     }
+  }
+
+  has3dLayer() {
+    for (const record of this.layers?.values?.() || []) {
+      const type = record?.config?.sourceType;
+      if (type === 'raster-dem' || type === 'point-cloud') return true;
+    }
+    return false;
   }
 
   enableGestureHandlers() {
@@ -1000,6 +1011,8 @@ export class TestMapLibreController {
       fillColor: layer.style?.fillColor || layer.style?.color || '#7C3AED'
     });
     this.applySavedLayerPreferences(layer.id);
+    // A 3D layer lets a deliberate two-finger twist rotate the map (touchRotationAllowed).
+    if (layer.sourceType === 'raster-dem' || layer.sourceType === 'point-cloud') this.enableGestureHandlers();
 
     if (layer.sourceType !== 'raster' && layer.sourceType !== 'image' && layer.sourceType !== 'raster-dem' && layer.sourceType !== 'point-cloud') {
       this.interactionCleanups.set(layer.id, this.bindLayerInteractions(layer, fillId, labelId, sourceId));
@@ -1371,6 +1384,8 @@ export class TestMapLibreController {
       if (this.map.getSource(sourceId)) this.map.removeSource(sourceId);
     }
     this.layers.delete(layerId);
+    // Rotation on a touch screen follows whether a 3D layer is left (touchRotationAllowed).
+    this.enableGestureHandlers();
     this.scheduleAllDomLabelRefresh();
     if (this.selected?.layerId === layerId) {
       this.selected = null;
