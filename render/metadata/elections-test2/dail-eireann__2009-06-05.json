@@ -49,20 +49,20 @@
   ],
   "partySummary": [
     {
+      "party": "Fine Gael",
+      "seats": 1,
+      "stood": 2,
+      "votes": 34207,
+      "colour": "#6699ff",
+      "share": 42.52063444709626
+    },
+    {
       "party": "Non-party",
       "seats": 1,
       "stood": 4,
       "votes": 8812,
       "colour": "#6b7280",
       "share": 10.953659506762133
-    },
-    {
-      "party": "Fine Gael",
-      "seats": 0,
-      "stood": 2,
-      "votes": 34207,
-      "colour": "#6699ff",
-      "share": 42.52063444709626
     },
     {
       "party": "Lab.",
@@ -123,20 +123,20 @@
   ],
   "mainLikePartySummary": [
     {
+      "party": "Fine Gael",
+      "seats": 1,
+      "stood": 2,
+      "votes": 34207,
+      "colour": "#6699ff",
+      "share": 42.52063444709626
+    },
+    {
       "party": "Non-party",
       "seats": 1,
       "stood": 4,
       "votes": 8812,
       "colour": "#6b7280",
       "share": 10.953659506762133
-    },
-    {
-      "party": "Fine Gael",
-      "seats": 0,
-      "stood": 2,
-      "votes": 34207,
-      "colour": "#6699ff",
-      "share": 42.52063444709626
     },
     {
       "party": "Lab.",
@@ -216,19 +216,19 @@
       "constPct": 53.363056345606886,
       "firstPrefPct": 53.363056345606886,
       "finalVotes": 27768,
-      "elected": false,
-      "electedAt": null,
+      "elected": true,
+      "electedAt": 1,
       "excluded": false,
       "excludedAt": null,
       "resolvedCount": null,
       "countDisplay": "",
-      "status": "Not Elected",
+      "status": "Elected",
       "autoReturnedCeannComhairle": false,
       "counts": [
         {
           "total": 27768,
           "transfers": 0,
-          "status": "",
+          "status": "Elected",
           "firstPrefs": 27768,
           "count": 1
         }
@@ -772,6 +772,37 @@
     "totalValid": 80448,
     "parties": [
       {
+        "name": "Fine Gael",
+        "colour": "#6699ff",
+        "firstPrefs": 34207,
+        "finalVotes": 34207,
+        "stood": 2,
+        "elected": 1,
+        "constituencies": [
+          "Dublin Central",
+          "Dublin South"
+        ],
+        "candidates": [
+          {
+            "id": "ei:203",
+            "name": "Paschal Donohoe",
+            "constituency": "Dublin Central",
+            "firstPref": 6439,
+            "finalVotes": 6439,
+            "status": ""
+          },
+          {
+            "id": "ei:9413",
+            "name": "George Lee",
+            "constituency": "Dublin South",
+            "firstPref": 27768,
+            "finalVotes": 27768,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 42.52063444709626
+      },
+      {
         "name": "Non-party",
         "colour": "#6b7280",
         "firstPrefs": 8812,
@@ -817,37 +848,6 @@
           }
         ],
         "shareOfTotal": 10.953659506762133
-      },
-      {
-        "name": "Fine Gael",
-        "colour": "#6699ff",
-        "firstPrefs": 34207,
-        "finalVotes": 34207,
-        "stood": 2,
-        "elected": 0,
-        "constituencies": [
-          "Dublin Central",
-          "Dublin South"
-        ],
-        "candidates": [
-          {
-            "id": "ei:203",
-            "name": "Paschal Donohoe",
-            "constituency": "Dublin Central",
-            "firstPref": 6439,
-            "finalVotes": 6439,
-            "status": ""
-          },
-          {
-            "id": "ei:9413",
-            "name": "George Lee",
-            "constituency": "Dublin South",
-            "firstPref": 27768,
-            "finalVotes": 27768,
-            "status": ""
-          }
-        ],
-        "shareOfTotal": 42.52063444709626
       },
       {
         "name": "Lab.",
@@ -1042,6 +1042,28 @@
     ],
     "candidates": [
       {
+        "id": "ei:9413",
+        "key": "George Lee|Fine Gael",
+        "name": "George Lee",
+        "party": "Fine Gael",
+        "colour": "#6699ff",
+        "firstPrefs": 27768,
+        "finalVotes": 27768,
+        "electedCount": 1,
+        "constituencies": [
+          "Dublin South"
+        ],
+        "appearances": [
+          {
+            "constituency": "Dublin South",
+            "firstPref": 27768,
+            "finalVotes": 27768,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 34.51670644391408
+      },
+      {
         "id": "ei:9267",
         "key": "Maureen O'Sullivan|Non-party",
         "name": "Maureen O'Sullivan",
@@ -1062,28 +1084,6 @@
           }
         ],
         "shareOfTotal": 9.49557478122514
-      },
-      {
-        "id": "ei:9413",
-        "key": "George Lee|Fine Gael",
-        "name": "George Lee",
-        "party": "Fine Gael",
-        "colour": "#6699ff",
-        "firstPrefs": 27768,
-        "finalVotes": 27768,
-        "electedCount": 0,
-        "constituencies": [
-          "Dublin South"
-        ],
-        "appearances": [
-          {
-            "constituency": "Dublin South",
-            "firstPref": 27768,
-            "finalVotes": 27768,
-            "status": ""
-          }
-        ],
-        "shareOfTotal": 34.51670644391408
       },
       {
         "id": "ei:877",
@@ -2296,8 +2296,8 @@
       "turnoutPct": 57.74,
       "majority": 17474,
       "majorityPct": 33.58,
-      "seatsWon": null,
-      "seatsTotal": null,
+      "seatsWon": 1,
+      "seatsTotal": 1,
       "quota": 26019,
       "electorate": 90882,
       "totalPoll": 52479,
@@ -2313,12 +2313,12 @@
           "party": "Fine Gael",
           "firstPrefs": 27768,
           "finalVotes": 27768,
-          "elected": false,
-          "electedAt": null,
+          "elected": true,
+          "electedAt": 1,
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "",
+          "status": "Elected",
           "colour": "#6699ff",
           "gender": "",
           "dailAbbreviation": "",
@@ -2330,7 +2330,7 @@
               "count": 1,
               "total": 27768,
               "transfers": 0,
-              "status": "",
+              "status": "Elected",
               "firstPrefs": 27768
             }
           ],
@@ -2548,11 +2548,40 @@
           "name_id": "n-noel-o-gara-2"
         }
       ],
-      "elected": [],
+      "elected": [
+        {
+          "id": "3",
+          "name": "George Lee",
+          "party": "Fine Gael",
+          "firstPrefs": 27768,
+          "finalVotes": 27768,
+          "elected": true,
+          "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#6699ff",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "sourcePersonId": "ei:9413",
+          "counts": [
+            {
+              "count": 1,
+              "total": 27768,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 27768
+            }
+          ]
+        }
+      ],
       "countInfo": {
         "Constituency_Name": "Dublin South",
         "Constituency_Number": "",
-        "Number_Of_Seats": "",
+        "Number_Of_Seats": "1",
         "Quota": "26019",
         "Spoiled": "443",
         "Total_Electorate": "90882",
@@ -2624,7 +2653,7 @@
           "Occurred_On_Count": "1",
           "Party_Colour": "#6699ff",
           "Party_Name": "Fine Gael",
-          "Status": "",
+          "Status": "Elected",
           "Synthetic_Scraper_Row": "1",
           "Synthetic_Scraper_Stage_Row": "",
           "Total_Votes": "27768",
@@ -2767,7 +2796,7 @@
           "countInfo": {
             "Constituency_Name": "Dublin South",
             "Constituency_Number": "",
-            "Number_Of_Seats": "",
+            "Number_Of_Seats": "1",
             "Quota": "26019",
             "Spoiled": "443",
             "Total_Electorate": "90882",
@@ -2839,7 +2868,7 @@
               "Occurred_On_Count": "1",
               "Party_Colour": "#6699ff",
               "Party_Name": "Fine Gael",
-              "Status": "",
+              "Status": "Elected",
               "Synthetic_Scraper_Row": "1",
               "Synthetic_Scraper_Stage_Row": "",
               "Total_Votes": "27768",
@@ -3004,6 +3033,10 @@
         {
           "label": "Cause",
           "text": "Death of Séamus Brennan (FF) (Wikipedia, List of Dáil by-elections)"
+        },
+        {
+          "label": "Corrected",
+          "text": "The winner of the 2009 Dublin South by-election was not marked elected; the Oireachtas has George Lee (Fine Gael) as TD for Dublin South from 5 June 2009, and ElectionsIreland and Wikipedia show him elected on the first count with 27,768 votes. (Houses of the Oireachtas, George Lee: member of the 30th Dáil for Dublin South from 2009-06-05)"
         }
       ],
       "contestType": "election",
@@ -3011,7 +3044,7 @@
       "votingSystem": "stv-hare",
       "contestStatus": "contested",
       "candidateRowsExpected": true,
-      "transferDataExpected": true,
+      "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/dail-eireann/2009-06-05/dublin-south.json",
       "featureId": "17",

@@ -12640,7 +12640,7 @@
         "firstPrefs": 410545,
         "finalVotes": 574293,
         "stood": 107,
-        "elected": 62,
+        "elected": 63,
         "constituencies": [
           "Carlow Kilkenny",
           "Cavan",
@@ -13255,7 +13255,7 @@
             "constituency": "Limerick",
             "firstPref": 1476,
             "finalVotes": 1476,
-            "status": ""
+            "status": "Elected"
           },
           {
             "id": "Patrick Walshe|Cumann na nGaedheal",
@@ -15450,7 +15450,7 @@
         "firstPrefs": 111892,
         "finalVotes": 159640,
         "stood": 44,
-        "elected": 15,
+        "elected": 14,
         "constituencies": [
           "Carlow Kilkenny",
           "Cavan",
@@ -15670,7 +15670,7 @@
             "constituency": "Limerick",
             "firstPref": 3332,
             "finalVotes": 4774,
-            "status": "Elected"
+            "status": "Not Elected"
           },
           {
             "id": "ei:1349",
@@ -18161,28 +18161,6 @@
         "shareOfTotal": 0.32922123230127354
       },
       {
-        "id": "ei:1348",
-        "key": "Matthew Murphy|Irish Labour",
-        "name": "Matthew Murphy",
-        "party": "Irish Labour",
-        "colour": "#cc0000",
-        "firstPrefs": 3332,
-        "finalVotes": 4774,
-        "electedCount": 1,
-        "constituencies": [
-          "Limerick"
-        ],
-        "appearances": [
-          {
-            "constituency": "Limerick",
-            "firstPref": 3332,
-            "finalVotes": 4774,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 0.31631059574043924
-      },
-      {
         "id": "ei:1349",
         "key": "Patrick Clancy|Irish Labour",
         "name": "Patrick Clancy",
@@ -18887,6 +18865,28 @@
         "shareOfTotal": 0.1459091793676636
       },
       {
+        "id": "ei:8993",
+        "key": "John Nolan|Cumann na nGaedheal",
+        "name": "John Nolan",
+        "party": "Cumann na nGaedheal",
+        "colour": "#6b7280",
+        "firstPrefs": 1476,
+        "finalVotes": 1476,
+        "electedCount": 1,
+        "constituencies": [
+          "Limerick"
+        ],
+        "appearances": [
+          {
+            "constituency": "Limerick",
+            "firstPref": 1476,
+            "finalVotes": 1476,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 0.14011837914552472
+      },
+      {
         "id": "ei:1285",
         "key": "Louis O'Dea|Republican",
         "name": "Louis O'Dea",
@@ -19413,6 +19413,28 @@
           }
         ],
         "shareOfTotal": 0.3213419467531173
+      },
+      {
+        "id": "ei:1348",
+        "key": "Matthew Murphy|Irish Labour",
+        "name": "Matthew Murphy",
+        "party": "Irish Labour",
+        "colour": "#cc0000",
+        "firstPrefs": 3332,
+        "finalVotes": 4774,
+        "electedCount": 0,
+        "constituencies": [
+          "Limerick"
+        ],
+        "appearances": [
+          {
+            "constituency": "Limerick",
+            "firstPref": 3332,
+            "finalVotes": 4774,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 0.31631059574043924
       },
       {
         "id": "ei:1445",
@@ -20975,28 +20997,6 @@
           }
         ],
         "shareOfTotal": 0.14135248411089857
-      },
-      {
-        "id": "ei:8993",
-        "key": "John Nolan|Cumann na nGaedheal",
-        "name": "John Nolan",
-        "party": "Cumann na nGaedheal",
-        "colour": "#6b7280",
-        "firstPrefs": 1476,
-        "finalVotes": 1476,
-        "electedCount": 0,
-        "constituencies": [
-          "Limerick"
-        ],
-        "appearances": [
-          {
-            "constituency": "Limerick",
-            "firstPref": 1476,
-            "finalVotes": 1476,
-            "status": ""
-          }
-        ],
-        "shareOfTotal": 0.14011837914552472
       },
       {
         "id": "ei:1325",
@@ -132459,12 +132459,12 @@
           "party": "Irish Labour",
           "firstPrefs": 3332,
           "finalVotes": 4774,
-          "elected": true,
-          "electedAt": 17,
+          "elected": false,
+          "electedAt": null,
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Deemed elected",
+          "status": "Not Elected",
           "colour": "#cc0000",
           "gender": "",
           "dailAbbreviation": "",
@@ -132726,12 +132726,12 @@
           "party": "Cumann na nGaedheal",
           "firstPrefs": 1476,
           "finalVotes": 1476,
-          "elected": false,
-          "electedAt": null,
+          "elected": true,
+          "electedAt": 1,
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "",
+          "status": "Elected",
           "colour": "#6b7280",
           "gender": "",
           "dailAbbreviation": "",
@@ -132743,7 +132743,7 @@
               "count": 1,
               "total": 1476,
               "transfers": 0,
-              "status": "",
+              "status": "Elected",
               "firstPrefs": 1476
             }
           ],
@@ -133025,6 +133025,34 @@
           ]
         },
         {
+          "id": "13",
+          "name": "John Nolan",
+          "party": "Cumann na nGaedheal",
+          "firstPrefs": 1476,
+          "finalVotes": 1476,
+          "elected": true,
+          "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#6b7280",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "sourcePersonId": "ei:8993",
+          "counts": [
+            {
+              "count": 1,
+              "total": 1476,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 1476
+            }
+          ]
+        },
+        {
           "id": "2",
           "name": "James Ledden",
           "party": "Cumann na nGaedheal",
@@ -133196,41 +133224,6 @@
               "transfers": 2055,
               "status": "Elected",
               "firstPrefs": 3305
-            }
-          ]
-        },
-        {
-          "id": "5",
-          "name": "Matthew Murphy",
-          "party": "Irish Labour",
-          "firstPrefs": 3332,
-          "finalVotes": 4774,
-          "elected": true,
-          "electedAt": 17,
-          "autoReturnedCeannComhairle": false,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Deemed elected",
-          "colour": "#cc0000",
-          "gender": "",
-          "dailAbbreviation": "",
-          "officialCandidateId": "",
-          "officialStatus": "",
-          "sourcePersonId": "ei:1348",
-          "counts": [
-            {
-              "count": 1,
-              "total": 3332,
-              "transfers": 0,
-              "status": "",
-              "firstPrefs": 3332
-            },
-            {
-              "count": 17,
-              "total": 4774,
-              "transfers": 1442,
-              "status": "Not Elected",
-              "firstPrefs": 3332
             }
           ]
         }
@@ -133676,7 +133669,7 @@
           "Occurred_On_Count": "16",
           "Party_Colour": "#6b7280",
           "Party_Name": "Cumann na nGaedheal",
-          "Status": "",
+          "Status": "Elected",
           "Total_Votes": "1476",
           "Transfers": "0",
           "Wikipedia_Count_Row": "1",
@@ -134684,7 +134677,7 @@
               "Occurred_On_Count": "16",
               "Party_Colour": "#6b7280",
               "Party_Name": "Cumann na nGaedheal",
-              "Status": "",
+              "Status": "Elected",
               "Total_Votes": "1476",
               "Transfers": "0",
               "Wikipedia_Count_Row": "1",
@@ -134978,11 +134971,18 @@
           "pageUrl": "https://en.wikipedia.org/wiki/Limerick_(D%C3%A1il_constituency)",
           "sectionTitle": "1923 general election",
           "importedAt": "2026-06-08T12:08:10.699Z"
-        }
+        },
+        "correctionNote": "John Nolan (Cumann na nGaedheal) won the seventh Limerick seat on the 16th count but his row was left unelected, so the site marked Matthew Murphy (Labour) 'Deemed elected'; the Oireachtas lists Nolan as TD for Limerick in the 4th Dáil, ElectionsIreland gives him seat 5 and Wikipedia shows him elected on count 16 with 7,361 votes, while Murphy was not elected. (Houses of the Oireachtas, John Thomas Nolan: member of the 4th Dáil for Limerick from 19 September 1923)"
       },
       "constituencyId": null,
       "constituencyNumber": null,
       "officialDail": null,
+      "contestNotes": [
+        {
+          "label": "Corrected",
+          "text": "John Nolan (Cumann na nGaedheal) won the seventh Limerick seat on the 16th count but his row was left unelected, so the site marked Matthew Murphy (Labour) 'Deemed elected'; the Oireachtas lists Nolan as TD for Limerick in the 4th Dáil, ElectionsIreland gives him seat 5 and Wikipedia shows him elected on count 16 with 7,361 votes, while Murphy was not elected. (Houses of the Oireachtas, John Thomas Nolan: member of the 4th Dáil for Limerick from 19 September 1923)"
+        }
+      ],
       "contestType": "election",
       "kind": "general",
       "votingSystem": "stv-hare",

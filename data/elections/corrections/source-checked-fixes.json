@@ -4,7 +4,8 @@
  "batches": {
   "ni-and-dail-2026-10-18": "Northern Ireland local government 1973-2011, the 1996 Forum (Belfast East) and two 2014 Dáil by-elections, checked against ARK Northern Ireland Elections, Wikipedia and ElectionsIreland.org.",
   "roi-local-2026-10-18": "Irish local elections checked against IrelandElection.com (the independent check) and ElectionsIreland.org (the site Civgraph's figures were first taken from): winners not marked as elected, seat counts, quotas, and contests imported with no candidates or no votes, filled only where every candidate has a first preference that adds up to the page's valid poll and the winners equal the seats. Fills for 1974, 1979 and 1985 apply when those years are published.",
-  "dail-byelections-2026-10-18": "Dáil by-elections 2009-2021 imported with second-count figures as first preferences, missing candidates or a stray row, checked against ElectionsIreland.org and Wikipedia."
+  "dail-byelections-2026-10-18": "Dáil by-elections 2009-2021 imported with second-count figures as first preferences, missing candidates or a stray row, checked against ElectionsIreland.org and Wikipedia.",
+  "official-records-2026-10-23": "Results contradicted by official membership records: Dáil winners and Ceann Comhairle automatic returns (Houses of the Oireachtas, with ElectionsIreland.org and Wikipedia), NI Assembly and Westminster winners (NI Assembly, UK Parliament), and 2014 and 2019 council candidates the import left named 'Party' (ARK Northern Ireland Elections, Democracy Club, CC BY 4.0)."
  },
  "records": [
   {
@@ -83109,6 +83110,3910 @@
      ]
     }
    ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1923-08-27/limerick.json",
+   "source": {
+    "title": "John Thomas Nolan: member of the 4th Dáil for Limerick from 19 September 1923",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/John-Thomas-Nolan.D.1923-09-19/",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "publisher": "ElectionsIreland.org",
+     "title": "ElectionsIreland.org: 4th Dáil - Limerick (1923)",
+     "url": "https://electionsireland.org/result.cfm?election=1923&cons=157"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Limerick (Dáil constituency): 1923 general election",
+     "url": "https://en.wikipedia.org/wiki/Limerick_(D%C3%A1il_constituency)#1923_general_election"
+    }
+   ],
+   "reason": "John Nolan (Cumann na nGaedheal) won the seventh Limerick seat on the 16th count but his row was left unelected, so the site marked Matthew Murphy (Labour) 'Deemed elected'; the Oireachtas lists Nolan as TD for Limerick in the 4th Dáil, ElectionsIreland gives him seat 5 and Wikipedia shows him elected on count 16 with 7,361 votes, while Murphy was not elected.",
+   "category": "winners",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "John Nolan",
+     "set": {
+      "Status": "Elected",
+      "Occurred_On_Count": "16"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1951-05-30/monaghan.json",
+   "source": {
+    "title": "Patrick J. Maguire: member of the 14th Dáil for Monaghan from 13 June 1951",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/Patrick-J-Maguire.D.1948-02-18/",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "publisher": "ElectionsIreland.org",
+     "title": "ElectionsIreland.org: 14th Dáil - Monaghan (1951)",
+     "url": "https://electionsireland.org/result.cfm?election=1951&cons=182"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Monaghan (Dáil constituency): 1951 general election",
+     "url": "https://en.wikipedia.org/wiki/Monaghan_(D%C3%A1il_constituency)#1951_general_election"
+    }
+   ],
+   "reason": "Patrick J. Maguire's row was matched to Bridget Rice because both had 6,802 first preferences, so Rice appeared twice as elected and Maguire not at all; the Oireachtas, ElectionsIreland and Wikipedia all give Dillon, Rice and Maguire (Fianna Fáil, 6,802) as the three TDs.",
+   "category": "winners",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "2",
+     "set": {
+      "candidateName": "Patrick J Maguire",
+      "Firstname": "Patrick",
+      "Surname": "J Maguire",
+      "ei_candidate_id": 2338
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1969-06-18/mayo-east.json",
+   "source": {
+    "title": "Martin Finn: member of the 19th Dáil for Mayo East (no 19th Dáil membership exists for John Garrett)",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/Martin-Finn.D.1969-07-02/",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "publisher": "ElectionsIreland.org",
+     "title": "ElectionsIreland.org: 19th Dáil - Mayo East (1969)",
+     "url": "https://electionsireland.org/result.cfm?election=1969&cons=173"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Mayo East (Dáil constituency): 1969 general election",
+     "url": "https://en.wikipedia.org/wiki/Mayo_East_(D%C3%A1il_constituency)#1969_general_election"
+    }
+   ],
+   "reason": "Four candidates were marked elected and the seat count set to four for the three-seat Mayo East; the Oireachtas has only Seán Flanagan, Thomas O'Hara and Martin Finn in the 19th Dáil for Mayo East, ElectionsIreland gives those three the seats, and Wikipedia's count shows Finn (6,442) ahead of John Garrett (6,115) on the last count, so Garrett was not elected.",
+   "category": "winners",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "John Garrett",
+     "set": {
+      "Status": "Not Elected"
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Number_Of_Seats",
+     "value": "3"
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1997-06-06/mayo.json",
+   "source": {
+    "title": "Beverley Flynn: member of the 28th Dáil for Mayo from 26 June 1997 (Enda Kenny and Tom Moffatt likewise)",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/Beverley-Flynn.D.1997-06-26/",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "publisher": "Wikipedia",
+     "title": "Mayo (Dáil constituency): 1997 general election",
+     "url": "https://en.wikipedia.org/wiki/Mayo_(D%C3%A1il_constituency)#1997_general_election"
+    },
+    {
+     "publisher": "ElectionsIreland.org",
+     "title": "ElectionsIreland.org: 28th Dáil - Mayo (1997) (states 5 seats and 13 candidates but shows only its first two rows)",
+     "url": "https://electionsireland.org/result.cfm?election=1997&cons=172"
+    },
+    {
+     "publisher": "Houses of the Oireachtas",
+     "title": "Enda Kenny: member of the 28th Dáil for Mayo",
+     "url": "https://www.oireachtas.ie/en/members/member/Enda-Kenny.D.1975-11-12/"
+    },
+    {
+     "publisher": "Houses of the Oireachtas",
+     "title": "Tom Moffatt: member of the 28th Dáil for Mayo",
+     "url": "https://www.oireachtas.ie/en/members/member/Tom-Moffatt.D.1992-12-14/"
+    }
+   ],
+   "reason": "The 1997 Mayo contest was imported with only Ring and Higgins plus a blank row, because the ElectionsIreland page shows only its first two rows; the Oireachtas lists Ring, Higgins, Kenny, Beverley (Cooper-)Flynn and Moffatt as the five TDs, and Wikipedia gives all 13 candidates, whose first preferences add up to the valid poll of 61,858 (electorate 87,719, spoilt 614, quota 10,310).",
+   "category": "missing-candidates",
+   "operations": [
+    {
+     "op": "replaceCandidates",
+     "candidates": [
+      {
+       "name": "Michael Ring",
+       "party": "Fine Gael",
+       "first_pref": 10066,
+       "counts": [
+        10066
+       ],
+       "status": "Made Quota",
+       "ei_candidate_id": 4075
+      },
+      {
+       "name": "Jim Higgins",
+       "party": "Fine Gael",
+       "first_pref": 6945,
+       "counts": [
+        6945
+       ],
+       "status": "Made Quota",
+       "ei_candidate_id": 4070
+      },
+      {
+       "name": "Enda Kenny",
+       "party": "Fine Gael",
+       "first_pref": 8568,
+       "counts": [
+        8568
+       ],
+       "status": "Made Quota",
+       "ei_candidate_id": 3199
+      },
+      {
+       "name": "Beverley Cooper-Flynn",
+       "party": "Fianna Fail",
+       "first_pref": 8353,
+       "counts": [
+        8353
+       ],
+       "status": "Made Quota",
+       "ei_candidate_id": 4201
+      },
+      {
+       "name": "Tom Moffatt",
+       "party": "Fianna Fail",
+       "first_pref": 5735,
+       "counts": [
+        5735
+       ],
+       "status": "Elected",
+       "ei_candidate_id": 4071
+      },
+      {
+       "name": "Seamus Hughes",
+       "party": "Fianna Fail",
+       "first_pref": 6791,
+       "counts": [
+        6791
+       ],
+       "status": "",
+       "ei_candidate_id": 8740
+      },
+      {
+       "name": "P J Morley",
+       "party": "Fianna Fail",
+       "first_pref": 5692,
+       "counts": [
+        5692
+       ],
+       "status": "",
+       "ei_candidate_id": 3063
+      },
+      {
+       "name": "Ernie Caffrey",
+       "party": "Fine Gael",
+       "first_pref": 4579,
+       "counts": [
+        4579
+       ],
+       "status": "",
+       "ei_candidate_id": 3828
+      },
+      {
+       "name": "Richard Finn",
+       "party": "Non party/Independent",
+       "first_pref": 1683,
+       "counts": [
+        1683
+       ],
+       "status": ""
+      },
+      {
+       "name": "Gerry Ginty",
+       "party": "Non party/Independent",
+       "first_pref": 1656,
+       "counts": [
+        1656
+       ],
+       "status": ""
+      },
+      {
+       "name": "Ann Crowley",
+       "party": "Green/Comhaontas Glas",
+       "first_pref": 938,
+       "counts": [
+        938
+       ],
+       "status": ""
+      },
+      {
+       "name": "Ciarán Sherry",
+       "party": "National Party",
+       "first_pref": 733,
+       "counts": [
+        733
+       ],
+       "status": ""
+      },
+      {
+       "name": "Cormac Connie Cullen",
+       "party": "Non party/Independent",
+       "first_pref": 119,
+       "counts": [
+        119
+       ],
+       "status": ""
+      }
+     ]
+    },
+    {
+     "op": "set",
+     "path": "meta.valid_poll",
+     "value": 61858
+    },
+    {
+     "op": "set",
+     "path": "meta.total_poll",
+     "value": 62472
+    },
+    {
+     "op": "set",
+     "path": "meta.spoiled",
+     "value": 614
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1927-09-15/dublin-university.json",
+   "source": {
+    "title": "Ernest H. Alton: member of the 6th Dáil for Dublin University",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/Ernest-H-Alton.D.1922-09-09/",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "publisher": "ElectionsIreland.org",
+     "title": "ElectionsIreland.org: 6th Dáil - Dublin University (September 1927): all three 'Unopposed'",
+     "url": "https://electionsireland.org/result.cfm?election=1927sep&cons=111"
+    },
+    {
+     "publisher": "Houses of the Oireachtas",
+     "title": "Prof. James Craig: member of the 6th Dáil for Dublin University",
+     "url": "https://www.oireachtas.ie/en/members/member/Prof-James-Craig.D.1922-09-09/"
+    },
+    {
+     "publisher": "Houses of the Oireachtas",
+     "title": "Prof. William E. Thrift: member of the 6th Dáil for Dublin University",
+     "url": "https://www.oireachtas.ie/en/members/member/Prof-William-E-Thrift.D.1922-09-09/"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Dublin University (Dáil Éireann constituency): September 1927",
+     "url": "https://en.wikipedia.org/wiki/Dublin_University_(D%C3%A1il_%C3%89ireann_constituency)#Elections_in_the_1920s"
+    }
+   ],
+   "reason": "The three Dublin University members were returned unopposed in September 1927 but none of the rows was marked elected; the Oireachtas lists all three as members of the 6th Dáil for Dublin University, and ElectionsIreland and Wikipedia show them returned unopposed.",
+   "category": "winners",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Prof Ernest Alton",
+     "set": {
+      "status": "Elected"
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Prof William Thrift",
+     "set": {
+      "status": "Elected"
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "James Craig",
+     "set": {
+      "status": "Elected"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1932-02-16/dublin-university.json",
+   "source": {
+    "title": "Ernest H. Alton: member of the 7th Dáil for Dublin University",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/Ernest-H-Alton.D.1922-09-09/",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "publisher": "ElectionsIreland.org",
+     "title": "ElectionsIreland.org: 7th Dáil - Dublin University (1932): all three 'Unopposed'",
+     "url": "https://electionsireland.org/result.cfm?election=1932&cons=111"
+    },
+    {
+     "publisher": "Houses of the Oireachtas",
+     "title": "Prof. James Craig: member of the 7th Dáil for Dublin University",
+     "url": "https://www.oireachtas.ie/en/members/member/Prof-James-Craig.D.1922-09-09/"
+    },
+    {
+     "publisher": "Houses of the Oireachtas",
+     "title": "Prof. William E. Thrift: member of the 7th Dáil for Dublin University",
+     "url": "https://www.oireachtas.ie/en/members/member/Prof-William-E-Thrift.D.1922-09-09/"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Dublin University (Dáil Éireann constituency): 1932",
+     "url": "https://en.wikipedia.org/wiki/Dublin_University_(D%C3%A1il_%C3%89ireann_constituency)#Elections_in_the_1930s"
+    }
+   ],
+   "reason": "The three Dublin University members were returned unopposed in 1932 but none of the rows was marked elected; the Oireachtas lists all three as members of the 7th Dáil for Dublin University, and ElectionsIreland and Wikipedia show them returned unopposed.",
+   "category": "winners",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Prof Ernest Alton",
+     "set": {
+      "status": "Elected"
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "James Craig",
+     "set": {
+      "status": "Elected"
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Prof William Thrift",
+     "set": {
+      "status": "Elected"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1938-06-17/donegal-west.json",
+   "source": {
+    "title": "Bryan Myles Brady: member of the 10th Dáil for Donegal West",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/Bryan-Myles-Brady.D.1932-03-09/",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "publisher": "ElectionsIreland.org",
+     "title": "ElectionsIreland.org: 10th Dáil - Donegal West (1938): all three 'Unopposed'",
+     "url": "https://electionsireland.org/result.cfm?election=1938&cons=75"
+    },
+    {
+     "publisher": "Houses of the Oireachtas",
+     "title": "Cormac Breslin: member of the 10th Dáil for Donegal West",
+     "url": "https://www.oireachtas.ie/en/members/member/Cormac-Breslin.D.1937-07-21/"
+    },
+    {
+     "publisher": "Houses of the Oireachtas",
+     "title": "Michael Óg McFadden: member of the 10th Dáil for Donegal West",
+     "url": "https://www.oireachtas.ie/en/members/member/Michael-Óg-McFadden.D.1927-06-23/"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Donegal West (Dáil constituency): 1938",
+     "url": "https://en.wikipedia.org/wiki/Donegal_West_(D%C3%A1il_constituency)#1938_general_election"
+    }
+   ],
+   "reason": "The three Donegal West members were returned unopposed in 1938 but none of the rows was marked elected; the Oireachtas lists all three as members of the 10th Dáil for Donegal West, and ElectionsIreland and Wikipedia show them returned unopposed.",
+   "category": "winners",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Brian Brady",
+     "set": {
+      "status": "Elected"
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Cormac Breslin",
+     "set": {
+      "status": "Elected"
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Michael McFadden",
+     "set": {
+      "status": "Elected"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1944-05-30/donegal-west.json",
+   "source": {
+    "title": "Bryan Myles Brady: member of the 12th Dáil for Donegal West",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/Bryan-Myles-Brady.D.1932-03-09/",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "publisher": "ElectionsIreland.org",
+     "title": "ElectionsIreland.org: 12th Dáil - Donegal West (1944): all three 'Unopposed'",
+     "url": "https://electionsireland.org/result.cfm?election=1944&cons=75"
+    },
+    {
+     "publisher": "Houses of the Oireachtas",
+     "title": "Cormac Breslin: member of the 12th Dáil for Donegal West",
+     "url": "https://www.oireachtas.ie/en/members/member/Cormac-Breslin.D.1937-07-21/"
+    },
+    {
+     "publisher": "Houses of the Oireachtas",
+     "title": "Michael Óg McFadden: member of the 12th Dáil for Donegal West",
+     "url": "https://www.oireachtas.ie/en/members/member/Michael-Óg-McFadden.D.1927-06-23/"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Donegal West (Dáil constituency): 1944",
+     "url": "https://en.wikipedia.org/wiki/Donegal_West_(D%C3%A1il_constituency)#1944_general_election"
+    }
+   ],
+   "reason": "The three Donegal West members were returned unopposed in 1944 but none of the rows was marked elected; the Oireachtas lists all three as members of the 12th Dáil for Donegal West, and ElectionsIreland and Wikipedia show them returned unopposed.",
+   "category": "winners",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Brian Brady",
+     "set": {
+      "status": "Elected"
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Cormac Breslin",
+     "set": {
+      "status": "Elected"
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Michael McFadden",
+     "set": {
+      "status": "Elected"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/2005-03-11/meath.json",
+   "source": {
+    "title": "Shane McEntee: member of the 29th Dáil for Meath from 2005-03-11",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/Shane-McEntee.D.2005-03-11/",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "publisher": "ElectionsIreland.org",
+     "title": "ElectionsIreland.org: 29th Dáil by-elections - Meath (2005-03-11)",
+     "url": "https://electionsireland.org/result.cfm?election=2002B&cons=178"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "2005 Meath by-election",
+     "url": "https://en.wikipedia.org/wiki/2005_Meath_by-election"
+    }
+   ],
+   "reason": "The winner of the 2005 Meath by-election was not marked elected; the Oireachtas has Shane McEntee (Fine Gael) as TD for Meath from 11 March 2005, and ElectionsIreland and Wikipedia show him elected on the fourth count (16,964 first preferences).",
+   "category": "winners",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Shane Mcentee",
+     "set": {
+      "status": "Elected"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/2005-03-11/kildare-north.json",
+   "source": {
+    "title": "Catherine Murphy: member of the 29th Dáil for Kildare North from 2005-03-11",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/Catherine-Murphy.D.2005-03-11/",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "publisher": "ElectionsIreland.org",
+     "title": "ElectionsIreland.org: 29th Dáil by-elections - Kildare North (2005-03-11)",
+     "url": "https://electionsireland.org/result.cfm?election=2002B&cons=142"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "2005 Kildare North by-election",
+     "url": "https://en.wikipedia.org/wiki/2005_Kildare_North_by-election"
+    }
+   ],
+   "reason": "The winner of the 2005 Kildare North by-election was not marked elected; the Oireachtas has Catherine Murphy (Independent) as TD for Kildare North from 11 March 2005, and ElectionsIreland and Wikipedia show her elected on the fifth count although Áine Brady had more first preferences.",
+   "category": "winners",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Catherine Murphy",
+     "set": {
+      "status": "Elected"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/2009-06-05/dublin-south.json",
+   "source": {
+    "title": "George Lee: member of the 30th Dáil for Dublin South from 2009-06-05",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/George-Lee.D.2009-06-05/",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "publisher": "ElectionsIreland.org",
+     "title": "ElectionsIreland.org: 30th Dáil by-elections - Dublin South (2009-06-05)",
+     "url": "https://electionsireland.org/result.cfm?election=2007B&cons=102"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "2009 Dublin South by-election",
+     "url": "https://en.wikipedia.org/wiki/2009_Dublin_South_by-election"
+    }
+   ],
+   "reason": "The winner of the 2009 Dublin South by-election was not marked elected; the Oireachtas has George Lee (Fine Gael) as TD for Dublin South from 5 June 2009, and ElectionsIreland and Wikipedia show him elected on the first count with 27,768 votes.",
+   "category": "winners",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "George Lee",
+     "set": {
+      "status": "Elected"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/2011-10-27/dublin-west.json",
+   "source": {
+    "title": "Patrick Nulty: member of the 31st Dáil for Dublin West from 2011-10-27",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/Patrick-Nulty.D.2011-10-27/",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "publisher": "ElectionsIreland.org",
+     "title": "ElectionsIreland.org: 31st Dáil by-elections - Dublin West (2011-10-27)",
+     "url": "https://electionsireland.org/result.cfm?election=2011B&cons=112"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "2011 Dublin West by-election",
+     "url": "https://en.wikipedia.org/wiki/2011_Dublin_West_by-election"
+    }
+   ],
+   "reason": "The winner of the 2011 Dublin West by-election was not marked elected; the Oireachtas has Patrick Nulty (Labour) as TD for Dublin West from 27 October 2011, and ElectionsIreland and Wikipedia show him elected (8,665 first preferences).",
+   "category": "winners",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Patrick Nulty",
+     "set": {
+      "status": "Elected"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1933-01-24/galway.json",
+   "source": {
+    "title": "Frank Fahy: member of the 8th Dáil for Galway (outgoing Ceann Comhairle, returned automatically)",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/Frank-Fahy.D.1919-01-21/",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "publisher": "ElectionsIreland.org",
+     "title": "ElectionsIreland.org: 8th Dáil - Galway (1933): Frank Fahy 'Returned automatically', 9 seats",
+     "url": "https://electionsireland.org/result.cfm?election=1933&cons=734"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Galway (Dáil constituency)",
+     "url": "https://en.wikipedia.org/wiki/Galway_(D%C3%A1il_constituency)"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Ceann Comhairle (automatic return of the outgoing Ceann Comhairle)",
+     "url": "https://en.wikipedia.org/wiki/Ceann_Comhairle"
+    }
+   ],
+   "reason": "Frank Fahy, the outgoing Ceann Comhairle, was returned automatically for Galway in 1933, but the Wikipedia count table the build lays over the imported file (data/elections/dail-wikipedia-counts/1933-01-24/galway.json) leaves him out, so his automatic-return row never reached the site and the seat count excluded him; the Oireachtas lists him as a member of the 8th Dáil for Galway and ElectionsIreland shows him 'Returned automatically' in a 9-seat constituency.",
+   "category": "auto-return",
+   "operations": [
+    {
+     "op": "addCandidate",
+     "row": {
+      "Auto_Returned_Ceann_Comhairle": "1",
+      "Candidate_Id": "16",
+      "ei_candidate_id": 1282,
+      "source_person_id": "",
+      "Candidate_First_Pref_Votes": "0",
+      "Constituency_Number": "",
+      "Count_Number": "1",
+      "Dail_Abbreviation": "",
+      "Firstname": "Frank",
+      "Gender": "",
+      "Official_Candidate_Id": "",
+      "Official_Status": "",
+      "Party_Abbreviation": "",
+      "Surname": "Fahy",
+      "Occurred_On_Count": "1",
+      "Party_Colour": "#66bb66",
+      "Party_Name": "Fianna Fáil",
+      "Status": "Elected (auto returned)",
+      "Synthetic_Scraper_Row": "1",
+      "Synthetic_Scraper_Stage_Row": "",
+      "Total_Votes": "0",
+      "Transfers": "0",
+      "candidateName": "Frank Fahy",
+      "id": 14
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Number_Of_Seats",
+     "value": "9"
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1937-07-01/galway-east.json",
+   "source": {
+    "title": "Frank Fahy: member of the 9th Dáil for Galway East (outgoing Ceann Comhairle, returned automatically)",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/Frank-Fahy.D.1919-01-21/",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "publisher": "ElectionsIreland.org",
+     "title": "ElectionsIreland.org: 9th Dáil - Galway East (1937): Frank Fahy 'Returned automatically', 4 seats",
+     "url": "https://electionsireland.org/result.cfm?election=1937&cons=122"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Galway East (Dáil constituency)",
+     "url": "https://en.wikipedia.org/wiki/Galway_East_(D%C3%A1il_constituency)"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Ceann Comhairle (automatic return of the outgoing Ceann Comhairle)",
+     "url": "https://en.wikipedia.org/wiki/Ceann_Comhairle"
+    }
+   ],
+   "reason": "Frank Fahy, the outgoing Ceann Comhairle, was returned automatically for Galway East in 1937, but neither the imported file nor the Wikipedia count table laid over it has a row for him, so the seat count excluded him; the Oireachtas lists him as a member of the 9th Dáil for Galway East and ElectionsIreland shows him 'Returned automatically' in a 4-seat constituency.",
+   "category": "auto-return",
+   "operations": [
+    {
+     "op": "addCandidate",
+     "row": {
+      "Auto_Returned_Ceann_Comhairle": "1",
+      "Candidate_Id": "7",
+      "ei_candidate_id": 1282,
+      "source_person_id": "",
+      "Candidate_First_Pref_Votes": "0",
+      "Constituency_Number": "",
+      "Count_Number": "1",
+      "Dail_Abbreviation": "",
+      "Firstname": "Frank",
+      "Gender": "",
+      "Official_Candidate_Id": "",
+      "Official_Status": "",
+      "Party_Abbreviation": "",
+      "Surname": "Fahy",
+      "Occurred_On_Count": "1",
+      "Party_Colour": "#66bb66",
+      "Party_Name": "Fianna Fáil",
+      "Status": "Elected (auto returned)",
+      "Synthetic_Scraper_Row": "1",
+      "Synthetic_Scraper_Stage_Row": "",
+      "Total_Votes": "0",
+      "Transfers": "0",
+      "candidateName": "Frank Fahy",
+      "id": 6
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Number_Of_Seats",
+     "value": "4"
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1938-06-17/galway-east.json",
+   "source": {
+    "title": "Frank Fahy: member of the 10th Dáil for Galway East (outgoing Ceann Comhairle, returned automatically)",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/Frank-Fahy.D.1919-01-21/",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "publisher": "ElectionsIreland.org",
+     "title": "ElectionsIreland.org: 10th Dáil - Galway East (1938): Frank Fahy 'Returned automatically', 4 seats",
+     "url": "https://electionsireland.org/result.cfm?election=1938&cons=122"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Galway East (Dáil constituency)",
+     "url": "https://en.wikipedia.org/wiki/Galway_East_(D%C3%A1il_constituency)"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Ceann Comhairle (automatic return of the outgoing Ceann Comhairle)",
+     "url": "https://en.wikipedia.org/wiki/Ceann_Comhairle"
+    }
+   ],
+   "reason": "Frank Fahy, the outgoing Ceann Comhairle, was returned automatically for Galway East in 1938, but neither the imported file nor the Wikipedia count table laid over it has a row for him, so the seat count excluded him; the Oireachtas lists him as a member of the 10th Dáil for Galway East and ElectionsIreland shows him 'Returned automatically' in a 4-seat constituency.",
+   "category": "auto-return",
+   "operations": [
+    {
+     "op": "addCandidate",
+     "row": {
+      "Auto_Returned_Ceann_Comhairle": "1",
+      "Candidate_Id": "7",
+      "ei_candidate_id": 1282,
+      "source_person_id": "",
+      "Candidate_First_Pref_Votes": "0",
+      "Constituency_Number": "",
+      "Count_Number": "1",
+      "Dail_Abbreviation": "",
+      "Firstname": "Frank",
+      "Gender": "",
+      "Official_Candidate_Id": "",
+      "Official_Status": "",
+      "Party_Abbreviation": "",
+      "Surname": "Fahy",
+      "Occurred_On_Count": "1",
+      "Party_Colour": "#66bb66",
+      "Party_Name": "Fianna Fáil",
+      "Status": "Elected (auto returned)",
+      "Synthetic_Scraper_Row": "1",
+      "Synthetic_Scraper_Stage_Row": "",
+      "Total_Votes": "0",
+      "Transfers": "0",
+      "candidateName": "Frank Fahy",
+      "id": 6
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Number_Of_Seats",
+     "value": "4"
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1943-06-22/galway-east.json",
+   "source": {
+    "title": "Frank Fahy: member of the 11th Dáil for Galway East (outgoing Ceann Comhairle, returned automatically)",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/Frank-Fahy.D.1919-01-21/",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "publisher": "ElectionsIreland.org",
+     "title": "ElectionsIreland.org: 11th Dáil - Galway East (1943): Frank Fahy 'Returned automatically', 4 seats",
+     "url": "https://electionsireland.org/result.cfm?election=1943&cons=122"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Galway East (Dáil constituency)",
+     "url": "https://en.wikipedia.org/wiki/Galway_East_(D%C3%A1il_constituency)"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Ceann Comhairle (automatic return of the outgoing Ceann Comhairle)",
+     "url": "https://en.wikipedia.org/wiki/Ceann_Comhairle"
+    }
+   ],
+   "reason": "Frank Fahy, the outgoing Ceann Comhairle, was returned automatically for Galway East in 1943, but neither the imported file nor the Wikipedia count table laid over it has a row for him, so the seat count excluded him; the Oireachtas lists him as a member of the 11th Dáil for Galway East and ElectionsIreland shows him 'Returned automatically' in a 4-seat constituency.",
+   "category": "auto-return",
+   "operations": [
+    {
+     "op": "addCandidate",
+     "row": {
+      "Auto_Returned_Ceann_Comhairle": "1",
+      "Candidate_Id": "9",
+      "ei_candidate_id": 1282,
+      "source_person_id": "",
+      "Candidate_First_Pref_Votes": "0",
+      "Constituency_Number": "",
+      "Count_Number": "1",
+      "Dail_Abbreviation": "",
+      "Firstname": "Frank",
+      "Gender": "",
+      "Official_Candidate_Id": "",
+      "Official_Status": "",
+      "Party_Abbreviation": "",
+      "Surname": "Fahy",
+      "Occurred_On_Count": "1",
+      "Party_Colour": "#66bb66",
+      "Party_Name": "Fianna Fáil",
+      "Status": "Elected (auto returned)",
+      "Synthetic_Scraper_Row": "1",
+      "Synthetic_Scraper_Stage_Row": "",
+      "Total_Votes": "0",
+      "Transfers": "0",
+      "candidateName": "Frank Fahy",
+      "id": 8
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Number_Of_Seats",
+     "value": "4"
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1944-05-30/galway-east.json",
+   "source": {
+    "title": "Frank Fahy: member of the 12th Dáil for Galway East (outgoing Ceann Comhairle, returned automatically)",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/Frank-Fahy.D.1919-01-21/",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "publisher": "ElectionsIreland.org",
+     "title": "ElectionsIreland.org: 12th Dáil - Galway East (1944): Frank Fahy 'Returned automatically', 4 seats",
+     "url": "https://electionsireland.org/result.cfm?election=1944&cons=122"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Galway East (Dáil constituency)",
+     "url": "https://en.wikipedia.org/wiki/Galway_East_(D%C3%A1il_constituency)"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Ceann Comhairle (automatic return of the outgoing Ceann Comhairle)",
+     "url": "https://en.wikipedia.org/wiki/Ceann_Comhairle"
+    }
+   ],
+   "reason": "Frank Fahy, the outgoing Ceann Comhairle, was returned automatically for Galway East in 1944, but neither the imported file nor the Wikipedia count table laid over it has a row for him, so the seat count excluded him; the Oireachtas lists him as a member of the 12th Dáil for Galway East and ElectionsIreland shows him 'Returned automatically' in a 4-seat constituency.",
+   "category": "auto-return",
+   "operations": [
+    {
+     "op": "addCandidate",
+     "row": {
+      "Auto_Returned_Ceann_Comhairle": "1",
+      "Candidate_Id": "5",
+      "ei_candidate_id": 1282,
+      "source_person_id": "",
+      "Candidate_First_Pref_Votes": "0",
+      "Constituency_Number": "",
+      "Count_Number": "1",
+      "Dail_Abbreviation": "",
+      "Firstname": "Frank",
+      "Gender": "",
+      "Official_Candidate_Id": "",
+      "Official_Status": "",
+      "Party_Abbreviation": "",
+      "Surname": "Fahy",
+      "Occurred_On_Count": "1",
+      "Party_Colour": "#66bb66",
+      "Party_Name": "Fianna Fáil",
+      "Status": "Elected (auto returned)",
+      "Synthetic_Scraper_Row": "1",
+      "Synthetic_Scraper_Stage_Row": "",
+      "Total_Votes": "0",
+      "Transfers": "0",
+      "candidateName": "Frank Fahy",
+      "id": 4
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Number_Of_Seats",
+     "value": "4"
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1948-02-04/galway-south.json",
+   "source": {
+    "title": "Frank Fahy: member of the 13th Dáil for Galway South (outgoing Ceann Comhairle, returned automatically)",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/Frank-Fahy.D.1919-01-21/",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "publisher": "ElectionsIreland.org",
+     "title": "ElectionsIreland.org: 13th Dáil - Galway South (1948): Frank Fahy 'Returned automatically', 3 seats",
+     "url": "https://electionsireland.org/result.cfm?election=1948&cons=128"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Galway South (Dáil constituency)",
+     "url": "https://en.wikipedia.org/wiki/Galway_South_(D%C3%A1il_constituency)"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Ceann Comhairle (automatic return of the outgoing Ceann Comhairle)",
+     "url": "https://en.wikipedia.org/wiki/Ceann_Comhairle"
+    }
+   ],
+   "reason": "Frank Fahy, the outgoing Ceann Comhairle, was returned automatically for Galway South in 1948, but the Wikipedia count table the build lays over the imported file (data/elections/dail-wikipedia-counts/1948-02-04/galway-south.json) leaves him out, so his automatic-return row never reached the site and the seat count excluded him; the Oireachtas lists him as a member of the 13th Dáil for Galway South and ElectionsIreland shows him 'Returned automatically' in a 3-seat constituency.",
+   "category": "auto-return",
+   "operations": [
+    {
+     "op": "addCandidate",
+     "row": {
+      "Auto_Returned_Ceann_Comhairle": "1",
+      "Candidate_Id": "6",
+      "ei_candidate_id": 1282,
+      "source_person_id": "",
+      "Candidate_First_Pref_Votes": "0",
+      "Constituency_Number": "",
+      "Count_Number": "1",
+      "Dail_Abbreviation": "",
+      "Firstname": "Frank",
+      "Gender": "",
+      "Official_Candidate_Id": "",
+      "Official_Status": "",
+      "Party_Abbreviation": "",
+      "Surname": "Fahy",
+      "Occurred_On_Count": "1",
+      "Party_Colour": "#66bb66",
+      "Party_Name": "Fianna Fáil",
+      "Status": "Elected (auto returned)",
+      "Synthetic_Scraper_Row": "1",
+      "Synthetic_Scraper_Stage_Row": "",
+      "Total_Votes": "0",
+      "Transfers": "0",
+      "candidateName": "Frank Fahy",
+      "id": 5
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Number_Of_Seats",
+     "value": "3"
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1951-05-30/galway-south.json",
+   "source": {
+    "title": "Frank Fahy: member of the 14th Dáil for Galway South (outgoing Ceann Comhairle, returned automatically)",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/Frank-Fahy.D.1919-01-21/",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "publisher": "ElectionsIreland.org",
+     "title": "ElectionsIreland.org: 14th Dáil - Galway South (1951): Frank Fahy 'Returned automatically', 3 seats",
+     "url": "https://electionsireland.org/result.cfm?election=1951&cons=128"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Galway South (Dáil constituency)",
+     "url": "https://en.wikipedia.org/wiki/Galway_South_(D%C3%A1il_constituency)"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Ceann Comhairle (automatic return of the outgoing Ceann Comhairle)",
+     "url": "https://en.wikipedia.org/wiki/Ceann_Comhairle"
+    }
+   ],
+   "reason": "Frank Fahy, the outgoing Ceann Comhairle, was returned automatically for Galway South in 1951, but the Wikipedia count table the build lays over the imported file (data/elections/dail-wikipedia-counts/1951-05-30/galway-south.json) leaves him out, so his automatic-return row never reached the site and the seat count excluded him; the Oireachtas lists him as a member of the 14th Dáil for Galway South and ElectionsIreland shows him 'Returned automatically' in a 3-seat constituency.",
+   "category": "auto-return",
+   "operations": [
+    {
+     "op": "addCandidate",
+     "row": {
+      "Auto_Returned_Ceann_Comhairle": "1",
+      "Candidate_Id": "5",
+      "ei_candidate_id": 1282,
+      "source_person_id": "",
+      "Candidate_First_Pref_Votes": "0",
+      "Constituency_Number": "",
+      "Count_Number": "1",
+      "Dail_Abbreviation": "",
+      "Firstname": "Frank",
+      "Gender": "",
+      "Official_Candidate_Id": "",
+      "Official_Status": "",
+      "Party_Abbreviation": "",
+      "Surname": "Fahy",
+      "Occurred_On_Count": "1",
+      "Party_Colour": "#66bb66",
+      "Party_Name": "Fianna Fáil",
+      "Status": "Elected (auto returned)",
+      "Synthetic_Scraper_Row": "1",
+      "Synthetic_Scraper_Stage_Row": "",
+      "Total_Votes": "0",
+      "Transfers": "0",
+      "candidateName": "Frank Fahy",
+      "id": 4
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Number_Of_Seats",
+     "value": "3"
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1954-05-18/clare.json",
+   "source": {
+    "title": "Patrick Hogan: member of the 15th Dáil for Clare (outgoing Ceann Comhairle, returned automatically)",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/Patrick-Hogan.D.1923-09-19/",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "publisher": "ElectionsIreland.org",
+     "title": "ElectionsIreland.org: 15th Dáil - Clare (1954): Patrick Hogan 'Returned automatically', 4 seats",
+     "url": "https://electionsireland.org/result.cfm?election=1954&cons=42"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Clare (Dáil constituency)",
+     "url": "https://en.wikipedia.org/wiki/Clare_(D%C3%A1il_constituency)"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Ceann Comhairle (automatic return of the outgoing Ceann Comhairle)",
+     "url": "https://en.wikipedia.org/wiki/Ceann_Comhairle"
+    }
+   ],
+   "reason": "Patrick Hogan, the outgoing Ceann Comhairle, was returned automatically for Clare in 1954, but neither the imported file nor the Wikipedia count table laid over it has a row for him, so the seat count excluded him; the Oireachtas lists him as a member of the 15th Dáil for Clare and ElectionsIreland shows him 'Returned automatically' in a 4-seat constituency.",
+   "category": "auto-return",
+   "operations": [
+    {
+     "op": "addCandidate",
+     "row": {
+      "Auto_Returned_Ceann_Comhairle": "1",
+      "Candidate_Id": "9",
+      "ei_candidate_id": 1162,
+      "source_person_id": "",
+      "Candidate_First_Pref_Votes": "0",
+      "Constituency_Number": "",
+      "Count_Number": "1",
+      "Dail_Abbreviation": "",
+      "Firstname": "Patrick",
+      "Gender": "",
+      "Official_Candidate_Id": "",
+      "Official_Status": "",
+      "Party_Abbreviation": "",
+      "Surname": "Hogan",
+      "Occurred_On_Count": "1",
+      "Party_Colour": "#6b7280",
+      "Party_Name": "Ceann Comhairle (Speaker)",
+      "Status": "Elected (auto returned)",
+      "Synthetic_Scraper_Row": "1",
+      "Synthetic_Scraper_Stage_Row": "",
+      "Total_Votes": "0",
+      "Transfers": "0",
+      "candidateName": "Patrick Hogan",
+      "id": 8
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Number_Of_Seats",
+     "value": "4"
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1957-03-05/clare.json",
+   "source": {
+    "title": "Patrick Hogan: member of the 16th Dáil for Clare (outgoing Ceann Comhairle, returned automatically)",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/Patrick-Hogan.D.1923-09-19/",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "publisher": "ElectionsIreland.org",
+     "title": "ElectionsIreland.org: 16th Dáil - Clare (1957): Patrick Hogan 'Returned automatically', 4 seats",
+     "url": "https://electionsireland.org/result.cfm?election=1957&cons=42"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Clare (Dáil constituency)",
+     "url": "https://en.wikipedia.org/wiki/Clare_(D%C3%A1il_constituency)"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Ceann Comhairle (automatic return of the outgoing Ceann Comhairle)",
+     "url": "https://en.wikipedia.org/wiki/Ceann_Comhairle"
+    }
+   ],
+   "reason": "Patrick Hogan, the outgoing Ceann Comhairle, was returned automatically for Clare in 1957, but neither the imported file nor the Wikipedia count table laid over it has a row for him, so the seat count excluded him; the Oireachtas lists him as a member of the 16th Dáil for Clare and ElectionsIreland shows him 'Returned automatically' in a 4-seat constituency.",
+   "category": "auto-return",
+   "operations": [
+    {
+     "op": "addCandidate",
+     "row": {
+      "Auto_Returned_Ceann_Comhairle": "1",
+      "Candidate_Id": "6",
+      "ei_candidate_id": 1162,
+      "source_person_id": "",
+      "Candidate_First_Pref_Votes": "0",
+      "Constituency_Number": "",
+      "Count_Number": "1",
+      "Dail_Abbreviation": "",
+      "Firstname": "Patrick",
+      "Gender": "",
+      "Official_Candidate_Id": "",
+      "Official_Status": "",
+      "Party_Abbreviation": "",
+      "Surname": "Hogan",
+      "Occurred_On_Count": "1",
+      "Party_Colour": "#6b7280",
+      "Party_Name": "Ceann Comhairle (Speaker)",
+      "Status": "Elected (auto returned)",
+      "Synthetic_Scraper_Row": "1",
+      "Synthetic_Scraper_Stage_Row": "",
+      "Total_Votes": "0",
+      "Transfers": "0",
+      "candidateName": "Patrick Hogan",
+      "id": 5
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Number_Of_Seats",
+     "value": "4"
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1961-10-04/clare.json",
+   "source": {
+    "title": "Patrick Hogan: member of the 17th Dáil for Clare (outgoing Ceann Comhairle, returned automatically)",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/Patrick-Hogan.D.1923-09-19/",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "publisher": "ElectionsIreland.org",
+     "title": "ElectionsIreland.org: 17th Dáil - Clare (1961): Patrick Hogan 'Returned automatically', 4 seats",
+     "url": "https://electionsireland.org/result.cfm?election=1961&cons=42"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Clare (Dáil constituency)",
+     "url": "https://en.wikipedia.org/wiki/Clare_(D%C3%A1il_constituency)"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Ceann Comhairle (automatic return of the outgoing Ceann Comhairle)",
+     "url": "https://en.wikipedia.org/wiki/Ceann_Comhairle"
+    }
+   ],
+   "reason": "Patrick Hogan, the outgoing Ceann Comhairle, was returned automatically for Clare in 1961, but neither the imported file nor the Wikipedia count table laid over it has a row for him, so the seat count excluded him; the Oireachtas lists him as a member of the 17th Dáil for Clare and ElectionsIreland shows him 'Returned automatically' in a 4-seat constituency.",
+   "category": "auto-return",
+   "operations": [
+    {
+     "op": "addCandidate",
+     "row": {
+      "Auto_Returned_Ceann_Comhairle": "1",
+      "Candidate_Id": "6",
+      "ei_candidate_id": 1162,
+      "source_person_id": "",
+      "Candidate_First_Pref_Votes": "0",
+      "Constituency_Number": "",
+      "Count_Number": "1",
+      "Dail_Abbreviation": "",
+      "Firstname": "Patrick",
+      "Gender": "",
+      "Official_Candidate_Id": "",
+      "Official_Status": "",
+      "Party_Abbreviation": "",
+      "Surname": "Hogan",
+      "Occurred_On_Count": "1",
+      "Party_Colour": "#6b7280",
+      "Party_Name": "Ceann Comhairle (Speaker)",
+      "Status": "Elected (auto returned)",
+      "Synthetic_Scraper_Row": "1",
+      "Synthetic_Scraper_Stage_Row": "",
+      "Total_Votes": "0",
+      "Transfers": "0",
+      "candidateName": "Patrick Hogan",
+      "id": 5
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Number_Of_Seats",
+     "value": "4"
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1965-04-07/clare.json",
+   "source": {
+    "title": "Patrick Hogan: member of the 18th Dáil for Clare (outgoing Ceann Comhairle, returned automatically)",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/Patrick-Hogan.D.1923-09-19/",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "publisher": "ElectionsIreland.org",
+     "title": "ElectionsIreland.org: 18th Dáil - Clare (1965): Patrick Hogan 'Returned automatically', 4 seats",
+     "url": "https://electionsireland.org/result.cfm?election=1965&cons=42"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Clare (Dáil constituency)",
+     "url": "https://en.wikipedia.org/wiki/Clare_(D%C3%A1il_constituency)"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Ceann Comhairle (automatic return of the outgoing Ceann Comhairle)",
+     "url": "https://en.wikipedia.org/wiki/Ceann_Comhairle"
+    }
+   ],
+   "reason": "Patrick Hogan, the outgoing Ceann Comhairle, was returned automatically for Clare in 1965, but neither the imported file nor the Wikipedia count table laid over it has a row for him, so the seat count excluded him; the Oireachtas lists him as a member of the 18th Dáil for Clare and ElectionsIreland shows him 'Returned automatically' in a 4-seat constituency.",
+   "category": "auto-return",
+   "operations": [
+    {
+     "op": "addCandidate",
+     "row": {
+      "Auto_Returned_Ceann_Comhairle": "1",
+      "Candidate_Id": "6",
+      "ei_candidate_id": 1162,
+      "source_person_id": "",
+      "Candidate_First_Pref_Votes": "0",
+      "Constituency_Number": "",
+      "Count_Number": "1",
+      "Dail_Abbreviation": "",
+      "Firstname": "Patrick",
+      "Gender": "",
+      "Official_Candidate_Id": "",
+      "Official_Status": "",
+      "Party_Abbreviation": "",
+      "Surname": "Hogan",
+      "Occurred_On_Count": "1",
+      "Party_Colour": "#6b7280",
+      "Party_Name": "Ceann Comhairle (Speaker)",
+      "Status": "Elected (auto returned)",
+      "Synthetic_Scraper_Row": "1",
+      "Synthetic_Scraper_Stage_Row": "",
+      "Total_Votes": "0",
+      "Transfers": "0",
+      "candidateName": "Patrick Hogan",
+      "id": 5
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Number_Of_Seats",
+     "value": "4"
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1969-06-18/donegal-leitrim.json",
+   "source": {
+    "title": "Cormac Breslin: member of the 19th Dáil for Donegal–Leitrim (outgoing Ceann Comhairle, returned automatically)",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/Cormac-Breslin.D.1937-07-21/",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "publisher": "ElectionsIreland.org",
+     "title": "ElectionsIreland.org: 19th Dáil - Donegal–Leitrim (1969): Cormac Breslin 'Returned automatically', 3 seats",
+     "url": "https://electionsireland.org/result.cfm?election=1969&cons=70"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Donegal–Leitrim (Dáil constituency)",
+     "url": "https://en.wikipedia.org/wiki/Donegal%E2%80%93Leitrim_(D%C3%A1il_constituency)"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Ceann Comhairle (automatic return of the outgoing Ceann Comhairle)",
+     "url": "https://en.wikipedia.org/wiki/Ceann_Comhairle"
+    }
+   ],
+   "reason": "Cormac Breslin, the outgoing Ceann Comhairle, was returned automatically for Donegal–Leitrim in 1969, but the Wikipedia count table the build lays over the imported file (data/elections/dail-wikipedia-counts/1969-06-18/donegal-leitrim.json) leaves him out, so his automatic-return row never reached the site and the seat count excluded him; the Oireachtas lists him as a member of the 19th Dáil for Donegal–Leitrim and ElectionsIreland shows him 'Returned automatically' in a 3-seat constituency.",
+   "category": "auto-return",
+   "operations": [
+    {
+     "op": "addCandidate",
+     "row": {
+      "Auto_Returned_Ceann_Comhairle": "1",
+      "Candidate_Id": "6",
+      "ei_candidate_id": 1898,
+      "source_person_id": "",
+      "Candidate_First_Pref_Votes": "0",
+      "Constituency_Number": "",
+      "Count_Number": "1",
+      "Dail_Abbreviation": "",
+      "Firstname": "Cormac",
+      "Gender": "",
+      "Official_Candidate_Id": "",
+      "Official_Status": "",
+      "Party_Abbreviation": "",
+      "Surname": "Breslin",
+      "Occurred_On_Count": "1",
+      "Party_Colour": "#66bb66",
+      "Party_Name": "Fianna Fáil",
+      "Status": "Elected (auto returned)",
+      "Synthetic_Scraper_Row": "1",
+      "Synthetic_Scraper_Stage_Row": "",
+      "Total_Votes": "0",
+      "Transfers": "0",
+      "candidateName": "Cormac Breslin",
+      "id": 5
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Number_Of_Seats",
+     "value": "3"
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/2002-05-17/carlow-kilkenny.json",
+   "source": {
+    "title": "Séamus Pattison: member of the 29th Dáil for Carlow–Kilkenny (outgoing Ceann Comhairle, returned automatically)",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/Séamus-Pattison.D.1961-10-11/",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "publisher": "ElectionsIreland.org",
+     "title": "ElectionsIreland.org: 29th Dáil - Carlow–Kilkenny (2002): Seamus Pattison 'Returned automatically', 5 seats",
+     "url": "https://electionsireland.org/result.cfm?election=2002&cons=32"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Carlow–Kilkenny (Dáil constituency)",
+     "url": "https://en.wikipedia.org/wiki/Carlow%E2%80%93Kilkenny_(D%C3%A1il_constituency)"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Ceann Comhairle (automatic return of the outgoing Ceann Comhairle)",
+     "url": "https://en.wikipedia.org/wiki/Ceann_Comhairle"
+    }
+   ],
+   "reason": "Seamus Pattison, the outgoing Ceann Comhairle, was returned automatically for Carlow–Kilkenny in 2002, but the Wikipedia count table the build lays over the imported file (data/elections/dail-wikipedia-counts/2002-05-17/carlow-kilkenny.json) leaves him out, so his automatic-return row never reached the site and the seat count excluded him; the Oireachtas lists him as a member of the 29th Dáil for Carlow–Kilkenny and ElectionsIreland shows him 'Returned automatically' in a 5-seat constituency.",
+   "category": "auto-return",
+   "operations": [
+    {
+     "op": "addCandidate",
+     "row": {
+      "Auto_Returned_Ceann_Comhairle": "1",
+      "Candidate_Id": "12",
+      "ei_candidate_id": 1,
+      "source_person_id": "",
+      "Candidate_First_Pref_Votes": "0",
+      "Constituency_Number": "",
+      "Count_Number": "1",
+      "Dail_Abbreviation": "",
+      "Firstname": "Seamus",
+      "Gender": "",
+      "Official_Candidate_Id": "",
+      "Official_Status": "",
+      "Party_Abbreviation": "",
+      "Surname": "Pattison",
+      "Occurred_On_Count": "1",
+      "Party_Colour": "#cc0000",
+      "Party_Name": "Irish Labour",
+      "Status": "Elected (auto returned)",
+      "Synthetic_Scraper_Row": "1",
+      "Synthetic_Scraper_Stage_Row": "",
+      "Total_Votes": "0",
+      "Transfers": "0",
+      "candidateName": "Seamus Pattison",
+      "id": 11
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Number_Of_Seats",
+     "value": "5"
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/2007-05-24/cavan-monaghan.json",
+   "source": {
+    "title": "Rory O'Hanlon: member of the 30th Dáil for Cavan–Monaghan (outgoing Ceann Comhairle, returned automatically)",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/Rory-O'Hanlon.D.1977-07-05/",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "publisher": "ElectionsIreland.org",
+     "title": "ElectionsIreland.org: 30th Dáil - Cavan–Monaghan (2007): Rory O'Hanlon 'Returned automatically', 5 seats",
+     "url": "https://electionsireland.org/result.cfm?election=2007&cons=38"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Cavan–Monaghan (Dáil constituency)",
+     "url": "https://en.wikipedia.org/wiki/Cavan%E2%80%93Monaghan_(D%C3%A1il_constituency)"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Ceann Comhairle (automatic return of the outgoing Ceann Comhairle)",
+     "url": "https://en.wikipedia.org/wiki/Ceann_Comhairle"
+    }
+   ],
+   "reason": "Rory O'Hanlon, the outgoing Ceann Comhairle, was returned automatically for Cavan–Monaghan in 2007, but the Wikipedia count table the build lays over the imported file (data/elections/dail-wikipedia-counts/2007-05-24/cavan-monaghan.json) leaves him out, so his automatic-return row never reached the site and the seat count excluded him; the Oireachtas lists him as a member of the 30th Dáil for Cavan–Monaghan and ElectionsIreland shows him 'Returned automatically' in a 5-seat constituency.",
+   "category": "auto-return",
+   "operations": [
+    {
+     "op": "addCandidate",
+     "row": {
+      "Auto_Returned_Ceann_Comhairle": "1",
+      "Candidate_Id": "10",
+      "ei_candidate_id": 3090,
+      "source_person_id": "",
+      "Candidate_First_Pref_Votes": "0",
+      "Constituency_Number": "",
+      "Count_Number": "1",
+      "Dail_Abbreviation": "",
+      "Firstname": "Rory",
+      "Gender": "",
+      "Official_Candidate_Id": "",
+      "Official_Status": "",
+      "Party_Abbreviation": "",
+      "Surname": "O'Hanlon",
+      "Occurred_On_Count": "1",
+      "Party_Colour": "#66bb66",
+      "Party_Name": "Fianna Fáil",
+      "Status": "Elected (auto returned)",
+      "Synthetic_Scraper_Row": "1",
+      "Synthetic_Scraper_Stage_Row": "",
+      "Total_Votes": "0",
+      "Transfers": "0",
+      "candidateName": "Rory O'Hanlon",
+      "id": 9
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Number_Of_Seats",
+     "value": "5"
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/2011-02-25/louth.json",
+   "source": {
+    "title": "Seamus Kirk: member of the 31st Dáil for Louth (outgoing Ceann Comhairle, returned automatically)",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/Seamus-Kirk.D.1982-12-14/",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "publisher": "ElectionsIreland.org",
+     "title": "ElectionsIreland.org: 31st Dáil - Louth (2011): Seamus Kirk 'Returned automatically', 5 seats",
+     "url": "https://electionsireland.org/result.cfm?election=2011&cons=167"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Louth (Dáil constituency)",
+     "url": "https://en.wikipedia.org/wiki/Louth_(D%C3%A1il_constituency)"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Ceann Comhairle (automatic return of the outgoing Ceann Comhairle)",
+     "url": "https://en.wikipedia.org/wiki/Ceann_Comhairle"
+    }
+   ],
+   "reason": "Seamus Kirk, the outgoing Ceann Comhairle, was returned automatically for Louth in 2011, but the Wikipedia count table the build lays over the imported file (data/elections/dail-wikipedia-counts/2011-02-25/louth.json) leaves him out, so his automatic-return row never reached the site and the seat count excluded him; the Oireachtas lists him as a member of the 31st Dáil for Louth and ElectionsIreland shows him 'Returned automatically' in a 5-seat constituency.",
+   "category": "auto-return",
+   "operations": [
+    {
+     "op": "addCandidate",
+     "row": {
+      "Auto_Returned_Ceann_Comhairle": "1",
+      "Candidate_Id": "17",
+      "ei_candidate_id": 3551,
+      "source_person_id": "",
+      "Candidate_First_Pref_Votes": "0",
+      "Constituency_Number": "",
+      "Count_Number": "1",
+      "Dail_Abbreviation": "",
+      "Firstname": "Seamus",
+      "Gender": "",
+      "Official_Candidate_Id": "",
+      "Official_Status": "",
+      "Party_Abbreviation": "",
+      "Surname": "Kirk",
+      "Occurred_On_Count": "1",
+      "Party_Colour": "#66bb66",
+      "Party_Name": "Fianna Fáil",
+      "Status": "Elected (auto returned)",
+      "Synthetic_Scraper_Row": "1",
+      "Synthetic_Scraper_Stage_Row": "",
+      "Total_Votes": "0",
+      "Transfers": "0",
+      "candidateName": "Seamus Kirk",
+      "id": 16
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Number_Of_Seats",
+     "value": "5"
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/2016-02-26/dun-laoghaire.json",
+   "source": {
+    "title": "Seán Barrett: member of the 32nd Dáil for Dún Laoghaire (outgoing Ceann Comhairle, returned automatically)",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/Seán-Barrett.D.1981-06-30/",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "publisher": "ElectionsIreland.org",
+     "title": "ElectionsIreland.org: 32nd Dáil - Dún Laoghaire (2016): Seán Barrett 'Returned automatically', 4 seats",
+     "url": "https://electionsireland.org/result.cfm?election=2016&cons=113"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Dún Laoghaire (Dáil constituency)",
+     "url": "https://en.wikipedia.org/wiki/D%C3%BAn_Laoghaire_(D%C3%A1il_constituency)"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Ceann Comhairle (automatic return of the outgoing Ceann Comhairle)",
+     "url": "https://en.wikipedia.org/wiki/Ceann_Comhairle"
+    }
+   ],
+   "reason": "Seán Barrett, the outgoing Ceann Comhairle, was returned automatically for Dún Laoghaire in 2016, but the Wikipedia count table the build lays over the imported file (data/elections/dail-wikipedia-counts/2016-02-26/dun-laoghaire.json) leaves him out, so his automatic-return row never reached the site and the seat count excluded him; the Oireachtas lists him as a member of the 32nd Dáil for Dún Laoghaire and ElectionsIreland shows him 'Returned automatically' in a 4-seat constituency.",
+   "category": "auto-return",
+   "operations": [
+    {
+     "op": "addCandidate",
+     "row": {
+      "Auto_Returned_Ceann_Comhairle": "1",
+      "Candidate_Id": "12",
+      "ei_candidate_id": 3160,
+      "source_person_id": "",
+      "Candidate_First_Pref_Votes": "0",
+      "Constituency_Number": "",
+      "Count_Number": "1",
+      "Dail_Abbreviation": "",
+      "Firstname": "Seán",
+      "Gender": "",
+      "Official_Candidate_Id": "",
+      "Official_Status": "",
+      "Party_Abbreviation": "",
+      "Surname": "Barrett",
+      "Occurred_On_Count": "1",
+      "Party_Colour": "#6699ff",
+      "Party_Name": "Fine Gael",
+      "Status": "Elected (auto returned)",
+      "Synthetic_Scraper_Row": "1",
+      "Synthetic_Scraper_Stage_Row": "",
+      "Total_Votes": "0",
+      "Transfers": "0",
+      "candidateName": "Seán Barrett",
+      "id": 11
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Number_Of_Seats",
+     "value": "4"
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/2020-02-08/kildare-south.json",
+   "source": {
+    "title": "Seán Ó Fearghaíl: member of the 33rd Dáil for Kildare South (outgoing Ceann Comhairle, returned automatically)",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/Seán-Ó-Fearghaíl.S.2000-06-09/",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "publisher": "ElectionsIreland.org",
+     "title": "ElectionsIreland.org: 33rd Dáil - Kildare South (2020): Seán Ó Fearghaíl 'Returned automatically', 4 seats",
+     "url": "https://electionsireland.org/result.cfm?election=2020&cons=143"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Kildare South (Dáil constituency)",
+     "url": "https://en.wikipedia.org/wiki/Kildare_South_(D%C3%A1il_constituency)"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Ceann Comhairle (automatic return of the outgoing Ceann Comhairle)",
+     "url": "https://en.wikipedia.org/wiki/Ceann_Comhairle"
+    }
+   ],
+   "reason": "Seán Ó Fearghaíl, the outgoing Ceann Comhairle, was returned automatically for Kildare South in 2020, but the Wikipedia count table the build lays over the imported file (data/elections/dail-wikipedia-counts/2020-02-08/kildare-south.json) leaves him out, so his automatic-return row never reached the site and the seat count excluded him; the Oireachtas lists him as a member of the 33rd Dáil for Kildare South and ElectionsIreland shows him 'Returned automatically' in a 4-seat constituency.",
+   "category": "auto-return",
+   "operations": [
+    {
+     "op": "addCandidate",
+     "row": {
+      "Auto_Returned_Ceann_Comhairle": "1",
+      "Candidate_Id": "12",
+      "ei_candidate_id": 3694,
+      "source_person_id": "",
+      "Candidate_First_Pref_Votes": "0",
+      "Constituency_Number": "",
+      "Count_Number": "1",
+      "Dail_Abbreviation": "",
+      "Firstname": "Seán",
+      "Gender": "",
+      "Official_Candidate_Id": "",
+      "Official_Status": "",
+      "Party_Abbreviation": "",
+      "Surname": "Ó Fearghaíl",
+      "Occurred_On_Count": "1",
+      "Party_Colour": "#66bb66",
+      "Party_Name": "Fianna Fáil",
+      "Status": "Elected (auto returned)",
+      "Synthetic_Scraper_Row": "1",
+      "Synthetic_Scraper_Stage_Row": "",
+      "Total_Votes": "0",
+      "Transfers": "0",
+      "candidateName": "Seán Ó Fearghaíl",
+      "id": 11
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Number_Of_Seats",
+     "value": "4"
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/2024-11-29/kildare-south.json",
+   "source": {
+    "title": "Seán Ó Fearghaíl: member of the 34th Dáil for Kildare South (outgoing Ceann Comhairle, returned automatically)",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/Seán-Ó-Fearghaíl.S.2000-06-09/",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "publisher": "ElectionsIreland.org",
+     "title": "ElectionsIreland.org: 34th Dáil - Kildare South (2024): Seán Ó Fearghaíl 'Returned automatically', 4 seats",
+     "url": "https://electionsireland.org/result.cfm?election=2024&cons=143"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Kildare South (Dáil constituency)",
+     "url": "https://en.wikipedia.org/wiki/Kildare_South_(D%C3%A1il_constituency)"
+    },
+    {
+     "publisher": "Wikipedia",
+     "title": "Ceann Comhairle (automatic return of the outgoing Ceann Comhairle)",
+     "url": "https://en.wikipedia.org/wiki/Ceann_Comhairle"
+    }
+   ],
+   "reason": "Seán Ó Fearghaíl, the outgoing Ceann Comhairle, was returned automatically for Kildare South in 2024, but the Wikipedia count table the build lays over the imported file (data/elections/dail-wikipedia-counts/2024-11-29/kildare-south.json) leaves him out, so his automatic-return row never reached the site and the seat count excluded him; the Oireachtas lists him as a member of the 34th Dáil for Kildare South and ElectionsIreland shows him 'Returned automatically' in a 4-seat constituency. With him missing, the site filled the fourth seat by marking Fiona O'Loughlin (Fianna Fáil) 'Deemed elected', although she was not elected (9,482 on the last count) and has no 34th Dáil membership.",
+   "category": "auto-return",
+   "operations": [
+    {
+     "op": "addCandidate",
+     "row": {
+      "Auto_Returned_Ceann_Comhairle": "1",
+      "Candidate_Id": "16",
+      "ei_candidate_id": 3694,
+      "source_person_id": "",
+      "Candidate_First_Pref_Votes": "0",
+      "Constituency_Number": "",
+      "Count_Number": "1",
+      "Dail_Abbreviation": "",
+      "Firstname": "Seán",
+      "Gender": "",
+      "Official_Candidate_Id": "",
+      "Official_Status": "",
+      "Party_Abbreviation": "",
+      "Surname": "Ó Fearghaíl",
+      "Occurred_On_Count": "1",
+      "Party_Colour": "#66bb66",
+      "Party_Name": "Fianna Fáil",
+      "Status": "Elected (auto returned)",
+      "Synthetic_Scraper_Row": "1",
+      "Synthetic_Scraper_Stage_Row": "",
+      "Total_Votes": "0",
+      "Transfers": "0",
+      "candidateName": "Seán Ó Fearghaíl",
+      "id": 15
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Number_Of_Seats",
+     "value": "4"
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/ballyclare.json",
+   "source": {
+    "title": "Antrim and Newtownabbey District Council",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgan.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [],
+   "reason": "1 candidate in Ballyclare 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as David Arthurs (TUV, 750 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "1019292244",
+     "set": {
+      "candidateName": "David Arthurs",
+      "Firstname": "David",
+      "Surname": "Arthurs"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/ballymena.json",
+   "source": {
+    "title": "Mid and East Antrim District Council Elections",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgmea.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [],
+   "reason": "1 candidate in Ballymena 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Donna Anderson (TUV, 738 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "1699588551",
+     "set": {
+      "candidateName": "Donna Anderson",
+      "Firstname": "Donna",
+      "Surname": "Anderson"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/bangor-central.json",
+   "source": {
+    "title": "North Down and Ards District Council Elections",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgnda.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [],
+   "reason": "1 candidate in Bangor Central 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Noelle Robinson (Green, 496 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "3319019087",
+     "set": {
+      "candidateName": "Noelle Robinson",
+      "Firstname": "Noelle",
+      "Surname": "Robinson"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/bangor-east-and-donaghadee.json",
+   "source": {
+    "title": "North Down and Ards District Council Elections",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgnda.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [],
+   "reason": "1 candidate in Bangor East and Donaghadee 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Alan Chambers (Independent, 1,311 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "1278033993",
+     "set": {
+      "candidateName": "Alan Chambers",
+      "Firstname": "Alan",
+      "Surname": "Chambers"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/bannside.json",
+   "source": {
+    "title": "Mid and East Antrim District Council Elections",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgmea.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [],
+   "reason": "1 candidate in Bannside 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Billy Henry (DUP, 601 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "2442045875",
+     "set": {
+      "candidateName": "Billy Henry",
+      "Firstname": "Billy",
+      "Surname": "Henry"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/botanic.json",
+   "source": {
+    "title": "Belfast City Council Elections",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgbcc.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [],
+   "reason": "3 candidates in Botanic 2014 carried a scraped placeholder for a name; ARK's first count identifies them by party and first preferences as Ruth Patterson (DUP, 1,268 first preferences); Declan Boyle (SDLP, 971 first preferences); Graham Craig (UUP, 766 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "3908149615",
+     "set": {
+      "candidateName": "Ruth Patterson",
+      "Firstname": "Ruth",
+      "Surname": "Patterson"
+     }
+    },
+    {
+     "op": "candidateById",
+     "candidateId": "761967322",
+     "set": {
+      "candidateName": "Declan Boyle",
+      "Firstname": "Declan",
+      "Surname": "Boyle"
+     }
+    },
+    {
+     "op": "candidateById",
+     "candidateId": "1095705866",
+     "set": {
+      "candidateName": "Graham Craig",
+      "Firstname": "Graham",
+      "Surname": "Craig"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/braid.json",
+   "source": {
+    "title": "Mid and East Antrim District Council Elections",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgmea.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [],
+   "reason": "1 candidate in Braid 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Paul Maguire (Sinn Féin, 722 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "1578255703",
+     "set": {
+      "candidateName": "Paul Maguire",
+      "Firstname": "Paul",
+      "Surname": "Maguire"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/castle.json",
+   "source": {
+    "title": "Belfast City Council Elections",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgbcc.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [],
+   "reason": "1 candidate in Castle 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Patrick Convery (SDLP, 1,197 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "1122855962",
+     "set": {
+      "candidateName": "Patrick Convery",
+      "Firstname": "Patrick",
+      "Surname": "Convery"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/castlereagh-south.json",
+   "source": {
+    "title": "Lisburn and Castlereagh District Council",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlglc.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [],
+   "reason": "2 candidates in Castlereagh South 2014 carried a scraped placeholder for a name; ARK's first count identifies them by party and first preferences as Geraldine Rice (Alliance, 1,221 first preferences); Vasundhara Kamble (Alliance, 669 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "1792821867",
+     "set": {
+      "candidateName": "Geraldine Rice",
+      "Firstname": "Geraldine",
+      "Surname": "Rice"
+     }
+    },
+    {
+     "op": "candidateById",
+     "candidateId": "3713068486",
+     "set": {
+      "candidateName": "Vasundhara Kamble",
+      "Firstname": "Vasundhara",
+      "Surname": "Kamble"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/causeway.json",
+   "source": {
+    "title": "Causeway Coast and Glens District Council",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgccg.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [],
+   "reason": "1 candidate in Causeway 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Sharon McKillop (TUV, 616 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "2515393861",
+     "set": {
+      "candidateName": "Sharon McKillop",
+      "Firstname": "Sharon",
+      "Surname": "McKillop"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/coleraine.json",
+   "source": {
+    "title": "Causeway Coast and Glens District Council",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgccg.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [],
+   "reason": "1 candidate in Coleraine 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as David Harding (UUP, 539 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "4167042036",
+     "set": {
+      "candidateName": "David Harding",
+      "Firstname": "David",
+      "Surname": "Harding"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/cookstown.json",
+   "source": {
+    "title": "Mid Ulster District Council Elections",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgmu.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [],
+   "reason": "1 candidate in Cookstown 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Tony Quinn (SDLP, 803 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "375919585",
+     "set": {
+      "candidateName": "Tony Quinn",
+      "Firstname": "Tony",
+      "Surname": "Quinn"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/court.json",
+   "source": {
+    "title": "Belfast City Council Elections",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgbcc.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [],
+   "reason": "1 candidate in Court 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Jolene Bunting (TUV, 839 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "2915401292",
+     "set": {
+      "candidateName": "Jolene Bunting",
+      "Firstname": "Jolene",
+      "Surname": "Bunting"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/craigavon.json",
+   "source": {
+    "title": "Armagh, Banbridge and Craigavon District Council",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgabc.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [],
+   "reason": "1 candidate in Craigavon 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Fergal Lennon (Sinn Féin, 910 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "1186157040",
+     "set": {
+      "candidateName": "Fergal Lennon",
+      "Firstname": "Fergal",
+      "Surname": "Lennon"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/downshire-west.json",
+   "source": {
+    "title": "Lisburn and Castlereagh District Council",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlglc.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [],
+   "reason": "1 candidate in Downshire West 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as John Palmer (DUP, 768 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "1676651428",
+     "set": {
+      "candidateName": "John Palmer",
+      "Firstname": "John",
+      "Surname": "Palmer"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/dunsilly.json",
+   "source": {
+    "title": "Antrim and Newtownabbey District Council",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgan.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [],
+   "reason": "1 candidate in Dunsilly 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Brian Duffin (SDLP, 677 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "3500591708",
+     "set": {
+      "candidateName": "Brian Duffin",
+      "Firstname": "Brian",
+      "Surname": "Duffin"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/erne-north.json",
+   "source": {
+    "title": "Fermanagh and Omagh Council",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgfo.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [],
+   "reason": "1 candidate in Erne North 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Raymond Farrell (UUP, 1,108 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "1248561268",
+     "set": {
+      "candidateName": "Raymond Farrell",
+      "Firstname": "Raymond",
+      "Surname": "Farrell"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/faughan.json",
+   "source": {
+    "title": "Derry and Strabane Council",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgds.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [],
+   "reason": "1 candidate in Faughan 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Maurice Devenney (DUP, 936 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "248745875",
+     "set": {
+      "candidateName": "Maurice Devenney",
+      "Firstname": "Maurice",
+      "Surname": "Devenney"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/holywood-and-clandeboye.json",
+   "source": {
+    "title": "North Down and Ards District Council Elections",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgnda.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [],
+   "reason": "1 candidate in Holywood and Clandeboye 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Daniel Allen (UUP, 619 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "3726074818",
+     "set": {
+      "candidateName": "Daniel Allen",
+      "Firstname": "Daniel",
+      "Surname": "Allen"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/lagan-river.json",
+   "source": {
+    "title": "Armagh, Banbridge and Craigavon District Council",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgabc.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [],
+   "reason": "1 candidate in Lagan River 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Carol Black (UUP, 845 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "438763416",
+     "set": {
+      "candidateName": "Carol Black",
+      "Firstname": "Carol",
+      "Surname": "Black"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/limavady.json",
+   "source": {
+    "title": "Causeway Coast and Glens District Council",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgccg.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [],
+   "reason": "1 candidate in Limavady 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Aaron Callan (UUP, 452 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "2313942859",
+     "set": {
+      "candidateName": "Aaron Callan",
+      "Firstname": "Aaron",
+      "Surname": "Callan"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/lisburn-north.json",
+   "source": {
+    "title": "Lisburn and Castlereagh District Council",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlglc.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [],
+   "reason": "2 candidates in Lisburn North 2014 carried a scraped placeholder for a name; ARK's first count identifies them by party and first preferences as Johnny McCarthy (NI21, 329 first preferences); Jenny Palmer (DUP, 534 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "3886370180",
+     "set": {
+      "candidateName": "Johnny McCarthy",
+      "Firstname": "Johnny",
+      "Surname": "McCarthy"
+     }
+    },
+    {
+     "op": "candidateById",
+     "candidateId": "4059545342",
+     "set": {
+      "candidateName": "Jenny Palmer",
+      "Firstname": "Jenny",
+      "Surname": "Palmer"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/lisnasharragh.json",
+   "source": {
+    "title": "Belfast City Council Elections",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgbcc.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [],
+   "reason": "1 candidate in Lisnasharragh 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Kate Mullan (SDLP, 878 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "3654209875",
+     "set": {
+      "candidateName": "Kate Mullan",
+      "Firstname": "Kate",
+      "Surname": "Mullan"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/macedon.json",
+   "source": {
+    "title": "Antrim and Newtownabbey District Council",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgan.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [],
+   "reason": "1 candidate in Macedon 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as John Scott (UUP, 538 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "3179902919",
+     "set": {
+      "candidateName": "John Scott",
+      "Firstname": "John",
+      "Surname": "Scott"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/mid-tyrone.json",
+   "source": {
+    "title": "Fermanagh and Omagh Council",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgfo.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [],
+   "reason": "1 candidate in Mid Tyrone 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Rosemarie Shields (SDLP, 539 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "3689006369",
+     "set": {
+      "candidateName": "Rosemarie Shields",
+      "Firstname": "Rosemarie",
+      "Surname": "Shields"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/newry.json",
+   "source": {
+    "title": "Newry, Mourne and Down District Council Elections",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgnmd.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [],
+   "reason": "1 candidate in Newry 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Kevin McAteer (SDLP, 629 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "3902015938",
+     "set": {
+      "candidateName": "Kevin McAteer",
+      "Firstname": "Kevin",
+      "Surname": "McAteer"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/omagh.json",
+   "source": {
+    "title": "Fermanagh and Omagh Council",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgfo.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [],
+   "reason": "3 candidates in Omagh 2014 carried a scraped placeholder for a name; ARK's first count identifies them by party and first preferences as Josephine Deehan (SDLP, 946 first preferences); Sorcha McAnespy (Sinn Féin, 932 first preferences); Joanne Donnelly (SDLP, 435 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "4206013394",
+     "set": {
+      "candidateName": "Josephine Deehan",
+      "Firstname": "Josephine",
+      "Surname": "Deehan"
+     }
+    },
+    {
+     "op": "candidateById",
+     "candidateId": "2005532986",
+     "set": {
+      "candidateName": "Sorcha McAnespy",
+      "Firstname": "Sorcha",
+      "Surname": "McAnespy"
+     }
+    },
+    {
+     "op": "candidateById",
+     "candidateId": "1118443049",
+     "set": {
+      "candidateName": "Joanne Donnelly",
+      "Firstname": "Joanne",
+      "Surname": "Donnelly"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/portadown.json",
+   "source": {
+    "title": "Armagh, Banbridge and Craigavon District Council",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgabc.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [],
+   "reason": "1 candidate in Portadown 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as David Jones (UKIP, 818 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "3809719159",
+     "set": {
+      "candidateName": "David Jones",
+      "Firstname": "David",
+      "Surname": "Jones"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/sperrin.json",
+   "source": {
+    "title": "Derry and Strabane Council",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgds.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [],
+   "reason": "1 candidate in Sperrin 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Patsy Kelly (SDLP, 816 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "1407590701",
+     "set": {
+      "candidateName": "Patsy Kelly",
+      "Firstname": "Patsy",
+      "Surname": "Kelly"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/the-moor.json",
+   "source": {
+    "title": "Derry and Strabane Council",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgds.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [],
+   "reason": "1 candidate in The Moor 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Seán Carr (SDLP, 841 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "2016912945",
+     "set": {
+      "candidateName": "Seán Carr",
+      "Firstname": "Seán",
+      "Surname": "Carr"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2014-05-22/the-mournes.json",
+   "source": {
+    "title": "Newry, Mourne and Down District Council Elections",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgnmd.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [],
+   "reason": "1 candidate in The Mournes 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Henry Reilly (UKIP, 1,964 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "4241803821",
+     "set": {
+      "candidateName": "Henry Reilly",
+      "Firstname": "Henry",
+      "Surname": "Reilly"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2019-05-02/bangor-central.json",
+   "source": {
+    "title": "North Down and Ards District Council Elections",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgnda.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "title": "Democracy Club candidates: local.ards-and-north-down.bangor-central.2019-05-02",
+     "publisher": "Democracy Club (CC BY 4.0)",
+     "url": "https://candidates.democracyclub.org.uk/elections/local.ards-and-north-down.bangor-central.2019-05-02/",
+     "accessed": "2026-10-23",
+     "note": "Data from Democracy Club (https://democracyclub.org.uk), CC BY 4.0; local-election votes_cast there are final-stage totals, so first preferences come from ARK."
+    }
+   ],
+   "reason": "1 candidate in Bangor Central 2019 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Wesley Irvine (DUP, 878 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "3257103599",
+     "set": {
+      "candidateName": "Wesley Irvine",
+      "Firstname": "Wesley",
+      "Surname": "Irvine"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2019-05-02/bangor-east-and-donaghadee.json",
+   "source": {
+    "title": "North Down and Ards District Council Elections",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgnda.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "title": "Democracy Club candidates: local.ards-and-north-down.bangor-east-and-donaghadee.2019-05-02",
+     "publisher": "Democracy Club (CC BY 4.0)",
+     "url": "https://candidates.democracyclub.org.uk/elections/local.ards-and-north-down.bangor-east-and-donaghadee.2019-05-02/",
+     "accessed": "2026-10-23",
+     "note": "Data from Democracy Club (https://democracyclub.org.uk), CC BY 4.0; local-election votes_cast there are final-stage totals, so first preferences come from ARK."
+    }
+   ],
+   "reason": "1 candidate in Bangor East and Donaghadee 2019 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Bill Keery (DUP, 764 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "2393825577",
+     "set": {
+      "candidateName": "Bill Keery",
+      "Firstname": "Bill",
+      "Surname": "Keery"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2019-05-02/bann.json",
+   "source": {
+    "title": "Causeway Coast and Glens District Council",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgccg.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "title": "Democracy Club candidates: local.causeway-coast-and-glens.bann.2019-05-02",
+     "publisher": "Democracy Club (CC BY 4.0)",
+     "url": "https://candidates.democracyclub.org.uk/elections/local.causeway-coast-and-glens.bann.2019-05-02/",
+     "accessed": "2026-10-23",
+     "note": "Data from Democracy Club (https://democracyclub.org.uk), CC BY 4.0; local-election votes_cast there are final-stage totals, so first preferences come from ARK."
+    }
+   ],
+   "reason": "1 candidate in Bann 2019 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Adrian McQuillan (DUP, 1,047 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "1396637813",
+     "set": {
+      "candidateName": "Adrian McQuillan",
+      "Firstname": "Adrian",
+      "Surname": "McQuillan"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2019-05-02/carrick-castle.json",
+   "source": {
+    "title": "Mid and East Antrim District Council Elections",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgmea.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "title": "Democracy Club candidates: local.mid-and-east-antrim.carrick-castle.2019-05-02",
+     "publisher": "Democracy Club (CC BY 4.0)",
+     "url": "https://candidates.democracyclub.org.uk/elections/local.mid-and-east-antrim.carrick-castle.2019-05-02/",
+     "accessed": "2026-10-23",
+     "note": "Data from Democracy Club (https://democracyclub.org.uk), CC BY 4.0; local-election votes_cast there are final-stage totals, so first preferences come from ARK."
+    }
+   ],
+   "reason": "1 candidate in Carrick Castle 2019 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as John McDermott (UUP, 445 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "3215679580",
+     "set": {
+      "candidateName": "John McDermott",
+      "Firstname": "John",
+      "Surname": "McDermott"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2019-05-02/castlereagh-south.json",
+   "source": {
+    "title": "Lisburn and Castlereagh District Council",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlglc.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "title": "Democracy Club candidates: local.lisburn-and-castlereagh.castlereagh-south.2019-05-02",
+     "publisher": "Democracy Club (CC BY 4.0)",
+     "url": "https://candidates.democracyclub.org.uk/elections/local.lisburn-and-castlereagh.castlereagh-south.2019-05-02/",
+     "accessed": "2026-10-23",
+     "note": "Data from Democracy Club (https://democracyclub.org.uk), CC BY 4.0; local-election votes_cast there are final-stage totals, so first preferences come from ARK."
+    }
+   ],
+   "reason": "2 candidates in Castlereagh South 2019 carried a scraped placeholder for a name; ARK's first count identifies them by party and first preferences as Nathan Anderson (DUP, 1,503 first preferences); Simon Lee (Green, 648 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "1669932576",
+     "set": {
+      "candidateName": "Nathan Anderson",
+      "Firstname": "Nathan",
+      "Surname": "Anderson"
+     }
+    },
+    {
+     "op": "candidateById",
+     "candidateId": "1736325255",
+     "set": {
+      "candidateName": "Simon Lee",
+      "Firstname": "Simon",
+      "Surname": "Lee"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2019-05-02/causeway.json",
+   "source": {
+    "title": "Causeway Coast and Glens District Council",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgccg.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "title": "Democracy Club candidates: local.causeway-coast-and-glens.causeway.2019-05-02",
+     "publisher": "Democracy Club (CC BY 4.0)",
+     "url": "https://candidates.democracyclub.org.uk/elections/local.causeway-coast-and-glens.causeway.2019-05-02/",
+     "accessed": "2026-10-23",
+     "note": "Data from Democracy Club (https://democracyclub.org.uk), CC BY 4.0; local-election votes_cast there are final-stage totals, so first preferences come from ARK."
+    }
+   ],
+   "reason": "1 candidate in Causeway 2019 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Angela Mulholland (SDLP, 496 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "45983032",
+     "set": {
+      "candidateName": "Angela Mulholland",
+      "Firstname": "Angela",
+      "Surname": "Mulholland"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2019-05-02/coleraine.json",
+   "source": {
+    "title": "Causeway Coast and Glens District Council",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgccg.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "title": "Democracy Club candidates: local.causeway-coast-and-glens.coleraine.2019-05-02",
+     "publisher": "Democracy Club (CC BY 4.0)",
+     "url": "https://candidates.democracyclub.org.uk/elections/local.causeway-coast-and-glens.coleraine.2019-05-02/",
+     "accessed": "2026-10-23",
+     "note": "Data from Democracy Club (https://democracyclub.org.uk), CC BY 4.0; local-election votes_cast there are final-stage totals, so first preferences come from ARK."
+    }
+   ],
+   "reason": "2 candidates in Coleraine 2019 carried a scraped placeholder for a name; ARK's first count identifies them by party and first preferences as Stephanie Quigley (SDLP, 983 first preferences); William McCandless (UUP, 633 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "3152110691",
+     "set": {
+      "candidateName": "Stephanie Quigley",
+      "Firstname": "Stephanie",
+      "Surname": "Quigley"
+     }
+    },
+    {
+     "op": "candidateById",
+     "candidateId": "647289425",
+     "set": {
+      "candidateName": "William McCandless",
+      "Firstname": "William",
+      "Surname": "McCandless"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2019-05-02/comber.json",
+   "source": {
+    "title": "North Down and Ards District Council Elections",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgnda.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "title": "Democracy Club candidates: local.ards-and-north-down.comber.2019-05-02",
+     "publisher": "Democracy Club (CC BY 4.0)",
+     "url": "https://candidates.democracyclub.org.uk/elections/local.ards-and-north-down.comber.2019-05-02/",
+     "accessed": "2026-10-23",
+     "note": "Data from Democracy Club (https://democracyclub.org.uk), CC BY 4.0; local-election votes_cast there are final-stage totals, so first preferences come from ARK."
+    }
+   ],
+   "reason": "1 candidate in Comber 2019 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Stephen Cooper (TUV, 695 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "1805553530",
+     "set": {
+      "candidateName": "Stephen Cooper",
+      "Firstname": "Stephen",
+      "Surname": "Cooper"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2019-05-02/derg.json",
+   "source": {
+    "title": "Derry and Strabane Council",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgds.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "title": "Democracy Club candidates: local.derry-city-and-strabane.derg.2019-05-02",
+     "publisher": "Democracy Club (CC BY 4.0)",
+     "url": "https://candidates.democracyclub.org.uk/elections/local.derry-city-and-strabane.derg.2019-05-02/",
+     "accessed": "2026-10-23",
+     "note": "Data from Democracy Club (https://democracyclub.org.uk), CC BY 4.0; local-election votes_cast there are final-stage totals, so first preferences come from ARK."
+    }
+   ],
+   "reason": "1 candidate in Derg 2019 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Derek Hussey (UUP, 1,267 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "2211206138",
+     "set": {
+      "candidateName": "Derek Hussey",
+      "Firstname": "Derek",
+      "Surname": "Hussey"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2019-05-02/downpatrick.json",
+   "source": {
+    "title": "Newry, Mourne and Down District Council Elections",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgnmd.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "title": "Democracy Club candidates: local.newry-mourne-and-down.downpatrick.2019-05-02",
+     "publisher": "Democracy Club (CC BY 4.0)",
+     "url": "https://candidates.democracyclub.org.uk/elections/local.newry-mourne-and-down.downpatrick.2019-05-02/",
+     "accessed": "2026-10-23",
+     "note": "Data from Democracy Club (https://democracyclub.org.uk), CC BY 4.0; local-election votes_cast there are final-stage totals, so first preferences come from ARK."
+    }
+   ],
+   "reason": "1 candidate in Downpatrick 2019 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Cadogan Enright (Independent, 1,052 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "210432448",
+     "set": {
+      "candidateName": "Cadogan Enright",
+      "Firstname": "Cadogan",
+      "Surname": "Enright"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2019-05-02/dungannon.json",
+   "source": {
+    "title": "Mid Ulster District Council Elections",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgmu.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "title": "Democracy Club candidates: local.mid-ulster.dungannon.2019-05-02",
+     "publisher": "Democracy Club (CC BY 4.0)",
+     "url": "https://candidates.democracyclub.org.uk/elections/local.mid-ulster.dungannon.2019-05-02/",
+     "accessed": "2026-10-23",
+     "note": "Data from Democracy Club (https://democracyclub.org.uk), CC BY 4.0; local-election votes_cast there are final-stage totals, so first preferences come from ARK."
+    }
+   ],
+   "reason": "1 candidate in Dungannon 2019 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Denise Mullen (SDLP, 710 first preferences); she also took the last seat, 218.68 ahead of Deirdre Varsani (SF), but was marked \"Not Elected\", leaving five of six seats filled.",
+   "category": "winners",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "1162716191",
+     "set": {
+      "candidateName": "Denise Mullen",
+      "Firstname": "Denise",
+      "Surname": "Mullen",
+      "Status": "Elected"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2019-05-02/dunsilly.json",
+   "source": {
+    "title": "Antrim and Newtownabbey District Council",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgan.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "title": "Democracy Club candidates: local.antrim-and-newtownabbey.dunsilly.2019-05-02",
+     "publisher": "Democracy Club (CC BY 4.0)",
+     "url": "https://candidates.democracyclub.org.uk/elections/local.antrim-and-newtownabbey.dunsilly.2019-05-02/",
+     "accessed": "2026-10-23",
+     "note": "Data from Democracy Club (https://democracyclub.org.uk), CC BY 4.0; local-election votes_cast there are final-stage totals, so first preferences come from ARK."
+    }
+   ],
+   "reason": "1 candidate in Dunsilly 2019 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Glenn Finlay (Alliance, 989 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "1887547068",
+     "set": {
+      "candidateName": "Glenn Finlay",
+      "Firstname": "Glenn",
+      "Surname": "Finlay"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2019-05-02/faughan.json",
+   "source": {
+    "title": "Derry and Strabane Council",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgds.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "title": "Democracy Club candidates: local.derry-city-and-strabane.faughan.2019-05-02",
+     "publisher": "Democracy Club (CC BY 4.0)",
+     "url": "https://candidates.democracyclub.org.uk/elections/local.derry-city-and-strabane.faughan.2019-05-02/",
+     "accessed": "2026-10-23",
+     "note": "Data from Democracy Club (https://democracyclub.org.uk), CC BY 4.0; local-election votes_cast there are final-stage totals, so first preferences come from ARK."
+    }
+   ],
+   "reason": "3 candidates in Faughan 2019 carried a scraped placeholder for a name; ARK's first count identifies them by party and first preferences as Graham Warke (DUP, 1,050 first preferences); Ryan McCready (DUP, 940 first preferences); Jim McKeever (SDLP, 565 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "2670978434",
+     "set": {
+      "candidateName": "Graham Warke",
+      "Firstname": "Graham",
+      "Surname": "Warke"
+     }
+    },
+    {
+     "op": "candidateById",
+     "candidateId": "2814877304",
+     "set": {
+      "candidateName": "Ryan McCready",
+      "Firstname": "Ryan",
+      "Surname": "McCready"
+     }
+    },
+    {
+     "op": "candidateById",
+     "candidateId": "3502447071",
+     "set": {
+      "candidateName": "Jim McKeever",
+      "Firstname": "Jim",
+      "Surname": "McKeever"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2019-05-02/holywood-and-clandeboye.json",
+   "source": {
+    "title": "North Down and Ards District Council Elections",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgnda.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "title": "Democracy Club candidates: local.ards-and-north-down.holywood-and-clandeboye.2019-05-02",
+     "publisher": "Democracy Club (CC BY 4.0)",
+     "url": "https://candidates.democracyclub.org.uk/elections/local.ards-and-north-down.holywood-and-clandeboye.2019-05-02/",
+     "accessed": "2026-10-23",
+     "note": "Data from Democracy Club (https://democracyclub.org.uk), CC BY 4.0; local-election votes_cast there are final-stage totals, so first preferences come from ARK."
+    }
+   ],
+   "reason": "1 candidate in Holywood and Clandeboye 2019 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Carl McClean (UUP, 507 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "2097177719",
+     "set": {
+      "candidateName": "Carl McClean",
+      "Firstname": "Carl",
+      "Surname": "McClean"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2019-05-02/limavady.json",
+   "source": {
+    "title": "Causeway Coast and Glens District Council",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgccg.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "title": "Democracy Club candidates: local.causeway-coast-and-glens.limavady.2019-05-02",
+     "publisher": "Democracy Club (CC BY 4.0)",
+     "url": "https://candidates.democracyclub.org.uk/elections/local.causeway-coast-and-glens.limavady.2019-05-02/",
+     "accessed": "2026-10-23",
+     "note": "Data from Democracy Club (https://democracyclub.org.uk), CC BY 4.0; local-election votes_cast there are final-stage totals, so first preferences come from ARK."
+    }
+   ],
+   "reason": "1 candidate in Limavady 2019 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as James McCorkell (DUP, 654 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "2865165391",
+     "set": {
+      "candidateName": "James McCorkell",
+      "Firstname": "James",
+      "Surname": "McCorkell"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2019-05-02/oldpark.json",
+   "source": {
+    "title": "Belfast City Council Elections",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgbcc.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "title": "Democracy Club candidates: local.belfast.oldpark.2019-05-02",
+     "publisher": "Democracy Club (CC BY 4.0)",
+     "url": "https://candidates.democracyclub.org.uk/elections/local.belfast.oldpark.2019-05-02/",
+     "accessed": "2026-10-23",
+     "note": "Data from Democracy Club (https://democracyclub.org.uk), CC BY 4.0; local-election votes_cast there are final-stage totals, so first preferences come from ARK."
+    }
+   ],
+   "reason": "1 candidate in Oldpark 2019 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Paul McCusker (SDLP, 2,856 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "4058284259",
+     "set": {
+      "candidateName": "Paul McCusker",
+      "Firstname": "Paul",
+      "Surname": "McCusker"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2019-05-02/ormiston.json",
+   "source": {
+    "title": "Belfast City Council Elections",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgbcc.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "title": "Democracy Club candidates: local.belfast.ormiston.2019-05-02",
+     "publisher": "Democracy Club (CC BY 4.0)",
+     "url": "https://candidates.democracyclub.org.uk/elections/local.belfast.ormiston.2019-05-02/",
+     "accessed": "2026-10-23",
+     "note": "Data from Democracy Club (https://democracyclub.org.uk), CC BY 4.0; local-election votes_cast there are final-stage totals, so first preferences come from ARK."
+    }
+   ],
+   "reason": "1 candidate in Ormiston 2019 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Jim Rodgers (UUP, 1,416 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "1210166142",
+     "set": {
+      "candidateName": "Jim Rodgers",
+      "Firstname": "Jim",
+      "Surname": "Rodgers"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2019-05-02/portadown.json",
+   "source": {
+    "title": "Armagh, Banbridge and Craigavon District Council",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgabc.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "title": "Democracy Club candidates: local.armagh-city-banbridge-and-craigavon.portadown.2019-05-02",
+     "publisher": "Democracy Club (CC BY 4.0)",
+     "url": "https://candidates.democracyclub.org.uk/elections/local.armagh-city-banbridge-and-craigavon.portadown.2019-05-02/",
+     "accessed": "2026-10-23",
+     "note": "Data from Democracy Club (https://democracyclub.org.uk), CC BY 4.0; local-election votes_cast there are final-stage totals, so first preferences come from ARK."
+    }
+   ],
+   "reason": "1 candidate in Portadown 2019 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Darryn Causby (DUP, 2,077 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "1215270263",
+     "set": {
+      "candidateName": "Darryn Causby",
+      "Firstname": "Darryn",
+      "Surname": "Causby"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2019-05-02/rowallane.json",
+   "source": {
+    "title": "Newry, Mourne and Down District Council Elections",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgnmd.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "title": "Democracy Club candidates: local.newry-mourne-and-down.rowallane.2019-05-02",
+     "publisher": "Democracy Club (CC BY 4.0)",
+     "url": "https://candidates.democracyclub.org.uk/elections/local.newry-mourne-and-down.rowallane.2019-05-02/",
+     "accessed": "2026-10-23",
+     "note": "Data from Democracy Club (https://democracyclub.org.uk), CC BY 4.0; local-election votes_cast there are final-stage totals, so first preferences come from ARK."
+    }
+   ],
+   "reason": "1 candidate in Rowallane 2019 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as William Walker (DUP, 985 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "2037638240",
+     "set": {
+      "candidateName": "William Walker",
+      "Firstname": "William",
+      "Surname": "Walker"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2019-05-02/slieve-croob.json",
+   "source": {
+    "title": "Newry, Mourne and Down District Council Elections",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgnmd.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "title": "Democracy Club candidates: local.newry-mourne-and-down.slieve-croob.2019-05-02",
+     "publisher": "Democracy Club (CC BY 4.0)",
+     "url": "https://candidates.democracyclub.org.uk/elections/local.newry-mourne-and-down.slieve-croob.2019-05-02/",
+     "accessed": "2026-10-23",
+     "note": "Data from Democracy Club (https://democracyclub.org.uk), CC BY 4.0; local-election votes_cast there are final-stage totals, so first preferences come from ARK."
+    }
+   ],
+   "reason": "1 candidate in Slieve Croob 2019 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Alan Lewis (UUP, 1,303 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "3238821678",
+     "set": {
+      "candidateName": "Alan Lewis",
+      "Firstname": "Alan",
+      "Surname": "Lewis"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2019-05-02/the-mournes.json",
+   "source": {
+    "title": "Newry, Mourne and Down District Council Elections",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgnmd.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "title": "Democracy Club candidates: local.newry-mourne-and-down.the-mournes.2019-05-02",
+     "publisher": "Democracy Club (CC BY 4.0)",
+     "url": "https://candidates.democracyclub.org.uk/elections/local.newry-mourne-and-down.the-mournes.2019-05-02/",
+     "accessed": "2026-10-23",
+     "note": "Data from Democracy Club (https://democracyclub.org.uk), CC BY 4.0; local-election votes_cast there are final-stage totals, so first preferences come from ARK."
+    }
+   ],
+   "reason": "3 candidates in The Mournes 2019 carried a scraped placeholder for a name; ARK's first count identifies them by party and first preferences as Glyn Hanna (DUP, 1,944 first preferences); Harold McKee (UUP, 1,455 first preferences); Henry Reilly (Independent, 1,447 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "2878883825",
+     "set": {
+      "candidateName": "Glyn Hanna",
+      "Firstname": "Glyn",
+      "Surname": "Hanna"
+     }
+    },
+    {
+     "op": "candidateById",
+     "candidateId": "3970853783",
+     "set": {
+      "candidateName": "Harold McKee",
+      "Firstname": "Harold",
+      "Surname": "McKee"
+     }
+    },
+    {
+     "op": "candidateById",
+     "candidateId": "4241803821",
+     "set": {
+      "candidateName": "Henry Reilly",
+      "Firstname": "Henry",
+      "Surname": "Reilly"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2019-05-02/titanic.json",
+   "source": {
+    "title": "Belfast City Council Elections",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgbcc.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "title": "Democracy Club candidates: local.belfast.titanic.2019-05-02",
+     "publisher": "Democracy Club (CC BY 4.0)",
+     "url": "https://candidates.democracyclub.org.uk/elections/local.belfast.titanic.2019-05-02/",
+     "accessed": "2026-10-23",
+     "note": "Data from Democracy Club (https://democracyclub.org.uk), CC BY 4.0; local-election votes_cast there are final-stage totals, so first preferences come from ARK."
+    }
+   ],
+   "reason": "2 candidates in Titanic 2019 carried a scraped placeholder for a name; ARK's first count identifies them by party and first preferences as John Kyle (PUP, 1,027 first preferences); Carole Howard (Alliance, 1,055 first preferences).",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidateById",
+     "candidateId": "562615319",
+     "set": {
+      "candidateName": "John Kyle",
+      "Firstname": "John",
+      "Surname": "Kyle"
+     }
+    },
+    {
+     "op": "candidateById",
+     "candidateId": "3074483928",
+     "set": {
+      "candidateName": "Carole Howard",
+      "Firstname": "Carole",
+      "Surname": "Howard"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/local-government/2019-05-02/botanic.json",
+   "source": {
+    "title": "Belfast City Council Elections",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgbcc.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "title": "Democracy Club candidates: local.belfast.botanic.2019-05-02",
+     "publisher": "Democracy Club (CC BY 4.0)",
+     "url": "https://candidates.democracyclub.org.uk/elections/local.belfast.botanic.2019-05-02/",
+     "accessed": "2026-10-23",
+     "note": "Data from Democracy Club (https://democracyclub.org.uk), CC BY 4.0; local-election votes_cast there are final-stage totals, so first preferences come from ARK."
+    },
+    {
+     "title": "2019 Belfast City Council election (Botanic count table, citing EONI results by stage)",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/2019_Belfast_City_Council_election",
+     "accessed": "2026-10-23"
+    }
+   ],
+   "reason": "Billy Dickson (South Belfast Unionists, 233 first preferences; 247, 256, 256 on counts 2-4, excluded and transferred on count 5) was missing, so the first count summed to 9,505 against a valid poll of 9,738 and his transfers on counts 2-3 had been booked as non-transferable.",
+   "category": "missing-candidates",
+   "operations": [
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-billy-dickson",
+      "Count_Number": "1",
+      "Firstname": "Billy",
+      "Surname": "Dickson",
+      "Candidate_First_Pref_Votes": "233.00",
+      "Transfers": "0.00",
+      "Total_Votes": "233.00",
+      "Status": "Excluded",
+      "Occurred_On_Count": "12",
+      "Party_Name": "South Belfast Unionists",
+      "Deduplicated Party Name": "South Belfast Unionists",
+      "Wikipedia Party Name": "South Belfast Unionists",
+      "Party_Colour": "#DCDCDC",
+      "candidateName": "Billy Dickson",
+      "id": 178
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.179",
+     "value": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-billy-dickson",
+      "Count_Number": "2",
+      "Firstname": "Billy",
+      "Surname": "Dickson",
+      "Candidate_First_Pref_Votes": "233.00",
+      "Transfers": "14.00",
+      "Total_Votes": "247.00",
+      "Status": "Excluded",
+      "Occurred_On_Count": "12",
+      "Party_Name": "South Belfast Unionists",
+      "Deduplicated Party Name": "South Belfast Unionists",
+      "Wikipedia Party Name": "South Belfast Unionists",
+      "Party_Colour": "#DCDCDC",
+      "candidateName": "Billy Dickson",
+      "id": 179
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.180",
+     "value": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-billy-dickson",
+      "Count_Number": "3",
+      "Firstname": "Billy",
+      "Surname": "Dickson",
+      "Candidate_First_Pref_Votes": "233.00",
+      "Transfers": "9.00",
+      "Total_Votes": "256.00",
+      "Status": "Excluded",
+      "Occurred_On_Count": "12",
+      "Party_Name": "South Belfast Unionists",
+      "Deduplicated Party Name": "South Belfast Unionists",
+      "Wikipedia Party Name": "South Belfast Unionists",
+      "Party_Colour": "#DCDCDC",
+      "candidateName": "Billy Dickson",
+      "id": 180
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.181",
+     "value": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-billy-dickson",
+      "Count_Number": "4",
+      "Firstname": "Billy",
+      "Surname": "Dickson",
+      "Candidate_First_Pref_Votes": "233.00",
+      "Transfers": "0.00",
+      "Total_Votes": "256.00",
+      "Status": "Excluded",
+      "Occurred_On_Count": "12",
+      "Party_Name": "South Belfast Unionists",
+      "Deduplicated Party Name": "South Belfast Unionists",
+      "Wikipedia Party Name": "South Belfast Unionists",
+      "Party_Colour": "#DCDCDC",
+      "candidateName": "Billy Dickson",
+      "id": 181
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.182",
+     "value": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-billy-dickson",
+      "Count_Number": "5",
+      "Firstname": "Billy",
+      "Surname": "Dickson",
+      "Candidate_First_Pref_Votes": "233.00",
+      "Transfers": "-256.00",
+      "Total_Votes": "0.00",
+      "Status": "Excluded",
+      "Occurred_On_Count": "12",
+      "Party_Name": "South Belfast Unionists",
+      "Deduplicated Party Name": "South Belfast Unionists",
+      "Wikipedia Party Name": "South Belfast Unionists",
+      "Party_Colour": "#DCDCDC",
+      "candidateName": "Billy Dickson",
+      "id": 182
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.183",
+     "value": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-billy-dickson",
+      "Count_Number": "6",
+      "Firstname": "Billy",
+      "Surname": "Dickson",
+      "Candidate_First_Pref_Votes": "233.00",
+      "Transfers": "0.00",
+      "Total_Votes": "0.00",
+      "Status": "Excluded",
+      "Occurred_On_Count": "12",
+      "Party_Name": "South Belfast Unionists",
+      "Deduplicated Party Name": "South Belfast Unionists",
+      "Wikipedia Party Name": "South Belfast Unionists",
+      "Party_Colour": "#DCDCDC",
+      "candidateName": "Billy Dickson",
+      "id": 183
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.184",
+     "value": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-billy-dickson",
+      "Count_Number": "7",
+      "Firstname": "Billy",
+      "Surname": "Dickson",
+      "Candidate_First_Pref_Votes": "233.00",
+      "Transfers": "0.00",
+      "Total_Votes": "0.00",
+      "Status": "Excluded",
+      "Occurred_On_Count": "12",
+      "Party_Name": "South Belfast Unionists",
+      "Deduplicated Party Name": "South Belfast Unionists",
+      "Wikipedia Party Name": "South Belfast Unionists",
+      "Party_Colour": "#DCDCDC",
+      "candidateName": "Billy Dickson",
+      "id": 184
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.185",
+     "value": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-billy-dickson",
+      "Count_Number": "8",
+      "Firstname": "Billy",
+      "Surname": "Dickson",
+      "Candidate_First_Pref_Votes": "233.00",
+      "Transfers": "0.00",
+      "Total_Votes": "0.00",
+      "Status": "Excluded",
+      "Occurred_On_Count": "12",
+      "Party_Name": "South Belfast Unionists",
+      "Deduplicated Party Name": "South Belfast Unionists",
+      "Wikipedia Party Name": "South Belfast Unionists",
+      "Party_Colour": "#DCDCDC",
+      "candidateName": "Billy Dickson",
+      "id": 185
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.186",
+     "value": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-billy-dickson",
+      "Count_Number": "9",
+      "Firstname": "Billy",
+      "Surname": "Dickson",
+      "Candidate_First_Pref_Votes": "233.00",
+      "Transfers": "0.00",
+      "Total_Votes": "0.00",
+      "Status": "Excluded",
+      "Occurred_On_Count": "12",
+      "Party_Name": "South Belfast Unionists",
+      "Deduplicated Party Name": "South Belfast Unionists",
+      "Wikipedia Party Name": "South Belfast Unionists",
+      "Party_Colour": "#DCDCDC",
+      "candidateName": "Billy Dickson",
+      "id": 186
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.187",
+     "value": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-billy-dickson",
+      "Count_Number": "10",
+      "Firstname": "Billy",
+      "Surname": "Dickson",
+      "Candidate_First_Pref_Votes": "233.00",
+      "Transfers": "0.00",
+      "Total_Votes": "0.00",
+      "Status": "Excluded",
+      "Occurred_On_Count": "12",
+      "Party_Name": "South Belfast Unionists",
+      "Deduplicated Party Name": "South Belfast Unionists",
+      "Wikipedia Party Name": "South Belfast Unionists",
+      "Party_Colour": "#DCDCDC",
+      "candidateName": "Billy Dickson",
+      "id": 187
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.188",
+     "value": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-billy-dickson",
+      "Count_Number": "11",
+      "Firstname": "Billy",
+      "Surname": "Dickson",
+      "Candidate_First_Pref_Votes": "233.00",
+      "Transfers": "0.00",
+      "Total_Votes": "0.00",
+      "Status": "Excluded",
+      "Occurred_On_Count": "12",
+      "Party_Name": "South Belfast Unionists",
+      "Deduplicated Party Name": "South Belfast Unionists",
+      "Wikipedia Party Name": "South Belfast Unionists",
+      "Party_Colour": "#DCDCDC",
+      "candidateName": "Billy Dickson",
+      "id": 188
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.189",
+     "value": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-billy-dickson",
+      "Count_Number": "12",
+      "Firstname": "Billy",
+      "Surname": "Dickson",
+      "Candidate_First_Pref_Votes": "233.00",
+      "Transfers": "0.00",
+      "Total_Votes": "0.00",
+      "Status": "Excluded",
+      "Occurred_On_Count": "12",
+      "Party_Name": "South Belfast Unionists",
+      "Deduplicated Party Name": "South Belfast Unionists",
+      "Wikipedia Party Name": "South Belfast Unionists",
+      "Party_Colour": "#DCDCDC",
+      "candidateName": "Billy Dickson",
+      "id": 189
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.168.Transfers",
+     "value": "13.00"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.168.Total_Votes",
+     "value": "13.00"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.169.Transfers",
+     "value": "3.00"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.169.Total_Votes",
+     "value": "16.00"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.170.Total_Votes",
+     "value": "18.00"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.171.Transfers",
+     "value": "23.00"
+    }
+   ],
+   "note": "addCandidate inserts the count-1 row at index 178; the count 2-12 rows are appended by set ops at indices 179-189 (addCandidate skips a second row of the same name). Non-transferable rows for counts 2-5 corrected (27/39/41/41 -> 13/16/18/41)."
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/northern-ireland-assembly/2011-05-05/north-down.json",
+   "source": {
+    "title": "North Down (Assembly constituency results)",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/and.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "title": "North Down (Assembly constituency): 2011 count table, citing the EONI 2011 results PDF",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/North_Down_(Assembly_constituency)",
+     "accessed": "2026-10-23"
+    },
+    {
+     "title": "NI Assembly AIMS member record 307 (Steven Agnew)",
+     "publisher": "Northern Ireland Assembly",
+     "url": "https://aims.niassembly.gov.uk/mlas/details.aspx?&per=307",
+     "accessed": "2026-10-23"
+    }
+   ],
+   "reason": "Alan Chambers (excluded on count 7) was marked elected and Steven Agnew (Green, who beat Anne Wilson by 99 for the last seat) was not; the count 10-11 totals of Chambers/Farry and Easton/Cree had been swapped, so Farry (elected on count 10 with 4,077.89, surplus undistributed) showed 0 and Cree's 4,110.02 sat on Chambers.",
+   "category": "winners",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.9.Total_Votes",
+     "value": "4077.89"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.9.Status",
+     "value": "Elected"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.10.Total_Votes",
+     "value": "4077.89"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.10.Status",
+     "value": "Elected"
+    },
+    {
+     "op": "candidate",
+     "name": "Stephen Farry",
+     "set": {
+      "Occurred_On_Count": "10"
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.130.Total_Votes",
+     "value": "4110.02"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.53.Total_Votes",
+     "value": "4015.00"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.54.Total_Votes",
+     "value": "4015.00"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.72.Status",
+     "value": "Excluded"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.73.Status",
+     "value": "Excluded"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.74.Status",
+     "value": "Excluded"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.75.Status",
+     "value": "Excluded"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.76.Status",
+     "value": "Excluded"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.75.Total_Votes",
+     "value": "0.00"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.76.Total_Votes",
+     "value": "0.00"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.65.Status",
+     "value": "Elected"
+    },
+    {
+     "op": "candidate",
+     "name": "Steven Agnew",
+     "set": {
+      "Occurred_On_Count": "11"
+     }
+    }
+   ],
+   "note": "Row-level fixes use set paths with countGroup array indices (row id == index in this file); transfers were already correct."
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/northern-ireland-assembly/2011-05-05/strangford.json",
+   "source": {
+    "title": "Strangford (Assembly constituency results)",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/astr.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "title": "NI Assembly AIMS member record 203 (Michelle McIlveen)",
+     "publisher": "Northern Ireland Assembly",
+     "url": "https://aims.niassembly.gov.uk/mlas/details.aspx?&per=203",
+     "accessed": "2026-10-23"
+    }
+   ],
+   "reason": "The DUP poll-topper in Strangford (4,573 first preferences) was Michelle McIlveen, not David McIlveen, who stood in North Antrim that year.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "David McIlveen",
+     "set": {
+      "candidateName": "Michelle McIlveen",
+      "Firstname": "Michelle"
+     }
+    }
+   ],
+   "note": "Only one McIlveen row exists in this file, so a name op is unambiguous. Candidate_Id 66768 is left as is: it is shared with David McIlveen in north-antrim.json, and official-person-ids.json already links this Strangford row (candidateId 66768) to AIMS 203, so the build resolves it to Michelle (personId 2165)."
+  },
+  {
+   "batch": "official-records-2026-10-23",
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/2010-05-06/newry-and-armagh.json",
+   "source": {
+    "title": "Newry and Armagh (constituency results)",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/ananda.htm",
+    "accessed": "2026-10-23"
+   },
+   "additionalSources": [
+    {
+     "title": "Democracy Club candidates: parl.newry-and-armagh.2010-05-06",
+     "publisher": "Democracy Club (CC BY 4.0)",
+     "url": "https://candidates.democracyclub.org.uk/elections/parl.newry-and-armagh.2010-05-06/",
+     "accessed": "2026-10-23",
+     "note": "Data from Democracy Club (https://democracyclub.org.uk), CC BY 4.0; local-election votes_cast there are final-stage totals, so first preferences come from ARK."
+    }
+   ],
+   "reason": "Conor Murphy (SF, 18,857) held the seat; the file had no winner flag and no poll totals (ARK: total poll 45,249, invalid 343, valid 44,906).",
+   "category": "winners",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Conor Murphy",
+     "set": {
+      "Status": "Elected",
+      "Occurred_On_Count": "1"
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "44906"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Poll",
+     "value": "45249"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Spoiled",
+     "value": "343"
+    }
+   ],
+   "note": "The duplicate result is NOT in this file (6 rows, each candidate once). It comes from data/elections-source/data/elections_index.json listing both \"Newry And Armagh\" and \"Newry and Armagh\" for house-of-commons 2010-05-06; see unresolved.json."
   }
  ]
 }
