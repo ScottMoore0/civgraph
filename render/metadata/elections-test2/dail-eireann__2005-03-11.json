@@ -44,9 +44,26 @@
     "voteShare",
     "turnout",
     "majority",
+    "seats",
     "quota"
   ],
   "partySummary": [
+    {
+      "party": "Fine Gael",
+      "seats": 1,
+      "stood": 2,
+      "votes": 21594,
+      "colour": "#6699ff",
+      "share": 28.78470787400525
+    },
+    {
+      "party": "NON-P",
+      "seats": 1,
+      "stood": 1,
+      "votes": 5985,
+      "colour": "#6b7280",
+      "share": 7.977978912008958
+    },
     {
       "party": "Fianna Fáil",
       "seats": 0,
@@ -54,14 +71,6 @@
       "votes": 22318,
       "colour": "#66bb66",
       "share": 29.749796718164735
-    },
-    {
-      "party": "Fine Gael",
-      "seats": 0,
-      "stood": 2,
-      "votes": 21594,
-      "colour": "#6699ff",
-      "share": 28.78470787400525
     },
     {
       "party": "Lab.",
@@ -78,14 +87,6 @@
       "votes": 6087,
       "colour": "#326760",
       "share": 8.113944467401591
-    },
-    {
-      "party": "NON-P",
-      "seats": 0,
-      "stood": 1,
-      "votes": 5985,
-      "colour": "#6b7280",
-      "share": 7.977978912008958
     },
     {
       "party": "P.D.",
@@ -114,20 +115,28 @@
   ],
   "mainLikePartySummary": [
     {
+      "party": "Fine Gael",
+      "seats": 1,
+      "stood": 2,
+      "votes": 21594,
+      "colour": "#6699ff",
+      "share": 28.78470787400525
+    },
+    {
+      "party": "NON-P",
+      "seats": 1,
+      "stood": 1,
+      "votes": 5985,
+      "colour": "#6b7280",
+      "share": 7.977978912008958
+    },
+    {
       "party": "Fianna Fáil",
       "seats": 0,
       "stood": 2,
       "votes": 22318,
       "colour": "#66bb66",
       "share": 29.749796718164735
-    },
-    {
-      "party": "Fine Gael",
-      "seats": 0,
-      "stood": 2,
-      "votes": 21594,
-      "colour": "#6699ff",
-      "share": 28.78470787400525
     },
     {
       "party": "Lab.",
@@ -144,14 +153,6 @@
       "votes": 6087,
       "colour": "#326760",
       "share": 8.113944467401591
-    },
-    {
-      "party": "NON-P",
-      "seats": 0,
-      "stood": 1,
-      "votes": 5985,
-      "colour": "#6b7280",
-      "share": 7.977978912008958
     },
     {
       "party": "P.D.",
@@ -199,19 +200,19 @@
       "constPct": 34.12867661851688,
       "firstPrefPct": 34.12867661851688,
       "finalVotes": 16964,
-      "elected": false,
-      "electedAt": null,
+      "elected": true,
+      "electedAt": 1,
       "excluded": false,
       "excludedAt": null,
       "resolvedCount": null,
       "countDisplay": "",
-      "status": "Not Elected",
+      "status": "Elected",
       "autoReturnedCeannComhairle": false,
       "counts": [
         {
           "total": 16964,
           "transfers": 0,
-          "status": "",
+          "status": "Elected",
           "firstPrefs": 16964,
           "count": 1
         }
@@ -298,19 +299,19 @@
       "constPct": 23.643977402915496,
       "firstPrefPct": 23.643977402915496,
       "finalVotes": 5985,
-      "elected": false,
-      "electedAt": null,
+      "elected": true,
+      "electedAt": 1,
       "excluded": false,
       "excludedAt": null,
       "resolvedCount": null,
       "countDisplay": "",
-      "status": "Not Elected",
+      "status": "Elected",
       "autoReturnedCeannComhairle": false,
       "counts": [
         {
           "total": 5985,
           "transfers": 0,
-          "status": "",
+          "status": "Elected",
           "firstPrefs": 5985,
           "count": 1
         }
@@ -689,6 +690,59 @@
     "totalValid": 75019,
     "parties": [
       {
+        "name": "Fine Gael",
+        "colour": "#6699ff",
+        "firstPrefs": 21594,
+        "finalVotes": 21594,
+        "stood": 2,
+        "elected": 1,
+        "constituencies": [
+          "Kildare North",
+          "Meath"
+        ],
+        "candidates": [
+          {
+            "id": "ei:465",
+            "name": "Darren Scully",
+            "constituency": "Kildare North",
+            "firstPref": 4630,
+            "finalVotes": 4630,
+            "status": ""
+          },
+          {
+            "id": "ei:6731",
+            "name": "Shane Mcentee",
+            "constituency": "Meath",
+            "firstPref": 16964,
+            "finalVotes": 16964,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 28.78470787400525
+      },
+      {
+        "name": "NON-P",
+        "colour": "#6b7280",
+        "firstPrefs": 5985,
+        "finalVotes": 5985,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Kildare North"
+        ],
+        "candidates": [
+          {
+            "id": "ei:3813",
+            "name": "Catherine Murphy",
+            "constituency": "Kildare North",
+            "firstPref": 5985,
+            "finalVotes": 5985,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 7.977978912008958
+      },
+      {
         "name": "Fianna Fáil",
         "colour": "#66bb66",
         "firstPrefs": 22318,
@@ -718,37 +772,6 @@
           }
         ],
         "shareOfTotal": 29.749796718164735
-      },
-      {
-        "name": "Fine Gael",
-        "colour": "#6699ff",
-        "firstPrefs": 21594,
-        "finalVotes": 21594,
-        "stood": 2,
-        "elected": 0,
-        "constituencies": [
-          "Kildare North",
-          "Meath"
-        ],
-        "candidates": [
-          {
-            "id": "ei:465",
-            "name": "Darren Scully",
-            "constituency": "Kildare North",
-            "firstPref": 4630,
-            "finalVotes": 4630,
-            "status": ""
-          },
-          {
-            "id": "ei:6731",
-            "name": "Shane Mcentee",
-            "constituency": "Meath",
-            "firstPref": 16964,
-            "finalVotes": 16964,
-            "status": ""
-          }
-        ],
-        "shareOfTotal": 28.78470787400525
       },
       {
         "name": "Lab.",
@@ -802,28 +825,6 @@
           }
         ],
         "shareOfTotal": 8.113944467401591
-      },
-      {
-        "name": "NON-P",
-        "colour": "#6b7280",
-        "firstPrefs": 5985,
-        "finalVotes": 5985,
-        "stood": 1,
-        "elected": 0,
-        "constituencies": [
-          "Kildare North"
-        ],
-        "candidates": [
-          {
-            "id": "ei:3813",
-            "name": "Catherine Murphy",
-            "constituency": "Kildare North",
-            "firstPref": 5985,
-            "finalVotes": 5985,
-            "status": ""
-          }
-        ],
-        "shareOfTotal": 7.977978912008958
       },
       {
         "name": "P.D.",
@@ -936,7 +937,7 @@
         "colour": "#6699ff",
         "firstPrefs": 16964,
         "finalVotes": 16964,
-        "electedCount": 0,
+        "electedCount": 1,
         "constituencies": [
           "Meath"
         ],
@@ -945,10 +946,32 @@
             "constituency": "Meath",
             "firstPref": 16964,
             "finalVotes": 16964,
-            "status": ""
+            "status": "Elected"
           }
         ],
         "shareOfTotal": 22.61293805569256
+      },
+      {
+        "id": "ei:3813",
+        "key": "Catherine Murphy|NON-P",
+        "name": "Catherine Murphy",
+        "party": "NON-P",
+        "colour": "#6b7280",
+        "firstPrefs": 5985,
+        "finalVotes": 5985,
+        "electedCount": 1,
+        "constituencies": [
+          "Kildare North"
+        ],
+        "appearances": [
+          {
+            "constituency": "Kildare North",
+            "firstPref": 5985,
+            "finalVotes": 5985,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 7.977978912008958
       },
       {
         "id": "ei:708",
@@ -1015,28 +1038,6 @@
           }
         ],
         "shareOfTotal": 8.113944467401591
-      },
-      {
-        "id": "ei:3813",
-        "key": "Catherine Murphy|NON-P",
-        "name": "Catherine Murphy",
-        "party": "NON-P",
-        "colour": "#6b7280",
-        "firstPrefs": 5985,
-        "finalVotes": 5985,
-        "electedCount": 0,
-        "constituencies": [
-          "Kildare North"
-        ],
-        "appearances": [
-          {
-            "constituency": "Kildare North",
-            "firstPref": 5985,
-            "finalVotes": 5985,
-            "status": ""
-          }
-        ],
-        "shareOfTotal": 7.977978912008958
       },
       {
         "id": "ei:6369",
@@ -1263,8 +1264,8 @@
   "results": [
     {
       "constituency": "Kildare North",
-      "winnerParty": "Fianna Fáil",
-      "winnerName": "Aine Brady",
+      "winnerParty": "NON-P",
+      "winnerName": "Catherine Murphy",
       "leadingParty": "Fianna Fáil",
       "leadingName": "Aine Brady",
       "leadingVotes": 6201,
@@ -1272,15 +1273,15 @@
       "turnoutPct": 39.22,
       "majority": 216,
       "majorityPct": 0.85,
-      "seatsWon": null,
-      "seatsTotal": null,
+      "seatsWon": 1,
+      "seatsTotal": 1,
       "quota": 12657,
       "electorate": 65080,
       "totalPoll": 25524,
       "spoiled": 211,
       "validPoll": 25313,
       "totalVotes": 25313,
-      "colour": "#66bb66",
+      "colour": "#6b7280",
       "leadingColour": "#66bb66",
       "candidates": [
         {
@@ -1319,12 +1320,12 @@
           "party": "NON-P",
           "firstPrefs": 5985,
           "finalVotes": 5985,
-          "elected": false,
-          "electedAt": null,
+          "elected": true,
+          "electedAt": 1,
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "",
+          "status": "Elected",
           "colour": "#6b7280",
           "gender": "",
           "dailAbbreviation": "",
@@ -1336,7 +1337,7 @@
               "count": 1,
               "total": 5985,
               "transfers": 0,
-              "status": "",
+              "status": "Elected",
               "firstPrefs": 5985
             }
           ],
@@ -1524,11 +1525,40 @@
           "name_id": "n-seanan-o-coistin-2"
         }
       ],
-      "elected": [],
+      "elected": [
+        {
+          "id": "4",
+          "name": "Catherine Murphy",
+          "party": "NON-P",
+          "firstPrefs": 5985,
+          "finalVotes": 5985,
+          "elected": true,
+          "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#6b7280",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "sourcePersonId": "ei:3813",
+          "counts": [
+            {
+              "count": 1,
+              "total": 5985,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 5985
+            }
+          ]
+        }
+      ],
       "countInfo": {
         "Constituency_Name": "Kildare North",
         "Constituency_Number": "",
-        "Number_Of_Seats": "",
+        "Number_Of_Seats": "1",
         "Quota": "12657",
         "Spoiled": "211",
         "Total_Electorate": "65080",
@@ -1624,7 +1654,7 @@
           "Occurred_On_Count": "1",
           "Party_Colour": "#6b7280",
           "Party_Name": "NON-P",
-          "Status": "",
+          "Status": "Elected",
           "Synthetic_Scraper_Row": "1",
           "Synthetic_Scraper_Stage_Row": "",
           "Total_Votes": "5985",
@@ -1743,7 +1773,7 @@
           "countInfo": {
             "Constituency_Name": "Kildare North",
             "Constituency_Number": "",
-            "Number_Of_Seats": "",
+            "Number_Of_Seats": "1",
             "Quota": "12657",
             "Spoiled": "211",
             "Total_Electorate": "65080",
@@ -1839,7 +1869,7 @@
               "Occurred_On_Count": "1",
               "Party_Colour": "#6b7280",
               "Party_Name": "NON-P",
-              "Status": "",
+              "Status": "Elected",
               "Synthetic_Scraper_Row": "1",
               "Synthetic_Scraper_Stage_Row": "",
               "Total_Votes": "5985",
@@ -1980,6 +2010,10 @@
         {
           "label": "Cause",
           "text": "Resignation of Charlie McCreevy (FF) (Wikipedia, List of Dáil by-elections)"
+        },
+        {
+          "label": "Corrected",
+          "text": "The winner of the 2005 Kildare North by-election was not marked elected; the Oireachtas has Catherine Murphy (Independent) as TD for Kildare North from 11 March 2005, and ElectionsIreland and Wikipedia show her elected on the fifth count although Áine Brady had more first preferences. (Houses of the Oireachtas, Catherine Murphy: member of the 29th Dáil for Kildare North from 2005-03-11)"
         }
       ],
       "contestType": "election",
@@ -1987,7 +2021,7 @@
       "votingSystem": "stv-hare",
       "contestStatus": "contested",
       "candidateRowsExpected": true,
-      "transferDataExpected": true,
+      "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/dail-eireann/2005-03-11/kildare-north.json",
       "featureId": "27",
@@ -2025,8 +2059,8 @@
       "turnoutPct": 41.46,
       "majority": 847,
       "majorityPct": 1.7,
-      "seatsWon": null,
-      "seatsTotal": null,
+      "seatsWon": 1,
+      "seatsTotal": 1,
       "quota": 24854,
       "electorate": 121041,
       "totalPoll": 50183,
@@ -2042,12 +2076,12 @@
           "party": "Fine Gael",
           "firstPrefs": 16964,
           "finalVotes": 16964,
-          "elected": false,
-          "electedAt": null,
+          "elected": true,
+          "electedAt": 1,
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "",
+          "status": "Elected",
           "colour": "#6699ff",
           "gender": "",
           "dailAbbreviation": "",
@@ -2059,7 +2093,7 @@
               "count": 1,
               "total": 16964,
               "transfers": 0,
-              "status": "",
+              "status": "Elected",
               "firstPrefs": 16964
             }
           ],
@@ -2247,11 +2281,40 @@
           "name_id": "n-liam-o-gogain-2"
         }
       ],
-      "elected": [],
+      "elected": [
+        {
+          "id": "4",
+          "name": "Shane Mcentee",
+          "party": "Fine Gael",
+          "firstPrefs": 16964,
+          "finalVotes": 16964,
+          "elected": true,
+          "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#6699ff",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "sourcePersonId": "ei:6731",
+          "counts": [
+            {
+              "count": 1,
+              "total": 16964,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 16964
+            }
+          ]
+        }
+      ],
       "countInfo": {
         "Constituency_Name": "Meath",
         "Constituency_Number": "",
-        "Number_Of_Seats": "",
+        "Number_Of_Seats": "1",
         "Quota": "24854",
         "Spoiled": "477",
         "Total_Electorate": "121041",
@@ -2347,7 +2410,7 @@
           "Occurred_On_Count": "1",
           "Party_Colour": "#6699ff",
           "Party_Name": "Fine Gael",
-          "Status": "",
+          "Status": "Elected",
           "Synthetic_Scraper_Row": "1",
           "Synthetic_Scraper_Stage_Row": "",
           "Total_Votes": "16964",
@@ -2442,7 +2505,7 @@
           "countInfo": {
             "Constituency_Name": "Meath",
             "Constituency_Number": "",
-            "Number_Of_Seats": "",
+            "Number_Of_Seats": "1",
             "Quota": "24854",
             "Spoiled": "477",
             "Total_Electorate": "121041",
@@ -2538,7 +2601,7 @@
               "Occurred_On_Count": "1",
               "Party_Colour": "#6699ff",
               "Party_Name": "Fine Gael",
-              "Status": "",
+              "Status": "Elected",
               "Synthetic_Scraper_Row": "1",
               "Synthetic_Scraper_Stage_Row": "",
               "Total_Votes": "16964",
@@ -2655,6 +2718,10 @@
         {
           "label": "Cause",
           "text": "Resignation of John Bruton (FG) (Wikipedia, List of Dáil by-elections)"
+        },
+        {
+          "label": "Corrected",
+          "text": "The winner of the 2005 Meath by-election was not marked elected; the Oireachtas has Shane McEntee (Fine Gael) as TD for Meath from 11 March 2005, and ElectionsIreland and Wikipedia show him elected on the fourth count (16,964 first preferences). (Houses of the Oireachtas, Shane McEntee: member of the 29th Dáil for Meath from 2005-03-11)"
         }
       ],
       "contestType": "election",
@@ -2662,7 +2729,7 @@
       "votingSystem": "stv-hare",
       "contestStatus": "contested",
       "candidateRowsExpected": true,
-      "transferDataExpected": true,
+      "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/dail-eireann/2005-03-11/meath.json",
       "featureId": "35",

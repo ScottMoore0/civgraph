@@ -43,12 +43,13 @@
     "voteShare",
     "turnout",
     "majority",
+    "seats",
     "quota"
   ],
   "partySummary": [
     {
       "party": "LAB.",
-      "seats": 0,
+      "seats": 1,
       "stood": 1,
       "votes": 8665,
       "colour": "#6b7280",
@@ -114,7 +115,7 @@
   "mainLikePartySummary": [
     {
       "party": "LAB.",
-      "seats": 0,
+      "seats": 1,
       "stood": 1,
       "votes": 8665,
       "colour": "#6b7280",
@@ -198,19 +199,19 @@
       "constPct": 24.27034900005602,
       "firstPrefPct": 24.27034900005602,
       "finalVotes": 8665,
-      "elected": false,
-      "electedAt": null,
+      "elected": true,
+      "electedAt": 1,
       "excluded": false,
       "excludedAt": null,
       "resolvedCount": null,
       "countDisplay": "",
-      "status": "Not Elected",
+      "status": "Elected",
       "autoReturnedCeannComhairle": false,
       "counts": [
         {
           "total": 8665,
           "transfers": 0,
-          "status": "",
+          "status": "Elected",
           "firstPrefs": 8665,
           "count": 1
         }
@@ -622,7 +623,7 @@
         "firstPrefs": 8665,
         "finalVotes": 8665,
         "stood": 1,
-        "elected": 0,
+        "elected": 1,
         "constituencies": [
           "Dublin West"
         ],
@@ -633,7 +634,7 @@
             "constituency": "Dublin West",
             "firstPref": 8665,
             "finalVotes": 8665,
-            "status": ""
+            "status": "Elected"
           }
         ],
         "shareOfTotal": 24.27034900005602
@@ -842,7 +843,7 @@
         "colour": "#6b7280",
         "firstPrefs": 8665,
         "finalVotes": 8665,
-        "electedCount": 0,
+        "electedCount": 1,
         "constituencies": [
           "Dublin West"
         ],
@@ -851,7 +852,7 @@
             "constituency": "Dublin West",
             "firstPref": 8665,
             "finalVotes": 8665,
-            "status": ""
+            "status": "Elected"
           }
         ],
         "shareOfTotal": 24.27034900005602
@@ -1134,8 +1135,8 @@
       "turnoutPct": 58.32,
       "majority": 923,
       "majorityPct": 2.59,
-      "seatsWon": null,
-      "seatsTotal": null,
+      "seatsWon": 1,
+      "seatsTotal": 1,
       "quota": 17852,
       "electorate": 62396,
       "totalPoll": 36391,
@@ -1151,12 +1152,12 @@
           "party": "LAB.",
           "firstPrefs": 8665,
           "finalVotes": 8665,
-          "elected": false,
-          "electedAt": null,
+          "elected": true,
+          "electedAt": 1,
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "",
+          "status": "Elected",
           "colour": "#6b7280",
           "gender": "",
           "dailAbbreviation": "",
@@ -1168,7 +1169,7 @@
               "count": 1,
               "total": 8665,
               "transfers": 0,
-              "status": "",
+              "status": "Elected",
               "firstPrefs": 8665
             }
           ],
@@ -1531,11 +1532,40 @@
           "name_id": "n-peadar-o-ceallaigh"
         }
       ],
-      "elected": [],
+      "elected": [
+        {
+          "id": "10",
+          "name": "Patrick Nulty",
+          "party": "LAB.",
+          "firstPrefs": 8665,
+          "finalVotes": 8665,
+          "elected": true,
+          "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#6b7280",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "sourcePersonId": "ei:9713",
+          "counts": [
+            {
+              "count": 1,
+              "total": 8665,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 8665
+            }
+          ]
+        }
+      ],
       "countInfo": {
         "Constituency_Name": "Dublin West",
         "Constituency_Number": "",
-        "Number_Of_Seats": "",
+        "Number_Of_Seats": "1",
         "Quota": "17852",
         "Spoiled": "689",
         "Total_Electorate": "62396",
@@ -1775,7 +1805,7 @@
           "Occurred_On_Count": "1",
           "Party_Colour": "#6b7280",
           "Party_Name": "LAB.",
-          "Status": "",
+          "Status": "Elected",
           "Synthetic_Scraper_Row": "1",
           "Synthetic_Scraper_Stage_Row": "",
           "Total_Votes": "8665",
@@ -1870,7 +1900,7 @@
           "countInfo": {
             "Constituency_Name": "Dublin West",
             "Constituency_Number": "",
-            "Number_Of_Seats": "",
+            "Number_Of_Seats": "1",
             "Quota": "17852",
             "Spoiled": "689",
             "Total_Electorate": "62396",
@@ -2110,7 +2140,7 @@
               "Occurred_On_Count": "1",
               "Party_Colour": "#6b7280",
               "Party_Name": "LAB.",
-              "Status": "",
+              "Status": "Elected",
               "Synthetic_Scraper_Row": "1",
               "Synthetic_Scraper_Stage_Row": "",
               "Total_Votes": "8665",
@@ -2203,6 +2233,10 @@
         {
           "label": "Cause",
           "text": "Death of Brian Lenihan Jnr (FF) (Wikipedia, List of Dáil by-elections)"
+        },
+        {
+          "label": "Corrected",
+          "text": "The winner of the 2011 Dublin West by-election was not marked elected; the Oireachtas has Patrick Nulty (Labour) as TD for Dublin West from 27 October 2011, and ElectionsIreland and Wikipedia show him elected (8,665 first preferences). (Houses of the Oireachtas, Patrick Nulty: member of the 31st Dáil for Dublin West from 2011-10-27)"
         }
       ],
       "contestType": "election",
@@ -2210,7 +2244,7 @@
       "votingSystem": "stv-hare",
       "contestStatus": "contested",
       "candidateRowsExpected": true,
-      "transferDataExpected": true,
+      "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/dail-eireann/2011-10-27/dublin-west.json",
       "featureId": "Dublin West",

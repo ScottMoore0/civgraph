@@ -164,6 +164,7 @@ function applyWalkerCorrections(resultPath, rawResult) {
 // fix is laid over it at build time, so every changed figure traces to its source. Operations:
 //   set              { path: 'meta.quota' | 'Constituency.countInfo.Valid_Poll', value }
 //   candidate        { name, set: { field: value } } -- every row of that candidate
+//   candidateById    { candidateId, set } -- every row with that Candidate_Id (unnamed rows)
 //   addCandidate     { row } -- a row in the file's own format; skipped if the name is present
 //   replaceCandidates{ candidates } -- the whole list (scraper format), for contests imported empty
 const SOURCE_CHECKED_FIXES = path.join(ROOT, 'data', 'elections', 'corrections', 'source-checked-fixes.json');
@@ -191,6 +192,11 @@ function applySourceCheckedFixes(resultPath, rawResult) {
       const want = normalizeName(op.name);
       const matched = rows().filter((row) => fixCandidateName(row) === want);
       if (!matched.length) throw new Error(`source-checked-fixes: ${record.sourceFile} has no candidate "${op.name}"`);
+      for (const row of matched) Object.assign(row, op.set);
+    } else if (op.op === 'candidateById') {
+      // Rows the source left without a usable name ("Party") are told apart by their id.
+      const matched = rows().filter((row) => String(row.Candidate_Id ?? row.candidateId ?? '') === String(op.candidateId));
+      if (!matched.length) throw new Error(`source-checked-fixes: ${record.sourceFile} has no candidate id "${op.candidateId}"`);
       for (const row of matched) Object.assign(row, op.set);
     } else if (op.op === 'addCandidate') {
       const list = rawResult.Constituency?.countGroup || (rawResult.candidates ??= []);

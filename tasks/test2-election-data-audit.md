@@ -1,6 +1,6 @@
 # Test2 Election Data Audit
 
-Generated: 2026-10-18T22:50:37.613Z
+Generated: 2026-10-23T16:17:28.393Z
 
 This is a repeatable repository-local audit of the generated /test2 election data, Browse election entries, source/reference records, transfer/count payload availability, and saved Wikipedia party-colour comparison outputs. It intentionally does not fetch live web pages, so CI can run it deterministically.
 
@@ -12,21 +12,21 @@ This is a repeatable repository-local audit of the generated /test2 election dat
 |manifest loadable elections|462|
 |manifest placeholders|566|
 |Browse parent election entries|1031|
-|Browse constituency/DEA sub-entries|9084|
+|Browse constituency/DEA sub-entries|9083|
 |Browse overall sub-entries|1031|
 |source detail records|1031|
 |result bundles loaded|1031|
-|result rows audited|9084|
-|candidate rows audited|50979|
-|rows with count detail|9064|
-|rows with animation payload|9064|
-|rows expected to have transfer/count data|3763|
+|result rows audited|9083|
+|candidate rows audited|51002|
+|rows with count detail|9063|
+|rows with animation payload|9063|
+|rows expected to have transfer/count data|3755|
 |expected transfer/count rows missing detail|0|
 |valid-poll review sidecar records|0|
 |candidate-row review sidecar records|0|
 |party-colour review sidecar records|10|
 |blocking issues|0|
-|warnings|17|
+|warnings|16|
 
 ## Blocking Structural Issues
 
@@ -39,7 +39,6 @@ _None._
 |warning|first-pref-sum|local-government-local-government-districts__2011-05-05|Castle first-preference sum 10024 exceeds valid poll ceiling 2462.|
 |warning|first-pref-sum|local-government-local-government-districts__2005-05-05|Cusher first-preference sum 8261 exceeds valid poll ceiling 8061.|
 |warning|first-pref-sum|local-government-local-government-districts__2001-06-07|Castle first-preference sum 14132 exceeds valid poll ceiling 3583.|
-|warning|candidate-name-missing|dail-eireann__1997-06-06|Candidate row without a name in Mayo.|
 |warning|elected-count|house-of-commons-of-the-united-kingdom__1880-03-31|Clonmel has 2 elected candidate rows but seatsWon is 1.|
 |warning|elected-count|house-of-commons-of-the-united-kingdom__1872-04-26|Wexford has 2 elected candidate rows but seatsWon is 1.|
 |warning|elected-count|house-of-commons-of-the-united-kingdom__1847-07-29|Clare has 3 elected candidate rows but seatsWon is 2.|
@@ -64,7 +63,7 @@ _None._
 |source records with multiple references|1031|
 |Browse sub-entries with no references|0|
 |Browse sub-entries with one reference|0|
-|Browse sub-entries with multiple references|10115|
+|Browse sub-entries with multiple references|10114|
 
 ## Party Colour Audit
 
