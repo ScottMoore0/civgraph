@@ -1518,6 +1518,18 @@ test('mobile map accepts actual touch pan pinch and pitch gestures, and a twist 
     const afterRotate = await page.evaluate(() => window.__civgraphTest2.mapController.map.getBearing());
     expect(Math.abs(afterRotate)).toBeLessThan(1);
     expect(initial.diagnostics.touchRotationAllowed).toBe(false);
+    // With a 3D layer (terrain, a point cloud) on the map a deliberate twist rotates it, and
+    // without one it is off again.
+    const rotation3d = await page.evaluate(() => {
+      const renderer = window.__civgraphTest2.mapController.renderer;
+      renderer.layers.set('test-3d-layer', { config: { sourceType: 'raster-dem' } });
+      renderer.enableGestureHandlers();
+      const on = renderer.map.touchZoomRotate.isEnabled() && renderer.touchRotationAllowed();
+      renderer.layers.delete('test-3d-layer');
+      renderer.enableGestureHandlers();
+      return { on, offAgain: !renderer.touchRotationAllowed() };
+    });
+    expect(rotation3d).toEqual({ on: true, offAgain: true });
 
     const postPinchPanCenter = await getMapCanvasCenter(page);
     await performTouchGesture(client, [
