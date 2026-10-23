@@ -1359,6 +1359,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     } : rawResult);
     if (notes.length) result.contestNotes = notes;
     applyLifespanEvidence(entry, result);
+    attachOfficialPersonIds(key, result, constituency);
     const resultMetadata = classifyElectionResult(entry, result, electionMetadata);
     const matchEntry = matchEntryForConstituency(entry, result.constituency || constituency);
     const localBody = entry.bodyGroup === 'local-government' ? matchEntry.body : null;
@@ -1409,6 +1410,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
       rawEntries.push({ constituency, raw: officialRawResult });
       const result = ElectionDomain.summarizeResult(enrichedRawResult, constituency);
       applyLifespanEvidence(entry, result);
+      attachOfficialPersonIds(key, result, constituency);
       const resultMetadata = classifyElectionResult(entry, result, electionMetadata);
       const matchEntry = matchEntryForConstituency(entry, result.constituency);
       const localBody = entry.bodyGroup === 'local-government' ? matchEntry.body : null;
@@ -2475,6 +2477,38 @@ function enrichDailResultWithWikipediaCounts(entry, resultPath, rawResult, fallb
   const sidecar = readJson(sidecarPath);
   if (!Array.isArray(sidecar?.candidates) || !sidecar.candidates.length || Number(sidecar.numCounts || 0) < 2) return rawResult;
   return buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency);
+}
+
+// Official person ids (data/elections/persons/official-person-ids.json): the Oireachtas member
+// code, the NI Assembly's AIMS person id, the UK Parliament member id and Democracy Club's person
+// id, as "<system>:<id>". One id is one person and two ids of one system are two people, which
+// the person registry (build_person_registry_v2.py) reads from the candidacy's officialPersonIds.
+const OFFICIAL_PERSON_IDS = path.join(ROOT, 'data', 'elections', 'persons', 'official-person-ids.json');
+let officialIdIndex = null;
+function attachOfficialPersonIds(electionKeyValue, result, fallbackConstituency = '') {
+  if (!officialIdIndex) {
+    officialIdIndex = new Map();
+    const links = existsSync(OFFICIAL_PERSON_IDS) ? readJson(OFFICIAL_PERSON_IDS).links || [] : [];
+    for (const l of links) {
+      const k = `${l.election}::${normalizeName(l.constituency)}`;
+      if (!officialIdIndex.has(k)) officialIdIndex.set(k, []);
+      officialIdIndex.get(k).push(l);
+    }
+  }
+  const links = officialIdIndex.get(`${electionKeyValue}::${normalizeName(result?.constituency || fallbackConstituency)}`)
+    || officialIdIndex.get(`${electionKeyValue}::${normalizeName(fallbackConstituency)}`);
+  if (!links?.length || !Array.isArray(result?.candidates)) return result;
+  for (const candidate of result.candidates) {
+    // Two candidates of one name in a contest (the two Patrick O'Reillys of Cavan in 1951) are
+    // told apart by the candidate id the link recorded, never by the name alone.
+    const namesakes = result.candidates.filter((c) => c.name === candidate.name).length;
+    const named = links.filter((l) => l.name === candidate.name);
+    const own = named.length > 1 || namesakes > 1 ? named.filter((l) => l.candidateId === String(candidate.id)) : named;
+    const ids = [...new Set((own.length || namesakes > 1 ? own : links.filter((l) => l.candidateId === String(candidate.id) && normalizeName(l.name) === normalizeName(candidate.name)))
+      .map((l) => `${l.system}:${l.id}`))].sort();
+    if (ids.length) candidate.officialPersonIds = ids;
+  }
+  return result;
 }
 
 let eiLifespans = null;

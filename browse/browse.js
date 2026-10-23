@@ -1990,6 +1990,16 @@ function renderRelatedPanel(type, item) {
       escapeHtml([row.title, row.edition].filter(Boolean).join(', ')),
       `<a href="${escapeAttr(row.url)}" rel="noopener">${escapeHtml(row.heading || row.url)}</a>`
     ])
+    : '') + (item.officialProfiles?.length
+    // The person's own record with the Houses of the Oireachtas, the NI Assembly, the UK
+    // Parliament, Democracy Club and Wikidata: the ids that identify them across elections.
+    ? renderSimpleTable('Official records', ['Source', 'Record', 'Licence'], item.officialProfiles, (row) => [
+      escapeHtml(row.source || ''),
+      `<a href="${escapeAttr(row.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(row.label || row.url)}</a>`,
+      escapeHtml(row.licence || '')
+    ]) + (item.bornSource || item.diedSource
+      ? `<p class="browse-note">Born and died: ${escapeHtml([...new Set([item.bornSource, item.diedSource].filter(Boolean))].join(', '))}.</p>`
+      : '')
     : '');
   if (type === 'register-interests') return renderRegisterInterestRelated(item);
   if (type === 'maps') return renderMapVariants(item);

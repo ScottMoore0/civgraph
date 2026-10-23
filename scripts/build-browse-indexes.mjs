@@ -1407,6 +1407,7 @@ function buildPersons(electionDetails, partyRecords) {
             names: new Map(),
             elections: [],
             sourceKeys: new Set([`person:${personId}`]),
+            officialIds: new Set(),
             totals: { stood: 0, elected: 0, firstPrefs: 0 },
             firstYear: null,
             lastYear: null,
@@ -1415,6 +1416,7 @@ function buildPersons(electionDetails, partyRecords) {
         }
         const person = byId.get(personId);
         if (candidate.sourcePersonId) person.sourceKeys.add(String(candidate.sourcePersonId));
+        for (const id of candidate.officialPersonIds || []) person.officialIds.add(String(id));
         const nameId = cleanText(candidate.name_id || '');
         if (nameId) {
           const seen = person.names.get(nameId) || { nameId, name, count: 0 };
@@ -1506,7 +1508,33 @@ function buildPersons(electionDetails, partyRecords) {
 
   let withHop = 0;
   let severalMembers = 0;
-  const details = Object.fromEntries([...byId.values()].map(({ sourceKeys, ...person }) => {
+  // Official records of the person (data/elections/persons/official-person-ids.json) and the
+  // Wikidata item that ties them together (official-person-crosswalk.json), with the dates
+  // Wikidata gives. Shown as links out; the dates fill in where History of Parliament has none.
+  const officialDoc = readJson('data/elections/persons/official-person-ids.json', { sources: {} });
+  const crosswalkDoc = readJson('data/elections/persons/official-person-crosswalk.json', { ids: {}, people: {} });
+  const officialProfiles = (ids) => {
+    const out = [];
+    const seen = new Set();
+    const qids = new Set();
+    for (const id of [...ids].sort()) {
+      const [system, value] = [id.slice(0, id.indexOf(':')), id.slice(id.indexOf(':') + 1)];
+      const source = officialDoc.sources?.[system];
+      if (source?.personUrl && !seen.has(id)) {
+        seen.add(id);
+        out.push({ source: source.publisher, label: source.title, url: source.personUrl.replace('{id}', encodeURIComponent(value)), licence: source.licence });
+      }
+      if (crosswalkDoc.ids?.[id]) qids.add(crosswalkDoc.ids[id]);
+    }
+    // One Wikidata item, or none: two would mean the record holds two people's ids.
+    const qid = qids.size === 1 ? [...qids][0] : null;
+    if (qid) out.push({ source: 'Wikidata', label: 'Wikidata', url: `https://www.wikidata.org/wiki/${qid}`, licence: 'CC0 1.0' });
+    return { profiles: out, qid, life: qid ? crosswalkDoc.people?.[qid] || null : null };
+  };
+  let withOfficial = 0;
+  const details = Object.fromEntries([...byId.values()].map(({ sourceKeys, officialIds, ...person }) => {
+    const official = officialProfiles(officialIds);
+    if (official.profiles.length) withOfficial += 1;
     const reached = [];
     for (const key of sourceKeys) {
       for (const r of hopPages.get(key) || []) {
@@ -1586,10 +1614,16 @@ function buildPersons(electionDetails, partyRecords) {
         })(),
         born: hop.map((p) => p.born).reduce(preciser, null),
         died: hop.map((p) => p.died).reduce(preciser, null),
-      } : {})
+      } : {}),
+      ...(official.profiles.length ? { officialProfiles: official.profiles } : {}),
+      ...(official.qid ? { wikidata: official.qid } : {}),
+      // Dates from Wikidata where History of Parliament gives none.
+      ...(!hop.length && official.life?.born ? { born: official.life.born, bornSource: official.life.bornSource || 'Wikidata' } : {}),
+      ...(!hop.length && official.life?.died ? { died: official.life.died, diedSource: official.life.diedSource || 'Wikidata' } : {}),
     };
     return [detail.slug, detail];
   }));
+  console.log(`- persons: ${withOfficial} record(s) link to an official or Wikidata record of the person`);
   if (hopPages.size) {
     console.log(`- persons: ${withHop} record(s) cite their History of Parliament biography; `
       + `${severalMembers} left without, because pages for more than one member reach them`);

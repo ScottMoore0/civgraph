@@ -145,7 +145,8 @@ def observations():
                 obs[pid].append({'key': key, 'body': body, 'con': con,
                                  'y': int(yr) if yr.isdigit() else 0,
                                  'party': party_of(c),
-                                 'src': str(c.get('sourcePersonId') or '').strip()})
+                                 'src': str(c.get('sourcePersonId') or '').strip(),
+                                 'off': list(c.get('officialPersonIds') or [])})
     return obs
 
 
@@ -346,6 +347,44 @@ def main():
         held[pid] |= set(e.get('sourcePersonIds') or [])
     for pid, xs in obs.items():
         held[pid] |= {x['src'] for x in xs if x['src']}
+        held[pid] |= {o for x in xs for o in x.get('off') or []}
+    for pid, e in ents.items():
+        held[pid] |= set(e.get('officialPersonIds') or [])
+
+    crosswalk_path = os.path.join(REPO, 'data', 'elections', 'persons', 'official-person-crosswalk.json')
+    _cw = json.load(open(crosswalk_path, encoding='utf-8')) if os.path.exists(crosswalk_path) else {}
+    crosswalk, lifespans = _cw.get('ids', {}), _cw.get('people', {})
+    years = collections.defaultdict(set)
+    for pid, xs in obs.items():
+        years[pid] |= {x['y'] for x in xs if x['y']}
+
+    def life_conflict(ka, kb):
+        # Nor is a man who was under 18, or dead, when the other side stood: the Larne council
+        # seats Roy Beggs held from 1977 are not his son's, born 1962, though the son later sat
+        # for the same area for the same party.
+        for side, other in ((ka, kb), (kb, ka)):
+            for q in {s[9:] for s in held[side] if s.startswith('wikidata:')}:
+                life = lifespans.get(q) or {}
+                born, died = str(life.get('born') or '')[:4], str(life.get('died') or '')[:4]
+                bad = [y for y in years[other] if (born.isdigit() and y < int(born) + 18) or (died.isdigit() and y > int(died))]
+                if bad:
+                    return f'{life.get("name", q)} ({q}) could not have stood in {min(bad)}'
+        return None
+
+    def official_conflict(a, b):
+        # Two ids of one official system (Oireachtas, NI Assembly, UK Parliament, Democracy
+        # Club) are two people, whatever else the pair has in common; so are ids Wikidata
+        # gives to two different people.
+        for system in ('oireachtas', 'niassembly', 'ukparliament', 'democracyclub'):
+            x = {s for s in a if s.startswith(system + ':')}
+            y = {s for s in b if s.startswith(system + ':')}
+            if x and y and x.isdisjoint(y):
+                return f'different {system} ids ({", ".join(sorted(x | y))})'
+        qa = {crosswalk[s] for s in a if s in crosswalk}
+        qb = {crosswalk[s] for s in b if s in crosswalk}
+        if qa and qb and qa.isdisjoint(qb):
+            return f'Wikidata names two people ({", ".join(sorted(qa | qb))})'
+        return None
     order = {c: i for i, c in enumerate(('WIKIPEDIA-BIOGRAPHY', 'WIKI-DISAMBIGUATED', 'FORUM-DUPLICATE',
                                          'LGR-2014', 'SAME-SEAT-SEQUENCE', 'STRAY-INTO-CURATED'))}
     parent = {}
@@ -357,7 +396,7 @@ def main():
     for mg in sorted(merges, key=lambda m: (order.get(m['class'], len(order)), m['keep'], m['drop'])):
         ka, kb = find(mg['keep']), find(mg['drop'])
         if ka != kb:
-            why = ei_relatives.distinct(people, held[ka], held[kb])
+            why = ei_relatives.distinct(people, held[ka], held[kb]) or official_conflict(held[ka], held[kb]) or life_conflict(ka, kb)
             if why:
                 vetoed.append((mg, why))
                 continue
@@ -368,6 +407,7 @@ def main():
             lo, hi = min(ka, kb), max(ka, kb)
             parent[hi] = lo
             held[lo] |= held.pop(hi, set())
+            years[lo] |= years.pop(hi, set())
         applied.append(mg)
     merges = applied
     final = {d: find(d) for d in parent}
@@ -417,6 +457,7 @@ def main():
         # apply_person_ids_v2.py resolves first: a candidacy carrying the dropped id's
         # "ei:" id would otherwise match no entity and lose its personId.
         ke['sourcePersonIds'] = sorted(set(ke.get('sourcePersonIds') or []) | set(de.get('sourcePersonIds') or []))
+        ke['officialPersonIds'] = sorted(set(ke.get('officialPersonIds') or []) | set(de.get('officialPersonIds') or []))
         for f in ('bodies', 'parties'):
             if ke.get(f) is not None or de.get(f) is not None:
                 ke[f] = sorted(set(ke.get(f) or []) | set(de.get(f) or []))
