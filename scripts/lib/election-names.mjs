@@ -32,14 +32,92 @@ function dateParts(dateValue) {
   };
 }
 
+// Every Republic referendum's title, as Phelim Birch worded them (October 2026): the topic
+// as people know it, "II" after "referendum" for a second vote on the same treaty, and the
+// month wherever a year held referendums on more than one day.
 const REFERENDUM_TOPIC_OVERRIDES = new Map([
   ['2024-03-08-the-family', '2024 Irish family referendum'],
   ['2024-03-08-care', '2024 Irish care referendum'],
   ['2019-05-24-regulation-of-divorce', '2019 Irish divorce referendum'],
   ['2018-10-26-repeal-of-blasphemy-offence', 'October 2018 Irish blasphemy referendum'],
   ['2018-05-25-regulation-of-termination-of-pregnancy-repeal-of-8th-amendment', 'May 2018 Irish abortion referendum'],
-  ['1998-05-22-northern-ireland', '1998 Good Friday Agreement referendum in the Republic of Ireland']
+  ['2015-05-22-equal-marriage', '2015 Irish equal marriage referendum'],
+  ['2015-05-22-age-of-president', '2015 Irish age of president referendum'],
+  ['2013-10-04-abolition-of-the-seanad', '2013 Irish Seanad abolition referendum'],
+  ['2013-10-04-court-of-appeal', '2013 Irish Court of Appeal referendum'],
+  ['2012-11-10-children', 'November 2012 Irish children referendum'],
+  ['2012-05-31-fiscal-treaty', 'May 2012 Irish Fiscal Compact referendum'],
+  ['2011-10-27-houses-of-the-oireachtas-inquiries', '2011 Irish Oireachtas inquiries referendum'],
+  ['2011-10-27-judges-remuneration', '2011 Irish judges remuneration referendum'],
+  ['2009-10-02-treaty-of-lisbon-ii', '2009 Irish Lisbon Treaty referendum II'],
+  ['2008-06-12-treaty-of-lisbon-i', '2008 Irish Lisbon Treaty referendum I'],
+  ['2004-06-11-irish-citizenship', '2004 Irish citizenship referendum'],
+  ['2002-10-19-treaty-of-nice-ii', 'October 2002 Irish Nice Treaty referendum II'],
+  ['2002-03-06-protection-of-human-life-in-pregnancy', 'March 2002 Irish abortion referendum'],
+  ['1999-06-10-recognition-for-local-government', '1999 Irish local government referendum'],
+  ['1998-05-22-treaty-of-amsterdam', '1998 Irish Amsterdam Treaty referendum'],
+  ['1998-05-22-northern-ireland', '1998 Good Friday Agreement referendum in the Republic of Ireland'],
+  ['1997-10-30-cabinet-confidentiality', '1997 Irish cabinet confidentiality referendum'],
+  ['1996-11-28-bail', '1996 Irish bail referendum'],
+  ['1995-11-24-dissolution-of-marriage', '1995 Irish divorce referendum'],
+  ['1992-11-25-travel', 'November 1992 Irish abortion travel referendum'],
+  ['1992-11-25-information', 'November 1992 Irish abortion information referendum'],
+  ['1992-11-25-right-to-life', 'November 1992 Irish abortion suicide referendum'],
+  ['1992-06-18-european-union', 'June 1992 Irish Maastricht Treaty referendum'],
+  ['1987-05-26-ratification-of-the-single-european-act', '1987 Irish Single European Act referendum'],
+  ['1986-06-26-dissolution-of-marriage', '1986 Irish divorce referendum'],
+  ['1984-06-14-extension-of-voting-right-at-dail-elections', '1984 Irish non-citizen voting referendum'],
+  ['1983-09-07-right-to-life-of-the-unborn', '1983 Irish abortion referendum'],
+  ['1979-07-05-adoption', '1979 Irish adoption referendum'],
+  ['1979-07-05-university-representation-in-seanad', '1979 Irish university constituencies referendum'],
+  ['1972-12-07-voting-age', 'December 1972 Irish voting age referendum'],
+  ['1972-12-07-recognition-of-specified-religions', 'December 1972 Irish recognition of specified religions referendum'],
+  ['1972-05-10-accession-to-the-european-communities', 'May 1972 Irish European Communities referendum'],
+  ['1968-10-16-formation-of-dail-constituencies', '1968 Irish Dáil constituencies referendum'],
+  ['1968-10-16-change-in-voting-system', '1968 Irish first-past-the-post referendum'],
+  ['1959-06-17-change-in-voting-system', '1959 Irish first-past-the-post referendum'],
+  ['1937-07-01-plebiscite-on-the-draft-constitution', '1937 Irish constitution plebiscite']
 ]);
+
+// The amendment (or amendment Bill) each referendum was on, for referendums that shared a
+// polling day: lists newest first put the higher number first, so a day's referendums
+// read in descending amendment order (Care, the 40th, above Family, the 39th).
+const SAME_DAY_REFERENDUM_AMENDMENTS = new Map([
+  ['1968-10-16-formation-of-dail-constituencies', 3],
+  ['1968-10-16-change-in-voting-system', 4],
+  ['1972-12-07-voting-age', 4],
+  ['1972-12-07-recognition-of-specified-religions', 5],
+  ['1979-07-05-adoption', 6],
+  ['1979-07-05-university-representation-in-seanad', 7],
+  ['1992-11-25-right-to-life', 12],
+  ['1992-11-25-travel', 13],
+  ['1992-11-25-information', 14],
+  ['1998-05-22-treaty-of-amsterdam', 18],
+  ['1998-05-22-northern-ireland', 19],
+  ['2011-10-27-judges-remuneration', 29],
+  ['2011-10-27-houses-of-the-oireachtas-inquiries', 30],
+  ['2013-10-04-abolition-of-the-seanad', 32],
+  ['2013-10-04-court-of-appeal', 33],
+  ['2015-05-22-equal-marriage', 34],
+  ['2015-05-22-age-of-president', 35],
+  ['2024-03-08-the-family', 39],
+  ['2024-03-08-care', 40]
+]);
+
+export function sameDayReferendumAmendment(keyOrDate) {
+  const tail = String(keyOrDate || '').split('__').pop();
+  return SAME_DAY_REFERENDUM_AMENDMENTS.get(tail) ?? null;
+}
+
+// Newest first; on a shared day, referendums by descending amendment number.
+export function compareElectionsNewestFirst(a, b) {
+  const day = String(b.date || '').slice(0, 10).localeCompare(String(a.date || '').slice(0, 10));
+  if (day) return day;
+  const an = sameDayReferendumAmendment(a.key || a.date);
+  const bn = sameDayReferendumAmendment(b.key || b.date);
+  if (an != null && bn != null && an !== bn) return bn - an;
+  return String(b.date || '').localeCompare(String(a.date || ''));
+}
 
 const REFERENDUM_TOPIC_LABELS = new Map([
   ['the-family', 'family'],
@@ -110,8 +188,8 @@ function referendumTopicFromKey({ key = '', bodySlug = '', date = '' } = {}) {
 
 const NI_REFERENDUM_TITLES = new Map([
   ['1973-03-08-border-poll', '1973 Northern Ireland border poll'],
-  ['1975-06-05-eec-membership', '1975 EEC membership referendum in Northern Ireland'],
-  ['1998-05-22-belfast-agreement', '1998 Good Friday Agreement referendum'],
+  ['1975-06-05-eec-membership', '1975 EC membership referendum in Northern Ireland'],
+  ['1998-05-22-belfast-agreement', '1998 Good Friday Agreement referendum in Northern Ireland'],
   ['2011-05-05-alternative-vote', '2011 Alternative Vote referendum in Northern Ireland'],
   ['2016-06-23-eu-membership', '2016 EU referendum in Northern Ireland']
 ]);

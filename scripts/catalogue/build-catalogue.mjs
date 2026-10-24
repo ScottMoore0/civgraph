@@ -23,6 +23,7 @@
  * that exists. With --check it builds in memory and fails if the files on disk differ.
  */
 import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { compareElectionsNewestFirst } from '../lib/election-names.mjs';
 import path from 'node:path';
 import { loadRecords } from './records.mjs';
 import { formatDatesInText } from '../../src/date-format.mjs';
@@ -359,7 +360,7 @@ const electionsOut = elections.map((e) => {
   const own = [e.sourceMapId, e.layerId, mapById.get(e.sourceMapId)?.cloneOf].find((id) => id && thumbs.has(id));
   if (own) rec.thumb = own;
   return rec;
-}).sort((a, b) => String(b.date).localeCompare(String(a.date)));
+}).sort(compareElectionsNewestFirst);
 // An election with no map of its own (results only) borrows the thumbnail of the nearest election
 // of the same body that has one, as today's pane does from a hand-kept table.
 {

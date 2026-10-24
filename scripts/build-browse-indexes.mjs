@@ -4,7 +4,7 @@ import path from 'node:path';
 import { resolveApprovedPublicationSources } from './lib/approved-publication-index.mjs';
 import { partyColour, NO_PARTY_RECORDED } from '../src/election-domain.mjs';
 import { isPublicMap } from '../src/public-map.mjs';
-import { canonicalElectionTitle, electionResultEntryLabel } from './lib/election-names.mjs';
+import { canonicalElectionTitle, compareElectionsNewestFirst, electionResultEntryLabel } from './lib/election-names.mjs';
 import { buildPartyVocabulary, classifyPersonName, stripWikipediaQualifier, NOT_A_PERSON } from './lib/person-name-artefacts.mjs';
 import { CDN_BASE } from '../src/cdn-url.js';
 
@@ -566,7 +566,7 @@ function buildElections(manifest, thumbnailIds) {
       interactiveUrl: interactiveLayerUrl(layerId),
       browseUrl: `/browse/elections/${encodeURIComponent(entry.key)}`
     });
-  }).filter((entry) => entry.key).sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')) || a.title.localeCompare(b.title));
+  }).filter((entry) => entry.key).sort((a, b) => compareElectionsNewestFirst(a, b) || a.title.localeCompare(b.title));
 }
 
 function readElectionDetails(elections) {

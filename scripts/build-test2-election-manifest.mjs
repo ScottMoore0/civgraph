@@ -9,7 +9,7 @@ import { namesCompatible } from './lib/name-compatibility.mjs';
 const LEA_SEAT_SUFFIX = /\s*\(\d+\)\s*$/;
 // Usually " LEA-6", but some 2019 names join it with a hyphen ("BALLINAMORE-LEA-6").
 const LEA_CODE_SUFFIX = /[\s-]+LEA-\d+\s*$/i;
-import { canonicalElectionTitle, isElectionByElectionScope } from './lib/election-names.mjs';
+import { canonicalElectionTitle, compareElectionsNewestFirst, isElectionByElectionScope } from './lib/election-names.mjs';
 import { writeStableGeneratedJson } from './lib/stable-generated-json.mjs';
 
 const ROOT = process.cwd();
@@ -1068,48 +1068,32 @@ function resolveElectionGeography(entry) {
   if (body === 'Referendum (Ireland)') {
       const date = String(entry.date || '');
     if (isNationalAggregateElection(entry)) return { sourceMapId: 'roi-1938', singleConstituency: true };
+    // The Cork city boundary moved on 31 May 2019, a week after that year's divorce
+    // referendum, so the referendum belongs on the 2014 council areas.
+    const councilSet = date < '2019-05-31' ? 'local-authorities-2014' : 'local-authorities-2024';
     if (looksLikeRoiLocalAuthorityResults(entry)) {
-      if (year >= 2019) return { sourceMapId: 'local-authorities-2024' };
+      if (year >= 2014) return { sourceMapId: councilSet };
       if (year >= 2002) return { sourceMapId: 'local-authorities-2002' };
       if (year >= 1992) return { sourceMapId: 'local-authorities-1994' };
     }
-    if (String(entry.date || '') >= '2024-11-29') return { sourceMapId: 'dail-2023' };
-    if (year === 2019) return { sourceMapId: 'local-authorities-2024' };
-    if (year >= 2017) return { sourceMapId: 'dail-2017' };
-    // Every threshold below was one revision too late: it keyed on the year a
-    // revision was NAMED, not the year it took effect. A constituency revision first
-    // applies at the next general election, so a referendum in 2013 was fought on the
-    // 2009 boundaries, not the 2013 ones. Rates measured by
-    // scripts/diagnose-election-geography.mjs, before -> after:
-    //   2013, 2015   dail-2013 30/43  ->  dail-2009 42/43
-    //   2002         dail-2005 39/42  ->  dail-1998 41/42
-    //   1992-1996    dail-1998 39/41  ->  dail-1990 40/41
-    //   1983, 1987   roi-counties-2011 8/41  ->  dail-1990 38/41
-    //   1972         roi-counties-2011 9/42  ->  dail-1969 39/42
-    if (year >= 2013) return { sourceMapId: 'dail-2009' };
-    if (year >= 2011) return { sourceMapId: 'dail-2009' };
-    // 2007-2010 keeps dail-2005: the 2009 Lisbon II referendum matches 43/43 there
-    // and only 38 on dail-1998.
-    if (year >= 2007) return { sourceMapId: 'dail-2005' };
-    // 1997, 1998 and 2002 all sit on dail-1998 (41-42 of 42); moving them to
-    // dail-1990 cost three matches each.
-    if (year >= 1997) return { sourceMapId: 'dail-1998' };
-    if (year >= 1992) return { sourceMapId: 'dail-1990' };
-    // 1983 and 1987 are reported by Dail constituency; 1979 and 1984 by county, and
-    // for those roi-counties-2011 already matches 29/31 and stays.
-    // entry.date for a referendum carries the question slug too, e.g.
-      // "1983-09-07-right-to-life-of-the-unborn", so this has to be a prefix test.
-      // An equality check here silently never fired.
-      if (date.startsWith('1983-09-07') || date.startsWith('1987-05-26')) return { sourceMapId: 'dail-1990' };
+    if (year === 2019) return { sourceMapId: councilSet };
     // 1979 and 1984 are reported by local authority, not constituency: 31 units,
     // being 27 county councils plus the Cork, Dublin, Limerick and Waterford
     // corporations. roi-counties-2011 has 26 features and no cities, so it scored
     // 29/31 partly by folding "Cork City" onto Cork County -- worse than a miss --
     // and has a single "Tipperary County" where these report the North and South
     // Ridings separately. The era-correct local-authority layers have exactly 31.
+    // (entry.date for a referendum carries the question slug too, e.g.
+    // "1984-06-14-extension-of-...", so these are prefix tests.)
     if (date.startsWith('1979-07-05')) return { sourceMapId: 'local-authorities-1977' };
     if (date.startsWith('1984-06-14')) return { sourceMapId: 'local-authorities-1980' };
-    if (year === 1972) return { sourceMapId: 'dail-1969' };
+    // Everything else is reported by Dáil constituency. A revision of the constituencies
+    // only applies from the next general election, so each referendum takes the set in
+    // force on its day: the set first used at the latest general election on or before
+    // it (a referendum held on the day of a general election is fought on the new set).
+    for (const [firstUsed, sourceMapId] of DAIL_SETS_BY_FIRST_USE) {
+      if (date.slice(0, 10) >= firstUsed) return { sourceMapId };
+    }
     return { sourceMapId: 'roi-counties-2011' };
   }
   if (body === 'European Parliament (Ireland)') {
@@ -1223,6 +1207,22 @@ function isNationalAggregateElection(entry) {
   return constituencies.length === 1 && ['ireland', 'republic of ireland'].includes(normalizeName(constituencies[0]));
 }
 
+// Dáil constituency sets, newest first, with the general election each was first used at.
+const DAIL_SETS_BY_FIRST_USE = [
+  ['2024-11-29', 'dail-2023'],
+  ['2020-02-08', 'dail-2017'],
+  ['2016-02-26', 'dail-2013'],
+  ['2011-02-25', 'dail-2009'],
+  ['2007-05-24', 'dail-2005'],
+  ['2002-05-17', 'dail-1998'],
+  ['1997-06-06', 'dail-1995'],
+  ['1992-11-25', 'dail-1990'],
+  ['1987-02-17', 'dail-1983'],
+  ['1981-06-11', 'dail-1980'],
+  ['1977-06-16', 'dail-1974'],
+  ['1969-06-18', 'dail-1969']
+];
+
 function looksLikeRoiLocalAuthorityResults(entry) {
   const constituencies = entry.constituencies || [];
   const localAuthorityLikeCount = constituencies.filter((name) => {
@@ -1317,7 +1317,9 @@ function contestStatusForResult(result) {
   if (!candidates.length) return 'contested';
   const elected = candidates.filter((candidate) => candidate?.elected).length;
   const seatsTotal = parseNumber(result?.seatsTotal) || parseNumber(result?.seatsWon);
-  const hasAnyVotes = candidates.some((candidate) => parseNumber(candidate?.firstPrefs) > 0);
+  // An unopposed return carries no votes, or (the presidential records) a placeholder 1.
+  // A real count is more than that, so a winners-only record with votes stays contested.
+  const hasAnyVotes = candidates.some((candidate) => parseNumber(candidate?.firstPrefs) > 1);
   if (seatsTotal && elected >= seatsTotal && candidates.length <= seatsTotal && !hasAnyVotes) return 'uncontested';
   return 'contested';
 }
@@ -1367,6 +1369,11 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     applyLifespanEvidence(entry, result);
     attachOfficialPersonIds(key, result, constituency);
     const resultMetadata = classifyElectionResult(entry, result, electionMetadata);
+    // An unopposed return polled nothing: drop the placeholder vote some records carry, so
+    // the pane says "Unopposed" rather than "1".
+    if (resultMetadata.contestStatus === 'uncontested' && Array.isArray(result.candidates)) {
+      result.candidates = result.candidates.map((candidate) => (parseNumber(candidate?.firstPrefs) === 1 ? { ...candidate, firstPrefs: 0 } : candidate));
+    }
     const matchEntry = matchEntryForConstituency(entry, result.constituency || constituency);
     const localBody = entry.bodyGroup === 'local-government' ? matchEntry.body : null;
     if (localBody && Array.isArray(result.candidates)) {
@@ -1456,6 +1463,12 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     }
   }
 
+  // An election in which every return was unopposed (a president elected unopposed, or an
+  // unopposed by-election) is itself uncontested.
+  if (results.length && results.every((result) => result.contestStatus === 'uncontested')) {
+    electionMetadata.contestStatus = 'uncontested';
+    electionMetadata.candidateRowsExpected = false;
+  }
   const matchedCount = results.filter((result) => result.matched).length;
   const unmatchedCount = results.length - matchedCount;
   const availableStyleModes = STYLE_MODES.filter((mode) => modeAvailable(mode, results));
@@ -1544,8 +1557,39 @@ const REFERENDUM_RESULT_FEATURE_SPLITS = Object.freeze({
   }
 });
 
+// Results whose name loose matching sends to the wrong shape, pinned to the feature they
+// belong to (by the feature's own name). The loose keys drop "City" and "County", and the
+// first feature to claim a key keeps it: on dail-2009 "Limerick City" took "limerick", so
+// the county constituency's result coloured the city; on the council layers "Cork City"
+// fell to the county council (and, in 2002, "County Cork" to the city council).
+const COUNCIL_RESULT_FEATURES = (cities) => Object.fromEntries([
+  ...['Carlow', 'Cavan', 'Clare', 'Cork', 'Donegal', 'Dublin', 'Galway', 'Kerry', 'Kildare', 'Kilkenny', 'Leitrim',
+    'Limerick', 'Longford', 'Louth', 'Mayo', 'Meath', 'Monaghan', 'Offaly', 'Roscommon', 'Sligo', 'Waterford',
+    'Westmeath', 'Wexford', 'Wicklow']
+    .map((county) => [`county ${county.toLowerCase()}`, `${county.toUpperCase()} COUNTY COUNCIL`]),
+  ...Object.entries(cities).map(([city, feature]) => [`${city.toLowerCase()} city`, feature])
+]);
+const RESULT_FEATURE_OVERRIDES = {
+  'dail-2009': { limerick: 'Limerick', 'limerick city': 'Limerick City' },
+  // Its features carry seat counts, "Limerick City (4)" and "Limerick (3)".
+  'dail-2013': { limerick: 'Limerick', 'limerick county': 'Limerick', 'limerick city': 'Limerick City' },
+  'local-authorities-1977': COUNCIL_RESULT_FEATURES({ Cork: 'CORK CORPORATION', Dublin: 'DUBLIN CORPORATION', Limerick: 'LIMERICK CORPORATION', Waterford: 'WATERFORD CORPORATION' }),
+  'local-authorities-1980': COUNCIL_RESULT_FEATURES({ Cork: 'CORK CORPORATION', Dublin: 'DUBLIN CORPORATION', Limerick: 'LIMERICK CORPORATION', Waterford: 'WATERFORD CORPORATION' }),
+  'local-authorities-1994': COUNCIL_RESULT_FEATURES({ Cork: 'CORK CORPORATION', Dublin: 'DUBLIN CORPORATION', Galway: 'GALWAY CORPORATION', Limerick: 'LIMERICK CORPORATION', Waterford: 'WATERFORD CORPORATION' }),
+  'local-authorities-2002': COUNCIL_RESULT_FEATURES({ Cork: 'CORK CITY COUNCIL', Dublin: 'DUBLIN CITY COUNCIL', Galway: 'GALWAY CITY COUNCIL', Limerick: 'LIMERICK CITY COUNCIL', Waterford: 'WATERFORD CITY COUNCIL' })
+};
+
+function overriddenFeature(featureLookup, geography, resultName) {
+  const target = RESULT_FEATURE_OVERRIDES[geography?.sourceMapId || '']?.[normalizeName(resultName)];
+  if (!target) return null;
+  const want = normalizeName(target);
+  return (featureLookup.items || []).find((item) => normalizeName(item.name) === want) || null;
+}
+
 function matchFeaturesForResult(featureLookup, entry, geography, result, matchEntry, singleFeature = null) {
   if (singleFeature) return [singleFeature];
+  const pinned = overriddenFeature(featureLookup, geography, result.constituency);
+  if (pinned) return [pinned];
   const direct = matchFeature(featureLookup, result.constituency, matchEntry);
   if (direct) return [direct];
   const splitTargets = referendumSplitTargets(entry, geography, result);
@@ -2124,6 +2168,8 @@ function buildFeatureLookup(index, sourceMapId) {
       }
     }
   }
+  // Every feature, including any that lost all its keys to an earlier one, for pinned matches.
+  byName.items = index?.items || [];
   return byName;
 }
 
@@ -2859,7 +2905,7 @@ function electionKey(entry) {
 }
 
 function compareElectionEntries(a, b) {
-  const dateCompare = String(b.date).localeCompare(String(a.date));
+  const dateCompare = compareElectionsNewestFirst({ key: a.key || electionKey(a), date: a.date }, { key: b.key || electionKey(b), date: b.date });
   if (dateCompare !== 0) return dateCompare;
   return String(a.body).localeCompare(String(b.body));
 }
