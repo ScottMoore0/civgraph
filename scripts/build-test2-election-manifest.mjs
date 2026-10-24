@@ -345,6 +345,8 @@ const SOURCE_NAME_ALIASES = new Map([
   //     North-West", "Cork South-East") and in the results as Cork City North and South.
   ['dail-1947', new Map([
     ['Cork', 'Cork Borough'],
+    // Filed by its period name; the 1959 referendum's results call it Laois–Offaly.
+    ['Leix-Offaly', ['Leix Offaly', 'Laois Offaly']],
     ['Dublin North (Central)', 'Dublin North Central'],
     ['Dublin North (East)', 'Dublin North East'],
     ['Dublin North (West)', 'Dublin North West'],
@@ -1094,7 +1096,8 @@ function resolveElectionGeography(entry) {
     for (const [firstUsed, sourceMapId] of DAIL_SETS_BY_FIRST_USE) {
       if (date.slice(0, 10) >= firstUsed) return { sourceMapId };
     }
-    return { sourceMapId: 'roi-counties-2011' };
+    // 1937 was fought on the 1935 constituencies, which have no map yet: results only.
+    return { sourceMapId: null };
   }
   if (body === 'European Parliament (Ireland)') {
     return sourceByYear(year, [
@@ -1220,7 +1223,9 @@ const DAIL_SETS_BY_FIRST_USE = [
   ['1987-02-17', 'dail-1983'],
   ['1981-06-11', 'dail-1980'],
   ['1977-06-16', 'dail-1974'],
-  ['1969-06-18', 'dail-1969']
+  ['1969-06-18', 'dail-1969'],
+  ['1961-10-04', 'dail-1961'],
+  ['1948-02-04', 'dail-1947']
 ];
 
 function looksLikeRoiLocalAuthorityResults(entry) {
@@ -2831,8 +2836,10 @@ function sourceByYear(year, rows) {
 }
 
 function resultsOnlyElection(bundle) {
+  // The Republic's local elections without an LEA map, and referendums on constituencies with
+  // no map (1937, on the 1935 set): their results are shown without a layer.
   return !bundle.loadable
-    && bundle.bodySlug === 'ireland-local'
+    && ['ireland-local', 'ireland-referendum'].includes(bundle.bodySlug)
     && !bundle.sourceMapId
     && (bundle.results || []).some((result) => (result.candidates || []).length > 0);
 }

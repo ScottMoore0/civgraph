@@ -1,6 +1,6 @@
 # Test2 Election Data Audit
 
-Generated: 2026-10-24T17:24:10.075Z
+Generated: 2026-10-24T21:37:36.369Z
 
 This is a repeatable repository-local audit of the generated /test2 election data, Browse election entries, source/reference records, transfer/count payload availability, and saved Wikipedia party-colour comparison outputs. It intentionally does not fetch live web pages, so CI can run it deterministically.
 
@@ -8,18 +8,18 @@ This is a repeatable repository-local audit of the generated /test2 election dat
 
 |area|value|
 |---|---:|
-|parent elections in manifest|1031|
-|manifest loadable elections|462|
+|parent elections in manifest|1035|
+|manifest loadable elections|465|
 |manifest placeholders|566|
-|Browse parent election entries|1031|
-|Browse constituency/DEA sub-entries|9123|
-|Browse overall sub-entries|1031|
-|source detail records|1031|
-|result bundles loaded|1031|
-|result rows audited|9123|
-|candidate rows audited|51082|
-|rows with count detail|9103|
-|rows with animation payload|9103|
+|Browse parent election entries|1035|
+|Browse constituency/DEA sub-entries|9641|
+|Browse overall sub-entries|1035|
+|source detail records|1035|
+|result bundles loaded|1035|
+|result rows audited|9641|
+|candidate rows audited|52119|
+|rows with count detail|9621|
+|rows with animation payload|9621|
 |rows expected to have transfer/count data|3714|
 |expected transfer/count rows missing detail|0|
 |valid-poll review sidecar records|0|
@@ -60,10 +60,10 @@ _None._
 |parent source records missing|0|
 |source records with no references|0|
 |source records with one reference|0|
-|source records with multiple references|1031|
+|source records with multiple references|1035|
 |Browse sub-entries with no references|0|
 |Browse sub-entries with one reference|0|
-|Browse sub-entries with multiple references|10154|
+|Browse sub-entries with multiple references|10676|
 
 ## Party Colour Audit
 
