@@ -54,7 +54,7 @@ export function toolbarHtml(c) {
     <button type="button" class="cn-filters-toggle" data-cn-act="filters" aria-expanded="${c.filtersOpen}">${icon('sliders')}Filters${active ? ` <span class="cn-badge">${active}</span>` : ''}</button>
     <div class="cn-filters">
       <div class="cn-frow">
-        <span class="cn-fgroup" role="group" aria-label="Kind"><span class="cn-label">Kind</span>${chip('ekind', 'general', 'General elections')}${chip('ekind', 'by-election', 'By-elections')}${chip('ekind', '', 'All')}</span>
+        <span class="cn-fgroup" role="group" aria-label="Kind"><span class="cn-label">Kind</span>${chip('ekind', 'general', 'General elections')}${chip('ekind', 'by-election', 'Bye-elections')}${chip('ekind', '', 'All')}</span>
         <span class="cn-fgroup" role="group" aria-label="Where"><span class="cn-label">Where</span>${chip('escope', 'Northern Ireland', ESCOPE_SHORT['Northern Ireland'])}${chip('escope', 'Republic of Ireland', ESCOPE_SHORT['Republic of Ireland'])}${chip('escope', 'Ireland', ESCOPE_SHORT.Ireland)}</span>
       </div>
       ${sliderHtml('elections', c.electionBins, i, j, c.yearState('elections'))}
@@ -68,12 +68,12 @@ export function resultsHtml(c) {
   const banner = c.person ? personBannerHtml(c) : '';
   // General elections are the default; say how many by-elections that leaves out, and offer them.
   const byHidden = c.efilters.ekind === 'general' && !c.person ? c.byElectionsHidden() : 0;
-  const showBy = byHidden ? ` <button type="button" class="cn-link" data-cn-filter="ekind" data-value="">Show ${plural(byHidden, 'by-election')} too</button>` : '';
+  const showBy = byHidden ? ` <button type="button" class="cn-link" data-cn-filter="ekind" data-value="">Show ${plural(byHidden, 'bye-election')} too</button>` : '';
   if (!list.length) {
     return `${extras}${banner}<p class="cn-empty" role="status">${c.query ? `No general elections match “${esc(c.query)}”` : 'No elections match these filters'}.${showBy}
       ${c.activeFilterCount('elections') ? ' <button type="button" class="cn-link" data-cn-act="clear-filters">Clear the filters</button>' : ''}${c.otherTabHint()}</p>`;
   }
-  const summary = c.person ? '' : `<p class="cn-summary" role="status">${plural(list.length, c.efilters.ekind === 'general' ? 'general election' : c.efilters.ekind === 'by-election' ? 'by-election' : 'election')}${c.query ? ` match “${esc(c.query)}”` : ''}${c.activeFilterCount('elections') ? ', filtered' : ''}. Open one to draw it on the map with its results.${showBy}</p>`;
+  const summary = c.person ? '' : `<p class="cn-summary" role="status">${plural(list.length, c.efilters.ekind === 'general' ? 'general election' : c.efilters.ekind === 'by-election' ? 'bye-election' : 'election')}${c.query ? ` match “${esc(c.query)}”` : ''}${c.activeFilterCount('elections') ? ', filtered' : ''}. Open one to draw it on the map with its results.${showBy}</p>`;
   const shelves = shelvesOf(list);
   return `${extras}${banner}${summary}${shelves.map(({ g, es }) => shelfHtml(c, g, es, shelves.length === 1)).join('')}`;
 }
@@ -113,13 +113,24 @@ function seatsText(e) {
   return plural(e.seats, e.contestType === 'referendum' ? 'count area' : 'constituency', e.contestType === 'referendum' ? 'count areas' : 'constituencies');
 }
 
+// What the description is about, in the title's own terms: "About these elections" for the
+// Republic's local elections (one title for every council), "About this referendum", and so on.
+function aboutLabel(e) {
+  const title = String(e.title || '');
+  if (/\bplebiscite\b/i.test(title)) return 'About this plebiscite';
+  if (/\breferendum\b/i.test(title) || e.contestType === 'referendum') return 'About this referendum';
+  if (/\brecall petition\b/i.test(title)) return 'About this recall petition';
+  if (/\belections\b/i.test(title)) return 'About these elections';
+  return 'About this election';
+}
+
 export function rowHtml(c, e) {
   const note = c.electionHits?.get(e.key);
   const stood = c.person?.contests.get(e.key);
   const meta = [
     `<span class="cn-badge">${esc(bodyShort(e))}</span>`,
     seatsText(e) && `<span>${esc(seatsText(e))}</span>`,
-    e.kind === 'by-election' && '<span class="cn-badge">By-election</span>',
+    e.kind === 'by-election' && `<span class="cn-badge">${/^(dail|seanad)-eireann$/.test(e.bodySlug) ? 'Bye-election' : 'By-election'}</span>`,
     e.mapless && '<span class="cn-badge" title="No map of these constituencies yet: opens the results">Results only</span>',
     note && `<span>${esc(note)}</span>`,
     stood && `<span class="cn-person-note">${esc([stood.place, stood.party].filter(Boolean).join(' · '))}${stood.place || stood.party ? ' · ' : ''}<strong>${stood.won ? 'Elected' : 'Not elected'}</strong></span>`,
@@ -132,6 +143,6 @@ export function rowHtml(c, e) {
       <a class="cn-iconbtn" href="/browse/#/elections/${encodeURIComponent(browseSlug(e.key))}" aria-label="${esc(e.title)}: results page" title="Results page: candidates, votes and sources">${icon('file-text')}</a>
       <button type="button" class="cn-add" data-cn-election-toggle="${esc(e.key)}" aria-pressed="false" aria-label="${esc(e.title)}: open on the map">${icon('plus', 'cn-icon cn-when-off')}${icon('check', 'cn-icon cn-when-on')}<span class="cn-when-off">Open</span><span class="cn-when-on">On map</span></button>
     </span>
-    ${e.about ? `<details class="cn-erow__about"><summary>About this election</summary>${aboutHtml(e.about)}</details>` : ''}
+    ${e.about ? `<details class="cn-erow__about"><summary>${esc(aboutLabel(e))}</summary>${aboutHtml(e.about)}</details>` : ''}
   </li>`;
 }
