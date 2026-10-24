@@ -142,6 +142,12 @@ function addMap(id) {
   if (layer?.geometryType) rec.geometry = layer.geometryType;
   if (m.description) rec.description = String(m.description).slice(0, 600);
   if (m.changeNote) rec.note = String(m.changeNote).slice(0, 300);
+  // The orders a boundary edition follows, with the dates each took effect for each purpose
+  // (registration, valuation, elections...), since an order rarely took effect on one day.
+  if (m.boundaryOrders?.length) {
+    rec.orders = m.boundaryOrders.slice(0, 8).map((o) => ({ divisions: o.divisions, made: o.made, purposes: o.purposes }));
+    if (m.boundaryOrdersSource) rec.ordersSource = m.boundaryOrdersSource;
+  }
   if (licenceOf(m)) rec.licence = licenceOf(m);
   if (m.files?.fgb || (m.origin === 'layer' && m.sourceDownloads?.length)) rec.download = true;
   if (m.origin === 'data') rec.kind = 'statistic';

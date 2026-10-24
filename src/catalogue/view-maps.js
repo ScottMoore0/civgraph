@@ -273,8 +273,18 @@ function factsHtml(c, sel, r) {
     r.licence && ['Licence', r.licence],
     r.status && r.status !== 'ready' && ['Status', r.status === 'placeholder' ? 'To be added: listed, not yet drawn' : 'Incomplete'],
     r.note && ['Note', r.note],
-  ].filter(Boolean);
-  return rows.length ? `<dl class="cn-facts">${rows.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl>` : '';
+  ].filter(Boolean).map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`);
+  if (r.orders?.length) {
+    // Orders that took effect on the same terms are listed together, once.
+    const groups = new Map();
+    for (const o of r.orders) {
+      const k = JSON.stringify(o.purposes || []);
+      if (!groups.has(k)) groups.set(k, { purposes: o.purposes || [], made: [] });
+      groups.get(k).made.push(`<b>${esc(o.divisions)}</b>, made ${esc(longDate(o.made))}`);
+    }
+    rows.splice(1, 0, `<dt>${r.orders.length > 1 ? 'Orders' : 'Order'}</dt><dd><ul class="cn-orders">${[...groups.values()].map((g) => `<li>${g.made.join('; ')}<ul>${g.purposes.map(([what, when]) => `<li>${esc(what)}: ${esc(when)}</li>`).join('')}</ul></li>`).join('')}</ul>${r.ordersSource ? `<span class="cn-orders__src">${esc(r.ordersSource)}</span>` : ''}</dd>`);
+  }
+  return rows.length ? `<dl class="cn-facts">${rows.join('')}</dl>` : '';
 }
 
 function versionsHtml(c, s, sel) {

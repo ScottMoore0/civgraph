@@ -223,6 +223,10 @@ export const CATALOGUE_CSS = `
 .cn-facts { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 3px 12px; margin: 0; font-size: 13px; }
 .cn-facts dt { color: var(--cn-muted); }
 .cn-facts dd { margin: 0; overflow-wrap: anywhere; }
+.cn-orders, .cn-orders ul { margin: 0; padding-left: 16px; }
+.cn-orders { padding-left: 0; list-style: none; display: grid; gap: 6px; }
+.cn-orders ul { color: var(--cn-muted); }
+.cn-orders__src { display: block; margin-top: 4px; font-size: 12px; color: var(--cn-muted); }
 .cn-desc { margin: 0; font-size: 13px; line-height: 1.55; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
 .cn-desc[data-open] { display: block; }
 .cn-sub { display: grid; gap: 6px; }
