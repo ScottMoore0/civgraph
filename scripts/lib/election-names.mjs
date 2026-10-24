@@ -222,11 +222,13 @@ export function canonicalElectionTitle({
   }
 
   if (byElection) {
+    // The Oireachtas spells its own "bye-election"; other bodies keep "by-election".
+    const by = /^(dail|seanad) eireann$/.test(normalizedBody) ? 'bye' : 'by';
     if (names.length > 1) {
       const partitioned = !(normalizedBody === 'house of commons of the united kingdom' && String(date || '').slice(0, 10) < '1922-11-15');
-      return `${year} ${partitioned ? byElectionRegion(body, bodyGroup) : 'Irish'} by-elections`.trim();
+      return `${year} ${partitioned ? byElectionRegion(body, bodyGroup) : 'Irish'} ${by}-elections`.trim();
     }
-    return `${year} ${names[0]} by-election`.trim();
+    return `${year} ${names[0]} ${by}-election`.trim();
   }
 
   if (bodyGroup === 'local-government') {
