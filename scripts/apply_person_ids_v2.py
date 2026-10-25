@@ -28,6 +28,7 @@ attributed one is not.
 import os, re, sys, json, glob, argparse, collections, unicodedata
 
 from generated_json import dump_generated_json
+from build_person_registry_v2 import council_area
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..'))
@@ -67,14 +68,17 @@ def main():
     # An id can belong to more than one entity when the registry split an implausible
     # career at a long silence; each half records its `era`, and a contest's year picks it.
     by_person, by_srcid, name_hits = collections.defaultdict(list), collections.defaultdict(list), collections.defaultdict(set)
+    local_names = collections.defaultdict(set)
     for e in doc['entities']:
         era = e.get('era') or [0, 9999]
         for s in e.get('sourcePersonIds') or []:
             by_person[s].append((era[0], era[1], e['personId']))
         for s in e['sourceIds']:
             by_srcid[s].append((era[0], era[1], e['personId']))
+        # A council-area person (see local_area below) is found by name only in his own area and
+        # years, never by the name rungs every other contest uses.
         for m in e['matchKeys']:
-            name_hits[m].add(e['personId'])
+            (local_names if e.get('localArea') else name_hits)[m].add(e['personId'])
 
     def pick(options, year):
         if not options:
@@ -124,6 +128,21 @@ def main():
             without_source[m].add(e['personId'])
     by_name_group = {m: next(iter(v)) for m, v in without_source.items() if len(v) == 1 and m in ambiguous}
     span = {e['personId']: (e.get('firstYear') or 0, e.get('lastYear') or 9999) for e in doc['entities']}
+    # The registry keeps a Republic councillor's id-less rows to his council area: a name there
+    # can be several people, one per area and run of years, told apart by where and when.
+    local_area = {e['personId']: (e['localArea'], tuple(e['era'])) for e in doc['entities'] if e.get('localArea')}
+    councils = {}
+
+    def area_of(result):
+        sf = result.get('sourceFile')
+        if not sf:
+            return ''
+        if sf not in councils:
+            try:
+                councils[sf] = council_area(json.load(open(os.path.join(REPO, sf), encoding='utf-8')).get('council') or '')
+            except (OSError, ValueError):
+                councils[sf] = ''
+        return councils[sf]
 
     def modern_for(mk):
         return [p for p in name_hits.get(mk, ()) if span.get(p, (0, 9999))[1] >= 1918]
@@ -135,6 +154,9 @@ def main():
         dirty = False
         date = str(doc2.get('date') or '')
         year = int(date[:4]) if date[:4].isdigit() else 0
+
+        local_contest = doc2.get('bodySlug') == 'ireland-local'
+        here = {'area': ''}
 
         def stamp(c):
             nonlocal dirty
@@ -149,6 +171,12 @@ def main():
                 cid = str(c.get('id') or '').strip()
                 pid = pick(by_srcid.get(cid, []), year)
                 how = 'by-id' if pid else None
+            if not pid and local_contest:
+                mk = matchkey(c.get('name') or '')
+                mine = [p for p in local_names.get(mk, ()) if p in local_area
+                        and local_area[p][0] == here['area'] and local_area[p][1][0] <= year <= local_area[p][1][1]]
+                if len(mine) == 1:
+                    pid, how = mine[0], 'by-name-local'
             if not pid:
                 mk = matchkey(c.get('name') or '')
                 # A name made ambiguous only by a split-off person (official id, lifespan) still
@@ -180,6 +208,7 @@ def main():
         # Referendum options are not people: strip any personId rather than stamp one.
         referendum = str(doc2.get('contestType') or '') == 'referendum'
         for r in doc2.get('results') or []:
+            here['area'] = area_of(r) if local_contest else ''
             for c in (r.get('candidates') or []):
                 if referendum:
                     if c.pop('personId', None) is not None:
@@ -216,9 +245,9 @@ def main():
 
     tot = sum(stats.values())
     print(f'{tot:,} named candidacies')
-    for k in ('by-official-id', 'by-source-person', 'by-id', 'by-name', 'by-name-group', 'ambiguous-name', 'unresolved'):
+    for k in ('by-official-id', 'by-source-person', 'by-id', 'by-name-local', 'by-name', 'by-name-group', 'ambiguous-name', 'unresolved'):
         print(f'   {stats[k]:7,}  {k}')
-    res = stats['by-official-id'] + stats['by-source-person'] + stats['by-id'] + stats['by-name'] + stats['by-name-group']
+    res = stats['by-official-id'] + stats['by-source-person'] + stats['by-id'] + stats['by-name-local'] + stats['by-name'] + stats['by-name-group']
     print(f'   resolved {res:,}/{tot:,} ({100*res/tot:.1f}%)')
     print(f'   ambiguous names (shared by >1 entity): {len(ambiguous):,}')
     print(f"\nfiles {'that would change' if args.check else 'written'}: {changed}")

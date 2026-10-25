@@ -80,8 +80,30 @@ def official_ids(c):
     return tuple(sorted(offs))
 
 
+def council_area(council):
+    """The county a Republic council belongs to: "Cork City Council" and "Cork County Council"
+    are one area, as are Dublin's city and county councils, so a councillor who moves between
+    a city and its county stays one person."""
+    c = re.sub(r'\s+', ' ', str(council or '')).strip()
+    if re.search(r'Fingal|South Dublin|D[uú]n Laoghaire|Dublin', c, re.I):
+        return 'dublin'
+    c = re.sub(r'\([^)]*\)|\b(North|South) Riding\b', ' ', c)  # Tipperary's two ridings are one county
+    c = re.sub(r'\b(City and County|County|City|Borough|Town|Urban District|Corporation)\b.*$', '', c, flags=re.I).strip()
+    return matchkey(c)
+
+
 def scan():
     rows = []
+    councils = {}
+    def council_of(source_file):
+        if not source_file:
+            return ''
+        if source_file not in councils:
+            try:
+                councils[source_file] = json.load(open(os.path.join(REPO, source_file), encoding='utf-8')).get('council') or ''
+            except (OSError, ValueError):
+                councils[source_file] = ''
+        return councils[source_file]
     for f in sorted(glob.glob(os.path.join(META, '*.json'))):
         d = json.load(open(f, encoding='utf-8'))
         # Referendum options ("Yes", "No") are not people. Registered as two, they carried
@@ -90,11 +112,13 @@ def scan():
             continue
         yr = str(d.get('date') or '')[:4]
         for r in d.get('results') or []:
+            area = council_area(council_of(r.get('sourceFile'))) if d.get('bodySlug') == 'ireland-local' else ''
             for c in (r.get('candidates') or []):
                 nm = (c.get('name') or '').strip()
                 if not nm:
                     continue
-                rows.append({'id': str(c.get('id') or '').strip(), 'name': nm,
+                rows.append({'id': str(c.get('id') or '').strip(), 'name': nm, 'area': area,
+                             'cons': str(r.get('constituency') or ''),
                              'src': str(c.get('sourcePersonId') or '').strip(),
                              'key': d.get('key'), 'body': d.get('bodySlug'),
                              'year': int(yr) if yr.isdigit() else 0,
@@ -126,6 +150,7 @@ def main():
     prev_by_person = collections.defaultdict(set)
     prev_by_source = collections.defaultdict(set)
     prev_by_key = collections.defaultdict(set)
+    prev_by_official = collections.defaultdict(set)
     prev_by_namerows = collections.defaultdict(set)
     for pid, e in prev.items():
         for sp in e.get('sourcePersonIds') or []:
@@ -136,6 +161,8 @@ def main():
             prev_by_key[mk].add(pid)
         for mk in e.get('nameKeyedRows') or []:
             prev_by_namerows[mk].add(pid)
+        for o in e.get('officialPersonIds') or []:
+            prev_by_official[o].add(pid)
 
     curated = {}
     if os.path.exists(OLD):
@@ -173,6 +200,54 @@ def main():
         else:
             k = ('name', matchkey(r['name']))
         groups[k].append(r)
+
+    # A COUNCILLOR'S NAME DOES NOT TRAVEL. Most rows of the 1974, 1979 and 1985 Republic local
+    # elections carry no id, so they fell into the group of their bare name, beside every
+    # namesake on record: a Naas councillor of 1974-85 with the Cumann na nGaedheal TD John
+    # O'Neill of 1927 (61 such careers in a trial build, 25 to 63 years apart). A local row with
+    # no id stays with others of its name only where they are in the same council area (a
+    # county, its city with it) and within 15 years of one of them; the rows of a name that
+    # chain together that way are one person, and any other local rows of the name are others.
+    # Rows of other bodies with no id keep their name group as before, without the local rows.
+    LOCAL_GAP = 15
+    AREA_WORDS = {'dublin': ('dublin', 'dun laoghaire', 'fingal', 'rathdown'), 'laois': ('laois', 'leix', 'laoighis'),
+                  'offaly': ('offaly',), 'tipperary': ('tipperary',)}
+    local_splits = 0
+    for k in [k for k in groups if k[0] == 'name']:
+        local = [r for r in groups[k] if r['body'] == 'ireland-local']
+        if not local:
+            continue
+        rest = [r for r in groups[k] if r['body'] != 'ireland-local']
+        clusters = []
+        for r in sorted(local, key=lambda r: (r['area'], r['year'])):
+            home = next((cl for cl in clusters if cl[0]['area'] == r['area'] and r['area']
+                         and any(abs((x['year'] or 0) - (r['year'] or 0)) <= LOCAL_GAP for x in cl)), None)
+            if home is None:
+                clusters.append([r])
+            else:
+                home.append(r)
+        # A run of local rows is the same person as the name's other rows (a TD's Dail career,
+        # say) where one of those is in a constituency named for the same county and within 15
+        # years: Beverley Cooper Flynn, Mayo county councillor in 1999 and TD for Mayo.
+        def same_county(row, area):
+            words = AREA_WORDS.get(area, (area,))
+            cons = matchkey(row['cons'])
+            return bool(area) and any(re.search(r'(^| )%s( |$)' % re.escape(w), cons) for w in words)
+        joined = [cl for cl in clusters if any(same_county(x, cl[0]['area']) and abs((x['year'] or 0) - (r['year'] or 0)) <= LOCAL_GAP
+                                               for x in rest for r in cl)]
+        rest = rest + [r for cl in joined for r in cl]
+        clusters = [cl for cl in clusters if cl not in joined]
+        if not clusters:
+            continue
+        if not rest and len(clusters) == 1:
+            continue
+        del groups[k]
+        if rest:
+            groups[k] = rest
+        for cl in clusters:
+            yrs = sorted({r['year'] for r in cl if r['year']})
+            groups[k + ('local:%s:%d-%d' % (cl[0]['area'] or 'unknown', yrs[0] if yrs else 0, yrs[-1] if yrs else 0),)] = cl
+        local_splits += 1
 
     # IMPLAUSIBLE CAREERS ARE SPLIT AT THEIR LONGEST SILENCE. An id -- the source's own
     # person id or a candidacy id -- that spans more than 60 years with a gap of 25 or more
@@ -536,14 +611,20 @@ def main():
     for k, v in merged.items():
         persons = {r['src'] for r in v if r['src']}
         sources = {r['id'] for r in v if r['id'] and r['id'] not in bad_ids}
+        # An official person id is evidence too: half of a career split by its official ids
+        # often has no source id of its own, and without this got a new number on every build
+        # (Andrew Wilson, democracyclub:69384).
+        offs = {o for r in v for o in r['off']}
         prior = set()
         for sp in persons:
             prior |= prev_by_person.get(sp, set())
         for sid in sources:
             prior |= prev_by_source.get(sid, set())
+        for o in offs:
+            prior |= prev_by_official.get(o, set())
         for pid in prior:
             e = prev[pid]
-            score = (len(set(e.get('sourcePersonIds') or []) & persons),
+            score = (len(set(e.get('sourcePersonIds') or []) & persons) + len(set(e.get('officialPersonIds') or []) & offs),
                      len(set(e.get('sourceIds') or []) & sources), 0)
             evidence.append((score, span_fit(pid, v), len(v), -pid, str(k), k, pid))
         # A name-keyed group has no source evidence, but the prior name-keyed entity under
@@ -616,6 +697,12 @@ def main():
             e['era'] = [min(yrs), max(yrs)] if yrs else [0, 9999]
             e['eraReason'] = (f'split by its official person id ({k[2][9:]}): the source id it '
                               'shares is held by another person with another official id')
+        elif len(k) > 2 and str(k[2]).startswith('local:'):
+            _, area, years = k[2].split(':')
+            e['era'] = [int(y) for y in years.split('-')]
+            e['localArea'] = area
+            e['eraReason'] = ('rows of a name with no id in one council area, none more than 15 '
+                              'years from another; namesakes elsewhere are other people')
         elif len(k) > 2:
             lo, hi = (int(x) for x in k[2].split('-'))
             e['era'] = [lo, hi]
@@ -657,6 +744,7 @@ def main():
     print(f'candidacies scanned         : {len(rows):,}')
     print(f'row-index ids discarded     : {len(bad_ids)}')
     print(f'implausible careers split   : {len(career_splits)}')
+    print(f'councillor names split      : {local_splits} (local rows with no id, by council area and 15-year chains)')
     for k, a, b in career_splits:
         print(f'    {k[0]} {k[1]}: split between {a} and {b}')
     print(f'cross-system merges applied : {len(merges):,}')

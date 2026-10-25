@@ -22,9 +22,9 @@ does for them what integrate_roi_dail.py did for the Dail.
 
 ElectionsIreland holds partial results for several years, and that is not repaired here
 because the source does not have it: 2019 has results for 103 of 166 areas, 2024 for 63 of
-166. Those years are published with the coverage stated. 1974, 1979 and 1985 have results
-for 2, 3 and 16 areas; they are held back, because an "election" drawn from a handful of
-areas would read as the whole contest.
+166. Those years are published with the coverage stated. 1974, 1979 and 1985 had results for
+only 2, 3 and 16 areas from ElectionsIreland; with the source-checked fills they reach 61%, 58%
+and 82% of areas, and are published like the rest.
 
 Idempotent. `--dry-run` reports the plan and writes nothing.
 
@@ -62,7 +62,9 @@ DATES = {
 
 # Share of an election's areas that must have results before it is published.
 MIN_COVERAGE = 0.25
-HELD_BACK_YEARS = {1974, 1979, 1985}
+# Years kept out regardless of coverage. 1974, 1979 and 1985 were, until the person registry
+# stopped their id-less rows joining namesakes decades away (build_person_registry_v2.py).
+HELD_BACK_YEARS = set()
 # Contests imported with no candidates whose full result is supplied by a source-checked fix
 # (data/elections/corrections/source-checked-fixes.json, replaceCandidates) count as having results.
 FIXES = os.path.join(REPO, 'data', 'elections', 'corrections', 'source-checked-fixes.json')
@@ -226,10 +228,9 @@ def main():
         filled = filled_by_fixes()
         with_results = [r for r in rows if r['candidates'] or os.path.normpath(os.path.join(work_dir, r['file'])) in filled]
         coverage = len(with_results) / len(rows) if rows else 0
-        # 1974, 1979 and 1985 clear the coverage bar once source-checked fills are counted, but
-        # their rows mostly lack ElectionsIreland ids, and the person registry then joins them by
-        # name to namesakes decades apart (61 such careers in a trial build, 2026-10-18). Held back
-        # until name-only rows are kept from joining across long gaps.
+        # 1974, 1979 and 1985 clear the coverage bar once source-checked fills are counted. Their
+        # rows mostly lack ElectionsIreland ids; the person registry keeps such rows to their
+        # council area and a 15-year chain, so they no longer join namesakes decades apart.
         published = coverage >= MIN_COVERAGE and year not in HELD_BACK_YEARS
         print('%d -> %s | councils %d | areas %d | with results %d (%.0f%%) | %s | %s | orphan files %d' % (
             year, date, len(councils), len(rows), len(with_results), 100 * coverage,
