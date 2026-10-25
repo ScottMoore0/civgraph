@@ -56,8 +56,15 @@ for (const layer of layers) {
     skipped += 1;
     continue;
   }
-  const propertyColumns = unique([effectiveIdProperty, ...nameProperties, ...featureRepairProperties(layer)])
-    .map((key) => `${quoteSqlIdentifier(key)} AS ${quoteSqlIdentifier(key)}`);
+  // A layer whose own ids repeat or are missing draws its tiles with promoteId=civ_fid, the
+  // feature's row number (build-test-pmtiles injects it). Opted in with featureIndexIdFromFid,
+  // its index takes the same row number, so a matched result colours that one feature.
+  const fidId = layer.featureIndexIdFromFid === true && layer.promoteId === 'civ_fid';
+  const propertyColumns = [
+    ...(fidId ? ['rowid AS "civ_fid"'] : []),
+    ...unique([...(fidId ? [] : [effectiveIdProperty]), ...nameProperties, ...featureRepairProperties(layer)])
+      .map((key) => `${quoteSqlIdentifier(key)} AS ${quoteSqlIdentifier(key)}`)
+  ];
   const columns = featureIndexColumns(layer, propertyColumns);
   const where = featureIndexWhere(layer);
   const result = spawnSync('ogr2ogr', [
@@ -88,7 +95,7 @@ for (const layer of layers) {
       const lon = Number(props.lon);
       const lat = Number(props.lat);
       return {
-        id: cleanIndexValue(repairedProps[effectiveIdProperty]) || `${layer.id}-${index}`,
+        id: fidId ? Number(props.civ_fid) : (cleanIndexValue(repairedProps[effectiveIdProperty]) || `${layer.id}-${index}`),
         name,
         aliases: nameProperties.map((key) => cleanIndexValue(repairedProps[key])).filter(Boolean),
         center: Number.isFinite(lon) && Number.isFinite(lat) ? [Number(lon.toFixed(6)), Number(lat.toFixed(6))] : null
@@ -136,7 +143,7 @@ function featureIndexWhere(layer) {
 }
 
 function featureRepairProperties(layer) {
-  if (layer.sourceMapId === 'deas-1972' || layer.id === 'deas-1972-vector-test') return ['Area_SqKM'];
+  if (layer.sourceMapId === 'deas-1972' || layer.id === 'deas-1972-vector-test') return ['Area_SqKM', 'OBJECTID'];
   return [];
 }
 
