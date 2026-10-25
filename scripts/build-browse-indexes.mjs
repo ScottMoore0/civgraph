@@ -1513,6 +1513,15 @@ function buildPersons(electionDetails, partyRecords) {
   // Wikidata gives. Shown as links out; the dates fill in where History of Parliament has none.
   const officialDoc = readJson('data/elections/persons/official-person-ids.json', { sources: {} });
   const crosswalkDoc = readJson('data/elections/persons/official-person-crosswalk.json', { ids: {}, people: {} });
+  // Dates from published reference works (Boylan's Dictionary of Irish Biography), cited by
+  // page, for people neither History of Parliament nor Wikidata dates.
+  const referenceDates = readJson('data/elections/persons/reference-dates.json', { sources: {}, people: {} });
+  const referenceDate = (personId, field) => {
+    const r = referenceDates.people?.[personId];
+    const work = r && referenceDates.sources?.[r.source];
+    if (!r?.[field] || !work) return null;
+    return { value: r[field], preferred: Boolean(r.preferOver?.[field]), source: `${work.title} (${work.edition}, ${work.year}), ${/[-–]/.test(r.page) ? `pp. ${String(r.page).replace('-', '–')}` : `p. ${r.page}`}` };
+  };
   const officialProfiles = (ids) => {
     const out = [];
     const seen = new Set();
@@ -1530,6 +1539,12 @@ function buildPersons(electionDetails, partyRecords) {
     const qid = qids.size === 1 ? [...qids][0] : null;
     if (qid) out.push({ source: 'Wikidata', label: 'Wikidata', url: `https://www.wikidata.org/wiki/${qid}`, licence: 'CC0 1.0' });
     return { profiles: out, qid, life: qid ? crosswalkDoc.people?.[qid] || null : null };
+  };
+  const lifeDate = (hop, official, reference, field) => {
+    if (hop.length) return {};
+    const wikidata = official.life?.[field];
+    if (reference && (reference.preferred || !wikidata)) return { [field]: reference.value, [`${field}Source`]: reference.source };
+    return wikidata ? { [field]: wikidata, [`${field}Source`]: official.life[`${field}Source`] || 'Wikidata' } : {};
   };
   let withOfficial = 0;
   const details = Object.fromEntries([...byId.values()].map(({ sourceKeys, officialIds, ...person }) => {
@@ -1617,9 +1632,11 @@ function buildPersons(electionDetails, partyRecords) {
       } : {}),
       ...(official.profiles.length ? { officialProfiles: official.profiles } : {}),
       ...(official.qid ? { wikidata: official.qid } : {}),
-      // Dates from Wikidata where History of Parliament gives none.
-      ...(!hop.length && official.life?.born ? { born: official.life.born, bornSource: official.life.bornSource || 'Wikidata' } : {}),
-      ...(!hop.length && official.life?.died ? { died: official.life.died, diedSource: official.life.diedSource || 'Wikidata' } : {}),
+      // Dates from Wikidata where History of Parliament gives none, and from a reference work
+      // where neither does.
+      // (A reference date marked preferOver, which a second source confirms, wins over Wikidata.)
+      ...lifeDate(hop, official, referenceDate(person.id, 'born'), 'born'),
+      ...lifeDate(hop, official, referenceDate(person.id, 'died'), 'died'),
     };
     return [detail.slug, detail];
   }));

@@ -4007,6 +4007,9 @@ function normalizeArray(value) {
 
 function formatDate(value) {
   if (!value) return '';
+  // A date known only to the month ("1884-10", from a reference work) reads "Oct 1884".
+  const month = /^(\d{4})-(\d{2})$/.exec(String(value));
+  if (month) return `${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][Number(month[2]) - 1]} ${month[1]}`;
   const date = new Date(`${value}T00:00:00Z`);
   if (Number.isNaN(date.getTime())) return String(value);
   // "1 Jan 1950", as everywhere on the site (src/date-format.mjs): no zero-padded day, and a
