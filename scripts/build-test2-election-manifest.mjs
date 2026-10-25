@@ -166,6 +166,8 @@ function applyWalkerCorrections(resultPath, rawResult) {
 //   candidate        { name, set: { field: value } } -- every row of that candidate
 //   candidateById    { candidateId, set } -- every row with that Candidate_Id (unnamed rows)
 //   addCandidate     { row } -- a row in the file's own format; skipped if the name is present
+//   addCandidateRows { rows } -- every count row of one missing candidate, in the file's own
+//                    format (one row per count stage); skipped if the name is present
 //   replaceCandidates{ candidates } -- the whole list (scraper format), for contests imported empty
 const SOURCE_CHECKED_FIXES = path.join(ROOT, 'data', 'elections', 'corrections', 'source-checked-fixes.json');
 const sourceCheckedFixIndex = new Map(
@@ -201,6 +203,10 @@ function applySourceCheckedFixes(resultPath, rawResult) {
     } else if (op.op === 'addCandidate') {
       const list = rawResult.Constituency?.countGroup || (rawResult.candidates ??= []);
       if (!list.some((row) => fixCandidateName(row) === fixCandidateName(op.row))) list.push({ ...op.row });
+    } else if (op.op === 'addCandidateRows') {
+      const list = rawResult.Constituency?.countGroup || (rawResult.candidates ??= []);
+      if (!op.rows?.length) throw new Error(`source-checked-fixes: ${record.sourceFile} addCandidateRows has no rows`);
+      if (!list.some((row) => fixCandidateName(row) === fixCandidateName(op.rows[0]))) list.push(...op.rows.map((row) => ({ ...row })));
     } else if (op.op === 'replaceCandidates') {
       rawResult.candidates = op.candidates.map((candidate) => ({ ...candidate }));
     } else {
