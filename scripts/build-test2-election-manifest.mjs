@@ -2716,6 +2716,50 @@ function buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency
     return rows;
   });
   if (!countGroup.length) return rawResult;
+  // The outgoing Ceann Comhairle is returned automatically and is not on the ballot, so
+  // Wikipedia's count table leaves him out. The imported file has him, as a candidate whose
+  // party is "Ceann Comhairle"; laying the table over the file dropped him, and the seat he
+  // held went to whoever the count left nearest (Fiona O'Loughlin, "deemed elected" for
+  // Kildare South in 2024 in Sean O Fearghail's place). He is kept, as the scraper path
+  // keeps him: elected on the first count with no votes, under the party he sat for.
+  const counted = new Set(countGroup.map((row) => normalizeName(row.candidateName)));
+  const autoReturned = (rawResult?.candidates || []).filter((candidate) => ElectionDomain.scraperCandidateIsAutoReturned(candidate)
+    && !counted.has(normalizeName(fixText(candidate.name || '').trim())));
+  // Numbered after the highest id the table's rows already use: those take the table's own
+  // candidate ids where it has them, so a number by position could fall on one of them (1933
+  // Galway: Frank Fahy's 15 was Robert Burke's, and the two became one candidate).
+  const highestId = Math.max(sidecar.candidates.length, ...countGroup.map((row) => Number(row.Candidate_Id) || 0));
+  autoReturned.forEach((candidate, k) => {
+    const position = highestId + k;
+    const name = fixText(candidate.name || '').trim();
+    const nameParts = candidateNameParts(name);
+    const party = normalizeParty(ElectionDomain.scraperCandidateAffiliatedParty(candidate));
+    countGroup.push({
+      Auto_Returned_Ceann_Comhairle: '1',
+      Candidate_Id: String(position + 1),
+      Candidate_First_Pref_Votes: '0',
+      Constituency_Number: String(rawResult?.officialDail?.constituencyNumber || rawResult?.constituencyNumber || ''),
+      Count_Number: '1',
+      Dail_Abbreviation: candidate.dailAbbreviation || candidate.partyAbbreviation || '',
+      Firstname: nameParts.firstname,
+      Gender: candidate.gender || '',
+      ei_candidate_id: candidate.ei_candidate_id ?? candidate.eiCandidateId ?? eiRoster.get(normalizeName(name)) ?? '',
+      Official_Candidate_Id: candidate.officialCandidateId || '',
+      Official_Status: candidate.officialStatus || '',
+      Party_Abbreviation: candidate.partyAbbreviation || candidate.dailAbbreviation || '',
+      Surname: nameParts.surname,
+      Occurred_On_Count: '1',
+      Party_Colour: partyColour(party),
+      Party_Name: party,
+      Status: 'Elected (auto returned)',
+      Synthetic_Scraper_Row: '1',
+      Synthetic_Scraper_Stage_Row: '',
+      Total_Votes: '0',
+      Transfers: '0',
+      candidateName: name,
+      id: position
+    });
+  });
   const meta = {
     ...(rawResult?.meta || {}),
     ...(sidecar?.meta || {}),
@@ -2745,7 +2789,7 @@ function buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency
   const turnoutPct = sourceTurnoutPct !== null
     ? sourceTurnoutPct
     : (inferredTotalPoll !== null && electorate !== null && electorate > 0 ? inferredTotalPoll / electorate * 100 : null);
-  const electedCount = sidecar.candidates.filter((candidate) => Number(candidate.electedAt || 0) > 0).length;
+  const electedCount = sidecar.candidates.filter((candidate) => Number(candidate.electedAt || 0) > 0).length + autoReturned.length;
   const seatCount = parseNumber(rawResult?.seats ?? meta.Number_Of_Seats ?? meta.seats) || electedCount;
   return {
     ...rawResult,

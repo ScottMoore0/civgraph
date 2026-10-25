@@ -332,11 +332,11 @@ function isCeannComhairleParty(value) {
   return normalizeName(value).includes('ceann comhairle');
 }
 
-function scraperCandidateIsAutoReturned(candidate = {}) {
+export function scraperCandidateIsAutoReturned(candidate = {}) {
   return isCeannComhairleParty(candidate.party);
 }
 
-function scraperCandidateAffiliatedParty(candidate = {}) {
+export function scraperCandidateAffiliatedParty(candidate = {}) {
   const candidateName = normalizeName(fixText(candidate.name || ''));
   return CEANN_COMHAIRLE_AFFILIATION_BY_NAME.get(candidateName) || 'Ceann Comhairle (Speaker)';
 }
