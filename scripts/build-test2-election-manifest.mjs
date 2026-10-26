@@ -165,6 +165,7 @@ function applyWalkerCorrections(resultPath, rawResult) {
 //   set              { path: 'meta.quota' | 'Constituency.countInfo.Valid_Poll', value }
 //   candidate        { name, set: { field: value } } -- every row of that candidate
 //   candidateById    { candidateId, set } -- every row with that Candidate_Id (unnamed rows)
+//   candidateCount   { name, count, set } -- that candidate's row for one count only
 //   addCandidate     { row } -- a row in the file's own format; skipped if the name is present
 //   addCandidateRows { rows } -- every count row of one missing candidate, in the file's own
 //                    format (one row per count stage); skipped if the name is present
@@ -195,6 +196,10 @@ function applySourceCheckedFixes(resultPath, rawResult) {
       const matched = rows().filter((row) => fixCandidateName(row) === want);
       if (!matched.length) throw new Error(`source-checked-fixes: ${record.sourceFile} has no candidate "${op.name}"`);
       for (const row of matched) Object.assign(row, op.set);
+    } else if (op.op === 'candidateCount') {
+      const matched = rows().filter((row) => fixCandidateName(row) === normalizeName(op.name) && String(row.Count_Number) === String(op.count));
+      if (!matched.length) throw new Error(`source-checked-fixes: ${record.sourceFile} has no count ${op.count} row for "${op.name}"`);
+      for (const row of matched) Object.assign(row, op.set);
     } else if (op.op === 'candidateById') {
       // Rows the source left without a usable name ("Party") are told apart by their id.
       const matched = rows().filter((row) => String(row.Candidate_Id ?? row.candidateId ?? '') === String(op.candidateId));
@@ -215,8 +220,14 @@ function applySourceCheckedFixes(resultPath, rawResult) {
   }
   const source = record.source || {};
   const named = [source.publisher, source.title].filter(Boolean).join(', ');
-  const note = `${record.reason}${named ? ` (${named})` : ''}`;
-  rawResult.correctionNote = rawResult.correctionNote ? `${rawResult.correctionNote} ${note}` : note;
+  // A record may also carry a sourceNote: something about the source's own figures (an official
+  // sheet that does not add up), shown as a source note, not as a correction. A record with
+  // only a sourceNote changes nothing and adds no correction note.
+  if (record.reason) {
+    const note = `${record.reason}${named ? ` (${named})` : ''}`;
+    rawResult.correctionNote = rawResult.correctionNote ? `${rawResult.correctionNote} ${note}` : note;
+  }
+  if (record.sourceNote) rawResult.sourceNote = record.sourceNote;
   return rawResult;
 }
 
@@ -1374,6 +1385,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
       cause: rawResult.cause || enrichedRawResult?.cause,
       electorateSource: rawResult.electorateSource || enrichedRawResult?.electorateSource,
       correctionNote: enrichedRawResult?.correctionNote,
+      sourceNote: enrichedRawResult?.sourceNote,
       Constituency: rawResult.Constituency?.countInfo?.Total_Electorate ? rawResult.Constituency : (enrichedRawResult?.Constituency || rawResult.Constituency),
     } : rawResult);
     if (notes.length) result.contestNotes = notes;
@@ -2336,6 +2348,7 @@ function contestNotes(raw) {
         : null)],
     ['Right of election', raw.franchise],
     ['Corrected', raw.correctionNote],
+    ['Source note', raw.sourceNote],
   ].filter(([, text]) => typeof text === 'string' && text.trim())
     .map(([label, text]) => ({ label, text: text.trim() }));
 }

@@ -42,7 +42,7 @@
   ],
   "note": "Ids carrying more than one distinct name are row indices, not people.",
   "crossSystemMerges": 990,
-  "sameNameLeftSplit": 675
+  "sameNameLeftSplit": 677
  },
  "conservatism": "Nothing is merged on name alone. Two ids from the same source system sharing a name stay separate and are flagged needsReview.",
  "entities": [
@@ -122733,12 +122733,10 @@
    "personId": 102254,
    "displayName": "Keith Haughian",
    "aliases": [
-    "Keith Haughian",
-    "Keith Haughlan"
+    "Keith Haughian"
    ],
    "matchKeys": [
-    "keith haughian",
-    "keith haughlan"
+    "keith haughian"
    ],
    "sourceIds": [
     "2756796212",
@@ -122761,7 +122759,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "nameVariants": true
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p102255",
@@ -230452,10 +230450,7 @@
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
    "provisional": true,
-   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
-   "mergedFrom": [
-    133247
-   ]
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p107143",
@@ -582795,14 +582790,15 @@
     "alison blayney"
    ],
    "sourceIds": [
+    "bangor-west-2014-alison-blayney",
     "fix-alison-blayney"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 2011,
-   "lastYear": 2011,
+   "lastYear": 2014,
    "bodies": [
     "local-government"
    ],
@@ -582811,7 +582807,11 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    133247
+   ]
   },
   {
    "id": "p127731",
