@@ -5,28 +5,6 @@ const path = require('path');
 
 const CIVIL_PARISHES_FALLBACK_DIR = path.join(__dirname, '..', '..', 'render', 'tiles', 'civil-parishes-v3');
 
-/**
- * Open a decade section so that election entries exist in the DOM.
- *
- * The catalogue opens on a TABLE OF CONTENTS. Election rows -- .flat-election-entry --
- * are not rendered until a decade is chosen. Measured 2026-08-23: 0 before the click,
- * 170 after clicking the first decade button, while `#catalogueFlatView table tr` (147)
- * and `.catalogue-flat__toc-decade-btn` (15) are present from the start.
- *
- * That mix is why several tests here time out on one waitForFunction after two others
- * have already passed: two of the three selectors describe the TOC, and the third
- * describes what the TOC opens.
- */
-async function openElectionDecade(page) {
-  const decade = page.locator('.catalogue-flat__toc-decade-btn').first();
-  await decade.click({ timeout: 20000 });
-  await page.waitForFunction(
-    () => document.querySelectorAll('#catalogueFlatView .flat-election-entry').length > 10,
-    null,
-    { timeout: 30000 },
-  );
-}
-
 async function loadCivilParishes(page) {
   const useLocalFallback = fs.existsSync(CIVIL_PARISHES_FALLBACK_DIR);
   return page.evaluate(async ({ useLocalFallback }) => {
@@ -132,39 +110,27 @@ test('boots the production shell with the MapLibre adapter', async ({ page }) =>
   await expect(page.locator('#catalogueFlatView')).toBeVisible();
   await expect(page.locator('#map')).toBeVisible();
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
-  await page.waitForFunction(() => document.querySelectorAll('#catalogueFlatView table tr').length > 10);
-  await openElectionDecade(page);
-  await page.waitForFunction(() => document.querySelectorAll('#catalogueFlatView .catalogue-flat__toc .catalogue-flat__toc-decade-btn').length > 10);
+  // Since 2026-10-12 /maps/ shows the rebuilt catalogue (src/catalogue/), drawn into the same
+  // #catalogueFlatView: section tabs over shelves of series, and an Elections tab of election
+  // rows. The classic pane's table and decade contents are checked through ?catalogue=classic.
+  await page.waitForFunction(() => document.querySelectorAll('#catalogueFlatView .cn-shelf').length > 3);
+  await page.locator('#catalogueFlatView [data-cn-tab="elections"]').click();
+  await page.waitForFunction(() => document.querySelectorAll('#catalogueFlatView .cn-erow[data-cn-election]').length > 10);
   const state = await page.evaluate(() => ({
     hasMapLibre: Boolean(window.__civgraphTest2.mapController.map),
     layerCount: window.__civgraphTest2.metadataService.layers.length,
-    rows: document.querySelectorAll('#catalogueFlatView table tr').length,
-    electionRows: document.querySelectorAll('#catalogueFlatView .flat-election-entry').length,
-    electionTocRows: document.querySelectorAll('#catalogueFlatView .catalogue-flat__toc .flat-election-toc-link').length,
-    decadeButtons: document.querySelectorAll('#catalogueFlatView .catalogue-flat__toc .catalogue-flat__toc-decade-btn').length,
-    firstElectionCard: (() => {
-      const el = document.querySelector('#catalogueFlatView .flat-election-entry[data-election-placeholder="0"]');
-      const rect = el?.getBoundingClientRect();
-      return rect ? { text: el.textContent, top: rect.top, height: rect.height } : null;
-    })(),
+    tabs: [...document.querySelectorAll('#catalogueFlatView .cn-tab')].map((tab) => tab.dataset.cnTab),
+    electionRows: document.querySelectorAll('#catalogueFlatView .cn-erow[data-cn-election]').length,
+    electionKeys: [...document.querySelectorAll('#catalogueFlatView .cn-erow[data-cn-election]')].map((row) => row.dataset.cnElection),
     hasLeaflet: Boolean(window.L)
   }));
   expect(state.hasMapLibre).toBe(true);
   expect(state.layerCount).toBeGreaterThan(10);
-  expect(state.rows).toBeGreaterThan(10);
+  expect(state.tabs).toContain('boundaries');
+  expect(state.tabs).toContain('elections');
   expect(state.electionRows).toBeGreaterThan(10);
-  expect(state.decadeButtons).toBeGreaterThan(10);
-  expect(state.electionTocRows).toBe(0);
-  expect(state.firstElectionCard).not.toBeNull();
-  // Accepts either wording. The first card now reads "29 Nov 2024 - 2024 Irish general
-  // election - 43 constituencies"; the test was written when it said "Dáil". That is an
-  // editorial change to a display label, not a structural one, and pinning a smoke check
-  // to one phrasing makes it fail on a rename that broke nothing.
-  //
-  // What is actually being smoke-checked is that the election catalogue rendered REAL
-  // entries rather than placeholders -- the [data-election-placeholder="0"] selector
-  // above already carries that -- so the wording only has to identify a national contest.
-  expect(state.firstElectionCard.text).toMatch(/Dáil|Irish general election/);
+  // Real entries, not placeholders: the rows carry election keys, among them the 2024 Dáil election.
+  expect(state.electionKeys).toContain('dail-eireann__2024-11-29');
   expect(state.hasLeaflet).toBe(false);
 });
 
@@ -460,16 +426,19 @@ test('restores active Dail election catalogue, viewport, labels, and party table
   // (app.js, openDecadeForEntry). Order-dependence is gone because the test no longer
   // relies on a neighbour to set up its precondition.
 
+  //
+  // Since 2026-10-12 /maps/ shows the rebuilt catalogue, which has no marked .flat-election-entry
+  // row: the restored election is read from the election manager instead.
   await page.goto('/#layers=election-dil-ireann-2024-11-29&lng=-8.12&lat=53.48&zoom=7.00');
   await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);
   await page.evaluate(() => window.__civgraphTest2.restorePromise);
-  await page.waitForFunction(() => document.querySelector('#catalogueFlatView .flat-election-entry--active'));
+  await page.waitForFunction(() => window.__civgraphTest2.app.elections?.activeEntry
+    && document.querySelectorAll('#electionPaneContent .election-party-table tbody tr').length > 3);
 
   const restored = await page.evaluate(() => {
     const app = window.__civgraphTest2.app;
     const map = app.mapController.map;
-    const activeRow = document.querySelector('#catalogueFlatView .flat-election-entry--active');
-    const scroller = activeRow?.closest('.pane__content');
+    const entry = app.elections.activeEntry;
     const rowTexts = [...document.querySelectorAll('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row)')]
       .slice(0, 4)
       .map((row) => row.children[1]?.textContent?.trim()?.replace(/\s+/g, ' '));
@@ -480,11 +449,9 @@ test('restores active Dail election catalogue, viewport, labels, and party table
     return {
       path: location.pathname,
       hash: location.hash,
-      activeRowText: activeRow?.textContent || '',
-      activeRowBody: activeRow?.dataset?.electionBody || '',
-      activeRowDate: activeRow?.dataset?.electionDate || '',
-      activeRowTop: activeRow ? activeRow.getBoundingClientRect().top : null,
-      scrollerTop: scroller ? scroller.getBoundingClientRect().top : null,
+      activeKey: entry?.key || '',
+      activeBody: entry?.body || '',
+      activeDate: entry?.date || '',
       lng: map.getCenter().lng,
       lat: map.getCenter().lat,
       zoom: map.getZoom(),
@@ -498,14 +465,9 @@ test('restores active Dail election catalogue, viewport, labels, and party table
   expect(restored.path).toBe('/maps/');
   expect(restored.hash).toContain('layers=election-dil-ireann-2024-11-29');
   expect(restored.hash).toContain('zoom=7.00');
-  expect(restored.activeRowText).toContain('29 Nov 2024');
-  // The row's LABEL is the election's name ("2024 Irish general election"), which does
-  // not repeat the body. data-election-body is the authoritative field and the one the
-  // restore path matches on, so assert the marked row really is the Dail Eireann one
-  // rather than requiring the body to appear in the visible text.
-  expect(restored.activeRowBody).toMatch(/D.il/);
-  expect(restored.activeRowDate).toBe('2024-11-29');
-  expect(restored.activeRowTop).toBeGreaterThanOrEqual(restored.scrollerTop - 4);
+  expect(restored.activeKey).toBe('dail-eireann__2024-11-29');
+  expect(restored.activeBody).toMatch(/D.il/);
+  expect(restored.activeDate).toBe('2024-11-29');
   expect(restored.lng).toBeCloseTo(-8.12, 1);
   expect(restored.lat).toBeCloseTo(53.48, 1);
   expect(restored.zoom).toBeCloseTo(7, 1);
@@ -1183,7 +1145,9 @@ test('mobile map and catalogue controls do not collide', async ({ page }) => {
 
 test('mobile catalogue renders TOC first, one active section, and map gestures stay enabled', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/maps/');
+  // The table of contents, sections, books and tables tabs are the classic pane's, which /maps/
+  // replaced on 2026-10-12; it is still served at /maps/classic/ and through ?catalogue=classic.
+  await page.goto('/maps/?catalogue=classic');
   await page.waitForFunction(() => window.__civgraphTest2?.mapController?.map);
 
   await page.evaluate(() => window.uiController?.setSplitState?.('info-full'));
@@ -1765,11 +1729,6 @@ test('duplicate promoted IDs do not cross-highlight distant DEAs', async ({ page
     const downIdentity = down ? renderer.readFeatureIdentity(record.config, down) : null;
     const belfastIdentity = belfast ? renderer.readFeatureIdentity(record.config, belfast) : null;
     if (down) renderer.setHover(record.config, down);
-    const rawState = map.getFeatureState({
-      source: record.sourceId,
-      sourceLayer: record.config.sourceLayer,
-      id: 28
-    });
     await new Promise((resolve) => {
       const timeout = setTimeout(resolve, 250);
       map.once('idle', () => {
@@ -1777,33 +1736,34 @@ test('duplicate promoted IDs do not cross-highlight distant DEAs', async ({ page
         resolve();
       });
     });
-    const overlayLayers = ['deas-1972-vector-test-fallback-hover-fill']
-      .filter((id) => map.getLayer(id));
+    const hoverOf = (id) => map.getFeatureState({ source: record.sourceId, sourceLayer: record.config.sourceLayer, id })?.hover === true;
     return {
-      duplicateIdDetected: record.duplicateFeatureIds?.has('28') || false,
       foundDown: Boolean(down),
       foundBelfast: Boolean(belfast),
-      downId: downIdentity?.id || null,
-      belfastId: belfastIdentity?.id || null,
-      downGenerated: downIdentity?.generated || false,
-      belfastGenerated: belfastIdentity?.generated || false,
-      activeHoverId: renderer.hovered?.id || null,
-      activeHoverGenerated: renderer.hovered?.generated || false,
-      rawFeatureStateHover: rawState?.hover === true,
-      hoverOverlayCount: overlayLayers.length ? map.queryRenderedFeatures({ layers: overlayLayers }).length : 0
+      downObjectId: down?.properties?.OBJECTID ?? null,
+      belfastObjectId: belfast?.properties?.OBJECTID ?? null,
+      downId: downIdentity?.id ?? null,
+      belfastId: belfastIdentity?.id ?? null,
+      activeHoverId: renderer.hovered?.id ?? null,
+      downHover: downIdentity ? hoverOf(downIdentity.id) : false,
+      belfastHover: belfastIdentity ? hoverOf(belfastIdentity.id) : false,
+      rawObjectIdHover: hoverOf(28)
     };
   });
 
-  expect(state.duplicateIdDetected).toBe(true);
+  // Down Area C and Belfast Area H share OBJECTID 28 in the source file. The layer used to
+  // promote that, so the renderer had to detect the clash and fall back to generated ids
+  // (what this test first checked). It now promotes civ_fid, unique per feature, so the two
+  // get ids of their own; the guarantee is the same: hovering one never lights the other.
   expect(state.foundDown).toBe(true);
   expect(state.foundBelfast).toBe(true);
-  expect(state.downGenerated).toBe(true);
-  expect(state.belfastGenerated).toBe(true);
+  expect(state.downObjectId).toBe(28);
+  expect(state.belfastObjectId).toBe(28);
   expect(state.downId).not.toBe(state.belfastId);
   expect(state.activeHoverId).toBe(state.downId);
-  expect(state.activeHoverGenerated).toBe(true);
-  expect(state.rawFeatureStateHover).toBe(false);
-  expect(state.hoverOverlayCount).toBeGreaterThan(0);
+  expect(state.downHover).toBe(true);
+  expect(state.belfastHover).toBe(false);
+  expect(state.rawObjectIdHover).toBe(false);
 });
 
 test('no-id vector layers still support labels, hover, and feature details', async ({ page }) => {
@@ -1938,7 +1898,8 @@ test('loads generated election entries with MapLibre styling and enriched featur
   expect(loaded.layerLoaded).toBe(true);
   expect(loaded.panelVisible).toBe(true);
   expect(loaded.timelineVisible).toBe(true);
-  expect(loaded.timelineLabel).toBe('04 Jul 2024');
+  // Dates show the day without a leading zero since 2026-10-19 (6a2b09521a).
+  expect(loaded.timelineLabel).toBe('4 Jul 2024');
   expect(JSON.stringify(loaded.fillColour)).toContain('match');
   expect(JSON.stringify(loaded.fillColour)).toContain('#dfe4ec');
   expect(JSON.stringify(loaded.fillOpacity)).toContain('0.6');
@@ -2652,26 +2613,30 @@ test('loads converted child layers for main catalogue composite parents', async 
     return { afterTownlands, afterEds, fitted };
   });
 
-  expect(result.afterTownlands.calls).toEqual(['ni-townlands', 'roi-townlands']);
-  expect(result.afterTownlands.fitFlags).toEqual([false, false]);
+  // Townlands has three parts since 2026-10-10: Paddy Matthews's city and island townlands
+  // (townlands-cities-and-islands), which Tailte Éireann's map omits, joined the NI and ROI ones.
+  expect(result.afterTownlands.calls).toEqual(['ni-townlands', 'roi-townlands', 'townlands-cities-and-islands']);
+  expect(result.afterTownlands.fitFlags).toEqual([false, false, false]);
   expect(result.afterTownlands.loaded).toBe(true);
   expect(result.afterTownlands.visible).toBe(true);
   expect(result.afterTownlands.loadedIds).toContain('all-ireland-townlands');
   expect(result.afterTownlands.visibleIds).toContain('all-ireland-townlands');
   expect(result.afterTownlands.visibleIds).not.toContain('ni-townlands');
   expect(result.afterTownlands.visibleIds).not.toContain('roi-townlands');
+  expect(result.afterTownlands.visibleIds).not.toContain('townlands-cities-and-islands');
   expect(result.afterTownlands.activeRows).toEqual(['all-ireland-townlands']);
-  expect(result.afterTownlands.group.childIds).toEqual(['ni-townlands', 'roi-townlands']);
+  expect(result.afterTownlands.group.childIds).toEqual(['ni-townlands', 'roi-townlands', 'townlands-cities-and-islands']);
   expect(result.fitted[0].bounds).toEqual([
     [-10.618624, 51.419897],
     [-5.432784, 55.435141]
   ]);
+  // eds-1926 is the Free State's EDs only since 2026-10-09: the NI DEDs of 1926 (deds-ni-1926)
+  // are a map of their own, in the NI DED series.
   expect(result.afterEds.calls).toEqual([
     'eds-connacht-1926',
     'eds-leinster-1926',
     'eds-munster-1926',
-    'eds-ulster-1926',
-    'deds-ni-1926'
+    'eds-ulster-1926'
   ]);
   expect(result.afterEds.loaded).toBe(true);
   expect(result.afterEds.group.childIds).toEqual(result.afterEds.calls);
@@ -2798,7 +2763,8 @@ test('adapter supports overlays, partial features, and rich loaded-feature paylo
 });
 
 test('hash-only shell links and legacy hash writers preserve the test2 path', async ({ page }) => {
-  await page.goto('/maps/');
+  // The #flat-section-maps link is the classic pane's (replaced at /maps/ on 2026-10-12).
+  await page.goto('/maps/?catalogue=classic');
   await page.waitForFunction(() => window.__civgraphTest2?.metadataService?.layers?.length);
 
   await page.locator('a[href="#flat-section-maps"]').first().click();

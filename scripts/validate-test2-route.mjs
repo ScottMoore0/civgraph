@@ -291,7 +291,8 @@ assert(appSource.includes('applyBaseMap') && appSource.includes('isStyleLoaded')
 assert(appSource.includes('setupSourcePanel') && appSource.includes('renderSourcePanel'), '/test2 must expose source metadata for active/restored layers');
 assert(appSource.includes('colour: item.colour || item.color || item.partyColour'), '/test2 catalogue party entity pages must preserve party/label colours from Browse details');
 assert(test2Css.includes('.test2-source-panel'), '/test2 source panel must have scoped route CSS');
-assert(test2Css.includes('position: fixed') && test2Css.includes('z-index: 520'), '/test2 source panel must sit above restored map overlay panels');
+// 1060: above the active-layers box (1050), whose source buttons open the panel.
+assert(test2Css.includes('position: fixed') && test2Css.includes('z-index: 1060'), '/test2 source panel must sit above restored map overlay panels and the active-layers box');
 assert(appSource.includes('getConvertedCompositeChildIds'), '/test2 must expand converted child sources when a main catalogue parent lacks a direct converted layer');
 assert(appSource.includes('compositeSources') && appSource.includes('mapConfig.variants.map'), '/test2 composite fallback must cover main composite sources and non-group variant parents');
 assert(buildPlanSourceIncludesCompositeCoverage(), '/test2 port-plan generation must classify converted composite/alias rows without reintroducing false conversion gaps');

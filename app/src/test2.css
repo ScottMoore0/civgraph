@@ -738,7 +738,9 @@ body.test2-election-pane-resizing * {
   position: fixed;
   top: 76px;
   right: 18px;
-  z-index: 520;
+  /* Above the active-layers box (1050), whose source buttons open this panel and which would
+     otherwise cover its Close button; below feature details (1100) and popups. */
+  z-index: 1060;
   width: min(420px, calc(100% - 36px));
   max-height: min(620px, calc(100% - 110px));
   display: flex;
