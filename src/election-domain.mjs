@@ -199,15 +199,23 @@ export function summarizeCandidateRows(rows = []) {
     if (!existing.ballotDescription && (row.Ballot_Description || row.ballotDescription)) {
       existing.ballotDescription = fixText(row.Ballot_Description || row.ballotDescription || '');
     }
+    // Many files (the NI council ones) mark Status on EVERY row of a candidate and record the stage
+    // that decided it in Occurred_On_Count; the first such row is count 1, not that stage.
+    const occurred = parseNumber(row.Occurred_On_Count);
     if (statusKind(status) === 'elected' || row.Elected === true || row.counted_as_elected === true) {
       existing.elected = true;
       existing.electedAt ||= countNo;
+      if (occurred) existing.decidedAt = Math.max(existing.decidedAt || 0, occurred);
       if (!existing.status) existing.status = 'Elected';
     }
     if (statusKind(status) === 'excluded') {
       existing.excluded = true;
       existing.excludedAt ||= countNo;
+      if (occurred) existing.decidedAt = Math.max(existing.decidedAt || 0, occurred);
     }
+    // The count at which the candidate's votes went out and left nothing: a recorded stage after this
+    // cannot be right (Carrick Castle 2018 records every candidate at its last count).
+    if (transfers !== null && transfers < 0 && totalVotes !== null && totalVotes <= 0.005 && !existing.droppedAt) existing.droppedAt = countNo;
     existing.counts.push({
       count: countNo,
       total: totalVotes,
@@ -221,6 +229,14 @@ export function summarizeCandidateRows(rows = []) {
   // candidacy would add a quarter of a million meaningless lines to the metadata, the
   // browse indexes and D1, and would make "we do not know who this is" look like data.
   for (const candidate of byCandidate.values()) {
+    if (candidate.decidedAt) {
+      if (candidate.elected) candidate.electedAt = candidate.decidedAt;
+      else if (candidate.excluded) {
+        candidate.excludedAt = candidate.droppedAt && candidate.droppedAt < candidate.decidedAt ? candidate.droppedAt : candidate.decidedAt;
+      }
+    }
+    delete candidate.decidedAt;
+    delete candidate.droppedAt;
     if (!candidate.sourcePersonId) delete candidate.sourcePersonId;
     // Only where the source records one; and not where it merely repeats the party.
     if (!candidate.ballotDescription || normalizeParty(candidate.ballotDescription) === candidate.party) delete candidate.ballotDescription;
