@@ -11,7 +11,7 @@
     "Phelim Birch",
     "Paddy Matthews"
   ],
-  "description": "Republic of Ireland District Electoral Divisions/Wards as at 1936-11-02, assembled from Connacht (= 1919 boundaries), Leinster 1936, Munster (= 1921 boundaries), Ulster (= 1921 boundaries). Modified version of District Electoral Divisions/Wards 1941. In 1941, Dublin county borough's boundary was expanded into the DED of Terenure.",
+  "description": "Republic of Ireland District Electoral Divisions/Wards as at 1936-11-02, assembled from Connacht (= 1919 boundaries), Leinster 1936, Munster (= 1921 boundaries), Ulster (= 1921 boundaries). Modified version of District Electoral Divisions/Wards 1941. In 1941, Dublin county borough’s boundary was expanded into the DED of Terenure.",
   "renderer": "maplibre",
   "sourceType": "pmtiles",
   "geometryType": "polygon",
@@ -40,12 +40,12 @@
   },
   "references": [
     {
-      "label": "District Electoral Divisions/Wards 1941 source notes",
-      "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1941.txt",
+      "label": "District Electoral Divisions/Wards 1936 source notes",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1936.txt",
       "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
     },
     {
-      "label": "Dublin City Council 1942 minutes item 123"
+      "label": "Local Government and Public Health Provisional Order Confirmation Act, 1941"
     }
   ],
   "sourceDownloads": [
@@ -63,7 +63,7 @@
     "district electoral division",
     "DED",
     "ward",
-    "1970",
+    "1919",
     "republic of ireland",
     "historic",
     "small electoral units",
@@ -72,11 +72,13 @@
     "Built Environment",
     "maplibre",
     "vector tiles",
-    "1941",
-    "District Electoral Divisions/Wards 1941",
+    "connacht",
+    "ED",
+    "1936",
+    "District Electoral Divisions/Wards 1936",
     "Electoral Areas",
     "Elections and Government",
-    "eds-roi-1941-connacht",
+    "eds-roi-1936-connacht",
     "eds-connacht-1919",
     "clone alias"
   ],
@@ -209,10 +211,10 @@
     ]
   },
   "status": "converted-alias",
-  "notes": "District Electoral Divisions/Wards 1941 reuses the converted geometry from Connacht District Electoral Divisions 1919.",
+  "notes": "District Electoral Divisions/Wards 1936 reuses the converted geometry from Connacht District Electoral Divisions 1919.",
   "generatedFrom": {
     "pipeline": "promote-test-clone-alias",
-    "sourceMapId": "eds-roi-1941-connacht",
+    "sourceMapId": "eds-roi-1936-connacht",
     "cloneOf": "eds-connacht-1919",
     "aliasOf": "eds-connacht-1919",
     "targetLayerId": "eds-connacht-1919-vector-test"
@@ -223,12 +225,13 @@
     "url": "/render/pmtiles/generated/eds-connacht-1919-vector-test.pmtiles",
     "bytes": 4573422,
     "maxGithubBytes": 99614720,
+    "generatedAt": "2026-08-23T00:43:28.687Z",
     "fallback": "/render/tiles/generated/eds-connacht-1919/{z}/{x}/{y}.pbf",
     "serving": "cdn",
     "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-connacht-1919-vector-test.pmtiles",
     "r2Key": "data/maps/test/pmtiles/generated/eds-connacht-1919-vector-test.pmtiles",
     "localUrl": "/render/pmtiles/generated/eds-connacht-1919-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-07-31T22:29:02.294Z"
+    "byteRangeVerifiedAt": "2026-08-23T00:45:11.808Z"
   },
   "promoteId": "civ_fid",
   "idProperty": "civ_fid",

@@ -25,6 +25,23 @@ export function inkOn(hex) {
   return lum > 0.6 ? '#1a202c' : '#fff';
 }
 
+/** Short names for providers, as a row's credit line shows them; the full name stays in the
+ * row's tooltip and the map's details. */
+export const PROVIDER_SHORT = {
+  'Paddy Matthews': 'Matthews',
+  'Phelim Birch': 'Birch',
+  'Tailte Éireann': 'TÉ',
+  'Scott Moore': 'Moore',
+  'Northern Ireland Office': 'NIO',
+  'Local Government Boundary Commission for Northern Ireland': 'LGBC NI',
+  'Land & Property Services': 'LPS',
+  'Land & Property Services (OSNI)': 'LPS (OSNI)',
+  'Department of Health (NI)': 'DoH NI',
+  'Department of Health': 'DoH NI',
+  'Boundary Commission for Northern Ireland': 'BCNI',
+};
+export const shortProvider = (name) => PROVIDER_SHORT[String(name || '').trim()] || name;
+
 /** Short names for the jurisdictions, as the filters and rows show them. */
 export const SCOPE_SHORT = { 'Northern Ireland': 'NI', 'Republic of Ireland': 'ROI', Ireland: 'All-island' };
 // An election held before partition (3 May 1921) covered the island because the island was

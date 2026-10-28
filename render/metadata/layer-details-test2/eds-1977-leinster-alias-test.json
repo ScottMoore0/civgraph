@@ -16,8 +16,11 @@
   "sourceType": "pmtiles",
   "geometryType": "polygon",
   "tiles": "/render/tiles/generated/eds-leinster-1977/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-leinster-1977-vector-test.pmtiles",
+  "tilesFallback": "/render/tiles/generated/eds-leinster-1977/{z}/{x}/{y}.pbf",
   "metadataUrl": "/render/tiles/generated/eds-leinster-1977/metadata.json",
   "sourceLayer": "eds_leinster_1977",
+  "promoteId": "civ_fid",
   "minzoom": 0,
   "maxzoom": 12,
   "bounds": [
@@ -95,16 +98,20 @@
     "lineHeight": 1.25
   },
   "sourceFile": "render/source-cache/vector-intake/eds-leinster-1977.fgb",
-  "sourceDatasetLayer": "eds-leinster-1977",
+  "sourceDatasetLayer": "Wards_DEDs_Leinster_1977",
+  "idProperty": "civ_fid",
   "popupProperties": [
     "ENGLISH",
+    "civ_fid",
     "GAEILGE",
     "CONTAE",
     "COUNTY",
     "PROVINCE",
     "WARDORDED"
   ],
-  "numericProperties": [],
+  "numericProperties": [
+    "civ_fid"
+  ],
   "categoricalProperties": [
     "ENGLISH",
     "GAEILGE",
@@ -227,23 +234,14 @@
     "aliasOf": "eds-leinster-1977",
     "targetLayerId": "eds-leinster-1977-vector-test"
   },
-  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-leinster-1977-vector-test.pmtiles",
-  "tilesFallback": "/render/tiles/generated/eds-leinster-1977/{z}/{x}/{y}.pbf",
   "tilePackage": {
     "preferred": true,
     "localPath": "render/pmtiles/generated/eds-leinster-1977-vector-test.pmtiles",
     "url": "/render/pmtiles/generated/eds-leinster-1977-vector-test.pmtiles",
-    "bytes": 5270437,
+    "bytes": 5382328,
     "maxGithubBytes": 99614720,
-    "generatedAt": "2026-05-29T23:46:15.302Z",
-    "fallback": "/render/tiles/generated/eds-leinster-1977/{z}/{x}/{y}.pbf",
-    "serving": "cdn",
-    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-leinster-1977-vector-test.pmtiles",
-    "r2Key": "data/maps/test/pmtiles/generated/eds-leinster-1977-vector-test.pmtiles",
-    "localUrl": "/render/pmtiles/generated/eds-leinster-1977-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-07-31T22:29:02.294Z"
+    "fallback": "/render/tiles/generated/eds-leinster-1977/{z}/{x}/{y}.pbf"
   },
-  "promoteId": "civ_fid",
   "categoryId": "wards",
   "conversionStatus": "convertedAlias",
   "aliasOf": "eds-leinster-1977",

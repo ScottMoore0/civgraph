@@ -20,6 +20,7 @@
   "tilesFallback": "/render/tiles/generated/eds-leinster-1957/{z}/{x}/{y}.pbf",
   "metadataUrl": "/render/tiles/generated/eds-leinster-1957/metadata.json",
   "sourceLayer": "eds_leinster_1957",
+  "promoteId": "civ_fid",
   "minzoom": 0,
   "maxzoom": 12,
   "bounds": [
@@ -63,7 +64,7 @@
   "sourceDownloads": [
     {
       "label": "Source file used for /test conversion",
-      "file": "render/source-cache/idb-20260609/Irish Digitised Boundaries/EDs/Wards_DEDs_Leinster_1957.fgb"
+      "file": "render/source-cache/vector-intake/eds-leinster-1957.fgb"
     }
   ],
   "sourceCredits": [
@@ -71,20 +72,21 @@
     "Paddy Matthews"
   ],
   "keywords": [
-    "electoral division",
-    "district electoral division",
+    "leinster",
+    "ED",
     "DED",
     "ward",
-    "1970",
-    "republic of ireland",
-    "historic",
-    "small electoral units",
+    "1957",
     "Leinster District Electoral Divisions/Wards 1957",
     "Electoral Divisions",
     "Built Environment",
     "maplibre",
     "vector tiles",
-    "1957",
+    "electoral division",
+    "district electoral division",
+    "republic of ireland",
+    "historic",
+    "small electoral units",
     "District Electoral Divisions/Wards 1957",
     "Electoral Areas",
     "Elections and Government",
@@ -111,17 +113,21 @@
     "maxWidth": 14,
     "lineHeight": 1.25
   },
-  "sourceFile": "render/source-cache/vector-intake/Wards_DEDs_Leinster_1957.fgb",
+  "sourceFile": "render/source-cache/vector-intake/eds-leinster-1957.fgb",
   "sourceDatasetLayer": "Wards_DEDs_Leinster_1957",
+  "idProperty": "civ_fid",
   "popupProperties": [
     "ENGLISH",
+    "civ_fid",
     "GAEILGE",
     "CONTAE",
     "COUNTY",
     "PROVINCE",
     "WARDORDED"
   ],
-  "numericProperties": [],
+  "numericProperties": [
+    "civ_fid"
+  ],
   "categoricalProperties": [
     "ENGLISH",
     "GAEILGE",
@@ -248,17 +254,10 @@
     "preferred": true,
     "localPath": "render/pmtiles/generated/eds-leinster-1957-vector-test.pmtiles",
     "url": "/render/pmtiles/generated/eds-leinster-1957-vector-test.pmtiles",
-    "bytes": 5220201,
+    "bytes": 5325050,
     "maxGithubBytes": 99614720,
-    "fallback": "/render/tiles/generated/eds-leinster-1957/{z}/{x}/{y}.pbf",
-    "serving": "cdn",
-    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-leinster-1957-vector-test.pmtiles",
-    "r2Key": "data/maps/test/pmtiles/generated/eds-leinster-1957-vector-test.pmtiles",
-    "localUrl": "/render/pmtiles/generated/eds-leinster-1957-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-07-31T22:29:02.294Z"
+    "fallback": "/render/tiles/generated/eds-leinster-1957/{z}/{x}/{y}.pbf"
   },
-  "promoteId": "civ_fid",
-  "idProperty": "civ_fid",
   "categoryId": "wards",
   "conversionStatus": "convertedAlias",
   "aliasOf": "eds-leinster-1957",

@@ -8662,7 +8662,10 @@
             "weight": 2
           },
           "labelProperty": "ENGLISH",
-          "useLOD": false
+          "useLOD": false,
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1936.fgb"
+          }
         },
         {
           "id": "eds-roi-1936-munster",
@@ -8693,18 +8696,18 @@
           "useLOD": false
         }
       ],
-      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1941-04-17, assembled from Connacht (= 1919 boundaries), Leinster 1941, Munster (= 1921 boundaries), Ulster (= 1921 boundaries). Modified version of District Electoral Divisions/Wards 1942. In 1942, following the expansion of Dublin county borough, its new territory was transferred from Terenure DED to Crumlin ward.",
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1936-11-02, assembled from Connacht (= 1919 boundaries), Leinster 1936, Munster (= 1921 boundaries), Ulster (= 1921 boundaries). Modified version of District Electoral Divisions/Wards 1941. In 1941, Dublin county borough’s boundary was expanded into the DED of Terenure.",
       "keywords": [
         "electoral division",
         "district electoral division",
         "DED",
         "ward",
-        "1941",
         "republic of ireland",
         "historic",
-        "small electoral units"
+        "small electoral units",
+        "1936"
       ],
-      "sourceNotes": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1941.txt",
+      "sourceNotes": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1936.txt",
       "downloads": [
         {
           "label": "Connacht DEDs/Wards 1919",
@@ -8712,8 +8715,8 @@
           "type": "FlatGeobuf"
         },
         {
-          "label": "Leinster DEDs/Wards 1941",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1941.fgb",
+          "label": "Leinster DEDs/Wards 1936",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1936.fgb",
           "type": "FlatGeobuf"
         },
         {
@@ -8727,19 +8730,19 @@
           "type": "FlatGeobuf"
         },
         {
-          "label": "Source notes 1941",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1941.txt",
+          "label": "Source notes 1936",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1936.txt",
           "type": "Source notes"
         }
       ],
       "references": [
         {
-          "label": "District Electoral Divisions/Wards 1941 source notes",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1941.txt",
+          "label": "District Electoral Divisions/Wards 1936 source notes",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1936.txt",
           "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
         },
         {
-          "label": "Dublin City Council 1942 minutes item 123"
+          "label": "Local Government and Public Health Provisional Order Confirmation Act, 1941"
         }
       ],
       "bounds": [
@@ -8824,7 +8827,7 @@
         {
           "id": "eds-roi-1944-ulster",
           "label": "Ulster (= 1921 boundaries)",
-          "cloneOf": "eds-ulster-1986",
+          "cloneOf": "eds-ulster-1921",
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
           },
@@ -8952,7 +8955,7 @@
         {
           "id": "eds-roi-1950-ulster",
           "label": "Ulster (= 1921 boundaries)",
-          "cloneOf": "eds-ulster-1986",
+          "cloneOf": "eds-ulster-1921",
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
           },
@@ -9087,7 +9090,7 @@
         {
           "id": "eds-roi-1954-ulster",
           "label": "Ulster (= 1921 boundaries)",
-          "cloneOf": "eds-ulster-1986",
+          "cloneOf": "eds-ulster-1921",
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
           },
@@ -9222,7 +9225,7 @@
         {
           "id": "eds-roi-1957-ulster",
           "label": "Ulster (= 1921 boundaries)",
-          "cloneOf": "eds-ulster-1986",
+          "cloneOf": "eds-ulster-1921",
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
           },
@@ -13119,20 +13122,20 @@
         {
           "label": "Alteration of Electoral Divisions in the Rural District of Enniskillen — Local Government Board for Ireland order (transcript)",
           "url": "https://data.civgraph.net/data/documents/ded-1921-05-03/enniskillen-electoral-divisions-order.pdf",
-          "note": "Dublin Gazette 10/05/1912. Crown copyright, out of copyright."
+          "note": "Dublin Gazette 10 May 1912. Crown copyright, out of copyright."
         },
         {
           "label": "Belfast Gazette issue 104 (Portstewart)",
           "url": "https://www.thegazette.co.uk/Belfast/issue/104/data.pdf",
-          "note": "22/06/1923, page 12."
+          "note": "22 Jun 1923, page 12."
         },
         {
           "label": "Belfast Gazette issue 128 (Ballycastle)",
           "url": "https://www.thegazette.co.uk/Belfast/issue/128/data.pdf",
-          "note": "07/12/1923, page 7."
+          "note": "07 Dec 1923, page 7."
         }
       ],
-      "sourceNotes": "Fermanagh: Dublin Gazette 10/05/1912. Portstewart: Belfast Gazette 22/06/1923 p.12, cross-checked against the 1930 map and the 1926 Census Londonderry Report p.29 for the townland list; Dublin Gazette 04/02/1916 for the order that split the DED. Ballycastle: Belfast Gazette 07/12/1923 p.7 and Dublin Gazette 01/04/1921. Portstewart Urban is absent from the Belfast Gazette text, so no change was made to that DED.",
+      "sourceNotes": "Fermanagh: Dublin Gazette 10 May 1912. Portstewart: Belfast Gazette 22 Jun 1923 p.12, cross-checked against the 1930 map and the 1926 Census Londonderry Report p.29 for the townland list; Dublin Gazette 04 Feb 1916 for the order that split the DED. Ballycastle: Belfast Gazette 07 Dec 1923 p.7 and Dublin Gazette 01 Apr 1921. Portstewart Urban is absent from the Belfast Gazette text, so no change was made to that DED.",
       "licence": "CC-BY-SA-4.0",
       "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
       "licenceNote": "The digitised layer is CC-BY-SA 4.0, by Paddy Matthews and Phelim Birch. The underlying source maps and the statutory orders they encode are Crown copyright and out of copyright; this licence covers the digitisation only.",
@@ -14721,7 +14724,7 @@
           "useLOD": false
         }
       ],
-      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1971-04-15, assembled from Connacht (= 1957 boundaries), Leinster 1971, Munster 1971, Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1977. In 1977, due to the expansion of Drogheda, part of the DED of St. Mary’s was ceded to County Louth by County Meath. Details on this can be found in the Local Government Provisional Order Confirmation Act, 1976. Also relevant is the renaming of An Uaimh to Navan on 25/06/1971, as its corresponding DEDs were renamed by 1971 Census Reports Volume 1 (published July 1972).",
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1971-04-15, assembled from Connacht (= 1957 boundaries), Leinster 1971, Munster 1971, Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1977. In 1977, due to the expansion of Drogheda, part of the DED of St. Mary’s was ceded to County Louth by County Meath. Details on this can be found in the Local Government Provisional Order Confirmation Act, 1976. Also relevant is the renaming of An Uaimh to Navan on 25 Jun 1971, as its corresponding DEDs were renamed by 1971 Census Reports Volume 1 (published July 1972).",
       "sourceNotes": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1971.txt",
       "downloads": [
         {
@@ -14947,10 +14950,10 @@
         },
         {
           "id": "eds-1980-leinster",
-          "label": "Leinster (= 1977 boundaries)",
-          "cloneOf": "eds-leinster-1977",
+          "label": "Leinster 1979",
+          "cloneOf": "eds-leinster-1979",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1977.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1979.fgb"
           },
           "style": {
             "color": "#1B5E20",
@@ -14988,7 +14991,7 @@
           "useLOD": false
         }
       ],
-      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1980-01-01, assembled from Connacht (= 1957 boundaries), Leinster (= 1977 boundaries), Munster 1980, Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1977 with 3 DEDs split by the Waterford boundary extension (similar to how 14 EDs are split today by the 2019 Cork extension). Also relevant is the renaming of the following DEDs between 1979 Census Reports Volume 1 (published February 1980) and 1981 Census Reports Volume 1 (published September 1982): Bealanagarry to Bealanageary (Dunmanway R.D.) (Cork)",
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1980-01-01, assembled from Connacht (= 1957 boundaries), Leinster 1979, Munster 1980, Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1977 with 3 DEDs split by the Waterford boundary extension (similar to how 14 EDs are split today by the 2019 Cork extension). Also relevant is the renaming of the following DEDs between 1979 Census Reports Volume 1 (published February 1980) and 1981 Census Reports Volume 1 (published September 1982): Bealanagarry to Bealanageary (Dunmanway R.D.) (Cork). The three central Drogheda EDs (Fair Gate, St. Lawrence's Gate & West Gate) have their borders changed here as they were presumably changed sometime between 1979 and 2002.",
       "sourceNotes": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1980.txt",
       "downloads": [
         {
@@ -14997,8 +15000,8 @@
           "type": "FlatGeobuf"
         },
         {
-          "label": "Leinster DEDs/Wards 1977",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1977.fgb",
+          "label": "Leinster DEDs/Wards 1979",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1979.fgb",
           "type": "FlatGeobuf"
         },
         {
@@ -15080,10 +15083,10 @@
         },
         {
           "id": "eds-1983-leinster",
-          "label": "Leinster (= 1977 boundaries)",
-          "cloneOf": "eds-leinster-1977",
+          "label": "Leinster 1979",
+          "cloneOf": "eds-leinster-1979",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1977.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1979.fgb"
           },
           "style": {
             "color": "#1B5E20",
@@ -15121,7 +15124,7 @@
           "useLOD": false
         }
       ],
-      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1983, assembled from Connacht (= 1957 boundaries), Leinster (= 1977 boundaries), Munster 1983, Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1985. In 1985, the DEDs of Blanchardstown, Coolock, Drumcondra Rural No. 1, Drumcondra Rural No. 2, Dundrum No. 1, Finglas and Palmerstown No. 1 and wards of Kimmage E, Pembroke East D and Rathfarnham D were split by the Dublin city boundary change.",
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1983, assembled from Connacht (= 1957 boundaries), Leinster 1979, Munster 1983, Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1985. In 1985, the DEDs of Blanchardstown, Coolock, Drumcondra Rural No. 1, Drumcondra Rural No. 2, Dundrum No. 1, Finglas and Palmerstown No. 1 and wards of Kimmage E, Pembroke East D and Rathfarnham D were split by the Dublin city boundary change.",
       "sourceNotes": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1983.txt",
       "downloads": [
         {
@@ -15130,8 +15133,8 @@
           "type": "FlatGeobuf"
         },
         {
-          "label": "Leinster DEDs/Wards 1977",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Electoral Divisions 1986-2019/Wards_DEDs_Leinster_1977.fgb",
+          "label": "Leinster DEDs/Wards 1979",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1979.fgb",
           "type": "FlatGeobuf"
         },
         {
@@ -16564,6 +16567,34 @@
       ],
       "labelProperty": "ENGLISH",
       "date": 1977
+    },
+    {
+      "id": "eds-leinster-1979",
+      "name": "Leinster District Electoral Divisions/Wards 1979",
+      "slug": "eds-leinster-1979",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1979.fgb"
+      },
+      "style": {
+        "color": "#1C5530",
+        "weight": 2
+      },
+      "keywords": [
+        "leinster",
+        "ED",
+        "DED",
+        "ward",
+        "1979"
+      ],
+      "labelProperty": "ENGLISH",
+      "date": 1979
     },
     {
       "id": "eds-leinster-1971",
@@ -41899,7 +41930,7 @@
         {
           "id": "eds-roi-1946-ulster",
           "label": "Ulster (= 1921 boundaries)",
-          "cloneOf": "eds-ulster-1986",
+          "cloneOf": "eds-ulster-1921",
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
           },
@@ -42034,7 +42065,7 @@
         {
           "id": "eds-roi-1953-ulster",
           "label": "Ulster (= 1921 boundaries)",
-          "cloneOf": "eds-ulster-1986",
+          "cloneOf": "eds-ulster-1921",
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
           },
@@ -42178,7 +42209,7 @@
         {
           "id": "eds-roi-1955-ulster",
           "label": "Ulster (= 1921 boundaries)",
-          "cloneOf": "eds-ulster-1986",
+          "cloneOf": "eds-ulster-1921",
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
           },
@@ -44501,7 +44532,10 @@
       ],
       "labelProperty": "ENGLISH",
       "date": 1931,
-      "description": "Leinster component used by the 1931 Republic of Ireland District Electoral Divisions/Wards entry."
+      "description": "Leinster component used by the 1931 Republic of Ireland District Electoral Divisions/Wards entry.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1931.fgb"
+      }
     },
     {
       "id": "eds-leinster-1936",
@@ -44527,7 +44561,10 @@
       ],
       "labelProperty": "ENGLISH",
       "date": 1936,
-      "description": "Leinster component used by the 1936 Republic of Ireland District Electoral Divisions/Wards entry."
+      "description": "Leinster component used by the 1936 Republic of Ireland District Electoral Divisions/Wards entry.",
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1936.fgb"
+      }
     },
     {
       "id": "eds-leinster-1941",
@@ -44628,7 +44665,10 @@
             "weight": 2
           },
           "labelProperty": "ENGLISH",
-          "useLOD": false
+          "useLOD": false,
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1931.fgb"
+          }
         },
         {
           "id": "eds-roi-1931-munster",
@@ -44659,18 +44699,18 @@
           "useLOD": false
         }
       ],
-      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1941-04-17, assembled from Connacht (= 1919 boundaries), Leinster 1941, Munster (= 1921 boundaries), Ulster (= 1921 boundaries). Modified version of District Electoral Divisions/Wards 1942. In 1942, following the expansion of Dublin county borough, its new territory was transferred from Terenure DED to Crumlin ward.",
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 1931-04-01, assembled from Connacht (= 1919 boundaries), Leinster 1931, Munster (= 1921 boundaries), Ulster (= 1921 boundaries). Modified version of District Electoral Divisions/Wards 1936. In 1936, Dublin county borough’s wards were modified. 14 of the existing 20 wards remained the same, 2 of them were split in 2 and the other 4 were expanded. The DEDs of Pembroke East, Pembroke West (previously wards of Pembroke Township) and Rathmines and Rathgar West (previously a ward of Rathmines & Rathgar Township) were converted into wards. The DED of Rathmines and Rathgar East (previously a ward of Rathmines and Rathgar Township) was converted into a ward and expanded. With 7 brand new wards being formed, the total number of wards was increased to 33. The 2 DEDs of Glasnevin Rural and Donnybrook were fully absorbed while the 7 DEDs of Castleknock, Drumcondra Rural, Finglas, Howth Rural, Palmerston, Rathfarnham and Terenure were reduced in size.",
       "keywords": [
         "electoral division",
         "district electoral division",
         "DED",
         "ward",
-        "1941",
         "republic of ireland",
         "historic",
-        "small electoral units"
+        "small electoral units",
+        "1931"
       ],
-      "sourceNotes": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1941.txt",
+      "sourceNotes": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1931.txt",
       "downloads": [
         {
           "label": "Connacht DEDs/Wards 1919",
@@ -44678,8 +44718,8 @@
           "type": "FlatGeobuf"
         },
         {
-          "label": "Leinster DEDs/Wards 1941",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1941.fgb",
+          "label": "Leinster DEDs/Wards 1931",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1931.fgb",
           "type": "FlatGeobuf"
         },
         {
@@ -44693,19 +44733,19 @@
           "type": "FlatGeobuf"
         },
         {
-          "label": "Source notes 1941",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1941.txt",
+          "label": "Source notes 1931",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1931.txt",
           "type": "Source notes"
         }
       ],
       "references": [
         {
-          "label": "District Electoral Divisions/Wards 1941 source notes",
-          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1941.txt",
+          "label": "District Electoral Divisions/Wards 1931 source notes",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1931.txt",
           "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
         },
         {
-          "label": "Dublin City Council 1942 minutes item 123"
+          "label": "Minutes of Dublin City Council 1936 (starting at page 163)"
         }
       ],
       "bounds": [
@@ -44782,7 +44822,7 @@
         {
           "id": "eds-roi-1941-ulster",
           "label": "Ulster (= 1921 boundaries)",
-          "cloneOf": "eds-ulster-1986",
+          "cloneOf": "eds-ulster-1921",
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
           },
@@ -44946,7 +44986,7 @@
         {
           "id": "eds-roi-1942-ulster",
           "label": "Ulster (= 1921 boundaries)",
-          "cloneOf": "eds-ulster-1986",
+          "cloneOf": "eds-ulster-1921",
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
           },
@@ -45110,7 +45150,7 @@
         {
           "id": "eds-roi-1943-ulster",
           "label": "Ulster (= 1921 boundaries)",
-          "cloneOf": "eds-ulster-1986",
+          "cloneOf": "eds-ulster-1921",
           "files": {
             "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
           },
@@ -45634,7 +45674,7 @@
         "pre-partition"
       ],
       "date": "1920-06-19",
-      "description": "Local authority areas covering the whole island of Ireland as at 19/06/1920, before partition.",
+      "description": "Local authority areas covering the whole island of Ireland as at 19 Jun 1920, before partition.",
       "labelProperty": "ENGLISH"
     },
     {
@@ -45665,7 +45705,7 @@
         "pre-partition"
       ],
       "date": "1920-06-25",
-      "description": "Local authority areas covering the whole island of Ireland as at 25/06/1920, before partition.",
+      "description": "Local authority areas covering the whole island of Ireland as at 25 Jun 1920, before partition.",
       "labelProperty": "ENGLISH"
     },
     {
@@ -45696,7 +45736,7 @@
         "pre-partition"
       ],
       "date": "1920-10-04",
-      "description": "Local authority areas covering the whole island of Ireland as at 04/10/1920, before partition.",
+      "description": "Local authority areas covering the whole island of Ireland as at 04 Oct 1920, before partition.",
       "labelProperty": "ENGLISH"
     },
     {

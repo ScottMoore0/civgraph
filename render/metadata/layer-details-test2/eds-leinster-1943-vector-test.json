@@ -20,6 +20,7 @@
   "tilesFallback": "/render/tiles/generated/eds-leinster-1943/{z}/{x}/{y}.pbf",
   "metadataUrl": "/render/tiles/generated/eds-leinster-1943/metadata.json",
   "sourceLayer": "eds_leinster_1943",
+  "promoteId": "civ_fid",
   "minzoom": 0,
   "maxzoom": 12,
   "bounds": [
@@ -83,15 +84,19 @@
   "featureIndexUrl": "/render/metadata/feature-indexes/eds-leinster-1943-vector-test.json",
   "sourceFile": "render/source-cache/vector-intake/eds-leinster-1943.fgb",
   "sourceDatasetLayer": "Wards_DEDs_Leinster_1943",
+  "idProperty": "civ_fid",
   "popupProperties": [
     "ENGLISH",
+    "civ_fid",
     "GAEILGE",
     "CONTAE",
     "COUNTY",
     "PROVINCE",
     "WARDORDED"
   ],
-  "numericProperties": [],
+  "numericProperties": [
+    "civ_fid"
+  ],
   "categoricalProperties": [
     "ENGLISH",
     "GAEILGE",
@@ -210,25 +215,24 @@
   "generatedFrom": {
     "pipeline": "build-test-vector-batch",
     "sourceFile": "render/source-cache/vector-intake/eds-leinster-1943.fgb",
-    "bytes": 7616002,
+    "bytes": 7615320,
     "files": 947,
     "pbfFiles": 946,
-    "maxTileBytes": 180779
+    "maxTileBytes": 180785
   },
   "tilePackage": {
     "preferred": true,
     "localPath": "render/pmtiles/generated/eds-leinster-1943-vector-test.pmtiles",
     "url": "/render/pmtiles/generated/eds-leinster-1943-vector-test.pmtiles",
-    "bytes": 5324167,
+    "bytes": 5323604,
     "maxGithubBytes": 99614720,
-    "generatedAt": "2026-08-04T21:51:23.132Z",
+    "generatedAt": "2026-10-28T22:16:18.928Z",
     "fallback": "/render/tiles/generated/eds-leinster-1943/{z}/{x}/{y}.pbf",
+    "sourceSha256": "e3e4be5ed3edc3f2ee4f594314df7a0badb6691c770d3e19639bac4f9ec68ff9",
     "serving": "cdn",
     "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-leinster-1943-vector-test.pmtiles",
     "r2Key": "data/maps/test/pmtiles/generated/eds-leinster-1943-vector-test.pmtiles",
     "localUrl": "/render/pmtiles/generated/eds-leinster-1943-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-08-04T22:09:20.884Z"
-  },
-  "promoteId": "civ_fid",
-  "idProperty": "civ_fid"
+    "byteRangeVerifiedAt": "2026-10-28T23:17:03.001Z"
+  }
 }

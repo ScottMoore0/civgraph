@@ -1,6 +1,6 @@
 /**
  * The one way Civgraph writes a date: a year alone ("1950") or day, short month and year
- * ("1 Jan 1950", "13 Apr 1983"). No zero-padded days, no dd/mm/yyyy, no long month names.
+ * ("01 Jan 1950", "13 Apr 1983"): the day always two digits; no dd/mm/yyyy, no long month names.
  *
  * Accepts what the data holds: ISO dates ("1983-04-13"), years, year-months ("1983-04", shown
  * as "Apr 1983" because the day is not known), dd/mm/yyyy ("04/10/1920") and written dates
@@ -18,7 +18,7 @@ function monthIndex(name) {
   return short;
 }
 
-const dayMonthYear = (day, month, year) => `${Number(day)} ${SHORT_MONTHS[month]} ${year}`;
+const dayMonthYear = (day, month, year) => `${String(Number(day)).padStart(2, '0')} ${SHORT_MONTHS[month]} ${year}`;
 
 export function formatDisplayDate(value) {
   if (value instanceof Date) {

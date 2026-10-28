@@ -196,13 +196,19 @@ export class MainElectionPaneContract {
 }
 
 // What the source says about a contest beyond its figures (cause of a by-election, petition,
-// right of election...), set by the manifest from the contest file.
+// right of election...), set by the manifest from the contest file. Closed to a one-line
+// bar by default: a long correction note open under the table took the pane's height and
+// squeezed the results table to a single row.
 function renderContestNotes(result = {}) {
   const notes = Array.isArray(result.contestNotes) ? result.contestNotes : [];
   if (!notes.length) return '';
-  return `<dl class="test2-election-panel__stats election-contest-notes">${notes
-    .map((note) => `<div><dt>${escapeHtml(note.label)}</dt><dd>${escapeHtml(note.text)}</dd></div>`)
-    .join('')}</dl>`;
+  const labels = [...new Set(notes.map((note) => note.label).filter(Boolean))].join(', ') || 'Note';
+  return `<details class="election-contest-notes">
+    <summary><span class="election-contest-notes__label">${escapeHtml(labels)}</span><span class="election-contest-notes__preview">${escapeHtml(notes[0].text)}</span></summary>
+    <dl class="election-contest-notes__list">${notes
+      .map((note) => `<div><dt>${escapeHtml(note.label)}</dt><dd>${escapeHtml(note.text)}</dd></div>`)
+      .join('')}</dl>
+  </details>`;
 }
 
 function escapeHtml(value) {

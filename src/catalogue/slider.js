@@ -67,11 +67,13 @@ export function sliderHtml(key, bins, i, j, st) {
       <output class="cn-years__out" data-cn-years-out>${esc(readout(bins, st))}</output>
       <button type="button" class="cn-link" data-cn-act="years-reset" data-key="${esc(key)}"${narrowed ? '' : ' hidden'}>All years</button>
     </div>
-    <div class="cn-range">
-      <input type="range" min="0" max="${last}" step="1" value="${i}" data-cn-range="from" data-key="${esc(key)}" aria-label="Earliest year" aria-valuetext="${esc(bins[i].label)}">
-      <input type="range" min="0" max="${last}" step="1" value="${j}" data-cn-range="to" data-key="${esc(key)}" aria-label="Latest year" aria-valuetext="${esc(bins[j].label)}">
+    <div class="cn-years__row">
+      <div class="cn-range">
+        <input type="range" min="0" max="${last}" step="1" value="${i}" data-cn-range="from" data-key="${esc(key)}" aria-label="Earliest year" aria-valuetext="${esc(bins[i].label)}">
+        <input type="range" min="0" max="${last}" step="1" value="${j}" data-cn-range="to" data-key="${esc(key)}" aria-label="Latest year" aria-valuetext="${esc(bins[j].label)}">
+      </div>
+      <div class="cn-years__boxes">${box('from', st.from, 'First year', 'From')}<span aria-hidden="true">–</span>${box('to', st.to, 'Last year', 'To')}</div>
     </div>
-    <div class="cn-years__boxes">${box('from', st.from, 'First year', 'From')}<span aria-hidden="true">–</span>${box('to', st.to, 'Last year', 'To')}</div>
   </div>`;
 }
 
