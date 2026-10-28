@@ -165,6 +165,9 @@ export function summarizeCandidateRows(rows = []) {
       dailAbbreviation: fixText(row.Dail_Abbreviation || row.Party_Abbreviation || row.dailAbbreviation || row.partyAbbreviation || ''),
       officialCandidateId: fixText(row.Official_Candidate_Id || row.officialCandidateId || ''),
       officialStatus: fixText(row.Official_Status || row.officialStatus || ''),
+      // What the ballot paper said, where it differs from the party: kept apart from `party` so a
+      // joke description ("Ereck Shun's All Night Party") never stands in for the party stood for.
+      ballotDescription: fixText(row.Ballot_Description || row.ballotDescription || ''),
       // The PERSON, where the source names one. `id` above is a candidacy key and on
       // older contests it is a row index -- id '1' sits on 2,260 candidacies under
       // unrelated names -- so it cannot carry identity. ElectionsIreland does name the
@@ -193,6 +196,9 @@ export function summarizeCandidateRows(rows = []) {
       existing.officialStatus = fixText(row.Official_Status || row.officialStatus || '');
     }
     if (!existing.sourcePersonId) existing.sourcePersonId = sourcePersonIdFor(row);
+    if (!existing.ballotDescription && (row.Ballot_Description || row.ballotDescription)) {
+      existing.ballotDescription = fixText(row.Ballot_Description || row.ballotDescription || '');
+    }
     if (statusKind(status) === 'elected' || row.Elected === true || row.counted_as_elected === true) {
       existing.elected = true;
       existing.electedAt ||= countNo;
@@ -216,6 +222,8 @@ export function summarizeCandidateRows(rows = []) {
   // browse indexes and D1, and would make "we do not know who this is" look like data.
   for (const candidate of byCandidate.values()) {
     if (!candidate.sourcePersonId) delete candidate.sourcePersonId;
+    // Only where the source records one; and not where it merely repeats the party.
+    if (!candidate.ballotDescription || normalizeParty(candidate.ballotDescription) === candidate.party) delete candidate.ballotDescription;
   }
   return [...byCandidate.values()].sort((a, b) => numberOrZero(b.firstPrefs) - numberOrZero(a.firstPrefs));
 }
@@ -260,6 +268,7 @@ export function normalizeScraperPayloadForMain(payload, fallbackConstituency = '
       Gender: candidate.gender || '',
       Official_Candidate_Id: candidate.officialCandidateId || '',
       Official_Status: candidate.officialStatus || '',
+      Ballot_Description: candidate.ballotDescription || '',
       Party_Abbreviation: candidate.partyAbbreviation || candidate.dailAbbreviation || '',
       Surname: surname,
       Occurred_On_Count: String(occurredOn),

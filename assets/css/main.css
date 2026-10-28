@@ -12755,6 +12755,21 @@ abbr.party-abbr {
   cursor: help;
 }
 
+/* What the ballot paper said, under the party, where the two differ. */
+.election-ballot-description {
+  display: block;
+  margin-top: 1px;
+  font-size: 0.85em;
+  font-style: italic;
+  line-height: 1.25;
+  color: var(--color-text-muted, #5f6b7a);
+  cursor: help;
+}
+
+.election-count-table .election-ballot-description {
+  text-align: right;
+}
+
 /* Westminster: one "Elected" column with a tick or a cross (the count is always 1/1). */
 .election-col-elected {
   text-align: center !important;
