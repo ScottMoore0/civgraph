@@ -63,6 +63,10 @@ def matchkey(v):
 
 
 def ns(i):
+    # A council-specific id ('T3551993284-castlereagh', split from an id the import shared across
+    # councils) stays in its source system, so it never reads as a second system's one id for the name.
+    m = re.match(r'^(T?\d+)-[a-z0-9-]+$', i)
+    i = m.group(1) if m else i
     return 'T' if i.startswith('T') else ('N' if i.isdigit() else 'O')
 
 

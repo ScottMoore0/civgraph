@@ -20,7 +20,8 @@ it is a screen, not a proof. Each class is re-tested here on its own mechanism:
          NI-wide row. Two people of the same name in one contest is possible; the same
          person in a constituency row AND the all-NI row is what the file actually does.
   LGR:   both ids must be local-government, one ending by 2011 and the other starting
-         from 2014, AND standing for the same party. A party match is not proof, but a
+         from 2014, standing for the same party, AND the earlier council must be the later one
+         or lie within it (ni-council-geography.json, from the boundary maps). A party match is not proof, but a
          continuing councillor who also changed party is rare enough to leave alone.
   Wiki:  a disambiguated Wikipedia title identifies one person by construction.
   Stray: one side curated, the other a derived id with exactly ONE candidacy, same name,
@@ -130,6 +131,20 @@ def party_of(c):
 # (ElectionsIreland's John Kelly 6 and John Kelly 10) into the Sinn Fein MLA for Mid Ulster.
 NO_PARTY = {'', 'independent', 'ind', 'non party', 'nonparty'}
 
+# Which pre-2014 councils each 2014 council took over, from the boundary maps (ni-council-geography.json).
+GEOGRAPHY = os.path.join(PERS, 'ni-council-geography.json')
+_OVERLAP = json.load(open(GEOGRAPHY, encoding='utf-8'))['overlap'] if os.path.exists(GEOGRAPHY) else {}
+
+
+def same_ground(before, after):
+    """True when a council of the earlier career is a council of the later one or lies within it. Unknown
+    councils (no localBody) are not evidence either way and pass."""
+    before, after = {c for c in before if c}, {c for c in after if c}
+    if not before or not after:
+        return True
+    return any(b == a or b in _OVERLAP.get(a, ()) for b in before for a in after)
+
+
 def observations():
     obs = collections.defaultdict(list)
     for f in sorted(glob.glob(os.path.join(META, '*.json'))):
@@ -142,7 +157,7 @@ def observations():
                 pid = c.get('personId')
                 if pid is None:
                     continue
-                obs[pid].append({'key': key, 'body': body, 'con': con,
+                obs[pid].append({'key': key, 'body': body, 'con': con, 'council': str(r.get('localBody') or '').strip(),
                                  'y': int(yr) if yr.isdigit() else 0,
                                  'party': party_of(c),
                                  'src': str(c.get('sourcePersonId') or '').strip(),
@@ -197,8 +212,14 @@ def main():
                         pa = {x['party'] for x in la}
                         pb = {x['party'] for x in lb}
                         if (ea <= 2011 and sb >= 2014) or (eb <= 2011 and sa >= 2014):
-                            if pa & pb:
+                            # The same party is not enough: the earlier council must be the later one or
+                            # lie within it (Newry and Mourne's Brendan Curran is not Banbridge's).
+                            early, late = (la, lb) if ea <= 2011 and sb >= 2014 else (lb, la)
+                            ground = same_ground({x['council'] for x in early if x['y'] <= 2011}, {x['council'] for x in late if x['y'] >= 2014})
+                            if pa & pb and ground:
                                 cls = 'LGR-2014'
+                            elif not ground:
+                                skipped['LGR-2014 different council'] += 1
                             else:
                                 skipped['LGR-2014 party mismatch'] += 1
                 # --- The same seat, the same party, consecutive elections

@@ -1534,7 +1534,7 @@ export class Test2ElectionManager {
                 <tr class="${candidate.elected ? 'election-row--elected test2-election-table__elected' : ''}">
                   <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
                   <td>${this.renderElectionEntityButton('candidate', `${candidate.name || candidate.candidate || candidate.id || ''}|${candidate.party || ''}`, candidate.name || candidate.candidate || '', 'election-cell-wrap')}</td>
-                  <td${this.partyCellAttrs(this.mainPanePartyColour(candidate.party, candidate.colour))}>${this.renderElectionEntityButton('party', candidate.party, this.partyLabel(candidate.party), 'election-cell-wrap')}</td>
+                  <td${this.partyCellAttrs(this.mainPanePartyColour(candidate.party, candidate.colour))}>${this.renderElectionEntityButton('party', candidate.party, this.partyLabel(candidate.party), 'election-cell-wrap')}${this.ballotDescriptionHtml(candidate)}</td>
                   <td class="election-num">${formatNumber(firstPrefs)}</td>
                   <td class="election-num">${candidateDelta.deltas ? formatMainDelta(candidateDelta.deltas.firstPrefs) : formatNotApplicable()}</td>
                   <td class="election-num">${firstPrefPct === null ? '' : formatFixedPercent(firstPrefPct)}</td>
@@ -1910,6 +1910,12 @@ export class Test2ElectionManager {
   /** A party name in a results table: its abbreviation, with the full name on hover. */
   partyLabel(party) {
     return partyLabelHtml(party, escapeHtml);
+  }
+
+  /** Beneath a candidate's party, what the ballot paper said where it differs from the party. */
+  ballotDescriptionHtml(candidate) {
+    const text = String(candidate?.ballotDescription || '').trim();
+    return text ? `<span class="election-ballot-description" title="Ballot paper description">${escapeHtml(text)}</span>` : '';
   }
 
   /** Attributes for a cell showing a party: the party colour as a narrow tab down its left edge. */
@@ -3271,7 +3277,7 @@ export class Test2ElectionManager {
                 <tr class="${candidate.elected ? 'election-row--elected' : ''}">
                   <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
                   <td>${this.renderElectionEntityButton('candidate', `${candidate.name || candidate.id || ''}|${candidate.party || ''}`, escapeHtml(candidate.name || ''), 'election-cell-wrap')}</td>
-                  <td${this.partyCellAttrs(this.mainPanePartyColour(candidate.party, candidate.colour))}>${this.renderElectionEntityButton('party', candidate.party, this.partyLabel(candidate.party), 'election-cell-wrap')}</td>
+                  <td${this.partyCellAttrs(this.mainPanePartyColour(candidate.party, candidate.colour))}>${this.renderElectionEntityButton('party', candidate.party, this.partyLabel(candidate.party), 'election-cell-wrap')}${this.ballotDescriptionHtml(candidate)}</td>
                   ${isLocal ? `<td><span class="election-cell-wrap">${escapeHtml(localBody)}</span></td>` : ''}
                   <td><button type="button" class="election-entity-link election-cell-wrap" data-election-result-key="${escapeHtml(normalizeName(candidate.constituency || ''))}">${escapeHtml(candidate.constituency || '')}</button></td>
                   ${isWestminster ? `<td class="election-col-elected">${this.electedMark(candidate.elected)}</td>` : `<td><span class="election-cell-wrap">${status === 'Elected' ? '<strong>Elected</strong>' : escapeHtml(status)}</span></td>
@@ -3498,7 +3504,7 @@ export class Test2ElectionManager {
                   <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
                   <td class="election-colour-col"${this.colourTabStyle(this.mainPanePartyColour(candidate.party, candidate.colour))}></td>
                   <td class="election-col-name">${this.renderElectionEntityButton('candidate', `${candidate.name || candidate.id || ''}|${candidate.party || ''}`, escapeHtml(candidate.name || ''), 'election-cell-wrap election-cell-wrap--count-name')}</td>
-                  <td class="election-col-party">${this.renderElectionEntityButton('party', candidate.party, this.partyLabel(candidate.party || ''), 'election-cell-wrap election-cell-wrap--count-party')}</td>
+                  <td class="election-col-party">${this.renderElectionEntityButton('party', candidate.party, this.partyLabel(candidate.party || ''), 'election-cell-wrap election-cell-wrap--count-party')}${this.ballotDescriptionHtml(candidate)}</td>
                   <td class="election-col-status"><span class="election-cell-wrap election-cell-wrap--count-status">${statusCount}</span></td>
                   <td class="election-num">${!result.syntheticCountGroup && candidateDelta.deltas ? formatMainDelta(candidateDelta.deltas.firstPrefs) : formatNotApplicable()}</td>
                   <td class="election-num">${formatFixedPercent(firstPrefPct)}</td>

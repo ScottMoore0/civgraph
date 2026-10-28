@@ -237,6 +237,37 @@ function applySourceCheckedFixes(resultPath, rawResult) {
   return rawResult;
 }
 
+// Ballot paper descriptions (data/elections/ballot-descriptions.json): what a candidate's ballot
+// paper said, kept apart from the party they stood for (the All Night Party's joke descriptions,
+// "Democratic Unionist Party - D.U.P."). Each contest names the sheet the descriptions come from;
+// candidates are matched by name as the contest finally reads, after the source-checked fixes.
+const BALLOT_DESCRIPTIONS = path.join(ROOT, 'data', 'elections', 'ballot-descriptions.json');
+const ballotDescriptionIndex = new Map(
+  Object.entries(existsSync(BALLOT_DESCRIPTIONS) ? readJson(BALLOT_DESCRIPTIONS).contests || {} : {})
+    .map(([sourceFile, contest]) => [sourceFile.replace(/\\/g, '/'), contest])
+);
+
+function applyBallotDescriptions(resultPath, rawResult) {
+  if (!resultPath || !rawResult) return rawResult;
+  const contest = ballotDescriptionIndex.get(slash(path.relative(ROOT, resultPath)));
+  if (!contest) return rawResult;
+  // The file keeps every description as the sheet gives it; a contest's sameAsParty lists those that only
+  // restate the candidate's party ("Democratic Unionist Party - D.U.P."), which are not shown.
+  const same = new Set((contest.sameAsParty || []).map(normalizeName));
+  const byName = new Map(Object.entries(contest.candidates || {})
+    .filter(([name]) => !same.has(normalizeName(name)))
+    .map(([name, text]) => [normalizeName(name), text]));
+  for (const row of rawResult.Constituency?.countGroup || []) {
+    const text = byName.get(fixCandidateName(row));
+    if (text) row.Ballot_Description = text;
+  }
+  for (const candidate of rawResult.candidates || []) {
+    const text = byName.get(normalizeName(candidate.name || ''));
+    if (text) candidate.ballotDescription = text;
+  }
+  return rawResult;
+}
+
 // An unopposed return was imported with its columns shifted: the member's name in the vote
 // columns and the party split across Firstname and Surname, so the pane named "Irish Unionist"
 // as the MP. 446 of 1,355 pre-1918 Westminster rows came in this way. Restore name and party;
@@ -1381,8 +1412,8 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     const rawResult = resultPath ? readJson(resultPath) : null;
     const officialRawResult = enrichDailResultWithOfficialData(entry, rawResult, constituency);
     const wikiEnrichedRawResult = enrichDailResultWithWikipediaCounts(entry, resultPath, officialRawResult, constituency);
-    const enrichedRawResult = applySourceCheckedFixes(resultPath, applyWalkerCorrections(resultPath,
-      repairShiftedUnopposedRows(applyNiLocalValidPollCorrection(key, constituency, wikiEnrichedRawResult))));
+    const enrichedRawResult = applyBallotDescriptions(resultPath, applySourceCheckedFixes(resultPath, applyWalkerCorrections(resultPath,
+      repairShiftedUnopposedRows(applyNiLocalValidPollCorrection(key, constituency, wikiEnrichedRawResult)))));
     if (officialRawResult) rawEntries.push({ constituency, raw: officialRawResult });
     const result = ElectionDomain.summarizeResult(enrichedRawResult, constituency);
     // A cause supplied by an overlay (Wikipedia's by-election lists) counts as the file's own.
@@ -1447,8 +1478,8 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
       const constituency = file.replace(/\.json$/, '');
       const officialRawResult = enrichDailResultWithOfficialData(entry, rawResult, constituency);
       const wikiEnrichedRawResult = enrichDailResultWithWikipediaCounts(entry, resultPath, officialRawResult, constituency);
-      const enrichedRawResult = applySourceCheckedFixes(resultPath, applyWalkerCorrections(resultPath,
-        repairShiftedUnopposedRows(applyNiLocalValidPollCorrection(key, constituency, wikiEnrichedRawResult))));
+      const enrichedRawResult = applyBallotDescriptions(resultPath, applySourceCheckedFixes(resultPath, applyWalkerCorrections(resultPath,
+        repairShiftedUnopposedRows(applyNiLocalValidPollCorrection(key, constituency, wikiEnrichedRawResult)))));
       rawEntries.push({ constituency, raw: officialRawResult });
       const result = ElectionDomain.summarizeResult(enrichedRawResult, constituency);
       applyLifespanEvidence(entry, result);

@@ -1,0 +1,470 @@
+{
+ "description": "Northern Ireland councils that overlap or border one another, worked out from Civgraph's own boundary maps (LGD_1993: the 26 councils of 1973-2014; LGD_2012: the 11 from 2014). 'overlap' pairs share more than a fifth of the smaller council's area: an old council and the 2014 council that took it over. 'touch' pairs share a border. Used to keep apart same-named candidates of distant councils (merge_person_ids.py, LGR-2014).",
+ "sources": [
+  "data/maps/local-government/LGD_1993-lod1.fgb",
+  "data/maps/local-government/LGD_2012-lod1.fgb"
+ ],
+ "overlap": {
+  "Antrim": [
+   "Antrim and Newtownabbey"
+  ],
+  "Antrim and Newtownabbey": [
+   "Antrim",
+   "Newtownabbey"
+  ],
+  "Ards": [
+   "Ards and North Down"
+  ],
+  "Ards and North Down": [
+   "Ards",
+   "North Down"
+  ],
+  "Armagh": [
+   "Armagh, Banbridge and Craigavon"
+  ],
+  "Armagh, Banbridge and Craigavon": [
+   "Armagh",
+   "Banbridge",
+   "Craigavon"
+  ],
+  "Ballymena": [
+   "Mid and East Antrim"
+  ],
+  "Ballymoney": [
+   "Causeway Coast and Glens"
+  ],
+  "Banbridge": [
+   "Armagh, Banbridge and Craigavon"
+  ],
+  "Belfast": [],
+  "Carrickfergus": [
+   "Mid and East Antrim"
+  ],
+  "Castlereagh": [
+   "Lisburn and Castlereagh"
+  ],
+  "Causeway Coast and Glens": [
+   "Ballymoney",
+   "Coleraine",
+   "Limavady",
+   "Moyle"
+  ],
+  "Coleraine": [
+   "Causeway Coast and Glens"
+  ],
+  "Cookstown": [
+   "Mid Ulster"
+  ],
+  "Craigavon": [
+   "Armagh, Banbridge and Craigavon"
+  ],
+  "Derry": [
+   "Derry City and Strabane"
+  ],
+  "Derry City and Strabane": [
+   "Derry",
+   "Strabane"
+  ],
+  "Down": [
+   "Newry, Mourne and Down"
+  ],
+  "Dungannon": [
+   "Mid Ulster"
+  ],
+  "Fermanagh": [
+   "Fermanagh and Omagh"
+  ],
+  "Fermanagh and Omagh": [
+   "Fermanagh",
+   "Omagh"
+  ],
+  "Larne": [
+   "Mid and East Antrim"
+  ],
+  "Limavady": [
+   "Causeway Coast and Glens"
+  ],
+  "Lisburn": [
+   "Lisburn and Castlereagh"
+  ],
+  "Lisburn and Castlereagh": [
+   "Castlereagh",
+   "Lisburn"
+  ],
+  "Magherafelt": [
+   "Mid Ulster"
+  ],
+  "Mid Ulster": [
+   "Cookstown",
+   "Dungannon",
+   "Magherafelt"
+  ],
+  "Mid and East Antrim": [
+   "Ballymena",
+   "Carrickfergus",
+   "Larne"
+  ],
+  "Moyle": [
+   "Causeway Coast and Glens"
+  ],
+  "Newry and Mourne": [
+   "Newry, Mourne and Down"
+  ],
+  "Newry, Mourne and Down": [
+   "Down",
+   "Newry and Mourne"
+  ],
+  "Newtownabbey": [
+   "Antrim and Newtownabbey"
+  ],
+  "North Down": [
+   "Ards and North Down"
+  ],
+  "Omagh": [
+   "Fermanagh and Omagh"
+  ],
+  "Strabane": [
+   "Derry City and Strabane"
+  ]
+ },
+ "touch": {
+  "Antrim": [
+   "Armagh, Banbridge and Craigavon",
+   "Ballymena",
+   "Belfast",
+   "Cookstown",
+   "Craigavon",
+   "Lisburn",
+   "Lisburn and Castlereagh",
+   "Magherafelt",
+   "Mid Ulster",
+   "Mid and East Antrim",
+   "Newtownabbey"
+  ],
+  "Antrim and Newtownabbey": [
+   "Armagh, Banbridge and Craigavon",
+   "Ballymena",
+   "Belfast",
+   "Carrickfergus",
+   "Cookstown",
+   "Craigavon",
+   "Larne",
+   "Lisburn",
+   "Lisburn and Castlereagh",
+   "Magherafelt",
+   "Mid Ulster",
+   "Mid and East Antrim"
+  ],
+  "Ards": [
+   "Castlereagh",
+   "Down",
+   "Lisburn and Castlereagh",
+   "Newry, Mourne and Down",
+   "North Down"
+  ],
+  "Ards and North Down": [
+   "Belfast",
+   "Castlereagh",
+   "Down",
+   "Lisburn and Castlereagh",
+   "Newry, Mourne and Down"
+  ],
+  "Armagh": [
+   "Banbridge",
+   "Craigavon",
+   "Dungannon",
+   "Mid Ulster",
+   "Newry and Mourne",
+   "Newry, Mourne and Down"
+  ],
+  "Armagh, Banbridge and Craigavon": [
+   "Antrim",
+   "Antrim and Newtownabbey",
+   "Cookstown",
+   "Down",
+   "Dungannon",
+   "Lisburn",
+   "Lisburn and Castlereagh",
+   "Mid Ulster",
+   "Newry and Mourne",
+   "Newry, Mourne and Down"
+  ],
+  "Ballymena": [
+   "Antrim",
+   "Antrim and Newtownabbey",
+   "Ballymoney",
+   "Causeway Coast and Glens",
+   "Larne",
+   "Magherafelt",
+   "Mid Ulster",
+   "Moyle",
+   "Newtownabbey"
+  ],
+  "Ballymoney": [
+   "Ballymena",
+   "Coleraine",
+   "Magherafelt",
+   "Mid Ulster",
+   "Mid and East Antrim",
+   "Moyle"
+  ],
+  "Banbridge": [
+   "Armagh",
+   "Craigavon",
+   "Down",
+   "Lisburn",
+   "Lisburn and Castlereagh",
+   "Newry and Mourne",
+   "Newry, Mourne and Down"
+  ],
+  "Belfast": [
+   "Antrim",
+   "Antrim and Newtownabbey",
+   "Ards and North Down",
+   "Castlereagh",
+   "Lisburn",
+   "Lisburn and Castlereagh",
+   "Newtownabbey",
+   "North Down"
+  ],
+  "Carrickfergus": [
+   "Antrim and Newtownabbey",
+   "Larne",
+   "Newtownabbey"
+  ],
+  "Castlereagh": [
+   "Ards",
+   "Ards and North Down",
+   "Belfast",
+   "Down",
+   "Lisburn",
+   "Newry, Mourne and Down",
+   "North Down"
+  ],
+  "Causeway Coast and Glens": [
+   "Ballymena",
+   "Derry",
+   "Derry City and Strabane",
+   "Larne",
+   "Magherafelt",
+   "Mid Ulster",
+   "Mid and East Antrim",
+   "Strabane"
+  ],
+  "Coleraine": [
+   "Ballymoney",
+   "Limavady",
+   "Magherafelt",
+   "Mid Ulster",
+   "Moyle"
+  ],
+  "Cookstown": [
+   "Antrim",
+   "Antrim and Newtownabbey",
+   "Armagh, Banbridge and Craigavon",
+   "Craigavon",
+   "Dungannon",
+   "Fermanagh and Omagh",
+   "Magherafelt",
+   "Omagh"
+  ],
+  "Craigavon": [
+   "Antrim",
+   "Antrim and Newtownabbey",
+   "Armagh",
+   "Banbridge",
+   "Cookstown",
+   "Dungannon",
+   "Lisburn",
+   "Lisburn and Castlereagh",
+   "Mid Ulster"
+  ],
+  "Derry": [
+   "Causeway Coast and Glens",
+   "Limavady",
+   "Strabane"
+  ],
+  "Derry City and Strabane": [
+   "Causeway Coast and Glens",
+   "Fermanagh",
+   "Fermanagh and Omagh",
+   "Limavady",
+   "Magherafelt",
+   "Mid Ulster",
+   "Omagh"
+  ],
+  "Down": [
+   "Ards",
+   "Ards and North Down",
+   "Armagh, Banbridge and Craigavon",
+   "Banbridge",
+   "Castlereagh",
+   "Lisburn",
+   "Lisburn and Castlereagh",
+   "Newry and Mourne"
+  ],
+  "Dungannon": [
+   "Armagh",
+   "Armagh, Banbridge and Craigavon",
+   "Cookstown",
+   "Craigavon",
+   "Fermanagh",
+   "Fermanagh and Omagh",
+   "Omagh"
+  ],
+  "Fermanagh": [
+   "Derry City and Strabane",
+   "Dungannon",
+   "Mid Ulster",
+   "Omagh",
+   "Strabane"
+  ],
+  "Fermanagh and Omagh": [
+   "Cookstown",
+   "Derry City and Strabane",
+   "Dungannon",
+   "Magherafelt",
+   "Mid Ulster",
+   "Strabane"
+  ],
+  "Larne": [
+   "Antrim and Newtownabbey",
+   "Ballymena",
+   "Carrickfergus",
+   "Causeway Coast and Glens",
+   "Moyle",
+   "Newtownabbey"
+  ],
+  "Limavady": [
+   "Coleraine",
+   "Derry",
+   "Derry City and Strabane",
+   "Magherafelt",
+   "Mid Ulster",
+   "Strabane"
+  ],
+  "Lisburn": [
+   "Antrim",
+   "Antrim and Newtownabbey",
+   "Armagh, Banbridge and Craigavon",
+   "Banbridge",
+   "Belfast",
+   "Castlereagh",
+   "Craigavon",
+   "Down",
+   "Newry, Mourne and Down"
+  ],
+  "Lisburn and Castlereagh": [
+   "Antrim",
+   "Antrim and Newtownabbey",
+   "Ards",
+   "Ards and North Down",
+   "Armagh, Banbridge and Craigavon",
+   "Banbridge",
+   "Belfast",
+   "Craigavon",
+   "Down",
+   "Newry, Mourne and Down",
+   "North Down"
+  ],
+  "Magherafelt": [
+   "Antrim",
+   "Antrim and Newtownabbey",
+   "Ballymena",
+   "Ballymoney",
+   "Causeway Coast and Glens",
+   "Coleraine",
+   "Cookstown",
+   "Derry City and Strabane",
+   "Fermanagh and Omagh",
+   "Limavady",
+   "Mid and East Antrim",
+   "Omagh",
+   "Strabane"
+  ],
+  "Mid Ulster": [
+   "Antrim",
+   "Antrim and Newtownabbey",
+   "Armagh",
+   "Armagh, Banbridge and Craigavon",
+   "Ballymena",
+   "Ballymoney",
+   "Causeway Coast and Glens",
+   "Coleraine",
+   "Craigavon",
+   "Derry City and Strabane",
+   "Fermanagh",
+   "Fermanagh and Omagh",
+   "Limavady",
+   "Mid and East Antrim",
+   "Omagh",
+   "Strabane"
+  ],
+  "Mid and East Antrim": [
+   "Antrim",
+   "Antrim and Newtownabbey",
+   "Ballymoney",
+   "Causeway Coast and Glens",
+   "Magherafelt",
+   "Mid Ulster",
+   "Moyle",
+   "Newtownabbey"
+  ],
+  "Moyle": [
+   "Ballymena",
+   "Ballymoney",
+   "Coleraine",
+   "Larne",
+   "Mid and East Antrim"
+  ],
+  "Newry and Mourne": [
+   "Armagh",
+   "Armagh, Banbridge and Craigavon",
+   "Banbridge",
+   "Down"
+  ],
+  "Newry, Mourne and Down": [
+   "Ards",
+   "Ards and North Down",
+   "Armagh",
+   "Armagh, Banbridge and Craigavon",
+   "Banbridge",
+   "Castlereagh",
+   "Lisburn",
+   "Lisburn and Castlereagh"
+  ],
+  "Newtownabbey": [
+   "Antrim",
+   "Ballymena",
+   "Belfast",
+   "Carrickfergus",
+   "Larne",
+   "Mid and East Antrim"
+  ],
+  "North Down": [
+   "Ards",
+   "Belfast",
+   "Castlereagh",
+   "Lisburn and Castlereagh"
+  ],
+  "Omagh": [
+   "Cookstown",
+   "Derry City and Strabane",
+   "Dungannon",
+   "Fermanagh",
+   "Magherafelt",
+   "Mid Ulster",
+   "Strabane"
+  ],
+  "Strabane": [
+   "Causeway Coast and Glens",
+   "Derry",
+   "Fermanagh",
+   "Fermanagh and Omagh",
+   "Limavady",
+   "Magherafelt",
+   "Mid Ulster",
+   "Omagh"
+  ]
+ }
+}
