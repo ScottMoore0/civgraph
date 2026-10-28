@@ -902,9 +902,9 @@ if (existsSync('render/metadata/elections-test2.json')) {
   assert(queensUniversity?.anchor?.method === 'synthetic-northeast-non-geographic', '/test2 Queen\'s University synthetic anchor must stay on the northeast side of the election geography');
   const local1977Bundle = JSON.parse(readFileSync('render/metadata/elections-test2/local-government-local-government-districts__1977-05-18.json', 'utf8'));
   const strayBelfastAreaA = (local1977Bundle.results || []).find((result) => result.constituency === 'Area-A-corrected');
-  const canonicalBelfastAreaA = (local1977Bundle.results || []).find((result) => result.constituency === 'Belfast Area A corrected');
+  const canonicalBelfastAreaA = (local1977Bundle.results || []).find((result) => result.constituency === 'Belfast Area A');
   assert(!strayBelfastAreaA, '/test2 1977 local-government bundle must suppress source-less Area-A-corrected duplicate of Belfast Area A');
-  assert(canonicalBelfastAreaA?.sourceFile && canonicalBelfastAreaA?.featureName === 'BELFAST AREA A' && (canonicalBelfastAreaA.candidates || []).length > 0, '/test2 1977 Belfast Area A corrected must remain source-backed and candidate-populated');
+  assert(canonicalBelfastAreaA?.sourceFile && canonicalBelfastAreaA?.featureName === 'BELFAST AREA A' && (canonicalBelfastAreaA.candidates || []).length > 0, '/test2 1977 Belfast Area A (from the corrected ARK sheet) must remain source-backed and candidate-populated');
   assertDailOfficialMetadataCoverage();
   assertStvTerminalTransferCoverage();
   assertStvSyntheticTerminalTransferCoverage();

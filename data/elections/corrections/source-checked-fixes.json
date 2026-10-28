@@ -86426,9 +86426,21 @@
      "url": "https://candidates.democracyclub.org.uk/elections/local.causeway-coast-and-glens.bann.2019-05-02/",
      "accessed": "2026-10-23",
      "note": "Data from Democracy Club (https://democracyclub.org.uk), CC BY 4.0; local-election votes_cast there are final-stage totals, so first preferences come from ARK."
+    },
+    {
+     "title": "ARK Northern Ireland Elections: Causeway Coast and Glens 2019",
+     "publisher": "ARK (Nicholas Whyte)",
+     "url": "https://www.ark.ac.uk/elections/nlgccg.htm",
+     "accessed": "2026-10-28"
+    },
+    {
+     "title": "Causeway Coast and Glens Borough Council: Statement of Persons Nominated and Notice of Poll, Bann, 2 May 2019",
+     "publisher": "Causeway Coast and Glens Borough Council (Internet Archive copy)",
+     "url": "https://web.archive.org/web/20220817104359/https://www.causewaycoastandglens.gov.uk/uploads/general/Statement_of_Persons_Nominated_and_Notice_of_Poll_Bann.pdf",
+     "accessed": "2026-10-28"
     }
    ],
-   "reason": "1 candidate in Bann 2019 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Adrian McQuillan (DUP, 1,047 first preferences).",
+   "reason": "1 candidate in Bann 2019 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Adrian McQuillan (DUP, 1,047 first preferences). The valid poll was 7,275, not 7,194: 7,350 votes were cast and 75 were invalid; 7,275 is what the first preferences add up to, and gives the quota of 1,213 for 5 seats.",
    "category": "names",
    "operations": [
     {
@@ -86439,6 +86451,21 @@
       "Firstname": "Adrian",
       "Surname": "McQuillan"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "7275"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Poll",
+     "value": "7350"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Spoiled",
+     "value": "75"
     }
    ]
   },
@@ -154138,14 +154165,21 @@
     }
    ],
    "internalNote": "Robert Wilson: candidate id T1788254480 was shared with candidates of the same name in other councils (kept by Ballymoney); given T1788254480-carrickfergus.",
-   "additionalSources": [],
+   "additionalSources": [
+    {
+     "title": "ARK Northern Ireland Elections: 1981/lg81-CAR-Area-B-corrected.xls (result spreadsheet)",
+     "publisher": "ARK (Nicholas Whyte)",
+     "url": "https://www.ark.ac.uk/elections/xls/lgov/1981/lg81-CAR-Area-B-corrected.xls",
+     "accessed": "2026-10-28"
+    }
+   ],
    "source": {
-    "title": "ARK Northern Ireland Elections: 1981/lg81-CAR-Area-B-corrected.xls (result spreadsheet)",
-    "publisher": "ARK (Nicholas Whyte)",
-    "url": "https://www.ark.ac.uk/elections/xls/lgov/1981/lg81-CAR-Area-B-corrected.xls",
+    "title": "The Electoral Office for Northern Ireland: Local Government Election Results 1981 (official result sheets)",
+    "publisher": "The Electoral Office for Northern Ireland",
+    "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/local_government_election_results_1981.pdf",
     "accessed": "2026-10-28"
    },
-   "reason": "1 candidate the import had left out restored (Richard Hopkins, Newtownabbey Labour, 85); every count rebuilt from ARK's result spreadsheet (9 stages, quota 657); ARK's sheet puts the seventh stage's non-transferable total (37.62) in Robert Wilson's row, after his exclusion. Every stage now adds up to the valid poll of 3,941."
+   "reason": "1 candidate the import had left out restored (Richard Hopkins, Newtownabbey Labour, 85); every count rebuilt from ARK's result spreadsheet, checked against the official result sheet (9 stages, quota 657); ARK's sheet puts the seventh stage's non-transferable total (37.62) in Robert Wilson's row, after his exclusion. Every stage now adds up to the valid poll of 3,941."
   },
   {
    "batch": "candidate-id-splits-2026-10-28",
@@ -158192,6 +158226,12 @@
    "internalNote": "Joan Cosgrove: candidate id T547622012 was shared with candidates of the same name in other councils (kept by Ballymoney); given T547622012-newtownabbey.",
    "additionalSources": [
     {
+     "title": "Newtownabbey Times, 14 June 2001, p. 12 (results)",
+     "publisher": "British Newspaper Archive",
+     "url": "https://www.britishnewspaperarchive.co.uk/viewer/bl/0005344/20010614/",
+     "accessed": "2026-10-28"
+    },
+    {
      "title": "ARK Northern Ireland Elections: 2001/lg01-NEW-Antrim-Line.xls (result spreadsheet)",
      "publisher": "ARK (Nicholas Whyte)",
      "url": "https://www.ark.ac.uk/elections/xls/lgov/2001/lg01-NEW-Antrim-Line.xls",
@@ -158199,12 +158239,12 @@
     }
    ],
    "source": {
-    "title": "Newtownabbey Times, 14 June 2001, p. 12 (results)",
-    "publisher": "British Newspaper Archive",
-    "url": "https://www.britishnewspaperarchive.co.uk/viewer/bl/0005344/20010614/",
+    "title": "The Electoral Office for Northern Ireland: Local Government Election Results 2001 (official result sheets)",
+    "publisher": "The Electoral Office for Northern Ireland",
+    "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/local_government_election_results_2001.pdf",
     "accessed": "2026-10-28"
    },
-   "reason": "1 candidate the import had left out restored (John Blair, Newtownabbey Ratepayers, 389); every count rebuilt from ARK's result spreadsheet (11 stages, quota 1,309). Every stage now adds up to the valid poll of 10,467, and the winners are those the published result names."
+   "reason": "1 candidate the import had left out restored (John Blair, Newtownabbey Ratepayers, 389); every count rebuilt from ARK's result spreadsheet, checked against the official result sheet (11 stages, quota 1,309). Every stage now adds up to the valid poll of 10,467, and the winners are those the published result names."
   },
   {
    "batch": "candidate-id-splits-2026-10-28",
@@ -159630,9 +159670,47 @@
      "set": {
       "Candidate_Id": "2706792624-mid-and-east-antrim"
      }
+    },
+    {
+     "op": "candidate",
+     "name": "Audrey Wales",
+     "set": {
+      "Candidate_First_Pref_Votes": "491.00"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Audrey Wales",
+     "count": "1",
+     "set": {
+      "Total_Votes": "491.00"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Audrey Wales",
+     "count": "2",
+     "set": {
+      "Transfers": "5.00"
+     }
     }
    ],
-   "internalNote": "William Logan: candidate id 1360750631 was shared with candidates of the same name in other councils (kept by Ballymoney); given 1360750631-mid-and-east-antrim. James Henry: candidate id 2706792624 was shared with candidates of the same name in other councils (kept by Ballymena); given 2706792624-mid-and-east-antrim."
+   "internalNote": "William Logan: candidate id 1360750631 was shared with candidates of the same name in other councils (kept by Ballymoney); given 1360750631-mid-and-east-antrim. James Henry: candidate id 2706792624 was shared with candidates of the same name in other councils (kept by Ballymena); given 2706792624-mid-and-east-antrim.",
+   "source": {
+    "title": "ARK Northern Ireland Elections: Mid and East Antrim 2019",
+    "publisher": "ARK (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgmea.htm",
+    "accessed": "2026-10-28"
+   },
+   "additionalSources": [
+    {
+     "title": "Mid and East Antrim Borough Council: 2019 Results by DEA, Ballymena (elected members)",
+     "publisher": "Mid and East Antrim Borough Council (Internet Archive copy)",
+     "url": "https://web.archive.org/web/20190514175948/https://www.midandeastantrim.gov.uk/council/elections/local-government-elections-2019/dea-results/ballymena",
+     "accessed": "2026-10-28"
+    }
+   ],
+   "reason": "Audrey Wales polled 491 first preferences, not 471: with 491 the first preferences add up to the valid poll of 6,956, which gives the quota of 870 for 7 seats, and her second-stage total of 496 is unchanged."
   },
   {
    "batch": "candidate-id-splits-2026-10-28",
@@ -159868,9 +159946,47 @@
      "set": {
       "Candidate_Id": "1435123797-derry-city-and-strabane"
      }
+    },
+    {
+     "op": "candidate",
+     "name": "Andy McKane",
+     "set": {
+      "Candidate_First_Pref_Votes": "560.00"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Andy McKane",
+     "count": "1",
+     "set": {
+      "Total_Votes": "560.00"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Andy McKane",
+     "count": "2",
+     "set": {
+      "Transfers": "2.00"
+     }
     }
    ],
-   "internalNote": "Paul Gallagher: candidate id 1435123797 was shared with candidates of the same name in other councils (kept by Strabane); given 1435123797-derry-city-and-strabane."
+   "internalNote": "Paul Gallagher: candidate id 1435123797 was shared with candidates of the same name in other councils (kept by Strabane); given 1435123797-derry-city-and-strabane.",
+   "source": {
+    "title": "ARK Northern Ireland Elections: Derry City and Strabane 2019",
+    "publisher": "ARK (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/nlgds.htm",
+    "accessed": "2026-10-28"
+   },
+   "additionalSources": [
+    {
+     "title": "Derry City and Strabane District Council: Statement of Persons Nominated and Notice of Poll, Sperrin, 2 May 2019",
+     "publisher": "Derry City and Strabane District Council (Internet Archive copy)",
+     "url": "https://web.archive.org/web/20190425135002/http://www.derrystrabane.com/getmedia/d1ce294e-e6ef-4043-a04a-7765fe121b38/Sperrin.pdf",
+     "accessed": "2026-10-28"
+    }
+   ],
+   "reason": "Andy McKane polled 560 first preferences, not 530: with 560 the first preferences add up to the valid poll of 10,911, which gives the quota of 1,364 for 7 seats, and his second-stage total of 562 is unchanged."
   },
   {
    "batch": "candidate-id-splits-2026-10-28",
@@ -178179,12 +178295,18 @@
    "batch": "bna-eoni-2026-10-28",
    "sourceFile": "data/elections-source/data/elections/local-government/1981-05-20/fermanagh-area-a.json",
    "source": {
-    "title": "Belfast News-Letter, 7 May 1981, p. 8 (candidates)",
-    "publisher": "British Newspaper Archive",
-    "url": "https://www.britishnewspaperarchive.co.uk/viewer/bl/0005119/19810507/",
+    "title": "The Electoral Office for Northern Ireland: Local Government Election Results 1981 (official result sheets)",
+    "publisher": "The Electoral Office for Northern Ireland",
+    "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/local_government_election_results_1981.pdf",
     "accessed": "2026-10-28"
    },
    "additionalSources": [
+    {
+     "title": "Belfast News-Letter, 7 May 1981, p. 8 (candidates)",
+     "publisher": "British Newspaper Archive",
+     "url": "https://www.britishnewspaperarchive.co.uk/viewer/bl/0005119/19810507/",
+     "accessed": "2026-10-28"
+    },
     {
      "title": "ARK Northern Ireland Elections: 1981/lg81-FER-Area-A.xls (result spreadsheet)",
      "publisher": "ARK (Nicholas Whyte)",
@@ -178955,18 +179077,24 @@
      ]
     }
    ],
-   "reason": "1 candidate the import had left out restored (John Reihill, SDLP, 280); every count rebuilt from ARK's result spreadsheet (6 stages, quota 1,320). Every stage now adds up to the valid poll of 6,598."
+   "reason": "1 candidate the import had left out restored (John Reihill, SDLP, 280); every count rebuilt from ARK's result spreadsheet, checked against the official result sheet (6 stages, quota 1,320). Every stage now adds up to the valid poll of 6,598."
   },
   {
    "batch": "bna-eoni-2026-10-28",
    "sourceFile": "data/elections-source/data/elections/local-government/1981-05-20/newtownabbey-area-c.json",
    "source": {
-    "title": "Belfast Telegraph, 22 May 1981, p. 13 (results); Belfast News-Letter, 7 and 22-23 May 1981",
-    "publisher": "British Newspaper Archive",
-    "url": "https://www.britishnewspaperarchive.co.uk/viewer/bl/0002318/19810522/",
+    "title": "The Electoral Office for Northern Ireland: Local Government Election Results 1981 (official result sheets)",
+    "publisher": "The Electoral Office for Northern Ireland",
+    "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/local_government_election_results_1981.pdf",
     "accessed": "2026-10-28"
    },
    "additionalSources": [
+    {
+     "title": "Belfast Telegraph, 22 May 1981, p. 13 (results); Belfast News-Letter, 7 and 22-23 May 1981",
+     "publisher": "British Newspaper Archive",
+     "url": "https://www.britishnewspaperarchive.co.uk/viewer/bl/0002318/19810522/",
+     "accessed": "2026-10-28"
+    },
     {
      "title": "ARK Northern Ireland Elections: 1981/lg81-NEW-Area-C.xls (result spreadsheet)",
      "publisher": "ARK (Nicholas Whyte)",
@@ -179508,18 +179636,24 @@
      ]
     }
    ],
-   "reason": "1 candidate the import had left out restored (Brian Caul, Newtownabbey Labour, 252); every count rebuilt from ARK's result spreadsheet (6 stages, quota 1,355); the quota was 1,355, not 13.55. Every stage now adds up to the valid poll of 8,126, and the winners are those the published result names."
+   "reason": "1 candidate the import had left out restored (Brian Caul, Newtownabbey Labour, 252); every count rebuilt from ARK's result spreadsheet, checked against the official result sheet (6 stages, quota 1,355); the quota was 1,355, not 13.55. Every stage now adds up to the valid poll of 8,126, and the winners are those the published result names."
   },
   {
    "batch": "bna-eoni-2026-10-28",
    "sourceFile": "data/elections-source/data/elections/local-government/1981-05-20/larne-area-c-corrected.json",
    "source": {
-    "title": "Belfast Telegraph, 22 May 1981, p. 13 (results); Belfast News-Letter, 7 and 22-23 May 1981",
-    "publisher": "British Newspaper Archive",
-    "url": "https://www.britishnewspaperarchive.co.uk/viewer/bl/0002318/19810522/",
+    "title": "The Electoral Office for Northern Ireland: Local Government Election Results 1981 (official result sheets)",
+    "publisher": "The Electoral Office for Northern Ireland",
+    "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/local_government_election_results_1981.pdf",
     "accessed": "2026-10-28"
    },
    "additionalSources": [
+    {
+     "title": "Belfast Telegraph, 22 May 1981, p. 13 (results); Belfast News-Letter, 7 and 22-23 May 1981",
+     "publisher": "British Newspaper Archive",
+     "url": "https://www.britishnewspaperarchive.co.uk/viewer/bl/0002318/19810522/",
+     "accessed": "2026-10-28"
+    },
     {
      "title": "ARK Northern Ireland Elections: 1981/lg81-LAR-Area-C-corrected.xls (result spreadsheet)",
      "publisher": "ARK (Nicholas Whyte)",
@@ -181208,18 +181342,24 @@
      ]
     }
    ],
-   "reason": "1 candidate the import had left out restored (Samuel Martin, United Loyalist, 262); every count rebuilt from ARK's result spreadsheet (11 stages, quota 713); ARK's sheet leaves out the non-transferable votes, which are the difference between the candidates' totals and the valid poll at each stage. Every stage now adds up to the valid poll of 5,703."
+   "reason": "1 candidate the import had left out restored (Samuel Martin, United Loyalist, 262); every count rebuilt from ARK's result spreadsheet, checked against the official result sheet (11 stages, quota 713); ARK's sheet leaves out the non-transferable votes, taken from the official result sheet. Every stage now adds up to the valid poll of 5,703."
   },
   {
    "batch": "bna-eoni-2026-10-28",
    "sourceFile": "data/elections-source/data/elections/local-government/2001-06-07/university.json",
    "source": {
-    "title": "Newtownabbey Times, 14 June 2001, p. 12 (results)",
-    "publisher": "British Newspaper Archive",
-    "url": "https://www.britishnewspaperarchive.co.uk/viewer/bl/0005344/20010614/",
+    "title": "The Electoral Office for Northern Ireland: Local Government Election Results 2001 (official result sheets)",
+    "publisher": "The Electoral Office for Northern Ireland",
+    "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/local_government_election_results_2001.pdf",
     "accessed": "2026-10-28"
    },
    "additionalSources": [
+    {
+     "title": "Newtownabbey Times, 14 June 2001, p. 12 (results)",
+     "publisher": "British Newspaper Archive",
+     "url": "https://www.britishnewspaperarchive.co.uk/viewer/bl/0005344/20010614/",
+     "accessed": "2026-10-28"
+    },
     {
      "title": "ARK Northern Ireland Elections: 2001/lg01-NEW-University.xls (result spreadsheet)",
      "publisher": "ARK (Nicholas Whyte)",
@@ -182260,7 +182400,7 @@
      ]
     }
    ],
-   "reason": "2 candidates the import had left out restored (Fraser Agnew, United Unionist, 828, elected; John Scott, United Unionist, 469); William Greer was not elected; every count rebuilt from ARK's result spreadsheet (8 stages, quota 1,250). Every stage now adds up to the valid poll of 9,996, and the winners are those the published result names."
+   "reason": "2 candidates the import had left out restored (Fraser Agnew, United Unionist, 828, elected; John Scott, United Unionist, 469); William Greer was not elected; every count rebuilt from ARK's result spreadsheet, checked against the official result sheet (8 stages, quota 1,250). Every stage now adds up to the valid poll of 9,996, and the winners are those the published result names."
   },
   {
    "batch": "bna-eoni-2026-10-28",

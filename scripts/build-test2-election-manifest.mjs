@@ -618,7 +618,7 @@ const LOCAL_GOVERNMENT_DUPLICATE_RESULT_ALIASES = new Map([
     ['Area-H', 'Belfast Area H']
   ])],
   ['local-government-local-government-districts__1977-05-18', new Map([
-    ['Area-A-corrected', 'Belfast Area A corrected'],
+    ['Area-A-corrected', 'Belfast Area A'],
     ['Area-F', 'Belfast Area F'],
     ['Area-G', 'Belfast Area G'],
     ['Area-H', 'Belfast Area H']
@@ -626,7 +626,7 @@ const LOCAL_GOVERNMENT_DUPLICATE_RESULT_ALIASES = new Map([
   ['local-government-local-government-districts__1981-05-20', new Map([
     ['Area-F', 'Belfast Area F'],
     ['Area-G', 'Belfast Area G'],
-    ['Area-H-corrected', 'Belfast Area H corrected']
+    ['Area-H-corrected', 'Belfast Area H']
   ])]
 ]);
 

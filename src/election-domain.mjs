@@ -48,6 +48,12 @@ export function fixText(value) {
     .trim();
 }
 
+// ARK's re-issued result sheets named some NI council contests "Omagh Area C corrected"; the
+// word is the sheet's, not the area's, so it is dropped from the name shown.
+function contestName(value) {
+  return fixText(value).replace(/\s+corrected$/i, '');
+}
+
 export function parseNumber(value) {
   if (value === null || value === undefined || value === '') return null;
   const number = Number(String(value).replace(/,/g, '').replace(/%$/, ''));
@@ -824,7 +830,7 @@ export function buildMainLikeCandidateSummaryFromRawResults(rawEntries = []) {
 
     const constValid = safeValidPoll(info, cg);
     const seatCount = parseNumber(info.Number_Of_Seats) || 0;
-    const constituency = fixText(entry.constituency || info.Constituency_Name || '');
+    const constituency = contestName(entry.constituency || info.Constituency_Name || '');
     totalValid += constValid;
 
     const byCandidate = new Map();
@@ -934,7 +940,7 @@ export function summarizeResult(raw, fallbackConstituency) {
   const info = source.countInfo || raw?.meta || raw?.metaData || {};
   const forumRows = Array.isArray(source.forum?.rows) ? source.forum.rows : null;
   const rows = forumRows || source.countGroup || raw?.candidates || [];
-  const constituency = fixText(source.constituency || raw?.constituency || info.Constituency_Name || fallbackConstituency);
+  const constituency = contestName(source.constituency || raw?.constituency || info.Constituency_Name || fallbackConstituency);
   const recallPetition = source.recallPetition || raw?.recallPetition || raw?.petition || null;
   let candidates = forumRows ? summarizeForumRows(forumRows) : summarizeCandidateRows(rows);
   // Before 1832 no party was printed against a candidate. Such a contest says so
