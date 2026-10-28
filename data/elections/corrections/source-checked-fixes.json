@@ -7,7 +7,8 @@
   "dail-byelections-2026-10-18": "Dáil by-elections 2009-2021 imported with second-count figures as first preferences, missing candidates or a stray row, checked against ElectionsIreland.org and Wikipedia.",
   "official-records-2026-10-23": "Results contradicted by official membership records: Dáil winners and Ceann Comhairle automatic returns (Houses of the Oireachtas, with ElectionsIreland.org and Wikipedia), NI Assembly and Westminster winners (NI Assembly, UK Parliament), and 2014 and 2019 council candidates the import left named 'Party' (ARK Northern Ireland Elections, Democracy Club, CC BY 4.0).",
   "eoni-2014-2026-10-26": "Northern Ireland local council election of 22 May 2014, every contest checked candidate by candidate and stage by stage against the Electoral Office for Northern Ireland's result sheets as published on Open Data NI (Open Government Licence).",
-  "eoni-wayback-2026-10-26": "Northern Ireland council contests checked against the Electoral Office for Northern Ireland's own result sheets and results booklets, retrieved from the Internet Archive's copies of eoni.org.uk. Figures from the scanned booklets were read from the page images, not taken from OCR, and confirmed by the site owner."
+  "eoni-wayback-2026-10-26": "Northern Ireland council contests checked against the Electoral Office for Northern Ireland's own result sheets and results booklets, retrieved from the Internet Archive's copies of eoni.org.uk. Figures from the scanned booklets were read from the page images, not taken from OCR, and confirmed by the site owner.",
+  "ni-council-xref-2026-10-27": "Northern Ireland council contests 1973-2011 cross-checked against ARK's per-contest result spreadsheets (Nicholas Whyte, ark.ac.uk), the Wikipedia council election articles and the quota each result sheet states (the valid poll divided by one more than the seats, rounded down, plus one)."
  },
  "records": [
   {
@@ -88047,6 +88048,661 @@
     }
    ],
    "reason": "The valid poll was 12,300 and the votes polled 12,479, not 12,121 and 12,300, as the Electoral Office's result sheet gives (179 invalid); the candidates' first preferences already add up to 12,300."
+  },
+  {
+   "batch": "ni-council-xref-2026-10-27",
+   "sourceFile": "data/elections-source/data/elections/local-government/1973-05-30/ballymena-area-a.json",
+   "source": {
+    "title": "ARK Northern Ireland Elections: Ballymena 1973, Area A (result spreadsheet)",
+    "publisher": "ARK (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/xls/lgov/1973/lg73-BMA-Area-A.xls",
+    "accessed": "2026-10-27"
+   },
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "4297"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Poll",
+     "value": "4354"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Spoiled",
+     "value": "57"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Quota",
+     "value": "860"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Number_Of_Seats",
+     "value": "4"
+    },
+    {
+     "op": "candidate",
+     "name": "J. J. O'Hagan",
+     "set": {
+      "Status": "Excluded"
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "S. O. Nesbitt",
+     "set": {
+      "Status": "Excluded"
+     }
+    }
+   ],
+   "reason": "The contest had carried Area B's totals (6,232 valid, 6 seats, quota 891). Area A elected 4 members: 4,354 votes polled, 57 spoilt, 4,297 valid, quota 860, as Wikipedia gives and as the candidates' first preferences and the quota confirm; J. J. O'Hagan and S. O. Nesbitt were not elected.",
+   "additionalSources": [
+    {
+     "title": "Wikipedia: 1973 Ballymena Borough Council election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/w/index.php?oldid=1203037894",
+     "accessed": "2026-10-27"
+    }
+   ]
+  },
+  {
+   "batch": "ni-council-xref-2026-10-27",
+   "sourceFile": "data/elections-source/data/elections/local-government/1973-05-30/craigavon-area-a.json",
+   "source": {
+    "title": "ARK Northern Ireland Elections: Craigavon 1973, Area A (result spreadsheet)",
+    "publisher": "ARK (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/xls/lgov/1973/lg73-CRA-Area-A.xls",
+    "accessed": "2026-10-27"
+   },
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "5848"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Poll",
+     "value": "6003"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Spoiled",
+     "value": "155"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Quota",
+     "value": "975"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Number_Of_Seats",
+     "value": "5"
+    },
+    {
+     "op": "candidate",
+     "name": "T. Fleville",
+     "set": {
+      "Status": "Excluded"
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "B. Casey",
+     "set": {
+      "Status": "Excluded"
+     }
+    }
+   ],
+   "reason": "The contest had carried Area B's totals (8,933 valid, 7 seats, quota 1,117). Area A elected 5 members: 6,003 votes polled, 155 spoilt, 5,848 valid, quota 975, as Wikipedia gives and as the candidates' first preferences and the quota confirm; T. Fleville and B. Casey were not elected.",
+   "additionalSources": [
+    {
+     "title": "Wikipedia: 1973 Craigavon Borough Council election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/w/index.php?oldid=1202612875",
+     "accessed": "2026-10-27"
+    }
+   ]
+  },
+  {
+   "batch": "ni-council-xref-2026-10-27",
+   "sourceFile": "data/elections-source/data/elections/local-government/1973-05-30/lisburn-area-c.json",
+   "source": {
+    "title": "ARK Northern Ireland Elections: Lisburn 1973, Area C (result spreadsheet)",
+    "publisher": "ARK (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/xls/lgov/1973/lg73-LIS-Area-C.xls",
+    "accessed": "2026-10-27"
+   },
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "7391"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Poll",
+     "value": "7518"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Spoiled",
+     "value": "127"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Quota",
+     "value": "1232"
+    }
+   ],
+   "reason": "The contest had carried Area D's totals (8,651 valid, quota 1,442). Area C: 7,518 votes polled, 127 spoilt, 7,391 valid, quota 1,232, as Wikipedia gives and as the candidates' first preferences and the quota confirm.",
+   "additionalSources": [
+    {
+     "title": "Wikipedia: 1973 Lisburn Borough Council election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/w/index.php?oldid=1170735595",
+     "accessed": "2026-10-27"
+    }
+   ]
+  },
+  {
+   "batch": "ni-council-xref-2026-10-27",
+   "sourceFile": "data/elections-source/data/elections/local-government/1993-05-19/moyola.json",
+   "source": {
+    "title": "ARK Northern Ireland Elections: Magherafelt 1993, Moyola (result spreadsheet)",
+    "publisher": "ARK (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/xls/lgov/1993/lg93-MAG-Moyola.xls",
+    "accessed": "2026-10-27"
+   },
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "5745"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Poll",
+     "value": "5924"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Spoiled",
+     "value": "179"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Quota",
+     "value": "958"
+    }
+   ],
+   "reason": "The contest had carried Sperrin's totals (6,166 valid, and 8,300 votes polled, more than Moyola's 7,935 electors). Moyola: 5,924 votes polled, 179 spoilt, 5,745 valid, quota 958, as Wikipedia gives and as the candidates' first preferences and the quota confirm.",
+   "additionalSources": [
+    {
+     "title": "Wikipedia: 1993 Magherafelt District Council election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/w/index.php?oldid=1309706087",
+     "accessed": "2026-10-27"
+    }
+   ]
+  },
+  {
+   "batch": "ni-council-xref-2026-10-27",
+   "sourceFile": "data/elections-source/data/elections/local-government/2011-05-05/limavady-town.json",
+   "source": {
+    "title": "Wikipedia: 2011 Limavady Borough Council election",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/w/index.php?oldid=1370584622",
+    "accessed": "2026-10-27"
+   },
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "3069"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Poll",
+     "value": "3116"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Spoiled",
+     "value": "47"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Quota",
+     "value": "512"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Electorate",
+     "value": "6058"
+    }
+   ],
+   "reason": "The contest's totals (13,358 electors, 5,367 valid, quota 767) fit neither its candidates nor its 5 seats. Limavady Town: 6,058 electors, 3,116 votes polled, 47 spoilt, 3,069 valid, quota 512, as Wikipedia gives and as the candidates' first preferences and the quota confirm.",
+   "additionalSources": [
+    {
+     "title": "ARK Northern Ireland Elections: Limavady 2011, Limavady Town (result spreadsheet)",
+     "publisher": "ARK (Nicholas Whyte)",
+     "url": "https://www.ark.ac.uk/elections/xls/lgov/2011/lg11-LIM-Town.xlsx",
+     "accessed": "2026-10-27"
+    }
+   ]
+  },
+  {
+   "batch": "ni-council-xref-2026-10-27",
+   "sourceFile": "data/elections-source/data/elections/local-government/1973-05-30/craigavon-area-b.json",
+   "source": {
+    "title": "Wikipedia: 1973 Craigavon Borough Council election",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/w/index.php?oldid=1202612875",
+    "accessed": "2026-10-27"
+   },
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "8933"
+    }
+   ],
+   "reason": "The valid poll was 8,933, not 8,983, as Wikipedia gives and as the candidates' first preferences and the quota confirm.",
+   "additionalSources": [
+    {
+     "title": "ARK Northern Ireland Elections: Craigavon 1973, Area B (result spreadsheet)",
+     "publisher": "ARK (Nicholas Whyte)",
+     "url": "https://www.ark.ac.uk/elections/xls/lgov/1973/lg73-CRA-Area-B.xls",
+     "accessed": "2026-10-27"
+    }
+   ]
+  },
+  {
+   "batch": "ni-council-xref-2026-10-27",
+   "sourceFile": "data/elections-source/data/elections/local-government/1981-05-20/ards-area-c.json",
+   "source": {
+    "title": "Wikipedia: 1981 Ards Borough Council election",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/w/index.php?oldid=1241755662",
+    "accessed": "2026-10-27"
+   },
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "5648"
+    }
+   ],
+   "reason": "The valid poll was 5,648, not 5,668, as Wikipedia gives and as the candidates' first preferences and the quota confirm.",
+   "additionalSources": [
+    {
+     "title": "ARK Northern Ireland Elections: Ards 1981, Area C (result spreadsheet)",
+     "publisher": "ARK (Nicholas Whyte)",
+     "url": "https://www.ark.ac.uk/elections/xls/lgov/1981/lg81-ARD-Area-C.xls",
+     "accessed": "2026-10-27"
+    }
+   ]
+  },
+  {
+   "batch": "ni-council-xref-2026-10-27",
+   "sourceFile": "data/elections-source/data/elections/local-government/1981-05-20/castlereagh-area-a.json",
+   "source": {
+    "title": "Wikipedia: 1981 Castlereagh Borough Council election",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/w/index.php?oldid=1167941619",
+    "accessed": "2026-10-27"
+   },
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "8732"
+    }
+   ],
+   "reason": "The valid poll was 8,732, not 8,738, as Wikipedia gives and as the candidates' first preferences and the quota confirm.",
+   "additionalSources": [
+    {
+     "title": "ARK Northern Ireland Elections: Castlereagh 1981, Area A (result spreadsheet)",
+     "publisher": "ARK (Nicholas Whyte)",
+     "url": "https://www.ark.ac.uk/elections/xls/lgov/1981/lg81-CAS-Area-A.xls",
+     "accessed": "2026-10-27"
+    }
+   ]
+  },
+  {
+   "batch": "ni-council-xref-2026-10-27",
+   "sourceFile": "data/elections-source/data/elections/local-government/1981-05-20/craigavon-area-c.json",
+   "source": {
+    "title": "Wikipedia: 1981 Craigavon Borough Council election",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/w/index.php?oldid=1289760491",
+    "accessed": "2026-10-27"
+   },
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "9150"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Quota",
+     "value": "1308"
+    }
+   ],
+   "reason": "The valid poll was 9,150, not 9,250, and the quota 1,308, not 1,306, as Wikipedia gives and as the candidates' first preferences and the quota confirm.",
+   "additionalSources": [
+    {
+     "title": "ARK Northern Ireland Elections: Craigavon 1981, Area C (result spreadsheet)",
+     "publisher": "ARK (Nicholas Whyte)",
+     "url": "https://www.ark.ac.uk/elections/xls/lgov/1981/lg81-CRA-Area-C.xls",
+     "accessed": "2026-10-27"
+    }
+   ]
+  },
+  {
+   "batch": "ni-council-xref-2026-10-27",
+   "sourceFile": "data/elections-source/data/elections/local-government/1985-05-15/omagh-town.json",
+   "source": {
+    "title": "Wikipedia: 1985 Omagh District Council election",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/w/index.php?oldid=1298058361",
+    "accessed": "2026-10-27"
+   },
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "6474"
+    }
+   ],
+   "reason": "The valid poll was 6,474, not 6,494, as Wikipedia gives and as the candidates' first preferences and the quota confirm.",
+   "additionalSources": [
+    {
+     "title": "ARK Northern Ireland Elections: Omagh 1985, Omagh Town (result spreadsheet)",
+     "publisher": "ARK (Nicholas Whyte)",
+     "url": "https://www.ark.ac.uk/elections/xls/lgov/1985/lg85-OMA-Town.xls",
+     "accessed": "2026-10-27"
+    }
+   ]
+  },
+  {
+   "batch": "ni-council-xref-2026-10-27",
+   "sourceFile": "data/elections-source/data/elections/local-government/2001-06-07/rural.json",
+   "source": {
+    "title": "Wikipedia: 2001 Derry City Council election",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/w/index.php?oldid=1329584635",
+    "accessed": "2026-10-27"
+   },
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "9829"
+    }
+   ],
+   "reason": "The valid poll was 9,829, not 10,051, as Wikipedia gives and as the candidates' first preferences and the quota confirm.",
+   "additionalSources": [
+    {
+     "title": "ARK Northern Ireland Elections: Derry 2001, Rural (result spreadsheet)",
+     "publisher": "ARK (Nicholas Whyte)",
+     "url": "https://www.ark.ac.uk/elections/xls/lgov/2001/lg01-DE-Rural.xls",
+     "accessed": "2026-10-27"
+    }
+   ]
+  },
+  {
+   "batch": "ni-council-xref-2026-10-27",
+   "sourceFile": "data/elections-source/data/elections/local-government/1985-05-15/glenelly.json",
+   "source": {
+    "title": "ARK Northern Ireland Elections: Strabane 1985, Glenelly (result spreadsheet)",
+    "publisher": "ARK (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/xls/lgov/1985/lg85-STR-Glenelly.xls",
+    "accessed": "2026-10-27"
+   },
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Thomas McNamee",
+     "set": {
+      "Candidate_First_Pref_Votes": "772.00"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Thomas McNamee",
+     "count": 1,
+     "set": {
+      "Total_Votes": "772.00"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Thomas McNamee",
+     "count": 2,
+     "set": {
+      "Transfers": "0.96"
+     }
+    }
+   ],
+   "reason": "Thomas McNamee had 772 first preferences, not 722 (772.96 after 0.96 transferred at stage 2), as ARK's result spreadsheet gives; the first preferences now add up to the valid poll of 5,861.",
+   "additionalSources": [
+    {
+     "title": "Wikipedia: 1985 Strabane District Council election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/w/index.php?oldid=1166581846",
+     "accessed": "2026-10-27"
+    }
+   ]
+  },
+  {
+   "batch": "ni-council-xref-2026-10-27",
+   "sourceFile": "data/elections-source/data/elections/local-government/1981-05-20/craigavon-area-a-corrected.json",
+   "source": {
+    "title": "ARK Northern Ireland Elections: Craigavon 1981, Area A (corrected) (result spreadsheet)",
+    "publisher": "ARK (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/xls/lgov/1981/lg81-CRA-Area-A-corrected.xls",
+    "accessed": "2026-10-27"
+   },
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Padraig Breen",
+     "set": {
+      "Candidate_First_Pref_Votes": "1220.00"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Padraig Breen",
+     "count": 1,
+     "set": {
+      "Total_Votes": "1220.00"
+     }
+    }
+   ],
+   "reason": "Padraig Breen had 1,220 first preferences, not 1,200 (a surplus of 190 over the quota of 1,030), as ARK's result spreadsheet gives; the first preferences now add up to the valid poll of 6,174.",
+   "additionalSources": [
+    {
+     "title": "Wikipedia: 1981 Craigavon Borough Council election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/w/index.php?oldid=1289760491",
+     "accessed": "2026-10-27"
+    }
+   ]
+  },
+  {
+   "batch": "ni-council-xref-2026-10-27",
+   "sourceFile": "data/elections-source/data/elections/local-government/1981-05-20/fermanagh-area-d.json",
+   "source": {
+    "title": "ARK Northern Ireland Elections: Fermanagh 1981, Area D (result spreadsheet)",
+    "publisher": "ARK (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/xls/lgov/1981/lg81-FER-Area-D.xls",
+    "accessed": "2026-10-27"
+   },
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Quota",
+     "value": "1258"
+    },
+    {
+     "op": "candidate",
+     "name": "Herbert Kerr",
+     "set": {
+      "Candidate_First_Pref_Votes": "1241.00"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Herbert Kerr",
+     "count": 1,
+     "set": {
+      "Total_Votes": "1241.00"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Herbert Kerr",
+     "count": 2,
+     "set": {
+      "Transfers": "49.00"
+     }
+    }
+   ],
+   "reason": "Herbert Kerr had 1,241 first preferences, not 1,214 (1,290 after 49 transferred at stage 2), and the quota was 1,258, not 1,358, as ARK's result spreadsheet gives; the first preferences now add up to the valid poll of 6,287, and 1,258 is that poll's quota for 4 seats.",
+   "additionalSources": [
+    {
+     "title": "Wikipedia: 1981 Fermanagh District Council election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/w/index.php?oldid=1191054438",
+     "accessed": "2026-10-27"
+    }
+   ]
+  },
+  {
+   "batch": "ni-council-xref-2026-10-27",
+   "sourceFile": "data/elections-source/data/elections/local-government/2005-05-05/cusher.json",
+   "source": {
+    "title": "ARK Northern Ireland Elections: Armagh 2005, Cusher (result spreadsheet)",
+    "publisher": "ARK (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/xls/lgov/2005/lg05-ARM-Cusher.xls",
+    "accessed": "2026-10-27"
+   },
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Robert Turner",
+     "set": {
+      "Candidate_First_Pref_Votes": "698.00"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Robert Turner",
+     "count": 1,
+     "set": {
+      "Total_Votes": "698.00"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Robert Turner",
+     "count": 2,
+     "set": {
+      "Transfers": "131.30"
+     }
+    }
+   ],
+   "reason": "Robert Turner had 698 first preferences, not 898 (829.30 after 131.30 transferred at stage 2), as ARK's result spreadsheet gives; the first preferences now add up to the valid poll of 8,061, whose quota for 6 seats is the 1,152 the contest states. Wikipedia repeats the 898."
+  },
+  {
+   "batch": "ni-council-xref-2026-10-27",
+   "sourceFile": "data/elections-source/data/elections/local-government/2001-06-07/castle.json",
+   "source": {
+    "title": "ARK Northern Ireland Elections: Belfast 2001, Castle (result spreadsheet)",
+    "publisher": "ARK (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/xls/lgov/2001/lg01-BT-Castle.xls",
+    "accessed": "2026-10-27"
+   },
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "14132"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Poll",
+     "value": "14497"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Spoiled",
+     "value": "365"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Quota",
+     "value": "2019"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Electorate",
+     "value": "21068"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Council_Name",
+     "value": "Belfast"
+    }
+   ],
+   "reason": "This is Belfast's Castle area, which had carried the totals of Carrickfergus's Castle area (3,583 valid, quota 598, 6,542 electors). Belfast Castle: 21,068 electors, 14,497 votes polled, 365 invalid, 14,132 valid, quota 2,019, as ARK's result spreadsheet gives; the candidates' first preferences add up to 14,132."
+  },
+  {
+   "batch": "ni-council-xref-2026-10-27",
+   "sourceFile": "data/elections-source/data/elections/local-government/2011-05-05/castle.json",
+   "source": {
+    "title": "ARK Northern Ireland Elections: Belfast 2011, Castle (result spreadsheet)",
+    "publisher": "ARK (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/xls/lgov/2011/lg11-BT-Castle.xlsx",
+    "accessed": "2026-10-27"
+   },
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "10024"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Poll",
+     "value": "10247"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Spoiled",
+     "value": "223"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Quota",
+     "value": "1433"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Electorate",
+     "value": "19494"
+    }
+   ],
+   "reason": "This is Belfast's Castle area, which had carried the totals of Carrickfergus's Castle area (2,462 valid, quota 411, 5,781 electors). Belfast Castle: 19,494 electors, 10,247 votes polled, 223 invalid, 10,024 valid, quota 1,433, as ARK's result spreadsheet gives; the candidates' first preferences add up to 10,024."
   }
  ]
 }

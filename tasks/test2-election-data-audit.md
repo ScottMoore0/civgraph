@@ -1,6 +1,6 @@
 # Test2 Election Data Audit
 
-Generated: 2026-10-26T20:49:10.513Z
+Generated: 2026-10-27T15:21:23.262Z
 
 This is a repeatable repository-local audit of the generated /test2 election data, Browse election entries, source/reference records, transfer/count payload availability, and saved Wikipedia party-colour comparison outputs. It intentionally does not fetch live web pages, so CI can run it deterministically.
 
@@ -26,7 +26,7 @@ This is a repeatable repository-local audit of the generated /test2 election dat
 |candidate-row review sidecar records|0|
 |party-colour review sidecar records|10|
 |blocking issues|0|
-|warnings|16|
+|warnings|13|
 
 ## Blocking Structural Issues
 
@@ -36,9 +36,6 @@ _None._
 
 |severity|category|key|message|
 |---|---|---|---|
-|warning|first-pref-sum|local-government-local-government-districts__2011-05-05|Castle first-preference sum 10024 exceeds valid poll ceiling 2462.|
-|warning|first-pref-sum|local-government-local-government-districts__2005-05-05|Cusher first-preference sum 8261 exceeds valid poll ceiling 8061.|
-|warning|first-pref-sum|local-government-local-government-districts__2001-06-07|Castle first-preference sum 14132 exceeds valid poll ceiling 3583.|
 |warning|elected-count|house-of-commons-of-the-united-kingdom__1880-03-31|Clonmel has 2 elected candidate rows but seatsWon is 1.|
 |warning|elected-count|house-of-commons-of-the-united-kingdom__1872-04-26|Wexford has 2 elected candidate rows but seatsWon is 1.|
 |warning|elected-count|house-of-commons-of-the-united-kingdom__1847-07-29|Clare has 3 elected candidate rows but seatsWon is 2.|
