@@ -10893,6 +10893,72 @@ kbd {
   min-height: 0;
 }
 
+/* A contest's notes (corrections, causes of by-elections...) sit under the results
+   table as a one-line bar; opened, they scroll inside a capped height so the table
+   keeps the pane. */
+.election-contest-notes {
+  flex: 0 0 auto;
+  margin-top: 6px;
+  border: 1px solid var(--color-border, #c9cdd3);
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.election-contest-notes[open] {
+  max-height: 45%;
+  overflow-y: auto;
+}
+
+.election-contest-notes > summary {
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+  padding: 4px 8px;
+  cursor: pointer;
+  list-style-position: inside;
+  position: sticky;
+  top: 0;
+  background: var(--color-surface, #fff);
+}
+
+.election-contest-notes__label {
+  flex: 0 0 auto;
+  font-weight: 700;
+}
+
+.election-contest-notes__preview {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-text-muted, #718096);
+}
+
+.election-contest-notes[open] .election-contest-notes__preview {
+  display: none;
+}
+
+.election-contest-notes__list {
+  margin: 0;
+  padding: 0 8px 6px;
+}
+
+.election-contest-notes__list dt {
+  color: var(--color-text-muted, #718096);
+  font-size: 11px;
+}
+
+/* One note: the bar above already names it. */
+.election-contest-notes__list > div:only-child > dt {
+  display: none;
+}
+
+.election-contest-notes__list dd {
+  margin: 0 0 4px;
+  overflow-wrap: anywhere;
+}
+
 .election-pane__content .election-constituency-results {
   display: flex;
   flex-direction: column;

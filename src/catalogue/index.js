@@ -24,7 +24,7 @@ import { CATALOGUE_CSS } from './styles.js';
 import dataService, { resolveMapDownloadUrl } from '../data-service.js';
 import { initialCatalogueRoute, takeCatalogueData } from './flag.js';
 import { icon, SHELF_LOOK, SHELF_ICON_IN, BOOK_CATEGORY_ICONS, MERGED_SHELVES, FLAT_SECTIONS } from './icons.js';
-import { esc, yearOf, longDate } from './util.js';
+import { esc, yearOf, longDate, shortProvider } from './util.js';
 import { formatDisplayDate } from '../date-format.mjs';
 import { openMenu, closeMenu } from './menu.js';
 import { loadAuth, loginHref, openEditDialog } from './edit.js';
@@ -220,9 +220,36 @@ export class CatalogueNext {
     }
   }
 
-  /** How many characters of chip labels fit on a row's two lines at the pane's width. */
-  chipBudget() {
-    return Math.max(40, Math.round(70 * (this.paneWidth || 450) / 450));
+  /** Keep each row's chips to one line: measure the chips as drawn and hide those that would
+   * wrap, with "+N more" (itself on the first line) to show them all. A row whose chips are all
+   * showing ("Hide" is drawn instead) is left as it is; so is one in a closed shelf, which is
+   * fitted when it opens. */
+  fitChips(scope) {
+    scope.querySelectorAll?.('.cn-chips').forEach((box) => {
+      const more = box.querySelector(':scope > [data-cn-more]');
+      if (!more || !box.offsetParent) return;
+      // The to-be-added switch is a control, not a map: it stays on the line beside "+N more".
+      const keep = box.querySelector(':scope > [data-cn-todo]');
+      const items = [...box.children].filter((el) => el !== more && el !== keep);
+      items.forEach((el) => { el.hidden = false; });
+      more.hidden = true;
+      const top = items[0]?.offsetTop;
+      const wraps = (el) => el.offsetTop > top + 2;
+      const firstWrapped = items.findIndex(wraps);
+      if (firstWrapped < 0) return;
+      let shown = firstWrapped;
+      items.slice(shown).forEach((el) => { el.hidden = true; });
+      const label = () => { more.textContent = `+${items.length - shown} more`; };
+      more.hidden = false;
+      label();
+      // "+N more" sits on the first line too: give it room by hiding chips from the end.
+      while (shown > 1 && (wraps(more) || (keep && wraps(keep)))) {
+        shown -= 1;
+        items[shown].hidden = true;
+        label();
+      }
+      more.setAttribute('aria-label', `Show ${items.length - shown} more`);
+    });
   }
 
   findScroller() {
@@ -290,6 +317,9 @@ export class CatalogueNext {
   }
 
   afterDraw(scope) {
+    // Sticky headings sit just below the section tabs, which wrap to two rows in a narrow pane.
+    if (this.tabsEl?.offsetHeight) this.root.style.setProperty('--cn-tabs-h', `${this.tabsEl.offsetHeight}px`);
+    this.fitChips(scope);
     // A long timeline opens on the chosen edition, not on its first year.
     scope.querySelectorAll?.('.cn-tl').forEach((tl) => {
       const tick = tl.querySelector('.cn-tick[aria-pressed="true"]');
@@ -455,10 +485,10 @@ export class CatalogueNext {
 
   /** What a map is, in one form everywhere (hover, rows): "date · provider · count", the date
    * left out when there is none. */
-  mapSummary(id, { date = true } = {}) {
+  mapSummary(id, { date = true, short = false } = {}) {
     const r = this.rec(id);
     const m = this.full(id);
-    const providers = (r.provider?.length ? r.provider : [m?.provider || []].flat()).filter(Boolean).join(', ');
+    const providers = (r.provider?.length ? r.provider : [m?.provider || []].flat()).filter(Boolean).map((p) => (short ? shortProvider(p) : p)).join(', ');
     let count = '';
     const n = r.features || (m && this.ui.getMapFeatureCount ? this.ui.getMapFeatureCount(m) : null);
     if (Number.isFinite(n) && n > 0) count = `${n.toLocaleString('en-GB')} ${unitWord(r.unit || (m && this.ui.getMapFeatureUnitLabel ? this.ui.getMapFeatureUnitLabel(m, n) : 'features'), n)}`;
@@ -932,7 +962,7 @@ export class CatalogueNext {
     // Arrow keys move along a row's chips; Tab moves on to the next control.
     const chip = e.target.closest?.('.cn-chips .cn-chip');
     if (chip && ['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(e.key)) {
-      const list = [...chip.closest('.cn-chips').querySelectorAll('button.cn-chip')];
+      const list = [...chip.closest('.cn-chips').querySelectorAll('button.cn-chip')].filter((x) => !x.hidden);
       const i = list.indexOf(chip);
       const next = e.key === 'Home' ? list[0] : e.key === 'End' ? list[list.length - 1] : list[(i + (e.key === 'ArrowRight' ? 1 : -1) + list.length) % list.length];
       if (next) {
@@ -1035,6 +1065,13 @@ export class CatalogueNext {
         this.refreshExtras();
         break;
       }
+      case 'toggle-all': {
+        // Show every place, or go back to the first five; the button keeps its place and focus.
+        this.limits[el.dataset.what] = !this.limits[el.dataset.what];
+        this.refreshExtras();
+        this.resultsEl?.querySelector(`[data-cn-act="toggle-all"][data-what="${el.dataset.what}"]`)?.focus({ preventScroll: true });
+        break;
+      }
       case 'pick-here': this.startPick(); break;
       case 'cancel-pick': this.stopPick(); break;
       case 'close-here': this.here = null; this.draw(); this.replaceRoute(); break;
@@ -1100,6 +1137,7 @@ export class CatalogueNext {
     btn.setAttribute('aria-expanded', String(open));
     const body = btn.closest('.cn-shelf')?.querySelector('.cn-shelf__body');
     if (body) body.hidden = !open;
+    if (open && body) this.fitChips(body);
     this.saveStore();
   }
 

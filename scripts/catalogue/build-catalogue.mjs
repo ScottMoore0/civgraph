@@ -26,7 +26,7 @@ import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { compareElectionsNewestFirst } from '../lib/election-names.mjs';
 import path from 'node:path';
 import { loadRecords } from './records.mjs';
-import { formatDatesInText } from '../../src/date-format.mjs';
+import { formatDatesInText, formatDisplayDate } from '../../src/date-format.mjs';
 
 const ROOT = process.cwd();
 const rel = (p) => path.join(ROOT, p);
@@ -141,7 +141,7 @@ function addMap(id) {
   const n = m.featureCount || featureCounts[id] || (m.cloneOf && featureCounts[m.cloneOf]) || (m.aliasOf && featureCounts[m.aliasOf]);
   if (Number.isFinite(n) && n > 0) rec.features = n;
   if (layer?.geometryType) rec.geometry = layer.geometryType;
-  if (m.description) rec.description = String(m.description).slice(0, 600);
+  if (m.description) rec.description = formatDatesInText(String(m.description)).slice(0, 600);
   if (m.changeNote) rec.note = String(m.changeNote).slice(0, 300);
   // The orders a boundary edition follows, with the dates each took effect for each purpose
   // (registration, valuation, elections...), since an order rarely took effect on one day.
@@ -175,8 +175,7 @@ function editionLabel(series, rec, all) {
   if (series.arrangement === 'editions') {
     const sameYear = all.filter((r) => yearOfDate(r.date) === yearOfDate(rec.date)).length > 1;
     if (rec.date && sameYear && rec.date.length === 10) {
-      const [y, mo, d] = rec.date.split('-').map(Number);
-      return `${d} ${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][mo - 1]} ${y}`;
+      return formatDisplayDate(rec.date);
     }
     if (yearOfDate(rec.date)) return String(yearOfDate(rec.date));
   }

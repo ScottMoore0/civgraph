@@ -5,7 +5,8 @@
  * (index.js) owns state and behaviour, and is passed in as `c`.
  */
 import { icon, SHELF_LOOK, SHELF_ICON_IN, FLAT_SECTIONS } from './icons.js';
-import { esc, plural, span, inkOn, longDate, SCOPE_SHORT } from './util.js';
+import { esc, plural, span, inkOn, longDate, SCOPE_SHORT, shortProvider, yearOf } from './util.js';
+import { unitWord } from './index.js';
 import { sliderHtml } from './slider.js';
 import { PeopleSearch } from './search.js';
 
@@ -28,7 +29,7 @@ export function toolbarHtml(c) {
       ${sliderHtml('maps', c.mapBins, i, j, c.yearState('maps'))}
       <label class="cn-check" data-cn-undated-wrap${c.yearRange('maps').narrowed ? '' : ' hidden'}><input type="checkbox" id="cn-undated" data-cn-undated${c.filters.undated ? ' checked' : ''}> Include undated maps</label>
     </div>
-    <p class="cn-key"><span class="cn-key__item"><span class="cn-chip__dot cn-chip__dot--part" aria-hidden="true"></span>Incomplete: some areas not yet drawn</span><span class="cn-key__item"><span class="cn-chip__dot cn-chip__dot--todo" aria-hidden="true"></span>To be added</span></p>
+    <p class="cn-key"><span class="cn-key__item"><span class="cn-chip__dot cn-chip__dot--part" aria-hidden="true"></span>Incomplete</span><span class="cn-key__item"><span class="cn-chip__dot cn-chip__dot--todo" aria-hidden="true"></span>To be added</span></p>
   </div>`;
 }
 
@@ -116,7 +117,7 @@ export function seriesRowHtml(c, s, hit = c.hitFor(s)) {
   else if (s.status?.incomplete) meta.push('<span class="cn-badge cn-badge--warn">Incomplete</span>');
   // A row of census figures says which areas they are counted by ("by Ward 2014").
   const by = s.kind === 'Statistics' && single ? /\bby ([^,)]+)\)?\s*$/.exec(c.rec(s.members[0].id).name || '')?.[1] : '';
-  const who = single ? c.mapSummary(s.members[0].id, { date: false }) : (s.provider || []).join(', ');
+  const who = single ? c.mapSummary(s.members[0].id, { date: false, short: true }) : (s.provider || []).map(shortProvider).join(', ');
   const second = [by ? `by ${by}` : '', who, ...tally].filter(Boolean);
   const credit = second.length ? `<span class="cn-row__credit">${second.map((t) => esc(t)).join('<span class="cn-row__dot" aria-hidden="true"> · </span>')}</span>` : '';
   const text = `<span class="cn-row__text"><span class="cn-row__name">${esc(s.name)}</span><span class="cn-row__meta">${meta.join('<span class="cn-row__dot" aria-hidden="true">·</span>')}</span>${credit}</span>`;
@@ -165,31 +166,21 @@ function chipsHtml(c, s, editions, hit) {
     items = [...items, ...todo.map((m) => ({ m, todo: true }))];
     if (s.arrangement === 'editions') items.sort((a, b) => String(c.rec(b.m.id).date).localeCompare(String(c.rec(a.m.id).date)));
   }
-  // As many chips as fit two short lines, the ones a search matched first. Opening a row does
-  // not spill every chip: its timeline shows all the editions; "+N more" shows every chip, and
-  // "Show fewer" goes back to the short list.
-  const ordered = hits.size ? [...editions.filter((m) => hits.has(m.id)), ...editions.filter((m) => !hits.has(m.id))] : editions;
-  const keep = new Set();
-  const budget = c.chipBudget();
-  const cap = Math.max(9, Math.round(budget / 8));
-  let used = 0;
-  for (const m of ordered) {
-    const w = m.label.length + 5;
-    if (keep.size >= 2 && (used + w > budget || keep.size >= cap)) break;
-    keep.add(m.id);
-    used += w;
-  }
+  // The chips a search matched come first. Every chip is drawn; the controller then keeps the
+  // row to one line by measuring it (fitChips), hiding the chips that would wrap behind
+  // "+N more", which turns into "Hide" once the full set is showing.
+  if (hits.size && !showTodo) items = [...items.filter((x) => hits.has(x.m.id)), ...items.filter((x) => !hits.has(x.m.id))];
   const expandedChips = c.moreChips.has(s.id);
-  if (!showTodo && !expandedChips) items = items.filter((x) => keep.has(x.m.id));
-  const fewer = !showTodo && expandedChips && keep.size < editions.length;
   const dimByPeriod = Boolean(c.searchPeriod && hits.size);
-  const rest = editions.length - items.filter((x) => !x.todo).length;
   const chip = (m) => chipHtml(c, s, m, { hit: hits.has(m.id) && (c.query || c.here), out: !c.editionInYears(m.id) || (dimByPeriod && !hits.has(m.id)) });
   return items.map(({ m, todo: isTodo }) => (isTodo ? todoChipHtml(c, m) : chip(m))).join('')
-    + (rest > 0 ? `<button type="button" class="cn-chip cn-chip--more" data-cn-more="${esc(s.id)}" aria-label="Show ${rest} more of ${esc(s.name)}">+${rest} more</button>` : '')
-    + (fewer ? `<button type="button" class="cn-chip cn-chip--more" data-cn-fewer="${esc(s.id)}">Show fewer</button>` : '')
     + localHitsOf(c, s, hit).map(chip).join('')
-    + (todo.length ? `<button type="button" class="cn-chip cn-chip--todo-toggle" data-cn-todo="${esc(s.id)}" aria-pressed="${showTodo}">${icon(showTodo ? 'x' : 'plus')}${showTodo ? 'Hide' : 'Show'} ${todo.length} to be added</button>` : '');
+    + (todo.length ? `<button type="button" class="cn-chip cn-chip--todo-toggle" data-cn-todo="${esc(s.id)}" aria-pressed="${showTodo}">${icon(showTodo ? 'x' : 'plus')}${showTodo ? 'Hide' : 'Show'} ${todo.length} to be added</button>` : '')
+    // With the maps to be added showing, every chip shows: nothing to fold away.
+    + (showTodo ? ''
+      : expandedChips
+        ? `<button type="button" class="cn-chip cn-chip--more" data-cn-fewer="${esc(s.id)}" aria-expanded="true" aria-label="Hide the extra maps of ${esc(s.name)}">Hide</button>`
+        : `<button type="button" class="cn-chip cn-chip--more" data-cn-more="${esc(s.id)}" aria-expanded="false" hidden>+0 more</button>`);
 }
 
 function todoChipHtml(c, m) {
@@ -398,18 +389,39 @@ function placeThumb(c, record) {
   return icon('map-pin');
 }
 
+/** What kind of geography a place's map is: "2012 Ward", "1993 District Electoral Area". The year
+ * is the one the map is known by (its name: Wards 2012), else its date's. */
+function placeKind(c, record) {
+  const r = c.rec(record.mapId) || {};
+  const name = r.name || record.subtitle || '';
+  const year = yearOf(name) || yearOf(r.date);
+  // The map's own unit, else its series', else what its name calls the areas, less any date.
+  const s = c.seriesById?.get(c.seriesOfMap?.get(record.mapId));
+  const what = r.unit || s?.unit
+    || name.replace(/\s*\([^)]*\)/g, '').replace(/\b\d{1,2} [A-Z][a-z]{2} \d{4}\b|\b\d{4}\b/g, '').replace(/\s{2,}/g, ' ').trim();
+  return [year, what ? unitWord(what, 1) : ''].filter(Boolean).join(' ') || name;
+}
+
 function placesHtml(c, groups) {
-  const limit = c.limits.places ? groups.length : 5;
-  return `<section class="cn-block" aria-labelledby="cn-places-h">
-    <h3 class="cn-block__head" id="cn-places-h">${icon('map-pin')}<span>Places</span><span class="cn-count">${groups.length}</span></h3>
-    <ul class="cn-places">${groups.slice(0, limit).map((g) => `<li class="cn-place"><details${groups.length === 1 ? ' open' : ''}>
-      <summary><span class="cn-place__thumb">${placeThumb(c, g.items[0].record)}</span><span class="cn-place__name">${esc(g.name)}</span><span class="cn-muted">on ${plural(g.items.length, 'map')}</span>${icon('chevron-down', 'cn-icon cn-place__chev')}</summary>
+  const all = Boolean(c.limits.places);
+  const limit = all ? groups.length : 5;
+  const toggle = groups.length > 5
+    ? `<button type="button" class="cn-link cn-block__toggle" data-cn-act="toggle-all" data-what="places" aria-expanded="${all}">${all ? 'Hide' : `Show all ${groups.length}`}</button>`
+    : '';
+  return `<section class="cn-block cn-block--places" aria-labelledby="cn-places-h">
+    <h3 class="cn-block__head cn-block__head--sticky" id="cn-places-h">${icon('map-pin')}<span>Places</span><span class="cn-count">${groups.length}</span>${toggle}</h3>
+    <ul class="cn-places">${groups.slice(0, limit).map((g) => {
+      const kinds = [...new Set(g.items.map(({ record }) => placeKind(c, record)))];
+      const kind = kinds.length > 2 ? `${kinds.slice(0, 2).join(', ')} +${kinds.length - 2}` : kinds.join(', ');
+      return `<li class="cn-place"><details${groups.length === 1 ? ' open' : ''}>
+      <summary><span class="cn-place__thumb">${placeThumb(c, g.items[0].record)}</span><span class="cn-place__name">${esc(g.name)}</span><span class="cn-place__kind">${esc(kind)}</span>${icon('chevron-down', 'cn-icon cn-place__chev')}</summary>
       <ul class="cn-place__list">${g.items.map(({ record }) => `<li class="cn-place__item">
         <span class="cn-place__thumb">${placeThumb(c, record)}</span>
         <button type="button" class="cn-link cn-place__map" data-catalogue-search-action="open-feature-detail" data-map-id="${esc(record.mapId)}" data-feature-id="${esc(record.featureId || record.id)}" data-feature-name="${esc(record.title)}" data-feature-bbox="${esc((record.bbox || []).join(','))}">${esc(record.subtitle || record.mapId)}</button>
+        <span class="cn-place__kind">${esc(placeKind(c, record))}</span>
         ${c.ui.renderCatalogueSearchActionStrip ? c.ui.renderCatalogueSearchActionStrip(record) : ''}
-      </li>`).join('')}</ul></details></li>`).join('')}</ul>
-    ${groups.length > limit ? `<button type="button" class="cn-link" data-cn-act="show-all" data-what="places">Show all ${groups.length} places</button>` : ''}
+      </li>`).join('')}</ul></details></li>`;
+    }).join('')}</ul>
   </section>`;
 }
 

@@ -71,6 +71,8 @@ export const CATALOGUE_CSS = `
 .cn-years__head { display: flex; align-items: baseline; gap: 10px; }
 .cn-years__out { font-weight: 600; font-variant-numeric: tabular-nums; }
 .cn-years__head .cn-link { margin-left: auto; font-size: 12px; }
+.cn-years__row { display: flex; align-items: center; gap: 10px; }
+.cn-years__row .cn-range { flex: 1 1 auto; min-width: 90px; }
 .cn-range { position: relative; height: 22px; }
 .cn-years__boxes { display: flex; align-items: center; gap: 6px; color: var(--cn-muted); }
 .cn-years__box { box-sizing: content-box; width: 5ch; min-height: 24px; padding: 2px 10px; border: 1px solid var(--cn-line); border-radius: 8px;
@@ -94,7 +96,10 @@ export const CATALOGUE_CSS = `
 
 /* Shelves and subjects */
 .cn-shelf { margin: 0 0 14px; scroll-margin-top: calc(var(--cn-sticky) + 62px); }
-.cn-shelf__head { margin: 0; }
+/* An open shelf's heading stays in view below the section tabs until its section scrolls past: a
+   sticky element is held inside its parent, so it lets go at the end of its own shelf. */
+.cn-shelf__head { margin: 0; position: sticky; top: calc(var(--cn-sticky) + var(--cn-tabs-h, 52px)); z-index: 4; background: var(--cn-surface);
+  box-shadow: 0 -12px 0 var(--cn-surface); }
 .cn-shelf__toggle { display: flex; align-items: center; gap: 10px; width: 100%; padding: 10px 6px 8px; border: 0; border-bottom: 2px solid var(--shelf, var(--cn-line));
   background: none; cursor: pointer; text-align: left; font-family: var(--font-display, inherit); font-size: 16px; font-weight: 800; }
 .cn-shelf__icon { display: inline-flex; width: 42px; height: 42px; border-radius: 10px; align-items: center; justify-content: center;
@@ -142,6 +147,8 @@ export const CATALOGUE_CSS = `
 
 /* Edition chips: each adds its map; filled with the map's own colour while it is on */
 .cn-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+/* Chips past the first line wait behind "+N more" (fitChips); .cn-chip sets display, so [hidden] needs saying. */
+.cn-chips > [hidden] { display: none !important; }
 .cn-chip { display: inline-flex; align-items: center; gap: 6px; min-height: 28px; padding: 2px 10px 2px 8px; border-radius: 999px; border: 1px solid var(--cn-line);
   background: var(--cn-surface); cursor: pointer; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; max-width: 100%; }
 .cn-chip:hover { border-color: var(--c, var(--cn-muted)); background: color-mix(in srgb, var(--c, #888) 10%, var(--cn-surface)); }
@@ -265,6 +272,10 @@ export const CATALOGUE_CSS = `
 .cn-block { margin: 0 0 12px; padding: 10px 12px; border: 1px solid var(--cn-line); border-radius: 12px; background: var(--cn-surface); }
 .cn-block__head { display: flex; align-items: center; gap: 8px; margin: 0 0 6px; font-size: 14px; font-weight: 800; }
 .cn-block__head .cn-icon { color: #0b8a6a; }
+.cn-block__head--sticky { position: sticky; top: calc(var(--cn-sticky) + var(--cn-tabs-h, 52px)); z-index: 4; background: var(--cn-surface); box-shadow: 0 -12px 0 var(--cn-surface);
+  margin: -10px -12px 6px; padding: 10px 12px 6px; border-radius: 12px 12px 0 0; }
+.cn-block__toggle { margin-left: auto; font-size: 12.5px; font-weight: 600; }
+.cn-place__kind { flex: none; font-size: 12px; font-weight: 500; color: var(--cn-muted); white-space: nowrap; }
 .cn-places, .cn-people, .cn-place__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
 .cn-place summary { display: flex; align-items: center; gap: 10px; min-height: 40px; cursor: pointer; list-style: none; padding: 2px 4px; border-radius: 8px; }
 .cn-place summary::-webkit-details-marker { display: none; }

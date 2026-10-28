@@ -11,7 +11,7 @@
     "Phelim Birch",
     "Paddy Matthews"
   ],
-  "description": "Republic of Ireland District Electoral Divisions/Wards as at 1931-04-01, assembled from Connacht (= 1919 boundaries), Leinster 1931, Munster (= 1921 boundaries), Ulster (= 1921 boundaries). Modified version of District Electoral Divisions/Wards 1936. In 1936, Dublin county borough's wards were modified.",
+  "description": "Republic of Ireland District Electoral Divisions/Wards as at 1931-04-01, assembled from Connacht (= 1919 boundaries), Leinster 1931, Munster (= 1921 boundaries), Ulster (= 1921 boundaries). Modified version of District Electoral Divisions/Wards 1936. In 1936, Dublin county borough’s wards were modified. 14 of the existing 20 wards remained the same, 2 of them were split in 2 and the other 4 were expanded. The DEDs of Pembroke East, Pembroke West (previously wards of Pembroke Township) and Rathmines and Rathgar West (previously a ward of Rathmines & Rathgar Township) were converted into wards. The DED of Rathmines and Rathgar East (previously a ward of Rathmines and Rathgar Township) was converted into a ward and expanded. With 7 brand new wards being formed, the total number of wards was increased to 33. The 2 DEDs of Glasnevin Rural and Donnybrook were fully absorbed while the 7 DEDs of Castleknock, Drumcondra Rural, Finglas, Howth Rural, Palmerston, Rathfarnham and Terenure were reduced in size.",
   "renderer": "maplibre",
   "sourceType": "pmtiles",
   "geometryType": "polygon",
@@ -40,12 +40,12 @@
   },
   "references": [
     {
-      "label": "District Electoral Divisions/Wards 1941 source notes",
-      "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1941.txt",
+      "label": "District Electoral Divisions/Wards 1931 source notes",
+      "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1931.txt",
       "note": "Sidecar notes supplied in the Irish Digitised Boundaries archive."
     },
     {
-      "label": "Dublin City Council 1942 minutes item 123"
+      "label": "Minutes of Dublin City Council 1936 (starting at page 163)"
     }
   ],
   "sourceDownloads": [
@@ -63,7 +63,7 @@
     "district electoral division",
     "DED",
     "ward",
-    "1970",
+    "1919",
     "republic of ireland",
     "historic",
     "small electoral units",
@@ -72,11 +72,13 @@
     "Built Environment",
     "maplibre",
     "vector tiles",
-    "1941",
-    "District Electoral Divisions/Wards 1941",
+    "connacht",
+    "ED",
+    "1931",
+    "District Electoral Divisions/Wards 1931",
     "Electoral Areas",
     "Elections and Government",
-    "eds-roi-1941-connacht",
+    "eds-roi-1931-connacht",
     "eds-connacht-1919",
     "clone alias"
   ],
@@ -209,10 +211,10 @@
     ]
   },
   "status": "converted-alias",
-  "notes": "District Electoral Divisions/Wards 1941 reuses the converted geometry from Connacht District Electoral Divisions 1919.",
+  "notes": "District Electoral Divisions/Wards 1931 reuses the converted geometry from Connacht District Electoral Divisions 1919.",
   "generatedFrom": {
     "pipeline": "promote-test-clone-alias",
-    "sourceMapId": "eds-roi-1941-connacht",
+    "sourceMapId": "eds-roi-1931-connacht",
     "cloneOf": "eds-connacht-1919",
     "aliasOf": "eds-connacht-1919",
     "targetLayerId": "eds-connacht-1919-vector-test"
@@ -223,12 +225,13 @@
     "url": "/render/pmtiles/generated/eds-connacht-1919-vector-test.pmtiles",
     "bytes": 4573422,
     "maxGithubBytes": 99614720,
+    "generatedAt": "2026-08-23T00:43:28.687Z",
     "fallback": "/render/tiles/generated/eds-connacht-1919/{z}/{x}/{y}.pbf",
     "serving": "cdn",
     "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-connacht-1919-vector-test.pmtiles",
     "r2Key": "data/maps/test/pmtiles/generated/eds-connacht-1919-vector-test.pmtiles",
     "localUrl": "/render/pmtiles/generated/eds-connacht-1919-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-07-31T22:29:02.294Z"
+    "byteRangeVerifiedAt": "2026-08-23T00:45:11.808Z"
   },
   "promoteId": "civ_fid",
   "idProperty": "civ_fid",

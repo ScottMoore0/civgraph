@@ -11,13 +11,16 @@
     "Phelim Birch",
     "Paddy Matthews"
   ],
-  "description": "Republic of Ireland District Electoral Divisions/Wards as at 1980-01-01, assembled from Connacht (= 1957 boundaries), Leinster (= 1977 boundaries), Munster 1980, Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1977 with 3 DEDs split by the Waterford boundary extension (similar to how 14 EDs are split today by the 2019 Cork extension). Also relevant is the renaming of the following DEDs between 1979 Census Reports Volume 1 (published February 1980) and 1981 Census Reports Volume 1 (published September 1982): Bealanagarry to Bealanageary (Dunmanway R.D.) (Cork)",
+  "description": "Republic of Ireland District Electoral Divisions/Wards as at 1980-01-01, assembled from Connacht (= 1957 boundaries), Leinster 1979, Munster 1980, Ulster (= 1963 boundaries). Modified version of District Electoral Divisions/Wards 1977 with 3 DEDs split by the Waterford boundary extension (similar to how 14 EDs are split today by the 2019 Cork extension). Also relevant is the renaming of the following DEDs between 1979 Census Reports Volume 1 (published February 1980) and 1981 Census Reports Volume 1 (published September 1982): Bealanagarry to Bealanageary (Dunmanway R.D.) (Cork). The three central Drogheda EDs (Fair Gate, St. Lawrence's Gate & West Gate) have their borders changed here as they were presumably changed sometime between 1979 and 2002.",
   "renderer": "maplibre",
   "sourceType": "pmtiles",
   "geometryType": "polygon",
-  "tiles": "/render/tiles/generated/eds-leinster-1977/{z}/{x}/{y}.pbf",
-  "metadataUrl": "/render/tiles/generated/eds-leinster-1977/metadata.json",
-  "sourceLayer": "eds_leinster_1977",
+  "tiles": "/render/tiles/generated/eds-leinster-1979/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-leinster-1979-vector-test.pmtiles",
+  "tilesFallback": "/render/tiles/generated/eds-leinster-1979/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/render/tiles/generated/eds-leinster-1979/metadata.json",
+  "sourceLayer": "eds_leinster_1979",
+  "promoteId": "civ_fid",
   "minzoom": 0,
   "maxzoom": 12,
   "bounds": [
@@ -46,7 +49,7 @@
   "sourceDownloads": [
     {
       "label": "Source file used for /test conversion",
-      "file": "render/source-cache/vector-intake/eds-leinster-1977.fgb"
+      "file": "render/source-cache/vector-intake/eds-leinster-1979.fgb"
     }
   ],
   "sourceCredits": [
@@ -56,15 +59,15 @@
   "keywords": [
     "leinster",
     "ED",
-    "1977",
-    "Leinster District Electoral Divisions/Wards 1977",
+    "DED",
+    "ward",
+    "1979",
+    "Leinster District Electoral Divisions/Wards 1979",
     "Electoral Divisions",
     "Built Environment",
     "maplibre",
     "vector tiles",
     "electoral division",
-    "DED",
-    "ward",
     "1980",
     "Waterford",
     "all ireland",
@@ -74,7 +77,7 @@
     "Electoral Areas",
     "Elections and Government",
     "eds-1980-leinster",
-    "eds-leinster-1977",
+    "eds-leinster-1979",
     "clone alias"
   ],
   "labelProperty": "ENGLISH",
@@ -96,17 +99,21 @@
     "maxWidth": 14,
     "lineHeight": 1.25
   },
-  "sourceFile": "render/source-cache/vector-intake/eds-leinster-1977.fgb",
-  "sourceDatasetLayer": "eds-leinster-1977",
+  "sourceFile": "render/source-cache/vector-intake/eds-leinster-1979.fgb",
+  "sourceDatasetLayer": "Wards_DEDs_Leinster_1977",
+  "idProperty": "civ_fid",
   "popupProperties": [
     "ENGLISH",
+    "civ_fid",
     "GAEILGE",
     "CONTAE",
     "COUNTY",
     "PROVINCE",
     "WARDORDED"
   ],
-  "numericProperties": [],
+  "numericProperties": [
+    "civ_fid"
+  ],
   "categoricalProperties": [
     "ENGLISH",
     "GAEILGE",
@@ -221,34 +228,25 @@
     ]
   },
   "status": "converted-alias",
-  "notes": "District Electoral Divisions/Wards 1980 reuses the converted geometry from Leinster District Electoral Divisions/Wards 1977.",
+  "notes": "District Electoral Divisions/Wards 1980 reuses the converted geometry from Leinster District Electoral Divisions/Wards 1979.",
   "generatedFrom": {
     "pipeline": "promote-test-clone-alias",
     "sourceMapId": "eds-1980-leinster",
-    "cloneOf": "eds-leinster-1977",
-    "aliasOf": "eds-leinster-1977",
-    "targetLayerId": "eds-leinster-1977-vector-test"
+    "cloneOf": "eds-leinster-1979",
+    "aliasOf": "eds-leinster-1979",
+    "targetLayerId": "eds-leinster-1979-vector-test"
   },
-  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-leinster-1977-vector-test.pmtiles",
-  "tilesFallback": "/render/tiles/generated/eds-leinster-1977/{z}/{x}/{y}.pbf",
   "tilePackage": {
     "preferred": true,
-    "localPath": "render/pmtiles/generated/eds-leinster-1977-vector-test.pmtiles",
-    "url": "/render/pmtiles/generated/eds-leinster-1977-vector-test.pmtiles",
-    "bytes": 5270437,
+    "localPath": "render/pmtiles/generated/eds-leinster-1979-vector-test.pmtiles",
+    "url": "/render/pmtiles/generated/eds-leinster-1979-vector-test.pmtiles",
+    "bytes": 5382912,
     "maxGithubBytes": 99614720,
-    "generatedAt": "2026-05-29T23:46:15.302Z",
-    "fallback": "/render/tiles/generated/eds-leinster-1977/{z}/{x}/{y}.pbf",
-    "serving": "cdn",
-    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-leinster-1977-vector-test.pmtiles",
-    "r2Key": "data/maps/test/pmtiles/generated/eds-leinster-1977-vector-test.pmtiles",
-    "localUrl": "/render/pmtiles/generated/eds-leinster-1977-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-07-31T22:29:02.294Z"
+    "fallback": "/render/tiles/generated/eds-leinster-1979/{z}/{x}/{y}.pbf"
   },
-  "promoteId": "civ_fid",
   "categoryId": "wards",
   "conversionStatus": "convertedAlias",
-  "aliasOf": "eds-leinster-1977",
-  "cloneOf": "eds-leinster-1977",
-  "aliasTargetLayerId": "eds-leinster-1977-vector-test"
+  "aliasOf": "eds-leinster-1979",
+  "cloneOf": "eds-leinster-1979",
+  "aliasTargetLayerId": "eds-leinster-1979-vector-test"
 }

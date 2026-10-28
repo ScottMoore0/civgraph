@@ -172,7 +172,7 @@ test('N13 council maps (one council\'s copy of a national map) wait in the opene
   await row(page, 'local-government-municipal-districts').locator('[data-cn-expand]').click();
   await expect(row(page, 'local-government-municipal-districts').locator('.cn-sub', { hasText: 'Council maps' })).toContainText('Westmeath');
   // Every row with several maps credits all their providers.
-  await expect(row(page, 'counties-counties').locator('.cn-row__credit')).toContainText('Phelim Birch');
+  await expect(row(page, 'counties-counties').locator('.cn-row__credit')).toContainText('Birch');
 });
 
 test('C08 a map\'s details page opens', async ({ page }) => {
@@ -398,21 +398,24 @@ test('N14 with years chosen, the maps in those years lead their row', async ({ p
 test('N15 the 1911 County Electoral Divisions (Paddy Matthews) are listed and draw', async ({ page }) => {
   await open(page);
   const r = row(page, 'electoral-divisions-county-electoral-divisions--ireland');
-  await expect(r.locator('.cn-row__credit')).toContainText('Paddy Matthews');
+  await expect(r.locator('.cn-row__credit')).toContainText('Matthews');
   await r.locator('[data-cn-toggle="county-ed-1911"]').click();
   await expect.poll(() => loaded(page)).toEqual(expect.arrayContaining([expect.stringContaining('county-ed-1911')]));
 });
 
-test('N16 "+N more" can be undone with "Show fewer"', async ({ page }) => {
+test('N16 a row keeps its chips to one line; "+N more" shows the rest and "Hide" puts them back', async ({ page }) => {
   await open(page);
   const r = row(page, 'local-government-local-authorities');
-  const chips = r.locator('.cn-chips [data-cn-toggle]');
+  const chips = r.locator('.cn-chips [data-cn-toggle]:visible');
+  const top = async () => new Set(await chips.evaluateAll((els) => els.map((el) => el.offsetTop))).size;
+  expect(await top()).toBe(1);
   const short = await chips.count();
   await r.locator('[data-cn-more]').click();
   await expect.poll(() => chips.count()).toBeGreaterThan(short);
+  await expect(r.locator('[data-cn-fewer]')).toHaveText('Hide');
   await r.locator('[data-cn-fewer]').click();
   await expect(chips).toHaveCount(short);
-  await expect(r.locator('[data-cn-more]')).toHaveCount(1);
+  await expect(r.locator('[data-cn-more]:visible')).toHaveCount(1);
 });
 
 test('N17 council maps follow their edition; hovers name the unit; parts download; compare keeps the place', async ({ page }) => {
@@ -500,9 +503,9 @@ test('N20 placeholders, transport order, constituency hovers and dates', async (
   // 2001 Wards keep their place among the census areas, with a note saying why.
   const ward01 = row(page, 'census-super-output-area').locator('.cn-chips [data-cn-toggle="wards-2001"]');
   await pane(page).locator('[data-cn-tab="boundaries"]').click();
-  const more = row(page, 'census-super-output-area').locator('[data-cn-more]');
+  const more = row(page, 'census-super-output-area').locator('[data-cn-more]:visible');
   if (await more.count()) await more.click();
-  await expect(ward01).toHaveText(/2001 Wards/);
+  await expect(ward01).toHaveText(/2001/);
   expect(await ward01.getAttribute('title')).toContain('Same map as Wards 1993');
 });
 
@@ -522,7 +525,7 @@ test('N02 every view has an address; Back and Forward move between them', async 
 
 test('N03 arrow keys move along a row\'s editions', async ({ page }) => {
   await open(page);
-  const chips = row(page, LGD).locator('.cn-chips button.cn-chip');
+  const chips = row(page, LGD).locator('.cn-chips button.cn-chip:visible');
   await chips.first().focus();
   await page.keyboard.press('ArrowRight');
   await expect(chips.nth(1)).toBeFocused();
