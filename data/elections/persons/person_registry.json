@@ -41,8 +41,8 @@
    "T2159279327"
   ],
   "note": "Ids carrying more than one distinct name are row indices, not people.",
-  "crossSystemMerges": 990,
-  "sameNameLeftSplit": 676
+  "crossSystemMerges": 1011,
+  "sameNameLeftSplit": 687
  },
  "conservatism": "Nothing is merged on name alone. Two ids from the same source system sharing a name stay separate and are flagged needsReview.",
  "entities": [
@@ -840,19 +840,22 @@
     "kennedy lindsay"
    ],
    "sourceIds": [
-    "1625"
+    "1625",
+    "newtownabbey-area-a-1977-kennedylindsay"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 3,
-   "contests": 3,
+   "candidacies": 4,
+   "contests": 4,
    "firstYear": 1973,
    "lastYear": 1982,
    "bodies": [
+    "local-government",
     "northern-ireland-assembly",
     "northern-ireland-constitutional-convention"
    ],
    "parties": [
+    "Dominion Party",
     "UUUP",
     "Vanguard Unionist Progressive Party"
    ],
@@ -1345,7 +1348,8 @@
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false
+   "provisional": false,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p2514",
@@ -7340,20 +7344,22 @@
    ],
    "sourceIds": [
     "12148",
-    "T855209506"
+    "T855209506",
+    "university-1997-samuelneill"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 8,
-   "contests": 7,
+   "candidacies": 9,
+   "contests": 8,
    "firstYear": 1973,
-   "lastYear": 1993,
+   "lastYear": 1997,
    "bodies": [
     "local-government",
     "northern-ireland-assembly"
    ],
    "parties": [
     "DUP",
+    "Newtownabbey Ratepayers",
     "UUP"
    ],
    "keyedBy": "id",
@@ -9980,19 +9986,22 @@
     "james scott"
    ],
    "sourceIds": [
-    "16569"
+    "16569",
+    "castlereagh-area-b-1973-jamesscott"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1982,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1973,
    "lastYear": 1982,
    "bodies": [
+    "local-government",
     "northern-ireland-assembly"
    ],
    "parties": [
-    "UUUP"
+    "UUUP",
+    "United Loyalist"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
@@ -13255,6 +13264,36 @@
    "provisional": false
   },
   {
+   "id": "p21358",
+   "personId": 21358,
+   "displayName": "Boyd Douglas",
+   "aliases": [
+    "Boyd Douglas"
+   ],
+   "matchKeys": [
+    "boyd douglas"
+   ],
+   "sourceIds": [
+    "benbradagh-2001-boyddouglas"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 2001,
+   "lastYear": 2001,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "United Unionist"
+   ],
+   "keyedBy": "id",
+   "provenance": "curated (Full election tables.xlsx, carried forward)",
+   "provisional": false,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
    "id": "p21374",
    "personId": 21374,
    "displayName": "Roy Beggs Jr",
@@ -16319,7 +16358,8 @@
     "william ross"
    ],
    "sourceIds": [
-    "26276"
+    "26276",
+    "limavady-area-b-1973-williamross"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [
@@ -16327,16 +16367,18 @@
     "ukparliament:647",
     "wikidata:Q16104546"
    ],
-   "candidacies": 10,
-   "contests": 10,
-   "firstYear": 1974,
+   "candidacies": 11,
+   "contests": 11,
+   "firstYear": 1973,
    "lastYear": 2010,
    "bodies": [
-    "house-of-commons-of-the-united-kingdom"
+    "house-of-commons-of-the-united-kingdom",
+    "local-government"
    ],
    "parties": [
     "TUV",
-    "UUP"
+    "UUP",
+    "United Unionist"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
@@ -18197,15 +18239,16 @@
    ],
    "sourceIds": [
     "29379",
-    "45466384"
+    "45466384",
+    "university-1993-staffordward"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [
     "democracyclub:68137"
    ],
-   "candidacies": 3,
-   "contests": 3,
-   "firstYear": 2019,
+   "candidacies": 4,
+   "contests": 4,
+   "firstYear": 1993,
    "lastYear": 2023,
    "bodies": [
     "local-government",
@@ -18213,7 +18256,8 @@
    ],
    "parties": [
     "Independent",
-    "Independent Unionist"
+    "Independent Unionist",
+    "Newtownabbey Labour"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
@@ -19734,7 +19778,8 @@
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false
+   "provisional": false,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p32002",
@@ -29583,13 +29628,14 @@
    ],
    "sourceIds": [
     "47589",
-    "T2339048324"
+    "T2339048324",
+    "newtownabbey-area-b-1973-thomasgourley"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 4,
-   "firstYear": 1977,
+   "candidacies": 6,
+   "contests": 5,
+   "firstYear": 1973,
    "lastYear": 1985,
    "bodies": [
     "local-government",
@@ -29597,7 +29643,8 @@
    ],
    "parties": [
     "DUP",
-    "Independent"
+    "Independent",
+    "United Loyalist"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
@@ -29615,12 +29662,13 @@
    ],
    "sourceIds": [
     "47591",
-    "T4174054827"
+    "T4174054827",
+    "court-1985-georgeseawright"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
+   "candidacies": 5,
+   "contests": 5,
    "firstYear": 1981,
    "lastYear": 1987,
    "bodies": [
@@ -29630,7 +29678,8 @@
    ],
    "parties": [
     "DUP",
-    "Independent Unionist"
+    "Independent Unionist",
+    "Protestant Unionist"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
@@ -33348,7 +33397,8 @@
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
-   "provisional": false
+   "provisional": false,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p54576",
@@ -35303,6 +35353,36 @@
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
    "provisional": false
+  },
+  {
+   "id": "p58144",
+   "personId": 58144,
+   "displayName": "William McClinton",
+   "aliases": [
+    "William McClinton"
+   ],
+   "matchKeys": [
+    "william mcclinton"
+   ],
+   "sourceIds": [
+    "university-1993-williammcclinton"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1993,
+   "lastYear": 1993,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Newtownabbey Labour"
+   ],
+   "keyedBy": "id",
+   "provenance": "curated (Full election tables.xlsx, carried forward)",
+   "provisional": false,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p58186",
@@ -39876,7 +39956,8 @@
    "sourceIds": [
     "1379060647",
     "65726",
-    "T1379060647"
+    "T1379060647",
+    "university-2005-fraseragnew"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [
@@ -39884,8 +39965,8 @@
     "niassembly:3",
     "wikidata:Q5493559"
    ],
-   "candidacies": 11,
-   "contests": 11,
+   "candidacies": 12,
+   "contests": 12,
    "firstYear": 1981,
    "lastYear": 2019,
    "bodies": [
@@ -39895,7 +39976,8 @@
    "parties": [
     "Independent",
     "Independent Unionist",
-    "UUP"
+    "UUP",
+    "United Unionist"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
@@ -46351,20 +46433,23 @@
     "brian caul"
    ],
    "sourceIds": [
-    "77143"
+    "77143",
+    "newtownabbey-area-b-1977-briancaul"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 2,
-   "contests": 2,
-   "firstYear": 1982,
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1977,
    "lastYear": 1989,
    "bodies": [
     "european-parliament",
-    "house-of-commons-of-the-united-kingdom"
+    "house-of-commons-of-the-united-kingdom",
+    "local-government"
    ],
    "parties": [
     "Labour '87",
+    "Newtownabbey Labour",
     "United Labour Party"
    ],
    "keyedBy": "id",
@@ -56402,7 +56487,8 @@
    ],
    "sourceIds": [
     "94446",
-    "T1121991977"
+    "T1121991977",
+    "carrick-castle-1989-davidhilditch"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [
@@ -56410,16 +56496,17 @@
     "niassembly:47",
     "wikidata:Q16195114"
    ],
-   "candidacies": 12,
-   "contests": 12,
-   "firstYear": 1993,
+   "candidacies": 13,
+   "contests": 13,
+   "firstYear": 1989,
    "lastYear": 2022,
    "bodies": [
     "local-government",
     "northern-ireland-assembly"
    ],
    "parties": [
-    "DUP"
+    "DUP",
+    "Protestant Unionist"
    ],
    "keyedBy": "id",
    "provenance": "curated (Full election tables.xlsx, carried forward)",
@@ -61763,11 +61850,12 @@
    ],
    "sourceIds": [
     "3179902919",
-    "T3551993284"
+    "T3551993284",
+    "castlereagh-area-b-1973-johnscott"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 11,
+   "candidacies": 12,
    "contests": 9,
    "firstYear": 1973,
    "lastYear": 2014,
@@ -61776,7 +61864,8 @@
    ],
    "parties": [
     "Alliance",
-    "UUP"
+    "UUP",
+    "United Loyalist"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -69792,19 +69881,21 @@
     "stanley gault"
    ],
    "sourceIds": [
-    "T1591339714"
+    "T1591339714",
+    "limavady-area-c-1973-stanleygault"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1977,
+   "candidacies": 7,
+   "contests": 7,
+   "firstYear": 1973,
    "lastYear": 1997,
    "bodies": [
     "local-government"
    ],
    "parties": [
-    "UUP"
+    "UUP",
+    "United Unionist"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -69968,19 +70059,21 @@
     "max gault"
    ],
    "sourceIds": [
-    "T1919170138"
+    "T1919170138",
+    "limavady-area-b-1973-maxgault"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1977,
+   "candidacies": 7,
+   "contests": 7,
+   "firstYear": 1973,
    "lastYear": 1997,
    "bodies": [
     "local-government"
    ],
    "parties": [
-    "UUP"
+    "UUP",
+    "United Unionist"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -70086,19 +70179,21 @@
     "robert grant"
    ],
    "sourceIds": [
-    "T2200215367"
+    "T2200215367",
+    "limavady-area-a-1973-robertgrant"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 6,
-   "contests": 6,
-   "firstYear": 1977,
+   "candidacies": 7,
+   "contests": 7,
+   "firstYear": 1973,
    "lastYear": 1997,
    "bodies": [
     "local-government"
    ],
    "parties": [
-    "UUP"
+    "UUP",
+    "United Unionist"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -76234,13 +76329,14 @@
    ],
    "sourceIds": [
     "2508329251",
-    "T2508329251"
+    "T2508329251",
+    "carrickfergus-area-a-1973-robertgordon"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 5,
-   "firstYear": 1981,
+   "candidacies": 6,
+   "contests": 6,
+   "firstYear": 1973,
    "lastYear": 2014,
    "bodies": [
     "local-government"
@@ -76249,7 +76345,8 @@
     "Alliance",
     "DUP",
     "TUV",
-    "Ulster Democratic Party"
+    "Ulster Democratic Party",
+    "United Loyalist"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -76727,19 +76824,21 @@
     "samuel martin"
    ],
    "sourceIds": [
-    "T3088150657"
+    "T3088150657",
+    "larne-area-a-1973-samuelmartin"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 5,
-   "contests": 2,
-   "firstYear": 1985,
+   "candidacies": 6,
+   "contests": 3,
+   "firstYear": 1973,
    "lastYear": 1993,
    "bodies": [
     "local-government"
    ],
    "parties": [
     "DUP",
+    "Loyalist",
     "UUP"
    ],
    "keyedBy": "id",
@@ -84316,20 +84415,22 @@
     "william barbour"
    ],
    "sourceIds": [
-    "T1629660401"
+    "T1629660401",
+    "limavady-area-c-1973-williambarbour"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 4,
-   "contests": 4,
-   "firstYear": 1977,
+   "candidacies": 5,
+   "contests": 5,
+   "firstYear": 1973,
    "lastYear": 1989,
    "bodies": [
     "local-government"
    ],
    "parties": [
     "Alliance",
-    "UUP"
+    "UUP",
+    "United Unionist"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -85556,7 +85657,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p100907",
@@ -121853,7 +121955,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p102218",
@@ -135139,7 +135242,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p102730",
@@ -225104,7 +225208,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p106956",
@@ -238190,19 +238295,21 @@
     "james devlin"
    ],
    "sourceIds": [
-    "T2835958220"
+    "T2835958220",
+    "shore-road-1985-jamesdevlin"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1997,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1985,
    "lastYear": 1997,
    "bodies": [
     "local-government"
    ],
    "parties": [
-    "Labour Coalition"
+    "Labour Coalition",
+    "Newtownabbey Labour"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -238511,19 +238618,21 @@
     "etta mann"
    ],
    "sourceIds": [
-    "T285139786"
+    "T285139786",
+    "ballyclare-1997-ettamann"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 2005,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1997,
    "lastYear": 2005,
    "bodies": [
     "local-government"
    ],
    "parties": [
-    "DUP"
+    "DUP",
+    "Newtownabbey Ratepayers"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -240123,7 +240232,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p107485",
@@ -240426,19 +240536,21 @@
     "james gilfillan"
    ],
    "sourceIds": [
-    "T2989676389"
+    "T2989676389",
+    "limavady-area-a-1973-jamesgilfillan"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1981,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1973,
    "lastYear": 1981,
    "bodies": [
     "local-government"
    ],
    "parties": [
-    "UUP"
+    "UUP",
+    "United Unionist"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -246208,19 +246320,21 @@
     "elizabeth seawright"
    ],
    "sourceIds": [
-    "T3339594165"
+    "T3339594165",
+    "court-1989-elizabethseawright"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1993,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1989,
    "lastYear": 1993,
    "bodies": [
     "local-government"
    ],
    "parties": [
-    "PUP"
+    "PUP",
+    "Protestant Unionist"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -254039,19 +254153,21 @@
     "florence sloan"
    ],
    "sourceIds": [
-    "T3803894708"
+    "T3803894708",
+    "limavady-area-a-1973-florencesloan"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1977,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1973,
    "lastYear": 1977,
    "bodies": [
     "local-government"
    ],
    "parties": [
-    "UUP"
+    "UUP",
+    "United Unionist"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -258359,7 +258475,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p108138",
@@ -259824,19 +259941,21 @@
     "samuel oliver"
    ],
    "sourceIds": [
-    "T4162460618"
+    "T4162460618",
+    "benbradagh-2005-samueloliver"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
+   "candidacies": 2,
+   "contests": 2,
    "firstYear": 1977,
-   "lastYear": 1977,
+   "lastYear": 2005,
    "bodies": [
     "local-government"
    ],
    "parties": [
-    "Independent"
+    "Independent",
+    "United Unionist"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -261711,19 +261830,21 @@
     "gladys ritchie"
    ],
    "sourceIds": [
-    "T4269587535"
+    "T4269587535",
+    "carrickfergus-area-c-1973-gladysritchie"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1977,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1973,
    "lastYear": 1977,
    "bodies": [
     "local-government"
    ],
    "parties": [
-    "UUP"
+    "UUP",
+    "United Loyalist"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -264703,19 +264824,21 @@
     "ivan burnside"
    ],
    "sourceIds": [
-    "T618043209"
+    "T618043209",
+    "omagh-area-d-1973-ivanburnside"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1993,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1973,
    "lastYear": 1993,
    "bodies": [
     "local-government"
    ],
    "parties": [
-    "DUP"
+    "DUP",
+    "United Loyalist Coalition"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -269786,19 +269909,21 @@
     "ronald nicholl"
    ],
    "sourceIds": [
-    "T958580756"
+    "T958580756",
+    "limavady-area-c-1973-ronaldnicholl"
    ],
    "sourcePersonIds": [],
    "officialPersonIds": [],
-   "candidacies": 1,
-   "contests": 1,
-   "firstYear": 1977,
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1973,
    "lastYear": 1977,
    "bodies": [
     "local-government"
    ],
    "parties": [
-    "UUP"
+    "UUP",
+    "United Unionist"
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
@@ -371435,7 +371560,7 @@
    "provenance": "keyed on the source's own candidate id (ei:4152)",
    "provisional": true,
    "mergedFrom": [
-    133248
+    133296
    ]
   },
   {
@@ -577854,7 +577979,7 @@
     "henry kenny"
    ],
    "mergedFrom": [
-    133247
+    133295
    ]
   },
   {
@@ -583098,7 +583223,8 @@
    ],
    "keyedBy": "id",
    "provenance": "derived from candidate ids in render/metadata/elections-test2",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p127741",
@@ -589926,7 +590052,8 @@
    ],
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ei:3609)",
-   "provisional": true
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   },
   {
    "id": "p127985",
@@ -700117,15 +700244,1225 @@
    "keyedBy": "src",
    "provenance": "keyed on the source's own candidate id (ie:9906)",
    "provisional": true
+  },
+  {
+   "id": "p133247",
+   "personId": 133247,
+   "displayName": "David Gregg",
+   "aliases": [
+    "David Gregg"
+   ],
+   "matchKeys": [
+    "david gregg"
+   ],
+   "sourceIds": [
+    "antrim-area-c-1977-davidgregg"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1977,
+   "lastYear": 1977,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Dominion Party"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p133248",
+   "personId": 133248,
+   "displayName": "Samuel Ferson",
+   "aliases": [
+    "Samuel Ferson"
+   ],
+   "matchKeys": [
+    "samuel ferson"
+   ],
+   "sourceIds": [
+    "antrim-area-c-1977-samuelferson"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1977,
+   "lastYear": 1977,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Dominion Party"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p133249",
+   "personId": 133249,
+   "displayName": "John Blair",
+   "aliases": [
+    "John Blair"
+   ],
+   "matchKeys": [
+    "john blair"
+   ],
+   "sourceIds": [
+    "antrim-line-1997-johnblair"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1997,
+   "lastYear": 1997,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Newtownabbey Ratepayers"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p133250",
+   "personId": 133250,
+   "displayName": "Mark Gibson",
+   "aliases": [
+    "Mark Gibson"
+   ],
+   "matchKeys": [
+    "mark gibson"
+   ],
+   "sourceIds": [
+    "benbradagh-2001-markgibson"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 2001,
+   "lastYear": 2001,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "United Unionist Assembly Party"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p133251",
+   "personId": 133251,
+   "displayName": "Boyd Douglas",
+   "aliases": [
+    "Boyd Douglas"
+   ],
+   "matchKeys": [
+    "boyd douglas"
+   ],
+   "sourceIds": [
+    "benbradagh-2005-boyddouglas"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 2005,
+   "lastYear": 2005,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "United Unionist"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p133252",
+   "personId": 133252,
+   "displayName": "Charles Johnston",
+   "aliases": [
+    "Charles Johnston"
+   ],
+   "matchKeys": [
+    "charles johnston"
+   ],
+   "sourceIds": [
+    "carrickfergus-area-a-1973-charlesjohnston",
+    "carrickfergus-area-a-1977-charlesjohnston",
+    "carrickfergus-area-a-1981-charlesjohnston"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1973,
+   "lastYear": 1981,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "United Loyalist"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    133253,
+    133254
+   ]
+  },
+  {
+   "id": "p133255",
+   "personId": 133255,
+   "displayName": "J. Craig",
+   "aliases": [
+    "J. Craig"
+   ],
+   "matchKeys": [
+    "j craig"
+   ],
+   "sourceIds": [
+    "carrickfergus-area-b-1973-jcraig"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1973,
+   "lastYear": 1973,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "United Loyalist"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p133256",
+   "personId": 133256,
+   "displayName": "James Brown",
+   "aliases": [
+    "James Brown"
+   ],
+   "matchKeys": [
+    "james brown"
+   ],
+   "sourceIds": [
+    "carrickfergus-area-b-1977-jamesbrown"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1977,
+   "lastYear": 1977,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "United Loyalist"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p133257",
+   "personId": 133257,
+   "displayName": "E. Loughlin",
+   "aliases": [
+    "E. Loughlin"
+   ],
+   "matchKeys": [
+    "e loughlin"
+   ],
+   "sourceIds": [
+    "carrickfergus-area-c-1973-eloughlin"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1973,
+   "lastYear": 1973,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "United Loyalist"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p133258",
+   "personId": 133258,
+   "displayName": "Ernest Burton",
+   "aliases": [
+    "Ernest Burton"
+   ],
+   "matchKeys": [
+    "ernest burton"
+   ],
+   "sourceIds": [
+    "carrickfergus-area-c-1973-ernestburton"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1973,
+   "lastYear": 1973,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Loyalist"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p133259",
+   "personId": 133259,
+   "displayName": "Ken McFaul",
+   "aliases": [
+    "Ken McFaul"
+   ],
+   "matchKeys": [
+    "ken mcfaul"
+   ],
+   "sourceIds": [
+    "carrickfergus-area-c-1973-kenmcfaul"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1973,
+   "lastYear": 1973,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "United Loyalist"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p133260",
+   "personId": 133260,
+   "displayName": "Ernest Burton",
+   "aliases": [
+    "Ernest Burton"
+   ],
+   "matchKeys": [
+    "ernest burton"
+   ],
+   "sourceIds": [
+    "carrickfergus-area-c-1977-ernestburton"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1977,
+   "lastYear": 1977,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "United Loyalist"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p133261",
+   "personId": 133261,
+   "displayName": "Marlene Currie",
+   "aliases": [
+    "Marlene Currie"
+   ],
+   "matchKeys": [
+    "marlene currie"
+   ],
+   "sourceIds": [
+    "castlereagh-area-a-1973-marlenecurrie"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1973,
+   "lastYear": 1973,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "United Loyalist"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p133262",
+   "personId": 133262,
+   "displayName": "G. L. McVeigh",
+   "aliases": [
+    "G. L. McVeigh"
+   ],
+   "matchKeys": [
+    "g l mcveigh"
+   ],
+   "sourceIds": [
+    "castlereagh-area-b-1973-glmcveigh"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1973,
+   "lastYear": 1973,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "United Loyalist"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p133263",
+   "personId": 133263,
+   "displayName": "J. A. Humphreys",
+   "aliases": [
+    "J. A. Humphreys"
+   ],
+   "matchKeys": [
+    "j a humphreys"
+   ],
+   "sourceIds": [
+    "castlereagh-area-b-1973-jahumphreys"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1973,
+   "lastYear": 1973,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "United Loyalist"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p133264",
+   "personId": 133264,
+   "displayName": "Michael Brooks",
+   "aliases": [
+    "Michael Brooks"
+   ],
+   "matchKeys": [
+    "michael brooks"
+   ],
+   "sourceIds": [
+    "castlereagh-area-b-1973-michaelbrooks"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1973,
+   "lastYear": 1973,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Loyalist Coalition"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p133265",
+   "personId": 133265,
+   "displayName": "P. G. Moles",
+   "aliases": [
+    "P. G. Moles"
+   ],
+   "matchKeys": [
+    "p g moles"
+   ],
+   "sourceIds": [
+    "castlereagh-area-b-1973-pgmoles"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1973,
+   "lastYear": 1973,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Unionist Loyalist"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p133266",
+   "personId": 133266,
+   "displayName": "Michael Brooks",
+   "aliases": [
+    "Michael Brooks"
+   ],
+   "matchKeys": [
+    "michael brooks"
+   ],
+   "sourceIds": [
+    "castlereagh-area-b-1977-michaelbrooks"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1977,
+   "lastYear": 1977,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Loyalist"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p133267",
+   "personId": 133267,
+   "displayName": "Annetta Hynes",
+   "aliases": [
+    "Annetta Hynes"
+   ],
+   "matchKeys": [
+    "annetta hynes"
+   ],
+   "sourceIds": [
+    "castlereagh-area-b-corrected-1981-annettahynes"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1981,
+   "lastYear": 1981,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Loyalist"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p133268",
+   "personId": 133268,
+   "displayName": "Robert Kidd",
+   "aliases": [
+    "Robert Kidd"
+   ],
+   "matchKeys": [
+    "robert kidd"
+   ],
+   "sourceIds": [
+    "doagh-road-1989-robertkidd"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1989,
+   "lastYear": 1989,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Labour '87"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p133269",
+   "personId": 133269,
+   "displayName": "John Everitt",
+   "aliases": [
+    "John Everitt"
+   ],
+   "matchKeys": [
+    "john everitt"
+   ],
+   "sourceIds": [
+    "knockagh-monument-1989-johneveritt"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1989,
+   "lastYear": 1989,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Protestant Unionist"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p133270",
+   "personId": 133270,
+   "displayName": "Roy Beggs",
+   "aliases": [
+    "Roy Beggs"
+   ],
+   "matchKeys": [
+    "roy beggs"
+   ],
+   "sourceIds": [
+    "larne-area-b-1981-roybeggs"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1981,
+   "lastYear": 1981,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "United Loyalist"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p133271",
+   "personId": 133271,
+   "displayName": "James Wisely",
+   "aliases": [
+    "James Wisely"
+   ],
+   "matchKeys": [
+    "james wisely"
+   ],
+   "sourceIds": [
+    "larne-area-c-1977-jameswisely"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1977,
+   "lastYear": 1977,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Dominion Party"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p133272",
+   "personId": 133272,
+   "displayName": "Alister Smyth",
+   "aliases": [
+    "Alister Smyth"
+   ],
+   "matchKeys": [
+    "alister smyth"
+   ],
+   "sourceIds": [
+    "limavady-town-2001-alistersmyth"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 2001,
+   "lastYear": 2001,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "United Unionist"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p133273",
+   "personId": 133273,
+   "displayName": "William Beattie",
+   "aliases": [
+    "William Beattie"
+   ],
+   "matchKeys": [
+    "william beattie"
+   ],
+   "sourceIds": [
+    "lisburn-town-north-1997-williambeattie"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1997,
+   "lastYear": 1997,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Protestant Unionist"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p133274",
+   "personId": 133274,
+   "displayName": "Mark Langhammer",
+   "aliases": [
+    "Mark Langhammer"
+   ],
+   "matchKeys": [
+    "mark langhammer"
+   ],
+   "sourceIds": [
+    "macedon-1993-marklanghammer",
+    "macedon-1997-marklanghammer"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1993,
+   "lastYear": 1997,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Newtownabbey Labour"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    133278
+   ]
+  },
+  {
+   "id": "p133275",
+   "personId": 133275,
+   "displayName": "Robert Kidd",
+   "aliases": [
+    "Robert Kidd"
+   ],
+   "matchKeys": [
+    "robert kidd"
+   ],
+   "sourceIds": [
+    "macedon-1993-robertkidd",
+    "macedon-1997-robertkidd"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1993,
+   "lastYear": 1997,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Newtownabbey Labour"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    133279
+   ]
+  },
+  {
+   "id": "p133276",
+   "personId": 133276,
+   "displayName": "Thomas Davidson",
+   "aliases": [
+    "Thomas Davidson"
+   ],
+   "matchKeys": [
+    "thomas davidson"
+   ],
+   "sourceIds": [
+    "macedon-1993-thomasdavidson"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1993,
+   "lastYear": 1993,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Newtownabbey Labour"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p133277",
+   "personId": 133277,
+   "displayName": "Billy Webb",
+   "aliases": [
+    "Billy Webb"
+   ],
+   "matchKeys": [
+    "billy webb"
+   ],
+   "sourceIds": [
+    "macedon-1997-billywebb",
+    "macedon-2001-billywebb",
+    "macedon-2005-billywebb"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 3,
+   "contests": 3,
+   "firstYear": 1997,
+   "lastYear": 2005,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Newtownabbey Ratepayers"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    133280,
+    133281
+   ]
+  },
+  {
+   "id": "p133282",
+   "personId": 133282,
+   "displayName": "Cecil Stringer",
+   "aliases": [
+    "Cecil Stringer"
+   ],
+   "matchKeys": [
+    "cecil stringer"
+   ],
+   "sourceIds": [
+    "newtownabbey-area-b-1973-cecilstringer",
+    "newtownabbey-area-b-1977-cecilstringer"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1973,
+   "lastYear": 1977,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Loyalist"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    133284
+   ]
+  },
+  {
+   "id": "p133283",
+   "personId": 133283,
+   "displayName": "John Watson",
+   "aliases": [
+    "John Watson"
+   ],
+   "matchKeys": [
+    "john watson"
+   ],
+   "sourceIds": [
+    "newtownabbey-area-b-1973-johnwatson"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1973,
+   "lastYear": 1973,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Loyalist"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p133285",
+   "personId": 133285,
+   "displayName": "Robert Kidd",
+   "aliases": [
+    "Robert Kidd"
+   ],
+   "matchKeys": [
+    "robert kidd"
+   ],
+   "sourceIds": [
+    "newtownabbey-area-b-1977-robertkidd",
+    "newtownabbey-area-b-1981-robertkidd"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 2,
+   "contests": 2,
+   "firstYear": 1977,
+   "lastYear": 1981,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Newtownabbey Labour"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically",
+   "mergedFrom": [
+    133287
+   ]
+  },
+  {
+   "id": "p133286",
+   "personId": 133286,
+   "displayName": "Alistair Keery",
+   "aliases": [
+    "Alistair Keery"
+   ],
+   "matchKeys": [
+    "alistair keery"
+   ],
+   "sourceIds": [
+    "newtownabbey-area-b-1981-alistairkeery"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1981,
+   "lastYear": 1981,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Newtownabbey Labour"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p133288",
+   "personId": 133288,
+   "displayName": "Lindsay Prior",
+   "aliases": [
+    "Lindsay Prior"
+   ],
+   "matchKeys": [
+    "lindsay prior"
+   ],
+   "sourceIds": [
+    "newtownabbey-area-d-1981-lindsayprior"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1981,
+   "lastYear": 1981,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Newtownabbey Labour"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p133289",
+   "personId": 133289,
+   "displayName": "Thomas Davidson",
+   "aliases": [
+    "Thomas Davidson"
+   ],
+   "matchKeys": [
+    "thomas davidson"
+   ],
+   "sourceIds": [
+    "newtownabbey-area-d-1981-thomasdavidson"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1981,
+   "lastYear": 1981,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Newtownabbey Labour"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p133290",
+   "personId": 133290,
+   "displayName": "Andrew Watson",
+   "aliases": [
+    "Andrew Watson"
+   ],
+   "matchKeys": [
+    "andrew watson"
+   ],
+   "sourceIds": [
+    "portadown-1989-andrewwatson"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1989,
+   "lastYear": 1989,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Protestant Unionist"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p133291",
+   "personId": 133291,
+   "displayName": "Thomas Crawford",
+   "aliases": [
+    "Thomas Crawford"
+   ],
+   "matchKeys": [
+    "thomas crawford"
+   ],
+   "sourceIds": [
+    "shore-road-1985-thomascrawford"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1985,
+   "lastYear": 1985,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Newtownabbey Labour"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p133292",
+   "personId": 133292,
+   "displayName": "Deborah Hayes",
+   "aliases": [
+    "Deborah Hayes"
+   ],
+   "matchKeys": [
+    "deborah hayes"
+   ],
+   "sourceIds": [
+    "university-1993-deborahhayes"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1993,
+   "lastYear": 1993,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Newtownabbey Labour"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true
+  },
+  {
+   "id": "p133293",
+   "personId": 133293,
+   "displayName": "William McClinton",
+   "aliases": [
+    "William McClinton"
+   ],
+   "matchKeys": [
+    "william mcclinton"
+   ],
+   "sourceIds": [
+    "university-1997-williammcclinton"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 1997,
+   "lastYear": 1997,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Newtownabbey Labour"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
+  },
+  {
+   "id": "p133294",
+   "personId": 133294,
+   "displayName": "John Blair",
+   "aliases": [
+    "John Blair"
+   ],
+   "matchKeys": [
+    "john blair"
+   ],
+   "sourceIds": [
+    "university-2005-johnblair"
+   ],
+   "sourcePersonIds": [],
+   "officialPersonIds": [],
+   "candidacies": 1,
+   "contests": 1,
+   "firstYear": 2005,
+   "lastYear": 2005,
+   "bodies": [
+    "local-government"
+   ],
+   "parties": [
+    "Newtownabbey Ratepayers"
+   ],
+   "keyedBy": "id",
+   "provenance": "derived from candidate ids in render/metadata/elections-test2",
+   "provisional": true,
+   "needsReview": "another entity shares this name; same-source-system duplicates are never merged automatically"
   }
  ],
  "corrections": {
-  "mergedIds": 110,
+  "mergedIds": 118,
   "classes": {
    "WIKIPEDIA-BIOGRAPHY": 3,
    "FORUM-DUPLICATE": 100,
    "LGR-2014": 3,
-   "SAME-SEAT-SEQUENCE": 3,
+   "SAME-SEAT-SEQUENCE": 13,
    "STRAY-INTO-CURATED": 1
   },
   "note": "Only the two mechanically-caused classes were merged; see scripts/merge_person_ids.py for the tests applied."
