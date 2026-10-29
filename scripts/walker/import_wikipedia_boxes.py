@@ -148,7 +148,10 @@ def main():
         summary = ('winners agree with Wikipedia\'s list of MPs' + (' (Walker for 1865)' if r['year'] == 1865 else '')
                    + (f"; {r['walker']['compared']} figure(s) compared with Walker"
                       + (f", {len(fixes)} taken from his printed page" if fixes else ', all agreeing') if r.get('walker') and r['walker']['compared'] else
-                      '; figures not compared (Walker has none for this seat)'))
+                      # Walker tabulates every seat; no figures here means his row was not read (or
+                      # the return was unopposed), not that he has none. The 93 contested ones were
+                      # since compared by eye: data/elections/walker-1832-1880-figure-checks.json.
+                      '; figures not compared with Walker (his row for this seat was not read)'))
         doc = contest_file(box, date, r['seats'], {'fixes': fixes, 'summary': summary},
                            {surname(n) for n in r['winners']})
         files.append((date, box['constituency'], doc))

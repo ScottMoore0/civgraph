@@ -353,6 +353,10 @@ def main(write=False):
             'partyLabels': 'none-recorded'}
         if w.get('dateAsPrinted') and w['kind'] == 'general':
             doc['pollDate'] = w['date']
+            # Walker's introduction (p. xii): from 1818 his dates are official dates of return, before
+            # 1818 the beginnings of elections. The panel labels the first 'Date of return'.
+            if w['date'][:4] >= '1818':
+                doc['pollDateKind'] = 'return'
         if w.get('outcomeFacts'):
             doc['note'] = w['outcomeFacts']
         elif not any(x.get('votes') is not None for x in w['candidates']):

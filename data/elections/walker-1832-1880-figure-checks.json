@@ -1,0 +1,1107 @@
+{
+ "schemaVersion": 1,
+ "description": "The 93 contested 1832-1880 general-election contests imported from Wikipedia's constituency boxes whose import note says 'figures not compared (Walker has none for this seat)'. Walker does tabulate every one of them; the importer's Walker transcription had simply failed to read these rows. Each was compared by eye with the printed page: candidates' votes and the electorate. Used by scripts/build-election-provenance.mjs: a contest whose every compared figure agrees cites Walker as checked; one that differs carries the difference as a note on the citation. Figures are not changed here. Differences were then settled: Walker's figure applied (data/elections/corrections/walker-1832-1880-figure-corrections.json) or held.",
+ "source": {
+  "title": "Parliamentary Election Results in Ireland, 1801-1922",
+  "editor": "Brian M. Walker (ed.)",
+  "publisher": "Royal Irish Academy",
+  "year": 1978,
+  "volume": "walker-ireland-1801-1922.pdf"
+ },
+ "method": "Read by eye from page renders of the private scan, 2026-10-29; each disagreement re-read at higher zoom. Page is Walker's printed page.",
+ "counts": {
+  "contests": 93,
+  "agree": 86,
+  "differ": 7,
+  "figuresCompared": 371,
+  "figuresDiffering": 8,
+  "applied": 7,
+  "held": 1
+ },
+ "records": [
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1832-12-08/bandon.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1832-12-08",
+   "constituency": "Bandon",
+   "page": 50,
+   "figuresCompared": 3,
+   "figuresAgreed": 3,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1832-12-08/belfast.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1832-12-08",
+   "constituency": "Belfast",
+   "page": 51,
+   "figuresCompared": 5,
+   "figuresAgreed": 5,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1832-12-08/dublin-university.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1832-12-08",
+   "constituency": "Dublin University",
+   "page": 52,
+   "figuresCompared": 5,
+   "figuresAgreed": 4,
+   "differences": [
+    {
+     "field": "electorate",
+     "civgraph": 2058,
+     "walker": 2073,
+     "resolution": "applied"
+    }
+   ],
+   "status": "differs-applied"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1832-12-08/dungarvan.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1832-12-08",
+   "constituency": "Dungarvan",
+   "page": 52,
+   "figuresCompared": 3,
+   "figuresAgreed": 3,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1832-12-08/kildare.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1832-12-08",
+   "constituency": "Kildare",
+   "page": 53,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1832-12-08/londonderry-city.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1832-12-08",
+   "constituency": "Londonderry City",
+   "page": 53,
+   "figuresCompared": 3,
+   "figuresAgreed": 3,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1832-12-08/mallow.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1832-12-08",
+   "constituency": "Mallow",
+   "page": 54,
+   "figuresCompared": 3,
+   "figuresAgreed": 3,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1832-12-08/queen-s-county.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1832-12-08",
+   "constituency": "Queen's County",
+   "page": 54,
+   "figuresCompared": 5,
+   "figuresAgreed": 3,
+   "differences": [
+    {
+     "field": "votes",
+     "candidate": "Charles Coote",
+     "civgraph": 694,
+     "walker": 695,
+     "resolution": "applied",
+     "walkerName": "Sir Charles Henry Coote, bt"
+    },
+    {
+     "field": "votes",
+     "candidate": "Peter Gale",
+     "civgraph": 683,
+     "walker": 684,
+     "resolution": "applied"
+    }
+   ],
+   "status": "differs-applied"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1832-12-08/waterford-city.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1832-12-08",
+   "constituency": "Waterford City",
+   "page": 55,
+   "figuresCompared": 5,
+   "figuresAgreed": 5,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1835-01-06/armagh-city.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1835-01-06",
+   "constituency": "Armagh City",
+   "page": 56,
+   "figuresCompared": 3,
+   "figuresAgreed": 3,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1835-01-06/clare.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1835-01-06",
+   "constituency": "Clare",
+   "page": 57,
+   "figuresCompared": 3,
+   "figuresAgreed": 3,
+   "differences": [],
+   "note": "Walker prints no figure (a dash) for Lucius O'Brien, shown here with 0, and does not list Vandeleur, shown here with 0; the two members' 686 each agree",
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1835-01-06/kildare.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1835-01-06",
+   "constituency": "Kildare",
+   "page": 58,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1835-01-06/kilkenny-city.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1835-01-06",
+   "constituency": "Kilkenny City",
+   "page": 58,
+   "figuresCompared": 2,
+   "figuresAgreed": 2,
+   "differences": [],
+   "note": "Walker prints no figure (a dash) for Fletcher, shown here with 0",
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1837-07-24/armagh-city.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1837-07-24",
+   "constituency": "Armagh City",
+   "page": 62,
+   "figuresCompared": 3,
+   "figuresAgreed": 3,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1837-07-24/carrickfergus.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1837-07-24",
+   "constituency": "Carrickfergus",
+   "page": 63,
+   "figuresCompared": 3,
+   "figuresAgreed": 3,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1837-07-24/dublin-city.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1837-07-24",
+   "constituency": "Dublin City",
+   "page": 63,
+   "figuresCompared": 5,
+   "figuresAgreed": 5,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1837-07-24/dublin-university.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1837-07-24",
+   "constituency": "Dublin University",
+   "page": 63,
+   "figuresCompared": 3,
+   "figuresAgreed": 3,
+   "differences": [],
+   "note": "Walker prints no electorate for this contest; the 2,100 shown comes from another source",
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1837-07-24/kildare.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1837-07-24",
+   "constituency": "Kildare",
+   "page": 64,
+   "figuresCompared": 6,
+   "figuresAgreed": 6,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1837-07-24/county-limerick.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1837-07-24",
+   "constituency": "County Limerick",
+   "page": 65,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1837-07-24/londonderry-city.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1837-07-24",
+   "constituency": "Londonderry City",
+   "page": 65,
+   "figuresCompared": 3,
+   "figuresAgreed": 3,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1837-07-24/county-sligo.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1837-07-24",
+   "constituency": "County Sligo",
+   "page": 66,
+   "figuresCompared": 5,
+   "figuresAgreed": 5,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1837-07-24/sligo.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1837-07-24",
+   "constituency": "Sligo",
+   "page": 66,
+   "figuresCompared": 3,
+   "figuresAgreed": 3,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1841-06-29/athlone.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1841-06-29",
+   "constituency": "Athlone",
+   "page": 68,
+   "figuresCompared": 3,
+   "figuresAgreed": 3,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1841-06-29/belfast.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1841-06-29",
+   "constituency": "Belfast",
+   "page": 69,
+   "figuresCompared": 5,
+   "figuresAgreed": 4,
+   "differences": [
+    {
+     "field": "electorate",
+     "civgraph": 5907,
+     "walker": 4234,
+     "resolution": "held"
+    }
+   ],
+   "status": "differs-held"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1841-06-29/dublin-city.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1841-06-29",
+   "constituency": "Dublin City",
+   "page": 70,
+   "figuresCompared": 5,
+   "figuresAgreed": 4,
+   "differences": [
+    {
+     "field": "electorate",
+     "civgraph": 12264,
+     "walker": 12290,
+     "resolution": "applied"
+    }
+   ],
+   "status": "differs-applied"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1841-06-29/longford.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1841-06-29",
+   "constituency": "Longford",
+   "page": 71,
+   "figuresCompared": 4,
+   "figuresAgreed": 3,
+   "differences": [
+    {
+     "field": "electorate",
+     "civgraph": 1569,
+     "walker": 1388,
+     "resolution": "applied"
+    }
+   ],
+   "status": "differs-applied"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1841-06-29/tipperary.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1841-06-29",
+   "constituency": "Tipperary",
+   "page": 72,
+   "figuresCompared": 5,
+   "figuresAgreed": 4,
+   "differences": [
+    {
+     "field": "electorate",
+     "civgraph": 2649,
+     "walker": 2463,
+     "resolution": "applied"
+    }
+   ],
+   "status": "differs-applied"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1841-06-29/wicklow.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1841-06-29",
+   "constituency": "Wicklow",
+   "page": 72,
+   "figuresCompared": 4,
+   "figuresAgreed": 3,
+   "differences": [
+    {
+     "field": "electorate",
+     "civgraph": 1530,
+     "walker": 1503,
+     "resolution": "applied"
+    }
+   ],
+   "status": "differs-applied"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1847-07-29/athlone.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1847-07-29",
+   "constituency": "Athlone",
+   "page": 75,
+   "figuresCompared": 3,
+   "figuresAgreed": 3,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1847-07-29/clare.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1847-07-29",
+   "constituency": "Clare",
+   "page": 76,
+   "figuresCompared": 5,
+   "figuresAgreed": 5,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1847-07-29/clonmel.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1847-07-29",
+   "constituency": "Clonmel",
+   "page": 76,
+   "figuresCompared": 2,
+   "figuresAgreed": 2,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1847-07-29/coleraine.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1847-07-29",
+   "constituency": "Coleraine",
+   "page": 76,
+   "figuresCompared": 3,
+   "figuresAgreed": 3,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1847-07-29/cork-city.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1847-07-29",
+   "constituency": "Cork City",
+   "page": 76,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1847-07-29/meath.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1847-07-29",
+   "constituency": "Meath",
+   "page": 78,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1852-07-07/donegal.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1852-07-07",
+   "constituency": "Donegal",
+   "page": 83,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1852-07-07/dublin-city.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1852-07-07",
+   "constituency": "Dublin City",
+   "page": 83,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1852-07-07/kildare.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1852-07-07",
+   "constituency": "Kildare",
+   "page": 84,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1852-07-07/king-s-county.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1852-07-07",
+   "constituency": "King's County",
+   "page": 84,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1852-07-07/leitrim.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1852-07-07",
+   "constituency": "Leitrim",
+   "page": 84,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1852-07-07/limerick-city.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1852-07-07",
+   "constituency": "Limerick City",
+   "page": 84,
+   "figuresCompared": 5,
+   "figuresAgreed": 5,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1852-07-07/mayo.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1852-07-07",
+   "constituency": "Mayo",
+   "page": 85,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1852-07-07/county-waterford.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1852-07-07",
+   "constituency": "County Waterford",
+   "page": 86,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1852-07-07/westmeath.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1852-07-07",
+   "constituency": "Westmeath",
+   "page": 86,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1857-03-27/antrim.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1857-03-27",
+   "constituency": "Antrim",
+   "page": 88,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1857-03-27/armagh-city.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1857-03-27",
+   "constituency": "Armagh City",
+   "page": 89,
+   "figuresCompared": 3,
+   "figuresAgreed": 3,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1857-03-27/armagh.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1857-03-27",
+   "constituency": "Armagh",
+   "page": 89,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1857-03-27/county-cork.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1857-03-27",
+   "constituency": "County Cork",
+   "page": 89,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1857-03-27/county-dublin.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1857-03-27",
+   "constituency": "County Dublin",
+   "page": 90,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1857-03-27/county-galway.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1857-03-27",
+   "constituency": "County Galway",
+   "page": 90,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1857-03-27/down.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1857-03-27",
+   "constituency": "Down",
+   "page": 90,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1857-03-27/drogheda.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1857-03-27",
+   "constituency": "Drogheda",
+   "page": 90,
+   "figuresCompared": 3,
+   "figuresAgreed": 3,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1857-03-27/dublin-city.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1857-03-27",
+   "constituency": "Dublin City",
+   "page": 90,
+   "figuresCompared": 5,
+   "figuresAgreed": 5,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1857-03-27/dublin-university.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1857-03-27",
+   "constituency": "Dublin University",
+   "page": 90,
+   "figuresCompared": 5,
+   "figuresAgreed": 5,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1857-03-27/londonderry.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1857-03-27",
+   "constituency": "Londonderry",
+   "page": 91,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1857-03-27/new-ross.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1857-03-27",
+   "constituency": "New Ross",
+   "page": 92,
+   "figuresCompared": 3,
+   "figuresAgreed": 3,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1859-04-28/cashel.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1859-04-28",
+   "constituency": "Cashel",
+   "page": 95,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1859-04-28/dublin-city.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1859-04-28",
+   "constituency": "Dublin City",
+   "page": 95,
+   "figuresCompared": 5,
+   "figuresAgreed": 5,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1859-04-28/king-s-county.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1859-04-28",
+   "constituency": "King's County",
+   "page": 96,
+   "figuresCompared": 5,
+   "figuresAgreed": 5,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1859-04-28/limerick-city.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1859-04-28",
+   "constituency": "Limerick City",
+   "page": 96,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1859-04-28/county-limerick.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1859-04-28",
+   "constituency": "County Limerick",
+   "page": 97,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1859-04-28/sligo.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1859-04-28",
+   "constituency": "Sligo",
+   "page": 98,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1859-04-28/waterford-city.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1859-04-28",
+   "constituency": "Waterford City",
+   "page": 98,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1859-04-28/county-wexford.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1859-04-28",
+   "constituency": "County Wexford",
+   "page": 98,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1868-11-17/belfast.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1868-11-17",
+   "constituency": "Belfast",
+   "page": 107,
+   "figuresCompared": 5,
+   "figuresAgreed": 5,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1868-11-17/carlow.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1868-11-17",
+   "constituency": "Carlow",
+   "page": 108,
+   "figuresCompared": 3,
+   "figuresAgreed": 3,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1868-11-17/carrickfergus.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1868-11-17",
+   "constituency": "Carrickfergus",
+   "page": 108,
+   "figuresCompared": 3,
+   "figuresAgreed": 3,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1868-11-17/cork-city.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1868-11-17",
+   "constituency": "Cork City",
+   "page": 108,
+   "figuresCompared": 5,
+   "figuresAgreed": 5,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1868-11-17/county-cork.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1868-11-17",
+   "constituency": "County Cork",
+   "page": 108,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1868-11-17/county-dublin.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1868-11-17",
+   "constituency": "County Dublin",
+   "page": 109,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1868-11-17/dublin-university.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1868-11-17",
+   "constituency": "Dublin University",
+   "page": 109,
+   "figuresCompared": 5,
+   "figuresAgreed": 5,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1868-11-17/waterford-city.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1868-11-17",
+   "constituency": "Waterford City",
+   "page": 111,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1874-01-31/antrim.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1874-01-31",
+   "constituency": "Antrim",
+   "page": 115,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1874-01-31/clare.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1874-01-31",
+   "constituency": "Clare",
+   "page": 115,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1874-01-31/clonmel.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1874-01-31",
+   "constituency": "Clonmel",
+   "page": 115,
+   "figuresCompared": 3,
+   "figuresAgreed": 3,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1874-01-31/coleraine.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1874-01-31",
+   "constituency": "Coleraine",
+   "page": 115,
+   "figuresCompared": 3,
+   "figuresAgreed": 3,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1874-01-31/cork-city.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1874-01-31",
+   "constituency": "Cork City",
+   "page": 115,
+   "figuresCompared": 6,
+   "figuresAgreed": 6,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1874-01-31/drogheda.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1874-01-31",
+   "constituency": "Drogheda",
+   "page": 116,
+   "figuresCompared": 3,
+   "figuresAgreed": 3,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1874-01-31/dublin-city.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1874-01-31",
+   "constituency": "Dublin City",
+   "page": 116,
+   "figuresCompared": 5,
+   "figuresAgreed": 5,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1874-01-31/leitrim.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1874-01-31",
+   "constituency": "Leitrim",
+   "page": 117,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1874-01-31/londonderry-city.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1874-01-31",
+   "constituency": "Londonderry City",
+   "page": 118,
+   "figuresCompared": 3,
+   "figuresAgreed": 3,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1874-01-31/queen-s-county.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1874-01-31",
+   "constituency": "Queen's County",
+   "page": 118,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1874-01-31/tipperary.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1874-01-31",
+   "constituency": "Tipperary",
+   "page": 119,
+   "figuresCompared": 7,
+   "figuresAgreed": 7,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1874-01-31/county-waterford.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1874-01-31",
+   "constituency": "County Waterford",
+   "page": 119,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1880-03-31/bandon.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1880-03-31",
+   "constituency": "Bandon",
+   "page": 123,
+   "figuresCompared": 3,
+   "figuresAgreed": 3,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1880-03-31/belfast.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1880-03-31",
+   "constituency": "Belfast",
+   "page": 123,
+   "figuresCompared": 5,
+   "figuresAgreed": 5,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1880-03-31/downpatrick.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1880-03-31",
+   "constituency": "Downpatrick",
+   "page": 124,
+   "figuresCompared": 3,
+   "figuresAgreed": 3,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1880-03-31/dublin-city.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1880-03-31",
+   "constituency": "Dublin City",
+   "page": 124,
+   "figuresCompared": 5,
+   "figuresAgreed": 5,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1880-03-31/kildare.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1880-03-31",
+   "constituency": "Kildare",
+   "page": 125,
+   "figuresCompared": 5,
+   "figuresAgreed": 5,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1880-03-31/mallow.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1880-03-31",
+   "constituency": "Mallow",
+   "page": 126,
+   "figuresCompared": 3,
+   "figuresAgreed": 3,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1880-03-31/mayo.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1880-03-31",
+   "constituency": "Mayo",
+   "page": 126,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1880-03-31/tralee.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1880-03-31",
+   "constituency": "Tralee",
+   "page": 127,
+   "figuresCompared": 3,
+   "figuresAgreed": 3,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1880-03-31/waterford-city.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1880-03-31",
+   "constituency": "Waterford City",
+   "page": 127,
+   "figuresCompared": 4,
+   "figuresAgreed": 4,
+   "differences": [],
+   "status": "agrees"
+  },
+  {
+   "file": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1880-03-31/county-wexford.json",
+   "body": "house-of-commons-of-the-united-kingdom",
+   "date": "1880-03-31",
+   "constituency": "County Wexford",
+   "page": 127,
+   "figuresCompared": 5,
+   "figuresAgreed": 5,
+   "differences": [],
+   "status": "agrees"
+  }
+ ]
+}

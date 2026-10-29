@@ -114,6 +114,13 @@ function copyCompactLayer(layer) {
   for (const field of COMPACT_LAYER_FIELDS) {
     if (layer[field] !== undefined) compact[field] = layer[field];
   }
+  // The startup index needs only how a package is served (the app) and where it lives locally
+  // (validate-test2-pmtiles-cdn). Its build record -- source hash, byte counts, verification
+  // dates -- stays in maps-test.json, where the checks that use it read it.
+  if (layer.tilePackage && typeof layer.tilePackage === 'object') {
+    const { serving, localPath } = layer.tilePackage;
+    compact.tilePackage = Object.fromEntries(Object.entries({ serving, localPath }).filter(([, value]) => value !== undefined));
+  }
   return compact;
 }
 

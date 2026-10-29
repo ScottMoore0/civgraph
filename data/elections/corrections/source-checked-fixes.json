@@ -10,7 +10,9 @@
   "eoni-wayback-2026-10-26": "Northern Ireland council contests checked against the Electoral Office for Northern Ireland's own result sheets and results booklets, retrieved from the Internet Archive's copies of eoni.org.uk. Figures from the scanned booklets were read from the page images, not taken from OCR, and confirmed by the site owner.",
   "ni-council-xref-2026-10-27": "Northern Ireland council contests 1973-2011 cross-checked against ARK's per-contest result spreadsheets (Nicholas Whyte, ark.ac.uk), the Wikipedia council election articles and the quota each result sheet states (the valid poll divided by one more than the seats, rounded down, plus one).",
   "person-id-splits-2026-10-28": "Candidates of the same name in different councils that the imported data gave one Candidate_Id, and so one person record. Each council's candidate is given an id of their own; within a council they stay together until a source says otherwise.",
-  "candidate-id-splits-2026-10-28": "The imported Northern Ireland council data gave every candidate of one name the same Candidate_Id in every council, joining different people into one. Each such id keeps the council where it is used most; elsewhere each council's candidate gets an id of their own ('<id>-<council>'). Nothing in the results changes."
+  "candidate-id-splits-2026-10-28": "The imported Northern Ireland council data gave every candidate of one name the same Candidate_Id in every council, joining different people into one. Each such id keeps the council where it is used most; elsewhere each council's candidate gets an id of their own ('<id>-<council>'). Nothing in the results changes.",
+  "gallagher-1923-first-prefs-2026-10-28": "First-preference figures for the August 1923 Dail election taken from Michael Gallagher, Irish Elections 1922-44: Results and Analysis (1993), where the imported figures did not add up to the valid poll.",
+  "gallagher-1922-44-counts-2026-10-29": "Count tables for 1922-44 Dail contests taken from Michael Gallagher, Irish Elections 1922-44: Results and Analysis (1993), where the imported data had none or only first preferences (count sidecars in data/elections/dail-wikipedia-counts named as Gallagher's), with the figures and names his tables show to be wrong in the imported data corrected. Figures read from the page images."
  },
  "records": [
   {
@@ -83214,9 +83216,14 @@
      "publisher": "Wikipedia",
      "title": "Limerick (Dáil constituency): 1923 general election",
      "url": "https://en.wikipedia.org/wiki/Limerick_(D%C3%A1il_constituency)#1923_general_election"
+    },
+    {
+     "title": "Irish Elections 1922-44: Results and Analysis",
+     "publisher": "Michael Gallagher (PSAI Press, 1993), p. 36",
+     "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf"
     }
    ],
-   "reason": "John Nolan (Cumann na nGaedheal) won the seventh Limerick seat on the 16th count but his row was left unelected, so the site marked Matthew Murphy (Labour) 'Deemed elected'; the Oireachtas lists Nolan as TD for Limerick in the 4th Dáil, ElectionsIreland gives him seat 5 and Wikipedia shows him elected on count 16 with 7,361 votes, while Murphy was not elected.",
+   "reason": "John Nolan (Cumann na nGaedheal) won the seventh Limerick seat on the 16th count but his row was left unelected, so the site marked Matthew Murphy (Labour) 'Deemed elected'; the Oireachtas lists Nolan as TD for Limerick in the 4th Dáil, ElectionsIreland gives him seat 5 and Wikipedia shows him elected on count 16 with 7,361 votes, while Murphy was not elected. First preferences for Colbert (4,842), Walsh (1,254), Keyes (1,549) and Murphy (3,332) corrected to Gallagher's figures, which add up to the valid poll of 50,816; the imported ones did not.",
    "category": "winners",
    "operations": [
     {
@@ -83226,6 +83233,59 @@
       "Status": "Elected",
       "Occurred_On_Count": "16"
      }
+    },
+    {
+     "op": "candidate",
+     "name": "James Colbert",
+     "set": {
+      "first_pref": 4842,
+      "counts": [
+       4842,
+       0.76,
+       0,
+       4
+      ]
+     },
+     "totalsOnly": true
+    },
+    {
+     "op": "candidate",
+     "name": "Patrick Walsh",
+     "set": {
+      "first_pref": 1254,
+      "counts": [
+       1254,
+       0.2,
+       0
+      ]
+     },
+     "totalsOnly": true
+    },
+    {
+     "op": "candidate",
+     "name": "Michael Keyes",
+     "set": {
+      "first_pref": 1549,
+      "counts": [
+       1549,
+       0.24,
+       0
+      ]
+     },
+     "totalsOnly": true
+    },
+    {
+     "op": "candidate",
+     "name": "Matthew Murphy",
+     "set": {
+      "first_pref": 3332,
+      "counts": [
+       3332,
+       0.52,
+       0
+      ]
+     },
+     "totalsOnly": true
     }
    ]
   },
@@ -183443,6 +183503,86 @@
     }
    ],
    "reason": "The valid poll was 7,347, not 7,374: the first preferences add up to 7,347, which gives the stated quota of 1,050 for 6 seats."
+  },
+  {
+   "batch": "gallagher-1923-first-prefs-2026-10-28",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1923-08-27/longford-westmeath.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993), p. 36",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf"
+   },
+   "reason": "James Victory's first preferences corrected from 1,654 to 1,634, the figure in the first-count newspaper reports that Gallagher reproduces; with it the figures add up to their total of 34,845.",
+   "category": "first-preferences",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "James Victory",
+     "set": {
+      "first_pref": 1634,
+      "counts": [
+       1634,
+       0.28,
+       0
+      ]
+     },
+     "totalsOnly": true
+    }
+   ]
+  },
+  {
+   "batch": "gallagher-1922-44-counts-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1927-06-09/mayo-south.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993), p. 70",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf"
+   },
+   "reason": "James Fitzgerald-Kenney's first preferences corrected from 2,886 to 2,884, Gallagher's figure; with it the first preferences add up to the valid poll of 34,160 and Cumann na nGaedheal's to his party total of 12,146.",
+   "category": "first-preferences",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "James Fitzgerald Kenney",
+     "set": {
+      "Candidate_First_Pref_Votes": "2884"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "gallagher-1922-44-counts-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1943-06-22/tipperary.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993), p. 263",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf"
+   },
+   "reason": "The independent candidate with 3,300 first preferences is Séamus Bourke, as Gallagher, ElectionsIreland and the Oireachtas members' record spell him (the count table had him as Burke), and is joined to his other elections. Gallagher spells the Fine Gael candidate Denis Burke; ElectionsIreland and Wikipedia have Bourke, which is kept.",
+   "category": "candidate-name",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Séamus Burke",
+     "set": {
+      "candidateName": "Séamus Bourke",
+      "Surname": "Bourke",
+      "ei_candidate_id": 8656
+     }
+    }
+   ],
+   "additionalSources": [
+    {
+     "title": "Séamus Aloysius Bourke",
+     "publisher": "Houses of the Oireachtas, Members database",
+     "url": "https://www.oireachtas.ie/en/members/member/S%C3%A9amus-Aloysius-Bourke.D.1919-01-21/"
+    },
+    {
+     "title": "1943 General Election: Tipperary",
+     "publisher": "ElectionsIreland.org",
+     "url": "https://electionsireland.org/result.cfm?election=1943&cons=215"
+    }
+   ]
   }
  ]
 }

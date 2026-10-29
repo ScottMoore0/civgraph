@@ -28,7 +28,7 @@ YEAR = re.compile(r'^19[234]\d$')
 DATE = re.compile(r'^(\d{1,2})\.(\d{1,2})\.(\d{2})$')
 NUM = re.compile(r'^\d{1,3}(?:,\d{3})*$|^\d+$')
 LABELS = {'Electorate:': 'electorate', 'votes:': 'validVotes', 'Quota:': 'quota',
-          'Seats:': 'seats', 'Candidates:': 'candidates', 'Turnout:': 'turnout'}
+          'Seats:': 'seats', 'seats:': 'contestedSeats', 'Candidates:': 'candidates', 'Turnout:': 'turnout'}
 PAGE_OFFSET = 13          # PDF page index minus printed page number
 
 
@@ -73,26 +73,32 @@ def _labelled(lines, x_lo, x_hi, y_lo, y_hi):
     return out
 
 
+def _heads(lines):
+    """The general-election contest headings on a page ("1922  CARLOW-KILKENNY")."""
+    heads = []
+    for ln in lines:
+        ws = [w[:2] for w in ln['words']]
+        for i, (x, t) in enumerate(ws):
+            if YEAR.match(t) and i + 1 < len(ws) and ws[i + 1][1][:1].isupper() and ws[i + 1][1].isupper():
+                name = []
+                for _, u in ws[i + 1:]:
+                    if YEAR.match(u) or u.endswith(':'):
+                        break
+                    name.append(u)
+                # 1927 had two elections and heads them "June 1927 CLARE", "Sept 1927
+                # GALWAY": the block's column is anchored on the month, not the year.
+                month = ws[i - 1][1] if i > 0 and ws[i - 1][1] in ('June', 'Sept') else None
+                hx = ws[i - 1][0] if month else x
+                heads.append({'x': hx, 'y': ln['y'], 'year': int(t), 'month': month, 'name': ' '.join(name)})
+    return heads
+
+
 def general_elections(doc):
     """Every general-election contest heading and its labelled figures."""
     out = []
     for pno in range(len(doc)):
         lines = _lines(doc[pno])
-        heads = []
-        for ln in lines:
-            ws = ln['words']
-            for i, (x, t) in enumerate(ws):
-                if YEAR.match(t) and i + 1 < len(ws) and ws[i + 1][1][:1].isupper() and ws[i + 1][1].isupper():
-                    name = []
-                    for _, u in ws[i + 1:]:
-                        if YEAR.match(u) or u.endswith(':'):
-                            break
-                        name.append(u)
-                    # 1927 had two elections and heads them "June 1927 CLARE", "Sept 1927
-                    # GALWAY": the block's column is anchored on the month, not the year.
-                    month = ws[i - 1][1] if i > 0 and ws[i - 1][1] in ('June', 'Sept') else None
-                    hx = ws[i - 1][0] if month else x
-                    heads.append({'x': hx, 'y': ln['y'], 'year': int(t), 'month': month, 'name': ' '.join(name)})
+        heads = _heads(lines)
         for h in heads:
             # The block's labels start ~36pt left of the year and run down to the next
             # heading in the same column.
@@ -274,6 +280,413 @@ def general_election_contest(doc, printed_page, heading):
         if c['party'] in ('Others', 'Other'):
             c['party'] = others.get(c['name'].split()[-1].lower(), 'Independent')
     return {**rec, 'candidates': cands, 'page': printed_page}
+
+
+SIGNS = {'+': 1, '-': -1, '–': -1, '−': -1}
+STATUS = ('Elected', 'Eliminated')
+
+
+def _bold_lines(page, tol=3.5):
+    """As _lines, but each word is (x, text, bold). Gallagher sets in bold the party headings
+    and the figure at which a candidate was elected."""
+    rects = [s['bbox'] for b in page.get_text('dict')['blocks'] for ln in b.get('lines', [])
+             for s in ln['spans'] if s['flags'] & 16 and s['text'].strip()]
+    words = sorted(page.get_text('words'), key=lambda w: (w[1], w[0]))
+    lines = []
+    for w in words:
+        x0, y0, x1, y1, t = w[:5]
+        cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
+        bold = any(r[0] <= cx <= r[2] and r[1] <= cy <= r[3] for r in rects)
+        if lines and abs(lines[-1]['y'] - y0) <= tol:
+            lines[-1]['words'].append((x0, t, bold))
+        else:
+            lines.append({'y': y0, 'words': [(x0, t, bold)]})
+    for ln in lines:
+        ln['words'].sort()
+    return lines
+
+
+def _is_fig(t):
+    return t in SIGNS or t in STATUS or (t[:1] in SIGNS and _num(t[1:]) is not None) or _num(t) is not None
+
+
+def _cells(ws, starts):
+    """One table row's figures. Zone 0 is the column left of the first "Count n" heading
+    (first preferences; in a continued table the total carried over, or "Elected" /
+    "Eliminated"); each count column holds a transfer (signed, the sign sometimes a word of
+    its own: "+ 56") and the running total. Gallagher leaves the total blank where the
+    candidate's surplus or votes went out.
+
+    Column headings are not evenly spaced (a long heading such as "Brett, O'Hurley" pushes
+    the next one right), so a transfer goes to the count whose heading is nearest, and a
+    total to the count of the transfer it follows."""
+    lead = {'value': None, 'status': None, 'bold': False}
+    cells = [{'transfer': None, 'total': None, 'bold': False, 'status': None, 'spanTransfer': None} for _ in starts]
+    cur, sign, span_at, span_sign = None, None, None, 1
+    for x, t, b in ws:
+        zone = sum(1 for s in starts if x >= s - 6)
+        if starts and t in ('(+', '(-'):
+            span_at, span_sign = x, SIGNS[t[1]]
+            continue
+        if starts and span_at is not None and t.endswith(')') and isinstance(_num(t[:-1]), int):
+            k = min(range(len(starts)), key=lambda k: abs(span_at - starts[k]))
+            cells[k]['spanTransfer'], span_at, cur = span_sign * _num(t[:-1]), None, None
+            continue
+        if starts and t.startswith('(') and t.endswith(')') and isinstance(_num(t.strip('()').lstrip('+-')), int):
+            # "(+231)": transfers over two counts, given only together (Anthony, Cork
+            # Borough 1943; Wicklow 1943 sets it "(+ 177)")
+            k = min(range(len(starts)), key=lambda k: abs(x - starts[k]))
+            v = t.strip('()')
+            cells[k]['spanTransfer'] = SIGNS.get(v[:1], 1) * _num(v.lstrip('+-'))
+            cur = None
+            continue
+        signed = t in SIGNS or (t[:1] in SIGNS and isinstance(_num(t[1:]), int))
+        if signed and starts and (zone > 0 or lead['value'] is not None):
+            # a wide transfer ("-11016") can start left of its own column's heading
+            cur = min(range(len(starts)), key=lambda k: abs(x - starts[k]))
+            if t in SIGNS:
+                sign = SIGNS[t]
+            else:
+                cells[cur]['transfer'], sign = SIGNS[t[:1]] * _num(t[1:]), None
+            continue
+        if t in STATUS:
+            if zone == 0:
+                lead['status'] = t
+            else:
+                cells[zone - 1]['status'] = t
+            continue
+        n = _num(t)
+        if not isinstance(n, int):
+            continue
+        if sign is not None and cur is not None:
+            cells[cur]['transfer'], sign = sign * n, None
+        elif cur is not None and cells[cur]['transfer'] is not None and cells[cur]['total'] is None:
+            cells[cur]['total'], cells[cur]['bold'] = n, b
+        elif zone == 0:
+            if lead['value'] is None:
+                lead['value'], lead['bold'] = n, b
+        else:
+            cells[zone - 1]['total'], cells[zone - 1]['bold'] = n, b
+    return lead, cells
+
+
+def _surname_map(text, others):
+    """"Others:  Farrelly, Tucker—Dublin Trades Council" -> {'farrelly': ..., 'tucker': ...}."""
+    text = re.sub(r'^Others?:\s*', '', text).strip()
+    if '—' not in text:
+        return
+    names, label = text.split('—', 1)
+    for n in names.split(','):
+        if n.strip():
+            others[n.strip().lower()] = label.strip(' .')
+
+
+def _person(printed):
+    """"Walsh, William (Ballinrobe)" -> "William Walsh (Ballinrobe)"."""
+    printed, tag = re.match(r'^(.*?)\s*(\([^)]*\))?$', printed.lstrip('*')).groups()
+    surname, _, forename = printed.partition(',')
+    return f"{forename.strip()} {surname.strip()}{' ' + tag if tag else ''}".strip()
+
+
+def general_election_results(doc):
+    """Every general-election contest in full: its labelled figures, each candidate's party
+    heading, first preferences and whether elected, and where Gallagher prints it the count
+    table: per count the transfer source, each candidate's transfer and running total, and
+    the non-transferable papers. Five shapes:
+      counts                a full count table (sometimes continued in a second block below)
+      partialCounts         the first few counts and a note on the rest (Dublin County 1927)
+      firstCountOnly        every seat filled on the first count, so no table of transfers
+      firstPreferencesOnly  first preferences and a note (Limerick, Longford-Westmeath 1923)
+      unopposed             names only
+    Where Gallagher leaves a total blank (a surplus or an elimination went out), the
+    running total is the previous one plus the transfer. A note's prose is returned as
+    noteText only so a caller can pull figures out of it; it must not be stored."""
+    out = []
+    for pno in range(len(doc)):
+        lines = _bold_lines(doc[pno])
+        heads = _heads(lines)
+        for h in heads:
+            same = [g for g in heads if abs(g['x'] - h['x']) < 60 and g['y'] > h['y']]
+            y_hi = min([g['y'] for g in same], default=10_000)
+            right = sorted(g['x'] for g in heads if g['x'] - h['x'] >= 60 and abs(g['y'] - h['y']) < 5)
+            x_lo, x_hi = h['x'] - 45, (right[0] - 36 if right else 10_000)
+            # The party summary is sometimes set beside a short table (Galway 1923): read
+            # only what lies left of it.
+            for ln in lines:
+                ws = ln['words']
+                for i in range(len(ws) - 2):
+                    if (h['y'] < ln['y'] < y_hi and ws[i][0] > x_lo + 150 and ws[i][0] < x_hi and ws[i][2]
+                            and ws[i][1] == 'First' and ws[i + 1][1].startswith('preference')):
+                        x_hi = ws[i][0] - 5
+            block = []
+            for ln in lines:
+                if not (h['y'] <= ln['y'] < y_hi):
+                    continue
+                ws = [w for w in ln['words'] if x_lo <= w[0] < x_hi]
+                if not ws:
+                    continue
+                if ws[0][1] == 'First' and ws[0][2] and len(ws) > 1 and ws[1][1].startswith('preference'):
+                    break
+                block.append({'y': ln['y'], 'words': ws})
+            plain = [{'y': b['y'], 'words': [w[:2] for w in b['words']]} for b in block]
+            figs = _labelled(plain, x_lo + 5, x_hi, h['y'], 10_000)
+            if 'electorate' not in figs:
+                continue
+            label_x = min(w[0] for b in block for w in b['words'] if w[1] == 'Electorate:')
+            rec = {'year': h['year'], 'month': h['month'],
+                   'constituency': h['name'].replace('–', '-').title(), 'page': pno - PAGE_OFFSET, **figs}
+            # A note set beside the table (Limerick 1923) shares the table's lines: cut it off.
+            note_x = next((w[0] for b in block for w in b['words'] if w[1] in ('Note:', 'Note')), None)
+            side = note_x is not None and note_x > label_x + 100
+            note_lines, in_note, last_y = [], False, None
+            for b in block:
+                ws = [w for w in b['words'] if w[0] >= note_x - 3] if side else b['words']
+                if any(w[1] in ('Note:', 'Note') for w in ws):
+                    in_note = True
+                elif in_note and (b['y'] - last_y > 16 or not ws or ws[0][1].startswith('Others')):
+                    in_note = False
+                if in_note and ws:
+                    note_lines.append(' '.join(w[1] for w in ws))
+                    last_y = b['y']
+            text = ' '.join(w[1] for b in block for w in b['words'])
+            if 'unopposed' in text:
+                rec['shape'] = 'unopposed'
+                rec['candidateList'] = _unopposed(block, label_x)
+                rec['noteText'] = ' '.join(note_lines) or None
+                out.append(rec)
+                continue
+            party, cands, others, rows, last, auto = None, [], {}, {}, None, []
+            counts = {}            # count number -> {'source', 'kind', 'nonTransferable'}
+            starts, nums, desc_until, hdr_y, side_note = [], [], -1, -100, []
+            group = 0
+            for b in block[1:]:
+                ws = [w for w in b['words'] if w[0] < note_x - 3] if side else b['words']
+                if starts and b['y'] > desc_until:
+                    # A note set beside a short table, unlabelled (Mayo North 1943), starts
+                    # well right of the last count column and its "Elected" marks.
+                    edge = max(starts) + 100
+                    beyond = [w for w in ws if w[0] >= edge]
+                    if beyond:
+                        side_note.append(' '.join(w[1] for w in beyond))
+                        ws = [w for w in ws if w[0] < edge]
+                if not ws:
+                    continue
+                t0, words = ws[0][1], [w[1] for w in ws]
+                joined = ' '.join(words)
+                hdr, combined, skip = [], {}, set()
+                for i in range(len(ws) - 1):
+                    if ws[i][1] == 'Count' and ws[i + 1][1].isdigit():
+                        hdr.append((ws[i][0], int(ws[i + 1][1])))
+                        skip |= {i, i + 1}
+                    elif ws[i][1] == 'Counts':
+                        # "Counts 2, 3": two surpluses dealt with together, one column
+                        k, ns = i + 1, []
+                        while k < len(ws) and re.match(r'^(\d+([,–-]\d*)?|and|&)$', ws[k][1]):
+                            ns += [int(d) for d in re.findall(r'\d+', ws[k][1])]
+                            k += 1
+                        if ns:
+                            hdr.append((ws[i][0], ns[-1]))
+                            combined[ns[-1]] = list(range(ns[0], ns[-1] + 1))
+                            skip |= set(range(i, k))
+                if hdr:
+                    # Waterford-Tipperary East 1922 sets "Count 4" a line above the others
+                    # to fit a three-name heading: headings within two lines are one row.
+                    if starts and b['y'] - hdr_y < 25:
+                        pairs = sorted(set(zip(starts, nums)) | set(hdr))
+                    else:
+                        pairs = hdr
+                    if b['y'] - hdr_y >= 25:
+                        group += 1
+                    starts, nums, hdr_y = [x for x, _ in pairs], [n for _, n in pairs], b['y']
+                    for n in nums:
+                        counts.setdefault(n, {'source': [], 'kind': None})
+                        if n in combined:
+                            counts[n]['countsCombined'] = combined[n]
+                    desc_until = b['y'] + 30
+                    ws = [w for i, w in enumerate(ws) if i not in skip]
+                if b['y'] <= desc_until and starts and ws and not ws[0][2]:
+                    for x, t, _ in ws:
+                        if x < starts[0] - 6:
+                            continue
+                        n = nums[sum(1 for s in starts if x >= s - 6) - 1]
+                        if t in ('surplus', 'votes', 'surpluses'):
+                            counts[n]['kind'] = t
+                        else:
+                            counts[n]['source'].append(t)
+                    continue
+                if not ws:
+                    continue
+                if t0.startswith('Others') or t0 in ('Note:', 'Note') or ('—' in joined and not re.search(r'\d', joined)):
+                    if '—' in joined:
+                        _surname_map(joined, others)
+                    continue
+                if t0.startswith('Non-transferable'):
+                    lead, cells = _cells(ws[1:], starts)
+                    for n, c in zip(nums, cells):
+                        counts[n]['nonTransferable'] = {'transfer': c['transfer'], 'total': c['total'],
+                                                        **({'transferOverTwoCounts': c['spanTransfer']}
+                                                           if c.get('spanTransfer') is not None else {})}
+                    continue
+                if t0.startswith('_') or t0 in LABELS or t0 in ('Valid', 'First', 'preferences'):
+                    continue
+                if ws[0][2] and ws[0][0] < label_x + 3 and not re.search(r'\d', joined):
+                    party = joined
+                    continue
+                if _is_fig(t0) and last is not None and ws[0][0] >= label_x + 60 and b['y'] - row_y < 14:
+                    # a figure dropped to the line below its candidate (Vaughan, Cork 1922)
+                    _, cells = _cells(ws, starts)
+                    for n, c in zip(nums, cells):
+                        prev = last['cells'].setdefault(n, {'transfer': None, 'total': None, 'bold': False, 'status': None})
+                        for k in ('transfer', 'total', 'status'):
+                            if prev[k] is None and c[k] is not None:
+                                prev[k] = c[k]
+                        prev['bold'] = prev['bold'] or c['bold']
+                        last['bold'] = last['bold'] or c['bold']
+                    continue
+                if not (label_x + 3 <= ws[0][0] < label_x + 30):
+                    continue
+                j = 0
+                while j < len(ws) and not _is_fig(ws[j][1]):
+                    j += 1
+                printed = ' '.join(w[1] for w in ws[:j])
+                if 'Returned' in printed and 'automatically' in printed:
+                    # the outgoing Ceann Comhairle, returned without a contest
+                    printed = printed.split(' Returned')[0]
+                    auto.append({'name': _person(printed), 'nameAsPrinted': printed.lstrip('*'),
+                                 'outgoing': printed.startswith('*'), 'party': party, 'partyNote': None,
+                                 'firstPreferences': None, 'elected': True, 'electedInTable': False,
+                                 'returnedAutomatically': True})
+                    continue
+                if (j == len(ws) and last is not None and b['y'] - row_y < 14 and t0.startswith('(')
+                        and ws[0][0] >= label_x + 20):
+                    # "Walsh, William / (Ballinrobe)": namesakes told apart on a second line
+                    rows.pop(last['printed'], None)
+                    last['printed'] += ' ' + printed
+                    rows[last['printed']] = last
+                    continue
+                if j == len(ws) and last is not None and last['printed'].endswith('-') and b['y'] - row_y < 14:
+                    # a double-barrelled name wrapped onto a second line ("MacMurrough- / Kavanagh, Arthur")
+                    rows.pop(last['printed'], None)
+                    last['printed'] += printed
+                    rows[last['printed']] = last
+                    continue
+                if not (',' in printed or printed.endswith('-')) or j == len(ws):
+                    continue
+                rest = ws[j:]
+                if not starts:
+                    # first preferences only: the figure and "Elected", then prose may follow
+                    k = 0
+                    while k < len(rest) and _is_fig(rest[k][1]):
+                        k += 1
+                    rest = rest[:k]
+                lead, cells = _cells(rest, starts)
+                # a continued table repeats the names; a namesake in the same block is a new row
+                c = rows.get(printed) or next((v for k, v in rows.items() if k.startswith(printed + ' (')
+                                               and v['group'] != group and group not in v['seen']), None)
+                if c is None or c['group'] == group:
+                    c = rows[printed] = {'printed': printed, 'party': party, 'lead': lead, 'cells': {},
+                                         'carried': {}, 'statuses': set(), 'bold': lead['bold'],
+                                         'group': group, 'seen': set()}
+                    cands.append(c)
+                else:
+                    if lead['value'] is not None and nums:
+                        c['carried'][max([k for k in counts if k < nums[0]], default=1)] = lead['value']
+                    c['bold'] = c['bold'] or lead['bold']
+                c['seen'].add(group)
+                if lead['status']:
+                    c['statuses'].add(lead['status'])
+                if any(w[1] == 'Elected' for w in rest):
+                    c['statuses'].add('Elected')
+                for n, cell in zip(nums, cells):
+                    c['cells'][n] = cell
+                    c['bold'] = c['bold'] or cell['bold']
+                last, row_y = c, b['y']
+            cols = sorted(counts)
+            result = []
+            for c in cands:
+                fp = c['lead']['value']
+                transfers, totals, running, span = [None], [fp], [fp], {}
+                at = 1 if c['lead']['bold'] else None
+                for n in cols:
+                    cell = c['cells'].get(n, {})
+                    tr, tot = cell.get('transfer'), cell.get('total')
+                    if cell.get('spanTransfer') is not None:
+                        span[n] = cell['spanTransfer']
+                    if at is None and cell.get('bold'):
+                        at = n
+                    transfers.append(tr)
+                    totals.append(tot)
+                    prev = running[-1]
+                    running.append(tot if tot is not None else
+                                   None if cell.get('spanTransfer') is not None or (prev is None and tr is None)
+                                   else (prev or 0) + (tr or 0))
+                surname = c['printed'].lstrip('*').split(',')[0].strip().lower()
+                result.append({
+                    'name': _person(c['printed']), 'nameAsPrinted': c['printed'].lstrip('*'),
+                    'outgoing': c['printed'].startswith('*'),
+                    'party': c['party'], 'partyNote': others.get(surname),
+                    'firstPreferences': fp,
+                    'elected': c['bold'] or 'Elected' in c['statuses'],
+                    'electedInTable': c['bold'], 'electedAtCount': at,
+                    'transfers': transfers, 'printedTotals': totals, 'runningTotals': running,
+                    'carried': c['carried'],
+                    **({'transferOverTwoCounts': span} if span else {}),
+                })
+            result += [a for i, a in enumerate(auto) if a['name'] not in [b['name'] for b in auto[:i]]]
+            # a bracketed figure set between two count columns can land on the second; it
+            # belongs with the first, which is then blank (non-transferable, Cork Borough 1943)
+            for a, b in zip(cols, cols[1:]):
+                na, nb = counts[a].get('nonTransferable') or {}, counts[b].get('nonTransferable') or {}
+                if 'transferOverTwoCounts' in nb and na.get('transfer') is None and na.get('total') is None and na:
+                    na['transferOverTwoCounts'] = nb.pop('transferOverTwoCounts')
+            nt_run = [0]
+            for n in cols:
+                nt = counts[n].get('nonTransferable') or {}
+                nt_run.append(nt['total'] if nt.get('total') is not None else
+                              None if 'transferOverTwoCounts' in nt or nt_run[-1] is None
+                              else nt_run[-1] + (nt.get('transfer') or 0))
+            # bold figures (and the automatically returned Ceann Comhairle) account for
+            # every seat when the table is complete
+            in_table = sum(1 for r in result if r.get('electedInTable') or r.get('returnedAutomatically'))
+            whole = in_table >= (rec.get('seats') or 0)
+            rec['shape'] = (('counts' if whole else 'partialCounts') if counts else
+                            'firstCountOnly' if whole else 'firstPreferencesOnly')
+            rec['numCounts'] = cols[-1] if cols else 1
+            rec['countNumbers'] = [1] + cols
+            rec['counts'] = [{'count': n, **({'countsCombined': counts[n]['countsCombined']} if 'countsCombined' in counts[n] else {}),
+                              'source': ' '.join(counts[n]['source']) or None, 'kind': counts[n]['kind'],
+                              'nonTransferable': counts[n].get('nonTransferable'),
+                              'nonTransferableRunning': nt_run[i + 1]}
+                             for i, n in enumerate(cols)]
+            rec['candidateList'] = result
+            rec['noteText'] = ' '.join(note_lines + side_note) or None
+            out.append(rec)
+    return out
+
+
+def _unopposed(block, label_x):
+    """Names returned unopposed, set in up to two columns under bold party headings."""
+    cols, cands = {}, []
+    for b in block[1:]:
+        ws = b['words']
+        if ws[0][1] in LABELS or ws[0][1] == 'Valid':
+            continue
+        segs, cur = [], []
+        for w in ws:
+            if cur and w[0] - cur[-1][0] > 60:
+                segs.append(cur)
+                cur = []
+            cur.append(w)
+        segs.append(cur)
+        for seg in segs:
+            col = 0 if seg[0][0] < label_x + 100 else 1
+            txt = ' '.join(w[1] for w in seg)
+            if seg[0][2]:
+                cols[col] = txt
+            elif ',' in txt and 'unopposed' not in txt:
+                cands.append({'name': _person(txt), 'nameAsPrinted': txt.lstrip('*'), 'outgoing': txt.startswith('*'),
+                              'party': cols.get(col), 'firstPreferences': None, 'elected': True, 'unopposed': True})
+    return cands
 
 
 if __name__ == '__main__':

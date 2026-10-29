@@ -42,6 +42,9 @@ const ELECTIONS = path.join('data', 'elections-source', 'data', 'elections');
 const REVIEW = path.join('data', 'review-inputs', 'wikipedia-cited-sources', 'contest-sources.json');
 const BIBLIOGRAPHY = path.join('data', 'elections', 'walker-volumes.json');
 const BIBLIOGRAPHY_VERIFIED = path.join('data', 'elections', 'walker-verified-contests.json');
+// The 93 contested 1832-1880 contests whose import said Walker had no figures for the seat: each
+// compared by eye with his printed page (agreeing ones join the verified list; differences are noted).
+const BIBLIOGRAPHY_FIGURE_CHECKS = path.join('data', 'elections', 'walker-1832-1880-figure-checks.json');
 // The History of Parliament page each 1801-1832 Irish contest cites, with what was compared
 // against it and what was taken from it (scripts/walker/import_walker_1801_1831.py).
 const HOP_CITATIONS = path.join('data', 'elections', 'hop', 'hop-contest-citations.json');
@@ -175,6 +178,10 @@ function bibliographyLayer() {
       if (r.file) verified.set(String(r.file).replace('data/elections-source/data/elections/', ''), r);
     }
   }
+  const figureChecks = existsSync(BIBLIOGRAPHY_FIGURE_CHECKS) ? readJson(BIBLIOGRAPHY_FIGURE_CHECKS) : null;
+  for (const r of figureChecks?.records ?? []) {
+    if (r.file && r.status === 'agrees' && r.figuresAgreed > 0) verified.set(String(r.file).replace('data/elections-source/data/elections/', ''), r);
+  }
   // Figures the manifest build takes FROM a volume (the Walker corrections overlay), and figures
   // where the volume and Civgraph disagree and the disagreement is still open. Both belong on the
   // citation: the first says what the reader is looking at came from this book, the second that
@@ -205,6 +212,20 @@ function bibliographyLayer() {
   const seats = corrections('walker-seat-corrections.json');
   for (const r of seats?.records ?? []) {
     if (r.status === 'applied') note(r.sourceFile, seats.provenance?.source?.title, `seat count (${r.proposedValue}) taken from this volume`);
+  }
+  // Figures this volume prints differently, found when the 93 contests above were compared (p. = printed page):
+  // taken from it where settled for it, otherwise its figure is given beside the one shown.
+  const figureFixes = corrections('walker-1832-1880-figure-corrections.json');
+  for (const r of figureFixes?.records ?? []) {
+    const what = r.field === 'electorate' ? 'electorate' : `${r.candidate}'s vote`;
+    const n = (v) => Number(v).toLocaleString('en-GB');
+    if (r.status === 'applied') note(r.sourceFile, figureFixes.source?.title, `${what} ${n(r.proposedValue)} taken from this volume (p. ${r.page}); imported as ${n(r.currentValue)}`);
+    if (r.status === 'held') note(r.sourceFile, figureFixes.source?.title, `this volume gives ${r.field === 'electorate' ? 'an electorate of' : `${r.candidate}`} ${n(r.proposedValue)} (p. ${r.page}); the figure shown is kept until a second source settles it`);
+  }
+  // Party labels the overlay takes from this volume in place of the import's.
+  const parties = corrections('walker-party-corrections.json');
+  for (const r of parties?.records ?? []) {
+    if (r.status === 'applied') note(r.sourceFile, parties.source?.title, `${r.candidate}'s party (${r.proposedValue}) taken from this volume, which prints ${r.walkerCode} (p. ${r.page}); imported as ${r.imported}`);
   }
 
   // Gallagher, Irish Elections 1922-44: a contest is checked where his valid poll is ours; the

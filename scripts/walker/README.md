@@ -89,6 +89,9 @@ apparent disagreement failed that test — no vote discrepancy has been found.
 | `data/elections/corrections/walker-electorate-review.json` | `check_against_civgraph.py` | 7 applied; 3 resolved in favour of the figure held, by Gallagher, Irish Elections 1922-44 (1993) |
 | `data/elections/corrections/walker-pre1918-electorates.json` | `harvest_electorates.py` | general-election electorates for 1885-1918; by-election registers excluded |
 | `data/elections/corrections/walker-seat-corrections.json` | by hand, from the page heads | Cork City returned two members, 1885-1918 |
+| `data/elections/corrections/walker-constituency-dates-1832-1880.json` | by eye, from page renders | each seat's date in the 1832-1880 general elections (date of return to 1868, newspaper polling day 1874-80); shown as a contest note, contest dates unchanged |
+| `data/elections/corrections/walker-party-corrections.json` | by eye | the 32 Irish candidates imported as Peelite, 1847-57, against Walker's P/L/C; 19 shown with his party |
+| `data/elections/walker-1832-1880-figure-checks.json` | by eye | the 93 contested 1832-80 contests the box import said Walker had no figures for; 86 agree, 7 differ (noted, not changed) |
 | `data/elections/walker-verified-contests.json` | `record_verified.py` | contests whose figures Walker reproduces; they cite him as checked |
 | `data/elections/walker-pre1885-results.json` | `harvest_pre1885.py`, `crosscheck_wikipedia_members.py` | 1802-1880 contests, unverified; general elections marked with whether Wikipedia's members agree |
 | `data/elections/walker-byelections-1885-1922.json` | `harvest_byelections.py` | 1885-1922 by-elections, unverified |

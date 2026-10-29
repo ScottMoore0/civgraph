@@ -64,7 +64,9 @@ const SKIP_DIRS = new Set([
 // reference in the whole repository, which was obviously wrong and is why this
 // list is now narrow.
 const SKIP_CONTENT = new Set(['data', 'assets', 'build']);
-const SKIP_SUBTREES = ['render/metadata', 'render/tiles', 'render/pmtiles', 'render/source-cache', 'app/build'];
+// .claude/worktrees holds agents' isolated checkouts of this repo: scanning them counts every
+// reference twice (or more) without any of them being part of this tree.
+const SKIP_SUBTREES = ['render/metadata', 'render/tiles', 'render/pmtiles', 'render/source-cache', 'app/build', '.claude/worktrees'];
 
 const TEXT_EXT = new Set(['.js', '.mjs', '.cjs', '.json', '.html', '.css', '.md', '.yml', '.yaml', '.toml', '.sh', '.py', '.txt']);
 // Extensionless config files, which an extension filter silently drops. _headers

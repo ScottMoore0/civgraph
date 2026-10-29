@@ -83,7 +83,8 @@ function applyNiLocalValidPollCorrection(electionKey, constituency, rawResult) {
   return rawResult;
 }
 
-// Walker corrections overlay electorate and seat figures read from Walker's two volumes, keyed by
+// Walker corrections overlay electorate and seat figures read from Walker's two volumes (and, for
+// 1832-1880, each seat's own general-election date and party labels he prints), keyed by
 // the imported source file. Only records marked 'applied' in the review file are used; the
 // pre-1918 electorates fill a field every imported pre-1918 file leaves empty, so they never
 // overwrite a figure that is already held.
@@ -117,7 +118,39 @@ for (const [file, read] of [
     .forEach((r) => addWalkerCorrection(r.sourceFile, 'cause', `${r.cause} (Wikipedia, ${r.source?.title || 'list of by-elections'})`, true))],
   ['walker-seat-corrections.json', (doc) => (doc.records || [])
     .filter((r) => r.status === 'applied' && r.field === 'seats')
-    .forEach((r) => addWalkerCorrection(r.sourceFile, 'seats', r.proposedValue))]
+    .forEach((r) => addWalkerCorrection(r.sourceFile, 'seats', r.proposedValue))],
+  // Each seat's own date in the 1832-1880 general elections, as Walker prints it. The contest keeps
+  // the election's date (so the election stays whole); this only adds a note to the panel.
+  ['walker-constituency-dates-1832-1880.json', (doc) => (doc.records || [])
+    .filter((r) => r.status === 'applied')
+    .forEach((r) => addWalkerCorrection(r.sourceFile, 'dateNote', {
+      label: r.dateKind === 'return' ? 'Date of return' : r.contested ? 'Polling day' : 'Returned unopposed',
+      date: r.date,
+      page: r.page
+    }))],
+  // Party labels Walker prints differently from the import (Wikipedia's "Peelite" where he prints L or C).
+  ['walker-party-corrections.json', (doc) => (doc.records || [])
+    .filter((r) => r.status === 'applied' && r.field === 'party')
+    .forEach((r) => {
+      const key = r.sourceFile.replace(/\\/g, '/');
+      const held = walkerCorrectionIndex.get(key)?.party?.value || [];
+      addWalkerCorrection(r.sourceFile, 'party', [...held, { candidate: r.candidate, party: r.proposedValue }]);
+    })],
+  // 1832-1880 figures Walker prints differently, settled for him: electorates replace the held figure
+  // (listed last, so they win over the fill-if-empty electorates above); votes go on the named candidate.
+  ['walker-1832-1880-figure-corrections.json', (doc) => (doc.records || [])
+    .filter((r) => r.status === 'applied')
+    .forEach((r) => {
+      if (r.field === 'electorate') addWalkerCorrection(r.sourceFile, 'electorate', r.proposedValue);
+      if (r.field === 'votes') {
+        const held = walkerCorrectionIndex.get(r.sourceFile.replace(/\\/g, '/'))?.votes?.value || [];
+        addWalkerCorrection(r.sourceFile, 'votes', [...held, { candidate: r.candidate, votes: r.proposedValue }]);
+      }
+    })],
+  // 1818-1831 contests whose date is Walker's date of return, not the day polling began.
+  ['walker-1818-1831-return-dates.json', (doc) => (doc.records || [])
+    .filter((r) => r.status === 'applied')
+    .forEach((r) => addWalkerCorrection(r.sourceFile, 'pollDateKind', r.dateKind))]
 ]) {
   const full = path.join(WALKER_CORRECTIONS_DIR, file);
   if (existsSync(full)) read(readJson(full));
@@ -140,6 +173,21 @@ function applyWalkerCorrections(resultPath, rawResult) {
     }
   }
   if (record.cause && !(typeof rawResult.cause === 'string' && rawResult.cause.trim())) rawResult.cause = record.cause.value;
+  if (record.dateNote && !rawResult.pollDate) rawResult.dateNote = record.dateNote.value;
+  for (const { candidate, party } of record.party?.value || []) {
+    const rows = (rawResult.Constituency?.countGroup || []).filter((row) => fixCandidateName(row) === normalizeName(candidate));
+    if (!rows.length) throw new Error(`walker-party-corrections: ${slash(path.relative(ROOT, resultPath))} has no candidate "${candidate}"`);
+    for (const row of rows) row.Party_Name = party;
+  }
+  for (const { candidate, votes } of record.votes?.value || []) {
+    const rows = (rawResult.Constituency?.countGroup || []).filter((row) => fixCandidateName(row) === normalizeName(candidate));
+    if (!rows.length) throw new Error(`walker-1832-1880-figure-corrections: ${slash(path.relative(ROOT, resultPath))} has no candidate "${candidate}"`);
+    for (const row of rows) {
+      row.Total_Votes = String(votes);
+      if ('Candidate_First_Pref_Votes' in row) row.Candidate_First_Pref_Votes = String(votes);
+    }
+  }
+  if (record.pollDateKind && rawResult.pollDate && !rawResult.pollDateKind) rawResult.pollDateKind = record.pollDateKind.value;
   if (record.seats && info) {
     const seats = record.seats.value;
     info.Number_Of_Seats = String(seats);
@@ -182,12 +230,30 @@ function fixCandidateName(row) {
   return normalizeName(row?.candidateName || row?.name || `${row?.Firstname || ''} ${row?.Surname || ''}`);
 }
 
-function applySourceCheckedFixes(resultPath, rawResult) {
+// `lenient` is for the copy the national totals are built from when a Wikipedia count sidecar
+// has replaced a Dáil contest's rows: a fix written against the sidecar's spelling of a name may
+// not find the flat file's row, and the totals should then keep the row as it is, not fail.
+// The national party and candidate totals are built from each contest's flat rows. Where no
+// count sidecar replaced them, the source-checked fixes have already corrected those same rows
+// in place; where one did, the fixes landed on the sidecar's copy, so apply them to a copy of the
+// flat rows as well, or the totals keep figures the contest itself no longer shows.
+function rawForTotals(resultPath, officialRawResult, wikiEnrichedRawResult) {
+  if (!officialRawResult || wikiEnrichedRawResult === officialRawResult) return officialRawResult;
+  return applySourceCheckedFixes(resultPath, structuredClone(officialRawResult), { lenient: true });
+}
+
+function applySourceCheckedFixes(resultPath, rawResult, { lenient = false } = {}) {
   if (!resultPath || !rawResult) return rawResult;
   const record = sourceCheckedFixIndex.get(slash(path.relative(ROOT, resultPath)));
   if (!record) return rawResult;
   const rows = () => rawResult.Constituency?.countGroup || rawResult.candidates || [];
   for (const op of record.operations || []) {
+    // A totalsOnly op corrects the flat rows the national totals are built from, for a contest
+    // whose displayed rows come from a count sidecar that already carries the right figures.
+    if (op.totalsOnly && !lenient) continue;
+    // The totals' copy takes only fixes to a candidate's own row; structural ops (paths, added or
+    // replaced rows) are written against the displayed rows' shape and would misread the flat file.
+    if (lenient && !['candidate', 'candidateById', 'candidateCount'].includes(op.op)) continue;
     if (op.op === 'set') {
       const keys = String(op.path).split('.');
       let target = rawResult;
@@ -196,15 +262,18 @@ function applySourceCheckedFixes(resultPath, rawResult) {
     } else if (op.op === 'candidate') {
       const want = normalizeName(op.name);
       const matched = rows().filter((row) => fixCandidateName(row) === want);
+      if (!matched.length && lenient) continue;
       if (!matched.length) throw new Error(`source-checked-fixes: ${record.sourceFile} has no candidate "${op.name}"`);
       for (const row of matched) Object.assign(row, op.set);
     } else if (op.op === 'candidateCount') {
       const matched = rows().filter((row) => fixCandidateName(row) === normalizeName(op.name) && String(row.Count_Number) === String(op.count));
+      if (!matched.length && lenient) continue;
       if (!matched.length) throw new Error(`source-checked-fixes: ${record.sourceFile} has no count ${op.count} row for "${op.name}"`);
       for (const row of matched) Object.assign(row, op.set);
     } else if (op.op === 'candidateById') {
       // Rows the source left without a usable name ("Party") are told apart by their id.
       const matched = rows().filter((row) => String(row.Candidate_Id ?? row.candidateId ?? '') === String(op.candidateId));
+      if (!matched.length && lenient) continue;
       if (!matched.length) throw new Error(`source-checked-fixes: ${record.sourceFile} has no candidate id "${op.candidateId}"`);
       for (const row of matched) Object.assign(row, op.set);
     } else if (op.op === 'addCandidate') {
@@ -1414,7 +1483,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     const wikiEnrichedRawResult = enrichDailResultWithWikipediaCounts(entry, resultPath, officialRawResult, constituency);
     const enrichedRawResult = applyBallotDescriptions(resultPath, applySourceCheckedFixes(resultPath, applyWalkerCorrections(resultPath,
       repairShiftedUnopposedRows(applyNiLocalValidPollCorrection(key, constituency, wikiEnrichedRawResult)))));
-    if (officialRawResult) rawEntries.push({ constituency, raw: officialRawResult });
+    if (officialRawResult) rawEntries.push({ constituency, raw: rawForTotals(resultPath, officialRawResult, wikiEnrichedRawResult) });
     const result = ElectionDomain.summarizeResult(enrichedRawResult, constituency);
     // A cause supplied by an overlay (Wikipedia's by-election lists) counts as the file's own.
     const notes = contestNotes(rawResult ? {
@@ -1423,6 +1492,8 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
       electorateSource: rawResult.electorateSource || enrichedRawResult?.electorateSource,
       correctionNote: enrichedRawResult?.correctionNote,
       sourceNote: enrichedRawResult?.sourceNote,
+      dateNote: enrichedRawResult?.dateNote,
+      pollDateKind: rawResult.pollDateKind || enrichedRawResult?.pollDateKind,
       Constituency: rawResult.Constituency?.countInfo?.Total_Electorate ? rawResult.Constituency : (enrichedRawResult?.Constituency || rawResult.Constituency),
     } : rawResult);
     if (notes.length) result.contestNotes = notes;
@@ -1480,7 +1551,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
       const wikiEnrichedRawResult = enrichDailResultWithWikipediaCounts(entry, resultPath, officialRawResult, constituency);
       const enrichedRawResult = applyBallotDescriptions(resultPath, applySourceCheckedFixes(resultPath, applyWalkerCorrections(resultPath,
         repairShiftedUnopposedRows(applyNiLocalValidPollCorrection(key, constituency, wikiEnrichedRawResult)))));
-      rawEntries.push({ constituency, raw: officialRawResult });
+      rawEntries.push({ constituency, raw: rawForTotals(resultPath, officialRawResult, wikiEnrichedRawResult) });
       const result = ElectionDomain.summarizeResult(enrichedRawResult, constituency);
       applyLifespanEvidence(entry, result);
       attachOfficialPersonIds(key, result, constituency);
@@ -2377,7 +2448,10 @@ function contestNotes(raw) {
   };
   return [
     ['Cause', raw.cause],
-    ['Polling began', raw.pollDate ? day(raw.pollDate) : null],
+    // Walker's dates are dates of return from 1818 (before that, the day polling began).
+    [raw.pollDateKind === 'return' ? 'Date of return' : 'Polling began', raw.pollDate ? day(raw.pollDate) : null],
+    // A seat's own date in an 1832-1880 general election (Walker overlay): date of return, or polling day.
+    [raw.dateNote?.label || 'Date', raw.dateNote ? `${day(raw.dateNote.date)} (Walker, p. ${raw.dateNote.page})` : null],
     ['Note', raw.note && raw.note !== 'Returned unopposed.' ? raw.note : null],
     ['Electorate', raw.electorateNote
       || (raw.electorateSource && Number(raw.Constituency?.countInfo?.Total_Electorate)
