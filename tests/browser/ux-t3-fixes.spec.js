@@ -134,20 +134,20 @@ test('T3-08 · duplicate election column names are disambiguated for assistive t
   await page.evaluate(() => window.__civgraphTest2.restorePromise);
   await page.waitForSelector('#electionPaneContent th[data-leaf-col-idx]');
 
-  // The header text carries a sort glyph, so it reads "+/-<glyph>" rather than "+/-".
   const headers = await page.evaluate(() =>
     [...document.querySelectorAll('#electionPaneContent th[data-leaf-col-idx]')]
       .map((th) => ({ text: th.textContent.trim(), name: th.getAttribute('aria-label'), scope: th.getAttribute('scope') })));
 
-  // The visible text is still the compact "+/-" -- the two-row header disambiguates it
-  // for a sighted reader and the design is unchanged.
-  expect(headers.filter((h) => h.text.startsWith('+/-')).length).toBeGreaterThan(1);
-  // The ANNOUNCED name must be unique: four columns reading "+/-" told a screen-reader
-  // user nothing about which was seats and which was votes.
+  // The changes sit beneath their values now, so no column is a bare "+/-" any more; the
+  // visible leaves are still the compact "No." and "%", which repeat across groups.
+  expect(headers.filter((h) => h.text.startsWith('+/-')).length).toBe(0);
+  expect(headers.filter((h) => h.text.startsWith('No.')).length).toBeGreaterThan(1);
+  // The ANNOUNCED name must be unique: three columns reading "No." told a screen-reader
+  // user nothing about which was candidates, seats or votes.
   // Only the LEAF columns are group-qualified; # and Party are already unique and are
   // rendered by a different path, so assert on the ones this fix covers.
   const leaves = headers.filter((h) => h.name);
-  expect(leaves.length).toBeGreaterThanOrEqual(10);
+  expect(leaves.length).toBeGreaterThanOrEqual(5);
   expect(new Set(leaves.map((h) => h.name)).size).toBe(leaves.length);
   expect(leaves.every((h) => h.scope === 'col')).toBe(true);
 });

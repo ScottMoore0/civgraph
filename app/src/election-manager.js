@@ -1220,6 +1220,10 @@ export class Test2ElectionManager {
     const prevSpoiledPct = pct(prevTotalSpoiled, prevTotalElectorate);
     const prevDidNotVotePct = pct(prevDidNotVote, prevTotalElectorate);
     const constituencyCount = Number(options.constituencyCount ?? this.activeBundle?.matchedCount ?? results.length ?? 0);
+    // Totals change only against an election that has them: with none (a series' first
+    // election) the change is "no previous result", not the whole figure.
+    const hasPreviousTotals = prevRows.length > 0 || prevTotalValid > 0 || prevTotalElectorate > 0;
+    const change = (current, previous) => (hasPreviousTotals ? current - previous : null);
     return `
       <div class="election-summary election-summary--niwide">
         <div class="election-party-wrapper election-party-wrapper--pane-sticky">
@@ -1228,21 +1232,16 @@ export class Test2ElectionManager {
               <tr>
                 <th rowspan="2" data-leaf-col-idx="0">#</th>
                 <th rowspan="2" data-leaf-col-idx="1">Party</th>
-                <th colspan="2">Candidates</th>
-                <th colspan="4">Seats</th>
-                <th colspan="4">1st preferences</th>
+                <th colspan="1">Candidates</th>
+                <th colspan="2">Seats</th>
+                <th colspan="2">1st preferences</th>
               </tr>
               <tr>
-                ${this.renderMainParityLeafTh('No.', 2, 'Candidates')}
-                ${this.renderMainParityLeafTh('+/-', 3, 'Candidates change')}
-                ${this.renderMainParityLeafTh('No.', 4, 'Seats')}
-                ${this.renderMainParityLeafTh('+/-', 5, 'Seats change')}
-                ${this.renderMainParityLeafTh('%', 6, 'Seats percentage')}
-                ${this.renderMainParityLeafTh('+/-', 7, 'Seats percentage change')}
-                ${this.renderMainParityLeafTh('No.', 8, 'First preference votes')}
-                ${this.renderMainParityLeafTh('+/-', 9, 'First preference votes change')}
-                ${this.renderMainParityLeafTh('%', 10, 'First preference vote share')}
-                ${this.renderMainParityLeafTh('+/-', 11, 'First preference vote share change')}
+                ${this.renderMainParityLeafTh('No.', 2, 'Candidates, with change')}
+                ${this.renderMainParityLeafTh('No.', 3, 'Seats, with change')}
+                ${this.renderMainParityLeafTh('%', 4, 'Seats percentage, with change')}
+                ${this.renderMainParityLeafTh('No.', 5, 'First preference votes, with change')}
+                ${this.renderMainParityLeafTh('%', 6, 'First preference vote share, with change')}
               </tr>
             </thead>
             <tbody>
@@ -1255,24 +1254,19 @@ export class Test2ElectionManager {
                   <tr>
                     <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
                     <td${this.partyCellAttrs(this.mainPanePartyColour(row.party, row.colour))}>${this.renderElectionEntityButton('party', row.party, this.partyLabel(row.party), 'election-cell-wrap')}</td>
-                    <td class="election-num">${formatNumber(row.stood)}</td>
-                    <td class="election-num">${formatMainDelta(row.deltas?.stood)}</td>
-                    <td class="election-num">${formatNumber(row.seats)}</td>
-                    <td class="election-num">${formatMainDelta(row.deltas?.seats)}</td>
-                    <td class="election-num">${formatFixedPercent(seatPct)}</td>
-                    <td class="election-num">${formatMainPercentDelta(prevSeatPct === null ? null : seatPct - prevSeatPct)}</td>
-                    <td class="election-num">${formatNumber(row.votes)}</td>
-                    <td class="election-num">${formatMainDelta(row.deltas?.votes)}</td>
-                    <td class="election-num">${formatFixedPercent(votePct)}</td>
-                    <td class="election-num">${formatMainPercentDelta(prevVotePct === null ? row.deltas?.share : votePct - prevVotePct)}</td>
+                    <td class="election-num">${valueWithChange(formatNumber(row.stood), row.deltas?.stood)}</td>
+                    <td class="election-num">${valueWithChange(formatNumber(row.seats), row.deltas?.seats)}</td>
+                    <td class="election-num">${valueWithChange(formatFixedPercent(seatPct), prevSeatPct === null ? null : seatPct - prevSeatPct, 'percent')}</td>
+                    <td class="election-num">${valueWithChange(formatNumber(row.votes), row.deltas?.votes)}</td>
+                    <td class="election-num">${valueWithChange(formatFixedPercent(votePct), prevVotePct === null ? (row.deltas?.share ?? null) : votePct - prevVotePct, 'percent')}</td>
                   </tr>
                 `;
               }).join('')}
-              ${this.renderMainParitySummaryRow('Valid votes', constituencyCount, totalSeats, '100.00%', 0, totalValid, totalValid - prevTotalValid, validPct, validPct - prevValidPct)}
-              ${this.renderMainParitySummaryRow('Turnout', null, null, null, null, totalPoll, totalPoll - prevTotalPoll, turnoutPct, turnoutPct - prevTurnoutPct)}
-              ${this.renderMainParitySummaryRow('Spoiled', null, null, null, null, totalSpoiled, totalSpoiled - prevTotalSpoiled, spoiledPct, spoiledPct - prevSpoiledPct)}
-              ${this.renderMainParitySummaryRow('Did not vote', null, null, null, null, didNotVote, didNotVote - prevDidNotVote, didNotVotePct, didNotVotePct - prevDidNotVotePct)}
-              ${this.renderMainParitySummaryRow('Electorate', null, null, null, null, totalElectorate, totalElectorate - prevTotalElectorate, 100, 0)}
+              ${this.renderMainParitySummaryRow('Valid votes', constituencyCount, totalSeats, '100.00%', false, totalValid, change(totalValid, prevTotalValid), validPct, change(validPct, prevValidPct))}
+              ${this.renderMainParitySummaryRow('Turnout', null, null, null, false, totalPoll, change(totalPoll, prevTotalPoll), turnoutPct, change(turnoutPct, prevTurnoutPct))}
+              ${this.renderMainParitySummaryRow('Spoiled', null, null, null, false, totalSpoiled, change(totalSpoiled, prevTotalSpoiled), spoiledPct, change(spoiledPct, prevSpoiledPct))}
+              ${this.renderMainParitySummaryRow('Did not vote', null, null, null, false, didNotVote, change(didNotVote, prevDidNotVote), didNotVotePct, change(didNotVotePct, prevDidNotVotePct))}
+              ${this.renderMainParitySummaryRow('Electorate', null, null, null, false, totalElectorate, change(totalElectorate, prevTotalElectorate), 100, false)}
             </tbody>
           </table>
         </div>
@@ -1512,16 +1506,14 @@ export class Test2ElectionManager {
               <th rowspan="2" data-leaf-col-idx="0">#</th>
               <th rowspan="2" data-leaf-col-idx="1">Candidate</th>
               <th rowspan="2" data-leaf-col-idx="2">Party</th>
-              <th colspan="4">1st preferences</th>
+              <th colspan="2">1st preferences</th>
               <th colspan="2">Final count</th>
             </tr>
             <tr>
-              ${this.renderMainParityLeafTh('No.', 3, 'First preference votes')}
-              ${this.renderMainParityLeafTh('+/-', 4, 'First preference votes change')}
-              ${this.renderMainParityLeafTh('%', 5, 'First preference vote share')}
-              ${this.renderMainParityLeafTh('+/-', 6, 'First preference vote share change')}
-              ${this.renderMainParityLeafTh('No.', 7, 'Final count votes')}
-              ${this.renderMainParityLeafTh('Status', 8, 'Final count status')}
+              ${this.renderMainParityLeafTh('No.', 3, 'First preference votes, with change')}
+              ${this.renderMainParityLeafTh('%', 4, 'First preference vote share, with change')}
+              ${this.renderMainParityLeafTh('No.', 5, 'Final count votes')}
+              ${this.renderMainParityLeafTh('Status', 6, 'Final count status')}
             </tr>
           </thead>
           <tbody>
@@ -1535,10 +1527,8 @@ export class Test2ElectionManager {
                   <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
                   <td>${this.renderElectionEntityButton('candidate', `${candidate.name || candidate.candidate || candidate.id || ''}|${candidate.party || ''}`, candidate.name || candidate.candidate || '', 'election-cell-wrap')}</td>
                   <td${this.partyCellAttrs(this.mainPanePartyColour(candidate.party, candidate.colour))}>${this.renderElectionEntityButton('party', candidate.party, this.partyLabel(candidate.party), 'election-cell-wrap')}${this.ballotDescriptionHtml(candidate)}</td>
-                  <td class="election-num">${formatNumber(firstPrefs)}</td>
-                  <td class="election-num">${candidateDelta.deltas ? formatMainDelta(candidateDelta.deltas.firstPrefs) : formatNotApplicable()}</td>
-                  <td class="election-num">${firstPrefPct === null ? '' : formatFixedPercent(firstPrefPct)}</td>
-                  <td class="election-num">${candidateDelta.deltas?.firstPrefPct !== null && candidateDelta.deltas?.firstPrefPct !== undefined ? formatMainPercentDelta(candidateDelta.deltas.firstPrefPct) : formatNotApplicable()}</td>
+                  <td class="election-num">${valueWithChange(formatNumber(firstPrefs), candidateDelta.deltas?.firstPrefs ?? null)}</td>
+                  <td class="election-num">${firstPrefPct === null ? '' : valueWithChange(formatFixedPercent(firstPrefPct), candidateDelta.deltas?.firstPrefPct ?? null, 'percent')}</td>
                   <td class="election-num">${formatNumber(finalVotes)}</td>
                   <td>${candidate.elected ? 'Elected' : escapeHtml(candidate.status || '')}</td>
                 </tr>
@@ -1574,7 +1564,8 @@ export class Test2ElectionManager {
       const candidateVoteDelta = candidateDelta.deltas?.firstPrefs ?? null;
       const candidatePctDelta = candidateDelta.deltas?.firstPrefPct ?? null;
       const currentParty = currentPartyByParty.get(normalizeName(candidate.party));
-      const previousParty = previousPartyByParty.get(normalizeName(candidate.party)) || (hasPreviousElection ? { firstPrefs: 0, pct: 0 } : null);
+      // A party that did not stand here last time has no previous result, so no change.
+      const previousParty = hasPreviousElection ? previousPartyByParty.get(normalizeName(candidate.party)) || null : null;
       const partyVoteDelta = currentParty && previousParty ? numberOrZero(currentParty.firstPrefs) - numberOrZero(previousParty.firstPrefs) : null;
       const partyPctDelta = currentParty && previousParty && currentParty.pct !== null && currentParty.pct !== undefined && previousParty.pct !== null && previousParty.pct !== undefined
         ? numberOrZero(currentParty.pct) - numberOrZero(previousParty.pct)
@@ -1605,16 +1596,12 @@ export class Test2ElectionManager {
                 <th rowspan="2" data-leaf-col-idx="0">#</th>
                 <th rowspan="2" data-leaf-col-idx="1">Candidate</th>
                 <th rowspan="2" data-leaf-col-idx="2">Party</th>
-                <th colspan="6">Votes</th>
-                ${isWestminster ? '<th rowspan="2" class="election-col-elected" data-leaf-col-idx="9">Elected</th>' : '<th rowspan="2" data-leaf-col-idx="9">Result</th>'}
+                <th colspan="2">Votes</th>
+                ${isWestminster ? '<th rowspan="2" class="election-col-elected" data-leaf-col-idx="5">Elected</th>' : '<th rowspan="2" data-leaf-col-idx="5">Result</th>'}
               </tr>
               <tr>
-                ${this.renderMainParityLeafTh('No.', 3, 'Votes')}
-                ${this.renderMainParityLeafTh('Party +/-', 4, 'Votes, party change')}
-                ${this.renderMainParityLeafTh('Candidate +/-', 5, 'Votes, candidate change')}
-                ${this.renderMainParityLeafTh('%', 6, 'Vote share')}
-                ${this.renderMainParityLeafTh('Party +/- %', 7, 'Vote share, party change')}
-                ${this.renderMainParityLeafTh('Candidate +/- %', 8, 'Vote share, candidate change')}
+                ${this.renderMainParityLeafTh('No.', 3, 'Votes, with party and candidate change')}
+                ${this.renderMainParityLeafTh('%', 4, 'Vote share, with party and candidate change')}
               </tr>
             </thead>
             <tbody>
@@ -1625,12 +1612,8 @@ export class Test2ElectionManager {
                     <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
                     <td>${this.renderElectionEntityButton('candidate', `${row.name || candidate.id || ''}|${row.party || ''}`, escapeHtml(row.name), 'election-cell-wrap')}</td>
                     <td${this.partyCellAttrs(row.colour)}>${this.renderElectionEntityButton('party', row.party, this.partyLabel(row.party), 'election-cell-wrap')}</td>
-                    <td class="election-num">${unopposed ? 'Unopposed' : formatNumber(votes)}</td>
-                    <td class="election-num">${unopposed || partyVoteDelta === null || partyVoteDelta === undefined ? formatNotApplicable() : formatMainDelta(partyVoteDelta)}</td>
-                    <td class="election-num">${unopposed || candidateVoteDelta === null || candidateVoteDelta === undefined ? formatNotApplicable() : formatMainDelta(candidateVoteDelta)}</td>
-                    <td class="election-num">${unopposed || votePct === null ? '' : formatFixedPercent(votePct)}</td>
-                    <td class="election-num">${unopposed || partyPctDelta === null || partyPctDelta === undefined ? formatNotApplicable() : formatMainPercentDelta(partyPctDelta)}</td>
-                    <td class="election-num">${unopposed || candidatePctDelta === null || candidatePctDelta === undefined ? formatNotApplicable() : formatMainPercentDelta(candidatePctDelta)}</td>
+                    <td class="election-num">${unopposed ? 'Unopposed' : this.valueWithPartyAndCandidateChange(formatNumber(votes), partyVoteDelta, candidateVoteDelta, 'count')}</td>
+                    <td class="election-num">${unopposed || votePct === null ? '' : this.valueWithPartyAndCandidateChange(formatFixedPercent(votePct), partyPctDelta, candidatePctDelta, 'percent')}</td>
                     ${isWestminster ? `<td class="election-col-elected">${this.electedMark(statusKind === 'elected')}</td>` : `<td>${escapeHtml(statusText)}</td>`}
                   </tr>
                 `;
@@ -1641,6 +1624,25 @@ export class Test2ElectionManager {
         ${this.renderSingleSeatFptpVoteGraphic(rows, validPoll)}
       </div>
     `;
+  }
+
+  /**
+   * A single-seat FPTP vote cell: the value, then the party's change and the candidate's own
+   * change beneath it, each labelled, since both are small signed figures. A missing change is
+   * "no previous result" (an en dash), as in valueWithChange.
+   */
+  valueWithPartyAndCandidateChange(valueHtml, partyChange, candidateChange, kind = 'count') {
+    const line = (label, change) => {
+      const known = change !== null && change !== undefined && Number.isFinite(Number(change));
+      return `<span class="election-cell-change election-cell-change--labelled">`
+        + `<span class="election-cell-change__label">${label}<span class="visually-hidden"> change</span></span> `
+        + (known
+          ? formatChange(change, kind)
+          : '<span class="visually-hidden">no previous result</span><span class="election-delta election-delta--none" aria-hidden="true">\u2013</span>')
+        + '</span>';
+    };
+    return `<span class="election-cell-stack"><span class="election-cell-value">${valueHtml}</span>`
+      + `${line('Party', partyChange)}${line('Cand.', candidateChange)}</span>`;
   }
 
   renderSingleSeatFptpVoteGraphic(rows = [], validPoll = 0) {
@@ -1685,14 +1687,17 @@ export class Test2ElectionManager {
     const previousResult = this.findPreviousSelectedResult(result);
     const previous = this.buildMainStyleConstituencyPartyRows(previousResult, previousResult?.candidates || []);
     const previousByParty = new Map(previous.rows.map((row) => [normalizeName(row.party), row]));
+    // No previous contest for this area (a series' first election), or a party that did not
+    // stand in it: the changes are null -- shown as an en dash -- not the whole figure again.
+    // A party that stood and won nothing keeps its real zero, so its gain still reads +N.
     const rows = current.rows.map((row) => {
-      const previousRow = previousByParty.get(normalizeName(row.party)) || { stood: 0, seats: 0, firstPrefs: 0, pct: 0 };
+      const previousRow = previousResult ? previousByParty.get(normalizeName(row.party)) || null : null;
       return {
         ...row,
-        stoodDelta: row.stood - numberOrZero(previousRow.stood),
-        electedDelta: row.seats - numberOrZero(previousRow.seats),
-        firstPrefsDelta: row.firstPrefs - numberOrZero(previousRow.firstPrefs),
-        pctDelta: row.pct - numberOrZero(previousRow.pct)
+        stoodDelta: previousRow ? row.stood - numberOrZero(previousRow.stood) : null,
+        electedDelta: previousRow ? row.seats - numberOrZero(previousRow.seats) : null,
+        firstPrefsDelta: previousRow ? row.firstPrefs - numberOrZero(previousRow.firstPrefs) : null,
+        pctDelta: previousRow ? row.pct - numberOrZero(previousRow.pct) : null
       };
     }).sort((a, b) => {
       if (numberOrZero(b.seats) !== numberOrZero(a.seats)) return numberOrZero(b.seats) - numberOrZero(a.seats);
@@ -1701,7 +1706,7 @@ export class Test2ElectionManager {
     });
     const maxSeats = Math.max(0, ...rows.map((row) => numberOrZero(row.seats)));
     const maxFirstPrefs = Math.max(0, ...rows.map((row) => numberOrZero(row.firstPrefs)));
-    const knownDelta = (currentValue, previousValue) => currentValue !== null && previousValue !== null ? currentValue - previousValue : null;
+    const knownDelta = (currentValue, previousValue) => previousResult && currentValue !== null && previousValue !== null ? currentValue - previousValue : null;
     const validDelta = knownDelta(current.validPoll, previous.validPoll);
     const turnoutDelta = knownDelta(current.totalPoll, previous.totalPoll);
     const spoiledDelta = knownDelta(current.spoiled, previous.spoiled);
@@ -1716,14 +1721,10 @@ export class Test2ElectionManager {
               <th data-sort-key="rank">#</th>
               <th class="election-colour-col"></th>
               <th data-sort-key="party">Party</th>
-              <th class="election-num" data-sort-key="stood">Stood</th>
-              <th class="election-num" data-sort-key="stoodDelta">+/-</th>
-              <th class="election-num" data-sort-key="elected">Elected</th>
-              <th class="election-num" data-sort-key="electedDelta">+/-</th>
-              <th class="election-num" data-sort-key="firstPrefs">1st prefs</th>
-              <th class="election-num" data-sort-key="firstPrefsDelta">+/-</th>
-              <th class="election-num" data-sort-key="firstPrefsPct">1st prefs %</th>
-              <th class="election-num" data-sort-key="firstPrefsPctDelta">+/-</th>
+              <th class="election-num" data-sort-key="stood" aria-label="Stood, with change">Stood</th>
+              <th class="election-num" data-sort-key="elected" aria-label="Elected, with change">Elected</th>
+              <th class="election-num" data-sort-key="firstPrefs" aria-label="1st prefs, with change">1st prefs</th>
+              <th class="election-num" data-sort-key="firstPrefsPct" aria-label="1st prefs %, with change">1st prefs %</th>
             </tr>
           </thead>
           <tbody>
@@ -1735,33 +1736,29 @@ export class Test2ElectionManager {
                   data-rank="${index + 1}"
                   data-party="${escapeHtml(row.party)}"
                   data-stood="${row.stood}"
-                  data-stooddelta="${row.stoodDelta}"
+                  data-stooddelta="${row.stoodDelta ?? ''}"
                   data-elected="${row.seats}"
-                  data-electeddelta="${row.electedDelta}"
+                  data-electeddelta="${row.electedDelta ?? ''}"
                   data-firstprefs="${row.firstPrefs}"
-                  data-firstprefsdelta="${row.firstPrefsDelta}"
+                  data-firstprefsdelta="${row.firstPrefsDelta ?? ''}"
                   data-firstprefspct="${row.pct}"
-                  data-firstprefspctdelta="${row.pctDelta}">
+                  data-firstprefspctdelta="${row.pctDelta ?? ''}">
                   <td class="election-rank-col${isSeatWinner ? ' election-party-emphasis' : ''}">${escapeHtml(rankLabel(index))}</td>
                   <td class="election-colour-col"${this.colourTabStyle(this.mainPanePartyColour(row.party, row.colour))}></td>
                   <td class="${isSeatWinner ? ' election-party-emphasis' : ''}">${this.renderElectionEntityButton('party', row.party, this.partyLabel(row.party), 'election-cell-wrap')}</td>
-                  <td class="election-num">${formatNumber(row.stood)}</td>
-                  <td class="election-num">${formatMainDelta(row.stoodDelta)}</td>
-                  <td class="election-num${isSeatWinner ? ' election-party-emphasis' : ''}">${formatNumber(row.seats)}</td>
-                  <td class="election-num">${formatMainDelta(row.electedDelta)}</td>
-                  <td class="election-num${isFirstPrefWinner ? ' election-party-emphasis' : ''}">${formatNumber(row.firstPrefs)}</td>
-                  <td class="election-num">${formatMainDelta(row.firstPrefsDelta)}</td>
-                  <td class="election-num${isFirstPrefWinner ? ' election-party-emphasis' : ''}">${formatFixedPercent(row.pct)}</td>
-                  <td class="election-num">${formatMainSelectedPercentDelta(row.pctDelta)}</td>
+                  <td class="election-num">${valueWithChange(formatNumber(row.stood), row.stoodDelta)}</td>
+                  <td class="election-num${isSeatWinner ? ' election-party-emphasis' : ''}">${valueWithChange(formatNumber(row.seats), row.electedDelta)}</td>
+                  <td class="election-num${isFirstPrefWinner ? ' election-party-emphasis' : ''}">${valueWithChange(formatNumber(row.firstPrefs), row.firstPrefsDelta)}</td>
+                  <td class="election-num${isFirstPrefWinner ? ' election-party-emphasis' : ''}">${valueWithChange(formatFixedPercent(row.pct), row.pctDelta, 'points')}</td>
                 </tr>
               `;
             }).join('')}
-            <tr class="election-table-note-row"><td class="election-rank-col">-</td><td></td><td colspan="9"><strong>No change in party control</strong></td></tr>
+            ${previousResult ? '<tr class="election-table-note-row"><td class="election-rank-col">-</td><td></td><td colspan="5"><strong>No change in party control</strong></td></tr>' : ''}
             ${this.renderSelectedPartySummaryRow('Valid votes', current.totalStood, current.totalElected, current.validPoll, validDelta, current.validPct, knownDelta(current.validPct, previous.validPct))}
             ${shouldRenderSummary(current.totalPoll, previous.totalPoll) ? this.renderSelectedPartySummaryRow('Turnout', null, null, current.totalPoll, turnoutDelta, current.turnoutPct, knownDelta(current.turnoutPct, previous.turnoutPct)) : ''}
             ${shouldRenderSummary(current.spoiled, previous.spoiled) ? this.renderSelectedPartySummaryRow('Spoiled', null, null, current.spoiled, spoiledDelta, current.spoiledPct, knownDelta(current.spoiledPct, previous.spoiledPct)) : ''}
             ${shouldRenderSummary(current.didNotVote, previous.didNotVote) ? this.renderSelectedPartySummaryRow('Did not vote', null, null, current.didNotVote, didNotVoteDelta, current.didNotVotePct, knownDelta(current.didNotVotePct, previous.didNotVotePct)) : ''}
-            ${shouldRenderSummary(current.electorate, previous.electorate) ? this.renderSelectedPartySummaryRow('Electorate', null, null, current.electorate, electorateDelta, 100, 0) : ''}
+            ${shouldRenderSummary(current.electorate, previous.electorate) ? this.renderSelectedPartySummaryRow('Electorate', null, null, current.electorate, electorateDelta, 100, false) : ''}
           </tbody>
         </table>
       </div>
@@ -1871,10 +1868,15 @@ export class Test2ElectionManager {
     return (this.previousBundle?.results || []).find((candidate) => resultKeys(candidate).some((key) => keys.has(key))) || null;
   }
 
+  // A summary line of renderConstituencyPartyTable. voteDelta and pctDelta follow
+  // valueWithChange: a number, null for "no previous result", or false for nothing to compare.
   renderSelectedPartySummaryRow(label, stoodValue, electedValue, voteValue, voteDelta, pctValue, pctDelta) {
-    const hasVoteDelta = voteDelta !== null && voteDelta !== undefined;
-    const hasPctDelta = pctDelta !== null && pctDelta !== undefined && Number.isFinite(Number(pctDelta));
-    return `<tr class="election-table-summary-row"><td class="election-rank-col">-</td><td></td><td><strong>${escapeHtml(label)}</strong></td><td class="election-num">${stoodValue === null || stoodValue === undefined ? '-' : formatNumber(stoodValue)}</td><td class="election-num">${stoodValue === null || stoodValue === undefined ? '-' : formatMainDelta(0)}</td><td class="election-num">${electedValue === null || electedValue === undefined ? '-' : formatNumber(electedValue)}</td><td class="election-num">${electedValue === null || electedValue === undefined ? '-' : formatMainDelta(0)}</td><td class="election-num election-cell-strong">${voteValue ? formatNumber(voteValue) : '-'}</td><td class="election-num">${hasVoteDelta ? formatMainDelta(voteDelta) : '-'}</td><td class="election-num election-cell-strong">${Number.isFinite(Number(pctValue)) ? formatFixedPercent(pctValue) : '-'}</td><td class="election-num">${hasPctDelta ? formatMainSelectedPercentDelta(pctDelta) : '-'}</td></tr>`;
+    const present = (value) => value !== null && value !== undefined;
+    return `<tr class="election-table-summary-row"><td class="election-rank-col">-</td><td></td><td><strong>${escapeHtml(label)}</strong></td>`
+      + `<td class="election-num">${present(stoodValue) ? formatNumber(stoodValue) : '-'}</td>`
+      + `<td class="election-num">${present(electedValue) ? formatNumber(electedValue) : '-'}</td>`
+      + `<td class="election-num election-cell-strong">${voteValue ? valueWithChange(formatNumber(voteValue), voteDelta) : '-'}</td>`
+      + `<td class="election-num election-cell-strong">${Number.isFinite(Number(pctValue)) ? valueWithChange(formatFixedPercent(pctValue), pctDelta, 'points') : '-'}</td></tr>`;
   }
 
   // The party tables use a two-row header: group cells (Candidates / Seats / 1st
@@ -2025,9 +2027,12 @@ export class Test2ElectionManager {
       if (count) return Number(count[1]);
       return null;
     };
+    // A cell may carry its change beneath its value (valueWithChange); sorting and filtering
+    // read the value alone.
     const getCellText = (row, colIdx) => {
       const cell = row.children[colIdx];
-      return cell ? cell.textContent.trim() : '';
+      if (!cell) return '';
+      return (cell.querySelector('.election-cell-value') || cell).textContent.trim();
     };
     const headerColumnIndex = (th, fallbackIdx) => {
       const mapped = Number(th?.dataset?.leafColIdx);
@@ -2393,8 +2398,16 @@ export class Test2ElectionManager {
     applyState();
   }
 
+  // Summary lines for renderMainParityPartyTable. Each change follows valueWithChange: a number,
+  // null for "no previous result", or false for a line with nothing to compare.
   renderMainParitySummaryRow(label, candidateValue, seatValue, seatPct, seatPctDelta, voteValue, voteDelta, pctValue, pctDelta) {
-    return `<tr class="election-table-summary-row"><td class="election-rank-col">-</td><td><strong>${escapeHtml(label)}</strong></td><td class="election-num">${candidateValue === null || candidateValue === undefined ? '-' : formatNumber(candidateValue)}</td><td class="election-num">-</td><td class="election-num">${seatValue === null || seatValue === undefined ? '-' : formatNumber(seatValue)}</td><td class="election-num">-</td><td class="election-num election-cell-strong">${seatPct || '-'}</td><td class="election-num">${seatPctDelta === null || seatPctDelta === undefined ? '-' : formatMainPercentDelta(seatPctDelta)}</td><td class="election-num election-cell-strong">${voteValue ? formatNumber(voteValue) : '-'}</td><td class="election-num">${voteDelta === null || voteDelta === undefined ? '-' : formatMainDelta(voteDelta)}</td><td class="election-num election-cell-strong">${Number.isFinite(Number(pctValue)) ? formatFixedPercent(pctValue) : '-'}</td><td class="election-num">${pctDelta === null || pctDelta === undefined ? '-' : formatMainPercentDelta(pctDelta)}</td></tr>`;
+    const present = (value) => value !== null && value !== undefined;
+    return `<tr class="election-table-summary-row"><td class="election-rank-col">-</td><td><strong>${escapeHtml(label)}</strong></td>`
+      + `<td class="election-num">${present(candidateValue) ? formatNumber(candidateValue) : '-'}</td>`
+      + `<td class="election-num">${present(seatValue) ? formatNumber(seatValue) : '-'}</td>`
+      + `<td class="election-num election-cell-strong">${seatPct ? valueWithChange(seatPct, seatPctDelta, 'percent') : '-'}</td>`
+      + `<td class="election-num election-cell-strong">${voteValue ? valueWithChange(formatNumber(voteValue), voteDelta) : '-'}</td>`
+      + `<td class="election-num election-cell-strong">${Number.isFinite(Number(pctValue)) ? valueWithChange(formatFixedPercent(pctValue), pctDelta, 'percent') : '-'}</td></tr>`;
   }
 
   renderMapDisplayControls() {
@@ -2764,12 +2777,13 @@ export class Test2ElectionManager {
       : options.mainLike && this.previousBundle?.mainLikePartySummary?.length
       ? this.previousBundle.mainLikePartySummary
       : (this.previousBundle?.results?.length ? buildPartySummary(this.previousBundle.results) : []);
+    // A party absent from the previous election -- or every party, when there is no previous
+    // election -- has no previous result: its changes are null ("no previous result", shown as
+    // an en dash), not a change equal to its whole figure. A party that DID stand and won
+    // nothing keeps its real zero, so a gain from it still reads +N.
     const previousByParty = new Map(previousRows.map((row) => [normalizeName(row.party), row]));
-    const hasPreviousElection = previousRows.length > 0;
     return rows.map((row) => {
-      const previous = previousByParty.get(normalizeName(row.party)) || (hasPreviousElection
-        ? { stood: 0, seats: 0, votes: 0, share: 0 }
-        : null);
+      const previous = previousByParty.get(normalizeName(row.party)) || null;
       return {
         ...row,
         previous,
@@ -2916,11 +2930,9 @@ export class Test2ElectionManager {
       `${normalizeName(row.party)}|${normalizeName(row.constituency)}`,
       row
     ]));
-    const hasPreviousElection = previousRows.length > 0;
+    // As withPartyDeltas: a party that did not contest this area last time has no change.
     return rows.map((row) => {
-      const previous = previousByPartyAndArea.get(`${normalizeName(row.party)}|${normalizeName(row.constituency)}`) || (hasPreviousElection
-        ? { stood: 0, seats: 0, seatShare: 0, firstPrefs: 0, share: 0 }
-        : null);
+      const previous = previousByPartyAndArea.get(`${normalizeName(row.party)}|${normalizeName(row.constituency)}`) || null;
       return {
         ...row,
         previous,
@@ -3104,17 +3116,14 @@ export class Test2ElectionManager {
               <th rowspan="2" data-leaf-col-idx="1">Council</th>
               <th rowspan="2" data-leaf-col-idx="2">DEAs</th>
               <th rowspan="2" data-leaf-col-idx="3">Leading party</th>
-              <th colspan="2">Seats</th>
-              <th colspan="2">Valid votes</th>
-              <th colspan="2">Turnout</th>
+              <th colspan="1">Seats</th>
+              <th colspan="1">Valid votes</th>
+              <th colspan="1">Turnout</th>
             </tr>
             <tr>
-              ${this.renderMainParityLeafTh('No.', 4, 'Seats')}
-              ${this.renderMainParityLeafTh('+/-', 5, 'Seats change')}
-              ${this.renderMainParityLeafTh('No.', 6, 'Valid votes')}
-              ${this.renderMainParityLeafTh('+/-', 7, 'Valid votes change')}
-              ${this.renderMainParityLeafTh('%', 8, 'Turnout percentage')}
-              ${this.renderMainParityLeafTh('+/-', 9, 'Turnout change')}
+              ${this.renderMainParityLeafTh('No.', 4, 'Seats, with change')}
+              ${this.renderMainParityLeafTh('No.', 5, 'Valid votes, with change')}
+              ${this.renderMainParityLeafTh('%', 6, 'Turnout percentage, with change')}
             </tr>
           </thead>
           <tbody>
@@ -3124,12 +3133,9 @@ export class Test2ElectionManager {
                 <td><button type="button" class="election-entity-link election-cell-wrap" data-election-result-key="${escapeHtml(normalizeName(row.council))}">${escapeHtml(row.council)}</button></td>
                 <td class="election-num">${formatNumber(row.deas)}</td>
                 <td${this.partyCellAttrs(this.mainPanePartyColour(row.leadingParty, row.colour))}>${this.renderElectionEntityButton('party', row.leadingParty, this.partyLabel(row.leadingParty || ''), 'election-cell-wrap')}</td>
-                <td class="election-num">${formatNumber(row.seats)}</td>
-                <td class="election-num">${row.deltas ? formatMainDelta(row.deltas.seats) : ''}</td>
-                <td class="election-num">${formatNumber(row.validPoll)}</td>
-                <td class="election-num">${row.deltas ? formatMainDelta(row.deltas.validPoll) : ''}</td>
-                <td class="election-num">${formatPercent(row.turnoutPct)}</td>
-                <td class="election-num">${row.deltas?.turnoutPct !== null && row.deltas?.turnoutPct !== undefined ? formatMainPercentDelta(row.deltas.turnoutPct) : ''}</td>
+                <td class="election-num">${valueWithChange(formatNumber(row.seats), row.deltas?.seats ?? null)}</td>
+                <td class="election-num">${valueWithChange(formatNumber(row.validPoll), row.deltas?.validPoll ?? null)}</td>
+                <td class="election-num">${valueWithChange(formatPercent(row.turnoutPct), row.deltas?.turnoutPct ?? null, 'percent')}</td>
               </tr>
             `).join('')}
           </tbody>
@@ -3227,7 +3233,7 @@ export class Test2ElectionManager {
     });
     const geographyHeaders = isLocal
       ? '<th colspan="2">Geography</th>'
-      : '<th rowspan="3" data-leaf-col-idx="3">Constituency</th>';
+      : '<th rowspan="2" data-leaf-col-idx="3">Constituency</th>';
     // Westminster: one "Elected" column (tick or cross) replaces Status > Outcome / Count.
     const leafStart = isLocal ? 7 : (isWestminster ? 5 : 6);
     return `
@@ -3235,29 +3241,21 @@ export class Test2ElectionManager {
         <table class="election-count-table election-count-table--grouped election-count-table--candidate-sticky3 election-results-table--fixed${isLocal ? ' election-results-table--local' : ' election-results-table--nonlocal'}">
           <thead>
             <tr>
-              <th rowspan="3" data-leaf-col-idx="0">#</th>
-              <th rowspan="3" data-leaf-col-idx="1">Name</th>
-              <th rowspan="3" data-leaf-col-idx="2">Party</th>
+              <th rowspan="2" data-leaf-col-idx="0">#</th>
+              <th rowspan="2" data-leaf-col-idx="1">Name</th>
+              <th rowspan="2" data-leaf-col-idx="2">Party</th>
               ${geographyHeaders}
-              ${isWestminster ? '<th rowspan="3" class="election-col-elected" data-leaf-col-idx="4">Elected</th>' : '<th colspan="2">Status</th>'}
-              <th colspan="4">1st preferences</th>
-              <th colspan="2">${escapeHtml(widePercentLabel)}</th>
+              ${isWestminster ? '<th rowspan="2" class="election-col-elected" data-leaf-col-idx="4">Elected</th>' : '<th colspan="2">Status</th>'}
+              <th colspan="2">1st preferences</th>
+              <th colspan="1">${escapeHtml(widePercentLabel)}</th>
             </tr>
             <tr>
-              ${isLocal ? `<th rowspan="2" data-leaf-col-idx="3">District</th><th rowspan="2" data-leaf-col-idx="4">DEA</th>` : ''}
-              ${isWestminster ? '' : `<th rowspan="2" data-leaf-col-idx="${isLocal ? 5 : 4}">Outcome</th>
-              <th rowspan="2" class="election-num election-col-status-count" data-leaf-col-idx="${isLocal ? 6 : 5}">Count</th>`}
-              <th colspan="2">No.</th>
-              <th colspan="2">%</th>
-              <th colspan="2">%</th>
-            </tr>
-            <tr>
-              ${this.renderMainParityLeafTh('No.', leafStart)}
-              ${this.renderMainParityLeafTh('+/-', leafStart + 1)}
-              ${this.renderMainParityLeafTh('%', leafStart + 2)}
-              ${this.renderMainParityLeafTh('+/-', leafStart + 3)}
-              ${this.renderMainParityLeafTh('%', leafStart + 4)}
-              ${this.renderMainParityLeafTh('+/-', leafStart + 5)}
+              ${isLocal ? `<th data-leaf-col-idx="3">District</th><th data-leaf-col-idx="4">DEA</th>` : ''}
+              ${isWestminster ? '' : `<th data-leaf-col-idx="${isLocal ? 5 : 4}">Outcome</th>
+              <th class="election-num election-col-status-count" data-leaf-col-idx="${isLocal ? 6 : 5}">Count</th>`}
+              ${this.renderMainParityLeafTh('No.', leafStart, 'First preference votes, with change')}
+              ${this.renderMainParityLeafTh('%', leafStart + 1, 'First preference vote share, with change')}
+              ${this.renderMainParityLeafTh('%', leafStart + 2, `${widePercentLabel}, with change`)}
             </tr>
           </thead>
           <tbody>
@@ -3282,12 +3280,9 @@ export class Test2ElectionManager {
                   <td><button type="button" class="election-entity-link election-cell-wrap" data-election-result-key="${escapeHtml(normalizeName(candidate.constituency || ''))}">${escapeHtml(candidate.constituency || '')}</button></td>
                   ${isWestminster ? `<td class="election-col-elected">${this.electedMark(candidate.elected)}</td>` : `<td><span class="election-cell-wrap">${status === 'Elected' ? '<strong>Elected</strong>' : escapeHtml(status)}</span></td>
                   <td class="election-num election-col-status-count"><span class="election-cell-wrap">${escapeHtml(countValue)}</span></td>`}
-                  <td class="election-num election-cell-strong election-col-votes">${formatNumber(firstPrefs)}</td>
-                  <td class="election-num election-col-delta-votes">${candidate.deltas ? formatMainDelta(candidate.deltas.firstPrefs) : formatNotApplicable()}</td>
-                  <td class="election-num election-col-pct-main">${formatFixedPercent(candidate.firstPrefPct)}</td>
-                  <td class="election-num election-col-pct-delta-main">${candidate.deltas?.firstPrefPct !== null && candidate.deltas?.firstPrefPct !== undefined ? formatMainPercentDelta(candidate.deltas.firstPrefPct) : formatNotApplicable()}</td>
-                  <td class="election-num election-col-pct-small">${formatFixedPercent(niPct)}</td>
-                  <td class="election-num election-col-pct-delta-small">${niPctDelta !== null && niPctDelta !== undefined ? formatMainPercentDelta(niPctDelta) : formatNotApplicable()}</td>
+                  <td class="election-num election-cell-strong election-col-votes">${valueWithChange(formatNumber(firstPrefs), candidate.deltas?.firstPrefs ?? null)}</td>
+                  <td class="election-num election-col-pct-main">${valueWithChange(formatFixedPercent(candidate.firstPrefPct), candidate.deltas?.firstPrefPct ?? null, 'percent')}</td>
+                  <td class="election-num election-col-pct-small">${valueWithChange(formatFixedPercent(niPct), niPctDelta, 'percent')}</td>
                 </tr>
               `;
             }).join('')}
@@ -3329,7 +3324,7 @@ export class Test2ElectionManager {
     // change +100%, -100% or 0%, so those two columns are left out.
     const singleSeat = this.isWestminsterElection() && results.length > 0
       && results.every((result) => numberOrZero(result.seatsTotal ?? result.seatsWon ?? 1) <= 1);
-    const prefStart = singleSeat ? 8 : 10;
+    const prefStart = singleSeat ? 6 : 7;
     return `
       <div class="election-party-wrapper election-party-wrapper--pane-sticky">
         <table class="election-party-table election-party-table--grouped election-party-table--district-sticky3 election-party-table--district-local-party-sticky4 election-results-table--fixed election-results-table--district">
@@ -3338,21 +3333,16 @@ export class Test2ElectionManager {
               <th rowspan="2" data-leaf-col-idx="0">#</th>
               <th rowspan="2" colspan="2" data-leaf-col-idx="2">Party</th>
               <th rowspan="2" data-leaf-col-idx="3">${escapeHtml(areaLabel)}</th>
-              <th colspan="2">Candidates</th>
-              <th colspan="${singleSeat ? 2 : 4}">Seats</th>
-              <th colspan="4">1st preferences</th>
+              <th colspan="1">Candidates</th>
+              <th colspan="${singleSeat ? 1 : 2}">Seats</th>
+              <th colspan="2">1st preferences</th>
             </tr>
             <tr>
-              ${this.renderMainParityLeafTh('No.', 4, 'Candidates')}
-              ${this.renderMainParityLeafTh('+/-', 5, 'Candidates change')}
-              ${this.renderMainParityLeafTh('No.', 6, 'Seats')}
-              ${this.renderMainParityLeafTh('+/-', 7, 'Seats change')}
-              ${singleSeat ? '' : `${this.renderMainParityLeafTh('%', 8, 'Seats percentage')}
-              ${this.renderMainParityLeafTh('+/-', 9, 'Seats percentage change')}`}
-              ${this.renderMainParityLeafTh('No.', prefStart, 'First preference votes')}
-              ${this.renderMainParityLeafTh('+/-', prefStart + 1, 'First preference votes change')}
-              ${this.renderMainParityLeafTh('%', prefStart + 2, 'First preference vote share')}
-              ${this.renderMainParityLeafTh('+/-', prefStart + 3, 'First preference vote share change')}
+              ${this.renderMainParityLeafTh('No.', 4, 'Candidates, with change')}
+              ${this.renderMainParityLeafTh('No.', 5, 'Seats, with change')}
+              ${singleSeat ? '' : this.renderMainParityLeafTh('%', 6, 'Seats percentage, with change')}
+              ${this.renderMainParityLeafTh('No.', prefStart, 'First preference votes, with change')}
+              ${this.renderMainParityLeafTh('%', prefStart + 1, 'First preference vote share, with change')}
             </tr>
           </thead>
           <tbody>
@@ -3362,16 +3352,11 @@ export class Test2ElectionManager {
                 <td class="election-colour-col"${this.colourTabStyle(this.mainPanePartyColour(row.party, row.colour))}></td>
                 <td>${this.renderElectionEntityButton('party', row.party, this.partyLabel(row.party), 'election-cell-wrap')}</td>
                 <td><button type="button" class="election-entity-link election-cell-wrap" data-election-result-key="${escapeHtml(row.resultKey)}">${escapeHtml(row.constituency)}</button></td>
-                <td class="election-num">${formatNumber(row.stood)}</td>
-                <td class="election-num">${row.deltas ? formatMainDelta(row.deltas.stood) : ''}</td>
-                <td class="election-num">${formatNumber(row.seats)}</td>
-                <td class="election-num">${row.deltas ? formatMainDelta(row.deltas.seats) : ''}</td>
-                ${singleSeat ? '' : `<td class="election-num">${formatPercent(row.seatShare)}</td>
-                <td class="election-num">${row.deltas?.seatShare !== null && row.deltas?.seatShare !== undefined ? formatMainPercentDelta(row.deltas.seatShare) : ''}</td>`}
-                <td class="election-num">${formatNumber(row.firstPrefs)}</td>
-                <td class="election-num">${row.deltas ? formatMainDelta(row.deltas.firstPrefs) : ''}</td>
-                <td class="election-num">${formatPercent(row.share)}</td>
-                <td class="election-num">${row.deltas?.share !== null && row.deltas?.share !== undefined ? formatMainPercentDelta(row.deltas.share) : ''}</td>
+                <td class="election-num">${valueWithChange(formatNumber(row.stood), row.deltas?.stood ?? null)}</td>
+                <td class="election-num">${valueWithChange(formatNumber(row.seats), row.deltas?.seats ?? null)}</td>
+                ${singleSeat ? '' : `<td class="election-num">${valueWithChange(formatPercent(row.seatShare), row.deltas?.seatShare ?? null, 'percent')}</td>`}
+                <td class="election-num">${valueWithChange(formatNumber(row.firstPrefs), row.deltas?.firstPrefs ?? null)}</td>
+                <td class="election-num">${valueWithChange(formatPercent(row.share), row.deltas?.share ?? null, 'percent')}</td>
               </tr>
             `).join('')}
           </tbody>
@@ -3442,9 +3427,22 @@ export class Test2ElectionManager {
     const electorate = numberOrZero(result.electorate);
     const spoiled = numberOrZero(result.spoiled);
     const didNotVote = Math.max(0, electorate - totalPoll);
-    const prev = result.previous || {};
+    // The previous contest for this area, as the party table finds it (it carries the poll,
+    // spoiled and electorate figures); else the bundle's own, slimmer link to it.
+    const previousContest = this.findPreviousSelectedResult(result) || result.previous || null;
+    const prev = previousContest || {};
     const pctOfTurnout = (value) => totalPoll > 0 ? value / totalPoll * 100 : 0;
     const pctOfElectorate = (value) => electorate > 0 ? value / electorate * 100 : 0;
+    // A previous figure exists only where the area was contested before: with no previous
+    // contest (a series' first election) every change is "no previous result", not the value.
+    const previousFigure = (value) => (previousContest && value !== null && value !== undefined && value !== '' && Number.isFinite(Number(value))
+      ? Number(value)
+      : null);
+    const prevValidPoll = previousFigure(prev.validPoll);
+    const prevSpoiled = previousFigure(prev.spoiled);
+    const prevTotalPoll = previousFigure(prev.totalPoll);
+    const prevElectorate = previousFigure(prev.electorate);
+    const prevDidNotVote = prevElectorate !== null && prevTotalPoll !== null ? Math.max(0, prevElectorate - prevTotalPoll) : null;
     const appendSummaryRow = (label, value, previousValue, pctValue, previousPctValue) => `
       <tr class="election-table-summary-row">
         <td class="election-rank-col">-</td>
@@ -3452,10 +3450,8 @@ export class Test2ElectionManager {
         <td><strong>${escapeHtml(label)}</strong></td>
         <td>-</td>
         <td>-</td>
-        <td class="election-num">${Number.isFinite(Number(previousValue)) ? formatMainDelta(value - previousValue) : formatNotApplicable()}</td>
-        <td class="election-num">${formatFixedPercent(pctValue)}</td>
-        ${this.countDetailedView ? `<td class="election-num">${Number.isFinite(Number(previousPctValue)) ? formatMainPercentDelta(pctValue - previousPctValue) : formatNotApplicable()}</td>` : ''}
-        <td class="election-num election-cell-strong">${formatNumber(value)}</td>
+        <td class="election-num">${valueWithChange(formatFixedPercent(pctValue), this.countDetailedView ? (previousPctValue === null ? null : pctValue - previousPctValue) : false, 'percent')}</td>
+        <td class="election-num election-cell-strong">${valueWithChange(formatNumber(value), previousValue === null ? null : value - previousValue)}</td>
         ${visibleCounts.map(() => this.countDetailedView ? '<td class="election-num">-</td><td class="election-num">-</td><td class="election-num">-</td><td class="election-num">-</td>' : '<td class="election-num">-</td>').join('')}
       </tr>
     `;
@@ -3469,13 +3465,11 @@ export class Test2ElectionManager {
               <th class="election-col-name" data-leaf-col-idx="2">Name</th>
               <th class="election-col-party" data-leaf-col-idx="3">Party</th>
               <th class="election-col-status" data-leaf-col-idx="4">Status</th>
-              <th class="election-num" data-leaf-col-idx="5">${this.renderTwoLineHeader('1st', 'pref +/-')}</th>
-              <th class="election-num" data-leaf-col-idx="6">${this.renderTwoLineHeader('1st', 'pref %')}</th>
-              ${this.countDetailedView ? `<th class="election-num" data-leaf-col-idx="7">${this.renderTwoLineHeader('1st', 'pref +/- %')}</th>` : ''}
-              <th class="election-num" data-leaf-col-idx="${this.countDetailedView ? 8 : 7}">${this.renderTwoLineHeader('1st', 'pref')}</th>
+              <th class="election-num" data-leaf-col-idx="5" aria-label="${this.countDetailedView ? 'First preference share, with change' : 'First preference share'}">${this.renderTwoLineHeader('1st', 'pref %')}</th>
+              <th class="election-num" data-leaf-col-idx="6" aria-label="First preferences, with change">${this.renderTwoLineHeader('1st', 'pref')}</th>
               ${visibleCounts.map((count, index) => {
                 const event = countEvents.find((item) => Number(item.count) === Number(count));
-                const base = this.countDetailedView ? 9 + (index * 4) : 8 + index;
+                const base = this.countDetailedView ? 7 + (index * 4) : 7 + index;
                 return `
                   <th class="election-num election-count-col" data-leaf-col-idx="${base}">${this.renderTwoLineHeader(this.countDetailedView ? `Stage ${formatNumber(count)}` : 'Stage', this.countDetailedView && event ? event.label : formatNumber(displayCountForRaw(count)))}</th>
                   ${this.countDetailedView ? `<th class="election-num election-count-col" data-leaf-col-idx="${base + 1}">${this.renderTwoLineHeader(`Stage ${formatNumber(count)}`, '%')}</th><th class="election-num election-count-col" data-leaf-col-idx="${base + 2}">${this.renderTwoLineHeader(`Stage ${formatNumber(count)}`, '+/- %')}</th><th class="election-num election-count-col" data-leaf-col-idx="${base + 3}">${this.renderTwoLineHeader(`Stage ${formatNumber(count)}`, '+/-')}</th>` : ''}
@@ -3506,10 +3500,8 @@ export class Test2ElectionManager {
                   <td class="election-col-name">${this.renderElectionEntityButton('candidate', `${candidate.name || candidate.id || ''}|${candidate.party || ''}`, escapeHtml(candidate.name || ''), 'election-cell-wrap election-cell-wrap--count-name')}</td>
                   <td class="election-col-party">${this.renderElectionEntityButton('party', candidate.party, this.partyLabel(candidate.party || ''), 'election-cell-wrap election-cell-wrap--count-party')}${this.ballotDescriptionHtml(candidate)}</td>
                   <td class="election-col-status"><span class="election-cell-wrap election-cell-wrap--count-status">${statusCount}</span></td>
-                  <td class="election-num">${!result.syntheticCountGroup && candidateDelta.deltas ? formatMainDelta(candidateDelta.deltas.firstPrefs) : formatNotApplicable()}</td>
-                  <td class="election-num">${formatFixedPercent(firstPrefPct)}</td>
-                  ${this.countDetailedView ? `<td class="election-num">${!result.syntheticCountGroup && candidateDelta.deltas?.firstPrefPct !== null && candidateDelta.deltas?.firstPrefPct !== undefined ? formatMainPercentDelta(candidateDelta.deltas.firstPrefPct) : formatNotApplicable()}</td>` : ''}
-                  <td class="election-num">${formatNumber(firstPrefs)}</td>
+                  <td class="election-num">${valueWithChange(formatFixedPercent(firstPrefPct), this.countDetailedView ? (result.syntheticCountGroup ? null : candidateDelta.deltas?.firstPrefPct ?? null) : false, 'percent')}</td>
+                  <td class="election-num">${valueWithChange(formatNumber(firstPrefs), result.syntheticCountGroup ? null : candidateDelta.deltas?.firstPrefs ?? null)}</td>
                   ${visibleCounts.map((count) => {
                     const row = counts.get(Number(count));
                     const displayRow = stvResult
@@ -3544,8 +3536,6 @@ export class Test2ElectionManager {
                 <td>-</td>
                 <td class="election-num">-</td>
                 <td class="election-num">-</td>
-                ${this.countDetailedView ? '<td class="election-num">-</td>' : ''}
-                <td class="election-num">-</td>
                 ${visibleCounts.map((count) => {
                   const row = nonTransferable.get(Number(count)) || (stvResult ? { total: 0, transfers: 0 } : null);
                   if (!row) return this.countDetailedView ? '<td class="election-num election-count-col">&nbsp;</td><td class="election-num election-count-col">-</td><td class="election-num election-count-col">-</td><td class="election-num election-count-col">-</td>' : '<td class="election-num election-count-col">&nbsp;</td>';
@@ -3556,11 +3546,11 @@ export class Test2ElectionManager {
                 }).join('')}
               </tr>
             ` : ''}
-            ${appendSummaryRow('Valid votes', validPoll, numberOrZero(prev.validPoll), pctOfTurnout(validPoll), pctOfTurnout(numberOrZero(prev.validPoll)))}
-            ${appendSummaryRow('Spoiled', spoiled, numberOrZero(prev.spoiled), pctOfTurnout(spoiled), pctOfTurnout(numberOrZero(prev.spoiled)))}
-            ${appendSummaryRow('Turnout', totalPoll, numberOrZero(prev.totalPoll), pctOfElectorate(totalPoll), pctOfElectorate(numberOrZero(prev.totalPoll)))}
-            ${appendSummaryRow('Did not vote', didNotVote, Math.max(0, numberOrZero(prev.electorate) - numberOrZero(prev.totalPoll)), pctOfElectorate(didNotVote), pctOfElectorate(Math.max(0, numberOrZero(prev.electorate) - numberOrZero(prev.totalPoll))))}
-            ${appendSummaryRow('Electorate', electorate, numberOrZero(prev.electorate), 100, 100)}
+            ${appendSummaryRow('Valid votes', validPoll, prevValidPoll, pctOfTurnout(validPoll), prevValidPoll === null ? null : pctOfTurnout(prevValidPoll))}
+            ${appendSummaryRow('Spoiled', spoiled, prevSpoiled, pctOfTurnout(spoiled), prevSpoiled === null ? null : pctOfTurnout(prevSpoiled))}
+            ${appendSummaryRow('Turnout', totalPoll, prevTotalPoll, pctOfElectorate(totalPoll), prevTotalPoll === null ? null : pctOfElectorate(prevTotalPoll))}
+            ${appendSummaryRow('Did not vote', didNotVote, prevDidNotVote, pctOfElectorate(didNotVote), prevDidNotVote === null ? null : pctOfElectorate(prevDidNotVote))}
+            ${appendSummaryRow('Electorate', electorate, prevElectorate, 100, prevElectorate === null ? null : 100)}
           </tbody>
         </table>
       </div>
@@ -5437,15 +5427,43 @@ function formatMainPercentDelta(value) {
   return `<span class="${className}">${number > 0 ? '+' : ''}${number.toFixed(2)}%</span>`;
 }
 
-function formatMainSelectedPercentDelta(value) {
+// A change since the previous comparable election, for the second line of a value's cell.
+// `kind` keeps each table's existing form: 'count' (+1,234), 'percent' (+2.10%) or 'points'
+// (+2.10). The sign is a real minus, and the classes are the ones the separate +/- columns
+// carried, so share changes keep their green and red and count changes stay muted.
+function formatChange(value, kind = 'count') {
   const number = Number(value);
   if (!Number.isFinite(number)) return '';
-  const className = number > 0 ? 'election-delta election-delta--share election-delta--pos' : number < 0 ? 'election-delta election-delta--share election-delta--neg' : 'election-delta election-delta--share';
-  return `<span class="${className}">${number > 0 ? '+' : ''}${number.toFixed(2)}</span>`;
+  const share = kind !== 'count';
+  const direction = number > 0 ? ' election-delta--pos' : number < 0 ? ' election-delta--neg' : '';
+  const magnitude = Math.abs(number);
+  const digits = kind === 'count' ? magnitude.toLocaleString('en-GB') : magnitude.toFixed(2);
+  const text = `${number > 0 ? '+' : number < 0 ? '−' : ''}${digits}${kind === 'percent' ? '%' : ''}`;
+  return `<span class="election-delta${share ? ' election-delta--share' : ''}${direction}">${text}</span>`;
 }
 
-function formatNotApplicable() {
-  return '<span class="election-na"><em>N/A</em></span>';
+/**
+ * A value with its change beneath it, in one cell: the change used to be a column of its own
+ * beside every value, which doubled the width of the party tables.
+ *
+ * `change` is a number, `null` or `false`. A number is shown as a signed change (`kind` as in
+ * formatChange). `null` (or undefined) means there is NO previous comparable result -- a
+ * series' first election, or a party or area that did not contest the previous one -- and
+ * shows an en dash, never a change equal to the value. `false` means the row has no change to
+ * show at all (a total, or a summary line with nothing to compare), so the cell holds only
+ * the value.
+ *
+ * The change is announced as "change +2" (or "no previous result"), so a screen reader does
+ * not run the two figures together; sorting reads the value alone (.election-cell-value).
+ */
+function valueWithChange(valueHtml, change, kind = 'count') {
+  if (change === false) return valueHtml;
+  const hasChange = change !== null && change !== undefined && Number.isFinite(Number(change));
+  const changeHtml = hasChange
+    ? `<span class="visually-hidden">change </span>${formatChange(change, kind)}`
+    : '<span class="visually-hidden">no previous result</span><span class="election-delta election-delta--none" aria-hidden="true">–</span>';
+  return `<span class="election-cell-stack"><span class="election-cell-value">${valueHtml}</span>`
+    + `<span class="election-cell-change">${changeHtml}</span></span>`;
 }
 
 // Plain numbers in the # column. The ordinal suffix (1st, 2nd, 3rd) cost width in the

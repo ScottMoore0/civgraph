@@ -443,9 +443,9 @@ test('restores active Dail election catalogue, viewport, labels, and party table
       .slice(0, 4)
       .map((row) => row.children[1]?.textContent?.trim()?.replace(/\s+/g, ' '));
     const firstRowCells = [...document.querySelectorAll('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row)')[0]?.children || []]
-      .map((cell) => cell.textContent?.trim()?.replace(/\s+/g, ' '));
+      .map((cell) => (cell.querySelector('.election-cell-value') || cell).textContent?.trim()?.replace(/\s+/g, ' '));
     const secondRowCells = [...document.querySelectorAll('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row)')[1]?.children || []]
-      .map((cell) => cell.textContent?.trim()?.replace(/\s+/g, ' '));
+      .map((cell) => (cell.querySelector('.election-cell-value') || cell).textContent?.trim()?.replace(/\s+/g, ' '));
     return {
       path: location.pathname,
       hash: location.hash,
@@ -477,14 +477,14 @@ test('restores active Dail election catalogue, viewport, labels, and party table
   expect(restored.rowTexts[1]).toBe('SF');
   expect(restored.rowTexts[2]).toBe('FG');
   expect(restored.rowTexts[3]).toBe('Ind');
-  expect([restored.firstRowCells[0], restored.firstRowCells[2], restored.firstRowCells[4], restored.firstRowCells[8], restored.firstRowCells[10]]).toEqual([
+  expect([restored.firstRowCells[0], restored.firstRowCells[2], restored.firstRowCells[3], restored.firstRowCells[5], restored.firstRowCells[6]]).toEqual([
     '1',
     '82',
     '48',
     '481,414',
     '21.86%'
   ]);
-  expect([restored.secondRowCells[0], restored.secondRowCells[2], restored.secondRowCells[4], restored.secondRowCells[8], restored.secondRowCells[10]]).toEqual([
+  expect([restored.secondRowCells[0], restored.secondRowCells[2], restored.secondRowCells[3], restored.secondRowCells[5], restored.secondRowCells[6]]).toEqual([
     '2',
     '71',
     '39',
@@ -492,12 +492,12 @@ test('restores active Dail election catalogue, viewport, labels, and party table
     '19.01%'
   ]);
 
-  await page.locator('#electionPaneContent th[data-leaf-col-idx="8"]').click();
+  await page.locator('#electionPaneContent th[data-leaf-col-idx="5"]').click();
   await expect(page.locator('.election-filter-menu')).toBeVisible();
   await expect(page.locator('.election-filter-menu')).toContainText('Sort Largest to Smallest');
   await expectElectionFilterMenuInsideViewport(page);
   await page.locator('.election-filter-menu [data-action="sort-desc"]').click();
-  // Leaf column 8 is TOTAL VOTES. Measured for this contest: Fianna Fail 481,414,
+  // Leaf column 5 is TOTAL VOTES (its change sits beneath it, not in a column of its own). Measured for this contest: Fianna Fail 481,414,
   // Fine Gael 458,134, Sinn Fein 418,627 -- so largest-to-smallest puts Fianna Fail
   // first, and the old expectation of Fine Gael first was simply wrong about the data.
   //
@@ -505,7 +505,7 @@ test('restores active Dail election catalogue, viewport, labels, and party table
   // DEFAULT order is by seats (48/39/38), which also starts with Fianna Fail. What
   // discriminates is the second and third places swapping -- seats order is
   // FF, SF, FG and votes order is FF, FG, SF. Assert the whole top three.
-  await expect(page.locator('#electionPaneContent th[data-leaf-col-idx="8"]')).toHaveClass(/election-th-btn--active/);
+  await expect(page.locator('#electionPaneContent th[data-leaf-col-idx="5"]')).toHaveClass(/election-th-btn--active/);
   const partyRows = page.locator('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row)');
   // Party cells show abbreviations (full names on hover).
   await expect(partyRows.nth(0)).toContainText('FF');
@@ -550,7 +550,7 @@ test('election sort/filter menu stays inside a constrained viewport', async ({ p
   await expectElectionFilterMenuInsideViewport(page);
 });
 
-test('FPTP Results use pane-level scrolling and candidate-only N/A deltas', async ({ page }) => {
+test('FPTP Results use pane-level scrolling and a candidate-only "no previous result" change', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 820 });
   await page.goto('/#layers=election-house-of-commons-of-the-united-kingdom-2024-07-04&lng=-6.8&lat=54.6&zoom=8.00');
   await page.waitForFunction(() => window.__civgraphTest2?.restorePromise, null, { timeout: 60000 });
@@ -568,7 +568,11 @@ test('FPTP Results use pane-level scrolling and candidate-only N/A deltas', asyn
     const nestedStickyWrapper = content?.querySelector('.test2-fptp-results-layout__table .election-party-wrapper--pane-sticky');
     const rows = [...content.querySelectorAll('.election-results-table--single-seat-fptp tbody tr')]
       .map((row) => [...row.children].map((cell) => cell.textContent.trim().replace(/\s+/g, ' ')));
-    const robin = rows.find((row) => /Robin Swann/i.test(row.join(' '))) || [];
+    const robinRow = [...content.querySelectorAll('.election-results-table--single-seat-fptp tbody tr')]
+      .find((row) => /Robin Swann/i.test(row.textContent || ''));
+    // The vote cell: the value, then a "Party" change line and a "Cand." change line.
+    const robinChanges = [...(robinRow?.children[3]?.querySelectorAll('.election-cell-change') || [])]
+      .map((line) => [...line.querySelectorAll('.election-delta')].map((span) => span.textContent.trim()).join(''));
     return {
       title: document.getElementById('electionPaneTitle')?.textContent?.trim() || '',
       tabs: [...document.querySelectorAll('#electionPaneHeaderRight .election-view-tab')].map((button) => button.textContent.trim()),
@@ -579,8 +583,9 @@ test('FPTP Results use pane-level scrolling and candidate-only N/A deltas', asyn
       layoutDirection: getComputedStyle(document.querySelector('.test2-fptp-results-layout')).flexDirection,
       graphicLeft: document.querySelector('.test2-fptp-vote-graphic')?.getBoundingClientRect?.().left || 0,
       tableRight: tableHost?.getBoundingClientRect?.().right || 0,
-      robinCandidateDelta: robin[5] || '',
-      robinPartyDelta: robin[4] || ''
+      rowCount: rows.length,
+      robinCandidateDelta: robinChanges[1] || '',
+      robinPartyDelta: robinChanges[0] || ''
     };
   });
 
@@ -592,8 +597,10 @@ test('FPTP Results use pane-level scrolling and candidate-only N/A deltas', asyn
   expect(state.nestedStickyWrapper).toBe(false);
   expect(state.layoutDirection).toBe('row');
   expect(state.graphicLeft).toBeGreaterThanOrEqual(state.tableRight - 1);
-  expect(state.robinCandidateDelta).toBe('N/A');
-  expect(state.robinPartyDelta).not.toBe('N/A');
+  // Swann did not stand in South Antrim last time: no previous result (an en dash), while
+  // his party did, so its change is a real signed figure.
+  expect(state.robinCandidateDelta).toBe('\u2013');
+  expect(state.robinPartyDelta).toMatch(/^[+\u2212]?[\d,.]+$/);
 });
 
 test('Dail 2024 election pane matches the main DOM contract for the compared state', async ({ browser }) => {
@@ -606,7 +613,7 @@ test('Dail 2024 election pane matches the main DOM contract for the compared sta
     await page.waitForSelector('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row)', { timeout: 25000 });
     return page.evaluate(() => [...document.querySelectorAll('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row)')]
       .slice(0, 4)
-      .map((row) => [...row.children].slice(0, 12).map((cell) => cell.textContent?.trim()?.replace(/\s+/g, ' '))));
+      .map((row) => [...row.children].slice(0, 12).map((cell) => (cell.querySelector('.election-cell-value') || cell).textContent?.trim()?.replace(/\s+/g, ' '))));
   };
 
   await Promise.all([
@@ -629,9 +636,9 @@ test('Dail 2024 election pane matches the main DOM contract for the compared sta
     const row = rowsByParty.get(party);
     expect(row, `${party} row`).toBeTruthy();
     expect(row[2], `${party} candidates`).toBe(String(stood));
-    expect(row[4], `${party} seats`).toBe(String(seats));
-    expect(row[8], `${party} first preferences`).toBe(votes);
-    expect(row[10], `${party} vote share`).toBe(share);
+    expect(row[3], `${party} seats`).toBe(String(seats));
+    expect(row[5], `${party} first preferences`).toBe(votes);
+    expect(row[6], `${party} vote share`).toBe(share);
   };
   expect(test2Rows.map((row) => row[1])).toEqual(['FF', 'SF', 'FG', 'Ind']);
   expectPartySummary('FF', { stood: 82, seats: 48, votes: '481,414', share: '21.86%' });
@@ -707,7 +714,7 @@ test('selected Dail 2024 Cork North-Central pane uses constituency source values
   const state = await page.evaluate(() => {
     const rows = [...document.querySelectorAll('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row):not(.election-table-note-row)')]
       .slice(0, 5)
-      .map((row) => [...row.children].map((cell) => cell.textContent.trim().replace(/\s+/g, ' ')).slice(0, 11));
+      .map((row) => [...row.children].map((cell) => (cell.querySelector('.election-cell-value') || cell).textContent.trim().replace(/\s+/g, ' ')).slice(0, 11));
     // The party colour is a tab: a table's own colour column, or the ::before of a party cell.
     const swatches = [...document.querySelectorAll('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row):not(.election-table-note-row) :is(td.election-colour-col, td.election-party-cell)')]
       .slice(0, 5)
@@ -733,7 +740,7 @@ test('selected Dail 2024 Cork North-Central pane uses constituency source values
   expect(state.wikipediaRowsAboveFirst).toBeGreaterThan(0);
   expect(state.tabs).toContain('Transfers');
   expect(state.rows.map((row) => row[2])).toEqual(['FF', 'SF', 'FG', 'LAB', 'II']);
-  expect(state.rows.map((row) => [row[3], row[5], row[7]])).toEqual([
+  expect(state.rows.map((row) => [row[3], row[4], row[5]])).toEqual([
     ['3', '1', '13,892'],
     ['2', '1', '10,293'],
     ['3', '1', '9,837'],
@@ -756,8 +763,8 @@ test('selected Dail 2024 Cork North-Central pane uses constituency source values
   await page.waitForFunction(() => document.querySelectorAll('#electionPaneContent .election-count-table tbody tr').length >= 7);
   const candidates = await page.evaluate(() => [...document.querySelectorAll('#electionPaneContent .election-count-table tbody tr')]
     .slice(0, 7)
-    .map((row) => [...row.children].map((cell) => cell.textContent.trim().replace(/\s+/g, ' ')).slice(0, 10)));
-  const firstPrefByCandidate = Object.fromEntries(candidates.map((row) => [row[2], row[7]]));
+    .map((row) => [...row.children].map((cell) => (cell.querySelector('.election-cell-value') || cell).textContent.trim().replace(/\s+/g, ' ')).slice(0, 10)));
+  const firstPrefByCandidate = Object.fromEntries(candidates.map((row) => [row[2], row[6]]));
   expect(firstPrefByCandidate).toMatchObject({
     "P\u00e1draig O'Sullivan": '7,708',
     'Thomas Gould': '7,399',
@@ -812,16 +819,22 @@ test('selected Dail 2024 Galway East pane computes constituency percentages and 
   await page.waitForSelector('#electionPaneContent .election-party-table tbody tr');
 
   const state = await page.evaluate(() => {
+    // A cell holds its value and, beneath it, its change: read them apart.
+    const value = (cell) => (cell.querySelector('.election-cell-value') || cell).textContent.trim().replace(/\s+/g, ' ');
+    const change = (cell) => [...cell.querySelectorAll('.election-cell-change .election-delta')].map((span) => span.textContent.trim()).join('');
     const rows = [...document.querySelectorAll('#electionPaneContent .election-party-table tbody tr:not(.election-table-summary-row):not(.election-table-note-row)')]
       .slice(0, 6)
-      .map((row) => [...row.children].map((cell) => cell.textContent.trim().replace(/\s+/g, ' ')).slice(0, 11));
+      .map((row) => [...row.children].map(value).slice(0, 11));
     const summary = [...document.querySelectorAll('#electionPaneContent .election-table-summary-row')]
-      .map((row) => [...row.children].map((cell) => cell.textContent.trim().replace(/\s+/g, ' ')));
+      .map((row) => [...row.children].map(value));
+    const summaryChanges = [...document.querySelectorAll('#electionPaneContent .election-table-summary-row')]
+      .map((row) => [...row.children].map(change));
     const manager = window.__civgraphTest2.app.elections;
     const result = manager.activeBundle.results.find((row) => row.constituency === 'Galway East');
     return {
       rows,
       summary,
+      summaryChanges,
       validPoll: result?.validPoll,
       countInfoValidPoll: result?.countInfo?.Valid_Poll,
       wikipediaRowsAboveFirst: (result?.countGroup || []).filter((row) => row.Wikipedia_Count_Row === '1' && Number(row.Count_Number) > 1).length
@@ -831,7 +844,7 @@ test('selected Dail 2024 Galway East pane computes constituency percentages and 
   expect(state.validPoll).toBe(54214);
   expect(state.countInfoValidPoll).toBe('54214');
   expect(state.wikipediaRowsAboveFirst).toBeGreaterThan(0);
-  expect(state.rows.map((row) => [row[2], row[3], row[5], row[7], row[9]])).toEqual([
+  expect(state.rows.map((row) => [row[2], row[3], row[4], row[5], row[6]])).toEqual([
     ['FF', '2', '1', '14,196', '26.19%'],
     ['FG', '3', '1', '11,744', '21.66%'],
     ['Ind', '3', '1', '11,000', '20.29%'],
@@ -847,7 +860,9 @@ test('selected Dail 2024 Galway East pane computes constituency percentages and 
   // table rows and their vote shares still match exactly; only the list of summary rows
   // had grown.
   expect(state.summary.map((row) => row[2])).toEqual(expect.arrayContaining(['Valid votes', 'Electorate']));
-  expect(state.summary[0].slice(3, 11)).toEqual(['14', '0', '4', '0', '54,214', '+11,694', '61.75%', '+0.34']);
+  expect(state.summary[0].slice(3, 7)).toEqual(['14', '4', '54,214', '61.75%']);
+  // The changes sit under the vote and share values; the minus is a real minus sign.
+  expect(state.summaryChanges[0].slice(3, 7)).toEqual(['', '', '+11,694', '+0.34']);
 
   const beforeResize = await page.evaluate(() => {
     const pane = document.getElementById('electionResultsPane').getBoundingClientRect();
@@ -2398,7 +2413,9 @@ test('election pane supports local-government aggregates and detailed counts', a
   expect(state.localText).toMatch(/DEA|1st preferences|Candidates|Seats/);
   expect(state.localPartyTable).toBe(true);
   expect(state.localPartyStickyState.ok).toBe(true);
-  expect(state.localPartyStickyState.cellCount).toBeGreaterThanOrEqual(14);
+  // # + colour + party + area, then candidates, seats, seat %, 1st prefs and share, each
+  // with its change beneath it rather than in a column of its own.
+  expect(state.localPartyStickyState.cellCount).toBeGreaterThanOrEqual(9);
   expect(state.localPartyStickyState.colourColumn).toBe(true);
   expect(state.localPartyStickyState.partyText).toBeTruthy();
   expect(state.localPartyStickyState.areaText).toBeTruthy();

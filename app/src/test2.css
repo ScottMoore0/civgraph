@@ -2415,6 +2415,24 @@ body.test2-election-pane-resizing * {
   font-style: normal;
 }
 
+/* The change under a value (valueWithChange): smaller and muted, on the pane's own palette. */
+.election-pane__content .election-cell-change,
+.election-pane__content .election-delta--none {
+  color: var(--table-muted);
+}
+
+.election-pane__content .election-cell-change {
+  font-size: 0.86em;
+  font-weight: 400;
+}
+
+/* Two-line cells: a little less padding, so a row costs about one line more, not two. */
+.election-pane__content .election-party-table tbody tr:has(.election-cell-stack) > td,
+.election-pane__content .election-count-table tbody tr:has(.election-cell-stack) > td {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
 /* Elected: a filled dot rather than a green tick; the label stays for screen readers. */
 .election-pane__content .election-elected-mark {
   display: inline-block;
