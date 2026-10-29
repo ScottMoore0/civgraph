@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
   "mode": "execute",
-  "generatedAt": "2026-10-29T00:35:10.060Z",
+  "generatedAt": "2026-10-29T01:48:29.054Z",
   "tool": "ogr2ogr GDAL MVT",
   "tippecanoeAvailable": false,
   "perLayerTimeoutMs": 600000,
   "totals": {
-    "vectorRows": 0,
-    "feasibleLocalCandidates": 1,
+    "vectorRows": 1,
+    "feasibleLocalCandidates": 3,
     "skipped": 0,
-    "selected": 1,
-    "converted": 1,
+    "selected": 3,
+    "converted": 3,
     "skippedExisting": 0,
     "failed": 0
   },
@@ -21,33 +21,65 @@
   ],
   "candidates": [
     {
-      "sourceMapId": "ded-1921-05-03",
-      "name": "District Electoral Divisions 3 May 1921",
-      "category": "Electoral Areas",
-      "sourceFile": "render/source-cache/vector-intake/ded-1921-05-03.fgb",
-      "sourceBytes": 40976552,
-      "outputDirectory": "render/tiles/generated/ded-1921-05-03"
+      "sourceMapId": "lgd-1966",
+      "name": "Rural and Urban Districts 4 Jul 1966",
+      "category": "Local Government Districts",
+      "sourceFile": "render/source-cache/vector-intake/lgd-1966.fgb",
+      "sourceBytes": 4782408,
+      "outputDirectory": "render/tiles/generated/lgd-1966"
+    },
+    {
+      "sourceMapId": "stormont-1969",
+      "name": "1969 NI Parliament",
+      "category": "Devolved Constituencies",
+      "sourceFile": "render/source-cache/vector-intake/stormont-1969.fgb",
+      "sourceBytes": 14259672,
+      "outputDirectory": "render/tiles/generated/stormont-1969"
+    },
+    {
+      "sourceMapId": "admin-areas-1966-07-04",
+      "name": "Administrative Areas 4 Jul 1966",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1966-07-04.fgb",
+      "sourceBytes": 4782408,
+      "outputDirectory": "render/tiles/generated/admin-areas-1966-07-04"
     }
   ],
   "selected": [
     {
-      "sourceMapId": "ded-1921-05-03",
-      "name": "District Electoral Divisions 3 May 1921",
-      "category": "Electoral Areas",
-      "sourceFile": "render/source-cache/vector-intake/ded-1921-05-03.fgb",
-      "sourceBytes": 40976552,
-      "outputDirectory": "render/tiles/generated/ded-1921-05-03"
+      "sourceMapId": "lgd-1966",
+      "name": "Rural and Urban Districts 4 Jul 1966",
+      "category": "Local Government Districts",
+      "sourceFile": "render/source-cache/vector-intake/lgd-1966.fgb",
+      "sourceBytes": 4782408,
+      "outputDirectory": "render/tiles/generated/lgd-1966"
+    },
+    {
+      "sourceMapId": "stormont-1969",
+      "name": "1969 NI Parliament",
+      "category": "Devolved Constituencies",
+      "sourceFile": "render/source-cache/vector-intake/stormont-1969.fgb",
+      "sourceBytes": 14259672,
+      "outputDirectory": "render/tiles/generated/stormont-1969"
+    },
+    {
+      "sourceMapId": "admin-areas-1966-07-04",
+      "name": "Administrative Areas 4 Jul 1966",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1966-07-04.fgb",
+      "sourceBytes": 4782408,
+      "outputDirectory": "render/tiles/generated/admin-areas-1966-07-04"
     }
   ],
   "skippedExisting": [],
   "converted": [
     {
-      "sourceMapId": "ded-1921-05-03",
-      "name": "District Electoral Divisions 3 May 1921",
-      "category": "Electoral Areas",
-      "sourceFile": "render/source-cache/vector-intake/ded-1921-05-03.fgb",
-      "sourceBytes": 40976552,
-      "outputDirectory": "render/tiles/generated/ded-1921-05-03",
+      "sourceMapId": "lgd-1966",
+      "name": "Rural and Urban Districts 4 Jul 1966",
+      "category": "Local Government Districts",
+      "sourceFile": "render/source-cache/vector-intake/lgd-1966.fgb",
+      "sourceBytes": 4782408,
+      "outputDirectory": "render/tiles/generated/lgd-1966",
       "profile": {
         "maxSize": "10000000",
         "maxFeatures": "10000000",
@@ -55,11 +87,51 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "sourceLayer": "ded_1921_05_03",
+      "sourceLayer": "lgd_1966",
+      "files": 753,
+      "pbfFiles": 752,
+      "bytes": 1580983,
+      "maxTileBytes": 38313
+    },
+    {
+      "sourceMapId": "stormont-1969",
+      "name": "1969 NI Parliament",
+      "category": "Devolved Constituencies",
+      "sourceFile": "render/source-cache/vector-intake/stormont-1969.fgb",
+      "sourceBytes": 14259672,
+      "outputDirectory": "render/tiles/generated/stormont-1969",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "stormont_1969",
       "files": 759,
       "pbfFiles": 758,
-      "bytes": 9191137,
-      "maxTileBytes": 186251
+      "bytes": 2671105,
+      "maxTileBytes": 34145
+    },
+    {
+      "sourceMapId": "admin-areas-1966-07-04",
+      "name": "Administrative Areas 4 Jul 1966",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1966-07-04.fgb",
+      "sourceBytes": 4782408,
+      "outputDirectory": "render/tiles/generated/admin-areas-1966-07-04",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "admin_areas_1966_07_04",
+      "files": 753,
+      "pbfFiles": 752,
+      "bytes": 1591534,
+      "maxTileBytes": 38327
     }
   ],
   "failed": [],

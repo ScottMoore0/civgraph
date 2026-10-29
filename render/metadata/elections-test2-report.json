@@ -1,21 +1,22 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-25T16:33:11.609Z",
+  "generatedAt": "2026-10-29T01:51:02.312Z",
   "totals": {
-    "elections": 1038,
-    "loadable": 465,
+    "elections": 1074,
+    "loadable": 499,
     "placeholders": 566,
-    "matchedConstituencies": 6762,
-    "unmatchedConstituencies": 3229
+    "matchedConstituencies": 6932,
+    "unmatchedConstituencies": 3233
   },
-  "unmatchedElections": 583,
+  "unmatchedElections": 586,
   "residualSummary": {
-    "main-geography-unsourced": 3214,
-    "stormont-seat-not-in-source": 15
+    "main-geography-unsourced": 3217,
+    "stormont-seat-not-in-source": 15,
+    "pre1973-ward-not-in-source": 1
   },
   "closureSummary": {
     "byStatus": {
-      "blocked-on-data": 3229
+      "blocked-on-data": 3233
     },
     "feasibleUnmatchedRemaining": 0,
     "feasibleExamples": []
@@ -10126,6 +10127,88 @@
       ],
       "residualSummary": {
         "main-geography-unsourced": 28
+      }
+    },
+    {
+      "key": "strabane-urban-district-council__1920",
+      "body": "Strabane Urban District Council",
+      "date": "1920",
+      "bodyGroup": null,
+      "sourceMapId": null,
+      "layerId": null,
+      "loadable": false,
+      "matchedCount": 0,
+      "unmatchedCount": 2,
+      "unmatchedConstituencies": [
+        "North Area",
+        "South Area"
+      ],
+      "unmatchedDetails": [
+        {
+          "constituency": "North Area",
+          "code": "main-geography-unsourced",
+          "parityStatus": "blocked-on-data",
+          "reason": "The main-site geography rules do not identify a sourced boundary file for this election date/body, so /test2 cannot produce faithful MapLibre geometry yet."
+        },
+        {
+          "constituency": "South Area",
+          "code": "main-geography-unsourced",
+          "parityStatus": "blocked-on-data",
+          "reason": "The main-site geography rules do not identify a sourced boundary file for this election date/body, so /test2 cannot produce faithful MapLibre geometry yet."
+        }
+      ],
+      "residualSummary": {
+        "main-geography-unsourced": 2
+      }
+    },
+    {
+      "key": "strabane-urban-district-council__1902",
+      "body": "Strabane Urban District Council",
+      "date": "1902",
+      "bodyGroup": null,
+      "sourceMapId": "eds-ulster-1911",
+      "layerId": "eds-ulster-1911-vector-test",
+      "loadable": true,
+      "matchedCount": 3,
+      "unmatchedCount": 1,
+      "unmatchedConstituencies": [
+        "North-West Ward"
+      ],
+      "unmatchedDetails": [
+        {
+          "constituency": "North-West Ward",
+          "code": "pre1973-ward-not-in-source",
+          "parityStatus": "blocked-on-data",
+          "reason": "This pre-1973 council ward has no District Electoral Division of the same name in the selected layer (Strabane's North-West Ward of 1902); it is not safe to alias it to a different ward."
+        }
+      ],
+      "residualSummary": {
+        "pre1973-ward-not-in-source": 1
+      }
+    },
+    {
+      "key": "strabane-urban-district-council__1899",
+      "body": "Strabane Urban District Council",
+      "date": "1899",
+      "bodyGroup": null,
+      "sourceMapId": null,
+      "layerId": null,
+      "loadable": false,
+      "matchedCount": 0,
+      "unmatchedCount": 1,
+      "unmatchedConstituencies": [
+        "Strabane"
+      ],
+      "unmatchedDetails": [
+        {
+          "constituency": "Strabane",
+          "code": "main-geography-unsourced",
+          "parityStatus": "blocked-on-data",
+          "reason": "The main-site geography rules do not identify a sourced boundary file for this election date/body, so /test2 cannot produce faithful MapLibre geometry yet."
+        }
+      ],
+      "residualSummary": {
+        "main-geography-unsourced": 1
       }
     },
     {

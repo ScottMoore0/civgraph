@@ -37,7 +37,7 @@ export const BODY_GROUPS = [
   { id: 'dail', label: 'Dáil', bodies: ['dail-eireann'], icon: 'dail', colour: '#169b62' },
   { id: 'westminster', label: 'Westminster', bodies: ['house-of-commons-of-the-united-kingdom'], icon: 'westminster', colour: '#2f5da8' },
   { id: 'ni-devolved', label: 'NI Devolved', bodies: ['northern-ireland-assembly', 'parliament-of-northern-ireland', 'northern-ireland-constitutional-convention', 'northern-ireland-forum-for-political-dialogue'], icon: 'ni-devolved', colour: '#c84b8f' },
-  { id: 'ni-local', label: 'NI local', bodies: ['local-government'], icon: 'ni-local', colour: '#e07b2a' },
+  { id: 'ni-local', label: 'NI local', bodies: ['local-government', 'belfast-county-borough-council', 'belfast-county-borough-council-aldermen', 'strabane-urban-district-council'], icon: 'ni-local', colour: '#e07b2a' },
   { id: 'irish-local', label: 'Irish local', bodies: ['ireland-local'], icon: 'irish-local', colour: '#0b8a6a' },
   { id: 'european', label: 'European', bodies: ['european-parliament', 'ireland-european'], icon: 'european', colour: '#2f8fce' },
   { id: 'referendum', label: 'Referendum', bodies: ['ireland-referendum', 'northern-ireland-referendum'], icon: 'referendum', colour: '#8a63d2' },

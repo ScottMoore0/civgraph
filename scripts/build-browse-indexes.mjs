@@ -6,6 +6,7 @@ import { partyColour, NO_PARTY_RECORDED } from '../src/election-domain.mjs';
 import { isPublicMap } from '../src/public-map.mjs';
 import { canonicalElectionTitle, compareElectionsNewestFirst, electionResultEntryLabel } from './lib/election-names.mjs';
 import { buildPartyVocabulary, classifyPersonName, stripWikipediaQualifier, NOT_A_PERSON } from './lib/person-name-artefacts.mjs';
+import { referenceOffices, referenceRelatives } from './lib/reference-person-facts.mjs';
 import { CDN_BASE } from '../src/cdn-url.js';
 
 const ROOT = process.cwd();
@@ -1540,6 +1541,18 @@ function buildPersons(electionDetails, partyRecords) {
     if (qid) out.push({ source: 'Wikidata', label: 'Wikidata', url: `https://www.wikidata.org/wiki/${qid}`, licence: 'CC0 1.0' });
     return { profiles: out, qid, life: qid ? crosswalkDoc.people?.[qid] || null : null };
   };
+  // Offices held and family relations from the same reference work, cited by page
+  // (scripts/lib/reference-person-facts.mjs). Seats Civgraph's election results show are
+  // not in the files; a Commons seat gives way to History of Parliament's seat list.
+  const referenceOfficeDoc = readJson('data/elections/persons/reference-offices.json', { people: {} });
+  const referenceRelationDoc = readJson('data/elections/persons/reference-relations.json', { people: {} });
+  const relativeLookup = (id) => {
+    const other = byId.get(id);
+    return other ? { title: other.title, slug: other.slug } : null;
+  };
+  const missingRelatives = new Set();
+  let withOffices = 0;
+  let withRelatives = 0;
   const lifeDate = (hop, official, reference, field) => {
     if (hop.length) return {};
     const wikidata = official.life?.[field];
@@ -1578,6 +1591,10 @@ function buildPersons(electionDetails, partyRecords) {
     for (let i = 1; i < years.length; i += 1) {
       careerGapYears = Math.max(careerGapYears, years[i] - years[i - 1]);
     }
+    const officesHeld = referenceOffices(referenceOfficeDoc, person.id, { hasHop: hop.length > 0 });
+    const relatives = referenceRelatives(referenceRelationDoc, person.id, relativeLookup, missingRelatives);
+    if (officesHeld.length) withOffices += 1;
+    if (relatives.length) withRelatives += 1;
     const detail = {
       ...person,
       parties,
@@ -1637,10 +1654,18 @@ function buildPersons(electionDetails, partyRecords) {
       // (A reference date marked preferOver, which a second source confirms, wins over Wikidata.)
       ...lifeDate(hop, official, referenceDate(person.id, 'born'), 'born'),
       ...lifeDate(hop, official, referenceDate(person.id, 'died'), 'died'),
+      ...(officesHeld.length ? { officesHeld } : {}),
+      ...(relatives.length ? { relatives } : {}),
     };
     return [detail.slug, detail];
   }));
   console.log(`- persons: ${withOfficial} record(s) link to an official or Wikidata record of the person`);
+  console.log(`- persons: ${withOffices} record(s) list offices and ${withRelatives} list relatives from a reference work`);
+  const staleReferenceIds = [...new Set([...Object.keys(referenceOfficeDoc.people || {}), ...Object.keys(referenceRelationDoc.people || {}), ...missingRelatives])]
+    .filter((id) => !byId.has(id));
+  if (staleReferenceIds.length) {
+    console.log(`- persons: WARNING ${staleReferenceIds.length} id(s) in reference-offices/relations.json are not in the person index (merged or renumbered?): ${staleReferenceIds.join(', ')}`);
+  }
   if (hopPages.size) {
     console.log(`- persons: ${withHop} record(s) cite their History of Parliament biography; `
       + `${severalMembers} left without, because pages for more than one member reach them`);

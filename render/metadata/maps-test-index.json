@@ -999,6 +999,12 @@
           "name": "1929 NI Parliament"
         },
         {
+          "id": "stormont-1969-vector-test",
+          "mapId": "stormont-1969",
+          "date": "1969",
+          "name": "1969 NI Parliament"
+        },
+        {
           "id": "assembly-areas-1970-alias-test",
           "mapId": "assembly-areas-1970",
           "date": "1973",
@@ -6653,7 +6659,7 @@
       "promoteId": "FullName",
       "idProperty": "FullName",
       "sourceFile": "render/source-cache/vector-intake/admin-areas-1966-07-04.fgb",
-      "sourceDatasetLayer": "admin-areas-1966-07-04",
+      "sourceDatasetLayer": "LGDs_04-07-1966",
       "numericProperties": [
         "minElev_m",
         "maxElev_m",
@@ -6683,17 +6689,17 @@
       "generatedFrom": {
         "pipeline": "build-test-vector-batch",
         "sourceFile": "render/source-cache/vector-intake/admin-areas-1966-07-04.fgb",
-        "bytes": 1591818,
+        "bytes": 1591534,
         "files": 753,
         "pbfFiles": 752,
-        "maxTileBytes": 38325
+        "maxTileBytes": 38327
       },
       "keywords": [
         "rural",
         "urban",
         "districts",
         "1966",
-        "Administrative Areas 4 July 1966",
+        "Administrative Areas 4 Jul 1966",
         "Historic Boundaries",
         "Built Environment",
         "maplibre",
@@ -66911,7 +66917,7 @@
       "promoteId": "FullName",
       "idProperty": "FullName",
       "sourceFile": "render/source-cache/vector-intake/lgd-1966.fgb",
-      "sourceDatasetLayer": "lgd-1966",
+      "sourceDatasetLayer": "LGDs_04-07-1966",
       "numericProperties": [
         "minElev_m",
         "maxElev_m",
@@ -66941,17 +66947,17 @@
       "generatedFrom": {
         "pipeline": "build-test-vector-batch",
         "sourceFile": "render/source-cache/vector-intake/lgd-1966.fgb",
-        "bytes": 1581267,
+        "bytes": 1580983,
         "files": 753,
         "pbfFiles": 752,
-        "maxTileBytes": 38311
+        "maxTileBytes": 38313
       },
       "keywords": [
         "rural district",
         "urban district",
         "1966",
         "pre-reform",
-        "Rural and Urban Districts 4 July 1966",
+        "Rural and Urban Districts 4 Jul 1966",
         "Local Government Districts",
         "Elections and Government",
         "maplibre",
@@ -120760,10 +120766,122 @@
         "vector tiles"
       ],
       "detailUrl": "/render/metadata/layer-details-test2/eds-leinster-1979-vector-test.json"
+    },
+    {
+      "id": "stormont-1969-vector-test",
+      "sourceMapId": "stormont-1969",
+      "name": "1969 NI Parliament",
+      "category": "Devolved Constituencies",
+      "group": "Elections and Government",
+      "provider": [
+        "Interim Boundary Commission for Northern Ireland",
+        "Paddy Matthews",
+        "Tailte Éireann",
+        "OSNI"
+      ],
+      "date": 1969,
+      "dateAdded": null,
+      "dateEffective": null,
+      "description": "The 52 territorial constituencies of the Parliament of Northern Ireland used at the 1969 general election. Forty-two seats are unchanged from 1929 and keep the 1929 lines. Ten seats in Co. Antrim and Co. Down were redrawn, four of them new (Bangor, Lagan Valley, Larkfield and Newtownabbey), following the map of proposed constituencies in the Interim Boundary Commission for Northern Ireland's 1967 report. The redrawn seats are built from whole 1930 district electoral divisions where the map moves whole divisions; four divisions split by the proposal (Ballygomartin, Ballyduff, Monkstown and Crawfordsburn) were cut along the map's line, accurate to about 150 m. The Bangor seat follows the borough as extended on 1 April 1967, plus Groomsport. The composition is read from the Commission's proposal map and assumes that the Electoral Law Act (Northern Ireland) 1968 enacted the proposals unchanged; the Act's schedule has not been checked. The Commission's population and electorate figures for the redrawn seats are included. The Queen's University seats had no territory and are not shown.",
+      "notes": "Generated from render/source-cache/vector-intake/stormont-1969.fgb with GDAL MVT output.",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "renderer": "maplibre",
+      "status": "converted",
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "minzoom": 0,
+      "maxzoom": 12,
+      "sourceLayer": "stormont_1969",
+      "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/stormont-1969-vector-test.pmtiles",
+      "tiles": "/render/tiles/generated/stormont-1969/{z}/{x}/{y}.pbf",
+      "tilesFallback": "/render/tiles/generated/stormont-1969/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "serving": "cdn",
+        "localPath": "render/pmtiles/generated/stormont-1969-vector-test.pmtiles"
+      },
+      "metadataUrl": "/render/tiles/generated/stormont-1969/metadata.json",
+      "style": {
+        "color": "#0A4BAF",
+        "fillColor": "#0A4BAF",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "labelProperty": "Name",
+      "labelPropertyFallbacks": [
+        "COUNTY"
+      ],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#0A4BAF",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "promoteId": "OBJECTID",
+      "idProperty": "OBJECTID",
+      "sourceFile": "render/source-cache/vector-intake/stormont-1969.fgb",
+      "sourceDatasetLayer": "stormont-1969",
+      "numericProperties": [
+        "OBJECTID",
+        "seats",
+        "ibc1967_population",
+        "ibc1967_electorate"
+      ],
+      "categoricalProperties": [
+        "NAME",
+        "COUNTY",
+        "basis"
+      ],
+      "popupProperties": [
+        "Name",
+        "OBJECTID",
+        "NAME",
+        "COUNTY",
+        "seats",
+        "basis",
+        "ibc1967_population",
+        "ibc1967_electorate"
+      ],
+      "generatedFrom": {
+        "pipeline": "build-test-vector-batch",
+        "sourceFile": "render/source-cache/vector-intake/stormont-1969.fgb",
+        "bytes": 2671105,
+        "files": 759,
+        "pbfFiles": 758,
+        "maxTileBytes": 34145
+      },
+      "keywords": [
+        "stormont",
+        "constituency",
+        "1969",
+        "parliament",
+        "1969 NI Parliament",
+        "Devolved Constituencies",
+        "Elections and Government",
+        "maplibre",
+        "vector tiles"
+      ],
+      "detailUrl": "/render/metadata/layer-details-test2/stormont-1969-vector-test.json"
     }
   ],
-  "publicMapCount": 799,
+  "publicMapCount": 800,
   "generatedFrom": "render/metadata/maps-test.json",
   "detailIndex": true,
-  "detailLayerCount": 1144
+  "detailLayerCount": 1145
 }

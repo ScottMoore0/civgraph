@@ -252,7 +252,9 @@ def convert_workbook(path: Path, year: str):
     # Combine county + DEA so cross-council collisions ("Northwest", "Town")
     # become unambiguous: e.g. "Antrim Northwest", "Ballymena Town".
     stem = path.stem
-    m = re.match(r"^lg\d+-([A-Z]+)-(.+)$", stem)
+    # Council codes are mixed-case in some ARK file names (NaM, NoD, New, Col, Lim):
+    # [A-Z]+ let those through unnamed, as "lg85-NaM-Crotlieve".
+    m = re.match(r"^[Ll]g\d+-([A-Za-z]+)-(.+)$", stem)
     if m:
         county_code = m.group(1).upper()
         dea_raw = m.group(2).replace("_", " ").replace("-", " ").strip()

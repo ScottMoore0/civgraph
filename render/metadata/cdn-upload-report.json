@@ -1,26 +1,44 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-29T00:35:19.131Z",
+  "generatedAt": "2026-10-29T01:49:47.004Z",
   "bucket": "boundaries-data",
   "dryRun": false,
   "selectedIds": [
-    "ded-1921-05-03-vector-test"
+    "admin-areas-1966-07-04-vector-test",
+    "lgd-1966-vector-test",
+    "stormont-1969-vector-test"
   ],
   "totals": {
-    "assets": 1,
-    "processed": 1,
-    "ok": 1,
+    "assets": 3,
+    "processed": 3,
+    "ok": 3,
     "failed": 0,
-    "bytes": 5455332
+    "bytes": 3720277
   },
   "results": [
     {
-      "layerId": "ded-1921-05-03-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/ded-1921-05-03-vector-test.pmtiles",
+      "layerId": "admin-areas-1966-07-04-vector-test",
+      "targetKey": "data/maps/test/pmtiles/generated/admin-areas-1966-07-04-vector-test.pmtiles",
       "ok": true,
       "status": "uploaded",
-      "bytes": 5455332,
-      "output": "\n ⛅️ wrangler 4.85.0\n───────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/ded-1921-05-03-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+      "bytes": 1068343,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.155.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/admin-areas-1966-07-04-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+    },
+    {
+      "layerId": "lgd-1966-vector-test",
+      "targetKey": "data/maps/test/pmtiles/generated/lgd-1966-vector-test.pmtiles",
+      "ok": true,
+      "status": "uploaded",
+      "bytes": 1058547,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.155.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/lgd-1966-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+    },
+    {
+      "layerId": "stormont-1969-vector-test",
+      "targetKey": "data/maps/test/pmtiles/generated/stormont-1969-vector-test.pmtiles",
+      "ok": true,
+      "status": "uploaded",
+      "bytes": 1593387,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.155.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/stormont-1969-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
     }
   ]
 }
