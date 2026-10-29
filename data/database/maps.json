@@ -5804,7 +5804,14 @@
         "1966",
         "pre-reform"
       ],
-      "hiddenReason": "Duplicate of admin-areas-1966-07-04, which is already a member of the ni-admin-areas (Administrative Areas) class and is the visible record. Both point at the SAME file, https://data.civgraph.net/data/maps/local-government/LGDs_04-07-1966.fgb, with the same date and the same labelProperty. Kept hidden as an archived record rather than deleted, so existing links keep resolving. Deliberately NOT added to the class: that would put two entries on 1966-07-04 drawing one file. Attribution settled 2026-08-23: XrysD is correct, and admin-areas-1966-07-04 was corrected from OSNI to match."
+      "hiddenReason": "Duplicate of admin-areas-1966-07-04, which is already a member of the ni-admin-areas (Administrative Areas) class and is the visible record. Both point at the SAME file, https://data.civgraph.net/data/maps/local-government/LGDs_04-07-1966.fgb, with the same date and the same labelProperty. Kept hidden as an archived record rather than deleted, so existing links keep resolving. Deliberately NOT added to the class: that would put two entries on 1966-07-04 drawing one file. Attribution settled 2026-08-23: XrysD is correct, and admin-areas-1966-07-04 was corrected from OSNI to match.",
+      "references": [
+        {
+          "label": "Belfast Gazette issue 2305 (Ballyclare UD boundary extension)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/2305/data.pdf",
+          "note": "21 May 1965, pages 176-177. Ballyclare UD extended (Six Mile Water sewage works, from Antrim RD) from 1 Apr 1965; the source layer omitted it and Ballyclare UD / Antrim RD were corrected to the OSNI 1965 line."
+        }
+      ]
     },
     {
       "id": "pc-2023",
@@ -6390,7 +6397,15 @@
       "name": "1969 NI Parliament",
       "slug": "stormont-1969",
       "category": "devolved",
-      "placeholder": true,
+      "provider": [
+        "Interim Boundary Commission for Northern Ireland",
+        "Paddy Matthews",
+        "Tailte Éireann",
+        "OSNI"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/parliamentary/stormont-1969.fgb"
+      },
       "date": 1969,
       "style": {
         "color": "#0A4BAF",
@@ -6402,6 +6417,21 @@
         "constituency",
         "1969",
         "parliament"
+      ],
+      "description": "The 52 territorial constituencies of the Parliament of Northern Ireland used at the 1969 general election. Forty-two seats are unchanged from 1929 and keep the 1929 lines. Ten seats in Co. Antrim and Co. Down were redrawn, four of them new (Bangor, Lagan Valley, Larkfield and Newtownabbey), following the map of proposed constituencies in the Interim Boundary Commission for Northern Ireland's 1967 report. The redrawn seats are built from whole 1930 district electoral divisions where the map moves whole divisions; four divisions split by the proposal (Ballygomartin, Ballyduff, Monkstown and Crawfordsburn) were cut along the map's line, accurate to about 150 m. The Bangor seat follows the borough as extended on 1 April 1967, plus Groomsport. The composition is read from the Commission's proposal map and assumes that the Electoral Law Act (Northern Ireland) 1968 enacted the proposals unchanged; the Act's schedule has not been checked. The Commission's population and electorate figures for the redrawn seats are included. The Queen's University seats had no territory and are not shown.",
+      "references": [
+        {
+          "label": "Interim Boundary Commission for Northern Ireland, Report (1967): map showing proposed constituencies and summary of proposals",
+          "note": "Source of the redrawn seats and of the population and electorate figures. The Commission was appointed by warrant of 31 January 1967; its map showing existing constituencies was used as a check against the 1929 layer."
+        },
+        {
+          "label": "Electoral Law Act (Northern Ireland) 1968",
+          "note": "Gave effect to the new constituencies for the 1969 general election. Assumed to follow the Commission's proposals unchanged; the schedule has not been compared."
+        },
+        {
+          "label": "Bangor Borough (Extension) Order (Northern Ireland) 1966",
+          "note": "Bangor borough as extended from 1 April 1967, used for the Bangor/North Down line."
+        }
       ]
     },
     {
@@ -10651,7 +10681,14 @@
         "1966"
       ],
       "labelProperty": "FullName",
-      "date": "1966-07-04"
+      "date": "1966-07-04",
+      "references": [
+        {
+          "label": "Belfast Gazette issue 2305 (Ballyclare UD boundary extension)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/2305/data.pdf",
+          "note": "21 May 1965, pages 176-177. Ballyclare UD extended (Six Mile Water sewage works, from Antrim RD) from 1 Apr 1965; the source layer omitted it and Ballyclare UD / Antrim RD were corrected to the OSNI 1965 line."
+        }
+      ]
     },
     {
       "id": "wards-2001",
@@ -10960,7 +10997,14 @@
         "weight": 2
       },
       "labelProperty": "AdministrativeArea",
-      "changeNote": "Ballyclare UD boundary expanded"
+      "changeNote": "Ballyclare UD boundary expanded",
+      "references": [
+        {
+          "label": "Belfast Gazette issue 2305 (Ballyclare UD boundary extension)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/2305/data.pdf",
+          "note": "21 May 1965, pages 176-177. Antrim County Council order of 23 Feb 1965, confirmed by the Ministry of Development 13 May 1965; effective 1 Apr 1965 for all purposes other than the electoral register (15 Feb 1966). Consequential Ballyclare Rural DED order (Antrim RD) on pages 175-176."
+        }
+      ]
     },
     {
       "id": "admin-areas-1964-06-02",

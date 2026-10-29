@@ -12,7 +12,10 @@
   "person-id-splits-2026-10-28": "Candidates of the same name in different councils that the imported data gave one Candidate_Id, and so one person record. Each council's candidate is given an id of their own; within a council they stay together until a source says otherwise.",
   "candidate-id-splits-2026-10-28": "The imported Northern Ireland council data gave every candidate of one name the same Candidate_Id in every council, joining different people into one. Each such id keeps the council where it is used most; elsewhere each council's candidate gets an id of their own ('<id>-<council>'). Nothing in the results changes.",
   "gallagher-1923-first-prefs-2026-10-28": "First-preference figures for the August 1923 Dail election taken from Michael Gallagher, Irish Elections 1922-44: Results and Analysis (1993), where the imported figures did not add up to the valid poll.",
-  "gallagher-1922-44-counts-2026-10-29": "Count tables for 1922-44 Dail contests taken from Michael Gallagher, Irish Elections 1922-44: Results and Analysis (1993), where the imported data had none or only first preferences (count sidecars in data/elections/dail-wikipedia-counts named as Gallagher's), with the figures and names his tables show to be wrong in the imported data corrected. Figures read from the page images."
+  "gallagher-1922-44-counts-2026-10-29": "Count tables for 1922-44 Dail contests taken from Michael Gallagher, Irish Elections 1922-44: Results and Analysis (1993), where the imported data had none or only first preferences (count sidecars in data/elections/dail-wikipedia-counts named as Gallagher's), with the figures and names his tables show to be wrong in the imported data corrected. Figures read from the page images.",
+  "ni-dea-names-2026-10-29": "Northern Ireland council contests 1973-2011 in Newry and Mourne, North Down, Newtownabbey (1985), Coleraine and Limavady (1989) that were shown under their import spreadsheet names, named as ARK Northern Ireland Elections and the electoral-area maps name them.",
+  "party-labels-2026-10-29": "Party labels corrected: Dail candidates of June 1927 (National League), 1943-44 (Clann na Talmhan) and 1944-48 (National Labour) shown as Independents, checked against Gallagher's Irish Elections 1922-44, Wikipedia and the Houses of the Oireachtas; Michael Sheehan (Cork Borough 1948) and Thomas O'Hara (Mayo North 1951-57) shown as Fine Gael; and two Unionist Party of Northern Ireland candidates of October 1974 shown as Ulster Unionists, from the nomination notice.",
+  "ark-crosscheck-2026-10-29": "Disagreements between ARK Northern Ireland Elections (Nicholas Whyte) and Civgraph settled against the Electoral Office for Northern Ireland's result sheets and results booklets (Internet Archive copies)."
  },
  "records": [
   {
@@ -503,6 +506,11 @@
       "candidateName": "Campbell McCormick",
       "id": 43
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "North Down Area A"
     }
    ],
    "additionalSources": [
@@ -625,6 +633,11 @@
       "Status": "Excluded",
       "Occurred_On_Count": "7"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "North Down Area B"
     }
    ],
    "additionalSources": [
@@ -697,6 +710,11 @@
       "Status": "Excluded",
       "Occurred_On_Count": "8"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "North Down Area C"
     }
    ],
    "additionalSources": [
@@ -769,6 +787,11 @@
       "Status": "Excluded",
       "Occurred_On_Count": "10"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "North Down Area D"
     }
    ],
    "additionalSources": [
@@ -928,6 +951,11 @@
      "set": {
       "Candidate_Id": "T500406723-north-down"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "North Down Area B"
     }
    ],
    "internalNote": "John Shields: candidate id T368774468 was shared with candidates of the same name in other councils (kept by Ards); given T368774468-north-down. William Alexander: candidate id T500406723 was shared with candidates of the same name in other councils (kept by Down); given T500406723-north-down."
@@ -948,6 +976,11 @@
      "op": "set",
      "path": "Constituency.countInfo.Spoiled",
      "value": "212"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Newry and Mourne Area A"
     }
    ]
   },
@@ -974,6 +1007,11 @@
      "set": {
       "Candidate_Id": "T3565470623-newry-and-mourne"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Newry and Mourne Area D"
     }
    ],
    "internalNote": "Michael McNulty: candidate id T3565470623 was shared with candidates of the same name in other councils (kept by Omagh); given T3565470623-newry-and-mourne."
@@ -1011,6 +1049,11 @@
      "set": {
       "Candidate_Id": "T90561566-newry-and-mourne"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Newry and Mourne Area E"
     }
    ],
    "internalNote": "Elizabeth McDowell: candidate id T90561566 was shared with candidates of the same name in other councils (kept by Newtownabbey); given T90561566-newry-and-mourne."
@@ -1040,6 +1083,11 @@
      "set": {
       "Candidate_Id": "T1514289551-north-down"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "North Down Area A"
     }
    ],
    "internalNote": "Dorothy Smith: candidate id T1514289551 was shared with candidates of the same name in other councils (kept by Ballymena); given T1514289551-north-down."
@@ -1060,6 +1108,11 @@
      "op": "set",
      "path": "Constituency.countInfo.Total_Poll",
      "value": "5720"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "North Down Area C"
     }
    ]
   },
@@ -1123,6 +1176,11 @@
      "set": {
       "Candidate_Id": "T2889401537-newtownabbey"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Antrim Line"
     }
    ],
    "additionalSources": [
@@ -1175,6 +1233,11 @@
       "Status": "Excluded",
       "Occurred_On_Count": "5"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "The Mournes"
     }
    ],
    "additionalSources": [
@@ -1243,6 +1306,11 @@
       "candidateName": "George McMurtry",
       "id": 53
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Abbey"
     }
    ],
    "additionalSources": [
@@ -1277,6 +1345,11 @@
      "set": {
       "Candidate_Id": "T197089928-coleraine"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Skerries"
     }
    ],
    "internalNote": "Patrick McGowan: candidate id T197089928 was shared with candidates of the same name in other councils (kept by Omagh); given T197089928-coleraine."
@@ -1297,6 +1370,11 @@
      "op": "set",
      "path": "Constituency.countInfo.Valid_Poll",
      "value": "4037"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Limavady Town"
     }
    ]
   },
@@ -1353,6 +1431,11 @@
       "candidateName": "Karen Worrall",
       "id": 118
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Abbey"
     }
    ],
    "additionalSources": [
@@ -1417,6 +1500,11 @@
       "candidateName": "Jamie Bryson",
       "id": 70
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Bangor West"
     }
    ],
    "additionalSources": [
@@ -1444,6 +1532,11 @@
      "op": "set",
      "path": "Constituency.countInfo.Valid_Poll",
      "value": "7624"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Slieve Gullion"
     }
    ]
   },
@@ -85755,8 +85848,15 @@
     "url": "https://www.ark.ac.uk/elections/nlgabc.htm",
     "accessed": "2026-10-23"
    },
-   "additionalSources": [],
-   "reason": "1 candidate in Craigavon 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Fergal Lennon (Sinn Féin, 910 first preferences).",
+   "additionalSources": [
+    {
+     "title": "Local Council Elections 2014 result sheet: Craigavon DEA",
+     "publisher": "The Electoral Office for Northern Ireland",
+     "url": "https://web.archive.org/web/20170401091254/http://www.eoni.org.uk/getmedia/b2e75015-0e58-4f9d-b06b-e140fddb058f/Local-Council-Election-2014-Result-Sheet-Craigavon",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "1 candidate in Craigavon 2014 carried a scraped placeholder for a name; ARK's first count identifies the candidate by party and first preferences as Fergal Lennon (Sinn Féin, 910 first preferences). Fergal Lennon (Sinn Féin) was elected and Tommy O'Connor was not, as the Electoral Office's result sheet gives: at the ninth stage Julie Flaherty's 694.58 votes were transferred, 2 to Lennon (1,238.88), 304 to Margaret Tinsley (1,303.71) and 4 to O'Connor (995), with 384.58 non-transferable; Lennon had been shown excluded with all his votes non-transferable. Stage totals the import had cut to whole numbers are restored to the sheet's two decimal places.",
    "category": "names",
    "operations": [
     {
@@ -85773,6 +85873,246 @@
      "candidateId": "3230433934",
      "set": {
       "Candidate_Id": "3230433934-armagh-banbridge-and-craigavon"
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Fergal Lennon",
+     "set": {
+      "Status": "Elected"
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Tommy O'Connor",
+     "set": {
+      "Status": "Excluded"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Non-transferable",
+     "count": 9,
+     "set": {
+      "Transfers": "384.58",
+      "Total_Votes": "687.89"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Kieran Corr",
+     "count": 5,
+     "set": {
+      "Total_Votes": "546.76"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Kieran Corr",
+     "count": 6,
+     "set": {
+      "Total_Votes": "546.98"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Kieran Corr",
+     "count": 7,
+     "set": {
+      "Total_Votes": "596.98"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Julie Flaherty",
+     "count": 5,
+     "set": {
+      "Total_Votes": "659.40"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Julie Flaherty",
+     "count": 6,
+     "set": {
+      "Total_Votes": "661.71"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Julie Flaherty",
+     "count": 7,
+     "set": {
+      "Total_Votes": "667.47"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Julie Flaherty",
+     "count": 8,
+     "set": {
+      "Total_Votes": "694.58"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Thomas Larkham",
+     "count": 5,
+     "set": {
+      "Total_Votes": "544.28"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Thomas Larkham",
+     "count": 6,
+     "set": {
+      "Total_Votes": "544.28"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Fergal Lennon",
+     "count": 5,
+     "set": {
+      "Total_Votes": "1049.88"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Fergal Lennon",
+     "count": 6,
+     "set": {
+      "Total_Votes": "1049.88"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Fergal Lennon",
+     "count": 7,
+     "set": {
+      "Total_Votes": "1111.88"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Fergal Lennon",
+     "count": 8,
+     "set": {
+      "Total_Votes": "1236.88"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Fergal Lennon",
+     "count": 9,
+     "set": {
+      "Total_Votes": "1238.88",
+      "Transfers": "2.00"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Fergal Lennon",
+     "count": 10,
+     "set": {
+      "Total_Votes": "1238.88"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Declan McAlinden",
+     "count": 5,
+     "set": {
+      "Total_Votes": "896.88"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Declan McAlinden",
+     "count": 6,
+     "set": {
+      "Total_Votes": "896.88"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Declan McAlinden",
+     "count": 7,
+     "set": {
+      "Total_Votes": "1247.52"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Declan McAlinden",
+     "count": 8,
+     "set": {
+      "Total_Votes": "1416.52"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Declan McAlinden",
+     "count": 9,
+     "set": {
+      "Total_Votes": "1416.52"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Declan McAlinden",
+     "count": 10,
+     "set": {
+      "Total_Votes": "1416.52"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Margaret Tinsley",
+     "count": 5,
+     "set": {
+      "Total_Votes": "967.52"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Margaret Tinsley",
+     "count": 6,
+     "set": {
+      "Total_Votes": "981.60"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Margaret Tinsley",
+     "count": 7,
+     "set": {
+      "Total_Votes": "983.60"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Margaret Tinsley",
+     "count": 8,
+     "set": {
+      "Total_Votes": "999.71"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Margaret Tinsley",
+     "count": 9,
+     "set": {
+      "Total_Votes": "1303.71"
+     }
+    },
+    {
+     "op": "candidateCount",
+     "name": "Margaret Tinsley",
+     "count": 10,
+     "set": {
+      "Total_Votes": "1303.71"
      }
     }
    ],
@@ -89082,15 +89422,99 @@
      "set": {
       "Transfers": "49.00"
      }
+    },
+    {
+     "op": "candidate",
+     "name": "Herbert Kerr",
+     "set": {
+      "Status": "Elected",
+      "Occurred_On_Count": "2"
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Gerry O'Donnell",
+     "set": {
+      "Status": "Excluded"
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.56",
+     "value": {
+      "Constituency_Number": "",
+      "Candidate_Id": "T405952373",
+      "Count_Number": "3",
+      "Firstname": "Herbert",
+      "Surname": "Kerr",
+      "Candidate_First_Pref_Votes": "1241.00",
+      "Transfers": "0.00",
+      "Total_Votes": "1290.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "2",
+      "Party_Name": "UUP",
+      "Deduplicated Party Name": "UUP",
+      "Wikipedia Party Name": "Ulster Unionist Party",
+      "Party_Colour": "#48A5EE",
+      "candidateName": "Herbert Kerr"
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.57",
+     "value": {
+      "Constituency_Number": "",
+      "Candidate_Id": "T405952373",
+      "Count_Number": "4",
+      "Firstname": "Herbert",
+      "Surname": "Kerr",
+      "Candidate_First_Pref_Votes": "1241.00",
+      "Transfers": "-32.00",
+      "Total_Votes": "1258.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "2",
+      "Party_Name": "UUP",
+      "Deduplicated Party Name": "UUP",
+      "Wikipedia Party Name": "Ulster Unionist Party",
+      "Party_Colour": "#48A5EE",
+      "candidateName": "Herbert Kerr"
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countGroup.58",
+     "value": {
+      "Constituency_Number": "",
+      "Candidate_Id": "T3252141528",
+      "Count_Number": "8",
+      "Firstname": "John",
+      "Surname": "O'Kane",
+      "Candidate_First_Pref_Votes": "843.00",
+      "Transfers": "-247.98",
+      "Total_Votes": "1258.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "7",
+      "Party_Name": "SDLP",
+      "Deduplicated Party Name": "SDLP",
+      "Wikipedia Party Name": "Social Democratic and Labour Party",
+      "Party_Colour": "#2AA82C",
+      "candidateName": "John O'Kane"
+     }
     }
    ],
-   "reason": "Herbert Kerr had 1,241 first preferences, not 1,214 (1,290 after 49 transferred at stage 2), and the quota was 1,258, not 1,358, as ARK's result spreadsheet gives; the first preferences now add up to the valid poll of 6,287, and 1,258 is that poll's quota for 4 seats.",
+   "reason": "Herbert Kerr had 1,241 first preferences, not 1,214 (1,290 after 49 transferred at stage 2), and the quota was 1,258, not 1,358, as ARK's result spreadsheet gives; the first preferences now add up to the valid poll of 6,287, and 1,258 is that poll's quota for 4 seats. Herbert Kerr was elected at the second stage, when 49 transfers took him to 1,290, over the quota of 1,258, and his surplus of 32 was passed on at the fourth; Gerry O'Donnell, on 1,170 at the last stage, was not elected, as the Electoral Office's result sheet marks. John O'Kane's surplus of 247.98 was passed on at the eighth stage. (The sheet types Kerr's first preferences as 1,214 and its quota as 1,358; its own stage totals and the continuation sheet give 1,241 and 1,258.)",
    "additionalSources": [
     {
      "title": "Wikipedia: 1981 Fermanagh District Council election",
      "publisher": "Wikipedia",
      "url": "https://en.wikipedia.org/w/index.php?oldid=1191054438",
      "accessed": "2026-10-27"
+    },
+    {
+     "title": "The Electoral Office for Northern Ireland: Local Government Election Results 1981 (official result sheets), page 62-63",
+     "publisher": "The Electoral Office for Northern Ireland",
+     "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/064e8d36-856a-4f60-b950-716cf2c3c7bb/local_government_election_results_1981.pdf",
+     "accessed": "2026-10-29"
     }
    ]
   },
@@ -97385,6 +97809,12 @@
      "publisher": "Wikipedia",
      "url": "https://en.wikipedia.org/w/index.php?oldid=1192679591",
      "accessed": "2026-10-27"
+    },
+    {
+     "title": "The Electoral Office for Northern Ireland: Local Government Election Results 1973 (official result sheets), page 97",
+     "publisher": "The Electoral Office for Northern Ireland",
+     "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/76aa0570-21f1-4b65-9c6e-764faf19cdb4/local_government_election_results_1973.pdf",
+     "accessed": "2026-10-29"
     }
    ],
    "operations": [
@@ -98382,9 +98812,14 @@
        "id": 54
       }
      ]
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Poll",
+     "value": "3904"
     }
    ],
-   "reason": "2 candidates the import had left out restored (Max Gault, United Unionist, 776, elected; William Ross, United Unionist, 836, elected); A. D. Hegarty and James Mulhern were not elected; every count rebuilt from ARK's result spreadsheet (8 stages, quota 642). The first preferences now add up to the valid poll of 3,847, and Wikipedia shows the same candidates, first preferences and winners."
+   "reason": "2 candidates the import had left out restored (Max Gault, United Unionist, 776, elected; William Ross, United Unionist, 836, elected); A. D. Hegarty and James Mulhern were not elected; every count rebuilt from ARK's result spreadsheet (8 stages, quota 642). The first preferences now add up to the valid poll of 3,847, and Wikipedia shows the same candidates, first preferences and winners. Limavady Area B had 3,904 votes polled (3,847 valid and 57 spoilt), as the Electoral Office's result sheet gives; the figure had been imported as 39.04."
   },
   {
    "batch": "ni-council-xref-2026-10-27",
@@ -140104,9 +140539,33 @@
      "set": {
       "Candidate_Id": "T2597842877-ballymena-mid-and-east-antrim"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Electorate",
+     "value": "12043"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Poll",
+     "value": "5622"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "5506"
     }
    ],
-   "internalNote": "John Scott here is not the John Scott of Ards, 1973-85: the imported data gave every John Scott one candidate id, joining candidates from different councils into one person. Given the id T3551993284-ballymena, shared only with the same council's John Scott. John Carson: candidate id T2597842877 was shared with candidates of the same name in other councils (kept by Belfast); given T2597842877-ballymena-mid-and-east-antrim."
+   "internalNote": "John Scott here is not the John Scott of Ards, 1973-85: the imported data gave every John Scott one candidate id, joining candidates from different councils into one person. Given the id T3551993284-ballymena, shared only with the same council's John Scott. John Carson: candidate id T2597842877 was shared with candidates of the same name in other councils (kept by Belfast); given T2597842877-ballymena-mid-and-east-antrim.",
+   "reason": "Ballymena South had 12,043 electors, 5,622 votes polled and a valid poll of 5,506, as the Electoral Office's result sheet gives and the first preferences add up to; they had been imported as 120.04, 5.62 and 5.51.",
+   "additionalSources": [
+    {
+     "title": "The Electoral Office for Northern Ireland: Local Government Election Results 1997 (official result sheets), page 37",
+     "publisher": "The Electoral Office for Northern Ireland",
+     "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/28aa14fd-8434-4a56-b274-e155002d47b6/local_government_election_results_1997.pdf",
+     "accessed": "2026-10-29"
+    }
+   ]
   },
   {
    "batch": "person-id-splits-2026-10-28",
@@ -151860,6 +152319,11 @@
      "set": {
       "Candidate_Id": "T2721763766-newry-and-mourne"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Newry and Mourne Area B"
     }
    ],
    "internalNote": "William Gordon: candidate id T2721763766 was shared with candidates of the same name in other councils (kept by North Down); given T2721763766-newry-and-mourne."
@@ -151874,6 +152338,11 @@
      "set": {
       "Candidate_Id": "T2433913923-newry-and-mourne"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Newry and Mourne Area F"
     }
    ],
    "internalNote": "Patrick Crilly: candidate id T2433913923 was shared with candidates of the same name in other councils (kept by Craigavon); given T2433913923-newry-and-mourne."
@@ -152795,6 +153264,11 @@
      "set": {
       "Candidate_Id": "T888408401-newry-and-mourne"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Newry and Mourne Area A"
     }
    ],
    "internalNote": "John Henning: candidate id T888408401 was shared with candidates of the same name in other councils (kept by Magherafelt); given T888408401-newry-and-mourne."
@@ -152809,6 +153283,11 @@
      "set": {
       "Candidate_Id": "T2721763766-newry-and-mourne"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Newry and Mourne Area B"
     }
    ],
    "internalNote": "William Gordon: candidate id T2721763766 was shared with candidates of the same name in other councils (kept by North Down); given T2721763766-newry-and-mourne."
@@ -152823,6 +153302,11 @@
      "set": {
       "Candidate_Id": "T633736538-newry-and-mourne"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Newry and Mourne Area D"
     }
    ],
    "internalNote": "Patrick Sloan: candidate id T633736538 was shared with candidates of the same name in other councils (kept by Down); given T633736538-newry-and-mourne."
@@ -152963,9 +153447,23 @@
      "set": {
       "Candidate_Id": "T3887287662-ballymena"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Quota",
+     "value": "946"
     }
    ],
-   "internalNote": "Samuel Barr: candidate id T3887287662 was shared with candidates of the same name in other councils (kept by Derry); given T3887287662-ballymena."
+   "internalNote": "Samuel Barr: candidate id T3887287662 was shared with candidates of the same name in other councils (kept by Derry); given T3887287662-ballymena.",
+   "reason": "The quota was 946, as the Electoral Office's result sheet gives (the valid poll of 6,616 divided by seven, plus one); it had been imported as 96.10.",
+   "additionalSources": [
+    {
+     "title": "The Electoral Office for Northern Ireland: Local Government Election Results 1981 (official result sheets), page 38",
+     "publisher": "The Electoral Office for Northern Ireland",
+     "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/064e8d36-856a-4f60-b950-716cf2c3c7bb/local_government_election_results_1981.pdf",
+     "accessed": "2026-10-29"
+    }
+   ]
   },
   {
    "batch": "candidate-id-splits-2026-10-28",
@@ -154356,9 +154854,23 @@
      "set": {
       "Candidate_Id": "T532706455-fermanagh"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "5665"
     }
    ],
-   "internalNote": "Thomas Doherty: candidate id T532706455 was shared with candidates of the same name in other councils (kept by Derry); given T532706455-fermanagh."
+   "internalNote": "Thomas Doherty: candidate id T532706455 was shared with candidates of the same name in other councils (kept by Derry); given T532706455-fermanagh.",
+   "reason": "Fermanagh Area B had a valid poll of 5,665, as the Electoral Office's result sheet gives and the first preferences add up to; the 109 spoilt ballots had been imported as the valid poll.",
+   "additionalSources": [
+    {
+     "title": "The Electoral Office for Northern Ireland: Local Government Election Results 1981 (official result sheets), page 60",
+     "publisher": "The Electoral Office for Northern Ireland",
+     "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/064e8d36-856a-4f60-b950-716cf2c3c7bb/local_government_election_results_1981.pdf",
+     "accessed": "2026-10-29"
+    }
+   ]
   },
   {
    "batch": "candidate-id-splits-2026-10-28",
@@ -154405,6 +154917,11 @@
      "set": {
       "Candidate_Id": "T4027837354-newry-and-mourne"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Newry and Mourne Area F"
     }
    ],
    "internalNote": "Michael McLoughlin: candidate id T4027837354 was shared with candidates of the same name in other councils (kept by Dungannon); given T4027837354-newry-and-mourne."
@@ -154433,6 +154950,11 @@
      "set": {
       "Candidate_Id": "T368774468-north-down"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "North Down Area B"
     }
    ],
    "internalNote": "William Johnston: candidate id T3252451493 was shared with candidates of the same name in other councils (kept by Ballymoney); given T3252451493-north-down. William Elliott: candidate id T3493071724 was shared with candidates of the same name in other councils (kept by Belfast); given T3493071724-north-down. John Shields: candidate id T368774468 was shared with candidates of the same name in other councils (kept by Ards); given T368774468-north-down."
@@ -154741,9 +155263,23 @@
      "set": {
       "Candidate_Id": "T3474542170-dungannon"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "6044"
     }
    ],
-   "internalNote": "Anita Cavlan: candidate id T3474542170 was shared with candidates of the same name in other councils (kept by Ballymoney); given T3474542170-dungannon."
+   "internalNote": "Anita Cavlan: candidate id T3474542170 was shared with candidates of the same name in other councils (kept by Ballymoney); given T3474542170-dungannon.",
+   "reason": "Dungannon Town had a valid poll of 6,044, as the Electoral Office's result sheet gives and the first preferences add up to; it had been imported as 6.04.",
+   "additionalSources": [
+    {
+     "title": "The Electoral Office for Northern Ireland: Local Government Election Results 1985 (official result sheets), page 66",
+     "publisher": "The Electoral Office for Northern Ireland",
+     "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/2d57a980-809e-4f90-b658-0175b954d3a2/local_government_election_results_1985.pdf",
+     "accessed": "2026-10-29"
+    }
+   ]
   },
   {
    "batch": "candidate-id-splits-2026-10-28",
@@ -155063,9 +155599,23 @@
      "set": {
       "Candidate_Id": "T2597842877-ballymena-mid-and-east-antrim"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Poll",
+     "value": "6085"
     }
    ],
-   "internalNote": "John Carson: candidate id T2597842877 was shared with candidates of the same name in other councils (kept by Belfast); given T2597842877-ballymena-mid-and-east-antrim."
+   "internalNote": "John Carson: candidate id T2597842877 was shared with candidates of the same name in other councils (kept by Belfast); given T2597842877-ballymena-mid-and-east-antrim.",
+   "reason": "Ballymena Town had 6,085 votes polled (5,955 valid and 130 spoilt), as the Electoral Office's result sheet gives; it had been imported as 6.08.",
+   "additionalSources": [
+    {
+     "title": "The Electoral Office for Northern Ireland: Local Government Election Results 1989 (official result sheets), page 27",
+     "publisher": "The Electoral Office for Northern Ireland",
+     "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/c747b644-74fb-4401-a84f-1900f7818722/local_government_election_results_1989.pdf",
+     "accessed": "2026-10-29"
+    }
+   ]
   },
   {
    "batch": "candidate-id-splits-2026-10-28",
@@ -155259,6 +155809,11 @@
      "set": {
       "Candidate_Id": "T216441615-newry-and-mourne"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "The Fews"
     }
    ],
    "internalNote": "Patrick Quinn: candidate id T216441615 was shared with candidates of the same name in other councils (kept by Derry); given T216441615-newry-and-mourne."
@@ -155273,6 +155828,11 @@
      "set": {
       "Candidate_Id": "T2801813058-newry-and-mourne"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Slieve Gullion"
     }
    ],
    "internalNote": "Michael O'Neill: candidate id T2801813058 was shared with candidates of the same name in other councils (kept by Magherafelt); given T2801813058-newry-and-mourne."
@@ -155287,6 +155847,11 @@
      "set": {
       "Candidate_Id": "T3252451493-north-down"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Ballyholme and Groomsport"
     }
    ],
    "internalNote": "William Johnston: candidate id T3252451493 was shared with candidates of the same name in other councils (kept by Ballymoney); given T3252451493-north-down."
@@ -155560,9 +156125,23 @@
      "set": {
       "Candidate_Id": "T2616095141-castlereagh"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "4535"
     }
    ],
-   "internalNote": "William Stevenson: candidate id T2616095141 was shared with candidates of the same name in other councils (kept by Belfast/Lisburn); given T2616095141-castlereagh."
+   "internalNote": "William Stevenson: candidate id T2616095141 was shared with candidates of the same name in other councils (kept by Belfast/Lisburn); given T2616095141-castlereagh.",
+   "reason": "Castlereagh West had a valid poll of 4,535, as the Electoral Office's result sheet gives and the first preferences add up to; it had been imported as 4.54.",
+   "additionalSources": [
+    {
+     "title": "The Electoral Office for Northern Ireland: Local Government Election Results 1993 (official result sheets), page 129",
+     "publisher": "The Electoral Office for Northern Ireland",
+     "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/b0d9bd01-b804-48bd-8641-9d763ec66466/local_government_election_results_1993.pdf",
+     "accessed": "2026-10-29"
+    }
+   ]
   },
   {
    "batch": "candidate-id-splits-2026-10-28",
@@ -155721,6 +156300,11 @@
      "set": {
       "Candidate_Id": "T3966904587-north-down"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Ballyholme and Groomsport"
     }
    ],
    "internalNote": "Joseph Thompson: candidate id T3966904587 was shared with candidates of the same name in other councils (kept by Ards); given T3966904587-north-down."
@@ -155735,6 +156319,11 @@
      "set": {
       "Candidate_Id": "T1877854758-north-down"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Holywood"
     }
    ],
    "internalNote": "Robert Irvine: candidate id T1877854758 was shared with candidates of the same name in other councils (kept by Fermanagh/Fermanagh and Omagh); given T1877854758-north-down."
@@ -155875,9 +156464,23 @@
      "set": {
       "Candidate_Id": "T2909849158-belfast"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "13527"
     }
    ],
-   "internalNote": "John Norris: candidate id T2909849158 was shared with candidates of the same name in other councils (kept by Castlereagh); given T2909849158-belfast."
+   "internalNote": "John Norris: candidate id T2909849158 was shared with candidates of the same name in other councils (kept by Castlereagh); given T2909849158-belfast.",
+   "reason": "Victoria had a valid poll of 13,527, as the Electoral Office's result sheet gives and the first preferences add up to; it had been imported as 13.53.",
+   "additionalSources": [
+    {
+     "title": "The Electoral Office for Northern Ireland: Local Government Election Results 1993 (official result sheets), page 145",
+     "publisher": "The Electoral Office for Northern Ireland",
+     "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/b0d9bd01-b804-48bd-8641-9d763ec66466/local_government_election_results_1993.pdf",
+     "accessed": "2026-10-29"
+    }
+   ]
   },
   {
    "batch": "candidate-id-splits-2026-10-28",
@@ -155917,9 +156520,23 @@
      "set": {
       "Candidate_Id": "T3453967817-ballymena"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Electorate",
+     "value": "12239"
     }
    ],
-   "internalNote": "John Stewart: candidate id T3453967817 was shared with candidates of the same name in other councils (kept by Carrickfergus/Mid and East Antrim); given T3453967817-ballymena."
+   "internalNote": "John Stewart: candidate id T3453967817 was shared with candidates of the same name in other councils (kept by Carrickfergus/Mid and East Antrim); given T3453967817-ballymena.",
+   "reason": "Ballymena North had 12,239 electors, as the Electoral Office's result sheet gives; it had been imported as 12.24.",
+   "additionalSources": [
+    {
+     "title": "The Electoral Office for Northern Ireland: Local Government Election Results 1997 (official result sheets), page 36",
+     "publisher": "The Electoral Office for Northern Ireland",
+     "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/28aa14fd-8434-4a56-b274-e155002d47b6/local_government_election_results_1997.pdf",
+     "accessed": "2026-10-29"
+    }
+   ]
   },
   {
    "batch": "candidate-id-splits-2026-10-28",
@@ -156078,6 +156695,11 @@
      "set": {
       "Candidate_Id": "T3489524781-newry-and-mourne"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "The Mournes"
     }
    ],
    "internalNote": "Michael Cunningham: candidate id T3489524781 was shared with candidates of the same name in other councils (kept by Omagh); given T3489524781-newry-and-mourne."
@@ -156092,6 +156714,11 @@
      "set": {
       "Candidate_Id": "T1537488534-newry-and-mourne"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Newry Town"
     }
    ],
    "internalNote": "Mary McKeown: candidate id T1537488534 was shared with candidates of the same name in other councils (kept by Belfast); given T1537488534-newry-and-mourne."
@@ -156106,6 +156733,11 @@
      "set": {
       "Candidate_Id": "T3298459244-north-down"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Holywood"
     }
    ],
    "internalNote": "Jeffrey Dudgeon: candidate id T3298459244 was shared with candidates of the same name in other councils (kept by Belfast); given T3298459244-north-down."
@@ -158547,6 +159179,11 @@
      "set": {
       "Candidate_Id": "T1537488534-newry-and-mourne"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Slieve Gullion"
     }
    ],
    "internalNote": "Mary McKeown: candidate id T1537488534 was shared with candidates of the same name in other councils (kept by Belfast); given T1537488534-newry-and-mourne."
@@ -158561,6 +159198,11 @@
      "set": {
       "Candidate_Id": "T1877854758-north-down"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Holywood"
     }
    ],
    "internalNote": "Robert Irvine: candidate id T1877854758 was shared with candidates of the same name in other councils (kept by Fermanagh/Fermanagh and Omagh); given T1877854758-north-down."
@@ -158848,6 +159490,11 @@
      "set": {
       "Candidate_Id": "T1309182864-newry-and-mourne"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Crotlieve"
     }
    ],
    "internalNote": "Geraldine McAteer: candidate id T1309182864 was shared with candidates of the same name in other councils (kept by Belfast); given T1309182864-newry-and-mourne."
@@ -158862,6 +159509,11 @@
      "set": {
       "Candidate_Id": "T1360750631-north-down"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Bangor West"
     }
    ],
    "internalNote": "William Logan: candidate id T1360750631 was shared with candidates of the same name in other councils (kept by Ballymoney); given T1360750631-north-down."
@@ -159226,6 +159878,11 @@
      "set": {
       "Candidate_Id": "T604689577-newry-and-mourne"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Crotlieve"
     }
    ],
    "internalNote": "Jarlath Tinnelly: candidate id T2506446820 was shared with candidates of the same name in other councils (kept by Newry, Mourne and Down); given T2506446820-newry-and-mourne. Sean O'Hare: candidate id T604689577 was shared with candidates of the same name in other councils (kept by Belfast); given T604689577-newry-and-mourne."
@@ -159240,6 +159897,11 @@
      "set": {
       "Candidate_Id": "T2881912743-north-down"
      }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Ballyholme and Groomsport"
     }
    ],
    "internalNote": "Colin Breen: candidate id T2881912743 was shared with candidates of the same name in other councils (kept by Ards and North Down); given T2881912743-north-down."
@@ -183538,7 +184200,7 @@
     "publisher": "Michael Gallagher (PSAI Press, 1993), p. 70",
     "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf"
    },
-   "reason": "James Fitzgerald-Kenney's first preferences corrected from 2,886 to 2,884, Gallagher's figure; with it the first preferences add up to the valid poll of 34,160 and Cumann na nGaedheal's to his party total of 12,146.",
+   "reason": "James Fitzgerald-Kenney's first preferences corrected from 2,886 to 2,884, Gallagher's figure; with it the first preferences add up to the valid poll of 34,160 and Cumann na nGaedheal's to his party total of 12,146. Thomas Moclair (2,260 first preferences) stood for the National League, not as an Independent. Gallagher's Irish Elections 1922-44 prints him under the National League heading. Wikipedia's results for the constituency show him as an Independent, but Wikipedia's national National League total for the election, 83,598, includes his votes, and with this change Civgraph's total is that figure.",
    "category": "first-preferences",
    "operations": [
     {
@@ -183547,6 +184209,29 @@
      "set": {
       "Candidate_First_Pref_Votes": "2884"
      }
+    },
+    {
+     "op": "candidate",
+     "name": "Thomas Moclair",
+     "set": {
+      "party": "National League",
+      "Party_Name": "National League",
+      "Party_Colour": ""
+     }
+    }
+   ],
+   "additionalSources": [
+    {
+     "title": "Mayo South (Dail constituency): June 1927 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Mayo_South_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    },
+    {
+     "title": "June 1927 Irish general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/June_1927_Irish_general_election",
+     "accessed": "2026-10-29"
     }
    ]
   },
@@ -183583,6 +184268,3394 @@
      "url": "https://electionsireland.org/result.cfm?election=1943&cons=215"
     }
    ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1973-05-30/lg73-nam-area-a.json",
+   "source": {
+    "title": "Local Government Elections 1973 - 1981: Newry and Mourne",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/73-81lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg73-NaM-Area-A\"); it is Newry and Mourne Area A, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Newry and Mourne Area A"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1973-05-30/lg73-nam-area-c.json",
+   "source": {
+    "title": "Local Government Elections 1973 - 1981: Newry and Mourne",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/73-81lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg73-NaM-Area-C\"); it is Newry and Mourne Area C, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Newry and Mourne Area C"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1973-05-30/lg73-nam-area-d.json",
+   "source": {
+    "title": "Local Government Elections 1973 - 1981: Newry and Mourne",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/73-81lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg73-NaM-Area-D\"); it is Newry and Mourne Area D, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Newry and Mourne Area D"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1973-05-30/lg73-nam-area-e.json",
+   "source": {
+    "title": "Local Government Elections 1973 - 1981: Newry and Mourne",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/73-81lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg73-NaM-Area-E\"); it is Newry and Mourne Area E, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Newry and Mourne Area E"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1977-05-18/lg77-nam-area-c.json",
+   "source": {
+    "title": "Local Government Elections 1973 - 1981: Newry and Mourne",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/73-81lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg77-NaM-Area-C\"); it is Newry and Mourne Area C, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Newry and Mourne Area C"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1977-05-18/lg77-nam-area-e.json",
+   "source": {
+    "title": "Local Government Elections 1973 - 1981: Newry and Mourne",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/73-81lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg77-NaM-Area-E\"); it is Newry and Mourne Area E, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Newry and Mourne Area E"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1977-05-18/lg77-nam-area-f.json",
+   "source": {
+    "title": "Local Government Elections 1973 - 1981: Newry and Mourne",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/73-81lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg77-NaM-Area-F\"); it is Newry and Mourne Area F, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Newry and Mourne Area F"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1977-05-18/lg77-nod-area-a.json",
+   "source": {
+    "title": "Local Government Elections 1973 - 1981: North Down",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/73-81lgnorthdown.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg77-NoD-Area-A\"); it is North Down Area A, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "North Down Area A"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1977-05-18/lg77-nod-area-c.json",
+   "source": {
+    "title": "Local Government Elections 1973 - 1981: North Down",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/73-81lgnorthdown.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg77-NoD-Area-C\"); it is North Down Area C, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "North Down Area C"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1977-05-18/lg77-nod-area-d.json",
+   "source": {
+    "title": "Local Government Elections 1973 - 1981: North Down",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/73-81lgnorthdown.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg77-NoD-Area-D\"); it is North Down Area D, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "North Down Area D"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1981-05-20/lg81-nam-area-b.json",
+   "source": {
+    "title": "Local Government Elections 1973 - 1981: Newry and Mourne",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/73-81lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg81-NaM-Area-B\"); it is Newry and Mourne Area B, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Newry and Mourne Area B"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1981-05-20/lg81-nam-area-c.json",
+   "source": {
+    "title": "Local Government Elections 1973 - 1981: Newry and Mourne",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/73-81lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg81-NaM-Area-C\"); it is Newry and Mourne Area C, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Newry and Mourne Area C"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1981-05-20/lg81-nod-area-d.json",
+   "source": {
+    "title": "Local Government Elections 1973 - 1981: North Down",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/73-81lgnorthdown.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg81-NoD-Area-D\"); it is North Down Area D, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "North Down Area D"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1985-05-15/lg85-nam-crotlieve.json",
+   "source": {
+    "title": "Local Government Elections 1985-1989: Newry and Mourne",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/85-89lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg85-NaM-Crotlieve\"); it is the Crotlieve electoral area of Newry and Mourne council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Crotlieve"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1985-05-15/lg85-nam-fews.json",
+   "source": {
+    "title": "Local Government Elections 1985-1989: Newry and Mourne",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/85-89lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg85-NaM-Fews\"); it is the The Fews electoral area of Newry and Mourne council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "The Fews"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1985-05-15/lg85-nam-mournes.json",
+   "source": {
+    "title": "Local Government Elections 1985-1989: Newry and Mourne",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/85-89lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg85-NaM-Mournes\"); it is the The Mournes electoral area of Newry and Mourne council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "The Mournes"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1985-05-15/lg85-nam-newry-town.json",
+   "source": {
+    "title": "Local Government Elections 1985-1989: Newry and Mourne",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/85-89lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg85-NaM-Newry-Town\"); it is the Newry Town electoral area of Newry and Mourne council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Newry Town"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1985-05-15/lg85-nam-slieve-gullion.json",
+   "source": {
+    "title": "Local Government Elections 1985-1989: Newry and Mourne",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/85-89lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg85-NaM-Slieve-Gullion\"); it is the Slieve Gullion electoral area of Newry and Mourne council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Slieve Gullion"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1985-05-15/lg85-nod-abbey.json",
+   "source": {
+    "title": "Local Government Elections 1985-1989: North Down",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/85-89lgnorthdown.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg85-NoD-Abbey\"); it is the Abbey electoral area of North Down council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Abbey"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1985-05-15/lg85-nod-ballyholme-and-groomsport.json",
+   "source": {
+    "title": "Local Government Elections 1985-1989: North Down",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/85-89lgnorthdown.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg85-NoD-Ballyholme-and-Groomsport\"); it is the Ballyholme and Groomsport electoral area of North Down council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Ballyholme and Groomsport"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1985-05-15/lg85-nod-bangor-west.json",
+   "source": {
+    "title": "Local Government Elections 1985-1989: North Down",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/85-89lgnorthdown.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg85-NoD-Bangor-West\"); it is the Bangor West electoral area of North Down council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Bangor West"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1985-05-15/lg85-nod-holywood.json",
+   "source": {
+    "title": "Local Government Elections 1985-1989: North Down",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/85-89lgnorthdown.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg85-NoD-Holywood\"); it is the Holywood electoral area of North Down council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Holywood"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1989-05-17/lg89-col-bann.json",
+   "source": {
+    "title": "Local Government Elections 1985-1989: Coleraine",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/85-89lgcoleraine.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg89-Col-Bann\"); it is the Bann electoral area of Coleraine council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Bann"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1989-05-17/lg89-nam-crotlieve.json",
+   "source": {
+    "title": "Local Government Elections 1985-1989: Newry and Mourne",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/85-89lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg89-NaM-Crotlieve\"); it is the Crotlieve electoral area of Newry and Mourne council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Crotlieve"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1989-05-17/lg89-nam-newry-town.json",
+   "source": {
+    "title": "Local Government Elections 1985-1989: Newry and Mourne",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/85-89lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg89-NaM-Newry-Town\"); it is the Newry Town electoral area of Newry and Mourne council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Newry Town"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1989-05-17/lg89-nod-bangor-west.json",
+   "source": {
+    "title": "Local Government Elections 1985-1989: North Down",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/85-89lgnorthdown.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg89-NoD-Bangor-West\"); it is the Bangor West electoral area of North Down council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Bangor West"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1989-05-17/lg89-nod-holywood.json",
+   "source": {
+    "title": "Local Government Elections 1985-1989: North Down",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/85-89lgnorthdown.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg89-NoD-Holywood\"); it is the Holywood electoral area of North Down council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Holywood"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1993-05-19/lg93-nam-crotlieve.json",
+   "source": {
+    "title": "Newry and Mourne Council Elections 1993-2011",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg93-NaM-Crotlieve\"); it is the Crotlieve electoral area of Newry and Mourne council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Crotlieve"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1993-05-19/lg93-nam-fews.json",
+   "source": {
+    "title": "Newry and Mourne Council Elections 1993-2011",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg93-NaM-Fews\"); it is the The Fews electoral area of Newry and Mourne council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "The Fews"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1993-05-19/lg93-nam-mournes.json",
+   "source": {
+    "title": "Newry and Mourne Council Elections 1993-2011",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg93-NaM-Mournes\"); it is the The Mournes electoral area of Newry and Mourne council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "The Mournes"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1993-05-19/lg93-nam-newry-town.json",
+   "source": {
+    "title": "Newry and Mourne Council Elections 1993-2011",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg93-NaM-Newry-Town\"); it is the Newry Town electoral area of Newry and Mourne council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Newry Town"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1993-05-19/lg93-nam-slieve-gullion.json",
+   "source": {
+    "title": "Newry and Mourne Council Elections 1993-2011",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg93-NaM-Slieve-Gullion\"); it is the Slieve Gullion electoral area of Newry and Mourne council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Slieve Gullion"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1993-05-19/lg93-nod-abbey.json",
+   "source": {
+    "title": "North Down Council Elections 1993-2011",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg93-NoD-Abbey\"); it is the Abbey electoral area of North Down council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Abbey"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1993-05-19/lg93-nod-bangor-west.json",
+   "source": {
+    "title": "North Down Council Elections 1993-2011",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg93-NoD-Bangor-West\"); it is the Bangor West electoral area of North Down council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Bangor West"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1997-05-21/lg97-nam-crotlieve.json",
+   "source": {
+    "title": "Newry and Mourne Council Elections 1993-2011",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg97-NaM-Crotlieve\"); it is the Crotlieve electoral area of Newry and Mourne council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Crotlieve"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1997-05-21/lg97-nam-fews.json",
+   "source": {
+    "title": "Newry and Mourne Council Elections 1993-2011",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg97-NaM-Fews\"); it is the The Fews electoral area of Newry and Mourne council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "The Fews"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1997-05-21/lg97-nam-slieve-gullion.json",
+   "source": {
+    "title": "Newry and Mourne Council Elections 1993-2011",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg97-NaM-Slieve-Gullion\"); it is the Slieve Gullion electoral area of Newry and Mourne council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Slieve Gullion"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1997-05-21/lg97-nod-abbey.json",
+   "source": {
+    "title": "North Down Council Elections 1993-2011",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg97-NoD-Abbey\"); it is the Abbey electoral area of North Down council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Abbey"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1997-05-21/lg97-nod-ballyholme-and-groomsport.json",
+   "source": {
+    "title": "North Down Council Elections 1993-2011",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg97-NoD-Ballyholme-and-Groomsport\"); it is the Ballyholme and Groomsport electoral area of North Down council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Ballyholme and Groomsport"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1997-05-21/lg97-nod-bangor-west.json",
+   "source": {
+    "title": "North Down Council Elections 1993-2011",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg97-NoD-Bangor-West\"); it is the Bangor West electoral area of North Down council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Bangor West"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/2001-06-07/lg01-nam-crotlieve.json",
+   "source": {
+    "title": "Newry and Mourne Council Elections 1993-2011",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg01-NaM-Crotlieve\"); it is the Crotlieve electoral area of Newry and Mourne council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Crotlieve"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/2001-06-07/lg01-nam-fews.json",
+   "source": {
+    "title": "Newry and Mourne Council Elections 1993-2011",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg01-NaM-Fews\"); it is the The Fews electoral area of Newry and Mourne council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "The Fews"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/2001-06-07/lg01-nam-mournes.json",
+   "source": {
+    "title": "Newry and Mourne Council Elections 1993-2011",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg01-NaM-Mournes\"); it is the The Mournes electoral area of Newry and Mourne council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "The Mournes"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/2001-06-07/lg01-nam-newry-town.json",
+   "source": {
+    "title": "Newry and Mourne Council Elections 1993-2011",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg01-NaM-Newry-Town\"); it is the Newry Town electoral area of Newry and Mourne council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Newry Town"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/2001-06-07/lg01-nod-abbey.json",
+   "source": {
+    "title": "North Down Council Elections 1993-2011",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg01-NoD-Abbey\"); it is the Abbey electoral area of North Down council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Abbey"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/2001-06-07/lg01-nod-ballyholme-groomsport.json",
+   "source": {
+    "title": "North Down Council Elections 1993-2011",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg01-NoD-Ballyholme-&-Groomsport\"); it is the Ballyholme and Groomsport electoral area of North Down council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Ballyholme and Groomsport"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/2001-06-07/lg01-nod-bangor-west.json",
+   "source": {
+    "title": "North Down Council Elections 1993-2011",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg01-NoD-Bangor-West\"); it is the Bangor West electoral area of North Down council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Bangor West"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/2005-05-05/lg05-nam-fews.json",
+   "source": {
+    "title": "Newry and Mourne Council Elections 1993-2011",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg05-NaM-Fews\"); it is the The Fews electoral area of Newry and Mourne council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "The Fews"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/2005-05-05/lg05-nam-mournes.json",
+   "source": {
+    "title": "Newry and Mourne Council Elections 1993-2011",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg05-NaM-Mournes\"); it is the The Mournes electoral area of Newry and Mourne council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "The Mournes"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/2005-05-05/lg05-nam-newry-town.json",
+   "source": {
+    "title": "Newry and Mourne Council Elections 1993-2011",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg05-NaM-Newry-Town\"); it is the Newry Town electoral area of Newry and Mourne council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Newry Town"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/2005-05-05/lg05-nam-slieve-gullion.json",
+   "source": {
+    "title": "Newry and Mourne Council Elections 1993-2011",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg05-NaM-Slieve-Gullion\"); it is the Slieve Gullion electoral area of Newry and Mourne council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Slieve Gullion"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/2005-05-05/lg05-nod-abbey.json",
+   "source": {
+    "title": "North Down Council Elections 1993-2011",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg05-NoD-Abbey\"); it is the Abbey electoral area of North Down council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Abbey"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/2005-05-05/lg05-nod-ballyholme-groomsport.json",
+   "source": {
+    "title": "North Down Council Elections 1993-2011",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg05-NoD-Ballyholme-&-Groomsport\"); it is the Ballyholme and Groomsport electoral area of North Down council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Ballyholme and Groomsport"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/2005-05-05/lg05-nod-holywood.json",
+   "source": {
+    "title": "North Down Council Elections 1993-2011",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg05-NoD-Holywood\"); it is the Holywood electoral area of North Down council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Holywood"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/2011-05-05/lg11-nam-fews.json",
+   "source": {
+    "title": "Newry and Mourne Council Elections 1993-2011",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg11-NaM-Fews\"); it is the The Fews electoral area of Newry and Mourne council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "The Fews"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/2011-05-05/lg11-nam-mournes.json",
+   "source": {
+    "title": "Newry and Mourne Council Elections 1993-2011",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg11-NaM-Mournes\"); it is the The Mournes electoral area of Newry and Mourne council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "The Mournes"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/2011-05-05/lg11-nam-newry-town.json",
+   "source": {
+    "title": "Newry and Mourne Council Elections 1993-2011",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/lgnandm.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg11-NaM-Newry-Town\"); it is the Newry Town electoral area of Newry and Mourne council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Newry Town"
+    }
+   ]
+  },
+  {
+   "batch": "ni-dea-names-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/2011-05-05/lg11-nod-holywood.json",
+   "source": {
+    "title": "North Down Council Elections 1993-2011",
+    "publisher": "ARK Northern Ireland Elections (Nicholas Whyte)",
+    "url": "https://www.ark.ac.uk/elections/lgnorthdown.htm",
+    "accessed": "2026-10-29"
+   },
+   "reason": "This contest was listed under the name of the spreadsheet it was imported from (\"lg11-NoD-Holywood\"); it is the Holywood electoral area of North Down council, as ARK Northern Ireland Elections names it.",
+   "category": "names",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Constituency_Name",
+     "value": "Holywood"
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1927-06-09/kildare.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Kildare (Dail constituency): June 1927 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Kildare_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    },
+    {
+     "title": "June 1927 Irish general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/June_1927_Irish_general_election",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Rupert Trench stood for the National League, not as an Independent. Gallagher's Irish Elections 1922-44 prints him under that party's heading, and Wikipedia's results for the constituency give the same party. With this change Civgraph's National League total for the election is 83,598, the national figure Wikipedia gives.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Rupert Trench",
+     "set": {
+      "party": "National League",
+      "Party_Name": "National League",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1927-06-09/limerick.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Limerick (Dail constituency): June 1927 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Limerick_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    },
+    {
+     "title": "June 1927 Irish general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/June_1927_Irish_general_election",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Michael Joyce and John Coleman stood for the National League, not as Independents. Gallagher's Irish Elections 1922-44 prints them under that party's heading, and Wikipedia's results for the constituency give the same party. With this change Civgraph's National League total for the election is 83,598, the national figure Wikipedia gives.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Michael Joyce",
+     "set": {
+      "party": "National League",
+      "Party_Name": "National League",
+      "Party_Colour": ""
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "John Coleman",
+     "set": {
+      "party": "National League",
+      "Party_Name": "National League",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1927-06-09/louth.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Louth (Dail constituency): June 1927 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Louth_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    },
+    {
+     "title": "June 1927 Irish general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/June_1927_Irish_general_election",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "James Coburn stood for the National League, not as an Independent. Gallagher's Irish Elections 1922-44 prints him under that party's heading, and Wikipedia's results for the constituency give the same party. With this change Civgraph's National League total for the election is 83,598, the national figure Wikipedia gives.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "James Coburn",
+     "set": {
+      "party": "National League",
+      "Party_Name": "National League",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1927-06-09/mayo-north.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Mayo North (Dail constituency): June 1927 general election",
+     "publisher": "Wikipedia",
+     "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+     "accessed": "2026-10-29"
+    },
+    {
+     "title": "June 1927 Irish general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/June_1927_Irish_general_election",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Patrick O'Hara (3,237 first preferences) stood for the National League, not as an Independent. Gallagher's Irish Elections 1922-44 prints him under the National League heading. Wikipedia's results for the constituency show him as an Independent, but Wikipedia's national National League total for the election, 83,598, includes his votes, and with this change Civgraph's total is that figure.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Patrick O'Hara",
+     "set": {
+      "party": "National League",
+      "Party_Name": "National League",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1927-06-09/meath.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Meath (Dail constituency): June 1927 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Meath_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    },
+    {
+     "title": "June 1927 Irish general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/June_1927_Irish_general_election",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "William Fallon stood for the National League, not as an Independent. Gallagher's Irish Elections 1922-44 prints him under that party's heading, and Wikipedia's results for the constituency give the same party. With this change Civgraph's National League total for the election is 83,598, the national figure Wikipedia gives.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "William Fallon",
+     "set": {
+      "party": "National League",
+      "Party_Name": "National League",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1927-06-09/monaghan.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Monaghan (Dail constituency): June 1927 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Monaghan_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    },
+    {
+     "title": "June 1927 Irish general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/June_1927_Irish_general_election",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Jeremiah McVeagh stood for the National League, not as an Independent. Gallagher's Irish Elections 1922-44 prints him under that party's heading, and Wikipedia's results for the constituency give the same party. With this change Civgraph's National League total for the election is 83,598, the national figure Wikipedia gives.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Jeremiah McVeagh",
+     "set": {
+      "party": "National League",
+      "Party_Name": "National League",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1927-06-09/tipperary.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Tipperary (Dail constituency): June 1927 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Tipperary_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    },
+    {
+     "title": "June 1927 Irish general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/June_1927_Irish_general_election",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Thomas Condon and John Hackett stood for the National League, not as Independents. Gallagher's Irish Elections 1922-44 prints them under that party's heading, and Wikipedia's results for the constituency give the same party. With this change Civgraph's National League total for the election is 83,598, the national figure Wikipedia gives.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Thomas Condon",
+     "set": {
+      "party": "National League",
+      "Party_Name": "National League",
+      "Party_Colour": ""
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "John Hackett",
+     "set": {
+      "party": "National League",
+      "Party_Name": "National League",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1927-06-09/wexford.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Wexford (Dail constituency): June 1927 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Wexford_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    },
+    {
+     "title": "June 1927 Irish general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/June_1927_Irish_general_election",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "John Keating and Patrick Fanning stood for the National League, not as Independents. Gallagher's Irish Elections 1922-44 prints them under that party's heading, and Wikipedia's results for the constituency give the same party. With this change Civgraph's National League total for the election is 83,598, the national figure Wikipedia gives.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "John Keating",
+     "set": {
+      "party": "National League",
+      "Party_Name": "National League",
+      "Party_Colour": ""
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Patrick Fanning",
+     "set": {
+      "party": "National League",
+      "Party_Name": "National League",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1927-06-09/wicklow.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Wicklow (Dail constituency): June 1927 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Wicklow_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    },
+    {
+     "title": "June 1927 Irish general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/June_1927_Irish_general_election",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Alan Patten stood for the National League, not as an Independent. Gallagher's Irish Elections 1922-44 prints him under that party's heading, and Wikipedia's results for the constituency give the same party. With this change Civgraph's National League total for the election is 83,598, the national figure Wikipedia gives.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Alan Patten",
+     "set": {
+      "party": "National League",
+      "Party_Name": "National League",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1943-06-22/cork-north.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Cork North (Dail constituency): 1943 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Cork_North_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Patrick Halliden stood for Clann na Talmhan, not as an Independent. Gallagher's Irish Elections 1922-44 prints him under that party's heading, and Wikipedia's results for the constituency give the same party.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Patrick Halliden",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1943-06-22/cork-south-east.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Cork South East (Dail constituency): 1943 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Cork_South-East_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Patrick Lehane stood for Clann na Talmhan, not as an Independent. Gallagher's Irish Elections 1922-44 prints him under that party's heading, and Wikipedia's results for the constituency give the same party.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Patrick Lehane",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1943-06-22/cork-west.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Cork West (Dail constituency): 1943 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Cork_West_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Patrick O'Driscoll and Michael Twomey stood for Clann na Talmhan, not as Independents. Gallagher's Irish Elections 1922-44 prints them under that party's heading, and Wikipedia's results for the constituency give the same party.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Patrick O'Driscoll",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Michael Twomey",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1943-06-22/donegal-east.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Donegal East (Dail constituency): 1943 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Donegal_East_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "William Sheldon stood for Clann na Talmhan, not as an Independent. Gallagher's Irish Elections 1922-44 prints him under that party's heading, and Wikipedia's results for the constituency give the same party.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "William Sheldon",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1943-06-22/donegal-west.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Donegal West (Dail constituency): 1943 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Donegal_West_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Hugh Callaghan stood for Clann na Talmhan, not as an Independent. Gallagher's Irish Elections 1922-44 prints him under that party's heading, and Wikipedia's results for the constituency give the same party.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Hugh Callaghan",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1943-06-22/dublin-county.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Dublin County (Dail constituency): 1943 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Dublin_County_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Elizabeth Bobbett and Patrick Hickey stood for Clann na Talmhan, not as Independents. Gallagher's Irish Elections 1922-44 prints them under that party's heading, and Wikipedia's results for the constituency give the same party.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Elizabeth Bobbett",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Patrick Hickey",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1943-06-22/kerry-north.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Kerry North (Dail constituency): 1943 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Kerry_North_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Patrick Finucane and Edmund Horan stood for Clann na Talmhan, not as Independents. Gallagher's Irish Elections 1922-44 prints them under that party's heading, and Wikipedia's results for the constituency give the same party.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Patrick Finucane",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Edmund Horan",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1943-06-22/leix-offaly.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Leix Offaly (Dail constituency): 1943 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Laois%E2%80%93Offaly",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Patrick Bermingham stood for Clann na Talmhan, not as an Independent. Gallagher's Irish Elections 1922-44 prints him under that party's heading, and Wikipedia's results for the constituency give the same party.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Patrick Bermingham",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1943-06-22/limerick.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Limerick (Dail constituency): 1943 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Limerick_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Patrick Fitzsimons and Con Ryan stood for Clann na Talmhan, not as Independents. Gallagher's Irish Elections 1922-44 prints them under that party's heading, and Wikipedia's results for the constituency give the same party.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Patrick Fitzsimons",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Con Ryan",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1943-06-22/louth.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Louth (Dail constituency): 1943 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Louth_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Frank Jeffers stood for Clann na Talmhan, not as an Independent. Gallagher's Irish Elections 1922-44 prints him under that party's heading, and Wikipedia's results for the constituency give the same party.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Frank Jeffers",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1943-06-22/mayo-north.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Mayo North (Dail constituency): 1943 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Mayo_North_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Thomas O'Hara and Niall McCormack stood for Clann na Talmhan, not as Independents. Gallagher's Irish Elections 1922-44 prints them under that party's heading, and Wikipedia's results for the constituency give the same party.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Thomas O'Hara",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Niall McCormack",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1943-06-22/roscommon.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Roscommon (Dail constituency): 1943 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Roscommon_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "John Meighan, John Beirne and Thomas O'Donnell stood for Clann na Talmhan, not as Independents. Gallagher's Irish Elections 1922-44 prints them under that party's heading, and Wikipedia's results for the constituency give the same party.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "John Meighan",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "John Beirne",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Thomas O'Donnell",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1943-06-22/sligo.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Sligo (Dail constituency): 1943 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Sligo_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "William Gormley and Michael Hanley stood for Clann na Talmhan, not as Independents. Gallagher's Irish Elections 1922-44 prints them under that party's heading, and Wikipedia's results for the constituency give the same party.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "William Gormley",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Michael Hanley",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1944-05-30/cork-borough.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Cork Borough (Dail constituency): 1944 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Cork_Borough_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    },
+    {
+     "title": "1944 Irish general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/1944_Irish_general_election",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Patrick O'Brien stood for National Labour, not as an Independent. Gallagher's Irish Elections 1922-44 prints him under that party's heading, and Wikipedia's results for the constituency give the same party. With this change Civgraph's National Labour total for the election is 32,732, the national figure Wikipedia gives.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Patrick O'Brien",
+     "set": {
+      "party": "National Labour",
+      "Party_Name": "National Labour",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1944-05-30/cork-north.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Cork North (Dail constituency): 1944 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Cork_North_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    },
+    {
+     "title": "1944 Irish general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/1944_Irish_general_election",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Patrick Halliden stood for Clann na Talmhan, not as an Independent. Gallagher's Irish Elections 1922-44 prints him under that party's heading, and Wikipedia's results for the constituency give the same party. With this change Civgraph's National Labour total for the election is 32,732, the national figure Wikipedia gives.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Patrick Halliden",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1944-05-30/cork-south-east.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Cork South East (Dail constituency): 1944 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Cork_South-East_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    },
+    {
+     "title": "1944 Irish general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/1944_Irish_general_election",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Patrick Lehane stood for Clann na Talmhan, not as an Independent; Thomas Looney stood for National Labour, not as an Independent. Gallagher's Irish Elections 1922-44 prints them under that party's heading, and Wikipedia's results for the constituency give the same party. With this change Civgraph's National Labour total for the election is 32,732, the national figure Wikipedia gives.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Patrick Lehane",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Thomas Looney",
+     "set": {
+      "party": "National Labour",
+      "Party_Name": "National Labour",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1944-05-30/cork-west.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Cork West (Dail constituency): 1944 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Cork_West_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    },
+    {
+     "title": "1944 Irish general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/1944_Irish_general_election",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Patrick O'Driscoll and Daniel O'Leary stood for Clann na Talmhan, not as Independents. Gallagher's Irish Elections 1922-44 prints them under that party's heading, and Wikipedia's results for the constituency give the same party. With this change Civgraph's National Labour total for the election is 32,732, the national figure Wikipedia gives.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Patrick O'Driscoll",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Daniel O'Leary",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1944-05-30/dublin-north-east.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Dublin North East (Dail constituency): 1944 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Dublin_North-East",
+     "accessed": "2026-10-29"
+    },
+    {
+     "title": "1944 Irish general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/1944_Irish_general_election",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Michael Colgan and Frank Robbins stood for National Labour, not as Independents. Gallagher's Irish Elections 1922-44 prints them under that party's heading, and Wikipedia's results for the constituency give the same party. With this change Civgraph's National Labour total for the election is 32,732, the national figure Wikipedia gives.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Michael Colgan",
+     "set": {
+      "party": "National Labour",
+      "Party_Name": "National Labour",
+      "Party_Colour": ""
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Frank Robbins",
+     "set": {
+      "party": "National Labour",
+      "Party_Name": "National Labour",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1944-05-30/kerry-north.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Kerry North (Dail constituency): 1944 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Kerry_North_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    },
+    {
+     "title": "1944 Irish general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/1944_Irish_general_election",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Patrick Finucane stood for Clann na Talmhan, not as an Independent; Dan Spring stood for National Labour, not as an Independent. Gallagher's Irish Elections 1922-44 prints them under that party's heading, and Wikipedia's results for the constituency give the same party. With this change Civgraph's National Labour total for the election is 32,732, the national figure Wikipedia gives.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Patrick Finucane",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Dan Spring",
+     "set": {
+      "party": "National Labour",
+      "Party_Name": "National Labour",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1944-05-30/leitrim.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Leitrim (Dail constituency): 1944 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Leitrim_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    },
+    {
+     "title": "1944 Irish general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/1944_Irish_general_election",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "James Reynolds stood for Clann na Talmhan, not as an Independent. Gallagher's Irish Elections 1922-44 prints him under that party's heading, and Wikipedia's results for the constituency give the same party. With this change Civgraph's National Labour total for the election is 32,732, the national figure Wikipedia gives.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "James Reynolds",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1944-05-30/leix-offaly.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Leix Offaly (Dail constituency): 1944 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Laois%E2%80%93Offaly",
+     "accessed": "2026-10-29"
+    },
+    {
+     "title": "1944 Irish general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/1944_Irish_general_election",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Patrick Bermingham and Richard Hipwell stood for Clann na Talmhan, not as Independents. Gallagher's Irish Elections 1922-44 prints them under that party's heading, and Wikipedia's results for the constituency give the same party. With this change Civgraph's National Labour total for the election is 32,732, the national figure Wikipedia gives.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Patrick Bermingham",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Richard Hipwell",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1944-05-30/limerick.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Limerick (Dail constituency): 1944 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Limerick_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    },
+    {
+     "title": "1944 Irish general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/1944_Irish_general_election",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Patrick Fitzsimons stood for Clann na Talmhan, not as an Independent. Gallagher's Irish Elections 1922-44 prints him under that party's heading, and Wikipedia's results for the constituency give the same party. With this change Civgraph's National Labour total for the election is 32,732, the national figure Wikipedia gives.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Patrick Fitzsimons",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1944-05-30/louth.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Louth (Dail constituency): 1944 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Louth_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    },
+    {
+     "title": "1944 Irish general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/1944_Irish_general_election",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Frank Jeffers stood for Clann na Talmhan, not as an Independent. Gallagher's Irish Elections 1922-44 prints him under that party's heading, and Wikipedia's results for the constituency give the same party. With this change Civgraph's National Labour total for the election is 32,732, the national figure Wikipedia gives.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Frank Jeffers",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1944-05-30/mayo-north.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Mayo North (Dail constituency): 1944 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Mayo_North_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    },
+    {
+     "title": "1944 Irish general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/1944_Irish_general_election",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Thomas O'Hara stood for Clann na Talmhan, not as an Independent. Gallagher's Irish Elections 1922-44 prints him under that party's heading, and Wikipedia's results for the constituency give the same party. With this change Civgraph's National Labour total for the election is 32,732, the national figure Wikipedia gives.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Thomas O'Hara",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1944-05-30/mayo-south.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Mayo South (Dail constituency): 1944 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Mayo_South_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    },
+    {
+     "title": "1944 Irish general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/1944_Irish_general_election",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Dominick Cafferky, Joseph Blowick and Bernard Commons stood for Clann na Talmhan, not as Independents. Gallagher's Irish Elections 1922-44 prints them under that party's heading, and Wikipedia's results for the constituency give the same party. With this change Civgraph's National Labour total for the election is 32,732, the national figure Wikipedia gives.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Dominick Cafferky",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Joseph Blowick",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Bernard Commons",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1944-05-30/roscommon.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Roscommon (Dail constituency): 1944 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Roscommon_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    },
+    {
+     "title": "1944 Irish general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/1944_Irish_general_election",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "John Beirne, John Meighan and Peter Farrell stood for Clann na Talmhan, not as Independents. Gallagher's Irish Elections 1922-44 prints them under that party's heading, and Wikipedia's results for the constituency give the same party. With this change Civgraph's National Labour total for the election is 32,732, the national figure Wikipedia gives.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "John Beirne",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "John Meighan",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Peter Farrell",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1944-05-30/wexford.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Wexford (Dail constituency): 1944 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Wexford_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    },
+    {
+     "title": "1944 Irish general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/1944_Irish_general_election",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "John O'Leary and Thomas Byrne stood for National Labour, not as Independents. Gallagher's Irish Elections 1922-44 prints them under that party's heading, and Wikipedia's results for the constituency give the same party. With this change Civgraph's National Labour total for the election is 32,732, the national figure Wikipedia gives.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "John O'Leary",
+     "set": {
+      "party": "National Labour",
+      "Party_Name": "National Labour",
+      "Party_Colour": ""
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Thomas Byrne",
+     "set": {
+      "party": "National Labour",
+      "Party_Name": "National Labour",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1944-05-30/wicklow.json",
+   "source": {
+    "title": "Irish Elections 1922-44: Results and Analysis",
+    "publisher": "Michael Gallagher (PSAI Press, 1993)",
+    "url": "https://www.tcd.ie/Political_Science/about/people/michael_gallagher/IrishElections1922to1944WithCovers.pdf",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Wicklow (Dail constituency): 1944 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Wicklow_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    },
+    {
+     "title": "1944 Irish general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/1944_Irish_general_election",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "James Everett stood for National Labour, not as an Independent. Gallagher's Irish Elections 1922-44 prints him under that party's heading, and Wikipedia's results for the constituency give the same party. With this change Civgraph's National Labour total for the election is 32,732, the national figure Wikipedia gives.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "James Everett",
+     "set": {
+      "party": "National Labour",
+      "Party_Name": "National Labour",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1948-02-04/carlow-kilkenny.json",
+   "source": {
+    "title": "Carlow Kilkenny (Dail constituency): 1948 general election",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Carlow%E2%80%93Kilkenny",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Members of the Dail (membership and party)",
+     "publisher": "Houses of the Oireachtas",
+     "url": "https://www.oireachtas.ie/en/members/",
+     "accessed": "2026-10-29"
+    },
+    {
+     "title": "1948 Irish general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/1948_Irish_general_election",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "James Pattison and Stephen Carroll stood for National Labour, not as Independents. Wikipedia's results for the constituency give the party, and the Houses of the Oireachtas record the elected National Labour TDs of 1948 (Pattison, Hickey, Spring, O'Leary, Everett) as National Labour. With this change Civgraph's National Labour total for the election is 34,015, the national figure Wikipedia gives.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "James Pattison",
+     "set": {
+      "party": "National Labour",
+      "Party_Name": "National Labour",
+      "Party_Colour": ""
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Stephen Carroll",
+     "set": {
+      "party": "National Labour",
+      "Party_Name": "National Labour",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1948-02-04/cork-borough.json",
+   "source": {
+    "title": "Cork Borough (Dail constituency): 1948 general election",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Cork_Borough_(D%C3%A1il_constituency)",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Members of the Dail (membership and party)",
+     "publisher": "Houses of the Oireachtas",
+     "url": "https://www.oireachtas.ie/en/members/",
+     "accessed": "2026-10-29"
+    },
+    {
+     "title": "1948 Irish general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/1948_Irish_general_election",
+     "accessed": "2026-10-29"
+    },
+    {
+     "title": "Michael Sheehan, 13th Dail",
+     "publisher": "Houses of the Oireachtas",
+     "url": "https://www.oireachtas.ie/en/members/member/Michael-Sheehan.D.1948-02-18/",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "James Hickey and Seán O Dubhghaill stood for National Labour, not as Independents. Wikipedia's results for the constituency give the party, and the Houses of the Oireachtas record the elected National Labour TDs of 1948 (Pattison, Hickey, Spring, O'Leary, Everett) as National Labour. With this change Civgraph's National Labour total for the election is 34,015, the national figure Wikipedia gives. Michael Sheehan, elected with 4,898 first preferences, was an Independent; the Fine Gael candidate of the same name polled 409. The two had been given one party and one identity. The Houses of the Oireachtas record the TD as an Independent, and ElectionsIreland.org and Wikipedia agree.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "James Hickey",
+     "set": {
+      "party": "National Labour",
+      "Party_Name": "National Labour",
+      "Party_Colour": ""
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Seán O Dubhghaill",
+     "set": {
+      "party": "National Labour",
+      "Party_Name": "National Labour",
+      "Party_Colour": ""
+     }
+    },
+    {
+     "op": "candidateById",
+     "candidateId": "4",
+     "set": {
+      "Party_Name": "Independent",
+      "Party_Colour": "",
+      "ei_candidate_id": 7758
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1948-02-04/dublin-north-east.json",
+   "source": {
+    "title": "Dublin North East (Dail constituency): 1948 general election",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Dublin_North-East",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Members of the Dail (membership and party)",
+     "publisher": "Houses of the Oireachtas",
+     "url": "https://www.oireachtas.ie/en/members/",
+     "accessed": "2026-10-29"
+    },
+    {
+     "title": "1948 Irish general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/1948_Irish_general_election",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Frank Robbins and Seán O'Moore stood for National Labour, not as Independents. Wikipedia's results for the constituency give the party, and the Houses of the Oireachtas record the elected National Labour TDs of 1948 (Pattison, Hickey, Spring, O'Leary, Everett) as National Labour. With this change Civgraph's National Labour total for the election is 34,015, the national figure Wikipedia gives.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Frank Robbins",
+     "set": {
+      "party": "National Labour",
+      "Party_Name": "National Labour",
+      "Party_Colour": ""
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Seán O'Moore",
+     "set": {
+      "party": "National Labour",
+      "Party_Name": "National Labour",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1948-02-04/kerry-north.json",
+   "source": {
+    "title": "Kerry North (Dail constituency): 1948 general election",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Kerry_North_(D%C3%A1il_constituency)",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Members of the Dail (membership and party)",
+     "publisher": "Houses of the Oireachtas",
+     "url": "https://www.oireachtas.ie/en/members/",
+     "accessed": "2026-10-29"
+    },
+    {
+     "title": "1948 Irish general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/1948_Irish_general_election",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Dan Spring stood for National Labour, not as an Independent. Wikipedia's results for the constituency give the party, and the Houses of the Oireachtas record the elected National Labour TDs of 1948 (Pattison, Hickey, Spring, O'Leary, Everett) as National Labour. With this change Civgraph's National Labour total for the election is 34,015, the national figure Wikipedia gives.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Dan Spring",
+     "set": {
+      "party": "National Labour",
+      "Party_Name": "National Labour",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1948-02-04/wexford.json",
+   "source": {
+    "title": "Wexford (Dail constituency): 1948 general election",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Wexford_(D%C3%A1il_constituency)",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Members of the Dail (membership and party)",
+     "publisher": "Houses of the Oireachtas",
+     "url": "https://www.oireachtas.ie/en/members/",
+     "accessed": "2026-10-29"
+    },
+    {
+     "title": "1948 Irish general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/1948_Irish_general_election",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "John O'Leary stood for National Labour, not as an Independent. Wikipedia's results for the constituency give the party, and the Houses of the Oireachtas record the elected National Labour TDs of 1948 (Pattison, Hickey, Spring, O'Leary, Everett) as National Labour. With this change Civgraph's National Labour total for the election is 34,015, the national figure Wikipedia gives.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "John O'Leary",
+     "set": {
+      "party": "National Labour",
+      "Party_Name": "National Labour",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1948-02-04/wicklow.json",
+   "source": {
+    "title": "Wicklow (Dail constituency): 1948 general election",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Wicklow_(D%C3%A1il_constituency)",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Members of the Dail (membership and party)",
+     "publisher": "Houses of the Oireachtas",
+     "url": "https://www.oireachtas.ie/en/members/",
+     "accessed": "2026-10-29"
+    },
+    {
+     "title": "1948 Irish general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/1948_Irish_general_election",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "James Everett stood for National Labour, not as an Independent. Wikipedia's results for the constituency give the party, and the Houses of the Oireachtas record the elected National Labour TDs of 1948 (Pattison, Hickey, Spring, O'Leary, Everett) as National Labour. With this change Civgraph's National Labour total for the election is 34,015, the national figure Wikipedia gives.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "James Everett",
+     "set": {
+      "party": "National Labour",
+      "Party_Name": "National Labour",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1951-05-30/mayo-north.json",
+   "source": {
+    "title": "Thomas O'Hara, member of the 14th and 15th Dail",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/Thomas-O'Hara.D.1951-06-13/",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Mayo North (Dail constituency): 1951 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Mayo_North_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Thomas O'Hara (3,600 first preferences) stood for Clann na Talmhan, not Fine Gael, which he joined only later (he was elected for Fine Gael in 1965). The Houses of the Oireachtas record him as a Clann na Talmhan TD in the 14th and 15th Dail, and Wikipedia's results give the same party.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Thomas O'Hara",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1954-05-18/mayo-north.json",
+   "source": {
+    "title": "Thomas O'Hara, member of the 14th and 15th Dail",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/Thomas-O'Hara.D.1951-06-13/",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Mayo North (Dail constituency): 1954 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Mayo_North_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Thomas O'Hara (3,552 first preferences) stood for Clann na Talmhan, not Fine Gael, which he joined only later (he was elected for Fine Gael in 1965). The Houses of the Oireachtas record him as a Clann na Talmhan TD in the 14th and 15th Dail, and Wikipedia's results give the same party.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Thomas O'Hara",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/dail-eireann/1957-03-05/mayo-north.json",
+   "source": {
+    "title": "Thomas O'Hara, member of the 14th and 15th Dail",
+    "publisher": "Houses of the Oireachtas",
+    "url": "https://www.oireachtas.ie/en/members/member/Thomas-O'Hara.D.1951-06-13/",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Mayo North (Dail constituency): 1957 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Mayo_North_(D%C3%A1il_constituency)",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Thomas O'Hara (3,656 first preferences) stood for Clann na Talmhan, not Fine Gael, which he joined only later (he was elected for Fine Gael in 1965). The Houses of the Oireachtas record him as a Clann na Talmhan TD in the 14th and 15th Dail, and Wikipedia's results give the same party.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Thomas O'Hara",
+     "set": {
+      "party": "Clann na Talmhan",
+      "Party_Name": "Clann na Talmhan",
+      "Party_Colour": ""
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1974-10-10/belfast-east.json",
+   "source": {
+    "title": "Statement of Persons Nominated, UK Parliamentary election of 10 October 1974 (Northern Ireland constituencies)",
+    "publisher": "Belfast News Letter, 2 October 1974, p. 9 (page supplied by Phelim Birch)",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Unionist Party of Northern Ireland: October 1974 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Unionist_Party_of_Northern_Ireland",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "Peter McLachlan (14,417 votes) stood for Brian Faulkner's Unionist Party of Northern Ireland, formed in September 1974, not the Ulster Unionist Party: the nomination notice describes him as Unionist Party of Northern Ireland, and Wikipedia lists him among the party's two candidates at this election.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Peter McLachlan",
+     "set": {
+      "Party_Name": "Unionist Party of Northern Ireland",
+      "Party_Colour": "#FFA07A"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "party-labels-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1974-10-10/north-down.json",
+   "source": {
+    "title": "Statement of Persons Nominated, UK Parliamentary election of 10 October 1974 (Northern Ireland constituencies)",
+    "publisher": "Belfast News Letter, 2 October 1974, p. 9 (page supplied by Phelim Birch)",
+    "accessed": "2026-10-29"
+   },
+   "additionalSources": [
+    {
+     "title": "Unionist Party of Northern Ireland: October 1974 general election",
+     "publisher": "Wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Unionist_Party_of_Northern_Ireland",
+     "accessed": "2026-10-29"
+    }
+   ],
+   "reason": "William Brownlow (6,037 votes) stood for Brian Faulkner's Unionist Party of Northern Ireland, formed in September 1974, not the Ulster Unionist Party: the nomination notice describes him as \"Farmer, Unionist Party\", and Wikipedia lists him among the party's two candidates at this election.",
+   "category": "party",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "William Brownlow",
+     "set": {
+      "Party_Name": "Unionist Party of Northern Ireland",
+      "Party_Colour": "#FFA07A"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "ark-crosscheck-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1992-04-09/strangford.json",
+   "source": {
+    "title": "The Electoral Office for Northern Ireland: Parliamentary Election 9 April 1992 results, page 8",
+    "publisher": "The Electoral Office for Northern Ireland",
+    "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/1ec60f8d-0853-4efb-9f01-909d21086179/parliamentary_election_results_1992.pdf",
+    "accessed": "2026-10-29"
+   },
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Kieran McCarthy",
+     "set": {
+      "Candidate_First_Pref_Votes": "7585",
+      "Total_Votes": "7585.00"
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "44785"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Poll",
+     "value": "44970"
+    }
+   ],
+   "reason": "Kieran McCarthy (Alliance) had 7,585 votes, not 8,585, and the valid poll was 44,785 (44,970 votes polled, 185 spoilt), as the Electoral Office's results booklet gives; the candidates' votes now add up to the valid poll.",
+   "category": "figures",
+   "internalNote": "Verification: official. Found by the ARK cross-check of 2026-10-29."
+  },
+  {
+   "batch": "ark-crosscheck-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1992-04-09/east-antrim.json",
+   "source": {
+    "title": "The Electoral Office for Northern Ireland: Parliamentary Election 9 April 1992 results, page 18",
+    "publisher": "The Electoral Office for Northern Ireland",
+    "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/1ec60f8d-0853-4efb-9f01-909d21086179/parliamentary_election_results_1992.pdf",
+    "accessed": "2026-10-29"
+   },
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Roy Beggs",
+     "set": {
+      "Candidate_First_Pref_Votes": "16966",
+      "Total_Votes": "16966.00"
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "39251"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Poll",
+     "value": "39453"
+    }
+   ],
+   "reason": "Roy Beggs (Ulster Unionist) had 16,966 votes, not 16,996, and the valid poll was 39,251 (39,453 votes polled, 202 spoilt), as the Electoral Office's results booklet gives; the candidates' votes now add up to the valid poll.",
+   "category": "figures",
+   "internalNote": "Verification: official. Found by the ARK cross-check of 2026-10-29."
+  },
+  {
+   "batch": "ark-crosscheck-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1997-05-01/newry-and-armagh.json",
+   "source": {
+    "title": "The Electoral Office for Northern Ireland: Parliamentary Election 1 May 1997 results, page 19",
+    "publisher": "The Electoral Office for Northern Ireland",
+    "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/5bda9c23-3731-421c-9849-a05ec5656db7/parliamentary_election_results_1997.pdf",
+    "accessed": "2026-10-29"
+   },
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Electorate",
+     "value": "70807"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Poll",
+     "value": "53503"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Spoiled",
+     "value": "228"
+    }
+   ],
+   "reason": "Newry and Armagh had 70,807 electors, 53,503 votes polled and 228 spoilt ballots, as the Electoral Office's results booklet gives; the contest had carried Mid Ulster's electorate (59,086) and spoilt ballots (154).",
+   "category": "figures",
+   "internalNote": "Verification: official. Found by the ARK cross-check of 2026-10-29."
+  },
+  {
+   "batch": "ark-crosscheck-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/2001-06-07/strangford.json",
+   "source": {
+    "title": "The Electoral Office for Northern Ireland: Parliamentary Election 7 June 2001 results, page 22",
+    "publisher": "The Electoral Office for Northern Ireland",
+    "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/b735c0db-b510-4304-87e5-bf12a0d91164/parliamentary_election_results_2001.pdf",
+    "accessed": "2026-10-29"
+   },
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Spoiled",
+     "value": "217"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Poll",
+     "value": "43471"
+    }
+   ],
+   "reason": "Strangford had 217 spoilt ballots and 43,471 votes polled, not 271 and 43,525, as the Electoral Office's results booklet gives; the valid poll of 43,254 is unchanged.",
+   "category": "figures",
+   "internalNote": "Verification: official. Found by the ARK cross-check of 2026-10-29."
+  },
+  {
+   "batch": "ark-crosscheck-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/house-of-commons-of-the-united-kingdom/1987-06-11/fermanagh-and-south-tyrone.json",
+   "source": {
+    "title": "The Electoral Office for Northern Ireland: Parliamentary Election 11 June 1987 results, page 13",
+    "publisher": "The Electoral Office for Northern Ireland",
+    "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/0731035c-d37c-4750-aa9c-0aea8cc8f9a2/parliamentary_election_results_1987.pdf",
+    "accessed": "2026-10-29"
+   },
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Electorate",
+     "value": "69131"
+    }
+   ],
+   "reason": "Fermanagh and South Tyrone had 69,131 electors, not 68,979, as the Electoral Office's results booklet gives.",
+   "category": "figures",
+   "internalNote": "Verification: official. Found by the ARK cross-check of 2026-10-29."
+  },
+  {
+   "batch": "ark-crosscheck-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/northern-ireland-assembly/2016-05-05/belfast-east.json",
+   "source": {
+    "title": "NI Assembly Election 2016 result sheet: Belfast East",
+    "publisher": "The Electoral Office for Northern Ireland",
+    "url": "https://web.archive.org/web/20170401084026/http://www.eoni.org.uk/getmedia/6e83b8d6-d7b8-4531-8efb-454a290c0946/NI-Assembly-Election-2016-Result-Sheet-BE-(website)",
+    "accessed": "2026-10-29"
+   },
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Quota",
+     "value": "5311"
+    }
+   ],
+   "reason": "The quota was 5,311, not 4,622, as the Electoral Office's result sheet gives: the valid poll of 37,175 divided by seven, plus one.",
+   "category": "figures",
+   "internalNote": "Verification: official. Found by the ARK cross-check of 2026-10-29."
+  },
+  {
+   "batch": "ark-crosscheck-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1973-05-30/ards-area-c.json",
+   "source": {
+    "title": "The Electoral Office for Northern Ireland: Local Government Election Results 1973 (official result sheets), page 11",
+    "publisher": "The Electoral Office for Northern Ireland",
+    "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/76aa0570-21f1-4b65-9c6e-764faf19cdb4/local_government_election_results_1973.pdf",
+    "accessed": "2026-10-29"
+   },
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Poll",
+     "value": "5599"
+    }
+   ],
+   "reason": "Ards Area C had 5,599 votes polled (5,516 valid and 83 spoilt), as the Electoral Office's result sheet gives; the figure had been imported as 0.64, the 64% turnout.",
+   "category": "figures",
+   "internalNote": "Verification: official. Found by the ARK cross-check of 2026-10-29."
+  },
+  {
+   "batch": "ark-crosscheck-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1989-05-17/kells-water.json",
+   "source": {
+    "title": "The Electoral Office for Northern Ireland: Local Government Election Results 1989 (official result sheets), page 30",
+    "publisher": "The Electoral Office for Northern Ireland",
+    "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/c747b644-74fb-4401-a84f-1900f7818722/local_government_election_results_1989.pdf",
+    "accessed": "2026-10-29"
+   },
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "4537"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Poll",
+     "value": "4675"
+    }
+   ],
+   "reason": "Kells Water had 4,675 votes polled and a valid poll of 4,537, as the Electoral Office's result sheet gives and the first preferences add up to; they had been imported as 4.67 and 4.54.",
+   "category": "figures",
+   "internalNote": "Verification: official. Found by the ARK cross-check of 2026-10-29."
+  },
+  {
+   "batch": "ark-crosscheck-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1989-05-17/bushvale.json",
+   "source": {
+    "title": "The Electoral Office for Northern Ireland: Local Government Election Results 1989 (official result sheets), page 20",
+    "publisher": "The Electoral Office for Northern Ireland",
+    "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/c747b644-74fb-4401-a84f-1900f7818722/local_government_election_results_1989.pdf",
+    "accessed": "2026-10-29"
+   },
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "2715"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Poll",
+     "value": "2774"
+    }
+   ],
+   "reason": "Bushvale had 2,774 votes polled and a valid poll of 2,715, as the Electoral Office's result sheet gives and the first preferences add up to; they had been imported as 2.77 and 2.71.",
+   "category": "figures",
+   "internalNote": "Verification: official. Found by the ARK cross-check of 2026-10-29."
+  },
+  {
+   "batch": "ark-crosscheck-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1989-05-17/upper-falls.json",
+   "source": {
+    "title": "The Electoral Office for Northern Ireland: Local Government Election Results 1989 (official result sheets), page 132",
+    "publisher": "The Electoral Office for Northern Ireland",
+    "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/c747b644-74fb-4401-a84f-1900f7818722/local_government_election_results_1989.pdf",
+    "accessed": "2026-10-29"
+   },
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "12409"
+    }
+   ],
+   "reason": "Upper Falls had a valid poll of 12,409, as the Electoral Office's result sheet gives and the first preferences add up to; it had been imported as 12.41.",
+   "category": "figures",
+   "internalNote": "Verification: official. Found by the ARK cross-check of 2026-10-29."
+  },
+  {
+   "batch": "ark-crosscheck-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1993-05-19/lower-falls.json",
+   "source": {
+    "title": "The Electoral Office for Northern Ireland: Local Government Election Results 1993 (official result sheets), page 138",
+    "publisher": "The Electoral Office for Northern Ireland",
+    "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/b0d9bd01-b804-48bd-8641-9d763ec66466/local_government_election_results_1993.pdf",
+    "accessed": "2026-10-29"
+   },
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "13003"
+    }
+   ],
+   "reason": "Lower Falls had a valid poll of 13,003, as the Electoral Office's result sheet gives and the first preferences add up to; it had been imported as 13.00.",
+   "category": "figures",
+   "internalNote": "Verification: official. Found by the ARK cross-check of 2026-10-29."
+  },
+  {
+   "batch": "ark-crosscheck-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1993-05-19/upper-falls.json",
+   "source": {
+    "title": "The Electoral Office for Northern Ireland: Local Government Election Results 1993 (official result sheets), page 143",
+    "publisher": "The Electoral Office for Northern Ireland",
+    "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/b0d9bd01-b804-48bd-8641-9d763ec66466/local_government_election_results_1993.pdf",
+    "accessed": "2026-10-29"
+   },
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Poll",
+     "value": "13725"
+    }
+   ],
+   "reason": "Upper Falls had 13,725 votes polled (13,301 valid and 424 spoilt), as the Electoral Office's result sheet gives; it had been imported as 13.72.",
+   "category": "figures",
+   "internalNote": "Verification: official. Found by the ARK cross-check of 2026-10-29."
+  },
+  {
+   "batch": "ark-crosscheck-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1997-05-21/bannside.json",
+   "source": {
+    "title": "The Electoral Office for Northern Ireland: Local Government Election Results 1997 (official result sheets), page 39",
+    "publisher": "The Electoral Office for Northern Ireland",
+    "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/28aa14fd-8434-4a56-b274-e155002d47b6/local_government_election_results_1997.pdf",
+    "accessed": "2026-10-29"
+   },
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Electorate",
+     "value": "9931"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Poll",
+     "value": "6035"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "5920"
+    }
+   ],
+   "reason": "Bannside had 9,931 electors, 6,035 votes polled and a valid poll of 5,920, as the Electoral Office's result sheet gives and the first preferences add up to; they had been imported as 9.93, 6.04 and 5.92.",
+   "category": "figures",
+   "internalNote": "Verification: official. Found by the ARK cross-check of 2026-10-29."
+  },
+  {
+   "batch": "ark-crosscheck-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1997-05-21/braid.json",
+   "source": {
+    "title": "The Electoral Office for Northern Ireland: Local Government Election Results 1997 (official result sheets), page 40",
+    "publisher": "The Electoral Office for Northern Ireland",
+    "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/28aa14fd-8434-4a56-b274-e155002d47b6/local_government_election_results_1997.pdf",
+    "accessed": "2026-10-29"
+   },
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Electorate",
+     "value": "9081"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Poll",
+     "value": "5415"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "5324"
+    }
+   ],
+   "reason": "Braid had 9,081 electors, 5,415 votes polled and a valid poll of 5,324, as the Electoral Office's result sheet gives and the first preferences add up to; they had been imported as 9.08, 5.42 and 5.32.",
+   "category": "figures",
+   "internalNote": "Verification: official. Found by the ARK cross-check of 2026-10-29."
+  },
+  {
+   "batch": "ark-crosscheck-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1997-05-21/upper-falls.json",
+   "source": {
+    "title": "The Electoral Office for Northern Ireland: Local Government Election Results 1997 (official result sheets), page 152",
+    "publisher": "The Electoral Office for Northern Ireland",
+    "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/28aa14fd-8434-4a56-b274-e155002d47b6/local_government_election_results_1997.pdf",
+    "accessed": "2026-10-29"
+   },
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Electorate",
+     "value": "22561"
+    }
+   ],
+   "reason": "Upper Falls had 22,561 electors, as the Electoral Office's result sheet gives; it had been imported as 22.56.",
+   "category": "figures",
+   "internalNote": "Verification: official. Found by the ARK cross-check of 2026-10-29."
+  },
+  {
+   "batch": "ark-crosscheck-2026-10-29",
+   "sourceFile": "data/elections-source/data/elections/local-government/1997-05-21/ballinderry.json",
+   "source": {
+    "title": "The Electoral Office for Northern Ireland: Local Government Election Results 1997 (official result sheets), page 45",
+    "publisher": "The Electoral Office for Northern Ireland",
+    "url": "https://web.archive.org/web/2017/http://www.eoni.org.uk/getmedia/28aa14fd-8434-4a56-b274-e155002d47b6/local_government_election_results_1997.pdf",
+    "accessed": "2026-10-29"
+   },
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Electorate",
+     "value": "8536"
+    }
+   ],
+   "reason": "Ballinderry had 8,536 electors, as the Electoral Office's result sheet gives; it had been imported as 85.36.",
+   "category": "figures",
+   "internalNote": "Verification: official. Found by the ARK cross-check of 2026-10-29."
   }
  ]
 }

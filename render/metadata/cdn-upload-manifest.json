@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-29T00:35:15.349Z",
+  "generatedAt": "2026-10-29T01:49:30.371Z",
   "cdnBase": "https://data.civgraph.net/data/maps/test",
   "r2Prefix": "data/maps/test",
   "assets": [
@@ -74,7 +74,7 @@
       "localPath": "render/pmtiles/generated/admin-areas-1966-07-04-vector-test.pmtiles",
       "targetKey": "data/maps/test/pmtiles/generated/admin-areas-1966-07-04-vector-test.pmtiles",
       "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/admin-areas-1966-07-04-vector-test.pmtiles",
-      "bytes": 1068452,
+      "bytes": 1068343,
       "exists": true
     },
     {
@@ -3874,7 +3874,7 @@
       "localPath": "render/pmtiles/generated/lgd-1966-vector-test.pmtiles",
       "targetKey": "data/maps/test/pmtiles/generated/lgd-1966-vector-test.pmtiles",
       "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/lgd-1966-vector-test.pmtiles",
-      "bytes": 1058666,
+      "bytes": 1058547,
       "exists": true
     },
     {
@@ -7720,6 +7720,15 @@
       "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-leinster-1979-vector-test.pmtiles",
       "bytes": 5382912,
       "exists": true
+    },
+    {
+      "layerId": "stormont-1969-vector-test",
+      "kind": "pmtiles",
+      "localPath": "render/pmtiles/generated/stormont-1969-vector-test.pmtiles",
+      "targetKey": "data/maps/test/pmtiles/generated/stormont-1969-vector-test.pmtiles",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/stormont-1969-vector-test.pmtiles",
+      "bytes": 1593387,
+      "exists": true
     }
   ],
   "commands": [
@@ -8232,6 +8241,7 @@
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/townlands-cities-and-islands-vector-test.pmtiles --file render/pmtiles/generated/townlands-cities-and-islands-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/pc-1918-26-counties-vector-test.pmtiles --file render/pmtiles/generated/pc-1918-26-counties-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/pc-1885-26-counties-vector-test.pmtiles --file render/pmtiles/generated/pc-1885-26-counties-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-leinster-1979-vector-test.pmtiles --file render/pmtiles/generated/eds-leinster-1979-vector-test.pmtiles --remote --content-type application/octet-stream"
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/eds-leinster-1979-vector-test.pmtiles --file render/pmtiles/generated/eds-leinster-1979-vector-test.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/stormont-1969-vector-test.pmtiles --file render/pmtiles/generated/stormont-1969-vector-test.pmtiles --remote --content-type application/octet-stream"
   ]
 }

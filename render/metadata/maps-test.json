@@ -999,6 +999,12 @@
           "name": "1929 NI Parliament"
         },
         {
+          "id": "stormont-1969-vector-test",
+          "mapId": "stormont-1969",
+          "date": "1969",
+          "name": "1969 NI Parliament"
+        },
+        {
           "id": "assembly-areas-1970-alias-test",
           "mapId": "assembly-areas-1970",
           "date": "1973",
@@ -9561,7 +9567,13 @@
         "fillOpacity": 0.18,
         "weight": 2
       },
-      "references": [],
+      "references": [
+        {
+          "label": "Belfast Gazette issue 2305 (Ballyclare UD boundary extension)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/2305/data.pdf",
+          "note": "21 May 1965, pages 176-177. Antrim County Council order of 23 Feb 1965, confirmed by the Ministry of Development 13 May 1965; effective 1 Apr 1965 for all purposes other than the electoral register (15 Feb 1966). Consequential Ballyclare Rural DED order (Antrim RD) on pages 175-176."
+        }
+      ],
       "sourceDownloads": [
         {
           "label": "Source file used for /test conversion",
@@ -9689,8 +9701,11 @@
       "sourceType": "pmtiles",
       "geometryType": "polygon",
       "tiles": "/render/tiles/generated/admin-areas-1966-07-04/{z}/{x}/{y}.pbf",
+      "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/admin-areas-1966-07-04-vector-test.pmtiles",
+      "tilesFallback": "/render/tiles/generated/admin-areas-1966-07-04/{z}/{x}/{y}.pbf",
       "metadataUrl": "/render/tiles/generated/admin-areas-1966-07-04/metadata.json",
       "sourceLayer": "admin_areas_1966_07_04",
+      "promoteId": "FullName",
       "minzoom": 0,
       "maxzoom": 12,
       "bounds": [
@@ -9709,7 +9724,13 @@
         "fillOpacity": 0.18,
         "weight": 2
       },
-      "references": [],
+      "references": [
+        {
+          "label": "Belfast Gazette issue 2305 (Ballyclare UD boundary extension)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/2305/data.pdf",
+          "note": "21 May 1965, pages 176-177. Ballyclare UD extended (Six Mile Water sewage works, from Antrim RD) from 1 Apr 1965; the source layer omitted it and Ballyclare UD / Antrim RD were corrected to the OSNI 1965 line."
+        }
+      ],
       "sourceDownloads": [
         {
           "label": "Source file used for /test conversion",
@@ -9724,7 +9745,7 @@
         "urban",
         "districts",
         "1966",
-        "Administrative Areas 4 July 1966",
+        "Administrative Areas 4 Jul 1966",
         "Historic Boundaries",
         "Built Environment",
         "maplibre",
@@ -9747,7 +9768,8 @@
         "lineHeight": 1.25
       },
       "sourceFile": "render/source-cache/vector-intake/admin-areas-1966-07-04.fgb",
-      "sourceDatasetLayer": "admin-areas-1966-07-04",
+      "sourceDatasetLayer": "LGDs_04-07-1966",
+      "idProperty": "FullName",
       "popupProperties": [
         "FullName",
         "CountyName",
@@ -9864,30 +9886,26 @@
       "generatedFrom": {
         "pipeline": "build-test-vector-batch",
         "sourceFile": "render/source-cache/vector-intake/admin-areas-1966-07-04.fgb",
-        "bytes": 1591818,
+        "bytes": 1591534,
         "files": 753,
         "pbfFiles": 752,
-        "maxTileBytes": 38325
+        "maxTileBytes": 38327
       },
-      "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/admin-areas-1966-07-04-vector-test.pmtiles",
-      "tilesFallback": "/render/tiles/generated/admin-areas-1966-07-04/{z}/{x}/{y}.pbf",
       "tilePackage": {
         "preferred": true,
         "localPath": "render/pmtiles/generated/admin-areas-1966-07-04-vector-test.pmtiles",
         "url": "/render/pmtiles/generated/admin-areas-1966-07-04-vector-test.pmtiles",
-        "bytes": 1068452,
+        "bytes": 1068343,
         "maxGithubBytes": 99614720,
-        "generatedAt": "2026-08-23T00:43:28.687Z",
+        "generatedAt": "2026-10-29T01:49:03.104Z",
         "fallback": "/render/tiles/generated/admin-areas-1966-07-04/{z}/{x}/{y}.pbf",
-        "sourceSha256": "e2fe08e53686a799e05d2f46a4e1d13cff4cb16f4c958210911e30f3c84f1e86",
+        "sourceSha256": "fa00830a91fe5f7c36885b8941d8d803199dc7b5fe90d2ab9640bde996d62ec8",
         "serving": "cdn",
         "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/admin-areas-1966-07-04-vector-test.pmtiles",
         "r2Key": "data/maps/test/pmtiles/generated/admin-areas-1966-07-04-vector-test.pmtiles",
         "localUrl": "/render/pmtiles/generated/admin-areas-1966-07-04-vector-test.pmtiles",
-        "byteRangeVerifiedAt": "2026-08-23T00:45:11.808Z"
-      },
-      "promoteId": "FullName",
-      "idProperty": "FullName"
+        "byteRangeVerifiedAt": "2026-10-29T01:49:54.695Z"
+      }
     },
     {
       "id": "admin-areas-1967-04-01-alias-test",
@@ -9926,7 +9944,13 @@
         "fillOpacity": 0.18,
         "weight": 2
       },
-      "references": [],
+      "references": [
+        {
+          "label": "Belfast Gazette issue 2305 (Ballyclare UD boundary extension)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/2305/data.pdf",
+          "note": "21 May 1965, pages 176-177. Antrim County Council order of 23 Feb 1965, confirmed by the Ministry of Development 13 May 1965; effective 1 Apr 1965 for all purposes other than the electoral register (15 Feb 1966). Consequential Ballyclare Rural DED order (Antrim RD) on pages 175-176."
+        }
+      ],
       "sourceDownloads": [
         {
           "label": "Source file used for /test conversion",
@@ -10082,7 +10106,13 @@
         "fillOpacity": 0.18,
         "weight": 2
       },
-      "references": [],
+      "references": [
+        {
+          "label": "Belfast Gazette issue 2305 (Ballyclare UD boundary extension)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/2305/data.pdf",
+          "note": "21 May 1965, pages 176-177. Antrim County Council order of 23 Feb 1965, confirmed by the Ministry of Development 13 May 1965; effective 1 Apr 1965 for all purposes other than the electoral register (15 Feb 1966). Consequential Ballyclare Rural DED order (Antrim RD) on pages 175-176."
+        }
+      ],
       "sourceDownloads": [
         {
           "label": "Source file used for /test conversion",
@@ -143079,8 +143109,11 @@
       "sourceType": "pmtiles",
       "geometryType": "polygon",
       "tiles": "/render/tiles/generated/lgd-1966/{z}/{x}/{y}.pbf",
+      "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/lgd-1966-vector-test.pmtiles",
+      "tilesFallback": "/render/tiles/generated/lgd-1966/{z}/{x}/{y}.pbf",
       "metadataUrl": "/render/tiles/generated/lgd-1966/metadata.json",
       "sourceLayer": "lgd_1966",
+      "promoteId": "FullName",
       "minzoom": 0,
       "maxzoom": 12,
       "bounds": [
@@ -143099,7 +143132,13 @@
         "fillOpacity": 0.18,
         "weight": 2
       },
-      "references": [],
+      "references": [
+        {
+          "label": "Belfast Gazette issue 2305 (Ballyclare UD boundary extension)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/2305/data.pdf",
+          "note": "21 May 1965, pages 176-177. Ballyclare UD extended (Six Mile Water sewage works, from Antrim RD) from 1 Apr 1965; the source layer omitted it and Ballyclare UD / Antrim RD were corrected to the OSNI 1965 line."
+        }
+      ],
       "sourceDownloads": [
         {
           "label": "Source file used for /test conversion",
@@ -143114,7 +143153,7 @@
         "urban district",
         "1966",
         "pre-reform",
-        "Rural and Urban Districts 4 July 1966",
+        "Rural and Urban Districts 4 Jul 1966",
         "Local Government Districts",
         "Elections and Government",
         "maplibre",
@@ -143137,7 +143176,8 @@
         "lineHeight": 1.25
       },
       "sourceFile": "render/source-cache/vector-intake/lgd-1966.fgb",
-      "sourceDatasetLayer": "lgd-1966",
+      "sourceDatasetLayer": "LGDs_04-07-1966",
+      "idProperty": "FullName",
       "popupProperties": [
         "FullName",
         "CountyName",
@@ -143254,30 +143294,26 @@
       "generatedFrom": {
         "pipeline": "build-test-vector-batch",
         "sourceFile": "render/source-cache/vector-intake/lgd-1966.fgb",
-        "bytes": 1581267,
+        "bytes": 1580983,
         "files": 753,
         "pbfFiles": 752,
-        "maxTileBytes": 38311
+        "maxTileBytes": 38313
       },
-      "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/lgd-1966-vector-test.pmtiles",
-      "tilesFallback": "/render/tiles/generated/lgd-1966/{z}/{x}/{y}.pbf",
       "tilePackage": {
         "preferred": true,
         "localPath": "render/pmtiles/generated/lgd-1966-vector-test.pmtiles",
         "url": "/render/pmtiles/generated/lgd-1966-vector-test.pmtiles",
-        "bytes": 1058666,
+        "bytes": 1058547,
         "maxGithubBytes": 99614720,
-        "generatedAt": "2026-08-23T00:43:28.687Z",
+        "generatedAt": "2026-10-29T01:49:03.104Z",
         "fallback": "/render/tiles/generated/lgd-1966/{z}/{x}/{y}.pbf",
-        "sourceSha256": "e2fe08e53686a799e05d2f46a4e1d13cff4cb16f4c958210911e30f3c84f1e86",
+        "sourceSha256": "fa00830a91fe5f7c36885b8941d8d803199dc7b5fe90d2ab9640bde996d62ec8",
         "serving": "cdn",
         "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/lgd-1966-vector-test.pmtiles",
         "r2Key": "data/maps/test/pmtiles/generated/lgd-1966-vector-test.pmtiles",
         "localUrl": "/render/pmtiles/generated/lgd-1966-vector-test.pmtiles",
-        "byteRangeVerifiedAt": "2026-08-23T00:45:11.808Z"
-      },
-      "promoteId": "FullName",
-      "idProperty": "FullName"
+        "byteRangeVerifiedAt": "2026-10-29T01:49:54.695Z"
+      }
     },
     {
       "id": "lgd-1972-vector-test",
@@ -243270,7 +243306,204 @@
         "localUrl": "/render/pmtiles/generated/eds-leinster-1979-vector-test.pmtiles",
         "byteRangeVerifiedAt": "2026-10-28T23:17:03.001Z"
       }
+    },
+    {
+      "id": "stormont-1969-vector-test",
+      "sourceMapId": "stormont-1969",
+      "name": "1969 NI Parliament",
+      "category": "Devolved Constituencies",
+      "group": "Elections and Government",
+      "date": 1969,
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Interim Boundary Commission for Northern Ireland",
+        "Paddy Matthews",
+        "Tailte Éireann",
+        "OSNI"
+      ],
+      "description": "The 52 territorial constituencies of the Parliament of Northern Ireland used at the 1969 general election. Forty-two seats are unchanged from 1929 and keep the 1929 lines. Ten seats in Co. Antrim and Co. Down were redrawn, four of them new (Bangor, Lagan Valley, Larkfield and Newtownabbey), following the map of proposed constituencies in the Interim Boundary Commission for Northern Ireland's 1967 report. The redrawn seats are built from whole 1930 district electoral divisions where the map moves whole divisions; four divisions split by the proposal (Ballygomartin, Ballyduff, Monkstown and Crawfordsburn) were cut along the map's line, accurate to about 150 m. The Bangor seat follows the borough as extended on 1 April 1967, plus Groomsport. The composition is read from the Commission's proposal map and assumes that the Electoral Law Act (Northern Ireland) 1968 enacted the proposals unchanged; the Act's schedule has not been checked. The Commission's population and electorate figures for the redrawn seats are included. The Queen's University seats had no territory and are not shown.",
+      "renderer": "maplibre",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "tiles": "/render/tiles/generated/stormont-1969/{z}/{x}/{y}.pbf",
+      "metadataUrl": "/render/tiles/generated/stormont-1969/metadata.json",
+      "sourceLayer": "stormont_1969",
+      "promoteId": "OBJECTID",
+      "minzoom": 0,
+      "maxzoom": 12,
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#0A4BAF",
+        "fillColor": "#0A4BAF",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "references": [
+        {
+          "label": "Interim Boundary Commission for Northern Ireland, Report (1967): map showing proposed constituencies and summary of proposals",
+          "note": "Source of the redrawn seats and of the population and electorate figures. The Commission was appointed by warrant of 31 January 1967; its map showing existing constituencies was used as a check against the 1929 layer."
+        },
+        {
+          "label": "Electoral Law Act (Northern Ireland) 1968",
+          "note": "Gave effect to the new constituencies for the 1969 general election. Assumed to follow the Commission's proposals unchanged; the schedule has not been compared."
+        },
+        {
+          "label": "Bangor Borough (Extension) Order (Northern Ireland) 1966",
+          "note": "Bangor borough as extended from 1 April 1967, used for the Bangor/North Down line."
+        }
+      ],
+      "sourceDownloads": [
+        {
+          "label": "Source file used for /test conversion",
+          "file": "render/source-cache/vector-intake/stormont-1969.fgb"
+        }
+      ],
+      "sourceCredits": [
+        "Interim Boundary Commission for Northern Ireland",
+        "Paddy Matthews",
+        "Tailte Éireann",
+        "OSNI"
+      ],
+      "keywords": [
+        "stormont",
+        "constituency",
+        "1969",
+        "parliament",
+        "1969 NI Parliament",
+        "Devolved Constituencies",
+        "Elections and Government",
+        "maplibre",
+        "vector tiles"
+      ],
+      "labelProperty": "Name",
+      "labelPropertyFallbacks": [
+        "COUNTY"
+      ],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#0A4BAF",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "sourceFile": "render/source-cache/vector-intake/stormont-1969.fgb",
+      "sourceDatasetLayer": "stormont-1969",
+      "idProperty": "OBJECTID",
+      "popupProperties": [
+        "Name",
+        "OBJECTID",
+        "NAME",
+        "COUNTY",
+        "seats",
+        "basis",
+        "ibc1967_population",
+        "ibc1967_electorate"
+      ],
+      "numericProperties": [
+        "OBJECTID",
+        "seats",
+        "ibc1967_population",
+        "ibc1967_electorate"
+      ],
+      "categoricalProperties": [
+        "NAME",
+        "COUNTY",
+        "basis"
+      ],
+      "categoricalValues": {
+        "NAME": [
+          "Antrim",
+          "Ards",
+          "Bangor",
+          "Bannside",
+          "Carrick",
+          "Foyle",
+          "Iveagh",
+          "Larne",
+          "Mid Down",
+          "Mourne",
+          "Belfast Ballynafeigh",
+          "Belfast Bloomfield",
+          "Belfast Central",
+          "Belfast Clifton",
+          "Belfast Cromac",
+          "Belfast Dock",
+          "Belfast Duncairn",
+          "Belfast Falls",
+          "Belfast Oldpark",
+          "Belfast Pottinger",
+          "Belfast Shankill",
+          "Belfast St. Anne's",
+          "Belfast Victoria",
+          "Belfast Willowfield",
+          "Belfast Windsor",
+          "Belfast Woodvale",
+          "Central Armagh",
+          "City of Londonderry",
+          "East Down",
+          "East Tyrone",
+          "Enniskillen",
+          "Lagan Valley"
+        ],
+        "COUNTY": [
+          "ANTRIM",
+          "ARMAGH",
+          "BELFAST",
+          "DOWN",
+          "TYRONE",
+          "FERMANAGH",
+          "LONDONDERRY"
+        ],
+        "basis": [
+          "redrawn 1969",
+          "unchanged from 1929"
+        ]
+      },
+      "status": "converted",
+      "notes": "Generated from render/source-cache/vector-intake/stormont-1969.fgb with GDAL MVT output.",
+      "generatedFrom": {
+        "pipeline": "build-test-vector-batch",
+        "sourceFile": "render/source-cache/vector-intake/stormont-1969.fgb",
+        "bytes": 2671105,
+        "files": 759,
+        "pbfFiles": 758,
+        "maxTileBytes": 34145
+      },
+      "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/stormont-1969-vector-test.pmtiles",
+      "tilesFallback": "/render/tiles/generated/stormont-1969/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "preferred": true,
+        "localPath": "render/pmtiles/generated/stormont-1969-vector-test.pmtiles",
+        "url": "/render/pmtiles/generated/stormont-1969-vector-test.pmtiles",
+        "bytes": 1593387,
+        "maxGithubBytes": 99614720,
+        "generatedAt": "2026-10-29T01:49:03.104Z",
+        "fallback": "/render/tiles/generated/stormont-1969/{z}/{x}/{y}.pbf",
+        "sourceSha256": "0d47d4cde1f22143a43d76055fe46fe3133d2fd96c98dabb6ead2d615a2f41fe",
+        "serving": "cdn",
+        "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/stormont-1969-vector-test.pmtiles",
+        "r2Key": "data/maps/test/pmtiles/generated/stormont-1969-vector-test.pmtiles",
+        "localUrl": "/render/pmtiles/generated/stormont-1969-vector-test.pmtiles",
+        "byteRangeVerifiedAt": "2026-10-29T01:49:54.695Z"
+      }
     }
   ],
-  "publicMapCount": 799
+  "publicMapCount": 800
 }

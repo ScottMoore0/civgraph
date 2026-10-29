@@ -1983,7 +1983,20 @@ function renderRelatedPanel(type, item) {
   ]) + renderSimpleTable('Seats in the Commons (History of Parliament)', ['Constituency', 'Held'], item.seatsHeld || [], (row) => [
     escapeHtml(row.constituency || ''),
     row.source ? `<a href="${escapeAttr(row.source)}" rel="noopener">${escapeHtml(row.dates || '')}</a>` : escapeHtml(row.dates || '')
-  ]) + (item.historyOfParliament?.length
+  ])
+    // Offices and family from a published reference work (Boylan's Dictionary of Irish
+    // Biography): facts only, each with its citation. Seats the election results above
+    // already show are not repeated here.
+    + renderSimpleTable('Offices held', ['Office', 'Held', 'Source'], item.officesHeld || [], (row) => [
+      escapeHtml([row.office, row.constituency].filter(Boolean).join(', ')),
+      escapeHtml(formatHeldYears(row)),
+      escapeHtml(row.source || '')
+    ])
+    + renderSimpleTable('Family', ['Relation', 'Person', 'Source'], item.relatives || [], (row) => [
+      escapeHtml(row.relation ? row.relation.charAt(0).toUpperCase() + row.relation.slice(1) : ''),
+      row.slug ? `<a href="#/persons/${encodeURIComponent(row.slug)}" data-browse-link>${escapeHtml(row.name || row.slug)}</a>` : escapeHtml(row.name || ''),
+      escapeHtml(row.source || '')
+    ]) + (item.historyOfParliament?.length
     // The member's biography in the History of Parliament, cited and linked; the Trust's
     // text is not reproduced. Born and died in the overview come from these pages.
     ? renderSimpleTable('History of Parliament', ['Volume', 'Biography'], item.historyOfParliament, (row) => [
@@ -3571,6 +3584,14 @@ async function renderFeatureGroupDetail(item) {
       ${(featureData?.features?.length || 0) > 500 ? '<p class="browse-description">Showing the first 500 matching features. Use search to narrow the list.</p>' : ''}
     </div>
   `;
+}
+
+// "1945–1948", "1932" (from that year; the source gives no end), "to 1969", or blank.
+function formatHeldYears(row) {
+  if (row.start && row.end) return row.start === row.end ? String(row.start) : `${row.start}–${row.end}`;
+  if (row.start) return String(row.start);
+  if (row.end) return `to ${row.end}`;
+  return '';
 }
 
 function renderSimpleTable(title, headers, rows, mapper) {

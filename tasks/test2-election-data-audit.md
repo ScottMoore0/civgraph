@@ -1,6 +1,6 @@
 # Test2 Election Data Audit
 
-Generated: 2026-10-28T19:51:17.617Z
+Generated: 2026-10-29T02:00:18.158Z
 
 This is a repeatable repository-local audit of the generated /test2 election data, Browse election entries, source/reference records, transfer/count payload availability, and saved Wikipedia party-colour comparison outputs. It intentionally does not fetch live web pages, so CI can run it deterministically.
 
@@ -8,25 +8,25 @@ This is a repeatable repository-local audit of the generated /test2 election dat
 
 |area|value|
 |---|---:|
-|parent elections in manifest|1038|
-|manifest loadable elections|465|
+|parent elections in manifest|1074|
+|manifest loadable elections|499|
 |manifest placeholders|566|
-|Browse parent election entries|1038|
-|Browse constituency/DEA sub-entries|9991|
-|Browse overall sub-entries|1038|
-|source detail records|1038|
-|result bundles loaded|1038|
-|result rows audited|9991|
-|candidate rows audited|56160|
-|rows with count detail|9971|
-|rows with animation payload|9971|
-|rows expected to have transfer/count data|4056|
+|Browse parent election entries|1074|
+|Browse constituency/DEA sub-entries|10165|
+|Browse overall sub-entries|1074|
+|source detail records|1074|
+|result bundles loaded|1074|
+|result rows audited|10165|
+|candidate rows audited|56754|
+|rows with count detail|10145|
+|rows with animation payload|10145|
+|rows expected to have transfer/count data|4059|
 |expected transfer/count rows missing detail|0|
 |valid-poll review sidecar records|0|
 |candidate-row review sidecar records|0|
 |party-colour review sidecar records|10|
 |blocking issues|0|
-|warnings|13|
+|warnings|69|
 
 ## Blocking Structural Issues
 
@@ -36,6 +36,62 @@ _None._
 
 |severity|category|key|message|
 |---|---|---|---|
+|warning|source-record-single-reference|belfast-county-borough-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|source-record-single-reference|belfast-county-borough-council-aldermen__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|source-record-single-reference|strabane-urban-district-council__1967|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|source-record-single-reference|belfast-county-borough-council__1964-05-20|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|source-record-single-reference|belfast-county-borough-council-aldermen__1964-05-20|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|source-record-single-reference|strabane-urban-district-council__1964-05-20|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|strabane-urban-district-council__1964-05-20|3 candidate rows have no party/label. Examples: H G Porter in North Ward; Cecil H Russell in North Ward; William Kidd in North Ward.|
+|warning|source-record-single-reference|belfast-county-borough-council__1961|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|source-record-single-reference|belfast-county-borough-council-aldermen__1961|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|source-record-single-reference|strabane-urban-district-council__1961|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|strabane-urban-district-council__1961|18 candidate rows have no party/label. Examples: James Maguire in East Ward; George Quinn in East Ward; Teague Boyle in East Ward; Thomas A Forbes in East Ward; Gerald Doran in East Ward.|
+|warning|source-record-single-reference|strabane-urban-district-council__1958|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|strabane-urban-district-council__1958|13 candidate rows have no party/label. Examples: F Boyle in East Ward; J Campbell in East Ward; G Quinn in East Ward; J Maguire in East Ward; P White in East Ward.|
+|warning|source-record-single-reference|strabane-urban-district-council__1955|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|strabane-urban-district-council__1955|17 candidate rows have no party/label. Examples: Teague Boyle in East Ward; George Quinn in East Ward; James Maguire in East Ward; Patrick White in East Ward; Walter A Elliott in North Ward.|
+|warning|source-record-single-reference|strabane-urban-district-council__1952|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|strabane-urban-district-council__1952|14 candidate rows have no party/label. Examples: Teague Boyle in East Ward; James Maguire in East Ward; George Quinn in East Ward; Walter A Elliott in North Ward; Hubert Y. Fergusson in North Ward.|
+|warning|source-record-single-reference|strabane-urban-district-council__1949|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|source-record-single-reference|strabane-urban-district-council__1946|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|source-record-single-reference|strabane-urban-district-council__1939|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|strabane-urban-district-council__1939|4 candidate rows have no party/label. Examples: T.A. Forbes in East Ward; W.J. McK Craig in North Ward; Thomas McGarrigle in South Ward; Thomas Maguire in South Ward.|
+|warning|source-record-single-reference|strabane-urban-district-council__1936|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|strabane-urban-district-council__1936|11 candidate rows have no party/label. Examples: Arthur Thomas Forbes in East Ward; Bernard Mulhern in East Ward; John Kelly in East Ward; John Perry in North Ward; Cecil Russell in North Ward.|
+|warning|source-record-single-reference|strabane-urban-district-council__1932|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|source-record-single-reference|strabane-urban-district-council__1929|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|strabane-urban-district-council__1929|11 candidate rows have no party/label. Examples: John McDermott in East Ward; Thomas Stewart in East Ward; John Boyle in East Ward; John Kelly in East Ward; Michael Furey in South Ward.|
+|warning|source-record-single-reference|strabane-urban-district-council__1926|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|strabane-urban-district-council__1926|9 candidate rows have no party/label. Examples: Thomas Stewart in East Ward; John Boyle in East Ward; William Forbes in East Ward; Michael McShane in South Ward; James McGraine in South Ward.|
+|warning|source-record-single-reference|strabane-urban-district-council__1923-01-05|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|source-record-single-reference|strabane-urban-district-council__1920|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|strabane-urban-district-council__1920|1 candidate rows have no party/label. Examples: Felix Quinn in South Area.|
+|warning|source-record-single-reference|strabane-urban-district-council__1915|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|strabane-urban-district-council__1915|6 candidate rows have no party/label. Examples: Patrick McCollum in East Ward; John Browne in North Ward; Constantine Connolly in North Ward; Michael Bradley in South Ward; James Toorish in South Ward.|
+|warning|source-record-single-reference|strabane-urban-district-council__1914|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|strabane-urban-district-council__1914|4 candidate rows have no party/label. Examples: Thomas K. Howie in East Ward; James White in North Ward; P Gallagher in South Ward; John McDermott in West Ward.|
+|warning|source-record-single-reference|strabane-urban-district-council__1913|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|strabane-urban-district-council__1913|4 candidate rows have no party/label. Examples: John Kelly in East Ward; John Perry in North Ward; James McGarrigle in South Ward; Charles Browne in West Ward.|
+|warning|source-record-single-reference|strabane-urban-district-council__1912|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|strabane-urban-district-council__1912|5 candidate rows have no party/label. Examples: P Bannigan in East Ward; John Browne in North Ward; James Toorish in South Ward; Ellis in South Ward; Eugene Conroy in West Ward.|
+|warning|source-record-single-reference|strabane-urban-district-council__1911|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|strabane-urban-district-council__1911|5 candidate rows have no party/label. Examples: James Dillon in East Ward; John Quigley in East Ward; James White in North Ward; Edward Gallagher in South Ward; John McDermott in West Ward.|
+|warning|source-record-single-reference|strabane-urban-district-council__1910|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|strabane-urban-district-council__1910|4 candidate rows have no party/label. Examples: John Kelly in East Ward; John Perry in North Ward; James Toorish in South Ward; Charles Browne in West Ward.|
+|warning|source-record-single-reference|strabane-urban-district-council__1909|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|strabane-urban-district-council__1909|4 candidate rows have no party/label. Examples: James Elliott in East Ward; R. J. Blair in North Ward; Owen Canavan in South Ward; Eugene Conroy in West Ward.|
+|warning|source-record-single-reference|strabane-urban-district-council__1908|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|strabane-urban-district-council__1908|4 candidate rows have no party/label. Examples: James Dillon in East Ward; James White in North Ward; James McIvor in South Ward; Edward Gallagher in West Ward.|
+|warning|source-record-single-reference|strabane-urban-district-council__1907|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|strabane-urban-district-council__1907|8 candidate rows have no party/label. Examples: John Kelly in East Ward; James McCrossan in East Ward; John Perry in North Ward; William McCrorey in North Ward; James Tourish in South Ward.|
+|warning|source-record-single-reference|strabane-urban-district-council__1906|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|strabane-urban-district-council__1906|6 candidate rows have no party/label. Examples: John Dillon in East Ward; Eugene Conroy in East Ward; William McDevitt in North Ward; J McCrossan in South Ward; Owen Canavan in South Ward.|
+|warning|source-record-single-reference|strabane-urban-district-council__1905|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|strabane-urban-district-council__1905|5 candidate rows have no party/label. Examples: William Ellis in East Ward; John McColgan in East Ward; James White in North Ward; John McDermott in South Ward; James Toner in West Ward.|
+|warning|source-record-single-reference|strabane-urban-district-council__1902|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|source-record-single-reference|strabane-urban-district-council__1899|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-party-missing|strabane-urban-district-council__1899|11 candidate rows have no party/label. Examples: Devine in Strabane; M'Colgan in Strabane; Dunn in Strabane; White in Strabane; Nelson in Strabane.|
 |warning|elected-count|house-of-commons-of-the-united-kingdom__1880-03-31|Clonmel has 2 elected candidate rows but seatsWon is 1.|
 |warning|elected-count|house-of-commons-of-the-united-kingdom__1872-04-26|Wexford has 2 elected candidate rows but seatsWon is 1.|
 |warning|elected-count|house-of-commons-of-the-united-kingdom__1847-07-29|Clare has 3 elected candidate rows but seatsWon is 2.|
@@ -56,11 +112,11 @@ _None._
 |---|---:|
 |parent source records missing|0|
 |source records with no references|0|
-|source records with one reference|0|
-|source records with multiple references|1038|
+|source records with one reference|34|
+|source records with multiple references|1040|
 |Browse sub-entries with no references|0|
-|Browse sub-entries with one reference|0|
-|Browse sub-entries with multiple references|11029|
+|Browse sub-entries with one reference|205|
+|Browse sub-entries with multiple references|11034|
 
 ## Party Colour Audit
 

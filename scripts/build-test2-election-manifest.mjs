@@ -364,6 +364,17 @@ function repairShiftedUnopposedRows(rawResult) {
 }
 
 const STYLE_MODES = ['winner', 'leadingParty', 'voteShare', 'turnout', 'majority', 'seats', 'quota'];
+// Northern Ireland borough and urban district councils before the 1973 reorganisation, from the
+// owner's newspaper scans and research notes. Each is its own body: their wards are the DEDs of
+// the period, not the post-1973 DEAs the 'local-government' group is drawn on. Belfast's aldermen
+// are a separate body because an aldermanship and the ward's councillorships were separate
+// contests on the same day in the same ward: kept in one election, two results would claim one
+// polygon and the map could colour only one of them.
+const PRE1973_COUNCIL_BODY_SLUGS = new Set([
+  'belfast-county-borough-council',
+  'belfast-county-borough-council-aldermen',
+  'strabane-urban-district-council'
+]);
 const LOCAL_GOVERNMENT_BODIES = new Set([
   'Antrim and Newtownabbey',
   'Ards and North Down',
@@ -423,6 +434,25 @@ const NAME_ALIASES = new Map([
 dailApprovedCandidateAliasIndex = buildDailApprovedCandidateAliasIndex(dailApprovedCandidateAliases);
 
 const SOURCE_NAME_ALIASES = new Map([
+  // Strabane Urban District's wards as its council results name them (strabane-urban-district-council).
+  ['eds-ulster-1911', new Map([
+    ['STRABANE NORTH URBAN', 'North Ward'],
+    ['STRABANE SOUTH URBAN', 'South Ward'],
+    ['STRABANE EAST URBAN', 'East Ward'],
+    ['STRABANE WEST URBAN', 'West Ward']
+  ])],
+  ['ded-1921-05-03', new Map([
+    ['STRABANE NORTH URBAN', 'North Ward'],
+    ['STRABANE SOUTH URBAN', 'South Ward'],
+    ['STRABANE EAST URBAN', 'East Ward'],
+    ['STRABANE WEST URBAN', 'West Ward']
+  ])],
+  ['ded-1930-04-01', new Map([
+    ['STRABANE NORTH URBAN', 'North Ward'],
+    ['STRABANE SOUTH URBAN', 'South Ward'],
+    ['STRABANE EAST URBAN', 'East Ward'],
+    ['STRABANE WEST URBAN', 'West Ward']
+  ])],
   // normalizeName() deletes parenthetical content, so both
   // "TIPPERARY (NORTH RIDING) COUNTY COUNCIL" and its South counterpart normalise to
   // the same "tipperary county council" and neither can match the North/South
@@ -1059,6 +1089,7 @@ function comparableElectionGroup(entry) {
   if (bodySlug === 'european-parliament') return 'european-ni';
   if (bodySlug === 'local-government') return 'ni-local';
   if (bodySlug === 'ireland-local') return 'roi-local';
+  if (PRE1973_COUNCIL_BODY_SLUGS.has(bodySlug)) return bodySlug;
   if ([
     'northern-ireland-assembly',
     'northern-ireland-constitutional-convention',
@@ -1112,6 +1143,7 @@ function resolveElectionGeography(entry) {
       [2009, 'roi-lea-2008']
     ]);
   }
+  if (PRE1973_COUNCIL_BODY_SLUGS.has(entry.bodySlug)) return pre1973CouncilGeography(entry);
   if (entry.bodyGroup === 'local-government') {
     return sourceByYear(year, [
       [2014, 'deas-2012'],
@@ -1232,6 +1264,21 @@ function resolveElectionGeography(entry) {
     ]);
   }
   return { sourceMapId: null };
+}
+
+// Pre-1973 council wards were District Electoral Divisions, so the DED layers draw them.
+// Belfast's fifteen wards (1896-1973) are drawn from the 1921 set for every year: in the 1930
+// set two Co. Down DEDs share Belfast ward names (CLIFTON, VICTORIA), and the map colours by
+// label, so it would paint them too. Strabane's four urban wards take the set in force: the
+// 1911 Ulster divisions before partition, 1921 to 1930, then 1930. Its whole-town poll of 1899
+// and the two combined PR areas of 1920 have no polygon of their own and are shown as results.
+function pre1973CouncilGeography(entry) {
+  const date = String(entry.date || '');
+  if (entry.bodySlug !== 'strabane-urban-district-council') return { sourceMapId: 'ded-1921-05-03' };
+  if (date.startsWith('1899') || date.startsWith('1920')) return { sourceMapId: null };
+  if (date < '1921') return { sourceMapId: 'eds-ulster-1911' };
+  if (date < '1931') return { sourceMapId: 'ded-1921-05-03' };
+  return { sourceMapId: 'ded-1930-04-01' };
 }
 
 // Referendums whose result was declared on a coarse geography (a single NI
@@ -1427,6 +1474,11 @@ function votingSystemForElection(entry, result = null) {
   if (bodySlug === 'ireland-european') return 'stv-hare';
   if (bodySlug === 'european-parliament') return 'stv-gregory';
   if (bodySlug === 'local-government') return 'stv-gregory';
+  if (PRE1973_COUNCIL_BODY_SLUGS.has(bodySlug)) {
+    if (String(entry?.date || '').startsWith('1920')) return 'stv-gregory';
+    const seats = parseNumber(result?.seatsTotal) || parseNumber(result?.seatsWon);
+    return seats && seats > 1 ? 'block-vote' : 'fptp';
+  }
   if (bodySlug === 'northern-ireland-assembly') return 'stv-gregory';
   if (bodySlug === 'northern-ireland-constitutional-convention') return 'stv-gregory';
   if (bodySlug === 'northern-ireland-forum-for-political-dialogue') {
@@ -1505,7 +1557,9 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     if (resultMetadata.contestStatus === 'uncontested' && Array.isArray(result.candidates)) {
       result.candidates = result.candidates.map((candidate) => (parseNumber(candidate?.firstPrefs) === 1 ? { ...candidate, firstPrefs: 0 } : candidate));
     }
-    const matchEntry = matchEntryForConstituency(entry, result.constituency || constituency);
+    // A contest renamed by a source-checked fix ("lg85-NaM-Crotlieve" -> "Crotlieve") is still
+    // listed in the elections index under its import name: look its council up by that too.
+    const matchEntry = matchEntryForConstituency(entry, result.constituency || constituency, constituency);
     const localBody = entry.bodyGroup === 'local-government' ? matchEntry.body : null;
     if (localBody && Array.isArray(result.candidates)) {
       result.candidates = result.candidates.map((candidate) => ({
@@ -1660,10 +1714,11 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
   };
 }
 
-function matchEntryForConstituency(entry, constituency) {
+function matchEntryForConstituency(entry, constituency, indexName = null) {
   if (entry?.bodyGroup !== 'local-government') return entry;
   const localBody = entry.localBodyByConstituency?.[constituency]
-    || entry.localBodyByConstituency?.[fixText(constituency || '').trim()];
+    || entry.localBodyByConstituency?.[fixText(constituency || '').trim()]
+    || (indexName ? entry.localBodyByConstituency?.[indexName] : null);
   if (!localBody || localBody === entry.body) return entry;
   return {
     ...entry,
@@ -3013,7 +3068,7 @@ function resultsOnlyElection(bundle) {
   // The Republic's local elections without an LEA map, and referendums on constituencies with
   // no map (1937, on the 1935 set): their results are shown without a layer.
   return !bundle.loadable
-    && ['ireland-local', 'ireland-referendum'].includes(bundle.bodySlug)
+    && (['ireland-local', 'ireland-referendum'].includes(bundle.bodySlug) || PRE1973_COUNCIL_BODY_SLUGS.has(bundle.bodySlug))
     && !bundle.sourceMapId
     && (bundle.results || []).some((result) => (result.candidates || []).length > 0);
 }
@@ -3026,10 +3081,12 @@ function formatElectionSubtitle(entry, results, unmatchedCount, hasMap = true) {
     ? (entry.totalAreas && entry.totalAreas > total ? `results for ${total} of ${entry.totalAreas} LEAs` : `${total} LEAs`)
     : entry.bodyGroup === 'local-government'
       ? (entry.bodies?.length > 1 ? `${total} DEAs` : entry.body)
-      : `${total} constituencies`;
+      : PRE1973_COUNCIL_BODY_SLUGS.has(entry.bodySlug)
+        ? `${total} ward${total === 1 ? '' : 's'}`
+        : `${total} constituencies`;
   // RoI local years with no boundary map (1991-2004) have nothing to match against, so a
   // count of every area as "unmatched" would read as a matching failure.
-  if (entry.bodySlug === 'ireland-local' && !hasMap) return prefix;
+  if ((entry.bodySlug === 'ireland-local' || PRE1973_COUNCIL_BODY_SLUGS.has(entry.bodySlug)) && !hasMap) return prefix;
   return unmatchedCount > 0 ? `${prefix}; ${unmatchedCount} unmatched` : prefix;
 }
 
@@ -3187,6 +3244,14 @@ function classifyUnmatchedConstituency(bundle, constituency) {
       code: 'historic-dea-not-in-source',
       parityStatus: 'blocked-on-data',
       reason: 'This local-government DEA result name is absent from the selected DEA boundary source; it is not safe to alias it without a documented one-to-one boundary equivalence.'
+    };
+  }
+
+  if (PRE1973_COUNCIL_BODY_SLUGS.has(bundle.bodySlug)) {
+    return {
+      code: 'pre1973-ward-not-in-source',
+      parityStatus: 'blocked-on-data',
+      reason: 'This pre-1973 council ward has no District Electoral Division of the same name in the selected layer (Strabane\'s North-West Ward of 1902); it is not safe to alias it to a different ward.'
     };
   }
 

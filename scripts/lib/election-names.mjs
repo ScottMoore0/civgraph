@@ -237,8 +237,17 @@ export function electionConstituencyNames(constituencies = []) {
     .filter((name) => !NATIONAL_CONSTITUENCY_NAMES.has(normalizeName(name))))];
 }
 
+// Pre-1973 Northern Ireland borough and urban district councils (one body per council). Their
+// elections can have one or two wards and are still whole-council elections, never by-elections.
+const PRE1973_COUNCIL_BODIES = new Set([
+  'belfast county borough council',
+  'belfast county borough council aldermen',
+  'strabane urban district council'
+]);
+
 export function isElectionByElectionScope({ body = '', bodyGroup = null, date = '', constituencies = [], specialType = null } = {}) {
   const normalizedBody = normalizeName(body);
+  if (PRE1973_COUNCIL_BODIES.has(normalizedBody)) return false;
   if (
     specialType === 'recall-petition'
     || (normalizedBody === 'house of commons of the united kingdom' && String(date || '').slice(0, 10) === '2018-08-29')
@@ -317,6 +326,13 @@ export function canonicalElectionTitle({
 
   if (bodyGroup === 'local-government') {
     return `${year} Northern Ireland local elections`.trim();
+  }
+
+  if (normalizedBody === 'belfast county borough council') return `${year} Belfast County Borough Council election`.trim();
+  if (normalizedBody === 'belfast county borough council aldermen') return `${year} Belfast County Borough Council aldermanic election`.trim();
+  if (normalizedBody === 'strabane urban district council') {
+    // Strabane's town commissioners became an urban district council under the 1898 Act.
+    return String(year) === '1899' ? '1899 Strabane Town Commissioners election' : `${year} Strabane Urban District Council election`.trim();
   }
 
   if (normalizedBody === 'dail eireann') return `${year} Irish general election`.trim();

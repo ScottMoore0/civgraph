@@ -15,8 +15,11 @@
   "sourceType": "pmtiles",
   "geometryType": "polygon",
   "tiles": "/render/tiles/generated/lgd-1966/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/lgd-1966-vector-test.pmtiles",
+  "tilesFallback": "/render/tiles/generated/lgd-1966/{z}/{x}/{y}.pbf",
   "metadataUrl": "/render/tiles/generated/lgd-1966/metadata.json",
   "sourceLayer": "lgd_1966",
+  "promoteId": "FullName",
   "minzoom": 0,
   "maxzoom": 12,
   "bounds": [
@@ -35,7 +38,13 @@
     "fillOpacity": 0.18,
     "weight": 2
   },
-  "references": [],
+  "references": [
+    {
+      "label": "Belfast Gazette issue 2305 (Ballyclare UD boundary extension)",
+      "url": "https://www.thegazette.co.uk/Belfast/issue/2305/data.pdf",
+      "note": "21 May 1965, pages 176-177. Ballyclare UD extended (Six Mile Water sewage works, from Antrim RD) from 1 Apr 1965; the source layer omitted it and Ballyclare UD / Antrim RD were corrected to the OSNI 1965 line."
+    }
+  ],
   "sourceDownloads": [
     {
       "label": "Source file used for /test conversion",
@@ -50,7 +59,7 @@
     "urban district",
     "1966",
     "pre-reform",
-    "Rural and Urban Districts 4 July 1966",
+    "Rural and Urban Districts 4 Jul 1966",
     "Local Government Districts",
     "Elections and Government",
     "maplibre",
@@ -73,7 +82,8 @@
     "lineHeight": 1.25
   },
   "sourceFile": "render/source-cache/vector-intake/lgd-1966.fgb",
-  "sourceDatasetLayer": "lgd-1966",
+  "sourceDatasetLayer": "LGDs_04-07-1966",
+  "idProperty": "FullName",
   "popupProperties": [
     "FullName",
     "CountyName",
@@ -190,28 +200,24 @@
   "generatedFrom": {
     "pipeline": "build-test-vector-batch",
     "sourceFile": "render/source-cache/vector-intake/lgd-1966.fgb",
-    "bytes": 1581267,
+    "bytes": 1580983,
     "files": 753,
     "pbfFiles": 752,
-    "maxTileBytes": 38311
+    "maxTileBytes": 38313
   },
-  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/lgd-1966-vector-test.pmtiles",
-  "tilesFallback": "/render/tiles/generated/lgd-1966/{z}/{x}/{y}.pbf",
   "tilePackage": {
     "preferred": true,
     "localPath": "render/pmtiles/generated/lgd-1966-vector-test.pmtiles",
     "url": "/render/pmtiles/generated/lgd-1966-vector-test.pmtiles",
-    "bytes": 1058666,
+    "bytes": 1058547,
     "maxGithubBytes": 99614720,
-    "generatedAt": "2026-08-23T00:43:28.687Z",
+    "generatedAt": "2026-10-29T01:49:03.104Z",
     "fallback": "/render/tiles/generated/lgd-1966/{z}/{x}/{y}.pbf",
-    "sourceSha256": "e2fe08e53686a799e05d2f46a4e1d13cff4cb16f4c958210911e30f3c84f1e86",
+    "sourceSha256": "fa00830a91fe5f7c36885b8941d8d803199dc7b5fe90d2ab9640bde996d62ec8",
     "serving": "cdn",
     "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/lgd-1966-vector-test.pmtiles",
     "r2Key": "data/maps/test/pmtiles/generated/lgd-1966-vector-test.pmtiles",
     "localUrl": "/render/pmtiles/generated/lgd-1966-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-08-23T00:45:11.808Z"
-  },
-  "promoteId": "FullName",
-  "idProperty": "FullName"
+    "byteRangeVerifiedAt": "2026-10-29T01:49:54.695Z"
+  }
 }

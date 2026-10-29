@@ -548,7 +548,9 @@ assert(selectedPartySource.includes('election-results-table--constituency-party'
 assert(!selectedPartySource.includes('<th colspan="2">Candidates</th>') && !selectedPartySource.includes('<th colspan="2">Seats</th>') && !selectedPartySource.includes('<th colspan="4">1st preferences</th>'), '/test2 selected constituency/DEA party panes must not reuse the overall grouped party table headers');
 assert(selectedPartySource.includes('selectedPaneStatusKind(row.Status)') && !selectedPartySource.includes("status.includes('quota')") && !selectedPartySource.includes('status.includes("quota")'), '/test2 selected constituency/DEA party panes must use main selected-pane status semantics and must not count quota-only statuses as directly elected');
 assert(electionManagerSource.includes('mainStyleCandidateDisplayName(row)') && electionManagerSource.includes('row.candidateName') && electionManagerSource.includes('row.Firstname') && electionManagerSource.includes('row.Surname'), '/test2 selected constituency/DEA party panes must mirror main _isValidCandidateRow candidate-name admissibility');
-assert(electionManagerSource.includes('formatMainSelectedPercentDelta(row.pctDelta)') && electionManagerSource.includes('function formatMainSelectedPercentDelta') && !selectedPartySource.includes('formatMainPercentDelta(row.pctDelta)'), '/test2 selected constituency/DEA party panes must mirror main selected-pane percent-delta formatting without appending a percent sign');
+// The change sits under its value in one cell (valueWithChange) since 2026-10-29; the selected
+// pane's share change keeps its form without a percent sign ('points').
+assert(selectedPartySource.includes("valueWithChange(formatFixedPercent(row.pct), row.pctDelta, 'points')") && electionManagerSource.includes('function valueWithChange') && !selectedPartySource.includes("row.pctDelta, 'percent')") && !selectedPartySource.includes('data-sort-key="stoodDelta"'), '/test2 selected constituency/DEA party panes must show each change under its value, the share change without a percent sign');
 const selectedPaneStatusStart = electionManagerSource.indexOf('function selectedPaneStatusKind(status)');
 const selectedPaneStatusEnd = electionManagerSource.indexOf('\nfunction sumNumbers', selectedPaneStatusStart);
 const selectedPaneStatusSource = selectedPaneStatusStart >= 0 && selectedPaneStatusEnd > selectedPaneStatusStart
@@ -625,10 +627,9 @@ assert(
     && electionManagerSource.includes("return value === 'trends' ? 'trends' : 'results'")
     && electionManagerSource.includes('election-results-table--single-seat-fptp')
     && electionManagerSource.includes('renderSingleSeatFptpVoteGraphic')
-    && electionManagerSource.includes('Party +/-')
-    && electionManagerSource.includes('Candidate +/-')
-    && electionManagerSource.includes('Party +/- %')
-    && electionManagerSource.includes('Candidate +/- %')
+    && electionManagerSource.includes('valueWithPartyAndCandidateChange(formatNumber(votes), partyVoteDelta, candidateVoteDelta')
+    && electionManagerSource.includes('valueWithPartyAndCandidateChange(formatFixedPercent(votePct), partyPctDelta, candidatePctDelta')
+    && electionManagerSource.includes("${line('Party', partyChange)}${line('Cand.', candidateChange)}")
     && electionManagerSource.includes('test2-fptp-vote-graphic')
     && test2Css.includes('.test2-fptp-results-layout')
     && test2Css.includes('.test2-fptp-vote-graphic__bar')
@@ -678,8 +679,9 @@ assert(
     && electionManagerSource.includes('this.candidateDeltaLookupKey(candidate.previous, previousResult) === key')
     && electionManagerSource.includes('previousRows.find((row) => this.candidateDeltaLookupKey(row, previousResult) === key)')
     && electionManagerSource.includes('candidateDeltasEligible(result = {})')
-    && electionManagerSource.includes('formatNotApplicable()'),
-  '/test2 candidate first-preference deltas must compare same-name candidates in the previous comparable contest and show N/A when absent'
+    && electionManagerSource.includes("valueWithChange(formatNumber(firstPrefs), candidateDelta.deltas?.firstPrefs ?? null)")
+    && electionManagerSource.includes('no previous result'),
+  '/test2 candidate first-preference deltas must compare same-name candidates in the previous comparable contest and show "no previous result" (an en dash) when absent'
 );
 assert(electionManagerSource.includes('getSeatCircleOverlayState') && electionManagerSource.includes('seatCircleOverlayState') && electionManagerSource.includes('visibleGroups'), '/test2 seat-circle drawing order/counts must be deterministic and inspectable like the main overlay DOM order');
 assert(electionManagerSource.includes('dataset.lng') && electionManagerSource.includes('dataset.lat') && electionManagerSource.includes('marker.setLngLat'), '/test2 DOM seat circles must retain geographic anchors and be pinned by MapLibre during pan/zoom');
