@@ -16,6 +16,8 @@
   "sourceType": "pmtiles",
   "geometryType": "polygon",
   "tiles": "/render/tiles/generated/ded-1921-05-03/{z}/{x}/{y}.pbf",
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ded-1921-05-03-vector-test.pmtiles",
+  "tilesFallback": "/render/tiles/generated/ded-1921-05-03/{z}/{x}/{y}.pbf",
   "metadataUrl": "/render/tiles/generated/ded-1921-05-03/metadata.json",
   "sourceLayer": "ded_1921_05_03",
   "promoteId": "OBJECTID",
@@ -117,8 +119,7 @@
     "CENTROID_X",
     "CENTROID_Y",
     "CO_ID",
-    "Shape_Leng",
-    "Shape.area"
+    "Shape_Leng"
   ],
   "categoricalProperties": [
     "ED_NAME",
@@ -130,7 +131,8 @@
     "minElev_m",
     "maxElev_m",
     "minElev_ft",
-    "maxElev_ft"
+    "maxElev_ft",
+    "ED_NAME_G"
   ],
   "categoricalValues": {
     "ED_NAME": [
@@ -207,10 +209,10 @@
       "36026",
       "36027",
       "36028",
-      "36031",
       "36033",
       "36036",
-      "36037"
+      "36037",
+      "36038"
     ],
     "CSO_P_NAME": [
       "Ardglass",
@@ -283,13 +285,13 @@
       "11.6",
       "11.7",
       "11.9",
+      "117.5",
       "12",
       "12.1",
       "12.2",
       "12.3",
       "12.4",
-      "12.6",
-      "12.7"
+      "12.6"
     ],
     "maxElev_m": [
       "101.3",
@@ -310,12 +312,12 @@
       "129.9",
       "131.7",
       "131.9",
-      "134.4",
       "135.4",
       "136.4",
       "140.8",
       "140.9",
       "142.9",
+      "143.3",
       "151.3",
       "154.7",
       "160.2",
@@ -392,6 +394,40 @@
       "2298",
       "233",
       "238"
+    ],
+    "ED_NAME_G": [
+      "Camloch",
+      "Carnán",
+      "Droim Ga",
+      "Foirceal",
+      "Muinseo",
+      "Uanlaigh",
+      "Achadh Gallan",
+      "Achadh an Dá Chora",
+      "Achadh na Cranncha",
+      "An Baile Ard",
+      "An Baile Bocht",
+      "An Baile Caol",
+      "An Chill Mhór",
+      "An Chloch",
+      "An Choill Mhór",
+      "An Choillidh",
+      "An Chorr Chríochach (Tuath)",
+      "An Chraobh",
+      "An Chros Mhór",
+      "An Creagán Íochtarach",
+      "An Céide (Tuath)",
+      "An Ghráinseach",
+      "An Lorgain (Tuath)",
+      "An Mhachaire Abhlaigh",
+      "An Mullach Breac",
+      "An Mullach Glas",
+      "An Pointe (Tuath)",
+      "An Sceach",
+      "An tIúr (Tuath)",
+      "Ard Ghlais",
+      "Ard Mhacha (Tuath)",
+      "Ard Mhacha Bréige"
     ]
   },
   "status": "converted",
@@ -399,26 +435,24 @@
   "generatedFrom": {
     "pipeline": "build-test-vector-batch",
     "sourceFile": "render/source-cache/vector-intake/ded-1921-05-03.fgb",
-    "bytes": 8877112,
+    "bytes": 9191137,
     "files": 759,
     "pbfFiles": 758,
-    "maxTileBytes": 170902
+    "maxTileBytes": 186251
   },
-  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ded-1921-05-03-vector-test.pmtiles",
-  "tilesFallback": "/render/tiles/generated/ded-1921-05-03/{z}/{x}/{y}.pbf",
   "tilePackage": {
     "preferred": true,
     "localPath": "render/pmtiles/generated/ded-1921-05-03-vector-test.pmtiles",
     "url": "/render/pmtiles/generated/ded-1921-05-03-vector-test.pmtiles",
-    "bytes": 5257756,
+    "bytes": 5455332,
     "maxGithubBytes": 99614720,
-    "generatedAt": "2026-08-26T20:46:21.525Z",
+    "generatedAt": "2026-10-29T00:35:14.810Z",
     "fallback": "/render/tiles/generated/ded-1921-05-03/{z}/{x}/{y}.pbf",
-    "sourceSha256": "90469498709ef670c8c156ade33e58ecc607dbdddb9593ab9a9cd15c15c65b79",
+    "sourceSha256": "89b0231ab6721cb24e09c4a963f1f012bfd1764bbe37d76c1a7cc59824d8fc0f",
     "serving": "cdn",
     "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ded-1921-05-03-vector-test.pmtiles",
     "r2Key": "data/maps/test/pmtiles/generated/ded-1921-05-03-vector-test.pmtiles",
     "localUrl": "/render/pmtiles/generated/ded-1921-05-03-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-08-26T20:59:32.421Z"
+    "byteRangeVerifiedAt": "2026-10-29T00:35:19.418Z"
   }
 }
