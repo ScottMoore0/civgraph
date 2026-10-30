@@ -1,19 +1,19 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-29T01:52:43.696Z",
+  "generatedAt": "2026-10-30T02:16:06.317Z",
   "description": "Headline site figures, computed once from their sources so no page hard-codes them. See scripts/build-site-stats.mjs for what each one counts.",
   "stats": {
-    "publicMaps": 800,
-    "electionContests": 10165,
-    "candidacies": 56754,
-    "people": 24583,
+    "publicMaps": 809,
+    "electionContests": 10257,
+    "candidacies": 57240,
+    "people": 24632,
     "scannedBooks": 67,
-    "cataloguedSources": 41344,
-    "elections": 1074,
-    "catalogueEntries": 1036,
-    "renderedLayers": 1145,
+    "cataloguedSources": 41415,
+    "elections": 1135,
+    "catalogueEntries": 1050,
+    "renderedLayers": 1192,
     "proniRecords": 1538177,
-    "graphEntities": 244475
+    "graphEntities": 246115
   },
   "labels": {
     "publicMaps": "public maps",
@@ -30,7 +30,7 @@
   },
   "provenance": {
     "publicMaps": "render/metadata/maps-test.json :: publicMapCount (stamped by build-render-time-series-chains.mjs)",
-    "electionContests": "render/metadata/elections-test2/*.json :: count of results[] across 1074 elections",
+    "electionContests": "render/metadata/elections-test2/*.json :: count of results[] across 1135 elections",
     "candidacies": "render/metadata/elections-test2/*.json :: total results[].candidates[] entries",
     "people": "data/browse/persons.json :: total",
     "scannedBooks": "data/database/books.json :: books[]",

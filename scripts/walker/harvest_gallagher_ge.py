@@ -7,7 +7,8 @@ data, the corrections files or the manifest.
 
 Writes:
   data/elections/gallagher-general-elections-1922-44.json
-      every general-election contest: figures, candidates (party heading as printed, first
+      every general-election contest: figures, candidates (party heading as printed, or for those
+      under "Others" Gallagher's footnote label or Independent; first
       preferences, elected), and where Gallagher prints it the count table (per count: what
       was transferred, each candidate's transfer and running total, non-transferable
       papers). Where he gives only first preferences, or the first few counts, the figures
@@ -291,6 +292,8 @@ def tidy(rec, date):
     cands = []
     for c in rec['candidateList']:
         d = {'name': c['name'], 'nameAsPrinted': c['nameAsPrinted'], 'outgoing': c['outgoing'], 'party': c['party']}
+        if c.get('partyHeading'):
+            d['partyHeading'] = c['partyHeading']   # printed under "Others": party is the note or Independent
         if c.get('partyNote'):
             d['partyNote'] = c['partyNote']
         d['firstPreferences'] = c['firstPreferences']

@@ -205,7 +205,9 @@ const qualityIssues = (id) => {
   const issues = [];
   if (!(rec.provider || []).length) issues.push('no provider');
   if (!((r.references || []).length || (r.sourceDownloads || []).length || r.source || (r.downloads && Object.keys(r.downloads).length))) issues.push('no source link');
-  if (!(r.files || r.tileUrl || r.origin === 'layer' || r.origin === 'data' || layerIds.has(id) || r.placeholder)) issues.push('nothing to draw');
+  // A group (an edition assembled from province maps) draws through its variants' layers.
+  const drawsVariants = r.isGroup && (r.variants || []).some((v) => layerIds.has(v.id));
+  if (!(r.files || r.tileUrl || r.origin === 'layer' || r.origin === 'data' || layerIds.has(id) || drawsVariants || r.placeholder)) issues.push('nothing to draw');
   return issues;
 };
 const BASELINE = 'data/catalogue/quality-baseline.json';

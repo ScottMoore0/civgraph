@@ -1,0 +1,224 @@
+{
+  "id": "eds-connacht-1907-vector-test",
+  "sourceMapId": "eds-connacht-1907",
+  "name": "Connacht District Electoral Divisions 1907",
+  "category": "Electoral Divisions",
+  "group": "Built Environment",
+  "date": 1907,
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Phelim Birch",
+    "Paddy Matthews"
+  ],
+  "description": "Connacht component used by the pre-partition District Electoral Divisions/Wards editions of 29 Apr 1912, 18 Mar 1913, 8 Sep 1914, 1 Apr 1915, 26 Jan 1916.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/render/tiles/generated/eds-connacht-1907/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/render/tiles/generated/eds-connacht-1907/metadata.json",
+  "sourceLayer": "eds_connacht_1907",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      52.9681498,
+      -10.3207471
+    ],
+    [
+      54.4743682,
+      -7.584171
+    ]
+  ],
+  "style": {
+    "color": "#8B4513",
+    "fillColor": "#8B4513",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "render/source-cache/vector-intake/eds-connacht-1907.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Phelim Birch",
+    "Paddy Matthews"
+  ],
+  "keywords": [
+    "connacht",
+    "ED",
+    "DED",
+    "1907",
+    "before partition",
+    "Connacht District Electoral Divisions 1907",
+    "Electoral Divisions",
+    "Built Environment",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "ENGLISH",
+  "labelPropertyFallbacks": [
+    "GAEILGE",
+    "COUNTY"
+  ],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#8B4513",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "sourceFile": "render/source-cache/vector-intake/eds-connacht-1907.fgb",
+  "sourceDatasetLayer": "DEDs_Connacht_1907",
+  "popupProperties": [
+    "ENGLISH",
+    "civ_fid",
+    "GAEILGE",
+    "CONTAE",
+    "COUNTY",
+    "PROVINCE",
+    "WARDORDED"
+  ],
+  "numericProperties": [
+    "civ_fid"
+  ],
+  "categoricalProperties": [
+    "ENGLISH",
+    "GAEILGE",
+    "CONTAE",
+    "COUNTY",
+    "PROVINCE",
+    "WARDORDED"
+  ],
+  "categoricalValues": {
+    "ENGLISH": [
+      "ANNAGH",
+      "ARDRAHAN",
+      "ATHENRY",
+      "AUGHRIM",
+      "BALLYMOE",
+      "BEAGH",
+      "BELCLARE",
+      "BULLAUN",
+      "CARAUN",
+      "CARNMORE",
+      "CLONBERN",
+      "CLONFERT",
+      "COOS",
+      "CREAGH",
+      "CULLIAGH",
+      "DERREW",
+      "KILCROAN",
+      "KILLAAN",
+      "KILLEELY",
+      "KILLEEN",
+      "KILLIAN",
+      "KILLIMOR",
+      "KILLINNY",
+      "KILLURE",
+      "KILMEEN",
+      "KILQUAIN",
+      "KILVINE",
+      "LACKALEA",
+      "LEITRIM",
+      "LISMANNY",
+      "MILLTOWN",
+      "MOUNTAIN"
+    ],
+    "GAEILGE": [
+      "An Cuas",
+      "Liatroim",
+      "Maighin",
+      "An Ballán",
+      "An Bheitheach",
+      "An Bhreaclach",
+      "An Caisleán Buí",
+      "An Carn Mór",
+      "An Chathair Mhór",
+      "An Cheapach Loiscthe",
+      "An Cheathrú Riabhach",
+      "An Choilleach",
+      "An Chríoch",
+      "An Cillín",
+      "An Clochar",
+      "An Creagán",
+      "An Currach Mór",
+      "An Cárán",
+      "An Ghráig",
+      "An Mhainistir Thiar",
+      "An Mhainistir Thoir",
+      "An Ráithín",
+      "An Sceachánach",
+      "An Screig",
+      "An Tobar Rua",
+      "An tEanach",
+      "Ard Mhaolabháin",
+      "Ard Raithin",
+      "Baile Daighean",
+      "Baile Locha Riach (Tuath)",
+      "Baile Locha Riach (Uirbeach)",
+      "Baile Uí Chathaláin"
+    ],
+    "CONTAE": [
+      "Gaillimh",
+      "Liatroim",
+      "Maigh Eo",
+      "Sligeach",
+      "Ros Comáin"
+    ],
+    "COUNTY": [
+      "Gaillimh",
+      "Liatroim",
+      "Maigh Eo",
+      "Sligeach",
+      "Ros Comáin"
+    ],
+    "PROVINCE": [
+      "Connacht"
+    ],
+    "WARDORDED": [
+      "DED"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from render/source-cache/vector-intake/eds-connacht-1907.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "render/source-cache/vector-intake/eds-connacht-1907.fgb",
+    "bytes": 6690658,
+    "files": 949,
+    "pbfFiles": 948,
+    "maxTileBytes": 112306
+  },
+  "featureIndexUrl": "/render/metadata/feature-indexes/eds-connacht-1907-vector-test.json",
+  "promoteId": "civ_fid",
+  "idProperty": "civ_fid",
+  "featureIndexIdFromFid": true,
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-connacht-1907-vector-test.pmtiles",
+  "tilesFallback": "/render/tiles/generated/eds-connacht-1907/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "render/pmtiles/generated/eds-connacht-1907-vector-test.pmtiles",
+    "url": "/render/pmtiles/generated/eds-connacht-1907-vector-test.pmtiles",
+    "bytes": 4637069,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-10-30T01:39:18.380Z",
+    "fallback": "/render/tiles/generated/eds-connacht-1907/{z}/{x}/{y}.pbf",
+    "sourceSha256": "1a0cacab5ab9f489831fa56dced8db963f77b94220301358c2348ae57299a7b4",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/eds-connacht-1907-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/eds-connacht-1907-vector-test.pmtiles",
+    "localUrl": "/render/pmtiles/generated/eds-connacht-1907-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-10-30T01:40:23.905Z"
+  }
+}

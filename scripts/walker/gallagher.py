@@ -375,10 +375,63 @@ def _surname_map(text, others):
     text = re.sub(r'^Others?:\s*', '', text).strip()
     if '—' not in text:
         return
-    names, label = text.split('—', 1)
-    for n in names.split(','):
-        if n.strip():
-            others[n.strip().lower()] = label.strip(' .')
+    # "Bergin—Protectionist Farmer; Henderson—Independent Farmer": one label per part
+    parts = []
+    for part in text.split(';'):
+        if parts and '—' not in part:
+            parts[-1] += ';' + part          # a ";" inside one label, not a new name
+        else:
+            parts.append(part)
+    for part in parts:
+        if '—' not in part:
+            continue
+        names, label = part.split('—', 1)
+        for n in re.split(r',|\s+and\s+', names):
+            if n.strip():
+                others[n.strip().lower()] = label.strip(' .')
+
+
+PARTY_HEADINGS = ('Fianna Fáil', 'Fine Gael', 'Labour', 'National Labour', 'Clann na Talmhan',
+                  'Cumann na nGaedheal', 'Farmers', 'National League', 'National Centre Party',
+                  'Republicans', 'Sinn Féin', 'Pro-Treaty SF', 'Anti-Treaty SF', 'Others')
+
+
+def _heading(text):
+    """A bold party heading. A note set beside the table can run into the heading's line
+    ("Fine Gael seventh), Keogh on the eighth ...", Dublin North-West 1943): keep the
+    party name only."""
+    for p in sorted(PARTY_HEADINGS, key=len, reverse=True):
+        if text.startswith(p + ' ') and text != p:
+            return p
+    return text
+
+
+def _note_key(s):
+    return re.sub(r'\s+', ' ', (s or '').replace('’', "'").replace('‘', "'")).strip().lower()
+
+
+def _others_note(printed, others):
+    """The footnote label ("Others: Keogan—Independent Republican") for a candidate. A note
+    may name a candidate by surname ("Keogan") or in full ("Patrick O'Reilly", where two
+    O'Reillys stand); a full name is matched first, so a namesake is not given the label."""
+    notes = {_note_key(k): v for k, v in others.items()}
+    printed = re.sub(r'\s*\([^)]*\)$', '', printed.lstrip('*'))
+    surname, _, forename = printed.partition(',')
+    full = _note_key(f'{forename} {surname}')
+    if full in notes:
+        return notes[full]
+    sur = _note_key(surname)
+    return notes.get(sur)
+
+
+def _others_party(heading, note):
+    """A candidate printed under Gallagher's "Others" heading belongs to no party in the
+    table: the party is the footnote's label where he gives one, else Independent. (Before
+    2026-10-30 the reader kept the heading printed above "Others", so independents came out
+    as the last party listed.)"""
+    if heading in ('Others', 'Other'):
+        return note or 'Independent'
+    return heading
 
 
 def _person(printed):
@@ -516,6 +569,11 @@ def general_election_results(doc):
                     continue
                 if not ws:
                     continue
+                if t0 in ('Others', 'Other') and len(ws) == 1 and ws[0][2]:
+                    # the bold "Others" group heading: its candidates are not in the party
+                    # printed above (see _others_party)
+                    party = 'Others'
+                    continue
                 if t0.startswith('Others') or t0 in ('Note:', 'Note') or ('—' in joined and not re.search(r'\d', joined)):
                     if '—' in joined:
                         _surname_map(joined, others)
@@ -530,7 +588,7 @@ def general_election_results(doc):
                 if t0.startswith('_') or t0 in LABELS or t0 in ('Valid', 'First', 'preferences'):
                     continue
                 if ws[0][2] and ws[0][0] < label_x + 3 and not re.search(r'\d', joined):
-                    party = joined
+                    party = _heading(joined)
                     continue
                 if _is_fig(t0) and last is not None and ws[0][0] >= label_x + 60 and b['y'] - row_y < 14:
                     # a figure dropped to the line below its candidate (Vaughan, Cork 1922)
@@ -603,6 +661,9 @@ def general_election_results(doc):
                 last, row_y = c, b['y']
             cols = sorted(counts)
             result = []
+            # a footnote names "Others" candidates by surname: where the table has an
+            # "Others" heading, a party candidate of the same surname is not meant
+            has_others = any(c['party'] == 'Others' for c in cands)
             for c in cands:
                 fp = c['lead']['value']
                 transfers, totals, running, span = [None], [fp], [fp], {}
@@ -620,11 +681,13 @@ def general_election_results(doc):
                     running.append(tot if tot is not None else
                                    None if cell.get('spanTransfer') is not None or (prev is None and tr is None)
                                    else (prev or 0) + (tr or 0))
-                surname = c['printed'].lstrip('*').split(',')[0].strip().lower()
+                note = _others_note(c['printed'], others) if (c['party'] == 'Others' or not has_others) else None
                 result.append({
                     'name': _person(c['printed']), 'nameAsPrinted': c['printed'].lstrip('*'),
                     'outgoing': c['printed'].startswith('*'),
-                    'party': c['party'], 'partyNote': others.get(surname),
+                    'party': _others_party(c['party'], note),
+                    **({'partyHeading': 'Others'} if c['party'] == 'Others' else {}),
+                    'partyNote': note,
                     'firstPreferences': fp,
                     'elected': c['bold'] or 'Elected' in c['statuses'],
                     'electedInTable': c['bold'], 'electedAtCount': at,
@@ -685,7 +748,7 @@ def _unopposed(block, label_x):
                 cols[col] = txt
             elif ',' in txt and 'unopposed' not in txt:
                 cands.append({'name': _person(txt), 'nameAsPrinted': txt.lstrip('*'), 'outgoing': txt.startswith('*'),
-                              'party': cols.get(col), 'firstPreferences': None, 'elected': True, 'unopposed': True})
+                              'party': _others_party(cols.get(col), None), 'firstPreferences': None, 'elected': True, 'unopposed': True})
     return cands
 
 

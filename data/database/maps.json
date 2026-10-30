@@ -969,7 +969,11 @@
         "eds-1926",
         "eds-roi-1921-06-28",
         "eds-roi-1921-05-03",
+        "eds-1921-03-21",
         "eds-1919-04-01",
+        "eds-1919-01-01",
+        "eds-1916-01-26",
+        "eds-1915-04-01",
         "eds-1915",
         "eds-1914",
         "eds-1912",
@@ -6411,7 +6415,7 @@
         "color": "#0A4BAF",
         "weight": 2
       },
-      "labelProperty": "Name",
+      "labelProperty": "NAME",
       "keywords": [
         "stormont",
         "constituency",
@@ -8222,7 +8226,8 @@
       "isGroup": true,
       "featured": true,
       "provider": [
-        "Paddy Matthews"
+        "Paddy Matthews",
+        "Phelim Birch"
       ],
       "style": {
         "color": "#8B4513",
@@ -8247,13 +8252,15 @@
           "useLOD": true
         },
         {
-          "id": "eds-leinster-1911",
+          "id": "eds-1911-leinster",
           "label": "Leinster",
-          "description": "Electoral Divisions in Leinster province",
+          "description": "Electoral Divisions in Leinster province (Phelim Birch’s corrected 29 Apr 1910 map)",
+          "cloneOf": "eds-leinster-1910",
           "files": {
-            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/LeinsterElectoralDivisions1911.fgb"
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1910_April_29.fgb"
           },
-          "useLOD": true
+          "labelProperty": "ENGLISH",
+          "useLOD": false
         },
         {
           "id": "eds-munster-1911",
@@ -8354,23 +8361,156 @@
           ]
         }
       ],
-      "boundaryOrdersSource": "Local Government Board for Ireland orders (Dublin Gazette), transcribed by Phelim Birch"
+      "boundaryOrdersSource": "Local Government Board for Ireland orders (Dublin Gazette), transcribed by Phelim Birch",
+      "description": "District Electoral Divisions of Ireland as at 29 Apr 1910, before partition. The Leinster divisions are Phelim Birch’s corrected 29 Apr 1910 map; Connacht, Munster and Ulster are Paddy Matthews’s 1911 maps.",
+      "downloads": [
+        {
+          "label": "Leinster DEDs/Wards 29 Apr 1910 (Phelim Birch)",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1910_April_29.fgb",
+          "type": "FlatGeobuf"
+        }
+      ]
     },
     {
       "id": "eds-1912",
-      "name": "29 Apr 1912",
       "slug": "eds-1912",
-      "category": "electoral-divisions",
-      "date": "1912-04-29",
-      "placeholder": true,
+      "category": "wards",
+      "isGroup": true,
       "featured": true,
-      "provider": [],
+      "name": "District Electoral Divisions/Wards 1912",
+      "date": "1912-04-29",
+      "provider": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "style": {
+        "color": "#8B4513",
+        "weight": 2
+      },
+      "labelProperty": "ENGLISH",
+      "variants": [
+        {
+          "id": "eds-1912-connacht",
+          "label": "Connacht (= 1907 boundaries)",
+          "cloneOf": "eds-connacht-1907",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1907.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        },
+        {
+          "id": "eds-1912-leinster",
+          "label": "Leinster (= 29 Apr 1910 boundaries)",
+          "cloneOf": "eds-leinster-1910",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1910_April_29.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        },
+        {
+          "id": "eds-1912-munster",
+          "label": "Munster (= Apr 1907 boundaries)",
+          "cloneOf": "eds-munster-1907",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1907_April.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        },
+        {
+          "id": "eds-1912-ulster",
+          "label": "Ulster 1912",
+          "cloneOf": "eds-ulster-1912",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Ulster_1912.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        }
+      ],
+      "description": "District Electoral Divisions/Wards of Ireland, before partition, as at 29 Apr 1912, assembled from Connacht (= 1907 boundaries), Leinster (= 29 Apr 1910 boundaries), Munster (= Apr 1907 boundaries), Ulster 1912. Modified version of the 1913 map. In 1913, following the formation of Buncrana Urban District, the DED of Buncrana was split into Buncrana Rural and Buncrana Urban.",
       "keywords": [
-        "electoral",
-        "division",
+        "electoral division",
+        "district electoral division",
         "DED",
+        "ward",
         "1912",
-        "placeholder"
+        "ireland",
+        "before partition",
+        "historic"
+      ],
+      "sourceNotes": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1912.txt",
+      "downloads": [
+        {
+          "label": "Connacht DEDs/Wards 1907",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1907.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Leinster DEDs/Wards 29 Apr 1910",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1910_April_29.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Munster DEDs/Wards Apr 1907",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1907_April.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Ulster DEDs/Wards 1912",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Ulster_1912.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Source notes 1912",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1912.txt",
+          "type": "Source notes"
+        },
+        {
+          "label": "Local Government Board Order 18/03/1913 (transcript)",
+          "url": "https://data.civgraph.net/data/documents/electoral-divisions/local-government-board-order-1913-03-18.pdf",
+          "type": "PDF"
+        }
+      ],
+      "references": [
+        {
+          "label": "District Electoral Divisions/Wards 1912 source notes",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1912.txt",
+          "note": "Source notes supplied by Phelim Birch with the map files."
+        },
+        {
+          "label": "Local Government Board Order 18/03/1913 (transcript)",
+          "url": "https://data.civgraph.net/data/documents/electoral-divisions/local-government-board-order-1913-03-18.pdf",
+          "note": "Taken from the 01/04/1913 Dublin Gazette; transcribed by Phelim Birch."
+        }
+      ],
+      "bounds": [
+        [
+          51.388858,
+          -10.662971
+        ],
+        [
+          55.446581,
+          -5.426788
+        ]
       ],
       "boundaryOrders": [
         {
@@ -8422,20 +8562,145 @@
     },
     {
       "id": "eds-1914",
-      "name": "18 Mar 1913",
       "slug": "eds-1914",
-      "category": "electoral-divisions",
-      "date": "1913-03-18",
-      "placeholder": true,
+      "category": "wards",
+      "isGroup": true,
       "featured": true,
-      "provider": [],
+      "name": "District Electoral Divisions/Wards 1913",
+      "date": "1913-03-18",
+      "provider": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "style": {
+        "color": "#8B4513",
+        "weight": 2
+      },
+      "labelProperty": "ENGLISH",
+      "variants": [
+        {
+          "id": "eds-1914-connacht",
+          "label": "Connacht (= 1907 boundaries)",
+          "cloneOf": "eds-connacht-1907",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1907.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        },
+        {
+          "id": "eds-1914-leinster",
+          "label": "Leinster (= 29 Apr 1910 boundaries)",
+          "cloneOf": "eds-leinster-1910",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1910_April_29.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        },
+        {
+          "id": "eds-1914-munster",
+          "label": "Munster (= Apr 1907 boundaries)",
+          "cloneOf": "eds-munster-1907",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1907_April.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        },
+        {
+          "id": "eds-1914-ulster",
+          "label": "Ulster 1913",
+          "cloneOf": "eds-ulster-1913",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Ulster_1913.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        }
+      ],
+      "description": "District Electoral Divisions/Wards of Ireland, before partition, as at 18 Mar 1913, assembled from Connacht (= 1907 boundaries), Leinster (= 29 Apr 1910 boundaries), Munster (= Apr 1907 boundaries), Ulster 1913. Modified version of the 1914 map. In 1914, following the formation of Bundoran Urban District, the DED of Bundoran was split into Bundoran Rural and Bundoran Urban.",
       "keywords": [
-        "electoral",
-        "division",
+        "electoral division",
+        "district electoral division",
         "DED",
-        "1914",
-        "placeholder",
-        "1913"
+        "ward",
+        "1913",
+        "ireland",
+        "before partition",
+        "historic",
+        "1914"
+      ],
+      "sourceNotes": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1913.txt",
+      "downloads": [
+        {
+          "label": "Connacht DEDs/Wards 1907",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1907.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Leinster DEDs/Wards 29 Apr 1910",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1910_April_29.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Munster DEDs/Wards Apr 1907",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1907_April.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Ulster DEDs/Wards 1913",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Ulster_1913.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Source notes 1913",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1913.txt",
+          "type": "Source notes"
+        },
+        {
+          "label": "Local Government Board Order 08/09/1914 (transcript)",
+          "url": "https://data.civgraph.net/data/documents/electoral-divisions/local-government-board-order-1914-09-08.pdf",
+          "type": "PDF"
+        }
+      ],
+      "references": [
+        {
+          "label": "District Electoral Divisions/Wards 1913 source notes",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1913.txt",
+          "note": "Source notes supplied by Phelim Birch with the map files."
+        },
+        {
+          "label": "Local Government Board Order 08/09/1914 (transcript)",
+          "url": "https://data.civgraph.net/data/documents/electoral-divisions/local-government-board-order-1914-09-08.pdf",
+          "note": "Taken from the 18/09/1914 Dublin Gazette; transcribed by Phelim Birch."
+        }
+      ],
+      "bounds": [
+        [
+          51.388858,
+          -10.662971
+        ],
+        [
+          55.446581,
+          -5.426788
+        ]
       ],
       "boundaryOrders": [
         {
@@ -8465,20 +8730,138 @@
     },
     {
       "id": "eds-1915",
-      "name": "8 Sep 1914",
       "slug": "eds-1915",
-      "category": "electoral-divisions",
-      "date": "1914-09-08",
-      "placeholder": true,
+      "category": "wards",
+      "isGroup": true,
       "featured": true,
-      "provider": [],
+      "name": "District Electoral Divisions/Wards 1914",
+      "date": "1914-09-08",
+      "provider": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "style": {
+        "color": "#8B4513",
+        "weight": 2
+      },
+      "labelProperty": "ENGLISH",
+      "variants": [
+        {
+          "id": "eds-1915-connacht",
+          "label": "Connacht (= 1907 boundaries)",
+          "cloneOf": "eds-connacht-1907",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1907.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        },
+        {
+          "id": "eds-1915-leinster",
+          "label": "Leinster (= 29 Apr 1910 boundaries)",
+          "cloneOf": "eds-leinster-1910",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1910_April_29.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        },
+        {
+          "id": "eds-1915-munster",
+          "label": "Munster (= Apr 1907 boundaries)",
+          "cloneOf": "eds-munster-1907",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1907_April.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        },
+        {
+          "id": "eds-1915-ulster",
+          "label": "Ulster 1914",
+          "cloneOf": "eds-ulster-1914",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Ulster_1914.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        }
+      ],
+      "description": "District Electoral Divisions/Wards of Ireland, before partition, as at 8 Sep 1914, assembled from Connacht (= 1907 boundaries), Leinster (= 29 Apr 1910 boundaries), Munster (= Apr 1907 boundaries), Ulster 1914. Modified version of the 1915 map. In 1915, due to the expansion of Portrush Urban District (and County Antrim as a whole), parts of Ballylagan DED were ceded to Portrush Urban DED.",
       "keywords": [
-        "electoral",
-        "division",
+        "electoral division",
+        "district electoral division",
         "DED",
-        "1915",
-        "placeholder",
-        "1914"
+        "ward",
+        "1914",
+        "ireland",
+        "before partition",
+        "historic",
+        "1915"
+      ],
+      "sourceNotes": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1914.txt",
+      "downloads": [
+        {
+          "label": "Connacht DEDs/Wards 1907",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1907.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Leinster DEDs/Wards 29 Apr 1910",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1910_April_29.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Munster DEDs/Wards Apr 1907",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1907_April.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Ulster DEDs/Wards 1914",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Ulster_1914.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Source notes 1914",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1914.txt",
+          "type": "Source notes"
+        }
+      ],
+      "references": [
+        {
+          "label": "District Electoral Divisions/Wards 1914 source notes",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1914.txt",
+          "note": "Source notes supplied by Phelim Birch with the map files."
+        },
+        {
+          "label": "Antrim and Londonderry Boundaries Order 1914"
+        }
+      ],
+      "bounds": [
+        [
+          51.388858,
+          -10.662971
+        ],
+        [
+          55.446581,
+          -5.426788
+        ]
       ],
       "boundaryOrders": [
         {
@@ -8507,20 +8890,287 @@
       "boundaryOrdersSource": "Local Government Board for Ireland orders (Dublin Gazette), transcribed by Phelim Birch"
     },
     {
-      "id": "eds-1919-04-01",
-      "name": "20 Jan 1919",
-      "slug": "eds-1919-04-01",
-      "category": "electoral-divisions",
-      "date": "1919-01-20",
-      "placeholder": true,
+      "id": "eds-1915-04-01",
+      "slug": "eds-1915-04-01",
+      "category": "wards",
+      "isGroup": true,
       "featured": true,
-      "provider": [],
+      "name": "District Electoral Divisions/Wards 1915",
+      "date": "1915-04-01",
+      "provider": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "style": {
+        "color": "#8B4513",
+        "weight": 2
+      },
+      "labelProperty": "ENGLISH",
+      "variants": [
+        {
+          "id": "eds-1915-04-01-connacht",
+          "label": "Connacht (= 1907 boundaries)",
+          "cloneOf": "eds-connacht-1907",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1907.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        },
+        {
+          "id": "eds-1915-04-01-leinster",
+          "label": "Leinster (= 29 Apr 1910 boundaries)",
+          "cloneOf": "eds-leinster-1910",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1910_April_29.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        },
+        {
+          "id": "eds-1915-04-01-munster",
+          "label": "Munster (= Apr 1907 boundaries)",
+          "cloneOf": "eds-munster-1907",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1907_April.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        },
+        {
+          "id": "eds-1915-04-01-ulster",
+          "label": "Ulster 1915",
+          "cloneOf": "eds-ulster-1915",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Ulster_1915.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        }
+      ],
+      "description": "District Electoral Divisions/Wards of Ireland, before partition, as at 1 Apr 1915, assembled from Connacht (= 1907 boundaries), Leinster (= 29 Apr 1910 boundaries), Munster (= Apr 1907 boundaries), Ulster 1915. Modified version of the 1916 map. In 1916, following the formation of Portstewart Urban District, the DED of Portstewart was split into Portstewart Rural and Portstewart Urban.",
       "keywords": [
-        "electoral",
-        "division",
+        "electoral division",
+        "district electoral division",
         "DED",
-        "1919",
-        "placeholder"
+        "ward",
+        "1915",
+        "ireland",
+        "before partition",
+        "historic"
+      ],
+      "sourceNotes": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1915.txt",
+      "downloads": [
+        {
+          "label": "Connacht DEDs/Wards 1907",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1907.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Leinster DEDs/Wards 29 Apr 1910",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1910_April_29.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Munster DEDs/Wards Apr 1907",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1907_April.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Ulster DEDs/Wards 1915",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Ulster_1915.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Source notes 1915",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1915.txt",
+          "type": "Source notes"
+        },
+        {
+          "label": "Local Government Board Order 26/01/1916 (transcript)",
+          "url": "https://data.civgraph.net/data/documents/electoral-divisions/local-government-board-order-1916-01-26.pdf",
+          "type": "PDF"
+        }
+      ],
+      "references": [
+        {
+          "label": "District Electoral Divisions/Wards 1915 source notes",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1915.txt",
+          "note": "Source notes supplied by Phelim Birch with the map files."
+        },
+        {
+          "label": "Local Government Board Order 26/01/1916 (transcript)",
+          "url": "https://data.civgraph.net/data/documents/electoral-divisions/local-government-board-order-1916-01-26.pdf",
+          "note": "Taken from the 04/02/1916 Dublin Gazette; transcribed by Phelim Birch."
+        }
+      ],
+      "bounds": [
+        [
+          51.388858,
+          -10.662971
+        ],
+        [
+          55.446581,
+          -5.426788
+        ]
+      ]
+    },
+    {
+      "id": "eds-1916-01-26",
+      "slug": "eds-1916-01-26",
+      "category": "wards",
+      "isGroup": true,
+      "featured": true,
+      "name": "District Electoral Divisions/Wards 1916",
+      "date": "1916-01-26",
+      "provider": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "style": {
+        "color": "#8B4513",
+        "weight": 2
+      },
+      "labelProperty": "ENGLISH",
+      "variants": [
+        {
+          "id": "eds-1916-01-26-connacht",
+          "label": "Connacht (= 1907 boundaries)",
+          "cloneOf": "eds-connacht-1907",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1907.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        },
+        {
+          "id": "eds-1916-01-26-leinster",
+          "label": "Leinster (= 29 Apr 1910 boundaries)",
+          "cloneOf": "eds-leinster-1910",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1910_April_29.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        },
+        {
+          "id": "eds-1916-01-26-munster",
+          "label": "Munster (= Apr 1907 boundaries)",
+          "cloneOf": "eds-munster-1907",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1907_April.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        },
+        {
+          "id": "eds-1916-01-26-ulster",
+          "label": "Ulster 1916",
+          "cloneOf": "eds-ulster-1916",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Ulster_1916.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        }
+      ],
+      "description": "District Electoral Divisions/Wards of Ireland, before partition, as at 26 Jan 1916, assembled from Connacht (= 1907 boundaries), Leinster (= 29 Apr 1910 boundaries), Munster (= Apr 1907 boundaries), Ulster 1916. Modified version of the 1 Jan 1919 map. On January 1st 1919, 12 townlands (Aghaleague, Ballymurphy, Barnhill Lower, Barnhill Upper, Barroe, Billoos, Carrowcuilleen, Carrowmore, Cloonanass, Crott, Gortatoor, Rathoonagh) were transferred from the DED of Lackan South to the DED of Ballycastle (both in Mayo).",
+      "keywords": [
+        "electoral division",
+        "district electoral division",
+        "DED",
+        "ward",
+        "1916",
+        "ireland",
+        "before partition",
+        "historic"
+      ],
+      "sourceNotes": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1916.txt",
+      "downloads": [
+        {
+          "label": "Connacht DEDs/Wards 1907",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1907.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Leinster DEDs/Wards 29 Apr 1910",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1910_April_29.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Munster DEDs/Wards Apr 1907",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1907_April.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Ulster DEDs/Wards 1916",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Ulster_1916.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Source notes 1916",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1916.txt",
+          "type": "Source notes"
+        },
+        {
+          "label": "Local Government Board Order 20/01/1919 (transcript)",
+          "url": "https://data.civgraph.net/data/documents/electoral-divisions/local-government-board-order-1919-01-20.pdf",
+          "type": "PDF"
+        }
+      ],
+      "references": [
+        {
+          "label": "District Electoral Divisions/Wards 1916 source notes",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1916.txt",
+          "note": "Source notes supplied by Phelim Birch with the map files."
+        },
+        {
+          "label": "Local Government Board Order 20/01/1919 (transcript)",
+          "url": "https://data.civgraph.net/data/documents/electoral-divisions/local-government-board-order-1919-01-20.pdf",
+          "note": "Taken from the 07/02/1919 Dublin Gazette; transcribed by Phelim Birch."
+        }
+      ],
+      "bounds": [
+        [
+          51.388858,
+          -10.662971
+        ],
+        [
+          55.446581,
+          -5.426788
+        ]
       ],
       "boundaryOrders": [
         {
@@ -8532,7 +9182,146 @@
               "from the date of the order"
             ]
           ]
+        }
+      ],
+      "boundaryOrdersSource": "Local Government Board for Ireland orders (Dublin Gazette), transcribed by Phelim Birch"
+    },
+    {
+      "id": "eds-1919-01-01",
+      "slug": "eds-1919-01-01",
+      "category": "wards",
+      "isGroup": true,
+      "featured": true,
+      "name": "District Electoral Divisions/Wards 1 Jan 1919",
+      "date": "1919-01-01",
+      "provider": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "style": {
+        "color": "#8B4513",
+        "weight": 2
+      },
+      "labelProperty": "ENGLISH",
+      "variants": [
+        {
+          "id": "eds-1919-01-01-connacht",
+          "label": "Connacht (= 1919 boundaries)",
+          "cloneOf": "eds-connacht-1919",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
         },
+        {
+          "id": "eds-1919-01-01-leinster",
+          "label": "Leinster (= 29 Apr 1910 boundaries)",
+          "cloneOf": "eds-leinster-1910",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1910_April_29.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        },
+        {
+          "id": "eds-1919-01-01-munster",
+          "label": "Munster (= Apr 1907 boundaries)",
+          "cloneOf": "eds-munster-1907",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1907_April.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        },
+        {
+          "id": "eds-1919-01-01-ulster",
+          "label": "Ulster (= 1916 boundaries)",
+          "cloneOf": "eds-ulster-1916",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Ulster_1916.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        }
+      ],
+      "description": "District Electoral Divisions/Wards of Ireland, before partition, as at 1 Jan 1919, assembled from Connacht (= 1919 boundaries), Leinster (= 29 Apr 1910 boundaries), Munster (= Apr 1907 boundaries), Ulster (= 1916 boundaries). Modified version of the ~20 Jan 1919 map. Soon before January 22nd 1919, following the formation of Howth Urban District, the DED of Howth was split into Howth Rural and Howth Urban.",
+      "keywords": [
+        "electoral division",
+        "district electoral division",
+        "DED",
+        "ward",
+        "1919",
+        "ireland",
+        "before partition",
+        "historic"
+      ],
+      "sourceNotes": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1919 January 1.txt",
+      "downloads": [
+        {
+          "label": "Connacht DEDs/Wards 1919",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Leinster DEDs/Wards 29 Apr 1910",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1910_April_29.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Munster DEDs/Wards Apr 1907",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1907_April.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Ulster DEDs/Wards 1916",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Ulster_1916.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Source notes 1 Jan 1919",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1919 January 1.txt",
+          "type": "Source notes"
+        }
+      ],
+      "references": [
+        {
+          "label": "District Electoral Divisions/Wards 1 Jan 1919 source notes",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1919 January 1.txt",
+          "note": "Source notes supplied by Phelim Birch with the map files."
+        },
+        {
+          "label": "Evening Telegraph, 22 Jan 1919 (Irish Newspaper Archives)",
+          "url": "https://irishnewsarchive.com/?a=d&d=EVNT19190122.1.2&srpos=72&e=-------en-20--61-byDA-img-txIN-%22electoral+division%22---------1-1-1-1-1-1-community-------INA-mr-all--%22electoral+division%22+%22electoral+Howth%22~9+%22division+Howth%22~9-AND-1-0-Howth-&coordinates=850,1256,576,576"
+        }
+      ],
+      "bounds": [
+        [
+          51.388858,
+          -10.662971
+        ],
+        [
+          55.446581,
+          -5.426788
+        ]
+      ],
+      "boundaryOrders": [
         {
           "divisions": "Lackan South and Ballycastle (Co. Mayo), boundary altered",
           "made": "1919-01-20",
@@ -8551,27 +9340,455 @@
       "boundaryOrdersSource": "Local Government Board for Ireland orders (Dublin Gazette), transcribed by Phelim Birch"
     },
     {
-      "id": "eds-roi-1921-05-03",
-      "name": "Electoral Divisions 3 May 1921",
-      "slug": "eds-roi-1921-05-03",
-      "category": "electoral-divisions",
-      "date": "1921-05-03",
-      "provider": [],
-      "keywords": [
-        "electoral",
-        "division",
-        "ED",
-        "1921",
-        "partition",
-        "placeholder"
+      "id": "eds-1919-04-01",
+      "slug": "eds-1919-04-01",
+      "category": "wards",
+      "isGroup": true,
+      "featured": true,
+      "name": "District Electoral Divisions/Wards ~20 Jan 1919",
+      "date": "1919-01-20",
+      "provider": [
+        "Phelim Birch",
+        "Paddy Matthews"
       ],
       "style": {
-        "color": "#9C6E3F",
+        "color": "#8B4513",
         "weight": 2
       },
-      "labelProperty": "ED_NAME",
-      "placeholder": true,
-      "note": "Partition date. No map of these boundaries yet: the files it used to draw were the 1 Oct 1921 map (eds-1926)."
+      "labelProperty": "ENGLISH",
+      "variants": [
+        {
+          "id": "eds-1919-04-01-connacht",
+          "label": "Connacht (= 1919 boundaries)",
+          "cloneOf": "eds-connacht-1919",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        },
+        {
+          "id": "eds-1919-04-01-leinster",
+          "label": "Leinster 1919",
+          "cloneOf": "eds-leinster-1919",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1919.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        },
+        {
+          "id": "eds-1919-04-01-munster",
+          "label": "Munster (= Apr 1907 boundaries)",
+          "cloneOf": "eds-munster-1907",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1907_April.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        },
+        {
+          "id": "eds-1919-04-01-ulster",
+          "label": "Ulster (= 1916 boundaries)",
+          "cloneOf": "eds-ulster-1916",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Ulster_1916.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        }
+      ],
+      "description": "District Electoral Divisions/Wards of Ireland, before partition, as at ~20 Jan 1919 (exact date currently unknown), assembled from Connacht (= 1919 boundaries), Leinster 1919, Munster (= Apr 1907 boundaries), Ulster (= 1916 boundaries). Modified version of the 21 Mar 1921 map. On March 21st 1921, following the formation of Ballycastle Urban District, the DED of Ballycastle was split into Ballycastle Rural and Ballycastle Urban. Additionally, six DEDs (Queenstown Rural/Urban -> Cobh Rural/Urban and Kingstown No. 1-4 -> Dún Laoghaire No. 1-4) and two counties (King's County -> Offaly and Queen's County -> Laois) were renamed in 1920.",
+      "keywords": [
+        "electoral division",
+        "district electoral division",
+        "DED",
+        "ward",
+        "1919",
+        "ireland",
+        "before partition",
+        "historic"
+      ],
+      "sourceNotes": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1919 January ~20.txt",
+      "downloads": [
+        {
+          "label": "Connacht DEDs/Wards 1919",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Leinster DEDs/Wards 1919",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1919.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Munster DEDs/Wards Apr 1907",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1907_April.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Ulster DEDs/Wards 1916",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Ulster_1916.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Source notes ~20 Jan 1919",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1919 January ~20.txt",
+          "type": "Source notes"
+        },
+        {
+          "label": "Local Government Board Order 21/03/1921 (transcript)",
+          "url": "https://data.civgraph.net/data/documents/electoral-divisions/local-government-board-order-1921-03-21.pdf",
+          "type": "PDF"
+        }
+      ],
+      "references": [
+        {
+          "label": "District Electoral Divisions/Wards ~20 Jan 1919 source notes",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1919 January ~20.txt",
+          "note": "Source notes supplied by Phelim Birch with the map files."
+        },
+        {
+          "label": "Local Government Board Order 21/03/1921 (transcript)",
+          "url": "https://data.civgraph.net/data/documents/electoral-divisions/local-government-board-order-1921-03-21.pdf",
+          "note": "Taken from the 01/04/1921 Dublin Gazette; transcribed by Phelim Birch."
+        },
+        {
+          "label": "Cobh: 100 years ago Queenstown was renamed to Cobh (TheCork.ie)",
+          "url": "https://www.thecork.ie/2020/06/25/100-years-ago-queenstown-was-renamed-to-cobh-town-was-the-last-port-of-call-of-the-titanic/"
+        },
+        {
+          "label": "Dún Laoghaire: What's in a name? Dun Leary - Kingstown - Dún Laoghaire (dlrcoco.ie, archived)",
+          "url": "https://web.archive.org/web/20210127034536/https://www.dlrcoco.ie/en/news/general-news/what%E2%80%99s-name-dun-leary-%E2%80%93-kingstown-%E2%80%93-d%C3%BAn-laoghaire"
+        },
+        {
+          "label": "Offaly: sources for researching the War of Independence at Offaly Archives (Offaly History blog)",
+          "url": "https://offalyhistoryblog.com/2021/02/17/sources-researching-the-war-of-independence-at-offaly-archives/"
+        },
+        {
+          "label": "Laois: Queen's County Council minute books 1916-1926 (Laois Local Studies)",
+          "url": "https://laoislocalstudies.ie/portfolio/queens-county-council-minute-books-1916-10-02-1926-02-08-manuscript/"
+        }
+      ],
+      "bounds": [
+        [
+          51.388858,
+          -10.662971
+        ],
+        [
+          55.446581,
+          -5.426788
+        ]
+      ]
+    },
+    {
+      "id": "eds-1921-03-21",
+      "slug": "eds-1921-03-21",
+      "category": "wards",
+      "isGroup": true,
+      "featured": true,
+      "name": "District Electoral Divisions/Wards 21 Mar 1921",
+      "date": "1921-03-21",
+      "provider": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "style": {
+        "color": "#8B4513",
+        "weight": 2
+      },
+      "labelProperty": "ENGLISH",
+      "variants": [
+        {
+          "id": "eds-1921-03-21-connacht",
+          "label": "Connacht (= 1919 boundaries)",
+          "cloneOf": "eds-connacht-1919",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        },
+        {
+          "id": "eds-1921-03-21-leinster",
+          "label": "Leinster (= 1919 boundaries)",
+          "cloneOf": "eds-leinster-1919",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1919.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        },
+        {
+          "id": "eds-1921-03-21-munster",
+          "label": "Munster (= Apr 1907 boundaries)",
+          "cloneOf": "eds-munster-1907",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1907_April.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        },
+        {
+          "id": "eds-1921-03-21-ulster",
+          "label": "Ulster 1921",
+          "cloneOf": "eds-ulster-1921-nine-county",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Ulster_1921.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        }
+      ],
+      "description": "District Electoral Divisions/Wards of Ireland, before partition, as at 21 Mar 1921, assembled from Connacht (= 1919 boundaries), Leinster (= 1919 boundaries), Munster (= Apr 1907 boundaries), Ulster 1921. Combination of the 3 May 1921 Republic of Ireland DED/ward map and the 1921 Northern Ireland DED map using the attributes of the former map. 3 May 1921 was the date that partition went into effect.",
+      "keywords": [
+        "electoral division",
+        "district electoral division",
+        "DED",
+        "ward",
+        "1921",
+        "ireland",
+        "before partition",
+        "historic"
+      ],
+      "sourceNotes": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1921 March.txt",
+      "downloads": [
+        {
+          "label": "Connacht DEDs/Wards 1919",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Leinster DEDs/Wards 1919",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1919.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Munster DEDs/Wards Apr 1907",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1907_April.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Ulster DEDs/Wards 1921",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Ulster_1921.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Source notes 21 Mar 1921",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1921 March.txt",
+          "type": "Source notes"
+        }
+      ],
+      "references": [
+        {
+          "label": "District Electoral Divisions/Wards 21 Mar 1921 source notes",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1921 March.txt",
+          "note": "Source notes supplied by Phelim Birch with the map files."
+        },
+        {
+          "label": "Government of Ireland Act 1920"
+        }
+      ],
+      "bounds": [
+        [
+          51.388858,
+          -10.662971
+        ],
+        [
+          55.446581,
+          -5.426788
+        ]
+      ],
+      "boundaryOrders": [
+        {
+          "divisions": "Ballycastle (Co. Antrim), divided into Ballycastle Urban and Ballycastle Rural",
+          "made": "1921-03-21",
+          "purposes": [
+            [
+              "All purposes",
+              "from the date of the order"
+            ]
+          ]
+        }
+      ],
+      "boundaryOrdersSource": "Local Government Board for Ireland orders (Dublin Gazette), transcribed by Phelim Birch"
+    },
+    {
+      "id": "eds-roi-1921-05-03",
+      "slug": "eds-roi-1921-05-03",
+      "category": "wards",
+      "isGroup": true,
+      "featured": true,
+      "name": "District Electoral Divisions/Wards 3 May 1921",
+      "date": "1921-05-03",
+      "provider": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "style": {
+        "color": "#8B4513",
+        "weight": 2
+      },
+      "labelProperty": "ENGLISH",
+      "variants": [
+        {
+          "id": "eds-roi-1921-05-03-connacht",
+          "label": "Connacht (= 1919 boundaries)",
+          "cloneOf": "eds-connacht-1919",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        },
+        {
+          "id": "eds-roi-1921-05-03-leinster",
+          "label": "Leinster (= 1919 boundaries)",
+          "cloneOf": "eds-leinster-1919",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1919.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        },
+        {
+          "id": "eds-roi-1921-05-03-munster",
+          "label": "Munster (= Apr 1907 boundaries)",
+          "cloneOf": "eds-munster-1907",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1907_April.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        },
+        {
+          "id": "eds-roi-1921-05-03-ulster",
+          "label": "Ulster (outside Northern Ireland) (= 1921 boundaries)",
+          "cloneOf": "eds-ulster-1921",
+          "files": {
+            "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb"
+          },
+          "style": {
+            "color": "#8B4513",
+            "weight": 2
+          },
+          "labelProperty": "ENGLISH",
+          "useLOD": false
+        }
+      ],
+      "description": "Republic of Ireland District Electoral Divisions/Wards as at 3 May 1921, assembled from Connacht (= 1919 boundaries), Leinster (= 1919 boundaries), Munster (= Apr 1907 boundaries), Ulster (outside Northern Ireland) (= 1921 boundaries). Modified version of the 1931 map. In 1931, the DEDs of Castleknock, Drumcondra Rural, Finglas, Howth Rural, Palmerston, Rathfarnham and Terenure were split by the expansion of Dublin county borough. Additionally, on October 1st 1921, following the formation of Passage West Urban District, the DED of Monkstown was split into Monkstown Rural and Monkstown Urban. This latter change is not recorded on a separate map as Paddy has already created one.",
+      "keywords": [
+        "electoral division",
+        "district electoral division",
+        "DED",
+        "ward",
+        "1921",
+        "republic of ireland",
+        "partition",
+        "historic"
+      ],
+      "sourceNotes": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1921 May.txt",
+      "downloads": [
+        {
+          "label": "Connacht DEDs/Wards 1919",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1919.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Leinster DEDs/Wards 1919",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1919.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Munster DEDs/Wards Apr 1907",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1907_April.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Ulster (outside Northern Ireland) DEDs/Wards 1921",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Ulster_1921.fgb",
+          "type": "FlatGeobuf"
+        },
+        {
+          "label": "Source notes 3 May 1921",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1921 May.txt",
+          "type": "Source notes"
+        },
+        {
+          "label": "Local Government Board Order 13/12/1921 (transcript)",
+          "url": "https://data.civgraph.net/data/documents/electoral-divisions/local-government-board-order-1921-12-13.pdf",
+          "type": "PDF"
+        }
+      ],
+      "references": [
+        {
+          "label": "District Electoral Divisions/Wards 3 May 1921 source notes",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions Wards 1921 May.txt",
+          "note": "Source notes supplied by Phelim Birch with the map files."
+        },
+        {
+          "label": "Local Government (Dublin) Act, 1930"
+        },
+        {
+          "label": "Local Government Board Order 13/12/1921 (transcript)",
+          "url": "https://data.civgraph.net/data/documents/electoral-divisions/local-government-board-order-1921-12-13.pdf",
+          "note": "Taken from the 06/01/1922 Dublin Gazette; transcribed by Phelim Birch."
+        }
+      ],
+      "bounds": [
+        [
+          51.4,
+          -10.75
+        ],
+        [
+          55.5,
+          -5.4
+        ]
+      ]
     },
     {
       "id": "eds-roi-1921-06-28",
@@ -13153,7 +14370,7 @@
         "northern ireland",
         "partition"
       ],
-      "description": "Northern Ireland District Electoral Divisions as at 3 May 1921. A modified version of the 1911 DEDs/wards map, capturing the three changes made in the six counties between 1911 and partition: the DED of Gortahurk ceded six townlands to Cuilcagh (both in Fermanagh), and Portstewart and Ballycastle each split their DED into urban and rural.",
+      "description": "Northern Ireland District Electoral Divisions as at 3 May 1921. A modified version of the 1911 DEDs/wards map, capturing the three changes made in the six counties between 1911 and partition: the DED of Gortahurk ceded six townlands to Cuilcagh (both in Fermanagh), and Portstewart and Ballycastle each split their DED into urban and rural. Some errors with the map were also fixed (Rich Hill/Aghory, Enagh/\"Ballymoney Rural\", Derryaghy/\"Lambeg\", Lissue/Lisburn Urban, Larne, Bangor, Newtownards, Dungannon, Omagh) using the 1911 census reports as a source.",
       "files": {
         "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/NI_DEDs_1921.fgb"
       },
@@ -13177,6 +14394,21 @@
           "label": "Belfast Gazette issue 128 (Ballycastle)",
           "url": "https://www.thegazette.co.uk/Belfast/issue/128/data.pdf",
           "note": "07 Dec 1923, page 7."
+        },
+        {
+          "label": "Local Government Board Order 26/01/1916 (Portstewart) (transcript)",
+          "url": "https://data.civgraph.net/data/documents/electoral-divisions/local-government-board-order-1916-01-26.pdf",
+          "note": "Dublin Gazette 04 Feb 1916; transcribed by Phelim Birch."
+        },
+        {
+          "label": "Local Government Board Order 21/03/1921 (Ballycastle) (transcript)",
+          "url": "https://data.civgraph.net/data/documents/electoral-divisions/local-government-board-order-1921-03-21.pdf",
+          "note": "Dublin Gazette 01 Apr 1921; transcribed by Phelim Birch."
+        },
+        {
+          "label": "District Electoral Divisions (Northern Ireland) 1921 source notes",
+          "url": "https://data.civgraph.net/data/maps/electoral-divisions/District Electoral Divisions (Northern Ireland) 1921.txt",
+          "note": "Source notes supplied by Phelim Birch with the map file."
         }
       ],
       "sourceNotes": "Fermanagh: Dublin Gazette 10 May 1912. Portstewart: Belfast Gazette 22 Jun 1923 p.12, cross-checked against the 1930 map and the 1926 Census Londonderry Report p.29 for the townland list; Dublin Gazette 04 Feb 1916 for the order that split the DED. Ballycastle: Belfast Gazette 07 Dec 1923 p.7 and Dublin Gazette 01 Apr 1921. Portstewart Urban is absent from the Belfast Gazette text, so no change was made to that DED.",
@@ -16557,6 +17789,306 @@
       "labelProperty": "ENGLISH",
       "date": 1919,
       "description": "Connacht electoral divisions as drawn for the 1919 boundaries (final pre-partition layout for the western province)."
+    },
+    {
+      "id": "eds-connacht-1907",
+      "name": "Connacht District Electoral Divisions 1907",
+      "slug": "eds-connacht-1907",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/DEDs_Connacht_1907.fgb"
+      },
+      "style": {
+        "color": "#8B4513",
+        "weight": 2
+      },
+      "keywords": [
+        "connacht",
+        "ED",
+        "DED",
+        "1907",
+        "before partition"
+      ],
+      "labelProperty": "ENGLISH",
+      "date": 1907,
+      "description": "Connacht component used by the pre-partition District Electoral Divisions/Wards editions of 29 Apr 1912, 18 Mar 1913, 8 Sep 1914, 1 Apr 1915, 26 Jan 1916."
+    },
+    {
+      "id": "eds-leinster-1910",
+      "name": "Leinster District Electoral Divisions/Wards 29 Apr 1910",
+      "slug": "eds-leinster-1910",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1910_April_29.fgb"
+      },
+      "style": {
+        "color": "#8B4513",
+        "weight": 2
+      },
+      "keywords": [
+        "leinster",
+        "ward",
+        "ED",
+        "DED",
+        "1910",
+        "before partition"
+      ],
+      "labelProperty": "ENGLISH",
+      "date": 1910,
+      "description": "Leinster component used by the pre-partition District Electoral Divisions/Wards editions of 29 Apr 1910, 29 Apr 1912, 18 Mar 1913, 8 Sep 1914, 1 Apr 1915, 26 Jan 1916, 1 Jan 1919."
+    },
+    {
+      "id": "eds-leinster-1919",
+      "name": "Leinster District Electoral Divisions/Wards 1919",
+      "slug": "eds-leinster-1919",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1919.fgb"
+      },
+      "style": {
+        "color": "#8B4513",
+        "weight": 2
+      },
+      "keywords": [
+        "leinster",
+        "ward",
+        "ED",
+        "DED",
+        "1919",
+        "before partition"
+      ],
+      "labelProperty": "ENGLISH",
+      "date": 1919,
+      "description": "Leinster component used by the pre-partition District Electoral Divisions/Wards editions of ~20 Jan 1919, 21 Mar 1921, 3 May 1921."
+    },
+    {
+      "id": "eds-munster-1907",
+      "name": "Munster District Electoral Divisions/Wards Apr 1907",
+      "slug": "eds-munster-1907",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Munster_1907_April.fgb"
+      },
+      "style": {
+        "color": "#8B4513",
+        "weight": 2
+      },
+      "keywords": [
+        "munster",
+        "ward",
+        "ED",
+        "DED",
+        "1907",
+        "before partition"
+      ],
+      "labelProperty": "ENGLISH",
+      "date": 1907,
+      "description": "Munster component used by the pre-partition District Electoral Divisions/Wards editions of 29 Apr 1912, 18 Mar 1913, 8 Sep 1914, 1 Apr 1915, 26 Jan 1916, 1 Jan 1919, ~20 Jan 1919, 21 Mar 1921, 3 May 1921."
+    },
+    {
+      "id": "eds-ulster-1912",
+      "name": "Ulster District Electoral Divisions/Wards 1912",
+      "slug": "eds-ulster-1912",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Ulster_1912.fgb"
+      },
+      "style": {
+        "color": "#8B4513",
+        "weight": 2
+      },
+      "keywords": [
+        "ulster",
+        "ward",
+        "ED",
+        "DED",
+        "1912",
+        "before partition"
+      ],
+      "labelProperty": "ENGLISH",
+      "date": 1912,
+      "description": "Ulster component used by the pre-partition District Electoral Divisions/Wards edition of 29 Apr 1912."
+    },
+    {
+      "id": "eds-ulster-1913",
+      "name": "Ulster District Electoral Divisions/Wards 1913",
+      "slug": "eds-ulster-1913",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Ulster_1913.fgb"
+      },
+      "style": {
+        "color": "#8B4513",
+        "weight": 2
+      },
+      "keywords": [
+        "ulster",
+        "ward",
+        "ED",
+        "DED",
+        "1913",
+        "before partition"
+      ],
+      "labelProperty": "ENGLISH",
+      "date": 1913,
+      "description": "Ulster component used by the pre-partition District Electoral Divisions/Wards edition of 18 Mar 1913."
+    },
+    {
+      "id": "eds-ulster-1914",
+      "name": "Ulster District Electoral Divisions/Wards 1914",
+      "slug": "eds-ulster-1914",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Ulster_1914.fgb"
+      },
+      "style": {
+        "color": "#8B4513",
+        "weight": 2
+      },
+      "keywords": [
+        "ulster",
+        "ward",
+        "ED",
+        "DED",
+        "1914",
+        "before partition"
+      ],
+      "labelProperty": "ENGLISH",
+      "date": 1914,
+      "description": "Ulster component used by the pre-partition District Electoral Divisions/Wards edition of 8 Sep 1914."
+    },
+    {
+      "id": "eds-ulster-1915",
+      "name": "Ulster District Electoral Divisions/Wards 1915",
+      "slug": "eds-ulster-1915",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Ulster_1915.fgb"
+      },
+      "style": {
+        "color": "#8B4513",
+        "weight": 2
+      },
+      "keywords": [
+        "ulster",
+        "ward",
+        "ED",
+        "DED",
+        "1915",
+        "before partition"
+      ],
+      "labelProperty": "ENGLISH",
+      "date": 1915,
+      "description": "Ulster component used by the pre-partition District Electoral Divisions/Wards edition of 1 Apr 1915."
+    },
+    {
+      "id": "eds-ulster-1916",
+      "name": "Ulster District Electoral Divisions/Wards 1916",
+      "slug": "eds-ulster-1916",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Ulster_1916.fgb"
+      },
+      "style": {
+        "color": "#8B4513",
+        "weight": 2
+      },
+      "keywords": [
+        "ulster",
+        "ward",
+        "ED",
+        "DED",
+        "1916",
+        "before partition"
+      ],
+      "labelProperty": "ENGLISH",
+      "date": 1916,
+      "description": "Ulster component used by the pre-partition District Electoral Divisions/Wards editions of 26 Jan 1916, 1 Jan 1919, ~20 Jan 1919."
+    },
+    {
+      "id": "eds-ulster-1921-nine-county",
+      "name": "Ulster (nine counties) District Electoral Divisions/Wards 1921",
+      "slug": "eds-ulster-1921-nine-county",
+      "category": "electoral-divisions",
+      "hidden": true,
+      "featured": false,
+      "provider": [
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "files": {
+        "fgb": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Ulster_1921.fgb"
+      },
+      "style": {
+        "color": "#8B4513",
+        "weight": 2
+      },
+      "keywords": [
+        "ulster",
+        "ward",
+        "nine counties",
+        "ED",
+        "DED",
+        "1921",
+        "before partition"
+      ],
+      "labelProperty": "ENGLISH",
+      "date": 1921,
+      "description": "Ulster component used by the pre-partition District Electoral Divisions/Wards edition of 21 Mar 1921."
     },
     {
       "id": "eds-leinster-1957",
