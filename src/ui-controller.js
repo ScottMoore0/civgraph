@@ -8822,7 +8822,7 @@ class UIController {
             ? [
                 ['Latest party', entry.latestParty || 'Independent'],
                 ['1st prefs', fmt(entry.firstPrefs)],
-                ['% of all valid votes', pct(entry.shareOfAllValid)],
+                ['% of all valid', pct(entry.shareOfAllValid)],
                 ['Election wins', fmt(entry.electedCount)],
                 ['Elections contested', fmt((entry.appearances || []).length)],
                 ['Constituencies', fmt((entry.constituencies || []).length)]
@@ -8839,7 +8839,7 @@ class UIController {
                 : (entry.kind === 'constituency'
                     ? [
                         ['Elections', fmt(entry.metrics?.elections || 0)],
-                        ['Total valid votes', fmt(entry.metrics?.totalValidVotes || 0)],
+                        ['Total valid', fmt(entry.metrics?.totalValidVotes || 0)],
                         ['Total seats', fmt(entry.metrics?.totalSeats || 0)],
                         ['Latest election', entry.metrics?.latestDate ? this.escapeHtml(formatElectionDate(entry.metrics.latestDate)) : 'N/A'],
                         ['Area type', this.escapeHtml(entry.subtitle || 'Constituency')]
@@ -8847,7 +8847,7 @@ class UIController {
                     : [
                         ['Elections', fmt(entry.metrics?.elections || 0)],
                         [entry.kind === 'dea' ? 'Districts' : 'DEAs', fmt(entry.kind === 'dea' ? (entry.metrics?.districts || 0) : (entry.metrics?.deas || 0))],
-                        ['Total valid votes', fmt(entry.metrics?.totalValidVotes || 0)],
+                        ['Total valid', fmt(entry.metrics?.totalValidVotes || 0)],
                         ['Total seats', fmt(entry.metrics?.totalSeats || 0)],
                         ['Latest election', entry.metrics?.latestDate ? this.escapeHtml(formatElectionDate(entry.metrics.latestDate)) : 'N/A'],
                         [entry.kind === 'dea' ? 'Area type' : 'Body type', this.escapeHtml(entry.subtitle || '')]
