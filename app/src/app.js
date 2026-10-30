@@ -546,7 +546,15 @@ class Test2App {
     const label = showingCatalogue ? 'Show map' : 'Show catalogue';
     toggle.setAttribute('aria-label', label);
     toggle.setAttribute('title', label);
-    toggle.dataset.target = showingCatalogue ? 'map' : 'catalogue';
+    const target = showingCatalogue ? 'map' : 'catalogue';
+    // It showed a bare ☰ beside the site menu's own ☰, so the header had two identical
+    // buttons doing different things. It now shows where it goes: a map, or a list.
+    if (toggle.dataset.target !== target || !toggle.querySelector('svg')) {
+      toggle.innerHTML = target === 'map'
+        ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>'
+        : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg>';
+    }
+    toggle.dataset.target = target;
   }
 
   configureCataloguePerformanceProfile() {
@@ -587,6 +595,7 @@ class Test2App {
         : 0;
       return Math.max(minPaneHeight, window.innerHeight - header - mapMin - timelineHeight - 6);
     };
+    const isPhoneLayout = () => Boolean(window.matchMedia?.('(max-width: 768px)')?.matches);
     const clampPaneHeight = (height) => Math.max(minPaneHeight, Math.min(maxPaneHeight(), Math.round(height)));
     const invalidateMapSize = () => {
       requestAnimationFrame(() => this.mapController?.invalidateSize?.());
@@ -646,6 +655,12 @@ class Test2App {
       if (!pane?.classList.contains('election-results-pane--open')) return;
       event.preventDefault();
       event.stopPropagation();
+      const phone = isPhoneLayout();
+      // On a phone the folded bar opens with the finger once it moves, or to the default
+      // height on a plain tap; a tap must not fold it straight back on release.
+      let folded = phone && document.body.classList.contains('test2-election-collapsed');
+      const startY = event.clientY;
+      let moved = false;
       try {
         handle.setPointerCapture?.(event.pointerId);
       } catch {
@@ -657,6 +672,12 @@ class Test2App {
       const onMove = (moveEvent) => {
         moveEvent.preventDefault();
         moveEvent.stopPropagation();
+        if (!moved && Math.abs(moveEvent.clientY - startY) < 6) return;
+        moved = true;
+        if (folded) {
+          folded = false;
+          this.elections?.setPaneCollapsed?.(false, { refit: false });
+        }
         const nextHeight = setPaneHeight(window.innerHeight - moveEvent.clientY, { invalidate: false, persist: false });
         handle.setAttribute('aria-valuenow', String(nextHeight));
       };
@@ -666,6 +687,28 @@ class Test2App {
         window.removeEventListener('pointerup', onEnd);
         window.removeEventListener('pointercancel', onEnd);
         const current = this._electionPaneHeight || pane.getBoundingClientRect().height || defaultPaneHeight();
+        if (phone && !moved) {
+          if (folded) {
+            this.elections?.setPaneCollapsed?.(false, { refit: false });
+            setPaneHeight(defaultPaneHeight(), { invalidate: false, persist: true });
+            if (this.elections?.activeEntry?.sourceMapId) this.refitAfterElectionPane(this.elections.activeEntry.sourceMapId);
+          }
+          return;
+        }
+        if (phone) {
+          // Phones snap to three heights: folded to the seat strip, the default, or as tall as
+          // the map allows. A free height is fiddly with a thumb and easily left half-way.
+          if (current < minPaneHeight + 40) {
+            this.elections?.setPaneCollapsed?.(true);
+            return;
+          }
+          const stops = [defaultPaneHeight(), maxPaneHeight()];
+          const nearest = stops.reduce((best, stop) => (Math.abs(stop - current) < Math.abs(best - current) ? stop : best), stops[0]);
+          setPaneHeight(nearest, { invalidate: false, persist: true });
+          invalidateMapSize();
+          if (this.elections?.activeEntry?.sourceMapId) this.refitAfterElectionPane(this.elections.activeEntry.sourceMapId);
+          return;
+        }
         setPaneHeight(current, { invalidate: false, persist: true });
         invalidateMapSize();
       };
@@ -2199,6 +2242,7 @@ class Test2App {
   }
 
   setupTimelineControls() {
+    this.ensureTimelineChrome();
     const range = document.getElementById('timelineRange');
     const prev = document.getElementById('timelinePrev');
     const next = document.getElementById('timelineNext');
@@ -2356,7 +2400,126 @@ class Test2App {
     return !this.timelineApplying;
   }
 
-  setTimelineItems(items, activeIndex, onSelect) {
+  /**
+   * The slider's added parts, built around the page's own markup so every page that carries
+   * #timelineSlider gets them: the range goes into a track with a mark per stop under it, the
+   * date label gains a second line naming the stop, and a "general elections only" filter
+   * appears for election timelines. The native range input itself is unchanged.
+   */
+  ensureTimelineChrome() {
+    const slider = document.getElementById('timelineSlider');
+    const range = document.getElementById('timelineRange');
+    const label = document.getElementById('timelineLabel');
+    if (!slider || !range || !label || slider.dataset.chrome === 'ready') return;
+    slider.dataset.chrome = 'ready';
+
+    const track = document.createElement('div');
+    track.className = 'timeline-track';
+    range.replaceWith(track);
+    track.appendChild(range);
+    const ticks = document.createElement('div');
+    ticks.className = 'timeline-ticks';
+    ticks.id = 'timelineTicks';
+    ticks.setAttribute('aria-hidden', 'true');
+    track.appendChild(ticks);
+
+    const info = document.createElement('div');
+    info.className = 'timeline-info';
+    label.replaceWith(info);
+    info.appendChild(label);
+    const sublabel = document.createElement('span');
+    sublabel.className = 'timeline-sublabel';
+    sublabel.id = 'timelineSublabel';
+    info.appendChild(sublabel);
+
+    const generals = document.createElement('button');
+    generals.type = 'button';
+    generals.id = 'timelineGenerals';
+    generals.className = 'timeline-chip';
+    generals.hidden = true;
+    generals.innerHTML = 'Generals<span class="timeline-chip__more"> only</span>';
+    generals.title = 'Step through general elections only, skipping by-elections';
+    generals.setAttribute('aria-pressed', 'false');
+    generals.addEventListener('click', () => {
+      this.setTimelineGeneralsOnly(!this.getTimelineGeneralsOnly());
+      this.elections?.updateElectionTimeline?.();
+    });
+    const reset = document.getElementById('timelineReset');
+    if (reset?.parentElement === slider) slider.insertBefore(generals, reset);
+    else slider.appendChild(generals);
+
+    if (typeof ResizeObserver !== 'undefined') {
+      new ResizeObserver(() => this.fitTimelineYearLabels()).observe(track);
+    }
+  }
+
+  getTimelineGeneralsOnly() {
+    try { return localStorage.getItem('civgraph:timelineGeneralsOnly') === '1'; } catch { return false; }
+  }
+
+  setTimelineGeneralsOnly(value) {
+    try { localStorage.setItem('civgraph:timelineGeneralsOnly', value ? '1' : '0'); } catch { /* private mode */ }
+  }
+
+  /** A mark per stop, tall for a major one (a general election, a boundary edition) and short
+   * for a by-election, with the year at each new decade. Positions follow the range's own
+   * index steps, not time, so a mark is exactly where the thumb stops. */
+  renderTimelineTicks() {
+    const ticks = document.getElementById('timelineTicks');
+    if (!ticks) return;
+    const items = this.getTimelineAnimationItems();
+    const count = items.length;
+    if (count < 2) {
+      ticks.innerHTML = '';
+      return;
+    }
+    const drawMinor = count <= 600;
+    let lastDecade = null;
+    const parts = [];
+    items.forEach((item, index) => {
+      const p = (index / (count - 1)).toFixed(5);
+      const minor = Boolean(item?.minor);
+      if (!minor || drawMinor) {
+        parts.push(`<span class="timeline-tick${minor ? '' : ' timeline-tick--major'}" style="--p:${p}"></span>`);
+      }
+      const year = this.timelineItemYear(item);
+      if (!Number.isFinite(year)) return;
+      const decade = Math.floor(year / 10);
+      if (decade !== lastDecade) {
+        parts.push(`<span class="timeline-year" style="--p:${p}">${lastDecade === null ? year : decade * 10}</span>`);
+        lastDecade = decade;
+      }
+    });
+    ticks.innerHTML = parts.join('');
+    this.fitTimelineYearLabels();
+    requestAnimationFrame(() => this.fitTimelineYearLabels());
+  }
+
+  timelineItemYear(item) {
+    const date = this.parseTimelineDate(item?.date ?? item?.timestamp ?? item?.label);
+    return date ? date.getUTCFullYear() : NaN;
+  }
+
+  /** Year labels that would collide are hidden, keeping the first and the most widely spaced. */
+  fitTimelineYearLabels() {
+    const ticks = document.getElementById('timelineTicks');
+    if (!ticks) return;
+    const labels = [...ticks.querySelectorAll('.timeline-year')];
+    const width = ticks.clientWidth;
+    let lastRight = -Infinity;
+    for (const label of labels) {
+      label.dataset.hidden = 'false';
+      const left = label.offsetLeft - label.offsetWidth / 2;
+      const right = left + label.offsetWidth;
+      if (left < lastRight + 6 || left < -12 || right > width + 12) {
+        label.dataset.hidden = 'true';
+        continue;
+      }
+      lastRight = right;
+    }
+  }
+
+  setTimelineItems(items, activeIndex, onSelect, options = {}) {
     const slider = document.getElementById('timelineSlider');
     const range = document.getElementById('timelineRange');
     const playableItems = Array.isArray(items)
@@ -2407,6 +2570,13 @@ class Test2App {
     slider.classList.remove('hidden');
     this.updateTimelineLabel(safeIndex);
     this.updateTimelineAnimationButtons();
+    this.renderTimelineTicks();
+    const generals = document.getElementById('timelineGenerals');
+    if (generals) {
+      const filter = options?.generalsFilter;
+      generals.hidden = !filter?.available;
+      generals.setAttribute('aria-pressed', filter?.active ? 'true' : 'false');
+    }
     this.notifyTimelineLayoutChanged();
   }
 
@@ -2477,7 +2647,11 @@ class Test2App {
     const timelineItems = this.getTimelineAnimationItems();
     const item = timelineItems[this.clampTimelineIndex(index, timelineItems)];
     const label = document.getElementById('timelineLabel');
-    if (label) label.textContent = this.formatTimelineItemLabel(item);
+    const text = this.formatTimelineItemLabel(item);
+    if (label) label.textContent = text;
+    const sublabel = document.getElementById('timelineSublabel');
+    if (sublabel) sublabel.textContent = item?.sublabel || '';
+    document.getElementById('timelineRange')?.setAttribute('aria-valuetext', [text, item?.sublabel].filter(Boolean).join(', '));
   }
 
   hideTimeline() {
@@ -2546,11 +2720,16 @@ class Test2App {
     const referenceMapId = activeIds.length === 1 ? activeIds[0] : this.timelineAnimation.singleLayerReferenceId;
     this.timelineAnimation.singleLayerReferenceId = activeIds.length === 1 ? activeIds[0] : this.timelineAnimation.singleLayerReferenceId;
     const currentTimestamp = this.getCurrentTimelineTimestamp(activeIds);
-    const items = timestamps.map((timestamp) => ({
-      timestamp,
-      label: this.formatTimelineTimestamp(timestamp),
-      mapId: referenceMapId ? this.getTimelineMapIdForTimestamp(referenceMapId, timestamp) : null
-    })).filter((item) => this.isTimelineMapPlayable(item.mapId));
+    const items = timestamps.map((timestamp) => {
+      const mapId = referenceMapId ? this.getTimelineMapIdForTimestamp(referenceMapId, timestamp) : null;
+      return {
+        timestamp,
+        label: this.formatTimelineTimestamp(timestamp),
+        mapId,
+        // An edition named only by its year ("2017") would repeat the date above it.
+        sublabel: [mapId && dataService.getMapById(mapId)?.name].filter((name) => name && !/^\d{4}$/.test(String(name).trim()))[0] || ''
+      };
+    }).filter((item) => this.isTimelineMapPlayable(item.mapId));
     const activeIndex = items.findIndex((item) => item.timestamp === currentTimestamp);
     this.setTimelineItems(items, activeIndex >= 0 ? activeIndex : items.length - 1, async (item, index) => {
       this.timelineAnimation.currentIndex = this.clampTimelineIndex(index);

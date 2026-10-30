@@ -2478,3 +2478,471 @@ body.test2-election-pane-resizing * {
     --table-neg: #f87171;
   }
 }
+
+/* ======================================================================================
+   Timeline, election pane and results tables on phones (2026-10-30).
+   The timeline keeps its native range input -- the race fixes in setupTimelineControls
+   depend on it -- and gains a mark per stop drawn under it (renderTimelineTicks).
+   ====================================================================================== */
+
+/* A touch screen keeps :hover after a tap, which left the last-tapped timeline button lit
+   in the hover blue as if it were selected. Hover styling is for pointers that hover. */
+@media (hover: none) {
+  .timeline-btn:hover:not(:disabled) {
+    background: var(--color-surface-elevated);
+    border-color: var(--color-border);
+    color: var(--color-text);
+    transform: none;
+  }
+
+  .timeline-range::-webkit-slider-thumb:hover {
+    transform: none;
+  }
+}
+
+.pane--map > #timelineSlider.timeline-slider .timeline-track {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 0 1 auto;
+  width: clamp(150px, 34vw, 440px);
+  min-width: 0;
+  padding-bottom: 17px;
+}
+
+.pane--map > #timelineSlider.timeline-slider .timeline-track .timeline-range {
+  width: 100%;
+  max-width: none;
+}
+
+/* Marks sit under the track. --thumb is the range thumb's width: the browser centres the
+   thumb on positions inset by half of it at each end, so the marks are inset the same way. */
+.timeline-ticks {
+  --thumb: 20px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 17px;
+  pointer-events: none;
+}
+
+.timeline-tick,
+.timeline-year {
+  position: absolute;
+  left: calc(var(--thumb) / 2 + (100% - var(--thumb)) * var(--p, 0));
+  transform: translateX(-50%);
+}
+
+.timeline-tick {
+  top: 0;
+  width: 1px;
+  height: 4px;
+  background: var(--color-text-muted, #64748b);
+  opacity: .55;
+}
+
+.timeline-tick--major {
+  width: 2px;
+  height: 7px;
+  background: var(--color-primary, #1a365d);
+  opacity: .9;
+}
+
+.timeline-year {
+  top: 8px;
+  color: var(--color-text-muted, #64748b);
+  font-size: 9px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.timeline-year[data-hidden="true"] {
+  visibility: hidden;
+}
+
+.pane--map > #timelineSlider.timeline-slider .timeline-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  min-width: 120px;
+  max-width: min(34vw, 220px);
+  line-height: 1.15;
+}
+
+.pane--map > #timelineSlider.timeline-slider .timeline-info .timeline-label {
+  width: auto;
+  max-width: none;
+}
+
+.timeline-sublabel {
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--color-text-muted, #64748b);
+  font-size: 11px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.timeline-sublabel:empty {
+  display: none;
+}
+
+.timeline-chip {
+  flex: 0 0 auto;
+  padding: 3px 8px;
+  border: 1px solid var(--color-border, #cbd5e1);
+  border-radius: 999px;
+  background: var(--color-surface-elevated, #fff);
+  color: var(--color-text-muted, #475569);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.timeline-chip[aria-pressed="true"] {
+  background: var(--color-primary, #1a365d);
+  border-color: var(--color-primary, #1a365d);
+  color: #fff;
+}
+
+.timeline-chip[hidden] {
+  display: none !important;
+}
+
+@media (hover: hover) {
+  .timeline-chip:hover {
+    border-color: var(--color-primary, #1a365d);
+  }
+}
+
+/* The folded results bar: one line of seats in place of the view tabs. */
+.election-pane__peek {
+  display: none;
+  flex: 1 1 auto;
+  min-width: 0;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-text, #1a202c);
+  font: inherit;
+  font-size: 0.76rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  text-align: left;
+  cursor: pointer;
+}
+
+.election-pane__peek-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.election-pane__peek-item i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--peek-colour, #94a3b8);
+}
+
+.election-pane__peek-item b {
+  font-weight: 700;
+}
+
+body.test2-election-collapsed .election-pane__peek {
+  display: inline-flex;
+}
+
+@media (max-width: 768px) {
+  /* Header: 46px rather than 56px. The pane toggle shows a map or list icon for where it
+     goes, so it no longer looks like a second menu button. */
+  body.app-shell {
+    --header-height: 46px;
+  }
+
+  body.app-shell .app-header .app-header__logo-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  body.app-shell .app-header .app-header__wordmark {
+    font-size: 22px;
+  }
+
+  body.app-shell .mobile-pane-toggle,
+  body.app-shell .app-header > .mobile-menu-toggle {
+    width: 34px;
+    height: 34px;
+  }
+
+  body.app-shell .mobile-pane-toggle svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .app-shell {
+    --timeline-row-height: 70px;
+  }
+
+  /* Timeline on two rows: a full-width track between the step buttons, and under it what
+     is selected, with the filter and reset. */
+  .pane--map > #timelineSlider.timeline-slider {
+    display: grid;
+    grid-template-columns: 36px minmax(0, 1fr) auto auto 36px;
+    grid-template-areas:
+      "prev track track track next"
+      "info info play gen reset";
+    align-items: center;
+    column-gap: 6px;
+    row-gap: 0;
+    padding: 4px 8px 5px;
+  }
+
+  .pane--map > #timelineSlider.timeline-slider .timeline-nav-group {
+    display: contents;
+  }
+
+  .pane--map > #timelineSlider.timeline-slider #timelinePrev {
+    grid-area: prev;
+  }
+
+  .pane--map > #timelineSlider.timeline-slider #timelineNext {
+    grid-area: next;
+  }
+
+  .pane--map > #timelineSlider.timeline-slider .timeline-btn--nav {
+    width: 36px;
+    height: 36px;
+  }
+
+  .pane--map > #timelineSlider.timeline-slider .timeline-track {
+    grid-area: track;
+    width: auto;
+  }
+
+  .pane--map > #timelineSlider.timeline-slider .timeline-track .timeline-range {
+    width: 100%;
+  }
+
+  .pane--map > #timelineSlider.timeline-slider .timeline-info {
+    grid-area: info;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: flex-start;
+    gap: 6px;
+    max-width: none;
+    padding-left: 2px;
+  }
+
+  .pane--map > #timelineSlider.timeline-slider .timeline-info .timeline-label {
+    max-width: none;
+    text-align: left;
+  }
+
+  .pane--map > #timelineSlider.timeline-slider .timeline-playback-group {
+    grid-area: play;
+  }
+
+  .pane--map > #timelineSlider.timeline-slider .timeline-chip {
+    grid-area: gen;
+    padding: 2px 8px;
+  }
+
+  .timeline-chip__more {
+    display: none;
+  }
+
+  .pane--map > #timelineSlider.timeline-slider #timelineReset {
+    grid-area: reset;
+    justify-self: end;
+    width: 28px;
+    height: 28px;
+  }
+
+  /* Results header: the view tabs scroll sideways in their own strip, so the close and
+     fold buttons stay on screen however many tabs an election has. */
+  #electionResultsPane .election-pane__header {
+    gap: 4px;
+    padding: 4px 6px;
+  }
+
+  #electionResultsPane .election-pane__header-right {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    background: inherit;
+  }
+
+  #electionResultsPane .election-pane__header-right::-webkit-scrollbar {
+    display: none;
+  }
+
+  #electionResultsPane .election-pane__header-right > * {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  #electionResultsPane .election-pane__back:not(.hidden) ~ .election-pane__title {
+    flex: 0 1 auto;
+    min-width: 56px;
+  }
+
+  #electionResultsPane .election-pane__close {
+    position: sticky;
+    right: 0;
+    flex: 0 0 auto;
+    background: inherit;
+  }
+
+  body.test2-election-collapsed #electionResultsPane .election-pane__header-right,
+  body.test2-election-collapsed #electionResultsPane .election-pane__title {
+    display: none;
+  }
+
+  /* The election is named on the timeline under the map, so the overall title gives its room to
+     the tabs. A constituency's title (shown with the back button) stays. */
+  #electionResultsPane .election-pane__back.hidden ~ .election-pane__title {
+    display: none;
+  }
+
+  #electionResultsPane .election-pane__content {
+    margin-top: 0;
+    padding: 4px 6px 6px;
+  }
+}
+
+/* Results tables on phones: tighter cells and headers, change lines kept under their values
+   but smaller, and the rank column dropped where nothing is pinned (the order is the rank). */
+@media (max-width: 640px) {
+  .election-pane__content .election-party-table,
+  .election-pane__content .election-count-table {
+    font-size: 0.72rem;
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .election-pane__content .election-party-table th,
+  .election-pane__content .election-party-table td,
+  .election-pane__content .election-count-table th,
+  .election-pane__content .election-count-table td {
+    padding: 4px 4px;
+  }
+
+  .election-pane__content .election-party-table tbody tr:has(.election-cell-stack) > td,
+  .election-pane__content .election-count-table tbody tr:has(.election-cell-stack) > td {
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+  .election-pane__content .election-cell-change {
+    font-size: 0.8em;
+    line-height: 1.05;
+  }
+
+  .election-pane__content .election-party-table--grouped thead tr:nth-child(1) th:not([rowspan]),
+  .election-pane__content .election-count-table--grouped thead tr:nth-child(1) th:not([rowspan]),
+  .election-pane__content .election-count-table--grouped thead tr:nth-child(2) th:not([rowspan]) {
+    font-size: 0.6rem;
+    letter-spacing: 0;
+  }
+
+  .election-pane__content .election-party-table thead th,
+  .election-pane__content .election-count-table thead th {
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+  .election-pane__content .election-party-table--grouped:not([class*="sticky"]) :is(th[data-leaf-col-idx="0"], td.election-rank-col) {
+    display: none;
+  }
+
+  .election-pane__content .election-party-wrapper,
+  .election-pane__content .election-count-wrapper {
+    border-radius: 6px;
+  }
+
+  /* A long party name wraps rather than widening the column for every row. */
+  .election-pane__content .election-party-table--grouped:not([class*="sticky"]) td.election-party-cell {
+    max-width: 76px;
+    white-space: normal;
+  }
+
+  /* main.css forces every results-table name onto one line with !important (so desktop columns
+     fit their values); on a phone a long party name has to wrap instead. */
+  .election-pane__content .election-party-table--grouped:not([class*="sticky"]) td.election-party-cell .election-cell-wrap {
+    display: inline-block !important;
+    max-width: 64px !important;
+    white-space: normal !important;
+    overflow-wrap: break-word;
+  }
+
+  /* Pinned columns (rank, name, party) took 212px of a 348px table on a phone, leaving a
+     136px window to scroll the figures through. Each is narrowed, the offsets and the column
+     tracks together so pinned cells stay aligned; a long name ends in an ellipsis. */
+  .election-pane__content .election-party-table,
+  .election-pane__content .election-count-table {
+    --results-sticky-col-1-width: 34px;
+    --results-sticky-col-3-width: 112px;
+    --results-sticky-col-4-width: 88px;
+    --results-track-rank-width: 34px;
+    --results-track-name-width: 112px;
+    --results-track-party-width: 88px;
+  }
+
+  .election-pane__content .election-party-table,
+  .election-pane__content .election-count-table {
+    --results-track-constituency-width: 100px;
+    --results-track-district-width: 100px;
+    --results-track-dea-width: 100px;
+  }
+
+  /* These tables lay out by content on a phone, so a long name set its column wider than the
+     offset the next pinned column is placed at, and the two overlapped when scrolled. The
+     pinned cells are held to their variables and cut off with an ellipsis instead. */
+  .election-pane__content :is(.election-party-table--candidate-sticky3, .election-count-table--candidate-sticky3) tbody td:nth-child(2) {
+    --pinned-width: var(--results-sticky-name-width);
+  }
+
+  .election-pane__content .election-party-table--district-local-party-sticky4 tbody td:nth-child(3) {
+    --pinned-width: var(--results-sticky-district-party-name-width);
+  }
+
+  .election-pane__content .election-party-table--district-local-party-sticky4 tbody td:nth-child(4) {
+    --pinned-width: var(--results-sticky-district-dea-width);
+  }
+
+  .election-pane__content :is(.election-party-table--candidate-sticky3, .election-count-table--candidate-sticky3) tbody td:nth-child(2),
+  .election-pane__content .election-party-table--district-local-party-sticky4 tbody td:is(:nth-child(3), :nth-child(4)) {
+    width: var(--pinned-width) !important;
+    min-width: var(--pinned-width) !important;
+    max-width: var(--pinned-width) !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .election-pane__content .election-th-full {
+    display: none;
+  }
+
+  .election-pane__content .election-th-short {
+    display: inline;
+  }
+}
+
+.election-th-short {
+  display: none;
+}

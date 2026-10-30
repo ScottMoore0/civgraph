@@ -352,6 +352,7 @@ export class Test2ElectionManager {
     await this.syncLocalGovernmentBackingLayers();
     this.applyActiveStyle();
     this.renderPanel();
+    this.renderPanePeek();
     await nextFrame();
     await this.renderElectionOverlay();
     this.updateElectionTimeline();
@@ -1232,7 +1233,7 @@ export class Test2ElectionManager {
               <tr>
                 <th rowspan="2" data-leaf-col-idx="0">#</th>
                 <th rowspan="2" data-leaf-col-idx="1">Party</th>
-                <th colspan="1">Candidates</th>
+                <th colspan="1"><span class="election-th-full">Candidates</span><span class="election-th-short" title="Candidates">Cands.</span></th>
                 <th colspan="2">Seats</th>
                 <th colspan="2">1st preferences</th>
               </tr>
@@ -3971,18 +3972,23 @@ export class Test2ElectionManager {
   ensurePanel() {
     const pane = document.getElementById('electionResultsPane');
     if (!pane) return null;
-    if (!pane.querySelector('#electionPaneTitle') || !pane.querySelector('#electionPaneContent') || !pane.querySelector('#electionPaneHeaderRight') || !pane.querySelector('#electionPaneCollapse')) {
+    if (!pane.querySelector('#electionPaneTitle') || !pane.querySelector('#electionPaneContent') || !pane.querySelector('#electionPaneHeaderRight') || !pane.querySelector('#electionPaneCollapse') || !pane.querySelector('#electionPanePeek')) {
       pane.innerHTML = `
         <div class="test2-election-pane-resizer" data-election-pane-resize role="separator" aria-label="Resize election results pane" aria-orientation="horizontal" tabindex="0" title="Drag to resize election results"></div>
         <div class="election-pane__header">
           <button type="button" id="electionPaneBack" class="election-pane__back hidden" aria-label="Back to overall election results">&lt;</button>
           <h3 id="electionPaneTitle" class="election-pane__title">Election results</h3>
           <div class="election-pane__header-right" id="electionPaneHeaderRight"></div>
+          <div id="electionPanePeek" class="election-pane__peek" title="Show the election results"></div>
           <button type="button" id="electionPaneCollapse" class="election-pane__collapse" aria-controls="electionPaneContent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
         </div>
         <div id="electionPaneContent" class="election-pane__content"></div>
       `;
       pane.querySelector('#electionPaneCollapse').addEventListener('click', () => this.setPaneCollapsed(!document.body.classList.contains('test2-election-collapsed')));
+      // Not a button, so a drag that starts on it still moves the pane (setupElectionPaneResize).
+      pane.querySelector('#electionPanePeek').addEventListener('click', () => {
+        if (document.body.classList.contains('test2-election-collapsed')) this.setPaneCollapsed(false);
+      });
       this.setPaneCollapsed(this.readPaneCollapsed(), { refit: false });
     }
     return pane;
@@ -3992,6 +3998,7 @@ export class Test2ElectionManager {
    * again. Remembered for the next election and the next visit. */
   setPaneCollapsed(collapsed, { refit = true } = {}) {
     document.body.classList.toggle('test2-election-collapsed', Boolean(collapsed));
+    if (collapsed) this.renderPanePeek();
     const button = document.getElementById('electionPaneCollapse');
     if (button) {
       const label = collapsed ? 'Show the election results' : 'Hide the election results to see more of the map';
@@ -4002,6 +4009,28 @@ export class Test2ElectionManager {
     try { localStorage.setItem('civgraph:test2:electionPaneCollapsed', collapsed ? '1' : '0'); } catch { /* private mode */ }
     if (refit && this.activeEntry?.sourceMapId) this.app.refitAfterElectionPane?.(this.activeEntry.sourceMapId);
     else requestAnimationFrame(() => this.app.mapController?.invalidateSize?.());
+  }
+
+  /** The folded bar's one line: seats by party, largest first. An election with no seats
+   * in its summary (a referendum) shows vote shares instead. */
+  renderPanePeek() {
+    const peek = document.getElementById('electionPanePeek');
+    if (!peek) return;
+    const rows = (this.activeBundle?.mainLikePartySummary?.length
+      ? this.activeBundle.mainLikePartySummary
+      : this.activeBundle?.partySummary) || [];
+    const withSeats = rows
+      .filter((row) => numberOrZero(row.seats) > 0)
+      .sort((a, b) => numberOrZero(b.seats) - numberOrZero(a.seats) || numberOrZero(b.votes) - numberOrZero(a.votes));
+    const shown = withSeats.length
+      ? withSeats
+      : [...rows].sort((a, b) => numberOrZero(b.votes) - numberOrZero(a.votes));
+    const items = shown.slice(0, 8).map((row) => {
+      const value = withSeats.length ? formatNumber(row.seats) : formatFixedPercent(Number(row.share) || 0);
+      const colour = escapeHtml(this.mainPanePartyColour(row.party, row.colour));
+      return `<span class="election-pane__peek-item" style="--peek-colour:${colour}"><i></i>${this.partyLabel(row.party)} <b>${value}</b></span>`;
+    });
+    peek.innerHTML = items.join('') || `<span>${escapeHtml(this.activeEntry?.displayTitle || 'Election results')}</span>`;
   }
 
   readPaneCollapsed() {
@@ -4788,17 +4817,27 @@ export class Test2ElectionManager {
 
   updateElectionTimeline() {
     if (!this.activeEntry || !this.catalogue?.elections) return;
-    const entries = this.catalogue.elections
+    const all = this.catalogue.elections
       .filter((entry) => (entry.loadable || entry.resultsOnly) && entry.body === this.activeEntry.body)
       .sort((a, b) => String(a.date).localeCompare(String(b.date)));
+    // By-elections far outnumber general elections (879 to 206 across the catalogue), so a
+    // body's slider is mostly by-election stops. The filter steps through the rest; the open
+    // election always stays on it, even when it is itself a by-election.
+    const available = all.some((entry) => entry.kind === 'by-election') && all.some((entry) => entry.kind !== 'by-election');
+    const generalsOnly = available && Boolean(this.app.getTimelineGeneralsOnly?.());
+    const entries = generalsOnly
+      ? all.filter((entry) => entry.kind !== 'by-election' || entry.date === this.activeEntry.date)
+      : all;
     const activeIndex = entries.findIndex((entry) => entry.body === this.activeEntry.body && entry.date === this.activeEntry.date);
     this.app.setTimelineItems(entries.map((entry) => ({
       label: entry.date,
       body: entry.body,
-      date: entry.date
+      date: entry.date,
+      minor: entry.kind === 'by-election',
+      sublabel: timelineStopName(entry)
     })), activeIndex >= 0 ? activeIndex : entries.length - 1, async (item) => {
       await this.loadElection(item.body, item.date);
-    });
+    }, { generalsFilter: { available, active: generalsOnly } });
   }
 
   findEntry(body, date) {
@@ -5205,6 +5244,13 @@ function safeCssColour(value, fallback = '#6b7280') {
 function numberOrZero(value) {
   const number = Number(value);
   return Number.isFinite(number) ? number : 0;
+}
+
+/** The timeline's second line: "General election", or the contest's title without its
+ * leading year ("1968 South Antrim by-election" reads "South Antrim by-election"). */
+function timelineStopName(entry = {}) {
+  if (entry.kind === 'general') return 'General election';
+  return String(entry.displayTitle || '').replace(/^\d{4}\s+/, '').trim();
 }
 
 function finiteNumber(value) {

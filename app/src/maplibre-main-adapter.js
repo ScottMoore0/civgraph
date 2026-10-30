@@ -949,7 +949,7 @@ export class Test2MapLibreMainAdapter {
     const normalized = normalizeBounds(bounds);
     if (!normalized || !this.map) return;
     if (this.renderer?.flattenAfter3d?.(normalized, { mapLibre: true })) return;
-    this.map.fitBounds(normalized, { padding: 36, duration: options?.smooth === false ? 0 : 400, maxZoom: 14 });
+    this.map.fitBounds(normalized, { padding: this.renderer?.fitPadding?.() ?? 36, duration: options?.smooth === false ? 0 : 400, maxZoom: 14 });
   }
 
   /**
