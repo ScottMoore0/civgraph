@@ -25,6 +25,7 @@
  *   npm run deploy:catalogue
  */
 import { spawnSync } from 'node:child_process';
+import { alreadyDeployed, markDeployed } from './lib/d1-deploy-cache.mjs';
 
 /**
  * `shell` is set ONLY for npx, never for node.
@@ -57,11 +58,17 @@ for (const key of ['CLOUDFLARE_API_TOKEN', 'CLOUDFLARE_ACCOUNT_ID', 'AWS_ACCESS_
   delete clean[key];
 }
 
-run('Load it into D1',
-  process.platform === 'win32' ? 'npx.cmd' : 'npx',
-  ['wrangler', 'd1', 'execute', 'civgraph-catalogue', '--remote',
-    '--file=data/database/catalogue-d1-import.sql', '-y'],
-  clean, true);
+const SQL = 'data/database/catalogue-d1-import.sql';
+const unchanged = alreadyDeployed('catalogue', SQL);
+if (unchanged) {
+  console.log('\n== SQL unchanged since its last verified load; not reloaded (--force to reload)');
+} else {
+  run('Load it into D1',
+    process.platform === 'win32' ? 'npx.cmd' : 'npx',
+    ['wrangler', 'd1', 'execute', 'civgraph-catalogue', '--remote',
+      `--file=${SQL}`, '-y'],
+    clean, true);
+}
 
 // Verify rather than assume. A load that reported success and a database that serves the
 // right rows are different claims, and this project has been caught by that difference
@@ -69,4 +76,5 @@ run('Load it into D1',
 run('Verify D1 serves what the file records',
   process.execPath, ['scripts/validate-catalogue-d1-parity.mjs']);
 
+if (!unchanged) markDeployed('catalogue', SQL);
 console.log('\nCatalogue deployed: maps.json -> SQL -> D1, verified.');

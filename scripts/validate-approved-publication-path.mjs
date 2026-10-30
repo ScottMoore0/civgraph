@@ -245,16 +245,34 @@ function hasBrowseSourceDetail(browseItem) {
   try {
     const parsed = new URL(browseItem.detailUrl, 'https://civgraph.local');
     const shardPath = path.join(ROOT, ...parsed.pathname.replace(/^\/+/, '').split('/'));
-    if (!existsSync(shardPath)) return false;
-    const shard = JSON.parse(readFileSync(shardPath, 'utf8'));
-    const items = Array.isArray(shard.items) ? shard.items : [];
-    return items.some((item) => (
-      String(item.slug || '').toLowerCase() === String(slug || '').toLowerCase() ||
-      String(item.id || '').toLowerCase() === String(browseItem.id || '').toLowerCase()
-    ));
+    const keys = shardKeys(shardPath);
+    if (!keys) return false;
+    return keys.has(String(slug || '').toLowerCase()) || keys.has(String(browseItem.id || '').toLowerCase());
   } catch {
     return false;
   }
+}
+
+// Each detail shard parsed once. Thousands of sources share a handful of shards, and
+// re-reading and re-parsing the shard for every one of them made this the slowest check in
+// the chain (80 s, 49 s of it in this lookup).
+// (A property of the function, not a module const: main() runs at the top of the file,
+// before any const below it is initialised.)
+function shardKeys(shardPath) {
+  const shardKeyCache = shardKeys.cache || (shardKeys.cache = new Map());
+  if (!shardKeyCache.has(shardPath)) {
+    let keys = null;
+    if (existsSync(shardPath)) {
+      const shard = JSON.parse(readFileSync(shardPath, 'utf8'));
+      keys = new Set();
+      for (const item of Array.isArray(shard.items) ? shard.items : []) {
+        if (item.slug) keys.add(String(item.slug).toLowerCase());
+        if (item.id) keys.add(String(item.id).toLowerCase());
+      }
+    }
+    shardKeyCache.set(shardPath, keys);
+  }
+  return shardKeyCache.get(shardPath);
 }
 
 function normalizeKey(value) {

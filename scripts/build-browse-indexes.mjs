@@ -2414,7 +2414,9 @@ function writeRegisterInterestIndexShards(records) {
 
 function writeSourceIndexShards(records) {
   const shardDir = path.join(OUT_DIR, SOURCE_INDEX_SHARD_DIR);
-  rmSync(shardDir, { recursive: true, force: true });
+  // Not removed wholesale first (see pruneStaleShards): with the old files gone, every shard
+  // took a fresh generatedAt, so all nine changed on every build and were re-uploaded to R2
+  // on every publish whatever had changed.
   mkdirSync(shardDir, { recursive: true });
   const shards = [];
   for (let index = 0; index < records.length; index += SOURCE_INDEX_SHARD_SIZE) {
@@ -2435,6 +2437,7 @@ function writeSourceIndexShards(records) {
       count: items.length
     });
   }
+  pruneStaleShards(shardDir, new Set(shards.map((shard) => shard.name)));
   return shards;
 }
 

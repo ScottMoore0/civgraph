@@ -17,6 +17,7 @@
  */
 import { spawnSync } from 'node:child_process';
 import { readFileSync, existsSync } from 'node:fs';
+import { alreadyDeployed, markDeployed } from './lib/d1-deploy-cache.mjs';
 
 /**
  * `shell` is set ONLY for npx, never for node.
@@ -51,7 +52,13 @@ for (const key of ['CLOUDFLARE_API_TOKEN', 'CLOUDFLARE_ACCOUNT_ID', 'AWS_ACCESS_
   delete clean[key];
 }
 
+const loaded = [];
 for (const name of names) {
+  if (alreadyDeployed(`browse-${name}`, `data/database/${name}-d1-import.sql`)) {
+    console.log(`\n== ${name}: SQL unchanged since its last verified load; not reloaded (--force to reload)`);
+    continue;
+  }
+  loaded.push(name);
   run(`Load ${name} into D1`,
     process.platform === 'win32' ? 'npx.cmd' : 'npx',
     ['wrangler', 'd1', 'execute', 'civgraph-elections', '--remote',
@@ -107,4 +114,5 @@ if (failed) {
   console.error('\nFAIL: at least one deployed index is not served as its file records.');
   process.exit(1);
 }
+for (const name of loaded) markDeployed(`browse-${name}`, `data/database/${name}-d1-import.sql`);
 console.log(`\nPASS: ${names.join(', ')} deployed -- browse index -> SQL -> D1, verified.`);

@@ -48,6 +48,24 @@ if (!local) {
 }
 console.log(`local dataset version: ${local}`);
 
+// The version is a hash of every source file, so a live database already carrying it holds
+// exactly this build: reloading it would spend minutes changing nothing. Ask first; any
+// failure to answer just means the load goes ahead. --force reloads regardless.
+if (!process.argv.includes('--force')) {
+  const probe = spawnSync(
+    `npx wrangler d1 execute civgraph-elections --remote --json --command "SELECT value FROM dataset WHERE key = 'version'" > tmp/elections-dataset-version.json`,
+    { stdio: ['ignore', 'ignore', 'ignore'], env, shell: true }
+  );
+  let live = null;
+  try {
+    if (probe.status === 0) live = JSON.parse(readFileSync('tmp/elections-dataset-version.json', 'utf8'))?.[0]?.results?.[0]?.value ?? null;
+  } catch { /* unreadable: load */ }
+  if (live === local) {
+    console.log(`\nPASS: civgraph-elections already carries dataset version ${local}; not reloaded (--force to reload).`);
+    process.exit(0);
+  }
+}
+
 step('Load into civgraph-elections', 'npx wrangler d1 execute civgraph-elections --remote --file=tmp/elections.sql --yes', { shell: true });
 
 // Written to a file, not piped: piping wrangler's stdout through a shell crashes libuv on

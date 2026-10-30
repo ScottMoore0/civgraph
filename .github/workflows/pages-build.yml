@@ -48,6 +48,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
+          cache: npm
 
       # Exactly what Cloudflare Pages runs, in the same order. Split into steps
       # so a failure names the stage rather than the whole command.

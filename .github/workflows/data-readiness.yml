@@ -22,6 +22,7 @@ on:
       - 'data/**'
       - 'scripts/validate-*.mjs'
       - 'scripts/graph/**'
+      - 'scripts/run-checks.mjs'
       - 'docs/**'
       - '*.md'
       - 'package.json'
@@ -32,6 +33,7 @@ on:
       - 'data/**'
       - 'scripts/validate-*.mjs'
       - 'scripts/graph/**'
+      - 'scripts/run-checks.mjs'
       - 'docs/**'
       - '*.md'
       - 'package.json'
@@ -56,6 +58,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
+          cache: npm
       # `npm ci`, not `npm install`, now that package-lock.json is tracked
       # (un-ignored 2026-08-12). This matters here specifically because
       # check:notices regenerates
@@ -119,7 +122,8 @@ jobs:
       - run: node scripts/build-catalogue-d1-import.mjs
       - run: node scripts/build-browse-index-d1-import.mjs --all
 
-      - run: npm run check
+      # The same 61 steps as `npm run check`, run four at a time (scripts/run-checks.mjs).
+      - run: node scripts/run-checks.mjs --skip check:test2 --jobs 4
 
   lint:
     runs-on: ubuntu-latest
@@ -128,6 +132,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
+          cache: npm
       - run: npm ci --ignore-scripts
       # Warnings only by design -- reports without blocking. Switch to
       # lint:strict once the current 16 warnings are cleared.

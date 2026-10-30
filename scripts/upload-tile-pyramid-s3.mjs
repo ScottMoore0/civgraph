@@ -8,12 +8,15 @@
  *   R2_ACCESS_KEY_ID=...  R2_SECRET_ACCESS_KEY=...  R2_S3_ENDPOINT=https://<account>.r2.cloudflarestorage.com \
  *   node scripts/upload-tile-pyramid-s3.mjs <local-dir> <r2-key-prefix> [--concurrency=N] [--dry-run] [--check]
  *
- *   --check       HEAD each key first and skip if already uploaded (default: skip checks)
+ *   --check         HEAD each key first and skip if already uploaded (default: skip checks)
+ *   --changed-only  list the prefix once and skip files whose MD5 matches the object's ETag,
+ *                   so a re-sync uploads only what changed (thumbnails: 3,542 files, ~1 new)
  */
 import { readFileSync, statSync, readdirSync } from 'fs';
+import { createHash } from 'crypto';
 import { join, relative, sep, resolve as resolvePath } from 'path';
 import { execFileSync } from 'child_process';
-import { S3Client, PutObjectCommand, HeadObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand, HeadObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3';
 import { assertPublishable } from './lib/r2-publication-gate.mjs';
 
 const args = process.argv.slice(2);
@@ -30,6 +33,7 @@ const [LOCAL_DIR, KEY_PREFIX] = positional;
 const DRY_RUN = flags.has('--dry-run');
 const GATE_OVERRIDE = flags.has('--i-have-reviewed-this-publication');
 const CHECK_FIRST = flags.has('--check');
+const CHANGED_ONLY = flags.has('--changed-only');
 const CONCURRENCY = parseInt(opts.concurrency || '32', 10);
 
 const ACCESS_KEY_ID = process.env.R2_ACCESS_KEY_ID;
@@ -98,6 +102,11 @@ async function uploadOne(localPath, stats) {
     }
 
     const body = readFileSync(localPath);
+    if (CHANGED_ONLY && remoteEtags.get(key) === createHash('md5').update(body).digest('hex')) {
+        stats.skipped++;
+        stats.done++;
+        return;
+    }
     await s3.send(new PutObjectCommand({
         Bucket: BUCKET,
         Key: key,
@@ -128,6 +137,18 @@ async function uploadOne(localPath, stats) {
         const rate = (stats.done / ((Date.now() - stats.start) / 1000)).toFixed(1);
         process.stdout.write(`\r  ${stats.done}/${stats.total} (${pct}%) up=${stats.uploaded} skip=${stats.skipped} ${rate}/s   `);
     }
+}
+
+// ETags of the objects already under the prefix. A single-part PUT's ETag is the MD5 of its
+// body, which is all this script ever does, so equal MD5 means the object is already current.
+const remoteEtags = new Map();
+async function loadRemoteEtags(prefix) {
+    let token;
+    do {
+        const page = await s3.send(new ListObjectsV2Command({ Bucket: BUCKET, Prefix: `${prefix}/`, ContinuationToken: token }));
+        for (const o of page.Contents || []) remoteEtags.set(o.Key, String(o.ETag || '').replace(/"/g, ''));
+        token = page.IsTruncated ? page.NextContinuationToken : undefined;
+    } while (token);
 }
 
 async function runPool(items, worker, n) {
@@ -191,6 +212,11 @@ async function runPool(items, worker, n) {
     // there is no unpublish. Runs even under --dry-run so the gate can be
     // rehearsed safely. Override: --i-have-reviewed-this-publication
     assertPublishable([`${KEY_PREFIX}/`], { override: GATE_OVERRIDE });
+
+    if (CHANGED_ONLY && !DRY_RUN) {
+        await loadRemoteEtags(KEY_PREFIX);
+        console.log(`  --changed-only: ${remoteEtags.size} object(s) already under the prefix`);
+    }
 
     const stats = await runPool(files, uploadOne, CONCURRENCY);
     const secs = ((Date.now() - stats.start) / 1000).toFixed(1);
