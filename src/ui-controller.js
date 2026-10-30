@@ -8212,7 +8212,7 @@ class UIController {
                 { key: 'winnerParty', label: 'Leading party', kind: 'text', getValue: (row) => row.winnerParty, render: (row) => renderLeadingParty(row) },
                 { key: 'winnerVotes', label: 'Leading party votes', kind: 'numeric', align: 'num', getValue: (row) => row.winnerVotes, render: (row) => this.escapeHtml(this.formatDisplayValue(Math.round(Number(row.winnerVotes || 0)))) },
                 { key: 'winnerPct', label: 'Leading party %', kind: 'numeric', align: 'num', getValue: (row) => row.winnerPct, render: (row) => `${Number(row.winnerPct || 0).toFixed(2)}%` },
-                { key: 'validVotes', label: 'Valid votes', kind: 'numeric', align: 'num', getValue: (row) => row.validVotes, render: (row) => this.escapeHtml(this.formatDisplayValue(Math.round(Number(row.validVotes || 0)))) },
+                { key: 'validVotes', label: 'Valid', kind: 'numeric', align: 'num', getValue: (row) => row.validVotes, render: (row) => this.escapeHtml(this.formatDisplayValue(Math.round(Number(row.validVotes || 0)))) },
                 { key: 'seats', label: 'Seats', kind: 'numeric', align: 'num', getValue: (row) => row.seats, render: (row) => this.escapeHtml(this.formatDisplayValue(Math.round(Number(row.seats || 0)))) }
             ];
         } else if (electoralHistory?.kind === 'lgd') {
@@ -8226,7 +8226,7 @@ class UIController {
                 { key: 'winnerParty', label: 'Leading party', kind: 'text', getValue: (row) => row.winnerParty, render: (row) => renderLeadingParty(row) },
                 { key: 'winnerVotes', label: 'Leading party votes', kind: 'numeric', align: 'num', getValue: (row) => row.winnerVotes, render: (row) => this.escapeHtml(this.formatDisplayValue(Math.round(Number(row.winnerVotes || 0)))) },
                 { key: 'winnerPct', label: 'Leading party %', kind: 'numeric', align: 'num', getValue: (row) => row.winnerPct, render: (row) => `${Number(row.winnerPct || 0).toFixed(2)}%` },
-                { key: 'validVotes', label: 'Valid votes', kind: 'numeric', align: 'num', getValue: (row) => row.validVotes, render: (row) => this.escapeHtml(this.formatDisplayValue(Math.round(Number(row.validVotes || 0)))) },
+                { key: 'validVotes', label: 'Valid', kind: 'numeric', align: 'num', getValue: (row) => row.validVotes, render: (row) => this.escapeHtml(this.formatDisplayValue(Math.round(Number(row.validVotes || 0)))) },
                 { key: 'seats', label: 'Seats', kind: 'numeric', align: 'num', getValue: (row) => row.seats, render: (row) => this.escapeHtml(this.formatDisplayValue(Math.round(Number(row.seats || 0)))) }
             ];
         }
@@ -9040,7 +9040,7 @@ class UIController {
                 }
             },
             { key: 'status', label: 'Status', kind: 'text', getValue: (row) => row.status, render: (row) => this.escapeHtml(row.status || '-') },
-            { key: 'firstPref', label: 'Valid votes', kind: 'numeric', align: 'num', getValue: (row) => row.firstPref, render: (row) => fmt(row.firstPref) },
+            { key: 'firstPref', label: 'Valid', kind: 'numeric', align: 'num', getValue: (row) => row.firstPref, render: (row) => fmt(row.firstPref) },
             { key: 'firstPrefPct', label: 'Valid vote %', kind: 'numeric', align: 'num', getValue: (row) => row.firstPrefPct, render: (row) => pct(row.firstPrefPct) },
             { key: 'overallStandingNumber', label: 'Overall standing', kind: 'ordinal', getValue: (row) => row.overallStandingNumber, render: (row) => `${ord(row.overallStandingNumber)} time standing` },
             { key: 'overallElectedNumber', label: 'Overall elected', kind: 'ordinal', getValue: (row) => row.overallElectedNumber, render: (row) => row.overallElectedNumber ? `${ord(row.overallElectedNumber)} time elected` : '-' },
@@ -9092,7 +9092,7 @@ class UIController {
                 { key: 'winnerParty', label: 'Leading party', kind: 'text', getValue: (row) => row.winnerParty, render: (row) => renderLeadingParty(row) },
                 { key: 'winnerVotes', label: 'Leading party votes', kind: 'numeric', align: 'num', getValue: (row) => row.winnerVotes, render: (row) => fmt(row.winnerVotes) },
                 { key: 'winnerPct', label: 'Leading party %', kind: 'numeric', align: 'num', getValue: (row) => row.winnerPct, render: (row) => pct(row.winnerPct) },
-                { key: 'validVotes', label: 'Valid votes', kind: 'numeric', align: 'num', getValue: (row) => row.validVotes, render: (row) => fmt(row.validVotes) },
+                { key: 'validVotes', label: 'Valid', kind: 'numeric', align: 'num', getValue: (row) => row.validVotes, render: (row) => fmt(row.validVotes) },
                 { key: 'seats', label: 'Seats', kind: 'numeric', align: 'num', getValue: (row) => row.seats, render: (row) => fmt(row.seats) }
             ]
             : entry.kind === 'constituency'
@@ -9102,7 +9102,7 @@ class UIController {
                     { key: 'winnerParty', label: 'Leading party', kind: 'text', getValue: (row) => row.winnerParty, render: (row) => renderLeadingParty(row) },
                     { key: 'winnerVotes', label: 'Leading party votes', kind: 'numeric', align: 'num', getValue: (row) => row.winnerVotes, render: (row) => fmt(row.winnerVotes) },
                     { key: 'winnerPct', label: 'Leading party %', kind: 'numeric', align: 'num', getValue: (row) => row.winnerPct, render: (row) => pct(row.winnerPct) },
-                    { key: 'validVotes', label: 'Valid votes', kind: 'numeric', align: 'num', getValue: (row) => row.validVotes, render: (row) => fmt(row.validVotes) },
+                    { key: 'validVotes', label: 'Valid', kind: 'numeric', align: 'num', getValue: (row) => row.validVotes, render: (row) => fmt(row.validVotes) },
                     { key: 'seats', label: 'Seats', kind: 'numeric', align: 'num', getValue: (row) => row.seats, render: (row) => fmt(row.seats) }
                 ]
                 : [
@@ -9113,7 +9113,7 @@ class UIController {
                 { key: 'winnerParty', label: 'Leading party', kind: 'text', getValue: (row) => row.winnerParty, render: (row) => renderLeadingParty(row) },
                 { key: 'winnerVotes', label: 'Leading party votes', kind: 'numeric', align: 'num', getValue: (row) => row.winnerVotes, render: (row) => fmt(row.winnerVotes) },
                 { key: 'winnerPct', label: 'Leading party %', kind: 'numeric', align: 'num', getValue: (row) => row.winnerPct, render: (row) => pct(row.winnerPct) },
-                { key: 'validVotes', label: 'Valid votes', kind: 'numeric', align: 'num', getValue: (row) => row.validVotes, render: (row) => fmt(row.validVotes) },
+                { key: 'validVotes', label: 'Valid', kind: 'numeric', align: 'num', getValue: (row) => row.validVotes, render: (row) => fmt(row.validVotes) },
                 { key: 'seats', label: 'Seats', kind: 'numeric', align: 'num', getValue: (row) => row.seats, render: (row) => fmt(row.seats) }
             ];
 

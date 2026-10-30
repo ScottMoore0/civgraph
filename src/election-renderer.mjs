@@ -273,7 +273,7 @@ export class SharedElectionRenderer {
     return `
       <div class="test2-election-table-wrap">
         <table class="test2-election-table catalogue-detail__entity-table election-party-table">
-          <thead><tr><th>Council</th><th>DEAs</th><th>Leading party</th><th>Seats</th><th>Seat change</th><th>Valid votes</th><th>Vote change</th><th>Turnout</th><th>Turnout change</th></tr></thead>
+          <thead><tr><th>Council</th><th>DEAs</th><th>Leading party</th><th>Seats</th><th>Seat change</th><th>Valid</th><th>Vote change</th><th>Turnout</th><th>Turnout change</th></tr></thead>
           <tbody>${rows.map((row) => `
             <tr><td>${escapeHtml(row.council)}</td><td>${formatNumber(row.deas)}</td><td class="election-party-cell" style="--party-colour:${escapeHtml(row.colour)}">${partyLabelHtml(row.leadingParty || '', escapeHtml)}</td><td>${formatNumber(row.seats)}</td><td>${row.deltas ? formatSigned(row.deltas.seats) : ''}</td><td>${formatNumber(row.validPoll)}</td><td>${row.deltas ? formatSigned(row.deltas.validPoll) : ''}</td><td>${formatPercent(row.turnoutPct)}</td><td>${row.deltas?.turnoutPct !== null && row.deltas?.turnoutPct !== undefined ? formatSignedPercent(row.deltas.turnoutPct) : ''}</td></tr>
           `).join('')}</tbody>

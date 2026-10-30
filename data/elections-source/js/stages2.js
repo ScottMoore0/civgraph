@@ -2728,7 +2728,7 @@ function animateStages(selectionOrYear, constituencyFolder) {
             var dnvLabel = $('<div class="candidateLabel static-info-label" style="' +
                 'top:' + dnvTop + 'px;left:' + leftPadding + 'px;width:' + nameSpace + 'px;' +
                 'line-height:' + dnvHeight + 'px;height:' + dnvHeight + 'px;' +
-                '">Did not vote</div>');
+                '">No vote</div>');
             dnvLabel.appendTo('#animation');
             decorateLabel(dnvLabel, '#888');
             var dnvPct = formatPct(didNotVote, totalElectorate);
