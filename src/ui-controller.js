@@ -7996,8 +7996,20 @@ class UIController {
                         </div>`;
                     }
                 }
-                // Elevation metrics
-                if (minElevM !== undefined && minElevM !== null && !isNaN(minElevM)) {
+                // Elevation on one line -- range, then mean -- where all three are known. Three
+                // separate cards took a third of a phone screen to say three numbers.
+                const hasElev = (v) => v !== undefined && v !== null && !isNaN(v);
+                if (hasElev(minElevM) && hasElev(maxElevM)) {
+                    const minFt = minElevFt || Math.round(minElevM * 3.28084);
+                    const maxFt = maxElevFt || Math.round(maxElevM * 3.28084);
+                    html += `<div class="feature-info__metric feature-info__metric--elevation">
+                        <span class="feature-info__metric-label">Elevation</span>
+                        <span class="feature-info__metric-value">
+                            <span class="metric-km">${this.formatNumber(Number(minElevM), 1)}–${this.formatNumber(Number(maxElevM), 1)} m</span><br>
+                            <span class="metric-mi">(${minFt}–${maxFt} ft)${hasElev(meanElevM) ? ` · mean ${this.formatNumber(Number(meanElevM), 1)} m` : ''}</span>
+                        </span>
+                    </div>`;
+                } else if (minElevM !== undefined && minElevM !== null && !isNaN(minElevM)) {
                     html += `<div class="feature-info__metric">
                         <span class="feature-info__metric-label">Min Elevation</span>
                         <span class="feature-info__metric-value">
@@ -8006,7 +8018,8 @@ class UIController {
                         </span>
                     </div>`;
                 }
-                if (meanElevM !== undefined && meanElevM !== null && !isNaN(meanElevM)) {
+                const elevationCombined = hasElev(minElevM) && hasElev(maxElevM);
+                if (!elevationCombined && meanElevM !== undefined && meanElevM !== null && !isNaN(meanElevM)) {
                     html += `<div class="feature-info__metric">
                         <span class="feature-info__metric-label">Mean Elevation</span>
                         <span class="feature-info__metric-value">
@@ -8015,7 +8028,7 @@ class UIController {
                         </span>
                     </div>`;
                 }
-                if (maxElevM !== undefined && maxElevM !== null && !isNaN(maxElevM)) {
+                if (!elevationCombined && maxElevM !== undefined && maxElevM !== null && !isNaN(maxElevM)) {
                     html += `<div class="feature-info__metric">
                         <span class="feature-info__metric-label">Max Elevation</span>
                         <span class="feature-info__metric-value">
@@ -8031,9 +8044,16 @@ class UIController {
             const excludeKeys = ['Name', 'name', 'NAME', 'Area', 'area', 'AREA',
                 'Perimeter', 'perimeter', 'PERIMETER', 'geometry',
                 'minElev_m', 'maxElev_m', 'meanElev_m', 'minElev_ft', 'maxElev_ft', 'meanElev_ft'];
+            // Row ids the tiles carry for the renderer (civ_fid, OBJECTID, FID, a numeric id)
+            // and GIS bookkeeping fields mean nothing to a reader: "civ_fid 35.00" was the
+            // first line of the properties a reader opened.
+            const internalKey = (key, value) =>
+                /^(civ_fid|fid|objectid(_\d+)?|ogc_fid|shape_{1,2}(area|length|leng)|globalid|st_area\(shape\)|st_length\(shape\))$/i.test(key)
+                || (key === 'id' && (typeof value === 'number' || /^\d+$/.test(String(value))));
             const filteredProps = Object.entries(props)
                 .filter(([key, value]) =>
                     !excludeKeys.includes(key) &&
+                    !internalKey(key, value) &&
                     value !== null &&
                     value !== undefined &&
                     value !== ''
@@ -8047,9 +8067,13 @@ class UIController {
                 `;
 
                 filteredProps.forEach(([key, value]) => {
-                    const displayValue = typeof value === 'number' ?
-                        this.formatNumber(value) :
-                        this.escapeHtml(String(value));
+                    // Whole numbers as whole numbers: a count or a code read as "19.00".
+                    const displayValue = typeof value === 'number'
+                        ? (Number.isInteger(value)
+                            // Separators only from 10,000: a year or a code stays "1969", not "1,969".
+                            ? (Math.abs(value) >= 10000 ? value.toLocaleString('en-GB') : String(value))
+                            : this.formatNumber(value))
+                        : this.escapeHtml(String(value));
                     html += `<div class="feature-info__property">
                         <span class="feature-info__key">${this.escapeHtml(key)}</span>
                         <span class="feature-info__value">${displayValue}</span>
@@ -9591,8 +9615,11 @@ class UIController {
             const partial = partialLayerInfo?.get(map.id);
             const color = map.style?.color || '#3388ff';
             const authors = map.authors?.join(', ') || '';
-            const date = map.date ? this.getYear(map.date) : '';
             const layerTitle = dataService.getMapDisplayTitle?.(map) || map.name;
+            // "1929 NI Parliament / 1929": the year under a title that already starts with it
+            // cost every row a second line.
+            const year = map.date ? this.getYear(map.date) : '';
+            const date = year && !String(layerTitle).includes(String(year)) ? year : '';
             const featureRows = partial?.featureItems?.length
                 ? (partial.featureItems || []).map((item) => `
                     <div class="active-layer-item__feature" data-map-id="${map.id}" data-feature-index="${item.index}">
@@ -9637,10 +9664,7 @@ class UIController {
                     <div class="active-layer-item__color" style="background: ${color}"></div>
                     <div class="active-layer-item__info">
                         <span class="active-layer-item__name">${this.escapeHtml(layerTitle)}</span>${isVisible ? '' : '<span class="active-layer-item__hidden-badge">Hidden</span>'}
-                        <span class="active-layer-item__meta">
-                            ${authors}${authors && date ? ' · ' : ''}${date ? `<em>${date}</em>` : ''}
-                            ${partial?.featureItems?.length ? `<span class="active-layer-item__partial-badge">${partial.featureNames?.length || partial.featureItems.length || 1} feature${(partial.featureNames?.length || partial.featureItems.length || 1) > 1 ? 's' : ''}</span>` : ''}
-                        </span>
+                        ${authors || date || partial?.featureItems?.length ? `<span class="active-layer-item__meta">${authors}${authors && date ? ' · ' : ''}${date ? `<em>${date}</em>` : ''}${partial?.featureItems?.length ? `<span class="active-layer-item__partial-badge">${partial.featureNames?.length || partial.featureItems.length || 1} feature${(partial.featureNames?.length || partial.featureItems.length || 1) > 1 ? 's' : ''}</span>` : ''}</span>` : ''}
                         ${partial?.featureItems?.length ? `<div class="active-layer-item__feature-list">${featureRows}</div>` : ''}
                     </div>
                     <div class="active-layer-item__actions">

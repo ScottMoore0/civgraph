@@ -642,6 +642,19 @@ class DataService {
   }
 
   /**
+   * For a parallel chain, the classes of the column a map belongs to, plus the chain's
+   * predecessor (which precedes every column). Null for an ordinary chain: all its classes
+   * form one sequence.
+   */
+  getColumnClassIds(chain, mapId) {
+    if (!chain?.parallel || !Array.isArray(chain.segments)) return null;
+    const cls = this.getAllClasses().find((c) => c.maps?.includes(mapId));
+    const segment = cls && chain.segments.find((seg) => seg.classIds?.includes(cls.id));
+    if (!segment) return null;
+    return [...segment.classIds, ...(chain.predecessor?.classIds || [])];
+  }
+
+  /**
    * Parse a map's date field to a timestamp
    * Handles formats: "YYYY", "YYYY-MM-DD", "DD MMM YYYY"
    */
@@ -666,8 +679,8 @@ class DataService {
   /**
    * Get all maps in a chain, sorted by date (newest first)
    */
-  getMapsInChain(chain) {
-    const classIds = this.getAllClassIdsInChain(chain);
+  getMapsInChain(chain, onlyClassIds = null) {
+    const classIds = onlyClassIds || this.getAllClassIdsInChain(chain);
     const classes = this.getAllClasses();
     const maps = [];
 
@@ -694,11 +707,22 @@ class DataService {
   /**
    * Get all unique dates from maps in the given chains
    */
-  getApplicableDates(chains) {
+  getApplicableDates(chains, activeMapIds = []) {
     const timestamps = new Set();
 
     for (const chain of chains) {
-      const maps = this.getMapsInChain(chain);
+      // A parallel chain's stops are those of the columns actually loaded: with the 1929 NI
+      // Parliament map open, the slider stepped through Dáil and Westminster dates as well.
+      let onlyClassIds = null;
+      if (chain.parallel && activeMapIds.length) {
+        const ids = new Set();
+        for (const mapId of activeMapIds) {
+          if (this.getChainForMap(mapId)?.id !== chain.id) continue;
+          for (const id of this.getColumnClassIds(chain, mapId) || []) ids.add(id);
+        }
+        if (ids.size) onlyClassIds = [...ids];
+      }
+      const maps = this.getMapsInChain(chain, onlyClassIds);
       maps.forEach(m => {
         if (m.timestamp) timestamps.add(m.timestamp);
       });
@@ -726,8 +750,11 @@ class DataService {
         continue;
       }
 
-      // Find the map in this chain that was active at the target date
-      const mapsInChain = this.getMapsInChain(chain);
+      // Find the map in this chain that was active at the target date -- within the map's
+      // own column when the chain runs columns side by side. Searching the whole chain made
+      // the 1929 NI Parliament map step to dail-1969 or pc-1948, whichever body had the
+      // nearest date, and left two maps loaded at once.
+      const mapsInChain = this.getMapsInChain(chain, this.getColumnClassIds(chain, mapId));
       console.log('[DataService] mapsInChain:', mapsInChain.map(m => ({ id: m.map.id, timestamp: m.timestamp })));
 
       // Find the map whose date is closest to but not after the target date
