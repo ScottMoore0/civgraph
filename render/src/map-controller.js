@@ -1625,7 +1625,15 @@ export class TestMapLibreController {
       }
     }
     if (!options.terrain && this.flattenAfter3d(boundsValue)) return;
-    this.map.fitBounds(bounds, { padding: 36, duration: 400 });
+    this.map.fitBounds(bounds, { padding: this.fitPadding(), duration: 400 });
+  }
+
+  // 36px a side is a ninth of a phone's map, which on a short election map (the results
+  // take the lower half) left NI at under half the width. Small maps get 14px.
+  fitPadding() {
+    const container = this.map?.getContainer?.();
+    const smallest = container ? Math.min(container.clientWidth, container.clientHeight) : Infinity;
+    return smallest < 420 ? 14 : 36;
   }
 
   /**
