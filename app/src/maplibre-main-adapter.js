@@ -232,7 +232,7 @@ export class Test2MapLibreMainAdapter {
     const runtimeLayer = this.toRuntimeLayer(layer, mainConfig);
     this.mainToTest.set(mainId, runtimeLayer.id);
     this.testToMain.set(runtimeLayer.id, mainId);
-    await this.renderer.loadLayer(runtimeLayer);
+    await this.renderer.loadLayer(runtimeLayer, { fit: options.fit !== false });
     const state = this.createMainLayerState(mainId, runtimeLayer, mainConfig);
     this.layerStates.set(mainId, {
       ...state
