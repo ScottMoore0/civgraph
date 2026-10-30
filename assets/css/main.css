@@ -2212,12 +2212,54 @@ button.catalogue-flat__toc-toplink {
    and lets the search and nav share the row below, as they did before the blurb existed. */
 .catalogue-intro {
   grid-column: 1 / -1;
-  /* Vertically centred in the band between the header and the search row, rather than
-     sitting against the header. The shell's row-gap is 12px and cannot be undercut from
-     here, so the balance is struck by matching it above: 12px of clear space on each
-     side of the text. Padding-bottom is 0 precisely because that 12px gap already
-     provides the space below; adding to it would push the block upwards again. */
-  padding: 11px 0 0;
+  position: relative;
+  /* A closable box rather than loose text: the x hides it (remembered per browser, see the
+     bootstrap script in maps/index.html) and the search bar and buttons move up to the top. */
+  margin-top: 10px;
+  padding: 9px 38px 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-surface-elevated, var(--color-surface));
+}
+
+html[data-intro-hidden] .catalogue-intro {
+  display: none;
+}
+
+/* With the box gone the search row is the first thing in the shell; give it the same
+   clearance from the header that the box had. */
+html[data-intro-hidden] .catalogue-sticky-shell {
+  padding-top: 10px;
+}
+
+/* button + child selector: the site-wide `[title]:not(.search-clear)` tooltip rule sets
+   position: relative and would otherwise out-rank a bare class. */
+.catalogue-intro > button.catalogue-intro__close {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--color-text-muted, #5A6678);
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.catalogue-intro__close:hover {
+  background: var(--color-surface-hover, rgba(127, 127, 127, 0.12));
+  color: var(--color-text, inherit);
+}
+
+.catalogue-intro__close:focus-visible {
+  outline: 2px solid var(--color-primary, #1a365d);
+  outline-offset: 1px;
 }
 
 .catalogue-intro__heading {

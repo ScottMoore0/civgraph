@@ -31,6 +31,20 @@ test('no basemap option points at a source that needs a key or is gone', async (
   }
 });
 
+test('the blurb closes with its x, the search moves up, and it stays closed', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto('/maps/');
+  await page.waitForFunction(() => window.__civgraphTest2?.app, null, { timeout: 60000 });
+  const searchTop = () => page.evaluate(() => document.querySelector('.search-input').getBoundingClientRect().top);
+  const before = await searchTop();
+  await page.click('.catalogue-intro__close');
+  await expect(page.locator('.catalogue-intro')).toBeHidden();
+  expect(await searchTop(), 'the search row takes the place of the box').toBeLessThan(before - 30);
+  await page.reload();
+  await page.waitForFunction(() => window.__civgraphTest2?.app, null, { timeout: 60000 });
+  await expect(page.locator('.catalogue-intro')).toBeHidden();
+});
+
 test('the blurb sits on its own row above the search bar', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto('/maps/');

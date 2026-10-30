@@ -859,7 +859,7 @@ test('selected Dail 2024 Galway East pane computes constituency percentages and 
   // Note for anyone revisiting -- the PERCENTAGES were never what failed here. The party
   // table rows and their vote shares still match exactly; only the list of summary rows
   // had grown.
-  expect(state.summary.map((row) => row[2])).toEqual(expect.arrayContaining(['Valid votes', 'Electorate']));
+  expect(state.summary.map((row) => row[2])).toEqual(expect.arrayContaining(['Valid', 'Electorate']));
   expect(state.summary[0].slice(3, 7)).toEqual(['14', '4', '54,214', '61.75%']);
   // The changes sit under the vote and share values; the minus is a real minus sign.
   expect(state.summaryChanges[0].slice(3, 7)).toEqual(['', '', '+11,694', '+0.34']);
@@ -2442,7 +2442,7 @@ test('election pane supports local-government aggregates and detailed counts', a
   expect(state.countWrapper).toBe(true);
   expect(state.before).toContain('Detailed View: Off');
   expect(state.after).toContain('Detailed View: On');
-  expect(state.after).toMatch(/Valid votes|transfer|Count/i);
+  expect(state.after).toMatch(/Valid|transfer|Count/i);
 });
 
 test('supports catalogue detail, unsupported notices, and URL restore', async ({ page }) => {

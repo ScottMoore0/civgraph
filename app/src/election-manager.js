@@ -1265,10 +1265,10 @@ export class Test2ElectionManager {
                   </tr>
                 `;
               }).join('')}
-              ${this.renderMainParitySummaryRow('Valid votes', constituencyCount, totalSeats, '100.00%', false, totalValid, change(totalValid, prevTotalValid), validPct, change(validPct, prevValidPct))}
+              ${this.renderMainParitySummaryRow('Valid', constituencyCount, totalSeats, '100.00%', false, totalValid, change(totalValid, prevTotalValid), validPct, change(validPct, prevValidPct))}
               ${this.renderMainParitySummaryRow('Turnout', null, null, null, false, totalPoll, change(totalPoll, prevTotalPoll), turnoutPct, change(turnoutPct, prevTurnoutPct))}
               ${this.renderMainParitySummaryRow('Spoiled', null, null, null, false, totalSpoiled, change(totalSpoiled, prevTotalSpoiled), spoiledPct, change(spoiledPct, prevSpoiledPct))}
-              ${this.renderMainParitySummaryRow('Did not vote', null, null, null, false, didNotVote, change(didNotVote, prevDidNotVote), didNotVotePct, change(didNotVotePct, prevDidNotVotePct))}
+              ${this.renderMainParitySummaryRow('No vote', null, null, null, false, didNotVote, change(didNotVote, prevDidNotVote), didNotVotePct, change(didNotVotePct, prevDidNotVotePct))}
               ${this.renderMainParitySummaryRow('Electorate', null, null, null, false, totalElectorate, change(totalElectorate, prevTotalElectorate), 100, false)}
             </tbody>
           </table>
@@ -1388,7 +1388,7 @@ export class Test2ElectionManager {
                 </tr>
               `).join('')}
               ${this.renderReferendumProposalRow(winner, 4)}
-              ${this.renderReferendumSummaryRow('Valid votes', stats.validPoll, validPct, { strong: true })}
+              ${this.renderReferendumSummaryRow('Valid', stats.validPoll, validPct, { strong: true })}
               ${this.renderReferendumSummaryRow('Turnout', stats.totalPoll, stats.turnoutPct)}
               ${this.renderReferendumSummaryRow('Spoiled', stats.spoiled, spoiledPct)}
               ${this.renderReferendumSummaryRow('Electorate', stats.electorate, 100)}
@@ -1431,7 +1431,7 @@ export class Test2ElectionManager {
               </tr>
             `).join('')}
             ${this.renderReferendumProposalRow(winner, 4)}
-            ${this.renderReferendumSummaryRow('Valid votes', stats.validPoll, validPct, { strong: true, labelColspan: 1, trailingCell: true })}
+            ${this.renderReferendumSummaryRow('Valid', stats.validPoll, validPct, { strong: true, labelColspan: 1, trailingCell: true })}
             ${this.renderReferendumSummaryRow('Turnout', stats.totalPoll, stats.turnoutPct, { labelColspan: 1, trailingCell: true })}
             ${this.renderReferendumSummaryRow('Spoiled', stats.spoiled, spoiledPct, { labelColspan: 1, trailingCell: true })}
             ${this.renderReferendumSummaryRow('Electorate', stats.electorate, 100, { labelColspan: 1, trailingCell: true })}
@@ -1757,10 +1757,10 @@ export class Test2ElectionManager {
               `;
             }).join('')}
             ${previousResult ? '<tr class="election-table-note-row"><td class="election-rank-col">-</td><td></td><td colspan="5"><strong>No change in party control</strong></td></tr>' : ''}
-            ${this.renderSelectedPartySummaryRow('Valid votes', current.totalStood, current.totalElected, current.validPoll, validDelta, current.validPct, knownDelta(current.validPct, previous.validPct))}
+            ${this.renderSelectedPartySummaryRow('Valid', current.totalStood, current.totalElected, current.validPoll, validDelta, current.validPct, knownDelta(current.validPct, previous.validPct))}
             ${shouldRenderSummary(current.totalPoll, previous.totalPoll) ? this.renderSelectedPartySummaryRow('Turnout', null, null, current.totalPoll, turnoutDelta, current.turnoutPct, knownDelta(current.turnoutPct, previous.turnoutPct)) : ''}
             ${shouldRenderSummary(current.spoiled, previous.spoiled) ? this.renderSelectedPartySummaryRow('Spoiled', null, null, current.spoiled, spoiledDelta, current.spoiledPct, knownDelta(current.spoiledPct, previous.spoiledPct)) : ''}
-            ${shouldRenderSummary(current.didNotVote, previous.didNotVote) ? this.renderSelectedPartySummaryRow('Did not vote', null, null, current.didNotVote, didNotVoteDelta, current.didNotVotePct, knownDelta(current.didNotVotePct, previous.didNotVotePct)) : ''}
+            ${shouldRenderSummary(current.didNotVote, previous.didNotVote) ? this.renderSelectedPartySummaryRow('No vote', null, null, current.didNotVote, didNotVoteDelta, current.didNotVotePct, knownDelta(current.didNotVotePct, previous.didNotVotePct)) : ''}
             ${shouldRenderSummary(current.electorate, previous.electorate) ? this.renderSelectedPartySummaryRow('Electorate', null, null, current.electorate, electorateDelta, 100, false) : ''}
           </tbody>
         </table>
@@ -3066,7 +3066,7 @@ export class Test2ElectionManager {
           ignoreMainLikeTotals: true,
           previousResults,
           constituencyCount: memberResults.length,
-          totalLabel: 'Valid votes'
+          totalLabel: 'Valid'
         })}
     `;
   }
@@ -3120,12 +3120,12 @@ export class Test2ElectionManager {
               <th rowspan="2" data-leaf-col-idx="2">DEAs</th>
               <th rowspan="2" data-leaf-col-idx="3">Leading party</th>
               <th colspan="1">Seats</th>
-              <th colspan="1">Valid votes</th>
+              <th colspan="1">Valid</th>
               <th colspan="1">Turnout</th>
             </tr>
             <tr>
               ${this.renderMainParityLeafTh('No.', 4, 'Seats, with change')}
-              ${this.renderMainParityLeafTh('No.', 5, 'Valid votes, with change')}
+              ${this.renderMainParityLeafTh('No.', 5, 'Valid, with change')}
               ${this.renderMainParityLeafTh('%', 6, 'Turnout percentage, with change')}
             </tr>
           </thead>
@@ -3549,10 +3549,10 @@ export class Test2ElectionManager {
                 }).join('')}
               </tr>
             ` : ''}
-            ${appendSummaryRow('Valid votes', validPoll, prevValidPoll, pctOfTurnout(validPoll), prevValidPoll === null ? null : pctOfTurnout(prevValidPoll))}
+            ${appendSummaryRow('Valid', validPoll, prevValidPoll, pctOfTurnout(validPoll), prevValidPoll === null ? null : pctOfTurnout(prevValidPoll))}
             ${appendSummaryRow('Spoiled', spoiled, prevSpoiled, pctOfTurnout(spoiled), prevSpoiled === null ? null : pctOfTurnout(prevSpoiled))}
             ${appendSummaryRow('Turnout', totalPoll, prevTotalPoll, pctOfElectorate(totalPoll), prevTotalPoll === null ? null : pctOfElectorate(prevTotalPoll))}
-            ${appendSummaryRow('Did not vote', didNotVote, prevDidNotVote, pctOfElectorate(didNotVote), prevDidNotVote === null ? null : pctOfElectorate(prevDidNotVote))}
+            ${appendSummaryRow('No vote', didNotVote, prevDidNotVote, pctOfElectorate(didNotVote), prevDidNotVote === null ? null : pctOfElectorate(prevDidNotVote))}
             ${appendSummaryRow('Electorate', electorate, prevElectorate, 100, prevElectorate === null ? null : 100)}
           </tbody>
         </table>
