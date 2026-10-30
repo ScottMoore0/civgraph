@@ -453,6 +453,10 @@ const NAME_ALIASES = new Map([
 dailApprovedCandidateAliasIndex = buildDailApprovedCandidateAliasIndex(dailApprovedCandidateAliases);
 
 const SOURCE_NAME_ALIASES = new Map([
+  // The 1929-72 Stormont seat for Antrim town is "Antrim Borough" in every result, but both
+  // constituency maps label it plain ANTRIM, so it was the one seat left uncoloured.
+  ['stormont-1929', new Map([['ANTRIM', 'Antrim Borough']])],
+  ['stormont-1969', new Map([['ANTRIM', 'Antrim Borough']])],
   // Strabane Urban District's wards as its council results name them (strabane-urban-district-council).
   ['eds-ulster-1911', new Map([
     ['STRABANE NORTH URBAN', 'North Ward'],

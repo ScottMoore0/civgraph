@@ -27,7 +27,7 @@
   "previousKey": "parliament-of-northern-ireland__1965-11-25",
   "previousDate": "1965-11-25",
   "loadable": true,
-  "displaySubtitle": "52 constituencies; 1 unmatched",
+  "displaySubtitle": "52 constituencies",
   "displayProvider": "Parliament of Northern Ireland",
   "constituencies": [
     "Antrim Borough",
@@ -85,11 +85,9 @@
   ],
   "isByElection": false,
   "totalConstituencies": 52,
-  "matchedCount": 51,
-  "unmatchedCount": 1,
-  "unmatchedConstituencies": [
-    "Antrim Borough"
-  ],
+  "matchedCount": 52,
+  "unmatchedCount": 0,
+  "unmatchedConstituencies": [],
   "availableStyleModes": [
     "winner",
     "leadingParty",
@@ -7660,13 +7658,29 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/antrim-borough.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "anchor": null,
+      "featureId": "40",
+      "featureName": "BANNSIDE",
+      "featureAliases": [
+        "BANNSIDE",
+        "ANTRIM"
+      ],
+      "matchName": "BANNSIDE",
+      "anchor": {
+        "center": [
+          -6.342682,
+          54.858201
+        ],
+        "bounds": {
+          "west": -6.582677,
+          "south": 54.648843,
+          "east": -6.102688,
+          "north": 55.06756
+        },
+        "method": "largest-ring-bounds-center",
+        "area": 0.088312551049017
+      },
       "syntheticRegion": null,
-      "matched": false
+      "matched": true
     },
     {
       "constituency": "Ards",

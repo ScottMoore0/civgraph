@@ -43,7 +43,7 @@ export class TestMetadataService {
     const layer = this.getLayer(id);
     if (!layer?.detailUrl) return layer;
     if (!this.layerDetailCache.has(layer.id)) {
-      this.layerDetailCache.set(layer.id, fetch(layer.detailUrl, { cache: 'force-cache' })
+      this.layerDetailCache.set(layer.id, fetch(layer.detailUrl, { cache: 'default' })
         .then((response) => {
           if (!response.ok) throw new Error(`failed to load ${layer.detailUrl}: ${response.status}`);
           return response.json();

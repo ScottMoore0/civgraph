@@ -207,7 +207,7 @@ class Test2App {
     // pins a stale catalogue in every browser that has already loaded it.
     this.metadataService = new TestMetadataService(`/render/metadata/maps-test-index.json?v=${__METADATA_INDEX_VERSION__}`, undefined, {
       cache: 'force-cache',
-      portPlanCache: 'force-cache'
+      portPlanCache: 'default'
     });
     await this.metadataService.load();
 
@@ -1673,7 +1673,7 @@ class Test2App {
     const candidates = [...new Set([slug, String(key || '').trim().toLowerCase()].filter(Boolean))];
     for (const candidateSlug of candidates) {
       try {
-        const response = await fetch(`/data/browse/details/parties/${encodeURIComponent(candidateSlug)}.json`, { cache: 'force-cache' });
+        const response = await fetch(`/data/browse/details/parties/${encodeURIComponent(candidateSlug)}.json`, { cache: 'default' });
         if (!response.ok) continue;
         const detail = await response.json();
         const item = detail.item || detail;
@@ -1705,7 +1705,7 @@ class Test2App {
 
     for (const slug of [...new Set([wanted, rawNameSlug].filter(Boolean))]) {
       try {
-        const response = await fetch(`/_api/persons?slug=${encodeURIComponent(slug)}`, { cache: 'force-cache' });
+        const response = await fetch(`/_api/persons?slug=${encodeURIComponent(slug)}`, { cache: 'default' });
         if (response.status === 404) continue;          // a real miss; try the other slug
         if (!response.ok) break;                        // endpoint trouble; use the fallback
         const payload = await response.json();
@@ -1747,7 +1747,7 @@ class Test2App {
     for (const alias of aliases) params.append('party', alias);
     params.set('limit', '200');
     try {
-      const response = await fetch(`/_api/persons?${params}`, { cache: 'force-cache' });
+      const response = await fetch(`/_api/persons?${params}`, { cache: 'default' });
       if (response.ok) {
         const payload = await response.json();
         if (Array.isArray(payload?.persons)) return payload.persons;
@@ -1866,7 +1866,7 @@ class Test2App {
   // along. A flat payload still works, so this does not depend on the layout staying
   // sharded.
   async fetchBrowseIndexItems(url) {
-    const response = await fetch(url, { cache: 'force-cache' });
+    const response = await fetch(url, { cache: 'default' });
     if (!response.ok) throw new Error(`Browse index failed: ${response.status} ${url}`);
     const payload = await response.json();
     if (payload?.indexLayout === 'sharded' && Array.isArray(payload.shards)) {
@@ -1892,7 +1892,7 @@ class Test2App {
       const all = await this.browsePersonsIndexPromise;
       return all.find(matches) || null;
     }
-    const response = await fetch('/data/browse/persons.json', { cache: 'force-cache' });
+    const response = await fetch('/data/browse/persons.json', { cache: 'default' });
     if (!response.ok) return null;
     const payload = await response.json();
     if (!(payload?.indexLayout === 'sharded' && Array.isArray(payload.shards))) {
@@ -2172,7 +2172,7 @@ class Test2App {
 
   async loadTimelineTransitionManifest() {
     try {
-      const response = await fetch(`${TIMELINE_TRANSITION_RUNTIME_BASE_PATH}/manifest.json`, { cache: 'force-cache' });
+      const response = await fetch(`${TIMELINE_TRANSITION_RUNTIME_BASE_PATH}/manifest.json`, { cache: 'default' });
       if (!response.ok) return;
       const manifest = await response.json();
       const entries = Array.isArray(manifest?.transitions) ? manifest.transitions : [];
@@ -3017,7 +3017,7 @@ class Test2App {
   async fetchTimelineTransitionGeoJson(url) {
     if (this.timelineTransitionCache.has(url)) return this.timelineTransitionCache.get(url);
     try {
-      const response = await fetch(url, { cache: 'force-cache' });
+      const response = await fetch(url, { cache: 'default' });
       const contentType = String(response.headers?.get?.('content-type') || '').toLowerCase();
       if (!response.ok || contentType.includes('text/html')) {
         this.timelineTransitionCache.set(url, null);

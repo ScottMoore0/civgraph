@@ -26,20 +26,22 @@
   "anchorUrl": "/render/metadata/election-anchors-test2/stormont-1929-vector-test.json",
   "previousKey": "parliament-of-northern-ireland__1949-02-10",
   "previousDate": "1949-02-10",
-  "loadable": false,
-  "displaySubtitle": "1 constituencies; 1 unmatched",
+  "loadable": true,
+  "displaySubtitle": "1 constituencies",
   "displayProvider": "Parliament of Northern Ireland",
   "constituencies": [
     "Antrim Borough"
   ],
   "isByElection": true,
   "totalConstituencies": 1,
-  "matchedCount": 0,
-  "unmatchedCount": 1,
-  "unmatchedConstituencies": [
-    "Antrim Borough"
+  "matchedCount": 1,
+  "unmatchedCount": 0,
+  "unmatchedConstituencies": [],
+  "availableStyleModes": [
+    "winner",
+    "leadingParty",
+    "seats"
   ],
-  "availableStyleModes": [],
   "partySummary": [
     {
       "party": "UUP",
@@ -317,13 +319,29 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1951-02-02/antrim-borough.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "anchor": null,
+      "featureId": "19",
+      "featureName": "ANTRIM",
+      "featureAliases": [
+        "ANTRIM",
+        "ANTRIM"
+      ],
+      "matchName": "ANTRIM",
+      "anchor": {
+        "center": [
+          -6.174062,
+          54.692362
+        ],
+        "bounds": {
+          "west": -6.426,
+          "south": 54.552588,
+          "east": -5.922125,
+          "north": 54.832137
+        },
+        "method": "largest-ring-bounds-center",
+        "area": 0.08443377043428027
+      },
       "syntheticRegion": null,
-      "matched": false
+      "matched": true
     }
   ]
 }

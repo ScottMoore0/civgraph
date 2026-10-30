@@ -11,7 +11,7 @@
 // changing it is what flushes stale entries already sitting in visitors' browsers --
 // necessary here because the browse indexes cached under the previous routing rule
 // would otherwise outlive the fix below.
-const VERSION = 'root-maplibre-sw-e912a326923d';
+const VERSION = 'root-maplibre-sw-67da83be1d77';
 const STATIC_CACHE = `civgraph-root-maplibre-${VERSION}-static`;
 const RUNTIME_CACHE = `civgraph-root-maplibre-${VERSION}-runtime`;
 const CACHE_PREFIX = 'civgraph-root-maplibre-';
@@ -38,10 +38,11 @@ const CACHE_FIRST_PATHS = [
   '/app/build/chunks/',
   '/assets/fonts/',
   '/assets/images/',
-  '/assets/thumbnails/',
-  '/render/metadata/layer-details-test2/',
-  '/render/metadata/duplicate-feature-ids/',
-  '/render/metadata/elections-test2-summaries/'
+  '/assets/thumbnails/'
+  // The layer-details, duplicate-feature-ids and elections-test2-summaries sidecars were
+  // here. They are rebuilt by data deploys, which do not change VERSION, so cache-first
+  // kept serving the previous edition's copy until the next app release. As
+  // /render/metadata/ JSON they now take the network-first route in isRuntimeJson().
 ];
 
 const NETWORK_FIRST_PATHS = [

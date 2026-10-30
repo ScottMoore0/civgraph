@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-30T01:39:18.380Z",
+  "generatedAt": "2026-10-30T14:09:35.222Z",
   "mode": "execute",
   "tools": {
     "ogr2ogr": "C:\\Program Files\\GDAL\\ogr2ogr.exe",
@@ -12,19 +12,1379 @@
   "outputDirectory": "render/pmtiles/generated",
   "maxGithubBytes": 99614720,
   "totals": {
-    "candidates": 10,
-    "converted": 10,
+    "candidates": 90,
+    "converted": 90,
     "skipped": 0,
     "failed": 0,
-    "metadataPreferred": 10,
+    "metadataPreferred": 90,
     "oversizedArchives": 0
   },
   "converted": [
     {
+      "layerId": "admin-areas-1966-07-04-vector-test",
+      "sourceMapId": "admin-areas-1966-07-04",
+      "name": "Administrative Areas 4 Jul 1966",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/admin-areas-1966-07-04-vector-test.pmtiles",
+      "bytes": 1085270,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "catholic-dioceses-vector-test",
+      "sourceMapId": "catholic-dioceses",
+      "name": "Catholic Dioceses",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/catholic-dioceses-vector-test.pmtiles",
+      "bytes": 1689362,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "civil-parishes-connacht-vector-test",
+      "sourceMapId": "civil-parishes-connacht",
+      "name": "Civil Parishes of Ireland",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/civil-parishes-connacht-vector-test.pmtiles",
+      "bytes": 3354596,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "counties-county-boroughs-1915-vector-test",
+      "sourceMapId": "counties-county-boroughs-1915",
+      "name": "Counties and County Boroughs 1915",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/counties-county-boroughs-1915-vector-test.pmtiles",
+      "bytes": 638474,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "dail-1959-vector-test",
+      "sourceMapId": "dail-1959",
+      "name": "1959",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/dail-1959-vector-test.pmtiles",
+      "bytes": 4333132,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "deas-1972-vector-test",
+      "sourceMapId": "deas-1972",
+      "name": "District Electoral Areas 1972",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/deas-1972-vector-test.pmtiles",
+      "bytes": 2094084,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "designated-assi-vector-test",
+      "sourceMapId": "designated-assi",
+      "name": "Areas of Special Scientific Interest (ASSI)",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/designated-assi-vector-test.pmtiles",
+      "bytes": 2255456,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "designated-lca-vector-test",
+      "sourceMapId": "designated-lca",
+      "name": "Landscape Character Areas (LCA)",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/designated-lca-vector-test.pmtiles",
+      "bytes": 1276590,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "designated-nnr-vector-test",
+      "sourceMapId": "designated-nnr",
+      "name": "National Nature Reserves (NNR)",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/designated-nnr-vector-test.pmtiles",
+      "bytes": 215132,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "designated-ramsar-vector-test",
+      "sourceMapId": "designated-ramsar",
+      "name": "Ramsar Wetland Sites",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/designated-ramsar-vector-test.pmtiles",
+      "bytes": 467114,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "designated-sac-vector-test",
+      "sourceMapId": "designated-sac",
+      "name": "Special Areas of Conservation (SAC)",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/designated-sac-vector-test.pmtiles",
+      "bytes": 764270,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "designated-spa-vector-test",
+      "sourceMapId": "designated-spa",
+      "name": "Special Protection Areas (SPA)",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/designated-spa-vector-test.pmtiles",
+      "bytes": 607445,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "dublin-electoral-counties-1985-vector-test",
+      "sourceMapId": "dublin-electoral-counties-1985",
+      "name": "Dublin Electoral Counties 1985",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/dublin-electoral-counties-1985-vector-test.pmtiles",
+      "bytes": 128709,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-connacht-1911-vector-test",
+      "sourceMapId": "eds-connacht-1911",
+      "name": "Connacht Electoral Divisions 1911",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/eds-connacht-1911-vector-test.pmtiles",
+      "bytes": 5941545,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-connacht-1926-vector-test",
+      "sourceMapId": "eds-connacht-1926",
+      "name": "Connacht Electoral Divisions 1926",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/eds-connacht-1926-vector-test.pmtiles",
+      "bytes": 5942880,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-leinster-1931-vector-test",
+      "sourceMapId": "eds-leinster-1931",
+      "name": "Leinster District Electoral Divisions/Wards 1931",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/eds-leinster-1931-vector-test.pmtiles",
+      "bytes": 5325274,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-leinster-1936-vector-test",
+      "sourceMapId": "eds-leinster-1936",
+      "name": "Leinster District Electoral Divisions/Wards 1936",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/eds-leinster-1936-vector-test.pmtiles",
+      "bytes": 5323018,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-leinster-1941-vector-test",
+      "sourceMapId": "eds-leinster-1941",
+      "name": "Leinster District Electoral Divisions/Wards 1941",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/eds-leinster-1941-vector-test.pmtiles",
+      "bytes": 5323672,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-leinster-1942-vector-test",
+      "sourceMapId": "eds-leinster-1942",
+      "name": "Leinster District Electoral Divisions/Wards 1942",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/eds-leinster-1942-vector-test.pmtiles",
+      "bytes": 5323468,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-leinster-1943-vector-test",
+      "sourceMapId": "eds-leinster-1943",
+      "name": "Leinster District Electoral Divisions/Wards 1943",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/eds-leinster-1943-vector-test.pmtiles",
+      "bytes": 5323589,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-leinster-1946-vector-test",
+      "sourceMapId": "eds-leinster-1946",
+      "name": "Leinster District Electoral Divisions/Wards 1946",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/eds-leinster-1946-vector-test.pmtiles",
+      "bytes": 5313706,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-leinster-1949-vector-test",
+      "sourceMapId": "eds-leinster-1949",
+      "name": "Leinster District Electoral Divisions/Wards 1949",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/eds-leinster-1949-vector-test.pmtiles",
+      "bytes": 5313721,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-leinster-1953-vector-test",
+      "sourceMapId": "eds-leinster-1953",
+      "name": "Leinster District Electoral Divisions/Wards 1953",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/eds-leinster-1953-vector-test.pmtiles",
+      "bytes": 5328946,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-leinster-1954-vector-test",
+      "sourceMapId": "eds-leinster-1954",
+      "name": "Leinster District Electoral Divisions/Wards 1954",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/eds-leinster-1954-vector-test.pmtiles",
+      "bytes": 5322845,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-leinster-1957-vector-test",
+      "sourceMapId": "eds-leinster-1957",
+      "name": "Leinster District Electoral Divisions/Wards 1957",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/eds-leinster-1957-vector-test.pmtiles",
+      "bytes": 5324861,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-leinster-1963-vector-test",
+      "sourceMapId": "eds-leinster-1963",
+      "name": "Leinster District Electoral Divisions/Wards 1963",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/eds-leinster-1963-vector-test.pmtiles",
+      "bytes": 5324801,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-leinster-1971-vector-test",
+      "sourceMapId": "eds-leinster-1971",
+      "name": "Leinster District Electoral Divisions/Wards 1971",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/eds-leinster-1971-vector-test.pmtiles",
+      "bytes": 5377761,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-leinster-1977-vector-test",
+      "sourceMapId": "eds-leinster-1977",
+      "name": "Leinster District Electoral Divisions/Wards 1977",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/eds-leinster-1977-vector-test.pmtiles",
+      "bytes": 5382183,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-roi-1921-connacht-vector-test",
+      "sourceMapId": "eds-roi-1921-connacht",
+      "name": "28 June 1921 (Southern Ireland)",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/eds-roi-1921-connacht-vector-test.pmtiles",
+      "bytes": 5947304,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-roi-1921-ulster-vector-test",
+      "sourceMapId": "eds-roi-1921-ulster",
+      "name": "28 June 1921 (Southern Ireland)",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/eds-roi-1921-ulster-vector-test.pmtiles",
+      "bytes": 3180466,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-ulster-1926-vector-test",
+      "sourceMapId": "eds-ulster-1926",
+      "name": "Ulster (ROI) Electoral Divisions 1926",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/eds-ulster-1926-vector-test.pmtiles",
+      "bytes": 3177900,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "env-noise-major-rail-lden-vector-test",
+      "sourceMapId": "env-noise-major-rail-lden",
+      "name": "Environmental Noise — Major Rail Lden (Round 3)",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/env-noise-major-rail-lden-vector-test.pmtiles",
+      "bytes": 241260,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "gsni-bedrock-by-age-vector-test",
+      "sourceMapId": "gsni-bedrock-by-age",
+      "name": "Bedrock Geology 1:250,000 (Polygons)",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/gsni-bedrock-by-age-vector-test.pmtiles",
+      "bytes": 4502692,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "gsni-bedrock-by-formation-vector-test",
+      "sourceMapId": "gsni-bedrock-by-formation",
+      "name": "Bedrock Geology 1:250,000 (Polygons)",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/gsni-bedrock-by-formation-vector-test.pmtiles",
+      "bytes": 4510848,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "gsni-superficial-by-deposit-vector-test",
+      "sourceMapId": "gsni-superficial-by-deposit",
+      "name": "Superficial Geology 1:250,000",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/gsni-superficial-by-deposit-vector-test.pmtiles",
+      "bytes": 3653752,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "gsni-superficial-conventional-vector-test",
+      "sourceMapId": "gsni-superficial-conventional",
+      "name": "Superficial Geology 1:250,000",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/gsni-superficial-conventional-vector-test.pmtiles",
+      "bytes": 3655539,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "habitat-calcareous-grassland-vector-test",
+      "sourceMapId": "habitat-calcareous-grassland",
+      "name": "Habitat Network — Calcareous Grassland",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/habitat-calcareous-grassland-vector-test.pmtiles",
+      "bytes": 653201,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "habitat-grassland-grouped-vector-test",
+      "sourceMapId": "habitat-grassland-grouped",
+      "name": "Habitat Network — Grassland Habitat Networks (grouped)",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/habitat-grassland-grouped-vector-test.pmtiles",
+      "bytes": 4785623,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "hed-scheduled-monument-areas-vector-test",
+      "sourceMapId": "hed-scheduled-monument-areas",
+      "name": "Scheduled Historic Monument Areas",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/hed-scheduled-monument-areas-vector-test.pmtiles",
+      "bytes": 1533088,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "ireland-island-vector-test",
+      "sourceMapId": "ireland-island",
+      "name": "Island of Ireland",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/ireland-island-vector-test.pmtiles",
+      "bytes": 2859763,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "lgd-1966-vector-test",
+      "sourceMapId": "lgd-1966",
+      "name": "Rural and Urban Districts 4 Jul 1966",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/lgd-1966-vector-test.pmtiles",
+      "bytes": 1075448,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "lgd-1972-vector-test",
+      "sourceMapId": "lgd-1972",
+      "name": "Local Government Districts 1972",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/lgd-1972-vector-test.pmtiles",
+      "bytes": 1090260,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "lgd-1984-vector-test",
+      "sourceMapId": "lgd-1984",
+      "name": "Local Government Districts 1984",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/lgd-1984-vector-test.pmtiles",
+      "bytes": 1060411,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "ni-1921-vector-test",
+      "sourceMapId": "ni-1921",
+      "name": "Northern Ireland 1921",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/ni-1921-vector-test.pmtiles",
+      "bytes": 748539,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "opw-fsu-catchments-gauged-vector-test",
+      "sourceMapId": "opw-fsu-catchments-gauged",
+      "name": "FSU Catchment Boundaries — Gauged 2025",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/opw-fsu-catchments-gauged-vector-test.pmtiles",
+      "bytes": 2125386,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "pc-1885-ireland-vector-test",
+      "sourceMapId": "pc-1885-ireland",
+      "name": "Parliamentary Constituencies 1885 (Ireland — all-island)",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/pc-1885-ireland-vector-test.pmtiles",
+      "bytes": 3232096,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "pc-1920-vector-test",
+      "sourceMapId": "pc-1920",
+      "name": "Parliamentary Constituencies 1920",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/pc-1920-vector-test.pmtiles",
+      "bytes": 545582,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "pc-1982-vector-test",
+      "sourceMapId": "pc-1982",
+      "name": "Parliamentary Constituencies 1982",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/pc-1982-vector-test.pmtiles",
+      "bytes": 852233,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "pc-1995-vector-test",
+      "sourceMapId": "pc-1995",
+      "name": "Parliamentary Constituencies 1995",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/pc-1995-vector-test.pmtiles",
+      "bytes": 892265,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "pc-2023-vector-test",
+      "sourceMapId": "pc-2023",
+      "name": "Parliamentary Constituencies 2023",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/pc-2023-vector-test.pmtiles",
+      "bytes": 1034309,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "local-authorities-1915-vector-test",
+      "sourceMapId": "local-authorities-1915",
+      "name": "Local Authorities 1915 (Ireland — all-island)",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/local-authorities-1915-vector-test.pmtiles",
+      "bytes": 2409896,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "local-authorities-1920-06-19-vector-test",
+      "sourceMapId": "local-authorities-1920-06-19",
+      "name": "Local Authorities 19 Jun 1920 (Ireland — all-island)",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/local-authorities-1920-06-19-vector-test.pmtiles",
+      "bytes": 2421625,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "local-authorities-1920-06-25-vector-test",
+      "sourceMapId": "local-authorities-1920-06-25",
+      "name": "Local Authorities 25 Jun 1920 (Ireland — all-island)",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/local-authorities-1920-06-25-vector-test.pmtiles",
+      "bytes": 2425682,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "local-authorities-1920-10-04-vector-test",
+      "sourceMapId": "local-authorities-1920-10-04",
+      "name": "Local Authorities 4 Oct 1920 (Ireland — all-island)",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/local-authorities-1920-10-04-vector-test.pmtiles",
+      "bytes": 2424537,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "local-authorities-1930-vector-test",
+      "sourceMapId": "local-authorities-1930",
+      "name": "Local Authorities 1930",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/local-authorities-1930-vector-test.pmtiles",
+      "bytes": 1821457,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "local-authorities-1931-vector-test",
+      "sourceMapId": "local-authorities-1931",
+      "name": "Local Authorities 1931",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/local-authorities-1931-vector-test.pmtiles",
+      "bytes": 1823460,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "local-authorities-1941-vector-test",
+      "sourceMapId": "local-authorities-1941",
+      "name": "Local Authorities 1941",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/local-authorities-1941-vector-test.pmtiles",
+      "bytes": 1823346,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "local-authorities-1942-vector-test",
+      "sourceMapId": "local-authorities-1942",
+      "name": "Local Authorities 1942",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/local-authorities-1942-vector-test.pmtiles",
+      "bytes": 1824385,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "local-authorities-1944-vector-test",
+      "sourceMapId": "local-authorities-1944",
+      "name": "Local Authorities 1944",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/local-authorities-1944-vector-test.pmtiles",
+      "bytes": 1824299,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "local-authorities-1950-vector-test",
+      "sourceMapId": "local-authorities-1950",
+      "name": "Local Authorities 1950",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/local-authorities-1950-vector-test.pmtiles",
+      "bytes": 1825377,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "local-authorities-1953-vector-test",
+      "sourceMapId": "local-authorities-1953",
+      "name": "Local Authorities 1953",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/local-authorities-1953-vector-test.pmtiles",
+      "bytes": 1826238,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "local-authorities-1955-vector-test",
+      "sourceMapId": "local-authorities-1955",
+      "name": "Local Authorities 1955",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/local-authorities-1955-vector-test.pmtiles",
+      "bytes": 1829500,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "local-authorities-1957-vector-test",
+      "sourceMapId": "local-authorities-1957",
+      "name": "Local Authorities 1957",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/local-authorities-1957-vector-test.pmtiles",
+      "bytes": 1829105,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "local-authorities-1965-vector-test",
+      "sourceMapId": "local-authorities-1965",
+      "name": "Local Authorities 1965",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/local-authorities-1965-vector-test.pmtiles",
+      "bytes": 1828356,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "local-authorities-1966-vector-test",
+      "sourceMapId": "local-authorities-1966",
+      "name": "Local Authorities 1966",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/local-authorities-1966-vector-test.pmtiles",
+      "bytes": 1829419,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "local-authorities-1977-vector-test",
+      "sourceMapId": "local-authorities-1977",
+      "name": "Local Authorities 1977",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/local-authorities-1977-vector-test.pmtiles",
+      "bytes": 1830420,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "local-authorities-1980-vector-test",
+      "sourceMapId": "local-authorities-1980",
+      "name": "Local Authorities 1980",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/local-authorities-1980-vector-test.pmtiles",
+      "bytes": 1828706,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "settlements-2005-vector-test",
+      "sourceMapId": "settlements-2005",
+      "name": "Settlements 2005",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/settlements-2005-vector-test.pmtiles",
+      "bytes": 598518,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "settlements-2015-craigavon-vector-test",
+      "sourceMapId": "settlements-2015-craigavon",
+      "name": "Settlements 2015 (inc Lurgan, Portadown and Craigavon)",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/settlements-2015-craigavon-vector-test.pmtiles",
+      "bytes": 1219368,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "settlements-2015-vector-test",
+      "sourceMapId": "settlements-2015",
+      "name": "Settlements 2015",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/settlements-2015-vector-test.pmtiles",
+      "bytes": 1209678,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "stormont-1920-v1-vector-test",
+      "sourceMapId": "stormont-1920-v1",
+      "name": "1920 NI Parliament",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/stormont-1920-v1-vector-test.pmtiles",
+      "bytes": 535007,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "stormont-1920-v2-vector-test",
+      "sourceMapId": "stormont-1920-v2",
+      "name": "1920 NI Parliament",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/stormont-1920-v2-vector-test.pmtiles",
+      "bytes": 550003,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "stormont-1920-vector-test",
+      "sourceMapId": "stormont-1920",
+      "name": "1920 NI Parliament",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/stormont-1920-vector-test.pmtiles",
+      "bytes": 533633,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "stormont-1929-vector-test",
+      "sourceMapId": "stormont-1929",
+      "name": "1929 NI Parliament",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/stormont-1929-vector-test.pmtiles",
+      "bytes": 1597011,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "ttwa-2011-vector-test",
+      "sourceMapId": "ttwa-2011",
+      "name": "Travel To Work Areas 2011",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/ttwa-2011-vector-test.pmtiles",
+      "bytes": 895636,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "wards-1972-vector-test",
+      "sourceMapId": "wards-1972",
+      "name": "Wards 1972",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/wards-1972-vector-test.pmtiles",
+      "bytes": 3793911,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "wards-1984-vector-test",
+      "sourceMapId": "wards-1984",
+      "name": "Wards 1984",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/wards-1984-vector-test.pmtiles",
+      "bytes": 3759211,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "ded-1921-05-03-vector-test",
+      "sourceMapId": "ded-1921-05-03",
+      "name": "District Electoral Divisions 3 May 1921",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/ded-1921-05-03-vector-test.pmtiles",
+      "bytes": 5455646,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "pc-1885-26-counties-vector-test",
+      "sourceMapId": "pc-1885-26-counties",
+      "name": "Parliamentary Constituencies 1885 (26 counties)",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/pc-1885-26-counties-vector-test.pmtiles",
+      "bytes": 2265756,
+      "exceedsGithubBudget": false
+    },
+    {
+      "layerId": "eds-leinster-1979-vector-test",
+      "sourceMapId": "eds-leinster-1979",
+      "name": "Leinster District Electoral Divisions/Wards 1979",
+      "sourceType": "pmtiles",
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/eds-leinster-1979-vector-test.pmtiles",
+      "bytes": 5382750,
+      "exceedsGithubBudget": false
+    },
+    {
       "layerId": "eds-connacht-1907-vector-test",
       "sourceMapId": "eds-connacht-1907",
       "name": "Connacht District Electoral Divisions 1907",
-      "sourceType": "mvt",
+      "sourceType": "pmtiles",
       "status": "converted",
       "profile": {
         "maxSize": "10000000",
@@ -34,14 +1394,14 @@
         "note": "Default correctness-first /test MVT profile."
       },
       "output": "render/pmtiles/generated/eds-connacht-1907-vector-test.pmtiles",
-      "bytes": 4637069,
+      "bytes": 4637071,
       "exceedsGithubBudget": false
     },
     {
       "layerId": "eds-leinster-1910-vector-test",
       "sourceMapId": "eds-leinster-1910",
       "name": "Leinster District Electoral Divisions/Wards 29 Apr 1910",
-      "sourceType": "mvt",
+      "sourceType": "pmtiles",
       "status": "converted",
       "profile": {
         "maxSize": "10000000",
@@ -51,14 +1411,14 @@
         "note": "Default correctness-first /test MVT profile."
       },
       "output": "render/pmtiles/generated/eds-leinster-1910-vector-test.pmtiles",
-      "bytes": 5303317,
+      "bytes": 5303087,
       "exceedsGithubBudget": false
     },
     {
       "layerId": "eds-leinster-1919-vector-test",
       "sourceMapId": "eds-leinster-1919",
       "name": "Leinster District Electoral Divisions/Wards 1919",
-      "sourceType": "mvt",
+      "sourceType": "pmtiles",
       "status": "converted",
       "profile": {
         "maxSize": "10000000",
@@ -68,14 +1428,14 @@
         "note": "Default correctness-first /test MVT profile."
       },
       "output": "render/pmtiles/generated/eds-leinster-1919-vector-test.pmtiles",
-      "bytes": 5312592,
+      "bytes": 5312373,
       "exceedsGithubBudget": false
     },
     {
       "layerId": "eds-munster-1907-vector-test",
       "sourceMapId": "eds-munster-1907",
       "name": "Munster District Electoral Divisions/Wards Apr 1907",
-      "sourceType": "mvt",
+      "sourceType": "pmtiles",
       "status": "converted",
       "profile": {
         "maxSize": "10000000",
@@ -85,14 +1445,14 @@
         "note": "Default correctness-first /test MVT profile."
       },
       "output": "render/pmtiles/generated/eds-munster-1907-vector-test.pmtiles",
-      "bytes": 7156771,
+      "bytes": 7156547,
       "exceedsGithubBudget": false
     },
     {
       "layerId": "eds-ulster-1912-vector-test",
       "sourceMapId": "eds-ulster-1912",
       "name": "Ulster District Electoral Divisions/Wards 1912",
-      "sourceType": "mvt",
+      "sourceType": "pmtiles",
       "status": "converted",
       "profile": {
         "maxSize": "10000000",
@@ -102,14 +1462,14 @@
         "note": "Default correctness-first /test MVT profile."
       },
       "output": "render/pmtiles/generated/eds-ulster-1912-vector-test.pmtiles",
-      "bytes": 7225280,
+      "bytes": 7225281,
       "exceedsGithubBudget": false
     },
     {
       "layerId": "eds-ulster-1913-vector-test",
       "sourceMapId": "eds-ulster-1913",
       "name": "Ulster District Electoral Divisions/Wards 1913",
-      "sourceType": "mvt",
+      "sourceType": "pmtiles",
       "status": "converted",
       "profile": {
         "maxSize": "10000000",
@@ -119,14 +1479,14 @@
         "note": "Default correctness-first /test MVT profile."
       },
       "output": "render/pmtiles/generated/eds-ulster-1913-vector-test.pmtiles",
-      "bytes": 7228929,
+      "bytes": 7228941,
       "exceedsGithubBudget": false
     },
     {
       "layerId": "eds-ulster-1914-vector-test",
       "sourceMapId": "eds-ulster-1914",
       "name": "Ulster District Electoral Divisions/Wards 1914",
-      "sourceType": "mvt",
+      "sourceType": "pmtiles",
       "status": "converted",
       "profile": {
         "maxSize": "10000000",
@@ -136,14 +1496,14 @@
         "note": "Default correctness-first /test MVT profile."
       },
       "output": "render/pmtiles/generated/eds-ulster-1914-vector-test.pmtiles",
-      "bytes": 7234002,
+      "bytes": 7234005,
       "exceedsGithubBudget": false
     },
     {
       "layerId": "eds-ulster-1915-vector-test",
       "sourceMapId": "eds-ulster-1915",
       "name": "Ulster District Electoral Divisions/Wards 1915",
-      "sourceType": "mvt",
+      "sourceType": "pmtiles",
       "status": "converted",
       "profile": {
         "maxSize": "10000000",
@@ -153,14 +1513,14 @@
         "note": "Default correctness-first /test MVT profile."
       },
       "output": "render/pmtiles/generated/eds-ulster-1915-vector-test.pmtiles",
-      "bytes": 7223579,
+      "bytes": 7223592,
       "exceedsGithubBudget": false
     },
     {
       "layerId": "eds-ulster-1916-vector-test",
       "sourceMapId": "eds-ulster-1916",
       "name": "Ulster District Electoral Divisions/Wards 1916",
-      "sourceType": "mvt",
+      "sourceType": "pmtiles",
       "status": "converted",
       "profile": {
         "maxSize": "10000000",
@@ -170,14 +1530,14 @@
         "note": "Default correctness-first /test MVT profile."
       },
       "output": "render/pmtiles/generated/eds-ulster-1916-vector-test.pmtiles",
-      "bytes": 7226829,
+      "bytes": 7227015,
       "exceedsGithubBudget": false
     },
     {
       "layerId": "eds-ulster-1921-nine-county-vector-test",
       "sourceMapId": "eds-ulster-1921-nine-county",
       "name": "Ulster (nine counties) District Electoral Divisions/Wards 1921",
-      "sourceType": "mvt",
+      "sourceType": "pmtiles",
       "status": "converted",
       "profile": {
         "maxSize": "10000000",
@@ -187,7 +1547,7 @@
         "note": "Default correctness-first /test MVT profile."
       },
       "output": "render/pmtiles/generated/eds-ulster-1921-nine-county-vector-test.pmtiles",
-      "bytes": 7261371,
+      "bytes": 7261541,
       "exceedsGithubBudget": false
     }
   ],

@@ -65,21 +65,26 @@ for (const layer of layers) {
     ...unique([...(fidId ? [] : [effectiveIdProperty]), ...nameProperties, ...featureRepairProperties(layer)])
       .map((key) => `${quoteSqlIdentifier(key)} AS ${quoteSqlIdentifier(key)}`)
   ];
-  const columns = featureIndexColumns(layer, propertyColumns);
   const where = featureIndexWhere(layer);
-  const result = spawnSync('ogr2ogr', [
+  const runQuery = (epsg) => spawnSync('ogr2ogr', [
     '-f', 'CSV',
     '/vsistdout/',
     sourcePath,
     '-dialect',
     'SQLite',
     '-sql',
-    `SELECT ${columns} FROM ${quoteSqlIdentifier(sourceLayerName)}${where}`
+    `SELECT ${featureIndexColumns(layer, propertyColumns, epsg)} FROM ${quoteSqlIdentifier(sourceLayerName)}${where}`
   ], {
     cwd: ROOT,
     encoding: 'utf8',
     maxBuffer: 96 * 1024 * 1024
   });
+  let result = runQuery(sourceInfo.epsg);
+  // The whole-feature measurement is extra; a source it cannot handle still gets its index.
+  if (result.status !== 0 && wholeFeatureMetricColumns(layer, sourceInfo.epsg).length) {
+    console.warn(`${layer.id}: whole-feature area not measurable; building the index without it`);
+    result = runQuery(null);
+  }
   if (result.status !== 0) {
     console.error(`${layer.id}: ${result.error?.message || result.stderr || result.stdout || 'ogr2ogr failed'}`);
     process.exit(result.status || 1);
@@ -94,11 +99,15 @@ for (const layer of layers) {
         .find(Boolean) || fallbackFeatureName(layer, repairedProps, index);
       const lon = Number(props.lon);
       const lat = Number(props.lat);
+      const areaM2 = props.area_m2 === '' ? NaN : Number(props.area_m2);
+      const perimeterM = props.perimeter_m === '' ? NaN : Number(props.perimeter_m);
       return {
         id: fidId ? Number(props.civ_fid) : (cleanIndexValue(repairedProps[effectiveIdProperty]) || `${layer.id}-${index}`),
         name,
         aliases: nameProperties.map((key) => cleanIndexValue(repairedProps[key])).filter(Boolean),
-        center: Number.isFinite(lon) && Number.isFinite(lat) ? [Number(lon.toFixed(6)), Number(lat.toFixed(6))] : null
+        center: Number.isFinite(lon) && Number.isFinite(lat) ? [Number(lon.toFixed(6)), Number(lat.toFixed(6))] : null,
+        ...(areaM2 > 0 ? { areaM2: Math.round(areaM2) } : {}),
+        ...(perimeterM > 0 ? { perimeterM: Math.round(perimeterM) } : {})
       };
     })
     .filter((item) => item.id !== undefined && item.name);
@@ -120,7 +129,7 @@ function guessNameProperties(properties) {
   return properties.filter((key) => /name|label|title|english|gaeilge|irish|county|sett|lea|district|division|region/i.test(key));
 }
 
-function featureIndexColumns(layer, propertyColumns) {
+function featureIndexColumns(layer, propertyColumns, epsg) {
   if (layer.sourceMapId === 'dcc-dcc-public-cycle-parking-stands') {
     return [
       ...propertyColumns,
@@ -131,8 +140,24 @@ function featureIndexColumns(layer, propertyColumns) {
   return [
     ...propertyColumns,
     'ST_X(ST_Centroid(geometry)) AS lon',
-    'ST_Y(ST_Centroid(geometry)) AS lat'
+    'ST_Y(ST_Centroid(geometry)) AS lat',
+    ...wholeFeatureMetricColumns(layer, epsg)
   ].join(',');
+}
+
+// A click on a tiled polygon only ever sees the piece in one tile: MapLibre returns a
+// single fragment per promoted id, so the details pane could only say "Part area" (1920
+// Down read 711 km2 of about 2,615). The whole feature's geodesic area and perimeter are
+// measured here from the source instead, and the pane uses them when the clicked
+// geometry is clipped. ST_MakeValid because a self-intersecting ring measures wrongly.
+// Only for a source whose CRS is a known EPSG code: geodesic measurement needs lon/lat,
+// and ST_Transform on an SRID-0 source throws and aborts the whole run (ni-1921 did).
+function wholeFeatureMetricColumns(layer, epsg) {
+  const geom = String(layer.geometryType || '').toLowerCase();
+  if (geom !== 'polygon' && geom !== 'multipolygon') return [];
+  if (!Number.isInteger(epsg) || epsg <= 0) return [];
+  const valid = epsg === 4326 ? 'ST_MakeValid(geometry)' : `ST_Transform(ST_MakeValid(geometry), 4326)`;
+  return [`ST_Area(${valid}, 1) AS area_m2`, `ST_Perimeter(${valid}, 1) AS perimeter_m`];
 }
 
 function featureIndexWhere(layer) {
@@ -203,15 +228,17 @@ function getSourceInfo(sourcePath) {
     encoding: 'utf8',
     maxBuffer: 32 * 1024 * 1024
   });
-  if (result.status !== 0) return { fields: new Set(), layerNames: [] };
+  if (result.status !== 0) return { fields: new Set(), layerNames: [], epsg: null };
   try {
     const payload = JSON.parse(result.stdout);
+    const crsId = payload.layers?.[0]?.geometryFields?.[0]?.coordinateSystem?.projjson?.id;
     return {
       fields: new Set((payload.layers?.[0]?.fields || []).map((field) => field.name).filter(Boolean)),
-      layerNames: (payload.layers || []).map((layer) => layer.name).filter(Boolean)
+      layerNames: (payload.layers || []).map((layer) => layer.name).filter(Boolean),
+      epsg: crsId?.authority === 'EPSG' ? Number(crsId.code) : null
     };
   } catch {
-    return { fields: new Set(), layerNames: [] };
+    return { fields: new Set(), layerNames: [], epsg: null };
   }
 }
 

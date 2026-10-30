@@ -319,6 +319,7 @@ function buildArchiveOnce(layer, sourcePath, outputPath, profile, srsOptions, op
       ...getFailureOptions(layer.sourceMapId || layer.id),
       ...srsOptions,
       ...(opts.noSourceQuery ? [] : sourceQueryOptions(layer, sourcePath)),
+      ...validityOptions(layer),
       '-dsco', `MINZOOM=${Number(layer.minzoom ?? 0)}`,
       '-dsco', `MAXZOOM=${Number(layer.maxzoom ?? 12)}`,
       '-dsco', `MAX_SIZE=${profile.maxSize}`,
@@ -356,6 +357,7 @@ function buildArchiveOnce(layer, sourcePath, outputPath, profile, srsOptions, op
     ...getFailureOptions(layer.sourceMapId || layer.id),
     ...srsOptions,
     ...(opts.noSourceQuery ? [] : sourceQueryOptions(layer, sourcePath)),
+      ...validityOptions(layer),
     '-dsco', `MINZOOM=${Number(layer.minzoom ?? 0)}`,
     '-dsco', `MAXZOOM=${Number(layer.maxzoom ?? 12)}`,
     '-dsco', `MAX_SIZE=${profile.maxSize}`,
@@ -558,7 +560,8 @@ function buildAttributePrunedArchive(layer, sourcePath, outputPath, profile, col
 
   const low = spawnSync(tools.ogr2ogr, [
     ...mbtilesArgs({ outputPath: lowMbtiles, sourcePath, minzoom, maxzoom: cutoff, profile, layerName }),
-    '-sql', lowSql
+    '-sql', lowSql,
+    ...validityOptions(layer)
   ], { cwd: ROOT, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
   if (low.status !== 0 || !existsSync(lowMbtiles)) {
     rmSync(lowMbtiles, { force: true });
@@ -567,7 +570,8 @@ function buildAttributePrunedArchive(layer, sourcePath, outputPath, profile, col
 
   const high = spawnSync(tools.ogr2ogr, [
     ...mbtilesArgs({ outputPath: highMbtiles, sourcePath, minzoom: cutoff + 1, maxzoom, profile, layerName }),
-    '-sql', highSql
+    '-sql', highSql,
+    ...validityOptions(layer)
   ], { cwd: ROOT, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
   if (high.status !== 0 || !existsSync(highMbtiles)) {
     rmSync(lowMbtiles, { force: true });
@@ -803,6 +807,18 @@ function sourceQueryOptions(layer, sourcePath) {
   const srcLayer = resolveSourceLayerName(sourcePath);
   if (!srcLayer) return [];
   return ['-sql', `SELECT FID AS civ_fid, * FROM "${srcLayer.replace(/"/g, '""')}"`];
+}
+
+// An invalid polygon (a self-intersecting or self-touching ring) survives in the source
+// but not in the tiles: once the MVT writer clips it to a tile edge, the clipped ring can
+// come out wound the wrong way, and MapLibre then draws no fill there. The 1920 Down
+// constituency filled one tile column of the Ards and nothing west of it, so most of the
+// county could not be clicked. 100 of the 290 polygon sources had at least one such
+// feature. -makevalid repairs each geometry as it is read and then drops any stray line or
+// point pieces the repair leaves, so feature order (and with it civ_fid) is unchanged.
+function validityOptions(layer) {
+  const geom = String(layer.geometryType || '').toLowerCase();
+  return geom === 'polygon' || geom === 'multipolygon' ? ['-makevalid'] : [];
 }
 
 function getFailureOptions(sourceMapId) {

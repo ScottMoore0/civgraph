@@ -7926,6 +7926,10 @@ class UIController {
             // "Part perimeter" -- the same words renderTimelineTransitionFeatureInfo uses
             // for the same reason a few hundred lines above.
             let metricsArePartial = false;
+            // Whole-feature figures measured from the source at build time (feature index),
+            // attached by the map adapter. In km, the same units the clipped path produces.
+            if (!area && Number(feature.wholeAreaM2) > 0) area = Number(feature.wholeAreaM2) / 1e6;
+            if (!perimeter && Number(feature.wholePerimeterM) > 0) perimeter = Number(feature.wholePerimeterM) / 1000;
             if (geometry && (!area || !perimeter)) {
                 const metrics = this.calculateGeodesicMetrics(geometry);
                 if (!area && metrics.area) {

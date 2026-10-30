@@ -27,7 +27,7 @@
   "previousKey": "parliament-of-northern-ireland__1958-03-20",
   "previousDate": "1958-03-20",
   "loadable": true,
-  "displaySubtitle": "49 constituencies; 1 unmatched",
+  "displaySubtitle": "49 constituencies",
   "displayProvider": "Parliament of Northern Ireland",
   "constituencies": [
     "Antrim Borough",
@@ -82,11 +82,9 @@
   ],
   "isByElection": false,
   "totalConstituencies": 49,
-  "matchedCount": 48,
-  "unmatchedCount": 1,
-  "unmatchedConstituencies": [
-    "Antrim Borough"
-  ],
+  "matchedCount": 49,
+  "unmatchedCount": 0,
+  "unmatchedConstituencies": [],
   "availableStyleModes": [
     "winner",
     "leadingParty",
@@ -5303,13 +5301,29 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1962-05-31/antrim-borough.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "anchor": null,
+      "featureId": "19",
+      "featureName": "ANTRIM",
+      "featureAliases": [
+        "ANTRIM",
+        "ANTRIM"
+      ],
+      "matchName": "ANTRIM",
+      "anchor": {
+        "center": [
+          -6.174062,
+          54.692362
+        ],
+        "bounds": {
+          "west": -6.426,
+          "south": 54.552588,
+          "east": -5.922125,
+          "north": 54.832137
+        },
+        "method": "largest-ring-bounds-center",
+        "area": 0.08443377043428027
+      },
       "syntheticRegion": null,
-      "matched": false
+      "matched": true
     },
     {
       "constituency": "Ards",
