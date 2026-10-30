@@ -1883,7 +1883,7 @@ export class TestMapLibreController {
     if (sidecarUrl) {
       const cacheKey = `sidecar:${sidecarUrl}`;
       if (!this.duplicateFeatureIdCache.has(cacheKey)) {
-        this.duplicateFeatureIdCache.set(cacheKey, fetch(sidecarUrl, { cache: 'force-cache' })
+        this.duplicateFeatureIdCache.set(cacheKey, fetch(sidecarUrl, { cache: 'default' })
           .then((response) => response.ok ? response.json() : null)
           .then((sidecar) => new Set((sidecar?.duplicateFeatureIds || []).map(String)))
           .catch(() => new Set()));
@@ -1894,7 +1894,7 @@ export class TestMapLibreController {
     if (!url) return new Set();
     const cacheKey = `index:${url}`;
     if (!this.duplicateFeatureIdCache.has(cacheKey)) {
-      this.duplicateFeatureIdCache.set(cacheKey, fetch(url, { cache: 'force-cache' })
+      this.duplicateFeatureIdCache.set(cacheKey, fetch(url, { cache: 'default' })
         .then((response) => response.ok ? response.json() : null)
         .then((index) => {
           const items = Array.isArray(index)

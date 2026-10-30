@@ -1407,16 +1407,57 @@ export class Test2MapLibreMainAdapter {
     };
   }
 
-  handleSelection(selection) {
+  async handleSelection(selection) {
     if (!selection) return;
+    const token = (this.selectionToken = (this.selectionToken || 0) + 1);
     const mainId = this.testToMain.get(selection.layer.id) || selection.layer.sourceMapId || selection.layer.id;
     const state = this.layerStates.get(mainId);
     const record = this.renderer?.layers.get(state?.testLayerId || selection.layer.id);
     const feature = this.normalizeRenderedFeature(selection.feature, mainId, state, record);
+    const metrics = await this.wholeFeatureMetrics(record?.config || selection.layer, feature);
+    if (token !== this.selectionToken) return;
+    if (metrics) Object.assign(feature, metrics);
     const enrichedFeature = this.options.enrichFeature?.(feature, selection) || feature;
     const features = [enrichedFeature];
     this.onFeatureClick?.(features);
     this.options.onFeatureClick?.(features);
+  }
+
+  // The clicked geometry is one tile's piece of the polygon (see normalizeRenderedFeature),
+  // so its own area is only "Part area". The feature index carries the whole feature's
+  // geodesic area and perimeter, measured from the source at build time; match the click
+  // to its item by id, or by name where the name is unique. Bounded wait: a slow index
+  // fetch falls back to the part figures rather than holding up the details pane.
+  async wholeFeatureMetrics(layerConfig, feature) {
+    const url = layerConfig?.featureIndexUrl;
+    const geom = String(layerConfig?.geometryType || '').toLowerCase();
+    if (!url || !feature || (geom !== 'polygon' && geom !== 'multipolygon')) return null;
+    this.featureMetricIndexes ||= new Map();
+    if (!this.featureMetricIndexes.has(url)) {
+      this.featureMetricIndexes.set(url, fetch(url, { cache: 'default' })
+        .then((response) => (response.ok ? response.json() : null))
+        .then((index) => {
+          const byId = new Map();
+          const byName = new Map();
+          for (const item of index?.items || []) {
+            if (!(item?.areaM2 > 0)) continue;
+            byId.set(String(item.id), item);
+            const name = normalizeSearchValue(item.name);
+            byName.set(name, byName.has(name) ? null : item);
+          }
+          return { byId, byName };
+        })
+        .catch(() => ({ byId: new Map(), byName: new Map() })));
+    }
+    const lookup = await Promise.race([
+      this.featureMetricIndexes.get(url),
+      new Promise((resolve) => setTimeout(() => resolve(null), 2000))
+    ]);
+    if (!lookup) return null;
+    const item = lookup.byId.get(String(feature.id))
+      || lookup.byName.get(normalizeSearchValue(feature.featureName))
+      || null;
+    return item ? { wholeAreaM2: item.areaM2, wholePerimeterM: item.perimeterM } : null;
   }
 }
 

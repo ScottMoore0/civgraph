@@ -69,7 +69,7 @@ function electionBundleUrl(entry) {
  */
 async function loadProvenanceShard(key) {
     try {
-        const response = await fetch(`/render/metadata/election-provenance/${encodeURIComponent(key)}.json`, { cache: 'force-cache' });
+        const response = await fetch(`/render/metadata/election-provenance/${encodeURIComponent(key)}.json`, { cache: 'default' });
         if (!response.ok) return null;
         const shard = await response.json();
         return shard?.contests || null;
@@ -264,7 +264,7 @@ export class Test2ElectionManager {
   }
 
   async load() {
-    const response = await fetch(ELECTION_MANIFEST_URL, { cache: 'force-cache' });
+    const response = await fetch(ELECTION_MANIFEST_URL, { cache: 'default' });
     if (!response.ok) throw new Error(`Failed to load the MapLibre election catalogue: ${response.status}`);
     this.catalogue = await response.json();
     return this.catalogue;
@@ -533,14 +533,14 @@ export class Test2ElectionManager {
 
   async loadBundle(entry) {
     if (this.bundleCache.has(entry.key)) return this.bundleCache.get(entry.key);
-    let response = await fetch(electionBundleUrl(entry), { cache: 'force-cache' });
+    let response = await fetch(electionBundleUrl(entry), { cache: 'default' });
     // Fall back to the static bundle if the API is unavailable. The bundles are still
     // deployed, so an API outage degrades to the previous behaviour rather than
     // breaking the election viewer outright.
     if (!response.ok && useElectionsApi()) {
       console.warn(`[test2 elections] elections API returned ${response.status} for ${entry.key}; falling back to the static bundle`);
       reportElectionsApiIssue('elections-api-fallback', `bundle fetch returned ${response.status}`, entry.key);
-      response = await fetch(`${entry.resultUrl}?v=test-023`, { cache: 'force-cache' });
+      response = await fetch(`${entry.resultUrl}?v=test-023`, { cache: 'default' });
     }
     if (!response.ok) throw new Error(`Failed to load election results for ${entry.body} ${entry.date}: ${response.status}`);
     const bundle = await response.json();
@@ -560,11 +560,11 @@ export class Test2ElectionManager {
       } else if (this.bundleCache.has(entry.key)) {
         bundle = this.bundleCache.get(entry.key);
       } else {
-        let response = await fetch(electionBundleUrl(entry), { cache: 'force-cache' });
+        let response = await fetch(electionBundleUrl(entry), { cache: 'default' });
         // Same fallback as loadBundle: the static bundles are always deployed, so an API
         // miss (or a local static server with no API at all) still yields a full history.
         if (!response.ok && useElectionsApi()) {
-          response = await fetch(`${entry.resultUrl}?v=test-023`, { cache: 'force-cache' });
+          response = await fetch(`${entry.resultUrl}?v=test-023`, { cache: 'default' });
         }
         if (!response.ok) throw new Error(`Failed to load trend data for ${entry.body} ${entry.date}: ${response.status}`);
         bundle = await response.json();
@@ -3635,7 +3635,7 @@ export class Test2ElectionManager {
     try {
       const response = await fetch(
         `/_api/elections?key=${encodeURIComponent(key)}&constituency=${seq}`,
-        { cache: 'force-cache' }
+        { cache: 'default' }
       );
       if (!response.ok) {
         reportElectionsApiIssue('elections-api-animation-failed', `constituency fetch returned ${response.status}`, `${key}#${seq}`);
@@ -4693,7 +4693,7 @@ export class Test2ElectionManager {
     const url = resolvedLayer?.featureIndexUrl;
     if (!url) return null;
     if (this.featureIndexCache.has(url)) return this.featureIndexCache.get(url);
-    const response = await fetch(url, { cache: 'force-cache' });
+    const response = await fetch(url, { cache: 'default' });
     if (!response.ok) return null;
     const raw = await response.json();
     const index = {

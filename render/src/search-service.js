@@ -34,7 +34,7 @@ export class FeatureSearchService {
 
   async loadIndex(layer) {
     if (this.featureIndexes.has(layer.id)) return this.featureIndexes.get(layer.id);
-    const response = await fetch(layer.featureIndexUrl, { cache: 'force-cache' });
+    const response = await fetch(layer.featureIndexUrl, { cache: 'default' });
     if (!response.ok) return [];
     const payload = await response.json();
     const items = Array.isArray(payload) ? payload : payload.items || [];
