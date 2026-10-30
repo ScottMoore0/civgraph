@@ -618,7 +618,10 @@ if (CHECK) {
   }
   console.log(`\nelection provenance is up to date (${shards.size} per-election shards).`);
 } else {
-  writeFileSync(OUT, `${JSON.stringify(doc, null, 1)}\n`);
+  // Unchanged but for its timestamp, the file is left as it is: rewritten on every build, it
+  // made every commit carry a provenance change and every Pages deploy rebuild for nothing.
+  const previous = existsSync(OUT) ? readJson(OUT) : null;
+  if (!previous || stable(previous) !== stable(doc)) writeFileSync(OUT, `${JSON.stringify(doc, null, 1)}\n`);
   mkdirSync(SHARD_DIR, { recursive: true });
   const wanted = new Set([...shards.keys()].map((k) => `${k}.json`));
   for (const f of shardFiles()) {
