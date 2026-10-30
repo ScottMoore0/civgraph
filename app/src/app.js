@@ -2733,7 +2733,8 @@ class Test2App {
     const activeIndex = items.findIndex((item) => item.timestamp === currentTimestamp);
     this.setTimelineItems(items, activeIndex >= 0 ? activeIndex : items.length - 1, async (item, index) => {
       this.timelineAnimation.currentIndex = this.clampTimelineIndex(index);
-      await this.applyTimelineTimestamp(item.timestamp);
+      // Stepping through time keeps the reader's zoom and position; only opening a map fits it.
+      await this.applyTimelineTimestamp(item.timestamp, { fit: false });
     });
   }
 

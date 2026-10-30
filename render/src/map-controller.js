@@ -941,12 +941,14 @@ export class TestMapLibreController {
     };
   }
 
-  async loadLayer(layer) {
+  // fit: false keeps the camera where it is (the timeline stepping between editions or
+  // elections); the caller fits instead when it wants to.
+  async loadLayer(layer, { fit = true } = {}) {
     if (layer.loadable === false || layer.sourceType === 'unconverted') {
       throw new Error(`${layer.name} is not yet converted for the /test MapLibre renderer`);
     }
     if (this.layers.has(layer.id)) {
-      this.fitToLayer(layer.id);
+      if (fit) this.fitToLayer(layer.id);
       return;
     }
 
@@ -1023,7 +1025,7 @@ export class TestMapLibreController {
     }
     this.reorderFromSavedLayerOrder();
     this.scheduleAllDomLabelRefresh();
-    this.fitToLayer(layer.id);
+    if (fit) this.fitToLayer(layer.id);
     this.recordMetric({
       layerId: layer.id,
       layerName: layer.name,

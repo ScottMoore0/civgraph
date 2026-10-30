@@ -306,7 +306,9 @@ export class Test2ElectionManager {
     return `${Number.isFinite(total) ? total : 0} constituencies`;
   }
 
-  async loadElection(body, date) {
+  /** keepView: leave the camera where the reader has it (stepping along the timeline);
+   * otherwise the map is fitted to the election, as when it is first opened. */
+  async loadElection(body, date, { keepView = false } = {}) {
     const requestId = ++this.loadSerial;
     const entry = this.findEntry(body, date);
     if (!entry) throw new Error(`Election not found: ${body} ${date}`);
@@ -320,7 +322,7 @@ export class Test2ElectionManager {
 
     this.renderLoadingPanel(entry);
     // Results-only: there is no boundary layer for this year, so nothing is added to the map.
-    const mapPromise = entry.resultsOnly ? Promise.resolve(null) : this.app.loadMap(entry.sourceMapId);
+    const mapPromise = entry.resultsOnly ? Promise.resolve(null) : this.app.loadMap(entry.sourceMapId, { fit: !keepView });
     const bundlePromise = this.loadBundle(entry);
     const previousBundlePromise = this.loadPreviousBundle(entry);
     const featureIndexPromise = bundlePromise
@@ -364,7 +366,7 @@ export class Test2ElectionManager {
     // the camera keeps its zoom, so the view loses 2.3 degrees of latitude and the
     // southern third of an all-island election falls outside it. Re-fit now that the
     // pane has taken its space.
-    if (entry.sourceMapId) this.app.refitAfterElectionPane?.(entry.sourceMapId);
+    if (entry.sourceMapId && !keepView) this.app.refitAfterElectionPane?.(entry.sourceMapId);
     this.app.focusActiveElectionCatalogueEntry?.(entry, { scroll: false });
     this.app.updateURLState();
   }
@@ -4836,7 +4838,7 @@ export class Test2ElectionManager {
       minor: entry.kind === 'by-election',
       sublabel: timelineStopName(entry)
     })), activeIndex >= 0 ? activeIndex : entries.length - 1, async (item) => {
-      await this.loadElection(item.body, item.date);
+      await this.loadElection(item.body, item.date, { keepView: true });
     }, { generalsFilter: { available, active: generalsOnly } });
   }
 
