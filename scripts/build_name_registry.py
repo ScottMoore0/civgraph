@@ -33,6 +33,7 @@ we do not know who it was.
 
 Output: data/elections/persons/name_registry.json, alias_candidates.csv
 """
+import functools
 import os, re, sys, json, glob, csv, argparse, collections, unicodedata
 
 from generated_json import dump_generated_json
@@ -50,6 +51,9 @@ PARTICLES = {'de', 'la', 'le', 'van', 'von', 'mac', 'mc', 'ni', 'ui', 'o', 'jr',
              'sr', 'jnr'}
 
 
+# Memoised: the alias-candidate pass compares names pairwise and called this five million
+# times on about 11,000 distinct strings (37 of the run's 49 seconds).
+@functools.lru_cache(maxsize=None)
 def norm(s):
     t = unicodedata.normalize('NFKD', str(s or '').strip())
     t = ''.join(c for c in t if not unicodedata.combining(c))
@@ -119,7 +123,9 @@ def main():
             tk[t]['candidacies'] += e['candidacies']
             tk[t]['persons'].update(e['persons'])
     toks = []
-    for t, v in sorted(tk.items(), key=lambda kv: -kv[1]['candidacies']):
+    # Ties broken by the token itself: they otherwise fell back to the order of a set,
+    # which Python randomises per run, so 619 lines of name_registry.json moved every build.
+    for t, v in sorted(tk.items(), key=lambda kv: (-kv[1]['candidacies'], kv[0])):
         toks.append({'id': 't-' + slug(t), 'token': t, 'names': v['names'],
                      'candidacies': v['candidacies'], 'persons': len(v['persons']),
                      'kind': 'particle' if t.lower() in PARTICLES else 'word',
@@ -180,7 +186,7 @@ def main():
                              'tokenOverlap': round(sim, 2),
                              'signal': 'near-identical strings split across persons '
                                        '(formatting alias, not a name change)'})
-    cand.sort(key=lambda c: -c['tokenOverlap'])
+    cand.sort(key=lambda c: (-c['tokenOverlap'], c['nameA'], c['nameB']))
 
     doc = {'schemaVersion': 1,
            'description': 'Names as first-class entities beside persons. A name is what '

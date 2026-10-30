@@ -165,6 +165,27 @@ def observations():
     return obs
 
 
+def write_json_retrying(path, doc, attempts=40):
+    """Write via a temporary file and swap it in, retrying briefly if Windows holds the target.
+
+    Opening person_registry.json for writing straight after the previous step wrote it failed
+    with "[Errno 22] Invalid argument" on most runs -- a scanner or sync client holding the
+    new file -- and the shell wrapper then waited five seconds and re-ran the whole script.
+    """
+    import time
+    tmp = f'{path}.tmp'
+    with open(tmp, 'w', encoding='utf-8', newline='\n') as fh:
+        json.dump(doc, fh, ensure_ascii=False, indent=1)
+    for attempt in range(attempts):
+        try:
+            os.replace(tmp, path)
+            return
+        except OSError:
+            if attempt == attempts - 1:
+                raise
+            time.sleep(0.25)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--check', action='store_true')
@@ -497,7 +518,7 @@ def main():
     reg['corrections']['classes'] = dict(collections.Counter(m['class'] for m in merges))
     reg['corrections']['note'] = ('Only the two mechanically-caused classes were merged; '
                                   'see scripts/merge_person_ids.py for the tests applied.')
-    json.dump(reg, open(REG, 'w', encoding='utf-8', newline='\n'), ensure_ascii=False, indent=1)
+    write_json_retrying(REG, reg)
     with open(LOG, 'w', encoding='utf-8', newline='') as fh:
         w = csv.DictWriter(fh, fieldnames=list(merges[0].keys()))
         w.writeheader(); w.writerows(merges)

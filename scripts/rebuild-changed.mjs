@@ -70,7 +70,7 @@ if (mode === 'app') {
   plan.push(['node', ['scripts/promote-test2-root.mjs']]);
   plan.push(['node', ['scripts/run-checks.mjs', '--only', APP_CHECKS]]);
   // src/ holds the catalogue renderer too (ui-controller, data-service), so its tests run as well.
-  if (meaningful.some((file) => /^src//.test(file))) plan.push(['npm', ['run', '-s', 'test:catalogue']]);
+  if (meaningful.some((file) => file.startsWith('src/'))) plan.push(['npm', ['run', '-s', 'test:catalogue']]);
 } else if (mode === 'data') {
   if (electionData || forceFull) plan.push(['bash', ['scripts/rebuild-person-ids.sh']]);
   plan.push(['node', ['scripts/build-election-provenance.mjs']]);
