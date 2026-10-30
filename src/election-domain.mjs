@@ -25,7 +25,22 @@ const DEFAULT_PARTY_COLOURS = new Map([
   ['leave', '#d46a4c']
 ]);
 
+// Memoised: a pure string function called hundreds of thousands of times on a few thousand
+// distinct names (the largest single cost of the election manifest build). The cache lives on
+// the function so it exists however early the module calls it.
 export function normalizeName(value) {
+  if (typeof value !== 'string') return normalizeNameUncached(value);
+  const cache = normalizeName.cache || (normalizeName.cache = new Map());
+  let result = cache.get(value);
+  if (result === undefined) {
+    if (cache.size > 200000) cache.clear();
+    result = normalizeNameUncached(value);
+    cache.set(value, result);
+  }
+  return result;
+}
+
+export function normalizeNameUncached(value) {
   return String(value ?? '')
     .normalize('NFKD')
     .replace(/[\u0300-\u036f]/g, '')
