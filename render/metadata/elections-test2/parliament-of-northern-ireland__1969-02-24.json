@@ -15,19 +15,19 @@
   "localBodyByConstituency": null,
   "date": "1969-02-24",
   "year": 1969,
-  "sourceMapId": "stormont-1929",
-  "layerId": "stormont-1929-vector-test",
+  "sourceMapId": "stormont-1969",
+  "layerId": "stormont-1969-vector-test",
   "labelProperty": "NAME",
   "councilSourceMapId": null,
   "councilLayerId": null,
   "councilLabelProperty": null,
   "councilGeometryType": null,
   "geometryType": "polygon",
-  "anchorUrl": "/render/metadata/election-anchors-test2/stormont-1929-vector-test.json",
+  "anchorUrl": "/render/metadata/election-anchors-test2/stormont-1969-vector-test.json",
   "previousKey": "parliament-of-northern-ireland__1965-11-25",
   "previousDate": "1965-11-25",
   "loadable": true,
-  "displaySubtitle": "52 constituencies; 5 unmatched",
+  "displaySubtitle": "52 constituencies; 1 unmatched",
   "displayProvider": "Parliament of Northern Ireland",
   "constituencies": [
     "Antrim Borough",
@@ -85,14 +85,10 @@
   ],
   "isByElection": false,
   "totalConstituencies": 52,
-  "matchedCount": 47,
-  "unmatchedCount": 5,
+  "matchedCount": 51,
+  "unmatchedCount": 1,
   "unmatchedConstituencies": [
-    "Antrim Borough",
-    "Bangor",
-    "Lagan Valley",
-    "Larkfield",
-    "Newtownabbey"
+    "Antrim Borough"
   ],
   "availableStyleModes": [
     "winner",
@@ -7829,7 +7825,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/ards.json",
-      "featureId": "30",
+      "featureId": "31",
       "featureName": "ARDS",
       "featureAliases": [
         "ARDS",
@@ -7848,7 +7844,7 @@
           "north": 54.677674
         },
         "method": "largest-ring-bounds-center",
-        "area": 0.031950078801747946
+        "area": 0.031950078801747904
       },
       "syntheticRegion": null,
       "matched": true
@@ -8071,13 +8067,29 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/bangor.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "anchor": null,
+      "featureId": "34",
+      "featureName": "BANGOR",
+      "featureAliases": [
+        "BANGOR",
+        "DOWN"
+      ],
+      "matchName": "BANGOR",
+      "anchor": {
+        "center": [
+          -5.651175,
+          54.643109
+        ],
+        "bounds": {
+          "west": -5.718524,
+          "south": 54.606077,
+          "east": -5.583827,
+          "north": 54.680142
+        },
+        "method": "largest-ring-bounds-center",
+        "area": 0.005707714676335871
+      },
       "syntheticRegion": null,
-      "matched": false
+      "matched": true
     },
     {
       "constituency": "Bannside",
@@ -8358,7 +8370,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/bannside.json",
-      "featureId": "20",
+      "featureId": "40",
       "featureName": "BANNSIDE",
       "featureAliases": [
         "BANNSIDE",
@@ -8367,17 +8379,17 @@
       "matchName": "BANNSIDE",
       "anchor": {
         "center": [
-          -6.438549,
+          -6.342682,
           54.858201
         ],
         "bounds": {
           "west": -6.582677,
           "south": 54.648843,
-          "east": -6.294422,
+          "east": -6.102688,
           "north": 55.06756
         },
         "method": "largest-ring-bounds-center",
-        "area": 0.07163463449842215
+        "area": 0.088312551049017
       },
       "syntheticRegion": null,
       "matched": true
@@ -8600,7 +8612,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/belfast-ballynafeigh.json",
-      "featureId": "1",
+      "featureId": "23",
       "featureName": "BELFAST BALLYNAFEIGH",
       "featureAliases": [
         "BELFAST BALLYNAFEIGH",
@@ -8903,7 +8915,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/belfast-bloomfield.json",
-      "featureId": "2",
+      "featureId": "18",
       "featureName": "BELFAST BLOOMFIELD",
       "featureAliases": [
         "BELFAST BLOOMFIELD",
@@ -9145,7 +9157,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/belfast-central.json",
-      "featureId": "3",
+      "featureId": "22",
       "featureName": "BELFAST CENTRAL",
       "featureAliases": [
         "BELFAST CENTRAL",
@@ -9164,7 +9176,7 @@
           "north": 54.607518
         },
         "method": "largest-ring-bounds-center",
-        "area": 0.00019969622024570716
+        "area": 0.00019969622024570773
       },
       "syntheticRegion": null,
       "matched": true
@@ -9509,7 +9521,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/belfast-clifton.json",
-      "featureId": "4",
+      "featureId": "16",
       "featureName": "BELFAST CLIFTON",
       "featureAliases": [
         "BELFAST CLIFTON",
@@ -9812,7 +9824,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/belfast-cromac.json",
-      "featureId": "5",
+      "featureId": "24",
       "featureName": "BELFAST CROMAC",
       "featureAliases": [
         "BELFAST CROMAC",
@@ -9831,7 +9843,7 @@
           "north": 54.596655
         },
         "method": "largest-ring-bounds-center",
-        "area": 0.0006608711080081015
+        "area": 0.0006608711080081627
       },
       "syntheticRegion": null,
       "matched": true
@@ -10054,7 +10066,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/belfast-dock.json",
-      "featureId": "6",
+      "featureId": "21",
       "featureName": "BELFAST DOCK",
       "featureAliases": [
         "BELFAST DOCK",
@@ -10296,7 +10308,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/belfast-duncairn.json",
-      "featureId": "7",
+      "featureId": "17",
       "featureName": "BELFAST DUNCAIRN",
       "featureAliases": [
         "BELFAST DUNCAIRN",
@@ -10538,7 +10550,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/belfast-falls.json",
-      "featureId": "8",
+      "featureId": "13",
       "featureName": "BELFAST FALLS",
       "featureAliases": [
         "BELFAST FALLS",
@@ -10780,7 +10792,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/belfast-oldpark.json",
-      "featureId": "9",
+      "featureId": "14",
       "featureName": "BELFAST OLDPARK",
       "featureAliases": [
         "BELFAST OLDPARK",
@@ -11022,7 +11034,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/belfast-pottinger.json",
-      "featureId": "10",
+      "featureId": "20",
       "featureName": "BELFAST POTTINGER",
       "featureAliases": [
         "BELFAST POTTINGER",
@@ -11325,7 +11337,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/belfast-shankill.json",
-      "featureId": "11",
+      "featureId": "15",
       "featureName": "BELFAST SHANKILL",
       "featureAliases": [
         "BELFAST SHANKILL",
@@ -11628,7 +11640,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/belfast-st-annes.json",
-      "featureId": "12",
+      "featureId": "29",
       "featureName": "BELFAST ST. ANNE'S",
       "featureAliases": [
         "BELFAST ST. ANNE'S",
@@ -11931,7 +11943,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/belfast-victoria.json",
-      "featureId": "13",
+      "featureId": "19",
       "featureName": "BELFAST VICTORIA",
       "featureAliases": [
         "BELFAST VICTORIA",
@@ -12234,7 +12246,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/belfast-willowfield.json",
-      "featureId": "14",
+      "featureId": "25",
       "featureName": "BELFAST WILLOWFIELD",
       "featureAliases": [
         "BELFAST WILLOWFIELD",
@@ -12415,7 +12427,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/belfast-windsor.json",
-      "featureId": "15",
+      "featureId": "28",
       "featureName": "BELFAST WINDSOR",
       "featureAliases": [
         "BELFAST WINDSOR",
@@ -12718,7 +12730,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/belfast-woodvale.json",
-      "featureId": "16",
+      "featureId": "12",
       "featureName": "BELFAST WOODVALE",
       "featureAliases": [
         "BELFAST WOODVALE",
@@ -12960,7 +12972,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/carrick.json",
-      "featureId": "21",
+      "featureId": "35",
       "featureName": "CARRICK",
       "featureAliases": [
         "CARRICK",
@@ -12970,16 +12982,16 @@
       "anchor": {
         "center": [
           -5.918372,
-          54.718139
+          54.726117
         ],
         "bounds": {
           "west": -6.066024,
-          "south": 54.64798,
+          "south": 54.663937,
           "east": -5.770721,
           "north": 54.788297
         },
         "method": "largest-ring-bounds-center",
-        "area": 0.0214159205613742
+        "area": 0.016145200391374688
       },
       "syntheticRegion": null,
       "matched": true
@@ -13141,7 +13153,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/central-armagh.json",
-      "featureId": "26",
+      "featureId": "7",
       "featureName": "CENTRAL ARMAGH",
       "featureAliases": [
         "CENTRAL ARMAGH",
@@ -13160,7 +13172,7 @@
           "north": 54.452753
         },
         "method": "largest-ring-bounds-center",
-        "area": 0.03404105196092461
+        "area": 0.03404105196092462
       },
       "syntheticRegion": null,
       "matched": true
@@ -13444,7 +13456,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/city-of-londonderry.json",
-      "featureId": "17",
+      "featureId": "44",
       "featureName": "CITY OF LONDONDERRY",
       "featureAliases": [
         "CITY OF LONDONDERRY",
@@ -13463,7 +13475,7 @@
           "north": 55.061064
         },
         "method": "largest-ring-bounds-center",
-        "area": 0.01635272647935935
+        "area": 0.016352726479355536
       },
       "syntheticRegion": null,
       "matched": true
@@ -13747,7 +13759,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/east-down.json",
-      "featureId": "31",
+      "featureId": "30",
       "featureName": "EAST DOWN",
       "featureAliases": [
         "EAST DOWN",
@@ -13989,7 +14001,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/east-tyrone.json",
-      "featureId": "44",
+      "featureId": "9",
       "featureName": "EAST TYRONE",
       "featureAliases": [
         "EAST TYRONE",
@@ -14008,7 +14020,7 @@
           "north": 54.685245
         },
         "method": "largest-ring-bounds-center",
-        "area": 0.06618564490361203
+        "area": 0.06618564490361178
       },
       "syntheticRegion": null,
       "matched": true
@@ -14292,7 +14304,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/enniskillen.json",
-      "featureId": "38",
+      "featureId": "48",
       "featureName": "ENNISKILLEN",
       "featureAliases": [
         "ENNISKILLEN",
@@ -14311,7 +14323,7 @@
           "north": 54.610533
         },
         "method": "largest-ring-bounds-center",
-        "area": 0.0814991821513026
+        "area": 0.0814991821513031
       },
       "syntheticRegion": null,
       "matched": true
@@ -14595,7 +14607,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/foyle.json",
-      "featureId": "18",
+      "featureId": "47",
       "featureName": "FOYLE",
       "featureAliases": [
         "FOYLE",
@@ -14837,7 +14849,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/iveagh.json",
-      "featureId": "32",
+      "featureId": "6",
       "featureName": "IVEAGH",
       "featureAliases": [
         "IVEAGH",
@@ -15018,13 +15030,29 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/lagan-valley.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "anchor": null,
+      "featureId": "26",
+      "featureName": "LAGAN VALLEY",
+      "featureAliases": [
+        "LAGAN VALLEY",
+        "DOWN"
+      ],
+      "matchName": "LAGAN VALLEY",
+      "anchor": {
+        "center": [
+          -5.956852,
+          54.515539
+        ],
+        "bounds": {
+          "west": -6.090317,
+          "south": 54.449448,
+          "east": -5.823388,
+          "north": 54.58163
+        },
+        "method": "largest-ring-bounds-center",
+        "area": 0.01661888016083627
+      },
       "syntheticRegion": null,
-      "matched": false
+      "matched": true
     },
     {
       "constituency": "Larkfield",
@@ -15366,13 +15394,29 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/larkfield.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "anchor": null,
+      "featureId": "27",
+      "featureName": "LARKFIELD",
+      "featureAliases": [
+        "LARKFIELD",
+        "ANTRIM"
+      ],
+      "matchName": "LARKFIELD",
+      "anchor": {
+        "center": [
+          -5.986605,
+          54.555928
+        ],
+        "bounds": {
+          "west": -6.020245,
+          "south": 54.530577,
+          "east": -5.952964,
+          "north": 54.581279
+        },
+        "method": "largest-ring-bounds-center",
+        "area": 0.001887951830550236
+      },
       "syntheticRegion": null,
-      "matched": false
+      "matched": true
     },
     {
       "constituency": "Larne",
@@ -15592,7 +15636,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/larne.json",
-      "featureId": "22",
+      "featureId": "37",
       "featureName": "LARNE",
       "featureAliases": [
         "LARNE",
@@ -15611,7 +15655,7 @@
           "north": 54.978032
         },
         "method": "largest-ring-bounds-center",
-        "area": 0.06205217027151153
+        "area": 0.06205217027151256
       },
       "syntheticRegion": null,
       "matched": true
@@ -15895,7 +15939,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/lisnaskea.json",
-      "featureId": "39",
+      "featureId": "51",
       "featureName": "LISNASKEA",
       "featureAliases": [
         "LISNASKEA",
@@ -15914,7 +15958,7 @@
           "north": 54.455599
         },
         "method": "largest-ring-bounds-center",
-        "area": 0.07384294316484862
+        "area": 0.0738429431648491
       },
       "syntheticRegion": null,
       "matched": true
@@ -16137,7 +16181,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/mid-antrim.json",
-      "featureId": "23",
+      "featureId": "39",
       "featureName": "MID ANTRIM",
       "featureAliases": [
         "MID ANTRIM",
@@ -16156,7 +16200,7 @@
           "north": 55.148706
         },
         "method": "largest-ring-bounds-center",
-        "area": 0.07254665430867513
+        "area": 0.07254665430867455
       },
       "syntheticRegion": null,
       "matched": true
@@ -16440,7 +16484,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/mid-armagh.json",
-      "featureId": "27",
+      "featureId": "4",
       "featureName": "MID ARMAGH",
       "featureAliases": [
         "MID ARMAGH",
@@ -16459,7 +16503,7 @@
           "north": 54.367563
         },
         "method": "largest-ring-bounds-center",
-        "area": 0.05023892232209825
+        "area": 0.05023892232209815
       },
       "syntheticRegion": null,
       "matched": true
@@ -16621,7 +16665,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/mid-down.json",
-      "featureId": "33",
+      "featureId": "32",
       "featureName": "MID DOWN",
       "featureAliases": [
         "MID DOWN",
@@ -16630,17 +16674,17 @@
       "matchName": "MID DOWN",
       "anchor": {
         "center": [
-          -5.854714,
-          54.547632
+          -5.756877,
+          54.527067
         ],
         "bounds": {
-          "west": -6.090317,
-          "south": 54.449448,
+          "west": -5.894643,
+          "south": 54.459948,
           "east": -5.619111,
-          "north": 54.645816
+          "north": 54.594187
         },
         "method": "largest-ring-bounds-center",
-        "area": 0.04185331359376069
+        "area": 0.018710268243928914
       },
       "syntheticRegion": null,
       "matched": true
@@ -16985,7 +17029,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/mid-londonderry.json",
-      "featureId": "41",
+      "featureId": "45",
       "featureName": "MID LONDONDERRY",
       "featureAliases": [
         "MID LONDONDERRY",
@@ -17004,7 +17048,7 @@
           "north": 55.058299
         },
         "method": "largest-ring-bounds-center",
-        "area": 0.1343482540077456
+        "area": 0.13434825400774605
       },
       "syntheticRegion": null,
       "matched": true
@@ -17227,7 +17271,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/mid-tyrone.json",
-      "featureId": "45",
+      "featureId": "42",
       "featureName": "MID TYRONE",
       "featureAliases": [
         "MID TYRONE",
@@ -17408,7 +17452,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/mourne.json",
-      "featureId": "34",
+      "featureId": "1",
       "featureName": "MOURNE",
       "featureAliases": [
         "MOURNE",
@@ -17427,7 +17471,7 @@
           "north": 54.363806
         },
         "method": "largest-ring-bounds-center",
-        "area": 0.0654718964214368
+        "area": 0.0654718964214367
       },
       "syntheticRegion": null,
       "matched": true
@@ -17650,13 +17694,29 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/newtownabbey.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "anchor": null,
+      "featureId": "36",
+      "featureName": "NEWTOWNABBEY",
+      "featureAliases": [
+        "NEWTOWNABBEY",
+        "ANTRIM"
+      ],
+      "matchName": "NEWTOWNABBEY",
+      "anchor": {
+        "center": [
+          -5.936691,
+          54.670795
+        ],
+        "bounds": {
+          "west": -5.973149,
+          "south": 54.64798,
+          "east": -5.900233,
+          "north": 54.693609
+        },
+        "method": "largest-ring-bounds-center",
+        "area": 0.002125382741963822
+      },
       "syntheticRegion": null,
-      "matched": false
+      "matched": true
     },
     {
       "constituency": "North Antrim",
@@ -17876,7 +17936,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/north-antrim.json",
-      "featureId": "24",
+      "featureId": "38",
       "featureName": "NORTH ANTRIM",
       "featureAliases": [
         "NORTH ANTRIM",
@@ -18118,7 +18178,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/north-armagh.json",
-      "featureId": "28",
+      "featureId": "8",
       "featureName": "NORTH ARMAGH",
       "featureAliases": [
         "NORTH ARMAGH",
@@ -18360,7 +18420,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/north-down.json",
-      "featureId": "35",
+      "featureId": "33",
       "featureName": "NORTH DOWN",
       "featureAliases": [
         "NORTH DOWN",
@@ -18369,17 +18429,17 @@
       "matchName": "NORTH DOWN",
       "anchor": {
         "center": [
-          -5.723989,
-          54.637626
+          -5.766114,
+          54.620423
         ],
         "bounds": {
           "west": -5.864152,
-          "south": 54.595111,
-          "east": -5.583827,
-          "north": 54.680142
+          "south": 54.563225,
+          "east": -5.668076,
+          "north": 54.677621
         },
         "method": "largest-ring-bounds-center",
-        "area": 0.011397509045871737
+        "area": 0.012213933935984982
       },
       "syntheticRegion": null,
       "matched": true
@@ -18602,7 +18662,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/north-londonderry.json",
-      "featureId": "42",
+      "featureId": "46",
       "featureName": "NORTH LONDONDERRY",
       "featureAliases": [
         "NORTH LONDONDERRY",
@@ -18621,7 +18681,7 @@
           "north": 55.199832
         },
         "method": "largest-ring-bounds-center",
-        "area": 0.07431323014229874
+        "area": 0.07431323014229883
       },
       "syntheticRegion": null,
       "matched": true
@@ -18905,7 +18965,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/north-tyrone.json",
-      "featureId": "46",
+      "featureId": "43",
       "featureName": "NORTH TYRONE",
       "featureAliases": [
         "NORTH TYRONE",
@@ -18924,7 +18984,7 @@
           "north": 54.945441
         },
         "method": "largest-ring-bounds-center",
-        "area": 0.07817849128060021
+        "area": 0.07817849128059887
       },
       "syntheticRegion": null,
       "matched": true
@@ -19147,7 +19207,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/south-antrim.json",
-      "featureId": "25",
+      "featureId": "10",
       "featureName": "SOUTH ANTRIM",
       "featureAliases": [
         "SOUTH ANTRIM",
@@ -19156,17 +19216,17 @@
       "matchName": "SOUTH ANTRIM",
       "anchor": {
         "center": [
-          -6.189482,
+          -6.211661,
           54.53426
         ],
         "bounds": {
           "west": -6.426,
           "south": 54.477235,
-          "east": -5.952964,
+          "east": -5.997322,
           "north": 54.591285
         },
         "method": "largest-ring-bounds-center",
-        "area": 0.02975014582667326
+        "area": 0.02703695299848688
       },
       "syntheticRegion": null,
       "matched": true
@@ -19450,7 +19510,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/south-armagh.json",
-      "featureId": "29",
+      "featureId": "3",
       "featureName": "SOUTH ARMAGH",
       "featureAliases": [
         "SOUTH ARMAGH",
@@ -19469,7 +19529,7 @@
           "north": 54.305386
         },
         "method": "largest-ring-bounds-center",
-        "area": 0.06483775565178304
+        "area": 0.06483775565178325
       },
       "syntheticRegion": null,
       "matched": true
@@ -19692,7 +19752,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/south-down.json",
-      "featureId": "36",
+      "featureId": "2",
       "featureName": "SOUTH DOWN",
       "featureAliases": [
         "SOUTH DOWN",
@@ -19711,7 +19771,7 @@
           "north": 54.240222
         },
         "method": "largest-ring-bounds-center",
-        "area": 0.036390700627556734
+        "area": 0.03639070062755688
       },
       "syntheticRegion": null,
       "matched": true
@@ -19934,7 +19994,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/south-fermanagh.json",
-      "featureId": "40",
+      "featureId": "52",
       "featureName": "SOUTH FERMANAGH",
       "featureAliases": [
         "SOUTH FERMANAGH",
@@ -19953,7 +20013,7 @@
           "north": 54.529704
         },
         "method": "largest-ring-bounds-center",
-        "area": 0.10035644304021388
+        "area": 0.10035644304021313
       },
       "syntheticRegion": null,
       "matched": true
@@ -20115,7 +20175,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/south-londonderry.json",
-      "featureId": "43",
+      "featureId": "41",
       "featureName": "SOUTH LONDONDERRY",
       "featureAliases": [
         "SOUTH LONDONDERRY",
@@ -20134,7 +20194,7 @@
           "north": 55.020403
         },
         "method": "largest-ring-bounds-center",
-        "area": 0.06431268079431329
+        "area": 0.06431268079431317
       },
       "syntheticRegion": null,
       "matched": true
@@ -20357,7 +20417,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/south-tyrone.json",
-      "featureId": "47",
+      "featureId": "50",
       "featureName": "SOUTH TYRONE",
       "featureAliases": [
         "SOUTH TYRONE",
@@ -20376,7 +20436,7 @@
           "north": 54.526646
         },
         "method": "largest-ring-bounds-center",
-        "area": 0.07967090615755909
+        "area": 0.07967090615755879
       },
       "syntheticRegion": null,
       "matched": true
@@ -20599,7 +20659,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/west-down.json",
-      "featureId": "37",
+      "featureId": "5",
       "featureName": "WEST DOWN",
       "featureAliases": [
         "WEST DOWN",
@@ -20780,7 +20840,7 @@
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/west-tyrone.json",
-      "featureId": "48",
+      "featureId": "49",
       "featureName": "WEST TYRONE",
       "featureAliases": [
         "WEST TYRONE",
@@ -20799,7 +20859,7 @@
           "north": 54.737336
         },
         "method": "largest-ring-bounds-center",
-        "area": 0.09681178525741134
+        "area": 0.09681178525743143
       },
       "syntheticRegion": null,
       "matched": true

@@ -343,7 +343,8 @@ function wikipediaArticleLayer() {
         title: c.title ?? null,
         publisher: null,
         url: c.url ?? null,
-        archiveUrl: null,
+        // An archived copy recorded against the citation (a Wayback capture checked to hold the page).
+        archiveUrl: c.archiveUrl ?? null,
         host: c.url ? hostOf(c.url) : null,
         kind: null,
         origin: 'wikipedia-citation',
@@ -409,7 +410,7 @@ function webCheckLayer() {
       title: r.title ?? null,
       publisher: r.publisher ?? null,
       url: r.url ?? null,
-      archiveUrl: null,
+      archiveUrl: r.archiveUrl ?? null,
       host: hostOf(r.url),
       kind: r.kind ?? null,
       origin: 'web-check',

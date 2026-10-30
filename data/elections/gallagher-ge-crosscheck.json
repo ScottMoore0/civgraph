@@ -24,7 +24,7 @@
     "notInGallagher": 0
    },
    "countSidecarContestsWithDifferences": 0,
-   "gallagherClosesCountGap": 1
+   "gallagherClosesCountGap": 0
   },
   "1923": {
    "contests": 30,
@@ -44,13 +44,13 @@
     "notInGallagher": 1
    },
    "countSidecarContestsWithDifferences": 0,
-   "gallagherClosesCountGap": 1
+   "gallagherClosesCountGap": 0
   },
   "1927-06": {
    "contests": 30,
    "site": {
-    "firstPreferenceDisagreements": 1,
-    "contestsWithFpDisagreement": 1,
+    "firstPreferenceDisagreements": 0,
+    "contestsWithFpDisagreement": 0,
     "missingInCivgraph": 0,
     "notInGallagher": 0,
     "electedDisagreements": 0,
@@ -64,7 +64,7 @@
     "notInGallagher": 2
    },
    "countSidecarContestsWithDifferences": 0,
-   "gallagherClosesCountGap": 4
+   "gallagherClosesCountGap": 0
   },
   "1927-09": {
    "contests": 30,
@@ -84,7 +84,7 @@
     "notInGallagher": 11
    },
    "countSidecarContestsWithDifferences": 0,
-   "gallagherClosesCountGap": 1
+   "gallagherClosesCountGap": 0
   },
   "1932": {
    "contests": 30,
@@ -124,7 +124,7 @@
     "notInGallagher": 0
    },
    "countSidecarContestsWithDifferences": 0,
-   "gallagherClosesCountGap": 1
+   "gallagherClosesCountGap": 0
   },
   "1937": {
    "contests": 34,
@@ -207,80 +207,7 @@
    "gallagherClosesCountGap": 0
   }
  },
- "countGapsGallagherCloses": [
-  {
-   "date": "1922-06-16",
-   "constituency": "National University",
-   "page": 12,
-   "documentedGap": true,
-   "noTransferRecord": true,
-   "gallagherShape": "counts",
-   "gallagherNumCounts": 4
-  },
-  {
-   "date": "1923-08-27",
-   "constituency": "National University",
-   "page": 42,
-   "documentedGap": true,
-   "noTransferRecord": true,
-   "gallagherShape": "counts",
-   "gallagherNumCounts": 4
-  },
-  {
-   "date": "1927-06-09",
-   "constituency": "Mayo North",
-   "page": 70,
-   "documentedGap": false,
-   "noTransferRecord": false,
-   "gallagherShape": "counts",
-   "gallagherNumCounts": 6
-  },
-  {
-   "date": "1927-06-09",
-   "constituency": "Mayo South",
-   "page": 70,
-   "documentedGap": false,
-   "noTransferRecord": false,
-   "gallagherShape": "counts",
-   "gallagherNumCounts": 11
-  },
-  {
-   "date": "1927-06-09",
-   "constituency": "Dublin University",
-   "page": 76,
-   "documentedGap": true,
-   "noTransferRecord": true,
-   "gallagherShape": "counts",
-   "gallagherNumCounts": 3
-  },
-  {
-   "date": "1927-06-09",
-   "constituency": "National University",
-   "page": 76,
-   "documentedGap": true,
-   "noTransferRecord": true,
-   "gallagherShape": "counts",
-   "gallagherNumCounts": 4
-  },
-  {
-   "date": "1927-09-15",
-   "constituency": "National University",
-   "page": 112,
-   "documentedGap": true,
-   "noTransferRecord": true,
-   "gallagherShape": "counts",
-   "gallagherNumCounts": 2
-  },
-  {
-   "date": "1933-01-24",
-   "constituency": "National University",
-   "page": 174,
-   "documentedGap": true,
-   "noTransferRecord": true,
-   "gallagherShape": "counts",
-   "gallagherNumCounts": 2
-  }
- ],
+ "countGapsGallagherCloses": [],
  "documentedGapsStillWithoutCounts": [
   {
    "date": "1922-06-16",
@@ -1653,7 +1580,7 @@
     "constituency": "National University",
     "sourceFile": "data/elections-source/data/elections/dail-eireann/1922-06-16/national-university.json",
     "hasCountDetail": true,
-    "countDetailHasTransfers": false,
+    "countDetailHasTransfers": true,
     "countNumbers": [
      1,
      2,
@@ -1664,7 +1591,12 @@
     "missingInCivgraph": [],
     "notInGallagher": [],
     "electedDisagreements": [],
-    "surnameSpellings": []
+    "surnameSpellings": [],
+    "counts": {
+     "cellsCompared": 16,
+     "cellsDiffering": 0,
+     "differences": []
+    }
    },
    "ei": {
     "file": "data/elections-source/data/elections/dail-eireann/1922-06-16/national-university.json",
@@ -1674,12 +1606,20 @@
     "electedDisagreements": [],
     "surnameSpellings": []
    },
-   "countSidecar": null,
-   "noTransferRecord": true,
+   "countSidecar": {
+    "file": "data/elections/dail-wikipedia-counts/1922-06-16/national-university.json",
+    "source": "Gallagher 1993",
+    "numCounts": 4,
+    "cellsCompared": 16,
+    "cellsDiffering": 0,
+    "differences": [],
+    "numCountsAgree": true
+   },
+   "noTransferRecord": false,
    "documentedGap": true,
    "gallagherHasCounts": true,
-   "civgraphHasCounts": false,
-   "gallagherClosesCountGap": true
+   "civgraphHasCounts": true,
+   "gallagherClosesCountGap": false
   },
   {
    "date": "1923-08-27",
@@ -3677,7 +3617,7 @@
     "constituency": "National Univeristy",
     "sourceFile": "data/elections-source/data/elections/dail-eireann/1923-08-27/national-univeristy.json",
     "hasCountDetail": true,
-    "countDetailHasTransfers": false,
+    "countDetailHasTransfers": true,
     "countNumbers": [
      1,
      2,
@@ -3688,7 +3628,12 @@
     "missingInCivgraph": [],
     "notInGallagher": [],
     "electedDisagreements": [],
-    "surnameSpellings": []
+    "surnameSpellings": [],
+    "counts": {
+     "cellsCompared": 18,
+     "cellsDiffering": 0,
+     "differences": []
+    }
    },
    "ei": {
     "file": "data/elections-source/data/elections/dail-eireann/1923-08-27/national-univeristy.json",
@@ -3698,12 +3643,20 @@
     "electedDisagreements": [],
     "surnameSpellings": []
    },
-   "countSidecar": null,
-   "noTransferRecord": true,
+   "countSidecar": {
+    "file": "data/elections/dail-wikipedia-counts/1923-08-27/national-univeristy.json",
+    "source": "Gallagher 1993",
+    "numCounts": 4,
+    "cellsCompared": 18,
+    "cellsDiffering": 0,
+    "differences": [],
+    "numCountsAgree": true
+   },
+   "noTransferRecord": false,
    "documentedGap": true,
    "gallagherHasCounts": true,
-   "civgraphHasCounts": false,
-   "gallagherClosesCountGap": true
+   "civgraphHasCounts": true,
+   "gallagherClosesCountGap": false
   },
   {
    "date": "1927-06-09",
@@ -4896,10 +4849,15 @@
    "site": {
     "constituency": "Mayo North",
     "sourceFile": "data/elections-source/data/elections/dail-eireann/1927-06-09/mayo-north.json",
-    "hasCountDetail": false,
-    "countDetailHasTransfers": false,
+    "hasCountDetail": true,
+    "countDetailHasTransfers": true,
     "countNumbers": [
-     1
+     1,
+     2,
+     3,
+     4,
+     5,
+     6
     ],
     "firstPreferenceDisagreements": [],
     "missingInCivgraph": [],
@@ -4910,7 +4868,12 @@
       "gallagher": "Cleary, Michael",
       "civgraph": "Micheál Clery"
      }
-    ]
+    ],
+    "counts": {
+     "cellsCompared": 31,
+     "cellsDiffering": 0,
+     "differences": []
+    }
    },
    "ei": {
     "file": "data/elections-source/data/elections/dail-eireann/1927-06-09/mayo-north.json",
@@ -4925,12 +4888,20 @@
      }
     ]
    },
-   "countSidecar": null,
+   "countSidecar": {
+    "file": "data/elections/dail-wikipedia-counts/1927-06-09/mayo-north.json",
+    "source": "Gallagher 1993",
+    "numCounts": 6,
+    "cellsCompared": 31,
+    "cellsDiffering": 0,
+    "differences": [],
+    "numCountsAgree": true
+   },
    "noTransferRecord": false,
    "documentedGap": false,
    "gallagherHasCounts": true,
-   "civgraphHasCounts": false,
-   "gallagherClosesCountGap": true
+   "civgraphHasCounts": true,
+   "gallagherClosesCountGap": false
   },
   {
    "date": "1927-06-09",
@@ -4941,24 +4912,31 @@
    "site": {
     "constituency": "Mayo South",
     "sourceFile": "data/elections-source/data/elections/dail-eireann/1927-06-09/mayo-south.json",
-    "hasCountDetail": false,
-    "countDetailHasTransfers": false,
+    "hasCountDetail": true,
+    "countDetailHasTransfers": true,
     "countNumbers": [
-     1
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11
     ],
-    "firstPreferenceDisagreements": [
-     {
-      "gallagher": "J. Fitzgerald-Kenney",
-      "civgraph": "James Fitzgerald Kenney",
-      "gallagherFirstPreferences": 2884,
-      "civgraphFirstPreferences": 2886,
-      "difference": 2
-     }
-    ],
+    "firstPreferenceDisagreements": [],
     "missingInCivgraph": [],
     "notInGallagher": [],
     "electedDisagreements": [],
-    "surnameSpellings": []
+    "surnameSpellings": [],
+    "counts": {
+     "cellsCompared": 87,
+     "cellsDiffering": 0,
+     "differences": []
+    }
    },
    "ei": {
     "file": "data/elections-source/data/elections/dail-eireann/1927-06-09/mayo-south.json",
@@ -4976,12 +4954,20 @@
     "electedDisagreements": [],
     "surnameSpellings": []
    },
-   "countSidecar": null,
+   "countSidecar": {
+    "file": "data/elections/dail-wikipedia-counts/1927-06-09/mayo-south.json",
+    "source": "Gallagher 1993",
+    "numCounts": 11,
+    "cellsCompared": 87,
+    "cellsDiffering": 0,
+    "differences": [],
+    "numCountsAgree": true
+   },
    "noTransferRecord": false,
    "documentedGap": false,
    "gallagherHasCounts": true,
-   "civgraphHasCounts": false,
-   "gallagherClosesCountGap": true
+   "civgraphHasCounts": true,
+   "gallagherClosesCountGap": false
   },
   {
    "date": "1927-06-09",
@@ -5422,16 +5408,23 @@
    "site": {
     "constituency": "Dublin University",
     "sourceFile": "data/elections-source/data/elections/dail-eireann/1927-06-09/dublin-university.json",
-    "hasCountDetail": false,
-    "countDetailHasTransfers": false,
+    "hasCountDetail": true,
+    "countDetailHasTransfers": true,
     "countNumbers": [
-     1
+     1,
+     2,
+     3
     ],
     "firstPreferenceDisagreements": [],
     "missingInCivgraph": [],
     "notInGallagher": [],
     "electedDisagreements": [],
-    "surnameSpellings": []
+    "surnameSpellings": [],
+    "counts": {
+     "cellsCompared": 9,
+     "cellsDiffering": 0,
+     "differences": []
+    }
    },
    "ei": {
     "file": "data/elections-source/data/elections/dail-eireann/1927-06-09/dublin-university.json",
@@ -5441,12 +5434,20 @@
     "electedDisagreements": [],
     "surnameSpellings": []
    },
-   "countSidecar": null,
-   "noTransferRecord": true,
+   "countSidecar": {
+    "file": "data/elections/dail-wikipedia-counts/1927-06-09/dublin-university.json",
+    "source": "Gallagher 1993",
+    "numCounts": 3,
+    "cellsCompared": 9,
+    "cellsDiffering": 0,
+    "differences": [],
+    "numCountsAgree": true
+   },
+   "noTransferRecord": false,
    "documentedGap": true,
    "gallagherHasCounts": true,
-   "civgraphHasCounts": false,
-   "gallagherClosesCountGap": true
+   "civgraphHasCounts": true,
+   "gallagherClosesCountGap": false
   },
   {
    "date": "1927-06-09",
@@ -5458,7 +5459,7 @@
     "constituency": "National Univeristy",
     "sourceFile": "data/elections-source/data/elections/dail-eireann/1927-06-09/national-univeristy.json",
     "hasCountDetail": true,
-    "countDetailHasTransfers": false,
+    "countDetailHasTransfers": true,
     "countNumbers": [
      1,
      2,
@@ -5469,7 +5470,12 @@
     "missingInCivgraph": [],
     "notInGallagher": [],
     "electedDisagreements": [],
-    "surnameSpellings": []
+    "surnameSpellings": [],
+    "counts": {
+     "cellsCompared": 14,
+     "cellsDiffering": 0,
+     "differences": []
+    }
    },
    "ei": {
     "file": "data/elections-source/data/elections/dail-eireann/1927-06-09/national-univeristy.json",
@@ -5486,12 +5492,20 @@
     ],
     "surnameSpellings": []
    },
-   "countSidecar": null,
-   "noTransferRecord": true,
+   "countSidecar": {
+    "file": "data/elections/dail-wikipedia-counts/1927-06-09/national-univeristy.json",
+    "source": "Gallagher 1993",
+    "numCounts": 4,
+    "cellsCompared": 14,
+    "cellsDiffering": 0,
+    "differences": [],
+    "numCountsAgree": true
+   },
+   "noTransferRecord": false,
    "documentedGap": true,
    "gallagherHasCounts": true,
-   "civgraphHasCounts": false,
-   "gallagherClosesCountGap": true
+   "civgraphHasCounts": true,
+   "gallagherClosesCountGap": false
   },
   {
    "date": "1927-09-15",
@@ -7242,16 +7256,22 @@
    "site": {
     "constituency": "National Univeristy",
     "sourceFile": "data/elections-source/data/elections/dail-eireann/1927-09-15/national-univeristy.json",
-    "hasCountDetail": false,
-    "countDetailHasTransfers": false,
+    "hasCountDetail": true,
+    "countDetailHasTransfers": true,
     "countNumbers": [
-     1
+     1,
+     2
     ],
     "firstPreferenceDisagreements": [],
     "missingInCivgraph": [],
     "notInGallagher": [],
     "electedDisagreements": [],
-    "surnameSpellings": []
+    "surnameSpellings": [],
+    "counts": {
+     "cellsCompared": 5,
+     "cellsDiffering": 0,
+     "differences": []
+    }
    },
    "ei": {
     "file": "data/elections-source/data/elections/dail-eireann/1927-09-15/national-univeristy.json",
@@ -7268,12 +7288,20 @@
     ],
     "surnameSpellings": []
    },
-   "countSidecar": null,
-   "noTransferRecord": true,
+   "countSidecar": {
+    "file": "data/elections/dail-wikipedia-counts/1927-09-15/national-univeristy.json",
+    "source": "Gallagher 1993",
+    "numCounts": 2,
+    "cellsCompared": 5,
+    "cellsDiffering": 0,
+    "differences": [],
+    "numCountsAgree": true
+   },
+   "noTransferRecord": false,
    "documentedGap": true,
    "gallagherHasCounts": true,
-   "civgraphHasCounts": false,
-   "gallagherClosesCountGap": true
+   "civgraphHasCounts": true,
+   "gallagherClosesCountGap": false
   },
   {
    "date": "1932-02-16",
@@ -10427,7 +10455,7 @@
     "constituency": "National Univeristy",
     "sourceFile": "data/elections-source/data/elections/dail-eireann/1933-01-24/national-univeristy.json",
     "hasCountDetail": true,
-    "countDetailHasTransfers": false,
+    "countDetailHasTransfers": true,
     "countNumbers": [
      1,
      2
@@ -10436,7 +10464,12 @@
     "missingInCivgraph": [],
     "notInGallagher": [],
     "electedDisagreements": [],
-    "surnameSpellings": []
+    "surnameSpellings": [],
+    "counts": {
+     "cellsCompared": 6,
+     "cellsDiffering": 0,
+     "differences": []
+    }
    },
    "ei": {
     "file": "data/elections-source/data/elections/dail-eireann/1933-01-24/national-univeristy.json",
@@ -10446,12 +10479,20 @@
     "electedDisagreements": [],
     "surnameSpellings": []
    },
-   "countSidecar": null,
-   "noTransferRecord": true,
+   "countSidecar": {
+    "file": "data/elections/dail-wikipedia-counts/1933-01-24/national-univeristy.json",
+    "source": "Gallagher 1993",
+    "numCounts": 2,
+    "cellsCompared": 6,
+    "cellsDiffering": 0,
+    "differences": [],
+    "numCountsAgree": true
+   },
+   "noTransferRecord": false,
    "documentedGap": true,
    "gallagherHasCounts": true,
-   "civgraphHasCounts": false,
-   "gallagherClosesCountGap": true
+   "civgraphHasCounts": true,
+   "gallagherClosesCountGap": false
   },
   {
    "date": "1937-07-01",
@@ -15614,10 +15655,6 @@
      {
       "gallagher": "Burke, Denis",
       "civgraph": "Denis Bourke"
-     },
-     {
-      "gallagher": "Bourke, Séamus",
-      "civgraph": "Séamus Burke"
      }
     ],
     "counts": {

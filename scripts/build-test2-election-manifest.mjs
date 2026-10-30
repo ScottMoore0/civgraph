@@ -242,6 +242,23 @@ function rawForTotals(resultPath, officialRawResult, wikiEnrichedRawResult) {
   return applySourceCheckedFixes(resultPath, structuredClone(officialRawResult), { lenient: true });
 }
 
+// A flat contest file whose candidate list a replaceCandidates fix replaces -- one imported empty,
+// or with another contest's rows (a 1927 file holding the later by-election) -- takes the new list
+// as soon as it is read, before anything else looks at it. A Dáil contest's Wikipedia count
+// sidecar then finds the candidates it matches its rows to, and the national totals, built from
+// the flat rows, count the right votes; replaced later, the list would overwrite the sidecar's
+// count-by-count rows instead.
+const prefilledImports = new Set();
+function fillReplacedImport(resultPath, rawResult) {
+  if (!resultPath || !rawResult || rawResult.Constituency?.countGroup) return rawResult;
+  if (!Array.isArray(rawResult.candidates)) return rawResult;
+  const key = slash(path.relative(ROOT, resultPath));
+  const fill = sourceCheckedFixIndex.get(key)?.operations?.find((op) => op.op === 'replaceCandidates');
+  if (!fill) return rawResult;
+  prefilledImports.add(key);
+  return { ...rawResult, candidates: fill.candidates.map((candidate) => ({ ...candidate })) };
+}
+
 function applySourceCheckedFixes(resultPath, rawResult, { lenient = false } = {}) {
   if (!resultPath || !rawResult) return rawResult;
   const record = sourceCheckedFixIndex.get(slash(path.relative(ROOT, resultPath)));
@@ -254,6 +271,8 @@ function applySourceCheckedFixes(resultPath, rawResult, { lenient = false } = {}
     // The totals' copy takes only fixes to a candidate's own row; structural ops (paths, added or
     // replaced rows) are written against the displayed rows' shape and would misread the flat file.
     if (lenient && !['candidate', 'candidateById', 'candidateCount'].includes(op.op)) continue;
+    // A list that filled an empty import has already been laid in by fillReplacedImport.
+    if (op.op === 'replaceCandidates' && prefilledImports.has(slash(path.relative(ROOT, resultPath)))) continue;
     if (op.op === 'set') {
       const keys = String(op.path).split('.');
       let target = rawResult;
@@ -1180,7 +1199,12 @@ function resolveElectionGeography(entry) {
   }
   if (body === 'Northern Ireland Constitutional Convention') return { sourceMapId: 'constitutional-convention-1975' };
   if (body === 'Northern Ireland Forum for Political Dialogue') return { sourceMapId: 'forum-1995' };
-  if (body === 'Parliament of Northern Ireland') return { sourceMapId: year >= 1929 ? 'stormont-1929' : 'stormont-1920' };
+  // The Electoral Law Act (NI) 1968 replaced the four Queen's University seats with four new
+  // territorial ones, first fought at the February 1969 general election.
+  if (body === 'Parliament of Northern Ireland') {
+    if (year >= 1969) return { sourceMapId: 'stormont-1969' };
+    return { sourceMapId: year >= 1929 ? 'stormont-1929' : 'stormont-1920' };
+  }
   if (body === 'European Parliament') return { sourceMapId: 'ni-1921', singleConstituency: true };
   if (body === 'D\u00e1il \u00c9ireann') {
     if (String(entry.date).startsWith('1918-12-14')) return { sourceMapId: 'pc-1918-ireland' };
@@ -1530,7 +1554,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
 
   for (const constituency of entry.constituencies || []) {
     const resultPath = electionSourceAliasFile(key, constituency, dateDir) || findResultFile(dateDir, constituency);
-    const rawResult = resultPath ? readJson(resultPath) : null;
+    const rawResult = resultPath ? fillReplacedImport(resultPath, readJson(resultPath)) : null;
     const officialRawResult = enrichDailResultWithOfficialData(entry, rawResult, constituency);
     const wikiEnrichedRawResult = enrichDailResultWithWikipediaCounts(entry, resultPath, officialRawResult, constituency);
     const enrichedRawResult = applyBallotDescriptions(resultPath, applySourceCheckedFixes(resultPath, applyWalkerCorrections(resultPath,
@@ -1599,7 +1623,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
   if (entry.constituencies.length === 0 && dirExists) {
     for (const file of readdirSync(dateDir).filter((name) => name.endsWith('.json') && name !== '_index.json')) {
       const resultPath = path.join(dateDir, file);
-      const rawResult = readJson(resultPath);
+      const rawResult = fillReplacedImport(resultPath, readJson(resultPath));
       const constituency = file.replace(/\.json$/, '');
       const officialRawResult = enrichDailResultWithOfficialData(entry, rawResult, constituency);
       const wikiEnrichedRawResult = enrichDailResultWithWikipediaCounts(entry, resultPath, officialRawResult, constituency);
