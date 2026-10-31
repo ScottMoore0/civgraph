@@ -9,6 +9,20 @@
  * with it while the map is on; each shelf has its own icon colour; amber marks maps still to be
  * added. Jurisdictions are deliberately colourless.
  */
+/** The folded filters, shared by two width rules below. */
+const FOLD = `
+  .cn-filters-toggle { display: inline-flex; }
+  .cn-toolbar:not([data-open]) .cn-filters { display: none; }
+  .cn-frow > .cn-label { min-width: 0; width: 100%; }
+  .cn-toolbar { grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: 10px; }
+  .cn-toolbar > :not(.cn-filters-toggle, .cn-tally) { grid-column: 1 / -1; }
+  .cn-toolbar:not([data-open]) { margin: 2px 0 6px; padding: 0 2px; border: 0; background: none; }
+  .cn-toolbar:not([data-open]) .cn-key { display: none; }
+  .cn-tally { display: block; }
+  .cn-view:has([data-cn-tally]) .cn-summary--count { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .cn-keyfoot.cn-keyfoot { display: flex; }
+  .cn-view:has(.cn-toolbar[data-open]) .cn-keyfoot.cn-keyfoot { display: none; }`;
+
 export const CATALOGUE_CSS = `
 .cn { --cn-surface: var(--color-surface, #fff); --cn-raised: var(--color-surface-elevated, #f7fafc);
   --cn-text: var(--color-text, #1a202c); --cn-muted: var(--color-text-muted, #5f6b7a); --cn-line: var(--color-border, #e2e8f0);
@@ -41,7 +55,17 @@ export const CATALOGUE_CSS = `
 /* Four sections with counts: on a narrow pane they wrap to two rows rather than squeeze a label. */
 .cn-tabs .cn-tab { flex: 1 1 auto; white-space: nowrap; justify-content: center; }
 .cn-tab .cn-tab__count { font-weight: 500; opacity: .75; font-variant-numeric: tabular-nums; }
+.cn-tab .cn-tab__short { display: none; }
 @container (max-width: 430px) { .cn-tab .cn-tab__count { display: none; } }
+/* A phone: all five sections on one row, icon over a short label. A pane too narrow even for that
+   scrolls the row sideways rather than squeeze a label. */
+@container (max-width: 520px) {
+  .cn-tabs.catalogue-flat__sections { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 3px; margin: 4px 0; padding: 3px; }
+  .cn-tabs.catalogue-flat__sections::-webkit-scrollbar { display: none; }
+  .cn-tabs .cn-tab.catalogue-flat__section-tab { flex: 1 0 auto; flex-direction: column; gap: 3px; min-height: 42px; padding: 4px 3px; font-size: 11px; }
+  .cn-tab .cn-tab__long { display: none; }
+  .cn-tab .cn-tab__short { display: inline; }
+}
 
 /* Filters */
 .cn-toolbar { display: grid; gap: 8px; margin: 4px 0 10px; padding: 10px 12px; border: 1px solid var(--cn-line); border-radius: 12px; background: var(--cn-raised); }
@@ -58,13 +82,13 @@ export const CATALOGUE_CSS = `
 .cn-filters-toggle { display: none; align-items: center; gap: 6px; justify-self: start; min-height: 30px; padding: 3px 12px; border-radius: 999px;
   border: 1px solid var(--cn-line); background: var(--cn-surface); cursor: pointer; font-weight: 600; }
 .cn-filters-toggle .cn-badge { background: var(--cn-grad); color: #fff; }
-/* Only a really narrow pane (a phone, a small laptop) folds the filters behind a button: at the
-   desktop widths of 400-560px they stay in view. */
-@container (max-width: 380px) {
-  .cn-filters-toggle { display: inline-flex; }
-  .cn-toolbar:not([data-open]) .cn-filters { display: none; }
-  .cn-frow > .cn-label { min-width: 0; width: 100%; }
-}
+/* Folded, the filters are a button with the count beside it; the key to the chip dots moves to the
+   foot of the list. Only a really narrow pane, or any pane on a touch screen up to 560px wide,
+   folds: on a desktop the filters stay in view at 400-560px. */
+.cn-tally { display: none; color: var(--cn-muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+.cn-keyfoot.cn-keyfoot { display: none; margin: 4px 6px 0; }
+@container (max-width: 380px) { ${FOLD} }
+@media (pointer: coarse) { @container (max-width: 560px) { ${FOLD} } }
 
 /* Years: two handles on one track */
 .cn-years { display: grid; gap: 2px; }
@@ -95,16 +119,17 @@ export const CATALOGUE_CSS = `
 .cn-summary { margin: 0 4px 6px; color: var(--cn-muted); font-size: 13px; }
 
 /* Shelves and subjects */
-.cn-shelf { margin: 0 0 14px; scroll-margin-top: calc(var(--cn-sticky) + 62px); }
+.cn-shelf { margin: 0 0 8px; scroll-margin-top: calc(var(--cn-sticky) + 52px); }
 /* An open shelf's heading stays in view below the section tabs until its section scrolls past: a
-   sticky element is held inside its parent, so it lets go at the end of its own shelf. */
+   sticky element is held inside its parent, so it lets go at the end of its own shelf. Its shadow
+   only closes the hairline above it: a taller one painted over the count line above the first shelf. */
 .cn-shelf__head { margin: 0; position: sticky; top: calc(var(--cn-sticky) + var(--cn-tabs-h, 52px)); z-index: 4; background: var(--cn-surface);
-  box-shadow: 0 -12px 0 var(--cn-surface); }
-.cn-shelf__toggle { display: flex; align-items: center; gap: 10px; width: 100%; padding: 10px 6px 8px; border: 0; border-bottom: 2px solid var(--shelf, var(--cn-line));
+  box-shadow: 0 -3px 0 var(--cn-surface); }
+.cn-shelf__toggle { display: flex; align-items: center; gap: 10px; width: 100%; padding: 6px 6px; border: 0; border-bottom: 2px solid var(--shelf, var(--cn-line));
   background: none; cursor: pointer; text-align: left; font-family: var(--font-display, inherit); font-size: 16px; font-weight: 800; }
-.cn-shelf__icon { display: inline-flex; width: 42px; height: 42px; border-radius: 10px; align-items: center; justify-content: center;
+.cn-shelf__icon { display: inline-flex; width: 32px; height: 32px; border-radius: 8px; align-items: center; justify-content: center;
   background: color-mix(in srgb, var(--shelf, #888) 16%, transparent); color: var(--shelf, currentColor); }
-.cn-shelf__icon .cn-icon { width: 30px; height: 30px; }
+.cn-shelf__icon .cn-icon { width: 22px; height: 22px; }
 .cn-shelf__name { flex: 1; }
 .cn-shelf__toggle .cn-count { font-size: 13px; }
 .cn-shelf__chev { transition: transform .15s ease; color: var(--cn-muted); }
@@ -186,9 +211,9 @@ export const CATALOGUE_CSS = `
 .cn-erow__about { grid-column: 1 / -1; margin: 2px 0 2px; font-size: 13px; }
 .cn-erow__about > summary { cursor: pointer; color: var(--cn-link); font-size: 12.5px; width: max-content; }
 .cn-erow__about[open] > summary { margin-bottom: 6px; }
-.cn-key { flex-basis: 100%; display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 2px 0 0; font-size: 12px; color: var(--cn-muted); }
+.cn-key, .cn-keyfoot { flex-basis: 100%; display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 2px 0 0; font-size: 12px; color: var(--cn-muted); }
 .cn-key__item { display: inline-flex; align-items: center; gap: 6px; }
-.cn-key .cn-chip__dot--todo { color: var(--cn-amber-ink); }
+.cn-key .cn-chip__dot--todo, .cn-keyfoot .cn-chip__dot--todo { color: var(--cn-amber-ink); }
 .cn-chip--todo:hover { background: var(--cn-amber-bg); border-color: transparent; }
 .cn-chip--todo-toggle { color: var(--cn-amber-ink); border-style: dashed; border-color: color-mix(in srgb, var(--cn-amber-ink) 55%, transparent); background: none; }
 .cn-chip--todo-toggle:hover { background: var(--cn-amber-bg); border-color: var(--cn-amber-ink); }
@@ -364,12 +389,43 @@ a.cn-iconbtn { text-decoration: none; }
   .cn .cn-row__thumb .catalogue-flat__toc-thumbwrap { width: 36px; height: 36px; }
   .cn-row > .cn-chips { grid-column: 2 / span 3; }
   .cn-panel { grid-column: 1 / span 4; margin-left: 4px; }
+  /* Add is a square "+" (a tick when on; its label stays for screen readers) and "More" is narrow but
+     full height, so the name and facts get the width the buttons gave up. */
+  .cn-row .cn-add { width: var(--cn-add-w, 32px); padding: 0; gap: 0; justify-content: center; }
+  .cn-row .cn-add span.cn-when-off, .cn-row .cn-add[aria-pressed] span.cn-when-on { display: none; }
+  .cn-row__end { gap: 4px; }
+  .cn-row .cn-iconbtn[data-cn-menu] { width: 28px; }
+}
+/* A phone, where the details could not sit beside the name anyway: they run on under it as one
+   paragraph, and the chevron moves up beside the name to give them its column. */
+@container (max-width: 400px) {
+  .cn-row__title { display: block; position: relative; }
+  .cn-row__title > .cn-row__chev { position: absolute; top: 3px; right: 0; }
+  .cn-row__text { display: block; }
+  .cn-row__name { display: block; padding-right: 20px; }
+  .cn-row__meta, .cn-row__credit { display: inline; }
+  .cn-row__meta > .cn-row__dot { margin: 0 4px; }
+  .cn-row__credit::before { content: " · "; }
+  .cn-row__meta:empty + .cn-row__credit::before { content: none; }
 }
 /* Larger targets for fingers, whatever the width. */
 @media (pointer: coarse) {
+  .cn { --cn-add-w: 36px; }
   .cn-chip, .cn-add, .cn-btn, .cn-fchip { min-height: 36px; }
   .cn-iconbtn { width: 38px; height: 38px; }
 }
+
+/* On a phone the pinned search bar and section tabs step aside while the list scrolls down and come
+   back on any scroll up (index.js sets data-chrome-away); the open shelf's heading moves up to the top. */
+.pane__content .catalogue-sticky-shell, .cn-tabs.catalogue-flat__sections, .cn-shelf__head { transition: top .2s ease; }
+.pane__content[data-chrome-away] .catalogue-sticky-shell { top: calc(-1 * var(--space-5, 20px) - var(--catalogue-sticky-shell-height, 110px) - 8px); }
+.pane__content[data-chrome-away] .cn-tabs.catalogue-flat__sections { top: calc(var(--cn-sticky) - var(--catalogue-sticky-shell-height, 110px) - var(--cn-tabs-h, 52px) - 16px); }
+.pane__content[data-chrome-away] .cn-shelf__head { top: calc(var(--cn-sticky) - var(--catalogue-sticky-shell-height, 110px)); }
+@media (prefers-reduced-motion: reduce) {
+  .pane__content .catalogue-sticky-shell, .cn-tabs.catalogue-flat__sections, .cn-shelf__head { transition: none; }
+}
+.pane__content[data-chrome-instant] .catalogue-sticky-shell, .pane__content[data-chrome-instant] .cn-tabs.catalogue-flat__sections,
+.pane__content[data-chrome-instant] .cn-shelf__head { transition: none; }
 
 /* The menu lives on <body>, outside .cn, so it names the site's tokens directly. */
 .cn-menu { min-width: 220px; max-width: min(360px, calc(100vw - 16px)); padding: 6px; border-radius: 10px; border: 1px solid var(--color-border, #e2e8f0);

@@ -22,6 +22,7 @@ export function toolbarHtml(c) {
   const { i, j } = c.yearRange('maps');
   return `<div class="cn-toolbar" data-cn-toolbar="maps"${c.filtersOpen ? ' data-open' : ''}>
     <button type="button" class="cn-filters-toggle" data-cn-act="filters" aria-expanded="${c.filtersOpen}">${icon('sliders')}Filters${active ? ` <span class="cn-badge">${active}</span>` : ''}</button>
+    <span class="cn-tally" data-cn-tally aria-hidden="true"></span>
     <div class="cn-filters">
       <div class="cn-frow">
         <span class="cn-fgroup" role="group" aria-label="Where"><span class="cn-label">Where</span>${chip('scope', '', 'All')}${chip('scope', 'Northern Ireland', SCOPE_SHORT['Northern Ireland'])}${chip('scope', 'Republic of Ireland', SCOPE_SHORT['Republic of Ireland'])}${chip('scope', 'Ireland', SCOPE_SHORT.Ireland)}</span>
@@ -29,7 +30,7 @@ export function toolbarHtml(c) {
       ${sliderHtml('maps', c.mapBins, i, j, c.yearState('maps'))}
       <label class="cn-check" data-cn-undated-wrap${c.yearRange('maps').narrowed ? '' : ' hidden'}><input type="checkbox" id="cn-undated" data-cn-undated${c.filters.undated ? ' checked' : ''}> Include undated maps</label>
     </div>
-    <p class="cn-key"><span class="cn-key__item"><span class="cn-chip__dot cn-chip__dot--part" aria-hidden="true"></span>Incomplete</span><span class="cn-key__item"><span class="cn-chip__dot cn-chip__dot--todo" aria-hidden="true"></span>To be added</span></p>
+    ${keyHtml()}
   </div>`;
 }
 
@@ -49,9 +50,15 @@ export function resultsHtml(c) {
     ? `<p class="cn-summary cn-summary--elections"><button type="button" class="cn-btn" data-cn-tab="elections">${icon('vote')}<span>${plural(elections, 'election')} match “${esc(c.query)}”</span></button></p>`
     : '';
   return `${toElections}<div data-cn-extras>${c.query ? extrasHtml(c) : ''}</div>
-    ${summary ? `<p class="cn-summary" role="status">${summary}</p>` : ''}
+    ${summary ? `<p class="cn-summary cn-summary--count" role="status">${summary}</p>` : ''}
     ${empty}
-    ${shelves.map((x) => shelfHtml(c, x, shelves.length === 1)).join('')}`;
+    ${shelves.map((x) => shelfHtml(c, x, shelves.length === 1)).join('')}
+    ${total ? keyHtml('cn-keyfoot') : ''}`;
+}
+
+/** What the chip dots mean: in the filters, or at the foot of the list when the filters fold away. */
+function keyHtml(cls = 'cn-key') {
+  return `<p class="${cls}"><span class="cn-key__item"><span class="cn-chip__dot cn-chip__dot--part" aria-hidden="true"></span>Incomplete</span><span class="cn-key__item"><span class="cn-chip__dot cn-chip__dot--todo" aria-hidden="true"></span>To be added</span></p>`;
 }
 
 // A shelf can go by another name inside one section: under Boundaries, "People & Places" holds
