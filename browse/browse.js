@@ -1,5 +1,5 @@
-const DATA_ROOT = '../data/browse';
-const GRAPH_ROOT = '../data/graph';
+const DATA_ROOT = '/data/browse';
+const GRAPH_ROOT = '/data/graph';
 const BROWSE_DATA_VERSION = '20260702-proni-4';
 const THUMBNAIL_ASSET_VERSION = '20260604-tight-admin-frame';
 // `layer` is the Civgraph 1.0 layer each entity belongs to (docs/CIVGRAPH_1.0.md):
@@ -294,7 +294,15 @@ async function init() {
   renderGroups();
   applyRoute();
   window.addEventListener('hashchange', applyRoute);
+  // Back from /browse/#/... to a path-style record page changes the path, not only the hash,
+  // and browsers do not reliably fire hashchange for that; popstate always fires. applyRoute
+  // ignores a repeat of the address it last rendered, so the two events never render twice.
+  window.addEventListener('popstate', () => {
+    if (pathRouteParts()) applyRoute();
+  });
 }
+
+let lastRoutedAddress = null;
 
 function bindEvents() {
   els.search?.addEventListener('input', () => {
@@ -439,6 +447,15 @@ function bindEvents() {
 }
 
 function applyRoute() {
+  // Leaving a path-style record page through an in-app #/ link: show the address as the
+  // ordinary /browse/#/... one, so it does not read as the record it left. Same document, no
+  // reload; Back still returns to the record, whose path then routes again.
+  if (pathRouteParts() && /^#\//.test(location.hash)) {
+    history.replaceState(history.state, '', `/browse/${location.hash}`);
+  }
+  const address = `${location.pathname}${location.search}${location.hash}`;
+  if (address === lastRoutedAddress) return;
+  lastRoutedAddress = address;
   const route = parseRoute();
   state.isHome = route.isHome;
   state.activeType = route.type;
@@ -453,9 +470,28 @@ function applyRoute() {
   renderCurrent();
 }
 
+// Path-style record URLs: /browse/<type>/<slug>, served by functions/browse/<type>/ with the
+// record's own title and canonical link so search engines can index each record (a hash is
+// never sent to the server). Inside the app, links stay in the hash.
+const PATH_ROUTE_TYPES = new Set(['elections', 'maps', 'parties', 'persons', 'register-interests', 'sources']);
+
+function pathRouteParts() {
+  const match = /^\/browse\/([^/]+)\/(.+?)\/?$/.exec(location.pathname);
+  if (!match || !PATH_ROUTE_TYPES.has(match[1])) return null;
+  try {
+    return [match[1], decodeURIComponent(match[2])];
+  } catch {
+    return [match[1], match[2]];
+  }
+}
+
 function parseRoute() {
-  const hash = decodeURIComponent(location.hash.replace(/^#\/?/, ''));
-  const parts = hash.split('/').filter(Boolean);
+  const pathParts = pathRouteParts();
+  // On a path-style page the path is the route until an in-app link sets a #/ hash; a plain
+  // fragment such as the skip link's #main-content is not a route there.
+  const useHash = !pathParts || /^#\//.test(location.hash);
+  const hash = useHash ? decodeURIComponent(location.hash.replace(/^#\/?/, '')) : '';
+  const parts = useHash ? hash.split('/').filter(Boolean) : pathParts;
   const params = new URLSearchParams(location.search);
   // The fallback type is the first one this section owns, not always 'maps' -- on
   // /catalogue/ that would land the reader in a section the page does not show.
@@ -553,6 +589,7 @@ async function renderCurrent() {
     const item = findItem(data.items || [], state.activeId);
     if (!item) {
       els.results.innerHTML = `<div class="browse-empty">${escapeHtml(config.singular)} not found.</div>`;
+      setDocumentHead({ title: `${config.singular} not found – Civgraph` });
       return;
     }
     await renderDetail(state.activeType, item);
@@ -562,6 +599,7 @@ async function renderCurrent() {
 }
 
 function setPortalHero() {
+  resetDocumentHead();
   const counts = state.manifest?.counts || {};
   const total = (counts.maps || 0)
     + (counts.elections || 0)
@@ -794,6 +832,107 @@ function setHero(config, item) {
     <h1 class="browse-title">${escapeHtml(title)}</h1>
     ${description ? `<p class="browse-description">${escapeHtml(description)}</p>` : ''}
   `;
+  if (item) {
+    setDocumentHead({
+      title: recordDocumentTitle(state.activeType, config, title),
+      description: documentDescriptionForItem(state.activeType, item) || description,
+      canonical: recordCanonicalUrl(state.activeType, item)
+    });
+  } else {
+    setDocumentHead({
+      title: `${config.label} – ${sectionName()} – Civgraph`,
+      description: description || BASE_HEAD.description
+    });
+  }
+}
+
+// THE DOCUMENT HEAD FOLLOWS THE VIEW. Every Browse, Records and Catalogue view used to be
+// titled "Browse - Civgraph" with the same description, so a bookmark, a tab and a search
+// result could not tell Gerry Adams from the 2024 election. functions/_browse-page.js
+// writes the same title, description and canonical into the HTML of the path-style URLs.
+const SITE_ORIGIN = 'https://civgraph.net';
+// The shell's own head, restored on the landing view. A path-style page arrives with the
+// record's head already written in, so it uses the /browse/ shell's values instead.
+const BASE_HEAD = pathRouteParts()
+  ? {
+    title: 'Browse - Civgraph',
+    description: 'Browse Civgraph maps, elections, features, parties, persons, books, tables, and sources.',
+    canonical: `${SITE_ORIGIN}/browse/`
+  }
+  : {
+    title: document.title,
+    description: document.querySelector('meta[name="description"]')?.getAttribute('content') || '',
+    canonical: document.querySelector('link[rel="canonical"]')?.getAttribute('href')
+      || `${SITE_ORIGIN}${SECTION_LAYER === 'source' ? '/catalogue/' : SECTION_LAYER === 'data' ? '/records/' : '/browse/'}`
+  };
+
+function sectionName() {
+  if (SECTION_LAYER === 'source') return 'Catalogue';
+  if (SECTION_LAYER === 'data') return 'Records';
+  return 'Browse';
+}
+
+/** "Gerry Adams – Person – Civgraph"; an election's title already says what it is. */
+function recordDocumentTitle(type, config, title) {
+  if (type === 'elections' || !config?.singular) return `${title} – Civgraph`;
+  return `${title} – ${config.singular} – Civgraph`;
+}
+
+function setDocumentHead({ title, description, canonical } = {}) {
+  document.title = title || BASE_HEAD.title;
+  const text = truncateDescription(description || BASE_HEAD.description);
+  let meta = document.querySelector('meta[name="description"]');
+  if (!meta) {
+    meta = document.createElement('meta');
+    meta.setAttribute('name', 'description');
+    document.head.appendChild(meta);
+  }
+  meta.setAttribute('content', text);
+  let link = document.querySelector('link[rel="canonical"]');
+  if (!link) {
+    link = document.createElement('link');
+    link.setAttribute('rel', 'canonical');
+    document.head.appendChild(link);
+  }
+  link.setAttribute('href', canonical || BASE_HEAD.canonical);
+}
+
+function resetDocumentHead() {
+  setDocumentHead({});
+}
+
+function truncateDescription(value, limit = 300) {
+  const text = String(value || '').replace(/\s+/g, ' ').trim();
+  if (text.length <= limit) return text;
+  const cut = text.slice(0, limit - 1);
+  const space = cut.lastIndexOf(' ');
+  return `${(space > limit * 0.6 ? cut.slice(0, space) : cut).replace(/[\s,;:.-]+$/, '')}…`;
+}
+
+// Records with a path-style page canonicalise there, whichever shell (/browse/, /records/,
+// /catalogue/) and whichever id they were opened by, so each is indexed once.
+function recordCanonicalUrl(type, item) {
+  if (!PATH_ROUTE_TYPES.has(type)) return BASE_HEAD.canonical;
+  const slug = item.slug || slugify(item.id || item.key || item.title);
+  return `${SITE_ORIGIN}/browse/${type}/${encodeURIComponent(slug)}`;
+}
+
+function documentDescriptionForItem(type, item) {
+  if (type === 'persons') {
+    const name = item.name || item.title;
+    const parties = joinList(normalizeArray(item.parties).slice(0, 3).map((party) => party.name));
+    const stood = Number(item.totals?.stood) || normalizeArray(item.elections).length;
+    const elected = Number(item.totals?.elected) || normalizeArray(item.elections).filter((row) => row.elected).length;
+    const places = joinList(normalizeArray(item.constituencies).slice(0, 4).map((place) => place.name));
+    let sentence = `${name}${parties ? ` (${parties})` : ''}`;
+    if (stood) {
+      sentence += ` stood in ${formatNumber(stood)} ${stood === 1 ? 'election' : 'elections'}`;
+      if (places) sentence += ` in ${places}`;
+      if (elected) sentence += `, elected ${formatNumber(elected)} ${elected === 1 ? 'time' : 'times'}`;
+    }
+    return `${sentence}. Election results, parties and sources on Civgraph.`;
+  }
+  return heroDescriptionForItem(type, item) || readerSummaryText(type, item) || `${item.title} on Civgraph.`;
 }
 
 function heroDescriptionForItem(type, item) {
@@ -1277,6 +1416,8 @@ async function renderDetail(type, indexItem) {
   }
   // Map layers get a table of the features that comprise them.
   const featuresPanel = isMap ? await renderMapFeaturesTable(item, graph?.entityId) : '';
+  // A contest (one constituency's result) shows its candidates and count summary.
+  const contestPanel = isContestItem(type, item) ? await renderContestResultPanel(item) : '';
   // Maps render their own header (thumbnail beside the title), so the generic
   // hero would just duplicate the title — blank it for map detail pages.
   if (isMap) els.hero.innerHTML = '';
@@ -1286,6 +1427,7 @@ async function renderDetail(type, indexItem) {
       ${renderDetailActions(config, item)}
       ${renderContributorDetailActions(type, item)}
       ${isMap ? '' : renderHeaderPanel(type, item, pinnedRows)}
+      ${contestPanel}
       ${statementsFolded ? renderRelatedPanel(type, item) : ''}
       ${graphPanel}
       ${featuresPanel}
@@ -1977,17 +2119,24 @@ function renderRelatedPanel(type, item) {
   if (type === 'elections') return renderElectionRelated(item);
   if (type === 'parties') return renderSimpleTable('Linked Elections', ['Date', 'Election', 'Stood', 'Seats', 'Votes'], byDate(item.relatedElections), (row) => [
     formatDate(row.date),
-    row.interactiveUrl ? `<a href="${escapeAttr(row.interactiveUrl)}">${escapeHtml(row.title)}</a>` : escapeHtml(row.title),
+    row.key
+      ? `<a href="#/elections/${encodeURIComponent(electionSlug(row.key))}" data-browse-link>${escapeHtml(row.title)}</a>`
+      : row.interactiveUrl ? `<a href="${escapeAttr(row.interactiveUrl)}">${escapeHtml(row.title)}</a>` : escapeHtml(row.title),
     formatNumber(row.stood),
     formatNumber(row.seats),
     formatNumber(row.votes)
   ]);
-  if (type === 'persons') return renderSimpleTable('Election Appearances', ['Date', 'Election', 'Party', 'Constituency', 'Status'], byDate(item.elections), (row) => [
+  // The election and the constituency open their Browse pages (the constituency is that
+  // contest's result); the map link sits beside them rather than being the only way on.
+  if (type === 'persons') return renderSimpleTable('Election Appearances', ['Date', 'Election', 'Party', 'Constituency', 'Status', 'Map'], byDate(item.elections), (row) => [
     formatDate(row.date),
-    row.interactiveUrl ? `<a href="${escapeAttr(row.interactiveUrl)}">${escapeHtml(row.title)}</a>` : escapeHtml(row.title),
+    row.key ? `<a href="#/elections/${encodeURIComponent(electionSlug(row.key))}" data-browse-link>${escapeHtml(row.title)}</a>` : escapeHtml(row.title),
     escapeHtml(row.party || ''),
-    escapeHtml(row.constituency || ''),
-    escapeHtml(row.status || (row.elected ? 'Elected' : ''))
+    row.key && row.constituency
+      ? `<a href="#/elections/${encodeURIComponent(contestSlug(row.key, row.constituency))}" data-browse-link>${escapeHtml(row.constituency)}</a>`
+      : escapeHtml(row.constituency || ''),
+    escapeHtml(row.status || (row.elected ? 'Elected' : row.elected === false ? 'Not elected' : '')),
+    row.interactiveUrl ? `<a href="${escapeAttr(row.interactiveUrl)}" aria-label="${escapeAttr(`Open ${row.title || 'election'} on the map`)}">Open map</a>` : ''
   ]) + renderSimpleTable('Seats in the Commons (History of Parliament)', ['Constituency', 'Held'], item.seatsHeld || [], (row) => [
     escapeHtml(row.constituency || ''),
     row.source ? `<a href="${escapeAttr(row.source)}" rel="noopener">${escapeHtml(row.dates || '')}</a>` : escapeHtml(row.dates || '')
@@ -2092,17 +2241,20 @@ async function renderEntityRoute(slug) {
   const entity = entityId ? await loadGraphEntitySummary(entityId) : null;
   if (!entity) {
     setHero({ label: 'Entities', singular: 'Entity' }, null);
+    setDocumentHead({ title: 'Entity not found – Civgraph' });
     els.results.innerHTML = '<div class="browse-empty">Entity not found.</div>';
     return;
   }
   const graph = await loadGraphStatementsForEntity(entityId);
   const related = await loadGraphRelatedForEntity(entityId);
   const title = entity.label || entityId;
+  const typeText = entity.typeLabels?.join(', ') || entity.typeIds?.join(', ') || entityId;
   els.hero.innerHTML = `
     <p class="browse-kicker">Entity</p>
     <h1 class="browse-title">${escapeHtml(title)}</h1>
-    <p class="browse-description">${escapeHtml(entity.typeLabels?.join(', ') || entity.typeIds?.join(', ') || entityId)}</p>
+    <p class="browse-description">${escapeHtml(typeText)}</p>
   `;
+  setDocumentHead({ title: `${title} – Entity – Civgraph`, description: `${title}: ${typeText}, in the Civgraph semantic graph.` });
   els.results.innerHTML = renderEntityPage(entityId, entity, graph.statements, related);
 }
 
@@ -2192,14 +2344,20 @@ function renderEntityPage(entityId, entity, statements, related) {
   `;
 }
 
+function entitySubjectLinkHtml(row) {
+  const label = escapeHtml(row.subjectLabel || row.subjectId);
+  if (!row.subjectSlug || (row.subjectId && !isLinkableEntityId(row.subjectId))) return label;
+  return `<a href="#/entities/${encodeURIComponent(row.subjectSlug)}" data-browse-link>${label}</a>`;
+}
+
 function renderEntityRelatedPanel(related) {
   const reverseRows = normalizeArray(related?.reverse).slice(0, 40).map((row) => [
-    row.subjectSlug ? `<a href="#/entities/${encodeURIComponent(row.subjectSlug)}" data-browse-link>${escapeHtml(row.subjectLabel || row.subjectId)}</a>` : escapeHtml(row.subjectLabel || row.subjectId),
+    entitySubjectLinkHtml(row),
     escapeHtml(row.propertyLabel || row.propertyId || ''),
     escapeHtml(joinList(row.subjectTypeLabels))
   ]);
   const sourceRows = normalizeArray(related?.sourceStatements).slice(0, 40).map((row) => [
-    row.subjectSlug ? `<a href="#/entities/${encodeURIComponent(row.subjectSlug)}" data-browse-link>${escapeHtml(row.subjectLabel || row.subjectId)}</a>` : escapeHtml(row.subjectLabel || row.subjectId),
+    entitySubjectLinkHtml(row),
     escapeHtml(row.propertyLabel || row.propertyId || ''),
     escapeHtml([row.sourceKind, row.date].filter(Boolean).join(' / '))
   ]);
@@ -2330,10 +2488,24 @@ function graphStatementValueText(statement) {
 // …). That page lists every other entity sharing the value via its reverse
 // statements — i.e. "show me everything else with this value". Literal values
 // (free-text dates, categories) have no entity page yet, so they stay plain.
+// Entity kinds that have a page: the id namespaces the graph's entity index covers
+// (build-semantic-graph.mjs). Candidatures, entity types, source files and register
+// interests are values in statements but have no index entry, so a link to them always
+// landed on "Entity not found"; they are shown as text instead.
+const LINKABLE_ENTITY_KINDS = new Set([
+  'body', 'contest', 'date-month', 'date-year', 'election', 'feature-group', 'geographic-feature',
+  'map-category', 'map-layer', 'office', 'party', 'person', 'provider', 'register-record', 'source'
+]);
+
+function isLinkableEntityId(id) {
+  const match = /^cg:([a-z-]+):/.exec(String(id || ''));
+  return Boolean(match && LINKABLE_ENTITY_KINDS.has(match[1]));
+}
+
 function graphStatementValueHtml(statement) {
   const value = graphStatementValueText(statement);
   if (!value) return '';
-  if (statement.valueType === 'entity' && statement.valueId) {
+  if (statement.valueType === 'entity' && statement.valueId && isLinkableEntityId(statement.valueId)) {
     return `<a href="#/entities/${encodeURIComponent(statement.valueId)}" data-browse-link>${escapeHtml(value)}</a>`;
   }
   return escapeHtml(value);
@@ -2548,6 +2720,163 @@ function sourceKindLabel(value) {
     .replace(/filtered-westminster-csv/, 'NI MP CSV')
     .replace(/-/g, ' ')
     .replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
+// Election and contest slugs, as scripts/build-browse-indexes.mjs writes them: the key with
+// "__" made "-", then the constituency. The NI Forum's province-wide list is its
+// "Regional List" entry, which person records call "Northern Ireland".
+function electionSlug(key) {
+  return slugify(key);
+}
+
+function contestSlug(key, constituency) {
+  const regionalList = /^northern-ireland-forum/.test(String(key)) && normalizeSearchQuery(constituency) === 'northern ireland';
+  return `${slugify(key)}-${regionalList ? 'regional-list' : slugify(constituency)}`;
+}
+
+function isContestItem(type, item) {
+  return type === 'elections' && item.entryKind === 'election-constituency-result' && Boolean(item.parentElectionKey);
+}
+
+function foldName(value) {
+  return String(value || '')
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+}
+
+async function fetchJsonOrNull(url) {
+  try {
+    const response = await fetch(url, { cache: 'default' });
+    return response.ok ? await response.json() : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * One contest's constituency row and candidates, from the same sources as the map app.
+ *
+ * The elections API first (D1, the default transport in production): by name, which needs
+ * one request. An API that predates the name lookup answers that request with the whole
+ * election instead, so the row number is read from it and the constituency asked for by
+ * number, as election-manager.js ensureAnimationPayload does. If the API cannot answer at
+ * all, the election's static bundle (resultUrl) still has every result.
+ */
+async function loadContestResult(item) {
+  const key = item.parentElectionKey;
+  const name = item.constituency || item.sourceResultName || item.resultName;
+  if (!key || !name) return null;
+  const wanted = foldName(name);
+  const sameName = (row) => foldName(row?.name || row?.constituency) === wanted;
+  const base = `/_api/elections?key=${encodeURIComponent(key)}`;
+
+  const byName = await fetchJsonOrNull(`${base}&constituencyName=${encodeURIComponent(name)}`);
+  if (byName && Array.isArray(byName.candidates) && byName.constituency) {
+    return { constituency: byName.constituency, candidates: byName.candidates };
+  }
+  const row = Array.isArray(byName?.constituencies) ? byName.constituencies.find(sameName) : null;
+  if (row && Number.isInteger(Number(row.seq))) {
+    const bySeq = await fetchJsonOrNull(`${base}&constituency=${Number(row.seq)}`);
+    if (bySeq && Array.isArray(bySeq.candidates)) return { constituency: bySeq.constituency || row, candidates: bySeq.candidates };
+  }
+
+  if (item.resultUrl) {
+    const bundle = await fetchJsonOrNull(item.resultUrl);
+    const result = (bundle?.results || []).find(sameName);
+    if (result) return { constituency: { ...result, votingSystem: result.votingSystem || bundle.votingSystem }, candidates: result.candidates || [] };
+  }
+  return null;
+}
+
+function contestIsStv(constituency, item) {
+  const system = foldName(constituency?.votingSystem || item.votingSystem || '');
+  if (system.includes('stv')) return true;
+  const quota = Number(constituency?.quota);
+  return Number.isFinite(quota) && quota > 0 && normalizeArray(constituency?.countNumbers).some((count) => Number(count) > 1);
+}
+
+function contestPersonLink(candidate) {
+  const name = escapeHtml(candidate.name || '');
+  const personId = candidate.personId ?? candidate.person_id;
+  if (personId === null || personId === undefined || personId === '') return name;
+  // The persons endpoint finds a record by id as well as by slug, so the id is the link that
+  // cannot miss when a candidacy's spelling differs from the person's canonical name.
+  return `<a href="#/persons/${encodeURIComponent(String(personId))}" data-browse-link>${name}</a>`;
+}
+
+async function renderContestResultPanel(item) {
+  const result = await loadContestResult(item);
+  if (!result || !result.candidates?.length) {
+    return `
+      <section class="browse-detail__panel">
+        <h2>Result</h2>
+        <p class="browse-note">The candidates for this contest could not be loaded.${item.interactiveUrl ? ` They are on the <a href="${escapeAttr(item.interactiveUrl)}">interactive map</a>.` : ''}</p>
+      </section>
+    `;
+  }
+  const { constituency = {}, candidates } = result;
+  // "1st pref" under STV; a plurality ballot (Westminster, the old block votes) and anything
+  // else counts plain votes, as the map app's tables now say.
+  const stv = contestIsStv(constituency, item);
+  const votesLabel = stv ? '1st pref' : 'Votes';
+  const firstPrefs = (candidate) => Number(candidate.firstPrefs ?? candidate.votes ?? 0) || 0;
+  const sorted = [...candidates].sort((a, b) => firstPrefs(b) - firstPrefs(a));
+  const valid = Number(constituency.validPoll || constituency.totalVotes) || sorted.reduce((sum, candidate) => sum + firstPrefs(candidate), 0);
+  const outcome = (candidate) => {
+    if (candidate.elected) return stv && candidate.electedAt ? `Elected (count ${candidate.electedAt})` : 'Elected';
+    if (stv && candidate.excluded && candidate.excludedAt) return `Excluded (count ${candidate.excludedAt})`;
+    return 'Not elected';
+  };
+  const rows = sorted.map((candidate) => {
+    const share = valid ? `${(firstPrefs(candidate) / valid * 100).toFixed(1)}%` : '';
+    const party = candidate.colour
+      ? `<span class="browse-badge" style="border-color:${escapeAttr(candidate.colour)}">${escapeHtml(candidate.party || 'Independent')}</span>`
+      : escapeHtml(candidate.party || '');
+    return `
+      <tr${candidate.elected ? ' class="browse-contest__elected"' : ''}>
+        <td>${contestPersonLink(candidate)}</td>
+        <td>${party}</td>
+        <td class="browse-num">${formatNumber(firstPrefs(candidate))}</td>
+        <td class="browse-num">${share}</td>
+        <td>${escapeHtml(outcome(candidate))}</td>
+      </tr>
+    `;
+  }).join('');
+  const turnout = Number(constituency.turnoutPct);
+  const summaryRows = [
+    ['Seats', constituency.seatsTotal ?? constituency.countInfo?.Number_Of_Seats],
+    ['Electorate', constituency.electorate ? formatNumber(constituency.electorate) : ''],
+    ['Total poll', constituency.totalPoll ? formatNumber(constituency.totalPoll) : ''],
+    ['Invalid', constituency.spoiled ? formatNumber(constituency.spoiled) : ''],
+    ['Valid', valid ? formatNumber(valid) : ''],
+    ['Turnout', Number.isFinite(turnout) && turnout > 0 ? `${turnout.toFixed(2)}%` : ''],
+    ['Quota', stv && constituency.quota ? formatNumber(constituency.quota) : ''],
+    ['Counts', stv && normalizeArray(constituency.countNumbers).length > 1 ? normalizeArray(constituency.countNumbers).length : '']
+  ];
+  const elected = sorted.filter((candidate) => candidate.elected).length;
+  return `
+    <section class="browse-detail__panel browse-contest">
+      <h2>Result</h2>
+      ${renderDefinitionRows(summaryRows, 'browse-reader-facts')}
+      <div class="browse-table-wrap">
+        <table class="browse-table">
+          <caption class="visually-hidden">Candidates in ${escapeHtml(item.resultName || item.constituency || '')}, ${escapeHtml(item.parentTitle || '')}: ${formatNumber(sorted.length)} standing, ${formatNumber(elected)} elected</caption>
+          <thead><tr>
+            <th scope="col">Candidate</th>
+            <th scope="col">Party</th>
+            <th scope="col" class="browse-num">${votesLabel}</th>
+            <th scope="col" class="browse-num">Share</th>
+            <th scope="col">Result</th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </section>
+  `;
 }
 
 function renderElectionRelated(item) {
@@ -3558,7 +3887,7 @@ async function renderFeatureGroups(data) {
 async function renderFeatureGroupDetail(item) {
   let featureData = null;
   try {
-    featureData = await loadJson(`../data/database/spatial-index/${encodeURIComponent(item.id)}.json`);
+    featureData = await loadJson(`/data/database/spatial-index/${encodeURIComponent(item.id)}.json`);
     state.loadedFeatureMap = item.id;
   } catch {
     featureData = null;

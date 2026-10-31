@@ -2295,3 +2295,22 @@ a.visually-hidden:focus-visible {
 
 :root[data-theme="dark"] .contributor-form__status--error { color: #fca5a5; }
 :root[data-theme="dark"] .contributor-form__status--success { color: #86efac; }
+
+/* A contest's result: candidates by first preferences (or votes), elected rows marked. */
+.browse-contest .browse-reader-facts {
+  margin-bottom: var(--space-3, .75rem);
+}
+
+.browse-table .browse-num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.browse-contest__elected td {
+  font-weight: 600;
+}
+
+.browse-contest__elected td:first-child {
+  box-shadow: inset 3px 0 0 var(--color-accent);
+}
