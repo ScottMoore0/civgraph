@@ -1524,7 +1524,9 @@ function votingSystemForElection(entry, result = null) {
   if (bodySlug === 'european-parliament') return 'stv-gregory';
   if (bodySlug === 'local-government') return 'stv-gregory';
   if (PRE1973_COUNCIL_BODY_SLUGS.has(bodySlug)) {
-    if (String(entry?.date || '').startsWith('1920')) return 'stv-gregory';
+    // 1920 counts moved whole ballot papers, never fractions (Proportional Representation
+    // (Ireland) Order 1919): the Hare-type rules the Dail kept, not Gregory.
+    if (String(entry?.date || '').startsWith('1920')) return 'stv-hare';
     const seats = parseNumber(result?.seatsTotal) || parseNumber(result?.seatsWon);
     return seats && seats > 1 ? 'block-vote' : 'fptp';
   }
@@ -1533,7 +1535,9 @@ function votingSystemForElection(entry, result = null) {
   if (bodySlug === 'northern-ireland-forum-for-political-dialogue') {
     return resultName === 'northern ireland' ? 'ordinal' : 'party-list-dhondt';
   }
-  if (bodySlug === 'parliament-of-northern-ireland') return year > 0 && year < 1929 ? 'stv-gregory' : 'fptp';
+  // Stormont 1921 and 1925 counted under the Representation of the People Act 1918 rules
+  // (Government of Ireland Act 1920 s.14(3)): whole-paper transfers, as Elliott's tables show.
+  if (bodySlug === 'parliament-of-northern-ireland') return year > 0 && year < 1929 ? 'stv-hare' : 'fptp';
   if (bodySlug === 'house-of-commons-of-the-united-kingdom') {
     const seats = parseNumber(result?.seatsTotal) || parseNumber(result?.seatsWon);
     return seats && seats > 1 ? 'block-vote' : 'fptp';

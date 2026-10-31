@@ -22,7 +22,8 @@
   "party-labels-followup-2026-10-30": "Follow-up to party-labels-2026-10-29: the agreed Ailtirí na hAiséirghe and Clann Éireann relabels and a source note for Patrick O'Reilly (Cavan 1943, 1944). Stage only; merge with the usual tool. mergeAction 'append' where source-checked-fixes.json already holds a record for that sourceFile (party-labels-2026-10-29).",
   "ark-six-contests-2026-10-30": "Six NI Assembly (1973, 1982) and Convention (1975) contests the ARK cross-check of 2026-10-29 left out for want of an official sheet, settled from the Chief Electoral Officer for Northern Ireland's published result sheets (eoni.org.uk, Internet Archive copies of 1 April 2017). Includes 1982 Belfast South and 1975 Belfast East, settled from the same sheets.",
   "ni-booklets-sweep-2026-10-30": "Every remaining 1973 Assembly, 1975 Convention and 1982 Assembly contest checked against the Chief Electoral Officer for Northern Ireland's published result booklets (eoni.org.uk, Internet Archive copies of 1 April 2017): header figures, first preferences and the members elected. The six contests of ark-six-contests-2026-10-30 and its two further records are in that batch.",
-  "elliott-qub-2026-10-31": "Queen's University of Belfast general elections of 1949, 1953 and 1958 checked against Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (Political Reference Publications, 1973), with the Wikipedia article on the constituency as the second source: Samuel Irwin (UUP), elected first at all three, was missing, so a defeated candidate showed as elected each time. Applied only where both sources agree."
+  "elliott-qub-2026-10-31": "Queen's University of Belfast general elections of 1949, 1953 and 1958 checked against Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (Political Reference Publications, 1973), with the Wikipedia article on the constituency as the second source: Samuel Irwin (UUP), elected first at all three, was missing, so a defeated candidate showed as elected each time. Applied only where both sources agree.",
+  "elliott-1921-labour-2026-10-31": "Belfast Labour Party candidates at the Northern Ireland general election of 24 May 1921 relabelled Independent Labour, as Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (Political Reference Publications, 1973), prints them; Graham Walker's account agrees."
  },
  "records": [
   {
@@ -227871,6 +227872,72 @@
      "set": {
       "Surname": "Simms",
       "candidateName": "S. Simms"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "elliott-1921-labour-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1921-05-24/belfast-east.json",
+   "source": {
+    "title": "Sydney Elliott (ed.), Northern Ireland Parliamentary Election Results 1921-1972 (Chichester: Political Reference Publications, 1973), 1921 Belfast results; with Graham Walker, 'Class Matters: Aspects of the First Northern Ireland Election' (Creative Centenaries)",
+    "publisher": "Political Reference Publications; Creative Centenaries",
+    "url": "https://creativecentenaries.org/blog/class-matters-aspects-of-the-first-northern-ireland-election",
+    "accessed": "2026-10-31"
+   },
+   "category": "party",
+   "reason": "Harry Midgley stood as Independent Labour: Elliott prints him 'Ind Lab', his key's mark for an unofficial candidate of a party. The Belfast Labour Party did not put up official candidates in 1921 and backed Midgley, Baird and Hanna, with A. Adams in Down, as independents; the British Labour Party paid their deposits (Emmet O'Connor, Rotten Prod, 2022, p. 61). The import labelled him Belfast Labour.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Harry Midgley",
+     "set": {
+      "Party_Name": "Independent Labour",
+      "Party_Colour": "#FF9999"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "elliott-1921-labour-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1921-05-24/belfast-south.json",
+   "source": {
+    "title": "Sydney Elliott (ed.), Northern Ireland Parliamentary Election Results 1921-1972 (Chichester: Political Reference Publications, 1973), 1921 Belfast results; with Graham Walker, 'Class Matters: Aspects of the First Northern Ireland Election' (Creative Centenaries)",
+    "publisher": "Political Reference Publications; Creative Centenaries",
+    "url": "https://creativecentenaries.org/blog/class-matters-aspects-of-the-first-northern-ireland-election",
+    "accessed": "2026-10-31"
+   },
+   "category": "party",
+   "reason": "James Baird stood as Independent Labour: Elliott prints him 'Ind Lab', his key's mark for an unofficial candidate of a party. The Belfast Labour Party did not put up official candidates in 1921 and backed Midgley, Baird and Hanna, with A. Adams in Down, as independents; the British Labour Party paid their deposits (Emmet O'Connor, Rotten Prod, 2022, p. 61). The import labelled him Belfast Labour.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "James Baird",
+     "set": {
+      "Party_Name": "Independent Labour",
+      "Party_Colour": "#FF9999"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "elliott-1921-labour-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1921-05-24/belfast-west.json",
+   "source": {
+    "title": "Sydney Elliott (ed.), Northern Ireland Parliamentary Election Results 1921-1972 (Chichester: Political Reference Publications, 1973), 1921 Belfast results; with Graham Walker, 'Class Matters: Aspects of the First Northern Ireland Election' (Creative Centenaries)",
+    "publisher": "Political Reference Publications; Creative Centenaries",
+    "url": "https://creativecentenaries.org/blog/class-matters-aspects-of-the-first-northern-ireland-election",
+    "accessed": "2026-10-31"
+   },
+   "category": "party",
+   "reason": "John Hanna stood as Independent Labour: Elliott prints him 'Ind Lab', his key's mark for an unofficial candidate of a party. The Belfast Labour Party did not put up official candidates in 1921 and backed Midgley, Baird and Hanna, with A. Adams in Down, as independents; the British Labour Party paid their deposits (Emmet O'Connor, Rotten Prod, 2022, p. 61). The import labelled him Belfast Labour.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "John Hanna",
+     "set": {
+      "Party_Name": "Independent Labour",
+      "Party_Colour": "#FF9999"
      }
     }
    ]
