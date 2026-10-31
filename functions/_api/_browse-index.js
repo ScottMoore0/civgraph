@@ -115,7 +115,10 @@ export function browseIndexHandler({ table, key, version, filters = {}, sorts = 
       // search_norm, not title_norm: browse.js's filter looks at ~32 fields including
       // aliases, categories and party names. Matching the title alone would return
       // fewer results than the client did and report nothing about the difference.
-      if (query) where.push(`search_norm LIKE ${bind(`%${query.toLowerCase()}%`)}`);
+      // Folded like the column (build-browse-index-d1-import.mjs) and matched word by word, so
+      // "Micheal Martin" finds "Micheál Martin" and word order does not matter.
+      const words = query.normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase().split(/\s+/).filter(Boolean).slice(0, 8);
+      for (const word of words) where.push(`search_norm LIKE ${bind(`%${word}%`)}`);
 
       // ORDER BY. `ord` is the default and preserves the source index's order, which
       // browse relies on; a named sort must be one this entity declared, so an unknown

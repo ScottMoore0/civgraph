@@ -304,12 +304,33 @@ async function init() {
 
 let lastRoutedAddress = null;
 
+// Every navigation, search or filter change starts a new render. A render that finishes after
+// a newer one has started must not write: a slow record opened just before the reader moved
+// on used to land on top of the new view (the address said Elections, the page showed a map).
+// Each async render takes the counter on entry and returns after any await if it has moved.
+let renderSeq = 0;
+
 function bindEvents() {
   els.search?.addEventListener('input', () => {
     state.query = els.search.value.trim();
     state.listShown = LIST_PAGE_SIZE;   // T2-09: a new query starts at page one
+    syncListAddress();
     renderCurrent();
   });
+
+  // Where the reader had scrolled to, per address, so Back returns them to the same card. Not
+  // while a navigation is rendering: the page shrinks to "Loading" and the clamped position
+  // would overwrite the one being restored.
+  let scrollPending = false;
+  window.addEventListener('scroll', () => {
+    if (scrollPending || state.routing) return;
+    scrollPending = true;
+    setTimeout(() => {
+      scrollPending = false;
+      if (state.routing) return;
+      try { sessionStorage.setItem(`browse-scroll:${currentAddress()}`, String(Math.round(window.scrollY))); } catch { /* storage blocked */ }
+    }, 150);
+  }, { passive: true });
 
   document.addEventListener('click', (event) => {
     const portalJump = event.target.closest('[data-portal-jump]');
@@ -327,7 +348,10 @@ function bindEvents() {
       event.preventDefault();
       serverMore.disabled = true;
       serverMore.textContent = 'Loading...';
-      renderServerList(state.serverList.type || state.activeType, { append: true });
+      const before = cardCount();
+      state.listShown += LIST_PAGE_SIZE;
+      syncListAddress();
+      renderServerList(state.serverList.type || state.activeType, { append: true }).then(() => focusCard(before));
       return;
     }
 
@@ -335,10 +359,12 @@ function bindEvents() {
     const listMore = event.target.closest('[data-list-load-more]');
     if (listMore) {
       event.preventDefault();
+      const before = cardCount();
       state.listShown += LIST_PAGE_SIZE;
+      syncListAddress();
       // Re-render through the closure the listing registered, so this works for
       // every listing type without a switch on state.activeType.
-      state.lastListRender?.();
+      Promise.resolve(state.lastListRender?.()).then(() => focusCard(before));
       return;
     }
 
@@ -373,7 +399,7 @@ function bindEvents() {
     if (registerSort) {
       event.preventDefault();
       state.registerInterestControls.sortKey = registerSort.dataset.registerSort || 'date';
-      renderCurrent();
+      rerenderList();
       return;
     }
 
@@ -381,7 +407,7 @@ function bindEvents() {
     if (registerDirection) {
       event.preventDefault();
       state.registerInterestControls.sortDir = registerDirection.dataset.registerDirection === 'asc' ? 'asc' : 'desc';
-      renderCurrent();
+      rerenderList();
       return;
     }
 
@@ -389,7 +415,7 @@ function bindEvents() {
     if (clearRegisterFilters) {
       event.preventDefault();
       state.registerInterestControls.filters = {};
-      renderCurrent();
+      rerenderList();
       return;
     }
 
@@ -397,7 +423,7 @@ function bindEvents() {
     if (clearSourceFilters) {
       event.preventDefault();
       for (const key of Object.keys(state.sourceFilters)) state.sourceFilters[key] = '';
-      renderCurrent();
+      rerenderList();
       return;
     }
 
@@ -424,7 +450,7 @@ function bindEvents() {
       // Changing a facet invalidates the accumulated pages, so renderCurrent() re-requests
       // from offset 0 rather than appending to a list built under the old filter.
       if (key && key in state.sourceFilters) state.sourceFilters[key] = sourceFilter.value || '';
-      renderCurrent();
+      rerenderList();
       return;
     }
 
@@ -438,7 +464,7 @@ function bindEvents() {
     } else {
       delete state.registerInterestControls.filters[key];
     }
-    renderCurrent();
+    rerenderList();
   });
 
   els.contributorForm?.addEventListener('submit', submitContributorForm);
@@ -453,8 +479,9 @@ function applyRoute() {
   if (pathRouteParts() && /^#\//.test(location.hash)) {
     history.replaceState(history.state, '', `/browse/${location.hash}`);
   }
-  const address = `${location.pathname}${location.search}${location.hash}`;
+  const address = currentAddress();
   if (address === lastRoutedAddress) return;
+  const firstRoute = lastRoutedAddress === null;
   lastRoutedAddress = address;
   const route = parseRoute();
   state.isHome = route.isHome;
@@ -463,11 +490,110 @@ function applyRoute() {
   state.selectedFeatureMap = route.params.get('map');
   if (route.params.has('q')) {
     state.query = route.params.get('q').trim();
-    state.listShown = LIST_PAGE_SIZE;   // T2-09
     if (els.search) els.search.value = state.query;
   }
+  // A list's depth, sort and filters come from its address, so Back, a reload or a shared
+  // link shows the same list (T2-09: without a depth in the address, page one).
+  state.listShown = Math.max(LIST_PAGE_SIZE, Math.min(5000, Number(route.params.get('shown')) || LIST_PAGE_SIZE));
+  if (!route.id) readListControls(route.type, route.params);
   renderGroups();
-  renderCurrent();
+  state.routing = true;
+  renderCurrent().then(
+    () => afterRouteRender(address, { firstRoute, isList: !route.id && !route.isHome }),
+    (error) => { state.routing = false; console.error(error); }
+  );
+}
+
+function currentAddress() {
+  return `${location.pathname}${location.search}${location.hash}`;
+}
+
+/** Sort and filters of the two server-side lists, from ?sort, ?dir and ?f.<facet> in the address. */
+function readListControls(type, params) {
+  if (type === 'sources') {
+    state.sourceFilters = Object.fromEntries(Object.keys(state.sourceFilters).map((key) => [key, params.get(`f.${key}`) || '']));
+  }
+  if (type === 'register-interests') {
+    const filters = {};
+    for (const [key, value] of params) if (key.startsWith('f.') && value) filters[key.slice(2)] = value;
+    state.registerInterestControls = {
+      ...state.registerInterestControls,
+      sortKey: params.get('sort') || 'date',
+      sortDir: params.get('dir') === 'asc' ? 'asc' : 'desc',
+      filters
+    };
+  }
+}
+
+/**
+ * Write the current list's search, depth, sort and filters into the address without a new
+ * history entry, so the list can be bookmarked, shared, reloaded or returned to with Back.
+ */
+function syncListAddress() {
+  if (state.isHome || state.activeId || pathRouteParts() || !ENTITY_CONFIG[state.activeType]) return;
+  const params = new URLSearchParams();
+  if (state.query) params.set('q', state.query);
+  if (state.listShown > LIST_PAGE_SIZE) params.set('shown', String(state.listShown));
+  if (state.activeType === 'sources') {
+    for (const [key, value] of Object.entries(state.sourceFilters)) if (value) params.set(`f.${key}`, value);
+  }
+  if (state.activeType === 'register-interests') {
+    const controls = state.registerInterestControls;
+    if (controls.sortKey && controls.sortKey !== 'date') params.set('sort', controls.sortKey);
+    if (controls.sortDir === 'asc') params.set('dir', 'asc');
+    for (const [key, value] of Object.entries(controls.filters)) if (value) params.set(`f.${key}`, value);
+  }
+  const query = params.toString();
+  const hash = `#/${state.activeType}${query ? `?${query}` : ''}`;
+  if (location.hash === hash) return;
+  history.replaceState(history.state, '', `${location.pathname}${location.search}${hash}`);
+  lastRoutedAddress = currentAddress();
+}
+
+/**
+ * After a navigation: a list returns to where the reader left it; anything else starts at the
+ * top with focus on its heading, so keyboard and screen-reader users land on the new page
+ * rather than on <body> half-way down the old one. The first page load leaves focus alone.
+ */
+function afterRouteRender(address, { firstRoute, isList }) {
+  if (address !== lastRoutedAddress && address !== currentAddress()) return;
+  state.routing = false;
+  let saved = null;
+  try { saved = sessionStorage.getItem(`browse-scroll:${currentAddress()}`); } catch { /* storage blocked */ }
+  window.scrollTo(0, isList && saved !== null ? Number(saved) || 0 : 0);
+  if (firstRoute) return;
+  const heading = els.hero.querySelector('h1') || els.results.querySelector('h1, h2');
+  if (heading) {
+    heading.setAttribute('tabindex', '-1');
+    heading.focus({ preventScroll: true });
+  }
+}
+
+/** Re-render a list after a filter or sort change: page one, address updated, focus kept. */
+async function rerenderList() {
+  state.listShown = LIST_PAGE_SIZE;
+  syncListAddress();
+  const key = focusKeyFor(document.activeElement);
+  await renderCurrent();
+  const target = key ? document.querySelector(key) : null;
+  (target || els.results.querySelector('select, button'))?.focus({ preventScroll: true });
+}
+
+function focusKeyFor(element) {
+  for (const attr of ['data-source-filter', 'data-register-filter', 'data-register-sort', 'data-register-direction']) {
+    if (element?.hasAttribute?.(attr)) return `[${attr}="${CSS.escape(element.getAttribute(attr))}"]`;
+  }
+  return null;
+}
+
+function cardCount() {
+  return els.results.querySelectorAll('.browse-card').length;
+}
+
+/** After "Show more", move focus to the first card that was added. */
+function focusCard(index) {
+  const card = els.results.querySelectorAll('.browse-card')[index];
+  card?.querySelector('a, button')?.focus({ preventScroll: true });
 }
 
 // Path-style record URLs: /browse/<type>/<slug>, served by functions/browse/<type>/ with the
@@ -490,9 +616,13 @@ function parseRoute() {
   // On a path-style page the path is the route until an in-app link sets a #/ hash; a plain
   // fragment such as the skip link's #main-content is not a route there.
   const useHash = !pathParts || /^#\//.test(location.hash);
-  const hash = useHash ? decodeURIComponent(location.hash.replace(/^#\/?/, '')) : '';
+  const rawHash = useHash ? location.hash.replace(/^#\/?/, '') : '';
+  // A list keeps its search, depth, sort and filters after a ? inside the hash (syncListAddress).
+  const [hashPath, hashQuery = ''] = rawHash.split('?');
+  const hash = decodeURIComponent(hashPath);
   const parts = useHash ? hash.split('/').filter(Boolean) : pathParts;
   const params = new URLSearchParams(location.search);
+  for (const [key, value] of new URLSearchParams(hashQuery)) params.set(key, value);
   // The fallback type is the first one this section owns, not always 'maps' -- on
   // /catalogue/ that would land the reader in a section the page does not show.
   const fallback = sectionTypes()[0] || 'maps';
@@ -523,6 +653,9 @@ function renderGroups() {
       </a>
     `;
   }).join('');
+  // On a phone the sections are one scrolling row: bring the current one into view.
+  const active = els.groups.querySelector('.browse-group-link--active');
+  if (active && els.groups.scrollWidth > els.groups.clientWidth) els.groups.scrollLeft = Math.max(0, active.offsetLeft - 16);
 }
 
 function countForGroup(id, counts) {
@@ -531,9 +664,10 @@ function countForGroup(id, counts) {
 }
 
 async function renderCurrent() {
-  // T2-09: every navigation starts a listing at page one. Without this, opening a
-  // section after paging deep into another would render thousands of cards.
-  state.listShown = LIST_PAGE_SIZE;
+  const token = ++renderSeq;
+  // T2-09: the depth of a listing (state.listShown) is set by applyRoute from the address and
+  // reset to page one by every search, filter or sort change, not here: a re-render from
+  // Back must keep the depth the reader had reached.
   state.lastListRender = null;
   if (state.isHome) {
     state.currentDetail = null;
@@ -566,6 +700,13 @@ async function renderCurrent() {
   // the fallback is deliberately second, because it is the slow path.
   if (state.activeId && D1_INDEXES.has(state.activeType)) {
     const item = await fetchIndexRecord(state.activeType, state.activeId);
+    if (token !== renderSeq) return;
+    // A stale or mistyped link used to fall through to the whole list (24,772 people) with no
+    // word that the record was missing.
+    if (item === RECORD_NOT_FOUND) {
+      renderNotFound(config, state.activeId);
+      return;
+    }
     if (item) {
       await renderDetail(state.activeType, item);
       return;
@@ -580,7 +721,19 @@ async function renderCurrent() {
     return;
   }
 
+  // An election or one constituency's result opens from its own file: elections.json (54 MB,
+  // every contest) is only needed for the list.
+  if (state.activeId && state.activeType === 'elections') {
+    const record = await loadElectionRecord(state.activeId);
+    if (token !== renderSeq) return;
+    if (record) {
+      await renderDetail('elections', record);
+      return;
+    }
+  }
+
   const data = await loadIndex(state.activeType);
+  if (token !== renderSeq) return;
   if (state.activeType === 'features') {
     await renderFeatureGroups(data);
     return;
@@ -588,14 +741,29 @@ async function renderCurrent() {
   if (state.activeId) {
     const item = findItem(data.items || [], state.activeId);
     if (!item) {
-      els.results.innerHTML = `<div class="browse-empty">${escapeHtml(config.singular)} not found.</div>`;
-      setDocumentHead({ title: `${config.singular} not found – Civgraph` });
+      renderNotFound(config, state.activeId);
       return;
     }
     await renderDetail(state.activeType, item);
     return;
   }
   renderList(state.activeType, data.items || []);
+}
+
+/** A record that does not exist: say so, link back to its list, and offer a search for the slug. */
+function renderNotFound(config, id) {
+  const words = decodeURIComponent(String(id || '')).replace(/[-_]+/g, ' ').replace(/\b\d{3,}\b/g, '').replace(/\s+/g, ' ').trim();
+  els.hero.innerHTML = `
+    <p class="browse-kicker">Browse</p>
+    <h1 class="browse-title" tabindex="-1">${escapeHtml(config.singular)} not found</h1>
+  `;
+  els.results.innerHTML = `
+    <div class="browse-empty">
+      <p>No ${escapeHtml(config.singular.toLowerCase())} has the address “${escapeHtml(String(id || ''))}”. The link may be out of date.</p>
+      <p><a href="#/${escapeAttr(state.activeType)}" data-browse-link>All ${escapeHtml(config.label.toLowerCase())}</a>${words ? ` · <a href="#/${escapeAttr(state.activeType)}?q=${encodeURIComponent(words)}" data-browse-link>Search for “${escapeHtml(words)}”</a>` : ''}</p>
+    </div>`;
+  setDocumentHead({ title: `${config.singular} not found – Civgraph` });
+  announce(`${config.singular} not found.`);
 }
 
 function setPortalHero() {
@@ -1178,6 +1346,7 @@ async function loadProniNode(slug) {
 }
 
 async function renderProniRoute(id) {
+  const token = renderSeq;
   const config = ENTITY_CONFIG.proni;
   state.currentDetail = null;
   if (!id) {
@@ -1186,11 +1355,13 @@ async function renderProniRoute(id) {
     // Prefer the static roots file (CDN-cached, no D1 hit); fall back to the API.
     let data = await loadJson(`${DATA_ROOT}/proni-roots.json`).catch(() => null);
     if (!data || !data.roots) data = await loadJson('/_api/proni/node').catch(() => null);
+    if (token !== renderSeq) return;
     renderProniLanding(config, (data && data.roots) || []);
     return;
   }
   els.results.innerHTML = '<div class="browse-loading">Loading record...</div>';
   const node = await loadProniNode(id);
+  if (token !== renderSeq) return;
   if (!node) {
     els.results.innerHTML = '<div class="browse-empty">PRONI record not found.</div>';
     setHero(config, { title: proniSlugToRef(id) });
@@ -1385,8 +1556,10 @@ function renderProniDetailPage(node) {
 }
 
 async function renderDetail(type, indexItem) {
+  const token = renderSeq;
   const config = ENTITY_CONFIG[type];
   const detail = await loadDetail(type, indexItem);
+  if (token !== renderSeq) return;
   const item = detail?.item || indexItem;
   state.currentDetail = { type, item };
   setHero(config, item);
@@ -1399,6 +1572,7 @@ async function renderDetail(type, indexItem) {
   } catch (error) {
     console.warn('Graph statements could not be loaded for Browse detail page.', error);
   }
+  if (token !== renderSeq) return;
   const pinnedRows = pinnedStatementRows(graph?.statements || []);
   // Maps fold their downloadable files into the statements panel as a
   // "Downloads & files" statement group, so the whole map body is one semantic
@@ -1410,6 +1584,7 @@ async function renderDetail(type, indexItem) {
   // hundreds of raw statements. The register-interests page has its own summary above them.
   const statementsFolded = ['register-interests', 'persons', 'elections', 'parties'].includes(type);
   const graphPanel = await renderGraphStatementsPanel(type, item, { collapsed: statementsFolded, graph, fileLinks });
+  if (token !== renderSeq) return;
   if (type === 'register-interests') {
     els.results.innerHTML = renderRegisterInterestDetailPage(config, item, graphPanel);
     return;
@@ -1418,6 +1593,7 @@ async function renderDetail(type, indexItem) {
   const featuresPanel = isMap ? await renderMapFeaturesTable(item, graph?.entityId) : '';
   // A contest (one constituency's result) shows its candidates and count summary.
   const contestPanel = isContestItem(type, item) ? await renderContestResultPanel(item) : '';
+  if (token !== renderSeq) return;
   // Maps render their own header (thumbnail beside the title), so the generic
   // hero would just duplicate the title — blank it for map detail pages.
   if (isMap) els.hero.innerHTML = '';
@@ -1469,7 +1645,13 @@ function renderHeaderPanel(type, item, pinnedRows = []) {
   // Only let statements drive the header when they yield a substantive set of
   // facts; sparse catalogue records keep their more informative curated header.
   const usingStatements = pinnedRows.length >= 2;
-  const primary = usingStatements ? pinnedRows : curatedPinned;
+  let primary = usingStatements ? pinnedRows : curatedPinned;
+  // A person's dates lead the header even when graph statements fill it: they were in the
+  // data but never shown, under a note crediting Wikidata for them.
+  if (usingStatements && type === 'persons') {
+    const dates = [['Born', formatDate(item.born)], ['Died', formatDate(item.died)]].filter(([, value]) => value);
+    primary = [...dates, ...pinnedRows];
+  }
   const primaryLabels = summaryLabelSet(primary);
   const secondarySource = usingStatements
     ? [...curatedPinned, ...metadataRows(type, item)]
@@ -1501,7 +1683,8 @@ function renderMoreFields(rows, label = 'More fields') {
 function readerSummaryText(type, item) {
   if (type === 'elections') return item.description || `${formatNumber(item.totalConstituencies || 0)} constituencies/features in this election record.`;
   if (type === 'persons') return joinList(item.parties?.slice(0, 4).map((party) => party.name)) || item.subtitle || '';
-  if (type === 'parties') return `${item.title || item.canonicalName} appears in ${formatNumber(item.relatedElectionCount || 0)} election summaries.`;
+  // The detail record has no relatedElectionCount, so this read 0 above a 141-row table.
+  if (type === 'parties') return `${item.title || item.canonicalName} appears in ${formatNumber(item.relatedElectionCount ?? item.relatedElections?.length ?? 0)} election summaries.`;
   if (type === 'sources') return item.description || joinList(item.downloads?.slice(0, 2).map((link) => link.label)) || '';
   return item.description || item.subtitle || '';
 }
@@ -1527,7 +1710,8 @@ function readerSummaryRows(type, item) {
   }
   if (type === 'parties') {
     return [
-      ['Canonical name', item.canonicalName || item.title],
+      ['Name', item.title || item.canonicalName],
+      ['Short name', item.shortName],
       ['Years', item.subtitle],
       ['Observed labels', item.observedNames?.length],
       ['Election appearances', item.occurrenceCount]
@@ -1536,6 +1720,8 @@ function readerSummaryRows(type, item) {
   if (type === 'persons') {
     return [
       ['Name', item.name || item.title],
+      ['Born', formatDate(item.born)],
+      ['Died', formatDate(item.died)],
       ['Years', item.subtitle],
       ['Parties', joinList(item.parties?.slice(0, 5).map((party) => party.name))],
       ['Contests', item.totals?.stood],
@@ -2122,9 +2308,11 @@ function renderRelatedPanel(type, item) {
     row.key
       ? `<a href="#/elections/${encodeURIComponent(electionSlug(row.key))}" data-browse-link>${escapeHtml(row.title)}</a>`
       : row.interactiveUrl ? `<a href="${escapeAttr(row.interactiveUrl)}">${escapeHtml(row.title)}</a>` : escapeHtml(row.title),
-    formatNumber(row.stood),
-    formatNumber(row.seats),
-    formatNumber(row.votes)
+    // A 0 beside seats won is a figure the summary did not carry (unopposed returns, older
+    // files with no candidate counts), not a real zero: "Stood 0, Seats 1" read as nonsense.
+    knownCount(row.stood, Number(row.seats) > 0),
+    knownCount(row.seats, false),
+    knownCount(row.votes, Number(row.seats) > 0 || Number(row.stood) > 0)
   ]);
   // The election and the constituency open their Browse pages (the constituency is that
   // contest's result); the map link sits beside them rather than being the only way on.
@@ -2230,6 +2418,7 @@ function renderRegisterInterestRelated(item) {
 }
 
 async function renderEntityRoute(slug) {
+  const token = renderSeq;
   state.currentDetail = null;
   els.results.innerHTML = '<div class="browse-loading">Loading entity...</div>';
   if (!slug) {
@@ -2239,6 +2428,7 @@ async function renderEntityRoute(slug) {
   const entityIndex = await loadGraphEntityIndex();
   const entityId = entityIndex.bySlug?.[slug] || (entityIndex.byIdShard?.[slug] ? slug : '');
   const entity = entityId ? await loadGraphEntitySummary(entityId) : null;
+  if (token !== renderSeq) return;
   if (!entity) {
     setHero({ label: 'Entities', singular: 'Entity' }, null);
     setDocumentHead({ title: 'Entity not found – Civgraph' });
@@ -2247,6 +2437,7 @@ async function renderEntityRoute(slug) {
   }
   const graph = await loadGraphStatementsForEntity(entityId);
   const related = await loadGraphRelatedForEntity(entityId);
+  if (token !== renderSeq) return;
   const title = entity.label || entityId;
   const typeText = entity.typeLabels?.join(', ') || entity.typeIds?.join(', ') || entityId;
   els.hero.innerHTML = `
@@ -3874,9 +4065,12 @@ async function renderFeatureGroups(data) {
   const items = filterItems(data.items || [], state.query);
   const selectedId = state.activeId || state.selectedFeatureMap;
   const selected = selectedId ? findItem(items, selectedId) || findItem(data.items || [], selectedId) : null;
+  const token = renderSeq;
+  const selectedHtml = selected ? await renderFeatureGroupDetail(selected) : '';
+  if (token !== renderSeq) return;
   els.results.innerHTML = `
     <div class="browse-note">Feature browsing is grouped by map and loads existing spatial-index sidecars on demand. This keeps the public Browse page responsive while still exposing the feature catalogue.</div>
-    ${selected ? await renderFeatureGroupDetail(selected) : `
+    ${selected ? selectedHtml : `
       ${renderFilterSummary(items.length, data.items?.length || 0)}
       ${renderListPage(items, (entry) => renderCard('features', entry, ENTITY_CONFIG.features))}
     `}
@@ -4048,9 +4242,14 @@ const D1_INDEXES = new Set(['persons', 'sources', 'register-interests']);
  * is correct in all three cases. Distinguishing them here would only let the page fail
  * where it could instead be slow.
  */
+// Returned by fetchIndexRecord when the API answers 404: the record does not exist, which is
+// different from the API being unreachable (null), where the static index is the fallback.
+const RECORD_NOT_FOUND = Symbol('record not found');
+
 async function fetchIndexRecord(type, id) {
   try {
     const response = await fetch(`/_api/${type}?slug=${encodeURIComponent(id)}`);
+    if (response.status === 404) return RECORD_NOT_FOUND;
     if (!response.ok) return null;
     const payload = await response.json();
     return payload.record || null;
@@ -4126,11 +4325,21 @@ async function renderServerList(type, { append = false } = {}) {
     limit: LIST_PAGE_SIZE,
   };
 
+  const token = renderSeq;
   if (!append) els.results.innerHTML = '<div class="browse-loading">Loading browse data...</div>';
   const page = await fetchIndexPage(type, request);
+  if (token !== renderSeq) return;
+  // Back to a list the reader had paged into: fetch the pages they had, 200 at a time.
+  while (page && !append && page.items.length < Math.min(state.listShown, page.total)) {
+    const next = await fetchIndexPage(type, { ...request, offset: page.items.length });
+    if (token !== renderSeq) return;
+    if (!next?.items?.length) break;
+    page.items = [...page.items, ...next.items];
+  }
   if (!page) {
     // The endpoint is unavailable. Fall back to the static index, which still works.
     const data = await loadIndex(type);
+    if (token !== renderSeq) return;
     renderList(type, data.items || []);
     return;
   }
@@ -4153,6 +4362,7 @@ async function renderServerList(type, { append = false } = {}) {
     : '';
 
   const facets = (isRegister || isSources) ? await fetchIndexFacets(type) : null;
+  if (token !== renderSeq) return;
   // page.total is the count AFTER filtering. The unfiltered total comes from the browse
   // manifest, so the summary can still read "120 of 40,327" rather than "120 of 120" --
   // which would hide the fact that a filter is doing anything.
@@ -4165,6 +4375,30 @@ async function renderServerList(type, { append = false } = {}) {
     ${more}
   `;
   state.lastListRender = () => renderServerList(type);
+}
+
+/**
+ * One election or constituency result without the elections index. A contest is found through
+ * election-contest-parents.json and its election's contest file; an election from its detail
+ * file. Returns null when neither has it, and the caller falls back to the index.
+ */
+async function loadElectionRecord(id) {
+  let slug = String(id || '');
+  try { slug = decodeURIComponent(slug); } catch { /* keep as is */ }
+  try {
+    state.electionContestParents ||= (await loadJson(`${DATA_ROOT}/election-contest-parents.json`)).items || {};
+    const parent = state.electionContestParents[slug];
+    if (parent) {
+      const shard = await loadJson(`${DATA_ROOT}/details/election-contests/${encodeURIComponent(parent)}.json`);
+      return (shard.items || []).find((entry) => entry.slug === slug) || null;
+    }
+    const detail = await loadJson(`${DATA_ROOT}/details/elections/${encodeURIComponent(slug)}.json`);
+    if (!detail?.item) return null;
+    state.details.set(`elections:${detail.item.slug || slug}`, detail);
+    return detail.item;
+  } catch {
+    return null;
+  }
 }
 
 async function loadIndex(type) {
@@ -4232,7 +4466,9 @@ async function loadShardDetail(item, slug) {
 
 async function loadJson(url) {
   const requestUrl = versionBrowseDataUrl(url);
-  const response = await fetch(requestUrl, { cache: 'no-store' });
+  // The browser's own cache, not no-store: the host answers max-age=0, must-revalidate, so a
+  // revisit asks whether the file changed and gets a 304 instead of downloading megabytes again.
+  const response = await fetch(requestUrl);
   if (!response.ok) {
     const error = new Error(`${response.status} ${response.statusText} for ${url}`);
     error.status = response.status;
@@ -4258,8 +4494,21 @@ function versionBrowseDataUrl(url) {
 
 function filterItems(items, query) {
   if (!query) return [...items];
-  const needle = query.toLowerCase();
-  return items.filter((item) => searchableText(item).includes(needle));
+  // Fadas and other accents are folded on both sides, and every word must appear somewhere:
+  // most readers type "Micheal Martin" or "fianna fail", which matched nothing before.
+  const phrase = normalizeSearchQuery(query);
+  const words = phrase.split(/\s+/).filter(Boolean);
+  const matches = items.filter((item) => {
+    const text = searchableText(item);
+    return words.every((word) => text.includes(word));
+  });
+  // A record whose own title is the phrase, then one whose title contains it, before records
+  // found only through an alias ("Ulster DUP" must not put the DUP above the UUP).
+  const rank = (item) => {
+    const titles = [item.title || item.name, item.shortName].filter(Boolean).map(normalizeSearchQuery);
+    return titles.includes(phrase) ? 0 : titles.some((title) => title.includes(phrase)) ? 1 : 2;
+  };
+  return matches.map((item, index) => [rank(item), index, item]).sort((a, b) => a[0] - b[0] || a[1] - b[1]).map(([, , item]) => item);
 }
 
 function searchableText(item) {
@@ -4279,6 +4528,7 @@ function searchableText(item) {
     item.canonicalName,
     item.observedNames,
     item.knownAliases,
+    item.shortName,
     item.memberName,
     item.memberType,
     item.electedBody,
@@ -4295,7 +4545,7 @@ function searchableText(item) {
     item.interestSummary,
     item.interestText,
     item.keywords
-  ].flat().filter(Boolean).join(' ').toLowerCase();
+  ].flat().filter(Boolean).join(' ').normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase();
 }
 
 function findItem(items, id) {
@@ -4373,6 +4623,13 @@ function formatDate(value) {
   // "1 Jan 1950", as everywhere on the site (src/date-format.mjs): no zero-padded day, and a
   // fixed month list because en-GB's short month for September is "Sept".
   return `${date.getUTCDate()} ${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][date.getUTCMonth()]} ${date.getUTCFullYear()}`;
+}
+
+/** A count for a table cell: "–" when it is missing, or when it is 0 but cannot be (`zeroIsUnknown`). */
+function knownCount(value, zeroIsUnknown) {
+  if (value === null || value === undefined || value === '') return '–';
+  if (zeroIsUnknown && Number(value) === 0) return '–';
+  return formatNumber(value);
 }
 
 function formatNumber(value) {

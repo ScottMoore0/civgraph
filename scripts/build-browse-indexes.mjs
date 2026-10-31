@@ -264,6 +264,7 @@ function main() {
       anchorUrl: record.anchorUrl
     })
   }), { prune: true });
+  writeElectionContestShards(parentElections, electionResultEntries);
   writeDetailFiles('parties', Object.values(partyDetails));
   writeSourceDetailShards(sources, (record) => ({
     rawMetadata: sourceRawMetadata(record, {
@@ -1132,16 +1133,30 @@ function buildFeatureGroups(spatialIndex, maps, elections) {
 function buildParties(partyIds, electionDetails) {
   const aliasToId = new Map();
   const byId = new Map();
+  // The curated registry gives the full name ("Ulster Unionist Party") where party-ids.json
+  // has only the abbreviation ("UUP"), and more spellings seen on ballot papers. Searching
+  // Browse for a party's full name found nothing while the record was titled by its initials.
+  const registry = new Map((readJson('data/elections/parties/party_registry.json', { entities: [] }).entities || [])
+    .map((entry) => [entry.id, entry]));
+  const registryAliases = (entry) => normalizeArray(entry?.aliases)
+    .map((alias) => (typeof alias === 'string' ? alias : alias?.string))
+    .filter(Boolean);
   for (const party of partyIds.party_ids || []) {
     const id = party.party_id || `party:${slugify(party.canonical_name)}`;
+    const entry = registry.get(id.replace(/^party:/, ''));
+    const fullName = cleanText(entry?.name || '');
+    const shortName = cleanText(party.canonical_name || id);
     const detail = {
       id,
       slug: id.replace(/^party:/, ''),
       type: 'party',
-      title: cleanText(party.canonical_name || id),
-      canonicalName: cleanText(party.canonical_name || id),
+      title: fullName || shortName,
+      // The initials stay with the record as its short name, shown under the title.
+      shortName: fullName && fullName !== shortName ? shortName : null,
+      canonicalName: shortName,
       observedNames: normalizeArray(party.observed_names),
-      knownAliases: normalizeArray(party.known_aliases),
+      knownAliases: [...new Set([...normalizeArray(party.known_aliases), ...registryAliases(entry),
+        ...(fullName ? [fullName] : []), ...(entry?.shortName ? [entry.shortName] : [])])],
       occurrenceCount: Number(party.occurrence_count) || 0,
       fileCount: Number(party.file_count) || 0,
       relatedElections: [],
@@ -1208,7 +1223,7 @@ function buildParties(partyIds, electionDetails) {
 
   const details = Object.fromEntries([...byId.values()].map((party) => [party.slug, {
     ...party,
-    subtitle: compactJoin([formatYearRange(party.firstYear, party.lastYear), `${party.relatedElections.length} linked elections`]),
+    subtitle: compactJoin([party.shortName, formatYearRange(party.firstYear, party.lastYear), `${party.relatedElections.length} linked elections`]),
     interactiveUrl: party.relatedElections[0]?.interactiveUrl || null
   }]));
   const items = Object.values(details).map((party) => compactObject({
@@ -1217,6 +1232,10 @@ function buildParties(partyIds, electionDetails) {
     type: 'party',
     title: party.title,
     subtitle: party.subtitle,
+    // Searched by the list filter (browse.js searchableText), so the initials, the full name
+    // and the ballot-paper spellings all find the party.
+    shortName: party.shortName,
+    knownAliases: party.knownAliases?.length ? party.knownAliases : undefined,
     occurrenceCount: party.occurrenceCount,
     fileCount: party.fileCount,
     firstYear: party.firstYear,
@@ -2259,6 +2278,37 @@ function appendSentence(value, sentence) {
   const addition = cleanText(sentence || '');
   if (!addition || base.includes(addition)) return base;
   return base ? `${base} ${addition}` : addition;
+}
+
+/**
+ * A constituency result is opened from its own election's file, not from elections.json (54 MB
+ * with every contest in it, which a record page used to download and parse to find one entry).
+ * Each election's contests are written to details/election-contests/<election slug>.json, and
+ * election-contest-parents.json says which election a contest slug belongs to.
+ */
+function writeElectionContestShards(parents, contests) {
+  const kind = 'election-contests';
+  const dir = path.join(DETAILS_DIR, kind);
+  mkdirSync(dir, { recursive: true });
+  const parentSlugByKey = new Map(parents.map((record) => [record.key, record.slug || slugify(record.id || record.key || record.title)]));
+  const byParent = new Map();
+  const parentOf = {};
+  for (const contest of contests) {
+    const parentSlug = parentSlugByKey.get(contest.parentElectionKey);
+    if (!parentSlug) continue;
+    const slug = contest.slug || slugify(contest.id || contest.key || contest.title);
+    if (!byParent.has(parentSlug)) byParent.set(parentSlug, []);
+    byParent.get(parentSlug).push(contest);
+    parentOf[slug] = parentSlug;
+  }
+  const desired = new Set([...byParent.keys()].map((slug) => `${slug}.json`));
+  for (const file of readdirSync(dir)) {
+    if (file.endsWith('.json') && !desired.has(file)) rmSync(path.join(dir, file), { force: true });
+  }
+  for (const [parentSlug, items] of byParent) {
+    writeJson(path.join('details', kind, `${parentSlug}.json`), { schemaVersion: 1, generatedAt: GENERATED_AT, items });
+  }
+  writeJson('election-contest-parents.json', { schemaVersion: 1, generatedAt: GENERATED_AT, items: parentOf }, { compact: true });
 }
 
 function writeDetailFiles(kind, records, enhance = null, options = {}) {

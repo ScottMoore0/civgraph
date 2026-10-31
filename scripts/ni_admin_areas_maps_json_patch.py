@@ -83,8 +83,9 @@ NOTES = {
         'references': [C61['down'], C61['antrim']],
     },
     'admin-areas-1957-04-01': {
-        'changeNote': 'Lurgan borough extended into Lurgan RD, in force 1 Apr 1957 (Census of Population 1961; '
-                      'instrument not yet identified). ' + RECON,
+        'changeNote': 'Lurgan borough extended into Lurgan RD by the Lurgan Borough (Extension) Order (Northern Ireland) '
+                      '1956, in force 1 Apr 1957 (Census of Population 1961); certified copies of the Order\'s map are at '
+                      'PRONI (LA/52/8/JA/4; OS/31/2/2, 1:2,500). ' + RECON,
         'references': [C61['armagh']],
     },
     'admin-areas-1958-04-01': {

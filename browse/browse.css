@@ -1808,6 +1808,55 @@ a:hover {
     padding: var(--space-4);
   }
 
+  /* A phone opened every page on the sidebar alone (about 1,170px of it) with no record in
+     sight. The sections become one scrolling row of names and counts, the contributor box a
+     single line, so the page's own heading shows on the first screen. */
+  .browse-sidebar {
+    padding: var(--space-3) var(--space-4) var(--space-2);
+  }
+
+  .browse-search {
+    margin-bottom: var(--space-2);
+  }
+
+  .contributor-panel {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-2);
+    padding: var(--space-1) var(--space-2);
+  }
+
+  .contributor-panel__body {
+    display: none;
+  }
+
+  .contributor-panel__actions {
+    justify-content: flex-end;
+  }
+
+  .contributor-btn {
+    min-height: 30px;
+    padding: var(--space-1) var(--space-2);
+  }
+
+  .browse-groups {
+    flex-direction: row;
+    gap: var(--space-2);
+    overflow-x: auto;
+    padding-bottom: var(--space-1);
+    scrollbar-width: thin;
+  }
+
+  .browse-group-link {
+    flex: 0 0 auto;
+    padding: var(--space-2) var(--space-3);
+  }
+
+  .browse-group-link__description {
+    display: none;
+  }
+
   .browse-portal-columns {
     grid-template-columns: 1fr;
   }
