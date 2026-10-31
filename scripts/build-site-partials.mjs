@@ -57,6 +57,9 @@ const PAGES = new Map([
   ['records/index.html', BROWSE_PAGE],
   ['apps/index.html', SITE_PAGE],
   ['pages/census-explorer.html', SITE_PAGE],
+  // The 404 is served at any missing path, so it needs the real header (nav and theme toggle)
+  // and the saved theme; its bespoke banner had neither and stayed light in dark mode.
+  ['404.html', SITE_PAGE],
   ['apps/proni-search/index.html', ['proni:header', 'proni:footer']],
 ]);
 

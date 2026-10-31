@@ -837,7 +837,7 @@ function renderRegisterInterestList(items) {
   state.lastListRender = () => renderRegisterInterestList(items);
 }
 
-function renderRegisterInterestControls(items, filteredCount, totalCount) {
+function renderRegisterInterestControls(items, filteredCount, totalCount, facets = null) {
   const controls = state.registerInterestControls;
   const activeFilters = Object.values(controls.filters || {}).filter(Boolean).length;
   return `
@@ -1265,10 +1265,12 @@ async function renderDetail(type, indexItem) {
   // "Downloads & files" statement group, so the whole map body is one semantic
   // view rather than a separate Downloads section.
   const fileLinks = isMap ? collectFileLinks(item) : [];
-  // Tier 3: the semantic statements are the spine of the page, so they render
-  // expanded and high up. The register-interests page keeps them collapsed
-  // because it has its own purpose-built summary above them.
-  const graphPanel = await renderGraphStatementsPanel(type, item, { collapsed: type === 'register-interests', graph, fileLinks });
+  // The semantic statements stay open on map pages, where they carry the downloads. People,
+  // elections and parties lead with their readable tables instead and keep the statements
+  // folded below: on Gerry Adams the election appearances started about 6,700px down, under
+  // hundreds of raw statements. The register-interests page has its own summary above them.
+  const statementsFolded = ['register-interests', 'persons', 'elections', 'parties'].includes(type);
+  const graphPanel = await renderGraphStatementsPanel(type, item, { collapsed: statementsFolded, graph, fileLinks });
   if (type === 'register-interests') {
     els.results.innerHTML = renderRegisterInterestDetailPage(config, item, graphPanel);
     return;
@@ -1284,10 +1286,11 @@ async function renderDetail(type, indexItem) {
       ${renderDetailActions(config, item)}
       ${renderContributorDetailActions(type, item)}
       ${isMap ? '' : renderHeaderPanel(type, item, pinnedRows)}
+      ${statementsFolded ? renderRelatedPanel(type, item) : ''}
       ${graphPanel}
       ${featuresPanel}
       ${isMap ? '' : renderLinksPanel(item, { collapsed: true })}
-      ${renderRelatedPanel(type, item)}
+      ${statementsFolded ? '' : renderRelatedPanel(type, item)}
       ${renderTechnicalPanel(type, item)}
     </div>
   `;
@@ -1965,16 +1968,21 @@ function renderBoundingBoxCell(raw) {
   `;
 }
 
+/** Rows in date order, oldest first; rows without a date keep their place at the end. */
+function byDate(rows) {
+  return [...(rows || [])].sort((a, b) => String(a?.date || '9999').localeCompare(String(b?.date || '9999')));
+}
+
 function renderRelatedPanel(type, item) {
   if (type === 'elections') return renderElectionRelated(item);
-  if (type === 'parties') return renderSimpleTable('Linked Elections', ['Date', 'Election', 'Stood', 'Seats', 'Votes'], item.relatedElections || [], (row) => [
+  if (type === 'parties') return renderSimpleTable('Linked Elections', ['Date', 'Election', 'Stood', 'Seats', 'Votes'], byDate(item.relatedElections), (row) => [
     formatDate(row.date),
     row.interactiveUrl ? `<a href="${escapeAttr(row.interactiveUrl)}">${escapeHtml(row.title)}</a>` : escapeHtml(row.title),
     formatNumber(row.stood),
     formatNumber(row.seats),
     formatNumber(row.votes)
   ]);
-  if (type === 'persons') return renderSimpleTable('Election Appearances', ['Date', 'Election', 'Party', 'Constituency', 'Status'], item.elections || [], (row) => [
+  if (type === 'persons') return renderSimpleTable('Election Appearances', ['Date', 'Election', 'Party', 'Constituency', 'Status'], byDate(item.elections), (row) => [
     formatDate(row.date),
     row.interactiveUrl ? `<a href="${escapeAttr(row.interactiveUrl)}">${escapeHtml(row.title)}</a>` : escapeHtml(row.title),
     escapeHtml(row.party || ''),

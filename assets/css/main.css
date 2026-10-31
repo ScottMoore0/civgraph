@@ -43,7 +43,7 @@
   --color-surface-elevated: #f7fafc;
   --color-surface-overlay: rgba(255, 255, 255, 0.95);
   --color-text: #1a202c;
-  --color-text-muted: #718096;
+  --color-text-muted: #5f6b7c;
   --color-text-inverse: #ffffff;
   --color-border: #e2e8f0;
   --color-border-light: #edf2f7;
@@ -589,7 +589,7 @@ body.split-dragging * {
   font-weight: 500;
   border: none;
   background: transparent;
-  color: var(--color-text-muted, #718096);
+  color: var(--color-text-muted, #5f6b7c);
   cursor: pointer;
   transition: background 0.15s, color 0.15s;
 }
@@ -954,7 +954,7 @@ button.catalogue-flat__toc-toplink {
   margin-left: 6px;
   font-size: 0.85em;
   letter-spacing: 0.04em;
-  color: var(--color-text-muted, #718096);
+  color: var(--color-text-muted, #5f6b7c);
   white-space: nowrap;
 }
 
@@ -984,7 +984,7 @@ button.catalogue-flat__toc-toplink {
 
 .catalogue-flat__toc-table td:nth-child(2),
 .catalogue-flat__toc-table td:nth-child(3) {
-  color: var(--color-text-muted, #718096);
+  color: var(--color-text-muted, #5f6b7c);
   white-space: normal;
   overflow: hidden;
   overflow-wrap: normal;
@@ -1059,7 +1059,7 @@ button.catalogue-flat__toc-toplink {
   display: inline-block;
   font-size: 0.78rem;
   font-weight: 700;
-  color: var(--color-text-muted, #718096);
+  color: var(--color-text-muted, #5f6b7c);
   text-transform: uppercase;
   letter-spacing: 0.04em;
   /* T3-03: as above -- 16 of these were 18px tall. */
@@ -1073,7 +1073,7 @@ button.catalogue-flat__toc-toplink {
   margin-left: 10px;
   font-size: 0.78rem;
   font-weight: 700;
-  color: var(--color-text-muted, #718096);
+  color: var(--color-text-muted, #5f6b7c);
   text-transform: uppercase;
   letter-spacing: 0.04em;
   vertical-align: middle;
@@ -2279,7 +2279,7 @@ html[data-intro-hidden] .catalogue-sticky-shell {
   font-size: 0.82rem;
   line-height: 1.4;
   /* Was hardcoded #5A6678, which adapts to nothing. --color-text-muted is defined for
-     both themes (#718096 light, #8b949e dark). */
+     both themes (#5f6b7c light, #8b949e dark). */
   color: var(--color-text-muted, #5A6678);
 }
 
@@ -6775,7 +6775,7 @@ a.visually-hidden:focus-visible {
   --color-surface-elevated: #f7fafc;
   --color-surface-overlay: rgba(255, 255, 255, 0.95);
   --color-text: #1a202c;
-  --color-text-muted: #718096;
+  --color-text-muted: #5f6b7c;
   --color-text-inverse: #ffffff;
   --color-border: #e2e8f0;
   --color-border-light: #edf2f7;
@@ -10402,7 +10402,7 @@ kbd {
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: var(--color-text-muted, #718096);
+  color: var(--color-text-muted, #5f6b7c);
   padding: 0 4px;
   line-height: 1;
 }
@@ -10439,14 +10439,14 @@ kbd {
 
 .cs-hint {
   font-size: 0.8rem;
-  color: var(--color-text-muted, #718096);
+  color: var(--color-text-muted, #5f6b7c);
   margin-top: 4px;
   font-style: italic;
 }
 
 .cs-range-label {
   font-size: 0.8rem;
-  color: var(--color-text-muted, #718096);
+  color: var(--color-text-muted, #5f6b7c);
   margin-top: 4px;
 }
 
@@ -10529,7 +10529,7 @@ kbd {
   padding: 4px 6px;
   border-bottom: 1px solid var(--color-border, #e2e8f0);
   font-size: 0.78rem;
-  color: var(--color-text-muted, #718096);
+  color: var(--color-text-muted, #5f6b7c);
 }
 
 .cs-bin-table td {
@@ -10546,7 +10546,7 @@ kbd {
 }
 
 .cs-bin-del {
-  color: var(--color-text-muted, #718096);
+  color: var(--color-text-muted, #5f6b7c);
   background: none;
   border: none;
   cursor: pointer;
@@ -10568,7 +10568,7 @@ kbd {
 
 .cs-presets-label {
   font-size: 0.78rem;
-  color: var(--color-text-muted, #718096);
+  color: var(--color-text-muted, #5f6b7c);
 }
 
 /* Buttons */
@@ -10639,7 +10639,7 @@ kbd {
   display: flex;
   justify-content: space-between;
   font-size: 0.72rem;
-  color: var(--color-text-muted, #718096);
+  color: var(--color-text-muted, #5f6b7c);
   margin-top: 4px;
 }
 
@@ -10696,13 +10696,13 @@ kbd {
 .cs-advanced__meter {
   margin-left: auto;
   font-size: 0.74rem;
-  color: var(--color-text-muted, #718096);
+  color: var(--color-text-muted, #5f6b7c);
 }
 
 .cs-advanced__msg {
   margin-top: 6px;
   font-size: 0.78rem;
-  color: var(--color-text-muted, #718096);
+  color: var(--color-text-muted, #5f6b7c);
 }
 
 .cs-advanced__msg--error {
@@ -10883,7 +10883,7 @@ kbd {
   border: none;
   font-size: 1rem;
   cursor: pointer;
-  color: var(--color-text-muted, #718096);
+  color: var(--color-text-muted, #5f6b7c);
   padding: 2px 6px;
   border-radius: 4px;
   line-height: 1;
@@ -10974,7 +10974,7 @@ kbd {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: var(--color-text-muted, #718096);
+  color: var(--color-text-muted, #5f6b7c);
 }
 
 .election-contest-notes[open] .election-contest-notes__preview {
@@ -10987,7 +10987,7 @@ kbd {
 }
 
 .election-contest-notes__list dt {
-  color: var(--color-text-muted, #718096);
+  color: var(--color-text-muted, #5f6b7c);
   font-size: 11px;
 }
 
@@ -11075,7 +11075,7 @@ kbd {
 }
 
 .election-party-label {
-  color: var(--color-text-muted, #718096);
+  color: var(--color-text-muted, #5f6b7c);
   font-size: 0.75rem;
 }
 
@@ -11125,7 +11125,7 @@ kbd {
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--color-text-muted, #718096);
+  color: var(--color-text-muted, #5f6b7c);
 }
 
 .election-entity-page__title {
@@ -11138,7 +11138,7 @@ kbd {
 .election-entity-page__subtitle {
   margin: 0;
   font-size: 0.84rem;
-  color: var(--color-text-muted, #718096);
+  color: var(--color-text-muted, #5f6b7c);
 }
 
 .election-entity-metrics {
@@ -11162,7 +11162,7 @@ kbd {
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--color-text-muted, #718096);
+  color: var(--color-text-muted, #5f6b7c);
 }
 
 .election-entity-metric strong {
@@ -11203,7 +11203,7 @@ kbd {
 
 .election-hint {
   font-size: 0.78rem;
-  color: var(--color-text-muted, #718096);
+  color: var(--color-text-muted, #5f6b7c);
   font-style: italic;
   margin-top: 12px;
 }
@@ -11212,7 +11212,7 @@ kbd {
 .election-no-data {
   text-align: center;
   padding: 24px;
-  color: var(--color-text-muted, #718096);
+  color: var(--color-text-muted, #5f6b7c);
 }
 
 /* View tab buttons (inside header) */
@@ -11223,7 +11223,7 @@ kbd {
   border: 1px solid var(--color-border, #e2e8f0);
   border-radius: 12px;
   background: var(--color-surface, #fff);
-  color: var(--color-text-muted, #718096);
+  color: var(--color-text-muted, #5f6b7c);
   cursor: pointer;
   transition: all 0.15s;
   white-space: nowrap;
@@ -11352,7 +11352,7 @@ kbd {
 }
 
 .election-count-table .count-transfer {
-  color: var(--color-text-muted, #718096);
+  color: var(--color-text-muted, #5f6b7c);
   font-size: 0.65rem;
 }
 
@@ -11467,7 +11467,7 @@ kbd {
 
 .election-card__subtitle {
   font-size: 0.72rem;
-  color: var(--color-text-muted, #718096);
+  color: var(--color-text-muted, #5f6b7c);
 }
 
 /* Dark mode election */
@@ -13066,7 +13066,7 @@ abbr.party-abbr {
 /* Neutral delta (N/A, 0 values) — no colour set so it inherits.
    Add an explicit rule so dark-mode override below has something to target. */
 .election-delta--neutral {
-  color: var(--color-text-muted, #718096);
+  color: var(--color-text-muted, #5f6b7c);
 }
 
 /* Dark-mode delta colours — the base greens/reds are too dark on dark surfaces. */
@@ -13103,7 +13103,7 @@ abbr.party-abbr {
   font-size: 0.84em;
   font-weight: 400;
   line-height: 1.1;
-  color: var(--color-text-muted, #718096);
+  color: var(--color-text-muted, #5f6b7c);
 }
 
 .election-cell-change__label {
@@ -13112,7 +13112,7 @@ abbr.party-abbr {
 }
 
 .election-delta--none {
-  color: var(--color-text-muted, #718096);
+  color: var(--color-text-muted, #5f6b7c);
 }
 
 [data-theme="dark"] .election-cell-change,
