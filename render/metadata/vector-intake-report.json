@@ -1,10 +1,11 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-03T17:04:51.640Z",
-  "source": "test\\metadata\\main-site-port-plan.json",
-  "conversionReport": "test\\metadata\\vector-conversion-report.json",
+  "generatedAt": "2026-10-31T01:57:45.282Z",
+  "source": "render\\metadata\\main-site-port-plan.json",
+  "conversionReport": "render\\metadata\\vector-conversion-report.json",
   "totals": {
-    "total": 0
+    "total": 3,
+    "download-remote-source": 3
   },
   "notes": [
     "This is the intake queue for vector candidates that cannot currently be converted from local files.",
@@ -12,5 +13,72 @@
     "Rows with locate-local-source refer to local paths that are not present in the repo checkout, commonly because large source files are ignored and hosted outside git.",
     "Rows with add-source-metadata do not currently expose a direct vector source in main metadata."
   ],
-  "items": []
+  "items": [
+    {
+      "sourceMapId": "admin-areas-1968-04-01",
+      "parentId": null,
+      "name": "1 Apr 1968",
+      "category": "Historic Boundaries",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/local-government/NI_Admin_Areas_1968-04-01_1968-04-01.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids admin-areas-1968-04-01",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /render/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "admin-areas-1967-04-01",
+      "parentId": null,
+      "name": "1 Apr 1967",
+      "category": "Historic Boundaries",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/local-government/NI_Admin_Areas_1967-04-01_1967-04-01.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids admin-areas-1967-04-01",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /render/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    },
+    {
+      "sourceMapId": "admin-areas-1958-04-01",
+      "parentId": null,
+      "name": "1 Apr 1958",
+      "category": "Historic Boundaries",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "action": "download-remote-source",
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/local-government/NI_Admin_Areas_1958-04-01_1958-04-01.fgb"
+        }
+      ],
+      "postIntakeCommands": [
+        "npm run build:test:batch-vectors -- --execute --ids admin-areas-1958-04-01",
+        "npm run build:test:promote",
+        "npm run build:test:feature-indexes",
+        "npm run build:test:metadata",
+        "npm run check:test"
+      ],
+      "cdnRequirement": "Upload generated /render/tiles output or PMTiles archive to the data host before production use if the repo is not the canonical tile host."
+    }
+  ]
 }

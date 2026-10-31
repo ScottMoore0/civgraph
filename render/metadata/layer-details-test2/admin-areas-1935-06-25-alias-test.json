@@ -15,8 +15,11 @@
   "sourceType": "pmtiles",
   "geometryType": "polygon",
   "tiles": "/render/tiles/generated/admin-areas-1936-04-01/{z}/{x}/{y}.pbf",
+  "tileUrl": "/render/pmtiles/generated/admin-areas-1936-04-01-vector-test.pmtiles",
+  "tilesFallback": "/render/tiles/generated/admin-areas-1936-04-01/{z}/{x}/{y}.pbf",
   "metadataUrl": "/render/tiles/generated/admin-areas-1936-04-01/metadata.json",
   "sourceLayer": "admin_areas_1936_04_01",
+  "promoteId": "AdministrativeArea",
   "minzoom": 0,
   "maxzoom": 12,
   "bounds": [
@@ -49,7 +52,7 @@
     "admin",
     "areas",
     "incomplete",
-    "01 April 1936",
+    "1 Apr 1936",
     "Historic Boundaries",
     "Built Environment",
     "maplibre",
@@ -76,7 +79,8 @@
     "lineHeight": 1.25
   },
   "sourceFile": "render/source-cache/vector-intake/admin-areas-1936-04-01.fgb",
-  "sourceDatasetLayer": "admin-areas-1936-04-01",
+  "sourceDatasetLayer": "NI_Admin_Areas_1930-11-25_1936-04-01",
+  "idProperty": "AdministrativeArea",
   "popupProperties": [
     "AdministrativeArea"
   ],
@@ -86,6 +90,8 @@
   ],
   "categoricalValues": {
     "AdministrativeArea": [
+      "Armagh Rural District",
+      "Armagh Urban District",
       "Ballycastle Rural District",
       "Ballycastle Urban District",
       "Ballyclare Urban District",
@@ -95,6 +101,8 @@
       "Ballymoney Urban District",
       "Banbridge Rural District",
       "Banbridge Urban District",
+      "Bangor Municipal Borough",
+      "Belfast Rural District",
       "Castlederg Rural District",
       "Clogher Rural District",
       "Donaghadee Urban District",
@@ -103,21 +111,17 @@
       "Dungannon Urban District",
       "Hillsborough Rural District",
       "Irvinestown Rural District",
+      "Keady Urban District",
       "Kilkeel Rural District",
       "Limavady Rural District",
       "Limavady Urban District",
       "Lisnaskea Rural District",
       "Londonderry County Borough",
       "Londonderry Rural District",
+      "Lurgan Urban District",
       "Magherafelt Rural District",
       "Moira Rural District",
-      "Newcastle Urban District",
-      "Newry No. 1 Rural District",
-      "Newry No. 2 Rural District",
-      "Newry Urban District",
-      "Omagh Rural District",
-      "Omagh Urban District",
-      "Portrush Urban District"
+      "Newcastle Urban District"
     ]
   },
   "status": "converted-alias",
@@ -129,25 +133,14 @@
     "aliasOf": "admin-areas-1936-04-01",
     "targetLayerId": "admin-areas-1936-04-01-vector-test"
   },
-  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/admin-areas-1936-04-01-vector-test.pmtiles",
-  "tilesFallback": "/render/tiles/generated/admin-areas-1936-04-01/{z}/{x}/{y}.pbf",
   "tilePackage": {
     "preferred": true,
     "localPath": "render/pmtiles/generated/admin-areas-1936-04-01-vector-test.pmtiles",
     "url": "/render/pmtiles/generated/admin-areas-1936-04-01-vector-test.pmtiles",
-    "bytes": 823527,
+    "bytes": 900044,
     "maxGithubBytes": 99614720,
-    "generatedAt": "2026-08-23T00:43:28.687Z",
-    "fallback": "/render/tiles/generated/admin-areas-1936-04-01/{z}/{x}/{y}.pbf",
-    "sourceSha256": "a83b22c8806865022bbe77dfc1938fc96c89a78a649feea58c633edf808cfadd",
-    "serving": "cdn",
-    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/admin-areas-1936-04-01-vector-test.pmtiles",
-    "r2Key": "data/maps/test/pmtiles/generated/admin-areas-1936-04-01-vector-test.pmtiles",
-    "localUrl": "/render/pmtiles/generated/admin-areas-1936-04-01-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-08-23T00:45:11.808Z"
+    "fallback": "/render/tiles/generated/admin-areas-1936-04-01/{z}/{x}/{y}.pbf"
   },
-  "promoteId": "AdministrativeArea",
-  "idProperty": "AdministrativeArea",
   "categoryId": "historic",
   "conversionStatus": "convertedAlias",
   "aliasOf": "admin-areas-1936-04-01",

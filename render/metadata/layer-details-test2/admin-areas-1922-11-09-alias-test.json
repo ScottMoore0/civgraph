@@ -14,9 +14,12 @@
   "renderer": "maplibre",
   "sourceType": "pmtiles",
   "geometryType": "polygon",
-  "tiles": "/render/tiles/generated/admin-areas-1936-04-01/{z}/{x}/{y}.pbf",
-  "metadataUrl": "/render/tiles/generated/admin-areas-1936-04-01/metadata.json",
-  "sourceLayer": "admin_areas_1936_04_01",
+  "tiles": "/render/tiles/generated/admin-areas-1921-05-03/{z}/{x}/{y}.pbf",
+  "tileUrl": "/render/pmtiles/generated/admin-areas-1921-05-03-vector-test.pmtiles",
+  "tilesFallback": "/render/tiles/generated/admin-areas-1921-05-03/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/render/tiles/generated/admin-areas-1921-05-03/metadata.json",
+  "sourceLayer": "admin_areas_1921_05_03",
+  "promoteId": "AdministrativeArea",
   "minzoom": 0,
   "maxzoom": 12,
   "bounds": [
@@ -39,7 +42,7 @@
   "sourceDownloads": [
     {
       "label": "Source file used for /test conversion",
-      "file": "render/source-cache/vector-intake/admin-areas-1936-04-01.fgb"
+      "file": "render/source-cache/vector-intake/admin-areas-1921-05-03.fgb"
     }
   ],
   "sourceCredits": [
@@ -49,14 +52,14 @@
     "admin",
     "areas",
     "incomplete",
-    "01 April 1936",
+    "3 May 1921",
     "Historic Boundaries",
     "Built Environment",
     "maplibre",
     "vector tiles",
     "9 Nov 1922",
     "admin-areas-1922-11-09",
-    "admin-areas-1936-04-01",
+    "admin-areas-1921-05-03",
     "clone alias"
   ],
   "labelProperty": "AdministrativeArea",
@@ -75,8 +78,9 @@
     "maxWidth": 14,
     "lineHeight": 1.25
   },
-  "sourceFile": "render/source-cache/vector-intake/admin-areas-1936-04-01.fgb",
-  "sourceDatasetLayer": "admin-areas-1936-04-01",
+  "sourceFile": "render/source-cache/vector-intake/admin-areas-1921-05-03.fgb",
+  "sourceDatasetLayer": "NI_Admin_Areas_1921-05-03_1924-04-01",
+  "idProperty": "AdministrativeArea",
   "popupProperties": [
     "AdministrativeArea"
   ],
@@ -86,6 +90,8 @@
   ],
   "categoricalValues": {
     "AdministrativeArea": [
+      "Armagh Rural District",
+      "Armagh Urban District",
       "Ballycastle Rural District",
       "Ballycastle Urban District",
       "Ballyclare Urban District",
@@ -95,6 +101,7 @@
       "Ballymoney Urban District",
       "Banbridge Rural District",
       "Banbridge Urban District",
+      "Belfast Rural District",
       "Castlederg Rural District",
       "Clogher Rural District",
       "Donaghadee Urban District",
@@ -103,54 +110,40 @@
       "Dungannon Urban District",
       "Hillsborough Rural District",
       "Irvinestown Rural District",
+      "Keady Urban District",
       "Kilkeel Rural District",
+      "Larne Urban District",
       "Limavady Rural District",
       "Limavady Urban District",
       "Lisnaskea Rural District",
       "Londonderry County Borough",
       "Londonderry Rural District",
+      "Lurgan Urban District",
       "Magherafelt Rural District",
       "Moira Rural District",
-      "Newcastle Urban District",
-      "Newry No. 1 Rural District",
-      "Newry No. 2 Rural District",
-      "Newry Urban District",
-      "Omagh Rural District",
-      "Omagh Urban District",
-      "Portrush Urban District"
+      "Newcastle Urban District"
     ]
   },
   "status": "converted-alias",
-  "notes": "9 Nov 1922 reuses the converted geometry from 1 Apr 1936.",
+  "notes": "9 Nov 1922 reuses the converted geometry from 3 May 1921.",
   "generatedFrom": {
     "pipeline": "promote-test-clone-alias",
     "sourceMapId": "admin-areas-1922-11-09",
-    "cloneOf": "admin-areas-1936-04-01",
-    "aliasOf": "admin-areas-1936-04-01",
-    "targetLayerId": "admin-areas-1936-04-01-vector-test"
+    "cloneOf": "admin-areas-1921-05-03",
+    "aliasOf": "admin-areas-1921-05-03",
+    "targetLayerId": "admin-areas-1921-05-03-vector-test"
   },
-  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/admin-areas-1936-04-01-vector-test.pmtiles",
-  "tilesFallback": "/render/tiles/generated/admin-areas-1936-04-01/{z}/{x}/{y}.pbf",
   "tilePackage": {
     "preferred": true,
-    "localPath": "render/pmtiles/generated/admin-areas-1936-04-01-vector-test.pmtiles",
-    "url": "/render/pmtiles/generated/admin-areas-1936-04-01-vector-test.pmtiles",
-    "bytes": 823527,
+    "localPath": "render/pmtiles/generated/admin-areas-1921-05-03-vector-test.pmtiles",
+    "url": "/render/pmtiles/generated/admin-areas-1921-05-03-vector-test.pmtiles",
+    "bytes": 897157,
     "maxGithubBytes": 99614720,
-    "generatedAt": "2026-08-23T00:43:28.687Z",
-    "fallback": "/render/tiles/generated/admin-areas-1936-04-01/{z}/{x}/{y}.pbf",
-    "sourceSha256": "a83b22c8806865022bbe77dfc1938fc96c89a78a649feea58c633edf808cfadd",
-    "serving": "cdn",
-    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/admin-areas-1936-04-01-vector-test.pmtiles",
-    "r2Key": "data/maps/test/pmtiles/generated/admin-areas-1936-04-01-vector-test.pmtiles",
-    "localUrl": "/render/pmtiles/generated/admin-areas-1936-04-01-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-08-23T00:45:11.808Z"
+    "fallback": "/render/tiles/generated/admin-areas-1921-05-03/{z}/{x}/{y}.pbf"
   },
-  "promoteId": "AdministrativeArea",
-  "idProperty": "AdministrativeArea",
   "categoryId": "historic",
   "conversionStatus": "convertedAlias",
-  "aliasOf": "admin-areas-1936-04-01",
-  "cloneOf": "admin-areas-1936-04-01",
-  "aliasTargetLayerId": "admin-areas-1936-04-01-vector-test"
+  "aliasOf": "admin-areas-1921-05-03",
+  "cloneOf": "admin-areas-1921-05-03",
+  "aliasTargetLayerId": "admin-areas-1921-05-03-vector-test"
 }

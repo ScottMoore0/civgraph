@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
   "mode": "execute",
-  "generatedAt": "2026-10-30T01:36:52.479Z",
+  "generatedAt": "2026-10-31T01:58:39.348Z",
   "tool": "ogr2ogr GDAL MVT",
   "tippecanoeAvailable": false,
   "perLayerTimeoutMs": 600000,
   "totals": {
-    "vectorRows": 41,
-    "feasibleLocalCandidates": 10,
+    "vectorRows": 3,
+    "feasibleLocalCandidates": 22,
     "skipped": 0,
-    "selected": 10,
-    "converted": 10,
+    "selected": 22,
+    "converted": 22,
     "skippedExisting": 0,
     "failed": 0
   },
@@ -21,177 +21,369 @@
   ],
   "candidates": [
     {
-      "sourceMapId": "eds-connacht-1907",
-      "name": "Connacht District Electoral Divisions 1907",
-      "category": "Electoral Divisions",
-      "sourceFile": "render/source-cache/vector-intake/eds-connacht-1907.fgb",
-      "sourceBytes": 25848584,
-      "outputDirectory": "render/tiles/generated/eds-connacht-1907"
+      "sourceMapId": "lgd-1966",
+      "name": "Rural and Urban Districts 4 Jul 1966",
+      "category": "Local Government Districts",
+      "sourceFile": "render/source-cache/vector-intake/lgd-1966.fgb",
+      "sourceBytes": 10411752,
+      "outputDirectory": "render/tiles/generated/lgd-1966"
     },
     {
-      "sourceMapId": "eds-leinster-1910",
-      "name": "Leinster District Electoral Divisions/Wards 29 Apr 1910",
-      "category": "Electoral Divisions",
-      "sourceFile": "render/source-cache/vector-intake/eds-leinster-1910.fgb",
-      "sourceBytes": 29463512,
-      "outputDirectory": "render/tiles/generated/eds-leinster-1910"
+      "sourceMapId": "admin-areas-1966-07-04",
+      "name": "Administrative Areas 4 Jul 1966",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1966-07-04.fgb",
+      "sourceBytes": 10411752,
+      "outputDirectory": "render/tiles/generated/admin-areas-1966-07-04"
     },
     {
-      "sourceMapId": "eds-leinster-1919",
-      "name": "Leinster District Electoral Divisions/Wards 1919",
-      "category": "Electoral Divisions",
-      "sourceFile": "render/source-cache/vector-intake/eds-leinster-1919.fgb",
-      "sourceBytes": 29463504,
-      "outputDirectory": "render/tiles/generated/eds-leinster-1919"
+      "sourceMapId": "admin-areas-1969-04-01",
+      "name": "1 Apr 1969",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1969-04-01.fgb",
+      "sourceBytes": 10968184,
+      "outputDirectory": "render/tiles/generated/admin-areas-1969-04-01"
     },
     {
-      "sourceMapId": "eds-munster-1907",
-      "name": "Munster District Electoral Divisions/Wards Apr 1907",
-      "category": "Electoral Divisions",
-      "sourceFile": "render/source-cache/vector-intake/eds-munster-1907.fgb",
-      "sourceBytes": 42763232,
-      "outputDirectory": "render/tiles/generated/eds-munster-1907"
+      "sourceMapId": "admin-areas-1968-04-01",
+      "name": "1 Apr 1968",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1968-04-01.fgb",
+      "sourceBytes": 10969888,
+      "outputDirectory": "render/tiles/generated/admin-areas-1968-04-01"
     },
     {
-      "sourceMapId": "eds-ulster-1912",
-      "name": "Ulster District Electoral Divisions/Wards 1912",
-      "category": "Electoral Divisions",
-      "sourceFile": "render/source-cache/vector-intake/eds-ulster-1912.fgb",
-      "sourceBytes": 55066456,
-      "outputDirectory": "render/tiles/generated/eds-ulster-1912"
+      "sourceMapId": "admin-areas-1967-04-01",
+      "name": "1 Apr 1967",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1967-04-01.fgb",
+      "sourceBytes": 11247496,
+      "outputDirectory": "render/tiles/generated/admin-areas-1967-04-01"
     },
     {
-      "sourceMapId": "eds-ulster-1913",
-      "name": "Ulster District Electoral Divisions/Wards 1913",
-      "category": "Electoral Divisions",
-      "sourceFile": "render/source-cache/vector-intake/eds-ulster-1913.fgb",
-      "sourceBytes": 55086744,
-      "outputDirectory": "render/tiles/generated/eds-ulster-1913"
+      "sourceMapId": "admin-areas-1965-04-01",
+      "name": "1 Apr 1965",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1965-04-01.fgb",
+      "sourceBytes": 10231776,
+      "outputDirectory": "render/tiles/generated/admin-areas-1965-04-01"
     },
     {
-      "sourceMapId": "eds-ulster-1914",
-      "name": "Ulster District Electoral Divisions/Wards 1914",
-      "category": "Electoral Divisions",
-      "sourceFile": "render/source-cache/vector-intake/eds-ulster-1914.fgb",
-      "sourceBytes": 55116104,
-      "outputDirectory": "render/tiles/generated/eds-ulster-1914"
+      "sourceMapId": "admin-areas-1964-04-01",
+      "name": "1 Apr 1964",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1964-04-01.fgb",
+      "sourceBytes": 10233264,
+      "outputDirectory": "render/tiles/generated/admin-areas-1964-04-01"
     },
     {
-      "sourceMapId": "eds-ulster-1915",
-      "name": "Ulster District Electoral Divisions/Wards 1915",
-      "category": "Electoral Divisions",
-      "sourceFile": "render/source-cache/vector-intake/eds-ulster-1915.fgb",
-      "sourceBytes": 55001480,
-      "outputDirectory": "render/tiles/generated/eds-ulster-1915"
+      "sourceMapId": "admin-areas-1962-04-01",
+      "name": "1 Apr 1962",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1962-04-01.fgb",
+      "sourceBytes": 10228760,
+      "outputDirectory": "render/tiles/generated/admin-areas-1962-04-01"
     },
     {
-      "sourceMapId": "eds-ulster-1916",
-      "name": "Ulster District Electoral Divisions/Wards 1916",
-      "category": "Electoral Divisions",
-      "sourceFile": "render/source-cache/vector-intake/eds-ulster-1916.fgb",
-      "sourceBytes": 55026784,
-      "outputDirectory": "render/tiles/generated/eds-ulster-1916"
+      "sourceMapId": "admin-areas-1958-04-01",
+      "name": "1 Apr 1958",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1958-04-01.fgb",
+      "sourceBytes": 9246520,
+      "outputDirectory": "render/tiles/generated/admin-areas-1958-04-01"
     },
     {
-      "sourceMapId": "eds-ulster-1921-nine-county",
-      "name": "Ulster (nine counties) District Electoral Divisions/Wards 1921",
-      "category": "Electoral Divisions",
-      "sourceFile": "render/source-cache/vector-intake/eds-ulster-1921-nine-county.fgb",
-      "sourceBytes": 55043552,
-      "outputDirectory": "render/tiles/generated/eds-ulster-1921-nine-county"
+      "sourceMapId": "admin-areas-1957-04-01",
+      "name": "1 Apr 1957",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1957-04-01.fgb",
+      "sourceBytes": 9217032,
+      "outputDirectory": "render/tiles/generated/admin-areas-1957-04-01"
+    },
+    {
+      "sourceMapId": "admin-areas-1956-04-01",
+      "name": "1 Apr 1956",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1956-04-01.fgb",
+      "sourceBytes": 9169256,
+      "outputDirectory": "render/tiles/generated/admin-areas-1956-04-01"
+    },
+    {
+      "sourceMapId": "admin-areas-1950-04-01",
+      "name": "1 Apr 1950",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1950-04-01.fgb",
+      "sourceBytes": 9111472,
+      "outputDirectory": "render/tiles/generated/admin-areas-1950-04-01"
+    },
+    {
+      "sourceMapId": "admin-areas-1949-07-07",
+      "name": "7 Jul 1949",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1949-07-07.fgb",
+      "sourceBytes": 7717440,
+      "outputDirectory": "render/tiles/generated/admin-areas-1949-07-07"
+    },
+    {
+      "sourceMapId": "admin-areas-1949-04-01",
+      "name": "1 Apr 1949",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1949-04-01.fgb",
+      "sourceBytes": 7717432,
+      "outputDirectory": "render/tiles/generated/admin-areas-1949-04-01"
+    },
+    {
+      "sourceMapId": "admin-areas-1946-06-11",
+      "name": "11 Jun 1946",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1946-06-11.fgb",
+      "sourceBytes": 7705592,
+      "outputDirectory": "render/tiles/generated/admin-areas-1946-06-11"
+    },
+    {
+      "sourceMapId": "admin-areas-1945-04-01",
+      "name": "1 Apr 1945",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1945-04-01.fgb",
+      "sourceBytes": 7686584,
+      "outputDirectory": "render/tiles/generated/admin-areas-1945-04-01"
+    },
+    {
+      "sourceMapId": "admin-areas-1938-04-01",
+      "name": "1 Apr 1938",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1938-04-01.fgb",
+      "sourceBytes": 7680952,
+      "outputDirectory": "render/tiles/generated/admin-areas-1938-04-01"
+    },
+    {
+      "sourceMapId": "admin-areas-1937-04-01",
+      "name": "1 Apr 1937",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1937-04-01.fgb",
+      "sourceBytes": 7442888,
+      "outputDirectory": "render/tiles/generated/admin-areas-1937-04-01"
+    },
+    {
+      "sourceMapId": "admin-areas-1936-04-01",
+      "name": "1 Apr 1936",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1936-04-01.fgb",
+      "sourceBytes": 7396272,
+      "outputDirectory": "render/tiles/generated/admin-areas-1936-04-01"
+    },
+    {
+      "sourceMapId": "admin-areas-1928-01-23",
+      "name": "23 Jan 1928",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1928-01-23.fgb",
+      "sourceBytes": 7417840,
+      "outputDirectory": "render/tiles/generated/admin-areas-1928-01-23"
+    },
+    {
+      "sourceMapId": "admin-areas-1924-06-01",
+      "name": "1 Jun 1924",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1924-06-01.fgb",
+      "sourceBytes": 7417832,
+      "outputDirectory": "render/tiles/generated/admin-areas-1924-06-01"
+    },
+    {
+      "sourceMapId": "admin-areas-1921-05-03",
+      "name": "3 May 1921",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1921-05-03.fgb",
+      "sourceBytes": 7344280,
+      "outputDirectory": "render/tiles/generated/admin-areas-1921-05-03"
     }
   ],
   "selected": [
     {
-      "sourceMapId": "eds-connacht-1907",
-      "name": "Connacht District Electoral Divisions 1907",
-      "category": "Electoral Divisions",
-      "sourceFile": "render/source-cache/vector-intake/eds-connacht-1907.fgb",
-      "sourceBytes": 25848584,
-      "outputDirectory": "render/tiles/generated/eds-connacht-1907"
+      "sourceMapId": "lgd-1966",
+      "name": "Rural and Urban Districts 4 Jul 1966",
+      "category": "Local Government Districts",
+      "sourceFile": "render/source-cache/vector-intake/lgd-1966.fgb",
+      "sourceBytes": 10411752,
+      "outputDirectory": "render/tiles/generated/lgd-1966"
     },
     {
-      "sourceMapId": "eds-leinster-1910",
-      "name": "Leinster District Electoral Divisions/Wards 29 Apr 1910",
-      "category": "Electoral Divisions",
-      "sourceFile": "render/source-cache/vector-intake/eds-leinster-1910.fgb",
-      "sourceBytes": 29463512,
-      "outputDirectory": "render/tiles/generated/eds-leinster-1910"
+      "sourceMapId": "admin-areas-1966-07-04",
+      "name": "Administrative Areas 4 Jul 1966",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1966-07-04.fgb",
+      "sourceBytes": 10411752,
+      "outputDirectory": "render/tiles/generated/admin-areas-1966-07-04"
     },
     {
-      "sourceMapId": "eds-leinster-1919",
-      "name": "Leinster District Electoral Divisions/Wards 1919",
-      "category": "Electoral Divisions",
-      "sourceFile": "render/source-cache/vector-intake/eds-leinster-1919.fgb",
-      "sourceBytes": 29463504,
-      "outputDirectory": "render/tiles/generated/eds-leinster-1919"
+      "sourceMapId": "admin-areas-1969-04-01",
+      "name": "1 Apr 1969",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1969-04-01.fgb",
+      "sourceBytes": 10968184,
+      "outputDirectory": "render/tiles/generated/admin-areas-1969-04-01"
     },
     {
-      "sourceMapId": "eds-munster-1907",
-      "name": "Munster District Electoral Divisions/Wards Apr 1907",
-      "category": "Electoral Divisions",
-      "sourceFile": "render/source-cache/vector-intake/eds-munster-1907.fgb",
-      "sourceBytes": 42763232,
-      "outputDirectory": "render/tiles/generated/eds-munster-1907"
+      "sourceMapId": "admin-areas-1968-04-01",
+      "name": "1 Apr 1968",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1968-04-01.fgb",
+      "sourceBytes": 10969888,
+      "outputDirectory": "render/tiles/generated/admin-areas-1968-04-01"
     },
     {
-      "sourceMapId": "eds-ulster-1912",
-      "name": "Ulster District Electoral Divisions/Wards 1912",
-      "category": "Electoral Divisions",
-      "sourceFile": "render/source-cache/vector-intake/eds-ulster-1912.fgb",
-      "sourceBytes": 55066456,
-      "outputDirectory": "render/tiles/generated/eds-ulster-1912"
+      "sourceMapId": "admin-areas-1967-04-01",
+      "name": "1 Apr 1967",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1967-04-01.fgb",
+      "sourceBytes": 11247496,
+      "outputDirectory": "render/tiles/generated/admin-areas-1967-04-01"
     },
     {
-      "sourceMapId": "eds-ulster-1913",
-      "name": "Ulster District Electoral Divisions/Wards 1913",
-      "category": "Electoral Divisions",
-      "sourceFile": "render/source-cache/vector-intake/eds-ulster-1913.fgb",
-      "sourceBytes": 55086744,
-      "outputDirectory": "render/tiles/generated/eds-ulster-1913"
+      "sourceMapId": "admin-areas-1965-04-01",
+      "name": "1 Apr 1965",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1965-04-01.fgb",
+      "sourceBytes": 10231776,
+      "outputDirectory": "render/tiles/generated/admin-areas-1965-04-01"
     },
     {
-      "sourceMapId": "eds-ulster-1914",
-      "name": "Ulster District Electoral Divisions/Wards 1914",
-      "category": "Electoral Divisions",
-      "sourceFile": "render/source-cache/vector-intake/eds-ulster-1914.fgb",
-      "sourceBytes": 55116104,
-      "outputDirectory": "render/tiles/generated/eds-ulster-1914"
+      "sourceMapId": "admin-areas-1964-04-01",
+      "name": "1 Apr 1964",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1964-04-01.fgb",
+      "sourceBytes": 10233264,
+      "outputDirectory": "render/tiles/generated/admin-areas-1964-04-01"
     },
     {
-      "sourceMapId": "eds-ulster-1915",
-      "name": "Ulster District Electoral Divisions/Wards 1915",
-      "category": "Electoral Divisions",
-      "sourceFile": "render/source-cache/vector-intake/eds-ulster-1915.fgb",
-      "sourceBytes": 55001480,
-      "outputDirectory": "render/tiles/generated/eds-ulster-1915"
+      "sourceMapId": "admin-areas-1962-04-01",
+      "name": "1 Apr 1962",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1962-04-01.fgb",
+      "sourceBytes": 10228760,
+      "outputDirectory": "render/tiles/generated/admin-areas-1962-04-01"
     },
     {
-      "sourceMapId": "eds-ulster-1916",
-      "name": "Ulster District Electoral Divisions/Wards 1916",
-      "category": "Electoral Divisions",
-      "sourceFile": "render/source-cache/vector-intake/eds-ulster-1916.fgb",
-      "sourceBytes": 55026784,
-      "outputDirectory": "render/tiles/generated/eds-ulster-1916"
+      "sourceMapId": "admin-areas-1958-04-01",
+      "name": "1 Apr 1958",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1958-04-01.fgb",
+      "sourceBytes": 9246520,
+      "outputDirectory": "render/tiles/generated/admin-areas-1958-04-01"
     },
     {
-      "sourceMapId": "eds-ulster-1921-nine-county",
-      "name": "Ulster (nine counties) District Electoral Divisions/Wards 1921",
-      "category": "Electoral Divisions",
-      "sourceFile": "render/source-cache/vector-intake/eds-ulster-1921-nine-county.fgb",
-      "sourceBytes": 55043552,
-      "outputDirectory": "render/tiles/generated/eds-ulster-1921-nine-county"
+      "sourceMapId": "admin-areas-1957-04-01",
+      "name": "1 Apr 1957",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1957-04-01.fgb",
+      "sourceBytes": 9217032,
+      "outputDirectory": "render/tiles/generated/admin-areas-1957-04-01"
+    },
+    {
+      "sourceMapId": "admin-areas-1956-04-01",
+      "name": "1 Apr 1956",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1956-04-01.fgb",
+      "sourceBytes": 9169256,
+      "outputDirectory": "render/tiles/generated/admin-areas-1956-04-01"
+    },
+    {
+      "sourceMapId": "admin-areas-1950-04-01",
+      "name": "1 Apr 1950",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1950-04-01.fgb",
+      "sourceBytes": 9111472,
+      "outputDirectory": "render/tiles/generated/admin-areas-1950-04-01"
+    },
+    {
+      "sourceMapId": "admin-areas-1949-07-07",
+      "name": "7 Jul 1949",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1949-07-07.fgb",
+      "sourceBytes": 7717440,
+      "outputDirectory": "render/tiles/generated/admin-areas-1949-07-07"
+    },
+    {
+      "sourceMapId": "admin-areas-1949-04-01",
+      "name": "1 Apr 1949",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1949-04-01.fgb",
+      "sourceBytes": 7717432,
+      "outputDirectory": "render/tiles/generated/admin-areas-1949-04-01"
+    },
+    {
+      "sourceMapId": "admin-areas-1946-06-11",
+      "name": "11 Jun 1946",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1946-06-11.fgb",
+      "sourceBytes": 7705592,
+      "outputDirectory": "render/tiles/generated/admin-areas-1946-06-11"
+    },
+    {
+      "sourceMapId": "admin-areas-1945-04-01",
+      "name": "1 Apr 1945",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1945-04-01.fgb",
+      "sourceBytes": 7686584,
+      "outputDirectory": "render/tiles/generated/admin-areas-1945-04-01"
+    },
+    {
+      "sourceMapId": "admin-areas-1938-04-01",
+      "name": "1 Apr 1938",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1938-04-01.fgb",
+      "sourceBytes": 7680952,
+      "outputDirectory": "render/tiles/generated/admin-areas-1938-04-01"
+    },
+    {
+      "sourceMapId": "admin-areas-1937-04-01",
+      "name": "1 Apr 1937",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1937-04-01.fgb",
+      "sourceBytes": 7442888,
+      "outputDirectory": "render/tiles/generated/admin-areas-1937-04-01"
+    },
+    {
+      "sourceMapId": "admin-areas-1936-04-01",
+      "name": "1 Apr 1936",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1936-04-01.fgb",
+      "sourceBytes": 7396272,
+      "outputDirectory": "render/tiles/generated/admin-areas-1936-04-01"
+    },
+    {
+      "sourceMapId": "admin-areas-1928-01-23",
+      "name": "23 Jan 1928",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1928-01-23.fgb",
+      "sourceBytes": 7417840,
+      "outputDirectory": "render/tiles/generated/admin-areas-1928-01-23"
+    },
+    {
+      "sourceMapId": "admin-areas-1924-06-01",
+      "name": "1 Jun 1924",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1924-06-01.fgb",
+      "sourceBytes": 7417832,
+      "outputDirectory": "render/tiles/generated/admin-areas-1924-06-01"
+    },
+    {
+      "sourceMapId": "admin-areas-1921-05-03",
+      "name": "3 May 1921",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1921-05-03.fgb",
+      "sourceBytes": 7344280,
+      "outputDirectory": "render/tiles/generated/admin-areas-1921-05-03"
     }
   ],
   "skippedExisting": [],
   "converted": [
     {
-      "sourceMapId": "eds-connacht-1907",
-      "name": "Connacht District Electoral Divisions 1907",
-      "category": "Electoral Divisions",
-      "sourceFile": "render/source-cache/vector-intake/eds-connacht-1907.fgb",
-      "sourceBytes": 25848584,
-      "outputDirectory": "render/tiles/generated/eds-connacht-1907",
+      "sourceMapId": "lgd-1966",
+      "name": "Rural and Urban Districts 4 Jul 1966",
+      "category": "Local Government Districts",
+      "sourceFile": "render/source-cache/vector-intake/lgd-1966.fgb",
+      "sourceBytes": 10411752,
+      "outputDirectory": "render/tiles/generated/lgd-1966",
       "profile": {
         "maxSize": "10000000",
         "maxFeatures": "10000000",
@@ -199,19 +391,19 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "sourceLayer": "eds_connacht_1907",
-      "files": 949,
-      "pbfFiles": 948,
-      "bytes": 6690658,
-      "maxTileBytes": 112306
+      "sourceLayer": "lgd_1966",
+      "files": 753,
+      "pbfFiles": 752,
+      "bytes": 1729955,
+      "maxTileBytes": 43863
     },
     {
-      "sourceMapId": "eds-leinster-1910",
-      "name": "Leinster District Electoral Divisions/Wards 29 Apr 1910",
-      "category": "Electoral Divisions",
-      "sourceFile": "render/source-cache/vector-intake/eds-leinster-1910.fgb",
-      "sourceBytes": 29463512,
-      "outputDirectory": "render/tiles/generated/eds-leinster-1910",
+      "sourceMapId": "admin-areas-1966-07-04",
+      "name": "Administrative Areas 4 Jul 1966",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1966-07-04.fgb",
+      "sourceBytes": 10411752,
+      "outputDirectory": "render/tiles/generated/admin-areas-1966-07-04",
       "profile": {
         "maxSize": "10000000",
         "maxFeatures": "10000000",
@@ -219,19 +411,19 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "sourceLayer": "eds_leinster_1910",
-      "files": 947,
-      "pbfFiles": 946,
-      "bytes": 7587500,
-      "maxTileBytes": 179926
+      "sourceLayer": "admin_areas_1966_07_04",
+      "files": 753,
+      "pbfFiles": 752,
+      "bytes": 1740506,
+      "maxTileBytes": 43877
     },
     {
-      "sourceMapId": "eds-leinster-1919",
-      "name": "Leinster District Electoral Divisions/Wards 1919",
-      "category": "Electoral Divisions",
-      "sourceFile": "render/source-cache/vector-intake/eds-leinster-1919.fgb",
-      "sourceBytes": 29463504,
-      "outputDirectory": "render/tiles/generated/eds-leinster-1919",
+      "sourceMapId": "admin-areas-1969-04-01",
+      "name": "1 Apr 1969",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1969-04-01.fgb",
+      "sourceBytes": 10968184,
+      "outputDirectory": "render/tiles/generated/admin-areas-1969-04-01",
       "profile": {
         "maxSize": "10000000",
         "maxFeatures": "10000000",
@@ -239,19 +431,19 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "sourceLayer": "eds_leinster_1919",
-      "files": 947,
-      "pbfFiles": 946,
-      "bytes": 7600560,
-      "maxTileBytes": 180131
+      "sourceLayer": "admin_areas_1969_04_01",
+      "files": 633,
+      "pbfFiles": 632,
+      "bytes": 1482428,
+      "maxTileBytes": 24001
     },
     {
-      "sourceMapId": "eds-munster-1907",
-      "name": "Munster District Electoral Divisions/Wards Apr 1907",
-      "category": "Electoral Divisions",
-      "sourceFile": "render/source-cache/vector-intake/eds-munster-1907.fgb",
-      "sourceBytes": 42763232,
-      "outputDirectory": "render/tiles/generated/eds-munster-1907",
+      "sourceMapId": "admin-areas-1968-04-01",
+      "name": "1 Apr 1968",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1968-04-01.fgb",
+      "sourceBytes": 10969888,
+      "outputDirectory": "render/tiles/generated/admin-areas-1968-04-01",
       "profile": {
         "maxSize": "10000000",
         "maxFeatures": "10000000",
@@ -259,19 +451,19 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "sourceLayer": "eds_munster_1907",
-      "files": 1187,
-      "pbfFiles": 1186,
-      "bytes": 10664585,
-      "maxTileBytes": 137755
+      "sourceLayer": "admin_areas_1968_04_01",
+      "files": 633,
+      "pbfFiles": 632,
+      "bytes": 1482639,
+      "maxTileBytes": 24001
     },
     {
-      "sourceMapId": "eds-ulster-1912",
-      "name": "Ulster District Electoral Divisions/Wards 1912",
-      "category": "Electoral Divisions",
-      "sourceFile": "render/source-cache/vector-intake/eds-ulster-1912.fgb",
-      "sourceBytes": 55066456,
-      "outputDirectory": "render/tiles/generated/eds-ulster-1912",
+      "sourceMapId": "admin-areas-1967-04-01",
+      "name": "1 Apr 1967",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1967-04-01.fgb",
+      "sourceBytes": 11247496,
+      "outputDirectory": "render/tiles/generated/admin-areas-1967-04-01",
       "profile": {
         "maxSize": "10000000",
         "maxFeatures": "10000000",
@@ -279,19 +471,19 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "sourceLayer": "eds_ulster_1912",
-      "files": 1163,
-      "pbfFiles": 1162,
-      "bytes": 11796349,
-      "maxTileBytes": 193474
+      "sourceLayer": "admin_areas_1967_04_01",
+      "files": 637,
+      "pbfFiles": 636,
+      "bytes": 1501766,
+      "maxTileBytes": 24001
     },
     {
-      "sourceMapId": "eds-ulster-1913",
-      "name": "Ulster District Electoral Divisions/Wards 1913",
-      "category": "Electoral Divisions",
-      "sourceFile": "render/source-cache/vector-intake/eds-ulster-1913.fgb",
-      "sourceBytes": 55086744,
-      "outputDirectory": "render/tiles/generated/eds-ulster-1913",
+      "sourceMapId": "admin-areas-1965-04-01",
+      "name": "1 Apr 1965",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1965-04-01.fgb",
+      "sourceBytes": 10231776,
+      "outputDirectory": "render/tiles/generated/admin-areas-1965-04-01",
       "profile": {
         "maxSize": "10000000",
         "maxFeatures": "10000000",
@@ -299,19 +491,19 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "sourceLayer": "eds_ulster_1913",
-      "files": 1163,
-      "pbfFiles": 1162,
-      "bytes": 11801793,
-      "maxTileBytes": 193657
+      "sourceLayer": "admin_areas_1965_04_01",
+      "files": 637,
+      "pbfFiles": 636,
+      "bytes": 1507239,
+      "maxTileBytes": 23756
     },
     {
-      "sourceMapId": "eds-ulster-1914",
-      "name": "Ulster District Electoral Divisions/Wards 1914",
-      "category": "Electoral Divisions",
-      "sourceFile": "render/source-cache/vector-intake/eds-ulster-1914.fgb",
-      "sourceBytes": 55116104,
-      "outputDirectory": "render/tiles/generated/eds-ulster-1914",
+      "sourceMapId": "admin-areas-1964-04-01",
+      "name": "1 Apr 1964",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1964-04-01.fgb",
+      "sourceBytes": 10233264,
+      "outputDirectory": "render/tiles/generated/admin-areas-1964-04-01",
       "profile": {
         "maxSize": "10000000",
         "maxFeatures": "10000000",
@@ -319,19 +511,19 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "sourceLayer": "eds_ulster_1914",
-      "files": 1163,
-      "pbfFiles": 1162,
-      "bytes": 11810240,
-      "maxTileBytes": 193860
+      "sourceLayer": "admin_areas_1964_04_01",
+      "files": 637,
+      "pbfFiles": 636,
+      "bytes": 1507461,
+      "maxTileBytes": 23756
     },
     {
-      "sourceMapId": "eds-ulster-1915",
-      "name": "Ulster District Electoral Divisions/Wards 1915",
-      "category": "Electoral Divisions",
-      "sourceFile": "render/source-cache/vector-intake/eds-ulster-1915.fgb",
-      "sourceBytes": 55001480,
-      "outputDirectory": "render/tiles/generated/eds-ulster-1915",
+      "sourceMapId": "admin-areas-1962-04-01",
+      "name": "1 Apr 1962",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1962-04-01.fgb",
+      "sourceBytes": 10228760,
+      "outputDirectory": "render/tiles/generated/admin-areas-1962-04-01",
       "profile": {
         "maxSize": "10000000",
         "maxFeatures": "10000000",
@@ -339,19 +531,19 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "sourceLayer": "eds_ulster_1915",
-      "files": 1163,
-      "pbfFiles": 1162,
-      "bytes": 11789657,
-      "maxTileBytes": 193485
+      "sourceLayer": "admin_areas_1962_04_01",
+      "files": 637,
+      "pbfFiles": 636,
+      "bytes": 1506336,
+      "maxTileBytes": 23756
     },
     {
-      "sourceMapId": "eds-ulster-1916",
-      "name": "Ulster District Electoral Divisions/Wards 1916",
-      "category": "Electoral Divisions",
-      "sourceFile": "render/source-cache/vector-intake/eds-ulster-1916.fgb",
-      "sourceBytes": 55026784,
-      "outputDirectory": "render/tiles/generated/eds-ulster-1916",
+      "sourceMapId": "admin-areas-1958-04-01",
+      "name": "1 Apr 1958",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1958-04-01.fgb",
+      "sourceBytes": 9246520,
+      "outputDirectory": "render/tiles/generated/admin-areas-1958-04-01",
       "profile": {
         "maxSize": "10000000",
         "maxFeatures": "10000000",
@@ -359,19 +551,19 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "sourceLayer": "eds_ulster_1916",
-      "files": 1163,
-      "pbfFiles": 1162,
-      "bytes": 11795157,
-      "maxTileBytes": 193675
+      "sourceLayer": "admin_areas_1958_04_01",
+      "files": 637,
+      "pbfFiles": 636,
+      "bytes": 1502046,
+      "maxTileBytes": 21323
     },
     {
-      "sourceMapId": "eds-ulster-1921-nine-county",
-      "name": "Ulster (nine counties) District Electoral Divisions/Wards 1921",
-      "category": "Electoral Divisions",
-      "sourceFile": "render/source-cache/vector-intake/eds-ulster-1921-nine-county.fgb",
-      "sourceBytes": 55043552,
-      "outputDirectory": "render/tiles/generated/eds-ulster-1921-nine-county",
+      "sourceMapId": "admin-areas-1957-04-01",
+      "name": "1 Apr 1957",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1957-04-01.fgb",
+      "sourceBytes": 9217032,
+      "outputDirectory": "render/tiles/generated/admin-areas-1957-04-01",
       "profile": {
         "maxSize": "10000000",
         "maxFeatures": "10000000",
@@ -379,11 +571,251 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "sourceLayer": "eds_ulster_1921_nine_county",
-      "files": 1163,
-      "pbfFiles": 1162,
-      "bytes": 11830531,
-      "maxTileBytes": 193940
+      "sourceLayer": "admin_areas_1957_04_01",
+      "files": 644,
+      "pbfFiles": 643,
+      "bytes": 1527691,
+      "maxTileBytes": 21554
+    },
+    {
+      "sourceMapId": "admin-areas-1956-04-01",
+      "name": "1 Apr 1956",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1956-04-01.fgb",
+      "sourceBytes": 9169256,
+      "outputDirectory": "render/tiles/generated/admin-areas-1956-04-01",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "admin_areas_1956_04_01",
+      "files": 644,
+      "pbfFiles": 643,
+      "bytes": 1527603,
+      "maxTileBytes": 21554
+    },
+    {
+      "sourceMapId": "admin-areas-1950-04-01",
+      "name": "1 Apr 1950",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1950-04-01.fgb",
+      "sourceBytes": 9111472,
+      "outputDirectory": "render/tiles/generated/admin-areas-1950-04-01",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "admin_areas_1950_04_01",
+      "files": 641,
+      "pbfFiles": 640,
+      "bytes": 1512708,
+      "maxTileBytes": 21375
+    },
+    {
+      "sourceMapId": "admin-areas-1949-07-07",
+      "name": "7 Jul 1949",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1949-07-07.fgb",
+      "sourceBytes": 7717440,
+      "outputDirectory": "render/tiles/generated/admin-areas-1949-07-07",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "admin_areas_1949_07_07",
+      "files": 640,
+      "pbfFiles": 639,
+      "bytes": 1492184,
+      "maxTileBytes": 21329
+    },
+    {
+      "sourceMapId": "admin-areas-1949-04-01",
+      "name": "1 Apr 1949",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1949-04-01.fgb",
+      "sourceBytes": 7717432,
+      "outputDirectory": "render/tiles/generated/admin-areas-1949-04-01",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "admin_areas_1949_04_01",
+      "files": 640,
+      "pbfFiles": 639,
+      "bytes": 1492124,
+      "maxTileBytes": 21326
+    },
+    {
+      "sourceMapId": "admin-areas-1946-06-11",
+      "name": "11 Jun 1946",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1946-06-11.fgb",
+      "sourceBytes": 7705592,
+      "outputDirectory": "render/tiles/generated/admin-areas-1946-06-11",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "admin_areas_1946_06_11",
+      "files": 640,
+      "pbfFiles": 639,
+      "bytes": 1490153,
+      "maxTileBytes": 21311
+    },
+    {
+      "sourceMapId": "admin-areas-1945-04-01",
+      "name": "1 Apr 1945",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1945-04-01.fgb",
+      "sourceBytes": 7686584,
+      "outputDirectory": "render/tiles/generated/admin-areas-1945-04-01",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "admin_areas_1945_04_01",
+      "files": 640,
+      "pbfFiles": 639,
+      "bytes": 1485753,
+      "maxTileBytes": 21279
+    },
+    {
+      "sourceMapId": "admin-areas-1938-04-01",
+      "name": "1 Apr 1938",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1938-04-01.fgb",
+      "sourceBytes": 7680952,
+      "outputDirectory": "render/tiles/generated/admin-areas-1938-04-01",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "admin_areas_1938_04_01",
+      "files": 640,
+      "pbfFiles": 639,
+      "bytes": 1484402,
+      "maxTileBytes": 21245
+    },
+    {
+      "sourceMapId": "admin-areas-1937-04-01",
+      "name": "1 Apr 1937",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1937-04-01.fgb",
+      "sourceBytes": 7442888,
+      "outputDirectory": "render/tiles/generated/admin-areas-1937-04-01",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "admin_areas_1937_04_01",
+      "files": 640,
+      "pbfFiles": 639,
+      "bytes": 1473298,
+      "maxTileBytes": 21193
+    },
+    {
+      "sourceMapId": "admin-areas-1936-04-01",
+      "name": "1 Apr 1936",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1936-04-01.fgb",
+      "sourceBytes": 7396272,
+      "outputDirectory": "render/tiles/generated/admin-areas-1936-04-01",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "admin_areas_1936_04_01",
+      "files": 640,
+      "pbfFiles": 639,
+      "bytes": 1464378,
+      "maxTileBytes": 21193
+    },
+    {
+      "sourceMapId": "admin-areas-1928-01-23",
+      "name": "23 Jan 1928",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1928-01-23.fgb",
+      "sourceBytes": 7417840,
+      "outputDirectory": "render/tiles/generated/admin-areas-1928-01-23",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "admin_areas_1928_01_23",
+      "files": 643,
+      "pbfFiles": 642,
+      "bytes": 1469753,
+      "maxTileBytes": 21309
+    },
+    {
+      "sourceMapId": "admin-areas-1924-06-01",
+      "name": "1 Jun 1924",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1924-06-01.fgb",
+      "sourceBytes": 7417832,
+      "outputDirectory": "render/tiles/generated/admin-areas-1924-06-01",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "admin_areas_1924_06_01",
+      "files": 643,
+      "pbfFiles": 642,
+      "bytes": 1469695,
+      "maxTileBytes": 21306
+    },
+    {
+      "sourceMapId": "admin-areas-1921-05-03",
+      "name": "3 May 1921",
+      "category": "Historic Boundaries",
+      "sourceFile": "render/source-cache/vector-intake/admin-areas-1921-05-03.fgb",
+      "sourceBytes": 7344280,
+      "outputDirectory": "render/tiles/generated/admin-areas-1921-05-03",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "sourceLayer": "admin_areas_1921_05_03",
+      "files": 641,
+      "pbfFiles": 640,
+      "bytes": 1457811,
+      "maxTileBytes": 21153
     }
   ],
   "failed": [],

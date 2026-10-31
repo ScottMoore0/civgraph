@@ -1,6 +1,6 @@
 # Test2 Election Data Audit
 
-Generated: 2026-10-30T14:37:44.335Z
+Generated: 2026-10-31T02:05:49.352Z
 
 This is a repeatable repository-local audit of the generated /test2 election data, Browse election entries, source/reference records, transfer/count payload availability, and saved Wikipedia party-colour comparison outputs. It intentionally does not fetch live web pages, so CI can run it deterministically.
 
@@ -8,25 +8,25 @@ This is a repeatable repository-local audit of the generated /test2 election dat
 
 |area|value|
 |---|---:|
-|parent elections in manifest|1135|
+|parent elections in manifest|1136|
 |manifest loadable elections|557|
 |manifest placeholders|569|
-|Browse parent election entries|1135|
-|Browse constituency/DEA sub-entries|10257|
-|Browse overall sub-entries|1135|
-|source detail records|1135|
-|result bundles loaded|1135|
-|result rows audited|10257|
-|candidate rows audited|57240|
-|rows with count detail|10237|
-|rows with animation payload|10237|
-|rows expected to have transfer/count data|4059|
+|Browse parent election entries|1136|
+|Browse constituency/DEA sub-entries|10266|
+|Browse overall sub-entries|1136|
+|source detail records|1136|
+|result bundles loaded|1136|
+|result rows audited|10266|
+|candidate rows audited|57386|
+|rows with count detail|10246|
+|rows with animation payload|10246|
+|rows expected to have transfer/count data|4068|
 |expected transfer/count rows missing detail|0|
 |valid-poll review sidecar records|0|
 |candidate-row review sidecar records|0|
 |party-colour review sidecar records|10|
 |blocking issues|0|
-|warnings|69|
+|warnings|70|
 
 ## Blocking Structural Issues
 
@@ -65,6 +65,7 @@ _None._
 |warning|source-record-single-reference|strabane-urban-district-council__1926|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|strabane-urban-district-council__1926|9 candidate rows have no party/label. Examples: Thomas Stewart in East Ward; John Boyle in East Ward; William Forbes in East Ward; Michael McShane in South Ward; James McGraine in South Ward.|
 |warning|source-record-single-reference|strabane-urban-district-council__1923-01-05|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|source-record-single-reference|belfast-county-borough-council__1920-01-15|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-single-reference|strabane-urban-district-council__1920|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|strabane-urban-district-council__1920|1 candidate rows have no party/label. Examples: Felix Quinn in South Area.|
 |warning|source-record-single-reference|strabane-urban-district-council__1915|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
@@ -112,10 +113,10 @@ _None._
 |---|---:|
 |parent source records missing|0|
 |source records with no references|0|
-|source records with one reference|34|
+|source records with one reference|35|
 |source records with multiple references|1101|
 |Browse sub-entries with no references|0|
-|Browse sub-entries with one reference|205|
+|Browse sub-entries with one reference|215|
 |Browse sub-entries with multiple references|11187|
 
 ## Party Colour Audit

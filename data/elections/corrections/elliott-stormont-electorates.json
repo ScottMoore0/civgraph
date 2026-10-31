@@ -1,0 +1,4322 @@
+{
+ "schemaVersion": 1,
+ "about": "Electorates for Northern Ireland House of Commons contests 1921-69, which the imported files recorded none of. Each figure is printed in Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973), and is given identically on David Boothroyd's Northern Ireland House of Commons Election Results site (the full-results source ARK Northern Ireland Elections links to, read from the Internet Archive copies of January-August 2020). Boothroyd's tables follow Elliott's layout and are probably compiled from him, so the two are not fully independent; the check catches transcription slips, not an error in Elliott himself. Read by scripts/build-test2-election-manifest.mjs, which fills the electorate only where the contest has none and names both sources in the result panel's Electorate note. Not filled, and listed under notFilled: contests the site shows unopposed or without votes although both sources print an electorate (the site's result is probably incomplete; owner to review), figures Boothroyd gives that could not yet be read in the scanned Elliott pages, and two contests the site does not hold. Compiled 2026-10-31.",
+ "sources": {
+  "elliott": {
+   "volume": "elliott-1921-72",
+   "title": "Northern Ireland Parliamentary Election Results 1921-1972",
+   "editor": "Sydney Elliott",
+   "publisher": "Political Reference Publications, Chichester",
+   "year": 1973,
+   "locator": "constituency results, Electors column (pp. 2-88)"
+  },
+  "boothroyd": {
+   "title": "Northern Ireland House of Commons Election Results",
+   "author": "David Boothroyd",
+   "url": "http://www.election.demon.co.uk/stormont/",
+   "archiveUrl": "https://web.archive.org/web/20200129141119/http://www.election.demon.co.uk:80/stormont/",
+   "linkedFrom": "https://www.ark.ac.uk/elections/hnihoc.htm"
+  }
+ },
+ "licence": "Figures only; neither work's text or tables are reproduced.",
+ "counts": {
+  "filled": 271,
+  "shownWithoutVotes": 25,
+  "elliottNotYetRead": 28,
+  "contestNotHeld": 1
+ },
+ "notFilled": {
+  "shownWithoutVotes": [
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1950-10-31/belfast-bloomfield.json",
+    "electorate": 22001
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1959-05-28/belfast-clifton.json",
+    "electorate": 16982
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1962-12-06/belfast-cromac.json",
+    "electorate": 14337
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-11-29/belfast-duncairn.json",
+    "electorate": 18773
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1956-12-04/belfast-duncairn.json",
+    "electorate": 20365
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1970-11-12/belfast-st-annes.json",
+    "electorate": 20221
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1941-12-03/belfast-willowfield.json",
+    "electorate": 16086
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1943-08-26/carrick.json",
+    "electorate": 21716
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1968-11-06/south-antrim.json",
+    "electorate": 38672
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1950-12-06/south-armagh.json",
+    "electorate": 17496
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1964-12-03/mid-down.json",
+    "electorate": 41402
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1962-05-31/mourne.json",
+    "electorate": 16066
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1965-11-25/mourne.json",
+    "electorate": 16202
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/mourne.json",
+    "electorate": 16272
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1941-03-27/north-down.json",
+    "electorate": 19545
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1967-05-25/south-down.json",
+    "electorate": 17267
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-02-10/south-londonderry.json",
+    "electorate": 17526
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/south-londonderry.json",
+    "electorate": 18393
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1964-06-30/east-tyrone.json",
+    "electorate": 16883
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-04-12/south-tyrone.json",
+    "electorate": 17303
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1925-11-25/armagh.json",
+    "electorate": 54082
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1948-04-20/queens-university-of-belfast.json",
+    "electorate": 6722
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-11-15/queens-university-of-belfast.json",
+    "electorate": 7182
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1961-11-22/queens-university-of-belfast.json",
+    "electorate": 11073
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1966-11-23/queens-university-of-belfast.json",
+    "electorate": 13722
+   }
+  ],
+  "elliottNotYetRead": [
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1938-02-09/belfast-clifton.json",
+    "boothroydElectorate": 17039
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/belfast-dock.json",
+    "boothroydElectorate": 7212
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/belfast-oldpark.json",
+    "boothroydElectorate": 17817
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1929-05-22/belfast-pottinger.json",
+    "boothroydElectorate": 14641
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1962-05-31/belfast-pottinger.json",
+    "boothroydElectorate": 10404
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1965-11-25/belfast-pottinger.json",
+    "boothroydElectorate": 9415
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/belfast-shankill.json",
+    "boothroydElectorate": 18186
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1953-10-22/belfast-willowfield.json",
+    "boothroydElectorate": 15976
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1962-05-31/belfast-willowfield.json",
+    "boothroydElectorate": 13589
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1965-11-25/belfast-willowfield.json",
+    "boothroydElectorate": 13255
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/belfast-willowfield.json",
+    "boothroydElectorate": 12427
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-06-14/belfast-windsor.json",
+    "boothroydElectorate": 20482
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1929-05-22/belfast-woodvale.json",
+    "boothroydElectorate": 20703
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-06-14/north-armagh.json",
+    "boothroydElectorate": 17553
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1965-11-25/north-armagh.json",
+    "boothroydElectorate": 20083
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/north-armagh.json",
+    "boothroydElectorate": 20652
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1938-02-09/iveagh.json",
+    "boothroydElectorate": 15903
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-02-10/iveagh.json",
+    "boothroydElectorate": 16389
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/enniskillen.json",
+    "boothroydElectorate": 11965
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1933-11-30/foyle.json",
+    "boothroydElectorate": 14774
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-06-14/foyle.json",
+    "boothroydElectorate": 16071
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1953-10-22/foyle.json",
+    "boothroydElectorate": 17379
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1962-05-31/foyle.json",
+    "boothroydElectorate": 18744
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1965-11-25/foyle.json",
+    "boothroydElectorate": 19607
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/foyle.json",
+    "boothroydElectorate": 19875
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1953-10-22/mid-londonderry.json",
+    "boothroydElectorate": 15798
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/mid-londonderry.json",
+    "boothroydElectorate": 16411
+   },
+   {
+    "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1953-10-22/mid-tyrone.json",
+    "boothroydElectorate": 13698
+   }
+  ],
+  "contestNotHeld": [
+   {
+    "constituency": "Belfast Falls (by-election)",
+    "year": "1942",
+    "date": "1942-11-06",
+    "electorate": 17633
+   }
+  ]
+ },
+ "records": [
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1921-05-24/antrim.json",
+   "election": "parliament-of-northern-ireland__1921-05-24",
+   "constituency": "Antrim",
+   "electorate": 93566,
+   "boothroyd": {
+    "page": "counties.html",
+    "heading": "ANTRIM (Seven Seats)",
+    "url": "http://www.election.demon.co.uk/stormont/counties.html",
+    "archiveUrl": "https://web.archive.org/web/20200801221328/http://www.election.demon.co.uk/stormont/counties.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1921-05-24/armagh.json",
+   "election": "parliament-of-northern-ireland__1921-05-24",
+   "constituency": "Armagh",
+   "electorate": 53977,
+   "boothroyd": {
+    "page": "counties.html",
+    "heading": "ARMAGH (Four Seats)",
+    "url": "http://www.election.demon.co.uk/stormont/counties.html",
+    "archiveUrl": "https://web.archive.org/web/20200801221328/http://www.election.demon.co.uk/stormont/counties.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1921-05-24/belfast-east.json",
+   "election": "parliament-of-northern-ireland__1921-05-24",
+   "constituency": "Belfast East",
+   "electorate": 40198,
+   "boothroyd": {
+    "page": "borough.html",
+    "heading": "BELFAST, EAST (Four Seats)",
+    "url": "http://www.election.demon.co.uk/stormont/borough.html",
+    "archiveUrl": "https://web.archive.org/web/20200116165627/http://www.election.demon.co.uk/stormont/borough.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1921-05-24/belfast-north.json",
+   "election": "parliament-of-northern-ireland__1921-05-24",
+   "constituency": "Belfast North",
+   "electorate": 43194,
+   "boothroyd": {
+    "page": "borough.html",
+    "heading": "BELFAST, NORTH (Four Seats)",
+    "url": "http://www.election.demon.co.uk/stormont/borough.html",
+    "archiveUrl": "https://web.archive.org/web/20200116165627/http://www.election.demon.co.uk/stormont/borough.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1921-05-24/belfast-south.json",
+   "election": "parliament-of-northern-ireland__1921-05-24",
+   "constituency": "Belfast South",
+   "electorate": 40566,
+   "boothroyd": {
+    "page": "borough.html",
+    "heading": "BELFAST, SOUTH (Four Seats)",
+    "url": "http://www.election.demon.co.uk/stormont/borough.html",
+    "archiveUrl": "https://web.archive.org/web/20200116165627/http://www.election.demon.co.uk/stormont/borough.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1921-05-24/belfast-west.json",
+   "election": "parliament-of-northern-ireland__1921-05-24",
+   "constituency": "Belfast West",
+   "electorate": 57914,
+   "boothroyd": {
+    "page": "borough.html",
+    "heading": "BELFAST, WEST (Four Seats)",
+    "url": "http://www.election.demon.co.uk/stormont/borough.html",
+    "archiveUrl": "https://web.archive.org/web/20200116165627/http://www.election.demon.co.uk/stormont/borough.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1921-05-24/down.json",
+   "election": "parliament-of-northern-ireland__1921-05-24",
+   "constituency": "Down",
+   "electorate": 93138,
+   "boothroyd": {
+    "page": "counties.html",
+    "heading": "DOWN (Seven Seats)",
+    "url": "http://www.election.demon.co.uk/stormont/counties.html",
+    "archiveUrl": "https://web.archive.org/web/20200801221328/http://www.election.demon.co.uk/stormont/counties.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1921-05-24/fermanagh-and-tyrone.json",
+   "election": "parliament-of-northern-ireland__1921-05-24",
+   "constituency": "Fermanagh and Tyrone",
+   "electorate": 95272,
+   "boothroyd": {
+    "page": "counties.html",
+    "heading": "FERMANAGH and TYRONE (Eight Seats)",
+    "url": "http://www.election.demon.co.uk/stormont/counties.html",
+    "archiveUrl": "https://web.archive.org/web/20200801221328/http://www.election.demon.co.uk/stormont/counties.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1921-05-24/londonderry.json",
+   "election": "parliament-of-northern-ireland__1921-05-24",
+   "constituency": "Londonderry",
+   "electorate": 62111,
+   "boothroyd": {
+    "page": "counties.html",
+    "heading": "LONDONDERRY (Five Seats)",
+    "url": "http://www.election.demon.co.uk/stormont/counties.html",
+    "archiveUrl": "https://web.archive.org/web/20200801221328/http://www.election.demon.co.uk/stormont/counties.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1921-05-24/queens-university-of-belfast.json",
+   "election": "parliament-of-northern-ireland__1921-05-24",
+   "constituency": "Queen's University of Belfast",
+   "electorate": 2528,
+   "boothroyd": {
+    "page": "qub.html",
+    "heading": "THE QUEEN'S UNIVERSITY of BELFAST [53] (Four Seats)",
+    "url": "http://www.election.demon.co.uk/stormont/qub.html",
+    "archiveUrl": "https://web.archive.org/web/20200116210218/http://www.election.demon.co.uk/stormont/qub.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1923-05-02/belfast-west.json",
+   "election": "parliament-of-northern-ireland__1923-05-02",
+   "constituency": "Belfast West",
+   "electorate": 67171,
+   "boothroyd": {
+    "page": "borough.html",
+    "heading": "BELFAST, WEST (Four Seats)",
+    "url": "http://www.election.demon.co.uk/stormont/borough.html",
+    "archiveUrl": "https://web.archive.org/web/20200116165627/http://www.election.demon.co.uk/stormont/borough.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1925-04-03/antrim.json",
+   "election": "parliament-of-northern-ireland__1925-04-03",
+   "constituency": "Antrim",
+   "electorate": 98278,
+   "boothroyd": {
+    "page": "counties.html",
+    "heading": "ANTRIM (Seven Seats)",
+    "url": "http://www.election.demon.co.uk/stormont/counties.html",
+    "archiveUrl": "https://web.archive.org/web/20200801221328/http://www.election.demon.co.uk/stormont/counties.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1925-04-03/armagh.json",
+   "election": "parliament-of-northern-ireland__1925-04-03",
+   "constituency": "Armagh",
+   "electorate": 54082,
+   "boothroyd": {
+    "page": "counties.html",
+    "heading": "ARMAGH (Four Seats)",
+    "url": "http://www.election.demon.co.uk/stormont/counties.html",
+    "archiveUrl": "https://web.archive.org/web/20200801221328/http://www.election.demon.co.uk/stormont/counties.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1925-04-03/belfast-east.json",
+   "election": "parliament-of-northern-ireland__1925-04-03",
+   "constituency": "Belfast East",
+   "electorate": 44400,
+   "boothroyd": {
+    "page": "borough.html",
+    "heading": "BELFAST, EAST (Four Seats)",
+    "url": "http://www.election.demon.co.uk/stormont/borough.html",
+    "archiveUrl": "https://web.archive.org/web/20200116165627/http://www.election.demon.co.uk/stormont/borough.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1925-04-03/belfast-north.json",
+   "election": "parliament-of-northern-ireland__1925-04-03",
+   "constituency": "Belfast North",
+   "electorate": 47228,
+   "boothroyd": {
+    "page": "borough.html",
+    "heading": "BELFAST, NORTH (Four Seats)",
+    "url": "http://www.election.demon.co.uk/stormont/borough.html",
+    "archiveUrl": "https://web.archive.org/web/20200116165627/http://www.election.demon.co.uk/stormont/borough.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1925-04-03/belfast-south.json",
+   "election": "parliament-of-northern-ireland__1925-04-03",
+   "constituency": "Belfast South",
+   "electorate": 43164,
+   "boothroyd": {
+    "page": "borough.html",
+    "heading": "BELFAST, SOUTH (Four Seats)",
+    "url": "http://www.election.demon.co.uk/stormont/borough.html",
+    "archiveUrl": "https://web.archive.org/web/20200116165627/http://www.election.demon.co.uk/stormont/borough.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1925-04-03/belfast-west.json",
+   "election": "parliament-of-northern-ireland__1925-04-03",
+   "constituency": "Belfast West",
+   "electorate": 65550,
+   "boothroyd": {
+    "page": "borough.html",
+    "heading": "BELFAST, WEST (Four Seats)",
+    "url": "http://www.election.demon.co.uk/stormont/borough.html",
+    "archiveUrl": "https://web.archive.org/web/20200116165627/http://www.election.demon.co.uk/stormont/borough.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1925-04-03/fermanagh-and-tyrone.json",
+   "election": "parliament-of-northern-ireland__1925-04-03",
+   "constituency": "Fermanagh and Tyrone",
+   "electorate": 96388,
+   "boothroyd": {
+    "page": "counties.html",
+    "heading": "FERMANAGH and TYRONE (Eight Seats)",
+    "url": "http://www.election.demon.co.uk/stormont/counties.html",
+    "archiveUrl": "https://web.archive.org/web/20200801221328/http://www.election.demon.co.uk/stormont/counties.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1925-04-03/londonderry.json",
+   "election": "parliament-of-northern-ireland__1925-04-03",
+   "constituency": "Londonderry",
+   "electorate": 63174,
+   "boothroyd": {
+    "page": "counties.html",
+    "heading": "LONDONDERRY (Five Seats)",
+    "url": "http://www.election.demon.co.uk/stormont/counties.html",
+    "archiveUrl": "https://web.archive.org/web/20200801221328/http://www.election.demon.co.uk/stormont/counties.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1925-11-06/belfast-south.json",
+   "election": "parliament-of-northern-ireland__1925-11-06",
+   "constituency": "Belfast South",
+   "electorate": 43164,
+   "boothroyd": {
+    "page": "borough.html",
+    "heading": "BELFAST, SOUTH (Four Seats)",
+    "url": "http://www.election.demon.co.uk/stormont/borough.html",
+    "archiveUrl": "https://web.archive.org/web/20200116165627/http://www.election.demon.co.uk/stormont/borough.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1929-05-22/antrim-borough.json",
+   "election": "parliament-of-northern-ireland__1929-05-22",
+   "constituency": "Antrim Borough",
+   "electorate": 17937,
+   "boothroyd": {
+    "page": "antrim.html",
+    "heading": "ANTRIM, ANTRIM [19]",
+    "url": "http://www.election.demon.co.uk/stormont/antrim.html",
+    "archiveUrl": "https://web.archive.org/web/20200116134056/http://www.election.demon.co.uk/stormont/antrim.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1929-05-22/ards.json",
+   "election": "parliament-of-northern-ireland__1929-05-22",
+   "constituency": "Ards",
+   "electorate": 17033,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, ARDS [32]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1929-05-22/bannside.json",
+   "election": "parliament-of-northern-ireland__1929-05-22",
+   "constituency": "Bannside",
+   "electorate": 16802,
+   "boothroyd": {
+    "page": "antrim.html",
+    "heading": "ANTRIM, BANN SIDE [20]",
+    "url": "http://www.election.demon.co.uk/stormont/antrim.html",
+    "archiveUrl": "https://web.archive.org/web/20200116134056/http://www.election.demon.co.uk/stormont/antrim.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1929-05-22/belfast-ballynafeigh.json",
+   "election": "parliament-of-northern-ireland__1929-05-22",
+   "constituency": "Belfast Ballynafeigh",
+   "electorate": 11799,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, BALLYNAFEIGH [1]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1929-05-22/belfast-central.json",
+   "election": "parliament-of-northern-ireland__1929-05-22",
+   "constituency": "Belfast Central",
+   "electorate": 20399,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, CENTRAL [3]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1929-05-22/belfast-cromac.json",
+   "election": "parliament-of-northern-ireland__1929-05-22",
+   "constituency": "Belfast Cromac",
+   "electorate": 16918,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, CROMAC [5]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1929-05-22/belfast-dock.json",
+   "election": "parliament-of-northern-ireland__1929-05-22",
+   "constituency": "Belfast Dock",
+   "electorate": 11751,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, DOCK [6]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1929-05-22/belfast-falls.json",
+   "election": "parliament-of-northern-ireland__1929-05-22",
+   "constituency": "Belfast Falls",
+   "electorate": 16817,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, FALLS [8]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1929-05-22/belfast-oldpark.json",
+   "election": "parliament-of-northern-ireland__1929-05-22",
+   "constituency": "Belfast Oldpark",
+   "electorate": 15653,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, OLDPARK [9]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1929-05-22/belfast-shankill.json",
+   "election": "parliament-of-northern-ireland__1929-05-22",
+   "constituency": "Belfast Shankill",
+   "electorate": 17062,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, SHANKILL [12]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1929-05-22/belfast-st-annes.json",
+   "election": "parliament-of-northern-ireland__1929-05-22",
+   "constituency": "Belfast St Anne's",
+   "electorate": 19802,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, ST. ANNE'S [11]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1929-05-22/belfast-victoria.json",
+   "election": "parliament-of-northern-ireland__1929-05-22",
+   "constituency": "Belfast Victoria",
+   "electorate": 14251,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, VICTORIA [13]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1929-05-22/belfast-willowfield.json",
+   "election": "parliament-of-northern-ireland__1929-05-22",
+   "constituency": "Belfast Willowfield",
+   "electorate": 12536,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, WILLOWFIELD [14]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1929-05-22/belfast-windsor.json",
+   "election": "parliament-of-northern-ireland__1929-05-22",
+   "constituency": "Belfast Windsor",
+   "electorate": 17761,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, WINDSOR [15]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1929-05-22/east-down.json",
+   "election": "parliament-of-northern-ireland__1929-05-22",
+   "constituency": "East Down",
+   "electorate": 15672,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, EAST DOWN [34]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1929-05-22/iveagh.json",
+   "election": "parliament-of-northern-ireland__1929-05-22",
+   "constituency": "Iveagh",
+   "electorate": 16189,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, IVEAGH [35]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1929-05-22/larne.json",
+   "election": "parliament-of-northern-ireland__1929-05-22",
+   "constituency": "Larne",
+   "electorate": 17154,
+   "boothroyd": {
+    "page": "antrim.html",
+    "heading": "ANTRIM, LARNE [23]",
+    "url": "http://www.election.demon.co.uk/stormont/antrim.html",
+    "archiveUrl": "https://web.archive.org/web/20200116134056/http://www.election.demon.co.uk/stormont/antrim.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1929-05-22/mid-antrim.json",
+   "election": "parliament-of-northern-ireland__1929-05-22",
+   "constituency": "Mid Antrim",
+   "electorate": 17857,
+   "boothroyd": {
+    "page": "antrim.html",
+    "heading": "ANTRIM, MID ANTRIM [24]",
+    "url": "http://www.election.demon.co.uk/stormont/antrim.html",
+    "archiveUrl": "https://web.archive.org/web/20200116134056/http://www.election.demon.co.uk/stormont/antrim.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1929-05-22/mid-armagh.json",
+   "election": "parliament-of-northern-ireland__1929-05-22",
+   "constituency": "Mid Armagh",
+   "electorate": 16361,
+   "boothroyd": {
+    "page": "armagh.html",
+    "heading": "ARMAGH, MID ARMAGH [29]",
+    "url": "http://www.election.demon.co.uk/stormont/armagh.html",
+    "archiveUrl": "https://web.archive.org/web/20200116124923/http://www.election.demon.co.uk/stormont/armagh.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1929-05-22/mourne.json",
+   "election": "parliament-of-northern-ireland__1929-05-22",
+   "constituency": "Mourne",
+   "electorate": 14819,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, MOURNE [38]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1929-05-22/north-antrim.json",
+   "election": "parliament-of-northern-ireland__1929-05-22",
+   "constituency": "North Antrim",
+   "electorate": 17591,
+   "boothroyd": {
+    "page": "antrim.html",
+    "heading": "ANTRIM, NORTH ANTRIM [26]",
+    "url": "http://www.election.demon.co.uk/stormont/antrim.html",
+    "archiveUrl": "https://web.archive.org/web/20200116134056/http://www.election.demon.co.uk/stormont/antrim.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1929-05-22/queens-university-of-belfast.json",
+   "election": "parliament-of-northern-ireland__1929-05-22",
+   "constituency": "Queen's University of Belfast",
+   "electorate": 3324,
+   "boothroyd": {
+    "page": "qub.html",
+    "heading": "THE QUEEN'S UNIVERSITY of BELFAST [53] (Four Seats)",
+    "url": "http://www.election.demon.co.uk/stormont/qub.html",
+    "archiveUrl": "https://web.archive.org/web/20200116210218/http://www.election.demon.co.uk/stormont/qub.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1929-05-22/south-armagh.json",
+   "election": "parliament-of-northern-ireland__1929-05-22",
+   "constituency": "South Armagh",
+   "electorate": 17837,
+   "boothroyd": {
+    "page": "armagh.html",
+    "heading": "ARMAGH, SOUTH ARMAGH [31]",
+    "url": "http://www.election.demon.co.uk/stormont/armagh.html",
+    "archiveUrl": "https://web.archive.org/web/20200116124923/http://www.election.demon.co.uk/stormont/armagh.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1929-05-22/south-down.json",
+   "election": "parliament-of-northern-ireland__1929-05-22",
+   "constituency": "South Down",
+   "electorate": 15656,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, SOUTH DOWN [40]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1929-05-22/south-tyrone.json",
+   "election": "parliament-of-northern-ireland__1929-05-22",
+   "constituency": "South Tyrone",
+   "electorate": 18114,
+   "boothroyd": {
+    "page": "tyrone.html",
+    "heading": "TYRONE, SOUTH TYRONE [51]",
+    "url": "http://www.election.demon.co.uk/stormont/tyrone.html",
+    "archiveUrl": "https://web.archive.org/web/20200116135107/http://www.election.demon.co.uk/stormont/tyrone.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1933-11-30/belfast-central.json",
+   "election": "parliament-of-northern-ireland__1933-11-30",
+   "constituency": "Belfast Central",
+   "electorate": 18965,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, CENTRAL [3]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1933-11-30/belfast-dock.json",
+   "election": "parliament-of-northern-ireland__1933-11-30",
+   "constituency": "Belfast Dock",
+   "electorate": 11069,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, DOCK [6]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1933-11-30/belfast-duncairn.json",
+   "election": "parliament-of-northern-ireland__1933-11-30",
+   "constituency": "Belfast Duncairn",
+   "electorate": 15545,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, DUNCAIRN [7]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1933-11-30/belfast-oldpark.json",
+   "election": "parliament-of-northern-ireland__1933-11-30",
+   "constituency": "Belfast Oldpark",
+   "electorate": 15471,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, OLDPARK [9]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1933-11-30/belfast-pottinger.json",
+   "election": "parliament-of-northern-ireland__1933-11-30",
+   "constituency": "Belfast Pottinger",
+   "electorate": 13486,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, POTTINGER [10]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1933-11-30/belfast-shankill.json",
+   "election": "parliament-of-northern-ireland__1933-11-30",
+   "constituency": "Belfast Shankill",
+   "electorate": 16725,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, SHANKILL [12]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1933-11-30/belfast-st-annes.json",
+   "election": "parliament-of-northern-ireland__1933-11-30",
+   "constituency": "Belfast St Anne's",
+   "electorate": 22477,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, ST. ANNE'S [11]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1933-11-30/belfast-woodvale.json",
+   "election": "parliament-of-northern-ireland__1933-11-30",
+   "constituency": "Belfast Woodvale",
+   "electorate": 20129,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, WOODVALE [16]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1933-11-30/city-of-londonderry.json",
+   "election": "parliament-of-northern-ireland__1933-11-30",
+   "constituency": "City of Londonderry",
+   "electorate": 16333,
+   "boothroyd": {
+    "page": "ldrcity.html",
+    "heading": "LONDONDERRY, CITY of LONDONDERRY [17]",
+    "url": "http://www.election.demon.co.uk/stormont/ldrcity.html",
+    "archiveUrl": "https://web.archive.org/web/20200730064819/http://www.election.demon.co.uk/stormont/ldrcity.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1933-11-30/mid-antrim.json",
+   "election": "parliament-of-northern-ireland__1933-11-30",
+   "constituency": "Mid Antrim",
+   "electorate": 18152,
+   "boothroyd": {
+    "page": "antrim.html",
+    "heading": "ANTRIM, MID ANTRIM [24]",
+    "url": "http://www.election.demon.co.uk/stormont/antrim.html",
+    "archiveUrl": "https://web.archive.org/web/20200116134056/http://www.election.demon.co.uk/stormont/antrim.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1933-11-30/mourne.json",
+   "election": "parliament-of-northern-ireland__1933-11-30",
+   "constituency": "Mourne",
+   "electorate": 14987,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, MOURNE [38]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1933-11-30/queens-university-of-belfast.json",
+   "election": "parliament-of-northern-ireland__1933-11-30",
+   "constituency": "Queen's University of Belfast",
+   "electorate": 3800,
+   "boothroyd": {
+    "page": "qub.html",
+    "heading": "THE QUEEN'S UNIVERSITY of BELFAST [53] (Four Seats)",
+    "url": "http://www.election.demon.co.uk/stormont/qub.html",
+    "archiveUrl": "https://web.archive.org/web/20200116210218/http://www.election.demon.co.uk/stormont/qub.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1933-11-30/south-armagh.json",
+   "election": "parliament-of-northern-ireland__1933-11-30",
+   "constituency": "South Armagh",
+   "electorate": 16895,
+   "boothroyd": {
+    "page": "armagh.html",
+    "heading": "ARMAGH, SOUTH ARMAGH [31]",
+    "url": "http://www.election.demon.co.uk/stormont/armagh.html",
+    "archiveUrl": "https://web.archive.org/web/20200116124923/http://www.election.demon.co.uk/stormont/armagh.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1933-11-30/south-down.json",
+   "election": "parliament-of-northern-ireland__1933-11-30",
+   "constituency": "South Down",
+   "electorate": 16133,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, SOUTH DOWN [40]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1933-11-30/west-down.json",
+   "election": "parliament-of-northern-ireland__1933-11-30",
+   "constituency": "West Down",
+   "electorate": 15578,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, WEST DOWN [41]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1934-06-04/belfast-central.json",
+   "election": "parliament-of-northern-ireland__1934-06-04",
+   "constituency": "Belfast Central",
+   "electorate": 18800,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, CENTRAL [3]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1937-05-27/larne.json",
+   "election": "parliament-of-northern-ireland__1937-05-27",
+   "constituency": "Larne",
+   "electorate": 18320,
+   "boothroyd": {
+    "page": "antrim.html",
+    "heading": "ANTRIM, LARNE [23]",
+    "url": "http://www.election.demon.co.uk/stormont/antrim.html",
+    "archiveUrl": "https://web.archive.org/web/20200116134056/http://www.election.demon.co.uk/stormont/antrim.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1938-02-09/antrim-borough.json",
+   "election": "parliament-of-northern-ireland__1938-02-09",
+   "constituency": "Antrim Borough",
+   "electorate": 20687,
+   "boothroyd": {
+    "page": "antrim.html",
+    "heading": "ANTRIM, ANTRIM [19]",
+    "url": "http://www.election.demon.co.uk/stormont/antrim.html",
+    "archiveUrl": "https://web.archive.org/web/20200116134056/http://www.election.demon.co.uk/stormont/antrim.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1938-02-09/belfast-ballynafeigh.json",
+   "election": "parliament-of-northern-ireland__1938-02-09",
+   "constituency": "Belfast Ballynafeigh",
+   "electorate": 13745,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, BALLYNAFEIGH [1]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1938-02-09/belfast-bloomfield.json",
+   "election": "parliament-of-northern-ireland__1938-02-09",
+   "constituency": "Belfast Bloomfield",
+   "electorate": 19766,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, BLOOMFIELD [2]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1938-02-09/belfast-cromac.json",
+   "election": "parliament-of-northern-ireland__1938-02-09",
+   "constituency": "Belfast Cromac",
+   "electorate": 16178,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, CROMAC [5]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1938-02-09/belfast-dock.json",
+   "election": "parliament-of-northern-ireland__1938-02-09",
+   "constituency": "Belfast Dock",
+   "electorate": 10170,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, DOCK [6]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1938-02-09/belfast-duncairn.json",
+   "election": "parliament-of-northern-ireland__1938-02-09",
+   "constituency": "Belfast Duncairn",
+   "electorate": 17441,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, DUNCAIRN [7]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1938-02-09/belfast-falls.json",
+   "election": "parliament-of-northern-ireland__1938-02-09",
+   "constituency": "Belfast Falls",
+   "electorate": 18029,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, FALLS [8]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1938-02-09/belfast-oldpark.json",
+   "election": "parliament-of-northern-ireland__1938-02-09",
+   "constituency": "Belfast Oldpark",
+   "electorate": 19306,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, OLDPARK [9]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1938-02-09/belfast-pottinger.json",
+   "election": "parliament-of-northern-ireland__1938-02-09",
+   "constituency": "Belfast Pottinger",
+   "electorate": 12965,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, POTTINGER [10]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1938-02-09/belfast-shankill.json",
+   "election": "parliament-of-northern-ireland__1938-02-09",
+   "constituency": "Belfast Shankill",
+   "electorate": 17474,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, SHANKILL [12]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1938-02-09/belfast-st-annes.json",
+   "election": "parliament-of-northern-ireland__1938-02-09",
+   "constituency": "Belfast St Anne's",
+   "electorate": 24508,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, ST. ANNE'S [11]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1938-02-09/belfast-victoria.json",
+   "election": "parliament-of-northern-ireland__1938-02-09",
+   "constituency": "Belfast Victoria",
+   "electorate": 17921,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, VICTORIA [13]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1938-02-09/belfast-willowfield.json",
+   "election": "parliament-of-northern-ireland__1938-02-09",
+   "constituency": "Belfast Willowfield",
+   "electorate": 15797,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, WILLOWFIELD [14]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1938-02-09/belfast-windsor.json",
+   "election": "parliament-of-northern-ireland__1938-02-09",
+   "constituency": "Belfast Windsor",
+   "electorate": 18905,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, WINDSOR [15]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1938-02-09/belfast-woodvale.json",
+   "election": "parliament-of-northern-ireland__1938-02-09",
+   "constituency": "Belfast Woodvale",
+   "electorate": 19896,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, WOODVALE [16]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1938-02-09/east-down.json",
+   "election": "parliament-of-northern-ireland__1938-02-09",
+   "constituency": "East Down",
+   "electorate": 15649,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, EAST DOWN [34]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1938-02-09/east-tyrone.json",
+   "election": "parliament-of-northern-ireland__1938-02-09",
+   "constituency": "East Tyrone",
+   "electorate": 16432,
+   "boothroyd": {
+    "page": "tyrone.html",
+    "heading": "TYRONE, EAST TYRONE [48]",
+    "url": "http://www.election.demon.co.uk/stormont/tyrone.html",
+    "archiveUrl": "https://web.archive.org/web/20200116135107/http://www.election.demon.co.uk/stormont/tyrone.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1938-02-09/enniskillen.json",
+   "election": "parliament-of-northern-ireland__1938-02-09",
+   "constituency": "Enniskillen",
+   "electorate": 11768,
+   "boothroyd": {
+    "page": "fermanagh.html",
+    "heading": "FERMANAGH, ENNISKILLEN [42]",
+    "url": "http://www.election.demon.co.uk/stormont/fermanagh.html",
+    "archiveUrl": "https://web.archive.org/web/20200116172305/http://www.election.demon.co.uk/stormont/fermanagh.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1938-02-09/mid-antrim.json",
+   "election": "parliament-of-northern-ireland__1938-02-09",
+   "constituency": "Mid Antrim",
+   "electorate": 19062,
+   "boothroyd": {
+    "page": "antrim.html",
+    "heading": "ANTRIM, MID ANTRIM [24]",
+    "url": "http://www.election.demon.co.uk/stormont/antrim.html",
+    "archiveUrl": "https://web.archive.org/web/20200116134056/http://www.election.demon.co.uk/stormont/antrim.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1938-02-09/mid-armagh.json",
+   "election": "parliament-of-northern-ireland__1938-02-09",
+   "constituency": "Mid Armagh",
+   "electorate": 15915,
+   "boothroyd": {
+    "page": "armagh.html",
+    "heading": "ARMAGH, MID ARMAGH [29]",
+    "url": "http://www.election.demon.co.uk/stormont/armagh.html",
+    "archiveUrl": "https://web.archive.org/web/20200116124923/http://www.election.demon.co.uk/stormont/armagh.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1938-02-09/north-antrim.json",
+   "election": "parliament-of-northern-ireland__1938-02-09",
+   "constituency": "North Antrim",
+   "electorate": 18221,
+   "boothroyd": {
+    "page": "antrim.html",
+    "heading": "ANTRIM, NORTH ANTRIM [26]",
+    "url": "http://www.election.demon.co.uk/stormont/antrim.html",
+    "archiveUrl": "https://web.archive.org/web/20200116134056/http://www.election.demon.co.uk/stormont/antrim.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1938-02-09/north-tyrone.json",
+   "election": "parliament-of-northern-ireland__1938-02-09",
+   "constituency": "North Tyrone",
+   "electorate": 17274,
+   "boothroyd": {
+    "page": "tyrone.html",
+    "heading": "TYRONE, NORTH TYRONE [50]",
+    "url": "http://www.election.demon.co.uk/stormont/tyrone.html",
+    "archiveUrl": "https://web.archive.org/web/20200116135107/http://www.election.demon.co.uk/stormont/tyrone.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1938-02-09/queens-university-of-belfast.json",
+   "election": "parliament-of-northern-ireland__1938-02-09",
+   "constituency": "Queen's University of Belfast",
+   "electorate": 4008,
+   "boothroyd": {
+    "page": "qub.html",
+    "heading": "THE QUEEN'S UNIVERSITY of BELFAST [53] (Four Seats)",
+    "url": "http://www.election.demon.co.uk/stormont/qub.html",
+    "archiveUrl": "https://web.archive.org/web/20200116210218/http://www.election.demon.co.uk/stormont/qub.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1938-02-09/south-down.json",
+   "election": "parliament-of-northern-ireland__1938-02-09",
+   "constituency": "South Down",
+   "electorate": 16798,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, SOUTH DOWN [40]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1938-02-09/south-tyrone.json",
+   "election": "parliament-of-northern-ireland__1938-02-09",
+   "constituency": "South Tyrone",
+   "electorate": 17631,
+   "boothroyd": {
+    "page": "tyrone.html",
+    "heading": "TYRONE, SOUTH TYRONE [51]",
+    "url": "http://www.election.demon.co.uk/stormont/tyrone.html",
+    "archiveUrl": "https://web.archive.org/web/20200116135107/http://www.election.demon.co.uk/stormont/tyrone.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1938-02-09/west-down.json",
+   "election": "parliament-of-northern-ireland__1938-02-09",
+   "constituency": "West Down",
+   "electorate": 16372,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, WEST DOWN [41]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1944-12-13/queens-university-of-belfast.json",
+   "election": "parliament-of-northern-ireland__1944-12-13",
+   "constituency": "Queen's University of Belfast",
+   "electorate": 4711,
+   "boothroyd": {
+    "page": "qub.html",
+    "heading": "THE QUEEN'S UNIVERSITY of BELFAST [53] (Four Seats)",
+    "url": "http://www.election.demon.co.uk/stormont/qub.html",
+    "archiveUrl": "https://web.archive.org/web/20200116210218/http://www.election.demon.co.uk/stormont/qub.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-04-19/carrick.json",
+   "election": "parliament-of-northern-ireland__1945-04-19",
+   "constituency": "Carrick",
+   "electorate": 21069,
+   "boothroyd": {
+    "page": "antrim.html",
+    "heading": "ANTRIM, CARRICK [21]",
+    "url": "http://www.election.demon.co.uk/stormont/antrim.html",
+    "archiveUrl": "https://web.archive.org/web/20200116134056/http://www.election.demon.co.uk/stormont/antrim.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-04-19/larne.json",
+   "election": "parliament-of-northern-ireland__1945-04-19",
+   "constituency": "Larne",
+   "electorate": 18889,
+   "boothroyd": {
+    "page": "antrim.html",
+    "heading": "ANTRIM, LARNE [23]",
+    "url": "http://www.election.demon.co.uk/stormont/antrim.html",
+    "archiveUrl": "https://web.archive.org/web/20200116134056/http://www.election.demon.co.uk/stormont/antrim.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-06-14/ards.json",
+   "election": "parliament-of-northern-ireland__1945-06-14",
+   "constituency": "Ards",
+   "electorate": 19206,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, ARDS [32]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-06-14/bannside.json",
+   "election": "parliament-of-northern-ireland__1945-06-14",
+   "constituency": "Bannside",
+   "electorate": 16461,
+   "boothroyd": {
+    "page": "antrim.html",
+    "heading": "ANTRIM, BANN SIDE [20]",
+    "url": "http://www.election.demon.co.uk/stormont/antrim.html",
+    "archiveUrl": "https://web.archive.org/web/20200116134056/http://www.election.demon.co.uk/stormont/antrim.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-06-14/belfast-ballynafeigh.json",
+   "election": "parliament-of-northern-ireland__1945-06-14",
+   "constituency": "Belfast Ballynafeigh",
+   "electorate": 16030,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, BALLYNAFEIGH [1]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-06-14/belfast-bloomfield.json",
+   "election": "parliament-of-northern-ireland__1945-06-14",
+   "constituency": "Belfast Bloomfield",
+   "electorate": 21414,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, BLOOMFIELD [2]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-06-14/belfast-clifton.json",
+   "election": "parliament-of-northern-ireland__1945-06-14",
+   "constituency": "Belfast Clifton",
+   "electorate": 17450,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, CLIFTON [4]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-06-14/belfast-cromac.json",
+   "election": "parliament-of-northern-ireland__1945-06-14",
+   "constituency": "Belfast Cromac",
+   "electorate": 17520,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, CROMAC [5]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-06-14/belfast-dock.json",
+   "election": "parliament-of-northern-ireland__1945-06-14",
+   "constituency": "Belfast Dock",
+   "electorate": 8797,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, DOCK [6]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-06-14/belfast-duncairn.json",
+   "election": "parliament-of-northern-ireland__1945-06-14",
+   "constituency": "Belfast Duncairn",
+   "electorate": 17177,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, DUNCAIRN [7]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-06-14/belfast-falls.json",
+   "election": "parliament-of-northern-ireland__1945-06-14",
+   "constituency": "Belfast Falls",
+   "electorate": 18610,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, FALLS [8]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-06-14/belfast-oldpark.json",
+   "election": "parliament-of-northern-ireland__1945-06-14",
+   "constituency": "Belfast Oldpark",
+   "electorate": 21015,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, OLDPARK [9]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-06-14/belfast-pottinger.json",
+   "election": "parliament-of-northern-ireland__1945-06-14",
+   "constituency": "Belfast Pottinger",
+   "electorate": 11975,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, POTTINGER [10]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-06-14/belfast-st-annes.json",
+   "election": "parliament-of-northern-ireland__1945-06-14",
+   "constituency": "Belfast St Anne's",
+   "electorate": 26684,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, ST. ANNE'S [11]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-06-14/belfast-victoria.json",
+   "election": "parliament-of-northern-ireland__1945-06-14",
+   "constituency": "Belfast Victoria",
+   "electorate": 18525,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, VICTORIA [13]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-06-14/belfast-willowfield.json",
+   "election": "parliament-of-northern-ireland__1945-06-14",
+   "constituency": "Belfast Willowfield",
+   "electorate": 16826,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, WILLOWFIELD [14]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-06-14/belfast-woodvale.json",
+   "election": "parliament-of-northern-ireland__1945-06-14",
+   "constituency": "Belfast Woodvale",
+   "electorate": 20155,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, WOODVALE [16]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-06-14/carrick.json",
+   "election": "parliament-of-northern-ireland__1945-06-14",
+   "constituency": "Carrick",
+   "electorate": 19811,
+   "boothroyd": {
+    "page": "antrim.html",
+    "heading": "ANTRIM, CARRICK [21]",
+    "url": "http://www.election.demon.co.uk/stormont/antrim.html",
+    "archiveUrl": "https://web.archive.org/web/20200116134056/http://www.election.demon.co.uk/stormont/antrim.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-06-14/central-armagh.json",
+   "election": "parliament-of-northern-ireland__1945-06-14",
+   "constituency": "Central Armagh",
+   "electorate": 18998,
+   "boothroyd": {
+    "page": "armagh.html",
+    "heading": "ARMAGH, CENTRAL ARMAGH [28]",
+    "url": "http://www.election.demon.co.uk/stormont/armagh.html",
+    "archiveUrl": "https://web.archive.org/web/20200116124923/http://www.election.demon.co.uk/stormont/armagh.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-06-14/city-of-londonderry.json",
+   "election": "parliament-of-northern-ireland__1945-06-14",
+   "constituency": "City of Londonderry",
+   "electorate": 18689,
+   "boothroyd": {
+    "page": "ldrcity.html",
+    "heading": "LONDONDERRY, CITY of LONDONDERRY [17]",
+    "url": "http://www.election.demon.co.uk/stormont/ldrcity.html",
+    "archiveUrl": "https://web.archive.org/web/20200730064819/http://www.election.demon.co.uk/stormont/ldrcity.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-06-14/larne.json",
+   "election": "parliament-of-northern-ireland__1945-06-14",
+   "constituency": "Larne",
+   "electorate": 19424,
+   "boothroyd": {
+    "page": "antrim.html",
+    "heading": "ANTRIM, LARNE [23]",
+    "url": "http://www.election.demon.co.uk/stormont/antrim.html",
+    "archiveUrl": "https://web.archive.org/web/20200116134056/http://www.election.demon.co.uk/stormont/antrim.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-06-14/mourne.json",
+   "election": "parliament-of-northern-ireland__1945-06-14",
+   "constituency": "Mourne",
+   "electorate": 15639,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, MOURNE [38]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-06-14/north-antrim.json",
+   "election": "parliament-of-northern-ireland__1945-06-14",
+   "constituency": "North Antrim",
+   "electorate": 19304,
+   "boothroyd": {
+    "page": "antrim.html",
+    "heading": "ANTRIM, NORTH ANTRIM [26]",
+    "url": "http://www.election.demon.co.uk/stormont/antrim.html",
+    "archiveUrl": "https://web.archive.org/web/20200116134056/http://www.election.demon.co.uk/stormont/antrim.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-06-14/north-londonderry.json",
+   "election": "parliament-of-northern-ireland__1945-06-14",
+   "constituency": "North Londonderry",
+   "electorate": 20827,
+   "boothroyd": {
+    "page": "ldrcounty.html",
+    "heading": "LONDONDERRY, NORTH LONDONDERRY [46]",
+    "url": "http://www.election.demon.co.uk/stormont/ldrcounty.html",
+    "archiveUrl": "https://web.archive.org/web/20200116130123/http://www.election.demon.co.uk/stormont/ldrcounty.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-06-14/queens-university-of-belfast.json",
+   "election": "parliament-of-northern-ireland__1945-06-14",
+   "constituency": "Queen's University of Belfast",
+   "electorate": 5089,
+   "boothroyd": {
+    "page": "qub.html",
+    "heading": "THE QUEEN'S UNIVERSITY of BELFAST [53] (Four Seats)",
+    "url": "http://www.election.demon.co.uk/stormont/qub.html",
+    "archiveUrl": "https://web.archive.org/web/20200116210218/http://www.election.demon.co.uk/stormont/qub.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-06-14/south-armagh.json",
+   "election": "parliament-of-northern-ireland__1945-06-14",
+   "constituency": "South Armagh",
+   "electorate": 16815,
+   "boothroyd": {
+    "page": "armagh.html",
+    "heading": "ARMAGH, SOUTH ARMAGH [31]",
+    "url": "http://www.election.demon.co.uk/stormont/armagh.html",
+    "archiveUrl": "https://web.archive.org/web/20200116124923/http://www.election.demon.co.uk/stormont/armagh.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-06-14/south-down.json",
+   "election": "parliament-of-northern-ireland__1945-06-14",
+   "constituency": "South Down",
+   "electorate": 16378,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, SOUTH DOWN [40]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-06-14/west-down.json",
+   "election": "parliament-of-northern-ireland__1945-06-14",
+   "constituency": "West Down",
+   "electorate": 16173,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, WEST DOWN [41]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1946-08-22/belfast-central.json",
+   "election": "parliament-of-northern-ireland__1946-08-22",
+   "constituency": "Belfast Central",
+   "electorate": 15924,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, CENTRAL [3]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1947-06-27/city-of-londonderry.json",
+   "election": "parliament-of-northern-ireland__1947-06-27",
+   "constituency": "City of Londonderry",
+   "electorate": 17415,
+   "boothroyd": {
+    "page": "ldrcity.html",
+    "heading": "LONDONDERRY, CITY of LONDONDERRY [17]",
+    "url": "http://www.election.demon.co.uk/stormont/ldrcity.html",
+    "archiveUrl": "https://web.archive.org/web/20200730064819/http://www.election.demon.co.uk/stormont/ldrcity.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-02-10/antrim-borough.json",
+   "election": "parliament-of-northern-ireland__1949-02-10",
+   "constituency": "Antrim Borough",
+   "electorate": 20165,
+   "boothroyd": {
+    "page": "antrim.html",
+    "heading": "ANTRIM, ANTRIM [19]",
+    "url": "http://www.election.demon.co.uk/stormont/antrim.html",
+    "archiveUrl": "https://web.archive.org/web/20200116134056/http://www.election.demon.co.uk/stormont/antrim.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-02-10/belfast-bloomfield.json",
+   "election": "parliament-of-northern-ireland__1949-02-10",
+   "constituency": "Belfast Bloomfield",
+   "electorate": 21134,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, BLOOMFIELD [2]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-02-10/belfast-clifton.json",
+   "election": "parliament-of-northern-ireland__1949-02-10",
+   "constituency": "Belfast Clifton",
+   "electorate": 17554,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, CLIFTON [4]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-02-10/belfast-cromac.json",
+   "election": "parliament-of-northern-ireland__1949-02-10",
+   "constituency": "Belfast Cromac",
+   "electorate": 16574,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, CROMAC [5]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-02-10/belfast-dock.json",
+   "election": "parliament-of-northern-ireland__1949-02-10",
+   "constituency": "Belfast Dock",
+   "electorate": 8853,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, DOCK [6]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-02-10/belfast-duncairn.json",
+   "election": "parliament-of-northern-ireland__1949-02-10",
+   "constituency": "Belfast Duncairn",
+   "electorate": 17026,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, DUNCAIRN [7]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-02-10/belfast-oldpark.json",
+   "election": "parliament-of-northern-ireland__1949-02-10",
+   "constituency": "Belfast Oldpark",
+   "electorate": 20699,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, OLDPARK [9]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-02-10/belfast-pottinger.json",
+   "election": "parliament-of-northern-ireland__1949-02-10",
+   "constituency": "Belfast Pottinger",
+   "electorate": 12032,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, POTTINGER [10]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-02-10/belfast-st-annes.json",
+   "election": "parliament-of-northern-ireland__1949-02-10",
+   "constituency": "Belfast St Anne's",
+   "electorate": 26704,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, ST. ANNE'S [11]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-02-10/belfast-victoria.json",
+   "election": "parliament-of-northern-ireland__1949-02-10",
+   "constituency": "Belfast Victoria",
+   "electorate": 18404,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, VICTORIA [13]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-02-10/belfast-willowfield.json",
+   "election": "parliament-of-northern-ireland__1949-02-10",
+   "constituency": "Belfast Willowfield",
+   "electorate": 16701,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, WILLOWFIELD [14]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-02-10/city-of-londonderry.json",
+   "election": "parliament-of-northern-ireland__1949-02-10",
+   "constituency": "City of Londonderry",
+   "electorate": 17881,
+   "boothroyd": {
+    "page": "ldrcity.html",
+    "heading": "LONDONDERRY, CITY of LONDONDERRY [17]",
+    "url": "http://www.election.demon.co.uk/stormont/ldrcity.html",
+    "archiveUrl": "https://web.archive.org/web/20200730064819/http://www.election.demon.co.uk/stormont/ldrcity.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-02-10/east-down.json",
+   "election": "parliament-of-northern-ireland__1949-02-10",
+   "constituency": "East Down",
+   "electorate": 17089,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, EAST DOWN [34]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-02-10/east-tyrone.json",
+   "election": "parliament-of-northern-ireland__1949-02-10",
+   "constituency": "East Tyrone",
+   "electorate": 15748,
+   "boothroyd": {
+    "page": "tyrone.html",
+    "heading": "TYRONE, EAST TYRONE [48]",
+    "url": "http://www.election.demon.co.uk/stormont/tyrone.html",
+    "archiveUrl": "https://web.archive.org/web/20200116135107/http://www.election.demon.co.uk/stormont/tyrone.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-02-10/enniskillen.json",
+   "election": "parliament-of-northern-ireland__1949-02-10",
+   "constituency": "Enniskillen",
+   "electorate": 12181,
+   "boothroyd": {
+    "page": "fermanagh.html",
+    "heading": "FERMANAGH, ENNISKILLEN [42]",
+    "url": "http://www.election.demon.co.uk/stormont/fermanagh.html",
+    "archiveUrl": "https://web.archive.org/web/20200116172305/http://www.election.demon.co.uk/stormont/fermanagh.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-02-10/lisnaskea.json",
+   "election": "parliament-of-northern-ireland__1949-02-10",
+   "constituency": "Lisnaskea",
+   "electorate": 11206,
+   "boothroyd": {
+    "page": "fermanagh.html",
+    "heading": "FERMANAGH, LISNASKEA [43]",
+    "url": "http://www.election.demon.co.uk/stormont/fermanagh.html",
+    "archiveUrl": "https://web.archive.org/web/20200116172305/http://www.election.demon.co.uk/stormont/fermanagh.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-02-10/mid-tyrone.json",
+   "election": "parliament-of-northern-ireland__1949-02-10",
+   "constituency": "Mid Tyrone",
+   "electorate": 14452,
+   "boothroyd": {
+    "page": "tyrone.html",
+    "heading": "TYRONE, MID TYRONE [49]",
+    "url": "http://www.election.demon.co.uk/stormont/tyrone.html",
+    "archiveUrl": "https://web.archive.org/web/20200116135107/http://www.election.demon.co.uk/stormont/tyrone.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-02-10/mourne.json",
+   "election": "parliament-of-northern-ireland__1949-02-10",
+   "constituency": "Mourne",
+   "electorate": 16203,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, MOURNE [38]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-02-10/north-armagh.json",
+   "election": "parliament-of-northern-ireland__1949-02-10",
+   "constituency": "North Armagh",
+   "electorate": 18699,
+   "boothroyd": {
+    "page": "armagh.html",
+    "heading": "ARMAGH, NORTH ARMAGH [30]",
+    "url": "http://www.election.demon.co.uk/stormont/armagh.html",
+    "archiveUrl": "https://web.archive.org/web/20200116124923/http://www.election.demon.co.uk/stormont/armagh.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-02-10/north-down.json",
+   "election": "parliament-of-northern-ireland__1949-02-10",
+   "constituency": "North Down",
+   "electorate": 22450,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, NORTH DOWN [39]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-02-10/north-tyrone.json",
+   "election": "parliament-of-northern-ireland__1949-02-10",
+   "constituency": "North Tyrone",
+   "electorate": 17024,
+   "boothroyd": {
+    "page": "tyrone.html",
+    "heading": "TYRONE, NORTH TYRONE [50]",
+    "url": "http://www.election.demon.co.uk/stormont/tyrone.html",
+    "archiveUrl": "https://web.archive.org/web/20200116135107/http://www.election.demon.co.uk/stormont/tyrone.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-02-10/queens-university-of-belfast.json",
+   "election": "parliament-of-northern-ireland__1949-02-10",
+   "constituency": "Queen's University of Belfast",
+   "electorate": 6984,
+   "boothroyd": {
+    "page": "qub.html",
+    "heading": "THE QUEEN'S UNIVERSITY of BELFAST [53] (Four Seats)",
+    "url": "http://www.election.demon.co.uk/stormont/qub.html",
+    "archiveUrl": "https://web.archive.org/web/20200116210218/http://www.election.demon.co.uk/stormont/qub.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-02-10/south-armagh.json",
+   "election": "parliament-of-northern-ireland__1949-02-10",
+   "constituency": "South Armagh",
+   "electorate": 16783,
+   "boothroyd": {
+    "page": "armagh.html",
+    "heading": "ARMAGH, SOUTH ARMAGH [31]",
+    "url": "http://www.election.demon.co.uk/stormont/armagh.html",
+    "archiveUrl": "https://web.archive.org/web/20200116124923/http://www.election.demon.co.uk/stormont/armagh.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-02-10/south-down.json",
+   "election": "parliament-of-northern-ireland__1949-02-10",
+   "constituency": "South Down",
+   "electorate": 17282,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, SOUTH DOWN [40]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-02-10/south-fermanagh.json",
+   "election": "parliament-of-northern-ireland__1949-02-10",
+   "constituency": "South Fermanagh",
+   "electorate": 10716,
+   "boothroyd": {
+    "page": "fermanagh.html",
+    "heading": "FERMANAGH, SOUTH FERMANAGH [44]",
+    "url": "http://www.election.demon.co.uk/stormont/fermanagh.html",
+    "archiveUrl": "https://web.archive.org/web/20200116172305/http://www.election.demon.co.uk/stormont/fermanagh.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-02-10/south-tyrone.json",
+   "election": "parliament-of-northern-ireland__1949-02-10",
+   "constituency": "South Tyrone",
+   "electorate": 17179,
+   "boothroyd": {
+    "page": "tyrone.html",
+    "heading": "TYRONE, SOUTH TYRONE [51]",
+    "url": "http://www.election.demon.co.uk/stormont/tyrone.html",
+    "archiveUrl": "https://web.archive.org/web/20200116135107/http://www.election.demon.co.uk/stormont/tyrone.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-02-10/west-tyrone.json",
+   "election": "parliament-of-northern-ireland__1949-02-10",
+   "constituency": "West Tyrone",
+   "electorate": 15716,
+   "boothroyd": {
+    "page": "tyrone.html",
+    "heading": "TYRONE, WEST TYRONE [52]",
+    "url": "http://www.election.demon.co.uk/stormont/tyrone.html",
+    "archiveUrl": "https://web.archive.org/web/20200116135107/http://www.election.demon.co.uk/stormont/tyrone.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1950-04-04/belfast-woodvale.json",
+   "election": "parliament-of-northern-ireland__1950-04-04",
+   "constituency": "Belfast Woodvale",
+   "electorate": 20558,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, WOODVALE [16]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1953-10-22/ards.json",
+   "election": "parliament-of-northern-ireland__1953-10-22",
+   "constituency": "Ards",
+   "electorate": 22626,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, ARDS [32]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1953-10-22/belfast-ballynafeigh.json",
+   "election": "parliament-of-northern-ireland__1953-10-22",
+   "constituency": "Belfast Ballynafeigh",
+   "electorate": 15026,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, BALLYNAFEIGH [1]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1953-10-22/belfast-bloomfield.json",
+   "election": "parliament-of-northern-ireland__1953-10-22",
+   "constituency": "Belfast Bloomfield",
+   "electorate": 22004,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, BLOOMFIELD [2]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1953-10-22/belfast-central.json",
+   "election": "parliament-of-northern-ireland__1953-10-22",
+   "constituency": "Belfast Central",
+   "electorate": 15833,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, CENTRAL [3]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1953-10-22/belfast-clifton.json",
+   "election": "parliament-of-northern-ireland__1953-10-22",
+   "constituency": "Belfast Clifton",
+   "electorate": 17964,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, CLIFTON [4]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1953-10-22/belfast-cromac.json",
+   "election": "parliament-of-northern-ireland__1953-10-22",
+   "constituency": "Belfast Cromac",
+   "electorate": 16246,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, CROMAC [5]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1953-10-22/belfast-dock.json",
+   "election": "parliament-of-northern-ireland__1953-10-22",
+   "constituency": "Belfast Dock",
+   "electorate": 9081,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, DOCK [6]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1953-10-22/belfast-falls.json",
+   "election": "parliament-of-northern-ireland__1953-10-22",
+   "constituency": "Belfast Falls",
+   "electorate": 20225,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, FALLS [8]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1953-10-22/belfast-oldpark.json",
+   "election": "parliament-of-northern-ireland__1953-10-22",
+   "constituency": "Belfast Oldpark",
+   "electorate": 21518,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, OLDPARK [9]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1953-10-22/belfast-pottinger.json",
+   "election": "parliament-of-northern-ireland__1953-10-22",
+   "constituency": "Belfast Pottinger",
+   "electorate": 11960,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, POTTINGER [10]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1953-10-22/belfast-shankill.json",
+   "election": "parliament-of-northern-ireland__1953-10-22",
+   "constituency": "Belfast Shankill",
+   "electorate": 17690,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, SHANKILL [12]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1953-10-22/belfast-victoria.json",
+   "election": "parliament-of-northern-ireland__1953-10-22",
+   "constituency": "Belfast Victoria",
+   "electorate": 20041,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, VICTORIA [13]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1953-10-22/belfast-woodvale.json",
+   "election": "parliament-of-northern-ireland__1953-10-22",
+   "constituency": "Belfast Woodvale",
+   "electorate": 21416,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, WOODVALE [16]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1953-10-22/carrick.json",
+   "election": "parliament-of-northern-ireland__1953-10-22",
+   "constituency": "Carrick",
+   "electorate": 26603,
+   "boothroyd": {
+    "page": "antrim.html",
+    "heading": "ANTRIM, CARRICK [21]",
+    "url": "http://www.election.demon.co.uk/stormont/antrim.html",
+    "archiveUrl": "https://web.archive.org/web/20200116134056/http://www.election.demon.co.uk/stormont/antrim.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1953-10-22/iveagh.json",
+   "election": "parliament-of-northern-ireland__1953-10-22",
+   "constituency": "Iveagh",
+   "electorate": 17129,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, IVEAGH [35]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1953-10-22/mourne.json",
+   "election": "parliament-of-northern-ireland__1953-10-22",
+   "constituency": "Mourne",
+   "electorate": 16517,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, MOURNE [38]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1953-10-22/north-down.json",
+   "election": "parliament-of-northern-ireland__1953-10-22",
+   "constituency": "North Down",
+   "electorate": 24760,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, NORTH DOWN [39]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1953-10-22/north-londonderry.json",
+   "election": "parliament-of-northern-ireland__1953-10-22",
+   "constituency": "North Londonderry",
+   "electorate": 21764,
+   "boothroyd": {
+    "page": "ldrcounty.html",
+    "heading": "LONDONDERRY, NORTH LONDONDERRY [46]",
+    "url": "http://www.election.demon.co.uk/stormont/ldrcounty.html",
+    "archiveUrl": "https://web.archive.org/web/20200116130123/http://www.election.demon.co.uk/stormont/ldrcounty.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1953-10-22/queens-university-of-belfast.json",
+   "election": "parliament-of-northern-ireland__1953-10-22",
+   "constituency": "Queen's University of Belfast",
+   "electorate": 8773,
+   "boothroyd": {
+    "page": "qub.html",
+    "heading": "THE QUEEN'S UNIVERSITY of BELFAST [53] (Four Seats)",
+    "url": "http://www.election.demon.co.uk/stormont/qub.html",
+    "archiveUrl": "https://web.archive.org/web/20200116210218/http://www.election.demon.co.uk/stormont/qub.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1953-10-22/south-down.json",
+   "election": "parliament-of-northern-ireland__1953-10-22",
+   "constituency": "South Down",
+   "electorate": 18189,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, SOUTH DOWN [40]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1955-11-15/belfast-woodvale.json",
+   "election": "parliament-of-northern-ireland__1955-11-15",
+   "constituency": "Belfast Woodvale",
+   "electorate": 21578,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, WOODVALE [16]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1958-03-20/belfast-ballynafeigh.json",
+   "election": "parliament-of-northern-ireland__1958-03-20",
+   "constituency": "Belfast Ballynafeigh",
+   "electorate": 15196,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, BALLYNAFEIGH [1]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1958-03-20/belfast-bloomfield.json",
+   "election": "parliament-of-northern-ireland__1958-03-20",
+   "constituency": "Belfast Bloomfield",
+   "electorate": 21510,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, BLOOMFIELD [2]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1958-03-20/belfast-central.json",
+   "election": "parliament-of-northern-ireland__1958-03-20",
+   "constituency": "Belfast Central",
+   "electorate": 13998,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, CENTRAL [3]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1958-03-20/belfast-clifton.json",
+   "election": "parliament-of-northern-ireland__1958-03-20",
+   "constituency": "Belfast Clifton",
+   "electorate": 16982,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, CLIFTON [4]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1958-03-20/belfast-dock.json",
+   "election": "parliament-of-northern-ireland__1958-03-20",
+   "constituency": "Belfast Dock",
+   "electorate": 8192,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, DOCK [6]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1958-03-20/belfast-falls.json",
+   "election": "parliament-of-northern-ireland__1958-03-20",
+   "constituency": "Belfast Falls",
+   "electorate": 19452,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, FALLS [8]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1958-03-20/belfast-oldpark.json",
+   "election": "parliament-of-northern-ireland__1958-03-20",
+   "constituency": "Belfast Oldpark",
+   "electorate": 20271,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, OLDPARK [9]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1958-03-20/belfast-pottinger.json",
+   "election": "parliament-of-northern-ireland__1958-03-20",
+   "constituency": "Belfast Pottinger",
+   "electorate": 10880,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, POTTINGER [10]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1958-03-20/belfast-shankill.json",
+   "election": "parliament-of-northern-ireland__1958-03-20",
+   "constituency": "Belfast Shankill",
+   "electorate": 18536,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, SHANKILL [12]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1958-03-20/belfast-victoria.json",
+   "election": "parliament-of-northern-ireland__1958-03-20",
+   "constituency": "Belfast Victoria",
+   "electorate": 19652,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, VICTORIA [13]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1958-03-20/belfast-willowfield.json",
+   "election": "parliament-of-northern-ireland__1958-03-20",
+   "constituency": "Belfast Willowfield",
+   "electorate": 14498,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, WILLOWFIELD [14]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1958-03-20/belfast-woodvale.json",
+   "election": "parliament-of-northern-ireland__1958-03-20",
+   "constituency": "Belfast Woodvale",
+   "electorate": 20847,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, WOODVALE [16]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1958-03-20/east-tyrone.json",
+   "election": "parliament-of-northern-ireland__1958-03-20",
+   "constituency": "East Tyrone",
+   "electorate": 16211,
+   "boothroyd": {
+    "page": "tyrone.html",
+    "heading": "TYRONE, EAST TYRONE [48]",
+    "url": "http://www.election.demon.co.uk/stormont/tyrone.html",
+    "archiveUrl": "https://web.archive.org/web/20200116135107/http://www.election.demon.co.uk/stormont/tyrone.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1958-03-20/foyle.json",
+   "election": "parliament-of-northern-ireland__1958-03-20",
+   "constituency": "Foyle",
+   "electorate": 18029,
+   "boothroyd": {
+    "page": "ldrcity.html",
+    "heading": "LONDONDERRY, FOYLE [18]",
+    "url": "http://www.election.demon.co.uk/stormont/ldrcity.html",
+    "archiveUrl": "https://web.archive.org/web/20200730064819/http://www.election.demon.co.uk/stormont/ldrcity.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1958-03-20/iveagh.json",
+   "election": "parliament-of-northern-ireland__1958-03-20",
+   "constituency": "Iveagh",
+   "electorate": 16393,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, IVEAGH [35]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1958-03-20/mid-tyrone.json",
+   "election": "parliament-of-northern-ireland__1958-03-20",
+   "constituency": "Mid Tyrone",
+   "electorate": 12811,
+   "boothroyd": {
+    "page": "tyrone.html",
+    "heading": "TYRONE, MID TYRONE [49]",
+    "url": "http://www.election.demon.co.uk/stormont/tyrone.html",
+    "archiveUrl": "https://web.archive.org/web/20200116135107/http://www.election.demon.co.uk/stormont/tyrone.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1958-03-20/mourne.json",
+   "election": "parliament-of-northern-ireland__1958-03-20",
+   "constituency": "Mourne",
+   "electorate": 16106,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, MOURNE [38]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1958-03-20/north-armagh.json",
+   "election": "parliament-of-northern-ireland__1958-03-20",
+   "constituency": "North Armagh",
+   "electorate": 19344,
+   "boothroyd": {
+    "page": "armagh.html",
+    "heading": "ARMAGH, NORTH ARMAGH [30]",
+    "url": "http://www.election.demon.co.uk/stormont/armagh.html",
+    "archiveUrl": "https://web.archive.org/web/20200116124923/http://www.election.demon.co.uk/stormont/armagh.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1958-03-20/queens-university-of-belfast.json",
+   "election": "parliament-of-northern-ireland__1958-03-20",
+   "constituency": "Queen's University of Belfast",
+   "electorate": 10961,
+   "boothroyd": {
+    "page": "qub.html",
+    "heading": "THE QUEEN'S UNIVERSITY of BELFAST [53] (Four Seats)",
+    "url": "http://www.election.demon.co.uk/stormont/qub.html",
+    "archiveUrl": "https://web.archive.org/web/20200116210218/http://www.election.demon.co.uk/stormont/qub.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1958-03-20/south-armagh.json",
+   "election": "parliament-of-northern-ireland__1958-03-20",
+   "constituency": "South Armagh",
+   "electorate": 17343,
+   "boothroyd": {
+    "page": "armagh.html",
+    "heading": "ARMAGH, SOUTH ARMAGH [31]",
+    "url": "http://www.election.demon.co.uk/stormont/armagh.html",
+    "archiveUrl": "https://web.archive.org/web/20200116124923/http://www.election.demon.co.uk/stormont/armagh.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1958-03-20/south-down.json",
+   "election": "parliament-of-northern-ireland__1958-03-20",
+   "constituency": "South Down",
+   "electorate": 17257,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, SOUTH DOWN [40]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1958-03-20/west-tyrone.json",
+   "election": "parliament-of-northern-ireland__1958-03-20",
+   "constituency": "West Tyrone",
+   "electorate": 15347,
+   "boothroyd": {
+    "page": "tyrone.html",
+    "heading": "TYRONE, WEST TYRONE [52]",
+    "url": "http://www.election.demon.co.uk/stormont/tyrone.html",
+    "archiveUrl": "https://web.archive.org/web/20200116135107/http://www.election.demon.co.uk/stormont/tyrone.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1960-02-16/belfast-shankill.json",
+   "election": "parliament-of-northern-ireland__1960-02-16",
+   "constituency": "Belfast Shankill",
+   "electorate": 18536,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, SHANKILL [12]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1961-04-20/belfast-bloomfield.json",
+   "election": "parliament-of-northern-ireland__1961-04-20",
+   "constituency": "Belfast Bloomfield",
+   "electorate": 21999,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, BLOOMFIELD [2]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1962-05-31/ards.json",
+   "election": "parliament-of-northern-ireland__1962-05-31",
+   "constituency": "Ards",
+   "electorate": 21607,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, ARDS [32]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1962-05-31/belfast-ballynafeigh.json",
+   "election": "parliament-of-northern-ireland__1962-05-31",
+   "constituency": "Belfast Ballynafeigh",
+   "electorate": 15052,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, BALLYNAFEIGH [1]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1962-05-31/belfast-bloomfield.json",
+   "election": "parliament-of-northern-ireland__1962-05-31",
+   "constituency": "Belfast Bloomfield",
+   "electorate": 22259,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, BLOOMFIELD [2]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1962-05-31/belfast-clifton.json",
+   "election": "parliament-of-northern-ireland__1962-05-31",
+   "constituency": "Belfast Clifton",
+   "electorate": 16515,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, CLIFTON [4]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1962-05-31/belfast-cromac.json",
+   "election": "parliament-of-northern-ireland__1962-05-31",
+   "constituency": "Belfast Cromac",
+   "electorate": 14337,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, CROMAC [5]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1962-05-31/belfast-dock.json",
+   "election": "parliament-of-northern-ireland__1962-05-31",
+   "constituency": "Belfast Dock",
+   "electorate": 7793,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, DOCK [6]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1962-05-31/belfast-duncairn.json",
+   "election": "parliament-of-northern-ireland__1962-05-31",
+   "constituency": "Belfast Duncairn",
+   "electorate": 19577,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, DUNCAIRN [7]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1962-05-31/belfast-falls.json",
+   "election": "parliament-of-northern-ireland__1962-05-31",
+   "constituency": "Belfast Falls",
+   "electorate": 19099,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, FALLS [8]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1962-05-31/belfast-oldpark.json",
+   "election": "parliament-of-northern-ireland__1962-05-31",
+   "constituency": "Belfast Oldpark",
+   "electorate": 19457,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, OLDPARK [9]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1962-05-31/belfast-st-annes.json",
+   "election": "parliament-of-northern-ireland__1962-05-31",
+   "constituency": "Belfast St Anne's",
+   "electorate": 22770,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, ST. ANNE'S [11]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1962-05-31/belfast-victoria.json",
+   "election": "parliament-of-northern-ireland__1962-05-31",
+   "constituency": "Belfast Victoria",
+   "electorate": 20053,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, VICTORIA [13]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1962-05-31/belfast-woodvale.json",
+   "election": "parliament-of-northern-ireland__1962-05-31",
+   "constituency": "Belfast Woodvale",
+   "electorate": 20332,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, WOODVALE [16]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1962-05-31/carrick.json",
+   "election": "parliament-of-northern-ireland__1962-05-31",
+   "constituency": "Carrick",
+   "electorate": 37059,
+   "boothroyd": {
+    "page": "antrim.html",
+    "heading": "ANTRIM, CARRICK [21]",
+    "url": "http://www.election.demon.co.uk/stormont/antrim.html",
+    "archiveUrl": "https://web.archive.org/web/20200116134056/http://www.election.demon.co.uk/stormont/antrim.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1962-05-31/central-armagh.json",
+   "election": "parliament-of-northern-ireland__1962-05-31",
+   "constituency": "Central Armagh",
+   "electorate": 21656,
+   "boothroyd": {
+    "page": "armagh.html",
+    "heading": "ARMAGH, CENTRAL ARMAGH [28]",
+    "url": "http://www.election.demon.co.uk/stormont/armagh.html",
+    "archiveUrl": "https://web.archive.org/web/20200116124923/http://www.election.demon.co.uk/stormont/armagh.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1962-05-31/east-tyrone.json",
+   "election": "parliament-of-northern-ireland__1962-05-31",
+   "constituency": "East Tyrone",
+   "electorate": 16720,
+   "boothroyd": {
+    "page": "tyrone.html",
+    "heading": "TYRONE, EAST TYRONE [48]",
+    "url": "http://www.election.demon.co.uk/stormont/tyrone.html",
+    "archiveUrl": "https://web.archive.org/web/20200116135107/http://www.election.demon.co.uk/stormont/tyrone.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1962-05-31/larne.json",
+   "election": "parliament-of-northern-ireland__1962-05-31",
+   "constituency": "Larne",
+   "electorate": 20514,
+   "boothroyd": {
+    "page": "antrim.html",
+    "heading": "ANTRIM, LARNE [23]",
+    "url": "http://www.election.demon.co.uk/stormont/antrim.html",
+    "archiveUrl": "https://web.archive.org/web/20200116134056/http://www.election.demon.co.uk/stormont/antrim.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1962-05-31/mid-tyrone.json",
+   "election": "parliament-of-northern-ireland__1962-05-31",
+   "constituency": "Mid Tyrone",
+   "electorate": 12520,
+   "boothroyd": {
+    "page": "tyrone.html",
+    "heading": "TYRONE, MID TYRONE [49]",
+    "url": "http://www.election.demon.co.uk/stormont/tyrone.html",
+    "archiveUrl": "https://web.archive.org/web/20200116135107/http://www.election.demon.co.uk/stormont/tyrone.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1962-05-31/north-down.json",
+   "election": "parliament-of-northern-ireland__1962-05-31",
+   "constituency": "North Down",
+   "electorate": 27782,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, NORTH DOWN [39]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1962-05-31/queens-university-of-belfast.json",
+   "election": "parliament-of-northern-ireland__1962-05-31",
+   "constituency": "Queen's University of Belfast",
+   "electorate": 12650,
+   "boothroyd": {
+    "page": "qub.html",
+    "heading": "THE QUEEN'S UNIVERSITY of BELFAST [53] (Four Seats)",
+    "url": "http://www.election.demon.co.uk/stormont/qub.html",
+    "archiveUrl": "https://web.archive.org/web/20200116210218/http://www.election.demon.co.uk/stormont/qub.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1962-05-31/south-armagh.json",
+   "election": "parliament-of-northern-ireland__1962-05-31",
+   "constituency": "South Armagh",
+   "electorate": 17087,
+   "boothroyd": {
+    "page": "armagh.html",
+    "heading": "ARMAGH, SOUTH ARMAGH [31]",
+    "url": "http://www.election.demon.co.uk/stormont/armagh.html",
+    "archiveUrl": "https://web.archive.org/web/20200116124923/http://www.election.demon.co.uk/stormont/armagh.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1962-05-31/west-tyrone.json",
+   "election": "parliament-of-northern-ireland__1962-05-31",
+   "constituency": "West Tyrone",
+   "electorate": 15196,
+   "boothroyd": {
+    "page": "tyrone.html",
+    "heading": "TYRONE, WEST TYRONE [52]",
+    "url": "http://www.election.demon.co.uk/stormont/tyrone.html",
+    "archiveUrl": "https://web.archive.org/web/20200116135107/http://www.election.demon.co.uk/stormont/tyrone.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1965-11-25/antrim-borough.json",
+   "election": "parliament-of-northern-ireland__1965-11-25",
+   "constituency": "Antrim Borough",
+   "electorate": 29580,
+   "boothroyd": {
+    "page": "antrim.html",
+    "heading": "ANTRIM, ANTRIM [19]",
+    "url": "http://www.election.demon.co.uk/stormont/antrim.html",
+    "archiveUrl": "https://web.archive.org/web/20200116134056/http://www.election.demon.co.uk/stormont/antrim.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1965-11-25/ards.json",
+   "election": "parliament-of-northern-ireland__1965-11-25",
+   "constituency": "Ards",
+   "electorate": 20378,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, ARDS [32]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1965-11-25/belfast-ballynafeigh.json",
+   "election": "parliament-of-northern-ireland__1965-11-25",
+   "constituency": "Belfast Ballynafeigh",
+   "electorate": 14952,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, BALLYNAFEIGH [1]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1965-11-25/belfast-bloomfield.json",
+   "election": "parliament-of-northern-ireland__1965-11-25",
+   "constituency": "Belfast Bloomfield",
+   "electorate": 21929,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, BLOOMFIELD [2]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1965-11-25/belfast-clifton.json",
+   "election": "parliament-of-northern-ireland__1965-11-25",
+   "constituency": "Belfast Clifton",
+   "electorate": 16223,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, CLIFTON [4]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1965-11-25/belfast-cromac.json",
+   "election": "parliament-of-northern-ireland__1965-11-25",
+   "constituency": "Belfast Cromac",
+   "electorate": 14224,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, CROMAC [5]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1965-11-25/belfast-dock.json",
+   "election": "parliament-of-northern-ireland__1965-11-25",
+   "constituency": "Belfast Dock",
+   "electorate": 7601,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, DOCK [6]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1965-11-25/belfast-duncairn.json",
+   "election": "parliament-of-northern-ireland__1965-11-25",
+   "constituency": "Belfast Duncairn",
+   "electorate": 19475,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, DUNCAIRN [7]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1965-11-25/belfast-oldpark.json",
+   "election": "parliament-of-northern-ireland__1965-11-25",
+   "constituency": "Belfast Oldpark",
+   "electorate": 18940,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, OLDPARK [9]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1965-11-25/belfast-shankill.json",
+   "election": "parliament-of-northern-ireland__1965-11-25",
+   "constituency": "Belfast Shankill",
+   "electorate": 18473,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, SHANKILL [12]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1965-11-25/belfast-st-annes.json",
+   "election": "parliament-of-northern-ireland__1965-11-25",
+   "constituency": "Belfast St Anne's",
+   "electorate": 21830,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, ST. ANNE'S [11]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1965-11-25/belfast-victoria.json",
+   "election": "parliament-of-northern-ireland__1965-11-25",
+   "constituency": "Belfast Victoria",
+   "electorate": 20370,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, VICTORIA [13]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1965-11-25/belfast-woodvale.json",
+   "election": "parliament-of-northern-ireland__1965-11-25",
+   "constituency": "Belfast Woodvale",
+   "electorate": 20678,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, WOODVALE [16]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1965-11-25/carrick.json",
+   "election": "parliament-of-northern-ireland__1965-11-25",
+   "constituency": "Carrick",
+   "electorate": 40031,
+   "boothroyd": {
+    "page": "antrim.html",
+    "heading": "ANTRIM, CARRICK [21]",
+    "url": "http://www.election.demon.co.uk/stormont/antrim.html",
+    "archiveUrl": "https://web.archive.org/web/20200116134056/http://www.election.demon.co.uk/stormont/antrim.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1965-11-25/city-of-londonderry.json",
+   "election": "parliament-of-northern-ireland__1965-11-25",
+   "constituency": "City of Londonderry",
+   "electorate": 19427,
+   "boothroyd": {
+    "page": "ldrcity.html",
+    "heading": "LONDONDERRY, CITY of LONDONDERRY [17]",
+    "url": "http://www.election.demon.co.uk/stormont/ldrcity.html",
+    "archiveUrl": "https://web.archive.org/web/20200730064819/http://www.election.demon.co.uk/stormont/ldrcity.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1965-11-25/east-down.json",
+   "election": "parliament-of-northern-ireland__1965-11-25",
+   "constituency": "East Down",
+   "electorate": 18121,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, EAST DOWN [34]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1965-11-25/enniskillen.json",
+   "election": "parliament-of-northern-ireland__1965-11-25",
+   "constituency": "Enniskillen",
+   "electorate": 12049,
+   "boothroyd": {
+    "page": "fermanagh.html",
+    "heading": "FERMANAGH, ENNISKILLEN [42]",
+    "url": "http://www.election.demon.co.uk/stormont/fermanagh.html",
+    "archiveUrl": "https://web.archive.org/web/20200116172305/http://www.election.demon.co.uk/stormont/fermanagh.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1965-11-25/mid-armagh.json",
+   "election": "parliament-of-northern-ireland__1965-11-25",
+   "constituency": "Mid Armagh",
+   "electorate": 15570,
+   "boothroyd": {
+    "page": "armagh.html",
+    "heading": "ARMAGH, MID ARMAGH [29]",
+    "url": "http://www.election.demon.co.uk/stormont/armagh.html",
+    "archiveUrl": "https://web.archive.org/web/20200116124923/http://www.election.demon.co.uk/stormont/armagh.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1965-11-25/north-down.json",
+   "election": "parliament-of-northern-ireland__1965-11-25",
+   "constituency": "North Down",
+   "electorate": 29057,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, NORTH DOWN [39]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1965-11-25/north-tyrone.json",
+   "election": "parliament-of-northern-ireland__1965-11-25",
+   "constituency": "North Tyrone",
+   "electorate": 18476,
+   "boothroyd": {
+    "page": "tyrone.html",
+    "heading": "TYRONE, NORTH TYRONE [50]",
+    "url": "http://www.election.demon.co.uk/stormont/tyrone.html",
+    "archiveUrl": "https://web.archive.org/web/20200116135107/http://www.election.demon.co.uk/stormont/tyrone.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1965-11-25/south-antrim.json",
+   "election": "parliament-of-northern-ireland__1965-11-25",
+   "constituency": "South Antrim",
+   "electorate": 34419,
+   "boothroyd": {
+    "page": "antrim.html",
+    "heading": "ANTRIM, SOUTH ANTRIM [27]",
+    "url": "http://www.election.demon.co.uk/stormont/antrim.html",
+    "archiveUrl": "https://web.archive.org/web/20200116134056/http://www.election.demon.co.uk/stormont/antrim.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1965-11-25/south-armagh.json",
+   "election": "parliament-of-northern-ireland__1965-11-25",
+   "constituency": "South Armagh",
+   "electorate": 17606,
+   "boothroyd": {
+    "page": "armagh.html",
+    "heading": "ARMAGH, SOUTH ARMAGH [31]",
+    "url": "http://www.election.demon.co.uk/stormont/armagh.html",
+    "archiveUrl": "https://web.archive.org/web/20200116124923/http://www.election.demon.co.uk/stormont/armagh.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1965-11-25/south-down.json",
+   "election": "parliament-of-northern-ireland__1965-11-25",
+   "constituency": "South Down",
+   "electorate": 17474,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, SOUTH DOWN [40]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1965-11-25/south-tyrone.json",
+   "election": "parliament-of-northern-ireland__1965-11-25",
+   "constituency": "South Tyrone",
+   "electorate": 17807,
+   "boothroyd": {
+    "page": "tyrone.html",
+    "heading": "TYRONE, SOUTH TYRONE [51]",
+    "url": "http://www.election.demon.co.uk/stormont/tyrone.html",
+    "archiveUrl": "https://web.archive.org/web/20200116135107/http://www.election.demon.co.uk/stormont/tyrone.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1968-03-22/lisnaskea.json",
+   "election": "parliament-of-northern-ireland__1968-03-22",
+   "constituency": "Lisnaskea",
+   "electorate": 10600,
+   "boothroyd": {
+    "page": "fermanagh.html",
+    "heading": "FERMANAGH, LISNASKEA [43]",
+    "url": "http://www.election.demon.co.uk/stormont/fermanagh.html",
+    "archiveUrl": "https://web.archive.org/web/20200116172305/http://www.election.demon.co.uk/stormont/fermanagh.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1968-05-16/city-of-londonderry.json",
+   "election": "parliament-of-northern-ireland__1968-05-16",
+   "constituency": "City of Londonderry",
+   "electorate": 19688,
+   "boothroyd": {
+    "page": "ldrcity.html",
+    "heading": "LONDONDERRY, CITY of LONDONDERRY [17]",
+    "url": "http://www.election.demon.co.uk/stormont/ldrcity.html",
+    "archiveUrl": "https://web.archive.org/web/20200730064819/http://www.election.demon.co.uk/stormont/ldrcity.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/bangor.json",
+   "election": "parliament-of-northern-ireland__1969-02-24",
+   "constituency": "Bangor",
+   "electorate": 20886,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, BANGOR [33]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/belfast-ballynafeigh.json",
+   "election": "parliament-of-northern-ireland__1969-02-24",
+   "constituency": "Belfast Ballynafeigh",
+   "electorate": 14572,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, BALLYNAFEIGH [1]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/belfast-bloomfield.json",
+   "election": "parliament-of-northern-ireland__1969-02-24",
+   "constituency": "Belfast Bloomfield",
+   "electorate": 21142,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, BLOOMFIELD [2]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/belfast-central.json",
+   "election": "parliament-of-northern-ireland__1969-02-24",
+   "constituency": "Belfast Central",
+   "electorate": 6384,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, CENTRAL [3]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/belfast-clifton.json",
+   "election": "parliament-of-northern-ireland__1969-02-24",
+   "constituency": "Belfast Clifton",
+   "electorate": 16196,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, CLIFTON [4]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/belfast-cromac.json",
+   "election": "parliament-of-northern-ireland__1969-02-24",
+   "constituency": "Belfast Cromac",
+   "electorate": 13541,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, CROMAC [5]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/belfast-duncairn.json",
+   "election": "parliament-of-northern-ireland__1969-02-24",
+   "constituency": "Belfast Duncairn",
+   "electorate": 18415,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, DUNCAIRN [7]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/belfast-falls.json",
+   "election": "parliament-of-northern-ireland__1969-02-24",
+   "constituency": "Belfast Falls",
+   "electorate": 19802,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, FALLS [8]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/belfast-st-annes.json",
+   "election": "parliament-of-northern-ireland__1969-02-24",
+   "constituency": "Belfast St Anne's",
+   "electorate": 19041,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, ST. ANNE'S [11]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/belfast-victoria.json",
+   "election": "parliament-of-northern-ireland__1969-02-24",
+   "constituency": "Belfast Victoria",
+   "electorate": 19504,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, VICTORIA [13]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/belfast-woodvale.json",
+   "election": "parliament-of-northern-ireland__1969-02-24",
+   "constituency": "Belfast Woodvale",
+   "electorate": 19984,
+   "boothroyd": {
+    "page": "belfast.html",
+    "heading": "BELFAST, WOODVALE [16]",
+    "url": "http://www.election.demon.co.uk/stormont/belfast.html",
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/city-of-londonderry.json",
+   "election": "parliament-of-northern-ireland__1969-02-24",
+   "constituency": "City of Londonderry",
+   "electorate": 19344,
+   "boothroyd": {
+    "page": "ldrcity.html",
+    "heading": "LONDONDERRY, CITY of LONDONDERRY [17]",
+    "url": "http://www.election.demon.co.uk/stormont/ldrcity.html",
+    "archiveUrl": "https://web.archive.org/web/20200730064819/http://www.election.demon.co.uk/stormont/ldrcity.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/east-down.json",
+   "election": "parliament-of-northern-ireland__1969-02-24",
+   "constituency": "East Down",
+   "electorate": 18230,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, EAST DOWN [34]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/east-tyrone.json",
+   "election": "parliament-of-northern-ireland__1969-02-24",
+   "constituency": "East Tyrone",
+   "electorate": 17358,
+   "boothroyd": {
+    "page": "tyrone.html",
+    "heading": "TYRONE, EAST TYRONE [48]",
+    "url": "http://www.election.demon.co.uk/stormont/tyrone.html",
+    "archiveUrl": "https://web.archive.org/web/20200116135107/http://www.election.demon.co.uk/stormont/tyrone.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/iveagh.json",
+   "election": "parliament-of-northern-ireland__1969-02-24",
+   "constituency": "Iveagh",
+   "electorate": 16172,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, IVEAGH [35]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/larkfield.json",
+   "election": "parliament-of-northern-ireland__1969-02-24",
+   "constituency": "Larkfield",
+   "electorate": 20774,
+   "boothroyd": {
+    "page": "antrim.html",
+    "heading": "ANTRIM, LARKFIELD [22]",
+    "url": "http://www.election.demon.co.uk/stormont/antrim.html",
+    "archiveUrl": "https://web.archive.org/web/20200116134056/http://www.election.demon.co.uk/stormont/antrim.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/larne.json",
+   "election": "parliament-of-northern-ireland__1969-02-24",
+   "constituency": "Larne",
+   "electorate": 20728,
+   "boothroyd": {
+    "page": "antrim.html",
+    "heading": "ANTRIM, LARNE [23]",
+    "url": "http://www.election.demon.co.uk/stormont/antrim.html",
+    "archiveUrl": "https://web.archive.org/web/20200116134056/http://www.election.demon.co.uk/stormont/antrim.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/lisnaskea.json",
+   "election": "parliament-of-northern-ireland__1969-02-24",
+   "constituency": "Lisnaskea",
+   "electorate": 10506,
+   "boothroyd": {
+    "page": "fermanagh.html",
+    "heading": "FERMANAGH, LISNASKEA [43]",
+    "url": "http://www.election.demon.co.uk/stormont/fermanagh.html",
+    "archiveUrl": "https://web.archive.org/web/20200116172305/http://www.election.demon.co.uk/stormont/fermanagh.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/mid-antrim.json",
+   "election": "parliament-of-northern-ireland__1969-02-24",
+   "constituency": "Mid Antrim",
+   "electorate": 21992,
+   "boothroyd": {
+    "page": "antrim.html",
+    "heading": "ANTRIM, MID ANTRIM [24]",
+    "url": "http://www.election.demon.co.uk/stormont/antrim.html",
+    "archiveUrl": "https://web.archive.org/web/20200116134056/http://www.election.demon.co.uk/stormont/antrim.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/mid-armagh.json",
+   "election": "parliament-of-northern-ireland__1969-02-24",
+   "constituency": "Mid Armagh",
+   "electorate": 15901,
+   "boothroyd": {
+    "page": "armagh.html",
+    "heading": "ARMAGH, MID ARMAGH [29]",
+    "url": "http://www.election.demon.co.uk/stormont/armagh.html",
+    "archiveUrl": "https://web.archive.org/web/20200116124923/http://www.election.demon.co.uk/stormont/armagh.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/mid-tyrone.json",
+   "election": "parliament-of-northern-ireland__1969-02-24",
+   "constituency": "Mid Tyrone",
+   "electorate": 11779,
+   "boothroyd": {
+    "page": "tyrone.html",
+    "heading": "TYRONE, MID TYRONE [49]",
+    "url": "http://www.election.demon.co.uk/stormont/tyrone.html",
+    "archiveUrl": "https://web.archive.org/web/20200116135107/http://www.election.demon.co.uk/stormont/tyrone.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/newtownabbey.json",
+   "election": "parliament-of-northern-ireland__1969-02-24",
+   "constituency": "Newtownabbey",
+   "electorate": 22151,
+   "boothroyd": {
+    "page": "antrim.html",
+    "heading": "ANTRIM, NEWTOWNABBEY [25]",
+    "url": "http://www.election.demon.co.uk/stormont/antrim.html",
+    "archiveUrl": "https://web.archive.org/web/20200116134056/http://www.election.demon.co.uk/stormont/antrim.html",
+    "note": "Boothroyd dates the row 1929; the seat was created in 1969 and the candidates (Bailie, McDowell) and votes are the 1969 contest, as Elliott prints it."
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/north-antrim.json",
+   "election": "parliament-of-northern-ireland__1969-02-24",
+   "constituency": "North Antrim",
+   "electorate": 19611,
+   "boothroyd": {
+    "page": "antrim.html",
+    "heading": "ANTRIM, NORTH ANTRIM [26]",
+    "url": "http://www.election.demon.co.uk/stormont/antrim.html",
+    "archiveUrl": "https://web.archive.org/web/20200116134056/http://www.election.demon.co.uk/stormont/antrim.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/north-londonderry.json",
+   "election": "parliament-of-northern-ireland__1969-02-24",
+   "constituency": "North Londonderry",
+   "electorate": 24457,
+   "boothroyd": {
+    "page": "ldrcounty.html",
+    "heading": "LONDONDERRY, NORTH LONDONDERRY [46]",
+    "url": "http://www.election.demon.co.uk/stormont/ldrcounty.html",
+    "archiveUrl": "https://web.archive.org/web/20200116130123/http://www.election.demon.co.uk/stormont/ldrcounty.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/north-tyrone.json",
+   "election": "parliament-of-northern-ireland__1969-02-24",
+   "constituency": "North Tyrone",
+   "electorate": 18024,
+   "boothroyd": {
+    "page": "tyrone.html",
+    "heading": "TYRONE, NORTH TYRONE [50]",
+    "url": "http://www.election.demon.co.uk/stormont/tyrone.html",
+    "archiveUrl": "https://web.archive.org/web/20200116135107/http://www.election.demon.co.uk/stormont/tyrone.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/south-armagh.json",
+   "election": "parliament-of-northern-ireland__1969-02-24",
+   "constituency": "South Armagh",
+   "electorate": 18140,
+   "boothroyd": {
+    "page": "armagh.html",
+    "heading": "ARMAGH, SOUTH ARMAGH [31]",
+    "url": "http://www.election.demon.co.uk/stormont/armagh.html",
+    "archiveUrl": "https://web.archive.org/web/20200116124923/http://www.election.demon.co.uk/stormont/armagh.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/south-down.json",
+   "election": "parliament-of-northern-ireland__1969-02-24",
+   "constituency": "South Down",
+   "electorate": 17486,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, SOUTH DOWN [40]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/south-fermanagh.json",
+   "election": "parliament-of-northern-ireland__1969-02-24",
+   "constituency": "South Fermanagh",
+   "electorate": 8322,
+   "boothroyd": {
+    "page": "fermanagh.html",
+    "heading": "FERMANAGH, SOUTH FERMANAGH [44]",
+    "url": "http://www.election.demon.co.uk/stormont/fermanagh.html",
+    "archiveUrl": "https://web.archive.org/web/20200116172305/http://www.election.demon.co.uk/stormont/fermanagh.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/south-tyrone.json",
+   "election": "parliament-of-northern-ireland__1969-02-24",
+   "constituency": "South Tyrone",
+   "electorate": 17132,
+   "boothroyd": {
+    "page": "tyrone.html",
+    "heading": "TYRONE, SOUTH TYRONE [51]",
+    "url": "http://www.election.demon.co.uk/stormont/tyrone.html",
+    "archiveUrl": "https://web.archive.org/web/20200116135107/http://www.election.demon.co.uk/stormont/tyrone.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/west-down.json",
+   "election": "parliament-of-northern-ireland__1969-02-24",
+   "constituency": "West Down",
+   "electorate": 16548,
+   "boothroyd": {
+    "page": "down.html",
+    "heading": "DOWN, WEST DOWN [41]",
+    "url": "http://www.election.demon.co.uk/stormont/down.html",
+    "archiveUrl": "https://web.archive.org/web/20200116171329/http://www.election.demon.co.uk/stormont/down.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1970-04-16/bannside.json",
+   "election": "parliament-of-northern-ireland__1970-04-16",
+   "constituency": "Bannside",
+   "electorate": 22954,
+   "boothroyd": {
+    "page": "antrim.html",
+    "heading": "ANTRIM, BANN SIDE [20]",
+    "url": "http://www.election.demon.co.uk/stormont/antrim.html",
+    "archiveUrl": "https://web.archive.org/web/20200116134056/http://www.election.demon.co.uk/stormont/antrim.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  },
+  {
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1970-04-16/south-antrim.json",
+   "election": "parliament-of-northern-ireland__1970-04-16",
+   "constituency": "South Antrim",
+   "electorate": 28633,
+   "boothroyd": {
+    "page": "antrim.html",
+    "heading": "ANTRIM, SOUTH ANTRIM [27]",
+    "url": "http://www.election.demon.co.uk/stormont/antrim.html",
+    "archiveUrl": "https://web.archive.org/web/20200116134056/http://www.election.demon.co.uk/stormont/antrim.html"
+   },
+   "elliott": {
+    "agrees": true
+   }
+  }
+ ]
+}

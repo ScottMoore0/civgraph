@@ -257,6 +257,23 @@ function bibliographyLayer() {
       "Richard Holohan's result and Denis Gorey's final count restored from this volume (p. 126); the Wikipedia table lost them");
   }
 
+  // Elliott, Northern Ireland Parliamentary Election Results 1921-1972: contests whose first
+  // preferences were read from the volume and agreed (data/elections/elliott-verified-contests.json).
+  const elliottChecked = new Map();
+  const elliottVolume = (doc.volumes ?? []).find((v) => v.id === 'elliott-1921-72');
+  for (const r of corrections('elliott-stormont-electorates.json')?.records ?? []) {
+    note(r.sourceFile, elliottVolume?.title, `electorate ${Number(r.electorate).toLocaleString('en-GB')} taken from this volume (the same figure on David Boothroyd's Stormont results site)`);
+  }
+  const ELLIOTT_VERIFIED = path.join('data', 'elections', 'elliott-verified-contests.json');
+  if (existsSync(ELLIOTT_VERIFIED)) {
+    for (const r of readJson(ELLIOTT_VERIFIED).records ?? []) {
+      if (r.file && r.figuresAgreed > 0) {
+        elliottChecked.set(String(r.file).replace('data/elections-source/data/elections/', ''),
+          `${r.figuresAgreed} figure(s) read from the volume and agreed with ours`);
+      }
+    }
+  }
+
   const forContest = (body, date, file) => {
     const day = String(date).slice(0, 10);
     const out = [];
@@ -265,7 +282,8 @@ function bibliographyLayer() {
       const notes = supplied.get(file)?.get(v.title) ?? [];
       // Each volume answers for its own check: Walker's list says nothing about Gallagher.
       const walkerCheck = String(v.id || '').startsWith('walker') ? (verified.get(file) ?? null) : null;
-      const ownCheck = v.id === 'gallagher-1922-44' ? (gallagherChecked.get(file) ?? null) : null;
+      const ownCheck = v.id === 'gallagher-1922-44' ? (gallagherChecked.get(file) ?? null)
+        : v.id === 'elliott-1921-72' ? (elliottChecked.get(file) ?? null) : null;
       out.push({
         ...(notes.length ? { supplies: notes } : {}),
         title: v.title,
