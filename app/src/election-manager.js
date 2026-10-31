@@ -18,7 +18,7 @@ import {
   partyColour as electionPartyColour,
   seatPositions
 } from '../../src/election-domain.mjs';
-import { partyAbbreviation, partyLabelHtml } from '../../src/party-names.mjs';
+import { partyAbbreviation, partyFullName, partyLabelHtml } from '../../src/party-names.mjs';
 import { buildTrendChartModel, mountTrendChart } from '../../src/election-trend-chart.mjs';
 import { formatDisplayDate } from '../../src/date-format.mjs';
 
@@ -316,24 +316,52 @@ export class Test2ElectionManager {
       throw new Error(`${body} ${date} is in the election catalogue, but its geography is not converted for MapLibre yet.`);
     }
 
+    // Opening an election is a step Back can undo; stepping along the timeline (keepView) is
+    // scrubbing, and rewrites the entry it is on.
+    if (!keepView) this.app.beginNavigation?.(`Opened ${entry.displayTitle || `${body} ${date}`}`);
     if (this.activeEntry && (this.activeEntry.body !== body || this.activeEntry.date !== date)) {
-      this.unloadElection();
+      // Quietly: the address is written once this one is open, so the entry the reader steps
+      // back to still has the election being replaced.
+      this.unloadElection({ updateURL: false });
     }
 
     this.renderLoadingPanel(entry);
+    const hadMap = Boolean(entry.sourceMapId && this.mapController.isLayerLoaded?.(entry.sourceMapId));
     // Results-only: there is no boundary layer for this year, so nothing is added to the map.
     const mapPromise = entry.resultsOnly ? Promise.resolve(null) : this.app.loadMap(entry.sourceMapId, { fit: !keepView });
     const bundlePromise = this.loadBundle(entry);
+    let bundleFailed = false;
+    bundlePromise.catch(() => { bundleFailed = true; });
     const previousBundlePromise = this.loadPreviousBundle(entry);
     const featureIndexPromise = bundlePromise
       .then((loadedBundle) => this.loadFeatureIndexForBundle(loadedBundle))
       .catch(() => null);
-    const [bundle, previousBundle] = await Promise.all([
-      bundlePromise,
-      previousBundlePromise,
-      mapPromise,
-      featureIndexPromise
-    ]).then(([loadedBundle, loadedPreviousBundle]) => [loadedBundle, loadedPreviousBundle]);
+    let bundle;
+    let previousBundle;
+    try {
+      [bundle, previousBundle] = await Promise.all([
+        bundlePromise,
+        previousBundlePromise,
+        mapPromise,
+        featureIndexPromise
+      ]).then(([loadedBundle, loadedPreviousBundle]) => [loadedBundle, loadedPreviousBundle]);
+    } catch (error) {
+      // The results or the boundaries did not arrive. The loading panel used to stay up, turning,
+      // over a half-drawn map (UX review 2026-10-30, #15): take both away, and let the caller say
+      // what failed, with a Retry.
+      if (requestId === this.loadSerial) {
+        this.removePanel();
+        if (!hadMap && entry.sourceMapId && this.mapController.isLayerLoaded?.(entry.sourceMapId)) this.mapController.unloadLayer(entry.sourceMapId);
+        this.app.syncCatalogueMapState();
+        this.app.updateActiveLayers();
+      }
+      if (this.app._pushNextURL) this.app._pushNextURL = null;
+      const offline = typeof navigator !== 'undefined' && navigator.onLine === false;
+      const title = entry.displayTitle || `${body} ${date}`;
+      const wrapped = new Error(`${title} could not be loaded: ${offline ? 'you appear to be offline' : (bundleFailed ? 'its results did not arrive' : 'its map did not arrive')}.`);
+      wrapped.cause = error;
+      throw wrapped;
+    }
     if (requestId !== this.loadSerial) return;
     this.activeEntry = entry;
     this.activeBundle = bundle;
@@ -368,11 +396,26 @@ export class Test2ElectionManager {
     // pane has taken its space.
     if (entry.sourceMapId && !keepView) this.app.refitAfterElectionPane?.(entry.sourceMapId);
     this.app.focusActiveElectionCatalogueEntry?.(entry, { scroll: false });
-    this.app.updateURLState();
+    if (!keepView && this.app.endNavigation) this.app.endNavigation();
+    else this.app.updateURLState();
   }
 
+  /** options.updateURL false: leave the address alone (another election is about to replace
+   * this one and write it). options.label: closing it is a step of its own, for Back. */
   unloadElection(options = {}) {
-    const { unloadBackingLayer = true } = options || {};
+    const { unloadBackingLayer = true, updateURL = true } = options || {};
+    if (!updateURL) {
+      // Taking the layers off writes the address on the way (each layer's onChange); hold it.
+      const wasSuspended = this.app._suspendURLState;
+      this.app._suspendURLState = true;
+      try {
+        this.unloadElection({ ...options, updateURL: true, label: null });
+      } finally {
+        this.app._suspendURLState = wasSuspended;
+      }
+      return;
+    }
+    if (options.label) this.app.beginNavigation?.(options.label);
     const sourceMapId = this.activeEntry?.sourceMapId;
     const backingLayerIds = unloadBackingLayer ? this.getActiveElectionBackingLayerIds() : [];
     if (sourceMapId) this.mapController.clearElectionStyle?.(sourceMapId);
@@ -392,7 +435,8 @@ export class Test2ElectionManager {
     this.app.syncCatalogueMapState();
     this.app.updateActiveLayers();
     this.app.updateMapList?.();
-    this.app.updateURLState();
+    if (options.label && this.app.endNavigation) this.app.endNavigation();
+    else this.app.updateURLState();
   }
 
   getActiveElectionBackingLayerIds(entry = this.activeEntry, bundle = this.activeBundle) {
@@ -925,7 +969,11 @@ export class Test2ElectionManager {
     if (!pane || !content || !title || !this.activeEntry || !this.activeBundle) return;
     const nextView = this.normalizePanelView(view || this.activePanelView || 'party', selectedResult);
     this.activePanelView = nextView;
+    const previousSelectedKey = this.activeSelectedResultKey;
     this.activeSelectedResultKey = selectedResult ? normalizeName(selectedResult.matchName || selectedResult.constituency || '') : null;
+    // Choosing a constituency (or going back to the whole election) is a step the reader can
+    // take back with the browser's Back button: a new history entry, not a rewrite of this one.
+    const selectionChanged = previousSelectedKey !== this.activeSelectedResultKey;
     this.activeEntityKind = null;
     this.activeEntityKey = null;
     if (selectedResult) {
@@ -942,7 +990,7 @@ export class Test2ElectionManager {
     pane.classList.add('election-results-pane--open');
     document.body.classList.add('test2-election-open');
     back?.addEventListener('click', () => this.renderPanel(null, 'party'));
-    pane.querySelector('#electionCloseBtn, #test2ElectionClose')?.addEventListener('click', () => this.unloadElection());
+    pane.querySelector('#electionCloseBtn, #test2ElectionClose')?.addEventListener('click', () => this.unloadElection({ label: 'Closed the election' }));
     pane.querySelector('#test2ElectionMode')?.addEventListener('change', (event) => {
       this.activeMode = event.target.value;
       this.applyActiveStyle();
@@ -1041,6 +1089,11 @@ export class Test2ElectionManager {
     }
     this.renderLegend();
     this.setupResultsTableControls(pane);
+    this.app.syncElectionPaneResizerAria?.();
+    if (selectionChanged) {
+      const name = this.activeBundle?.displayTitle || this.activeEntry?.displayTitle || 'Election';
+      this.app.pushURLState?.(selectedResult?.constituency ? `${name}: ${selectedResult.constituency}` : name);
+    }
   }
 
   normalizePanelView(view, selectedResult = null) {
@@ -3988,7 +4041,48 @@ export class Test2ElectionManager {
       || null;
   }
 
+  /**
+   * What the election colours on the map mean, for the map's legend (app.updateMapLegend). The
+   * colours come from colourForMode over the same rows the fill expression is built from, so
+   * the key cannot disagree with the map. Parties are listed by how many areas they colour, with
+   * their abbreviation in the swatch and their full name beside it: Fianna Fáil and Sinn Féin are
+   * both greens, and the words are what tell them apart (UX review 2026-10-30).
+   */
+  legendModel() {
+    if (!this.activeEntry || !this.activeBundle) return null;
+    const mode = this.activeMode;
+    const district = this.isLocalGovernmentElection() && this.activeLocalMode === 'district';
+    const rows = district
+      ? buildCouncilSummary(this.currentResults()).map((row) => ({ winnerParty: row.leadingParty, leadingParty: row.leadingParty, colour: this.mainPanePartyColour(row.leadingParty, row.colour), leadingColour: this.mainPanePartyColour(row.leadingParty, row.colour) }))
+      : this.currentResults();
+    const title = `${MODE_LABELS[mode] || mode}${district ? ' by council' : ''}`;
+    const model = { title, election: this.activeBundle.displayTitle || this.activeEntry.displayTitle || '', items: [], ramp: null, seats: false };
+    if (['winner', 'leadingParty'].includes(mode)) {
+      const byKey = new Map();
+      for (const result of rows) {
+        const party = mode === 'winner' ? (result.winnerParty || result.leadingParty) : result.leadingParty;
+        if (!party) continue;
+        const colour = this.colourForMode(mode, result);
+        const key = `${party}|${colour}`;
+        if (!byKey.has(key)) byKey.set(key, { party, abbreviation: partyAbbreviation(party), name: partyFullName(party), colour, count: 0 });
+        byKey.get(key).count += 1;
+      }
+      model.items = [...byKey.values()].sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+      model.unit = district ? 'council' : (this.isLocalGovernmentElection() ? 'area' : 'constituency');
+    } else {
+      const ranges = { turnout: [35, 80, '%'], voteShare: [10, 70, '%'], majority: [0, 45, '%'], seats: [1, 6, ''], quota: [1000, 120000, ''] };
+      const [low, high, suffix] = ranges[mode] || [0, 100, ''];
+      const stops = [0, 0.25, 0.5, 0.75, 1].map((t) => sharedNumericColour(low + (high - low) * t, low, high));
+      const fmt = (n) => `${Number(n).toLocaleString('en-GB')}${suffix}`;
+      model.ramp = { low: fmt(low), high: fmt(high), gradient: `linear-gradient(90deg, ${stops.join(', ')})` };
+    }
+    model.seats = this.overlayMode !== 'bars' && this.shouldRenderElectionOverlays() && Boolean(this.seatCircleMarkers?.length);
+    model.bars = this.overlayMode === 'bars' && this.shouldRenderElectionOverlays();
+    return model;
+  }
+
   renderLegend() {
+    this.app.updateMapLegend?.();
     const target = document.getElementById('test2ElectionLegend');
     if (!target || !this.activeBundle) return;
     const mode = this.activeMode;
@@ -4120,9 +4214,11 @@ export class Test2ElectionManager {
     this.bindOverlayRefresh();
     if (this.overlayMode === 'bars') {
       await this.renderVoteBars();
-      return;
+    } else {
+      await this.renderSeatCircles();
     }
-    await this.renderSeatCircles();
+    // The legend's seat-dot line depends on the dots having been drawn.
+    this.app.updateMapLegend?.();
   }
 
   removeElectionOverlays() {
@@ -4244,6 +4340,8 @@ export class Test2ElectionManager {
     const overlay = document.createElement('div');
     overlay.id = SEAT_OVERLAY_ID;
     overlay.className = 'test2-election-seat-overlay';
+    // A label on a plain div is not read out; as a group it names what it holds.
+    overlay.setAttribute('role', 'group');
     overlay.setAttribute('aria-label', 'Election seat circles');
     container.appendChild(overlay);
     this.seatCircleOverlay = overlay;
@@ -4865,7 +4963,12 @@ export class Test2ElectionManager {
     // body's slider is mostly by-election stops. The filter steps through the rest; the open
     // election always stays on it, even when it is itself a by-election.
     const available = all.some((entry) => entry.kind === 'by-election') && all.some((entry) => entry.kind !== 'by-election');
-    const generalsOnly = available && Boolean(this.app.getTimelineGeneralsOnly?.());
+    // Where by-elections dominate (Westminster: 709 of 768 stops, most before 1922), the full
+    // axis gave the century since 1922 a sliver at its right end, its years packed or hidden.
+    // Such a slider starts on general elections only, until the reader chooses otherwise.
+    const byElections = all.filter((entry) => entry.kind === 'by-election').length;
+    const crowded = byElections > 2 * (all.length - byElections);
+    const generalsOnly = available && Boolean(this.app.getTimelineGeneralsOnly?.(crowded));
     const entries = generalsOnly
       ? all.filter((entry) => entry.kind !== 'by-election' || entry.date === this.activeEntry.date)
       : all;

@@ -19,7 +19,7 @@
  * Addresses (#...&cat=<route>, kept by app.updateURLState): maps | series/<id>[/<mapId>] |
  * elections[/<body>] | books | here/<lng>/<lat>; old #flat-card-<id> links land on their series.
  */
-import { CatalogueSearch, PeopleSearch, coveringPoint, normalise } from './search.js';
+import { CatalogueSearch, PeopleSearch, STOP_WORDS, coveringPoint, normalise } from './search.js';
 import { CATALOGUE_CSS } from './styles.js';
 import dataService, { resolveMapDownloadUrl } from '../data-service.js';
 import { initialCatalogueRoute, takeCatalogueData } from './flag.js';
@@ -90,6 +90,7 @@ export class CatalogueNext {
     this.searchHits = null;
     this.searchPeriod = null;
     this.electionHits = null;
+    this.electionsFirst = false;
     this.bookHits = null;
     this.extras = null;
     this.searchToken = 0;
@@ -638,6 +639,7 @@ export class CatalogueNext {
       this.searchHits = null;
       this.searchPeriod = null;
       this.electionHits = null;
+      this.electionsFirst = false;
       this.bookHits = null;
       this.extras = null;
       this.draw();
@@ -647,6 +649,9 @@ export class CatalogueNext {
     this.searchHits = new Map(r.series.map((h) => [h.id, h]));
     this.searchPeriod = r.period;
     this.electionHits = new Map(r.elections.map((h) => [h.id, '']));
+    // "Dáil 2020" or "Westminster" is a search for elections: list them above any party or person
+    // that shares a word, which used to push the election off the first screen.
+    this.electionsFirst = r.elections.length > 0 && (r.namesBody || Boolean(r.period));
     for (const c of r.contests) for (const k of c.keys) if (!this.electionHits.has(k)) this.electionHits.set(k, `${c.name} contested`);
     this.bookHits = new Set(r.books.map((h) => h.id));
     this.extras = normalise(q).length >= 2 ? { loading: true } : null;
@@ -678,8 +683,17 @@ export class CatalogueNext {
     const places = [...groups.values()].sort((a, b) => Number(normalise(b.name) === norm) - Number(normalise(a.name) === norm) || b.items.length - a.items.length);
     const qn = ui.normalizeCatalogueSearchText ? ui.normalizeCatalogueSearchText(q) : norm;
     const terms = qn.split(/\s+/).filter(Boolean);
+    // The current pane's scorer counts a record that matches ANY word, so "general election 2020"
+    // listed sixty parties and "Dáil 2020" put Renua above the election. Here every word but a
+    // year must start a word of the record; a year alone names no party, person or source.
+    const words = terms.filter((t) => !/^(1[5-9]\d\d|20\d\d)s?$/.test(t) && !STOP_WORDS.has(t));
+    const allWords = (r) => {
+      const text = ` ${r.searchText || ''}`;
+      return words.length > 0 && words.every((w) => text.includes(` ${w}`));
+    };
     const people = (index || [])
       .filter((r) => r.type === 'person' || r.type === 'party' || r.type === 'source')
+      .filter(allWords)
       .map((r) => ({ r, s: ui.scoreCatalogueSearchRecord ? ui.scoreCatalogueSearchRecord(r, terms, qn, new Map()) : 0 }))
       .filter((x) => x.s > 0)
       .sort((a, b) => b.s - a.s)
@@ -706,6 +720,7 @@ export class CatalogueNext {
     this.searchHits = null;
     this.searchPeriod = null;
     this.electionHits = null;
+    this.electionsFirst = false;
     this.bookHits = null;
     this.extras = null;
     if (this.ui) this.ui._catalogueSearchQuery = '';
@@ -1325,6 +1340,10 @@ export class CatalogueNext {
         const sid = btn?.dataset.series || this.seriesOfMap.get(id);
         if (sid) this.lastOn.set(sid, id);
       }
+    } catch {
+      // The app has said what went wrong, with a Retry, and taken the layer back off; the
+      // syncState below puts the button back to Add rather than leaving it on "On map".
+      this.pendingToggle.delete(id);
     } finally {
       this.busy.delete(id);
       btn?.removeAttribute('aria-busy');
@@ -1348,6 +1367,8 @@ export class CatalogueNext {
     try {
       if (this.electionLoaded(e)) await this.ui.onUnloadElection?.();
       else await this.ui.onLoadElection?.(e.body, e.date);
+    } catch {
+      // Reported by the app, with a Retry; the button goes back to Open below.
     } finally {
       this.busy.delete(key);
       btn?.removeAttribute('aria-busy');

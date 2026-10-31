@@ -267,6 +267,7 @@ export class TestMapLibreController {
     this.installDirectWheelGestureFallback();
     this.installDirectTwoFingerGestureFallback();
     this.installDocumentHoverClear();
+    this.installSourceHealthWatch();
     this.applyMobileTouchContract();
     this.map.on('load', () => {
       this.enableGestureHandlers();
@@ -1382,8 +1383,16 @@ export class TestMapLibreController {
     for (const layerIdToRemove of [...record.layerIds].reverse()) {
       if (this.map.getLayer(layerIdToRemove)) this.map.removeLayer(layerIdToRemove);
     }
+    // A PMTiles archive whose header failed (offline, say) is cached as that failure, for good:
+    // the library keeps the rejected promise. Forget the archive so Retry fetches it afresh.
+    if (record.config?.tileUrl && (record.sourceIds || [record.sourceId]).some((id) => this.sourceHealth?.get(id)?.errors)) {
+      this.pmtilesArchiveCache.delete(record.config.tileUrl);
+      this.protocol.tiles?.delete(record.config.tileUrl);
+    }
     for (const sourceId of [...(record.sourceIds || []), record.sourceId]) {
       if (this.map.getSource(sourceId)) this.map.removeSource(sourceId);
+      // A retry starts with a clean record, not the failures of the attempt it replaces.
+      this.sourceHealth?.delete(sourceId);
     }
     this.layers.delete(layerId);
     // Rotation on a touch screen follows whether a 3D layer is left (touchRotationAllowed).
@@ -1703,6 +1712,53 @@ export class TestMapLibreController {
       };
     }
     throw new Error(`unsupported sourceType ${layer.sourceType}`);
+  }
+
+  /*
+   * Whether a layer's data ever arrived. Adding a layer only adds a source to the style, which
+   * succeeds offline; the tiles fail afterwards, one 'error' event each, and MapLibre counts an
+   * errored tile as loaded, so the map settles over nothing. The catalogue then said "On map"
+   * with nothing drawn (UX review 2026-10-30, #15). Counting each source's tile errors against
+   * its tiles that did load lets the caller tell "drawn" from "every request failed".
+   */
+  installSourceHealthWatch() {
+    this.sourceHealth = new Map();
+    const entry = (sourceId) => {
+      if (!this.sourceHealth.has(sourceId)) this.sourceHealth.set(sourceId, { errors: 0, loaded: 0, sourceError: '', message: '' });
+      return this.sourceHealth.get(sourceId);
+    };
+    this.map.on('error', (event) => {
+      // A request still in flight when its layer was removed must not count against the
+      // source of the same id that a Retry adds.
+      if (!event?.sourceId || !this.map.getSource(event.sourceId)) return;
+      const health = entry(event.sourceId);
+      const message = String(event.error?.message || event.error || 'request failed').slice(0, 200);
+      health.errors += 1;
+      health.message = message;
+      // No tile: the source itself could not load (a PMTiles header, a TileJSON).
+      if (!event.tile) health.sourceError = message;
+    });
+    this.map.on('sourcedata', (event) => {
+      if (!event?.sourceId || !event.tile || event.tile.state !== 'loaded') return;
+      entry(event.sourceId).loaded += 1;
+    });
+  }
+
+  /**
+   * Why a loaded layer has nothing to show, or null. 'source': the source could not load at all;
+   * 'tiles': tiles were asked for and every one failed. A layer with a single good tile is fine:
+   * a missing tile at the edge of an archive is not a failed load.
+   */
+  getLayerLoadFailure(layerId) {
+    const layer = this.layers.get(layerId);
+    if (!layer || !this.sourceHealth) return null;
+    for (const sourceId of layer.sourceIds || [layer.sourceId]) {
+      const health = this.sourceHealth.get(sourceId);
+      if (!health) continue;
+      if (health.sourceError) return { kind: 'source', message: health.sourceError };
+      if (health.errors > 0 && health.loaded === 0) return { kind: 'tiles', message: health.message };
+    }
+    return null;
   }
 
   monitorPmtilesFallback(layer, sourceId) {

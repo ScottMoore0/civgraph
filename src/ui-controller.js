@@ -1403,7 +1403,14 @@ class UIController {
         const existing = document.getElementById('catalogueHistoryPopup');
         if (existing) { existing.remove(); button.setAttribute('aria-expanded', 'false'); return; }
 
-        const entries = this.catalogueHistory || [];
+        // The map app keeps the reader's real steps (layers added, elections opened, places in
+        // the catalogue) as browser history entries; when it offers them, list those. The
+        // catalogue's own list held one "Catalogue" entry in the rebuilt catalogue, so the
+        // popup said nothing useful (UX review 2026-10-30, #17).
+        const nav = this.getNavigationHistory?.();
+        const entries = nav ? nav.entries : (this.catalogueHistory || []);
+        const currentIndex = nav ? nav.index : this.catalogueHistoryIndex;
+        const labelOf = (entry) => (nav ? entry.label : this._catalogueHistoryLabel(entry));
         const popup = document.createElement('div');
         popup.id = 'catalogueHistoryPopup';
         popup.className = 'catalogue-history-popup';
@@ -1416,10 +1423,10 @@ class UIController {
             // Most recent first: the reason to open a history list is almost always to
             // step back one or two places, not to return to the beginning.
             const items = entries.map((entry, index) => {
-                const current = index === this.catalogueHistoryIndex;
+                const current = index === currentIndex;
                 return `<li><button type="button" class="catalogue-history-popup__item${current ? ' catalogue-history-popup__item--current' : ''}"`
                     + ` data-history-index="${index}"${current ? ' aria-current="true"' : ''}>`
-                    + `${this.escapeHtml(this._catalogueHistoryLabel(entry))}</button></li>`;
+                    + `${this.escapeHtml(labelOf(entry))}</button></li>`;
             }).reverse().join('');
             popup.innerHTML = `<ul class="catalogue-history-popup__list">${items}</ul>`;
         }
@@ -1446,6 +1453,11 @@ class UIController {
             if (!item) return;
             const index = Number(item.dataset.historyIndex);
             if (!Number.isInteger(index) || index < 0 || index >= entries.length) return;
+            if (nav) {
+                close();
+                if (index !== currentIndex) this.goToNavigationEntry?.(index);
+                return;
+            }
             this.catalogueHistoryIndex = index;
             this._applyCatalogueHistoryEntry(entries[index]);
             this.updateCatalogueNavButtons();
@@ -1887,6 +1899,11 @@ class UIController {
         }
         this.currentStateId = stateId;
         this.updateSplitState();
+        // Said here, on a change of view, and not in updateSplitState: that also runs on every
+        // resize and redraw, so the live region sat on "View changed to Split 50/50" and was
+        // re-announced over the news a reader was waiting for ("… loaded", an error).
+        const state = this.splitStates.find(s => s.id === stateId);
+        if (state) this.announce(`View changed to ${state.label}`);
         this.savePreference();
         if (this.onSplitChange) this.onSplitChange(stateId);
         if (stateId === 'info-full') {
@@ -1937,9 +1954,6 @@ class UIController {
             const isAllowed = allowedStates.some(s => s.id === stateId);
             btn.style.display = isAllowed ? '' : 'none';
         });
-
-        const state = this.splitStates.find(s => s.id === this.currentStateId);
-        if (state) this.announce(`View changed to ${state.label}`);
     }
 
     savePreference() {
