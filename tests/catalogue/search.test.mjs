@@ -117,3 +117,32 @@ test('every person links to a Browse page, and every contest to a catalogue elec
   assert.equal(PeopleSearch.url(people.query('sammy wilson')[0].row), '/browse/#/persons/sammy-wilson-96356');
   for (const row of peopleDoc.people) for (const c of row[8]) assert.ok(catalogue.elections[c[0]], `${row[1]}: contest ${c[0]}`);
 });
+
+// UX review 2026-10-30 (#14): the names people use for a body found no election, though the
+// Westminster shelf said 59; and a year in the query must keep the election of that year.
+test('elections are found by the names people use for their body, and by year', () => {
+  const found = (q) => search.query(q).elections.map((h) => catalogue.elections.find((e) => e.key === h.id));
+  const titles = (q) => found(q).map((e) => e.title);
+  assert.ok(found('Westminster').filter((e) => e.kind !== 'by-election').length >= 50, 'Westminster lists its general elections');
+  assert.deepEqual(titles('Westminster 2019'), ['2019 UK general election in Northern Ireland']);
+  assert.deepEqual(titles('House of Commons 2017'), ['2017 UK general election in Northern Ireland']);
+  assert.deepEqual(titles('NI local 2023'), ['2023 Northern Ireland local elections']);
+  assert.deepEqual(titles('Belfast City Council 2023'), ['2023 Northern Ireland local elections']);
+  assert.deepEqual(titles('Dáil 2020'), ['2020 Irish general election']);
+  assert.deepEqual(titles('Dail 2020'), ['2020 Irish general election']);
+  assert.deepEqual(titles('Stormont 1969'), ['1969 Parliament of Northern Ireland election']);
+  assert.deepEqual(titles('NI Assembly 2022'), ['2022 Northern Ireland Assembly election']);
+  assert.equal(titles('European 2019').length, 2, 'both European constituencies in 2019');
+  assert.ok(titles('presidential').length && titles('presidential').every((t) => /presidential/i.test(t)));
+  assert.ok(titles('referendum 2018').length && titles('referendum 2018').every((t) => /referendum/i.test(t) && /2018/.test(t)));
+  // Councils are only those the election chose: Dungannon had a council in 1985, not in 2023.
+  assert.ok(titles('Dungannon council 1985').includes('1985 Northern Ireland local elections'));
+  assert.deepEqual(titles('Dungannon council 2023'), []);
+});
+
+test('a query that names a body says so, so the election is listed first', () => {
+  for (const q of ['Westminster', 'Westminster 2019', 'Dáil 2020', 'NI local 2023', 'Belfast City Council 2023']) {
+    assert.ok(search.query(q).namesBody, q);
+  }
+  for (const q of ['general election 2020', 'wards', 'census 1911']) assert.ok(!search.query(q).namesBody, q);
+});
