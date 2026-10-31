@@ -1561,6 +1561,12 @@ class Test2App {
       });
     };
     uiController.setupSearch();
+    // Enter searches addresses once (Nominatim) while suggestions-as-you-type are paused; see
+    // src/catalogue/geocoder.js. With suggestions running it does nothing extra.
+    document.getElementById('searchInput')?.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' || event.isComposing) return;
+      uiController._catalogueNext?.searchAddressesNow?.(event.target.value);
+    });
     document.addEventListener('click', (event) => {
       if (!event.target.closest('.overflow-menu')) {
         document.querySelectorAll('.overflow-menu--open').forEach((menu) => menu.classList.remove('overflow-menu--open'));

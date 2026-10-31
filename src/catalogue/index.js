@@ -20,6 +20,7 @@
  * elections[/<body>] | books | here/<lng>/<lat>; old #flat-card-<id> links land on their series.
  */
 import { CatalogueSearch, PeopleSearch, STOP_WORDS, coveringPoint, normalise } from './search.js';
+import { AddressGeocoder, parsePostcode } from './geocoder.js';
 import { CATALOGUE_CSS } from './styles.js';
 import dataService, { resolveMapDownloadUrl } from '../data-service.js';
 import { initialCatalogueRoute, takeCatalogueData } from './flag.js';
@@ -96,6 +97,10 @@ export class CatalogueNext {
     this.searchToken = 0;
     this.here = null;
     this.person = null;
+    // Addresses for the search box (geocoder.js): { loading, results, source, paused, query }.
+    this.geocoder = new AddressGeocoder();
+    this.addresses = null;
+    this.addressController = null;
     this.peopleSearch = null;
     this.placesReady = false;
     this.compare = null;
@@ -636,6 +641,8 @@ export class CatalogueNext {
     this.limits = {};
     this.moreChips.clear();
     if (!q) {
+      this.addressController?.abort();
+      this.addresses = null;
       this.searchHits = null;
       this.searchPeriod = null;
       this.electionHits = null;
@@ -655,8 +662,75 @@ export class CatalogueNext {
     for (const c of r.contests) for (const k of c.keys) if (!this.electionHits.has(k)) this.electionHits.set(k, `${c.name} contested`);
     this.bookHits = new Set(r.books.map((h) => h.id));
     this.extras = normalise(q).length >= 2 ? { loading: true } : null;
+    this.loadAddresses(q);
     this.draw();
     if (this.extras) this.loadExtras(q);
+  }
+
+  /**
+   * Address suggestions as the reader types (Photon, or postcodes.io for a BT postcode). The
+   * box's own input debounce (280ms) spaces the requests; a newer query aborts the older one.
+   * While Photon is paused (it failed, or turned us away) nothing is asked per keystroke: the
+   * block says press Enter, and searchAddressesNow() makes the one request.
+   */
+  loadAddresses(q) {
+    this.addressController?.abort();
+    this.addressController = null;
+    const query = String(q || '').trim();
+    if (query.length < 3 && !parsePostcode(query)) {
+      this.addresses = null;
+      return;
+    }
+    if (this.geocoder.paused && !parsePostcode(query)) {
+      this.addresses = { query, results: [], paused: true };
+      // Enter was pressed before the box's debounce passed this query on: search it now.
+      if (this.enterQuery === query) {
+        this.enterQuery = null;
+        this.searchAddressesNow(query);
+      }
+      return;
+    }
+    const controller = new AbortController();
+    this.addressController = controller;
+    this.addresses = { query, loading: true, results: [] };
+    this.geocoder.suggest(query, { signal: controller.signal }).then((r) => {
+      if (controller.signal.aborted || query !== this.query) return;
+      this.addresses = { query, ...r };
+      this.refreshExtras();
+    }).catch(() => {
+      if (controller.signal.aborted || query !== this.query) return;
+      this.addresses = { query, results: [], paused: this.geocoder.paused };
+      this.refreshExtras();
+    });
+  }
+
+  /** Enter in the search box: while suggestions are paused, the one Nominatim search. */
+  async searchAddressesNow(q) {
+    const query = String(q || '').trim();
+    if (!query || !this.geocoder.paused) return;
+    if (query !== this.query) {
+      this.enterQuery = query;
+      return;
+    }
+    this.addresses = { query, loading: true, results: [], paused: true };
+    this.refreshExtras();
+    try {
+      const r = await this.geocoder.search(query);
+      if (query !== this.query) return;
+      this.addresses = { query, ...r, paused: true, searched: true };
+    } catch {
+      this.addresses = { query, results: [], paused: true, searched: true, failed: true };
+    }
+    this.refreshExtras();
+  }
+
+  /** An address chosen from the results: fly there, with a marker; on a phone, show the map. */
+  goToAddress(index) {
+    const hit = this.addresses?.results?.[Number(index)];
+    if (!hit) return;
+    this.ui.onAddressSelect?.(hit.lat, hit.lon, [hit.name, hit.detail].filter(Boolean).join(', '));
+    app()?.dismissMobileCatalogueAfterLoad?.(hit.name);
+    this.announce(`Showing ${hit.name} on the map`);
   }
 
   /** Places (named features, with their own buttons) and people, parties and sources, from the
@@ -921,6 +995,7 @@ export class CatalogueNext {
   onClick(e) {
     const b = (sel) => e.target.closest(sel);
     let el;
+    if ((el = b('[data-cn-address]'))) { e.preventDefault(); this.goToAddress(el.dataset.cnAddress); return; }
     if ((el = b('[data-cn-tab]'))) {
       e.preventDefault();
       if (el.dataset.cnTab !== this.openSection || this.here) this.go(el.dataset.cnTab);

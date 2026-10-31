@@ -334,8 +334,19 @@
       ],
       "format": "esm"
     },
+    "src/catalogue/geocoder.js": {
+      "bytes": 8081,
+      "imports": [
+        {
+          "path": "<define:__VIEWER_ASSET_VERSIONS__>",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
     "src/catalogue/styles.js": {
-      "bytes": 34949,
+      "bytes": 35789,
       "imports": [
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
@@ -447,7 +458,7 @@
       "format": "esm"
     },
     "src/catalogue/view-maps.js": {
-      "bytes": 36266,
+      "bytes": 38571,
       "imports": [
         {
           "path": "src/catalogue/icons.js",
@@ -540,12 +551,17 @@
       "format": "esm"
     },
     "src/catalogue/index.js": {
-      "bytes": 78995,
+      "bytes": 83812,
       "imports": [
         {
           "path": "src/catalogue/search.js",
           "kind": "import-statement",
           "original": "./search.js"
+        },
+        {
+          "path": "src/catalogue/geocoder.js",
+          "kind": "import-statement",
+          "original": "./geocoder.js"
         },
         {
           "path": "src/catalogue/styles.js",
@@ -1092,7 +1108,7 @@
       "format": "esm"
     },
     "app/src/app.js": {
-      "bytes": 208130,
+      "bytes": 209160,
       "imports": [
         {
           "path": "src/data-service.js",
@@ -1197,7 +1213,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "app/build/chunks/app-623FJLRR.js",
+          "path": "app/build/chunks/app-NZQGTI73.js",
           "kind": "dynamic-import"
         }
       ],
@@ -1217,7 +1233,7 @@
       },
       "bytes": 757
     },
-    "app/build/chunks/catalogue-N6GO57QI.js": {
+    "app/build/chunks/catalogue-WCCCDHJK.js": {
       "imports": [
         {
           "path": "app/build/chunks/chunk-MFCSGOES.js",
@@ -1241,13 +1257,16 @@
       "entryPoint": "src/catalogue/index.js",
       "inputs": {
         "src/catalogue/index.js": {
-          "bytesInOutput": 47816
+          "bytesInOutput": 49399
         },
         "src/catalogue/search.js": {
           "bytesInOutput": 8502
         },
+        "src/catalogue/geocoder.js": {
+          "bytesInOutput": 3801
+        },
         "src/catalogue/styles.js": {
-          "bytesInOutput": 33881
+          "bytesInOutput": 34711
         },
         "src/catalogue/icons.js": {
           "bytesInOutput": 7755
@@ -1259,25 +1278,25 @@
           "bytesInOutput": 1128
         },
         "src/catalogue/menu.js": {
-          "bytesInOutput": 2643
+          "bytesInOutput": 2644
         },
         "src/catalogue/edit.js": {
-          "bytesInOutput": 5565
+          "bytesInOutput": 5570
         },
         "src/catalogue/slider.js": {
-          "bytesInOutput": 2684
+          "bytesInOutput": 2685
         },
         "src/catalogue/view-maps.js": {
-          "bytesInOutput": 24877
+          "bytesInOutput": 26671
         },
         "src/catalogue/view-elections.js": {
-          "bytesInOutput": 7534
+          "bytesInOutput": 7535
         },
         "src/catalogue/view-books.js": {
           "bytesInOutput": 1247
         }
       },
-      "bytes": 280359
+      "bytes": 288375
     },
     "app/build/chunks/election-manager-OXZ4VJRZ.js": {
       "imports": [
@@ -1320,7 +1339,7 @@
       },
       "bytes": 226175
     },
-    "app/build/chunks/app-623FJLRR.js": {
+    "app/build/chunks/app-NZQGTI73.js": {
       "imports": [
         {
           "path": "app/build/chunks/chunk-MFCSGOES.js",
@@ -1339,11 +1358,11 @@
           "kind": "import-statement"
         },
         {
-          "path": "app/build/chunks/catalogue-N6GO57QI.js",
+          "path": "app/build/chunks/catalogue-WCCCDHJK.js",
           "kind": "dynamic-import"
         },
         {
-          "path": "app/build/chunks/catalogue-N6GO57QI.js",
+          "path": "app/build/chunks/catalogue-WCCCDHJK.js",
           "kind": "dynamic-import"
         },
         {
@@ -1355,7 +1374,7 @@
       "entryPoint": "app/src/app.js",
       "inputs": {
         "app/src/app.js": {
-          "bytesInOutput": 108648
+          "bytesInOutput": 109062
         },
         "src/feature-loader.js": {
           "bytesInOutput": 6264
@@ -1412,7 +1431,7 @@
           "bytesInOutput": 362
         }
       },
-      "bytes": 612566
+      "bytes": 612980
     },
     "app/build/chunks/chunk-MFCSGOES.js": {
       "imports": [
