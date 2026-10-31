@@ -1219,7 +1219,13 @@ class Test2App {
     // Back and Forward between the entries pushState makes fire hashchange (their addresses
     // differ only in the hash), as does editing the hash by hand; both mean "show this".
     window.addEventListener('hashchange', () => {
-      if (this._suspendURLState || this._restoringURLState || this._ignoreHashChanges) return;
+      if (this._suspendURLState || this._ignoreHashChanges) return;
+      // Back then Forward quickly: the second arrives while the first is still restoring. Do it
+      // once that one is done, rather than drop it and leave the page on the wrong entry.
+      if (this._restoringURLState) {
+        this._hashRestorePending = true;
+        return;
+      }
       this.restoreURLState({ updateAfterRestore: false, sync: true }).catch((error) => this.showMapError(error));
     });
   }
@@ -4261,6 +4267,10 @@ class Test2App {
     } finally {
       this._restoringURLState = false;
       if (shouldUpdateAfterRestore) this.updateURLState();
+      if (this._hashRestorePending) {
+        this._hashRestorePending = false;
+        setTimeout(() => this.restoreURLState({ updateAfterRestore: false, sync: true }).catch((error) => this.showMapError(error)), 0);
+      }
     }
   }
 
