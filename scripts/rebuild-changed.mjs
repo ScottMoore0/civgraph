@@ -34,7 +34,7 @@ const GENERATED = [
   /^data\/database\/(corpus-index|election-provenance|site-stats)\.json$/,
   /^data\/database\/[a-z-]+-d1-import\.sql$/, /^data\/database\/elections-schema\.sql$/,
   /^functions\/_api\/_public-prefixes\.js$/, /^render\/metadata\//, /^pages\/about\.html$/,
-  /^app\/election-viewer-package\/(css|js)\//, /^app\/js\//
+  /^app\/election-viewer-package\/(css|js)\//, /^app\/js\//, /^sitemap\.xml$/, /^sitemaps\//
 ];
 const APP = [
   /^app\/src\//, /^src\/[^/]+\.(js|css)$/, /^render\/src\//, /^sw\.js$/,
