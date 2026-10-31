@@ -13,7 +13,8 @@ import { formatElectionDate, shortBodyName, renderElectionConstituencyFeatureLin
 import { cdnUrl } from './cdn-url.js';
 import { catalogueNextRequested, initialCatalogueRoute } from './catalogue/flag.js';
 import { installSplit } from './catalogue/split.js';
-import { partyLabelHtml } from './party-names.mjs';
+import { partyFullName, partyLabelHtml } from './party-names.mjs';
+import { BODY_GROUP_ORDER, hasNumber, yearRange } from './entity-detail-data.mjs';
 
 /**
  * Lucide icons used by the catalogue: the section bar, the headings inside the contents box,
@@ -110,6 +111,9 @@ class UIController {
         this._showByElectionCards = new Set(); // election decade cards with by-elections expanded
         this._cataloguePane = null;
         this._electionEntityDetailCache = new Map();
+        // Per page: scroll and table state, so Back returns to the same place (M10).
+        this._detailViewStates = new Map();
+        this._currentDetailViewKey = null;
         this._catalogueBookView = null;
         this._bookMarkdownCache = new Map();
         this._flatRenderToken = null;
@@ -297,6 +301,8 @@ class UIController {
             this._pushCatalogueHistoryEntry({ type: 'detail', mapId });
         }
 
+        this._rememberDetailViewState();
+        this._currentDetailViewKey = null;
         this.catalogueView = 'detail';
 
         // Get DOM elements
@@ -416,7 +422,7 @@ class UIController {
 
             <div class="catalogue-detail__card">
                 <div class="catalogue-detail__color" style="background-color: ${color}"></div>
-                <div class="catalogue-detail__name">${this.escapeHtml(map.name)}</div>
+                <h2 class="catalogue-detail__name" id="catalogueDetailHeading" tabindex="-1">${this.escapeHtml(map.name)}</h2>
                 ${formattedDate ? `<div class="catalogue-detail__date">${formattedDate}</div>` : ''}
             </div>
 
@@ -604,7 +610,11 @@ class UIController {
                 mapId: mapConfig?.id,
                 id: featureId ?? primary.value,
                 properties: feature?.properties || {},
-                geometry: feature?.geometry || null
+                geometry: feature?.geometry || null,
+                // Kept for the page's area and perimeter, which use the same rules as the popup.
+                wholeAreaM2: feature?.wholeAreaM2,
+                wholePerimeterM: feature?.wholePerimeterM,
+                geometryIsClipped: feature?.geometryIsClipped
             },
             mapConfig,
             primaryName: primary.value,
@@ -768,18 +778,25 @@ class UIController {
         const isLoaded = this.onCheckFeatureLoaded ? !!this.onCheckFeatureLoaded(mapId, featureIndex) : false;
         const isVisible = this.onCheckFeatureVisible ? !!this.onCheckFeatureVisible(mapId, featureIndex) : false;
 
+        // The page's buttons say what they do in words (UX review 2026-10-31, M8): an X in a
+        // page header reads as "close this page", and it removed the feature from the map.
+        const labelled = (button) => button?.classList.contains('catalogue-detail__action');
         const loadBtn = container.querySelector('.feature-load-btn');
         if (loadBtn) {
-            loadBtn.innerHTML = this.getLoadButtonIcon(isLoaded);
-            loadBtn.title = isLoaded ? 'Unload feature' : 'Load feature';
-            loadBtn.setAttribute('aria-label', isLoaded ? 'Unload feature' : 'Load feature');
+            const text = isLoaded ? 'Remove from map' : 'Add to map';
+            loadBtn.innerHTML = this.getLoadButtonIcon(isLoaded) + (labelled(loadBtn) ? `<span class="catalogue-detail__action-label">${text}</span>` : '');
+            loadBtn.title = isLoaded ? 'Remove this feature from the map' : 'Add this feature to the map';
+            if (labelled(loadBtn)) loadBtn.removeAttribute('aria-label');
+            else loadBtn.setAttribute('aria-label', isLoaded ? 'Unload feature' : 'Load feature');
         }
 
         const visibilityBtn = container.querySelector('.feature-visibility-btn');
         if (visibilityBtn) {
-            visibilityBtn.innerHTML = this.getVisibilityButtonIcon(isVisible);
+            const text = isVisible ? 'Hide' : 'Show';
+            visibilityBtn.innerHTML = this.getVisibilityButtonIcon(isVisible) + (labelled(visibilityBtn) ? `<span class="catalogue-detail__action-label">${text}</span>` : '');
             visibilityBtn.title = isVisible ? 'Hide feature' : 'Show feature';
-            visibilityBtn.setAttribute('aria-label', isVisible ? 'Hide feature' : 'Show feature');
+            if (labelled(visibilityBtn)) visibilityBtn.removeAttribute('aria-label');
+            else visibilityBtn.setAttribute('aria-label', isVisible ? 'Hide feature' : 'Show feature');
             visibilityBtn.disabled = !isLoaded;
         }
     }
@@ -1237,8 +1254,8 @@ class UIController {
                 menuBtn.type = 'button';
                 menuBtn.className = 'election-th-btn';
                 menuBtn.setAttribute('data-table-filter-sort-btn', '1');
-                menuBtn.setAttribute('aria-label', 'Sort and Filter');
-                menuBtn.setAttribute('title', 'Sort and Filter');
+                menuBtn.setAttribute('aria-label', `Sort or filter by ${labelSpan.textContent.trim() || 'this column'}`);
+                menuBtn.setAttribute('title', `Sort or filter by ${labelSpan.textContent.trim() || 'this column'}`);
                 menuBtn.innerHTML = '&#8645;';
                 menuBtn.addEventListener('click', (event) => {
                     event.preventDefault();
@@ -1295,6 +1312,8 @@ class UIController {
     }
 
     showCatalogueListView(addToHistory = false) {
+        this._rememberDetailViewState();
+        this._currentDetailViewKey = null;
         this.catalogueView = 'list';
         this._catalogueBookView = null;
 
@@ -2438,6 +2457,9 @@ class UIController {
         if (Array.isArray(input.keywords)) attributes.push(input.keywords.join(' '));
         if (Array.isArray(input.constituencies)) attributes.push(input.constituencies.join(' '));
         if (Array.isArray(input.parties)) attributes.push(input.parties.map(p => p?.name || p).join(' '));
+        // A party is found by any of its names: "Official Unionist" finds the UUP (H8).
+        if (input.shortName) attributes.push(String(input.shortName));
+        if (Array.isArray(input.knownAliases)) attributes.push(input.knownAliases.join(' '));
         const text = [title, subtitle, provider, attributes.join(' ')].join(' ');
         return {
             ...input,
@@ -2483,6 +2505,10 @@ class UIController {
                 const browsePayloads = await Promise.all(browseKinds.map(async ([kind, type, typeLabel]) => [kind, type, typeLabel, await this.fetchCatalogueBrowseItems(kind)]));
                 browsePayloads.forEach(([kind, type, typeLabel, items]) => {
                     items.forEach(item => {
+                        // A party label linked to no election is a ballot-paper description or an
+                        // OCR variant ("Ulster Unionist Farmer"), and it crowded the party out of
+                        // its own search (UX review 2026-10-31, H8).
+                        if (type === 'party' && item.relatedElectionCount !== undefined && !(Number(item.relatedElectionCount) > 0)) return;
                         records.push(this.makeCatalogueSearchRecord({
                             ...item,
                             type,
@@ -7917,142 +7943,7 @@ class UIController {
                 html += `<div class="feature-info__primary-name">${this.escapeHtml(primaryName)}</div>`;
             }
 
-            // Calculate area and perimeter if available. Prefer a stored
-            // full-feature area attribute (e.g. Shape_Area) — it is duplicated
-            // onto every tile fragment, so it is correct even when the polygon
-            // is split across tiles, unlike area derived from clipped geometry.
-            let area = props.Area || props.area || props.AREA || props.Shape_Area || props.SHAPE_AREA || props.Shape__Area || props.SHAPE__AREA;
-            let perimeter = props.Perimeter || props.perimeter || props.PERIMETER;
-
-            // Derived metrics are LABELLED when the geometry they came from is a fragment.
-            //
-            // Geometry reaches here from queryRenderedFeatures, which clips to the tile a
-            // feature was drawn in. A polygon wholly inside one tile measures correctly; one
-            // crossing a boundary measures only the piece that was found. That is how the
-            // same feature reported 446.84 km² one way and 71.15 km² the other, with
-            // nothing to say which was which -- Lisburn's district is about 440.
-            //
-            // Suppressing the figure entirely was the first attempt and it was worse: BOTH
-            // paths here use rendered features, so it removed the correct 446.84 as well.
-            // A stored attribute such as Shape_Area is duplicated onto every fragment and
-            // is always whole, so where one exists it is used and the label stays plain.
-            // Where none exists the measurement is still shown, as "Part area" and
-            // "Part perimeter" -- the same words renderTimelineTransitionFeatureInfo uses
-            // for the same reason a few hundred lines above.
-            let metricsArePartial = false;
-            // Whole-feature figures measured from the source at build time (feature index),
-            // attached by the map adapter. In km, the same units the clipped path produces.
-            if (!area && Number(feature.wholeAreaM2) > 0) area = Number(feature.wholeAreaM2) / 1e6;
-            if (!perimeter && Number(feature.wholePerimeterM) > 0) perimeter = Number(feature.wholePerimeterM) / 1000;
-            if (geometry && (!area || !perimeter)) {
-                const metrics = this.calculateGeodesicMetrics(geometry);
-                if (!area && metrics.area) {
-                    area = metrics.area;
-                    if (feature.geometryIsClipped) metricsArePartial = true;
-                }
-                if (!perimeter && metrics.perimeter) {
-                    perimeter = metrics.perimeter;
-                    if (feature.geometryIsClipped) metricsArePartial = true;
-                }
-            }
-            const areaLabel = metricsArePartial ? 'Part area' : 'Area';
-            const perimeterLabel = metricsArePartial ? 'Part perimeter' : 'Perimeter';
-
-            // Get elevation data
-            const minElevM = props.minElev_m;
-            const maxElevM = props.maxElev_m;
-            const minElevFt = props.minElev_ft;
-            const maxElevFt = props.maxElev_ft;
-            let meanElevM = props.meanElev_m;
-            let meanElevFt = props.meanElev_ft;
-            if ((meanElevM === undefined || meanElevM === null || isNaN(meanElevM)) &&
-                minElevM !== undefined && minElevM !== null && !isNaN(minElevM) &&
-                maxElevM !== undefined && maxElevM !== null && !isNaN(maxElevM)) {
-                meanElevM = (Number(minElevM) + Number(maxElevM)) / 2;
-            }
-            if ((meanElevFt === undefined || meanElevFt === null || isNaN(meanElevFt)) &&
-                meanElevM !== undefined && meanElevM !== null && !isNaN(meanElevM)) {
-                meanElevFt = Math.round(Number(meanElevM) * 3.28084);
-            }
-
-            // Format spatial metrics with dual units and toggle precision
-            if (area || perimeter || (minElevM !== undefined && maxElevM !== undefined)) {
-                html += '<div class="feature-info__metrics">';
-                if (area) {
-                    let areaKm2 = typeof area === 'number' ? area : parseFloat(area);
-                    if (Number.isFinite(areaKm2) && areaKm2 > 100000) {
-                        areaKm2 = areaKm2 / 1000000;
-                    }
-                    if (!isNaN(areaKm2)) {
-                        const areaSqMi = areaKm2 * 0.386102;
-                        html += `<div class="feature-info__metric feature-info__metric--clickable feature-info__metric--top" data-area-km="${areaKm2}" data-area-mi="${areaSqMi}" data-precision="2">
-                            <span class="feature-info__metric-label">${areaLabel}</span>
-                            <span class="feature-info__metric-value feature-info__metric-value--underline">
-                                <span class="metric-km">${this.formatNumber(areaKm2, 2)} km<sup>2</sup></span><br>
-                                <span class="metric-mi">(${this.formatNumber(areaSqMi, 2)} sq mi)</span>
-                            </span>
-                        </div>`;
-                    }
-                }
-                if (perimeter) {
-                    let perimKm = typeof perimeter === 'number' ? perimeter : parseFloat(perimeter);
-                    if (Number.isFinite(perimKm) && perimKm > 100000) {
-                        perimKm = perimKm / 1000;
-                    }
-                    if (!isNaN(perimKm)) {
-                        const perimMi = perimKm * 0.621371;
-                        html += `<div class="feature-info__metric feature-info__metric--clickable feature-info__metric--top" data-perim-km="${perimKm}" data-perim-mi="${perimMi}" data-precision="2">
-                            <span class="feature-info__metric-label">${perimeterLabel}</span>
-                            <span class="feature-info__metric-value feature-info__metric-value--underline">
-                                <span class="metric-km">${this.formatNumber(perimKm, 2)} km</span><br>
-                                <span class="metric-mi">(${this.formatNumber(perimMi, 2)} mi)</span>
-                            </span>
-                        </div>`;
-                    }
-                }
-                // Elevation on one line -- range, then mean -- where all three are known. Three
-                // separate cards took a third of a phone screen to say three numbers.
-                const hasElev = (v) => v !== undefined && v !== null && !isNaN(v);
-                if (hasElev(minElevM) && hasElev(maxElevM)) {
-                    const minFt = minElevFt || Math.round(minElevM * 3.28084);
-                    const maxFt = maxElevFt || Math.round(maxElevM * 3.28084);
-                    html += `<div class="feature-info__metric feature-info__metric--elevation">
-                        <span class="feature-info__metric-label">Elevation</span>
-                        <span class="feature-info__metric-value">
-                            <span class="metric-km">${this.formatNumber(Number(minElevM), 1)}–${this.formatNumber(Number(maxElevM), 1)} m</span><br>
-                            <span class="metric-mi">(${minFt}–${maxFt} ft)${hasElev(meanElevM) ? ` · mean ${this.formatNumber(Number(meanElevM), 1)} m` : ''}</span>
-                        </span>
-                    </div>`;
-                } else if (minElevM !== undefined && minElevM !== null && !isNaN(minElevM)) {
-                    html += `<div class="feature-info__metric">
-                        <span class="feature-info__metric-label">Min Elevation</span>
-                        <span class="feature-info__metric-value">
-                            <span class="metric-km">${this.formatNumber(minElevM, 1)} m</span><br>
-                            <span class="metric-mi">(${minElevFt || Math.round(minElevM * 3.28084)} ft)</span>
-                        </span>
-                    </div>`;
-                }
-                const elevationCombined = hasElev(minElevM) && hasElev(maxElevM);
-                if (!elevationCombined && meanElevM !== undefined && meanElevM !== null && !isNaN(meanElevM)) {
-                    html += `<div class="feature-info__metric">
-                        <span class="feature-info__metric-label">Mean Elevation</span>
-                        <span class="feature-info__metric-value">
-                            <span class="metric-km">${this.formatNumber(meanElevM, 1)} m</span><br>
-                            <span class="metric-mi">(${meanElevFt || Math.round(meanElevM * 3.28084)} ft)</span>
-                        </span>
-                    </div>`;
-                }
-                if (!elevationCombined && maxElevM !== undefined && maxElevM !== null && !isNaN(maxElevM)) {
-                    html += `<div class="feature-info__metric">
-                        <span class="feature-info__metric-label">Max Elevation</span>
-                        <span class="feature-info__metric-value">
-                            <span class="metric-km">${this.formatNumber(maxElevM, 1)} m</span><br>
-                            <span class="metric-mi">(${maxElevFt || Math.round(maxElevM * 3.28084)} ft)</span>
-                        </span>
-                    </div>`;
-                }
-                html += '</div>';
-            }
+            html += this._featureMetricsHtml(feature, props, geometry);
 
             // Render all properties in a collapsible table
             const excludeKeys = ['Name', 'name', 'NAME', 'Area', 'area', 'AREA',
@@ -8108,33 +7999,7 @@ class UIController {
         }
 
         // Setup metric precision toggle
-        content.querySelectorAll('.feature-info__metric--clickable').forEach(metric => {
-            metric.addEventListener('click', () => {
-                const currentPrecision = parseInt(metric.dataset.precision) || 2;
-                const newPrecision = currentPrecision === 2 ? 10 : 2;
-                metric.dataset.precision = newPrecision;
-
-                // Update area values if present
-                if (metric.dataset.areaKm) {
-                    const areaKm = parseFloat(metric.dataset.areaKm);
-                    const areaMi = parseFloat(metric.dataset.areaMi);
-                    const kmSpan = metric.querySelector('.metric-km');
-                    const miSpan = metric.querySelector('.metric-mi');
-                    if (kmSpan) kmSpan.textContent = `${this.formatNumber(areaKm, newPrecision)} km2`;
-                    if (miSpan) miSpan.textContent = `(${this.formatNumber(areaMi, newPrecision)} sq mi)`;
-                }
-
-                // Update perimeter values if present
-                if (metric.dataset.perimKm) {
-                    const perimKm = parseFloat(metric.dataset.perimKm);
-                    const perimMi = parseFloat(metric.dataset.perimMi);
-                    const kmSpan = metric.querySelector('.metric-km');
-                    const miSpan = metric.querySelector('.metric-mi');
-                    if (kmSpan) kmSpan.textContent = `${this.formatNumber(perimKm, newPrecision)} km`;
-                    if (miSpan) miSpan.textContent = `(${this.formatNumber(perimMi, newPrecision)} mi)`;
-                }
-            });
-        });
+        this._bindFeatureMetricToggles(content);
 
         content.querySelectorAll('.feature-info__primary-name-link').forEach((btn) => {
             btn.addEventListener('click', () => {
@@ -8146,7 +8011,207 @@ class UIController {
         panel.classList.remove('hidden');
     }
 
-    showFeatureDetailInCatalogue(detailId, addToHistory = true) {
+    /**
+     * Area, perimeter and elevation for a feature, with both units. Shared by the map popup and
+     * the feature's page in the catalogue (UX review 2026-10-31, M7), which showed only the raw
+     * SHAPE_AREA and SHAPE_LENGTH. The area and perimeter are buttons (M9): a click shows more
+     * decimal places, and a keyboard could not reach them as divs.
+     */
+    _featureMetricsHtml(feature, props, geometry) {
+        let html = '';
+        // Calculate area and perimeter if available. Prefer a stored
+        // full-feature area attribute (e.g. Shape_Area) — it is duplicated
+        // onto every tile fragment, so it is correct even when the polygon
+        // is split across tiles, unlike area derived from clipped geometry.
+        let area = props.Area || props.area || props.AREA || props.Shape_Area || props.SHAPE_AREA || props.Shape__Area || props.SHAPE__AREA;
+        let perimeter = props.Perimeter || props.perimeter || props.PERIMETER;
+
+        // Derived metrics are LABELLED when the geometry they came from is a fragment.
+        //
+        // Geometry reaches here from queryRenderedFeatures, which clips to the tile a
+        // feature was drawn in. A polygon wholly inside one tile measures correctly; one
+        // crossing a boundary measures only the piece that was found. That is how the
+        // same feature reported 446.84 km² one way and 71.15 km² the other, with
+        // nothing to say which was which -- Lisburn's district is about 440.
+        //
+        // Suppressing the figure entirely was the first attempt and it was worse: BOTH
+        // paths here use rendered features, so it removed the correct 446.84 as well.
+        // A stored attribute such as Shape_Area is duplicated onto every fragment and
+        // is always whole, so where one exists it is used and the label stays plain.
+        // Where none exists the measurement is still shown, as "Part area" and
+        // "Part perimeter" -- the same words renderTimelineTransitionFeatureInfo uses
+        // for the same reason a few hundred lines above.
+        let metricsArePartial = false;
+        // Whole-feature figures measured from the source at build time (feature index),
+        // attached by the map adapter. In km, the same units the clipped path produces.
+        if (!area && Number(feature.wholeAreaM2) > 0) area = Number(feature.wholeAreaM2) / 1e6;
+        if (!perimeter && Number(feature.wholePerimeterM) > 0) perimeter = Number(feature.wholePerimeterM) / 1000;
+        if (geometry && (!area || !perimeter)) {
+            const metrics = this.calculateGeodesicMetrics(geometry);
+            if (!area && metrics.area) {
+                area = metrics.area;
+                if (feature.geometryIsClipped) metricsArePartial = true;
+            }
+            if (!perimeter && metrics.perimeter) {
+                perimeter = metrics.perimeter;
+                if (feature.geometryIsClipped) metricsArePartial = true;
+            }
+        }
+        const areaLabel = metricsArePartial ? 'Part area' : 'Area';
+        const perimeterLabel = metricsArePartial ? 'Part perimeter' : 'Perimeter';
+
+        // Get elevation data
+        const minElevM = props.minElev_m;
+        const maxElevM = props.maxElev_m;
+        const minElevFt = props.minElev_ft;
+        const maxElevFt = props.maxElev_ft;
+        let meanElevM = props.meanElev_m;
+        let meanElevFt = props.meanElev_ft;
+        if ((meanElevM === undefined || meanElevM === null || isNaN(meanElevM)) &&
+            minElevM !== undefined && minElevM !== null && !isNaN(minElevM) &&
+            maxElevM !== undefined && maxElevM !== null && !isNaN(maxElevM)) {
+            meanElevM = (Number(minElevM) + Number(maxElevM)) / 2;
+        }
+        if ((meanElevFt === undefined || meanElevFt === null || isNaN(meanElevFt)) &&
+            meanElevM !== undefined && meanElevM !== null && !isNaN(meanElevM)) {
+            meanElevFt = Math.round(Number(meanElevM) * 3.28084);
+        }
+
+        // Format spatial metrics with dual units and toggle precision
+        if (area || perimeter || (minElevM !== undefined && maxElevM !== undefined)) {
+            html += '<div class="feature-info__metrics">';
+            if (area) {
+                let areaKm2 = typeof area === 'number' ? area : parseFloat(area);
+                if (Number.isFinite(areaKm2) && areaKm2 > 100000) {
+                    areaKm2 = areaKm2 / 1000000;
+                }
+                if (!isNaN(areaKm2)) {
+                    const areaSqMi = areaKm2 * 0.386102;
+                    html += `<button type="button" class="feature-info__metric feature-info__metric--clickable feature-info__metric--top" title="Show more decimal places" data-area-km="${areaKm2}" data-area-mi="${areaSqMi}" data-precision="2">
+                        <span class="feature-info__metric-label">${areaLabel}</span>
+                        <span class="feature-info__metric-value feature-info__metric-value--underline">
+                            <span class="metric-km">${this.formatNumber(areaKm2, 2)} km<sup>2</sup></span><br>
+                            <span class="metric-mi">(${this.formatNumber(areaSqMi, 2)} sq mi)</span>
+                        </span>
+                    </button>`;
+                }
+            }
+            if (perimeter) {
+                let perimKm = typeof perimeter === 'number' ? perimeter : parseFloat(perimeter);
+                if (Number.isFinite(perimKm) && perimKm > 100000) {
+                    perimKm = perimKm / 1000;
+                }
+                if (!isNaN(perimKm)) {
+                    const perimMi = perimKm * 0.621371;
+                    html += `<button type="button" class="feature-info__metric feature-info__metric--clickable feature-info__metric--top" title="Show more decimal places" data-perim-km="${perimKm}" data-perim-mi="${perimMi}" data-precision="2">
+                        <span class="feature-info__metric-label">${perimeterLabel}</span>
+                        <span class="feature-info__metric-value feature-info__metric-value--underline">
+                            <span class="metric-km">${this.formatNumber(perimKm, 2)} km</span><br>
+                            <span class="metric-mi">(${this.formatNumber(perimMi, 2)} mi)</span>
+                        </span>
+                    </button>`;
+                }
+            }
+            // Elevation on one line -- range, then mean -- where all three are known. Three
+            // separate cards took a third of a phone screen to say three numbers.
+            const hasElev = (v) => v !== undefined && v !== null && !isNaN(v);
+            if (hasElev(minElevM) && hasElev(maxElevM)) {
+                // A minimum a little below sea level inland (West Tyrone's -0.7 m) is the elevation
+                // model's noise, not a hollow: it reads as about 0 (UX review 2026-10-31, L8).
+                const nearZero = Number(minElevM) < 0 && Number(minElevM) > -5;
+                const minText = nearZero ? '≈0' : this.formatNumber(Number(minElevM), 1);
+                const minFt = nearZero ? '≈0' : (minElevFt || Math.round(minElevM * 3.28084));
+                const maxFt = maxElevFt || Math.round(maxElevM * 3.28084);
+                html += `<div class="feature-info__metric feature-info__metric--elevation">
+                    <span class="feature-info__metric-label">Elevation</span>
+                    <span class="feature-info__metric-value">
+                        <span class="metric-km"${nearZero ? ` title="${this.formatNumber(Number(minElevM), 1)} m in the elevation model"` : ''}>${minText}–${this.formatNumber(Number(maxElevM), 1)} m</span><br>
+                        <span class="metric-mi">(${minFt}–${maxFt} ft)${hasElev(meanElevM) ? ` · mean ${this.formatNumber(Number(meanElevM), 1)} m` : ''}</span>
+                    </span>
+                </div>`;
+            } else if (minElevM !== undefined && minElevM !== null && !isNaN(minElevM)) {
+                html += `<div class="feature-info__metric">
+                    <span class="feature-info__metric-label">Min Elevation</span>
+                    <span class="feature-info__metric-value">
+                        <span class="metric-km">${this.formatNumber(minElevM, 1)} m</span><br>
+                        <span class="metric-mi">(${minElevFt || Math.round(minElevM * 3.28084)} ft)</span>
+                    </span>
+                </div>`;
+            }
+            const elevationCombined = hasElev(minElevM) && hasElev(maxElevM);
+            if (!elevationCombined && meanElevM !== undefined && meanElevM !== null && !isNaN(meanElevM)) {
+                html += `<div class="feature-info__metric">
+                    <span class="feature-info__metric-label">Mean Elevation</span>
+                    <span class="feature-info__metric-value">
+                        <span class="metric-km">${this.formatNumber(meanElevM, 1)} m</span><br>
+                        <span class="metric-mi">(${meanElevFt || Math.round(meanElevM * 3.28084)} ft)</span>
+                    </span>
+                </div>`;
+            }
+            if (!elevationCombined && maxElevM !== undefined && maxElevM !== null && !isNaN(maxElevM)) {
+                html += `<div class="feature-info__metric">
+                    <span class="feature-info__metric-label">Max Elevation</span>
+                    <span class="feature-info__metric-value">
+                        <span class="metric-km">${this.formatNumber(maxElevM, 1)} m</span><br>
+                        <span class="metric-mi">(${maxElevFt || Math.round(maxElevM * 3.28084)} ft)</span>
+                    </span>
+                </div>`;
+            }
+            html += '</div>';
+        }
+        return html;
+    }
+
+    /** The area and perimeter buttons' precision toggle, wherever they are rendered. */
+    _bindFeatureMetricToggles(container) {
+        container?.querySelectorAll('.feature-info__metric--clickable').forEach((metric) => {
+            metric.addEventListener('click', () => {
+                const currentPrecision = parseInt(metric.dataset.precision) || 2;
+                const newPrecision = currentPrecision === 2 ? 10 : 2;
+                metric.dataset.precision = newPrecision;
+                const kmSpan = metric.querySelector('.metric-km');
+                const miSpan = metric.querySelector('.metric-mi');
+                if (metric.dataset.areaKm) {
+                    const areaKm = parseFloat(metric.dataset.areaKm);
+                    const areaMi = parseFloat(metric.dataset.areaMi);
+                    if (kmSpan) kmSpan.textContent = `${this.formatNumber(areaKm, newPrecision)} km2`;
+                    if (miSpan) miSpan.textContent = `(${this.formatNumber(areaMi, newPrecision)} sq mi)`;
+                }
+                if (metric.dataset.perimKm) {
+                    const perimKm = parseFloat(metric.dataset.perimKm);
+                    const perimMi = parseFloat(metric.dataset.perimMi);
+                    if (kmSpan) kmSpan.textContent = `${this.formatNumber(perimKm, newPrecision)} km`;
+                    if (miSpan) miSpan.textContent = `(${this.formatNumber(perimMi, newPrecision)} mi)`;
+                }
+            });
+        });
+    }
+
+    /**
+     * A feature's name for display: source capitals ("WEST TYRONE") in title case (UX review
+     * 2026-10-31, M7); a name already in mixed case is left as it is.
+     */
+    featureDisplayName(name) {
+        const text = String(name || '').trim();
+        if (!text || /[a-z]/.test(text) || !/[A-Z]{2}/.test(text)) return text;
+        const small = new Set(['and', 'of', 'the', 'on', 'upon', 'in', 'with', 'by']);
+        return text.toLowerCase().replace(/[a-zÀ-ɏ']+/g, (word, offset) => {
+            if (offset > 0 && small.has(word)) return word;
+            return word.charAt(0).toUpperCase() + word.slice(1);
+        });
+    }
+
+    /** Which election history a map's features have, judged from the map's name: a Westminster
+     * or Assembly constituency, a District Electoral Area or a council. Null for any other map. */
+    featureElectionKind(mapConfig) {
+        const name = `${mapConfig?.name || ''} ${mapConfig?.category || ''} ${mapConfig?.id || ''}`;
+        if (/district electoral area|\bdeas?\b/i.test(name)) return 'dea';
+        if (/local government district|\blgds?\b|council/i.test(name)) return 'lgd';
+        if (/constituenc/i.test(name)) return 'constituency';
+        return null;
+    }
+
+    showFeatureDetailInCatalogue(detailId, addToHistory = true, options = {}) {
         const entry = this._featureDetailCache?.get(detailId);
         if (!entry) return;
         const { feature, mapConfig, primaryName } = entry;
@@ -8166,121 +8231,63 @@ class UIController {
         if (activeTabId !== 'catalogue') {
             this.showTab('catalogue');
         }
+        if (this._currentDetailViewKey !== `feature:${detailId}`) this._rememberDetailViewState();
+        const detailView = this._revealCatalogueDetailView();
+        if (!detailView) return;
+        const viewState = this._detailViewStateFor(`feature:${detailId}`, Boolean(options.restoreState));
 
-        const detailView = document.getElementById('catalogueDetailView');
-        const listView = document.getElementById('catalogueListView');
-        const nav = document.getElementById('catalogueNav');
-        if (!detailView || !listView || !nav) return;
-
-        nav.classList.remove('hidden');
-        listView.classList.add('hidden');
-        detailView.classList.remove('hidden');
-        this.catalogueView = 'detail';
-        this.updateCatalogueNavButtons();
-        this.updateCatalogueHomeButton();
-
+        const esc = (value) => this.escapeHtml(value);
         const props = feature?.properties || {};
+        const displayName = this.featureDisplayName(primaryName || 'Feature');
         const electoralHistory = entry?.electoralHistory || null;
-        const isByElectionRowClass = (row) => row.isByElection ? 'catalogue-detail__entity-row--by-election' : '';
-        const renderElectionLink = (row, label) => `
-            <a href="#"
-                class="catalogue-detail__entity-link catalogue-detail__entity-link--text"
-                data-election-body="${this.escapeHtml(row.electionBodyForOpen || row.body || '')}"
-                data-election-date="${this.escapeHtml(row.date || '')}">
-                ${this.escapeHtml(label)}
-            </a>`;
-        const renderEntityLink = (kind, key, label) => `
-            <a href="#"
-                class="catalogue-detail__entity-link catalogue-detail__entity-link--text"
-                data-election-entity-detail-kind="${this.escapeHtml(kind)}"
-                data-election-entity-detail-key="${this.escapeHtml(key)}">
-                ${this.escapeHtml(label)}
-            </a>`;
-        const renderPartyLink = (key) => `<a href="#" class="catalogue-detail__entity-link catalogue-detail__entity-link--text" data-election-entity-detail-kind="party" data-election-entity-detail-key="${this.escapeHtml(key)}">${partyLabelHtml(key, (value) => this.escapeHtml(value))}</a>`;
-        const renderLeadingParty = (row) => {
-            if (!row?.winnerParty) return '-';
-            const colour = this.escapeHtml(row.winnerColour || '#b0bec5');
-            return `<span class="catalogue-detail__leading-party"><span class="catalogue-detail__leading-party-tab" style="background:${colour}"></span>${renderPartyLink(row.winnerParty)}</span>`;
-        };
-        const renderDeaList = (row) => {
-            const deas = row?.districtElectoralAreas || [];
-            if (!deas.length) return '-';
-            const links = deas.map((dea) => renderEntityLink('dea', dea, dea)).join(', ');
-            return `
-                <details class="catalogue-detail__inline-list">
-                    <summary class="catalogue-detail__inline-list-toggle">Show DEAs (${deas.length})</summary>
-                    <div class="catalogue-detail__inline-list-body">${links}</div>
-                </details>
-            `;
-        };
-        let historyTableId = null;
-        let historyColumns = null;
-        let historyRows = null;
-        if (electoralHistory?.kind === 'dea') {
-            historyTableId = 'catalogue-feature-dea-history-table';
-            historyRows = electoralHistory.historyRows || [];
-            historyColumns = [
-                { key: 'electionDisplayName', label: 'Election', kind: 'text', getValue: (row) => row.electionDisplayName, render: (row) => renderElectionLink(row, row.electionDisplayName) },
-                { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => this.escapeHtml(formatElectionDate(row.date || '')) },
-                { key: 'localGovernmentDistrict', label: 'Local Government District', kind: 'text', getValue: (row) => row.localGovernmentDistrict, render: (row) => renderEntityLink('lgd', row.localGovernmentDistrict, row.localGovernmentDistrict) },
-                { key: 'winnerParty', label: 'Leading party', kind: 'text', getValue: (row) => row.winnerParty, render: (row) => renderLeadingParty(row) },
-                { key: 'winnerVotes', label: 'Leading party votes', kind: 'numeric', align: 'num', getValue: (row) => row.winnerVotes, render: (row) => this.escapeHtml(this.formatDisplayValue(Math.round(Number(row.winnerVotes || 0)))) },
-                { key: 'winnerPct', label: 'Leading party %', kind: 'numeric', align: 'num', getValue: (row) => row.winnerPct, render: (row) => `${Number(row.winnerPct || 0).toFixed(2)}%` },
-                { key: 'validVotes', label: 'Valid', kind: 'numeric', align: 'num', getValue: (row) => row.validVotes, render: (row) => this.escapeHtml(this.formatDisplayValue(Math.round(Number(row.validVotes || 0)))) },
-                { key: 'seats', label: 'Seats', kind: 'numeric', align: 'num', getValue: (row) => row.seats, render: (row) => this.escapeHtml(this.formatDisplayValue(Math.round(Number(row.seats || 0)))) }
-            ];
-        } else if (electoralHistory?.kind === 'lgd') {
-            historyTableId = 'catalogue-feature-lgd-history-table';
-            historyRows = electoralHistory.historyRows || [];
-            historyColumns = [
-                { key: 'electionDisplayName', label: 'Election', kind: 'text', getValue: (row) => row.electionDisplayName, render: (row) => renderElectionLink(row, row.electionDisplayName) },
-                { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => this.escapeHtml(formatElectionDate(row.date || '')) },
-                { key: 'deaCount', label: 'DEAs', kind: 'numeric', align: 'num', getValue: (row) => row.deaCount, render: (row) => this.escapeHtml(this.formatDisplayValue(Math.round(Number(row.deaCount || 0)))) },
-                { key: 'districtElectoralAreas', label: 'District Electoral Areas', kind: 'text', getValue: (row) => (row.districtElectoralAreas || []).join(', '), render: (row) => renderDeaList(row) },
-                { key: 'winnerParty', label: 'Leading party', kind: 'text', getValue: (row) => row.winnerParty, render: (row) => renderLeadingParty(row) },
-                { key: 'winnerVotes', label: 'Leading party votes', kind: 'numeric', align: 'num', getValue: (row) => row.winnerVotes, render: (row) => this.escapeHtml(this.formatDisplayValue(Math.round(Number(row.winnerVotes || 0)))) },
-                { key: 'winnerPct', label: 'Leading party %', kind: 'numeric', align: 'num', getValue: (row) => row.winnerPct, render: (row) => `${Number(row.winnerPct || 0).toFixed(2)}%` },
-                { key: 'validVotes', label: 'Valid', kind: 'numeric', align: 'num', getValue: (row) => row.validVotes, render: (row) => this.escapeHtml(this.formatDisplayValue(Math.round(Number(row.validVotes || 0)))) },
-                { key: 'seats', label: 'Seats', kind: 'numeric', align: 'num', getValue: (row) => row.seats, render: (row) => this.escapeHtml(this.formatDisplayValue(Math.round(Number(row.seats || 0)))) }
-            ];
-        }
-        const rows = Object.entries(props).map(([k, v]) => `
-            <div class="catalogue-detail__meta-row">
-                <span class="catalogue-detail__meta-label">${this.escapeHtml(k)}</span>
-                <span class="catalogue-detail__meta-value">${this.escapeHtml(this.formatDisplayValue(v))}</span>
-            </div>`).join('');
+        const historyKind = electoralHistory?.kind === 'dea' || electoralHistory?.kind === 'lgd' ? electoralHistory.kind : null;
+        const historyColumns = historyKind ? this._areaHistoryColumns(historyKind) : null;
+        const historyRows = historyKind ? (electoralHistory.historyRows || []) : null;
+        const historyTableId = historyKind ? `catalogue-feature-${historyKind}-history-table` : null;
 
+        // The popup's area, perimeter and elevation, first (M7): the attribute list below gave
+        // SHAPE_AREA 2,115,199,905.278 with no unit instead.
+        const metricsHtml = this._featureMetricsHtml(feature, props, feature?.geometry || null);
+
+        // Attributes a reader can use first; the renderer's ids and GIS bookkeeping (civ_fid,
+        // OBJECTID, Shape_*) behind "All attributes", with the units the bookkeeping is in.
+        const internalKey = (key, value) =>
+            /^(civ_fid|fid|objectid(_\d+)?|ogc_fid|shape_{1,2}(area|length|leng)|globalid|st_area\(shape\)|st_length\(shape\)|(min|max|mean)elev_(m|ft))$/i.test(key)
+            || (key === 'id' && (typeof value === 'number' || /^\d+$/.test(String(value))));
+        const unitOf = (key) => (/^shape_{1,2}area$|^st_area/i.test(key) ? ' (m²)' : /^shape_{1,2}(length|leng)$|^st_length/i.test(key) ? ' (m)' : '');
+        const present = Object.entries(props).filter(([, value]) => value !== null && value !== undefined && value !== '');
+        const metaRow = ([key, value]) => `
+            <div class="catalogue-detail__meta-row">
+                <span class="catalogue-detail__meta-label">${esc(key)}${esc(unitOf(key))}</span>
+                <span class="catalogue-detail__meta-value">${esc(typeof value === 'string' ? value : this.formatDisplayValue(value))}</span>
+            </div>`;
+        const plain = present.filter(([key, value]) => !internalKey(key, value));
+        const internal = present.filter(([key, value]) => internalKey(key, value));
+
+        const electionKind = this.featureElectionKind(mapConfig);
+        const featureBbox = this.getFeatureBBox(feature?.geometry);
+        const actionButton = (cls, label, icon, extra = '') => `<button type="button" class="btn btn--sm catalogue-detail__action ${cls}" ${extra}>${icon}<span class="catalogue-detail__action-label">${esc(label)}</span></button>`;
+        const linkIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>';
+        const downloadIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
+        const zoomIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>';
+        const historyIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="4" width="3" height="14"/></svg>';
+
+        detailView.setAttribute('aria-busy', 'false');
         detailView.innerHTML = `
             <div class="catalogue-detail__card">
-                <div class="catalogue-detail__color" style="background-color: ${this.escapeHtml(mapConfig?.style?.color || '#888')}"></div>
-                <div class="catalogue-detail__name">${this.escapeHtml(primaryName || 'Feature')}</div>
-                <div class="catalogue-detail__date">${this.escapeHtml(mapConfig?.name || '')}</div>
+                <div class="catalogue-detail__color" style="background-color: ${esc(mapConfig?.style?.color || '#888')}"></div>
+                <h2 class="catalogue-detail__name" id="catalogueDetailHeading" tabindex="-1">${esc(displayName)}</h2>
+                <div class="catalogue-detail__date">${esc(mapConfig?.name || '')}</div>
             </div>
             <div class="catalogue-detail__feature-actions">
-                <button type="button" class="btn btn--icon btn--sm feature-visibility-btn" title="Show feature" aria-label="Show feature">
-                    ${this.getVisibilityButtonIcon(false)}
-                </button>
-                <button type="button" class="btn btn--icon btn--sm feature-load-btn" title="Load feature" aria-label="Load feature">
-                    ${this.getLoadButtonIcon(false)}
-                </button>
-                <button type="button" class="btn btn--icon btn--sm feature-copy-url-btn" title="Copy shareable URL" aria-label="Copy shareable URL">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
-                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
-                    </svg>
-                </button>
+                ${actionButton('feature-load-btn', 'Add to map', this.getLoadButtonIcon(false))}
+                ${actionButton('feature-visibility-btn', 'Show', this.getVisibilityButtonIcon(false))}
+                ${featureBbox ? actionButton('feature-zoom-btn', 'Zoom to', zoomIcon) : ''}
+                ${actionButton('feature-copy-url-btn', 'Copy link', linkIcon)}
                 <div class="download-btn-group">
-                    <button type="button" class="btn btn--icon btn--sm feature-download-fgb-btn" title="Download FGB" aria-label="Download FGB">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                            <polyline points="7 10 12 15 17 10"/>
-                            <line x1="12" y1="15" x2="12" y2="3"/>
-                        </svg>
-                    </button>
+                    ${actionButton('feature-download-fgb-btn', 'Download', downloadIcon, 'title="Download as FlatGeobuf"')}
                     <button type="button" class="btn btn--icon btn--sm download-btn--dropdown feature-download-menu-btn" title="More download formats" aria-label="More download formats">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M6 9l6 6 6-6"/>
-                        </svg>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
                     </button>
                     <div class="download-dropdown hidden feature-download-dropdown">
                         <button type="button" class="download-dropdown__item feature-download-alt-btn" data-format="geojson">GeoJSON</button>
@@ -8288,20 +8295,26 @@ class UIController {
                         <button type="button" class="download-dropdown__item feature-download-alt-btn" data-format="csv">CSV</button>
                     </div>
                 </div>
+                ${electionKind && !historyKind ? actionButton('feature-election-history-btn', 'Election history', historyIcon, `data-election-entity-detail-kind="${esc(electionKind)}" data-election-entity-detail-key="${esc(displayName)}" data-entity-label="${esc(displayName)}"`) : ''}
             </div>
+            ${metricsHtml}
             ${historyColumns && historyRows
-                ? `
-            <div class="catalogue-detail__section">
-                <div class="catalogue-detail__section-title">Electoral History (${historyRows.length})</div>
-                ${this._buildEntityTableMarkup(historyTableId, historyColumns)}
-            </div>`
+                ? `<section class="catalogue-detail__section" aria-labelledby="${historyTableId}-h">
+                <h3 class="catalogue-detail__section-title" id="${historyTableId}-h">Election history (${historyRows.length})</h3>
+                <div data-entity-table-host="${historyTableId}"></div>
+            </section>`
                 : ''}
-            <div class="catalogue-detail__meta">${rows || '<div class="catalogue-detail__meta-row"><span class="catalogue-detail__meta-value">No properties</span></div>'}</div>
+            <section class="catalogue-detail__section" aria-labelledby="catalogueFeatureAttrsH">
+                <h3 class="catalogue-detail__section-title" id="catalogueFeatureAttrsH">Attributes</h3>
+                <div class="catalogue-detail__meta">${plain.map(metaRow).join('') || '<div class="catalogue-detail__meta-row"><span class="catalogue-detail__meta-value">No attributes</span></div>'}</div>
+                ${internal.length ? `<details class="catalogue-detail__technical">
+                    <summary>All attributes (${present.length})</summary>
+                    <div class="catalogue-detail__meta">${present.map(metaRow).join('')}</div>
+                </details>` : ''}
+            </section>
         `;
 
-        const featureBbox = this.getFeatureBBox(feature?.geometry);
-
-        detailView.querySelector('.feature-load-btn')?.addEventListener('click', async (event) => {
+        detailView.querySelector('.feature-load-btn')?.addEventListener('click', async () => {
             const mapId = mapConfig?.id;
             const featureIndex = feature?.id;
             if (!mapId || featureIndex === undefined || featureIndex === null) return;
@@ -8322,6 +8335,13 @@ class UIController {
                 this.onPartialFeatureToggle(mapId, featureIndex);
             }
             this.syncFeatureDetailActionButtons(detailView, detailId);
+        });
+
+        detailView.querySelector('.feature-zoom-btn')?.addEventListener('click', () => {
+            if (!featureBbox || !this.onZoomToBbox) return;
+            this.onZoomToBbox([[featureBbox[1], featureBbox[0]], [featureBbox[3], featureBbox[2]]]);
+            // On a phone the catalogue covers the map: show the map it zoomed.
+            this.onShowOnMap?.(displayName);
         });
 
         detailView.querySelector('.feature-copy-url-btn')?.addEventListener('click', (event) => {
@@ -8345,39 +8365,24 @@ class UIController {
                 if (dropdown) this.closeDownloadDropdown(dropdown);
             });
         });
+        this._bindFeatureMetricToggles(detailView);
         if (historyColumns && historyRows) {
-            this._initEntityDataTable(detailView, historyTableId, historyColumns, historyRows, {
-                rowClassNameFn: isByElectionRowClass
-            });
-        }
-        if (detailView._featureDetailClickHandler) {
-            detailView.removeEventListener('click', detailView._featureDetailClickHandler);
-        }
-        detailView._featureDetailClickHandler = async (event) => {
-            const electionLink = event.target.closest('[data-election-body][data-election-date]');
-            if (electionLink) {
-                event.preventDefault();
-                this.onElectionEntityElectionOpen?.({
-                    body: electionLink.dataset.electionBody,
-                    date: electionLink.dataset.electionDate,
-                    constituency: electionLink.dataset.electionConstituency || null
+            const host = detailView.querySelector(`[data-entity-table-host="${historyTableId}"]`);
+            if (!viewState.tables[historyTableId]) viewState.tables[historyTableId] = {};
+            if (host) {
+                this._mountEntityTable(host, {
+                    tableId: historyTableId,
+                    columns: historyColumns,
+                    rows: historyRows,
+                    caption: `${displayName}: elections`,
+                    rowClassNameFn: (row) => (row.isByElection ? 'catalogue-detail__entity-row--by-election' : ''),
+                    persist: viewState.tables[historyTableId]
                 });
-                return;
             }
-            const entityLink = event.target.closest('[data-election-entity-detail-kind][data-election-entity-detail-key]');
-            if (entityLink) {
-                event.preventDefault();
-                this.onOpenElectionEntityDetail?.(
-                    entityLink.dataset.electionEntityDetailKind,
-                    entityLink.dataset.electionEntityDetailKey
-                );
-            }
-        };
-        detailView.addEventListener('click', detailView._featureDetailClickHandler);
+        }
+        this._bindEntityDetailClicks(detailView);
         this.syncFeatureDetailActionButtons(detailView, detailId);
-        const pane = this._cataloguePane || document.querySelector('.pane__content[data-tab-content="catalogue"]');
-        pane?.scrollTo({ top: 0, behavior: 'auto' });
-        this.updateCatalogueNavButtons();
+        this._settleDetailView(detailView, viewState, options);
     }
 
     _buildEntityGroupedHeaderMarkup(columns) {
@@ -8400,7 +8405,7 @@ class UIController {
         `).join('');
     }
 
-    _buildEntityTableMarkup(tableId, columns) {
+    _buildEntityTableMarkup(tableId, columns, options = {}) {
         const isHistoryTable = String(tableId || '').includes('history-table');
         const isGroupedHeaderTable = Array.isArray(columns.headerRows) && columns.headerRows.length > 0;
         const headerMarkup = isGroupedHeaderTable
@@ -8408,13 +8413,14 @@ class UIController {
             : `
                         <tr>
                             ${columns.map((column, idx) => `
-                                <th class="${column.align === 'num' ? 'catalogue-detail__entity-num' : ''}" data-leaf-col-idx="${idx}">${this.escapeHtml(column.label)}</th>
+                                <th scope="col" class="${column.align === 'num' ? 'catalogue-detail__entity-num' : ''}" data-leaf-col-idx="${idx}">${this.escapeHtml(column.label)}</th>
                             `).join('')}
                         </tr>
                     `;
         return `
             <div class="catalogue-detail__table-wrap${isHistoryTable ? ' catalogue-detail__table-wrap--history' : ''}">
                 <table class="catalogue-detail__entity-table${isGroupedHeaderTable ? ' catalogue-detail__entity-table--grouped' : ''}" data-entity-table-id="${this.escapeHtml(tableId)}">
+                    ${options.caption ? `<caption class="visually-hidden">${this.escapeHtml(options.caption)}</caption>` : ''}
                     <thead>
                         ${headerMarkup}
                     </thead>
@@ -8426,7 +8432,7 @@ class UIController {
 
     _renderEntityTableRows(columns, rows, rowClassNameFn = null) {
         if (!rows.length) {
-            return `<tr><td colspan="${columns.length}">No rows</td></tr>`;
+            return `<tr><td colspan="${columns.length}">Nothing to show</td></tr>`;
         }
 
         return rows.map((row) => {
@@ -8476,9 +8482,15 @@ class UIController {
 
         const headers = [...table.querySelectorAll('thead th[data-leaf-col-idx]')];
         const tbody = table.querySelector('tbody');
+        // Sort, filters, body chip and depth live in options.persist when the page keeps them
+        // (M10), so they survive a re-render and Back; otherwise in a throwaway object.
+        const persist = options.persist || {};
+        if (!(persist.filters instanceof Map)) persist.filters = new Map();
+        if (!persist.sort) persist.sort = { key: null, dir: 'default' };
+        const pageSize = Number(options.pageSize) || 0;
         const state = {
-            filters: new Map(),
-            sort: { key: null, dir: 'default' },
+            filters: persist.filters,
+            sort: persist.sort,
             activeMenu: null,
             activeMenuBtn: null,
             documentClickHandler: null,
@@ -8497,7 +8509,25 @@ class UIController {
         };
 
         const renderRows = () => {
-            tbody.innerHTML = this._renderEntityTableRows(columns, state.filteredRows, options.rowClassNameFn);
+            // A long table shows its first rows and a button for the rest, rather than building
+            // every row of a 2,000-candidate party at once.
+            const shown = pageSize && !persist.showAll ? state.filteredRows.slice(0, pageSize) : state.filteredRows;
+            tbody.innerHTML = this._renderEntityTableRows(columns, shown, options.rowClassNameFn);
+            const more = container.querySelector(`[data-entity-table-more="${tableId}"]`);
+            if (more) more.remove();
+            if (shown.length < state.filteredRows.length) {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'cn-link catalogue-detail__show-all';
+                button.dataset.entityTableMore = tableId;
+                button.textContent = `Show all ${state.filteredRows.length.toLocaleString('en-GB')}`;
+                button.addEventListener('click', () => {
+                    persist.showAll = true;
+                    renderRows();
+                    tbody.rows[shown.length]?.querySelector('a, button')?.focus();
+                });
+                table.closest('.catalogue-detail__table-wrap')?.after(button);
+            }
             headers.forEach((th, idx) => {
                 const btn = th.querySelector('[data-table-filter-sort-btn]');
                 if (!btn) return;
@@ -8513,6 +8543,7 @@ class UIController {
 
         const applyState = () => {
             let visible = rows.filter((row) => {
+                if (persist.group && typeof options.groupOf === 'function' && options.groupOf(row) !== persist.group) return false;
                 for (const [key, selected] of state.filters.entries()) {
                     if (!(selected instanceof Set) || selected.size === 0) continue;
                     const column = columns.find((entry) => entry.key === key);
@@ -8678,8 +8709,8 @@ class UIController {
             menuBtn.type = 'button';
             menuBtn.className = 'election-th-btn';
             menuBtn.setAttribute('data-table-filter-sort-btn', '1');
-            menuBtn.setAttribute('aria-label', 'Sort and Filter');
-            menuBtn.setAttribute('title', 'Sort and Filter');
+            menuBtn.setAttribute('aria-label', `Sort or filter by ${leafLabel}`);
+            menuBtn.setAttribute('title', `Sort or filter by ${leafLabel}`);
             menuBtn.innerHTML = '&#8645;';
             menuBtn.addEventListener('click', (event) => {
                 event.preventDefault();
@@ -8695,13 +8726,80 @@ class UIController {
         applyState();
     }
 
+    /**
+     * A detail page's table with its controls: chips that keep one body's elections (Dáil,
+     * Westminster, ...) when a history spans several, and, where the rows have them, a switch
+     * for the changes since the previous election (M2: the party table was 21 columns, most of
+     * them empty, 1,373px wide in a 485px pane). A column that is empty on every row is left
+     * out (H1), as is a change column until the switch is on.
+     *
+     * spec: { tableId, columns, rows, caption, rowClassNameFn, groupBy, pageSize, persist }.
+     * persist keeps the reader's sort, filters, chip and switch for Back (M10).
+     */
+    _mountEntityTable(host, spec) {
+        const persist = spec.persist || {};
+        const esc = (value) => this.escapeHtml(value);
+        const valueOf = (column, row) => (column.getValue ? column.getValue(row) : row[column.key]);
+        const filled = (value) => value !== null && value !== undefined && value !== '' && !(typeof value === 'number' && Number.isNaN(value));
+        const groupCounts = new Map();
+        if (typeof spec.groupBy === 'function') {
+            for (const row of spec.rows) {
+                const group = spec.groupBy(row);
+                if (group) groupCounts.set(group, (groupCounts.get(group) || 0) + 1);
+            }
+        }
+        const known = [...BODY_GROUP_ORDER, 'General elections', 'By-elections'];
+        const order = (group) => {
+            const at = known.indexOf(group);
+            return at < 0 ? known.length : at;
+        };
+        const groups = [...groupCounts.keys()].sort((a, b) => order(a) - order(b) || a.localeCompare(b));
+        if (persist.group && !groupCounts.has(persist.group)) persist.group = '';
+        const hasChanges = spec.columns.some((column) => column.delta && spec.rows.some((row) => filled(valueOf(column, row))));
+        const render = () => {
+            const columns = spec.columns
+                .filter((column) => !column.delta || persist.showChanges)
+                .filter((column) => !column.optional || spec.rows.some((row) => filled(valueOf(column, row))));
+            const chips = groups.length > 1
+                ? `<div class="catalogue-detail__table-chips" role="group" aria-label="Show only">
+                    ${['', ...groups].map((group) => `<button type="button" class="catalogue-detail__chip" data-table-group="${esc(group)}" aria-pressed="${String((persist.group || '') === group)}">${esc(group || 'All')} <span class="catalogue-detail__chip-count">${(group ? groupCounts.get(group) : spec.rows.length).toLocaleString('en-GB')}</span></button>`).join('')}
+                </div>`
+                : '';
+            const toggle = hasChanges
+                ? `<label class="catalogue-detail__changes-toggle"><input type="checkbox" data-table-changes${persist.showChanges ? ' checked' : ''}> Show changes since the previous election</label>`
+                : '';
+            host.innerHTML = `${chips || toggle ? `<div class="catalogue-detail__table-controls">${chips}${toggle}</div>` : ''}${this._buildEntityTableMarkup(spec.tableId, columns, { caption: spec.caption })}`;
+            this._initEntityDataTable(host, spec.tableId, columns, spec.rows, {
+                rowClassNameFn: spec.rowClassNameFn,
+                groupOf: spec.groupBy,
+                pageSize: spec.pageSize,
+                persist
+            });
+            host.querySelectorAll('[data-table-group]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    persist.group = button.dataset.tableGroup || '';
+                    persist.showAll = false;
+                    render();
+                    host.querySelector(`[data-table-group="${CSS.escape(persist.group)}"]`)?.focus();
+                });
+            });
+            host.querySelector('[data-table-changes]')?.addEventListener('change', (event) => {
+                persist.showChanges = event.target.checked;
+                render();
+                host.querySelector('[data-table-changes]')?.focus();
+            });
+        };
+        render();
+    }
+
     _formatEntityDelta(value, precision = 0, suffix = '') {
-        if (value === null || value === undefined || Number.isNaN(Number(value))) {
-            return '<span class="catalogue-detail__delta catalogue-detail__delta--neutral">-</span>';
+        if (value === null || value === undefined || value === '' || Number.isNaN(Number(value))) {
+            return '<span class="catalogue-detail__delta catalogue-detail__delta--neutral">—</span>';
         }
         const numeric = Number(value);
         if (numeric === 0) {
-            return '<span class="catalogue-detail__delta catalogue-detail__delta--neutral">-</span>';
+            // No change, said as such: a dash would read as "not known".
+            return '<span class="catalogue-detail__delta catalogue-detail__delta--neutral">0</span>';
         }
         const cls = numeric > 0 ? 'catalogue-detail__delta--positive' : 'catalogue-detail__delta--negative';
         const magnitude = Math.abs(numeric).toLocaleString(undefined, {
@@ -8741,7 +8839,283 @@ class UIController {
         }).join(', ');
     }
 
-    showElectionEntityDetailInCatalogue(detailOrId, addToHistory = true) {
+    /**
+     * Formatters for the detail pages. A figure the record does not carry renders as a dash,
+     * never as 0 or 0.00% (UX review 2026-10-31, H1): the pages once said every party had won
+     * "0.00%" of seats because a missing total was coerced to zero.
+     */
+    _entityFormatters() {
+        const dash = '—';
+        const fmt = (value) => (hasNumber(value) ? this.formatNumber(Math.round(Number(value)), 0) : dash);
+        const pct = (value, digits = 1) => (hasNumber(value) ? `${Number(value).toFixed(digits)}%` : dash);
+        const ord = (n) => {
+            if (!hasNumber(n) || Number(n) <= 0) return dash;
+            const num = Number(n);
+            if (num % 10 === 1 && num % 100 !== 11) return `${num}st`;
+            if (num % 10 === 2 && num % 100 !== 12) return `${num}nd`;
+            if (num % 10 === 3 && num % 100 !== 13) return `${num}rd`;
+            return `${num}th`;
+        };
+        return { dash, fmt, pct, ord };
+    }
+
+    /** The detail view, shown in place of the list, with the pane's controls brought up to date. */
+    _revealCatalogueDetailView() {
+        const detailView = document.getElementById('catalogueDetailView');
+        const listView = document.getElementById('catalogueListView');
+        const nav = document.getElementById('catalogueNav');
+        if (!detailView || !listView || !nav) return null;
+        nav.classList.remove('hidden');
+        listView.classList.add('hidden');
+        detailView.classList.remove('hidden');
+        this.catalogueView = 'detail';
+        // A page is a region named by its heading (M9), so a screen reader can find and skip it.
+        detailView.setAttribute('role', 'region');
+        detailView.setAttribute('aria-labelledby', 'catalogueDetailHeading');
+        this.updateCatalogueNavButtons();
+        this.updateCatalogueHomeButton();
+        return detailView;
+    }
+
+    _catalogueScroller() {
+        return this._cataloguePane || document.querySelector('.pane__content[data-tab-content="catalogue"]');
+    }
+
+    /**
+     * Where the reader was on the page being left: its scroll and each table's sort, filters,
+     * body chip and depth, so Back returns to the same place rather than to the top of a
+     * 200-row table with the sort undone (UX review 2026-10-31, M10).
+     */
+    _rememberDetailViewState() {
+        const key = this._currentDetailViewKey;
+        if (!key) return;
+        const detailView = document.getElementById('catalogueDetailView');
+        if (!detailView || detailView.classList.contains('hidden')) return;
+        const state = this._detailViewStates.get(key) || { tables: {} };
+        state.scrollTop = this._catalogueScroller()?.scrollTop || 0;
+        this._detailViewStates.set(key, state);
+        // Only the last few pages are worth remembering.
+        if (this._detailViewStates.size > 30) this._detailViewStates.delete(this._detailViewStates.keys().next().value);
+    }
+
+    /** The state object for a page about to render: the remembered one when returning to it,
+     * otherwise a fresh one. Tables keep their state in it as the reader changes them. */
+    _detailViewStateFor(key, restore) {
+        if (!this._detailViewStates) this._detailViewStates = new Map();
+        let state = restore ? this._detailViewStates.get(key) : null;
+        if (!state) {
+            state = { tables: {}, scrollTop: 0 };
+            this._detailViewStates.set(key, state);
+        }
+        this._currentDetailViewKey = key;
+        return state;
+    }
+
+    /** After a page renders: its scroll (restored, or the top) and focus on its heading (M9). */
+    _settleDetailView(detailView, viewState, options = {}) {
+        const pane = this._catalogueScroller();
+        pane?.scrollTo({ top: options.restoreState ? (viewState.scrollTop || 0) : 0, behavior: 'auto' });
+        if (options.focus !== false) {
+            const heading = detailView.querySelector('#catalogueDetailHeading');
+            heading?.focus({ preventScroll: true });
+        }
+        this.updateCatalogueNavButtons();
+    }
+
+    /**
+     * The page shell for a party, person or constituency before (or instead of) its data (UX
+     * review 2026-10-31, H6): its name at once with a skeleton while it loads, then -- if the
+     * record cannot be had -- a message saying so with Retry and a way to look in Browse, or,
+     * for a name more than one person shares, a choice between them.
+     *
+     * info: { kind, key, label, typeLabel, state: 'loading'|'error'|'missing'|'choice', choices,
+     *         browseUrl, retry }
+     */
+    showElectionEntityPlaceholder(info = {}, { addToHistory = true } = {}) {
+        if (!info.kind || !info.key) return;
+        this._rememberDetailViewState();
+        const detailId = this.createElectionEntityDetailId(info.kind, info.key);
+        const activeTabId = this._getActivePaneTabId();
+        if (addToHistory) {
+            const current = this.catalogueHistory[this.catalogueHistoryIndex];
+            if (!(current?.type === 'election-entity-detail' && current.detailId === detailId)) {
+                this._pushCatalogueTabHistoryIfNeeded(activeTabId);
+                this._pushCatalogueHistoryEntry({ type: 'election-entity-detail', detailId });
+            }
+        }
+        if (activeTabId !== 'catalogue') this.showTab('catalogue');
+        const detailView = this._revealCatalogueDetailView();
+        if (!detailView) return;
+        this._currentDetailViewKey = detailId;
+        const label = info.label || info.key;
+        const state = info.state || 'loading';
+        const esc = (value) => this.escapeHtml(value);
+        let body = '';
+        if (state === 'loading') {
+            body = `<div class="catalogue-detail__skeleton" aria-hidden="true">
+                <span class="catalogue-detail__skeleton-line catalogue-detail__skeleton-line--wide"></span>
+                <span class="catalogue-detail__skeleton-grid"><span></span><span></span><span></span><span></span></span>
+                <span class="catalogue-detail__skeleton-line"></span>
+                <span class="catalogue-detail__skeleton-line"></span>
+                <span class="catalogue-detail__skeleton-line catalogue-detail__skeleton-line--short"></span>
+            </div>
+            <p class="catalogue-detail__status" role="status">Loading ${esc(label)}…</p>`;
+        } else if (state === 'choice') {
+            body = `<p class="catalogue-detail__status" role="status">More than one person called ${esc(label)} stood. Which one?</p>
+                <ul class="catalogue-detail__choices">${(info.choices || []).map((choice) => `<li>
+                    <a href="#" class="catalogue-detail__entity-link catalogue-detail__entity-link--text" data-election-entity-detail-kind="candidate" data-election-entity-detail-key="${esc(choice.key)}">${esc(choice.name)}</a>
+                    ${choice.subtitle ? `<span class="catalogue-detail__muted">${esc(choice.subtitle)}</span>` : ''}
+                </li>`).join('')}</ul>`;
+        } else {
+            const message = state === 'missing'
+                ? `No record of ${esc(label)} was found.`
+                : `${esc(label)} could not be loaded. Check the connection and try again.`;
+            body = `<p class="catalogue-detail__status catalogue-detail__status--error" role="alert">${message}</p>
+                <div class="catalogue-detail__page-actions">
+                    ${typeof info.retry === 'function' ? '<button type="button" class="btn btn--sm catalogue-detail__retry">Retry</button>' : ''}
+                    ${info.browseUrl ? `<a class="catalogue-detail__browse-link" href="${esc(info.browseUrl)}">Search for it in Browse</a>` : ''}
+                </div>`;
+        }
+        detailView.setAttribute('aria-busy', state === 'loading' ? 'true' : 'false');
+        detailView.innerHTML = `
+            <div class="catalogue-detail__card">
+                <div class="catalogue-detail__color" style="background-color: #888"></div>
+                <h2 class="catalogue-detail__name" id="catalogueDetailHeading" tabindex="-1">${esc(label)}</h2>
+                <div class="catalogue-detail__date">${esc(info.typeLabel || '')}</div>
+            </div>
+            ${body}`;
+        detailView.querySelector('.catalogue-detail__retry')?.addEventListener('click', () => info.retry());
+        this._bindEntityDetailClicks(detailView);
+        if (state !== 'loading') {
+            detailView.querySelector('#catalogueDetailHeading')?.focus({ preventScroll: true });
+        } else {
+            this._catalogueScroller()?.scrollTo({ top: 0, behavior: 'auto' });
+        }
+        this.updateCatalogueNavButtons();
+    }
+
+    /** One click handler for every link on a detail page: elections, constituencies, parties and
+     * people. Installed once per render, replacing the previous page's. */
+    _bindEntityDetailClicks(detailView) {
+        if (detailView._entityDetailClickHandler) {
+            detailView.removeEventListener('click', detailView._entityDetailClickHandler);
+        }
+        detailView._entityDetailClickHandler = async (event) => {
+            const electionLink = event.target.closest('[data-election-body][data-election-date]');
+            if (electionLink) {
+                event.preventDefault();
+                this.onElectionEntityElectionOpen?.({
+                    key: electionLink.dataset.electionKey || '',
+                    body: electionLink.dataset.electionBody,
+                    date: electionLink.dataset.electionDate,
+                    constituency: electionLink.dataset.electionConstituency || null
+                });
+                return;
+            }
+            const constituencyLink = event.target.closest('[data-election-constituency-feature="1"]');
+            if (constituencyLink) {
+                event.preventDefault();
+                await this.onOpenElectionConstituencyFeature?.({
+                    body: constituencyLink.dataset.electionConstituencyBody,
+                    date: constituencyLink.dataset.electionConstituencyDate,
+                    constituency: constituencyLink.dataset.electionConstituencyName,
+                    level: constituencyLink.dataset.electionConstituencyLevel || 'dea'
+                });
+                return;
+            }
+            const entityLink = event.target.closest('[data-election-entity-detail-kind][data-election-entity-detail-key]');
+            if (!entityLink) return;
+            event.preventDefault();
+            if (typeof this.onOpenElectionEntityDetail === 'function') {
+                await this.onOpenElectionEntityDetail(
+                    entityLink.dataset.electionEntityDetailKind,
+                    entityLink.dataset.electionEntityDetailKey,
+                    entityLink.dataset.entityLabel || entityLink.textContent.replace(/\s+/g, ' ').trim()
+                );
+                return;
+            }
+            const nextDetailId = this.createElectionEntityDetailId(
+                entityLink.dataset.electionEntityDetailKind,
+                entityLink.dataset.electionEntityDetailKey
+            );
+            this.showElectionEntityDetailInCatalogue(nextDetailId, true);
+        };
+        detailView.addEventListener('click', detailView._entityDetailClickHandler);
+    }
+
+    /** Link and cell renderers shared by the person, party, constituency and feature pages. */
+    _entityRenderers() {
+        const esc = (value) => this.escapeHtml(value);
+        const { dash } = this._entityFormatters();
+        const renderElectionLink = (row, label, includeConstituency = false) => `<a href="#"
+                class="catalogue-detail__entity-link catalogue-detail__entity-link--text"
+                data-election-key="${esc(row.electionKey || '')}"
+                data-election-body="${esc(row.electionBodyForOpen || row.body || '')}"
+                data-election-date="${esc(row.date || '')}"
+                ${includeConstituency && row.constituency ? `data-election-constituency="${esc(row.constituency)}"` : ''}>${esc(label)}</a>`;
+        const renderEntityLink = (kind, key, label) => (key
+            ? `<a href="#" class="catalogue-detail__entity-link catalogue-detail__entity-link--text" data-election-entity-detail-kind="${esc(kind)}" data-election-entity-detail-key="${esc(key)}">${esc(label)}</a>`
+            : esc(label || dash));
+        const renderPartyLink = (key) => (key
+            ? `<a href="#" class="catalogue-detail__entity-link catalogue-detail__entity-link--text" data-election-entity-detail-kind="party" data-election-entity-detail-key="${esc(key)}">${partyLabelHtml(key, esc)}</a>`
+            : dash);
+        const renderLeadingParty = (row) => {
+            if (!row?.winnerParty) return dash;
+            const colour = esc(row.winnerColour || '#b0bec5');
+            return `<span class="catalogue-detail__leading-party"><span class="catalogue-detail__leading-party-tab" style="background:${colour}"></span>${renderPartyLink(row.winnerParty)}</span>`;
+        };
+        const renderDeaList = (row) => {
+            const deas = row?.districtElectoralAreas || [];
+            if (!deas.length) return dash;
+            const links = deas.map((dea) => renderEntityLink('dea', dea, dea)).join(', ');
+            return `<details class="catalogue-detail__inline-list">
+                    <summary class="catalogue-detail__inline-list-toggle">Show DEAs (${deas.length})</summary>
+                    <div class="catalogue-detail__inline-list-body">${links}</div>
+                </details>`;
+        };
+        const renderElectedNames = (row) => {
+            const names = row?.electedNames || [];
+            if (!names.length) return dash;
+            return names.map((person) => (hasNumber(person.personId)
+                ? renderEntityLink('candidate', String(person.personId), person.name)
+                : renderEntityLink('candidate', `${person.name}|${person.party || ''}|${row.date || ''}`, person.name))).join(', ');
+        };
+        return { esc, renderElectionLink, renderEntityLink, renderPartyLink, renderLeadingParty, renderDeaList, renderElectedNames };
+    }
+
+    /**
+     * The history table of a constituency, DEA or council (on its own page, and on a map
+     * feature's page). The leading party is the one with the most votes, summed over its
+     * candidates (H3); "Valid poll" is the contest's, not a candidate's (M5).
+     */
+    _areaHistoryColumns(kind) {
+        const { fmt, pct } = this._entityFormatters();
+        const r = this._entityRenderers();
+        const date = { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => r.esc(formatElectionDate(row.date || '')) };
+        const election = { key: 'electionDisplayName', label: 'Election', kind: 'text', getValue: (row) => row.electionDisplayName, render: (row) => r.renderElectionLink(row, row.electionDisplayName, kind !== 'lgd') };
+        const leading = { key: 'winnerParty', label: 'Leading party (votes)', kind: 'text', getValue: (row) => row.winnerParty, render: (row) => r.renderLeadingParty(row) };
+        const votes = { key: 'winnerVotes', label: 'Party votes', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.winnerVotes, render: (row) => fmt(row.winnerVotes) };
+        const share = { key: 'winnerPct', label: 'Party share', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.winnerPct, render: (row) => pct(row.winnerPct) };
+        const valid = { key: 'validVotes', label: 'Valid poll', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.validVotes, render: (row) => fmt(row.validVotes) };
+        const seats = { key: 'seats', label: 'Seats', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.seats, render: (row) => fmt(row.seats) };
+        const elected = { key: 'electedNames', label: 'Elected', kind: 'text', optional: true, getValue: (row) => (row.electedNames || []).map((person) => person.name).join(', ') || null, render: (row) => r.renderElectedNames(row) };
+        if (kind === 'lgd') {
+            return [
+                date, election,
+                { key: 'deaCount', label: 'DEAs', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.deaCount, render: (row) => fmt(row.deaCount) },
+                { key: 'districtElectoralAreas', label: 'District Electoral Areas', kind: 'text', optional: true, getValue: (row) => (row.districtElectoralAreas || []).join(', ') || null, render: (row) => r.renderDeaList(row) },
+                leading, votes, share, valid, seats
+            ];
+        }
+        const columns = [date, election];
+        if (kind === 'dea') {
+            columns.push({ key: 'localGovernmentDistrict', label: 'Council', kind: 'text', optional: true, getValue: (row) => row.localGovernmentDistrict || null, render: (row) => r.renderEntityLink('lgd', row.localGovernmentDistrict, row.localGovernmentDistrict) });
+        }
+        columns.push(leading, votes, share, elected, valid, seats);
+        return columns;
+    }
+
+    showElectionEntityDetailInCatalogue(detailOrId, addToHistory = true, options = {}) {
         const detailId = typeof detailOrId === 'string'
             ? detailOrId
             : this.cacheElectionEntityDetailEntry(detailOrId);
@@ -8763,481 +9137,228 @@ class UIController {
         if (activeTabId !== 'catalogue') {
             this.showTab('catalogue');
         }
+        if (this._currentDetailViewKey !== detailId) this._rememberDetailViewState();
+        const detailView = this._revealCatalogueDetailView();
+        if (!detailView) return;
+        const viewState = this._detailViewStateFor(detailId, Boolean(options.restoreState));
 
-        const detailView = document.getElementById('catalogueDetailView');
-        const listView = document.getElementById('catalogueListView');
-        const nav = document.getElementById('catalogueNav');
-        if (!detailView || !listView || !nav) return;
-
-        nav.classList.remove('hidden');
-        listView.classList.add('hidden');
-        detailView.classList.remove('hidden');
-        this.catalogueView = 'detail';
-        this.updateCatalogueNavButtons();
-        this.updateCatalogueHomeButton();
-
-        const fmt = (value) => this.formatNumber(Math.round(Number(value) || 0), 0);
-        const pct = (value) => `${Number(value || 0).toFixed(2)}%`;
-        const shortDate = (dateStr) => formatDisplayDate(dateStr);
-        const ord = (n) => {
-            const num = Number(n || 0);
-            if (!num) return '-';
-            if (num % 10 === 1 && num % 100 !== 11) return `${num}st`;
-            if (num % 10 === 2 && num % 100 !== 12) return `${num}nd`;
-            if (num % 10 === 3 && num % 100 !== 13) return `${num}rd`;
-            return `${num}th`;
-        };
-        const renderElectionLink = (row, label, includeConstituency = false) => `
-            <a href="#"
-                class="catalogue-detail__entity-link catalogue-detail__entity-link--text"
-                data-election-body="${this.escapeHtml(row.electionBodyForOpen || row.body || '')}"
-                data-election-date="${this.escapeHtml(row.date || '')}"
-                ${includeConstituency && row.constituency ? `data-election-constituency="${this.escapeHtml(row.constituency)}"` : ''}>
-                ${this.escapeHtml(label)}
-            </a>
-        `;
-        const renderEntityLink = (kind, key, label) => `
-            <a href="#"
-                class="catalogue-detail__entity-link catalogue-detail__entity-link--text"
-                data-election-entity-detail-kind="${this.escapeHtml(kind)}"
-                data-election-entity-detail-key="${this.escapeHtml(key)}">
-                ${this.escapeHtml(label)}
-            </a>
-        `;
-        const renderPartyLink = (key) => `<a href="#" class="catalogue-detail__entity-link catalogue-detail__entity-link--text" data-election-entity-detail-kind="party" data-election-entity-detail-key="${this.escapeHtml(key)}">${partyLabelHtml(key, (value) => this.escapeHtml(value))}</a>`;
-        const renderLeadingParty = (row) => {
-            if (!row?.winnerParty) return '-';
-            const colour = this.escapeHtml(row.winnerColour || '#b0bec5');
-            return `<span class="catalogue-detail__leading-party"><span class="catalogue-detail__leading-party-tab" style="background:${colour}"></span>${renderPartyLink(row.winnerParty)}</span>`;
-        };
-        const renderDeaList = (row) => {
-            const deas = row?.districtElectoralAreas || [];
-            if (!deas.length) return '-';
-            const links = deas.map((dea) => renderEntityLink('dea', dea, dea)).join(', ');
-            return `
-                <details class="catalogue-detail__inline-list">
-                    <summary class="catalogue-detail__inline-list-toggle">Show DEAs (${deas.length})</summary>
-                    <div class="catalogue-detail__inline-list-body">${links}</div>
-                </details>
-            `;
-        };
+        const { dash, fmt, pct, ord } = this._entityFormatters();
+        const r = this._entityRenderers();
+        const esc = r.esc;
         const isCandidate = entry.kind === 'candidate';
         const isParty = entry.kind === 'party';
-        const isArea = entry.kind === 'dea' || entry.kind === 'lgd' || entry.kind === 'constituency';
-        const title = isCandidate ? (entry.name || entry.personId) : entry.name;
-        const subtitle = isCandidate
-            ? `${entry.latestParty || (entry.parties || []).join(', ') || 'Independent'}`
-            : (isArea ? (entry.subtitle || '') : (isParty ? 'Political Party' : ''));
-        const eyebrow = isCandidate
-            ? `Candidate | Person ID ${this.escapeHtml(entry.personId || '')}`
-            : (isParty ? 'Political Party' : 'Electoral Geography');
+        const isArea = entry.kind === 'constituency' || entry.kind === 'dea' || entry.kind === 'lgd';
+        const years = yearRange(entry.firstYear ?? entry.metrics?.firstYear, entry.lastYear ?? entry.metrics?.lastYear);
 
-        const metrics = isCandidate
-            ? [
-                ['Latest party', entry.latestParty || 'Independent'],
-                ['1st prefs', fmt(entry.firstPrefs)],
-                ['% of all valid', pct(entry.shareOfAllValid)],
-                ['Election wins', fmt(entry.electedCount)],
-                ['Elections contested', fmt((entry.appearances || []).length)],
-                ['Constituencies', fmt((entry.constituencies || []).length)]
-            ]
-            : (isParty
-                ? [
-                    ['MPs', { value: fmt(entry.latestWestminster?.elected || 0), subtext: entry.latestWestminster?.date ? formatElectionDate(entry.latestWestminster.date) : '' }],
-                    ['Last Westminster result', entry.latestWestminster ? pct(entry.latestWestminster.validVotePct) : 'N/A'],
-                    ['Last Westminster votes', entry.latestWestminster ? fmt(entry.latestWestminster.firstPrefs) : 'N/A'],
-                    ['MLAs', { value: fmt(entry.latestAssembly?.elected || 0), subtext: entry.latestAssembly?.date ? formatElectionDate(entry.latestAssembly.date) : '' }],
-                    ['Last Assembly result', entry.latestAssembly ? pct(entry.latestAssembly.validVotePct) : 'N/A'],
-                    ['Last Assembly 1st prefs', entry.latestAssembly ? fmt(entry.latestAssembly.firstPrefs) : 'N/A']
-                ]
-                : (entry.kind === 'constituency'
-                    ? [
-                        ['Elections', fmt(entry.metrics?.elections || 0)],
-                        ['Total valid', fmt(entry.metrics?.totalValidVotes || 0)],
-                        ['Total seats', fmt(entry.metrics?.totalSeats || 0)],
-                        ['Latest election', entry.metrics?.latestDate ? this.escapeHtml(formatElectionDate(entry.metrics.latestDate)) : 'N/A'],
-                        ['Area type', this.escapeHtml(entry.subtitle || 'Constituency')]
-                    ]
-                    : [
-                        ['Elections', fmt(entry.metrics?.elections || 0)],
-                        [entry.kind === 'dea' ? 'Districts' : 'DEAs', fmt(entry.kind === 'dea' ? (entry.metrics?.districts || 0) : (entry.metrics?.deas || 0))],
-                        ['Total valid', fmt(entry.metrics?.totalValidVotes || 0)],
-                        ['Total seats', fmt(entry.metrics?.totalSeats || 0)],
-                        ['Latest election', entry.metrics?.latestDate ? this.escapeHtml(formatElectionDate(entry.metrics.latestDate)) : 'N/A'],
-                        [entry.kind === 'dea' ? 'Area type' : 'Body type', this.escapeHtml(entry.subtitle || '')]
-                    ]));
+        // ---------------------------------------------------------------- heading
+        const subtitleParts = isCandidate
+            ? [entry.latestParty ? partyFullName(entry.latestParty) : 'Independent', years]
+            : isParty
+                ? [entry.shortName && entry.shortName !== entry.name ? entry.shortName : '', 'Political party', years]
+                : [entry.subtitle || '', years];
+        const lifeDates = isCandidate && (entry.born || entry.died)
+            ? `<div class="catalogue-detail__life">${entry.born ? `Born ${esc(formatDisplayDate(entry.born))}` : ''}${entry.born && entry.died ? ' · ' : ''}${entry.died ? `Died ${esc(formatDisplayDate(entry.died))}` : ''}</div>`
+            : '';
 
-        const metricsHtml = metrics.map(([label, value]) => `
+        // ---------------------------------------------------------------- headline cards
+        // Only figures the record has; a card with nothing to say is left out.
+        const metrics = [];
+        const card = (label, value, subtext = '') => {
+            if (value === null || value === undefined || value === '' || value === dash) return;
+            metrics.push({ label, value, subtext });
+        };
+        if (isCandidate) {
+            card('Contests', fmt(entry.stoodCount));
+            card('Won', fmt(entry.electedCount));
+            card('Votes (1st pref.)', entry.firstPrefs === null ? null : fmt(entry.firstPrefs), 'all contests');
+            card('Constituencies', fmt((entry.constituencyGroups || []).length));
+        } else if (isParty) {
+            for (const headline of entry.headlineCards || []) card(headline.label, headline.value, headline.subtext);
+            card('Linked elections', fmt(entry.relatedElectionCount));
+            card('Years', years || null);
+        } else if (isArea) {
+            const m = entry.metrics || {};
+            card('Elections', fmt(m.elections), m.byElections ? `incl. ${m.byElections} by-election${m.byElections === 1 ? '' : 's'}` : '');
+            card('Contested', years || null);
+            if (entry.kind === 'lgd') card('DEAs', fmt(m.deas), 'at the latest election');
+            if (entry.kind === 'dea') card('Councils', fmt(m.districts));
+            card('Latest leading party', m.latestLeadingParty ? partyFullName(m.latestLeadingParty) : null, m.latestDate ? formatElectionDate(m.latestDate) : '');
+        }
+        const metricsHtml = metrics.length ? `<div class="catalogue-detail__metrics-grid">${metrics.map((m) => `
             <div class="catalogue-detail__metric-card">
-                <span class="catalogue-detail__metric-label">${this.escapeHtml(label)}</span>
-                <strong class="catalogue-detail__metric-value">${typeof value === 'object'
-                    ? `${this.escapeHtml(value.value || '')}${value.subtext ? `<span class="catalogue-detail__metric-subtext">${this.escapeHtml(value.subtext)}</span>` : ''}`
-                    : this.escapeHtml(value)}</strong>
-            </div>
-        `).join('');
+                <span class="catalogue-detail__metric-label">${esc(m.label)}</span>
+                <strong class="catalogue-detail__metric-value">${esc(m.value)}${m.subtext ? `<span class="catalogue-detail__metric-subtext">${esc(m.subtext)}</span>` : ''}</strong>
+            </div>`).join('')}</div>` : '';
 
-        const summaryRows = isCandidate
-            ? [
-                ['Person ID', entry.personId || ''],
-                ['Name', entry.name || ''],
-                ['Parties', (entry.parties || []).join(', ')],
-                ['Dates', (entry.dates || []).join(', ')],
-                ['Constituencies', this._renderConstituencyEntryList(entry.constituencyEntries || []), true]
-            ]
-            : [];
-
-        const summaryHtml = summaryRows.map(([label, value, isHtml]) => `
+        // ---------------------------------------------------------------- summary list
+        const metaRow = (label, valueHtml) => (valueHtml ? `
             <div class="catalogue-detail__meta-row">
-                <span class="catalogue-detail__meta-label">${this.escapeHtml(label)}</span>
-                <span class="catalogue-detail__meta-value">${isHtml ? (value || '-') : this.escapeHtml(value || '-')}</span>
+                <span class="catalogue-detail__meta-label">${esc(label)}</span>
+                <span class="catalogue-detail__meta-value">${valueHtml}</span>
+            </div>` : '');
+        let summaryHtml = '';
+        if (isCandidate) {
+            // Each constituency once, with its years (M3); the record's ids sit in a disclosure.
+            const constituencies = (entry.constituencyGroups || []).map((group) => {
+                const level = group.latest?.electionType === 'Local' ? 'dea' : 'constituency';
+                const link = group.name === 'Northern Ireland' || !group.latest?.body
+                    ? esc(group.label)
+                    : `<a href="#" class="catalogue-detail__entity-link catalogue-detail__entity-link--text" data-election-entity-detail-kind="${level}" data-election-entity-detail-key="${esc(group.name)}">${esc(group.label)}</a>`;
+                const text = `${link} <span class="catalogue-detail__muted">${esc(group.years)}</span>`;
+                return group.elected ? `<strong>${text}</strong>` : text;
+            }).join(' · ');
+            const parties = (entry.parties || []).map((party) => r.renderPartyLink(party)).join(', ');
+            const profiles = (entry.officialProfiles || []).map((profile) => `<a href="${esc(profile.url)}" target="_blank" rel="noopener noreferrer">${esc(profile.source || profile.label || profile.url)}</a>`).join(' · ');
+            summaryHtml = `<div class="catalogue-detail__meta">
+                ${metaRow(entry.parties?.length > 1 ? 'Parties' : 'Party', parties)}
+                ${metaRow('Constituencies', constituencies)}
+                ${metaRow('Official records', profiles)}
             </div>
-        `).join('');
-        const recallOr = (row, rendered) => row?.isRecallPetition ? '-' : rendered;
-
-        const rankedCandidateSummaries = (entry.candidateSummaries || []).map((row, idx) => ({
-            ...row,
-            candidateRank: idx + 1
-        }));
-
-        const partyHistoryColumns = [
-            { key: 'electionDisplayName', label: 'Election', kind: 'text', getValue: (row) => row.electionDisplayName, render: (row) => renderElectionLink(row, row.electionDisplayName, false) },
-            { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => this.escapeHtml(shortDate(row.date || '')) },
-            { key: 'electionType', label: 'Type', kind: 'text', getValue: (row) => row.electionType || '-', render: (row) => this.escapeHtml(row.electionType || '-') },
-            { key: 'rank', label: '#', kind: 'ordinal', align: 'num', getValue: (row) => row.rank, render: (row) => recallOr(row, row.contested ? ord(row.rank) : '-') },
-            { key: 'rankDelta', label: '+/-', kind: 'ordinal', align: 'num', getValue: (row) => row.rankDelta, render: (row) => recallOr(row, this._formatEntityRankDelta(row.rankDelta)) },
-            { key: 'elected', label: 'Seats won', kind: 'numeric', align: 'num', getValue: (row) => row.elected, render: (row) => recallOr(row, row.contested ? fmt(row.elected) : '-') },
-            { key: 'electedDelta', label: '+/-', kind: 'numeric', align: 'num', getValue: (row) => row.electedDelta, render: (row) => recallOr(row, this._formatEntityDelta(row.electedDelta)) },
-            { key: 'seatPct', label: '% seats won', kind: 'numeric', align: 'num', getValue: (row) => row.seatPct, render: (row) => recallOr(row, row.contested ? pct(row.seatPct) : '-') },
-            { key: 'seatPctDelta', label: '+/-', kind: 'numeric', align: 'num', getValue: (row) => row.seatPctDelta, render: (row) => recallOr(row, this._formatEntityDelta(row.seatPctDelta, 2, '%')) },
-            { key: 'totalSeats', label: 'Total seats', kind: 'numeric', align: 'num', getValue: (row) => row.totalSeats, render: (row) => recallOr(row, fmt(row.totalSeats)) },
-            { key: 'totalSeatsDelta', label: '+/-', kind: 'numeric', align: 'num', getValue: (row) => row.totalSeatsDelta, render: (row) => recallOr(row, row.isByElection ? '-' : this._formatEntityDelta(row.totalSeatsDelta)) },
-            { key: 'stood', label: 'Candidates stood', kind: 'numeric', align: 'num', getValue: (row) => row.stood, filterValue: (row) => row.contested ? row.stood : 'N/A', render: (row) => recallOr(row, row.contested ? fmt(row.stood) : 'N/A') },
-            { key: 'stoodDelta', label: '+/-', kind: 'numeric', align: 'num', getValue: (row) => row.stoodDelta, render: (row) => recallOr(row, this._formatEntityDelta(row.stoodDelta)) },
-            { key: 'constituenciesContested', label: 'Constituencies', kind: 'numeric', align: 'num', getValue: (row) => row.constituenciesContested, render: (row) => recallOr(row, fmt(row.constituenciesContested)) },
-            { key: 'constituenciesContestedDelta', label: '+/-', kind: 'numeric', align: 'num', getValue: (row) => row.constituenciesContestedDelta, render: (row) => recallOr(row, this._formatEntityDelta(row.constituenciesContestedDelta)) },
-            { key: 'totalConstituencies', label: 'Total constituencies', kind: 'numeric', align: 'num', getValue: (row) => row.totalConstituencies, render: (row) => recallOr(row, fmt(row.totalConstituencies)) },
-            { key: 'totalConstituenciesDelta', label: '+/-', kind: 'numeric', align: 'num', getValue: (row) => row.totalConstituenciesDelta, render: (row) => recallOr(row, row.isByElection ? '' : this._formatEntityDelta(row.totalConstituenciesDelta)) },
-            { key: 'firstPrefs', label: '1st prefs', kind: 'numeric', align: 'num', getValue: (row) => row.firstPrefs, render: (row) => recallOr(row, row.contested ? fmt(row.firstPrefs) : '-') },
-            { key: 'firstPrefsDelta', label: '+/-', kind: 'numeric', align: 'num', getValue: (row) => row.firstPrefsDelta, render: (row) => recallOr(row, this._formatEntityDelta(row.firstPrefsDelta)) },
-            { key: 'validVotePct', label: '% 1st prefs', kind: 'numeric', align: 'num', getValue: (row) => row.validVotePct, render: (row) => recallOr(row, row.contested ? pct(row.validVotePct) : '-') },
-            { key: 'validVotePctDelta', label: '+/-', kind: 'numeric', align: 'num', getValue: (row) => row.validVotePctDelta, render: (row) => recallOr(row, this._formatEntityDelta(row.validVotePctDelta, 2, '%')) }
-        ];
-        partyHistoryColumns.headerRows = [
-            [
-                { label: 'Election', leafIndex: 0, rowspan: 3 },
-                { label: 'Date', leafIndex: 1, rowspan: 3 },
-                { label: 'Type', leafIndex: 2, rowspan: 3 },
-                { label: '#', rowspan: 2, colspan: 2 },
-                { label: 'Seats', colspan: 6 },
-                { label: 'Candidates', rowspan: 2, colspan: 2 },
-                { label: 'Constituencies', colspan: 4 },
-                { label: '1st preferences', colspan: 4 }
-            ],
-            [
-                { label: 'Won', colspan: 4 },
-                { label: 'Total', colspan: 2 },
-                { label: 'Stood in', colspan: 2 },
-                { label: 'Total', colspan: 2 },
-                { label: 'No.', colspan: 2 },
-                { label: '%', colspan: 2 }
-            ],
-            [
-                { label: 'No.', leafIndex: 3, align: 'num' },
-                { label: '+/-', leafIndex: 4, align: 'num' },
-                { label: 'No.', leafIndex: 5, align: 'num' },
-                { label: '+/-', leafIndex: 6, align: 'num' },
-                { label: '%', leafIndex: 7, align: 'num' },
-                { label: '+/-', leafIndex: 8, align: 'num' },
-                { label: 'No.', leafIndex: 9, align: 'num' },
-                { label: '+/-', leafIndex: 10, align: 'num' },
-                { label: 'No.', leafIndex: 11, align: 'num' },
-                { label: '+/-', leafIndex: 12, align: 'num' },
-                { label: 'No.', leafIndex: 13, align: 'num' },
-                { label: '+/-', leafIndex: 14, align: 'num' },
-                { label: 'No.', leafIndex: 15, align: 'num' },
-                { label: '+/-', leafIndex: 16, align: 'num' },
-                { label: 'No.', leafIndex: 17, align: 'num' },
-                { label: '+/-', leafIndex: 18, align: 'num' },
-                { label: '%', leafIndex: 19, align: 'num' },
-                { label: '+/-', leafIndex: 20, align: 'num' }
-            ]
-        ];
-
-        const partyCandidateColumns = [
-            { key: 'candidateRank', label: '#', kind: 'ordinal', align: 'num', getValue: (row) => row.candidateRank, render: (row) => fmt(row.candidateRank) },
-            { key: 'name', label: 'Candidate', kind: 'text', getValue: (row) => row.name, render: (row) => renderEntityLink('candidate', row.personId, row.name) },
-            { key: 'totalFirstPrefs', label: 'Total 1st prefs', kind: 'numeric', align: 'num', getValue: (row) => row.totalFirstPrefs, render: (row) => fmt(row.totalFirstPrefs) },
-            { key: 'timesStood', label: 'Total', kind: 'numeric', align: 'num', getValue: (row) => row.timesStood, render: (row) => fmt(row.timesStood) },
-            { key: 'timesStoodLocal', label: 'Local', kind: 'numeric', align: 'num', getValue: (row) => row.timesStoodLocal, render: (row) => fmt(row.timesStoodLocal) },
-            { key: 'timesStoodDevolved', label: 'Devolved', kind: 'numeric', align: 'num', getValue: (row) => row.timesStoodDevolved, render: (row) => fmt(row.timesStoodDevolved) },
-            { key: 'timesStoodWestminster', label: 'Westminster', kind: 'numeric', align: 'num', getValue: (row) => row.timesStoodWestminster, render: (row) => fmt(row.timesStoodWestminster) },
-            { key: 'timesStoodEuropean', label: 'Europe', kind: 'numeric', align: 'num', getValue: (row) => row.timesStoodEuropean, render: (row) => fmt(row.timesStoodEuropean) },
-            { key: 'timesElected', label: 'Total', kind: 'numeric', align: 'num', getValue: (row) => row.timesElected, render: (row) => fmt(row.timesElected) },
-            { key: 'timesElectedLocal', label: 'Local', kind: 'numeric', align: 'num', getValue: (row) => row.timesElectedLocal, render: (row) => fmt(row.timesElectedLocal) },
-            { key: 'timesElectedDevolved', label: 'Devolved', kind: 'numeric', align: 'num', getValue: (row) => row.timesElectedDevolved, render: (row) => fmt(row.timesElectedDevolved) },
-            { key: 'timesElectedWestminster', label: 'Westminster', kind: 'numeric', align: 'num', getValue: (row) => row.timesElectedWestminster, render: (row) => fmt(row.timesElectedWestminster) },
-            { key: 'timesElectedEuropean', label: 'Europe', kind: 'numeric', align: 'num', getValue: (row) => row.timesElectedEuropean, render: (row) => fmt(row.timesElectedEuropean) },
-            {
-                key: 'constituenciesLabel',
-                label: 'Stood in',
-                kind: 'text',
-                getValue: (row) => (row.constituencyEntries || []).map((entry) => {
-                    const showYear = entry.constituency && entry.constituency !== 'Northern Ireland' && entry.mapLayerYear;
-                    return `${entry.constituency || ''}${showYear ? ` (${entry.mapLayerYear || ''})` : ''}`;
-                }).join(', '),
-                render: (row) => this._renderConstituencyEntryList(row.constituencyEntries || [])
-            }
-        ];
-        partyCandidateColumns.headerRows = [
-            [
-                { label: '#', leafIndex: 0, rowspan: 2, align: 'num' },
-                { label: 'Candidate', leafIndex: 1, rowspan: 2 },
-                { label: 'Total 1st prefs', leafIndex: 2, rowspan: 2, align: 'num' },
-                { label: 'Times stood', colspan: 5 },
-                { label: 'Times elected', colspan: 5 },
-                { label: 'Stood in', leafIndex: 13, rowspan: 2 }
-            ],
-            [
-                { label: 'Total', leafIndex: 3, align: 'num' },
-                { label: 'Local', leafIndex: 4, align: 'num' },
-                { label: 'Devolved', leafIndex: 5, align: 'num' },
-                { label: 'Westminster', leafIndex: 6, align: 'num' },
-                { label: 'Europe', leafIndex: 7, align: 'num' },
-                { label: 'Total', leafIndex: 8, align: 'num' },
-                { label: 'Local', leafIndex: 9, align: 'num' },
-                { label: 'Devolved', leafIndex: 10, align: 'num' },
-                { label: 'Westminster', leafIndex: 11, align: 'num' },
-                { label: 'Europe', leafIndex: 12, align: 'num' }
-            ]
-        ];
-
-        const candidateHistoryColumns = [
-            { key: 'electionDisplayName', label: 'Election', kind: 'text', getValue: (row) => row.electionDisplayName, render: (row) => renderElectionLink(row, row.electionDisplayName, true) },
-            { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => this.escapeHtml(formatElectionDate(row.date || '')) },
-            { key: 'electionType', label: 'Type', kind: 'text', getValue: (row) => row.electionType || '-', render: (row) => this.escapeHtml(row.electionType || '-') },
-            {
-                key: 'constituency',
-                label: 'Constituency',
-                kind: 'text',
-                getValue: (row) => row.constituency,
-                render: (row) => {
-                    const label = row.constituency || '-';
-                    if (!row.constituency || !row.body || !row.date) return this.escapeHtml(label);
-                    return renderElectionConstituencyFeatureLink(
-                        row.body,
-                        row.date,
-                        row.constituency,
-                        row.constituency,
-                        'election-cell-wrap',
-                        row.electionType === 'Local' ? 'dea' : 'constituency'
-                    );
-                }
-            },
-            {
-                key: 'bodyLabel',
-                label: 'Elected body',
-                kind: 'text',
-                getValue: (row) => row.bodyLabel || row.body,
-                render: (row) => {
-                    const label = row.bodyLabel || row.body || '-';
-                    if (row.electionType === 'Local' && label !== '-' && row.body && row.date) {
-                        return renderElectionConstituencyFeatureLink(
-                            row.body,
-                            row.date,
-                            label,
-                            label,
-                            'election-cell-wrap election-cell-wrap--full',
-                            'council'
-                        );
-                    }
-                    return `<span class="election-cell-wrap election-cell-wrap--full">${this.escapeHtml(label)}</span>`;
-                }
-            },
-            { key: 'status', label: 'Status', kind: 'text', getValue: (row) => row.status, render: (row) => this.escapeHtml(row.status || '-') },
-            { key: 'firstPref', label: 'Valid', kind: 'numeric', align: 'num', getValue: (row) => row.firstPref, render: (row) => fmt(row.firstPref) },
-            { key: 'firstPrefPct', label: 'Valid vote %', kind: 'numeric', align: 'num', getValue: (row) => row.firstPrefPct, render: (row) => pct(row.firstPrefPct) },
-            { key: 'overallStandingNumber', label: 'Overall standing', kind: 'ordinal', getValue: (row) => row.overallStandingNumber, render: (row) => `${ord(row.overallStandingNumber)} time standing` },
-            { key: 'overallElectedNumber', label: 'Overall elected', kind: 'ordinal', getValue: (row) => row.overallElectedNumber, render: (row) => row.overallElectedNumber ? `${ord(row.overallElectedNumber)} time elected` : '-' },
-            { key: 'bodyStandingNumber', label: 'Type standing', kind: 'ordinal', getValue: (row) => row.bodyStandingNumber, render: (row) => `${ord(row.bodyStandingNumber)} ${this.escapeHtml(row.electionType || 'unknown')} election` },
-            { key: 'bodyElectedNumber', label: 'Type elected', kind: 'ordinal', getValue: (row) => row.bodyElectedNumber, render: (row) => row.bodyElectedNumber ? `${ord(row.bodyElectedNumber)} ${this.escapeHtml(row.electionType || 'unknown')} win` : '-' }
-        ];
-
-        const latestSummaryHtml = entry.kind === 'candidate' && entry.latestAppearance ? `
-            <div class="catalogue-detail__section">
-                <div class="catalogue-detail__section-title">Last Election Stood In</div>
+            ${entry.lifeSource ? `<p class="catalogue-detail__note">Born and died: ${esc(entry.lifeSource)}.</p>` : ''}
+            <details class="catalogue-detail__technical">
+                <summary>Technical details</summary>
                 <div class="catalogue-detail__meta">
-                    <div class="catalogue-detail__meta-row">
-                        <span class="catalogue-detail__meta-label">Election</span>
-                        <span class="catalogue-detail__meta-value">${renderElectionLink(entry.latestAppearance, entry.latestAppearance.electionDisplayName, true)}</span>
-                    </div>
-                    <div class="catalogue-detail__meta-row">
-                        <span class="catalogue-detail__meta-label">Date</span>
-                        <span class="catalogue-detail__meta-value">${this.escapeHtml(formatElectionDate(entry.latestAppearance.date || ''))}</span>
-                    </div>
-                    <div class="catalogue-detail__meta-row">
-                        <span class="catalogue-detail__meta-label">Valid vote</span>
-                        <span class="catalogue-detail__meta-value">${fmt(entry.latestAppearance.firstPref)}</span>
-                    </div>
-                    <div class="catalogue-detail__meta-row">
-                        <span class="catalogue-detail__meta-label">Valid vote %</span>
-                        <span class="catalogue-detail__meta-value">${pct(entry.latestAppearance.firstPrefPct)}</span>
-                    </div>
-                    <div class="catalogue-detail__meta-row">
-                        <span class="catalogue-detail__meta-label">Constituency</span>
-                        <span class="catalogue-detail__meta-value">${this.escapeHtml(entry.latestAppearance.constituency || '-')}</span>
-                    </div>
-                    <div class="catalogue-detail__meta-row">
-                        <span class="catalogue-detail__meta-label">Elected body</span>
-                        <span class="catalogue-detail__meta-value">${this.escapeHtml(entry.latestAppearance.bodyLabel || entry.latestAppearance.body || '-')}</span>
-                    </div>
-                    <div class="catalogue-detail__meta-row">
-                        <span class="catalogue-detail__meta-label">Status</span>
-                        <span class="catalogue-detail__meta-value">${this.escapeHtml(entry.latestAppearance.status || '-')}</span>
-                    </div>
+                    ${metaRow('Person ID', esc(entry.personId || dash))}
+                    ${metaRow('Record', `<span class="catalogue-detail__meta-value--mono">${esc(entry.slug || entry.key || '')}</span>`)}
                 </div>
-            </div>
-        ` : '';
+            </details>`;
+        } else if (!isParty && entry.metrics?.latestElected?.length) {
+            const latestRow = { electedNames: entry.metrics.latestElected };
+            summaryHtml = `<div class="catalogue-detail__meta">${metaRow(`Elected at the ${entry.metrics.latestElection || 'latest election'}`, r.renderElectedNames(latestRow))}</div>`;
+        } else if (isParty && (entry.knownAliases || []).length) {
+            const names = [...new Set([...(entry.observedNames || []), ...(entry.knownAliases || [])])].filter((name) => name !== entry.name && name !== entry.shortName);
+            if (names.length) {
+                summaryHtml = `<details class="catalogue-detail__technical">
+                    <summary>Also written as (${names.length})</summary>
+                    <p class="catalogue-detail__note">${names.map(esc).join(' · ')}</p>
+                </details>`;
+            }
+        }
 
-        const areaHistoryColumns = entry.kind === 'dea'
-            ? [
-                { key: 'electionDisplayName', label: 'Election', kind: 'text', getValue: (row) => row.electionDisplayName, render: (row) => renderElectionLink(row, row.electionDisplayName, true) },
-                { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => this.escapeHtml(formatElectionDate(row.date || '')) },
-                { key: 'localGovernmentDistrict', label: 'Local Government District', kind: 'text', getValue: (row) => row.localGovernmentDistrict, render: (row) => renderEntityLink('lgd', row.localGovernmentDistrict, row.localGovernmentDistrict) },
-                { key: 'winnerParty', label: 'Leading party', kind: 'text', getValue: (row) => row.winnerParty, render: (row) => renderLeadingParty(row) },
-                { key: 'winnerVotes', label: 'Leading party votes', kind: 'numeric', align: 'num', getValue: (row) => row.winnerVotes, render: (row) => fmt(row.winnerVotes) },
-                { key: 'winnerPct', label: 'Leading party %', kind: 'numeric', align: 'num', getValue: (row) => row.winnerPct, render: (row) => pct(row.winnerPct) },
-                { key: 'validVotes', label: 'Valid', kind: 'numeric', align: 'num', getValue: (row) => row.validVotes, render: (row) => fmt(row.validVotes) },
-                { key: 'seats', label: 'Seats', kind: 'numeric', align: 'num', getValue: (row) => row.seats, render: (row) => fmt(row.seats) }
-            ]
-            : entry.kind === 'constituency'
-                ? [
-                    { key: 'electionDisplayName', label: 'Election', kind: 'text', getValue: (row) => row.electionDisplayName, render: (row) => renderElectionLink(row, row.electionDisplayName, true) },
-                    { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => this.escapeHtml(formatElectionDate(row.date || '')) },
-                    { key: 'winnerParty', label: 'Leading party', kind: 'text', getValue: (row) => row.winnerParty, render: (row) => renderLeadingParty(row) },
-                    { key: 'winnerVotes', label: 'Leading party votes', kind: 'numeric', align: 'num', getValue: (row) => row.winnerVotes, render: (row) => fmt(row.winnerVotes) },
-                    { key: 'winnerPct', label: 'Leading party %', kind: 'numeric', align: 'num', getValue: (row) => row.winnerPct, render: (row) => pct(row.winnerPct) },
-                    { key: 'validVotes', label: 'Valid', kind: 'numeric', align: 'num', getValue: (row) => row.validVotes, render: (row) => fmt(row.validVotes) },
-                    { key: 'seats', label: 'Seats', kind: 'numeric', align: 'num', getValue: (row) => row.seats, render: (row) => fmt(row.seats) }
-                ]
-                : [
-                { key: 'electionDisplayName', label: 'Election', kind: 'text', getValue: (row) => row.electionDisplayName, render: (row) => renderElectionLink(row, row.electionDisplayName, false) },
-                { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => this.escapeHtml(formatElectionDate(row.date || '')) },
-                { key: 'deaCount', label: 'DEAs', kind: 'numeric', align: 'num', getValue: (row) => row.deaCount, render: (row) => fmt(row.deaCount) },
-                { key: 'districtElectoralAreas', label: 'District Electoral Areas', kind: 'text', getValue: (row) => (row.districtElectoralAreas || []).join(', '), render: (row) => renderDeaList(row) },
-                { key: 'winnerParty', label: 'Leading party', kind: 'text', getValue: (row) => row.winnerParty, render: (row) => renderLeadingParty(row) },
-                { key: 'winnerVotes', label: 'Leading party votes', kind: 'numeric', align: 'num', getValue: (row) => row.winnerVotes, render: (row) => fmt(row.winnerVotes) },
-                { key: 'winnerPct', label: 'Leading party %', kind: 'numeric', align: 'num', getValue: (row) => row.winnerPct, render: (row) => pct(row.winnerPct) },
-                { key: 'validVotes', label: 'Valid', kind: 'numeric', align: 'num', getValue: (row) => row.validVotes, render: (row) => fmt(row.validVotes) },
-                { key: 'seats', label: 'Seats', kind: 'numeric', align: 'num', getValue: (row) => row.seats, render: (row) => fmt(row.seats) }
+        // ---------------------------------------------------------------- tables
+        const byElectionRow = (row) => (row.isByElection ? 'catalogue-detail__entity-row--by-election' : '');
+        const tables = [];
+        const tableSection = (title, tableId, html) => `<section class="catalogue-detail__section" aria-labelledby="${tableId}-h">
+                <h3 class="catalogue-detail__section-title" id="${tableId}-h">${title}</h3>
+                ${html || ''}<div data-entity-table-host="${tableId}"></div>
+            </section>`;
+        let sectionsHtml = '';
+        if (isParty) {
+            const history = entry.historyRows || [];
+            const changeTitle = (row) => (row.comparedWith ? `Change since ${row.comparedWith}` : '');
+            const delta = (key, label, precision = 0, suffix = '') => ({
+                key, label, kind: 'numeric', align: 'num', optional: true, delta: true,
+                getValue: (row) => row[key],
+                render: (row) => `<span title="${esc(changeTitle(row))}">${this._formatEntityDelta(row[key], precision, suffix)}</span>`
+            });
+            const partyHistoryColumns = [
+                { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => esc(formatElectionDate(row.date || '')) },
+                { key: 'electionDisplayName', label: 'Election', kind: 'text', getValue: (row) => row.electionDisplayName, render: (row) => r.renderElectionLink(row, row.electionDisplayName) },
+                { key: 'electionType', label: 'Type', kind: 'text', getValue: (row) => row.electionType || null, render: (row) => esc(row.electionType || dash) },
+                { key: 'rank', label: 'Rank', kind: 'ordinal', align: 'num', optional: true, getValue: (row) => row.rank, render: (row) => ord(row.rank) },
+                { key: 'stood', label: 'Stood', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.stood, render: (row) => fmt(row.stood) },
+                delta('stoodDelta', '± stood'),
+                { key: 'elected', label: 'Seats', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.elected, render: (row) => fmt(row.elected) },
+                delta('electedDelta', '± seats'),
+                { key: 'totalSeats', label: 'Of', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.totalSeats, render: (row) => fmt(row.totalSeats) },
+                { key: 'seatPct', label: '% seats', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.seatPct, render: (row) => pct(row.seatPct) },
+                { key: 'constituenciesContested', label: 'Constituencies', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.constituenciesContested, render: (row) => fmt(row.constituenciesContested) },
+                { key: 'firstPrefs', label: 'Votes (1st pref.)', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.firstPrefs, render: (row) => fmt(row.firstPrefs) },
+                delta('firstPrefsDelta', '± votes'),
+                { key: 'validVotePct', label: 'Share', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.validVotePct, render: (row) => pct(row.validVotePct) },
+                delta('validVotePctDelta', '± share', 1, '%')
             ];
+            sectionsHtml += tableSection(`Election history (${history.length})`, 'catalogue-party-history-table');
+            tables.push({ tableId: 'catalogue-party-history-table', columns: partyHistoryColumns, rows: history, caption: `${entry.name}: elections contested`, rowClassNameFn: byElectionRow, groupBy: (row) => row.bodyGroup, pageSize: 60 });
 
-        const historyHtml = isParty
-            ? `
-                <div class="catalogue-detail__section">
-                    <div class="catalogue-detail__section-title">Election History (${(entry.historyRows || []).length})</div>
-                    ${this._buildEntityTableMarkup('catalogue-party-history-table', partyHistoryColumns)}
-                </div>
-                <div class="catalogue-detail__section">
-                    <div class="catalogue-detail__section-title">Candidates (${(entry.candidateSummaries || []).length})</div>
-                    ${this._buildEntityTableMarkup('catalogue-party-candidates-table', partyCandidateColumns)}
-                </div>
-            `
-            : (isCandidate
-                ? `
-                ${latestSummaryHtml}
-                <div class="catalogue-detail__section">
-                    <div class="catalogue-detail__section-title">Election History (${(entry.appearances || []).length})</div>
-                    ${this._buildEntityTableMarkup('catalogue-candidate-history-table', candidateHistoryColumns)}
-                </div>
-            `
-                : `
-                <div class="catalogue-detail__section">
-                    <div class="catalogue-detail__section-title">Election History (${(entry.historyRows || []).length})</div>
-                    ${this._buildEntityTableMarkup(`catalogue-${this.escapeHtml(entry.kind)}-history-table`, areaHistoryColumns)}
-                </div>
-            `);
+            const candidates = (entry.candidateSummaries || []).map((row, idx) => ({ ...row, candidateRank: idx + 1 }));
+            const candidateColumns = [
+                { key: 'candidateRank', label: '#', kind: 'ordinal', align: 'num', getValue: (row) => row.candidateRank, render: (row) => fmt(row.candidateRank) },
+                { key: 'name', label: 'Candidate', kind: 'text', getValue: (row) => row.name, render: (row) => r.renderEntityLink('candidate', row.personId, row.name) },
+                { key: 'timesStood', label: 'Contests', kind: 'numeric', align: 'num', getValue: (row) => row.timesStood, render: (row) => fmt(row.timesStood) },
+                { key: 'timesElected', label: 'Won', kind: 'numeric', align: 'num', getValue: (row) => row.timesElected, render: (row) => fmt(row.timesElected) },
+                { key: 'totalFirstPrefs', label: 'Votes (1st pref.)', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.totalFirstPrefs, render: (row) => fmt(row.totalFirstPrefs) },
+                { key: 'years', label: 'Years', kind: 'text', getValue: (row) => yearRange(row.firstYear, row.lastYear) || null, render: (row) => esc(yearRange(row.firstYear, row.lastYear) || dash) },
+                { key: 'byGroup', label: 'Won / stood by body', kind: 'text', getValue: (row) => (row.byGroup || []).map((g) => `${g.group} ${g.won}/${g.stood}`).join(' · ') || null, render: (row) => esc((row.byGroup || []).map((g) => `${g.group} ${g.won}/${g.stood}`).join(' · ') || dash) },
+                {
+                    key: 'constituencies',
+                    label: 'Stood in',
+                    kind: 'text',
+                    optional: true,
+                    getValue: (row) => (row.constituencyGroups || []).map((g) => g.label).join(', ') || null,
+                    render: (row) => esc((row.constituencyGroups || []).map((g) => `${g.label} ${g.years}`).join(' · ') || dash)
+                }
+            ];
+            const capNote = entry.candidatesCapped
+                ? `<p class="catalogue-detail__note">The first ${fmt(candidates.length)} people found; the party has more. ${entry.browseUrl ? `<a href="${esc(entry.browseUrl)}">The full record is in Browse</a>.` : ''}</p>`
+                : '';
+            const listNote = entry.listEntriesLeftOut
+                ? `<p class="catalogue-detail__note">${fmt(entry.listEntriesLeftOut)} party-list ${entry.listEntriesLeftOut === 1 ? 'entry' : 'entries'} (such as the 1996 Forum's regional lists) ${entry.listEntriesLeftOut === 1 ? 'is' : 'are'} not a person and ${entry.listEntriesLeftOut === 1 ? 'is' : 'are'} left out.</p>`
+                : '';
+            sectionsHtml += tableSection(entry.candidatesCapped ? `Candidates (first ${fmt(candidates.length)})` : `Candidates (${fmt(candidates.length)})`, 'catalogue-party-candidates-table', capNote + listNote);
+            tables.push({ tableId: 'catalogue-party-candidates-table', columns: candidateColumns, rows: candidates, caption: `${entry.name}: candidates`, pageSize: 50 });
+        } else if (isCandidate) {
+            const appearances = entry.appearances || [];
+            const contestText = (row) => (row.overallStandingNumber ? `${ord(row.overallStandingNumber)} · ${ord(row.bodyStandingNumber)} ${row.electionType || ''}`.trim() : dash);
+            const winText = (row) => (row.overallElectedNumber ? `${ord(row.overallElectedNumber)} · ${ord(row.bodyElectedNumber)} ${row.electionType || ''}`.trim() : dash);
+            const candidateHistoryColumns = [
+                { key: 'date', label: 'Date', kind: 'date', getValue: (row) => row.date, render: (row) => esc(formatElectionDate(row.date || '')) },
+                { key: 'electionDisplayName', label: 'Election', kind: 'text', getValue: (row) => row.electionDisplayName, render: (row) => r.renderElectionLink(row, row.electionDisplayName, true) },
+                { key: 'party', label: 'Party', kind: 'text', optional: true, getValue: (row) => row.party || null, render: (row) => r.renderPartyLink(row.party) },
+                {
+                    key: 'constituency',
+                    label: 'Constituency',
+                    kind: 'text',
+                    getValue: (row) => row.constituency,
+                    render: (row) => {
+                        const label = row.constituency || dash;
+                        if (!row.constituency || !row.body || !row.date || row.constituency === 'Northern Ireland') return esc(label);
+                        return renderElectionConstituencyFeatureLink(row.body, row.date, row.constituency, row.constituency, 'election-cell-wrap', row.electionType === 'Local' ? 'dea' : 'constituency');
+                    }
+                },
+                { key: 'status', label: 'Result', kind: 'text', getValue: (row) => row.status || null, render: (row) => (row.statusSource && row.statusSource !== row.status ? `<span title="${esc(`As the source puts it: ${row.statusSource}`)}">${esc(row.status)}</span>` : esc(row.status || dash)) },
+                { key: 'firstPref', label: 'Votes (1st pref.)', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.firstPref, render: (row) => fmt(row.firstPref) },
+                { key: 'firstPrefPct', label: 'Share', kind: 'numeric', align: 'num', optional: true, getValue: (row) => row.firstPrefPct, render: (row) => pct(row.firstPrefPct) },
+                { key: 'overallStandingNumber', label: 'Contest', kind: 'ordinal', getValue: (row) => row.overallStandingNumber, render: (row) => esc(contestText(row)) },
+                { key: 'overallElectedNumber', label: 'Win', kind: 'ordinal', optional: true, getValue: (row) => row.overallElectedNumber, render: (row) => esc(winText(row)) }
+            ];
+            sectionsHtml += tableSection(`Election history (${appearances.length})`, 'catalogue-candidate-history-table');
+            tables.push({ tableId: 'catalogue-candidate-history-table', columns: candidateHistoryColumns, rows: appearances, caption: `${entry.name}: elections stood in`, rowClassNameFn: byElectionRow, groupBy: (row) => row.bodyGroup });
+        } else {
+            const rows = entry.historyRows || [];
+            const tableId = `catalogue-${entry.kind}-history-table`;
+            sectionsHtml += tableSection(`Election history (${rows.length})`, tableId);
+            tables.push({ tableId, columns: this._areaHistoryColumns(entry.kind), rows, caption: `${entry.name}: elections`, rowClassNameFn: byElectionRow, groupBy: (row) => (row.isByElection ? 'By-elections' : 'General elections') });
+        }
 
+        // On a phone the history comes straight after the cards, and the summary list after it
+        // (M2): the table is what the page is for, and it started 1,400px down.
+        const browseLink = entry.browseUrl
+            ? `<a class="catalogue-detail__browse-link" href="${esc(entry.browseUrl)}">${isCandidate || isParty ? 'Open full record in Browse' : 'Find it in Browse'}</a>`
+            : '';
+        detailView.setAttribute('aria-busy', 'false');
         detailView.innerHTML = `
             <div class="catalogue-detail__card">
-                <div class="catalogue-detail__color" style="background-color: ${this.escapeHtml(entry.colour || '#888')}"></div>
-                <div class="catalogue-detail__name">${this.escapeHtml(title)}</div>
-                <div class="catalogue-detail__date">${this.escapeHtml(subtitle)}</div>
+                <div class="catalogue-detail__color" style="background-color: ${esc(entry.colour || '#888')}"></div>
+                <h2 class="catalogue-detail__name" id="catalogueDetailHeading" tabindex="-1">${esc(isCandidate ? (entry.name || entry.personId) : entry.name)}</h2>
+                <div class="catalogue-detail__date">${esc(subtitleParts.filter(Boolean).join(' · '))}</div>
+                ${lifeDates}
             </div>
-            ${isParty ? '' : `<div class="catalogue-detail__description">${this.escapeHtml(eyebrow)}</div>`}
-            <div class="catalogue-detail__metrics-grid">${metricsHtml}</div>
-            ${isCandidate ? `<div class="catalogue-detail__meta">${summaryHtml}</div>` : ''}
-            ${historyHtml}
+            ${browseLink ? `<div class="catalogue-detail__page-actions">${browseLink}</div>` : ''}
+            ${metricsHtml}
+            <div class="catalogue-detail__body${isCandidate ? ' catalogue-detail__body--person' : ''}">
+                <div class="catalogue-detail__summary">${summaryHtml}</div>
+                <div class="catalogue-detail__sections">${sectionsHtml}</div>
+            </div>
         `;
 
-        if (isParty) {
-            this._initEntityDataTable(detailView, 'catalogue-party-history-table', partyHistoryColumns, entry.historyRows || [], {
-                rowClassNameFn: (row) => row.isByElection ? 'catalogue-detail__entity-row--by-election' : ''
-            });
-            this._initEntityDataTable(detailView, 'catalogue-party-candidates-table', partyCandidateColumns, rankedCandidateSummaries);
-        } else if (isCandidate) {
-            this._initEntityDataTable(detailView, 'catalogue-candidate-history-table', candidateHistoryColumns, entry.appearances || [], {
-                rowClassNameFn: (row) => row.isByElection ? 'catalogue-detail__entity-row--by-election' : ''
-            });
-        } else {
-            this._initEntityDataTable(
-                detailView,
-                `catalogue-${entry.kind}-history-table`,
-                areaHistoryColumns,
-                entry.historyRows || [],
-                {
-                    rowClassNameFn: (row) => row.isByElection ? 'catalogue-detail__entity-row--by-election' : ''
-                }
-            );
+        for (const spec of tables) {
+            const host = detailView.querySelector(`[data-entity-table-host="${spec.tableId}"]`);
+            if (!viewState.tables[spec.tableId]) viewState.tables[spec.tableId] = {};
+            if (host) this._mountEntityTable(host, { ...spec, persist: viewState.tables[spec.tableId] });
         }
-
-        if (detailView._entityDetailClickHandler) {
-            detailView.removeEventListener('click', detailView._entityDetailClickHandler);
-        }
-        detailView._entityDetailClickHandler = async (event) => {
-            const electionLink = event.target.closest('[data-election-body][data-election-date]');
-            if (electionLink) {
-                event.preventDefault();
-                this.onElectionEntityElectionOpen?.({
-                    body: electionLink.dataset.electionBody,
-                    date: electionLink.dataset.electionDate,
-                    constituency: electionLink.dataset.electionConstituency || null
-                });
-                return;
-            }
-
-            const constituencyLink = event.target.closest('[data-election-constituency-feature="1"]');
-            if (constituencyLink) {
-                event.preventDefault();
-                await this.onOpenElectionConstituencyFeature?.({
-                    body: constituencyLink.dataset.electionConstituencyBody,
-                    date: constituencyLink.dataset.electionConstituencyDate,
-                    constituency: constituencyLink.dataset.electionConstituencyName,
-                    level: constituencyLink.dataset.electionConstituencyLevel || 'dea'
-                });
-                return;
-            }
-
-            const entityLink = event.target.closest('[data-election-entity-detail-kind][data-election-entity-detail-key]');
-            if (!entityLink) return;
-            event.preventDefault();
-            if (typeof this.onOpenElectionEntityDetail === 'function') {
-                await this.onOpenElectionEntityDetail(
-                    entityLink.dataset.electionEntityDetailKind,
-                    entityLink.dataset.electionEntityDetailKey
-                );
-                return;
-            }
-            const nextDetailId = this.createElectionEntityDetailId(
-                entityLink.dataset.electionEntityDetailKind,
-                entityLink.dataset.electionEntityDetailKey
-            );
-            this.showElectionEntityDetailInCatalogue(nextDetailId, true);
-        };
-        detailView.addEventListener('click', detailView._entityDetailClickHandler);
-
-        const pane = this._cataloguePane || document.querySelector('.pane__content[data-tab-content="catalogue"]');
-        pane?.scrollTo({ top: 0, behavior: 'auto' });
-        this.updateCatalogueNavButtons();
+        this._bindEntityDetailClicks(detailView);
+        this._settleDetailView(detailView, viewState, options);
     }
 
     calculateGeodesicMetrics(geometry) {
@@ -10463,6 +10584,13 @@ class UIController {
             // Show/hide clear button
             if (searchClear) {
                 searchClear.classList.toggle('visible', query.length > 0);
+            }
+
+            // A search started from a party, person or map page shows its results: they render in
+            // the list view, and the page stayed over them until Home was pressed (UX review
+            // 2026-10-31, H7). The list is a step of its own, so Back returns to the page.
+            if (query.length > 0 && !document.getElementById('catalogueDetailView')?.classList.contains('hidden')) {
+                this.showCatalogueListView(true);
             }
 
             if (query.length < 1) {

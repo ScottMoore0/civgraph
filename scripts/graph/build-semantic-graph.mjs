@@ -217,13 +217,22 @@ async function main() {
   });
 
   await fs.mkdir(path.join(OUTPUT_DIR, 'indexes'), { recursive: true });
-  await writeEntitySlugIndex(sortedEntities, publicEntityIds);
+  const slugIndex = await writeEntitySlugIndex(sortedEntities, publicEntityIds);
   await writeBrowseRecordToEntity(browseRecordToEntity);
   const subjectStatementIndex = await writeSubjectStatementShards(compactBySubject);
   const entitySearch = await writeEntitySearchIndex(entitySummaryById);
   const reverseEntityValueIndex = await writeReverseEntityValueIndex(sortedStatements, entitySummaryById);
   const sourceStatementIndex = await writeSourceStatementIndex(sortedStatements, entitySummaryById);
   await writePropertySummary(sortedStatements);
+  // Last of the index files: its version is a digest of all of them.
+  const lookupIndex = await writeLookupIndex({
+    browseMapping: browseRecordToEntity,
+    entitySummaries: slugIndex.entries,
+    bySlug: slugIndex.bySlug,
+    subjectShardIndex: subjectStatementIndex.subjectToShardIndex,
+    reverseIndex: reverseEntityValueIndex,
+    sourceIndex: sourceStatementIndex
+  });
   const exportIndex = await writeGraphExports(sortedEntities, sortedStatements);
 
   await fs.mkdir(path.join(OUTPUT_DIR, 'quality'), { recursive: true });
@@ -268,6 +277,8 @@ async function main() {
       shards: statementShards
     },
     indexes: {
+      // What a Browse record page reads (writeLookupIndex); the maps below are the same data whole.
+      lookup: lookupIndex.url,
       entitySlugs: '/data/graph/indexes/entity-slugs.json',
       entitySearch: entitySearch.url,
       browseRecordToEntity: '/data/graph/indexes/browse-record-to-entity.json',
@@ -1828,6 +1839,90 @@ async function writeEntitySlugIndex(items, allowedEntityIds) {
     parts,
     shards
   });
+  return { entries, bySlug };
+}
+
+// Lookup files per key kind, each in this many pieces by a hash of the key (lookupBucket).
+const LOOKUP_BUCKETS = { browse: 1024, entity: 1024, slug: 512 };
+
+/**
+ * Which of `count` files a key lives in: FNV-1a over the key's UTF-16 code units. browse.js
+ * (lookupBucket) and scripts/build-browse-indexes.mjs have the same function; all three must
+ * agree, or a record page looks in the wrong file and finds nothing.
+ */
+function lookupBucket(key, count) {
+  let hash = 0x811c9dc5;
+  const text = String(key);
+  for (let i = 0; i < text.length; i += 1) {
+    hash ^= text.charCodeAt(i);
+    hash = Math.imul(hash, 0x01000193);
+  }
+  return (hash >>> 0) % count;
+}
+
+/**
+ * The lookups a record page makes, in small files (indexes/lookup/).
+ *
+ * A Browse record page used to download about 56 MB to show its facts: the record-to-entity
+ * map for its type (up to 14 MB), the subject-to-shard map (20 MB) and the four parts of the
+ * slug index (28 MB), each one whole, to read one key from each. Every map is now split by a
+ * hash of its key, which the page computes for itself, so it reads only the piece that holds
+ * the key:
+ *
+ *   lookup/browse/<n>.json   "persons:<slug>" and the record's other keys -> entity id
+ *   lookup/entity/<n>.json   entity id -> its summary (label, types, slug, Browse record), with
+ *                            the shard numbers of its statements (st), the statements that
+ *                            point at it (rv) and the statements it is the source of (ss)
+ *   lookup/slug/<n>.json     entity page slug -> entity id
+ *
+ * lookup.json says how many pieces there are, the URL patterns, and `version`, a digest of the
+ * index files, which browse.js appends to each URL so a rebuilt graph is never mixed with a
+ * cached copy of the old one. The whole-file maps are still written, for the validator and for
+ * a browse.js that predates this.
+ */
+async function writeLookupIndex({ browseMapping, entitySummaries, bySlug, subjectShardIndex, reverseIndex, sourceIndex }) {
+  const dir = path.join(OUTPUT_DIR, 'indexes', 'lookup');
+  const write = async (kind, entries) => {
+    const count = LOOKUP_BUCKETS[kind];
+    const buckets = Array.from({ length: count }, () => ({}));
+    for (const [key, value] of entries) buckets[lookupBucket(key, count)][key] = value;
+    for (let index = 0; index < count; index += 1) {
+      await writeJson(path.join(dir, kind, `${String(index).padStart(4, '0')}.json`), {
+        schemaVersion: 1, generatedAt: GENERATED_AT, items: buckets[index]
+      }, { pretty: false });
+    }
+  };
+  await write('browse', Object.entries(browseMapping));
+  await write('entity', entitySummaries.map(([entityId, summary]) => [entityId, compactObject({
+    ...summary,
+    st: subjectShardIndex[entityId],
+    rv: reverseIndex.entityToShardIndex[entityId],
+    ss: sourceIndex.entityToShardIndex[entityId]
+  })]));
+  await write('slug', Object.entries(bySlug));
+
+  indexDigestValue = indexDigest.digest('hex').slice(0, 12);
+  const url = '/data/graph/indexes/lookup.json';
+  await writeJson(path.join(OUTPUT_DIR, 'indexes', 'lookup.json'), {
+    schemaVersion: 1,
+    generatedAt: GENERATED_AT,
+    version: indexDigestValue,
+    hash: 'fnv-1a 32-bit over UTF-16 code units, modulo the bucket count',
+    buckets: LOOKUP_BUCKETS,
+    bucketPad: 4,
+    urls: {
+      browse: '/data/graph/indexes/lookup/browse/{bucket}.json',
+      entity: '/data/graph/indexes/lookup/entity/{bucket}.json',
+      slug: '/data/graph/indexes/lookup/slug/{bucket}.json'
+    },
+    // Shard numbers in the entity lookup become URLs by these patterns, {n} padded to `pad`.
+    shards: {
+      statements: { url: '/data/graph/indexes/statements-by-subject-shards/statements-by-subject-{n}.json', pad: 4 },
+      reverse: { url: `/data/graph/indexes/${reverseIndex.prefix}-shards/${reverseIndex.prefix}-{n}.json`, pad: 3 },
+      sourceStatements: { url: `/data/graph/indexes/${sourceIndex.prefix}-shards/${sourceIndex.prefix}-{n}.json`, pad: 3 }
+    }
+  });
+  return { url, version: indexDigestValue };
 }
 
 // Split each map (or array) into pieces by position and write one file per piece. (A constant,
@@ -1978,6 +2073,7 @@ async function writeRelatedIndex(prefix, relationMap) {
   const shardDir = path.join(OUTPUT_DIR, 'indexes', `${prefix}-shards`);
   await fs.mkdir(shardDir, { recursive: true });
   const entityToShard = {};
+  const entityToShardIndex = {};
   const shards = [];
   const entitiesPerShard = 20;
   for (let start = 0, shardIndex = 0; start < entries.length; start += entitiesPerShard, shardIndex += 1) {
@@ -1994,7 +2090,10 @@ async function writeRelatedIndex(prefix, relationMap) {
     });
     const stat = await fs.stat(path.join(shardDir, name));
     shards.push({ name, url, count: chunk.length, bytes: stat.size });
-    for (const [entityId] of chunk) entityToShard[entityId] = url;
+    for (const [entityId] of chunk) {
+      entityToShard[entityId] = url;
+      entityToShardIndex[entityId] = shardIndex;
+    }
   }
   const mapName = `${prefix}-map.json`;
   const mapUrl = `/data/graph/indexes/${mapName}`;
@@ -2004,7 +2103,7 @@ async function writeRelatedIndex(prefix, relationMap) {
     totalSubjects: entries.length,
     items: entityToShard
   });
-  return { mapUrl, shards };
+  return { mapUrl, shards, entityToShardIndex, prefix };
 }
 
 async function writePropertySummary(statements) {
@@ -2418,17 +2517,27 @@ function buildCompactStatementsBySubject(sortedStatements, allowedSubjectIds) {
   return sortObjectByKey(bySubject);
 }
 
+// Statements are grouped by a hash of their subject, not in runs of 250 sorted subjects: a run
+// was 0.9 MB at the median and 8.8 MB at most (pretty-printed), and a record page downloads the
+// whole file to read one entity's statements. 2,048 compact files average about 200 KB, and an
+// entity whose statements change rewrites only its own file instead of moving every later
+// subject into a different one.
+const SUBJECT_STATEMENT_BUCKETS = 2048;
+
 async function writeSubjectStatementShards(compactBySubject) {
   const entries = Object.entries(compactBySubject).sort(([a], [b]) => a.localeCompare(b, 'en'));
   const shardDir = path.join(OUTPUT_DIR, 'indexes', 'statements-by-subject-shards');
   await fs.mkdir(shardDir, { recursive: true });
   const subjectToShard = {};
+  const subjectToShardIndex = {};
   const shards = [];
-  const subjectsPerShard = 250;
-  for (let start = 0, shardIndex = 0; start < entries.length; start += subjectsPerShard, shardIndex += 1) {
-    const chunk = entries.slice(start, start + subjectsPerShard);
+  const buckets = Array.from({ length: SUBJECT_STATEMENT_BUCKETS }, () => []);
+  for (const entry of entries) buckets[lookupBucket(entry[0], SUBJECT_STATEMENT_BUCKETS)].push(entry);
+  for (let shardIndex = 0; shardIndex < buckets.length; shardIndex += 1) {
+    const chunk = buckets[shardIndex];
+    if (!chunk.length) continue;
     const items = Object.fromEntries(chunk);
-    const name = `statements-by-subject-${String(shardIndex).padStart(3, '0')}.json`;
+    const name = `statements-by-subject-${String(shardIndex).padStart(4, '0')}.json`;
     const url = `/data/graph/indexes/statements-by-subject-shards/${name}`;
     const filePath = path.join(shardDir, name);
     await writeJson(filePath, {
@@ -2437,9 +2546,12 @@ async function writeSubjectStatementShards(compactBySubject) {
       shard: shardIndex,
       totalSubjects: chunk.length,
       items
-    });
+    }, { pretty: false });
     const stat = await fs.stat(filePath);
-    for (const [subjectId] of chunk) subjectToShard[subjectId] = url;
+    for (const [subjectId] of chunk) {
+      subjectToShard[subjectId] = url;
+      subjectToShardIndex[subjectId] = shardIndex;
+    }
     shards.push({
       name,
       url,
@@ -2452,8 +2564,8 @@ async function writeSubjectStatementShards(compactBySubject) {
     generatedAt: GENERATED_AT,
     totalSubjects: entries.length,
     items: subjectToShard
-  });
-  return { shards, subjectToShard };
+  }, { pretty: false });
+  return { shards, subjectToShard, subjectToShardIndex };
 }
 
 function compactValue(value) {
@@ -2556,11 +2668,26 @@ async function removeUnwrittenOutputs() {
 
 const withoutStamp = (text) => text.replace(/"generatedAt":\s*"[^"]*"/g, '"generatedAt":""');
 
+// A digest of everything written under indexes/, apart from build stamps: the lookup head's
+// `version` (writeLookupIndex). browse.js puts it on every lookup and shard URL, so a rebuild
+// that changes a shard is a new URL rather than a day-old copy from the browser's cache (the
+// graph is served with max-age=86400); a rebuild that changes nothing keeps every URL.
+const indexDigest = crypto.createHash('sha1');
+let indexDigestValue = null;
+function noteIndexContent(resolved, text) {
+  if (indexDigestValue !== null) return;
+  const relative = path.relative(path.join(OUTPUT_DIR, 'indexes'), resolved);
+  if (relative.startsWith('..') || path.isAbsolute(relative)) return;
+  indexDigest.update(`${relative.split(path.sep).join('/')}\n`);
+  indexDigest.update(withoutStamp(text));
+}
+
 /** Write `text` (gzipped when `gzipped`), unless the file already holds the same content apart
  * from its generatedAt stamp, in which case it is kept, stamp and all. */
 async function writeIfChanged(filePath, text, { gzipped = false } = {}) {
   const resolved = path.resolve(filePath);
   writtenOutputs.add(resolved);
+  noteIndexContent(resolved, text);
   if (previousOutputs.has(resolved)) {
     try {
       const raw = await fs.readFile(resolved);

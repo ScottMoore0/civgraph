@@ -239,7 +239,7 @@ check('types: the sitemap and the pages route the same types',
   check('page: the 404 still serves the app shell', missingHtml.includes('id="browseHero"'));
 
   const down = await get('persons', '/browse/persons/gerry-adams-27771', { ...env, ELECTIONS_DB: fakeDb({ fail: true }) });
-  check('page: a failed lookup is a 200 with the generic head, never a 404', down.status === 200 && titleOf(await down.text()) === 'Browse - Civgraph', String(down.status));
+  check('page: a failed lookup is a 200 with the generic head, never a 404', down.status === 200 && titleOf(await down.text()) === 'Browse – Civgraph', String(down.status));
 
   const bare = await get('persons', '/browse/persons/');
   check('page: no slug goes to the list', bare.status === 302 && bare.headers.get('Location') === 'https://civgraph.net/browse/#/persons', `${bare.status} ${bare.headers.get('Location')}`);

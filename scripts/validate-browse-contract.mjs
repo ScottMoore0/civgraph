@@ -55,7 +55,8 @@ for (const line of block.split('\n')) {
   if (!index) continue;
   const key = /^\s*'?([\w-]+)'?\s*:/.exec(line);
   const detailDir = /detailDir:\s*'([^']+)'/.exec(line);
-  entities.push({ key: key ? key[1] : '(unknown)', index: index[1], detailDir: detailDir ? detailDir[1] : null });
+  const listIndex = /listIndex:\s*'([^']+)'/.exec(line);
+  entities.push({ key: key ? key[1] : '(unknown)', index: index[1], listIndex: listIndex ? listIndex[1] : null, detailDir: detailDir ? detailDir[1] : null });
 }
 
 if (!entities.length) {
@@ -124,6 +125,19 @@ for (const entity of entities) {
   // a directory that does not exist and 404s, and browse.js rethrows that for every type
   // except elections. Reported as a note so the shape is visible without failing a build
   // over a directory nothing currently needs.
+  // A list index (elections-list.json) is what the list view reads; browse.js falls back to the
+  // full index without one, but a configured one that is missing or empty is a build gap.
+  if (entity.listIndex) {
+    const listPath = `${DATA_ROOT}/${entity.listIndex}`;
+    let listPayload = null;
+    try { listPayload = JSON.parse(readFileSync(listPath, 'utf8')); } catch { listPayload = null; }
+    if (!listPayload || !Array.isArray(listPayload.items) || !listPayload.items.length) {
+      problems.push(`${entity.key}: list index ${listPath} is missing or has no items`);
+    } else if (Array.isArray(payload.items) && listPayload.items.length !== payload.items.length) {
+      problems.push(`${entity.key}: ${listPath} lists ${listPayload.items.length} records, ${path} has ${payload.items.length}`);
+    }
+  }
+
   if (!entity.detailDir) continue;
   const dir = `${DATA_ROOT}/details/${entity.detailDir}`;
   if (existsSync(dir)) continue;

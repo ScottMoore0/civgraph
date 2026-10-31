@@ -9,10 +9,10 @@ const THUMBNAIL_ASSET_VERSION = '20260604-tight-admin-frame';
 // no existing link breaks.
 const ENTITY_CONFIG = {
   maps: { label: 'Maps', singular: 'Map', index: 'maps.json', detailDir: 'maps', action: 'Open in interactive map', layer: 'data' },
-  elections: { label: 'Elections', singular: 'Election', index: 'elections.json', detailDir: 'elections', action: 'Open election layer', layer: 'data' },
+  elections: { label: 'Elections', singular: 'Election', index: 'elections.json', listIndex: 'elections-list.json', detailDir: 'elections', action: 'Open election layer', layer: 'data' },
   features: { label: 'Features', singular: 'Feature group', index: 'features.json', detailDir: null, action: 'Open source map', layer: 'data' },
   parties: { label: 'Parties / Labels', singular: 'Party / label', index: 'parties.json', detailDir: 'parties', layer: 'data' },
-  persons: { label: 'Persons', singular: 'Person', index: 'persons.json', detailDir: null, layer: 'data' },
+  persons: { label: 'Persons', singular: 'Person', index: 'persons.json', detailDir: null, action: 'Latest election on map', layer: 'data' },
   'register-interests': { label: 'Register Interests', singular: 'Register interest', index: 'register-interests.json', detailDir: 'register-interests', layer: 'data' },
   sources: { label: 'Books / Tables / Sources', singular: 'Source', index: 'sources.json', detailDir: 'sources', layer: 'source' },
   proni: { label: 'PRONI Records', singular: 'PRONI record', index: 'proni.json', detailDir: 'proni', layer: 'source' }
@@ -59,6 +59,32 @@ const SOURCE_FILTERS = [
   { key: 'publicationStatus', label: 'Publication status' },
 ];
 
+// Filters for the lists read whole from a static index, so the options come from every record
+// rather than a page of them. `value` reads the facet from an item; `label` names an option.
+const ELECTION_KIND_LABELS = { general: 'General elections', 'by-election': 'By-elections', referendum: 'Referendums', other: 'Other' };
+const LIST_FILTERS = {
+  elections: [
+    { key: 'body', label: 'Body', value: (item) => item.body },
+    { key: 'decade', label: 'Decade', value: (item) => item.decade, order: 'desc' },
+    { key: 'kind', label: 'Type', value: (item) => electionKind(item), optionLabel: (value) => ELECTION_KIND_LABELS[value] || value },
+    {
+      key: 'results',
+      label: 'Show',
+      value: (item) => (!item.entryKind || item.entryKind === 'election' ? 'elections' : 'results'),
+      optionLabel: (value) => (value === 'elections' ? 'Elections only' : 'Constituency and overall results only'),
+      allLabel: 'Elections and their results'
+    }
+  ],
+  maps: [
+    { key: 'category', label: 'Category', value: (item) => item.category }
+  ]
+};
+
+function electionKind(item) {
+  if (item.kind === 'general' || item.kind === 'by-election') return item.kind;
+  return /referendum/i.test(`${item.body || ''} ${item.title || ''}`) ? 'referendum' : 'other';
+}
+
 const REGISTER_INTEREST_SORT_OPTIONS = [
   { key: 'date', label: 'Date' },
   { key: 'memberName', label: 'Politician' },
@@ -68,10 +94,11 @@ const REGISTER_INTEREST_SORT_OPTIONS = [
   { key: 'sourceCount', label: 'Sources' }
 ];
 
+// Body only, not Body, Member type and Chamber as well: every entry is an MLA of the Assembly
+// or an MP of the Commons, so the three asked the same question three ways. An address that
+// still carries f.memberType or f.chamber filters as before.
 const REGISTER_INTEREST_FILTERS = [
   { key: 'electedBody', label: 'Body' },
-  { key: 'memberType', label: 'Member type' },
-  { key: 'chamber', label: 'Chamber' },
   { key: 'constituency', label: 'Constituency' },
   { key: 'categories', label: 'Category' },
   { key: 'sourceKinds', label: 'Source kind' },
@@ -102,8 +129,9 @@ const GRAPH_STATEMENT_PROPERTY_ORDER = [
 // Properties pinned into the header as "at a glance" facts, in display order.
 // Deliberately the concise, identifying statements — not the bulky relational
 // lists (candidatures, register records) that belong in the statement body.
+// Not "instance of": the kicker above the title already says what the record is, and as the
+// first header row ("Instance of: Person") it pushed the useful facts down.
 const GRAPH_HEADER_PINNED_PROPERTIES = [
-  'cg:property:instance-of',
   'cg:property:political-office',
   'cg:property:member-of-political-party',
   'cg:property:elected-body',
@@ -242,6 +270,10 @@ const state = {
   // Catalogue facets, in the shape the /_api/sources filters already accept. Empty string
   // means "All", which is also what the endpoint treats as absent.
   sourceFilters: { provider: '', category: '', publicationStatus: '', license: '' },
+  // Filters of the lists read from a static index (LIST_FILTERS), per type: { body: 'Dáil Éireann' }.
+  listFilters: {},
+  // Parties: whether the one-off ballot-paper labels are listed (?labels=1).
+  showBallotLabels: false,
   graph: {
     manifest: null,
     browseMapping: null,
@@ -290,9 +322,15 @@ init().catch((error) => {
 async function init() {
   state.manifest = await loadJson(`${DATA_ROOT}/index.json`);
   bindEvents();
-  await refreshAuth();
+  renderContributorPanel();
   renderGroups();
   applyRoute();
+  // Who is signed in is asked after the page has rendered, not before: the two requests took
+  // about 340 ms on every first load. A contributor's record page is drawn again with their
+  // tools once the answer arrives.
+  refreshAuth().then(() => {
+    if (state.auth?.allowed && state.currentDetail) renderCurrent();
+  });
   window.addEventListener('hashchange', applyRoute);
   // Back from /browse/#/... to a path-style record page changes the path, not only the hash,
   // and browsers do not reliably fire hashchange for that; popstate always fires. applyRoute
@@ -311,11 +349,25 @@ let lastRoutedAddress = null;
 let renderSeq = 0;
 
 function bindEvents() {
+  // A quarter-second pause before searching, as the PRONI box already did: each key used to
+  // send its own /_api request (seven for "Paisley") or re-render 200 cards.
+  let searchTimer = null;
   els.search?.addEventListener('input', () => {
-    state.query = els.search.value.trim();
-    state.listShown = LIST_PAGE_SIZE;   // T2-09: a new query starts at page one
-    syncListAddress();
-    renderCurrent();
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => {
+      state.query = els.search.value.trim();
+      // On the PRONI page the sidebar box searches PRONI, the only search that page has; it
+      // used to re-render the page and move the cursor into the PRONI box after one letter.
+      if (!state.isHome && state.activeType === 'proni' && !state.activeId) {
+        const box = document.getElementById('proni-search-input');
+        if (box) box.value = state.query;
+        scheduleProniSearch(state.query);
+        return;
+      }
+      state.listShown = LIST_PAGE_SIZE;   // T2-09: a new query starts at page one
+      syncListAddress();
+      renderCurrent();
+    }, 250);
   });
 
   // Where the reader had scrolled to, per address, so Back returns them to the same card. Not
@@ -427,6 +479,29 @@ function bindEvents() {
       return;
     }
 
+    const clearListFilters = event.target.closest('[data-list-clear-filters]');
+    if (clearListFilters) {
+      event.preventDefault();
+      state.listFilters[state.activeType] = {};
+      rerenderList();
+      return;
+    }
+
+    const ballotLabels = event.target.closest('[data-ballot-labels]');
+    if (ballotLabels) {
+      event.preventDefault();
+      state.showBallotLabels = !state.showBallotLabels;
+      rerenderList();
+      return;
+    }
+
+    const login = event.target.closest('[data-contributor-login]');
+    if (login) {
+      // The address may have changed since the link was drawn.
+      login.setAttribute('href', contributorLoginUrl());
+      return;
+    }
+
     const contributorAction = event.target.closest('[data-contributor-action]');
     if (contributorAction) {
       event.preventDefault();
@@ -450,6 +525,17 @@ function bindEvents() {
       // Changing a facet invalidates the accumulated pages, so renderCurrent() re-requests
       // from offset 0 rather than appending to a list built under the old filter.
       if (key && key in state.sourceFilters) state.sourceFilters[key] = sourceFilter.value || '';
+      rerenderList();
+      return;
+    }
+
+    const listFilter = event.target.closest('[data-list-filter]');
+    if (listFilter) {
+      const key = listFilter.dataset.listFilter;
+      const filters = { ...(state.listFilters[state.activeType] || {}) };
+      if (listFilter.value) filters[key] = listFilter.value;
+      else delete filters[key];
+      state.listFilters[state.activeType] = filters;
       rerenderList();
       return;
     }
@@ -488,6 +574,7 @@ function applyRoute() {
   state.activeType = route.type;
   state.activeId = route.id;
   state.selectedFeatureMap = route.params.get('map');
+  state.routeParams = route.params;
   if (route.params.has('q')) {
     state.query = route.params.get('q').trim();
     if (els.search) els.search.value = state.query;
@@ -510,6 +597,15 @@ function currentAddress() {
 
 /** Sort and filters of the two server-side lists, from ?sort, ?dir and ?f.<facet> in the address. */
 function readListControls(type, params) {
+  if (LIST_FILTERS[type]) {
+    const filters = {};
+    for (const filter of LIST_FILTERS[type]) {
+      const value = params.get(`f.${filter.key}`);
+      if (value) filters[filter.key] = value;
+    }
+    state.listFilters[type] = filters;
+  }
+  if (type === 'parties') state.showBallotLabels = params.get('labels') === '1';
   if (type === 'sources') {
     state.sourceFilters = Object.fromEntries(Object.keys(state.sourceFilters).map((key) => [key, params.get(`f.${key}`) || '']));
   }
@@ -537,6 +633,8 @@ function syncListAddress() {
   if (state.activeType === 'sources') {
     for (const [key, value] of Object.entries(state.sourceFilters)) if (value) params.set(`f.${key}`, value);
   }
+  for (const [key, value] of Object.entries(state.listFilters[state.activeType] || {})) if (value) params.set(`f.${key}`, value);
+  if (state.activeType === 'parties' && state.showBallotLabels) params.set('labels', '1');
   if (state.activeType === 'register-interests') {
     const controls = state.registerInterestControls;
     if (controls.sortKey && controls.sortKey !== 'date') params.set('sort', controls.sortKey);
@@ -580,7 +678,7 @@ async function rerenderList() {
 }
 
 function focusKeyFor(element) {
-  for (const attr of ['data-source-filter', 'data-register-filter', 'data-register-sort', 'data-register-direction']) {
+  for (const attr of ['data-source-filter', 'data-register-filter', 'data-register-sort', 'data-register-direction', 'data-list-filter', 'data-ballot-labels']) {
     if (element?.hasAttribute?.(attr)) return `[${attr}="${CSS.escape(element.getAttribute(attr))}"]`;
   }
   return null;
@@ -732,7 +830,8 @@ async function renderCurrent() {
     }
   }
 
-  const data = await loadIndex(state.activeType);
+  // A list reads the list index where there is one (elections: 2.8 MB, not 54 MB).
+  const data = await loadIndex(state.activeType, { list: !state.activeId });
   if (token !== renderSeq) return;
   if (state.activeType === 'features') {
     await renderFeatureGroups(data);
@@ -754,7 +853,7 @@ async function renderCurrent() {
 function renderNotFound(config, id) {
   const words = decodeURIComponent(String(id || '')).replace(/[-_]+/g, ' ').replace(/\b\d{3,}\b/g, '').replace(/\s+/g, ' ').trim();
   els.hero.innerHTML = `
-    <p class="browse-kicker">Browse</p>
+    <p class="browse-kicker">${escapeHtml(sectionName())}</p>
     <h1 class="browse-title" tabindex="-1">${escapeHtml(config.singular)} not found</h1>
   `;
   els.results.innerHTML = `
@@ -859,8 +958,15 @@ function portalSections() {
   return allPortalSections().filter((section) => inSection(section.id));
 }
 
+// Every link under a section filters or searches it. About a hundred of them used to point at
+// the bare section ("Townlands", "2020s", "Seats won" all opened #/maps or #/elections), which
+// looked like a filter and was not one; links that could not be made to filter are gone.
+const portalLink = (type, params) => `#/${type}?${new URLSearchParams(params)}`;
+
 function allPortalSections() {
   const counts = state.manifest?.counts || {};
+  const elections = (params) => portalLink('elections', params);
+  const maps = (params) => portalLink('maps', params);
   return [
     {
       id: 'maps',
@@ -869,9 +975,9 @@ function allPortalSections() {
       count: counts.maps,
       summary: 'Catalogue entries, map metadata, downloads, source credits, and interactive-map links.',
       columns: [
-        { heading: 'Historic geographies', links: [['Townlands', '#/maps'], ['Civil parishes', '#/maps'], ['Baronies', '#/maps'], ['Counties', '#/maps'], ['Provinces', '#/maps']] },
-        { heading: 'Electoral boundaries', links: [['Dáil constituencies', '#/maps'], ['Westminster constituencies', '#/maps'], ['Assembly constituencies', '#/maps'], ['DEAs and wards', '#/maps']] },
-        { heading: 'Reference and open data', links: [['Administrative areas', '#/maps'], ['Settlements', '#/maps'], ['Infrastructure', '#/maps'], ['Environmental datasets', '#/maps']] }
+        { heading: 'Historic geographies', links: [['Townlands', maps({ 'f.category': 'Townlands' })], ['Civil parishes', maps({ q: 'civil parishes' })], ['Baronies', maps({ q: 'baronies' })], ['Counties', maps({ 'f.category': 'Counties' })], ['Historic boundaries', maps({ 'f.category': 'Historic Boundaries' })]] },
+        { heading: 'Electoral boundaries', links: [['Dáil constituencies', maps({ 'f.category': 'Dáil Éireann Constituencies' })], ['Westminster constituencies', maps({ 'f.category': 'Parliamentary Constituencies' })], ['Stormont and Assembly', maps({ 'f.category': 'Devolved Constituencies' })], ['District electoral areas', maps({ 'f.category': 'District Electoral Areas' })]] },
+        { heading: 'Reference and open data', links: [['Local government districts', maps({ 'f.category': 'Local Government Districts' })], ['Settlements', maps({ 'f.category': 'Settlements' })], ['Transport', maps({ 'f.category': 'Transport' })], ['Environment', maps({ 'f.category': 'Environment' })]] }
       ]
     },
     {
@@ -881,9 +987,9 @@ function allPortalSections() {
       count: counts.elections,
       summary: 'Election entries by date, body, geography, result data, and links to open election layers.',
       columns: [
-        { heading: 'By election type', links: [['Dáil Éireann', '#/elections'], ['Westminster', '#/elections'], ['NI Assembly', '#/elections'], ['Local government', '#/elections'], ['Referendums', '#/elections']] },
-        { heading: 'By decade', links: [['2020s', '#/elections'], ['2010s', '#/elections'], ['2000s', '#/elections'], ['1990s', '#/elections'], ['Earlier elections', '#/elections']] },
-        { heading: 'Election data', links: [['Overall results', '#/elections'], ['Constituency results', '#/features'], ['Parties and labels', '#/parties'], ['Candidates and representatives', '#/persons']] }
+        { heading: 'By body', links: [['Dáil Éireann', elections({ 'f.body': 'Dáil Éireann' })], ['Westminster', elections({ 'f.body': 'House of Commons of the United Kingdom' })], ['Stormont', elections({ 'f.body': 'Parliament of Northern Ireland' })], ['NI Assembly', elections({ 'f.body': 'Northern Ireland Assembly' })], ['Referendums', elections({ 'f.kind': 'referendum' })]] },
+        { heading: 'By decade', links: [['2020s', elections({ 'f.decade': '2020s' })], ['2010s', elections({ 'f.decade': '2010s' })], ['2000s', elections({ 'f.decade': '2000s' })], ['1990s', elections({ 'f.decade': '1990s' })], ['1920s', elections({ 'f.decade': '1920s' })]] },
+        { heading: 'Election data', links: [['General elections', elections({ 'f.kind': 'general', 'f.results': 'elections' })], ['By-elections', elections({ 'f.kind': 'by-election', 'f.results': 'elections' })], ['Constituency results', elections({ 'f.results': 'results' })], ['Parties and labels', '#/parties'], ['Candidates and representatives', '#/persons']] }
       ]
     },
     {
@@ -893,9 +999,7 @@ function allPortalSections() {
       count: counts.featureGroups,
       summary: 'Boundary and geography feature groups, with feature records loaded lazily by source map.',
       columns: [
-        { heading: 'Administrative features', links: [['Counties', '#/features'], ['Local authorities', '#/features'], ['Civil parishes', '#/features'], ['Townlands', '#/features']] },
-        { heading: 'Election geographies', links: [['Constituencies', '#/features'], ['DEAs', '#/features'], ['Wards', '#/features'], ['Electoral divisions', '#/features']] },
-        { heading: 'Linked records', links: [['Features with election results', '#/features'], ['Feature source maps', '#/features'], ['Open source map', '#/features']] }
+        { heading: 'Feature groups', links: [['Constituencies', portalLink('features', { q: 'constituencies' })], ['Wards', portalLink('features', { q: 'wards' })], ['Electoral divisions', portalLink('features', { q: 'electoral divisions' })], ['Civil parishes', portalLink('features', { q: 'civil parishes' })]] }
       ]
     },
     {
@@ -905,9 +1009,7 @@ function allPortalSections() {
       count: counts.parties,
       summary: 'Political parties, tickets, labels, aliases, colours, and observed election appearances.',
       columns: [
-        { heading: 'Party data', links: [['Canonical parties', '#/parties'], ['Political tickets', '#/parties'], ['Independent labels', '#/parties']] },
-        { heading: 'Colour and label checks', links: [['Party colours', '#/parties'], ['Observed labels', '#/parties'], ['Aliases and abbreviations', '#/parties']] },
-        { heading: 'Related records', links: [['Election summaries', '#/elections'], ['Candidates', '#/persons'], ['Sources', '#/sources']] }
+        { heading: 'Party data', links: [['Parties', '#/parties'], ['Ballot-paper labels too', portalLink('parties', { labels: '1' })], ['Independents', portalLink('parties', { q: 'independent' })]] }
       ]
     },
     {
@@ -917,9 +1019,7 @@ function allPortalSections() {
       count: counts.persons,
       summary: 'Candidate and elected-person entries observed across the election data.',
       columns: [
-        { heading: 'People indexes', links: [['Candidates', '#/persons'], ['Elected representatives', '#/persons'], ['Repeated candidates', '#/persons']] },
-        { heading: 'Election links', links: [['Contests stood', '#/persons'], ['Seats won', '#/persons'], ['Party histories', '#/parties']] },
-        { heading: 'Research routes', links: [['Search persons', '#/persons'], ['Election entries', '#/elections'], ['Source records', '#/sources']] }
+        { heading: 'People', links: [['Search persons', '#/persons'], ['Party histories', '#/parties'], ['Register interests', '#/register-interests']] }
       ]
     },
     {
@@ -929,9 +1029,8 @@ function allPortalSections() {
       count: counts['register-interests'],
       summary: 'MLA and Northern Ireland MP register of interests rows, linked to source editions, provider APIs, and filtered CSV extracts.',
       columns: [
-        { heading: 'Bodies', links: [['NI Assembly MLAs', '#/register-interests'], ['NI Westminster MPs', '#/register-interests'], ['Current API entries', '#/register-interests']] },
-        { heading: 'Interest data', links: [['Employment and earnings', '#/register-interests'], ['Donations and support', '#/register-interests'], ['Gifts, visits and hospitality', '#/register-interests']] },
-        { heading: 'Source routes', links: [['Register source documents', '#/sources'], ['Structured JSON shards', '#/sources'], ['Historical editions', '#/sources']] }
+        { heading: 'Bodies', links: [['NI Assembly MLAs', portalLink('register-interests', { 'f.electedBody': 'Assembly' })], ['NI Westminster MPs', portalLink('register-interests', { 'f.electedBody': 'House of Commons' })]] },
+        { heading: 'Interest data', links: [['Employment and earnings', portalLink('register-interests', { q: 'employment' })], ['Donations and support', portalLink('register-interests', { q: 'donations' })], ['Gifts, visits and hospitality', portalLink('register-interests', { q: 'gifts' })]] }
       ]
     },
     {
@@ -941,9 +1040,8 @@ function allPortalSections() {
       count: counts.sources,
       summary: 'Books, tables, datasets, map source files, downloads, references, and provider records.',
       columns: [
-        { heading: 'Source types', links: [['Books', '#/sources'], ['Tables', '#/sources'], ['Map sources', '#/sources'], ['Datasets', '#/sources']] },
-        { heading: 'Download routes', links: [['Source files', '#/sources'], ['Map downloads', '#/sources'], ['References', '#/sources']] },
-        { heading: 'Providers', links: [['OSI / OSNI', '#/sources'], ['CSO / NISRA', '#/sources'], ['Local authorities', '#/sources'], ['Open data portals', '#/sources']] }
+        { heading: 'Source types', links: [['Books', portalLink('sources', { 'f.category': 'Books' })], ['Tables', portalLink('sources', { 'f.category': 'Tables' })], ['Map sources', portalLink('sources', { 'f.category': 'Map sources' })], ['Election sources', portalLink('sources', { 'f.category': 'Election sources' })]] },
+        { heading: 'Providers', links: [['OSNI', portalLink('sources', { q: 'osni' })], ['CSO', portalLink('sources', { q: 'cso' })], ['NISRA', portalLink('sources', { q: 'nisra' })], ['Open Data NI', portalLink('sources', { q: 'open data ni' })]] }
       ]
     },
     {
@@ -993,10 +1091,12 @@ function renderPortalStat(label, value) {
 }
 
 function setHero(config, item) {
-  const title = item ? item.title : config.label;
+  const title = item ? readerTitle(state.activeType, item) : config.label;
   const description = item ? heroDescriptionForItem(state.activeType, item) : (state.manifest?.groups || []).find((group) => group.id === state.activeType)?.description || '';
+  // The kicker names the record's kind on a record ("Person"), the section on a list
+  // ("Records", "Catalogue"); it said "Browse" on every page of all three shells.
   els.hero.innerHTML = `
-    <p class="browse-kicker">Browse</p>
+    <p class="browse-kicker">${escapeHtml(item ? config.singular : sectionName())}</p>
     <h1 class="browse-title">${escapeHtml(title)}</h1>
     ${description ? `<p class="browse-description">${escapeHtml(description)}</p>` : ''}
   `;
@@ -1023,7 +1123,7 @@ const SITE_ORIGIN = 'https://civgraph.net';
 // record's head already written in, so it uses the /browse/ shell's values instead.
 const BASE_HEAD = pathRouteParts()
   ? {
-    title: 'Browse - Civgraph',
+    title: 'Browse – Civgraph',
     description: 'Browse Civgraph maps, elections, features, parties, persons, books, tables, and sources.',
     canonical: `${SITE_ORIGIN}/browse/`
   }
@@ -1122,13 +1222,86 @@ function renderList(type, items) {
     renderRegisterInterestList(items);
     return;
   }
-  const filtered = filterItems(items, state.query);
   const config = ENTITY_CONFIG[type];
+  let filtered = filterItems(applyListFilters(type, items), state.query);
+  // Parties: the ballot-paper labels (a spelling seen on a few ballot papers, in no election's
+  // party table) wait behind a button, so the parties are not lost among them.
+  let labelsNote = '';
+  if (type === 'parties') {
+    const labels = filtered.filter((item) => item.ballotLabel).length;
+    if (!state.showBallotLabels) filtered = filtered.filter((item) => !item.ballotLabel);
+    else filtered = [...filtered.filter((item) => !item.ballotLabel), ...filtered.filter((item) => item.ballotLabel)];
+    if (labels) {
+      labelsNote = `
+        <p class="browse-description browse-labels-note">
+          ${state.showBallotLabels
+            ? `Including ${formatNumber(labels)} ballot-paper ${labels === 1 ? 'label' : 'labels'}, listed last.`
+            : `${formatNumber(labels)} ballot-paper ${labels === 1 ? 'label' : 'labels'} ${state.query ? 'also match' : 'are not listed'}: party names as printed on a few ballot papers that are in no election's party table.`}
+          <button type="button" class="browse-btn browse-btn--small" data-ballot-labels aria-pressed="${state.showBallotLabels}">${state.showBallotLabels ? 'Hide' : 'Show'} ballot-paper labels</button>
+        </p>`;
+    }
+  }
   els.results.innerHTML = `
+    ${renderListFilterControls(type, items)}
     ${renderFilterSummary(filtered.length, items.length)}
+    ${labelsNote}
     ${renderListPage(filtered, (item) => renderCard(type, item, config))}
   `;
   state.lastListRender = () => renderList(type, items);
+  announceList(config, filtered.length);
+}
+
+function applyListFilters(type, items) {
+  const filters = Object.entries(state.listFilters[type] || {}).filter(([, value]) => value);
+  if (!filters.length || !LIST_FILTERS[type]) return items;
+  const defs = new Map(LIST_FILTERS[type].map((filter) => [filter.key, filter]));
+  return items.filter((item) => filters.every(([key, value]) => !defs.has(key) || String(defs.get(key).value(item) ?? '') === value));
+}
+
+/** The filter bar of a static list: one select per LIST_FILTERS entry, options from every record. */
+function renderListFilterControls(type, items) {
+  const defs = LIST_FILTERS[type];
+  if (!defs) return '';
+  const current = state.listFilters[type] || {};
+  const active = Object.values(current).filter(Boolean).length;
+  const selects = defs.map((filter) => {
+    const counts = new Map();
+    for (const item of items) {
+      const value = filter.value(item);
+      if (value) counts.set(String(value), (counts.get(String(value)) || 0) + 1);
+    }
+    const options = [...counts.keys()].sort((a, b) => (filter.order === 'desc' ? b.localeCompare(a) : a.localeCompare(b)));
+    if (options.length < 2) return '';
+    const value = current[filter.key] || '';
+    return `
+      <label class="browse-filter">
+        <span>${escapeHtml(filter.label)}</span>
+        <select data-list-filter="${escapeAttr(filter.key)}">
+          <option value="">${escapeHtml(filter.allLabel || 'All')}</option>
+          ${options.map((option) => `<option value="${escapeAttr(option)}"${option === value ? ' selected' : ''}>${escapeHtml(filter.optionLabel ? filter.optionLabel(option) : option)} (${formatNumber(counts.get(option))})</option>`).join('')}
+        </select>
+      </label>
+    `;
+  }).join('');
+  if (!selects) return '';
+  return `
+    <section class="browse-controls" aria-label="${escapeAttr(ENTITY_CONFIG[type].label)} filters">
+      <div class="browse-filter-grid">${selects}</div>
+      ${active ? `<div class="browse-control-footer"><span>${active} active ${active === 1 ? 'filter' : 'filters'}.</span><button type="button" class="browse-btn" data-list-clear-filters>Clear filters</button></div>` : ''}
+    </section>
+  `;
+}
+
+/**
+ * Say what a list now holds through the polite announcer, once per change of list, search or
+ * count: #browseResults is no longer a live region (a whole page of cards read out on every
+ * view), so this is how a screen-reader user hears that a search did something.
+ */
+function announceList(config, count) {
+  const key = `${config.label}|${state.query}|${JSON.stringify(state.listFilters[state.activeType] || {})}|${count}`;
+  if (state.lastListAnnouncement === key) return;
+  state.lastListAnnouncement = key;
+  announce(`${config.label}: ${formatNumber(count)} ${count === 1 ? 'record' : 'records'}${state.query ? ` matching ${state.query}` : ''}.`);
 }
 
 function renderRegisterInterestList(items) {
@@ -1153,15 +1326,15 @@ function renderRegisterInterestControls(items, filteredCount, totalCount, facets
         <span class="browse-control-label">Sort by</span>
         <div class="browse-segmented" role="group" aria-label="Sort attribute">
           ${REGISTER_INTEREST_SORT_OPTIONS.map((option) => `
-            <button type="button" class="browse-control-btn${controls.sortKey === option.key ? ' browse-control-btn--active' : ''}" data-register-sort="${escapeAttr(option.key)}">${escapeHtml(option.label)}</button>
+            <button type="button" class="browse-control-btn${controls.sortKey === option.key ? ' browse-control-btn--active' : ''}" data-register-sort="${escapeAttr(option.key)}" aria-pressed="${controls.sortKey === option.key}">${escapeHtml(option.label)}</button>
           `).join('')}
         </div>
       </div>
       <div class="browse-control-group">
         <span class="browse-control-label">Order</span>
         <div class="browse-segmented" role="group" aria-label="Sort direction">
-          <button type="button" class="browse-control-btn${controls.sortDir === 'desc' ? ' browse-control-btn--active' : ''}" data-register-direction="desc">Newest / Desc</button>
-          <button type="button" class="browse-control-btn${controls.sortDir === 'asc' ? ' browse-control-btn--active' : ''}" data-register-direction="asc">Oldest / Asc</button>
+          <button type="button" class="browse-control-btn${controls.sortDir === 'desc' ? ' browse-control-btn--active' : ''}" data-register-direction="desc" aria-pressed="${controls.sortDir === 'desc'}">Newest / Desc</button>
+          <button type="button" class="browse-control-btn${controls.sortDir === 'asc' ? ' browse-control-btn--active' : ''}" data-register-direction="asc" aria-pressed="${controls.sortDir === 'asc'}">Oldest / Asc</button>
         </div>
       </div>
       <div class="browse-filter-grid">
@@ -1194,7 +1367,7 @@ function renderSourceControls(filteredCount, totalCount, facets) {
         <span>${escapeHtml(filter.label)}</span>
         <select data-source-filter="${escapeAttr(filter.key)}">
           <option value="">All</option>
-          ${options.map((option) => `<option value="${escapeAttr(option)}"${option === value ? ' selected' : ''}>${escapeHtml(option)}</option>`).join('')}
+          ${options.map((option) => `<option value="${escapeAttr(option)}"${option === value ? ' selected' : ''}>${escapeHtml(filter.key === 'publicationStatus' ? `${publicationStatusLabel(option)} (${option.replace(/-/g, ' ')})` : option)}</option>`).join('')}
         </select>
       </label>
     `;
@@ -1303,25 +1476,41 @@ function renderCard(type, item, config) {
   const slug = item.slug || slugify(item.id || item.key || item.title);
   const status = cleanStatus(item.status);
   const summary = item.description || summaryForItem(type, item);
+  const title = readerTitle(type, item);
   return `
-    <article class="browse-card">
+    <article class="browse-card${type === 'persons' || type === 'parties' ? ' browse-card--compact' : ''}">
       ${renderThumbnail(item, 'card')}
       <div class="browse-card__main">
-        <h2 class="browse-card__title"><a href="#/${type}/${encodeURIComponent(slug)}" data-browse-link>${escapeHtml(item.title || item.name || item.id)}</a></h2>
+        <h2 class="browse-card__title"><a href="#/${type}/${encodeURIComponent(slug)}" data-browse-link>${escapeHtml(title)}</a></h2>
         <div class="browse-card__meta">${renderMeta(metaForItem(type, item))}</div>
       </div>
-      ${status ? `<span class="browse-card__status browse-card__status--${escapeAttr(status)}">${escapeHtml(item.status || status.replace(/-/g, ' '))}</span>` : ''}
+      ${status ? `<span class="browse-card__status browse-card__status--${escapeAttr(status)}">${escapeHtml(statusLabel(item.status) || status.replace(/-/g, ' '))}</span>` : ''}
       ${summary ? `<p class="browse-card__summary">${escapeHtml(summary)}</p>` : ''}
-      ${renderInlineActions(config, item)}
+      ${renderInlineActions(config, item, title)}
     </article>
   `;
 }
 
-function renderInlineActions(config, item) {
+// Each button names its record for a screen reader ("Open election layer: 2024 general
+// election"), where a page of identical "Open" links said nothing (WCAG 2.4.4).
+function renderInlineActions(config, item, title = item.title || item.name || '') {
   const actions = [];
-  if (item.interactiveUrl) actions.push(`<a class="browse-btn browse-btn--primary" href="${escapeAttr(item.interactiveUrl)}">${escapeHtml(config.action || 'Open')}</a>`);
-  if (item.downloads?.[0]?.url) actions.push(`<a class="browse-btn" href="${escapeAttr(item.downloads[0].url)}" target="_blank" rel="noopener noreferrer">Download/source</a>`);
+  const label = config.action || 'Open in interactive map';
+  if (item.interactiveUrl) actions.push(`<a class="browse-btn browse-btn--primary" href="${escapeAttr(item.interactiveUrl)}" aria-label="${escapeAttr(`${label}: ${title}`)}">${escapeHtml(label)}</a>`);
+  if (item.downloads?.[0]?.url) actions.push(`<a class="browse-btn" href="${escapeAttr(item.downloads[0].url)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeAttr(`Download or source: ${title}`)}">Download/source</a>`);
   return actions.length ? `<div class="browse-actions">${actions.join('')}</div>` : '';
+}
+
+/**
+ * A record's title for display. A register entry's title ends in its ISO date ("David Trimble
+ * - House of Commons - 2000-11-10"); it is shown as the site shows dates elsewhere.
+ */
+function readerTitle(type, item) {
+  const title = item.title || item.name || item.id || '';
+  if (type === 'register-interests') {
+    return String(title).replace(/ - (\d{4}-\d{2}-\d{2})$/, (match, date) => ` – ${formatDate(date)}`).replace(/ - /g, ' – ');
+  }
+  return title;
 }
 
 // --- PRONI Records: hierarchical archival catalogue ---------------------------
@@ -1400,9 +1589,8 @@ function renderProniLanding(config, items) {
   if (input) {
     input.addEventListener('input', () => scheduleProniSearch(input.value));
     if ((state.proniQuery || '').trim().length >= 2) runProniSearch(state.proniQuery);
-    input.focus();
-    // place cursor at end
-    const v = input.value; input.value = ''; input.value = v;
+    // No autofocus: it ran on every render, including the first, and opened a phone's keyboard
+    // over the page.
   }
 }
 
@@ -1420,15 +1608,19 @@ async function runProniSearch(query) {
   if (q.length < 2) { box.innerHTML = ''; return; }
   box.innerHTML = '<div class="browse-loading">Searching…</div>';
   try {
-    const resp = await fetch(`/_api/proni/search?q=${encodeURIComponent(q)}&limit=30`);
+    const resp = await fetch(`/_api/proni/search?q=${encodeURIComponent(q)}&limit=${PRONI_SEARCH_LIMIT}`);
     if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
     const data = await resp.json();
     if ((state.proniQuery || '').trim() !== q) return; // stale response
     renderProniSearchResults(box, data);
   } catch (error) {
-    box.innerHTML = '<div class="browse-empty">PRONI search runs on the deployed site (the D1-backed API is not available in this local preview).</div>';
+    // Said on production too, where "not available in this local preview" was untrue.
+    if ((state.proniQuery || '').trim() !== q) return;
+    box.innerHTML = '<div class="browse-empty">PRONI search is not available just now. Please try again in a moment.</div>';
   }
 }
+
+const PRONI_SEARCH_LIMIT = 30;
 
 function renderProniSearchResults(box, data) {
   const results = data.results || [];
@@ -1436,8 +1628,12 @@ function renderProniSearchResults(box, data) {
     box.innerHTML = `<div class="browse-empty">No matches for &ldquo;${escapeHtml(data.query || '')}&rdquo;.</div>`;
     return;
   }
+  // A full page means there may be more: the search returns at most PRONI_SEARCH_LIMIT.
+  const count = results.length >= PRONI_SEARCH_LIMIT
+    ? `The first ${formatNumber(results.length)} matches. There may be more: add a word, a reference or a date to narrow the search.`
+    : `${formatNumber(results.length)} result${results.length === 1 ? '' : 's'}`;
   box.innerHTML = `
-    <p class="proni-search-count">${formatNumber(results.length)} result${results.length === 1 ? '' : 's'}</p>
+    <p class="proni-search-count">${count}</p>
     <ul class="proni-child-list">
       ${results.map((r) => `
         <li class="proni-child proni-child--${r.hasChildren ? 'container' : 'item'}">
@@ -1574,21 +1770,22 @@ async function renderDetail(type, indexItem) {
   }
   if (token !== renderSeq) return;
   const pinnedRows = pinnedStatementRows(graph?.statements || []);
-  // Maps fold their downloadable files into the statements panel as a
-  // "Downloads & files" statement group, so the whole map body is one semantic
-  // view rather than a separate Downloads section.
-  const fileLinks = isMap ? collectFileLinks(item) : [];
-  // The semantic statements stay open on map pages, where they carry the downloads. People,
-  // elections and parties lead with their readable tables instead and keep the statements
-  // folded below: on Gerry Adams the election appearances started about 6,700px down, under
-  // hundreds of raw statements. The register-interests page has its own summary above them.
-  const statementsFolded = ['register-interests', 'persons', 'elections', 'parties'].includes(type);
-  const graphPanel = await renderGraphStatementsPanel(type, item, { collapsed: statementsFolded, graph, fileLinks });
+  // The facts panel is folded below the readable tables on every record but a source's: on
+  // Gerry Adams the election appearances started about 6,700px down, under hundreds of raw
+  // statements, and a map's opened on its raw "cg:map-layer" wiring. A map's files are listed
+  // in their own open panel instead of inside the statements.
+  const statementsFolded = type !== 'sources';
+  const graphPanel = await renderGraphStatementsPanel(type, item, { collapsed: statementsFolded, graph });
   if (token !== renderSeq) return;
   if (type === 'register-interests') {
+    await loadPartyNames();
+    if (token !== renderSeq) return;
     els.results.innerHTML = renderRegisterInterestDetailPage(config, item, graphPanel);
+    announce(`Loaded ${item.title || config.singular}.`);
     return;
   }
+  // Party names in a person's elections and a contest's candidates link to the party.
+  if (type === 'persons' || type === 'elections') await loadPartyNames();
   // Map layers get a table of the features that comprise them.
   const featuresPanel = isMap ? await renderMapFeaturesTable(item, graph?.entityId) : '';
   // A contest (one constituency's result) shows its candidates and count summary.
@@ -1604,14 +1801,16 @@ async function renderDetail(type, indexItem) {
       ${renderContributorDetailActions(type, item)}
       ${isMap ? '' : renderHeaderPanel(type, item, pinnedRows)}
       ${contestPanel}
+      ${isMap ? renderLinksPanel(item) : ''}
+      ${featuresPanel}
       ${statementsFolded ? renderRelatedPanel(type, item) : ''}
       ${graphPanel}
-      ${featuresPanel}
       ${isMap ? '' : renderLinksPanel(item, { collapsed: true })}
       ${statementsFolded ? '' : renderRelatedPanel(type, item)}
       ${renderTechnicalPanel(type, item)}
     </div>
   `;
+  announce(`Loaded ${item.title || config.singular}.`);
 }
 
 function renderDetailActions(config, item) {
@@ -1641,28 +1840,27 @@ function renderContributorDetailActions(type, item) {
 // statements, the curated reader summary is the pinned fallback so non-graph
 // items still get a header.
 function renderHeaderPanel(type, item, pinnedRows = []) {
-  const curatedPinned = readerSummaryRows(type, item);
-  // Only let statements drive the header when they yield a substantive set of
-  // facts; sparse catalogue records keep their more informative curated header.
-  const usingStatements = pinnedRows.length >= 2;
-  let primary = usingStatements ? pinnedRows : curatedPinned;
-  // A person's dates lead the header even when graph statements fill it: they were in the
-  // data but never shown, under a note crediting Wikidata for them.
-  if (usingStatements && type === 'persons') {
-    const dates = [['Born', formatDate(item.born)], ['Died', formatDate(item.died)]].filter(([, value]) => value);
-    primary = [...dates, ...pinnedRows];
-  }
+  // The curated facts lead (a person's dates and contests, an election's body, date and
+  // constituencies) and the graph's pinned statements follow, where they add something. The
+  // header used to switch wholesale to the statements once there were two, which hid the
+  // curated facts in a closed "More fields" behind "Instance of: Person".
+  const curatedPinned = readerSummaryRows(type, item).filter(([, value]) => !isEmptyValue(value));
+  const curatedLabels = summaryLabelSet(curatedPinned);
+  const primary = dedupeRows([
+    ...curatedPinned,
+    ...pinnedRows.filter(([label]) => !curatedLabels.has(String(label).toLowerCase()))
+  ]);
   const primaryLabels = summaryLabelSet(primary);
-  const secondarySource = usingStatements
-    ? [...curatedPinned, ...metadataRows(type, item)]
-    : metadataRows(type, item);
-  const secondary = dedupeRows(secondarySource)
+  const secondary = dedupeRows(metadataRows(type, item))
     .filter(([label, value]) => !isEmptyValue(value) && !primaryLabels.has(String(label).toLowerCase()));
   const summary = readerSummaryText(type, item);
+  // The hero already shows the description; the same paragraph again under it was noise.
+  const heroText = heroDescriptionForItem(type, item);
+  const lede = summary && normalizeSearchQuery(summary) !== normalizeSearchQuery(heroText) ? summary : '';
   return `
     <section class="browse-detail__panel browse-reader-summary">
       <div class="browse-detail__body">
-        ${summary ? `<p class="browse-reader-summary__lede">${escapeHtml(summary)}</p>` : ''}
+        ${lede ? `<p class="browse-reader-summary__lede">${escapeHtml(lede)}</p>` : ''}
         ${renderDefinitionRows(primary, 'browse-reader-facts')}
         ${renderBadges(item)}
         ${secondary.length ? renderMoreFields(secondary) : ''}
@@ -1704,17 +1902,17 @@ function readerSummaryRows(type, item) {
       ['Body', item.body],
       ['Date', formatDate(item.date)],
       ['Geography', item.geography],
-      ['Constituencies', item.totalConstituencies],
-      ['Matched / unmatched', `${item.matchedCount || 0} / ${item.unmatchedCount || 0}`]
+      ['Constituencies', item.totalConstituencies]
     ];
   }
   if (type === 'parties') {
     return [
       ['Name', item.title || item.canonicalName],
       ['Short name', item.shortName],
-      ['Years', item.subtitle],
-      ['Observed labels', item.observedNames?.length],
-      ['Election appearances', item.occurrenceCount]
+      // The years alone: the subtitle also repeats the short name and the count of elections.
+      ['Years', yearRange(item.firstYear, item.lastYear) || item.subtitle],
+      ['Spellings on ballot papers', item.observedNames?.length],
+      ['Candidacies', item.occurrenceCount]
     ];
   }
   if (type === 'persons') {
@@ -1722,7 +1920,7 @@ function readerSummaryRows(type, item) {
       ['Name', item.name || item.title],
       ['Born', formatDate(item.born)],
       ['Died', formatDate(item.died)],
-      ['Years', item.subtitle],
+      ['Years', yearRange(item.firstYear, item.lastYear) || item.subtitle],
       ['Parties', joinList(item.parties?.slice(0, 5).map((party) => party.name))],
       ['Contests', item.totals?.stood],
       ['Elected', item.totals?.elected]
@@ -1730,16 +1928,18 @@ function readerSummaryRows(type, item) {
   }
   if (type === 'sources') {
     return [
-      ['Type', item.type],
+      ['Type', sourceTypeLabel(item.type)],
       ['Category', item.category],
       ['Provider', joinList(item.provider)],
-      ['Date', item.date]
+      ['Date', formatDate(item.date)],
+      ['Licence', licenceText(item.license)],
+      ['Publication status', publicationStatusLabel(item.publicationStatus)]
     ];
   }
   return [
     ['Category', item.category],
     ['Group', item.group],
-    ['Status', item.status]
+    ['Status', statusLabel(item.status)]
   ];
 }
 
@@ -1758,15 +1958,21 @@ function renderRegisterInterestDetailPage(config, item, graphPanel) {
 }
 
 function renderRegisterInterestSummaryPanel(item) {
+  // The member and their party link to their own records (personSlug is matched at build by
+  // name and constituency); the entry used to link only to graph entity pages.
+  const member = item.personSlug
+    ? `<a href="#/persons/${encodeURIComponent(item.personSlug)}" data-browse-link>${escapeHtml(item.memberName || '')}</a>`
+    : escapeHtml(item.memberName || '');
+  const parties = normalizeArray(item.parties).map((party) => partyLinkHtml(party)).join(', ');
   const rows = [
-    ['Politician', item.memberName],
-    ['Body', item.electedBody],
-    ['Chamber', item.chamber],
-    ['Date', formatDate(item.date)],
-    ['Constituency', item.constituency || joinList(item.constituencies)],
-    ['Party', joinList(item.parties)],
-    ['Interests', item.interestCount],
-    ['Non-nil', item.nonNilInterestCount]
+    ['Politician', member],
+    ['Body', escapeHtml(item.electedBody || '')],
+    ['Chamber', escapeHtml(item.chamber || '')],
+    ['Date', escapeHtml(formatDate(item.date))],
+    ['Constituency', escapeHtml(item.constituency || joinList(item.constituencies))],
+    ['Party', parties],
+    ['Interests', item.interestCount === undefined || item.interestCount === null ? '' : formatNumber(item.interestCount)],
+    ['Non-nil', item.nonNilInterestCount === undefined || item.nonNilInterestCount === null ? '' : formatNumber(item.nonNilInterestCount)]
   ];
   const lede = item.isNone
     ? `${item.memberName || 'This member'} had a nil return for this register edition.`
@@ -1775,7 +1981,7 @@ function renderRegisterInterestSummaryPanel(item) {
     <section class="browse-detail__panel browse-reader-summary browse-register-summary">
       <div class="browse-detail__body">
         <p class="browse-reader-summary__lede">${escapeHtml(lede)}</p>
-        ${renderDefinitionRows(rows, 'browse-reader-facts')}
+        <dl class="browse-reader-facts">${rows.filter(([, value]) => value).map(([key, value]) => `<div><dt>${escapeHtml(key)}</dt><dd>${value}</dd></div>`).join('')}</dl>
       </div>
     </section>
   `;
@@ -1920,7 +2126,7 @@ function renderRegisterSourcePanel(item) {
   const body = `
     <div class="browse-detail__body browse-source-provenance">
       <p class="browse-supporting-note">These are the source rows merged into the readable record above. They are kept here for audit and provenance rather than repeated in the main text.</p>
-      <div class="browse-table-wrap">
+      <div class="browse-table-wrap" tabindex="0" role="region" aria-label="${escapeAttr('Provenance records')}">
         <table class="browse-table browse-table--compact">
           <caption class="visually-hidden">Provenance records</caption>
           <thead>
@@ -1946,62 +2152,11 @@ function renderRegisterSourcePanel(item) {
   });
 }
 
-function renderOverviewPanel(type, item) {
-  const rows = [];
-  if (type === 'maps') {
-    rows.push(['Category', item.category], ['Group', item.group], ['Provider', joinList(item.provider)], ['Date / years', item.date || joinList(item.years)]);
-  } else if (type === 'elections') {
-    if (item.entryKind && item.entryKind !== 'election') {
-      rows.push(
-        ['Entry type', resultKindLabel(item.resultKind || item.entryKind)],
-        ['Election', item.parentTitle],
-        ['Result', item.resultName],
-        ['Date', formatDate(item.date)],
-        ['Geography', item.geography]
-      );
-    } else {
-      rows.push(['Body', item.body], ['Date', formatDate(item.date)], ['Geography', item.geography], ['Constituencies', item.totalConstituencies], ['Matched / unmatched', `${item.matchedCount || 0} / ${item.unmatchedCount || 0}`]);
-    }
-  } else if (type === 'parties') {
-    rows.push(['Canonical name', item.canonicalName], ['Observed labels', joinList(item.observedNames?.slice(0, 8))], ['Years', item.subtitle], ['Occurrences', item.occurrenceCount]);
-  } else if (type === 'persons') {
-    rows.push(['Name', item.name], ['Years', item.subtitle], ['Parties', joinList(item.parties?.slice(0, 5).map((party) => party.name))], ['Contests', item.totals?.stood], ['Elected', item.totals?.elected],
-      ['Born', formatDate(item.born)], ['Died', formatDate(item.died)]);
-  } else if (type === 'register-interests') {
-    rows.push(
-      ['Elected body', item.electedBody],
-      ['Chamber', item.chamber],
-      ['Member type', item.memberType],
-      ['Jurisdiction', item.jurisdiction],
-      ['Member', item.memberName],
-      ['Constituency', item.constituency || joinList(item.constituencies)],
-      ['Date', formatDate(item.date)],
-      ['Categories', joinList(item.categories) || item.category],
-      ['Interest entries', item.interestCount],
-      ['Non-nil entries', item.nonNilInterestCount],
-      ['Source rows merged', item.sourceCount],
-      ['Source kinds', joinList((item.sourceKinds || []).map(sourceKindLabel))]
-    );
-  } else if (type === 'sources') {
-    rows.push(['Type', item.type], ['Category', item.category], ['Provider', joinList(item.provider)], ['Date', item.date]);
-  }
-  return `
-    <section class="browse-detail__panel">
-      <h2>Overview</h2>
-      <div class="browse-detail__body">
-        ${type === 'register-interests' && (item.interestSummary || item.description) ? `<p>${escapeHtml(item.interestSummary || item.description)}</p>` : item.description ? `<p>${escapeHtml(item.description)}</p>` : ''}
-        ${renderDefinitionRows(rows)}
-        ${renderBadges(item)}
-      </div>
-    </section>
-  `;
-}
-
 // Curated secondary fields for a record, as data. The header panel pins the
 // headline subset and tucks the rest behind its "More fields" disclosure.
 function metadataRows(type, item) {
   const rows = [
-    ['Status', item.status],
+    ['Status', statusLabel(item.status)],
     ['Keywords', joinList(item.keywords)]
   ];
   if (type === 'elections') {
@@ -2022,8 +2177,7 @@ function metadataRows(type, item) {
     }
   } else if (type === 'parties') {
     rows.push(
-      ['Total labels', item.observedNames?.length],
-      ['Election appearances', item.occurrenceCount]
+      ['Spellings on ballot papers', joinList(item.observedNames?.slice(0, 30))]
     );
   } else if (type === 'persons') {
     rows.push(
@@ -2084,24 +2238,6 @@ function renderMapThumbnailNote(item) {
       Cartographic fallback thumbnail with grey land context.
     </p>
   `;
-}
-
-// Merge an item's downloadable artifacts into one list, de-duplicated by URL.
-// `downloads` and `sourceFiles` are identical for most maps (same file listed
-// twice), so collapsing by URL shows each file once; where they genuinely
-// differ (e.g. original upstream formats vs the converted CivGraph file) every
-// distinct file is preserved. `downloads` is taken first so its label wins.
-function collectFileLinks(item) {
-  const seen = new Set();
-  const out = [];
-  for (const link of [...(item.downloads || []), ...(item.sourceFiles || [])]) {
-    if (!link) continue;
-    const key = link.url || `label:${link.label || link.name || ''}`;
-    if (!key || seen.has(key)) continue;
-    seen.add(key);
-    out.push(link);
-  }
-  return out;
 }
 
 // A "Downloads & files" statement group: the actual downloadable artifacts,
@@ -2183,7 +2319,7 @@ async function renderMapFeaturesTable(item, entityId) {
   return `
     <section class="browse-detail__panel">
       <h2>Features in this layer</h2>
-      <div class="browse-table-wrap">
+      <div class="browse-table-wrap" tabindex="0" role="region" aria-label="${escapeAttr('Features in this layer')}">
         <table class="browse-table browse-table--compact browse-features-table">
           <thead>${headerRow}</thead>
           <tbody>${bodyRows}</tbody>
@@ -2226,7 +2362,7 @@ async function renderMapFeaturesFromShards(mapId, meta, graphFeatures) {
   return `
     <section class="browse-detail__panel">
       <h2>Features in this layer</h2>
-      <div class="browse-table-wrap">
+      <div class="browse-table-wrap" tabindex="0" role="region" aria-label="${escapeAttr('Features in this layer')}">
         <table class="browse-table browse-table--compact browse-features-table">
           <thead>${headerRow}</thead>
           <tbody id="${tbodyId}">${rows}</tbody>
@@ -2316,14 +2452,14 @@ function renderRelatedPanel(type, item) {
   ]);
   // The election and the constituency open their Browse pages (the constituency is that
   // contest's result); the map link sits beside them rather than being the only way on.
-  if (type === 'persons') return renderSimpleTable('Election Appearances', ['Date', 'Election', 'Party', 'Constituency', 'Status', 'Map'], byDate(item.elections), (row) => [
+  if (type === 'persons') return renderSimpleTable('Contests', ['Date', 'Election', 'Party', 'Constituency', 'Result', 'Map'], byDate(item.elections), (row) => [
     formatDate(row.date),
     row.key ? `<a href="#/elections/${encodeURIComponent(electionSlug(row.key))}" data-browse-link>${escapeHtml(row.title)}</a>` : escapeHtml(row.title),
-    escapeHtml(row.party || ''),
+    partyLinkHtml(row.party || ''),
     row.key && row.constituency
       ? `<a href="#/elections/${encodeURIComponent(contestSlug(row.key, row.constituency))}" data-browse-link>${escapeHtml(row.constituency)}</a>`
       : escapeHtml(row.constituency || ''),
-    escapeHtml(row.status || (row.elected ? 'Elected' : row.elected === false ? 'Not elected' : '')),
+    escapeHtml(contestOutcome(row)),
     row.interactiveUrl ? `<a href="${escapeAttr(row.interactiveUrl)}" aria-label="${escapeAttr(`Open ${row.title || 'election'} on the map`)}">Open map</a>` : ''
   ]) + renderSimpleTable('Seats in the Commons (History of Parliament)', ['Constituency', 'Held'], item.seatsHeld || [], (row) => [
     escapeHtml(row.constituency || ''),
@@ -2364,6 +2500,26 @@ function renderRelatedPanel(type, item) {
   return '';
 }
 
+/**
+ * One way of saying how a contest went. The source files say "Elected", "Made Quota", "Deemed
+ * elected" (used for every first-past-the-post Westminster win), "Elected at constituency",
+ * "Excluded", "Eliminated" or "Not Elected" for the same two outcomes, so one person's table
+ * read four ways. Elected or Not elected, with the way of it in brackets where that says more.
+ */
+function contestOutcome(row) {
+  const status = String(row.status || '').trim();
+  const lower = status.toLowerCase();
+  const elected = /^elected|made quota|deemed elected/.test(lower) || (row.elected === true && !/^(not|excluded|eliminated)/.test(lower));
+  if (elected) {
+    if (lower === 'made quota') return 'Elected (reached the quota)';
+    if (/auto returned/.test(lower)) return 'Elected (returned unopposed)';
+    if (/regional list/.test(lower)) return 'Elected (regional list)';
+    return 'Elected';
+  }
+  if (/^(excluded|eliminated)/.test(lower)) return 'Not elected (excluded)';
+  return status || row.elected === false ? 'Not elected' : '';
+}
+
 // Variants are alternative editions/versions of the same map layer (e.g. a
 // redrawn or differently-styled cut). Each opens as its own layer in the
 // interactive map, so we give each one an Open button rather than a bare row.
@@ -2386,7 +2542,7 @@ function renderMapVariants(item) {
     <section class="browse-detail__panel">
       <h2>Variants</h2>
       <p class="browse-supporting-note">Alternative editions or versions of this map layer. Each opens as its own layer in the interactive map.</p>
-      <div class="browse-table-wrap">
+      <div class="browse-table-wrap" tabindex="0" role="region" aria-label="${escapeAttr('Variants')}">
         <table class="browse-table browse-table--compact">
           <caption class="visually-hidden">Variants</caption>
           <thead><tr><th scope="col">Variant</th><th scope="col">Date</th><th scope="col">Open</th></tr></thead>
@@ -2425,14 +2581,27 @@ async function renderEntityRoute(slug) {
     await renderEntitySearchRoute();
     return;
   }
-  const entityIndex = await loadGraphEntityIndex();
-  const entityId = entityIndex.bySlug?.[slug] || (entityIndex.byIdShard?.[slug] ? slug : '');
+  let entityId = '';
+  if (await loadGraphLookupHead()) {
+    // An id (cg:...) is its own key; a readable slug is looked up.
+    entityId = /^cg:/.test(slug) ? slug : (await loadGraphLookupBucket('slug', slug))?.[slug] || '';
+  } else {
+    const entityIndex = await loadGraphEntityIndex();
+    entityId = entityIndex.bySlug?.[slug] || (entityIndex.byIdShard?.[slug] ? slug : '');
+  }
   const entity = entityId ? await loadGraphEntitySummary(entityId) : null;
   if (token !== renderSeq) return;
   if (!entity) {
     setHero({ label: 'Entities', singular: 'Entity' }, null);
     setDocumentHead({ title: 'Entity not found – Civgraph' });
     els.results.innerHTML = '<div class="browse-empty">Entity not found.</div>';
+    return;
+  }
+  // A person, party, election, map or source has its own Browse record, which is the readable
+  // page for it; a link to the entity (from a statement, a register entry, a feature) opens
+  // that record. The graph view stays one click away from the record (?graph=1).
+  if (entity.browseType && entity.browseSlug && ENTITY_CONFIG[entity.browseType] && state.routeParams?.get('graph') !== '1') {
+    location.replace(`#/${entity.browseType}/${encodeURIComponent(entity.browseSlug)}`);
     return;
   }
   const graph = await loadGraphStatementsForEntity(entityId);
@@ -2535,19 +2704,40 @@ function renderEntityPage(entityId, entity, statements, related) {
   `;
 }
 
+function relatedTableTitle(title, shown, total) {
+  return shown < total ? `${title} (${formatNumber(shown)} of ${formatNumber(total)})` : `${title} (${formatNumber(total)})`;
+}
+
 function entitySubjectLinkHtml(row) {
   const label = escapeHtml(row.subjectLabel || row.subjectId);
   if (!row.subjectSlug || (row.subjectId && !isLinkableEntityId(row.subjectId))) return label;
   return `<a href="#/entities/${encodeURIComponent(row.subjectSlug)}" data-browse-link>${label}</a>`;
 }
 
+// Statements about an entity, each subject and relationship once: the House of Commons listed
+// "1801 Irish by-elections" three times in its first forty rows and said nothing of the
+// thousands after them.
+const ENTITY_RELATED_LIMIT = 200;
+
+function dedupeRelatedRows(rows) {
+  const seen = new Set();
+  return normalizeArray(rows).filter((row) => {
+    const key = `${row.subjectId || row.subjectLabel}|${row.propertyId}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
 function renderEntityRelatedPanel(related) {
-  const reverseRows = normalizeArray(related?.reverse).slice(0, 40).map((row) => [
+  const allReverse = dedupeRelatedRows(related?.reverse);
+  const allSource = dedupeRelatedRows(related?.sourceStatements);
+  const reverseRows = allReverse.slice(0, ENTITY_RELATED_LIMIT).map((row) => [
     entitySubjectLinkHtml(row),
     escapeHtml(row.propertyLabel || row.propertyId || ''),
     escapeHtml(joinList(row.subjectTypeLabels))
   ]);
-  const sourceRows = normalizeArray(related?.sourceStatements).slice(0, 40).map((row) => [
+  const sourceRows = allSource.slice(0, ENTITY_RELATED_LIMIT).map((row) => [
     entitySubjectLinkHtml(row),
     escapeHtml(row.propertyLabel || row.propertyId || ''),
     escapeHtml([row.sourceKind, row.date].filter(Boolean).join(' / '))
@@ -2559,8 +2749,9 @@ function renderEntityRelatedPanel(related) {
     <section class="browse-detail__panel browse-entity-related-panel">
       <h2>Statements about this entity</h2>
       <div class="browse-detail__body browse-entity-related">
-        ${renderInlineTable('Subject of statements by', ['Entity', 'Relationship', 'Type'], reverseRows)}
-        ${renderInlineTable('Source-supported statements', ['Entity', 'Statement', 'Reference'], sourceRows)}
+        ${renderInlineTable(relatedTableTitle('Subject of statements by', reverseRows.length, allReverse.length), ['Entity', 'Relationship', 'Type'], reverseRows)}
+        ${renderInlineTable(relatedTableTitle('Source-supported statements', sourceRows.length, allSource.length), ['Entity', 'Statement', 'Reference'], sourceRows)}
+        ${allReverse.length >= 1000 || allSource.length >= 1000 ? '<p class="browse-graph__more">The graph keeps at most 1,000 of these per entity.</p>' : ''}
       </div>
     </section>
   `;
@@ -2581,25 +2772,27 @@ async function renderGraphStatementsPanel(type, item, options = {}) {
   if (!statements.length && !fileLinks.length) return '';
   const entitySummary = graph?.entityId ? await loadGraphEntitySummary(graph.entityId) : null;
   const groups = groupGraphStatements(statements);
-  const entityHref = entitySummary?.slug ? `#/entities/${encodeURIComponent(entitySummary.slug)}` : '';
+  // ?graph=1: the entity route otherwise opens the Browse record, which is this page.
+  const entityHref = entitySummary?.slug ? `#/entities/${encodeURIComponent(graph.entityId)}?graph=1` : '';
   const body = `
     <div class="browse-detail__body browse-graph">
       <div class="browse-graph__summary">
-        ${graph?.entityId ? `<span>${escapeHtml(graph.entityId)}</span>` : ''}
-        <span>${formatNumber(statements.length)} statements</span>
-        ${entityHref ? `<a href="${escapeAttr(entityHref)}" data-browse-link>Open entity view</a>` : ''}
+        <span>${formatNumber(statements.length)} ${statements.length === 1 ? 'fact' : 'facts'}</span>
+        ${entityHref ? `<a href="${escapeAttr(entityHref)}" data-browse-link>What else refers to this</a>` : ''}
       </div>
       ${renderStatementGroups(groups, fileLinks)}
     </div>
   `;
+  // "All facts and sources", not "Semantic statements": the panel is every fact the graph holds
+  // about the record with the source of each, and readers do not know the data-model term.
   if (options.collapsed) {
-    return renderCollapsiblePanel('Semantic statements', body, `${formatNumber(statements.length)} graph statements`, {
+    return renderCollapsiblePanel('All facts and sources', body, `${formatNumber(statements.length)} ${statements.length === 1 ? 'fact' : 'facts'}, each with its source`, {
       className: 'browse-graph-panel browse-detail__panel--supporting'
     });
   }
   return `
     <section class="browse-detail__panel browse-graph-panel">
-      <h2>Semantic statements</h2>
+      <h2>All facts and sources</h2>
       ${body}
     </section>
   `;
@@ -2671,7 +2864,9 @@ function renderGraphStatement(statement) {
 }
 
 function graphStatementValueText(statement) {
-  return statement.valueLabel || statement.valueText || statement.valueId || '';
+  const text = statement.valueLabel || statement.valueText || statement.valueId || '';
+  // Dates as everywhere else on the site ("29 Nov 2024", not "2024-11-29").
+  return /^\d{4}-\d{2}(-\d{2})?$/.test(text) ? formatDate(text) : text;
 }
 
 // Render a statement value as a link to the value's own entity page when the
@@ -2779,8 +2974,14 @@ async function loadGraphStatementsForBrowseItem(type, item) {
 }
 
 async function loadGraphStatementsForEntity(entityId) {
-  const subjectMap = await loadGraphSubjectMap();
-  const shardUrl = subjectMap[entityId];
+  const lookup = await loadGraphLookupHead();
+  let shardUrl;
+  if (lookup) {
+    const entry = await lookupGraphEntity(entityId);
+    shardUrl = graphShardUrl(lookup, 'statements', entry?.st);
+  } else {
+    shardUrl = (await loadGraphSubjectMap())[entityId];
+  }
   if (!shardUrl) return { entityId, statements: [] };
   let shard = state.graph.subjectShards.get(shardUrl);
   if (!shard) {
@@ -2791,11 +2992,88 @@ async function loadGraphStatementsForEntity(entityId) {
 }
 
 async function graphEntityIdForBrowseItem(type, item) {
+  // The record's keys in the order the build is surest to have written them: its own slug
+  // first, so the usual case is one small lookup file.
+  if (await loadGraphLookupHead()) {
+    for (const key of graphBrowseKeys(type, item)) {
+      const items = await loadGraphLookupBucket('browse', key);
+      if (items?.[key]) return items[key];
+    }
+    return '';
+  }
   const mapping = await loadGraphBrowseMapping(type);
   for (const key of graphBrowseKeys(type, item)) {
     if (mapping[key]) return mapping[key];
   }
   return '';
+}
+
+// THE GRAPH LOOKUP. A record page used to read three whole maps to find its facts -- the
+// record-to-entity map for its type (up to 14 MB), the subject-to-shard map (20 MB) and the
+// four-part slug index (28 MB) -- 56 MB to read one key from each. The graph build now splits
+// each map by a hash of its key (scripts/graph/build-semantic-graph.mjs writeLookupIndex), so
+// the page computes which small file holds the key and reads that one. The head file names the
+// bucket counts and URL patterns; without it (an older graph) the whole maps are used as before.
+async function loadGraphLookupHead() {
+  if (state.graph.lookup !== undefined) return state.graph.lookup;
+  state.graph.lookup = (async () => {
+    try {
+      // Revalidated on every visit: its version is what keeps the cached lookup files and
+      // shards from an earlier build out of this one.
+      const head = await loadJson(`${GRAPH_ROOT}/indexes/lookup.json`, { cache: 'no-cache' });
+      return head?.buckets && head?.urls ? head : null;
+    } catch {
+      return null;
+    }
+  })();
+  state.graph.lookup = await state.graph.lookup;
+  return state.graph.lookup;
+}
+
+/** The `items` of the lookup file of `kind` ('browse', 'entity', 'slug') that holds `key`. */
+async function loadGraphLookupBucket(kind, key) {
+  const lookup = await loadGraphLookupHead();
+  const count = lookup?.buckets?.[kind];
+  if (!count || !lookup.urls?.[kind]) return null;
+  const bucket = String(lookupBucket(key, count)).padStart(lookup.bucketPad || 4, '0');
+  const url = graphVersionedUrl(lookup.urls[kind].replace('{bucket}', bucket), lookup);
+  state.graph.lookupBuckets ||= new Map();
+  if (!state.graph.lookupBuckets.has(url)) {
+    state.graph.lookupBuckets.set(url, loadJson(url).then((payload) => payload.items || {}).catch(() => ({})));
+  }
+  return state.graph.lookupBuckets.get(url);
+}
+
+/** An entity's lookup entry: its summary, and the shard numbers of its statements (st, rv, ss). */
+async function lookupGraphEntity(entityId) {
+  if (!entityId) return null;
+  const items = await loadGraphLookupBucket('entity', entityId);
+  return items?.[entityId] || null;
+}
+
+function graphShardUrl(lookup, kind, number) {
+  const shard = lookup?.shards?.[kind];
+  if (!shard || number === undefined || number === null) return '';
+  return graphVersionedUrl(shard.url.replace('{n}', String(number).padStart(shard.pad || 3, '0')), lookup);
+}
+
+// The graph is served with a day's max-age, so a URL is tied to the build that wrote it.
+function graphVersionedUrl(url, lookup) {
+  return lookup?.version ? `${url}${url.includes('?') ? '&' : '?'}g=${encodeURIComponent(lookup.version)}` : url;
+}
+
+/**
+ * Which of `count` files a key lives in: FNV-1a over the key's UTF-16 code units. The browse and
+ * graph builds have the same function (lookupBucket); the three must agree.
+ */
+function lookupBucket(key, count) {
+  let hash = 0x811c9dc5;
+  const text = String(key);
+  for (let i = 0; i < text.length; i += 1) {
+    hash ^= text.charCodeAt(i);
+    hash = Math.imul(hash, 0x01000193);
+  }
+  return (hash >>> 0) % count;
 }
 
 function graphBrowseKeys(type, item) {
@@ -2859,6 +3137,12 @@ async function loadGraphEntitySearch() {
 }
 
 async function loadGraphEntitySummary(entityId) {
+  if (await loadGraphLookupHead()) {
+    const entry = await lookupGraphEntity(entityId);
+    if (!entry) return null;
+    const { st: _st, rv: _rv, ss: _ss, ...summary } = entry;
+    return summary;
+  }
   const index = await loadGraphEntityIndex();
   if (index.byId?.[entityId]) return index.byId[entityId];
   const shardUrl = index.byIdShard?.[entityId];
@@ -2880,12 +3164,21 @@ async function loadGraphRelatedForEntity(entityId) {
 }
 
 async function loadGraphRelatedShard(entityId, mapStateKey, shardStateKey, manifestIndexKey) {
-  const manifest = await loadGraphManifest();
-  if (!state.graph[mapStateKey]) {
-    const mapPayload = await loadJson(manifest.indexes[manifestIndexKey]);
-    state.graph[mapStateKey] = mapPayload.items || {};
+  let shardUrl;
+  const lookup = await loadGraphLookupHead();
+  if (lookup) {
+    const entry = await lookupGraphEntity(entityId);
+    shardUrl = mapStateKey === 'reverseEntityMap'
+      ? graphShardUrl(lookup, 'reverse', entry?.rv)
+      : graphShardUrl(lookup, 'sourceStatements', entry?.ss);
+  } else {
+    const manifest = await loadGraphManifest();
+    if (!state.graph[mapStateKey]) {
+      const mapPayload = await loadJson(manifest.indexes[manifestIndexKey]);
+      state.graph[mapStateKey] = mapPayload.items || {};
+    }
+    shardUrl = state.graph[mapStateKey][entityId];
   }
-  const shardUrl = state.graph[mapStateKey][entityId];
   if (!shardUrl) return [];
   let shard = state.graph[shardStateKey].get(shardUrl);
   if (!shard) {
@@ -3025,8 +3318,8 @@ async function renderContestResultPanel(item) {
   const rows = sorted.map((candidate) => {
     const share = valid ? `${(firstPrefs(candidate) / valid * 100).toFixed(1)}%` : '';
     const party = candidate.colour
-      ? `<span class="browse-badge" style="border-color:${escapeAttr(candidate.colour)}">${escapeHtml(candidate.party || 'Independent')}</span>`
-      : escapeHtml(candidate.party || '');
+      ? partyLinkHtml(candidate.party || 'Independent', `<span class="browse-badge" style="border-color:${escapeAttr(candidate.colour)}">${escapeHtml(candidate.party || 'Independent')}</span>`)
+      : partyLinkHtml(candidate.party || '');
     return `
       <tr${candidate.elected ? ' class="browse-contest__elected"' : ''}>
         <td>${contestPersonLink(candidate)}</td>
@@ -3053,7 +3346,7 @@ async function renderContestResultPanel(item) {
     <section class="browse-detail__panel browse-contest">
       <h2>Result</h2>
       ${renderDefinitionRows(summaryRows, 'browse-reader-facts')}
-      <div class="browse-table-wrap">
+      <div class="browse-table-wrap" tabindex="0" role="region" aria-label="${escapeAttr('Candidates')}">
         <table class="browse-table">
           <caption class="visually-hidden">Candidates in ${escapeHtml(item.resultName || item.constituency || '')}, ${escapeHtml(item.parentTitle || '')}: ${formatNumber(sorted.length)} standing, ${formatNumber(elected)} elected</caption>
           <thead><tr>
@@ -3080,21 +3373,25 @@ function renderElectionRelated(item) {
     return renderTablePanel('Parent Election', ['Date', 'Election', 'Interactive layer'], parentRows);
   }
   const partyRows = (item.partySummary || []).map((party) => [
-    party.colour ? `<span class="browse-badge" style="border-color:${escapeAttr(party.colour)}">${escapeHtml(party.party || '')}</span>` : escapeHtml(party.party || ''),
+    partyLinkHtml(party.party || '', party.colour ? `<span class="browse-badge" style="border-color:${escapeAttr(party.colour)}">${escapeHtml(party.party || '')}</span>` : escapeHtml(party.party || '')),
     formatNumber(party.stood),
     formatNumber(party.seats),
     formatNumber(party.votes),
     party.share === undefined ? '' : `${Number(party.share).toFixed(2)}%`
   ]);
-  const constituencyRows = (item.resultEntries || []).length
-    ? (item.resultEntries || []).map((entry) => [
-      entry.browseUrl ? `<a href="#/elections/${encodeURIComponent((entry.browseUrl || '').split('/').pop() || entry.key)}" data-browse-link>${escapeHtml(entry.resultName || entry.title || entry.key)}</a>` : escapeHtml(entry.resultName || entry.title || entry.key),
-      escapeHtml(resultKindLabel(entry.resultKind || 'result'))
+  // The overall result first, then the constituencies in order: "Overall results" used to sit
+  // alphabetically between Offaly and Roscommon. A type column said "Constituency Result" on
+  // every row but that one, so it is gone.
+  const entries = [...(item.resultEntries || [])].sort((a, b) =>
+    (a.resultKind === 'overall' ? 0 : 1) - (b.resultKind === 'overall' ? 0 : 1));
+  const constituencyRows = entries.length
+    ? entries.map((entry) => [
+      entry.browseUrl ? `<a href="#/elections/${encodeURIComponent((entry.browseUrl || '').split('/').pop() || entry.key)}" data-browse-link>${escapeHtml(entry.resultName || entry.title || entry.key)}</a>` : escapeHtml(entry.resultName || entry.title || entry.key)
     ])
-    : (item.constituencies || []).map((name) => [escapeHtml(name), '']);
+    : (item.constituencies || []).map((name) => [escapeHtml(name)]);
   return `
     ${renderTablePanel('Party Summary', ['Party', 'Stood', 'Seats', 'Votes', 'Share'], partyRows)}
-    ${renderTablePanel('Constituencies / Features', ['Name', 'Type'], constituencyRows)}
+    ${renderTablePanel('Results by constituency', ['Result'], constituencyRows)}
   `;
 }
 
@@ -3123,7 +3420,7 @@ function renderLinksPanel(item, options = {}) {
   for (const link of item.sourceFiles || []) pushRow('Source file', link.label, link.url);
   if (!rows.length) return '';
   const body = `
-    <div class="browse-table-wrap">
+    <div class="browse-table-wrap" tabindex="0" role="region" aria-label="${escapeAttr('Downloads and files')}">
       <table class="browse-table browse-table--compact">
         <caption class="visually-hidden">Related links</caption>
         <thead><tr><th scope="col">Type</th><th scope="col">Label</th><th scope="col">Link</th></tr></thead>
@@ -3161,9 +3458,11 @@ function renderThumbnail(item, context = 'card') {
     const srcset = context === 'card' && thumbnail.smallUrl && thumbnail.url
       ? ` srcset="${escapeAttr(smallUrl)} 60w, ${escapeAttr(url)} 120w" sizes="72px"`
       : '';
+    // A card's thumbnail is decoration beside its own title link (alt=""), not the title again.
+    const alt = context === 'card' ? '' : thumbnail.alt || item.title || '';
     return `
       <figure class="browse-thumb browse-thumb--${escapeAttr(context)}">
-        <img src="${escapeAttr(src)}"${srcset} alt="${escapeAttr(thumbnail.alt || item.title || '')}" loading="lazy" decoding="async">
+        <img src="${escapeAttr(src)}"${srcset} alt="${escapeAttr(alt)}" loading="lazy" decoding="async">
       </figure>
     `;
   }
@@ -3174,7 +3473,7 @@ function renderThumbnail(item, context = 'card') {
       : '';
     return `
       <figure class="browse-thumb browse-thumb--${escapeAttr(context)} browse-thumb--external">
-        <img src="${escapeAttr(src)}"${srcset} alt="${escapeAttr(thumbnail.alt || item.title || '')}" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+        <img src="${escapeAttr(src)}"${srcset} alt="${escapeAttr(context === 'card' ? '' : thumbnail.alt || item.title || '')}" loading="lazy" decoding="async" referrerpolicy="no-referrer">
       </figure>
     `;
   }
@@ -3286,6 +3585,9 @@ function thumbnailInitials(value) {
 }
 
 function renderTechnicalPanel(type, item) {
+  // Internal ids and source-map wiring are for the people who maintain the records; a reader
+  // saw "Technical data" at the foot of every page.
+  if (!state.auth?.allowed) return '';
   const technicalRows = technicalFieldEntries(type, item);
   // A wholesale field dump and the inline raw JSON each re-list the entire
   // record, duplicating fields the curated panels already show. Keep raw JSON
@@ -3341,7 +3643,7 @@ function renderTechnicalTable(title, rows) {
   return `
     <section class="browse-technical__group">
       <h3>${escapeHtml(title)}</h3>
-      <div class="browse-table-wrap">
+      <div class="browse-table-wrap" tabindex="0" role="region" aria-label="${escapeAttr(title)}">
         <table class="browse-table browse-table--technical">
           <caption class="visually-hidden">Technical fields</caption>
           <thead><tr><th scope="col">Field</th><th scope="col">Value</th></tr></thead>
@@ -3416,9 +3718,12 @@ async function refreshAuth() {
 function renderContributorPanel() {
   if (!els.contributorPanel) return;
   const auth = state.auth || {};
+  // Titles are not headings: the panel came before the page's h1, so every page's outline
+  // opened on "Contributor".
+  els.contributorPanel.classList.toggle('contributor-panel--signed-out', !auth.allowed && !auth.authenticated);
   if (auth.allowed) {
     els.contributorPanel.innerHTML = `
-      <h2 class="contributor-panel__title">Contributor</h2>
+      <p class="contributor-panel__title">Contributor</p>
       <p class="contributor-panel__body">Logged in as <span class="contributor-panel__email">${escapeHtml(auth.email || 'contributor')}</span>.</p>
       <div class="contributor-panel__actions">
         <button type="button" class="contributor-btn contributor-btn--primary" data-contributor-action="submit-map">Submit map</button>
@@ -3429,7 +3734,7 @@ function renderContributorPanel() {
   }
   if (auth.authenticated && !auth.allowed) {
     els.contributorPanel.innerHTML = `
-      <h2 class="contributor-panel__title">Contributor</h2>
+      <p class="contributor-panel__title">Contributor</p>
       <p class="contributor-panel__body">Logged in as <span class="contributor-panel__email">${escapeHtml(auth.email || 'unknown')}</span>, but this account is not in the contributor allowlist.</p>
       <div class="contributor-panel__actions">
         <a class="contributor-btn" href="${escapeAttr(auth.logoutUrl || '/cdn-cgi/access/logout')}">Log out</a>
@@ -3437,13 +3742,17 @@ function renderContributorPanel() {
     `;
     return;
   }
+  // Signed out, the panel is one quiet line at the foot of the sidebar: it was a boxed "Log
+  // in" above the sections for every visitor, and only a few contributors ever use it.
   els.contributorPanel.innerHTML = `
-    <h2 class="contributor-panel__title">Contributor</h2>
-    <p class="contributor-panel__body">Selected contributors can propose Browse edits and map submissions.</p>
-    <div class="contributor-panel__actions">
-      <a class="contributor-btn contributor-btn--primary" href="${escapeAttr(auth.loginUrl || '/_api/contributions/login?return=%2Fbrowse%2F')}">Log in</a>
-    </div>
+    <p class="contributor-panel__body">Contributors can propose corrections and new maps. <a href="${escapeAttr(contributorLoginUrl())}" data-contributor-login>Contributor log in</a></p>
   `;
+}
+
+/** The sign-in link, returning to the page the reader is on rather than always to /browse/. */
+function contributorLoginUrl() {
+  const here = `${location.pathname}${location.search}${location.hash}`;
+  return `/_api/contributions/login?return=${encodeURIComponent(here)}`;
 }
 
 function handleContributorAction(action) {
@@ -4068,51 +4377,78 @@ async function renderFeatureGroups(data) {
   const token = renderSeq;
   const selectedHtml = selected ? await renderFeatureGroupDetail(selected) : '';
   if (token !== renderSeq) return;
+  if (selectedId && !selected) {
+    renderNotFound(ENTITY_CONFIG.features, selectedId);
+    return;
+  }
+  // A feature group's page is titled by its map, as every other record is by itself; it kept
+  // the heading "Features".
+  if (selected) setHero(ENTITY_CONFIG.features, { ...selected, description: selected.category || '' });
   els.results.innerHTML = `
-    <div class="browse-note">Feature browsing is grouped by map and loads existing spatial-index sidecars on demand. This keeps the public Browse page responsive while still exposing the feature catalogue.</div>
     ${selected ? selectedHtml : `
+      <p class="browse-note">Each map's boundaries by name, grouped by map.</p>
       ${renderFilterSummary(items.length, data.items?.length || 0)}
       ${renderListPage(items, (entry) => renderCard('features', entry, ENTITY_CONFIG.features))}
     `}
   `;
-  if (!selected) state.lastListRender = () => renderFeatureGroups(data);
+  if (!selected) {
+    state.lastListRender = () => renderFeatureGroups(data);
+    announceList(ENTITY_CONFIG.features, items.length);
+  } else {
+    announce(`Loaded ${selected.title}.`);
+  }
 }
 
 async function renderFeatureGroupDetail(item) {
+  // Only a group with a sidecar file has one to fetch (the build leaves spatialIndexUrl out
+  // otherwise); the old code asked for every group's and 404ed on maps like stormont-1929,
+  // after which the features table silently vanished.
   let featureData = null;
-  try {
-    featureData = await loadJson(`/data/database/spatial-index/${encodeURIComponent(item.id)}.json`);
-    state.loadedFeatureMap = item.id;
-  } catch {
-    featureData = null;
+  if (item.spatialIndexUrl) {
+    try {
+      featureData = await loadJson(item.spatialIndexUrl);
+      state.loadedFeatureMap = item.id;
+    } catch {
+      featureData = null;
+    }
   }
-  const features = filterItems(featureData?.features || item.sampleFeatures || [], state.query).slice(0, 500);
+  const allFeatures = featureData?.features || item.sampleFeatures || [];
+  const features = filterItems(allFeatures, state.query).slice(0, 500);
+  const mapLink = item.mapSlug ? `<a href="#/maps/${encodeURIComponent(item.mapSlug)}" data-browse-link>map's record</a>` : 'map';
+  const related = item.relatedElections || [];
   return `
     <div class="browse-detail">
       <div class="browse-actions">
         <a class="browse-btn" href="#/features" data-browse-link>Back to feature groups</a>
+        ${item.mapSlug ? `<a class="browse-btn" href="#/maps/${encodeURIComponent(item.mapSlug)}" data-browse-link>Map record</a>` : ''}
         ${item.interactiveUrl ? `<a class="browse-btn browse-btn--primary" href="${escapeAttr(item.interactiveUrl)}">Open source map</a>` : ''}
       </div>
       <section class="browse-detail__panel">
-        <h2>${escapeHtml(item.title)}</h2>
         <div class="browse-detail__body">
           ${renderDefinitionRows([
-            ['Feature count', formatNumber(item.featureCount)],
-            ['Source map', item.sourceMapId],
-            ['Related elections', item.relatedElectionCount]
-          ])}
+            ['Features', item.featureCount || null],
+            ['Category', item.category],
+            ['Elections on this map', item.relatedElectionCount]
+          ], 'browse-reader-facts')}
         </div>
       </section>
-      ${renderSimpleTable('Related Elections', ['Date', 'Election'], item.relatedElections || [], (row) => [
-        formatDate(row.date),
-        row.interactiveUrl ? `<a href="${escapeAttr(row.interactiveUrl)}">${escapeHtml(row.title)}</a>` : escapeHtml(row.title)
-      ])}
-      ${renderTablePanel('Features', ['Name', 'Bounds'], features.map((feature) => [
-        escapeHtml(feature.name || feature.label || 'Unnamed feature'),
-        escapeHtml(Array.isArray(feature.bbox) ? feature.bbox.map((value) => Number(value).toFixed(5)).join(', ') : '')
-      ]))}
+      ${related.length ? renderTablePanel(
+        item.relatedElectionCount > related.length ? `Elections on this map (${formatNumber(related.length)} of ${formatNumber(item.relatedElectionCount)})` : 'Elections on this map',
+        ['Date', 'Election'],
+        related.map((row) => [
+          formatDate(row.date),
+          row.key
+            ? `<a href="#/elections/${encodeURIComponent(electionSlug(row.key))}" data-browse-link>${escapeHtml(row.title)}</a>`
+            : row.interactiveUrl ? `<a href="${escapeAttr(row.interactiveUrl)}">${escapeHtml(row.title)}</a>` : escapeHtml(row.title)
+        ])) : ''}
+      ${features.length
+        ? renderTablePanel('Features', ['Name', 'Bounds'], features.map((feature) => [
+          escapeHtml(feature.name || feature.label || 'Unnamed feature'),
+          escapeHtml(Array.isArray(feature.bbox) ? feature.bbox.map((value) => Number(value).toFixed(5)).join(', ') : '')
+        ]))
+        : `<section class="browse-detail__panel"><h2>Features</h2><p class="browse-note">The feature list for this map is not available here. The ${mapLink} has its full features table.</p></section>`}
+      ${allFeatures.length > 500 ? `<p class="browse-description">Showing the first 500 of ${formatNumber(allFeatures.length)} features. Use search to narrow the list.</p>` : ''}
       ${renderTechnicalPanel('features', item)}
-      ${(featureData?.features?.length || 0) > 500 ? '<p class="browse-description">Showing the first 500 matching features. Use search to narrow the list.</p>' : ''}
     </div>
   `;
 }
@@ -4146,12 +4482,14 @@ function renderCollapsiblePanel(title, bodyHtml, summaryText = '', options = {})
   `;
 }
 
+// A wide table scrolls inside its wrapper, which is a focusable, named region (tabindex,
+// role, aria-label) so a keyboard user can scroll it too, as in every table wrapper here.
 function renderTablePanel(title, headers, rows) {
   if (!rows?.length) return '';
   return `
     <section class="browse-detail__panel">
       <h2>${escapeHtml(title)}</h2>
-      <div class="browse-table-wrap">
+      <div class="browse-table-wrap" tabindex="0" role="region" aria-label="${escapeAttr(title)}">
         <table class="browse-table">
           <thead><tr>${headers.map((header) => `<th scope="col">${escapeHtml(header)}</th>`).join('')}</tr></thead>
           <tbody>${rows.map((row) => `<tr>${row.map((cell) => `<td>${cell ?? ''}</td>`).join('')}</tr>`).join('')}</tbody>
@@ -4166,7 +4504,7 @@ function renderInlineTable(title, headers, rows) {
   return `
     <section class="browse-inline-table">
       <h3>${escapeHtml(title)}</h3>
-      <div class="browse-table-wrap">
+      <div class="browse-table-wrap" tabindex="0" role="region" aria-label="${escapeAttr(title)}">
         <table class="browse-table browse-table--compact">
           <thead><tr>${headers.map((header) => `<th scope="col">${escapeHtml(header)}</th>`).join('')}</tr></thead>
           <tbody>${rows.map((row) => `<tr>${row.map((cell) => `<td>${cell ?? ''}</td>`).join('')}</tr>`).join('')}</tbody>
@@ -4190,13 +4528,15 @@ function summaryLabelSet(rows) {
 function renderDefinitionRows(rows, className = 'browse-detail__meta') {
   const filtered = rows.filter(([, value]) => value !== null && value !== undefined && value !== '');
   if (!filtered.length) return '';
-  return `<dl class="${escapeAttr(className)}">${filtered.map(([key, value]) => `<div><dt>${escapeHtml(key)}</dt><dd>${escapeHtml(String(value))}</dd></div>`).join('')}</dl>`;
+  // Numbers with thousands separators ("14,808", not "14808").
+  const text = (value) => (typeof value === 'number' ? formatNumber(value) : String(value));
+  return `<dl class="${escapeAttr(className)}">${filtered.map(([key, value]) => `<div><dt>${escapeHtml(key)}</dt><dd>${escapeHtml(text(value))}</dd></div>`).join('')}</dl>`;
 }
 
 function renderBadges(item) {
   const badges = [];
   if (item.placeholder) badges.push('Placeholder');
-  if (item.status) badges.push(item.status);
+  if (item.status) badges.push(statusLabel(item.status));
   if (!badges.length) return '';
   return `<div class="browse-badges">${badges.map((badge) => `<span class="browse-badge">${escapeHtml(badge)}</span>`).join('')}</div>`;
 }
@@ -4375,6 +4715,29 @@ async function renderServerList(type, { append = false } = {}) {
     ${more}
   `;
   state.lastListRender = () => renderServerList(type);
+  announceList(config, page.total);
+}
+
+/**
+ * Every name a party is known by, folded, to its slug (data/browse/party-names.json, about
+ * 40 KB): party names in a person's elections, a contest's candidates and an election's party
+ * table were plain text, though each party has a page.
+ */
+async function loadPartyNames() {
+  if (!state.partyNames) {
+    state.partyNames = loadJson(`${DATA_ROOT}/party-names.json`).then((payload) => payload.items || {}).catch(() => ({}));
+  }
+  state.partyNames = await state.partyNames;
+  return state.partyNames;
+}
+
+/** A party name as a link to its page when the party is known, else as text. `inner` is the HTML shown. */
+function partyLinkHtml(name, inner = escapeHtml(name || '')) {
+  const names = state.partyNames && typeof state.partyNames.then !== 'function' ? state.partyNames : null;
+  // Folded as build-browse-indexes.mjs normalizeName folds the keys.
+  const key = String(name || '').normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+  const slug = key ? names?.[key] : '';
+  return slug ? `<a href="#/parties/${encodeURIComponent(slug)}" data-browse-link>${inner}</a>` : inner;
 }
 
 /**
@@ -4382,12 +4745,33 @@ async function renderServerList(type, { append = false } = {}) {
  * election-contest-parents.json and its election's contest file; an election from its detail
  * file. Returns null when neither has it, and the caller falls back to the index.
  */
+/**
+ * The election a contest slug belongs to: from the small file its slug hashes to
+ * (election-contest-parents/<bucket>.json, about 20 KB), or from the whole 1.2 MB map when an
+ * older build wrote only that.
+ */
+async function electionContestParent(slug) {
+  const bucket = String(lookupBucket(slug, ELECTION_CONTEST_PARENT_BUCKETS)).padStart(4, '0');
+  try {
+    const items = (await loadJson(`${DATA_ROOT}/election-contest-parents/${bucket}.json`)).items || {};
+    return items[slug] || null;
+  } catch {
+    state.electionContestParents ||= (await loadJson(`${DATA_ROOT}/election-contest-parents.json`)).items || {};
+    return state.electionContestParents[slug] || null;
+  }
+}
+
+// Must equal CONTEST_PARENT_BUCKETS in scripts/build-browse-indexes.mjs.
+const ELECTION_CONTEST_PARENT_BUCKETS = 64;
+
 async function loadElectionRecord(id) {
   let slug = String(id || '');
   try { slug = decodeURIComponent(slug); } catch { /* keep as is */ }
+  // An election's key ("dail-eireann__2024-11-29", from an older link or the graph) is its slug
+  // with "__" made "-".
+  if (slug.includes('__')) slug = slugify(slug);
   try {
-    state.electionContestParents ||= (await loadJson(`${DATA_ROOT}/election-contest-parents.json`)).items || {};
-    const parent = state.electionContestParents[slug];
+    const parent = await electionContestParent(slug);
     if (parent) {
       const shard = await loadJson(`${DATA_ROOT}/details/election-contests/${encodeURIComponent(parent)}.json`);
       return (shard.items || []).find((entry) => entry.slug === slug) || null;
@@ -4401,9 +4785,21 @@ async function loadElectionRecord(id) {
   }
 }
 
-async function loadIndex(type) {
-  if (state.indexes.has(type)) return state.indexes.get(type);
+async function loadIndex(type, { list = false } = {}) {
   const config = ENTITY_CONFIG[type];
+  if (list && config.listIndex) {
+    const cacheKey = `${type}:list`;
+    if (state.indexes.has(cacheKey)) return state.indexes.get(cacheKey);
+    if (state.indexes.has(type)) return state.indexes.get(type);
+    try {
+      const listData = expandElectionList(await loadJson(`${DATA_ROOT}/${config.listIndex}`));
+      state.indexes.set(cacheKey, listData);
+      return listData;
+    } catch {
+      // No list index (an older build): the full index still lists everything.
+    }
+  }
+  if (state.indexes.has(type)) return state.indexes.get(type);
   const data = await loadJson(`${DATA_ROOT}/${config.index}`);
   if (data.indexLayout === 'sharded' && Array.isArray(data.shards)) {
     const shardData = await Promise.all(data.shards.map((shard) => loadJson(shard.url)));
@@ -4411,6 +4807,30 @@ async function loadIndex(type) {
   }
   state.indexes.set(type, data);
   return data;
+}
+
+/**
+ * elections-list.json carries each contest as its title, slug and constituency with `of`, the
+ * place of its election in the list; the date, body, kind, status, thumbnail and map link are
+ * its election's and are copied back here, so cards, filters and search see whole items.
+ */
+function expandElectionList(data) {
+  const thumbnails = data.thumbnails || {};
+  const items = data.items || [];
+  for (const item of items) {
+    if (item.thumb && thumbnails[item.thumb]) item.thumbnail = thumbnails[item.thumb];
+  }
+  for (const item of items) {
+    const parent = Number.isInteger(item.of) ? items[item.of] : null;
+    if (!parent) continue;
+    item.entryKind = item.result === 'overall' ? 'election-overall-result' : 'election-constituency-result';
+    item.parentTitle = parent.title;
+    item.subtitle = `${item.result === 'overall' ? 'Overall result' : item.result === 'regional-list' ? 'Regional list result' : 'Constituency result'}: ${parent.title}`;
+    for (const key of ['date', 'decade', 'body', 'kind', 'status', 'thumbnail', 'interactiveUrl']) {
+      if (parent[key] !== undefined && item[key] === undefined) item[key] = parent[key];
+    }
+  }
+  return { ...data, items };
 }
 
 async function loadDetail(type, item) {
@@ -4464,11 +4884,11 @@ async function loadShardDetail(item, slug) {
   return { schemaVersion: shard.schemaVersion || 1, generatedAt: shard.generatedAt, item: { ...item, ...match } };
 }
 
-async function loadJson(url) {
+async function loadJson(url, init = undefined) {
   const requestUrl = versionBrowseDataUrl(url);
   // The browser's own cache, not no-store: the host answers max-age=0, must-revalidate, so a
   // revisit asks whether the file changed and gets a 304 instead of downloading megabytes again.
-  const response = await fetch(requestUrl);
+  const response = await fetch(requestUrl, init);
   if (!response.ok) {
     const error = new Error(`${response.status} ${response.statusText} for ${url}`);
     error.status = response.status;
@@ -4562,10 +4982,12 @@ function findItem(items, id) {
 }
 
 function metaForItem(type, item) {
-  if (type === 'elections') return [formatDate(item.date), item.body, item.subtitle, item.geography];
-  if (type === 'features') return [item.category, `${formatNumber(item.featureCount)} features`, item.relatedElectionCount ? `${item.relatedElectionCount} elections` : null];
-  if (type === 'parties') return [item.subtitle, `${formatNumber(item.occurrenceCount)} occurrences`, `${formatNumber(item.relatedElectionCount)} elections`];
-  if (type === 'persons') return [item.subtitle, `${formatNumber(item.totals?.stood)} contests`, `${formatNumber(item.totals?.elected)} elected`];
+  if (type === 'elections') return [formatDate(item.date), item.body, String(item.subtitle || '').replace(/^1 constituencies\b/, '1 constituency'), item.geography];
+  if (type === 'features') return [item.category, item.featureCount ? countText(item.featureCount, 'feature') : null, item.relatedElectionCount ? countText(item.relatedElectionCount, 'election') : null];
+  // The subtitle already says the years and the number of linked elections; the counts that
+  // followed repeated it ("26 contests 26 contests").
+  if (type === 'parties') return [item.subtitle, item.occurrenceCount ? countText(item.occurrenceCount, 'candidacy', 'candidacies') : null];
+  if (type === 'persons') return [item.subtitle, item.totals?.elected !== undefined ? `${formatNumber(item.totals.elected)} elected` : null];
   if (type === 'register-interests') return [
     formatDate(item.date),
     item.electedBody || item.memberType,
@@ -4573,18 +4995,99 @@ function metaForItem(type, item) {
     item.interestCount ? `${formatNumber(item.interestCount)} interests` : item.category,
     item.sourceCount ? `${formatNumber(item.sourceCount)} source rows` : null
   ];
-  if (type === 'sources') return [item.type, item.category, item.date];
+  if (type === 'sources') return [sourceTypeLabel(item.type), item.category, formatDate(item.date)];
   return [item.category, item.group, item.subtitle];
 }
 
+/** "1969–2007", or one year, or blank. */
+function yearRange(first, last) {
+  if (!first && !last) return '';
+  if (!first || !last || first === last) return String(first || last);
+  return `${first}–${last}`;
+}
+
+/** "1 contest", "26 contests": a count with its noun in the right number. */
+function countText(count, singular, plural = `${singular}s`) {
+  const number = Number(count) || 0;
+  return `${formatNumber(number)} ${number === 1 ? singular : plural}`;
+}
+
 function summaryForItem(type, item) {
-  if (type === 'elections') return `${formatNumber(item.totalConstituencies)} constituencies/features; ${formatNumber(item.unmatchedCount)} unmatched.`;
-  if (type === 'features') return `Feature group for ${item.title}, loaded from ${item.spatialIndexUrl || 'the spatial index'}.`;
-  if (type === 'parties') return `${item.title} has ${formatNumber(item.relatedElectionCount)} linked election summaries in Browse.`;
+  // The subtitle already gives an election's number of constituencies.
+  if (type === 'elections') return '';
+  if (type === 'features') return item.spatialIndexUrl ? `The ${item.title} features, by name and extent.` : 'No feature list here; the map record has its features table.';
+  if (type === 'parties') return item.relatedElectionCount ? `In the party tables of ${countText(item.relatedElectionCount, 'election')}.` : '';
   if (type === 'persons') return joinList(item.parties?.slice(0, 3).map((party) => party.name));
   if (type === 'register-interests') return item.interestSummary || item.description || joinList(item.categories);
   if (type === 'sources') return item.description || joinList(item.downloads?.slice(0, 2).map((link) => link.label));
   return item.subtitle;
+}
+
+// The build's status words, in a reader's: "available" said nothing about what was available.
+const STATUS_LABELS = {
+  available: 'On the interactive map',
+  'metadata only': 'Not on the map',
+  'not yet converted': 'Not yet on the map'
+};
+
+function statusLabel(value) {
+  return STATUS_LABELS[String(value || '').toLowerCase()] || value || '';
+}
+
+// A source's pipeline type ("approved-table-source") as the kind of thing it is.
+const SOURCE_TYPE_LABELS = {
+  'approved-table-source': 'Table',
+  'approved-source-reference-source': 'Reference',
+  'approved-medium-priority-source': 'Dataset',
+  'approved-book-or-report-source': 'Book or report',
+  'approved-variant-source': 'Variant of another source',
+  'approved-spatial-source-source': 'Spatial dataset',
+  'election-source': 'Election results',
+  'map-source': 'Map source file',
+  'raw-source-table': 'Table',
+  'raw-source-document': 'Document',
+  'raw-source-source': 'Source file',
+  'internet-archive-raster-map': 'Scanned map',
+  'register-source-document': 'Register document',
+  'register-source-dataset': 'Register dataset',
+  'register-source-collection': 'Register collection',
+  'wikipedia-article': 'Wikipedia article',
+  'image-source': 'Image',
+  'document-source': 'Document',
+  'dataset-source': 'Dataset',
+  'table-source': 'Table',
+  'already-on-site-enrichment-source': 'Source note',
+  table: 'Table',
+  book: 'Book'
+};
+
+function sourceTypeLabel(value) {
+  const text = String(value || '');
+  if (!text) return '';
+  if (SOURCE_TYPE_LABELS[text]) return SOURCE_TYPE_LABELS[text];
+  if (/^peatland-geoportal/.test(text)) return 'Peatland Geoportal source';
+  const words = text.replace(/^approved-/, '').replace(/-source$/, '').replace(/-/g, ' ');
+  return words.charAt(0).toUpperCase() + words.slice(1);
+}
+
+// Publication-pipeline states, as what they mean for a reader. Filter values stay the codes the
+// API accepts; only the words shown change.
+function publicationStatusLabel(value) {
+  const text = String(value || '');
+  if (!text) return '';
+  if (/review-only|duplicate-review/.test(text)) return 'Under review';
+  if (/raw-source-mirrored-internet-archive/.test(text)) return 'Source copy kept (Internet Archive)';
+  if (/external-reference-live-link-only/.test(text)) return 'Link to the source only';
+  if (/source-copy-in-repo-archive/.test(text)) return 'Source copy kept';
+  if (/staged/.test(text)) return 'Being prepared';
+  if (/approval-ready|approved|published|enriched|source-record/.test(text)) return 'Published';
+  return text.replace(/-/g, ' ');
+}
+
+function licenceText(value) {
+  if (!value) return '';
+  if (typeof value === 'string') return value;
+  return value.status ? `${value.status.replace(/-/g, ' ')}${value.note ? ` (${value.note})` : ''}` : '';
 }
 
 function renderMeta(parts) {

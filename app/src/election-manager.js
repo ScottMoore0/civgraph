@@ -1037,29 +1037,24 @@ export class Test2ElectionManager {
       button.addEventListener('click', async () => {
         const entityKind = String(button.dataset.electionEntity || '').toLowerCase();
         const entityKey = button.dataset.electionEntityKey;
+        // The button's own text names the page while it loads (a key may be a bare person id).
+        // The page says itself when it cannot be found or loaded, so nothing is logged here.
         const handled = await this.app.openElectionEntityDetailInCatalogue?.(
           entityKind,
-          entityKey
+          entityKey,
+          { label: button.textContent.replace(/\s+/g, ' ').trim() || undefined }
         );
-        if (handled) {
-          this.app.updateURLState();
-          return;
-        }
-        if (entityKind === 'party' || entityKind === 'candidate' || entityKind === 'person') {
-          console.warn('[test2 elections] Catalogue entity detail unavailable', entityKind, entityKey);
-          return;
-        }
+        if (handled) return;
         this.renderEntityPanel(entityKind, entityKey);
         this.app.updateURLState();
       });
     });
     pane.querySelector('[data-election-selected-area]')?.addEventListener('click', async (event) => {
       const button = event.currentTarget;
-      const handled = await this.app.openElectionEntityDetailInCatalogue?.(
+      await this.app.openElectionEntityDetailInCatalogue?.(
         button.dataset.electionSelectedAreaKind,
         button.dataset.electionSelectedAreaKey
       );
-      if (handled) this.app.updateURLState();
     });
     pane.querySelectorAll('[data-election-animation]').forEach((button) => {
       button.addEventListener('click', () => {
@@ -1345,8 +1340,26 @@ export class Test2ElectionManager {
             </tbody>
           </table>
         </div>
+        ${this.partyKeyHtml(orderedRows.map((row) => row.party))}
       </div>
     `;
+  }
+
+  /**
+   * The abbreviations a table uses, spelled out beneath it (UX review 2026-10-31, L7). The full
+   * name is on hover in an <abbr>, which a touch screen cannot do, so "AO" or "Ind O" meant
+   * nothing on a phone.
+   */
+  partyKeyHtml(parties = []) {
+    const seen = new Map();
+    for (const party of parties) {
+      const abbreviation = partyAbbreviation(party);
+      const fullName = partyFullName(party);
+      if (abbreviation && fullName && abbreviation !== fullName && !seen.has(abbreviation)) seen.set(abbreviation, fullName);
+    }
+    if (!seen.size) return '';
+    return `<details class="election-party-key"><summary>Party abbreviations</summary><dl>${[...seen.entries()]
+      .map(([abbreviation, fullName]) => `<div><dt>${escapeHtml(abbreviation)}</dt><dd>${escapeHtml(fullName)}</dd></div>`).join('')}</dl></details>`;
   }
 
   referendumStats(result = {}, rows = []) {
@@ -1600,7 +1613,7 @@ export class Test2ElectionManager {
               return `
                 <tr class="${candidate.elected ? 'election-row--elected test2-election-table__elected' : ''}">
                   <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
-                  <td>${this.renderElectionEntityButton('candidate', `${candidate.name || candidate.candidate || candidate.id || ''}|${candidate.party || ''}`, candidate.name || candidate.candidate || '', 'election-cell-wrap')}</td>
+                  <td>${this.renderElectionEntityButton('candidate', this.candidateEntityKey(candidate), candidate.name || candidate.candidate || '', 'election-cell-wrap')}</td>
                   <td${this.partyCellAttrs(this.mainPanePartyColour(candidate.party, candidate.colour))}>${this.renderElectionEntityButton('party', candidate.party, this.partyLabel(candidate.party), 'election-cell-wrap')}${this.ballotDescriptionHtml(candidate)}</td>
                   <td class="election-num">${valueWithChange(formatNumber(firstPrefs), candidateDelta.deltas?.firstPrefs ?? null)}</td>
                   <td class="election-num">${firstPrefPct === null ? '' : valueWithChange(formatFixedPercent(firstPrefPct), candidateDelta.deltas?.firstPrefPct ?? null, 'percent')}</td>
@@ -1685,7 +1698,7 @@ export class Test2ElectionManager {
                 return `
                   <tr class="${statusKind === 'elected' ? 'election-row--elected test2-election-table__elected' : ''}">
                     <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
-                    <td>${this.renderElectionEntityButton('candidate', `${row.name || candidate.id || ''}|${row.party || ''}`, escapeHtml(row.name), 'election-cell-wrap')}</td>
+                    <td>${this.renderElectionEntityButton('candidate', this.candidateEntityKey({ ...candidate, name: row.name || candidate.name, party: row.party || candidate.party }), escapeHtml(row.name), 'election-cell-wrap')}</td>
                     <td${this.partyCellAttrs(row.colour)}>${this.renderElectionEntityButton('party', row.party, this.partyLabel(row.party), 'election-cell-wrap')}</td>
                     <td class="election-num">${unopposed ? 'Unopposed' : this.valueWithPartyAndCandidateChange(formatNumber(votes), partyVoteDelta, candidateVoteDelta, 'count')}</td>
                     <td class="election-num">${unopposed || votePct === null ? '' : this.valueWithPartyAndCandidateChange(formatFixedPercent(votePct), partyPctDelta, candidatePctDelta, 'percent')}</td>
@@ -1977,6 +1990,18 @@ export class Test2ElectionManager {
 
   renderTwoLineHeader(top, bottom) {
     return `<span class="election-th-two-line"><span>${escapeHtml(top)}</span><span>${escapeHtml(bottom)}</span></span>`;
+  }
+
+  /**
+   * What a candidate button opens: the person's id where the results carry one, so the page is
+   * theirs and not a namesake's (UX review 2026-10-31, H5 -- by name alone the Alliance Ian
+   * Paisley of Holywood opened the DUP leader's page). Without an id, the name with the party
+   * and the election's date, which the page uses to tell people of one name apart.
+   */
+  candidateEntityKey(candidate = {}) {
+    const rawId = candidate.personId ?? candidate.sourcePersonId ?? (/^\d+$/.test(String(candidate.id ?? '')) ? candidate.id : null);
+    if (rawId !== null && rawId !== undefined && String(rawId).trim() !== '') return String(rawId).trim();
+    return [candidate.name || candidate.candidate || '', candidate.party || '', this.activeEntry?.date || ''].join('|');
   }
 
   renderElectionEntityButton(kind, key, labelHtml, extraClass = '') {
@@ -3349,7 +3374,7 @@ export class Test2ElectionManager {
               return `
                 <tr class="${candidate.elected ? 'election-row--elected' : ''}">
                   <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
-                  <td>${this.renderElectionEntityButton('candidate', `${candidate.name || candidate.id || ''}|${candidate.party || ''}`, escapeHtml(candidate.name || ''), 'election-cell-wrap')}</td>
+                  <td>${this.renderElectionEntityButton('candidate', this.candidateEntityKey(candidate), escapeHtml(candidate.name || ''), 'election-cell-wrap')}</td>
                   <td${this.partyCellAttrs(this.mainPanePartyColour(candidate.party, candidate.colour))}>${this.renderElectionEntityButton('party', candidate.party, this.partyLabel(candidate.party), 'election-cell-wrap')}${this.ballotDescriptionHtml(candidate)}</td>
                   ${isLocal ? `<td><span class="election-cell-wrap">${escapeHtml(localBody)}</span></td>` : ''}
                   <td><button type="button" class="election-entity-link election-cell-wrap" data-election-result-key="${escapeHtml(normalizeName(candidate.constituency || ''))}">${escapeHtml(candidate.constituency || '')}</button></td>
@@ -3572,7 +3597,7 @@ export class Test2ElectionManager {
                 <tr class="election-count-row${candidate.elected ? ' election-count-row--elected' : ''}">
                   <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
                   <td class="election-colour-col"${this.colourTabStyle(this.mainPanePartyColour(candidate.party, candidate.colour))}></td>
-                  <td class="election-col-name">${this.renderElectionEntityButton('candidate', `${candidate.name || candidate.id || ''}|${candidate.party || ''}`, escapeHtml(candidate.name || ''), 'election-cell-wrap election-cell-wrap--count-name')}</td>
+                  <td class="election-col-name">${this.renderElectionEntityButton('candidate', this.candidateEntityKey(candidate), escapeHtml(candidate.name || ''), 'election-cell-wrap election-cell-wrap--count-name')}</td>
                   <td class="election-col-party">${this.renderElectionEntityButton('party', candidate.party, this.partyLabel(candidate.party || ''), 'election-cell-wrap election-cell-wrap--count-party')}${this.ballotDescriptionHtml(candidate)}</td>
                   <td class="election-col-status"><span class="election-cell-wrap election-cell-wrap--count-status">${statusCount}</span></td>
                   <td class="election-num">${valueWithChange(formatFixedPercent(firstPrefPct), this.countDetailedView ? (result.syntheticCountGroup ? null : candidateDelta.deltas?.firstPrefPct ?? null) : false, 'percent')}</td>

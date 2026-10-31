@@ -8,8 +8,10 @@
         </svg>
         <input id="browseSearch" class="browse-search__field" type="search" placeholder="Search maps, elections, people...">
       </div>
-      <section id="contributorPanel" class="contributor-panel" aria-label="Contributor tools"></section>
       <nav id="browseGroups" class="browse-groups" aria-label="Browse data groups"></nav>
+      <!-- After the sections, not above them: signed out it is one line inviting contributors
+           to log in, and it no longer comes before the page's heading. -->
+      <section id="contributorPanel" class="contributor-panel" aria-label="Contributor tools"></section>
     </aside>
 
     <section class="browse-content">
@@ -18,8 +20,7 @@
       <!-- Inline contributor editor. Deliberately a SIBLING of #browseResults,
            not a child: browseResults has its innerHTML replaced on every
            navigation, which would destroy a half-written proposal without
-           warning. It also sits outside the aria-live region below, so typing
-           into the form is not announced on every keystroke. -->
+           warning. -->
       <section id="contributorEditor" class="contributor-inline" hidden aria-labelledby="contributorEditorTitle">
         <header class="contributor-inline__header">
           <h2 id="contributorEditorTitle" class="contributor-inline__title">Propose edit</h2>
@@ -28,7 +29,10 @@
         <div id="contributorEditorSlot"></div>
       </section>
 
-      <div id="browseResults" class="browse-results" aria-live="polite"></div>
+      <!-- Not a live region: every list and record replaced its whole content, so a screen
+           reader read out up to 200 cards on each view. browse.js announces a short summary
+           ("Persons: 7 records matching Paisley", "Loaded Ian Paisley") through #announcer. -->
+      <div id="browseResults" class="browse-results"></div>
     </section>
   </main>
 

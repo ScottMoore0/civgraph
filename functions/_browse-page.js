@@ -357,7 +357,7 @@ export function browsePageHandler(type) {
         title: pageTitle(type, found.title),
         description: found.description,
         canonical: canonicalUrl(type, found.slug),
-        kicker: 'Browse',
+        kicker: BROWSE_PAGE_TYPES[type]?.singular || 'Browse',
         heading: found.title,
       })
       : html;
