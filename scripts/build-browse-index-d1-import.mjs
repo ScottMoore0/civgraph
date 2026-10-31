@@ -102,7 +102,9 @@ const ENTITIES = {
       member_name: (item) => text(item.memberName),
       elected_body: (item) => text(item.electedBody),
       category: (item) => text(item.category),
-      date: (item) => text(item.date),
+      // Only a date sorts as one: two entries carry the word "undated", which sorted above
+      // every real date under Newest first. NULL goes last either way (_browse-index.js).
+      date: (item) => (/^\d{4}(-\d{2}){0,2}$/.test(String(item.date || '')) ? item.date : null),
       // The six sort keys browse.js offers. Lifted into columns because ORDER BY cannot
       // reach into the JSON blob without a scan.
       constituency: (item) => text(normaliseOne(item.constituencies || item.constituency)),
@@ -164,8 +166,14 @@ const text = (value) => (value === undefined || value === null ? null : String(v
 const licenseLabel = (value) => {
   if (!value) return null;
   if (typeof value === 'string') return value.trim() || null;
-  if (typeof value === 'object' && value.status) return String(value.status);
+  if (typeof value === 'object' && value.status) return LICENCE_STATUS_LABELS[value.status] || String(value.status);
   return null;
+};
+// The {status, note} form says the licence is still to be confirmed; these read as that.
+const LICENCE_STATUS_LABELS = {
+  'provider-specific': 'Set by the provider (see the source)',
+  'likely-open-but-confirm': 'Probably open, not confirmed',
+  'licence-review-required': 'Not yet confirmed'
 };
 const lit = (value) => (value === null || value === undefined ? 'NULL'
   : typeof value === 'number' ? value : q(value));

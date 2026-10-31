@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Browse Civgraph records derived from sources: maps, elections, boundary features, parties, people and register interests.">
-  <title>Records - Civgraph</title>
+  <title>Records – Civgraph</title>
   <link rel="canonical" href="https://civgraph.net/records/">
   <link rel="preload" href="../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -15,11 +15,16 @@
 <link rel="stylesheet" href="/assets/site/site-chrome.css?v=01edcc7597b8">
 <script defer src="/assets/site/site-chrome.js?v=533c9263f1be"></script>
 <!-- /site:head -->
-  <link rel="stylesheet" href="/browse/browse.css?v=4e9d68dab883">
+  <link rel="stylesheet" href="/browse/browse.css?v=fd4747e89673">
 </head>
 
 <body>
   <div id="announcer" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
+  <!-- T3-09 (#41): these pages had no skip link at all, so a keyboard user
+       had to tab through the whole header on every page load. Before the header, so the
+       first Tab reaches them rather than the logo and seven header controls. -->
+  <a href="#main-content" class="visually-hidden">Skip to main content</a>
+  <a href="#browseResults" class="visually-hidden">Skip to results</a>
 <!-- site:header active="browse" -->
 <header class="app-header" data-site-chrome data-header-layout="page">
 <a class="app-header__brand" href="/">
@@ -71,10 +76,6 @@
 </header>
 <!-- /site:header -->
 
-  <!-- T3-09 (#41): these pages had no skip link at all, so a keyboard user
-       had to tab through the whole header on every page load. -->
-  <a href="#main-content" class="visually-hidden">Skip to main content</a>
-  <a href="#browseResults" class="visually-hidden">Skip to results</a>
 <!-- site:browse-shell -->
   <main id="main-content" class="browse-shell">
     <aside class="browse-sidebar" aria-label="Browse sections">
@@ -86,8 +87,10 @@
         </svg>
         <input id="browseSearch" class="browse-search__field" type="search" placeholder="Search maps, elections, people...">
       </div>
-      <section id="contributorPanel" class="contributor-panel" aria-label="Contributor tools"></section>
       <nav id="browseGroups" class="browse-groups" aria-label="Browse data groups"></nav>
+      <!-- After the sections, not above them: signed out it is one line inviting contributors
+           to log in, and it no longer comes before the page's heading. -->
+      <section id="contributorPanel" class="contributor-panel" aria-label="Contributor tools"></section>
     </aside>
 
     <section class="browse-content">
@@ -96,8 +99,7 @@
       <!-- Inline contributor editor. Deliberately a SIBLING of #browseResults,
            not a child: browseResults has its innerHTML replaced on every
            navigation, which would destroy a half-written proposal without
-           warning. It also sits outside the aria-live region below, so typing
-           into the form is not announced on every keystroke. -->
+           warning. -->
       <section id="contributorEditor" class="contributor-inline" hidden aria-labelledby="contributorEditorTitle">
         <header class="contributor-inline__header">
           <h2 id="contributorEditorTitle" class="contributor-inline__title">Propose edit</h2>
@@ -106,7 +108,10 @@
         <div id="contributorEditorSlot"></div>
       </section>
 
-      <div id="browseResults" class="browse-results" aria-live="polite"></div>
+      <!-- Not a live region: every list and record replaced its whole content, so a screen
+           reader read out up to 200 cards on each view. browse.js announces a short summary
+           ("Persons: 7 records matching Paisley", "Loaded Ian Paisley") through #announcer. -->
+      <div id="browseResults" class="browse-results"></div>
     </section>
   </main>
 
@@ -190,7 +195,7 @@
 </div>
 </div>
 <!-- /site:support-modal -->
-  <script type="module" src="/browse/browse.js?v=aadbec9c4397"></script>
+  <script type="module" src="/browse/browse.js?v=5247a4edf7d7"></script>
 </body>
 
 </html>

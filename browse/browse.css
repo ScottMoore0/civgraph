@@ -115,8 +115,16 @@ a:hover {
 }
 
 .browse-search__field:focus {
-  outline: 3px solid rgba(44, 82, 130, .18);
+  outline: none;
   border-color: var(--color-primary-light);
+}
+
+/* The placeholder at #757575 was about 3.9:1 on the dark field; the muted text colour passes
+   in both themes. */
+.browse-search__field::placeholder,
+.proni-search-input::placeholder {
+  color: var(--color-text-muted);
+  opacity: 1;
 }
 
 .browse-groups {
@@ -128,6 +136,7 @@ a:hover {
 .contributor-panel {
   display: grid;
   gap: var(--space-2);
+  margin-top: var(--space-4);
   margin-bottom: var(--space-4);
   padding: var(--space-3);
   border: 1px solid var(--color-border);
@@ -2362,4 +2371,62 @@ a.visually-hidden:focus-visible {
 
 .browse-contest__elected td:first-child {
   box-shadow: inset 3px 0 0 var(--color-accent);
+}
+
+/* Signed out, the contributor panel is one quiet line under the sections. */
+.contributor-panel--signed-out {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: .82rem;
+}
+
+.contributor-panel--signed-out .contributor-panel__body {
+  display: block;
+}
+
+/* Parties: the line that shows or hides the ballot-paper labels. */
+.browse-labels-note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+@media (max-width: 900px) {
+  .contributor-panel--signed-out {
+    display: block;
+    margin: var(--space-1) 0 0;
+  }
+}
+
+/* On a phone a person or party card was about 300px, most of it a large initials tile, so a
+   page of 200 ran to 60,000px. The tile shrinks and sits beside the name. */
+@media (max-width: 560px) {
+  .browse-card--compact {
+    grid-template-columns: 40px minmax(0, 1fr);
+    gap: var(--space-2);
+    padding: var(--space-3);
+  }
+
+  .browse-card--compact .browse-thumb--card {
+    width: 40px;
+    height: 40px;
+    font-size: .8rem;
+  }
+
+  .browse-card--compact .browse-card__summary,
+  .browse-card--compact > .browse-actions {
+    grid-column: 1 / -1;
+  }
+}
+
+/* A focus ring that shows in both themes: the old one, rgba(44,82,130,.18), was all but
+   invisible on the dark field, and the PRONI box had none. Last in the file, so it wins over
+   the outline: none of the :focus rules above. */
+.browse-search__field:focus-visible,
+.proni-search-input:focus-visible,
+.browse-table-wrap:focus-visible {
+  outline: 3px solid var(--color-primary-light, #4a7ab8);
+  outline-offset: 2px;
 }

@@ -7,6 +7,19 @@ import { publicMaps } from '../../src/public-map.mjs';
 import { compositeChildIds } from '../../src/map-relations.mjs';
 import { readStored, writeStored } from '../../src/storage-keys.mjs';
 import { TestMetadataService } from '../../render/src/metadata-service.js';
+import { partyFullName } from '../../src/party-names.mjs';
+import {
+  addPartyChanges,
+  addStandings,
+  BODY_GROUP_ORDER,
+  bodyGroupOf,
+  groupConstituencies,
+  isListPseudoCandidate,
+  knownCount,
+  leadingPartyOf,
+  normaliseStatus,
+  partyHeadlineCards
+} from '../../src/entity-detail-data.mjs';
 import { Test2MapLibreMainAdapter } from './maplibre-main-adapter.js';
 
 const TEST2_LAYER_ORDER_STORAGE_KEY = 'civgraph:maplibre:layer-order';
@@ -80,6 +93,9 @@ class Test2App {
     this._suspendURLState = false;
     this._restoringURLState = false;
     this.currentDetailMapId = null;
+    // The party, person, constituency or feature page open in the catalogue pane, if any:
+    // { kind, key, title, typeLabel }. In the address as page=kind:key (updateURLState).
+    this.currentPage = null;
     this.currentSourceMapId = null;
     this.baseMapId = 'osm-standard';
     // T1-06: set once the user picks a basemap deliberately; from then on the
@@ -488,6 +504,14 @@ class Test2App {
     // The catalogue has gone, so say what changed and leave a way straight back to it (UX
     // review 2026-10-30, #12): without it the switch read as the list vanishing.
     if (label) this.showMobilePeek(`${label} is on the map`, { action: 'Back to the catalogue' });
+  }
+
+  /** On a phone the catalogue and the map are separate views: a page opened from the map (a
+   * results table, a feature's name) or from a shared link is shown, not left behind the map. */
+  revealCatalogueOnPhone() {
+    if (!this.isPhoneLayout() || uiController.currentStateId !== 'map-full') return;
+    uiController.setSplitState('info-full');
+    this.updateMobilePaneToggleState();
   }
 
   isPhoneLayout() {
@@ -1031,7 +1055,31 @@ class Test2App {
     };
     uiController.onCheckElectionLoaded = (body, date) => this.elections?.isElectionLoaded(body, date) || false;
     uiController.onSetupElectionTableControls = () => {};
-    uiController.onOpenElectionEntityDetail = async (kind, key) => this.openElectionEntityDetailInCatalogue(kind, key);
+    uiController.onOpenElectionEntityDetail = async (kind, key, label) => this.openElectionEntityDetailInCatalogue(kind, key, { label: label || undefined });
+    uiController.onShowOnMap = (label) => this.dismissMobileCatalogueAfterLoad(label);
+    // An election named on a party, person or constituency page. The handler was declared and
+    // called but never assigned, so those links did nothing. The election is found by its key
+    // where the row has one: a body's display name need not match the catalogue's spelling.
+    uiController.onElectionEntityElectionOpen = async ({ key, body, date, constituency } = {}) => {
+      const elections = await this.ensureElections();
+      const entries = elections?.catalogue?.elections || [];
+      const entry = (key && entries.find((item) => item.key === key))
+        || elections?.findEntry?.(body, date)
+        || entries.find((item) => item.date === date && normalizeEntityName(item.body) === normalizeEntityName(body))
+        || null;
+      if (!entry) {
+        this.showMapError(`${[body, date].filter(Boolean).join(' ')} is not in the election catalogue.`, { kind: 'info' });
+        return;
+      }
+      await uiController.onLoadElection(entry.body, entry.date);
+      if (constituency && this.elections?.activeEntry?.key === entry.key) {
+        const result = this.elections.findResultByKey?.(constituency);
+        if (result) {
+          this.elections.renderPanel(result, 'party');
+          this.updateURLState();
+        }
+      }
+    };
     uiController.onOpenElectionConstituencyFeature = async ({ constituency, level }) => {
       const kind = level === 'council' ? 'lgd' : level === 'dea' ? 'dea' : 'constituency';
       return this.openElectionEntityDetailInCatalogue(kind, constituency);
@@ -1198,21 +1246,115 @@ class Test2App {
     if (uiController.__test2CatalogueStateBridgeInstalled) return;
     uiController.__test2CatalogueStateBridgeInstalled = true;
 
+    // Every page the pane opens is a browser history entry, so browser Back and the pane's own
+    // Back step through the same places (UX review 2026-10-31, H4: Back undid the map behind a
+    // person's page while the pane kept showing it). Reopening from the address passes
+    // addToHistory false and makes no entry.
     const showDetail = uiController.showCatalogueDetailView.bind(uiController);
     uiController.showCatalogueDetailView = (mapId, addToHistory = true) => {
+      if (addToHistory && mapId !== this.currentDetailMapId) this.beginNavigation(`Details: ${this.mapLabel(mapId)}`);
+      this.entityPageToken = (this.entityPageToken || 0) + 1;
       const result = showDetail(mapId, addToHistory);
       this.currentDetailMapId = mapId || null;
-      this.updateURLState();
+      this.currentPage = null;
+      this.endNavigation();
       return result;
     };
 
     const showList = uiController.showCatalogueListView.bind(uiController);
     uiController.showCatalogueListView = (addToHistory = false) => {
+      const wasOnPage = Boolean(this.currentDetailMapId || this.currentPage);
+      if (addToHistory && wasOnPage) this.beginNavigation('Catalogue');
+      this.entityPageToken = (this.entityPageToken || 0) + 1;
       const result = showList(addToHistory);
       this.currentDetailMapId = null;
-      this.updateURLState();
+      this.currentPage = null;
+      this.endNavigation();
       return result;
     };
+
+    const showFeature = uiController.showFeatureDetailInCatalogue.bind(uiController);
+    uiController.showFeatureDetailInCatalogue = (detailId, addToHistory = true, options = {}) => {
+      const entry = uiController._featureDetailCache?.get(detailId);
+      const fresh = addToHistory && !(this.currentPage?.kind === 'feature' && this.currentPage.key === detailId);
+      if (entry && fresh) this.beginNavigation(`Feature: ${entry.primaryName || detailId}`);
+      this.entityPageToken = (this.entityPageToken || 0) + 1;
+      if (entry) this.revealCatalogueOnPhone();
+      const result = showFeature(detailId, addToHistory, options);
+      if (entry) {
+        this.currentPage = {
+          kind: 'feature',
+          key: detailId,
+          title: uiController.featureDisplayName?.(entry.primaryName, entry.mapConfig) || entry.primaryName || 'Feature',
+          typeLabel: entry.mapConfig?.name || 'Feature'
+        };
+        this.currentDetailMapId = null;
+      }
+      this.endNavigation();
+      return result;
+    };
+
+    // The pane's Back and Forward are the browser's while the reader has steps to go back
+    // through, so the two cannot disagree; the pane's own list remains for the Tables tab and
+    // for the first page of a visit, which has no earlier entry.
+    const tablesOpen = () => {
+      const tables = document.querySelector('.pane__content[data-tab-content="tables"]');
+      return Boolean(tables && !tables.classList.contains('pane-tab-content--hidden'));
+    };
+    const goBack = uiController.catalogueGoBack.bind(uiController);
+    uiController.catalogueGoBack = () => {
+      if (!tablesOpen() && this.navIndex > 0) {
+        history.back();
+        return;
+      }
+      goBack();
+    };
+    const goForward = uiController.catalogueGoForward.bind(uiController);
+    uiController.catalogueGoForward = () => {
+      if (!tablesOpen() && this.navEntries && this.navIndex < this.navEntries.length - 1) {
+        history.forward();
+        return;
+      }
+      goForward();
+    };
+    const updateNav = uiController.updateCatalogueNavButtons.bind(uiController);
+    uiController.updateCatalogueNavButtons = () => {
+      updateNav();
+      const back = document.getElementById('catalogueBack');
+      const forward = document.getElementById('catalogueForward');
+      if (back && this.navIndex > 0) back.disabled = false;
+      if (forward && this.navEntries && this.navIndex < this.navEntries.length - 1) forward.disabled = false;
+    };
+  }
+
+  /**
+   * Reopen the page the address names (page=party:dup, page=feature:pc-2023:7) after Back,
+   * Forward, a reload or a shared link. A feature page needs the feature itself, which a
+   * reload no longer has: it is looked for among the features drawn on the map, and if it is
+   * not there the catalogue stays on its list rather than showing an empty page.
+   */
+  async restorePage(page, { initial = false } = {}) {
+    if (!page) return;
+    if (this.currentPage && this.currentPage.kind === page.kind && this.currentPage.key === page.key
+      && !document.getElementById('catalogueDetailView')?.classList.contains('hidden')) return;
+    if (page.kind !== 'feature') {
+      await this.openElectionEntityDetailInCatalogue(page.kind, page.key, { fromHistory: true, focus: !initial });
+      return;
+    }
+    if (!uiController._featureDetailCache?.has(page.key)) {
+      const at = page.key.indexOf(':');
+      const mapId = at > 0 ? page.key.slice(0, at) : '';
+      const featureId = at > 0 ? page.key.slice(at + 1) : '';
+      const mapConfig = mapId ? dataService.getMapById(mapId) : null;
+      if (!mapConfig || !featureId) return;
+      await Promise.resolve(this.mapController.waitForMapRender?.()).catch(() => {});
+      const feature = this.mapController.findRenderedFeature?.(mapId, featureId);
+      if (!feature) return;
+      uiController.cacheFeatureDetailEntry(mapConfig, feature, null, featureId);
+    }
+    if (uiController._featureDetailCache?.has(page.key)) {
+      uiController.showFeatureDetailInCatalogue(page.key, false, { restoreState: true, focus: !initial });
+    }
   }
 
   setupURLStateListener() {
@@ -1437,6 +1579,9 @@ class Test2App {
 
   focusActiveElectionCatalogueEntry(entry, options = {}) {
     if (!entry?.body || !entry?.date) return;
+    // An election opened from a party, person or constituency page leaves the reader on that
+    // page: putting the catalogue list back under them lost the page they came from.
+    if (this.currentPage && !document.getElementById('catalogueDetailView')?.classList.contains('hidden')) return;
     const restoreCatalogueListState = () => {
       this.searchQuery = '';
       this.currentCategory = 'all';
@@ -1907,15 +2052,77 @@ class Test2App {
     button?.addEventListener('click', render);
   }
 
-  async openElectionEntityDetailInCatalogue(kind, key) {
-    const detail = await this.loadElectionEntityBrowseDetail(kind, key);
-    if (!detail) return false;
-    uiController.showElectionEntityDetailInCatalogue(detail, true);
+  /**
+   * Open a party, person or constituency page in the catalogue pane.
+   *
+   * UX review 2026-10-31 (H4, H6). The page used to appear only once its data had arrived (a
+   * constituency took 6.9 s, with nothing on screen meanwhile), vanished without a word when the
+   * lookup missed, and had no address: a reload or a shared link lost it, and browser Back undid
+   * the map behind it while the pane stayed put. Now the page shell and its name show at once,
+   * the step is a history entry with the page in the address (page=party:dup), a miss or a
+   * failure says so with a Retry, and Back returns to the page before.
+   *
+   * options.fromHistory: reopening from the address (Back, Forward, a reload or a shared link),
+   * so no new history entry is made and the page keeps its scroll and table state.
+   */
+  async openElectionEntityDetailInCatalogue(kind, key, options = {}) {
+    const pageKind = canonicalEntityKind(kind);
+    const keyText = String(key ?? '').trim();
+    if (!pageKind || !keyText) return false;
+    const token = (this.entityPageToken = (this.entityPageToken || 0) + 1);
+    const label = options.label || entityKeyLabel(pageKind, keyText);
+    const typeLabel = ENTITY_TYPE_LABEL[pageKind] || 'Page';
+    const requested = { kind: pageKind, key: keyText, title: label, typeLabel };
+    if (!options.fromHistory) this.beginNavigation(`${typeLabel}: ${label}`);
+    this.currentPage = requested;
+    this.currentDetailMapId = null;
+    this.revealCatalogueOnPhone();
+    uiController.showElectionEntityPlaceholder?.({ kind: pageKind, key: keyText, label, typeLabel, state: 'loading' }, { addToHistory: !options.fromHistory });
+    this.endNavigation();
+
+    let detail = null;
+    let failure = null;
+    try {
+      detail = await this.loadElectionEntityBrowseDetail(pageKind, keyText);
+    } catch (error) {
+      failure = error;
+    }
+    // The reader has moved on (another page, the list, Back) while this one loaded: it must not
+    // replace what they are now looking at.
+    if (token !== this.entityPageToken || this.currentPage !== requested) return true;
+
+    if (!detail || detail.kind === 'candidate-choice') {
+      if (failure) console.warn('[Test2] Catalogue page could not be loaded', pageKind, keyText, failure);
+      uiController.showElectionEntityPlaceholder?.({
+        kind: pageKind,
+        key: keyText,
+        label,
+        typeLabel,
+        state: detail ? 'choice' : (failure ? 'error' : 'missing'),
+        choices: detail?.choices || [],
+        browseUrl: entityBrowseSearchUrl(pageKind, label),
+        retry: () => this.openElectionEntityDetailInCatalogue(pageKind, keyText, { ...options, fromHistory: true })
+      }, { addToHistory: false });
+      this.announce(detail ? `More than one person is called ${label}: choose one.` : `${label} could not be ${failure ? 'loaded' : 'found'}.`);
+      return true;
+    }
+
+    // Cached under the key it was asked for as well as its own, so the pane's history and the
+    // address can name it either way.
+    uiController._electionEntityDetailCache?.set(uiController.createElectionEntityDetailId(pageKind, keyText), detail);
+    uiController.showElectionEntityDetailInCatalogue(detail, false, {
+      restoreState: Boolean(options.fromHistory),
+      focus: options.focus !== false
+    });
+    // The address names the page by its canonical key (the party's slug, the person's), so a
+    // copied link reads the same whichever spelling opened it.
+    this.currentPage = { kind: pageKind, key: detail.key || keyText, title: detail.name || label, typeLabel };
+    this.updateURLState();
     return true;
   }
 
   async loadElectionEntityBrowseDetail(kind, key) {
-    const normalizedKind = String(kind || '').toLowerCase();
+    const normalizedKind = canonicalEntityKind(kind);
     const cacheKey = `${normalizedKind}:${key || ''}`;
     if (this.browseEntityDetailCache.has(cacheKey)) return this.browseEntityDetailCache.get(cacheKey);
     let detail = null;
@@ -1926,97 +2133,218 @@ class Test2App {
     } else if (['constituency', 'dea', 'lgd'].includes(normalizedKind)) {
       detail = await this.loadAreaBrowseDetail(normalizedKind, key);
     }
-    if (detail) this.browseEntityDetailCache.set(cacheKey, detail);
+    // A chooser is not cached: the reader's choice opens the person by id.
+    if (detail && detail.kind !== 'candidate-choice') this.browseEntityDetailCache.set(cacheKey, detail);
     return detail;
   }
 
-  async loadPartyBrowseDetail(key) {
-    const slug = slugifyEntityKey(key);
-    const candidates = [...new Set([slug, String(key || '').trim().toLowerCase()].filter(Boolean))];
-    for (const candidateSlug of candidates) {
-      try {
-        const response = await fetch(`/data/browse/details/parties/${encodeURIComponent(candidateSlug)}.json`, { cache: 'default' });
-        if (!response.ok) continue;
-        const detail = await response.json();
-        const item = detail.item || detail;
-        const persons = await this.loadPartyPersons(item);
-        return this.mapPartyBrowseItem(item, persons);
-      } catch (error) {
-        console.warn('[Test2] Party Browse detail unavailable', candidateSlug, error);
-      }
+  /**
+   * The party registry as Browse lists it (/data/browse/parties.json): every party with its
+   * full name, short name, aliases and colour, keyed by each spelling. A results table names a
+   * party as the ballot did ("Ulster Unionist", "Official Unionist"), and only the registry
+   * knows that both are the UUP; a spelling two records share goes to the one with more
+   * linked elections, the party rather than a ballot-paper label.
+   */
+  async loadPartyIndex() {
+    if (!this.partyIndexPromise) {
+      this.partyIndexPromise = fetch('/data/browse/parties.json', { cache: 'default' })
+        .then((response) => (response.ok ? response.json() : Promise.reject(new Error(`parties index ${response.status}`))))
+        .then((payload) => {
+          const items = Array.isArray(payload?.items) ? payload.items : [];
+          const byAlias = new Map();
+          const ranked = [...items].sort((a, b) => (Number(b.relatedElectionCount) || 0) - (Number(a.relatedElectionCount) || 0));
+          for (const item of ranked) {
+            for (const name of [item.slug, item.title, item.shortName, item.canonicalName, ...(item.knownAliases || []), ...(item.observedNames || [])]) {
+              const k = normalizeEntityName(name);
+              if (k && !byAlias.has(k)) byAlias.set(k, item);
+            }
+          }
+          return { items, byAlias };
+        })
+        .catch((error) => {
+          this.partyIndexPromise = null;
+          console.warn('[Test2] Party index unavailable', error);
+          return { items: [], byAlias: new Map() };
+        });
     }
+    return this.partyIndexPromise;
+  }
+
+  partyFromIndex(index, name) {
+    if (!index?.byAlias || !name) return null;
+    return index.byAlias.get(normalizeEntityName(name))
+      || index.byAlias.get(normalizeEntityName(partyFullName(name)))
+      || null;
+  }
+
+  partyColourFrom(index, name) {
+    const hit = this.partyFromIndex(index, name);
+    const colour = hit?.colour;
+    return colour && colour !== '#6b7280' ? colour : '#888';
+  }
+
+  async loadPartyBrowseDetail(key) {
+    const index = await this.loadPartyIndex();
+    const hit = this.partyFromIndex(index, key);
+    const slug = slugifyEntityKey(key);
+    const candidates = [...new Set([hit?.slug, slug, String(key || '').trim().toLowerCase()].filter(Boolean))];
+    let failure = null;
+    for (const candidateSlug of candidates) {
+      let response;
+      try {
+        response = await fetch(`/data/browse/details/parties/${encodeURIComponent(candidateSlug)}.json`, { cache: 'default' });
+      } catch (error) {
+        failure = error;
+        continue;
+      }
+      if (response.status === 404) continue;
+      if (!response.ok) { failure = new Error(`party ${candidateSlug}: ${response.status}`); continue; }
+      const detail = await response.json();
+      const item = detail.item || detail;
+      const persons = await this.loadPartyPersons(item);
+      return this.mapPartyBrowseItem(item, persons, index);
+    }
+    // Nothing found and something failed on the way: that is "could not load", not "no such party".
+    if (failure) throw failure;
     return null;
   }
 
   /**
    * One person, by key. Served from D1 (/_api/persons?slug=), not from the shards.
    *
-   * The entity key arrives as either a slug or "Name|Party", so two candidate slugs are
-   * tried. The endpoint 404s honestly on a miss, which the shard walk could not do -- it
-   * could not tell "no such person" from "the index failed to load", and on 2026-08-23
-   * it silently returned the latter for every person on the site.
+   * The key is the person's id or slug wherever the link knows it -- a results table's
+   * candidate button carries the source person id (UX review 2026-10-31, H5). A bare name was
+   * the old key, and opened whoever held the bare-name slug: the Alliance Ian Paisley of
+   * Holywood got the DUP leader's page. A name, with the party and date where known
+   * ("Name|Party|date"), is now searched for, narrowed to the people who stood for that party
+   * then, and answered with a chooser if more than one remains.
    *
-   * Falls back to the static shards if the endpoint is unavailable, so a Functions
-   * outage degrades rather than breaks. The fallback is deliberately second: it is the
-   * slow path (24 MB of shards) and should never be the normal one.
+   * The endpoint 404s honestly on a miss, which the shard walk could not do. The static shards
+   * remain the fallback when the endpoint itself is unavailable, so a Functions outage degrades
+   * rather than breaks.
    */
   async loadPersonBrowseDetail(key) {
-    const wanted = slugifyEntityKey(key);
-    const rawName = String(key || '').split('|')[0].trim();
-    const rawNameSlug = slugifyEntityKey(rawName);
+    const raw = String(key || '').trim();
+    const [namePart = '', partyPart = '', datePart = ''] = raw.split('|').map((part) => part.trim());
+    const isNameKey = raw.includes('|');
+    const partyIndex = await this.loadPartyIndex();
+    let endpointDown = false;
 
-    for (const slug of [...new Set([wanted, rawNameSlug].filter(Boolean))]) {
+    const fetchOne = async (slug) => {
+      const response = await fetch(`/_api/persons?slug=${encodeURIComponent(slug)}`, { cache: 'default' });
+      if (response.status === 404) return null;
+      if (!response.ok) throw new Error(`persons ${response.status}`);
+      const payload = await response.json();
+      return payload?.person || null;
+    };
+
+    if (!isNameKey) {
+      const direct = raw.replace(/^(id|person|candidate|name):/i, '');
       try {
-        const response = await fetch(`/_api/persons?slug=${encodeURIComponent(slug)}`, { cache: 'default' });
-        if (response.status === 404) continue;          // a real miss; try the other slug
-        if (!response.ok) break;                        // endpoint trouble; use the fallback
-        const payload = await response.json();
-        if (payload?.person) return this.mapPersonBrowseItem(payload.person);
+        const person = await fetchOne(direct) || (slugifyEntityKey(direct) !== direct ? await fetchOne(slugifyEntityKey(direct)) : null);
+        if (person) return this.mapPersonBrowseItem(person, partyIndex);
       } catch {
-        break;
+        endpointDown = true;
       }
     }
 
+    if (!endpointDown && namePart) {
+      try {
+        const response = await fetch(`/_api/persons?q=${encodeURIComponent(namePart)}&limit=50`, { cache: 'default' });
+        if (!response.ok) throw new Error(`persons search ${response.status}`);
+        const payload = await response.json();
+        const wanted = normalizeEntityName(namePart);
+        const sameName = (payload?.persons || []).filter((person) => [person.name, person.title, ...(person.names || []).map((n) => n.name)]
+          .some((name) => normalizeEntityName(name) === wanted));
+        const stoodFor = (person) => (person.elections || []).some((row) => (!partyPart || normalizeEntityName(row.party) === normalizeEntityName(partyPart)
+          || this.partyFromIndex(partyIndex, row.party)?.slug === this.partyFromIndex(partyIndex, partyPart)?.slug)
+          && (!datePart || row.date === datePart));
+        // With a party (or date) to go on, a same-named person who never stood for it is a
+        // namesake: no page is better than the wrong person's.
+        const narrowed = sameName.filter(stoodFor);
+        const pool = partyPart || datePart ? narrowed : sameName;
+        if (pool.length === 1) return this.mapPersonBrowseItem(pool[0], partyIndex);
+        if (pool.length > 1) {
+          return {
+            kind: 'candidate-choice',
+            key: raw,
+            name: namePart,
+            choices: pool.map((person) => ({ key: person.slug || person.id, name: person.name || person.title, subtitle: person.subtitle || '' }))
+          };
+        }
+      } catch {
+        endpointDown = true;
+      }
+    }
+
+    if (!endpointDown) return null;
+    // The endpoint is unavailable: the slow path, by name or slug, as before.
+    const wanted = slugifyEntityKey(raw);
+    const rawNameSlug = slugifyEntityKey(namePart);
     const item = await this.findBrowsePerson((person) => {
-      const slugs = [
-        person.slug,
-        person.id,
-        person.name,
-        person.title
-      ].map(slugifyEntityKey);
+      const slugs = [person.slug, person.id, person.name, person.title].map(slugifyEntityKey);
       return slugs.includes(wanted) || (rawNameSlug && slugs.includes(rawNameSlug));
     });
-    return item ? this.mapPersonBrowseItem(item) : null;
+    return item ? this.mapPersonBrowseItem(item, partyIndex) : null;
   }
 
   /**
    * The persons who stood for one party, for its candidate summaries.
    *
    * buildPartyCandidateSummaries() matches on a party's aliases -- canonical name, title,
-   * observed names, known aliases -- so all of them are sent and the existing client-side
-   * filter is left untouched. That keeps the summary logic identical while replacing a
-   * 24 MB download with a query returning the handful of people it actually needs.
+   * observed names, known aliases -- so all of them are sent.
+   *
+   * The endpoint returns at most 200 a request, and the DUP, Sinn Féin and Fianna Fáil each
+   * have more: the page said "Candidates (200)" as if that were the party's total (UX review
+   * 2026-10-31, H2). It is asked page by page; if it does not page (a second page identical to
+   * the first, as the party query did before it took an offset) the result is marked capped and
+   * the page says the list is partial.
    */
   async loadPartyPersons(item = {}) {
     const aliases = [...new Set([
       item.canonicalName,
       item.title,
+      item.shortName,
       ...(item.observedNames || []),
       ...(item.knownAliases || []),
     ].filter(Boolean))];
-    if (!aliases.length) return [];
-    const params = new URLSearchParams();
-    for (const alias of aliases) params.append('party', alias);
-    params.set('limit', '200');
-    try {
-      const response = await fetch(`/_api/persons?${params}`, { cache: 'default' });
-      if (response.ok) {
-        const payload = await response.json();
-        if (Array.isArray(payload?.persons)) return payload.persons;
+    if (!aliases.length) return { persons: [], capped: false };
+    const PAGE = 200;
+    const MAX_PAGES = 20;
+    const persons = [];
+    const seen = new Set();
+    let capped = false;
+    for (let page = 0; page < MAX_PAGES; page += 1) {
+      const params = new URLSearchParams();
+      for (const alias of aliases) params.append('party', alias);
+      params.set('limit', String(PAGE));
+      if (page) params.set('offset', String(page * PAGE));
+      let payload = null;
+      try {
+        const response = await fetch(`/_api/persons?${params}`, { cache: 'default' });
+        if (response.ok) payload = await response.json();
+      } catch { /* handled below */ }
+      if (!Array.isArray(payload?.persons)) {
+        if (page === 0) {
+          // Same degradation as the person lookup: the whole index, only when the endpoint is down.
+          return { persons: await this.loadBrowsePersonsIndex().catch(() => []), capped: false };
+        }
+        capped = true;
+        break;
       }
-    } catch { /* fall through */ }
-    // Same degradation as above: the whole index, only when the endpoint is unavailable.
-    return this.loadBrowsePersonsIndex().catch(() => []);
+      const fresh = payload.persons.filter((person) => {
+        const id = String(person.id || person.slug || '');
+        if (!id || seen.has(id)) return false;
+        seen.add(id);
+        return true;
+      });
+      if (page > 0 && !fresh.length && payload.persons.length) { capped = true; break; }
+      persons.push(...fresh);
+      if (payload.persons.length < PAGE) break;
+      if (Number.isFinite(Number(payload.total)) && persons.length >= Number(payload.total)) break;
+      if (page === MAX_PAGES - 1) capped = true;
+    }
+    return { persons, capped };
   }
 
   async loadAreaBrowseDetail(kind, key) {
@@ -2025,54 +2353,62 @@ class Test2App {
     const elections = await this.ensureElections();
     const catalogueEntries = Array.isArray(elections?.catalogue?.elections) ? elections.catalogue.elections : [];
     const target = normalizeEntityName(name);
-    const rows = [];
-    for (const entry of catalogueEntries) {
+    const entries = catalogueEntries.filter((entry) => {
       const candidateNames = kind === 'lgd'
         ? [...(entry.localBodies || []), entry.body]
         : (entry.constituencies || []);
       const mayContainTarget = candidateNames.some((candidate) => normalizeEntityName(candidate) === target);
-      if (!mayContainTarget && !(kind === 'constituency' && entry.key === this.elections?.activeEntry?.key)) continue;
+      return mayContainTarget || (kind === 'constituency' && entry.key === this.elections?.activeEntry?.key);
+    });
+    // Four bundles at a time rather than one after another: a constituency contested in fifty
+    // elections took 6.9 s to open (UX review 2026-10-31, H6).
+    const perEntry = await mapWithConcurrency(entries, 4, async (entry) => {
       let bundle = null;
       try {
         bundle = await elections.loadBundle(entry);
       } catch {
-        continue;
+        return [];
       }
-      const matchingResults = (bundle.results || []).filter((result) => {
+      const matchingResults = (bundle?.results || []).filter((result) => {
         if (kind === 'lgd') {
           return normalizeEntityName(result.localBody || result.localGovernmentDistrict || result.council || result.bodyLabel || '') === target;
         }
         return normalizeEntityName(result.constituency || result.matchName || result.featureName || '') === target;
       });
-      if (!matchingResults.length) continue;
-      if (kind === 'lgd') {
-        rows.push(this.mapCouncilAreaHistoryRow(entry, bundle, name, matchingResults));
-      } else {
-        for (const result of matchingResults) {
-          rows.push(this.mapConstituencyAreaHistoryRow(entry, bundle, result, kind));
-        }
-      }
-    }
-    rows.sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')) || String(a.electionDisplayName || '').localeCompare(String(b.electionDisplayName || '')));
+      if (!matchingResults.length) return [];
+      if (kind === 'lgd') return [this.mapCouncilAreaHistoryRow(entry, bundle, name, matchingResults)];
+      return matchingResults.map((result) => this.mapConstituencyAreaHistoryRow(entry, bundle, result, kind));
+    });
+    // Oldest first, as Browse lists elections.
+    const rows = perEntry.flat()
+      .sort((a, b) => String(a.date || '').localeCompare(String(b.date || '')) || String(a.electionDisplayName || '').localeCompare(String(b.electionDisplayName || '')));
     if (!rows.length) return null;
+    const general = rows.filter((row) => !row.isByElection);
+    const latest = (general.length ? general : rows)[(general.length ? general : rows).length - 1];
+    const latestElectedRow = [...rows].reverse().find((row) => row.electedNames?.length) || null;
     const metrics = {
       elections: rows.length,
+      byElections: rows.length - general.length,
       districts: [...new Set(rows.map((row) => normalizeEntityName(row.localGovernmentDistrict)).filter(Boolean))].length,
       deas: kind === 'lgd'
-        ? rows.reduce((sum, row) => sum + Number(row.deaCount || 0), 0)
+        ? Math.max(0, ...rows.map((row) => Number(row.deaCount || 0)))
         : rows.length,
-      totalValidVotes: rows.reduce((sum, row) => sum + Number(row.validVotes || 0), 0),
-      totalSeats: rows.reduce((sum, row) => sum + Number(row.seats || 0), 0),
-      latestDate: rows[0]?.date || null
+      firstYear: Number(String(rows[0]?.date || '').slice(0, 4)) || null,
+      lastYear: Number(String(rows[rows.length - 1]?.date || '').slice(0, 4)) || null,
+      latestDate: latest?.date || null,
+      latestLeadingParty: latest?.winnerParty || '',
+      latestElection: latestElectedRow?.electionDisplayName || '',
+      latestElected: latestElectedRow?.electedNames || []
     };
     return {
       kind,
-      key: slugifyEntityKey(name),
+      key: name,
       name,
-      colour: rows[0]?.winnerColour || '#64748b',
+      colour: latest?.winnerColour || '#64748b',
       subtitle: kind === 'lgd' ? 'Local Government District / Council' : kind === 'dea' ? 'District Electoral Area' : 'Constituency',
       metrics,
-      historyRows: rows
+      historyRows: rows,
+      browseUrl: entityBrowseSearchUrl(kind, name)
     };
   }
 
@@ -2168,200 +2504,225 @@ class Test2App {
     return null;
   }
 
-  mapPartyBrowseItem(item, persons = []) {
+  mapPartyBrowseItem(item, personsResult = {}, partyIndex = null) {
     const related = Array.isArray(item.relatedElections) ? item.relatedElections : [];
-    const latestByMatch = (pattern) => related.find((row) => pattern.test(`${row.key || ''} ${row.title || ''}`));
-    const historyRows = related.map((row) => this.mapPartyHistoryRow(row));
-    const candidateSummaries = this.buildPartyCandidateSummaries(item, persons);
+    // Oldest first, as Browse lists a party's elections, so the two pages read the same way.
+    const historyRows = addPartyChanges(related.map((row) => this.mapPartyHistoryRow(row)))
+      .sort((a, b) => String(a.date || '9999').localeCompare(String(b.date || '9999')));
+    const persons = Array.isArray(personsResult) ? personsResult : (personsResult.persons || []);
+    const { summaries, listEntries } = this.buildPartyCandidateSummaries(item, persons, partyIndex);
+    const slug = item.slug || slugifyEntityKey(item.canonicalName || item.title);
+    const shortName = item.shortName || (item.canonicalName && item.canonicalName !== item.title ? item.canonicalName : '');
     return {
       kind: 'party',
-      key: item.slug || slugifyEntityKey(item.canonicalName || item.title),
-      name: item.canonicalName || item.title || item.slug || '',
+      key: slug,
+      slug,
+      // The full name heads the page and the abbreviation sits beneath it (UX review 2026-10-31,
+      // L7: "AO" or "Ind O" in a results table meant nothing on a phone, where <abbr> cannot be read).
+      name: item.title || item.canonicalName || slug,
+      shortName,
       colour: item.colour || item.color || item.partyColour || '#6b7280',
-      latestWestminster: historyRows.find((row) => /Westminster/i.test(row.electionType)) || latestByMatch(/house-of-commons|UK general|Westminster/i),
-      latestAssembly: historyRows.find((row) => /Assembly/i.test(row.electionType)) || latestByMatch(/northern-ireland-assembly|Assembly/i),
+      headlineCards: partyHeadlineCards(historyRows),
       historyRows,
       partySummaries: historyRows,
-      candidateSummaries,
+      candidateSummaries: summaries,
+      // The persons endpoint returns at most 200 a page; when it cannot page further the list is
+      // said to be partial rather than presented as the party's total (H2).
+      candidatesCapped: Boolean(personsResult.capped),
+      listEntriesLeftOut: listEntries,
       totals: item.totals || {},
       observedNames: item.observedNames || [],
       knownAliases: item.knownAliases || [],
       firstYear: item.firstYear,
-      lastYear: item.lastYear
+      lastYear: item.lastYear,
+      relatedElectionCount: related.length,
+      browseUrl: `/browse/#/parties/${encodeURIComponent(slug)}`
     };
   }
 
-  mapPersonBrowseItem(item) {
+  mapPersonBrowseItem(item, partyIndex = null) {
     const elections = Array.isArray(item.elections) ? item.elections : [];
-    const latest = elections[0] || null;
-    const appearances = elections.map((row) => this.mapPersonAppearanceRow(row));
+    // Oldest first, numbered as they go (the 3rd time standing, the 2nd win), as Browse lists them.
+    const appearances = addStandings(elections.map((row) => this.mapPersonAppearanceRow(row)));
+    const latest = appearances[appearances.length - 1] || null;
+    const latestParty = latest?.party || item.parties?.[0]?.name || '';
+    const slug = item.slug || String(item.id || '') || slugifyEntityKey(item.name || item.title);
+    const stood = knownCount(item.totals?.stood) ?? appearances.length;
+    const won = knownCount(item.totals?.elected) ?? appearances.filter((row) => row.elected).length;
+    const votesKnown = appearances.some((row) => row.firstPref !== null);
     return {
       kind: 'candidate',
-      key: item.slug || item.id || slugifyEntityKey(item.name || item.title),
-      personId: item.id || item.slug || '',
+      key: slug,
+      slug,
+      personId: item.id || '',
       name: item.name || item.title || '',
-      latestParty: latest?.party || item.parties?.[0]?.name || '',
-      parties: (item.parties || []).map((party) => party.name || party).filter(Boolean),
-      dates: [...new Set(elections.map((row) => String(row.year || row.date || '')).filter(Boolean))],
-      constituencies: (item.constituencies || []).map((row) => row.name || row).filter(Boolean),
-      constituencyEntries: elections.map((row) => ({
-        body: electionBodyFromEntityKey(row.key),
-        date: row.date || '',
-        constituency: row.constituency || '',
-        level: electionTypeFromEntityKey(row.key, row.title) === 'Local' ? 'dea' : 'constituency',
-        elected: Boolean(row.elected),
-        mapLayerYear: row.year || String(row.date || '').slice(0, 4)
-      })),
+      latestParty,
+      // The person record has no colour; their latest party's, rather than a grey swatch (M3).
+      colour: this.partyColourFrom(partyIndex, latestParty),
+      // Each party once: "Protestant Unionist" and "Protestant Unionist Party" are one party.
+      parties: [...new Map((item.parties || []).map((party) => party.name || party).filter(Boolean)
+        .map((name) => [this.partyFromIndex(partyIndex, name)?.slug || normalizeEntityName(partyFullName(name)), name])).values()],
+      constituencyGroups: groupConstituencies(appearances),
       appearances,
-      firstPrefs: item.totals?.firstPrefs || 0,
-      electedCount: item.totals?.elected || 0,
-      shareOfAllValid: null,
-      latestAppearance: appearances[0] || latest
+      firstPrefs: votesKnown ? knownCount(item.totals?.firstPrefs, true) : null,
+      electedCount: won,
+      stoodCount: stood,
+      firstYear: item.firstYear || null,
+      lastYear: item.lastYear || null,
+      born: item.born || null,
+      died: item.died || null,
+      lifeSource: [...new Set([item.bornSource, item.diedSource].filter(Boolean))].join(', '),
+      officialProfiles: Array.isArray(item.officialProfiles) ? item.officialProfiles : [],
+      browseUrl: `/browse/#/persons/${encodeURIComponent(slug)}`
     };
   }
 
   mapPartyHistoryRow(row = {}) {
     const body = electionBodyFromEntityKey(row.key) || row.body || '';
     const electionType = electionTypeFromEntityKey(row.key, row.title);
-    const totalSeats = row.totalSeats ?? null;
-    const elected = row.seats ?? row.elected ?? null;
-    const stood = row.stood ?? row.candidates ?? null;
+    const label = `${row.title || ''} ${row.key || ''}`;
+    const elected = knownCount(row.seats ?? row.elected);
+    // Browse's reading of the summary: a 0 beside seats won is a count it did not carry.
+    const stood = knownCount(row.stood ?? row.candidates, Number(elected) > 0);
+    const votes = knownCount(row.votes ?? row.firstPrefs, Number(elected) > 0 || Number(stood) > 0);
+    const share = votes === null ? null : knownCount(row.share ?? row.validVotePct);
+    const totalSeats = knownCount(row.totalSeats, true);
     return {
       electionDisplayName: row.title || row.key || '',
       electionBodyForOpen: body,
       body,
       bodyLabel: body,
+      bodyGroup: bodyGroupOf(electionType),
       date: row.date || '',
       electionType,
-      rank: row.rank ?? null,
-      rankDelta: row.rankDelta ?? null,
-      contested: !/referendum|recall/i.test(`${row.title || ''} ${row.key || ''}`),
-      isRecallPetition: /recall petition/i.test(`${row.title || ''} ${row.key || ''}`),
-      isByElection: /by-election/i.test(`${row.title || ''} ${row.key || ''}`),
+      rank: knownCount(row.rank, true),
+      contested: !/referendum|recall/i.test(label),
+      isRecallPetition: /recall petition/i.test(label),
+      isByElection: /by-election|bye-election/i.test(label),
       stood,
-      stoodDelta: row.stoodDelta ?? null,
       elected,
-      electedDelta: row.electedDelta ?? row.seatsDelta ?? null,
       totalSeats,
-      totalSeatsDelta: row.totalSeatsDelta ?? null,
-      seatPct: totalSeats ? (Number(elected || 0) / Number(totalSeats) * 100) : null,
-      seatPctDelta: row.seatPctDelta ?? null,
-      constituenciesContested: row.constituenciesContested ?? row.constituencies ?? null,
-      constituenciesContestedDelta: row.constituenciesContestedDelta ?? null,
-      totalConstituencies: row.totalConstituencies ?? null,
-      totalConstituenciesDelta: row.totalConstituenciesDelta ?? null,
-      firstPrefs: row.votes ?? row.firstPrefs ?? null,
-      firstPrefsDelta: row.votesDelta ?? row.firstPrefsDelta ?? null,
-      validVotePct: row.share ?? row.validVotePct ?? null,
-      validVotePctDelta: row.shareDelta ?? row.validVotePctDelta ?? null,
-      bodyGroup: row.bodyGroup || null
+      seatPct: totalSeats && elected !== null ? elected / totalSeats * 100 : null,
+      constituenciesContested: knownCount(row.constituenciesContested ?? row.constituencies, true),
+      firstPrefs: votes,
+      validVotePct: share,
+      // Filled by addPartyChanges().
+      electedDelta: null,
+      stoodDelta: null,
+      firstPrefsDelta: null,
+      validVotePctDelta: null
     };
   }
 
   mapPersonAppearanceRow(row = {}) {
     const body = electionBodyFromEntityKey(row.key);
     const electionType = electionTypeFromEntityKey(row.key, row.title);
-    const firstPref = row.firstPref ?? row.firstPrefs ?? row.votes ?? null;
+    // A candidate with no votes at all does not happen; a 0 here is a vote the source did not
+    // record (the 1996 Forum's lists), so it is shown as unknown.
+    const firstPref = knownCount(row.firstPref ?? row.firstPrefs ?? row.votes, true);
+    const status = normaliseStatus({ ...row, firstPref });
     return {
+      electionKey: row.key || '',
       electionDisplayName: row.title || row.key || '',
       electionBodyForOpen: body,
       body,
       bodyLabel: electionType === 'Local' ? (row.localBody || row.bodyLabel || body) : body,
+      bodyGroup: bodyGroupOf(electionType),
       date: row.date || '',
       constituency: row.constituency || '',
       party: row.party || '',
-      status: row.status || (row.elected ? 'Elected' : ''),
-      rank: row.rank || null,
+      status: status.label,
+      statusSource: status.raw,
+      rank: knownCount(row.rank, true),
       firstPref,
       firstPrefs: firstPref,
-      firstPrefPct: row.firstPrefPct ?? row.share ?? null,
-      elected: Boolean(row.elected),
+      firstPrefPct: knownCount(row.firstPrefPct ?? row.share),
+      elected: status.elected,
       electionType,
-      isByElection: /by-election/i.test(`${row.title || ''} ${row.key || ''}`),
-      overallStandingNumber: row.overallStandingNumber ?? null,
-      overallElectedNumber: row.overallElectedNumber ?? null,
-      bodyStandingNumber: row.bodyStandingNumber ?? null,
-      bodyElectedNumber: row.bodyElectedNumber ?? null
+      isByElection: /by-election|bye-election/i.test(`${row.title || ''} ${row.key || ''}`)
     };
   }
 
-  buildPartyCandidateSummaries(item = {}, persons = []) {
+  /**
+   * Everyone who stood for the party, with how often they stood and won and where. Labels such as
+   * "DUP list" -- the 1996 Forum's regional lists -- are counted separately, not listed as people
+   * (UX review 2026-10-31, H8).
+   */
+  buildPartyCandidateSummaries(item = {}, persons = [], partyIndex = null) {
     const aliases = new Set([
       item.canonicalName,
       item.title,
+      item.shortName,
       ...(item.observedNames || []),
       ...(item.knownAliases || [])
     ].map(normalizeEntityName).filter(Boolean));
+    const ownSlug = item.slug || '';
+    const isOwnParty = (party) => {
+      const key = normalizeEntityName(party);
+      if (aliases.has(key)) return true;
+      // A spelling the party record does not list but the registry files under it.
+      return Boolean(ownSlug && partyIndex?.byAlias?.get(key)?.slug === ownSlug);
+    };
     const summaries = new Map();
+    let listEntries = 0;
     for (const person of persons || []) {
-      for (const row of person.elections || []) {
-        if (!aliases.has(normalizeEntityName(row.party))) continue;
-        const personId = person.id || person.slug || slugifyEntityKey(person.name || person.title);
-        if (!summaries.has(personId)) {
-          summaries.set(personId, {
-            personId,
-            name: person.name || person.title || personId,
-            totalFirstPrefs: 0,
-            timesStood: 0,
-            timesStoodLocal: 0,
-            timesStoodDevolved: 0,
-            timesStoodWestminster: 0,
-            timesStoodEuropean: 0,
-            timesElected: 0,
-            timesElectedLocal: 0,
-            timesElectedDevolved: 0,
-            timesElectedWestminster: 0,
-            timesElectedEuropean: 0,
-            constituencyEntries: []
-          });
-        }
-        const summary = summaries.get(personId);
-        const electionType = electionTypeFromEntityKey(row.key, row.title);
-        const bucket = electionTypeBucket(electionType);
-        summary.totalFirstPrefs += Number(row.firstPref ?? row.firstPrefs ?? row.votes ?? 0) || 0;
-        summary.timesStood += 1;
-        if (bucket) summary[`timesStood${bucket}`] += 1;
-        if (row.elected) {
-          summary.timesElected += 1;
-          if (bucket) summary[`timesElected${bucket}`] += 1;
-        }
-        if (row.constituency) {
-          summary.constituencyEntries.push({
-            body: electionBodyFromEntityKey(row.key),
-            date: row.date || '',
-            constituency: row.constituency,
-            level: electionType === 'Local' ? 'dea' : 'constituency',
-            elected: Boolean(row.elected),
-            mapLayerYear: row.year || String(row.date || '').slice(0, 4)
-          });
-        }
+      const name = person.name || person.title || '';
+      const rows = (person.elections || []).filter((row) => isOwnParty(row.party));
+      if (!rows.length) continue;
+      if (isListPseudoCandidate(name)) { listEntries += 1; continue; }
+      const personId = person.slug || person.id || slugifyEntityKey(name);
+      const appearances = rows.map((row) => this.mapPersonAppearanceRow(row));
+      const byGroup = new Map();
+      let votes = 0;
+      let votesKnown = false;
+      for (const row of appearances) {
+        const group = byGroup.get(row.bodyGroup) || { stood: 0, won: 0 };
+        group.stood += 1;
+        if (row.elected) group.won += 1;
+        byGroup.set(row.bodyGroup, group);
+        if (row.firstPref !== null) { votes += row.firstPref; votesKnown = true; }
       }
+      summaries.set(personId, {
+        personId,
+        name: name || personId,
+        totalFirstPrefs: votesKnown ? votes : null,
+        timesStood: appearances.length,
+        timesElected: appearances.filter((row) => row.elected).length,
+        byGroup: BODY_GROUP_ORDER.filter((group) => byGroup.has(group)).map((group) => ({ group, ...byGroup.get(group) })),
+        firstYear: Math.min(...appearances.map((row) => Number(String(row.date).slice(0, 4)) || 9999)),
+        lastYear: Math.max(...appearances.map((row) => Number(String(row.date).slice(0, 4)) || 0)),
+        constituencyGroups: groupConstituencies(appearances)
+      });
     }
-    return [...summaries.values()].sort((a, b) => (
+    const list = [...summaries.values()].sort((a, b) => (
       b.timesElected - a.timesElected
-        || b.totalFirstPrefs - a.totalFirstPrefs
+        || (b.totalFirstPrefs || 0) - (a.totalFirstPrefs || 0)
         || b.timesStood - a.timesStood
         || a.name.localeCompare(b.name)
     ));
+    return { summaries: list, listEntries };
   }
 
   mapConstituencyAreaHistoryRow(entry, bundle, result, kind) {
-    const party = result.winnerParty || result.leadingParty || '';
-    const votes = result.leadingVotes ?? result.winnerVotes ?? null;
-    const validVotes = result.validPoll ?? result.totalVotes ?? null;
+    const lead = leadingPartyOf(result, { normalise: normalizeEntityName });
+    const seats = knownCount(result.seatsTotal ?? result.seatsWon, true);
     return {
+      electionKey: bundle.key || entry.key || '',
       electionDisplayName: bundle.displayTitle || entry.displayTitle || entry.title || entry.key || '',
       electionBodyForOpen: bundle.body || entry.body || '',
       body: bundle.body || entry.body || '',
       date: bundle.date || entry.date || '',
+      constituency: result.constituency || '',
       localGovernmentDistrict: result.localBody || result.localGovernmentDistrict || '',
-      winnerParty: party,
-      winnerColour: result.winnerColour || result.leadingColour || result.colour || '#b0bec5',
-      winnerVotes: votes,
-      winnerPct: result.leadingPct ?? result.winnerPct ?? (validVotes && votes ? Number(votes) / Number(validVotes) * 100 : null),
-      validVotes,
-      seats: result.seatsTotal ?? result.seatsWon ?? null,
-      isByElection: /by-election/i.test(`${bundle.displayTitle || entry.displayTitle || ''}`),
+      // The party with the most votes, summed over its candidates (H3), not the poll-topper's.
+      winnerParty: lead.party,
+      winnerColour: lead.colour || '#b0bec5',
+      winnerVotes: lead.votes,
+      winnerPct: lead.pct,
+      electedNames: lead.elected,
+      validVotes: knownCount(lead.valid, true),
+      seats,
+      isByElection: /by-election|bye-election/i.test(`${bundle.displayTitle || entry.displayTitle || ''}`) || entry.kind === 'by-election',
       areaKind: kind
     };
   }
@@ -2369,9 +2730,10 @@ class Test2App {
   mapCouncilAreaHistoryRow(entry, bundle, name, results) {
     const partyTotals = new Map();
     let validVotes = 0;
+    let validKnown = false;
     let seats = 0;
     for (const result of results) {
-      validVotes += Number(result.validPoll || 0);
+      if (knownCount(result.validPoll, true) !== null) { validVotes += Number(result.validPoll); validKnown = true; }
       seats += Number(result.seatsTotal ?? result.seatsWon ?? 0) || 0;
       for (const candidate of result.candidates || []) {
         const party = candidate.party || result.leadingParty || 'Independent';
@@ -2383,6 +2745,7 @@ class Test2App {
     }
     const leading = [...partyTotals.values()].sort((a, b) => b.votes - a.votes)[0] || {};
     return {
+      electionKey: bundle.key || entry.key || '',
       electionDisplayName: bundle.displayTitle || entry.displayTitle || entry.title || entry.key || '',
       electionBodyForOpen: bundle.body || entry.body || '',
       body: bundle.body || entry.body || '',
@@ -2392,10 +2755,10 @@ class Test2App {
       winnerParty: leading.party || '',
       winnerColour: leading.colour || '#b0bec5',
       winnerVotes: leading.votes || null,
-      winnerPct: validVotes && leading.votes ? leading.votes / validVotes * 100 : null,
-      validVotes,
-      seats,
-      isByElection: /by-election/i.test(`${bundle.displayTitle || entry.displayTitle || ''}`),
+      winnerPct: validKnown && leading.votes ? leading.votes / validVotes * 100 : null,
+      validVotes: validKnown ? validVotes : null,
+      seats: seats || null,
+      isByElection: /by-election|bye-election/i.test(`${bundle.displayTitle || entry.displayTitle || ''}`) || entry.kind === 'by-election',
       localGovernmentDistrict: name
     };
   }
@@ -4006,6 +4369,9 @@ class Test2App {
    * a later pan into a history entry.
    */
   beginNavigation(label) {
+    // A message from an earlier step ("This link asks for something not found here", an old
+    // "could not be loaded") goes once the reader does something else (UX review 2026-10-31, L6).
+    this.dismissStaleMapMessage();
     if (this._restoringURLState) return;
     this._pushNextURL = label || 'Map';
   }
@@ -4074,8 +4440,15 @@ class Test2App {
       if (partialFeatureState.featureName) params.set('featureName', partialFeatureState.featureName);
     }
     if (this.searchQuery) params.set('q', this.searchQuery);
-    if (this.currentDetailMapId && !document.getElementById('catalogueDetailView')?.classList.contains('hidden')) {
+    const detailViewOpen = !document.getElementById('catalogueDetailView')?.classList.contains('hidden');
+    if (this.currentDetailMapId && detailViewOpen) {
       params.set('detail', this.currentDetailMapId);
+    }
+    // A party, person, constituency or feature page has an address of its own (UX review
+    // 2026-10-31, H4), so it can be reloaded, bookmarked, shared and returned to with Back.
+    if (this.currentPage && detailViewOpen) {
+      const page = this.currentPage.kind === 'feature' ? `feature:${this.currentPage.key}` : pageParamOf(this.currentPage);
+      if (page) params.set('page', page);
     }
     if (this.currentSourceMapId && !document.getElementById('test2SourcePanel')?.classList.contains('hidden')) {
       params.set('source', this.currentSourceMapId);
@@ -4131,7 +4504,11 @@ class Test2App {
     let subject = null;
     try {
       const election = this.elections?.activeBundle;
-      if (election?.displayTitle) {
+      const page = this.currentPage && !document.getElementById('catalogueDetailView')?.classList.contains('hidden') ? this.currentPage : null;
+      if (page?.title) {
+        // "Ulster Unionist Party – Party – Civgraph": the page, not the election behind it.
+        subject = `${page.title} – ${page.typeLabel || 'Page'}`;
+      } else if (election?.displayTitle) {
         subject = election.displayTitle;
       } else if (this.currentDetailMapId) {
         subject = this.metadataService?.getLayer?.(this.currentDetailMapId)?.name
@@ -4171,6 +4548,12 @@ class Test2App {
       if (search) search.value = this.searchQuery;
       document.getElementById('searchClear')?.classList.toggle('visible', this.searchQuery.length > 0);
       this.updateMapList();
+      // The results follow the address, not only the box (UX review 2026-10-31, L5): Back from
+      // Browse restored "Ian Paisley" to the box with no results under it, and Back to an
+      // address with no search cleared the box and left the old results showing.
+      if (this.searchQuery !== String(uiController._catalogueSearchQuery || '').trim()) {
+        uiController.onSearch?.(this.searchQuery);
+      }
 
       const baseMap = params.get('base');
       if (baseMap) {
@@ -4244,10 +4627,15 @@ class Test2App {
       this.updateActiveLayers();
 
       const detailId = params.get('detail');
-      if (detailId && dataService.getMapById(detailId)) {
+      const page = parsePageParam(params.get('page'));
+      if (page) {
+        // Not awaited: a constituency page loads its elections' results, and the map behind it
+        // should not wait for that. The page shows its name and a skeleton meanwhile.
+        this.restorePage(page, { initial: !options.sync });
+      } else if (detailId && dataService.getMapById(detailId)) {
         uiController.showCatalogueDetailView(detailId, false);
         this.currentDetailMapId = detailId;
-      } else if (!detailId && this.currentDetailMapId) {
+      } else if (!detailId && (this.currentDetailMapId || this.currentPage)) {
         uiController.showCatalogueListView(false);
       }
 
@@ -4340,6 +4728,14 @@ class Test2App {
     status.setAttribute('aria-label', options.kind === 'info' ? 'Message' : 'Error');
     status.hidden = false;
     status.innerHTML = '';
+    const shownAt = Date.now();
+    status.dataset.shownAt = String(shownAt);
+    // A note (not an error) clears itself after a while; an error waits to be dismissed or retried.
+    if (options.kind === 'info') {
+      setTimeout(() => {
+        if (status.dataset.shownAt === String(shownAt)) { status.hidden = true; status.innerHTML = ''; }
+      }, 15000);
+    }
     const text = document.createElement('span');
     text.className = 'map-error__text';
     text.textContent = message;
@@ -4369,6 +4765,15 @@ class Test2App {
     // Said through the page's one live region, as "… loaded" is, so a screen reader hears the
     // failure where it heard the success; the box itself is not a second live region.
     this.announce(message);
+  }
+
+  /** Hide the map message if it has been up for a moment: one raised by the step now starting
+   * is newer than that, and stays. */
+  dismissStaleMapMessage(minAgeMs = 1500) {
+    const status = document.getElementById('test2Status');
+    if (!status || status.hidden) return;
+    const shownAt = Number(status.dataset.shownAt || 0);
+    if (Date.now() - shownAt >= minAgeMs) this.hideMapError();
   }
 
   hideMapError() {
@@ -4523,15 +4928,10 @@ function electionTypeFromEntityKey(key, title = '') {
   if (bodyKey === 'european-parliament' || bodyKey === 'ireland-european') return 'European';
   if (bodyKey === 'ireland-president' || bodyKey === 'president-of-ireland') return 'Presidential';
   if (/referendum/i.test(label)) return 'Referendum';
+  // Belfast County Borough, Strabane Urban District and the like: councils, so local elections.
+  if (/council|borough|urban-district|rural-district|corporation/i.test(bodyKey)) return 'Local';
+  if (bodyKey === 'seanad-eireann') return 'Seanad';
   return bodyKey ? bodyKey.replace(/-/g, ' ') : 'Election';
-}
-
-function electionTypeBucket(electionType) {
-  if (/Local/i.test(electionType)) return 'Local';
-  if (/Assembly|Forum|Convention|Parliament of NI/i.test(electionType)) return 'Devolved';
-  if (/Westminster/i.test(electionType)) return 'Westminster';
-  if (/European/i.test(electionType)) return 'European';
-  return '';
 }
 
 function formatBytes(value) {
@@ -4560,4 +4960,70 @@ function normalizeSearchText(value) {
     .replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-z0-9]+/g, ' ')
     .trim();
+}
+
+/** The kinds of page the catalogue pane opens for an election entity; "person" is a candidate. */
+const ENTITY_TYPE_LABEL = Object.freeze({
+  party: 'Party',
+  candidate: 'Person',
+  constituency: 'Constituency',
+  dea: 'District Electoral Area',
+  lgd: 'Council',
+  feature: 'Feature'
+});
+
+function canonicalEntityKind(kind) {
+  const value = String(kind || '').toLowerCase();
+  if (value === 'person' || value === 'candidate') return 'candidate';
+  return ENTITY_TYPE_LABEL[value] && value !== 'feature' ? value : '';
+}
+
+/** How the address names a page: page=person:ian-paisley-48601, page=party:dup. */
+function pageParamOf(page) {
+  if (!page?.kind || !page.key) return '';
+  return `${page.kind === 'candidate' ? 'person' : page.kind}:${page.key}`;
+}
+
+function parsePageParam(value) {
+  const text = String(value || '');
+  const at = text.indexOf(':');
+  if (at <= 0) return null;
+  const rawKind = text.slice(0, at);
+  const key = text.slice(at + 1);
+  if (!key) return null;
+  if (rawKind === 'feature') return { kind: 'feature', key };
+  const kind = canonicalEntityKind(rawKind);
+  return kind ? { kind, key } : null;
+}
+
+/** A readable name for a page whose data has not arrived: the name part of a "Name|Party" key,
+ * else the key, else for a bare person id, "Person 48601". */
+function entityKeyLabel(kind, key) {
+  const text = String(key || '').split('|')[0].trim();
+  if (kind === 'candidate' && /^\d+$/.test(text)) return `Person ${text}`;
+  if (kind === 'candidate' && /-\d+$/.test(text)) {
+    return text.replace(/-\d+$/, '').split('-').map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
+  }
+  return text;
+}
+
+/** Where to look for a page in Browse when it cannot be opened here: a search of its section. */
+function entityBrowseSearchUrl(kind, label) {
+  const section = kind === 'party' ? 'parties' : kind === 'candidate' ? 'persons' : 'features';
+  return `/browse/#/${section}?q=${encodeURIComponent(String(label || '').split('|')[0].trim())}`;
+}
+
+/** fn over items, at most `limit` at a time, results in the items' order. */
+async function mapWithConcurrency(items, limit, fn) {
+  const results = new Array(items.length);
+  let next = 0;
+  const worker = async () => {
+    while (next < items.length) {
+      const index = next;
+      next += 1;
+      results[index] = await fn(items[index], index);
+    }
+  };
+  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, worker));
+  return results;
 }

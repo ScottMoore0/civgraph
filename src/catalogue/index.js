@@ -771,12 +771,18 @@ export class CatalogueNext {
       const text = ` ${r.searchText || ''}`;
       return words.length > 0 && words.every((w) => text.includes(` ${w}`));
     };
+    // Parties rank by how many elections they are linked to, after how well they match: "Ulster
+    // Unionist" put sixty ballot-paper descriptions ("Ulster Unionist Farmer", each with 0 linked
+    // elections) ahead of the UUP (UX review 2026-10-31, H8). Labels with no linked election are
+    // left out of the index (ensureCatalogueSearchIndex).
+    const linked = (r) => Number(r.relatedElectionCount) || 0;
     const people = (index || [])
       .filter((r) => r.type === 'person' || r.type === 'party' || r.type === 'source')
       .filter(allWords)
       .map((r) => ({ r, s: ui.scoreCatalogueSearchRecord ? ui.scoreCatalogueSearchRecord(r, terms, qn, new Map()) : 0 }))
       .filter((x) => x.s > 0)
-      .sort((a, b) => b.s - a.s)
+      .map((x) => (x.r.type === 'party' ? { ...x, s: x.s + Math.min(400, Math.log10(1 + linked(x.r)) * 150) } : x))
+      .sort((a, b) => b.s - a.s || linked(b.r) - linked(a.r))
       .slice(0, 60)
       .map((x) => x.r);
     const persons = this.peopleSearch && norm.length >= 3 ? this.peopleSearch.query(q) : [];
@@ -1052,6 +1058,14 @@ export class CatalogueNext {
     if ((el = b('[data-cn-filter]'))) { e.preventDefault(); this.setFilter(el.dataset.cnFilter, el.dataset.value || ''); return; }
     if ((el = b('[data-cn-shelf]'))) { e.preventDefault(); this.toggleShelf(el); return; }
     if ((el = b('[data-cn-person]'))) { e.preventDefault(); this.showPersonElections(el.dataset.cnPerson); return; }
+    // A person or party found by search opens its page here in the pane (UX review 2026-10-31, M6),
+    // with the full record a link away in Browse; the name used to leave the map for Browse.
+    if ((el = b('[data-cn-open-page]'))) {
+      e.preventDefault();
+      const [kind, ...rest] = el.dataset.cnOpenPage.split(':');
+      this.ui.onOpenElectionEntityDetail?.(kind, rest.join(':'), el.textContent.trim());
+      return;
+    }
     if ((el = b('[data-cn-local]'))) {
       e.preventDefault();
       const id = el.dataset.cnLocal;

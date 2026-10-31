@@ -168,7 +168,7 @@
     "check:composite-relations": "node scripts/validate-composite-relations.mjs",
     "catalogue:build": "node scripts/catalogue/build-catalogue.mjs",
     "catalogue:check": "node scripts/catalogue/check-catalogue.mjs",
-    "test:catalogue": "node --test tests/catalogue/search.test.mjs && npx playwright test --config tests/catalogue/playwright.config.cjs",
+    "test:catalogue": "node --test tests/catalogue/search.test.mjs tests/catalogue/entity-detail-data.test.mjs && npx playwright test --config tests/catalogue/playwright.config.cjs",
     "test-site": "node tools/test-site/server.mjs --port 4177 --catalogue next"
   },
   "devDependencies": {

@@ -177,6 +177,7 @@ async function main() {
     errors.push(`Browse mapping parts hold ${Object.keys(mappingItems).length} keys; the index says ${mappingPayload.total}.`);
   }
   await validateBrowseMappings(mappingItems, errors);
+  await validateLookupIndex(manifest, mappingItems, errors);
   const registerIndexItems = await loadRegisterInterestIndexItems();
   const missingRegisterMappings = [];
   for (const item of registerIndexItems) {
@@ -289,6 +290,58 @@ async function loadRegisterInterestIndexItems() {
     items.push(...requireArray(payload.items, shard.url));
   }
   return items;
+}
+
+/**
+ * The hashed lookup files (build-semantic-graph.mjs writeLookupIndex) are what a Browse record
+ * page reads, so they must say exactly what the whole maps say: every Browse key to the same
+ * entity, and every subject's statements in the shard its entity entry names. A bucket count or
+ * hash that drifted between the build and browse.js would show here as keys not found.
+ */
+async function validateLookupIndex(manifest, mappingItems, errors) {
+  if (!manifest.indexes?.lookup) {
+    errors.push('Graph manifest has no indexes.lookup; Browse record pages would fall back to the whole maps (about 56 MB).');
+    return;
+  }
+  const head = await readJson(siteUrlToPath(manifest.indexes.lookup));
+  const bucketOf = (key, count) => {
+    let hash = 0x811c9dc5;
+    for (let i = 0; i < key.length; i += 1) {
+      hash ^= key.charCodeAt(i);
+      hash = Math.imul(hash, 0x01000193);
+    }
+    return (hash >>> 0) % count;
+  };
+  const cache = new Map();
+  const bucketItems = async (kind, key) => {
+    const name = String(bucketOf(key, head.buckets[kind])).padStart(head.bucketPad || 4, '0');
+    const url = head.urls[kind].replace('{bucket}', name);
+    if (!cache.has(url)) cache.set(url, (await readJson(siteUrlToPath(url))).items || {});
+    return cache.get(url);
+  };
+  let missing = 0;
+  for (const [key, entityId] of Object.entries(mappingItems)) {
+    if ((await bucketItems('browse', key))[key] !== entityId) {
+      missing += 1;
+      if (missing <= 5) errors.push(`Lookup: Browse key ${key} does not resolve to ${entityId}`);
+    }
+  }
+  if (missing > 5) errors.push(`Lookup: ${missing} Browse keys in all do not resolve.`);
+
+  const subjectMap = await readJson(siteUrlToPath(manifest.indexes.statementsBySubjectMap));
+  const statementPattern = head.shards?.statements;
+  let wrongShard = 0;
+  for (const [subjectId, shardUrl] of Object.entries(subjectMap.items || {})) {
+    const entry = (await bucketItems('entity', subjectId))[subjectId];
+    const expected = entry && statementPattern
+      ? statementPattern.url.replace('{n}', String(entry.st).padStart(statementPattern.pad || 3, '0'))
+      : null;
+    if (expected !== shardUrl) {
+      wrongShard += 1;
+      if (wrongShard <= 5) errors.push(`Lookup: entity ${subjectId} points to ${expected}, the subject map to ${shardUrl}`);
+    }
+  }
+  if (wrongShard > 5) errors.push(`Lookup: ${wrongShard} subjects in all point at the wrong statement shard.`);
 }
 
 async function validateBrowseMappings(mappingItems, errors) {

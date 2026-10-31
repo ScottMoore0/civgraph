@@ -42,6 +42,8 @@ export async function onRequestGet(context) {
   }
 
   const limit = Math.min(Math.max(Number(url.searchParams.get('limit')) || 50, 1), 200);
+  // Paged, with the total, so a party page can list every candidate rather than the first 200.
+  const offset = Math.max(Number(url.searchParams.get('offset')) || 0, 0);
   try {
     // `parties` is a nested array inside the record, so this walks it with json_each
     // rather than needing a join table. A full scan of ~12,000 rows is acceptable and
@@ -52,20 +54,23 @@ export async function onRequestGet(context) {
     // client matches on all of them. Accepting one name would silently drop candidates
     // who stood under an earlier name of the same party.
     const placeholders = parties.map((_, i) => `?${i + 1}`).join(', ');
-    const { results } = await db
-      .prepare(`SELECT record FROM browse_persons
-                WHERE EXISTS (
+    const match = `EXISTS (
                   SELECT 1 FROM json_each(browse_persons.record, '$.parties')
                   WHERE json_extract(value, '$.name') IN (${placeholders})
-                )
-                ORDER BY ord
-                LIMIT ?${parties.length + 1}`)
-      .bind(...parties, limit)
-      .all();
+                )`;
+    const [{ results }, totalRow] = await Promise.all([
+      db.prepare(`SELECT record FROM browse_persons WHERE ${match}
+                  ORDER BY ord
+                  LIMIT ?${parties.length + 1} OFFSET ?${parties.length + 2}`)
+        .bind(...parties, limit, offset)
+        .all(),
+      db.prepare(`SELECT COUNT(*) AS n FROM browse_persons WHERE ${match}`).bind(...parties).first(),
+    ]);
     const persons = (results || []).map((row) => {
       try { return JSON.parse(row.record); } catch { return null; }
     }).filter(Boolean);
-    return new Response(JSON.stringify({ persons, count: persons.length, parties }), {
+    const total = Number(totalRow?.n ?? persons.length);
+    return new Response(JSON.stringify({ persons, count: persons.length, total, offset, parties }), {
       status: 200,
       headers: {
         'Content-Type': 'application/json; charset=utf-8',

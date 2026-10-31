@@ -415,7 +415,7 @@ function personsHtml(c, results) {
     <ul class="cn-people">${results.slice(0, limit).map(({ row }) => {
       const years = row[4] === row[5] ? String(row[4]) : `${row[4]}–${row[5]}`;
       const meta = [parties[row[2]], constituencies[row[3]], years, `${plural(row[6], 'contest')}, ${row[7]} won`].filter(Boolean);
-      return `<li class="cn-person cn-person--row">${icon('user')}<span class="cn-person__main"><a class="cn-person__name" href="${esc(PeopleSearch.url(row))}">${esc(row[1])}</a><span class="cn-muted">${esc(meta.join(' · '))}</span></span>
+      return `<li class="cn-person cn-person--row">${icon('user')}<span class="cn-person__main"><a class="cn-person__name" href="${esc(PeopleSearch.url(row))}" data-cn-open-page="candidate:${esc(PeopleSearch.slug(row))}">${esc(row[1])}</a><span class="cn-muted">${esc(meta.join(' · '))}</span></span>
         <button type="button" class="cn-btn cn-btn--small" data-cn-person="${esc(row[0])}" aria-label="Elections ${esc(row[1])} stood in">${icon('vote')}<span>Elections</span></button></li>`;
     }).join('')}</ul>
     ${results.length > limit ? `<button type="button" class="cn-link" data-cn-act="show-all" data-what="persons">Show ${results.length >= 200 ? 'the first 200' : `all ${results.length}`}</button>` : ''}
@@ -472,7 +472,11 @@ function peopleHtml(c, records) {
   const heading = kinds.length > 1 ? `${kinds.slice(0, -1).join(', ')} and ${kinds[kinds.length - 1].toLowerCase()}` : kinds[0] || 'People';
   return `<section class="cn-block" aria-labelledby="cn-people-h">
     <h3 class="cn-block__head" id="cn-people-h">${icon(records[0]?.type === 'party' ? 'flag' : 'user')}<span>${esc(heading)}</span><span class="cn-count">${records.length}</span></h3>
-    <ul class="cn-people">${records.slice(0, limit).map((r) => `<li class="cn-person">${icon(ic[r.type] || 'file-text')}<a class="cn-person__name" href="${esc(r.url)}">${esc(r.title)}</a><span class="cn-muted">${esc([r.typeLabel, r.subtitle].filter(Boolean).join(' · '))}</span></li>`).join('')}</ul>
+    <ul class="cn-people">${records.slice(0, limit).map((r) => {
+      // A party or person opens its page in the pane; a source still goes to Browse.
+      const page = (r.type === 'party' || r.type === 'person') && r.slug ? ` data-cn-open-page="${r.type === 'party' ? 'party' : 'candidate'}:${esc(r.slug)}"` : '';
+      return `<li class="cn-person">${icon(ic[r.type] || 'file-text')}<a class="cn-person__name" href="${esc(r.url)}"${page}>${esc(r.title)}</a><span class="cn-muted">${esc([r.typeLabel, r.subtitle].filter(Boolean).join(' · '))}</span></li>`;
+    }).join('')}</ul>
     ${records.length > limit ? `<button type="button" class="cn-link" data-cn-act="show-all" data-what="people">Show all ${records.length}</button>` : ''}
   </section>`;
 }

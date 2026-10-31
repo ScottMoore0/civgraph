@@ -350,10 +350,14 @@ export class PeopleSearch {
     return out.slice(0, limit);
   }
 
+  /** A person's record slug: Browse's, else their name and id as Browse makes it. */
+  static slug(row) {
+    return row[10] || `${String(row[1]).normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}-${row[0]}`;
+  }
+
   /** A person's Browse page. */
   static url(row) {
-    const slug = row[10] || `${String(row[1]).normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}-${row[0]}`;
     // Browse routes in the hash: /browse/persons/<slug> is not served (404).
-    return `/browse/#/persons/${encodeURIComponent(slug)}`;
+    return `/browse/#/persons/${encodeURIComponent(PeopleSearch.slug(row))}`;
   }
 }

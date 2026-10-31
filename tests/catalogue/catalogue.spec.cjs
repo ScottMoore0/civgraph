@@ -684,7 +684,7 @@ test('N23 elections: shelves start closed, general elections by default, by-elec
   // The summary offers the by-elections the default leaves out.
   const by = catalogue.elections.length - generals.length;
   const show = pane(page).locator('.cn-summary [data-cn-filter="ekind"][data-value=""]');
-  await expect(show).toHaveText(`Show ${by.toLocaleString('en-GB')} bye-elections too`);
+  await expect(show).toHaveText(`Show ${by.toLocaleString('en-GB')} by-elections too`);
   await show.click();
   await expect(pane(page).locator('.cn-erow')).toHaveCount(catalogue.elections.length);
   // A link to a body opens its shelf.

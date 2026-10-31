@@ -81,6 +81,11 @@ const SOURCE_INDEX_SHARD_DIR = 'source-index-shards';
 const SOURCE_INDEX_SHARD_SIZE = 5000;
 const PERSON_INDEX_SHARD_DIR = 'person-shards';
 const PERSON_INDEX_SHARD_SIZE = 5000;
+// election-contest-parents/<bucket>.json: contest slug -> election slug, in this many pieces.
+const CONTEST_PARENT_BUCKETS = 64;
+// A party label with fewer appearances than this, in no election's party table and not in the
+// party registry, is a ballot-paper label: listed only when the reader asks (buildParties).
+const BALLOT_LABEL_MAX_OCCURRENCES = 10;
 const RAW_ELECTION_SOURCE_CACHE = new Map();
 
 const ENTITY_GROUPS = [
@@ -147,6 +152,7 @@ function main() {
   let elections = buildElections(electionManifest, thumbnailIds);
   const parentElections = elections;
   const electionDetails = readElectionDetails(parentElections);
+  applyElectionReaderFixes(parentElections, electionDetails);
   const electionResultEntries = buildElectionResultSubEntries(parentElections, electionDetails);
   for (const parent of parentElections) {
     parent.resultEntries = electionResultEntries
@@ -162,10 +168,12 @@ function main() {
   }
   elections = [...parentElections, ...electionResultEntries];
   const featureGroups = buildFeatureGroups(spatialIndex, maps, parentElections);
-  const { parties, partyDetails } = buildParties(partyIds, electionDetails);
+  const { parties, partyDetails, partyNames, folds: partyFolds } = buildParties(partyIds, electionDetails);
+  reportPartyLabelFolds(partyFolds);
   const { persons, personDetails } = buildPersons(electionDetails, parties);
   const registerInterests = buildRegisterInterests(niRegisterInterestsData);
   const sources = buildSources(booksData, dataEntriesData, maps, parentElections, thumbnailIds, browseSourceInputs, sourceEnrichmentInputs);
+  for (const source of sources) applySourceReaderLabels(source);
   const rawMapsById = new Map((mapsData.maps || []).map((map) => [map.id, map]));
   const rawDataEntriesById = new Map(normalizeArray(dataEntriesData.dataEntries || dataEntriesData.entries).map((entry) => [entry.id || entry.slug || slugify(entry.name || entry.title), entry]));
   const rawElectionsByKey = new Map(normalizeArray(electionManifest.elections).map((entry) => [entry.key, entry]));
@@ -178,6 +186,13 @@ function main() {
   ensureUniqueSlugs(persons);
   ensureUniqueSlugs(registerInterests);
   ensureUniqueSlugs(sources);
+  linkRegisterInterestsToPersons(registerInterests, persons);
+  // A feature group links to its map's record by the map's final slug.
+  const mapSlugById = new Map(maps.map((map) => [map.id, map.slug]));
+  for (const group of featureGroups) {
+    if (mapSlugById.has(group.sourceMapId)) group.mapSlug = mapSlugById.get(group.sourceMapId);
+    else delete group.mapSlug;
+  }
   const sourceDetailShardByKey = buildSourceDetailShardAssignments(sources);
   const sourceIndexItems = sources.map((source) => compactSourceIndexRecord(source, sourceDetailShardByKey));
   const registerInterestIndexItems = registerInterests.map(compactRegisterInterestIndexRecord);
@@ -185,6 +200,7 @@ function main() {
 
   writeJson('maps.json', { schemaVersion: 1, generatedAt: GENERATED_AT, total: maps.length, items: maps });
   writeJson('elections.json', { schemaVersion: 1, generatedAt: GENERATED_AT, total: elections.length, items: elections });
+  writeElectionListIndex(elections);
   writeJson('features.json', {
     schemaVersion: 1,
     generatedAt: GENERATED_AT,
@@ -266,6 +282,14 @@ function main() {
   }), { prune: true });
   writeElectionContestShards(parentElections, electionResultEntries);
   writeDetailFiles('parties', Object.values(partyDetails));
+  // A folded label's old address: its detail file now holds its party, so the path-style page
+  // (functions/_browse-page.js) redirects /browse/parties/<old> to the party's own address.
+  for (const party of Object.values(partyDetails)) {
+    for (const oldSlug of party.previousSlugs || []) {
+      writeJson(path.join('details', 'parties', `${oldSlug}.json`), { schemaVersion: 1, generatedAt: GENERATED_AT, item: compactObject(party) });
+    }
+  }
+  writeJson('party-names.json', { schemaVersion: 1, generatedAt: GENERATED_AT, items: partyNames }, { compact: true });
   writeSourceDetailShards(sources, (record) => ({
     rawMetadata: sourceRawMetadata(record, {
       rawMapsById,
@@ -295,6 +319,8 @@ function main() {
     entrypoints: {
       maps: '/data/browse/maps.json',
       elections: '/data/browse/elections.json',
+      // The Elections list reads this; elections.json has every field of every record.
+      electionsList: '/data/browse/elections-list.json',
       features: '/data/browse/features.json',
       parties: '/data/browse/parties.json',
       persons: '/data/browse/persons.json',
@@ -569,6 +595,45 @@ function buildElections(manifest, thumbnailIds) {
       browseUrl: `/browse/elections/${encodeURIComponent(entry.key)}`
     });
   }).filter((entry) => entry.key).sort((a, b) => compareElectionsNewestFirst(a, b) || a.title.localeCompare(b.title));
+}
+
+// Corrections to an election's title that the source files cannot carry. The fifteen
+// by-elections of 23 January 1986, held on one day when the unionist MPs resigned their seats
+// over the Anglo-Irish Agreement, are filed as a general election and were titled "1986 UK
+// general election in Northern Ireland" on every Browse page that named them.
+// (A function, not a module const: main() runs on import, before a later const is initialised.)
+function electionTitleOverride(key) {
+  return {
+    'house-of-commons-of-the-united-kingdom__1986-01-23': { title: '1986 Northern Ireland by-elections', kind: 'by-election' }
+  }[key];
+}
+
+/** One spelling for one thing: the sources mix "bye-election" (Irish usage) and "by-election". */
+function readerElectionTitle(title) {
+  return cleanText(title).replace(/\b([Bb])ye-election/g, '$1y-election');
+}
+
+/**
+ * Titles and dates as a reader sees them, applied before contests, parties and people copy the
+ * title. The detail's displayTitle is set too, because buildParties and buildPersons read it.
+ * A referendum's `date` arrives with its question appended ("2024-03-08-care", from the key),
+ * which the cards printed as the date; only the date part is kept. The detail's own date is
+ * left alone: the map layer ids are made from it.
+ */
+function applyElectionReaderFixes(elections, details) {
+  for (const election of elections) {
+    const override = electionTitleOverride(election.key);
+    const title = override?.title || readerElectionTitle(election.title);
+    election.title = title;
+    if (override?.kind) election.kind = override.kind;
+    const isoDate = /^\d{4}(?:-\d{2}(?:-\d{2})?)?/.exec(String(election.date || ''))?.[0] || null;
+    if (election.date && isoDate !== election.date) election.date = isoDate;
+    const detail = details.get(election.key);
+    if (detail) {
+      detail.displayTitle = title;
+      if (override?.kind) detail.kind = override.kind;
+    }
+  }
 }
 
 function readElectionDetails(elections) {
@@ -1094,8 +1159,10 @@ function buildFeatureGroups(spatialIndex, maps, elections) {
   }
 
   const sampleByMap = new Map();
+  const countByMap = new Map();
   for (const feature of spatialIndex.features || []) {
     if (!feature?.mapId) continue;
+    countByMap.set(feature.mapId, (countByMap.get(feature.mapId) || 0) + 1);
     const sample = sampleByMap.get(feature.mapId) || [];
     if (sample.length < FEATURE_SAMPLE_LIMIT) {
       sample.push(compactObject({
@@ -1109,17 +1176,27 @@ function buildFeatureGroups(spatialIndex, maps, elections) {
   return (spatialIndex.maps || []).map((group) => {
     const map = mapById.get(group.id) || {};
     const relatedElections = electionsBySourceMap.get(group.id) || [];
+    // The spatial index's own featureCount is not a count of features (it gave 27,464 for
+    // the 52-seat 1929 Stormont map); the features it actually lists for the map are. A map it
+    // lists none for, and that has no sidecar file, has no feature list here: the card says so
+    // and the record points to the map's own features table rather than fetching a 404.
+    const sidecar = existsSync(path.join(ROOT, 'data', 'database', 'spatial-index', `${group.id}.json`));
+    const name = cleanText(group.name);
     return compactObject({
       id: group.id,
       type: 'feature-group',
-      title: cleanText(group.name || map.title || group.id),
-      category: map.category || group.category || null,
+      // A bare year ("2009") is the spatial index's short name for a Dáil map; the map's own
+      // title says which map it is.
+      title: (/^\d{4}$/.test(name) ? '' : name) || cleanText(map.title) || name || group.id,
+      category: map.category || (group.category ? humanizeSlug(group.category) : null),
       group: map.group || null,
-      featureCount: group.featureCount || sampleByMap.get(group.id)?.length || 0,
+      featureCount: countByMap.get(group.id) || 0,
       bounds: Array.isArray(group.bounds) ? group.bounds : null,
       sourceMapId: group.id,
+      // The map's Browse record, which has the full features table, when the map is public.
+      mapSlug: mapById.has(group.id) ? slugify(group.id) : undefined,   // made exact in main()
       sourceFile: group.file || null,
-      spatialIndexUrl: `/data/database/spatial-index/${encodeURIComponent(group.id)}.json`,
+      spatialIndexUrl: sidecar ? `/data/database/spatial-index/${encodeURIComponent(group.id)}.json` : null,
       relatedElections: relatedElections.slice(0, SAMPLE_RELATED_LIMIT),
       relatedElectionCount: relatedElections.length,
       sampleFeatures: sampleByMap.get(group.id) || [],
@@ -1141,8 +1218,12 @@ function buildParties(partyIds, electionDetails) {
   const registryAliases = (entry) => normalizeArray(entry?.aliases)
     .map((alias) => (typeof alias === 'string' ? alias : alias?.string))
     .filter(Boolean);
+  const partyIdOf = (party) => party.party_id || `party:${slugify(party.canonical_name)}`;
+  const folds = partyLabelFolds(partyIds.party_ids || [], registry, registryAliases, partyIdOf);
   for (const party of partyIds.party_ids || []) {
-    const id = party.party_id || `party:${slugify(party.canonical_name)}`;
+    const id = partyIdOf(party);
+    // A misspelling of a party is merged into it below, not listed as a party of its own.
+    if (folds.has(id)) continue;
     const entry = registry.get(id.replace(/^party:/, ''));
     const fullName = cleanText(entry?.name || '');
     const shortName = cleanText(party.canonical_name || id);
@@ -1170,6 +1251,24 @@ function buildParties(partyIds, electionDetails) {
     for (const name of [detail.canonicalName, ...detail.observedNames, ...detail.knownAliases]) {
       if (name) aliasToId.set(normalizeName(name), id);
     }
+  }
+
+  // Each folded label becomes one of its party's spellings: its candidacies are counted there,
+  // its names find the party in search and in the election summaries below, and its old
+  // address opens the party (previousSlugs, matched by browse.js findItem and by the detail
+  // stub main() writes under the old slug).
+  for (const party of partyIds.party_ids || []) {
+    const fold = folds.get(partyIdOf(party));
+    if (!fold) continue;
+    const target = byId.get(fold.target);
+    const label = cleanText(party.canonical_name);
+    const names = [label, ...normalizeArray(party.observed_names).map(cleanText), ...normalizeArray(party.known_aliases).map(cleanText)];
+    target.observedNames = [...new Set([...target.observedNames, ...normalizeArray(party.observed_names).map(cleanText), label])];
+    target.knownAliases = [...new Set([...target.knownAliases, ...names])];
+    target.occurrenceCount += Number(party.occurrence_count) || 0;
+    target.fileCount += Number(party.file_count) || 0;
+    target.previousSlugs = [...new Set([...(target.previousSlugs || []), partyIdOf(party).replace(/^party:/, '')])];
+    for (const name of names) if (name) aliasToId.set(normalizeName(name), fold.target);
   }
 
   for (const [key, detail] of electionDetails) {
@@ -1224,7 +1323,12 @@ function buildParties(partyIds, electionDetails) {
   const details = Object.fromEntries([...byId.values()].map((party) => [party.slug, {
     ...party,
     subtitle: compactJoin([party.shortName, formatYearRange(party.firstYear, party.lastYear), `${party.relatedElections.length} linked elections`]),
-    interactiveUrl: party.relatedElections[0]?.interactiveUrl || null
+    interactiveUrl: party.relatedElections[0]?.interactiveUrl || null,
+    // A label seen on a handful of ballot papers and in no election's party table, and not a
+    // party in the curated registry: listed behind "Show ballot-paper labels" in Browse, so the
+    // parties a reader is looking for are not lost among 500 one-off spellings.
+    ballotLabel: !registry.has(party.slug) && party.relatedElections.length === 0
+      && party.occurrenceCount < BALLOT_LABEL_MAX_OCCURRENCES ? true : undefined
   }]));
   const items = Object.values(details).map((party) => compactObject({
     id: party.id,
@@ -1236,6 +1340,8 @@ function buildParties(partyIds, electionDetails) {
     // and the ballot-paper spellings all find the party.
     shortName: party.shortName,
     knownAliases: party.knownAliases?.length ? party.knownAliases : undefined,
+    previousSlugs: party.previousSlugs,
+    ballotLabel: party.ballotLabel,
     occurrenceCount: party.occurrenceCount,
     fileCount: party.fileCount,
     firstYear: party.firstYear,
@@ -1246,7 +1352,147 @@ function buildParties(partyIds, electionDetails) {
     browseUrl: party.browseUrl
   })).sort((a, b) => (b.occurrenceCount - a.occurrenceCount) || (b.relatedElectionCount - a.relatedElectionCount) || a.title.localeCompare(b.title));
 
-  return { parties: items, partyDetails: details };
+  // Every name a party is known by, folded, to its slug: browse.js links the party names in a
+  // person's elections and a contest's candidates with it (one small file, not parties.json).
+  const partyNames = {};
+  for (const party of Object.values(details)) {
+    for (const name of [party.title, party.canonicalName, party.shortName, ...party.observedNames, ...party.knownAliases]) {
+      const key = normalizeName(name);
+      if (key && !(key in partyNames)) partyNames[key] = party.slug;
+    }
+  }
+
+  return { parties: items, partyDetails: details, partyNames, folds };
+}
+
+/**
+ * Which party-ids.json labels are another party under a different spelling.
+ *
+ * Three sources, in this order, each auditable:
+ *   1. scripts/browse-party-label-folds.json, a curated list: misspellings, the party's other
+ *      name, a leader's name or a candidate's occupation in the party field.
+ *   2. The curated party registry: a label that is exactly one of a registry party's aliases.
+ *   3. Plain typing errors: a label that differs from an established party's name only by a
+ *      letter or two in one or two words ("Demcratic Unionist", "Progrssive Unionist Party").
+ *
+ * Only a little-used label (fewer than ESTABLISHED appearances) is ever folded, never a party
+ * in the registry, and never one on the curated neverFold list. The typo rule is strict on
+ * purpose: words of five letters or more, the same first letter, at most one edit (two for
+ * words of eight letters or more), the same number of words, and the label's word must not
+ * itself be a word of another party's name ("Liberal" is not a misspelling of "Libertas").
+ * A label that matches two parties is not folded. Every fold is reported by the caller.
+ */
+function partyLabelFolds(parties, registry, registryAliases, partyIdOf) {
+  const ESTABLISHED = 50;
+  const curated = readJson('scripts/browse-party-label-folds.json', { folds: {}, neverFold: [] });
+  const ids = new Set(parties.map(partyIdOf));
+  const byLabel = new Map(parties.map((party) => [cleanText(party.canonical_name), party]));
+  const never = new Set(normalizeArray(curated.neverFold).map(cleanText));
+  const isEstablished = (party) => registry.has(partyIdOf(party).replace(/^party:/, '')) || Number(party.occurrence_count) >= ESTABLISHED;
+  const folds = new Map();
+  const missing = [];
+  const ambiguous = [];
+  const add = (party, target, reason) => {
+    const sourceId = partyIdOf(party);
+    if (sourceId === target || !ids.has(target) || folds.has(sourceId)) return;
+    if (isEstablished(party) || never.has(cleanText(party.canonical_name))) return;
+    folds.set(sourceId, { target, reason, label: cleanText(party.canonical_name), occurrences: Number(party.occurrence_count) || 0 });
+  };
+
+  for (const [targetSlug, group] of Object.entries(curated.folds || {})) {
+    for (const label of normalizeArray(group.labels)) {
+      const party = byLabel.get(cleanText(label));
+      if (!party) missing.push(label);
+      else add(party, `party:${targetSlug}`, `curated: ${group.reason}`);
+    }
+  }
+
+  // Registry aliases, for registry parties that are also party-ids records (the registry and
+  // party-ids share ids for the main parties only).
+  const aliasTarget = new Map();
+  for (const [id, entry] of registry) {
+    if (!ids.has(`party:${id}`)) continue;
+    for (const alias of [entry.name, entry.shortName, ...registryAliases(entry)]) {
+      if (alias) aliasTarget.set(foldKey(alias), `party:${id}`);
+    }
+  }
+  for (const party of parties) {
+    const target = aliasTarget.get(foldKey(party.canonical_name));
+    if (target) add(party, target, 'a name of this party in the party registry');
+  }
+
+  const targets = [];
+  const vocabulary = new Set();
+  for (const party of parties) {
+    if (!isEstablished(party)) continue;
+    const entry = registry.get(partyIdOf(party).replace(/^party:/, ''));
+    for (const name of [party.canonical_name, entry?.name, ...normalizeArray(party.known_aliases)]) {
+      const key = foldKey(name);
+      if (key.length < 10) continue;
+      const words = key.split(' ');
+      targets.push({ id: partyIdOf(party), name: cleanText(name), words });
+      for (const word of words) vocabulary.add(word);
+    }
+  }
+  for (const party of parties) {
+    if (folds.has(partyIdOf(party)) || isEstablished(party)) continue;
+    const key = foldKey(party.canonical_name);
+    if (key.length < 10) continue;
+    const words = key.split(' ');
+    const matched = new Map();
+    for (const target of targets) {
+      if (isTypoOf(words, target.words, vocabulary)) matched.set(target.id, target.name);
+    }
+    if (matched.size === 1) {
+      const [[target, name]] = [...matched];
+      add(party, target, `misspelling of "${name}"`);
+    } else if (matched.size > 1) {
+      ambiguous.push(`${party.canonical_name} (${[...matched.keys()].join(', ')})`);
+    }
+  }
+  folds.missing = missing;
+  folds.ambiguous = ambiguous;
+  return folds;
+}
+
+/** A party name for comparison: no accents, case, punctuation or apostrophes. */
+function foldKey(value) {
+  return cleanText(value)
+    .normalize('NFKD')
+    .replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .replace(/&/g, ' and ')
+    .replace(/['’]/g, '')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+}
+
+function isTypoOf(words, targetWords, vocabulary) {
+  if (words.length !== targetWords.length) return false;
+  let differing = 0;
+  for (let i = 0; i < words.length; i += 1) {
+    const word = words[i];
+    const target = targetWords[i];
+    if (word === target) continue;
+    if (word.length < 5 || target.length < 5 || word[0] !== target[0] || vocabulary.has(word)) return false;
+    if (editDistance(word, target) > (Math.min(word.length, target.length) >= 8 ? 2 : 1)) return false;
+    differing += 1;
+  }
+  return differing > 0 && differing <= 2;
+}
+
+/** Optimal string alignment distance: insertions, deletions, substitutions and swaps of two neighbours. */
+function editDistance(a, b) {
+  const rows = Array.from({ length: a.length + 1 }, (_, i) => [i]);
+  for (let j = 1; j <= b.length; j += 1) rows[0][j] = j;
+  for (let i = 1; i <= a.length; i += 1) {
+    for (let j = 1; j <= b.length; j += 1) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      rows[i][j] = Math.min(rows[i - 1][j] + 1, rows[i][j - 1] + 1, rows[i - 1][j - 1] + cost);
+      if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) rows[i][j] = Math.min(rows[i][j], rows[i - 2][j - 2] + 1);
+    }
+  }
+  return rows[a.length][b.length];
 }
 
 /**
@@ -1707,6 +1953,34 @@ function buildPersons(electionDetails, partyRecords) {
   return { persons: items, personDetails: details };
 }
 
+/**
+ * A register entry names its member but not their person record, so its page could link only
+ * to the graph's entity view. The member is matched to a person by name and by having stood in
+ * the entry's constituency; only a single match is linked, so two people of one name who both
+ * stood there are left unlinked rather than guessed between.
+ */
+function linkRegisterInterestsToPersons(records, persons) {
+  const byName = new Map();
+  for (const person of persons) {
+    const key = normalizeName(person.name || person.title);
+    if (!key) continue;
+    if (!byName.has(key)) byName.set(key, []);
+    byName.get(key).push(person);
+  }
+  let linked = 0;
+  for (const record of records) {
+    const candidates = byName.get(normalizeName(record.memberName)) || [];
+    const places = new Set([record.constituency, ...normalizeArray(record.constituencies)].map(normalizeName).filter(Boolean));
+    const matches = candidates.filter((person) => normalizeArray(person.constituencies)
+      .some((place) => places.has(normalizeName(place?.name || place))));
+    if (matches.length === 1) {
+      record.personSlug = matches[0].slug;
+      linked += 1;
+    }
+  }
+  console.log(`- register interests linked to a person: ${linked} of ${records.length}`);
+}
+
 function buildRegisterInterests(data) {
   return expandRegisterInterestRecords(data).map((entry) => {
     const interests = normalizeArray(entry.interests);
@@ -1815,6 +2089,60 @@ function mergeSourceEnrichmentInputs(...inputs) {
     targets: inputs.flatMap((input) => normalizeArray(input?.targets)),
     reviewRows: inputs.flatMap((input) => normalizeArray(input?.reviewRows))
   };
+}
+
+/**
+ * Catalogue words a reader can use, in the record, the D1 column and the facet alike (UX review
+ * M3). The publication pipeline's categories carry its own stage names ("Approved tables",
+ * "Medium-priority: Local authority planning/property/open-data layers"); a licence was spelt
+ * five ways ("CC BY 4.0", "Creative Commons Attribution 4.0", "cc-by", ...), each its own
+ * filter option; and emitted descriptions end "Published as a Books/Tables/Sources source
+ * record under CC BY 4.0", which is the pipeline describing itself.
+ */
+// A function, not a module const: main() runs on import, before a later const is initialised.
+function licenceLabels() {
+  return new Map([
+    ['creative commons attribution 4.0', 'CC BY 4.0'],
+    // data.gov.ie's licence ids: its "cc-by" is Creative Commons Attribution 4.0.
+    ['cc-by', 'CC BY 4.0'],
+    ['cc-by-sa', 'CC BY-SA 4.0'],
+    ['creative commons attribution share-alike 4.0', 'CC BY-SA 4.0'],
+    ['cc-by-nc', 'CC BY-NC 4.0'],
+    ['cc-by-nc-sa', 'CC BY-NC-SA 4.0'],
+    ['creative commons attribution-noncommercial-noderivatives 4.0', 'CC BY-NC-ND 4.0'],
+    ['cc-zero', 'CC0 1.0'],
+    ['open government licence v3.0', 'OGL v3.0'],
+    ['uk open government licence (ogl)', 'OGL v3.0'],
+    ['license not specified', 'Not specified'],
+    ['licence not specified', 'Not specified']
+  ]);
+}
+
+function readerLicence(value) {
+  if (typeof value !== 'string') return value;
+  const text = cleanText(value);
+  readerLicence.labels ||= licenceLabels();
+  return readerLicence.labels.get(text.toLowerCase()) || text;
+}
+
+function readerSourceCategory(value) {
+  if (typeof value !== 'string') return value;
+  const text = cleanText(value)
+    .replace(/^Medium-priority:\s*/i, '')
+    .replace(/^Approved\s+(?=\S)/i, '');
+  if (text === 'data-population') return 'Population data';
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+function applySourceReaderLabels(source) {
+  if (source.category) source.category = readerSourceCategory(source.category);
+  if (source.license) source.license = readerLicence(source.license);
+  if (typeof source.description === 'string') {
+    source.description = source.description
+      .replace(/\s*Published as a Books\/Tables\/Sources source(?:[- ]table)? record(?: under ([^.]+))?\./,
+        (match, licence) => (licence ? ` Licence: ${readerLicence(licence)}.` : ''))
+      .trim();
+  }
 }
 
 function buildSources(booksData, dataEntriesData, maps, elections, thumbnailIds, externalSourcesData = {}, alreadyOnSiteEnrichmentsData = {}) {
@@ -2281,6 +2609,29 @@ function appendSentence(value, sentence) {
 }
 
 /**
+ * Print every party-label fold, and keep the list beside the data for audit
+ * (data/browse/party-label-folds.json). A curated label that no longer exists, or a label that
+ * looked like a misspelling of two parties, is reported and left alone.
+ */
+function reportPartyLabelFolds(folds) {
+  const rows = [...folds].map(([source, fold]) => ({ source, ...fold }))
+    .sort((a, b) => a.target.localeCompare(b.target) || a.label.localeCompare(b.label));
+  console.log(`Party labels folded into their party: ${rows.length}`);
+  for (const row of rows) console.log(`  ${row.label} (${row.occurrences}) -> ${row.target.replace(/^party:/, '')}: ${row.reason}`);
+  if (folds.missing.length) console.log(`  Curated labels not found in party-ids.json: ${folds.missing.join('; ')}`);
+  if (folds.ambiguous.length) console.log(`  Not folded, near two parties: ${folds.ambiguous.join('; ')}`);
+  writeJson('party-label-folds.json', {
+    schemaVersion: 1,
+    generatedAt: GENERATED_AT,
+    curatedList: 'scripts/browse-party-label-folds.json',
+    total: rows.length,
+    folds: rows,
+    missing: folds.missing,
+    ambiguous: folds.ambiguous
+  });
+}
+
+/**
  * A constituency result is opened from its own election's file, not from elections.json (54 MB
  * with every contest in it, which a record page used to download and parse to find one entry).
  * Each election's contests are written to details/election-contests/<election slug>.json, and
@@ -2309,6 +2660,98 @@ function writeElectionContestShards(parents, contests) {
     writeJson(path.join('details', kind, `${parentSlug}.json`), { schemaVersion: 1, generatedAt: GENERATED_AT, items });
   }
   writeJson('election-contest-parents.json', { schemaVersion: 1, generatedAt: GENERATED_AT, items: parentOf }, { compact: true });
+  // The same map in small pieces, by a hash of the contest slug (browse.js lookupBucket), so a
+  // contest page reads about 20 KB to find its election rather than the whole 1.2 MB map. The
+  // single file stays for anything that still reads it.
+  const bucketDir = path.join(OUT_DIR, 'election-contest-parents');
+  const buckets = Array.from({ length: CONTEST_PARENT_BUCKETS }, () => ({}));
+  for (const [slug, parentSlug] of Object.entries(parentOf)) buckets[lookupBucket(slug, CONTEST_PARENT_BUCKETS)][slug] = parentSlug;
+  pruneStaleShards(bucketDir, new Set(buckets.map((_, index) => `${bucketName(index)}.json`)));
+  buckets.forEach((items, index) => {
+    writeJson(path.join('election-contest-parents', `${bucketName(index)}.json`), { schemaVersion: 1, generatedAt: GENERATED_AT, items }, { compact: true });
+  });
+}
+
+/**
+ * Which of `count` files a key lives in: FNV-1a over the key's UTF-16 code units. browse.js has
+ * the same function (lookupBucket) and the graph build a third copy; the three must agree, or a
+ * record page looks in the wrong file and finds nothing.
+ */
+function lookupBucket(key, count) {
+  let hash = 0x811c9dc5;
+  const text = String(key);
+  for (let i = 0; i < text.length; i += 1) {
+    hash ^= text.charCodeAt(i);
+    hash = Math.imul(hash, 0x01000193);
+  }
+  return (hash >>> 0) % count;
+}
+
+function bucketName(index) {
+  return String(index).padStart(4, '0');
+}
+
+/**
+ * The Elections list without the weight of the records behind it.
+ *
+ * elections.json is 54 MB: every contest with its references, result metadata and party
+ * tables, which the list never shows. The list needs a card (title, date, body, status, a
+ * thumbnail and the map link), the filters (body, decade, kind) and something to search, so
+ * elections-list.json carries only those. Thumbnails are written once each and referred to by
+ * id, since every constituency of an election shares its election's.
+ */
+function writeElectionListIndex(entries) {
+  const thumbnails = {};
+  const parentIndex = new Map();
+  entries.forEach((entry, index) => {
+    if (!entry.entryKind || entry.entryKind === 'election') parentIndex.set(entry.key, index);
+  });
+  const items = entries.map((entry) => {
+    const slug = entry.slug || slugify(entry.id || entry.key || entry.title);
+    // A contest or an overall result says which election it belongs to (`of`, that election's
+    // place in this list) and inherits its date, body, kind, status, thumbnail and map link,
+    // which browse.js copies back on load (expandElectionList).
+    if (entry.entryKind && entry.entryKind !== 'election' && parentIndex.has(entry.parentElectionKey)) {
+      return compactObject({
+        slug,
+        of: parentIndex.get(entry.parentElectionKey),
+        result: entry.resultKind,
+        title: entry.title,
+        constituency: entry.constituency
+      });
+    }
+    let thumb;
+    if (entry.thumbnail?.kind === 'asset' && entry.thumbnail.url) {
+      thumb = entry.thumbnail.id || entry.thumbnail.url;
+      thumbnails[thumb] ||= compactObject({ kind: 'asset', id: entry.thumbnail.id, url: entry.thumbnail.url, smallUrl: entry.thumbnail.smallUrl });
+    }
+    return compactObject({
+      slug,
+      title: entry.title,
+      date: entry.date,
+      decade: entry.decade,
+      body: entry.body,
+      kind: entry.kind,
+      subtitle: entry.subtitle,
+      geography: entry.geography,
+      status: entry.status,
+      // Searched, never shown in full on a card.
+      description: truncateText(entry.description, 240),
+      constituencies: entry.constituencies,
+      totalConstituencies: entry.totalConstituencies,
+      unmatchedCount: entry.unmatchedCount,
+      thumb,
+      interactiveUrl: entry.interactiveUrl
+    });
+  });
+  writeJson('elections-list.json', {
+    schemaVersion: 1,
+    generatedAt: GENERATED_AT,
+    total: items.length,
+    note: 'The Elections list only. Each record is opened from details/elections/ or details/election-contests/; elections.json has every field.',
+    thumbnails,
+    items
+  }, { compact: true });
 }
 
 function writeDetailFiles(kind, records, enhance = null, options = {}) {
@@ -2570,6 +3013,7 @@ function compactRegisterInterestIndexRecord(record) {
     description: truncateText(record.description || record.interestSummary || '', 140),
     memberType: record.memberType,
     memberName: record.memberName,
+    personSlug: record.personSlug,
     electedBody: record.electedBody,
     chamber: record.chamber,
     constituency: record.constituency,
@@ -2750,6 +3194,14 @@ function withoutTopLevelGeneratedAt(value) {
 
 function cleanText(value) {
   return String(value ?? '').replace(/\s+/g, ' ').trim();
+}
+
+/** "electoral-divisions" -> "Electoral divisions", for a category that arrives as a slug. */
+function humanizeSlug(value) {
+  const text = cleanText(value);
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)+$/.test(text)) return text;
+  const words = text.replace(/-/g, ' ');
+  return words.charAt(0).toUpperCase() + words.slice(1);
 }
 
 function normalizeArray(value) {

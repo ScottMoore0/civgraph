@@ -54,7 +54,7 @@ export function toolbarHtml(c) {
     <button type="button" class="cn-filters-toggle" data-cn-act="filters" aria-expanded="${c.filtersOpen}">${icon('sliders')}Filters${active ? ` <span class="cn-badge">${active}</span>` : ''}</button>
     <div class="cn-filters">
       <div class="cn-frow">
-        <span class="cn-fgroup" role="group" aria-label="Kind"><span class="cn-label">Kind</span>${chip('ekind', 'general', 'General elections')}${chip('ekind', 'by-election', 'Bye-elections')}${chip('ekind', '', 'All')}</span>
+        <span class="cn-fgroup" role="group" aria-label="Kind"><span class="cn-label">Kind</span>${chip('ekind', 'general', 'General elections')}${chip('ekind', 'by-election', 'By-elections')}${chip('ekind', '', 'All')}</span>
         <span class="cn-fgroup" role="group" aria-label="Where"><span class="cn-label">Where</span>${chip('escope', 'Northern Ireland', ESCOPE_SHORT['Northern Ireland'])}${chip('escope', 'Republic of Ireland', ESCOPE_SHORT['Republic of Ireland'])}${chip('escope', 'Ireland', ESCOPE_SHORT.Ireland)}</span>
       </div>
       ${sliderHtml('elections', c.electionBins, i, j, c.yearState('elections'))}
@@ -68,12 +68,12 @@ export function resultsHtml(c) {
   const banner = c.person ? personBannerHtml(c) : '';
   // General elections are the default; say how many by-elections that leaves out, and offer them.
   const byHidden = c.efilters.ekind === 'general' && !c.person ? c.byElectionsHidden() : 0;
-  const showBy = byHidden ? ` <button type="button" class="cn-link" data-cn-filter="ekind" data-value="">Show ${plural(byHidden, 'bye-election')} too</button>` : '';
+  const showBy = byHidden ? ` <button type="button" class="cn-link" data-cn-filter="ekind" data-value="">Show ${plural(byHidden, 'by-election')} too</button>` : '';
   if (!list.length) {
     return `${extras}${banner}<p class="cn-empty" role="status">${c.query ? `No general elections match “${esc(c.query)}”` : 'No elections match these filters'}.${showBy}
       ${c.activeFilterCount('elections') ? ' <button type="button" class="cn-link" data-cn-act="clear-filters">Clear the filters</button>' : ''}${c.otherTabHint()}</p>`;
   }
-  const summary = c.person ? '' : `<p class="cn-summary" role="status">${plural(list.length, c.efilters.ekind === 'general' ? 'general election' : c.efilters.ekind === 'by-election' ? 'bye-election' : 'election')}${c.query ? ` match “${esc(c.query)}”` : ''}${c.activeFilterCount('elections') ? ', filtered' : ''}. Open one to draw it on the map with its results.${showBy}</p>`;
+  const summary = c.person ? '' : `<p class="cn-summary" role="status">${plural(list.length, c.efilters.ekind === 'general' ? 'general election' : c.efilters.ekind === 'by-election' ? 'by-election' : 'election')}${c.query ? ` match “${esc(c.query)}”` : ''}${c.activeFilterCount('elections') ? ', filtered' : ''}. Open one to draw it on the map with its results.${showBy}</p>`;
   const shelves = shelvesOf(list);
   const body = shelves.map(({ g, es }) => shelfHtml(c, g, es, shelves.length === 1)).join('');
   // A search that names a body or a year ("Dáil 2020") wants the election: parties and people
@@ -99,13 +99,21 @@ function shelfHtml(c, g, es, alone) {
   </section>`;
 }
 
-/** Above a person's elections: who, how many, how many won, their page, and the way back. */
+/** Above a person's elections: who, how many, how many won, their page, and the way back. The
+ * counts are of the elections listed, and say how many the filters hide (UX review 2026-10-31, M6:
+ * the banner said 25 where search said 26, with nothing to say the by-election was filtered out). */
 function personBannerHtml(c) {
   const p = c.person;
-  const won = [...p.contests.values()].filter((x) => x.won).length;
+  const shown = c.visibleElections().filter((e) => p.contests.has(e.key));
+  const won = shown.filter((e) => p.contests.get(e.key)?.won).length;
+  const hidden = p.contests.size - shown.length;
+  const hiddenBy = [...p.contests.keys()].filter((key) => !shown.some((e) => e.key === key) && c.electionByKey?.get(key)?.kind === 'by-election').length;
+  const hiddenNote = hidden
+    ? ` (${hiddenBy === hidden ? plural(hidden, 'by-election') : plural(hidden, 'election')} hidden by the filters)`
+    : '';
   return `<div class="cn-person-banner" role="status">${icon('user')}
-    <span><strong>${esc(p.name)}</strong> stood in ${plural(p.contests.size, 'election')} here and won ${won}.
-    <a href="${esc(PeopleSearch.url(p.row))}">Their page</a></span>
+    <span><strong>${esc(p.name)}</strong> stood in ${plural(shown.length, c.efilters.ekind === 'general' ? 'general election' : 'election')} here and won ${won}${hiddenNote}.
+    <a href="${esc(PeopleSearch.url(p.row))}" data-cn-open-page="candidate:${esc(PeopleSearch.slug(p.row))}">Their page</a></span>
     <button type="button" class="cn-btn cn-btn--small" data-cn-act="clear-person">${icon('x')}<span>All elections</span></button>
   </div>`;
 }
@@ -133,7 +141,7 @@ export function rowHtml(c, e) {
   const meta = [
     `<span class="cn-badge">${esc(bodyShort(e))}</span>`,
     seatsText(e) && `<span>${esc(seatsText(e))}</span>`,
-    e.kind === 'by-election' && `<span class="cn-badge">${/^(dail|seanad)-eireann$/.test(e.bodySlug) ? 'Bye-election' : 'By-election'}</span>`,
+    e.kind === 'by-election' && '<span class="cn-badge">By-election</span>',
     e.mapless && '<span class="cn-badge" title="No map of these constituencies yet: opens the results">Results only</span>',
     note && `<span>${esc(note)}</span>`,
     stood && `<span class="cn-person-note">${esc([stood.place, stood.party].filter(Boolean).join(' · '))}${stood.place || stood.party ? ' · ' : ''}<strong>${stood.won ? 'Elected' : 'Not elected'}</strong></span>`,
