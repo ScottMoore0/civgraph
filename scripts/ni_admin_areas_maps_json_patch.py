@@ -98,7 +98,7 @@ NOTES = {
         'references': [C66],
     },
     'admin-areas-1967-04-01': {
-        'changeNote': 'Bangor borough extended (1966 Order, 1966 Act); line from the council proposal map, not area-checked. '
+        'changeNote': 'Bangor borough extended (1966 Order, 1966 Act); line from the council's proposal map; the inquiry heard no objections, and the line's area (5,156 acres) is within 1% of the extended borough's in the 1971 Census (2,067.64 hectares, 5,109 acres). '
                       'Lurgan (Craigavon order) and Newtownabbey (1968) are not drawn from this edition.',
         'references': [],
     },
