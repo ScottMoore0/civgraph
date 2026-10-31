@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-31T02:03:42.934Z",
-  "summary": "Performance budget warnings present",
+  "generatedAt": "2026-10-31T17:28:13.606Z",
+  "summary": "Performance budgets pass",
   "budgets": {
     "entryJsBytes": 81920,
     "entryCssBytes": 163840,
@@ -13,8 +13,8 @@
   "totals": {
     "checks": 9,
     "failed": 0,
-    "warnings": 1,
-    "passed": 8
+    "warnings": 0,
+    "passed": 9
   },
   "assets": {
     "entry": {
@@ -27,14 +27,14 @@
       "css": {
         "name": "app.bundle.css",
         "path": "app/build/app.bundle.css",
-        "bytes": 133143,
-        "label": "130.0 KB"
+        "bytes": 133564,
+        "label": "130.4 KB"
       }
     },
     "lazy": {
       "jsCount": 7,
       "cssCount": 0,
-      "jsBytes": 2194767,
+      "jsBytes": 2200104,
       "cssBytes": 0
     },
     "largestOutputs": [
@@ -45,16 +45,16 @@
         "label": "1.0 MB"
       },
       {
-        "name": "app-LQB7UK4N.js",
-        "path": "app/build/chunks/app-LQB7UK4N.js",
+        "name": "app-Y2CTWSES.js",
+        "path": "app/build/chunks/app-Y2CTWSES.js",
         "bytes": 612976,
         "label": "598.6 KB"
       },
       {
-        "name": "catalogue-5KVIO3CS.js",
-        "path": "app/build/chunks/catalogue-5KVIO3CS.js",
-        "bytes": 288369,
-        "label": "281.6 KB"
+        "name": "catalogue-PJTQRYMF.js",
+        "path": "app/build/chunks/catalogue-PJTQRYMF.js",
+        "bytes": 293706,
+        "label": "286.8 KB"
       },
       {
         "name": "election-manager-NNFDPQ7Z.js",
@@ -65,8 +65,8 @@
       {
         "name": "app.bundle.css",
         "path": "app/build/app.bundle.css",
-        "bytes": 133143,
-        "label": "130.0 KB"
+        "bytes": 133564,
+        "label": "130.4 KB"
       },
       {
         "name": "chunk-W2AEJBOJ.js",
@@ -106,15 +106,15 @@
     {
       "name": "Entry CSS",
       "status": "pass",
-      "value": 133143,
+      "value": 133564,
       "maxBytes": 163840,
-      "valueLabel": "130.0 KB / 160.0 KB",
+      "valueLabel": "130.4 KB / 160.0 KB",
       "path": "app/build/app.bundle.css"
     },
     {
       "name": "Split JS chunks",
       "status": "pass",
-      "value": 2194767,
+      "value": 2200104,
       "maxBytes": 3891200,
       "valueLabel": "2.1 MB / 3.7 MB",
       "path": "app/build/chunks"
@@ -139,7 +139,7 @@
     {
       "name": "Startup metadata index",
       "status": "pass",
-      "value": 4005090,
+      "value": 4008276,
       "maxBytes": 4505600,
       "valueLabel": "3.8 MB / 4.3 MB",
       "path": "render/metadata/maps-test-index.json"
@@ -161,10 +161,10 @@
     },
     {
       "name": "PMTiles metadata coverage",
-      "status": "warn",
-      "value": 966,
+      "status": "pass",
+      "value": 1020,
       "total": 1020,
-      "valueLabel": "966/1020 PMTiles layers use CDN URLs"
+      "valueLabel": "1020/1020 PMTiles layers use CDN URLs"
     }
   ]
 }

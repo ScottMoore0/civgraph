@@ -22,8 +22,7 @@ if (DRY) {
     for (const name of names) console.log(`${STAGED}/${name} -> data/maps/local-government/${name} (+.br, .gz)`);
     process.exit(0);
 }
-const { config } = await import('dotenv');
-config({ path: '.env.local' });
+process.loadEnvFile('.env.local');
 const { S3Client, PutObjectCommand } = await import('@aws-sdk/client-s3');
 const { R2_S3_ENDPOINT: ENDPOINT, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY } = process.env;
 const BUCKET = process.env.R2_BUCKET || 'boundaries-data';

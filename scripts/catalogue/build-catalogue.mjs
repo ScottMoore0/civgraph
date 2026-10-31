@@ -173,11 +173,13 @@ const yearOfDate = (d) => (YEAR.exec(d || '') ? Number(YEAR.exec(d)[1]) : null);
 
 function editionLabel(series, rec, all) {
   if (series.arrangement === 'editions') {
+    // A date the map's name gives as approximate ("~20 Jan 1919") keeps its tilde on the chip.
+    const approx = /~\s*\d/.test(rec.name || '') ? '~' : '';
     const sameYear = all.filter((r) => yearOfDate(r.date) === yearOfDate(rec.date)).length > 1;
     if (rec.date && sameYear && rec.date.length === 10) {
-      return formatDisplayDate(rec.date);
+      return approx + formatDisplayDate(rec.date);
     }
-    if (yearOfDate(rec.date)) return String(yearOfDate(rec.date));
+    if (yearOfDate(rec.date)) return approx + String(yearOfDate(rec.date));
   }
   // A set's member is named by what distinguishes it from the series: "Habitat Network — Bog".
   const stem = series.name.toLowerCase();
