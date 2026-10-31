@@ -57,7 +57,7 @@
 
   <!-- Modulepreload — start fetching the entry bundle before parser reaches
        the <script type=module> tag at the end of <body>. -->
-  <link rel="modulepreload" href="/app/build/app.bundle.js?v=de9316a52593" fetchpriority="high">
+  <link rel="modulepreload" href="/app/build/app.bundle.js?v=af0c0e3e4105" fetchpriority="high">
   <style>
     @font-face {
       font-family: 'Inter';
@@ -86,7 +86,7 @@
 
 <!-- site:head -->
 <script>(function(){var t=null;try{t=localStorage.getItem('theme');}catch(e){}if(t!=='dark'&&t!=='light'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;})();</script>
-<link rel="stylesheet" href="/assets/site/site-chrome.css?v=f290cb7ed0d5">
+<link rel="stylesheet" href="/assets/site/site-chrome.css?v=01edcc7597b8">
 <script defer src="/assets/site/site-chrome.js?v=533c9263f1be"></script>
 <!-- /site:head -->
 <!-- The catalogue intro can be closed with its x; once closed it stays closed (per browser), and
@@ -100,16 +100,16 @@
   <!-- Deferred CSS: remaining ~186 KB (catalogue cards, modals, charts, …)
        loaded async via media=print + onload swap so it doesn't block first
        paint. Browsers without JS fall back via <noscript>. -->
-    <link rel="stylesheet" href="/build/main.css?v=26ee95a190f7" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="/build/main.css?v=26ee95a190f7"></noscript>
-  <link rel="stylesheet" href="/app/build/app.bundle.css?v=26291ef1fe01">
+    <link rel="stylesheet" href="/build/main.css?v=7a8742ad6295" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="/build/main.css?v=7a8742ad6295"></noscript>
+  <link rel="stylesheet" href="/app/build/app.bundle.css?v=22bebf26042c">
 
   <!-- Election Viewer & Animation CSS (deferred — not needed for first paint) -->
   <link rel="stylesheet" href="/app/election-viewer-package/css/election-viewer.css?v=a999f742cbb1" media="print" onload="this.media='all'">
-  <link rel="stylesheet" href="/app/election-viewer-package/css/stages.css?v=6eee8aa01182" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="/app/election-viewer-package/css/stages.css?v=86df5d9debd2" media="print" onload="this.media='all'">
   <noscript>
     <link rel="stylesheet" href="/app/election-viewer-package/css/election-viewer.css?v=a999f742cbb1">
-    <link rel="stylesheet" href="/app/election-viewer-package/css/stages.css?v=6eee8aa01182">
+    <link rel="stylesheet" href="/app/election-viewer-package/css/stages.css?v=86df5d9debd2">
   </noscript>
 
   <!-- Favicon -->
@@ -274,8 +274,8 @@
             <circle cx="11" cy="11" r="8" />
             <path d="m21 21-4.35-4.35" />
           </svg>
-          <input type="search" id="searchInput" class="search-input__field" placeholder="Search maps or addresses..."
-            aria-label="Search maps or addresses" autocomplete="off">
+          <input type="search" id="searchInput" class="search-input__field" placeholder="Search maps, elections, addresses…"
+            aria-label="Search maps, elections, people, places or addresses" autocomplete="off">
           <button type="button" id="searchClear" class="search-clear" aria-label="Clear search"
             title="Clear search">×</button>
           <!-- Autocomplete dropdown -->
@@ -758,7 +758,7 @@
        and animation code are loaded lazily by the /app module bundle. -->
 
   <!-- Application (bundled + minified) -->
-  <script type="module" src="/app/build/app.bundle.js?v=de9316a52593"></script>
+  <script type="module" src="/app/build/app.bundle.js?v=af0c0e3e4105"></script>
 
   <!-- Service worker — repeat-visit cache + offline tolerance. Registered
        after window.load so it doesn't contend with critical resources.

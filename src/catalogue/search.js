@@ -26,6 +26,7 @@ export function normalise(text) {
 export const tokenise = (text) => normalise(text).split(' ').filter(Boolean);
 
 const STOP = new Set(['the', 'of', 'and', 'in', 'a', 'an', 'for', 'to', 'on', 'map', 'maps']);
+export const STOP_WORDS = STOP;
 
 /** Years and decades in a query, and the words left over. */
 export function parseQuery(query) {
@@ -87,6 +88,55 @@ function bestIn(word, tokens) {
 
 const overlaps = (span, period) => !period || (span && span[0] <= period.to && span[1] >= period.from);
 
+/*
+ * What people call each body, beside its formal name. The catalogue titles say "2019 UK general
+ * election in Northern Ireland" and the body "House of Commons of the United Kingdom", so a search
+ * for "Westminster 2019" (the name on the shelf) found nothing, and nor did "NI local 2023" or
+ * "Belfast City Council 2023" (UX review 2026-10-30, #14).
+ */
+const BODY_ALIASES = {
+  'house-of-commons-of-the-united-kingdom': 'Westminster House of Commons UK parliament MP',
+  'dail-eireann': 'Dáil Dail Irish TD Oireachtas',
+  'seanad-eireann': 'Seanad Senate senator Oireachtas',
+  'parliament-of-northern-ireland': 'Stormont NI Parliament Northern Ireland Parliament',
+  'northern-ireland-assembly': 'Assembly NI Assembly Stormont MLA',
+  'northern-ireland-constitutional-convention': 'NI Convention Constitutional Convention',
+  'northern-ireland-forum-for-political-dialogue': 'NI Forum Forum',
+  'local-government': 'NI local council councils district council LGD local elections',
+  'belfast-county-borough-council': 'NI local council Belfast City Council Belfast Corporation',
+  'belfast-county-borough-council-aldermen': 'NI local council Belfast City Council aldermen',
+  'strabane-urban-district-council': 'NI local council Strabane',
+  'ireland-local': 'Irish local council county council city council local elections',
+  'european-parliament': 'European Euro EU MEP European Parliament NI',
+  'ireland-european': 'European Euro EU MEP European Parliament Irish',
+  'ireland-president': 'presidential president Uachtaran Irish',
+  'ireland-referendum': 'referendum referenda Irish',
+  'northern-ireland-referendum': 'referendum referenda NI',
+};
+
+// The councils a Northern Ireland local election chose: the eleven since 2014 (the 2014 vote
+// elected them in shadow), the twenty-six from 1973 to 2011.
+const NI_COUNCILS_2014 = ['Antrim and Newtownabbey', 'Ards and North Down', 'Armagh City Banbridge and Craigavon', 'Belfast City', 'Causeway Coast and Glens', 'Derry City and Strabane', 'Fermanagh and Omagh', 'Lisburn and Castlereagh City', 'Mid and East Antrim', 'Mid Ulster', 'Newry Mourne and Down'];
+const NI_COUNCILS_1973 = ['Antrim', 'Ards', 'Armagh', 'Ballymena', 'Ballymoney', 'Banbridge', 'Belfast City', 'Carrickfergus', 'Castlereagh', 'Coleraine', 'Cookstown', 'Craigavon', 'Derry City', 'Down', 'Dungannon', 'Fermanagh', 'Larne', 'Limavady', 'Lisburn City', 'Magherafelt', 'Moyle', 'Newry and Mourne', 'Newtownabbey', 'North Down', 'Omagh', 'Strabane'];
+// The Republic's city and county councils (since 2014; before then more town and borough councils,
+// which the LEA names already carry).
+const IRISH_COUNCILS = ['Carlow', 'Cavan', 'Clare', 'Cork City', 'Cork County', 'Donegal', 'Dublin City', 'Dun Laoghaire Rathdown', 'Fingal', 'Galway City', 'Galway County', 'Kerry', 'Kildare', 'Kilkenny', 'Laois', 'Leitrim', 'Limerick', 'Longford', 'Louth', 'Mayo', 'Meath', 'Monaghan', 'Offaly', 'Roscommon', 'Sligo', 'South Dublin', 'Tipperary', 'Waterford', 'Westmeath', 'Wexford', 'Wicklow'];
+
+/** The other names an election goes by: its body's, and for a local election its councils'. */
+export function electionAliases(e) {
+  const out = [BODY_ALIASES[e.bodySlug] || ''];
+  const year = Number(String(e.date).slice(0, 4)) || 0;
+  if (e.bodySlug === 'local-government') {
+    // A by-election's body is its council ("Craigavon"); a general election chose them all.
+    if (e.kind === 'by-election') out.push(e.body);
+    else out.push(...(year >= 2014 ? NI_COUNCILS_2014 : NI_COUNCILS_1973));
+  }
+  if (e.bodySlug === 'ireland-local') out.push(...IRISH_COUNCILS);
+  if (e.scope === 'Northern Ireland') out.push('NI');
+  else if (e.scope === 'Republic of Ireland') out.push('Irish ROI');
+  return out.join(' ');
+}
+
 export class CatalogueSearch {
   constructor(catalogue, { books = [] } = {}) {
     this.catalogue = catalogue;
@@ -122,12 +172,16 @@ export class CatalogueSearch {
     }
     for (const e of catalogue.elections) {
       const year = Number(String(e.date).slice(0, 4)) || null;
+      const bodyTokens = tokenise(e.body);
+      const aliasTokens = tokenise(electionAliases(e));
       this.docs.push({
         type: 'election',
         id: e.key,
         span: year ? [year, year] : null,
         name: normalise(e.title),
-        fields: [[tokenise(e.title), 8], [tokenise(e.body), 3], [tokenise(e.kind), 2], [tokenise(e.subtitle), 1]],
+        fields: [[tokenise(e.title), 8], [aliasTokens, 5], [bodyTokens, 3], [tokenise(e.kind), 2], [tokenise(e.subtitle), 1]],
+        // The words that name the body: "Westminster", "Dáil", "Belfast City Council".
+        bodyTokens: [...bodyTokens, ...aliasTokens],
       });
     }
     for (const b of books) {
@@ -153,14 +207,16 @@ export class CatalogueSearch {
   /**
    * @param {string} query
    * @param {{scope?:string, kind?:string, from?:number, to?:number, includeToAdd?:boolean, types?:string[]}} filters
-   * @returns {{series:Array, elections:Array, books:Array, places:Array, contests:Array, period:object|null, words:string[]}}
+   * @returns {{series:Array, elections:Array, books:Array, places:Array, contests:Array, period:object|null, words:string[], namesBody:boolean}}
+   *   namesBody: every word of the query names an election's body ("Westminster", "Dáil", "NI
+   *   local"), so the reader is after elections, not the parties or people sharing a word.
    */
   query(query, filters = {}) {
     const { words, period: qPeriod } = parseQuery(query);
     const fPeriod = filters.from || filters.to ? { from: filters.from || 0, to: filters.to || 9999 } : null;
     const period = qPeriod && fPeriod ? { from: Math.max(qPeriod.from, fPeriod.from), to: Math.min(qPeriod.to, fPeriod.to) } : (qPeriod || fPeriod);
     const phrase = words.join(' ');
-    const out = { series: [], elections: [], books: [], places: [], contests: [], period: qPeriod, words };
+    const out = { series: [], elections: [], books: [], places: [], contests: [], period: qPeriod, words, namesBody: false };
     if (!words.length && !qPeriod) return out;
 
     for (const doc of this.docs) {
@@ -194,8 +250,10 @@ export class CatalogueSearch {
         if (period && !hit.members.length && doc.members.some((m) => m.year)) continue;
         if (doc.status && !doc.status.ready) hit.score -= 1;
         out.series.push(hit);
-      } else if (doc.type === 'election') out.elections.push(hit);
-      else out.books.push(hit);
+      } else if (doc.type === 'election') {
+        if (words.length && words.every((w) => bestIn(w, doc.bodyTokens) >= 0.8)) out.namesBody = true;
+        out.elections.push(hit);
+      } else out.books.push(hit);
     }
 
     if (phrase && phrase.length >= 3) {

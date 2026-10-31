@@ -274,6 +274,18 @@ export class Test2MapLibreMainAdapter {
     return this.loadLayer(mapConfig);
   }
 
+  /** Why a loaded layer drew nothing (the renderer's getLayerLoadFailure), or null. A group has
+   * failed only when every member has: one member drawn is a partial success, not an error. */
+  getLayerLoadFailure(mainId) {
+    const groupState = this.groupStates.get(mainId);
+    if (groupState) {
+      const failures = (groupState.childIds || []).map((childId) => this.getLayerLoadFailure(childId));
+      return failures.length && failures.every(Boolean) ? failures[0] : null;
+    }
+    const testId = this.mainToTest.get(mainId) || mainId;
+    return this.renderer?.getLayerLoadFailure?.(testId) || null;
+  }
+
   unloadLayer(mainId) {
     const groupState = this.groupStates.get(mainId);
     if (groupState) {
