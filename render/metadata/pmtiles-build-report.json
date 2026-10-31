@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-31T15:53:24.833Z",
+  "generatedAt": "2026-10-31T18:14:53.934Z",
   "mode": "execute",
   "tools": {
     "ogr2ogr": "C:\\Program Files\\GDAL\\ogr2ogr.exe",
@@ -12,18 +12,18 @@
   "outputDirectory": "render/pmtiles/generated",
   "maxGithubBytes": 99614720,
   "totals": {
-    "candidates": 3,
-    "converted": 3,
+    "candidates": 2,
+    "converted": 2,
     "skipped": 0,
     "failed": 0,
-    "metadataPreferred": 3,
+    "metadataPreferred": 2,
     "oversizedArchives": 0
   },
   "converted": [
     {
-      "layerId": "eds-ulster-1915-vector-test",
-      "sourceMapId": "eds-ulster-1915",
-      "name": "Ulster District Electoral Divisions/Wards 1915",
+      "layerId": "pc-1995-vector-test",
+      "sourceMapId": "pc-1995",
+      "name": "Parliamentary Constituencies 1995",
       "sourceType": "pmtiles",
       "status": "converted",
       "profile": {
@@ -33,14 +33,14 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "output": "render/pmtiles/generated/eds-ulster-1915-vector-test.pmtiles",
-      "bytes": 7235503,
+      "output": "render/pmtiles/generated/pc-1995-vector-test.pmtiles",
+      "bytes": 911861,
       "exceedsGithubBudget": false
     },
     {
-      "layerId": "eds-ulster-1916-vector-test",
-      "sourceMapId": "eds-ulster-1916",
-      "name": "Ulster District Electoral Divisions/Wards 1916",
+      "layerId": "stormont-1929-vector-test",
+      "sourceMapId": "stormont-1929",
+      "name": "1929 NI Parliament",
       "sourceType": "pmtiles",
       "status": "converted",
       "profile": {
@@ -50,25 +50,8 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "output": "render/pmtiles/generated/eds-ulster-1916-vector-test.pmtiles",
-      "bytes": 7238927,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "eds-ulster-1921-nine-county-vector-test",
-      "sourceMapId": "eds-ulster-1921-nine-county",
-      "name": "Ulster (nine counties) District Electoral Divisions/Wards 1921",
-      "sourceType": "pmtiles",
-      "status": "converted",
-      "profile": {
-        "maxSize": "10000000",
-        "maxFeatures": "10000000",
-        "simplification": "1",
-        "simplificationMaxZoom": "0",
-        "note": "Default correctness-first /test MVT profile."
-      },
-      "output": "render/pmtiles/generated/eds-ulster-1921-nine-county-vector-test.pmtiles",
-      "bytes": 7273092,
+      "output": "render/pmtiles/generated/stormont-1929-vector-test.pmtiles",
+      "bytes": 1606884,
       "exceedsGithubBudget": false
     }
   ],
