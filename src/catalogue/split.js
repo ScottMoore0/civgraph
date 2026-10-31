@@ -74,6 +74,54 @@ export function installSplit(ui, { host, splitDrag }) {
     apply();
   });
 
+  // The handle by keyboard (UX review 2026-10-30, #13): it could not be focused, so only a
+  // pointer could resize the panes. Left and Right move it 2% (Shift: 10%), Home and End go to
+  // the narrowest and widest catalogue, Enter goes back to choosing automatically. The value is
+  // the catalogue's share of the width, which is what the separator's aria-value* report.
+  const MIN = 20;
+  const MAX = 75;
+  const currentPct = () => {
+    const pane = document.querySelector('.pane--info');
+    const main = document.querySelector('.app-main');
+    const w = main?.getBoundingClientRect().width;
+    return pane && w ? (pane.getBoundingClientRect().width / w) * 100 : (manual || 36);
+  };
+  const report = () => {
+    const now = Math.round(currentPct());
+    splitDrag.setAttribute('aria-valuenow', String(Math.max(MIN, Math.min(MAX, now))));
+    splitDrag.setAttribute('aria-valuetext', `Catalogue ${now}% of the width`);
+  };
+  splitDrag.tabIndex = 0;
+  splitDrag.setAttribute('aria-valuemin', String(MIN));
+  splitDrag.setAttribute('aria-valuemax', String(MAX));
+  splitDrag.setAttribute('aria-controls', 'catalogueFlatView');
+  splitDrag.addEventListener('keydown', (event) => {
+    if (ui.isMobile) return;
+    const step = event.shiftKey ? 10 : 2;
+    let next = null;
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') next = currentPct() - step;
+    else if (event.key === 'ArrowRight' || event.key === 'ArrowUp') next = currentPct() + step;
+    else if (event.key === 'Home') next = MIN;
+    else if (event.key === 'End') next = MAX;
+    else if (event.key === 'Enter') {
+      event.preventDefault();
+      manual = null;
+      applied = '';
+      writeSaved(null);
+      apply();
+      requestAnimationFrame(report);
+      return;
+    }
+    if (next === null) return;
+    event.preventDefault();
+    manual = Math.round(Math.max(MIN, Math.min(MAX, next)) * 10) / 10;
+    writeSaved({ manual });
+    apply();
+    requestAnimationFrame(report);
+  });
+  splitDrag.addEventListener('focus', report);
+  document.addEventListener('mouseup', () => requestAnimationFrame(report));
+
   // Follow what the pane shows: which tab is open, a details page, the book viewer.
   // Not mid-drag: the page's classes change while the handle is held, and following them then
   // put the pane back at its automatic width under the reader's pointer.
@@ -88,5 +136,6 @@ export function installSplit(ui, { host, splitDrag }) {
   watch();
   window.matchMedia?.('(max-width: 768px)')?.addEventListener?.('change', () => { applied = ''; apply(); });
   apply();
+  requestAnimationFrame(report);
   return { apply, watch };
 }
