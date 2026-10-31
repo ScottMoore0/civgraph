@@ -41,6 +41,13 @@
   Cache-Control: public, max-age=0, must-revalidate
   X-Robots-Tag: noindex, nofollow
 
+# The election viewer's standalone demo: a developer page, not part of the site.
+/data/elections-source/demo.html
+  X-Robots-Tag: noindex, nofollow
+
+/data/elections-source/demo
+  X-Robots-Tag: noindex, nofollow
+
 /test2/sw.js
   Cache-Control: public, max-age=0, must-revalidate
   Service-Worker-Allowed: /test2/

@@ -162,7 +162,8 @@ function writeCatalogueTestPage() {
   const page = (dir, flag) => {
     const html = base
       .replace(/<head>/i, `<head>\n  <meta name="robots" content="noindex, nofollow">\n  <script>window.CIVGRAPH_CATALOGUE = '${flag}';</script>`)
-      .replace('<meta property="og:url" content="https://civgraph.net/maps/">', `<meta property="og:url" content="https://civgraph.net/maps/${dir}/">`);
+      .replace('<meta property="og:url" content="https://civgraph.net/maps/">', `<meta property="og:url" content="https://civgraph.net/maps/${dir}/">`)
+      .replace('<link rel="canonical" href="https://civgraph.net/maps/">', `<link rel="canonical" href="https://civgraph.net/maps/${dir}/">`);
     if (!html.includes(`window.CIVGRAPH_CATALOGUE = '${flag}'`)) throw new Error(`maps/${dir}: could not set the catalogue switch`);
     mkdirSync(`maps/${dir}`, { recursive: true });
     writeFileSync(`maps/${dir}/index.html`, html);
