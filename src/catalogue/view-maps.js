@@ -365,9 +365,37 @@ function actionsHtml(c, s, sel, r) {
 /** What a search finds besides maps: places (Maps only), people, and parties. */
 export function extrasHtml(c, { places = true } = {}) {
   const x = c.extras;
-  if (!x) return '';
-  if (x.loading) return `<p class="cn-summary" role="status">Looking for ${places ? 'places and ' : ''}people…</p>`;
-  return `${places && x.places?.length ? placesHtml(c, x.places) : ''}${x.persons?.length ? personsHtml(c, x.persons) : ''}${x.people?.length ? peopleHtml(c, x.people) : ''}`;
+  const addresses = places ? addressesHtml(c) : '';
+  if (!x) return addresses;
+  if (x.loading) return `${addresses}<p class="cn-summary" role="status">Looking for ${places ? 'places and ' : ''}people…</p>`;
+  return `${addresses}${places && x.places?.length ? placesHtml(c, x.places) : ''}${x.persons?.length ? personsHtml(c, x.persons) : ''}${x.people?.length ? peopleHtml(c, x.people) : ''}`;
+}
+
+// Who to credit for each source of address results (their terms ask for it).
+const ADDRESS_CREDIT = {
+  photon: 'Addresses © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>, found by <a href="https://photon.komoot.io" target="_blank" rel="noopener">Photon</a>',
+  nominatim: 'Addresses © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>, found by <a href="https://nominatim.org" target="_blank" rel="noopener">Nominatim</a>',
+  'postcodes.io': 'Postcode from <a href="https://postcodes.io" target="_blank" rel="noopener">postcodes.io</a> (ONS, Royal Mail and OS data © Crown copyright and database right)',
+};
+
+/** Addresses and postcodes for the query (index.js loadAddresses), with their credit; or, while
+ * suggestions are paused, the note that Enter searches. */
+function addressesHtml(c) {
+  const a = c.addresses;
+  if (!a) return '';
+  const note = a.paused && !a.searched
+    ? '<p class="cn-address-note" role="status">Address suggestions paused — press Enter to search addresses.</p>'
+    : '';
+  if (a.loading) return `${note}<p class="cn-summary cn-address-loading" role="status">Looking for addresses…</p>`;
+  if (!a.results?.length) {
+    if (a.searched) return `<p class="cn-address-note" role="status">${a.failed ? 'The address search did not answer. Try again in a moment.' : `No address in Ireland matches “${esc(a.query)}”.`}</p>`;
+    return note;
+  }
+  return `${note}<section class="cn-block cn-block--addresses" aria-labelledby="cn-addresses-h">
+    <h3 class="cn-block__head" id="cn-addresses-h">${icon('map-pin')}<span>Addresses</span><span class="cn-count">${a.results.length}</span></h3>
+    <ul class="cn-addresses">${a.results.map((r, i) => `<li><button type="button" class="cn-address" data-cn-address="${i}">${icon('map-pin')}<span class="cn-address__main"><span class="cn-address__name">${esc(r.name)}</span>${r.detail ? `<span class="cn-muted">${esc(r.detail)}</span>` : ''}</span></button></li>`).join('')}</ul>
+    <p class="cn-address-credit">${ADDRESS_CREDIT[a.source] || ADDRESS_CREDIT.photon}</p>
+  </section>`;
 }
 
 /** Everyone who stood, by name: their main party and constituency, years, contests and wins, a

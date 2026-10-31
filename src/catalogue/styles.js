@@ -289,6 +289,16 @@ export const CATALOGUE_CSS = `
 .cn-place__item { display: flex; align-items: center; gap: 10px; min-height: 40px; }
 .cn-place__map { flex: 1; min-width: 0; text-align: left; overflow-wrap: anywhere; }
 .cn-place__item .catalogue-search__action-strip { display: flex; gap: 4px; flex: none; }
+.cn-addresses { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.cn-address { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 40px; padding: 4px 6px; border: 0; border-radius: 8px;
+  background: none; color: var(--cn-text); font: inherit; text-align: left; cursor: pointer; }
+.cn-address:hover, .cn-address:focus-visible { background: var(--cn-hover); }
+.cn-address .cn-icon { color: #0b8a6a; flex: 0 0 auto; }
+.cn-address__main { display: grid; min-width: 0; }
+.cn-address__name { font-weight: 600; }
+.cn-address-credit { margin: 4px 6px 0; color: var(--cn-muted); font-size: 11.5px; }
+.cn-address-credit a { color: var(--cn-link); }
+.cn-address-note { margin: 0 4px 8px; padding: 6px 10px; border-radius: 8px; background: var(--cn-raised); color: var(--cn-muted); font-size: 12.5px; }
 .cn-person { display: flex; align-items: center; gap: 8px; min-height: 32px; flex-wrap: wrap; }
 .cn-person .cn-icon { color: var(--cn-muted); }
 .cn-person__name { font-weight: 700; }
