@@ -1083,6 +1083,25 @@ export class Test2ElectionManager {
     return this.activeLocalMode === 'district' ? 'lgd' : 'dea';
   }
 
+  /**
+   * Plurality voting (first past the post, block vote): voters mark an X, so a table counts
+   * votes, not first preferences. Westminster results were all headed "1st preferences".
+   * Decided per result, because an election can mix systems (the university seats were STV
+   * until 1945), and an election counts as plurality only when every result is.
+   */
+  isPluralityResult(result = {}) {
+    if (!result || isStvResult(result)) return false;
+    const votingSystem = normalizeName(
+      result.votingSystem || result.electionVotingSystem || result.system
+      || this.activeBundle?.votingSystem || this.activeEntry?.votingSystem || ''
+    );
+    return ['fptp', 'first past the post', 'first past post', 'block vote', 'block-vote'].includes(votingSystem);
+  }
+
+  isPluralityElection(results = this.activeBundle?.results || []) {
+    return results.length > 0 && results.every((result) => this.isPluralityResult(result));
+  }
+
   isSingleSeatFptpResult(result = {}) {
     if (!result || result.recallPetition || this.isCouncilAggregateResult(result) || this.isForumResult(result)) return false;
     const contestType = normalizeName(result.contestType || this.activeBundle?.contestType || this.activeEntry?.contestType || 'election');
@@ -1237,7 +1256,7 @@ export class Test2ElectionManager {
                 <th rowspan="2" data-leaf-col-idx="1">Party</th>
                 <th colspan="1"><span class="election-th-full">Candidates</span><span class="election-th-short" title="Candidates">Cands.</span></th>
                 <th colspan="2">Seats</th>
-                <th colspan="2">1st preferences</th>
+                <th colspan="2">${this.isPluralityElection() ? 'Votes' : '1st preferences'}</th>
               </tr>
               <tr>
                 ${this.renderMainParityLeafTh('No.', 2, 'Candidates, with change')}
@@ -1509,7 +1528,7 @@ export class Test2ElectionManager {
               <th rowspan="2" data-leaf-col-idx="0">#</th>
               <th rowspan="2" data-leaf-col-idx="1">Candidate</th>
               <th rowspan="2" data-leaf-col-idx="2">Party</th>
-              <th colspan="2">1st preferences</th>
+              <th colspan="2">${this.isPluralityResult(result) ? 'Votes' : '1st preferences'}</th>
               <th colspan="2">Final count</th>
             </tr>
             <tr>
@@ -1726,8 +1745,8 @@ export class Test2ElectionManager {
               <th data-sort-key="party">Party</th>
               <th class="election-num" data-sort-key="stood" aria-label="Stood, with change">Stood</th>
               <th class="election-num" data-sort-key="elected" aria-label="Elected, with change">Elected</th>
-              <th class="election-num" data-sort-key="firstPrefs" aria-label="1st prefs, with change">1st prefs</th>
-              <th class="election-num" data-sort-key="firstPrefsPct" aria-label="1st prefs %, with change">1st prefs %</th>
+              <th class="election-num" data-sort-key="firstPrefs" aria-label="${this.isPluralityElection() ? 'Votes' : '1st prefs'}, with change">${this.isPluralityElection() ? 'Votes' : '1st prefs'}</th>
+              <th class="election-num" data-sort-key="firstPrefsPct" aria-label="${this.isPluralityElection() ? 'Vote share' : '1st prefs %'}, with change">${this.isPluralityElection() ? 'Votes %' : '1st prefs %'}</th>
             </tr>
           </thead>
           <tbody>
@@ -3249,7 +3268,7 @@ export class Test2ElectionManager {
               <th rowspan="2" data-leaf-col-idx="2">Party</th>
               ${geographyHeaders}
               ${isWestminster ? '<th rowspan="2" class="election-col-elected" data-leaf-col-idx="4">Elected</th>' : '<th colspan="2">Status</th>'}
-              <th colspan="2">1st preferences</th>
+              <th colspan="2">${this.isPluralityElection(resultsForTotals) ? 'Votes' : '1st preferences'}</th>
               <th colspan="1">${escapeHtml(widePercentLabel)}</th>
             </tr>
             <tr>
@@ -3338,7 +3357,7 @@ export class Test2ElectionManager {
               <th rowspan="2" data-leaf-col-idx="3">${escapeHtml(areaLabel)}</th>
               <th colspan="1">Candidates</th>
               <th colspan="${singleSeat ? 1 : 2}">Seats</th>
-              <th colspan="2">1st preferences</th>
+              <th colspan="2">${this.isPluralityElection(results) ? 'Votes' : '1st preferences'}</th>
             </tr>
             <tr>
               ${this.renderMainParityLeafTh('No.', 4, 'Candidates, with change')}
@@ -3633,8 +3652,21 @@ export class Test2ElectionManager {
     if (!result || result.animationPayload) return result?.animationPayload || null;
     if (!useElectionsApi()) return null;
     const key = bundle?.key;
-    const seq = (bundle?.results || []).indexOf(result);
+    const rows = bundle?.results || [];
+    let seq = rows.indexOf(result);
+    if (seq < 0) {
+      // currentResults() hands out copies merged with the previous election, so a selection
+      // restored from a link is not the bundle's own object and indexOf missed it: the
+      // request went unmade and Transfers sat on "Loading" for ever. Match it by key.
+      const keys = new Set(resultKeys(result));
+      seq = rows.findIndex((row) => resultKeys(row).some((rowKey) => keys.has(rowKey)));
+    }
     if (!key || seq < 0) return null;
+    if (rows[seq].animationPayload && rows[seq] !== result) {
+      result.animationPayload = rows[seq].animationPayload;
+      if (!Array.isArray(result.countGroup)) result.countGroup = rows[seq].countGroup || result.animationPayload?.Constituency?.countGroup || [];
+      return result.animationPayload;
+    }
     try {
       const response = await fetch(
         `/_api/elections?key=${encodeURIComponent(key)}&constituency=${seq}`,
@@ -3646,9 +3678,12 @@ export class Test2ElectionManager {
       }
       const detail = await response.json();
       if (detail?.animationPayload) {
-        result.animationPayload = detail.animationPayload;
-        if (!Array.isArray(result.countGroup)) {
-          result.countGroup = detail.animationPayload?.Constituency?.countGroup || [];
+        // On the bundle's own row too, so the copy and the original never fetch it twice.
+        for (const target of new Set([result, rows[seq]])) {
+          target.animationPayload = detail.animationPayload;
+          if (!Array.isArray(target.countGroup)) {
+            target.countGroup = detail.animationPayload?.Constituency?.countGroup || [];
+          }
         }
       }
       return result.animationPayload || null;
@@ -3765,7 +3800,11 @@ export class Test2ElectionManager {
     if (!container) return;
     // On the lite path the payload has not been fetched yet; do it now.
     await this.ensureAnimationPayload(result);
-    if (!result?.animationPayload) return;
+    if (!result?.animationPayload) {
+      // Say so rather than leave "Loading transfer animation..." up for ever.
+      if (status) status.textContent = 'The transfer animation could not be loaded. Reopen the constituency to try again.';
+      return;
+    }
     try {
       await ensureElectionAnimationRuntime();
     } catch (error) {

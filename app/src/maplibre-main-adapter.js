@@ -21,6 +21,26 @@ const BASE_MAPS = {
   'usgs-topo': ['https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/{z}/{y}/{x}']
 };
 
+const OSM_CREDIT = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+const ESRI_CREDIT = 'Tiles &copy; Esri';
+// Each basemap credits its own provider. Every one used to be credited only to OpenStreetMap,
+// which misattributed the Esri imagery and maps, USGS and the rest.
+const BASE_MAP_ATTRIBUTION = {
+  'osm-standard': OSM_CREDIT,
+  'osm-humanitarian': `${OSM_CREDIT}, style by Humanitarian OpenStreetMap Team, hosted by OpenStreetMap France`,
+  'cartodb-positron': `${OSM_CREDIT} &copy; <a href="https://carto.com/attributions">CARTO</a>`,
+  'cartodb-dark': `${OSM_CREDIT} &copy; <a href="https://carto.com/attributions">CARTO</a>`,
+  'cartodb-dark-nolabels': `${OSM_CREDIT} &copy; <a href="https://carto.com/attributions">CARTO</a>`,
+  'cartodb-voyager': `${OSM_CREDIT} &copy; <a href="https://carto.com/attributions">CARTO</a>`,
+  'esri-satellite': `${ESRI_CREDIT} &mdash; Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community`,
+  'esri-world-topo': `${ESRI_CREDIT} &mdash; Esri, HERE, Garmin, FAO, NOAA, USGS, OpenStreetMap contributors, and the GIS User Community`,
+  'esri-natgeo': `${ESRI_CREDIT} &mdash; National Geographic, Esri, Garmin, HERE, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC`,
+  'esri-ocean': `${ESRI_CREDIT} &mdash; Esri, Garmin, GEBCO, NOAA NGDC, and other contributors`,
+  'opentopomap': `Map data: ${OSM_CREDIT}, SRTM | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (CC-BY-SA)`,
+  'stamen-terrain': `&copy; Stamen Design, ${OSM_CREDIT}`,
+  'usgs-topo': 'Tiles courtesy of the <a href="https://www.usgs.gov/">U.S. Geological Survey</a>'
+};
+
 const OVERLAY_LAYERS = {
   'voyager-labels': {
     tiles: [
@@ -623,7 +643,8 @@ export class Test2MapLibreMainAdapter {
   }
 
   setBaseMap(id) {
-    const tiles = BASE_MAPS[id] || BASE_MAPS['osm-standard'];
+    const key = BASE_MAPS[id] ? id : 'osm-standard';
+    const tiles = BASE_MAPS[key];
     if (!this.map) return;
     if (this.map.getLayer('osm')) this.map.removeLayer('osm');
     if (this.map.getSource('osm')) this.map.removeSource('osm');
@@ -631,7 +652,7 @@ export class Test2MapLibreMainAdapter {
       type: 'raster',
       tiles,
       tileSize: 256,
-      attribution: '&copy; OpenStreetMap contributors'
+      attribution: BASE_MAP_ATTRIBUTION[key]
     });
     const firstLayer = this.map.getStyle().layers?.[0]?.id;
     this.map.addLayer({ id: 'osm', type: 'raster', source: 'osm' }, firstLayer);
