@@ -3905,8 +3905,10 @@ class Test2App {
       legend.id = 'test2MapLegend';
       legend.className = 'test2-map-legend';
       legend.setAttribute('aria-label', 'Map legend');
-      // Folded on a phone, where the map is small and the election pane takes the bottom.
-      legend.innerHTML = `<details${this.isPhoneLayout() ? '' : ' open'}><summary class="test2-map-legend__summary"><span>Legend</span></summary><div class="test2-map-legend__body"></div></details>`;
+      // Folded on a phone, or over a short map (a laptop with the election pane up), where an
+      // open key would cover much of what it explains.
+      const roomy = !this.isPhoneLayout() && host.getBoundingClientRect().height >= 420;
+      legend.innerHTML = `<details${roomy ? ' open' : ''}><summary class="test2-map-legend__summary"><span>Legend</span></summary><div class="test2-map-legend__body"></div></details>`;
       host.appendChild(legend);
     }
     const esc = (value) => escapeHtml(String(value ?? ''));
