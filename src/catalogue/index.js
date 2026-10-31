@@ -45,6 +45,7 @@ const app = () => (typeof window !== 'undefined' ? window.__civgraphTest2?.app :
 const readStore = () => { try { return JSON.parse(sessionStorage.getItem(STORE)) || {}; } catch { return {}; } };
 // The map sections, each the maps of one kind.
 export const SECTIONS = [['boundaries', 'Boundary', 'Boundaries', 'land-divisions'], ['places', 'Places', 'Places & routes', 'route'], ['statistics', 'Statistics', 'Statistics', 'chart-column'], ['historic', 'Historic', 'Historic Maps', 'landmark']];
+const TAB_SHORT = { places: 'Places', historic: 'Historic' };
 const KIND_OF_SECTION = Object.fromEntries(SECTIONS.map(([id, kind]) => [id, kind]));
 const SECTION_OF_KIND = Object.fromEntries(SECTIONS.map(([id, kind]) => [kind, id]));
 export const sectionOfKind = (kind) => SECTION_OF_KIND[kind] || 'boundaries';
@@ -201,6 +202,7 @@ export class CatalogueNext {
     this.ui.bindFlatViewDelegates?.(container);
     this.drawn = false;
     this.scroller = this.findScroller();
+    this.watchChrome();
     // Dragging the divider between the pane and the map changes how many chips fit on a row's
     // two lines and how far apart a timeline's labels sit: redraw the list once the width
     // settles (Phelim Birch's review, 2026-10-11). The layout itself follows by container queries.
@@ -325,6 +327,9 @@ export class CatalogueNext {
   afterDraw(scope) {
     // Sticky headings sit just below the section tabs, which wrap to two rows in a narrow pane.
     if (this.tabsEl?.offsetHeight) this.root.style.setProperty('--cn-tabs-h', `${this.tabsEl.offsetHeight}px`);
+    // The folded filters show the count beside their button; the list keeps its own for screen readers.
+    const tally = this.viewEl?.querySelector('[data-cn-tally]');
+    if (tally) tally.textContent = this.resultsEl?.querySelector('.cn-summary--count')?.textContent || '';
     this.fitChips(scope);
     // A long timeline opens on the chosen edition, not on its first year.
     scope.querySelectorAll?.('.cn-tl').forEach((tl) => {
@@ -345,7 +350,8 @@ export class CatalogueNext {
 
   tabsHtml() {
     const counts = this.tabCounts();
-    const tab = (id, ic, label, n) => `<button type="button" class="catalogue-flat__section-tab cn-tab" data-cn-tab="${id}" aria-current="${String(this.openSection === id)}">${icon(ic, 'catalogue-flat__section-icon')}<span>${label}</span><span class="cn-tab__count">${n.toLocaleString('en-GB')}</span></button>`;
+    // A phone shows a short label under the icon (styles.js): "Places", "Historic".
+    const tab = (id, ic, label, n) => `<button type="button" class="catalogue-flat__section-tab cn-tab" data-cn-tab="${id}" aria-current="${String(this.openSection === id)}">${icon(ic, 'catalogue-flat__section-icon')}<span class="cn-tab__long">${label}</span><span class="cn-tab__short">${TAB_SHORT[id] || label}</span><span class="cn-tab__count">${n.toLocaleString('en-GB')}</span></button>`;
     return SECTIONS.map(([id, , label, ic]) => tab(id, ic, label, counts[id])).join('') + tab('elections', 'vote', 'Elections', counts.elections);
   }
 
@@ -974,10 +980,43 @@ export class CatalogueNext {
     if (s) s.scrollTop = 0;
   }
 
+  /**
+   * On a phone (the pane fills a screen at most 768px wide) the pinned search bar and section tabs
+   * step aside while the list scrolls down and come back on any scroll up, near the top, or when
+   * focus moves into them; styles.js does the moving. A jump to a heading keeps them in place, as
+   * its scroll position allows for them.
+   */
+  watchChrome() {
+    const s = this.scroller;
+    if (!s || this.chromeWatched) return;
+    this.chromeWatched = true;
+    const phone = window.matchMedia?.('(max-width: 768px)');
+    let last = s.scrollTop;
+    const set = (away) => { if (s.hasAttribute('data-chrome-away') !== away) s.toggleAttribute('data-chrome-away', away); };
+    // A jump shows them at once (no slide), so it measures where the tabs end up, not where they were.
+    this.showChrome = (holdMs = 0) => {
+      this.chromeHold = Date.now() + holdMs;
+      last = s.scrollTop;
+      if (!holdMs) return set(false);
+      s.setAttribute('data-chrome-instant', '');
+      set(false);
+      requestAnimationFrame(() => requestAnimationFrame(() => s.removeAttribute('data-chrome-instant')));
+    };
+    s.addEventListener('scroll', () => {
+      const y = s.scrollTop;
+      const dy = y - last;
+      if (Math.abs(dy) < 8) return;
+      last = y;
+      set(Boolean(phone?.matches) && dy > 0 && y > 160 && Date.now() > (this.chromeHold || 0));
+    }, { passive: true });
+    s.addEventListener('focusin', (e) => { if (e.target.closest?.('.catalogue-sticky-shell, [data-cn-tabs]')) this.showChrome(); });
+  }
+
   scrollToTarget() {
     const t = this.scrollTarget;
     this.scrollTarget = null;
     if (!t || !this.root) return;
+    this.showChrome?.(800);
     const el = t.startsWith('subject:') ? this.root.querySelector(`[data-cn-subject="${cssId(t.slice(8))}"]`)
       : t.startsWith('shelf:') ? this.root.querySelector(`#cn-shelf-${cssId(t.slice(6))}`)
         : this.root.querySelector(`[data-cn-series="${cssId(t)}"]`);

@@ -2203,6 +2203,41 @@ body.test2-election-pane-resizing * {
   padding-top: var(--space-3, 0.75rem);
 }
 
+/* The map settings panel. .control-group's display: flex beat the hidden attribute, so the
+   Performance block showed "Status not loaded yet" to everyone: hidden means hidden here. The
+   groups sit closer, and Text Size keeps its label on the same line as its buttons. */
+.map-control-panel [hidden] {
+  display: none !important;
+}
+
+.map-control-panel .control-group {
+  gap: 4px;
+}
+
+.map-control-panel .mb-3 {
+  margin-bottom: 10px;
+}
+
+.map-control-panel .mt-4 {
+  margin-top: 10px;
+}
+
+.map-control-panel .control-group--inline {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.map-control-panel .control-group--inline .control-label {
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .map-control-panel {
+    padding: 12px;
+  }
+}
+
 .test2-performance-dashboard__header {
   align-items: center;
   display: flex;
