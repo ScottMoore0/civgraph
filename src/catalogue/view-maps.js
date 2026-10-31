@@ -43,7 +43,12 @@ export function resultsHtml(c) {
     : `${plural(total, 'series', 'series')}, ${plural(maps, 'map')}${c.activeFilterCount('maps') ? ', filtered' : ''}.`;
   const empty = !total ? `<p class="cn-empty" role="status">${c.query ? `No maps match “${esc(c.query)}”${c.activeFilterCount('maps') ? ' with these filters' : ''}.` : 'No maps match these filters.'}
     ${c.activeFilterCount('maps') ? ' <button type="button" class="cn-link" data-cn-act="clear-filters">Clear the filters</button>' : ''}${c.otherTabHint()}</p>` : '';
-  return `<div data-cn-extras>${c.query ? extrasHtml(c) : ''}</div>
+  // "Westminster 2019" on the Maps tab: the election comes first, as a way across to it.
+  const elections = c.query && c.electionsFirst ? c.tabCounts().elections : 0;
+  const toElections = elections
+    ? `<p class="cn-summary cn-summary--elections"><button type="button" class="cn-btn" data-cn-tab="elections">${icon('vote')}<span>${plural(elections, 'election')} match “${esc(c.query)}”</span></button></p>`
+    : '';
+  return `${toElections}<div data-cn-extras>${c.query ? extrasHtml(c) : ''}</div>
     ${summary ? `<p class="cn-summary" role="status">${summary}</p>` : ''}
     ${empty}
     ${shelves.map((x) => shelfHtml(c, x, shelves.length === 1)).join('')}`;

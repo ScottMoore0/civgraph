@@ -75,7 +75,10 @@ export function resultsHtml(c) {
   }
   const summary = c.person ? '' : `<p class="cn-summary" role="status">${plural(list.length, c.efilters.ekind === 'general' ? 'general election' : c.efilters.ekind === 'by-election' ? 'bye-election' : 'election')}${c.query ? ` match “${esc(c.query)}”` : ''}${c.activeFilterCount('elections') ? ', filtered' : ''}. Open one to draw it on the map with its results.${showBy}</p>`;
   const shelves = shelvesOf(list);
-  return `${extras}${banner}${summary}${shelves.map(({ g, es }) => shelfHtml(c, g, es, shelves.length === 1)).join('')}`;
+  const body = shelves.map(({ g, es }) => shelfHtml(c, g, es, shelves.length === 1)).join('');
+  // A search that names a body or a year ("Dáil 2020") wants the election: parties and people
+  // that share a word follow it instead of pushing it down.
+  return c.electionsFirst ? `${banner}${summary}${body}${extras}` : `${extras}${banner}${summary}${body}`;
 }
 
 /** Elections on their body's shelf, in BODY_GROUPS' order, newest first, as the list and the
