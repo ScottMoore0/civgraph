@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-31T01:59:49.347Z",
+  "generatedAt": "2026-10-31T15:53:24.833Z",
   "mode": "execute",
   "tools": {
     "ogr2ogr": "C:\\Program Files\\GDAL\\ogr2ogr.exe",
@@ -12,232 +12,63 @@
   "outputDirectory": "render/pmtiles/generated",
   "maxGithubBytes": 99614720,
   "totals": {
-    "candidates": 22,
-    "converted": 22,
+    "candidates": 3,
+    "converted": 3,
     "skipped": 0,
     "failed": 0,
-    "metadataPreferred": 22,
+    "metadataPreferred": 3,
     "oversizedArchives": 0
   },
   "converted": [
     {
-      "layerId": "admin-areas-1936-04-01-vector-test",
-      "sourceMapId": "admin-areas-1936-04-01",
-      "name": "1 Apr 1936",
+      "layerId": "eds-ulster-1915-vector-test",
+      "sourceMapId": "eds-ulster-1915",
+      "name": "Ulster District Electoral Divisions/Wards 1915",
       "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "render/pmtiles/generated/admin-areas-1936-04-01-vector-test.pmtiles",
-      "bytes": 900044,
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/eds-ulster-1915-vector-test.pmtiles",
+      "bytes": 7235503,
       "exceedsGithubBudget": false
     },
     {
-      "layerId": "admin-areas-1937-04-01-vector-test",
-      "sourceMapId": "admin-areas-1937-04-01",
-      "name": "1 Apr 1937",
+      "layerId": "eds-ulster-1916-vector-test",
+      "sourceMapId": "eds-ulster-1916",
+      "name": "Ulster District Electoral Divisions/Wards 1916",
       "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "render/pmtiles/generated/admin-areas-1937-04-01-vector-test.pmtiles",
-      "bytes": 904586,
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/eds-ulster-1916-vector-test.pmtiles",
+      "bytes": 7238927,
       "exceedsGithubBudget": false
     },
     {
-      "layerId": "admin-areas-1949-04-01-vector-test",
-      "sourceMapId": "admin-areas-1949-04-01",
-      "name": "1 Apr 1949",
+      "layerId": "eds-ulster-1921-nine-county-vector-test",
+      "sourceMapId": "eds-ulster-1921-nine-county",
+      "name": "Ulster (nine counties) District Electoral Divisions/Wards 1921",
       "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "render/pmtiles/generated/admin-areas-1949-04-01-vector-test.pmtiles",
-      "bytes": 912628,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "admin-areas-1964-04-01-vector-test",
-      "sourceMapId": "admin-areas-1964-04-01",
-      "name": "1 Apr 1964",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "render/pmtiles/generated/admin-areas-1964-04-01-vector-test.pmtiles",
-      "bytes": 911685,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "admin-areas-1965-04-01-vector-test",
-      "sourceMapId": "admin-areas-1965-04-01",
-      "name": "1 Apr 1965",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "render/pmtiles/generated/admin-areas-1965-04-01-vector-test.pmtiles",
-      "bytes": 912562,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "admin-areas-1966-07-04-vector-test",
-      "sourceMapId": "admin-areas-1966-07-04",
-      "name": "Administrative Areas 4 Jul 1966",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "render/pmtiles/generated/admin-areas-1966-07-04-vector-test.pmtiles",
-      "bytes": 1141485,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "admin-areas-1969-04-01-vector-test",
-      "sourceMapId": "admin-areas-1969-04-01",
-      "name": "1 Apr 1969",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "render/pmtiles/generated/admin-areas-1969-04-01-vector-test.pmtiles",
-      "bytes": 897927,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "lgd-1966-vector-test",
-      "sourceMapId": "lgd-1966",
-      "name": "Rural and Urban Districts 4 Jul 1966",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "render/pmtiles/generated/lgd-1966-vector-test.pmtiles",
-      "bytes": 1131668,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "admin-areas-1946-06-11-vector-test",
-      "sourceMapId": "admin-areas-1946-06-11",
-      "name": "11 Jun 1946",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "render/pmtiles/generated/admin-areas-1946-06-11-vector-test.pmtiles",
-      "bytes": 911742,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "admin-areas-1945-04-01-vector-test",
-      "sourceMapId": "admin-areas-1945-04-01",
-      "name": "1 Apr 1945",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "render/pmtiles/generated/admin-areas-1945-04-01-vector-test.pmtiles",
-      "bytes": 909020,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "admin-areas-1962-04-01-vector-test",
-      "sourceMapId": "admin-areas-1962-04-01",
-      "name": "1 Apr 1962",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "render/pmtiles/generated/admin-areas-1962-04-01-vector-test.pmtiles",
-      "bytes": 911676,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "admin-areas-1957-04-01-vector-test",
-      "sourceMapId": "admin-areas-1957-04-01",
-      "name": "1 Apr 1957",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "render/pmtiles/generated/admin-areas-1957-04-01-vector-test.pmtiles",
-      "bytes": 924906,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "admin-areas-1956-04-01-vector-test",
-      "sourceMapId": "admin-areas-1956-04-01",
-      "name": "1 Apr 1956",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "render/pmtiles/generated/admin-areas-1956-04-01-vector-test.pmtiles",
-      "bytes": 924569,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "admin-areas-1950-04-01-vector-test",
-      "sourceMapId": "admin-areas-1950-04-01",
-      "name": "1 Apr 1950",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "render/pmtiles/generated/admin-areas-1950-04-01-vector-test.pmtiles",
-      "bytes": 917612,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "admin-areas-1949-07-07-vector-test",
-      "sourceMapId": "admin-areas-1949-07-07",
-      "name": "7 Jul 1949",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "render/pmtiles/generated/admin-areas-1949-07-07-vector-test.pmtiles",
-      "bytes": 912002,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "admin-areas-1938-04-01-vector-test",
-      "sourceMapId": "admin-areas-1938-04-01",
-      "name": "1 Apr 1938",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "render/pmtiles/generated/admin-areas-1938-04-01-vector-test.pmtiles",
-      "bytes": 908202,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "admin-areas-1928-01-23-vector-test",
-      "sourceMapId": "admin-areas-1928-01-23",
-      "name": "23 Jan 1928",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "render/pmtiles/generated/admin-areas-1928-01-23-vector-test.pmtiles",
-      "bytes": 903571,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "admin-areas-1924-06-01-vector-test",
-      "sourceMapId": "admin-areas-1924-06-01",
-      "name": "1 Jun 1924",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "render/pmtiles/generated/admin-areas-1924-06-01-vector-test.pmtiles",
-      "bytes": 903394,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "admin-areas-1921-05-03-vector-test",
-      "sourceMapId": "admin-areas-1921-05-03",
-      "name": "3 May 1921",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "render/pmtiles/generated/admin-areas-1921-05-03-vector-test.pmtiles",
-      "bytes": 897157,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "admin-areas-1968-04-01-vector-test",
-      "sourceMapId": "admin-areas-1968-04-01",
-      "name": "1 Apr 1968",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "render/pmtiles/generated/admin-areas-1968-04-01-vector-test.pmtiles",
-      "bytes": 897869,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "admin-areas-1967-04-01-vector-test",
-      "sourceMapId": "admin-areas-1967-04-01",
-      "name": "1 Apr 1967",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "render/pmtiles/generated/admin-areas-1967-04-01-vector-test.pmtiles",
-      "bytes": 908180,
-      "exceedsGithubBudget": false
-    },
-    {
-      "layerId": "admin-areas-1958-04-01-vector-test",
-      "sourceMapId": "admin-areas-1958-04-01",
-      "name": "1 Apr 1958",
-      "sourceType": "pmtiles",
-      "status": "already-exists",
-      "output": "render/pmtiles/generated/admin-areas-1958-04-01-vector-test.pmtiles",
-      "bytes": 910980,
+      "status": "converted",
+      "profile": {
+        "maxSize": "10000000",
+        "maxFeatures": "10000000",
+        "simplification": "1",
+        "simplificationMaxZoom": "0",
+        "note": "Default correctness-first /test MVT profile."
+      },
+      "output": "render/pmtiles/generated/eds-ulster-1921-nine-county-vector-test.pmtiles",
+      "bytes": 7273092,
       "exceedsGithubBudget": false
     }
   ],
