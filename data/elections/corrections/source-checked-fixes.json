@@ -21,7 +21,8 @@
   "rte-2024-locals-2026-10-30": "2024 local election contests checked against RTÉ's published count results.",
   "party-labels-followup-2026-10-30": "Follow-up to party-labels-2026-10-29: the agreed Ailtirí na hAiséirghe and Clann Éireann relabels and a source note for Patrick O'Reilly (Cavan 1943, 1944). Stage only; merge with the usual tool. mergeAction 'append' where source-checked-fixes.json already holds a record for that sourceFile (party-labels-2026-10-29).",
   "ark-six-contests-2026-10-30": "Six NI Assembly (1973, 1982) and Convention (1975) contests the ARK cross-check of 2026-10-29 left out for want of an official sheet, settled from the Chief Electoral Officer for Northern Ireland's published result sheets (eoni.org.uk, Internet Archive copies of 1 April 2017). Includes 1982 Belfast South and 1975 Belfast East, settled from the same sheets.",
-  "ni-booklets-sweep-2026-10-30": "Every remaining 1973 Assembly, 1975 Convention and 1982 Assembly contest checked against the Chief Electoral Officer for Northern Ireland's published result booklets (eoni.org.uk, Internet Archive copies of 1 April 2017): header figures, first preferences and the members elected. The six contests of ark-six-contests-2026-10-30 and its two further records are in that batch."
+  "ni-booklets-sweep-2026-10-30": "Every remaining 1973 Assembly, 1975 Convention and 1982 Assembly contest checked against the Chief Electoral Officer for Northern Ireland's published result booklets (eoni.org.uk, Internet Archive copies of 1 April 2017): header figures, first preferences and the members elected. The six contests of ark-six-contests-2026-10-30 and its two further records are in that batch.",
+  "elliott-qub-2026-10-31": "Queen's University of Belfast general elections of 1949, 1953 and 1958 checked against Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (Political Reference Publications, 1973), with the Wikipedia article on the constituency as the second source: Samuel Irwin (UUP), elected first at all three, was missing, so a defeated candidate showed as elected each time. Applied only where both sources agree."
  },
  "records": [
   {
@@ -227677,6 +227678,202 @@
    "reason": "Mary McSorley and Danny Morrison were also elected for Mid-Ulster at the 1982 Assembly election, as the Chief Electoral Officer's result sheet gives; the contest had marked only 4 of its 6 members elected.",
    "category": "figures",
    "internalNote": "Verification: official (Chief Electoral Officer result booklet, Internet Archive copy of eoni.org.uk, read from the page image; local copy D:/civgraph-intake/eoni-wayback-2026-10-26/). Header figures and first preferences agree with the sheet unless stated; the change is the members the sheet lists as elected (1973: \"Names of Candidates Elected\"; 1975/1982: the \"E\" column). Found by the booklet sweep of 2026-10-30."
+  },
+  {
+   "batch": "elliott-qub-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-02-10/queens-university-of-belfast.json",
+   "source": {
+    "title": "Sydney Elliott (ed.), Northern Ireland Parliamentary Election Results 1921-1972 (Chichester: Political Reference Publications, 1973), Queen's University results; checked against Wikipedia, Queen's University of Belfast (Northern Ireland Parliament constituency)",
+    "publisher": "Political Reference Publications; Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Queen%27s_University_of_Belfast_(Northern_Ireland_Parliament_constituency)",
+    "accessed": "2026-10-31"
+   },
+   "category": "missing-candidates",
+   "reason": "Samuel Irwin (UUP, 1,662 first preferences, elected on the first count) was missing, so E. B. Wallace showed as elected; the members elected were Irwin, Eileen Hickey, Irene Calvert and William Lyle. Valid poll 5,237. Elliott and the Wikipedia constituency article agree.",
+   "operations": [
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "5635154",
+      "Count_Number": "1",
+      "Firstname": "Samuel",
+      "Surname": "Irwin",
+      "Candidate_First_Pref_Votes": "1662.00",
+      "Transfers": "0.00",
+      "Total_Votes": "1662.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "1",
+      "Party_Name": "UUP",
+      "Party_Colour": "#48A5EE",
+      "candidateName": "Samuel Irwin",
+      "id": 5
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "E. B. Wallace",
+     "set": {
+      "Status": ""
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "5237"
+    }
+   ]
+  },
+  {
+   "batch": "elliott-qub-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1953-10-22/queens-university-of-belfast.json",
+   "source": {
+    "title": "Sydney Elliott (ed.), Northern Ireland Parliamentary Election Results 1921-1972 (Chichester: Political Reference Publications, 1973), Queen's University results; checked against Wikipedia, Queen's University of Belfast (Northern Ireland Parliament constituency), and David Boothroyd, Northern Ireland House of Commons Election Results, Queen's University (the full-results source ARK Northern Ireland Elections links to; Internet Archive copy of 16 January 2020)",
+    "publisher": "Political Reference Publications; Wikipedia; David Boothroyd",
+    "url": "https://en.wikipedia.org/wiki/Queen%27s_University_of_Belfast_(Northern_Ireland_Parliament_constituency)",
+    "archiveUrl": "https://web.archive.org/web/20200116210218/http://www.election.demon.co.uk/stormont/qub.html",
+    "accessed": "2026-10-31"
+   },
+   "category": "missing-candidates",
+   "reason": "Samuel Irwin (UUP, 1,840 first preferences, elected on the first count) was missing, so R. Appleton showed as elected; the members elected were Irwin, Eileen Hickey, Frederick Lloyd-Dodd and Elizabeth Maconachie. Valid poll 5,586. Elliott and the Wikipedia constituency article agree. Maconachie's and Lloyd-Dodd's first preferences were 930 and 774, not 940 and 706: Elliott and Boothroyd agree, and only 930 and 774 add up to the valid poll of 5,586 (which Wikipedia also prints) and to Elliott's quota of 1,118; 940 and 706 total 5,528.",
+   "operations": [
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "5635154",
+      "Count_Number": "1",
+      "Firstname": "Samuel",
+      "Surname": "Irwin",
+      "Candidate_First_Pref_Votes": "1840.00",
+      "Transfers": "0.00",
+      "Total_Votes": "1840.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "1",
+      "Party_Name": "UUP",
+      "Party_Colour": "#48A5EE",
+      "candidateName": "Samuel Irwin",
+      "id": 5
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "R. Appleton",
+     "set": {
+      "Status": ""
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "5586"
+    },
+    {
+     "op": "candidate",
+     "name": "Elizabeth Maconachie",
+     "set": {
+      "Candidate_First_Pref_Votes": "930.00",
+      "Total_Votes": "930.00"
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Frederick Lloyd-Dodd",
+     "set": {
+      "Candidate_First_Pref_Votes": "774.00",
+      "Total_Votes": "774.00"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "elliott-qub-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1958-03-20/queens-university-of-belfast.json",
+   "source": {
+    "title": "Sydney Elliott (ed.), Northern Ireland Parliamentary Election Results 1921-1972 (Chichester: Political Reference Publications, 1973), Queen's University results; checked against Wikipedia, Queen's University of Belfast (Northern Ireland Parliament constituency)",
+    "publisher": "Political Reference Publications; Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Queen%27s_University_of_Belfast_(Northern_Ireland_Parliament_constituency)",
+    "accessed": "2026-10-31"
+   },
+   "category": "missing-candidates",
+   "reason": "Samuel Irwin (UUP, 1,640 first preferences, elected on the first count) was missing, so Albert McElroy showed as elected; the members elected were Irwin, Charles Stewart, Elizabeth Maconachie and Frederick Lloyd-Dodd. Valid poll 5,799. Elliott and the Wikipedia constituency article agree.",
+   "operations": [
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "5635154",
+      "Count_Number": "1",
+      "Firstname": "Samuel",
+      "Surname": "Irwin",
+      "Candidate_First_Pref_Votes": "1640.00",
+      "Transfers": "0.00",
+      "Total_Votes": "1640.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "1",
+      "Party_Name": "UUP",
+      "Party_Colour": "#48A5EE",
+      "candidateName": "Samuel Irwin",
+      "id": 5
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Albert McElroy",
+     "set": {
+      "Status": ""
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "5799"
+    }
+   ]
+  },
+  {
+   "batch": "elliott-qub-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1938-02-09/queens-university-of-belfast.json",
+   "source": {
+    "title": "Sydney Elliott (ed.), Northern Ireland Parliamentary Election Results 1921-1972 (Chichester: Political Reference Publications, 1973), Queen's University results; checked against David Boothroyd, Northern Ireland House of Commons Election Results, Queen's University (the full-results source ARK Northern Ireland Elections links to; Internet Archive copy of 16 January 2020)",
+    "publisher": "Political Reference Publications; David Boothroyd",
+    "url": "https://web.archive.org/web/20200116210218/http://www.election.demon.co.uk/stormont/qub.html",
+    "accessed": "2026-10-31"
+   },
+   "category": "names",
+   "reason": "The candidate's surname is Simms (Dr. S. Simms), as Elliott and Boothroyd both print it in 1938 and 1945; the import, following Wikipedia, spelt it Sims.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "S. Sims",
+     "set": {
+      "Surname": "Simms",
+      "candidateName": "S. Simms"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "elliott-qub-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-06-14/queens-university-of-belfast.json",
+   "source": {
+    "title": "Sydney Elliott (ed.), Northern Ireland Parliamentary Election Results 1921-1972 (Chichester: Political Reference Publications, 1973), Queen's University results; checked against David Boothroyd, Northern Ireland House of Commons Election Results, Queen's University (the full-results source ARK Northern Ireland Elections links to; Internet Archive copy of 16 January 2020)",
+    "publisher": "Political Reference Publications; David Boothroyd",
+    "url": "https://web.archive.org/web/20200116210218/http://www.election.demon.co.uk/stormont/qub.html",
+    "accessed": "2026-10-31"
+   },
+   "category": "names",
+   "reason": "The candidate's surname is Simms (Dr. S. Simms), as Elliott and Boothroyd both print it in 1938 and 1945; the import, following Wikipedia, spelt it Sims.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "S. Sims",
+     "set": {
+      "Surname": "Simms",
+      "candidateName": "S. Simms"
+     }
+    }
+   ]
   }
  ]
 }

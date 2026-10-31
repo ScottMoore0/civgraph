@@ -113,6 +113,12 @@ for (const [file, read] of [
     addWalkerCorrection(r.sourceFile, 'electorate', r.electorate, true);
     addWalkerCorrection(r.sourceFile, 'electorateSource', `Wikipedia, ${r.source?.title || 'constituency article'}`, true);
   })],
+  // NI House of Commons electorates 1921-69 printed by Elliott (1973) and given identically by
+  // Boothroyd's Stormont results site, for contests whose files record none.
+  ['elliott-stormont-electorates.json', (doc) => (doc.records || []).forEach((r) => {
+    addWalkerCorrection(r.sourceFile, 'electorate', r.electorate, true);
+    addWalkerCorrection(r.sourceFile, 'electorateSource', 'Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973); the same figure in David Boothroyd, Northern Ireland House of Commons Election Results', true);
+  })],
   // By-election causes from Wikipedia's lists, for contests whose files record none.
   ['wikipedia-byelection-causes.json', (doc) => (doc.records || [])
     .forEach((r) => addWalkerCorrection(r.sourceFile, 'cause', `${r.cause} (Wikipedia, ${r.source?.title || 'list of by-elections'})`, true))],
@@ -1071,6 +1077,7 @@ function findPreviousComparableElection(entry, orderedEntries) {
     const candidateKey = electionKey(candidate);
     if (candidateKey === entryKey) return false;
     if (String(candidate.date || '') >= entryDate) return false;
+    if (!sameCouncilWardScheme(entry, candidate)) return false;
     return comparableElectionGroup(candidate) === group;
   });
 
@@ -1101,6 +1108,14 @@ function findPreviousComparableElection(entry, orderedEntries) {
   }
 
   return null;
+}
+
+// Belfast's nine PR wards of January 1920 were replaced by the fifteen wards again from 1923, so
+// a later Belfast election is never compared with 1920: wards of the same name were different areas.
+function sameCouncilWardScheme(entry, candidate) {
+  if (entry?.bodySlug !== 'belfast-county-borough-council') return true;
+  const pr1920 = (e) => String(e?.date || '').startsWith('1920');
+  return pr1920(entry) === pr1920(candidate);
 }
 
 function comparableElectionGroup(entry) {
@@ -1295,14 +1310,20 @@ function resolveElectionGeography(entry) {
 }
 
 // Pre-1973 council wards were District Electoral Divisions, so the DED layers draw them.
-// Belfast's fifteen wards (1896-1973) are drawn from the 1921 set for every year: in the 1930
+// Belfast's nine PR wards of January 1920 (Cromac, Duncairn, Falls, Ormeau, Pottinger, St. Anne's,
+// Shankill, Victoria, Woodvale) share names with wards of the fifteen-ward set but not their
+// boundaries, and no layer draws them, so 1920 is shown as results without a map.
+// Belfast's fifteen wards (1896-1973) are drawn from the 1921 set for every other year: in the 1930
 // set two Co. Down DEDs share Belfast ward names (CLIFTON, VICTORIA), and the map colours by
 // label, so it would paint them too. Strabane's four urban wards take the set in force: the
 // 1911 Ulster divisions before partition, 1921 to 1930, then 1930. Its whole-town poll of 1899
 // and the two combined PR areas of 1920 have no polygon of their own and are shown as results.
 function pre1973CouncilGeography(entry) {
   const date = String(entry.date || '');
-  if (entry.bodySlug !== 'strabane-urban-district-council') return { sourceMapId: 'ded-1921-05-03' };
+  if (entry.bodySlug !== 'strabane-urban-district-council') {
+    if (entry.bodySlug === 'belfast-county-borough-council' && date.startsWith('1920')) return { sourceMapId: null };
+    return { sourceMapId: 'ded-1921-05-03' };
+  }
   if (date.startsWith('1899') || date.startsWith('1920')) return { sourceMapId: null };
   if (date < '1921') return { sourceMapId: 'eds-ulster-1911' };
   if (date < '1931') return { sourceMapId: 'ded-1921-05-03' };

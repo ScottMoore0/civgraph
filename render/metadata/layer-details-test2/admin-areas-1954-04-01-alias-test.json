@@ -14,9 +14,12 @@
   "renderer": "maplibre",
   "sourceType": "pmtiles",
   "geometryType": "polygon",
-  "tiles": "/render/tiles/generated/admin-areas-1949-04-01/{z}/{x}/{y}.pbf",
-  "metadataUrl": "/render/tiles/generated/admin-areas-1949-04-01/metadata.json",
-  "sourceLayer": "admin_areas_1949_04_01",
+  "tiles": "/render/tiles/generated/admin-areas-1950-04-01/{z}/{x}/{y}.pbf",
+  "tileUrl": "/render/pmtiles/generated/admin-areas-1950-04-01-vector-test.pmtiles",
+  "tilesFallback": "/render/tiles/generated/admin-areas-1950-04-01/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/render/tiles/generated/admin-areas-1950-04-01/metadata.json",
+  "sourceLayer": "admin_areas_1950_04_01",
+  "promoteId": "AdministrativeArea",
   "minzoom": 0,
   "maxzoom": 12,
   "bounds": [
@@ -35,11 +38,22 @@
     "fillOpacity": 0.18,
     "weight": 2
   },
-  "references": [],
+  "references": [
+    {
+      "label": "Ministry of Health and Local Government Provisional Order Confirmation (Bangor Borough Extension) Act (Northern Ireland) 1950 (1950 c. i)",
+      "url": "https://www.thegazette.co.uk/Belfast/issue/1490/page/9",
+      "note": "Local Act confirming, with amendments, the Bangor Borough (Extension) Order (Northern Ireland) 1949. Royal Assent 10 Jan 1950 (Belfast Gazette issue 1490, 13 Jan 1950, page 9). Appointed day 1 Apr 1950, as printed in the confirmed Order. Bangor borough extended."
+    },
+    {
+      "label": "Ministry of Health and Local Government Provisional Order Confirmation (Newtownards Borough Extension) Act (Northern Ireland) 1950 (1950 c. ii)",
+      "url": "https://www.thegazette.co.uk/Belfast/issue/1495/page/41",
+      "note": "Local Act confirming the Newtownards Borough (Extension) Order (Northern Ireland) 1949. Royal Assent 14 Feb 1950 (Belfast Gazette issue 1495, 17 Feb 1950, page 41). Appointed day 1 Apr 1950, as printed in the confirmed Order. Newtownards borough extended."
+    }
+  ],
   "sourceDownloads": [
     {
       "label": "Source file used for /test conversion",
-      "file": "render/source-cache/vector-intake/admin-areas-1949-04-01.fgb"
+      "file": "render/source-cache/vector-intake/admin-areas-1950-04-01.fgb"
     }
   ],
   "sourceCredits": [
@@ -49,14 +63,14 @@
     "admin",
     "areas",
     "incomplete",
-    "01 April 1949",
+    "1 Apr 1950",
     "Historic Boundaries",
     "Built Environment",
     "maplibre",
     "vector tiles",
     "1 Apr 1954",
     "admin-areas-1954-04-01",
-    "admin-areas-1949-04-01",
+    "admin-areas-1950-04-01",
     "clone alias"
   ],
   "labelProperty": "AdministrativeArea",
@@ -75,8 +89,9 @@
     "maxWidth": 14,
     "lineHeight": 1.25
   },
-  "sourceFile": "render/source-cache/vector-intake/admin-areas-1949-04-01.fgb",
-  "sourceDatasetLayer": "admin-areas-1949-04-01",
+  "sourceFile": "render/source-cache/vector-intake/admin-areas-1950-04-01.fgb",
+  "sourceDatasetLayer": "NI_Admin_Areas_1950-04-01_1955-04-01",
+  "idProperty": "AdministrativeArea",
   "popupProperties": [
     "AdministrativeArea"
   ],
@@ -86,6 +101,8 @@
   ],
   "categoricalValues": {
     "AdministrativeArea": [
+      "Armagh Rural District",
+      "Armagh Urban District",
       "Ballycastle Rural District",
       "Ballycastle Urban District",
       "Ballyclare Urban District",
@@ -95,6 +112,8 @@
       "Ballymoney Urban District",
       "Banbridge Rural District",
       "Banbridge Urban District",
+      "Bangor Municipal Borough",
+      "Belfast Rural District",
       "Castlederg Rural District",
       "Clogher Rural District",
       "Donaghadee Urban District",
@@ -103,6 +122,7 @@
       "Dungannon Urban District",
       "Hillsborough Rural District",
       "Irvinestown Rural District",
+      "Keady Urban District",
       "Kilkeel Rural District",
       "Kilkeel Urban District",
       "Limavady Rural District",
@@ -110,47 +130,31 @@
       "Lisnaskea Rural District",
       "Londonderry County Borough",
       "Londonderry Rural District",
+      "Lurgan Municipal Borough",
       "Magherafelt Rural District",
-      "Moira Rural District",
-      "Newcastle Urban District",
-      "Newry No. 1 Rural District",
-      "Newry No. 2 Rural District",
-      "Newry Urban District",
-      "Omagh Rural District",
-      "Omagh Urban District"
+      "Moira Rural District"
     ]
   },
   "status": "converted-alias",
-  "notes": "1 Apr 1954 reuses the converted geometry from 1 Apr 1949.",
+  "notes": "1 Apr 1954 reuses the converted geometry from 1 Apr 1950.",
   "generatedFrom": {
     "pipeline": "promote-test-clone-alias",
     "sourceMapId": "admin-areas-1954-04-01",
-    "cloneOf": "admin-areas-1949-04-01",
-    "aliasOf": "admin-areas-1949-04-01",
-    "targetLayerId": "admin-areas-1949-04-01-vector-test"
+    "cloneOf": "admin-areas-1950-04-01",
+    "aliasOf": "admin-areas-1950-04-01",
+    "targetLayerId": "admin-areas-1950-04-01-vector-test"
   },
-  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/admin-areas-1949-04-01-vector-test.pmtiles",
-  "tilesFallback": "/render/tiles/generated/admin-areas-1949-04-01/{z}/{x}/{y}.pbf",
   "tilePackage": {
     "preferred": true,
-    "localPath": "render/pmtiles/generated/admin-areas-1949-04-01-vector-test.pmtiles",
-    "url": "/render/pmtiles/generated/admin-areas-1949-04-01-vector-test.pmtiles",
-    "bytes": 828940,
+    "localPath": "render/pmtiles/generated/admin-areas-1950-04-01-vector-test.pmtiles",
+    "url": "/render/pmtiles/generated/admin-areas-1950-04-01-vector-test.pmtiles",
+    "bytes": 917612,
     "maxGithubBytes": 99614720,
-    "generatedAt": "2026-08-23T00:43:28.687Z",
-    "fallback": "/render/tiles/generated/admin-areas-1949-04-01/{z}/{x}/{y}.pbf",
-    "sourceSha256": "46c9992d33774375b77cff20774ca6fbe31dd2190d0e7453979cca5db10d388d",
-    "serving": "cdn",
-    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/admin-areas-1949-04-01-vector-test.pmtiles",
-    "r2Key": "data/maps/test/pmtiles/generated/admin-areas-1949-04-01-vector-test.pmtiles",
-    "localUrl": "/render/pmtiles/generated/admin-areas-1949-04-01-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-08-23T00:45:11.808Z"
+    "fallback": "/render/tiles/generated/admin-areas-1950-04-01/{z}/{x}/{y}.pbf"
   },
-  "promoteId": "AdministrativeArea",
-  "idProperty": "AdministrativeArea",
   "categoryId": "historic",
   "conversionStatus": "convertedAlias",
-  "aliasOf": "admin-areas-1949-04-01",
-  "cloneOf": "admin-areas-1949-04-01",
-  "aliasTargetLayerId": "admin-areas-1949-04-01-vector-test"
+  "aliasOf": "admin-areas-1950-04-01",
+  "cloneOf": "admin-areas-1950-04-01",
+  "aliasTargetLayerId": "admin-areas-1950-04-01-vector-test"
 }

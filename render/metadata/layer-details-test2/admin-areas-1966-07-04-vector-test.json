@@ -15,7 +15,7 @@
   "sourceType": "pmtiles",
   "geometryType": "polygon",
   "tiles": "/render/tiles/generated/admin-areas-1966-07-04/{z}/{x}/{y}.pbf",
-  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/admin-areas-1966-07-04-vector-test.pmtiles",
+  "tileUrl": "/render/pmtiles/generated/admin-areas-1966-07-04-vector-test.pmtiles",
   "tilesFallback": "/render/tiles/generated/admin-areas-1966-07-04/{z}/{x}/{y}.pbf",
   "metadataUrl": "/render/tiles/generated/admin-areas-1966-07-04/metadata.json",
   "sourceLayer": "admin_areas_1966_07_04",
@@ -43,6 +43,26 @@
       "label": "Belfast Gazette issue 2305 (Ballyclare UD boundary extension)",
       "url": "https://www.thegazette.co.uk/Belfast/issue/2305/data.pdf",
       "note": "21 May 1965, pages 176-177. Ballyclare UD extended (Six Mile Water sewage works, from Antrim RD) from 1 Apr 1965; the source layer omitted it and Ballyclare UD / Antrim RD were corrected to the OSNI 1965 line."
+    },
+    {
+      "label": "Census of Population 1961: County Antrim",
+      "url": "https://www.nisra.gov.uk/files/nisra/publications/1961-census-antrim-county-report.pdf",
+      "note": "Changes 1951-61: Larne RD to Larne MB 1 Apr 1956; Belfast RD abolished 1 Apr 1958 (Newtownabbey UD; rest to Antrim, Larne and Lisburn RDs). Areas: Larne MB 2,521 ac 2 r 18 p; Newtownabbey UD 6,006 ac 1 r 12 p; Ballyduff DED (Antrim RD) 4,112 ac; Ballygomartin DED (Lisburn RD) 10,558 ac."
+    },
+    {
+      "label": "Census of Population 1961: County Armagh",
+      "url": "https://www.nisra.gov.uk/files/nisra/publications/1961-census-armagh-county-report.pdf",
+      "note": "Changes 1951-61: Lurgan RD to Lurgan MB 1 Apr 1957. Lurgan MB 2,024 ac 2 r 4 p."
+    },
+    {
+      "label": "Census of Population 1961: County Down",
+      "url": "https://www.nisra.gov.uk/files/nisra/publications/1961-census-down-county-report.pdf",
+      "note": "Changes 1951-61: North Down RD to Bangor MB 1 Apr 1956. Bangor MB 2,404 ac 2 r 9 p."
+    },
+    {
+      "label": "Census of Population 1966: General Report",
+      "url": "https://www.nisra.gov.uk/files/nisra/publications/1966-census-general-report.pdf",
+      "note": "North Down RD (population 477 in 1961) to Bangor MB 1 Apr 1962; Bangor MB 2,664 ac 2 r 37 p."
     }
   ],
   "sourceDownloads": [
@@ -200,24 +220,19 @@
   "generatedFrom": {
     "pipeline": "build-test-vector-batch",
     "sourceFile": "render/source-cache/vector-intake/admin-areas-1966-07-04.fgb",
-    "bytes": 1591534,
+    "bytes": 1740506,
     "files": 753,
     "pbfFiles": 752,
-    "maxTileBytes": 38327
+    "maxTileBytes": 43877
   },
   "tilePackage": {
     "preferred": true,
     "localPath": "render/pmtiles/generated/admin-areas-1966-07-04-vector-test.pmtiles",
     "url": "/render/pmtiles/generated/admin-areas-1966-07-04-vector-test.pmtiles",
-    "bytes": 1085270,
+    "bytes": 1141485,
     "maxGithubBytes": 99614720,
-    "generatedAt": "2026-10-30T14:09:35.222Z",
+    "generatedAt": "2026-10-31T01:59:49.347Z",
     "fallback": "/render/tiles/generated/admin-areas-1966-07-04/{z}/{x}/{y}.pbf",
-    "sourceSha256": "fa00830a91fe5f7c36885b8941d8d803199dc7b5fe90d2ab9640bde996d62ec8",
-    "serving": "cdn",
-    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/admin-areas-1966-07-04-vector-test.pmtiles",
-    "r2Key": "data/maps/test/pmtiles/generated/admin-areas-1966-07-04-vector-test.pmtiles",
-    "localUrl": "/render/pmtiles/generated/admin-areas-1966-07-04-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-10-30T14:33:05.280Z"
+    "sourceSha256": "3f12dc2c55970ec92b43874688523d20dc5a4712f6ebcc79494a46c20b0b03eb"
   }
 }

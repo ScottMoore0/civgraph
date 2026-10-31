@@ -1916,8 +1916,8 @@ test('loads generated election entries with MapLibre styling and enriched featur
   expect(loaded.layerLoaded).toBe(true);
   expect(loaded.panelVisible).toBe(true);
   expect(loaded.timelineVisible).toBe(true);
-  // Dates show the day without a leading zero since 2026-10-19 (6a2b09521a).
-  expect(loaded.timelineLabel).toBe('4 Jul 2024');
+  // src/date-format.mjs is the one date style: the day always two digits ("04 Jul 2024").
+  expect(loaded.timelineLabel).toBe('04 Jul 2024');
   expect(JSON.stringify(loaded.fillColour)).toContain('match');
   expect(JSON.stringify(loaded.fillColour)).toContain('#dfe4ec');
   expect(JSON.stringify(loaded.fillOpacity)).toContain('0.6');
@@ -1951,7 +1951,7 @@ test('loads generated election entries with MapLibre styling and enriched featur
   expect(loaded.mapDisplayControl).toBe(true);
 
   await expect(page.locator('#electionResultsPane')).toContainText('Westminster');
-  await expect(page.locator('#electionResultsPane')).toContainText('1st preferences');
+  await expect(page.locator('#electionResultsPane')).toContainText('Votes'); // plurality elections count votes, not first preferences
   await page.locator('#electionPaneHeaderRight [data-election-view="candidate"]').click();
   await expect(page.locator('#electionPaneContent')).toContainText('Constituency');
   await expect(page.locator('#electionPaneContent .election-count-table--candidate-sticky3')).toHaveCount(1);

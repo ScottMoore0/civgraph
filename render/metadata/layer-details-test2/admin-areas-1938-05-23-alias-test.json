@@ -14,9 +14,12 @@
   "renderer": "maplibre",
   "sourceType": "pmtiles",
   "geometryType": "polygon",
-  "tiles": "/render/tiles/generated/admin-areas-1937-04-01/{z}/{x}/{y}.pbf",
-  "metadataUrl": "/render/tiles/generated/admin-areas-1937-04-01/metadata.json",
-  "sourceLayer": "admin_areas_1937_04_01",
+  "tiles": "/render/tiles/generated/admin-areas-1938-04-01/{z}/{x}/{y}.pbf",
+  "tileUrl": "/render/pmtiles/generated/admin-areas-1938-04-01-vector-test.pmtiles",
+  "tilesFallback": "/render/tiles/generated/admin-areas-1938-04-01/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/render/tiles/generated/admin-areas-1938-04-01/metadata.json",
+  "sourceLayer": "admin_areas_1938_04_01",
+  "promoteId": "AdministrativeArea",
   "minzoom": 0,
   "maxzoom": 12,
   "bounds": [
@@ -35,11 +38,17 @@
     "fillOpacity": 0.18,
     "weight": 2
   },
-  "references": [],
+  "references": [
+    {
+      "label": "Belfast Gazette issue 864 (Urban District of Lurgan: confirmation (with modifications) of Armagh County Council order of 21 Sep 1937)",
+      "url": "https://www.thegazette.co.uk/Belfast/issue/864/page/18",
+      "note": "14 Jan 1938, page 18. Made 31 Dec 1937. In force: 1 Jan 1938 (RPA); 1 Apr 1938 (all other purposes). Confirms, with a substituted boundary (area coloured pink on the attached map), the county council order extending Lurgan UD."
+    }
+  ],
   "sourceDownloads": [
     {
       "label": "Source file used for /test conversion",
-      "file": "render/source-cache/vector-intake/admin-areas-1937-04-01.fgb"
+      "file": "render/source-cache/vector-intake/admin-areas-1938-04-01.fgb"
     }
   ],
   "sourceCredits": [
@@ -49,14 +58,14 @@
     "admin",
     "areas",
     "incomplete",
-    "01 April 1937",
+    "1 Apr 1938",
     "Historic Boundaries",
     "Built Environment",
     "maplibre",
     "vector tiles",
     "23 May 1938",
     "admin-areas-1938-05-23",
-    "admin-areas-1937-04-01",
+    "admin-areas-1938-04-01",
     "clone alias"
   ],
   "labelProperty": "AdministrativeArea",
@@ -75,8 +84,9 @@
     "maxWidth": 14,
     "lineHeight": 1.25
   },
-  "sourceFile": "render/source-cache/vector-intake/admin-areas-1937-04-01.fgb",
-  "sourceDatasetLayer": "admin-areas-1937-04-01",
+  "sourceFile": "render/source-cache/vector-intake/admin-areas-1938-04-01.fgb",
+  "sourceDatasetLayer": "NI_Admin_Areas_1938-04-01_1939-05-23",
+  "idProperty": "AdministrativeArea",
   "popupProperties": [
     "AdministrativeArea"
   ],
@@ -86,6 +96,8 @@
   ],
   "categoricalValues": {
     "AdministrativeArea": [
+      "Armagh Rural District",
+      "Armagh Urban District",
       "Ballycastle Rural District",
       "Ballycastle Urban District",
       "Ballyclare Urban District",
@@ -95,6 +107,8 @@
       "Ballymoney Urban District",
       "Banbridge Rural District",
       "Banbridge Urban District",
+      "Bangor Municipal Borough",
+      "Belfast Rural District",
       "Castlederg Rural District",
       "Clogher Rural District",
       "Donaghadee Urban District",
@@ -103,6 +117,7 @@
       "Dungannon Urban District",
       "Hillsborough Rural District",
       "Irvinestown Rural District",
+      "Keady Urban District",
       "Kilkeel Rural District",
       "Kilkeel Urban District",
       "Limavady Rural District",
@@ -110,47 +125,31 @@
       "Lisnaskea Rural District",
       "Londonderry County Borough",
       "Londonderry Rural District",
+      "Lurgan Urban District",
       "Magherafelt Rural District",
-      "Moira Rural District",
-      "Newcastle Urban District",
-      "Newry No. 1 Rural District",
-      "Newry No. 2 Rural District",
-      "Newry Urban District",
-      "Omagh Rural District",
-      "Omagh Urban District"
+      "Moira Rural District"
     ]
   },
   "status": "converted-alias",
-  "notes": "23 May 1938 reuses the converted geometry from 1 Apr 1937.",
+  "notes": "23 May 1938 reuses the converted geometry from 1 Apr 1938.",
   "generatedFrom": {
     "pipeline": "promote-test-clone-alias",
     "sourceMapId": "admin-areas-1938-05-23",
-    "cloneOf": "admin-areas-1937-04-01",
-    "aliasOf": "admin-areas-1937-04-01",
-    "targetLayerId": "admin-areas-1937-04-01-vector-test"
+    "cloneOf": "admin-areas-1938-04-01",
+    "aliasOf": "admin-areas-1938-04-01",
+    "targetLayerId": "admin-areas-1938-04-01-vector-test"
   },
-  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/admin-areas-1937-04-01-vector-test.pmtiles",
-  "tilesFallback": "/render/tiles/generated/admin-areas-1937-04-01/{z}/{x}/{y}.pbf",
   "tilePackage": {
     "preferred": true,
-    "localPath": "render/pmtiles/generated/admin-areas-1937-04-01-vector-test.pmtiles",
-    "url": "/render/pmtiles/generated/admin-areas-1937-04-01-vector-test.pmtiles",
-    "bytes": 828098,
+    "localPath": "render/pmtiles/generated/admin-areas-1938-04-01-vector-test.pmtiles",
+    "url": "/render/pmtiles/generated/admin-areas-1938-04-01-vector-test.pmtiles",
+    "bytes": 908202,
     "maxGithubBytes": 99614720,
-    "generatedAt": "2026-08-23T00:43:28.687Z",
-    "fallback": "/render/tiles/generated/admin-areas-1937-04-01/{z}/{x}/{y}.pbf",
-    "sourceSha256": "36bffd86887d457d0d781adb303b8c375ec504061c5c46af8a6acc0ae00cbfc4",
-    "serving": "cdn",
-    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/admin-areas-1937-04-01-vector-test.pmtiles",
-    "r2Key": "data/maps/test/pmtiles/generated/admin-areas-1937-04-01-vector-test.pmtiles",
-    "localUrl": "/render/pmtiles/generated/admin-areas-1937-04-01-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-08-23T00:45:11.808Z"
+    "fallback": "/render/tiles/generated/admin-areas-1938-04-01/{z}/{x}/{y}.pbf"
   },
-  "promoteId": "AdministrativeArea",
-  "idProperty": "AdministrativeArea",
   "categoryId": "historic",
   "conversionStatus": "convertedAlias",
-  "aliasOf": "admin-areas-1937-04-01",
-  "cloneOf": "admin-areas-1937-04-01",
-  "aliasTargetLayerId": "admin-areas-1937-04-01-vector-test"
+  "aliasOf": "admin-areas-1938-04-01",
+  "cloneOf": "admin-areas-1938-04-01",
+  "aliasTargetLayerId": "admin-areas-1938-04-01-vector-test"
 }

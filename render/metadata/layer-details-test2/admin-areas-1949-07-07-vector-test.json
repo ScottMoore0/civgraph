@@ -1,5 +1,5 @@
 {
-  "id": "admin-areas-1949-07-07-alias-test",
+  "id": "admin-areas-1949-07-07-vector-test",
   "sourceMapId": "admin-areas-1949-07-07",
   "name": "7 Jul 1949",
   "category": "Historic Boundaries",
@@ -14,9 +14,12 @@
   "renderer": "maplibre",
   "sourceType": "pmtiles",
   "geometryType": "polygon",
-  "tiles": "/render/tiles/generated/admin-areas-1949-04-01/{z}/{x}/{y}.pbf",
-  "metadataUrl": "/render/tiles/generated/admin-areas-1949-04-01/metadata.json",
-  "sourceLayer": "admin_areas_1949_04_01",
+  "tiles": "/render/tiles/generated/admin-areas-1949-07-07/{z}/{x}/{y}.pbf",
+  "tileUrl": "/render/pmtiles/generated/admin-areas-1949-07-07-vector-test.pmtiles",
+  "tilesFallback": "/render/tiles/generated/admin-areas-1949-07-07/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/render/tiles/generated/admin-areas-1949-07-07/metadata.json",
+  "sourceLayer": "admin_areas_1949_07_07",
+  "promoteId": "AdministrativeArea",
   "minzoom": 0,
   "maxzoom": 12,
   "bounds": [
@@ -39,7 +42,7 @@
   "sourceDownloads": [
     {
       "label": "Source file used for /test conversion",
-      "file": "render/source-cache/vector-intake/admin-areas-1949-04-01.fgb"
+      "file": "render/source-cache/vector-intake/admin-areas-1949-07-07.fgb"
     }
   ],
   "sourceCredits": [
@@ -49,15 +52,11 @@
     "admin",
     "areas",
     "incomplete",
-    "01 April 1949",
+    "7 Jul 1949",
     "Historic Boundaries",
     "Built Environment",
     "maplibre",
-    "vector tiles",
-    "7 Jul 1949",
-    "admin-areas-1949-07-07",
-    "admin-areas-1949-04-01",
-    "clone alias"
+    "vector tiles"
   ],
   "labelProperty": "AdministrativeArea",
   "labelPropertyFallbacks": [],
@@ -75,8 +74,9 @@
     "maxWidth": 14,
     "lineHeight": 1.25
   },
-  "sourceFile": "render/source-cache/vector-intake/admin-areas-1949-04-01.fgb",
-  "sourceDatasetLayer": "admin-areas-1949-04-01",
+  "sourceFile": "render/source-cache/vector-intake/admin-areas-1949-07-07.fgb",
+  "sourceDatasetLayer": "NI_Admin_Areas_1949-07-07_1949-07-07",
+  "idProperty": "AdministrativeArea",
   "popupProperties": [
     "AdministrativeArea"
   ],
@@ -86,6 +86,8 @@
   ],
   "categoricalValues": {
     "AdministrativeArea": [
+      "Armagh Rural District",
+      "Armagh Urban District",
       "Ballycastle Rural District",
       "Ballycastle Urban District",
       "Ballyclare Urban District",
@@ -95,6 +97,8 @@
       "Ballymoney Urban District",
       "Banbridge Rural District",
       "Banbridge Urban District",
+      "Bangor Municipal Borough",
+      "Belfast Rural District",
       "Castlederg Rural District",
       "Clogher Rural District",
       "Donaghadee Urban District",
@@ -103,6 +107,7 @@
       "Dungannon Urban District",
       "Hillsborough Rural District",
       "Irvinestown Rural District",
+      "Keady Urban District",
       "Kilkeel Rural District",
       "Kilkeel Urban District",
       "Limavady Rural District",
@@ -110,47 +115,29 @@
       "Lisnaskea Rural District",
       "Londonderry County Borough",
       "Londonderry Rural District",
+      "Lurgan Municipal Borough",
       "Magherafelt Rural District",
-      "Moira Rural District",
-      "Newcastle Urban District",
-      "Newry No. 1 Rural District",
-      "Newry No. 2 Rural District",
-      "Newry Urban District",
-      "Omagh Rural District",
-      "Omagh Urban District"
+      "Moira Rural District"
     ]
   },
-  "status": "converted-alias",
-  "notes": "7 Jul 1949 reuses the converted geometry from 1 Apr 1949.",
+  "status": "converted",
+  "notes": "Generated from render/source-cache/vector-intake/admin-areas-1949-07-07.fgb with GDAL MVT output.",
   "generatedFrom": {
-    "pipeline": "promote-test-clone-alias",
-    "sourceMapId": "admin-areas-1949-07-07",
-    "cloneOf": "admin-areas-1949-04-01",
-    "aliasOf": "admin-areas-1949-04-01",
-    "targetLayerId": "admin-areas-1949-04-01-vector-test"
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "render/source-cache/vector-intake/admin-areas-1949-07-07.fgb",
+    "bytes": 1492184,
+    "files": 640,
+    "pbfFiles": 639,
+    "maxTileBytes": 21329
   },
-  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/admin-areas-1949-04-01-vector-test.pmtiles",
-  "tilesFallback": "/render/tiles/generated/admin-areas-1949-04-01/{z}/{x}/{y}.pbf",
   "tilePackage": {
     "preferred": true,
-    "localPath": "render/pmtiles/generated/admin-areas-1949-04-01-vector-test.pmtiles",
-    "url": "/render/pmtiles/generated/admin-areas-1949-04-01-vector-test.pmtiles",
-    "bytes": 828940,
+    "localPath": "render/pmtiles/generated/admin-areas-1949-07-07-vector-test.pmtiles",
+    "url": "/render/pmtiles/generated/admin-areas-1949-07-07-vector-test.pmtiles",
+    "bytes": 912002,
     "maxGithubBytes": 99614720,
-    "generatedAt": "2026-08-23T00:43:28.687Z",
-    "fallback": "/render/tiles/generated/admin-areas-1949-04-01/{z}/{x}/{y}.pbf",
-    "sourceSha256": "46c9992d33774375b77cff20774ca6fbe31dd2190d0e7453979cca5db10d388d",
-    "serving": "cdn",
-    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/admin-areas-1949-04-01-vector-test.pmtiles",
-    "r2Key": "data/maps/test/pmtiles/generated/admin-areas-1949-04-01-vector-test.pmtiles",
-    "localUrl": "/render/pmtiles/generated/admin-areas-1949-04-01-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-08-23T00:45:11.808Z"
-  },
-  "promoteId": "AdministrativeArea",
-  "idProperty": "AdministrativeArea",
-  "categoryId": "historic",
-  "conversionStatus": "convertedAlias",
-  "aliasOf": "admin-areas-1949-04-01",
-  "cloneOf": "admin-areas-1949-04-01",
-  "aliasTargetLayerId": "admin-areas-1949-04-01-vector-test"
+    "generatedAt": "2026-10-31T01:59:49.347Z",
+    "fallback": "/render/tiles/generated/admin-areas-1949-07-07/{z}/{x}/{y}.pbf",
+    "sourceSha256": "11388d05bf76287253cf1d893e3445002d1f8594420e5f170673e92d65f2610f"
+  }
 }

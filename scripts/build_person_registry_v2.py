@@ -84,6 +84,16 @@ def official_ids(c):
     return tuple(sorted(offs))
 
 
+# Northern Ireland borough and urban district councils before 1973, each its own body. Their
+# result files carry no candidate ids, so each row's id is its name and party (see
+# across_a_generation below).
+PRE1973_COUNCIL_BODIES = {
+    'belfast-county-borough-council',
+    'belfast-county-borough-council-aldermen',
+    'strabane-urban-district-council',
+}
+
+
 def council_area(council):
     """The county a Republic council belongs to: "Cork City Council" and "Cork County Council"
     are one area, as are Dublin's city and county councils, so a councillor who moves between
@@ -463,9 +473,14 @@ def main():
     # O'Leary of 1910 with a Belfast North one of 1992, Sir Daniel Dixon (died 1907) with a
     # Stormont candidate of 1950. A group lying wholly before 1918 is not joined to one that
     # begins 25 years or more after it ends. No group without pre-1918 rows is affected.
+    # The same holds for the pre-1973 Northern Ireland councils (Belfast, Strabane): their rows
+    # are keyed on name and party too, so a Falls ward candidate of January 1920 was joined to a
+    # namesake on a 1973 district council in another party. A group wholly of those councils' rows
+    # is not joined to one 25 years or more before or after it.
     def across_a_generation(vs):
-        spans = sorted((min(ys), max(ys)) for ys in ([r['year'] for r in v if r['year']] for v in vs) if ys)
-        return any(a[1] < 1918 and b[0] - a[1] >= MIN_SILENCE for a, b in zip(spans, spans[1:]))
+        spans = sorted((min(ys), max(ys), all(r['body'] in PRE1973_COUNCIL_BODIES for r in v))
+                       for v, ys in ((v, [r['year'] for r in v if r['year']]) for v in vs) if ys)
+        return any((a[1] < 1918 or a[2] or b[2]) and b[0] - a[1] >= MIN_SILENCE for a, b in zip(spans, spans[1:]))
 
     by_name = collections.defaultdict(list)
     for k, v in groups.items():

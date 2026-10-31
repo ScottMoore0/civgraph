@@ -14,9 +14,12 @@
   "renderer": "maplibre",
   "sourceType": "pmtiles",
   "geometryType": "polygon",
-  "tiles": "/render/tiles/generated/admin-areas-1937-04-01/{z}/{x}/{y}.pbf",
-  "metadataUrl": "/render/tiles/generated/admin-areas-1937-04-01/metadata.json",
-  "sourceLayer": "admin_areas_1937_04_01",
+  "tiles": "/render/tiles/generated/admin-areas-1946-06-11/{z}/{x}/{y}.pbf",
+  "tileUrl": "/render/pmtiles/generated/admin-areas-1946-06-11-vector-test.pmtiles",
+  "tilesFallback": "/render/tiles/generated/admin-areas-1946-06-11/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/render/tiles/generated/admin-areas-1946-06-11/metadata.json",
+  "sourceLayer": "admin_areas_1946_06_11",
+  "promoteId": "AdministrativeArea",
   "minzoom": 0,
   "maxzoom": 12,
   "bounds": [
@@ -35,11 +38,32 @@
     "fillOpacity": 0.18,
     "weight": 2
   },
-  "references": [],
+  "references": [
+    {
+      "label": "Belfast Gazette issue 1308 (Alteration of boundary of Urban County District of Portadown (confirmation of Armagh County Council order of 30 Apr 1946))",
+      "url": "https://www.thegazette.co.uk/Belfast/issue/1308/page/174",
+      "note": "19 Jul 1946, page 174. Made 11 Jul 1946. In force: 1 Apr 1947. Confirms the county council order extending Portadown UD (boundary from the River Bann via Seagoe Upper/Killycomain townlands)."
+    },
+    {
+      "label": "Belfast Gazette issue 1335 (Enniskillen Urban District (Alteration) Order, 1946 (confirmation))",
+      "url": "https://www.thegazette.co.uk/Belfast/issue/1335/page/17",
+      "note": "24 Jan 1947, page 17. Made 16 Jan 1947. In force: 1 Apr 1947. Confirms with modifications Fermanagh County Council's order of 19 Jul 1946 altering Enniskillen UD."
+    },
+    {
+      "label": "Belfast Gazette issue 1336 (Enniskillen Urban District (Alteration) Order, 1946 (confirmation; reprint))",
+      "url": "https://www.thegazette.co.uk/Belfast/issue/1336/page/28",
+      "note": "31 Jan 1947, page 28. Made 16 Jan 1947. In force: 1 Apr 1947. Same confirmation as seq 45, printed again a week later."
+    },
+    {
+      "label": "Belfast Gazette issue 1339 (Cookstown Urban District (Alteration) Order, 1947 (confirmation with modifications))",
+      "url": "https://www.thegazette.co.uk/Belfast/issue/1339/page/49",
+      "note": "21 Feb 1947, page 49. Made 13 Feb 1947. In force: 1 Apr 1947. Confirms with modifications Tyrone County Council's order on the UDC's 1939 proposal altering Cookstown UD."
+    }
+  ],
   "sourceDownloads": [
     {
       "label": "Source file used for /test conversion",
-      "file": "render/source-cache/vector-intake/admin-areas-1937-04-01.fgb"
+      "file": "render/source-cache/vector-intake/admin-areas-1946-06-11.fgb"
     }
   ],
   "sourceCredits": [
@@ -49,14 +73,14 @@
     "admin",
     "areas",
     "incomplete",
-    "01 April 1937",
+    "11 Jun 1946",
     "Historic Boundaries",
     "Built Environment",
     "maplibre",
     "vector tiles",
     "1 Apr 1947",
     "admin-areas-1947-04-01",
-    "admin-areas-1937-04-01",
+    "admin-areas-1946-06-11",
     "clone alias"
   ],
   "labelProperty": "AdministrativeArea",
@@ -75,8 +99,9 @@
     "maxWidth": 14,
     "lineHeight": 1.25
   },
-  "sourceFile": "render/source-cache/vector-intake/admin-areas-1937-04-01.fgb",
-  "sourceDatasetLayer": "admin-areas-1937-04-01",
+  "sourceFile": "render/source-cache/vector-intake/admin-areas-1946-06-11.fgb",
+  "sourceDatasetLayer": "NI_Admin_Areas_1946-06-11_1948-04-01",
+  "idProperty": "AdministrativeArea",
   "popupProperties": [
     "AdministrativeArea"
   ],
@@ -86,6 +111,8 @@
   ],
   "categoricalValues": {
     "AdministrativeArea": [
+      "Armagh Rural District",
+      "Armagh Urban District",
       "Ballycastle Rural District",
       "Ballycastle Urban District",
       "Ballyclare Urban District",
@@ -95,6 +122,8 @@
       "Ballymoney Urban District",
       "Banbridge Rural District",
       "Banbridge Urban District",
+      "Bangor Municipal Borough",
+      "Belfast Rural District",
       "Castlederg Rural District",
       "Clogher Rural District",
       "Donaghadee Urban District",
@@ -103,6 +132,7 @@
       "Dungannon Urban District",
       "Hillsborough Rural District",
       "Irvinestown Rural District",
+      "Keady Urban District",
       "Kilkeel Rural District",
       "Kilkeel Urban District",
       "Limavady Rural District",
@@ -110,47 +140,31 @@
       "Lisnaskea Rural District",
       "Londonderry County Borough",
       "Londonderry Rural District",
+      "Lurgan Urban District",
       "Magherafelt Rural District",
-      "Moira Rural District",
-      "Newcastle Urban District",
-      "Newry No. 1 Rural District",
-      "Newry No. 2 Rural District",
-      "Newry Urban District",
-      "Omagh Rural District",
-      "Omagh Urban District"
+      "Moira Rural District"
     ]
   },
   "status": "converted-alias",
-  "notes": "1 Apr 1947 reuses the converted geometry from 1 Apr 1937.",
+  "notes": "1 Apr 1947 reuses the converted geometry from 11 Jun 1946.",
   "generatedFrom": {
     "pipeline": "promote-test-clone-alias",
     "sourceMapId": "admin-areas-1947-04-01",
-    "cloneOf": "admin-areas-1937-04-01",
-    "aliasOf": "admin-areas-1937-04-01",
-    "targetLayerId": "admin-areas-1937-04-01-vector-test"
+    "cloneOf": "admin-areas-1946-06-11",
+    "aliasOf": "admin-areas-1946-06-11",
+    "targetLayerId": "admin-areas-1946-06-11-vector-test"
   },
-  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/admin-areas-1937-04-01-vector-test.pmtiles",
-  "tilesFallback": "/render/tiles/generated/admin-areas-1937-04-01/{z}/{x}/{y}.pbf",
   "tilePackage": {
     "preferred": true,
-    "localPath": "render/pmtiles/generated/admin-areas-1937-04-01-vector-test.pmtiles",
-    "url": "/render/pmtiles/generated/admin-areas-1937-04-01-vector-test.pmtiles",
-    "bytes": 828098,
+    "localPath": "render/pmtiles/generated/admin-areas-1946-06-11-vector-test.pmtiles",
+    "url": "/render/pmtiles/generated/admin-areas-1946-06-11-vector-test.pmtiles",
+    "bytes": 911742,
     "maxGithubBytes": 99614720,
-    "generatedAt": "2026-08-23T00:43:28.687Z",
-    "fallback": "/render/tiles/generated/admin-areas-1937-04-01/{z}/{x}/{y}.pbf",
-    "sourceSha256": "36bffd86887d457d0d781adb303b8c375ec504061c5c46af8a6acc0ae00cbfc4",
-    "serving": "cdn",
-    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/admin-areas-1937-04-01-vector-test.pmtiles",
-    "r2Key": "data/maps/test/pmtiles/generated/admin-areas-1937-04-01-vector-test.pmtiles",
-    "localUrl": "/render/pmtiles/generated/admin-areas-1937-04-01-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-08-23T00:45:11.808Z"
+    "fallback": "/render/tiles/generated/admin-areas-1946-06-11/{z}/{x}/{y}.pbf"
   },
-  "promoteId": "AdministrativeArea",
-  "idProperty": "AdministrativeArea",
   "categoryId": "historic",
   "conversionStatus": "convertedAlias",
-  "aliasOf": "admin-areas-1937-04-01",
-  "cloneOf": "admin-areas-1937-04-01",
-  "aliasTargetLayerId": "admin-areas-1937-04-01-vector-test"
+  "aliasOf": "admin-areas-1946-06-11",
+  "cloneOf": "admin-areas-1946-06-11",
+  "aliasTargetLayerId": "admin-areas-1946-06-11-vector-test"
 }

@@ -78,7 +78,9 @@ if (mode === 'app') {
   plan.push(['node', ['scripts/catalogue/check-catalogue.mjs']]);
   plan.push(['npm', ['run', '-s', 'build']]);
   plan.push(['npm', ['run', '-s', 'build:graph']]);
-  plan.push(['node', ['scripts/build-site-stats.mjs', '--apply', 'index.html', 'pages/about.html']]);
+  // --apply takes one page; passing both stamped only the homepage and left About stale.
+  plan.push(['node', ['scripts/build-site-stats.mjs', '--apply', 'index.html']]);
+  plan.push(['node', ['scripts/build-site-stats.mjs', '--apply', 'pages/about.html']]);
   // The live elections database is only updated on publish, so its parity check is left to
   // the deploy, which verifies it there.
   plan.push(['node', ['scripts/run-checks.mjs', '--skip', 'check:elections-d1']]);

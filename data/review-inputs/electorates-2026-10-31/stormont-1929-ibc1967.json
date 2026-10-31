@@ -1,0 +1,42 @@
+{
+  "layerId": "stormont-1929",
+  "sourceFile": "https://data.civgraph.net/data/maps/parliamentary/StormontConstituencies1929.fgb",
+  "joinProperty": "NAME",
+  "properties": {
+    "ibc1967_population": "Population of the existing (1929) seat, as given by the Interim Boundary Commission for Northern Ireland, 1967",
+    "ibc1967_electorate": "Electorate of the existing (1929) seat, as given by the Interim Boundary Commission for Northern Ireland, 1967"
+  },
+  "citation": "Interim Boundary Commission for Northern Ireland (constituted by warrant of 31 January 1967 of the Minister of Home Affairs), Report (1967): Figures for existing seats, on the map showing existing constituencies.",
+  "coverage": "Only the six seats the Commission reviewed. The other 42 seats get no value (leave the properties unset).",
+  "status": "Prepared, not applied. Needs the property join into the FGB and a re-tile of stormont-1929 (stormont-1929-vector-test). Same property names as stormont-1969.",
+  "features": {
+    "ANTRIM": {
+      "ibc1967_population": 61431,
+      "ibc1967_electorate": 33347
+    },
+    "BANNSIDE": {
+      "ibc1967_population": 25143,
+      "ibc1967_electorate": 16062
+    },
+    "CARRICK": {
+      "ibc1967_population": 70701,
+      "ibc1967_electorate": 41669
+    },
+    "SOUTH ANTRIM": {
+      "ibc1967_population": 59133,
+      "ibc1967_electorate": 37095
+    },
+    "MID DOWN": {
+      "ibc1967_population": 74623,
+      "ibc1967_electorate": 45754
+    },
+    "NORTH DOWN": {
+      "ibc1967_population": 46450,
+      "ibc1967_electorate": 30286
+    }
+  },
+  "notes": {
+    "BANNSIDE": "The report and the Electoral Law Act (Northern Ireland) 1968 spell the seat 'Bann Side'; the layer's NAME is BANNSIDE.",
+    "NORTH DOWN": "Population printed as 64,450 and amended by hand to 46,450 on the copy read; 46,450 is taken. Check against the 1966 Census: the seat as defined by the 1929 Act (Bangor Borough, Holywood Urban District, the Castlereagh Rural District DEDs of Ballycultra, Ballyhackamore, Craigavad and Holywood Rural, and the Newtownards (later North Down) Rural District DEDs of Crawfordsburn and Groomsport) sums to about 46,500-47,500 from the 1966 populations in the 1971 Census County Down report, Table 4 (1966 figures on 1971 areas: Bangor MB 27,715; Holywood UD 7,804; the four Castlereagh DEDs 7,102; Crawfordsburn and Groomsport 4,009 in 1961, more by 1966). 64,450 is about 17,000 too many. Source: https://www.nisra.gov.uk/files/nisra/publications/1971-census-down-county-report.PDF"
+  }
+}
