@@ -5,6 +5,7 @@
  *   GET /_api/elections?body=northern-ireland-assembly   -> filtered index
  *   GET /_api/elections?key=<key>                        -> one election + constituencies
  *   GET /_api/elections?key=<key>&constituency=<seq>     -> one constituency, candidates + counts
+ *   GET /_api/elections?key=<key>&constituencyName=<name> -> the same, found by name (Browse contest pages)
  *
  * Why this exists: the same data currently ships as 281 static JSON documents totalling
  * 322 MB, and the client downloads a whole 1-3 MB bundle to render a single election.
@@ -101,11 +102,23 @@ export async function onRequestGet(context) {
   return resp;
 }
 
+/** Case, accents and punctuation folded, so "Cork North-Central" finds "Cork North Central". */
+function foldName(value) {
+  return String(value || '')
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+}
+
 async function handle(context) {
   const url = new URL(context.request.url);
   const key = (url.searchParams.get('key') || '').trim();
   const body = (url.searchParams.get('body') || '').trim();
-  const constituency = url.searchParams.get('constituency');
+  let constituency = url.searchParams.get('constituency');
+  const constituencyName = (url.searchParams.get('constituencyName') || '').trim();
 
   // Only successful responses are cacheable. Sending the long max-age on errors too
   // would have pinned a transient failure at the edge for up to a day -- a 503 from a
@@ -133,6 +146,21 @@ async function handle(context) {
         : db.prepare(`SELECT ${ELECTION_COLS} FROM elections ORDER BY date`);
       const { results } = await stmt.all();
       return json({ elections: results || [], count: (results || []).length });
+    }
+
+    // A constituency by name. Browse contest pages know the name ("Cork North Central") but
+    // not the row number the map app works from; without this they had to download the whole
+    // election, about 1 MB for a Dail general election, to look the number up.
+    if (constituencyName && (constituency === null || constituency === '')) {
+      const { results: names } = await db
+        .prepare('SELECT seq, name FROM constituencies WHERE election_key = ?1 ORDER BY seq')
+        .bind(key)
+        .all();
+      const wanted = foldName(constituencyName);
+      const match = (names || []).find((row) => row.name === constituencyName)
+        || (names || []).find((row) => foldName(row.name) === wanted);
+      if (!match) return json({ error: 'constituency not found' }, 404);
+      constituency = String(match.seq);
     }
 
     // One constituency, with its candidates and count rows.
