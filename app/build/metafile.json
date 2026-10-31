@@ -1,6 +1,6 @@
 {
   "inputs": {
-    "node_modules/maplibre-gl/dist/maplibre-gl.css": {
+    "../../../node_modules/maplibre-gl/dist/maplibre-gl.css": {
       "bytes": 70024,
       "imports": [
         {
@@ -201,7 +201,7 @@
       ]
     },
     "app/src/test2.css": {
-      "bytes": 77956,
+      "bytes": 86625,
       "imports": []
     },
     "<define:__VIEWER_ASSET_VERSIONS__>": {
@@ -209,7 +209,7 @@
       "imports": []
     },
     "src/map-relations.mjs": {
-      "bytes": 2620,
+      "bytes": 2676,
       "imports": [
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
@@ -220,7 +220,7 @@
       "format": "esm"
     },
     "src/data-service.js": {
-      "bytes": 25987,
+      "bytes": 26793,
       "imports": [
         {
           "path": "src/map-relations.mjs",
@@ -236,7 +236,7 @@
       "format": "esm"
     },
     "src/catalogue/flag.js": {
-      "bytes": 2649,
+      "bytes": 2670,
       "imports": [
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
@@ -269,7 +269,7 @@
       "format": "esm"
     },
     "src/storage-keys.mjs": {
-      "bytes": 1927,
+      "bytes": 1977,
       "imports": [
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
@@ -280,7 +280,7 @@
       "format": "esm"
     },
     "src/election-utils.js": {
-      "bytes": 2556,
+      "bytes": 2613,
       "imports": [
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
@@ -302,7 +302,7 @@
       "format": "esm"
     },
     "src/catalogue/split.js": {
-      "bytes": 4442,
+      "bytes": 6721,
       "imports": [
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
@@ -324,7 +324,18 @@
       "format": "esm"
     },
     "src/catalogue/search.js": {
-      "bytes": 12909,
+      "bytes": 17336,
+      "imports": [
+        {
+          "path": "<define:__VIEWER_ASSET_VERSIONS__>",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "src/catalogue/geocoder.js": {
+      "bytes": 8081,
       "imports": [
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
@@ -335,7 +346,7 @@
       "format": "esm"
     },
     "src/catalogue/styles.js": {
-      "bytes": 34949,
+      "bytes": 35789,
       "imports": [
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
@@ -373,7 +384,7 @@
       "format": "esm"
     },
     "src/catalogue/util.js": {
-      "bytes": 2577,
+      "bytes": 2629,
       "imports": [
         {
           "path": "src/date-format.mjs",
@@ -389,7 +400,7 @@
       "format": "esm"
     },
     "src/catalogue/menu.js": {
-      "bytes": 4529,
+      "bytes": 4634,
       "imports": [
         {
           "path": "src/catalogue/icons.js",
@@ -410,7 +421,7 @@
       "format": "esm"
     },
     "src/catalogue/edit.js": {
-      "bytes": 8479,
+      "bytes": 8626,
       "imports": [
         {
           "path": "src/catalogue/util.js",
@@ -447,7 +458,7 @@
       "format": "esm"
     },
     "src/catalogue/view-maps.js": {
-      "bytes": 35358,
+      "bytes": 38571,
       "imports": [
         {
           "path": "src/catalogue/icons.js",
@@ -483,7 +494,7 @@
       "format": "esm"
     },
     "src/catalogue/view-elections.js": {
-      "bytes": 10497,
+      "bytes": 10885,
       "imports": [
         {
           "path": "src/catalogue/icons.js",
@@ -519,7 +530,7 @@
       "format": "esm"
     },
     "src/catalogue/view-books.js": {
-      "bytes": 1770,
+      "bytes": 1791,
       "imports": [
         {
           "path": "src/catalogue/icons.js",
@@ -540,12 +551,17 @@
       "format": "esm"
     },
     "src/catalogue/index.js": {
-      "bytes": 79320,
+      "bytes": 83812,
       "imports": [
         {
           "path": "src/catalogue/search.js",
           "kind": "import-statement",
           "original": "./search.js"
+        },
+        {
+          "path": "src/catalogue/geocoder.js",
+          "kind": "import-statement",
+          "original": "./geocoder.js"
         },
         {
           "path": "src/catalogue/styles.js",
@@ -621,7 +637,7 @@
       "format": "esm"
     },
     "src/ui-controller.js": {
-      "bytes": 648053,
+      "bytes": 661251,
       "imports": [
         {
           "path": "src/map-relations.mjs",
@@ -697,7 +713,7 @@
       "format": "esm"
     },
     "src/public-map.mjs": {
-      "bytes": 2970,
+      "bytes": 3038,
       "imports": [
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
@@ -719,7 +735,7 @@
       "format": "esm"
     },
     "render/src/utils.js": {
-      "bytes": 2203,
+      "bytes": 2278,
       "imports": [
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
@@ -730,7 +746,7 @@
       "format": "esm"
     },
     "render/src/metadata-service.js": {
-      "bytes": 10095,
+      "bytes": 10373,
       "imports": [
         {
           "path": "render/src/config.js",
@@ -750,7 +766,7 @@
       ],
       "format": "esm"
     },
-    "node_modules/maplibre-gl/dist/maplibre-gl.js": {
+    "../../../node_modules/maplibre-gl/dist/maplibre-gl.js": {
       "bytes": 1056837,
       "imports": [
         {
@@ -761,7 +777,7 @@
       ],
       "format": "cjs"
     },
-    "node_modules/fflate/esm/browser.js": {
+    "../../../node_modules/fflate/esm/browser.js": {
       "bytes": 90922,
       "imports": [
         {
@@ -772,11 +788,11 @@
       ],
       "format": "esm"
     },
-    "node_modules/pmtiles/dist/esm/index.js": {
+    "../../../node_modules/pmtiles/dist/esm/index.js": {
       "bytes": 14882,
       "imports": [
         {
-          "path": "node_modules/fflate/esm/browser.js",
+          "path": "../../../node_modules/fflate/esm/browser.js",
           "kind": "import-statement",
           "original": "fflate"
         },
@@ -792,7 +808,7 @@
       "bytes": 7008,
       "imports": [
         {
-          "path": "node_modules/maplibre-gl/dist/maplibre-gl.js",
+          "path": "../../../node_modules/maplibre-gl/dist/maplibre-gl.js",
           "kind": "import-statement",
           "original": "maplibre-gl"
         },
@@ -808,7 +824,7 @@
       "bytes": 34805,
       "imports": [
         {
-          "path": "node_modules/maplibre-gl/dist/maplibre-gl.js",
+          "path": "../../../node_modules/maplibre-gl/dist/maplibre-gl.js",
           "kind": "import-statement",
           "original": "maplibre-gl"
         },
@@ -821,7 +837,7 @@
       "format": "esm"
     },
     "render/src/feature-property-repairs.js": {
-      "bytes": 2614,
+      "bytes": 2705,
       "imports": [
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
@@ -832,7 +848,7 @@
       "format": "esm"
     },
     "render/src/labels.js": {
-      "bytes": 4054,
+      "bytes": 4165,
       "imports": [
         {
           "path": "render/src/config.js",
@@ -858,15 +874,15 @@
       "format": "esm"
     },
     "render/src/map-controller.js": {
-      "bytes": 98001,
+      "bytes": 103448,
       "imports": [
         {
-          "path": "node_modules/maplibre-gl/dist/maplibre-gl.js",
+          "path": "../../../node_modules/maplibre-gl/dist/maplibre-gl.js",
           "kind": "import-statement",
           "original": "maplibre-gl"
         },
         {
-          "path": "node_modules/pmtiles/dist/esm/index.js",
+          "path": "../../../node_modules/pmtiles/dist/esm/index.js",
           "kind": "import-statement",
           "original": "pmtiles"
         },
@@ -920,10 +936,10 @@
       "format": "esm"
     },
     "app/src/maplibre-main-adapter.js": {
-      "bytes": 65133,
+      "bytes": 67330,
       "imports": [
         {
-          "path": "node_modules/maplibre-gl/dist/maplibre-gl.js",
+          "path": "../../../node_modules/maplibre-gl/dist/maplibre-gl.js",
           "kind": "import-statement",
           "original": "maplibre-gl"
         },
@@ -961,7 +977,7 @@
       "format": "esm"
     },
     "src/election-domain.mjs": {
-      "bytes": 57734,
+      "bytes": 59095,
       "imports": [
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
@@ -972,7 +988,7 @@
       "format": "esm"
     },
     "src/election-view-model.mjs": {
-      "bytes": 7804,
+      "bytes": 8020,
       "imports": [
         {
           "path": "src/election-domain.mjs",
@@ -988,7 +1004,7 @@
       "format": "esm"
     },
     "src/election-renderer.mjs": {
-      "bytes": 37947,
+      "bytes": 38448,
       "imports": [
         {
           "path": "src/election-domain.mjs",
@@ -1041,7 +1057,7 @@
       "format": "esm"
     },
     "app/src/election-manager.js": {
-      "bytes": 290661,
+      "bytes": 303129,
       "imports": [
         {
           "path": "render/src/feature-property-repairs.js",
@@ -1049,7 +1065,7 @@
           "original": "../../render/src/feature-property-repairs.js"
         },
         {
-          "path": "node_modules/maplibre-gl/dist/maplibre-gl.js",
+          "path": "../../../node_modules/maplibre-gl/dist/maplibre-gl.js",
           "kind": "import-statement",
           "original": "maplibre-gl"
         },
@@ -1092,7 +1108,7 @@
       "format": "esm"
     },
     "app/src/app.js": {
-      "bytes": 181780,
+      "bytes": 209160,
       "imports": [
         {
           "path": "src/data-service.js",
@@ -1163,10 +1179,10 @@
       "format": "esm"
     },
     "app/src/boot.js": {
-      "bytes": 1061,
+      "bytes": 1096,
       "imports": [
         {
-          "path": "node_modules/maplibre-gl/dist/maplibre-gl.css",
+          "path": "../../../node_modules/maplibre-gl/dist/maplibre-gl.css",
           "kind": "import-statement",
           "original": "maplibre-gl/dist/maplibre-gl.css"
         },
@@ -1193,11 +1209,11 @@
     "app/build/app.bundle.js": {
       "imports": [
         {
-          "path": "app/build/chunks/chunk-CJSNQPND.js",
+          "path": "app/build/chunks/chunk-6SGYKNMQ.js",
           "kind": "import-statement"
         },
         {
-          "path": "app/build/chunks/app-X6JDQGQD.js",
+          "path": "app/build/chunks/app-NZQGTI73.js",
           "kind": "dynamic-import"
         }
       ],
@@ -1208,7 +1224,7 @@
         "app/src/boot.js": {
           "bytesInOutput": 709
         },
-        "node_modules/maplibre-gl/dist/maplibre-gl.css": {
+        "../../../node_modules/maplibre-gl/dist/maplibre-gl.css": {
           "bytesInOutput": 0
         },
         "app/src/test2.css": {
@@ -1217,18 +1233,18 @@
       },
       "bytes": 757
     },
-    "app/build/chunks/catalogue-ZWVVUW7O.js": {
+    "app/build/chunks/catalogue-WCCCDHJK.js": {
       "imports": [
         {
-          "path": "app/build/chunks/chunk-W2AEJBOJ.js",
+          "path": "app/build/chunks/chunk-MFCSGOES.js",
           "kind": "import-statement"
         },
         {
-          "path": "app/build/chunks/chunk-A3OZFCSG.js",
+          "path": "app/build/chunks/chunk-GDCOBMPQ.js",
           "kind": "import-statement"
         },
         {
-          "path": "app/build/chunks/chunk-CJSNQPND.js",
+          "path": "app/build/chunks/chunk-6SGYKNMQ.js",
           "kind": "import-statement"
         }
       ],
@@ -1241,13 +1257,16 @@
       "entryPoint": "src/catalogue/index.js",
       "inputs": {
         "src/catalogue/index.js": {
-          "bytesInOutput": 47475
+          "bytesInOutput": 49399
         },
         "src/catalogue/search.js": {
-          "bytesInOutput": 5893
+          "bytesInOutput": 8502
+        },
+        "src/catalogue/geocoder.js": {
+          "bytesInOutput": 3801
         },
         "src/catalogue/styles.js": {
-          "bytesInOutput": 33881
+          "bytesInOutput": 34711
         },
         "src/catalogue/icons.js": {
           "bytesInOutput": 7755
@@ -1259,38 +1278,38 @@
           "bytesInOutput": 1128
         },
         "src/catalogue/menu.js": {
-          "bytesInOutput": 2643
+          "bytesInOutput": 2644
         },
         "src/catalogue/edit.js": {
-          "bytesInOutput": 5565
+          "bytesInOutput": 5570
         },
         "src/catalogue/slider.js": {
-          "bytesInOutput": 2683
+          "bytesInOutput": 2685
         },
         "src/catalogue/view-maps.js": {
-          "bytesInOutput": 24620
+          "bytesInOutput": 26671
         },
         "src/catalogue/view-elections.js": {
-          "bytesInOutput": 7493
+          "bytesInOutput": 7535
         },
         "src/catalogue/view-books.js": {
           "bytesInOutput": 1247
         }
       },
-      "bytes": 277110
+      "bytes": 288375
     },
-    "app/build/chunks/election-manager-BPLIZT4E.js": {
+    "app/build/chunks/election-manager-OXZ4VJRZ.js": {
       "imports": [
         {
-          "path": "app/build/chunks/chunk-TB65CEQS.js",
+          "path": "app/build/chunks/chunk-OWTCQSO2.js",
           "kind": "import-statement"
         },
         {
-          "path": "app/build/chunks/chunk-A3OZFCSG.js",
+          "path": "app/build/chunks/chunk-GDCOBMPQ.js",
           "kind": "import-statement"
         },
         {
-          "path": "app/build/chunks/chunk-CJSNQPND.js",
+          "path": "app/build/chunks/chunk-6SGYKNMQ.js",
           "kind": "import-statement"
         }
       ],
@@ -1300,7 +1319,7 @@
       "entryPoint": "app/src/election-manager.js",
       "inputs": {
         "app/src/election-manager.js": {
-          "bytesInOutput": 162546
+          "bytesInOutput": 165502
         },
         "src/election-renderer.mjs": {
           "bytesInOutput": 27294
@@ -1318,36 +1337,36 @@
           "bytesInOutput": 14409
         }
       },
-      "bytes": 223211
+      "bytes": 226175
     },
-    "app/build/chunks/app-X6JDQGQD.js": {
+    "app/build/chunks/app-NZQGTI73.js": {
       "imports": [
         {
-          "path": "app/build/chunks/chunk-W2AEJBOJ.js",
+          "path": "app/build/chunks/chunk-MFCSGOES.js",
           "kind": "import-statement"
         },
         {
-          "path": "app/build/chunks/chunk-TB65CEQS.js",
+          "path": "app/build/chunks/chunk-OWTCQSO2.js",
           "kind": "import-statement"
         },
         {
-          "path": "app/build/chunks/chunk-A3OZFCSG.js",
+          "path": "app/build/chunks/chunk-GDCOBMPQ.js",
           "kind": "import-statement"
         },
         {
-          "path": "app/build/chunks/chunk-CJSNQPND.js",
+          "path": "app/build/chunks/chunk-6SGYKNMQ.js",
           "kind": "import-statement"
         },
         {
-          "path": "app/build/chunks/catalogue-ZWVVUW7O.js",
+          "path": "app/build/chunks/catalogue-WCCCDHJK.js",
           "kind": "dynamic-import"
         },
         {
-          "path": "app/build/chunks/catalogue-ZWVVUW7O.js",
+          "path": "app/build/chunks/catalogue-WCCCDHJK.js",
           "kind": "dynamic-import"
         },
         {
-          "path": "app/build/chunks/election-manager-BPLIZT4E.js",
+          "path": "app/build/chunks/election-manager-OXZ4VJRZ.js",
           "kind": "dynamic-import"
         }
       ],
@@ -1355,13 +1374,13 @@
       "entryPoint": "app/src/app.js",
       "inputs": {
         "app/src/app.js": {
-          "bytesInOutput": 96064
+          "bytesInOutput": 109062
         },
         "src/feature-loader.js": {
           "bytesInOutput": 6264
         },
         "src/ui-controller.js": {
-          "bytesInOutput": 349791
+          "bytesInOutput": 349910
         },
         "src/storage-keys.mjs": {
           "bytesInOutput": 383
@@ -1373,7 +1392,7 @@
           "bytesInOutput": 206
         },
         "src/catalogue/split.js": {
-          "bytesInOutput": 1923
+          "bytesInOutput": 3012
         },
         "src/public-map.mjs": {
           "bytesInOutput": 526
@@ -1388,15 +1407,15 @@
           "bytesInOutput": 666
         },
         "app/src/maplibre-main-adapter.js": {
-          "bytesInOutput": 37269
+          "bytesInOutput": 37516
         },
         "render/src/map-controller.js": {
-          "bytesInOutput": 51764
+          "bytesInOutput": 52828
         },
-        "node_modules/pmtiles/dist/esm/index.js": {
+        "../../../node_modules/pmtiles/dist/esm/index.js": {
           "bytesInOutput": 14537
         },
-        "node_modules/fflate/esm/browser.js": {
+        "../../../node_modules/fflate/esm/browser.js": {
           "bytesInOutput": 4702
         },
         "render/src/point-cloud-layer.js": {
@@ -1412,12 +1431,12 @@
           "bytesInOutput": 362
         }
       },
-      "bytes": 597463
+      "bytes": 612980
     },
-    "app/build/chunks/chunk-W2AEJBOJ.js": {
+    "app/build/chunks/chunk-MFCSGOES.js": {
       "imports": [
         {
-          "path": "app/build/chunks/chunk-CJSNQPND.js",
+          "path": "app/build/chunks/chunk-6SGYKNMQ.js",
           "kind": "import-statement"
         }
       ],
@@ -1444,10 +1463,10 @@
       },
       "bytes": 11599
     },
-    "app/build/chunks/chunk-TB65CEQS.js": {
+    "app/build/chunks/chunk-OWTCQSO2.js": {
       "imports": [
         {
-          "path": "app/build/chunks/chunk-CJSNQPND.js",
+          "path": "app/build/chunks/chunk-6SGYKNMQ.js",
           "kind": "import-statement"
         }
       ],
@@ -1457,25 +1476,26 @@
         "c",
         "d",
         "e",
-        "f"
+        "f",
+        "g"
       ],
       "inputs": {
-        "node_modules/maplibre-gl/dist/maplibre-gl.js": {
+        "../../../node_modules/maplibre-gl/dist/maplibre-gl.js": {
           "bytesInOutput": 1044249
         },
         "src/party-names.mjs": {
-          "bytesInOutput": 7237
+          "bytesInOutput": 7300
         },
         "render/src/feature-property-repairs.js": {
           "bytesInOutput": 1438
         }
       },
-      "bytes": 1053250
+      "bytes": 1053321
     },
-    "app/build/chunks/chunk-A3OZFCSG.js": {
+    "app/build/chunks/chunk-GDCOBMPQ.js": {
       "imports": [
         {
-          "path": "app/build/chunks/chunk-CJSNQPND.js",
+          "path": "app/build/chunks/chunk-6SGYKNMQ.js",
           "kind": "import-statement"
         }
       ],
@@ -1489,7 +1509,7 @@
       },
       "bytes": 1068
     },
-    "app/build/chunks/chunk-CJSNQPND.js": {
+    "app/build/chunks/chunk-6SGYKNMQ.js": {
       "imports": [],
       "exports": [
         "a",
@@ -1704,14 +1724,14 @@
         }
       ],
       "inputs": {
-        "node_modules/maplibre-gl/dist/maplibre-gl.css": {
+        "../../../node_modules/maplibre-gl/dist/maplibre-gl.css": {
           "bytesInOutput": 69917
         },
         "app/src/test2.css": {
-          "bytesInOutput": 59707
+          "bytesInOutput": 63225
         }
       },
-      "bytes": 129625
+      "bytes": 133143
     }
   }
 }

@@ -317,6 +317,7 @@ class Test2App {
         this.updateURLState();
       });
     await window.__civgraphTest2.restorePromise;
+    this.showFirstVisitHint();
   }
 
   registerServiceWorker() {
@@ -478,13 +479,110 @@ class Test2App {
    * Only on a mobile-like layout, and only when the catalogue is the full-screen pane --
    * on a split or desktop layout both are visible and there is nothing to dismiss.
    */
-  dismissMobileCatalogueAfterLoad() {
-    const mobileLike = Boolean(uiController.isMobile || window.matchMedia?.('(max-width: 768px), (pointer: coarse)')?.matches);
-    if (!mobileLike) return;
+  dismissMobileCatalogueAfterLoad(label = '') {
+    if (!this.isPhoneLayout()) return;
     if (uiController.currentStateId !== 'info-full') return;
     uiController.setSplitState('map-full');
     this.updateMobilePaneToggleState();
     setTimeout(() => this.mapController?.invalidateSize?.(), 250);
+    // The catalogue has gone, so say what changed and leave a way straight back to it (UX
+    // review 2026-10-30, #12): without it the switch read as the list vanishing.
+    if (label) this.showMobilePeek(`${label} is on the map`, { action: 'Back to the catalogue' });
+  }
+
+  isPhoneLayout() {
+    return Boolean(uiController.isMobile || window.matchMedia?.('(max-width: 768px), (pointer: coarse)')?.matches);
+  }
+
+  /**
+   * A small bar across the top of the map on phones: what just happened, and a button to the
+   * catalogue. It goes by itself after a while, or when the catalogue opens; the header's
+   * catalogue button stays the one permanent way across, so the map has no second toggle.
+   */
+  showMobilePeek(message, { action = 'Open the catalogue', timeoutMs = 9000, onDismiss = null } = {}) {
+    const host = document.querySelector('.pane--map') || document.getElementById('map')?.parentElement;
+    if (!host) return null;
+    let peek = document.getElementById('mobileCataloguePeek');
+    if (!peek) {
+      peek = document.createElement('div');
+      peek.id = 'mobileCataloguePeek';
+      peek.className = 'mobile-catalogue-peek';
+      peek.setAttribute('role', 'status');
+      host.appendChild(peek);
+    }
+    clearTimeout(this._mobilePeekTimer);
+    peek.innerHTML = '';
+    const text = document.createElement('span');
+    text.className = 'mobile-catalogue-peek__text';
+    text.textContent = message;
+    const open = document.createElement('button');
+    open.type = 'button';
+    open.className = 'mobile-catalogue-peek__open';
+    open.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg>';
+    open.append(action);
+    const close = document.createElement('button');
+    close.type = 'button';
+    close.className = 'mobile-catalogue-peek__close';
+    close.setAttribute('aria-label', 'Dismiss');
+    close.textContent = '×';
+    const hide = () => {
+      clearTimeout(this._mobilePeekTimer);
+      peek.hidden = true;
+      onDismiss?.();
+    };
+    open.addEventListener('click', () => {
+      hide();
+      uiController.setSplitState('info-full');
+      this.updateMobilePaneToggleState();
+    });
+    close.addEventListener('click', hide);
+    peek.append(text, open, close);
+    peek.hidden = false;
+    this.hideMobilePeek = hide;
+    if (timeoutMs) this._mobilePeekTimer = setTimeout(hide, timeoutMs);
+    return peek;
+  }
+
+  /**
+   * First visit on a phone: the page opens on a bare map, and nothing said where the maps
+   * are. One hint, once; the flag lives in localStorage (readStored/writeStored swallow a
+   * blocked or full store, so a private window just sees the hint again).
+   */
+  showFirstVisitHint() {
+    if (!this.isPhoneLayout() || uiController.currentStateId !== 'map-full') return;
+    if (readStored('mapHintSeen')) return;
+    if (this.getLoadedLayerIds().length || this.elections?.activeEntry) return;
+    this.showMobilePeek('Choose a map or an election from the catalogue to draw it here.', {
+      action: 'Open the catalogue',
+      timeoutMs: 0,
+      onDismiss: () => writeStored('mapHintSeen', '1'),
+    });
+  }
+
+  /**
+   * Wait for a newly added layer to draw, or to fail outright. waitUntilSettled() alone
+   * waited out its full twenty seconds when the source itself could not load (a PMTiles
+   * archive offline), with a spinner on the button and nothing to say why.
+   */
+  waitForMapOutcome(mapId) {
+    const settle = this.mapController.waitUntilSettled();
+    let timer = 0;
+    const failed = new Promise((resolve) => {
+      timer = setInterval(() => {
+        if (this.mapController.getLayerLoadFailure?.(mapId)?.kind === 'source') resolve('failed');
+      }, 250);
+    });
+    return Promise.race([settle, failed]).finally(() => clearInterval(timer));
+  }
+
+  /** Tell the reader a layer did not load, with a Retry that tries the same layer again. */
+  reportMapLoadFailure(mapId, error) {
+    this.showMapError(error, {
+      retry: async () => {
+        await uiController.onMapLoad(mapId);
+        this.syncCatalogueMapState();
+      },
+    });
   }
 
   /**
@@ -543,6 +641,8 @@ class Test2App {
     const toggle = document.getElementById('mobilePaneToggle');
     if (!toggle) return;
     const showingCatalogue = uiController.currentStateId === 'info-full';
+    // The bar over the map is about the map; it has nothing to say once the catalogue is up.
+    if (showingCatalogue && document.getElementById('mobileCataloguePeek')?.hidden === false) this.hideMobilePeek?.();
     const label = showingCatalogue ? 'Show map' : 'Show catalogue';
     toggle.setAttribute('aria-label', label);
     toggle.setAttribute('title', label);
@@ -619,7 +719,20 @@ class Test2App {
         }
       }
       if (invalidate) invalidateMapSize();
+      this.syncElectionPaneResizerAria();
       return nextHeight;
+    };
+    // The resizer is a separator with a value, so it must always say its value and range, not
+    // only once a drag or key press has set them (UX review 2026-10-30, #13).
+    this.syncElectionPaneResizerAria = () => {
+      const handle = document.querySelector('[data-election-pane-resize]');
+      if (!handle) return;
+      const pane = document.getElementById('electionResultsPane');
+      const now = Math.round(this._electionPaneHeight || pane?.getBoundingClientRect().height || defaultPaneHeight());
+      handle.setAttribute('aria-valuemin', String(minPaneHeight));
+      handle.setAttribute('aria-valuemax', String(Math.round(maxPaneHeight())));
+      handle.setAttribute('aria-valuenow', String(now));
+      handle.setAttribute('aria-valuetext', `${now} pixels tall`);
     };
     try {
       const savedHeight = Number.parseFloat(localStorage.getItem(storageKey) || '');
@@ -756,8 +869,31 @@ class Test2App {
 
     const nativeReplaceState = history.replaceState.bind(history);
     const nativePushState = history.pushState.bind(history);
-    history.replaceState = (state, title, url) => nativeReplaceState(state, title, preserveCurrentPath(url));
-    history.pushState = (state, title, url) => nativePushState(state, title, preserveCurrentPath(url));
+    // Every entry this page adds is tagged with a number and remembered with a label, so the
+    // History list can show the reader's own steps and go straight to one (history.go), and a
+    // replaceState (pan, zoom, the slider) keeps the tag of the entry it rewrites rather than
+    // wiping it with null.
+    this.navEntries = [{ id: 0, label: 'Opened the map' }];
+    this.navIndex = 0;
+    let nextNavId = 1;
+    const tagged = (state, id) => ({ ...(state && typeof state === 'object' ? state : {}), civgraphNav: id });
+    nativeReplaceState(tagged(history.state, 0), '');
+    history.replaceState = (state, title, url) => nativeReplaceState(tagged(state, this.navEntries[this.navIndex]?.id ?? 0), title, preserveCurrentPath(url));
+    history.pushState = (state, title, url) => {
+      const id = nextNavId++;
+      this.navEntries = this.navEntries.slice(0, this.navIndex + 1);
+      this.navEntries.push({ id, label: this._pendingNavLabel || this.describeNavigation(url) });
+      this.navIndex = this.navEntries.length - 1;
+      this._pendingNavLabel = '';
+      return nativePushState(tagged(state, id), title, preserveCurrentPath(url));
+    };
+    // Capture, and registered before the catalogue's own capture listener: that one rewrites
+    // the address straight away, and must find the entry it is on already current here.
+    window.addEventListener('popstate', (event) => {
+      const id = event.state?.civgraphNav;
+      const index = this.navEntries.findIndex((entry) => entry.id === id);
+      if (index >= 0) this.navIndex = index;
+    }, true);
 
     document.addEventListener('click', (event) => {
       const anchor = event.target.closest?.('a[href^="#"]');
@@ -861,23 +997,36 @@ class Test2App {
   }
 
   wireUiCallbacks() {
+    // The History popup lists the reader's own steps (see installRouteGuard) and goes to one.
+    uiController.getNavigationHistory = () => (this.navEntries ? { entries: this.navEntries, index: this.navIndex } : null);
+    uiController.goToNavigationEntry = (index) => history.go(index - this.navIndex);
     uiController.onBuildElectionCatalogueCards = async () => {
       if (this.elections?.catalogue) return this.elections.buildCatalogueCards();
       this.scheduleElectionCatalogueWarm();
       return [];
     };
     uiController.onLoadElection = async (body, date) => {
+      this.hideMapError();
+      const navMark = this.navIndex;
       try {
         const elections = await this.ensureElections();
         await elections.loadElection(body, date);
         this.updateMapList();
         this.focusActiveElectionCatalogueEntry(this.elections?.activeEntry, { scroll: false });
+        const title = this.elections?.activeBundle?.displayTitle || this.elections?.activeEntry?.displayTitle || `${body} ${date}`;
+        // On a phone the catalogue covered the map, so opening an election changed nothing
+        // the reader could see (UX review 2026-10-30, #12). Maps already did this; elections now do.
+        this.dismissMobileCatalogueAfterLoad(title);
+        this.announce(`${title} loaded`);
       } catch (error) {
-        this.showMapError(error);
+        // The bundle or its map failed. Say so, with a Retry, rather than leave the loading
+        // panel turning (UX review 2026-10-30, #15).
+        this.undoNavigationSince(navMark);
+        this.showMapError(error, { retry: () => uiController.onLoadElection(body, date) });
       }
     };
     uiController.onUnloadElection = () => {
-      this.elections?.unloadElection();
+      this.elections?.unloadElection({ label: 'Closed the election' });
       this.updateMapList();
     };
     uiController.onCheckElectionLoaded = (body, date) => this.elections?.isElectionLoaded(body, date) || false;
@@ -895,11 +1044,21 @@ class Test2App {
 
     uiController.onMapLoad = async (mapId) => {
       await this.stopTimelineAnimation({ restoreOriginal: false });
-      await this.loadMap(mapId);
+      this.hideMapError();
+      const navMark = this.navIndex;
+      this.beginNavigation(`Added ${this.mapLabel(mapId)}`);
+      try {
+        await this.loadMap(mapId);
+      } catch (error) {
+        this._pushNextURL = null;
+        this.undoNavigationSince(navMark);
+        this.reportMapLoadFailure(mapId, error);
+        throw error;
+      }
       this.syncCatalogueMapState();
       this.updateActiveLayers();
-      this.dismissMobileCatalogueAfterLoad();
-      this.updateURLState();
+      this.dismissMobileCatalogueAfterLoad(this.mapLabel(mapId));
+      this.endNavigation();
       // Held until the tiles are actually drawn, so the catalogue's loading spinner spans
       // the wait the user experiences rather than just the style mutation, which returns
       // in tens of milliseconds. Deliberately last: the state updates above must not be
@@ -910,28 +1069,39 @@ class Test2App {
       // layer is added, whether or not a single tile ever arrives. So a stalled load was
       // announced as "loaded" over an empty map. recordSettleOutcome() gives the
       // catalogue the third state the announcement needs.
-      this.recordSettleOutcome(mapId, await this.mapController.waitUntilSettled());
+      this.recordSettleOutcome(mapId, await this.waitForMapOutcome(mapId));
+      // Settling is not success: MapLibre counts an errored tile as loaded, so offline, or with
+      // the tile host down, the map settled at once over nothing and the button said "On map"
+      // (UX review 2026-10-30, #15). A layer none of whose data arrived is taken off again, so
+      // the button goes back to Add, and the reader is told, with a Retry.
+      const failure = this.mapController.getLayerLoadFailure?.(mapId);
+      if (failure && this.isMapLoaded(mapId)) {
+        this.mapController.unloadLayer(mapId);
+        this.settleOutcomes?.delete(mapId);
+        this.syncCatalogueMapState();
+        this.updateActiveLayers();
+        this.updateURLState();
+        this.undoNavigationSince(navMark);
+        const error = new Error(`${this.mapLabel(mapId)} could not be loaded: ${navigator.onLine === false ? 'you appear to be offline' : 'its map data did not arrive'}.`);
+        error.code = 'layer-data-failed';
+        this.reportMapLoadFailure(mapId, error);
+        throw error;
+      }
+      this.announce(`${this.mapLabel(mapId)} loaded`);
     };
 
     uiController.onMapUnload = async (mapId) => {
       await this.stopTimelineAnimation({ restoreOriginal: false });
+      this.beginNavigation(`Removed ${this.mapLabel(mapId)}`);
       if (this.unloadActiveElectionForLayer(mapId)) {
         this.updateMapList();
+        this.endNavigation();
         return;
       }
-      const mapConfig = dataService.getMapById(mapId);
-      if (this.mapController.getLayerState(mapId)?.isGroup) {
-        this.mapController.unloadLayer(mapId);
-      } else if (mapConfig?.isGroup && compositeChildIds(mapConfig).length) {
-        compositeChildIds(mapConfig).forEach((memberId) => this.mapController.unloadLayer(memberId));
-      } else if (mapConfig?.isGroup && Array.isArray(mapConfig.variants)) {
-        mapConfig.variants.forEach((variant) => this.mapController.unloadLayer(variant.id));
-      } else {
-        this.mapController.unloadLayer(mapId);
-      }
+      this.unloadMapNow(mapId);
       this.syncCatalogueMapState();
       this.updateActiveLayers();
-      this.updateURLState();
+      this.endNavigation();
       // Same reason as onMapLoad: removing a layer forces a redraw, and the spinner should
       // last until the map has actually repainted without it.
       await this.mapController.waitUntilSettled();
@@ -1046,9 +1216,17 @@ class Test2App {
   }
 
   setupURLStateListener() {
+    // Back and Forward between the entries pushState makes fire hashchange (their addresses
+    // differ only in the hash), as does editing the hash by hand; both mean "show this".
     window.addEventListener('hashchange', () => {
-      if (this._suspendURLState || this._restoringURLState) return;
-      this.restoreURLState({ updateAfterRestore: false }).catch((error) => this.showMapError(error));
+      if (this._suspendURLState || this._ignoreHashChanges) return;
+      // Back then Forward quickly: the second arrives while the first is still restoring. Do it
+      // once that one is done, rather than drop it and leave the page on the wrong entry.
+      if (this._restoringURLState) {
+        this._hashRestorePending = true;
+        return;
+      }
+      this.restoreURLState({ updateAfterRestore: false, sync: true }).catch((error) => this.showMapError(error));
     });
   }
 
@@ -1097,6 +1275,41 @@ class Test2App {
       }
     }
     await this.mapController.loadLayer(mapConfig || mapId, { fit: options.fit !== false });
+  }
+
+  /** Take a map off, with its members if it is a group or composite. */
+  unloadMapNow(mapId) {
+    const mapConfig = dataService.getMapById(mapId);
+    if (this.mapController.getLayerState(mapId)?.isGroup) {
+      this.mapController.unloadLayer(mapId);
+    } else if (mapConfig?.isGroup && compositeChildIds(mapConfig).length) {
+      compositeChildIds(mapConfig).forEach((memberId) => this.mapController.unloadLayer(memberId));
+    } else if (mapConfig?.isGroup && Array.isArray(mapConfig.variants)) {
+      mapConfig.variants.forEach((variant) => this.mapController.unloadLayer(variant.id));
+    } else {
+      this.mapController.unloadLayer(mapId);
+    }
+  }
+
+  /**
+   * Back and Forward: make the map match the entry's address. restoreURLState only ADDS what
+   * an address names, which is right for a shared link on a fresh page but not for a step
+   * back, where what the earlier entry did not have must come off: the layer just added, the
+   * election just opened.
+   */
+  removeStateNotIn(params) {
+    const wanted = new Set([...(params.get('layers') || '').split(','), params.get('featureMap') || '']
+      .map((id) => resolveLegacyLayerId(id.trim())).filter(Boolean));
+    const active = this.elections?.activeEntry;
+    if (active) {
+      const sameElection = (params.get('electionBody') === active.body && params.get('electionDate') === active.date)
+        || wanted.has(this.elections.getCanonicalLayerId?.(active));
+      if (!sameElection) this.elections.unloadElection();
+    }
+    const backing = new Set(this.elections?.activeEntry ? this.elections.getActiveElectionBackingLayerIds?.() || [] : []);
+    for (const id of this.getLoadedLayerIds()) {
+      if (!wanted.has(id) && !backing.has(id) && this.isMapLoaded(id)) this.unloadMapNow(id);
+    }
   }
 
   getCivilParishesCompositeChildIds(mapId, mapConfig) {
@@ -1348,6 +1561,12 @@ class Test2App {
       });
     };
     uiController.setupSearch();
+    // Enter searches addresses once (Nominatim) while suggestions-as-you-type are paused; see
+    // src/catalogue/geocoder.js. With suggestions running it does nothing extra.
+    document.getElementById('searchInput')?.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' || event.isComposing) return;
+      uiController._catalogueNext?.searchAddressesNow?.(event.target.value);
+    });
     document.addEventListener('click', (event) => {
       if (!event.target.closest('.overflow-menu')) {
         document.querySelectorAll('.overflow-menu--open').forEach((menu) => menu.classList.remove('overflow-menu--open'));
@@ -1603,9 +1822,9 @@ class Test2App {
     const featureInfoClose = document.getElementById('featureInfoClose');
 
     mapControlsToggle?.addEventListener('click', () => {
-      this.setMapControlsOpen(mapControlsToggle.getAttribute('aria-expanded') !== 'true');
+      this.setMapControlsOpen(mapControlsToggle.getAttribute('aria-expanded') !== 'true', { focus: true });
     });
-    mapControlsClose?.addEventListener('click', () => this.setMapControlsOpen(false));
+    mapControlsClose?.addEventListener('click', () => this.setMapControlsOpen(false, { focus: true }));
 
     const overlayToggle = document.getElementById('overlayToggle');
     const overlayList = document.getElementById('overlayList');
@@ -1666,9 +1885,9 @@ class Test2App {
     applyTextScale();
 
     activeLayersToggle?.addEventListener('click', () => {
-      this.setActiveLayersPanelOpen(activeLayersToggle.getAttribute('aria-expanded') !== 'true');
+      this.setActiveLayersPanelOpen(activeLayersToggle.getAttribute('aria-expanded') !== 'true', { focus: true });
     });
-    activeLayersClose?.addEventListener('click', () => this.setActiveLayersPanelOpen(false));
+    activeLayersClose?.addEventListener('click', () => this.setActiveLayersPanelOpen(false, { focus: true }));
     featureInfoClose?.addEventListener('click', () => uiController.hideFeatureInfo());
 
     document.getElementById('conditionalStylingBtn')?.addEventListener('click', () => {
@@ -2441,7 +2660,7 @@ class Test2App {
     generals.title = 'Step through general elections only, skipping by-elections';
     generals.setAttribute('aria-pressed', 'false');
     generals.addEventListener('click', () => {
-      this.setTimelineGeneralsOnly(!this.getTimelineGeneralsOnly());
+      this.setTimelineGeneralsOnly(generals.getAttribute('aria-pressed') !== 'true');
       this.elections?.updateElectionTimeline?.();
     });
     const reset = document.getElementById('timelineReset');
@@ -2453,8 +2672,12 @@ class Test2App {
     }
   }
 
-  getTimelineGeneralsOnly() {
-    try { return localStorage.getItem('civgraph:timelineGeneralsOnly') === '1'; } catch { return false; }
+  /** The reader's choice, else `fallback` (the slider's own default) when they have made none. */
+  getTimelineGeneralsOnly(fallback = false) {
+    try {
+      const stored = localStorage.getItem('civgraph:timelineGeneralsOnly');
+      return stored === null ? Boolean(fallback) : stored === '1';
+    } catch { return Boolean(fallback); }
   }
 
   setTimelineGeneralsOnly(value) {
@@ -2462,8 +2685,14 @@ class Test2App {
   }
 
   /** A mark per stop, tall for a major one (a general election, a boundary edition) and short
-   * for a by-election, with the year at each new decade. Positions follow the range's own
-   * index steps, not time, so a mark is exactly where the thumb stops. */
+   * for a by-election. Positions follow the range's own index steps, not time, so a mark is
+   * exactly where the thumb stops.
+   *
+   * Each label names the year of the stop it stands at. It used to name the decade ("1950") at
+   * the decade's first stop, so on an index-spaced axis "1950" marked the 1955 edition and
+   * "1970" the 1977 one (UX review 2026-10-30). Candidates are the first stop of each decade
+   * (a general election or edition in preference to a by-election) and the two ends;
+   * fitTimelineYearLabels keeps as many as fit, the most important first. */
   renderTimelineTicks() {
     const ticks = document.getElementById('timelineTicks');
     if (!ticks) return;
@@ -2474,8 +2703,9 @@ class Test2App {
       return;
     }
     const drawMinor = count <= 600;
-    let lastDecade = null;
     const parts = [];
+    // decade -> the stop to label: its first major stop, else its first stop.
+    const byDecade = new Map();
     items.forEach((item, index) => {
       const p = (index / (count - 1)).toFixed(5);
       const minor = Boolean(item?.minor);
@@ -2485,11 +2715,19 @@ class Test2App {
       const year = this.timelineItemYear(item);
       if (!Number.isFinite(year)) return;
       const decade = Math.floor(year / 10);
-      if (decade !== lastDecade) {
-        parts.push(`<span class="timeline-year" style="--p:${p}">${lastDecade === null ? year : decade * 10}</span>`);
-        lastDecade = decade;
-      }
+      const held = byDecade.get(decade);
+      if (!held || (held.minor && !minor)) byDecade.set(decade, { index, year, minor });
     });
+    const label = (index, year, priority) => `<span class="timeline-year" data-priority="${priority}" style="--p:${(index / (count - 1)).toFixed(5)}">${year}</span>`;
+    const firstYear = this.timelineItemYear(items[0]);
+    const lastYear = this.timelineItemYear(items[count - 1]);
+    const labelled = new Set();
+    if (Number.isFinite(firstYear)) { parts.push(label(0, firstYear, 3)); labelled.add(0); }
+    if (Number.isFinite(lastYear)) { parts.push(label(count - 1, lastYear, 3)); labelled.add(count - 1); }
+    for (const { index, year, minor } of byDecade.values()) {
+      if (labelled.has(index)) continue;
+      parts.push(label(index, year, minor ? 1 : 2));
+    }
     ticks.innerHTML = parts.join('');
     this.fitTimelineYearLabels();
     requestAnimationFrame(() => this.fitTimelineYearLabels());
@@ -2500,22 +2738,30 @@ class Test2App {
     return date ? date.getUTCFullYear() : NaN;
   }
 
-  /** Year labels that would collide are hidden, keeping the first and the most widely spaced. */
+  /** Year labels that would collide are hidden: the ends first, then general elections and
+   * editions, then the rest, each kept only where it has room. On the Westminster axis, whose
+   * by-elections crowd the later decades, that thins the right end instead of packing it. */
   fitTimelineYearLabels() {
     const ticks = document.getElementById('timelineTicks');
     if (!ticks) return;
     const labels = [...ticks.querySelectorAll('.timeline-year')];
     const width = ticks.clientWidth;
-    let lastRight = -Infinity;
-    for (const label of labels) {
-      label.dataset.hidden = 'false';
-      const left = label.offsetLeft - label.offsetWidth / 2;
-      const right = left + label.offsetWidth;
-      if (left < lastRight + 6 || left < -12 || right > width + 12) {
-        label.dataset.hidden = 'true';
+    const placed = [];
+    const ordered = labels
+      .map((label) => {
+        label.dataset.hidden = 'false';
+        const left = label.offsetLeft - label.offsetWidth / 2;
+        return { label, left, right: left + label.offsetWidth, priority: Number(label.dataset.priority || 1) };
+      })
+      .sort((a, b) => b.priority - a.priority || a.left - b.left);
+    const gap = 10;
+    for (const item of ordered) {
+      const clash = placed.some((other) => item.left < other.right + gap && item.right > other.left - gap);
+      if (clash || item.left < -12 || item.right > width + 12) {
+        item.label.dataset.hidden = 'true';
         continue;
       }
-      lastRight = right;
+      placed.push(item);
     }
   }
 
@@ -3303,21 +3549,49 @@ class Test2App {
     return requestedBackingIds.length ? requestedBackingIds : [...backingIds];
   }
 
-  setMapControlsOpen(open) {
+  /**
+   * options.focus: the reader opened or closed it (not a restored link), so focus goes with
+   * it: into the panel on open, back to its button on close. It used to drop to <body>, leaving
+   * a keyboard or screen-reader user at the top of the page (UX-TRIAGE T3-06).
+   */
+  setMapControlsOpen(open, options = {}) {
     const mapControlsToggle = document.getElementById('mapControlsToggle');
     const mapControlPanel = document.getElementById('mapControlPanel');
     mapControlsToggle?.setAttribute('aria-expanded', String(Boolean(open)));
     mapControlPanel?.classList.toggle('map-control-panel--collapsed', !open);
     mapControlPanel?.classList.toggle('map-control-panel--expanded', Boolean(open));
+    if (options.focus) this.movePanelFocus(mapControlPanel, mapControlsToggle, open);
     this.updateURLState();
   }
 
-  setActiveLayersPanelOpen(open) {
+  setActiveLayersPanelOpen(open, options = {}) {
     const activeLayersToggle = document.getElementById('activeLayersToggle');
     const activeLayers = document.getElementById('activeLayers');
     activeLayersToggle?.setAttribute('aria-expanded', String(Boolean(open)));
     activeLayers?.classList.toggle('hidden', !open);
+    if (options.focus) this.movePanelFocus(activeLayers, activeLayersToggle, open);
     this.updateURLState();
+  }
+
+  movePanelFocus(panel, toggle, open) {
+    if (!panel) return;
+    if (!open) {
+      // Only when focus was inside, or would otherwise be lost: a click on the map that
+      // closed it should not pull focus back to the button.
+      const active = document.activeElement;
+      if (!active || active === document.body || panel.contains(active)) toggle?.focus({ preventScroll: true });
+      return;
+    }
+    // After the panel is shown: a hidden element cannot take focus.
+    requestAnimationFrame(() => {
+      const target = [...panel.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')]
+        .find((el) => !el.disabled && el.getClientRects().length && getComputedStyle(el).visibility !== 'hidden');
+      if (target) target.focus({ preventScroll: true });
+      else {
+        if (!panel.hasAttribute('tabindex')) panel.setAttribute('tabindex', '-1');
+        panel.focus({ preventScroll: true });
+      }
+    });
   }
 
   /**
@@ -3607,6 +3881,77 @@ class Test2App {
     this.bindActiveLayerSourceButtons();
     if (this.currentSourceMapId) this.renderSourcePanel();
     this.updateTimeline();
+    this.updateMapLegend();
+  }
+
+  /**
+   * The map's legend (UX review 2026-10-30, #6). An election's colours were explained only in
+   * a container inside the results pane's secondary views, so the map itself had no key: not
+   * for the winner fills, not for the seat dots, and FF and SF are both greens. It now sits on
+   * the map, open on a desktop and folded to a "Legend" button on a phone. Boundary maps are
+   * listed by their colours when there is more than one to tell apart, or beside an election.
+   */
+  updateMapLegend() {
+    const host = this.mapController?.map?.getContainer?.() || document.getElementById('map');
+    if (!host) return;
+    const election = this.elections?.legendModel?.() || null;
+    const backing = new Set(election ? this.elections.getActiveElectionBackingLayerIds?.() || [] : []);
+    const layers = this.getLoadedLayerIds()
+      .filter((id) => !backing.has(id) && this.isMapVisible(id))
+      .map((id) => ({ id, name: this.mapLabel(id), colour: this.layerColour(id) }))
+      .filter((layer) => layer.colour);
+    const showLayers = layers.length > 1 || (election && layers.length > 0);
+    let legend = document.getElementById('test2MapLegend');
+    if (!election && !showLayers) {
+      legend?.remove();
+      return;
+    }
+    if (!legend) {
+      legend = document.createElement('section');
+      legend.id = 'test2MapLegend';
+      legend.className = 'test2-map-legend';
+      legend.setAttribute('aria-label', 'Map legend');
+      // Folded on a phone, or over a short map (a laptop with the election pane up), where an
+      // open key would cover much of what it explains.
+      const roomy = !this.isPhoneLayout() && host.getBoundingClientRect().height >= 420;
+      legend.innerHTML = `<details${roomy ? ' open' : ''}><summary class="test2-map-legend__summary"><span>Legend</span></summary><div class="test2-map-legend__body"></div></details>`;
+      host.appendChild(legend);
+    }
+    const esc = (value) => escapeHtml(String(value ?? ''));
+    const ink = (hex) => {
+      const m = /^#?([0-9a-f]{6})$/i.exec(String(hex || '').trim());
+      if (!m) return '#111827';
+      const n = parseInt(m[1], 16);
+      const lum = (0.2126 * ((n >> 16) & 255) + 0.7152 * ((n >> 8) & 255) + 0.0722 * (n & 255)) / 255;
+      return lum > 0.55 ? '#111827' : '#ffffff';
+    };
+    const parts = [];
+    if (election) {
+      const unit = election.unit ? `${election.unit === 'council' ? 'Councils' : election.unit === 'area' ? 'Areas' : 'Constituencies'} coloured by ${election.title.toLowerCase()}` : `${election.title}, low to high`;
+      parts.push(`<p class="test2-map-legend__heading">${esc(unit)}</p>`);
+      if (election.items.length) {
+        const shown = election.items.slice(0, 14);
+        parts.push(`<ul class="test2-map-legend__list">${shown.map((item) => `<li><span class="test2-map-legend__swatch" style="background:${esc(item.colour)};color:${ink(item.colour)}" aria-hidden="true">${esc(item.abbreviation.length <= 5 ? item.abbreviation : '')}</span><span class="test2-map-legend__name">${esc(item.name)}${item.abbreviation && item.abbreviation !== item.name ? ` <span class="test2-map-legend__abbr">(${esc(item.abbreviation)})</span>` : ''}</span><span class="test2-map-legend__count">${item.count}</span></li>`).join('')}</ul>`);
+        if (election.items.length > shown.length) parts.push(`<p class="test2-map-legend__note">and ${election.items.length - shown.length} more</p>`);
+      } else if (election.ramp) {
+        parts.push(`<div class="test2-map-legend__ramp" style="background:${esc(election.ramp.gradient)}" aria-hidden="true"></div><p class="test2-map-legend__ramp-labels"><span>${esc(election.ramp.low)}</span><span>${esc(election.ramp.high)}</span></p>`);
+      }
+      if (election.seats) parts.push('<p class="test2-map-legend__note"><span class="test2-map-legend__dots" aria-hidden="true"><i></i><i></i><i></i></span>One dot per seat, in the colour of the party that won it</p>');
+      else if (election.bars) parts.push('<p class="test2-map-legend__note">Bars: each party\'s share of the vote</p>');
+    }
+    if (showLayers) {
+      parts.push(`${election ? '<p class="test2-map-legend__heading">Other maps</p>' : ''}<ul class="test2-map-legend__list">${layers.map((layer) => `<li><span class="test2-map-legend__swatch test2-map-legend__swatch--line" style="border-color:${esc(layer.colour)}" aria-hidden="true"></span><span class="test2-map-legend__name">${esc(layer.name)}</span></li>`).join('')}</ul>`);
+    }
+    legend.querySelector('.test2-map-legend__body').innerHTML = parts.join('');
+    legend.querySelector('.test2-map-legend__summary span').textContent = election ? `Legend: ${election.title}` : 'Legend';
+  }
+
+  /** The outline colour a loaded layer is drawn in, or '' (rasters and point clouds have none). */
+  layerColour(mapId) {
+    const testId = this.mapController?.mainToTest?.get(mapId) || mapId;
+    const record = this.mapController?.renderer?.layers?.get(testId);
+    if (!record || /raster|image|point-cloud/.test(record.config?.sourceType || '')) return '';
+    return record.color || record.fillColor || '';
   }
 
   /**
@@ -3646,6 +3991,58 @@ class Test2App {
       return { mapId, featureId, featureName };
     }
     return null;
+  }
+
+  /*
+   * Browser history (UX review 2026-10-30, #17). Every update used replaceState, so the page
+   * had one history entry and Back left the app. A meaningful step -- a layer added or taken
+   * off, an election opened or closed, a constituency chosen, a catalogue route -- now makes
+   * a new entry; panning, zooming and scrubbing the slider still rewrite the current one.
+   *
+   * beginNavigation() is called BEFORE the change, because the change itself writes the
+   * address on the way (a layer's onChange, a fit's moveend): the first write that differs from
+   * the address is the one that pushes, and the rest rewrite the entry it made.
+   * endNavigation() writes the final state and stops a step that changed nothing from turning
+   * a later pan into a history entry.
+   */
+  beginNavigation(label) {
+    if (this._restoringURLState) return;
+    this._pushNextURL = label || 'Map';
+  }
+
+  endNavigation() {
+    this.updateURLState();
+    this._pushNextURL = null;
+  }
+
+  pushURLState(label) {
+    this.beginNavigation(label);
+    this.endNavigation();
+  }
+
+  /** A step that failed leaves no history entry behind: if one was pushed since `mark`, step
+   * back over it, without restoring anything (the map is already as it was). */
+  undoNavigationSince(mark) {
+    if (!Number.isInteger(mark) || this.navIndex <= mark) return;
+    this._ignoreHashChanges = (this._ignoreHashChanges || 0) + 1;
+    history.go(mark - this.navIndex);
+    // Forget the abandoned entry, so the History list does not offer it.
+    this.navEntries = this.navEntries.slice(0, mark + 1);
+    setTimeout(() => { this._ignoreHashChanges = Math.max(0, (this._ignoreHashChanges || 0) - 1); }, 500);
+  }
+
+  /** A label for a history entry pushed by something other than the app (the catalogue's
+   * routes), from the address it goes to. */
+  describeNavigation(url) {
+    try {
+      const params = new URLSearchParams(String(url || '').split('#')[1] || '');
+      const route = params.get('cat') || '';
+      const [view, a] = route.split('/');
+      if (view === 'map' && a) return `Catalogue: ${this.mapLabel(a)}`;
+      if (view === 'elections') return a === 'person' ? 'Elections: a person' : 'Catalogue: Elections';
+      if (view) return `Catalogue: ${view.charAt(0).toUpperCase()}${view.slice(1).replace(/-/g, ' ')}`;
+    } catch { /* fall through */ }
+    return 'Map';
   }
 
   updateURLState() {
@@ -3711,7 +4108,13 @@ class Test2App {
     if (catalogueRoute) params.set('cat', catalogueRoute);
     const path = `${location.pathname}${location.search || ''}`;
     const next = params.toString() ? `${path}#${params.toString()}` : path;
-    history.replaceState(null, '', next);
+    if (this._pushNextURL && next !== `${location.pathname}${location.search || ''}${location.hash}`) {
+      this._pendingNavLabel = this._pushNextURL;
+      this._pushNextURL = null;
+      history.pushState(null, '', next);
+    } else {
+      history.replaceState(null, '', next);
+    }
     this.syncDocumentTitle();
   }
 
@@ -3762,6 +4165,7 @@ class Test2App {
     const params = renameElectionDatesInParams(this.getCurrentURLParams());
     const query = params.get('q');
     try {
+      if (options.sync) this.removeStateNotIn(params);
       this.searchQuery = query || '';
       const search = document.getElementById('searchInput');
       if (search) search.value = this.searchQuery;
@@ -3799,9 +4203,32 @@ class Test2App {
       const mapLayers = layers.filter((id) => !String(id).startsWith('election-')
         && !this.elections?.isCanonicalElectionLayerId?.(id)
         && (!featureMapId || id !== featureMapId));
-      await Promise.all(mapLayers.map((id) => this.loadMap(id).catch((error) => this.showMapError(error))));
+      // What the link asks for and this site does not have: listed for the reader instead of
+      // being dropped from the address without a word (UX review 2026-10-30, #15).
+      const missing = [];
+      const knownLayer = (id) => Boolean(dataService.getMapById(id) || this.mapController.resolveLayer?.(id));
+      const layersToLoad = mapLayers.filter((id) => {
+        if (knownLayer(id)) return true;
+        missing.push(`map “${id}”`);
+        return false;
+      });
+      await Promise.all(layersToLoad.map((id) => this.loadMap(id).catch((error) => this.reportMapLoadFailure(id, error))));
 
-      await this.elections?.restoreURLState?.(params);
+      try {
+        await this.elections?.restoreURLState?.(params);
+      } catch (error) {
+        if (/not found/i.test(error?.message || '')) {
+          missing.push(`election “${[params.get('electionBody'), params.get('electionDate')].filter(Boolean).join(' ') || params.get('election')}”`);
+        } else {
+          this.showMapError(error, { retry: () => this.restoreURLState() });
+        }
+      }
+      for (const id of layers.filter((value) => String(value).startsWith('election-'))) {
+        if (this.elections && !this.elections.findEntryByCanonicalLayerId?.(id)) missing.push(`election “${id}”`);
+      }
+      if (missing.length) {
+        this.showMapError(`This link asks for ${missing.length === 1 ? 'something' : 'things'} not found here, so ${missing.length === 1 ? 'it was' : 'they were'} left out: ${missing.join(', ')}.`, { kind: 'info' });
+      }
 
       if (featureMapId && featureIdParam) {
         const mapConfig = dataService.getMapById(featureMapId);
@@ -3848,6 +4275,10 @@ class Test2App {
     } finally {
       this._restoringURLState = false;
       if (shouldUpdateAfterRestore) this.updateURLState();
+      if (this._hashRestorePending) {
+        this._hashRestorePending = false;
+        setTimeout(() => this.restoreURLState({ updateAfterRestore: false, sync: true }).catch((error) => this.showMapError(error)), 0);
+      }
     }
   }
 
@@ -3875,19 +4306,88 @@ class Test2App {
     link.remove();
   }
 
-  showMapError(error) {
-    console.warn('[Test2]', error);
+  /** Say something to screen readers through the page's live region. Cleared first so the
+   * same words twice ("… loaded" for two maps of one name) are still read out. */
+  announce(message) {
     const announcer = document.getElementById('announcer');
-    const message = error?.message || 'Map layer is not available in MapLibre yet.';
-    if (announcer) announcer.textContent = message;
+    if (!announcer || !message) return;
+    announcer.textContent = '';
+    setTimeout(() => { announcer.textContent = message; }, 30);
+  }
+
+  /**
+   * A failure the reader can see, dismiss and, where it makes sense, retry (UX review
+   * 2026-10-30, #15). It used to be a line of text pinned over the map with no way to close it,
+   * and most failures did not reach it at all: a layer whose tiles never came still said "On
+   * map", and a bad id in a shared link was dropped from the address without a word.
+   *
+   * options.retry: called by the Retry button, after the notice closes.
+   * options.kind: 'error' (default, role=alert) or 'info' (role=status, for what a link asked
+   *   for that does not exist: nothing failed, but the reader should know).
+   */
+  showMapError(error, options = {}) {
+    if (options.kind !== 'info') console.warn('[Test2]', error);
+    const message = error?.message || String(error || '') || 'Map layer is not available in MapLibre yet.';
     let status = document.getElementById('test2Status');
     if (!status) {
       status = document.createElement('div');
       status.id = 'test2Status';
-      status.className = 'map-error';
-      document.querySelector('.pane--map')?.appendChild(status);
+      // On the map itself: the election pane covers the foot of .pane--map.
+      (document.getElementById('map') || document.querySelector('.pane--map'))?.appendChild(status);
     }
-    status.textContent = message;
+    status.className = `map-error${options.kind === 'info' ? ' map-error--info' : ''}`;
+    status.setAttribute('role', 'group');
+    status.setAttribute('aria-label', options.kind === 'info' ? 'Message' : 'Error');
+    status.hidden = false;
+    status.innerHTML = '';
+    const text = document.createElement('span');
+    text.className = 'map-error__text';
+    text.textContent = message;
+    status.appendChild(text);
+    const close = () => {
+      status.hidden = true;
+      status.innerHTML = '';
+    };
+    if (typeof options.retry === 'function') {
+      const retry = document.createElement('button');
+      retry.type = 'button';
+      retry.className = 'map-error__retry';
+      retry.textContent = options.retryLabel || 'Retry';
+      retry.addEventListener('click', () => {
+        close();
+        Promise.resolve().then(options.retry).catch((err) => this.showMapError(err, options));
+      });
+      status.appendChild(retry);
+    }
+    const dismiss = document.createElement('button');
+    dismiss.type = 'button';
+    dismiss.className = 'map-error__close';
+    dismiss.setAttribute('aria-label', 'Dismiss this message');
+    dismiss.textContent = '×';
+    dismiss.addEventListener('click', close);
+    status.appendChild(dismiss);
+    // Said through the page's one live region, as "… loaded" is, so a screen reader hears the
+    // failure where it heard the success; the box itself is not a second live region.
+    this.announce(message);
+  }
+
+  hideMapError() {
+    const status = document.getElementById('test2Status');
+    if (status) { status.hidden = true; status.innerHTML = ''; }
+  }
+
+  /** A map's name, for a message: its series and edition as the catalogue shows them
+   * ("Townlands, Ireland"), else its catalogue name, else its id. */
+  mapLabel(mapId) {
+    const cat = uiController._catalogueNext;
+    const series = cat?.seriesById?.get(cat.seriesOfMap?.get(mapId));
+    if (series) {
+      const member = [...(series.members || []), ...(series.local || [])].find((m) => m.id === mapId);
+      if (member && (series.members.length > 1 || series.local?.some((m) => m.id === mapId))) return `${series.name}, ${member.label}`;
+      return series.name;
+    }
+    const config = dataService.getMapById(mapId);
+    return String(config?.name || this.metadataService?.getLayer?.(mapId)?.name || mapId).replace(/\s+/g, ' ').trim();
   }
 }
 

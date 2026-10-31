@@ -1056,7 +1056,10 @@ test('mobile map and catalogue controls do not collide', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/maps/');
   await page.waitForFunction(() => window.__civgraphTest2?.mapController?.map);
-  await page.waitForSelector('#mobileToggle');
+  // The map's own catalogue toggle is kept in the DOM but hidden on phones: the header's pane
+  // toggle was a second "Show catalogue" button beside it (UX review 2026-10-30, #12).
+  await page.waitForSelector('#mobileToggle', { state: 'attached' });
+  await expect(page.locator('#mobileToggle')).toBeHidden();
   await page.waitForSelector('#mobilePaneToggle');
   await page.waitForSelector('#activeLayersToggle');
   await page.waitForSelector('.test2-main-zoom-control');
