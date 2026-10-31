@@ -63,10 +63,14 @@ const flattenValue = (value) => {
   return [String(value)];
 };
 
+// Accents are folded, as functions/_api/_browse-index.js folds the query: "Micheal Martin" and
+// "fianna fail" must find the records spelt with fadas.
 const searchText = (item) => SEARCH_FIELDS
   .flatMap((field) => flattenValue(item[field]))
   .filter(Boolean)
   .join(' ')
+  .normalize('NFKD')
+  .replace(/[̀-ͯ]/g, '')
   .toLowerCase()
   .slice(0, 4000);   // enough to match on; keeps the row from ballooning
 
