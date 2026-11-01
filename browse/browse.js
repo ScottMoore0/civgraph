@@ -2057,6 +2057,7 @@ function readerSummaryRows(type, item) {
   if (type === 'persons') {
     return [
       ['Name', item.name || item.title],
+      ['Formal name', joinList(item.formalNames?.map((entry) => entry.name))],
       ['Born', formatDate(item.born)],
       ['Died', formatDate(item.died)],
       ['Years', yearRange(item.firstYear, item.lastYear) || item.subtitle],
@@ -2618,6 +2619,11 @@ function renderRelatedPanel(type, item) {
       escapeHtml([row.office, row.constituency].filter(Boolean).join(', ')),
       escapeHtml(formatHeldYears(row)),
       escapeHtml(row.source || '')
+    ])
+    // The formal name an official notice printed where the person is shown by a familiar one.
+    + renderSimpleTable('Names in official notices', ['Name', 'Source'], item.formalNames || [], (row) => [
+      escapeHtml(row.name || ''),
+      row.url ? `<a href="${escapeAttr(row.url)}" rel="noopener">${escapeHtml(row.source || '')}</a>` : escapeHtml(row.source || '')
     ])
     + renderSimpleTable('Family', ['Relation', 'Person', 'Source'], item.relatives || [], (row) => [
       escapeHtml(row.relation ? row.relation.charAt(0).toUpperCase() + row.relation.slice(1) : ''),
