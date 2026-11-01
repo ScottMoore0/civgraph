@@ -592,7 +592,13 @@ export function extractElected(result = {}) {
       .filter((candidate) => !candidate.excluded)
       .sort((a, b) => numberOrZero(b.finalVotes ?? b.firstPrefs) - numberOrZero(a.finalVotes ?? a.firstPrefs))
       .slice(0, seats)
-      .map((candidate) => ({ ...candidate, elected: true, status: candidate.status || 'Deemed elected', colour: candidate.colour || partyColour(candidate.party) }));
+      // A win inferred from the votes is a plain "Elected"; only a return with no vote is unopposed.
+      .map((candidate) => ({
+        ...candidate,
+        elected: true,
+        status: candidate.status || (numberOrZero(candidate.finalVotes ?? candidate.firstPrefs) > 0 ? 'Elected' : 'Elected unopposed'),
+        colour: candidate.colour || partyColour(candidate.party)
+      }));
   }
   return [];
 }
@@ -629,9 +635,12 @@ function completeElectedCandidateSet(candidates = [], seatsTotal = null) {
     const id = candidate.id || `${candidate.name}|${candidate.party}`;
     if (!inferredIds.has(id)) return candidate;
     const lastCount = candidateLastCount(candidate);
+    // These candidates polled (finalVotes > 0 above): a contested win reads "Elected", as the
+    // sources' own winners do. "Deemed elected" was shown on every inferred winner, including
+    // first-past-the-post seats and the last STV seats filled without a quota.
     const counts = Array.isArray(candidate.counts)
       ? candidate.counts.map((count) => Number(count?.count) === lastCount
-        ? { ...count, status: count.status || 'Deemed elected' }
+        ? { ...count, status: count.status || 'Elected' }
         : count)
       : candidate.counts;
     return {
@@ -640,7 +649,7 @@ function completeElectedCandidateSet(candidates = [], seatsTotal = null) {
       electedAt: candidate.electedAt || lastCount,
       excluded: false,
       excludedAt: null,
-      status: 'Deemed elected',
+      status: 'Elected',
       counts
     };
   });

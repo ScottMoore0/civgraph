@@ -8,8 +8,8 @@
   "contestType": "election",
   "kind": "by-election",
   "votingSystem": "fptp",
-  "contestStatus": "uncontested",
-  "candidateRowsExpected": false,
+  "contestStatus": "contested",
+  "candidateRowsExpected": true,
   "transferDataExpected": false,
   "localBodies": null,
   "localBodyByConstituency": null,
@@ -40,6 +40,8 @@
   "availableStyleModes": [
     "winner",
     "leadingParty",
+    "voteShare",
+    "majority",
     "seats"
   ],
   "partySummary": [
@@ -47,9 +49,25 @@
       "party": "UUP",
       "seats": 1,
       "stood": 1,
-      "votes": 0,
+      "votes": 5212,
       "colour": "#48a5ee",
-      "share": null
+      "share": 50.23614457831326
+    },
+    {
+      "party": "Independent Unionist",
+      "seats": 0,
+      "stood": 1,
+      "votes": 3978,
+      "colour": "#6b7280",
+      "share": 38.3421686746988
+    },
+    {
+      "party": "NI Labour",
+      "seats": 0,
+      "stood": 1,
+      "votes": 1185,
+      "colour": "#6b7280",
+      "share": 11.421686746987952
     }
   ],
   "mainLikePartySummary": [
@@ -57,15 +75,31 @@
       "party": "UUP",
       "seats": 1,
       "stood": 1,
-      "votes": 0,
+      "votes": 5212,
       "colour": "#48A5EE",
-      "share": null
+      "share": 50.23614457831326
+    },
+    {
+      "party": "Independent Unionist",
+      "seats": 0,
+      "stood": 1,
+      "votes": 3978,
+      "colour": "#AADFFF",
+      "share": 38.3421686746988
+    },
+    {
+      "party": "NI Labour",
+      "seats": 0,
+      "stood": 1,
+      "votes": 1185,
+      "colour": "#DC241F",
+      "share": 11.421686746987952
     }
   ],
   "mainLikeTotals": {
-    "validPoll": 0,
+    "validPoll": 10375,
     "totalPoll": 0,
-    "totalElectorate": 0,
+    "totalElectorate": 16982,
     "totalSpoiled": 0,
     "totalSeats": 1
   },
@@ -77,11 +111,11 @@
       "name": "William James Morgan",
       "party": "UUP",
       "colour": "#48A5EE",
-      "firstPrefs": 0,
-      "votes": 0,
-      "constPct": 0,
-      "firstPrefPct": 0,
-      "finalVotes": 0,
+      "firstPrefs": 5212,
+      "votes": 5212,
+      "constPct": 50.23614457831326,
+      "firstPrefPct": 50.23614457831326,
+      "finalVotes": 5212,
       "elected": true,
       "electedAt": 1,
       "excluded": false,
@@ -91,26 +125,84 @@
       "status": "Elected",
       "counts": {
         "1": {
-          "total": 0,
+          "total": 5212,
           "transfers": 0,
           "status": "Elected"
         }
       },
       "candidateKey": "william james morgan|uup",
       "name_id": "n-william-james-morgan"
+    },
+    {
+      "id": "fix-norman-porter-1959",
+      "personId": 104139,
+      "constituency": "Belfast Clifton",
+      "name": "Norman Porter",
+      "party": "Independent Unionist",
+      "colour": "#AADFFF",
+      "firstPrefs": 3978,
+      "votes": 3978,
+      "constPct": 38.3421686746988,
+      "firstPrefPct": 38.3421686746988,
+      "finalVotes": 3978,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 3978,
+          "transfers": 0,
+          "status": ""
+        }
+      },
+      "candidateKey": "norman porter|independent unionist",
+      "name_id": "n-norman-porter"
+    },
+    {
+      "id": "fix-victoria-dunlop-1959",
+      "personId": 135100,
+      "constituency": "Belfast Clifton",
+      "name": "Victoria Dunlop",
+      "party": "NI Labour",
+      "colour": "#DC241F",
+      "firstPrefs": 1185,
+      "votes": 1185,
+      "constPct": 11.421686746987952,
+      "firstPrefPct": 11.421686746987952,
+      "finalVotes": 1185,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 1185,
+          "transfers": 0,
+          "status": ""
+        }
+      },
+      "candidateKey": "victoria dunlop|ni labour",
+      "name_id": "n-victoria-dunlop"
     }
   ],
   "mainLikeCandidateTotals": {
-    "validPoll": 0
+    "validPoll": 10375
   },
   "entityIndex": {
-    "totalValid": 0,
+    "totalValid": 10375,
     "parties": [
       {
         "name": "UUP",
         "colour": "#48A5EE",
-        "firstPrefs": 0,
-        "finalVotes": 0,
+        "firstPrefs": 5212,
+        "finalVotes": 5212,
         "stood": 1,
         "elected": 1,
         "constituencies": [
@@ -121,12 +213,56 @@
             "id": "William James Morgan|UUP",
             "name": "William James Morgan",
             "constituency": "Belfast Clifton",
-            "firstPref": 0,
-            "finalVotes": 0,
+            "firstPref": 5212,
+            "finalVotes": 5212,
             "status": "Elected"
           }
         ],
-        "shareOfTotal": null
+        "shareOfTotal": 50.23614457831326
+      },
+      {
+        "name": "Independent Unionist",
+        "colour": "#AADFFF",
+        "firstPrefs": 3978,
+        "finalVotes": 3978,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Belfast Clifton"
+        ],
+        "candidates": [
+          {
+            "id": "Norman Porter|Independent Unionist",
+            "name": "Norman Porter",
+            "constituency": "Belfast Clifton",
+            "firstPref": 3978,
+            "finalVotes": 3978,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 38.3421686746988
+      },
+      {
+        "name": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 1185,
+        "finalVotes": 1185,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Belfast Clifton"
+        ],
+        "candidates": [
+          {
+            "id": "Victoria Dunlop|NI Labour",
+            "name": "Victoria Dunlop",
+            "constituency": "Belfast Clifton",
+            "firstPref": 1185,
+            "finalVotes": 1185,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 11.421686746987952
       }
     ],
     "candidates": [
@@ -136,8 +272,8 @@
         "name": "William James Morgan",
         "party": "UUP",
         "colour": "#48A5EE",
-        "firstPrefs": 0,
-        "finalVotes": 0,
+        "firstPrefs": 5212,
+        "finalVotes": 5212,
         "electedCount": 1,
         "constituencies": [
           "Belfast Clifton"
@@ -145,12 +281,56 @@
         "appearances": [
           {
             "constituency": "Belfast Clifton",
-            "firstPref": 0,
-            "finalVotes": 0,
+            "firstPref": 5212,
+            "finalVotes": 5212,
             "status": "Elected"
           }
         ],
-        "shareOfTotal": null
+        "shareOfTotal": 50.23614457831326
+      },
+      {
+        "id": "Norman Porter|Independent Unionist",
+        "key": "Norman Porter|Independent Unionist",
+        "name": "Norman Porter",
+        "party": "Independent Unionist",
+        "colour": "#AADFFF",
+        "firstPrefs": 3978,
+        "finalVotes": 3978,
+        "electedCount": 0,
+        "constituencies": [
+          "Belfast Clifton"
+        ],
+        "appearances": [
+          {
+            "constituency": "Belfast Clifton",
+            "firstPref": 3978,
+            "finalVotes": 3978,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 38.3421686746988
+      },
+      {
+        "id": "Victoria Dunlop|NI Labour",
+        "key": "Victoria Dunlop|NI Labour",
+        "name": "Victoria Dunlop",
+        "party": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 1185,
+        "finalVotes": 1185,
+        "electedCount": 0,
+        "constituencies": [
+          "Belfast Clifton"
+        ],
+        "appearances": [
+          {
+            "constituency": "Belfast Clifton",
+            "firstPref": 1185,
+            "finalVotes": 1185,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 11.421686746987952
       }
     ]
   },
@@ -161,19 +341,19 @@
       "winnerName": "William James Morgan",
       "leadingParty": "UUP",
       "leadingName": "William James Morgan",
-      "leadingVotes": null,
-      "leadingPct": null,
+      "leadingVotes": 5212,
+      "leadingPct": 50.24,
       "turnoutPct": null,
-      "majority": null,
-      "majorityPct": null,
+      "majority": 1234,
+      "majorityPct": 11.89,
       "seatsWon": 1,
       "seatsTotal": 1,
       "quota": null,
-      "electorate": null,
+      "electorate": 16982,
       "totalPoll": null,
       "spoiled": null,
-      "validPoll": null,
-      "totalVotes": null,
+      "validPoll": 10375,
+      "totalVotes": 10375,
       "colour": "#48a5ee",
       "leadingColour": "#48a5ee",
       "candidates": [
@@ -181,8 +361,8 @@
           "id": "7540061",
           "name": "William James Morgan",
           "party": "UUP",
-          "firstPrefs": null,
-          "finalVotes": null,
+          "firstPrefs": 5212,
+          "finalVotes": 5212,
           "elected": true,
           "electedAt": 1,
           "autoReturnedCeannComhairle": false,
@@ -197,14 +377,72 @@
           "counts": [
             {
               "count": 1,
-              "total": null,
+              "total": 5212,
               "transfers": 0,
               "status": "Elected",
-              "firstPrefs": null
+              "firstPrefs": 5212
             }
           ],
           "personId": 103810,
           "name_id": "n-william-james-morgan"
+        },
+        {
+          "id": "fix-norman-porter-1959",
+          "name": "Norman Porter",
+          "party": "Independent Unionist",
+          "firstPrefs": 3978,
+          "finalVotes": 3978,
+          "elected": false,
+          "electedAt": null,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "",
+          "colour": "#AADFFF",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "counts": [
+            {
+              "count": 1,
+              "total": 3978,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 3978
+            }
+          ],
+          "personId": 104139,
+          "name_id": "n-norman-porter"
+        },
+        {
+          "id": "fix-victoria-dunlop-1959",
+          "name": "Victoria Dunlop",
+          "party": "NI Labour",
+          "firstPrefs": 1185,
+          "finalVotes": 1185,
+          "elected": false,
+          "electedAt": null,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "",
+          "colour": "#DC241F",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "counts": [
+            {
+              "count": 1,
+              "total": 1185,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 1185
+            }
+          ],
+          "personId": 135100,
+          "name_id": "n-victoria-dunlop"
         }
       ],
       "elected": [
@@ -212,8 +450,8 @@
           "id": "7540061",
           "name": "William James Morgan",
           "party": "UUP",
-          "firstPrefs": null,
-          "finalVotes": null,
+          "firstPrefs": 5212,
+          "finalVotes": 5212,
           "elected": true,
           "electedAt": 1,
           "autoReturnedCeannComhairle": false,
@@ -228,10 +466,10 @@
           "counts": [
             {
               "count": 1,
-              "total": null,
+              "total": 5212,
               "transfers": 0,
               "status": "Elected",
-              "firstPrefs": null
+              "firstPrefs": 5212
             }
           ]
         }
@@ -241,26 +479,58 @@
         "Constituency_Number": "",
         "Number_Of_Seats": "1",
         "Spoiled": "",
-        "Total_Electorate": "",
+        "Total_Electorate": "16982",
         "Total_Poll": "",
-        "Valid_Poll": ""
+        "Valid_Poll": "10375"
       },
       "countGroup": [
         {
-          "Candidate_First_Pref_Votes": "Unopposed",
+          "Candidate_First_Pref_Votes": "5212.00",
           "Candidate_Id": "7540061",
           "Constituency_Number": "",
           "Count_Number": "1",
           "Firstname": "William James",
-          "Occurred_On_Count": "",
+          "Occurred_On_Count": "1",
           "Party_Colour": "#48A5EE",
           "Party_Name": "UUP",
           "Status": "Elected",
           "Surname": "Morgan",
-          "Total_Votes": "",
+          "Total_Votes": "5212.00",
           "Transfers": "0.00",
           "candidateName": "William James Morgan",
           "id": 0
+        },
+        {
+          "Constituency_Number": "",
+          "Candidate_Id": "fix-norman-porter-1959",
+          "Count_Number": "1",
+          "Firstname": "Norman",
+          "Surname": "Porter",
+          "Candidate_First_Pref_Votes": "3978.00",
+          "Transfers": "0.00",
+          "Total_Votes": "3978.00",
+          "Status": "",
+          "Occurred_On_Count": "",
+          "Party_Name": "Independent Unionist",
+          "Party_Colour": "#AADFFF",
+          "candidateName": "Norman Porter",
+          "id": 1
+        },
+        {
+          "Constituency_Number": "",
+          "Candidate_Id": "fix-victoria-dunlop-1959",
+          "Count_Number": "1",
+          "Firstname": "Victoria",
+          "Surname": "Dunlop",
+          "Candidate_First_Pref_Votes": "1185.00",
+          "Transfers": "0.00",
+          "Total_Votes": "1185.00",
+          "Status": "",
+          "Occurred_On_Count": "",
+          "Party_Name": "NI Labour",
+          "Party_Colour": "#DC241F",
+          "candidateName": "Victoria Dunlop",
+          "id": 2
         }
       ],
       "syntheticCountGroup": false,
@@ -277,30 +547,64 @@
             "Constituency_Number": "",
             "Number_Of_Seats": "1",
             "Spoiled": "",
-            "Total_Electorate": "",
+            "Total_Electorate": "16982",
             "Total_Poll": "",
-            "Valid_Poll": ""
+            "Valid_Poll": "10375"
           },
           "countGroup": [
             {
-              "Candidate_First_Pref_Votes": "Unopposed",
+              "Candidate_First_Pref_Votes": "5212.00",
               "Candidate_Id": "7540061",
               "Constituency_Number": "",
               "Count_Number": "1",
               "Firstname": "William James",
-              "Occurred_On_Count": "",
+              "Occurred_On_Count": "1",
               "Party_Colour": "#48A5EE",
               "Party_Name": "UUP",
               "Status": "Elected",
               "Surname": "Morgan",
-              "Total_Votes": "",
+              "Total_Votes": "5212.00",
               "Transfers": "0.00",
               "candidateName": "William James Morgan",
               "id": 0
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "fix-norman-porter-1959",
+              "Count_Number": "1",
+              "Firstname": "Norman",
+              "Surname": "Porter",
+              "Candidate_First_Pref_Votes": "3978.00",
+              "Transfers": "0.00",
+              "Total_Votes": "3978.00",
+              "Status": "",
+              "Occurred_On_Count": "",
+              "Party_Name": "Independent Unionist",
+              "Party_Colour": "#AADFFF",
+              "candidateName": "Norman Porter",
+              "id": 1
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "fix-victoria-dunlop-1959",
+              "Count_Number": "1",
+              "Firstname": "Victoria",
+              "Surname": "Dunlop",
+              "Candidate_First_Pref_Votes": "1185.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1185.00",
+              "Status": "",
+              "Occurred_On_Count": "",
+              "Party_Name": "NI Labour",
+              "Party_Colour": "#DC241F",
+              "candidateName": "Victoria Dunlop",
+              "id": 2
             }
           ]
         },
-        "cause": "Appointment to office of Robin Kinahan (UUP): elected Lord Mayor of Belfast (Wikipedia, List of Northern Ireland Parliament by-elections)"
+        "electorateSource": "Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973); the same figure in David Boothroyd, Northern Ireland House of Commons Election Results",
+        "cause": "Appointment to office of Robin Kinahan (UUP): elected Lord Mayor of Belfast (Wikipedia, List of Northern Ireland Parliament by-elections)",
+        "correctionNote": "Contested, not unopposed: William James Morgan 5,212; Norman Porter (Independent Unionist) 3,978; Victoria Dunlop (NI Labour) 1,185. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give. (Royal Irish Academy; David Boothroyd, B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 71; checked against David Boothroyd, Northern Ireland House of Commons Election Results (belfast.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020))"
       },
       "constituencyId": null,
       "constituencyNumber": null,
@@ -309,13 +613,21 @@
         {
           "label": "Cause",
           "text": "Appointment to office of Robin Kinahan (UUP): elected Lord Mayor of Belfast (Wikipedia, List of Northern Ireland Parliament by-elections)"
+        },
+        {
+          "label": "Electorate",
+          "text": "16,982: Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973); the same figure in David Boothroyd, Northern Ireland House of Commons Election Results"
+        },
+        {
+          "label": "Corrected",
+          "text": "Contested, not unopposed: William James Morgan 5,212; Norman Porter (Independent Unionist) 3,978; Victoria Dunlop (NI Labour) 1,185. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give. (Royal Irish Academy; David Boothroyd, B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 71; checked against David Boothroyd, Northern Ireland House of Commons Election Results (belfast.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020))"
         }
       ],
       "contestType": "election",
       "kind": "by-election",
       "votingSystem": "fptp",
-      "contestStatus": "uncontested",
-      "candidateRowsExpected": false,
+      "contestStatus": "contested",
+      "candidateRowsExpected": true,
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1959-05-28/belfast-clifton.json",

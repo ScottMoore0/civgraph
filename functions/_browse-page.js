@@ -163,7 +163,18 @@ async function lookupTableRecord(db, table, slug) {
     .prepare(`SELECT record FROM ${table} WHERE key_norm = ?1 OR slug = ?1 OR id = ?1 LIMIT 1`)
     .bind(slug)
     .first();
-  return row?.record ? parseJson(row.record) : null;
+  if (row?.record) return parseJson(row.record);
+  // An old address (a source merged into another, a person's earlier id) redirects to the
+  // record it now belongs to: the caller sends a 301 when the slugs differ.
+  try {
+    const aliased = await db
+      .prepare(`SELECT record FROM ${table} WHERE slug = (SELECT slug FROM ${table}_aliases WHERE alias = ?1) LIMIT 1`)
+      .bind(slug)
+      .first();
+    return aliased?.record ? parseJson(aliased.record) : null;
+  } catch {
+    return null;   // no aliases table yet
+  }
 }
 
 /**

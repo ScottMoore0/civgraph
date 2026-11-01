@@ -123,7 +123,8 @@ function main() {
       ...normalizeArray(rawSourceDocumentsData.sources || rawSourceDocumentsData.items),
       ...normalizeArray(mediumPriorityPublicationSourcesData.sources || mediumPriorityPublicationSourcesData.items),
       ...normalizeArray(peatlandGeoportalSourcesData.sources || peatlandGeoportalSourcesData.items),
-      ...normalizeArray(niRegisterSourcesData.sources || niRegisterSourcesData.items)
+      ...normalizeArray(niRegisterSourcesData.sources || niRegisterSourcesData.items),
+      ...referenceWorkSources()
     ]
   };
   const sourceEnrichmentInputs = mergeSourceEnrichmentInputs(alreadyOnSiteEnrichmentsData, peatlandGeoportalSourcesData);
@@ -174,6 +175,7 @@ function main() {
   const registerInterests = buildRegisterInterests(niRegisterInterestsData);
   const sources = buildSources(booksData, dataEntriesData, maps, parentElections, thumbnailIds, browseSourceInputs, sourceEnrichmentInputs);
   for (const source of sources) applySourceReaderLabels(source);
+  const sourceMerges = mergeDuplicateSources(sources);
   const rawMapsById = new Map((mapsData.maps || []).map((map) => [map.id, map]));
   const rawDataEntriesById = new Map(normalizeArray(dataEntriesData.dataEntries || dataEntriesData.entries).map((entry) => [entry.id || entry.slug || slugify(entry.name || entry.title), entry]));
   const rawElectionsByKey = new Map(normalizeArray(electionManifest.elections).map((entry) => [entry.key, entry]));
@@ -187,6 +189,7 @@ function main() {
   ensureUniqueSlugs(registerInterests);
   ensureUniqueSlugs(sources);
   linkRegisterInterestsToPersons(registerInterests, persons);
+  const personFacets = addListFacets(parties, partyDetails, persons, electionDetails, partyNames);
   // A feature group links to its map's record by the map's final slug.
   const mapSlugById = new Map(maps.map((map) => [map.id, map.slug]));
   for (const group of featureGroups) {
@@ -226,6 +229,9 @@ function main() {
     indexShardDir: `/data/browse/${PERSON_INDEX_SHARD_DIR}`,
     shards: personIndexShards
   });
+  // The People filter options (body, decade, elected, party with every spelling of it in the
+  // person records), so Browse can offer them without reading the 16 MB person index.
+  writeJson('persons-facets.json', { schemaVersion: 1, generatedAt: GENERATED_AT, total: persons.length, facets: personFacets }, { compact: true });
   writeJson('register-interests.json', {
     schemaVersion: 1,
     generatedAt: GENERATED_AT,
@@ -290,6 +296,14 @@ function main() {
     }
   }
   writeJson('party-names.json', { schemaVersion: 1, generatedAt: GENERATED_AT, items: partyNames }, { compact: true });
+  // Every source record merged into another, so the merges can be read and checked.
+  writeJson('source-merges.json', {
+    schemaVersion: 1,
+    generatedAt: GENERATED_AT,
+    note: 'Source records that were the same work listed more than once (same title and address, or a table staged from the record it repeats), each merged into one record. The old addresses open the merged record. Built by scripts/build-browse-indexes.mjs mergeDuplicateSources.',
+    total: sourceMerges.length,
+    items: sourceMerges
+  });
   writeSourceDetailShards(sources, (record) => ({
     rawMetadata: sourceRawMetadata(record, {
       rawMapsById,
@@ -367,7 +381,7 @@ function buildMaps(mapsData, dataEntriesData, categoriesById, mapClassInfoById, 
       category: category.name || map.category || null,
       group: category.group || map.group || null,
       description: cleanText(map.description || category.description || ''),
-      date: map.date || map.year || map.dateAdded || null,
+      date: yearPrecisionDate(map.date || map.year || map.dateAdded || null, map),
       years: collectYears(map),
       provider: normalizeArray(map.provider || map.providers),
       credits: normalizeArray(map.credits || map.credit || map.sourceCredit),
@@ -385,7 +399,7 @@ function buildMaps(mapsData, dataEntriesData, categoriesById, mapClassInfoById, 
           mapClassInfoById.get(variant.id || variant.mapId || variant.slug || variant.name),
           variant.name || variant.title || variant.label || variant.id || variant.mapId
         ),
-        date: variant.date || variant.year || null
+        date: yearPrecisionDate(variant.date || variant.year || null, variant)
       })),
       sourceFiles: files,
       references,
@@ -424,6 +438,20 @@ function buildMaps(mapsData, dataEntriesData, categoriesById, mapClassInfoById, 
   }).filter((entry) => entry.id);
 
   return [...mapRecords, ...dataEntries].sort(sortByTitle);
+}
+
+/**
+ * A map's date stored as 1 January when only the year is known ("1977-01-01" for the 1977
+ * DEDs, a 2016 pothole survey) is a year: it read "1 Jan 1977" in Browse and in the graph.
+ * Kept as the day only where the map says the day: "1 Jan" or "-01-01" in its name or id
+ * (the 1 January 1919 and 1929 administrative areas), or a date in force of that day.
+ */
+function yearPrecisionDate(value, map = {}) {
+  const text = String(value || '');
+  if (!/^\d{4}-01-01$/.test(text)) return value;
+  const named = `${map.id || ''} ${map.name || ''} ${map.title || ''}`;
+  if (/\b1 Jan(uary)?\b|-01-01\b/i.test(named) || map.dateEffective === text) return value;
+  return text.slice(0, 4);
 }
 
 function buildMapClassInfo(mapsData) {
@@ -1636,7 +1664,16 @@ function buildPersons(electionDetails, partyRecords) {
       year: Number(election.year || election.date?.slice(0, 4)) || null,
       interactiveUrl: interactiveLayerUrl(mainElectionLayerId(election))
     };
+    const electionBody = cleanText(election.body || '');
     for (const result of normalizeArray(election.results)) {
+      // The poll a candidate's first-preference vote is a share of: the contest's valid poll
+      // (as the election's own tables compute it). Where the source gives no valid poll, the
+      // candidates' votes add up to it only when each voter had one vote to give -- a
+      // one-seat contest or STV -- so a block-vote contest is left without a share. Stored on
+      // each candidacy so a person's page can show the share without the election's bundle.
+      const oneVoteEach = Number(result.seatsTotal) === 1 || /stv/i.test(String(result.votingSystem || ''));
+      const contestPoll = Number(result.validPoll || 0)
+        || (oneVoteEach ? Number(result.totalVotes || 0) || normalizeArray(result.candidates).reduce((sum, row) => sum + (Number(row.firstPrefs || row.firstPref || row.votes || 0) || 0), 0) : 0);
       for (const candidate of extractCandidates(result)) {
         const name = cleanText(candidate.name || candidate.candidate || candidate.Candidate);
         if (!name) continue;
@@ -1675,6 +1712,8 @@ function buildPersons(electionDetails, partyRecords) {
             sourceKeys: new Set([`person:${personId}`]),
             officialIds: new Set(),
             totals: { stood: 0, elected: 0, firstPrefs: 0 },
+            // The bodies stood for (Dáil Éireann, House of Commons ...), for Browse's filter.
+            bodies: new Map(),
             firstYear: null,
             lastYear: null,
             browseUrl: `/browse/persons/${encodeURIComponent(personSlug(personId, displayName))}`
@@ -1696,6 +1735,7 @@ function buildPersons(electionDetails, partyRecords) {
         person.parties.set(party || 'Unknown', (person.parties.get(party || 'Unknown') || 0) + 1);
         if (constituency) person.constituencies.set(constituency, (person.constituencies.get(constituency) || 0) + 1);
         if (gender) person.genders.set(gender, (person.genders.get(gender) || 0) + 1);
+        if (electionBody) person.bodies.set(electionBody, (person.bodies.get(electionBody) || 0) + 1);
         person.totals.stood += 1;
         person.totals.elected += candidate.elected || candidate.counted_as_elected || candidate.outcome === 'Elected' || candidate.status === 'Elected' ? 1 : 0;
         person.totals.firstPrefs += Number(candidate.firstPrefs || candidate.firstPref || candidate.votes || 0);
@@ -1712,7 +1752,8 @@ function buildPersons(electionDetails, partyRecords) {
             officialStatus: cleanText(candidate.officialStatus || candidate.Official_Status || ''),
             status: cleanText(candidate.status || candidate.outcome || ''),
             elected: Boolean(candidate.elected || candidate.counted_as_elected || candidate.outcome === 'Elected'),
-            firstPrefs: Number(candidate.firstPrefs || candidate.firstPref || candidate.votes || 0) || null
+            firstPrefs: Number(candidate.firstPrefs || candidate.firstPref || candidate.votes || 0) || null,
+            share: candidateShare(candidate, contestPoll)
           }));
         }
       }
@@ -1865,6 +1906,7 @@ function buildPersons(electionDetails, partyRecords) {
       parties,
       constituencies,
       genders,
+      bodies: mapToSortedArray(person.bodies).map((row) => row.name),
       names,
       nameCount: names.length,
       // Distinct NAMES, not distinct name records. The name layer keys on name_id, so one
@@ -2271,6 +2313,207 @@ function buildSources(booksData, dataEntriesData, maps, elections, thumbnailIds,
   }
   applyAlreadyOnSiteEnrichments(sources, alreadyOnSiteEnrichmentsData);
   return sources.sort(sortByTitle);
+}
+
+/**
+ * Merge source records that are the same work listed more than once (UX review 2026-10-31,
+ * M3: "(Continue to) Make Inroads ..." appeared three times under three pipeline categories).
+ *
+ * Conservative: two records are merged only on direct evidence that they are one work --
+ *   1. the same title (folded) AND the same address (scheme, www, query and trailing slash
+ *      ignored); or
+ *   2. the same title AND one record's approval names the other as the record it was
+ *      staged from (approval.stagingId, medium-prep:x = medium-priority:x).
+ * A shared title alone is not enough: the CSO publishes several different census tables
+ * called "Population" in one year, each with its own matrix code.
+ *
+ * The surviving record gains the others' providers, keywords, references and downloads, lists
+ * them in mergedFrom (id, slug, type, category, approval, variant parent) and keeps their
+ * slugs in previousSlugs, which the browse index, /_api/sources and /browse/sources/<slug>
+ * resolve to it. Returns the merges for the report. Mutates `sources`.
+ */
+function mergeDuplicateSources(sources) {
+  // The pipeline record types a work can be listed under more than once: the publication gate,
+  // the medium-priority tranches, variants and the raw source tables and documents. Books,
+  // maps, elections and external sources are curated one record per work and never merged.
+  const MERGEABLE_SOURCE_TYPE = /^(approved-|raw-source-|medium-priority|peatland-geoportal-)/;
+  // Which record of a merged group keeps its address, other things equal: the reader-facing
+  // reference or book record before a table or variant staged from it.
+  const SOURCE_SURVIVOR_ORDER = [
+    'approved-book-or-report-source', 'approved-source-reference-source', 'approved-spatial-source-source',
+    'approved-medium-priority-source', 'approved-table-source', 'approved-variant-source',
+    'raw-source-document', 'raw-source-table'
+  ];
+  const foldTitle = (value) => String(value || '').normalize('NFKD').replace(/[̀-ͯ]/g, '')
+    .toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+  const canonicalUrl = (value) => String(value || '').trim().replace(/^https?:\/\//i, '').replace(/^www\./i, '')
+    .replace(/[#?].*$/, '').replace(/\/+$/, '').toLowerCase();
+  const stagingKey = (value) => String(value || '').replace(/^medium-prep:/, 'medium-priority:');
+  const mergeable = sources.filter((source) => MERGEABLE_SOURCE_TYPE.test(String(source.type || '')) && foldTitle(source.title));
+
+  const parent = new Map(mergeable.map((source) => [source, source]));
+  const find = (source) => {
+    let root = source;
+    while (parent.get(root) !== root) root = parent.get(root);
+    parent.set(source, root);
+    return root;
+  };
+  const union = (a, b) => { const ra = find(a); const rb = find(b); if (ra !== rb) parent.set(rb, ra); };
+
+  const byTitleUrl = new Map();
+  const byId = new Map(mergeable.map((source) => [String(source.id), source]));
+  for (const source of mergeable) {
+    if (!source.url) continue;
+    const key = `${foldTitle(source.title)}\u0000${canonicalUrl(source.url)}`;
+    if (byTitleUrl.has(key)) union(byTitleUrl.get(key), source);
+    else byTitleUrl.set(key, source);
+  }
+  for (const source of mergeable) {
+    const staged = byId.get(stagingKey(source.approval?.stagingId));
+    if (staged && staged !== source && foldTitle(staged.title) === foldTitle(source.title)) union(staged, source);
+  }
+
+  const groups = new Map();
+  for (const source of mergeable) {
+    const root = find(source);
+    if (!groups.has(root)) groups.set(root, []);
+    groups.get(root).push(source);
+  }
+  const rank = (source) => {
+    const order = SOURCE_SURVIVOR_ORDER.indexOf(source.type);
+    return [
+      source.url ? 1 : 0,
+      normalizeArray(source.references).length + normalizeArray(source.downloads).length,
+      source.description ? 1 : 0,
+      -(order === -1 ? SOURCE_SURVIVOR_ORDER.length : order)
+    ];
+  };
+  const better = (a, b) => {
+    const x = rank(a);
+    const y = rank(b);
+    for (let i = 0; i < x.length; i += 1) if (x[i] !== y[i]) return x[i] > y[i];
+    return String(a.id) < String(b.id);
+  };
+
+  const merges = [];
+  const removed = new Set();
+  for (const group of groups.values()) {
+    if (group.length < 2) continue;
+    // Only a record of the approved-publication gate is merged away: its validator
+    // (validate-approved-publication-path.mjs) finds it in the survivor's mergedFrom. The
+    // medium-priority, raw-source and peatland validators require each of their records to
+    // stand on its own, so those are only ever the record that survives.
+    const removable = (source) => /^approved-(publication|variant):/.test(String(source.id || ''));
+    const keepers = group.filter((source) => !removable(source));
+    const pool = keepers.length ? keepers : group;
+    const survivor = pool.reduce((best, source) => (better(source, best) ? source : best));
+    const others = group.filter((source) => source !== survivor && removable(source));
+    if (!others.length) continue;
+    survivor.provider = [...new Set([...normalizeArray(survivor.provider), ...others.flatMap((source) => normalizeArray(source.provider))])];
+    survivor.keywords = mergeKeywordLists(survivor.keywords, ...others.map((source) => source.keywords));
+    survivor.references = dedupeReferences([...normalizeReferences(survivor.references), ...others.flatMap((source) => normalizeReferences(source.references))]);
+    const downloads = new Map();
+    for (const link of [...normalizeArray(survivor.downloads), ...others.flatMap((source) => normalizeArray(source.downloads))]) {
+      const key = typeof link === 'string' ? link : (link?.url || JSON.stringify(link));
+      if (!downloads.has(key)) downloads.set(key, link);
+    }
+    survivor.downloads = [...downloads.values()];
+    if (!survivor.description) survivor.description = others.find((source) => source.description)?.description;
+    if (!survivor.license) survivor.license = others.find((source) => source.license)?.license;
+    if (!survivor.date) survivor.date = others.find((source) => source.date)?.date;
+    survivor.mergedFrom = others.map((source) => compactObject({
+      id: source.id,
+      slug: source.slug,
+      type: source.type,
+      category: source.category,
+      approval: compactObject({ recommendedAction: source.approval?.recommendedAction }),
+      variantOf: source.variantOf?.id ? { id: source.variantOf.id } : undefined
+    }));
+    survivor.previousSlugs = [...new Set([...normalizeArray(survivor.previousSlugs), ...others.map((source) => source.slug).filter(Boolean)])];
+    for (const source of others) removed.add(source);
+    merges.push({
+      id: survivor.id,
+      slug: survivor.slug,
+      title: survivor.title,
+      merged: others.map((source) => ({ id: source.id, slug: source.slug, type: source.type, category: source.category }))
+    });
+  }
+  for (let i = sources.length - 1; i >= 0; i -= 1) if (removed.has(sources[i])) sources.splice(i, 1);
+  const byRule = merges.length ? `${merges.length} record(s) now stand for ${removed.size + merges.length}` : 'none';
+  console.log(`- sources: merged duplicate listings of one work: ${byRule}; ${removed.size} record(s) removed, their addresses kept as previousSlugs (data/browse/source-merges.json)`);
+  for (const merge of merges.slice(0, 5)) {
+    console.log(`    ${merge.title} <- ${merge.merged.map((m) => m.type).join(', ')}`);
+  }
+  return merges.sort((a, b) => a.title.localeCompare(b.title));
+}
+
+/**
+ * The reference works the election results are taken from or checked against
+ * (data/database/reference-works.json), as source records, each saying how many contests cite
+ * it (data/database/election-provenance.json) so a reader following a citation finds the work
+ * and what Civgraph takes from it (UX review 2026-10-31, L12).
+ */
+function referenceWorkSources() {
+  const works = normalizeArray(readJson('data/database/reference-works.json', { sources: [] }).sources);
+  if (!works.length) return [];
+  const provenance = normalizeArray(readJson('data/database/election-provenance.json', { contests: [] }).contests);
+  return works.map((work) => {
+    const cites = (source) => normalizeArray(work.citedAs).some((text) => String(source?.title || '').includes(text) || String(source?.url || '').includes(text));
+    let contests = 0;
+    let checked = 0;
+    const bodies = new Set();
+    for (const contest of provenance) {
+      const matching = normalizeArray(contest.sources).filter(cites);
+      if (!matching.length) continue;
+      contests += 1;
+      if (matching.some((source) => source.checked)) checked += 1;
+      if (contest.body) bodies.add(contest.body);
+    }
+    const electorates = work.electorateFile
+      ? normalizeArray(readJson(work.electorateFile, { records: [] }).records).length
+      : 0;
+    const authors = normalizeArray(work.authors);
+    const byline = work.editorNote ? `${work.editorNote.charAt(0).toUpperCase()}${work.editorNote.slice(1)}` : authors.join(', ');
+    const imprint = [work.place, work.publisher, work.date].filter(Boolean).join(', ');
+    const usage = [
+      contests ? `${formatCount(contests)} contest ${contests === 1 ? 'record cites' : 'records cite'} it as a source${checked ? `, ${formatCount(checked)} of them with figures checked against it` : ''}.` : '',
+      electorates ? `Electorates for ${formatCount(electorates)} contests are read from it.` : ''
+    ].filter(Boolean).join(' ');
+    const references = [
+      work.url ? { label: work.archiveUrl ? 'The work online' : 'The work', url: work.url, source: work.publisher, role: 'source-work' } : null,
+      work.archiveUrl ? { label: 'Internet Archive copy', url: work.archiveUrl, source: 'Internet Archive', role: 'source-mirror' } : null,
+      ...normalizeArray(work.pages).map(([label, url]) => ({
+        label: `${label} (Internet Archive copy, 2020)`,
+        url: `https://web.archive.org/web/2020/${url}`,
+        source: 'Internet Archive',
+        role: 'source-page'
+      }))
+    ].filter(Boolean);
+    const fullCitation = `${authors.length ? `${authors.join(', ')}${work.editorNote && /edited/.test(work.editorNote) ? ' (ed.)' : ''}, ` : ''}${work.title}${imprint ? ` (${imprint})` : ''}${work.isbn ? `, ISBN ${work.isbn}` : ''}.${work.reprint ? ` ${work.reprint}` : ''}`;
+    return compactObject({
+      id: work.id,
+      slug: slugify(work.id),
+      type: 'reference-work',
+      title: work.title,
+      subtitle: compactJoin([byline, imprint]),
+      category: work.category || 'Reference works',
+      date: work.date || null,
+      provider: [work.publisher].filter(Boolean),
+      description: [work.description, work.reprint && !String(work.description || '').includes('Reprinted') ? work.reprint : '',
+        `How Civgraph uses it: ${work.uses}`, usage, work.copyright].filter(Boolean).join(' '),
+      url: work.url || null,
+      references,
+      keywords: [...normalizeArray(work.keywords), ...authors, ...[...bodies].map(humanizeSlug)],
+      shortCitation: `${authors[0]?.split(/[,(]/)[0].trim() || work.publisher}${work.date ? ` (${work.date})` : ''}`,
+      fullCitation,
+      license: work.copyright ? { status: 'provider-specific', note: work.copyright } : null,
+      publicationStatus: 'reference'
+    });
+  });
+}
+
+function formatCount(value) {
+  return Number(value).toLocaleString('en-GB');
 }
 
 function applyAlreadyOnSiteEnrichments(sources, alreadyOnSiteEnrichmentsData = {}) {
@@ -2958,6 +3201,8 @@ function compactSourceIndexRecord(record, assignments = null) {
       license: record.license,
       approval: compactApprovalSummary(record.approval),
       keywords: normalizeArray(record.keywords).slice(0, 4),
+      previousSlugs: record.previousSlugs,
+      mergedFrom: record.mergedFrom,
       browseUrl: record.browseUrl,
       detailUrl: `/data/browse/details/${SOURCE_DETAIL_SHARD_DIR}/${sourceShardNameForRecord(record, assignments)}`
     });
@@ -2993,6 +3238,10 @@ function compactSourceIndexRecord(record, assignments = null) {
     downloadCount: normalizeArray(record.downloads).length,
     relatedRecords: normalizeArray(record.relatedRecords).slice(0, 5),
     keywords: normalizeArray(record.keywords).slice(0, 16),
+    // A record that stands for several listings of one work (mergeDuplicateSources): their
+    // addresses still open it, and the publication validators find their ids here.
+    previousSlugs: record.previousSlugs,
+    mergedFrom: record.mergedFrom,
     interactiveUrl: record.interactiveUrl,
     browseUrl: record.browseUrl,
     detailUrl: `/data/browse/details/${SOURCE_DETAIL_SHARD_DIR}/${sourceShardNameForRecord(record, assignments)}`
@@ -3385,6 +3634,93 @@ function extractCandidates(result) {
     }
   }
   return candidates;
+}
+
+/**
+ * Facets for Browse's People and Parties filters.
+ *
+ * Each party gets the bodies it contested and the decades it contested them in, from its
+ * election party tables and from its candidates' candidacies (a ballot-paper label is in no
+ * party table). The People filter options are returned: the bodies, decades and parties with
+ * how many people each holds, and for each party every spelling of it in the person records,
+ * which is what /_api/persons?party= matches.
+ */
+function addListFacets(parties, partyDetails, persons, electionDetails, partyNames) {
+  const bodyOf = (key) => cleanText(electionDetails.get(key)?.body || '');
+  const decadeOf = (year) => (Number(year) > 0 ? `${Math.floor(Number(year) / 10) * 10}s` : '');
+  const partyFacts = new Map();
+  const factsFor = (slug) => {
+    if (!partyFacts.has(slug)) partyFacts.set(slug, { bodies: new Map(), decades: new Set() });
+    return partyFacts.get(slug);
+  };
+  for (const party of Object.values(partyDetails)) {
+    for (const row of party.relatedElections || []) {
+      const facts = factsFor(party.slug);
+      const body = bodyOf(row.key);
+      if (body) facts.bodies.set(body, (facts.bodies.get(body) || 0) + 1);
+      const decade = decadeOf(String(row.date || '').slice(0, 4));
+      if (decade) facts.decades.add(decade);
+    }
+  }
+  const count = (map, key) => { if (key) map.set(key, (map.get(key) || 0) + 1); };
+  const personBodies = new Map();
+  const personDecades = new Map();
+  const personElected = new Map();
+  const personParties = new Map();
+  for (const person of persons) {
+    const bodies = new Set();
+    const decades = new Set();
+    const partySlugs = new Set();
+    for (const row of person.elections || []) {
+      const body = bodyOf(row.key);
+      const decade = decadeOf(row.year);
+      if (body) bodies.add(body);
+      if (decade) decades.add(decade);
+      const name = cleanText(row.party || '');
+      const slug = name ? partyNames[normalizeName(name)] : null;
+      if (!slug) continue;
+      partySlugs.add(slug);
+      const facts = factsFor(slug);
+      if (body && !(partyDetails[slug]?.relatedElections || []).length) facts.bodies.set(body, (facts.bodies.get(body) || 0) + 1);
+      if (decade) facts.decades.add(decade);
+      if (!personParties.has(slug)) personParties.set(slug, { names: new Set(), people: new Set() });
+      personParties.get(slug).names.add(name);
+    }
+    for (const body of bodies) count(personBodies, body);
+    for (const decade of decades) count(personDecades, decade);
+    count(personElected, Number(person.totals?.elected) > 0 ? 'yes' : 'no');
+    for (const slug of partySlugs) personParties.get(slug).people.add(person.slug);
+  }
+  for (const party of parties) {
+    const facts = partyFacts.get(party.slug);
+    if (!facts) continue;
+    const bodies = [...facts.bodies.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([body]) => body);
+    if (bodies.length) party.bodies = bodies;
+    if (facts.decades.size) party.decades = [...facts.decades].sort();
+  }
+  const titleOf = new Map(parties.map((party) => [party.slug, party.title]));
+  const counted = (map) => [...map.entries()].map(([value, n]) => ({ value, count: n }));
+  return {
+    body: counted(personBodies).sort((a, b) => a.value.localeCompare(b.value)),
+    decade: counted(personDecades).sort((a, b) => a.value.localeCompare(b.value)),
+    elected: counted(personElected).sort((a, b) => b.value.localeCompare(a.value)),
+    // A party a single person stood for is left out of the menu (their record still finds it).
+    party: [...personParties.entries()]
+      .filter(([, entry]) => entry.people.size >= 2)
+      .map(([slug, entry]) => ({ value: slug, label: titleOf.get(slug) || slug, count: entry.people.size, names: [...entry.names].sort() }))
+      .sort((a, b) => a.label.localeCompare(b.label))
+  };
+}
+
+/**
+ * A candidate's first-preference vote as a percentage of the contest's valid poll, to two
+ * places; null where either is unknown, or the vote exceeds the poll (a source error, not a
+ * share to show).
+ */
+function candidateShare(candidate, poll) {
+  const votes = Number(candidate.firstPrefs || candidate.firstPref || candidate.votes || 0);
+  if (!(votes > 0) || !(poll > 0) || votes > poll) return null;
+  return Math.round((votes / poll) * 10000) / 100;
 }
 
 function mapToSortedArray(map) {

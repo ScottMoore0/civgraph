@@ -50,19 +50,11 @@
   "partySummary": [
     {
       "party": "Irish Labour",
-      "seats": 3,
-      "stood": 4,
+      "seats": 4,
+      "stood": 5,
       "votes": 363,
       "colour": "#cc0000",
       "share": 68.23308270676691
-    },
-    {
-      "party": "Nationalist Party",
-      "seats": 3,
-      "stood": 2,
-      "votes": 0,
-      "colour": "#6b7280",
-      "share": 0
     },
     {
       "party": "UUP",
@@ -81,6 +73,14 @@
       "share": 0
     },
     {
+      "party": "Nationalist Party",
+      "seats": 2,
+      "stood": 2,
+      "votes": 0,
+      "colour": "#6b7280",
+      "share": 0
+    },
+    {
       "party": "Independent Nationalist",
       "seats": 1,
       "stood": 1,
@@ -91,7 +91,7 @@
     {
       "party": "Independent/Other",
       "seats": 0,
-      "stood": 4,
+      "stood": 3,
       "votes": 0,
       "colour": "#6b7280",
       "share": 0
@@ -138,60 +138,12 @@
     "totalValid": 532,
     "parties": [
       {
-        "name": "Independent/Other",
-        "colour": "#888888",
-        "firstPrefs": 0,
-        "finalVotes": 0,
-        "stood": 4,
-        "elected": 4,
-        "constituencies": [
-          "East Ward",
-          "North Ward",
-          "South Ward"
-        ],
-        "candidates": [
-          {
-            "id": "W.J. McK Craig|",
-            "name": "W.J. McK Craig",
-            "constituency": "North Ward",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": "Elected"
-          },
-          {
-            "id": "T.A. Forbes|",
-            "name": "T.A. Forbes",
-            "constituency": "East Ward",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": "Elected"
-          },
-          {
-            "id": "Thomas McGarrigle|",
-            "name": "Thomas McGarrigle",
-            "constituency": "South Ward",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": "Elected"
-          },
-          {
-            "id": "Thomas Maguire|",
-            "name": "Thomas Maguire",
-            "constituency": "South Ward",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": "Elected"
-          }
-        ],
-        "shareOfTotal": 0
-      },
-      {
         "name": "Irish Labour",
         "colour": "#A0A0A0",
         "firstPrefs": 363,
         "finalVotes": 363,
-        "stood": 4,
-        "elected": 3,
+        "stood": 5,
+        "elected": 4,
         "constituencies": [
           "East Ward",
           "West Ward"
@@ -228,9 +180,56 @@
             "firstPref": 0,
             "finalVotes": 0,
             "status": "Elected"
+          },
+          {
+            "id": "T.A. Forbes|Irish Labour",
+            "name": "T.A. Forbes",
+            "constituency": "East Ward",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
           }
         ],
         "shareOfTotal": 68.23308270676691
+      },
+      {
+        "name": "Independent/Other",
+        "colour": "#888888",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 3,
+        "elected": 3,
+        "constituencies": [
+          "North Ward",
+          "South Ward"
+        ],
+        "candidates": [
+          {
+            "id": "W.J. McK Craig|",
+            "name": "W.J. McK Craig",
+            "constituency": "North Ward",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          },
+          {
+            "id": "Thomas McGarrigle|",
+            "name": "Thomas McGarrigle",
+            "constituency": "South Ward",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          },
+          {
+            "id": "Thomas Maguire|",
+            "name": "Thomas Maguire",
+            "constituency": "South Ward",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 0
       },
       {
         "name": "UUP",
@@ -494,11 +493,11 @@
         "shareOfTotal": 0
       },
       {
-        "id": "T.A. Forbes|",
-        "key": "T.A. Forbes|",
+        "id": "T.A. Forbes|Irish Labour",
+        "key": "T.A. Forbes|Irish Labour",
         "name": "T.A. Forbes",
-        "party": "",
-        "colour": "#888888",
+        "party": "Irish Labour",
+        "colour": "#A0A0A0",
         "firstPrefs": 0,
         "finalVotes": 0,
         "electedCount": 1,
@@ -608,7 +607,7 @@
   "results": [
     {
       "constituency": "East Ward",
-      "winnerParty": "Nationalist Party",
+      "winnerParty": "Irish Labour",
       "winnerName": "3 elected",
       "leadingParty": "Nationalist Party",
       "leadingName": "Patrick Crawford",
@@ -625,7 +624,7 @@
       "spoiled": null,
       "validPoll": null,
       "totalVotes": null,
-      "colour": "#6b7280",
+      "colour": "#cc0000",
       "leadingColour": "#6b7280",
       "candidates": [
         {
@@ -639,7 +638,7 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
+          "status": "Elected unopposed",
           "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
@@ -650,7 +649,7 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ],
@@ -668,7 +667,7 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
+          "status": "Elected unopposed",
           "colour": "#A0A0A0",
           "gender": "",
           "dailAbbreviation": "",
@@ -679,7 +678,7 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ],
@@ -687,9 +686,9 @@
           "name_id": "n-john-kelly"
         },
         {
-          "id": "T.A. Forbes|",
+          "id": "T.A. Forbes|Irish Labour",
           "name": "T.A. Forbes",
-          "party": "",
+          "party": "Irish Labour",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -697,8 +696,8 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
-          "colour": "#888888",
+          "status": "Elected unopposed",
+          "colour": "#A0A0A0",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -708,7 +707,7 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ],
@@ -728,7 +727,7 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
+          "status": "Elected unopposed",
           "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
@@ -739,7 +738,7 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ]
@@ -755,7 +754,7 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
+          "status": "Elected unopposed",
           "colour": "#A0A0A0",
           "gender": "",
           "dailAbbreviation": "",
@@ -766,15 +765,15 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ]
         },
         {
-          "id": "T.A. Forbes|",
+          "id": "T.A. Forbes|Irish Labour",
           "name": "T.A. Forbes",
-          "party": "",
+          "party": "Irish Labour",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -782,8 +781,8 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
-          "colour": "#888888",
+          "status": "Elected unopposed",
+          "colour": "#A0A0A0",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -793,7 +792,7 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ]
@@ -859,8 +858,8 @@
           "Total_Votes": "",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "Labour",
+          "Party_Colour": "#A0A0A0",
           "candidateName": "T.A. Forbes",
           "id": 2,
           "Name_As_Printed": "T.A. Forbes",
@@ -936,8 +935,8 @@
               "Total_Votes": "",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "Labour",
+              "Party_Colour": "#A0A0A0",
               "candidateName": "T.A. Forbes",
               "id": 2,
               "Name_As_Printed": "T.A. Forbes",
@@ -946,12 +945,16 @@
           ]
         },
         "source": {
-          "title": "Owner's research notes: Strabane Urban District ward results, compiled by the site owner",
-          "publisher": "Civgraph owner's research notes",
-          "kind": "research-notes",
-          "check": "figures as compiled in the owner's research notes; the notes do not name the newspapers they were taken from"
+          "title": "Derry Journal, 8 May 1939, p. 6 (Strabane Urban Council: contest in two wards)",
+          "publisher": "Derry Journal",
+          "kind": "news",
+          "check": "names checked against the printed nominations; returned unopposed after Bernard Mulhern withdrew",
+          "confirmedBy": [
+            "Londonderry Sentinel, 11 May 1939, p. 3 (Strabane urban elections)"
+          ]
         },
-        "note": "Votes not recorded in the source."
+        "note": "Returned unopposed after Bernard Mulhern withdrew.",
+        "correctionNote": "T. A. Forbes had no party label. The Derry Journal's list of nominations shows him as one of the East Ward's three Labour nominees. (Derry Journal, Derry Journal, 8 May 1939, p. 6)"
       },
       "constituencyId": null,
       "constituencyNumber": null,
@@ -959,7 +962,11 @@
       "contestNotes": [
         {
           "label": "Note",
-          "text": "Votes not recorded in the source."
+          "text": "Returned unopposed after Bernard Mulhern withdrew."
+        },
+        {
+          "label": "Corrected",
+          "text": "T. A. Forbes had no party label. The Derry Journal's list of nominations shows him as one of the East Ward's three Labour nominees. (Derry Journal, Derry Journal, 8 May 1939, p. 6)"
         }
       ],
       "contestType": "election",
@@ -1022,7 +1029,7 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
+          "status": "Elected unopposed",
           "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
@@ -1033,7 +1040,7 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ],
@@ -1051,7 +1058,7 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
+          "status": "Elected unopposed",
           "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
@@ -1062,7 +1069,7 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ],
@@ -1080,7 +1087,7 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
+          "status": "Elected unopposed",
           "colour": "#888888",
           "gender": "",
           "dailAbbreviation": "",
@@ -1091,7 +1098,7 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ],
@@ -1111,7 +1118,7 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
+          "status": "Elected unopposed",
           "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
@@ -1122,7 +1129,7 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ]
@@ -1138,7 +1145,7 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
+          "status": "Elected unopposed",
           "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
@@ -1149,7 +1156,7 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ]
@@ -1165,7 +1172,7 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
+          "status": "Elected unopposed",
           "colour": "#888888",
           "gender": "",
           "dailAbbreviation": "",
@@ -1176,7 +1183,7 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ]
@@ -1329,10 +1336,10 @@
           ]
         },
         "source": {
-          "title": "Owner's research notes: Strabane Urban District ward results, compiled by the site owner",
-          "publisher": "Civgraph owner's research notes",
-          "kind": "research-notes",
-          "check": "figures as compiled in the owner's research notes; the notes do not name the newspapers they were taken from"
+          "title": "Derry Journal, 8 May 1939, p. 6 (Strabane Urban Council: contest in two wards)",
+          "publisher": "Derry Journal",
+          "kind": "news",
+          "check": "every name checked against the printed report; returned unopposed, no poll"
         }
       },
       "constituencyId": null,
@@ -1398,7 +1405,7 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
+          "status": "Elected unopposed",
           "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
@@ -1409,7 +1416,7 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ],
@@ -1427,7 +1434,7 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
+          "status": "Elected unopposed",
           "colour": "#888888",
           "gender": "",
           "dailAbbreviation": "",
@@ -1438,7 +1445,7 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ],
@@ -1456,7 +1463,7 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
+          "status": "Elected unopposed",
           "colour": "#888888",
           "gender": "",
           "dailAbbreviation": "",
@@ -1467,7 +1474,7 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ],
@@ -1487,7 +1494,7 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
+          "status": "Elected unopposed",
           "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
@@ -1498,7 +1505,7 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ]
@@ -1514,7 +1521,7 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
+          "status": "Elected unopposed",
           "colour": "#888888",
           "gender": "",
           "dailAbbreviation": "",
@@ -1525,7 +1532,7 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ]
@@ -1541,7 +1548,7 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
+          "status": "Elected unopposed",
           "colour": "#888888",
           "gender": "",
           "dailAbbreviation": "",
@@ -1552,7 +1559,7 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ]
@@ -1705,10 +1712,10 @@
           ]
         },
         "source": {
-          "title": "Owner's research notes: Strabane Urban District ward results, compiled by the site owner",
-          "publisher": "Civgraph owner's research notes",
-          "kind": "research-notes",
-          "check": "figures as compiled in the owner's research notes; the notes do not name the newspapers they were taken from"
+          "title": "Derry Journal, 8 May 1939, p. 6 (Strabane Urban Council: contest in two wards)",
+          "publisher": "Derry Journal",
+          "kind": "news",
+          "check": "every name checked against the printed report; returned unopposed, no poll"
         }
       },
       "constituencyId": null,
@@ -2146,10 +2153,14 @@
           ]
         },
         "source": {
-          "title": "Owner's research notes: Strabane Urban District ward results, compiled by the site owner",
-          "publisher": "Civgraph owner's research notes",
-          "kind": "research-notes",
-          "check": "figures as compiled in the owner's research notes; the notes do not name the newspapers they were taken from"
+          "title": "Belfast News-Letter, 17 May 1939, p. 12 (Strabane)",
+          "publisher": "Belfast News-Letter",
+          "kind": "news",
+          "check": "every figure checked against the printed report, party labels included",
+          "confirmedBy": [
+            "Derry Journal, 17 May 1939, p. 8 (Strabane urban election)",
+            "Londonderry Sentinel, 18 May 1939, p. 3 (Strabane urban election)"
+          ]
         }
       },
       "constituencyId": null,

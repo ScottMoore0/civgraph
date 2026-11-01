@@ -585,6 +585,17 @@ a:hover {
   gap: var(--space-3);
 }
 
+/* Two to a row on a phone: one to a row, the People filters and sort filled the first screen. */
+@media (max-width: 560px) {
+  .browse-filter-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.browse-filter select {
+  text-overflow: ellipsis;
+}
+
 .browse-filter {
   display: grid;
   gap: 6px;

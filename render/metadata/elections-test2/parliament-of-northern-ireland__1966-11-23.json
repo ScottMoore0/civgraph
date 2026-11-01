@@ -8,8 +8,8 @@
   "contestType": "election",
   "kind": "by-election",
   "votingSystem": "fptp",
-  "contestStatus": "uncontested",
-  "candidateRowsExpected": false,
+  "contestStatus": "contested",
+  "candidateRowsExpected": true,
   "transferDataExpected": false,
   "localBodies": null,
   "localBodyByConstituency": null,
@@ -40,6 +40,8 @@
   "availableStyleModes": [
     "winner",
     "leadingParty",
+    "voteShare",
+    "majority",
     "seats"
   ],
   "partySummary": [
@@ -47,9 +49,17 @@
       "party": "UUP",
       "seats": 1,
       "stood": 1,
-      "votes": 0,
+      "votes": 3717,
       "colour": "#48a5ee",
-      "share": null
+      "share": 55.602094240837694
+    },
+    {
+      "party": "Ulster Liberal",
+      "seats": 0,
+      "stood": 1,
+      "votes": 2968,
+      "colour": "#6b7280",
+      "share": 44.397905759162306
     }
   ],
   "mainLikePartySummary": [
@@ -57,15 +67,23 @@
       "party": "UUP",
       "seats": 1,
       "stood": 1,
-      "votes": 0,
+      "votes": 3717,
       "colour": "#48A5EE",
-      "share": null
+      "share": 55.602094240837694
+    },
+    {
+      "party": "Ulster Liberal",
+      "seats": 0,
+      "stood": 1,
+      "votes": 2968,
+      "colour": "#DAA520",
+      "share": 44.397905759162306
     }
   ],
   "mainLikeTotals": {
-    "validPoll": 0,
+    "validPoll": 6685,
     "totalPoll": 0,
-    "totalElectorate": 0,
+    "totalElectorate": 13722,
     "totalSpoiled": 0,
     "totalSeats": 1
   },
@@ -77,11 +95,11 @@
       "name": "Robert Porter",
       "party": "UUP",
       "colour": "#48A5EE",
-      "firstPrefs": 0,
-      "votes": 0,
-      "constPct": 0,
-      "firstPrefPct": 0,
-      "finalVotes": 0,
+      "firstPrefs": 3717,
+      "votes": 3717,
+      "constPct": 55.602094240837694,
+      "firstPrefPct": 55.602094240837694,
+      "finalVotes": 3717,
       "elected": true,
       "electedAt": 1,
       "excluded": false,
@@ -91,26 +109,55 @@
       "status": "Elected",
       "counts": {
         "1": {
-          "total": 0,
+          "total": 3717,
           "transfers": 0,
           "status": "Elected"
         }
       },
       "candidateKey": "robert porter|uup",
       "name_id": "n-robert-porter"
+    },
+    {
+      "id": "fix-albert-mcelroy-1966",
+      "personId": 116540,
+      "constituency": "Queen's University of Belfast",
+      "name": "Albert McElroy",
+      "party": "Ulster Liberal",
+      "colour": "#DAA520",
+      "firstPrefs": 2968,
+      "votes": 2968,
+      "constPct": 44.397905759162306,
+      "firstPrefPct": 44.397905759162306,
+      "finalVotes": 2968,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 2968,
+          "transfers": 0,
+          "status": ""
+        }
+      },
+      "candidateKey": "albert mcelroy|ulster liberal",
+      "name_id": "n-albert-mcelroy"
     }
   ],
   "mainLikeCandidateTotals": {
-    "validPoll": 0
+    "validPoll": 6685
   },
   "entityIndex": {
-    "totalValid": 0,
+    "totalValid": 6685,
     "parties": [
       {
         "name": "UUP",
         "colour": "#48A5EE",
-        "firstPrefs": 0,
-        "finalVotes": 0,
+        "firstPrefs": 3717,
+        "finalVotes": 3717,
         "stood": 1,
         "elected": 1,
         "constituencies": [
@@ -121,12 +168,34 @@
             "id": "Robert Porter|UUP",
             "name": "Robert Porter",
             "constituency": "Queen's University of Belfast",
-            "firstPref": 0,
-            "finalVotes": 0,
+            "firstPref": 3717,
+            "finalVotes": 3717,
             "status": "Elected"
           }
         ],
-        "shareOfTotal": null
+        "shareOfTotal": 55.602094240837694
+      },
+      {
+        "name": "Ulster Liberal",
+        "colour": "#DAA520",
+        "firstPrefs": 2968,
+        "finalVotes": 2968,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Queen's University of Belfast"
+        ],
+        "candidates": [
+          {
+            "id": "Albert McElroy|Ulster Liberal",
+            "name": "Albert McElroy",
+            "constituency": "Queen's University of Belfast",
+            "firstPref": 2968,
+            "finalVotes": 2968,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 44.397905759162306
       }
     ],
     "candidates": [
@@ -136,8 +205,8 @@
         "name": "Robert Porter",
         "party": "UUP",
         "colour": "#48A5EE",
-        "firstPrefs": 0,
-        "finalVotes": 0,
+        "firstPrefs": 3717,
+        "finalVotes": 3717,
         "electedCount": 1,
         "constituencies": [
           "Queen's University of Belfast"
@@ -145,12 +214,34 @@
         "appearances": [
           {
             "constituency": "Queen's University of Belfast",
-            "firstPref": 0,
-            "finalVotes": 0,
+            "firstPref": 3717,
+            "finalVotes": 3717,
             "status": "Elected"
           }
         ],
-        "shareOfTotal": null
+        "shareOfTotal": 55.602094240837694
+      },
+      {
+        "id": "Albert McElroy|Ulster Liberal",
+        "key": "Albert McElroy|Ulster Liberal",
+        "name": "Albert McElroy",
+        "party": "Ulster Liberal",
+        "colour": "#DAA520",
+        "firstPrefs": 2968,
+        "finalVotes": 2968,
+        "electedCount": 0,
+        "constituencies": [
+          "Queen's University of Belfast"
+        ],
+        "appearances": [
+          {
+            "constituency": "Queen's University of Belfast",
+            "firstPref": 2968,
+            "finalVotes": 2968,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 44.397905759162306
       }
     ]
   },
@@ -161,19 +252,19 @@
       "winnerName": "Robert Porter",
       "leadingParty": "UUP",
       "leadingName": "Robert Porter",
-      "leadingVotes": null,
-      "leadingPct": null,
+      "leadingVotes": 3717,
+      "leadingPct": 55.6,
       "turnoutPct": null,
-      "majority": null,
-      "majorityPct": null,
+      "majority": 749,
+      "majorityPct": 11.2,
       "seatsWon": 1,
       "seatsTotal": 1,
       "quota": null,
-      "electorate": null,
+      "electorate": 13722,
       "totalPoll": null,
       "spoiled": null,
-      "validPoll": null,
-      "totalVotes": null,
+      "validPoll": 6685,
+      "totalVotes": 6685,
       "colour": "#48a5ee",
       "leadingColour": "#48a5ee",
       "candidates": [
@@ -181,8 +272,8 @@
           "id": "2602849",
           "name": "Robert Porter",
           "party": "UUP",
-          "firstPrefs": null,
-          "finalVotes": null,
+          "firstPrefs": 3717,
+          "finalVotes": 3717,
           "elected": true,
           "electedAt": 1,
           "autoReturnedCeannComhairle": false,
@@ -197,14 +288,43 @@
           "counts": [
             {
               "count": 1,
-              "total": null,
+              "total": 3717,
               "transfers": 0,
               "status": "Elected",
-              "firstPrefs": null
+              "firstPrefs": 3717
             }
           ],
           "personId": 104917,
           "name_id": "n-robert-porter"
+        },
+        {
+          "id": "fix-albert-mcelroy-1966",
+          "name": "Albert McElroy",
+          "party": "Ulster Liberal",
+          "firstPrefs": 2968,
+          "finalVotes": 2968,
+          "elected": false,
+          "electedAt": null,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "",
+          "colour": "#DAA520",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "counts": [
+            {
+              "count": 1,
+              "total": 2968,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 2968
+            }
+          ],
+          "personId": 116540,
+          "name_id": "n-albert-mcelroy"
         }
       ],
       "elected": [
@@ -212,8 +332,8 @@
           "id": "2602849",
           "name": "Robert Porter",
           "party": "UUP",
-          "firstPrefs": null,
-          "finalVotes": null,
+          "firstPrefs": 3717,
+          "finalVotes": 3717,
           "elected": true,
           "electedAt": 1,
           "autoReturnedCeannComhairle": false,
@@ -228,10 +348,10 @@
           "counts": [
             {
               "count": 1,
-              "total": null,
+              "total": 3717,
               "transfers": 0,
               "status": "Elected",
-              "firstPrefs": null
+              "firstPrefs": 3717
             }
           ]
         }
@@ -241,26 +361,42 @@
         "Constituency_Number": "",
         "Number_Of_Seats": "1",
         "Spoiled": "",
-        "Total_Electorate": "",
+        "Total_Electorate": "13722",
         "Total_Poll": "",
-        "Valid_Poll": ""
+        "Valid_Poll": "6685"
       },
       "countGroup": [
         {
-          "Candidate_First_Pref_Votes": "Unopposed",
+          "Candidate_First_Pref_Votes": "3717.00",
           "Candidate_Id": "2602849",
           "Constituency_Number": "",
           "Count_Number": "1",
           "Firstname": "Robert",
-          "Occurred_On_Count": "",
+          "Occurred_On_Count": "1",
           "Party_Colour": "#48A5EE",
           "Party_Name": "UUP",
           "Status": "Elected",
           "Surname": "Porter",
-          "Total_Votes": "",
+          "Total_Votes": "3717.00",
           "Transfers": "0.00",
           "candidateName": "Robert Porter",
           "id": 0
+        },
+        {
+          "Constituency_Number": "",
+          "Candidate_Id": "fix-albert-mcelroy-1966",
+          "Count_Number": "1",
+          "Firstname": "Albert",
+          "Surname": "McElroy",
+          "Candidate_First_Pref_Votes": "2968.00",
+          "Transfers": "0.00",
+          "Total_Votes": "2968.00",
+          "Status": "",
+          "Occurred_On_Count": "",
+          "Party_Name": "Ulster Liberal",
+          "Party_Colour": "#DAA520",
+          "candidateName": "Albert McElroy",
+          "id": 1
         }
       ],
       "syntheticCountGroup": false,
@@ -277,30 +413,48 @@
             "Constituency_Number": "",
             "Number_Of_Seats": "1",
             "Spoiled": "",
-            "Total_Electorate": "",
+            "Total_Electorate": "13722",
             "Total_Poll": "",
-            "Valid_Poll": ""
+            "Valid_Poll": "6685"
           },
           "countGroup": [
             {
-              "Candidate_First_Pref_Votes": "Unopposed",
+              "Candidate_First_Pref_Votes": "3717.00",
               "Candidate_Id": "2602849",
               "Constituency_Number": "",
               "Count_Number": "1",
               "Firstname": "Robert",
-              "Occurred_On_Count": "",
+              "Occurred_On_Count": "1",
               "Party_Colour": "#48A5EE",
               "Party_Name": "UUP",
               "Status": "Elected",
               "Surname": "Porter",
-              "Total_Votes": "",
+              "Total_Votes": "3717.00",
               "Transfers": "0.00",
               "candidateName": "Robert Porter",
               "id": 0
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "fix-albert-mcelroy-1966",
+              "Count_Number": "1",
+              "Firstname": "Albert",
+              "Surname": "McElroy",
+              "Candidate_First_Pref_Votes": "2968.00",
+              "Transfers": "0.00",
+              "Total_Votes": "2968.00",
+              "Status": "",
+              "Occurred_On_Count": "",
+              "Party_Name": "Ulster Liberal",
+              "Party_Colour": "#DAA520",
+              "candidateName": "Albert McElroy",
+              "id": 1
             }
           ]
         },
-        "cause": "Resignation of Charles Stewart (Independent) (Wikipedia, List of Northern Ireland Parliament by-elections)"
+        "electorateSource": "Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973); the same figure in David Boothroyd, Northern Ireland House of Commons Election Results",
+        "cause": "Resignation of Charles Stewart (Independent) (Wikipedia, List of Northern Ireland Parliament by-elections)",
+        "correctionNote": "Contested, not unopposed: Robert Porter 3,717; Albert McElroy (Ulster Liberal) 2,968. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give. A single-vacancy by-election (resignation of Stewart). (Royal Irish Academy; David Boothroyd, B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 78; checked against David Boothroyd, Northern Ireland House of Commons Election Results (qub.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020))"
       },
       "constituencyId": null,
       "constituencyNumber": null,
@@ -309,13 +463,21 @@
         {
           "label": "Cause",
           "text": "Resignation of Charles Stewart (Independent) (Wikipedia, List of Northern Ireland Parliament by-elections)"
+        },
+        {
+          "label": "Electorate",
+          "text": "13,722: Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973); the same figure in David Boothroyd, Northern Ireland House of Commons Election Results"
+        },
+        {
+          "label": "Corrected",
+          "text": "Contested, not unopposed: Robert Porter 3,717; Albert McElroy (Ulster Liberal) 2,968. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give. A single-vacancy by-election (resignation of Stewart). (Royal Irish Academy; David Boothroyd, B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 78; checked against David Boothroyd, Northern Ireland House of Commons Election Results (qub.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020))"
         }
       ],
       "contestType": "election",
       "kind": "by-election",
       "votingSystem": "fptp",
-      "contestStatus": "uncontested",
-      "candidateRowsExpected": false,
+      "contestStatus": "contested",
+      "candidateRowsExpected": true,
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1966-11-23/queens-university-of-belfast.json",

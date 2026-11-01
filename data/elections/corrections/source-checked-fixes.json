@@ -23,7 +23,9 @@
   "ark-six-contests-2026-10-30": "Six NI Assembly (1973, 1982) and Convention (1975) contests the ARK cross-check of 2026-10-29 left out for want of an official sheet, settled from the Chief Electoral Officer for Northern Ireland's published result sheets (eoni.org.uk, Internet Archive copies of 1 April 2017). Includes 1982 Belfast South and 1975 Belfast East, settled from the same sheets.",
   "ni-booklets-sweep-2026-10-30": "Every remaining 1973 Assembly, 1975 Convention and 1982 Assembly contest checked against the Chief Electoral Officer for Northern Ireland's published result booklets (eoni.org.uk, Internet Archive copies of 1 April 2017): header figures, first preferences and the members elected. The six contests of ark-six-contests-2026-10-30 and its two further records are in that batch.",
   "elliott-qub-2026-10-31": "Queen's University of Belfast general elections of 1949, 1953 and 1958 checked against Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (Political Reference Publications, 1973), with the Wikipedia article on the constituency as the second source: Samuel Irwin (UUP), elected first at all three, was missing, so a defeated candidate showed as elected each time. Applied only where both sources agree.",
-  "elliott-1921-labour-2026-10-31": "Belfast Labour Party candidates at the Northern Ireland general election of 24 May 1921 relabelled Independent Labour, as Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (Political Reference Publications, 1973), prints them; Graham Walker's account agrees."
+  "elliott-1921-labour-2026-10-31": "Belfast Labour Party candidates at the Northern Ireland general election of 24 May 1921 relabelled Independent Labour, as Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (Political Reference Publications, 1973), prints them; Graham Walker's account agrees.",
+  "stormont-flags-2026-10-31": "Stormont contests flagged in 2026-10-31 review: vote totals that failed the turnout check (Cromac 1953, Oldpark 1933, Pottinger 1945, Londonderry City 1945 and 1947) and 25 contests the import showed unopposed although both reference works print an electorate. Checked against B. M. Walker, Parliamentary Election Results in Ireland 1918-92 (RIA 1992) and David Boothroyd's Northern Ireland House of Commons results (Internet Archive), with contemporary Belfast and Derry newspapers (British Newspaper Archive) for the five vote-total flags and Falls 1942.",
+  "strabane-belfast-1961-bna-2026-10-31": "Strabane Urban District Council 1899-1967 and the Belfast Corporation election of May 1961, checked against the newspaper reports in the British Newspaper Archive (Derry Journal, Londonderry Sentinel, Londonderry Standard, Strabane Chronicle, Tyrone Constitution, Northern Whig, Belfast News-Letter, Belfast Telegraph): misread names, figures and party labels, the poll figures of three 1958 wards, and contests imported with no result."
  },
  "records": [
   {
@@ -227938,6 +227940,2571 @@
      "set": {
       "Party_Name": "Independent Labour",
       "Party_Colour": "#FF9999"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "stormont-flags-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1953-10-22/belfast-cromac.json",
+   "source": {
+    "title": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 66; checked against David Boothroyd, Northern Ireland House of Commons Election Results (belfast.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020)",
+    "publisher": "Royal Irish Academy; David Boothroyd",
+    "url": null,
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html",
+    "accessed": "2026-10-31",
+    "newspapers": [
+     "Londonderry Sentinel, 24 October 1953, p. 6",
+     "Belfast Telegraph, 23 October 1953, p. 6",
+     "Frontier Sentinel, 24 October 1953, p. 1"
+    ]
+   },
+   "category": "votes",
+   "reason": "Thomas Allen (Ind U) polled 2,604, not 2,170: Walker, Boothroyd and the next-day newspapers agree (total poll 7,943 with 46 spoilt, electorate 16,246). 2,170 is J. A. Donnelly's Cromac vote at the 1949 election, carried into the 1953 row.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Thomas Allen",
+     "set": {
+      "Candidate_First_Pref_Votes": "2604.00",
+      "Total_Votes": "2604.00"
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "7897"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Spoiled",
+     "value": "46"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Poll",
+     "value": "7943"
+    }
+   ]
+  },
+  {
+   "batch": "stormont-flags-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1933-11-30/belfast-oldpark.json",
+   "source": {
+    "title": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 53; checked against David Boothroyd, Northern Ireland House of Commons Election Results (belfast.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020)",
+    "publisher": "Royal Irish Academy; David Boothroyd",
+    "url": null,
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html",
+    "accessed": "2026-10-31",
+    "newspapers": [
+     "Northern Whig, 2 December 1933, p. 8"
+    ]
+   },
+   "category": "winner",
+   "reason": "Sir Wilson Hungerford (U) held Oldpark with 5,427 to William McConnell Wilton's (Ind U) 4,155; the import gave Wilton 5,933 and showed him elected. 5,933 is Sam Kyle's Oldpark vote at the 1929 election. Walker, Boothroyd and the Northern Whig agree; Hungerford sat for Oldpark until 1945.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "William McConnell Wilton",
+     "set": {
+      "Candidate_First_Pref_Votes": "4155.00",
+      "Total_Votes": "4155.00",
+      "Status": ""
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Sir Wilson Hungerford",
+     "set": {
+      "Status": "Elected"
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "9582"
+    }
+   ]
+  },
+  {
+   "batch": "stormont-flags-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-06-14/belfast-pottinger.json",
+   "source": {
+    "title": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 60; checked against David Boothroyd, Northern Ireland House of Commons Election Results (belfast.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020)",
+    "publisher": "Royal Irish Academy; David Boothroyd",
+    "url": null,
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html",
+    "accessed": "2026-10-31"
+   },
+   "category": "votes",
+   "reason": "Jack Beattie (Ind Lab) polled 4,952, not 5,952 (a one-digit slip): Walker and Boothroyd agree, and only 4,952 + 4,474 matches the printed turnout of 78.7% of 11,975 and Boothroyd's majority of 478.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Jack Beattie",
+     "set": {
+      "Candidate_First_Pref_Votes": "4952.00",
+      "Total_Votes": "4952.00"
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "9426"
+    }
+   ]
+  },
+  {
+   "batch": "stormont-flags-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-06-14/city-of-londonderry.json",
+   "source": {
+    "title": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 61; checked against David Boothroyd, Northern Ireland House of Commons Election Results (ldrcity.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020)",
+    "publisher": "Royal Irish Academy; David Boothroyd",
+    "url": null,
+    "archiveUrl": "https://web.archive.org/web/20200730064819/http://www.election.demon.co.uk/stormont/ldrcity.html",
+    "accessed": "2026-10-31",
+    "newspapers": [
+     "Belfast News-Letter, 14 June 1945, p. 3 (nominations)",
+     "Northern Whig, 28 June 1947, p. 1 (1945 figures restated)"
+    ]
+   },
+   "category": "missing-candidates",
+   "reason": "The seat was contested: William Alexander Irwin (NI Labour) polled 4,908 against William Lowry's 8,529 (majority 3,621). The import held Lowry alone with a vote, so the contest read as neither contested nor unopposed. Walker and Boothroyd agree; turnout 71.9% of 18,689.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "William Lowry",
+     "set": {
+      "Candidate_First_Pref_Votes": "8529.00",
+      "Total_Votes": "8529.00",
+      "Transfers": "0.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "1"
+     }
+    },
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-william-alexander-irwin-1945",
+      "Count_Number": "1",
+      "Firstname": "William Alexander",
+      "Surname": "Irwin",
+      "Candidate_First_Pref_Votes": "4908.00",
+      "Transfers": "0.00",
+      "Total_Votes": "4908.00",
+      "Status": "",
+      "Occurred_On_Count": "",
+      "Party_Name": "NI Labour",
+      "Party_Colour": "#DC241F",
+      "candidateName": "William Alexander Irwin",
+      "id": 1
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "13437"
+    }
+   ]
+  },
+  {
+   "batch": "stormont-flags-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1947-06-27/city-of-londonderry.json",
+   "source": {
+    "title": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 62; checked against David Boothroyd, Northern Ireland House of Commons Election Results (ldrcity.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020)",
+    "publisher": "Royal Irish Academy; David Boothroyd",
+    "url": null,
+    "archiveUrl": "https://web.archive.org/web/20200730064819/http://www.election.demon.co.uk/stormont/ldrcity.html",
+    "accessed": "2026-10-31",
+    "newspapers": [
+     "Belfast News-Letter, 28 June 1947, p. 4",
+     "Londonderry Sentinel, 28 June 1947, p. 5",
+     "Belfast Telegraph, 28 June 1947, p. 1"
+    ]
+   },
+   "category": "missing-candidates",
+   "reason": "The by-election was contested: William Alexander Irwin (NI Labour) polled 4,873 against the Rev. J. G. MacManaway's 8,901 (majority 4,028). Walker, Boothroyd and the newspapers agree; total poll 13,800 of 17,415 with 26 spoilt.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "James Godfrey MacManaway",
+     "set": {
+      "Candidate_First_Pref_Votes": "8901.00",
+      "Total_Votes": "8901.00",
+      "Transfers": "0.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "1"
+     }
+    },
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-william-alexander-irwin-1947",
+      "Count_Number": "1",
+      "Firstname": "William Alexander",
+      "Surname": "Irwin",
+      "Candidate_First_Pref_Votes": "4873.00",
+      "Transfers": "0.00",
+      "Total_Votes": "4873.00",
+      "Status": "",
+      "Occurred_On_Count": "",
+      "Party_Name": "NI Labour",
+      "Party_Colour": "#DC241F",
+      "candidateName": "William Alexander Irwin",
+      "id": 1
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "13774"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Spoiled",
+     "value": "26"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Poll",
+     "value": "13800"
+    }
+   ]
+  },
+  {
+   "batch": "stormont-flags-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1950-10-31/belfast-bloomfield.json",
+   "source": {
+    "title": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 65; checked against David Boothroyd, Northern Ireland House of Commons Election Results (belfast.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020)",
+    "publisher": "Royal Irish Academy; David Boothroyd",
+    "url": null,
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html",
+    "accessed": "2026-10-31"
+   },
+   "category": "missing-candidates",
+   "reason": "Contested, not unopposed: Daniel Dixon 7,609; Robert S. Thompson (NI Labour) 2,232. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give. Walker prints the winner as '2nd Lord Glentoran (Herbert Dixon)'; the 2nd baron was Daniel Dixon (Herbert Dixon, the 1st baron, died in 1950), as the import has it.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Daniel Dixon",
+     "set": {
+      "Candidate_First_Pref_Votes": "7609.00",
+      "Total_Votes": "7609.00",
+      "Transfers": "0.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "1"
+     }
+    },
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-robert-s-thompson-1950",
+      "Count_Number": "1",
+      "Firstname": "Robert S.",
+      "Surname": "Thompson",
+      "Candidate_First_Pref_Votes": "2232.00",
+      "Transfers": "0.00",
+      "Total_Votes": "2232.00",
+      "Status": "",
+      "Occurred_On_Count": "",
+      "Party_Name": "NI Labour",
+      "Party_Colour": "#DC241F",
+      "candidateName": "Robert S. Thompson",
+      "id": 1
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "9841"
+    }
+   ]
+  },
+  {
+   "batch": "stormont-flags-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1959-05-28/belfast-clifton.json",
+   "source": {
+    "title": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 71; checked against David Boothroyd, Northern Ireland House of Commons Election Results (belfast.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020)",
+    "publisher": "Royal Irish Academy; David Boothroyd",
+    "url": null,
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html",
+    "accessed": "2026-10-31"
+   },
+   "category": "missing-candidates",
+   "reason": "Contested, not unopposed: William James Morgan 5,212; Norman Porter (Independent Unionist) 3,978; Victoria Dunlop (NI Labour) 1,185. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "William James Morgan",
+     "set": {
+      "Candidate_First_Pref_Votes": "5212.00",
+      "Total_Votes": "5212.00",
+      "Transfers": "0.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "1"
+     }
+    },
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-norman-porter-1959",
+      "Count_Number": "1",
+      "Firstname": "Norman",
+      "Surname": "Porter",
+      "Candidate_First_Pref_Votes": "3978.00",
+      "Transfers": "0.00",
+      "Total_Votes": "3978.00",
+      "Status": "",
+      "Occurred_On_Count": "",
+      "Party_Name": "Independent Unionist",
+      "Party_Colour": "#AADFFF",
+      "candidateName": "Norman Porter",
+      "id": 1
+     }
+    },
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-victoria-dunlop-1959",
+      "Count_Number": "1",
+      "Firstname": "Victoria",
+      "Surname": "Dunlop",
+      "Candidate_First_Pref_Votes": "1185.00",
+      "Transfers": "0.00",
+      "Total_Votes": "1185.00",
+      "Status": "",
+      "Occurred_On_Count": "",
+      "Party_Name": "NI Labour",
+      "Party_Colour": "#DC241F",
+      "candidateName": "Victoria Dunlop",
+      "id": 2
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "10375"
+    }
+   ]
+  },
+  {
+   "batch": "stormont-flags-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1962-12-06/belfast-cromac.json",
+   "source": {
+    "title": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 75; checked against David Boothroyd, Northern Ireland House of Commons Election Results (belfast.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020)",
+    "publisher": "Royal Irish Academy; David Boothroyd",
+    "url": null,
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html",
+    "accessed": "2026-10-31"
+   },
+   "category": "missing-candidates",
+   "reason": "Contested, not unopposed: William Kennedy 4,801; Cecil Allen (NI Labour) 1,866; Robert Huston (Ulster Liberal) 1,074. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give. The winner is John William Kennedy (Walker; Boothroyd 'J.W. Kennedy').",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "William Kennedy",
+     "set": {
+      "Candidate_First_Pref_Votes": "4801.00",
+      "Total_Votes": "4801.00",
+      "Transfers": "0.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "1"
+     }
+    },
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-cecil-allen-1962",
+      "Count_Number": "1",
+      "Firstname": "Cecil",
+      "Surname": "Allen",
+      "Candidate_First_Pref_Votes": "1866.00",
+      "Transfers": "0.00",
+      "Total_Votes": "1866.00",
+      "Status": "",
+      "Occurred_On_Count": "",
+      "Party_Name": "NI Labour",
+      "Party_Colour": "#DC241F",
+      "candidateName": "Cecil Allen",
+      "id": 1
+     }
+    },
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-robert-huston-1962",
+      "Count_Number": "1",
+      "Firstname": "Robert",
+      "Surname": "Huston",
+      "Candidate_First_Pref_Votes": "1074.00",
+      "Transfers": "0.00",
+      "Total_Votes": "1074.00",
+      "Status": "",
+      "Occurred_On_Count": "",
+      "Party_Name": "Ulster Liberal",
+      "Party_Colour": "#DAA520",
+      "candidateName": "Robert Huston",
+      "id": 2
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "7741"
+    }
+   ]
+  },
+  {
+   "batch": "stormont-flags-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-11-29/belfast-duncairn.json",
+   "source": {
+    "title": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 65; checked against David Boothroyd, Northern Ireland House of Commons Election Results (belfast.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020)",
+    "publisher": "Royal Irish Academy; David Boothroyd",
+    "url": null,
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html",
+    "accessed": "2026-10-31"
+   },
+   "category": "missing-candidates",
+   "reason": "Contested, not unopposed: George Boyle Hanna 7,590; James Morrow (NI Labour) 2,686. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "George Boyle Hanna",
+     "set": {
+      "Candidate_First_Pref_Votes": "7590.00",
+      "Total_Votes": "7590.00",
+      "Transfers": "0.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "1"
+     }
+    },
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-james-morrow-1949",
+      "Count_Number": "1",
+      "Firstname": "James",
+      "Surname": "Morrow",
+      "Candidate_First_Pref_Votes": "2686.00",
+      "Transfers": "0.00",
+      "Total_Votes": "2686.00",
+      "Status": "",
+      "Occurred_On_Count": "",
+      "Party_Name": "NI Labour",
+      "Party_Colour": "#DC241F",
+      "candidateName": "James Morrow",
+      "id": 1
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "10276"
+    }
+   ]
+  },
+  {
+   "batch": "stormont-flags-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1956-12-04/belfast-duncairn.json",
+   "source": {
+    "title": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 68; checked against David Boothroyd, Northern Ireland House of Commons Election Results (belfast.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020)",
+    "publisher": "Royal Irish Academy; David Boothroyd",
+    "url": null,
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html",
+    "accessed": "2026-10-31"
+   },
+   "category": "missing-candidates",
+   "reason": "Contested, not unopposed: William Fitzsimmons 4,779; John William McDowell (NI Labour) 2,218. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "William Fitzsimmons",
+     "set": {
+      "Candidate_First_Pref_Votes": "4779.00",
+      "Total_Votes": "4779.00",
+      "Transfers": "0.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "1"
+     }
+    },
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-john-william-mcdowell-1956",
+      "Count_Number": "1",
+      "Firstname": "John William",
+      "Surname": "McDowell",
+      "Candidate_First_Pref_Votes": "2218.00",
+      "Transfers": "0.00",
+      "Total_Votes": "2218.00",
+      "Status": "",
+      "Occurred_On_Count": "",
+      "Party_Name": "NI Labour",
+      "Party_Colour": "#DC241F",
+      "candidateName": "John William McDowell",
+      "id": 1
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "6997"
+    }
+   ]
+  },
+  {
+   "batch": "stormont-flags-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1970-11-12/belfast-st-annes.json",
+   "source": {
+    "title": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 82; checked against David Boothroyd, Northern Ireland House of Commons Election Results (belfast.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020)",
+    "publisher": "Royal Irish Academy; David Boothroyd",
+    "url": null,
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html",
+    "accessed": "2026-10-31"
+   },
+   "category": "missing-candidates",
+   "reason": "Contested, not unopposed: John Laird 8,204; Gerald Malachy Lavery (SDLP) 2,881; William Ritchie (NI Labour) 836. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "John Laird",
+     "set": {
+      "Candidate_First_Pref_Votes": "8204.00",
+      "Total_Votes": "8204.00",
+      "Transfers": "0.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "1"
+     }
+    },
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-gerald-malachy-lavery-1970",
+      "Count_Number": "1",
+      "Firstname": "Gerald Malachy",
+      "Surname": "Lavery",
+      "Candidate_First_Pref_Votes": "2881.00",
+      "Transfers": "0.00",
+      "Total_Votes": "2881.00",
+      "Status": "",
+      "Occurred_On_Count": "",
+      "Party_Name": "SDLP",
+      "Party_Colour": "#2AA82C",
+      "candidateName": "Gerald Malachy Lavery",
+      "id": 1
+     }
+    },
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-william-ritchie-1970",
+      "Count_Number": "1",
+      "Firstname": "William",
+      "Surname": "Ritchie",
+      "Candidate_First_Pref_Votes": "836.00",
+      "Transfers": "0.00",
+      "Total_Votes": "836.00",
+      "Status": "",
+      "Occurred_On_Count": "",
+      "Party_Name": "NI Labour",
+      "Party_Colour": "#DC241F",
+      "candidateName": "William Ritchie",
+      "id": 2
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "11921"
+    }
+   ]
+  },
+  {
+   "batch": "stormont-flags-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1941-12-03/belfast-willowfield.json",
+   "source": {
+    "title": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 58; checked against David Boothroyd, Northern Ireland House of Commons Election Results (belfast.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020)",
+    "publisher": "Royal Irish Academy; David Boothroyd",
+    "url": null,
+    "archiveUrl": "https://web.archive.org/web/20200129141315/http://www.election.demon.co.uk/stormont/belfast.html",
+    "accessed": "2026-10-31"
+   },
+   "category": "missing-candidates",
+   "reason": "Contested, not unopposed: Harry Midgley 7,209; Frederick J. Lavery (UUP) 2,435. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give. Walker prints Midgley as NILP; Boothroyd 'Lab (CWLP)', i.e. Labour, later Commonwealth Labour.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Harry Midgley",
+     "set": {
+      "Candidate_First_Pref_Votes": "7209.00",
+      "Total_Votes": "7209.00",
+      "Transfers": "0.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "1"
+     }
+    },
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-frederick-j-lavery-1941",
+      "Count_Number": "1",
+      "Firstname": "Frederick J.",
+      "Surname": "Lavery",
+      "Candidate_First_Pref_Votes": "2435.00",
+      "Transfers": "0.00",
+      "Total_Votes": "2435.00",
+      "Status": "",
+      "Occurred_On_Count": "",
+      "Party_Name": "UUP",
+      "Party_Colour": "#48A5EE",
+      "candidateName": "Frederick J. Lavery",
+      "id": 1
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "9644"
+    }
+   ]
+  },
+  {
+   "batch": "stormont-flags-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1943-08-26/carrick.json",
+   "source": {
+    "title": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 58; checked against David Boothroyd, Northern Ireland House of Commons Election Results (antrim.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020)",
+    "publisher": "Royal Irish Academy; David Boothroyd",
+    "url": null,
+    "archiveUrl": "https://web.archive.org/web/2020/http://www.election.demon.co.uk/stormont/antrim.html",
+    "accessed": "2026-10-31"
+   },
+   "category": "missing-candidates",
+   "reason": "Contested, not unopposed: John Dermot Campbell 5,612; William Calwell (NI Labour) 3,116. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give. The same figures sit in a second file dated 1943-04-19 (see the structural proposal); there was no Carrick by-election in April 1943.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "John Dermot Campbell",
+     "set": {
+      "Candidate_First_Pref_Votes": "5612.00",
+      "Total_Votes": "5612.00",
+      "Transfers": "0.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "1"
+     }
+    },
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-william-calwell-1943",
+      "Count_Number": "1",
+      "Firstname": "William",
+      "Surname": "Calwell",
+      "Candidate_First_Pref_Votes": "3116.00",
+      "Transfers": "0.00",
+      "Total_Votes": "3116.00",
+      "Status": "",
+      "Occurred_On_Count": "",
+      "Party_Name": "NI Labour",
+      "Party_Colour": "#DC241F",
+      "candidateName": "William Calwell",
+      "id": 1
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "8728"
+    }
+   ]
+  },
+  {
+   "batch": "stormont-flags-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1968-11-06/south-antrim.json",
+   "source": {
+    "title": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 78; checked against David Boothroyd, Northern Ireland House of Commons Election Results (antrim.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020)",
+    "publisher": "Royal Irish Academy; David Boothroyd",
+    "url": null,
+    "archiveUrl": "https://web.archive.org/web/2020/http://www.election.demon.co.uk/stormont/antrim.html",
+    "accessed": "2026-10-31"
+   },
+   "category": "missing-candidates",
+   "reason": "Contested, not unopposed: Richard Ferguson 16,288; John Coulthard (NI Labour) 2,848. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Richard Ferguson",
+     "set": {
+      "Candidate_First_Pref_Votes": "16288.00",
+      "Total_Votes": "16288.00",
+      "Transfers": "0.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "1"
+     }
+    },
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-john-coulthard-1968",
+      "Count_Number": "1",
+      "Firstname": "John",
+      "Surname": "Coulthard",
+      "Candidate_First_Pref_Votes": "2848.00",
+      "Transfers": "0.00",
+      "Total_Votes": "2848.00",
+      "Status": "",
+      "Occurred_On_Count": "",
+      "Party_Name": "NI Labour",
+      "Party_Colour": "#DC241F",
+      "candidateName": "John Coulthard",
+      "id": 1
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "19136"
+    }
+   ]
+  },
+  {
+   "batch": "stormont-flags-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1950-12-06/south-armagh.json",
+   "source": {
+    "title": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 65; checked against David Boothroyd, Northern Ireland House of Commons Election Results (armagh.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020)",
+    "publisher": "Royal Irish Academy; David Boothroyd",
+    "url": null,
+    "archiveUrl": "https://web.archive.org/web/2020/http://www.election.demon.co.uk/stormont/armagh.html",
+    "accessed": "2026-10-31"
+   },
+   "category": "missing-candidates",
+   "reason": "Contested, not unopposed: Charles McGleenan 5,581; Seamus MacKearney (Irish Labour) 2,555. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give. Walker names the runner-up James Gerald MacKearney (Ir Lab), the man the import calls Seamus MacKearney in Falls 1953 and 1958.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Charles McGleenan",
+     "set": {
+      "Candidate_First_Pref_Votes": "5581.00",
+      "Total_Votes": "5581.00",
+      "Transfers": "0.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "1"
+     }
+    },
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-seamus-mackearney-1950",
+      "Count_Number": "1",
+      "Firstname": "Seamus",
+      "Surname": "MacKearney",
+      "Candidate_First_Pref_Votes": "2555.00",
+      "Transfers": "0.00",
+      "Total_Votes": "2555.00",
+      "Status": "",
+      "Occurred_On_Count": "",
+      "Party_Name": "Irish Labour",
+      "Party_Colour": "#A0A0A0",
+      "candidateName": "Seamus MacKearney",
+      "id": 1
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "8136"
+    }
+   ]
+  },
+  {
+   "batch": "stormont-flags-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1964-12-03/mid-down.json",
+   "source": {
+    "title": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 75; checked against David Boothroyd, Northern Ireland House of Commons Election Results (down.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020)",
+    "publisher": "Royal Irish Academy; David Boothroyd",
+    "url": null,
+    "archiveUrl": "https://web.archive.org/web/2020/http://www.election.demon.co.uk/stormont/down.html",
+    "accessed": "2026-10-31"
+   },
+   "category": "missing-candidates",
+   "reason": "Contested, not unopposed: Basil Kelly 8,674; James Steele Gardner (NI Labour) 2,572. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Basil Kelly",
+     "set": {
+      "Candidate_First_Pref_Votes": "8674.00",
+      "Total_Votes": "8674.00",
+      "Transfers": "0.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "1"
+     }
+    },
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-james-steele-gardner-1964",
+      "Count_Number": "1",
+      "Firstname": "James Steele",
+      "Surname": "Gardner",
+      "Candidate_First_Pref_Votes": "2572.00",
+      "Transfers": "0.00",
+      "Total_Votes": "2572.00",
+      "Status": "",
+      "Occurred_On_Count": "",
+      "Party_Name": "NI Labour",
+      "Party_Colour": "#DC241F",
+      "candidateName": "James Steele Gardner",
+      "id": 1
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "11246"
+    }
+   ]
+  },
+  {
+   "batch": "stormont-flags-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1962-05-31/mourne.json",
+   "source": {
+    "title": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 74; checked against David Boothroyd, Northern Ireland House of Commons Election Results (down.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020)",
+    "publisher": "Royal Irish Academy; David Boothroyd",
+    "url": null,
+    "archiveUrl": "https://web.archive.org/web/2020/http://www.election.demon.co.uk/stormont/down.html",
+    "accessed": "2026-10-31"
+   },
+   "category": "missing-candidates",
+   "reason": "Contested, not unopposed: James O'Reilly 7,475; Michael Perceval-Price (UUP) 6,132. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "James O'Reilly",
+     "set": {
+      "Candidate_First_Pref_Votes": "7475.00",
+      "Total_Votes": "7475.00",
+      "Transfers": "0.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "1"
+     }
+    },
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-michael-perceval-price-1962",
+      "Count_Number": "1",
+      "Firstname": "Michael Charles",
+      "Surname": "Perceval-Price",
+      "Candidate_First_Pref_Votes": "6132.00",
+      "Transfers": "0.00",
+      "Total_Votes": "6132.00",
+      "Status": "",
+      "Occurred_On_Count": "",
+      "Party_Name": "UUP",
+      "Party_Colour": "#48A5EE",
+      "candidateName": "Michael Perceval-Price",
+      "id": 1
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "13607"
+    }
+   ]
+  },
+  {
+   "batch": "stormont-flags-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1965-11-25/mourne.json",
+   "source": {
+    "title": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 77; checked against David Boothroyd, Northern Ireland House of Commons Election Results (down.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020)",
+    "publisher": "Royal Irish Academy; David Boothroyd",
+    "url": null,
+    "archiveUrl": "https://web.archive.org/web/2020/http://www.election.demon.co.uk/stormont/down.html",
+    "accessed": "2026-10-31"
+   },
+   "category": "missing-candidates",
+   "reason": "Contested, not unopposed: James O'Reilly 6,793; Kate Forde (UUP) 5,791. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "James O'Reilly",
+     "set": {
+      "Candidate_First_Pref_Votes": "6793.00",
+      "Total_Votes": "6793.00",
+      "Transfers": "0.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "1"
+     }
+    },
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-kate-forde-1965",
+      "Count_Number": "1",
+      "Firstname": "Kate Alexandra York",
+      "Surname": "Forde",
+      "Candidate_First_Pref_Votes": "5791.00",
+      "Transfers": "0.00",
+      "Total_Votes": "5791.00",
+      "Status": "",
+      "Occurred_On_Count": "",
+      "Party_Name": "UUP",
+      "Party_Colour": "#48A5EE",
+      "candidateName": "Kate Forde",
+      "id": 1
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "12584"
+    }
+   ]
+  },
+  {
+   "batch": "stormont-flags-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/mourne.json",
+   "source": {
+    "title": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 81; checked against David Boothroyd, Northern Ireland House of Commons Election Results (down.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020)",
+    "publisher": "Royal Irish Academy; David Boothroyd",
+    "url": null,
+    "archiveUrl": "https://web.archive.org/web/2020/http://www.election.demon.co.uk/stormont/down.html",
+    "accessed": "2026-10-31"
+   },
+   "category": "missing-candidates",
+   "reason": "Contested, not unopposed: James O'Reilly 7,335; Cecil Newell (UUP) 5,960. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "James O'Reilly",
+     "set": {
+      "Candidate_First_Pref_Votes": "7335.00",
+      "Total_Votes": "7335.00",
+      "Transfers": "0.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "1"
+     }
+    },
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-cecil-newell-1969",
+      "Count_Number": "1",
+      "Firstname": "Cecil",
+      "Surname": "Newell",
+      "Candidate_First_Pref_Votes": "5960.00",
+      "Transfers": "0.00",
+      "Total_Votes": "5960.00",
+      "Status": "",
+      "Occurred_On_Count": "",
+      "Party_Name": "UUP",
+      "Party_Colour": "#48A5EE",
+      "candidateName": "Cecil Newell",
+      "id": 1
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "13295"
+    }
+   ]
+  },
+  {
+   "batch": "stormont-flags-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1941-03-27/north-down.json",
+   "source": {
+    "title": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 58; checked against David Boothroyd, Northern Ireland House of Commons Election Results (down.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020)",
+    "publisher": "Royal Irish Academy; David Boothroyd",
+    "url": null,
+    "archiveUrl": "https://web.archive.org/web/2020/http://www.election.demon.co.uk/stormont/down.html",
+    "accessed": "2026-10-31"
+   },
+   "category": "missing-candidates",
+   "reason": "Contested, not unopposed: Thomas Bailie 6,268; Robert Workman (UUP) 5,137. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Thomas Bailie",
+     "set": {
+      "Candidate_First_Pref_Votes": "6268.00",
+      "Total_Votes": "6268.00",
+      "Transfers": "0.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "1"
+     }
+    },
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-robert-workman-1941",
+      "Count_Number": "1",
+      "Firstname": "Robert",
+      "Surname": "Workman",
+      "Candidate_First_Pref_Votes": "5137.00",
+      "Transfers": "0.00",
+      "Total_Votes": "5137.00",
+      "Status": "",
+      "Occurred_On_Count": "",
+      "Party_Name": "UUP",
+      "Party_Colour": "#48A5EE",
+      "candidateName": "Robert Workman",
+      "id": 1
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "11405"
+    }
+   ]
+  },
+  {
+   "batch": "stormont-flags-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1967-05-25/south-down.json",
+   "source": {
+    "title": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 78; checked against David Boothroyd, Northern Ireland House of Commons Election Results (down.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020)",
+    "publisher": "Royal Irish Academy; David Boothroyd",
+    "url": null,
+    "archiveUrl": "https://web.archive.org/web/2020/http://www.election.demon.co.uk/stormont/down.html",
+    "accessed": "2026-10-31"
+   },
+   "category": "missing-candidates",
+   "reason": "Contested, not unopposed: Michael Keogh 8,598; John Fisher (UUP) 2,971. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Michael Keogh",
+     "set": {
+      "Candidate_First_Pref_Votes": "8598.00",
+      "Total_Votes": "8598.00",
+      "Transfers": "0.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "1"
+     }
+    },
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-john-fisher-1967",
+      "Count_Number": "1",
+      "Firstname": "John",
+      "Surname": "Fisher",
+      "Candidate_First_Pref_Votes": "2971.00",
+      "Transfers": "0.00",
+      "Total_Votes": "2971.00",
+      "Status": "",
+      "Occurred_On_Count": "",
+      "Party_Name": "UUP",
+      "Party_Colour": "#48A5EE",
+      "candidateName": "John Fisher",
+      "id": 1
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "11569"
+    }
+   ]
+  },
+  {
+   "batch": "stormont-flags-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-02-10/south-londonderry.json",
+   "source": {
+    "title": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 64; checked against David Boothroyd, Northern Ireland House of Commons Election Results (ldrcounty.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020)",
+    "publisher": "Royal Irish Academy; David Boothroyd",
+    "url": null,
+    "archiveUrl": "https://web.archive.org/web/2020/http://www.election.demon.co.uk/stormont/ldrcounty.html",
+    "accessed": "2026-10-31"
+   },
+   "category": "missing-candidates",
+   "reason": "Contested, not unopposed: Dehra Parker 9,193; Thomas Brendan Agnew (Nationalist Party) 5,909. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Dehra Parker",
+     "set": {
+      "Candidate_First_Pref_Votes": "9193.00",
+      "Total_Votes": "9193.00",
+      "Transfers": "0.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "1"
+     }
+    },
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-thomas-brendan-agnew-1949",
+      "Count_Number": "1",
+      "Firstname": "Thomas Brendan",
+      "Surname": "Agnew",
+      "Candidate_First_Pref_Votes": "5909.00",
+      "Transfers": "0.00",
+      "Total_Votes": "5909.00",
+      "Status": "",
+      "Occurred_On_Count": "",
+      "Party_Name": "Nationalist Party",
+      "Party_Colour": "#32CD32",
+      "candidateName": "Thomas Brendan Agnew",
+      "id": 1
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "15102"
+    }
+   ]
+  },
+  {
+   "batch": "stormont-flags-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1969-02-24/south-londonderry.json",
+   "source": {
+    "title": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 81; checked against David Boothroyd, Northern Ireland House of Commons Election Results (ldrcounty.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020)",
+    "publisher": "Royal Irish Academy; David Boothroyd",
+    "url": null,
+    "archiveUrl": "https://web.archive.org/web/2020/http://www.election.demon.co.uk/stormont/ldrcounty.html",
+    "accessed": "2026-10-31"
+   },
+   "category": "missing-candidates",
+   "reason": "Contested, not unopposed: James Chichester-Clark 9,195; Bernadette Devlin (People's Democracy) 5,812. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give. Walker prints her as Josephine Bernadette Devlin (PD).",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "James Chichester-Clark",
+     "set": {
+      "Candidate_First_Pref_Votes": "9195.00",
+      "Total_Votes": "9195.00",
+      "Transfers": "0.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "1"
+     }
+    },
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-bernadette-devlin-1969",
+      "Count_Number": "1",
+      "Firstname": "Bernadette",
+      "Surname": "Devlin",
+      "Candidate_First_Pref_Votes": "5812.00",
+      "Transfers": "0.00",
+      "Total_Votes": "5812.00",
+      "Status": "",
+      "Occurred_On_Count": "",
+      "Party_Name": "People's Democracy",
+      "Party_Colour": "#FF0000",
+      "candidateName": "Bernadette Devlin",
+      "id": 1
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "15007"
+    }
+   ]
+  },
+  {
+   "batch": "stormont-flags-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1964-06-30/east-tyrone.json",
+   "source": {
+    "title": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 75; checked against David Boothroyd, Northern Ireland House of Commons Election Results (tyrone.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020)",
+    "publisher": "Royal Irish Academy; David Boothroyd",
+    "url": null,
+    "archiveUrl": "https://web.archive.org/web/2020/http://www.election.demon.co.uk/stormont/tyrone.html",
+    "accessed": "2026-10-31"
+   },
+   "category": "missing-candidates",
+   "reason": "Contested, not unopposed: Austin Currie 8,223; Alexander Blevins (UUP) 6,927. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Austin Currie",
+     "set": {
+      "Candidate_First_Pref_Votes": "8223.00",
+      "Total_Votes": "8223.00",
+      "Transfers": "0.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "1"
+     }
+    },
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-alexander-blevins-1964",
+      "Count_Number": "1",
+      "Firstname": "Alexander",
+      "Surname": "Blevins",
+      "Candidate_First_Pref_Votes": "6927.00",
+      "Transfers": "0.00",
+      "Total_Votes": "6927.00",
+      "Status": "",
+      "Occurred_On_Count": "",
+      "Party_Name": "UUP",
+      "Party_Colour": "#48A5EE",
+      "candidateName": "Alexander Blevins",
+      "id": 1
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "15150"
+    }
+   ]
+  },
+  {
+   "batch": "stormont-flags-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1945-04-12/south-tyrone.json",
+   "source": {
+    "title": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 59; checked against David Boothroyd, Northern Ireland House of Commons Election Results (tyrone.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020)",
+    "publisher": "Royal Irish Academy; David Boothroyd",
+    "url": null,
+    "archiveUrl": "https://web.archive.org/web/2020/http://www.election.demon.co.uk/stormont/tyrone.html",
+    "accessed": "2026-10-31"
+   },
+   "category": "missing-candidates",
+   "reason": "Contested, not unopposed: W. F. McCoy 6,352; William Leeburn (NI Labour) 1,400. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "W. F. McCoy",
+     "set": {
+      "Candidate_First_Pref_Votes": "6352.00",
+      "Total_Votes": "6352.00",
+      "Transfers": "0.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "1"
+     }
+    },
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-william-leeburn-1945",
+      "Count_Number": "1",
+      "Firstname": "William John",
+      "Surname": "Leeburn",
+      "Candidate_First_Pref_Votes": "1400.00",
+      "Transfers": "0.00",
+      "Total_Votes": "1400.00",
+      "Status": "",
+      "Occurred_On_Count": "",
+      "Party_Name": "NI Labour",
+      "Party_Colour": "#DC241F",
+      "candidateName": "William Leeburn",
+      "id": 1
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "7752"
+    }
+   ]
+  },
+  {
+   "batch": "stormont-flags-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1925-11-25/armagh.json",
+   "source": {
+    "title": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 49; checked against David Boothroyd, Northern Ireland House of Commons Election Results (counties.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020)",
+    "publisher": "Royal Irish Academy; David Boothroyd",
+    "url": null,
+    "archiveUrl": "https://web.archive.org/web/2020/http://www.election.demon.co.uk/stormont/counties.html",
+    "accessed": "2026-10-31"
+   },
+   "category": "missing-candidates",
+   "reason": "Contested, not unopposed: John Clarke Davison 22,390; William Robert Todd (Unbought Tenants) 5,880. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give. A single-vacancy by-election in the four-seat Armagh constituency (Best appointed a Lord Justice of Appeal); Walker and Boothroyd print Todd as UTA (Unbought Tenants' Association).",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "John Clarke Davison",
+     "set": {
+      "Candidate_First_Pref_Votes": "22390.00",
+      "Total_Votes": "22390.00",
+      "Transfers": "0.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "1"
+     }
+    },
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-william-robert-todd-1925",
+      "Count_Number": "1",
+      "Firstname": "William Robert",
+      "Surname": "Todd",
+      "Candidate_First_Pref_Votes": "5880.00",
+      "Transfers": "0.00",
+      "Total_Votes": "5880.00",
+      "Status": "",
+      "Occurred_On_Count": "",
+      "Party_Name": "Unbought Tenants",
+      "Party_Colour": "#A0A0A0",
+      "candidateName": "William Robert Todd",
+      "id": 1
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "28270"
+    }
+   ]
+  },
+  {
+   "batch": "stormont-flags-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1948-04-20/queens-university-of-belfast.json",
+   "source": {
+    "title": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 62; checked against David Boothroyd, Northern Ireland House of Commons Election Results (qub.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020)",
+    "publisher": "Royal Irish Academy; David Boothroyd",
+    "url": null,
+    "archiveUrl": "https://web.archive.org/web/20200116210218/http://www.election.demon.co.uk/stormont/qub.html",
+    "accessed": "2026-10-31"
+   },
+   "category": "missing-candidates",
+   "reason": "Contested, not unopposed: Samuel Irwin 2,735; Eileen M. Hickey (Independent) 1,126. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give. A single-vacancy by-election (death of McSorley); with two candidates there were no transfers.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Samuel Irwin",
+     "set": {
+      "Candidate_First_Pref_Votes": "2735.00",
+      "Total_Votes": "2735.00",
+      "Transfers": "0.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "1"
+     }
+    },
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-eileen-m-hickey-1948",
+      "Count_Number": "1",
+      "Firstname": "Eileen",
+      "Surname": "Hickey",
+      "Candidate_First_Pref_Votes": "1126.00",
+      "Transfers": "0.00",
+      "Total_Votes": "1126.00",
+      "Status": "",
+      "Occurred_On_Count": "",
+      "Party_Name": "Independent",
+      "Party_Colour": "#DCDCDC",
+      "candidateName": "Eileen M. Hickey",
+      "id": 1
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "3861"
+    }
+   ]
+  },
+  {
+   "batch": "stormont-flags-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1949-11-15/queens-university-of-belfast.json",
+   "source": {
+    "title": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 65; checked against David Boothroyd, Northern Ireland House of Commons Election Results (qub.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020)",
+    "publisher": "Royal Irish Academy; David Boothroyd",
+    "url": null,
+    "archiveUrl": "https://web.archive.org/web/20200116210218/http://www.election.demon.co.uk/stormont/qub.html",
+    "accessed": "2026-10-31"
+   },
+   "category": "missing-candidates",
+   "reason": "Contested, not unopposed: Frederick Lloyd-Dodd 2,100; Norman S. Dickson (Independent Unionist) 1,312; Ernest Reid (Independent) 479. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give. A single-vacancy by-election (death of Lyle); Lloyd-Dodd had an absolute majority on the first count.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Frederick Lloyd-Dodd",
+     "set": {
+      "Candidate_First_Pref_Votes": "2100.00",
+      "Total_Votes": "2100.00",
+      "Transfers": "0.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "1"
+     }
+    },
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-norman-s-dickson-1949",
+      "Count_Number": "1",
+      "Firstname": "Norman S.",
+      "Surname": "Dickson",
+      "Candidate_First_Pref_Votes": "1312.00",
+      "Transfers": "0.00",
+      "Total_Votes": "1312.00",
+      "Status": "",
+      "Occurred_On_Count": "",
+      "Party_Name": "Independent Unionist",
+      "Party_Colour": "#AADFFF",
+      "candidateName": "Norman S. Dickson",
+      "id": 1
+     }
+    },
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-ernest-reid-1949",
+      "Count_Number": "1",
+      "Firstname": "Ernest",
+      "Surname": "Reid",
+      "Candidate_First_Pref_Votes": "479.00",
+      "Transfers": "0.00",
+      "Total_Votes": "479.00",
+      "Status": "",
+      "Occurred_On_Count": "",
+      "Party_Name": "Independent",
+      "Party_Colour": "#DCDCDC",
+      "candidateName": "Ernest Reid",
+      "id": 2
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "3891"
+    }
+   ]
+  },
+  {
+   "batch": "stormont-flags-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1961-11-22/queens-university-of-belfast.json",
+   "source": {
+    "title": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 72; checked against David Boothroyd, Northern Ireland House of Commons Election Results (qub.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020)",
+    "publisher": "Royal Irish Academy; David Boothroyd",
+    "url": null,
+    "archiveUrl": "https://web.archive.org/web/20200116210218/http://www.election.demon.co.uk/stormont/qub.html",
+    "accessed": "2026-10-31"
+   },
+   "category": "missing-candidates",
+   "reason": "Contested, not unopposed: Sheelagh Murnaghan 2,622; Samuel Rodgers (UUP) 2,370. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give. A single-vacancy by-election (death of Irwin).",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Sheelagh Murnaghan",
+     "set": {
+      "Candidate_First_Pref_Votes": "2622.00",
+      "Total_Votes": "2622.00",
+      "Transfers": "0.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "1"
+     }
+    },
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-samuel-rodgers-1961",
+      "Count_Number": "1",
+      "Firstname": "Samuel",
+      "Surname": "Rodgers",
+      "Candidate_First_Pref_Votes": "2370.00",
+      "Transfers": "0.00",
+      "Total_Votes": "2370.00",
+      "Status": "",
+      "Occurred_On_Count": "",
+      "Party_Name": "UUP",
+      "Party_Colour": "#48A5EE",
+      "candidateName": "Samuel Rodgers",
+      "id": 1
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "4992"
+    }
+   ]
+  },
+  {
+   "batch": "stormont-flags-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1966-11-23/queens-university-of-belfast.json",
+   "source": {
+    "title": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 78; checked against David Boothroyd, Northern Ireland House of Commons Election Results (qub.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020)",
+    "publisher": "Royal Irish Academy; David Boothroyd",
+    "url": null,
+    "archiveUrl": "https://web.archive.org/web/20200116210218/http://www.election.demon.co.uk/stormont/qub.html",
+    "accessed": "2026-10-31"
+   },
+   "category": "missing-candidates",
+   "reason": "Contested, not unopposed: Robert Porter 3,717; Albert McElroy (Ulster Liberal) 2,968. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give. A single-vacancy by-election (resignation of Stewart).",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Robert Porter",
+     "set": {
+      "Candidate_First_Pref_Votes": "3717.00",
+      "Total_Votes": "3717.00",
+      "Transfers": "0.00",
+      "Status": "Elected",
+      "Occurred_On_Count": "1"
+     }
+    },
+    {
+     "op": "addCandidate",
+     "row": {
+      "Constituency_Number": "",
+      "Candidate_Id": "fix-albert-mcelroy-1966",
+      "Count_Number": "1",
+      "Firstname": "Albert",
+      "Surname": "McElroy",
+      "Candidate_First_Pref_Votes": "2968.00",
+      "Transfers": "0.00",
+      "Total_Votes": "2968.00",
+      "Status": "",
+      "Occurred_On_Count": "",
+      "Party_Name": "Ulster Liberal",
+      "Party_Colour": "#DAA520",
+      "candidateName": "Albert McElroy",
+      "id": 1
+     }
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "6685"
+    }
+   ]
+  },
+  {
+   "batch": "stormont-flags-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1942-11-06/belfast-falls.json",
+   "source": {
+    "title": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (RIA 1992), p. 58; Belfast News-Letter, 7 Nov 1942",
+    "accessed": "2026-10-31"
+   },
+   "category": "count",
+   "reason": "There was one Falls by-election in 1942, polled on Friday 6 November 1942 and counted on Saturday 7 November. Richard Byrne (N) died on 28 August 1942 (Stormont Hansard 1942, list of members), so no Falls contest could have been held on 2 April 1942; the 2 April date comes from Wikipedia's by-election list. Walker p. 58 and Boothroyd date it 6 Nov 1942; Belfast Telegraph and Northern Whig of 6 Nov 1942 report polling 'to-day', the Belfast News-Letter of 7 Nov reports it 'yesterday', and Hansard records Donnelly as elected 7 November 1942 (declaration). Votes as held (Donnelly 4,595, McGouran 1,971, Glass 1,821) agree with every source; 40 spoilt papers, electorate 17,633 (Belfast News-Letter, 9 Nov 1942, p. 4).",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Spoiled",
+     "value": "40"
+    }
+   ]
+  },
+  {
+   "batch": "strabane-belfast-1961-bna-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/strabane-urban-district-council/1905/east-ward.json",
+   "source": {
+    "title": "Derry Journal, 20 January 1905, p. 3",
+    "publisher": "Derry Journal",
+    "url": null,
+    "accessed": "2026-10-31"
+   },
+   "category": "names",
+   "reason": "The East Ward winner was James Ellis, a police pensioner, not William Ellis: the Derry Journal prints him as Jas. Ellis, elected with 127 votes to John M'Colgan's 110, and confirms there was one vacancy in each ward.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "William Ellis",
+     "set": {
+      "Firstname": "James",
+      "candidateName": "James Ellis"
+     }
+    },
+    {
+     "op": "set",
+     "path": "note",
+     "value": "Paul Gallagher withdrew. There was one vacancy in each ward, so McColgan was not elected."
+    }
+   ]
+  },
+  {
+   "batch": "strabane-belfast-1961-bna-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/strabane-urban-district-council/1906/east-ward.json",
+   "source": {
+    "title": "Londonderry Sentinel, 16 January 1906, p. 5",
+    "publisher": "Londonderry Sentinel",
+    "url": null,
+    "accessed": "2026-10-31"
+   },
+   "category": "winners",
+   "reason": "The East Ward was polled on Monday 15 January 1906, and the file had no votes or winner. The Londonderry Sentinel prints Eugene Conroy 147, elected, and James Dillon 102; the defeated candidate's forename is James, not John.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Eugene Conroy",
+     "set": {
+      "Status": "Elected",
+      "Occurred_On_Count": "1",
+      "Transfers": "0.00",
+      "Candidate_First_Pref_Votes": "147.00",
+      "Total_Votes": "147.00"
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "John Dillon",
+     "set": {
+      "Firstname": "James",
+      "candidateName": "James Dillon",
+      "Status": "Not Elected",
+      "Occurred_On_Count": "1",
+      "Transfers": "0.00",
+      "Candidate_First_Pref_Votes": "102.00",
+      "Total_Votes": "102.00"
+     }
+    },
+    {
+     "op": "set",
+     "path": "note",
+     "value": ""
+    }
+   ]
+  },
+  {
+   "batch": "strabane-belfast-1961-bna-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/strabane-urban-district-council/1914/south-ward.json",
+   "source": {
+    "title": "Tyrone Constitution, 9 January 1914, p. 6",
+    "publisher": "Tyrone Constitution",
+    "url": null,
+    "accessed": "2026-10-31"
+   },
+   "additionalSources": [
+    {
+     "title": "Northern Whig, 10 January 1914, p. 10",
+     "publisher": "Northern Whig",
+     "url": null,
+     "accessed": "2026-10-31"
+    }
+   ],
+   "category": "names",
+   "reason": "The South Ward member returned unopposed was Edward Gallagher, J.P., not P. Gallagher: the Tyrone Constitution prints his full name, and the Northern Whig's list of nominations agrees.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "P Gallagher",
+     "set": {
+      "Firstname": "Edward",
+      "candidateName": "Edward Gallagher"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "strabane-belfast-1961-bna-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/strabane-urban-district-council/1923-01-05/east-ward.json",
+   "source": {
+    "title": "Derry Journal, 8 January 1923, p. 6",
+    "publisher": "Derry Journal",
+    "url": null,
+    "accessed": "2026-10-31"
+   },
+   "category": "party",
+   "reason": "John Boyle was returned as Labour, not Sinn Féin: the Derry Journal lists him among the six Labour members (Cunningham, Boyle, M'Guinness, Stewart, Furey and Kelly), with three Nationalists and three Unionists.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "John Boyle",
+     "set": {
+      "Party_Name": "Labour",
+      "Party_Colour": "#A0A0A0"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "strabane-belfast-1961-bna-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/strabane-urban-district-council/1929/east-ward.json",
+   "source": {
+    "title": "Derry Journal, 9 January 1929, p. 8",
+    "publisher": "Derry Journal",
+    "url": null,
+    "accessed": "2026-10-31"
+   },
+   "category": "winners",
+   "reason": "The file held four names for three seats and no result. The Derry Journal reports that Thomas Stewart withdrew, and that John Kelly, John Boyle and John M'Dermott were declared elected without a contest.",
+   "operations": [
+    {
+     "op": "replaceCountRows",
+     "rows": [
+      {
+       "Constituency_Number": "",
+       "Candidate_Id": "",
+       "Count_Number": "1",
+       "Firstname": "John",
+       "Surname": "McDermott",
+       "Candidate_First_Pref_Votes": "",
+       "Transfers": "",
+       "Total_Votes": "",
+       "Status": "Elected",
+       "Occurred_On_Count": "1",
+       "Party_Name": "",
+       "Party_Colour": "#888888",
+       "candidateName": "John McDermott",
+       "id": 0,
+       "Name_As_Printed": "John McDermott",
+       "Party_As_Printed": ""
+      },
+      {
+       "Constituency_Number": "",
+       "Candidate_Id": "",
+       "Count_Number": "1",
+       "Firstname": "John",
+       "Surname": "Boyle",
+       "Candidate_First_Pref_Votes": "",
+       "Transfers": "",
+       "Total_Votes": "",
+       "Status": "Elected",
+       "Occurred_On_Count": "1",
+       "Party_Name": "",
+       "Party_Colour": "#888888",
+       "candidateName": "John Boyle",
+       "id": 1,
+       "Name_As_Printed": "John Boyle",
+       "Party_As_Printed": "",
+       "Sitting_Member": true
+      },
+      {
+       "Constituency_Number": "",
+       "Candidate_Id": "",
+       "Count_Number": "1",
+       "Firstname": "John",
+       "Surname": "Kelly",
+       "Candidate_First_Pref_Votes": "",
+       "Transfers": "",
+       "Total_Votes": "",
+       "Status": "Elected",
+       "Occurred_On_Count": "1",
+       "Party_Name": "",
+       "Party_Colour": "#888888",
+       "candidateName": "John Kelly",
+       "id": 2,
+       "Name_As_Printed": "John Kelly",
+       "Party_As_Printed": "",
+       "Sitting_Member": true
+      }
+     ]
+    },
+    {
+     "op": "set",
+     "path": "note",
+     "value": "Thomas Stewart was nominated but withdrew, and the other three were returned unopposed."
+    }
+   ]
+  },
+  {
+   "batch": "strabane-belfast-1961-bna-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/strabane-urban-district-council/1929/west-ward.json",
+   "source": {
+    "title": "Derry Journal, 9 January 1929, p. 8",
+    "publisher": "Derry Journal",
+    "url": null,
+    "accessed": "2026-10-31"
+   },
+   "category": "winners",
+   "reason": "The file held four names for three seats and no result. The Derry Journal reports that Daniel M'Shane, J.P., withdrew, and that George Boyle, Andrew Gallagher, D.L., and J. J. M'Kenna were declared elected without a contest.",
+   "operations": [
+    {
+     "op": "replaceCountRows",
+     "rows": [
+      {
+       "Constituency_Number": "",
+       "Candidate_Id": "",
+       "Count_Number": "1",
+       "Firstname": "George",
+       "Surname": "Boyle",
+       "Candidate_First_Pref_Votes": "",
+       "Transfers": "",
+       "Total_Votes": "",
+       "Status": "Elected",
+       "Occurred_On_Count": "1",
+       "Party_Name": "",
+       "Party_Colour": "#888888",
+       "candidateName": "George Boyle",
+       "id": 0,
+       "Name_As_Printed": "George Boyle",
+       "Party_As_Printed": ""
+      },
+      {
+       "Constituency_Number": "",
+       "Candidate_Id": "",
+       "Count_Number": "1",
+       "Firstname": "Andrew",
+       "Surname": "Gallagher",
+       "Candidate_First_Pref_Votes": "",
+       "Transfers": "",
+       "Total_Votes": "",
+       "Status": "Elected",
+       "Occurred_On_Count": "1",
+       "Party_Name": "",
+       "Party_Colour": "#888888",
+       "candidateName": "Andrew Gallagher",
+       "id": 1,
+       "Name_As_Printed": "Andrew Gallagher",
+       "Party_As_Printed": ""
+      },
+      {
+       "Constituency_Number": "",
+       "Candidate_Id": "",
+       "Count_Number": "1",
+       "Firstname": "Joseph",
+       "Surname": "McKenna",
+       "Candidate_First_Pref_Votes": "",
+       "Transfers": "",
+       "Total_Votes": "",
+       "Status": "Elected",
+       "Occurred_On_Count": "1",
+       "Party_Name": "",
+       "Party_Colour": "#888888",
+       "candidateName": "Joseph McKenna",
+       "id": 2,
+       "Name_As_Printed": "Joseph McKenna",
+       "Party_As_Printed": ""
+      }
+     ]
+    },
+    {
+     "op": "set",
+     "path": "note",
+     "value": "Daniel McShane, J.P., was nominated but withdrew, and the other three were returned unopposed."
+    }
+   ]
+  },
+  {
+   "batch": "strabane-belfast-1961-bna-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/strabane-urban-district-council/1939/east-ward.json",
+   "source": {
+    "title": "Derry Journal, 8 May 1939, p. 6",
+    "publisher": "Derry Journal",
+    "url": null,
+    "accessed": "2026-10-31"
+   },
+   "category": "party",
+   "reason": "T. A. Forbes had no party label. The Derry Journal's list of nominations shows him as one of the East Ward's three Labour nominees.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "T.A. Forbes",
+     "set": {
+      "Party_Name": "Labour",
+      "Party_Colour": "#A0A0A0"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "strabane-belfast-1961-bna-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/strabane-urban-district-council/1952/north-ward.json",
+   "source": {
+    "title": "Londonderry Sentinel, 22 May 1952, p. 3",
+    "publisher": "Londonderry Sentinel",
+    "url": null,
+    "accessed": "2026-10-31"
+   },
+   "category": "party",
+   "reason": "The three North Ward members returned unopposed had no party label. The Londonderry Sentinel prints each of them as a Unionist (U.).",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Walter A Elliott",
+     "set": {
+      "Party_Name": "UUP",
+      "Party_Colour": "#48A5EE"
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Hubert Y. Fergusson",
+     "set": {
+      "Party_Name": "UUP",
+      "Party_Colour": "#48A5EE"
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Cecil Herbert Russell",
+     "set": {
+      "Party_Name": "UUP",
+      "Party_Colour": "#48A5EE"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "strabane-belfast-1961-bna-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/strabane-urban-district-council/1955/east-ward.json",
+   "source": {
+    "title": "Londonderry Sentinel, 19 May 1955, p. 3",
+    "publisher": "Londonderry Sentinel",
+    "url": null,
+    "accessed": "2026-10-31"
+   },
+   "additionalSources": [
+    {
+     "title": "Londonderry Standard, 20 May 1955, p. 3",
+     "publisher": "Londonderry Standard",
+     "url": null,
+     "accessed": "2026-10-31"
+    }
+   ],
+   "category": "figures",
+   "reason": "George Quinn polled 369, not 309, heading the ward ahead of Teague Boyle's 338: both the Londonderry Sentinel and the Londonderry Standard print 369. The file had no party labels; the Sentinel prints Quinn, Boyle and Maguire as Independent Labour and Patrick White as the Trades Council candidate.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "George Quinn",
+     "set": {
+      "Candidate_First_Pref_Votes": "369.00",
+      "Total_Votes": "369.00",
+      "Party_Name": "Independent Labour",
+      "Party_Colour": "#FF9999"
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Teague Boyle",
+     "set": {
+      "Party_Name": "Independent Labour",
+      "Party_Colour": "#FF9999"
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "James Maguire",
+     "set": {
+      "Party_Name": "Independent Labour",
+      "Party_Colour": "#FF9999"
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Patrick White",
+     "set": {
+      "Party_Name": "Trades Council",
+      "Party_Colour": "#888888"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "strabane-belfast-1961-bna-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/strabane-urban-district-council/1955/north-ward.json",
+   "source": {
+    "title": "Londonderry Sentinel, 19 May 1955, p. 3",
+    "publisher": "Londonderry Sentinel",
+    "url": null,
+    "accessed": "2026-10-31"
+   },
+   "additionalSources": [
+    {
+     "title": "Londonderry Standard, 20 May 1955, p. 3",
+     "publisher": "Londonderry Standard",
+     "url": null,
+     "accessed": "2026-10-31"
+    }
+   ],
+   "category": "party",
+   "reason": "The file had no party labels. The Londonderry Sentinel prints Elliott, Russell and Fergusson as Unionists and Boggs as an Independent; the Londonderry Standard's figures agree.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Walter A Elliott",
+     "set": {
+      "Party_Name": "UUP",
+      "Party_Colour": "#48A5EE"
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Cecil Russell",
+     "set": {
+      "Party_Name": "UUP",
+      "Party_Colour": "#48A5EE"
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Hubert Y. Fergusson",
+     "set": {
+      "Party_Name": "UUP",
+      "Party_Colour": "#48A5EE"
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Frederick D.C. Boggs",
+     "set": {
+      "Party_Name": "Independent",
+      "Party_Colour": "#DCDCDC"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "strabane-belfast-1961-bna-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/strabane-urban-district-council/1955/south-ward.json",
+   "source": {
+    "title": "Londonderry Sentinel, 19 May 1955, p. 3",
+    "publisher": "Londonderry Sentinel",
+    "url": null,
+    "accessed": "2026-10-31"
+   },
+   "additionalSources": [
+    {
+     "title": "Londonderry Standard, 20 May 1955, p. 3",
+     "publisher": "Londonderry Standard",
+     "url": null,
+     "accessed": "2026-10-31"
+    }
+   ],
+   "category": "party",
+   "reason": "The file had no party labels. The Londonderry Sentinel prints O'Kane, Devine and McMenamin as Independent Labour, Gallagher as an Independent and J. McGarrigle as the Trades Council candidate; the Londonderry Standard's figures agree.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "John O'Kane",
+     "set": {
+      "Party_Name": "Independent Labour",
+      "Party_Colour": "#FF9999"
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Hugh Devine",
+     "set": {
+      "Party_Name": "Independent Labour",
+      "Party_Colour": "#FF9999"
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Hugh McMenamin",
+     "set": {
+      "Party_Name": "Independent Labour",
+      "Party_Colour": "#FF9999"
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Andrew Gallagher",
+     "set": {
+      "Party_Name": "Independent",
+      "Party_Colour": "#DCDCDC"
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Joseph McGarrigle",
+     "set": {
+      "Party_Name": "Trades Council",
+      "Party_Colour": "#888888"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "strabane-belfast-1961-bna-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/strabane-urban-district-council/1955/west-ward.json",
+   "source": {
+    "title": "Londonderry Sentinel, 19 May 1955, p. 3",
+    "publisher": "Londonderry Sentinel",
+    "url": null,
+    "accessed": "2026-10-31"
+   },
+   "additionalSources": [
+    {
+     "title": "Londonderry Standard, 20 May 1955, p. 3",
+     "publisher": "Londonderry Standard",
+     "url": null,
+     "accessed": "2026-10-31"
+    }
+   ],
+   "category": "party",
+   "reason": "The file had no party labels. The Londonderry Sentinel prints McElwee as an Independent and Mulhern, Vaughan and McGonigle as Independent Labour; the Londonderry Standard's figures agree.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Patrick McElwee",
+     "set": {
+      "Party_Name": "Independent",
+      "Party_Colour": "#DCDCDC"
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Bernard Mulhern",
+     "set": {
+      "Party_Name": "Independent Labour",
+      "Party_Colour": "#FF9999"
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "Alfred Vaughan",
+     "set": {
+      "Party_Name": "Independent Labour",
+      "Party_Colour": "#FF9999"
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "John McGonigle",
+     "set": {
+      "Party_Name": "Independent Labour",
+      "Party_Colour": "#FF9999"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "strabane-belfast-1961-bna-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/strabane-urban-district-council/1958/east-ward.json",
+   "source": {
+    "title": "Derry Journal, 23 May 1958, p. 13",
+    "publisher": "Derry Journal",
+    "url": null,
+    "accessed": "2026-10-31"
+   },
+   "additionalSources": [
+    {
+     "title": "Londonderry Sentinel, 22 May 1958, p. 3",
+     "publisher": "Londonderry Sentinel",
+     "url": null,
+     "accessed": "2026-10-31"
+    }
+   ],
+   "category": "figures",
+   "reason": "The file gave East Ward the South Ward's electorate (1,342) and poll (921), which the Londonderry Sentinel prints under both wards. The Derry Journal prints East Ward's own figures: electorate 546, total poll 463, of which 2 papers were spoilt, leaving 461 valid. It also names the winner as T. Boyle (Teague Boyle), not F. Boyle, and the Town Tenants' candidate as D. Fleming, where the Sentinel prints G. Fleming. Every vote figure agrees.",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Electorate",
+     "value": "546"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Poll",
+     "value": "463"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "461"
+    },
+    {
+     "op": "candidate",
+     "name": "F Boyle",
+     "set": {
+      "Firstname": "T",
+      "candidateName": "T Boyle"
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "G Fleming",
+     "set": {
+      "Firstname": "D",
+      "candidateName": "D Fleming"
+     }
+    },
+    {
+     "op": "set",
+     "path": "note",
+     "value": "The Londonderry Sentinel prints Fleming's initial as G.; the Derry Journal prints D."
+    }
+   ]
+  },
+  {
+   "batch": "strabane-belfast-1961-bna-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/strabane-urban-district-council/1958/south-ward.json",
+   "source": {
+    "title": "Derry Journal, 23 May 1958, p. 13",
+    "publisher": "Derry Journal",
+    "url": null,
+    "accessed": "2026-10-31"
+   },
+   "additionalSources": [
+    {
+     "title": "Londonderry Sentinel, 22 May 1958, p. 3",
+     "publisher": "Londonderry Sentinel",
+     "url": null,
+     "accessed": "2026-10-31"
+    }
+   ],
+   "category": "figures",
+   "reason": "The 921 held as the valid poll is the total poll: the Derry Journal prints electorate 1,342, 3 spoilt papers and a total poll of 921, so 918 papers were valid. These are the South Ward's own figures, which the Londonderry Sentinel also printed under East Ward.",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Poll",
+     "value": "921"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "918"
+    },
+    {
+     "op": "set",
+     "path": "note",
+     "value": ""
+    }
+   ]
+  },
+  {
+   "batch": "strabane-belfast-1961-bna-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/strabane-urban-district-council/1958/west-ward.json",
+   "source": {
+    "title": "Derry Journal, 23 May 1958, p. 13",
+    "publisher": "Derry Journal",
+    "url": null,
+    "accessed": "2026-10-31"
+   },
+   "additionalSources": [
+    {
+     "title": "Londonderry Sentinel, 22 May 1958, p. 3",
+     "publisher": "Londonderry Sentinel",
+     "url": null,
+     "accessed": "2026-10-31"
+    }
+   ],
+   "category": "figures",
+   "reason": "The 280 held as the valid poll is the total poll: the Derry Journal prints electorate 320, no spoilt papers and a total poll of 280, so all 280 papers were valid.",
+   "operations": [
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Total_Poll",
+     "value": "280"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Spoiled",
+     "value": "0"
+    },
+    {
+     "op": "set",
+     "path": "Constituency.countInfo.Valid_Poll",
+     "value": "280"
+    }
+   ]
+  },
+  {
+   "batch": "strabane-belfast-1961-bna-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/strabane-urban-district-council/1964-05-20/south-ward.json",
+   "source": {
+    "title": "Londonderry Sentinel, 27 May 1964, p. 19",
+    "publisher": "Londonderry Sentinel",
+    "url": null,
+    "accessed": "2026-10-31"
+   },
+   "additionalSources": [
+    {
+     "title": "Belfast Telegraph, 21 May 1964, p. 10",
+     "publisher": "Belfast Telegraph",
+     "url": null,
+     "accessed": "2026-10-31"
+    }
+   ],
+   "category": "figures",
+   "reason": "R. Cunningham polled 384, not 394: the Londonderry Sentinel and the Belfast Telegraph both print 384. He was not elected either way.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "R Cunningham",
+     "set": {
+      "Candidate_First_Pref_Votes": "384.00",
+      "Total_Votes": "384.00"
+     }
+    },
+    {
+     "op": "set",
+     "path": "note",
+     "value": "The Belfast Telegraph (21 May 1964, p. 10) omits Christy and O'Kane from its line."
+    }
+   ]
+  },
+  {
+   "batch": "strabane-belfast-1961-bna-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/strabane-urban-district-council/1964-05-20/east-ward.json",
+   "source": {
+    "title": "Londonderry Sentinel, 27 May 1964, p. 19",
+    "publisher": "Londonderry Sentinel",
+    "url": null,
+    "accessed": "2026-10-31"
+   },
+   "additionalSources": [
+    {
+     "title": "Belfast News-Letter, 21 May 1964, p. 7 (How Ulster's towns voted)",
+     "publisher": "Belfast News-Letter",
+     "url": null,
+     "accessed": "2026-10-31"
+    },
+    {
+     "title": "Belfast Telegraph, 21 May 1964, p. 10",
+     "publisher": "Belfast Telegraph",
+     "url": null,
+     "accessed": "2026-10-31"
+    }
+   ],
+   "category": "names",
+   "reason": "The Ratepayers' Association candidate was John P. O'Kane, not J. B. O'Kane (Londonderry Sentinel, Belfast News-Letter and Belfast Telegraph), and the defeated Independent was J. Herron, not J. Harron (Sentinel and News-Letter).",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "J B O'Kane",
+     "set": {
+      "Firstname": "John P.",
+      "candidateName": "John P. O'Kane"
+     }
+    },
+    {
+     "op": "candidate",
+     "name": "J Harron",
+     "set": {
+      "Surname": "Herron",
+      "candidateName": "J Herron"
+     }
+    },
+    {
+     "op": "set",
+     "path": "note",
+     "value": ""
+    }
+   ]
+  },
+  {
+   "batch": "strabane-belfast-1961-bna-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/strabane-urban-district-council/1967/west-ward.json",
+   "source": {
+    "title": "Derry Journal, 19 May 1967, p. 1 (N.D.P. sweep in Strabane)",
+    "publisher": "Derry Journal",
+    "url": null,
+    "accessed": "2026-10-31"
+   },
+   "additionalSources": [
+    {
+     "title": "Londonderry Sentinel, 24 May 1967, p. 12 (Scoreboard)",
+     "publisher": "Londonderry Sentinel",
+     "url": null,
+     "accessed": "2026-10-31"
+    }
+   ],
+   "category": "figures",
+   "reason": "Bernard Mulhern polled 116, not 118: the Derry Journal and the Londonderry Sentinel both print 116. He still headed the ward.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "Bernard Mulhern",
+     "set": {
+      "Candidate_First_Pref_Votes": "116.00",
+      "Total_Votes": "116.00"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "strabane-belfast-1961-bna-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/strabane-urban-district-council/1967/east-ward.json",
+   "source": {
+    "title": "Derry Journal, 19 May 1967, p. 1 (N.D.P. sweep in Strabane)",
+    "publisher": "Derry Journal",
+    "url": null,
+    "accessed": "2026-10-31"
+   },
+   "additionalSources": [
+    {
+     "title": "Londonderry Sentinel, 24 May 1967, p. 12 (Scoreboard)",
+     "publisher": "Londonderry Sentinel",
+     "url": null,
+     "accessed": "2026-10-31"
+    }
+   ],
+   "category": "names",
+   "reason": "The defeated Independent was John McElwee, not John McIlwee: the Derry Journal and the Londonderry Sentinel both print McElwee.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "John McIlwee",
+     "set": {
+      "Surname": "McElwee",
+      "candidateName": "John McElwee"
+     }
+    }
+   ]
+  },
+  {
+   "batch": "strabane-belfast-1961-bna-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/strabane-urban-district-council/1909/east-ward.json",
+   "source": {
+    "title": "Londonderry Standard, 8 January 1909, p. 5",
+    "publisher": "Londonderry Standard",
+    "url": null,
+    "accessed": "2026-10-31"
+   },
+   "additionalSources": [
+    {
+     "title": "Strabane Weekly News, 9 January 1909, p. 5",
+     "publisher": "Strabane Weekly News",
+     "url": null,
+     "accessed": "2026-10-31"
+    },
+    {
+     "title": "Tyrone Constitution, 27 January 1911, p. 8",
+     "publisher": "Tyrone Constitution",
+     "url": null,
+     "accessed": "2026-10-31"
+    },
+    {
+     "title": "Derry Journal, 6 January 1909, p. 8",
+     "publisher": "Derry Journal",
+     "url": null,
+     "accessed": "2026-10-31"
+    }
+   ],
+   "category": "names",
+   "reason": "The East Ward member returned unopposed was James Ellis, not James Elliott. The list of nominations (Derry Journal, 6 January 1909, and the Strabane Weekly News) prints \"James Elliott, agent\", but the Londonderry Standard reports Blair, Canavan, Ellis and Conroy returned unopposed after M'Devitt's withdrawal, the Strabane Weekly News names the one new member as Mr. James Ellis in place of Mr. Dillon, and James Ellis sat on the council at its annual meeting of January 1911 (Tyrone Constitution). He had won the East Ward in 1905 and lost a contest in January 1912, when this term ended.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "James Elliott",
+     "set": {
+      "Surname": "Ellis",
+      "candidateName": "James Ellis"
+     }
+    },
+    {
+     "op": "set",
+     "path": "note",
+     "value": "William McDevitt withdrew. The list of nominations prints this candidate as \"James Elliott, agent\"."
+    }
+   ]
+  },
+  {
+   "batch": "strabane-belfast-1961-bna-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/strabane-urban-district-council/1946/west-ward.json",
+   "source": {
+    "title": "Derry Journal, 23 September 1946, p. 4 (Strabane local elections)",
+    "publisher": "Derry Journal",
+    "url": null,
+    "accessed": "2026-10-31"
+   },
+   "additionalSources": [
+    {
+     "title": "Irish Weekly and Ulster Examiner, 28 September 1946, p. 6 (Strabane)",
+     "publisher": "Irish Weekly and Ulster Examiner",
+     "url": null,
+     "accessed": "2026-10-31"
+    },
+    {
+     "title": "Derry Journal, 20 September 1946, p. 7 (Six Co. local elections)",
+     "publisher": "Derry Journal",
+     "url": null,
+     "accessed": "2026-10-31"
+    }
+   ],
+   "sourceNote": "The Derry Journal of 20 September 1946 printed Andrew Gallagher 146 and John Boyle 115. On 23 September it printed the West Ward count again, \"not as already reported\", with Gallagher on 141, and the Irish Weekly of 28 September gives Gallagher 141 and Boyle 118. Civgraph shows 141 and 118, as the Belfast News-Letter printed them.",
+   "category": "figures",
+   "operations": [],
+   "internalNote": "Paper disagreement resolved in favour of the current (BNL) figures; no change. The DJ's own correction of 23 Sep 1946 gives only the three elected; Boyle's 118 rests on the BNL and the Irish Weekly (page image read)."
+  },
+  {
+   "batch": "strabane-belfast-1961-bna-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/strabane-urban-district-council/1952/south-ward.json",
+   "source": {
+    "title": "Belfast News-Letter, 22 May 1952, p. 5 (Urban councils)",
+    "publisher": "Belfast News-Letter",
+    "url": null,
+    "accessed": "2026-10-31"
+   },
+   "additionalSources": [
+    {
+     "title": "Londonderry Sentinel, 22 May 1952, p. 3 (Strabane)",
+     "publisher": "Londonderry Sentinel",
+     "url": null,
+     "accessed": "2026-10-31"
+    },
+    {
+     "title": "Irish Weekly and Ulster Examiner, 31 May 1952, p. 7 (Strabane)",
+     "publisher": "Irish Weekly and Ulster Examiner",
+     "url": null,
+     "accessed": "2026-10-31"
+    }
+   ],
+   "sourceNote": "The papers disagree on Gerard McDonnell's vote: the Belfast News-Letter prints 251 and the Londonderry Sentinel 255. Every other South Ward figure agrees, neither paper prints a total or valid poll to check them against, and the Irish Weekly (31 May 1952) lists only the elected members. Civgraph shows the News-Letter's 251.",
+   "category": "figures",
+   "operations": [],
+   "internalNote": "Unresolved on the evidence in BNA (31 Oct 2026): both page images are clear (BNL 'M'Donnell, 251'; Sentinel table '255'); no other digitised report gives the losing figure. The Strabane Chronicle/Weekly News for 1952 are not in BNA. The result (McDonnell not elected) is the same either way."
+  },
+  {
+   "batch": "strabane-belfast-1961-bna-2026-10-31",
+   "sourceFile": "data/elections-source/data/elections/belfast-county-borough-council-aldermen/1961/clifton.json",
+   "source": {
+    "title": "Northern Whig, 4 May 1961, p. 1",
+    "publisher": "Northern Whig",
+    "url": null,
+    "accessed": "2026-10-31"
+   },
+   "additionalSources": [
+    {
+     "title": "Belfast Telegraph, 3 May 1961, p. 7",
+     "publisher": "Belfast Telegraph",
+     "url": null,
+     "accessed": "2026-10-31"
+    },
+    {
+     "title": "Northern Whig, 3 May 1961, p. 8",
+     "publisher": "Northern Whig",
+     "url": null,
+     "accessed": "2026-10-31"
+    },
+    {
+     "title": "Belfast Telegraph, 6 May 1964, p. 4",
+     "publisher": "Belfast Telegraph",
+     "url": null,
+     "accessed": "2026-10-31"
+    },
+    {
+     "title": "Belfast Telegraph, 7 May 1964, p. 14 (Protestant Unionist out)",
+     "publisher": "Belfast Telegraph",
+     "url": null,
+     "accessed": "2026-10-31"
+    }
+   ],
+   "category": "names",
+   "reason": "The Protestant Unionist candidate was John Costley, not John Crostley. The results tables (Northern Whig and Belfast Telegraph, 18 May 1961) print \"Crostley\", but the nomination reports (Belfast Telegraph, 3 May 1961; Northern Whig, 3 and 4 May 1961) name the Ulster Protestant Action nominee for Clifton as John Costley, and he was nominated again as John Costley (Protestant Unionist) for the Windsor aldermanship in 1964 before withdrawing.",
+   "operations": [
+    {
+     "op": "candidate",
+     "name": "John Crostley",
+     "set": {
+      "Surname": "Costley",
+      "candidateName": "John Costley"
      }
     }
    ]

@@ -41,6 +41,8 @@
     "winner",
     "leadingParty",
     "voteShare",
+    "turnout",
+    "majority",
     "seats"
   ],
   "partySummary": [
@@ -50,7 +52,15 @@
       "stood": 1,
       "votes": 8901,
       "colour": "#48a5ee",
-      "share": 100
+      "share": 64.62175112530856
+    },
+    {
+      "party": "NI Labour",
+      "seats": 0,
+      "stood": 1,
+      "votes": 4873,
+      "colour": "#6b7280",
+      "share": 35.37824887469145
     }
   ],
   "mainLikePartySummary": [
@@ -60,14 +70,22 @@
       "stood": 1,
       "votes": 8901,
       "colour": "#48A5EE",
-      "share": 100
+      "share": 64.62175112530856
+    },
+    {
+      "party": "NI Labour",
+      "seats": 0,
+      "stood": 1,
+      "votes": 4873,
+      "colour": "#DC241F",
+      "share": 35.37824887469145
     }
   ],
   "mainLikeTotals": {
-    "validPoll": 8901,
-    "totalPoll": 0,
+    "validPoll": 13774,
+    "totalPoll": 13800,
     "totalElectorate": 17415,
-    "totalSpoiled": 0,
+    "totalSpoiled": 26,
     "totalSeats": 1
   },
   "mainLikeCandidateSummary": [
@@ -80,8 +98,8 @@
       "colour": "#48A5EE",
       "firstPrefs": 8901,
       "votes": 8901,
-      "constPct": 100,
-      "firstPrefPct": 100,
+      "constPct": 64.62175112530856,
+      "firstPrefPct": 64.62175112530856,
       "finalVotes": 8901,
       "elected": true,
       "electedAt": 1,
@@ -99,13 +117,42 @@
       },
       "candidateKey": "james godfrey macmanaway|uup",
       "name_id": "n-james-godfrey-macmanaway"
+    },
+    {
+      "id": "fix-william-alexander-irwin-1947",
+      "personId": 135101,
+      "constituency": "City of Londonderry",
+      "name": "William Alexander Irwin",
+      "party": "NI Labour",
+      "colour": "#DC241F",
+      "firstPrefs": 4873,
+      "votes": 4873,
+      "constPct": 35.37824887469145,
+      "firstPrefPct": 35.37824887469145,
+      "finalVotes": 4873,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 4873,
+          "transfers": 0,
+          "status": ""
+        }
+      },
+      "candidateKey": "william alexander irwin|ni labour",
+      "name_id": "n-william-alexander-irwin"
     }
   ],
   "mainLikeCandidateTotals": {
-    "validPoll": 8901
+    "validPoll": 13774
   },
   "entityIndex": {
-    "totalValid": 8901,
+    "totalValid": 13774,
     "parties": [
       {
         "name": "UUP",
@@ -127,7 +174,29 @@
             "status": "Elected"
           }
         ],
-        "shareOfTotal": 100
+        "shareOfTotal": 64.62175112530856
+      },
+      {
+        "name": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 4873,
+        "finalVotes": 4873,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "City of Londonderry"
+        ],
+        "candidates": [
+          {
+            "id": "William Alexander Irwin|NI Labour",
+            "name": "William Alexander Irwin",
+            "constituency": "City of Londonderry",
+            "firstPref": 4873,
+            "finalVotes": 4873,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 35.37824887469145
       }
     ],
     "candidates": [
@@ -151,7 +220,29 @@
             "status": "Elected"
           }
         ],
-        "shareOfTotal": 100
+        "shareOfTotal": 64.62175112530856
+      },
+      {
+        "id": "William Alexander Irwin|NI Labour",
+        "key": "William Alexander Irwin|NI Labour",
+        "name": "William Alexander Irwin",
+        "party": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 4873,
+        "finalVotes": 4873,
+        "electedCount": 0,
+        "constituencies": [
+          "City of Londonderry"
+        ],
+        "appearances": [
+          {
+            "constituency": "City of Londonderry",
+            "firstPref": 4873,
+            "finalVotes": 4873,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 35.37824887469145
       }
     ]
   },
@@ -163,18 +254,18 @@
       "leadingParty": "UUP",
       "leadingName": "James Godfrey MacManaway",
       "leadingVotes": 8901,
-      "leadingPct": 100,
-      "turnoutPct": null,
-      "majority": null,
-      "majorityPct": null,
+      "leadingPct": 64.62,
+      "turnoutPct": 79.24,
+      "majority": 4028,
+      "majorityPct": 29.24,
       "seatsWon": 1,
       "seatsTotal": 1,
       "quota": null,
       "electorate": 17415,
-      "totalPoll": null,
-      "spoiled": null,
-      "validPoll": 8901,
-      "totalVotes": 8901,
+      "totalPoll": 13800,
+      "spoiled": 26,
+      "validPoll": 13774,
+      "totalVotes": 13774,
       "colour": "#48a5ee",
       "leadingColour": "#48a5ee",
       "candidates": [
@@ -206,6 +297,35 @@
           ],
           "personId": 104115,
           "name_id": "n-james-godfrey-macmanaway"
+        },
+        {
+          "id": "fix-william-alexander-irwin-1947",
+          "name": "William Alexander Irwin",
+          "party": "NI Labour",
+          "firstPrefs": 4873,
+          "finalVotes": 4873,
+          "elected": false,
+          "electedAt": null,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "",
+          "colour": "#DC241F",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "counts": [
+            {
+              "count": 1,
+              "total": 4873,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 4873
+            }
+          ],
+          "personId": 135101,
+          "name_id": "n-william-alexander-irwin"
         }
       ],
       "elected": [
@@ -241,10 +361,10 @@
         "Constituency_Name": "City of Londonderry",
         "Constituency_Number": "",
         "Number_Of_Seats": "1",
-        "Spoiled": "",
+        "Spoiled": "26",
         "Total_Electorate": "17415",
-        "Total_Poll": "",
-        "Valid_Poll": ""
+        "Total_Poll": "13800",
+        "Valid_Poll": "13774"
       },
       "countGroup": [
         {
@@ -253,7 +373,7 @@
           "Constituency_Number": "",
           "Count_Number": "1",
           "Firstname": "James Godfrey",
-          "Occurred_On_Count": "",
+          "Occurred_On_Count": "1",
           "Party_Colour": "#48A5EE",
           "Party_Name": "UUP",
           "Status": "Elected",
@@ -262,6 +382,22 @@
           "Transfers": "0.00",
           "candidateName": "James Godfrey MacManaway",
           "id": 0
+        },
+        {
+          "Constituency_Number": "",
+          "Candidate_Id": "fix-william-alexander-irwin-1947",
+          "Count_Number": "1",
+          "Firstname": "William Alexander",
+          "Surname": "Irwin",
+          "Candidate_First_Pref_Votes": "4873.00",
+          "Transfers": "0.00",
+          "Total_Votes": "4873.00",
+          "Status": "",
+          "Occurred_On_Count": "",
+          "Party_Name": "NI Labour",
+          "Party_Colour": "#DC241F",
+          "candidateName": "William Alexander Irwin",
+          "id": 1
         }
       ],
       "syntheticCountGroup": false,
@@ -277,10 +413,10 @@
             "Constituency_Name": "City of Londonderry",
             "Constituency_Number": "",
             "Number_Of_Seats": "1",
-            "Spoiled": "",
+            "Spoiled": "26",
             "Total_Electorate": "17415",
-            "Total_Poll": "",
-            "Valid_Poll": ""
+            "Total_Poll": "13800",
+            "Valid_Poll": "13774"
           },
           "countGroup": [
             {
@@ -289,7 +425,7 @@
               "Constituency_Number": "",
               "Count_Number": "1",
               "Firstname": "James Godfrey",
-              "Occurred_On_Count": "",
+              "Occurred_On_Count": "1",
               "Party_Colour": "#48A5EE",
               "Party_Name": "UUP",
               "Status": "Elected",
@@ -298,11 +434,28 @@
               "Transfers": "0.00",
               "candidateName": "James Godfrey MacManaway",
               "id": 0
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "fix-william-alexander-irwin-1947",
+              "Count_Number": "1",
+              "Firstname": "William Alexander",
+              "Surname": "Irwin",
+              "Candidate_First_Pref_Votes": "4873.00",
+              "Transfers": "0.00",
+              "Total_Votes": "4873.00",
+              "Status": "",
+              "Occurred_On_Count": "",
+              "Party_Name": "NI Labour",
+              "Party_Colour": "#DC241F",
+              "candidateName": "William Alexander Irwin",
+              "id": 1
             }
           ]
         },
         "electorateSource": "Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973); the same figure in David Boothroyd, Northern Ireland House of Commons Election Results",
-        "cause": "Resignation of William Lowry (UUP) (Wikipedia, List of Northern Ireland Parliament by-elections)"
+        "cause": "Resignation of William Lowry (UUP) (Wikipedia, List of Northern Ireland Parliament by-elections)",
+        "correctionNote": "The by-election was contested: William Alexander Irwin (NI Labour) polled 4,873 against the Rev. J. G. MacManaway's 8,901 (majority 4,028). Walker, Boothroyd and the newspapers agree; total poll 13,800 of 17,415 with 26 spoilt. (Royal Irish Academy; David Boothroyd, B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 62; checked against David Boothroyd, Northern Ireland House of Commons Election Results (ldrcity.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020))"
       },
       "constituencyId": null,
       "constituencyNumber": null,
@@ -315,6 +468,10 @@
         {
           "label": "Electorate",
           "text": "17,415: Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973); the same figure in David Boothroyd, Northern Ireland House of Commons Election Results"
+        },
+        {
+          "label": "Corrected",
+          "text": "The by-election was contested: William Alexander Irwin (NI Labour) polled 4,873 against the Rev. J. G. MacManaway's 8,901 (majority 4,028). Walker, Boothroyd and the newspapers agree; total poll 13,800 of 17,415 with 26 spoilt. (Royal Irish Academy; David Boothroyd, B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 62; checked against David Boothroyd, Northern Ireland House of Commons Election Results (ldrcity.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020))"
         }
       ],
       "contestType": "election",

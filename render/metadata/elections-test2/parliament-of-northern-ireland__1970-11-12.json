@@ -8,8 +8,8 @@
   "contestType": "election",
   "kind": "by-election",
   "votingSystem": "fptp",
-  "contestStatus": "uncontested",
-  "candidateRowsExpected": false,
+  "contestStatus": "contested",
+  "candidateRowsExpected": true,
   "transferDataExpected": false,
   "localBodies": null,
   "localBodyByConstituency": null,
@@ -40,6 +40,8 @@
   "availableStyleModes": [
     "winner",
     "leadingParty",
+    "voteShare",
+    "majority",
     "seats"
   ],
   "partySummary": [
@@ -47,9 +49,25 @@
       "party": "UUP",
       "seats": 1,
       "stood": 1,
-      "votes": 0,
+      "votes": 8204,
       "colour": "#48a5ee",
-      "share": null
+      "share": 68.81972988843218
+    },
+    {
+      "party": "SDLP",
+      "seats": 0,
+      "stood": 1,
+      "votes": 2881,
+      "colour": "#2aa82c",
+      "share": 24.167435617817297
+    },
+    {
+      "party": "NI Labour",
+      "seats": 0,
+      "stood": 1,
+      "votes": 836,
+      "colour": "#6b7280",
+      "share": 7.012834493750525
     }
   ],
   "mainLikePartySummary": [
@@ -57,15 +75,31 @@
       "party": "UUP",
       "seats": 1,
       "stood": 1,
-      "votes": 0,
+      "votes": 8204,
       "colour": "#48A5EE",
-      "share": null
+      "share": 68.81972988843218
+    },
+    {
+      "party": "SDLP",
+      "seats": 0,
+      "stood": 1,
+      "votes": 2881,
+      "colour": "#2AA82C",
+      "share": 24.167435617817297
+    },
+    {
+      "party": "NI Labour",
+      "seats": 0,
+      "stood": 1,
+      "votes": 836,
+      "colour": "#DC241F",
+      "share": 7.012834493750525
     }
   ],
   "mainLikeTotals": {
-    "validPoll": 0,
+    "validPoll": 11921,
     "totalPoll": 0,
-    "totalElectorate": 0,
+    "totalElectorate": 20221,
     "totalSpoiled": 0,
     "totalSeats": 1
   },
@@ -77,11 +111,11 @@
       "name": "John Laird",
       "party": "UUP",
       "colour": "#48A5EE",
-      "firstPrefs": 0,
-      "votes": 0,
-      "constPct": 0,
-      "firstPrefPct": 0,
-      "finalVotes": 0,
+      "firstPrefs": 8204,
+      "votes": 8204,
+      "constPct": 68.81972988843218,
+      "firstPrefPct": 68.81972988843218,
+      "finalVotes": 8204,
       "elected": true,
       "electedAt": 1,
       "excluded": false,
@@ -91,26 +125,84 @@
       "status": "Elected",
       "counts": {
         "1": {
-          "total": 0,
+          "total": 8204,
           "transfers": 0,
           "status": "Elected"
         }
       },
       "candidateKey": "john laird|uup",
       "name_id": "n-john-laird"
+    },
+    {
+      "id": "fix-gerald-malachy-lavery-1970",
+      "personId": 135086,
+      "constituency": "Belfast St Anne's",
+      "name": "Gerald Malachy Lavery",
+      "party": "SDLP",
+      "colour": "#2AA82C",
+      "firstPrefs": 2881,
+      "votes": 2881,
+      "constPct": 24.167435617817297,
+      "firstPrefPct": 24.167435617817297,
+      "finalVotes": 2881,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 2881,
+          "transfers": 0,
+          "status": ""
+        }
+      },
+      "candidateKey": "gerald malachy lavery|sdlp",
+      "name_id": "n-gerald-malachy-lavery"
+    },
+    {
+      "id": "fix-william-ritchie-1970",
+      "personId": 135105,
+      "constituency": "Belfast St Anne's",
+      "name": "William Ritchie",
+      "party": "NI Labour",
+      "colour": "#DC241F",
+      "firstPrefs": 836,
+      "votes": 836,
+      "constPct": 7.012834493750525,
+      "firstPrefPct": 7.012834493750525,
+      "finalVotes": 836,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 836,
+          "transfers": 0,
+          "status": ""
+        }
+      },
+      "candidateKey": "william ritchie|ni labour",
+      "name_id": "n-william-ritchie"
     }
   ],
   "mainLikeCandidateTotals": {
-    "validPoll": 0
+    "validPoll": 11921
   },
   "entityIndex": {
-    "totalValid": 0,
+    "totalValid": 11921,
     "parties": [
       {
         "name": "UUP",
         "colour": "#48A5EE",
-        "firstPrefs": 0,
-        "finalVotes": 0,
+        "firstPrefs": 8204,
+        "finalVotes": 8204,
         "stood": 1,
         "elected": 1,
         "constituencies": [
@@ -121,12 +213,56 @@
             "id": "John Laird|UUP",
             "name": "John Laird",
             "constituency": "Belfast St Anne's",
-            "firstPref": 0,
-            "finalVotes": 0,
+            "firstPref": 8204,
+            "finalVotes": 8204,
             "status": "Elected"
           }
         ],
-        "shareOfTotal": null
+        "shareOfTotal": 68.81972988843218
+      },
+      {
+        "name": "SDLP",
+        "colour": "#2AA82C",
+        "firstPrefs": 2881,
+        "finalVotes": 2881,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Belfast St Anne's"
+        ],
+        "candidates": [
+          {
+            "id": "Gerald Malachy Lavery|SDLP",
+            "name": "Gerald Malachy Lavery",
+            "constituency": "Belfast St Anne's",
+            "firstPref": 2881,
+            "finalVotes": 2881,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 24.167435617817297
+      },
+      {
+        "name": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 836,
+        "finalVotes": 836,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Belfast St Anne's"
+        ],
+        "candidates": [
+          {
+            "id": "William Ritchie|NI Labour",
+            "name": "William Ritchie",
+            "constituency": "Belfast St Anne's",
+            "firstPref": 836,
+            "finalVotes": 836,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 7.012834493750525
       }
     ],
     "candidates": [
@@ -136,8 +272,8 @@
         "name": "John Laird",
         "party": "UUP",
         "colour": "#48A5EE",
-        "firstPrefs": 0,
-        "finalVotes": 0,
+        "firstPrefs": 8204,
+        "finalVotes": 8204,
         "electedCount": 1,
         "constituencies": [
           "Belfast St Anne's"
@@ -145,12 +281,56 @@
         "appearances": [
           {
             "constituency": "Belfast St Anne's",
-            "firstPref": 0,
-            "finalVotes": 0,
+            "firstPref": 8204,
+            "finalVotes": 8204,
             "status": "Elected"
           }
         ],
-        "shareOfTotal": null
+        "shareOfTotal": 68.81972988843218
+      },
+      {
+        "id": "Gerald Malachy Lavery|SDLP",
+        "key": "Gerald Malachy Lavery|SDLP",
+        "name": "Gerald Malachy Lavery",
+        "party": "SDLP",
+        "colour": "#2AA82C",
+        "firstPrefs": 2881,
+        "finalVotes": 2881,
+        "electedCount": 0,
+        "constituencies": [
+          "Belfast St Anne's"
+        ],
+        "appearances": [
+          {
+            "constituency": "Belfast St Anne's",
+            "firstPref": 2881,
+            "finalVotes": 2881,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 24.167435617817297
+      },
+      {
+        "id": "William Ritchie|NI Labour",
+        "key": "William Ritchie|NI Labour",
+        "name": "William Ritchie",
+        "party": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 836,
+        "finalVotes": 836,
+        "electedCount": 0,
+        "constituencies": [
+          "Belfast St Anne's"
+        ],
+        "appearances": [
+          {
+            "constituency": "Belfast St Anne's",
+            "firstPref": 836,
+            "finalVotes": 836,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 7.012834493750525
       }
     ]
   },
@@ -161,19 +341,19 @@
       "winnerName": "John Laird",
       "leadingParty": "UUP",
       "leadingName": "John Laird",
-      "leadingVotes": null,
-      "leadingPct": null,
+      "leadingVotes": 8204,
+      "leadingPct": 68.82,
       "turnoutPct": null,
-      "majority": null,
-      "majorityPct": null,
+      "majority": 5323,
+      "majorityPct": 44.65,
       "seatsWon": 1,
       "seatsTotal": 1,
       "quota": null,
-      "electorate": null,
+      "electorate": 20221,
       "totalPoll": null,
       "spoiled": null,
-      "validPoll": null,
-      "totalVotes": null,
+      "validPoll": 11921,
+      "totalVotes": 11921,
       "colour": "#48a5ee",
       "leadingColour": "#48a5ee",
       "candidates": [
@@ -181,8 +361,8 @@
           "id": "9213428",
           "name": "John Laird",
           "party": "UUP",
-          "firstPrefs": null,
-          "finalVotes": null,
+          "firstPrefs": 8204,
+          "finalVotes": 8204,
           "elected": true,
           "electedAt": 1,
           "autoReturnedCeannComhairle": false,
@@ -197,14 +377,72 @@
           "counts": [
             {
               "count": 1,
-              "total": null,
+              "total": 8204,
               "transfers": 0,
               "status": "Elected",
-              "firstPrefs": null
+              "firstPrefs": 8204
             }
           ],
           "personId": 96043,
           "name_id": "n-john-laird"
+        },
+        {
+          "id": "fix-gerald-malachy-lavery-1970",
+          "name": "Gerald Malachy Lavery",
+          "party": "SDLP",
+          "firstPrefs": 2881,
+          "finalVotes": 2881,
+          "elected": false,
+          "electedAt": null,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "",
+          "colour": "#2AA82C",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "counts": [
+            {
+              "count": 1,
+              "total": 2881,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 2881
+            }
+          ],
+          "personId": 135086,
+          "name_id": "n-gerald-malachy-lavery"
+        },
+        {
+          "id": "fix-william-ritchie-1970",
+          "name": "William Ritchie",
+          "party": "NI Labour",
+          "firstPrefs": 836,
+          "finalVotes": 836,
+          "elected": false,
+          "electedAt": null,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "",
+          "colour": "#DC241F",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "counts": [
+            {
+              "count": 1,
+              "total": 836,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 836
+            }
+          ],
+          "personId": 135105,
+          "name_id": "n-william-ritchie"
         }
       ],
       "elected": [
@@ -212,8 +450,8 @@
           "id": "9213428",
           "name": "John Laird",
           "party": "UUP",
-          "firstPrefs": null,
-          "finalVotes": null,
+          "firstPrefs": 8204,
+          "finalVotes": 8204,
           "elected": true,
           "electedAt": 1,
           "autoReturnedCeannComhairle": false,
@@ -228,10 +466,10 @@
           "counts": [
             {
               "count": 1,
-              "total": null,
+              "total": 8204,
               "transfers": 0,
               "status": "Elected",
-              "firstPrefs": null
+              "firstPrefs": 8204
             }
           ]
         }
@@ -241,26 +479,58 @@
         "Constituency_Number": "",
         "Number_Of_Seats": "1",
         "Spoiled": "",
-        "Total_Electorate": "",
+        "Total_Electorate": "20221",
         "Total_Poll": "",
-        "Valid_Poll": ""
+        "Valid_Poll": "11921"
       },
       "countGroup": [
         {
-          "Candidate_First_Pref_Votes": "Unopposed",
+          "Candidate_First_Pref_Votes": "8204.00",
           "Candidate_Id": "9213428",
           "Constituency_Number": "",
           "Count_Number": "1",
           "Firstname": "John",
-          "Occurred_On_Count": "",
+          "Occurred_On_Count": "1",
           "Party_Colour": "#48A5EE",
           "Party_Name": "UUP",
           "Status": "Elected",
           "Surname": "Laird",
-          "Total_Votes": "",
+          "Total_Votes": "8204.00",
           "Transfers": "0.00",
           "candidateName": "John Laird",
           "id": 0
+        },
+        {
+          "Constituency_Number": "",
+          "Candidate_Id": "fix-gerald-malachy-lavery-1970",
+          "Count_Number": "1",
+          "Firstname": "Gerald Malachy",
+          "Surname": "Lavery",
+          "Candidate_First_Pref_Votes": "2881.00",
+          "Transfers": "0.00",
+          "Total_Votes": "2881.00",
+          "Status": "",
+          "Occurred_On_Count": "",
+          "Party_Name": "SDLP",
+          "Party_Colour": "#2AA82C",
+          "candidateName": "Gerald Malachy Lavery",
+          "id": 1
+        },
+        {
+          "Constituency_Number": "",
+          "Candidate_Id": "fix-william-ritchie-1970",
+          "Count_Number": "1",
+          "Firstname": "William",
+          "Surname": "Ritchie",
+          "Candidate_First_Pref_Votes": "836.00",
+          "Transfers": "0.00",
+          "Total_Votes": "836.00",
+          "Status": "",
+          "Occurred_On_Count": "",
+          "Party_Name": "NI Labour",
+          "Party_Colour": "#DC241F",
+          "candidateName": "William Ritchie",
+          "id": 2
         }
       ],
       "syntheticCountGroup": false,
@@ -277,30 +547,64 @@
             "Constituency_Number": "",
             "Number_Of_Seats": "1",
             "Spoiled": "",
-            "Total_Electorate": "",
+            "Total_Electorate": "20221",
             "Total_Poll": "",
-            "Valid_Poll": ""
+            "Valid_Poll": "11921"
           },
           "countGroup": [
             {
-              "Candidate_First_Pref_Votes": "Unopposed",
+              "Candidate_First_Pref_Votes": "8204.00",
               "Candidate_Id": "9213428",
               "Constituency_Number": "",
               "Count_Number": "1",
               "Firstname": "John",
-              "Occurred_On_Count": "",
+              "Occurred_On_Count": "1",
               "Party_Colour": "#48A5EE",
               "Party_Name": "UUP",
               "Status": "Elected",
               "Surname": "Laird",
-              "Total_Votes": "",
+              "Total_Votes": "8204.00",
               "Transfers": "0.00",
               "candidateName": "John Laird",
               "id": 0
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "fix-gerald-malachy-lavery-1970",
+              "Count_Number": "1",
+              "Firstname": "Gerald Malachy",
+              "Surname": "Lavery",
+              "Candidate_First_Pref_Votes": "2881.00",
+              "Transfers": "0.00",
+              "Total_Votes": "2881.00",
+              "Status": "",
+              "Occurred_On_Count": "",
+              "Party_Name": "SDLP",
+              "Party_Colour": "#2AA82C",
+              "candidateName": "Gerald Malachy Lavery",
+              "id": 1
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "fix-william-ritchie-1970",
+              "Count_Number": "1",
+              "Firstname": "William",
+              "Surname": "Ritchie",
+              "Candidate_First_Pref_Votes": "836.00",
+              "Transfers": "0.00",
+              "Total_Votes": "836.00",
+              "Status": "",
+              "Occurred_On_Count": "",
+              "Party_Name": "NI Labour",
+              "Party_Colour": "#DC241F",
+              "candidateName": "William Ritchie",
+              "id": 2
             }
           ]
         },
-        "cause": "Death of Norman Laird (UUP) (Wikipedia, List of Northern Ireland Parliament by-elections)"
+        "electorateSource": "Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973); the same figure in David Boothroyd, Northern Ireland House of Commons Election Results",
+        "cause": "Death of Norman Laird (UUP) (Wikipedia, List of Northern Ireland Parliament by-elections)",
+        "correctionNote": "Contested, not unopposed: John Laird 8,204; Gerald Malachy Lavery (SDLP) 2,881; William Ritchie (NI Labour) 836. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give. (Royal Irish Academy; David Boothroyd, B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 82; checked against David Boothroyd, Northern Ireland House of Commons Election Results (belfast.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020))"
       },
       "constituencyId": null,
       "constituencyNumber": null,
@@ -309,13 +613,21 @@
         {
           "label": "Cause",
           "text": "Death of Norman Laird (UUP) (Wikipedia, List of Northern Ireland Parliament by-elections)"
+        },
+        {
+          "label": "Electorate",
+          "text": "20,221: Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973); the same figure in David Boothroyd, Northern Ireland House of Commons Election Results"
+        },
+        {
+          "label": "Corrected",
+          "text": "Contested, not unopposed: John Laird 8,204; Gerald Malachy Lavery (SDLP) 2,881; William Ritchie (NI Labour) 836. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give. (Royal Irish Academy; David Boothroyd, B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 82; checked against David Boothroyd, Northern Ireland House of Commons Election Results (belfast.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020))"
         }
       ],
       "contestType": "election",
       "kind": "by-election",
       "votingSystem": "fptp",
-      "contestStatus": "uncontested",
-      "candidateRowsExpected": false,
+      "contestStatus": "contested",
+      "candidateRowsExpected": true,
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1970-11-12/belfast-st-annes.json",

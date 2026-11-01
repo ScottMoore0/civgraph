@@ -8,8 +8,8 @@
   "contestType": "election",
   "kind": "by-election",
   "votingSystem": "fptp",
-  "contestStatus": "uncontested",
-  "candidateRowsExpected": false,
+  "contestStatus": "contested",
+  "candidateRowsExpected": true,
   "transferDataExpected": false,
   "localBodies": null,
   "localBodyByConstituency": null,
@@ -40,6 +40,8 @@
   "availableStyleModes": [
     "winner",
     "leadingParty",
+    "voteShare",
+    "majority",
     "seats"
   ],
   "partySummary": [
@@ -47,9 +49,17 @@
       "party": "Ulster Liberal",
       "seats": 1,
       "stood": 1,
-      "votes": 0,
+      "votes": 2622,
       "colour": "#6b7280",
-      "share": null
+      "share": 52.52403846153846
+    },
+    {
+      "party": "UUP",
+      "seats": 0,
+      "stood": 1,
+      "votes": 2370,
+      "colour": "#48a5ee",
+      "share": 47.47596153846153
     }
   ],
   "mainLikePartySummary": [
@@ -57,15 +67,23 @@
       "party": "Ulster Liberal",
       "seats": 1,
       "stood": 1,
-      "votes": 0,
+      "votes": 2622,
       "colour": "#DAA520",
-      "share": null
+      "share": 52.52403846153846
+    },
+    {
+      "party": "UUP",
+      "seats": 0,
+      "stood": 1,
+      "votes": 2370,
+      "colour": "#48A5EE",
+      "share": 47.47596153846153
     }
   ],
   "mainLikeTotals": {
-    "validPoll": 0,
+    "validPoll": 4992,
     "totalPoll": 0,
-    "totalElectorate": 0,
+    "totalElectorate": 11073,
     "totalSpoiled": 0,
     "totalSeats": 1
   },
@@ -77,11 +95,11 @@
       "name": "Sheelagh Murnaghan",
       "party": "Ulster Liberal",
       "colour": "#DAA520",
-      "firstPrefs": 0,
-      "votes": 0,
-      "constPct": 0,
-      "firstPrefPct": 0,
-      "finalVotes": 0,
+      "firstPrefs": 2622,
+      "votes": 2622,
+      "constPct": 52.52403846153846,
+      "firstPrefPct": 52.52403846153846,
+      "finalVotes": 2622,
       "elected": true,
       "electedAt": 1,
       "excluded": false,
@@ -91,26 +109,55 @@
       "status": "Elected",
       "counts": {
         "1": {
-          "total": 0,
+          "total": 2622,
           "transfers": 0,
           "status": "Elected"
         }
       },
       "candidateKey": "sheelagh murnaghan|ulster liberal",
       "name_id": "n-sheelagh-murnaghan"
+    },
+    {
+      "id": "fix-samuel-rodgers-1961",
+      "personId": 135097,
+      "constituency": "Queen's University of Belfast",
+      "name": "Samuel Rodgers",
+      "party": "UUP",
+      "colour": "#48A5EE",
+      "firstPrefs": 2370,
+      "votes": 2370,
+      "constPct": 47.47596153846153,
+      "firstPrefPct": 47.47596153846153,
+      "finalVotes": 2370,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 2370,
+          "transfers": 0,
+          "status": ""
+        }
+      },
+      "candidateKey": "samuel rodgers|uup",
+      "name_id": "n-samuel-rodgers"
     }
   ],
   "mainLikeCandidateTotals": {
-    "validPoll": 0
+    "validPoll": 4992
   },
   "entityIndex": {
-    "totalValid": 0,
+    "totalValid": 4992,
     "parties": [
       {
         "name": "Ulster Liberal",
         "colour": "#DAA520",
-        "firstPrefs": 0,
-        "finalVotes": 0,
+        "firstPrefs": 2622,
+        "finalVotes": 2622,
         "stood": 1,
         "elected": 1,
         "constituencies": [
@@ -121,12 +168,34 @@
             "id": "Sheelagh Murnaghan|Ulster Liberal",
             "name": "Sheelagh Murnaghan",
             "constituency": "Queen's University of Belfast",
-            "firstPref": 0,
-            "finalVotes": 0,
+            "firstPref": 2622,
+            "finalVotes": 2622,
             "status": "Elected"
           }
         ],
-        "shareOfTotal": null
+        "shareOfTotal": 52.52403846153846
+      },
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 2370,
+        "finalVotes": 2370,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Queen's University of Belfast"
+        ],
+        "candidates": [
+          {
+            "id": "Samuel Rodgers|UUP",
+            "name": "Samuel Rodgers",
+            "constituency": "Queen's University of Belfast",
+            "firstPref": 2370,
+            "finalVotes": 2370,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 47.47596153846153
       }
     ],
     "candidates": [
@@ -136,8 +205,8 @@
         "name": "Sheelagh Murnaghan",
         "party": "Ulster Liberal",
         "colour": "#DAA520",
-        "firstPrefs": 0,
-        "finalVotes": 0,
+        "firstPrefs": 2622,
+        "finalVotes": 2622,
         "electedCount": 1,
         "constituencies": [
           "Queen's University of Belfast"
@@ -145,12 +214,34 @@
         "appearances": [
           {
             "constituency": "Queen's University of Belfast",
-            "firstPref": 0,
-            "finalVotes": 0,
+            "firstPref": 2622,
+            "finalVotes": 2622,
             "status": "Elected"
           }
         ],
-        "shareOfTotal": null
+        "shareOfTotal": 52.52403846153846
+      },
+      {
+        "id": "Samuel Rodgers|UUP",
+        "key": "Samuel Rodgers|UUP",
+        "name": "Samuel Rodgers",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 2370,
+        "finalVotes": 2370,
+        "electedCount": 0,
+        "constituencies": [
+          "Queen's University of Belfast"
+        ],
+        "appearances": [
+          {
+            "constituency": "Queen's University of Belfast",
+            "firstPref": 2370,
+            "finalVotes": 2370,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 47.47596153846153
       }
     ]
   },
@@ -161,19 +252,19 @@
       "winnerName": "Sheelagh Murnaghan",
       "leadingParty": "Ulster Liberal",
       "leadingName": "Sheelagh Murnaghan",
-      "leadingVotes": null,
-      "leadingPct": null,
+      "leadingVotes": 2622,
+      "leadingPct": 52.52,
       "turnoutPct": null,
-      "majority": null,
-      "majorityPct": null,
+      "majority": 252,
+      "majorityPct": 5.05,
       "seatsWon": 1,
       "seatsTotal": 1,
       "quota": null,
-      "electorate": null,
+      "electorate": 11073,
       "totalPoll": null,
       "spoiled": null,
-      "validPoll": null,
-      "totalVotes": null,
+      "validPoll": 4992,
+      "totalVotes": 4992,
       "colour": "#6b7280",
       "leadingColour": "#6b7280",
       "candidates": [
@@ -181,8 +272,8 @@
           "id": "262009",
           "name": "Sheelagh Murnaghan",
           "party": "Ulster Liberal",
-          "firstPrefs": null,
-          "finalVotes": null,
+          "firstPrefs": 2622,
+          "finalVotes": 2622,
           "elected": true,
           "electedAt": 1,
           "autoReturnedCeannComhairle": false,
@@ -197,14 +288,43 @@
           "counts": [
             {
               "count": 1,
-              "total": null,
+              "total": 2622,
               "transfers": 0,
               "status": "Elected",
-              "firstPrefs": null
+              "firstPrefs": 2622
             }
           ],
           "personId": 104924,
           "name_id": "n-sheelagh-murnaghan"
+        },
+        {
+          "id": "fix-samuel-rodgers-1961",
+          "name": "Samuel Rodgers",
+          "party": "UUP",
+          "firstPrefs": 2370,
+          "finalVotes": 2370,
+          "elected": false,
+          "electedAt": null,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "",
+          "colour": "#48A5EE",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "counts": [
+            {
+              "count": 1,
+              "total": 2370,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 2370
+            }
+          ],
+          "personId": 135097,
+          "name_id": "n-samuel-rodgers"
         }
       ],
       "elected": [
@@ -212,8 +332,8 @@
           "id": "262009",
           "name": "Sheelagh Murnaghan",
           "party": "Ulster Liberal",
-          "firstPrefs": null,
-          "finalVotes": null,
+          "firstPrefs": 2622,
+          "finalVotes": 2622,
           "elected": true,
           "electedAt": 1,
           "autoReturnedCeannComhairle": false,
@@ -228,10 +348,10 @@
           "counts": [
             {
               "count": 1,
-              "total": null,
+              "total": 2622,
               "transfers": 0,
               "status": "Elected",
-              "firstPrefs": null
+              "firstPrefs": 2622
             }
           ]
         }
@@ -241,26 +361,42 @@
         "Constituency_Number": "",
         "Number_Of_Seats": "1",
         "Spoiled": "",
-        "Total_Electorate": "",
+        "Total_Electorate": "11073",
         "Total_Poll": "",
-        "Valid_Poll": ""
+        "Valid_Poll": "4992"
       },
       "countGroup": [
         {
-          "Candidate_First_Pref_Votes": "Unopposed",
+          "Candidate_First_Pref_Votes": "2622.00",
           "Candidate_Id": "262009",
           "Constituency_Number": "",
           "Count_Number": "1",
           "Firstname": "Sheelagh",
-          "Occurred_On_Count": "",
+          "Occurred_On_Count": "1",
           "Party_Colour": "#DAA520",
           "Party_Name": "Ulster Liberal",
           "Status": "Elected",
           "Surname": "Murnaghan",
-          "Total_Votes": "",
+          "Total_Votes": "2622.00",
           "Transfers": "0.00",
           "candidateName": "Sheelagh Murnaghan",
           "id": 0
+        },
+        {
+          "Constituency_Number": "",
+          "Candidate_Id": "fix-samuel-rodgers-1961",
+          "Count_Number": "1",
+          "Firstname": "Samuel",
+          "Surname": "Rodgers",
+          "Candidate_First_Pref_Votes": "2370.00",
+          "Transfers": "0.00",
+          "Total_Votes": "2370.00",
+          "Status": "",
+          "Occurred_On_Count": "",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
+          "candidateName": "Samuel Rodgers",
+          "id": 1
         }
       ],
       "syntheticCountGroup": false,
@@ -277,30 +413,48 @@
             "Constituency_Number": "",
             "Number_Of_Seats": "1",
             "Spoiled": "",
-            "Total_Electorate": "",
+            "Total_Electorate": "11073",
             "Total_Poll": "",
-            "Valid_Poll": ""
+            "Valid_Poll": "4992"
           },
           "countGroup": [
             {
-              "Candidate_First_Pref_Votes": "Unopposed",
+              "Candidate_First_Pref_Votes": "2622.00",
               "Candidate_Id": "262009",
               "Constituency_Number": "",
               "Count_Number": "1",
               "Firstname": "Sheelagh",
-              "Occurred_On_Count": "",
+              "Occurred_On_Count": "1",
               "Party_Colour": "#DAA520",
               "Party_Name": "Ulster Liberal",
               "Status": "Elected",
               "Surname": "Murnaghan",
-              "Total_Votes": "",
+              "Total_Votes": "2622.00",
               "Transfers": "0.00",
               "candidateName": "Sheelagh Murnaghan",
               "id": 0
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "fix-samuel-rodgers-1961",
+              "Count_Number": "1",
+              "Firstname": "Samuel",
+              "Surname": "Rodgers",
+              "Candidate_First_Pref_Votes": "2370.00",
+              "Transfers": "0.00",
+              "Total_Votes": "2370.00",
+              "Status": "",
+              "Occurred_On_Count": "",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "Samuel Rodgers",
+              "id": 1
             }
           ]
         },
-        "cause": "Death of Samuel Irwin (UUP) (Wikipedia, List of Northern Ireland Parliament by-elections)"
+        "electorateSource": "Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973); the same figure in David Boothroyd, Northern Ireland House of Commons Election Results",
+        "cause": "Death of Samuel Irwin (UUP) (Wikipedia, List of Northern Ireland Parliament by-elections)",
+        "correctionNote": "Contested, not unopposed: Sheelagh Murnaghan 2,622; Samuel Rodgers (UUP) 2,370. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give. A single-vacancy by-election (death of Irwin). (Royal Irish Academy; David Boothroyd, B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 72; checked against David Boothroyd, Northern Ireland House of Commons Election Results (qub.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020))"
       },
       "constituencyId": null,
       "constituencyNumber": null,
@@ -309,13 +463,21 @@
         {
           "label": "Cause",
           "text": "Death of Samuel Irwin (UUP) (Wikipedia, List of Northern Ireland Parliament by-elections)"
+        },
+        {
+          "label": "Electorate",
+          "text": "11,073: Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973); the same figure in David Boothroyd, Northern Ireland House of Commons Election Results"
+        },
+        {
+          "label": "Corrected",
+          "text": "Contested, not unopposed: Sheelagh Murnaghan 2,622; Samuel Rodgers (UUP) 2,370. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give. A single-vacancy by-election (death of Irwin). (Royal Irish Academy; David Boothroyd, B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 72; checked against David Boothroyd, Northern Ireland House of Commons Election Results (qub.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020))"
         }
       ],
       "contestType": "election",
       "kind": "by-election",
       "votingSystem": "fptp",
-      "contestStatus": "uncontested",
-      "candidateRowsExpected": false,
+      "contestStatus": "contested",
+      "candidateRowsExpected": true,
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1961-11-22/queens-university-of-belfast.json",

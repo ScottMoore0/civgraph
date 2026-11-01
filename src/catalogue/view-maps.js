@@ -5,7 +5,7 @@
  * (index.js) owns state and behaviour, and is passed in as `c`.
  */
 import { icon, SHELF_LOOK, SHELF_ICON_IN, FLAT_SECTIONS } from './icons.js';
-import { esc, plural, span, inkOn, longDate, SCOPE_SHORT, shortProvider, yearOf } from './util.js';
+import { esc, plural, span, inkOn, longDate, mapDate, SCOPE_SHORT, shortProvider, yearOf } from './util.js';
 import { unitWord } from './index.js';
 import { sliderHtml } from './slider.js';
 import { PeopleSearch } from './search.js';
@@ -272,7 +272,7 @@ function memberListHtml(c, s, sel) {
 
 function factsHtml(c, sel, r) {
   const rows = [
-    r.date && ['Date', longDate(r.date)],
+    r.date && ['Date', mapDate(r)],
     r.licence && ['Licence', r.licence],
     r.status && r.status !== 'ready' && ['Status', r.status === 'placeholder' ? 'To be added: listed, not yet drawn' : 'Incomplete'],
     r.note && ['Note', r.note],

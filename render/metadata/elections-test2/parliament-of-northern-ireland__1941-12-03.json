@@ -8,8 +8,8 @@
   "contestType": "election",
   "kind": "by-election",
   "votingSystem": "fptp",
-  "contestStatus": "uncontested",
-  "candidateRowsExpected": false,
+  "contestStatus": "contested",
+  "candidateRowsExpected": true,
   "transferDataExpected": false,
   "localBodies": null,
   "localBodyByConstituency": null,
@@ -40,6 +40,8 @@
   "availableStyleModes": [
     "winner",
     "leadingParty",
+    "voteShare",
+    "majority",
     "seats"
   ],
   "partySummary": [
@@ -47,9 +49,17 @@
       "party": "NI Labour",
       "seats": 1,
       "stood": 1,
-      "votes": 0,
+      "votes": 7209,
       "colour": "#6b7280",
-      "share": null
+      "share": 74.75114060555786
+    },
+    {
+      "party": "UUP",
+      "seats": 0,
+      "stood": 1,
+      "votes": 2435,
+      "colour": "#48a5ee",
+      "share": 25.248859394442142
     }
   ],
   "mainLikePartySummary": [
@@ -57,15 +67,23 @@
       "party": "NI Labour",
       "seats": 1,
       "stood": 1,
-      "votes": 0,
+      "votes": 7209,
       "colour": "#DC241F",
-      "share": null
+      "share": 74.75114060555786
+    },
+    {
+      "party": "UUP",
+      "seats": 0,
+      "stood": 1,
+      "votes": 2435,
+      "colour": "#48A5EE",
+      "share": 25.248859394442142
     }
   ],
   "mainLikeTotals": {
-    "validPoll": 0,
+    "validPoll": 9644,
     "totalPoll": 0,
-    "totalElectorate": 0,
+    "totalElectorate": 16086,
     "totalSpoiled": 0,
     "totalSeats": 1
   },
@@ -77,11 +95,11 @@
       "name": "Harry Midgley",
       "party": "NI Labour",
       "colour": "#DC241F",
-      "firstPrefs": 0,
-      "votes": 0,
-      "constPct": 0,
-      "firstPrefPct": 0,
-      "finalVotes": 0,
+      "firstPrefs": 7209,
+      "votes": 7209,
+      "constPct": 74.75114060555786,
+      "firstPrefPct": 74.75114060555786,
+      "finalVotes": 7209,
       "elected": true,
       "electedAt": 1,
       "excluded": false,
@@ -91,26 +109,55 @@
       "status": "Elected",
       "counts": {
         "1": {
-          "total": 0,
+          "total": 7209,
           "transfers": 0,
           "status": "Elected"
         }
       },
       "candidateKey": "harry midgley|ni labour",
       "name_id": "n-harry-midgley"
+    },
+    {
+      "id": "fix-frederick-j-lavery-1941",
+      "personId": 135085,
+      "constituency": "Belfast Willowfield",
+      "name": "Frederick J. Lavery",
+      "party": "UUP",
+      "colour": "#48A5EE",
+      "firstPrefs": 2435,
+      "votes": 2435,
+      "constPct": 25.248859394442142,
+      "firstPrefPct": 25.248859394442142,
+      "finalVotes": 2435,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 2435,
+          "transfers": 0,
+          "status": ""
+        }
+      },
+      "candidateKey": "frederick j. lavery|uup",
+      "name_id": "n-frederick-j-lavery"
     }
   ],
   "mainLikeCandidateTotals": {
-    "validPoll": 0
+    "validPoll": 9644
   },
   "entityIndex": {
-    "totalValid": 0,
+    "totalValid": 9644,
     "parties": [
       {
         "name": "NI Labour",
         "colour": "#DC241F",
-        "firstPrefs": 0,
-        "finalVotes": 0,
+        "firstPrefs": 7209,
+        "finalVotes": 7209,
         "stood": 1,
         "elected": 1,
         "constituencies": [
@@ -121,12 +168,34 @@
             "id": "Harry Midgley|NI Labour",
             "name": "Harry Midgley",
             "constituency": "Belfast Willowfield",
-            "firstPref": 0,
-            "finalVotes": 0,
+            "firstPref": 7209,
+            "finalVotes": 7209,
             "status": "Elected"
           }
         ],
-        "shareOfTotal": null
+        "shareOfTotal": 74.75114060555786
+      },
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 2435,
+        "finalVotes": 2435,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Belfast Willowfield"
+        ],
+        "candidates": [
+          {
+            "id": "Frederick J. Lavery|UUP",
+            "name": "Frederick J. Lavery",
+            "constituency": "Belfast Willowfield",
+            "firstPref": 2435,
+            "finalVotes": 2435,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 25.248859394442142
       }
     ],
     "candidates": [
@@ -136,8 +205,8 @@
         "name": "Harry Midgley",
         "party": "NI Labour",
         "colour": "#DC241F",
-        "firstPrefs": 0,
-        "finalVotes": 0,
+        "firstPrefs": 7209,
+        "finalVotes": 7209,
         "electedCount": 1,
         "constituencies": [
           "Belfast Willowfield"
@@ -145,12 +214,34 @@
         "appearances": [
           {
             "constituency": "Belfast Willowfield",
-            "firstPref": 0,
-            "finalVotes": 0,
+            "firstPref": 7209,
+            "finalVotes": 7209,
             "status": "Elected"
           }
         ],
-        "shareOfTotal": null
+        "shareOfTotal": 74.75114060555786
+      },
+      {
+        "id": "Frederick J. Lavery|UUP",
+        "key": "Frederick J. Lavery|UUP",
+        "name": "Frederick J. Lavery",
+        "party": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 2435,
+        "finalVotes": 2435,
+        "electedCount": 0,
+        "constituencies": [
+          "Belfast Willowfield"
+        ],
+        "appearances": [
+          {
+            "constituency": "Belfast Willowfield",
+            "firstPref": 2435,
+            "finalVotes": 2435,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 25.248859394442142
       }
     ]
   },
@@ -161,19 +252,19 @@
       "winnerName": "Harry Midgley",
       "leadingParty": "NI Labour",
       "leadingName": "Harry Midgley",
-      "leadingVotes": null,
-      "leadingPct": null,
+      "leadingVotes": 7209,
+      "leadingPct": 74.75,
       "turnoutPct": null,
-      "majority": null,
-      "majorityPct": null,
+      "majority": 4774,
+      "majorityPct": 49.5,
       "seatsWon": 1,
       "seatsTotal": 1,
       "quota": null,
-      "electorate": null,
+      "electorate": 16086,
       "totalPoll": null,
       "spoiled": null,
-      "validPoll": null,
-      "totalVotes": null,
+      "validPoll": 9644,
+      "totalVotes": 9644,
       "colour": "#6b7280",
       "leadingColour": "#6b7280",
       "candidates": [
@@ -181,8 +272,8 @@
           "id": "2823972",
           "name": "Harry Midgley",
           "party": "NI Labour",
-          "firstPrefs": null,
-          "finalVotes": null,
+          "firstPrefs": 7209,
+          "finalVotes": 7209,
           "elected": true,
           "electedAt": 1,
           "autoReturnedCeannComhairle": false,
@@ -197,14 +288,43 @@
           "counts": [
             {
               "count": 1,
-              "total": null,
+              "total": 7209,
               "transfers": 0,
               "status": "Elected",
-              "firstPrefs": null
+              "firstPrefs": 7209
             }
           ],
           "personId": 103966,
           "name_id": "n-harry-midgley"
+        },
+        {
+          "id": "fix-frederick-j-lavery-1941",
+          "name": "Frederick J. Lavery",
+          "party": "UUP",
+          "firstPrefs": 2435,
+          "finalVotes": 2435,
+          "elected": false,
+          "electedAt": null,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "",
+          "colour": "#48A5EE",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "counts": [
+            {
+              "count": 1,
+              "total": 2435,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 2435
+            }
+          ],
+          "personId": 135085,
+          "name_id": "n-frederick-j-lavery"
         }
       ],
       "elected": [
@@ -212,8 +332,8 @@
           "id": "2823972",
           "name": "Harry Midgley",
           "party": "NI Labour",
-          "firstPrefs": null,
-          "finalVotes": null,
+          "firstPrefs": 7209,
+          "finalVotes": 7209,
           "elected": true,
           "electedAt": 1,
           "autoReturnedCeannComhairle": false,
@@ -228,10 +348,10 @@
           "counts": [
             {
               "count": 1,
-              "total": null,
+              "total": 7209,
               "transfers": 0,
               "status": "Elected",
-              "firstPrefs": null
+              "firstPrefs": 7209
             }
           ]
         }
@@ -241,26 +361,42 @@
         "Constituency_Number": "",
         "Number_Of_Seats": "1",
         "Spoiled": "",
-        "Total_Electorate": "",
+        "Total_Electorate": "16086",
         "Total_Poll": "",
-        "Valid_Poll": ""
+        "Valid_Poll": "9644"
       },
       "countGroup": [
         {
-          "Candidate_First_Pref_Votes": "Unopposed",
+          "Candidate_First_Pref_Votes": "7209.00",
           "Candidate_Id": "2823972",
           "Constituency_Number": "",
           "Count_Number": "1",
           "Firstname": "Harry",
-          "Occurred_On_Count": "",
+          "Occurred_On_Count": "1",
           "Party_Colour": "#DC241F",
           "Party_Name": "NI Labour",
           "Status": "Elected",
           "Surname": "Midgley",
-          "Total_Votes": "",
+          "Total_Votes": "7209.00",
           "Transfers": "0.00",
           "candidateName": "Harry Midgley",
           "id": 0
+        },
+        {
+          "Constituency_Number": "",
+          "Candidate_Id": "fix-frederick-j-lavery-1941",
+          "Count_Number": "1",
+          "Firstname": "Frederick J.",
+          "Surname": "Lavery",
+          "Candidate_First_Pref_Votes": "2435.00",
+          "Transfers": "0.00",
+          "Total_Votes": "2435.00",
+          "Status": "",
+          "Occurred_On_Count": "",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
+          "candidateName": "Frederick J. Lavery",
+          "id": 1
         }
       ],
       "syntheticCountGroup": false,
@@ -277,30 +413,48 @@
             "Constituency_Number": "",
             "Number_Of_Seats": "1",
             "Spoiled": "",
-            "Total_Electorate": "",
+            "Total_Electorate": "16086",
             "Total_Poll": "",
-            "Valid_Poll": ""
+            "Valid_Poll": "9644"
           },
           "countGroup": [
             {
-              "Candidate_First_Pref_Votes": "Unopposed",
+              "Candidate_First_Pref_Votes": "7209.00",
               "Candidate_Id": "2823972",
               "Constituency_Number": "",
               "Count_Number": "1",
               "Firstname": "Harry",
-              "Occurred_On_Count": "",
+              "Occurred_On_Count": "1",
               "Party_Colour": "#DC241F",
               "Party_Name": "NI Labour",
               "Status": "Elected",
               "Surname": "Midgley",
-              "Total_Votes": "",
+              "Total_Votes": "7209.00",
               "Transfers": "0.00",
               "candidateName": "Harry Midgley",
               "id": 0
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "fix-frederick-j-lavery-1941",
+              "Count_Number": "1",
+              "Firstname": "Frederick J.",
+              "Surname": "Lavery",
+              "Candidate_First_Pref_Votes": "2435.00",
+              "Transfers": "0.00",
+              "Total_Votes": "2435.00",
+              "Status": "",
+              "Occurred_On_Count": "",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
+              "candidateName": "Frederick J. Lavery",
+              "id": 1
             }
           ]
         },
-        "cause": "Resignation of Arthur Black (UUP) (Wikipedia, List of Northern Ireland Parliament by-elections)"
+        "electorateSource": "Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973); the same figure in David Boothroyd, Northern Ireland House of Commons Election Results",
+        "cause": "Resignation of Arthur Black (UUP) (Wikipedia, List of Northern Ireland Parliament by-elections)",
+        "correctionNote": "Contested, not unopposed: Harry Midgley 7,209; Frederick J. Lavery (UUP) 2,435. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give. Walker prints Midgley as NILP; Boothroyd 'Lab (CWLP)', i.e. Labour, later Commonwealth Labour. (Royal Irish Academy; David Boothroyd, B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 58; checked against David Boothroyd, Northern Ireland House of Commons Election Results (belfast.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020))"
       },
       "constituencyId": null,
       "constituencyNumber": null,
@@ -309,13 +463,21 @@
         {
           "label": "Cause",
           "text": "Resignation of Arthur Black (UUP) (Wikipedia, List of Northern Ireland Parliament by-elections)"
+        },
+        {
+          "label": "Electorate",
+          "text": "16,086: Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973); the same figure in David Boothroyd, Northern Ireland House of Commons Election Results"
+        },
+        {
+          "label": "Corrected",
+          "text": "Contested, not unopposed: Harry Midgley 7,209; Frederick J. Lavery (UUP) 2,435. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give. Walker prints Midgley as NILP; Boothroyd 'Lab (CWLP)', i.e. Labour, later Commonwealth Labour. (Royal Irish Academy; David Boothroyd, B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 58; checked against David Boothroyd, Northern Ireland House of Commons Election Results (belfast.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020))"
         }
       ],
       "contestType": "election",
       "kind": "by-election",
       "votingSystem": "fptp",
-      "contestStatus": "uncontested",
-      "candidateRowsExpected": false,
+      "contestStatus": "contested",
+      "candidateRowsExpected": true,
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1941-12-03/belfast-willowfield.json",

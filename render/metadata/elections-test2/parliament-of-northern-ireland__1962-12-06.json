@@ -8,8 +8,8 @@
   "contestType": "election",
   "kind": "by-election",
   "votingSystem": "fptp",
-  "contestStatus": "uncontested",
-  "candidateRowsExpected": false,
+  "contestStatus": "contested",
+  "candidateRowsExpected": true,
   "transferDataExpected": false,
   "localBodies": null,
   "localBodyByConstituency": null,
@@ -40,6 +40,8 @@
   "availableStyleModes": [
     "winner",
     "leadingParty",
+    "voteShare",
+    "majority",
     "seats"
   ],
   "partySummary": [
@@ -47,9 +49,25 @@
       "party": "UUP",
       "seats": 1,
       "stood": 1,
-      "votes": 0,
+      "votes": 4801,
       "colour": "#48a5ee",
-      "share": null
+      "share": 62.02041079963829
+    },
+    {
+      "party": "NI Labour",
+      "seats": 0,
+      "stood": 1,
+      "votes": 1866,
+      "colour": "#6b7280",
+      "share": 24.105412737372433
+    },
+    {
+      "party": "Ulster Liberal",
+      "seats": 0,
+      "stood": 1,
+      "votes": 1074,
+      "colour": "#6b7280",
+      "share": 13.874176462989277
     }
   ],
   "mainLikePartySummary": [
@@ -57,15 +75,31 @@
       "party": "UUP",
       "seats": 1,
       "stood": 1,
-      "votes": 0,
+      "votes": 4801,
       "colour": "#48A5EE",
-      "share": null
+      "share": 62.02041079963829
+    },
+    {
+      "party": "NI Labour",
+      "seats": 0,
+      "stood": 1,
+      "votes": 1866,
+      "colour": "#DC241F",
+      "share": 24.105412737372433
+    },
+    {
+      "party": "Ulster Liberal",
+      "seats": 0,
+      "stood": 1,
+      "votes": 1074,
+      "colour": "#DAA520",
+      "share": 13.874176462989277
     }
   ],
   "mainLikeTotals": {
-    "validPoll": 0,
+    "validPoll": 7741,
     "totalPoll": 0,
-    "totalElectorate": 0,
+    "totalElectorate": 14337,
     "totalSpoiled": 0,
     "totalSeats": 1
   },
@@ -77,11 +111,11 @@
       "name": "William Kennedy",
       "party": "UUP",
       "colour": "#48A5EE",
-      "firstPrefs": 0,
-      "votes": 0,
-      "constPct": 0,
-      "firstPrefPct": 0,
-      "finalVotes": 0,
+      "firstPrefs": 4801,
+      "votes": 4801,
+      "constPct": 62.02041079963829,
+      "firstPrefPct": 62.02041079963829,
+      "finalVotes": 4801,
       "elected": true,
       "electedAt": 1,
       "excluded": false,
@@ -91,26 +125,84 @@
       "status": "Elected",
       "counts": {
         "1": {
-          "total": 0,
+          "total": 4801,
           "transfers": 0,
           "status": "Elected"
         }
       },
       "candidateKey": "william kennedy|uup",
       "name_id": "n-william-kennedy"
+    },
+    {
+      "id": "fix-cecil-allen-1962",
+      "personId": 135081,
+      "constituency": "Belfast Cromac",
+      "name": "Cecil Allen",
+      "party": "NI Labour",
+      "colour": "#DC241F",
+      "firstPrefs": 1866,
+      "votes": 1866,
+      "constPct": 24.105412737372433,
+      "firstPrefPct": 24.105412737372433,
+      "finalVotes": 1866,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 1866,
+          "transfers": 0,
+          "status": ""
+        }
+      },
+      "candidateKey": "cecil allen|ni labour",
+      "name_id": "n-cecil-allen"
+    },
+    {
+      "id": "fix-robert-huston-1962",
+      "personId": 135095,
+      "constituency": "Belfast Cromac",
+      "name": "Robert Huston",
+      "party": "Ulster Liberal",
+      "colour": "#DAA520",
+      "firstPrefs": 1074,
+      "votes": 1074,
+      "constPct": 13.874176462989277,
+      "firstPrefPct": 13.874176462989277,
+      "finalVotes": 1074,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 1074,
+          "transfers": 0,
+          "status": ""
+        }
+      },
+      "candidateKey": "robert huston|ulster liberal",
+      "name_id": "n-robert-huston"
     }
   ],
   "mainLikeCandidateTotals": {
-    "validPoll": 0
+    "validPoll": 7741
   },
   "entityIndex": {
-    "totalValid": 0,
+    "totalValid": 7741,
     "parties": [
       {
         "name": "UUP",
         "colour": "#48A5EE",
-        "firstPrefs": 0,
-        "finalVotes": 0,
+        "firstPrefs": 4801,
+        "finalVotes": 4801,
         "stood": 1,
         "elected": 1,
         "constituencies": [
@@ -121,12 +213,56 @@
             "id": "William Kennedy|UUP",
             "name": "William Kennedy",
             "constituency": "Belfast Cromac",
-            "firstPref": 0,
-            "finalVotes": 0,
+            "firstPref": 4801,
+            "finalVotes": 4801,
             "status": "Elected"
           }
         ],
-        "shareOfTotal": null
+        "shareOfTotal": 62.02041079963829
+      },
+      {
+        "name": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 1866,
+        "finalVotes": 1866,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Belfast Cromac"
+        ],
+        "candidates": [
+          {
+            "id": "Cecil Allen|NI Labour",
+            "name": "Cecil Allen",
+            "constituency": "Belfast Cromac",
+            "firstPref": 1866,
+            "finalVotes": 1866,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 24.105412737372433
+      },
+      {
+        "name": "Ulster Liberal",
+        "colour": "#DAA520",
+        "firstPrefs": 1074,
+        "finalVotes": 1074,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Belfast Cromac"
+        ],
+        "candidates": [
+          {
+            "id": "Robert Huston|Ulster Liberal",
+            "name": "Robert Huston",
+            "constituency": "Belfast Cromac",
+            "firstPref": 1074,
+            "finalVotes": 1074,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 13.874176462989277
       }
     ],
     "candidates": [
@@ -136,8 +272,8 @@
         "name": "William Kennedy",
         "party": "UUP",
         "colour": "#48A5EE",
-        "firstPrefs": 0,
-        "finalVotes": 0,
+        "firstPrefs": 4801,
+        "finalVotes": 4801,
         "electedCount": 1,
         "constituencies": [
           "Belfast Cromac"
@@ -145,12 +281,56 @@
         "appearances": [
           {
             "constituency": "Belfast Cromac",
-            "firstPref": 0,
-            "finalVotes": 0,
+            "firstPref": 4801,
+            "finalVotes": 4801,
             "status": "Elected"
           }
         ],
-        "shareOfTotal": null
+        "shareOfTotal": 62.02041079963829
+      },
+      {
+        "id": "Cecil Allen|NI Labour",
+        "key": "Cecil Allen|NI Labour",
+        "name": "Cecil Allen",
+        "party": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 1866,
+        "finalVotes": 1866,
+        "electedCount": 0,
+        "constituencies": [
+          "Belfast Cromac"
+        ],
+        "appearances": [
+          {
+            "constituency": "Belfast Cromac",
+            "firstPref": 1866,
+            "finalVotes": 1866,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 24.105412737372433
+      },
+      {
+        "id": "Robert Huston|Ulster Liberal",
+        "key": "Robert Huston|Ulster Liberal",
+        "name": "Robert Huston",
+        "party": "Ulster Liberal",
+        "colour": "#DAA520",
+        "firstPrefs": 1074,
+        "finalVotes": 1074,
+        "electedCount": 0,
+        "constituencies": [
+          "Belfast Cromac"
+        ],
+        "appearances": [
+          {
+            "constituency": "Belfast Cromac",
+            "firstPref": 1074,
+            "finalVotes": 1074,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 13.874176462989277
       }
     ]
   },
@@ -161,19 +341,19 @@
       "winnerName": "William Kennedy",
       "leadingParty": "UUP",
       "leadingName": "William Kennedy",
-      "leadingVotes": null,
-      "leadingPct": null,
+      "leadingVotes": 4801,
+      "leadingPct": 62.02,
       "turnoutPct": null,
-      "majority": null,
-      "majorityPct": null,
+      "majority": 2935,
+      "majorityPct": 37.91,
       "seatsWon": 1,
       "seatsTotal": 1,
       "quota": null,
-      "electorate": null,
+      "electorate": 14337,
       "totalPoll": null,
       "spoiled": null,
-      "validPoll": null,
-      "totalVotes": null,
+      "validPoll": 7741,
+      "totalVotes": 7741,
       "colour": "#48a5ee",
       "leadingColour": "#48a5ee",
       "candidates": [
@@ -181,8 +361,8 @@
           "id": "3220389",
           "name": "William Kennedy",
           "party": "UUP",
-          "firstPrefs": null,
-          "finalVotes": null,
+          "firstPrefs": 4801,
+          "finalVotes": 4801,
           "elected": true,
           "electedAt": 1,
           "autoReturnedCeannComhairle": false,
@@ -197,14 +377,72 @@
           "counts": [
             {
               "count": 1,
-              "total": null,
+              "total": 4801,
               "transfers": 0,
               "status": "Elected",
-              "firstPrefs": null
+              "firstPrefs": 4801
             }
           ],
           "personId": 103841,
           "name_id": "n-william-kennedy"
+        },
+        {
+          "id": "fix-cecil-allen-1962",
+          "name": "Cecil Allen",
+          "party": "NI Labour",
+          "firstPrefs": 1866,
+          "finalVotes": 1866,
+          "elected": false,
+          "electedAt": null,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "",
+          "colour": "#DC241F",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "counts": [
+            {
+              "count": 1,
+              "total": 1866,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 1866
+            }
+          ],
+          "personId": 135081,
+          "name_id": "n-cecil-allen"
+        },
+        {
+          "id": "fix-robert-huston-1962",
+          "name": "Robert Huston",
+          "party": "Ulster Liberal",
+          "firstPrefs": 1074,
+          "finalVotes": 1074,
+          "elected": false,
+          "electedAt": null,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "",
+          "colour": "#DAA520",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "counts": [
+            {
+              "count": 1,
+              "total": 1074,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 1074
+            }
+          ],
+          "personId": 135095,
+          "name_id": "n-robert-huston"
         }
       ],
       "elected": [
@@ -212,8 +450,8 @@
           "id": "3220389",
           "name": "William Kennedy",
           "party": "UUP",
-          "firstPrefs": null,
-          "finalVotes": null,
+          "firstPrefs": 4801,
+          "finalVotes": 4801,
           "elected": true,
           "electedAt": 1,
           "autoReturnedCeannComhairle": false,
@@ -228,10 +466,10 @@
           "counts": [
             {
               "count": 1,
-              "total": null,
+              "total": 4801,
               "transfers": 0,
               "status": "Elected",
-              "firstPrefs": null
+              "firstPrefs": 4801
             }
           ]
         }
@@ -241,26 +479,58 @@
         "Constituency_Number": "",
         "Number_Of_Seats": "1",
         "Spoiled": "",
-        "Total_Electorate": "",
+        "Total_Electorate": "14337",
         "Total_Poll": "",
-        "Valid_Poll": ""
+        "Valid_Poll": "7741"
       },
       "countGroup": [
         {
-          "Candidate_First_Pref_Votes": "Unopposed",
+          "Candidate_First_Pref_Votes": "4801.00",
           "Candidate_Id": "3220389",
           "Constituency_Number": "",
           "Count_Number": "1",
           "Firstname": "William",
-          "Occurred_On_Count": "",
+          "Occurred_On_Count": "1",
           "Party_Colour": "#48A5EE",
           "Party_Name": "UUP",
           "Status": "Elected",
           "Surname": "Kennedy",
-          "Total_Votes": "",
+          "Total_Votes": "4801.00",
           "Transfers": "0.00",
           "candidateName": "William Kennedy",
           "id": 0
+        },
+        {
+          "Constituency_Number": "",
+          "Candidate_Id": "fix-cecil-allen-1962",
+          "Count_Number": "1",
+          "Firstname": "Cecil",
+          "Surname": "Allen",
+          "Candidate_First_Pref_Votes": "1866.00",
+          "Transfers": "0.00",
+          "Total_Votes": "1866.00",
+          "Status": "",
+          "Occurred_On_Count": "",
+          "Party_Name": "NI Labour",
+          "Party_Colour": "#DC241F",
+          "candidateName": "Cecil Allen",
+          "id": 1
+        },
+        {
+          "Constituency_Number": "",
+          "Candidate_Id": "fix-robert-huston-1962",
+          "Count_Number": "1",
+          "Firstname": "Robert",
+          "Surname": "Huston",
+          "Candidate_First_Pref_Votes": "1074.00",
+          "Transfers": "0.00",
+          "Total_Votes": "1074.00",
+          "Status": "",
+          "Occurred_On_Count": "",
+          "Party_Name": "Ulster Liberal",
+          "Party_Colour": "#DAA520",
+          "candidateName": "Robert Huston",
+          "id": 2
         }
       ],
       "syntheticCountGroup": false,
@@ -277,30 +547,64 @@
             "Constituency_Number": "",
             "Number_Of_Seats": "1",
             "Spoiled": "",
-            "Total_Electorate": "",
+            "Total_Electorate": "14337",
             "Total_Poll": "",
-            "Valid_Poll": ""
+            "Valid_Poll": "7741"
           },
           "countGroup": [
             {
-              "Candidate_First_Pref_Votes": "Unopposed",
+              "Candidate_First_Pref_Votes": "4801.00",
               "Candidate_Id": "3220389",
               "Constituency_Number": "",
               "Count_Number": "1",
               "Firstname": "William",
-              "Occurred_On_Count": "",
+              "Occurred_On_Count": "1",
               "Party_Colour": "#48A5EE",
               "Party_Name": "UUP",
               "Status": "Elected",
               "Surname": "Kennedy",
-              "Total_Votes": "",
+              "Total_Votes": "4801.00",
               "Transfers": "0.00",
               "candidateName": "William Kennedy",
               "id": 0
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "fix-cecil-allen-1962",
+              "Count_Number": "1",
+              "Firstname": "Cecil",
+              "Surname": "Allen",
+              "Candidate_First_Pref_Votes": "1866.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1866.00",
+              "Status": "",
+              "Occurred_On_Count": "",
+              "Party_Name": "NI Labour",
+              "Party_Colour": "#DC241F",
+              "candidateName": "Cecil Allen",
+              "id": 1
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "fix-robert-huston-1962",
+              "Count_Number": "1",
+              "Firstname": "Robert",
+              "Surname": "Huston",
+              "Candidate_First_Pref_Votes": "1074.00",
+              "Transfers": "0.00",
+              "Total_Votes": "1074.00",
+              "Status": "",
+              "Occurred_On_Count": "",
+              "Party_Name": "Ulster Liberal",
+              "Party_Colour": "#DAA520",
+              "candidateName": "Robert Huston",
+              "id": 2
             }
           ]
         },
-        "cause": "Death of Joseph Morgan (UUP) (Wikipedia, List of Northern Ireland Parliament by-elections)"
+        "electorateSource": "Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973); the same figure in David Boothroyd, Northern Ireland House of Commons Election Results",
+        "cause": "Death of Joseph Morgan (UUP) (Wikipedia, List of Northern Ireland Parliament by-elections)",
+        "correctionNote": "Contested, not unopposed: William Kennedy 4,801; Cecil Allen (NI Labour) 1,866; Robert Huston (Ulster Liberal) 1,074. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give. The winner is John William Kennedy (Walker; Boothroyd 'J.W. Kennedy'). (Royal Irish Academy; David Boothroyd, B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 75; checked against David Boothroyd, Northern Ireland House of Commons Election Results (belfast.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020))"
       },
       "constituencyId": null,
       "constituencyNumber": null,
@@ -309,13 +613,21 @@
         {
           "label": "Cause",
           "text": "Death of Joseph Morgan (UUP) (Wikipedia, List of Northern Ireland Parliament by-elections)"
+        },
+        {
+          "label": "Electorate",
+          "text": "14,337: Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973); the same figure in David Boothroyd, Northern Ireland House of Commons Election Results"
+        },
+        {
+          "label": "Corrected",
+          "text": "Contested, not unopposed: William Kennedy 4,801; Cecil Allen (NI Labour) 1,866; Robert Huston (Ulster Liberal) 1,074. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give. The winner is John William Kennedy (Walker; Boothroyd 'J.W. Kennedy'). (Royal Irish Academy; David Boothroyd, B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 75; checked against David Boothroyd, Northern Ireland House of Commons Election Results (belfast.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020))"
         }
       ],
       "contestType": "election",
       "kind": "by-election",
       "votingSystem": "fptp",
-      "contestStatus": "uncontested",
-      "candidateRowsExpected": false,
+      "contestStatus": "contested",
+      "candidateRowsExpected": true,
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1962-12-06/belfast-cromac.json",

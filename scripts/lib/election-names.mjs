@@ -330,8 +330,9 @@ export function canonicalElectionTitle({
   }
 
   if (byElection) {
-    // The Oireachtas spells its own "bye-election"; other bodies keep "by-election".
-    const by = /^(dail|seanad) eireann$/.test(normalizedBody) ? 'bye' : 'by';
+    // One spelling on the site, "by-election", though the Oireachtas writes "bye-election":
+    // a source's own wording is kept where it is quoted, not in the titles made here.
+    const by = 'by';
     if (names.length > 1) {
       const partitioned = !(normalizedBody === 'house of commons of the united kingdom' && String(date || '').slice(0, 10) < '1922-11-15');
       return `${year} ${partitioned ? byElectionRegion(body, bodyGroup) : 'Irish'} ${by}-elections`.trim();
@@ -348,6 +349,9 @@ export function canonicalElectionTitle({
   if (normalizedBody === 'strabane urban district council') {
     // Strabane's town commissioners became an urban district council under the 1898 Act.
     return String(year) === '1899' ? '1899 Strabane Town Commissioners election' : `${year} Strabane Urban District Council election`.trim();
+  }
+  if (['londonderry county borough council', 'lisburn urban district council', 'bangor urban district council'].includes(normalizedBody)) {
+    return `${year} ${body} election`.trim();
   }
 
   if (normalizedBody === 'dail eireann') return `${year} Irish general election`.trim();
@@ -376,8 +380,9 @@ export function canonicalElectionTitle({
   return `${year} ${String(body || '').trim()}`.trim();
 }
 
+// The site separates the parts of a title with a spaced en dash ("Cromac – 1920 Belfast ...").
 export function electionResultEntryLabel(parentTitle, resultName, { regionalList = false, overall = false } = {}) {
-  if (overall) return `Overall results - ${parentTitle}`;
+  if (overall) return `Overall results – ${parentTitle}`;
   const label = regionalList ? 'Regional List' : String(resultName || '').trim();
-  return label ? `${label} - ${parentTitle}` : parentTitle;
+  return label ? `${label} – ${parentTitle}` : parentTitle;
 }

@@ -54,10 +54,19 @@ const clampLimit = (raw) => {
  * @param {string} options.key     response key for the collection, e.g. "persons"
  * @param {string} options.version cache version; bump on RESPONSE SHAPE changes, not data
  * @param {Record<string,string>} [options.filters] query param -> column, for exact match
- * @param {Record<string,string>} [options.sorts]   sort key -> column, for ORDER BY
+ * @param {Record<string,string>} [options.listFilters] query param -> column holding
+ *   '|a|b|' (several values per record), matched as LIKE '%|value|%'
+ * @param {Record<string,string|{column:string,dir:string}>} [options.sorts] sort key ->
+ *   column for ORDER BY (ascending unless ?dir=desc, or the declared dir when none is given)
+ * @param {(url: URL, bind: (v: unknown) => string) => {param: string, sql: string}[]} [options.where]
+ *   extra conditions an entity builds itself (persons: a party matched inside the record)
  * @param {boolean} [options.facets]  serve precomputed facet options at ?facets=1
+ *
+ * A list response says which filters and which sort it applied (`applied`), so a client can
+ * tell a filter this deployment does not know -- or a table not yet re-imported with its
+ * column -- from one that matched nothing, and fall back rather than show the wrong list.
  */
-export function browseIndexHandler({ table, key, version, filters = {}, sorts = {}, facets = false }) {
+export function browseIndexHandler({ table, key, version, filters = {}, listFilters = {}, sorts = {}, where: extraWhere = null, facets = false }) {
   return async function onRequestGet(context) {
     const url = new URL(context.request.url);
     const slug = url.searchParams.get('slug');
@@ -83,7 +92,19 @@ export function browseIndexHandler({ table, key, version, filters = {}, sorts = 
           .prepare(`SELECT record FROM ${table} WHERE key_norm = ?1 OR slug = ?1 OR id = ?1 LIMIT 1`)
           .bind(slug)
           .first();
-        const record = parse(row);
+        let record = parse(row);
+        // An old address (previousSlugs: a person's earlier id, a source merged into
+        // another) resolves to the record it now belongs to. Before the table is imported
+        // with its aliases the lookup fails, and the miss stays a 404.
+        if (!record) {
+          try {
+            const aliased = await db
+              .prepare(`SELECT record FROM ${table} WHERE slug = (SELECT slug FROM ${table}_aliases WHERE alias = ?1) LIMIT 1`)
+              .bind(slug)
+              .first();
+            record = parse(aliased);
+          } catch { /* no aliases table yet */ }
+        }
         if (!record) return json({ error: 'not found', slug }, 404, false, version);
         return json({ [key.replace(/s$/, '')]: record, record }, 200, true, version);
       }
@@ -101,47 +122,83 @@ export function browseIndexHandler({ table, key, version, filters = {}, sorts = 
       // Exact-match filters, declared per entity. Repeated params are ORed, because a
       // party or a body is known by several names across a century and accepting one
       // would silently undercount.
-      const where = [];
-      const binds = [];
-      /** Append a bind and return its 1-based placeholder, so the two cannot drift. */
-      const bind = (value) => `?${binds.push(value)}`;
+      const runList = async (useColumns) => {
+        const where = [];
+        const binds = [];
+        const applied = [];
+        /** Append a bind and return its 1-based placeholder, so the two cannot drift. */
+        const bind = (value) => `?${binds.push(value)}`;
+        const valuesOf = (param) => url.searchParams.getAll(param).map((v) => v.trim()).filter(Boolean);
 
-      for (const [param, column] of Object.entries(filters)) {
-        const values = url.searchParams.getAll(param).map((v) => v.trim()).filter(Boolean);
-        if (!values.length) continue;
-        where.push(`${column} IN (${values.map(bind).join(', ')})`);
+        if (useColumns) {
+          for (const [param, column] of Object.entries(filters)) {
+            const values = valuesOf(param);
+            if (!values.length) continue;
+            where.push(`${column} IN (${values.map(bind).join(', ')})`);
+            applied.push(param);
+          }
+          for (const [param, column] of Object.entries(listFilters)) {
+            const values = valuesOf(param);
+            if (!values.length) continue;
+            where.push(`(${values.map((value) => `${column} LIKE ${bind(`%|${value}|%`)}`).join(' OR ')})`);
+            applied.push(param);
+          }
+        }
+        for (const clause of extraWhere ? extraWhere(url, bind) : []) {
+          where.push(clause.sql);
+          applied.push(clause.param);
+        }
+
+        // search_norm, not title_norm: browse.js's filter looks at ~32 fields including
+        // aliases, categories and party names. Matching the title alone would return
+        // fewer results than the client did and report nothing about the difference.
+        // Folded like the column (build-browse-index-d1-import.mjs) and matched word by word, so
+        // "Micheal Martin" finds "Micheál Martin" and word order does not matter.
+        const words = query.normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase().split(/\s+/).filter(Boolean).slice(0, 8);
+        for (const word of words) where.push(`search_norm LIKE ${bind(`%${word}%`)}`);
+
+        // ORDER BY. `ord` is the default and preserves the source index's order, which
+        // browse relies on; a named sort must be one this entity declared, so an unknown
+        // ?sort= cannot inject SQL or silently reorder into nonsense.
+        const sortKey = url.searchParams.get('sort') || '';
+        const declared = useColumns && Object.prototype.hasOwnProperty.call(sorts, sortKey) ? sorts[sortKey] : null;
+        const sortColumn = declared ? (typeof declared === 'string' ? declared : declared.column) : null;
+        const dirParam = (url.searchParams.get('dir') || '').toLowerCase();
+        const descending = dirParam ? dirParam === 'desc' : (typeof declared === 'object' && declared?.dir === 'desc');
+        // NULLS LAST both ways: a record with no date should not head the list.
+        const orderBy = sortColumn
+          ? `CASE WHEN ${sortColumn} IS NULL OR ${sortColumn} = '' THEN 1 ELSE 0 END, ${sortColumn} ${descending ? 'DESC' : 'ASC'}, ord`
+          : 'ord';
+
+        const clause = where.length ? `WHERE ${where.join(' AND ')}` : '';
+        // The COUNT runs with the filter binds only; the page adds limit/offset after them,
+        // so the two statements deliberately do not share a bind list.
+        const pageBinds = [...binds, limit, offset];
+        const [rows, total] = await Promise.all([
+          db.prepare(`SELECT record FROM ${table} ${clause} ORDER BY ${orderBy} LIMIT ?${binds.length + 1} OFFSET ?${binds.length + 2}`)
+            .bind(...pageBinds).all(),
+          db.prepare(`SELECT COUNT(*) AS n FROM ${table} ${clause}`).bind(...binds).first(),
+        ]);
+        const records = (rows.results || []).map(parse).filter(Boolean);
+        return {
+          [key]: records,
+          total: total?.n ?? records.length,
+          count: records.length,
+          limit,
+          offset,
+          applied: { filters: applied, sort: sortColumn ? sortKey : null },
+        };
+      };
+
+      try {
+        return json(await runList(true), 200, true, version);
+      } catch (error) {
+        // The code was deployed before the table was re-imported with a new column (the
+        // publish pushes, then imports). Answer without the column filters and sorts, and
+        // say so through `applied`, rather than fail the whole list.
+        if (!/no such column/i.test(String(error?.message || error))) throw error;
+        return json(await runList(false), 200, false, version);
       }
-
-      // search_norm, not title_norm: browse.js's filter looks at ~32 fields including
-      // aliases, categories and party names. Matching the title alone would return
-      // fewer results than the client did and report nothing about the difference.
-      // Folded like the column (build-browse-index-d1-import.mjs) and matched word by word, so
-      // "Micheal Martin" finds "Micheál Martin" and word order does not matter.
-      const words = query.normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase().split(/\s+/).filter(Boolean).slice(0, 8);
-      for (const word of words) where.push(`search_norm LIKE ${bind(`%${word}%`)}`);
-
-      // ORDER BY. `ord` is the default and preserves the source index's order, which
-      // browse relies on; a named sort must be one this entity declared, so an unknown
-      // ?sort= cannot inject SQL or silently reorder into nonsense.
-      const sortKey = url.searchParams.get('sort') || '';
-      const sortColumn = Object.prototype.hasOwnProperty.call(sorts, sortKey) ? sorts[sortKey] : null;
-      const descending = (url.searchParams.get('dir') || '').toLowerCase() === 'desc';
-      // NULLS LAST both ways: a record with no date should not head the list.
-      const orderBy = sortColumn
-        ? `CASE WHEN ${sortColumn} IS NULL OR ${sortColumn} = '' THEN 1 ELSE 0 END, ${sortColumn} ${descending ? 'DESC' : 'ASC'}, ord`
-        : 'ord';
-
-      const clause = where.length ? `WHERE ${where.join(' AND ')}` : '';
-      // The COUNT runs with the filter binds only; the page adds limit/offset after them,
-      // so the two statements deliberately do not share a bind list.
-      const pageBinds = [...binds, limit, offset];
-      const [rows, total] = await Promise.all([
-        db.prepare(`SELECT record FROM ${table} ${clause} ORDER BY ${orderBy} LIMIT ?${binds.length + 1} OFFSET ?${binds.length + 2}`)
-          .bind(...pageBinds).all(),
-        db.prepare(`SELECT COUNT(*) AS n FROM ${table} ${clause}`).bind(...binds).first(),
-      ]);
-      const records = (rows.results || []).map(parse).filter(Boolean);
-      return json({ [key]: records, total: total?.n ?? records.length, limit, offset }, 200, true, version);
     } catch (error) {
       return json({ error: `${key} query failed`, ...reportError(context.env, key, error) }, 500, false, version);
     }

@@ -8,8 +8,8 @@
   "contestType": "election",
   "kind": "by-election",
   "votingSystem": "stv-hare",
-  "contestStatus": "uncontested",
-  "candidateRowsExpected": false,
+  "contestStatus": "contested",
+  "candidateRowsExpected": true,
   "transferDataExpected": true,
   "localBodies": null,
   "localBodyByConstituency": null,
@@ -40,6 +40,8 @@
   "availableStyleModes": [
     "winner",
     "leadingParty",
+    "voteShare",
+    "majority",
     "seats"
   ],
   "partySummary": [
@@ -47,9 +49,17 @@
       "party": "UUP",
       "seats": 1,
       "stood": 1,
-      "votes": 0,
+      "votes": 22390,
       "colour": "#48a5ee",
-      "share": null
+      "share": 79.20056597099399
+    },
+    {
+      "party": "Unbought Tenants",
+      "seats": 0,
+      "stood": 1,
+      "votes": 5880,
+      "colour": "#6b7280",
+      "share": 20.799434029006015
     }
   ],
   "mainLikePartySummary": [
@@ -57,15 +67,23 @@
       "party": "UUP",
       "seats": 1,
       "stood": 1,
-      "votes": 0,
+      "votes": 22390,
       "colour": "#48A5EE",
-      "share": null
+      "share": 79.20056597099399
+    },
+    {
+      "party": "Unbought Tenants",
+      "seats": 0,
+      "stood": 1,
+      "votes": 5880,
+      "colour": "#A0A0A0",
+      "share": 20.799434029006015
     }
   ],
   "mainLikeTotals": {
-    "validPoll": 0,
+    "validPoll": 28270,
     "totalPoll": 0,
-    "totalElectorate": 0,
+    "totalElectorate": 54082,
     "totalSpoiled": 0,
     "totalSeats": 1
   },
@@ -77,11 +95,11 @@
       "name": "John Clarke Davison",
       "party": "UUP",
       "colour": "#48A5EE",
-      "firstPrefs": 0,
-      "votes": 0,
-      "constPct": 0,
-      "firstPrefPct": 0,
-      "finalVotes": 0,
+      "firstPrefs": 22390,
+      "votes": 22390,
+      "constPct": 79.20056597099399,
+      "firstPrefPct": 79.20056597099399,
+      "finalVotes": 22390,
       "elected": true,
       "electedAt": 1,
       "excluded": false,
@@ -91,26 +109,55 @@
       "status": "Elected",
       "counts": {
         "1": {
-          "total": 0,
+          "total": 22390,
           "transfers": 0,
           "status": "Elected"
         }
       },
       "candidateKey": "john clarke davison|uup",
       "name_id": "n-john-clarke-davison"
+    },
+    {
+      "id": "fix-william-robert-todd-1925",
+      "personId": 103926,
+      "constituency": "Armagh",
+      "name": "William Robert Todd",
+      "party": "Unbought Tenants",
+      "colour": "#A0A0A0",
+      "firstPrefs": 5880,
+      "votes": 5880,
+      "constPct": 20.799434029006015,
+      "firstPrefPct": 20.799434029006015,
+      "finalVotes": 5880,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 5880,
+          "transfers": 0,
+          "status": ""
+        }
+      },
+      "candidateKey": "william robert todd|unbought tenants",
+      "name_id": "n-william-robert-todd"
     }
   ],
   "mainLikeCandidateTotals": {
-    "validPoll": 0
+    "validPoll": 28270
   },
   "entityIndex": {
-    "totalValid": 0,
+    "totalValid": 28270,
     "parties": [
       {
         "name": "UUP",
         "colour": "#48A5EE",
-        "firstPrefs": 0,
-        "finalVotes": 0,
+        "firstPrefs": 22390,
+        "finalVotes": 22390,
         "stood": 1,
         "elected": 1,
         "constituencies": [
@@ -121,12 +168,34 @@
             "id": "John Clarke Davison|UUP",
             "name": "John Clarke Davison",
             "constituency": "Armagh",
-            "firstPref": 0,
-            "finalVotes": 0,
+            "firstPref": 22390,
+            "finalVotes": 22390,
             "status": "Elected"
           }
         ],
-        "shareOfTotal": null
+        "shareOfTotal": 79.20056597099399
+      },
+      {
+        "name": "Unbought Tenants",
+        "colour": "#A0A0A0",
+        "firstPrefs": 5880,
+        "finalVotes": 5880,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Armagh"
+        ],
+        "candidates": [
+          {
+            "id": "William Robert Todd|Unbought Tenants",
+            "name": "William Robert Todd",
+            "constituency": "Armagh",
+            "firstPref": 5880,
+            "finalVotes": 5880,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 20.799434029006015
       }
     ],
     "candidates": [
@@ -136,8 +205,8 @@
         "name": "John Clarke Davison",
         "party": "UUP",
         "colour": "#48A5EE",
-        "firstPrefs": 0,
-        "finalVotes": 0,
+        "firstPrefs": 22390,
+        "finalVotes": 22390,
         "electedCount": 1,
         "constituencies": [
           "Armagh"
@@ -145,12 +214,34 @@
         "appearances": [
           {
             "constituency": "Armagh",
-            "firstPref": 0,
-            "finalVotes": 0,
+            "firstPref": 22390,
+            "finalVotes": 22390,
             "status": "Elected"
           }
         ],
-        "shareOfTotal": null
+        "shareOfTotal": 79.20056597099399
+      },
+      {
+        "id": "William Robert Todd|Unbought Tenants",
+        "key": "William Robert Todd|Unbought Tenants",
+        "name": "William Robert Todd",
+        "party": "Unbought Tenants",
+        "colour": "#A0A0A0",
+        "firstPrefs": 5880,
+        "finalVotes": 5880,
+        "electedCount": 0,
+        "constituencies": [
+          "Armagh"
+        ],
+        "appearances": [
+          {
+            "constituency": "Armagh",
+            "firstPref": 5880,
+            "finalVotes": 5880,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 20.799434029006015
       }
     ]
   },
@@ -161,19 +252,19 @@
       "winnerName": "John Clarke Davison",
       "leadingParty": "UUP",
       "leadingName": "John Clarke Davison",
-      "leadingVotes": null,
-      "leadingPct": null,
+      "leadingVotes": 22390,
+      "leadingPct": 79.2,
       "turnoutPct": null,
-      "majority": null,
-      "majorityPct": null,
+      "majority": 16510,
+      "majorityPct": 58.4,
       "seatsWon": 1,
       "seatsTotal": 1,
       "quota": null,
-      "electorate": null,
+      "electorate": 54082,
       "totalPoll": null,
       "spoiled": null,
-      "validPoll": null,
-      "totalVotes": null,
+      "validPoll": 28270,
+      "totalVotes": 28270,
       "colour": "#48a5ee",
       "leadingColour": "#48a5ee",
       "candidates": [
@@ -181,8 +272,8 @@
           "id": "12816763",
           "name": "John Clarke Davison",
           "party": "UUP",
-          "firstPrefs": null,
-          "finalVotes": null,
+          "firstPrefs": 22390,
+          "finalVotes": 22390,
           "elected": true,
           "electedAt": 1,
           "autoReturnedCeannComhairle": false,
@@ -197,14 +288,43 @@
           "counts": [
             {
               "count": 1,
-              "total": null,
+              "total": 22390,
               "transfers": 0,
               "status": "Elected",
-              "firstPrefs": null
+              "firstPrefs": 22390
             }
           ],
           "personId": 104119,
           "name_id": "n-john-clarke-davison"
+        },
+        {
+          "id": "fix-william-robert-todd-1925",
+          "name": "William Robert Todd",
+          "party": "Unbought Tenants",
+          "firstPrefs": 5880,
+          "finalVotes": 5880,
+          "elected": false,
+          "electedAt": null,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "",
+          "colour": "#A0A0A0",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "counts": [
+            {
+              "count": 1,
+              "total": 5880,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 5880
+            }
+          ],
+          "personId": 103926,
+          "name_id": "n-william-robert-todd"
         }
       ],
       "elected": [
@@ -212,8 +332,8 @@
           "id": "12816763",
           "name": "John Clarke Davison",
           "party": "UUP",
-          "firstPrefs": null,
-          "finalVotes": null,
+          "firstPrefs": 22390,
+          "finalVotes": 22390,
           "elected": true,
           "electedAt": 1,
           "autoReturnedCeannComhairle": false,
@@ -228,10 +348,10 @@
           "counts": [
             {
               "count": 1,
-              "total": null,
+              "total": 22390,
               "transfers": 0,
               "status": "Elected",
-              "firstPrefs": null
+              "firstPrefs": 22390
             }
           ]
         }
@@ -241,26 +361,42 @@
         "Constituency_Number": "",
         "Number_Of_Seats": "1",
         "Spoiled": "",
-        "Total_Electorate": "",
+        "Total_Electorate": "54082",
         "Total_Poll": "",
-        "Valid_Poll": ""
+        "Valid_Poll": "28270"
       },
       "countGroup": [
         {
-          "Candidate_First_Pref_Votes": "Unopposed",
+          "Candidate_First_Pref_Votes": "22390.00",
           "Candidate_Id": "12816763",
           "Constituency_Number": "",
           "Count_Number": "1",
           "Firstname": "John Clarke",
-          "Occurred_On_Count": "",
+          "Occurred_On_Count": "1",
           "Party_Colour": "#48A5EE",
           "Party_Name": "UUP",
           "Status": "Elected",
           "Surname": "Davison",
-          "Total_Votes": "",
+          "Total_Votes": "22390.00",
           "Transfers": "0.00",
           "candidateName": "John Clarke Davison",
           "id": 0
+        },
+        {
+          "Constituency_Number": "",
+          "Candidate_Id": "fix-william-robert-todd-1925",
+          "Count_Number": "1",
+          "Firstname": "William Robert",
+          "Surname": "Todd",
+          "Candidate_First_Pref_Votes": "5880.00",
+          "Transfers": "0.00",
+          "Total_Votes": "5880.00",
+          "Status": "",
+          "Occurred_On_Count": "",
+          "Party_Name": "Unbought Tenants",
+          "Party_Colour": "#A0A0A0",
+          "candidateName": "William Robert Todd",
+          "id": 1
         }
       ],
       "syntheticCountGroup": false,
@@ -277,30 +413,48 @@
             "Constituency_Number": "",
             "Number_Of_Seats": "1",
             "Spoiled": "",
-            "Total_Electorate": "",
+            "Total_Electorate": "54082",
             "Total_Poll": "",
-            "Valid_Poll": ""
+            "Valid_Poll": "28270"
           },
           "countGroup": [
             {
-              "Candidate_First_Pref_Votes": "Unopposed",
+              "Candidate_First_Pref_Votes": "22390.00",
               "Candidate_Id": "12816763",
               "Constituency_Number": "",
               "Count_Number": "1",
               "Firstname": "John Clarke",
-              "Occurred_On_Count": "",
+              "Occurred_On_Count": "1",
               "Party_Colour": "#48A5EE",
               "Party_Name": "UUP",
               "Status": "Elected",
               "Surname": "Davison",
-              "Total_Votes": "",
+              "Total_Votes": "22390.00",
               "Transfers": "0.00",
               "candidateName": "John Clarke Davison",
               "id": 0
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "fix-william-robert-todd-1925",
+              "Count_Number": "1",
+              "Firstname": "William Robert",
+              "Surname": "Todd",
+              "Candidate_First_Pref_Votes": "5880.00",
+              "Transfers": "0.00",
+              "Total_Votes": "5880.00",
+              "Status": "",
+              "Occurred_On_Count": "",
+              "Party_Name": "Unbought Tenants",
+              "Party_Colour": "#A0A0A0",
+              "candidateName": "William Robert Todd",
+              "id": 1
             }
           ]
         },
-        "cause": "Appointment to office of Richard Best (UUP): appointed Lord Justice of Appeal (Wikipedia, List of Northern Ireland Parliament by-elections)"
+        "electorateSource": "Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973); the same figure in David Boothroyd, Northern Ireland House of Commons Election Results",
+        "cause": "Appointment to office of Richard Best (UUP): appointed Lord Justice of Appeal (Wikipedia, List of Northern Ireland Parliament by-elections)",
+        "correctionNote": "Contested, not unopposed: John Clarke Davison 22,390; William Robert Todd (Unbought Tenants) 5,880. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give. A single-vacancy by-election in the four-seat Armagh constituency (Best appointed a Lord Justice of Appeal); Walker and Boothroyd print Todd as UTA (Unbought Tenants' Association). (Royal Irish Academy; David Boothroyd, B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 49; checked against David Boothroyd, Northern Ireland House of Commons Election Results (counties.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020))"
       },
       "constituencyId": null,
       "constituencyNumber": null,
@@ -309,13 +463,21 @@
         {
           "label": "Cause",
           "text": "Appointment to office of Richard Best (UUP): appointed Lord Justice of Appeal (Wikipedia, List of Northern Ireland Parliament by-elections)"
+        },
+        {
+          "label": "Electorate",
+          "text": "54,082: Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973); the same figure in David Boothroyd, Northern Ireland House of Commons Election Results"
+        },
+        {
+          "label": "Corrected",
+          "text": "Contested, not unopposed: John Clarke Davison 22,390; William Robert Todd (Unbought Tenants) 5,880. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give. A single-vacancy by-election in the four-seat Armagh constituency (Best appointed a Lord Justice of Appeal); Walker and Boothroyd print Todd as UTA (Unbought Tenants' Association). (Royal Irish Academy; David Boothroyd, B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 49; checked against David Boothroyd, Northern Ireland House of Commons Election Results (counties.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020))"
         }
       ],
       "contestType": "election",
       "kind": "by-election",
       "votingSystem": "stv-hare",
-      "contestStatus": "uncontested",
-      "candidateRowsExpected": false,
+      "contestStatus": "contested",
+      "candidateRowsExpected": true,
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1925-11-25/armagh.json",

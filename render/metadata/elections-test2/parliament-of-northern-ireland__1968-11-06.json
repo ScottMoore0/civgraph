@@ -8,8 +8,8 @@
   "contestType": "election",
   "kind": "by-election",
   "votingSystem": "fptp",
-  "contestStatus": "uncontested",
-  "candidateRowsExpected": false,
+  "contestStatus": "contested",
+  "candidateRowsExpected": true,
   "transferDataExpected": false,
   "localBodies": null,
   "localBodyByConstituency": null,
@@ -40,6 +40,8 @@
   "availableStyleModes": [
     "winner",
     "leadingParty",
+    "voteShare",
+    "majority",
     "seats"
   ],
   "partySummary": [
@@ -47,9 +49,17 @@
       "party": "UUP",
       "seats": 1,
       "stood": 1,
-      "votes": 0,
+      "votes": 16288,
       "colour": "#48a5ee",
-      "share": null
+      "share": 85.11705685618729
+    },
+    {
+      "party": "NI Labour",
+      "seats": 0,
+      "stood": 1,
+      "votes": 2848,
+      "colour": "#6b7280",
+      "share": 14.88294314381271
     }
   ],
   "mainLikePartySummary": [
@@ -57,15 +67,23 @@
       "party": "UUP",
       "seats": 1,
       "stood": 1,
-      "votes": 0,
+      "votes": 16288,
       "colour": "#48A5EE",
-      "share": null
+      "share": 85.11705685618729
+    },
+    {
+      "party": "NI Labour",
+      "seats": 0,
+      "stood": 1,
+      "votes": 2848,
+      "colour": "#DC241F",
+      "share": 14.88294314381271
     }
   ],
   "mainLikeTotals": {
-    "validPoll": 0,
+    "validPoll": 19136,
     "totalPoll": 0,
-    "totalElectorate": 0,
+    "totalElectorate": 38672,
     "totalSpoiled": 0,
     "totalSeats": 1
   },
@@ -77,11 +95,11 @@
       "name": "Richard Ferguson",
       "party": "UUP",
       "colour": "#48A5EE",
-      "firstPrefs": 0,
-      "votes": 0,
-      "constPct": 0,
-      "firstPrefPct": 0,
-      "finalVotes": 0,
+      "firstPrefs": 16288,
+      "votes": 16288,
+      "constPct": 85.11705685618729,
+      "firstPrefPct": 85.11705685618729,
+      "finalVotes": 16288,
       "elected": true,
       "electedAt": 1,
       "excluded": false,
@@ -91,26 +109,55 @@
       "status": "Elected",
       "counts": {
         "1": {
-          "total": 0,
+          "total": 16288,
           "transfers": 0,
           "status": "Elected"
         }
       },
       "candidateKey": "richard ferguson|uup",
       "name_id": "n-richard-ferguson"
+    },
+    {
+      "id": "fix-john-coulthard-1968",
+      "personId": 61434,
+      "constituency": "South Antrim",
+      "name": "John Coulthard",
+      "party": "NI Labour",
+      "colour": "#DC241F",
+      "firstPrefs": 2848,
+      "votes": 2848,
+      "constPct": 14.88294314381271,
+      "firstPrefPct": 14.88294314381271,
+      "finalVotes": 2848,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 2848,
+          "transfers": 0,
+          "status": ""
+        }
+      },
+      "candidateKey": "john coulthard|ni labour",
+      "name_id": "n-john-coulthard"
     }
   ],
   "mainLikeCandidateTotals": {
-    "validPoll": 0
+    "validPoll": 19136
   },
   "entityIndex": {
-    "totalValid": 0,
+    "totalValid": 19136,
     "parties": [
       {
         "name": "UUP",
         "colour": "#48A5EE",
-        "firstPrefs": 0,
-        "finalVotes": 0,
+        "firstPrefs": 16288,
+        "finalVotes": 16288,
         "stood": 1,
         "elected": 1,
         "constituencies": [
@@ -121,12 +168,34 @@
             "id": "Richard Ferguson|UUP",
             "name": "Richard Ferguson",
             "constituency": "South Antrim",
-            "firstPref": 0,
-            "finalVotes": 0,
+            "firstPref": 16288,
+            "finalVotes": 16288,
             "status": "Elected"
           }
         ],
-        "shareOfTotal": null
+        "shareOfTotal": 85.11705685618729
+      },
+      {
+        "name": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 2848,
+        "finalVotes": 2848,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "South Antrim"
+        ],
+        "candidates": [
+          {
+            "id": "John Coulthard|NI Labour",
+            "name": "John Coulthard",
+            "constituency": "South Antrim",
+            "firstPref": 2848,
+            "finalVotes": 2848,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 14.88294314381271
       }
     ],
     "candidates": [
@@ -136,8 +205,8 @@
         "name": "Richard Ferguson",
         "party": "UUP",
         "colour": "#48A5EE",
-        "firstPrefs": 0,
-        "finalVotes": 0,
+        "firstPrefs": 16288,
+        "finalVotes": 16288,
         "electedCount": 1,
         "constituencies": [
           "South Antrim"
@@ -145,12 +214,34 @@
         "appearances": [
           {
             "constituency": "South Antrim",
-            "firstPref": 0,
-            "finalVotes": 0,
+            "firstPref": 16288,
+            "finalVotes": 16288,
             "status": "Elected"
           }
         ],
-        "shareOfTotal": null
+        "shareOfTotal": 85.11705685618729
+      },
+      {
+        "id": "John Coulthard|NI Labour",
+        "key": "John Coulthard|NI Labour",
+        "name": "John Coulthard",
+        "party": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 2848,
+        "finalVotes": 2848,
+        "electedCount": 0,
+        "constituencies": [
+          "South Antrim"
+        ],
+        "appearances": [
+          {
+            "constituency": "South Antrim",
+            "firstPref": 2848,
+            "finalVotes": 2848,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 14.88294314381271
       }
     ]
   },
@@ -161,19 +252,19 @@
       "winnerName": "Richard Ferguson",
       "leadingParty": "UUP",
       "leadingName": "Richard Ferguson",
-      "leadingVotes": null,
-      "leadingPct": null,
+      "leadingVotes": 16288,
+      "leadingPct": 85.12,
       "turnoutPct": null,
-      "majority": null,
-      "majorityPct": null,
+      "majority": 13440,
+      "majorityPct": 70.23,
       "seatsWon": 1,
       "seatsTotal": 1,
       "quota": null,
-      "electorate": null,
+      "electorate": 38672,
       "totalPoll": null,
       "spoiled": null,
-      "validPoll": null,
-      "totalVotes": null,
+      "validPoll": 19136,
+      "totalVotes": 19136,
       "colour": "#48a5ee",
       "leadingColour": "#48a5ee",
       "candidates": [
@@ -181,8 +272,8 @@
           "id": "2264217",
           "name": "Richard Ferguson",
           "party": "UUP",
-          "firstPrefs": null,
-          "finalVotes": null,
+          "firstPrefs": 16288,
+          "finalVotes": 16288,
           "elected": true,
           "electedAt": 1,
           "autoReturnedCeannComhairle": false,
@@ -197,14 +288,43 @@
           "counts": [
             {
               "count": 1,
-              "total": null,
+              "total": 16288,
               "transfers": 0,
               "status": "Elected",
-              "firstPrefs": null
+              "firstPrefs": 16288
             }
           ],
           "personId": 104011,
           "name_id": "n-richard-ferguson"
+        },
+        {
+          "id": "fix-john-coulthard-1968",
+          "name": "John Coulthard",
+          "party": "NI Labour",
+          "firstPrefs": 2848,
+          "finalVotes": 2848,
+          "elected": false,
+          "electedAt": null,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "",
+          "colour": "#DC241F",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "counts": [
+            {
+              "count": 1,
+              "total": 2848,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 2848
+            }
+          ],
+          "personId": 61434,
+          "name_id": "n-john-coulthard"
         }
       ],
       "elected": [
@@ -212,8 +332,8 @@
           "id": "2264217",
           "name": "Richard Ferguson",
           "party": "UUP",
-          "firstPrefs": null,
-          "finalVotes": null,
+          "firstPrefs": 16288,
+          "finalVotes": 16288,
           "elected": true,
           "electedAt": 1,
           "autoReturnedCeannComhairle": false,
@@ -228,10 +348,10 @@
           "counts": [
             {
               "count": 1,
-              "total": null,
+              "total": 16288,
               "transfers": 0,
               "status": "Elected",
-              "firstPrefs": null
+              "firstPrefs": 16288
             }
           ]
         }
@@ -241,26 +361,42 @@
         "Constituency_Number": "",
         "Number_Of_Seats": "1",
         "Spoiled": "",
-        "Total_Electorate": "",
+        "Total_Electorate": "38672",
         "Total_Poll": "",
-        "Valid_Poll": ""
+        "Valid_Poll": "19136"
       },
       "countGroup": [
         {
-          "Candidate_First_Pref_Votes": "Unopposed",
+          "Candidate_First_Pref_Votes": "16288.00",
           "Candidate_Id": "2264217",
           "Constituency_Number": "",
           "Count_Number": "1",
           "Firstname": "Richard",
-          "Occurred_On_Count": "",
+          "Occurred_On_Count": "1",
           "Party_Colour": "#48A5EE",
           "Party_Name": "UUP",
           "Status": "Elected",
           "Surname": "Ferguson",
-          "Total_Votes": "",
+          "Total_Votes": "16288.00",
           "Transfers": "0.00",
           "candidateName": "Richard Ferguson",
           "id": 0
+        },
+        {
+          "Constituency_Number": "",
+          "Candidate_Id": "fix-john-coulthard-1968",
+          "Count_Number": "1",
+          "Firstname": "John",
+          "Surname": "Coulthard",
+          "Candidate_First_Pref_Votes": "2848.00",
+          "Transfers": "0.00",
+          "Total_Votes": "2848.00",
+          "Status": "",
+          "Occurred_On_Count": "",
+          "Party_Name": "NI Labour",
+          "Party_Colour": "#DC241F",
+          "candidateName": "John Coulthard",
+          "id": 1
         }
       ],
       "syntheticCountGroup": false,
@@ -277,30 +413,48 @@
             "Constituency_Number": "",
             "Number_Of_Seats": "1",
             "Spoiled": "",
-            "Total_Electorate": "",
+            "Total_Electorate": "38672",
             "Total_Poll": "",
-            "Valid_Poll": ""
+            "Valid_Poll": "19136"
           },
           "countGroup": [
             {
-              "Candidate_First_Pref_Votes": "Unopposed",
+              "Candidate_First_Pref_Votes": "16288.00",
               "Candidate_Id": "2264217",
               "Constituency_Number": "",
               "Count_Number": "1",
               "Firstname": "Richard",
-              "Occurred_On_Count": "",
+              "Occurred_On_Count": "1",
               "Party_Colour": "#48A5EE",
               "Party_Name": "UUP",
               "Status": "Elected",
               "Surname": "Ferguson",
-              "Total_Votes": "",
+              "Total_Votes": "16288.00",
               "Transfers": "0.00",
               "candidateName": "Richard Ferguson",
               "id": 0
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "fix-john-coulthard-1968",
+              "Count_Number": "1",
+              "Firstname": "John",
+              "Surname": "Coulthard",
+              "Candidate_First_Pref_Votes": "2848.00",
+              "Transfers": "0.00",
+              "Total_Votes": "2848.00",
+              "Status": "",
+              "Occurred_On_Count": "",
+              "Party_Name": "NI Labour",
+              "Party_Colour": "#DC241F",
+              "candidateName": "John Coulthard",
+              "id": 1
             }
           ]
         },
-        "cause": "Resignation of Brian McConnell (UUP) (Wikipedia, List of Northern Ireland Parliament by-elections)"
+        "electorateSource": "Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973); the same figure in David Boothroyd, Northern Ireland House of Commons Election Results",
+        "cause": "Resignation of Brian McConnell (UUP) (Wikipedia, List of Northern Ireland Parliament by-elections)",
+        "correctionNote": "Contested, not unopposed: Richard Ferguson 16,288; John Coulthard (NI Labour) 2,848. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give. (Royal Irish Academy; David Boothroyd, B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 78; checked against David Boothroyd, Northern Ireland House of Commons Election Results (antrim.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020))"
       },
       "constituencyId": null,
       "constituencyNumber": null,
@@ -309,13 +463,21 @@
         {
           "label": "Cause",
           "text": "Resignation of Brian McConnell (UUP) (Wikipedia, List of Northern Ireland Parliament by-elections)"
+        },
+        {
+          "label": "Electorate",
+          "text": "38,672: Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973); the same figure in David Boothroyd, Northern Ireland House of Commons Election Results"
+        },
+        {
+          "label": "Corrected",
+          "text": "Contested, not unopposed: Richard Ferguson 16,288; John Coulthard (NI Labour) 2,848. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give. (Royal Irish Academy; David Boothroyd, B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 78; checked against David Boothroyd, Northern Ireland House of Commons Election Results (antrim.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020))"
         }
       ],
       "contestType": "election",
       "kind": "by-election",
       "votingSystem": "fptp",
-      "contestStatus": "uncontested",
-      "candidateRowsExpected": false,
+      "contestStatus": "contested",
+      "candidateRowsExpected": true,
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1968-11-06/south-antrim.json",

@@ -25,7 +25,7 @@ import { CATALOGUE_CSS } from './styles.js';
 import dataService, { resolveMapDownloadUrl } from '../data-service.js';
 import { initialCatalogueRoute, takeCatalogueData } from './flag.js';
 import { icon, SHELF_LOOK, SHELF_ICON_IN, BOOK_CATEGORY_ICONS, MERGED_SHELVES, FLAT_SECTIONS } from './icons.js';
-import { esc, yearOf, longDate, shortProvider } from './util.js';
+import { esc, yearOf, longDate, mapDate, shortProvider } from './util.js';
 import { formatDisplayDate } from '../date-format.mjs';
 import { openMenu, closeMenu } from './menu.js';
 import { loadAuth, loginHref, openEditDialog } from './edit.js';
@@ -505,7 +505,7 @@ export class CatalogueNext {
     const n = r.features || (m && this.ui.getMapFeatureCount ? this.ui.getMapFeatureCount(m) : null);
     if (Number.isFinite(n) && n > 0) count = `${n.toLocaleString('en-GB')} ${unitWord(r.unit || (m && this.ui.getMapFeatureUnitLabel ? this.ui.getMapFeatureUnitLabel(m, n) : 'features'), n)}`;
     const constituencies = /^constituencies-/.test(this.seriesOfMap?.get(id) || '');
-    return [date && r.date && !constituencies ? longDate(r.date) : '', providers, count].filter(Boolean).join(' · ');
+    return [date && r.date && !constituencies ? mapDate(r) : '', providers, count].filter(Boolean).join(' · ');
   }
 
   /** Contributors suggest edits to a map; anyone else is sent to sign in first (src/catalogue/edit.js). */
