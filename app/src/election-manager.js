@@ -21,7 +21,7 @@ import {
   resolvePartyColour as electionResolvePartyColour,
   seatPositions
 } from '../../src/election-domain.mjs';
-import { partyAbbreviation, partyFullName, partyLabelHtml } from '../../src/party-names.mjs';
+import { partyAbbreviation, partyAsPrintedLabel, partyFullName, partyLabelHtml } from '../../src/party-names.mjs';
 import { buildTrendChartModel, mountTrendChart } from '../../src/election-trend-chart.mjs';
 import { formatDisplayDate } from '../../src/date-format.mjs';
 
@@ -2036,7 +2036,18 @@ export class Test2ElectionManager {
     const inferred = candidate?.partyInferred
       ? `<span class="election-ballot-description" title="${escapeHtml(candidate.partyBasis ? `Label inferred: ${candidate.partyBasis}` : 'Label inferred, not printed for this election')}">inferred</span>`
       : '';
-    return (text ? `<span class="election-ballot-description" title="Ballot paper description">${escapeHtml(text)}</span>` : '') + inferred;
+    return (text ? `<span class="election-ballot-description" title="Ballot paper description">${escapeHtml(text)}</span>` : '')
+      + this.partyAsPrintedHtml(candidate) + inferred;
+  }
+
+  /**
+   * The party label exactly as the source printed it ("HR (P)", "Rep Clubs"), where that differs
+   * from the party shown: printed labels are shown as printed, under the party they are read as.
+   */
+  partyAsPrintedHtml(candidate) {
+    const printed = partyAsPrintedLabel(candidate);
+    if (!printed) return '';
+    return `<span class="election-ballot-description election-party-printed" title="${escapeHtml(`Party label as printed in the source: ${printed}`)}">printed ${escapeHtml(printed)}</span>`;
   }
 
   /** Attributes for a cell showing a party: the party colour as a narrow tab down its left edge. */

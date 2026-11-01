@@ -60,14 +60,21 @@ def _in_life(e, date):
 
 
 def resolve(index, s, body, date):
-    cands = [e for e, b, fr, un in index.get(s, [])
-             if _alias_ok(b, fr, un, body, date)]
+    matched = [(e, b is not None or fr is not None or un is not None) for e, b, fr, un in index.get(s, [])
+               if _alias_ok(b, fr, un, body, date)]
+    cands = [e for e, _ in matched]
     if not cands:
         return ('none', None)
     live = [e for e in cands if _in_life(e, date)]
     if len(live) == 1:
         return ('ok', live[0]['id'])
     if len(live) > 1:
+        # A scoped alias (bodies and/or a date window) is the more specific claim: 'Republican' on
+        # the Dail in 1923-26 is anti-Treaty Sinn Fein, though the bare string belongs to the
+        # 'republican' entity everywhere else. One scoped claim among unscoped ones wins.
+        scoped = [e for e, sc in matched if sc and _in_life(e, date)]
+        if len(scoped) == 1:
+            return ('ok', scoped[0]['id'])
         return ('ambiguous', [e['id'] for e in live])
     if len(cands) == 1:
         return ('outside', cands[0]['id'])

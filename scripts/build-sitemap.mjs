@@ -56,6 +56,7 @@ export const TOP_LEVEL_PAGES = [
   '/records/',
   '/catalogue/',
   '/apps/',
+  '/apps/words/',
   '/proni',
   '/pages/about.html',
   '/pages/census-explorer.html',

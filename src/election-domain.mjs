@@ -347,6 +347,9 @@ export function summarizeCandidateRows(rows = []) {
       // label at other elections (Party_Inferred), with the evidence for it (Party_Basis).
       partyInferred: row.Party_Inferred === true || String(row.Party_Inferred || '') === 'true',
       partyBasis: fixText(row.Party_Basis || ''),
+      // The label exactly as the source printed it ("HR (P)", "Rep Clubs"), where a source-checked
+      // fix records it (Party_As_Printed). Printed labels are shown as printed beside the party.
+      partyAsPrinted: fixText(row.Party_As_Printed || ''),
       // The PERSON, where the source names one. `id` above is a candidacy key and on
       // older contests it is a row index -- id '1' sits on 2,260 candidacies under
       // unrelated names -- so it cannot carry identity. ElectionsIreland does name the
@@ -378,6 +381,7 @@ export function summarizeCandidateRows(rows = []) {
     if (!existing.ballotDescription && (row.Ballot_Description || row.ballotDescription)) {
       existing.ballotDescription = fixText(row.Ballot_Description || row.ballotDescription || '');
     }
+    if (!existing.partyAsPrinted && row.Party_As_Printed) existing.partyAsPrinted = fixText(row.Party_As_Printed);
     // Many files (the NI council ones) mark Status on EVERY row of a candidate and record the stage
     // that decided it in Occurred_On_Count; the first such row is count 1, not that stage.
     const occurred = parseNumber(row.Occurred_On_Count);
@@ -419,6 +423,9 @@ export function summarizeCandidateRows(rows = []) {
     if (!candidate.sourcePersonId) delete candidate.sourcePersonId;
     // Only where the source records one; and not where it merely repeats the party.
     if (!candidate.ballotDescription || normalizeParty(candidate.ballotDescription) === candidate.party) delete candidate.ballotDescription;
+    // Only where it differs from the party shown, and from the ballot description already shown.
+    if (!candidate.partyAsPrinted || candidate.partyAsPrinted === candidate.party
+      || candidate.partyAsPrinted === candidate.ballotDescription) delete candidate.partyAsPrinted;
   }
   return [...byCandidate.values()].sort((a, b) => numberOrZero(b.firstPrefs) - numberOrZero(a.firstPrefs));
 }
@@ -464,6 +471,10 @@ export function normalizeScraperPayloadForMain(payload, fallbackConstituency = '
       Official_Candidate_Id: candidate.officialCandidateId || '',
       Official_Status: candidate.officialStatus || '',
       Ballot_Description: candidate.ballotDescription || '',
+      // Set on a few candidates by source-checked fixes; written only where present.
+      ...(candidate.Party_As_Printed || candidate.partyAsPrinted ? { Party_As_Printed: candidate.Party_As_Printed || candidate.partyAsPrinted } : {}),
+      ...(candidate.partyInferred === true || candidate.Party_Inferred === true ? { Party_Inferred: true } : {}),
+      ...(candidate.partyBasis || candidate.Party_Basis ? { Party_Basis: candidate.partyBasis || candidate.Party_Basis } : {}),
       Party_Abbreviation: candidate.partyAbbreviation || candidate.dailAbbreviation || '',
       Surname: surname,
       Occurred_On_Count: String(occurredOn),

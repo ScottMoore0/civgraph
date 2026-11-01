@@ -1,5 +1,5 @@
 {
-  "description": "Ballot-paper party labels that Browse lists under their party instead of as parties of their own (scripts/build-browse-indexes.mjs, partyLabelFolds). Each label is matched exactly against a canonical_name in data/elections-source/data/party-ids.json and folded into the party whose id is the key. Only a label that is plainly the same party belongs here: a misspelling, the party's other name, the leader's name or the candidate's occupation printed in the party field. Coalitions, independents and splinter groups that carry a party's name are different parties and are listed under neverFold, which also stops the automatic misspelling match. The old address of a folded label still opens its party (previousSlugs). Every fold is printed by the build and written to data/browse/party-label-folds.json.",
+  "description": "Ballot-paper party labels that Browse lists under their party instead of as parties of their own (scripts/build-browse-indexes.mjs, partyLabelFolds). Each label is matched exactly against a canonical_name in data/elections-source/data/party-ids.json and folded into the party whose id is the key. Only a label that is plainly the same party belongs here: a misspelling, the party's other name, the leader's name or the candidate's occupation printed in the party field. Coalitions, independents and splinter groups that carry a party's name are different parties and are listed under neverFold, which also stops the automatic misspelling match. The old address of a folded label still opens its party (previousSlugs). Every fold is printed by the build and written to data/browse/party-label-folds.json. retiredSlugs lists the addresses of party pages that are no longer built because their candidacies now carry another party's label (a source-checked relabel or a registry merge); each still opens the party it is listed under.",
   "folds": {
     "dup": {
       "reason": "the Democratic Unionist Party: misspelt, with the leader's name, or with the candidate's occupation in the party field",
@@ -166,6 +166,12 @@
       "labels": [
         "Irish Republican Socialist Party"
       ]
+    },
+    "workers-party": {
+      "reason": "the Workers' Party under its 1977-82 name, Sinn Féin The Workers' Party (owner's ruling 2026-11-02: Official Sinn Féin, the Republican Clubs, Sinn Féin The Workers' Party and the Workers' Party are one party; ballots keep the name printed at the time)",
+      "labels": [
+        "Sinn Féin Workers'"
+      ]
     }
   },
   "neverFold": [
@@ -192,5 +198,22 @@
     "Soc. Alliance",
     "Housing Rights and Reform Alliance",
     "Unionist"
-  ]
+  ],
+  "retiredSlugs": {
+    "workers-party": {
+      "reason": "the Workers' Party merge (party research 2026-11-02): Official Sinn Féin, the Republican Clubs, Sinn Féin The Workers' Party and the Workers' Party are one party",
+      "slugs": [
+        "sinn-fein-official",
+        "sinn-fein-workers-party",
+        "workers-p-rep-c",
+        "republican-clubs"
+      ]
+    },
+    "home-rule": {
+      "reason": "the 1891-92 Parnellite candidates, relabelled Home Rule as Walker prints them (HR (P)), party research 2026-11-02",
+      "slugs": [
+        "parnellite-home-rule-league"
+      ]
+    }
+  }
 }

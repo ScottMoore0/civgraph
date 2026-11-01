@@ -20,6 +20,7 @@ export const PUBLIC_PREFIXES = [
   "data/maps/",
   "data/nisra-files/",
   "data/nisra-portal/",
+  "data/parliament/words/",
   "data/pointclouds/",
   "data/sources/datagovie-pending-ia/",
   "data/sources/oireachtas-fulltext/",

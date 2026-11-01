@@ -20,6 +20,13 @@
  * Continent) is drawn grey under the features from assets/map/context-land.json, built by
  * scripts/build-svg-context-land.py from Civgraph's OSNI / Tailte Eireann outlines and
  * Natural Earth (public domain).
+ *
+ * The major loughs (Neagh, Erne, Strangford, Foyle, Carlingford, Corrib, Derg, Ree, ...) are cut
+ * out of the land, the outline and the features and left unfilled like the sea, as on the Commons
+ * maps: boundary data such as OSNI's constituencies shares them among the areas. The cut is an
+ * even-odd clip path in the projected drawing, so the file stays a single plain SVG; the shores
+ * are drawn along it, dark where they cross the features. Their outlines are
+ * assets/map/context-loughs.json, built by scripts/build-svg-context-loughs.py.
  */
 import dataService, { resolveMapDownloadUrl } from '../../src/data-service.js';
 import { compositeChildIds } from '../../src/map-relations.mjs';
@@ -41,12 +48,14 @@ export const WIKI_STYLE = Object.freeze({
 export const MAX_FEATURES = 6000;
 const TARGET_WIDTH = 800;
 const CONTEXT_LAND_URL = '/assets/map/context-land.json';
+const CONTEXT_LOUGHS_URL = '/assets/map/context-loughs.json';
 const LICENCE_URL = 'https://creativecommons.org/licenses/by-sa/4.0/';
 
 const NAME_KEYS = ['Name', 'name', 'NAME', 'PC_NAME', 'CONSTITUENCY', 'Constituency', 'CON_NAME', 'ENGLISH', 'English_Name',
   'FinalR_DEA', 'DEA', 'DEANAME', 'WARDNAME', 'LGDNAME', 'COUNTY', 'PARISH', 'BARONY', 'TOWNLAND', 'Const_Nm'];
 
 let contextLandPromise = null;
+let contextLoughsPromise = null;
 
 /* ------------------------------------------------------------------ projection */
 
@@ -337,23 +346,51 @@ function explode(geometry, out = { polygons: [], lines: [], points: [] }) {
   return out;
 }
 
+/** [x0, y0, dx1, dy1, ...] integers (degrees x q) to [[lon, lat], ...]. */
+function decoder(q) {
+  return (flat) => {
+    const points = [];
+    let x = 0; let y = 0;
+    for (let i = 0; i < flat.length; i += 2) {
+      x += flat[i];
+      y += flat[i + 1];
+      points.push([x / q, y / q]);
+    }
+    return points;
+  };
+}
+
+export async function loadContextLoughs(url = CONTEXT_LOUGHS_URL) {
+  if (!contextLoughsPromise) {
+    contextLoughsPromise = fetch(url).then((response) => {
+      if (!response.ok) throw new Error(`Could not load the lough outlines (${response.status}).`);
+      return response.json();
+    }).then((doc) => {
+      const decode = decoder(doc.quantisation || 10000);
+      return {
+        credits: doc.credits || [],
+        loughs: (doc.features || []).map((f) => ({
+          name: f.name,
+          kind: f.kind,
+          polygons: (f.rings || []).map((poly) => poly.map(decode)),
+          shore: f.shore ? f.shore.map(decode) : null
+        }))
+      };
+    }).catch((error) => {
+      contextLoughsPromise = null;
+      throw error;
+    });
+  }
+  return contextLoughsPromise;
+}
+
 export async function loadContextLand(url = CONTEXT_LAND_URL) {
   if (!contextLandPromise) {
     contextLandPromise = fetch(url).then((response) => {
       if (!response.ok) throw new Error(`Could not load the neighbouring-land outline (${response.status}).`);
       return response.json();
     }).then((doc) => {
-      const q = doc.quantisation || 10000;
-      const decode = (flat) => {
-        const points = [];
-        let x = 0; let y = 0;
-        for (let i = 0; i < flat.length; i += 2) {
-          x += flat[i];
-          y += flat[i + 1];
-          points.push([x / q, y / q]);
-        }
-        return points;
-      };
+      const decode = decoder(doc.quantisation || 10000);
       return {
         credits: doc.credits || [],
         land: doc.features.filter((f) => f.kind === 'land').map((f) => ({ name: f.name, polygons: f.rings.map((poly) => poly.map(decode)) })),
@@ -545,7 +582,7 @@ export async function buildMapSvg(app, mapId, options = {}) {
   const match = selectionMatcher(selection, mainConfig.labelProperty || sources[0]?.config?.labelProperty);
   let best = { score: 0, index: -1 };
 
-  const usedIds = new Set(['Outline', 'ContextLand', 'Features', 'Legend']);
+  const usedIds = new Set(['Outline', 'ContextLand', 'Features', 'FeaturePoints', 'Legend', 'MapFrame', 'Map', 'LoughCut', 'FeatureArea', 'LandAndFeatures', 'Loughs', 'LoughShores', 'LoughShoresInFeatures']);
   const drawn = [];
   for (const { feature, labelProperty } of raw) {
     const properties = feature.properties || {};
@@ -605,6 +642,46 @@ export async function buildMapSvg(app, mapId, options = {}) {
     if (lines.length) borderPaths.push({ name: border.name, d: pathData(lines, { close: false }) });
   }
 
+  // The major loughs: their rings, clipped to the same box, are holes in an even-odd clip path
+  // over the land, outline and features (islands come back as holes in the holes). A lough a
+  // feature is named after (a map of the loughs themselves) is not cut. Without the outlines
+  // the map is drawn uncut rather than not at all.
+  const loughs = await loadContextLoughs(options.contextLoughsUrl).catch(() => null);
+  const featureNames = drawn.map((f) => String(f.name || '').toLowerCase()).filter(Boolean);
+  const cutRings = [];
+  const shoreRings = [];
+  const shoreLines = [];
+  const outsideClip = (box) => box[2] < clipBox[0] || box[0] > clipBox[2] || box[3] < clipBox[1] || box[1] > clipBox[3];
+  const projectLine = (line) => simplifyPoints(line.map(([lon, lat]) => frame.project(lon, lat)), tolerance);
+  for (const lough of loughs?.loughs || []) {
+    const key = String(lough.name || '').toLowerCase();
+    if (key && featureNames.some((name) => name.includes(key))) continue;
+    const rings = [];
+    for (const polygon of lough.polygons) {
+      for (const ring of polygon) {
+        const projected = projectLine(ring);
+        if (projected.length < 4 || outsideClip(bboxOf(projected))) continue;
+        const clipped = clipRing(projected, clipBox);
+        if (clipped.length >= 3) {
+          cutRings.push(clipped);
+          rings.push(projected);
+        }
+      }
+    }
+    if (!rings.length) continue;
+    if (lough.shore) {
+      for (const line of lough.shore.map(projectLine)) {
+        if (line.length >= 2 && !outsideClip(bboxOf(line))) shoreLines.push(line);
+      }
+    } else {
+      shoreRings.push(...rings);
+    }
+  }
+  const cutD = cutRings.length
+    ? `M${fmt(clipBox[0])},${fmt(clipBox[1])}H${fmt(clipBox[2])}V${fmt(clipBox[3])}H${fmt(clipBox[0])}z${pathData(cutRings)}`
+    : '';
+  const shoreD = `${pathData(shoreRings)}${pathData(shoreLines, { close: false })}`;
+
   // The outer outline: every polygon ring in one path, filled nonzero = the union of the features.
   const polygonFeatures = drawn.filter((f) => f.rings.length);
   const outlineD = polygonFeatures.length && polygonFeatures.length <= 1500 ? pathData(polygonFeatures.flatMap((f) => f.rings)) : '';
@@ -622,13 +699,16 @@ export async function buildMapSvg(app, mapId, options = {}) {
     `Sources: ${meta.credits.join('; ')}.`,
     meta.references.length ? `Source data: ${meta.references.map((r) => `${r.label} <${r.url}>`).join('; ')}.` : '',
     `Neighbouring land: ${land.credits.join('; ')}.`,
+    cutD ? `Loughs, cut out and left unfilled: ${loughs.credits.join('; ')}.` : '',
     'Map: Civgraph (civgraph.net), CC BY-SA 4.0.',
     `Generated ${today} from ${pageUrl}; Web Mercator, view bounds ${bounds.map((v) => v.toFixed(4)).join(', ')} (W, S, E, N).`
   ].filter(Boolean);
 
   // Features: grouped style like the Commons file; the selected one last so its outline is whole.
   const featurePaths = [];
-  const order = drawn.map((_, i) => i).filter((i) => i !== selectedIndex);
+  // Points sit above the lough cut, so a site on an island or a lough shore is never lost.
+  const pointPaths = [];
+  const order =drawn.map((_, i) => i).filter((i) => i !== selectedIndex);
   if (selectedIndex >= 0) order.push(selectedIndex);
   for (const i of order) {
     const f = drawn[i];
@@ -656,7 +736,7 @@ export async function buildMapSvg(app, mapId, options = {}) {
     if (f.points.length) {
       const pointFill = isSelected ? WIKI_STYLE.selected : (fill || WIKI_STYLE.fill);
       const circles = f.points.map(([x, y]) => `<circle cx="${fmt(x)}" cy="${fmt(y)}" r="${isSelected ? 4 : 2.6}"/>`).join('');
-      featurePaths.push(`<g id="${f.rings.length || f.lines.length ? svgId(`${f.name} point`, usedIds) : id}" style="fill:${pointFill};">${title}${circles}</g>`);
+      pointPaths.push(`<g id="${f.rings.length || f.lines.length ? svgId(`${f.name} point`, usedIds) : id}" style="fill:${pointFill};">${title}${circles}</g>`);
     }
   }
 
@@ -669,6 +749,8 @@ export async function buildMapSvg(app, mapId, options = {}) {
     ? `fill:${WIKI_STYLE.electionUnmatched};stroke:${WIKI_STYLE.electionStroke};stroke-width:${WIKI_STYLE.strokeWidth}px;`
     : `fill:${WIKI_STYLE.fill};stroke:${WIKI_STYLE.stroke};stroke-width:${WIKI_STYLE.strokeWidth}px;`;
 
+  const darkShores = Boolean(cutD && shoreD && outlineD && !election);
+
   const rdf = `<metadata><rdf:RDF><cc:Work rdf:about="">`
     + `<dc:format>image/svg+xml</dc:format><dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>`
     + `<dc:title>${xmlEscape(titleText)}</dc:title><dc:date>${today}</dc:date>`
@@ -679,17 +761,27 @@ export async function buildMapSvg(app, mapId, options = {}) {
 
   const svg = [
     '<?xml version="1.0" encoding="UTF-8" standalone="no"?>',
-    `<svg xmlns="http://www.w3.org/2000/svg" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" width="${pageWidth}" height="${pageHeight}" viewBox="0 0 ${pageWidth} ${pageHeight}" version="1.1" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;">`,
+    `<svg xmlns="http://www.w3.org/2000/svg" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xlink="http://www.w3.org/1999/xlink" width="${pageWidth}" height="${pageHeight}" viewBox="0 0 ${pageWidth} ${pageHeight}" version="1.1" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;">`,
     `<title>${xmlEscape(titleText)}</title>`,
     `<desc>${xmlEscape(descLines.join('\n'))}</desc>`,
     rdf,
-    `<defs><clipPath id="MapFrame"><rect x="0" y="0" width="${frame.width}" height="${frame.height}"/></clipPath></defs>`,
+    `<defs><clipPath id="MapFrame"><rect x="0" y="0" width="${frame.width}" height="${frame.height}"/></clipPath>${
+      cutD ? `<clipPath id="LoughCut"><path style="clip-rule:evenodd;" d="${cutD}"/></clipPath>` : ''}${
+      darkShores ? '<clipPath id="FeatureArea"><use xlink:href="#Outline" style="clip-rule:nonzero;"/></clipPath>' : ''}</defs>`,
     '<g id="Map" clip-path="url(#MapFrame)">',
+    cutD ? '<g id="LandAndFeatures" clip-path="url(#LoughCut)">' : '',
     landPaths.length || borderPaths.length
       ? `<g id="ContextLand" style="fill:${WIKI_STYLE.land};stroke:${WIKI_STYLE.coast};stroke-width:0.5px;">${landPaths.map((p) => `<path id="${svgId(`Land ${p.name}`, usedIds)}" d="${p.d}"><title>${xmlEscape(p.name)}</title></path>`).join('')}${borderPaths.map((p) => `<path id="${svgId(`Border ${p.name}`, usedIds)}" style="fill:none;" d="${p.d}"><title>${xmlEscape(p.name)}</title></path>`).join('')}</g>`
       : '',
     outlineD && !election ? `<path id="Outline" style="fill:${WIKI_STYLE.outline};fill-rule:nonzero;stroke:none;" d="${outlineD}"/>` : '',
     `<g id="Features" style="${featureGroupStyle}">${featurePaths.join('')}</g>`,
+    cutD ? '</g>' : '',
+    // Lough shores along the cut: grey like the coast, and dark like the outlines over the features.
+    cutD && shoreD
+      ? `<g id="Loughs" style="fill:none;stroke:${WIKI_STYLE.coast};stroke-width:0.5px;"><title>Loughs</title><path id="LoughShores" d="${shoreD}"/>${
+        darkShores ? `<path id="LoughShoresInFeatures" clip-path="url(#FeatureArea)" style="stroke:${WIKI_STYLE.stroke};stroke-width:${WIKI_STYLE.strokeWidth}px;" d="${shoreD}"/>` : ''}</g>`
+      : '',
+    pointPaths.length ? `<g id="FeaturePoints" style="${featureGroupStyle}">${pointPaths.join('')}</g>` : '',
     '</g>',
     legend ? legend.svg : '',
     '</svg>',

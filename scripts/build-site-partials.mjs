@@ -56,6 +56,7 @@ const PAGES = new Map([
   ['catalogue/index.html', BROWSE_PAGE],
   ['records/index.html', BROWSE_PAGE],
   ['apps/index.html', SITE_PAGE],
+  ['apps/words/index.html', SITE_PAGE],
   ['pages/census-explorer.html', SITE_PAGE],
   ['pages/status.html', SITE_PAGE],
   // The 404 is served at any missing path, so it needs the real header (nav and theme toggle)

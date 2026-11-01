@@ -2,7 +2,11 @@
   "schemaVersion": 1,
   "description": "Cited founding, split, rename and succession events for parties, shown on the Browse party profiles (scripts/build-party-profiles.mjs). Facts and citations only. Each event belongs to the party whose profile shows it; `related` links the other parties it involves. An event whose date rests on standard references rather than the cited source says so in `basis`. These are display facts: they relabel no candidacy and merge no party. The research behind the 2026-11-01 entries is a pass through the Irish Republican Digital Archive (archive.org collection irish-republican-digital-archive).",
   "sources": {
-    "irda": "Irish Republican Digital Archive (archive.org collection irish-republican-digital-archive), research pass 2026-11-01"
+    "irda": "Irish Republican Digital Archive (archive.org collection irish-republican-digital-archive), research pass 2026-11-01",
+    "walker1992": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Royal Irish Academy, 1992)",
+    "walker1978": "B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1801-1922 (Royal Irish Academy, 1978)",
+    "elliott-flackes": "Sydney Elliott and W. D. Flackes, Northern Ireland: A Political Directory 1968-1999 (Blackstaff, 1999)",
+    "cain": "CAIN chronologies and Abstracts on Organisations, Ulster University"
   },
   "events": [
     {
@@ -10,86 +14,29 @@
       "kind": "split",
       "date": "1970-01-11",
       "precision": "day",
-      "text": "Sinn Féin split at its Ard Fheis of January 1970. The majority (Official, 'Gardiner Place') kept the leadership; about a third of the delegates walked out and formed the Provisional ('Kevin Street') organisation, which continued as Sinn Féin.",
+      "text": "Sinn Féin split at its Ard Fheis of January 1970. The majority (Official, 'Gardiner Place') kept the leadership and later became the Workers' Party; about a third of the delegates walked out and formed the Provisional ('Kevin Street') organisation, which continued as Sinn Féin.",
       "basis": "The month and the walk-out are confirmed by the cited sources; the day (Sunday 11 January 1970, Intercontinental Hotel, Dublin) is from standard references.",
-      "related": [{ "party": "sinn-fein-official", "relation": "split into" }],
-      "note": "Civgraph records every candidate on a 'Sinn Féin' ballot under this party. From 1970 that is the Provisional organisation; the 28 February 1973 Dáil 'Sinn Féin' candidacies were Official Sinn Féin.",
+      "related": [{ "party": "workers-party", "relation": "split into" }],
+      "note": "Civgraph records 'Sinn Féin' ballots under this party, except the 1973-76 Dáil contests, where the registered Sinn Féin was the Official organisation (relabelled 'Sinn Féin (Official)', marked inferred, and linked to the Workers' Party).",
       "citations": [
         { "title": "The 1970 Sinn Féin Ard Fheis: an analysis (booklet), p. 13", "url": "https://archive.org/details/irda-booklet-the-1970-sinn-fein-ard-fheis-an-analysis" },
         { "title": "Eolas, December 1973", "url": "https://archive.org/details/december-b92fe2afc2" }
       ]
     },
     {
-      "party": "sinn-fein-official",
-      "kind": "founded",
-      "date": "1970-01-11",
-      "precision": "day",
-      "text": "Official Sinn Féin: the majority side of the January 1970 Sinn Féin split.",
-      "basis": "Day from standard references; month confirmed by the cited sources.",
-      "related": [{ "party": "sinn-fein", "relation": "split from" }],
-      "citations": [
-        { "title": "The 1970 Sinn Féin Ard Fheis: an analysis (booklet), p. 13", "url": "https://archive.org/details/irda-booklet-the-1970-sinn-fein-ard-fheis-an-analysis" }
-      ]
-    },
-    {
-      "party": "sinn-fein-official",
-      "kind": "renamed",
-      "date": "1977-01",
-      "precision": "month",
-      "text": "Renamed Sinn Féin The Workers' Party at the Ard Fheis in the Mansion House, Dublin, 21-23 January 1977.",
-      "related": [{ "party": "sinn-fein-workers", "relation": "renamed" }],
-      "citations": [
-        { "title": "The United Irishman, November 1976 (Ard Fheis notice)", "url": "https://archive.org/details/the-united-irishman-november-1976-f47f50fb31" },
-        { "title": "The United Irishman, May 1977 (Ard Chomhairle of Sinn Féin The Workers' Party, 16 April 1977)", "url": "https://archive.org/details/may-c9c3291e1e" }
-      ]
-    },
-    {
-      "party": "sinn-fein-workers",
-      "kind": "founded",
-      "date": "1977-01",
-      "precision": "month",
-      "text": "Official Sinn Féin took the name Sinn Féin The Workers' Party at its Ard Fheis of 21-23 January 1977.",
-      "related": [{ "party": "sinn-fein-official", "relation": "renamed from" }],
-      "citations": [
-        { "title": "The United Irishman, November 1976 (Ard Fheis notice)", "url": "https://archive.org/details/the-united-irishman-november-1976-f47f50fb31" },
-        { "title": "The United Irishman, May 1977", "url": "https://archive.org/details/may-c9c3291e1e" },
-        { "title": "The United Irishman, January 1978 (72nd Ard Fheis of Sinn Féin The Workers' Party)", "url": "https://archive.org/details/january-d1abd47af8" },
-        { "title": "The United Irishman, May 1980", "url": "https://archive.org/details/may-final-issue-6e8af1662f" }
-      ]
-    },
-    {
-      "party": "sinn-fein-workers",
-      "kind": "renamed",
-      "date": "1982-04",
-      "precision": "month",
-      "text": "Renamed The Workers' Party.",
-      "basis": "Standard references (Ard Fheis, April 1982); not yet confirmed from a primary source.",
-      "related": [{ "party": "workers-party", "relation": "renamed" }],
-      "citations": []
-    },
-    {
-      "party": "workers-party",
-      "kind": "founded",
-      "date": "1982-04",
-      "precision": "month",
-      "text": "Sinn Féin The Workers' Party took the name The Workers' Party (April 1982).",
-      "basis": "Standard references; not yet confirmed from a primary source.",
-      "related": [{ "party": "sinn-fein-workers", "relation": "renamed from" }],
-      "citations": []
-    },
-    {
       "party": "workers-party",
       "kind": "note",
-      "date": "1967-03",
-      "precision": "month",
-      "text": "The Republican Clubs, the Northern Ireland wing of the Official movement, were proscribed by the Minister of Home Affairs, William Craig, in March 1967. They contested elections from 1973 and were styled 'Republican Clubs The Workers' Party' from at least September 1979 to January 1982, before taking the Workers' Party name.",
-      "basis": "Month from the United Irishman of April 1967; standard references give 7 March 1967.",
-      "note": "Civgraph counts candidates on 'Republican Clubs' ballots under the Workers' Party.",
+      "date": "1967-03-07",
+      "precision": "day",
+      "text": "The Republican Clubs, the republican movement's organisation in Northern Ireland while Sinn Féin was proscribed there, were banned by regulations made by the Minister of Home Affairs, William Craig, on 7 March 1967. The ban was revoked by regulations made on 11 April 1973 (in force 17 April) so that the Clubs could contest the May 1973 council and June 1973 Assembly elections.",
+      "related": [
+        { "party": "sinn-fein", "relation": "Northern Ireland organisation of the movement before 1970" }
+      ],
+      "note": "No Republican Clubs candidate stood before 1973. Westminster 'Republicans' of 1950-66 were Sinn Féin members and are linked to Sinn Féin.",
       "citations": [
+        { "title": "Civil Authorities (Special Powers) Act (Northern Ireland) regulations, 7 March 1967 (SR&O NI 1967 No. 42)", "url": "https://www.legislation.gov.uk/nisro/1967/42" },
         { "title": "The United Irishman, April 1967, p. 1", "url": "https://archive.org/details/irda-united-irishman-april-1967" },
-        { "title": "The United Irishman, September 1968", "url": "https://archive.org/details/irda-united-irishman-september-1968" },
-        { "title": "'Republican Clubs The Workers' Party' (Omagh branch), September 1979", "url": "https://archive.org/details/september-7b90ee7db0" },
-        { "title": "An Phoblacht/Republican News, 14 January 1982", "url": "https://archive.org/details/irda-aprn-1982-01-14" }
+        { "title": "HL Deb 15 May 1973 vol 342 cc740-2 (regulations of 11 April 1973)", "url": "https://api.parliament.uk/historic-hansard/lords/1973/may/15/civil-authorities-special-power" }
       ]
     },
     {
@@ -172,6 +119,203 @@
       "citations": [
         { "title": "The Republican Leader, 15 August 1923, p. 1", "url": "https://archive.org/details/irda-1917-1923-the-republican-leader-15-august-1923" },
         { "title": "Sinn Féin, 22 September 1923, p. 1", "url": "https://archive.org/details/irda-1917-1923-sinn-fein-22-september-1923" }
+      ]
+    },
+    {
+      "party": "workers-party",
+      "kind": "founded",
+      "date": "1970-01-11",
+      "precision": "day",
+      "text": "Founded as the majority (Official, Gardiner Place) side of the January 1970 Sinn Féin split, known as Official Sinn Féin; its Northern Ireland section kept the name Republican Clubs.",
+      "basis": "Day from standard references; month confirmed by the cited sources.",
+      "related": [{ "party": "sinn-fein", "relation": "split from" }],
+      "citations": [
+        { "title": "The 1970 Sinn Féin Ard Fheis: an analysis (booklet), p. 13", "url": "https://archive.org/details/irda-booklet-the-1970-sinn-fein-ard-fheis-an-analysis" },
+        { "title": "CAIN, Abstracts on Organisations 'W': Workers Party", "url": "https://cain.ulster.ac.uk/othelem/organ/worgan.htm" }
+      ]
+    },
+    {
+      "party": "workers-party",
+      "kind": "note",
+      "date": "1971-08",
+      "precision": "month",
+      "text": "Registered to contest Dáil and local elections in the Republic under the name Sinn Féin, the name on its candidates' ballots until February 1977.",
+      "citations": [
+        { "title": "The Irish Times, 4 August 1971, p. 11: Sinn Fein can now contest elections", "url": "https://www.irishtimes.com/newspaper/archive/1971/0804/Pg011.html#Ar01106" },
+        { "title": "Walker, Parliamentary Election Results in Ireland 1918-92, p. 100 (abbreviations: SFWP changed from Sinn Féin on 21 Feb. 1977)" }
+      ]
+    },
+    {
+      "party": "workers-party",
+      "kind": "renamed",
+      "date": "1977-01",
+      "precision": "month",
+      "text": "Renamed Sinn Féin The Workers' Party at the Ard Fheis in the Mansion House, Dublin, 21-23 January 1977. The registered name changed on 21 February 1977, so Sinn Féin The Workers' Party was on the ballot at the June 1977 Dáil election.",
+      "citations": [
+        { "title": "The United Irishman, November 1976 (Ard Fheis notice)", "url": "https://archive.org/details/the-united-irishman-november-1976-f47f50fb31" },
+        { "title": "The United Irishman, May 1977 (Ard Chomhairle of Sinn Féin The Workers' Party, 16 April 1977)", "url": "https://archive.org/details/may-c9c3291e1e" },
+        { "title": "Walker, Parliamentary Election Results in Ireland 1918-92, p. 100" }
+      ]
+    },
+    {
+      "party": "workers-party",
+      "kind": "note",
+      "date": "1979",
+      "precision": "year",
+      "text": "The Northern Ireland section was styled Republican Clubs The Workers' Party by 1979: Walker prints RCWP for its two candidates at the June 1979 European election, though Rep Clubs at the May 1979 and August 1981 Westminster elections; ARK labels its 1981 council candidates WPRC.",
+      "citations": [
+        { "title": "'Republican Clubs The Workers' Party' (Omagh branch), September 1979", "url": "https://archive.org/details/september-7b90ee7db0" },
+        { "title": "Walker, Parliamentary Election Results in Ireland 1918-92, pp. 32-33, 280, 282" },
+        { "title": "ARK, The 1981 Local Government Elections", "url": "https://www.ark.ac.uk/elections/flg81.htm" }
+      ]
+    },
+    {
+      "party": "workers-party",
+      "kind": "renamed",
+      "date": "1982-04-25",
+      "precision": "day",
+      "text": "Sinn Féin The Workers' Party changed its name to the Workers' Party on 25 April 1982, North and South. The registered name changed on 30 September 1982, so the May 1982 Dublin West by-election ballot still read Sinn Féin The Workers' Party.",
+      "citations": [
+        { "title": "CAIN chronology 1982, Sunday 25 April 1982 (PRONI records, April 1982)", "url": "https://cain.ulster.ac.uk/othelem/chron/ch82.htm" },
+        { "title": "Walker, Parliamentary Election Results in Ireland 1918-92, p. 100 (WP changed from SFWP on 30 Sept. 1982)" },
+        { "title": "Richard Sinnott, Irish Voters Decide (Manchester UP, 1995), p. 59" }
+      ]
+    },
+    {
+      "party": "workers-party",
+      "kind": "split",
+      "date": "1992-02-22",
+      "precision": "day",
+      "text": "After a special Ard Fheis at Dún Laoghaire on 15 February 1992 failed to reconstitute the party, six of its seven TDs, led by Proinsias De Rossa, left it on 22 February 1992 and formed New Agenda, renamed Democratic Left at its founding conference on 28 March 1992. Democratic Left is a separate party.",
+      "related": [{ "party": "democratic-left", "relation": "split into" }],
+      "citations": [
+        { "title": "Democratic Left (Ireland)", "url": "https://en.wikipedia.org/wiki/Democratic_Left_(Ireland)" },
+        { "title": "CAIN, Abstracts on Organisations 'W'", "url": "https://cain.ulster.ac.uk/othelem/organ/worgan.htm" }
+      ]
+    },
+    {
+      "party": "democratic-left",
+      "kind": "founded",
+      "date": "1992-03-28",
+      "precision": "day",
+      "text": "Founded by the TDs and members who left the Workers' Party in February 1992; known as New Agenda until its founding conference of 28 March 1992. It stood as New Agenda at the April 1992 Westminster election in Northern Ireland.",
+      "related": [{ "party": "workers-party", "relation": "split from" }],
+      "citations": [
+        { "title": "Democratic Left (Ireland)", "url": "https://en.wikipedia.org/wiki/Democratic_Left_(Ireland)" },
+        { "title": "An Phoblacht/Republican News, 16 April 1992 (Seamus Lynch as New Agenda)", "url": "https://archive.org/details/an-phoblacht-republican-news-16-april-1992-0f63a3e2d6" }
+      ]
+    },
+    {
+      "party": "sinn-fein",
+      "kind": "note",
+      "date": "1950",
+      "precision": "year",
+      "text": "In 1950 Hugh McAteer stood in Londonderry for Sinn Féin as a Republican (Jimmy Steele stood in Belfast West as Sinn Féin); in 1964 and 1966, with Sinn Féin proscribed in Northern Ireland, all its Westminster candidates stood as Republicans. Walker prints R and ARK counts them as Republican.",
+      "citations": [
+        { "title": "ARK, The 1964 Westminster Elections in Northern Ireland", "url": "https://www.ark.ac.uk/elections/fw64.htm" },
+        { "title": "Sinn Féin Westminster election results", "url": "https://en.wikipedia.org/wiki/Sinn_F%C3%A9in_Westminster_election_results" },
+        { "title": "Walker, Parliamentary Election Results in Ireland 1918-92, pp. 22, 25-27" }
+      ]
+    },
+    {
+      "party": "sinn-fein",
+      "kind": "note",
+      "date": "1982-02-18",
+      "precision": "day",
+      "text": "Sinn Féin's first Dáil candidates since the split: seven at the February 1982 general election, none elected, 16,894 first preferences. Unregistered, they appeared on the ballot as Non-Party or with no description.",
+      "citations": [
+        { "title": "An Phoblacht/Republican News, 25 February 1982, p. 6", "url": "https://archive.org/details/irda-aprn-1982-02-25" },
+        { "title": "Dáil Éireann, Election Results and Transfer of Votes, February 1982" }
+      ]
+    },
+    {
+      "party": "anti-h-block",
+      "kind": "note",
+      "date": "1981-04-09",
+      "precision": "day",
+      "text": "The banner of the National H-Block/Armagh Committee's candidates during the 1981 hunger strike: Bobby Sands (elected 9 April 1981, as Anti-H-Block/Armagh Political Prisoner), Owen Carron (20 August 1981, as Anti-H-Block/Proxy Political Prisoner) and nine prisoner candidates at the June 1981 Dáil election, two of them elected (Kieran Doherty, Paddy Agnew). Not a party.",
+      "citations": [
+        { "title": "Walker, Parliamentary Election Results in Ireland 1918-92, p. 33 and pp. 237-244" },
+        { "title": "An Phoblacht/Republican News, 20 June 1981, pp. 10-11", "url": "https://archive.org/details/irda-aprn-1981-06-20" }
+      ]
+    },
+    {
+      "party": "dup",
+      "kind": "founded",
+      "date": "1971-09-30",
+      "precision": "day",
+      "text": "Ian Paisley and Desmond Boal announced the new party on 30 September 1971.",
+      "citations": [
+        { "title": "CAIN chronology 1971, Thursday 30 September 1971", "url": "https://cain.ulster.ac.uk/othelem/chron/ch71.htm" },
+        { "title": "Elliott and Flackes, Northern Ireland: A Political Directory 1968-1999, p. 7" }
+      ]
+    },
+    {
+      "party": "dup",
+      "kind": "note",
+      "date": "1971-10-30",
+      "precision": "day",
+      "text": "The party's first meeting, at the Ulster Hall, Belfast, on 30 October 1971, the date it keeps as its anniversary.",
+      "citations": [
+        { "title": "Elliott and Flackes, Northern Ireland: A Political Directory 1968-1999, p. 7" },
+        { "title": "The Irish Times, 31 October 1996: Paisley marks anniversary with pledge to fight on", "url": "https://www.irishtimes.com/news/paisley-marks-anniversary-with-pledge-to-fight-on-1.101108" }
+      ]
+    },
+    {
+      "party": "vanguard-unionist-progressive-party",
+      "kind": "founded",
+      "date": "1973-03-30",
+      "precision": "day",
+      "text": "William Craig and other former Ulster Unionists formed the Vanguard Unionist Progressive Party on 30 March 1973, out of the Ulster Vanguard movement (9 February 1972).",
+      "citations": [
+        { "title": "CAIN chronology 1973, Friday 30 March 1973", "url": "https://cain.ulster.ac.uk/othelem/chron/ch73.htm" },
+        { "title": "CAIN, Abstracts on Organisations 'V'", "url": "https://cain.ulster.ac.uk/othelem/organ/vorgan.htm" }
+      ]
+    },
+    {
+      "party": "vanguard-unionist-progressive-party",
+      "kind": "note",
+      "date": "1977-11-26",
+      "precision": "day",
+      "text": "Craig announced that the party would cease to be a political party as from 25 February 1978.",
+      "citations": [
+        { "title": "CAIN chronology 1977, Saturday 26 November 1977", "url": "https://cain.ulster.ac.uk/othelem/chron/ch77.htm" },
+        { "title": "Elliott and Flackes, Northern Ireland: A Political Directory 1968-1999, p. 14" }
+      ]
+    },
+    {
+      "party": "vanguard-unionist-progressive-party",
+      "kind": "dissolved",
+      "date": "1978-02-25",
+      "precision": "day",
+      "text": "Dissolved as a political party; most members joined the Ulster Unionist Party and Vanguard reverted to a movement.",
+      "citations": [
+        { "title": "CAIN chronology 1978, Saturday 25 February 1978", "url": "https://cain.ulster.ac.uk/othelem/chron/ch78.htm" },
+        { "title": "CAIN, Abstracts on Organisations 'V'", "url": "https://cain.ulster.ac.uk/othelem/organ/vorgan.htm" }
+      ]
+    },
+    {
+      "party": "communist-party-of-ireland",
+      "kind": "founded",
+      "date": "1970-03-15",
+      "precision": "day",
+      "text": "Formed at a special congress in Belfast on 15 March 1970 by the merger of the Irish Workers' Party (the Republic) and the Communist Party of Northern Ireland, reuniting the communist party split in 1941. The first Communist Party of Ireland of that name dates from 1933.",
+      "basis": "Elliott and Flackes give 14 March 1970; the party's manifesto gives the congress date as 15 March.",
+      "citations": [
+        { "title": "For Unity and Socialism (manifesto, 1970), Irish Left Archive", "url": "https://www.leftarchive.ie/document/2115/" },
+        { "title": "Elliott and Flackes, Northern Ireland: A Political Directory 1968-1999, p. 4" }
+      ]
+    },
+    {
+      "party": "home-rule",
+      "kind": "note",
+      "date": "1880-05",
+      "precision": "month",
+      "text": "After the 1880 general election the Home Rule members elected Parnell their sessional chairman in place of William Shaw. Walker marks Parnell's supporters elected in 1880 HR (P), Parnellite; they were members of the one Home Rule party, not a separate league. The party was reorganised as the Irish Parliamentary Party in 1882.",
+      "basis": "The month (17 May 1880, by 23 votes to 18) is from standard references.",
+      "citations": [
+        { "title": "Walker, Parliamentary Election Results in Ireland 1801-1922, pp. 123-127 and p. xvi" },
+        { "title": "Home Rule League", "url": "https://en.wikipedia.org/wiki/Home_Rule_League" }
       ]
     }
   ]

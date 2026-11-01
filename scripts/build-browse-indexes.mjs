@@ -1397,6 +1397,25 @@ function buildParties(partyIds, electionDetails) {
     }
   }
 
+  // Party pages that are no longer built because their candidacies now carry another party's
+  // label (scripts/browse-party-label-folds.json, retiredSlugs: the Workers' Party merge of
+  // 2026-11-02, for one). The old address still opens the party, as a folded label's does.
+  const retired = readJson('scripts/browse-party-label-folds.json', { retiredSlugs: {} }).retiredSlugs || {};
+  const claimed = new Set([...byId.values()].flatMap((party) => party.previousSlugs || []));
+  for (const [targetSlug, group] of Object.entries(retired)) {
+    const target = byId.get(`party:${targetSlug}`);
+    if (!target) {
+      console.warn(`- parties: retiredSlugs target ${targetSlug} is not a party; skipped`);
+      continue;
+    }
+    for (const oldSlug of normalizeArray(group.slugs)) {
+      // A slug that is still a party of its own, or already another party's old address, stays so.
+      if (byId.has(`party:${oldSlug}`) || claimed.has(oldSlug)) continue;
+      target.previousSlugs = [...new Set([...(target.previousSlugs || []), oldSlug])];
+      claimed.add(oldSlug);
+    }
+  }
+
   const details = Object.fromEntries([...byId.values()].map((party) => [party.slug, {
     ...party,
     subtitle: compactJoin([party.shortName, formatYearRange(party.firstYear, party.lastYear), `${party.relatedElections.length} linked elections`]),
@@ -1794,6 +1813,9 @@ function buildPersons(electionDetails, partyRecords) {
           person.elections.push(compactObject({
             ...context,
             party,
+            // The label as the source printed it, where a source-checked fix records one that
+            // differs from the party (browse.js shows it beside the party).
+            partyAsPrinted: cleanText(candidate.partyAsPrinted || candidate.Party_As_Printed || '') || undefined,
             constituency,
             gender,
             dailAbbreviation: cleanText(candidate.dailAbbreviation || candidate.partyAbbreviation || candidate.Dail_Abbreviation || candidate.Party_Abbreviation || ''),
@@ -1884,6 +1906,11 @@ function buildPersons(electionDetails, partyRecords) {
     const qids = new Set();
     for (const id of [...ids].sort()) {
       const [system, value] = [id.slice(0, id.indexOf(':')), id.slice(id.indexOf(':') + 1)];
+      // A Wikidata item held directly (system "wikidata") is the person's item, linked once below.
+      if (system === 'wikidata') {
+        qids.add(value);
+        continue;
+      }
       const source = officialDoc.sources?.[system];
       if (source?.personUrl && !seen.has(id)) {
         seen.add(id);

@@ -218,6 +218,19 @@ export function partyFullName(value) {
 }
 
 /**
+ * The party label as the source printed it ("HR (P)", "Rep Clubs"), when it says something the
+ * party shown does not: not the party itself, its abbreviation or full name, or the ballot
+ * description already shown. Empty otherwise. Printed labels are shown as printed.
+ */
+export function partyAsPrintedLabel(candidate) {
+  const printed = String(candidate?.partyAsPrinted || '').trim();
+  const party = String(candidate?.party || '').trim();
+  if (!printed || printed === party || printed === String(candidate?.ballotDescription || '').trim()) return '';
+  if (party && (printed === partyAbbreviation(party) || printed === partyFullName(party))) return '';
+  return printed;
+}
+
+/**
  * HTML for a party name in a table cell: the abbreviation, with the full name on hover.
  * `escape` is the caller's HTML escaper.
  */
