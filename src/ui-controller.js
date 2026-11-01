@@ -7947,10 +7947,20 @@ class UIController {
 
             const detailId = this.cacheFeatureDetailEntry(mapConfig, feature, primaryName, feature.id || primaryName);
 
+            // Interface in Irish (language preview, assets/i18n/i18n.js): the feature's own Irish
+            // name leads when its data has one, and the English name follows it.
+            const irishField = window.civgraphI18n?.placeNameField?.(mapConfig) || null;
+            const irishName = irishField && typeof props[irishField] === 'string' ? props[irishField].trim() : '';
+            const showIrish = Boolean(irishName && irishName !== primaryName);
+            const shownName = showIrish ? irishName : primaryName;
+            const nameLang = showIrish ? ' lang="ga"' : '';
             if (mapConfig?.id) {
-                html += `<button type="button" class="feature-info__primary-name feature-info__primary-name-link" data-feature-detail-id="${this.escapeHtml(detailId)}">${this.escapeHtml(primaryName)}</button>`;
+                html += `<button type="button" class="feature-info__primary-name feature-info__primary-name-link" data-feature-detail-id="${this.escapeHtml(detailId)}"${nameLang}>${this.escapeHtml(shownName)}</button>`;
             } else {
-                html += `<div class="feature-info__primary-name">${this.escapeHtml(primaryName)}</div>`;
+                html += `<div class="feature-info__primary-name"${nameLang}>${this.escapeHtml(shownName)}</div>`;
+            }
+            if (showIrish) {
+                html += `<div class="feature-info__name-en"><span>English name</span>: <span lang="en" translate="no">${this.escapeHtml(primaryName)}</span></div>`;
             }
 
             if (feature.statistic) html += this._censusStatisticHtml(feature.statistic);

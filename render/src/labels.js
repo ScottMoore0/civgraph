@@ -58,8 +58,20 @@ export function buildLabelFontStack(labelStyle) {
     : ['Open Sans Regular', 'Arial Unicode MS Regular'];
 }
 
+/**
+ * The tile property holding the Irish name of this layer's features, when the interface is in
+ * Irish (assets/i18n/i18n.js, loaded only with the language preview on) and the layer's data
+ * carries one (assets/i18n/place-name-fields.json). Otherwise null, and labels are as before.
+ */
+export function irishNameProperty(layer) {
+  const i18n = typeof globalThis !== 'undefined' ? globalThis.civgraphI18n : null;
+  return i18n && typeof i18n.placeNameField === 'function' ? i18n.placeNameField(layer) : null;
+}
+
 export function getLabelProperties(layer) {
+  const irish = irishNameProperty(layer);
   return unique([
+    ...(irish ? [irish] : []),
     layer.labelCanonicalProperty || 'label_name',
     layer.labelProperty,
     ...(Array.isArray(layer.labelPropertyFallbacks) ? layer.labelPropertyFallbacks : [])

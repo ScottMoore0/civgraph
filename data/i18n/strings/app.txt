@@ -1,0 +1,557 @@
+# The map application: map pane, layer list, feature details, election pane, search, controls
+# (app/src/*, src/ui-controller.js, src/entity-detail-data.mjs, render/src/*).
+# Format: English ¦ Irish ¦ Ulster-Scots. ALL DRAFTS (data/i18n/README.md).
+# Electoral terms from téarma.ie: iarrthóir (candidate), cuóta (quota), toghthóirí (electorate),
+# vóta millte (spoilt vote), tofa gan iomaíocht (returned unopposed), corrthoghchán, olltoghchán.
+# "Turnout" has no téarma.ie entry in the electoral sense: "líon vótála" is used (REVIEW).
+
+% seats ¦ % suíochán ¦
+← Prev ¦ ← Roimhe ¦
+1st preferences ¦ 1ú roghanna ¦
+1st prefs ¦ 1ú roghanna ¦
+1st prefs % ¦ 1ú roghanna % ¦
+± seats ¦ ± suíocháin ¦
+± share ¦ ± sciar ¦
+± stood ¦ ± a sheas ¦
+± votes ¦ ± vótaí ¦
+Above threshold ¦ Os cionn na tairsí ¦
+Accept ¦ Glac leis ¦
+Add this feature to the map ¦ Cuir an ghné seo leis an léarscáil ¦
+Address search unavailable ¦ Níl cuardach seoltaí ar fáil ¦
+All election types available for this geography. A line is dotted across elections where the party has no comparable result. ¦ Gach cineál toghcháin atá ar fáil don tíreolaíocht seo. Bíonn líne poncaithe trasna na dtoghchán nach bhfuil toradh inchomparáide ag an bpáirtí iontu. ¦
+Apply ¦ Cuir i bhfeidhm ¦
+Area ¦ Achar ¦ Airt
+Areas ¦ Limistéir ¦
+Assembly ¦ Tionól ¦ Assemblie
+at the latest election ¦ ag an toghchán is déanaí ¦
+Attributes ¦ Tréithe ¦
+Back to Catalogue ¦ Ar ais chuig an gCatalóg ¦
+Back to Explore ¦ Ar ais chuig Taiscéal ¦
+Back to main catalogue ¦ Ar ais chuig an bpríomhchatalóg ¦
+Back to overall election results ¦ Ar ais chuig torthaí iomlána an toghcháin ¦
+Back to the catalogue ¦ Ar ais chuig an gcatalóg ¦
+Ballot paper description ¦ Cur síos ar an bpáipéar ballóide ¦
+Barony ¦ Barúntacht ¦
+Bars: each party's share of the vote ¦ Barraí: sciar gach páirtí den vóta ¦
+Book ¦ Leabhar ¦
+Book format ¦ Formáid leabhair ¦
+Books & Documents ¦ Leabhair agus Doiciméid ¦
+By Candidate ¦ De réir Iarrthóra ¦
+By Constituency ¦ De réir Toghcheantair ¦
+By Council ¦ De réir Comhairle ¦
+By Count ¦ De réir Comhairimh ¦
+By DEA ¦ De réir LTC ¦
+By Local Party ¦ De réir Páirtí Áitiúil ¦
+By Party ¦ De réir Páirtí ¦
+By-election triggered ¦ Corrthoghchán tionscanta ¦
+Cand. ¦ Iarr. ¦
+Candidate ¦ Iarrthóir ¦
+Candidate Information ¦ Eolas faoin Iarrthóir ¦
+Candidate votes ¦ Vótaí iarrthóirí ¦
+Candidates ¦ Iarrthóirí ¦
+Candidates elected ¦ Iarrthóirí tofa ¦
+Candidates stood ¦ Iarrthóirí a sheas ¦
+Candidates, with change ¦ Iarrthóirí, leis an athrú ¦
+Cands. ¦ Iarr. ¦
+Catalogue history ¦ Stair na catalóige ¦
+Catalogue: Elections ¦ Catalóg: Toghcháin ¦
+Categories ¦ Catagóirí ¦
+Category ¦ Catagóir ¦
+Census Data ¦ Sonraí Daonáirimh ¦
+Census Geographies ¦ Tíreolaíochtaí Daonáirimh ¦
+Change ¦ Athrú ¦
+Checking loaded boundaries... ¦ Ag seiceáil na dteorainneacha lódáilte... ¦
+Choose a map or an election from the catalogue to draw it here. ¦ Roghnaigh léarscáil nó toghchán ón gcatalóg chun é a tharraingt anseo. ¦
+Classes ¦ Aicmí ¦
+Clear Filter ¦ Glan an Scagaire ¦
+Click a rendered feature. ¦ Cliceáil ar ghné atá tarraingthe. ¦
+Close sources ¦ Dún na foinsí ¦
+Closed the election ¦ Dúnadh an toghchán ¦
+Communities ¦ Pobail ¦
+Constituencies ¦ Toghcheantair ¦
+Constituencies/DEAs ¦ Toghcheantair/LTCanna ¦
+Constituency ¦ Toghcheantar ¦
+Constituency / DEA ¦ Toghcheantar / LTC ¦
+Constituency/DEA ¦ Toghcheantar/LTC ¦
+Constituency count ¦ Líon toghcheantar ¦
+Constituency turnout ¦ Líon vótála sa toghcheantar ¦
+Contest ¦ Comórtas ¦
+Contested ¦ Iomaíocht ann ¦
+Contests ¦ Comórtais ¦
+Convention ¦ Coinbhinsiún ¦
+Copied ¦ Cóipeáladh ¦
+Copied! ¦ Cóipeáladh! ¦
+Copy feature ¦ Cóipeáil an ghné ¦
+Copy feature URL ¦ Cóipeáil URL na gné ¦
+Copy layer ¦ Cóipeáil an tsraith ¦
+Copy map URL ¦ Cóipeáil URL na léarscáile ¦
+Copy shareable URL ¦ Cóipeáil URL inroinnte ¦
+Copy URL ¦ Cóipeáil an URL ¦
+Council ¦ Comhairle ¦ Cooncil
+Council summary including Seat change and Turnout change ¦ Achoimre na comhairle, lena n-áirítear athrú suíochán agus athrú ar an líon vótála ¦
+Councils ¦ Comhairlí ¦ Cooncils
+Count event ¦ Teagmhas comhairimh ¦
+County ¦ Contae ¦
+Data - Census 2021: {topic} ¦ Sonraí - Daonáireamh 2021: {topic} ¦
+DEA share ¦ Sciar an LTC ¦
+DEAs ¦ LTCanna ¦
+Department for Communities ¦ An Roinn Pobal ¦ Depairtment fur Commonities
+Deselect All ¦ Díroghnaigh Gach Rud ¦
+Devolved ¦ Cineachta ¦
+Dismiss ¦ Ruaig ¦
+Dismiss this message ¦ Ruaig an teachtaireacht seo ¦
+District ¦ Ceantar ¦ Destrick
+District Electoral Area ¦ Toghlimistéar Ceantair ¦
+District Electoral Divisions/Wards ¦ Toghranna Ceantair/Bardaí ¦
+Download data file (FlatGeobuf) ¦ Íoslódáil an comhad sonraí (FlatGeobuf) ¦
+Download feature ¦ Íoslódáil an ghné ¦
+Download FGB ¦ Íoslódáil FGB ¦
+Download map ¦ Íoslódáil an léarscáil ¦
+Download Original ¦ Íoslódáil an Bunleagan ¦
+Downloads ¦ Íoslódálacha ¦
+Drag to reorder, or press the up or down arrow key ¦ Tarraing chun an t-ord a athrú, nó brúigh an eochair saighde suas nó síos ¦
+Drag to resize election results ¦ Tarraing chun méid thorthaí an toghcháin a athrú ¦
+Earlier feature ¦ Gné níos luaithe ¦
+Earlier layer ¦ Sraith níos luaithe ¦
+Elected ¦ Tofa ¦ Waled in
+Elected candidate ¦ Iarrthóir tofa ¦
+Elected unopposed ¦ Tofa gan iomaíocht ¦
+Elected, with change ¦ Tofa, leis an athrú ¦
+Election entity ¦ Aonán toghcháin ¦
+Election history ¦ Stair toghchán ¦
+Election results ¦ Torthaí toghcháin ¦
+Election results summary ¦ Achoimre ar thorthaí an toghcháin ¦
+Election seat circles ¦ Ciorcail suíochán an toghcháin ¦
+Election wins ¦ Buanna toghcháin ¦
+Elections and Government ¦ Toghcháin agus Rialtas ¦
+Elections: a person ¦ Toghcháin: duine ¦
+Electoral Commission ¦ An Coimisiún Toghcháin ¦
+Electoral Division ¦ Toghroinn ¦
+Electorate ¦ Toghthóirí ¦
+Elevation ¦ Airde ¦
+English name ¦ Ainm Béarla ¦
+Entry ¦ Iontráil ¦
+Error ¦ Earráid ¦
+Excluded ¦ Eisiata ¦
+Excluded transfer ¦ Aistriú eisiata ¦
+Failed ¦ Theip air ¦
+Failed to export feature as FGB ¦ Theip ar an ngné a easpórtáil mar FGB ¦
+Failed to load attributes ¦ Theip ar na tréithe a lódáil ¦
+Failed to load features. The build manifest may not be available. ¦ Theip ar na gnéithe a lódáil. B’fhéidir nach bhfuil an forógra tógála ar fáil. ¦
+Feature ¦ Gné ¦
+Feature Attributes ¦ Tréithe na Gné ¦
+Feature URL copied to clipboard ¦ Cóipeáladh URL na gné chuig an ngearrthaisce ¦
+Featured ¦ Roghnaithe ¦
+Featured Maps ¦ Léarscáileanna Roghnaithe ¦
+Features ¦ Gnéithe ¦
+Fill ¦ Líonadh ¦
+Final count ¦ Comhaireamh deiridh ¦ Final coont
+Final count status ¦ Stádas an chomhairimh dheiridh ¦
+Final count votes ¦ Vótaí an chomhairimh dheiridh ¦
+Final votes ¦ Vótaí deiridh ¦
+Final-round votes ¦ Vótaí an bhabhta dheiridh ¦
+Find it in Browse ¦ Faigh é in Brabhsáil ¦
+first past the post ¦ an chéad duine thar an gcuaille ¦
+First preference share ¦ Sciar na chéad rogha ¦
+First preference share, with change ¦ Sciar na chéad rogha, leis an athrú ¦
+First preference votes ¦ Vótaí na chéad rogha ¦
+First preference votes, with change ¦ Vótaí na chéad rogha, leis an athrú ¦
+First preferences, with change ¦ Céad roghanna, leis an athrú ¦
+First prefs ¦ Céad roghanna ¦
+Forum ¦ Fóram ¦
+Further layers ¦ Sraitheanna eile ¦
+General election ¦ Olltoghchán ¦
+Generals ¦ Olltoghcháin ¦
+Group ¦ Grúpa ¦
+Hidden ¦ I bhfolach ¦
+Hide detailed count values ¦ Folaigh luachanna mionsonraithe an chomhairimh ¦
+Hide feature ¦ Folaigh an ghné ¦
+Hide layer ¦ Folaigh an tsraith ¦
+Hide map ¦ Folaigh an léarscáil ¦
+Hide the election results to see more of the map ¦ Folaigh torthaí an toghcháin chun níos mó den léarscáil a fheiceáil ¦
+Include all election types ¦ Cuir gach cineál toghcháin san áireamh ¦
+Incumbent ¦ Sealbhóir ¦
+Incumbent party ¦ Páirtí an tsealbhóra ¦
+Independent ¦ Neamhspleách ¦
+Independent/Other ¦ Neamhspleách/Eile ¦
+Individuals ¦ Daoine aonair ¦
+Info ¦ Eolas ¦ Wittins
+Info focus ¦ Fócas ar an eolas ¦
+Info only ¦ Eolas amháin ¦
+Irish general elections ¦ Olltoghcháin na hÉireann ¦
+Irish presidential elections ¦ Toghcháin uachtaránachta na hÉireann ¦
+Islands ¦ Oileáin ¦
+Label Field ¦ Réimse Lipéid ¦
+Later feature ¦ Gné níos déanaí ¦
+Later layer ¦ Sraith níos déanaí ¦
+Latest leading party ¦ An páirtí chun tosaigh is déanaí ¦
+Layer ¦ Sraith ¦
+Layer sources ¦ Foinsí na sraithe ¦
+Leading candidate ¦ An t-iarrthóir chun tosaigh ¦
+Leading party ¦ An páirtí chun tosaigh ¦
+Leading party (votes) ¦ An páirtí chun tosaigh (vótaí) ¦
+Leading votes ¦ Vótaí chun tosaigh ¦
+Legend ¦ Eochair eolais ¦
+Linked elections ¦ Toghcháin nasctha ¦
+Load ¦ Lódáil ¦
+Load a converted layer that belongs to a time-series chain. ¦ Lódáil sraith tiontaithe atá mar chuid de shlabhra amshraithe. ¦
+Load a layer to inspect sources. ¦ Lódáil sraith chun na foinsí a scrúdú. ¦
+Load feature ¦ Lódáil an ghné ¦
+Load full map ¦ Lódáil an léarscáil iomlán ¦
+Load map ¦ Lódáil an léarscáil ¦
+Load Map ¦ Lódáil an Léarscáil ¦
+Loaded layers ¦ Sraitheanna lódáilte ¦
+Loading ¦ Á lódáil ¦
+Loading all features... This may take a moment. ¦ Gach gné á lódáil... D’fhéadfadh sé seo tamall beag a thógáil. ¦
+Loading attributes... ¦ Tréithe á lódáil... ¦
+Loading data... ¦ Sonraí á lódáil... ¦
+Loading election ¦ Toghchán á lódáil ¦
+Loading election results ¦ Torthaí an toghcháin á lódáil ¦
+Loading transfer animation... ¦ Beochan na n-aistrithe á lódáil... ¦
+Loading trend data... ¦ Sonraí treochta á lódáil... ¦
+Loading... ¦ Á lódáil... ¦
+Local ¦ Áitiúil ¦
+Local Authorities ¦ Údaráis Áitiúla ¦
+Local Government District ¦ Ceantar Rialtais Áitiúil ¦
+Local Government District / Council ¦ Ceantar Rialtais Áitiúil / Comhairle ¦
+Majority ¦ Tromlach ¦
+Majority share ¦ Sciar an tromlaigh ¦
+Map controls ¦ Rialuithe na léarscáile ¦
+Map display ¦ Taispeáint na léarscáile ¦
+Map feature ¦ Gné léarscáile ¦
+Map focus ¦ Fócas ar an léarscáil ¦
+Map legend ¦ Eochair eolais na léarscáile ¦
+Map only ¦ Léarscáil amháin ¦
+Maps in Class ¦ Léarscáileanna san Aicme ¦
+Markdown version may contain inaccuracies and errors. ¦ D’fhéadfadh míchruinnis agus earráidí a bheith sa leagan Markdown. ¦
+Matched ¦ Meaitseáilte ¦
+Max Elevation ¦ Airde Uasta ¦
+Mean Elevation ¦ Meánairde ¦
+MEPs ¦ FPEanna ¦
+Message ¦ Teachtaireacht ¦
+Min Elevation ¦ Airde Íosta ¦
+MLAs ¦ CTRanna ¦
+More actions ¦ Tuilleadh gníomhartha ¦
+More download formats ¦ Tuilleadh formáidí íoslódála ¦
+MP (Stormont) ¦ Feisire (Stormont) ¦
+MPs ¦ Feisirí ¦
+MPs (Stormont) ¦ Feisirí (Stormont) ¦
+Next → ¦ Ar aghaidh → ¦
+No % ¦ Níl % ¦
+No active layer sources match that filter. ¦ Níl foinse shraithe ghníomhach ar bith a fhreagraíonn don scagaire sin. ¦
+No additional properties ¦ Níl airíonna breise ann ¦
+No addresses found ¦ Níor aimsíodh seoltaí ¦
+No attributes found ¦ Níor aimsíodh tréithe ¦
+No authors found ¦ Níor aimsíodh údair ¦
+No candidate summary is available for this election. ¦ Níl achoimre iarrthóirí ar fáil don toghchán seo. ¦
+No candidate-level result table is available for this entry. ¦ Níl tábla torthaí ar leibhéal iarrthóirí ar fáil don iontráil seo. ¦
+No change in party control ¦ Níor athraigh smacht an pháirtí ¦
+No constituency referendum results are available. ¦ Níl torthaí reifrinn de réir toghcheantair ar fáil. ¦
+No council-level result data is available for this entry. ¦ Níl sonraí torthaí ar leibhéal comhairle ar fáil don iontráil seo. ¦
+No count-by-count data is available for this entry. ¦ Níl sonraí comhaireamh ar chomhaireamh ar fáil don iontráil seo. ¦
+No data file available ¦ Níl comhad sonraí ar fáil ¦
+No elections in this decade. ¦ Níl toghchán ar bith sna deich mbliana seo. ¦
+No features found ¦ Níor aimsíodh gnéithe ¦
+No loaded boundaries contain this location. Load some maps to see which areas include this address. ¦ Níl an suíomh seo in aon teorainn lódáilte. Lódáil léarscáileanna chun a fheiceáil cé na limistéir a chuimsíonn an seoladh seo. ¦
+No local-party summary is available for this election. ¦ Níl achoimre páirtithe áitiúla ar fáil don toghchán seo. ¦
+No maps found ¦ Níor aimsíodh léarscáileanna ¦
+No maps, features, or places found ¦ Níor aimsíodh léarscáileanna, gnéithe ná áiteanna ¦
+No matching features ¦ Níl gnéithe comhoiriúnacha ann ¦
+No matching maps, elections, features, people, parties, or sources found. ¦ Níor aimsíodh léarscáileanna, toghcháin, gnéithe, daoine, páirtithe ná foinsí comhoiriúnacha. ¦
+No party-level result table is available for this entry. ¦ Níl tábla torthaí ar leibhéal páirtithe ar fáil don iontráil seo. ¦
+No referendum result data available. ¦ Níl sonraí torthaí reifrinn ar fáil. ¦
+No referendum result table is available for this constituency. ¦ Níl tábla torthaí reifrinn ar fáil don toghcheantar seo. ¦
+No result table is available for this entry. ¦ Níl tábla torthaí ar fáil don iontráil seo. ¦
+No results data available. ¦ Níl sonraí torthaí ar fáil. ¦
+No results found. ¦ Níor aimsíodh torthaí. ¦
+No source downloads are recorded for this map. ¦ Níl íoslódálacha foinse taifeadta don léarscáil seo. ¦
+No source metadata is available for this layer yet. ¦ Níl meiteashonraí foinse ar fáil don tsraith seo fós. ¦
+No source references are recorded for this map. ¦ Níl tagairtí foinse taifeadta don léarscáil seo. ¦
+No tile/package links are recorded for this map. ¦ Níl naisc tíleanna/pacáistí taifeadta don léarscáil seo. ¦
+No transfer animation data is available for this entry. ¦ Níl sonraí beochana aistrithe ar fáil don iontráil seo. ¦
+No trend data is available for this selection. ¦ Níl sonraí treochta ar fáil don rogha seo. ¦
+No vote ¦ Níl ¦
+Non-geographical constituency ¦ Toghcheantar neamhgheografach ¦
+Not elected ¦ Níor toghadh ¦
+Not Elected ¦ Níor Toghadh ¦
+Not triggered ¦ Níor tionscnaíodh ¦
+Nothing to show ¦ Níl aon rud le taispeáint ¦
+Nothing visited yet. ¦ Níor tugadh cuairt ar aon rud fós. ¦
+Of ¦ As ¦
+Official name ¦ Ainm oifigiúil ¦
+Official records ¦ Taifid oifigiúla ¦
+One dot per seat, in the colour of the party that won it ¦ Ponc amháin in aghaidh an tsuíocháin, i ndath an pháirtí a bhuaigh é ¦
+Opacity ¦ Teimhneacht ¦
+Open details ¦ Oscail na sonraí ¦
+Open election layer ¦ Oscail sraith an toghcháin ¦
+Open full record in Browse ¦ Oscail an taifead iomlán in Brabhsáil ¦
+Open the catalogue ¦ Oscail an chatalóg ¦
+Open this map's page ¦ Oscail leathanach na léarscáile seo ¦
+Opened the map ¦ Osclaíodh an léarscáil ¦
+Organisations ¦ Eagraíochtaí ¦
+Other maps ¦ Léarscáileanna eile ¦
+Outcome ¦ Toradh ¦
+Overlay ¦ Forleagan ¦
+Page ¦ Leathanach ¦
+Parish ¦ Paróiste ¦
+Parishes ¦ Paróistí ¦
+Parliament of NI ¦ Parlaimint TÉ ¦ Pairlament o NI
+Part area ¦ Achar na coda ¦
+Part perimeter ¦ Imlíne na coda ¦
+Parties shown ¦ Páirtithe a thaispeántar ¦
+Party ¦ Páirtí ¦
+Party / label ¦ Páirtí / lipéad ¦
+Party abbreviations ¦ Giorrúcháin páirtithe ¦
+Party Information ¦ Eolas faoin bPáirtí ¦
+Party share ¦ Sciar an pháirtí ¦
+Party vote share ¦ Sciar vótaí an pháirtí ¦
+Party vote share over time ¦ Sciar vótaí an pháirtí le himeacht ama ¦
+Party votes ¦ Vótaí an pháirtí ¦
+Pause / Replay ¦ Sos / Athsheinn ¦
+Pause territorial animation ¦ Cuir beochan na gcríoch ar sos ¦
+Perimeter ¦ Imlíne ¦
+Person ¦ Duine ¦
+Person ID ¦ Aitheantas duine ¦
+Petition not successful ¦ Níor éirigh leis an achainí ¦
+Petitions ¦ Achainíocha ¦
+Physical Geography ¦ Tíreolaíocht Fhisiceach ¦
+Place Names ¦ Logainmneacha ¦
+Point ¦ Pointe ¦
+Polygon ¦ Polagán ¦
+Preparing the map layer, result bundle, labels, and seat circles. ¦ Sraith na léarscáile, beart na dtorthaí, na lipéid agus ciorcail na suíochán á n-ullmhú. ¦
+President ¦ Uachtarán ¦
+Previously: ¦ Roimhe seo: ¦
+Proposal did not pass ¦ Níor glacadh leis an togra ¦
+Proposal passed ¦ Glacadh leis an togra ¦
+Provider ¦ Soláthraí ¦
+Province ¦ Cúige ¦
+Public Services ¦ Seirbhísí Poiblí ¦
+Publisher ¦ Foilsitheoir ¦
+Quota ¦ Cuóta ¦
+Rank ¦ Rangú ¦
+Recall petition overview ¦ Forbhreathnú ar an achainí athghairme ¦
+Record ¦ Taifead ¦
+Referendum Counting Areas ¦ Limistéir Chomhairimh Reifrinn ¦
+Remove ¦ Bain ¦
+Remove this feature from the map ¦ Bain an ghné seo den léarscáil ¦
+Replay territorial animation ¦ Athsheinn beochan na gcríoch ¦
+Reset north ¦ Athshocraigh an tuaisceart ¦
+Reset Sort ¦ Athshocraigh an tSórtáil ¦
+Resize election results pane ¦ Athraigh méid phána thorthaí an toghcháin ¦
+Result ¦ Toradh ¦
+Retry ¦ Atriail ¦
+Return to top ¦ Fill ar an mbarr ¦
+Rivers ¦ Aibhneacha ¦
+Run transfer animation ¦ Rith beochan na n-aistrithe ¦
+Scope ¦ Raon ¦
+Search values ¦ Cuardaigh luachanna ¦
+Search values... ¦ Cuardaigh luachanna... ¦
+Searching addresses... ¦ Ag cuardach seoltaí... ¦
+Searching... ¦ Ag cuardach... ¦
+Seanad ¦ Seanad ¦
+Seat change ¦ Athrú suíochán ¦
+Seat circles ¦ Ciorcail suíochán ¦
+Seats ¦ Suíocháin ¦
+Seats won ¦ Suíocháin a buadh ¦
+Seats, with change ¦ Suíocháin, leis an athrú ¦
+Secondary maps ¦ Léarscáileanna tánaisteacha ¦
+Select All ¦ Roghnaigh Gach Rud ¦
+Selected location ¦ An suíomh roghnaithe ¦
+Settlement ¦ Lonnaíocht ¦
+Share ¦ Comhroinn ¦
+Share change ¦ Athrú sciar ¦
+Show changes since the previous election ¦ Taispeáin na hathruithe ón toghchán roimhe ¦
+Show detailed count values ¦ Taispeáin luachanna mionsonraithe an chomhairimh ¦
+Show feature ¦ Taispeáin an ghné ¦
+Show fewer maps ¦ Taispeáin níos lú léarscáileanna ¦
+Show layer ¦ Taispeáin an tsraith ¦
+Show map ¦ Taispeáin an léarscáil ¦
+Show maps marked to-be-added or incomplete ¦ Taispeáin léarscáileanna atá marcáilte le cur leis nó neamhiomlán ¦
+Show maps to be added ¦ Taispeáin léarscáileanna le cur leis ¦
+Show more ¦ Taispeáin tuilleadh ¦
+Show More ¦ Taispeáin Tuilleadh ¦
+Show more decimal places ¦ Taispeáin níos mó ionad deachúlach ¦
+Show only ¦ Taispeáin amháin ¦
+Show the election results ¦ Taispeáin torthaí an toghcháin ¦
+Show to be added ¦ Taispeáin iad sin le cur leis ¦
+Signed ¦ Sínithe ¦
+Small Area ¦ Ceantar Beag ¦
+Sort A to Z ¦ Sórtáil A go Z ¦
+Sort and filter ¦ Sórtáil agus scag ¦
+Sort Highest to Lowest ¦ Sórtáil ón Uasluach go dtí an tÍosluach ¦
+Sort Largest to Smallest ¦ Sórtáil ón Méid is Mó go dtí an Méid is Lú ¦
+Sort Lowest to Highest ¦ Sórtáil ón Íosluach go dtí an tUasluach ¦
+Sort Smallest to Largest ¦ Sórtáil ón Méid is Lú go dtí an Méid is Mó ¦
+Sort Z to A ¦ Sórtáil Z go A ¦
+Source ¦ Foinse ¦
+Source (ARK) ¦ Foinse (ARK) ¦
+Source context ¦ Comhthéacs na foinse ¦
+Source data downloads ¦ Íoslódálacha sonraí foinse ¦
+Source download ¦ Íoslódáil foinse ¦
+Source ID ¦ Aitheantas foinse ¦
+Split 50/50 ¦ Roinn 50/50 ¦
+Spoiled ¦ Millte ¦
+Stage ¦ Céim ¦
+Static candidate vote graphic ¦ Grafaic statach de vótaí iarrthóirí ¦
+Step through general elections only, skipping by-elections ¦ Téigh trí olltoghcháin amháin, ag fágáil corrthoghchán ar lár ¦
+Stood ¦ Sheas ¦
+Stood in ¦ Sheas i ¦
+Stood, with change ¦ Sheas, leis an athrú ¦
+Stroke ¦ Stríoc ¦
+Super Output Area ¦ Forlimistéar Aschuir ¦
+Super Output Areas ¦ Forlimistéir Aschuir ¦
+Surplus transfer ¦ Aistriú barrachais ¦
+Shortfall ¦ Easnamh ¦
+Shortfall/Surplus ¦ Easnamh/Barrachas ¦
+TDs ¦ Teachtaí Dála ¦
+Technical details ¦ Sonraí teicniúla ¦
+Technical fields ¦ Réimsí teicniúla ¦
+Territorial transition ¦ Aistriú críochach ¦
+The election animation engine is not available on this route. ¦ Níl inneall beochana an toghcháin ar fáil ar an mbealach seo. ¦
+The transfer animation could not be loaded. Reopen the constituency to try again. ¦ Níorbh fhéidir beochan na n-aistrithe a lódáil. Athoscail an toghcheantar chun triail eile a bhaint as. ¦
+There is no boundary map for this election yet, so its results are shown in the election pane without a map layer. ¦ Níl léarscáil teorann don toghchán seo fós, mar sin taispeántar a thorthaí i bpána an toghcháin gan sraith léarscáile. ¦
+These islands ¦ Na hoileáin seo ¦
+This location is within: ¦ Tá an suíomh seo laistigh de: ¦
+Threshold ¦ Tairseach ¦
+Tiles ¦ Tíleanna ¦
+Time series ¦ Amshraith ¦
+To Be Added ¦ Le Cur Leis ¦
+Toggle visibility ¦ Scoránaigh infheictheacht ¦
+Topography ¦ Topagrafaíocht ¦
+Total valid poll ¦ Iomlán na vótaí bailí ¦
+Townland ¦ Baile fearainn ¦
+Transfers ¦ Aistrithe ¦
+Transparency ¦ Trédhearcacht ¦
+Trend data could not be loaded. ¦ Níorbh fhéidir sonraí treochta a lódáil. ¦
+Triggered ¦ Tionscanta ¦
+Turnout ¦ Líon vótála ¦
+Turnout by constituency ¦ Líon vótála de réir toghcheantair ¦
+Turnout change ¦ Athrú ar an líon vótála ¦
+Turnout not available ¦ Níl an líon vótála ar fáil ¦
+Type ¦ Cineál ¦
+UK general elections in Northern Ireland ¦ Olltoghcháin na Ríochta Aontaithe i dTuaisceart Éireann ¦
+United Kingdom ¦ An Ríocht Aontaithe ¦
+Unknown ¦ Anaithnid ¦
+Unknown council ¦ Comhairle anaithnid ¦
+Unknown Layer ¦ Sraith Anaithnid ¦
+Unknown party ¦ Páirtí anaithnid ¦
+Unload ¦ Díluchtaigh ¦
+Unload feature ¦ Díluchtaigh an ghné ¦
+Unload map ¦ Díluchtaigh an léarscáil ¦
+Unload Map ¦ Díluchtaigh an Léarscáil ¦
+Unloading... ¦ Á díluchtú... ¦
+Unmatched ¦ Gan mheaitseáil ¦
+Unnamed feature ¦ Gné gan ainm ¦
+Unnamed Feature ¦ Gné gan Ainm ¦
+Unopposed ¦ Gan iomaíocht ¦
+URL copied to clipboard ¦ Cóipeáladh an URL chuig an ngearrthaisce ¦
+Valid ¦ Bailí ¦
+Valid poll ¦ Vótaí bailí ¦
+Valid, with change ¦ Bailí, leis an athrú ¦
+View ¦ Amharc ¦
+Vote bars ¦ Barraí vótaí ¦
+Vote change ¦ Athrú vótaí ¦
+Vote share ¦ Sciar vótaí ¦
+Votes ¦ Vótaí ¦
+Votes (1st pref.) ¦ Vótaí (1ú rogha) ¦
+Votes % ¦ Vótaí % ¦
+Votes, with party and candidate change ¦ Vótaí, le hathrú páirtithe agus iarrthóirí ¦
+Ward ¦ Barda ¦
+Wards & Electoral Divisions ¦ Bardaí agus Toghranna ¦
+Win ¦ Bua ¦
+Winner ¦ Buaiteoir ¦
+Winner/lead ¦ Buaiteoir/chun tosaigh ¦
+Winning party ¦ An páirtí a bhuaigh ¦
+Won ¦ Bhuaigh ¦
+Won / stood by body ¦ Bhuaigh / sheas de réir comhlachta ¦
+Year ¦ Bliain ¦ Yeir
+Yes % ¦ Tá % ¦
+you appear to be offline ¦ is cosúil go bhfuil tú as líne ¦
+Zoom controls ¦ Rialuithe zúmála ¦
+Zoom in ¦ Zúmáil isteach ¦
+Zoom out ¦ Zúmáil amach ¦
+Close panel ¦ Dún an painéal ¦
+Close settings ¦ Dún na socruithe ¦
+Map Settings ¦ Socruithe na Léarscáile ¦
+Base Map ¦ Bonnléarscáil ¦
+Basemap ¦ Bonnléarscáil ¦
+Show labels ¦ Taispeáin lipéid ¦
+Feature details ¦ Sonraí na gné ¦
+Feature Details ¦ Sonraí na Gné ¦
+Active layers ¦ Sraitheanna gníomhacha ¦
+Active Layers ¦ Sraitheanna Gníomhacha ¦
+No layers loaded ¦ Níl aon sraith lódáilte ¦
+Timeline ¦ Amlíne ¦
+Timeline controls ¦ Rialuithe na hamlíne ¦
+Play territorial animation ¦ Seinn beochan na gcríoch ¦
+Stop territorial animation ¦ Stop beochan na gcríoch ¦
+Territorial animation controls ¦ Rialuithe bheochan na gcríoch ¦
+Previous date ¦ An dáta roimhe ¦
+Next date ¦ An chéad dáta eile ¦
+Reset timeline ¦ Athshocraigh an amlíne ¦
+Play/Pause ¦ Seinn/Sos ¦
+Restart ¦ Atosaigh ¦
+Step ¦ Céim ¦
+Text Size ¦ Méid an Téacs ¦
+Increase text size ¦ Méadaigh méid an téacs ¦
+Decrease text size ¦ Laghdaigh méid an téacs ¦
+Outline Transparency ¦ Trédhearcacht na hImlíne ¦
+Fill Transparency ¦ Trédhearcacht an Líonta ¦
+Layer fill transparency ¦ Trédhearcacht líonta na sraithe ¦
+Layer outline transparency ¦ Trédhearcacht imlíne na sraithe ¦
+Overlay Layers ¦ Sraitheanna Forleagain ¦
+Resize panels ¦ Athraigh méid na bpainéal ¦
+Search maps, elections, addresses… ¦ Cuardaigh léarscáileanna, toghcháin, seoltaí… ¦
+Search maps, elections, people, places or addresses ¦ Cuardaigh léarscáileanna, toghcháin, daoine, áiteanna nó seoltaí ¦
+Clear search ¦ Glan an cuardach ¦
+Search maps, classes, books... ¦ Cuardaigh léarscáileanna, aicmí, leabhair... ¦
+Showing all maps ¦ Gach léarscáil á taispeáint ¦
+Map catalogue and information ¦ Catalóg léarscáileanna agus eolas ¦
+Interactive map ¦ Léarscáil idirghníomhach ¦
+Loaded Features ¦ Gnéithe Lódáilte ¦
+Hide ¦ Folaigh ¦
+Hide by-elections ¦ Folaigh corrthoghcháin ¦
+Reset to original layers ¦ Athshocraigh go dtí na bunsraitheanna ¦
+Available elections ¦ Toghcháin atá ar fáil ¦
+Search elections ¦ Cuardaigh toghcháin ¦
+Search elections... ¦ Cuardaigh toghcháin... ¦
+Seats: ¦ Suíocháin: ¦
+View: ¦ Amharc: ¦
+Census year ¦ Bliain an daonáirimh ¦
+Geography ¦ Tíreolaíocht ¦
+Topic ¦ Topaic ¦
+All geographies ¦ Gach tíreolaíocht ¦
+All topics ¦ Gach topaic ¦
+All years ¦ Gach bliain ¦
+Select a data type above to view. ¦ Roghnaigh cineál sonraí thuas le féachaint air. ¦
+Search table ¦ Cuardaigh an tábla ¦
+Search table... ¦ Cuardaigh an tábla... ¦
+Tables ¦ Táblaí ¦
+Table finder (NI) ¦ Aimsitheoir táblaí (TÉ) ¦
+Concept availability (NI) ¦ Infhaighteacht coincheap (TÉ) ¦
+Loading census model… ¦ Samhail an daonáirimh á lódáil… ¦
+Loading database structure... ¦ Struchtúr an bhunachair sonraí á lódáil... ¦
+Loading elections... ¦ Toghcháin á lódáil... ¦
+Census ¦ Daonáireamh ¦
+Census Explorer ¦ Taiscéalaí an Daonáirimh ¦
+ROI census (CSO) ¦ Daonáireamh PÉ (PDS) ¦
+Yes ¦ Tá ¦
+No ¦ Níl ¦
+Explore ¦ Taiscéal ¦
+Refresh ¦ Athnuaigh ¦
+Performance ¦ Feidhmíocht ¦
+Refresh performance status ¦ Athnuaigh stádas na feidhmíochta ¦
+Entity Details ¦ Sonraí an Aonáin ¦
+Search entities ¦ Cuardaigh aonáin ¦
+Back to List ¦ Ar ais chuig an Liosta ¦
+Filter by category ¦ Scag de réir catagóire ¦
+Filter by Jurisdiction ¦ Scag de réir Dlínse ¦
+Filter by provider category ¦ Scag de réir catagóir soláthraí ¦
+All Bodies ¦ Gach Comhlacht ¦
+All Features ¦ Gach Gné ¦
+Breadcrumb ¦ Conair nascleanúna ¦
+On this page ¦ Ar an leathanach seo ¦
+Graph ¦ Graf ¦
+Mean elevation ¦ Meánairde ¦
+Max elevation ¦ Airde uasta ¦
+Min elevation ¦ Airde íosta ¦
