@@ -90,7 +90,8 @@
     "leadingParty",
     "voteShare",
     "majority",
-    "seats"
+    "seats",
+    "quota"
   ],
   "partySummary": [
     {
@@ -1496,11 +1497,21 @@
       "excluded": false,
       "excludedAt": null,
       "resolvedCount": 1,
-      "countDisplay": "1/1",
+      "countDisplay": "1/3",
       "status": "Elected",
       "counts": {
         "1": {
           "total": 1662,
+          "transfers": 0,
+          "status": "Elected"
+        },
+        "2": {
+          "total": 1048,
+          "transfers": -614,
+          "status": "Elected"
+        },
+        "3": {
+          "total": 1048,
           "transfers": 0,
           "status": "Elected"
         }
@@ -1641,10 +1652,20 @@
       "excluded": false,
       "excludedAt": null,
       "resolvedCount": 1,
-      "countDisplay": "1/1",
+      "countDisplay": "1/3",
       "status": "Elected",
       "counts": {
         "1": {
+          "total": 1073,
+          "transfers": 0,
+          "status": "Elected"
+        },
+        "2": {
+          "total": 1073,
+          "transfers": 0,
+          "status": "Elected"
+        },
+        "3": {
           "total": 1073,
           "transfers": 0,
           "status": "Elected"
@@ -1664,18 +1685,28 @@
       "votes": 955,
       "constPct": 18.235631086499904,
       "firstPrefPct": 18.235631086499904,
-      "finalVotes": 955,
+      "finalVotes": 1057,
       "elected": true,
-      "electedAt": 1,
+      "electedAt": 3,
       "excluded": false,
       "excludedAt": null,
-      "resolvedCount": 1,
-      "countDisplay": "1/1",
+      "resolvedCount": 3,
+      "countDisplay": "3/3",
       "status": "Elected",
       "counts": {
         "1": {
           "total": 955,
           "transfers": 0,
+          "status": ""
+        },
+        "2": {
+          "total": 1004,
+          "transfers": 49,
+          "status": ""
+        },
+        "3": {
+          "total": 1057,
+          "transfers": 53,
           "status": "Elected"
         }
       },
@@ -1925,19 +1956,29 @@
       "votes": 620,
       "constPct": 11.838839029978995,
       "firstPrefPct": 11.838839029978995,
-      "finalVotes": 620,
-      "elected": true,
-      "electedAt": 1,
+      "finalVotes": 873,
+      "elected": false,
+      "electedAt": null,
       "excluded": false,
       "excludedAt": null,
-      "resolvedCount": 1,
-      "countDisplay": "1/1",
-      "status": "Elected",
+      "resolvedCount": 3,
+      "countDisplay": "3/3",
+      "status": "Not Elected",
       "counts": {
         "1": {
           "total": 620,
           "transfers": 0,
           "status": ""
+        },
+        "2": {
+          "total": 711,
+          "transfers": 91,
+          "status": ""
+        },
+        "3": {
+          "total": 873,
+          "transfers": 162,
+          "status": "Not Elected"
         }
       },
       "candidateKey": "e. b. wallace|uup",
@@ -1954,18 +1995,28 @@
       "votes": 588,
       "constPct": 11.22780217681879,
       "firstPrefPct": 11.22780217681879,
-      "finalVotes": 588,
-      "elected": false,
-      "electedAt": null,
+      "finalVotes": 1150,
+      "elected": true,
+      "electedAt": 3,
       "excluded": false,
       "excludedAt": null,
-      "resolvedCount": 1,
-      "countDisplay": "1/1",
-      "status": "Not Elected",
+      "resolvedCount": 3,
+      "countDisplay": "3/3",
+      "status": "Elected",
       "counts": {
         "1": {
           "total": 588,
           "transfers": 0,
+          "status": ""
+        },
+        "2": {
+          "total": 793,
+          "transfers": 205,
+          "status": ""
+        },
+        "3": {
+          "total": 1150,
+          "transfers": 357,
           "status": "Elected"
         }
       },
@@ -2012,19 +2063,29 @@
       "votes": 339,
       "constPct": 6.473171663165934,
       "firstPrefPct": 6.473171663165934,
-      "finalVotes": 339,
+      "finalVotes": 608,
       "elected": false,
       "electedAt": null,
-      "excluded": false,
-      "excludedAt": null,
-      "resolvedCount": 1,
-      "countDisplay": "1/1",
-      "status": "Not Elected",
+      "excluded": true,
+      "excludedAt": 3,
+      "resolvedCount": 3,
+      "countDisplay": "3/3",
+      "status": "Excluded",
       "counts": {
         "1": {
           "total": 339,
           "transfers": 0,
           "status": ""
+        },
+        "2": {
+          "total": 608,
+          "transfers": 269,
+          "status": "Excluded"
+        },
+        "3": {
+          "total": 0,
+          "transfers": -608,
+          "status": "Excluded"
         }
       },
       "candidateKey": "howard stevenson|uup",
@@ -2650,7 +2711,7 @@
         "name": "UUP",
         "colour": "#48A5EE",
         "firstPrefs": 237501,
-        "finalVotes": 237501,
+        "finalVotes": 238585,
         "stood": 46,
         "elected": 37,
         "constituencies": [
@@ -2984,15 +3045,15 @@
             "name": "E. B. Wallace",
             "constituency": "Queen's University of Belfast",
             "firstPref": 620,
-            "finalVotes": 620,
-            "status": ""
+            "finalVotes": 873,
+            "status": "Not Elected"
           },
           {
             "id": "William Lyle|UUP",
             "name": "William Lyle",
             "constituency": "Queen's University of Belfast",
             "firstPref": 588,
-            "finalVotes": 588,
+            "finalVotes": 1150,
             "status": "Elected"
           },
           {
@@ -3000,8 +3061,8 @@
             "name": "Howard Stevenson",
             "constituency": "Queen's University of Belfast",
             "firstPref": 339,
-            "finalVotes": 339,
-            "status": ""
+            "finalVotes": 608,
+            "status": "Excluded"
           },
           {
             "id": "John Milne Barbour|UUP",
@@ -3280,7 +3341,7 @@
         "name": "Independent",
         "colour": "#DCDCDC",
         "firstPrefs": 2028,
-        "finalVotes": 2028,
+        "finalVotes": 2130,
         "stood": 2,
         "elected": 2,
         "constituencies": [
@@ -3300,7 +3361,7 @@
             "name": "Irene Calvert",
             "constituency": "Queen's University of Belfast",
             "firstPref": 955,
-            "finalVotes": 955,
+            "finalVotes": 1057,
             "status": "Elected"
           }
         ],
@@ -4162,7 +4223,7 @@
         "party": "Independent",
         "colour": "#DCDCDC",
         "firstPrefs": 955,
-        "finalVotes": 955,
+        "finalVotes": 1057,
         "electedCount": 1,
         "constituencies": [
           "Queen's University of Belfast"
@@ -4171,7 +4232,7 @@
           {
             "constituency": "Queen's University of Belfast",
             "firstPref": 955,
-            "finalVotes": 955,
+            "finalVotes": 1057,
             "status": "Elected"
           }
         ],
@@ -4184,7 +4245,7 @@
         "party": "UUP",
         "colour": "#48A5EE",
         "firstPrefs": 588,
-        "finalVotes": 588,
+        "finalVotes": 1150,
         "electedCount": 1,
         "constituencies": [
           "Queen's University of Belfast"
@@ -4193,7 +4254,7 @@
           {
             "constituency": "Queen's University of Belfast",
             "firstPref": 588,
-            "finalVotes": 588,
+            "finalVotes": 1150,
             "status": "Elected"
           }
         ],
@@ -5269,7 +5330,7 @@
         "party": "UUP",
         "colour": "#48A5EE",
         "firstPrefs": 620,
-        "finalVotes": 620,
+        "finalVotes": 873,
         "electedCount": 0,
         "constituencies": [
           "Queen's University of Belfast"
@@ -5278,8 +5339,8 @@
           {
             "constituency": "Queen's University of Belfast",
             "firstPref": 620,
-            "finalVotes": 620,
-            "status": ""
+            "finalVotes": 873,
+            "status": "Not Elected"
           }
         ],
         "shareOfTotal": 0.16378372095480626
@@ -5291,7 +5352,7 @@
         "party": "UUP",
         "colour": "#48A5EE",
         "firstPrefs": 339,
-        "finalVotes": 339,
+        "finalVotes": 608,
         "electedCount": 0,
         "constituencies": [
           "Queen's University of Belfast"
@@ -5300,8 +5361,8 @@
           {
             "constituency": "Queen's University of Belfast",
             "firstPref": 339,
-            "finalVotes": 339,
-            "status": ""
+            "finalVotes": 608,
+            "status": "Excluded"
           }
         ],
         "shareOfTotal": 0.08955271194141827
@@ -14112,7 +14173,7 @@
       "majorityPct": 11.25,
       "seatsWon": 4,
       "seatsTotal": 4,
-      "quota": null,
+      "quota": 1048,
       "electorate": 6984,
       "totalPoll": null,
       "spoiled": null,
@@ -14145,6 +14206,20 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 1662
+            },
+            {
+              "count": 2,
+              "total": 1048,
+              "transfers": -614,
+              "status": "Elected",
+              "firstPrefs": 1662
+            },
+            {
+              "count": 3,
+              "total": 1048,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 1662
             }
           ],
           "personId": 105739,
@@ -14174,6 +14249,20 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 1073
+            },
+            {
+              "count": 2,
+              "total": 1073,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 1073
+            },
+            {
+              "count": 3,
+              "total": 1073,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 1073
             }
           ],
           "personId": 104278,
@@ -14184,9 +14273,9 @@
           "name": "Irene Calvert",
           "party": "Independent",
           "firstPrefs": 955,
-          "finalVotes": 955,
+          "finalVotes": 1057,
           "elected": true,
-          "electedAt": 1,
+          "electedAt": 3,
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
@@ -14201,6 +14290,20 @@
               "count": 1,
               "total": 955,
               "transfers": 0,
+              "status": "",
+              "firstPrefs": 955
+            },
+            {
+              "count": 2,
+              "total": 1004,
+              "transfers": 49,
+              "status": "",
+              "firstPrefs": 955
+            },
+            {
+              "count": 3,
+              "total": 1057,
+              "transfers": 53,
               "status": "Elected",
               "firstPrefs": 955
             }
@@ -14213,13 +14316,13 @@
           "name": "E. B. Wallace",
           "party": "UUP",
           "firstPrefs": 620,
-          "finalVotes": 620,
+          "finalVotes": 873,
           "elected": false,
           "electedAt": null,
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "",
+          "status": "Not Elected",
           "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
@@ -14232,6 +14335,20 @@
               "transfers": 0,
               "status": "",
               "firstPrefs": 620
+            },
+            {
+              "count": 2,
+              "total": 711,
+              "transfers": 91,
+              "status": "",
+              "firstPrefs": 620
+            },
+            {
+              "count": 3,
+              "total": 873,
+              "transfers": 162,
+              "status": "Not Elected",
+              "firstPrefs": 620
             }
           ],
           "personId": 104536,
@@ -14242,9 +14359,9 @@
           "name": "William Lyle",
           "party": "UUP",
           "firstPrefs": 588,
-          "finalVotes": 588,
+          "finalVotes": 1150,
           "elected": true,
-          "electedAt": 1,
+          "electedAt": 3,
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
@@ -14259,6 +14376,20 @@
               "count": 1,
               "total": 588,
               "transfers": 0,
+              "status": "",
+              "firstPrefs": 588
+            },
+            {
+              "count": 2,
+              "total": 793,
+              "transfers": 205,
+              "status": "",
+              "firstPrefs": 588
+            },
+            {
+              "count": 3,
+              "total": 1150,
+              "transfers": 357,
               "status": "Elected",
               "firstPrefs": 588
             }
@@ -14271,13 +14402,13 @@
           "name": "Howard Stevenson",
           "party": "UUP",
           "firstPrefs": 339,
-          "finalVotes": 339,
+          "finalVotes": 608,
           "elected": false,
           "electedAt": null,
           "autoReturnedCeannComhairle": false,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "",
+          "excluded": true,
+          "excludedAt": 2,
+          "status": "Excluded",
           "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
@@ -14289,6 +14420,20 @@
               "total": 339,
               "transfers": 0,
               "status": "",
+              "firstPrefs": 339
+            },
+            {
+              "count": 2,
+              "total": 608,
+              "transfers": 269,
+              "status": "Excluded",
+              "firstPrefs": 339
+            },
+            {
+              "count": 3,
+              "total": 0,
+              "transfers": -608,
+              "status": "Excluded",
               "firstPrefs": 339
             }
           ],
@@ -14321,6 +14466,20 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 1662
+            },
+            {
+              "count": 2,
+              "total": 1048,
+              "transfers": -614,
+              "status": "Elected",
+              "firstPrefs": 1662
+            },
+            {
+              "count": 3,
+              "total": 1048,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 1662
             }
           ]
         },
@@ -14348,33 +14507,20 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 1073
-            }
-          ]
-        },
-        {
-          "id": "14318978",
-          "name": "Irene Calvert",
-          "party": "Independent",
-          "firstPrefs": 955,
-          "finalVotes": 955,
-          "elected": true,
-          "electedAt": 1,
-          "autoReturnedCeannComhairle": false,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Elected",
-          "colour": "#DCDCDC",
-          "gender": "",
-          "dailAbbreviation": "",
-          "officialCandidateId": "",
-          "officialStatus": "",
-          "counts": [
+            },
             {
-              "count": 1,
-              "total": 955,
+              "count": 2,
+              "total": 1073,
               "transfers": 0,
               "status": "Elected",
-              "firstPrefs": 955
+              "firstPrefs": 1073
+            },
+            {
+              "count": 3,
+              "total": 1073,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 1073
             }
           ]
         },
@@ -14383,9 +14529,9 @@
           "name": "William Lyle",
           "party": "UUP",
           "firstPrefs": 588,
-          "finalVotes": 588,
+          "finalVotes": 1150,
           "elected": true,
-          "electedAt": 1,
+          "electedAt": 3,
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
@@ -14400,8 +14546,63 @@
               "count": 1,
               "total": 588,
               "transfers": 0,
+              "status": "",
+              "firstPrefs": 588
+            },
+            {
+              "count": 2,
+              "total": 793,
+              "transfers": 205,
+              "status": "",
+              "firstPrefs": 588
+            },
+            {
+              "count": 3,
+              "total": 1150,
+              "transfers": 357,
               "status": "Elected",
               "firstPrefs": 588
+            }
+          ]
+        },
+        {
+          "id": "14318978",
+          "name": "Irene Calvert",
+          "party": "Independent",
+          "firstPrefs": 955,
+          "finalVotes": 1057,
+          "elected": true,
+          "electedAt": 3,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#DCDCDC",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "counts": [
+            {
+              "count": 1,
+              "total": 955,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 955
+            },
+            {
+              "count": 2,
+              "total": 1004,
+              "transfers": 49,
+              "status": "",
+              "firstPrefs": 955
+            },
+            {
+              "count": 3,
+              "total": 1057,
+              "transfers": 53,
+              "status": "Elected",
+              "firstPrefs": 955
             }
           ]
         }
@@ -14410,6 +14611,7 @@
         "Constituency_Name": "Queen's University of Belfast",
         "Constituency_Number": "",
         "Number_Of_Seats": "4",
+        "Quota": "1048",
         "Spoiled": "",
         "Total_Electorate": "6984",
         "Total_Poll": "",
@@ -14417,12 +14619,60 @@
       },
       "countGroup": [
         {
+          "Candidate_First_Pref_Votes": "1662.00",
+          "Candidate_Id": "5635154",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Samuel",
+          "Occurred_On_Count": "1",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Irwin",
+          "Total_Votes": "1662.00",
+          "Transfers": "0.00",
+          "candidateName": "Samuel Irwin",
+          "id": 0
+        },
+        {
+          "Candidate_First_Pref_Votes": "1662.00",
+          "Candidate_Id": "5635154",
+          "Constituency_Number": "",
+          "Count_Number": "2",
+          "Firstname": "Samuel",
+          "Occurred_On_Count": "1",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Irwin",
+          "Total_Votes": "1048.00",
+          "Transfers": "-614.00",
+          "candidateName": "Samuel Irwin",
+          "id": 1
+        },
+        {
+          "Candidate_First_Pref_Votes": "1662.00",
+          "Candidate_Id": "5635154",
+          "Constituency_Number": "",
+          "Count_Number": "3",
+          "Firstname": "Samuel",
+          "Occurred_On_Count": "1",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Irwin",
+          "Total_Votes": "1048.00",
+          "Transfers": "0.00",
+          "candidateName": "Samuel Irwin",
+          "id": 2
+        },
+        {
           "Candidate_First_Pref_Votes": "1073.00",
           "Candidate_Id": "1410984",
           "Constituency_Number": "",
           "Count_Number": "1",
           "Firstname": "Eileen M.",
-          "Occurred_On_Count": "",
+          "Occurred_On_Count": "1",
           "Party_Colour": "#DCDCDC",
           "Party_Name": "Independent",
           "Status": "Elected",
@@ -14430,7 +14680,39 @@
           "Total_Votes": "1073.00",
           "Transfers": "0.00",
           "candidateName": "Eileen M. Hickey",
-          "id": 0
+          "id": 3
+        },
+        {
+          "Candidate_First_Pref_Votes": "1073.00",
+          "Candidate_Id": "1410984",
+          "Constituency_Number": "",
+          "Count_Number": "2",
+          "Firstname": "Eileen M.",
+          "Occurred_On_Count": "1",
+          "Party_Colour": "#DCDCDC",
+          "Party_Name": "Independent",
+          "Status": "Elected",
+          "Surname": "Hickey",
+          "Total_Votes": "1073.00",
+          "Transfers": "0.00",
+          "candidateName": "Eileen M. Hickey",
+          "id": 4
+        },
+        {
+          "Candidate_First_Pref_Votes": "1073.00",
+          "Candidate_Id": "1410984",
+          "Constituency_Number": "",
+          "Count_Number": "3",
+          "Firstname": "Eileen M.",
+          "Occurred_On_Count": "1",
+          "Party_Colour": "#DCDCDC",
+          "Party_Name": "Independent",
+          "Status": "Elected",
+          "Surname": "Hickey",
+          "Total_Votes": "1073.00",
+          "Transfers": "0.00",
+          "candidateName": "Eileen M. Hickey",
+          "id": 5
         },
         {
           "Candidate_First_Pref_Votes": "955.00",
@@ -14438,15 +14720,47 @@
           "Constituency_Number": "",
           "Count_Number": "1",
           "Firstname": "Irene",
-          "Occurred_On_Count": "",
+          "Occurred_On_Count": "3",
           "Party_Colour": "#DCDCDC",
           "Party_Name": "Independent",
-          "Status": "Elected",
+          "Status": "",
           "Surname": "Calvert",
           "Total_Votes": "955.00",
           "Transfers": "0.00",
           "candidateName": "Irene Calvert",
-          "id": 1
+          "id": 6
+        },
+        {
+          "Candidate_First_Pref_Votes": "955.00",
+          "Candidate_Id": "14318978",
+          "Constituency_Number": "",
+          "Count_Number": "2",
+          "Firstname": "Irene",
+          "Occurred_On_Count": "3",
+          "Party_Colour": "#DCDCDC",
+          "Party_Name": "Independent",
+          "Status": "",
+          "Surname": "Calvert",
+          "Total_Votes": "1004.00",
+          "Transfers": "49.00",
+          "candidateName": "Irene Calvert",
+          "id": 7
+        },
+        {
+          "Candidate_First_Pref_Votes": "955.00",
+          "Candidate_Id": "14318978",
+          "Constituency_Number": "",
+          "Count_Number": "3",
+          "Firstname": "Irene",
+          "Occurred_On_Count": "3",
+          "Party_Colour": "#DCDCDC",
+          "Party_Name": "Independent",
+          "Status": "Elected",
+          "Surname": "Calvert",
+          "Total_Votes": "1057.00",
+          "Transfers": "53.00",
+          "candidateName": "Irene Calvert",
+          "id": 8
         },
         {
           "Candidate_First_Pref_Votes": "620.00",
@@ -14462,7 +14776,39 @@
           "Total_Votes": "620.00",
           "Transfers": "0.00",
           "candidateName": "E. B. Wallace",
-          "id": 2
+          "id": 9
+        },
+        {
+          "Candidate_First_Pref_Votes": "620.00",
+          "Candidate_Id": "3800928",
+          "Constituency_Number": "",
+          "Count_Number": "2",
+          "Firstname": "E. B.",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "",
+          "Surname": "Wallace",
+          "Total_Votes": "711.00",
+          "Transfers": "91.00",
+          "candidateName": "E. B. Wallace",
+          "id": 10
+        },
+        {
+          "Candidate_First_Pref_Votes": "620.00",
+          "Candidate_Id": "3800928",
+          "Constituency_Number": "",
+          "Count_Number": "3",
+          "Firstname": "E. B.",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Not Elected",
+          "Surname": "Wallace",
+          "Total_Votes": "873.00",
+          "Transfers": "162.00",
+          "candidateName": "E. B. Wallace",
+          "id": 11
         },
         {
           "Candidate_First_Pref_Votes": "588.00",
@@ -14470,15 +14816,47 @@
           "Constituency_Number": "",
           "Count_Number": "1",
           "Firstname": "William",
-          "Occurred_On_Count": "",
+          "Occurred_On_Count": "3",
           "Party_Colour": "#48A5EE",
           "Party_Name": "UUP",
-          "Status": "Elected",
+          "Status": "",
           "Surname": "Lyle",
           "Total_Votes": "588.00",
           "Transfers": "0.00",
           "candidateName": "William Lyle",
-          "id": 3
+          "id": 12
+        },
+        {
+          "Candidate_First_Pref_Votes": "588.00",
+          "Candidate_Id": "4896773",
+          "Constituency_Number": "",
+          "Count_Number": "2",
+          "Firstname": "William",
+          "Occurred_On_Count": "3",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "",
+          "Surname": "Lyle",
+          "Total_Votes": "793.00",
+          "Transfers": "205.00",
+          "candidateName": "William Lyle",
+          "id": 13
+        },
+        {
+          "Candidate_First_Pref_Votes": "588.00",
+          "Candidate_Id": "4896773",
+          "Constituency_Number": "",
+          "Count_Number": "3",
+          "Firstname": "William",
+          "Occurred_On_Count": "3",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Lyle",
+          "Total_Votes": "1150.00",
+          "Transfers": "357.00",
+          "candidateName": "William Lyle",
+          "id": 14
         },
         {
           "Candidate_First_Pref_Votes": "339.00",
@@ -14486,7 +14864,7 @@
           "Constituency_Number": "",
           "Count_Number": "1",
           "Firstname": "Howard",
-          "Occurred_On_Count": "",
+          "Occurred_On_Count": "2",
           "Party_Colour": "#48A5EE",
           "Party_Name": "UUP",
           "Status": "",
@@ -14494,38 +14872,102 @@
           "Total_Votes": "339.00",
           "Transfers": "0.00",
           "candidateName": "Howard Stevenson",
-          "id": 4
+          "id": 15
         },
         {
+          "Candidate_First_Pref_Votes": "339.00",
+          "Candidate_Id": "8479564",
           "Constituency_Number": "",
-          "Candidate_Id": "5635154",
-          "Count_Number": "1",
-          "Firstname": "Samuel",
-          "Surname": "Irwin",
-          "Candidate_First_Pref_Votes": "1662.00",
-          "Transfers": "0.00",
-          "Total_Votes": "1662.00",
-          "Status": "Elected",
-          "Occurred_On_Count": "1",
-          "Party_Name": "UUP",
+          "Count_Number": "2",
+          "Firstname": "Howard",
+          "Occurred_On_Count": "2",
           "Party_Colour": "#48A5EE",
-          "candidateName": "Samuel Irwin",
-          "id": 5
+          "Party_Name": "UUP",
+          "Status": "Excluded",
+          "Surname": "Stevenson",
+          "Total_Votes": "608.00",
+          "Transfers": "269.00",
+          "candidateName": "Howard Stevenson",
+          "id": 16
+        },
+        {
+          "Candidate_First_Pref_Votes": "339.00",
+          "Candidate_Id": "8479564",
+          "Constituency_Number": "",
+          "Count_Number": "3",
+          "Firstname": "Howard",
+          "Occurred_On_Count": "2",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Excluded",
+          "Surname": "Stevenson",
+          "Total_Votes": "0.00",
+          "Transfers": "-608.00",
+          "candidateName": "Howard Stevenson",
+          "id": 17
+        },
+        {
+          "Candidate_First_Pref_Votes": "",
+          "Candidate_Id": "",
+          "Constituency_Number": "",
+          "Count_Number": "2",
+          "Firstname": "",
+          "Occurred_On_Count": "",
+          "Party_Colour": "",
+          "Party_Name": "",
+          "Status": "",
+          "Surname": "",
+          "Total_Votes": "0.00",
+          "Transfers": "0.00",
+          "candidateName": "Non-transferable",
+          "id": 18
+        },
+        {
+          "Candidate_First_Pref_Votes": "",
+          "Candidate_Id": "",
+          "Constituency_Number": "",
+          "Count_Number": "3",
+          "Firstname": "",
+          "Occurred_On_Count": "",
+          "Party_Colour": "",
+          "Party_Name": "",
+          "Status": "",
+          "Surname": "",
+          "Total_Votes": "36.00",
+          "Transfers": "36.00",
+          "candidateName": "Non-transferable",
+          "id": 19
         }
       ],
       "syntheticCountGroup": false,
-      "nonTransferable": [],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 0,
+          "transfers": 0,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 36,
+          "transfers": 36,
+          "status": ""
+        }
+      ],
       "forum": null,
       "countNumbers": [
-        1
+        1,
+        2,
+        3
       ],
-      "hasCountDetail": false,
+      "hasCountDetail": true,
       "animationPayload": {
         "Constituency": {
           "countInfo": {
             "Constituency_Name": "Queen's University of Belfast",
             "Constituency_Number": "",
             "Number_Of_Seats": "4",
+            "Quota": "1048",
             "Spoiled": "",
             "Total_Electorate": "6984",
             "Total_Poll": "",
@@ -14533,12 +14975,60 @@
           },
           "countGroup": [
             {
+              "Candidate_First_Pref_Votes": "1662.00",
+              "Candidate_Id": "5635154",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Samuel",
+              "Occurred_On_Count": "1",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Irwin",
+              "Total_Votes": "1662.00",
+              "Transfers": "0.00",
+              "candidateName": "Samuel Irwin",
+              "id": 0
+            },
+            {
+              "Candidate_First_Pref_Votes": "1662.00",
+              "Candidate_Id": "5635154",
+              "Constituency_Number": "",
+              "Count_Number": "2",
+              "Firstname": "Samuel",
+              "Occurred_On_Count": "1",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Irwin",
+              "Total_Votes": "1048.00",
+              "Transfers": "-614.00",
+              "candidateName": "Samuel Irwin",
+              "id": 1
+            },
+            {
+              "Candidate_First_Pref_Votes": "1662.00",
+              "Candidate_Id": "5635154",
+              "Constituency_Number": "",
+              "Count_Number": "3",
+              "Firstname": "Samuel",
+              "Occurred_On_Count": "1",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Irwin",
+              "Total_Votes": "1048.00",
+              "Transfers": "0.00",
+              "candidateName": "Samuel Irwin",
+              "id": 2
+            },
+            {
               "Candidate_First_Pref_Votes": "1073.00",
               "Candidate_Id": "1410984",
               "Constituency_Number": "",
               "Count_Number": "1",
               "Firstname": "Eileen M.",
-              "Occurred_On_Count": "",
+              "Occurred_On_Count": "1",
               "Party_Colour": "#DCDCDC",
               "Party_Name": "Independent",
               "Status": "Elected",
@@ -14546,7 +15036,39 @@
               "Total_Votes": "1073.00",
               "Transfers": "0.00",
               "candidateName": "Eileen M. Hickey",
-              "id": 0
+              "id": 3
+            },
+            {
+              "Candidate_First_Pref_Votes": "1073.00",
+              "Candidate_Id": "1410984",
+              "Constituency_Number": "",
+              "Count_Number": "2",
+              "Firstname": "Eileen M.",
+              "Occurred_On_Count": "1",
+              "Party_Colour": "#DCDCDC",
+              "Party_Name": "Independent",
+              "Status": "Elected",
+              "Surname": "Hickey",
+              "Total_Votes": "1073.00",
+              "Transfers": "0.00",
+              "candidateName": "Eileen M. Hickey",
+              "id": 4
+            },
+            {
+              "Candidate_First_Pref_Votes": "1073.00",
+              "Candidate_Id": "1410984",
+              "Constituency_Number": "",
+              "Count_Number": "3",
+              "Firstname": "Eileen M.",
+              "Occurred_On_Count": "1",
+              "Party_Colour": "#DCDCDC",
+              "Party_Name": "Independent",
+              "Status": "Elected",
+              "Surname": "Hickey",
+              "Total_Votes": "1073.00",
+              "Transfers": "0.00",
+              "candidateName": "Eileen M. Hickey",
+              "id": 5
             },
             {
               "Candidate_First_Pref_Votes": "955.00",
@@ -14554,15 +15076,47 @@
               "Constituency_Number": "",
               "Count_Number": "1",
               "Firstname": "Irene",
-              "Occurred_On_Count": "",
+              "Occurred_On_Count": "3",
               "Party_Colour": "#DCDCDC",
               "Party_Name": "Independent",
-              "Status": "Elected",
+              "Status": "",
               "Surname": "Calvert",
               "Total_Votes": "955.00",
               "Transfers": "0.00",
               "candidateName": "Irene Calvert",
-              "id": 1
+              "id": 6
+            },
+            {
+              "Candidate_First_Pref_Votes": "955.00",
+              "Candidate_Id": "14318978",
+              "Constituency_Number": "",
+              "Count_Number": "2",
+              "Firstname": "Irene",
+              "Occurred_On_Count": "3",
+              "Party_Colour": "#DCDCDC",
+              "Party_Name": "Independent",
+              "Status": "",
+              "Surname": "Calvert",
+              "Total_Votes": "1004.00",
+              "Transfers": "49.00",
+              "candidateName": "Irene Calvert",
+              "id": 7
+            },
+            {
+              "Candidate_First_Pref_Votes": "955.00",
+              "Candidate_Id": "14318978",
+              "Constituency_Number": "",
+              "Count_Number": "3",
+              "Firstname": "Irene",
+              "Occurred_On_Count": "3",
+              "Party_Colour": "#DCDCDC",
+              "Party_Name": "Independent",
+              "Status": "Elected",
+              "Surname": "Calvert",
+              "Total_Votes": "1057.00",
+              "Transfers": "53.00",
+              "candidateName": "Irene Calvert",
+              "id": 8
             },
             {
               "Candidate_First_Pref_Votes": "620.00",
@@ -14578,7 +15132,39 @@
               "Total_Votes": "620.00",
               "Transfers": "0.00",
               "candidateName": "E. B. Wallace",
-              "id": 2
+              "id": 9
+            },
+            {
+              "Candidate_First_Pref_Votes": "620.00",
+              "Candidate_Id": "3800928",
+              "Constituency_Number": "",
+              "Count_Number": "2",
+              "Firstname": "E. B.",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "",
+              "Surname": "Wallace",
+              "Total_Votes": "711.00",
+              "Transfers": "91.00",
+              "candidateName": "E. B. Wallace",
+              "id": 10
+            },
+            {
+              "Candidate_First_Pref_Votes": "620.00",
+              "Candidate_Id": "3800928",
+              "Constituency_Number": "",
+              "Count_Number": "3",
+              "Firstname": "E. B.",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Not Elected",
+              "Surname": "Wallace",
+              "Total_Votes": "873.00",
+              "Transfers": "162.00",
+              "candidateName": "E. B. Wallace",
+              "id": 11
             },
             {
               "Candidate_First_Pref_Votes": "588.00",
@@ -14586,15 +15172,47 @@
               "Constituency_Number": "",
               "Count_Number": "1",
               "Firstname": "William",
-              "Occurred_On_Count": "",
+              "Occurred_On_Count": "3",
               "Party_Colour": "#48A5EE",
               "Party_Name": "UUP",
-              "Status": "Elected",
+              "Status": "",
               "Surname": "Lyle",
               "Total_Votes": "588.00",
               "Transfers": "0.00",
               "candidateName": "William Lyle",
-              "id": 3
+              "id": 12
+            },
+            {
+              "Candidate_First_Pref_Votes": "588.00",
+              "Candidate_Id": "4896773",
+              "Constituency_Number": "",
+              "Count_Number": "2",
+              "Firstname": "William",
+              "Occurred_On_Count": "3",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "",
+              "Surname": "Lyle",
+              "Total_Votes": "793.00",
+              "Transfers": "205.00",
+              "candidateName": "William Lyle",
+              "id": 13
+            },
+            {
+              "Candidate_First_Pref_Votes": "588.00",
+              "Candidate_Id": "4896773",
+              "Constituency_Number": "",
+              "Count_Number": "3",
+              "Firstname": "William",
+              "Occurred_On_Count": "3",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Lyle",
+              "Total_Votes": "1150.00",
+              "Transfers": "357.00",
+              "candidateName": "William Lyle",
+              "id": 14
             },
             {
               "Candidate_First_Pref_Votes": "339.00",
@@ -14602,7 +15220,7 @@
               "Constituency_Number": "",
               "Count_Number": "1",
               "Firstname": "Howard",
-              "Occurred_On_Count": "",
+              "Occurred_On_Count": "2",
               "Party_Colour": "#48A5EE",
               "Party_Name": "UUP",
               "Status": "",
@@ -14610,28 +15228,82 @@
               "Total_Votes": "339.00",
               "Transfers": "0.00",
               "candidateName": "Howard Stevenson",
-              "id": 4
+              "id": 15
             },
             {
+              "Candidate_First_Pref_Votes": "339.00",
+              "Candidate_Id": "8479564",
               "Constituency_Number": "",
-              "Candidate_Id": "5635154",
-              "Count_Number": "1",
-              "Firstname": "Samuel",
-              "Surname": "Irwin",
-              "Candidate_First_Pref_Votes": "1662.00",
-              "Transfers": "0.00",
-              "Total_Votes": "1662.00",
-              "Status": "Elected",
-              "Occurred_On_Count": "1",
-              "Party_Name": "UUP",
+              "Count_Number": "2",
+              "Firstname": "Howard",
+              "Occurred_On_Count": "2",
               "Party_Colour": "#48A5EE",
-              "candidateName": "Samuel Irwin",
-              "id": 5
+              "Party_Name": "UUP",
+              "Status": "Excluded",
+              "Surname": "Stevenson",
+              "Total_Votes": "608.00",
+              "Transfers": "269.00",
+              "candidateName": "Howard Stevenson",
+              "id": 16
+            },
+            {
+              "Candidate_First_Pref_Votes": "339.00",
+              "Candidate_Id": "8479564",
+              "Constituency_Number": "",
+              "Count_Number": "3",
+              "Firstname": "Howard",
+              "Occurred_On_Count": "2",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Excluded",
+              "Surname": "Stevenson",
+              "Total_Votes": "0.00",
+              "Transfers": "-608.00",
+              "candidateName": "Howard Stevenson",
+              "id": 17
+            },
+            {
+              "Candidate_First_Pref_Votes": "",
+              "Candidate_Id": "",
+              "Constituency_Number": "",
+              "Count_Number": "2",
+              "Firstname": "",
+              "Occurred_On_Count": "",
+              "Party_Colour": "",
+              "Party_Name": "",
+              "Status": "",
+              "Surname": "",
+              "Total_Votes": "0.00",
+              "Transfers": "0.00",
+              "candidateName": "Non-transferable",
+              "id": 18
+            },
+            {
+              "Candidate_First_Pref_Votes": "",
+              "Candidate_Id": "",
+              "Constituency_Number": "",
+              "Count_Number": "3",
+              "Firstname": "",
+              "Occurred_On_Count": "",
+              "Party_Colour": "",
+              "Party_Name": "",
+              "Status": "",
+              "Surname": "",
+              "Total_Votes": "36.00",
+              "Transfers": "36.00",
+              "candidateName": "Non-transferable",
+              "id": 19
             }
           ]
         },
-        "electorateSource": "Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973); the same figure in David Boothroyd, Northern Ireland House of Commons Election Results",
-        "correctionNote": "Samuel Irwin (UUP, 1,662 first preferences, elected on the first count) was missing, so E. B. Wallace showed as elected; the members elected were Irwin, Eileen Hickey, Irene Calvert and William Lyle. Valid poll 5,237. Elliott and the Wikipedia constituency article agree. (Political Reference Publications; Wikipedia, Sydney Elliott (ed.), Northern Ireland Parliamentary Election Results 1921-1972 (Chichester: Political Reference Publications, 1973), Queen's University results; checked against Wikipedia, Queen's University of Belfast (Northern Ireland Parliament constituency))"
+        "source": {
+          "title": "Sydney Elliott (ed.), Northern Ireland Parliamentary Election Results 1921-1972 (Chichester: Political Reference Publications, 1973), Queen's University of Belfast 1949, count by count as transcribed by David Boothroyd, Northern Ireland House of Commons Election Results (qub.html; Internet Archive copy), the Stormont results source ARK Northern Ireland Elections (www.ark.ac.uk/elections/hnihoc.htm) links to; members returned checked against the Belfast Gazette, issue 1445, 4 March 1949, p. 48",
+          "publisher": "Political Reference Publications; David Boothroyd; Belfast Gazette",
+          "kind": "academic",
+          "check": "every count transcribed from Boothroyd's table (count 2: Irwin's Surplus; count 3: Stevenson's Votes); at every count the candidates' totals and the non-transferable papers add to the valid poll, each total is the previous total plus the transfer, and the members elected are those the Gazette lists"
+        },
+        "source_url": "https://web.archive.org/web/20200116210218/http://www.election.demon.co.uk/stormont/qub.html",
+        "electorateSource": "Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973); the same figure in David Boothroyd, Northern Ireland House of Commons Election Results"
       },
       "constituencyId": null,
       "constituencyNumber": null,
@@ -14640,10 +15312,6 @@
         {
           "label": "Electorate",
           "text": "6,984: Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973); the same figure in David Boothroyd, Northern Ireland House of Commons Election Results"
-        },
-        {
-          "label": "Corrected",
-          "text": "Samuel Irwin (UUP, 1,662 first preferences, elected on the first count) was missing, so E. B. Wallace showed as elected; the members elected were Irwin, Eileen Hickey, Irene Calvert and William Lyle. Valid poll 5,237. Elliott and the Wikipedia constituency article agree. (Political Reference Publications; Wikipedia, Sydney Elliott (ed.), Northern Ireland Parliamentary Election Results 1921-1972 (Chichester: Political Reference Publications, 1973), Queen's University results; checked against Wikipedia, Queen's University of Belfast (Northern Ireland Parliament constituency))"
         }
       ],
       "contestType": "election",

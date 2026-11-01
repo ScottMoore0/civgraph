@@ -1,19 +1,19 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-01T11:53:07.562Z",
+  "generatedAt": "2026-11-01T12:41:22.413Z",
   "description": "Headline site figures, computed once from their sources so no page hard-codes them. See scripts/build-site-stats.mjs for what each one counts.",
   "stats": {
     "publicMaps": 847,
-    "electionContests": 12062,
-    "candidacies": 61259,
-    "people": 27236,
+    "electionContests": 12063,
+    "candidacies": 61266,
+    "people": 27237,
     "scannedBooks": 67,
-    "cataloguedSources": 38321,
-    "elections": 1370,
+    "cataloguedSources": 38322,
+    "elections": 1371,
     "catalogueEntries": 1104,
     "renderedLayers": 1250,
     "proniRecords": 1538177,
-    "graphEntities": 245496
+    "graphEntities": 256766
   },
   "labels": {
     "publicMaps": "public maps",
@@ -30,7 +30,7 @@
   },
   "provenance": {
     "publicMaps": "render/metadata/maps-test.json :: publicMapCount (stamped by build-render-time-series-chains.mjs)",
-    "electionContests": "render/metadata/elections-test2/*.json :: count of results[] across 1370 elections",
+    "electionContests": "render/metadata/elections-test2/*.json :: count of results[] across 1371 elections",
     "candidacies": "render/metadata/elections-test2/*.json :: total results[].candidates[] entries",
     "people": "data/browse/persons.json :: total",
     "scannedBooks": "data/database/books.json :: books[]",

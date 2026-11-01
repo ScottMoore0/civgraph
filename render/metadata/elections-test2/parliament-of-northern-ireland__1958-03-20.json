@@ -90,7 +90,8 @@
     "leadingParty",
     "voteShare",
     "majority",
-    "seats"
+    "seats",
+    "quota"
   ],
   "partySummary": [
     {
@@ -201,7 +202,7 @@
   "mainLikePartySummary": [
     {
       "party": "UUP",
-      "seats": 36,
+      "seats": 37,
       "stood": 46,
       "votes": 106177,
       "colour": "#48A5EE",
@@ -256,14 +257,6 @@
       "share": 1.7519596192148272
     },
     {
-      "party": "Ulster Liberal",
-      "seats": 1,
-      "stood": 1,
-      "votes": 759,
-      "colour": "#DAA520",
-      "share": 0.31428441290098175
-    },
-    {
       "party": "Independent Unionist",
       "seats": 0,
       "stood": 5,
@@ -302,6 +295,14 @@
       "votes": 2761,
       "colour": "#A0A0A0",
       "share": 1.1432664875093685
+    },
+    {
+      "party": "Ulster Liberal",
+      "seats": 0,
+      "stood": 1,
+      "votes": 759,
+      "colour": "#DAA520",
+      "share": 0.31428441290098175
     }
   ],
   "mainLikeTotals": {
@@ -1518,11 +1519,26 @@
       "excluded": false,
       "excludedAt": null,
       "resolvedCount": 1,
-      "countDisplay": "1/1",
+      "countDisplay": "1/4",
       "status": "Elected",
       "counts": {
         "1": {
           "total": 1640,
+          "transfers": 0,
+          "status": "Elected"
+        },
+        "2": {
+          "total": 1160,
+          "transfers": -480,
+          "status": "Elected"
+        },
+        "3": {
+          "total": 1160,
+          "transfers": 0,
+          "status": "Elected"
+        },
+        "4": {
+          "total": 1160,
           "transfers": 0,
           "status": "Elected"
         }
@@ -1605,10 +1621,25 @@
       "excluded": false,
       "excludedAt": null,
       "resolvedCount": 1,
-      "countDisplay": "1/1",
+      "countDisplay": "1/4",
       "status": "Elected",
       "counts": {
         "1": {
+          "total": 1218,
+          "transfers": 0,
+          "status": "Elected"
+        },
+        "2": {
+          "total": 1218,
+          "transfers": 0,
+          "status": "Elected"
+        },
+        "3": {
+          "total": 1218,
+          "transfers": 0,
+          "status": "Elected"
+        },
+        "4": {
           "total": 1218,
           "transfers": 0,
           "status": "Elected"
@@ -1657,18 +1688,33 @@
       "votes": 1131,
       "constPct": 19.50336264873254,
       "firstPrefPct": 19.50336264873254,
-      "finalVotes": 1131,
+      "finalVotes": 1277,
       "elected": true,
-      "electedAt": 1,
+      "electedAt": 2,
       "excluded": false,
       "excludedAt": null,
-      "resolvedCount": 1,
-      "countDisplay": "1/1",
+      "resolvedCount": 2,
+      "countDisplay": "2/4",
       "status": "Elected",
       "counts": {
         "1": {
           "total": 1131,
           "transfers": 0,
+          "status": ""
+        },
+        "2": {
+          "total": 1277,
+          "transfers": 146,
+          "status": "Elected"
+        },
+        "3": {
+          "total": 1277,
+          "transfers": 0,
+          "status": "Elected"
+        },
+        "4": {
+          "total": 1160,
+          "transfers": -117,
           "status": "Elected"
         }
       },
@@ -1802,19 +1848,34 @@
       "votes": 759,
       "constPct": 13.088463528194517,
       "firstPrefPct": 13.088463528194517,
-      "finalVotes": 759,
-      "elected": true,
-      "electedAt": 1,
+      "finalVotes": 966,
+      "elected": false,
+      "electedAt": null,
       "excluded": false,
       "excludedAt": null,
-      "resolvedCount": 1,
-      "countDisplay": "1/1",
-      "status": "Elected",
+      "resolvedCount": 4,
+      "countDisplay": "4/4",
+      "status": "Not Elected",
       "counts": {
         "1": {
           "total": 759,
           "transfers": 0,
           "status": ""
+        },
+        "2": {
+          "total": 775,
+          "transfers": 16,
+          "status": ""
+        },
+        "3": {
+          "total": 958,
+          "transfers": 183,
+          "status": ""
+        },
+        "4": {
+          "total": 966,
+          "transfers": 8,
+          "status": "Not Elected"
         }
       },
       "candidateKey": "albert mcelroy|ulster liberal",
@@ -1831,18 +1892,33 @@
       "votes": 706,
       "constPct": 12.174512847042594,
       "firstPrefPct": 12.174512847042594,
-      "finalVotes": 706,
-      "elected": false,
-      "electedAt": null,
+      "finalVotes": 1188,
+      "elected": true,
+      "electedAt": 4,
       "excluded": false,
       "excludedAt": null,
-      "resolvedCount": 1,
-      "countDisplay": "1/1",
-      "status": "Not Elected",
+      "resolvedCount": 4,
+      "countDisplay": "4/4",
+      "status": "Elected",
       "counts": {
         "1": {
           "total": 706,
           "transfers": 0,
+          "status": ""
+        },
+        "2": {
+          "total": 1018,
+          "transfers": 312,
+          "status": ""
+        },
+        "3": {
+          "total": 1079,
+          "transfers": 61,
+          "status": ""
+        },
+        "4": {
+          "total": 1188,
+          "transfers": 109,
           "status": "Elected"
         }
       },
@@ -1860,19 +1936,29 @@
       "votes": 345,
       "constPct": 5.949301603724781,
       "firstPrefPct": 5.949301603724781,
-      "finalVotes": 345,
+      "finalVotes": 351,
       "elected": false,
       "electedAt": null,
-      "excluded": false,
-      "excludedAt": null,
-      "resolvedCount": 1,
-      "countDisplay": "1/1",
-      "status": "Not Elected",
+      "excluded": true,
+      "excludedAt": 3,
+      "resolvedCount": 3,
+      "countDisplay": "3/4",
+      "status": "Excluded",
       "counts": {
         "1": {
           "total": 345,
           "transfers": 0,
           "status": ""
+        },
+        "2": {
+          "total": 351,
+          "transfers": 6,
+          "status": "Excluded"
+        },
+        "3": {
+          "total": 0,
+          "transfers": -351,
+          "status": "Excluded"
         }
       },
       "candidateKey": "s. j. watt|ni labour",
@@ -2672,7 +2758,7 @@
         "name": "UUP",
         "colour": "#48A5EE",
         "firstPrefs": 106177,
-        "finalVotes": 106177,
+        "finalVotes": 106805,
         "stood": 46,
         "elected": 37,
         "constituencies": [
@@ -3031,7 +3117,7 @@
             "name": "Elizabeth Maconachie",
             "constituency": "Queen's University of Belfast",
             "firstPref": 1131,
-            "finalVotes": 1131,
+            "finalVotes": 1277,
             "status": "Elected"
           },
           {
@@ -3039,7 +3125,7 @@
             "name": "Frederick Lloyd-Dodd",
             "constituency": "Queen's University of Belfast",
             "firstPref": 706,
-            "finalVotes": 706,
+            "finalVotes": 1188,
             "status": "Elected"
           },
           {
@@ -3182,7 +3268,7 @@
         "name": "NI Labour",
         "colour": "#DC241F",
         "firstPrefs": 38093,
-        "finalVotes": 38093,
+        "finalVotes": 38099,
         "stood": 8,
         "elected": 4,
         "constituencies": [
@@ -3257,8 +3343,8 @@
             "name": "S. J. Watt",
             "constituency": "Queen's University of Belfast",
             "firstPref": 345,
-            "finalVotes": 345,
-            "status": ""
+            "finalVotes": 351,
+            "status": "Excluded"
           }
         ],
         "shareOfTotal": 15.77343365037826
@@ -3545,7 +3631,7 @@
         "name": "Ulster Liberal",
         "colour": "#DAA520",
         "firstPrefs": 759,
-        "finalVotes": 759,
+        "finalVotes": 966,
         "stood": 1,
         "elected": 0,
         "constituencies": [
@@ -3557,8 +3643,8 @@
             "name": "Albert McElroy",
             "constituency": "Queen's University of Belfast",
             "firstPref": 759,
-            "finalVotes": 759,
-            "status": ""
+            "finalVotes": 966,
+            "status": "Not Elected"
           }
         ],
         "shareOfTotal": 0.31428441290098175
@@ -4078,7 +4164,7 @@
         "party": "UUP",
         "colour": "#48A5EE",
         "firstPrefs": 1131,
-        "finalVotes": 1131,
+        "finalVotes": 1277,
         "electedCount": 1,
         "constituencies": [
           "Queen's University of Belfast"
@@ -4087,7 +4173,7 @@
           {
             "constituency": "Queen's University of Belfast",
             "firstPref": 1131,
-            "finalVotes": 1131,
+            "finalVotes": 1277,
             "status": "Elected"
           }
         ],
@@ -4100,7 +4186,7 @@
         "party": "UUP",
         "colour": "#48A5EE",
         "firstPrefs": 706,
-        "finalVotes": 706,
+        "finalVotes": 1188,
         "electedCount": 1,
         "constituencies": [
           "Queen's University of Belfast"
@@ -4109,7 +4195,7 @@
           {
             "constituency": "Queen's University of Belfast",
             "firstPref": 706,
-            "finalVotes": 706,
+            "finalVotes": 1188,
             "status": "Elected"
           }
         ],
@@ -5310,7 +5396,7 @@
         "party": "Ulster Liberal",
         "colour": "#DAA520",
         "firstPrefs": 759,
-        "finalVotes": 759,
+        "finalVotes": 966,
         "electedCount": 0,
         "constituencies": [
           "Queen's University of Belfast"
@@ -5319,8 +5405,8 @@
           {
             "constituency": "Queen's University of Belfast",
             "firstPref": 759,
-            "finalVotes": 759,
-            "status": ""
+            "finalVotes": 966,
+            "status": "Not Elected"
           }
         ],
         "shareOfTotal": 0.31428441290098175
@@ -5332,7 +5418,7 @@
         "party": "NI Labour",
         "colour": "#DC241F",
         "firstPrefs": 345,
-        "finalVotes": 345,
+        "finalVotes": 351,
         "electedCount": 0,
         "constituencies": [
           "Queen's University of Belfast"
@@ -5341,8 +5427,8 @@
           {
             "constituency": "Queen's University of Belfast",
             "firstPref": 345,
-            "finalVotes": 345,
-            "status": ""
+            "finalVotes": 351,
+            "status": "Excluded"
           }
         ],
         "shareOfTotal": 0.14285655131862807
@@ -14071,7 +14157,7 @@
       "majorityPct": 7.28,
       "seatsWon": 4,
       "seatsTotal": 4,
-      "quota": null,
+      "quota": 1160,
       "electorate": 10961,
       "totalPoll": null,
       "spoiled": null,
@@ -14104,6 +14190,27 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 1640
+            },
+            {
+              "count": 2,
+              "total": 1160,
+              "transfers": -480,
+              "status": "Elected",
+              "firstPrefs": 1640
+            },
+            {
+              "count": 3,
+              "total": 1160,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 1640
+            },
+            {
+              "count": 4,
+              "total": 1160,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 1640
             }
           ],
           "personId": 105739,
@@ -14133,6 +14240,27 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 1218
+            },
+            {
+              "count": 2,
+              "total": 1218,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 1218
+            },
+            {
+              "count": 3,
+              "total": 1218,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 1218
+            },
+            {
+              "count": 4,
+              "total": 1218,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 1218
             }
           ],
           "personId": 105142,
@@ -14143,9 +14271,9 @@
           "name": "Elizabeth Maconachie",
           "party": "UUP",
           "firstPrefs": 1131,
-          "finalVotes": 1131,
+          "finalVotes": 1277,
           "elected": true,
-          "electedAt": 1,
+          "electedAt": 2,
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
@@ -14160,6 +14288,27 @@
               "count": 1,
               "total": 1131,
               "transfers": 0,
+              "status": "",
+              "firstPrefs": 1131
+            },
+            {
+              "count": 2,
+              "total": 1277,
+              "transfers": 146,
+              "status": "Elected",
+              "firstPrefs": 1131
+            },
+            {
+              "count": 3,
+              "total": 1277,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 1131
+            },
+            {
+              "count": 4,
+              "total": 1160,
+              "transfers": -117,
               "status": "Elected",
               "firstPrefs": 1131
             }
@@ -14172,13 +14321,13 @@
           "name": "Albert McElroy",
           "party": "Ulster Liberal",
           "firstPrefs": 759,
-          "finalVotes": 759,
+          "finalVotes": 966,
           "elected": false,
           "electedAt": null,
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "",
+          "status": "Not Elected",
           "colour": "#DAA520",
           "gender": "",
           "dailAbbreviation": "",
@@ -14191,6 +14340,27 @@
               "transfers": 0,
               "status": "",
               "firstPrefs": 759
+            },
+            {
+              "count": 2,
+              "total": 775,
+              "transfers": 16,
+              "status": "",
+              "firstPrefs": 759
+            },
+            {
+              "count": 3,
+              "total": 958,
+              "transfers": 183,
+              "status": "",
+              "firstPrefs": 759
+            },
+            {
+              "count": 4,
+              "total": 966,
+              "transfers": 8,
+              "status": "Not Elected",
+              "firstPrefs": 759
             }
           ],
           "personId": 116540,
@@ -14201,9 +14371,9 @@
           "name": "Frederick Lloyd-Dodd",
           "party": "UUP",
           "firstPrefs": 706,
-          "finalVotes": 706,
+          "finalVotes": 1188,
           "elected": true,
-          "electedAt": 1,
+          "electedAt": 4,
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
@@ -14218,6 +14388,27 @@
               "count": 1,
               "total": 706,
               "transfers": 0,
+              "status": "",
+              "firstPrefs": 706
+            },
+            {
+              "count": 2,
+              "total": 1018,
+              "transfers": 312,
+              "status": "",
+              "firstPrefs": 706
+            },
+            {
+              "count": 3,
+              "total": 1079,
+              "transfers": 61,
+              "status": "",
+              "firstPrefs": 706
+            },
+            {
+              "count": 4,
+              "total": 1188,
+              "transfers": 109,
               "status": "Elected",
               "firstPrefs": 706
             }
@@ -14230,13 +14421,13 @@
           "name": "S. J. Watt",
           "party": "NI Labour",
           "firstPrefs": 345,
-          "finalVotes": 345,
+          "finalVotes": 351,
           "elected": false,
           "electedAt": null,
           "autoReturnedCeannComhairle": false,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "",
+          "excluded": true,
+          "excludedAt": 2,
+          "status": "Excluded",
           "colour": "#DC241F",
           "gender": "",
           "dailAbbreviation": "",
@@ -14248,6 +14439,20 @@
               "total": 345,
               "transfers": 0,
               "status": "",
+              "firstPrefs": 345
+            },
+            {
+              "count": 2,
+              "total": 351,
+              "transfers": 6,
+              "status": "Excluded",
+              "firstPrefs": 345
+            },
+            {
+              "count": 3,
+              "total": 0,
+              "transfers": -351,
+              "status": "Excluded",
               "firstPrefs": 345
             }
           ],
@@ -14280,6 +14485,27 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 1640
+            },
+            {
+              "count": 2,
+              "total": 1160,
+              "transfers": -480,
+              "status": "Elected",
+              "firstPrefs": 1640
+            },
+            {
+              "count": 3,
+              "total": 1160,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 1640
+            },
+            {
+              "count": 4,
+              "total": 1160,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 1640
             }
           ]
         },
@@ -14307,6 +14533,27 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 1218
+            },
+            {
+              "count": 2,
+              "total": 1218,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 1218
+            },
+            {
+              "count": 3,
+              "total": 1218,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 1218
+            },
+            {
+              "count": 4,
+              "total": 1218,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 1218
             }
           ]
         },
@@ -14315,9 +14562,9 @@
           "name": "Elizabeth Maconachie",
           "party": "UUP",
           "firstPrefs": 1131,
-          "finalVotes": 1131,
+          "finalVotes": 1277,
           "elected": true,
-          "electedAt": 1,
+          "electedAt": 2,
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
@@ -14332,6 +14579,27 @@
               "count": 1,
               "total": 1131,
               "transfers": 0,
+              "status": "",
+              "firstPrefs": 1131
+            },
+            {
+              "count": 2,
+              "total": 1277,
+              "transfers": 146,
+              "status": "Elected",
+              "firstPrefs": 1131
+            },
+            {
+              "count": 3,
+              "total": 1277,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 1131
+            },
+            {
+              "count": 4,
+              "total": 1160,
+              "transfers": -117,
               "status": "Elected",
               "firstPrefs": 1131
             }
@@ -14342,9 +14610,9 @@
           "name": "Frederick Lloyd-Dodd",
           "party": "UUP",
           "firstPrefs": 706,
-          "finalVotes": 706,
+          "finalVotes": 1188,
           "elected": true,
-          "electedAt": 1,
+          "electedAt": 4,
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
@@ -14359,6 +14627,27 @@
               "count": 1,
               "total": 706,
               "transfers": 0,
+              "status": "",
+              "firstPrefs": 706
+            },
+            {
+              "count": 2,
+              "total": 1018,
+              "transfers": 312,
+              "status": "",
+              "firstPrefs": 706
+            },
+            {
+              "count": 3,
+              "total": 1079,
+              "transfers": 61,
+              "status": "",
+              "firstPrefs": 706
+            },
+            {
+              "count": 4,
+              "total": 1188,
+              "transfers": 109,
               "status": "Elected",
               "firstPrefs": 706
             }
@@ -14369,6 +14658,7 @@
         "Constituency_Name": "Queen's University of Belfast",
         "Constituency_Number": "",
         "Number_Of_Seats": "4",
+        "Quota": "1160",
         "Spoiled": "",
         "Total_Electorate": "10961",
         "Total_Poll": "",
@@ -14376,12 +14666,76 @@
       },
       "countGroup": [
         {
+          "Candidate_First_Pref_Votes": "1640.00",
+          "Candidate_Id": "5635154",
+          "Constituency_Number": "",
+          "Count_Number": "1",
+          "Firstname": "Samuel",
+          "Occurred_On_Count": "1",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Irwin",
+          "Total_Votes": "1640.00",
+          "Transfers": "0.00",
+          "candidateName": "Samuel Irwin",
+          "id": 0
+        },
+        {
+          "Candidate_First_Pref_Votes": "1640.00",
+          "Candidate_Id": "5635154",
+          "Constituency_Number": "",
+          "Count_Number": "2",
+          "Firstname": "Samuel",
+          "Occurred_On_Count": "1",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Irwin",
+          "Total_Votes": "1160.00",
+          "Transfers": "-480.00",
+          "candidateName": "Samuel Irwin",
+          "id": 1
+        },
+        {
+          "Candidate_First_Pref_Votes": "1640.00",
+          "Candidate_Id": "5635154",
+          "Constituency_Number": "",
+          "Count_Number": "3",
+          "Firstname": "Samuel",
+          "Occurred_On_Count": "1",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Irwin",
+          "Total_Votes": "1160.00",
+          "Transfers": "0.00",
+          "candidateName": "Samuel Irwin",
+          "id": 2
+        },
+        {
+          "Candidate_First_Pref_Votes": "1640.00",
+          "Candidate_Id": "5635154",
+          "Constituency_Number": "",
+          "Count_Number": "4",
+          "Firstname": "Samuel",
+          "Occurred_On_Count": "1",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Irwin",
+          "Total_Votes": "1160.00",
+          "Transfers": "0.00",
+          "candidateName": "Samuel Irwin",
+          "id": 3
+        },
+        {
           "Candidate_First_Pref_Votes": "1218.00",
           "Candidate_Id": "3233136",
           "Constituency_Number": "",
           "Count_Number": "1",
           "Firstname": "Charles",
-          "Occurred_On_Count": "",
+          "Occurred_On_Count": "1",
           "Party_Colour": "#DCDCDC",
           "Party_Name": "Independent",
           "Status": "Elected",
@@ -14389,7 +14743,55 @@
           "Total_Votes": "1218.00",
           "Transfers": "0.00",
           "candidateName": "Charles Stewart",
-          "id": 0
+          "id": 4
+        },
+        {
+          "Candidate_First_Pref_Votes": "1218.00",
+          "Candidate_Id": "3233136",
+          "Constituency_Number": "",
+          "Count_Number": "2",
+          "Firstname": "Charles",
+          "Occurred_On_Count": "1",
+          "Party_Colour": "#DCDCDC",
+          "Party_Name": "Independent",
+          "Status": "Elected",
+          "Surname": "Stewart",
+          "Total_Votes": "1218.00",
+          "Transfers": "0.00",
+          "candidateName": "Charles Stewart",
+          "id": 5
+        },
+        {
+          "Candidate_First_Pref_Votes": "1218.00",
+          "Candidate_Id": "3233136",
+          "Constituency_Number": "",
+          "Count_Number": "3",
+          "Firstname": "Charles",
+          "Occurred_On_Count": "1",
+          "Party_Colour": "#DCDCDC",
+          "Party_Name": "Independent",
+          "Status": "Elected",
+          "Surname": "Stewart",
+          "Total_Votes": "1218.00",
+          "Transfers": "0.00",
+          "candidateName": "Charles Stewart",
+          "id": 6
+        },
+        {
+          "Candidate_First_Pref_Votes": "1218.00",
+          "Candidate_Id": "3233136",
+          "Constituency_Number": "",
+          "Count_Number": "4",
+          "Firstname": "Charles",
+          "Occurred_On_Count": "1",
+          "Party_Colour": "#DCDCDC",
+          "Party_Name": "Independent",
+          "Status": "Elected",
+          "Surname": "Stewart",
+          "Total_Votes": "1218.00",
+          "Transfers": "0.00",
+          "candidateName": "Charles Stewart",
+          "id": 7
         },
         {
           "Candidate_First_Pref_Votes": "1131.00",
@@ -14397,15 +14799,63 @@
           "Constituency_Number": "",
           "Count_Number": "1",
           "Firstname": "Elizabeth",
-          "Occurred_On_Count": "",
+          "Occurred_On_Count": "2",
           "Party_Colour": "#48A5EE",
           "Party_Name": "UUP",
-          "Status": "Elected",
+          "Status": "",
           "Surname": "Maconachie",
           "Total_Votes": "1131.00",
           "Transfers": "0.00",
           "candidateName": "Elizabeth Maconachie",
-          "id": 1
+          "id": 8
+        },
+        {
+          "Candidate_First_Pref_Votes": "1131.00",
+          "Candidate_Id": "14973904",
+          "Constituency_Number": "",
+          "Count_Number": "2",
+          "Firstname": "Elizabeth",
+          "Occurred_On_Count": "2",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Maconachie",
+          "Total_Votes": "1277.00",
+          "Transfers": "146.00",
+          "candidateName": "Elizabeth Maconachie",
+          "id": 9
+        },
+        {
+          "Candidate_First_Pref_Votes": "1131.00",
+          "Candidate_Id": "14973904",
+          "Constituency_Number": "",
+          "Count_Number": "3",
+          "Firstname": "Elizabeth",
+          "Occurred_On_Count": "2",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Maconachie",
+          "Total_Votes": "1277.00",
+          "Transfers": "0.00",
+          "candidateName": "Elizabeth Maconachie",
+          "id": 10
+        },
+        {
+          "Candidate_First_Pref_Votes": "1131.00",
+          "Candidate_Id": "14973904",
+          "Constituency_Number": "",
+          "Count_Number": "4",
+          "Firstname": "Elizabeth",
+          "Occurred_On_Count": "2",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Maconachie",
+          "Total_Votes": "1160.00",
+          "Transfers": "-117.00",
+          "candidateName": "Elizabeth Maconachie",
+          "id": 11
         },
         {
           "Candidate_First_Pref_Votes": "759.00",
@@ -14421,7 +14871,55 @@
           "Total_Votes": "759.00",
           "Transfers": "0.00",
           "candidateName": "Albert McElroy",
-          "id": 2
+          "id": 12
+        },
+        {
+          "Candidate_First_Pref_Votes": "759.00",
+          "Candidate_Id": "9680341",
+          "Constituency_Number": "",
+          "Count_Number": "2",
+          "Firstname": "Albert",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#DAA520",
+          "Party_Name": "Ulster Liberal",
+          "Status": "",
+          "Surname": "McElroy",
+          "Total_Votes": "775.00",
+          "Transfers": "16.00",
+          "candidateName": "Albert McElroy",
+          "id": 13
+        },
+        {
+          "Candidate_First_Pref_Votes": "759.00",
+          "Candidate_Id": "9680341",
+          "Constituency_Number": "",
+          "Count_Number": "3",
+          "Firstname": "Albert",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#DAA520",
+          "Party_Name": "Ulster Liberal",
+          "Status": "",
+          "Surname": "McElroy",
+          "Total_Votes": "958.00",
+          "Transfers": "183.00",
+          "candidateName": "Albert McElroy",
+          "id": 14
+        },
+        {
+          "Candidate_First_Pref_Votes": "759.00",
+          "Candidate_Id": "9680341",
+          "Constituency_Number": "",
+          "Count_Number": "4",
+          "Firstname": "Albert",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#DAA520",
+          "Party_Name": "Ulster Liberal",
+          "Status": "Not Elected",
+          "Surname": "McElroy",
+          "Total_Votes": "966.00",
+          "Transfers": "8.00",
+          "candidateName": "Albert McElroy",
+          "id": 15
         },
         {
           "Candidate_First_Pref_Votes": "706.00",
@@ -14429,15 +14927,63 @@
           "Constituency_Number": "",
           "Count_Number": "1",
           "Firstname": "Frederick",
-          "Occurred_On_Count": "",
+          "Occurred_On_Count": "4",
           "Party_Colour": "#48A5EE",
           "Party_Name": "UUP",
-          "Status": "Elected",
+          "Status": "",
           "Surname": "Lloyd-Dodd",
           "Total_Votes": "706.00",
           "Transfers": "0.00",
           "candidateName": "Frederick Lloyd-Dodd",
-          "id": 3
+          "id": 16
+        },
+        {
+          "Candidate_First_Pref_Votes": "706.00",
+          "Candidate_Id": "535907",
+          "Constituency_Number": "",
+          "Count_Number": "2",
+          "Firstname": "Frederick",
+          "Occurred_On_Count": "4",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "",
+          "Surname": "Lloyd-Dodd",
+          "Total_Votes": "1018.00",
+          "Transfers": "312.00",
+          "candidateName": "Frederick Lloyd-Dodd",
+          "id": 17
+        },
+        {
+          "Candidate_First_Pref_Votes": "706.00",
+          "Candidate_Id": "535907",
+          "Constituency_Number": "",
+          "Count_Number": "3",
+          "Firstname": "Frederick",
+          "Occurred_On_Count": "4",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "",
+          "Surname": "Lloyd-Dodd",
+          "Total_Votes": "1079.00",
+          "Transfers": "61.00",
+          "candidateName": "Frederick Lloyd-Dodd",
+          "id": 18
+        },
+        {
+          "Candidate_First_Pref_Votes": "706.00",
+          "Candidate_Id": "535907",
+          "Constituency_Number": "",
+          "Count_Number": "4",
+          "Firstname": "Frederick",
+          "Occurred_On_Count": "4",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Lloyd-Dodd",
+          "Total_Votes": "1188.00",
+          "Transfers": "109.00",
+          "candidateName": "Frederick Lloyd-Dodd",
+          "id": 19
         },
         {
           "Candidate_First_Pref_Votes": "345.00",
@@ -14445,7 +14991,7 @@
           "Constituency_Number": "",
           "Count_Number": "1",
           "Firstname": "S. J.",
-          "Occurred_On_Count": "",
+          "Occurred_On_Count": "2",
           "Party_Colour": "#DC241F",
           "Party_Name": "NI Labour",
           "Status": "",
@@ -14453,38 +14999,125 @@
           "Total_Votes": "345.00",
           "Transfers": "0.00",
           "candidateName": "S. J. Watt",
-          "id": 4
+          "id": 20
         },
         {
+          "Candidate_First_Pref_Votes": "345.00",
+          "Candidate_Id": "6499627",
           "Constituency_Number": "",
-          "Candidate_Id": "5635154",
-          "Count_Number": "1",
-          "Firstname": "Samuel",
-          "Surname": "Irwin",
-          "Candidate_First_Pref_Votes": "1640.00",
+          "Count_Number": "2",
+          "Firstname": "S. J.",
+          "Occurred_On_Count": "2",
+          "Party_Colour": "#DC241F",
+          "Party_Name": "NI Labour",
+          "Status": "Excluded",
+          "Surname": "Watt",
+          "Total_Votes": "351.00",
+          "Transfers": "6.00",
+          "candidateName": "S. J. Watt",
+          "id": 21
+        },
+        {
+          "Candidate_First_Pref_Votes": "345.00",
+          "Candidate_Id": "6499627",
+          "Constituency_Number": "",
+          "Count_Number": "3",
+          "Firstname": "S. J.",
+          "Occurred_On_Count": "2",
+          "Party_Colour": "#DC241F",
+          "Party_Name": "NI Labour",
+          "Status": "Excluded",
+          "Surname": "Watt",
+          "Total_Votes": "0.00",
+          "Transfers": "-351.00",
+          "candidateName": "S. J. Watt",
+          "id": 22
+        },
+        {
+          "Candidate_First_Pref_Votes": "",
+          "Candidate_Id": "",
+          "Constituency_Number": "",
+          "Count_Number": "2",
+          "Firstname": "",
+          "Occurred_On_Count": "",
+          "Party_Colour": "",
+          "Party_Name": "",
+          "Status": "",
+          "Surname": "",
+          "Total_Votes": "0.00",
           "Transfers": "0.00",
-          "Total_Votes": "1640.00",
-          "Status": "Elected",
-          "Occurred_On_Count": "1",
-          "Party_Name": "UUP",
-          "Party_Colour": "#48A5EE",
-          "candidateName": "Samuel Irwin",
-          "id": 5
+          "candidateName": "Non-transferable",
+          "id": 23
+        },
+        {
+          "Candidate_First_Pref_Votes": "",
+          "Candidate_Id": "",
+          "Constituency_Number": "",
+          "Count_Number": "3",
+          "Firstname": "",
+          "Occurred_On_Count": "",
+          "Party_Colour": "",
+          "Party_Name": "",
+          "Status": "",
+          "Surname": "",
+          "Total_Votes": "107.00",
+          "Transfers": "107.00",
+          "candidateName": "Non-transferable",
+          "id": 24
+        },
+        {
+          "Candidate_First_Pref_Votes": "",
+          "Candidate_Id": "",
+          "Constituency_Number": "",
+          "Count_Number": "4",
+          "Firstname": "",
+          "Occurred_On_Count": "",
+          "Party_Colour": "",
+          "Party_Name": "",
+          "Status": "",
+          "Surname": "",
+          "Total_Votes": "107.00",
+          "Transfers": "0.00",
+          "candidateName": "Non-transferable",
+          "id": 25
         }
       ],
       "syntheticCountGroup": false,
-      "nonTransferable": [],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 0,
+          "transfers": 0,
+          "status": ""
+        },
+        {
+          "count": 3,
+          "total": 107,
+          "transfers": 107,
+          "status": ""
+        },
+        {
+          "count": 4,
+          "total": 107,
+          "transfers": 0,
+          "status": ""
+        }
+      ],
       "forum": null,
       "countNumbers": [
-        1
+        1,
+        2,
+        3,
+        4
       ],
-      "hasCountDetail": false,
+      "hasCountDetail": true,
       "animationPayload": {
         "Constituency": {
           "countInfo": {
             "Constituency_Name": "Queen's University of Belfast",
             "Constituency_Number": "",
             "Number_Of_Seats": "4",
+            "Quota": "1160",
             "Spoiled": "",
             "Total_Electorate": "10961",
             "Total_Poll": "",
@@ -14492,12 +15125,76 @@
           },
           "countGroup": [
             {
+              "Candidate_First_Pref_Votes": "1640.00",
+              "Candidate_Id": "5635154",
+              "Constituency_Number": "",
+              "Count_Number": "1",
+              "Firstname": "Samuel",
+              "Occurred_On_Count": "1",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Irwin",
+              "Total_Votes": "1640.00",
+              "Transfers": "0.00",
+              "candidateName": "Samuel Irwin",
+              "id": 0
+            },
+            {
+              "Candidate_First_Pref_Votes": "1640.00",
+              "Candidate_Id": "5635154",
+              "Constituency_Number": "",
+              "Count_Number": "2",
+              "Firstname": "Samuel",
+              "Occurred_On_Count": "1",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Irwin",
+              "Total_Votes": "1160.00",
+              "Transfers": "-480.00",
+              "candidateName": "Samuel Irwin",
+              "id": 1
+            },
+            {
+              "Candidate_First_Pref_Votes": "1640.00",
+              "Candidate_Id": "5635154",
+              "Constituency_Number": "",
+              "Count_Number": "3",
+              "Firstname": "Samuel",
+              "Occurred_On_Count": "1",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Irwin",
+              "Total_Votes": "1160.00",
+              "Transfers": "0.00",
+              "candidateName": "Samuel Irwin",
+              "id": 2
+            },
+            {
+              "Candidate_First_Pref_Votes": "1640.00",
+              "Candidate_Id": "5635154",
+              "Constituency_Number": "",
+              "Count_Number": "4",
+              "Firstname": "Samuel",
+              "Occurred_On_Count": "1",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Irwin",
+              "Total_Votes": "1160.00",
+              "Transfers": "0.00",
+              "candidateName": "Samuel Irwin",
+              "id": 3
+            },
+            {
               "Candidate_First_Pref_Votes": "1218.00",
               "Candidate_Id": "3233136",
               "Constituency_Number": "",
               "Count_Number": "1",
               "Firstname": "Charles",
-              "Occurred_On_Count": "",
+              "Occurred_On_Count": "1",
               "Party_Colour": "#DCDCDC",
               "Party_Name": "Independent",
               "Status": "Elected",
@@ -14505,7 +15202,55 @@
               "Total_Votes": "1218.00",
               "Transfers": "0.00",
               "candidateName": "Charles Stewart",
-              "id": 0
+              "id": 4
+            },
+            {
+              "Candidate_First_Pref_Votes": "1218.00",
+              "Candidate_Id": "3233136",
+              "Constituency_Number": "",
+              "Count_Number": "2",
+              "Firstname": "Charles",
+              "Occurred_On_Count": "1",
+              "Party_Colour": "#DCDCDC",
+              "Party_Name": "Independent",
+              "Status": "Elected",
+              "Surname": "Stewart",
+              "Total_Votes": "1218.00",
+              "Transfers": "0.00",
+              "candidateName": "Charles Stewart",
+              "id": 5
+            },
+            {
+              "Candidate_First_Pref_Votes": "1218.00",
+              "Candidate_Id": "3233136",
+              "Constituency_Number": "",
+              "Count_Number": "3",
+              "Firstname": "Charles",
+              "Occurred_On_Count": "1",
+              "Party_Colour": "#DCDCDC",
+              "Party_Name": "Independent",
+              "Status": "Elected",
+              "Surname": "Stewart",
+              "Total_Votes": "1218.00",
+              "Transfers": "0.00",
+              "candidateName": "Charles Stewart",
+              "id": 6
+            },
+            {
+              "Candidate_First_Pref_Votes": "1218.00",
+              "Candidate_Id": "3233136",
+              "Constituency_Number": "",
+              "Count_Number": "4",
+              "Firstname": "Charles",
+              "Occurred_On_Count": "1",
+              "Party_Colour": "#DCDCDC",
+              "Party_Name": "Independent",
+              "Status": "Elected",
+              "Surname": "Stewart",
+              "Total_Votes": "1218.00",
+              "Transfers": "0.00",
+              "candidateName": "Charles Stewart",
+              "id": 7
             },
             {
               "Candidate_First_Pref_Votes": "1131.00",
@@ -14513,15 +15258,63 @@
               "Constituency_Number": "",
               "Count_Number": "1",
               "Firstname": "Elizabeth",
-              "Occurred_On_Count": "",
+              "Occurred_On_Count": "2",
               "Party_Colour": "#48A5EE",
               "Party_Name": "UUP",
-              "Status": "Elected",
+              "Status": "",
               "Surname": "Maconachie",
               "Total_Votes": "1131.00",
               "Transfers": "0.00",
               "candidateName": "Elizabeth Maconachie",
-              "id": 1
+              "id": 8
+            },
+            {
+              "Candidate_First_Pref_Votes": "1131.00",
+              "Candidate_Id": "14973904",
+              "Constituency_Number": "",
+              "Count_Number": "2",
+              "Firstname": "Elizabeth",
+              "Occurred_On_Count": "2",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Maconachie",
+              "Total_Votes": "1277.00",
+              "Transfers": "146.00",
+              "candidateName": "Elizabeth Maconachie",
+              "id": 9
+            },
+            {
+              "Candidate_First_Pref_Votes": "1131.00",
+              "Candidate_Id": "14973904",
+              "Constituency_Number": "",
+              "Count_Number": "3",
+              "Firstname": "Elizabeth",
+              "Occurred_On_Count": "2",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Maconachie",
+              "Total_Votes": "1277.00",
+              "Transfers": "0.00",
+              "candidateName": "Elizabeth Maconachie",
+              "id": 10
+            },
+            {
+              "Candidate_First_Pref_Votes": "1131.00",
+              "Candidate_Id": "14973904",
+              "Constituency_Number": "",
+              "Count_Number": "4",
+              "Firstname": "Elizabeth",
+              "Occurred_On_Count": "2",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Maconachie",
+              "Total_Votes": "1160.00",
+              "Transfers": "-117.00",
+              "candidateName": "Elizabeth Maconachie",
+              "id": 11
             },
             {
               "Candidate_First_Pref_Votes": "759.00",
@@ -14537,7 +15330,55 @@
               "Total_Votes": "759.00",
               "Transfers": "0.00",
               "candidateName": "Albert McElroy",
-              "id": 2
+              "id": 12
+            },
+            {
+              "Candidate_First_Pref_Votes": "759.00",
+              "Candidate_Id": "9680341",
+              "Constituency_Number": "",
+              "Count_Number": "2",
+              "Firstname": "Albert",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#DAA520",
+              "Party_Name": "Ulster Liberal",
+              "Status": "",
+              "Surname": "McElroy",
+              "Total_Votes": "775.00",
+              "Transfers": "16.00",
+              "candidateName": "Albert McElroy",
+              "id": 13
+            },
+            {
+              "Candidate_First_Pref_Votes": "759.00",
+              "Candidate_Id": "9680341",
+              "Constituency_Number": "",
+              "Count_Number": "3",
+              "Firstname": "Albert",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#DAA520",
+              "Party_Name": "Ulster Liberal",
+              "Status": "",
+              "Surname": "McElroy",
+              "Total_Votes": "958.00",
+              "Transfers": "183.00",
+              "candidateName": "Albert McElroy",
+              "id": 14
+            },
+            {
+              "Candidate_First_Pref_Votes": "759.00",
+              "Candidate_Id": "9680341",
+              "Constituency_Number": "",
+              "Count_Number": "4",
+              "Firstname": "Albert",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#DAA520",
+              "Party_Name": "Ulster Liberal",
+              "Status": "Not Elected",
+              "Surname": "McElroy",
+              "Total_Votes": "966.00",
+              "Transfers": "8.00",
+              "candidateName": "Albert McElroy",
+              "id": 15
             },
             {
               "Candidate_First_Pref_Votes": "706.00",
@@ -14545,15 +15386,63 @@
               "Constituency_Number": "",
               "Count_Number": "1",
               "Firstname": "Frederick",
-              "Occurred_On_Count": "",
+              "Occurred_On_Count": "4",
               "Party_Colour": "#48A5EE",
               "Party_Name": "UUP",
-              "Status": "Elected",
+              "Status": "",
               "Surname": "Lloyd-Dodd",
               "Total_Votes": "706.00",
               "Transfers": "0.00",
               "candidateName": "Frederick Lloyd-Dodd",
-              "id": 3
+              "id": 16
+            },
+            {
+              "Candidate_First_Pref_Votes": "706.00",
+              "Candidate_Id": "535907",
+              "Constituency_Number": "",
+              "Count_Number": "2",
+              "Firstname": "Frederick",
+              "Occurred_On_Count": "4",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "",
+              "Surname": "Lloyd-Dodd",
+              "Total_Votes": "1018.00",
+              "Transfers": "312.00",
+              "candidateName": "Frederick Lloyd-Dodd",
+              "id": 17
+            },
+            {
+              "Candidate_First_Pref_Votes": "706.00",
+              "Candidate_Id": "535907",
+              "Constituency_Number": "",
+              "Count_Number": "3",
+              "Firstname": "Frederick",
+              "Occurred_On_Count": "4",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "",
+              "Surname": "Lloyd-Dodd",
+              "Total_Votes": "1079.00",
+              "Transfers": "61.00",
+              "candidateName": "Frederick Lloyd-Dodd",
+              "id": 18
+            },
+            {
+              "Candidate_First_Pref_Votes": "706.00",
+              "Candidate_Id": "535907",
+              "Constituency_Number": "",
+              "Count_Number": "4",
+              "Firstname": "Frederick",
+              "Occurred_On_Count": "4",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Lloyd-Dodd",
+              "Total_Votes": "1188.00",
+              "Transfers": "109.00",
+              "candidateName": "Frederick Lloyd-Dodd",
+              "id": 19
             },
             {
               "Candidate_First_Pref_Votes": "345.00",
@@ -14561,7 +15450,7 @@
               "Constituency_Number": "",
               "Count_Number": "1",
               "Firstname": "S. J.",
-              "Occurred_On_Count": "",
+              "Occurred_On_Count": "2",
               "Party_Colour": "#DC241F",
               "Party_Name": "NI Labour",
               "Status": "",
@@ -14569,28 +15458,98 @@
               "Total_Votes": "345.00",
               "Transfers": "0.00",
               "candidateName": "S. J. Watt",
-              "id": 4
+              "id": 20
             },
             {
+              "Candidate_First_Pref_Votes": "345.00",
+              "Candidate_Id": "6499627",
               "Constituency_Number": "",
-              "Candidate_Id": "5635154",
-              "Count_Number": "1",
-              "Firstname": "Samuel",
-              "Surname": "Irwin",
-              "Candidate_First_Pref_Votes": "1640.00",
+              "Count_Number": "2",
+              "Firstname": "S. J.",
+              "Occurred_On_Count": "2",
+              "Party_Colour": "#DC241F",
+              "Party_Name": "NI Labour",
+              "Status": "Excluded",
+              "Surname": "Watt",
+              "Total_Votes": "351.00",
+              "Transfers": "6.00",
+              "candidateName": "S. J. Watt",
+              "id": 21
+            },
+            {
+              "Candidate_First_Pref_Votes": "345.00",
+              "Candidate_Id": "6499627",
+              "Constituency_Number": "",
+              "Count_Number": "3",
+              "Firstname": "S. J.",
+              "Occurred_On_Count": "2",
+              "Party_Colour": "#DC241F",
+              "Party_Name": "NI Labour",
+              "Status": "Excluded",
+              "Surname": "Watt",
+              "Total_Votes": "0.00",
+              "Transfers": "-351.00",
+              "candidateName": "S. J. Watt",
+              "id": 22
+            },
+            {
+              "Candidate_First_Pref_Votes": "",
+              "Candidate_Id": "",
+              "Constituency_Number": "",
+              "Count_Number": "2",
+              "Firstname": "",
+              "Occurred_On_Count": "",
+              "Party_Colour": "",
+              "Party_Name": "",
+              "Status": "",
+              "Surname": "",
+              "Total_Votes": "0.00",
               "Transfers": "0.00",
-              "Total_Votes": "1640.00",
-              "Status": "Elected",
-              "Occurred_On_Count": "1",
-              "Party_Name": "UUP",
-              "Party_Colour": "#48A5EE",
-              "candidateName": "Samuel Irwin",
-              "id": 5
+              "candidateName": "Non-transferable",
+              "id": 23
+            },
+            {
+              "Candidate_First_Pref_Votes": "",
+              "Candidate_Id": "",
+              "Constituency_Number": "",
+              "Count_Number": "3",
+              "Firstname": "",
+              "Occurred_On_Count": "",
+              "Party_Colour": "",
+              "Party_Name": "",
+              "Status": "",
+              "Surname": "",
+              "Total_Votes": "107.00",
+              "Transfers": "107.00",
+              "candidateName": "Non-transferable",
+              "id": 24
+            },
+            {
+              "Candidate_First_Pref_Votes": "",
+              "Candidate_Id": "",
+              "Constituency_Number": "",
+              "Count_Number": "4",
+              "Firstname": "",
+              "Occurred_On_Count": "",
+              "Party_Colour": "",
+              "Party_Name": "",
+              "Status": "",
+              "Surname": "",
+              "Total_Votes": "107.00",
+              "Transfers": "0.00",
+              "candidateName": "Non-transferable",
+              "id": 25
             }
           ]
         },
-        "electorateSource": "Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973); the same figure in David Boothroyd, Northern Ireland House of Commons Election Results",
-        "correctionNote": "Samuel Irwin (UUP, 1,640 first preferences, elected on the first count) was missing, so Albert McElroy showed as elected; the members elected were Irwin, Charles Stewart, Elizabeth Maconachie and Frederick Lloyd-Dodd. Valid poll 5,799. Elliott and the Wikipedia constituency article agree. (Political Reference Publications; Wikipedia, Sydney Elliott (ed.), Northern Ireland Parliamentary Election Results 1921-1972 (Chichester: Political Reference Publications, 1973), Queen's University results; checked against Wikipedia, Queen's University of Belfast (Northern Ireland Parliament constituency))"
+        "source": {
+          "title": "Sydney Elliott (ed.), Northern Ireland Parliamentary Election Results 1921-1972 (Chichester: Political Reference Publications, 1973), Queen's University of Belfast 1958, count by count as transcribed by David Boothroyd, Northern Ireland House of Commons Election Results (qub.html; Internet Archive copy), the Stormont results source ARK Northern Ireland Elections (www.ark.ac.uk/elections/hnihoc.htm) links to; members returned checked against the Belfast Gazette, issue 1919, 4 April 1958, p. 97",
+          "publisher": "Political Reference Publications; David Boothroyd; Belfast Gazette",
+          "kind": "academic",
+          "check": "every count transcribed from Boothroyd's table (count 2: Irwin's Surplus; count 3: Watt's Votes; count 4: Maconachie's Surplus); at every count the candidates' totals and the non-transferable papers add to the valid poll, each total is the previous total plus the transfer, and the members elected are those the Gazette lists"
+        },
+        "source_url": "https://web.archive.org/web/20200116210218/http://www.election.demon.co.uk/stormont/qub.html",
+        "electorateSource": "Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973); the same figure in David Boothroyd, Northern Ireland House of Commons Election Results"
       },
       "constituencyId": null,
       "constituencyNumber": null,
@@ -14599,10 +15558,6 @@
         {
           "label": "Electorate",
           "text": "10,961: Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973); the same figure in David Boothroyd, Northern Ireland House of Commons Election Results"
-        },
-        {
-          "label": "Corrected",
-          "text": "Samuel Irwin (UUP, 1,640 first preferences, elected on the first count) was missing, so Albert McElroy showed as elected; the members elected were Irwin, Charles Stewart, Elizabeth Maconachie and Frederick Lloyd-Dodd. Valid poll 5,799. Elliott and the Wikipedia constituency article agree. (Political Reference Publications; Wikipedia, Sydney Elliott (ed.), Northern Ireland Parliamentary Election Results 1921-1972 (Chichester: Political Reference Publications, 1973), Queen's University results; checked against Wikipedia, Queen's University of Belfast (Northern Ireland Parliament constituency))"
         }
       ],
       "contestType": "election",

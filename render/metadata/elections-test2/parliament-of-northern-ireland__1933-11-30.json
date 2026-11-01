@@ -90,7 +90,8 @@
     "leadingParty",
     "voteShare",
     "majority",
-    "seats"
+    "seats",
+    "quota"
   ],
   "partySummary": [
     {
@@ -1019,12 +1020,17 @@
       "excluded": false,
       "excludedAt": null,
       "resolvedCount": 1,
-      "countDisplay": "1/1",
+      "countDisplay": "1/2",
       "status": "Elected",
       "counts": {
         "1": {
           "total": 695,
           "transfers": 0,
+          "status": "Elected"
+        },
+        "2": {
+          "total": 472,
+          "transfers": -223,
           "status": "Elected"
         }
       },
@@ -1106,12 +1112,17 @@
       "excluded": false,
       "excludedAt": null,
       "resolvedCount": 1,
-      "countDisplay": "1/1",
+      "countDisplay": "1/2",
       "status": "Elected",
       "counts": {
         "1": {
           "total": 512,
           "transfers": 0,
+          "status": "Elected"
+        },
+        "2": {
+          "total": 472,
+          "transfers": -40,
           "status": "Elected"
         }
       },
@@ -1129,18 +1140,23 @@
       "votes": 451,
       "constPct": 19.13449299957573,
       "firstPrefPct": 19.13449299957573,
-      "finalVotes": 451,
+      "finalVotes": 472,
       "elected": true,
-      "electedAt": 1,
+      "electedAt": 2,
       "excluded": false,
       "excludedAt": null,
-      "resolvedCount": 1,
-      "countDisplay": "1/1",
+      "resolvedCount": 2,
+      "countDisplay": "2/2",
       "status": "Elected",
       "counts": {
         "1": {
           "total": 451,
           "transfers": 0,
+          "status": ""
+        },
+        "2": {
+          "total": 472,
+          "transfers": 21,
           "status": "Elected"
         }
       },
@@ -1216,18 +1232,23 @@
       "votes": 368,
       "constPct": 15.613067458633855,
       "firstPrefPct": 15.613067458633855,
-      "finalVotes": 368,
+      "finalVotes": 604,
       "elected": true,
-      "electedAt": 1,
+      "electedAt": 2,
       "excluded": false,
       "excludedAt": null,
-      "resolvedCount": 1,
-      "countDisplay": "1/1",
+      "resolvedCount": 2,
+      "countDisplay": "2/2",
       "status": "Elected",
       "counts": {
         "1": {
           "total": 368,
           "transfers": 0,
+          "status": ""
+        },
+        "2": {
+          "total": 604,
+          "transfers": 236,
           "status": "Elected"
         }
       },
@@ -1245,19 +1266,24 @@
       "votes": 331,
       "constPct": 14.043275350021215,
       "firstPrefPct": 14.043275350021215,
-      "finalVotes": 331,
+      "finalVotes": 337,
       "elected": false,
       "electedAt": null,
       "excluded": false,
       "excludedAt": null,
-      "resolvedCount": 1,
-      "countDisplay": "1/1",
+      "resolvedCount": 2,
+      "countDisplay": "2/2",
       "status": "Not Elected",
       "counts": {
         "1": {
           "total": 331,
           "transfers": 0,
           "status": ""
+        },
+        "2": {
+          "total": 337,
+          "transfers": 6,
+          "status": "Not Elected"
         }
       },
       "candidateKey": "frederick mcsorley|independent",
@@ -2260,7 +2286,7 @@
         "name": "UUP",
         "colour": "#48A5EE",
         "firstPrefs": 73791,
-        "finalVotes": 73791,
+        "finalVotes": 73812,
         "stood": 41,
         "elected": 36,
         "constituencies": [
@@ -2598,7 +2624,7 @@
             "name": "John Hanna Robb",
             "constituency": "Queen's University of Belfast",
             "firstPref": 451,
-            "finalVotes": 451,
+            "finalVotes": 472,
             "status": "Elected"
           },
           {
@@ -2743,7 +2769,7 @@
         "name": "Independent Unionist",
         "colour": "#AADFFF",
         "firstPrefs": 36232,
-        "finalVotes": 36232,
+        "finalVotes": 36468,
         "stood": 8,
         "elected": 3,
         "constituencies": [
@@ -2810,7 +2836,7 @@
             "name": "Robert McNeill",
             "constituency": "Queen's University of Belfast",
             "firstPref": 368,
-            "finalVotes": 368,
+            "finalVotes": 604,
             "status": "Elected"
           },
           {
@@ -2974,7 +3000,7 @@
         "name": "Independent",
         "colour": "#DCDCDC",
         "firstPrefs": 331,
-        "finalVotes": 331,
+        "finalVotes": 337,
         "stood": 1,
         "elected": 0,
         "constituencies": [
@@ -2986,8 +3012,8 @@
             "name": "Frederick McSorley",
             "constituency": "Queen's University of Belfast",
             "firstPref": 331,
-            "finalVotes": 331,
-            "status": ""
+            "finalVotes": 337,
+            "status": "Not Elected"
           }
         ],
         "shareOfTotal": 0.19495818117563907
@@ -3375,7 +3401,7 @@
         "party": "UUP",
         "colour": "#48A5EE",
         "firstPrefs": 451,
-        "finalVotes": 451,
+        "finalVotes": 472,
         "electedCount": 1,
         "constituencies": [
           "Queen's University of Belfast"
@@ -3384,7 +3410,7 @@
           {
             "constituency": "Queen's University of Belfast",
             "firstPref": 451,
-            "finalVotes": 451,
+            "finalVotes": 472,
             "status": "Elected"
           }
         ],
@@ -3397,7 +3423,7 @@
         "party": "Independent Unionist",
         "colour": "#AADFFF",
         "firstPrefs": 368,
-        "finalVotes": 368,
+        "finalVotes": 604,
         "electedCount": 1,
         "constituencies": [
           "Queen's University of Belfast"
@@ -3406,7 +3432,7 @@
           {
             "constituency": "Queen's University of Belfast",
             "firstPref": 368,
-            "finalVotes": 368,
+            "finalVotes": 604,
             "status": "Elected"
           }
         ],
@@ -4497,7 +4523,7 @@
         "party": "Independent",
         "colour": "#DCDCDC",
         "firstPrefs": 331,
-        "finalVotes": 331,
+        "finalVotes": 337,
         "electedCount": 0,
         "constituencies": [
           "Queen's University of Belfast"
@@ -4506,8 +4532,8 @@
           {
             "constituency": "Queen's University of Belfast",
             "firstPref": 331,
-            "finalVotes": 331,
-            "status": ""
+            "finalVotes": 337,
+            "status": "Not Elected"
           }
         ],
         "shareOfTotal": 0.19495818117563907
@@ -12582,7 +12608,7 @@
       "majorityPct": 7.76,
       "seatsWon": 4,
       "seatsTotal": 4,
-      "quota": null,
+      "quota": 472,
       "electorate": 3800,
       "totalPoll": null,
       "spoiled": null,
@@ -12615,6 +12641,13 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 695
+            },
+            {
+              "count": 2,
+              "total": 472,
+              "transfers": -223,
+              "status": "Elected",
+              "firstPrefs": 695
             }
           ],
           "personId": 104186,
@@ -12644,6 +12677,13 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 512
+            },
+            {
+              "count": 2,
+              "total": 472,
+              "transfers": -40,
+              "status": "Elected",
+              "firstPrefs": 512
             }
           ],
           "personId": 103963,
@@ -12654,9 +12694,9 @@
           "name": "John Hanna Robb",
           "party": "UUP",
           "firstPrefs": 451,
-          "finalVotes": 451,
+          "finalVotes": 472,
           "elected": true,
-          "electedAt": 1,
+          "electedAt": 2,
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
@@ -12671,6 +12711,13 @@
               "count": 1,
               "total": 451,
               "transfers": 0,
+              "status": "",
+              "firstPrefs": 451
+            },
+            {
+              "count": 2,
+              "total": 472,
+              "transfers": 21,
               "status": "Elected",
               "firstPrefs": 451
             }
@@ -12683,9 +12730,9 @@
           "name": "Robert McNeill",
           "party": "Independent Unionist",
           "firstPrefs": 368,
-          "finalVotes": 368,
+          "finalVotes": 604,
           "elected": true,
-          "electedAt": 1,
+          "electedAt": 2,
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
@@ -12700,6 +12747,13 @@
               "count": 1,
               "total": 368,
               "transfers": 0,
+              "status": "",
+              "firstPrefs": 368
+            },
+            {
+              "count": 2,
+              "total": 604,
+              "transfers": 236,
               "status": "Elected",
               "firstPrefs": 368
             }
@@ -12712,13 +12766,13 @@
           "name": "Frederick McSorley",
           "party": "Independent",
           "firstPrefs": 331,
-          "finalVotes": 331,
+          "finalVotes": 337,
           "elected": false,
           "electedAt": null,
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "",
+          "status": "Not Elected",
           "colour": "#DCDCDC",
           "gender": "",
           "dailAbbreviation": "",
@@ -12730,6 +12784,13 @@
               "total": 331,
               "transfers": 0,
               "status": "",
+              "firstPrefs": 331
+            },
+            {
+              "count": 2,
+              "total": 337,
+              "transfers": 6,
+              "status": "Not Elected",
               "firstPrefs": 331
             }
           ],
@@ -12762,6 +12823,13 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 695
+            },
+            {
+              "count": 2,
+              "total": 472,
+              "transfers": -223,
+              "status": "Elected",
+              "firstPrefs": 695
             }
           ]
         },
@@ -12789,33 +12857,13 @@
               "transfers": 0,
               "status": "Elected",
               "firstPrefs": 512
-            }
-          ]
-        },
-        {
-          "id": "4701051",
-          "name": "John Hanna Robb",
-          "party": "UUP",
-          "firstPrefs": 451,
-          "finalVotes": 451,
-          "elected": true,
-          "electedAt": 1,
-          "autoReturnedCeannComhairle": false,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "Elected",
-          "colour": "#48A5EE",
-          "gender": "",
-          "dailAbbreviation": "",
-          "officialCandidateId": "",
-          "officialStatus": "",
-          "counts": [
+            },
             {
-              "count": 1,
-              "total": 451,
-              "transfers": 0,
+              "count": 2,
+              "total": 472,
+              "transfers": -40,
               "status": "Elected",
-              "firstPrefs": 451
+              "firstPrefs": 512
             }
           ]
         },
@@ -12824,9 +12872,9 @@
           "name": "Robert McNeill",
           "party": "Independent Unionist",
           "firstPrefs": 368,
-          "finalVotes": 368,
+          "finalVotes": 604,
           "elected": true,
-          "electedAt": 1,
+          "electedAt": 2,
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
@@ -12841,8 +12889,49 @@
               "count": 1,
               "total": 368,
               "transfers": 0,
+              "status": "",
+              "firstPrefs": 368
+            },
+            {
+              "count": 2,
+              "total": 604,
+              "transfers": 236,
               "status": "Elected",
               "firstPrefs": 368
+            }
+          ]
+        },
+        {
+          "id": "4701051",
+          "name": "John Hanna Robb",
+          "party": "UUP",
+          "firstPrefs": 451,
+          "finalVotes": 472,
+          "elected": true,
+          "electedAt": 2,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#48A5EE",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "counts": [
+            {
+              "count": 1,
+              "total": 451,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 451
+            },
+            {
+              "count": 2,
+              "total": 472,
+              "transfers": 21,
+              "status": "Elected",
+              "firstPrefs": 451
             }
           ]
         }
@@ -12851,10 +12940,11 @@
         "Constituency_Name": "Queen's University of Belfast",
         "Constituency_Number": "",
         "Number_Of_Seats": "4",
+        "Quota": "472",
         "Spoiled": "",
         "Total_Electorate": "3800",
         "Total_Poll": "",
-        "Valid_Poll": ""
+        "Valid_Poll": "2357"
       },
       "countGroup": [
         {
@@ -12863,7 +12953,7 @@
           "Constituency_Number": "",
           "Count_Number": "1",
           "Firstname": "Robert James",
-          "Occurred_On_Count": "",
+          "Occurred_On_Count": "1",
           "Party_Colour": "#48A5EE",
           "Party_Name": "UUP",
           "Status": "Elected",
@@ -12874,12 +12964,28 @@
           "id": 0
         },
         {
+          "Candidate_First_Pref_Votes": "695.00",
+          "Candidate_Id": "4070751",
+          "Constituency_Number": "",
+          "Count_Number": "2",
+          "Firstname": "Robert James",
+          "Occurred_On_Count": "1",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Johnstone",
+          "Total_Votes": "472.00",
+          "Transfers": "-223.00",
+          "candidateName": "Robert James Johnstone",
+          "id": 1
+        },
+        {
           "Candidate_First_Pref_Votes": "512.00",
           "Candidate_Id": "11438546",
           "Constituency_Number": "",
           "Count_Number": "1",
           "Firstname": "Robert",
-          "Occurred_On_Count": "",
+          "Occurred_On_Count": "1",
           "Party_Colour": "#48A5EE",
           "Party_Name": "UUP",
           "Status": "Elected",
@@ -12887,7 +12993,23 @@
           "Total_Votes": "512.00",
           "Transfers": "0.00",
           "candidateName": "Robert Corkey",
-          "id": 1
+          "id": 2
+        },
+        {
+          "Candidate_First_Pref_Votes": "512.00",
+          "Candidate_Id": "11438546",
+          "Constituency_Number": "",
+          "Count_Number": "2",
+          "Firstname": "Robert",
+          "Occurred_On_Count": "1",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Corkey",
+          "Total_Votes": "472.00",
+          "Transfers": "-40.00",
+          "candidateName": "Robert Corkey",
+          "id": 3
         },
         {
           "Candidate_First_Pref_Votes": "451.00",
@@ -12895,15 +13017,31 @@
           "Constituency_Number": "",
           "Count_Number": "1",
           "Firstname": "John Hanna",
-          "Occurred_On_Count": "",
+          "Occurred_On_Count": "2",
           "Party_Colour": "#48A5EE",
           "Party_Name": "UUP",
-          "Status": "Elected",
+          "Status": "",
           "Surname": "Robb",
           "Total_Votes": "451.00",
           "Transfers": "0.00",
           "candidateName": "John Hanna Robb",
-          "id": 2
+          "id": 4
+        },
+        {
+          "Candidate_First_Pref_Votes": "451.00",
+          "Candidate_Id": "4701051",
+          "Constituency_Number": "",
+          "Count_Number": "2",
+          "Firstname": "John Hanna",
+          "Occurred_On_Count": "2",
+          "Party_Colour": "#48A5EE",
+          "Party_Name": "UUP",
+          "Status": "Elected",
+          "Surname": "Robb",
+          "Total_Votes": "472.00",
+          "Transfers": "21.00",
+          "candidateName": "John Hanna Robb",
+          "id": 5
         },
         {
           "Candidate_First_Pref_Votes": "368.00",
@@ -12911,15 +13049,31 @@
           "Constituency_Number": "",
           "Count_Number": "1",
           "Firstname": "Robert",
-          "Occurred_On_Count": "",
+          "Occurred_On_Count": "2",
           "Party_Colour": "#AADFFF",
           "Party_Name": "Independent Unionist",
-          "Status": "Elected",
+          "Status": "",
           "Surname": "McNeill",
           "Total_Votes": "368.00",
           "Transfers": "0.00",
           "candidateName": "Robert McNeill",
-          "id": 3
+          "id": 6
+        },
+        {
+          "Candidate_First_Pref_Votes": "368.00",
+          "Candidate_Id": "10888269",
+          "Constituency_Number": "",
+          "Count_Number": "2",
+          "Firstname": "Robert",
+          "Occurred_On_Count": "2",
+          "Party_Colour": "#AADFFF",
+          "Party_Name": "Independent Unionist",
+          "Status": "Elected",
+          "Surname": "McNeill",
+          "Total_Votes": "604.00",
+          "Transfers": "236.00",
+          "candidateName": "Robert McNeill",
+          "id": 7
         },
         {
           "Candidate_First_Pref_Votes": "331.00",
@@ -12935,26 +13089,67 @@
           "Total_Votes": "331.00",
           "Transfers": "0.00",
           "candidateName": "Frederick McSorley",
-          "id": 4
+          "id": 8
+        },
+        {
+          "Candidate_First_Pref_Votes": "331.00",
+          "Candidate_Id": "3567592",
+          "Constituency_Number": "",
+          "Count_Number": "2",
+          "Firstname": "Frederick",
+          "Occurred_On_Count": "",
+          "Party_Colour": "#DCDCDC",
+          "Party_Name": "Independent",
+          "Status": "Not Elected",
+          "Surname": "McSorley",
+          "Total_Votes": "337.00",
+          "Transfers": "6.00",
+          "candidateName": "Frederick McSorley",
+          "id": 9
+        },
+        {
+          "Candidate_First_Pref_Votes": "",
+          "Candidate_Id": "",
+          "Constituency_Number": "",
+          "Count_Number": "2",
+          "Firstname": "",
+          "Occurred_On_Count": "",
+          "Party_Colour": "",
+          "Party_Name": "",
+          "Status": "",
+          "Surname": "",
+          "Total_Votes": "0.00",
+          "Transfers": "0.00",
+          "candidateName": "Non-transferable",
+          "id": 10
         }
       ],
       "syntheticCountGroup": false,
-      "nonTransferable": [],
+      "nonTransferable": [
+        {
+          "count": 2,
+          "total": 0,
+          "transfers": 0,
+          "status": ""
+        }
+      ],
       "forum": null,
       "countNumbers": [
-        1
+        1,
+        2
       ],
-      "hasCountDetail": false,
+      "hasCountDetail": true,
       "animationPayload": {
         "Constituency": {
           "countInfo": {
             "Constituency_Name": "Queen's University of Belfast",
             "Constituency_Number": "",
             "Number_Of_Seats": "4",
+            "Quota": "472",
             "Spoiled": "",
             "Total_Electorate": "3800",
             "Total_Poll": "",
-            "Valid_Poll": ""
+            "Valid_Poll": "2357"
           },
           "countGroup": [
             {
@@ -12963,7 +13158,7 @@
               "Constituency_Number": "",
               "Count_Number": "1",
               "Firstname": "Robert James",
-              "Occurred_On_Count": "",
+              "Occurred_On_Count": "1",
               "Party_Colour": "#48A5EE",
               "Party_Name": "UUP",
               "Status": "Elected",
@@ -12974,12 +13169,28 @@
               "id": 0
             },
             {
+              "Candidate_First_Pref_Votes": "695.00",
+              "Candidate_Id": "4070751",
+              "Constituency_Number": "",
+              "Count_Number": "2",
+              "Firstname": "Robert James",
+              "Occurred_On_Count": "1",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Johnstone",
+              "Total_Votes": "472.00",
+              "Transfers": "-223.00",
+              "candidateName": "Robert James Johnstone",
+              "id": 1
+            },
+            {
               "Candidate_First_Pref_Votes": "512.00",
               "Candidate_Id": "11438546",
               "Constituency_Number": "",
               "Count_Number": "1",
               "Firstname": "Robert",
-              "Occurred_On_Count": "",
+              "Occurred_On_Count": "1",
               "Party_Colour": "#48A5EE",
               "Party_Name": "UUP",
               "Status": "Elected",
@@ -12987,7 +13198,23 @@
               "Total_Votes": "512.00",
               "Transfers": "0.00",
               "candidateName": "Robert Corkey",
-              "id": 1
+              "id": 2
+            },
+            {
+              "Candidate_First_Pref_Votes": "512.00",
+              "Candidate_Id": "11438546",
+              "Constituency_Number": "",
+              "Count_Number": "2",
+              "Firstname": "Robert",
+              "Occurred_On_Count": "1",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Corkey",
+              "Total_Votes": "472.00",
+              "Transfers": "-40.00",
+              "candidateName": "Robert Corkey",
+              "id": 3
             },
             {
               "Candidate_First_Pref_Votes": "451.00",
@@ -12995,15 +13222,31 @@
               "Constituency_Number": "",
               "Count_Number": "1",
               "Firstname": "John Hanna",
-              "Occurred_On_Count": "",
+              "Occurred_On_Count": "2",
               "Party_Colour": "#48A5EE",
               "Party_Name": "UUP",
-              "Status": "Elected",
+              "Status": "",
               "Surname": "Robb",
               "Total_Votes": "451.00",
               "Transfers": "0.00",
               "candidateName": "John Hanna Robb",
-              "id": 2
+              "id": 4
+            },
+            {
+              "Candidate_First_Pref_Votes": "451.00",
+              "Candidate_Id": "4701051",
+              "Constituency_Number": "",
+              "Count_Number": "2",
+              "Firstname": "John Hanna",
+              "Occurred_On_Count": "2",
+              "Party_Colour": "#48A5EE",
+              "Party_Name": "UUP",
+              "Status": "Elected",
+              "Surname": "Robb",
+              "Total_Votes": "472.00",
+              "Transfers": "21.00",
+              "candidateName": "John Hanna Robb",
+              "id": 5
             },
             {
               "Candidate_First_Pref_Votes": "368.00",
@@ -13011,15 +13254,31 @@
               "Constituency_Number": "",
               "Count_Number": "1",
               "Firstname": "Robert",
-              "Occurred_On_Count": "",
+              "Occurred_On_Count": "2",
               "Party_Colour": "#AADFFF",
               "Party_Name": "Independent Unionist",
-              "Status": "Elected",
+              "Status": "",
               "Surname": "McNeill",
               "Total_Votes": "368.00",
               "Transfers": "0.00",
               "candidateName": "Robert McNeill",
-              "id": 3
+              "id": 6
+            },
+            {
+              "Candidate_First_Pref_Votes": "368.00",
+              "Candidate_Id": "10888269",
+              "Constituency_Number": "",
+              "Count_Number": "2",
+              "Firstname": "Robert",
+              "Occurred_On_Count": "2",
+              "Party_Colour": "#AADFFF",
+              "Party_Name": "Independent Unionist",
+              "Status": "Elected",
+              "Surname": "McNeill",
+              "Total_Votes": "604.00",
+              "Transfers": "236.00",
+              "candidateName": "Robert McNeill",
+              "id": 7
             },
             {
               "Candidate_First_Pref_Votes": "331.00",
@@ -13035,10 +13294,49 @@
               "Total_Votes": "331.00",
               "Transfers": "0.00",
               "candidateName": "Frederick McSorley",
-              "id": 4
+              "id": 8
+            },
+            {
+              "Candidate_First_Pref_Votes": "331.00",
+              "Candidate_Id": "3567592",
+              "Constituency_Number": "",
+              "Count_Number": "2",
+              "Firstname": "Frederick",
+              "Occurred_On_Count": "",
+              "Party_Colour": "#DCDCDC",
+              "Party_Name": "Independent",
+              "Status": "Not Elected",
+              "Surname": "McSorley",
+              "Total_Votes": "337.00",
+              "Transfers": "6.00",
+              "candidateName": "Frederick McSorley",
+              "id": 9
+            },
+            {
+              "Candidate_First_Pref_Votes": "",
+              "Candidate_Id": "",
+              "Constituency_Number": "",
+              "Count_Number": "2",
+              "Firstname": "",
+              "Occurred_On_Count": "",
+              "Party_Colour": "",
+              "Party_Name": "",
+              "Status": "",
+              "Surname": "",
+              "Total_Votes": "0.00",
+              "Transfers": "0.00",
+              "candidateName": "Non-transferable",
+              "id": 10
             }
           ]
         },
+        "source": {
+          "title": "Sydney Elliott (ed.), Northern Ireland Parliamentary Election Results 1921-1972 (Chichester: Political Reference Publications, 1973), Queen's University of Belfast 1933, count by count as transcribed by David Boothroyd, Northern Ireland House of Commons Election Results (qub.html; Internet Archive copy), the Stormont results source ARK Northern Ireland Elections (www.ark.ac.uk/elections/hnihoc.htm) links to; members returned checked against the Belfast Gazette, issue 651, 15 December 1933, p. 1093",
+          "publisher": "Political Reference Publications; David Boothroyd; Belfast Gazette",
+          "kind": "academic",
+          "check": "every count transcribed from Boothroyd's table (count 2: Johnstone's & Corkey's Surpluses); at every count the candidates' totals and the non-transferable papers add to the valid poll, each total is the previous total plus the transfer, and the members elected are those the Gazette lists"
+        },
+        "source_url": "https://web.archive.org/web/20200116210218/http://www.election.demon.co.uk/stormont/qub.html",
         "electorateSource": "Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973); the same figure in David Boothroyd, Northern Ireland House of Commons Election Results"
       },
       "constituencyId": null,

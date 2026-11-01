@@ -1850,6 +1850,15 @@ function buildPersons(electionDetails, partyRecords) {
   // Offices held and family relations from the same reference work, cited by page
   // (scripts/lib/reference-person-facts.mjs). Seats Civgraph's election results show are
   // not in the files; a Commons seat gives way to History of Parliament's seat list.
+  // Formal names official notices print where Civgraph shows a familiar or shorter one ("John
+  // Beattie" for Jack Beattie), each cited (scripts/gazette/build_reference_names.py). Listed on
+  // the record and searched as knownAliases; the display name is not changed.
+  const referenceNamesDoc = readJson('data/elections/persons/reference-names.json', { sources: {}, people: {} });
+  const formalNamesOf = (personId) => (referenceNamesDoc.people?.[personId] || []).map((entry) => ({
+    name: entry.name,
+    source: (entry.citations || []).map((c) => c.citation).join('; '),
+    url: entry.citations?.[0]?.url || null,
+  }));
   const referenceOfficeDoc = readJson('data/elections/persons/reference-offices.json', { people: {} });
   const referenceRelationDoc = readJson('data/elections/persons/reference-relations.json', { people: {} });
   const relativeLookup = (id) => {
@@ -1899,6 +1908,7 @@ function buildPersons(electionDetails, partyRecords) {
     }
     const officesHeld = referenceOffices(referenceOfficeDoc, person.id, { hasHop: hop.length > 0 });
     const relatives = referenceRelatives(referenceRelationDoc, person.id, relativeLookup, missingRelatives);
+    const formalNames = formalNamesOf(person.id);
     if (officesHeld.length) withOffices += 1;
     if (relatives.length) withRelatives += 1;
     const detail = {
@@ -1963,6 +1973,7 @@ function buildPersons(electionDetails, partyRecords) {
       ...lifeDate(hop, official, referenceDate(person.id, 'died'), 'died'),
       ...(officesHeld.length ? { officesHeld } : {}),
       ...(relatives.length ? { relatives } : {}),
+      ...(formalNames.length ? { formalNames, knownAliases: formalNames.map((entry) => entry.name) } : {}),
     };
     return [detail.slug, detail];
   }));
