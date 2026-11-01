@@ -422,8 +422,9 @@ def main():
             y = {s for s in b if s.startswith(system + ':')}
             if x and y and x.isdisjoint(y):
                 return f'different {system} ids ({", ".join(sorted(x | y))})'
-        qa = {crosswalk[s] for s in a if s in crosswalk}
-        qb = {crosswalk[s] for s in b if s in crosswalk}
+        # Wikidata items held directly (official-person-ids.json system "wikidata") count too.
+        qa = {crosswalk[s] for s in a if s in crosswalk} | {s[9:] for s in a if s.startswith('wikidata:')}
+        qb = {crosswalk[s] for s in b if s in crosswalk} | {s[9:] for s in b if s.startswith('wikidata:')}
         if qa and qb and qa.isdisjoint(qb):
             return f'Wikidata names two people ({", ".join(sorted(qa | qb))})'
         return None

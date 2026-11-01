@@ -3005,7 +3005,13 @@ function buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency
   const localCandidates = new Map();
   const localCandidatesByFirstPref = new Map();
   for (const candidate of rawResult?.candidates || []) {
-    localCandidates.set(normalizeName(candidate?.name || ''), candidate);
+    // Two candidates of one name in one contest (the two Patrick O'Reillys of Cavan in 1951 and
+    // 1954, the two Eoin O Broins of Dublin Mid-West in 2024) must not be matched by the name:
+    // the map kept the last of them, so the Wikipedia count rows of BOTH took that one's party
+    // and ElectionsIreland id. A shared name maps to nothing, and the match falls through to the
+    // first-preference vote below, which tells them apart.
+    const nameKey = normalizeName(candidate?.name || '');
+    localCandidates.set(nameKey, localCandidates.has(nameKey) ? null : candidate);
     const firstPref = parseNumber(candidate?.first_pref ?? candidate?.counts?.[0]);
     if (firstPref !== null) {
       if (!localCandidatesByFirstPref.has(firstPref)) localCandidatesByFirstPref.set(firstPref, []);
@@ -3073,6 +3079,11 @@ function buildDailWikipediaCountPayload(rawResult, sidecar, fallbackConstituency
         Occurred_On_Count: String(occurrenceCount),
         Party_Colour: partyColour(party),
         Party_Name: party,
+        // The label as printed, and an inferred label's flag and evidence, set on the imported
+        // candidate by a source-checked fix: the count rows replace that candidate, so carry them.
+        ...(localCandidate?.Party_As_Printed ? { Party_As_Printed: localCandidate.Party_As_Printed } : {}),
+        ...(localCandidate?.partyInferred || localCandidate?.Party_Inferred ? { Party_Inferred: true } : {}),
+        ...(localCandidate?.partyBasis || localCandidate?.Party_Basis ? { Party_Basis: localCandidate.partyBasis || localCandidate.Party_Basis } : {}),
         Status: dailWikipediaCountStatus(candidate, localCandidate, countNumber, numCounts),
         Total_Votes: String(total),
         Transfers: String(transfers),

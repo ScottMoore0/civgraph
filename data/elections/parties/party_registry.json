@@ -43,7 +43,24 @@
       "name": "Sinn Féin",
       "shortName": "Sinn Féin",
       "aliases": [
-        "Sinn Féin"
+        "Sinn Féin",
+        {
+          "string": "Republican",
+          "bodies": [
+            "dail-eireann",
+            "parliament-of-northern-ireland"
+          ],
+          "from": "1923-01-01",
+          "until": "1927-01-01"
+        },
+        {
+          "string": "Republican",
+          "bodies": [
+            "house-of-commons-of-the-united-kingdom"
+          ],
+          "from": "1950-01-01",
+          "until": "1967-01-01"
+        }
       ],
       "founded": "1905-11-28",
       "foundedPrecision": "day",
@@ -52,7 +69,7 @@
       "source": "supplied by repository owner, 2026-07-26",
       "confidence": "high",
       "provisional": false,
-      "notes": "Applies to the exact string 'Sinn Féin' only. The distinct strings 'Pro-Treaty Sinn Féin', 'Anti-Treaty Sinn Féin', 'Republican Sinn Féin' and \"Sinn Féin Workers'\" are separate organisations and are not covered by this entry; whether any of them is continuous with this one is a question this file records no view on."
+      "notes": "Applies to the exact string 'Sinn Féin', and to 'Republican' on the Dáil and the Northern Ireland Parliament 1923-26 and at Westminster 1950-66 (scoped aliases). Organisation continuity: the 1905 party; its anti-Treaty side 1922-26 (de Valera left to found Fianna Fáil in 1926); from the January 1970 split the Provisional organisation, which stood no Dáil candidates of its own until February 1982 and was then unregistered, so its seven 1982 candidates appear on the ballot as Non-Party or with no description and carry the label as inferred. The Official organisation is workers-party. 'Pro-Treaty Sinn Féin' and 'Anti-Treaty Sinn Féin' (1922 pact panels) stay separate labels; Republican Sinn Féin (1986) is separate."
     },
     {
       "id": "alliance",
@@ -106,7 +123,8 @@
       "source": "supplied by repository owner, 2026-07-26",
       "confidence": "high",
       "provisional": false,
-      "notes": "'United Loy DUP' (1977 Larne Area A, Samuel J. Martin) is NOT attributed here. It contains the substring DUP but reads as 'United Loyalist', and no evidence in the data settles which organisation it was; it remains unattributed rather than guessed."
+      "notes": "'United Loy DUP' (1977 Larne Area A, Samuel J. Martin) is NOT attributed here. It contains the substring DUP but reads as 'United Loyalist', and no evidence in the data settles which organisation it was; it remains unattributed rather than guessed.",
+      "foundedNote": "30 September 1971: Paisley and Boal announced the party (CAIN chronology 1971; Elliott and Flackes 1999, p. 7). 30 October 1971: its first meeting, at the Ulster Hall, which the party kept as its anniversary (Elliott and Flackes 1999, p. 7; The Irish Times, 31 October 1996). 'Founded' means the announcement; the rally is a lineage event."
     },
     {
       "id": "ukup",
@@ -186,14 +204,14 @@
       "aliases": [
         "Vanguard Unionist Progressive Party"
       ],
-      "founded": "1972-02-09",
+      "founded": "1973-03-30",
       "foundedPrecision": "day",
-      "dissolved": "1978-02-20",
+      "dissolved": "1978-02-25",
       "status": "dissolved",
-      "source": "supplied by repository owner, 2026-07-26",
+      "source": "CAIN chronologies 1973, 1977 and 1978; Elliott and Flackes 1999, p. 14 (research 2026-11-02)",
       "confidence": "high",
       "provisional": false,
-      "notes": "The supplied founding date is that of Ulster Vanguard, the movement, whereas the party string in the data is specifically the Vanguard Unionist Progressive Party, which was constituted in 1973. Recorded as supplied; if the party rather than the movement is meant, this needs the 1973 date. The distinction changes nothing in the results, since the first candidacy is 1973-05-30 either way. Three 1982 candidacies fall four and a half years after dissolution and are reported as contradictions: William Craig (Belfast East), John Dunlop and Robert Overend (Mid Ulster), in the 1982 Assembly election. Craig founded the party, so this is the label outliving the organisation rather than a mis-attribution."
+      "notes": "Founded 30 March 1973, when Craig and others formed the Vanguard Unionist Progressive Party (CAIN chronology 1973); the Ulster Vanguard movement it grew from dates from 9 February 1972. On 26 November 1977 Craig announced that it would cease to be a political party as from 25 February 1978 (CAIN chronology 1977; Elliott and Flackes 1999, p. 14), and CAIN records it dissolved on 25 February 1978, most members joining the UUP. The previous 1978-02-20 had no source found. The three 1982 candidacies belong to vanguard-1982. Both dates must also be changed in party_lifespans.json (see party_lifespans.patch.json)."
     },
     {
       "id": "vanguard-1982",
@@ -443,32 +461,117 @@
       "notes": "Split from Sinn Féin in 1986. A separate organisation."
     },
     {
-      "id": "sinn-fein-workers",
-      "type": "party",
-      "name": "Sinn Féin – The Workers' Party",
-      "shortName": "SF Workers'",
-      "aliases": [
-        "Sinn Féin Workers'"
-      ],
-      "status": "unknown",
-      "source": "curated 2026-07-26; lifespans supplied by repository owner",
-      "confidence": "high",
-      "provisional": false
-    },
-    {
       "id": "workers-party",
       "type": "party",
       "name": "Workers' Party",
       "shortName": "Workers' Party",
       "aliases": [
         "Workers' Party",
-        "Workers Party"
+        "Workers Party",
+        "Sinn Féin Workers'",
+        " Sinn Féin Workers' Lozenge",
+        "Sinn Féin Workers' Lozenge",
+        "Sinn Féin The Workers' Party",
+        "Sinn Féin – The Workers' Party",
+        "Sinn Féin (Workers' Party)",
+        "Sinn Féin (Official)",
+        "Official Republican",
+        {
+          "string": "Republican Clubs",
+          "from": "1970-01-11"
+        },
+        "Republican Clubs (The Workers' Party)",
+        "Workers Party Republican Clubs",
+        "Workers P. Rep. C.",
+        {
+          "string": "Workers'",
+          "bodies": [
+            "dail-eireann"
+          ]
+        },
+        {
+          "string": "Republican",
+          "bodies": [
+            "local-government"
+          ],
+          "from": "1973-05-30",
+          "until": "1973-05-31"
+        }
       ],
-      "status": "unknown",
-      "source": "curated 2026-07-26; lifespans supplied by repository owner",
+      "founded": "1970-01-11",
+      "foundedPrecision": "day",
+      "dissolved": null,
+      "status": "active",
+      "formerIds": [
+        "sinn-fein-workers",
+        "republican-clubs"
+      ],
+      "nameHistory": [
+        {
+          "name": "Sinn Féin (Official Sinn Féin)",
+          "from": "1970-01-11",
+          "until": "1977-01-23",
+          "scope": "Republic of Ireland",
+          "printedAs": "Sinn Féin (the registered name for Dáil and local elections from August 1971 to 21 February 1977)",
+          "citations": [
+            "The 1970 Sinn Féin Ard Fheis: an analysis (booklet), p. 13, https://archive.org/details/irda-booklet-the-1970-sinn-fein-ard-fheis-an-analysis",
+            "The Irish Times, 4 August 1971, p. 11, 'Sinn Fein can now contest elections'",
+            "Walker (ed.), Parliamentary Election Results in Ireland 1918-92, p. 100 (SFWP 'changed from Sinn Féin on 21 Feb. 1977')"
+          ]
+        },
+        {
+          "name": "Sinn Féin The Workers' Party",
+          "from": "1977-01-23",
+          "until": "1982-04-25",
+          "scope": "Republic of Ireland",
+          "printedAs": "Sinn Féin The Workers' Party (S.F.W.P.) on ballots from 21 February 1977 to 30 September 1982, so also at the May 1982 Dublin West by-election",
+          "citations": [
+            "The United Irishman, November 1976 (Ard Fheis, Mansion House, 21-23 January 1977), https://archive.org/details/the-united-irishman-november-1976-f47f50fb31",
+            "Walker 1918-92, p. 100",
+            "Dáil Éireann, Election Results and Transfer of Votes, June 1981 and February 1982, prefatory note 2 (S.F.W.P.)"
+          ]
+        },
+        {
+          "name": "The Workers' Party",
+          "from": "1982-04-25",
+          "until": null,
+          "scope": "both jurisdictions",
+          "printedAs": "Workers' Party (registered name from 30 September 1982; Northern Ireland ballots from the October 1982 Assembly election)",
+          "citations": [
+            "CAIN chronology 1982, Sunday 25 April 1982 (citing PRONI records, April 1982), https://cain.ulster.ac.uk/othelem/chron/ch82.htm",
+            "Walker 1918-92, p. 100 (WP 'changed from Sinn Féin The Workers' Party on 30 Sept. 1982')",
+            "Sinnott, Irish Voters Decide (1995), p. 59 (April 1982)"
+          ]
+        },
+        {
+          "name": "Republican Clubs",
+          "from": "1970-01-11",
+          "until": "1979",
+          "scope": "Northern Ireland",
+          "printedAs": "Republican Clubs (Walker: Rep Clubs), 1973-79; some 1973 council candidates as 'Official Republican' (ARK: Off Rep)",
+          "citations": [
+            "Republican Clubs proscribed by regulations of 7 March 1967 (Minister of Home Affairs, William Craig); The United Irishman, April 1967, p. 1, https://archive.org/details/irda-united-irishman-april-1967",
+            "Proscription of Republican Clubs revoked by regulations made 11 April 1973, in force 17 April 1973, to let them contest the May 1973 council and June 1973 Assembly elections (HL Deb 15 May 1973 vol 342 cc740-2, https://api.parliament.uk/historic-hansard/lords/1973/may/15/civil-authorities-special-power)",
+            "CAIN Abstracts on Organisations 'W': Official Republican Clubs, then Republican Clubs the Workers' Party, then the Workers' Party (1982), https://cain.ulster.ac.uk/othelem/organ/worgan.htm"
+          ]
+        },
+        {
+          "name": "Republican Clubs The Workers' Party",
+          "from": "1979",
+          "until": "1982-04-25",
+          "scope": "Northern Ireland",
+          "printedAs": "Walker prints RCWP, Republican Clubs (The Workers' Party), at the June 1979 European election but Rep Clubs at the May 1979 and August 1981 Westminster elections; ARK labels the 1981 council candidates WPRC",
+          "citations": [
+            "'Republican Clubs The Workers' Party' (Omagh branch), September 1979, https://archive.org/details/september-7b90ee7db0",
+            "Walker 1918-92, pp. 280, 282, 32-33",
+            "ARK, The 1981 Local Government Elections, https://www.ark.ac.uk/elections/flg81.htm"
+          ]
+        }
+      ],
+      "source": "research 2026-11-02 (D:/civgraph-intake/party-research-2026-11-02/findings.md); owner ruling that Official Sinn Féin, the Republican Clubs, Sinn Féin The Workers' Party and the Workers' Party are one party",
       "confidence": "high",
       "provisional": false,
-      "notes": "Two strings differing only by the apostrophe, overlapping in years and both used on NI bodies: treated as one organisation. If they are in fact distinct, split this entry."
+      "notes": "One organisation under five names: the majority (Official, Gardiner Place) side of the January 1970 Sinn Féin split; Sinn Féin The Workers' Party from January 1977; The Workers' Party from April 1982; its Northern Ireland section the Republican Clubs, styled Republican Clubs The Workers' Party from about 1979. Each candidacy keeps the label printed at the time (Party_As_Printed). 'Republican Clubs' before 1970 is not this party: no Republican Clubs candidate stood before 1973, and the 1935-66 Westminster rows once labelled so were Republicans (fixed in batch party-research-2026-11-02). The bare 'Sinn Féin' of the 1973-76 Dáil contests is the Official organisation but is relabelled per candidacy ('Sinn Féin (Official)', marked inferred), not by alias, so the Provisional party's string stays untouched. Democratic Left (1992) split from this party and is a separate entity (democratic-left)."
     },
     {
       "id": "irish-unionist-alliance",
@@ -556,7 +659,16 @@
       "name": "Independent Republican",
       "shortName": "Ind. Republican",
       "aliases": [
-        "Independent Republican"
+        "Independent Republican",
+        {
+          "string": "Republican",
+          "bodies": [
+            "parliament-of-northern-ireland",
+            "house-of-commons-of-the-united-kingdom"
+          ],
+          "from": "1930-01-01",
+          "until": "1950-01-01"
+        }
       ],
       "status": "unknown",
       "source": "curated 2026-07-26; lifespans supplied by repository owner",
@@ -607,7 +719,7 @@
       "source": "curated 2026-07-26; lifespans supplied by repository owner",
       "confidence": "high",
       "provisional": false,
-      "notes": "Sands and Carron, 1981. A banner, not a party."
+      "notes": "The H-Block/Armagh prisoners' banner, 1981: Bobby Sands (Anti-H-Block/Armagh Political Prisoner) and Owen Carron (Anti-H-Block/Proxy Political Prisoner) at Westminster, and the nine prisoner candidates at the June 1981 Dáil election (on the ballot as Non-Party or with no description, so marked inferred). Candidates of the National H-Block/Armagh Committee; not a party, and not Sinn Féin or IRSP candidacies. The four May 1981 Northern Ireland council candidates once labelled so stood as independents (ARK; Elliott and Flackes) and are relabelled Independent."
     },
     {
       "id": "ucunf",
@@ -791,32 +903,6 @@
       }
     },
     {
-      "id": "republican-clubs",
-      "type": "party",
-      "name": "Republican Clubs",
-      "shortName": "Republican Clubs",
-      "aliases": [
-        "Republican Clubs"
-      ],
-      "status": "unknown",
-      "source": null,
-      "confidence": "unreviewed",
-      "provisional": true,
-      "observed": {
-        "candidacies": 201,
-        "years": [
-          1935,
-          1981
-        ],
-        "bodies": {
-          "local-government": 145,
-          "house-of-commons-of-the-united-kingdom": 29,
-          "northern-ireland-constitutional-convention": 17,
-          "northern-ireland-assembly": 10
-        }
-      }
-    },
-    {
       "id": "ni-labour",
       "type": "party",
       "name": "NI Labour",
@@ -960,7 +1046,8 @@
           "dail-eireann": 84,
           "parliament-of-northern-ireland": 6
         }
-      }
+      },
+      "notes": "Printed label 'Republican'. Its 1923-26 Dáil and 1925 NI candidacies resolve to sinn-fein, its 1950-66 Westminster ones to sinn-fein, and 1933-42 NI Parliament and 1935 Westminster ones to ind-republican (scoped aliases on those entities). Kept so the label and browse page survive; no candidacy should resolve here once the aliases land."
     },
     {
       "id": "clann-na-talmhan",
@@ -1581,10 +1668,10 @@
       "aliases": [
         "Communist Party of Ireland"
       ],
-      "status": "unknown",
-      "source": null,
-      "confidence": "unreviewed",
-      "provisional": true,
+      "status": "active",
+      "source": "For Unity and Socialism (manifesto of the special congress, Belfast, 15 March 1970), Irish Left Archive, https://www.leftarchive.ie/document/2115/ ; Elliott and Flackes 1999, p. 4 (14 March 1970)",
+      "confidence": "high",
+      "provisional": false,
       "observed": {
         "candidacies": 23,
         "years": [
@@ -1598,7 +1685,10 @@
           "northern-ireland-forum-for-political-dialogue": 3,
           "dail-eireann": 1
         }
-      }
+      },
+      "founded": "1970-03-15",
+      "foundedPrecision": "day",
+      "notes": "The present party, formed at a special congress in Belfast on 15 March 1970 by the merger of the Irish Workers' Party and the Communist Party of Northern Ireland (Elliott and Flackes give 14 March). Not the 1933 Communist Party of Ireland, which split in 1941; Wikidata's 1933 inception belongs to that predecessor. All its Civgraph candidacies are 1973 or later."
     },
     {
       "id": "democratic-left",
@@ -3361,29 +3451,6 @@
         "years": [
           1929,
           1929
-        ],
-        "bodies": {
-          "parliament-of-northern-ireland": 3
-        }
-      }
-    },
-    {
-      "id": "irish-republican",
-      "type": "party",
-      "name": "Irish Republican",
-      "shortName": "Irish Republican",
-      "aliases": [
-        "Irish Republican"
-      ],
-      "status": "unknown",
-      "source": null,
-      "confidence": "unreviewed",
-      "provisional": true,
-      "observed": {
-        "candidacies": 3,
-        "years": [
-          1933,
-          1933
         ],
         "bodies": {
           "parliament-of-northern-ireland": 3

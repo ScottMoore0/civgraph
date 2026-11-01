@@ -5,7 +5,8 @@ const fs = require('fs');
  * "Download SVG" (app/src/map-image-export.js): a map as a Wikipedia-style locator map.
  * Driven through the real app on NI Westminster 2023 (the 2024 general election boundaries):
  * the feature details box offers the download, the file is a valid standalone SVG, the
- * clicked constituency is #ff0000, the rest #ffc8c8, and the neighbouring land is grey.
+ * clicked constituency is #ff0000, the rest #ffc8c8, the neighbouring land is grey, and the
+ * major loughs (Neagh, Erne, Strangford) are cut out and left unfilled, as on the Commons file.
  *
  * The layer's FlatGeobuf and tiles come from R2, so these need the network, as the rest of
  * the app suite does.
@@ -59,9 +60,48 @@ async function inspectSvg(page, svg) {
       landFill: painted(root.querySelector('#ContextLand')),
       landIds: [...root.querySelectorAll('#ContextLand path')].map((p) => p.id),
       outline: painted(root.querySelector('#Outline')),
+      loughCutRule: root.querySelector('clipPath#LoughCut path')?.getAttribute('style') || '',
+      loughCutRings: (root.querySelector('clipPath#LoughCut path')?.getAttribute('d') || '').split('M').length - 1,
+      cutGroup: root.querySelector('#LandAndFeatures')?.getAttribute('clip-path') || '',
+      cutHolds: ['ContextLand', 'Outline', 'Features'].every((id) => root.querySelector(`#LandAndFeatures > #${id}`)),
+      shores: Boolean(root.querySelector('#Loughs #LoughShores')?.getAttribute('d')),
+      darkShores: root.querySelector('#Loughs #LoughShoresInFeatures')?.getAttribute('clip-path') || '',
       externalRefs: [...root.querySelectorAll('[href], [*|href], image, use')].map((el) => el.getAttribute('href') || el.getAttributeNS('http://www.w3.org/1999/xlink', 'href')).filter((h) => h && !h.startsWith('#'))
     };
   }, svg);
+}
+
+/**
+ * Rasterise the SVG in the page and read the pixels at some places (lon, lat), using the view
+ * bounds the file records: [r, g, b, a] each, a = 0 where nothing is drawn (sea, loughs).
+ */
+async function sampleSvg(page, svg, places) {
+  return page.evaluate(async ({ text, places: where }) => {
+    const bounds = text.match(/view bounds (-?[\d.]+), (-?[\d.]+), (-?[\d.]+), (-?[\d.]+)/).slice(1).map(Number);
+    const [west, south, east, north] = bounds;
+    const mx = (lon) => lon * Math.PI / 180;
+    const my = (lat) => Math.log(Math.tan(Math.PI / 4 + lat * Math.PI / 360));
+    const root = new DOMParser().parseFromString(text, 'image/svg+xml').documentElement;
+    const width = Number(root.getAttribute('width'));
+    const height = Number(root.getAttribute('height'));
+    const scale = 800 / (mx(east) - mx(west));
+    const url = URL.createObjectURL(new Blob([text], { type: 'image/svg+xml' }));
+    const image = new Image();
+    await new Promise((resolve, reject) => { image.onload = resolve; image.onerror = reject; image.src = url; });
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(image, 0, 0);
+    URL.revokeObjectURL(url);
+    const out = {};
+    for (const [name, [lon, lat]] of Object.entries(where)) {
+      const x = Math.round((mx(lon) - mx(west)) * scale);
+      const y = Math.round((my(north) - my(lat)) * scale);
+      out[name] = [...ctx.getImageData(x, y, 1, 1).data];
+    }
+    return out;
+  }, { text: svg, places });
 }
 
 test.describe('Download SVG: a Wikipedia-style locator map of the view', () => {
@@ -96,6 +136,26 @@ test.describe('Download SVG: a Wikipedia-style locator map of the view', () => {
     expect(info.desc).toContain('Civgraph (civgraph.net), CC BY-SA 4.0');
     expect(info.desc).toContain('OSNI');
     expect(info.externalRefs).toEqual([]);
+    // The loughs are cut out of land, outline and features with an even-odd clip, and their
+    // shores drawn, dark over the features; the credits name the lough sources.
+    expect(info.loughCutRule).toContain('clip-rule:evenodd');
+    expect(info.loughCutRings).toBeGreaterThanOrEqual(5);
+    expect(info.cutGroup).toBe('url(#LoughCut)');
+    expect(info.cutHolds).toBe(true);
+    expect(info.shores).toBe(true);
+    expect(info.darkShores).toBe('url(#FeatureArea)');
+    expect(info.desc).toContain('Loughs, cut out and left unfilled');
+    expect(info.desc).toContain('DAERA');
+    expect(info.desc).toContain('Tailte Éireann');
+    // Drawn: Lough Neagh, Lower Lough Erne (inside Fermanagh and South Tyrone) and Strangford
+    // Lough are unfilled, as on the Commons file; the constituency around them is red.
+    const pixels = await sampleSvg(page, svg, {
+      neagh: [-6.45, 54.6], lowerErne: [-7.8, 54.47], strangford: [-5.6, 54.5], fst: [-7.45, 54.35]
+    });
+    expect(pixels.neagh[3]).toBe(0);
+    expect(pixels.lowerErne[3]).toBe(0);
+    expect(pixels.strangford[3]).toBe(0);
+    expect(pixels.fst.slice(0, 3)).toEqual([255, 0, 0]);
     await expect(button).toBeEnabled();
   });
 

@@ -1,6 +1,6 @@
 # Test2 Election Data Audit
 
-Generated: 2026-11-01T18:38:15.805Z
+Generated: 2026-11-01T22:54:53.097Z
 
 This is a repeatable repository-local audit of the generated /test2 election data, Browse election entries, source/reference records, transfer/count payload availability, and saved Wikipedia party-colour comparison outputs. It intentionally does not fetch live web pages, so CI can run it deterministically.
 
@@ -26,7 +26,7 @@ This is a repeatable repository-local audit of the generated /test2 election dat
 |candidate-row review sidecar records|0|
 |party-colour review sidecar records|10|
 |blocking issues|0|
-|warnings|479|
+|warnings|478|
 
 ## Blocking Structural Issues
 
@@ -117,7 +117,7 @@ _None._
 |warning|candidate-list-missing|portadown-borough-council__1958-05-21|No candidates found for Portadown (aldermen).|
 |warning|candidate-list-missing|portadown-borough-council__1958-05-21|No candidates found for Portadown (councillors).|
 
-_399 more not shown; see JSON report._
+_398 more not shown; see JSON report._
 
 ## Source And Reference Coverage
 

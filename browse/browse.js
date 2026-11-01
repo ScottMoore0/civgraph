@@ -838,6 +838,7 @@ function parseRoute() {
   let id = params.get('id') || parts[1] || null;
   if (type === 'people') type = 'persons';
   if (type === 'entities') return { isHome: false, type, id, params };
+  if (type === 'divisions') return { isHome: false, type, id: parts.slice(1).join('/') || params.get('id') || null, params };
   // A deep link to the other layer still resolves rather than 404ing, so shared URLs keep
   // working; only the directory and the default view are scoped.
   if (!ENTITY_CONFIG[type]) type = fallback;
@@ -885,6 +886,10 @@ async function renderCurrent() {
   }
   if (state.activeType === 'proni') {
     await renderProniRoute(state.activeId);
+    return;
+  }
+  if (state.activeType === 'divisions') {
+    await renderDivisionRoute(state.activeId);
     return;
   }
   const config = ENTITY_CONFIG[state.activeType];
@@ -1931,6 +1936,9 @@ async function renderDetail(type, indexItem) {
   const contestPanel = isContestItem(type, item) ? await renderContestResultPanel(item) : '';
   // A party's profile: history, leaders, seats and votes by body, its members.
   const partyProfile = type === 'parties' ? await loadPartyProfile(item) : null;
+  // Votes in divisions: a person's record of votes, a party's cohesion (data/browse/votes/).
+  const votesPanel = type === 'persons' ? await renderPersonVotesPanel(item)
+    : type === 'parties' ? await renderPartyVotesPanel(item) : '';
   if (token !== renderSeq) return;
   // Maps render their own header (thumbnail beside the title), so the generic
   // hero would just duplicate the title — blank it for map detail pages.
@@ -1943,6 +1951,7 @@ async function renderDetail(type, indexItem) {
       ${isMap ? '' : renderHeaderPanel(type, item, pinnedRows)}
       ${partyProfile ? renderPartyProfilePanels(item, partyProfile) : ''}
       ${contestPanel}
+      ${votesPanel}
       ${type === 'elections' ? renderGazetteElectionPanels(item) : ''}
       ${isMap ? renderLinksPanel(item) : ''}
       ${featuresPanel}
@@ -2597,6 +2606,215 @@ function byDate(rows) {
   return [...(rows || [])].sort((a, b) => String(a?.date || '9999').localeCompare(String(b?.date || '9999')));
 }
 
+// ---- Parliamentary votes (data/browse/votes/, scripts/build_browse_votes.py) ----
+// A person's votes in the Dáil, Seanad, House of Commons (Irish and NI members only) and the
+// NI Assembly; a party's cohesion per body and term; and a record page per division at
+// #/divisions/<division id>. The data is static and read only when a page needs it.
+
+const VOTES_ROOT = `${DATA_ROOT}/votes`;
+const VOTE_WORDS = { aye: 'Aye', no: 'No', abstain: 'Abstained', both: 'Both lobbies' };
+const VOTE_WORDS_BODY = { dail: { aye: 'Tá', no: 'Níl', abstain: 'Staon' }, seanad: { aye: 'Tá', no: 'Níl', abstain: 'Staon' } };
+const VOTES_PAGE = 50;
+const VOTE_BODY_SHORT = { dail: 'Dáil', seanad: 'Seanad', commons: 'Commons', niassembly: 'Assembly', stormont: 'Stormont' };
+const votesView = { personId: null, rows: [], titles: [], filters: { body: '', vote: '', against: false }, shown: VOTES_PAGE };
+
+async function loadVotesJson(url) {
+  if (state.details.has(url)) return state.details.get(url);
+  let data = null;
+  try {
+    data = await loadJson(url);
+  } catch (error) {
+    // No votes for this person or party is the ordinary case, not an error.
+    if (error.status !== 404) console.warn('Votes data could not be loaded.', error);
+  }
+  state.details.set(url, data);
+  return data;
+}
+
+async function divisionShard(divisionId) {
+  const bytes = new TextEncoder().encode(divisionId);
+  const digest = new Uint8Array(await crypto.subtle.digest('SHA-1', bytes));
+  const head = (digest[0] << 16) | (digest[1] << 8) | digest[2];
+  const index = await loadVotesJson(`${VOTES_ROOT}/index.json`);
+  return String(head % (index?.shards || 256)).padStart(3, '0');
+}
+
+function voteWord(body, vote) {
+  return VOTE_WORDS_BODY[body]?.[vote] ? `${VOTE_WORDS[vote]} (${VOTE_WORDS_BODY[body][vote]})` : (VOTE_WORDS[vote] || vote || '');
+}
+
+function divisionLink(id, title) {
+  return `<a href="#/divisions/${encodeURIComponent(id)}" data-browse-link>${escapeHtml(title || id)}</a>`;
+}
+
+function termLabel(row) {
+  return /^\d{4}-\d{2}-\d{2}$/.test(row.term) ? `elected ${formatDate(row.term)}` : row.term;
+}
+
+async function renderPersonVotesPanel(item) {
+  const personId = String(item.id || '').replace(/^person:/, '');
+  if (!/^\d+$/.test(personId)) return '';
+  const data = await loadVotesJson(`${VOTES_ROOT}/persons/${personId}.json`);
+  if (!data?.divisions?.length) return '';
+  votesView.personId = personId;
+  votesView.rows = data.divisions;
+  votesView.titles = normalizeArray(data.titles);
+  votesView.filters = { body: '', vote: '', against: false };
+  votesView.shown = VOTES_PAGE;
+  const terms = normalizeArray(data.terms);
+  const summary = renderInlineTable('By term', ['Body', 'Term', 'Votes cast', 'Divisions in that period', 'Against own party'], terms.map((row) => [
+    escapeHtml(row.bodyLabel),
+    escapeHtml(termLabel(row)),
+    formatNumber(row.voted),
+    row.heldInPeriod ? `${formatNumber(row.heldInPeriod)} <span class="browse-muted">(${Math.round(100 * row.voted / row.heldInPeriod)}% voted)</span>` : '<span class="browse-muted">–</span>',
+    formatNumber(row.againstParty)
+  ]));
+  const bodies = [...new Set(data.divisions.map((row) => row[2]))];
+  const bodyOptions = bodies.map((body) => `<option value="${escapeAttr(body)}">${escapeHtml(terms.find((row) => row.body === body)?.bodyLabel || body)}</option>`).join('');
+  const controls = `
+    <div class="browse-votes-controls" data-votes-controls>
+      ${bodies.length > 1 ? `<label>Body <select data-votes-filter="body"><option value="">All</option>${bodyOptions}</select></label>` : ''}
+      <label>Vote <select data-votes-filter="vote"><option value="">All</option><option value="aye">Aye</option><option value="no">No</option><option value="abstain">Abstained</option></select></label>
+      <label><input type="checkbox" data-votes-filter="against"> Against own party only</label>
+    </div>`;
+  const body = `
+    <p class="browse-muted">${escapeHtml(countText(data.divisions.length, 'recorded vote'))} in ${escapeHtml(joinList(terms.map((row) => row.bodyLabel).filter((v, i, a) => a.indexOf(v) === i)))}.
+      “Against own party” counts votes on the other side from most of the member's party (the party they were elected for).</p>
+    ${summary}
+    ${controls}
+    <div data-votes-table>${renderPersonVotesRows()}</div>`;
+  return renderCollapsiblePanel('Votes in divisions', body, countText(data.divisions.length, 'vote'), { open: true });
+}
+
+function filteredVoteRows() {
+  const { body, vote, against } = votesView.filters;
+  return votesView.rows.filter((row) => (!body || row[2] === body) && (!vote || row[4] === vote)
+    && (!against || (['aye', 'no'].includes(row[7]) && ['aye', 'no'].includes(row[4]) && row[4] !== row[7])));
+}
+
+function renderPersonVotesRows() {
+  const rows = filteredVoteRows();
+  if (!rows.length) return '<p class="browse-empty">No votes match.</p>';
+  const shown = rows.slice(0, votesView.shown);
+  const table = `
+    <div class="browse-table-wrap" tabindex="0" role="region" aria-label="Votes">
+      <table class="browse-table browse-table--compact">
+        <thead><tr><th scope="col">Date</th><th scope="col">Body</th><th scope="col">Division</th><th scope="col">Vote</th><th scope="col">Result</th><th scope="col">Party majority</th></tr></thead>
+        <tbody>${shown.map((row) => `<tr>
+          <td>${escapeHtml(formatDate(row[1]))}</td>
+          <td>${escapeHtml(VOTE_BODY_SHORT[row[2]] || row[2])}</td>
+          <td>${divisionLink(row[0], votesView.titles[row[3]])}</td>
+          <td>${escapeHtml(voteWord(row[2], row[4]))}${row[5] ? ' <span class="browse-muted">(teller)</span>' : ''}</td>
+          <td>${escapeHtml(row[6] || '')}</td>
+          <td>${row[7] === 'split' ? 'split' : row[7] ? `${escapeHtml(VOTE_WORDS[row[7]] || row[7])}${['aye', 'no'].includes(row[4]) && row[4] !== row[7] ? ' <strong>(voted against)</strong>' : ''}` : '<span class="browse-muted">–</span>'}</td>
+        </tr>`).join('')}</tbody>
+      </table>
+    </div>`;
+  const more = rows.length > shown.length
+    ? `<p><button type="button" class="browse-load-more" data-votes-more>Show ${formatNumber(Math.min(VOTES_PAGE * 4, rows.length - shown.length))} more</button> <span class="browse-muted">${formatNumber(shown.length)} of ${formatNumber(rows.length)}</span></p>`
+    : `<p class="browse-muted">${formatNumber(rows.length)} shown.</p>`;
+  return table + more;
+}
+
+function rerenderVotesTable(control) {
+  const host = control.closest('.browse-collapsible')?.querySelector('[data-votes-table]');
+  if (host) host.innerHTML = renderPersonVotesRows();
+}
+
+document.addEventListener('change', (event) => {
+  const control = event.target.closest?.('[data-votes-filter]');
+  if (!control) return;
+  const key = control.dataset.votesFilter;
+  votesView.filters[key] = key === 'against' ? control.checked : control.value;
+  votesView.shown = VOTES_PAGE;
+  rerenderVotesTable(control);
+});
+
+document.addEventListener('click', (event) => {
+  const more = event.target.closest?.('[data-votes-more]');
+  if (!more) return;
+  event.preventDefault();
+  votesView.shown += VOTES_PAGE * 4;
+  rerenderVotesTable(more);
+});
+
+async function renderPartyVotesPanel(item) {
+  const slug = item.slug || slugify(item.id || item.title);
+  const data = await loadVotesJson(`${VOTES_ROOT}/parties/${encodeURIComponent(slug)}.json`);
+  const terms = normalizeArray(data?.terms).filter((row) => row.divisions > 0);
+  if (!terms.length) return '';
+  const table = renderInlineTable('Cohesion by term', ['Body', 'Term', 'Divisions', 'Cohesion', 'Split divisions'], terms.map((row) => [
+    escapeHtml(row.bodyLabel),
+    escapeHtml(termLabel(row)),
+    formatNumber(row.divisions),
+    `${(100 * row.cohesion).toFixed(1)}%`,
+    formatNumber(row.splitCount)
+  ]));
+  const splits = terms.flatMap((row) => normalizeArray(row.splits).map((split) => ({ ...row, split })))
+    .sort((a, b) => String(b.split[1]).localeCompare(String(a.split[1]))).slice(0, 25);
+  const splitTable = splits.length ? renderInlineTable('Recent divisions where it split', ['Date', 'Body', 'Division', 'How its members voted'], splits.map((row) => [
+    escapeHtml(formatDate(row.split[1])),
+    escapeHtml(row.bodyLabel),
+    divisionLink(row.split[0], row.split[2]),
+    escapeHtml(Object.entries(row.split[3] || {}).map(([vote, n]) => `${VOTE_WORDS[vote] || vote} ${n}`).join(', '))
+  ])) : '';
+  const body = `
+    <p class="browse-muted">Cohesion is the average share of the party's voting members who voted with its majority, in divisions where at least two of them voted; a split is a division where under 80% did. Members are counted under the party they were elected for.</p>
+    ${table}${splitTable}`;
+  return renderCollapsiblePanel('Votes in divisions', body, countText(terms.reduce((n, row) => n + row.divisions, 0), 'division'), { open: false });
+}
+
+async function renderDivisionRoute(divisionId) {
+  const token = renderSeq;
+  state.currentDetail = null;
+  els.results.innerHTML = '<div class="browse-loading">Loading division...</div>';
+  const shard = divisionId ? await loadVotesJson(`${VOTES_ROOT}/divisions/${await divisionShard(divisionId)}.json`) : null;
+  if (token !== renderSeq) return;
+  const record = shard?.divisions?.[divisionId];
+  const index = await loadVotesJson(`${VOTES_ROOT}/index.json`);
+  if (token !== renderSeq) return;
+  if (!record) {
+    els.hero.innerHTML = '<p class="browse-kicker">Division</p><h1 class="browse-title">Division not found</h1>';
+    setDocumentHead({ title: 'Division not found – Civgraph' });
+    els.results.innerHTML = '<div class="browse-empty">Division not found.</div>';
+    return;
+  }
+  const bodyLabel = index?.bodies?.[record.body]?.label || record.body;
+  const title = record.title || record.question || 'Division';
+  els.hero.innerHTML = `
+    <p class="browse-kicker">Division</p>
+    <h1 class="browse-title">${escapeHtml(title)}</h1>
+    <p class="browse-description">${escapeHtml(bodyLabel)}, ${escapeHtml(formatDate(record.date))}${record.result ? ` · ${escapeHtml(record.result)}` : ''}</p>`;
+  setDocumentHead({ title: `${title} (${formatDate(record.date)}) – Division – Civgraph`, description: `${bodyLabel} division of ${formatDate(record.date)}: ${title}.` });
+  const counts = [['Ayes', record.ayes], ['Noes', record.noes], ['Abstained', record.abstain]].filter(([, n]) => n !== '' && n !== null && n !== undefined);
+  const source = index?.sources?.find((row) => row.body === record.body);
+  const facts = `
+    <section class="browse-detail__panel">
+      <h2>Result</h2>
+      <dl class="browse-reader-facts">${[
+        ['Body', escapeHtml(bodyLabel)],
+        ['Date', escapeHtml(formatDate(record.date))],
+        ['Question', record.question && record.question !== title ? escapeHtml(record.question) : ''],
+        ['Result', record.result ? escapeHtml(record.result) : ''],
+        ...counts.map(([label, n]) => [label, formatNumber(Number(n))]),
+        ['Source', `${/^https?:/.test(record.sourceUrl || '') ? `<a href="${escapeAttr(record.sourceUrl)}" rel="noopener" target="_blank">${escapeHtml(record.source)}</a>` : escapeHtml(`${record.source || ''} ${record.sourceUrl || ''}`)}${source ? ` <span class="browse-muted">(${escapeHtml(source.licence)})</span>` : ''}`]
+      ].filter(([, value]) => value).map(([key, value]) => `<div><dt>${escapeHtml(key)}</dt><dd>${value}</dd></div>`).join('')}</dl>
+      ${record.partial ? '<p class="browse-muted">Only the votes of members for Irish (to 1922) and Northern Ireland (from 1922) constituencies are held for House of Commons divisions.</p>' : ''}
+    </section>`;
+  const parties = Object.entries(record.parties || {}).sort((a, b) => Object.values(b[1]).reduce((x, y) => x + y, 0) - Object.values(a[1]).reduce((x, y) => x + y, 0));
+  const partyTable = renderTablePanel('By party', ['Party', 'Aye', 'No', 'Abstained'], parties.map(([party, c]) => [
+    escapeHtml(party), formatNumber(c.aye || 0), formatNumber(c.no || 0), formatNumber(c.abstain || 0)
+  ]));
+  const members = [...normalizeArray(record.votes)].sort((a, b) => String(a[2]).localeCompare(String(b[2])) || String(a[0]).localeCompare(String(b[0])));
+  const memberTable = renderTablePanel('Members', ['Member', 'Vote', 'Party'], members.map((row) => [
+    row[1] ? `<a href="#/persons/${encodeURIComponent(String(row[1]))}" data-browse-link>${escapeHtml(row[0])}</a>` : escapeHtml(row[0]),
+    `${escapeHtml(voteWord(record.body, row[2]))}${row[3] ? ' <span class="browse-muted">(teller)</span>' : ''}`,
+    escapeHtml(row[4] || '')
+  ]));
+  els.results.innerHTML = `<div class="browse-detail browse-detail--reader">${facts}${partyTable}${memberTable}</div>`;
+  announce(`Loaded division ${title}.`);
+}
+
 // ---- Party profiles (data/browse/party-profiles/<slug>.json, scripts/build-party-profiles.mjs) ----
 
 async function loadPartyProfile(item) {
@@ -2962,7 +3180,7 @@ function renderRelatedPanel(type, item) {
     return renderSimpleTable('Contests', headers, byDate(item.elections), (row) => [
       formatDate(row.date),
       row.key ? `<a href="#/elections/${encodeURIComponent(electionSlug(row.key))}" data-browse-link>${escapeHtml(row.title)}</a>` : escapeHtml(row.title),
-      partyLinkHtml(row.party || ''),
+      partyLinkHtml(row.party || '') + partyAsPrintedHtml(row),
       row.key && row.constituency
         ? `<a href="#/elections/${encodeURIComponent(contestSlug(row.key, row.constituency))}" data-browse-link>${escapeHtml(row.constituency)}</a>`
         : escapeHtml(row.constituency || ''),
@@ -3895,7 +4113,7 @@ async function renderContestResultPanel(item) {
     return `
       <tr${candidate.elected ? ' class="browse-contest__elected"' : ''}>
         <td>${contestPersonLink(candidate)}</td>
-        <td>${party}</td>
+        <td>${party}${partyAsPrintedHtml(candidate)}</td>
         <td class="browse-num">${formatNumber(firstPrefs(candidate))}</td>
         <td class="browse-num">${share}</td>
         <td>${escapeHtml(outcome(candidate))}</td>
@@ -5340,6 +5558,16 @@ async function loadPartyNames() {
 }
 
 /** A party name as a link to its page when the party is known, else as text. `inner` is the HTML shown. */
+/**
+ * The party label exactly as the source printed it ("HR (P)", "Rep Clubs"), under the party it
+ * is read as, where the two differ: printed labels are shown as printed.
+ */
+function partyAsPrintedHtml(row) {
+  const printed = String(row?.partyAsPrinted || '').trim();
+  if (!printed || printed === String(row?.party || '').trim()) return '';
+  return ` <small class="browse-party-printed" title="${escapeAttr(`Party label as printed in the source: ${printed}`)}">printed ${escapeHtml(printed)}</small>`;
+}
+
 function partyLinkHtml(name, inner = escapeHtml(name || '')) {
   const names = state.partyNames && typeof state.partyNames.then !== 'function' ? state.partyNames : null;
   // Folded as build-browse-indexes.mjs normalizeName folds the keys.

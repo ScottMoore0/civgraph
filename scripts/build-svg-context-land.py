@@ -125,7 +125,7 @@ def main():
         'quantisation': Q,
         'encoding': 'Each ring or line is [x0, y0, dx1, dy1, ...]: integer degrees x 1e4, WGS84, deltas after the first point.',
         'credits': [
-            'Island of Ireland: Civgraph outlines from OSNI (Open Government Licence v3.0) and Tailte Eireann (CC BY 4.0)',
+            'Island of Ireland: Civgraph outlines from OSNI (Open Government Licence v3.0) and Tailte Éireann (CC BY 4.0)',
             'Great Britain, Isle of Man and the Continent: Natural Earth 10m admin-0 map units v5.1.1 (public domain)',
         ],
         'features': features,
