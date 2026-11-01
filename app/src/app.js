@@ -213,10 +213,6 @@ class Test2App {
     // rather than after it (src/catalogue/flag.js).
     if (prefetchCatalogueData()) import('../../src/catalogue/index.js').catch(() => {});
 
-    await dataService.init({ loadBooks: false, loadGeographies: false });
-    dataService.fuse = null;
-    await this.loadTimelineTransitionManifest();
-
     // Version token is the index's own content hash, injected at build time by
     // build-test2-app.mjs. It must stay content-derived: _headers serves this
     // file immutable, so a token that does not change when the bytes change
@@ -225,7 +221,17 @@ class Test2App {
       cache: 'force-cache',
       portPlanCache: 'default'
     });
-    await this.metadataService.load();
+    // The three are independent, so they load side by side: one after another, the catalogue
+    // waited for the map list (/_api/catalogue), then the transition manifest, then the 3.9 MB
+    // map index and its port plan before it could draw (UX review 2026-10-31, L10).
+    // The port plan (2.2 MB) is fetched with the index rather than after it is parsed.
+    const portPlan = this.metadataService.loadPortPlan();
+    this.metadataService.loadPortPlan = () => portPlan;
+    await Promise.all([
+      dataService.init({ loadBooks: false, loadGeographies: false }).then(() => { dataService.fuse = null; }),
+      this.loadTimelineTransitionManifest(),
+      this.metadataService.load()
+    ]);
 
     // The catalogue (ui-controller) reads from dataService (data/database/maps.json),
     // which doesn't include the test-only 3D/LiDAR layers — so their catalogue cards
@@ -272,6 +278,11 @@ class Test2App {
 
     this._suspendURLState = true;
     this.mapController.init('map');
+    // Layers are added only once the style has loaded. The controller's own wait gave up after
+    // 3 s and added them anyway, which threw "Style is not done loading" and dropped them --
+    // in a background tab or hidden pane always, because MapLibre parses even an inline style
+    // on an animation frame, and such a page gets none until it is shown.
+    this.mapController.waitForMap = () => this.whenStyleLoaded();
     this.installOutsideMapHighlightClear();
     this.relocateMobileCatalogueToggle();
     this.installMobilePaneToggle();
@@ -326,7 +337,10 @@ class Test2App {
     this.setupSourcePanel();
     this.setupURLStateListener();
     this.scheduleElectionCatalogueWarm();
-    window.__civgraphTest2.restorePromise = this.restoreURLState()
+    // The catalogue above is drawn now; the address's layers wait for the map's style (and
+    // the address is left alone until they are back).
+    window.__civgraphTest2.restorePromise = this.whenStyleLoaded()
+      .then(() => this.restoreURLState())
       .catch((error) => this.showMapError(error))
       .finally(() => {
         this._suspendURLState = false;
@@ -334,6 +348,36 @@ class Test2App {
       });
     await window.__civgraphTest2.restorePromise;
     this.showFirstVisitHint();
+  }
+
+  /**
+   * Resolves once the map's style has loaded, so sources and layers can be added: at once if it
+   * has, else on its 'style.load' (checked every quarter second too, in case the event was
+   * missed). Never on a timer alone: adding a layer to a style still loading throws and the
+   * layer is lost.
+   */
+  whenStyleLoaded() {
+    const map = this.mapController?.map;
+    if (!map) return Promise.resolve();
+    const ready = () => Boolean(map.style?._loaded) || Boolean(map.isStyleLoaded?.());
+    if (ready()) return Promise.resolve();
+    if (!this._styleLoadedPromise) {
+      this._styleLoadedPromise = new Promise((resolve) => {
+        let timer = 0;
+        const check = () => {
+          if (!ready()) return;
+          map.off('style.load', check);
+          map.off('styledata', check);
+          clearInterval(timer);
+          this._styleLoadedPromise = null;
+          resolve();
+        };
+        map.on('style.load', check);
+        map.on('styledata', check);
+        timer = setInterval(check, 250);
+      });
+    }
+    return this._styleLoadedPromise;
   }
 
   registerServiceWorker() {
@@ -3331,9 +3375,12 @@ class Test2App {
     const currentTimestamp = this.getCurrentTimelineTimestamp(activeIds);
     const items = timestamps.map((timestamp) => {
       const mapId = referenceMapId ? this.getTimelineMapIdForTimestamp(referenceMapId, timestamp) : null;
+      const yearOnly = mapId ? this.yearOnlyMapDate(dataService.getMapById(mapId)) : null;
       return {
         timestamp,
-        label: this.formatTimelineTimestamp(timestamp),
+        label: yearOnly || this.formatTimelineTimestamp(timestamp),
+        // A map dated only by its year reads "2023", not "01 Jan 2023" (UX review L4).
+        displayLabel: yearOnly || '',
         mapId,
         // An edition named only by its year ("2017") would repeat the date above it.
         sublabel: [mapId && dataService.getMapById(mapId)?.name].filter((name) => name && !/^\d{4}$/.test(String(name).trim()))[0] || ''
@@ -3371,8 +3418,22 @@ class Test2App {
     return this.formatTimelineDate(date);
   }
 
+  /**
+   * A map's year when its date is known only to the year: a bare year (2023), or 1 January of
+   * it with nothing saying the day is meant (the 1977 DEDs are "1977-01-01"). A map named
+   * "1 Jan 1919", or in force from that day, keeps its day. Null otherwise.
+   */
+  yearOnlyMapDate(map) {
+    const raw = String(map?.date ?? '').trim();
+    if (/^\d{4}$/.test(raw)) return raw;
+    if (!/^\d{4}-01-01$/.test(raw)) return null;
+    if (/\b1 Jan(uary)?\b|-01-01\b/i.test(`${map.id || ''} ${map.name || ''}`) || map.dateEffective === raw) return null;
+    return raw.slice(0, 4);
+  }
+
   formatTimelineItemLabel(item) {
     if (!item) return '';
+    if (item.displayLabel) return item.displayLabel;
     const candidates = [item.timestamp, item.date, item.label];
     for (const candidate of candidates) {
       const date = this.parseTimelineDate(candidate);
@@ -3974,9 +4035,9 @@ class Test2App {
     }
     const map = this.mapController?.map;
     if (!map) return;
-    if (typeof map.isStyleLoaded === 'function' && !map.isStyleLoaded()) {
-      await new Promise((resolve) => map.once('load', resolve));
-    }
+    // Not map.once('load'): that fires once, on the first frame drawn, so a wait begun after
+    // it (a tile still loading makes isStyleLoaded() false) never ended.
+    await this.whenStyleLoaded();
     this.mapController.setBaseMap(this.baseMapId);
   }
 

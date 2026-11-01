@@ -42,6 +42,8 @@
   "unmatchedConstituencies": [],
   "availableStyleModes": [
     "winner",
+    "voteShare",
+    "majority",
     "seats"
   ],
   "partySummary": [
@@ -51,15 +53,15 @@
       "stood": 0,
       "votes": 0,
       "colour": "#b8b8b8",
-      "share": null
+      "share": 0
     },
     {
       "party": "Independent/Other",
       "seats": 0,
       "stood": 6,
-      "votes": 0,
+      "votes": 249,
       "colour": "#6b7280",
-      "share": null
+      "share": 100
     }
   ],
   "mainLikePartySummary": [
@@ -84,15 +86,15 @@
     "validPoll": 0
   },
   "entityIndex": {
-    "totalValid": 0,
+    "totalValid": 249,
     "parties": [
       {
         "name": "Independent/Other",
         "colour": "#888888",
-        "firstPrefs": 0,
-        "finalVotes": 0,
+        "firstPrefs": 249,
+        "finalVotes": 249,
         "stood": 6,
-        "elected": 2,
+        "elected": 3,
         "constituencies": [
           "East Ward",
           "North Ward",
@@ -117,20 +119,20 @@
             "status": "Elected"
           },
           {
-            "id": "John Dillon|",
-            "name": "John Dillon",
-            "constituency": "East Ward",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": ""
-          },
-          {
             "id": "Eugene Conroy|",
             "name": "Eugene Conroy",
             "constituency": "East Ward",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": ""
+            "firstPref": 147,
+            "finalVotes": 147,
+            "status": "Elected"
+          },
+          {
+            "id": "James Dillon|",
+            "name": "James Dillon",
+            "constituency": "East Ward",
+            "firstPref": 102,
+            "finalVotes": 102,
+            "status": "Not Elected"
           },
           {
             "id": "J McCrossan|",
@@ -149,10 +151,32 @@
             "status": ""
           }
         ],
-        "shareOfTotal": null
+        "shareOfTotal": 100
       }
     ],
     "candidates": [
+      {
+        "id": "Eugene Conroy|",
+        "key": "Eugene Conroy|",
+        "name": "Eugene Conroy",
+        "party": "",
+        "colour": "#888888",
+        "firstPrefs": 147,
+        "finalVotes": 147,
+        "electedCount": 1,
+        "constituencies": [
+          "East Ward"
+        ],
+        "appearances": [
+          {
+            "constituency": "East Ward",
+            "firstPref": 147,
+            "finalVotes": 147,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 59.036144578313255
+      },
       {
         "id": "John Dillon|",
         "key": "John Dillon|",
@@ -163,7 +187,6 @@
         "finalVotes": 0,
         "electedCount": 1,
         "constituencies": [
-          "East Ward",
           "West Ward"
         ],
         "appearances": [
@@ -172,15 +195,9 @@
             "firstPref": 0,
             "finalVotes": 0,
             "status": "Elected"
-          },
-          {
-            "constituency": "East Ward",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": ""
           }
         ],
-        "shareOfTotal": null
+        "shareOfTotal": 0
       },
       {
         "id": "William McDevitt|",
@@ -202,16 +219,16 @@
             "status": "Elected"
           }
         ],
-        "shareOfTotal": null
+        "shareOfTotal": 0
       },
       {
-        "id": "Eugene Conroy|",
-        "key": "Eugene Conroy|",
-        "name": "Eugene Conroy",
+        "id": "James Dillon|",
+        "key": "James Dillon|",
+        "name": "James Dillon",
         "party": "",
         "colour": "#888888",
-        "firstPrefs": 0,
-        "finalVotes": 0,
+        "firstPrefs": 102,
+        "finalVotes": 102,
         "electedCount": 0,
         "constituencies": [
           "East Ward"
@@ -219,12 +236,12 @@
         "appearances": [
           {
             "constituency": "East Ward",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": ""
+            "firstPref": 102,
+            "finalVotes": 102,
+            "status": "Not Elected"
           }
         ],
-        "shareOfTotal": null
+        "shareOfTotal": 40.963855421686745
       },
       {
         "id": "J McCrossan|",
@@ -246,7 +263,7 @@
             "status": ""
           }
         ],
-        "shareOfTotal": null
+        "shareOfTotal": 0
       },
       {
         "id": "Owen Canavan|",
@@ -268,7 +285,7 @@
             "status": ""
           }
         ],
-        "shareOfTotal": null
+        "shareOfTotal": 0
       }
     ]
   },
@@ -276,66 +293,37 @@
     {
       "constituency": "East Ward",
       "winnerParty": "Independent",
-      "winnerName": "John Dillon",
+      "winnerName": "Eugene Conroy",
       "leadingParty": null,
-      "leadingName": "John Dillon",
-      "leadingVotes": null,
-      "leadingPct": null,
+      "leadingName": "Eugene Conroy",
+      "leadingVotes": 147,
+      "leadingPct": 59.04,
       "turnoutPct": null,
-      "majority": 0,
-      "majorityPct": null,
+      "majority": 45,
+      "majorityPct": 18.07,
       "seatsWon": 1,
       "seatsTotal": 1,
       "quota": null,
       "electorate": null,
       "totalPoll": null,
       "spoiled": null,
-      "validPoll": null,
-      "totalVotes": null,
+      "validPoll": 249,
+      "totalVotes": 249,
       "colour": "#b8b8b8",
       "leadingColour": "#6b7280",
       "candidates": [
         {
-          "id": "John Dillon|",
-          "name": "John Dillon",
-          "party": "",
-          "firstPrefs": null,
-          "finalVotes": null,
-          "elected": false,
-          "electedAt": null,
-          "autoReturnedCeannComhairle": false,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "",
-          "colour": "#888888",
-          "gender": "",
-          "dailAbbreviation": "",
-          "officialCandidateId": "",
-          "officialStatus": "",
-          "counts": [
-            {
-              "count": 1,
-              "total": null,
-              "transfers": null,
-              "status": "",
-              "firstPrefs": null
-            }
-          ],
-          "personId": 134001,
-          "name_id": "n-john-dillon"
-        },
-        {
           "id": "Eugene Conroy|",
           "name": "Eugene Conroy",
           "party": "",
-          "firstPrefs": null,
-          "finalVotes": null,
-          "elected": false,
-          "electedAt": null,
+          "firstPrefs": 147,
+          "finalVotes": 147,
+          "elected": true,
+          "electedAt": 1,
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "",
+          "status": "Elected",
           "colour": "#888888",
           "gender": "",
           "dailAbbreviation": "",
@@ -344,29 +332,27 @@
           "counts": [
             {
               "count": 1,
-              "total": null,
-              "transfers": null,
-              "status": "",
-              "firstPrefs": null
+              "total": 147,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 147
             }
           ],
           "personId": 133940,
           "name_id": "n-eugene-conroy"
-        }
-      ],
-      "elected": [
+        },
         {
-          "id": "John Dillon|",
-          "name": "John Dillon",
+          "id": "James Dillon|",
+          "name": "James Dillon",
           "party": "",
-          "firstPrefs": null,
-          "finalVotes": null,
-          "elected": true,
+          "firstPrefs": 102,
+          "finalVotes": 102,
+          "elected": false,
           "electedAt": null,
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Deemed elected",
+          "status": "Not Elected",
           "colour": "#888888",
           "gender": "",
           "dailAbbreviation": "",
@@ -375,10 +361,41 @@
           "counts": [
             {
               "count": 1,
-              "total": null,
-              "transfers": null,
-              "status": "",
-              "firstPrefs": null
+              "total": 102,
+              "transfers": 0,
+              "status": "Not Elected",
+              "firstPrefs": 102
+            }
+          ],
+          "personId": 133998,
+          "name_id": "n-james-dillon"
+        }
+      ],
+      "elected": [
+        {
+          "id": "Eugene Conroy|",
+          "name": "Eugene Conroy",
+          "party": "",
+          "firstPrefs": 147,
+          "finalVotes": 147,
+          "elected": true,
+          "electedAt": 1,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "Elected",
+          "colour": "#888888",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "counts": [
+            {
+              "count": 1,
+              "total": 147,
+              "transfers": 0,
+              "status": "Elected",
+              "firstPrefs": 147
             }
           ]
         }
@@ -400,16 +417,16 @@
           "Constituency_Number": "",
           "Candidate_Id": "",
           "Count_Number": "1",
-          "Firstname": "John",
+          "Firstname": "James",
           "Surname": "Dillon",
-          "Candidate_First_Pref_Votes": "",
-          "Transfers": "",
-          "Total_Votes": "",
-          "Status": "",
-          "Occurred_On_Count": "",
+          "Candidate_First_Pref_Votes": "102.00",
+          "Transfers": "0.00",
+          "Total_Votes": "102.00",
+          "Status": "Not Elected",
+          "Occurred_On_Count": "1",
           "Party_Name": "",
           "Party_Colour": "#888888",
-          "candidateName": "John Dillon",
+          "candidateName": "James Dillon",
           "id": 0,
           "Name_As_Printed": "John Dillon",
           "Party_As_Printed": ""
@@ -420,11 +437,11 @@
           "Count_Number": "1",
           "Firstname": "Eugene",
           "Surname": "Conroy",
-          "Candidate_First_Pref_Votes": "",
-          "Transfers": "",
-          "Total_Votes": "",
-          "Status": "",
-          "Occurred_On_Count": "",
+          "Candidate_First_Pref_Votes": "147.00",
+          "Transfers": "0.00",
+          "Total_Votes": "147.00",
+          "Status": "Elected",
+          "Occurred_On_Count": "1",
           "Party_Name": "",
           "Party_Colour": "#888888",
           "candidateName": "Eugene Conroy",
@@ -459,16 +476,16 @@
               "Constituency_Number": "",
               "Candidate_Id": "",
               "Count_Number": "1",
-              "Firstname": "John",
+              "Firstname": "James",
               "Surname": "Dillon",
-              "Candidate_First_Pref_Votes": "",
-              "Transfers": "",
-              "Total_Votes": "",
-              "Status": "",
-              "Occurred_On_Count": "",
+              "Candidate_First_Pref_Votes": "102.00",
+              "Transfers": "0.00",
+              "Total_Votes": "102.00",
+              "Status": "Not Elected",
+              "Occurred_On_Count": "1",
               "Party_Name": "",
               "Party_Colour": "#888888",
-              "candidateName": "John Dillon",
+              "candidateName": "James Dillon",
               "id": 0,
               "Name_As_Printed": "John Dillon",
               "Party_As_Printed": ""
@@ -479,11 +496,11 @@
               "Count_Number": "1",
               "Firstname": "Eugene",
               "Surname": "Conroy",
-              "Candidate_First_Pref_Votes": "",
-              "Transfers": "",
-              "Total_Votes": "",
-              "Status": "",
-              "Occurred_On_Count": "",
+              "Candidate_First_Pref_Votes": "147.00",
+              "Transfers": "0.00",
+              "Total_Votes": "147.00",
+              "Status": "Elected",
+              "Occurred_On_Count": "1",
               "Party_Name": "",
               "Party_Colour": "#888888",
               "candidateName": "Eugene Conroy",
@@ -494,20 +511,21 @@
           ]
         },
         "source": {
-          "title": "Owner's research notes: Strabane Urban District ward results, compiled by the site owner",
-          "publisher": "Civgraph owner's research notes",
-          "kind": "research-notes",
-          "check": "figures as compiled in the owner's research notes; the notes do not name the newspapers they were taken from"
+          "title": "Londonderry Sentinel, 16 January 1906, p. 5 (Strabane Urban Council)",
+          "publisher": "Londonderry Sentinel",
+          "kind": "news",
+          "check": "checked against the printed declaration, which gives votes and a winner that our file lacks (see corrections)"
         },
-        "note": "Result not recorded: two names for the vacancy."
+        "note": "",
+        "correctionNote": "The East Ward was polled on Monday 15 January 1906, and the file had no votes or winner. The Londonderry Sentinel prints Eugene Conroy 147, elected, and James Dillon 102; the defeated candidate's forename is James, not John. (Londonderry Sentinel, Londonderry Sentinel, 16 January 1906, p. 5)"
       },
       "constituencyId": null,
       "constituencyNumber": null,
       "officialDail": null,
       "contestNotes": [
         {
-          "label": "Note",
-          "text": "Result not recorded: two names for the vacancy."
+          "label": "Corrected",
+          "text": "The East Ward was polled on Monday 15 January 1906, and the file had no votes or winner. The Londonderry Sentinel prints Eugene Conroy 147, elected, and James Dillon 102; the defeated candidate's forename is James, not John. (Londonderry Sentinel, Londonderry Sentinel, 16 January 1906, p. 5)"
         }
       ],
       "contestType": "election",
@@ -569,7 +587,7 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
+          "status": "Elected unopposed",
           "colour": "#888888",
           "gender": "",
           "dailAbbreviation": "",
@@ -580,7 +598,7 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ],
@@ -600,7 +618,7 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
+          "status": "Elected unopposed",
           "colour": "#888888",
           "gender": "",
           "dailAbbreviation": "",
@@ -611,7 +629,7 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ]
@@ -692,10 +710,10 @@
           ]
         },
         "source": {
-          "title": "Owner's research notes: Strabane Urban District ward results, compiled by the site owner",
-          "publisher": "Civgraph owner's research notes",
-          "kind": "research-notes",
-          "check": "figures as compiled in the owner's research notes; the notes do not name the newspapers they were taken from"
+          "title": "Northern Whig, 13 January 1906, p. 5 (Strabane)",
+          "publisher": "Northern Whig",
+          "kind": "news",
+          "check": "name checked against the printed nominations; returned unopposed"
         },
         "note": "Votes not recorded in the source."
       },
@@ -827,7 +845,7 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Deemed elected",
+          "status": "Elected unopposed",
           "colour": "#888888",
           "gender": "",
           "dailAbbreviation": "",
@@ -955,10 +973,10 @@
           ]
         },
         "source": {
-          "title": "Owner's research notes: Strabane Urban District ward results, compiled by the site owner",
-          "publisher": "Civgraph owner's research notes",
-          "kind": "research-notes",
-          "check": "figures as compiled in the owner's research notes; the notes do not name the newspapers they were taken from"
+          "title": "Northern Whig, 13 January 1906, p. 5 (Strabane)",
+          "publisher": "Northern Whig",
+          "kind": "news",
+          "check": "nominations only (a contest between the two names); no printed result was found; Canavan is listed among the members at the annual meeting (Londonderry Standard, 24 January 1906, p. 8)"
         },
         "note": "Result not recorded: two names for the vacancy."
       },
@@ -1030,7 +1048,7 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
+          "status": "Elected unopposed",
           "colour": "#888888",
           "gender": "",
           "dailAbbreviation": "",
@@ -1041,7 +1059,7 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ],
@@ -1061,7 +1079,7 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
+          "status": "Elected unopposed",
           "colour": "#888888",
           "gender": "",
           "dailAbbreviation": "",
@@ -1072,7 +1090,7 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ]
@@ -1153,10 +1171,10 @@
           ]
         },
         "source": {
-          "title": "Owner's research notes: Strabane Urban District ward results, compiled by the site owner",
-          "publisher": "Civgraph owner's research notes",
-          "kind": "research-notes",
-          "check": "figures as compiled in the owner's research notes; the notes do not name the newspapers they were taken from"
+          "title": "Northern Whig, 13 January 1906, p. 5 (Strabane)",
+          "publisher": "Northern Whig",
+          "kind": "news",
+          "check": "name checked against the printed nominations; returned unopposed"
         }
       },
       "constituencyId": null,

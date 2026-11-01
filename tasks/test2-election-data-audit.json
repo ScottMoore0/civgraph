@@ -1,52 +1,52 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-31T02:05:49.352Z",
+  "generatedAt": "2026-11-01T00:22:17.580Z",
   "failOnBlocking": true,
   "stats": {
     "manifest": {
       "schemaVersion": 1,
-      "generatedAt": "2026-10-31T01:02:30.915Z",
-      "entries": 1136,
+      "generatedAt": "2026-10-31T23:15:09.808Z",
+      "entries": 1138,
       "totals": {
-        "elections": 1136,
+        "elections": 1138,
         "loadable": 557,
         "placeholders": 569,
-        "matchedConstituencies": 7029,
+        "matchedConstituencies": 7041,
         "unmatchedConstituencies": 3237
       }
     },
     "browse": {
-      "total": 12538,
-      "parents": 1136,
-      "subEntries": 11402,
-      "overallSubEntries": 1136,
-      "constituencySubEntries": 10266
+      "total": 12554,
+      "parents": 1138,
+      "subEntries": 11416,
+      "overallSubEntries": 1138,
+      "constituencySubEntries": 10278
     },
     "sources": {
-      "sourceDetailFiles": 1136,
-      "resultBundles": 1136,
-      "summaryBundles": 1136,
+      "sourceDetailFiles": 1138,
+      "resultBundles": 1138,
+      "summaryBundles": 1138,
       "parentSourceRecordsMissing": 0,
       "sourceRecordsWithNoReferences": 0,
-      "sourceRecordsWithOneReference": 35,
-      "sourceRecordsWithMultipleReferences": 1101,
+      "sourceRecordsWithOneReference": 38,
+      "sourceRecordsWithMultipleReferences": 1100,
       "subEntriesWithNoReferences": 0,
-      "subEntriesWithOneReference": 215,
-      "subEntriesWithMultipleReferences": 11187
+      "subEntriesWithOneReference": 231,
+      "subEntriesWithMultipleReferences": 11185
     },
     "resultBundles": {
-      "loaded": 1136,
+      "loaded": 1138,
       "missing": 0,
-      "resultRows": 10266,
-      "matchedRows": 7029,
+      "resultRows": 10278,
+      "matchedRows": 7041,
       "unmatchedRows": 3237,
-      "candidateRows": 57386,
-      "electedRows": 28060,
-      "rowsWithCountDetail": 10246,
-      "rowsWithAnimationPayload": 10246,
-      "rowsExpectedTransferData": 4068,
+      "candidateRows": 57516,
+      "electedRows": 28143,
+      "rowsWithCountDetail": 10258,
+      "rowsWithAnimationPayload": 10258,
+      "rowsExpectedTransferData": 4077,
       "rowsMissingExpectedTransferData": 0,
-      "candidateRowsWithoutParty": 169
+      "candidateRowsWithoutParty": 153
     },
     "colours": {
       "auditFilePresent": true,
@@ -311,11 +311,11 @@
   },
   "issueSummary": {
     "bySeverity": {
-      "warning": 70
+      "warning": 74
     },
     "byCategory": {
-      "source-record-single-reference": 35,
-      "candidate-party-missing": 24,
+      "source-record-single-reference": 38,
+      "candidate-party-missing": 25,
       "elected-count": 11
     }
   },
@@ -370,9 +370,21 @@
     },
     {
       "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "belfast-county-borough-council__1961",
+      "message": "6 candidate rows have no party/label. Examples: Joseph Foster Cairns in Clifton; Frederick Robert Armstrong Hynds in Clifton; Francis Willis Watson in Clifton; John Samuel Roiston Harcourt in St. Anne's; Margaret Laird in St. Anne's."
+    },
+    {
+      "severity": "warning",
       "category": "source-record-single-reference",
       "key": "belfast-county-borough-council-aldermen__1961",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "belfast-county-borough-council-aldermen__1961",
+      "message": "1 candidate rows have no party/label. Examples: William Geddis in Duncairn."
     },
     {
       "severity": "warning",
@@ -396,19 +408,13 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "strabane-urban-district-council__1958",
-      "message": "13 candidate rows have no party/label. Examples: F Boyle in East Ward; J Campbell in East Ward; G Quinn in East Ward; J Maguire in East Ward; P White in East Ward."
+      "message": "13 candidate rows have no party/label. Examples: T Boyle in East Ward; J Campbell in East Ward; G Quinn in East Ward; J Maguire in East Ward; P White in East Ward."
     },
     {
       "severity": "warning",
       "category": "source-record-single-reference",
       "key": "strabane-urban-district-council__1955",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
-    },
-    {
-      "severity": "warning",
-      "category": "candidate-party-missing",
-      "key": "strabane-urban-district-council__1955",
-      "message": "17 candidate rows have no party/label. Examples: Teague Boyle in East Ward; George Quinn in East Ward; James Maguire in East Ward; Patrick White in East Ward; Walter A Elliott in North Ward."
     },
     {
       "severity": "warning",
@@ -420,7 +426,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "strabane-urban-district-council__1952",
-      "message": "14 candidate rows have no party/label. Examples: Teague Boyle in East Ward; James Maguire in East Ward; George Quinn in East Ward; Walter A Elliott in North Ward; Hubert Y. Fergusson in North Ward."
+      "message": "11 candidate rows have no party/label. Examples: Teague Boyle in East Ward; James Maguire in East Ward; George Quinn in East Ward; Andrew Gallagher in South Ward; John J. O'Kane in South Ward."
     },
     {
       "severity": "warning",
@@ -444,7 +450,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "strabane-urban-district-council__1939",
-      "message": "4 candidate rows have no party/label. Examples: T.A. Forbes in East Ward; W.J. McK Craig in North Ward; Thomas McGarrigle in South Ward; Thomas Maguire in South Ward."
+      "message": "3 candidate rows have no party/label. Examples: W.J. McK Craig in North Ward; Thomas McGarrigle in South Ward; Thomas Maguire in South Ward."
     },
     {
       "severity": "warning",
@@ -474,7 +480,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "strabane-urban-district-council__1929",
-      "message": "11 candidate rows have no party/label. Examples: John McDermott in East Ward; Thomas Stewart in East Ward; John Boyle in East Ward; John Kelly in East Ward; Michael Furey in South Ward."
+      "message": "9 candidate rows have no party/label. Examples: John McDermott in East Ward; John Boyle in East Ward; John Kelly in East Ward; Michael Furey in South Ward; Michael Bradley in South Ward."
     },
     {
       "severity": "warning",
@@ -497,7 +503,25 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "bangor-urban-district-council__1920-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "belfast-county-borough-council__1920-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lisburn-urban-district-council__1920-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "londonderry-county-borough-council__1920-01-15",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
     {
@@ -534,7 +558,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "strabane-urban-district-council__1914",
-      "message": "4 candidate rows have no party/label. Examples: Thomas K. Howie in East Ward; James White in North Ward; P Gallagher in South Ward; John McDermott in West Ward."
+      "message": "4 candidate rows have no party/label. Examples: Thomas K. Howie in East Ward; James White in North Ward; Edward Gallagher in South Ward; John McDermott in West Ward."
     },
     {
       "severity": "warning",
@@ -594,7 +618,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "strabane-urban-district-council__1909",
-      "message": "4 candidate rows have no party/label. Examples: James Elliott in East Ward; R. J. Blair in North Ward; Owen Canavan in South Ward; Eugene Conroy in West Ward."
+      "message": "4 candidate rows have no party/label. Examples: James Ellis in East Ward; R. J. Blair in North Ward; Owen Canavan in South Ward; Eugene Conroy in West Ward."
     },
     {
       "severity": "warning",
@@ -630,7 +654,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "strabane-urban-district-council__1906",
-      "message": "6 candidate rows have no party/label. Examples: John Dillon in East Ward; Eugene Conroy in East Ward; William McDevitt in North Ward; J McCrossan in South Ward; Owen Canavan in South Ward."
+      "message": "6 candidate rows have no party/label. Examples: Eugene Conroy in East Ward; James Dillon in East Ward; William McDevitt in North Ward; J McCrossan in South Ward; Owen Canavan in South Ward."
     },
     {
       "severity": "warning",
@@ -642,7 +666,7 @@
       "severity": "warning",
       "category": "candidate-party-missing",
       "key": "strabane-urban-district-council__1905",
-      "message": "5 candidate rows have no party/label. Examples: William Ellis in East Ward; John McColgan in East Ward; James White in North Ward; John McDermott in South Ward; James Toner in West Ward."
+      "message": "5 candidate rows have no party/label. Examples: James Ellis in East Ward; John McColgan in East Ward; James White in North Ward; John McDermott in South Ward; James Toner in West Ward."
     },
     {
       "severity": "warning",

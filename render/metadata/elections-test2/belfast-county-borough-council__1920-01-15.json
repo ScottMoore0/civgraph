@@ -15,18 +15,18 @@
   "localBodyByConstituency": null,
   "date": "1920-01-15",
   "year": 1920,
-  "sourceMapId": null,
-  "layerId": null,
-  "labelProperty": null,
+  "sourceMapId": "pc-1918",
+  "layerId": "pc-1918-vector-test",
+  "labelProperty": "Name",
   "councilSourceMapId": null,
   "councilLayerId": null,
   "councilLabelProperty": null,
   "councilGeometryType": null,
-  "geometryType": null,
-  "anchorUrl": null,
+  "geometryType": "polygon",
+  "anchorUrl": "/render/metadata/election-anchors-test2/pc-1918-vector-test.json",
   "previousKey": null,
   "previousDate": null,
-  "loadable": false,
+  "loadable": true,
   "displaySubtitle": "9 wards",
   "displayProvider": "Belfast County Borough Council",
   "constituencies": [
@@ -42,20 +42,18 @@
   ],
   "isByElection": false,
   "totalConstituencies": 9,
-  "matchedCount": 0,
-  "unmatchedCount": 9,
-  "unmatchedConstituencies": [
-    "Cromac",
-    "Duncairn",
-    "Falls",
-    "Ormeau",
-    "Pottinger",
-    "St. Anne's",
-    "Shankill",
-    "Victoria",
-    "Woodvale"
+  "matchedCount": 9,
+  "unmatchedCount": 0,
+  "unmatchedConstituencies": [],
+  "availableStyleModes": [
+    "winner",
+    "leadingParty",
+    "voteShare",
+    "turnout",
+    "majority",
+    "seats",
+    "quota"
   ],
-  "availableStyleModes": [],
   "partySummary": [
     {
       "party": "UUP",
@@ -14563,7 +14561,8 @@
           "kind": "academic",
           "check": "every stage transcribed by eye from the printed results sheet; every count adds to the printed valid vote, each result is the previous result plus the printed transfer, the quota is the valid vote divided by one more than the seats, plus one, and the party first-preference totals match the ward summary"
         },
-        "note": "First election by proportional representation (single transferable vote) under the Local Government (Ireland) Act 1919, on the nine wards that replaced the fifteen of 1896. Polled 15 January 1920 and counted on 16 and 17 January. The ward returned 7 members: 2 aldermen and 5 councillors."
+        "note": "First election by proportional representation (single transferable vote) under the Local Government (Ireland) Act 1919, on the nine wards that replaced the fifteen of 1896. Polled 15 January 1920 and counted on 16 and 17 January. The ward returned 7 members: 2 aldermen and 5 councillors.",
+        "boundaryNote": "Cromac electoral area: the Cromac and Windsor wards. The nine electoral areas were constituted by the Local Government Board for Ireland's Order of 26 November 1919 (Local Government (Ireland) Act 1919, s. 1), adopting the Corporation's scheme of 4 August 1919, and are described in the same words as the nine Belfast divisions of the Redistribution of Seats (Ireland) Act 1918 (Second Schedule, Part I), so the map draws them from the 1918 parliamentary divisions. Sources: Belfast News-Letter, 6 August 1919, p. 6 (the scheme), and 19 December 1919, p. 11 (the Order)."
       },
       "constituencyId": null,
       "constituencyNumber": null,
@@ -14572,6 +14571,10 @@
         {
           "label": "Note",
           "text": "First election by proportional representation (single transferable vote) under the Local Government (Ireland) Act 1919, on the nine wards that replaced the fifteen of 1896. Polled 15 January 1920 and counted on 16 and 17 January. The ward returned 7 members: 2 aldermen and 5 councillors."
+        },
+        {
+          "label": "Boundaries",
+          "text": "Cromac electoral area: the Cromac and Windsor wards. The nine electoral areas were constituted by the Local Government Board for Ireland's Order of 26 November 1919 (Local Government (Ireland) Act 1919, s. 1), adopting the Corporation's scheme of 4 August 1919, and are described in the same words as the nine Belfast divisions of the Redistribution of Seats (Ireland) Act 1918 (Second Schedule, Part I), so the map draws them from the 1918 parliamentary divisions. Sources: Belfast News-Letter, 6 August 1919, p. 6 (the scheme), and 19 December 1919, p. 11 (the Order)."
         }
       ],
       "contestType": "election",
@@ -14582,13 +14585,29 @@
       "transferDataExpected": true,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/belfast-county-borough-council/1920-01-15/cromac.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "anchor": null,
+      "featureId": "2109",
+      "featureName": "BELFAST CROMAC",
+      "featureAliases": [
+        "BELFAST CROMAC",
+        "CROMAC"
+      ],
+      "matchName": "BELFAST CROMAC",
+      "anchor": {
+        "center": [
+          -5.943461,
+          54.574405
+        ],
+        "bounds": {
+          "west": -5.974335,
+          "south": 54.552219,
+          "east": -5.912588,
+          "north": 54.596591
+        },
+        "method": "largest-ring-bounds-center",
+        "area": 0.0012495106464848215
+      },
       "syntheticRegion": null,
-      "matched": false
+      "matched": true
     },
     {
       "constituency": "Duncairn",
@@ -21152,7 +21171,8 @@
           "kind": "academic",
           "check": "every stage transcribed by eye from the printed results sheet; every count adds to the printed valid vote, each result is the previous result plus the printed transfer, the quota is the valid vote divided by one more than the seats, plus one, and the party first-preference totals match the ward summary"
         },
-        "note": "First election by proportional representation (single transferable vote) under the Local Government (Ireland) Act 1919, on the nine wards that replaced the fifteen of 1896. Polled 15 January 1920 and counted on 16 and 17 January. The ward returned 7 members: 2 aldermen and 5 councillors."
+        "note": "First election by proportional representation (single transferable vote) under the Local Government (Ireland) Act 1919, on the nine wards that replaced the fifteen of 1896. Polled 15 January 1920 and counted on 16 and 17 January. The ward returned 7 members: 2 aldermen and 5 councillors.",
+        "boundaryNote": "Duncairn electoral area: Duncairn ward and the part of Clifton ward north and east of the line of Oldpark Road, Mountview Street, Manor Street and Cliftonville Road. The nine electoral areas were constituted by the Local Government Board for Ireland's Order of 26 November 1919 (Local Government (Ireland) Act 1919, s. 1), adopting the Corporation's scheme of 4 August 1919, and are described in the same words as the nine Belfast divisions of the Redistribution of Seats (Ireland) Act 1918 (Second Schedule, Part I), so the map draws them from the 1918 parliamentary divisions. Sources: Belfast News-Letter, 6 August 1919, p. 6 (the scheme), and 19 December 1919, p. 11 (the Order)."
       },
       "constituencyId": null,
       "constituencyNumber": null,
@@ -21161,6 +21181,10 @@
         {
           "label": "Note",
           "text": "First election by proportional representation (single transferable vote) under the Local Government (Ireland) Act 1919, on the nine wards that replaced the fifteen of 1896. Polled 15 January 1920 and counted on 16 and 17 January. The ward returned 7 members: 2 aldermen and 5 councillors."
+        },
+        {
+          "label": "Boundaries",
+          "text": "Duncairn electoral area: Duncairn ward and the part of Clifton ward north and east of the line of Oldpark Road, Mountview Street, Manor Street and Cliftonville Road. The nine electoral areas were constituted by the Local Government Board for Ireland's Order of 26 November 1919 (Local Government (Ireland) Act 1919, s. 1), adopting the Corporation's scheme of 4 August 1919, and are described in the same words as the nine Belfast divisions of the Redistribution of Seats (Ireland) Act 1918 (Second Schedule, Part I), so the map draws them from the 1918 parliamentary divisions. Sources: Belfast News-Letter, 6 August 1919, p. 6 (the scheme), and 19 December 1919, p. 11 (the Order)."
         }
       ],
       "contestType": "election",
@@ -21171,13 +21195,29 @@
       "transferDataExpected": true,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/belfast-county-borough-council/1920-01-15/duncairn.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "anchor": null,
+      "featureId": "2104",
+      "featureName": "BELFAST DUNCAIRN",
+      "featureAliases": [
+        "BELFAST DUNCAIRN",
+        "DUNCAIRN"
+      ],
+      "matchName": "BELFAST DUNCAIRN",
+      "anchor": {
+        "center": [
+          -5.920478,
+          54.629956
+        ],
+        "bounds": {
+          "west": -5.966146,
+          "south": 54.607511,
+          "east": -5.874809,
+          "north": 54.652401
+        },
+        "method": "largest-ring-bounds-center",
+        "area": 0.002281351956661934
+      },
       "syntheticRegion": null,
-      "matched": false
+      "matched": true
     },
     {
       "constituency": "Falls",
@@ -31333,7 +31373,8 @@
           "check": "every stage transcribed by eye from the printed results sheet; every count adds to the printed valid vote, each result is the previous result plus the printed transfer, the quota is the valid vote divided by one more than the seats, plus one, and the party first-preference totals match the ward summary"
         },
         "note": "First election by proportional representation (single transferable vote) under the Local Government (Ireland) Act 1919, on the nine wards that replaced the fifteen of 1896. Polled 15 January 1920 and counted on 16 and 17 January. The ward returned 6 members: 1 alderman and 5 councillors.",
-        "sourceNote": "The results sheet prints 784 rejected papers; the ward summary prints 764 spoiled, which with the 9,811 valid votes gives its printed poll of 10,575 (80.1% of the electorate). The summary figures are used."
+        "sourceNote": "The results sheet prints 784 rejected papers; the ward summary prints 764 spoiled, which with the 9,811 valid votes gives its printed poll of 10,575 (80.1% of the electorate). The summary figures are used.",
+        "boundaryNote": "Falls electoral area: the Falls and Smithfield wards. The nine electoral areas were constituted by the Local Government Board for Ireland's Order of 26 November 1919 (Local Government (Ireland) Act 1919, s. 1), adopting the Corporation's scheme of 4 August 1919, and are described in the same words as the nine Belfast divisions of the Redistribution of Seats (Ireland) Act 1918 (Second Schedule, Part I), so the map draws them from the 1918 parliamentary divisions. Sources: Belfast News-Letter, 6 August 1919, p. 6 (the scheme), and 19 December 1919, p. 11 (the Order)."
       },
       "constituencyId": null,
       "constituencyNumber": null,
@@ -31342,6 +31383,10 @@
         {
           "label": "Note",
           "text": "First election by proportional representation (single transferable vote) under the Local Government (Ireland) Act 1919, on the nine wards that replaced the fifteen of 1896. Polled 15 January 1920 and counted on 16 and 17 January. The ward returned 6 members: 1 alderman and 5 councillors."
+        },
+        {
+          "label": "Boundaries",
+          "text": "Falls electoral area: the Falls and Smithfield wards. The nine electoral areas were constituted by the Local Government Board for Ireland's Order of 26 November 1919 (Local Government (Ireland) Act 1919, s. 1), adopting the Corporation's scheme of 4 August 1919, and are described in the same words as the nine Belfast divisions of the Redistribution of Seats (Ireland) Act 1918 (Second Schedule, Part I), so the map draws them from the 1918 parliamentary divisions. Sources: Belfast News-Letter, 6 August 1919, p. 6 (the scheme), and 19 December 1919, p. 11 (the Order)."
         },
         {
           "label": "Source note",
@@ -31356,13 +31401,29 @@
       "transferDataExpected": true,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/belfast-county-borough-council/1920-01-15/falls.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "anchor": null,
+      "featureId": "2107",
+      "featureName": "BELFAST FALLS",
+      "featureAliases": [
+        "BELFAST FALLS",
+        "FALLS"
+      ],
+      "matchName": "BELFAST FALLS",
+      "anchor": {
+        "center": [
+          -5.962313,
+          54.592681
+        ],
+        "bounds": {
+          "west": -5.994227,
+          "south": 54.582876,
+          "east": -5.930399,
+          "north": 54.602485
+        },
+        "method": "largest-ring-bounds-center",
+        "area": 0.0005063630129537788
+      },
       "syntheticRegion": null,
-      "matched": false
+      "matched": true
     },
     {
       "constituency": "Ormeau",
@@ -36631,7 +36692,8 @@
           "kind": "academic",
           "check": "every stage transcribed by eye from the printed results sheet; every count adds to the printed valid vote, each result is the previous result plus the printed transfer, the quota is the valid vote divided by one more than the seats, plus one, and the party first-preference totals match the ward summary"
         },
-        "note": "First election by proportional representation (single transferable vote) under the Local Government (Ireland) Act 1919, on the nine wards that replaced the fifteen of 1896. Polled 15 January 1920 and counted on 16 and 17 January. The ward returned 6 members: 1 alderman and 5 councillors."
+        "note": "First election by proportional representation (single transferable vote) under the Local Government (Ireland) Act 1919, on the nine wards that replaced the fifteen of 1896. Polled 15 January 1920 and counted on 16 and 17 January. The ward returned 6 members: 1 alderman and 5 councillors.",
+        "boundaryNote": "Ormeau electoral area: Ormeau ward. The nine electoral areas were constituted by the Local Government Board for Ireland's Order of 26 November 1919 (Local Government (Ireland) Act 1919, s. 1), adopting the Corporation's scheme of 4 August 1919, and are described in the same words as the nine Belfast divisions of the Redistribution of Seats (Ireland) Act 1918 (Second Schedule, Part I), so the map draws them from the 1918 parliamentary divisions. Sources: Belfast News-Letter, 6 August 1919, p. 6 (the scheme), and 19 December 1919, p. 11 (the Order)."
       },
       "constituencyId": null,
       "constituencyNumber": null,
@@ -36640,6 +36702,10 @@
         {
           "label": "Note",
           "text": "First election by proportional representation (single transferable vote) under the Local Government (Ireland) Act 1919, on the nine wards that replaced the fifteen of 1896. Polled 15 January 1920 and counted on 16 and 17 January. The ward returned 6 members: 1 alderman and 5 councillors."
+        },
+        {
+          "label": "Boundaries",
+          "text": "Ormeau electoral area: Ormeau ward. The nine electoral areas were constituted by the Local Government Board for Ireland's Order of 26 November 1919 (Local Government (Ireland) Act 1919, s. 1), adopting the Corporation's scheme of 4 August 1919, and are described in the same words as the nine Belfast divisions of the Redistribution of Seats (Ireland) Act 1918 (Second Schedule, Part I), so the map draws them from the 1918 parliamentary divisions. Sources: Belfast News-Letter, 6 August 1919, p. 6 (the scheme), and 19 December 1919, p. 11 (the Order)."
         }
       ],
       "contestType": "election",
@@ -36650,13 +36716,29 @@
       "transferDataExpected": true,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/belfast-county-borough-council/1920-01-15/ormeau.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "anchor": null,
+      "featureId": "2110",
+      "featureName": "BELFAST ORMEAU",
+      "featureAliases": [
+        "BELFAST ORMEAU",
+        "ORMEAU"
+      ],
+      "matchName": "BELFAST ORMEAU",
+      "anchor": {
+        "center": [
+          -5.907094,
+          54.580629
+        ],
+        "bounds": {
+          "west": -5.931115,
+          "south": 54.564664,
+          "east": -5.883074,
+          "north": 54.596593
+        },
+        "method": "largest-ring-bounds-center",
+        "area": 0.0007378823760163627
+      },
       "syntheticRegion": null,
-      "matched": false
+      "matched": true
     },
     {
       "constituency": "Pottinger",
@@ -42657,7 +42739,8 @@
           "kind": "academic",
           "check": "every stage transcribed by eye from the printed results sheet; every count adds to the printed valid vote, each result is the previous result plus the printed transfer, the quota is the valid vote divided by one more than the seats, plus one, and the party first-preference totals match the ward summary"
         },
-        "note": "First election by proportional representation (single transferable vote) under the Local Government (Ireland) Act 1919, on the nine wards that replaced the fifteen of 1896. Polled 15 January 1920 and counted on 16 and 17 January. The ward returned 6 members: 1 alderman and 5 councillors."
+        "note": "First election by proportional representation (single transferable vote) under the Local Government (Ireland) Act 1919, on the nine wards that replaced the fifteen of 1896. Polled 15 January 1920 and counted on 16 and 17 January. The ward returned 6 members: 1 alderman and 5 councillors.",
+        "boundaryNote": "Pottinger electoral area: Pottinger ward. The nine electoral areas were constituted by the Local Government Board for Ireland's Order of 26 November 1919 (Local Government (Ireland) Act 1919, s. 1), adopting the Corporation's scheme of 4 August 1919, and are described in the same words as the nine Belfast divisions of the Redistribution of Seats (Ireland) Act 1918 (Second Schedule, Part I), so the map draws them from the 1918 parliamentary divisions. Sources: Belfast News-Letter, 6 August 1919, p. 6 (the scheme), and 19 December 1919, p. 11 (the Order)."
       },
       "constituencyId": null,
       "constituencyNumber": null,
@@ -42666,6 +42749,10 @@
         {
           "label": "Note",
           "text": "First election by proportional representation (single transferable vote) under the Local Government (Ireland) Act 1919, on the nine wards that replaced the fifteen of 1896. Polled 15 January 1920 and counted on 16 and 17 January. The ward returned 6 members: 1 alderman and 5 councillors."
+        },
+        {
+          "label": "Boundaries",
+          "text": "Pottinger electoral area: Pottinger ward. The nine electoral areas were constituted by the Local Government Board for Ireland's Order of 26 November 1919 (Local Government (Ireland) Act 1919, s. 1), adopting the Corporation's scheme of 4 August 1919, and are described in the same words as the nine Belfast divisions of the Redistribution of Seats (Ireland) Act 1918 (Second Schedule, Part I), so the map draws them from the 1918 parliamentary divisions. Sources: Belfast News-Letter, 6 August 1919, p. 6 (the scheme), and 19 December 1919, p. 11 (the Order)."
         }
       ],
       "contestType": "election",
@@ -42676,13 +42763,29 @@
       "transferDataExpected": true,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/belfast-county-borough-council/1920-01-15/pottinger.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "anchor": null,
+      "featureId": "2111",
+      "featureName": "BELFAST POTTINGER",
+      "featureAliases": [
+        "BELFAST POTTINGER",
+        "POTTINGER"
+      ],
+      "matchName": "BELFAST POTTINGER",
+      "anchor": {
+        "center": [
+          -5.876279,
+          54.590511
+        ],
+        "bounds": {
+          "west": -5.92046,
+          "south": 54.580556,
+          "east": -5.832097,
+          "north": 54.600465
+        },
+        "method": "largest-ring-bounds-center",
+        "area": 0.0007797355522607711
+      },
       "syntheticRegion": null,
-      "matched": false
+      "matched": true
     },
     {
       "constituency": "Shankill",
@@ -52987,7 +53090,8 @@
           "check": "every stage transcribed by eye from the printed results sheet; every count adds to the printed valid vote, each result is the previous result plus the printed transfer, the quota is the valid vote divided by one more than the seats, plus one, and the party first-preference totals match the ward summary"
         },
         "note": "First election by proportional representation (single transferable vote) under the Local Government (Ireland) Act 1919, on the nine wards that replaced the fifteen of 1896. Polled 15 January 1920 and counted on 16 and 17 January. The ward returned 8 members: 2 aldermen and 6 councillors.",
-        "sourceNote": "Dawson Gordon is printed GORDAN on his row of the sheet and Gordon in its headings and list of those elected; filed as Gordon. Florence Clark is printed CLARK on her row and Clarke in the headings."
+        "sourceNote": "Dawson Gordon is printed GORDAN on his row of the sheet and Gordon in its headings and list of those elected; filed as Gordon. Florence Clark is printed CLARK on her row and Clarke in the headings.",
+        "boundaryNote": "Shankill electoral area: Shankill ward and the rest of Clifton ward. The nine electoral areas were constituted by the Local Government Board for Ireland's Order of 26 November 1919 (Local Government (Ireland) Act 1919, s. 1), adopting the Corporation's scheme of 4 August 1919, and are described in the same words as the nine Belfast divisions of the Redistribution of Seats (Ireland) Act 1918 (Second Schedule, Part I), so the map draws them from the 1918 parliamentary divisions. Sources: Belfast News-Letter, 6 August 1919, p. 6 (the scheme), and 19 December 1919, p. 11 (the Order)."
       },
       "constituencyId": null,
       "constituencyNumber": null,
@@ -52996,6 +53100,10 @@
         {
           "label": "Note",
           "text": "First election by proportional representation (single transferable vote) under the Local Government (Ireland) Act 1919, on the nine wards that replaced the fifteen of 1896. Polled 15 January 1920 and counted on 16 and 17 January. The ward returned 8 members: 2 aldermen and 6 councillors."
+        },
+        {
+          "label": "Boundaries",
+          "text": "Shankill electoral area: Shankill ward and the rest of Clifton ward. The nine electoral areas were constituted by the Local Government Board for Ireland's Order of 26 November 1919 (Local Government (Ireland) Act 1919, s. 1), adopting the Corporation's scheme of 4 August 1919, and are described in the same words as the nine Belfast divisions of the Redistribution of Seats (Ireland) Act 1918 (Second Schedule, Part I), so the map draws them from the 1918 parliamentary divisions. Sources: Belfast News-Letter, 6 August 1919, p. 6 (the scheme), and 19 December 1919, p. 11 (the Order)."
         },
         {
           "label": "Source note",
@@ -53010,13 +53118,29 @@
       "transferDataExpected": true,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/belfast-county-borough-council/1920-01-15/shankill.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "anchor": null,
+      "featureId": "2105",
+      "featureName": "BELFAST SHANKILL",
+      "featureAliases": [
+        "BELFAST SHANKILL",
+        "SHANKILL"
+      ],
+      "matchName": "BELFAST SHANKILL",
+      "anchor": {
+        "center": [
+          -5.968213,
+          54.620908
+        ],
+        "bounds": {
+          "west": -6.000517,
+          "south": 54.603967,
+          "east": -5.935909,
+          "north": 54.637849
+        },
+        "method": "largest-ring-bounds-center",
+        "area": 0.0010653615553709729
+      },
       "syntheticRegion": null,
-      "matched": false
+      "matched": true
     },
     {
       "constituency": "St. Anne's",
@@ -58614,7 +58738,8 @@
           "kind": "academic",
           "check": "every stage transcribed by eye from the printed results sheet; every count adds to the printed valid vote, each result is the previous result plus the printed transfer, the quota is the valid vote divided by one more than the seats, plus one, and the party first-preference totals match the ward summary"
         },
-        "note": "First election by proportional representation (single transferable vote) under the Local Government (Ireland) Act 1919, on the nine wards that replaced the fifteen of 1896. Polled 15 January 1920 and counted on 16 and 17 January. The ward returned 6 members: 2 aldermen and 4 councillors."
+        "note": "First election by proportional representation (single transferable vote) under the Local Government (Ireland) Act 1919, on the nine wards that replaced the fifteen of 1896. Polled 15 January 1920 and counted on 16 and 17 January. The ward returned 6 members: 2 aldermen and 4 councillors.",
+        "boundaryNote": "St. Anne's electoral area: the St. Anne's and St. George's wards. The nine electoral areas were constituted by the Local Government Board for Ireland's Order of 26 November 1919 (Local Government (Ireland) Act 1919, s. 1), adopting the Corporation's scheme of 4 August 1919, and are described in the same words as the nine Belfast divisions of the Redistribution of Seats (Ireland) Act 1918 (Second Schedule, Part I), so the map draws them from the 1918 parliamentary divisions. Sources: Belfast News-Letter, 6 August 1919, p. 6 (the scheme), and 19 December 1919, p. 11 (the Order)."
       },
       "constituencyId": null,
       "constituencyNumber": null,
@@ -58623,6 +58748,10 @@
         {
           "label": "Note",
           "text": "First election by proportional representation (single transferable vote) under the Local Government (Ireland) Act 1919, on the nine wards that replaced the fifteen of 1896. Polled 15 January 1920 and counted on 16 and 17 January. The ward returned 6 members: 2 aldermen and 4 councillors."
+        },
+        {
+          "label": "Boundaries",
+          "text": "St. Anne's electoral area: the St. Anne's and St. George's wards. The nine electoral areas were constituted by the Local Government Board for Ireland's Order of 26 November 1919 (Local Government (Ireland) Act 1919, s. 1), adopting the Corporation's scheme of 4 August 1919, and are described in the same words as the nine Belfast divisions of the Redistribution of Seats (Ireland) Act 1918 (Second Schedule, Part I), so the map draws them from the 1918 parliamentary divisions. Sources: Belfast News-Letter, 6 August 1919, p. 6 (the scheme), and 19 December 1919, p. 11 (the Order)."
         }
       ],
       "contestType": "election",
@@ -58633,13 +58762,29 @@
       "transferDataExpected": true,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/belfast-county-borough-council/1920-01-15/st-annes.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "anchor": null,
+      "featureId": "2108",
+      "featureName": "BELFAST ST. ANNE'S",
+      "featureAliases": [
+        "BELFAST ST. ANNE'S",
+        "ST. ANNE'S"
+      ],
+      "matchName": "BELFAST ST. ANNE'S",
+      "anchor": {
+        "center": [
+          -5.95005,
+          54.587739
+        ],
+        "bounds": {
+          "west": -5.986647,
+          "south": 54.568114,
+          "east": -5.913454,
+          "north": 54.607364
+        },
+        "method": "largest-ring-bounds-center",
+        "area": 0.0007380507506567213
+      },
       "syntheticRegion": null,
-      "matched": false
+      "matched": true
     },
     {
       "constituency": "Victoria",
@@ -64038,7 +64183,8 @@
           "kind": "academic",
           "check": "every stage transcribed by eye from the printed results sheet; every count adds to the printed valid vote, each result is the previous result plus the printed transfer, the quota is the valid vote divided by one more than the seats, plus one, and the party first-preference totals match the ward summary"
         },
-        "note": "First election by proportional representation (single transferable vote) under the Local Government (Ireland) Act 1919, on the nine wards that replaced the fifteen of 1896. Polled 15 January 1920 and counted on 16 and 17 January. The ward returned 7 members: 2 aldermen and 5 councillors."
+        "note": "First election by proportional representation (single transferable vote) under the Local Government (Ireland) Act 1919, on the nine wards that replaced the fifteen of 1896. Polled 15 January 1920 and counted on 16 and 17 January. The ward returned 7 members: 2 aldermen and 5 councillors.",
+        "boundaryNote": "Victoria electoral area: the Dock and Victoria wards. The nine electoral areas were constituted by the Local Government Board for Ireland's Order of 26 November 1919 (Local Government (Ireland) Act 1919, s. 1), adopting the Corporation's scheme of 4 August 1919, and are described in the same words as the nine Belfast divisions of the Redistribution of Seats (Ireland) Act 1918 (Second Schedule, Part I), so the map draws them from the 1918 parliamentary divisions. Sources: Belfast News-Letter, 6 August 1919, p. 6 (the scheme), and 19 December 1919, p. 11 (the Order)."
       },
       "constituencyId": null,
       "constituencyNumber": null,
@@ -64047,6 +64193,10 @@
         {
           "label": "Note",
           "text": "First election by proportional representation (single transferable vote) under the Local Government (Ireland) Act 1919, on the nine wards that replaced the fifteen of 1896. Polled 15 January 1920 and counted on 16 and 17 January. The ward returned 7 members: 2 aldermen and 5 councillors."
+        },
+        {
+          "label": "Boundaries",
+          "text": "Victoria electoral area: the Dock and Victoria wards. The nine electoral areas were constituted by the Local Government Board for Ireland's Order of 26 November 1919 (Local Government (Ireland) Act 1919, s. 1), adopting the Corporation's scheme of 4 August 1919, and are described in the same words as the nine Belfast divisions of the Redistribution of Seats (Ireland) Act 1918 (Second Schedule, Part I), so the map draws them from the 1918 parliamentary divisions. Sources: Belfast News-Letter, 6 August 1919, p. 6 (the scheme), and 19 December 1919, p. 11 (the Order)."
         }
       ],
       "contestType": "election",
@@ -64057,13 +64207,29 @@
       "transferDataExpected": true,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/belfast-county-borough-council/1920-01-15/victoria.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "anchor": null,
+      "featureId": "2112",
+      "featureName": "BELFAST VICTORIA",
+      "featureAliases": [
+        "BELFAST VICTORIA",
+        "VICTORIA"
+      ],
+      "matchName": "BELFAST VICTORIA",
+      "anchor": {
+        "center": [
+          -5.885667,
+          54.616444
+        ],
+        "bounds": {
+          "west": -5.937236,
+          "south": 54.594357,
+          "east": -5.834099,
+          "north": 54.638531
+        },
+        "method": "largest-ring-bounds-center",
+        "area": 0.0021351593890107726
+      },
       "syntheticRegion": null,
-      "matched": false
+      "matched": true
     },
     {
       "constituency": "Woodvale",
@@ -72483,7 +72649,8 @@
           "check": "every stage transcribed by eye from the printed results sheet; every count adds to the printed valid vote, each result is the previous result plus the printed transfer, the quota is the valid vote divided by one more than the seats, plus one"
         },
         "note": "First election by proportional representation (single transferable vote) under the Local Government (Ireland) Act 1919, on the nine wards that replaced the fifteen of 1896. Polled 15 January 1920 and counted on 16 and 17 January. The ward returned 7 members: 2 aldermen and 5 councillors.",
-        "sourceNote": "The results sheet prints Twaddell's first preferences as 572, but 572 plus his printed transfer of 239 is not his printed 812, and the first count then adds to 11,244 against the printed 11,245; 573 is used. The electorate is from the ward scheme table in Part One of the report."
+        "sourceNote": "The results sheet prints Twaddell's first preferences as 572, but 572 plus his printed transfer of 239 is not his printed 812, and the first count then adds to 11,244 against the printed 11,245; 573 is used. The electorate is from the ward scheme table in Part One of the report.",
+        "boundaryNote": "Woodvale electoral area: the Court and Woodvale wards. The nine electoral areas were constituted by the Local Government Board for Ireland's Order of 26 November 1919 (Local Government (Ireland) Act 1919, s. 1), adopting the Corporation's scheme of 4 August 1919, and are described in the same words as the nine Belfast divisions of the Redistribution of Seats (Ireland) Act 1918 (Second Schedule, Part I), so the map draws them from the 1918 parliamentary divisions. Sources: Belfast News-Letter, 6 August 1919, p. 6 (the scheme), and 19 December 1919, p. 11 (the Order)."
       },
       "constituencyId": null,
       "constituencyNumber": null,
@@ -72492,6 +72659,10 @@
         {
           "label": "Note",
           "text": "First election by proportional representation (single transferable vote) under the Local Government (Ireland) Act 1919, on the nine wards that replaced the fifteen of 1896. Polled 15 January 1920 and counted on 16 and 17 January. The ward returned 7 members: 2 aldermen and 5 councillors."
+        },
+        {
+          "label": "Boundaries",
+          "text": "Woodvale electoral area: the Court and Woodvale wards. The nine electoral areas were constituted by the Local Government Board for Ireland's Order of 26 November 1919 (Local Government (Ireland) Act 1919, s. 1), adopting the Corporation's scheme of 4 August 1919, and are described in the same words as the nine Belfast divisions of the Redistribution of Seats (Ireland) Act 1918 (Second Schedule, Part I), so the map draws them from the 1918 parliamentary divisions. Sources: Belfast News-Letter, 6 August 1919, p. 6 (the scheme), and 19 December 1919, p. 11 (the Order)."
         },
         {
           "label": "Source note",
@@ -72506,13 +72677,29 @@
       "transferDataExpected": true,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/belfast-county-borough-council/1920-01-15/woodvale.json",
-      "featureId": null,
-      "featureName": null,
-      "featureAliases": [],
-      "matchName": null,
-      "anchor": null,
+      "featureId": "2106",
+      "featureName": "BELFAST WOODVALE",
+      "featureAliases": [
+        "BELFAST WOODVALE",
+        "WOODVALE"
+      ],
+      "matchName": "BELFAST WOODVALE",
+      "anchor": {
+        "center": [
+          -5.964936,
+          54.604179
+        ],
+        "bounds": {
+          "west": -5.997255,
+          "south": 54.590788,
+          "east": -5.932617,
+          "north": 54.61757
+        },
+        "method": "largest-ring-bounds-center",
+        "area": 0.000663719774177742
+      },
       "syntheticRegion": null,
-      "matched": false
+      "matched": true
     }
   ]
 }

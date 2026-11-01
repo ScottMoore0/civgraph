@@ -50,10 +50,18 @@
   "partySummary": [
     {
       "party": "Independent",
-      "seats": 11,
+      "seats": 8,
       "stood": 0,
       "votes": 0,
       "colour": "#b8b8b8",
+      "share": 0
+    },
+    {
+      "party": "UUP",
+      "seats": 3,
+      "stood": 3,
+      "votes": 0,
+      "colour": "#48a5ee",
       "share": 0
     },
     {
@@ -67,7 +75,7 @@
     {
       "party": "Independent/Other",
       "seats": 0,
-      "stood": 14,
+      "stood": 11,
       "votes": 1865,
       "colour": "#6b7280",
       "share": 90.6660184735051
@@ -76,7 +84,7 @@
   "mainLikePartySummary": [
     {
       "party": "Independent/Other",
-      "seats": 3,
+      "seats": 2,
       "stood": 0,
       "votes": 0,
       "colour": "#888888",
@@ -88,6 +96,14 @@
       "stood": 0,
       "votes": 0,
       "colour": "#A0A0A0",
+      "share": null
+    },
+    {
+      "party": "UUP",
+      "seats": 1,
+      "stood": 0,
+      "votes": 0,
+      "colour": "#48A5EE",
       "share": null
     }
   ],
@@ -110,11 +126,10 @@
         "colour": "#888888",
         "firstPrefs": 1865,
         "finalVotes": 1865,
-        "stood": 14,
-        "elected": 11,
+        "stood": 11,
+        "elected": 8,
         "constituencies": [
           "East Ward",
-          "North Ward",
           "South Ward",
           "West Ward"
         ],
@@ -184,30 +199,6 @@
             "status": "Not Elected"
           },
           {
-            "id": "Walter A Elliott|",
-            "name": "Walter A Elliott",
-            "constituency": "North Ward",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": "Elected"
-          },
-          {
-            "id": "Hubert Y. Fergusson|",
-            "name": "Hubert Y. Fergusson",
-            "constituency": "North Ward",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": "Elected"
-          },
-          {
-            "id": "Cecil Herbert Russell|",
-            "name": "Cecil Herbert Russell",
-            "constituency": "North Ward",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": "Elected"
-          },
-          {
             "id": "Teague Boyle|",
             "name": "Teague Boyle",
             "constituency": "East Ward",
@@ -233,6 +224,44 @@
           }
         ],
         "shareOfTotal": 90.6660184735051
+      },
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 3,
+        "elected": 3,
+        "constituencies": [
+          "North Ward"
+        ],
+        "candidates": [
+          {
+            "id": "Walter A Elliott|UUP",
+            "name": "Walter A Elliott",
+            "constituency": "North Ward",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          },
+          {
+            "id": "Hubert Y. Fergusson|UUP",
+            "name": "Hubert Y. Fergusson",
+            "constituency": "North Ward",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          },
+          {
+            "id": "Cecil Herbert Russell|UUP",
+            "name": "Cecil Herbert Russell",
+            "constituency": "North Ward",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 0
       },
       {
         "name": "Irish Labour",
@@ -391,11 +420,11 @@
         "shareOfTotal": 7.778317938745746
       },
       {
-        "id": "Walter A Elliott|",
-        "key": "Walter A Elliott|",
+        "id": "Walter A Elliott|UUP",
+        "key": "Walter A Elliott|UUP",
         "name": "Walter A Elliott",
-        "party": "",
-        "colour": "#888888",
+        "party": "UUP",
+        "colour": "#48A5EE",
         "firstPrefs": 0,
         "finalVotes": 0,
         "electedCount": 1,
@@ -413,11 +442,11 @@
         "shareOfTotal": 0
       },
       {
-        "id": "Hubert Y. Fergusson|",
-        "key": "Hubert Y. Fergusson|",
+        "id": "Hubert Y. Fergusson|UUP",
+        "key": "Hubert Y. Fergusson|UUP",
         "name": "Hubert Y. Fergusson",
-        "party": "",
-        "colour": "#888888",
+        "party": "UUP",
+        "colour": "#48A5EE",
         "firstPrefs": 0,
         "finalVotes": 0,
         "electedCount": 1,
@@ -435,11 +464,11 @@
         "shareOfTotal": 0
       },
       {
-        "id": "Cecil Herbert Russell|",
-        "key": "Cecil Herbert Russell|",
+        "id": "Cecil Herbert Russell|UUP",
+        "key": "Cecil Herbert Russell|UUP",
         "name": "Cecil Herbert Russell",
-        "party": "",
-        "colour": "#888888",
+        "party": "UUP",
+        "colour": "#48A5EE",
         "firstPrefs": 0,
         "finalVotes": 0,
         "electedCount": 1,
@@ -624,7 +653,7 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
+          "status": "Elected unopposed",
           "colour": "#888888",
           "gender": "",
           "dailAbbreviation": "",
@@ -635,7 +664,7 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ],
@@ -653,7 +682,7 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
+          "status": "Elected unopposed",
           "colour": "#888888",
           "gender": "",
           "dailAbbreviation": "",
@@ -664,7 +693,7 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ],
@@ -682,7 +711,7 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
+          "status": "Elected unopposed",
           "colour": "#888888",
           "gender": "",
           "dailAbbreviation": "",
@@ -693,7 +722,7 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ],
@@ -713,7 +742,7 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
+          "status": "Elected unopposed",
           "colour": "#888888",
           "gender": "",
           "dailAbbreviation": "",
@@ -724,7 +753,7 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ]
@@ -740,7 +769,7 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
+          "status": "Elected unopposed",
           "colour": "#888888",
           "gender": "",
           "dailAbbreviation": "",
@@ -751,7 +780,7 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ]
@@ -767,7 +796,7 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
+          "status": "Elected unopposed",
           "colour": "#888888",
           "gender": "",
           "dailAbbreviation": "",
@@ -778,7 +807,7 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ]
@@ -931,10 +960,10 @@
           ]
         },
         "source": {
-          "title": "Owner's research notes: Strabane Urban District ward results, compiled by the site owner",
-          "publisher": "Civgraph owner's research notes",
-          "kind": "research-notes",
-          "check": "figures as compiled in the owner's research notes; the notes do not name the newspapers they were taken from"
+          "title": "Londonderry Sentinel, 22 May 1952, p. 3 (Strabane)",
+          "publisher": "Londonderry Sentinel",
+          "kind": "news",
+          "check": "every name checked against the printed report; returned unopposed, no poll"
         }
       },
       "constituencyId": null,
@@ -969,9 +998,9 @@
     },
     {
       "constituency": "North Ward",
-      "winnerParty": "Independent",
+      "winnerParty": "UUP",
       "winnerName": "3 elected",
-      "leadingParty": null,
+      "leadingParty": "UUP",
       "leadingName": "Walter A Elliott",
       "leadingVotes": null,
       "leadingPct": null,
@@ -986,13 +1015,13 @@
       "spoiled": null,
       "validPoll": null,
       "totalVotes": null,
-      "colour": "#b8b8b8",
-      "leadingColour": "#6b7280",
+      "colour": "#48a5ee",
+      "leadingColour": "#48a5ee",
       "candidates": [
         {
-          "id": "Walter A Elliott|",
+          "id": "Walter A Elliott|UUP",
           "name": "Walter A Elliott",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -1000,8 +1029,8 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
-          "colour": "#888888",
+          "status": "Elected unopposed",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -1011,17 +1040,17 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ],
-          "personId": 133983,
+          "personId": 134027,
           "name_id": "n-walter-a-elliott"
         },
         {
-          "id": "Hubert Y. Fergusson|",
+          "id": "Hubert Y. Fergusson|UUP",
           "name": "Hubert Y. Fergusson",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -1029,8 +1058,8 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
-          "colour": "#888888",
+          "status": "Elected unopposed",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -1040,7 +1069,7 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ],
@@ -1048,9 +1077,9 @@
           "name_id": "n-hubert-y-fergusson"
         },
         {
-          "id": "Cecil Herbert Russell|",
+          "id": "Cecil Herbert Russell|UUP",
           "name": "Cecil Herbert Russell",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -1058,8 +1087,8 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
-          "colour": "#888888",
+          "status": "Elected unopposed",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -1069,19 +1098,19 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ],
-          "personId": 134114,
+          "personId": 133960,
           "name_id": "n-cecil-herbert-russell"
         }
       ],
       "elected": [
         {
-          "id": "Walter A Elliott|",
+          "id": "Walter A Elliott|UUP",
           "name": "Walter A Elliott",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -1089,8 +1118,8 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
-          "colour": "#888888",
+          "status": "Elected unopposed",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -1100,15 +1129,15 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ]
         },
         {
-          "id": "Hubert Y. Fergusson|",
+          "id": "Hubert Y. Fergusson|UUP",
           "name": "Hubert Y. Fergusson",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -1116,8 +1145,8 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
-          "colour": "#888888",
+          "status": "Elected unopposed",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -1127,15 +1156,15 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ]
         },
         {
-          "id": "Cecil Herbert Russell|",
+          "id": "Cecil Herbert Russell|UUP",
           "name": "Cecil Herbert Russell",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -1143,8 +1172,8 @@
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "Elected",
-          "colour": "#888888",
+          "status": "Elected unopposed",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -1154,7 +1183,7 @@
               "count": 1,
               "total": null,
               "transfers": null,
-              "status": "Elected",
+              "status": "Elected unopposed",
               "firstPrefs": null
             }
           ]
@@ -1184,8 +1213,8 @@
           "Total_Votes": "",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
           "candidateName": "Walter A Elliott",
           "id": 0,
           "Name_As_Printed": "Walter A Elliott",
@@ -1203,8 +1232,8 @@
           "Total_Votes": "",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
           "candidateName": "Hubert Y. Fergusson",
           "id": 1,
           "Name_As_Printed": "Hubert Y. Fergusson",
@@ -1221,8 +1250,8 @@
           "Total_Votes": "",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
           "candidateName": "Cecil Herbert Russell",
           "id": 2,
           "Name_As_Printed": "Cecil Herbert Russell",
@@ -1263,8 +1292,8 @@
               "Total_Votes": "",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
               "candidateName": "Walter A Elliott",
               "id": 0,
               "Name_As_Printed": "Walter A Elliott",
@@ -1282,8 +1311,8 @@
               "Total_Votes": "",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
               "candidateName": "Hubert Y. Fergusson",
               "id": 1,
               "Name_As_Printed": "Hubert Y. Fergusson",
@@ -1300,8 +1329,8 @@
               "Total_Votes": "",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
               "candidateName": "Cecil Herbert Russell",
               "id": 2,
               "Name_As_Printed": "Cecil Herbert Russell",
@@ -1311,15 +1340,22 @@
           ]
         },
         "source": {
-          "title": "Owner's research notes: Strabane Urban District ward results, compiled by the site owner",
-          "publisher": "Civgraph owner's research notes",
-          "kind": "research-notes",
-          "check": "figures as compiled in the owner's research notes; the notes do not name the newspapers they were taken from"
-        }
+          "title": "Londonderry Sentinel, 22 May 1952, p. 3 (Strabane)",
+          "publisher": "Londonderry Sentinel",
+          "kind": "news",
+          "check": "every name checked against the printed report; returned unopposed, no poll"
+        },
+        "correctionNote": "The three North Ward members returned unopposed had no party label. The Londonderry Sentinel prints each of them as a Unionist (U.). (Londonderry Sentinel, Londonderry Sentinel, 22 May 1952, p. 3)"
       },
       "constituencyId": null,
       "constituencyNumber": null,
       "officialDail": null,
+      "contestNotes": [
+        {
+          "label": "Corrected",
+          "text": "The three North Ward members returned unopposed had no party label. The Londonderry Sentinel prints each of them as a Unionist (U.). (Londonderry Sentinel, Londonderry Sentinel, 22 May 1952, p. 3)"
+        }
+      ],
       "contestType": "election",
       "kind": "general",
       "votingSystem": "block-vote",
@@ -1756,15 +1792,22 @@
           ]
         },
         "source": {
-          "title": "Owner's research notes: Strabane Urban District ward results, compiled by the site owner",
-          "publisher": "Civgraph owner's research notes",
-          "kind": "research-notes",
-          "check": "figures as compiled in the owner's research notes; the notes do not name the newspapers they were taken from"
-        }
+          "title": "Belfast News-Letter, 22 May 1952, p. 5 (Urban councils)",
+          "publisher": "Belfast News-Letter",
+          "kind": "news",
+          "check": "every figure checked against the printed report; the Londonderry Sentinel, 22 May 1952, p. 3, agrees except for McDonnell's figure (see corrections)"
+        },
+        "sourceNote": "The papers disagree on Gerard McDonnell's vote: the Belfast News-Letter prints 251 and the Londonderry Sentinel 255. Every other South Ward figure agrees, neither paper prints a total or valid poll to check them against, and the Irish Weekly (31 May 1952) lists only the elected members. Civgraph shows the News-Letter's 251."
       },
       "constituencyId": null,
       "constituencyNumber": null,
       "officialDail": null,
+      "contestNotes": [
+        {
+          "label": "Source note",
+          "text": "The papers disagree on Gerard McDonnell's vote: the Belfast News-Letter prints 251 and the Londonderry Sentinel 255. Every other South Ward figure agrees, neither paper prints a total or valid poll to check them against, and the Irish Weekly (31 May 1952) lists only the elected members. Civgraph shows the News-Letter's 251."
+        }
+      ],
       "contestType": "election",
       "kind": "general",
       "votingSystem": "block-vote",
@@ -2270,10 +2313,13 @@
           ]
         },
         "source": {
-          "title": "Owner's research notes: Strabane Urban District ward results, compiled by the site owner",
-          "publisher": "Civgraph owner's research notes",
-          "kind": "research-notes",
-          "check": "figures as compiled in the owner's research notes; the notes do not name the newspapers they were taken from"
+          "title": "Belfast News-Letter, 22 May 1952, p. 5 (Urban councils)",
+          "publisher": "Belfast News-Letter",
+          "kind": "news",
+          "check": "every figure checked against the printed report",
+          "confirmedBy": [
+            "Londonderry Sentinel, 22 May 1952, p. 3 (Strabane)"
+          ]
         }
       },
       "constituencyId": null,

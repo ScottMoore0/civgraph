@@ -8,8 +8,8 @@
   "contestType": "election",
   "kind": "by-election",
   "votingSystem": "fptp",
-  "contestStatus": "uncontested",
-  "candidateRowsExpected": false,
+  "contestStatus": "contested",
+  "candidateRowsExpected": true,
   "transferDataExpected": false,
   "localBodies": null,
   "localBodyByConstituency": null,
@@ -40,6 +40,8 @@
   "availableStyleModes": [
     "winner",
     "leadingParty",
+    "voteShare",
+    "majority",
     "seats"
   ],
   "partySummary": [
@@ -47,9 +49,17 @@
       "party": "Anti-Partitionist",
       "seats": 1,
       "stood": 1,
-      "votes": 0,
+      "votes": 5581,
       "colour": "#6b7280",
-      "share": null
+      "share": 68.59636184857423
+    },
+    {
+      "party": "Irish Labour",
+      "seats": 0,
+      "stood": 1,
+      "votes": 2555,
+      "colour": "#cc0000",
+      "share": 31.40363815142576
     }
   ],
   "mainLikePartySummary": [
@@ -57,15 +67,23 @@
       "party": "Anti-Partitionist",
       "seats": 1,
       "stood": 1,
-      "votes": 0,
+      "votes": 5581,
       "colour": "#228B22",
-      "share": null
+      "share": 68.59636184857423
+    },
+    {
+      "party": "Irish Labour",
+      "seats": 0,
+      "stood": 1,
+      "votes": 2555,
+      "colour": "#A0A0A0",
+      "share": 31.40363815142576
     }
   ],
   "mainLikeTotals": {
-    "validPoll": 0,
+    "validPoll": 8136,
     "totalPoll": 0,
-    "totalElectorate": 0,
+    "totalElectorate": 17496,
     "totalSpoiled": 0,
     "totalSeats": 1
   },
@@ -77,11 +95,11 @@
       "name": "Charles McGleenan",
       "party": "Anti-Partitionist",
       "colour": "#228B22",
-      "firstPrefs": 0,
-      "votes": 0,
-      "constPct": 0,
-      "firstPrefPct": 0,
-      "finalVotes": 0,
+      "firstPrefs": 5581,
+      "votes": 5581,
+      "constPct": 68.59636184857423,
+      "firstPrefPct": 68.59636184857423,
+      "finalVotes": 5581,
       "elected": true,
       "electedAt": 1,
       "excluded": false,
@@ -91,26 +109,55 @@
       "status": "Elected",
       "counts": {
         "1": {
-          "total": 0,
+          "total": 5581,
           "transfers": 0,
           "status": "Elected"
         }
       },
       "candidateKey": "charles mcgleenan|anti-partitionist",
       "name_id": "n-charles-mcgleenan"
+    },
+    {
+      "id": "fix-seamus-mackearney-1950",
+      "personId": 135098,
+      "constituency": "South Armagh",
+      "name": "Seamus MacKearney",
+      "party": "Irish Labour",
+      "colour": "#A0A0A0",
+      "firstPrefs": 2555,
+      "votes": 2555,
+      "constPct": 31.40363815142576,
+      "firstPrefPct": 31.40363815142576,
+      "finalVotes": 2555,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 2555,
+          "transfers": 0,
+          "status": ""
+        }
+      },
+      "candidateKey": "seamus mackearney|irish labour",
+      "name_id": "n-seamus-mackearney"
     }
   ],
   "mainLikeCandidateTotals": {
-    "validPoll": 0
+    "validPoll": 8136
   },
   "entityIndex": {
-    "totalValid": 0,
+    "totalValid": 8136,
     "parties": [
       {
         "name": "Anti-Partitionist",
         "colour": "#228B22",
-        "firstPrefs": 0,
-        "finalVotes": 0,
+        "firstPrefs": 5581,
+        "finalVotes": 5581,
         "stood": 1,
         "elected": 1,
         "constituencies": [
@@ -121,12 +168,34 @@
             "id": "Charles McGleenan|Anti-Partitionist",
             "name": "Charles McGleenan",
             "constituency": "South Armagh",
-            "firstPref": 0,
-            "finalVotes": 0,
+            "firstPref": 5581,
+            "finalVotes": 5581,
             "status": "Elected"
           }
         ],
-        "shareOfTotal": null
+        "shareOfTotal": 68.59636184857423
+      },
+      {
+        "name": "Irish Labour",
+        "colour": "#A0A0A0",
+        "firstPrefs": 2555,
+        "finalVotes": 2555,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "South Armagh"
+        ],
+        "candidates": [
+          {
+            "id": "Seamus MacKearney|Irish Labour",
+            "name": "Seamus MacKearney",
+            "constituency": "South Armagh",
+            "firstPref": 2555,
+            "finalVotes": 2555,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 31.40363815142576
       }
     ],
     "candidates": [
@@ -136,8 +205,8 @@
         "name": "Charles McGleenan",
         "party": "Anti-Partitionist",
         "colour": "#228B22",
-        "firstPrefs": 0,
-        "finalVotes": 0,
+        "firstPrefs": 5581,
+        "finalVotes": 5581,
         "electedCount": 1,
         "constituencies": [
           "South Armagh"
@@ -145,12 +214,34 @@
         "appearances": [
           {
             "constituency": "South Armagh",
-            "firstPref": 0,
-            "finalVotes": 0,
+            "firstPref": 5581,
+            "finalVotes": 5581,
             "status": "Elected"
           }
         ],
-        "shareOfTotal": null
+        "shareOfTotal": 68.59636184857423
+      },
+      {
+        "id": "Seamus MacKearney|Irish Labour",
+        "key": "Seamus MacKearney|Irish Labour",
+        "name": "Seamus MacKearney",
+        "party": "Irish Labour",
+        "colour": "#A0A0A0",
+        "firstPrefs": 2555,
+        "finalVotes": 2555,
+        "electedCount": 0,
+        "constituencies": [
+          "South Armagh"
+        ],
+        "appearances": [
+          {
+            "constituency": "South Armagh",
+            "firstPref": 2555,
+            "finalVotes": 2555,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 31.40363815142576
       }
     ]
   },
@@ -161,19 +252,19 @@
       "winnerName": "Charles McGleenan",
       "leadingParty": "Anti-Partitionist",
       "leadingName": "Charles McGleenan",
-      "leadingVotes": null,
-      "leadingPct": null,
+      "leadingVotes": 5581,
+      "leadingPct": 68.6,
       "turnoutPct": null,
-      "majority": null,
-      "majorityPct": null,
+      "majority": 3026,
+      "majorityPct": 37.19,
       "seatsWon": 1,
       "seatsTotal": 1,
       "quota": null,
-      "electorate": null,
+      "electorate": 17496,
       "totalPoll": null,
       "spoiled": null,
-      "validPoll": null,
-      "totalVotes": null,
+      "validPoll": 8136,
+      "totalVotes": 8136,
       "colour": "#6b7280",
       "leadingColour": "#6b7280",
       "candidates": [
@@ -181,8 +272,8 @@
           "id": "14448286",
           "name": "Charles McGleenan",
           "party": "Anti-Partitionist",
-          "firstPrefs": null,
-          "finalVotes": null,
+          "firstPrefs": 5581,
+          "finalVotes": 5581,
           "elected": true,
           "electedAt": 1,
           "autoReturnedCeannComhairle": false,
@@ -197,14 +288,43 @@
           "counts": [
             {
               "count": 1,
-              "total": null,
+              "total": 5581,
               "transfers": 0,
               "status": "Elected",
-              "firstPrefs": null
+              "firstPrefs": 5581
             }
           ],
           "personId": 104325,
           "name_id": "n-charles-mcgleenan"
+        },
+        {
+          "id": "fix-seamus-mackearney-1950",
+          "name": "Seamus MacKearney",
+          "party": "Irish Labour",
+          "firstPrefs": 2555,
+          "finalVotes": 2555,
+          "elected": false,
+          "electedAt": null,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "",
+          "colour": "#A0A0A0",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "counts": [
+            {
+              "count": 1,
+              "total": 2555,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 2555
+            }
+          ],
+          "personId": 135098,
+          "name_id": "n-seamus-mackearney"
         }
       ],
       "elected": [
@@ -212,8 +332,8 @@
           "id": "14448286",
           "name": "Charles McGleenan",
           "party": "Anti-Partitionist",
-          "firstPrefs": null,
-          "finalVotes": null,
+          "firstPrefs": 5581,
+          "finalVotes": 5581,
           "elected": true,
           "electedAt": 1,
           "autoReturnedCeannComhairle": false,
@@ -228,10 +348,10 @@
           "counts": [
             {
               "count": 1,
-              "total": null,
+              "total": 5581,
               "transfers": 0,
               "status": "Elected",
-              "firstPrefs": null
+              "firstPrefs": 5581
             }
           ]
         }
@@ -241,26 +361,42 @@
         "Constituency_Number": "",
         "Number_Of_Seats": "1",
         "Spoiled": "",
-        "Total_Electorate": "",
+        "Total_Electorate": "17496",
         "Total_Poll": "",
-        "Valid_Poll": ""
+        "Valid_Poll": "8136"
       },
       "countGroup": [
         {
-          "Candidate_First_Pref_Votes": "Unopposed",
+          "Candidate_First_Pref_Votes": "5581.00",
           "Candidate_Id": "14448286",
           "Constituency_Number": "",
           "Count_Number": "1",
           "Firstname": "Charles",
-          "Occurred_On_Count": "",
+          "Occurred_On_Count": "1",
           "Party_Colour": "#228B22",
           "Party_Name": "Anti-Partitionist",
           "Status": "Elected",
           "Surname": "McGleenan",
-          "Total_Votes": "",
+          "Total_Votes": "5581.00",
           "Transfers": "0.00",
           "candidateName": "Charles McGleenan",
           "id": 0
+        },
+        {
+          "Constituency_Number": "",
+          "Candidate_Id": "fix-seamus-mackearney-1950",
+          "Count_Number": "1",
+          "Firstname": "Seamus",
+          "Surname": "MacKearney",
+          "Candidate_First_Pref_Votes": "2555.00",
+          "Transfers": "0.00",
+          "Total_Votes": "2555.00",
+          "Status": "",
+          "Occurred_On_Count": "",
+          "Party_Name": "Irish Labour",
+          "Party_Colour": "#A0A0A0",
+          "candidateName": "Seamus MacKearney",
+          "id": 1
         }
       ],
       "syntheticCountGroup": false,
@@ -277,30 +413,48 @@
             "Constituency_Number": "",
             "Number_Of_Seats": "1",
             "Spoiled": "",
-            "Total_Electorate": "",
+            "Total_Electorate": "17496",
             "Total_Poll": "",
-            "Valid_Poll": ""
+            "Valid_Poll": "8136"
           },
           "countGroup": [
             {
-              "Candidate_First_Pref_Votes": "Unopposed",
+              "Candidate_First_Pref_Votes": "5581.00",
               "Candidate_Id": "14448286",
               "Constituency_Number": "",
               "Count_Number": "1",
               "Firstname": "Charles",
-              "Occurred_On_Count": "",
+              "Occurred_On_Count": "1",
               "Party_Colour": "#228B22",
               "Party_Name": "Anti-Partitionist",
               "Status": "Elected",
               "Surname": "McGleenan",
-              "Total_Votes": "",
+              "Total_Votes": "5581.00",
               "Transfers": "0.00",
               "candidateName": "Charles McGleenan",
               "id": 0
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "fix-seamus-mackearney-1950",
+              "Count_Number": "1",
+              "Firstname": "Seamus",
+              "Surname": "MacKearney",
+              "Candidate_First_Pref_Votes": "2555.00",
+              "Transfers": "0.00",
+              "Total_Votes": "2555.00",
+              "Status": "",
+              "Occurred_On_Count": "",
+              "Party_Name": "Irish Labour",
+              "Party_Colour": "#A0A0A0",
+              "candidateName": "Seamus MacKearney",
+              "id": 1
             }
           ]
         },
-        "cause": "Death of Malachy Conlon (Nationalist) (Wikipedia, List of Northern Ireland Parliament by-elections)"
+        "electorateSource": "Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973); the same figure in David Boothroyd, Northern Ireland House of Commons Election Results",
+        "cause": "Death of Malachy Conlon (Nationalist) (Wikipedia, List of Northern Ireland Parliament by-elections)",
+        "correctionNote": "Contested, not unopposed: Charles McGleenan 5,581; Seamus MacKearney (Irish Labour) 2,555. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give. Walker names the runner-up James Gerald MacKearney (Ir Lab), the man the import calls Seamus MacKearney in Falls 1953 and 1958. (Royal Irish Academy; David Boothroyd, B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 65; checked against David Boothroyd, Northern Ireland House of Commons Election Results (armagh.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020))"
       },
       "constituencyId": null,
       "constituencyNumber": null,
@@ -309,13 +463,21 @@
         {
           "label": "Cause",
           "text": "Death of Malachy Conlon (Nationalist) (Wikipedia, List of Northern Ireland Parliament by-elections)"
+        },
+        {
+          "label": "Electorate",
+          "text": "17,496: Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973); the same figure in David Boothroyd, Northern Ireland House of Commons Election Results"
+        },
+        {
+          "label": "Corrected",
+          "text": "Contested, not unopposed: Charles McGleenan 5,581; Seamus MacKearney (Irish Labour) 2,555. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give. Walker names the runner-up James Gerald MacKearney (Ir Lab), the man the import calls Seamus MacKearney in Falls 1953 and 1958. (Royal Irish Academy; David Boothroyd, B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 65; checked against David Boothroyd, Northern Ireland House of Commons Election Results (armagh.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020))"
         }
       ],
       "contestType": "election",
       "kind": "by-election",
       "votingSystem": "fptp",
-      "contestStatus": "uncontested",
-      "candidateRowsExpected": false,
+      "contestStatus": "contested",
+      "candidateRowsExpected": true,
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1950-12-06/south-armagh.json",

@@ -91,6 +91,9 @@ PRE1973_COUNCIL_BODIES = {
     'belfast-county-borough-council',
     'belfast-county-borough-council-aldermen',
     'strabane-urban-district-council',
+    'londonderry-county-borough-council',
+    'lisburn-urban-district-council',
+    'bangor-urban-district-council',
 }
 
 

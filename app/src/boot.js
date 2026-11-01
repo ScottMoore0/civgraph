@@ -12,10 +12,23 @@ const start = () => {
   });
 };
 
+// After the first paint, so the page shell shows before the runtime is parsed. A page that is
+// not being drawn -- a background tab, a hidden pane -- gets no animation frames, and the
+// catalogue never left "Loading the catalogue..." there (UX review 2026-10-31, L10); a timer
+// starts it instead. The runtime waits for the map's style before it adds any layer
+// (app.js whenStyleLoaded), so starting without a frame no longer drops layers.
+const FIRST_PAINT_FALLBACK_MS = 300;
 const startAfterFirstPaint = () => {
+  let started = false;
+  const go = () => {
+    if (started) return;
+    started = true;
+    start();
+  };
   requestAnimationFrame(() => {
-    requestAnimationFrame(start);
+    requestAnimationFrame(go);
   });
+  setTimeout(go, FIRST_PAINT_FALLBACK_MS);
 };
 
 if (document.readyState === 'loading') {

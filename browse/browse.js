@@ -77,8 +77,99 @@ const LIST_FILTERS = {
   ],
   maps: [
     { key: 'category', label: 'Category', value: (item) => item.category }
+  ],
+  // `values` for a facet a record has several of: a party contested several bodies.
+  parties: [
+    { key: 'body', label: 'Body contested', values: (item) => item.bodies || [] },
+    { key: 'decade', label: 'Active in', values: (item) => item.decades || [], order: 'desc' }
+  ],
+  // People: the options come from persons-facets.json (the list itself is paged from D1), and
+  // the values below filter the whole index only when the API cannot (renderServerList).
+  persons: [
+    { key: 'body', label: 'Body', values: (item) => normalizeArray(item.bodies) },
+    { key: 'party', label: 'Party', values: (item) => personPartySlugs(item) },
+    { key: 'decade', label: 'Stood in', values: (item) => personDecades(item), order: 'desc' },
+    {
+      key: 'elected',
+      label: 'Elected',
+      value: (item) => (Number(item.totals?.elected) > 0 ? 'yes' : 'no'),
+      optionLabel: (value) => (value === 'yes' ? 'Elected at least once' : 'Never elected'),
+      allLabel: 'Elected or not'
+    }
   ]
 };
+
+// Sort orders of the People and Parties lists (?sort=). The first is each list's own order.
+// `dir` is sent to /_api/persons with the sort; `compare` sorts a list read whole.
+const byNumberDesc = (read) => (a, b) => (Number(read(b)) || 0) - (Number(read(a)) || 0);
+const byYear = (read, dir) => (a, b) => {
+  const x = Number(read(a)) || null;
+  const y = Number(read(b)) || null;
+  if (x === y) return 0;
+  if (x === null) return 1;
+  if (y === null) return -1;
+  return dir === 'desc' ? y - x : x - y;
+};
+const byTitle = (a, b) => String(a.title || a.name || '').localeCompare(String(b.title || b.name || ''));
+const LIST_SORTS = {
+  persons: [
+    { key: '', label: 'Most often elected' },
+    { key: 'name', label: 'Name (A to Z)', dir: 'asc', compare: byTitle },
+    { key: 'contests', label: 'Most contests', dir: 'desc', compare: byNumberDesc((item) => item.totals?.stood) },
+    { key: 'firstYear', label: 'Earliest first contest', dir: 'asc', compare: byYear((item) => item.firstYear, 'asc') },
+    { key: 'lastYear', label: 'Most recent contest', dir: 'desc', compare: byYear((item) => item.lastYear, 'desc') }
+  ],
+  parties: [
+    { key: '', label: 'Most candidacies' },
+    { key: 'name', label: 'Name (A to Z)', compare: byTitle },
+    { key: 'elections', label: 'Most elections', compare: byNumberDesc((item) => item.relatedElectionCount) },
+    { key: 'seats', label: 'Most seats won', compare: byNumberDesc((item) => item.totals?.seats) },
+    { key: 'firstYear', label: 'Earliest first election', compare: byYear((item) => item.firstYear, 'asc') },
+    { key: 'lastYear', label: 'Most recent election', compare: byYear((item) => item.lastYear, 'desc') }
+  ]
+};
+// The sorts /_api/persons answered before it reported what it applied (persons-4).
+const PERSON_SORTS_BEFORE_APPLIED = new Set(['name', 'firstYear', 'lastYear']);
+
+function listSortOption(type) {
+  const options = LIST_SORTS[type] || [];
+  return options.find((option) => option.key === (state.listSort[type] || '')) || options[0] || null;
+}
+
+function sortListItems(type, items) {
+  const option = listSortOption(type);
+  return option?.compare ? [...items].sort((a, b) => option.compare(a, b) || byTitle(a, b)) : items;
+}
+
+/** The decades a person stood in, from their contests. */
+function personDecades(item) {
+  return [...new Set(normalizeArray(item.elections).map((row) => Number(row.year || String(row.date || '').slice(0, 4)))
+    .filter((year) => year > 0).map((year) => `${Math.floor(year / 10) * 10}s`))];
+}
+
+/** A person's parties as party slugs, through the spellings persons-facets.json lists. */
+function personPartySlugs(item) {
+  const bySpelling = state.personFacets?.partyBySpelling;
+  if (!bySpelling) return [];
+  return [...new Set(normalizeArray(item.parties).map((party) => bySpelling.get(party?.name || party)).filter(Boolean))];
+}
+
+/** The People filter options (data/browse/persons-facets.json, 24 KB), loaded once. */
+async function loadPersonFacets() {
+  if (state.personFacets) return state.personFacets;
+  let facets = {};
+  try {
+    facets = (await loadJson(`${DATA_ROOT}/persons-facets.json`)).facets || {};
+  } catch { /* the list still shows, without its filters */ }
+  const partyBySpelling = new Map();
+  const partyNames = new Map();
+  for (const party of facets.party || []) {
+    partyNames.set(party.value, party.names || []);
+    for (const name of party.names || []) partyBySpelling.set(name, party.value);
+  }
+  state.personFacets = { facets, partyBySpelling, partyNames };
+  return state.personFacets;
+}
 
 function electionKind(item) {
   if (item.kind === 'general' || item.kind === 'by-election') return item.kind;
@@ -274,6 +365,9 @@ const state = {
   listFilters: {},
   // Parties: whether the one-off ballot-paper labels are listed (?labels=1).
   showBallotLabels: false,
+  // Sort order of the People and Parties lists (LIST_SORTS key; '' is the list's own order).
+  listSort: {},
+  personFacets: null,
   graph: {
     manifest: null,
     browseMapping: null,
@@ -529,6 +623,13 @@ function bindEvents() {
       return;
     }
 
+    const listSort = event.target.closest('[data-list-sort]');
+    if (listSort) {
+      state.listSort[state.activeType] = listSort.value || '';
+      rerenderList();
+      return;
+    }
+
     const listFilter = event.target.closest('[data-list-filter]');
     if (listFilter) {
       const key = listFilter.dataset.listFilter;
@@ -606,6 +707,10 @@ function readListControls(type, params) {
     state.listFilters[type] = filters;
   }
   if (type === 'parties') state.showBallotLabels = params.get('labels') === '1';
+  if (LIST_SORTS[type]) {
+    const sort = params.get('sort') || '';
+    state.listSort[type] = LIST_SORTS[type].some((option) => option.key === sort) ? sort : '';
+  }
   if (type === 'sources') {
     state.sourceFilters = Object.fromEntries(Object.keys(state.sourceFilters).map((key) => [key, params.get(`f.${key}`) || '']));
   }
@@ -635,6 +740,7 @@ function syncListAddress() {
   }
   for (const [key, value] of Object.entries(state.listFilters[state.activeType] || {})) if (value) params.set(`f.${key}`, value);
   if (state.activeType === 'parties' && state.showBallotLabels) params.set('labels', '1');
+  if (LIST_SORTS[state.activeType] && state.listSort[state.activeType]) params.set('sort', state.listSort[state.activeType]);
   if (state.activeType === 'register-interests') {
     const controls = state.registerInterestControls;
     if (controls.sortKey && controls.sortKey !== 'date') params.set('sort', controls.sortKey);
@@ -678,7 +784,7 @@ async function rerenderList() {
 }
 
 function focusKeyFor(element) {
-  for (const attr of ['data-source-filter', 'data-register-filter', 'data-register-sort', 'data-register-direction', 'data-list-filter', 'data-ballot-labels']) {
+  for (const attr of ['data-source-filter', 'data-register-filter', 'data-register-sort', 'data-register-direction', 'data-list-filter', 'data-list-sort', 'data-ballot-labels']) {
     if (element?.hasAttribute?.(attr)) return `[${attr}="${CSS.escape(element.getAttribute(attr))}"]`;
   }
   return null;
@@ -806,6 +912,13 @@ async function renderCurrent() {
       return;
     }
     if (item) {
+      // Reached by an old address (a source merged into another): the address becomes the
+      // record's own, so a copied link is the current one.
+      if (item.slug && item.slug !== state.activeId && normalizeArray(item.previousSlugs).includes(state.activeId)) {
+        state.activeId = item.slug;
+        history.replaceState(history.state, '', `${location.pathname}${location.search}#/${state.activeType}/${encodeURIComponent(item.slug)}`);
+        lastRoutedAddress = currentAddress();
+      }
       await renderDetail(state.activeType, item);
       return;
     }
@@ -1223,7 +1336,7 @@ function renderList(type, items) {
     return;
   }
   const config = ENTITY_CONFIG[type];
-  let filtered = filterItems(applyListFilters(type, items), state.query);
+  let filtered = sortListItems(type, filterItems(applyListFilters(type, items), state.query));
   // Parties: the ballot-paper labels (a spelling seen on a few ballot papers, in no election's
   // party table) wait behind a button, so the parties are not lost among them.
   let labelsNote = '';
@@ -1242,7 +1355,7 @@ function renderList(type, items) {
     }
   }
   els.results.innerHTML = `
-    ${renderListFilterControls(type, items)}
+    ${renderListFilterControls(type, items, type === 'persons' ? state.personFacets?.facets : null)}
     ${renderFilterSummary(filtered.length, items.length)}
     ${labelsNote}
     ${renderListPage(filtered, (item) => renderCard(type, item, config))}
@@ -1255,22 +1368,39 @@ function applyListFilters(type, items) {
   const filters = Object.entries(state.listFilters[type] || {}).filter(([, value]) => value);
   if (!filters.length || !LIST_FILTERS[type]) return items;
   const defs = new Map(LIST_FILTERS[type].map((filter) => [filter.key, filter]));
-  return items.filter((item) => filters.every(([key, value]) => !defs.has(key) || String(defs.get(key).value(item) ?? '') === value));
+  return items.filter((item) => filters.every(([key, value]) => !defs.has(key) || filterValues(defs.get(key), item).includes(value)));
 }
 
-/** The filter bar of a static list: one select per LIST_FILTERS entry, options from every record. */
-function renderListFilterControls(type, items) {
+function filterValues(filter, item) {
+  return (filter.values ? filter.values(item) : [filter.value(item)])
+    .filter((value) => value !== null && value !== undefined && value !== '').map(String);
+}
+
+/**
+ * The filter bar of a static list: one select per LIST_FILTERS entry, options from every
+ * record -- or, for a list paged from the server (People), from its precomputed `facets`
+ * ({ key: [{ value, label?, count }] }). A sort select where the list has LIST_SORTS.
+ */
+function renderListFilterControls(type, items, facets = null) {
   const defs = LIST_FILTERS[type];
   if (!defs) return '';
   const current = state.listFilters[type] || {};
   const active = Object.values(current).filter(Boolean).length;
   const selects = defs.map((filter) => {
     const counts = new Map();
-    for (const item of items) {
-      const value = filter.value(item);
-      if (value) counts.set(String(value), (counts.get(String(value)) || 0) + 1);
+    const labels = new Map();
+    if (facets) {
+      for (const option of facets[filter.key] || []) {
+        counts.set(String(option.value), option.count);
+        if (option.label) labels.set(String(option.value), option.label);
+      }
+    } else {
+      for (const item of items || []) {
+        for (const value of filterValues(filter, item)) counts.set(value, (counts.get(value) || 0) + 1);
+      }
     }
-    const options = [...counts.keys()].sort((a, b) => (filter.order === 'desc' ? b.localeCompare(a) : a.localeCompare(b)));
+    const labelOf = (option) => labels.get(option) || (filter.optionLabel ? filter.optionLabel(option) : option);
+    const options = [...counts.keys()].sort((a, b) => (filter.order === 'desc' ? b.localeCompare(a) : labelOf(a).localeCompare(labelOf(b))));
     if (options.length < 2) return '';
     const value = current[filter.key] || '';
     return `
@@ -1278,15 +1408,24 @@ function renderListFilterControls(type, items) {
         <span>${escapeHtml(filter.label)}</span>
         <select data-list-filter="${escapeAttr(filter.key)}">
           <option value="">${escapeHtml(filter.allLabel || 'All')}</option>
-          ${options.map((option) => `<option value="${escapeAttr(option)}"${option === value ? ' selected' : ''}>${escapeHtml(filter.optionLabel ? filter.optionLabel(option) : option)} (${formatNumber(counts.get(option))})</option>`).join('')}
+          ${options.map((option) => `<option value="${escapeAttr(option)}"${option === value ? ' selected' : ''}>${escapeHtml(labelOf(option))} (${formatNumber(counts.get(option))})</option>`).join('')}
         </select>
       </label>
     `;
   }).join('');
-  if (!selects) return '';
+  const sorts = LIST_SORTS[type];
+  const sortKey = listSortOption(type)?.key || '';
+  const sortSelect = sorts ? `
+      <label class="browse-filter">
+        <span>Sort by</span>
+        <select data-list-sort>
+          ${sorts.map((option) => `<option value="${escapeAttr(option.key)}"${option.key === sortKey ? ' selected' : ''}>${escapeHtml(option.label)}</option>`).join('')}
+        </select>
+      </label>` : '';
+  if (!selects && !sortSelect) return '';
   return `
     <section class="browse-controls" aria-label="${escapeAttr(ENTITY_CONFIG[type].label)} filters">
-      <div class="browse-filter-grid">${selects}</div>
+      <div class="browse-filter-grid">${selects}${sortSelect}</div>
       ${active ? `<div class="browse-control-footer"><span>${active} active ${active === 1 ? 'filter' : 'filters'}.</span><button type="button" class="browse-btn" data-list-clear-filters>Clear filters</button></div>` : ''}
     </section>
   `;
@@ -2452,16 +2591,23 @@ function renderRelatedPanel(type, item) {
   ]);
   // The election and the constituency open their Browse pages (the constituency is that
   // contest's result); the map link sits beside them rather than being the only way on.
-  if (type === 'persons') return renderSimpleTable('Contests', ['Date', 'Election', 'Party', 'Constituency', 'Result', 'Map'], byDate(item.elections), (row) => [
-    formatDate(row.date),
-    row.key ? `<a href="#/elections/${encodeURIComponent(electionSlug(row.key))}" data-browse-link>${escapeHtml(row.title)}</a>` : escapeHtml(row.title),
-    partyLinkHtml(row.party || ''),
-    row.key && row.constituency
-      ? `<a href="#/elections/${encodeURIComponent(contestSlug(row.key, row.constituency))}" data-browse-link>${escapeHtml(row.constituency)}</a>`
-      : escapeHtml(row.constituency || ''),
-    escapeHtml(contestOutcome(row)),
-    row.interactiveUrl ? `<a href="${escapeAttr(row.interactiveUrl)}" aria-label="${escapeAttr(`Open ${row.title || 'election'} on the map`)}">Open map</a>` : ''
-  ]) + renderSimpleTable('Seats in the Commons (History of Parliament)', ['Constituency', 'Held'], item.seatsHeld || [], (row) => [
+  if (type === 'persons') {
+    // Votes and share only where the record has some: most pre-1832 contests have neither.
+    const withVotes = normalizeArray(item.elections).some((row) => Number(row.firstPrefs) > 0);
+    const withShare = normalizeArray(item.elections).some((row) => Number.isFinite(Number(row.share)) && row.share !== null && row.share !== undefined);
+    const headers = ['Date', 'Election', 'Party', 'Constituency', 'Result', ...(withVotes ? ['Votes'] : []), ...(withShare ? ['Share'] : []), 'Map'];
+    return renderSimpleTable('Contests', headers, byDate(item.elections), (row) => [
+      formatDate(row.date),
+      row.key ? `<a href="#/elections/${encodeURIComponent(electionSlug(row.key))}" data-browse-link>${escapeHtml(row.title)}</a>` : escapeHtml(row.title),
+      partyLinkHtml(row.party || ''),
+      row.key && row.constituency
+        ? `<a href="#/elections/${encodeURIComponent(contestSlug(row.key, row.constituency))}" data-browse-link>${escapeHtml(row.constituency)}</a>`
+        : escapeHtml(row.constituency || ''),
+      escapeHtml(contestOutcome(row)),
+      ...(withVotes ? [Number(row.firstPrefs) > 0 ? formatNumber(row.firstPrefs) : '&ndash;'] : []),
+      ...(withShare ? [row.share !== null && row.share !== undefined && row.share !== '' ? `${Number(row.share).toFixed(1)}%` : '&ndash;'] : []),
+      row.interactiveUrl ? `<a href="${escapeAttr(row.interactiveUrl)}" aria-label="${escapeAttr(`Open ${row.title || 'election'} on the map`)}">Open map</a>` : ''
+    ]) + renderSimpleTable('Seats in the Commons (History of Parliament)', ['Constituency', 'Held'], item.seatsHeld || [], (row) => [
     escapeHtml(row.constituency || ''),
     row.source ? `<a href="${escapeAttr(row.source)}" rel="noopener">${escapeHtml(row.dates || '')}</a>` : escapeHtml(row.dates || '')
   ])
@@ -2495,6 +2641,7 @@ function renderRelatedPanel(type, item) {
       ? `<p class="browse-note">Born and died: ${escapeHtml([...new Set([item.bornSource, item.diedSource].filter(Boolean))].join(', '))}.</p>`
       : '')
     : '');
+  }
   if (type === 'register-interests') return renderRegisterInterestRelated(item);
   if (type === 'maps') return renderMapVariants(item);
   return '';
@@ -4617,7 +4764,7 @@ async function fetchIndexPage(type, { query, sort, dir, filters, offset, limit }
   params.set('limit', String(limit));
   params.set('offset', String(offset));
   for (const [key, value] of Object.entries(filters || {})) {
-    if (value) params.append(key, value);
+    for (const one of Array.isArray(value) ? value : [value]) if (one) params.append(key, one);
   }
   try {
     const response = await fetch(`/_api/${type}?${params}`);
@@ -4625,7 +4772,7 @@ async function fetchIndexPage(type, { query, sort, dir, filters, offset, limit }
     const payload = await response.json();
     const items = payload[type] || payload.records || null;
     if (!Array.isArray(items)) return null;
-    return { items, total: Number(payload.total) || 0 };
+    return { items, total: Number(payload.total) || 0, applied: payload.applied || null };
   } catch {
     return null;
   }
@@ -4655,20 +4802,28 @@ async function renderServerList(type, { append = false } = {}) {
   const config = ENTITY_CONFIG[type];
   const isRegister = type === 'register-interests';
   const isSources = type === 'sources';
+  const isPersons = type === 'persons';
   const controls = state.registerInterestControls;
+  const token = renderSeq;
+  if (!append) els.results.innerHTML = '<div class="browse-loading">Loading browse data...</div>';
+  const personFacets = isPersons ? await loadPersonFacets() : null;
+  if (token !== renderSeq) return;
+  const personSort = isPersons ? listSortOption('persons') : null;
   const request = {
     query: state.query,
-    sort: isRegister ? controls.sortKey : '',
-    dir: isRegister ? controls.sortDir : '',
-    filters: isRegister ? controls.filters : isSources ? state.sourceFilters : {},
+    sort: isRegister ? controls.sortKey : personSort?.key || '',
+    dir: isRegister ? controls.sortDir : personSort?.dir || '',
+    filters: isRegister ? controls.filters : isSources ? state.sourceFilters : isPersons ? personApiFilters(personFacets) : {},
     offset: append ? state.serverList.items.length : 0,
     limit: LIST_PAGE_SIZE,
   };
 
-  const token = renderSeq;
-  if (!append) els.results.innerHTML = '<div class="browse-loading">Loading browse data...</div>';
-  const page = await fetchIndexPage(type, request);
+  let page = await fetchIndexPage(type, request);
   if (token !== renderSeq) return;
+  // A People filter or sort the API did not apply -- it predates them, or its table has not
+  // been re-imported with their columns -- would show the wrong list under the right heading.
+  // The whole index is read and filtered here instead: slower, never wrong.
+  if (page && isPersons && !personRequestHonoured(page.applied, request)) page = null;
   // Back to a list the reader had paged into: fetch the pages they had, 200 at a time.
   while (page && !append && page.items.length < Math.min(state.listShown, page.total)) {
     const next = await fetchIndexPage(type, { ...request, offset: page.items.length });
@@ -4678,6 +4833,7 @@ async function renderServerList(type, { append = false } = {}) {
   }
   if (!page) {
     // The endpoint is unavailable. Fall back to the static index, which still works.
+    if (isPersons && !append) els.results.innerHTML = '<div class="browse-loading">Loading the full list of people...</div>';
     const data = await loadIndex(type);
     if (token !== renderSeq) return;
     renderList(type, data.items || []);
@@ -4710,12 +4866,39 @@ async function renderServerList(type, { append = false } = {}) {
   els.results.innerHTML = `
     ${isRegister ? renderRegisterInterestControls(null, page.total, unfiltered, facets) : ''}
     ${isSources ? renderSourceControls(page.total, unfiltered, facets) : ''}
+    ${isPersons ? renderListFilterControls('persons', null, personFacets?.facets || {}) : ''}
     ${renderFilterSummary(page.total, unfiltered)}
     <div class="browse-grid">${items.map((item) => renderCard(type, item, config)).join('')}</div>
     ${more}
   `;
   state.lastListRender = () => renderServerList(type);
   announceList(config, page.total);
+}
+
+/**
+ * The People filters as /_api/persons parameters. A party is sent as every spelling of it in
+ * the person records (persons-facets.json), which is what the API matches.
+ */
+function personApiFilters(personFacets) {
+  const filters = {};
+  for (const [key, value] of Object.entries(state.listFilters.persons || {})) {
+    if (!value) continue;
+    filters[key] = key === 'party' ? (personFacets?.partyNames?.get(value) || [value]) : value;
+  }
+  return filters;
+}
+
+/** Whether a page from /_api/persons applied every filter and the sort it was asked for. */
+function personRequestHonoured(applied, request) {
+  const asked = Object.keys(request.filters || {});
+  const sort = request.sort || '';
+  if (applied) {
+    return asked.every((key) => normalizeArray(applied.filters).includes(key)) && (!sort || applied.sort === sort);
+  }
+  // persons-4, before `applied`: it sorted by name and by first or last year, and matched a
+  // party only on its own (the search, other filters and sort were then ignored).
+  if (!asked.length) return !sort || PERSON_SORTS_BEFORE_APPLIED.has(sort);
+  return asked.length === 1 && asked[0] === 'party' && !sort && !request.query;
 }
 
 /**
@@ -5118,6 +5301,9 @@ function normalizeArray(value) {
 
 function formatDate(value) {
   if (!value) return '';
+  // A date known only to the year ("1961", an election whose day the source does not give)
+  // reads "1961": parsed as a date it became a false "1 Jan 1961".
+  if (/^\d{4}$/.test(String(value).trim())) return String(value).trim();
   // A date known only to the month ("1884-10", from a reference work) reads "Oct 1884".
   const month = /^(\d{4})-(\d{2})$/.exec(String(value));
   if (month) return `${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][Number(month[2]) - 1]} ${month[1]}`;

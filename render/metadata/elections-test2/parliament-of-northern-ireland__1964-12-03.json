@@ -8,8 +8,8 @@
   "contestType": "election",
   "kind": "by-election",
   "votingSystem": "fptp",
-  "contestStatus": "uncontested",
-  "candidateRowsExpected": false,
+  "contestStatus": "contested",
+  "candidateRowsExpected": true,
   "transferDataExpected": false,
   "localBodies": null,
   "localBodyByConstituency": null,
@@ -40,6 +40,8 @@
   "availableStyleModes": [
     "winner",
     "leadingParty",
+    "voteShare",
+    "majority",
     "seats"
   ],
   "partySummary": [
@@ -47,9 +49,17 @@
       "party": "UUP",
       "seats": 1,
       "stood": 1,
-      "votes": 0,
+      "votes": 8674,
       "colour": "#48a5ee",
-      "share": null
+      "share": 77.12964609638982
+    },
+    {
+      "party": "NI Labour",
+      "seats": 0,
+      "stood": 1,
+      "votes": 2572,
+      "colour": "#6b7280",
+      "share": 22.870353903610173
     }
   ],
   "mainLikePartySummary": [
@@ -57,15 +67,23 @@
       "party": "UUP",
       "seats": 1,
       "stood": 1,
-      "votes": 0,
+      "votes": 8674,
       "colour": "#48A5EE",
-      "share": null
+      "share": 77.12964609638982
+    },
+    {
+      "party": "NI Labour",
+      "seats": 0,
+      "stood": 1,
+      "votes": 2572,
+      "colour": "#DC241F",
+      "share": 22.870353903610173
     }
   ],
   "mainLikeTotals": {
-    "validPoll": 0,
+    "validPoll": 11246,
     "totalPoll": 0,
-    "totalElectorate": 0,
+    "totalElectorate": 41402,
     "totalSpoiled": 0,
     "totalSeats": 1
   },
@@ -77,11 +95,11 @@
       "name": "Basil Kelly",
       "party": "UUP",
       "colour": "#48A5EE",
-      "firstPrefs": 0,
-      "votes": 0,
-      "constPct": 0,
-      "firstPrefPct": 0,
-      "finalVotes": 0,
+      "firstPrefs": 8674,
+      "votes": 8674,
+      "constPct": 77.12964609638982,
+      "firstPrefPct": 77.12964609638982,
+      "finalVotes": 8674,
       "elected": true,
       "electedAt": 1,
       "excluded": false,
@@ -91,26 +109,55 @@
       "status": "Elected",
       "counts": {
         "1": {
-          "total": 0,
+          "total": 8674,
           "transfers": 0,
           "status": "Elected"
         }
       },
       "candidateKey": "basil kelly|uup",
       "name_id": "n-basil-kelly"
+    },
+    {
+      "id": "fix-james-steele-gardner-1964",
+      "personId": 135088,
+      "constituency": "Mid Down",
+      "name": "James Steele Gardner",
+      "party": "NI Labour",
+      "colour": "#DC241F",
+      "firstPrefs": 2572,
+      "votes": 2572,
+      "constPct": 22.870353903610173,
+      "firstPrefPct": 22.870353903610173,
+      "finalVotes": 2572,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 2572,
+          "transfers": 0,
+          "status": ""
+        }
+      },
+      "candidateKey": "james steele gardner|ni labour",
+      "name_id": "n-james-steele-gardner"
     }
   ],
   "mainLikeCandidateTotals": {
-    "validPoll": 0
+    "validPoll": 11246
   },
   "entityIndex": {
-    "totalValid": 0,
+    "totalValid": 11246,
     "parties": [
       {
         "name": "UUP",
         "colour": "#48A5EE",
-        "firstPrefs": 0,
-        "finalVotes": 0,
+        "firstPrefs": 8674,
+        "finalVotes": 8674,
         "stood": 1,
         "elected": 1,
         "constituencies": [
@@ -121,12 +168,34 @@
             "id": "Basil Kelly|UUP",
             "name": "Basil Kelly",
             "constituency": "Mid Down",
-            "firstPref": 0,
-            "finalVotes": 0,
+            "firstPref": 8674,
+            "finalVotes": 8674,
             "status": "Elected"
           }
         ],
-        "shareOfTotal": null
+        "shareOfTotal": 77.12964609638982
+      },
+      {
+        "name": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 2572,
+        "finalVotes": 2572,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Mid Down"
+        ],
+        "candidates": [
+          {
+            "id": "James Steele Gardner|NI Labour",
+            "name": "James Steele Gardner",
+            "constituency": "Mid Down",
+            "firstPref": 2572,
+            "finalVotes": 2572,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 22.870353903610173
       }
     ],
     "candidates": [
@@ -136,8 +205,8 @@
         "name": "Basil Kelly",
         "party": "UUP",
         "colour": "#48A5EE",
-        "firstPrefs": 0,
-        "finalVotes": 0,
+        "firstPrefs": 8674,
+        "finalVotes": 8674,
         "electedCount": 1,
         "constituencies": [
           "Mid Down"
@@ -145,12 +214,34 @@
         "appearances": [
           {
             "constituency": "Mid Down",
-            "firstPref": 0,
-            "finalVotes": 0,
+            "firstPref": 8674,
+            "finalVotes": 8674,
             "status": "Elected"
           }
         ],
-        "shareOfTotal": null
+        "shareOfTotal": 77.12964609638982
+      },
+      {
+        "id": "James Steele Gardner|NI Labour",
+        "key": "James Steele Gardner|NI Labour",
+        "name": "James Steele Gardner",
+        "party": "NI Labour",
+        "colour": "#DC241F",
+        "firstPrefs": 2572,
+        "finalVotes": 2572,
+        "electedCount": 0,
+        "constituencies": [
+          "Mid Down"
+        ],
+        "appearances": [
+          {
+            "constituency": "Mid Down",
+            "firstPref": 2572,
+            "finalVotes": 2572,
+            "status": ""
+          }
+        ],
+        "shareOfTotal": 22.870353903610173
       }
     ]
   },
@@ -161,19 +252,19 @@
       "winnerName": "Basil Kelly",
       "leadingParty": "UUP",
       "leadingName": "Basil Kelly",
-      "leadingVotes": null,
-      "leadingPct": null,
+      "leadingVotes": 8674,
+      "leadingPct": 77.13,
       "turnoutPct": null,
-      "majority": null,
-      "majorityPct": null,
+      "majority": 6102,
+      "majorityPct": 54.26,
       "seatsWon": 1,
       "seatsTotal": 1,
       "quota": null,
-      "electorate": null,
+      "electorate": 41402,
       "totalPoll": null,
       "spoiled": null,
-      "validPoll": null,
-      "totalVotes": null,
+      "validPoll": 11246,
+      "totalVotes": 11246,
       "colour": "#48a5ee",
       "leadingColour": "#48a5ee",
       "candidates": [
@@ -181,8 +272,8 @@
           "id": "16639501",
           "name": "Basil Kelly",
           "party": "UUP",
-          "firstPrefs": null,
-          "finalVotes": null,
+          "firstPrefs": 8674,
+          "finalVotes": 8674,
           "elected": true,
           "electedAt": 1,
           "autoReturnedCeannComhairle": false,
@@ -197,14 +288,43 @@
           "counts": [
             {
               "count": 1,
-              "total": null,
+              "total": 8674,
               "transfers": 0,
               "status": "Elected",
-              "firstPrefs": null
+              "firstPrefs": 8674
             }
           ],
           "personId": 104581,
           "name_id": "n-basil-kelly"
+        },
+        {
+          "id": "fix-james-steele-gardner-1964",
+          "name": "James Steele Gardner",
+          "party": "NI Labour",
+          "firstPrefs": 2572,
+          "finalVotes": 2572,
+          "elected": false,
+          "electedAt": null,
+          "autoReturnedCeannComhairle": false,
+          "excluded": false,
+          "excludedAt": null,
+          "status": "",
+          "colour": "#DC241F",
+          "gender": "",
+          "dailAbbreviation": "",
+          "officialCandidateId": "",
+          "officialStatus": "",
+          "counts": [
+            {
+              "count": 1,
+              "total": 2572,
+              "transfers": 0,
+              "status": "",
+              "firstPrefs": 2572
+            }
+          ],
+          "personId": 135088,
+          "name_id": "n-james-steele-gardner"
         }
       ],
       "elected": [
@@ -212,8 +332,8 @@
           "id": "16639501",
           "name": "Basil Kelly",
           "party": "UUP",
-          "firstPrefs": null,
-          "finalVotes": null,
+          "firstPrefs": 8674,
+          "finalVotes": 8674,
           "elected": true,
           "electedAt": 1,
           "autoReturnedCeannComhairle": false,
@@ -228,10 +348,10 @@
           "counts": [
             {
               "count": 1,
-              "total": null,
+              "total": 8674,
               "transfers": 0,
               "status": "Elected",
-              "firstPrefs": null
+              "firstPrefs": 8674
             }
           ]
         }
@@ -241,26 +361,42 @@
         "Constituency_Number": "",
         "Number_Of_Seats": "1",
         "Spoiled": "",
-        "Total_Electorate": "",
+        "Total_Electorate": "41402",
         "Total_Poll": "",
-        "Valid_Poll": ""
+        "Valid_Poll": "11246"
       },
       "countGroup": [
         {
-          "Candidate_First_Pref_Votes": "Unopposed",
+          "Candidate_First_Pref_Votes": "8674.00",
           "Candidate_Id": "16639501",
           "Constituency_Number": "",
           "Count_Number": "1",
           "Firstname": "Basil",
-          "Occurred_On_Count": "",
+          "Occurred_On_Count": "1",
           "Party_Colour": "#48A5EE",
           "Party_Name": "UUP",
           "Status": "Elected",
           "Surname": "Kelly",
-          "Total_Votes": "",
+          "Total_Votes": "8674.00",
           "Transfers": "0.00",
           "candidateName": "Basil Kelly",
           "id": 0
+        },
+        {
+          "Constituency_Number": "",
+          "Candidate_Id": "fix-james-steele-gardner-1964",
+          "Count_Number": "1",
+          "Firstname": "James Steele",
+          "Surname": "Gardner",
+          "Candidate_First_Pref_Votes": "2572.00",
+          "Transfers": "0.00",
+          "Total_Votes": "2572.00",
+          "Status": "",
+          "Occurred_On_Count": "",
+          "Party_Name": "NI Labour",
+          "Party_Colour": "#DC241F",
+          "candidateName": "James Steele Gardner",
+          "id": 1
         }
       ],
       "syntheticCountGroup": false,
@@ -277,30 +413,48 @@
             "Constituency_Number": "",
             "Number_Of_Seats": "1",
             "Spoiled": "",
-            "Total_Electorate": "",
+            "Total_Electorate": "41402",
             "Total_Poll": "",
-            "Valid_Poll": ""
+            "Valid_Poll": "11246"
           },
           "countGroup": [
             {
-              "Candidate_First_Pref_Votes": "Unopposed",
+              "Candidate_First_Pref_Votes": "8674.00",
               "Candidate_Id": "16639501",
               "Constituency_Number": "",
               "Count_Number": "1",
               "Firstname": "Basil",
-              "Occurred_On_Count": "",
+              "Occurred_On_Count": "1",
               "Party_Colour": "#48A5EE",
               "Party_Name": "UUP",
               "Status": "Elected",
               "Surname": "Kelly",
-              "Total_Votes": "",
+              "Total_Votes": "8674.00",
               "Transfers": "0.00",
               "candidateName": "Basil Kelly",
               "id": 0
+            },
+            {
+              "Constituency_Number": "",
+              "Candidate_Id": "fix-james-steele-gardner-1964",
+              "Count_Number": "1",
+              "Firstname": "James Steele",
+              "Surname": "Gardner",
+              "Candidate_First_Pref_Votes": "2572.00",
+              "Transfers": "0.00",
+              "Total_Votes": "2572.00",
+              "Status": "",
+              "Occurred_On_Count": "",
+              "Party_Name": "NI Labour",
+              "Party_Colour": "#DC241F",
+              "candidateName": "James Steele Gardner",
+              "id": 1
             }
           ]
         },
-        "cause": "Appointment to office of John L. O. Andrews (UUP): elected to Senate (Wikipedia, List of Northern Ireland Parliament by-elections)"
+        "electorateSource": "Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973); the same figure in David Boothroyd, Northern Ireland House of Commons Election Results",
+        "cause": "Appointment to office of John L. O. Andrews (UUP): elected to Senate (Wikipedia, List of Northern Ireland Parliament by-elections)",
+        "correctionNote": "Contested, not unopposed: Basil Kelly 8,674; James Steele Gardner (NI Labour) 2,572. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give. (Royal Irish Academy; David Boothroyd, B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 75; checked against David Boothroyd, Northern Ireland House of Commons Election Results (down.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020))"
       },
       "constituencyId": null,
       "constituencyNumber": null,
@@ -309,13 +463,21 @@
         {
           "label": "Cause",
           "text": "Appointment to office of John L. O. Andrews (UUP): elected to Senate (Wikipedia, List of Northern Ireland Parliament by-elections)"
+        },
+        {
+          "label": "Electorate",
+          "text": "41,402: Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973); the same figure in David Boothroyd, Northern Ireland House of Commons Election Results"
+        },
+        {
+          "label": "Corrected",
+          "text": "Contested, not unopposed: Basil Kelly 8,674; James Steele Gardner (NI Labour) 2,572. Walker and Boothroyd agree on every figure, and the votes add up to the turnout Boothroyd prints against the electorate both sources give. (Royal Irish Academy; David Boothroyd, B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (Dublin: Royal Irish Academy, 1992), p. 75; checked against David Boothroyd, Northern Ireland House of Commons Election Results (down.html, the full-results source ARK Northern Ireland Elections links to; Internet Archive copy, 2020))"
         }
       ],
       "contestType": "election",
       "kind": "by-election",
       "votingSystem": "fptp",
-      "contestStatus": "uncontested",
-      "candidateRowsExpected": false,
+      "contestStatus": "contested",
+      "candidateRowsExpected": true,
       "transferDataExpected": false,
       "localBody": null,
       "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1964-12-03/mid-down.json",

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "key": "parliament-of-northern-ireland__1942-04-02",
+  "key": "parliament-of-northern-ireland__1942-11-06",
   "body": "Parliament of Northern Ireland",
   "bodySlug": "parliament-of-northern-ireland",
   "bodyGroup": null,
@@ -13,7 +13,7 @@
   "transferDataExpected": false,
   "localBodies": null,
   "localBodyByConstituency": null,
-  "date": "1942-04-02",
+  "date": "1942-11-06",
   "year": 1942,
   "sourceMapId": "stormont-1929",
   "layerId": "stormont-1929-vector-test",
@@ -99,8 +99,8 @@
   "mainLikeTotals": {
     "validPoll": 8387,
     "totalPoll": 0,
-    "totalElectorate": 0,
-    "totalSpoiled": 0,
+    "totalElectorate": 17633,
+    "totalSpoiled": 40,
     "totalSeats": 1
   },
   "mainLikeCandidateSummary": [
@@ -349,9 +349,9 @@
       "seatsWon": 1,
       "seatsTotal": 1,
       "quota": null,
-      "electorate": null,
+      "electorate": 17633,
       "totalPoll": null,
-      "spoiled": null,
+      "spoiled": 40,
       "validPoll": 8387,
       "totalVotes": 8387,
       "colour": "#6b7280",
@@ -478,8 +478,8 @@
         "Constituency_Name": "Belfast Falls",
         "Constituency_Number": "",
         "Number_Of_Seats": "1",
-        "Spoiled": "",
-        "Total_Electorate": "",
+        "Spoiled": "40",
+        "Total_Electorate": "17633",
         "Total_Poll": "",
         "Valid_Poll": ""
       },
@@ -546,8 +546,8 @@
             "Constituency_Name": "Belfast Falls",
             "Constituency_Number": "",
             "Number_Of_Seats": "1",
-            "Spoiled": "",
-            "Total_Electorate": "",
+            "Spoiled": "40",
+            "Total_Electorate": "17633",
             "Total_Poll": "",
             "Valid_Poll": ""
           },
@@ -602,7 +602,9 @@
             }
           ]
         },
-        "cause": "Death of Richard Byrne (Nationalist) (Wikipedia, List of Northern Ireland Parliament by-elections)"
+        "electorateSource": "Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973); the same figure in David Boothroyd, Northern Ireland House of Commons Election Results",
+        "cause": "Death of Richard Byrne (Nationalist) (Wikipedia, List of Northern Ireland Parliament by-elections)",
+        "correctionNote": "There was one Falls by-election in 1942, polled on Friday 6 November 1942 and counted on Saturday 7 November. Richard Byrne (N) died on 28 August 1942 (Stormont Hansard 1942, list of members), so no Falls contest could have been held on 2 April 1942; the 2 April date comes from Wikipedia's by-election list. Walker p. 58 and Boothroyd date it 6 Nov 1942; Belfast Telegraph and Northern Whig of 6 Nov 1942 report polling 'to-day', the Belfast News-Letter of 7 Nov reports it 'yesterday', and Hansard records Donnelly as elected 7 November 1942 (declaration). Votes as held (Donnelly 4,595, McGouran 1,971, Glass 1,821) agree with every source; 40 spoilt papers, electorate 17,633 (Belfast News-Letter, 9 Nov 1942, p. 4). (B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (RIA 1992), p. 58; Belfast News-Letter, 7 Nov 1942)"
       },
       "constituencyId": null,
       "constituencyNumber": null,
@@ -611,6 +613,14 @@
         {
           "label": "Cause",
           "text": "Death of Richard Byrne (Nationalist) (Wikipedia, List of Northern Ireland Parliament by-elections)"
+        },
+        {
+          "label": "Electorate",
+          "text": "17,633: Sydney Elliott, Northern Ireland Parliamentary Election Results 1921-1972 (1973); the same figure in David Boothroyd, Northern Ireland House of Commons Election Results"
+        },
+        {
+          "label": "Corrected",
+          "text": "There was one Falls by-election in 1942, polled on Friday 6 November 1942 and counted on Saturday 7 November. Richard Byrne (N) died on 28 August 1942 (Stormont Hansard 1942, list of members), so no Falls contest could have been held on 2 April 1942; the 2 April date comes from Wikipedia's by-election list. Walker p. 58 and Boothroyd date it 6 Nov 1942; Belfast Telegraph and Northern Whig of 6 Nov 1942 report polling 'to-day', the Belfast News-Letter of 7 Nov reports it 'yesterday', and Hansard records Donnelly as elected 7 November 1942 (declaration). Votes as held (Donnelly 4,595, McGouran 1,971, Glass 1,821) agree with every source; 40 spoilt papers, electorate 17,633 (Belfast News-Letter, 9 Nov 1942, p. 4). (B. M. Walker (ed.), Parliamentary Election Results in Ireland, 1918-92 (RIA 1992), p. 58; Belfast News-Letter, 7 Nov 1942)"
         }
       ],
       "contestType": "election",
@@ -620,7 +630,7 @@
       "candidateRowsExpected": true,
       "transferDataExpected": false,
       "localBody": null,
-      "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1942-04-02/belfast-falls.json",
+      "sourceFile": "data/elections-source/data/elections/parliament-of-northern-ireland/1942-11-06/belfast-falls.json",
       "featureId": "8",
       "featureName": "BELFAST FALLS",
       "featureAliases": [

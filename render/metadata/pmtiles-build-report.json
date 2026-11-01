@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-31T18:14:53.934Z",
+  "generatedAt": "2026-11-01T00:08:23.573Z",
   "mode": "execute",
   "tools": {
     "ogr2ogr": "C:\\Program Files\\GDAL\\ogr2ogr.exe",
@@ -21,10 +21,10 @@
   },
   "converted": [
     {
-      "layerId": "pc-1995-vector-test",
-      "sourceMapId": "pc-1995",
-      "name": "Parliamentary Constituencies 1995",
-      "sourceType": "pmtiles",
+      "layerId": "deas-1992-provisional-vector-test",
+      "sourceMapId": "deas-1992-provisional",
+      "name": "District Electoral Areas 1992 (provisional recommendations)",
+      "sourceType": "mvt",
       "status": "converted",
       "profile": {
         "maxSize": "10000000",
@@ -33,15 +33,15 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "output": "render/pmtiles/generated/pc-1995-vector-test.pmtiles",
-      "bytes": 911861,
+      "output": "render/pmtiles/generated/deas-1992-provisional-vector-test.pmtiles",
+      "bytes": 2116717,
       "exceedsGithubBudget": false
     },
     {
-      "layerId": "stormont-1929-vector-test",
-      "sourceMapId": "stormont-1929",
-      "name": "1929 NI Parliament",
-      "sourceType": "pmtiles",
+      "layerId": "lgd-1991-provisional-vector-test",
+      "sourceMapId": "lgd-1991-provisional",
+      "name": "Local Government Districts 1991 (provisional recommendations)",
+      "sourceType": "mvt",
       "status": "converted",
       "profile": {
         "maxSize": "10000000",
@@ -50,8 +50,8 @@
         "simplificationMaxZoom": "0",
         "note": "Default correctness-first /test MVT profile."
       },
-      "output": "render/pmtiles/generated/stormont-1929-vector-test.pmtiles",
-      "bytes": 1606884,
+      "output": "render/pmtiles/generated/lgd-1991-provisional-vector-test.pmtiles",
+      "bytes": 1115478,
       "exceedsGithubBudget": false
     }
   ],

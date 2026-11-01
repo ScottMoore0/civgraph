@@ -398,7 +398,22 @@ const STYLE_MODES = ['winner', 'leadingParty', 'voteShare', 'turnout', 'majority
 const PRE1973_COUNCIL_BODY_SLUGS = new Set([
   'belfast-county-borough-council',
   'belfast-county-borough-council-aldermen',
-  'strabane-urban-district-council'
+  'strabane-urban-district-council',
+  // The 15 January 1920 PR elections only (Londonderry Sentinel, Lisburn Standard and North
+  // Down Herald reports). Their electoral areas have no layer of their own: see
+  // pre1973CouncilGeography.
+  'londonderry-county-borough-council',
+  'lisburn-urban-district-council',
+  'bangor-urban-district-council'
+]);
+// Bodies whose only results are the January 1920 PR electoral areas. Those areas were drawn
+// for the 1920 scheme and no layer is known to draw them (Derry's North, West and Waterside
+// may match the 1921 DEDs of those names, and its South-East the SOUTH and EAST DEDs together,
+// but that is unconfirmed), so their results are shown without a map, like Strabane's 1920.
+const PR1920_ONLY_COUNCIL_BODY_SLUGS = new Set([
+  'londonderry-county-borough-council',
+  'lisburn-urban-district-council',
+  'bangor-urban-district-council'
 ]);
 const LOCAL_GOVERNMENT_BODIES = new Set([
   'Antrim and Newtownabbey',
@@ -1310,9 +1325,13 @@ function resolveElectionGeography(entry) {
 }
 
 // Pre-1973 council wards were District Electoral Divisions, so the DED layers draw them.
-// Belfast's nine PR wards of January 1920 (Cromac, Duncairn, Falls, Ormeau, Pottinger, St. Anne's,
-// Shankill, Victoria, Woodvale) share names with wards of the fifteen-ward set but not their
-// boundaries, and no layer draws them, so 1920 is shown as results without a map.
+// Belfast's nine PR electoral areas of January 1920 (Cromac, Duncairn, Falls, Ormeau, Pottinger,
+// St. Anne's, Shankill, Victoria, Woodvale) share names with wards of the fifteen-ward set but not
+// their boundaries: each is one or two whole wards (Clifton split), constituted by the Local
+// Government Board Order of 26 Nov 1919 adopting the Corporation's scheme of 4 Aug 1919, in the
+// same words as the nine Belfast divisions of the Redistribution of Seats (Ireland) Act 1918.
+// So the 1918 Northern Ireland parliamentary map draws them, restricted to its nine BELFAST
+// features ("BELFAST CROMAC" matched as "Cromac"; no other division can take a 1920 result).
 // Belfast's fifteen wards (1896-1973) are drawn from the 1921 set for every other year: in the 1930
 // set two Co. Down DEDs share Belfast ward names (CLIFTON, VICTORIA), and the map colours by
 // label, so it would paint them too. Strabane's four urban wards take the set in force: the
@@ -1320,8 +1339,11 @@ function resolveElectionGeography(entry) {
 // and the two combined PR areas of 1920 have no polygon of their own and are shown as results.
 function pre1973CouncilGeography(entry) {
   const date = String(entry.date || '');
+  if (PR1920_ONLY_COUNCIL_BODY_SLUGS.has(entry.bodySlug)) return { sourceMapId: null };
   if (entry.bodySlug !== 'strabane-urban-district-council') {
-    if (entry.bodySlug === 'belfast-county-borough-council' && date.startsWith('1920')) return { sourceMapId: null };
+    if (entry.bodySlug === 'belfast-county-borough-council' && date.startsWith('1920')) {
+      return { sourceMapId: 'pc-1918', featureNamePrefix: 'BELFAST ' };
+    }
     return { sourceMapId: 'ded-1921-05-03' };
   }
   if (date.startsWith('1899') || date.startsWith('1920')) return { sourceMapId: null };
@@ -1557,6 +1579,28 @@ function contestStatusForResult(result) {
   return 'contested';
 }
 
+// The winners of an unopposed return read "Elected unopposed", and only they do: a contested
+// win is plain "Elected". "Made Quota" goes too, since no count was held (the 1921 Dail
+// returns carry it with a placeholder vote of 1). A status that says more than "Elected" (the
+// Ceann Comhairle's "Elected (auto returned)") is the record's own and is kept.
+const PLAIN_ELECTED_STATUS = /^(|elected|deemed elected|made quota)$/i;
+function markUnopposedReturns(result, resultMetadata) {
+  if (resultMetadata?.contestStatus !== 'uncontested') return;
+  const relabel = (candidate) => (candidate?.elected && PLAIN_ELECTED_STATUS.test(String(candidate.status || '').trim())
+    ? {
+      ...candidate,
+      status: 'Elected unopposed',
+      ...(Array.isArray(candidate.counts) ? {
+        counts: candidate.counts.map((count) => (PLAIN_ELECTED_STATUS.test(String(count?.status || '').trim()) && count?.status
+          ? { ...count, status: 'Elected unopposed' }
+          : count))
+      } : {})
+    }
+    : candidate);
+  if (Array.isArray(result.candidates)) result.candidates = result.candidates.map(relabel);
+  if (Array.isArray(result.elected)) result.elected = result.elected.map(relabel);
+}
+
 function transferDataExpectedForElection(entry, { result = null, votingSystem = null, contestType = null, contestStatus = 'contested' } = {}) {
   const type = contestType || contestTypeForElection(entry);
   if (type !== 'election' || contestStatus === 'uncontested') return false;
@@ -1571,7 +1615,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
   const key = electionKey(entry);
   const publicDisplayTitle = entry.displayTitle || canonicalElectionTitle({ ...entry, key });
   const electionMetadata = classifyElection(entry);
-  const featureLookup = buildFeatureLookup(featureIndex, geography?.sourceMapId);
+  const featureLookup = buildFeatureLookup(featureIndex, geography?.sourceMapId, geography);
   const dateDir = path.join(ELECTION_ROOT, entry.bodySlug, entry.date);
   const dirExists = existsSync(dateDir);
   const singleFeature = geography?.singleConstituency ? firstFeature(featureIndex) : null;
@@ -1610,6 +1654,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
     if (resultMetadata.contestStatus === 'uncontested' && Array.isArray(result.candidates)) {
       result.candidates = result.candidates.map((candidate) => (parseNumber(candidate?.firstPrefs) === 1 ? { ...candidate, firstPrefs: 0 } : candidate));
     }
+    markUnopposedReturns(result, resultMetadata);
     // A contest renamed by a source-checked fix ("lg85-NaM-Crotlieve" -> "Crotlieve") is still
     // listed in the elections index under its import name: look its council up by that too.
     const matchEntry = matchEntryForConstituency(entry, result.constituency || constituency, constituency);
@@ -1663,6 +1708,7 @@ async function buildElectionBundle(entry, geography, layer, featureIndex, previo
       applyLifespanEvidence(entry, result);
       attachOfficialPersonIds(key, result, constituency);
       const resultMetadata = classifyElectionResult(entry, result, electionMetadata);
+      markUnopposedReturns(result, resultMetadata);
       const matchEntry = matchEntryForConstituency(entry, result.constituency);
       const localBody = entry.bodyGroup === 'local-government' ? matchEntry.body : null;
       if (localBody && Array.isArray(result.candidates)) {
@@ -2352,10 +2398,26 @@ function boundsCenter(bounds) {
     : null;
 }
 
-function buildFeatureLookup(index, sourceMapId) {
+// A geography with featureNamePrefix uses only the features whose name carries the prefix and
+// also matches them without it: Belfast's 1920 council areas are the "BELFAST ..." divisions
+// of the 1918 parliamentary map, and no other division of that map may take a council result.
+function scopeFeatureItems(items, geography) {
+  const prefix = String(geography?.featureNamePrefix || '');
+  if (!prefix) return items;
+  const lower = prefix.toLowerCase();
+  return items
+    .filter((item) => String(item?.name || '').toLowerCase().startsWith(lower))
+    .map((item) => {
+      const stripped = String(item.name).slice(prefix.length).trim();
+      return { ...item, aliases: unique([...(item.aliases || []), stripped].filter(Boolean)) };
+    });
+}
+
+function buildFeatureLookup(index, sourceMapId, geography = null) {
   const byName = new Map();
   const sourceAliases = SOURCE_NAME_ALIASES.get(sourceMapId) || new Map();
-  for (const item of index?.items || []) {
+  const scopedItems = scopeFeatureItems(index?.items || [], geography);
+  for (const item of scopedItems) {
     const explicitAliases = [];
     for (const name of [item.name, ...(item.aliases || [])]) {
       const alias = sourceAliases.get(name);
@@ -2408,7 +2470,7 @@ function buildFeatureLookup(index, sourceMapId) {
     }
   }
   // Every feature, including any that lost all its keys to an earlier one, for pinned matches.
-  byName.items = index?.items || [];
+  byName.items = scopedItems;
   return byName;
 }
 
@@ -2566,6 +2628,8 @@ function contestNotes(raw) {
         ? `${Number(raw.Constituency.countInfo.Total_Electorate).toLocaleString('en-GB')}: ${raw.electorateSource.replace(/,\s*(\d{4})/, ' in $1')}`
         : null)],
     ['Right of election', raw.franchise],
+    // What the contest's area was, where the map draws it from another layer (Belfast 1920).
+    ['Boundaries', raw.boundaryNote],
     ['Corrected', raw.correctionNote],
     ['Source note', raw.sourceNote],
   ].filter(([, text]) => typeof text === 'string' && text.trim())

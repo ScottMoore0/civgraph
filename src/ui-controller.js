@@ -322,7 +322,7 @@ class UIController {
         // Render detail content
         const isLoaded = this.getMapIdsFromURL().includes(map.id);
         const color = map.style?.color || '#888';
-        const formattedDate = this.formatMapDate(map.date) || '';
+        const formattedDate = this.formatMapDate(map.date, map) || '';
 
         // Get category name
         const categories = dataService.getMapCategories() || [];
@@ -6196,11 +6196,11 @@ class UIController {
                 displayName = '2022';
             } else if (fullDateClasses.includes(cls.id) || fullDateClassNames.has(normalizedClassName)) {
                 // Show full date as the derived name
-                displayName = this.formatMapDate(map.date) || map.name;
+                displayName = this.formatMapDate(map.date, map) || map.name;
             } else if (yearWithSubtitleClasses.includes(cls.id)) {
                 // Show year as name with date subtitle
                 displayName = this.getYear(map.date) || map.name;
-                const fullDate = this.formatMapDate(map.date);
+                const fullDate = this.formatMapDate(map.date, map);
                 if (fullDate && fullDate !== displayName) {
                     dateSubtitle = `<span class="class-member__date">${fullDate}</span>`;
                 }
@@ -7362,11 +7362,15 @@ class UIController {
         return null;
     }
 
-    formatMapDate(dateStr) {
+    formatMapDate(dateStr, map = null) {
         if (!dateStr) return '';
         const str = String(dateStr);
         const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         if (/^\d{4}$/.test(str)) return str;
+        // 1 January standing for a year ("1977-01-01" for the 1977 DEDs) reads as the year,
+        // unless the map says the day ("1 Jan 1919" in its name, or in force from that day).
+        if (map && /^\d{4}-01-01$/.test(str) && map.dateEffective !== str
+            && !/\b1 Jan(uary)?\b|-01-01\b/i.test(`${map.id || ''} ${map.name || ''}`)) return str.slice(0, 4);
         if (/^\d{4}-\d{2}(-\d{2})?$/.test(str)) {
             return `<span class="date-mono">${formatDisplayDate(str)}</span>`;
         }
@@ -7393,7 +7397,7 @@ class UIController {
 
         const color = map.style?.color || '#3388ff';
         const providers = (map.provider || []).join(', ');
-        const dateStr = this.formatMapDate(map.date);
+        const dateStr = this.formatMapDate(map.date, map);
         const hasVariants = map.variants && map.variants.length > 0;
         const hasDownload = map.files?.fgb || map.files?.geojson || this.getSourceDownloads(map).length > 0;
 
@@ -11354,7 +11358,7 @@ class UIController {
                     html += `<div class="explore-detail__item" data-type="map" data-id="${map.id}">
                         <span class="explore-detail__color" style="background: ${map.style?.color || '#888'}"></span>
                         <span class="explore-detail__item-name">${this.escapeHtml(map.name)}</span>
-                        ${map.date ? `<span class="explore-detail__item-date">${this.formatMapDate(map.date)}</span>` : ''}
+                        ${map.date ? `<span class="explore-detail__item-date">${this.formatMapDate(map.date, map)}</span>` : ''}
                     </div>`;
                 });
                 html += '</div></div>';
@@ -11386,7 +11390,7 @@ class UIController {
                     html += `<div class="explore-detail__item" data-type="map" data-id="${map.id}">
                         <span class="explore-detail__color" style="background: ${map.style?.color || '#888'}"></span>
                         <span class="explore-detail__item-name">${this.escapeHtml(map.name)}</span>
-                        ${map.date ? `<span class="explore-detail__item-date">${this.formatMapDate(map.date)}</span>` : ''}
+                        ${map.date ? `<span class="explore-detail__item-date">${this.formatMapDate(map.date, map)}</span>` : ''}
                     </div>`;
                 });
                 html += '</div></div>';
@@ -11397,7 +11401,7 @@ class UIController {
                 html += `<div class="explore-detail__hero explore-detail__hero--map">
                     <span class="explore-detail__color-large" style="background: ${map.style?.color || '#888'}"></span>
                     <h2 class="explore-detail__title">${this.escapeHtml(map.name)}</h2>
-                    ${map.date ? `<p class="explore-detail__subtitle">${this.formatMapDate(map.date)}</p>` : ''}
+                    ${map.date ? `<p class="explore-detail__subtitle">${this.formatMapDate(map.date, map)}</p>` : ''}
                 </div>`;
 
                 // Action button

@@ -9,6 +9,18 @@ export const plural = (n, one, many = `${one}s`) => `${Number(n).toLocaleString(
 export const longDate = (d) => formatDisplayDate(d);
 export const shortDate = (d) => formatDisplayDate(d);
 
+/**
+ * A map's date. One stored as 1 January when only the year is known ("1977-01-01" for the
+ * 1977 DEDs) reads as the year; a map named "1 Jan 1919", or in force from that day, keeps
+ * its day (UX review 2026-10-31, L4).
+ */
+export const mapDate = (r) => {
+  const raw = String(r?.date ?? '').trim();
+  if (/^\d{4}-01-01$/.test(raw) && r.dateEffective !== raw
+    && !/\b1 Jan(uary)?\b|-01-01\b/i.test(`${r.id || ''} ${r.name || ''} ${r.title || ''}`)) return raw.slice(0, 4);
+  return formatDisplayDate(r?.date);
+};
+
 export const yearOf = (d) => {
   const m = /(1[5-9]\d\d|20\d\d)/.exec(String(d || ''));
   return m ? Number(m[1]) : null;

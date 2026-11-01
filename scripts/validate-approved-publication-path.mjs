@@ -226,12 +226,21 @@ function assertApprovedDistinctSourceLinks(approvedSources, stagingId, expectedP
 function validateBrowseMaterialisation(approvedSources, browseSources) {
   assert(Array.isArray(browseSources.items), 'Browse sources index must contain items.');
   const browseById = new Map(browseSources.items.map((item) => [item.id, item]));
+  // A source listed more than once is merged into one record (build-browse-indexes.mjs
+  // mergeDuplicateSources); the merged listing keeps its id, approval and variant parent in
+  // that record's mergedFrom, and the record's detail is the one it now opens.
+  const mergedById = new Map();
+  for (const item of browseSources.items) {
+    for (const merged of item.mergedFrom || []) mergedById.set(merged.id, { item, merged });
+  }
   for (const source of approvedSources.sources) {
-    const browseItem = browseById.get(source.id);
+    const merge = browseById.has(source.id) ? null : mergedById.get(source.id);
+    const browseItem = browseById.get(source.id) || merge?.item;
+    const facts = merge ? merge.merged : browseItem;
     assert(Boolean(browseItem), `Browse sources index is missing approved source ${source.id}.`);
     if (!browseItem) continue;
-    assert(browseItem.approval?.recommendedAction === source.approval?.recommendedAction, `Browse source lost approval metadata: ${source.id}`);
-    if (source.variantOf) assert(browseItem.variantOf?.id === source.variantOf.id, `Browse source lost variant parent metadata: ${source.id}`);
+    assert(facts.approval?.recommendedAction === source.approval?.recommendedAction, `Browse source lost approval metadata: ${source.id}`);
+    if (source.variantOf) assert(facts.variantOf?.id === source.variantOf.id, `Browse source lost variant parent metadata: ${source.id}`);
     assert(hasBrowseSourceDetail(browseItem), `Browse source detail record is missing for ${source.id}: ${browseItem.detailUrl || browseItem.slug}`);
   }
 }

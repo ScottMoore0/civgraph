@@ -90,6 +90,14 @@ const ENTITIES = {
     extra: {
       first_year: (item) => num(item.firstYear),
       last_year: (item) => num(item.lastYear),
+      // Browse's People filters and sorts (functions/_api/persons). A multi-valued facet is
+      // stored delimited, '|Dáil Éireann|Local Authorities of Ireland|', and matched with
+      // LIKE '%|value|%', so a person who stood for two bodies is found under either.
+      bodies: (item) => delimited(item.bodies),
+      decades: (item) => delimited((item.elections || []).map((row) => decadeOf(row.year))),
+      elected: (item) => (Number(item.totals?.elected) > 0 ? 'yes' : 'no'),
+      contests: (item) => num(item.totals?.stood ?? (item.elections || []).length),
+      elected_count: (item) => num(item.totals?.elected),
     },
   },
   'register-interests': {
@@ -178,6 +186,13 @@ const LICENCE_STATUS_LABELS = {
 const lit = (value) => (value === null || value === undefined ? 'NULL'
   : typeof value === 'number' ? value : q(value));
 
+/** Distinct values as '|a|b|', for a LIKE '%|a|%' match; null when there are none. */
+const delimited = (values) => {
+  const list = [...new Set(arr(values))].sort();
+  return list.length ? `|${list.join('|')}|` : null;
+};
+const decadeOf = (year) => (Number(year) > 0 ? `${Math.floor(Number(year) / 10) * 10}s` : null);
+
 /** A field that may be a string, an array, or an array of {name} objects -> string[]. */
 const arr = (value) => flattenValue(value).filter(Boolean);
 /** The first value of such a field, for a sortable column. */
@@ -218,6 +233,12 @@ function buildSql(name, spec) {
   if (!items.length) throw new Error(`no records read from ${spec.index}`);
 
   const extraCols = Object.keys(spec.extra || {});
+  // A column whose every value is a number is declared INTEGER. Declared TEXT, SQLite stored
+  // the numbers as text and ORDER BY sorted them as text: 10 interests before 9.
+  const extraType = Object.fromEntries(extraCols.map((c) => {
+    const values = items.map((item) => spec.extra[c](item)).filter((v) => v !== null && v !== undefined);
+    return [c, values.length && values.every((v) => typeof v === 'number') ? 'INTEGER' : 'TEXT'];
+  }));
   const columns = ['slug', 'id', 'title', 'title_norm', 'key_norm', 'search_norm', ...extraCols, 'ord', 'record'];
 
   const lines = [];
@@ -237,7 +258,7 @@ function buildSql(name, spec) {
   -- Every field browse.js's substring filter looks at, flattened and lower-cased.
   -- Searching only the title would quietly return fewer results than the client did.
   search_norm TEXT,
-${extraCols.map((c) => `  ${c.padEnd(10)} TEXT,`).join('\n')}
+${extraCols.map((c) => `  ${c.padEnd(10)} ${extraType[c]},`).join('\n')}
   ord        INTEGER NOT NULL,
   record     TEXT NOT NULL
 );`);
@@ -317,6 +338,30 @@ ${extraCols.map((c) => `  ${c.padEnd(10)} TEXT,`).join('\n')}
     lines.push(`INSERT INTO ${spec.table}_facets (facets) VALUES (${q(JSON.stringify(facets))});`);
     lines.push('');
   }
+
+  // Old addresses: a record's previousSlugs (a person's earlier id scheme, a source merged
+  // into another) resolve to it through this table when no record has the slug itself.
+  const liveSlugs = new Set(items.map((item) => item.slug));
+  const aliases = new Map();
+  for (const item of items) {
+    for (const alias of item.previousSlugs || []) {
+      if (alias && !liveSlugs.has(alias) && !aliases.has(alias)) aliases.set(alias, item.slug);
+    }
+  }
+  lines.push(`DROP TABLE IF EXISTS ${spec.table}_aliases;`);
+  lines.push(`CREATE TABLE ${spec.table}_aliases (alias TEXT PRIMARY KEY, slug TEXT NOT NULL);`);
+  const aliasRows = [...aliases].map(([alias, slug]) => `(${q(alias)}, ${q(slug)})`);
+  for (let i = 0; i < aliasRows.length;) {
+    const chunk = [];
+    let bytes = 0;
+    while (i < aliasRows.length && (!chunk.length || bytes + aliasRows[i].length < MAX_STATEMENT_BYTES)) {
+      bytes += aliasRows[i].length + 2;
+      chunk.push(aliasRows[i]);
+      i += 1;
+    }
+    lines.push(`INSERT INTO ${spec.table}_aliases (alias, slug) VALUES\n${chunk.join(',\n')};`);
+  }
+  lines.push('');
 
   for (let i = 0; i < items.length; i += 1) {
     const row = rowSql(items[i], i);
