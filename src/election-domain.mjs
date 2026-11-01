@@ -189,6 +189,10 @@ export function summarizeCandidateRows(rows = []) {
       // What the ballot paper said, where it differs from the party: kept apart from `party` so a
       // joke description ("Ereck Shun's All Night Party") never stands in for the party stood for.
       ballotDescription: fixText(row.Ballot_Description || row.ballotDescription || ''),
+      // A label the sources did not print for this election, inferred from the same person's
+      // label at other elections (Party_Inferred), with the evidence for it (Party_Basis).
+      partyInferred: row.Party_Inferred === true || String(row.Party_Inferred || '') === 'true',
+      partyBasis: fixText(row.Party_Basis || ''),
       // The PERSON, where the source names one. `id` above is a candidacy key and on
       // older contests it is a row index -- id '1' sits on 2,260 candidacies under
       // unrelated names -- so it cannot carry identity. ElectionsIreland does name the

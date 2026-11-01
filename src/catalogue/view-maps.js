@@ -110,7 +110,6 @@ function subjectHtml(c, { sub, series }, heading = true) {
 /** One series. `hit` (optional) marks editions that matched a search or cover a point. */
 export function seriesRowHtml(c, s, hit = c.hitFor(s)) {
   const editions = s.members.filter((m) => !m.of);
-  const versions = s.members.length - editions.length;
   const todo = s.todo || [];
   const local = s.local || [];
   const drawable = s.members.length > 0;
@@ -121,7 +120,6 @@ export function seriesRowHtml(c, s, hit = c.hitFor(s)) {
   const meta = [SCOPE_SHORT[s.scope] || s.scope, span(s.years)].filter(Boolean).map((t) => `<span>${esc(t)}</span>`);
   const tally = [
     editions.length > 1 ? plural(editions.length, s.arrangement === 'editions' ? 'edition' : 'map') : '',
-    versions ? plural(versions, 'other version') : '',
     local.length ? plural(local.length, 'council map') : '',
   ].filter(Boolean);
   const allTodo = !drawable || s.members.every((m) => c.rec(m.id).status === 'placeholder');
@@ -131,7 +129,7 @@ export function seriesRowHtml(c, s, hit = c.hitFor(s)) {
   const by = s.kind === 'Statistics' && single ? /\bby ([^,)]+)\)?\s*$/.exec(c.rec(s.members[0].id).name || '')?.[1] : '';
   const who = single ? c.mapSummary(s.members[0].id, { date: false, short: true }) : (s.provider || []).map(shortProvider).join(', ');
   const second = [by ? `by ${by}` : '', who, ...tally].filter(Boolean);
-  const credit = second.length ? `<span class="cn-row__credit">${second.map((t) => esc(t)).join('<span class="cn-row__dot" aria-hidden="true"> · </span>')}</span>` : '';
+  const credit = second.length ? `<span class="cn-row__credit">${second.map((t) => `<span class="cn-row__item">${esc(t)}</span>`).join('<span class="cn-row__dot" aria-hidden="true"> · </span>')}</span>` : '';
   const text = `<span class="cn-row__text"><span class="cn-row__name">${esc(s.name)}</span><span class="cn-row__meta">${meta.join('<span class="cn-row__dot" aria-hidden="true">·</span>')}</span>${credit}</span>`;
   // A series with nothing to draw yet is a heading and its list of maps to come: nothing to open.
   const tip = single ? c.mapSummary(s.members[0].id) : '';

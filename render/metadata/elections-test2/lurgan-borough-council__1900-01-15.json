@@ -43,28 +43,44 @@
   "partySummary": [
     {
       "party": "Independent",
-      "seats": 5,
+      "seats": 3,
       "stood": 0,
       "votes": 0,
       "colour": "#b8b8b8",
       "share": 0
     },
     {
+      "party": "UUP",
+      "seats": 2,
+      "stood": 2,
+      "votes": 1055,
+      "colour": "#48a5ee",
+      "share": 32.61205564142195
+    },
+    {
       "party": "Independent/Other",
       "seats": 0,
-      "stood": 8,
-      "votes": 3235,
+      "stood": 3,
+      "votes": 1269,
       "colour": "#6b7280",
-      "share": 100
+      "share": 39.22720247295209
+    },
+    {
+      "party": "Irish Labour",
+      "seats": 0,
+      "stood": 3,
+      "votes": 911,
+      "colour": "#cc0000",
+      "share": 28.160741885625967
     }
   ],
   "mainLikePartySummary": [
     {
-      "party": "Independent/Other",
+      "party": "UUP",
       "seats": 1,
       "stood": 0,
       "votes": 0,
-      "colour": "#888888",
+      "colour": "#48A5EE",
       "share": 0
     }
   ],
@@ -85,36 +101,20 @@
       {
         "name": "Independent/Other",
         "colour": "#888888",
-        "firstPrefs": 3235,
-        "finalVotes": 3235,
-        "stood": 8,
-        "elected": 5,
+        "firstPrefs": 1269,
+        "finalVotes": 1269,
+        "stood": 3,
+        "elected": 3,
         "constituencies": [
           "Lurgan"
         ],
         "candidates": [
-          {
-            "id": "John Mahaffy|",
-            "name": "John Mahaffy",
-            "constituency": "Lurgan",
-            "firstPref": 540,
-            "finalVotes": 540,
-            "status": "Elected"
-          },
           {
             "id": "Anthony Bunting|",
             "name": "Anthony Bunting",
             "constituency": "Lurgan",
             "firstPref": 531,
             "finalVotes": 531,
-            "status": "Elected"
-          },
-          {
-            "id": "William White|",
-            "name": "William White",
-            "constituency": "Lurgan",
-            "firstPref": 515,
-            "finalVotes": 515,
             "status": "Elected"
           },
           {
@@ -132,9 +132,53 @@
             "firstPref": 364,
             "finalVotes": 364,
             "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 39.22720247295209
+      },
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 1055,
+        "finalVotes": 1055,
+        "stood": 2,
+        "elected": 2,
+        "constituencies": [
+          "Lurgan"
+        ],
+        "candidates": [
+          {
+            "id": "John Mahaffy|UUP",
+            "name": "John Mahaffy",
+            "constituency": "Lurgan",
+            "firstPref": 540,
+            "finalVotes": 540,
+            "status": "Elected"
           },
           {
-            "id": "William Douie|",
+            "id": "William White|UUP",
+            "name": "William White",
+            "constituency": "Lurgan",
+            "firstPref": 515,
+            "finalVotes": 515,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 32.61205564142195
+      },
+      {
+        "name": "Irish Labour",
+        "colour": "#A0A0A0",
+        "firstPrefs": 911,
+        "finalVotes": 911,
+        "stood": 3,
+        "elected": 0,
+        "constituencies": [
+          "Lurgan"
+        ],
+        "candidates": [
+          {
+            "id": "William Douie|Irish Labour",
             "name": "William Douie",
             "constituency": "Lurgan",
             "firstPref": 348,
@@ -142,7 +186,7 @@
             "status": "Not Elected"
           },
           {
-            "id": "James McNeice|",
+            "id": "James McNeice|Irish Labour",
             "name": "James McNeice",
             "constituency": "Lurgan",
             "firstPref": 300,
@@ -150,7 +194,7 @@
             "status": "Not Elected"
           },
           {
-            "id": "Samuel Creaney|",
+            "id": "Samuel Creaney|Irish Labour",
             "name": "Samuel Creaney",
             "constituency": "Lurgan",
             "firstPref": 263,
@@ -158,16 +202,16 @@
             "status": "Not Elected"
           }
         ],
-        "shareOfTotal": 100
+        "shareOfTotal": 28.160741885625967
       }
     ],
     "candidates": [
       {
-        "id": "John Mahaffy|",
-        "key": "John Mahaffy|",
+        "id": "John Mahaffy|UUP",
+        "key": "John Mahaffy|UUP",
         "name": "John Mahaffy",
-        "party": "",
-        "colour": "#888888",
+        "party": "UUP",
+        "colour": "#48A5EE",
         "firstPrefs": 540,
         "finalVotes": 540,
         "electedCount": 1,
@@ -207,11 +251,11 @@
         "shareOfTotal": 16.41421947449768
       },
       {
-        "id": "William White|",
-        "key": "William White|",
+        "id": "William White|UUP",
+        "key": "William White|UUP",
         "name": "William White",
-        "party": "",
-        "colour": "#888888",
+        "party": "UUP",
+        "colour": "#48A5EE",
         "firstPrefs": 515,
         "finalVotes": 515,
         "electedCount": 1,
@@ -273,11 +317,11 @@
         "shareOfTotal": 11.25193199381762
       },
       {
-        "id": "William Douie|",
-        "key": "William Douie|",
+        "id": "William Douie|Irish Labour",
+        "key": "William Douie|Irish Labour",
         "name": "William Douie",
-        "party": "",
-        "colour": "#888888",
+        "party": "Irish Labour",
+        "colour": "#A0A0A0",
         "firstPrefs": 348,
         "finalVotes": 348,
         "electedCount": 0,
@@ -295,11 +339,11 @@
         "shareOfTotal": 10.757341576506956
       },
       {
-        "id": "James McNeice|",
-        "key": "James McNeice|",
+        "id": "James McNeice|Irish Labour",
+        "key": "James McNeice|Irish Labour",
         "name": "James McNeice",
-        "party": "",
-        "colour": "#888888",
+        "party": "Irish Labour",
+        "colour": "#A0A0A0",
         "firstPrefs": 300,
         "finalVotes": 300,
         "electedCount": 0,
@@ -317,11 +361,11 @@
         "shareOfTotal": 9.273570324574962
       },
       {
-        "id": "Samuel Creaney|",
-        "key": "Samuel Creaney|",
+        "id": "Samuel Creaney|Irish Labour",
+        "key": "Samuel Creaney|Irish Labour",
         "name": "Samuel Creaney",
-        "party": "",
-        "colour": "#888888",
+        "party": "Irish Labour",
+        "colour": "#A0A0A0",
         "firstPrefs": 263,
         "finalVotes": 263,
         "electedCount": 0,
@@ -345,7 +389,7 @@
       "constituency": "Lurgan",
       "winnerParty": "Independent",
       "winnerName": "5 elected",
-      "leadingParty": null,
+      "leadingParty": "UUP",
       "leadingName": "John Mahaffy",
       "leadingVotes": 540,
       "leadingPct": 16.69,
@@ -361,12 +405,12 @@
       "validPoll": 3235,
       "totalVotes": 3235,
       "colour": "#b8b8b8",
-      "leadingColour": "#6b7280",
+      "leadingColour": "#48a5ee",
       "candidates": [
         {
-          "id": "John Mahaffy|",
+          "id": "John Mahaffy|UUP",
           "name": "John Mahaffy",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 540,
           "finalVotes": 540,
           "elected": true,
@@ -375,11 +419,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "lurgan-borough 1899-01-16 Lurgan: UUP (John Mahaffy) [found-A]; lurgan-borough 1912-01-15 Lurgan: UUP (John Mahaffy)",
           "counts": [
             {
               "count": 1,
@@ -389,7 +435,7 @@
               "firstPrefs": 540
             }
           ],
-          "personId": 135339,
+          "personId": 135344,
           "name_id": "n-john-mahaffy"
         },
         {
@@ -409,6 +455,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -422,9 +470,9 @@
           "name_id": "n-anthony-bunting"
         },
         {
-          "id": "William White|",
+          "id": "William White|UUP",
           "name": "William White",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 515,
           "finalVotes": 515,
           "elected": true,
@@ -433,11 +481,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1902-05-28 Lurgan: UUP (William White)",
           "counts": [
             {
               "count": 1,
@@ -447,7 +497,7 @@
               "firstPrefs": 515
             }
           ],
-          "personId": 88253,
+          "personId": 136082,
           "name_id": "n-william-white"
         },
         {
@@ -467,6 +517,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -496,6 +548,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -509,9 +563,9 @@
           "name_id": "n-john-a-thompson"
         },
         {
-          "id": "William Douie|",
+          "id": "William Douie|Irish Labour",
           "name": "William Douie",
-          "party": "",
+          "party": "Irish Labour",
           "firstPrefs": 348,
           "finalVotes": 348,
           "elected": false,
@@ -520,11 +574,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
-          "colour": "#888888",
+          "colour": "#A0A0A0",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "Lurgan Mail, Jan 1900 (filed source; note): Douie, McNeice and Creaney stood as working-men's (Labour) candidates | group statement for this election",
           "counts": [
             {
               "count": 1,
@@ -534,13 +590,13 @@
               "firstPrefs": 348
             }
           ],
-          "personId": 135683,
+          "personId": 138058,
           "name_id": "n-william-douie"
         },
         {
-          "id": "James McNeice|",
+          "id": "James McNeice|Irish Labour",
           "name": "James McNeice",
-          "party": "",
+          "party": "Irish Labour",
           "firstPrefs": 300,
           "finalVotes": 300,
           "elected": false,
@@ -549,11 +605,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
-          "colour": "#888888",
+          "colour": "#A0A0A0",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "Lurgan Mail, Jan 1900 (filed source; note): Douie, McNeice and Creaney stood as working-men's (Labour) candidates | group statement for this election",
           "counts": [
             {
               "count": 1,
@@ -567,9 +625,9 @@
           "name_id": "n-james-mcneice"
         },
         {
-          "id": "Samuel Creaney|",
+          "id": "Samuel Creaney|Irish Labour",
           "name": "Samuel Creaney",
-          "party": "",
+          "party": "Irish Labour",
           "firstPrefs": 263,
           "finalVotes": 263,
           "elected": false,
@@ -578,11 +636,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
-          "colour": "#888888",
+          "colour": "#A0A0A0",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "Lurgan Mail, Jan 1900 (filed source; note): Douie, McNeice and Creaney stood as working-men's (Labour) candidates | group statement for this election",
           "counts": [
             {
               "count": 1,
@@ -592,15 +652,15 @@
               "firstPrefs": 263
             }
           ],
-          "personId": 135649,
+          "personId": 138038,
           "name_id": "n-samuel-creaney"
         }
       ],
       "elected": [
         {
-          "id": "John Mahaffy|",
+          "id": "John Mahaffy|UUP",
           "name": "John Mahaffy",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 540,
           "finalVotes": 540,
           "elected": true,
@@ -609,11 +669,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "lurgan-borough 1899-01-16 Lurgan: UUP (John Mahaffy) [found-A]; lurgan-borough 1912-01-15 Lurgan: UUP (John Mahaffy)",
           "counts": [
             {
               "count": 1,
@@ -641,6 +703,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -652,9 +716,9 @@
           ]
         },
         {
-          "id": "William White|",
+          "id": "William White|UUP",
           "name": "William White",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 515,
           "finalVotes": 515,
           "elected": true,
@@ -663,11 +727,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1902-05-28 Lurgan: UUP (William White)",
           "counts": [
             {
               "count": 1,
@@ -695,6 +761,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -722,6 +790,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -757,12 +827,15 @@
           "Total_Votes": "540.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
           "candidateName": "John Mahaffy",
           "id": 0,
           "Name_As_Printed": "John Mahaffy",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "D",
+          "Party_Basis": "lurgan-borough 1899-01-16 Lurgan: UUP (John Mahaffy) [found-A]; lurgan-borough 1912-01-15 Lurgan: UUP (John Mahaffy)"
         },
         {
           "Constituency_Number": "",
@@ -793,12 +866,15 @@
           "Total_Votes": "515.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
           "candidateName": "William White",
           "id": 2,
           "Name_As_Printed": "William White",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "B",
+          "Party_Basis": "armagh-county 1902-05-28 Lurgan: UUP (William White)"
         },
         {
           "Constituency_Number": "",
@@ -847,12 +923,15 @@
           "Total_Votes": "348.00",
           "Status": "Not Elected",
           "Occurred_On_Count": "",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "Labour",
+          "Party_Colour": "#A0A0A0",
           "candidateName": "William Douie",
           "id": 5,
           "Name_As_Printed": "William Douie",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": false,
+          "Party_Evidence_Class": "A",
+          "Party_Basis": "Lurgan Mail, Jan 1900 (filed source; note): Douie, McNeice and Creaney stood as working-men's (Labour) candidates | group statement for this election"
         },
         {
           "Constituency_Number": "",
@@ -865,12 +944,15 @@
           "Total_Votes": "300.00",
           "Status": "Not Elected",
           "Occurred_On_Count": "",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "Labour",
+          "Party_Colour": "#A0A0A0",
           "candidateName": "James McNeice",
           "id": 6,
           "Name_As_Printed": "James McNeice",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": false,
+          "Party_Evidence_Class": "A",
+          "Party_Basis": "Lurgan Mail, Jan 1900 (filed source; note): Douie, McNeice and Creaney stood as working-men's (Labour) candidates | group statement for this election"
         },
         {
           "Constituency_Number": "",
@@ -883,12 +965,15 @@
           "Total_Votes": "263.00",
           "Status": "Not Elected",
           "Occurred_On_Count": "",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "Labour",
+          "Party_Colour": "#A0A0A0",
           "candidateName": "Samuel Creaney",
           "id": 7,
           "Name_As_Printed": "Samuel Creaney",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": false,
+          "Party_Evidence_Class": "A",
+          "Party_Basis": "Lurgan Mail, Jan 1900 (filed source; note): Douie, McNeice and Creaney stood as working-men's (Labour) candidates | group statement for this election"
         }
       ],
       "syntheticCountGroup": false,
@@ -924,12 +1009,15 @@
               "Total_Votes": "540.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
               "candidateName": "John Mahaffy",
               "id": 0,
               "Name_As_Printed": "John Mahaffy",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "D",
+              "Party_Basis": "lurgan-borough 1899-01-16 Lurgan: UUP (John Mahaffy) [found-A]; lurgan-borough 1912-01-15 Lurgan: UUP (John Mahaffy)"
             },
             {
               "Constituency_Number": "",
@@ -960,12 +1048,15 @@
               "Total_Votes": "515.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
               "candidateName": "William White",
               "id": 2,
               "Name_As_Printed": "William White",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "B",
+              "Party_Basis": "armagh-county 1902-05-28 Lurgan: UUP (William White)"
             },
             {
               "Constituency_Number": "",
@@ -1014,12 +1105,15 @@
               "Total_Votes": "348.00",
               "Status": "Not Elected",
               "Occurred_On_Count": "",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "Labour",
+              "Party_Colour": "#A0A0A0",
               "candidateName": "William Douie",
               "id": 5,
               "Name_As_Printed": "William Douie",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": false,
+              "Party_Evidence_Class": "A",
+              "Party_Basis": "Lurgan Mail, Jan 1900 (filed source; note): Douie, McNeice and Creaney stood as working-men's (Labour) candidates | group statement for this election"
             },
             {
               "Constituency_Number": "",
@@ -1032,12 +1126,15 @@
               "Total_Votes": "300.00",
               "Status": "Not Elected",
               "Occurred_On_Count": "",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "Labour",
+              "Party_Colour": "#A0A0A0",
               "candidateName": "James McNeice",
               "id": 6,
               "Name_As_Printed": "James McNeice",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": false,
+              "Party_Evidence_Class": "A",
+              "Party_Basis": "Lurgan Mail, Jan 1900 (filed source; note): Douie, McNeice and Creaney stood as working-men's (Labour) candidates | group statement for this election"
             },
             {
               "Constituency_Number": "",
@@ -1050,12 +1147,15 @@
               "Total_Votes": "263.00",
               "Status": "Not Elected",
               "Occurred_On_Count": "",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "Labour",
+              "Party_Colour": "#A0A0A0",
               "candidateName": "Samuel Creaney",
               "id": 7,
               "Name_As_Printed": "Samuel Creaney",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": false,
+              "Party_Evidence_Class": "A",
+              "Party_Basis": "Lurgan Mail, Jan 1900 (filed source; note): Douie, McNeice and Creaney stood as working-men's (Labour) candidates | group statement for this election"
             }
           ]
         },

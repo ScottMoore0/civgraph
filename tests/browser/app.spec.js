@@ -247,7 +247,8 @@ test('active-layer drag order persists and controls MapLibre draw order', async 
       .join('|')
   ))).toBe('synthetic-layer-a|synthetic-layer-b');
 
-  const firstGrip = page.locator('#activeLayersList .active-layer-item[data-map-id="synthetic-layer-a"] .active-layer-item__drag');
+  // The whole row drags (there is no grip); start from its name.
+  const firstGrip = page.locator('#activeLayersList .active-layer-item[data-map-id="synthetic-layer-a"] .active-layer-item__name');
   const secondRow = page.locator('#activeLayersList .active-layer-item[data-map-id="synthetic-layer-b"]');
   const gripBox = await firstGrip.boundingBox();
   const secondBox = await secondRow.boundingBox();
@@ -2506,7 +2507,8 @@ test('restores and persists detail, source, hidden layer, and panel URL state', 
   await expect.poll(() => page.locator('#test2SourcePanel').evaluate((panel) => Number(getComputedStyle(panel).zIndex))).toBeGreaterThan(500);
   await expect(page.locator('#activeLayers')).toBeVisible();
   await expect(page.locator('#activeLayersList')).toContainText('Civil Parishes');
-  await expect(page.locator('#activeLayersList .test2-source-btn').first()).toBeVisible();
+  // The layer's name opens its page (the old "i" button).
+  await expect(page.locator('#activeLayersList .active-layer-item__name--link').first()).toBeVisible();
   await expect(page.locator('#mapControlPanel')).toHaveClass(/map-control-panel--expanded/);
   await expect(page.locator('#baseMapSelect')).toHaveValue('opentopomap');
 

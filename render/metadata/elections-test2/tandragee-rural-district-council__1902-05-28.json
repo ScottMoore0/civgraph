@@ -49,16 +49,24 @@
   "partySummary": [
     {
       "party": "Independent",
-      "seats": 7,
+      "seats": 5,
       "stood": 0,
       "votes": 0,
       "colour": "#b8b8b8",
       "share": null
     },
     {
+      "party": "UUP",
+      "seats": 2,
+      "stood": 1,
+      "votes": 0,
+      "colour": "#48a5ee",
+      "share": null
+    },
+    {
       "party": "Independent/Other",
       "seats": 0,
-      "stood": 7,
+      "stood": 6,
       "votes": 0,
       "colour": "#6b7280",
       "share": null
@@ -67,10 +75,18 @@
   "mainLikePartySummary": [
     {
       "party": "Independent/Other",
-      "seats": 4,
+      "seats": 3,
       "stood": 0,
       "votes": 0,
       "colour": "#888888",
+      "share": null
+    },
+    {
+      "party": "UUP",
+      "seats": 1,
+      "stood": 0,
+      "votes": 0,
+      "colour": "#48A5EE",
       "share": null
     }
   ],
@@ -93,8 +109,8 @@
         "colour": "#888888",
         "firstPrefs": 0,
         "finalVotes": 0,
-        "stood": 7,
-        "elected": 7,
+        "stood": 6,
+        "elected": 6,
         "constituencies": [
           "Ballyshiel",
           "Mullabrack",
@@ -127,14 +143,6 @@
             "status": "Elected"
           },
           {
-            "id": "Thomas Collen|",
-            "name": "Thomas Collen",
-            "constituency": "Mullahead",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": "Elected"
-          },
-          {
             "id": "Archibald Haire|",
             "name": "Archibald Haire",
             "constituency": "Mullahead",
@@ -154,6 +162,28 @@
             "id": "John Mathers|",
             "name": "John Mathers",
             "constituency": "Tandragee Rural",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": null
+      },
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Mullahead"
+        ],
+        "candidates": [
+          {
+            "id": "Thomas Collen|UUP",
+            "name": "Thomas Collen",
+            "constituency": "Mullahead",
             "firstPref": 0,
             "finalVotes": 0,
             "status": "Elected"
@@ -230,11 +260,11 @@
         "shareOfTotal": null
       },
       {
-        "id": "Thomas Collen|",
-        "key": "Thomas Collen|",
+        "id": "Thomas Collen|UUP",
+        "key": "Thomas Collen|UUP",
         "name": "Thomas Collen",
-        "party": "",
-        "colour": "#888888",
+        "party": "UUP",
+        "colour": "#48A5EE",
         "firstPrefs": 0,
         "finalVotes": 0,
         "electedCount": 1,
@@ -359,6 +389,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -388,6 +420,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -419,6 +453,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -446,6 +482,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -640,6 +678,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -671,6 +711,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -791,9 +833,9 @@
     },
     {
       "constituency": "Mullahead",
-      "winnerParty": "Independent",
+      "winnerParty": "UUP",
       "winnerName": "2 elected",
-      "leadingParty": null,
+      "leadingParty": "UUP",
       "leadingName": "Thomas Collen",
       "leadingVotes": null,
       "leadingPct": null,
@@ -808,13 +850,13 @@
       "spoiled": null,
       "validPoll": null,
       "totalVotes": null,
-      "colour": "#b8b8b8",
-      "leadingColour": "#6b7280",
+      "colour": "#48a5ee",
+      "leadingColour": "#48a5ee",
       "candidates": [
         {
-          "id": "Thomas Collen|",
+          "id": "Thomas Collen|UUP",
           "name": "Thomas Collen",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -823,11 +865,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1905-05-25 Tandragee: UUP (Thomas Collen)",
           "counts": [
             {
               "count": 1,
@@ -837,7 +881,7 @@
               "firstPrefs": null
             }
           ],
-          "personId": 135657,
+          "personId": 137559,
           "name_id": "n-thomas-collen"
         },
         {
@@ -857,6 +901,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -872,9 +918,9 @@
       ],
       "elected": [
         {
-          "id": "Thomas Collen|",
+          "id": "Thomas Collen|UUP",
           "name": "Thomas Collen",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -883,11 +929,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1905-05-25 Tandragee: UUP (Thomas Collen)",
           "counts": [
             {
               "count": 1,
@@ -915,6 +963,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -950,12 +1000,15 @@
           "Total_Votes": "",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
           "candidateName": "Thomas Collen",
           "id": 0,
           "Name_As_Printed": "Thomas Collen",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "B",
+          "Party_Basis": "armagh-county 1905-05-25 Tandragee: UUP (Thomas Collen)"
         },
         {
           "Constituency_Number": "",
@@ -1009,12 +1062,15 @@
               "Total_Votes": "",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
               "candidateName": "Thomas Collen",
               "id": 0,
               "Name_As_Printed": "Thomas Collen",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "B",
+              "Party_Basis": "armagh-county 1905-05-25 Tandragee: UUP (Thomas Collen)"
             },
             {
               "Constituency_Number": "",
@@ -1109,6 +1165,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1138,6 +1196,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1169,6 +1229,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1196,6 +1258,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,

@@ -95,10 +95,26 @@
   "partySummary": [
     {
       "party": "Independent",
-      "seats": 26,
+      "seats": 21,
       "stood": 0,
       "votes": 0,
       "colour": "#b8b8b8",
+      "share": 0
+    },
+    {
+      "party": "Anti-Partitionist",
+      "seats": 2,
+      "stood": 2,
+      "votes": 130,
+      "colour": "#6b7280",
+      "share": 8.441558441558442
+    },
+    {
+      "party": "UUP",
+      "seats": 2,
+      "stood": 2,
+      "votes": 0,
+      "colour": "#48a5ee",
       "share": 0
     },
     {
@@ -110,21 +126,53 @@
       "share": 12.727272727272727
     },
     {
+      "party": "Commonwealth Labour Party",
+      "seats": 1,
+      "stood": 1,
+      "votes": 0,
+      "colour": "#6b7280",
+      "share": 0
+    },
+    {
       "party": "Independent/Other",
       "seats": 0,
-      "stood": 32,
-      "votes": 1344,
+      "stood": 27,
+      "votes": 1214,
       "colour": "#6b7280",
-      "share": 87.27272727272727
+      "share": 78.83116883116882
     }
   ],
   "mainLikePartySummary": [
     {
       "party": "Independent/Other",
-      "seats": 26,
+      "seats": 21,
       "stood": 0,
       "votes": 0,
       "colour": "#888888",
+      "share": null
+    },
+    {
+      "party": "Anti-Partitionist",
+      "seats": 2,
+      "stood": 0,
+      "votes": 0,
+      "colour": "#228B22",
+      "share": null
+    },
+    {
+      "party": "UUP",
+      "seats": 2,
+      "stood": 0,
+      "votes": 0,
+      "colour": "#48A5EE",
+      "share": null
+    },
+    {
+      "party": "Commonwealth Labour Party",
+      "seats": 1,
+      "stood": 0,
+      "votes": 0,
+      "colour": "#FF6666",
       "share": null
     },
     {
@@ -153,19 +201,16 @@
       {
         "name": "Independent/Other",
         "colour": "#888888",
-        "firstPrefs": 1344,
-        "finalVotes": 1344,
-        "stood": 32,
-        "elected": 26,
+        "firstPrefs": 1214,
+        "finalVotes": 1214,
+        "stood": 27,
+        "elected": 21,
         "constituencies": [
-          "Ballybot",
           "Belleek",
           "Bessbrook North",
-          "Bessbrook South",
           "Camlough",
           "Camly",
           "Creggan",
-          "Crossmaglen",
           "Culloville",
           "Dorsy",
           "Drumbanagher",
@@ -181,20 +226,11 @@
           "Moyra Castle",
           "Mullaghbane",
           "Mullaghglass",
-          "Newtownhamilton",
           "Poyntzpass",
           "Tullyhappy",
           "Tullyvallen"
         ],
         "candidates": [
-          {
-            "id": "J. Reid|",
-            "name": "J. Reid",
-            "constituency": "Ballybot",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": "Elected"
-          },
           {
             "id": "B. J. McVerry|",
             "name": "B. J. McVerry",
@@ -215,14 +251,6 @@
             "id": "F. N. L. Bell|",
             "name": "F. N. L. Bell",
             "constituency": "Bessbrook North",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": "Elected"
-          },
-          {
-            "id": "T. Martin|",
-            "name": "T. Martin",
-            "constituency": "Bessbrook South",
             "firstPref": 0,
             "finalVotes": 0,
             "status": "Elected"
@@ -252,28 +280,12 @@
             "status": "Not Elected"
           },
           {
-            "id": "Patrick Trainor|",
-            "name": "Patrick Trainor",
-            "constituency": "Creggan",
-            "firstPref": 130,
-            "finalVotes": 130,
-            "status": "Elected"
-          },
-          {
             "id": "Henry Begley|",
             "name": "Henry Begley",
             "constituency": "Creggan",
             "firstPref": 108,
             "finalVotes": 108,
             "status": "Not Elected"
-          },
-          {
-            "id": "P. McArdle|",
-            "name": "P. McArdle",
-            "constituency": "Crossmaglen",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": "Elected"
           },
           {
             "id": "Patrick J. Sammon|",
@@ -412,14 +424,6 @@
             "status": "Elected"
           },
           {
-            "id": "W. Cooke|",
-            "name": "W. Cooke",
-            "constituency": "Newtownhamilton",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": "Elected"
-          },
-          {
             "id": "J. Best|",
             "name": "J. Best",
             "constituency": "Poyntzpass",
@@ -444,7 +448,69 @@
             "status": "Elected"
           }
         ],
-        "shareOfTotal": 87.27272727272727
+        "shareOfTotal": 78.83116883116882
+      },
+      {
+        "name": "Anti-Partitionist",
+        "colour": "#228B22",
+        "firstPrefs": 130,
+        "finalVotes": 130,
+        "stood": 2,
+        "elected": 2,
+        "constituencies": [
+          "Creggan",
+          "Crossmaglen"
+        ],
+        "candidates": [
+          {
+            "id": "Patrick Trainor|Anti-Partitionist",
+            "name": "Patrick Trainor",
+            "constituency": "Creggan",
+            "firstPref": 130,
+            "finalVotes": 130,
+            "status": "Elected"
+          },
+          {
+            "id": "P. McArdle|Anti-Partitionist",
+            "name": "P. McArdle",
+            "constituency": "Crossmaglen",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 8.441558441558442
+      },
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 2,
+        "elected": 2,
+        "constituencies": [
+          "Ballybot",
+          "Newtownhamilton"
+        ],
+        "candidates": [
+          {
+            "id": "J. Reid|UUP",
+            "name": "J. Reid",
+            "constituency": "Ballybot",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          },
+          {
+            "id": "W. Cooke|UUP",
+            "name": "W. Cooke",
+            "constituency": "Newtownhamilton",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 0
       },
       {
         "name": "Nationalist Party",
@@ -475,6 +541,28 @@
           }
         ],
         "shareOfTotal": 12.727272727272727
+      },
+      {
+        "name": "Commonwealth Labour Party",
+        "colour": "#FF6666",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Bessbrook South"
+        ],
+        "candidates": [
+          {
+            "id": "T. Martin|Commonwealth Labour Party",
+            "name": "T. Martin",
+            "constituency": "Bessbrook South",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 0
       }
     ],
     "candidates": [
@@ -567,11 +655,11 @@
         "shareOfTotal": 8.701298701298702
       },
       {
-        "id": "Patrick Trainor|",
-        "key": "Patrick Trainor|",
+        "id": "Patrick Trainor|Anti-Partitionist",
+        "key": "Patrick Trainor|Anti-Partitionist",
         "name": "Patrick Trainor",
-        "party": "",
-        "colour": "#888888",
+        "party": "Anti-Partitionist",
+        "colour": "#228B22",
         "firstPrefs": 130,
         "finalVotes": 130,
         "electedCount": 1,
@@ -611,11 +699,11 @@
         "shareOfTotal": 7.2727272727272725
       },
       {
-        "id": "J. Reid|",
-        "key": "J. Reid|",
+        "id": "J. Reid|UUP",
+        "key": "J. Reid|UUP",
         "name": "J. Reid",
-        "party": "",
-        "colour": "#888888",
+        "party": "UUP",
+        "colour": "#48A5EE",
         "firstPrefs": 0,
         "finalVotes": 0,
         "electedCount": 1,
@@ -655,11 +743,11 @@
         "shareOfTotal": 0
       },
       {
-        "id": "T. Martin|",
-        "key": "T. Martin|",
+        "id": "T. Martin|Commonwealth Labour Party",
+        "key": "T. Martin|Commonwealth Labour Party",
         "name": "T. Martin",
-        "party": "",
-        "colour": "#888888",
+        "party": "Commonwealth Labour Party",
+        "colour": "#FF6666",
         "firstPrefs": 0,
         "finalVotes": 0,
         "electedCount": 1,
@@ -699,11 +787,11 @@
         "shareOfTotal": 0
       },
       {
-        "id": "P. McArdle|",
-        "key": "P. McArdle|",
+        "id": "P. McArdle|Anti-Partitionist",
+        "key": "P. McArdle|Anti-Partitionist",
         "name": "P. McArdle",
-        "party": "",
-        "colour": "#888888",
+        "party": "Anti-Partitionist",
+        "colour": "#228B22",
         "firstPrefs": 0,
         "finalVotes": 0,
         "electedCount": 1,
@@ -985,11 +1073,11 @@
         "shareOfTotal": 0
       },
       {
-        "id": "W. Cooke|",
-        "key": "W. Cooke|",
+        "id": "W. Cooke|UUP",
+        "key": "W. Cooke|UUP",
         "name": "W. Cooke",
-        "party": "",
-        "colour": "#888888",
+        "party": "UUP",
+        "colour": "#48A5EE",
         "firstPrefs": 0,
         "finalVotes": 0,
         "electedCount": 1,
@@ -1231,9 +1319,9 @@
   "results": [
     {
       "constituency": "Ballybot",
-      "winnerParty": "Independent",
+      "winnerParty": "UUP",
       "winnerName": "J. Reid",
-      "leadingParty": null,
+      "leadingParty": "UUP",
       "leadingName": "J. Reid",
       "leadingVotes": null,
       "leadingPct": null,
@@ -1248,13 +1336,13 @@
       "spoiled": null,
       "validPoll": null,
       "totalVotes": null,
-      "colour": "#b8b8b8",
-      "leadingColour": "#6b7280",
+      "colour": "#48a5ee",
+      "leadingColour": "#48a5ee",
       "candidates": [
         {
-          "id": "J. Reid|",
+          "id": "J. Reid|UUP",
           "name": "J. Reid",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -1263,11 +1351,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "newry-no-2-rural 1939-05-25 Ballybot: UUP (J. Reid); newry-no-2-rural 1949-06-02 Ballybot: UUP (John Reid)",
           "counts": [
             {
               "count": 1,
@@ -1277,15 +1367,15 @@
               "firstPrefs": null
             }
           ],
-          "personId": 136846,
+          "personId": 136847,
           "name_id": "n-j-reid"
         }
       ],
       "elected": [
         {
-          "id": "J. Reid|",
+          "id": "J. Reid|UUP",
           "name": "J. Reid",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -1294,11 +1384,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "newry-no-2-rural 1939-05-25 Ballybot: UUP (J. Reid); newry-no-2-rural 1949-06-02 Ballybot: UUP (John Reid)",
           "counts": [
             {
               "count": 1,
@@ -1334,12 +1426,15 @@
           "Total_Votes": "",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
           "candidateName": "J. Reid",
           "id": 0,
           "Name_As_Printed": "J. Reid, J.P.",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "D",
+          "Party_Basis": "newry-no-2-rural 1939-05-25 Ballybot: UUP (J. Reid); newry-no-2-rural 1949-06-02 Ballybot: UUP (John Reid)"
         }
       ],
       "syntheticCountGroup": false,
@@ -1375,12 +1470,15 @@
               "Total_Votes": "",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
               "candidateName": "J. Reid",
               "id": 0,
               "Name_As_Printed": "J. Reid, J.P.",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "D",
+              "Party_Basis": "newry-no-2-rural 1939-05-25 Ballybot: UUP (J. Reid); newry-no-2-rural 1949-06-02 Ballybot: UUP (John Reid)"
             }
           ]
         },
@@ -1456,6 +1554,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1485,6 +1585,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1516,6 +1618,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1709,6 +1813,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1740,6 +1846,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1860,9 +1968,9 @@
     },
     {
       "constituency": "Bessbrook South",
-      "winnerParty": "Independent",
+      "winnerParty": "Commonwealth Labour Party",
       "winnerName": "T. Martin",
-      "leadingParty": null,
+      "leadingParty": "Commonwealth Labour Party",
       "leadingName": "T. Martin",
       "leadingVotes": null,
       "leadingPct": null,
@@ -1877,13 +1985,13 @@
       "spoiled": null,
       "validPoll": null,
       "totalVotes": null,
-      "colour": "#b8b8b8",
+      "colour": "#6b7280",
       "leadingColour": "#6b7280",
       "candidates": [
         {
-          "id": "T. Martin|",
+          "id": "T. Martin|Commonwealth Labour Party",
           "name": "T. Martin",
-          "party": "",
+          "party": "Commonwealth Labour Party",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -1892,11 +2000,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#FF6666",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "parliament-of-northern-ireland 1945-06-14 Central Armagh: Commonwealth Labour Party (Thomas Martin) | labels found for this person differ: UUP x5, Commonwealth Labour Party x1",
           "counts": [
             {
               "count": 1,
@@ -1912,9 +2022,9 @@
       ],
       "elected": [
         {
-          "id": "T. Martin|",
+          "id": "T. Martin|Commonwealth Labour Party",
           "name": "T. Martin",
-          "party": "",
+          "party": "Commonwealth Labour Party",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -1923,11 +2033,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#FF6666",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "parliament-of-northern-ireland 1945-06-14 Central Armagh: Commonwealth Labour Party (Thomas Martin) | labels found for this person differ: UUP x5, Commonwealth Labour Party x1",
           "counts": [
             {
               "count": 1,
@@ -1963,12 +2075,15 @@
           "Total_Votes": "",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "Commonwealth Labour Party",
+          "Party_Colour": "#FF6666",
           "candidateName": "T. Martin",
           "id": 0,
           "Name_As_Printed": "T. Martin",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "B",
+          "Party_Basis": "parliament-of-northern-ireland 1945-06-14 Central Armagh: Commonwealth Labour Party (Thomas Martin) | labels found for this person differ: UUP x5, Commonwealth Labour Party x1"
         }
       ],
       "syntheticCountGroup": false,
@@ -2004,12 +2119,15 @@
               "Total_Votes": "",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "Commonwealth Labour Party",
+              "Party_Colour": "#FF6666",
               "candidateName": "T. Martin",
               "id": 0,
               "Name_As_Printed": "T. Martin",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "B",
+              "Party_Basis": "parliament-of-northern-ireland 1945-06-14 Central Armagh: Commonwealth Labour Party (Thomas Martin) | labels found for this person differ: UUP x5, Commonwealth Labour Party x1"
             }
           ]
         },
@@ -2085,6 +2203,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2116,6 +2236,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2273,6 +2395,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2302,6 +2426,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2333,6 +2459,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2489,9 +2617,9 @@
     },
     {
       "constituency": "Creggan",
-      "winnerParty": "Independent",
+      "winnerParty": "Anti-Partitionist",
       "winnerName": "Patrick Trainor",
-      "leadingParty": null,
+      "leadingParty": "Anti-Partitionist",
       "leadingName": "Patrick Trainor",
       "leadingVotes": 130,
       "leadingPct": 54.62,
@@ -2506,13 +2634,13 @@
       "spoiled": null,
       "validPoll": 238,
       "totalVotes": 238,
-      "colour": "#b8b8b8",
+      "colour": "#6b7280",
       "leadingColour": "#6b7280",
       "candidates": [
         {
-          "id": "Patrick Trainor|",
+          "id": "Patrick Trainor|Anti-Partitionist",
           "name": "Patrick Trainor",
-          "party": "",
+          "party": "Anti-Partitionist",
           "firstPrefs": 130,
           "finalVotes": 130,
           "elected": true,
@@ -2521,11 +2649,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#228B22",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "newry-no-2-rural 1939-05-25 Creggan: Nationalist Party (P. Trainor); newry-no-2-rural 1949-06-02 Creggan: Anti-Partitionist (Patrick Trainor) | bracketing labels Nationalist Party / Anti-Partitionist (same allegiance); nearer one used",
           "counts": [
             {
               "count": 1,
@@ -2535,7 +2665,7 @@
               "firstPrefs": 130
             }
           ],
-          "personId": 135636,
+          "personId": 137329,
           "name_id": "n-patrick-trainor"
         },
         {
@@ -2555,6 +2685,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2570,9 +2702,9 @@
       ],
       "elected": [
         {
-          "id": "Patrick Trainor|",
+          "id": "Patrick Trainor|Anti-Partitionist",
           "name": "Patrick Trainor",
-          "party": "",
+          "party": "Anti-Partitionist",
           "firstPrefs": 130,
           "finalVotes": 130,
           "elected": true,
@@ -2581,11 +2713,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#228B22",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "newry-no-2-rural 1939-05-25 Creggan: Nationalist Party (P. Trainor); newry-no-2-rural 1949-06-02 Creggan: Anti-Partitionist (Patrick Trainor) | bracketing labels Nationalist Party / Anti-Partitionist (same allegiance); nearer one used",
           "counts": [
             {
               "count": 1,
@@ -2621,12 +2755,15 @@
           "Total_Votes": "130.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "Anti-Partitionist",
+          "Party_Colour": "#228B22",
           "candidateName": "Patrick Trainor",
           "id": 0,
           "Name_As_Printed": "Patrick Trainor",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "D",
+          "Party_Basis": "newry-no-2-rural 1939-05-25 Creggan: Nationalist Party (P. Trainor); newry-no-2-rural 1949-06-02 Creggan: Anti-Partitionist (Patrick Trainor) | bracketing labels Nationalist Party / Anti-Partitionist (same allegiance); nearer one used"
         },
         {
           "Constituency_Number": "",
@@ -2680,12 +2817,15 @@
               "Total_Votes": "130.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "Anti-Partitionist",
+              "Party_Colour": "#228B22",
               "candidateName": "Patrick Trainor",
               "id": 0,
               "Name_As_Printed": "Patrick Trainor",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "D",
+              "Party_Basis": "newry-no-2-rural 1939-05-25 Creggan: Nationalist Party (P. Trainor); newry-no-2-rural 1949-06-02 Creggan: Anti-Partitionist (Patrick Trainor) | bracketing labels Nationalist Party / Anti-Partitionist (same allegiance); nearer one used"
             },
             {
               "Constituency_Number": "",
@@ -2742,9 +2882,9 @@
     },
     {
       "constituency": "Crossmaglen",
-      "winnerParty": "Independent",
+      "winnerParty": "Anti-Partitionist",
       "winnerName": "P. McArdle",
-      "leadingParty": null,
+      "leadingParty": "Anti-Partitionist",
       "leadingName": "P. McArdle",
       "leadingVotes": null,
       "leadingPct": null,
@@ -2759,13 +2899,13 @@
       "spoiled": null,
       "validPoll": null,
       "totalVotes": null,
-      "colour": "#b8b8b8",
+      "colour": "#6b7280",
       "leadingColour": "#6b7280",
       "candidates": [
         {
-          "id": "P. McArdle|",
+          "id": "P. McArdle|Anti-Partitionist",
           "name": "P. McArdle",
-          "party": "",
+          "party": "Anti-Partitionist",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -2774,11 +2914,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#228B22",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "newry-no-2-rural 1939-05-25 Crossmaglen: Nationalist Party (P. M'Ardle); newry-no-2-rural 1949-06-02 Crossmaglen: Anti-Partitionist (Patrick M'Ardle) | bracketing labels Nationalist Party / Anti-Partitionist (same allegiance); nearer one used",
           "counts": [
             {
               "count": 1,
@@ -2794,9 +2936,9 @@
       ],
       "elected": [
         {
-          "id": "P. McArdle|",
+          "id": "P. McArdle|Anti-Partitionist",
           "name": "P. McArdle",
-          "party": "",
+          "party": "Anti-Partitionist",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -2805,11 +2947,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#228B22",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "newry-no-2-rural 1939-05-25 Crossmaglen: Nationalist Party (P. M'Ardle); newry-no-2-rural 1949-06-02 Crossmaglen: Anti-Partitionist (Patrick M'Ardle) | bracketing labels Nationalist Party / Anti-Partitionist (same allegiance); nearer one used",
           "counts": [
             {
               "count": 1,
@@ -2845,12 +2989,15 @@
           "Total_Votes": "",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "Anti-Partitionist",
+          "Party_Colour": "#228B22",
           "candidateName": "P. McArdle",
           "id": 0,
           "Name_As_Printed": "P. McArdle",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "D",
+          "Party_Basis": "newry-no-2-rural 1939-05-25 Crossmaglen: Nationalist Party (P. M'Ardle); newry-no-2-rural 1949-06-02 Crossmaglen: Anti-Partitionist (Patrick M'Ardle) | bracketing labels Nationalist Party / Anti-Partitionist (same allegiance); nearer one used"
         }
       ],
       "syntheticCountGroup": false,
@@ -2886,12 +3033,15 @@
               "Total_Votes": "",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "Anti-Partitionist",
+              "Party_Colour": "#228B22",
               "candidateName": "P. McArdle",
               "id": 0,
               "Name_As_Printed": "P. McArdle",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "D",
+              "Party_Basis": "newry-no-2-rural 1939-05-25 Crossmaglen: Nationalist Party (P. M'Ardle); newry-no-2-rural 1949-06-02 Crossmaglen: Anti-Partitionist (Patrick M'Ardle) | bracketing labels Nationalist Party / Anti-Partitionist (same allegiance); nearer one used"
             }
           ]
         },
@@ -2967,6 +3117,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2996,6 +3148,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3027,6 +3181,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3220,6 +3376,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3251,6 +3409,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3408,6 +3568,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3439,6 +3601,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3596,6 +3760,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3627,6 +3793,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3784,6 +3952,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3815,6 +3985,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3972,6 +4144,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4003,6 +4177,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4160,6 +4336,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4191,6 +4369,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4348,6 +4528,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4379,6 +4561,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4536,6 +4720,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4567,6 +4753,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4724,6 +4912,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4753,6 +4943,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4782,6 +4974,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4813,6 +5007,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -5042,6 +5238,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -5073,6 +5271,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -5230,6 +5430,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -5261,6 +5463,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -5418,6 +5622,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -5449,6 +5655,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -5606,6 +5814,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -5635,6 +5845,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -5666,6 +5878,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -5859,6 +6073,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -5890,6 +6106,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -6010,9 +6228,9 @@
     },
     {
       "constituency": "Newtownhamilton",
-      "winnerParty": "Independent",
+      "winnerParty": "UUP",
       "winnerName": "W. Cooke",
-      "leadingParty": null,
+      "leadingParty": "UUP",
       "leadingName": "W. Cooke",
       "leadingVotes": null,
       "leadingPct": null,
@@ -6027,13 +6245,13 @@
       "spoiled": null,
       "validPoll": null,
       "totalVotes": null,
-      "colour": "#b8b8b8",
-      "leadingColour": "#6b7280",
+      "colour": "#48a5ee",
+      "leadingColour": "#48a5ee",
       "candidates": [
         {
-          "id": "W. Cooke|",
+          "id": "W. Cooke|UUP",
           "name": "W. Cooke",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -6042,11 +6260,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1939-05-25 Newtownhamilton: UUP (William Cooke); newry-no-2-rural 1949-06-02 Newtownhamilton: UUP (William Cooke)",
           "counts": [
             {
               "count": 1,
@@ -6056,15 +6276,15 @@
               "firstPrefs": null
             }
           ],
-          "personId": 135672,
+          "personId": 137964,
           "name_id": "n-w-cooke"
         }
       ],
       "elected": [
         {
-          "id": "W. Cooke|",
+          "id": "W. Cooke|UUP",
           "name": "W. Cooke",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -6073,11 +6293,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1939-05-25 Newtownhamilton: UUP (William Cooke); newry-no-2-rural 1949-06-02 Newtownhamilton: UUP (William Cooke)",
           "counts": [
             {
               "count": 1,
@@ -6113,12 +6335,15 @@
           "Total_Votes": "",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
           "candidateName": "W. Cooke",
           "id": 0,
           "Name_As_Printed": "W. Cooke, J.P.",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "D",
+          "Party_Basis": "armagh-county 1939-05-25 Newtownhamilton: UUP (William Cooke); newry-no-2-rural 1949-06-02 Newtownhamilton: UUP (William Cooke)"
         }
       ],
       "syntheticCountGroup": false,
@@ -6154,12 +6379,15 @@
               "Total_Votes": "",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
               "candidateName": "W. Cooke",
               "id": 0,
               "Name_As_Printed": "W. Cooke, J.P.",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "D",
+              "Party_Basis": "armagh-county 1939-05-25 Newtownhamilton: UUP (William Cooke); newry-no-2-rural 1949-06-02 Newtownhamilton: UUP (William Cooke)"
             }
           ]
         },
@@ -6235,6 +6463,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -6266,6 +6496,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -6423,6 +6655,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -6454,6 +6688,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -6611,6 +6847,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -6642,6 +6880,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,

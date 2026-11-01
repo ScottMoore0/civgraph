@@ -3261,14 +3261,6 @@ body.test2-election-collapsed .election-pane__peek {
   padding: 4px 6px;
 }
 
-#activeLayers .active-layer-item__drag {
-  margin: -4px 0 -4px -6px;
-}
-
-#activeLayers .active-layer-item__color {
-  height: 20px;
-}
-
 #activeLayers .active-layer-item__info {
   display: flex;
   flex-wrap: wrap;
@@ -3413,6 +3405,195 @@ body.test2-election-collapsed .election-pane__peek {
 
 #featureInfo .feature-info__value {
   overflow-wrap: anywhere;
+}
+
+/* No headings (owner, 1 Nov 2026): the list and the feature's name start at the top, and each panel's
+   close button is a small red disc on its top-right corner, so it is never taken for a layer's
+   remove button. The headings stay for screen readers. The panels themselves no longer scroll
+   (the corner disc would be clipped); their list and content do. */
+#activeLayers .active-layers__title,
+#featureInfo .feature-info__title {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+#activeLayers .active-layers__header,
+#featureInfo .feature-info__header {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 3;
+  height: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  overflow: visible;
+}
+
+#activeLayers .active-layers__close,
+#featureInfo .feature-info__close {
+  position: absolute;
+  top: -9px;
+  right: -9px;
+  width: 22px;
+  height: 22px;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 2px solid var(--color-surface, #fff);
+  background: #c62828;
+  color: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+
+#activeLayers .active-layers__close:hover,
+#featureInfo .feature-info__close:hover,
+#activeLayers .active-layers__close:focus-visible,
+#featureInfo .feature-info__close:focus-visible {
+  background: #e53935;
+  color: #fff;
+}
+
+#activeLayers .active-layers__close svg,
+#featureInfo .feature-info__close svg {
+  width: 12px;
+  height: 12px;
+  stroke-width: 3;
+}
+
+#activeLayers.active-layers,
+#featureInfo.feature-info {
+  overflow: visible;
+}
+
+#featureInfo.feature-info {
+  display: flex;
+  flex-direction: column;
+}
+
+#featureInfo #featureInfoContent {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  border-radius: inherit;
+}
+
+#activeLayers .active-layers__list {
+  border-radius: inherit;
+}
+
+/* "n here": the features of every visible layer under the point clicked; pick one to show it. */
+#featureInfo .feature-info__header-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+#featureInfo .feature-info__here-btn {
+  margin-left: auto;
+  margin-right: 14px;
+  padding: 1px 8px;
+  border: 1px solid var(--color-border, rgba(127, 127, 127, 0.4));
+  border-radius: 999px;
+  background: none;
+  color: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+#featureInfo .feature-info__here-btn[aria-expanded="true"] {
+  background: var(--color-primary, #2563eb);
+  border-color: var(--color-primary, #2563eb);
+  color: #fff;
+}
+
+#featureInfo .feature-info__here-list {
+  list-style: none;
+  margin: 4px 0 6px;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+}
+
+#featureInfo .feature-info__here-list button {
+  display: flex;
+  width: 100%;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 6px;
+  border: 0;
+  border-radius: 6px;
+  background: rgba(127, 127, 127, 0.1);
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+#featureInfo .feature-info__here-list button:hover,
+#featureInfo .feature-info__here-list button:focus-visible {
+  background: rgba(127, 127, 127, 0.22);
+}
+
+#featureInfo .feature-info__here-list button[aria-current="true"] {
+  box-shadow: inset 3px 0 0 var(--color-primary, #2563eb);
+  font-weight: 600;
+}
+
+#featureInfo .feature-info__here-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#featureInfo .feature-info__here-layer {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+/* The layer's name opens its page (the old "i" button). */
+#activeLayers .active-layer-item__name--link {
+  cursor: pointer;
+}
+
+#activeLayers .active-layer-item__name--link:hover,
+#activeLayers .active-layer-item__name--link:focus-visible {
+  text-decoration: underline;
+}
+
+/* The layer's colour is the row's left edge (no colour block, no grip): the whole row drags. */
+#activeLayers .active-layer-item {
+  border-left: 4px solid var(--layer-colour, var(--color-border));
+  cursor: grab;
+  touch-action: none;
+}
+
+#activeLayers .active-layer-item:focus-visible {
+  outline: 2px solid var(--color-primary, #2563eb);
+  outline-offset: 1px;
+}
+
+#activeLayers .active-layer-item--hidden {
+  border-left-color: color-mix(in srgb, var(--layer-colour, #888) 40%, transparent);
+}
+
+#activeLayers .active-layer-item--dragging {
+  cursor: grabbing;
 }
 
 /* Phones: the details sit at the foot of the map, full width, so the place that was tapped

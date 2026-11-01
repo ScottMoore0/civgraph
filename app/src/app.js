@@ -256,6 +256,7 @@ class Test2App {
           return;
         }
         uiController.showFeatureInfo(features, dataService.getAllMaps());
+        this.addFeaturesHereList(feature);
       },
       getMainMap: (mapId) => dataService.getMapById(mapId),
       enrichFeature: (feature, selection) => this.elections?.enrichFeature(feature, selection) || feature,
@@ -4088,30 +4089,70 @@ class Test2App {
     document.getElementById('test2SourcePanelClose')?.addEventListener('click', () => this.closeSourcePanel());
   }
 
+  /**
+   * "Features here": every feature of the visible layers under the point clicked, so a reader
+   * can show another one (a ward under a constituency, the 1911 union under the 1851 one) in the
+   * feature details without hunting for a spot where it is on top.
+   */
+  addFeaturesHereList(current) {
+    const entries = this.mapController?.featuresAtLastClick?.() || [];
+    const content = document.getElementById('featureInfoContent');
+    const section = content?.querySelector('.feature-info__section');
+    if (!section || entries.length < 2) return;
+    const isCurrent = (entry) => current && entry.mapId === current.mapId
+      && String(entry.featureName) === String(current.featureName || current.name || '');
+    const wrap = document.createElement('div');
+    wrap.className = 'feature-info__here';
+    const listId = 'featureInfoHereList';
+    wrap.innerHTML = `<button type="button" class="feature-info__here-btn" aria-expanded="false" aria-controls="${listId}">${entries.length} here</button>
+      <ul id="${listId}" class="feature-info__here-list" hidden>${entries.map((entry, i) => `<li><button type="button" data-here="${i}"${isCurrent(entry) ? ' aria-current="true"' : ''}><span class="feature-info__here-name">${escapeHtml(entry.featureName)}</span><span class="feature-info__here-layer">${escapeHtml(entry.layerName || '')}</span></button></li>`).join('')}</ul>`;
+    const toggle = wrap.querySelector('.feature-info__here-btn');
+    const list = wrap.querySelector('ul');
+    const setOpen = (open) => { list.hidden = !open; toggle.setAttribute('aria-expanded', String(open)); };
+    toggle.addEventListener('click', () => setOpen(list.hidden));
+    list.addEventListener('click', (event) => {
+      const button = event.target.closest('button[data-here]');
+      if (!button) return;
+      this.featuresHereKeepOpen = true;
+      this.mapController.selectFeatureAtClick(entries[Number(button.dataset.here)]);
+    });
+    // The button sits at the end of the layer-name line; the list opens beneath it.
+    const headerRow = section.querySelector('.feature-info__header-row');
+    if (headerRow) {
+      headerRow.appendChild(toggle);
+      headerRow.after(wrap);
+    } else section.prepend(wrap);
+    if (this.featuresHereKeepOpen) setOpen(true);
+    this.featuresHereKeepOpen = false;
+  }
+
+  /**
+   * A layer's name in the Active Layers list opens its page in the catalogue pane (what the "i"
+   * button did, which went to save width; owner, 1 Nov 2026). Enter or Space does the same.
+   */
   bindActiveLayerSourceButtons() {
     const rows = document.querySelectorAll('#activeLayersList .active-layer-item[data-map-id]');
     rows.forEach((row) => {
-      if (row.querySelector('.test2-source-btn')) return;
+      const name = row.querySelector('.active-layer-item__name');
       const mapId = row.dataset.mapId;
-      const actions = row.querySelector('.active-layer-item__actions');
-      if (!actions || !mapId) return;
-      const button = document.createElement('button');
-      button.type = 'button';
-      button.className = 'active-layer-item__btn test2-source-btn';
-      button.dataset.mapId = mapId;
-      button.title = 'Sources';
-      button.setAttribute('aria-label', `Show sources for ${row.querySelector('.active-layer-item__name')?.textContent || mapId}`);
-      button.innerHTML = '<span aria-hidden="true">i</span>';
-      // Open the map's info page in the catalogue pane (same as opening it from
-      // the catalogue list) rather than the floating source card, which rendered
-      // in the map pane behind the Active Layers overlay. Reveal the catalogue
-      // pane first in case the app is in map-only mode.
-      button.addEventListener('click', () => {
-        // Reveal the catalogue pane if the app is currently in map-only mode.
+      if (!name || !mapId || name.dataset.opensPage) return;
+      name.dataset.opensPage = '1';
+      name.classList.add('active-layer-item__name--link');
+      name.setAttribute('role', 'button');
+      name.setAttribute('tabindex', '0');
+      name.title = "Open this map's page";
+      const open = () => {
+        // Reveal the catalogue pane if the app is in map-only mode.
         if (uiController.currentStateId === 'map-full') uiController.setSplitState('info-full');
         uiController.showCatalogueDetailView(mapId);
+      };
+      name.addEventListener('click', open);
+      name.addEventListener('keydown', (event) => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        event.preventDefault();
+        event.stopPropagation();
+        open();
       });
-      actions.insertBefore(button, actions.firstChild);
     });
   }
 

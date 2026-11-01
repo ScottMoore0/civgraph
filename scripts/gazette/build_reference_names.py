@@ -11,7 +11,7 @@ text before 1950 is an OCR layer; the rest are listed in the report for checking
 
   python scripts/gazette/build_reference_names.py [--proposals <file>] [--out <json>] [--report <md>]
 """
-import argparse, collections, glob, json, os, re, unicodedata
+import argparse, collections, csv, glob, json, os, re, unicodedata
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 GAZ = os.environ.get('CIVGRAPH_GAZETTE_DIR', '')
@@ -29,6 +29,19 @@ def fold(s):
 
 # Misreadings in the OCR layer, confirmed against another printing of the same name.
 OCR_FIXES = {'Fullon': 'Fulton'}
+# A Gazette misprint, settled by another source: his own 1945 election-expenses return (Belfast
+# News-Letter, 13 Aug 1945) and his obituary (Northern Whig, 19 Oct 1954) give "Brown".
+NAME_FIXES = {'Robert Browne Alexander': 'Robert Brown Alexander'}
+# Formal names the Gazette prints for rows the matcher cannot reach, because Civgraph's own name for
+# the row was wrong when the proposals were made (checked by hand, 1 Nov 2026).
+EXTRA = [
+    ('103824', 'Thomas Gibson Henderson', 'Tommy Henderson', 'Belfast Gazette, issue 1445, 4 March 1949, p. 48',
+     'https://www.thegazette.co.uk/Belfast/issue/1445/page/48'),
+    ('106042', 'Charles Heron Mullan', 'Charles Mullan', 'Belfast Gazette, issue 1303, 14 June 1946, p. 43',
+     'https://www.thegazette.co.uk/Belfast/issue/1303/page/43'),
+    ('104349', 'Basil Stanlake Brooke', 'Basil Brooke', 'Belfast Gazette, issue 414, 31 May 1929, p. 636',
+     'https://www.thegazette.co.uk/Belfast/issue/414/page/636'),
+]
 
 TITLES = re.compile(r"^(?:(?:Mr|Mrs|Airs|Miss|Dr|Rev|Sir|Major|Captain|Capt|Colonel|Col|Lieutenant|Lieut|Lt|Professor|Prof|"
                     r"The|Right|Rt|Honourable|Hon|Lady|Lord)\.?\s+)+")
@@ -82,6 +95,28 @@ def constituency_of(source_file):
         return None
 
 
+def add(found, pid, formal, shown, citation, url):
+    entry = found[str(pid)].setdefault(formal, {'name': formal, 'shownAs': shown, 'source': 'belfast-gazette', 'citations': []})
+    cite = {'citation': citation, 'url': url}
+    if cite not in entry['citations']:
+        entry['citations'].append(cite)
+
+
+def merged_into(pid):
+    """The surviving id of a person merged by scripts/merge_person_ids.py (person_id_merges.csv)."""
+    if not hasattr(merged_into, 'map'):
+        merged_into.map = {}
+        path = os.path.join(ROOT, 'data', 'elections', 'persons', 'person_id_merges.csv')
+        if os.path.exists(path):
+            for row in csv.DictReader(open(path, encoding='utf-8')):
+                merged_into.map[str(row['drop'])] = str(row['keep'])
+    pid, seen = str(pid), set()
+    while pid in merged_into.map and pid not in seen:
+        seen.add(pid)
+        pid = merged_into.map[pid]
+    return pid
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--proposals', default=os.path.join(GAZ, 'extracted', 'election-fix-proposals.json'))
@@ -114,11 +149,9 @@ def main():
             if why:
                 skipped.append((shown, formal, r['source']['title'], why))
                 continue
-            entry = found[str(pid)].setdefault(formal, {'name': formal, 'shownAs': shown, 'source': 'belfast-gazette',
-                                                         'citations': []})
-            cite = {'citation': r['source']['title'], 'url': r['source']['url']}
-            if cite not in entry['citations']:
-                entry['citations'].append(cite)
+            add(found, merged_into(pid), NAME_FIXES.get(formal, formal), shown, r['source']['title'], r['source']['url'])
+    for pid, formal, shown, citation, url in EXTRA:
+        add(found, merged_into(pid), formal, shown, citation, url)
     doc = {
         'schemaVersion': 1,
         'description': ('Formal names printed for people in official notices, where Civgraph shows a familiar or '

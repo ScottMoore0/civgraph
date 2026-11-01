@@ -1699,7 +1699,7 @@ export class Test2ElectionManager {
                   <tr class="${statusKind === 'elected' ? 'election-row--elected test2-election-table__elected' : ''}">
                     <td class="election-rank-col">${escapeHtml(rankLabel(index))}</td>
                     <td>${this.renderElectionEntityButton('candidate', this.candidateEntityKey({ ...candidate, name: row.name || candidate.name, party: row.party || candidate.party }), escapeHtml(row.name), 'election-cell-wrap')}</td>
-                    <td${this.partyCellAttrs(row.colour)}>${this.renderElectionEntityButton('party', row.party, this.partyLabel(row.party), 'election-cell-wrap')}</td>
+                    <td${this.partyCellAttrs(row.colour)}>${this.renderElectionEntityButton('party', row.party, this.partyLabel(row.party), 'election-cell-wrap')}${this.ballotDescriptionHtml(candidate)}</td>
                     <td class="election-num">${unopposed ? 'Unopposed' : this.valueWithPartyAndCandidateChange(formatNumber(votes), partyVoteDelta, candidateVoteDelta, 'count')}</td>
                     <td class="election-num">${unopposed || votePct === null ? '' : this.valueWithPartyAndCandidateChange(formatFixedPercent(votePct), partyPctDelta, candidatePctDelta, 'percent')}</td>
                     ${isWestminster ? `<td class="election-col-elected">${this.electedMark(statusKind === 'elected')}</td>` : `<td>${escapeHtml(statusText)}</td>`}
@@ -2017,7 +2017,12 @@ export class Test2ElectionManager {
   /** Beneath a candidate's party, what the ballot paper said where it differs from the party. */
   ballotDescriptionHtml(candidate) {
     const text = String(candidate?.ballotDescription || '').trim();
-    return text ? `<span class="election-ballot-description" title="Ballot paper description">${escapeHtml(text)}</span>` : '';
+    // A party the sources did not print for this election, inferred from the person's label at
+    // other elections; the evidence is on hover.
+    const inferred = candidate?.partyInferred
+      ? `<span class="election-ballot-description" title="${escapeHtml(candidate.partyBasis ? `Label inferred: ${candidate.partyBasis}` : 'Label inferred, not printed for this election')}">inferred</span>`
+      : '';
+    return (text ? `<span class="election-ballot-description" title="Ballot paper description">${escapeHtml(text)}</span>` : '') + inferred;
   }
 
   /** Attributes for a cell showing a party: the party colour as a narrow tab down its left edge. */

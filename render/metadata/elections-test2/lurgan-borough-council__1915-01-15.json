@@ -43,28 +43,36 @@
   "partySummary": [
     {
       "party": "Independent",
-      "seats": 5,
+      "seats": 3,
       "stood": 0,
       "votes": 0,
       "colour": "#b8b8b8",
       "share": 0
     },
     {
+      "party": "UUP",
+      "seats": 2,
+      "stood": 2,
+      "votes": 1376,
+      "colour": "#48a5ee",
+      "share": 35.88941053729786
+    },
+    {
       "party": "Independent/Other",
       "seats": 0,
-      "stood": 6,
-      "votes": 3834,
+      "stood": 4,
+      "votes": 2458,
       "colour": "#6b7280",
-      "share": 100
+      "share": 64.11058946270214
     }
   ],
   "mainLikePartySummary": [
     {
-      "party": "Independent/Other",
+      "party": "UUP",
       "seats": 1,
       "stood": 0,
       "votes": 0,
-      "colour": "#888888",
+      "colour": "#48A5EE",
       "share": 0
     }
   ],
@@ -85,30 +93,14 @@
       {
         "name": "Independent/Other",
         "colour": "#888888",
-        "firstPrefs": 3834,
-        "finalVotes": 3834,
-        "stood": 6,
-        "elected": 5,
+        "firstPrefs": 2458,
+        "finalVotes": 2458,
+        "stood": 4,
+        "elected": 3,
         "constituencies": [
           "Lurgan"
         ],
         "candidates": [
-          {
-            "id": "John Mahaffy|",
-            "name": "John Mahaffy",
-            "constituency": "Lurgan",
-            "firstPref": 703,
-            "finalVotes": 703,
-            "status": "Elected"
-          },
-          {
-            "id": "Henry G. MacGeagh|",
-            "name": "Henry G. MacGeagh",
-            "constituency": "Lurgan",
-            "firstPref": 673,
-            "finalVotes": 673,
-            "status": "Elected"
-          },
           {
             "id": "Thomas Loftus Cole|",
             "name": "Thomas Loftus Cole",
@@ -142,16 +134,46 @@
             "status": "Not Elected"
           }
         ],
-        "shareOfTotal": 100
+        "shareOfTotal": 64.11058946270214
+      },
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 1376,
+        "finalVotes": 1376,
+        "stood": 2,
+        "elected": 2,
+        "constituencies": [
+          "Lurgan"
+        ],
+        "candidates": [
+          {
+            "id": "John Mahaffy|UUP",
+            "name": "John Mahaffy",
+            "constituency": "Lurgan",
+            "firstPref": 703,
+            "finalVotes": 703,
+            "status": "Elected"
+          },
+          {
+            "id": "Henry G. MacGeagh|UUP",
+            "name": "Henry G. MacGeagh",
+            "constituency": "Lurgan",
+            "firstPref": 673,
+            "finalVotes": 673,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 35.88941053729786
       }
     ],
     "candidates": [
       {
-        "id": "John Mahaffy|",
-        "key": "John Mahaffy|",
+        "id": "John Mahaffy|UUP",
+        "key": "John Mahaffy|UUP",
         "name": "John Mahaffy",
-        "party": "",
-        "colour": "#888888",
+        "party": "UUP",
+        "colour": "#48A5EE",
         "firstPrefs": 703,
         "finalVotes": 703,
         "electedCount": 1,
@@ -169,11 +191,11 @@
         "shareOfTotal": 18.335941575378197
       },
       {
-        "id": "Henry G. MacGeagh|",
-        "key": "Henry G. MacGeagh|",
+        "id": "Henry G. MacGeagh|UUP",
+        "key": "Henry G. MacGeagh|UUP",
         "name": "Henry G. MacGeagh",
-        "party": "",
-        "colour": "#888888",
+        "party": "UUP",
+        "colour": "#48A5EE",
         "firstPrefs": 673,
         "finalVotes": 673,
         "electedCount": 1,
@@ -285,7 +307,7 @@
       "constituency": "Lurgan",
       "winnerParty": "Independent",
       "winnerName": "5 elected",
-      "leadingParty": null,
+      "leadingParty": "UUP",
       "leadingName": "John Mahaffy",
       "leadingVotes": 703,
       "leadingPct": 18.34,
@@ -301,12 +323,12 @@
       "validPoll": 3834,
       "totalVotes": 3834,
       "colour": "#b8b8b8",
-      "leadingColour": "#6b7280",
+      "leadingColour": "#48a5ee",
       "candidates": [
         {
-          "id": "John Mahaffy|",
+          "id": "John Mahaffy|UUP",
           "name": "John Mahaffy",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 703,
           "finalVotes": 703,
           "elected": true,
@@ -315,11 +337,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1914-05-28 Lurgan: UUP (John Mahaffy) [found-A]; armagh-county 1920-06-05 Lurgan Area: UUP (John Mahaffy)",
           "counts": [
             {
               "count": 1,
@@ -329,13 +353,13 @@
               "firstPrefs": 703
             }
           ],
-          "personId": 135339,
+          "personId": 135344,
           "name_id": "n-john-mahaffy"
         },
         {
-          "id": "Henry G. MacGeagh|",
+          "id": "Henry G. MacGeagh|UUP",
           "name": "Henry G. MacGeagh",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 673,
           "finalVotes": 673,
           "elected": true,
@@ -344,11 +368,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "lurgan-borough 1912-01-15 Lurgan: UUP (H. G. MacGeagh); lurgan-borough 1923-01-15 Lurgan: UUP (H. G. MacGeagh)",
           "counts": [
             {
               "count": 1,
@@ -378,6 +404,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -407,6 +435,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -436,6 +466,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -465,6 +497,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -480,9 +514,9 @@
       ],
       "elected": [
         {
-          "id": "John Mahaffy|",
+          "id": "John Mahaffy|UUP",
           "name": "John Mahaffy",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 703,
           "finalVotes": 703,
           "elected": true,
@@ -491,11 +525,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1914-05-28 Lurgan: UUP (John Mahaffy) [found-A]; armagh-county 1920-06-05 Lurgan Area: UUP (John Mahaffy)",
           "counts": [
             {
               "count": 1,
@@ -507,9 +543,9 @@
           ]
         },
         {
-          "id": "Henry G. MacGeagh|",
+          "id": "Henry G. MacGeagh|UUP",
           "name": "Henry G. MacGeagh",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 673,
           "finalVotes": 673,
           "elected": true,
@@ -518,11 +554,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "lurgan-borough 1912-01-15 Lurgan: UUP (H. G. MacGeagh); lurgan-borough 1923-01-15 Lurgan: UUP (H. G. MacGeagh)",
           "counts": [
             {
               "count": 1,
@@ -550,6 +588,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -577,6 +617,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -604,6 +646,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -639,12 +683,15 @@
           "Total_Votes": "703.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
           "candidateName": "John Mahaffy",
           "id": 0,
           "Name_As_Printed": "John Mahaffy",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "D",
+          "Party_Basis": "armagh-county 1914-05-28 Lurgan: UUP (John Mahaffy) [found-A]; armagh-county 1920-06-05 Lurgan Area: UUP (John Mahaffy)"
         },
         {
           "Constituency_Number": "",
@@ -657,12 +704,15 @@
           "Total_Votes": "673.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
           "candidateName": "Henry G. MacGeagh",
           "id": 1,
           "Name_As_Printed": "Henry G. MacGeagh",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "D",
+          "Party_Basis": "lurgan-borough 1912-01-15 Lurgan: UUP (H. G. MacGeagh); lurgan-borough 1923-01-15 Lurgan: UUP (H. G. MacGeagh)"
         },
         {
           "Constituency_Number": "",
@@ -770,12 +820,15 @@
               "Total_Votes": "703.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
               "candidateName": "John Mahaffy",
               "id": 0,
               "Name_As_Printed": "John Mahaffy",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "D",
+              "Party_Basis": "armagh-county 1914-05-28 Lurgan: UUP (John Mahaffy) [found-A]; armagh-county 1920-06-05 Lurgan Area: UUP (John Mahaffy)"
             },
             {
               "Constituency_Number": "",
@@ -788,12 +841,15 @@
               "Total_Votes": "673.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
               "candidateName": "Henry G. MacGeagh",
               "id": 1,
               "Name_As_Printed": "Henry G. MacGeagh",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "D",
+              "Party_Basis": "lurgan-borough 1912-01-15 Lurgan: UUP (H. G. MacGeagh); lurgan-borough 1923-01-15 Lurgan: UUP (H. G. MacGeagh)"
             },
             {
               "Constituency_Number": "",

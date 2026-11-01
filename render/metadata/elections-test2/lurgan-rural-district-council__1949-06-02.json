@@ -61,28 +61,44 @@
   "partySummary": [
     {
       "party": "Independent",
-      "seats": 10,
+      "seats": 9,
       "stood": 0,
       "votes": 0,
       "colour": "#b8b8b8",
       "share": 0
     },
     {
+      "party": "Nationalist Party",
+      "seats": 1,
+      "stood": 1,
+      "votes": 240,
+      "colour": "#6b7280",
+      "share": 30.341340075853353
+    },
+    {
       "party": "Independent/Other",
       "seats": 0,
-      "stood": 12,
-      "votes": 791,
+      "stood": 11,
+      "votes": 551,
       "colour": "#6b7280",
-      "share": 100
+      "share": 69.65865992414665
     }
   ],
   "mainLikePartySummary": [
     {
       "party": "Independent/Other",
-      "seats": 10,
+      "seats": 9,
       "stood": 0,
       "votes": 0,
       "colour": "#888888",
+      "share": 0
+    },
+    {
+      "party": "Nationalist Party",
+      "seats": 1,
+      "stood": 0,
+      "votes": 0,
+      "colour": "#32CD32",
       "share": 0
     }
   ],
@@ -103,10 +119,10 @@
       {
         "name": "Independent/Other",
         "colour": "#888888",
-        "firstPrefs": 791,
-        "finalVotes": 791,
-        "stood": 12,
-        "elected": 10,
+        "firstPrefs": 551,
+        "finalVotes": 551,
+        "stood": 11,
+        "elected": 9,
         "constituencies": [
           "Breagh",
           "Brownlowsderry",
@@ -142,14 +158,6 @@
             "constituency": "Carrowbrack",
             "firstPref": 0,
             "finalVotes": 0,
-            "status": "Elected"
-          },
-          {
-            "id": "James McKavanagh|",
-            "name": "James McKavanagh",
-            "constituency": "Cornakinnegar",
-            "firstPref": 240,
-            "finalVotes": 240,
             "status": "Elected"
           },
           {
@@ -217,7 +225,29 @@
             "status": "Elected"
           }
         ],
-        "shareOfTotal": 100
+        "shareOfTotal": 69.65865992414665
+      },
+      {
+        "name": "Nationalist Party",
+        "colour": "#32CD32",
+        "firstPrefs": 240,
+        "finalVotes": 240,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Cornakinnegar"
+        ],
+        "candidates": [
+          {
+            "id": "James McKavanagh|Nationalist Party",
+            "name": "James McKavanagh",
+            "constituency": "Cornakinnegar",
+            "firstPref": 240,
+            "finalVotes": 240,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 30.341340075853353
       }
     ],
     "candidates": [
@@ -244,11 +274,11 @@
         "shareOfTotal": 38.179519595448795
       },
       {
-        "id": "James McKavanagh|",
-        "key": "James McKavanagh|",
+        "id": "James McKavanagh|Nationalist Party",
+        "key": "James McKavanagh|Nationalist Party",
         "name": "James McKavanagh",
-        "party": "",
-        "colour": "#888888",
+        "party": "Nationalist Party",
+        "colour": "#32CD32",
         "firstPrefs": 240,
         "finalVotes": 240,
         "electedCount": 1,
@@ -527,6 +557,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -558,6 +590,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -715,6 +749,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -746,6 +782,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -903,6 +941,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -934,6 +974,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1054,9 +1096,9 @@
     },
     {
       "constituency": "Cornakinnegar",
-      "winnerParty": "Independent",
+      "winnerParty": "Nationalist Party",
       "winnerName": "James McKavanagh",
-      "leadingParty": null,
+      "leadingParty": "Nationalist Party",
       "leadingName": "James McKavanagh",
       "leadingVotes": 240,
       "leadingPct": 59.55,
@@ -1071,13 +1113,13 @@
       "spoiled": null,
       "validPoll": 403,
       "totalVotes": 403,
-      "colour": "#b8b8b8",
+      "colour": "#6b7280",
       "leadingColour": "#6b7280",
       "candidates": [
         {
-          "id": "James McKavanagh|",
+          "id": "James McKavanagh|Nationalist Party",
           "name": "James McKavanagh",
-          "party": "",
+          "party": "Nationalist Party",
           "firstPrefs": 240,
           "finalVotes": 240,
           "elected": true,
@@ -1086,11 +1128,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "Portadown News, 11 Nov 1950, p. 6 (\"Lurgan R.D.C. House allocations: a Nationalist appeal\"): Mr. J. McKavanagh (Nat.) at a council meeting | contemporary council report, 1949-52 term",
           "counts": [
             {
               "count": 1,
@@ -1100,7 +1144,7 @@
               "firstPrefs": 240
             }
           ],
-          "personId": 135589,
+          "personId": 138015,
           "name_id": "n-james-mckavanagh"
         },
         {
@@ -1120,6 +1164,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1135,9 +1181,9 @@
       ],
       "elected": [
         {
-          "id": "James McKavanagh|",
+          "id": "James McKavanagh|Nationalist Party",
           "name": "James McKavanagh",
-          "party": "",
+          "party": "Nationalist Party",
           "firstPrefs": 240,
           "finalVotes": 240,
           "elected": true,
@@ -1146,11 +1192,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "Portadown News, 11 Nov 1950, p. 6 (\"Lurgan R.D.C. House allocations: a Nationalist appeal\"): Mr. J. McKavanagh (Nat.) at a council meeting | contemporary council report, 1949-52 term",
           "counts": [
             {
               "count": 1,
@@ -1186,12 +1234,15 @@
           "Total_Votes": "240.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "Nationalist Party",
+          "Party_Colour": "#32CD32",
           "candidateName": "James McKavanagh",
           "id": 0,
           "Name_As_Printed": "James McKavanagh",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "C",
+          "Party_Basis": "Portadown News, 11 Nov 1950, p. 6 (\"Lurgan R.D.C. House allocations: a Nationalist appeal\"): Mr. J. McKavanagh (Nat.) at a council meeting | contemporary council report, 1949-52 term"
         },
         {
           "Constituency_Number": "",
@@ -1245,12 +1296,15 @@
               "Total_Votes": "240.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "Nationalist Party",
+              "Party_Colour": "#32CD32",
               "candidateName": "James McKavanagh",
               "id": 0,
               "Name_As_Printed": "James McKavanagh",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "C",
+              "Party_Basis": "Portadown News, 11 Nov 1950, p. 6 (\"Lurgan R.D.C. House allocations: a Nationalist appeal\"): Mr. J. McKavanagh (Nat.) at a council meeting | contemporary council report, 1949-52 term"
             },
             {
               "Constituency_Number": "",
@@ -1344,6 +1398,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1375,6 +1431,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1532,6 +1590,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1563,6 +1623,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1720,6 +1782,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1751,6 +1815,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1908,6 +1974,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1939,6 +2007,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2096,6 +2166,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2125,6 +2197,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2156,6 +2230,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2349,6 +2425,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2380,6 +2458,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,

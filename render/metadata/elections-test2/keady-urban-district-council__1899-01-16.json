@@ -43,28 +43,36 @@
   "partySummary": [
     {
       "party": "Independent",
-      "seats": 9,
+      "seats": 7,
       "stood": 0,
       "votes": 0,
       "colour": "#b8b8b8",
       "share": 0
     },
     {
+      "party": "Nationalist Party",
+      "seats": 2,
+      "stood": 2,
+      "votes": 324,
+      "colour": "#6b7280",
+      "share": 17.22488038277512
+    },
+    {
       "party": "Independent/Other",
       "seats": 0,
-      "stood": 16,
-      "votes": 1881,
+      "stood": 14,
+      "votes": 1557,
       "colour": "#6b7280",
-      "share": 100
+      "share": 82.77511961722487
     }
   ],
   "mainLikePartySummary": [
     {
-      "party": "Independent/Other",
+      "party": "Nationalist Party",
       "seats": 1,
       "stood": 0,
       "votes": 0,
-      "colour": "#888888",
+      "colour": "#32CD32",
       "share": null
     }
   ],
@@ -85,30 +93,14 @@
       {
         "name": "Independent/Other",
         "colour": "#888888",
-        "firstPrefs": 1881,
-        "finalVotes": 1881,
-        "stood": 16,
-        "elected": 9,
+        "firstPrefs": 1557,
+        "finalVotes": 1557,
+        "stood": 14,
+        "elected": 7,
         "constituencies": [
           "Keady"
         ],
         "candidates": [
-          {
-            "id": "Nugent|",
-            "name": "Nugent",
-            "constituency": "Keady",
-            "firstPref": 169,
-            "finalVotes": 169,
-            "status": "Elected"
-          },
-          {
-            "id": "Smyth|",
-            "name": "Smyth",
-            "constituency": "Keady",
-            "firstPref": 155,
-            "finalVotes": 155,
-            "status": "Elected"
-          },
           {
             "id": "Dorman|",
             "name": "Dorman",
@@ -222,16 +214,46 @@
             "status": "Not Elected"
           }
         ],
-        "shareOfTotal": 100
+        "shareOfTotal": 82.77511961722487
+      },
+      {
+        "name": "Nationalist Party",
+        "colour": "#32CD32",
+        "firstPrefs": 324,
+        "finalVotes": 324,
+        "stood": 2,
+        "elected": 2,
+        "constituencies": [
+          "Keady"
+        ],
+        "candidates": [
+          {
+            "id": "Nugent|Nationalist Party",
+            "name": "Nugent",
+            "constituency": "Keady",
+            "firstPref": 169,
+            "finalVotes": 169,
+            "status": "Elected"
+          },
+          {
+            "id": "Smyth|Nationalist Party",
+            "name": "Smyth",
+            "constituency": "Keady",
+            "firstPref": 155,
+            "finalVotes": 155,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 17.22488038277512
       }
     ],
     "candidates": [
       {
-        "id": "Nugent|",
-        "key": "Nugent|",
+        "id": "Nugent|Nationalist Party",
+        "key": "Nugent|Nationalist Party",
         "name": "Nugent",
-        "party": "",
-        "colour": "#888888",
+        "party": "Nationalist Party",
+        "colour": "#32CD32",
         "firstPrefs": 169,
         "finalVotes": 169,
         "electedCount": 1,
@@ -249,11 +271,11 @@
         "shareOfTotal": 8.984582668793195
       },
       {
-        "id": "Smyth|",
-        "key": "Smyth|",
+        "id": "Smyth|Nationalist Party",
+        "key": "Smyth|Nationalist Party",
         "name": "Smyth",
-        "party": "",
-        "colour": "#888888",
+        "party": "Nationalist Party",
+        "colour": "#32CD32",
         "firstPrefs": 155,
         "finalVotes": 155,
         "electedCount": 1,
@@ -585,7 +607,7 @@
       "constituency": "Keady",
       "winnerParty": "Independent",
       "winnerName": "9 elected",
-      "leadingParty": null,
+      "leadingParty": "Nationalist Party",
       "leadingName": "Nugent",
       "leadingVotes": 169,
       "leadingPct": 8.98,
@@ -604,9 +626,9 @@
       "leadingColour": "#6b7280",
       "candidates": [
         {
-          "id": "Nugent|",
+          "id": "Nugent|Nationalist Party",
           "name": "Nugent",
-          "party": "",
+          "party": "Nationalist Party",
           "firstPrefs": 169,
           "finalVotes": 169,
           "elected": true,
@@ -615,11 +637,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1899-04-06 Keady: Nationalist Party (John Nugent); armagh-county 1902-05-28 Keady: Nationalist Party (John Nugent); armagh-rural 1902-05-28 Keady Rural: Nationalist Party (John Nugent) | surname only in source",
           "counts": [
             {
               "count": 1,
@@ -633,9 +657,9 @@
           "name_id": "n-nugent"
         },
         {
-          "id": "Smyth|",
+          "id": "Smyth|Nationalist Party",
           "name": "Smyth",
-          "party": "",
+          "party": "Nationalist Party",
           "firstPrefs": 155,
           "finalVotes": 155,
           "elected": true,
@@ -644,11 +668,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1899-04-06 Keady: Nationalist Party (Michael Smyth); armagh-county 1902-05-28 Keady: Nationalist Party (Michael Smyth) | surname only in source",
           "counts": [
             {
               "count": 1,
@@ -678,6 +704,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -707,6 +735,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -736,6 +766,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -765,6 +797,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -794,6 +828,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -823,6 +859,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -852,6 +890,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -881,6 +921,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -910,6 +952,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -939,6 +983,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -968,6 +1014,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -997,6 +1045,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1026,6 +1076,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1055,6 +1107,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1070,9 +1124,9 @@
       ],
       "elected": [
         {
-          "id": "Nugent|",
+          "id": "Nugent|Nationalist Party",
           "name": "Nugent",
-          "party": "",
+          "party": "Nationalist Party",
           "firstPrefs": 169,
           "finalVotes": 169,
           "elected": true,
@@ -1081,11 +1135,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1899-04-06 Keady: Nationalist Party (John Nugent); armagh-county 1902-05-28 Keady: Nationalist Party (John Nugent); armagh-rural 1902-05-28 Keady Rural: Nationalist Party (John Nugent) | surname only in source",
           "counts": [
             {
               "count": 1,
@@ -1097,9 +1153,9 @@
           ]
         },
         {
-          "id": "Smyth|",
+          "id": "Smyth|Nationalist Party",
           "name": "Smyth",
-          "party": "",
+          "party": "Nationalist Party",
           "firstPrefs": 155,
           "finalVotes": 155,
           "elected": true,
@@ -1108,11 +1164,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1899-04-06 Keady: Nationalist Party (Michael Smyth); armagh-county 1902-05-28 Keady: Nationalist Party (Michael Smyth) | surname only in source",
           "counts": [
             {
               "count": 1,
@@ -1140,6 +1198,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1167,6 +1227,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1194,6 +1256,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1221,6 +1285,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1248,6 +1314,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1275,6 +1343,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1302,6 +1372,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1337,12 +1409,15 @@
           "Total_Votes": "169.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "Nationalist Party",
+          "Party_Colour": "#32CD32",
           "candidateName": "Nugent",
           "id": 0,
           "Name_As_Printed": "Nugent",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "B",
+          "Party_Basis": "armagh-county 1899-04-06 Keady: Nationalist Party (John Nugent); armagh-county 1902-05-28 Keady: Nationalist Party (John Nugent); armagh-rural 1902-05-28 Keady Rural: Nationalist Party (John Nugent) | surname only in source"
         },
         {
           "Constituency_Number": "",
@@ -1355,12 +1430,15 @@
           "Total_Votes": "155.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "Nationalist Party",
+          "Party_Colour": "#32CD32",
           "candidateName": "Smyth",
           "id": 1,
           "Name_As_Printed": "Smyth",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "B",
+          "Party_Basis": "armagh-county 1899-04-06 Keady: Nationalist Party (Michael Smyth); armagh-county 1902-05-28 Keady: Nationalist Party (Michael Smyth) | surname only in source"
         },
         {
           "Constituency_Number": "",
@@ -1648,12 +1726,15 @@
               "Total_Votes": "169.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "Nationalist Party",
+              "Party_Colour": "#32CD32",
               "candidateName": "Nugent",
               "id": 0,
               "Name_As_Printed": "Nugent",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "B",
+              "Party_Basis": "armagh-county 1899-04-06 Keady: Nationalist Party (John Nugent); armagh-county 1902-05-28 Keady: Nationalist Party (John Nugent); armagh-rural 1902-05-28 Keady Rural: Nationalist Party (John Nugent) | surname only in source"
             },
             {
               "Constituency_Number": "",
@@ -1666,12 +1747,15 @@
               "Total_Votes": "155.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "Nationalist Party",
+              "Party_Colour": "#32CD32",
               "candidateName": "Smyth",
               "id": 1,
               "Name_As_Printed": "Smyth",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "B",
+              "Party_Basis": "armagh-county 1899-04-06 Keady: Nationalist Party (Michael Smyth); armagh-county 1902-05-28 Keady: Nationalist Party (Michael Smyth) | surname only in source"
             },
             {
               "Constituency_Number": "",

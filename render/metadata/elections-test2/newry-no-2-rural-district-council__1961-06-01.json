@@ -99,28 +99,76 @@
   "partySummary": [
     {
       "party": "Independent",
-      "seats": 29,
+      "seats": 25,
       "stood": 0,
       "votes": 0,
       "colour": "#b8b8b8",
       "share": 0
     },
     {
+      "party": "Nationalist Party",
+      "seats": 2,
+      "stood": 2,
+      "votes": 0,
+      "colour": "#6b7280",
+      "share": 0
+    },
+    {
+      "party": "Independent Labour",
+      "seats": 1,
+      "stood": 1,
+      "votes": 133,
+      "colour": "#6b7280",
+      "share": 4.674868189806678
+    },
+    {
+      "party": "UUP",
+      "seats": 1,
+      "stood": 1,
+      "votes": 0,
+      "colour": "#48a5ee",
+      "share": 0
+    },
+    {
       "party": "Independent/Other",
       "seats": 0,
-      "stood": 40,
-      "votes": 2845,
+      "stood": 36,
+      "votes": 2712,
       "colour": "#6b7280",
-      "share": 100
+      "share": 95.32513181019333
     }
   ],
   "mainLikePartySummary": [
     {
       "party": "Independent/Other",
-      "seats": 29,
+      "seats": 25,
       "stood": 0,
       "votes": 0,
       "colour": "#888888",
+      "share": null
+    },
+    {
+      "party": "Nationalist Party",
+      "seats": 2,
+      "stood": 0,
+      "votes": 0,
+      "colour": "#32CD32",
+      "share": null
+    },
+    {
+      "party": "Independent Labour",
+      "seats": 1,
+      "stood": 0,
+      "votes": 0,
+      "colour": "#FF9999",
+      "share": null
+    },
+    {
+      "party": "UUP",
+      "seats": 1,
+      "stood": 0,
+      "votes": 0,
+      "colour": "#48A5EE",
       "share": null
     }
   ],
@@ -141,17 +189,16 @@
       {
         "name": "Independent/Other",
         "colour": "#888888",
-        "firstPrefs": 2845,
-        "finalVotes": 2845,
-        "stood": 40,
-        "elected": 29,
+        "firstPrefs": 2712,
+        "finalVotes": 2712,
+        "stood": 36,
+        "elected": 25,
         "constituencies": [
           "Ballybot",
           "Ballymoyer",
           "Belleek",
           "Bessbrook North",
           "Bessbrook South",
-          "Camlough",
           "Camly",
           "Creggan",
           "Crossmaglen",
@@ -161,7 +208,6 @@
           "Drumbanagher",
           "Drumintee",
           "Fathom",
-          "Forkhill",
           "Glassdrumman",
           "Killeavy",
           "Killeen",
@@ -171,7 +217,6 @@
           "Moyra Castle",
           "Mullaghbane",
           "Mullaghglass",
-          "Newtownhamilton",
           "Poyntzpass",
           "Tullyhappy",
           "Tullyvallen"
@@ -234,14 +279,6 @@
             "status": "Elected"
           },
           {
-            "id": "P. D. Fearon|",
-            "name": "P. D. Fearon",
-            "constituency": "Camlough",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": "Elected"
-          },
-          {
             "id": "Michael McKinley|",
             "name": "Michael McKinley",
             "constituency": "Camly",
@@ -256,14 +293,6 @@
             "firstPref": 114,
             "finalVotes": 114,
             "status": "Not Elected"
-          },
-          {
-            "id": "Malachy Trainor|",
-            "name": "Malachy Trainor",
-            "constituency": "Creggan",
-            "firstPref": 133,
-            "finalVotes": 133,
-            "status": "Elected"
           },
           {
             "id": "Daniel McMahon|",
@@ -370,14 +399,6 @@
             "status": "Elected"
           },
           {
-            "id": "Michael McCreesh|",
-            "name": "Michael McCreesh",
-            "constituency": "Forkhill",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": "Elected"
-          },
-          {
             "id": "M. Garvey|",
             "name": "M. Garvey",
             "constituency": "Glassdrumman",
@@ -466,14 +487,6 @@
             "status": "Elected"
           },
           {
-            "id": "William Cooke|",
-            "name": "William Cooke",
-            "constituency": "Newtownhamilton",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": "Elected"
-          },
-          {
             "id": "Samuel Wright|",
             "name": "Samuel Wright",
             "constituency": "Poyntzpass",
@@ -498,7 +511,82 @@
             "status": "Elected"
           }
         ],
-        "shareOfTotal": 100
+        "shareOfTotal": 95.32513181019333
+      },
+      {
+        "name": "Nationalist Party",
+        "colour": "#32CD32",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 2,
+        "elected": 2,
+        "constituencies": [
+          "Camlough",
+          "Forkhill"
+        ],
+        "candidates": [
+          {
+            "id": "P. D. Fearon|Nationalist Party",
+            "name": "P. D. Fearon",
+            "constituency": "Camlough",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          },
+          {
+            "id": "Michael McCreesh|Nationalist Party",
+            "name": "Michael McCreesh",
+            "constituency": "Forkhill",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 0
+      },
+      {
+        "name": "Independent Labour",
+        "colour": "#FF9999",
+        "firstPrefs": 133,
+        "finalVotes": 133,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Creggan"
+        ],
+        "candidates": [
+          {
+            "id": "Malachy Trainor|Independent Labour",
+            "name": "Malachy Trainor",
+            "constituency": "Creggan",
+            "firstPref": 133,
+            "finalVotes": 133,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 4.674868189806678
+      },
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Newtownhamilton"
+        ],
+        "candidates": [
+          {
+            "id": "William Cooke|UUP",
+            "name": "William Cooke",
+            "constituency": "Newtownhamilton",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 0
       }
     ],
     "candidates": [
@@ -635,11 +723,11 @@
         "shareOfTotal": 5.202108963093146
       },
       {
-        "id": "Malachy Trainor|",
-        "key": "Malachy Trainor|",
+        "id": "Malachy Trainor|Independent Labour",
+        "key": "Malachy Trainor|Independent Labour",
         "name": "Malachy Trainor",
-        "party": "",
-        "colour": "#888888",
+        "party": "Independent Labour",
+        "colour": "#FF9999",
         "firstPrefs": 133,
         "finalVotes": 133,
         "electedCount": 1,
@@ -767,11 +855,11 @@
         "shareOfTotal": 0
       },
       {
-        "id": "P. D. Fearon|",
-        "key": "P. D. Fearon|",
+        "id": "P. D. Fearon|Nationalist Party",
+        "key": "P. D. Fearon|Nationalist Party",
         "name": "P. D. Fearon",
-        "party": "",
-        "colour": "#888888",
+        "party": "Nationalist Party",
+        "colour": "#32CD32",
         "firstPrefs": 0,
         "finalVotes": 0,
         "electedCount": 1,
@@ -877,11 +965,11 @@
         "shareOfTotal": 0
       },
       {
-        "id": "Michael McCreesh|",
-        "key": "Michael McCreesh|",
+        "id": "Michael McCreesh|Nationalist Party",
+        "key": "Michael McCreesh|Nationalist Party",
         "name": "Michael McCreesh",
-        "party": "",
-        "colour": "#888888",
+        "party": "Nationalist Party",
+        "colour": "#32CD32",
         "firstPrefs": 0,
         "finalVotes": 0,
         "electedCount": 1,
@@ -1053,11 +1141,11 @@
         "shareOfTotal": 0
       },
       {
-        "id": "William Cooke|",
-        "key": "William Cooke|",
+        "id": "William Cooke|UUP",
+        "key": "William Cooke|UUP",
         "name": "William Cooke",
-        "party": "",
-        "colour": "#888888",
+        "party": "UUP",
+        "colour": "#48A5EE",
         "firstPrefs": 0,
         "finalVotes": 0,
         "electedCount": 1,
@@ -1424,6 +1512,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1455,6 +1545,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1612,6 +1704,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1643,6 +1737,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1800,6 +1896,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1829,6 +1927,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1860,6 +1960,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2053,6 +2155,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2082,6 +2186,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2113,6 +2219,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2306,6 +2414,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2337,6 +2447,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2457,9 +2569,9 @@
     },
     {
       "constituency": "Camlough",
-      "winnerParty": "Independent",
+      "winnerParty": "Nationalist Party",
       "winnerName": "P. D. Fearon",
-      "leadingParty": null,
+      "leadingParty": "Nationalist Party",
       "leadingName": "P. D. Fearon",
       "leadingVotes": null,
       "leadingPct": null,
@@ -2474,13 +2586,13 @@
       "spoiled": null,
       "validPoll": null,
       "totalVotes": null,
-      "colour": "#b8b8b8",
+      "colour": "#6b7280",
       "leadingColour": "#6b7280",
       "candidates": [
         {
-          "id": "P. D. Fearon|",
+          "id": "P. D. Fearon|Nationalist Party",
           "name": "P. D. Fearon",
-          "party": "",
+          "party": "Nationalist Party",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -2489,11 +2601,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1958-06-05 Killeavy: Nationalist Party (Patrick D. Fearon)",
           "counts": [
             {
               "count": 1,
@@ -2509,9 +2623,9 @@
       ],
       "elected": [
         {
-          "id": "P. D. Fearon|",
+          "id": "P. D. Fearon|Nationalist Party",
           "name": "P. D. Fearon",
-          "party": "",
+          "party": "Nationalist Party",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -2520,11 +2634,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1958-06-05 Killeavy: Nationalist Party (Patrick D. Fearon)",
           "counts": [
             {
               "count": 1,
@@ -2560,12 +2676,15 @@
           "Total_Votes": "",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "Nationalist Party",
+          "Party_Colour": "#32CD32",
           "candidateName": "P. D. Fearon",
           "id": 0,
           "Name_As_Printed": "P. D. Fearon",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "B",
+          "Party_Basis": "armagh-county 1958-06-05 Killeavy: Nationalist Party (Patrick D. Fearon)"
         }
       ],
       "syntheticCountGroup": false,
@@ -2601,12 +2720,15 @@
               "Total_Votes": "",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "Nationalist Party",
+              "Party_Colour": "#32CD32",
               "candidateName": "P. D. Fearon",
               "id": 0,
               "Name_As_Printed": "P. D. Fearon",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "B",
+              "Party_Basis": "armagh-county 1958-06-05 Killeavy: Nationalist Party (Patrick D. Fearon)"
             }
           ]
         },
@@ -2682,6 +2804,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2711,6 +2835,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2742,6 +2868,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2898,9 +3026,9 @@
     },
     {
       "constituency": "Creggan",
-      "winnerParty": "Independent",
+      "winnerParty": "Independent Labour",
       "winnerName": "Malachy Trainor",
-      "leadingParty": null,
+      "leadingParty": "Independent Labour",
       "leadingName": "Malachy Trainor",
       "leadingVotes": 133,
       "leadingPct": 51.95,
@@ -2915,13 +3043,13 @@
       "spoiled": 4,
       "validPoll": 256,
       "totalVotes": 256,
-      "colour": "#b8b8b8",
+      "colour": "#6b7280",
       "leadingColour": "#6b7280",
       "candidates": [
         {
-          "id": "Malachy Trainor|",
+          "id": "Malachy Trainor|Independent Labour",
           "name": "Malachy Trainor",
-          "party": "",
+          "party": "Independent Labour",
           "firstPrefs": 133,
           "finalVotes": 133,
           "elected": true,
@@ -2930,11 +3058,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#FF9999",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "parliament-of-northern-ireland 1962-05-31 South Armagh: Independent Labour (Malachy Trainor); parliament-of-northern-ireland 1958-03-20 South Armagh: Independent Labour (Malachy Trainor)",
           "counts": [
             {
               "count": 1,
@@ -2944,7 +3074,7 @@
               "firstPrefs": 133
             }
           ],
-          "personId": 135413,
+          "personId": 137921,
           "name_id": "n-malachy-trainor"
         },
         {
@@ -2964,6 +3094,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2979,9 +3111,9 @@
       ],
       "elected": [
         {
-          "id": "Malachy Trainor|",
+          "id": "Malachy Trainor|Independent Labour",
           "name": "Malachy Trainor",
-          "party": "",
+          "party": "Independent Labour",
           "firstPrefs": 133,
           "finalVotes": 133,
           "elected": true,
@@ -2990,11 +3122,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#FF9999",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "parliament-of-northern-ireland 1962-05-31 South Armagh: Independent Labour (Malachy Trainor); parliament-of-northern-ireland 1958-03-20 South Armagh: Independent Labour (Malachy Trainor)",
           "counts": [
             {
               "count": 1,
@@ -3030,12 +3164,15 @@
           "Total_Votes": "133.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "Independent Labour",
+          "Party_Colour": "#FF9999",
           "candidateName": "Malachy Trainor",
           "id": 0,
           "Name_As_Printed": "Malachy Trainor",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "B",
+          "Party_Basis": "parliament-of-northern-ireland 1962-05-31 South Armagh: Independent Labour (Malachy Trainor); parliament-of-northern-ireland 1958-03-20 South Armagh: Independent Labour (Malachy Trainor)"
         },
         {
           "Constituency_Number": "",
@@ -3089,12 +3226,15 @@
               "Total_Votes": "133.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "Independent Labour",
+              "Party_Colour": "#FF9999",
               "candidateName": "Malachy Trainor",
               "id": 0,
               "Name_As_Printed": "Malachy Trainor",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "B",
+              "Party_Basis": "parliament-of-northern-ireland 1962-05-31 South Armagh: Independent Labour (Malachy Trainor); parliament-of-northern-ireland 1958-03-20 South Armagh: Independent Labour (Malachy Trainor)"
             },
             {
               "Constituency_Number": "",
@@ -3188,6 +3328,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3219,6 +3361,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3376,6 +3520,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3407,6 +3553,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3564,6 +3712,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3593,6 +3743,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3622,6 +3774,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3653,6 +3807,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3882,6 +4038,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3911,6 +4069,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3942,6 +4102,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4135,6 +4297,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4166,6 +4330,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4323,6 +4489,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4352,6 +4520,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4381,6 +4551,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4412,6 +4584,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4641,6 +4815,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4672,6 +4848,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4792,9 +4970,9 @@
     },
     {
       "constituency": "Forkhill",
-      "winnerParty": "Independent",
+      "winnerParty": "Nationalist Party",
       "winnerName": "Michael McCreesh",
-      "leadingParty": null,
+      "leadingParty": "Nationalist Party",
       "leadingName": "Michael McCreesh",
       "leadingVotes": null,
       "leadingPct": null,
@@ -4809,13 +4987,13 @@
       "spoiled": null,
       "validPoll": null,
       "totalVotes": null,
-      "colour": "#b8b8b8",
+      "colour": "#6b7280",
       "leadingColour": "#6b7280",
       "candidates": [
         {
-          "id": "Michael McCreesh|",
+          "id": "Michael McCreesh|Nationalist Party",
           "name": "Michael McCreesh",
-          "party": "",
+          "party": "Nationalist Party",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -4824,11 +5002,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1958-06-05 Forkhill: Nationalist Party (Michael McCreesh) | name cluster spans 1927-1964: possibly father and son",
           "counts": [
             {
               "count": 1,
@@ -4838,15 +5018,15 @@
               "firstPrefs": null
             }
           ],
-          "personId": 135367,
+          "personId": 135621,
           "name_id": "n-michael-mccreesh"
         }
       ],
       "elected": [
         {
-          "id": "Michael McCreesh|",
+          "id": "Michael McCreesh|Nationalist Party",
           "name": "Michael McCreesh",
-          "party": "",
+          "party": "Nationalist Party",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -4855,11 +5035,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1958-06-05 Forkhill: Nationalist Party (Michael McCreesh) | name cluster spans 1927-1964: possibly father and son",
           "counts": [
             {
               "count": 1,
@@ -4895,12 +5077,15 @@
           "Total_Votes": "",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "Nationalist Party",
+          "Party_Colour": "#32CD32",
           "candidateName": "Michael McCreesh",
           "id": 0,
           "Name_As_Printed": "Michael McCreesh",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "B",
+          "Party_Basis": "armagh-county 1958-06-05 Forkhill: Nationalist Party (Michael McCreesh) | name cluster spans 1927-1964: possibly father and son"
         }
       ],
       "syntheticCountGroup": false,
@@ -4936,12 +5121,15 @@
               "Total_Votes": "",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "Nationalist Party",
+              "Party_Colour": "#32CD32",
               "candidateName": "Michael McCreesh",
               "id": 0,
               "Name_As_Printed": "Michael McCreesh",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "B",
+              "Party_Basis": "armagh-county 1958-06-05 Forkhill: Nationalist Party (Michael McCreesh) | name cluster spans 1927-1964: possibly father and son"
             }
           ]
         },
@@ -5017,6 +5205,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -5046,6 +5236,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -5077,6 +5269,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -5270,6 +5464,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -5301,6 +5497,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -5458,6 +5656,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -5489,6 +5689,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -5646,6 +5848,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -5677,6 +5881,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -5834,6 +6040,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -5865,6 +6073,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -6022,6 +6232,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -6051,6 +6263,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -6082,6 +6296,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -6275,6 +6491,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -6306,6 +6524,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -6463,6 +6683,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -6494,6 +6716,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -6651,6 +6875,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -6682,6 +6908,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -6802,9 +7030,9 @@
     },
     {
       "constituency": "Newtownhamilton",
-      "winnerParty": "Independent",
+      "winnerParty": "UUP",
       "winnerName": "William Cooke",
-      "leadingParty": null,
+      "leadingParty": "UUP",
       "leadingName": "William Cooke",
       "leadingVotes": null,
       "leadingPct": null,
@@ -6819,13 +7047,13 @@
       "spoiled": null,
       "validPoll": null,
       "totalVotes": null,
-      "colour": "#b8b8b8",
-      "leadingColour": "#6b7280",
+      "colour": "#48a5ee",
+      "leadingColour": "#48a5ee",
       "candidates": [
         {
-          "id": "William Cooke|",
+          "id": "William Cooke|UUP",
           "name": "William Cooke",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -6834,11 +7062,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1958-06-05 Newtownhamilton: UUP (William Cooke)",
           "counts": [
             {
               "count": 1,
@@ -6848,15 +7078,15 @@
               "firstPrefs": null
             }
           ],
-          "personId": 135341,
+          "personId": 135511,
           "name_id": "n-william-cooke"
         }
       ],
       "elected": [
         {
-          "id": "William Cooke|",
+          "id": "William Cooke|UUP",
           "name": "William Cooke",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -6865,11 +7095,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1958-06-05 Newtownhamilton: UUP (William Cooke)",
           "counts": [
             {
               "count": 1,
@@ -6905,12 +7137,15 @@
           "Total_Votes": "",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
           "candidateName": "William Cooke",
           "id": 0,
           "Name_As_Printed": "Wm. Cooke",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "B",
+          "Party_Basis": "armagh-county 1958-06-05 Newtownhamilton: UUP (William Cooke)"
         }
       ],
       "syntheticCountGroup": false,
@@ -6946,12 +7181,15 @@
               "Total_Votes": "",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
               "candidateName": "William Cooke",
               "id": 0,
               "Name_As_Printed": "Wm. Cooke",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "B",
+              "Party_Basis": "armagh-county 1958-06-05 Newtownhamilton: UUP (William Cooke)"
             }
           ]
         },
@@ -7027,6 +7265,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -7058,6 +7298,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -7215,6 +7457,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -7246,6 +7490,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -7403,6 +7649,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -7434,6 +7682,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,

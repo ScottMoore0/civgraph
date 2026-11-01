@@ -160,6 +160,9 @@ export const CATALOGUE_CSS = `
 .cn-row__credit { flex-basis: 100%; color: var(--cn-muted); font-size: 12px; line-height: 1.3; }
 .cn-row__meta { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 2px 6px; color: var(--cn-muted); font-size: 12.5px; line-height: 1.3; }
 .cn-row__dot { color: var(--cn-muted); }
+/* Each fact ("100 Municipal Districts", "5 Health and Social Care Trusts") moves to the next line whole
+   rather than breaking inside; one too long for a line still wraps within itself. */
+.cn-row__item { display: inline-block; }
 .cn-row__chev { color: var(--cn-muted); transition: transform .15s ease; }
 .cn-row__title--static { cursor: default; }
 .cn-row__title--static:hover { background: none; }
@@ -174,10 +177,10 @@ export const CATALOGUE_CSS = `
 .cn-chips { display: flex; flex-wrap: wrap; gap: 5px; }
 /* Chips past the first line wait behind "+N more" (fitChips); .cn-chip sets display, so [hidden] needs saying. */
 .cn-chips > [hidden] { display: none !important; }
-.cn-chip { display: inline-flex; align-items: center; gap: 6px; min-height: 28px; padding: 2px 10px 2px 8px; border-radius: 999px; border: 1px solid var(--cn-line);
+.cn-chip { display: inline-flex; align-items: center; gap: 5px; min-height: 22px; padding: 1px 8px 1px 7px; line-height: 1.2; border-radius: 999px; border: 1px solid var(--cn-line);
   background: var(--cn-surface); cursor: pointer; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; max-width: 100%; }
 .cn-chip:hover { border-color: var(--c, var(--cn-muted)); background: color-mix(in srgb, var(--c, #888) 10%, var(--cn-surface)); }
-.cn-chip__label { overflow: hidden; text-overflow: ellipsis; }
+.cn-chip__label { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 .cn-chip__dot { width: 10px; height: 10px; border-radius: 50%; flex: none; background: var(--c, #7a8699); box-shadow: inset 0 0 0 1px rgba(0,0,0,.18); }
 .cn-chip .cn-chip__check { display: none; width: 14px; height: 14px; }
 .cn-chip[aria-pressed="true"] { background: var(--c, #2d3748); border-color: var(--c, #2d3748); color: var(--on, #fff); }
@@ -186,7 +189,7 @@ export const CATALOGUE_CSS = `
 .cn-chip__more { font-size: 11px; font-weight: 700; opacity: .75; }
 .cn-chip--hit { box-shadow: 0 0 0 2px var(--cn-hit); }
 .cn-chip--out:not([aria-pressed="true"]) { opacity: .45; }
-.cn-chip--more { padding: 2px 10px; color: var(--cn-muted); border-style: dashed; }
+.cn-chip--more { padding: 1px 8px; color: var(--cn-muted); border-style: dashed; }
 .cn-chip--todo { cursor: default; border-style: dashed; color: var(--cn-amber-ink); background: var(--cn-amber-bg); border-color: transparent; }
 .cn-chip--todo .cn-chip__dot, .cn-chip__dot--todo { background: transparent; box-shadow: inset 0 0 0 1.5px currentColor; }
 .cn-chip--part .cn-chip__dot, .cn-chip__dot--part { background: linear-gradient(90deg, var(--c, #7a8699) 50%, transparent 50%); box-shadow: inset 0 0 0 1.5px var(--c, #7a8699); }
@@ -224,7 +227,7 @@ export const CATALOGUE_CSS = `
 .cn-iconbtn--sm .cn-icon, .cn-iconbtn--sm svg { width: 14px; height: 14px; }
 .cn-shelf--bare { border: 0; }
 /* A map's versions, each with its own buttons. */
-.cn-vlist { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.cn-vlist { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px; }
 .cn-vlist__item { display: flex; align-items: center; gap: 8px; padding: 3px 0 3px 10px; border-left: 3px solid var(--c); }
 .cn-vlist__name { flex: 1; min-width: 0; font-weight: 600; overflow-wrap: anywhere; }
 .cn-vlist__acts { display: inline-flex; align-items: center; gap: 4px; }
@@ -249,8 +252,12 @@ export const CATALOGUE_CSS = `
 .cn-add[aria-pressed="true"] .cn-when-on, .cn-btn[aria-pressed="true"] .cn-when-on { display: inline-flex; }
 
 /* The opened row */
-.cn-panel { grid-column: 2 / span 3; margin-top: 10px; padding: 12px; border: 1px solid var(--cn-line); border-radius: 10px; background: var(--cn-raised); display: grid; gap: 12px; }
-.cn-ed { display: grid; gap: 8px; }
+.cn-panel { grid-column: 2 / span 3; margin-top: 10px; padding: 12px; border: 1px solid var(--cn-line); border-radius: 10px; background: var(--cn-raised); display: grid; gap: 12px;
+  /* One column no wider than the panel (here and in .cn-ed, .cn-sub, .cn-vlist): an auto column grows to
+     its widest unwrappable child (a long part chip such as "Cork, Dublin and Galway cities and islands")
+     and ran past a phone's edge. */
+  grid-template-columns: minmax(0, 1fr); min-width: 0; }
+.cn-ed { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
 .cn-ed__title { margin: 0; font-size: 15px; font-weight: 800; }
 .cn-facts { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 3px 12px; margin: 0; font-size: 13px; }
 .cn-facts dt { color: var(--cn-muted); }
@@ -261,7 +268,7 @@ export const CATALOGUE_CSS = `
 .cn-orders__src { display: block; margin-top: 4px; font-size: 12px; color: var(--cn-muted); }
 .cn-desc { margin: 0; font-size: 13px; line-height: 1.55; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
 .cn-desc[data-open] { display: block; }
-.cn-sub { display: grid; gap: 6px; }
+.cn-sub { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; }
 .cn-ed > .cn-link { justify-self: start; }
 .cn-actions { display: flex; flex-wrap: wrap; gap: 6px; }
 .cn-btn { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 4px 11px; border-radius: 8px; border: 1px solid var(--cn-line);
@@ -411,7 +418,9 @@ a.cn-iconbtn { text-decoration: none; }
 /* Larger targets for fingers, whatever the width. */
 @media (pointer: coarse) {
   .cn { --cn-add-w: 36px; }
-  .cn-chip, .cn-add, .cn-btn, .cn-fchip { min-height: 36px; }
+  .cn-add, .cn-btn, .cn-fchip { min-height: 36px; }
+  /* Year and part chips stay compact (owner, 1 Nov 2026): 28px is above the 24px target minimum. */
+  .cn-chip { min-height: 28px; }
   .cn-iconbtn { width: 38px; height: 38px; }
 }
 

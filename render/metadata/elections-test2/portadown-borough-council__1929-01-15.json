@@ -47,19 +47,27 @@
   "partySummary": [
     {
       "party": "Independent",
-      "seats": 15,
+      "seats": 14,
       "stood": 0,
       "votes": 0,
       "colour": "#b8b8b8",
       "share": 0
     },
     {
+      "party": "UUP",
+      "seats": 1,
+      "stood": 2,
+      "votes": 1135,
+      "colour": "#48a5ee",
+      "share": 11.545112399552435
+    },
+    {
       "party": "Independent/Other",
       "seats": 0,
-      "stood": 20,
-      "votes": 9831,
+      "stood": 18,
+      "votes": 8696,
       "colour": "#6b7280",
-      "share": 100
+      "share": 88.45488760044756
     }
   ],
   "mainLikePartySummary": [
@@ -89,10 +97,10 @@
       {
         "name": "Independent/Other",
         "colour": "#888888",
-        "firstPrefs": 9831,
-        "finalVotes": 9831,
-        "stood": 20,
-        "elected": 15,
+        "firstPrefs": 8696,
+        "finalVotes": 8696,
+        "stood": 18,
+        "elected": 14,
         "constituencies": [
           "North",
           "South-East",
@@ -105,14 +113,6 @@
             "constituency": "North",
             "firstPref": 756,
             "finalVotes": 756,
-            "status": "Elected"
-          },
-          {
-            "id": "David Rock|",
-            "name": "David Rock",
-            "constituency": "North",
-            "firstPref": 745,
-            "finalVotes": 745,
             "status": "Elected"
           },
           {
@@ -236,14 +236,6 @@
             "status": "Elected"
           },
           {
-            "id": "John Davison|",
-            "name": "John Davison",
-            "constituency": "South-West",
-            "firstPref": 390,
-            "finalVotes": 390,
-            "status": "Not Elected"
-          },
-          {
             "id": "George Gregory|",
             "name": "George Gregory",
             "constituency": "South-West",
@@ -260,7 +252,38 @@
             "status": "Not Elected"
           }
         ],
-        "shareOfTotal": 100
+        "shareOfTotal": 88.45488760044756
+      },
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 1135,
+        "finalVotes": 1135,
+        "stood": 2,
+        "elected": 1,
+        "constituencies": [
+          "North",
+          "South-West"
+        ],
+        "candidates": [
+          {
+            "id": "David Rock|UUP",
+            "name": "David Rock",
+            "constituency": "North",
+            "firstPref": 745,
+            "finalVotes": 745,
+            "status": "Elected"
+          },
+          {
+            "id": "John Davison|UUP",
+            "name": "John Davison",
+            "constituency": "South-West",
+            "firstPref": 390,
+            "finalVotes": 390,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 11.545112399552435
       }
     ],
     "candidates": [
@@ -331,11 +354,11 @@
         "shareOfTotal": 7.689960329569728
       },
       {
-        "id": "David Rock|",
-        "key": "David Rock|",
+        "id": "David Rock|UUP",
+        "key": "David Rock|UUP",
         "name": "David Rock",
-        "party": "",
-        "colour": "#888888",
+        "party": "UUP",
+        "colour": "#48A5EE",
         "firstPrefs": 745,
         "finalVotes": 745,
         "electedCount": 1,
@@ -639,11 +662,11 @@
         "shareOfTotal": 4.628216865018818
       },
       {
-        "id": "John Davison|",
-        "key": "John Davison|",
+        "id": "John Davison|UUP",
+        "key": "John Davison|UUP",
         "name": "John Davison",
-        "party": "",
-        "colour": "#888888",
+        "party": "UUP",
+        "colour": "#48A5EE",
         "firstPrefs": 390,
         "finalVotes": 390,
         "electedCount": 0,
@@ -746,6 +769,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -759,9 +784,9 @@
           "name_id": "n-joseph-kerr"
         },
         {
-          "id": "David Rock|",
+          "id": "David Rock|UUP",
           "name": "David Rock",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 745,
           "finalVotes": 745,
           "elected": true,
@@ -770,11 +795,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1927-05-26 Portadown: UUP (David Rock) | labels found for this person differ: UUP x1, Labour Unionist x1",
           "counts": [
             {
               "count": 1,
@@ -784,7 +811,7 @@
               "firstPrefs": 745
             }
           ],
-          "personId": 135349,
+          "personId": 136481,
           "name_id": "n-david-rock"
         },
         {
@@ -804,6 +831,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -833,6 +862,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -862,6 +893,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -891,6 +924,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -920,6 +955,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -951,6 +988,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -962,9 +1001,9 @@
           ]
         },
         {
-          "id": "David Rock|",
+          "id": "David Rock|UUP",
           "name": "David Rock",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 745,
           "finalVotes": 745,
           "elected": true,
@@ -973,11 +1012,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1927-05-26 Portadown: UUP (David Rock) | labels found for this person differ: UUP x1, Labour Unionist x1",
           "counts": [
             {
               "count": 1,
@@ -1005,6 +1046,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1032,6 +1075,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1059,6 +1104,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1112,12 +1159,15 @@
           "Total_Votes": "745.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
           "candidateName": "David Rock",
           "id": 1,
           "Name_As_Printed": "D. Rock, J.P.",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "B",
+          "Party_Basis": "armagh-county 1927-05-26 Portadown: UUP (David Rock) | labels found for this person differ: UUP x1, Labour Unionist x1"
         },
         {
           "Constituency_Number": "",
@@ -1261,12 +1311,15 @@
               "Total_Votes": "745.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
               "candidateName": "David Rock",
               "id": 1,
               "Name_As_Printed": "D. Rock, J.P.",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "B",
+              "Party_Basis": "armagh-county 1927-05-26 Portadown: UUP (David Rock) | labels found for this person differ: UUP x1, Labour Unionist x1"
             },
             {
               "Constituency_Number": "",
@@ -1433,6 +1486,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1462,6 +1517,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1491,6 +1548,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1520,6 +1579,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1551,6 +1612,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1578,6 +1641,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1605,6 +1670,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1632,6 +1699,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1898,6 +1967,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1927,6 +1998,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1956,6 +2029,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1985,6 +2060,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2014,6 +2091,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2043,6 +2122,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2056,9 +2137,9 @@
           "name_id": "n-robert-courtney"
         },
         {
-          "id": "John Davison|",
+          "id": "John Davison|UUP",
           "name": "John Davison",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 390,
           "finalVotes": 390,
           "elected": false,
@@ -2067,11 +2148,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "parliament-of-northern-ireland 1929-05-22 Mid Armagh: UUP (John Clarke Davison); parliament-of-northern-ireland 1925-11-25 Armagh: UUP (John Clarke Davison); parliament-of-northern-ireland 1933-11-30 Mid Armagh: UUP (John Clarke Davison)",
           "counts": [
             {
               "count": 1,
@@ -2101,6 +2184,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2130,6 +2215,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2161,6 +2248,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2188,6 +2277,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2215,6 +2306,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2242,6 +2335,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2269,6 +2364,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2296,6 +2393,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2439,12 +2538,15 @@
           "Total_Votes": "390.00",
           "Status": "Not Elected",
           "Occurred_On_Count": "",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
           "candidateName": "John Davison",
           "id": 6,
           "Name_As_Printed": "John Davison, J.P.",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "B",
+          "Party_Basis": "parliament-of-northern-ireland 1929-05-22 Mid Armagh: UUP (John Clarke Davison); parliament-of-northern-ireland 1925-11-25 Armagh: UUP (John Clarke Davison); parliament-of-northern-ireland 1933-11-30 Mid Armagh: UUP (John Clarke Davison)"
         },
         {
           "Constituency_Number": "",
@@ -2624,12 +2726,15 @@
               "Total_Votes": "390.00",
               "Status": "Not Elected",
               "Occurred_On_Count": "",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
               "candidateName": "John Davison",
               "id": 6,
               "Name_As_Printed": "John Davison, J.P.",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "B",
+              "Party_Basis": "parliament-of-northern-ireland 1929-05-22 Mid Armagh: UUP (John Clarke Davison); parliament-of-northern-ireland 1925-11-25 Armagh: UUP (John Clarke Davison); parliament-of-northern-ireland 1933-11-30 Mid Armagh: UUP (John Clarke Davison)"
             },
             {
               "Constituency_Number": "",

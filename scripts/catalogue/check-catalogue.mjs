@@ -111,10 +111,15 @@ for (const s of source.series) {
   }
 }
 for (const id of seriesInSubject.keys()) if (!seriesById.has(id)) fail(`a subject names series ${id}, which does not exist`);
-// Names are what readers search and scan by: two series must never share one.
+// Names are what readers search and scan by: two series must never share one within a scope. The
+// scope (NI, ROI, All-island) is shown beside every name, so the name does not repeat it (owner,
+// 1 Nov 2026): "Administrative Counties" is three series, one per scope.
 const byName = new Map();
-for (const s of source.series) byName.set(s.name.toLowerCase(), [...(byName.get(s.name.toLowerCase()) || []), s.id]);
-for (const [name, ids] of byName) if (ids.length > 1) fail(`${ids.length} series are called "${name}" (${ids.join(', ')}): give each its jurisdiction or years`);
+for (const s of source.series) {
+  const key = `${s.name.toLowerCase()}|${s.scope || ''}`;
+  byName.set(key, [...(byName.get(key) || []), s.id]);
+}
+for (const [key, ids] of byName) if (ids.length > 1) fail(`${ids.length} series in one scope are called "${key.split('|')[0]}" (${ids.join(', ')}): give each its years or subject`);
 for (const sub of source.subjects) for (const m of sub.toBeAdded || []) place(m, `subject ${sub.id} (to be added)`);
 
 let unplaced = 0;

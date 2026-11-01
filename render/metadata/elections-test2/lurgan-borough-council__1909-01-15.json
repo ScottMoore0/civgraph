@@ -43,11 +43,19 @@
   "partySummary": [
     {
       "party": "Independent",
-      "seats": 4,
+      "seats": 3,
       "stood": 0,
       "votes": 0,
       "colour": "#b8b8b8",
       "share": 0
+    },
+    {
+      "party": "UUP",
+      "seats": 1,
+      "stood": 1,
+      "votes": 709,
+      "colour": "#48a5ee",
+      "share": 15.97926526932612
     },
     {
       "party": "Nationalist Party",
@@ -60,10 +68,18 @@
     {
       "party": "Independent/Other",
       "seats": 0,
-      "stood": 6,
-      "votes": 3795,
+      "stood": 4,
+      "votes": 2754,
       "colour": "#6b7280",
-      "share": 85.53076402974983
+      "share": 62.06896551724138
+    },
+    {
+      "party": "Irish Labour",
+      "seats": 0,
+      "stood": 1,
+      "votes": 332,
+      "colour": "#cc0000",
+      "share": 7.48253324318233
     }
   ],
   "mainLikePartySummary": [
@@ -93,10 +109,10 @@
       {
         "name": "Independent/Other",
         "colour": "#888888",
-        "firstPrefs": 3795,
-        "finalVotes": 3795,
-        "stood": 6,
-        "elected": 4,
+        "firstPrefs": 2754,
+        "finalVotes": 2754,
+        "stood": 4,
+        "elected": 3,
         "constituencies": [
           "Lurgan"
         ],
@@ -107,14 +123,6 @@
             "constituency": "Lurgan",
             "firstPref": 793,
             "finalVotes": 793,
-            "status": "Elected"
-          },
-          {
-            "id": "John Mahaffy|",
-            "name": "John Mahaffy",
-            "constituency": "Lurgan",
-            "firstPref": 709,
-            "finalVotes": 709,
             "status": "Elected"
           },
           {
@@ -140,17 +148,31 @@
             "firstPref": 620,
             "finalVotes": 620,
             "status": "Not Elected"
-          },
-          {
-            "id": "Joshua McNeice|",
-            "name": "Joshua McNeice",
-            "constituency": "Lurgan",
-            "firstPref": 332,
-            "finalVotes": 332,
-            "status": "Not Elected"
           }
         ],
-        "shareOfTotal": 85.53076402974983
+        "shareOfTotal": 62.06896551724138
+      },
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 709,
+        "finalVotes": 709,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Lurgan"
+        ],
+        "candidates": [
+          {
+            "id": "John Mahaffy|UUP",
+            "name": "John Mahaffy",
+            "constituency": "Lurgan",
+            "firstPref": 709,
+            "finalVotes": 709,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 15.97926526932612
       },
       {
         "name": "Nationalist Party",
@@ -173,6 +195,28 @@
           }
         ],
         "shareOfTotal": 14.46923597025017
+      },
+      {
+        "name": "Irish Labour",
+        "colour": "#A0A0A0",
+        "firstPrefs": 332,
+        "finalVotes": 332,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Lurgan"
+        ],
+        "candidates": [
+          {
+            "id": "Joshua McNeice|Irish Labour",
+            "name": "Joshua McNeice",
+            "constituency": "Lurgan",
+            "firstPref": 332,
+            "finalVotes": 332,
+            "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 7.48253324318233
       }
     ],
     "candidates": [
@@ -199,11 +243,11 @@
         "shareOfTotal": 17.87243633085418
       },
       {
-        "id": "John Mahaffy|",
-        "key": "John Mahaffy|",
+        "id": "John Mahaffy|UUP",
+        "key": "John Mahaffy|UUP",
         "name": "John Mahaffy",
-        "party": "",
-        "colour": "#888888",
+        "party": "UUP",
+        "colour": "#48A5EE",
         "firstPrefs": 709,
         "finalVotes": 709,
         "electedCount": 1,
@@ -309,11 +353,11 @@
         "shareOfTotal": 13.973405454135676
       },
       {
-        "id": "Joshua McNeice|",
-        "key": "Joshua McNeice|",
+        "id": "Joshua McNeice|Irish Labour",
+        "key": "Joshua McNeice|Irish Labour",
         "name": "Joshua McNeice",
-        "party": "",
-        "colour": "#888888",
+        "party": "Irish Labour",
+        "colour": "#A0A0A0",
         "firstPrefs": 332,
         "finalVotes": 332,
         "electedCount": 0,
@@ -372,6 +416,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -385,9 +431,9 @@
           "name_id": "n-h-g-macgeagh"
         },
         {
-          "id": "John Mahaffy|",
+          "id": "John Mahaffy|UUP",
           "name": "John Mahaffy",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 709,
           "finalVotes": 709,
           "elected": true,
@@ -396,11 +442,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "lurgan-borough 1899-01-16 Lurgan: UUP (John Mahaffy) [found-A]; lurgan-borough 1912-01-15 Lurgan: UUP (John Mahaffy)",
           "counts": [
             {
               "count": 1,
@@ -410,7 +458,7 @@
               "firstPrefs": 709
             }
           ],
-          "personId": 135339,
+          "personId": 135344,
           "name_id": "n-john-mahaffy"
         },
         {
@@ -430,6 +478,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -459,6 +509,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -488,6 +540,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -517,6 +571,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -530,9 +586,9 @@
           "name_id": "n-joseph-herbert"
         },
         {
-          "id": "Joshua McNeice|",
+          "id": "Joshua McNeice|Irish Labour",
           "name": "Joshua McNeice",
-          "party": "",
+          "party": "Irish Labour",
           "firstPrefs": 332,
           "finalVotes": 332,
           "elected": false,
@@ -541,11 +597,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
-          "colour": "#888888",
+          "colour": "#A0A0A0",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "lurgan-borough 1899-01-16 Lurgan: Labour (Joshua M'Neice) [found-A]; lurgan-borough 1912-01-15 Lurgan: Labour (Joshua McNeice)",
           "counts": [
             {
               "count": 1,
@@ -555,7 +613,7 @@
               "firstPrefs": 332
             }
           ],
-          "personId": 135613,
+          "personId": 137133,
           "name_id": "n-joshua-mcneice"
         }
       ],
@@ -577,6 +635,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -588,9 +648,9 @@
           ]
         },
         {
-          "id": "John Mahaffy|",
+          "id": "John Mahaffy|UUP",
           "name": "John Mahaffy",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 709,
           "finalVotes": 709,
           "elected": true,
@@ -599,11 +659,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "lurgan-borough 1899-01-16 Lurgan: UUP (John Mahaffy) [found-A]; lurgan-borough 1912-01-15 Lurgan: UUP (John Mahaffy)",
           "counts": [
             {
               "count": 1,
@@ -631,6 +693,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -658,6 +722,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -685,6 +751,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -738,12 +806,15 @@
           "Total_Votes": "709.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
           "candidateName": "John Mahaffy",
           "id": 1,
           "Name_As_Printed": "Mahaffy",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "D",
+          "Party_Basis": "lurgan-borough 1899-01-16 Lurgan: UUP (John Mahaffy) [found-A]; lurgan-borough 1912-01-15 Lurgan: UUP (John Mahaffy)"
         },
         {
           "Constituency_Number": "",
@@ -828,12 +899,15 @@
           "Total_Votes": "332.00",
           "Status": "Not Elected",
           "Occurred_On_Count": "",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "Labour",
+          "Party_Colour": "#A0A0A0",
           "candidateName": "Joshua McNeice",
           "id": 6,
           "Name_As_Printed": "McNeice",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "D",
+          "Party_Basis": "lurgan-borough 1899-01-16 Lurgan: Labour (Joshua M'Neice) [found-A]; lurgan-borough 1912-01-15 Lurgan: Labour (Joshua McNeice)"
         }
       ],
       "syntheticCountGroup": false,
@@ -887,12 +961,15 @@
               "Total_Votes": "709.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
               "candidateName": "John Mahaffy",
               "id": 1,
               "Name_As_Printed": "Mahaffy",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "D",
+              "Party_Basis": "lurgan-borough 1899-01-16 Lurgan: UUP (John Mahaffy) [found-A]; lurgan-borough 1912-01-15 Lurgan: UUP (John Mahaffy)"
             },
             {
               "Constituency_Number": "",
@@ -977,12 +1054,15 @@
               "Total_Votes": "332.00",
               "Status": "Not Elected",
               "Occurred_On_Count": "",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "Labour",
+              "Party_Colour": "#A0A0A0",
               "candidateName": "Joshua McNeice",
               "id": 6,
               "Name_As_Printed": "McNeice",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "D",
+              "Party_Basis": "lurgan-borough 1899-01-16 Lurgan: Labour (Joshua M'Neice) [found-A]; lurgan-borough 1912-01-15 Lurgan: Labour (Joshua McNeice)"
             }
           ]
         },

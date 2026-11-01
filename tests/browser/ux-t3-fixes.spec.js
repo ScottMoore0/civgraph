@@ -118,7 +118,7 @@ test('T3-07 · a hidden layer looks hidden, and reorder works from the keyboard'
   const order = () => page.evaluate(() =>
     [...document.querySelectorAll('#activeLayersList .active-layer-item[data-map-id]')].map((r) => r.dataset.mapId));
   const start = await order();
-  await page.locator(`#activeLayersList .active-layer-item[data-map-id="${start[0]}"] .active-layer-item__drag`).focus();
+  await page.locator(`#activeLayersList .active-layer-item[data-map-id="${start[0]}"]`).focus();
   await page.keyboard.press('ArrowDown');
   // The move re-renders the panel after the map reorders its layers, which is not instant.
   // A fixed 600 ms wait read the old order whenever the machine was busy (it failed under a

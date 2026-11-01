@@ -83,8 +83,8 @@
   "partySummary": [
     {
       "party": "UUP",
-      "seats": 14,
-      "stood": 16,
+      "seats": 15,
+      "stood": 17,
       "votes": 2943,
       "colour": "#48a5ee",
       "share": 52.024041011136646
@@ -98,17 +98,17 @@
       "share": 39.36715573625597
     },
     {
-      "party": "Independent",
-      "seats": 2,
-      "stood": 0,
+      "party": "Independent Unionist",
+      "seats": 1,
+      "stood": 1,
       "votes": 0,
-      "colour": "#b8b8b8",
+      "colour": "#6b7280",
       "share": 0
     },
     {
-      "party": "Independent/Other",
+      "party": "Protestant Home Ruler",
       "seats": 0,
-      "stood": 3,
+      "stood": 1,
       "votes": 487,
       "colour": "#6b7280",
       "share": 8.60880325260739
@@ -117,7 +117,7 @@
   "mainLikePartySummary": [
     {
       "party": "UUP",
-      "seats": 12,
+      "seats": 13,
       "stood": 0,
       "votes": 0,
       "colour": "#48A5EE",
@@ -132,11 +132,11 @@
       "share": null
     },
     {
-      "party": "Independent/Other",
-      "seats": 2,
+      "party": "Independent Unionist",
+      "seats": 1,
       "stood": 0,
       "votes": 0,
-      "colour": "#888888",
+      "colour": "#AADFFF",
       "share": null
     }
   ],
@@ -159,8 +159,8 @@
         "colour": "#48A5EE",
         "firstPrefs": 2943,
         "finalVotes": 2943,
-        "stood": 16,
-        "elected": 14,
+        "stood": 17,
+        "elected": 15,
         "constituencies": [
           "Annaghmore",
           "Armagh",
@@ -169,6 +169,7 @@
           "Hamiltonsbawn",
           "Kernan",
           "Lurgan",
+          "Markethill",
           "Middletown",
           "Newtownhamilton",
           "Portadown",
@@ -237,6 +238,14 @@
             "id": "William White|UUP",
             "name": "William White",
             "constituency": "Lurgan",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          },
+          {
+            "id": "William Byers|UUP",
+            "name": "William Byers",
+            "constituency": "Markethill",
             "firstPref": 0,
             "finalVotes": 0,
             "status": "Elected"
@@ -419,36 +428,40 @@
         "shareOfTotal": 39.36715573625597
       },
       {
-        "name": "Independent/Other",
-        "colour": "#888888",
-        "firstPrefs": 487,
-        "finalVotes": 487,
-        "stood": 3,
-        "elected": 2,
+        "name": "Independent Unionist",
+        "colour": "#AADFFF",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 1,
+        "elected": 1,
         "constituencies": [
-          "Charlemont",
-          "Markethill",
-          "Poyntzpass"
+          "Charlemont"
         ],
         "candidates": [
           {
-            "id": "James Orr|",
+            "id": "James Orr|Independent Unionist",
             "name": "James Orr",
             "constituency": "Charlemont",
             "firstPref": 0,
             "finalVotes": 0,
             "status": "Elected"
-          },
+          }
+        ],
+        "shareOfTotal": 0
+      },
+      {
+        "name": "Protestant Home Ruler",
+        "colour": "#888888",
+        "firstPrefs": 487,
+        "finalVotes": 487,
+        "stood": 1,
+        "elected": 0,
+        "constituencies": [
+          "Poyntzpass"
+        ],
+        "candidates": [
           {
-            "id": "William Byers|",
-            "name": "William Byers",
-            "constituency": "Markethill",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": "Elected"
-          },
-          {
-            "id": "Benjamin Thompson|",
+            "id": "Benjamin Thompson|Protestant Home Ruler",
             "name": "Benjamin Thompson",
             "constituency": "Poyntzpass",
             "firstPref": 487,
@@ -637,11 +650,11 @@
         "shareOfTotal": 0
       },
       {
-        "id": "James Orr|",
-        "key": "James Orr|",
+        "id": "James Orr|Independent Unionist",
+        "key": "James Orr|Independent Unionist",
         "name": "James Orr",
-        "party": "",
-        "colour": "#888888",
+        "party": "Independent Unionist",
+        "colour": "#AADFFF",
         "firstPrefs": 0,
         "finalVotes": 0,
         "electedCount": 1,
@@ -857,11 +870,11 @@
         "shareOfTotal": 0
       },
       {
-        "id": "William Byers|",
-        "key": "William Byers|",
+        "id": "William Byers|UUP",
+        "key": "William Byers|UUP",
         "name": "William Byers",
-        "party": "",
-        "colour": "#888888",
+        "party": "UUP",
+        "colour": "#48A5EE",
         "firstPrefs": 0,
         "finalVotes": 0,
         "electedCount": 1,
@@ -989,10 +1002,10 @@
         "shareOfTotal": 9.35124624359201
       },
       {
-        "id": "Benjamin Thompson|",
-        "key": "Benjamin Thompson|",
+        "id": "Benjamin Thompson|Protestant Home Ruler",
+        "key": "Benjamin Thompson|Protestant Home Ruler",
         "name": "Benjamin Thompson",
-        "party": "",
+        "party": "Protestant Home Ruler",
         "colour": "#888888",
         "firstPrefs": 487,
         "finalVotes": 487,
@@ -1162,6 +1175,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1193,6 +1208,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1350,6 +1367,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1379,6 +1398,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1410,6 +1431,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1603,6 +1626,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1634,6 +1659,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1754,9 +1781,9 @@
     },
     {
       "constituency": "Charlemont",
-      "winnerParty": "Independent",
+      "winnerParty": "Independent Unionist",
       "winnerName": "James Orr",
-      "leadingParty": null,
+      "leadingParty": "Independent Unionist",
       "leadingName": "James Orr",
       "leadingVotes": null,
       "leadingPct": null,
@@ -1771,13 +1798,13 @@
       "spoiled": null,
       "validPoll": null,
       "totalVotes": null,
-      "colour": "#b8b8b8",
+      "colour": "#6b7280",
       "leadingColour": "#6b7280",
       "candidates": [
         {
-          "id": "James Orr|",
+          "id": "James Orr|Independent Unionist",
           "name": "James Orr",
-          "party": "",
+          "party": "Independent Unionist",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -1786,11 +1813,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#AADFFF",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "house-of-commons-of-the-united-kingdom 1900-09-26 Armagh N: Independent Unionist (James Orr) | labels found for this person differ: UUP x1, Independent Unionist x1",
           "counts": [
             {
               "count": 1,
@@ -1800,15 +1829,15 @@
               "firstPrefs": null
             }
           ],
-          "personId": 135880,
+          "personId": 123306,
           "name_id": "n-james-orr"
         }
       ],
       "elected": [
         {
-          "id": "James Orr|",
+          "id": "James Orr|Independent Unionist",
           "name": "James Orr",
-          "party": "",
+          "party": "Independent Unionist",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -1817,11 +1846,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#AADFFF",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "house-of-commons-of-the-united-kingdom 1900-09-26 Armagh N: Independent Unionist (James Orr) | labels found for this person differ: UUP x1, Independent Unionist x1",
           "counts": [
             {
               "count": 1,
@@ -1857,12 +1888,15 @@
           "Total_Votes": "",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "Independent Unionist",
+          "Party_Colour": "#AADFFF",
           "candidateName": "James Orr",
           "id": 0,
           "Name_As_Printed": "James Orr, D.L.",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "B",
+          "Party_Basis": "house-of-commons-of-the-united-kingdom 1900-09-26 Armagh N: Independent Unionist (James Orr) | labels found for this person differ: UUP x1, Independent Unionist x1"
         }
       ],
       "syntheticCountGroup": false,
@@ -1898,12 +1932,15 @@
               "Total_Votes": "",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "Independent Unionist",
+              "Party_Colour": "#AADFFF",
               "candidateName": "James Orr",
               "id": 0,
               "Name_As_Printed": "James Orr, D.L.",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "B",
+              "Party_Basis": "house-of-commons-of-the-united-kingdom 1900-09-26 Armagh N: Independent Unionist (James Orr) | labels found for this person differ: UUP x1, Independent Unionist x1"
             }
           ]
         },
@@ -1979,6 +2016,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2010,6 +2049,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2167,6 +2208,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2198,6 +2241,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2355,6 +2400,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2386,6 +2433,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2543,6 +2592,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2574,6 +2625,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2731,6 +2784,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2762,6 +2817,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2919,6 +2976,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2948,6 +3007,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2977,6 +3038,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3008,6 +3071,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3237,6 +3302,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3268,6 +3335,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3425,6 +3494,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3456,6 +3527,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3613,6 +3686,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3642,6 +3717,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3673,6 +3750,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3700,6 +3779,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3857,9 +3938,9 @@
     },
     {
       "constituency": "Markethill",
-      "winnerParty": "Independent",
+      "winnerParty": "UUP",
       "winnerName": "William Byers",
-      "leadingParty": null,
+      "leadingParty": "UUP",
       "leadingName": "William Byers",
       "leadingVotes": null,
       "leadingPct": null,
@@ -3874,13 +3955,13 @@
       "spoiled": null,
       "validPoll": null,
       "totalVotes": null,
-      "colour": "#b8b8b8",
-      "leadingColour": "#6b7280",
+      "colour": "#48a5ee",
+      "leadingColour": "#48a5ee",
       "candidates": [
         {
-          "id": "William Byers|",
+          "id": "William Byers|UUP",
           "name": "William Byers",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -3889,11 +3970,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1899-04-06 Markethill: UUP (William Byers); armagh-county 1908-05-27 Markethill: UUP (William Byers)",
           "counts": [
             {
               "count": 1,
@@ -3903,15 +3986,15 @@
               "firstPrefs": null
             }
           ],
-          "personId": 135681,
+          "personId": 135682,
           "name_id": "n-william-byers"
         }
       ],
       "elected": [
         {
-          "id": "William Byers|",
+          "id": "William Byers|UUP",
           "name": "William Byers",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -3920,11 +4003,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1899-04-06 Markethill: UUP (William Byers); armagh-county 1908-05-27 Markethill: UUP (William Byers)",
           "counts": [
             {
               "count": 1,
@@ -3960,12 +4045,15 @@
           "Total_Votes": "",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
           "candidateName": "William Byers",
           "id": 0,
           "Name_As_Printed": "W. Byers",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "D",
+          "Party_Basis": "armagh-county 1899-04-06 Markethill: UUP (William Byers); armagh-county 1908-05-27 Markethill: UUP (William Byers)"
         }
       ],
       "syntheticCountGroup": false,
@@ -4001,12 +4089,15 @@
               "Total_Votes": "",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
               "candidateName": "William Byers",
               "id": 0,
               "Name_As_Printed": "W. Byers",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "D",
+              "Party_Basis": "armagh-county 1899-04-06 Markethill: UUP (William Byers); armagh-county 1908-05-27 Markethill: UUP (William Byers)"
             }
           ]
         },
@@ -4082,6 +4173,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4111,6 +4204,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4142,6 +4237,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4335,6 +4432,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4366,6 +4465,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4523,6 +4624,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4552,6 +4655,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4583,6 +4688,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4776,6 +4883,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4805,6 +4914,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4836,6 +4947,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4863,6 +4976,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -5057,6 +5172,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -5070,9 +5187,9 @@
           "name_id": "n-henry-s-close"
         },
         {
-          "id": "Benjamin Thompson|",
+          "id": "Benjamin Thompson|Protestant Home Ruler",
           "name": "Benjamin Thompson",
-          "party": "",
+          "party": "Protestant Home Ruler",
           "firstPrefs": 487,
           "finalVotes": 487,
           "elected": false,
@@ -5086,6 +5203,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "Banbridge Chronicle, 31 May 1902, p. 3 (\"Local Government Elections\": Armagh County Council); nominations and labels also in the Armagh Guardian, 2 May 1902, p. 2 (\"But Few Contests\": county council nominations, with labels) (label printed for this election) | printed \"P.H.R.\" (Protestant Home Ruler); new party added by apply.py (owner decision 2026-11-01) | CONFLICT: Civgraph-internal evidence gives UUP (armagh-county 1899-04-06 Poyntzpass: UUP (Benjamin Thompson))",
           "counts": [
             {
               "count": 1,
@@ -5117,6 +5236,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -5170,12 +5291,15 @@
           "Total_Votes": "487.00",
           "Status": "Not Elected",
           "Occurred_On_Count": "",
-          "Party_Name": "",
+          "Party_Name": "Protestant Home Ruler",
           "Party_Colour": "#888888",
           "candidateName": "Benjamin Thompson",
           "id": 1,
           "Name_As_Printed": "B. Thompson",
-          "Party_As_Printed": "P.H.R."
+          "Party_As_Printed": "P.H.R.",
+          "Party_Inferred": false,
+          "Party_Evidence_Class": "A",
+          "Party_Basis": "Banbridge Chronicle, 31 May 1902, p. 3 (\"Local Government Elections\": Armagh County Council); nominations and labels also in the Armagh Guardian, 2 May 1902, p. 2 (\"But Few Contests\": county council nominations, with labels) (label printed for this election) | printed \"P.H.R.\" (Protestant Home Ruler); new party added by apply.py (owner decision 2026-11-01) | CONFLICT: Civgraph-internal evidence gives UUP (armagh-county 1899-04-06 Poyntzpass: UUP (Benjamin Thompson))"
         }
       ],
       "syntheticCountGroup": false,
@@ -5229,12 +5353,15 @@
               "Total_Votes": "487.00",
               "Status": "Not Elected",
               "Occurred_On_Count": "",
-              "Party_Name": "",
+              "Party_Name": "Protestant Home Ruler",
               "Party_Colour": "#888888",
               "candidateName": "Benjamin Thompson",
               "id": 1,
               "Name_As_Printed": "B. Thompson",
-              "Party_As_Printed": "P.H.R."
+              "Party_As_Printed": "P.H.R.",
+              "Party_Inferred": false,
+              "Party_Evidence_Class": "A",
+              "Party_Basis": "Banbridge Chronicle, 31 May 1902, p. 3 (\"Local Government Elections\": Armagh County Council); nominations and labels also in the Armagh Guardian, 2 May 1902, p. 2 (\"But Few Contests\": county council nominations, with labels) (label printed for this election) | printed \"P.H.R.\" (Protestant Home Ruler); new party added by apply.py (owner decision 2026-11-01) | CONFLICT: Civgraph-internal evidence gives UUP (armagh-county 1899-04-06 Poyntzpass: UUP (Benjamin Thompson))"
             }
           ]
         },
@@ -5310,6 +5437,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -5339,6 +5468,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -5370,6 +5501,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -5563,6 +5696,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -5594,6 +5729,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,

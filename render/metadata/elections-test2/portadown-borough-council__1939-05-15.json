@@ -43,28 +43,36 @@
   "partySummary": [
     {
       "party": "Independent",
-      "seats": 15,
+      "seats": 13,
       "stood": 0,
       "votes": 0,
       "colour": "#b8b8b8",
       "share": 0
     },
     {
+      "party": "UUP",
+      "seats": 2,
+      "stood": 2,
+      "votes": 3996,
+      "colour": "#48a5ee",
+      "share": 17.615164205422083
+    },
+    {
       "party": "Independent/Other",
       "seats": 0,
-      "stood": 19,
-      "votes": 22685,
+      "stood": 17,
+      "votes": 18689,
       "colour": "#6b7280",
-      "share": 100
+      "share": 82.38483579457791
     }
   ],
   "mainLikePartySummary": [
     {
-      "party": "Independent/Other",
+      "party": "UUP",
       "seats": 1,
       "stood": 0,
       "votes": 0,
-      "colour": "#888888",
+      "colour": "#48A5EE",
       "share": 0
     }
   ],
@@ -85,30 +93,14 @@
       {
         "name": "Independent/Other",
         "colour": "#888888",
-        "firstPrefs": 22685,
-        "finalVotes": 22685,
-        "stood": 19,
-        "elected": 15,
+        "firstPrefs": 18689,
+        "finalVotes": 18689,
+        "stood": 17,
+        "elected": 13,
         "constituencies": [
           "Portadown"
         ],
         "candidates": [
-          {
-            "id": "Alfred L. Martin|",
-            "name": "Alfred L. Martin",
-            "constituency": "Portadown",
-            "firstPref": 2185,
-            "finalVotes": 2185,
-            "status": "Elected"
-          },
-          {
-            "id": "George A. Locke|",
-            "name": "George A. Locke",
-            "constituency": "Portadown",
-            "firstPref": 1811,
-            "finalVotes": 1811,
-            "status": "Elected"
-          },
           {
             "id": "Edward M'Cann|",
             "name": "Edward M'Cann",
@@ -246,16 +238,46 @@
             "status": "Not Elected"
           }
         ],
-        "shareOfTotal": 100
+        "shareOfTotal": 82.38483579457791
+      },
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 3996,
+        "finalVotes": 3996,
+        "stood": 2,
+        "elected": 2,
+        "constituencies": [
+          "Portadown"
+        ],
+        "candidates": [
+          {
+            "id": "Alfred L. Martin|UUP",
+            "name": "Alfred L. Martin",
+            "constituency": "Portadown",
+            "firstPref": 2185,
+            "finalVotes": 2185,
+            "status": "Elected"
+          },
+          {
+            "id": "George A. Locke|UUP",
+            "name": "George A. Locke",
+            "constituency": "Portadown",
+            "firstPref": 1811,
+            "finalVotes": 1811,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 17.615164205422083
       }
     ],
     "candidates": [
       {
-        "id": "Alfred L. Martin|",
-        "key": "Alfred L. Martin|",
+        "id": "Alfred L. Martin|UUP",
+        "key": "Alfred L. Martin|UUP",
         "name": "Alfred L. Martin",
-        "party": "",
-        "colour": "#888888",
+        "party": "UUP",
+        "colour": "#48A5EE",
         "firstPrefs": 2185,
         "finalVotes": 2185,
         "electedCount": 1,
@@ -273,11 +295,11 @@
         "shareOfTotal": 9.631915362574388
       },
       {
-        "id": "George A. Locke|",
-        "key": "George A. Locke|",
+        "id": "George A. Locke|UUP",
+        "key": "George A. Locke|UUP",
         "name": "George A. Locke",
-        "party": "",
-        "colour": "#888888",
+        "party": "UUP",
+        "colour": "#48A5EE",
         "firstPrefs": 1811,
         "finalVotes": 1811,
         "electedCount": 1,
@@ -675,7 +697,7 @@
       "constituency": "Portadown",
       "winnerParty": "Independent",
       "winnerName": "15 elected",
-      "leadingParty": null,
+      "leadingParty": "UUP",
       "leadingName": "Alfred L. Martin",
       "leadingVotes": 2185,
       "leadingPct": 9.63,
@@ -691,12 +713,12 @@
       "validPoll": 22685,
       "totalVotes": 22685,
       "colour": "#b8b8b8",
-      "leadingColour": "#6b7280",
+      "leadingColour": "#48a5ee",
       "candidates": [
         {
-          "id": "Alfred L. Martin|",
+          "id": "Alfred L. Martin|UUP",
           "name": "Alfred L. Martin",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 2185,
           "finalVotes": 2185,
           "elected": true,
@@ -705,11 +727,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1939-05-25 Portadown: UUP (Alfred L. Martin)",
           "counts": [
             {
               "count": 1,
@@ -719,13 +743,13 @@
               "firstPrefs": 2185
             }
           ],
-          "personId": 136340,
+          "personId": 136341,
           "name_id": "n-alfred-l-martin"
         },
         {
-          "id": "George A. Locke|",
+          "id": "George A. Locke|UUP",
           "name": "George A. Locke",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 1811,
           "finalVotes": 1811,
           "elected": true,
@@ -734,11 +758,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1939-05-25 Portadown: UUP (George A. Locke); armagh-county 1936-05-28 Portadown: UUP (George A. Locke) | labels found for this person differ: UUP x5, Town Tenants' Association x1",
           "counts": [
             {
               "count": 1,
@@ -748,7 +774,7 @@
               "firstPrefs": 1811
             }
           ],
-          "personId": 135561,
+          "personId": 135562,
           "name_id": "n-george-a-locke"
         },
         {
@@ -768,6 +794,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -797,6 +825,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -826,6 +856,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -855,6 +887,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -884,6 +918,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -913,6 +949,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -942,6 +980,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -971,6 +1011,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1000,6 +1042,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1029,6 +1073,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1058,6 +1104,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1087,6 +1135,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1116,6 +1166,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1145,6 +1197,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1174,6 +1228,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1203,6 +1259,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1232,6 +1290,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1247,9 +1307,9 @@
       ],
       "elected": [
         {
-          "id": "Alfred L. Martin|",
+          "id": "Alfred L. Martin|UUP",
           "name": "Alfred L. Martin",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 2185,
           "finalVotes": 2185,
           "elected": true,
@@ -1258,11 +1318,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1939-05-25 Portadown: UUP (Alfred L. Martin)",
           "counts": [
             {
               "count": 1,
@@ -1274,9 +1336,9 @@
           ]
         },
         {
-          "id": "George A. Locke|",
+          "id": "George A. Locke|UUP",
           "name": "George A. Locke",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 1811,
           "finalVotes": 1811,
           "elected": true,
@@ -1285,11 +1347,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1939-05-25 Portadown: UUP (George A. Locke); armagh-county 1936-05-28 Portadown: UUP (George A. Locke) | labels found for this person differ: UUP x5, Town Tenants' Association x1",
           "counts": [
             {
               "count": 1,
@@ -1317,6 +1381,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1344,6 +1410,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1371,6 +1439,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1398,6 +1468,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1425,6 +1497,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1452,6 +1526,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1479,6 +1555,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1506,6 +1584,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1533,6 +1613,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1560,6 +1642,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1587,6 +1671,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1614,6 +1700,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1641,6 +1729,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1676,12 +1766,15 @@
           "Total_Votes": "2185.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
           "candidateName": "Alfred L. Martin",
           "id": 0,
           "Name_As_Printed": "Alfred L. Martin",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "B",
+          "Party_Basis": "armagh-county 1939-05-25 Portadown: UUP (Alfred L. Martin)"
         },
         {
           "Constituency_Number": "",
@@ -1694,12 +1787,15 @@
           "Total_Votes": "1811.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
           "candidateName": "George A. Locke",
           "id": 1,
           "Name_As_Printed": "George A. Locke",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "B",
+          "Party_Basis": "armagh-county 1939-05-25 Portadown: UUP (George A. Locke); armagh-county 1936-05-28 Portadown: UUP (George A. Locke) | labels found for this person differ: UUP x5, Town Tenants' Association x1"
         },
         {
           "Constituency_Number": "",
@@ -2041,12 +2137,15 @@
               "Total_Votes": "2185.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
               "candidateName": "Alfred L. Martin",
               "id": 0,
               "Name_As_Printed": "Alfred L. Martin",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "B",
+              "Party_Basis": "armagh-county 1939-05-25 Portadown: UUP (Alfred L. Martin)"
             },
             {
               "Constituency_Number": "",
@@ -2059,12 +2158,15 @@
               "Total_Votes": "1811.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
               "candidateName": "George A. Locke",
               "id": 1,
               "Name_As_Printed": "George A. Locke",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "B",
+              "Party_Basis": "armagh-county 1939-05-25 Portadown: UUP (George A. Locke); armagh-county 1936-05-28 Portadown: UUP (George A. Locke) | labels found for this person differ: UUP x5, Town Tenants' Association x1"
             },
             {
               "Constituency_Number": "",
