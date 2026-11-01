@@ -173,6 +173,10 @@ export class TestMapLibreController {
     this.pmtilesArchiveCache = new Map();
     this.runtimeProfile = resolveRuntimeProfile();
     this.mobileGestureGuardInstalled = false;
+    // Interface language (preview only: assets/i18n/i18n.js): relabel when it changes or loads.
+    if (typeof document !== 'undefined') {
+      document.addEventListener('civgraph:langchange', () => this.applyLabelLanguage());
+    }
     this.mobileGestureGuardTargetCount = 0;
     this.mobileGestureResizeObserver = null;
     this.mobileGestureResizeFrame = 0;
@@ -1323,6 +1327,28 @@ export class TestMapLibreController {
       addFillLayer(`${layer.id}-fallback-selected-fill`, selectedSourceId);
     }
     return { layerIds, sourceIds };
+  }
+
+  /**
+   * Re-point every label layer at the current interface language's name property (Irish place
+   * names when the language preview is on and set to Irish), and re-place the DOM labels.
+   */
+  applyLabelLanguage() {
+    if (!this.map) return;
+    for (const record of this.layers.values()) {
+      const layer = record?.config;
+      if (!layer?.labelProperty) continue;
+      for (const labelId of record.labelLayerIds || []) {
+        if (!this.map.getLayer(labelId)) continue;
+        try {
+          this.map.setLayoutProperty(labelId, 'text-field', buildLabelTextExpression(layer));
+          this.map.setFilter(labelId, buildLabelFilter(layer));
+        } catch (error) {
+          console.warn('[i18n] could not relabel', labelId, error);
+        }
+      }
+    }
+    this.scheduleAllDomLabelRefresh();
   }
 
   addLabelLayers(layer, ids) {
