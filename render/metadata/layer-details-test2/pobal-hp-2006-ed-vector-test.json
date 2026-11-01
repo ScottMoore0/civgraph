@@ -1,0 +1,301 @@
+{
+  "id": "pobal-hp-2006-ed-vector-test",
+  "sourceMapId": "pobal-hp-2006-ed",
+  "name": "Pobal HP Deprivation Index (2006, by Electoral Division)",
+  "category": "Population data",
+  "group": "Communities",
+  "date": "2006",
+  "dateAdded": "2026-11-01",
+  "dateEffective": null,
+  "provider": [
+    "Pobal"
+  ],
+  "description": "The Pobal HP Deprivation Index for 2006, by Trutz Haase and Jonathan Pratschke for Pobal, calculated from Census 2006, for the Electoral Divisions of the Republic of Ireland. Each ED is shaded by its relative index category. The relative score is scaled so that 0 is the national average: a lower (more negative) score is more disadvantaged and a higher score more affluent. The categories are Pobal's 10-point bands, from 1 'extremely disadvantaged' (below -30, darkest) through 'marginally below average' (-10 to 0) and 'marginally above average' (0 to 10) to 8 'extremely affluent' (30 and above, lightest). Clicking an ED shows the score, Pobal's label, the population and the census indicators behind the index (age dependency, lone parents, primary-only and third-level education, and male and female unemployment). The relative score compares each ED with the rest of the State in 2006 only, so it says which areas are more or less deprived than others, not how deprived an area is in absolute terms. It cannot be compared across years, and it cannot be compared with the Northern Ireland Multiple Deprivation Measure, which ranks areas on different indicators (there, rank 1 is the most deprived). Pobal publishes Tacumshin and Tomhaggard (published as Tacumshin) as one unit, so each of those EDs shows the combined figure (field Pobal_merged). The figures are drawn on Civgraph's 2006 Electoral Division map (eds-2006, the CSO census EDs; 3,409 EDs), matched to Pobal's own ED map by area. Every one of the 3,409 mapped units has a value; 3,403 overlap their Pobal unit by 90% or more, and the rest, a few city EDs, by at least 80%, the difference being the two maps' generalisation. Source: Pobal HP Deprivation Index, Electoral Division 2006 (Pobal, https://www.arcgis.com/home/item.html?id=c4676b5f35324031a39d6ffca08ef0b7), licensed under Creative Commons Attribution 4.0 (CC BY 4.0).",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/render/tiles/generated/pobal-hp-2006-ed/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/render/tiles/generated/pobal-hp-2006-ed/metadata.json",
+  "sourceLayer": "pobal_hp_2006_ed",
+  "promoteId": "CSOED",
+  "idProperty": "CSOED",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.419897,
+      -10.66285
+    ],
+    [
+      55.446576,
+      -5.996284
+    ]
+  ],
+  "style": {
+    "color": "#277f8e",
+    "fillColor": "#277f8e",
+    "fillOpacity": 0.7,
+    "weight": 1,
+    "fillColorExpression": [
+      "match",
+      [
+        "to-number",
+        [
+          "get",
+          "HP_cat"
+        ],
+        0
+      ],
+      1,
+      "#440154",
+      2,
+      "#46327e",
+      3,
+      "#365c8d",
+      4,
+      "#277f8e",
+      5,
+      "#1fa187",
+      6,
+      "#4ac16d",
+      7,
+      "#a0da39",
+      8,
+      "#fde725",
+      "#cccccc"
+    ]
+  },
+  "legend": {
+    "title": "Pobal HP Deprivation Index 2006: relative category (relative within 2006)",
+    "property": "HP_cat",
+    "type": "categorical",
+    "items": [
+      {
+        "value": 1,
+        "label": "1 Extremely disadvantaged (below -30)",
+        "color": "#440154"
+      },
+      {
+        "value": 2,
+        "label": "2 Very disadvantaged (-30 to -20)",
+        "color": "#46327e"
+      },
+      {
+        "value": 3,
+        "label": "3 Disadvantaged (-20 to -10)",
+        "color": "#365c8d"
+      },
+      {
+        "value": 4,
+        "label": "4 Marginally below average (-10 to 0)",
+        "color": "#277f8e"
+      },
+      {
+        "value": 5,
+        "label": "5 Marginally above average (0 to 10)",
+        "color": "#1fa187"
+      },
+      {
+        "value": 6,
+        "label": "6 Affluent (10 to 20)",
+        "color": "#4ac16d"
+      },
+      {
+        "value": 7,
+        "label": "7 Very affluent (20 to 30)",
+        "color": "#a0da39"
+      },
+      {
+        "value": 8,
+        "label": "8 Extremely affluent (30 and above)",
+        "color": "#fde725"
+      }
+    ],
+    "noData": {
+      "label": "No data",
+      "color": "#cccccc"
+    }
+  },
+  "colorScale": {
+    "property": "HP_cat",
+    "ramp": "viridis",
+    "domain": [
+      1,
+      8
+    ],
+    "logarithmic": false
+  },
+  "references": [
+    {
+      "label": "Pobal HP Deprivation Index Electoral Division 2006 (Pobal, ArcGIS Online)",
+      "url": "https://www.arcgis.com/home/item.html?id=c4676b5f35324031a39d6ffca08ef0b7",
+      "note": "Licensed CC BY 4.0. The figures were read from this layer's feature service: https://services8.arcgis.com/AF8wcIoCeDo33LsM/arcgis/rest/services/Pobal_HP_Deprivation_Index_Electoral_Division_2006_NEW/FeatureServer"
+    },
+    {
+      "label": "Pobal HP Deprivation Index (Pobal)",
+      "url": "https://www.pobal.ie/pobal-hp-deprivation-index/",
+      "note": "About the index and the Pobal Maps viewer."
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "render/source-cache/vector-intake/pobal-hp-2006-ed.fgb"
+    },
+    {
+      "label": "Pobal feature service (2006)",
+      "url": "https://services8.arcgis.com/AF8wcIoCeDo33LsM/arcgis/rest/services/Pobal_HP_Deprivation_Index_Electoral_Division_2006_NEW/FeatureServer"
+    },
+    {
+      "label": "Pobal HP Deprivation Index (2006, by Electoral Division) (CSV)",
+      "url": "https://data.civgraph.net/data/census/derived/pobal-hp-2006-ed.csv"
+    }
+  ],
+  "sourceCredits": [
+    "Pobal",
+    "Trutz Haase",
+    "Jonathan Pratschke"
+  ],
+  "keywords": [
+    "deprivation",
+    "pobal",
+    "pobal hp deprivation index",
+    "haase pratschke",
+    "affluence",
+    "electoral division",
+    "ed",
+    "2006",
+    "census",
+    "republic of ireland",
+    "Pobal HP Deprivation Index (2006, by Electoral Division)",
+    "Population data",
+    "Communities",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "ED_NAME",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 9,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#1f2937",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 11,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "sourceFile": "render/source-cache/vector-intake/pobal-hp-2006-ed.fgb",
+  "sourceDatasetLayer": "pobal-hp-2006-ed",
+  "popupProperties": [
+    "CSOED",
+    "OSIED",
+    "ED_NAME",
+    "COUNTY_NAME",
+    "Pobal_match_share",
+    "Pobal_ED_name",
+    "HP_rel",
+    "HP_label",
+    "Population",
+    "AgeDep_pct",
+    "LoneParent_pct",
+    "EduPrimaryOnly_pct",
+    "EduThirdLevel_pct",
+    "UnempMale_pct",
+    "UnempFemale_pct",
+    "Pobal_merged",
+    "HP_cat"
+  ],
+  "numericProperties": [
+    "Pobal_match_share",
+    "HP_rel",
+    "Population",
+    "AgeDep_pct",
+    "LoneParent_pct",
+    "EduPrimaryOnly_pct",
+    "EduThirdLevel_pct",
+    "UnempMale_pct",
+    "UnempFemale_pct",
+    "HP_cat"
+  ],
+  "categoricalProperties": [
+    "CSOED",
+    "OSIED",
+    "ED_NAME",
+    "COUNTY_NAME",
+    "Pobal_ED_name",
+    "HP_label",
+    "Pobal_merged"
+  ],
+  "categoricalValues": {
+    "COUNTY_NAME": [
+      "Carlow County",
+      "Cavan County",
+      "Clare County",
+      "Cork City",
+      "Cork County",
+      "Donegal County",
+      "Dublin City",
+      "Dún Laoghaire-Rathdown",
+      "Fingal",
+      "Galway City",
+      "Galway County",
+      "Kerry County",
+      "Kildare County",
+      "Kilkenny County",
+      "Laois County",
+      "Leitrim County",
+      "Limerick City",
+      "Limerick County",
+      "Longford County",
+      "Louth County",
+      "Mayo County",
+      "Meath County",
+      "Monaghan County",
+      "North Tipperary",
+      "Offaly County",
+      "Roscommon County",
+      "Sligo County",
+      "South Dublin",
+      "South Tipperary",
+      "Waterford City",
+      "Waterford County",
+      "Westmeath County",
+      "Wexford County",
+      "Wicklow County"
+    ],
+    "HP_label": [
+      "Affluent",
+      "Disadvantaged",
+      "Extremely Disadvantaged",
+      "Marginally Above Average",
+      "Marginally Below Average",
+      "Very Disadvantaged"
+    ]
+  },
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+  "status": "converted",
+  "notes": "Generated from render/source-cache/vector-intake/pobal-hp-2006-ed.fgb with scripts/build-test-pmtiles.mjs (GDAL PMTiles driver).",
+  "generatedFrom": {
+    "pipeline": "build-test-pmtiles",
+    "sourceFile": "render/source-cache/vector-intake/pobal-hp-2006-ed.fgb",
+    "intake": "D:/civgraph-intake/deprivation-2026-11-01"
+  },
+  "tileUrl": "/render/pmtiles/generated/pobal-hp-2006-ed-vector-test.pmtiles",
+  "tilesFallback": "/render/tiles/generated/pobal-hp-2006-ed/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "render/pmtiles/generated/pobal-hp-2006-ed-vector-test.pmtiles",
+    "url": "/render/pmtiles/generated/pobal-hp-2006-ed-vector-test.pmtiles",
+    "bytes": 12279769,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-11-01T16:45:58.973Z",
+    "fallback": "/render/tiles/generated/pobal-hp-2006-ed/{z}/{x}/{y}.pbf",
+    "sourceSha256": "9c4d75884b62f9ad9f09ae525d718f09c7245e805587868c2ad7963db13fb92e"
+  }
+}

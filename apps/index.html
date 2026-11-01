@@ -27,7 +27,7 @@
     </style>
 <!-- site:head -->
 <script>(function(){var t=null;try{t=localStorage.getItem('theme');}catch(e){}if(t!=='dark'&&t!=='light'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;})();</script>
-<link rel="stylesheet" href="/assets/site/site-chrome.css?v=01edcc7597b8">
+<link rel="stylesheet" href="/assets/site/site-chrome.css?v=9081ee7c9078">
 <script defer src="/assets/site/site-chrome.js?v=533c9263f1be"></script>
 <!-- /site:head -->
     <link rel="stylesheet" href="../build/about.css">
@@ -247,16 +247,16 @@
             </a>
 
             <!-- Census Explorer moved here from the top-level nav on 2026-08-22. It is a
-                 tool, not a catalogue section: it queries, filters and compares. The
-                 census DATA it draws on is in Browse, where the 31 census-keyworded map
-                 records already live. Splitting them that way keeps one rule -- Browse
-                 lists things, Apps does things. -->
+                 tool, not a catalogue section: it finds, shows and compares census tables.
+                 Its data are Civgraph's copies of the NISRA and CSO releases on R2 (built by
+                 scripts/census/build-census-explorer-bundle.mjs); the census boundaries it
+                 links to are map layers. Keep this card's claims to what the page does. -->
             <a class="app-card" href="/pages/census-explorer.html">
                 <h2 class="app-card__title">Census Explorer</h2>
                 <p class="app-card__desc">
-                    Explore census data across Ireland and Northern Ireland - compare
-                    variables between areas and across time, and chart the results. The
-                    underlying census boundaries and tables are catalogued in Browse.
+                    Find census tables for Northern Ireland (1926 to 2021) and the Republic
+                    of Ireland (1841 to 2022), read and download the figures, chart them across
+                    censuses, and open the boundaries they were counted on in the map.
                 </p>
                 <span class="app-card__cta">Open app →</span>
             </a>

@@ -54,7 +54,7 @@
       "seats": 0,
       "stood": 1,
       "votes": 90,
-      "colour": "#6b7280",
+      "colour": "#ffd700",
       "share": 37.03703703703704
     },
     {
@@ -62,7 +62,7 @@
       "seats": 0,
       "stood": 1,
       "votes": 2,
-      "colour": "#6b7280",
+      "colour": "#ffd700",
       "share": 0.823045267489712
     }
   ],
@@ -70,29 +70,135 @@
     {
       "party": "Conservative",
       "seats": 1,
-      "stood": 0,
-      "votes": 0,
-      "colour": "#888888",
-      "share": null
+      "stood": 1,
+      "votes": 151,
+      "colour": "#0087dc",
+      "share": 62.139917695473244
+    },
+    {
+      "party": "Liberal",
+      "seats": 0,
+      "stood": 1,
+      "votes": 90,
+      "colour": "#ffd700",
+      "share": 37.03703703703704
+    },
+    {
+      "party": "Independent Liberal",
+      "seats": 0,
+      "stood": 1,
+      "votes": 2,
+      "colour": "#ffd700",
+      "share": 0.823045267489712
     }
   ],
   "mainLikeTotals": {
-    "validPoll": 0,
+    "validPoll": 243,
     "totalPoll": 0,
     "totalElectorate": 313,
     "totalSpoiled": 0,
     "totalSeats": 1
   },
-  "mainLikeCandidateSummary": [],
+  "mainLikeCandidateSummary": [
+    {
+      "id": "row:Edward Wingfield Verner|Conservative",
+      "personId": 123796,
+      "sourcePersonId": "wikipedia:Edward Wingfield Verner",
+      "constituency": "Lisburn",
+      "name": "Edward Wingfield Verner",
+      "party": "Conservative",
+      "colour": "#0087dc",
+      "firstPrefs": 151,
+      "votes": 151,
+      "constPct": 62.139917695473244,
+      "firstPrefPct": 62.139917695473244,
+      "finalVotes": 151,
+      "elected": true,
+      "electedAt": 1,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Elected",
+      "counts": {
+        "1": {
+          "total": 151,
+          "transfers": 0,
+          "status": "Elected"
+        }
+      },
+      "candidateKey": "edward wingfield verner|conservative",
+      "name_id": "n-edward-wingfield-verner"
+    },
+    {
+      "id": "row:Jonathon Richardson|Liberal",
+      "personId": 124828,
+      "constituency": "Lisburn",
+      "name": "Jonathon Richardson",
+      "party": "Liberal",
+      "colour": "#ffd700",
+      "firstPrefs": 90,
+      "votes": 90,
+      "constPct": 37.03703703703704,
+      "firstPrefPct": 37.03703703703704,
+      "finalVotes": 90,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 90,
+          "transfers": 0,
+          "status": "Not elected"
+        }
+      },
+      "candidateKey": "jonathon richardson|liberal",
+      "name_id": "n-jonathon-richardson"
+    },
+    {
+      "id": "row:Robert Barbour|Independent Liberal",
+      "personId": 124954,
+      "sourcePersonId": "wikipedia:Lisburn (UK Parliament constituency)",
+      "constituency": "Lisburn",
+      "name": "Robert Barbour",
+      "party": "Independent Liberal",
+      "colour": "#ffd700",
+      "firstPrefs": 2,
+      "votes": 2,
+      "constPct": 0.823045267489712,
+      "firstPrefPct": 0.823045267489712,
+      "finalVotes": 2,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 2,
+          "transfers": 0,
+          "status": "Not elected"
+        }
+      },
+      "candidateKey": "robert barbour|independent liberal",
+      "name_id": "n-robert-barbour"
+    }
+  ],
   "mainLikeCandidateTotals": {
-    "validPoll": 0
+    "validPoll": 243
   },
   "entityIndex": {
     "totalValid": 243,
     "parties": [
       {
         "name": "Conservative",
-        "colour": "#888888",
+        "colour": "#0087dc",
         "firstPrefs": 151,
         "finalVotes": 151,
         "stood": 1,
@@ -114,7 +220,7 @@
       },
       {
         "name": "Liberal",
-        "colour": "#888888",
+        "colour": "#ffd700",
         "firstPrefs": 90,
         "finalVotes": 90,
         "stood": 1,
@@ -136,7 +242,7 @@
       },
       {
         "name": "Independent Liberal",
-        "colour": "#888888",
+        "colour": "#ffd700",
         "firstPrefs": 2,
         "finalVotes": 2,
         "stood": 1,
@@ -163,7 +269,7 @@
         "key": "Edward Wingfield Verner|Conservative",
         "name": "Edward Wingfield Verner",
         "party": "Conservative",
-        "colour": "#888888",
+        "colour": "#0087dc",
         "firstPrefs": 151,
         "finalVotes": 151,
         "electedCount": 1,
@@ -185,7 +291,7 @@
         "key": "Jonathon Richardson|Liberal",
         "name": "Jonathon Richardson",
         "party": "Liberal",
-        "colour": "#888888",
+        "colour": "#ffd700",
         "firstPrefs": 90,
         "finalVotes": 90,
         "electedCount": 0,
@@ -207,7 +313,7 @@
         "key": "Robert Barbour|Independent Liberal",
         "name": "Robert Barbour",
         "party": "Independent Liberal",
-        "colour": "#888888",
+        "colour": "#ffd700",
         "firstPrefs": 2,
         "finalVotes": 2,
         "electedCount": 0,
@@ -261,7 +367,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#0087dc",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -293,7 +399,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not elected",
-          "colour": "#888888",
+          "colour": "#ffd700",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -324,7 +430,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not elected",
-          "colour": "#888888",
+          "colour": "#ffd700",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -358,7 +464,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#0087dc",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",

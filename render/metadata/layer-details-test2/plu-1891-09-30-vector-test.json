@@ -12,7 +12,7 @@
     "Phelim Birch",
     "Paddy Matthews"
   ],
-  "description": "The 159 Poor Law Unions of Ireland after Glin Union was dissolved on 30 Sep 1891, the last change to the unions before 1901 (the Ballymahon guardians voted to dissolve in 1895, but the Local Government Board did not act). Glin's divisions are placed as the 1911 Limerick report's Glin (formerly Listowel No. 2) and Rathkeale rural districts show them; the Listowel and Rathkeale areas then agree with the 1911 Table 51 within 0.04% and 0.34%. The redrawing of the counties in 1899 left the unions unchanged, so these are the unions of the 31 Mar 1901 census map. Derived from the 5 Apr 1891 map. See Poor Law Unions 5 Apr 1891 for the method, the checks against the printed areas and the approximations (King's County, Queen's County, Carlow), all of which apply here. The map is simplified for display by a coverage simplification of the division map, so neighbouring unions keep common edges (95% of divisions lie within 10 m of the full lines); the full-resolution file is among the downloads.",
+  "description": "The 159 Poor Law Unions of Ireland after Glin Union was dissolved on 30 Sep 1891, the last change to the unions before 1901 (the Ballymahon guardians voted to dissolve in 1895, but the Local Government Board did not act). Glin's divisions are placed as the 1911 Limerick report's Glin (formerly Listowel No. 2) and Rathkeale rural districts show them; the Listowel and Rathkeale areas then agree with the 1911 Table 51 within 0.04% and 0.34%. The same 159 unions stood at the 31 Mar 1901 census, but about 21 DEDs changed union in 1898-99 (see Poor Law Unions 31 Mar 1901). Derived from the 5 Apr 1891 map. See Poor Law Unions 5 Apr 1891 for the method and the checks against the printed areas, which apply here. The map is simplified for display by a coverage simplification of the division map, so neighbouring unions keep common edges (95% of divisions lie within 10 m of the full lines); the full-resolution file is among the downloads.",
   "renderer": "maplibre",
   "sourceType": "pmtiles",
   "geometryType": "polygon",
@@ -56,11 +56,21 @@
     {
       "label": "Census of Ireland 1911, General Report (Cd. 6663), Table 51",
       "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/",
-      "note": "The counties and 1911 areas of every union; used to bound the King's County approximation and to check Carlow, Listowel and Rathkeale."
+      "note": "The counties and 1911 areas of every union; used to check Carlow, Listowel and Rathkeale."
     },
     {
       "label": "Civgraph District Electoral Divisions, 1907-12 (Connacht 1911 by Paddy Matthews; Leinster 29 Apr 1910 by Phelim Birch; Munster Apr 1907; Ulster 1912)",
       "note": "Geometry source: each union is the dissolve of the 1907-12 divisions matched to its divisions in the census tables."
+    },
+    {
+      "label": "Census of Ireland 1891, Area, houses and population, Vol. I, King's County, Table VI",
+      "url": "https://www.cso.ie/en/media/csoie/statistics/archive/census1891/438_Area,_houses,_and_population,_Vol._I,_Ireland,_1891_King%27s_County.pdf",
+      "note": "The King's County divisions of each union (pp. 8-10), transcribed by hand from the page images (CSO, CC BY 4.0)."
+    },
+    {
+      "label": "Census of Ireland 1891, Area, houses and population, Vol. I, Queen's County, Table VI",
+      "url": "https://www.cso.ie/en/media/csoie/statistics/archive/census1891/438_Area,_houses,_and_population,_Vol._I,_Ireland,_1891_Queen%27s_County.pdf",
+      "note": "The Queen's County divisions of each union, transcribed by hand from the page images (CSO, CC BY 4.0); it puts Kyle South in Urlingford Union (p. 11)."
     }
   ],
   "sourceDownloads": [
@@ -231,21 +241,16 @@
     "maxTileBytes": 95669
   },
   "featureIndexUrl": "/render/metadata/feature-indexes/plu-1891-09-30-vector-test.json",
-  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/plu-1891-09-30-vector-test.pmtiles",
+  "tileUrl": "/render/pmtiles/generated/plu-1891-09-30-vector-test.pmtiles",
   "tilesFallback": "/render/tiles/generated/plu-1891-09-30/{z}/{x}/{y}.pbf",
   "tilePackage": {
     "preferred": true,
     "localPath": "render/pmtiles/generated/plu-1891-09-30-vector-test.pmtiles",
     "url": "/render/pmtiles/generated/plu-1891-09-30-vector-test.pmtiles",
-    "bytes": 5871175,
+    "bytes": 5879770,
     "maxGithubBytes": 99614720,
-    "generatedAt": "2026-11-01T06:00:02.813Z",
+    "generatedAt": "2026-11-01T15:15:34.580Z",
     "fallback": "/render/tiles/generated/plu-1891-09-30/{z}/{x}/{y}.pbf",
-    "sourceSha256": "3293a91e0eb4f0b47af6c9ea1951294c606fbd00b16bd5ee9978f139dab2e4bf",
-    "serving": "cdn",
-    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/plu-1891-09-30-vector-test.pmtiles",
-    "r2Key": "data/maps/test/pmtiles/generated/plu-1891-09-30-vector-test.pmtiles",
-    "localUrl": "/render/pmtiles/generated/plu-1891-09-30-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-11-01T11:50:17.039Z"
+    "sourceSha256": "5cf401d8d814eb6b16d702bf08f03b1b4019ad9d55268d42c4c86fb9a00f7c8f"
   }
 }

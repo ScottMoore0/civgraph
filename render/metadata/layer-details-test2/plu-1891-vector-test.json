@@ -12,7 +12,7 @@
     "Phelim Birch",
     "Paddy Matthews"
   ],
-  "description": "The 160 Poor Law Unions of Ireland at the census of 5 Apr 1891, as Table VI of each 1891 county report lists them. The same unions stood from the dissolution of Gortin on 1 Apr 1889 until Glin was dissolved on 30 Sep 1891. Each union is drawn as the 1907-12 District Electoral Divisions (Phelim Birch's and Paddy Matthews's maps) that cover its 1891 divisions, matched by name from hand transcriptions of the printed tables (Mayo and Sligo from OCR, checked by hand). Each union carries its land area (land_acres: the map area less large lakes and tideway, which the census also leaves out), the sum of its printed county-part acreages (census_acres), the difference (pct_diff) and a confidence grade. Of the 152 unions that can be checked, 148 agree within 1% (134 within 0.5%; median 0.09%); Belfast (+6.7%, reclaimed foreshore inside the later city wards), Wexford (+4.8%, reclaimed slobs), Donegal (-3.0%, Lough Eask counted by the census) and Glenties (+1.8%) are further out. Eight unions are graded unchecked: the five with King's County parts (Parsonstown, Tullamore, Edenderry, Roscrea and Mountmellick), whose King's County divisions are approximated because no King's County report is held: each union is grown from its workhouse town and original divisions towards the King's County area implied by the 1911 General Report Table 51 (against those areas Parsonstown is +1.7%, Tullamore +1.0%, Roscrea +3.4%, Edenderry -4.9% and Mountmellick -12.7%); and Abbeyleix, Athy and Carlow, whose Queen's County parts follow the 1911 Queen's County table because the 1891 report is not held. Carlow is unresolved: its 1891 Carlow part (148,021 acres) and its Queen's County part come to about 185,100 acres, but Table 51 gives 199,998 in 1911. The map is simplified for display by a coverage simplification of the division map, so neighbouring unions keep common edges (95% of divisions lie within 10 m of the full lines); the full-resolution file is among the downloads.",
+  "description": "The 160 Poor Law Unions of Ireland at the census of 5 Apr 1891, as Table VI of each 1891 county report lists them. The same unions stood from the dissolution of Gortin on 1 Apr 1889 until Glin was dissolved on 30 Sep 1891. Each union is drawn as the 1907-12 District Electoral Divisions (Phelim Birch's and Paddy Matthews's maps) that cover its 1891 divisions, matched by name from hand transcriptions of the printed tables (Mayo and Sligo from OCR, checked by hand). Each union carries its land area (land_acres: the map area less large lakes and tideway, which the census also leaves out), the sum of its printed county-part acreages (census_acres), the difference (pct_diff) and a confidence grade. All 160 unions can be checked: 156 agree within 1% (142 within 0.5%; median 0.08%); Belfast (+6.7%, reclaimed foreshore inside the later city wards), Wexford (+4.8%, reclaimed slobs), Donegal (-3.0%, Lough Eask counted by the census) and Glenties (+1.8%) are further out. The King's County and Queen's County divisions are from Table VI of their own 1891 reports. Carlow agrees exactly: its printed 1891 total of 185,155 acres matches the map; the 199,998 acres of 1911 include Cranemore and Clonegall, which joined the union between 1891 and 1901. The map is simplified for display by a coverage simplification of the division map, so neighbouring unions keep common edges (95% of divisions lie within 10 m of the full lines); the full-resolution file is among the downloads.",
   "renderer": "maplibre",
   "sourceType": "pmtiles",
   "geometryType": "polygon",
@@ -42,17 +42,12 @@
     {
       "label": "Census of Ireland 1891, Area, houses and population, Vols I-IV, Table VI",
       "url": "https://www.cso.ie/en/statistics/historicalreports/census1891/",
-      "note": "Each union, registrar's district and division with its area in statute acres, and the union-part totals; transcribed by hand from the page images. The King's County and Queen's County volumes are not held."
-    },
-    {
-      "label": "Census of Ireland 1911, Queen's County, Table VI",
-      "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/",
-      "note": "The Queen's County parts of Abbeyleix, Athy, Carlow, Mountmellick and Roscrea."
+      "note": "Each union, registrar's district and division with its area in statute acres, and the union-part totals; transcribed by hand from the page images."
     },
     {
       "label": "Census of Ireland 1911, General Report (Cd. 6663), Table 51",
       "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/",
-      "note": "The counties and 1911 areas of every union; used to bound the King's County approximation and to check Carlow, Listowel and Rathkeale."
+      "note": "The counties and 1911 areas of every union; used to check Carlow, Listowel and Rathkeale."
     },
     {
       "label": "Civgraph District Electoral Divisions, 1907-12 (Connacht 1911 by Paddy Matthews; Leinster 29 Apr 1910 by Phelim Birch; Munster Apr 1907; Ulster 1912)",
@@ -61,6 +56,16 @@
     {
       "label": "Gortin Union (workhouses.org.uk)",
       "url": "https://www.workhouses.org.uk/Gortin/"
+    },
+    {
+      "label": "Census of Ireland 1891, Area, houses and population, Vol. I, King's County, Table VI",
+      "url": "https://www.cso.ie/en/media/csoie/statistics/archive/census1891/438_Area,_houses,_and_population,_Vol._I,_Ireland,_1891_King%27s_County.pdf",
+      "note": "The King's County divisions of each union (pp. 8-10), transcribed by hand from the page images (CSO, CC BY 4.0)."
+    },
+    {
+      "label": "Census of Ireland 1891, Area, houses and population, Vol. I, Queen's County, Table VI",
+      "url": "https://www.cso.ie/en/media/csoie/statistics/archive/census1891/438_Area,_houses,_and_population,_Vol._I,_Ireland,_1891_Queen%27s_County.pdf",
+      "note": "The Queen's County divisions of each union, transcribed by hand from the page images (CSO, CC BY 4.0); it puts Kyle South in Urlingford Union (p. 11)."
     }
   ],
   "sourceDownloads": [
@@ -261,21 +266,16 @@
     "maxTileBytes": 96837
   },
   "featureIndexUrl": "/render/metadata/feature-indexes/plu-1891-vector-test.json",
-  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/plu-1891-vector-test.pmtiles",
+  "tileUrl": "/render/pmtiles/generated/plu-1891-vector-test.pmtiles",
   "tilesFallback": "/render/tiles/generated/plu-1891/{z}/{x}/{y}.pbf",
   "tilePackage": {
     "preferred": true,
     "localPath": "render/pmtiles/generated/plu-1891-vector-test.pmtiles",
     "url": "/render/pmtiles/generated/plu-1891-vector-test.pmtiles",
-    "bytes": 5937828,
+    "bytes": 5937853,
     "maxGithubBytes": 99614720,
-    "generatedAt": "2026-11-01T06:00:02.813Z",
+    "generatedAt": "2026-11-01T15:15:34.580Z",
     "fallback": "/render/tiles/generated/plu-1891/{z}/{x}/{y}.pbf",
-    "sourceSha256": "b2ce9f0fc0df3c8000be047bc8d7e66531b58844e58c0b0635c75e51a3402660",
-    "serving": "cdn",
-    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/plu-1891-vector-test.pmtiles",
-    "r2Key": "data/maps/test/pmtiles/generated/plu-1891-vector-test.pmtiles",
-    "localUrl": "/render/pmtiles/generated/plu-1891-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-11-01T11:50:17.039Z"
+    "sourceSha256": "07327bfaf711b24411a923cba6b575dd06de52ce2c6d50d52ca6269c15dd91cc"
   }
 }

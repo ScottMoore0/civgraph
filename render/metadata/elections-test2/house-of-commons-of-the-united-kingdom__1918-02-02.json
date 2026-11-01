@@ -50,7 +50,7 @@
       "seats": 1,
       "stood": 1,
       "votes": 2324,
-      "colour": "#6b7280",
+      "colour": "#99ff66",
       "share": 63.34150994821477
     },
     {
@@ -66,7 +66,7 @@
       "seats": 0,
       "stood": 1,
       "votes": 40,
-      "colour": "#6b7280",
+      "colour": "#aadfff",
       "share": 1.0902153175252112
     }
   ],
@@ -74,29 +74,135 @@
     {
       "party": "Irish Parliamentary",
       "seats": 1,
-      "stood": 0,
-      "votes": 0,
-      "colour": "#888888",
-      "share": null
+      "stood": 1,
+      "votes": 2324,
+      "colour": "#99ff66",
+      "share": 63.34150994821477
+    },
+    {
+      "party": "Sinn Féin",
+      "seats": 0,
+      "stood": 1,
+      "votes": 1305,
+      "colour": "#326760",
+      "share": 35.568274734260015
+    },
+    {
+      "party": "Ind. Unionist",
+      "seats": 0,
+      "stood": 1,
+      "votes": 40,
+      "colour": "#aadfff",
+      "share": 1.0902153175252112
     }
   ],
   "mainLikeTotals": {
-    "validPoll": 0,
+    "validPoll": 3669,
     "totalPoll": 0,
     "totalElectorate": 0,
     "totalSpoiled": 0,
     "totalSeats": 1
   },
-  "mainLikeCandidateSummary": [],
+  "mainLikeCandidateSummary": [
+    {
+      "id": "row:Patrick Donnelly|Irish Parliamentary",
+      "personId": 100623,
+      "sourcePersonId": "wikipedia:Patrick Donnelly (politician)",
+      "constituency": "South Armagh",
+      "name": "Patrick Donnelly",
+      "party": "Irish Parliamentary",
+      "colour": "#99ff66",
+      "firstPrefs": 2324,
+      "votes": 2324,
+      "constPct": 63.34150994821477,
+      "firstPrefPct": 63.34150994821477,
+      "finalVotes": 2324,
+      "elected": true,
+      "electedAt": 1,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Elected",
+      "counts": {
+        "1": {
+          "total": 2324,
+          "transfers": 0,
+          "status": "Elected"
+        }
+      },
+      "candidateKey": "patrick donnelly|irish parliamentary",
+      "name_id": "n-patrick-donnelly"
+    },
+    {
+      "id": "row:Patrick McCartan|Sinn Féin",
+      "personId": 124908,
+      "sourcePersonId": "wikipedia:Patrick McCartan",
+      "constituency": "South Armagh",
+      "name": "Patrick McCartan",
+      "party": "Sinn Féin",
+      "colour": "#326760",
+      "firstPrefs": 1305,
+      "votes": 1305,
+      "constPct": 35.568274734260015,
+      "firstPrefPct": 35.568274734260015,
+      "finalVotes": 1305,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 1305,
+          "transfers": 0,
+          "status": "Not elected"
+        }
+      },
+      "candidateKey": "patrick mccartan|sinn féin",
+      "name_id": "n-patrick-mccartan"
+    },
+    {
+      "id": "row:Thomas Wakefield Richardson|Ind. Unionist",
+      "personId": 125065,
+      "constituency": "South Armagh",
+      "name": "Thomas Wakefield Richardson",
+      "party": "Ind. Unionist",
+      "colour": "#aadfff",
+      "firstPrefs": 40,
+      "votes": 40,
+      "constPct": 1.0902153175252112,
+      "firstPrefPct": 1.0902153175252112,
+      "finalVotes": 40,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 40,
+          "transfers": 0,
+          "status": "Not elected"
+        }
+      },
+      "candidateKey": "thomas wakefield richardson|ind. unionist",
+      "name_id": "n-thomas-wakefield-richardson"
+    }
+  ],
   "mainLikeCandidateTotals": {
-    "validPoll": 0
+    "validPoll": 3669
   },
   "entityIndex": {
     "totalValid": 3669,
     "parties": [
       {
         "name": "Irish Parliamentary",
-        "colour": "#888888",
+        "colour": "#99ff66",
         "firstPrefs": 2324,
         "finalVotes": 2324,
         "stood": 1,
@@ -118,7 +224,7 @@
       },
       {
         "name": "Sinn Féin",
-        "colour": "#888888",
+        "colour": "#326760",
         "firstPrefs": 1305,
         "finalVotes": 1305,
         "stood": 1,
@@ -140,7 +246,7 @@
       },
       {
         "name": "Ind. Unionist",
-        "colour": "#888888",
+        "colour": "#aadfff",
         "firstPrefs": 40,
         "finalVotes": 40,
         "stood": 1,
@@ -167,7 +273,7 @@
         "key": "Patrick Donnelly|Irish Parliamentary",
         "name": "Patrick Donnelly",
         "party": "Irish Parliamentary",
-        "colour": "#888888",
+        "colour": "#99ff66",
         "firstPrefs": 2324,
         "finalVotes": 2324,
         "electedCount": 1,
@@ -189,7 +295,7 @@
         "key": "Patrick McCartan|Sinn Féin",
         "name": "Patrick McCartan",
         "party": "Sinn Féin",
-        "colour": "#888888",
+        "colour": "#326760",
         "firstPrefs": 1305,
         "finalVotes": 1305,
         "electedCount": 0,
@@ -211,7 +317,7 @@
         "key": "Thomas Wakefield Richardson|Ind. Unionist",
         "name": "Thomas Wakefield Richardson",
         "party": "Ind. Unionist",
-        "colour": "#888888",
+        "colour": "#aadfff",
         "firstPrefs": 40,
         "finalVotes": 40,
         "electedCount": 0,
@@ -250,8 +356,8 @@
       "spoiled": null,
       "validPoll": 3669,
       "totalVotes": 3669,
-      "colour": "#6b7280",
-      "leadingColour": "#6b7280",
+      "colour": "#99ff66",
+      "leadingColour": "#99ff66",
       "candidates": [
         {
           "id": "Patrick Donnelly|Irish Parliamentary",
@@ -265,7 +371,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#99ff66",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -297,7 +403,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not elected",
-          "colour": "#888888",
+          "colour": "#326760",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -329,7 +435,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not elected",
-          "colour": "#888888",
+          "colour": "#aadfff",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -362,7 +468,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#99ff66",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",

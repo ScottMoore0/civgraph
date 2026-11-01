@@ -17,7 +17,7 @@
   "tiles": "/render/tiles/generated/ded-1930-04-01/{z}/{x}/{y}.pbf",
   "metadataUrl": "/render/tiles/generated/ded-1930-04-01/metadata.json",
   "sourceLayer": "ded_1930_04_01",
-  "promoteId": "OBJECTID",
+  "promoteId": "civ_fid",
   "minzoom": 0,
   "maxzoom": 12,
   "bounds": [
@@ -44,6 +44,43 @@
     {
       "label": "Census of Population of Northern Ireland 1926: County of Down",
       "note": "Newcastle Urban District: one D.E.D. (Newcastle) of two wards, North and South (table of townlands, Newcastle UD; Part I, item (a): divided into two wards 6 Nov 1922). The county has 146 DEDs."
+    },
+    {
+      "label": "Belfast Gazette, issue 482, 19 September 1930, pp. 1089–1090",
+      "url": "https://www.thegazette.co.uk/Belfast/issue/482/page/1089",
+      "note": "Warrenpoint UD/Newry No. 1 RD alteration in force 1 Apr 1930."
+    },
+    {
+      "label": "OSNI County Series six-inch (1:10,560), County Down sheet 4, Edition 5 (revised 1931)",
+      "note": "Shows the county borough boundary (\"Co. Boro. Bdy.\") in a straight line from the Inner Lighthouse at the tip of the East Twin to a boundary post on the railway at Tillysburn; Edition 3 (1902) and Edition 4 (1920-21) show the same line. The pre-1958 Belfast line in the lough east of the lighthouse is traced from this sheet. Viewed in PRONI's Historical Maps Viewer (OSNI)."
+    },
+    {
+      "label": "OSNI County Series six-inch (1:10,560), County Antrim sheet 57, Edition 5 (revised 1931)",
+      "note": "Shows the county borough boundary (\"Co. Boro. Bdy.\") in a straight line from the Antrim shore south of Greencastle to the Inner Lighthouse; Editions 3 and 4 (1901-02) show the same line. The pre-1958 Belfast line in the lough west of the lighthouse is traced from this sheet. Viewed in PRONI's Historical Maps Viewer (OSNI)."
+    },
+    {
+      "label": "Belfast Gazette, issue 1889, 6 September 1957, pp. 243-244",
+      "url": "https://www.thegazette.co.uk/Belfast/issue/1889/page/243",
+      "note": "S.R.&O. 1957 No. 189 (County Borough of Belfast) and No. 188 (County Down): Orders in Council under section 11 of the Boundary Survey (Ireland) Act 1854, made 29 Aug 1957, in force 1 Mar 1958, extending Belfast at Sydenham into Belfast Lough."
+    },
+    {
+      "label": "Belfast Gazette, issue 1965, 20 February 1959, p. 66",
+      "url": "https://www.thegazette.co.uk/Belfast/issue/1965/page/66",
+      "note": "Notice of Orders in Council under section 11 of the Boundary Survey (Ireland) Act 1854 (Armagh, Down and the County Borough of Belfast), in force 1 Apr 1959; the Belfast order is dated 9 Feb 1959."
+    },
+    {
+      "label": "Belfast Gazette, issue 1979, 29 May 1959, p. 185",
+      "url": "https://www.thegazette.co.uk/Belfast/issue/1979/page/185",
+      "note": "The Belfast Boundary Survey order of 9 Feb 1959 (in force 1 Apr 1959)."
+    },
+    {
+      "label": "Belfast Gazette, issue 2070, 24 February 1961, p. 58",
+      "url": "https://www.thegazette.co.uk/Belfast/issue/2070/page/58",
+      "note": "The area added to Belfast by the 1959 order \"consists of reclaimed lands at Sydenham\"."
+    },
+    {
+      "label": "Census of Population of Northern Ireland 1961: County Borough of Belfast",
+      "note": "Area 18,052 acres including 2,237 acres of tidal water; the land 458 acres more than in 1951, all in Victoria Ward, from the reclamation of land from Belfast Lough. 1951: 15,357 acres of land and 1,223 acres of tidal water."
     }
   ],
   "sourceDownloads": [
@@ -86,7 +123,7 @@
   "featureIndexUrl": "/render/metadata/feature-indexes/ded-1930-04-01-vector-test.json",
   "sourceFile": "render/source-cache/vector-intake/ded-1930-04-01.fgb",
   "sourceDatasetLayer": "01 Apr 1930 NI DEDs",
-  "idProperty": "OBJECTID",
+  "idProperty": "civ_fid",
   "popupProperties": [
     "ED_NAME",
     "OBJECTID",
@@ -295,21 +332,17 @@
     "pbfFiles": 758,
     "maxTileBytes": 191276
   },
-  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ded-1930-04-01-vector-test.pmtiles",
+  "tileUrl": "/render/pmtiles/generated/ded-1930-04-01-vector-test.pmtiles",
   "tilesFallback": "/render/tiles/generated/ded-1930-04-01/{z}/{x}/{y}.pbf",
   "tilePackage": {
     "preferred": true,
     "localPath": "render/pmtiles/generated/ded-1930-04-01-vector-test.pmtiles",
     "url": "/render/pmtiles/generated/ded-1930-04-01-vector-test.pmtiles",
-    "bytes": 5642067,
+    "bytes": 5640827,
     "maxGithubBytes": 99614720,
-    "generatedAt": "2026-11-01T03:05:27.634Z",
+    "generatedAt": "2026-11-01T15:15:34.580Z",
     "fallback": "/render/tiles/generated/ded-1930-04-01/{z}/{x}/{y}.pbf",
-    "sourceSha256": "4e216ec177c54afeafff88d0f5363020e640f0044fea9715c878fb68e8f0578a",
-    "serving": "cdn",
-    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ded-1930-04-01-vector-test.pmtiles",
-    "r2Key": "data/maps/test/pmtiles/generated/ded-1930-04-01-vector-test.pmtiles",
-    "localUrl": "/render/pmtiles/generated/ded-1930-04-01-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-11-01T11:50:17.039Z"
-  }
+    "sourceSha256": "85e2166f5a360f2c7530411f4cfa5960f183b77d235a0749df56c854196ae074"
+  },
+  "featureIndexIdFromFid": true
 }

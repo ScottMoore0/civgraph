@@ -62,22 +62,90 @@
     {
       "party": "Independent Irish",
       "seats": 1,
-      "stood": 0,
-      "votes": 0,
+      "stood": 1,
+      "votes": 150,
       "colour": "#888888",
-      "share": null
+      "share": 65.78947368421053
+    },
+    {
+      "party": "Conservative",
+      "seats": 0,
+      "stood": 1,
+      "votes": 78,
+      "colour": "#0087dc",
+      "share": 34.21052631578947
     }
   ],
   "mainLikeTotals": {
-    "validPoll": 0,
+    "validPoll": 228,
     "totalPoll": 0,
     "totalElectorate": 303,
     "totalSpoiled": 0,
     "totalSeats": 1
   },
-  "mainLikeCandidateSummary": [],
+  "mainLikeCandidateSummary": [
+    {
+      "id": "row:John Maguire|Independent Irish",
+      "personId": 123935,
+      "sourcePersonId": "wikipedia:John Maguire (MP)",
+      "constituency": "Dungarvan",
+      "name": "John Maguire",
+      "party": "Independent Irish",
+      "colour": "#888888",
+      "firstPrefs": 150,
+      "votes": 150,
+      "constPct": 65.78947368421053,
+      "firstPrefPct": 65.78947368421053,
+      "finalVotes": 150,
+      "elected": true,
+      "electedAt": 1,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Elected",
+      "counts": {
+        "1": {
+          "total": 150,
+          "transfers": 0,
+          "status": "Elected"
+        }
+      },
+      "candidateKey": "john maguire|independent irish",
+      "name_id": "n-john-maguire"
+    },
+    {
+      "id": "row:William Henry Gregory|Conservative",
+      "personId": 124236,
+      "constituency": "Dungarvan",
+      "name": "William Henry Gregory",
+      "party": "Conservative",
+      "colour": "#0087dc",
+      "firstPrefs": 78,
+      "votes": 78,
+      "constPct": 34.21052631578947,
+      "firstPrefPct": 34.21052631578947,
+      "finalVotes": 78,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 78,
+          "transfers": 0,
+          "status": "Not elected"
+        }
+      },
+      "candidateKey": "william henry gregory|conservative",
+      "name_id": "n-william-henry-gregory"
+    }
+  ],
   "mainLikeCandidateTotals": {
-    "validPoll": 0
+    "validPoll": 228
   },
   "entityIndex": {
     "totalValid": 228,
@@ -106,7 +174,7 @@
       },
       {
         "name": "Conservative",
-        "colour": "#888888",
+        "colour": "#0087dc",
         "firstPrefs": 78,
         "finalVotes": 78,
         "stood": 1,
@@ -155,7 +223,7 @@
         "key": "William Henry Gregory|Conservative",
         "name": "William Henry Gregory",
         "party": "Conservative",
-        "colour": "#888888",
+        "colour": "#0087dc",
         "firstPrefs": 78,
         "finalVotes": 78,
         "electedCount": 0,
@@ -241,7 +309,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not elected",
-          "colour": "#888888",
+          "colour": "#0087dc",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",

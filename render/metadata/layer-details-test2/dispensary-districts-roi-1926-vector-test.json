@@ -1,7 +1,7 @@
 {
   "id": "dispensary-districts-roi-1926-vector-test",
   "sourceMapId": "dispensary-districts-roi-1926",
-  "name": "Dispensary Districts 18 Apr 1926 (estimate)",
+  "name": "Dispensary Districts 18 Apr 1926",
   "category": "Local Government Districts",
   "group": "Elections and Government",
   "date": "1926-04-18",
@@ -12,12 +12,12 @@
     "Phelim Birch",
     "Paddy Matthews"
   ],
-  "description": "An estimate of the dispensary districts of the Irish Free State at the census of 18 Apr 1926: the 573 districts as the 1936 census constituted them (CSO Census of Population 1936, Vol. 1, Table 10, which also prints each district's 1926 population), drawn on Paddy Matthews's 1926 District Electoral Division map. The 1926 report's own Table 10 is not held, so a district changed between 1926 and 1936 is shown as it was in 1936, and no district can be checked against a printed 1926 area. 553 districts are graded B (their 1936 composition verified) and 20 C: Droichead Nua and Kilcullen, which divide Ballysax East DED (placed whole in Kilcullen), and 18 that needed 1926 DEDs with no counterpart in the 1936 lists (mostly urban wards named or divided differently), placed by their printed reference numbers or by adjacency. Each district carries its grade and the reason for it (confidence, confidence_reason). The city dispensary districts of Dublin, Cork, Limerick and Waterford are not mapped: the census builds them from parts of DEDs and wards, so each county borough is shown as one unit, without a population. A district that crosses a county boundary is shown as one part per county, as the table prints it. Each district carries its 1926 population as printed in 1936, its Table 10 reference numbers and its DEDs.",
+  "description": "The 582 dispensary districts of the Irish Free State at the census of 18 Apr 1926, mapped from the District Electoral Divisions the census report lists for each (CSO Census of Population 1926, Vol. 1, Table 10, which gives each district's 1911 Table VII DED reference numbers, its area and its 1926 population), drawn on Paddy Matthews's 1926 District Electoral Division map. The table was read from the page images and checked: persons equal males plus females in every row, the districts add up to every printed superintendent registrar's district and county total, and the district populations with the four city units add up to the state total of 2,971,992. The 1926 Table 11 is not held, so each printed area is checked against the 1936 Table 11 acreages of the district's DEDs: 570 districts are graded A (they agree within 0.2%), 10 B and 2 C. B: five Dublin districts whose DEDs the 1930 city extension redrew (both parts of Donnybrook, Rathmines, North Dublin Rural and Rathfarnham), checked against the map instead, and Killiney (0.24% out); and Tramore, Killenagh and Wells, Crossabeg and Wexford, which have their 1936 DEDs but a printed area 33 to 246 acres different (the DED acreages were revised between 1926 and 1936). C: Kilcullen and Newbridge, which divide Ballysax East DED (placed whole in Kilcullen). Each district carries its grade and the reason for it (confidence, confidence_reason). Several districts were later merged or redrawn and appear here as they were in 1926: Balleen (Urlingford), Finnea No. 1 and No. 2, Street No. 1 and No. 2, Scrabby No. 1 and No. 2, Ballyfarnan No. 1 and No. 2, Carrickbeg, Burt, Clonbrock and Killeroran, the Longford and Granard districts, the Birr districts of Offaly, the Galway districts of Clifden, Roundstone, Galway and Portumna, and the Dublin districts before the 1930 city extension; names are as printed in 1926 (Bagenalstown, Kells, Navan, Maryborough, Philipstown, Newbridge, Mountcharles, Binghamstown). The city dispensary districts of Dublin, Cork, Limerick and Waterford are not mapped: the census builds them from parts of DEDs and wards, so each county borough is shown as one unit, without a population. A district that crosses a county boundary is shown as one part per county, as the table prints it. Each district carries its printed 1926 population and area, its Table 10 reference numbers and its DEDs.",
   "renderer": "maplibre",
   "sourceType": "pmtiles",
   "geometryType": "polygon",
   "tiles": "/render/tiles/generated/dispensary-districts-roi-1926/{z}/{x}/{y}.pbf",
-  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dispensary-districts-roi-1926-vector-test.pmtiles",
+  "tileUrl": "/render/pmtiles/generated/dispensary-districts-roi-1926-vector-test.pmtiles",
   "tilesFallback": "/render/tiles/generated/dispensary-districts-roi-1926/{z}/{x}/{y}.pbf",
   "metadataUrl": "/render/tiles/generated/dispensary-districts-roi-1926/metadata.json",
   "sourceLayer": "dispensary_districts_roi_1926",
@@ -42,14 +42,19 @@
   },
   "references": [
     {
-      "label": "Census of Population 1936, Vol. 1, Table 10: population, area and valuation of dispensary districts, registrars' districts and superintendent registrars' districts",
-      "url": "https://www.cso.ie/en/media/csoie/census/census1936results/volume1/C_1936_Vol_1_T10.pdf",
-      "note": "The composition of each district as at 1936, by 1911 DED reference numbers, and its 1926 population as constituted in 1936. The 1926 Volume 1 Table 10 is not held, so the 1926 districts are estimated from it."
+      "label": "Census of Population 1926, Vol. 1, Table 10: population, area and valuation of dispensary districts, registrars' districts and superintendent registrars' districts",
+      "url": "http://web.archive.org/web/20160427074414/http://www.cso.ie/en/media/csoie/census/census1926results/volume1/C_1926_V1_T10.pdf",
+      "note": "Each district with its 1911 Table VII DED reference numbers, area and 1926 population, read from the page images (Wayback Machine copy of the CSO file, captured 27 Apr 2016; CC BY 4.0)."
     },
     {
       "label": "Census of Population 1936, Vol. 1, Table 11: population, area and valuation of each District Electoral Division",
       "url": "https://www.cso.ie/en/media/csoie/census/census1936results/volume1/C_1936_Vol_1_T11.pdf",
-      "note": "Each DED with its 1911 Table VII reference number and acreage."
+      "note": "Each DED with its 1911 Table VII reference number and acreage, used to check the 1926 printed areas (the 1926 Table 11 is not held)."
+    },
+    {
+      "label": "Census of Population 1936, Vol. 1, Table 10: population, area and valuation of dispensary districts, registrars' districts and superintendent registrars' districts",
+      "url": "https://www.cso.ie/en/media/csoie/census/census1936results/volume1/C_1936_Vol_1_T10.pdf",
+      "note": "Cross-check: each 1936 district's 1926 population as constituted in 1936."
     }
   ],
   "sourceDownloads": [
@@ -74,7 +79,7 @@
     "1926",
     "Irish Free State",
     "republic of ireland",
-    "Dispensary Districts 18 Apr 1926 (estimate)",
+    "Dispensary Districts 18 Apr 1926",
     "Local Government Districts",
     "Elections and Government",
     "maplibre",
@@ -473,15 +478,10 @@
     "preferred": true,
     "localPath": "render/pmtiles/generated/dispensary-districts-roi-1926-vector-test.pmtiles",
     "url": "/render/pmtiles/generated/dispensary-districts-roi-1926-vector-test.pmtiles",
-    "bytes": 13085260,
+    "bytes": 13442251,
     "maxGithubBytes": 99614720,
-    "generatedAt": "2026-11-01T05:26:04.863Z",
+    "generatedAt": "2026-11-01T15:15:34.580Z",
     "fallback": "/render/tiles/generated/dispensary-districts-roi-1926/{z}/{x}/{y}.pbf",
-    "sourceSha256": "69827da4e635905113bb5af460ebae914b845685de78aea41b15920c6885dd87",
-    "serving": "cdn",
-    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dispensary-districts-roi-1926-vector-test.pmtiles",
-    "r2Key": "data/maps/test/pmtiles/generated/dispensary-districts-roi-1926-vector-test.pmtiles",
-    "localUrl": "/render/pmtiles/generated/dispensary-districts-roi-1926-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-11-01T11:50:17.039Z"
+    "sourceSha256": "c7da6ba4a3480eff58b9f1bd8d3c5edcd199f6055c0d52ca102f83fa23a7ae08"
   }
 }

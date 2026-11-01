@@ -121,7 +121,7 @@ test.describe('failures are visible, revert the button and offer Retry', () => {
 test.describe('phones', () => {
   test.use({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
 
-  test('one catalogue toggle; a first-visit hint, once; Open shows the map with a way back', async ({ page }) => {
+  test('one catalogue toggle; a first-visit hint, once; Open shows the map, the header button goes back', async ({ page }) => {
     await boot(page);
     await expect(page.locator('#mobileToggle')).toBeHidden();
     await expect(page.locator('#mobilePaneToggle')).toBeVisible();
@@ -134,9 +134,10 @@ test.describe('phones', () => {
 
     await openElectionFromSearch(page, 'Westminster 2019');
     await expect.poll(() => page.evaluate(() => window.uiController.currentStateId)).toBe('map-full');
-    await expect(peek).toContainText('2019 UK general election in Northern Ireland is on the map');
-    await peek.locator('.mobile-catalogue-peek__open').click();
-    expect(await page.evaluate(() => window.uiController.currentStateId)).toBe('info-full');
+    // No "<map> is on the map" note (owner, 1 Nov 2026); the header button goes back.
+    await expect(peek).toBeHidden();
+    await page.locator('#mobilePaneToggle').click();
+    await expect.poll(() => page.evaluate(() => window.uiController.currentStateId)).toBe('info-full');
 
     await page.reload();
     await page.waitForFunction(() => window.__civgraphTest2?.restorePromise);

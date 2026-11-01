@@ -57,8 +57,8 @@ const electionData = meaningful.some((file) => ELECTION_DATA.some((re) => re.tes
 const mode = forceFull ? 'data' : (meaningful.length === 0 ? 'none' : appOnly ? 'app' : 'data');
 
 const BROWSER_TESTS = [
-  'tests/browser/timeline-and-url-state.spec.js', 'tests/browser/app.spec.js',
-  '-g', 'runtime exposes|round-trips|clamps out-of-range|rapid timeline|FPTP Results|main DOM contract|candidate and count panes|Cork North-Central|Galway East|local-government aggregates|restores and persists|twist does not rotate|seat-circle overlays',
+  'tests/browser/timeline-and-url-state.spec.js', 'tests/browser/app.spec.js', 'tests/browser/timeline-changes.spec.js',
+  '-g', 'boundary changes on the timeline|runtime exposes|round-trips|clamps out-of-range|rapid timeline|FPTP Results|main DOM contract|candidate and count panes|Cork North-Central|Galway East|local-government aggregates|restores and persists|twist does not rotate|seat-circle overlays',
   '--timeout=180000'
 ];
 const APP_CHECKS = 'check:root,check:asset-refs,check:app-shell-cache,check:pages-assets,check:site-partials,check:site-nav,check:test2,lint';
@@ -74,6 +74,9 @@ if (mode === 'app') {
 } else if (mode === 'data') {
   if (electionData || forceFull) plan.push(['bash', ['scripts/rebuild-person-ids.sh']]);
   plan.push(['node', ['scripts/build-election-provenance.mjs']]);
+  // Boundary changes between consecutive timeline editions. Incremental: only pairs whose
+  // editions or source files changed are recomputed, so this is seconds when nothing did.
+  plan.push(['python', ['scripts/build_timeline_changes.py']]);
   plan.push(['node', ['scripts/catalogue/build-catalogue.mjs']]);
   plan.push(['node', ['scripts/catalogue/check-catalogue.mjs']]);
   plan.push(['npm', ['run', '-s', 'build']]);

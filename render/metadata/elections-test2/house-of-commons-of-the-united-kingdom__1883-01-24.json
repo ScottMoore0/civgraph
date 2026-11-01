@@ -46,7 +46,7 @@
       "seats": 1,
       "stood": 1,
       "votes": 161,
-      "colour": "#6b7280",
+      "colour": "#99ff66",
       "share": 64.4
     },
     {
@@ -54,7 +54,7 @@
       "seats": 0,
       "stood": 1,
       "votes": 89,
-      "colour": "#6b7280",
+      "colour": "#ffd700",
       "share": 35.6
     }
   ],
@@ -62,29 +62,98 @@
     {
       "party": "Irish Parliamentary",
       "seats": 1,
-      "stood": 0,
-      "votes": 0,
-      "colour": "#888888",
-      "share": null
+      "stood": 1,
+      "votes": 161,
+      "colour": "#99ff66",
+      "share": 64.4
+    },
+    {
+      "party": "Liberal",
+      "seats": 0,
+      "stood": 1,
+      "votes": 89,
+      "colour": "#ffd700",
+      "share": 35.6
     }
   ],
   "mainLikeTotals": {
-    "validPoll": 0,
+    "validPoll": 250,
     "totalPoll": 0,
     "totalElectorate": 287,
     "totalSpoiled": 0,
     "totalSeats": 1
   },
-  "mainLikeCandidateSummary": [],
+  "mainLikeCandidateSummary": [
+    {
+      "id": "row:William O'Brien|Irish Parliamentary",
+      "personId": 122761,
+      "sourcePersonId": "wikipedia:William O'Brien (Irish nationalist politician)",
+      "constituency": "Mallow",
+      "name": "William O'Brien",
+      "party": "Irish Parliamentary",
+      "colour": "#99ff66",
+      "firstPrefs": 161,
+      "votes": 161,
+      "constPct": 64.4,
+      "firstPrefPct": 64.4,
+      "finalVotes": 161,
+      "elected": true,
+      "electedAt": 1,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Elected",
+      "counts": {
+        "1": {
+          "total": 161,
+          "transfers": 0,
+          "status": "Elected"
+        }
+      },
+      "candidateKey": "william o'brien|irish parliamentary",
+      "name_id": "n-william-o-brien"
+    },
+    {
+      "id": "row:John Naish|Liberal",
+      "personId": 124788,
+      "sourcePersonId": "wikipedia:John Naish (judge)",
+      "constituency": "Mallow",
+      "name": "John Naish",
+      "party": "Liberal",
+      "colour": "#ffd700",
+      "firstPrefs": 89,
+      "votes": 89,
+      "constPct": 35.6,
+      "firstPrefPct": 35.6,
+      "finalVotes": 89,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 89,
+          "transfers": 0,
+          "status": "Not elected"
+        }
+      },
+      "candidateKey": "john naish|liberal",
+      "name_id": "n-john-naish"
+    }
+  ],
   "mainLikeCandidateTotals": {
-    "validPoll": 0
+    "validPoll": 250
   },
   "entityIndex": {
     "totalValid": 250,
     "parties": [
       {
         "name": "Irish Parliamentary",
-        "colour": "#888888",
+        "colour": "#99ff66",
         "firstPrefs": 161,
         "finalVotes": 161,
         "stood": 1,
@@ -106,7 +175,7 @@
       },
       {
         "name": "Liberal",
-        "colour": "#888888",
+        "colour": "#ffd700",
         "firstPrefs": 89,
         "finalVotes": 89,
         "stood": 1,
@@ -133,7 +202,7 @@
         "key": "William O'Brien|Irish Parliamentary",
         "name": "William O'Brien",
         "party": "Irish Parliamentary",
-        "colour": "#888888",
+        "colour": "#99ff66",
         "firstPrefs": 161,
         "finalVotes": 161,
         "electedCount": 1,
@@ -155,7 +224,7 @@
         "key": "John Naish|Liberal",
         "name": "John Naish",
         "party": "Liberal",
-        "colour": "#888888",
+        "colour": "#ffd700",
         "firstPrefs": 89,
         "finalVotes": 89,
         "electedCount": 0,
@@ -194,8 +263,8 @@
       "spoiled": null,
       "validPoll": 250,
       "totalVotes": 250,
-      "colour": "#6b7280",
-      "leadingColour": "#6b7280",
+      "colour": "#99ff66",
+      "leadingColour": "#99ff66",
       "candidates": [
         {
           "id": "William O'Brien|Irish Parliamentary",
@@ -209,7 +278,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#99ff66",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -241,7 +310,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not elected",
-          "colour": "#888888",
+          "colour": "#ffd700",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -275,7 +344,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#99ff66",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",

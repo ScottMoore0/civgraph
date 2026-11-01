@@ -26,7 +26,7 @@
  *
  * Usage:
  *   node scripts/upload-tree-r2.mjs --dir <local dir> --prefix <r2/prefix/> \
- *        [--concurrency 8] [--verify-only] [--dry]
+ *        [--concurrency 8] [--verify-only] [--dry] [--force]
  */
 import { statSync, existsSync, readdirSync, createReadStream, readFileSync } from 'node:fs';
 import path from 'node:path';
@@ -44,10 +44,13 @@ const PREFIX = (argVal('prefix', '') || '').replace(/^\/+/, '').replace(/\/*$/, 
 const CONCURRENCY = Math.max(1, Number(argVal('concurrency', 8)));
 const VERIFY_ONLY = args.includes('--verify-only');
 const DRY = args.includes('--dry');
+// --force sends every selected file even when the bucket holds an object of the same size: a
+// corrected file can keep its byte count (a changed digit), and the size test would skip it.
+const FORCE = args.includes('--force');
 
 if ((!DIR && !MANIFEST) || PREFIX === '/') {
   console.error('Usage: node scripts/upload-tree-r2.mjs (--dir <dir> | --manifest <json>) --prefix <r2/prefix/>');
-  console.error('       [--concurrency 8] [--verify-only] [--dry]');
+  console.error('       [--concurrency 8] [--verify-only] [--dry] [--force]');
   process.exit(2);
 }
 if (DIR && !existsSync(DIR)) { console.error(`Missing directory: ${DIR}`); process.exit(2); }
@@ -72,7 +75,8 @@ const STREAM_THRESHOLD = 128 * 1024 * 1024;
 
 const CONTENT_TYPES = {
   '.xml': 'application/xml', '.pdf': 'application/pdf', '.json': 'application/json',
-  '.txt': 'text/plain; charset=utf-8', '.html': 'text/html; charset=utf-8'
+  '.txt': 'text/plain; charset=utf-8', '.html': 'text/html; charset=utf-8',
+  '.csv': 'text/csv; charset=utf-8'
 };
 
 function walk(dir) {
@@ -123,7 +127,7 @@ console.log('\n  listing what the bucket already holds...');
 let held = await remoteIndex();
 console.log(`  remote : ${held.size} objects already under the prefix`);
 
-const todo = [...local.entries()].filter(([k, v]) => held.get(k) !== v.size);
+const todo = [...local.entries()].filter(([k, v]) => FORCE || held.get(k) !== v.size);
 console.log(`  to send: ${todo.length} files\n`);
 
 if (!VERIFY_ONLY && !DRY && todo.length) {

@@ -42,7 +42,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import civgraph_elections  # noqa: E402
 import gazette_crosscheck  # noqa: E402
 
-PARSER_VERSION = 25
+PARSER_VERSION = 26
 REPO = Path(__file__).resolve().parents[2]
 MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
           'November', 'December']
@@ -62,8 +62,10 @@ STRONG_PHRASES = re.compile(r'elected to serve|returned to serve|persons nominat
 
 # Notice anchors, most specific first. Each yields (type, regex). OCR noise is tolerated with \W+.
 W = r'[\W_]{1,6}'
-RETURN_ANCHOR = re.compile(r'(?:MEMB\w{1,3}S?|Senators?)' + W + r'(?:elected|returned|re[-\s]?elected)' + W + r'to' + W + r'serve' + W +
-                           r'\S{1,4}' + W + r'(?:the' + W + r')?(?:present' + W + r')?(?:P\W{0,3}A\W{0,3}R\W{0,3}L\W{0,3}I\W{0,3}A\W{0,3}M\W{0,3}E\W{0,3}N\W{0,3}T|House|Commons|Assembly|Senate)|'
+# 'M.EMBERS' (1958) and "Member's" (1931) are text-layer readings; Westminster lists say 'the Imperial
+# Parliament'.
+RETURN_ANCHOR = re.compile(r"(?:M\W{0,2}EMB\w{1,3}(?:'?S)?|Senators?)" + W + r'(?:elected|returned|re[-\s]?elected)' + W + r'to' + W + r'serve' + W +
+                           r'\S{1,4}' + W + r'(?:the' + W + r')?(?:present' + W + r')?(?:Imperial' + W + r')?(?:P\W{0,3}A\W{0,3}R\W{0,3}L\W{0,3}I\W{0,3}A\W{0,3}M\W{0,3}E\W{0,3}N\W{0,3}T|House|Commons|Assembly|Senate)|'
                            r'RETURN' + W + r'OF' + W + r'(?:THE' + W + r')?MEMBERS?' + W + r'(?:elected|returned)', re.I)
 ANCHORS = [
     ('return-of-members', RETURN_ANCHOR),
@@ -322,7 +324,7 @@ def bare_name(printed):
 def repair_name(s):
     s = re.sub(r"\bM'\s+(?=[A-Z])", "M'", s)
     s = re.sub(r"\bM\s+'(?=[A-Z])", "M'", s)
-    s = re.sub(r'(?<=[a-z])\s+([a-z])$', r'\1', s)         # 'Connie k' -> 'Conniek' (still flagged)
+    s = re.sub(r'(?<=[a-z])\s+([a-z]{1,3})$', r'\1', s)    # 'Connie k' -> 'Conniek' (still flagged), 'Beat tie' -> 'Beattie'
     s = re.sub(r'(?<=\w)-\s+(?=[A-Z])', '-', s)            # 'Lennox- Conyngham'
     return s
 
@@ -439,6 +441,189 @@ def parse_general_list(lines):
     return members
 
 
+# Entry layout of the general-election lists, 1929 onwards (Westminster and Stormont):
+#   'Borough of Belfast (North Division)—Thomas Somerset, Esquire.'      (Westminster 1929-45)
+#   '1. North Antrim—Henry Maitland Clark, Esquire.'  '1. North Antrim: ...'  (Westminster 1950-70)
+#   'BALLYNAFEIGH DIVISION—The Right Honourable Ivan Neill.'             (Stormont 1958)
+#   'Ballynafeigh Constituency—...' under 'Borough of Belfast'           (Stormont 1965)
+#   'Ballynafeigh Constituency' on its own line, the member below it    (Stormont 1969)
+# and the heading-and-names layout of 1922-25 ('COUNTY OF ANTRIM.' / 'BELFAST BOROUGH (East
+# Division)—' with the members one to a line), which parse_general_list also reads.
+ENTRY_SEP = re.compile(r'\s*(?:-?[—–]+(?:\s*-)?|\s-\s|-1[—–]|:(?=\s*[A-Z]))\s*')
+PLACE_WORD = re.compile(r"\b(?:Division|Constituency|Borough|County|Counties|University|City)\b", re.I)
+PLACE_HEADING = re.compile(r"(?:Parliamentary\s+)?(?:County\s+Borough|County|Borough|City|Counties)\s+o[fp]\s+(?:the\s+City\s+of\s+)?"
+                           r"[A-Za-z' ]{3,40}|Queen.?s\s+Univers\w*\s*\.?\s*of\s+Belfast?", re.I)  # 'BOROUGH OP BELFAST'
+SECTION_HEADING = re.compile(r"(?:County|Borough)\s+Constituencies", re.I)
+DIVISION_HEADING = re.compile(r"[A-Z][\w'.\- ]{1,50}?\s+(?:Division|Constituency)", re.I)
+LIST_STOP = re.compile(r"^(?:This day|Council Chamber|By the|Given at|Dated|NOTICE|Notice|Ministry|MINISTRY|Whitehall|At the Court|"
+                       r"WHEREAS|Whereas|NOW|Now,? therefore|IT IS|PRESENT|ORDER|In pursuance|His Excellency|His Grace|Crown Office|"
+                       r"CROWN OFFICE|Office of|OFFICE OF|I,\s|H\.\s?M\.|STATUTORY|THE MINISTRY|IN THE\b|SUPREME|CIVIL SERVICE|Senators?\s+elected|"
+                       r"L\.\s?\d|\d{1,2}(?:st|nd|rd|th)\s+[A-Z][a-z]+,?\s+(?:1[89]|20)\d\d|Privy\s+Council|[A-Z][a-z]+\s+Office\b|Board\s+of\s)")
+TITLE_END = re.compile(r"(?:\b(?:Hon|Rt|Lt|Col|Capt|Rev|Dr|Mr|Mrs|St|Prof|Gen|Maj|Brig|Lieut|Cdr)\.|(?:^|\s)[A-Z]\.)$")
+HONOURS_START = re.compile(r"^(?:(?:[A-Z][a-zA-Z]?\.\s?){1,4}(?:,|$|\s)|Esq|Bart|Baronet|K\.|Knight)")
+MEMBER_SPLIT = re.compile(r",?\s+and\s+(?=(?:the\s+)?[A-Z])|;\s*|,\s+(?=(?:Lt|Lieut|Col|Colonel|Major|Captain|Capt|Sir|The\s+Right|Rev|Reverend|"
+                          r"Mrs|Miss|Professor|Dr|Doctor)\b\.?\s*\S+\s+\S)")
+
+
+def print_lines(lines):
+    """Rejoin print lines the text layer broke at wide justified spaces ('County \\nof \\nDown')."""
+    out, cur = [], ''
+    for raw in lines:
+        cur += raw
+        if raw.strip() and raw.endswith((' ', '\t')):
+            continue
+        out.append(cur)
+        cur = ''
+    if cur:
+        out.append(cur)
+    return out
+
+
+def ends_name(line):
+    """A line that ends a member's entry: a full stop not closing a title or a lone initial."""
+    tail = re.sub(r"[\s'\"]+$", '', line)
+    return tail.endswith('.') and not TITLE_END.search(tail)
+
+
+def place_like(p):
+    p = p.strip(" .,:;'\"-")
+    if not p or NAME_HINT.search(p) or re.search(r'\bEsq|\bHonourable\b', p, re.I) or len(p.split()) > 9:
+        return False
+    if PLACE_WORD.search(p):
+        return True
+    words = [w for w in p.split() if w[0].isalpha()]
+    return 0 < len(words) <= 5 and all(w[0].isupper() or w.lower() in ('and', 'of', 'the') for w in words)
+
+
+def heading_area(text):
+    t = clean_ws(re.sub(r"[^A-Za-z' ]", ' ', text))
+    t = re.sub(r'^(?:Parliamentary\s+)?(?:County\s+Borough|County|Borough|City|Counties)\s+o[fp]\s+(?:the\s+City\s+of\s+)?', '', t, flags=re.I)
+    return fix_case(t.strip())
+
+
+def entry_place(area, place):
+    """'CENTRAL DIVISION' under 'COUNTY OF ARMAGH' -> 'Central Armagh'; 'Clifton Constituency' under
+    'Borough of Belfast' -> 'Belfast Clifton'; 'Borough of Belfast (North Division)' stands alone."""
+    p = fix_case(clean_ws(place).strip(' .,:;-'))
+    core = re.sub(r'\s*\b(?:Division|Constituency)\b\.?$', '', p, flags=re.I).strip(' .,')
+    core = re.sub(r'^(North|South|East|West|Mid)-(?=[A-Z])', r'\1 ', core)  # 'Mid-Antrim Division'
+    if not area or PLACE_WORD.search(core) or area.lower() in core.lower():
+        return core
+    if re.fullmatch(DIRECTIONS, core):
+        return f'Belfast {core}' if area == 'Belfast' else f'{core} {area}'
+    return f'Belfast {core}' if area == 'Belfast' else core
+
+
+def parse_entry_list(lines):
+    """Members of a general-election return, entry by entry (see the layouts above)."""
+    blocks, area, cur, stray = [], '', None, 0
+    for raw in print_lines(lines):
+        s = clean_ws(raw).replace('–', '—')
+        s = re.sub(r'^(?:\(?[a-zA-Z]\)\s*)', '', re.sub(r'^[^A-Za-z(\d]+', '', s))
+        numbered = bool(re.match(r'\d{1,2}\s*[.,]', s))
+        s = re.sub(r'^\d{1,2}\s*[.,]\s*', '', s)
+        s = re.sub(r'\b(Divis)\W+(ion)\b', r'\1\2', s, flags=re.I)  # 'DUNCAIRN DIVIS.ION'
+        t = s.strip(' .:;,\'"—-')
+        if not t or re.fullmatch(r'\d{1,4}', t) or re.match(r'(?:THE\s+)?BELFAST\s+GAZETTE', t, re.I):
+            continue
+        if re.fullmatch(r'(?:NORTHERN\s+)?IRELAND|ENGLAND|SCOTLAND|WALES', t, re.I):
+            continue
+        open_entry = cur is not None and cur['lines'] and not re.search(r'[.]\W*$', cur['lines'][-1])
+        if LIST_STOP.match(t) and not (open_entry and re.match(r'(?:Notice|NOTICE)$', t)):
+            break
+        if re.search(r'\b(?:ACTS?|ORDERS?|RULES|REGULATIONS|NOTICE|MINISTRY|SCHEDULE|LIST|COMMISSION|COURT|ESTATE|PURCHASE|TREASURY)\b', t.upper()) \
+                and t.isupper():
+            break
+        if len(PROSE.findall(t)) >= 3 and not NAME_HINT.search(t):
+            break
+        if SECTION_HEADING.fullmatch(t):
+            area, cur = '', None
+            continue
+        m = ENTRY_SEP.search(s)
+        if m and ':' in m.group(0) and not numbered:  # 'John W: Kennedy' is not 'Place: Name'
+            m = None
+        if m and m.start() > 0:
+            pre, rest = s[:m.start()], s[m.end():]
+            # A name ending and the next place run together on one line ('Esquire. Borough of ...').
+            lead = ''
+            cut = list(re.finditer(r"(?<!\bSt)(?<!\b[A-Z])\.\s+(?=[A-Z(])", pre))
+            if cut and not place_like(pre):
+                lead, pre = pre[:cut[-1].start() + 1], pre[cut[-1].end():]
+            if place_like(pre) and not (rest == '' and ':' in m.group(0)):
+                if lead and cur is not None:
+                    cur['lines'].append(lead)
+                if PLACE_HEADING.fullmatch(pre.strip(' .')) and not re.search(r'\(', pre):
+                    area_here = ''
+                else:
+                    area_here = area
+                cur = {'area': area_here, 'place': pre, 'lines': [rest] if rest.strip() else []}
+                blocks.append(cur)
+                continue
+        if PLACE_HEADING.fullmatch(t) and not open_entry:
+            area = '' if re.search(r'University', t, re.I) else heading_area(t)
+            cur = {'area': '', 'place': t, 'lines': []}
+            blocks.append(cur)
+            continue
+        if DIVISION_HEADING.fullmatch(t) and len(t.split()) <= 6:
+            cur = {'area': area, 'place': t, 'lines': []}
+            blocks.append(cur)
+            continue
+        if cur is None:
+            stray += 1
+            if stray > 3:
+                break
+            continue
+        if t.isupper() and len(t.split()) >= 2 and not open_entry and not NAME_HINT.search(t) and not re.search(r'ESQ', t):
+            break
+        cur['lines'].append(s)
+        if sum(len(b['lines']) for b in blocks) > 250:
+            break
+    members = []
+    for b in blocks:
+        names, buf = [], []
+        for i, line in enumerate(b['lines']):
+            # (Not after a lone forename: 'Foyle Constituency—Edward' / 'Esquire.' / 'Gerard McAteer,'.)
+            if buf and ends_name(buf[-1]) and not HONOURS_START.match(line) \
+                    and len(strip_name(join_lines('\n'.join(buf))).split()) >= 2:
+                names.append(buf)
+                buf = []
+            buf.append(line)
+        if buf:
+            names.append(buf)
+        place = entry_place(b['area'], b['place'])
+        for chunk in names:
+            text = join_lines('\n'.join(chunk))
+            text = re.sub(r'\b(Right)\s*[,.\-]+\s*(Hon)', r'\1 \2', text)  # 'The Right, Honourable'
+            text = re.sub(r'\b(Honourable)[.,](?=\s)', r'\1', text)        # 'The Right Honourable. Sir'
+            text = re.sub(r'\b(Sir|Captain|Major|Colonel|Doctor|Professor|Reverend)\s*,\s+(?=[A-Z])', r'\1 ', text)  # 'Sir, Basil'
+            text = re.sub(r'(?<=\s[A-Z]):(?=\s)', '.', text)                  # 'John W: Kennedy'
+            # The text layer sometimes sets 'Esquire.' inside the name ('Edward Esquire. Gerard McAteer').
+            text = re.sub(r'\bEsq(?:uire)?\b\.?,?\s+(?=[A-Z][a-z]+\s+(?:Mc|Mac|O\')?[A-Z])', '', text)
+            for part in MEMBER_SPLIT.split(text):
+                if len(re.sub(r'[^A-Za-z]', '', part)) >= 5 and len(strip_name(part).split()) >= 2 \
+                        and not re.fullmatch(r'(?:Esq\w*|Bart\w*|Baronet)\W*', part.strip(), re.I):
+                    members.append(member_entry(place, part))
+        if len(members) > 120:
+            break
+    return members
+
+
+def list_quality(members):
+    score = 0.0
+    for m in members:
+        n, p = m.get('name') or '', m.get('constituency_printed') or ''
+        if p and 1 <= len(n.split()) <= 6 and not re.search(r'Constituency|Division|County|Borough|Office|Council|place of', n, re.I) \
+                and not m.get('ocr_flags'):
+            score += 1
+        else:
+            score -= 0.5
+    return score
+
+
+# 'in the place of', 'in the room of', and text-layer readings: 'place-of', 'In th; place of', 'room .of'.
+IN_PLACE_OF = r'in\W+th\w?\W+(?:place|room)\W*of\b'
+
+
 def parse_return(raw, issue_year):
     """MEMBER(S)/Senator elected or returned to serve: a by-election return ('X, in the place of Y, deceased')
     or a general-election list under county / borough / division headings."""
@@ -450,24 +635,31 @@ def parse_return(raw, issue_year):
     out['notice_date'] = parse_date_text(join_lines(head[-200:]), issue_year, last=True) if head else None
     anchor_flat = join_lines(raw[m.start():m.end() + 160])
     out['house'] = 'senate' if re.match(r'Senat', anchor_flat, re.I) else 'commons'
-    general = re.search(r'General\s+Election', anchor_flat, re.I)
+    general = re.search(r'General\s+Elec\w*', anchor_flat, re.I)  # 'General Electon' (1966)
     flat = join_lines(rest[:ANCHOR_SPAN])
-    by = re.search(r'in\s+the\s+(?:place|room)\s+of', flat[:1500], re.I)
+    by = re.search(IN_PLACE_OF, flat[:1500], re.I)
     out['by_election'] = bool(by and not general)
     if general:
-        gm = re.search(r'General\s+Election,?\s*(?:held\s+(?:on|in)\s+)?(?:the\s+)?(.{0,40})', anchor_flat, re.I)
+        gm = re.search(r'General\s+Elec\w*,?\s*(?:held\s+(?:on|in)\s+)?(?:the\s+)?(.{0,40})', anchor_flat, re.I)
         out['general_election_printed'] = clean_ws(re.sub(r'[^\w ,]', ' ', gm.group(1))).strip(' ,') if gm else ''
         ym = re.search(r'(?:1[89]|20)\d\d\W*?\n', rest[:200])
         lines = rest[ym.end():].split('\n') if ym else rest.split('\n')
-        out['members'] = parse_general_list(lines)
+        old, new = parse_general_list(lines), parse_entry_list(lines)
+        out['members'] = new if list_quality(new) >= list_quality(old) else old
         return out
     if not out['by_election']:
+        # One member and no predecessor: 'MEMBER elected to serve in the present Parliament / for the
+        # County Constituency of Mid-Ulster. / Thomas James Mitchell, Esq.' (Mid Ulster, August 1955).
+        sm = re.match(r"\W*for\s+the\s+(?:County|Borough)\s+Constituency\s+of\s+(?P<c>[^\n]+?(?:-\s*\n[^\n]+?)?)[.:;]+\s*\n(?P<n>[^\n]+)", rest)
+        if sm and len(strip_name(sm.group('n')).split()) >= 2:
+            out['members'] = [member_entry(join_lines(sm.group('c')), fix_case_mixed(sm.group('n')))]
+            return out
         # A return without 'in the place of': a list with headings, or one member.
         out['members'] = parse_general_list(rest.split('\n'))
         return out
     pos = 0
     body_raw = rest[:ANCHOR_SPAN]
-    for e in re.finditer(r'in\s+the\s+(?:place|room)\s+of\s+', body_raw, re.I):
+    for e in re.finditer(IN_PLACE_OF + r'\W*', body_raw, re.I):
         if e.start() < pos:
             continue
         # The entry ends at a line ending in a full stop that is not a title or a lone initial
@@ -487,6 +679,7 @@ def parse_return(raw, issue_year):
         pre = fix_case_mixed(pre)
         # Westminster returns from 1950: "for the Borough Constituency of Belfast West: JOHN SMITH".
         pre = re.sub(r'^\s*for\s+(?:the\W+)?', '', pre, flags=re.I)
+        pre = re.sub(r'\bMid-\s*(?=Ulster)', 'Mid ', pre, flags=re.I)  # not 'Mid' - 'Ulster: GEORGE FORREST'
         cons = re.match(r'^(?:(?:Borough|County|Parliamentary)\W+)?Constituency\s+of\s+(?P<c>[^:]+?)\s*[:;,.\-]+\s*(?P<n>[A-Z].*)$',
                         pre.strip(), re.S | re.I)
         split = cons or re.search(r"^(?P<c>.*(?:Division|Borough|University|Burghs?|Constituency|County\s+of\s+[A-Z][a-z]+|City\s+of\s+[A-Z][a-z]+|"
@@ -852,12 +1045,12 @@ def find_notices(issue, page_texts, page_numbers, issue_date, pdf_path):
                 rec['body'] = 'senate-of-northern-ireland'
             elif serve and serve.group(2):
                 rec['body'] = 'parliament-of-northern-ireland'
-            elif serve and (serve.group(1) or re.search(r'Cr[o0G]wn\s+Office', context, re.I)):
+            elif serve and (serve.group(1) or re.search(r'[CG]r[o0G]wn\s+Office', context, re.I)):
                 rec['body'] = 'house-of-commons-of-the-united-kingdom'
             elif re.search(r'Clerk\s+of\s+the\s+Crown\s+(?:and\s+Peace\s+)?for\s+Northern|'
                            r'Parliament\s+of\s+Northern\s+Ire\W*land', context, re.I):
                 rec['body'] = 'parliament-of-northern-ireland'
-            elif re.search(r'Cr[o0G]wn\s+Office', context, re.I):
+            elif re.search(r'[CG]r[o0G]wn\s+Office', context, re.I):
                 rec['body'] = 'house-of-commons-of-the-united-kingdom'
         if not rec.get('notice_date'):
             rec['notice_date'] = parse_date_text(flat[:300], year) or issue_date

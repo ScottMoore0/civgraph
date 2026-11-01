@@ -890,6 +890,63 @@ body.test2-election-pane-resizing * {
   color: var(--color-text-muted, #4b5563);
 }
 
+.test2-map-legend__export {
+  margin: 8px 0 0;
+  min-height: 32px;
+  padding: 4px 10px;
+  border: 1px solid var(--color-border, #cbd5e1);
+  border-radius: 6px;
+  background: var(--color-surface, #ffffff);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.test2-map-legend__export:focus-visible {
+  outline: 2px solid var(--color-focus, #2563eb);
+  outline-offset: 2px;
+}
+
+/* Census statistics: one block per statistic, its classes, then its source and licence. */
+.test2-map-legend__statistic + .test2-map-legend__statistic {
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px solid var(--color-border-light, rgba(127, 127, 127, .25));
+}
+
+.test2-map-legend__list--classes .test2-map-legend__swatch {
+  min-width: 22px;
+  height: 14px;
+}
+
+.test2-map-legend__source a {
+  color: inherit;
+}
+
+/* A statistic's labels are long ("Multiple Deprivation Measure decile (1 = most deprived)"):
+   they wrap, and the figure keeps its room. */
+#featureInfo .feature-info__statistic .feature-info__metric-label {
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: normal;
+}
+
+#featureInfo .feature-info__statistic .feature-info__metric-value {
+  flex: 0 0 auto;
+  max-width: 60%;
+}
+
+#featureInfo .feature-info__statistic-value .feature-info__metric-value {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+#featureInfo .feature-info__statistic-source {
+  margin: 4px 0 6px;
+  color: var(--color-text-muted, #4b5563);
+  font-size: 11.5px;
+}
+
 .test2-map-legend__dots {
   display: inline-flex;
   gap: 2px;
@@ -2915,6 +2972,240 @@ body.test2-election-pane-resizing * {
   }
 }
 
+/* Boundary changes at each timeline step (app.showTimelineStepChanges): the "Highlight" switch
+   and the "N changes" button beside the date, and the list it opens over the map. The accent
+   is the one the map draws changes in (maplibre-main-adapter TIMELINE_CHANGE_ACCENT). */
+.timeline-changes {
+  --timeline-change-accent: #d6246e;
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+}
+
+.timeline-changes[hidden] {
+  display: none !important;
+}
+
+.timeline-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 28px;
+  padding: 0 2px;
+  border: 0;
+  background: transparent;
+  color: var(--color-text-muted, #475569);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.timeline-switch__track {
+  position: relative;
+  width: 26px;
+  height: 15px;
+  border-radius: 999px;
+  background: var(--color-border, #cbd5e1);
+  transition: background-color .15s ease;
+}
+
+.timeline-switch__thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
+  transition: transform .15s ease;
+}
+
+.timeline-switch[aria-checked="true"] .timeline-switch__track {
+  background: var(--timeline-change-accent);
+}
+
+.timeline-switch[aria-checked="true"] .timeline-switch__thumb {
+  transform: translateX(11px);
+}
+
+.timeline-switch:focus-visible {
+  outline: 2px solid var(--color-primary, #1a365d);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.timeline-changes__button[data-kind="changes"] {
+  border-color: var(--timeline-change-accent);
+  color: var(--timeline-change-accent);
+}
+
+.timeline-changes__button[aria-expanded="true"] {
+  background: var(--timeline-change-accent);
+  border-color: var(--timeline-change-accent);
+  color: #fff;
+}
+
+.timeline-changes__button[hidden] {
+  display: none !important;
+}
+
+.timeline-changes-panel {
+  position: absolute;
+  right: 12px;
+  bottom: 34px;
+  /* Above the map's own controls (the settings button sits bottom left on a phone). */
+  z-index: 25;
+  display: flex;
+  flex-direction: column;
+  width: min(360px, calc(100% - 24px));
+  max-height: min(60%, 420px);
+  overflow: auto;
+  padding: 8px 10px 10px;
+  border: 1px solid var(--color-border, #d8e0ea);
+  border-radius: 8px;
+  background: var(--color-surface, #fff);
+  color: var(--color-text, #111827);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .18);
+  font-size: 12.5px;
+  line-height: 1.35;
+}
+
+.timeline-changes-panel[hidden] {
+  display: none;
+}
+
+.timeline-changes-panel__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.timeline-changes-panel__title {
+  margin: 2px 0 4px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.timeline-changes-panel__close {
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  margin: -4px -6px 0 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--color-text-muted, #475569);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.timeline-changes-panel__summary,
+.timeline-changes-panel__note,
+.timeline-changes-panel__key {
+  margin: 0 0 6px;
+  color: var(--color-text-muted, #4b5563);
+}
+
+.timeline-changes-panel__key {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 6px;
+  font-size: 11.5px;
+}
+
+.timeline-changes-panel__swatch {
+  display: inline-block;
+  width: 16px;
+  height: 10px;
+  vertical-align: middle;
+}
+
+.timeline-changes-panel__swatch--area {
+  border: 1px solid #d6246e;
+  background: rgba(214, 36, 110, .3);
+}
+
+.timeline-changes-panel__swatch--new {
+  height: 0;
+  border-top: 3px solid #d6246e;
+}
+
+.timeline-changes-panel__swatch--gone {
+  height: 0;
+  border-top: 2px dashed #475569;
+}
+
+.timeline-changes-panel__list {
+  margin: 0 0 6px;
+  padding: 0;
+  list-style: none;
+}
+
+.timeline-changes-panel__item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0;
+  border-top: 1px solid var(--color-border, #e5e7eb);
+}
+
+.timeline-changes-panel__type {
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: rgba(214, 36, 110, .12);
+  color: #a3154f;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+}
+
+.timeline-changes-panel__type--renamed {
+  background: var(--color-surface-elevated, #f1f5f9);
+  color: var(--color-text-muted, #475569);
+}
+
+.timeline-changes-panel__step {
+  color: var(--color-text-muted, #6b7280);
+}
+
+.timeline-changes-panel__zoom {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--color-border, #cbd5e1);
+  border-radius: 6px;
+  background: var(--color-surface-elevated, #fff);
+  color: var(--color-text, #111827);
+  cursor: pointer;
+}
+
+@media (hover: hover) {
+  .timeline-changes-panel__zoom:hover,
+  .timeline-changes-panel__close:hover {
+    border-color: #d6246e;
+    color: #d6246e;
+  }
+}
+
+/* The older of two editions of one series is drawn grey and dashed; so is its legend swatch. */
+.test2-map-legend__swatch--older {
+  border-style: dashed;
+}
+
+@media (prefers-color-scheme: dark) {
+  .timeline-changes-panel__type {
+    color: #f472b6;
+  }
+}
+
 /* The folded results bar: one line of seats in place of the view tabs. */
 .election-pane__peek {
   display: none;
@@ -2991,10 +3282,10 @@ body.test2-election-collapsed .election-pane__peek {
      is selected, with the filter and reset. */
   .pane--map > #timelineSlider.timeline-slider {
     display: grid;
-    grid-template-columns: 36px minmax(0, 1fr) auto auto 36px;
+    grid-template-columns: 36px minmax(0, 1fr) auto auto auto 36px;
     grid-template-areas:
-      "prev track track track next"
-      "info info play gen reset";
+      "prev track track track track next"
+      "info info changes play gen reset";
     align-items: center;
     column-gap: 6px;
     row-gap: 0;
@@ -3053,6 +3344,34 @@ body.test2-election-collapsed .election-pane__peek {
 
   .timeline-chip__more {
     display: none;
+  }
+
+  .pane--map > #timelineSlider.timeline-slider .timeline-changes {
+    grid-area: changes;
+    gap: 4px;
+  }
+
+  /* The switch keeps its track; the word "Highlight" goes, the aria-label stays. */
+  .timeline-switch__label {
+    display: none;
+  }
+
+  .timeline-switch {
+    min-width: 32px;
+    min-height: 32px;
+    justify-content: center;
+  }
+
+  .pane--map > #timelineSlider.timeline-slider .timeline-changes .timeline-chip {
+    padding: 3px 7px;
+  }
+
+  .timeline-changes-panel {
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    width: auto;
+    max-height: min(55%, 360px);
   }
 
   .pane--map > #timelineSlider.timeline-slider #timelineReset {
@@ -3389,6 +3708,24 @@ body.test2-election-collapsed .election-pane__peek {
   margin-top: 6px;
 }
 
+/* "Download locator map (SVG)": app/src/map-image-export.js. A full-size tap target on a phone. */
+#featureInfo .feature-info__export {
+  margin-top: 6px;
+}
+
+#featureInfo .feature-info__export-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+}
+
+#featureInfo .feature-info__export-btn[aria-busy="true"],
+.test2-map-legend__export[aria-busy="true"] {
+  cursor: progress;
+  opacity: 0.75;
+}
+
 #featureInfo .feature-info__summary {
   padding: 5px 8px;
 }
@@ -3514,6 +3851,11 @@ body.test2-election-collapsed .election-pane__peek {
   background: var(--color-primary, #2563eb);
   border-color: var(--color-primary, #2563eb);
   color: #fff;
+}
+
+/* Closed until its button is pressed: display:grid below would otherwise override [hidden]. */
+#featureInfo .feature-info__here-list[hidden] {
+  display: none;
 }
 
 #featureInfo .feature-info__here-list {

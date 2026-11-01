@@ -4,6 +4,18 @@ import { repairFeatureProperties } from '../../render/src/feature-property-repai
 import { boundsToMapLibre } from '../../render/src/utils.js';
 import { waitForMapSettle } from './settle.js';
 import { compositeChildIds } from '../../src/map-relations.mjs';
+import { cdnUrl } from '../../src/cdn-url.js';
+import {
+  classCounts,
+  fillColorExpression,
+  joinRows,
+  licenceFor,
+  OVERLAY_FILL_OPACITY,
+  overlayClasses,
+  overlayRuntimeLayer,
+  parseCsv,
+  statisticFor
+} from '../../src/census-overlay.mjs';
 
 const BASE_MAPS = {
   'osm-standard': ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
@@ -40,6 +52,22 @@ const BASE_MAP_ATTRIBUTION = {
   'stamen-terrain': `&copy; Stamen Design, ${OSM_CREDIT}`,
   'usgs-topo': 'Tiles courtesy of the <a href="https://www.usgs.gov/">U.S. Geological Survey</a>'
 };
+
+// The timeline's change highlight (setTimelineChanges). Magenta reads against the blues,
+// greens and browns the boundary layers use and against the OSM base map.
+const TIMELINE_CHANGE_ACCENT = '#d6246e';
+const TIMELINE_CHANGE_GHOST = '#475569';
+const TIMELINE_OLDER_EDITION_COLOUR = '#6b7280';
+const TIMELINE_CHANGE_MARKER_MIN_PX = 7;
+const TIMELINE_CHANGE_LAYERS = Object.freeze({
+  sourceId: 'test2-timeline-changes',
+  markerSourceId: 'test2-timeline-change-markers',
+  fillId: 'test2-timeline-changes-fill',
+  outlineId: 'test2-timeline-changes-outline',
+  newLineId: 'test2-timeline-changes-new',
+  goneLineId: 'test2-timeline-changes-gone',
+  markerId: 'test2-timeline-change-markers'
+});
 
 const OVERLAY_LAYERS = {
   'voyager-labels': {
@@ -123,10 +151,7 @@ export class Test2MapLibreMainAdapter {
     this.mainToTest = new Map();
     this.testToMain = new Map();
     this.overlayLayers = new Map();
-    this.timelineTransitionOverlay = null;
-    this.timelineTransitionOverlayHandlers = [];
-    this.hoveredTimelineTransitionId = null;
-    this.lastTimelineTransitionInteractionAt = 0;
+    this.timelineChanges = null;
     // Main/test layer-order convention is top-to-bottom for the active-card UI.
     // Internally we keep bottom-to-top because MapLibre moveLayer() promotes
     // each moved style layer above the previous one.
@@ -140,7 +165,7 @@ export class Test2MapLibreMainAdapter {
   init(container = this.container) {
     this.renderer = new TestMapLibreController(container, {
       onSelection: (selection) => this.handleSelection(selection),
-      shouldSuppressLayerInteraction: (event) => this.isTimelineTransitionEventAtPoint(event),
+      shouldSuppressLayerInteraction: (event) => this.isTimelineChangeEventAtPoint(event),
       onChange: () => this.options.onChange?.(this),
       onMetric: (metric) => this.options.onMetric?.(metric),
       onFallback: (metric) => this.options.onFallback?.(metric)
@@ -252,10 +277,18 @@ export class Test2MapLibreMainAdapter {
 
     const mainConfig = config || this.options.getMainMap?.(mainId) || this.options.getMainMap?.(layer.sourceMapId) || null;
     const runtimeLayer = this.toRuntimeLayer(layer, mainConfig);
+    // A census statistic: its figures are fetched before the layer is added, so the
+    // boundaries never flash up unshaded and a missing CSV fails the load outright.
+    const overlay = runtimeLayer.censusOverlay ? await this.prepareCensusOverlay(runtimeLayer.censusOverlay) : null;
     this.mainToTest.set(mainId, runtimeLayer.id);
     this.testToMain.set(runtimeLayer.id, mainId);
     await this.renderer.loadLayer(runtimeLayer, { fit: options.fit !== false });
     const state = this.createMainLayerState(mainId, runtimeLayer, mainConfig);
+    if (overlay) {
+      state.censusOverlay = overlay;
+      state._fillOpacity = OVERLAY_FILL_OPACITY;
+      this.applyCensusOverlayPaint(runtimeLayer.id, overlay);
+    }
     this.layerStates.set(mainId, {
       ...state
     });
@@ -723,241 +756,181 @@ export class Test2MapLibreMainAdapter {
   }
 
 
-  setTimelineTransitionOverlay(geojson, options = {}) {
+  /**
+   * Boundary changes between two editions of a series (data/timeline-changes/, built by
+   * scripts/build_timeline_changes.py), drawn whenever the timeline steps.
+   *
+   *   change areas    translucent fill in the accent colour, thin outline
+   *   new lines       solid accent lines (lines in the edition now shown, not in the other)
+   *   gone lines      a faint dashed ghost
+   *   markers         a circle at each change's label point, never smaller than
+   *                   TIMELINE_CHANGE_MARKER_MIN_PX, so a change of a few townlands is still
+   *                   visible at island zoom; it fades as the areas themselves become legible
+   *
+   * `geojson` holds the pair files' features; `options.reversed` is set when stepping
+   * backwards, which swaps which lines are new and which are gone. `options.points` is the
+   * change list's label points ({ id, lng, lat }).
+   */
+  setTimelineChanges(geojson, options = {}) {
     if (!this.map) return false;
-    const sourceId = 'test2-timeline-transition-source';
-    const fillLayerId = 'test2-timeline-transition-fill';
-    const lineLayerId = 'test2-timeline-transition-line';
-    const typeExpression = ['coalesce', ['get', 'transitionType'], ['get', 'changeType'], 'transfer'];
-    const fillColor = options.fillColor || [
-      'case',
-      ['boolean', ['feature-state', 'hover'], false], '#FDBA74',
-      ['match', typeExpression,
-        'split', '#7c3aed',
-        'territory-split', '#7c3aed',
-        'unchanged', '#ffffff',
-        'retained', '#ffffff',
-        'transfer', '#ef4444',
-        '#ef4444'
-      ]
-    ];
-    const fillOpacity = [
-      'case',
-      ['boolean', ['feature-state', 'hover'], false], 0.46,
-      ['match', typeExpression,
-        'unchanged', 0,
-        'retained', 0,
-        options.fillOpacity ?? 0.34
-      ]
-    ];
-    const lineColor = options.lineColor || [
-      'case',
-      ['boolean', ['feature-state', 'hover'], false], '#FF7A1A',
-      ['match', typeExpression,
-        'split', '#6d28d9',
-        'territory-split', '#6d28d9',
-        'unchanged', '#ffffff',
-        'retained', '#ffffff',
-        'transfer', '#dc2626',
-        '#dc2626'
-      ]
-    ];
-    const lineOpacity = [
-      'case',
-      ['boolean', ['feature-state', 'hover'], false], 0.92,
-      ['match', typeExpression,
-        'unchanged', 0,
-        'retained', 0,
-        options.lineOpacity ?? 0.82
-      ]
-    ];
-    const data = normalizeTransitionGeoJson(geojson);
-    this.clearTimelineTransitionHover();
-    if (!this.map.getSource(sourceId)) {
-      this.map.addSource(sourceId, {
-        type: 'geojson',
-        data,
-        promoteId: 'transitionId'
-      });
-    } else {
-      this.map.getSource(sourceId).setData(data);
-    }
-    if (!this.map.getLayer(fillLayerId)) {
-      this.map.addLayer({
-        id: fillLayerId,
-        type: 'fill',
-        source: sourceId,
-        paint: {
-          'fill-color': fillColor,
-          'fill-opacity': fillOpacity,
-          'fill-antialias': false
-        }
-      });
-    } else {
-      this.map.setPaintProperty(fillLayerId, 'fill-color', fillColor);
-      this.map.setPaintProperty(fillLayerId, 'fill-opacity', fillOpacity);
-    }
-    if (!this.map.getLayer(lineLayerId)) {
-      this.map.addLayer({
-        id: lineLayerId,
-        type: 'line',
-        source: sourceId,
-        paint: {
-          'line-color': lineColor,
-          'line-opacity': lineOpacity,
-          'line-width': ['interpolate', ['linear'], ['zoom'], 5, 0.8, 11, 1.6, 14, 2.4]
-        }
-      });
-    } else {
-      this.map.setPaintProperty(lineLayerId, 'line-color', lineColor);
-      this.map.setPaintProperty(lineLayerId, 'line-opacity', lineOpacity);
-    }
-    this.installTimelineTransitionHandlers(fillLayerId, lineLayerId, options);
-    this.timelineTransitionOverlay = { sourceId, fillLayerId, lineLayerId, options };
+    const reversed = options.reversed === true;
+    const features = Array.isArray(geojson?.features) ? geojson.features : [];
+    const shown = features.map((feature) => {
+      const role = feature?.properties?.role;
+      const drawn = role === 'added' ? (reversed ? 'gone' : 'new') : role === 'removed' ? (reversed ? 'new' : 'gone') : 'area';
+      return { ...feature, properties: { ...(feature.properties || {}), drawn } };
+    });
+    const points = (Array.isArray(options.points) ? options.points : [])
+      .filter((point) => Number.isFinite(point?.lng) && Number.isFinite(point?.lat))
+      .map((point) => ({
+        type: 'Feature',
+        properties: { changeId: point.id, drawn: 'marker' },
+        geometry: { type: 'Point', coordinates: [point.lng, point.lat] }
+      }));
+    const data = { type: 'FeatureCollection', features: shown };
+    const markerData = { type: 'FeatureCollection', features: points };
+    const accent = TIMELINE_CHANGE_ACCENT;
+    const { sourceId, markerSourceId, fillId, outlineId, newLineId, goneLineId, markerId } = TIMELINE_CHANGE_LAYERS;
+    if (this.map.getSource(sourceId)) this.map.getSource(sourceId).setData(data);
+    else this.map.addSource(sourceId, { type: 'geojson', data });
+    if (this.map.getSource(markerSourceId)) this.map.getSource(markerSourceId).setData(markerData);
+    else this.map.addSource(markerSourceId, { type: 'geojson', data: markerData });
+    const ensure = (spec) => {
+      if (!this.map.getLayer(spec.id)) this.map.addLayer(spec);
+      // Above every boundary layer, including one loaded since the last step.
+      this.map.moveLayer(spec.id);
+    };
+    ensure({
+      id: fillId, type: 'fill', source: sourceId, filter: ['==', ['get', 'drawn'], 'area'],
+      paint: { 'fill-color': accent, 'fill-opacity': 0.3, 'fill-antialias': false }
+    });
+    ensure({
+      id: outlineId, type: 'line', source: sourceId, filter: ['==', ['get', 'drawn'], 'area'],
+      paint: { 'line-color': accent, 'line-opacity': 0.7, 'line-width': ['interpolate', ['linear'], ['zoom'], 6, 0.6, 12, 1.4] }
+    });
+    ensure({
+      id: goneLineId, type: 'line', source: sourceId, filter: ['==', ['get', 'drawn'], 'gone'],
+      layout: { 'line-cap': 'butt', 'line-join': 'round' },
+      paint: {
+        'line-color': TIMELINE_CHANGE_GHOST,
+        'line-opacity': 0.75,
+        'line-width': ['interpolate', ['linear'], ['zoom'], 6, 1, 12, 1.8],
+        'line-dasharray': [2, 2]
+      }
+    });
+    ensure({
+      id: newLineId, type: 'line', source: sourceId, filter: ['==', ['get', 'drawn'], 'new'],
+      layout: { 'line-cap': 'round', 'line-join': 'round' },
+      paint: { 'line-color': accent, 'line-opacity': 0.95, 'line-width': ['interpolate', ['linear'], ['zoom'], 6, 2, 12, 3.5] }
+    });
+    ensure({
+      id: markerId, type: 'circle', source: markerSourceId,
+      paint: {
+        'circle-color': accent,
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 5, TIMELINE_CHANGE_MARKER_MIN_PX, 10, TIMELINE_CHANGE_MARKER_MIN_PX + 3],
+        'circle-opacity': ['interpolate', ['linear'], ['zoom'], 9, 0.8, 11.5, 0],
+        'circle-stroke-color': '#ffffff',
+        'circle-stroke-width': 2,
+        'circle-stroke-opacity': ['interpolate', ['linear'], ['zoom'], 9, 1, 11.5, 0]
+      }
+    });
+    this.installTimelineChangeHandlers();
+    this.timelineChanges = {
+      key: options.key || null,
+      reversed,
+      markers: points.length,
+      areas: shown.filter((feature) => feature.properties.drawn === 'area').length,
+      newLines: shown.filter((feature) => feature.properties.drawn === 'new').length,
+      goneLines: shown.filter((feature) => feature.properties.drawn === 'gone').length
+    };
     return true;
   }
 
-  installTimelineTransitionHandlers(fillLayerId, lineLayerId, options = {}) {
-    if (!this.map) return;
-    for (const { layerId, event, handler } of this.timelineTransitionOverlayHandlers) {
-      if (this.map.getLayer(layerId)) this.map.off(event, layerId, handler);
-    }
-    this.timelineTransitionOverlayHandlers = [];
-    const pickFeature = (event) => (event?.features || [])
-      .map((feature) => this.normalizeTimelineTransitionFeature(feature, options))
-      .filter(Boolean)[0] || null;
-    const clickHandler = (event) => {
-      const feature = pickFeature(event);
-      if (!feature) return;
-      this.lastTimelineTransitionInteractionAt = performance?.now?.() || Date.now();
-      event.preventDefault?.();
-      event.originalEvent?.preventDefault?.();
-      event.originalEvent?.stopPropagation?.();
-      this.setTimelineTransitionHover(feature.id);
-      this.options.onFeatureClick?.([feature]);
-    };
-    const moveHandler = (event) => {
-      const feature = pickFeature(event);
-      if (!feature) return;
-      this.setTimelineTransitionHover(feature.id);
-      if (this.map?.getCanvas?.()) this.map.getCanvas().style.cursor = 'pointer';
-    };
-    const enterHandler = () => {
-      if (this.map?.getCanvas?.()) this.map.getCanvas().style.cursor = 'pointer';
-    };
-    const leaveHandler = () => {
-      this.clearTimelineTransitionHover();
-      if (this.map?.getCanvas?.()) this.map.getCanvas().style.cursor = '';
-    };
-    for (const layerId of [fillLayerId, lineLayerId]) {
-      this.map.on('click', layerId, clickHandler);
-      this.map.on('mousemove', layerId, moveHandler);
-      this.map.on('mouseenter', layerId, enterHandler);
-      this.map.on('mouseleave', layerId, leaveHandler);
-      this.timelineTransitionOverlayHandlers.push(
-        { layerId, event: 'click', handler: clickHandler },
-        { layerId, event: 'mousemove', handler: moveHandler },
-        { layerId, event: 'mouseenter', handler: enterHandler },
-        { layerId, event: 'mouseleave', handler: leaveHandler }
-      );
-    }
+  /** A click on a change marker zooms to that change instead of selecting the boundary under it. */
+  installTimelineChangeHandlers() {
+    if (this._timelineChangeHandlersInstalled || !this.map) return;
+    this._timelineChangeHandlersInstalled = true;
+    const { markerId } = TIMELINE_CHANGE_LAYERS;
+    this.map.on('click', markerId, (event) => {
+      if (this.map.getZoom() >= 11.5) return;
+      const id = event?.features?.[0]?.properties?.changeId;
+      if (id) this.options.onTimelineChangeClick?.(id);
+    });
+    this.map.on('mouseenter', markerId, () => {
+      if (this.map.getZoom() < 11.5 && this.map?.getCanvas?.()) this.map.getCanvas().style.cursor = 'pointer';
+    });
+    this.map.on('mouseleave', markerId, () => { if (this.map?.getCanvas?.()) this.map.getCanvas().style.cursor = ''; });
   }
 
-  isTimelineTransitionEventAtPoint(event) {
-    if (!this.map || !this.timelineTransitionOverlay || !event?.point) return false;
-    const { fillLayerId, lineLayerId } = this.timelineTransitionOverlay;
-    const layers = [fillLayerId, lineLayerId].filter((layerId) => this.map.getLayer(layerId));
-    if (!layers.length) return false;
-    return this.map.queryRenderedFeatures(event.point, { layers }).length > 0;
+  isTimelineChangeEventAtPoint(event) {
+    if (!this.map || !this.timelineChanges?.markers || !event?.point) return false;
+    const { markerId } = TIMELINE_CHANGE_LAYERS;
+    if (!this.map.getLayer(markerId)) return false;
+    // Markers are drawn only at low zoom; a transparent one must not swallow clicks.
+    if (this.map.getZoom() >= 11.5) return false;
+    return this.map.queryRenderedFeatures(event.point, { layers: [markerId] }).length > 0;
   }
 
-  setTimelineTransitionHover(featureId) {
-    if (!this.map || !this.timelineTransitionOverlay || featureId === undefined || featureId === null) return;
-    const { sourceId } = this.timelineTransitionOverlay;
-    if (this.hoveredTimelineTransitionId === featureId) return;
-    this.clearTimelineTransitionHover();
-    this.hoveredTimelineTransitionId = featureId;
-    try {
-      this.map.setFeatureState({ source: sourceId, id: featureId }, { hover: true });
-    } catch {
-      this.hoveredTimelineTransitionId = null;
-    }
-  }
-
-  clearTimelineTransitionHover() {
-    if (!this.map || !this.timelineTransitionOverlay || this.hoveredTimelineTransitionId === null) return;
-    const { sourceId } = this.timelineTransitionOverlay;
-    try {
-      this.map.setFeatureState({ source: sourceId, id: this.hoveredTimelineTransitionId }, { hover: false });
-    } catch {
-      // The source may already have been cleared.
-    }
-    this.hoveredTimelineTransitionId = null;
-  }
-
-  normalizeTimelineTransitionFeature(feature, options = {}) {
-    const properties = { ...(feature?.properties || {}) };
-    const fromName = properties.fromFeatureName || properties.from_name || properties.fromName || properties.oldName || 'Earlier feature';
-    const toName = properties.toFeatureName || properties.to_name || properties.toName || properties.newName || 'Later feature';
-    const fromMapName = properties.fromMapName || options.fromMapName || properties.fromLayerName || 'Earlier layer';
-    const toMapName = properties.toMapName || options.toMapName || properties.toLayerName || 'Later layer';
-    const layerName = `${fromMapName} to ${toMapName}`;
-    const name = properties.transitionName || properties.name || `${fromName} to ${toName}`;
-    const transitionType = properties.transitionType || properties.changeType || 'transfer';
-    return {
-      ...properties,
-      id: properties.transitionId || feature?.id || `${options.fromMapId || 'from'}__${options.toMapId || 'to'}__${name}`,
-      mapId: '__timeline_transition__',
-      mapName: layerName,
-      layerName,
-      featureName: name,
-      name,
-      isTimelineTransitionFeature: true,
-      transitionType,
-      color: (transitionType === 'split' || transitionType === 'territory-split') ? '#7c3aed' : (transitionType === 'unchanged' || transitionType === 'retained') ? '#64748b' : '#dc2626',
-      properties: {
-        ...properties,
-        transitionType,
-        transitionLayerName: layerName,
-        fromMapId: properties.fromMapId || options.fromMapId || '',
-        toMapId: properties.toMapId || options.toMapId || '',
-        fromMapName,
-        toMapName,
-        fromFeatureName: fromName,
-        toFeatureName: toName,
-        minimumDisplayedAreaM2: options.minAreaM2
-      },
-      geometry: feature?.geometry || null,
-      sourceLayer: 'timeline-transition'
-    };
-  }
-
-  clearTimelineTransitionOverlay(options = {}) {
-    if (!this.map || !this.timelineTransitionOverlay) return false;
-    const { sourceId, fillLayerId, lineLayerId } = this.timelineTransitionOverlay;
-    const source = this.map.getSource(sourceId);
+  clearTimelineChanges() {
+    if (!this.map) return false;
     const empty = { type: 'FeatureCollection', features: [] };
-    this.clearTimelineTransitionHover();
-    const clearData = () => {
-      if (this.map?.getSource(sourceId)) this.map.getSource(sourceId).setData(empty);
-      if (this.map?.getLayer(fillLayerId)) this.map.setPaintProperty(fillLayerId, 'fill-opacity', 0);
-      if (this.map?.getLayer(lineLayerId)) this.map.setPaintProperty(lineLayerId, 'line-opacity', 0);
-    };
-    if (options.fade && this.map.getLayer(fillLayerId)) {
-      this.map.setPaintProperty(fillLayerId, 'fill-opacity-transition', { duration: 260, delay: 0 });
-      this.map.setPaintProperty(lineLayerId, 'line-opacity-transition', { duration: 260, delay: 0 });
-      this.map.setPaintProperty(fillLayerId, 'fill-opacity', 0);
-      this.map.setPaintProperty(lineLayerId, 'line-opacity', 0);
-      window.setTimeout(clearData, 280);
-    } else if (source) {
-      clearData();
-    }
+    const { sourceId, markerSourceId } = TIMELINE_CHANGE_LAYERS;
+    this.map.getSource(sourceId)?.setData(empty);
+    this.map.getSource(markerSourceId)?.setData(empty);
+    this.timelineChanges = null;
     return true;
+  }
+
+  /** What the change highlight currently holds (null when nothing is drawn), for tests. */
+  getTimelineChangesState() {
+    return this.timelineChanges ? { ...this.timelineChanges } : null;
+  }
+
+  /**
+   * Two editions of one series switched on together used to be drawn identically. The older
+   * one is now grey and dashed (role 'older'); null restores the layer's own style.
+   */
+  setEditionRole(mainId, role) {
+    if (!this.map) return;
+    const group = this.groupStates?.get(mainId);
+    const ids = Array.isArray(group?.childIds) && group.childIds.length ? group.childIds : [mainId];
+    for (const id of ids) {
+      const state = this.layerStates.get(id);
+      const testId = state?.testLayerId || this.mainToTest.get(id) || id;
+      const record = this.renderer?.layers.get(testId);
+      if (!record || record.config?.geometryType === 'point') continue;
+      const lineId = `${testId}-line`;
+      const fillId = `${testId}-fill`;
+      if (!this.map.getLayer(lineId)) continue;
+      if (role === 'older') {
+        if (record._editionOriginalPaint) continue;
+        record._editionOriginalPaint = {
+          lineColor: this.map.getPaintProperty(lineId, 'line-color'),
+          lineDash: this.map.getPaintProperty(lineId, 'line-dasharray'),
+          lineWidth: this.map.getPaintProperty(lineId, 'line-width'),
+          fillOpacity: this.map.getLayer(fillId) ? this.map.getPaintProperty(fillId, 'fill-opacity') : undefined
+        };
+        this.map.setPaintProperty(lineId, 'line-color', TIMELINE_OLDER_EDITION_COLOUR);
+        this.map.setPaintProperty(lineId, 'line-dasharray', [3, 2]);
+        // Thinner than the newer edition, so where the two agree the newer line still shows
+        // either side of the dashes whichever is drawn on top.
+        this.map.setPaintProperty(lineId, 'line-width', ['interpolate', ['linear'], ['zoom'], 5, 0.8, 12, 1.6]);
+        if (this.map.getLayer(fillId)) this.map.setPaintProperty(fillId, 'fill-opacity', 0);
+        record.editionRole = 'older';
+      } else if (record._editionOriginalPaint) {
+        const original = record._editionOriginalPaint;
+        this.map.setPaintProperty(lineId, 'line-color', original.lineColor);
+        this.map.setPaintProperty(lineId, 'line-dasharray', original.lineDash ?? null);
+        if (original.lineWidth !== undefined) this.map.setPaintProperty(lineId, 'line-width', original.lineWidth);
+        if (this.map.getLayer(fillId) && original.fillOpacity !== undefined) this.map.setPaintProperty(fillId, 'fill-opacity', original.fillOpacity);
+        delete record._editionOriginalPaint;
+        delete record.editionRole;
+      }
+    }
   }
 
   clearTransientHighlight(options = {}) {
     this.renderer?.clearHover?.();
-    this.clearTimelineTransitionHover();
     if (options.clearSelection === false || !this.renderer?.selected) return;
     const selected = this.renderer.selected;
     this.renderer.clearFeatureState?.(selected, 'selected');
@@ -1306,8 +1279,109 @@ export class Test2MapLibreMainAdapter {
     return layers.find((layer) => layer.sourceMapId === mainId && layer.loadable)
       || layers.find((layer) => layer.migration?.sourceMapId === mainId && layer.loadable)
       || layers.find((layer) => layer.parentId === mainId && layer.loadable)
+      || this.resolveCensusOverlayLayer(mainId)
       || directLayer
       || null;
+  }
+
+  /**
+   * A census statistic (data/database/data-entries.json) has no layer of its own in the map
+   * index: it is drawn as its geography's tiles under its own id, so it can sit on the map
+   * beside the plain boundaries and come off without taking them with it.
+   */
+  resolveCensusOverlayLayer(mainId) {
+    // getDataEntry looks among the 80 statistics only; getMainMap would scan every map and
+    // variant, and resolveLayer runs for every id the catalogue checks.
+    const entry = this.options.getDataEntry
+      ? this.options.getDataEntry(mainId)
+      : (this.options.getMainMap?.(mainId)?.isDataEntry ? this.options.getMainMap(mainId) : null);
+    if (!entry || !entry.geography || !entry.csv || entry.geography === mainId) return null;
+    this.censusOverlayLayers ||= new Map();
+    if (this.censusOverlayLayers.has(mainId)) return this.censusOverlayLayers.get(mainId);
+    const geography = this.resolveLayer(entry.geography);
+    const usable = geography?.loadable && !['raster', 'image', 'raster-dem', 'point-cloud'].includes(geography.sourceType);
+    const layer = usable ? overlayRuntimeLayer(entry, geography) : null;
+    if (layer) this.censusOverlayLayers.set(mainId, layer);
+    return layer;
+  }
+
+  /** Fetch a statistic's CSV (and crosswalk), join it and work out its classes and colours. */
+  async prepareCensusOverlay(entry) {
+    this.censusOverlayFiles ||= new Map();
+    const fetchText = (url) => {
+      if (!this.censusOverlayFiles.has(url)) {
+        const pending = fetch(url, { cache: 'default' }).then((response) => {
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          return response.text();
+        });
+        // A failed fetch is not remembered: Retry must try again.
+        pending.catch(() => this.censusOverlayFiles.delete(url));
+        this.censusOverlayFiles.set(url, pending);
+      }
+      return this.censusOverlayFiles.get(url);
+    };
+    let csvText;
+    let crosswalk = null;
+    try {
+      [csvText, crosswalk] = await Promise.all([
+        fetchText(cdnUrl(entry.csv)),
+        entry.joinCrosswalk
+          ? fetchText(`/${String(entry.joinCrosswalk).replace(/^\/+/, '')}`).then((text) => JSON.parse(text))
+          : null
+      ]);
+    } catch (error) {
+      const failure = new Error(`${entry.name}: its figures could not be loaded (${error?.message || error}).`);
+      failure.code = 'census-overlay-data-failed';
+      this.options.onError?.(failure, { mainId: entry.id, config: entry });
+      throw failure;
+    }
+    const { rows } = parseCsv(csvText);
+    const joined = joinRows(entry, rows, crosswalk);
+    const classes = overlayClasses(entry);
+    return {
+      entry,
+      rows,
+      joined,
+      classes,
+      counts: classCounts(entry, joined, classes),
+      licence: licenceFor(entry),
+      fillColor: fillColorExpression(entry, joined, classes)
+    };
+  }
+
+  applyCensusOverlayPaint(testId, overlay) {
+    const fillId = `${testId}-fill`;
+    if (!this.map?.getLayer(fillId)) return;
+    this.map.setPaintProperty(fillId, 'fill-color', overlay.fillColor);
+    this.map.setPaintProperty(fillId, 'fill-opacity', OVERLAY_FILL_OPACITY);
+  }
+
+  /** Everything the legend needs for a loaded statistic, or null when mainId is not one. */
+  getCensusOverlayLegend(mainId) {
+    const overlay = this.layerStates.get(mainId)?.censusOverlay;
+    if (!overlay) return null;
+    return {
+      id: mainId,
+      entry: overlay.entry,
+      classes: overlay.classes.map((cls, i) => ({ ...cls, count: overlay.counts[i] || 0 })),
+      areaCount: overlay.joined.byTileValue.size,
+      licence: overlay.licence
+    };
+  }
+
+  /** The figures behind a rendered feature of a statistic, for the feature details. */
+  censusStatisticFor(state, properties) {
+    const overlay = state?.censusOverlay;
+    if (!overlay) return null;
+    const row = overlay.joined.byTileValue.get(String(properties?.[overlay.joined.tileKey] ?? ''));
+    const source = overlay.entry.source || {};
+    return {
+      ...(row ? statisticFor(overlay.entry, row) : { entryId: overlay.entry.id, valueLabel: overlay.entry.name, valueText: '', missing: true }),
+      entryName: overlay.entry.name,
+      sourceTitle: source.title || '',
+      sourceUrl: source.url || '',
+      licence: overlay.licence
+    };
   }
 
   toRuntimeLayer(layer, mainConfig = null) {
@@ -1437,8 +1511,11 @@ export class Test2MapLibreMainAdapter {
     const layerConfig = record?.config || state?.config || {};
     const properties = repairFeatureProperties(layerConfig, { ...(feature.properties || {}) });
     const id = feature.id ?? properties[layerConfig.promoteId || 'id'] ?? properties.id;
-    const featureName = readFeatureName(layerConfig, properties, id);
+    const statistic = this.censusStatisticFor(state, properties);
+    // The statistic's own name for the area ("Aldergrove_1") reads better than a tile code.
+    const featureName = statistic?.areaName || readFeatureName(layerConfig, properties, id);
     return {
+      ...(statistic ? { statistic } : {}),
       ...properties,
       id,
       mapId: mainId,
@@ -1532,12 +1609,6 @@ export class Test2MapLibreMainAdapter {
 }
 
 
-function normalizeTransitionGeoJson(data) {
-  return {
-    type: 'FeatureCollection',
-    features: Array.isArray(data?.features) ? data.features : []
-  };
-}
 function clamp01(value) {
   const number = Number(value);
   if (!Number.isFinite(number)) return 0;

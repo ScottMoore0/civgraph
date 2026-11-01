@@ -15,7 +15,7 @@
   "sourceType": "pmtiles",
   "geometryType": "polygon",
   "tiles": "/render/tiles/generated/local-authorities-1920-06-19/{z}/{x}/{y}.pbf",
-  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/local-authorities-1920-06-19-vector-test.pmtiles",
+  "tileUrl": "/render/pmtiles/generated/local-authorities-1920-06-19-vector-test.pmtiles",
   "tilesFallback": "/render/tiles/generated/local-authorities-1920-06-19/{z}/{x}/{y}.pbf",
   "metadataUrl": "/render/tiles/generated/local-authorities-1920-06-19/metadata.json",
   "sourceLayer": "roi_local_authorities_1920_06_19",
@@ -39,7 +39,40 @@
     "fillOpacity": 0.18,
     "weight": 2
   },
-  "references": [],
+  "references": [
+    {
+      "label": "OSNI County Series six-inch (1:10,560), County Down sheet 4, Edition 5 (revised 1931)",
+      "note": "Shows the county borough boundary (\"Co. Boro. Bdy.\") in a straight line from the Inner Lighthouse at the tip of the East Twin to a boundary post on the railway at Tillysburn; Edition 3 (1902) and Edition 4 (1920-21) show the same line. The pre-1958 Belfast line in the lough east of the lighthouse is traced from this sheet. Viewed in PRONI's Historical Maps Viewer (OSNI)."
+    },
+    {
+      "label": "OSNI County Series six-inch (1:10,560), County Antrim sheet 57, Edition 5 (revised 1931)",
+      "note": "Shows the county borough boundary (\"Co. Boro. Bdy.\") in a straight line from the Antrim shore south of Greencastle to the Inner Lighthouse; Editions 3 and 4 (1901-02) show the same line. The pre-1958 Belfast line in the lough west of the lighthouse is traced from this sheet. Viewed in PRONI's Historical Maps Viewer (OSNI)."
+    },
+    {
+      "label": "Belfast Gazette, issue 1889, 6 September 1957, pp. 243-244",
+      "url": "https://www.thegazette.co.uk/Belfast/issue/1889/page/243",
+      "note": "S.R.&O. 1957 No. 189 (County Borough of Belfast) and No. 188 (County Down): Orders in Council under section 11 of the Boundary Survey (Ireland) Act 1854, made 29 Aug 1957, in force 1 Mar 1958, extending Belfast at Sydenham into Belfast Lough."
+    },
+    {
+      "label": "Belfast Gazette, issue 1965, 20 February 1959, p. 66",
+      "url": "https://www.thegazette.co.uk/Belfast/issue/1965/page/66",
+      "note": "Notice of Orders in Council under section 11 of the Boundary Survey (Ireland) Act 1854 (Armagh, Down and the County Borough of Belfast), in force 1 Apr 1959; the Belfast order is dated 9 Feb 1959."
+    },
+    {
+      "label": "Belfast Gazette, issue 1979, 29 May 1959, p. 185",
+      "url": "https://www.thegazette.co.uk/Belfast/issue/1979/page/185",
+      "note": "The Belfast Boundary Survey order of 9 Feb 1959 (in force 1 Apr 1959)."
+    },
+    {
+      "label": "Belfast Gazette, issue 2070, 24 February 1961, p. 58",
+      "url": "https://www.thegazette.co.uk/Belfast/issue/2070/page/58",
+      "note": "The area added to Belfast by the 1959 order \"consists of reclaimed lands at Sydenham\"."
+    },
+    {
+      "label": "Census of Population of Northern Ireland 1961: County Borough of Belfast",
+      "note": "Area 18,052 acres including 2,237 acres of tidal water; the land 458 acres more than in 1951, all in Victoria Ward, from the reclamation of land from Belfast Lough. 1951: 15,357 acres of land and 1,223 acres of tidal water."
+    }
+  ],
   "sourceDownloads": [
     {
       "label": "Source file used for /test conversion",
@@ -217,15 +250,10 @@
     "preferred": true,
     "localPath": "render/pmtiles/generated/local-authorities-1920-06-19-vector-test.pmtiles",
     "url": "/render/pmtiles/generated/local-authorities-1920-06-19-vector-test.pmtiles",
-    "bytes": 2421625,
+    "bytes": 2421080,
     "maxGithubBytes": 99614720,
-    "generatedAt": "2026-10-30T14:09:35.222Z",
+    "generatedAt": "2026-11-01T15:15:34.580Z",
     "fallback": "/render/tiles/generated/local-authorities-1920-06-19/{z}/{x}/{y}.pbf",
-    "sourceSha256": "13e3f29e03fb1b339e65b9eed805d65bc4a5aa45aff7c979e4190517ad9a1468",
-    "serving": "cdn",
-    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/local-authorities-1920-06-19-vector-test.pmtiles",
-    "r2Key": "data/maps/test/pmtiles/generated/local-authorities-1920-06-19-vector-test.pmtiles",
-    "localUrl": "/render/pmtiles/generated/local-authorities-1920-06-19-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-10-30T14:33:05.280Z"
+    "sourceSha256": "bf7edbd4243fc96a4b92c7f0bc1686440e7aa7bf8168c1b8f220010fb2206222"
   }
 }

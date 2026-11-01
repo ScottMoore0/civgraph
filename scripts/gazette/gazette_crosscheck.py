@@ -29,11 +29,24 @@ def place_score(a, b):
     if ka == kb:
         return 1.0
     sa, sb = set(ka.split()), set(kb.split())
-    if sa == sb:
+    if sa == sb or ka.replace(' ', '') == kb.replace(' ', ''):  # 'Bann Side' / 'Bannside'
         return 0.98
     if (sb <= sa or sa <= sb) and abs(len(sa) - len(sb)) <= 1:
         return 0.8
-    return difflib.SequenceMatcher(None, ka, kb).ratio() * 0.9
+    fa, fb = ocr_fold(ka), ocr_fold(kb)
+    if fa == fb or fa.replace(' ', '') == fb.replace(' ', ''):  # 'Lame' / 'Larne', 'FoyJe' / 'Foyle'
+        return 0.9
+    if (set(fb.split()) <= set(fa.split()) or set(fa.split()) <= set(fb.split())) and abs(len(sa) - len(sb)) <= 1:
+        return 0.78
+    na, nb = fa.replace(' ', ''), fb.replace(' ', '')
+    if min(len(na), len(nb)) >= 7 and (na.startswith(nb) or nb.startswith(na)):  # 'Carrickfergus' / 'Carrick'
+        return 0.78
+    return max(difflib.SequenceMatcher(None, ka, kb).ratio(), difflib.SequenceMatcher(None, na, nb).ratio()) * 0.9
+
+
+def ocr_fold(key):
+    """Letters the Gazette's text layer confuses, folded alike on both sides: rn/m, l/I/J, ii/i."""
+    return re.sub(r'ii+', 'i', key.replace('rn', 'm').replace('j', 'i').replace('l', 'i').replace('1', 'i'))
 
 
 TITLES = re.compile(r'\b(?:Sir|Dr|Captain|Capt|Major|Colonel|Col|Lieut|Lieutenant|Field[ -]Marshal|Professor|Prof|Rev|Rt|Hon|Mrs|Mr|Miss|'
@@ -53,8 +66,15 @@ FAMILIAR = {
     'mickey': 'michael', 'micky': 'michael', 'dan': 'daniel', 'danny': 'daniel', 'alex': 'alexander', 'andy': 'andrew',
     'davy': 'david', 'dave': 'david', 'fred': 'frederick', 'freddie': 'frederick', 'tony': 'anthony', 'hughie': 'hugh',
     'archie': 'archibald', 'seamus': 'james', 'liam': 'william', 'padraig': 'patrick', 'ken': 'kenneth', 'ron': 'ronald',
-    'ray': 'raymond', 'bertie': 'albert', 'wully': 'william',
+    'ray': 'raymond', 'bertie': 'albert', 'wully': 'william', 'nat': 'nathaniel', 'robin': 'robert', 'bessie': 'elizabeth',
+    'betty': 'elizabeth', 'bert': 'albert',
 }
+# Familiar forms with more than one formal name ('Bertie' McConnell was Robert Dodd McConnell).
+ALSO_FAMILIAR = {'bertie': ('herbert', 'robert'), 'bert': ('herbert', 'robert')}
+
+
+def formal_forms(x):
+    return ({FAMILIAR[x]} if x in FAMILIAR else set()) | set(ALSO_FAMILIAR.get(x, ()))
 
 
 def name_relation(gaz, civ):
@@ -76,7 +96,8 @@ def name_relation(gaz, civ):
         cover = all(any(x == y or (len(x) == 1 and y.startswith(x)) for y in fg) for x in fc)
         if cover and len(fg) > len(fc):
             return 'fuller'
-        if any(FAMILIAR.get(x) in fg for x in fc):
+        # Civgraph's familiar form against the Gazette's formal one, or (Bessie / Elizabeth) the reverse.
+        if any(formal_forms(x) & set(fg) for x in fc) or any(formal_forms(y) & set(fc) for y in fg):
             return 'familiar'
         if fg[0][0] == fc[0][0]:
             return 'initials' if any(len(x) == 1 for x in fg + fc) else 'variant'
@@ -132,6 +153,11 @@ def compare(notices, contests):
     by_body = collections.defaultdict(list)
     for c in contests:
         by_body[c['body']].append(c)
+    # General-election contests only (more than three contests on the day), for general-election
+    # returns: the notice date printed above a list can be a date from the notice before it, and a
+    # by-election months earlier must not take a general-election entry.
+    sizes = collections.Counter((c['body'], c['date']) for c in contests)
+    ge_by_body = {b: [c for c in cs if sizes[(b, c['date'])] > 3] for b, cs in by_body.items()}
     rows = []
     for n in notices:
         if n['confidence'] == 'low':
@@ -141,7 +167,10 @@ def compare(notices, contests):
             for m in n.get('members') or []:
                 place = m.get('constituency_printed') or ''
                 when = n.get('notice_date') or n['issue_date']
-                best = match_contest(by_body, body, place, when) if place else None
+                if 'general_election_printed' in n:
+                    best = match_contest(ge_by_body, body, place, n['issue_date'], 150, 0) if place else None
+                else:
+                    best = match_contest(by_body, body, place, when) if place else None
                 row = {'notice': ref(n), 'type': n['type'], 'body': body, 'place_printed': place, 'gazette_name': m.get('name'),
                        'predecessor': m.get('predecessor'), 'vacancy_cause': m.get('vacancy_cause'), 'ocr_flags': m.get('ocr_flags', [])}
                 if not best:

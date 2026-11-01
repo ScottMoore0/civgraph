@@ -46,7 +46,7 @@
       "seats": 1,
       "stood": 1,
       "votes": 1661,
-      "colour": "#6b7280",
+      "colour": "#99ff66",
       "share": 41.53538384596149
     },
     {
@@ -62,7 +62,7 @@
       "seats": 0,
       "stood": 1,
       "votes": 807,
-      "colour": "#6b7280",
+      "colour": "#ffd700",
       "share": 20.180045011252815
     }
   ],
@@ -70,29 +70,135 @@
     {
       "party": "Home Rule",
       "seats": 1,
-      "stood": 0,
-      "votes": 0,
-      "colour": "#888888",
-      "share": null
+      "stood": 1,
+      "votes": 1661,
+      "colour": "#99ff66",
+      "share": 41.53538384596149
+    },
+    {
+      "party": "Conservative",
+      "seats": 0,
+      "stood": 1,
+      "votes": 1531,
+      "colour": "#0087dc",
+      "share": 38.284571142785694
+    },
+    {
+      "party": "Liberal",
+      "seats": 0,
+      "stood": 1,
+      "votes": 807,
+      "colour": "#ffd700",
+      "share": 20.180045011252815
     }
   ],
   "mainLikeTotals": {
-    "validPoll": 0,
+    "validPoll": 3999,
     "totalPoll": 0,
     "totalElectorate": 5430,
     "totalSpoiled": 0,
     "totalSeats": 1
   },
-  "mainLikeCandidateSummary": [],
+  "mainLikeCandidateSummary": [
+    {
+      "id": "row:James Patrick Mahon|Home Rule",
+      "personId": 124114,
+      "sourcePersonId": "wikipedia:James Patrick Mahon",
+      "constituency": "Clare",
+      "name": "James Patrick Mahon",
+      "party": "Home Rule",
+      "colour": "#99ff66",
+      "firstPrefs": 1661,
+      "votes": 1661,
+      "constPct": 41.53538384596149,
+      "firstPrefPct": 41.53538384596149,
+      "finalVotes": 1661,
+      "elected": true,
+      "electedAt": 1,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Elected",
+      "counts": {
+        "1": {
+          "total": 1661,
+          "transfers": 0,
+          "status": "Elected"
+        }
+      },
+      "candidateKey": "james patrick mahon|home rule",
+      "name_id": "n-james-patrick-mahon"
+    },
+    {
+      "id": "row:Hector Stewart Vandeleur|Conservative",
+      "personId": 124089,
+      "constituency": "Clare",
+      "name": "Hector Stewart Vandeleur",
+      "party": "Conservative",
+      "colour": "#0087dc",
+      "firstPrefs": 1531,
+      "votes": 1531,
+      "constPct": 38.284571142785694,
+      "firstPrefPct": 38.284571142785694,
+      "finalVotes": 1531,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 1531,
+          "transfers": 0,
+          "status": "Not elected"
+        }
+      },
+      "candidateKey": "hector stewart vandeleur|conservative",
+      "name_id": "n-hector-stewart-vandeleur"
+    },
+    {
+      "id": "row:Peter O'Brien|Liberal",
+      "personId": 124311,
+      "sourcePersonId": "wikipedia:Peter O'Brien, 1st Baron O'Brien",
+      "constituency": "Clare",
+      "name": "Peter O'Brien",
+      "party": "Liberal",
+      "colour": "#ffd700",
+      "firstPrefs": 807,
+      "votes": 807,
+      "constPct": 20.180045011252815,
+      "firstPrefPct": 20.180045011252815,
+      "finalVotes": 807,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 807,
+          "transfers": 0,
+          "status": "Not elected"
+        }
+      },
+      "candidateKey": "peter o'brien|liberal",
+      "name_id": "n-peter-o-brien"
+    }
+  ],
   "mainLikeCandidateTotals": {
-    "validPoll": 0
+    "validPoll": 3999
   },
   "entityIndex": {
     "totalValid": 3999,
     "parties": [
       {
         "name": "Home Rule",
-        "colour": "#888888",
+        "colour": "#99ff66",
         "firstPrefs": 1661,
         "finalVotes": 1661,
         "stood": 1,
@@ -114,7 +220,7 @@
       },
       {
         "name": "Conservative",
-        "colour": "#888888",
+        "colour": "#0087dc",
         "firstPrefs": 1531,
         "finalVotes": 1531,
         "stood": 1,
@@ -136,7 +242,7 @@
       },
       {
         "name": "Liberal",
-        "colour": "#888888",
+        "colour": "#ffd700",
         "firstPrefs": 807,
         "finalVotes": 807,
         "stood": 1,
@@ -163,7 +269,7 @@
         "key": "James Patrick Mahon|Home Rule",
         "name": "James Patrick Mahon",
         "party": "Home Rule",
-        "colour": "#888888",
+        "colour": "#99ff66",
         "firstPrefs": 1661,
         "finalVotes": 1661,
         "electedCount": 1,
@@ -185,7 +291,7 @@
         "key": "Hector Stewart Vandeleur|Conservative",
         "name": "Hector Stewart Vandeleur",
         "party": "Conservative",
-        "colour": "#888888",
+        "colour": "#0087dc",
         "firstPrefs": 1531,
         "finalVotes": 1531,
         "electedCount": 0,
@@ -207,7 +313,7 @@
         "key": "Peter O'Brien|Liberal",
         "name": "Peter O'Brien",
         "party": "Liberal",
-        "colour": "#888888",
+        "colour": "#ffd700",
         "firstPrefs": 807,
         "finalVotes": 807,
         "electedCount": 0,
@@ -246,8 +352,8 @@
       "spoiled": null,
       "validPoll": 3999,
       "totalVotes": 3999,
-      "colour": "#6b7280",
-      "leadingColour": "#6b7280",
+      "colour": "#99ff66",
+      "leadingColour": "#99ff66",
       "candidates": [
         {
           "id": "James Patrick Mahon|Home Rule",
@@ -261,7 +367,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#99ff66",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -293,7 +399,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not elected",
-          "colour": "#888888",
+          "colour": "#0087dc",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -324,7 +430,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not elected",
-          "colour": "#888888",
+          "colour": "#ffd700",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -358,7 +464,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#99ff66",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",

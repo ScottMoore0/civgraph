@@ -50,7 +50,7 @@
       "seats": 1,
       "stood": 1,
       "votes": 1866,
-      "colour": "#6b7280",
+      "colour": "#99ff66",
       "share": 46.81384846964375
     },
     {
@@ -58,7 +58,7 @@
       "seats": 0,
       "stood": 1,
       "votes": 1750,
-      "colour": "#6b7280",
+      "colour": "#66ff99",
       "share": 43.903662819869545
     },
     {
@@ -66,7 +66,7 @@
       "seats": 0,
       "stood": 1,
       "votes": 370,
-      "colour": "#6b7280",
+      "colour": "#66ff99",
       "share": 9.282488710486705
     }
   ],
@@ -74,29 +74,136 @@
     {
       "party": "Irish Parliamentary",
       "seats": 1,
-      "stood": 0,
-      "votes": 0,
-      "colour": "#888888",
-      "share": null
+      "stood": 1,
+      "votes": 1866,
+      "colour": "#99ff66",
+      "share": 46.81384846964375
+    },
+    {
+      "party": "All-for-Ireland",
+      "seats": 0,
+      "stood": 1,
+      "votes": 1750,
+      "colour": "#66ff99",
+      "share": 43.903662819869545
+    },
+    {
+      "party": "Independent All-for-Ireland League",
+      "seats": 0,
+      "stood": 1,
+      "votes": 370,
+      "colour": "#66ff99",
+      "share": 9.282488710486705
     }
   ],
   "mainLikeTotals": {
-    "validPoll": 0,
+    "validPoll": 3986,
     "totalPoll": 0,
     "totalElectorate": 5582,
     "totalSpoiled": 0,
     "totalSeats": 1
   },
-  "mainLikeCandidateSummary": [],
+  "mainLikeCandidateSummary": [
+    {
+      "id": "row:Daniel O'Leary|Irish Parliamentary",
+      "personId": 122887,
+      "sourcePersonId": "wikipedia:Daniel O'Leary (Irish nationalist politician)",
+      "constituency": "West Cork",
+      "name": "Daniel O'Leary",
+      "party": "Irish Parliamentary",
+      "colour": "#99ff66",
+      "firstPrefs": 1866,
+      "votes": 1866,
+      "constPct": 46.81384846964375,
+      "firstPrefPct": 46.81384846964375,
+      "finalVotes": 1866,
+      "elected": true,
+      "electedAt": 1,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Elected",
+      "counts": {
+        "1": {
+          "total": 1866,
+          "transfers": 0,
+          "status": "Elected"
+        }
+      },
+      "candidateKey": "daniel o'leary|irish parliamentary",
+      "name_id": "n-daniel-o-leary"
+    },
+    {
+      "id": "row:Frank Healy|All-for-Ireland",
+      "personId": 124528,
+      "sourcePersonId": "wikipedia:West Cork (UK Parliament constituency)",
+      "constituency": "West Cork",
+      "name": "Frank Healy",
+      "party": "All-for-Ireland",
+      "colour": "#66ff99",
+      "firstPrefs": 1750,
+      "votes": 1750,
+      "constPct": 43.903662819869545,
+      "firstPrefPct": 43.903662819869545,
+      "finalVotes": 1750,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 1750,
+          "transfers": 0,
+          "status": "Not elected"
+        }
+      },
+      "candidateKey": "frank healy|all-for-ireland",
+      "name_id": "n-frank-healy"
+    },
+    {
+      "id": "row:Michael Birchmans Shipsey|Independent All-for-Ireland League",
+      "personId": 124528,
+      "sourcePersonId": "wikipedia:West Cork (UK Parliament constituency)",
+      "constituency": "West Cork",
+      "name": "Michael Birchmans Shipsey",
+      "party": "Independent All-for-Ireland League",
+      "colour": "#66ff99",
+      "firstPrefs": 370,
+      "votes": 370,
+      "constPct": 9.282488710486705,
+      "firstPrefPct": 9.282488710486705,
+      "finalVotes": 370,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 370,
+          "transfers": 0,
+          "status": "Not elected"
+        }
+      },
+      "candidateKey": "michael birchmans shipsey|independent all-for-ireland league",
+      "name_id": "n-michael-birchmans-shipsey"
+    }
+  ],
   "mainLikeCandidateTotals": {
-    "validPoll": 0
+    "validPoll": 3986
   },
   "entityIndex": {
     "totalValid": 3986,
     "parties": [
       {
         "name": "Irish Parliamentary",
-        "colour": "#888888",
+        "colour": "#99ff66",
         "firstPrefs": 1866,
         "finalVotes": 1866,
         "stood": 1,
@@ -118,7 +225,7 @@
       },
       {
         "name": "All-for-Ireland",
-        "colour": "#888888",
+        "colour": "#66ff99",
         "firstPrefs": 1750,
         "finalVotes": 1750,
         "stood": 1,
@@ -140,7 +247,7 @@
       },
       {
         "name": "Independent All-for-Ireland League",
-        "colour": "#888888",
+        "colour": "#66ff99",
         "firstPrefs": 370,
         "finalVotes": 370,
         "stood": 1,
@@ -151,7 +258,7 @@
         "candidates": [
           {
             "id": "wikipedia:West Cork (UK Parliament constituency)",
-            "name": "Michael Birchmans Slipsey",
+            "name": "Michael Birchmans Shipsey",
             "constituency": "West Cork",
             "firstPref": 370,
             "finalVotes": 370,
@@ -167,7 +274,7 @@
         "key": "Daniel O'Leary|Irish Parliamentary",
         "name": "Daniel O'Leary",
         "party": "Irish Parliamentary",
-        "colour": "#888888",
+        "colour": "#99ff66",
         "firstPrefs": 1866,
         "finalVotes": 1866,
         "electedCount": 1,
@@ -189,7 +296,7 @@
         "key": "Frank Healy|All-for-Ireland",
         "name": "Frank Healy",
         "party": "All-for-Ireland",
-        "colour": "#888888",
+        "colour": "#66ff99",
         "firstPrefs": 2120,
         "finalVotes": 2120,
         "electedCount": 0,
@@ -234,8 +341,8 @@
       "spoiled": null,
       "validPoll": 3986,
       "totalVotes": 3986,
-      "colour": "#6b7280",
-      "leadingColour": "#6b7280",
+      "colour": "#99ff66",
+      "leadingColour": "#99ff66",
       "candidates": [
         {
           "id": "Daniel O'Leary|Irish Parliamentary",
@@ -249,7 +356,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#99ff66",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -281,7 +388,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not elected",
-          "colour": "#888888",
+          "colour": "#66ff99",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -302,8 +409,8 @@
           "name_id": "n-frank-healy"
         },
         {
-          "id": "Michael Birchmans Slipsey|Independent All-for-Ireland League",
-          "name": "Michael Birchmans Slipsey",
+          "id": "Michael Birchmans Shipsey|Independent All-for-Ireland League",
+          "name": "Michael Birchmans Shipsey",
           "party": "Independent All-for-Ireland League",
           "firstPrefs": 370,
           "finalVotes": 370,
@@ -313,7 +420,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not elected",
-          "colour": "#888888",
+          "colour": "#66ff99",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -331,7 +438,7 @@
             }
           ],
           "personId": 124528,
-          "name_id": "n-michael-birchmans-slipsey"
+          "name_id": "n-michael-birchmans-shipsey"
         }
       ],
       "elected": [
@@ -347,7 +454,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#99ff66",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -420,10 +527,10 @@
           "Party_Colour": "#888888",
           "Party_Name": "Independent All-for-Ireland League",
           "Status": "Not elected",
-          "Surname": "Slipsey",
+          "Surname": "Shipsey",
           "Total_Votes": "370",
           "Transfers": "0.00",
-          "candidateName": "Michael Birchmans Slipsey",
+          "candidateName": "Michael Birchmans Shipsey",
           "id": 2,
           "sourcePersonId": "wikipedia:West Cork (UK Parliament constituency)"
         }
@@ -491,10 +598,10 @@
               "Party_Colour": "#888888",
               "Party_Name": "Independent All-for-Ireland League",
               "Status": "Not elected",
-              "Surname": "Slipsey",
+              "Surname": "Shipsey",
               "Total_Votes": "370",
               "Transfers": "0.00",
-              "candidateName": "Michael Birchmans Slipsey",
+              "candidateName": "Michael Birchmans Shipsey",
               "id": 2,
               "sourcePersonId": "wikipedia:West Cork (UK Parliament constituency)"
             }
@@ -522,7 +629,8 @@
           }
         ],
         "checked": "winner agrees with Wikipedia's list of by-elections; figures not compared with Walker",
-        "cause": "Death"
+        "cause": "Death",
+        "correctionNote": "The candidate's surname is printed Shipsey in the report (O'Leary (Independent U.I.L.) 1866; Healy (A.F.I.) 1750; Shipsey (Independent) 370; majority 116); Civgraph had Slipsey. (British Newspaper Archive, Skibbereen West Carbery Eagle, 18 November 1916, p. 8)"
       },
       "constituencyId": null,
       "constituencyNumber": null,
@@ -531,6 +639,10 @@
         {
           "label": "Cause",
           "text": "Death"
+        },
+        {
+          "label": "Corrected",
+          "text": "The candidate's surname is printed Shipsey in the report (O'Leary (Independent U.I.L.) 1866; Healy (A.F.I.) 1750; Shipsey (Independent) 370; majority 116); Civgraph had Slipsey. (British Newspaper Archive, Skibbereen West Carbery Eagle, 18 November 1916, p. 8)"
         }
       ],
       "contestType": "election",

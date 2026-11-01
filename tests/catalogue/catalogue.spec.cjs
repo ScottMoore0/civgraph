@@ -474,10 +474,10 @@ test('N19 a link that opens one map (Browse) opens its row at that map', async (
 
 test('N20 placeholders, transport order, constituency hovers and dates', async ({ page }) => {
   await open(page);
-  // Every Statistics row whose maps are all still to come says so.
+  // Every Statistics row whose maps are all still to come says so. Since the census statistics
+  // became map overlays (src/census-overlay.mjs, 2026-11-01) there may be none left to come.
   await pane(page).locator('[data-cn-tab="statistics"]').click();
   const stats = ofKind('Statistics').filter((s) => s.members.every((m) => catalogue.maps[m.id].status === 'placeholder'));
-  expect(stats.length).toBeGreaterThan(0);
   for (const s of stats.slice(0, 5)) await expect(row(page, s.id).locator('.cn-badge--todo')).toHaveCount(1);
   // Transport: routes and networks first, collisions and road defects last.
   await pane(page).locator('[data-cn-tab="places"]').click();

@@ -201,7 +201,7 @@
       ]
     },
     "app/src/test2.css": {
-      "bytes": 92553,
+      "bytes": 96645,
       "imports": []
     },
     "<define:__VIEWER_ASSET_VERSIONS__>": {
@@ -219,13 +219,29 @@
       ],
       "format": "esm"
     },
+    "src/census-overlay.mjs": {
+      "bytes": 18142,
+      "imports": [
+        {
+          "path": "<define:__VIEWER_ASSET_VERSIONS__>",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
     "src/data-service.js": {
-      "bytes": 25987,
+      "bytes": 26908,
       "imports": [
         {
           "path": "src/map-relations.mjs",
           "kind": "import-statement",
           "original": "./map-relations.mjs"
+        },
+        {
+          "path": "src/census-overlay.mjs",
+          "kind": "import-statement",
+          "original": "./census-overlay.mjs"
         },
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
@@ -357,7 +373,7 @@
       "format": "esm"
     },
     "src/catalogue/styles.js": {
-      "bytes": 40412,
+      "bytes": 43395,
       "imports": [
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
@@ -469,7 +485,7 @@
       "format": "esm"
     },
     "src/catalogue/view-maps.js": {
-      "bytes": 38642,
+      "bytes": 38679,
       "imports": [
         {
           "path": "src/catalogue/icons.js",
@@ -562,7 +578,7 @@
       "format": "esm"
     },
     "src/catalogue/index.js": {
-      "bytes": 85202,
+      "bytes": 87504,
       "imports": [
         {
           "path": "src/catalogue/search.js",
@@ -590,6 +606,11 @@
           "original": "./flag.js"
         },
         {
+          "path": "src/map-relations.mjs",
+          "kind": "import-statement",
+          "original": "../map-relations.mjs"
+        },
+        {
           "path": "src/catalogue/icons.js",
           "kind": "import-statement",
           "original": "./icons.js"
@@ -603,6 +624,11 @@
           "path": "src/date-format.mjs",
           "kind": "import-statement",
           "original": "../date-format.mjs"
+        },
+        {
+          "path": "src/cdn-url.js",
+          "kind": "import-statement",
+          "original": "../cdn-url.js"
         },
         {
           "path": "src/catalogue/menu.js",
@@ -648,7 +674,7 @@
       "format": "esm"
     },
     "src/ui-controller.js": {
-      "bytes": 659411,
+      "bytes": 664179,
       "imports": [
         {
           "path": "src/map-relations.mjs",
@@ -729,7 +755,7 @@
       "format": "esm"
     },
     "src/public-map.mjs": {
-      "bytes": 2970,
+      "bytes": 4217,
       "imports": [
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
@@ -890,7 +916,7 @@
       "format": "esm"
     },
     "render/src/map-controller.js": {
-      "bytes": 103448,
+      "bytes": 103680,
       "imports": [
         {
           "path": "node_modules/maplibre-gl/dist/maplibre-gl.js",
@@ -952,7 +978,7 @@
       "format": "esm"
     },
     "app/src/maplibre-main-adapter.js": {
-      "bytes": 69247,
+      "bytes": 72713,
       "imports": [
         {
           "path": "node_modules/maplibre-gl/dist/maplibre-gl.js",
@@ -985,6 +1011,16 @@
           "original": "../../src/map-relations.mjs"
         },
         {
+          "path": "src/cdn-url.js",
+          "kind": "import-statement",
+          "original": "../../src/cdn-url.js"
+        },
+        {
+          "path": "src/census-overlay.mjs",
+          "kind": "import-statement",
+          "original": "../../src/census-overlay.mjs"
+        },
+        {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
           "kind": "import-statement",
           "external": true
@@ -993,7 +1029,7 @@
       "format": "esm"
     },
     "src/election-domain.mjs": {
-      "bytes": 58545,
+      "bytes": 66654,
       "imports": [
         {
           "path": "<define:__VIEWER_ASSET_VERSIONS__>",
@@ -1073,7 +1109,7 @@
       "format": "esm"
     },
     "app/src/election-manager.js": {
-      "bytes": 305187,
+      "bytes": 306089,
       "imports": [
         {
           "path": "render/src/feature-property-repairs.js",
@@ -1123,8 +1159,29 @@
       ],
       "format": "esm"
     },
+    "app/src/map-image-export.js": {
+      "bytes": 36288,
+      "imports": [
+        {
+          "path": "src/data-service.js",
+          "kind": "import-statement",
+          "original": "../../src/data-service.js"
+        },
+        {
+          "path": "src/map-relations.mjs",
+          "kind": "import-statement",
+          "original": "../../src/map-relations.mjs"
+        },
+        {
+          "path": "<define:__VIEWER_ASSET_VERSIONS__>",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
     "app/src/app.js": {
-      "bytes": 239816,
+      "bytes": 259639,
       "imports": [
         {
           "path": "src/data-service.js",
@@ -1200,6 +1257,11 @@
           "path": "app/src/election-manager.js",
           "kind": "dynamic-import",
           "original": "./election-manager.js"
+        },
+        {
+          "path": "app/src/map-image-export.js",
+          "kind": "dynamic-import",
+          "original": "./map-image-export.js"
         }
       ],
       "format": "esm"
@@ -1239,7 +1301,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "app/build/chunks/app-EVD6IGBT.js",
+          "path": "app/build/chunks/app-OEMRLMGN.js",
           "kind": "dynamic-import"
         }
       ],
@@ -1259,14 +1321,18 @@
       },
       "bytes": 810
     },
-    "app/build/chunks/catalogue-IGX7RUO4.js": {
+    "app/build/chunks/catalogue-34LYAQXN.js": {
       "imports": [
         {
-          "path": "app/build/chunks/chunk-W2AEJBOJ.js",
+          "path": "app/build/chunks/chunk-6SPDZ5NW.js",
           "kind": "import-statement"
         },
         {
           "path": "app/build/chunks/chunk-A3OZFCSG.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "app/build/chunks/chunk-MSTI6DCX.js",
           "kind": "import-statement"
         },
         {
@@ -1283,7 +1349,7 @@
       "entryPoint": "src/catalogue/index.js",
       "inputs": {
         "src/catalogue/index.js": {
-          "bytesInOutput": 50730
+          "bytesInOutput": 51891
         },
         "src/catalogue/search.js": {
           "bytesInOutput": 9825
@@ -1292,7 +1358,7 @@
           "bytesInOutput": 3801
         },
         "src/catalogue/styles.js": {
-          "bytesInOutput": 39675
+          "bytesInOutput": 42658
         },
         "src/catalogue/icons.js": {
           "bytesInOutput": 7755
@@ -1304,7 +1370,7 @@
           "bytesInOutput": 1324
         },
         "src/catalogue/menu.js": {
-          "bytesInOutput": 2644
+          "bytesInOutput": 2649
         },
         "src/catalogue/edit.js": {
           "bytesInOutput": 5570
@@ -1313,7 +1379,7 @@
           "bytesInOutput": 2685
         },
         "src/catalogue/view-maps.js": {
-          "bytesInOutput": 26992
+          "bytesInOutput": 27015
         },
         "src/catalogue/view-elections.js": {
           "bytesInOutput": 8355
@@ -1322,9 +1388,9 @@
           "bytesInOutput": 1247
         }
       },
-      "bytes": 297330
+      "bytes": 301550
     },
-    "app/build/chunks/election-manager-YTBWC7JE.js": {
+    "app/build/chunks/election-manager-R7HIK2BT.js": {
       "imports": [
         {
           "path": "app/build/chunks/chunk-LKSFWXZ5.js",
@@ -1345,13 +1411,13 @@
       "entryPoint": "app/src/election-manager.js",
       "inputs": {
         "app/src/election-manager.js": {
-          "bytesInOutput": 166178
+          "bytesInOutput": 166355
         },
         "src/election-renderer.mjs": {
           "bytesInOutput": 27294
         },
         "src/election-domain.mjs": {
-          "bytesInOutput": 8452
+          "bytesInOutput": 11433
         },
         "src/election-view-model.mjs": {
           "bytesInOutput": 3398
@@ -1363,12 +1429,43 @@
           "bytesInOutput": 14409
         }
       },
-      "bytes": 226884
+      "bytes": 230042
     },
-    "app/build/chunks/app-EVD6IGBT.js": {
+    "app/build/chunks/map-image-export-RU2WPCRA.js": {
       "imports": [
         {
-          "path": "app/build/chunks/chunk-W2AEJBOJ.js",
+          "path": "app/build/chunks/chunk-MSTI6DCX.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "app/build/chunks/chunk-CJSNQPND.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "MAX_FEATURES",
+        "WIKI_STYLE",
+        "buildMapSvg",
+        "createFrame",
+        "loadContextLand",
+        "pathData",
+        "resolveVectorSourceUrl",
+        "simplifyPoints",
+        "svgId",
+        "svgToPng"
+      ],
+      "entryPoint": "app/src/map-image-export.js",
+      "inputs": {
+        "app/src/map-image-export.js": {
+          "bytesInOutput": 17829
+        }
+      },
+      "bytes": 18117
+    },
+    "app/build/chunks/app-OEMRLMGN.js": {
+      "imports": [
+        {
+          "path": "app/build/chunks/chunk-6SPDZ5NW.js",
           "kind": "import-statement"
         },
         {
@@ -1380,19 +1477,27 @@
           "kind": "import-statement"
         },
         {
+          "path": "app/build/chunks/chunk-MSTI6DCX.js",
+          "kind": "import-statement"
+        },
+        {
           "path": "app/build/chunks/chunk-CJSNQPND.js",
           "kind": "import-statement"
         },
         {
-          "path": "app/build/chunks/catalogue-IGX7RUO4.js",
+          "path": "app/build/chunks/catalogue-34LYAQXN.js",
           "kind": "dynamic-import"
         },
         {
-          "path": "app/build/chunks/catalogue-IGX7RUO4.js",
+          "path": "app/build/chunks/catalogue-34LYAQXN.js",
           "kind": "dynamic-import"
         },
         {
-          "path": "app/build/chunks/election-manager-YTBWC7JE.js",
+          "path": "app/build/chunks/election-manager-R7HIK2BT.js",
+          "kind": "dynamic-import"
+        },
+        {
+          "path": "app/build/chunks/map-image-export-RU2WPCRA.js",
           "kind": "dynamic-import"
         }
       ],
@@ -1400,22 +1505,19 @@
       "entryPoint": "app/src/app.js",
       "inputs": {
         "app/src/app.js": {
-          "bytesInOutput": 120540
+          "bytesInOutput": 131758
         },
         "src/feature-loader.js": {
           "bytesInOutput": 6264
         },
         "src/ui-controller.js": {
-          "bytesInOutput": 350288
+          "bytesInOutput": 353147
         },
         "src/storage-keys.mjs": {
           "bytesInOutput": 383
         },
         "src/election-utils.js": {
           "bytesInOutput": 1274
-        },
-        "src/cdn-url.js": {
-          "bytesInOutput": 206
         },
         "src/catalogue/split.js": {
           "bytesInOutput": 3012
@@ -1436,10 +1538,10 @@
           "bytesInOutput": 666
         },
         "app/src/maplibre-main-adapter.js": {
-          "bytesInOutput": 38340
+          "bytesInOutput": 39778
         },
         "render/src/map-controller.js": {
-          "bytesInOutput": 52828
+          "bytesInOutput": 52858
         },
         "node_modules/pmtiles/dist/esm/index.js": {
           "bytesInOutput": 14537
@@ -1460,9 +1562,9 @@
           "bytesInOutput": 362
         }
       },
-      "bytes": 630461
+      "bytes": 645913
     },
-    "app/build/chunks/chunk-W2AEJBOJ.js": {
+    "app/build/chunks/chunk-6SPDZ5NW.js": {
       "imports": [
         {
           "path": "app/build/chunks/chunk-CJSNQPND.js",
@@ -1474,23 +1576,17 @@
         "b",
         "c",
         "d",
-        "e",
-        "f",
-        "g",
-        "h"
+        "e"
       ],
       "inputs": {
-        "src/map-relations.mjs": {
-          "bytesInOutput": 293
-        },
-        "src/data-service.js": {
-          "bytesInOutput": 10440
-        },
         "src/catalogue/flag.js": {
           "bytesInOutput": 761
+        },
+        "src/cdn-url.js": {
+          "bytesInOutput": 203
         }
       },
-      "bytes": 11599
+      "bytes": 1048
     },
     "app/build/chunks/chunk-LKSFWXZ5.js": {
       "imports": [
@@ -1537,6 +1633,41 @@
         }
       },
       "bytes": 1068
+    },
+    "app/build/chunks/chunk-MSTI6DCX.js": {
+      "imports": [
+        {
+          "path": "app/build/chunks/chunk-CJSNQPND.js",
+          "kind": "import-statement"
+        }
+      ],
+      "exports": [
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f",
+        "g",
+        "h",
+        "i",
+        "j",
+        "k",
+        "l",
+        "m"
+      ],
+      "inputs": {
+        "src/map-relations.mjs": {
+          "bytesInOutput": 293
+        },
+        "src/data-service.js": {
+          "bytesInOutput": 10823
+        },
+        "src/census-overlay.mjs": {
+          "bytesInOutput": 9236
+        }
+      },
+      "bytes": 20494
     },
     "app/build/chunks/chunk-CJSNQPND.js": {
       "imports": [],
@@ -1757,10 +1888,10 @@
           "bytesInOutput": 69917
         },
         "app/src/test2.css": {
-          "bytesInOutput": 67187
+          "bytesInOutput": 72853
         }
       },
-      "bytes": 137105
+      "bytes": 142771
     }
   }
 }

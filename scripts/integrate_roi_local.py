@@ -79,6 +79,18 @@ def filled_by_fixes():
             if any(op.get('op') == 'replaceCandidates' and op.get('candidates') for op in r.get('operations') or [])}
 
 
+def emptied_by_fixes():
+    """Areas a source-checked fix empties (replaceCandidates with no candidates): the import put a
+    member in the wrong area (Emmet Stagg in Celbridge 1979; he sat for Clane), so the area has no
+    result to show until it is transcribed."""
+    if not os.path.exists(FIXES):
+        return set()
+    with open(FIXES, encoding='utf-8') as fh:
+        records = json.load(fh).get('records') or []
+    return {os.path.normpath(os.path.join(REPO, r['sourceFile'])) for r in records
+            if any(op.get('op') == 'replaceCandidates' and not op.get('candidates') for op in r.get('operations') or [])}
+
+
 def slugify(value):
     value = re.sub(r'\s+', '-', str(value or '').strip().lower())
     value = re.sub(r'[^a-z0-9-]', '', value)
@@ -226,7 +238,10 @@ def main():
 
         orphans = [p for c, p in files_by_cons.items() if c not in {r['cons_id'] for r in rows}]
         filled = filled_by_fixes()
-        with_results = [r for r in rows if r['candidates'] or os.path.normpath(os.path.join(work_dir, r['file'])) in filled]
+        emptied = emptied_by_fixes()
+        with_results = [r for r in rows
+                        if (r['candidates'] or os.path.normpath(os.path.join(work_dir, r['file'])) in filled)
+                        and os.path.normpath(os.path.join(work_dir, r['file'])) not in emptied]
         coverage = len(with_results) / len(rows) if rows else 0
         # 1974, 1979 and 1985 clear the coverage bar once source-checked fills are counted. Their
         # rows mostly lack ElectionsIreland ids; the person registry keeps such rows to their

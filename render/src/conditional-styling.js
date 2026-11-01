@@ -83,7 +83,7 @@ export class ConditionalStylingController {
     if (!record) return false;
     const fillId = `${layerId}-fill`;
     if (this.controller.map.getLayer(fillId)) {
-      this.controller.map.setPaintProperty(fillId, 'fill-color', record.config.style?.fillColor || record.config.style?.color || '#7C3AED');
+      this.controller.map.setPaintProperty(fillId, 'fill-color', record.config.style?.fillColorExpression || record.config.style?.fillColor || record.config.style?.color || '#7C3AED');
     }
     this.activeStyles.delete(layerId);
     delete record.styleState;

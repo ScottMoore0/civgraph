@@ -62,22 +62,91 @@
     {
       "party": "Whig",
       "seats": 1,
-      "stood": 0,
-      "votes": 0,
+      "stood": 1,
+      "votes": 97,
       "colour": "#888888",
-      "share": null
+      "share": 50.78534031413613
+    },
+    {
+      "party": "Conservative",
+      "seats": 0,
+      "stood": 1,
+      "votes": 94,
+      "colour": "#0087dc",
+      "share": 49.21465968586388
     }
   ],
   "mainLikeTotals": {
-    "validPoll": 0,
+    "validPoll": 191,
     "totalPoll": 0,
     "totalElectorate": 343,
     "totalSpoiled": 0,
     "totalSeats": 1
   },
-  "mainLikeCandidateSummary": [],
+  "mainLikeCandidateSummary": [
+    {
+      "id": "row:Benjamin Hawes|Whig",
+      "personId": 124380,
+      "sourcePersonId": "wikipedia:Benjamin Hawes",
+      "constituency": "Kinsale",
+      "name": "Benjamin Hawes",
+      "party": "Whig",
+      "colour": "#888888",
+      "firstPrefs": 97,
+      "votes": 97,
+      "constPct": 50.78534031413613,
+      "firstPrefPct": 50.78534031413613,
+      "finalVotes": 97,
+      "elected": true,
+      "electedAt": 1,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Elected",
+      "counts": {
+        "1": {
+          "total": 97,
+          "transfers": 0,
+          "status": "Elected"
+        }
+      },
+      "candidateKey": "benjamin hawes|whig",
+      "name_id": "n-benjamin-hawes"
+    },
+    {
+      "id": "row:Robert Pelham-Clinton|Conservative",
+      "personId": 124979,
+      "sourcePersonId": "wikipedia:Lord Robert Clinton",
+      "constituency": "Kinsale",
+      "name": "Robert Pelham-Clinton",
+      "party": "Conservative",
+      "colour": "#0087dc",
+      "firstPrefs": 94,
+      "votes": 94,
+      "constPct": 49.21465968586388,
+      "firstPrefPct": 49.21465968586388,
+      "finalVotes": 94,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 94,
+          "transfers": 0,
+          "status": "Not elected"
+        }
+      },
+      "candidateKey": "robert pelham-clinton|conservative",
+      "name_id": "n-robert-pelham-clinton"
+    }
+  ],
   "mainLikeCandidateTotals": {
-    "validPoll": 0
+    "validPoll": 191
   },
   "entityIndex": {
     "totalValid": 191,
@@ -106,7 +175,7 @@
       },
       {
         "name": "Conservative",
-        "colour": "#888888",
+        "colour": "#0087dc",
         "firstPrefs": 94,
         "finalVotes": 94,
         "stood": 1,
@@ -155,7 +224,7 @@
         "key": "Robert Pelham-Clinton|Conservative",
         "name": "Robert Pelham-Clinton",
         "party": "Conservative",
-        "colour": "#888888",
+        "colour": "#0087dc",
         "firstPrefs": 94,
         "finalVotes": 94,
         "electedCount": 0,
@@ -241,7 +310,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not elected",
-          "colour": "#888888",
+          "colour": "#0087dc",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",

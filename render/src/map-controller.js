@@ -1150,7 +1150,9 @@ export class TestMapLibreController {
         source: sourceId,
         'source-layer': layer.sourceLayer,
         paint: {
-          'fill-color': layer.style?.fillColor || layer.style?.color || '#7C3AED',
+          // A data layer (deprivation deciles, ...) carries a MapLibre expression that colours each
+          // feature by a property; fillColor stays a plain colour for swatches and pickers.
+          'fill-color': layer.style?.fillColorExpression || layer.style?.fillColor || layer.style?.color || '#7C3AED',
           'fill-opacity': resolveFillOpacity(layer),
           'fill-antialias': false
         }
