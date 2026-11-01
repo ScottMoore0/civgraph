@@ -61,7 +61,14 @@ SOURCE_RANGES = [
     ('1949-04-01', '1963-09-13', 'NI_Admin_Areas_1949-1963.fgb'),
     ('1964-04-01', '1964-06-02', 'NI_Admin_Areas_1964.fgb'),
     ('1965-04-01', '1968-04-01', 'NI_Admin_Areas_1965-1968.fgb'),
-    ('1969-04-01', '1969-04-01', 'NI_Admin_Areas_1969.fgb'),
+    ('1969-04-01', '1969-04-02', 'NI_Admin_Areas_1969.fgb'),
+]
+# Status changes and renames the source vintage files do not carry: (in force from, name in the source,
+# name from that date). From the census reports' lists of changes in administrative areas.
+RENAMES = [
+    ('1939-05-23', 'Ballymena Urban District', 'Ballymena Municipal Borough'),  # Census 1951 Preliminary Report, (1)
+    ('1966-07-04', 'Kilkeel Rural District', 'South Down Rural District'),      # Census 1966 Preliminary Report, Co. Down (3)
+    ('1969-04-02', 'Londonderry Rural District', 'Londonderry Urban District'),  # Census 1971 Preliminary Report, Co. Londonderry (1)
 ]
 SKIP_EDITIONS = {'admin-areas-1930-04-01', 'admin-areas-1966-07-04'}  # complete files of their own
 
@@ -135,6 +142,10 @@ def state_at(when: date, series) -> dict[str, tuple]:
     return out
 
 
+def renames_at(d: str) -> dict:
+    return {old: new for since, old, new in RENAMES if since <= d}
+
+
 def source_for(d: str) -> str | None:
     for lo, hi, name in SOURCE_RANGES:
         if lo <= d <= hi:
@@ -161,7 +172,7 @@ def main() -> int:
         if src is None:
             print(f'  ERROR no source vintage for {eid}'); ok = False; continue
         st = state_at(date.fromisoformat(d), series)
-        sig = (src, tuple(sorted((k, v[2], v[4]) for k, v in st.items())))
+        sig = (src, tuple(sorted((k, v[2], v[4]) for k, v in st.items())), renames_at(d))
         if groups and groups[-1]['sig'] == sig:
             groups[-1]['editions'].append((d, eid))
         else:
@@ -178,6 +189,9 @@ def main() -> int:
         name = g['src'] if eids == src_editions[g['src']] else \
             f"NI_Admin_Areas_{g['editions'][0][0]}_{g['editions'][-1][0]}.fgb"
         feats = read(LG / g['src'])
+        for f in feats:
+            f['properties']['AdministrativeArea'] = g['sig'][2].get(f['properties']['AdministrativeArea'],
+                                                                    f['properties']['AdministrativeArea'])
         names = {f['properties']['AdministrativeArea'] for f in feats}
         others = unary_union([ig(shape(f['geometry'])) for f in feats])
         added = {v[2]: v[3] for v in g['state'].values()}

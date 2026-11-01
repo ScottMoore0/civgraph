@@ -59,6 +59,7 @@ export const TOP_LEVEL_PAGES = [
   '/proni',
   '/pages/about.html',
   '/pages/census-explorer.html',
+  '/pages/status.html',
 ];
 
 // Browse types with a path-style page, and the index each is read from. Must match

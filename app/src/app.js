@@ -4883,7 +4883,19 @@ app.init().catch((error) => {
  * with the rename.
  */
 const LEGACY_LAYER_ID_PREFIXES = [
-  ['roi-local-authorities-', 'local-authorities-']
+  ['roi-local-authorities-', 'local-authorities-'],
+  // NI editions re-dated to the census date on 2026-11-01 (the id carries the date): Newtownards RD
+  // was renamed North Down RD on 1 Aug 1954, not 1 Apr (Census 1961); Londonderry's wards were
+  // reduced on 15 May 1938, not 16 May (Census 1951). The 1939 edition became a layer of its own
+  // (Ballymena made a borough), and the 1957 "CED" edition was the county map counties-ireland-1957.
+  ['admin-areas-1954-04-01', 'admin-areas-1954-08-01'],
+  ['ded-1954-04-01', 'ded-1954-08-01'],
+  ['county-ed-1954-04-01', 'county-ed-1954-08-01'],
+  ['admin-areas-1938-05-16', 'admin-areas-1938-05-15'],
+  ['ded-1938-05-16', 'ded-1938-05-15'],
+  ['county-ed-1938-05-16', 'county-ed-1938-05-15'],
+  ['admin-areas-1939-05-23-alias-test', 'admin-areas-1939-05-23-vector-test'],
+  ['county-ed-1957-04-01-vector-test', 'counties-ireland-1957-vector-test']
 ];
 
 // Elections whose polling date was corrected, which changed their keys: old links keep working.

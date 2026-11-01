@@ -693,6 +693,11 @@
     "local-government-administrative-areas",
     "counties-counties--ni",
     "local-government-local-authorities--ireland",
+    "local-government-rural-and-urban-districts--ireland",
+    "local-government-poor-law-unions--ireland",
+    "local-government-poor-law-unions",
+    "public-service-areas-dispensary-districts",
+    "public-service-areas-superintendent-registrars-districts",
     "public-service-areas-education-and-library-boards"
    ],
    "toBeAdded": []
@@ -750,17 +755,19 @@
    ],
    "kind": "Boundary",
    "toBeAdded": [
+    "admin-areas-1969-04-02",
     "admin-areas-1968-04-01",
     "admin-areas-1967-04-01",
     "admin-areas-1964-06-02",
     "admin-areas-1963-09-13",
     "admin-areas-1963-04-01",
     "admin-areas-1962-04-01",
+    "admin-areas-1962-01-01",
     "admin-areas-1958-04-01",
     "admin-areas-1957-04-01",
     "admin-areas-1956-04-01",
     "admin-areas-1955-04-01",
-    "admin-areas-1954-04-01",
+    "admin-areas-1954-08-01",
     "admin-areas-1950-04-01",
     "admin-areas-1949-07-07",
     "admin-areas-1949-07-01",
@@ -773,7 +780,7 @@
     "admin-areas-1945-04-01",
     "admin-areas-1939-05-23",
     "admin-areas-1938-05-23",
-    "admin-areas-1938-05-16",
+    "admin-areas-1938-05-15",
     "admin-areas-1938-04-01",
     "admin-areas-1935-06-26",
     "admin-areas-1935-06-25",
@@ -850,15 +857,163 @@
     "local-authorities-1920-10-04",
     "local-authorities-1920-06-25",
     "local-authorities-1920-06-19",
-    "local-authorities-1915"
+    "local-authorities-1915",
+    "administrative-counties-1899"
    ],
    "labels": {
     "local-authorities-1920-10-04": "4 Oct 1920",
     "local-authorities-1920-06-25": "25 Jun 1920",
     "local-authorities-1920-06-19": "19 Jun 1920",
-    "local-authorities-1915": "1915"
+    "local-authorities-1915": "1915",
+    "administrative-counties-1899": "18 Apr 1899"
    },
    "kind": "Boundary"
+  },
+  {
+   "id": "local-government-rural-and-urban-districts--ireland",
+   "name": "Rural and Urban Districts (Ireland before partition)",
+   "subject": "government-former",
+   "scope": "Ireland",
+   "arrangement": "editions",
+   "members": [
+    "rural-urban-districts-1911",
+    "rural-urban-districts-1901"
+   ],
+   "kind": "Boundary",
+   "unit": "County districts",
+   "aliases": [
+    "rural district",
+    "urban district",
+    "county borough",
+    "county district"
+   ],
+   "description": "The county districts of the Local Government (Ireland) Act 1898 (rural districts, urban districts and county boroughs) at the censuses of 1901 and 1911, built from the District Electoral Divisions printed under each district in the census county volumes."
+  },
+  {
+   "id": "local-government-poor-law-unions",
+   "name": "Poor Law Unions",
+   "subject": "government-former",
+   "scope": "Northern Ireland",
+   "arrangement": "editions",
+   "members": [
+    "plu-ni-1924-04-01",
+    "plu-ni-1921-04-01"
+   ],
+   "kind": "Boundary",
+   "unit": "Poor Law Unions",
+   "aliases": [
+    "PLU",
+    "poor law union",
+    "workhouse union",
+    "superintendent registrar's district",
+    "board of guardians"
+   ],
+   "description": "The 27 Poor Law Unions of Northern Ireland from the cross-border reorganisation of 1 Apr 1921 until the boards of guardians' functions passed to the welfare and health authorities in July 1948."
+  },
+  {
+   "id": "local-government-poor-law-unions--ireland",
+   "name": "Poor Law Unions (Ireland before partition)",
+   "subject": "government-former",
+   "scope": "Ireland",
+   "arrangement": "editions",
+   "members": [
+    "plu-1921",
+    "plu-1911",
+    "plu-1901",
+    "plu-1891-09-30",
+    "plu-1891",
+    "plu-1886-09-30",
+    "plu-1885-09-30",
+    "plu-1851",
+    "plu-parts-1921",
+    "plu-parts-1911",
+    "plu-parts-1901"
+   ],
+   "variantOf": {
+    "plu-parts-1921": "plu-1921",
+    "plu-parts-1911": "plu-1911",
+    "plu-parts-1901": "plu-1901"
+   },
+   "labels": {
+    "plu-parts-1921": "By county",
+    "plu-parts-1911": "By county",
+    "plu-parts-1901": "By county"
+   },
+   "kind": "Boundary",
+   "unit": "Poor Law Unions",
+   "units": {
+    "plu-parts-1921": "Union parts",
+    "plu-parts-1911": "Union parts",
+    "plu-parts-1901": "Union parts"
+   },
+   "aliases": [
+    "PLU",
+    "poor law union",
+    "workhouse union",
+    "superintendent registrar's district",
+    "board of guardians"
+   ],
+   "description": "The unions of the Poor Law (Ireland) Act 1838, each run by a board of guardians and a workhouse, drawn at the censuses of 1851, 1891, 1901 and 1911, after each union dissolved in 1885-91, and just before partition, by grouping the District Electoral Divisions by the union the census reports put them in. In the Irish Free State the unions' names lived on in the superintendent registrars' districts, drawn at the censuses of 1926 to 1956 under Superintendent Registrars' Districts.",
+   "versionLabels": {
+    "plu-1921": "Whole unions",
+    "plu-1911": "Whole unions",
+    "plu-1901": "Whole unions"
+   }
+  },
+  {
+   "id": "public-service-areas-dispensary-districts",
+   "name": "Dispensary Districts",
+   "subject": "government-former",
+   "scope": "Republic of Ireland",
+   "arrangement": "editions",
+   "members": [
+    "dispensary-districts-roi-1956",
+    "dispensary-districts-roi-1951",
+    "dispensary-districts-roi-1946",
+    "dispensary-districts-roi-1936",
+    "dispensary-districts-roi-1926"
+   ],
+   "labels": {
+    "dispensary-districts-roi-1926": "1926 (estimate)"
+   },
+   "kind": "Boundary",
+   "unit": "Dispensary districts",
+   "aliases": [
+    "dispensary district",
+    "dispensary",
+    "D.D.",
+    "medical officer district",
+    "poor law medical relief",
+    "registrar's district"
+   ],
+   "description": "The districts of the dispensary doctors (medical officers), which were also the registrars' districts for births, deaths and marriages, at the censuses of 1936 to 1956, with an estimate for 1926. Each is mapped from the District Electoral Divisions the census lists for it and graded by whether its printed area checks: A where it equals the sum of its DEDs' areas, B or C, with the reason, where it does not. The city dispensary districts of Dublin, Cork, Limerick and Waterford are not mapped; each county borough is one unit."
+  },
+  {
+   "id": "public-service-areas-superintendent-registrars-districts",
+   "name": "Superintendent Registrars' Districts",
+   "subject": "government-former",
+   "scope": "Republic of Ireland",
+   "arrangement": "editions",
+   "members": [
+    "superintendent-registrars-districts-roi-1956",
+    "superintendent-registrars-districts-roi-1951",
+    "superintendent-registrars-districts-roi-1946",
+    "superintendent-registrars-districts-roi-1936",
+    "superintendent-registrars-districts-roi-1926"
+   ],
+   "labels": {
+    "superintendent-registrars-districts-roi-1926": "1926 (estimate)"
+   },
+   "kind": "Boundary",
+   "unit": "Superintendent registrars' districts",
+   "aliases": [
+    "superintendent registrar's district",
+    "S.R.D.",
+    "registration district",
+    "civil registration",
+    "poor law union"
+   ],
+   "description": "The registration districts for births, deaths and marriages at the censuses of 1936 to 1956, with an estimate for 1926: the former Poor Law Unions, printed county by county under the unions' names, each the union of its dispensary districts (see Dispensary Districts and Poor Law Unions (Ireland before partition))."
   },
   {
    "id": "nature-habitats-and-designated-sites-habitat-network",
@@ -1622,6 +1777,7 @@
     "ded-1921-05-03"
    ],
    "toBeAdded": [
+    "ded-1969-04-02",
     "ded-1969-04-01",
     "ded-1968-04-01",
     "ded-1967-04-01",
@@ -1632,11 +1788,12 @@
     "ded-1963-09-13",
     "ded-1963-04-01",
     "ded-1962-04-01",
+    "ded-1962-01-01",
     "ded-1958-04-01",
     "ded-1957-04-01",
     "ded-1956-04-01",
     "ded-1955-04-01",
-    "ded-1954-04-01",
+    "ded-1954-08-01",
     "ded-1950-04-01",
     "ded-1949-07-07",
     "ded-1949-07-01",
@@ -1650,7 +1807,7 @@
     "ded-1945-04-01",
     "ded-1939-05-23",
     "ded-1938-05-23",
-    "ded-1938-05-16",
+    "ded-1938-05-15",
     "ded-1938-04-01",
     "ded-1937-04-01",
     "ded-1936-04-01",
@@ -2640,6 +2797,7 @@
    "arrangement": "set",
    "members": [],
    "toBeAdded": [
+    "county-ed-1969-04-02",
     "county-ed-1969-04-01",
     "county-ed-1968-04-01",
     "county-ed-1967-04-01",
@@ -2650,10 +2808,12 @@
     "county-ed-1963-09-13",
     "county-ed-1963-04-01",
     "county-ed-1962-04-01",
+    "county-ed-1962-01-01",
     "county-ed-1958-04-01",
+    "county-ed-1957-04-01",
     "county-ed-1956-04-01",
     "county-ed-1955-04-01",
-    "county-ed-1954-04-01",
+    "county-ed-1954-08-01",
     "county-ed-1950-04-01",
     "county-ed-1949-07-07",
     "county-ed-1949-07-01",
@@ -2667,7 +2827,7 @@
     "county-ed-1945-04-01",
     "county-ed-1939-05-23",
     "county-ed-1938-05-23",
-    "county-ed-1938-05-16",
+    "county-ed-1938-05-15",
     "county-ed-1938-04-01",
     "county-ed-1937-04-01",
     "county-ed-1936-04-01",
@@ -4411,10 +4571,6 @@
    "why": "Phelim Birch's review, 2026-10-06: the Civil Parishes \"Northern Ireland\" part covers the whole island; the province parts cover it."
   },
   {
-   "id": "county-ed-1957-04-01",
-   "why": "Phelim Birch's review, 2026-10-06: this is his 1957 county map, not County Electoral Divisions, and is not to be credited as a CED map. To be placed after the source check."
-  },
-  {
    "id": "provinces",
    "why": "Phelim Birch's review, 2026-10-06: the 2019 provinces map is the 1955 map (no change since 1955)."
   },
@@ -4729,6 +4885,136 @@
   },
   {
    "id": "lgd-1991-provisional",
+   "by": "Scott Moore",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "plu-1921",
+   "by": "Scott Moore",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "plu-1911",
+   "by": "Scott Moore",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "plu-1901",
+   "by": "Scott Moore",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "plu-parts-1921",
+   "by": "Scott Moore",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "plu-parts-1911",
+   "by": "Scott Moore",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "plu-parts-1901",
+   "by": "Scott Moore",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "plu-ni-1924-04-01",
+   "by": "Scott Moore",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "plu-ni-1921-04-01",
+   "by": "Scott Moore",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "rural-urban-districts-1911",
+   "by": "Scott Moore",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "rural-urban-districts-1901",
+   "by": "Scott Moore",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "administrative-counties-1899",
+   "by": "Scott Moore",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "dispensary-districts-roi-1956",
+   "by": "Scott Moore",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "superintendent-registrars-districts-roi-1956",
+   "by": "Scott Moore",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "dispensary-districts-roi-1951",
+   "by": "Scott Moore",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "superintendent-registrars-districts-roi-1951",
+   "by": "Scott Moore",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "dispensary-districts-roi-1946",
+   "by": "Scott Moore",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "superintendent-registrars-districts-roi-1946",
+   "by": "Scott Moore",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "dispensary-districts-roi-1936",
+   "by": "Scott Moore",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "superintendent-registrars-districts-roi-1936",
+   "by": "Scott Moore",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "dispensary-districts-roi-1926",
+   "by": "Scott Moore",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "superintendent-registrars-districts-roi-1926",
+   "by": "Scott Moore",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "plu-1891-09-30",
+   "by": "Scott Moore",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "plu-1891",
+   "by": "Scott Moore",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "plu-1886-09-30",
+   "by": "Scott Moore",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "plu-1885-09-30",
+   "by": "Scott Moore",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "plu-1851",
    "by": "Scott Moore",
    "date": "2026-11-01"
   }

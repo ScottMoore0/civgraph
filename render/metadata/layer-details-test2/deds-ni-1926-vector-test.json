@@ -10,7 +10,7 @@
   "provider": [
     "Paddy Matthews"
   ],
-  "description": "DEDs in Northern Ireland",
+  "description": "",
   "renderer": "maplibre",
   "sourceType": "pmtiles",
   "geometryType": "polygon",
@@ -47,19 +47,16 @@
     "Paddy Matthews"
   ],
   "keywords": [
-    "electoral division",
-    "ED",
+    "DED",
+    "district electoral division",
     "1926",
     "census",
-    "irish free state",
+    "northern ireland",
     "Northern Ireland DEDs 1926",
     "Electoral Divisions",
     "Built Environment",
     "maplibre",
-    "vector tiles",
-    "DED",
-    "district electoral division",
-    "northern ireland"
+    "vector tiles"
   ],
   "labelProperty": "ED_NAME",
   "labelPropertyFallbacks": [
@@ -80,12 +77,12 @@
     "lineHeight": 1.25
   },
   "sourceFile": "render/source-cache/vector-intake/deds-ni-1926.fgb",
-  "sourceDatasetLayer": "deds-ni-1926",
+  "sourceDatasetLayer": "NorthernIrelandDEDs1926.__mean_tmp__",
   "idProperty": "OBJECTID",
   "popupProperties": [
+    "ED_NAME",
     "OBJECTID",
     "ED_ID",
-    "ED_NAME",
     "PROVINCE",
     "COUNTY",
     "CSO_ID",
@@ -129,7 +126,6 @@
       "CLAY",
       "CLOUGH",
       "CROSS",
-      "CRUMLIN",
       "DORSY",
       "DRUM",
       "DRUMCREE",
@@ -151,7 +147,8 @@
       "MAGHERA",
       "MAYO",
       "MOIRA",
-      "MOUNTJOY"
+      "MOUNTJOY",
+      "MOY"
     ],
     "PROVINCE": [
       "ULSTER",
@@ -168,7 +165,6 @@
     "CSO_ID": [
       "35021",
       "35129",
-      "35133",
       "35139",
       "35141",
       "36012",
@@ -197,7 +193,8 @@
       "36045",
       "36046",
       "36047",
-      "36049"
+      "36049",
+      "36050"
     ],
     "CSO_P_NAME": [
       "Belleek",
@@ -209,7 +206,6 @@
       "Clay",
       "Clough",
       "Cross",
-      "Crumlin",
       "Dorsy",
       "Drum",
       "Drumcree",
@@ -231,7 +227,8 @@
       "Maghera",
       "Mayo",
       "Moira",
-      "Mountjoy"
+      "Mountjoy",
+      "Moy"
     ],
     "CSO_COUNTY": [
       "ANTRIM",
@@ -250,10 +247,10 @@
   "generatedFrom": {
     "pipeline": "build-test-vector-batch",
     "sourceFile": "render/source-cache/vector-intake/deds-ni-1926.fgb",
-    "bytes": 9440560,
+    "bytes": 9436914,
     "files": 759,
     "pbfFiles": 758,
-    "maxTileBytes": 189429
+    "maxTileBytes": 189131
   },
   "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/deds-ni-1926-vector-test.pmtiles",
   "tilesFallback": "/render/tiles/generated/deds-ni-1926/{z}/{x}/{y}.pbf",
@@ -261,14 +258,15 @@
     "preferred": true,
     "localPath": "render/pmtiles/generated/deds-ni-1926-vector-test.pmtiles",
     "url": "/render/pmtiles/generated/deds-ni-1926-vector-test.pmtiles",
-    "bytes": 5523925,
+    "bytes": 5598369,
     "maxGithubBytes": 99614720,
-    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "generatedAt": "2026-11-01T03:05:27.634Z",
     "fallback": "/render/tiles/generated/deds-ni-1926/{z}/{x}/{y}.pbf",
+    "sourceSha256": "67ee6fa5a18f100e598d6d2f5c12b4fd0bcb584e8f8dcddafaea5a74baf99134",
     "serving": "cdn",
     "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/deds-ni-1926-vector-test.pmtiles",
     "r2Key": "data/maps/test/pmtiles/generated/deds-ni-1926-vector-test.pmtiles",
     "localUrl": "/render/pmtiles/generated/deds-ni-1926-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-08-04T22:09:20.884Z"
+    "byteRangeVerifiedAt": "2026-11-01T11:50:17.039Z"
   }
 }

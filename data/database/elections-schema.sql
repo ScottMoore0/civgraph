@@ -17,7 +17,7 @@
 -- Cloudflare-internal objects (_cf_*) and SQLite internals are excluded: they
 -- are not ours, and they change without us.
 
--- Tables: 12   Indexes: 34
+-- Tables: 15   Indexes: 39
 CREATE TABLE browse_persons (
   slug       TEXT PRIMARY KEY,
   id         TEXT,
@@ -29,11 +29,18 @@ CREATE TABLE browse_persons (
   -- Every field browse.js's substring filter looks at, flattened and lower-cased.
   -- Searching only the title would quietly return fewer results than the client did.
   search_norm TEXT,
-  first_year TEXT,
-  last_year  TEXT,
+  first_year INTEGER,
+  last_year  INTEGER,
+  bodies     TEXT,
+  decades    TEXT,
+  elected    TEXT,
+  contests   INTEGER,
+  elected_count INTEGER,
   ord        INTEGER NOT NULL,
   record     TEXT NOT NULL
 );
+
+CREATE TABLE browse_persons_aliases (alias TEXT PRIMARY KEY, slug TEXT NOT NULL);
 
 CREATE TABLE browse_register_interests (
   slug       TEXT PRIMARY KEY,
@@ -53,12 +60,14 @@ CREATE TABLE browse_register_interests (
   constituency TEXT,
   member_type TEXT,
   chamber    TEXT,
-  interest_count TEXT,
-  source_count TEXT,
+  interest_count INTEGER,
+  source_count INTEGER,
   nil_status TEXT,
   ord        INTEGER NOT NULL,
   record     TEXT NOT NULL
 );
+
+CREATE TABLE browse_register_interests_aliases (alias TEXT PRIMARY KEY, slug TEXT NOT NULL);
 
 CREATE TABLE browse_register_interests_facets (facets TEXT NOT NULL);
 
@@ -81,6 +90,8 @@ CREATE TABLE browse_sources (
   ord        INTEGER NOT NULL,
   record     TEXT NOT NULL
 );
+
+CREATE TABLE browse_sources_aliases (alias TEXT PRIMARY KEY, slug TEXT NOT NULL);
 
 CREATE TABLE browse_sources_facets (facets TEXT NOT NULL);
 
@@ -195,6 +206,16 @@ CREATE INDEX counts_key          ON counts(election_key, constituency_seq, candi
 CREATE INDEX elections_body_date ON elections(body_slug, date);
 
 CREATE INDEX elections_year      ON elections(year);
+
+CREATE INDEX idx_browse_persons_bodies ON browse_persons(bodies);
+
+CREATE INDEX idx_browse_persons_contests ON browse_persons(contests);
+
+CREATE INDEX idx_browse_persons_decades ON browse_persons(decades);
+
+CREATE INDEX idx_browse_persons_elected ON browse_persons(elected);
+
+CREATE INDEX idx_browse_persons_elected_count ON browse_persons(elected_count);
 
 CREATE INDEX idx_browse_persons_first_year ON browse_persons(first_year);
 

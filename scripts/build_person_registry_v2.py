@@ -94,6 +94,19 @@ PRE1973_COUNCIL_BODIES = {
     'londonderry-county-borough-council',
     'lisburn-urban-district-council',
     'bangor-urban-district-council',
+    'armagh-county-council',
+    'armagh-urban-district-council',
+    'keady-urban-district-council',
+    'lurgan-borough-council',
+    'lurgan-rural-district-council',
+    'portadown-borough-council',
+    'armagh-rural-district-council',
+    'newry-no-2-rural-district-council',
+    'tandragee-rural-district-council',
+    'moira-rural-district-council',
+    'aghalee-rural-district-council',
+    'tandragee-urban-district-council',
+    'castleblayney-no-2-rural-district-council',
 }
 
 

@@ -1,0 +1,269 @@
+{
+  "id": "plu-1911-vector-test",
+  "sourceMapId": "plu-1911",
+  "name": "Poor Law Unions 2 Apr 1911",
+  "category": "Local Government Districts",
+  "group": "Elections and Government",
+  "date": "1911-04-02",
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Scott Moore",
+    "Phelim Birch",
+    "Paddy Matthews"
+  ],
+  "description": "The 158 Poor Law Unions of Ireland at the census of 2 Apr 1911: 112 in one county, 38 in two and 8 in three. Each union is built by grouping the 3,673 District Electoral Divisions of the 1911 census by the union they were in, from the county districts in each county volume's Table VI and the DED numbers in Table VII (which runs union by union). The DED map is Phelim Birch's and Paddy Matthews's (Leinster 29 Apr 1910, Connacht and Munster 1907, Ulster as on census day). Every union's DED areas add up to the acreage printed in the 1911 General Report Table 51 (147 of 158 within 0.01%), and its DED populations to the printed population. Each union carries its census acreage and population; quote census_acres rather than the map area, which takes in large lakes and estuaries the census leaves out. The King's County volume is not held, so its 87 DEDs are placed from the 1911 DED-number blocks printed in the 1936 census; six DEDs at block edges are inferred.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/render/tiles/generated/plu-1911/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/render/tiles/generated/plu-1911/metadata.json",
+  "sourceLayer": "plu_1911",
+  "promoteId": "union_printed",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.4198972,
+      -10.662971
+    ],
+    [
+      55.4465803,
+      -5.4267884
+    ]
+  ],
+  "style": {
+    "color": "#6B3FA0",
+    "fillColor": "#6B3FA0",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Census of Ireland 1911, General Report (Cd. 6663), Table 51: area, houses and population of each Poor Law Union, and Table 147",
+      "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/",
+      "note": "The union acreage (census_acres) and population (census_pop) of each union; 158 unions and 3,673 DEDs."
+    },
+    {
+      "label": "Census of Ireland 1911, Area, houses and population (county volumes), Tables VI and VII",
+      "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/",
+      "note": "Table VI lists each county district with its DEDs, their Table VII numbers, areas and populations; Table VII lists the townlands by union, registrar's district and DED. Table VI of every held volume was transcribed from the page images; the DED-to-union lookup is a download of this map."
+    },
+    {
+      "label": "Census of Saorstát Éireann 1936, Vol. 1, Table 10",
+      "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census1936reports/census1936volume1/",
+      "note": "Each Offaly dispensary district with its 1911 Table VII DED numbers, from which the King's County unions are placed (no 1911 King's County volume is held)."
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "render/source-cache/vector-intake/plu-1911.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Scott Moore",
+    "Phelim Birch",
+    "Paddy Matthews"
+  ],
+  "keywords": [
+    "poor law union",
+    "PLU",
+    "board of guardians",
+    "superintendent registrar's district",
+    "1911",
+    "census",
+    "before partition",
+    "ireland",
+    "all-island",
+    "Poor Law Unions 2 Apr 1911",
+    "Local Government Districts",
+    "Elections and Government",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "union_printed",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#6B3FA0",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "sourceFile": "render/source-cache/vector-intake/plu-1911.fgb",
+  "sourceDatasetLayer": "plu-1911",
+  "idProperty": "union_printed",
+  "popupProperties": [
+    "union_printed",
+    "union_norm",
+    "counties",
+    "ed_count",
+    "area_km2",
+    "census_acres",
+    "census_acres_source",
+    "census_pop",
+    "census_pop_year",
+    "map_vs_census_area_pct"
+  ],
+  "numericProperties": [
+    "ed_count",
+    "area_km2",
+    "census_acres",
+    "census_pop",
+    "map_vs_census_area_pct",
+    "printed_ed_sum_vs_table51_pct"
+  ],
+  "categoricalProperties": [
+    "union_printed",
+    "union_norm",
+    "counties",
+    "census_acres_source",
+    "census_pop_year"
+  ],
+  "categoricalValues": {
+    "union_printed": [
+      "Antrim",
+      "Ardee",
+      "Armagh",
+      "Athlone",
+      "Athy",
+      "Bawnboy",
+      "Belfast",
+      "Birr",
+      "Callan",
+      "Carlow",
+      "Cashel",
+      "Cavan",
+      "Clogheen",
+      "Clogher",
+      "Clones",
+      "Clonmel",
+      "Delvin",
+      "Drogheda",
+      "Dundalk",
+      "Gorey",
+      "Granard",
+      "Kells",
+      "Kilkeel",
+      "Kilkenny",
+      "Larne",
+      "Limavady",
+      "Lisburn",
+      "Lismore",
+      "Longford",
+      "Lurgan",
+      "Milford",
+      "Mohill"
+    ],
+    "union_norm": [
+      "Antrim",
+      "Ardee",
+      "Armagh",
+      "Athlone",
+      "Athy",
+      "Bawnboy",
+      "Belfast",
+      "Callan",
+      "Carlow",
+      "Cashel",
+      "Cavan",
+      "Clogheen",
+      "Clogher",
+      "Clones",
+      "Clonmel",
+      "Delvin",
+      "Drogheda",
+      "Dundalk",
+      "Gorey",
+      "Granard",
+      "Kells",
+      "Kilkeel",
+      "Kilkenny",
+      "Larne",
+      "Limavady",
+      "Lisburn",
+      "Lismore",
+      "Longford",
+      "Lurgan",
+      "Milford",
+      "Mohill",
+      "Monaghan"
+    ],
+    "counties": [
+      "Antrim",
+      "Armagh",
+      "Cavan",
+      "Clare",
+      "Cork",
+      "Donegal",
+      "Down",
+      "Dublin",
+      "Galway",
+      "Kerry",
+      "Kilkenny",
+      "Leitrim",
+      "Limerick",
+      "Longford",
+      "Louth",
+      "Mayo",
+      "Meath",
+      "Monaghan",
+      "Sligo",
+      "Tyrone",
+      "Wexford",
+      "Wicklow",
+      "Antrim; Armagh; Down",
+      "Antrim; Down",
+      "Armagh; Down",
+      "Armagh; Monaghan",
+      "Carlow; Kildare; Wicklow",
+      "Carlow; Kilkenny; Wexford",
+      "Carlow; Queen's County",
+      "Cavan; Fermanagh",
+      "Cavan; Leitrim",
+      "Cavan; Longford; Westmeath"
+    ],
+    "census_acres_source": [
+      "1911 General Report Table 51"
+    ],
+    "census_pop_year": [
+      "1911"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from render/source-cache/vector-intake/plu-1911.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "render/source-cache/vector-intake/plu-1911.fgb",
+    "bytes": 12487092,
+    "files": 3917,
+    "pbfFiles": 3916,
+    "maxTileBytes": 96983
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/plu-1911-vector-test.pmtiles",
+  "tilesFallback": "/render/tiles/generated/plu-1911/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "render/pmtiles/generated/plu-1911-vector-test.pmtiles",
+    "url": "/render/pmtiles/generated/plu-1911-vector-test.pmtiles",
+    "bytes": 8149791,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-11-01T04:37:52.404Z",
+    "fallback": "/render/tiles/generated/plu-1911/{z}/{x}/{y}.pbf",
+    "sourceSha256": "8f8e33992379528c6b38a1d33300e6c7683d7a0cabd5bb653a42a93aab43bba3",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/plu-1911-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/plu-1911-vector-test.pmtiles",
+    "localUrl": "/render/pmtiles/generated/plu-1911-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-11-01T11:50:17.039Z"
+  },
+  "featureIndexUrl": "/render/metadata/feature-indexes/plu-1911-vector-test.json"
+}

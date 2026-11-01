@@ -1,52 +1,52 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-01T00:22:17.580Z",
+  "generatedAt": "2026-11-01T11:55:51.667Z",
   "failOnBlocking": true,
   "stats": {
     "manifest": {
       "schemaVersion": 1,
-      "generatedAt": "2026-10-31T23:15:09.808Z",
-      "entries": 1138,
+      "generatedAt": "2026-11-01T11:51:44.224Z",
+      "entries": 1370,
       "totals": {
-        "elections": 1138,
+        "elections": 1370,
         "loadable": 557,
-        "placeholders": 569,
+        "placeholders": 584,
         "matchedConstituencies": 7041,
-        "unmatchedConstituencies": 3237
+        "unmatchedConstituencies": 5021
       }
     },
     "browse": {
-      "total": 12554,
-      "parents": 1138,
-      "subEntries": 11416,
-      "overallSubEntries": 1138,
-      "constituencySubEntries": 10278
+      "total": 14802,
+      "parents": 1370,
+      "subEntries": 13432,
+      "overallSubEntries": 1370,
+      "constituencySubEntries": 12062
     },
     "sources": {
-      "sourceDetailFiles": 1138,
-      "resultBundles": 1138,
-      "summaryBundles": 1138,
+      "sourceDetailFiles": 1370,
+      "resultBundles": 1370,
+      "summaryBundles": 1370,
       "parentSourceRecordsMissing": 0,
       "sourceRecordsWithNoReferences": 0,
-      "sourceRecordsWithOneReference": 38,
+      "sourceRecordsWithOneReference": 270,
       "sourceRecordsWithMultipleReferences": 1100,
       "subEntriesWithNoReferences": 0,
-      "subEntriesWithOneReference": 231,
+      "subEntriesWithOneReference": 2247,
       "subEntriesWithMultipleReferences": 11185
     },
     "resultBundles": {
-      "loaded": 1138,
+      "loaded": 1370,
       "missing": 0,
-      "resultRows": 10278,
+      "resultRows": 12062,
       "matchedRows": 7041,
-      "unmatchedRows": 3237,
-      "candidateRows": 57516,
-      "electedRows": 28143,
-      "rowsWithCountDetail": 10258,
-      "rowsWithAnimationPayload": 10258,
-      "rowsExpectedTransferData": 4077,
+      "unmatchedRows": 5021,
+      "candidateRows": 61259,
+      "electedRows": 31228,
+      "rowsWithCountDetail": 12019,
+      "rowsWithAnimationPayload": 12019,
+      "rowsExpectedTransferData": 4092,
       "rowsMissingExpectedTransferData": 0,
-      "candidateRowsWithoutParty": 153
+      "candidateRowsWithoutParty": 2138
     },
     "colours": {
       "auditFilePresent": true,
@@ -311,15 +311,64 @@
   },
   "issueSummary": {
     "bySeverity": {
-      "warning": 74
+      "warning": 492
     },
     "byCategory": {
-      "source-record-single-reference": 38,
-      "candidate-party-missing": 25,
+      "source-record-single-reference": 270,
+      "candidate-party-missing": 188,
+      "candidate-list-missing": 23,
       "elected-count": 11
     }
   },
   "issues": [
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-county-council__1967-06-01",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-county-council__1967-06-01",
+      "message": "1 candidate rows have no party/label. Examples: Frank Hayes in Killyman."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-rural-district-council__1967-06-01",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-rural-district-council__1967-06-01",
+      "message": "2 candidate rows have no party/label. Examples: Ernest William Charles Weir in Killyman; Kenneth Kelly in Richhill."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "newry-no-2-rural-district-council__1967-06-01",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "newry-no-2-rural-district-council__1967-06-01",
+      "message": "43 candidate rows have no party/label. Examples: Donald J. Mulligan in Ballybot; Gerald Mulholland in Ballybot; Harold Kinney in Ballybot; Patrick J. Luckie in Ballymoyer; Oliver B. Murphy in Belleek."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-rural-district-council__1967-06-01",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-rural-district-council__1967-06-01",
+      "message": "5 candidate rows have no party/label. Examples: Andrew Isaac Crothers in Ballyshiel; Robert Woolsey in Laurelvale; Norman Alexander Beattie in Mullabrack; John McIntyre in Mullahead; Robert John McClelland in Tandragee Rural."
+    },
     {
       "severity": "warning",
       "category": "source-record-single-reference",
@@ -335,8 +384,128 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "keady-urban-district-council__1967-05-17",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "keady-urban-district-council__1967-05-17",
+      "message": "9 candidate rows have no party/label. Examples: Malachy Gorman in Keady; Brian Hughes in Keady; Bernard Arthurs in Keady; Eugene Connolly in Keady; Patrick J. McParland in Keady."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1967-05-17",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-list-missing",
+      "key": "lurgan-borough-council__1967-05-17",
+      "message": "No candidates found for Lurgan (aldermen)."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-list-missing",
+      "key": "lurgan-borough-council__1967-05-17",
+      "message": "No candidates found for Lurgan (councillors)."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "portadown-borough-council__1967-05-17",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-list-missing",
+      "key": "portadown-borough-council__1967-05-17",
+      "message": "No candidates found for Portadown (councillors)."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-urban-district-council__1967-05-17",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "strabane-urban-district-council__1967",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-county-council__1964-06-04",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-county-council__1964-06-04",
+      "message": "20 candidate rows have no party/label. Examples: C. R. Morrow in Bessbrook; L. W. Abraham in Breagh; Malachy Trainor in Crossmaglen; Patrick Short in Crossmaglen; R. R. Murphy in Crossmore."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-rural-district-council__1964-06-04",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-rural-district-council__1964-06-04",
+      "message": "30 candidate rows have no party/label. Examples: Thomas S. Hoey in Aghory; David Oscar Redman in Annaghmore; William James Shilliday in Armaghbrague; Thomas Steele in Ballyards; J. J. Allen in Ballymartrim."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-rural-district-council__1964-06-04",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-rural-district-council__1964-06-04",
+      "message": "10 candidate rows have no party/label. Examples: William Stewart in Breagh; Patrick James Crilly in Brownlowsderry; Robert Jones in Carrowbrack; Thomas John McKavanagh in Cornakinnegar; Thomas J. Robinson in Drumcree."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "newry-no-2-rural-district-council__1964-06-04",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "newry-no-2-rural-district-council__1964-06-04",
+      "message": "44 candidate rows have no party/label. Examples: Patrick Luckie in Ballymoyer; Patrick E. McKeown in Ballymoyer; Robert McGuinness in Belleek; James Andrews in Bessbrook North; Gerard Feighan in Bessbrook South."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-rural-district-council__1964-06-04",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-rural-district-council__1964-06-04",
+      "message": "5 candidate rows have no party/label. Examples: Andrew Isaac Crothers in Ballyshiel; Robert Woolsey in Laurelvale; Norman Alexander Beattie in Mullabrack; John McIntyre in Mullahead; Robert John McClelland in Tandragee Rural."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-urban-district-council__1964-05-20",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-urban-district-council__1964-05-20",
+      "message": "6 candidate rows have no party/label. Examples: B. McManus in North-West Ward; P. O'Connor in North-West Ward; P. Toner in North-West Ward; P. Duggan in South-West Ward; G. Mackie in South-West Ward."
     },
     {
       "severity": "warning",
@@ -353,6 +522,36 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1964-05-20",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-list-missing",
+      "key": "lurgan-borough-council__1964-05-20",
+      "message": "No candidates found for Lurgan (councillors)."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "portadown-borough-council__1964-05-20",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-list-missing",
+      "key": "portadown-borough-council__1964-05-20",
+      "message": "No candidates found for Portadown (aldermen)."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-list-missing",
+      "key": "portadown-borough-council__1964-05-20",
+      "message": "No candidates found for Portadown (councillors)."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "strabane-urban-district-council__1964-05-20",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
@@ -361,6 +560,126 @@
       "category": "candidate-party-missing",
       "key": "strabane-urban-district-council__1964-05-20",
       "message": "3 candidate rows have no party/label. Examples: H G Porter in North Ward; Cecil H Russell in North Ward; William Kidd in North Ward."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-urban-district-council__1964-05-20",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-county-council__1961-06-01",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-county-council__1961-06-01",
+      "message": "20 candidate rows have no party/label. Examples: Joseph Gray in Armagh; Henry Whiteside in Bessbrook; Malachy Trainor in Crossmaglen; Edward Richardson in Crossmaglen; Robert Murphy in Crossmore."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-rural-district-council__1961-06-01",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-rural-district-council__1961-06-01",
+      "message": "4 candidate rows have no party/label. Examples: Thomas Steel in Ballyards; William Foster in Crossmore; Robert C. Hyde in Milford; Samuel J. Elliott in Tullyroan."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-rural-district-council__1961-06-01",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-rural-district-council__1961-06-01",
+      "message": "10 candidate rows have no party/label. Examples: William Stewart in Breagh; Patrick James Crilly in Brownlowsderry; John William Jones in Carrowbrack; James McKavanagh in Cornakinnegar; Thomas J. Robinson in Drumcree."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "newry-no-2-rural-district-council__1961-06-01",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "newry-no-2-rural-district-council__1961-06-01",
+      "message": "40 candidate rows have no party/label. Examples: M. J. Poucher in Ballybot; J. Lavelle in Ballymoyer; Bernard J. McVerry in Belleek; Thomas P. Reynolds in Belleek; James Andrews in Bessbrook North."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-rural-district-council__1961-06-01",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-rural-district-council__1961-06-01",
+      "message": "5 candidate rows have no party/label. Examples: Andrew Isaac Crothers in Ballyshiel; Robert Woolsey in Laurelvale; Norman Alexander Beattie in Mullabrack; John McIntyre in Mullahead; Robert John McClelland in Tandragee Rural."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-urban-district-council__1961-05-17",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "keady-urban-district-council__1961-05-17",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "keady-urban-district-council__1961-05-17",
+      "message": "12 candidate rows have no party/label. Examples: John Greene in Keady; Vincent Mone in Keady; Bernard Arthurs in Keady; James M'Parland in Keady; Eugene Connolly in Keady."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1961-05-17",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-list-missing",
+      "key": "lurgan-borough-council__1961-05-17",
+      "message": "No candidates found for Lurgan (aldermen)."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-list-missing",
+      "key": "lurgan-borough-council__1961-05-17",
+      "message": "No candidates found for Lurgan (councillors)."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "portadown-borough-council__1961-05-17",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-list-missing",
+      "key": "portadown-borough-council__1961-05-17",
+      "message": "No candidates found for Portadown (councillors)."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-urban-district-council__1961-05-17",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
     {
       "severity": "warning",
@@ -401,6 +720,114 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "armagh-county-council__1958-06-05",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-rural-district-council__1958-06-05",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-rural-district-council__1958-06-05",
+      "message": "1 candidate rows have no party/label. Examples: J. J. Allen in Ballymartrim."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-rural-district-council__1958-06-05",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-rural-district-council__1958-06-05",
+      "message": "10 candidate rows have no party/label. Examples: William Stewart in Breagh; Patrick James Crilly in Brownlowsderry; John William Jones in Carrowbrack; James McKavanagh in Cornakinnegar; Thomas J. Robinson in Drumcree."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "newry-no-2-rural-district-council__1958-06-05",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "newry-no-2-rural-district-council__1958-06-05",
+      "message": "1 candidate rows have no party/label. Examples: S. McCann in Moyra Castle."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-rural-district-council__1958-06-05",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-rural-district-council__1958-06-05",
+      "message": "5 candidate rows have no party/label. Examples: Andrew Isaac Crothers in Ballyshiel; John McClelland in Laurelvale; Norman A. Beattie in Mullabrack; John McIntyre in Mullahead; Robert John McClelland in Tandragee Rural."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-urban-district-council__1958-05-21",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "keady-urban-district-council__1958-05-21",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1958-05-21",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-list-missing",
+      "key": "lurgan-borough-council__1958-05-21",
+      "message": "No candidates found for Lurgan (councillors)."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "portadown-borough-council__1958-05-21",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-list-missing",
+      "key": "portadown-borough-council__1958-05-21",
+      "message": "No candidates found for Portadown (aldermen)."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-list-missing",
+      "key": "portadown-borough-council__1958-05-21",
+      "message": "No candidates found for Portadown (councillors)."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-urban-district-council__1958-05-21",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-urban-district-council__1958-05-21",
+      "message": "9 candidate rows have no party/label. Examples: T. Hutchinson in Tandragee; Walter Gracey in Tandragee; Austin Best in Tandragee; Fred McKinney in Tandragee; John Sinton in Tandragee."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "strabane-urban-district-council__1958",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
@@ -413,8 +840,248 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "armagh-county-council__1955-06-02",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-county-council__1955-06-02",
+      "message": "22 candidate rows have no party/label. Examples: George Leyburn in Armagh; Frederick N. Bell in Bessbrook; Isaac G. Hawthorne in Breagh; Edward G. Richardson in Crossmaglen; William J. Watson in Crossmore."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-rural-district-council__1955-06-02",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-rural-district-council__1955-06-02",
+      "message": "31 candidate rows have no party/label. Examples: Thomas C. Hoey in Aghory; Oscar Redman in Annaghmore; Thomas G. Conn in Armaghbrague; William Foster in Ballyards; John J. Allen in Ballymartrim."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-rural-district-council__1955-06-02",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-rural-district-council__1955-06-02",
+      "message": "10 candidate rows have no party/label. Examples: William Stewart in Breagh; John Quinn in Brownlowsderry; John W. Jones in Carrowbrack; J. McKavanagh in Cornakinnegar; Thomas J. Robinson in Drumcree."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "newry-no-2-rural-district-council__1955-06-02",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "newry-no-2-rural-district-council__1955-06-02",
+      "message": "27 candidate rows have no party/label. Examples: John Reid in Ballybot; B. J. McVerry in Belleek; John Cartmill in Bessbrook North; Joseph Brown in Bessbrook South; Patrick Daniel Fearon in Camlough."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-rural-district-council__1955-06-02",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-rural-district-council__1955-06-02",
+      "message": "5 candidate rows have no party/label. Examples: James B. Greer in Ballyshiel; John McClelland in Laurelvale; Norman A. Beattie in Mullabrack; John McIntyre in Mullahead; John Black in Tandragee Rural."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-urban-district-council__1955-05-18",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "keady-urban-district-council__1955-05-18",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "keady-urban-district-council__1955-05-18",
+      "message": "9 candidate rows have no party/label. Examples: V. Mone in Keady; Chas. Mallon in Keady; B. Arthurs in Keady; J. McParland in Keady; J. Mone in Keady."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1955-05-18",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-list-missing",
+      "key": "lurgan-borough-council__1955-05-18",
+      "message": "No candidates found for Lurgan (aldermen)."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-list-missing",
+      "key": "lurgan-borough-council__1955-05-18",
+      "message": "No candidates found for Lurgan (councillors)."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "portadown-borough-council__1955-05-18",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-list-missing",
+      "key": "portadown-borough-council__1955-05-18",
+      "message": "No candidates found for Portadown (councillors)."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-urban-district-council__1955-05-18",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-urban-district-council__1955-05-18",
+      "message": "9 candidate rows have no party/label. Examples: John Sinton in Tandragee; Fred Harvey in Tandragee; T. Hutchinson in Tandragee; F. McKinney in Tandragee; W. Gracey in Tandragee."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "strabane-urban-district-council__1955",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-county-council__1952-06-05",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-county-council__1952-06-05",
+      "message": "21 candidate rows have no party/label. Examples: George Leyburn in Armagh; Frederick N. L. Bell in Bessbrook; Isaac G. Hawthorne in Breagh; Edward Richardson in Crossmaglen; James Graham in Drumcree."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-rural-district-council__1952-06-05",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-rural-district-council__1952-06-05",
+      "message": "31 candidate rows have no party/label. Examples: Thomas S. Hoey in Aghory; Oscar Redman in Annaghmore; Thomas G. Conn in Armaghbrague; William Foster in Ballyards; John J. Allen in Ballymartrim."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-rural-district-council__1952-06-05",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-rural-district-council__1952-06-05",
+      "message": "8 candidate rows have no party/label. Examples: T. J. Rafferty in Brownlowsderry; J. W. Jones in Carrowbrack; J. McKavanagh in Cornakinnegar; T. J. Robinson in Drumcree; Ritchie Best in Kernan."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "newry-no-2-rural-district-council__1952-06-05",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "newry-no-2-rural-district-council__1952-06-05",
+      "message": "34 candidate rows have no party/label. Examples: John Reid in Ballybot; Joseph Lavelle in Ballymoyer; Bernard J. McVerry in Belleek; John Cartmill in Bessbrook North; Thomas Regan in Bessbrook North."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-rural-district-council__1952-06-05",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-rural-district-council__1952-06-05",
+      "message": "5 candidate rows have no party/label. Examples: James Beattie Greer in Ballyshiel; John McClelland in Laurelvale; William T. Muldrew in Mullabrack; Samuel Irwin in Mullahead; John Black in Tandragee Rural."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-urban-district-council__1952-05-21",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "keady-urban-district-council__1952-05-21",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "keady-urban-district-council__1952-05-21",
+      "message": "14 candidate rows have no party/label. Examples: Bernard Arthurs in Keady; Patrick Murphy in Keady; Peter Connelly in Keady; Vincent Mone in Keady; Charles J. Mallon in Keady."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1952-05-21",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-list-missing",
+      "key": "lurgan-borough-council__1952-05-21",
+      "message": "No candidates found for Lurgan (councillors)."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "portadown-borough-council__1952-05-21",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-list-missing",
+      "key": "portadown-borough-council__1952-05-21",
+      "message": "No candidates found for Portadown (aldermen)."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-list-missing",
+      "key": "portadown-borough-council__1952-05-21",
+      "message": "No candidates found for Portadown (councillors)."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-urban-district-council__1952-05-21",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-urban-district-council__1952-05-21",
+      "message": "12 candidate rows have no party/label. Examples: Fred McKinney in Tandragee; W. T. Gracey in Tandragee; Joseph Cullen in Tandragee; Fred Harvey in Tandragee; Thomas Hutchinson in Tandragee."
     },
     {
       "severity": "warning",
@@ -431,14 +1098,320 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1949-06-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-list-missing",
+      "key": "lurgan-borough-council__1949-06-15",
+      "message": "No candidates found for Lurgan (aldermen)."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-list-missing",
+      "key": "lurgan-borough-council__1949-06-15",
+      "message": "No candidates found for Lurgan (councillors)."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-county-council__1949-06-02",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-county-council__1949-06-02",
+      "message": "21 candidate rows have no party/label. Examples: Frederick N. L. Bell in Bessbrook; Isaac G. Hawthorne in Breagh; Edward G. Richardson in Crossmaglen; William James Watson in Crossmore; James Graham in Drumcree."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-rural-district-council__1949-06-02",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-rural-district-council__1949-06-02",
+      "message": "31 candidate rows have no party/label. Examples: Thomas S. Hoey in Aghory; Oscar Redman in Annaghmore; Thomas G. Conn in Armaghbrague; Joseph Ferguson in Ballyards; William Anderson in Ballymartrim."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-rural-district-council__1949-06-02",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-rural-district-council__1949-06-02",
+      "message": "12 candidate rows have no party/label. Examples: G. W. Annesley in Breagh; J. McAlinden in Brownlowsderry; J. Moffatt in Carrowbrack; James McKavanagh in Cornakinnegar; R. J. Brown in Cornakinnegar."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "newry-no-2-rural-district-council__1949-06-02",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-rural-district-council__1949-06-02",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-rural-district-council__1949-06-02",
+      "message": "5 candidate rows have no party/label. Examples: James Beattie Greer in Ballyshiel; John M'Clelland in Laurelvale; William Thomas Muldrew in Mullabrack; Samuel Augustus Irwin in Mullahead; John Black in Tandragee Rural."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-urban-district-council__1949-05-18",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "keady-urban-district-council__1949-05-18",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "keady-urban-district-council__1949-05-18",
+      "message": "9 candidate rows have no party/label. Examples: Francis Slevin in Keady; James Arthurs in Keady; Vincent Mone in Keady; James J. Gorman in Keady; Patrick O'Neill in Keady."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "portadown-borough-council__1949-05-18",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-list-missing",
+      "key": "portadown-borough-council__1949-05-18",
+      "message": "No candidates found for Portadown (councillors)."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-urban-district-council__1949-05-18",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-urban-district-council__1949-05-18",
+      "message": "9 candidate rows have no party/label. Examples: Wm. Barr in Tandragee; Joseph R. Cullen in Tandragee; James Henry Dickson in Tandragee; Edwin Hanna in Tandragee; Daniel Kane in Tandragee."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "strabane-urban-district-council__1949",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "portadown-borough-council__1947-09-25",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-list-missing",
+      "key": "portadown-borough-council__1947-09-25",
+      "message": "No candidates found for Portadown (aldermen)."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-list-missing",
+      "key": "portadown-borough-council__1947-09-25",
+      "message": "No candidates found for Portadown (councillors)."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-county-council__1946-10-03",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-county-council__1946-10-03",
+      "message": "20 candidate rows have no party/label. Examples: J. Ferris in Bessbrook; I. G. Hawthorne in Breagh; E. Richardson in Crossmaglen; W. J. Watson in Crossmore; J. Graham in Drumcree."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-rural-district-council__1946-10-03",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-rural-district-council__1946-10-03",
+      "message": "1 candidate rows have no party/label. Examples: Thomas J. Spence in Richhill."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-rural-district-council__1946-10-03",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-rural-district-council__1946-10-03",
+      "message": "4 candidate rows have no party/label. Examples: G. W. Annesley in Breagh; T. J. Robinson in Drumcree; J. G. Gracey in Kernan; D. Gilpin in Lurgan Rural."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "newry-no-2-rural-district-council__1946-10-03",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "newry-no-2-rural-district-council__1946-10-03",
+      "message": "32 candidate rows have no party/label. Examples: J. Reid in Ballybot; B. J. McVerry in Belleek; B. A. Murphy in Belleek; F. N. L. Bell in Bessbrook North; T. Martin in Bessbrook South."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-rural-district-council__1946-10-03",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-rural-district-council__1946-10-03",
+      "message": "4 candidate rows have no party/label. Examples: J. B. Greer in Ballyshiel; William Thomas Muldrew in Mullabrack; Samuel Irwin in Mullahead; John Black in Tandragee Rural."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-urban-district-council__1946-09-18",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1946-09-18",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-borough-council__1946-09-18",
+      "message": "10 candidate rows have no party/label. Examples: R. Liggett in Lurgan; Thomas Bridgett in Lurgan; James Cummins in Lurgan; W. Williams in Lurgan; H. Geddis in Lurgan."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "portadown-borough-council__1946-09-18",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "portadown-borough-council__1946-09-18",
+      "message": "2 candidate rows have no party/label. Examples: I. Tedford in Portadown; T. Newell in Portadown."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-urban-district-council__1946-09-18",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-urban-district-council__1946-09-18",
+      "message": "9 candidate rows have no party/label. Examples: W. Barr in Tandragee; J. R. Cullen in Tandragee; J. H. Dickson in Tandragee; E. Hanna in Tandragee; D. Kane in Tandragee."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "strabane-urban-district-council__1946",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-county-council__1939-05-25",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-rural-district-council__1939-05-25",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-rural-district-council__1939-05-25",
+      "message": "1 candidate rows have no party/label. Examples: James McElroy in Lisnadill."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-rural-district-council__1939-05-25",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-rural-district-council__1939-05-25",
+      "message": "10 candidate rows have no party/label. Examples: G. W. Annesley in Breagh; John M'Alinden in Brownlowsderry; John Moffatt in Carrowbrack; Joseph O'Neill in Cornakinnegar; T. J. Robinson in Drumcree."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "newry-no-2-rural-district-council__1939-05-25",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "keady-urban-district-council__1939-05-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1939-05-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "portadown-borough-council__1939-05-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "portadown-borough-council__1939-05-15",
+      "message": "19 candidate rows have no party/label. Examples: Alfred L. Martin in Portadown; George A. Locke in Portadown; Edward M'Cann in Portadown; Robert V. Hawthorne in Portadown; John Greenaway in Portadown."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-urban-district-council__1939-05-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-urban-district-council__1939-05-15",
+      "message": "9 candidate rows have no party/label. Examples: W. Barr in Tandragee; B. Coburn in Tandragee; S. M'Clelland in Tandragee; J. R. Cullen in Tandragee; E. Hanna in Tandragee."
     },
     {
       "severity": "warning",
@@ -455,6 +1428,120 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1938-05-05",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1937-10-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-county-council__1936-05-28",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-county-council__1936-05-28",
+      "message": "1 candidate rows have no party/label. Examples: A. L. Martin in Portadown."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-rural-district-council__1936-05-28",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-rural-district-council__1936-05-28",
+      "message": "5 candidate rows have no party/label. Examples: Oscar Redman in Annaghmore; William Robert Mills in Brootally; William J. Wilson in Glenaul; Robert H. Weir in Kilmore; Thomas John Kells in Loughgall."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-rural-district-council__1936-05-28",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-rural-district-council__1936-05-28",
+      "message": "10 candidate rows have no party/label. Examples: G. W. Annesley in Breagh; J. McAlinden in Brownlowsderry; John Moffatt in Carrowbrack; Joseph O'Neill in Cornakinnegar; T. J. Robinson in Drumcree."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "newry-no-2-rural-district-council__1936-05-28",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "newry-no-2-rural-district-council__1936-05-28",
+      "message": "18 candidate rows have no party/label. Examples: John Reid in Ballybot; Felix McKernan in Ballymoyer; Henry J. Murphy in Belleek; John Elliott in Bessbrook South; Stephen Boyle in Camlough."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-rural-district-council__1936-05-28",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-rural-district-council__1936-05-28",
+      "message": "5 candidate rows have no party/label. Examples: J. E. Harden in Ballyshiel; James Woods in Laurelvale; W. T. Muldrew in Mullabrack; Edward Maginnis in Mullahead; Archibald Mathers in Tandragee Rural."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "keady-urban-district-council__1936-05-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "keady-urban-district-council__1936-05-15",
+      "message": "9 candidate rows have no party/label. Examples: Thomas Mallon in Keady; James Arthurs in Keady; Bernard Carolan in Keady; Thomas W. Martin in Keady; Joseph Ewart in Keady."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1936-05-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "portadown-borough-council__1936-05-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "portadown-borough-council__1936-05-15",
+      "message": "20 candidate rows have no party/label. Examples: A. L. Martin in Portadown; S. S. Corbett in Portadown; John Montgomery in Portadown; David Rock in Portadown; John Greenaway in Portadown."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-urban-district-council__1936-05-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-urban-district-council__1936-05-15",
+      "message": "9 candidate rows have no party/label. Examples: Boyd Coburn in Tandragee; Wm. Barr in Tandragee; Robert Caughey in Tandragee; Joseph R. Cullen in Tandragee; Edwin Hanna in Tandragee."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "strabane-urban-district-council__1936",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
@@ -467,8 +1554,230 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1934-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-county-council__1933-05-25",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-county-council__1933-05-25",
+      "message": "1 candidate rows have no party/label. Examples: William R. Mills in Crossmore."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-rural-district-council__1933-05-25",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-rural-district-council__1933-05-25",
+      "message": "7 candidate rows have no party/label. Examples: Thomas John Woods in Aghory; Oscar Redman in Annaghmore; William Robert Mills in Brootally; William James Wilson in Glenaul; David Morgan Troughton in Hamiltonsbawn."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-rural-district-council__1933-05-25",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-rural-district-council__1933-05-25",
+      "message": "10 candidate rows have no party/label. Examples: G. W. Annesley in Breagh; John McAlinden in Brownlowsderry; J. Moffett in Carrowbrack; J. O'Neill in Cornakinnegar; David Geddis in Drumcree."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "newry-no-2-rural-district-council__1933-05-25",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-rural-district-council__1933-05-25",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-rural-district-council__1933-05-25",
+      "message": "5 candidate rows have no party/label. Examples: J. E. Harden in Ballyshiel; James Woods in Laurelvale; William T. Muldrew in Mullabrack; Edward Maginnis in Mullahead; Seth Mathers in Tandragee Rural."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1933-01-16",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-urban-district-council__1932-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "keady-urban-district-council__1932-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1932-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "portadown-borough-council__1932-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "portadown-borough-council__1932-01-15",
+      "message": "17 candidate rows have no party/label. Examples: Samuel M'Gredy in North; James L. Rowlett in North; Robert J. Magowan in North; Samuel S. Corbett in North; David Rock in North."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-urban-district-council__1932-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-urban-district-council__1932-01-15",
+      "message": "9 candidate rows have no party/label. Examples: Wm. Barr in Tandragee; Robert Caughey in Tandragee; Boyd Coburn in Tandragee; Joseph R. Cullen in Tandragee; James Henry Dickson in Tandragee."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "strabane-urban-district-council__1932",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1931-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-county-council__1930-05-29",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-county-council__1930-05-29",
+      "message": "1 candidate rows have no party/label. Examples: Thomas Mallon in Keady."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-rural-district-council__1930-05-29",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-rural-district-council__1930-05-29",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-rural-district-council__1930-05-29",
+      "message": "8 candidate rows have no party/label. Examples: G. W. Annesley in Breagh; John Moffett in Carrowbrack; Thomas J. Robinson in Drumcree; John George Gracey in Kernan; John Hobbs in Kernan."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "newry-no-2-rural-district-council__1930-05-29",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "newry-no-2-rural-district-council__1930-05-29",
+      "message": "3 candidate rows have no party/label. Examples: Michael Burns in Camlough; Michael Largey in Creggan; Thomas J. McCullough in Mountnorris."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-rural-district-council__1930-05-29",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-rural-district-council__1930-05-29",
+      "message": "5 candidate rows have no party/label. Examples: J. E. Harden in Ballyshiel; James Woods in Laurelvale; William K. Muldrew in Mullabrack; Edward Magennis in Mullahead; S. Mathers in Tandragee Rural."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1930-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-borough-council__1930-01-15",
+      "message": "2 candidate rows have no party/label. Examples: Joseph Holland in Lurgan; George A. Anderson in Lurgan."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-urban-district-council__1929-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "keady-urban-district-council__1929-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1929-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "portadown-borough-council__1929-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "portadown-borough-council__1929-01-15",
+      "message": "20 candidate rows have no party/label. Examples: Joseph Kerr in North; David Rock in North; W. J. Moffett in North; S. S. Corbett in North; John Sandford in North."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-urban-district-council__1929-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-urban-district-council__1929-01-15",
+      "message": "9 candidate rows have no party/label. Examples: T. H. White in Tandragee; William Barr in Tandragee; Boyd Coburn in Tandragee; Robert M'Ivor in Tandragee; Edwin Hanna in Tandragee."
     },
     {
       "severity": "warning",
@@ -485,6 +1794,120 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1928-01-16",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-borough-council__1928-01-16",
+      "message": "7 candidate rows have no party/label. Examples: John Hopps in Lurgan; James Weir in Lurgan; William Waite in Lurgan; Edward Sullivan in Lurgan; Robert Levin in Lurgan."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-county-council__1927-05-26",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-county-council__1927-05-26",
+      "message": "20 candidate rows have no party/label. Examples: Thomas McLaughlin in Armagh; John Harland in Bessbrook; Harry Percy Nicholson in Breagh; John Nugent in Crossmaglen; William John Todd in Crossmore."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-rural-district-council__1927-05-26",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-rural-district-council__1927-05-26",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-rural-district-council__1927-05-26",
+      "message": "10 candidate rows have no party/label. Examples: George W. Annesley in Breagh; John M'Alinden in Brownlowsderry; John Moffatt in Carrowbrack; W. H. Gracey in Cornakinnegar; J. Walsh in Drumcree."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "newry-no-2-rural-district-council__1927-05-26",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "newry-no-2-rural-district-council__1927-05-26",
+      "message": "1 candidate rows have no party/label. Examples: Samuel Monaghan in Mountnorris."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-rural-district-council__1927-05-26",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-rural-district-council__1927-05-26",
+      "message": "3 candidate rows have no party/label. Examples: W. J. Atkinson in Mullabrack; John Joyce in Mullahead; Seth Mathers in Tandragee Rural."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1927-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-urban-district-council__1926-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "keady-urban-district-council__1926-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1926-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "portadown-borough-council__1926-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "portadown-borough-council__1926-01-15",
+      "message": "17 candidate rows have no party/label. Examples: G. A. Locke in North; R. J. Magowan in North; A. L. Martin in North; Joseph Kerr in North; John Sandford in North."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-urban-district-council__1926-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-urban-district-council__1926-01-15",
+      "message": "9 candidate rows have no party/label. Examples: Isaac Barr in Tandragee; Wm. Barr in Tandragee; Boyd Coburn in Tandragee; Joseph R. Cullen in Tandragee; James H. Dickson in Tandragee."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "strabane-urban-district-council__1926",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
@@ -497,7 +1920,139 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1925-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-county-council__1924-05-29",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-rural-district-council__1924-05-29",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-rural-district-council__1924-05-29",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "newry-no-2-rural-district-council__1924-05-29",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-rural-district-council__1924-05-29",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-rural-district-council__1924-05-29",
+      "message": "5 candidate rows have no party/label. Examples: J. E. Harden in Ballyshiel; James Woods in Laurelvale; W. J. Atkinson in Mullabrack; John Joyce in Mullahead; Seth Mathers in Tandragee Rural."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1924-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-urban-district-council__1923-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "keady-urban-district-council__1923-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1923-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "portadown-borough-council__1923-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "portadown-borough-council__1923-01-15",
+      "message": "6 candidate rows have no party/label. Examples: David Rock in South-West; Robert Courtney in South-West; George Gregory in South-West; Robert Wright in South-West; H. C. I. Kelly in South-West."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-urban-district-council__1923-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-urban-district-council__1923-01-15",
+      "message": "9 candidate rows have no party/label. Examples: T. H. White in Tandragee; W. J. Meredith in Tandragee; B. Coburn in Tandragee; J. H. Roberts in Tandragee; James Fagan in Tandragee."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "strabane-urban-district-council__1923-01-05",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-county-council__1920-06-05",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-county-council__1920-06-05",
+      "message": "4 candidate rows have no party/label. Examples: H. P. Nicholson in Portadown Area; W. W. Stewart Blacker in Portadown Area; David D. Shillington in Portadown Area; William C. Fitzgerald in Portadown Area."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-rural-district-council__1920-06-05",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-rural-district-council__1920-06-05",
+      "message": "8 candidate rows have no party/label. Examples: Thomas Faloon in Lurgan area; James Campbell in Lurgan area; George Ruddell in Lurgan area; W. J. McGibbon in Lurgan area; George Corey in Lurgan area."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "newry-no-2-rural-district-council__1920-06-05",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "newry-no-2-rural-district-council__1920-06-05",
+      "message": "8 candidate rows have no party/label. Examples: Bernard Collins in Camlough area; James M'Quaid in Camlough area; Patrick O'Callaghan in Camlough area; John Smyth in Camlough area; Bernard Gribben in Poyntzpass area."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-urban-district-council__1920-01-15",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
     {
@@ -515,6 +2070,18 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "keady-urban-district-council__1920-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "keady-urban-district-council__1920-01-15",
+      "message": "4 candidate rows have no party/label. Examples: Thomas Mallon in Keady; Bernard Feighan in Keady; B. Woods in Keady; M. Smyth in Keady."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "lisburn-urban-district-council__1920-01-15",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
@@ -523,6 +2090,36 @@
       "category": "source-record-single-reference",
       "key": "londonderry-county-borough-council__1920-01-15",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1920-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "portadown-borough-council__1920-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "portadown-borough-council__1920-01-15",
+      "message": "2 candidate rows have no party/label. Examples: P. L. Malone in South-East; J. Greenaway in South-West."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-urban-district-council__1920-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-urban-district-council__1920-01-15",
+      "message": "14 candidate rows have no party/label. Examples: Thomas Henry White in Tandragee; James Henry Dickson in Tandragee; John Adair in Tandragee; Boyd Coburn in Tandragee; William John Meredith in Tandragee."
     },
     {
       "severity": "warning",
@@ -539,6 +2136,18 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1915-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-borough-council__1915-01-15",
+      "message": "6 candidate rows have no party/label. Examples: John Mahaffy in Lurgan; Henry G. MacGeagh in Lurgan; Thomas Loftus Cole in Lurgan; William Ballentine in Lurgan; James Gillespie in Lurgan."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "strabane-urban-district-council__1915",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
@@ -547,6 +2156,132 @@
       "category": "candidate-party-missing",
       "key": "strabane-urban-district-council__1915",
       "message": "6 candidate rows have no party/label. Examples: Patrick McCollum in East Ward; John Browne in North Ward; Constantine Connolly in North Ward; Michael Bradley in South Ward; James Toorish in South Ward."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-county-council__1914-05-28",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-county-council__1914-05-28",
+      "message": "16 candidate rows have no party/label. Examples: L. M. Anderson in Armagh; Thomas O'Hare in Camlough; James M'Guill in Forkhill; James Wilkins in Hamiltonsbawn; Michael Smyth in Keady."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-rural-district-council__1914-05-28",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-rural-district-council__1914-05-28",
+      "message": "44 candidate rows have no party/label. Examples: James Creggan in Aghory; Richard H. Lamb in Aghory; J. J. W. Dunlop in Annaghmore; H. P. Nicholson in Annaghmore; John Hampton in Armagh Rural."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "castleblayney-no-2-rural-district-council__1914-05-28",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "castleblayney-no-2-rural-district-council__1914-05-28",
+      "message": "21 candidate rows have no party/label. Examples: William Joseph Dawson in Camly; James Grant in Cloghoge; Thomas Loughran in Cloghoge; Alexander Johnston in Cloghoge; James Donaghy in Crossmaglen."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-rural-district-council__1914-05-28",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-rural-district-council__1914-05-28",
+      "message": "21 candidate rows have no party/label. Examples: John Robinson in Breagh; Henry M'Alinden in Brownlowsderry; Patrick McConville in Brownlowsderry; George Calvert in Carrowbrack; Alfred Gilpin in Carrowbrack."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "newry-no-2-rural-district-council__1914-05-28",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "newry-no-2-rural-district-council__1914-05-28",
+      "message": "7 candidate rows have no party/label. Examples: James M'Quaid in Ballybot; Hugh M'Evoy in Ballybot; James M'Guill in Jonesborough; John Murphy in Jonesborough; Bernard Collins in Lathbirget."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-rural-district-council__1914-05-28",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-rural-district-council__1914-05-28",
+      "message": "7 candidate rows have no party/label. Examples: Richard James Harden in Ballyshiel; Abraham M'Cullough in Mullabrack; James Beattie in Mullabrack; Archibald Haire in Mullahead; Thomas W. Walsh in Mullahead."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-urban-district-council__1914-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "keady-urban-district-council__1914-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "keady-urban-district-council__1914-01-15",
+      "message": "1 candidate rows have no party/label. Examples: Robert O'Neill in Keady."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1914-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-borough-council__1914-01-15",
+      "message": "8 candidate rows have no party/label. Examples: Robert G. Lonsdale in Lurgan; Edward Lunn in Lurgan; James M. Moore in Lurgan; David Pedlow in Lurgan; Henry Megarry in Lurgan."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "portadown-borough-council__1914-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "portadown-borough-council__1914-01-15",
+      "message": "19 candidate rows have no party/label. Examples: Charles Johnston in Portadown; David F. Bell in Portadown; David Rock in Portadown; W. J. Johnston in Portadown; Robert Chapman in Portadown."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-urban-district-council__1914-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-urban-district-council__1914-01-15",
+      "message": "10 candidate rows have no party/label. Examples: Thomas Aston in Tandragee; Boyd Coburn in Tandragee; Joseph H. Roberts in Tandragee; William John Meredith in Tandragee; William Davison in Tandragee."
     },
     {
       "severity": "warning",
@@ -563,6 +2298,18 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1913-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-borough-council__1913-01-15",
+      "message": "9 candidate rows have no party/label. Examples: Joseph Herbert in Lurgan; William Waite in Lurgan; George Ferguson in Lurgan; Alfred W. Mann in Lurgan; William White in Lurgan."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "strabane-urban-district-council__1913",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
@@ -571,6 +2318,12 @@
       "category": "candidate-party-missing",
       "key": "strabane-urban-district-council__1913",
       "message": "4 candidate rows have no party/label. Examples: John Kelly in East Ward; John Perry in North Ward; James McGarrigle in South Ward; Charles Browne in West Ward."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1912-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
     {
       "severity": "warning",
@@ -587,6 +2340,132 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "armagh-county-council__1911-05-31",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-county-council__1911-05-31",
+      "message": "27 candidate rows have no party/label. Examples: Isaac Allen in Annaghmore; George A. Locke in Annaghmore; William Elliott in Annaghmore; L. M. Anderson in Armagh; Thomas O'Hare in Camlough."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-rural-district-council__1911-05-31",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-rural-district-council__1911-05-31",
+      "message": "45 candidate rows have no party/label. Examples: James Creggan in Aghory; J. J. W. Dunlop in Annaghmore; W. H. Davison in Annaghmore; George Fleming in Armaghbrague; Alex Bailie in Armaghbrague."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "castleblayney-no-2-rural-district-council__1911-05-31",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "castleblayney-no-2-rural-district-council__1911-05-31",
+      "message": "22 candidate rows have no party/label. Examples: Peter Quinn in Camly; Michael Collins in Camly; James M'Kenna in Camly; Alexander Johnston in Cloghoge; Thomas Loughran in Cloghoge."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-rural-district-council__1911-05-31",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-rural-district-council__1911-05-31",
+      "message": "25 candidate rows have no party/label. Examples: Henry Kingsborough in Breagh; J. W. Annesley in Breagh; Henry M'Alinden in Brownlowsderry; Patrick McConville in Brownlowsderry; George Calvert in Carrowbrack."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "newry-no-2-rural-district-council__1911-05-31",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "newry-no-2-rural-district-council__1911-05-31",
+      "message": "33 candidate rows have no party/label. Examples: James M'Quaid in Ballybot; Hugh M'Evoy in Ballybot; John Mulholland in Ballymoyer; Henry J. Cooney in Ballymoyer; Felix M'Keown in Belleek."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-rural-district-council__1911-05-31",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-rural-district-council__1911-05-31",
+      "message": "6 candidate rows have no party/label. Examples: James Beattie in Mullabrack; Abraham M'Cullough in Mullabrack; Archibald Hare in Mullahead; Thomas W. Walsh in Mullahead; Samuel Davis in Tandragee Rural."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-urban-district-council__1911-01-16",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "keady-urban-district-council__1911-01-16",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "keady-urban-district-council__1911-01-16",
+      "message": "9 candidate rows have no party/label. Examples: Patrick Watters in Keady; George M'Bride in Keady; Michael Smyth in Keady; Robert O'Neill in Keady; Bernard Fegan in Keady."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1911-01-16",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-borough-council__1911-01-16",
+      "message": "7 candidate rows have no party/label. Examples: Edward Lunn in Lurgan; William Miller in Lurgan; Henry Megarry in Lurgan; James Gillespie in Lurgan; J. M. Moore in Lurgan."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "portadown-borough-council__1911-01-16",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "portadown-borough-council__1911-01-16",
+      "message": "14 candidate rows have no party/label. Examples: W. H. Wright in Portadown; W. G. Hewitt in Portadown; Charles Johnston in Portadown; A. G. Sloan in Portadown; F. W. White in Portadown."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-urban-district-council__1911-01-16",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-urban-district-council__1911-01-16",
+      "message": "12 candidate rows have no party/label. Examples: James Boyle in Tandragee; Robert Murray in Tandragee; Thomas Williamson in Tandragee; Boyd Coburn in Tandragee; W J Meredith in Tandragee."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "strabane-urban-district-council__1911",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
@@ -595,6 +2474,18 @@
       "category": "candidate-party-missing",
       "key": "strabane-urban-district-council__1911",
       "message": "5 candidate rows have no party/label. Examples: James Dillon in East Ward; John Quigley in East Ward; James White in North Ward; Edward Gallagher in South Ward; John McDermott in West Ward."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1910-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-borough-council__1910-01-15",
+      "message": "5 candidate rows have no party/label. Examples: William White in Lurgan; William Ballentine in Lurgan; Robert George Lonsdale in Lurgan; George Ferguson in Lurgan; Thomas M. Livingston in Lurgan."
     },
     {
       "severity": "warning",
@@ -611,6 +2502,18 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1909-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-borough-council__1909-01-15",
+      "message": "6 candidate rows have no party/label. Examples: H. G. MacGeagh in Lurgan; John Mahaffy in Lurgan; William Waite in Lurgan; Daniel Drennan in Lurgan; Joseph Herbert in Lurgan."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "strabane-urban-district-council__1909",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
@@ -619,6 +2522,126 @@
       "category": "candidate-party-missing",
       "key": "strabane-urban-district-council__1909",
       "message": "4 candidate rows have no party/label. Examples: James Ellis in East Ward; R. J. Blair in North Ward; Owen Canavan in South Ward; Eugene Conroy in West Ward."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-county-council__1908-05-27",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-county-council__1908-05-27",
+      "message": "15 candidate rows have no party/label. Examples: Thomas O'Hare in Camlough; Patrick Green in Crossmaglen; William Coulson Fitzgerald in Drumcree; M. C. Larkin in Forkhill; William Simpson in Hamiltonsbawn."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-rural-district-council__1908-05-27",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-rural-district-council__1908-05-27",
+      "message": "40 candidate rows have no party/label. Examples: James Cregan in Aghory; J. Bleakney in Aghory; William Henry Davidson in Annaghmore; John James Woodhouse Dunlop in Annaghmore; Archibald Coleman in Armaghbrague."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "castleblayney-no-2-rural-district-council__1908-05-27",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "castleblayney-no-2-rural-district-council__1908-05-27",
+      "message": "15 candidate rows have no party/label. Examples: Patrick M'Conville in Crossmaglen; James Donaghy in Crossmaglen; Francis M'Ardle in Crossmaglen; James M'Conville in Crossmaglen; Edward Sheridan in Lisleitrim."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-rural-district-council__1908-05-27",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-rural-district-council__1908-05-27",
+      "message": "25 candidate rows have no party/label. Examples: Henry Kingsborough in Breagh; T. W. Annesley in Breagh; Patrick McConville in Brownlowsderry; Henry McAlinden in Brownlowsderry; George Calvert in Carrowbrack."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "newry-no-2-rural-district-council__1908-05-27",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "newry-no-2-rural-district-council__1908-05-27",
+      "message": "23 candidate rows have no party/label. Examples: James M'Quaid in Ballybot; Hugh M'Evoy in Ballybot; John Mulholland in Ballymoyer; Henry Cooney in Ballymoyer; John M'Loughlin in Belleek."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-rural-district-council__1908-05-27",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-rural-district-council__1908-05-27",
+      "message": "3 candidate rows have no party/label. Examples: Archibald Haire in Mullahead; G. M. Walsh in Mullahead; Thomas Collen in Mullahead."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-urban-district-council__1908-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "keady-urban-district-council__1908-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "keady-urban-district-council__1908-01-15",
+      "message": "9 candidate rows have no party/label. Examples: J. Cassidy in Keady; James Mone in Keady; John Megaw in Keady; P. Gormley in Keady; David White in Keady."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1908-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-borough-council__1908-01-15",
+      "message": "7 candidate rows have no party/label. Examples: Robert Thompson in Lurgan; Edward Lunn in Lurgan; James M. Moore in Lurgan; William Miller in Lurgan; John McNally in Lurgan."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "portadown-borough-council__1908-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "portadown-borough-council__1908-01-15",
+      "message": "23 candidate rows have no party/label. Examples: Isaac Davison in Portadown; David Fell Bell in Portadown; Frederick William White in Portadown; Valentine Wilson in Portadown; George Alexander Locke in Portadown."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-urban-district-council__1908-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
     {
       "severity": "warning",
@@ -635,6 +2658,18 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1907-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-borough-council__1907-01-15",
+      "message": "7 candidate rows have no party/label. Examples: William White in Lurgan; William Ballentine in Lurgan; George Ferguson in Lurgan; Robert G. Lonsdale in Lurgan; G. J. Wake in Lurgan."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "strabane-urban-district-council__1907",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
@@ -643,6 +2678,18 @@
       "category": "candidate-party-missing",
       "key": "strabane-urban-district-council__1907",
       "message": "8 candidate rows have no party/label. Examples: John Kelly in East Ward; James McCrossan in East Ward; John Perry in North Ward; William McCrorey in North Ward; James Tourish in South Ward."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1906-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-borough-council__1906-01-15",
+      "message": "8 candidate rows have no party/label. Examples: John Mahaffy in Lurgan; H. G. MacGeagh in Lurgan; Daniel Drennan in Lurgan; E. J. McKeown in Lurgan; George Turkington in Lurgan."
     },
     {
       "severity": "warning",
@@ -659,6 +2706,132 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "armagh-county-council__1905-05-25",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-county-council__1905-05-25",
+      "message": "8 candidate rows have no party/label. Examples: Jacob Orr in Annaghmore; James Orr in Charlemont; R. G. M'Crum in Crossmore; William Simpson in Hamiltonsbawn; Charles Johnston in Portadown."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-rural-district-council__1905-05-25",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-rural-district-council__1905-05-25",
+      "message": "2 candidate rows have no party/label. Examples: Baxter in Killyman; Hyde in Killyman."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "castleblayney-no-2-rural-district-council__1905-05-25",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "castleblayney-no-2-rural-district-council__1905-05-25",
+      "message": "10 candidate rows have no party/label. Examples: James Donaghey in Crossmaglen; Patrick M'Conville in Crossmaglen; James Donaghey in Cullyhanna; George Hughes in Cullyhanna; Michael J. Blacker in Dorsey."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-rural-district-council__1905-05-25",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-rural-district-council__1905-05-25",
+      "message": "21 candidate rows have no party/label. Examples: Henry Kingsborough in Breagh; James Blaney in Brownlowsderry; Henry M'Alinden in Brownlowsderry; George Calvert in Carrowbrack; William Henry Hunter in Carrowbrack."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "newry-no-2-rural-district-council__1905-05-25",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "newry-no-2-rural-district-council__1905-05-25",
+      "message": "17 candidate rows have no party/label. Examples: John Mulholland in Ballymoyer; Henry Cooney in Ballymoyer; John M'Parland in Ballymoyer; John Cowan in Ballymoyer; Edward Nugent in Forkhill."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-rural-district-council__1905-05-25",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-rural-district-council__1905-05-25",
+      "message": "6 candidate rows have no party/label. Examples: Richard James Harden in Ballyshiel; Robert Walker in Ballyshiel; James Beattie in Mullabrack; Abraham M'Collough in Mullabrack; Thomas Collen, jun. in Mullahead."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-urban-district-council__1905-01-16",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "keady-urban-district-council__1905-01-16",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "keady-urban-district-council__1905-01-16",
+      "message": "4 candidate rows have no party/label. Examples: Michael Smyth in Keady; John Hughes in Keady; Bernard Hughes in Keady; Thomas Shields in Keady."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1905-01-16",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-borough-council__1905-01-16",
+      "message": "5 candidate rows have no party/label. Examples: Edward Lunn in Lurgan; James M. Moore in Lurgan; John McNally in Lurgan; Charles William Neill in Lurgan; Robert Thompson in Lurgan."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "portadown-borough-council__1905-01-16",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "portadown-borough-council__1905-01-16",
+      "message": "21 candidate rows have no party/label. Examples: William George Hewitt in Portadown; William Moffatt Clow in Portadown; Clement Courtney in Portadown; David F. Bell in Portadown; Robert Anderson in Portadown."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-urban-district-council__1905-01-16",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-urban-district-council__1905-01-16",
+      "message": "11 candidate rows have no party/label. Examples: John Fearon in Tandragee; Boyd Coburn in Tandragee; Wm. John Meredith in Tandragee; J. E. Maginnis in Tandragee; Thomas Neill in Tandragee."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "strabane-urban-district-council__1905",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
     },
@@ -671,8 +2844,344 @@
     {
       "severity": "warning",
       "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1904-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-borough-council__1904-01-15",
+      "message": "10 candidate rows have no party/label. Examples: George Lunn in Lurgan; William White in Lurgan; David Pedlow in Lurgan; Joshua McNeice in Lurgan; Robert G. Lonsdale in Lurgan."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1903-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-borough-council__1903-01-15",
+      "message": "9 candidate rows have no party/label. Examples: Henry Grattan Guinness MacGeagh in Lurgan; John Mahaffy in Lurgan; James Gillespie in Lurgan; Walter Culbert in Lurgan; James Mercer in Lurgan."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-county-council__1902-05-28",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-county-council__1902-05-28",
+      "message": "3 candidate rows have no party/label. Examples: James Orr in Charlemont; William Byers in Markethill; Benjamin Thompson in Poyntzpass."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-rural-district-council__1902-05-28",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "castleblayney-no-2-rural-district-council__1902-05-28",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "castleblayney-no-2-rural-district-council__1902-05-28",
+      "message": "13 candidate rows have no party/label. Examples: Michael Collins in Camly; James M'Kenna in Camly; John Grant in Cloghoge; Samuel Nelson in Cloghoge; James Donaghy in Crossmaglen."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-rural-district-council__1902-05-28",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-rural-district-council__1902-05-28",
+      "message": "20 candidate rows have no party/label. Examples: Henry Kingsborough in Breagh; William Stothers in Breagh; James Blaney in Brownlowsderry; Henry McAlinden in Brownlowsderry; George Calvert in Carrowbrack."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "newry-no-2-rural-district-council__1902-05-28",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-rural-district-council__1902-05-28",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-rural-district-council__1902-05-28",
+      "message": "7 candidate rows have no party/label. Examples: R. J. Harden in Ballyshiel; R. Walker in Ballyshiel; James Beattie in Mullabrack; Thomas Collen in Mullahead; Archibald Haire in Mullahead."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-urban-district-council__1902-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-urban-district-council__1902-01-15",
+      "message": "3 candidate rows have no party/label. Examples: J. M'Clelland in East Ward; G. Bright in East Ward; J. Sleith in East Ward."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "keady-urban-district-council__1902-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "keady-urban-district-council__1902-01-15",
+      "message": "4 candidate rows have no party/label. Examples: Michael Smyth in Keady; John Hughes in Keady; Dr. Dorman in Keady; John Nugent in Keady."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1902-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-borough-council__1902-01-15",
+      "message": "5 candidate rows have no party/label. Examples: Robert Hazelton in Lurgan; James Millar Moore in Lurgan; Edward Lunn in Lurgan; Robert Thompson in Lurgan; John McNally in Lurgan."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "portadown-borough-council__1902-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "portadown-borough-council__1902-01-15",
+      "message": "18 candidate rows have no party/label. Examples: William Whitten in Portadown; Clement Courtney in Portadown; John Patton in Portadown; Charles Johnston in Portadown; W. G. Hewitt in Portadown."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
       "key": "strabane-urban-district-council__1902",
       "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "keady-urban-district-council__1901-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "keady-urban-district-council__1901-01-15",
+      "message": "5 candidate rows have no party/label. Examples: Arthur Woods in Keady; Robert O'Neill in Keady; James Arthurs in Keady; Bernard Woods in Keady; George M'Bride in Keady."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1901-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-borough-council__1901-01-15",
+      "message": "9 candidate rows have no party/label. Examples: George J. Wake in Lurgan; Joshua McNeice in Lurgan; W. J. Fleming in Lurgan; William Douie in Lurgan; Maxwell Thompson in Lurgan."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "keady-urban-district-council__1900-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "keady-urban-district-council__1900-01-15",
+      "message": "7 candidate rows have no party/label. Examples: J. W. Campbell in Keady; Chas. J. Campbell in Keady; Bernard Fegan in Keady; F. Donnelly in Keady; P. Mone in Keady."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1900-01-15",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-borough-council__1900-01-15",
+      "message": "8 candidate rows have no party/label. Examples: John Mahaffy in Lurgan; Anthony Bunting in Lurgan; William White in Lurgan; Richard Soye in Lurgan; John A. Thompson in Lurgan."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "aghalee-rural-district-council__1899-04-06",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "aghalee-rural-district-council__1899-04-06",
+      "message": "8 candidate rows have no party/label. Examples: James Downing in Aghagallon; Daniel Tallon in Aghagallon; Frederick Locke Turtle in Aghalee; James Knox in Aghalee; James Logan in Aghalee."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-county-council__1899-04-06",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-county-council__1899-04-06",
+      "message": "4 candidate rows have no party/label. Examples: James Malcolm in Lurgan; William White in Lurgan; John Johnston in Lurgan; James Aiken in Richhill."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-rural-district-council__1899-04-06",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-rural-district-council__1899-04-06",
+      "message": "10 candidate rows have no party/label. Examples: Thomas Knipe in Armagh Rural; Robert Reid in Armagh Rural; Robert Reid in Ballymartrim; Thomas Kelly in Derrynoose; James Mone in Derrynoose."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "castleblayney-no-2-rural-district-council__1899-04-06",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "castleblayney-no-2-rural-district-council__1899-04-06",
+      "message": "4 candidate rows have no party/label. Examples: James Laverty in Lower Creggan; Michael Mallon in Lower Creggan; James Hale in Moybane; Patrick M'Shane in Moybane."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-rural-district-council__1899-04-06",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-rural-district-council__1899-04-06",
+      "message": "30 candidate rows have no party/label. Examples: Henry Kingsborough in Breagh; William Stothers in Breagh; James McAlinden in Brownlowsderry; James McCann in Brownlowsderry; George Calvert in Carrowbrack."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "moira-rural-district-council__1899-04-06",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "moira-rural-district-council__1899-04-06",
+      "message": "23 candidate rows have no party/label. Examples: Thomas Lyness in Ballyleny; Richard Lyttle in Ballyleny; Augustus Edward Brushe in Ballyleny; Andrew McAllister in Ballyleny; William Taylor in Ballyleny."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "newry-no-2-rural-district-council__1899-04-06",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "newry-no-2-rural-district-council__1899-04-06",
+      "message": "12 candidate rows have no party/label. Examples: Hugh M'Avoy in Ballybot; James M'Quade in Ballybot; Patrick Haughian in Ballymoyer; John Mulholland in Ballymoyer; John O'Callaghan in Camlough."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-rural-district-council__1899-04-06",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-rural-district-council__1899-04-06",
+      "message": "10 candidate rows have no party/label. Examples: Robert Walker in Ballyshiel; Richard James Harden in Ballyshiel; James Beattie in Mullabrack; James E. Porter in Mullabrack; Abraham M'Cullough in Mullabrack."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "armagh-urban-district-council__1899-01-16",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "armagh-urban-district-council__1899-01-16",
+      "message": "3 candidate rows have no party/label. Examples: Eliza Hillock in St. Patrick's Ward; Elizabeth M'Glone in St. Patrick's Ward; Mary Brown in St. Patrick's Ward."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "keady-urban-district-council__1899-01-16",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "keady-urban-district-council__1899-01-16",
+      "message": "16 candidate rows have no party/label. Examples: Nugent in Keady; Smyth in Keady; Dorman in Keady; B. Woods in Keady; A. Woods in Keady."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "lurgan-borough-council__1899-01-16",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "lurgan-borough-council__1899-01-16",
+      "message": "18 candidate rows have no party/label. Examples: John M'Nally in Lurgan; Thomas Hopps in Lurgan; Moore in Lurgan; Robert Hazelton in Lurgan; Edward Lunn in Lurgan."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "portadown-borough-council__1899-01-16",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "portadown-borough-council__1899-01-16",
+      "message": "17 candidate rows have no party/label. Examples: William Moffatt Clow in Portadown; John George Livingston in Portadown; David F. Bell in Portadown; John Davison in Portadown; John Patton in Portadown."
+    },
+    {
+      "severity": "warning",
+      "category": "source-record-single-reference",
+      "key": "tandragee-urban-district-council__1899-01-16",
+      "message": "Election source detail record has only one reference; multiple corroborating sources are preferred where available."
+    },
+    {
+      "severity": "warning",
+      "category": "candidate-party-missing",
+      "key": "tandragee-urban-district-council__1899-01-16",
+      "message": "10 candidate rows have no party/label. Examples: John Edward Magennis in Tandragee; William John Meredith in Tandragee; Thomas Harvey in Tandragee; John Anderson in Tandragee; James O'Hare in Tandragee."
     },
     {
       "severity": "warning",

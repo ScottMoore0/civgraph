@@ -1141,7 +1141,8 @@ def build_proposals(recs, maps, cited, cited_pages, all_cites, processed_issues,
                 y = int(base[:4])
                 for yy in (y, y + 1, y + 2):
                     for m in by_year.get(yy, []):
-                        if not m['id'].startswith(prefixes) or (m.get('date') or '') < base[:len(m.get('date') or '')]:
+                        md = str(m.get('date') or '')
+                        if not m['id'].startswith(prefixes) or md < base[:len(md)]:
                             continue
                         txt = mtext[m['id']].lower()
                         if keys and any(k in txt for k in keys):

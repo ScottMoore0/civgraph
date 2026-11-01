@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "about": "Hand-maintained part of the Status page's Sources section (pages/status.html): one entry per public source, in the order shown. The numbers come from data/status/source-snapshots.json (written by scripts/status/refresh-status-snapshots.mjs, which reads material held outside the repository) and from committed site data (scripts/build-status.mjs). Only public sources and counts belong here: no local paths, no private holdings. Stages are listed in the order they nest; a later stage is never larger than an earlier one in a well-formed entry, and the bar draws them in this order.",
+  "sources": [
+    {
+      "id": "belfast-gazette",
+      "name": "The Belfast Gazette",
+      "publisher": "The Gazette (The Stationery Office)",
+      "url": "https://www.thegazette.co.uk/Belfast",
+      "licence": "Crown copyright, Open Government Licence",
+      "unit": "issues",
+      "known": {
+        "value": 9400,
+        "approximate": true,
+        "basis": "The Gazette numbers its Belfast issues consecutively from the first, in 1921; about 9,400 have been published. The figure is the issue range Civgraph's crawler is set to cover, kept by hand."
+      },
+      "stages": [
+        { "key": "fetched", "label": "Downloaded" },
+        { "key": "parsed", "label": "Read for election and boundary notices" },
+        { "key": "cited", "label": "Cited on the site" }
+      ],
+      "note": "Issues are downloaded oldest first, so the early decades are done first."
+    },
+    {
+      "id": "census-ni-reports",
+      "name": "Census of Northern Ireland reports, 1926–1981",
+      "publisher": "General Register Office for Northern Ireland",
+      "url": "https://www.nisra.gov.uk/statistics/census",
+      "licence": "Crown copyright, Open Government Licence",
+      "unit": "census years",
+      "known": {
+        "years": [1926, 1937, 1951, 1961, 1966, 1971, 1981],
+        "basis": "The seven censuses taken in Northern Ireland between 1926 and 1981."
+      },
+      "stages": [
+        { "key": "held", "label": "Reports held" },
+        { "key": "converted", "label": "Converted to text" },
+        { "key": "tables", "label": "Tables extracted" },
+        { "key": "explorer", "label": "In the Census Explorer" }
+      ]
+    },
+    {
+      "id": "census-ireland-pre1921",
+      "name": "Census of Ireland reports, 1821–1911",
+      "publisher": "Census Commissioners for Ireland (via the Central Statistics Office's historical reports)",
+      "url": "https://www.cso.ie/en/statistics/historicalreports/",
+      "licence": "Public domain (Crown copyright expired); CSO copies CC BY 4.0",
+      "unit": "census years",
+      "known": {
+        "years": [1821, 1831, 1841, 1851, 1861, 1871, 1881, 1891, 1901, 1911],
+        "basis": "The ten censuses of Ireland taken before partition, 1821 to 1911."
+      },
+      "stages": [
+        { "key": "held", "label": "Report files held" },
+        { "key": "converted", "label": "Read into text or data" },
+        { "key": "tables", "label": "Tables extracted" },
+        { "key": "explorer", "label": "In the Census Explorer" }
+      ]
+    },
+    {
+      "id": "opendatani",
+      "name": "Open Data NI",
+      "publisher": "Department of Finance (Northern Ireland)",
+      "url": "https://www.opendatani.gov.uk/",
+      "licence": "Mostly Open Government Licence (per dataset)",
+      "unit": "datasets",
+      "known": {
+        "basis": "The number of datasets the Open Data NI catalogue lists, read from its CKAN API when the snapshot was taken."
+      },
+      "stages": [
+        { "key": "mirrored", "label": "Mirrored by Civgraph" },
+        { "key": "used", "label": "Used by a map on the site" }
+      ],
+      "note": "Most datasets are statistics or registers rather than maps, so only some will ever be map layers."
+    },
+    {
+      "id": "legislation",
+      "name": "Northern Ireland legislation on boundaries and elections",
+      "publisher": "legislation.gov.uk (The National Archives)",
+      "url": "https://www.legislation.gov.uk/",
+      "licence": "Crown copyright, Open Government Licence",
+      "unit": "items",
+      "known": {
+        "basis": "Acts, Orders and Statutory Rules for Northern Ireland on legislation.gov.uk whose titles name boundaries, electoral areas, constituencies, wards or elections (a title search, so it misses some), together with any further items the site cites."
+      },
+      "stages": [
+        { "key": "cited", "label": "Cited on the site" }
+      ],
+      "note": "Many older boundary orders (extensions of towns, for example) are not on legislation.gov.uk at all; the site cites those from the Belfast Gazette instead."
+    },
+    {
+      "id": "proni",
+      "name": "PRONI eCatalogue",
+      "publisher": "Public Record Office of Northern Ireland",
+      "url": "https://apps.proni.gov.uk/eCatNI_IE/SearchPage.aspx",
+      "licence": "Crown copyright, Open Government Licence",
+      "unit": "catalogue records",
+      "known": {
+        "basis": "The records Civgraph's copy of the eCatalogue found; PRONI does not publish a total."
+      },
+      "stages": [
+        { "key": "collected", "label": "Collected" },
+        { "key": "published", "label": "Searchable on the site" },
+        { "key": "dated", "label": "Date read from the record" }
+      ],
+      "note": "Records are catalogue descriptions only; the documents themselves are at PRONI."
+    },
+    {
+      "id": "niassembly-register",
+      "name": "Northern Ireland Assembly Register of Members' Interests",
+      "publisher": "Northern Ireland Assembly",
+      "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+      "licence": "Open Northern Ireland Assembly Licence",
+      "unit": "register documents",
+      "known": {
+        "basis": "The register editions and pages listed on the Assembly's current and archived register-of-interests pages."
+      },
+      "stages": [
+        { "key": "held", "label": "Collected" },
+        { "key": "extracted", "label": "Interests extracted" },
+        { "key": "onSite", "label": "On the site" }
+      ]
+    }
+  ]
+}

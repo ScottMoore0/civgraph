@@ -485,7 +485,11 @@ def parse_return(raw, issue_year):
         pre = ' '.join(t for t in pre.split() if not re.search(r'[&$#@%*\u00a3]', t))
         pre = re.sub(r"[\s.,;:\-]+['\"]+\s*", ': ', pre)
         pre = fix_case_mixed(pre)
-        split = re.search(r"^(?P<c>.*(?:Division|Borough|University|Burghs?|Constituency|County\s+of\s+[A-Z][a-z]+|City\s+of\s+[A-Z][a-z]+|"
+        # Westminster returns from 1950: "for the Borough Constituency of Belfast West: JOHN SMITH".
+        pre = re.sub(r'^\s*for\s+(?:the\W+)?', '', pre, flags=re.I)
+        cons = re.match(r'^(?:(?:Borough|County|Parliamentary)\W+)?Constituency\s+of\s+(?P<c>[^:]+?)\s*[:;,.\-]+\s*(?P<n>[A-Z].*)$',
+                        pre.strip(), re.S | re.I)
+        split = cons or re.search(r"^(?P<c>.*(?:Division|Borough|University|Burghs?|Constituency|County\s+of\s+[A-Z][a-z]+|City\s+of\s+[A-Z][a-z]+|"
                           r"Queen.s\s+University\s+of\s+Belfast)\)?)[\s.,:;\-]+(?P<n>[A-Z].*)$", pre.strip(), re.S | re.I)
         if out['house'] == 'senate':
             const, member = '', re.sub(r'^.*?(?:Senator|SENATOR)\W+', '', pre)
@@ -838,12 +842,22 @@ def find_notices(issue, page_texts, page_numbers, issue_date, pdf_path):
         context = join_lines(joined[max(begin, pos - 250):pos + 500])
         rec['body'] = body_of(context, ntype)
         if ntype == 'return-of-members':
+            # The words after "to serve in the present Parliament" decide the house: Stormont returns
+            # say "of Northern Ireland", Westminster ones "for the ... Constituency" or "Imperial
+            # Parliament". The heading does not: the Crown Office for Northern Ireland issued
+            # Westminster returns and also the Stormont general-election lists of 1953-62.
+            serve = re.search(r'(?:elected|returned)\s+to\s+serve\s+\w{1,3}\s+(?:the\s+)?(?:pres\w{1,3}\s+)?'
+                              r'(Imperial\s+)?Parl\W*ia\W*ment(\W+of\s+Nor\W*thern\s+Ire\W*land)?', context, re.I)
             if rec.get('house') == 'senate':
                 rec['body'] = 'senate-of-northern-ireland'
-            elif re.search(r'Clerk\s+of\s+the\s+Crown\s+(?:and\s+Peace\s+)?for\s+Northern|Crown\s+Office\s+for\s+Northern|'
+            elif serve and serve.group(2):
+                rec['body'] = 'parliament-of-northern-ireland'
+            elif serve and (serve.group(1) or re.search(r'Cr[o0G]wn\s+Office', context, re.I)):
+                rec['body'] = 'house-of-commons-of-the-united-kingdom'
+            elif re.search(r'Clerk\s+of\s+the\s+Crown\s+(?:and\s+Peace\s+)?for\s+Northern|'
                            r'Parliament\s+of\s+Northern\s+Ire\W*land', context, re.I):
                 rec['body'] = 'parliament-of-northern-ireland'
-            elif re.search(r'Cr[o0]wn\s+Office|Grown\s+Office', context, re.I):
+            elif re.search(r'Cr[o0G]wn\s+Office', context, re.I):
                 rec['body'] = 'house-of-commons-of-the-united-kingdom'
         if not rec.get('notice_date'):
             rec['notice_date'] = parse_date_text(flat[:300], year) or issue_date

@@ -1,0 +1,541 @@
+{
+  "schemaVersion": 1,
+  "about": "Hand-maintained part of the Status page's Elections section (pages/status.html): which election types and periods get a bar, and which independent list, if any, gives each one's known number of contests. Counts come from the site's own results (render/metadata/elections-test2) and data/database/election-provenance.json, by scripts/build-status.mjs. A contest is one constituency, ward or count area at one election; a seat returned unopposed counts as a contest. Calendars are named functions in scripts/build-status.mjs (CALENDARS).",
+  "groups": [
+    {
+      "id": "westminster",
+      "name": "Westminster (House of Commons)",
+      "segments": [
+        {
+          "label": "Ireland, 1801–1831",
+          "bodies": [
+            "house-of-commons-of-the-united-kingdom"
+          ],
+          "from": "1801-01-01",
+          "to": "1831-12-31",
+          "calendar": "walker-1801-1831"
+        },
+        {
+          "label": "Ireland, 1832–1884",
+          "bodies": [
+            "house-of-commons-of-the-united-kingdom"
+          ],
+          "from": "1832-01-01",
+          "to": "1884-12-31",
+          "calendar": "walker-1832-1884"
+        },
+        {
+          "label": "Ireland, 1885–1922: general elections",
+          "bodies": [
+            "house-of-commons-of-the-united-kingdom"
+          ],
+          "from": "1885-01-01",
+          "to": "1922-10-31",
+          "kind": "general"
+        },
+        {
+          "label": "Ireland, 1885–1922: by-elections",
+          "bodies": [
+            "house-of-commons-of-the-united-kingdom"
+          ],
+          "from": "1885-01-01",
+          "to": "1922-10-31",
+          "kind": "by-election",
+          "calendar": "walker-byelections-1885-1922"
+        },
+        {
+          "label": "Northern Ireland, 1922–1970",
+          "bodies": [
+            "house-of-commons-of-the-united-kingdom"
+          ],
+          "from": "1922-11-01",
+          "to": "1973-12-31"
+        },
+        {
+          "label": "Northern Ireland, 1974 onwards",
+          "bodies": [
+            "house-of-commons-of-the-united-kingdom"
+          ],
+          "from": "1974-01-01",
+          "to": "2099-12-31"
+        }
+      ]
+    },
+    {
+      "id": "dail",
+      "name": "Dáil Éireann",
+      "segments": [
+        {
+          "label": "1918–1921",
+          "bodies": [
+            "dail-eireann"
+          ],
+          "from": "1918-01-01",
+          "to": "1921-12-31"
+        },
+        {
+          "label": "1922–1944",
+          "bodies": [
+            "dail-eireann"
+          ],
+          "from": "1922-01-01",
+          "to": "1944-12-31",
+          "calendar": "gallagher-1922-1944"
+        },
+        {
+          "label": "1948–1977",
+          "bodies": [
+            "dail-eireann"
+          ],
+          "from": "1945-01-01",
+          "to": "1979-12-31"
+        },
+        {
+          "label": "1981 onwards",
+          "bodies": [
+            "dail-eireann"
+          ],
+          "from": "1980-01-01",
+          "to": "2099-12-31"
+        }
+      ]
+    },
+    {
+      "id": "stormont",
+      "name": "Parliament of Northern Ireland (Stormont)",
+      "segments": [
+        {
+          "label": "1921–1928 (single transferable vote)",
+          "bodies": [
+            "parliament-of-northern-ireland"
+          ],
+          "from": "1921-01-01",
+          "to": "1928-12-31"
+        },
+        {
+          "label": "1929–1972",
+          "bodies": [
+            "parliament-of-northern-ireland"
+          ],
+          "from": "1929-01-01",
+          "to": "1973-12-31"
+        }
+      ]
+    },
+    {
+      "id": "ni-assemblies",
+      "name": "Northern Ireland Assembly and its forerunners",
+      "segments": [
+        {
+          "label": "Assemblies of 1973 and 1982",
+          "bodies": [
+            "northern-ireland-assembly"
+          ],
+          "from": "1973-01-01",
+          "to": "1997-12-31"
+        },
+        {
+          "label": "Constitutional Convention, 1975",
+          "bodies": [
+            "northern-ireland-constitutional-convention"
+          ]
+        },
+        {
+          "label": "Forum for Political Dialogue, 1996",
+          "bodies": [
+            "northern-ireland-forum-for-political-dialogue"
+          ]
+        },
+        {
+          "label": "Assembly, 1998 onwards",
+          "bodies": [
+            "northern-ireland-assembly"
+          ],
+          "from": "1998-01-01",
+          "to": "2099-12-31"
+        }
+      ]
+    },
+    {
+      "id": "ni-local",
+      "name": "Northern Ireland district councils, 1973 onwards",
+      "segments": [
+        {
+          "label": "by decade",
+          "bodies": [
+            "local-government"
+          ],
+          "byDecade": true
+        }
+      ]
+    },
+    {
+      "id": "ie-local",
+      "name": "Local elections in the Republic of Ireland",
+      "segments": [
+        {
+          "label": "by decade",
+          "bodies": [
+            "ireland-local"
+          ],
+          "byDecade": true
+        }
+      ]
+    },
+    {
+      "id": "european",
+      "name": "European Parliament",
+      "segments": [
+        {
+          "label": "Northern Ireland",
+          "bodies": [
+            "european-parliament"
+          ]
+        },
+        {
+          "label": "Republic of Ireland",
+          "bodies": [
+            "ireland-european"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "president",
+      "name": "Presidential elections (Ireland)",
+      "segments": [
+        {
+          "label": "1938 onwards",
+          "bodies": [
+            "ireland-president"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "referendums",
+      "name": "Referendums",
+      "unit": "constituency results",
+      "segments": [
+        {
+          "label": "Republic of Ireland",
+          "bodies": [
+            "ireland-referendum"
+          ]
+        },
+        {
+          "label": "Northern Ireland and UK-wide, in Northern Ireland",
+          "bodies": [
+            "northern-ireland-referendum"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ni-councils-pre1973",
+      "name": "Northern Ireland councils before 1973",
+      "rounds": true,
+      "bodies": "rest",
+      "about": "Councils elected before the 1973 reorganisation: county boroughs, boroughs, urban and rural district councils and county councils. No complete list of their elections exists yet, so each bar counts rounds (one council's election on one date) against the known rounds so far: the rounds filed on the site plus rounds documented as not held.",
+      "notHeld": {
+        "armagh-county-council": [
+          {
+            "year": 1917,
+            "reason": "Triennial election not held: postponed for a year by the Act amending the Parliament and Local Elections Act 1916, then postponed again; the councils elected in 1914 sat until the proportional-representation election of June 1920.",
+            "source": "Newry Reporter, 22 May 1917, p. 8 (\"Elections Postponed\": Local Government Board letter on the Act amending the Parliament and Local Elections Act 1916), read on the page image; further postponement: Armagh Guardian, 13 September 1918, p. 1 (the LGB \"has intimated to the County Armagh public bodies that Local Government elections have been postponed for another 12 months\", OCR text)"
+          },
+          {
+            "year": 1942,
+            "reason": "Triennial election not held: local elections suspended 1940-1945; the next election was on 3 October 1946.",
+            "source": "Local Authorities and Jurors Books (Temporary Provisions) Act (Northern Ireland) 1940 and Local Authorities (Temporary Provisions) Act (Northern Ireland) 1945: \"no elections of members of any local authority should be held while those Acts remained in force\"; Elections and Franchise Act (Northern Ireland) 1946: elections in 1946 and every third year after (recited in the Belfast Gazette, 15 November 1946, No. 1,525, regional education committees order: \"the suspension of local elections during the years 1940 to 1945\")"
+          },
+          {
+            "year": 1945,
+            "reason": "Triennial election not held: local elections suspended 1940-1945; the next election was on 3 October 1946.",
+            "source": "Local Authorities and Jurors Books (Temporary Provisions) Act (Northern Ireland) 1940 and Local Authorities (Temporary Provisions) Act (Northern Ireland) 1945: \"no elections of members of any local authority should be held while those Acts remained in force\"; Elections and Franchise Act (Northern Ireland) 1946: elections in 1946 and every third year after (recited in the Belfast Gazette, 15 November 1946, No. 1,525, regional education committees order: \"the suspension of local elections during the years 1940 to 1945\")"
+          },
+          {
+            "year": 1970,
+            "reason": "Triennial election not held: postponed (to October 1971, then indefinitely) because of the reorganisation of local government; the council sat until 1973.",
+            "source": "Elections due in May and June 1970 postponed because of the reorganisation of local government: Belfast Telegraph, 10 October 1969, p. 8 (the Bill \"postpones triennial local Government elections due to be held in May and June, 1970\"); Belfast News-Letter, 21 May 1969, p. 2 (\"Council elections off until 1971\"); Belfast Telegraph, 26 June 1970, p. 3 (\"already postponed from this year until October 1971\"), OCR text. The councils sat until the 1973 reorganisation."
+          }
+        ],
+        "armagh-rural-district-council": [
+          {
+            "year": 1917,
+            "reason": "Triennial election not held: postponed for a year by the Act amending the Parliament and Local Elections Act 1916, then postponed again; the councils elected in 1914 sat until the proportional-representation election of June 1920.",
+            "source": "Newry Reporter, 22 May 1917, p. 8 (\"Elections Postponed\": Local Government Board letter on the Act amending the Parliament and Local Elections Act 1916), read on the page image; further postponement: Armagh Guardian, 13 September 1918, p. 1 (the LGB \"has intimated to the County Armagh public bodies that Local Government elections have been postponed for another 12 months\", OCR text)"
+          },
+          {
+            "year": 1942,
+            "reason": "Triennial election not held: local elections suspended 1940-1945; the next election was on 3 October 1946.",
+            "source": "Local Authorities and Jurors Books (Temporary Provisions) Act (Northern Ireland) 1940 and Local Authorities (Temporary Provisions) Act (Northern Ireland) 1945: \"no elections of members of any local authority should be held while those Acts remained in force\"; Elections and Franchise Act (Northern Ireland) 1946: elections in 1946 and every third year after (recited in the Belfast Gazette, 15 November 1946, No. 1,525, regional education committees order: \"the suspension of local elections during the years 1940 to 1945\")"
+          },
+          {
+            "year": 1945,
+            "reason": "Triennial election not held: local elections suspended 1940-1945; the next election was on 3 October 1946.",
+            "source": "Local Authorities and Jurors Books (Temporary Provisions) Act (Northern Ireland) 1940 and Local Authorities (Temporary Provisions) Act (Northern Ireland) 1945: \"no elections of members of any local authority should be held while those Acts remained in force\"; Elections and Franchise Act (Northern Ireland) 1946: elections in 1946 and every third year after (recited in the Belfast Gazette, 15 November 1946, No. 1,525, regional education committees order: \"the suspension of local elections during the years 1940 to 1945\")"
+          },
+          {
+            "year": 1970,
+            "reason": "Triennial election not held: postponed (to October 1971, then indefinitely) because of the reorganisation of local government; the council sat until 1973.",
+            "source": "Elections due in May and June 1970 postponed because of the reorganisation of local government: Belfast Telegraph, 10 October 1969, p. 8 (the Bill \"postpones triennial local Government elections due to be held in May and June, 1970\"); Belfast News-Letter, 21 May 1969, p. 2 (\"Council elections off until 1971\"); Belfast Telegraph, 26 June 1970, p. 3 (\"already postponed from this year until October 1971\"), OCR text. The councils sat until the 1973 reorganisation."
+          }
+        ],
+        "lurgan-rural-district-council": [
+          {
+            "year": 1917,
+            "reason": "Triennial election not held: postponed for a year by the Act amending the Parliament and Local Elections Act 1916, then postponed again; the councils elected in 1914 sat until the proportional-representation election of June 1920.",
+            "source": "Newry Reporter, 22 May 1917, p. 8 (\"Elections Postponed\": Local Government Board letter on the Act amending the Parliament and Local Elections Act 1916), read on the page image; further postponement: Armagh Guardian, 13 September 1918, p. 1 (the LGB \"has intimated to the County Armagh public bodies that Local Government elections have been postponed for another 12 months\", OCR text)"
+          },
+          {
+            "year": 1942,
+            "reason": "Triennial election not held: local elections suspended 1940-1945; the next election was on 3 October 1946.",
+            "source": "Local Authorities and Jurors Books (Temporary Provisions) Act (Northern Ireland) 1940 and Local Authorities (Temporary Provisions) Act (Northern Ireland) 1945: \"no elections of members of any local authority should be held while those Acts remained in force\"; Elections and Franchise Act (Northern Ireland) 1946: elections in 1946 and every third year after (recited in the Belfast Gazette, 15 November 1946, No. 1,525, regional education committees order: \"the suspension of local elections during the years 1940 to 1945\")"
+          },
+          {
+            "year": 1945,
+            "reason": "Triennial election not held: local elections suspended 1940-1945; the next election was on 3 October 1946.",
+            "source": "Local Authorities and Jurors Books (Temporary Provisions) Act (Northern Ireland) 1940 and Local Authorities (Temporary Provisions) Act (Northern Ireland) 1945: \"no elections of members of any local authority should be held while those Acts remained in force\"; Elections and Franchise Act (Northern Ireland) 1946: elections in 1946 and every third year after (recited in the Belfast Gazette, 15 November 1946, No. 1,525, regional education committees order: \"the suspension of local elections during the years 1940 to 1945\")"
+          },
+          {
+            "year": 1967,
+            "reason": "No election: Lurgan Rural District had been abolished; \"Lurgan rural district council has also disappeared, and it has been replaced by the urban district of Craigavon\". Its last election was 1964.",
+            "source": "Belfast News-Letter, 16 May 1967, p. 2 (OCR text)"
+          }
+        ],
+        "tandragee-rural-district-council": [
+          {
+            "year": 1917,
+            "reason": "Triennial election not held: postponed for a year by the Act amending the Parliament and Local Elections Act 1916, then postponed again; the councils elected in 1914 sat until the proportional-representation election of June 1920.",
+            "source": "Newry Reporter, 22 May 1917, p. 8 (\"Elections Postponed\": Local Government Board letter on the Act amending the Parliament and Local Elections Act 1916), read on the page image; further postponement: Armagh Guardian, 13 September 1918, p. 1 (the LGB \"has intimated to the County Armagh public bodies that Local Government elections have been postponed for another 12 months\", OCR text)"
+          },
+          {
+            "year": 1942,
+            "reason": "Triennial election not held: local elections suspended 1940-1945; the next election was on 3 October 1946.",
+            "source": "Local Authorities and Jurors Books (Temporary Provisions) Act (Northern Ireland) 1940 and Local Authorities (Temporary Provisions) Act (Northern Ireland) 1945: \"no elections of members of any local authority should be held while those Acts remained in force\"; Elections and Franchise Act (Northern Ireland) 1946: elections in 1946 and every third year after (recited in the Belfast Gazette, 15 November 1946, No. 1,525, regional education committees order: \"the suspension of local elections during the years 1940 to 1945\")"
+          },
+          {
+            "year": 1945,
+            "reason": "Triennial election not held: local elections suspended 1940-1945; the next election was on 3 October 1946.",
+            "source": "Local Authorities and Jurors Books (Temporary Provisions) Act (Northern Ireland) 1940 and Local Authorities (Temporary Provisions) Act (Northern Ireland) 1945: \"no elections of members of any local authority should be held while those Acts remained in force\"; Elections and Franchise Act (Northern Ireland) 1946: elections in 1946 and every third year after (recited in the Belfast Gazette, 15 November 1946, No. 1,525, regional education committees order: \"the suspension of local elections during the years 1940 to 1945\")"
+          },
+          {
+            "year": 1970,
+            "reason": "Triennial election not held: postponed (to October 1971, then indefinitely) because of the reorganisation of local government; the council sat until 1973.",
+            "source": "Elections due in May and June 1970 postponed because of the reorganisation of local government: Belfast Telegraph, 10 October 1969, p. 8 (the Bill \"postpones triennial local Government elections due to be held in May and June, 1970\"); Belfast News-Letter, 21 May 1969, p. 2 (\"Council elections off until 1971\"); Belfast Telegraph, 26 June 1970, p. 3 (\"already postponed from this year until October 1971\"), OCR text. The councils sat until the 1973 reorganisation."
+          }
+        ],
+        "newry-no-2-rural-district-council": [
+          {
+            "year": 1917,
+            "reason": "Triennial election not held: postponed for a year by the Act amending the Parliament and Local Elections Act 1916, then postponed again; the councils elected in 1914 sat until the proportional-representation election of June 1920.",
+            "source": "Newry Reporter, 22 May 1917, p. 8 (\"Elections Postponed\": Local Government Board letter on the Act amending the Parliament and Local Elections Act 1916), read on the page image; further postponement: Armagh Guardian, 13 September 1918, p. 1 (the LGB \"has intimated to the County Armagh public bodies that Local Government elections have been postponed for another 12 months\", OCR text)"
+          },
+          {
+            "year": 1942,
+            "reason": "Triennial election not held: local elections suspended 1940-1945; the next election was on 3 October 1946.",
+            "source": "Local Authorities and Jurors Books (Temporary Provisions) Act (Northern Ireland) 1940 and Local Authorities (Temporary Provisions) Act (Northern Ireland) 1945: \"no elections of members of any local authority should be held while those Acts remained in force\"; Elections and Franchise Act (Northern Ireland) 1946: elections in 1946 and every third year after (recited in the Belfast Gazette, 15 November 1946, No. 1,525, regional education committees order: \"the suspension of local elections during the years 1940 to 1945\")"
+          },
+          {
+            "year": 1945,
+            "reason": "Triennial election not held: local elections suspended 1940-1945; the next election was on 3 October 1946.",
+            "source": "Local Authorities and Jurors Books (Temporary Provisions) Act (Northern Ireland) 1940 and Local Authorities (Temporary Provisions) Act (Northern Ireland) 1945: \"no elections of members of any local authority should be held while those Acts remained in force\"; Elections and Franchise Act (Northern Ireland) 1946: elections in 1946 and every third year after (recited in the Belfast Gazette, 15 November 1946, No. 1,525, regional education committees order: \"the suspension of local elections during the years 1940 to 1945\")"
+          },
+          {
+            "year": 1970,
+            "reason": "Triennial election not held: postponed (to October 1971, then indefinitely) because of the reorganisation of local government; the council sat until 1973.",
+            "source": "Elections due in May and June 1970 postponed because of the reorganisation of local government: Belfast Telegraph, 10 October 1969, p. 8 (the Bill \"postpones triennial local Government elections due to be held in May and June, 1970\"); Belfast News-Letter, 21 May 1969, p. 2 (\"Council elections off until 1971\"); Belfast Telegraph, 26 June 1970, p. 3 (\"already postponed from this year until October 1971\"), OCR text. The councils sat until the 1973 reorganisation."
+          }
+        ],
+        "castleblayney-no-2-rural-district-council": [
+          {
+            "year": 1917,
+            "reason": "Triennial election not held: postponed for a year by the Act amending the Parliament and Local Elections Act 1916, then postponed again; the councils elected in 1914 sat until the proportional-representation election of June 1920.",
+            "source": "Newry Reporter, 22 May 1917, p. 8 (\"Elections Postponed\": Local Government Board letter on the Act amending the Parliament and Local Elections Act 1916), read on the page image; further postponement: Armagh Guardian, 13 September 1918, p. 1 (the LGB \"has intimated to the County Armagh public bodies that Local Government elections have been postponed for another 12 months\", OCR text)"
+          }
+        ],
+        "armagh-urban-district-council": [
+          {
+            "year": 1917,
+            "reason": "Triennial January election of Armagh Urban District Council not held: postponed for a year, and again in 1918 and 1919 (the council elected in January 1914 sat on). The next election was the proportional-representation election of January 1920 under the Local Government (Ireland) Act 1919.",
+            "source": "Parliament and Local Elections Act 1916, s. 2: \"the next statutory elections of Borough Councillors and Urban District Councillors were further postponed for one year\" (Local Government Board letter, Newry Reporter, 3 October 1916, p. 8); Local Government Board letters postponing urban elections for a further year (Waterford Evening Star, 19 December 1917, p. 4; Tyrone Constitution, 11 January 1918, p. 4); Local Government Board circular of 20 August 1918 \"further postponing the holding of urban elections for a year\" (Lurgan Mail, 7 September 1918, p. 2); Armagh Guardian, 13 September 1918, p. 1 (OCR text)"
+          },
+          {
+            "year": 1935,
+            "reason": "No election: the council was dissolved on 6 March 1934 and its powers exercised by a commissioner (and urban elections were in any case deferred to May 1936).",
+            "source": "Belfast Gazette, 6 September 1946 (No. 1,315), p. 221: the council of the Urban District of Armagh was dissolved by the Ministry of Home Affairs order of 6 March 1934 under the Local Government (Emergency Powers) Act 1921 (commissioner Adrian Robinson; Ian W. Knighton Smith from 13 June 1941) and reconstituted on 19 September 1946, after the election of 18 September 1946; Belfast News-Letter, 7 March 1934, p. 7, and 6 March 1940, p. 8 (OCR text); Local Government Act (Northern Ireland) 1934 (Royal Assent: Belfast Gazette, 16 November 1934, p. 379): ordinary day of election moved from 15 January to 15 May; \"There will be no election of borough councillors, urban district councillors, or town commissioners in Northern Ireland until May, 1936\" (Belfast Telegraph, 4 October 1934, p. 4, on the Local Government Bill, OCR text)"
+          },
+          {
+            "year": 1936,
+            "reason": "No election: the council had been dissolved (6 March 1934) and its powers were exercised by a commissioner until 19 September 1946.",
+            "source": "Belfast Gazette, 6 September 1946 (No. 1,315), p. 221: the council of the Urban District of Armagh was dissolved by the Ministry of Home Affairs order of 6 March 1934 under the Local Government (Emergency Powers) Act 1921 (commissioner Adrian Robinson; Ian W. Knighton Smith from 13 June 1941) and reconstituted on 19 September 1946, after the election of 18 September 1946; Belfast News-Letter, 7 March 1934, p. 7, and 6 March 1940, p. 8 (OCR text)"
+          },
+          {
+            "year": 1939,
+            "reason": "No election: the council had been dissolved (6 March 1934) and its powers were exercised by a commissioner until 19 September 1946.",
+            "source": "Belfast Gazette, 6 September 1946 (No. 1,315), p. 221: the council of the Urban District of Armagh was dissolved by the Ministry of Home Affairs order of 6 March 1934 under the Local Government (Emergency Powers) Act 1921 (commissioner Adrian Robinson; Ian W. Knighton Smith from 13 June 1941) and reconstituted on 19 September 1946, after the election of 18 September 1946; Belfast News-Letter, 7 March 1934, p. 7, and 6 March 1940, p. 8 (OCR text)"
+          },
+          {
+            "year": 1942,
+            "reason": "No election: the council was still dissolved under a commissioner, and all local elections were suspended 1940-1945; the restored council (five wards) was elected on 18 September 1946.",
+            "source": "Belfast Gazette, 6 September 1946 (No. 1,315), p. 221: the council of the Urban District of Armagh was dissolved by the Ministry of Home Affairs order of 6 March 1934 under the Local Government (Emergency Powers) Act 1921 (commissioner Adrian Robinson; Ian W. Knighton Smith from 13 June 1941) and reconstituted on 19 September 1946, after the election of 18 September 1946; Belfast News-Letter, 7 March 1934, p. 7, and 6 March 1940, p. 8 (OCR text); Local Authorities and Jurors Books (Temporary Provisions) Act (Northern Ireland) 1940 and Local Authorities (Temporary Provisions) Act (Northern Ireland) 1945: \"no elections of members of any local authority should be held while those Acts remained in force\"; Elections and Franchise Act (Northern Ireland) 1946: elections in 1946 and every third year after (recited in the Belfast Gazette, 15 November 1946, No. 1,525, regional education committees order: \"the suspension of local elections during the years 1940 to 1945\")"
+          },
+          {
+            "year": 1945,
+            "reason": "No election: the council was still dissolved under a commissioner, and all local elections were suspended 1940-1945; the restored council (five wards) was elected on 18 September 1946.",
+            "source": "Belfast Gazette, 6 September 1946 (No. 1,315), p. 221: the council of the Urban District of Armagh was dissolved by the Ministry of Home Affairs order of 6 March 1934 under the Local Government (Emergency Powers) Act 1921 (commissioner Adrian Robinson; Ian W. Knighton Smith from 13 June 1941) and reconstituted on 19 September 1946, after the election of 18 September 1946; Belfast News-Letter, 7 March 1934, p. 7, and 6 March 1940, p. 8 (OCR text); Local Authorities and Jurors Books (Temporary Provisions) Act (Northern Ireland) 1940 and Local Authorities (Temporary Provisions) Act (Northern Ireland) 1945: \"no elections of members of any local authority should be held while those Acts remained in force\"; Elections and Franchise Act (Northern Ireland) 1946: elections in 1946 and every third year after (recited in the Belfast Gazette, 15 November 1946, No. 1,525, regional education committees order: \"the suspension of local elections during the years 1940 to 1945\")"
+          },
+          {
+            "year": 1970,
+            "reason": "Triennial election not held: postponed (to October 1971, then indefinitely) because of the reorganisation of local government; the council sat until 1973.",
+            "source": "Elections due in May and June 1970 postponed because of the reorganisation of local government: Belfast Telegraph, 10 October 1969, p. 8 (the Bill \"postpones triennial local Government elections due to be held in May and June, 1970\"); Belfast News-Letter, 21 May 1969, p. 2 (\"Council elections off until 1971\"); Belfast Telegraph, 26 June 1970, p. 3 (\"already postponed from this year until October 1971\"), OCR text. The councils sat until the 1973 reorganisation."
+          }
+        ],
+        "keady-urban-district-council": [
+          {
+            "year": 1917,
+            "reason": "Triennial January election of Keady Urban District Council not held: postponed for a year, and again in 1918 and 1919 (the council elected in January 1914 sat on). The next election was the proportional-representation election of January 1920 under the Local Government (Ireland) Act 1919.",
+            "source": "Parliament and Local Elections Act 1916, s. 2: \"the next statutory elections of Borough Councillors and Urban District Councillors were further postponed for one year\" (Local Government Board letter, Newry Reporter, 3 October 1916, p. 8); Local Government Board letters postponing urban elections for a further year (Waterford Evening Star, 19 December 1917, p. 4; Tyrone Constitution, 11 January 1918, p. 4); Local Government Board circular of 20 August 1918 \"further postponing the holding of urban elections for a year\" (Lurgan Mail, 7 September 1918, p. 2); Armagh Guardian, 13 September 1918, p. 1 (OCR text)"
+          },
+          {
+            "year": 1935,
+            "reason": "Triennial January election not held: the Local Government Act (NI) 1934 moved urban elections to 15 May and extended the councils elected in January 1932 until the election of 15 May 1936.",
+            "source": "Local Government Act (Northern Ireland) 1934 (Royal Assent: Belfast Gazette, 16 November 1934, p. 379): ordinary day of election moved from 15 January to 15 May; \"There will be no election of borough councillors, urban district councillors, or town commissioners in Northern Ireland until May, 1936\" (Belfast Telegraph, 4 October 1934, p. 4, on the Local Government Bill, OCR text)"
+          },
+          {
+            "year": 1942,
+            "reason": "Triennial election not held: local elections suspended 1940-1945; the next election was on 18 September 1946.",
+            "source": "Local Authorities and Jurors Books (Temporary Provisions) Act (Northern Ireland) 1940 and Local Authorities (Temporary Provisions) Act (Northern Ireland) 1945: \"no elections of members of any local authority should be held while those Acts remained in force\"; Elections and Franchise Act (Northern Ireland) 1946: elections in 1946 and every third year after (recited in the Belfast Gazette, 15 November 1946, No. 1,525, regional education committees order: \"the suspension of local elections during the years 1940 to 1945\")"
+          },
+          {
+            "year": 1945,
+            "reason": "Triennial election not held: local elections suspended 1940-1945; the next election was on 18 September 1946.",
+            "source": "Local Authorities and Jurors Books (Temporary Provisions) Act (Northern Ireland) 1940 and Local Authorities (Temporary Provisions) Act (Northern Ireland) 1945: \"no elections of members of any local authority should be held while those Acts remained in force\"; Elections and Franchise Act (Northern Ireland) 1946: elections in 1946 and every third year after (recited in the Belfast Gazette, 15 November 1946, No. 1,525, regional education committees order: \"the suspension of local elections during the years 1940 to 1945\")"
+          },
+          {
+            "year": 1970,
+            "reason": "Triennial election not held: postponed (to October 1971, then indefinitely) because of the reorganisation of local government; the council sat until 1973.",
+            "source": "Elections due in May and June 1970 postponed because of the reorganisation of local government: Belfast Telegraph, 10 October 1969, p. 8 (the Bill \"postpones triennial local Government elections due to be held in May and June, 1970\"); Belfast News-Letter, 21 May 1969, p. 2 (\"Council elections off until 1971\"); Belfast Telegraph, 26 June 1970, p. 3 (\"already postponed from this year until October 1971\"), OCR text. The councils sat until the 1973 reorganisation."
+          }
+        ],
+        "tandragee-urban-district-council": [
+          {
+            "year": 1917,
+            "reason": "Triennial January election of Tandragee Urban District Council not held: postponed for a year, and again in 1918 and 1919 (the council elected in January 1914 sat on). The next election was the proportional-representation election of January 1920 under the Local Government (Ireland) Act 1919.",
+            "source": "Parliament and Local Elections Act 1916, s. 2: \"the next statutory elections of Borough Councillors and Urban District Councillors were further postponed for one year\" (Local Government Board letter, Newry Reporter, 3 October 1916, p. 8); Local Government Board letters postponing urban elections for a further year (Waterford Evening Star, 19 December 1917, p. 4; Tyrone Constitution, 11 January 1918, p. 4); Local Government Board circular of 20 August 1918 \"further postponing the holding of urban elections for a year\" (Lurgan Mail, 7 September 1918, p. 2); Armagh Guardian, 13 September 1918, p. 1 (OCR text)"
+          },
+          {
+            "year": 1935,
+            "reason": "Triennial January election not held: the Local Government Act (NI) 1934 moved urban elections to 15 May and extended the councils elected in January 1932 until the election of 15 May 1936.",
+            "source": "Local Government Act (Northern Ireland) 1934 (Royal Assent: Belfast Gazette, 16 November 1934, p. 379): ordinary day of election moved from 15 January to 15 May; \"There will be no election of borough councillors, urban district councillors, or town commissioners in Northern Ireland until May, 1936\" (Belfast Telegraph, 4 October 1934, p. 4, on the Local Government Bill, OCR text)"
+          },
+          {
+            "year": 1942,
+            "reason": "Triennial election not held: local elections suspended 1940-1945; the next election was on 18 September 1946.",
+            "source": "Local Authorities and Jurors Books (Temporary Provisions) Act (Northern Ireland) 1940 and Local Authorities (Temporary Provisions) Act (Northern Ireland) 1945: \"no elections of members of any local authority should be held while those Acts remained in force\"; Elections and Franchise Act (Northern Ireland) 1946: elections in 1946 and every third year after (recited in the Belfast Gazette, 15 November 1946, No. 1,525, regional education committees order: \"the suspension of local elections during the years 1940 to 1945\")"
+          },
+          {
+            "year": 1945,
+            "reason": "Triennial election not held: local elections suspended 1940-1945; the next election was on 18 September 1946.",
+            "source": "Local Authorities and Jurors Books (Temporary Provisions) Act (Northern Ireland) 1940 and Local Authorities (Temporary Provisions) Act (Northern Ireland) 1945: \"no elections of members of any local authority should be held while those Acts remained in force\"; Elections and Franchise Act (Northern Ireland) 1946: elections in 1946 and every third year after (recited in the Belfast Gazette, 15 November 1946, No. 1,525, regional education committees order: \"the suspension of local elections during the years 1940 to 1945\")"
+          },
+          {
+            "year": 1970,
+            "reason": "Triennial election not held: postponed (to October 1971, then indefinitely) because of the reorganisation of local government; the council sat until 1973.",
+            "source": "Elections due in May and June 1970 postponed because of the reorganisation of local government: Belfast Telegraph, 10 October 1969, p. 8 (the Bill \"postpones triennial local Government elections due to be held in May and June, 1970\"); Belfast News-Letter, 21 May 1969, p. 2 (\"Council elections off until 1971\"); Belfast Telegraph, 26 June 1970, p. 3 (\"already postponed from this year until October 1971\"), OCR text. The councils sat until the 1973 reorganisation."
+          }
+        ],
+        "lurgan-borough-council": [
+          {
+            "year": 1916,
+            "reason": "Annual January election of one third of Lurgan Urban District Council not held (wartime postponement). The next election was the proportional-representation election of January 1920 under the Local Government (Ireland) Act 1919.",
+            "source": "Elections and Registration Act 1915; Local Government Board letter read at Ballymoney UDC (Ballymoney Free Press, 6 January 1916, p. 2)"
+          },
+          {
+            "year": 1917,
+            "reason": "Annual January election of one third of Lurgan Urban District Council not held (wartime postponement). The next election was the proportional-representation election of January 1920 under the Local Government (Ireland) Act 1919.",
+            "source": "Parliament and Local Elections Act 1916, s. 2: \"the next statutory elections of Borough Councillors and Urban District Councillors were further postponed for one year\" (Local Government Board letter, Newry Reporter, 3 October 1916, p. 8)"
+          },
+          {
+            "year": 1918,
+            "reason": "Annual January election of one third of Lurgan Urban District Council not held (wartime postponement). The next election was the proportional-representation election of January 1920 under the Local Government (Ireland) Act 1919.",
+            "source": "Local Government Board letters postponing urban elections for a further year (Waterford Evening Star, 19 December 1917, p. 4; Tyrone Constitution, 11 January 1918, p. 4)"
+          },
+          {
+            "year": 1919,
+            "reason": "Annual January election of one third of Lurgan Urban District Council not held (wartime postponement). The next election was the proportional-representation election of January 1920 under the Local Government (Ireland) Act 1919.",
+            "source": "Local Government Board circular of 20 August 1918 \"further postponing the holding of urban elections for a year\" (Lurgan Mail, 7 September 1918, p. 2); Armagh Guardian, 13 September 1918, p. 1 (OCR text)"
+          },
+          {
+            "year": 1935,
+            "reason": "No January election of one third of the council: the Local Government Act (NI) 1934 moved urban elections to 15 May and none were held until May 1936.",
+            "source": "Local Government Act (Northern Ireland) 1934 (Royal Assent: Belfast Gazette, 16 November 1934, p. 379): ordinary day of election moved from 15 January to 15 May; \"There will be no election of borough councillors, urban district councillors, or town commissioners in Northern Ireland until May, 1936\" (Belfast Telegraph, 4 October 1934, p. 4, on the Local Government Bill, OCR text)"
+          },
+          {
+            "year": 1940,
+            "reason": "Election not held: local elections suspended 1940-1945 (Lurgan had elected a third of its council each year); the whole council was elected on 18 September 1946.",
+            "source": "Local Authorities and Jurors Books (Temporary Provisions) Act (Northern Ireland) 1940 and Local Authorities (Temporary Provisions) Act (Northern Ireland) 1945: \"no elections of members of any local authority should be held while those Acts remained in force\"; Elections and Franchise Act (Northern Ireland) 1946: elections in 1946 and every third year after (recited in the Belfast Gazette, 15 November 1946, No. 1,525, regional education committees order: \"the suspension of local elections during the years 1940 to 1945\")"
+          },
+          {
+            "year": 1941,
+            "reason": "Election not held: local elections suspended 1940-1945 (Lurgan had elected a third of its council each year); the whole council was elected on 18 September 1946.",
+            "source": "Local Authorities and Jurors Books (Temporary Provisions) Act (Northern Ireland) 1940 and Local Authorities (Temporary Provisions) Act (Northern Ireland) 1945: \"no elections of members of any local authority should be held while those Acts remained in force\"; Elections and Franchise Act (Northern Ireland) 1946: elections in 1946 and every third year after (recited in the Belfast Gazette, 15 November 1946, No. 1,525, regional education committees order: \"the suspension of local elections during the years 1940 to 1945\")"
+          },
+          {
+            "year": 1942,
+            "reason": "Election not held: local elections suspended 1940-1945 (Lurgan had elected a third of its council each year); the whole council was elected on 18 September 1946.",
+            "source": "Local Authorities and Jurors Books (Temporary Provisions) Act (Northern Ireland) 1940 and Local Authorities (Temporary Provisions) Act (Northern Ireland) 1945: \"no elections of members of any local authority should be held while those Acts remained in force\"; Elections and Franchise Act (Northern Ireland) 1946: elections in 1946 and every third year after (recited in the Belfast Gazette, 15 November 1946, No. 1,525, regional education committees order: \"the suspension of local elections during the years 1940 to 1945\")"
+          },
+          {
+            "year": 1943,
+            "reason": "Election not held: local elections suspended 1940-1945 (Lurgan had elected a third of its council each year); the whole council was elected on 18 September 1946.",
+            "source": "Local Authorities and Jurors Books (Temporary Provisions) Act (Northern Ireland) 1940 and Local Authorities (Temporary Provisions) Act (Northern Ireland) 1945: \"no elections of members of any local authority should be held while those Acts remained in force\"; Elections and Franchise Act (Northern Ireland) 1946: elections in 1946 and every third year after (recited in the Belfast Gazette, 15 November 1946, No. 1,525, regional education committees order: \"the suspension of local elections during the years 1940 to 1945\")"
+          },
+          {
+            "year": 1944,
+            "reason": "Election not held: local elections suspended 1940-1945 (Lurgan had elected a third of its council each year); the whole council was elected on 18 September 1946.",
+            "source": "Local Authorities and Jurors Books (Temporary Provisions) Act (Northern Ireland) 1940 and Local Authorities (Temporary Provisions) Act (Northern Ireland) 1945: \"no elections of members of any local authority should be held while those Acts remained in force\"; Elections and Franchise Act (Northern Ireland) 1946: elections in 1946 and every third year after (recited in the Belfast Gazette, 15 November 1946, No. 1,525, regional education committees order: \"the suspension of local elections during the years 1940 to 1945\")"
+          },
+          {
+            "year": 1945,
+            "reason": "Election not held: local elections suspended 1940-1945 (Lurgan had elected a third of its council each year); the whole council was elected on 18 September 1946.",
+            "source": "Local Authorities and Jurors Books (Temporary Provisions) Act (Northern Ireland) 1940 and Local Authorities (Temporary Provisions) Act (Northern Ireland) 1945: \"no elections of members of any local authority should be held while those Acts remained in force\"; Elections and Franchise Act (Northern Ireland) 1946: elections in 1946 and every third year after (recited in the Belfast Gazette, 15 November 1946, No. 1,525, regional education committees order: \"the suspension of local elections during the years 1940 to 1945\")"
+          },
+          {
+            "year": 1970,
+            "reason": "Triennial election not held: postponed (to October 1971, then indefinitely) because of the reorganisation of local government; the council sat until 1973.",
+            "source": "Elections due in May and June 1970 postponed because of the reorganisation of local government: Belfast Telegraph, 10 October 1969, p. 8 (the Bill \"postpones triennial local Government elections due to be held in May and June, 1970\"); Belfast News-Letter, 21 May 1969, p. 2 (\"Council elections off until 1971\"); Belfast Telegraph, 26 June 1970, p. 3 (\"already postponed from this year until October 1971\"), OCR text. The councils sat until the 1973 reorganisation."
+          }
+        ],
+        "portadown-borough-council": [
+          {
+            "year": 1917,
+            "reason": "Triennial January election of Portadown Urban District Council not held: postponed for a year, and again in 1918 and 1919 (the council elected in January 1914 sat on). The next election was the proportional-representation election of January 1920 under the Local Government (Ireland) Act 1919.",
+            "source": "Parliament and Local Elections Act 1916, s. 2: \"the next statutory elections of Borough Councillors and Urban District Councillors were further postponed for one year\" (Local Government Board letter, Newry Reporter, 3 October 1916, p. 8); Local Government Board letters postponing urban elections for a further year (Waterford Evening Star, 19 December 1917, p. 4; Tyrone Constitution, 11 January 1918, p. 4); Local Government Board circular of 20 August 1918 \"further postponing the holding of urban elections for a year\" (Lurgan Mail, 7 September 1918, p. 2); Armagh Guardian, 13 September 1918, p. 1 (OCR text)"
+          },
+          {
+            "year": 1935,
+            "reason": "Triennial January election not held: the Local Government Act (NI) 1934 moved urban elections to 15 May and extended the councils elected in January 1932 until the election of 15 May 1936.",
+            "source": "Local Government Act (Northern Ireland) 1934 (Royal Assent: Belfast Gazette, 16 November 1934, p. 379): ordinary day of election moved from 15 January to 15 May; \"There will be no election of borough councillors, urban district councillors, or town commissioners in Northern Ireland until May, 1936\" (Belfast Telegraph, 4 October 1934, p. 4, on the Local Government Bill, OCR text)"
+          },
+          {
+            "year": 1942,
+            "reason": "Triennial election not held: local elections suspended 1940-1945; the next election was on 18 September 1946.",
+            "source": "Local Authorities and Jurors Books (Temporary Provisions) Act (Northern Ireland) 1940 and Local Authorities (Temporary Provisions) Act (Northern Ireland) 1945: \"no elections of members of any local authority should be held while those Acts remained in force\"; Elections and Franchise Act (Northern Ireland) 1946: elections in 1946 and every third year after (recited in the Belfast Gazette, 15 November 1946, No. 1,525, regional education committees order: \"the suspension of local elections during the years 1940 to 1945\")"
+          },
+          {
+            "year": 1945,
+            "reason": "Triennial election not held: local elections suspended 1940-1945; the next election was on 18 September 1946.",
+            "source": "Local Authorities and Jurors Books (Temporary Provisions) Act (Northern Ireland) 1940 and Local Authorities (Temporary Provisions) Act (Northern Ireland) 1945: \"no elections of members of any local authority should be held while those Acts remained in force\"; Elections and Franchise Act (Northern Ireland) 1946: elections in 1946 and every third year after (recited in the Belfast Gazette, 15 November 1946, No. 1,525, regional education committees order: \"the suspension of local elections during the years 1940 to 1945\")"
+          },
+          {
+            "year": 1970,
+            "reason": "Triennial election not held: postponed (to October 1971, then indefinitely) because of the reorganisation of local government; the council sat until 1973.",
+            "source": "Elections due in May and June 1970 postponed because of the reorganisation of local government: Belfast Telegraph, 10 October 1969, p. 8 (the Bill \"postpones triennial local Government elections due to be held in May and June, 1970\"); Belfast News-Letter, 21 May 1969, p. 2 (\"Council elections off until 1971\"); Belfast Telegraph, 26 June 1970, p. 3 (\"already postponed from this year until October 1971\"), OCR text. The councils sat until the 1973 reorganisation."
+          }
+        ]
+      }
+    }
+  ]
+}

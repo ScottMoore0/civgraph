@@ -1,0 +1,4129 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-01T11:53:09.677Z",
+  "description": "Progress of Civgraph's sources, elections and maps, as shown on /pages/status.html. Each total states its basis. Built by scripts/build-status.mjs; generatedAt is when a figure last changed.",
+  "figures": {
+    "sources": [
+      {
+        "id": "belfast-gazette",
+        "name": "The Belfast Gazette",
+        "publisher": "The Gazette (The Stationery Office)",
+        "url": "https://www.thegazette.co.uk/Belfast",
+        "licence": "Crown copyright, Open Government Licence",
+        "unit": "issues",
+        "known": {
+          "value": 9400,
+          "approximate": true,
+          "basis": "The Gazette numbers its Belfast issues consecutively from the first, in 1921; about 9,400 have been published. The figure is the issue range Civgraph's crawler is set to cover, kept by hand."
+        },
+        "stages": [
+          {
+            "key": "fetched",
+            "label": "Downloaded",
+            "value": 1288
+          },
+          {
+            "key": "parsed",
+            "label": "Read for election and boundary notices",
+            "value": 411
+          },
+          {
+            "key": "cited",
+            "label": "Cited on the site",
+            "value": 63
+          }
+        ],
+        "facts": [
+          "Downloaded so far: issues 1 to 1,313; 25 of them have no copy online.",
+          "Notices found so far: 142 boundary notices and 21 election notices, in issues 1 to 436.",
+          "Cited on the site counts the different issues that map and election records cite."
+        ],
+        "note": "Issues are downloaded oldest first, so the early decades are done first.",
+        "detail": null,
+        "snapshotTakenAt": "2026-11-01"
+      },
+      {
+        "id": "census-ni-reports",
+        "name": "Census of Northern Ireland reports, 1926–1981",
+        "publisher": "General Register Office for Northern Ireland",
+        "url": "https://www.nisra.gov.uk/statistics/census",
+        "licence": "Crown copyright, Open Government Licence",
+        "unit": "census years",
+        "known": {
+          "value": 7,
+          "approximate": false,
+          "basis": "The seven censuses taken in Northern Ireland between 1926 and 1981."
+        },
+        "stages": [
+          {
+            "key": "held",
+            "label": "Reports held",
+            "value": 7
+          },
+          {
+            "key": "converted",
+            "label": "Converted to text",
+            "value": 7
+          },
+          {
+            "key": "tables",
+            "label": "Tables extracted",
+            "value": 7
+          },
+          {
+            "key": "explorer",
+            "label": "In the Census Explorer",
+            "value": 7
+          }
+        ],
+        "facts": [],
+        "note": null,
+        "detail": {
+          "columns": [
+            "Census",
+            "Report held",
+            "Converted to text",
+            "Tables extracted",
+            "In the Census Explorer"
+          ],
+          "rows": [
+            [
+              "1926",
+              "Yes",
+              "Yes (2 parts)",
+              "2",
+              "Yes"
+            ],
+            [
+              "1937",
+              "Yes",
+              "Yes (2 parts)",
+              "12",
+              "Yes"
+            ],
+            [
+              "1951",
+              "Yes",
+              "Yes (2 parts)",
+              "13",
+              "Yes"
+            ],
+            [
+              "1961",
+              "Yes",
+              "Yes (2 parts)",
+              "12",
+              "Yes"
+            ],
+            [
+              "1966",
+              "Yes",
+              "Yes (1 part)",
+              "4",
+              "Yes"
+            ],
+            [
+              "1971",
+              "Yes",
+              "Yes (1 part)",
+              "20",
+              "Yes"
+            ],
+            [
+              "1981",
+              "Yes",
+              "Yes (1 part)",
+              "13",
+              "Yes"
+            ]
+          ]
+        },
+        "snapshotTakenAt": "2026-11-01"
+      },
+      {
+        "id": "census-ireland-pre1921",
+        "name": "Census of Ireland reports, 1821–1911",
+        "publisher": "Census Commissioners for Ireland (via the Central Statistics Office's historical reports)",
+        "url": "https://www.cso.ie/en/statistics/historicalreports/",
+        "licence": "Public domain (Crown copyright expired); CSO copies CC BY 4.0",
+        "unit": "census years",
+        "known": {
+          "value": 10,
+          "approximate": false,
+          "basis": "The ten censuses of Ireland taken before partition, 1821 to 1911."
+        },
+        "stages": [
+          {
+            "key": "held",
+            "label": "Report files held",
+            "value": 5
+          },
+          {
+            "key": "converted",
+            "label": "Read into text or data",
+            "value": 5
+          },
+          {
+            "key": "tables",
+            "label": "Tables extracted",
+            "value": 1
+          },
+          {
+            "key": "explorer",
+            "label": "In the Census Explorer",
+            "value": 0
+          }
+        ],
+        "facts": [],
+        "note": null,
+        "detail": {
+          "columns": [
+            "Census",
+            "Report files held",
+            "Files read",
+            "Tables extracted",
+            "In the Census Explorer"
+          ],
+          "rows": [
+            [
+              "1821",
+              "0",
+              "0",
+              "0",
+              "No"
+            ],
+            [
+              "1831",
+              "0",
+              "0",
+              "0",
+              "No"
+            ],
+            [
+              "1841",
+              "39",
+              "39",
+              "0",
+              "No"
+            ],
+            [
+              "1851",
+              "32",
+              "32",
+              "0",
+              "No"
+            ],
+            [
+              "1861",
+              "0",
+              "0",
+              "0",
+              "No"
+            ],
+            [
+              "1871",
+              "0",
+              "0",
+              "0",
+              "No"
+            ],
+            [
+              "1881",
+              "0",
+              "0",
+              "0",
+              "No"
+            ],
+            [
+              "1891",
+              "31",
+              "31",
+              "0",
+              "No"
+            ],
+            [
+              "1901",
+              "31",
+              "31",
+              "0",
+              "No"
+            ],
+            [
+              "1911",
+              "34",
+              "34",
+              "56",
+              "No"
+            ]
+          ]
+        },
+        "snapshotTakenAt": "2026-11-01"
+      },
+      {
+        "id": "opendatani",
+        "name": "Open Data NI",
+        "publisher": "Department of Finance (Northern Ireland)",
+        "url": "https://www.opendatani.gov.uk/",
+        "licence": "Mostly Open Government Licence (per dataset)",
+        "unit": "datasets",
+        "known": {
+          "value": 1128,
+          "approximate": false,
+          "basis": "The number of datasets the Open Data NI catalogue lists, read from its CKAN API when the snapshot was taken."
+        },
+        "stages": [
+          {
+            "key": "mirrored",
+            "label": "Mirrored by Civgraph",
+            "value": 1052
+          },
+          {
+            "key": "used",
+            "label": "Used by a map on the site",
+            "value": 137
+          }
+        ],
+        "facts": [
+          "The map catalogue also links to 6 Open Data NI datasets that are no longer listed."
+        ],
+        "note": "Most datasets are statistics or registers rather than maps, so only some will ever be map layers.",
+        "detail": null,
+        "snapshotTakenAt": "2026-11-01"
+      },
+      {
+        "id": "legislation",
+        "name": "Northern Ireland legislation on boundaries and elections",
+        "publisher": "legislation.gov.uk (The National Archives)",
+        "url": "https://www.legislation.gov.uk/",
+        "licence": "Crown copyright, Open Government Licence",
+        "unit": "items",
+        "known": {
+          "value": 189,
+          "approximate": false,
+          "basis": "Acts, Orders and Statutory Rules for Northern Ireland on legislation.gov.uk whose titles name boundaries, electoral areas, constituencies, wards or elections (a title search, so it misses some), together with any further items the site cites."
+        },
+        "stages": [
+          {
+            "key": "cited",
+            "label": "Cited on the site",
+            "value": 12
+          }
+        ],
+        "facts": [
+          "186 found by the title search, and 3 more that the site cites."
+        ],
+        "note": "Many older boundary orders (extensions of towns, for example) are not on legislation.gov.uk at all; the site cites those from the Belfast Gazette instead.",
+        "detail": null,
+        "snapshotTakenAt": "2026-11-01"
+      },
+      {
+        "id": "proni",
+        "name": "PRONI eCatalogue",
+        "publisher": "Public Record Office of Northern Ireland",
+        "url": "https://apps.proni.gov.uk/eCatNI_IE/SearchPage.aspx",
+        "licence": "Crown copyright, Open Government Licence",
+        "unit": "catalogue records",
+        "known": {
+          "value": 1538177,
+          "approximate": false,
+          "basis": "The records Civgraph's copy of the eCatalogue found; PRONI does not publish a total."
+        },
+        "stages": [
+          {
+            "key": "collected",
+            "label": "Collected",
+            "value": 1538177
+          },
+          {
+            "key": "published",
+            "label": "Searchable on the site",
+            "value": 1538177
+          },
+          {
+            "key": "dated",
+            "label": "Date read from the record",
+            "value": 1211957
+          }
+        ],
+        "facts": [
+          "A date is read from a record's own date field or description; records with no date at all stay undated."
+        ],
+        "note": "Records are catalogue descriptions only; the documents themselves are at PRONI.",
+        "detail": null,
+        "snapshotTakenAt": "2026-11-01"
+      },
+      {
+        "id": "niassembly-register",
+        "name": "Northern Ireland Assembly Register of Members' Interests",
+        "publisher": "Northern Ireland Assembly",
+        "url": "https://www.niassembly.gov.uk/your-mlas/register-of-interests/",
+        "licence": "Open Northern Ireland Assembly Licence",
+        "unit": "register documents",
+        "known": {
+          "value": 74,
+          "approximate": false,
+          "basis": "The register editions and pages listed on the Assembly's current and archived register-of-interests pages."
+        },
+        "stages": [
+          {
+            "key": "held",
+            "label": "Collected",
+            "value": 74
+          },
+          {
+            "key": "extracted",
+            "label": "Interests extracted",
+            "value": 74
+          },
+          {
+            "key": "onSite",
+            "label": "On the site",
+            "value": 74
+          }
+        ],
+        "facts": [
+          "75,908 interest entries read from them, 8,289 once repeated entries across editions are merged."
+        ],
+        "note": null,
+        "detail": null,
+        "snapshotTakenAt": "2026-07-07"
+      }
+    ],
+    "elections": [
+      {
+        "id": "westminster",
+        "name": "Westminster (House of Commons)",
+        "unit": "contests",
+        "about": null,
+        "totals": {
+          "known": 3343,
+          "onSite": 3343,
+          "full": 3340,
+          "verified": 1129
+        },
+        "segments": [
+          {
+            "label": "Ireland, 1801–1831",
+            "known": 804,
+            "onSite": 804,
+            "full": 804,
+            "verified": 758,
+            "basis": "B. M. Walker, Parliamentary Election Results in Ireland, 1801–1922 (Royal Irish Academy, 1978) lists 786; the site holds 804, drawing on further lists, so the larger figure is the total."
+          },
+          {
+            "label": "Ireland, 1832–1884",
+            "known": 1116,
+            "onSite": 1116,
+            "full": 1114,
+            "verified": 86,
+            "basis": "B. M. Walker, Parliamentary Election Results in Ireland, 1801–1922 (Royal Irish Academy, 1978) lists 982; the site holds 1,116, drawing on further lists, so the larger figure is the total."
+          },
+          {
+            "label": "Ireland, 1885–1922: general elections",
+            "known": 808,
+            "onSite": 808,
+            "full": 808,
+            "verified": 97,
+            "basis": "No independent list of these contests is held yet, so the total is the contests the site holds."
+          },
+          {
+            "label": "Ireland, 1885–1922: by-elections",
+            "known": 184,
+            "onSite": 184,
+            "full": 184,
+            "verified": 0,
+            "basis": "B. M. Walker, Parliamentary Election Results in Ireland, 1801–1922 (Royal Irish Academy, 1978) lists 125; the site holds 184, drawing on further lists, so the larger figure is the total."
+          },
+          {
+            "label": "Northern Ireland, 1922–1970",
+            "known": 175,
+            "onSite": 175,
+            "full": 175,
+            "verified": 52,
+            "basis": "No independent list of these contests is held yet, so the total is the contests the site holds."
+          },
+          {
+            "label": "Northern Ireland, 1974 onwards",
+            "known": 256,
+            "onSite": 256,
+            "full": 255,
+            "verified": 136,
+            "basis": "No independent list of these contests is held yet, so the total is the contests the site holds."
+          }
+        ]
+      },
+      {
+        "id": "dail",
+        "name": "Dáil Éireann",
+        "unit": "contests",
+        "about": null,
+        "totals": {
+          "known": 1482,
+          "onSite": 1482,
+          "full": 1482,
+          "verified": 388
+        },
+        "segments": [
+          {
+            "label": "1918–1921",
+            "known": 131,
+            "onSite": 131,
+            "full": 131,
+            "verified": 53,
+            "basis": "No independent list of these contests is held yet, so the total is the contests the site holds."
+          },
+          {
+            "label": "1922–1944",
+            "known": 350,
+            "onSite": 350,
+            "full": 350,
+            "verified": 333,
+            "basis": "M. Gallagher, Irish Elections 1922–44: Results and Analysis (PSAI Press, 1993) lists 349; the site holds 350, drawing on further lists, so the larger figure is the total."
+          },
+          {
+            "label": "1948–1977",
+            "known": 426,
+            "onSite": 426,
+            "full": 426,
+            "verified": 0,
+            "basis": "No independent list of these contests is held yet, so the total is the contests the site holds."
+          },
+          {
+            "label": "1981 onwards",
+            "known": 575,
+            "onSite": 575,
+            "full": 575,
+            "verified": 2,
+            "basis": "No independent list of these contests is held yet, so the total is the contests the site holds."
+          }
+        ]
+      },
+      {
+        "id": "stormont",
+        "name": "Parliament of Northern Ireland (Stormont)",
+        "unit": "contests",
+        "about": null,
+        "totals": {
+          "known": 582,
+          "onSite": 582,
+          "full": 582,
+          "verified": 20
+        },
+        "segments": [
+          {
+            "label": "1921–1928 (single transferable vote)",
+            "known": 23,
+            "onSite": 23,
+            "full": 23,
+            "verified": 15,
+            "basis": "No independent list of these contests is held yet, so the total is the contests the site holds."
+          },
+          {
+            "label": "1929–1972",
+            "known": 559,
+            "onSite": 559,
+            "full": 559,
+            "verified": 5,
+            "basis": "No independent list of these contests is held yet, so the total is the contests the site holds."
+          }
+        ]
+      },
+      {
+        "id": "ni-assemblies",
+        "name": "Northern Ireland Assembly and its forerunners",
+        "unit": "contests",
+        "about": null,
+        "totals": {
+          "known": 185,
+          "onSite": 185,
+          "full": 185,
+          "verified": 75
+        },
+        "segments": [
+          {
+            "label": "Assemblies of 1973 and 1982",
+            "known": 28,
+            "onSite": 28,
+            "full": 28,
+            "verified": 5,
+            "basis": "No independent list of these contests is held yet, so the total is the contests the site holds."
+          },
+          {
+            "label": "Constitutional Convention, 1975",
+            "known": 12,
+            "onSite": 12,
+            "full": 12,
+            "verified": 2,
+            "basis": "No independent list of these contests is held yet, so the total is the contests the site holds."
+          },
+          {
+            "label": "Forum for Political Dialogue, 1996",
+            "known": 19,
+            "onSite": 19,
+            "full": 19,
+            "verified": 15,
+            "basis": "No independent list of these contests is held yet, so the total is the contests the site holds."
+          },
+          {
+            "label": "Assembly, 1998 onwards",
+            "known": 126,
+            "onSite": 126,
+            "full": 126,
+            "verified": 53,
+            "basis": "No independent list of these contests is held yet, so the total is the contests the site holds."
+          }
+        ]
+      },
+      {
+        "id": "ni-local",
+        "name": "Northern Ireland district councils, 1973 onwards",
+        "unit": "contests",
+        "about": null,
+        "totals": {
+          "known": 1238,
+          "onSite": 1238,
+          "full": 1238,
+          "verified": 1034
+        },
+        "segments": [
+          {
+            "label": "1970s",
+            "known": 196,
+            "onSite": 196,
+            "full": 196,
+            "verified": 166,
+            "basis": "No independent list of these contests is held yet, so the total is the contests the site holds."
+          },
+          {
+            "label": "1980s",
+            "known": 295,
+            "onSite": 295,
+            "full": 295,
+            "verified": 256,
+            "basis": "No independent list of these contests is held yet, so the total is the contests the site holds."
+          },
+          {
+            "label": "1990s",
+            "known": 202,
+            "onSite": 202,
+            "full": 202,
+            "verified": 194,
+            "basis": "No independent list of these contests is held yet, so the total is the contests the site holds."
+          },
+          {
+            "label": "2000s",
+            "known": 202,
+            "onSite": 202,
+            "full": 202,
+            "verified": 200,
+            "basis": "No independent list of these contests is held yet, so the total is the contests the site holds."
+          },
+          {
+            "label": "2010s",
+            "known": 263,
+            "onSite": 263,
+            "full": 263,
+            "verified": 194,
+            "basis": "No independent list of these contests is held yet, so the total is the contests the site holds."
+          },
+          {
+            "label": "2020s",
+            "known": 80,
+            "onSite": 80,
+            "full": 80,
+            "verified": 24,
+            "basis": "No independent list of these contests is held yet, so the total is the contests the site holds."
+          }
+        ]
+      },
+      {
+        "id": "ie-local",
+        "name": "Local elections in the Republic of Ireland",
+        "unit": "contests",
+        "about": null,
+        "totals": {
+          "known": 1409,
+          "onSite": 1409,
+          "full": 1409,
+          "verified": 819
+        },
+        "segments": [
+          {
+            "label": "1970s",
+            "known": 207,
+            "onSite": 207,
+            "full": 207,
+            "verified": 4,
+            "basis": "No independent list of these contests is held yet, so the total is the contests the site holds."
+          },
+          {
+            "label": "1980s",
+            "known": 143,
+            "onSite": 143,
+            "full": 143,
+            "verified": 25,
+            "basis": "No independent list of these contests is held yet, so the total is the contests the site holds."
+          },
+          {
+            "label": "1990s",
+            "known": 349,
+            "onSite": 349,
+            "full": 349,
+            "verified": 241,
+            "basis": "No independent list of these contests is held yet, so the total is the contests the site holds."
+          },
+          {
+            "label": "2000s",
+            "known": 351,
+            "onSite": 351,
+            "full": 351,
+            "verified": 314,
+            "basis": "No independent list of these contests is held yet, so the total is the contests the site holds."
+          },
+          {
+            "label": "2010s",
+            "known": 235,
+            "onSite": 235,
+            "full": 235,
+            "verified": 193,
+            "basis": "No independent list of these contests is held yet, so the total is the contests the site holds."
+          },
+          {
+            "label": "2020s",
+            "known": 124,
+            "onSite": 124,
+            "full": 124,
+            "verified": 42,
+            "basis": "No independent list of these contests is held yet, so the total is the contests the site holds."
+          }
+        ]
+      },
+      {
+        "id": "european",
+        "name": "European Parliament",
+        "unit": "contests",
+        "about": null,
+        "totals": {
+          "known": 46,
+          "onSite": 46,
+          "full": 46,
+          "verified": 34
+        },
+        "segments": [
+          {
+            "label": "Northern Ireland",
+            "known": 9,
+            "onSite": 9,
+            "full": 9,
+            "verified": 8,
+            "basis": "No independent list of these contests is held yet, so the total is the contests the site holds."
+          },
+          {
+            "label": "Republic of Ireland",
+            "known": 37,
+            "onSite": 37,
+            "full": 37,
+            "verified": 26,
+            "basis": "No independent list of these contests is held yet, so the total is the contests the site holds."
+          }
+        ]
+      },
+      {
+        "id": "president",
+        "name": "Presidential elections (Ireland)",
+        "unit": "contests",
+        "about": null,
+        "totals": {
+          "known": 15,
+          "onSite": 15,
+          "full": 15,
+          "verified": 4
+        },
+        "segments": [
+          {
+            "label": "1938 onwards",
+            "known": 15,
+            "onSite": 15,
+            "full": 15,
+            "verified": 4,
+            "basis": "No independent list of these contests is held yet, so the total is the contests the site holds."
+          }
+        ]
+      },
+      {
+        "id": "referendums",
+        "name": "Referendums",
+        "unit": "constituency results",
+        "about": null,
+        "totals": {
+          "known": 1785,
+          "onSite": 1785,
+          "full": 1785,
+          "verified": 1756
+        },
+        "segments": [
+          {
+            "label": "Republic of Ireland",
+            "known": 1756,
+            "onSite": 1756,
+            "full": 1756,
+            "verified": 1756,
+            "basis": "No independent list of these contests is held yet, so the total is the constituency results the site holds."
+          },
+          {
+            "label": "Northern Ireland and UK-wide, in Northern Ireland",
+            "known": 29,
+            "onSite": 29,
+            "full": 29,
+            "verified": 0,
+            "basis": "No independent list of these contests is held yet, so the total is the constituency results the site holds."
+          }
+        ]
+      },
+      {
+        "id": "ni-councils-pre1973",
+        "name": "Northern Ireland councils before 1973",
+        "unit": "rounds",
+        "about": "Councils elected before the 1973 reorganisation: county boroughs, boroughs, urban and rural district councils and county councils. No complete list of their elections exists yet, so each bar counts rounds (one council's election on one date) against the known rounds so far: the rounds filed on the site plus rounds documented as not held.",
+        "totals": {
+          "known": 325,
+          "onSite": 270,
+          "full": 242,
+          "verified": 255
+        },
+        "segments": [
+          {
+            "label": "Aghalee Rural District Council",
+            "body": "aghalee-rural-district-council",
+            "span": [
+              1899,
+              1899
+            ],
+            "known": 1,
+            "onSite": 1,
+            "full": 1,
+            "verified": 1,
+            "notHeld": 0,
+            "basis": null
+          },
+          {
+            "label": "Armagh County Council",
+            "body": "armagh-county-council",
+            "span": [
+              1899,
+              1967
+            ],
+            "known": 25,
+            "onSite": 21,
+            "full": 21,
+            "verified": 21,
+            "notHeld": 4,
+            "basis": "Known rounds so far: 21 rounds on the site and 4 documented as not held."
+          },
+          {
+            "label": "Armagh Rural District Council",
+            "body": "armagh-rural-district-council",
+            "span": [
+              1899,
+              1967
+            ],
+            "known": 24,
+            "onSite": 20,
+            "full": 19,
+            "verified": 20,
+            "notHeld": 4,
+            "basis": "Known rounds so far: 20 rounds on the site and 4 documented as not held."
+          },
+          {
+            "label": "Armagh Urban District Council",
+            "body": "armagh-urban-district-council",
+            "span": [
+              1899,
+              1964
+            ],
+            "known": 25,
+            "onSite": 18,
+            "full": 18,
+            "verified": 18,
+            "notHeld": 7,
+            "basis": "Known rounds so far: 18 rounds on the site and 7 documented as not held."
+          },
+          {
+            "label": "Bangor Urban District Council",
+            "body": "bangor-urban-district-council",
+            "span": [
+              1920,
+              1920
+            ],
+            "known": 1,
+            "onSite": 1,
+            "full": 0,
+            "verified": 1,
+            "notHeld": 0,
+            "basis": null
+          },
+          {
+            "label": "Belfast County Borough Council",
+            "body": "belfast-county-borough-council",
+            "span": [
+              1920,
+              1967
+            ],
+            "known": 4,
+            "onSite": 4,
+            "full": 4,
+            "verified": 4,
+            "notHeld": 0,
+            "basis": null
+          },
+          {
+            "label": "Belfast County Borough Council (aldermen)",
+            "body": "belfast-county-borough-council-aldermen",
+            "span": [
+              1961,
+              1967
+            ],
+            "known": 3,
+            "onSite": 3,
+            "full": 3,
+            "verified": 3,
+            "notHeld": 0,
+            "basis": null
+          },
+          {
+            "label": "Castleblayney No. 2 Rural District Council",
+            "body": "castleblayney-no-2-rural-district-council",
+            "span": [
+              1899,
+              1914
+            ],
+            "known": 7,
+            "onSite": 6,
+            "full": 6,
+            "verified": 6,
+            "notHeld": 1,
+            "basis": "Known rounds so far: 6 rounds on the site and 1 documented as not held."
+          },
+          {
+            "label": "Keady Urban District Council",
+            "body": "keady-urban-district-council",
+            "span": [
+              1899,
+              1967
+            ],
+            "known": 26,
+            "onSite": 21,
+            "full": 21,
+            "verified": 21,
+            "notHeld": 5,
+            "basis": "Known rounds so far: 21 rounds on the site and 5 documented as not held."
+          },
+          {
+            "label": "Lisburn Urban District Council",
+            "body": "lisburn-urban-district-council",
+            "span": [
+              1920,
+              1920
+            ],
+            "known": 1,
+            "onSite": 1,
+            "full": 1,
+            "verified": 1,
+            "notHeld": 0,
+            "basis": null
+          },
+          {
+            "label": "Londonderry County Borough Council",
+            "body": "londonderry-county-borough-council",
+            "span": [
+              1920,
+              1920
+            ],
+            "known": 1,
+            "onSite": 1,
+            "full": 1,
+            "verified": 1,
+            "notHeld": 0,
+            "basis": null
+          },
+          {
+            "label": "Lurgan Borough Council",
+            "body": "lurgan-borough-council",
+            "span": [
+              1899,
+              1967
+            ],
+            "known": 54,
+            "onSite": 42,
+            "full": 35,
+            "verified": 35,
+            "notHeld": 12,
+            "basis": "Known rounds so far: 42 rounds on the site and 12 documented as not held."
+          },
+          {
+            "label": "Lurgan Rural District Council",
+            "body": "lurgan-rural-district-council",
+            "span": [
+              1899,
+              1964
+            ],
+            "known": 24,
+            "onSite": 20,
+            "full": 18,
+            "verified": 20,
+            "notHeld": 4,
+            "basis": "Known rounds so far: 20 rounds on the site and 4 documented as not held."
+          },
+          {
+            "label": "Moira Rural District Council",
+            "body": "moira-rural-district-council",
+            "span": [
+              1899,
+              1899
+            ],
+            "known": 1,
+            "onSite": 1,
+            "full": 1,
+            "verified": 1,
+            "notHeld": 0,
+            "basis": null
+          },
+          {
+            "label": "Newry No. 2 Rural District Council",
+            "body": "newry-no-2-rural-district-council",
+            "span": [
+              1899,
+              1967
+            ],
+            "known": 25,
+            "onSite": 21,
+            "full": 18,
+            "verified": 21,
+            "notHeld": 4,
+            "basis": "Known rounds so far: 21 rounds on the site and 4 documented as not held."
+          },
+          {
+            "label": "Portadown Borough Council",
+            "body": "portadown-borough-council",
+            "span": [
+              1899,
+              1967
+            ],
+            "known": 27,
+            "onSite": 22,
+            "full": 13,
+            "verified": 14,
+            "notHeld": 5,
+            "basis": "Known rounds so far: 22 rounds on the site and 5 documented as not held."
+          },
+          {
+            "label": "Strabane Urban District Council",
+            "body": "strabane-urban-district-council",
+            "span": [
+              1899,
+              1967
+            ],
+            "known": 28,
+            "onSite": 28,
+            "full": 26,
+            "verified": 28,
+            "notHeld": 0,
+            "basis": null
+          },
+          {
+            "label": "Tandragee Rural District Council",
+            "body": "tandragee-rural-district-council",
+            "span": [
+              1899,
+              1967
+            ],
+            "known": 23,
+            "onSite": 19,
+            "full": 18,
+            "verified": 19,
+            "notHeld": 4,
+            "basis": "Known rounds so far: 19 rounds on the site and 4 documented as not held."
+          },
+          {
+            "label": "Tandragee Urban District Council",
+            "body": "tandragee-urban-district-council",
+            "span": [
+              1899,
+              1967
+            ],
+            "known": 25,
+            "onSite": 20,
+            "full": 18,
+            "verified": 20,
+            "notHeld": 5,
+            "basis": "Known rounds so far: 20 rounds on the site and 5 documented as not held."
+          }
+        ]
+      }
+    ],
+    "maps": [
+      {
+        "id": "land-divisions",
+        "name": "Historic Geographies",
+        "totals": {
+          "known": 16,
+          "complete": 16,
+          "partial": 0,
+          "notDrawn": 0,
+          "versions": 6
+        },
+        "series": [
+          {
+            "id": "counties-counties",
+            "name": "Counties",
+            "scope": "Ireland",
+            "shelf": "land-divisions",
+            "years": [
+              1915,
+              1977
+            ],
+            "known": 6,
+            "complete": 6,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "counties-provinces",
+            "name": "Provinces",
+            "scope": "Ireland",
+            "shelf": "land-divisions",
+            "years": [
+              1899,
+              1955
+            ],
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 1
+          },
+          {
+            "id": "regional-divides-the-bann-divide",
+            "name": "Regional Divides",
+            "scope": "Ireland",
+            "shelf": "land-divisions",
+            "years": null,
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "civil-parishes-baronies",
+            "name": "Baronies",
+            "scope": "Ireland",
+            "shelf": "land-divisions",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "ecclesiastical-areas-catholic-dioceses-and-parishes--ireland",
+            "name": "Catholic Dioceses",
+            "scope": "Ireland",
+            "shelf": "land-divisions",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "ecclesiastical-areas-catholic-dioceses-and-parishes",
+            "name": "Catholic Parishes (Dublin)",
+            "scope": "Republic of Ireland",
+            "shelf": "land-divisions",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "civil-parishes-civil-parishes",
+            "name": "Civil Parishes",
+            "scope": "Ireland",
+            "shelf": "land-divisions",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "conflict-and-segregation-peacelines",
+            "name": "Peacelines",
+            "scope": "Northern Ireland",
+            "shelf": "land-divisions",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "townlands-townlands",
+            "name": "Townlands",
+            "scope": "Ireland",
+            "shelf": "land-divisions",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 5
+          }
+        ]
+      },
+      {
+        "id": "government-and-administration",
+        "name": "Government & Administration",
+        "totals": {
+          "known": 124,
+          "complete": 70,
+          "partial": 54,
+          "notDrawn": 0,
+          "versions": 10
+        },
+        "series": [
+          {
+            "id": "local-government-administrative-areas",
+            "name": "Administrative Areas",
+            "scope": "Northern Ireland",
+            "shelf": "government-and-administration",
+            "years": [
+              1921,
+              1969
+            ],
+            "known": 56,
+            "complete": 2,
+            "partial": 54,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "local-government-local-authorities",
+            "name": "Administrative Counties (Republic of Ireland)",
+            "scope": "Republic of Ireland",
+            "shelf": "government-and-administration",
+            "years": [
+              1921,
+              2019
+            ],
+            "known": 22,
+            "complete": 22,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 1
+          },
+          {
+            "id": "local-government-poor-law-unions--ireland",
+            "name": "Poor Law Unions (Ireland before partition)",
+            "scope": "Ireland",
+            "shelf": "government-and-administration",
+            "years": [
+              1850,
+              1921
+            ],
+            "known": 8,
+            "complete": 8,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 3
+          },
+          {
+            "id": "local-government-local-authorities--ireland",
+            "name": "Administrative Counties (Ireland before partition)",
+            "scope": "Ireland",
+            "shelf": "government-and-administration",
+            "years": [
+              1899,
+              1920
+            ],
+            "known": 5,
+            "complete": 5,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "public-service-areas-dispensary-districts",
+            "name": "Dispensary Districts",
+            "scope": "Republic of Ireland",
+            "shelf": "government-and-administration",
+            "years": [
+              1926,
+              1956
+            ],
+            "known": 5,
+            "complete": 5,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "local-government-local-government-districts",
+            "name": "Local Government Districts",
+            "scope": "Northern Ireland",
+            "shelf": "government-and-administration",
+            "years": [
+              1972,
+              2022
+            ],
+            "known": 5,
+            "complete": 5,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 2
+          },
+          {
+            "id": "public-service-areas-superintendent-registrars-districts",
+            "name": "Superintendent Registrars' Districts",
+            "scope": "Republic of Ireland",
+            "shelf": "government-and-administration",
+            "years": [
+              1926,
+              1956
+            ],
+            "known": 5,
+            "complete": 5,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "public-service-areas-garda-areas",
+            "name": "Garda Areas",
+            "scope": "Republic of Ireland",
+            "shelf": "government-and-administration",
+            "years": [
+              2011,
+              2011
+            ],
+            "known": 4,
+            "complete": 4,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "public-service-areas-education-and-library-boards",
+            "name": "Education and Library Boards",
+            "scope": "Northern Ireland",
+            "shelf": "government-and-administration",
+            "years": [
+              1984,
+              1993
+            ],
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "language-and-gaeltacht-gaeltacht-areas",
+            "name": "Gaeltacht Areas",
+            "scope": "Republic of Ireland",
+            "shelf": "government-and-administration",
+            "years": null,
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 1
+          },
+          {
+            "id": "polities-polities",
+            "name": "Polities",
+            "scope": "Ireland",
+            "shelf": "government-and-administration",
+            "years": [
+              1921,
+              1921
+            ],
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 1
+          },
+          {
+            "id": "local-government-poor-law-unions",
+            "name": "Poor Law Unions",
+            "scope": "Northern Ireland",
+            "shelf": "government-and-administration",
+            "years": [
+              1921,
+              1924
+            ],
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "local-government-rural-and-urban-districts--ireland",
+            "name": "Rural and Urban Districts (Ireland before partition)",
+            "scope": "Ireland",
+            "shelf": "government-and-administration",
+            "years": [
+              1901,
+              1911
+            ],
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "counties-counties--ni",
+            "name": "Administrative Counties (Northern Ireland)",
+            "scope": "Northern Ireland",
+            "shelf": "government-and-administration",
+            "years": [
+              1921,
+              1921
+            ],
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "public-service-areas-health-and-social-care-trusts",
+            "name": "Health and Social Care Trusts",
+            "scope": "Northern Ireland",
+            "shelf": "government-and-administration",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "settlements-legal-towns-and-cities",
+            "name": "Legal Towns and Cities",
+            "scope": "Republic of Ireland",
+            "shelf": "government-and-administration",
+            "years": [
+              2011,
+              2011
+            ],
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "local-government-municipal-districts",
+            "name": "Municipal Districts",
+            "scope": "Republic of Ireland",
+            "shelf": "government-and-administration",
+            "years": [
+              2019,
+              2019
+            ],
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 2
+          }
+        ]
+      },
+      {
+        "id": "elections-and-representation",
+        "name": "Elections & Representation",
+        "totals": {
+          "known": 218,
+          "complete": 115,
+          "partial": 0,
+          "notDrawn": 103,
+          "versions": 15
+        },
+        "series": [
+          {
+            "id": "electoral-divisions-district-electoral-divisions",
+            "name": "District Electoral Divisions",
+            "scope": "Northern Ireland",
+            "shelf": "elections-and-representation",
+            "years": [
+              1921,
+              1969
+            ],
+            "known": 57,
+            "complete": 3,
+            "partial": 0,
+            "notDrawn": 54,
+            "versions": 0
+          },
+          {
+            "id": "electoral-divisions-county-electoral-divisions",
+            "name": "County Electoral Divisions",
+            "scope": "Northern Ireland",
+            "shelf": "elections-and-representation",
+            "years": [
+              1921,
+              1969
+            ],
+            "known": 56,
+            "complete": 9,
+            "partial": 0,
+            "notDrawn": 47,
+            "versions": 0
+          },
+          {
+            "id": "electoral-divisions-electoral-divisions",
+            "name": "Electoral Divisions",
+            "scope": "Republic of Ireland",
+            "shelf": "elections-and-representation",
+            "years": [
+              1921,
+              2019
+            ],
+            "known": 26,
+            "complete": 26,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 5
+          },
+          {
+            "id": "constituencies-d-il-ireann-constituencies",
+            "name": "Dáil Éireann Constituencies",
+            "scope": "Republic of Ireland",
+            "shelf": "elections-and-representation",
+            "years": [
+              1923,
+              2023
+            ],
+            "known": 17,
+            "complete": 15,
+            "partial": 0,
+            "notDrawn": 2,
+            "versions": 1
+          },
+          {
+            "id": "constituencies-ni-parliament",
+            "name": "Northern Ireland Constituencies",
+            "scope": "Northern Ireland",
+            "shelf": "elections-and-representation",
+            "years": [
+              1920,
+              2023
+            ],
+            "known": 10,
+            "complete": 10,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "constituencies-parliamentary-constituencies",
+            "name": "Westminster Constituencies",
+            "scope": "Ireland",
+            "shelf": "elections-and-representation",
+            "years": [
+              1885,
+              2024
+            ],
+            "known": 10,
+            "complete": 10,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 1
+          },
+          {
+            "id": "electoral-divisions-district-electoral-divisions--ireland",
+            "name": "District Electoral Divisions (Ireland before partition)",
+            "scope": "Ireland",
+            "shelf": "elections-and-representation",
+            "years": [
+              1910,
+              1921
+            ],
+            "known": 9,
+            "complete": 9,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "elections-and-voting-polling-stations",
+            "name": "Polling Stations (Republic of Ireland)",
+            "scope": "Republic of Ireland",
+            "shelf": "elections-and-representation",
+            "years": [
+              2011,
+              2025
+            ],
+            "known": 7,
+            "complete": 7,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "constituencies-european-parliament-constituencies",
+            "name": "European Parliament Constituencies",
+            "scope": "Ireland",
+            "shelf": "elections-and-representation",
+            "years": [
+              1979,
+              2024
+            ],
+            "known": 6,
+            "complete": 6,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "electoral-divisions-wards",
+            "name": "Wards",
+            "scope": "Northern Ireland",
+            "shelf": "elections-and-representation",
+            "years": [
+              1972,
+              2022
+            ],
+            "known": 5,
+            "complete": 5,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 2
+          },
+          {
+            "id": "electoral-divisions-district-electoral-areas",
+            "name": "District Electoral Areas",
+            "scope": "Northern Ireland",
+            "shelf": "elections-and-representation",
+            "years": [
+              1972,
+              2012
+            ],
+            "known": 4,
+            "complete": 4,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 3
+          },
+          {
+            "id": "elections-and-voting-polling-districts",
+            "name": "Polling Districts",
+            "scope": "Republic of Ireland",
+            "shelf": "elections-and-representation",
+            "years": [
+              2019,
+              2019
+            ],
+            "known": 4,
+            "complete": 4,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "electoral-divisions-local-electoral-areas",
+            "name": "Local Electoral Areas",
+            "scope": "Republic of Ireland",
+            "shelf": "elections-and-representation",
+            "years": [
+              2008,
+              2019
+            ],
+            "known": 3,
+            "complete": 3,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 3
+          },
+          {
+            "id": "elections-and-voting-av-referendum-counting-areas",
+            "name": "AV Referendum Counting Areas",
+            "scope": "Northern Ireland",
+            "shelf": "elections-and-representation",
+            "years": [
+              2011,
+              2011
+            ],
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "electoral-divisions-county-electoral-divisions--ireland",
+            "name": "County Electoral Divisions (Ireland before partition)",
+            "scope": "Ireland",
+            "shelf": "elections-and-representation",
+            "years": [
+              1911,
+              1911
+            ],
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "electoral-divisions-dublin-electoral-counties",
+            "name": "Dublin Electoral Counties",
+            "scope": "Republic of Ireland",
+            "shelf": "elections-and-representation",
+            "years": [
+              1985,
+              1985
+            ],
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "elections-and-voting-polling-stations--ni",
+            "name": "Polling Stations (Northern Ireland)",
+            "scope": "Northern Ireland",
+            "shelf": "elections-and-representation",
+            "years": [
+              2026,
+              2026
+            ],
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          }
+        ]
+      },
+      {
+        "id": "people-and-places",
+        "name": "People & Places",
+        "totals": {
+          "known": 112,
+          "complete": 32,
+          "partial": 0,
+          "notDrawn": 80,
+          "versions": 1
+        },
+        "series": [
+          {
+            "id": "census-statistics-usual-resident-population",
+            "name": "Usual resident population",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              1971,
+              2021
+            ],
+            "known": 8,
+            "complete": 0,
+            "partial": 0,
+            "notDrawn": 8,
+            "versions": 0
+          },
+          {
+            "id": "census-statistics-average-household-size",
+            "name": "Average household size",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2021,
+              2021
+            ],
+            "known": 6,
+            "complete": 0,
+            "partial": 0,
+            "notDrawn": 6,
+            "versions": 0
+          },
+          {
+            "id": "census-statistics-total-households",
+            "name": "Total households",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2021,
+              2021
+            ],
+            "known": 6,
+            "complete": 0,
+            "partial": 0,
+            "notDrawn": 6,
+            "versions": 0
+          },
+          {
+            "id": "census-statistics-catholic-community-background",
+            "name": "Catholic community background",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2011,
+              2021
+            ],
+            "known": 4,
+            "complete": 0,
+            "partial": 0,
+            "notDrawn": 4,
+            "versions": 0
+          },
+          {
+            "id": "census-statistics-female-population-share",
+            "name": "Female population share",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2011,
+              2021
+            ],
+            "known": 4,
+            "complete": 0,
+            "partial": 0,
+            "notDrawn": 4,
+            "versions": 0
+          },
+          {
+            "id": "census-nuts-2-regions",
+            "name": "NUTS Regions",
+            "scope": "Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2003,
+              2011
+            ],
+            "known": 4,
+            "complete": 4,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "census-statistics-population-density",
+            "name": "Population density",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2021,
+              2021
+            ],
+            "known": 4,
+            "complete": 0,
+            "partial": 0,
+            "notDrawn": 4,
+            "versions": 0
+          },
+          {
+            "id": "census-statistics-born-in-northern-ireland",
+            "name": "Born in Northern Ireland",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2021,
+              2021
+            ],
+            "known": 3,
+            "complete": 0,
+            "partial": 0,
+            "notDrawn": 3,
+            "versions": 0
+          },
+          {
+            "id": "census-statistics-day-to-day-activities-limited",
+            "name": "Day-to-day activities limited",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2021,
+              2021
+            ],
+            "known": 3,
+            "complete": 0,
+            "partial": 0,
+            "notDrawn": 3,
+            "versions": 0
+          },
+          {
+            "id": "census-statistics-households-with-no-car-or-van",
+            "name": "Households with no car or van",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2021,
+              2021
+            ],
+            "known": 3,
+            "complete": 0,
+            "partial": 0,
+            "notDrawn": 3,
+            "versions": 0
+          },
+          {
+            "id": "census-super-output-area",
+            "name": "Intermediate Census Areas",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2001,
+              2021
+            ],
+            "known": 3,
+            "complete": 3,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "census-statistics-level-4-qualifications",
+            "name": "Level 4+ qualifications",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2021,
+              2021
+            ],
+            "known": 3,
+            "complete": 0,
+            "partial": 0,
+            "notDrawn": 3,
+            "versions": 0
+          },
+          {
+            "id": "census-statistics-no-qualifications",
+            "name": "No qualifications",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2021,
+              2021
+            ],
+            "known": 3,
+            "complete": 0,
+            "partial": 0,
+            "notDrawn": 3,
+            "versions": 0
+          },
+          {
+            "id": "census-statistics-owner-occupied-households",
+            "name": "Owner-occupied households",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2021,
+              2021
+            ],
+            "known": 3,
+            "complete": 0,
+            "partial": 0,
+            "notDrawn": 3,
+            "versions": 0
+          },
+          {
+            "id": "census-statistics-private-rented-households",
+            "name": "Private-rented households",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2021,
+              2021
+            ],
+            "known": 3,
+            "complete": 0,
+            "partial": 0,
+            "notDrawn": 3,
+            "versions": 0
+          },
+          {
+            "id": "census-statistics-provides-unpaid-care",
+            "name": "Provides unpaid care",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2021,
+              2021
+            ],
+            "known": 3,
+            "complete": 0,
+            "partial": 0,
+            "notDrawn": 3,
+            "versions": 0
+          },
+          {
+            "id": "census-statistics-religion-catholic",
+            "name": "Religion: Catholic",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2021,
+              2021
+            ],
+            "known": 3,
+            "complete": 0,
+            "partial": 0,
+            "notDrawn": 3,
+            "versions": 0
+          },
+          {
+            "id": "settlements-settlements",
+            "name": "Settlements (Republic of Ireland)",
+            "scope": "Republic of Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2011,
+              2015
+            ],
+            "known": 3,
+            "complete": 3,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 1
+          },
+          {
+            "id": "census-small-areas--ni",
+            "name": "Smallest Census Areas",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2001,
+              2021
+            ],
+            "known": 3,
+            "complete": 3,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "census-statistics-social-rented-households",
+            "name": "Social-rented households",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2021,
+              2021
+            ],
+            "known": 3,
+            "complete": 0,
+            "partial": 0,
+            "notDrawn": 3,
+            "versions": 0
+          },
+          {
+            "id": "census-statistics-some-ability-in-irish",
+            "name": "Some ability in Irish",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2021,
+              2021
+            ],
+            "known": 3,
+            "complete": 0,
+            "partial": 0,
+            "notDrawn": 3,
+            "versions": 0
+          },
+          {
+            "id": "census-statistics-some-ability-in-ulster-scots",
+            "name": "Some ability in Ulster-Scots",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2021,
+              2021
+            ],
+            "known": 3,
+            "complete": 0,
+            "partial": 0,
+            "notDrawn": 3,
+            "versions": 0
+          },
+          {
+            "id": "census-statistics-unemployed",
+            "name": "Unemployed",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2021,
+              2021
+            ],
+            "known": 3,
+            "complete": 0,
+            "partial": 0,
+            "notDrawn": 3,
+            "versions": 0
+          },
+          {
+            "id": "census-statistics-work-mainly-at-or-from-home",
+            "name": "Work mainly at or from home",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2021,
+              2021
+            ],
+            "known": 3,
+            "complete": 0,
+            "partial": 0,
+            "notDrawn": 3,
+            "versions": 0
+          },
+          {
+            "id": "census-census-electoral-divisions",
+            "name": "Census Electoral Divisions",
+            "scope": "Republic of Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2006,
+              2022
+            ],
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "settlements-settlements--ni",
+            "name": "Settlements (Northern Ireland)",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2005,
+              2015
+            ],
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "census-small-areas",
+            "name": "Small Areas",
+            "scope": "Republic of Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2011,
+              2022
+            ],
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "census-travel-to-work-areas",
+            "name": "Travel To Work Areas",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2007,
+              2011
+            ],
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "settlements-built-up-areas",
+            "name": "Built-Up Areas",
+            "scope": "Ireland",
+            "shelf": "people-and-places",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "settlements-built-up-areas--points",
+            "name": "Built-Up Areas (points)",
+            "scope": "Ireland",
+            "shelf": "people-and-places",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "census-census-grid",
+            "name": "Census Grid",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2021,
+              2021
+            ],
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "settlements-centres-of-population",
+            "name": "Centres of Population",
+            "scope": "Republic of Ireland",
+            "shelf": "people-and-places",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "settlements-cso-urban-areas",
+            "name": "CSO Urban Areas",
+            "scope": "Republic of Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2022,
+              2022
+            ],
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "settlements-geographical-names",
+            "name": "Geographical Names",
+            "scope": "Republic of Ireland",
+            "shelf": "people-and-places",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "settlements-highlands-without-settlements",
+            "name": "Highlands Without Settlements",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2026,
+              2026
+            ],
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "place-and-street-names-locales",
+            "name": "Locales",
+            "scope": "Republic of Ireland",
+            "shelf": "people-and-places",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "census-statistics-median-age",
+            "name": "Median age",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2011,
+              2011
+            ],
+            "known": 1,
+            "complete": 0,
+            "partial": 0,
+            "notDrawn": 1,
+            "versions": 0
+          },
+          {
+            "id": "census-statistics-multiple-deprivation-measure-decile",
+            "name": "Multiple Deprivation Measure decile",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2017,
+              2017
+            ],
+            "known": 1,
+            "complete": 0,
+            "partial": 0,
+            "notDrawn": 1,
+            "versions": 0
+          },
+          {
+            "id": "census-statistics-multiple-deprivation-measure-rank",
+            "name": "Multiple Deprivation Measure rank",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2017,
+              2017
+            ],
+            "known": 1,
+            "complete": 0,
+            "partial": 0,
+            "notDrawn": 1,
+            "versions": 0
+          },
+          {
+            "id": "census-statistics-ns-sec-1-3-abc1-proxy",
+            "name": "NS-SeC 1–3 / ABC1 proxy",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2011,
+              2011
+            ],
+            "known": 1,
+            "complete": 0,
+            "partial": 0,
+            "notDrawn": 1,
+            "versions": 0
+          },
+          {
+            "id": "place-and-street-names-place-names-gazetteer",
+            "name": "Place Names Gazetteer",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "census-statistics-population-aged-10-19",
+            "name": "Population aged 10–19",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              2011,
+              2011
+            ],
+            "known": 1,
+            "complete": 0,
+            "partial": 0,
+            "notDrawn": 1,
+            "versions": 0
+          },
+          {
+            "id": "census-statistics-population-change-1971-1981",
+            "name": "Population change 1971-1981",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": [
+              1971,
+              1971
+            ],
+            "known": 1,
+            "complete": 0,
+            "partial": 0,
+            "notDrawn": 1,
+            "versions": 0
+          },
+          {
+            "id": "settlements-rural-areas",
+            "name": "Rural Areas",
+            "scope": "Republic of Ireland",
+            "shelf": "people-and-places",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "place-and-street-names-street-names-gazetteer",
+            "name": "Street Names Gazetteer",
+            "scope": "Northern Ireland",
+            "shelf": "people-and-places",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          }
+        ]
+      },
+      {
+        "id": "planning-and-property",
+        "name": "Planning & Property",
+        "totals": {
+          "known": 59,
+          "complete": 59,
+          "partial": 0,
+          "notDrawn": 0,
+          "versions": 0
+        },
+        "series": [
+          {
+            "id": "development-plans-and-zoning-roscommon-local-area-plans",
+            "name": "Local Area Plans (Roscommon)",
+            "scope": "Republic of Ireland",
+            "shelf": "planning-and-property",
+            "years": [
+              2008,
+              2017
+            ],
+            "known": 16,
+            "complete": 16,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "development-plans-and-zoning-dun-laoghaire-rathdown",
+            "name": "Development Plan (Dún Laoghaire-Rathdown)",
+            "scope": "Republic of Ireland",
+            "shelf": "planning-and-property",
+            "years": [
+              2016,
+              2016
+            ],
+            "known": 10,
+            "complete": 10,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "property-land-and-buildings-ni-government-land-and-property-register",
+            "name": "NI Government Land & Property Register",
+            "scope": "Northern Ireland",
+            "shelf": "planning-and-property",
+            "years": [
+              2020,
+              2023
+            ],
+            "known": 6,
+            "complete": 6,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "development-plans-and-zoning-roscommon-county-development-plan",
+            "name": "County Development Plan 2022–2028 (Roscommon)",
+            "scope": "Republic of Ireland",
+            "shelf": "planning-and-property",
+            "years": [
+              2022,
+              2022
+            ],
+            "known": 5,
+            "complete": 5,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "development-plans-and-zoning-other-councils",
+            "name": "Development Plans & Zoning (other councils)",
+            "scope": "Republic of Ireland",
+            "shelf": "planning-and-property",
+            "years": [
+              2022,
+              2022
+            ],
+            "known": 4,
+            "complete": 4,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "planning-applications-and-registers-planning-registers",
+            "name": "Planning Registers",
+            "scope": "Republic of Ireland",
+            "shelf": "planning-and-property",
+            "years": null,
+            "known": 4,
+            "complete": 4,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "housing-and-regeneration-housing-and-land",
+            "name": "Housing, Land & Regeneration",
+            "scope": "Ireland",
+            "shelf": "planning-and-property",
+            "years": null,
+            "known": 3,
+            "complete": 3,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "property-land-and-buildings-parcels-buildings-and-sites",
+            "name": "Parcels, Buildings & Sites",
+            "scope": "Republic of Ireland",
+            "shelf": "planning-and-property",
+            "years": null,
+            "known": 3,
+            "complete": 3,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "housing-and-regeneration-housing-and-land--points",
+            "name": "Housing & Education Sites",
+            "scope": "Ireland",
+            "shelf": "planning-and-property",
+            "years": null,
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "planning-applications-and-registers-planning-application-boundaries--points",
+            "name": "Planning Application Points",
+            "scope": "Republic of Ireland",
+            "shelf": "planning-and-property",
+            "years": null,
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "planning-applications-and-registers-planning-exemptions",
+            "name": "Planning Exemptions",
+            "scope": "Republic of Ireland",
+            "shelf": "planning-and-property",
+            "years": null,
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "planning-applications-and-registers-planning-application-boundaries",
+            "name": "Planning Application Boundaries",
+            "scope": "Republic of Ireland",
+            "shelf": "planning-and-property",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "planning-applications-and-registers-planning-registers--points",
+            "name": "Planning Register Points",
+            "scope": "Republic of Ireland",
+            "shelf": "planning-and-property",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          }
+        ]
+      },
+      {
+        "id": "transport",
+        "name": "Transport",
+        "totals": {
+          "known": 115,
+          "complete": 115,
+          "partial": 0,
+          "notDrawn": 0,
+          "versions": 0
+        },
+        "series": [
+          {
+            "id": "roads-and-traffic-ni-road-surface-defects",
+            "name": "NI Road Surface Defects",
+            "scope": "Northern Ireland",
+            "shelf": "transport",
+            "years": [
+              2008,
+              2021
+            ],
+            "known": 14,
+            "complete": 14,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "cycling-and-walking-bicycle-parking-stands",
+            "name": "Cycle Parking & Bike Share",
+            "scope": "Republic of Ireland",
+            "shelf": "transport",
+            "years": null,
+            "known": 9,
+            "complete": 9,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "roads-and-traffic-pothole-enquiries",
+            "name": "Pothole Enquiries",
+            "scope": "Northern Ireland",
+            "shelf": "transport",
+            "years": [
+              2014,
+              2021
+            ],
+            "known": 9,
+            "complete": 9,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "cycling-and-walking-cycle-network",
+            "name": "Cycle Network & Infrastructure",
+            "scope": "Ireland",
+            "shelf": "transport",
+            "years": [
+              2013,
+              2025
+            ],
+            "known": 6,
+            "complete": 6,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "air-and-sea-transport-harbours-and-ferries",
+            "name": "Harbours, Ferries & Piers",
+            "scope": "Republic of Ireland",
+            "shelf": "transport",
+            "years": null,
+            "known": 6,
+            "complete": 6,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "roads-and-traffic-psni-road-traffic-collisions",
+            "name": "PSNI Road Traffic Collisions",
+            "scope": "Northern Ireland",
+            "shelf": "transport",
+            "years": [
+              2013,
+              2018
+            ],
+            "known": 6,
+            "complete": 6,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "roads-and-traffic-road-network",
+            "name": "Road Network",
+            "scope": "Republic of Ireland",
+            "shelf": "transport",
+            "years": null,
+            "known": 6,
+            "complete": 6,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "roads-and-traffic-traffic-management-and-signs",
+            "name": "Traffic Management & Road Signs",
+            "scope": "Republic of Ireland",
+            "shelf": "transport",
+            "years": null,
+            "known": 6,
+            "complete": 6,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "rail-and-public-transport-bus",
+            "name": "Bus Routes & Stops",
+            "scope": "Ireland",
+            "shelf": "transport",
+            "years": [
+              2024,
+              2025
+            ],
+            "known": 4,
+            "complete": 4,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "rail-and-public-transport-ni-railways-infrastructure",
+            "name": "NI Railways Infrastructure",
+            "scope": "Northern Ireland",
+            "shelf": "transport",
+            "years": null,
+            "known": 4,
+            "complete": 4,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "roads-and-traffic-osni-50k-transport",
+            "name": "OSNI 50K Transport",
+            "scope": "Northern Ireland",
+            "shelf": "transport",
+            "years": null,
+            "known": 4,
+            "complete": 4,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "rail-and-public-transport-railway-lines",
+            "name": "Railway Lines & Signalling",
+            "scope": "Ireland",
+            "shelf": "transport",
+            "years": null,
+            "known": 4,
+            "complete": 4,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "parking-accessible-parking",
+            "name": "Accessible Parking",
+            "scope": "Republic of Ireland",
+            "shelf": "transport",
+            "years": null,
+            "known": 3,
+            "complete": 3,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "air-and-sea-transport-airports-group",
+            "name": "Airports & Airfields",
+            "scope": "Republic of Ireland",
+            "shelf": "transport",
+            "years": null,
+            "known": 3,
+            "complete": 3,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "cycling-and-walking-border-crossings",
+            "name": "Border Crossings",
+            "scope": "Northern Ireland",
+            "shelf": "transport",
+            "years": [
+              2018,
+              2018
+            ],
+            "known": 3,
+            "complete": 3,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "rail-and-public-transport-stations-and-stops",
+            "name": "Rail & Tram Stations",
+            "scope": "Ireland",
+            "shelf": "transport",
+            "years": null,
+            "known": 3,
+            "complete": 3,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "rail-and-public-transport-rail-network",
+            "name": "Rail Network",
+            "scope": "Republic of Ireland",
+            "shelf": "transport",
+            "years": null,
+            "known": 3,
+            "complete": 3,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "roads-and-traffic-road-junctions-and-interchanges",
+            "name": "Road Junctions & Interchanges",
+            "scope": "Republic of Ireland",
+            "shelf": "transport",
+            "years": null,
+            "known": 3,
+            "complete": 3,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "cycling-and-walking-walking-routes",
+            "name": "Walking Routes & Rights of Way",
+            "scope": "Republic of Ireland",
+            "shelf": "transport",
+            "years": null,
+            "known": 3,
+            "complete": 3,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "parking-car-and-coach-parking",
+            "name": "Car & Coach Parking",
+            "scope": "Republic of Ireland",
+            "shelf": "transport",
+            "years": null,
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "cycling-and-walking-counters",
+            "name": "Cycle & Pedestrian Counters",
+            "scope": "Republic of Ireland",
+            "shelf": "transport",
+            "years": null,
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "parking-parking-meters",
+            "name": "Parking Meters",
+            "scope": "Republic of Ireland",
+            "shelf": "transport",
+            "years": null,
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "cycling-and-walking-pedestrian-crossings",
+            "name": "Pedestrian Crossings",
+            "scope": "Northern Ireland",
+            "shelf": "transport",
+            "years": null,
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "roads-and-traffic-tii-collision-rates",
+            "name": "TII Collision Rates",
+            "scope": "Republic of Ireland",
+            "shelf": "transport",
+            "years": [
+              2011,
+              2014
+            ],
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "roads-and-traffic-tii-roadside-sensors",
+            "name": "TII Roadside Sensors",
+            "scope": "Republic of Ireland",
+            "shelf": "transport",
+            "years": null,
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "roads-and-traffic-traffic-signals",
+            "name": "Traffic Signals",
+            "scope": "Republic of Ireland",
+            "shelf": "transport",
+            "years": null,
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "roads-and-traffic-way-network",
+            "name": "Way Network",
+            "scope": "Republic of Ireland",
+            "shelf": "transport",
+            "years": null,
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          }
+        ]
+      },
+      {
+        "id": "heritage-and-culture",
+        "name": "Heritage & Culture",
+        "totals": {
+          "known": 60,
+          "complete": 60,
+          "partial": 0,
+          "notDrawn": 0,
+          "versions": 0
+        },
+        "series": [
+          {
+            "id": "built-heritage-and-protected-structures-heritage-surveys-and-sites",
+            "name": "Heritage Surveys & Sites",
+            "scope": "Ireland",
+            "shelf": "heritage-and-culture",
+            "years": null,
+            "known": 7,
+            "complete": 7,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "culture-and-the-arts-museums-galleries-and-venues",
+            "name": "Museums, Galleries & Arts Venues",
+            "scope": "Republic of Ireland",
+            "shelf": "heritage-and-culture",
+            "years": null,
+            "known": 7,
+            "complete": 7,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "archaeology-and-monuments-monument-types",
+            "name": "Monuments by Type (Historic Maps)",
+            "scope": "",
+            "shelf": "heritage-and-culture",
+            "years": null,
+            "known": 5,
+            "complete": 5,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "historic-and-printed-maps-osni-1-1m-thematic",
+            "name": "OSNI 1:1M Thematic",
+            "scope": "Northern Ireland",
+            "shelf": "heritage-and-culture",
+            "years": null,
+            "known": 5,
+            "complete": 5,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "culture-and-the-arts-public-artworks",
+            "name": "Public Art",
+            "scope": "Republic of Ireland",
+            "shelf": "heritage-and-culture",
+            "years": null,
+            "known": 5,
+            "complete": 5,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "built-heritage-and-protected-structures-architectural-conservation-areas",
+            "name": "Architectural Conservation Areas",
+            "scope": "Republic of Ireland",
+            "shelf": "heritage-and-culture",
+            "years": [
+              2014,
+              2022
+            ],
+            "known": 4,
+            "complete": 4,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "culture-and-the-arts-libraries",
+            "name": "Libraries",
+            "scope": "Republic of Ireland",
+            "shelf": "heritage-and-culture",
+            "years": null,
+            "known": 4,
+            "complete": 4,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "historic-and-printed-maps-osni-mapping-products",
+            "name": "OSNI Mapping Products",
+            "scope": "Northern Ireland",
+            "shelf": "heritage-and-culture",
+            "years": null,
+            "known": 4,
+            "complete": 4,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "archaeology-and-monuments-ringfort",
+            "name": "Ringfort",
+            "scope": "Northern Ireland",
+            "shelf": "heritage-and-culture",
+            "years": null,
+            "known": 3,
+            "complete": 3,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "historic-and-printed-maps-osni-historical-six-inch-maps",
+            "name": "OSNI Historical Six-Inch Maps",
+            "scope": "Northern Ireland",
+            "shelf": "heritage-and-culture",
+            "years": [
+              1832,
+              1850
+            ],
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "historic-and-printed-maps-osni-map-sheet-coverage-grid",
+            "name": "OSNI Map Sheet Coverage Grid",
+            "scope": "Northern Ireland",
+            "shelf": "heritage-and-culture",
+            "years": null,
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "built-heritage-and-protected-structures-protected-structures--points",
+            "name": "Protected Structures (points)",
+            "scope": "Republic of Ireland",
+            "shelf": "heritage-and-culture",
+            "years": null,
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "built-heritage-and-protected-structures-record-of-protected-structures-roscomm",
+            "name": "Record of Protected Structures - Roscommon CDP",
+            "scope": "Republic of Ireland",
+            "shelf": "heritage-and-culture",
+            "years": [
+              2014,
+              2022
+            ],
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "archaeology-and-monuments-scheduled-historic-monument-areas",
+            "name": "Scheduled Historic Monument Areas",
+            "scope": "Northern Ireland",
+            "shelf": "heritage-and-culture",
+            "years": [
+              2026,
+              2026
+            ],
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "built-heritage-and-protected-structures-defence-heritage-sites",
+            "name": "Defence Heritage Sites",
+            "scope": "Northern Ireland",
+            "shelf": "heritage-and-culture",
+            "years": [
+              2026,
+              2026
+            ],
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "built-heritage-and-protected-structures-industrial-heritage-record",
+            "name": "Industrial Heritage Record",
+            "scope": "Northern Ireland",
+            "shelf": "heritage-and-culture",
+            "years": [
+              2026,
+              2026
+            ],
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "built-heritage-and-protected-structures-listed-buildings",
+            "name": "Listed Buildings",
+            "scope": "Northern Ireland",
+            "shelf": "heritage-and-culture",
+            "years": [
+              2026,
+              2026
+            ],
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "built-heritage-and-protected-structures-protected-structures",
+            "name": "Protected Structures",
+            "scope": "Republic of Ireland",
+            "shelf": "heritage-and-culture",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "archaeology-and-monuments-sites-and-monuments-records--points",
+            "name": "Sites & Monuments Record Points",
+            "scope": "Ireland",
+            "shelf": "heritage-and-culture",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "archaeology-and-monuments-sites-and-monuments-records",
+            "name": "Sites & Monuments Records",
+            "scope": "Ireland",
+            "shelf": "heritage-and-culture",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          }
+        ]
+      },
+      {
+        "id": "local-services-and-amenities",
+        "name": "Local Services & Amenities",
+        "totals": {
+          "known": 56,
+          "complete": 56,
+          "partial": 0,
+          "notDrawn": 0,
+          "versions": 0
+        },
+        "series": [
+          {
+            "id": "sport-and-recreation-sports-and-leisure-facilities",
+            "name": "Sports & Leisure Facilities",
+            "scope": "Republic of Ireland",
+            "shelf": "local-services-and-amenities",
+            "years": null,
+            "known": 8,
+            "complete": 8,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "parks-and-open-space-parks",
+            "name": "Parks & Open Spaces",
+            "scope": "Republic of Ireland",
+            "shelf": "local-services-and-amenities",
+            "years": null,
+            "known": 7,
+            "complete": 7,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "community-education-and-civic-facilities-community-and-education",
+            "name": "Community & Education Facilities",
+            "scope": "Republic of Ireland",
+            "shelf": "local-services-and-amenities",
+            "years": null,
+            "known": 6,
+            "complete": 6,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "municipal-services-and-utilities-niea-authorised-landfill-sites",
+            "name": "NIEA Authorised Landfill Sites",
+            "scope": "Northern Ireland",
+            "shelf": "local-services-and-amenities",
+            "years": [
+              2013,
+              2017
+            ],
+            "known": 5,
+            "complete": 5,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "emergency-services-fire-stations",
+            "name": "Fire & Garda Stations",
+            "scope": "Republic of Ireland",
+            "shelf": "local-services-and-amenities",
+            "years": null,
+            "known": 4,
+            "complete": 4,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "municipal-services-and-utilities-waste-and-recycling",
+            "name": "Waste & Recycling",
+            "scope": "Ireland",
+            "shelf": "local-services-and-amenities",
+            "years": null,
+            "known": 4,
+            "complete": 4,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "community-education-and-civic-facilities-council-offices-group",
+            "name": "Council Offices",
+            "scope": "Republic of Ireland",
+            "shelf": "local-services-and-amenities",
+            "years": null,
+            "known": 3,
+            "complete": 3,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "municipal-services-and-utilities-wifi4eu-access-points",
+            "name": "WiFi4EU",
+            "scope": "Republic of Ireland",
+            "shelf": "local-services-and-amenities",
+            "years": null,
+            "known": 3,
+            "complete": 3,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "parks-and-open-space-allotments",
+            "name": "Allotments & Community Gardens",
+            "scope": "Republic of Ireland",
+            "shelf": "local-services-and-amenities",
+            "years": null,
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "municipal-services-and-utilities-authorised-waste-sites",
+            "name": "Authorised Waste Sites",
+            "scope": "Northern Ireland",
+            "shelf": "local-services-and-amenities",
+            "years": [
+              2021,
+              2021
+            ],
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "enterprise-and-economy-enterprise-centres-and-markets",
+            "name": "Enterprise Centres & Markets",
+            "scope": "Republic of Ireland",
+            "shelf": "local-services-and-amenities",
+            "years": null,
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "parks-and-open-space-playgrounds",
+            "name": "Playgrounds",
+            "scope": "Republic of Ireland",
+            "shelf": "local-services-and-amenities",
+            "years": null,
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "municipal-services-and-utilities-public-toilets",
+            "name": "Public Toilets",
+            "scope": "Republic of Ireland",
+            "shelf": "local-services-and-amenities",
+            "years": null,
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "sport-and-recreation-skateboard-parks",
+            "name": "Skateboard Parks",
+            "scope": "Republic of Ireland",
+            "shelf": "local-services-and-amenities",
+            "years": null,
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "municipal-services-and-utilities-street-lighting",
+            "name": "Street Lighting",
+            "scope": "Republic of Ireland",
+            "shelf": "local-services-and-amenities",
+            "years": null,
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "municipal-services-and-utilities-water-supply--points",
+            "name": "Water Pipelines",
+            "scope": "Republic of Ireland",
+            "shelf": "local-services-and-amenities",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "municipal-services-and-utilities-water-supply",
+            "name": "Water Supply Areas & Pipelines",
+            "scope": "Republic of Ireland",
+            "shelf": "local-services-and-amenities",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          }
+        ]
+      },
+      {
+        "id": "water",
+        "name": "Water",
+        "totals": {
+          "known": 61,
+          "complete": 61,
+          "partial": 0,
+          "notDrawn": 0,
+          "versions": 0
+        },
+        "series": [
+          {
+            "id": "water-quality-river-water-quality",
+            "name": "River Water Quality (Northern Ireland)",
+            "scope": "Northern Ireland",
+            "shelf": "water",
+            "years": [
+              1990,
+              1990
+            ],
+            "known": 13,
+            "complete": 13,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "rivers-lakes-and-catchments-rivers-and-lakes",
+            "name": "Rivers, Lakes & Waterfalls",
+            "scope": "Ireland",
+            "shelf": "water",
+            "years": [
+              2016,
+              2016
+            ],
+            "known": 7,
+            "complete": 7,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "coasts-seas-and-islands-coastline",
+            "name": "Coastline & Tide Marks",
+            "scope": "Republic of Ireland",
+            "shelf": "water",
+            "years": null,
+            "known": 5,
+            "complete": 5,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "flooding-and-coastal-risk-flood-extents",
+            "name": "Flood Extents & Zones",
+            "scope": "Ireland",
+            "shelf": "water",
+            "years": [
+              2018,
+              2022
+            ],
+            "known": 5,
+            "complete": 5,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "rivers-lakes-and-catchments-river-basins-group",
+            "name": "River Basins & Catchments",
+            "scope": "Ireland",
+            "shelf": "water",
+            "years": [
+              2016,
+              2025
+            ],
+            "known": 4,
+            "complete": 4,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "water-quality-water-bodies",
+            "name": "Water Bodies",
+            "scope": "Northern Ireland",
+            "shelf": "water",
+            "years": null,
+            "known": 4,
+            "complete": 4,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "water-quality-wfd-status",
+            "name": "Water Framework Directive Status",
+            "scope": "Northern Ireland",
+            "shelf": "water",
+            "years": [
+              2015,
+              2015
+            ],
+            "known": 3,
+            "complete": 3,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "coasts-seas-and-islands-boundaries-seawater-area",
+            "name": "Boundaries Seawater Area",
+            "scope": "Republic of Ireland",
+            "shelf": "water",
+            "years": null,
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "water-quality-catchment-management-areas",
+            "name": "Catchment Management Areas",
+            "scope": "Northern Ireland",
+            "shelf": "water",
+            "years": null,
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "flooding-and-coastal-risk-community-scale-coastal-flood-extents",
+            "name": "Community-Scale Coastal Flood Extents",
+            "scope": "Republic of Ireland",
+            "shelf": "water",
+            "years": null,
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "water-quality-drinking-water-protected-areas",
+            "name": "Drinking-Water Protected Areas",
+            "scope": "Northern Ireland",
+            "shelf": "water",
+            "years": null,
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "flooding-and-coastal-risk-groundwater-flooding",
+            "name": "Groundwater Flooding",
+            "scope": "Republic of Ireland",
+            "shelf": "water",
+            "years": null,
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "coasts-seas-and-islands-seas-and-island",
+            "name": "Seas & the Island of Ireland",
+            "scope": "Ireland",
+            "shelf": "water",
+            "years": null,
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "rivers-lakes-and-catchments-water",
+            "name": "Water",
+            "scope": "Republic of Ireland",
+            "shelf": "water",
+            "years": null,
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "water-quality-water-monitoring-points",
+            "name": "Water Monitoring Points (Northern Ireland)",
+            "scope": "Northern Ireland",
+            "shelf": "water",
+            "years": [
+              2024,
+              2024
+            ],
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "water-quality-pollution-risk",
+            "name": "Water Pollution Risk",
+            "scope": "Northern Ireland",
+            "shelf": "water",
+            "years": null,
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "water-quality-river-water-quality--roi",
+            "name": "River Water Quality (Republic of Ireland)",
+            "scope": "Republic of Ireland",
+            "shelf": "water",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "water-quality-water-monitoring-points--roi",
+            "name": "Water Monitoring Points (Republic of Ireland)",
+            "scope": "Republic of Ireland",
+            "shelf": "water",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          }
+        ]
+      },
+      {
+        "id": "environment-and-land-use",
+        "name": "Environment & Land Use",
+        "totals": {
+          "known": 74,
+          "complete": 74,
+          "partial": 0,
+          "notDrawn": 0,
+          "versions": 0
+        },
+        "series": [
+          {
+            "id": "nature-habitats-and-designated-sites-habitat-network",
+            "name": "Habitat Network",
+            "scope": "Northern Ireland",
+            "shelf": "environment-and-land-use",
+            "years": null,
+            "known": 24,
+            "complete": 24,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "nature-habitats-and-designated-sites-designated-and-protected-sites",
+            "name": "Designated & Protected Sites",
+            "scope": "Ireland",
+            "shelf": "environment-and-land-use",
+            "years": null,
+            "known": 7,
+            "complete": 7,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "agriculture-and-land-management-livestock-holdings",
+            "name": "Livestock Holdings",
+            "scope": "Northern Ireland",
+            "shelf": "environment-and-land-use",
+            "years": [
+              2019,
+              2019
+            ],
+            "known": 5,
+            "complete": 5,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "noise-and-air-quality-environmental-noise",
+            "name": "Environmental Noise",
+            "scope": "Ireland",
+            "shelf": "environment-and-land-use",
+            "years": null,
+            "known": 4,
+            "complete": 4,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "nature-habitats-and-designated-sites-habitat-maps",
+            "name": "Habitat Maps",
+            "scope": "Ireland",
+            "shelf": "environment-and-land-use",
+            "years": null,
+            "known": 4,
+            "complete": 4,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "landscape-and-scenic-amenity-scenic-views-roscommon-cdp",
+            "name": "Scenic Views & Prospects",
+            "scope": "Republic of Ireland",
+            "shelf": "environment-and-land-use",
+            "years": [
+              2014,
+              2022
+            ],
+            "known": 4,
+            "complete": 4,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "energy-and-climate-energy-infrastructure",
+            "name": "Energy Infrastructure & Decarbonisation",
+            "scope": "Republic of Ireland",
+            "shelf": "environment-and-land-use",
+            "years": null,
+            "known": 3,
+            "complete": 3,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "trees-hedgerows-and-woodland-hedgerows-and-corridors",
+            "name": "Hedgerows, Treelines & Wildlife Corridors",
+            "scope": "Republic of Ireland",
+            "shelf": "environment-and-land-use",
+            "years": null,
+            "known": 3,
+            "complete": 3,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "land-cover-and-land-use-land-cover",
+            "name": "Land Cover & Land Use",
+            "scope": "Ireland",
+            "shelf": "environment-and-land-use",
+            "years": [
+              2018,
+              2018
+            ],
+            "known": 3,
+            "complete": 3,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "landscape-and-scenic-amenity-landscape-character-areas",
+            "name": "Landscape Character Areas",
+            "scope": "Ireland",
+            "shelf": "environment-and-land-use",
+            "years": [
+              2014,
+              2022
+            ],
+            "known": 3,
+            "complete": 3,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "trees-hedgerows-and-woodland-trees-woodlands-and-tpos",
+            "name": "Trees & Woodlands",
+            "scope": "Republic of Ireland",
+            "shelf": "environment-and-land-use",
+            "years": null,
+            "known": 3,
+            "complete": 3,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "energy-and-climate-wind-energy-roscommon",
+            "name": "Wind Energy (Roscommon CDP)",
+            "scope": "Republic of Ireland",
+            "shelf": "environment-and-land-use",
+            "years": [
+              2014,
+              2022
+            ],
+            "known": 3,
+            "complete": 3,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "landscape-and-scenic-amenity-landscape-character-types",
+            "name": "Landscape Character Types",
+            "scope": "Republic of Ireland",
+            "shelf": "environment-and-land-use",
+            "years": [
+              2014,
+              2014
+            ],
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "landscape-and-scenic-amenity-scenic-routes-roscommon-cdp",
+            "name": "Scenic Routes - Roscommon CDP",
+            "scope": "Republic of Ireland",
+            "shelf": "environment-and-land-use",
+            "years": [
+              2014,
+              2022
+            ],
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "nature-habitats-and-designated-sites-wetlands-survey",
+            "name": "Wetlands Survey",
+            "scope": "Republic of Ireland",
+            "shelf": "environment-and-land-use",
+            "years": null,
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "trees-hedgerows-and-woodland-wicklow-county-council",
+            "name": "Wicklow County Council",
+            "scope": "Republic of Ireland",
+            "shelf": "environment-and-land-use",
+            "years": null,
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          }
+        ]
+      },
+      {
+        "id": "earth-and-terrain",
+        "name": "Earth & Terrain",
+        "totals": {
+          "known": 68,
+          "complete": 68,
+          "partial": 0,
+          "notDrawn": 0,
+          "versions": 0
+        },
+        "series": [
+          {
+            "id": "aerial-imagery-and-elevation-osni-orthophoto-coverage",
+            "name": "OSNI Orthophoto Coverage",
+            "scope": "Northern Ireland",
+            "shelf": "earth-and-terrain",
+            "years": [
+              2003,
+              2020
+            ],
+            "known": 13,
+            "complete": 13,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "hills-and-mountains-hills-and-highlands",
+            "name": "Hills, Highlands & Mountains",
+            "scope": "Ireland",
+            "shelf": "earth-and-terrain",
+            "years": [
+              2026,
+              2026
+            ],
+            "known": 9,
+            "complete": 9,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "geology-and-soils-geology-maps",
+            "name": "Geology & Soils Maps",
+            "scope": "Ireland",
+            "shelf": "earth-and-terrain",
+            "years": [
+              2012,
+              2012
+            ],
+            "known": 6,
+            "complete": 6,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "lidar-point-clouds",
+            "name": "LiDAR Point Clouds",
+            "scope": "Northern Ireland",
+            "shelf": "earth-and-terrain",
+            "years": [
+              2012,
+              2022
+            ],
+            "known": 5,
+            "complete": 5,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "geophysics-and-geochemical-survey-tellus-radiometric",
+            "name": "Tellus Radiometric",
+            "scope": "Northern Ireland",
+            "shelf": "earth-and-terrain",
+            "years": null,
+            "known": 5,
+            "complete": 5,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "geophysics-and-geochemical-survey-tellus-rural-soil",
+            "name": "Tellus Rural Soil",
+            "scope": "Northern Ireland",
+            "shelf": "earth-and-terrain",
+            "years": null,
+            "known": 5,
+            "complete": 5,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "geophysics-and-geochemical-survey-tellus-stream-sediments",
+            "name": "Tellus Stream Sediments & Waters",
+            "scope": "Northern Ireland",
+            "shelf": "earth-and-terrain",
+            "years": null,
+            "known": 5,
+            "complete": 5,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "geology-and-soils-boreholes-and-cores",
+            "name": "Boreholes & Cores",
+            "scope": "Ireland",
+            "shelf": "earth-and-terrain",
+            "years": [
+              1500,
+              1500
+            ],
+            "known": 3,
+            "complete": 3,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "geology-and-soils-minerals-and-mining",
+            "name": "Minerals & Mining",
+            "scope": "Northern Ireland",
+            "shelf": "earth-and-terrain",
+            "years": null,
+            "known": 3,
+            "complete": 3,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "geophysics-and-geochemical-survey-tellus-magnetic",
+            "name": "Tellus Magnetic",
+            "scope": "Northern Ireland",
+            "shelf": "earth-and-terrain",
+            "years": null,
+            "known": 3,
+            "complete": 3,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "geology-and-soils-bedrock-geology-1-250-000",
+            "name": "Bedrock Geology 1:250,000",
+            "scope": "Northern Ireland",
+            "shelf": "earth-and-terrain",
+            "years": null,
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "aerial-imagery-and-elevation-elevation-models",
+            "name": "Elevation Models",
+            "scope": "Ireland",
+            "shelf": "earth-and-terrain",
+            "years": [
+              2014,
+              2026
+            ],
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "ireland-3d-terrain",
+            "name": "Ireland 3D Terrain",
+            "scope": "Ireland",
+            "shelf": "earth-and-terrain",
+            "years": [
+              2026,
+              2026
+            ],
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "ni-river-basin-lidar-3d",
+            "name": "NI River-Basin LiDAR — 1 m 3D Terrain",
+            "scope": "Northern Ireland",
+            "shelf": "earth-and-terrain",
+            "years": [
+              2014,
+              2014
+            ],
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "geophysics-and-geochemical-survey-tellus-electromagnetic",
+            "name": "Tellus Electromagnetic",
+            "scope": "Northern Ireland",
+            "shelf": "earth-and-terrain",
+            "years": null,
+            "known": 2,
+            "complete": 2,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          },
+          {
+            "id": "geophysics-and-geochemical-survey-tellus-airborne-survey-flight-lines",
+            "name": "Tellus Airborne Survey — Flight Lines",
+            "scope": "Northern Ireland",
+            "shelf": "earth-and-terrain",
+            "years": null,
+            "known": 1,
+            "complete": 1,
+            "partial": 0,
+            "notDrawn": 0,
+            "versions": 0
+          }
+        ]
+      }
+    ]
+  }
+}

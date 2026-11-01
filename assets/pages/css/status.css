@@ -1,0 +1,143 @@
+/* Status page (pages/status.html). The body is prerendered by scripts/build-status.mjs.
+   Bars are decoration over figures that are always written out beside them, so nothing
+   here carries meaning by colour alone; the four bar levels run from pale (earliest stage)
+   to dark (furthest stage), and keep enough contrast between neighbours in both themes. */
+:root {
+  --status-track: #e6ebf0;
+  --status-l1: #c6e8d3;
+  --status-l2: #7cc79b;
+  --status-l3: #38a169;
+  --status-l4: #1f6b46;
+  --status-edge: rgba(15, 39, 68, .18);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --status-track: #1d2833;
+    --status-l1: #24483a;
+    --status-l2: #2f7a55;
+    --status-l3: #48b27a;
+    --status-l4: #9be3bb;
+    --status-edge: rgba(230, 237, 243, .2);
+  }
+}
+:root[data-theme="dark"] {
+  --status-track: #1d2833;
+  --status-l1: #24483a;
+  --status-l2: #2f7a55;
+  --status-l3: #48b27a;
+  --status-l4: #9be3bb;
+  --status-edge: rgba(230, 237, 243, .2);
+}
+
+.status > p,
+.status section > p { max-width: 72ch; }
+.status section { padding: 1.2rem 0; }
+.status section > h2 { margin-top: 2rem; }
+
+.status-when { color: var(--color-text-muted); font-size: .88rem; }
+.status-when--lead { margin-top: 1.4rem; }
+
+.status-toc {
+  display: flex; flex-wrap: wrap; gap: .5rem;
+  margin: 1rem 0 1.25rem;
+}
+.status-toc a {
+  display: inline-flex; align-items: center;
+  min-height: 44px; padding: .35rem 1rem;
+  border: 1px solid var(--color-border); border-radius: 999px;
+  color: var(--color-primary-dark); font-weight: 600; text-decoration: none;
+  background: var(--color-surface);
+}
+.status-toc a:hover, .status-toc a:focus-visible { border-color: var(--color-primary-light); text-decoration: underline; }
+
+.status-item {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg, 12px);
+  background: var(--color-surface);
+  padding: 1.1rem 1.25rem 1rem;
+  margin: 1.1rem 0;
+}
+.status-item > h3 {
+  margin: 0 0 .25rem;
+  font-size: 1.12rem;
+  font-family: var(--font-display, inherit);
+  color: var(--color-primary-dark);
+}
+.status-meta { margin: 0 0 .6rem; color: var(--color-text-muted); font-size: .86rem; }
+.status-total { margin: .2rem 0 .65rem; }
+.status-note, .status-facts { color: var(--color-text-muted); font-size: .9rem; }
+.status-facts { margin: .5rem 0 0; padding-left: 1.1rem; }
+.status-note { margin: .5rem 0 0; }
+
+/* The bar. */
+.sbar {
+  display: flex;
+  height: .9rem;
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--status-track);
+  box-shadow: inset 0 0 0 1px var(--status-edge);
+}
+.sbar__seg { display: block; height: 100%; min-width: 2px; }
+.sbar__seg + .sbar__seg { box-shadow: inset 1px 0 0 var(--color-surface); }
+.sbar__seg--l1, .swatch--l1 { background: var(--status-l1); }
+.sbar__seg--l2, .swatch--l2 { background: var(--status-l2); }
+.sbar__seg--l3, .swatch--l3 { background: var(--status-l3); }
+.sbar__seg--l4, .swatch--l4 { background: var(--status-l4); }
+.swatch--l0 { background: var(--status-track); }
+
+.sfigs {
+  list-style: none; padding: 0; margin: .55rem 0 0;
+  display: flex; flex-wrap: wrap; gap: .2rem 1.1rem;
+  font-size: .9rem;
+}
+.sfigs li { display: block; }
+.sfigs .swatch { margin-right: .4rem; }
+.swatch {
+  display: inline-block; flex: none;
+  width: .8rem; height: .8rem; border-radius: 3px;
+  box-shadow: inset 0 0 0 1px var(--status-edge);
+  transform: translateY(1px);
+}
+.sfigs__n { font-weight: 700; font-variant-numeric: tabular-nums; }
+.sfigs__p { color: var(--color-text-muted); font-variant-numeric: tabular-nums; }
+
+/* Rows: one per period, council or map series. */
+.srows { list-style: none; padding: 0; margin: .75rem 0 0; }
+.srow { padding: .7rem 0; border-top: 1px solid var(--color-border); }
+.srow:first-child { border-top: 0; }
+.srow__head {
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: .15rem 1rem;
+  margin-bottom: .35rem;
+}
+.srow__label { font-weight: 600; }
+.srow__span { font-weight: 400; color: var(--color-text-muted); }
+.srow__total { font-variant-numeric: tabular-nums; color: var(--color-text-muted); }
+.srow .sbar { height: .65rem; }
+.srow .sfigs { font-size: .85rem; }
+.srow__basis { margin: .35rem 0 0; color: var(--color-text-muted); font-size: .85rem; }
+
+.status-details { margin-top: .8rem; }
+.status-details > summary {
+  cursor: pointer; min-height: 44px; display: flex; align-items: center;
+  font-weight: 600; color: var(--color-primary-dark);
+}
+.status-details > summary { list-style: none; gap: .45rem; }
+.status-details > summary::-webkit-details-marker { display: none; }
+.status-details > summary::before {
+  content: ''; width: .45rem; height: .45rem; flex: none;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg); transition: transform .15s ease;
+}
+.status-details[open] > summary::before { transform: rotate(45deg); }
+.status-details > summary:focus-visible { outline: 2px solid var(--color-primary-light); outline-offset: 2px; }
+
+.status-table-wrap { overflow-x: auto; margin-top: .75rem; }
+.status-table { margin: 0; font-size: .86rem; min-width: 30rem; }
+.status-table th[scope="row"] { font-weight: 700; color: var(--color-text); }
+.status-table th.num, .status-table td.num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 400; }
+
+@media (max-width: 600px) {
+  .status-item { padding: .9rem .9rem .8rem; }
+  .sfigs { flex-direction: column; gap: .15rem; }
+}
