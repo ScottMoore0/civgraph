@@ -43,28 +43,36 @@
   "partySummary": [
     {
       "party": "Independent",
-      "seats": 3,
+      "seats": 2,
       "stood": 0,
       "votes": 0,
       "colour": "#b8b8b8",
       "share": 0
     },
     {
+      "party": "Nationalist Party",
+      "seats": 1,
+      "stood": 2,
+      "votes": 294,
+      "colour": "#6b7280",
+      "share": 46.009389671361504
+    },
+    {
       "party": "Independent/Other",
       "seats": 0,
-      "stood": 4,
-      "votes": 639,
+      "stood": 2,
+      "votes": 345,
       "colour": "#6b7280",
-      "share": 100
+      "share": 53.990610328638496
     }
   ],
   "mainLikePartySummary": [
     {
-      "party": "Independent/Other",
+      "party": "Nationalist Party",
       "seats": 1,
       "stood": 0,
       "votes": 0,
-      "colour": "#888888",
+      "colour": "#32CD32",
       "share": null
     }
   ],
@@ -85,22 +93,14 @@
       {
         "name": "Independent/Other",
         "colour": "#888888",
-        "firstPrefs": 639,
-        "finalVotes": 639,
-        "stood": 4,
-        "elected": 3,
+        "firstPrefs": 345,
+        "finalVotes": 345,
+        "stood": 2,
+        "elected": 2,
         "constituencies": [
           "Keady"
         ],
         "candidates": [
-          {
-            "id": "Michael Smyth|",
-            "name": "Michael Smyth",
-            "constituency": "Keady",
-            "firstPref": 185,
-            "finalVotes": 185,
-            "status": "Elected"
-          },
           {
             "id": "John Hughes|",
             "name": "John Hughes",
@@ -116,9 +116,31 @@
             "firstPref": 163,
             "finalVotes": 163,
             "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 53.990610328638496
+      },
+      {
+        "name": "Nationalist Party",
+        "colour": "#32CD32",
+        "firstPrefs": 294,
+        "finalVotes": 294,
+        "stood": 2,
+        "elected": 1,
+        "constituencies": [
+          "Keady"
+        ],
+        "candidates": [
+          {
+            "id": "Michael Smyth|Nationalist Party",
+            "name": "Michael Smyth",
+            "constituency": "Keady",
+            "firstPref": 185,
+            "finalVotes": 185,
+            "status": "Elected"
           },
           {
-            "id": "John Nugent|",
+            "id": "John Nugent|Nationalist Party",
             "name": "John Nugent",
             "constituency": "Keady",
             "firstPref": 109,
@@ -126,16 +148,16 @@
             "status": "Not Elected"
           }
         ],
-        "shareOfTotal": 100
+        "shareOfTotal": 46.009389671361504
       }
     ],
     "candidates": [
       {
-        "id": "Michael Smyth|",
-        "key": "Michael Smyth|",
+        "id": "Michael Smyth|Nationalist Party",
+        "key": "Michael Smyth|Nationalist Party",
         "name": "Michael Smyth",
-        "party": "",
-        "colour": "#888888",
+        "party": "Nationalist Party",
+        "colour": "#32CD32",
         "firstPrefs": 185,
         "finalVotes": 185,
         "electedCount": 1,
@@ -197,11 +219,11 @@
         "shareOfTotal": 25.508607198748045
       },
       {
-        "id": "John Nugent|",
-        "key": "John Nugent|",
+        "id": "John Nugent|Nationalist Party",
+        "key": "John Nugent|Nationalist Party",
         "name": "John Nugent",
-        "party": "",
-        "colour": "#888888",
+        "party": "Nationalist Party",
+        "colour": "#32CD32",
         "firstPrefs": 109,
         "finalVotes": 109,
         "electedCount": 0,
@@ -225,7 +247,7 @@
       "constituency": "Keady",
       "winnerParty": "Independent",
       "winnerName": "3 elected",
-      "leadingParty": null,
+      "leadingParty": "Nationalist Party",
       "leadingName": "Michael Smyth",
       "leadingVotes": 185,
       "leadingPct": 28.95,
@@ -244,9 +266,9 @@
       "leadingColour": "#6b7280",
       "candidates": [
         {
-          "id": "Michael Smyth|",
+          "id": "Michael Smyth|Nationalist Party",
           "name": "Michael Smyth",
-          "party": "",
+          "party": "Nationalist Party",
           "firstPrefs": 185,
           "finalVotes": 185,
           "elected": true,
@@ -255,11 +277,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1902-05-28 Keady: Nationalist Party (Michael Smyth); armagh-county 1899-04-06 Keady: Nationalist Party (Michael Smyth); armagh-county 1905-05-25 Keady: Nationalist Party (M. Smyth)",
           "counts": [
             {
               "count": 1,
@@ -269,7 +293,7 @@
               "firstPrefs": 185
             }
           ],
-          "personId": 135489,
+          "personId": 135414,
           "name_id": "n-michael-smyth"
         },
         {
@@ -289,6 +313,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -318,6 +344,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -331,9 +359,9 @@
           "name_id": "n-dr-dorman"
         },
         {
-          "id": "John Nugent|",
+          "id": "John Nugent|Nationalist Party",
           "name": "John Nugent",
-          "party": "",
+          "party": "Nationalist Party",
           "firstPrefs": 109,
           "finalVotes": 109,
           "elected": false,
@@ -342,11 +370,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
-          "colour": "#888888",
+          "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1902-05-28 Keady: Nationalist Party (John Nugent); armagh-rural 1902-05-28 Keady Rural: Nationalist Party (John Nugent); armagh-county 1899-04-06 Keady: Nationalist Party (John Nugent)",
           "counts": [
             {
               "count": 1,
@@ -356,15 +386,15 @@
               "firstPrefs": 109
             }
           ],
-          "personId": 135907,
+          "personId": 135364,
           "name_id": "n-john-nugent"
         }
       ],
       "elected": [
         {
-          "id": "Michael Smyth|",
+          "id": "Michael Smyth|Nationalist Party",
           "name": "Michael Smyth",
-          "party": "",
+          "party": "Nationalist Party",
           "firstPrefs": 185,
           "finalVotes": 185,
           "elected": true,
@@ -373,11 +403,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1902-05-28 Keady: Nationalist Party (Michael Smyth); armagh-county 1899-04-06 Keady: Nationalist Party (Michael Smyth); armagh-county 1905-05-25 Keady: Nationalist Party (M. Smyth)",
           "counts": [
             {
               "count": 1,
@@ -405,6 +437,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -432,6 +466,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -467,12 +503,15 @@
           "Total_Votes": "185.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "Nationalist Party",
+          "Party_Colour": "#32CD32",
           "candidateName": "Michael Smyth",
           "id": 0,
           "Name_As_Printed": "Michael Smyth",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "B",
+          "Party_Basis": "armagh-county 1902-05-28 Keady: Nationalist Party (Michael Smyth); armagh-county 1899-04-06 Keady: Nationalist Party (Michael Smyth); armagh-county 1905-05-25 Keady: Nationalist Party (M. Smyth)"
         },
         {
           "Constituency_Number": "",
@@ -521,12 +560,15 @@
           "Total_Votes": "109.00",
           "Status": "Not Elected",
           "Occurred_On_Count": "",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "Nationalist Party",
+          "Party_Colour": "#32CD32",
           "candidateName": "John Nugent",
           "id": 3,
           "Name_As_Printed": "John Nugent",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "B",
+          "Party_Basis": "armagh-county 1902-05-28 Keady: Nationalist Party (John Nugent); armagh-rural 1902-05-28 Keady Rural: Nationalist Party (John Nugent); armagh-county 1899-04-06 Keady: Nationalist Party (John Nugent)"
         }
       ],
       "syntheticCountGroup": false,
@@ -562,12 +604,15 @@
               "Total_Votes": "185.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "Nationalist Party",
+              "Party_Colour": "#32CD32",
               "candidateName": "Michael Smyth",
               "id": 0,
               "Name_As_Printed": "Michael Smyth",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "B",
+              "Party_Basis": "armagh-county 1902-05-28 Keady: Nationalist Party (Michael Smyth); armagh-county 1899-04-06 Keady: Nationalist Party (Michael Smyth); armagh-county 1905-05-25 Keady: Nationalist Party (M. Smyth)"
             },
             {
               "Constituency_Number": "",
@@ -616,12 +661,15 @@
               "Total_Votes": "109.00",
               "Status": "Not Elected",
               "Occurred_On_Count": "",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "Nationalist Party",
+              "Party_Colour": "#32CD32",
               "candidateName": "John Nugent",
               "id": 3,
               "Name_As_Printed": "John Nugent",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "B",
+              "Party_Basis": "armagh-county 1902-05-28 Keady: Nationalist Party (John Nugent); armagh-rural 1902-05-28 Keady Rural: Nationalist Party (John Nugent); armagh-county 1899-04-06 Keady: Nationalist Party (John Nugent)"
             }
           ]
         },

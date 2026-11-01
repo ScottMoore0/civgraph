@@ -43,19 +43,27 @@
   "partySummary": [
     {
       "party": "Independent",
-      "seats": 9,
+      "seats": 6,
       "stood": 0,
       "votes": 0,
       "colour": "#b8b8b8",
       "share": 0
     },
     {
+      "party": "UUP",
+      "seats": 3,
+      "stood": 3,
+      "votes": 264,
+      "colour": "#48a5ee",
+      "share": 28.14498933901919
+    },
+    {
       "party": "Independent/Other",
       "seats": 0,
-      "stood": 12,
-      "votes": 938,
+      "stood": 9,
+      "votes": 674,
       "colour": "#6b7280",
-      "share": 100
+      "share": 71.85501066098081
     }
   ],
   "mainLikePartySummary": [
@@ -85,10 +93,10 @@
       {
         "name": "Independent/Other",
         "colour": "#888888",
-        "firstPrefs": 938,
-        "finalVotes": 938,
-        "stood": 12,
-        "elected": 9,
+        "firstPrefs": 674,
+        "finalVotes": 674,
+        "stood": 9,
+        "elected": 6,
         "constituencies": [
           "Tandragee"
         ],
@@ -115,30 +123,6 @@
             "constituency": "Tandragee",
             "firstPref": 90,
             "finalVotes": 90,
-            "status": "Elected"
-          },
-          {
-            "id": "Boyd Coburn|",
-            "name": "Boyd Coburn",
-            "constituency": "Tandragee",
-            "firstPref": 89,
-            "finalVotes": 89,
-            "status": "Elected"
-          },
-          {
-            "id": "W J Meredith|",
-            "name": "W J Meredith",
-            "constituency": "Tandragee",
-            "firstPref": 88,
-            "finalVotes": 88,
-            "status": "Elected"
-          },
-          {
-            "id": "Thomas Neill|",
-            "name": "Thomas Neill",
-            "constituency": "Tandragee",
-            "firstPref": 87,
-            "finalVotes": 87,
             "status": "Elected"
           },
           {
@@ -190,7 +174,45 @@
             "status": "Not Elected"
           }
         ],
-        "shareOfTotal": 100
+        "shareOfTotal": 71.85501066098081
+      },
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 264,
+        "finalVotes": 264,
+        "stood": 3,
+        "elected": 3,
+        "constituencies": [
+          "Tandragee"
+        ],
+        "candidates": [
+          {
+            "id": "Boyd Coburn|UUP",
+            "name": "Boyd Coburn",
+            "constituency": "Tandragee",
+            "firstPref": 89,
+            "finalVotes": 89,
+            "status": "Elected"
+          },
+          {
+            "id": "W J Meredith|UUP",
+            "name": "W J Meredith",
+            "constituency": "Tandragee",
+            "firstPref": 88,
+            "finalVotes": 88,
+            "status": "Elected"
+          },
+          {
+            "id": "Thomas Neill|UUP",
+            "name": "Thomas Neill",
+            "constituency": "Tandragee",
+            "firstPref": 87,
+            "finalVotes": 87,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 28.14498933901919
       }
     ],
     "candidates": [
@@ -261,11 +283,11 @@
         "shareOfTotal": 9.594882729211088
       },
       {
-        "id": "Boyd Coburn|",
-        "key": "Boyd Coburn|",
+        "id": "Boyd Coburn|UUP",
+        "key": "Boyd Coburn|UUP",
         "name": "Boyd Coburn",
-        "party": "",
-        "colour": "#888888",
+        "party": "UUP",
+        "colour": "#48A5EE",
         "firstPrefs": 89,
         "finalVotes": 89,
         "electedCount": 1,
@@ -283,11 +305,11 @@
         "shareOfTotal": 9.488272921108742
       },
       {
-        "id": "W J Meredith|",
-        "key": "W J Meredith|",
+        "id": "W J Meredith|UUP",
+        "key": "W J Meredith|UUP",
         "name": "W J Meredith",
-        "party": "",
-        "colour": "#888888",
+        "party": "UUP",
+        "colour": "#48A5EE",
         "firstPrefs": 88,
         "finalVotes": 88,
         "electedCount": 1,
@@ -305,11 +327,11 @@
         "shareOfTotal": 9.381663113006397
       },
       {
-        "id": "Thomas Neill|",
-        "key": "Thomas Neill|",
+        "id": "Thomas Neill|UUP",
+        "key": "Thomas Neill|UUP",
         "name": "Thomas Neill",
-        "party": "",
-        "colour": "#888888",
+        "party": "UUP",
+        "colour": "#48A5EE",
         "firstPrefs": 87,
         "finalVotes": 87,
         "electedCount": 1,
@@ -500,6 +522,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -529,6 +553,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -558,6 +584,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -571,9 +599,9 @@
           "name_id": "n-thomas-williamson"
         },
         {
-          "id": "Boyd Coburn|",
+          "id": "Boyd Coburn|UUP",
           "name": "Boyd Coburn",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 89,
           "finalVotes": 89,
           "elected": true,
@@ -582,11 +610,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "tandragee-urban 1908-01-15 Tandragee: UUP (Boyd Coburn); tandragee-urban 1920-01-15 Tandragee: UUP (Boyd Coburn) [found-A]",
           "counts": [
             {
               "count": 1,
@@ -596,13 +626,13 @@
               "firstPrefs": 89
             }
           ],
-          "personId": 135343,
+          "personId": 136395,
           "name_id": "n-boyd-coburn"
         },
         {
-          "id": "W J Meredith|",
+          "id": "W J Meredith|UUP",
           "name": "W J Meredith",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 88,
           "finalVotes": 88,
           "elected": true,
@@ -611,11 +641,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "tandragee-urban 1908-01-15 Tandragee: UUP (W. J. Meredith); tandragee-urban 1920-01-15 Tandragee: UUP (William John Meredith) [found-A]",
           "counts": [
             {
               "count": 1,
@@ -629,9 +661,9 @@
           "name_id": "n-w-j-meredith"
         },
         {
-          "id": "Thomas Neill|",
+          "id": "Thomas Neill|UUP",
           "name": "Thomas Neill",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 87,
           "finalVotes": 87,
           "elected": true,
@@ -640,11 +672,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "tandragee-urban 1908-01-15 Tandragee: UUP (T. Neill); tandragee-urban 1920-01-15 Tandragee: UUP (Thomas Neill) [found-A]",
           "counts": [
             {
               "count": 1,
@@ -654,7 +688,7 @@
               "firstPrefs": 87
             }
           ],
-          "personId": 135502,
+          "personId": 137939,
           "name_id": "n-thomas-neill"
         },
         {
@@ -674,6 +708,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -703,6 +739,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -732,6 +770,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -761,6 +801,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -790,6 +832,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -819,6 +863,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -850,6 +896,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -877,6 +925,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -904,6 +954,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -915,9 +967,9 @@
           ]
         },
         {
-          "id": "Boyd Coburn|",
+          "id": "Boyd Coburn|UUP",
           "name": "Boyd Coburn",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 89,
           "finalVotes": 89,
           "elected": true,
@@ -926,11 +978,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "tandragee-urban 1908-01-15 Tandragee: UUP (Boyd Coburn); tandragee-urban 1920-01-15 Tandragee: UUP (Boyd Coburn) [found-A]",
           "counts": [
             {
               "count": 1,
@@ -942,9 +996,9 @@
           ]
         },
         {
-          "id": "W J Meredith|",
+          "id": "W J Meredith|UUP",
           "name": "W J Meredith",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 88,
           "finalVotes": 88,
           "elected": true,
@@ -953,11 +1007,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "tandragee-urban 1908-01-15 Tandragee: UUP (W. J. Meredith); tandragee-urban 1920-01-15 Tandragee: UUP (William John Meredith) [found-A]",
           "counts": [
             {
               "count": 1,
@@ -969,9 +1025,9 @@
           ]
         },
         {
-          "id": "Thomas Neill|",
+          "id": "Thomas Neill|UUP",
           "name": "Thomas Neill",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 87,
           "finalVotes": 87,
           "elected": true,
@@ -980,11 +1036,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "tandragee-urban 1908-01-15 Tandragee: UUP (T. Neill); tandragee-urban 1920-01-15 Tandragee: UUP (Thomas Neill) [found-A]",
           "counts": [
             {
               "count": 1,
@@ -1012,6 +1070,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1039,6 +1099,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1066,6 +1128,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1155,12 +1219,15 @@
           "Total_Votes": "89.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
           "candidateName": "Boyd Coburn",
           "id": 3,
           "Name_As_Printed": "Boyd Coburn",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "D",
+          "Party_Basis": "tandragee-urban 1908-01-15 Tandragee: UUP (Boyd Coburn); tandragee-urban 1920-01-15 Tandragee: UUP (Boyd Coburn) [found-A]"
         },
         {
           "Constituency_Number": "",
@@ -1173,12 +1240,15 @@
           "Total_Votes": "88.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
           "candidateName": "W J Meredith",
           "id": 4,
           "Name_As_Printed": "W J Meredith",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "D",
+          "Party_Basis": "tandragee-urban 1908-01-15 Tandragee: UUP (W. J. Meredith); tandragee-urban 1920-01-15 Tandragee: UUP (William John Meredith) [found-A]"
         },
         {
           "Constituency_Number": "",
@@ -1191,12 +1261,15 @@
           "Total_Votes": "87.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
           "candidateName": "Thomas Neill",
           "id": 5,
           "Name_As_Printed": "Thomas Neill",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "D",
+          "Party_Basis": "tandragee-urban 1908-01-15 Tandragee: UUP (T. Neill); tandragee-urban 1920-01-15 Tandragee: UUP (Thomas Neill) [found-A]"
         },
         {
           "Constituency_Number": "",
@@ -1394,12 +1467,15 @@
               "Total_Votes": "89.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
               "candidateName": "Boyd Coburn",
               "id": 3,
               "Name_As_Printed": "Boyd Coburn",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "D",
+              "Party_Basis": "tandragee-urban 1908-01-15 Tandragee: UUP (Boyd Coburn); tandragee-urban 1920-01-15 Tandragee: UUP (Boyd Coburn) [found-A]"
             },
             {
               "Constituency_Number": "",
@@ -1412,12 +1488,15 @@
               "Total_Votes": "88.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
               "candidateName": "W J Meredith",
               "id": 4,
               "Name_As_Printed": "W J Meredith",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "D",
+              "Party_Basis": "tandragee-urban 1908-01-15 Tandragee: UUP (W. J. Meredith); tandragee-urban 1920-01-15 Tandragee: UUP (William John Meredith) [found-A]"
             },
             {
               "Constituency_Number": "",
@@ -1430,12 +1509,15 @@
               "Total_Votes": "87.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
               "candidateName": "Thomas Neill",
               "id": 5,
               "Name_As_Printed": "Thomas Neill",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "D",
+              "Party_Basis": "tandragee-urban 1908-01-15 Tandragee: UUP (T. Neill); tandragee-urban 1920-01-15 Tandragee: UUP (Thomas Neill) [found-A]"
             },
             {
               "Constituency_Number": "",

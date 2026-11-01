@@ -148,6 +148,8 @@ export class Test2MapLibreMainAdapter {
     this.renderer.init();
     this.map = this.renderer.map;
     this.map.invalidateSize = () => this.invalidateSize();
+    // Where the reader last clicked, so the feature details can list everything under that point.
+    this.map.on('click', (event) => { this.lastClickPoint = event.point; this.lastClickAt = Date.now(); });
     this.installMainStyleMapControls();
     this.applyMobileTouchContract();
     return this;
@@ -1216,6 +1218,41 @@ export class Test2MapLibreMainAdapter {
       }
     }
     return features;
+  }
+
+  /**
+   * Every feature of the visible layers under the point last clicked, one per feature, for the
+   * feature details' "Features here" list. Each entry can be passed to selectFeatureAtClick.
+   */
+  featuresAtLastClick(radius = 4) {
+    const point = this.lastClickPoint;
+    // Only for a selection made by that click (or from this list), not one made from search later.
+    if (!this.map || !point || Date.now() - (this.lastClickAt || 0) > 15000) return [];
+    const out = [];
+    const seen = new Set();
+    for (const [mainId, state] of this.layerStates) {
+      if (!state.visible) continue;
+      const record = this.renderer?.layers.get(state.testLayerId);
+      const layers = this.getQueryableLayerIds(record);
+      if (!layers.length) continue;
+      const rendered = this.map.queryRenderedFeatures(
+        [[point.x - radius, point.y - radius], [point.x + radius, point.y + radius]], { layers });
+      for (const raw of rendered) {
+        const feature = this.normalizeRenderedFeature(raw, mainId, state, record);
+        const key = `${feature.mapId}|${featureDedupeKey(feature)}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        out.push({ key, mapId: feature.mapId, layerName: feature.layerName, featureName: feature.featureName || feature.name || 'Unnamed feature', layer: record?.config, raw });
+      }
+    }
+    return out;
+  }
+
+  /** Show one of featuresAtLastClick's entries in the feature details, as a click on it would. */
+  selectFeatureAtClick(entry) {
+    if (!entry?.layer || !entry.raw) return false;
+    this.lastClickAt = Date.now();
+    return this.renderer?.selectFeature(entry.layer, entry.raw) || false;
   }
 
   queryFeaturesAtLngLat(lat, lon, radius = 8) {

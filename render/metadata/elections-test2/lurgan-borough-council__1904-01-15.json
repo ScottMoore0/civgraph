@@ -43,19 +43,35 @@
   "partySummary": [
     {
       "party": "Independent",
-      "seats": 5,
+      "seats": 3,
       "stood": 0,
       "votes": 0,
       "colour": "#b8b8b8",
       "share": 0
     },
     {
+      "party": "UUP",
+      "seats": 1,
+      "stood": 1,
+      "votes": 709,
+      "colour": "#48a5ee",
+      "share": 14.29723734623916
+    },
+    {
+      "party": "Irish Labour",
+      "seats": 1,
+      "stood": 1,
+      "votes": 604,
+      "colour": "#cc0000",
+      "share": 12.179874974793305
+    },
+    {
       "party": "Independent/Other",
       "seats": 0,
-      "stood": 10,
-      "votes": 4959,
+      "stood": 8,
+      "votes": 3646,
       "colour": "#6b7280",
-      "share": 100
+      "share": 73.52288767896754
     }
   ],
   "mainLikePartySummary": [
@@ -85,10 +101,10 @@
       {
         "name": "Independent/Other",
         "colour": "#888888",
-        "firstPrefs": 4959,
-        "finalVotes": 4959,
-        "stood": 10,
-        "elected": 5,
+        "firstPrefs": 3646,
+        "finalVotes": 3646,
+        "stood": 8,
+        "elected": 3,
         "constituencies": [
           "Lurgan"
         ],
@@ -102,27 +118,11 @@
             "status": "Elected"
           },
           {
-            "id": "William White|",
-            "name": "William White",
-            "constituency": "Lurgan",
-            "firstPref": 709,
-            "finalVotes": 709,
-            "status": "Elected"
-          },
-          {
             "id": "David Pedlow|",
             "name": "David Pedlow",
             "constituency": "Lurgan",
             "firstPref": 643,
             "finalVotes": 643,
-            "status": "Elected"
-          },
-          {
-            "id": "Joshua McNeice|",
-            "name": "Joshua McNeice",
-            "constituency": "Lurgan",
-            "firstPref": 604,
-            "finalVotes": 604,
             "status": "Elected"
           },
           {
@@ -174,7 +174,51 @@
             "status": "Not Elected"
           }
         ],
-        "shareOfTotal": 100
+        "shareOfTotal": 73.52288767896754
+      },
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 709,
+        "finalVotes": 709,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Lurgan"
+        ],
+        "candidates": [
+          {
+            "id": "William White|UUP",
+            "name": "William White",
+            "constituency": "Lurgan",
+            "firstPref": 709,
+            "finalVotes": 709,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 14.29723734623916
+      },
+      {
+        "name": "Irish Labour",
+        "colour": "#A0A0A0",
+        "firstPrefs": 604,
+        "finalVotes": 604,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Lurgan"
+        ],
+        "candidates": [
+          {
+            "id": "Joshua McNeice|Irish Labour",
+            "name": "Joshua McNeice",
+            "constituency": "Lurgan",
+            "firstPref": 604,
+            "finalVotes": 604,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 12.179874974793305
       }
     ],
     "candidates": [
@@ -201,11 +245,11 @@
         "shareOfTotal": 14.660213752772735
       },
       {
-        "id": "William White|",
-        "key": "William White|",
+        "id": "William White|UUP",
+        "key": "William White|UUP",
         "name": "William White",
-        "party": "",
-        "colour": "#888888",
+        "party": "UUP",
+        "colour": "#48A5EE",
         "firstPrefs": 709,
         "finalVotes": 709,
         "electedCount": 1,
@@ -245,11 +289,11 @@
         "shareOfTotal": 12.966323855616052
       },
       {
-        "id": "Joshua McNeice|",
-        "key": "Joshua McNeice|",
+        "id": "Joshua McNeice|Irish Labour",
+        "key": "Joshua McNeice|Irish Labour",
         "name": "Joshua McNeice",
-        "party": "",
-        "colour": "#888888",
+        "party": "Irish Labour",
+        "colour": "#A0A0A0",
         "firstPrefs": 604,
         "finalVotes": 604,
         "electedCount": 1,
@@ -440,6 +484,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -453,9 +499,9 @@
           "name_id": "n-george-lunn"
         },
         {
-          "id": "William White|",
+          "id": "William White|UUP",
           "name": "William White",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 709,
           "finalVotes": 709,
           "elected": true,
@@ -464,11 +510,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1905-05-25 Lurgan: UUP (William White); armagh-county 1902-05-28 Lurgan: UUP (William White)",
           "counts": [
             {
               "count": 1,
@@ -478,7 +526,7 @@
               "firstPrefs": 709
             }
           ],
-          "personId": 88253,
+          "personId": 136082,
           "name_id": "n-william-white"
         },
         {
@@ -498,6 +546,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -511,9 +561,9 @@
           "name_id": "n-david-pedlow"
         },
         {
-          "id": "Joshua McNeice|",
+          "id": "Joshua McNeice|Irish Labour",
           "name": "Joshua McNeice",
-          "party": "",
+          "party": "Irish Labour",
           "firstPrefs": 604,
           "finalVotes": 604,
           "elected": true,
@@ -522,11 +572,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#A0A0A0",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "lurgan-borough 1899-01-16 Lurgan: Labour (Joshua M'Neice) [found-A]; lurgan-borough 1912-01-15 Lurgan: Labour (Joshua McNeice)",
           "counts": [
             {
               "count": 1,
@@ -536,7 +588,7 @@
               "firstPrefs": 604
             }
           ],
-          "personId": 135613,
+          "personId": 137133,
           "name_id": "n-joshua-mcneice"
         },
         {
@@ -556,6 +608,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -585,6 +639,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -614,6 +670,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -643,6 +701,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -672,6 +732,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -701,6 +763,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -732,6 +796,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -743,9 +809,9 @@
           ]
         },
         {
-          "id": "William White|",
+          "id": "William White|UUP",
           "name": "William White",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 709,
           "finalVotes": 709,
           "elected": true,
@@ -754,11 +820,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1905-05-25 Lurgan: UUP (William White); armagh-county 1902-05-28 Lurgan: UUP (William White)",
           "counts": [
             {
               "count": 1,
@@ -786,6 +854,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -797,9 +867,9 @@
           ]
         },
         {
-          "id": "Joshua McNeice|",
+          "id": "Joshua McNeice|Irish Labour",
           "name": "Joshua McNeice",
-          "party": "",
+          "party": "Irish Labour",
           "firstPrefs": 604,
           "finalVotes": 604,
           "elected": true,
@@ -808,11 +878,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#A0A0A0",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "lurgan-borough 1899-01-16 Lurgan: Labour (Joshua M'Neice) [found-A]; lurgan-borough 1912-01-15 Lurgan: Labour (Joshua McNeice)",
           "counts": [
             {
               "count": 1,
@@ -840,6 +912,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -893,12 +967,15 @@
           "Total_Votes": "709.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
           "candidateName": "William White",
           "id": 1,
           "Name_As_Printed": "White",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "B",
+          "Party_Basis": "armagh-county 1905-05-25 Lurgan: UUP (William White); armagh-county 1902-05-28 Lurgan: UUP (William White)"
         },
         {
           "Constituency_Number": "",
@@ -929,12 +1006,15 @@
           "Total_Votes": "604.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "Labour",
+          "Party_Colour": "#A0A0A0",
           "candidateName": "Joshua McNeice",
           "id": 3,
           "Name_As_Printed": "McNeice",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "D",
+          "Party_Basis": "lurgan-borough 1899-01-16 Lurgan: Labour (Joshua M'Neice) [found-A]; lurgan-borough 1912-01-15 Lurgan: Labour (Joshua McNeice)"
         },
         {
           "Constituency_Number": "",
@@ -1096,12 +1176,15 @@
               "Total_Votes": "709.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
               "candidateName": "William White",
               "id": 1,
               "Name_As_Printed": "White",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "B",
+              "Party_Basis": "armagh-county 1905-05-25 Lurgan: UUP (William White); armagh-county 1902-05-28 Lurgan: UUP (William White)"
             },
             {
               "Constituency_Number": "",
@@ -1132,12 +1215,15 @@
               "Total_Votes": "604.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "Labour",
+              "Party_Colour": "#A0A0A0",
               "candidateName": "Joshua McNeice",
               "id": 3,
               "Name_As_Printed": "McNeice",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "D",
+              "Party_Basis": "lurgan-borough 1899-01-16 Lurgan: Labour (Joshua M'Neice) [found-A]; lurgan-borough 1912-01-15 Lurgan: Labour (Joshua McNeice)"
             },
             {
               "Constituency_Number": "",

@@ -218,9 +218,12 @@ for (const s of source.series) {
     out.maps[id].years = [...new Set([yearOfDate(out.maps[id].date), ...more].filter(Boolean))].sort();
     years.push(...more);
   }
+  // Unique across the catalogue: names no longer carry their scope ("Administrative Counties" is
+  // a series for NI, the Republic and the island before partition), so a clash takes the scope.
   let slug = slugify(s.name) || s.id;
-  if (slugsSeen.has(`${s.subject}/${slug}`)) slug = `${slug}-${slugify(s.scope || s.id)}`;
-  slugsSeen.add(`${s.subject}/${slug}`);
+  if (slugsSeen.has(slug)) slug = `${slug}-${slugify(s.scope || s.id)}`;
+  if (slugsSeen.has(slug)) slug = `${slug}-${slugify(s.id)}`;
+  slugsSeen.add(slug);
   const provs = [...new Set(recs.flatMap((r) => r.provider || []))];
   const statusCounts = recs.reduce((a, r) => ((a[r.status] = (a[r.status] || 0) + 1), a), {});
   // Variants (another scale, a council's excerpt) are labelled as a set member is, by what sets

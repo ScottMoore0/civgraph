@@ -83,7 +83,7 @@
   "partySummary": [
     {
       "party": "Independent",
-      "seats": 18,
+      "seats": 13,
       "stood": 0,
       "votes": 0,
       "colour": "#b8b8b8",
@@ -91,16 +91,16 @@
     },
     {
       "party": "Nationalist Party",
-      "seats": 3,
-      "stood": 4,
+      "seats": 5,
+      "stood": 6,
       "votes": 357,
       "colour": "#6b7280",
       "share": 66.4804469273743
     },
     {
       "party": "UUP",
-      "seats": 0,
-      "stood": 1,
+      "seats": 3,
+      "stood": 4,
       "votes": 180,
       "colour": "#48a5ee",
       "share": 33.5195530726257
@@ -108,7 +108,7 @@
     {
       "party": "Independent/Other",
       "seats": 0,
-      "stood": 18,
+      "stood": 13,
       "votes": 0,
       "colour": "#6b7280",
       "share": 0
@@ -117,7 +117,7 @@
   "mainLikePartySummary": [
     {
       "party": "Independent/Other",
-      "seats": 18,
+      "seats": 13,
       "stood": 0,
       "votes": 0,
       "colour": "#888888",
@@ -125,10 +125,18 @@
     },
     {
       "party": "Nationalist Party",
-      "seats": 3,
+      "seats": 5,
       "stood": 0,
       "votes": 0,
       "colour": "#32CD32",
+      "share": null
+    },
+    {
+      "party": "UUP",
+      "seats": 3,
+      "stood": 0,
+      "votes": 0,
+      "colour": "#48A5EE",
       "share": null
     }
   ],
@@ -151,37 +159,24 @@
         "colour": "#888888",
         "firstPrefs": 0,
         "finalVotes": 0,
-        "stood": 18,
-        "elected": 18,
+        "stood": 13,
+        "elected": 13,
         "constituencies": [
-          "Ballybot",
           "Ballymoyer",
           "Belleek",
           "Bessbrook South",
           "Camlough",
-          "Crossmaglen",
           "Derrymore",
           "Dorsy",
           "Drumintee",
           "Fathom",
           "Forkhill",
-          "Glassdrumman",
           "Killeavy",
           "Killeen",
           "Moyra Castle",
-          "Mullaghglass",
-          "Newtownhamilton",
           "Tullyvallen"
         ],
         "candidates": [
-          {
-            "id": "John Reid|",
-            "name": "John Reid",
-            "constituency": "Ballybot",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": "Elected"
-          },
           {
             "id": "Felix McKernan|",
             "name": "Felix McKernan",
@@ -210,14 +205,6 @@
             "id": "Stephen Boyle|",
             "name": "Stephen Boyle",
             "constituency": "Camlough",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": "Elected"
-          },
-          {
-            "id": "Owen McGeough|",
-            "name": "Owen McGeough",
-            "constituency": "Crossmaglen",
             "firstPref": 0,
             "finalVotes": 0,
             "status": "Elected"
@@ -263,14 +250,6 @@
             "status": "Elected"
           },
           {
-            "id": "John Jeffers|",
-            "name": "John Jeffers",
-            "constituency": "Glassdrumman",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": "Elected"
-          },
-          {
             "id": "Matthew Cunningham|",
             "name": "Matthew Cunningham",
             "constituency": "Killeavy",
@@ -295,22 +274,6 @@
             "status": "Elected"
           },
           {
-            "id": "Lindsay Henry|",
-            "name": "Lindsay Henry",
-            "constituency": "Mullaghglass",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": "Elected"
-          },
-          {
-            "id": "William Cooke|",
-            "name": "William Cooke",
-            "constituency": "Newtownhamilton",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": "Elected"
-          },
-          {
             "id": "John Cooke|",
             "name": "John Cooke",
             "constituency": "Tullyvallen",
@@ -326,11 +289,13 @@
         "colour": "#32CD32",
         "firstPrefs": 357,
         "finalVotes": 357,
-        "stood": 4,
-        "elected": 3,
+        "stood": 6,
+        "elected": 5,
         "constituencies": [
           "Bessbrook North",
+          "Crossmaglen",
           "Culloville",
+          "Glassdrumman",
           "Moybane"
         ],
         "candidates": [
@@ -343,9 +308,25 @@
             "status": "Elected"
           },
           {
+            "id": "Owen McGeough|Nationalist Party",
+            "name": "Owen McGeough",
+            "constituency": "Crossmaglen",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          },
+          {
             "id": "Patrick Sammond|Nationalist Party",
             "name": "Patrick Sammond",
             "constituency": "Culloville",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          },
+          {
+            "id": "John Jeffers|Nationalist Party",
+            "name": "John Jeffers",
+            "constituency": "Glassdrumman",
             "firstPref": 0,
             "finalVotes": 0,
             "status": "Elected"
@@ -374,12 +355,23 @@
         "colour": "#48A5EE",
         "firstPrefs": 180,
         "finalVotes": 180,
-        "stood": 1,
-        "elected": 0,
+        "stood": 4,
+        "elected": 3,
         "constituencies": [
-          "Bessbrook North"
+          "Ballybot",
+          "Bessbrook North",
+          "Mullaghglass",
+          "Newtownhamilton"
         ],
         "candidates": [
+          {
+            "id": "John Reid|UUP",
+            "name": "John Reid",
+            "constituency": "Ballybot",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          },
           {
             "id": "Robert Black|UUP",
             "name": "Robert Black",
@@ -387,6 +379,22 @@
             "firstPref": 180,
             "finalVotes": 180,
             "status": "Not Elected"
+          },
+          {
+            "id": "Lindsay Henry|UUP",
+            "name": "Lindsay Henry",
+            "constituency": "Mullaghglass",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          },
+          {
+            "id": "William Cooke|UUP",
+            "name": "William Cooke",
+            "constituency": "Newtownhamilton",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
           }
         ],
         "shareOfTotal": 33.5195530726257
@@ -438,11 +446,11 @@
         "shareOfTotal": 22.532588454376164
       },
       {
-        "id": "John Reid|",
-        "key": "John Reid|",
+        "id": "John Reid|UUP",
+        "key": "John Reid|UUP",
         "name": "John Reid",
-        "party": "",
-        "colour": "#888888",
+        "party": "UUP",
+        "colour": "#48A5EE",
         "firstPrefs": 0,
         "finalVotes": 0,
         "electedCount": 1,
@@ -548,11 +556,11 @@
         "shareOfTotal": 0
       },
       {
-        "id": "Owen McGeough|",
-        "key": "Owen McGeough|",
+        "id": "Owen McGeough|Nationalist Party",
+        "key": "Owen McGeough|Nationalist Party",
         "name": "Owen McGeough",
-        "party": "",
-        "colour": "#888888",
+        "party": "Nationalist Party",
+        "colour": "#32CD32",
         "firstPrefs": 0,
         "finalVotes": 0,
         "electedCount": 1,
@@ -702,11 +710,11 @@
         "shareOfTotal": 0
       },
       {
-        "id": "John Jeffers|",
-        "key": "John Jeffers|",
+        "id": "John Jeffers|Nationalist Party",
+        "key": "John Jeffers|Nationalist Party",
         "name": "John Jeffers",
-        "party": "",
-        "colour": "#888888",
+        "party": "Nationalist Party",
+        "colour": "#32CD32",
         "firstPrefs": 0,
         "finalVotes": 0,
         "electedCount": 1,
@@ -790,11 +798,11 @@
         "shareOfTotal": 0
       },
       {
-        "id": "Lindsay Henry|",
-        "key": "Lindsay Henry|",
+        "id": "Lindsay Henry|UUP",
+        "key": "Lindsay Henry|UUP",
         "name": "Lindsay Henry",
-        "party": "",
-        "colour": "#888888",
+        "party": "UUP",
+        "colour": "#48A5EE",
         "firstPrefs": 0,
         "finalVotes": 0,
         "electedCount": 1,
@@ -812,11 +820,11 @@
         "shareOfTotal": 0
       },
       {
-        "id": "William Cooke|",
-        "key": "William Cooke|",
+        "id": "William Cooke|UUP",
+        "key": "William Cooke|UUP",
         "name": "William Cooke",
-        "party": "",
-        "colour": "#888888",
+        "party": "UUP",
+        "colour": "#48A5EE",
         "firstPrefs": 0,
         "finalVotes": 0,
         "electedCount": 1,
@@ -904,9 +912,9 @@
   "results": [
     {
       "constituency": "Ballybot",
-      "winnerParty": "Independent",
+      "winnerParty": "UUP",
       "winnerName": "John Reid",
-      "leadingParty": null,
+      "leadingParty": "UUP",
       "leadingName": "John Reid",
       "leadingVotes": null,
       "leadingPct": null,
@@ -921,13 +929,13 @@
       "spoiled": null,
       "validPoll": null,
       "totalVotes": null,
-      "colour": "#b8b8b8",
-      "leadingColour": "#6b7280",
+      "colour": "#48a5ee",
+      "leadingColour": "#48a5ee",
       "candidates": [
         {
-          "id": "John Reid|",
+          "id": "John Reid|UUP",
           "name": "John Reid",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -936,11 +944,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "newry-no-2-rural 1933-05-25 Ballybot: UUP (John Reid); newry-no-2-rural 1939-05-25 Ballybot: UUP (J. Reid)",
           "counts": [
             {
               "count": 1,
@@ -950,15 +960,15 @@
               "firstPrefs": null
             }
           ],
-          "personId": 135606,
+          "personId": 135408,
           "name_id": "n-john-reid"
         }
       ],
       "elected": [
         {
-          "id": "John Reid|",
+          "id": "John Reid|UUP",
           "name": "John Reid",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -967,11 +977,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "newry-no-2-rural 1933-05-25 Ballybot: UUP (John Reid); newry-no-2-rural 1939-05-25 Ballybot: UUP (J. Reid)",
           "counts": [
             {
               "count": 1,
@@ -1007,12 +1019,15 @@
           "Total_Votes": "",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
           "candidateName": "John Reid",
           "id": 0,
           "Name_As_Printed": "John Reid",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "D",
+          "Party_Basis": "newry-no-2-rural 1933-05-25 Ballybot: UUP (John Reid); newry-no-2-rural 1939-05-25 Ballybot: UUP (J. Reid)"
         }
       ],
       "syntheticCountGroup": false,
@@ -1048,12 +1063,15 @@
               "Total_Votes": "",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
               "candidateName": "John Reid",
               "id": 0,
               "Name_As_Printed": "John Reid",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "D",
+              "Party_Basis": "newry-no-2-rural 1933-05-25 Ballybot: UUP (John Reid); newry-no-2-rural 1939-05-25 Ballybot: UUP (J. Reid)"
             }
           ]
         },
@@ -1129,6 +1147,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1160,6 +1180,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1317,6 +1339,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1348,6 +1372,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1505,6 +1531,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1534,6 +1562,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1565,6 +1595,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1758,6 +1790,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1789,6 +1823,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1946,6 +1982,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1977,6 +2015,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2097,9 +2137,9 @@
     },
     {
       "constituency": "Crossmaglen",
-      "winnerParty": "Independent",
+      "winnerParty": "Nationalist Party",
       "winnerName": "Owen McGeough",
-      "leadingParty": null,
+      "leadingParty": "Nationalist Party",
       "leadingName": "Owen McGeough",
       "leadingVotes": null,
       "leadingPct": null,
@@ -2114,13 +2154,13 @@
       "spoiled": null,
       "validPoll": null,
       "totalVotes": null,
-      "colour": "#b8b8b8",
+      "colour": "#6b7280",
       "leadingColour": "#6b7280",
       "candidates": [
         {
-          "id": "Owen McGeough|",
+          "id": "Owen McGeough|Nationalist Party",
           "name": "Owen McGeough",
-          "party": "",
+          "party": "Nationalist Party",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -2129,11 +2169,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1936-05-28 Crossmaglen: Nationalist Party (Owen McGeough)",
           "counts": [
             {
               "count": 1,
@@ -2143,15 +2185,15 @@
               "firstPrefs": null
             }
           ],
-          "personId": 137241,
+          "personId": 137242,
           "name_id": "n-owen-mcgeough"
         }
       ],
       "elected": [
         {
-          "id": "Owen McGeough|",
+          "id": "Owen McGeough|Nationalist Party",
           "name": "Owen McGeough",
-          "party": "",
+          "party": "Nationalist Party",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -2160,11 +2202,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1936-05-28 Crossmaglen: Nationalist Party (Owen McGeough)",
           "counts": [
             {
               "count": 1,
@@ -2200,12 +2244,15 @@
           "Total_Votes": "",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "Nationalist Party",
+          "Party_Colour": "#32CD32",
           "candidateName": "Owen McGeough",
           "id": 0,
           "Name_As_Printed": "Owen McGeough",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "B",
+          "Party_Basis": "armagh-county 1936-05-28 Crossmaglen: Nationalist Party (Owen McGeough)"
         }
       ],
       "syntheticCountGroup": false,
@@ -2241,12 +2288,15 @@
               "Total_Votes": "",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "Nationalist Party",
+              "Party_Colour": "#32CD32",
               "candidateName": "Owen McGeough",
               "id": 0,
               "Name_As_Printed": "Owen McGeough",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "B",
+              "Party_Basis": "armagh-county 1936-05-28 Crossmaglen: Nationalist Party (Owen McGeough)"
             }
           ]
         },
@@ -2322,6 +2372,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2353,6 +2405,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2510,6 +2564,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2541,6 +2597,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2698,6 +2756,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2729,6 +2789,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2886,6 +2948,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2917,6 +2981,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3074,6 +3140,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3105,6 +3173,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3262,6 +3332,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3293,6 +3365,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3413,9 +3487,9 @@
     },
     {
       "constituency": "Glassdrumman",
-      "winnerParty": "Independent",
+      "winnerParty": "Nationalist Party",
       "winnerName": "John Jeffers",
-      "leadingParty": null,
+      "leadingParty": "Nationalist Party",
       "leadingName": "John Jeffers",
       "leadingVotes": null,
       "leadingPct": null,
@@ -3430,13 +3504,13 @@
       "spoiled": null,
       "validPoll": null,
       "totalVotes": null,
-      "colour": "#b8b8b8",
+      "colour": "#6b7280",
       "leadingColour": "#6b7280",
       "candidates": [
         {
-          "id": "John Jeffers|",
+          "id": "John Jeffers|Nationalist Party",
           "name": "John Jeffers",
-          "party": "",
+          "party": "Nationalist Party",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -3445,11 +3519,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1936-05-28 Forkhill: Nationalist Party (John Jeffers); armagh-county 1933-05-25 Forkhill: Nationalist Party (John Jeffers); armagh-county 1939-05-25 Forkhill: Nationalist Party (John Jeffers)",
           "counts": [
             {
               "count": 1,
@@ -3459,15 +3535,15 @@
               "firstPrefs": null
             }
           ],
-          "personId": 135362,
+          "personId": 135363,
           "name_id": "n-john-jeffers"
         }
       ],
       "elected": [
         {
-          "id": "John Jeffers|",
+          "id": "John Jeffers|Nationalist Party",
           "name": "John Jeffers",
-          "party": "",
+          "party": "Nationalist Party",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -3476,11 +3552,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1936-05-28 Forkhill: Nationalist Party (John Jeffers); armagh-county 1933-05-25 Forkhill: Nationalist Party (John Jeffers); armagh-county 1939-05-25 Forkhill: Nationalist Party (John Jeffers)",
           "counts": [
             {
               "count": 1,
@@ -3516,12 +3594,15 @@
           "Total_Votes": "",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "Nationalist Party",
+          "Party_Colour": "#32CD32",
           "candidateName": "John Jeffers",
           "id": 0,
           "Name_As_Printed": "Mr. John Jeffers, J.P.",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "B",
+          "Party_Basis": "armagh-county 1936-05-28 Forkhill: Nationalist Party (John Jeffers); armagh-county 1933-05-25 Forkhill: Nationalist Party (John Jeffers); armagh-county 1939-05-25 Forkhill: Nationalist Party (John Jeffers)"
         }
       ],
       "syntheticCountGroup": false,
@@ -3557,12 +3638,15 @@
               "Total_Votes": "",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "Nationalist Party",
+              "Party_Colour": "#32CD32",
               "candidateName": "John Jeffers",
               "id": 0,
               "Name_As_Printed": "Mr. John Jeffers, J.P.",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "B",
+              "Party_Basis": "armagh-county 1936-05-28 Forkhill: Nationalist Party (John Jeffers); armagh-county 1933-05-25 Forkhill: Nationalist Party (John Jeffers); armagh-county 1939-05-25 Forkhill: Nationalist Party (John Jeffers)"
             }
           ]
         },
@@ -3638,6 +3722,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3669,6 +3755,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3826,6 +3914,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3857,6 +3947,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4014,6 +4106,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4043,6 +4137,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4074,6 +4170,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4267,6 +4365,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4298,6 +4398,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4418,9 +4520,9 @@
     },
     {
       "constituency": "Mullaghglass",
-      "winnerParty": "Independent",
+      "winnerParty": "UUP",
       "winnerName": "Lindsay Henry",
-      "leadingParty": null,
+      "leadingParty": "UUP",
       "leadingName": "Lindsay Henry",
       "leadingVotes": null,
       "leadingPct": null,
@@ -4435,13 +4537,13 @@
       "spoiled": null,
       "validPoll": null,
       "totalVotes": null,
-      "colour": "#b8b8b8",
-      "leadingColour": "#6b7280",
+      "colour": "#48a5ee",
+      "leadingColour": "#48a5ee",
       "candidates": [
         {
-          "id": "Lindsay Henry|",
+          "id": "Lindsay Henry|UUP",
           "name": "Lindsay Henry",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -4450,11 +4552,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1936-05-28 Poyntzpass: UUP (Lindsay Henry); armagh-county 1939-05-25 Poyntzpass: UUP (Lindsay Henry)",
           "counts": [
             {
               "count": 1,
@@ -4464,15 +4568,15 @@
               "firstPrefs": null
             }
           ],
-          "personId": 135366,
+          "personId": 135616,
           "name_id": "n-lindsay-henry"
         }
       ],
       "elected": [
         {
-          "id": "Lindsay Henry|",
+          "id": "Lindsay Henry|UUP",
           "name": "Lindsay Henry",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -4481,11 +4585,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1936-05-28 Poyntzpass: UUP (Lindsay Henry); armagh-county 1939-05-25 Poyntzpass: UUP (Lindsay Henry)",
           "counts": [
             {
               "count": 1,
@@ -4521,12 +4627,15 @@
           "Total_Votes": "",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
           "candidateName": "Lindsay Henry",
           "id": 0,
           "Name_As_Printed": "Lindsay Henry",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "B",
+          "Party_Basis": "armagh-county 1936-05-28 Poyntzpass: UUP (Lindsay Henry); armagh-county 1939-05-25 Poyntzpass: UUP (Lindsay Henry)"
         }
       ],
       "syntheticCountGroup": false,
@@ -4562,12 +4671,15 @@
               "Total_Votes": "",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
               "candidateName": "Lindsay Henry",
               "id": 0,
               "Name_As_Printed": "Lindsay Henry",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "B",
+              "Party_Basis": "armagh-county 1936-05-28 Poyntzpass: UUP (Lindsay Henry); armagh-county 1939-05-25 Poyntzpass: UUP (Lindsay Henry)"
             }
           ]
         },
@@ -4606,9 +4718,9 @@
     },
     {
       "constituency": "Newtownhamilton",
-      "winnerParty": "Independent",
+      "winnerParty": "UUP",
       "winnerName": "William Cooke",
-      "leadingParty": null,
+      "leadingParty": "UUP",
       "leadingName": "William Cooke",
       "leadingVotes": null,
       "leadingPct": null,
@@ -4623,13 +4735,13 @@
       "spoiled": null,
       "validPoll": null,
       "totalVotes": null,
-      "colour": "#b8b8b8",
-      "leadingColour": "#6b7280",
+      "colour": "#48a5ee",
+      "leadingColour": "#48a5ee",
       "candidates": [
         {
-          "id": "William Cooke|",
+          "id": "William Cooke|UUP",
           "name": "William Cooke",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -4638,11 +4750,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1939-05-25 Newtownhamilton: UUP (William Cooke)",
           "counts": [
             {
               "count": 1,
@@ -4652,15 +4766,15 @@
               "firstPrefs": null
             }
           ],
-          "personId": 135341,
+          "personId": 135511,
           "name_id": "n-william-cooke"
         }
       ],
       "elected": [
         {
-          "id": "William Cooke|",
+          "id": "William Cooke|UUP",
           "name": "William Cooke",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -4669,11 +4783,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1939-05-25 Newtownhamilton: UUP (William Cooke)",
           "counts": [
             {
               "count": 1,
@@ -4709,12 +4825,15 @@
           "Total_Votes": "",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
           "candidateName": "William Cooke",
           "id": 0,
           "Name_As_Printed": "Mr. Wm. Cooke",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "B",
+          "Party_Basis": "armagh-county 1939-05-25 Newtownhamilton: UUP (William Cooke)"
         }
       ],
       "syntheticCountGroup": false,
@@ -4750,12 +4869,15 @@
               "Total_Votes": "",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
               "candidateName": "William Cooke",
               "id": 0,
               "Name_As_Printed": "Mr. Wm. Cooke",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "B",
+              "Party_Basis": "armagh-county 1939-05-25 Newtownhamilton: UUP (William Cooke)"
             }
           ]
         },
@@ -4831,6 +4953,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4862,6 +4986,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,

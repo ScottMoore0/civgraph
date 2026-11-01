@@ -61,16 +61,24 @@
   "partySummary": [
     {
       "party": "Independent",
-      "seats": 20,
+      "seats": 16,
       "stood": 0,
       "votes": 0,
       "colour": "#b8b8b8",
       "share": 0
     },
     {
+      "party": "Nationalist Party",
+      "seats": 4,
+      "stood": 4,
+      "votes": 0,
+      "colour": "#6b7280",
+      "share": 0
+    },
+    {
       "party": "Independent/Other",
       "seats": 0,
-      "stood": 30,
+      "stood": 26,
       "votes": 2549,
       "colour": "#6b7280",
       "share": 100
@@ -79,10 +87,18 @@
   "mainLikePartySummary": [
     {
       "party": "Independent/Other",
-      "seats": 10,
+      "seats": 8,
       "stood": 0,
       "votes": 0,
       "colour": "#888888",
+      "share": null
+    },
+    {
+      "party": "Nationalist Party",
+      "seats": 2,
+      "stood": 0,
+      "votes": 0,
+      "colour": "#32CD32",
       "share": null
     }
   ],
@@ -105,17 +121,15 @@
         "colour": "#888888",
         "firstPrefs": 2549,
         "finalVotes": 2549,
-        "stood": 30,
-        "elected": 20,
+        "stood": 26,
+        "elected": 16,
         "constituencies": [
           "Breagh",
-          "Brownlowsderry",
           "Carrowbrack",
           "Cornakinegar",
           "Drumcree",
           "Kernan",
           "Lurgan Rural",
-          "Montiaghs",
           "Portadown Rural",
           "Tartaraghan"
         ],
@@ -132,22 +146,6 @@
             "id": "William Stothers|",
             "name": "William Stothers",
             "constituency": "Breagh",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": "Elected"
-          },
-          {
-            "id": "James McAlinden|",
-            "name": "James McAlinden",
-            "constituency": "Brownlowsderry",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": "Elected"
-          },
-          {
-            "id": "James McCann|",
-            "name": "James McCann",
-            "constituency": "Brownlowsderry",
             "firstPref": 0,
             "finalVotes": 0,
             "status": "Elected"
@@ -281,22 +279,6 @@
             "status": "Not Elected"
           },
           {
-            "id": "James Campbell|",
-            "name": "James Campbell",
-            "constituency": "Montiaghs",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": "Elected"
-          },
-          {
-            "id": "Andrew McCaughey|",
-            "name": "Andrew McCaughey",
-            "constituency": "Montiaghs",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": "Elected"
-          },
-          {
             "id": "William Jones|",
             "name": "William Jones",
             "constituency": "Portadown Rural",
@@ -362,6 +344,53 @@
           }
         ],
         "shareOfTotal": 100
+      },
+      {
+        "name": "Nationalist Party",
+        "colour": "#32CD32",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 4,
+        "elected": 4,
+        "constituencies": [
+          "Brownlowsderry",
+          "Montiaghs"
+        ],
+        "candidates": [
+          {
+            "id": "James McAlinden|Nationalist Party",
+            "name": "James McAlinden",
+            "constituency": "Brownlowsderry",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          },
+          {
+            "id": "James McCann|Nationalist Party",
+            "name": "James McCann",
+            "constituency": "Brownlowsderry",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          },
+          {
+            "id": "James Campbell|Nationalist Party",
+            "name": "James Campbell",
+            "constituency": "Montiaghs",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          },
+          {
+            "id": "Andrew McCaughey|Nationalist Party",
+            "name": "Andrew McCaughey",
+            "constituency": "Montiaghs",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 0
       }
     ],
     "candidates": [
@@ -630,11 +659,11 @@
         "shareOfTotal": 0
       },
       {
-        "id": "James McAlinden|",
-        "key": "James McAlinden|",
+        "id": "James McAlinden|Nationalist Party",
+        "key": "James McAlinden|Nationalist Party",
         "name": "James McAlinden",
-        "party": "",
-        "colour": "#888888",
+        "party": "Nationalist Party",
+        "colour": "#32CD32",
         "firstPrefs": 0,
         "finalVotes": 0,
         "electedCount": 1,
@@ -652,11 +681,11 @@
         "shareOfTotal": 0
       },
       {
-        "id": "James McCann|",
-        "key": "James McCann|",
+        "id": "James McCann|Nationalist Party",
+        "key": "James McCann|Nationalist Party",
         "name": "James McCann",
-        "party": "",
-        "colour": "#888888",
+        "party": "Nationalist Party",
+        "colour": "#32CD32",
         "firstPrefs": 0,
         "finalVotes": 0,
         "electedCount": 1,
@@ -762,11 +791,11 @@
         "shareOfTotal": 0
       },
       {
-        "id": "James Campbell|",
-        "key": "James Campbell|",
+        "id": "James Campbell|Nationalist Party",
+        "key": "James Campbell|Nationalist Party",
         "name": "James Campbell",
-        "party": "",
-        "colour": "#888888",
+        "party": "Nationalist Party",
+        "colour": "#32CD32",
         "firstPrefs": 0,
         "finalVotes": 0,
         "electedCount": 1,
@@ -784,11 +813,11 @@
         "shareOfTotal": 0
       },
       {
-        "id": "Andrew McCaughey|",
-        "key": "Andrew McCaughey|",
+        "id": "Andrew McCaughey|Nationalist Party",
+        "key": "Andrew McCaughey|Nationalist Party",
         "name": "Andrew McCaughey",
-        "party": "",
-        "colour": "#888888",
+        "party": "Nationalist Party",
+        "colour": "#32CD32",
         "firstPrefs": 0,
         "finalVotes": 0,
         "electedCount": 1,
@@ -1067,6 +1096,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1096,6 +1127,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1127,6 +1160,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1154,6 +1189,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1311,9 +1348,9 @@
     },
     {
       "constituency": "Brownlowsderry",
-      "winnerParty": "Independent",
+      "winnerParty": "Nationalist Party",
       "winnerName": "2 elected",
-      "leadingParty": null,
+      "leadingParty": "Nationalist Party",
       "leadingName": "James McAlinden",
       "leadingVotes": null,
       "leadingPct": null,
@@ -1328,13 +1365,13 @@
       "spoiled": null,
       "validPoll": null,
       "totalVotes": null,
-      "colour": "#b8b8b8",
+      "colour": "#6b7280",
       "leadingColour": "#6b7280",
       "candidates": [
         {
-          "id": "James McAlinden|",
+          "id": "James McAlinden|Nationalist Party",
           "name": "James McAlinden",
-          "party": "",
+          "party": "Nationalist Party",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -1343,11 +1380,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "Lurgan Times, 25 Feb 1899, p. 4 (and 22 Feb 1899, p. 3): chosen by a representative meeting of the (Nationalist) electors of Brownlowsderry; Nationalist meeting at Derrymacash | selection meeting",
           "counts": [
             {
               "count": 1,
@@ -1361,9 +1400,9 @@
           "name_id": "n-james-mcalinden"
         },
         {
-          "id": "James McCann|",
+          "id": "James McCann|Nationalist Party",
           "name": "James McCann",
-          "party": "",
+          "party": "Nationalist Party",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -1372,11 +1411,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "Lurgan Times, 25 Feb 1899, p. 4: chosen by a representative meeting of the (Nationalist) electors of Brownlowsderry; Nationalist meeting at Derrymacash | selection meeting",
           "counts": [
             {
               "count": 1,
@@ -1392,9 +1433,9 @@
       ],
       "elected": [
         {
-          "id": "James McAlinden|",
+          "id": "James McAlinden|Nationalist Party",
           "name": "James McAlinden",
-          "party": "",
+          "party": "Nationalist Party",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -1403,11 +1444,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "Lurgan Times, 25 Feb 1899, p. 4 (and 22 Feb 1899, p. 3): chosen by a representative meeting of the (Nationalist) electors of Brownlowsderry; Nationalist meeting at Derrymacash | selection meeting",
           "counts": [
             {
               "count": 1,
@@ -1419,9 +1462,9 @@
           ]
         },
         {
-          "id": "James McCann|",
+          "id": "James McCann|Nationalist Party",
           "name": "James McCann",
-          "party": "",
+          "party": "Nationalist Party",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -1430,11 +1473,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "Lurgan Times, 25 Feb 1899, p. 4: chosen by a representative meeting of the (Nationalist) electors of Brownlowsderry; Nationalist meeting at Derrymacash | selection meeting",
           "counts": [
             {
               "count": 1,
@@ -1470,12 +1515,15 @@
           "Total_Votes": "",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "Nationalist Party",
+          "Party_Colour": "#32CD32",
           "candidateName": "James McAlinden",
           "id": 0,
           "Name_As_Printed": "James McAlinden",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": false,
+          "Party_Evidence_Class": "A",
+          "Party_Basis": "Lurgan Times, 25 Feb 1899, p. 4 (and 22 Feb 1899, p. 3): chosen by a representative meeting of the (Nationalist) electors of Brownlowsderry; Nationalist meeting at Derrymacash | selection meeting"
         },
         {
           "Constituency_Number": "",
@@ -1488,12 +1536,15 @@
           "Total_Votes": "",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "Nationalist Party",
+          "Party_Colour": "#32CD32",
           "candidateName": "James McCann",
           "id": 1,
           "Name_As_Printed": "James McCann",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": false,
+          "Party_Evidence_Class": "A",
+          "Party_Basis": "Lurgan Times, 25 Feb 1899, p. 4: chosen by a representative meeting of the (Nationalist) electors of Brownlowsderry; Nationalist meeting at Derrymacash | selection meeting"
         }
       ],
       "syntheticCountGroup": false,
@@ -1529,12 +1580,15 @@
               "Total_Votes": "",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "Nationalist Party",
+              "Party_Colour": "#32CD32",
               "candidateName": "James McAlinden",
               "id": 0,
               "Name_As_Printed": "James McAlinden",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": false,
+              "Party_Evidence_Class": "A",
+              "Party_Basis": "Lurgan Times, 25 Feb 1899, p. 4 (and 22 Feb 1899, p. 3): chosen by a representative meeting of the (Nationalist) electors of Brownlowsderry; Nationalist meeting at Derrymacash | selection meeting"
             },
             {
               "Constituency_Number": "",
@@ -1547,12 +1601,15 @@
               "Total_Votes": "",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "Nationalist Party",
+              "Party_Colour": "#32CD32",
               "candidateName": "James McCann",
               "id": 1,
               "Name_As_Printed": "James McCann",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": false,
+              "Party_Evidence_Class": "A",
+              "Party_Basis": "Lurgan Times, 25 Feb 1899, p. 4: chosen by a representative meeting of the (Nationalist) electors of Brownlowsderry; Nationalist meeting at Derrymacash | selection meeting"
             }
           ]
         },
@@ -1629,6 +1686,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1658,6 +1717,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1689,6 +1750,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1716,6 +1779,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1910,6 +1975,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1939,6 +2006,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1968,6 +2037,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1999,6 +2070,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2026,6 +2099,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2256,6 +2331,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2285,6 +2362,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2314,6 +2393,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2343,6 +2424,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2374,6 +2457,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2401,6 +2486,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2667,6 +2754,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2696,6 +2785,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2725,6 +2816,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2756,6 +2849,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2783,6 +2878,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3013,6 +3110,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3042,6 +3141,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3071,6 +3172,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3100,6 +3203,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3131,6 +3236,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3158,6 +3265,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3387,9 +3496,9 @@
     },
     {
       "constituency": "Montiaghs",
-      "winnerParty": "Independent",
+      "winnerParty": "Nationalist Party",
       "winnerName": "2 elected",
-      "leadingParty": null,
+      "leadingParty": "Nationalist Party",
       "leadingName": "James Campbell",
       "leadingVotes": null,
       "leadingPct": null,
@@ -3404,13 +3513,13 @@
       "spoiled": null,
       "validPoll": null,
       "totalVotes": null,
-      "colour": "#b8b8b8",
+      "colour": "#6b7280",
       "leadingColour": "#6b7280",
       "candidates": [
         {
-          "id": "James Campbell|",
+          "id": "James Campbell|Nationalist Party",
           "name": "James Campbell",
-          "party": "",
+          "party": "Nationalist Party",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -3419,11 +3528,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "Dublin Daily Nation, 28 Feb 1899, p. 7 (\"Meeting at Derrytrasna\"): candidates chosen by the Catholic voters of Montiaghs DED for the rural district council, with Dr Magennis for the county council | described as candidates of the Catholic voters; the Lurgan Times calls the same campaign Nationalist",
           "counts": [
             {
               "count": 1,
@@ -3433,13 +3544,13 @@
               "firstPrefs": null
             }
           ],
-          "personId": 135337,
+          "personId": 136890,
           "name_id": "n-james-campbell"
         },
         {
-          "id": "Andrew McCaughey|",
+          "id": "Andrew McCaughey|Nationalist Party",
           "name": "Andrew McCaughey",
-          "party": "",
+          "party": "Nationalist Party",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -3448,11 +3559,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "Dublin Daily Nation, 28 Feb 1899, p. 7 (\"Meeting at Derrytrasna\"): candidates chosen by the Catholic voters of Montiaghs DED for the rural district council, with Dr Magennis for the county council | described as candidates of the Catholic voters; the Lurgan Times calls the same campaign Nationalist",
           "counts": [
             {
               "count": 1,
@@ -3468,9 +3581,9 @@
       ],
       "elected": [
         {
-          "id": "James Campbell|",
+          "id": "James Campbell|Nationalist Party",
           "name": "James Campbell",
-          "party": "",
+          "party": "Nationalist Party",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -3479,11 +3592,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "Dublin Daily Nation, 28 Feb 1899, p. 7 (\"Meeting at Derrytrasna\"): candidates chosen by the Catholic voters of Montiaghs DED for the rural district council, with Dr Magennis for the county council | described as candidates of the Catholic voters; the Lurgan Times calls the same campaign Nationalist",
           "counts": [
             {
               "count": 1,
@@ -3495,9 +3610,9 @@
           ]
         },
         {
-          "id": "Andrew McCaughey|",
+          "id": "Andrew McCaughey|Nationalist Party",
           "name": "Andrew McCaughey",
-          "party": "",
+          "party": "Nationalist Party",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -3506,11 +3621,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "Dublin Daily Nation, 28 Feb 1899, p. 7 (\"Meeting at Derrytrasna\"): candidates chosen by the Catholic voters of Montiaghs DED for the rural district council, with Dr Magennis for the county council | described as candidates of the Catholic voters; the Lurgan Times calls the same campaign Nationalist",
           "counts": [
             {
               "count": 1,
@@ -3546,12 +3663,15 @@
           "Total_Votes": "",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "Nationalist Party",
+          "Party_Colour": "#32CD32",
           "candidateName": "James Campbell",
           "id": 0,
           "Name_As_Printed": "James Campbell",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "C",
+          "Party_Basis": "Dublin Daily Nation, 28 Feb 1899, p. 7 (\"Meeting at Derrytrasna\"): candidates chosen by the Catholic voters of Montiaghs DED for the rural district council, with Dr Magennis for the county council | described as candidates of the Catholic voters; the Lurgan Times calls the same campaign Nationalist"
         },
         {
           "Constituency_Number": "",
@@ -3564,12 +3684,15 @@
           "Total_Votes": "",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "Nationalist Party",
+          "Party_Colour": "#32CD32",
           "candidateName": "Andrew McCaughey",
           "id": 1,
           "Name_As_Printed": "Andrew McCaughey",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "C",
+          "Party_Basis": "Dublin Daily Nation, 28 Feb 1899, p. 7 (\"Meeting at Derrytrasna\"): candidates chosen by the Catholic voters of Montiaghs DED for the rural district council, with Dr Magennis for the county council | described as candidates of the Catholic voters; the Lurgan Times calls the same campaign Nationalist"
         }
       ],
       "syntheticCountGroup": false,
@@ -3605,12 +3728,15 @@
               "Total_Votes": "",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "Nationalist Party",
+              "Party_Colour": "#32CD32",
               "candidateName": "James Campbell",
               "id": 0,
               "Name_As_Printed": "James Campbell",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "C",
+              "Party_Basis": "Dublin Daily Nation, 28 Feb 1899, p. 7 (\"Meeting at Derrytrasna\"): candidates chosen by the Catholic voters of Montiaghs DED for the rural district council, with Dr Magennis for the county council | described as candidates of the Catholic voters; the Lurgan Times calls the same campaign Nationalist"
             },
             {
               "Constituency_Number": "",
@@ -3623,12 +3749,15 @@
               "Total_Votes": "",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "Nationalist Party",
+              "Party_Colour": "#32CD32",
               "candidateName": "Andrew McCaughey",
               "id": 1,
               "Name_As_Printed": "Andrew McCaughey",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "C",
+              "Party_Basis": "Dublin Daily Nation, 28 Feb 1899, p. 7 (\"Meeting at Derrytrasna\"): candidates chosen by the Catholic voters of Montiaghs DED for the rural district council, with Dr Magennis for the county council | described as candidates of the Catholic voters; the Lurgan Times calls the same campaign Nationalist"
             }
           ]
         },
@@ -3705,6 +3834,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3734,6 +3865,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3763,6 +3896,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3792,6 +3927,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3823,6 +3960,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3850,6 +3989,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4116,6 +4257,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4145,6 +4288,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4174,6 +4319,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4203,6 +4350,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4234,6 +4383,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4261,6 +4412,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,

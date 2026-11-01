@@ -43,16 +43,32 @@
   "partySummary": [
     {
       "party": "Independent",
-      "seats": 9,
+      "seats": 7,
       "stood": 0,
       "votes": 0,
       "colour": "#b8b8b8",
       "share": null
     },
     {
+      "party": "Independent Nationalist",
+      "seats": 1,
+      "stood": 1,
+      "votes": 0,
+      "colour": "#6b7280",
+      "share": null
+    },
+    {
+      "party": "Nationalist Party",
+      "seats": 1,
+      "stood": 1,
+      "votes": 0,
+      "colour": "#6b7280",
+      "share": null
+    },
+    {
       "party": "Independent/Other",
       "seats": 0,
-      "stood": 9,
+      "stood": 7,
       "votes": 0,
       "colour": "#6b7280",
       "share": null
@@ -87,8 +103,8 @@
         "colour": "#888888",
         "firstPrefs": 0,
         "finalVotes": 0,
-        "stood": 9,
-        "elected": 9,
+        "stood": 7,
+        "elected": 7,
         "constituencies": [
           "Keady"
         ],
@@ -102,24 +118,8 @@
             "status": "Elected"
           },
           {
-            "id": "Chas. Mallon|",
-            "name": "Chas. Mallon",
-            "constituency": "Keady",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": "Elected"
-          },
-          {
             "id": "B. Arthurs|",
             "name": "B. Arthurs",
-            "constituency": "Keady",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": "Elected"
-          },
-          {
-            "id": "J. McParland|",
-            "name": "J. McParland",
             "constituency": "Keady",
             "firstPref": 0,
             "finalVotes": 0,
@@ -167,6 +167,50 @@
           }
         ],
         "shareOfTotal": null
+      },
+      {
+        "name": "Nationalist Party",
+        "colour": "#32CD32",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Keady"
+        ],
+        "candidates": [
+          {
+            "id": "Chas. Mallon|Nationalist Party",
+            "name": "Chas. Mallon",
+            "constituency": "Keady",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": null
+      },
+      {
+        "name": "Independent Nationalist",
+        "colour": "#A0A0A0",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Keady"
+        ],
+        "candidates": [
+          {
+            "id": "J. McParland|Independent Nationalist",
+            "name": "J. McParland",
+            "constituency": "Keady",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": null
       }
     ],
     "candidates": [
@@ -193,11 +237,11 @@
         "shareOfTotal": null
       },
       {
-        "id": "Chas. Mallon|",
-        "key": "Chas. Mallon|",
+        "id": "Chas. Mallon|Nationalist Party",
+        "key": "Chas. Mallon|Nationalist Party",
         "name": "Chas. Mallon",
-        "party": "",
-        "colour": "#888888",
+        "party": "Nationalist Party",
+        "colour": "#32CD32",
         "firstPrefs": 0,
         "finalVotes": 0,
         "electedCount": 1,
@@ -237,11 +281,11 @@
         "shareOfTotal": null
       },
       {
-        "id": "J. McParland|",
-        "key": "J. McParland|",
+        "id": "J. McParland|Independent Nationalist",
+        "key": "J. McParland|Independent Nationalist",
         "name": "J. McParland",
-        "party": "",
-        "colour": "#888888",
+        "party": "Independent Nationalist",
+        "colour": "#A0A0A0",
         "firstPrefs": 0,
         "finalVotes": 0,
         "electedCount": 1,
@@ -410,6 +454,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -423,9 +469,9 @@
           "name_id": "n-v-mone"
         },
         {
-          "id": "Chas. Mallon|",
+          "id": "Chas. Mallon|Nationalist Party",
           "name": "Chas. Mallon",
-          "party": "",
+          "party": "Nationalist Party",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -434,11 +480,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1958-06-05 Keady: Nationalist Party (Charles J. Mallon)",
           "counts": [
             {
               "count": 1,
@@ -468,6 +516,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -481,9 +531,9 @@
           "name_id": "n-b-arthurs"
         },
         {
-          "id": "J. McParland|",
+          "id": "J. McParland|Independent Nationalist",
           "name": "J. McParland",
-          "party": "",
+          "party": "Independent Nationalist",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -492,11 +542,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#A0A0A0",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "parliament-of-northern-ireland 1958-03-20 South Armagh: Independent Nationalist (James McParland) | labels found for this person differ: Nationalist Party x1, Independent Nationalist x1",
           "counts": [
             {
               "count": 1,
@@ -526,6 +578,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -555,6 +609,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -584,6 +640,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -613,6 +671,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -642,6 +702,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -673,6 +735,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -684,9 +748,9 @@
           ]
         },
         {
-          "id": "Chas. Mallon|",
+          "id": "Chas. Mallon|Nationalist Party",
           "name": "Chas. Mallon",
-          "party": "",
+          "party": "Nationalist Party",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -695,11 +759,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1958-06-05 Keady: Nationalist Party (Charles J. Mallon)",
           "counts": [
             {
               "count": 1,
@@ -727,6 +793,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -738,9 +806,9 @@
           ]
         },
         {
-          "id": "J. McParland|",
+          "id": "J. McParland|Independent Nationalist",
           "name": "J. McParland",
-          "party": "",
+          "party": "Independent Nationalist",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -749,11 +817,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#A0A0A0",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "parliament-of-northern-ireland 1958-03-20 South Armagh: Independent Nationalist (James McParland) | labels found for this person differ: Nationalist Party x1, Independent Nationalist x1",
           "counts": [
             {
               "count": 1,
@@ -781,6 +851,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -808,6 +880,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -835,6 +909,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -862,6 +938,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -889,6 +967,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -942,12 +1022,15 @@
           "Total_Votes": "",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "Nationalist Party",
+          "Party_Colour": "#32CD32",
           "candidateName": "Chas. Mallon",
           "id": 1,
           "Name_As_Printed": "Chas. Mallon",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "B",
+          "Party_Basis": "armagh-county 1958-06-05 Keady: Nationalist Party (Charles J. Mallon)"
         },
         {
           "Constituency_Number": "",
@@ -978,12 +1061,15 @@
           "Total_Votes": "",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "Independent Nationalist",
+          "Party_Colour": "#A0A0A0",
           "candidateName": "J. McParland",
           "id": 3,
           "Name_As_Printed": "J. McParland",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "B",
+          "Party_Basis": "parliament-of-northern-ireland 1958-03-20 South Armagh: Independent Nationalist (James McParland) | labels found for this person differ: Nationalist Party x1, Independent Nationalist x1"
         },
         {
           "Constituency_Number": "",
@@ -1127,12 +1213,15 @@
               "Total_Votes": "",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "Nationalist Party",
+              "Party_Colour": "#32CD32",
               "candidateName": "Chas. Mallon",
               "id": 1,
               "Name_As_Printed": "Chas. Mallon",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "B",
+              "Party_Basis": "armagh-county 1958-06-05 Keady: Nationalist Party (Charles J. Mallon)"
             },
             {
               "Constituency_Number": "",
@@ -1163,12 +1252,15 @@
               "Total_Votes": "",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "Independent Nationalist",
+              "Party_Colour": "#A0A0A0",
               "candidateName": "J. McParland",
               "id": 3,
               "Name_As_Printed": "J. McParland",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "B",
+              "Party_Basis": "parliament-of-northern-ireland 1958-03-20 South Armagh: Independent Nationalist (James McParland) | labels found for this person differ: Nationalist Party x1, Independent Nationalist x1"
             },
             {
               "Constituency_Number": "",

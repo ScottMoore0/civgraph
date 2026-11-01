@@ -61,16 +61,24 @@
   "partySummary": [
     {
       "party": "Independent",
-      "seats": 10,
+      "seats": 7,
       "stood": 0,
       "votes": 0,
       "colour": "#b8b8b8",
       "share": null
     },
     {
+      "party": "UUP",
+      "seats": 3,
+      "stood": 3,
+      "votes": 0,
+      "colour": "#48a5ee",
+      "share": null
+    },
+    {
       "party": "Independent/Other",
       "seats": 0,
-      "stood": 10,
+      "stood": 7,
       "votes": 0,
       "colour": "#6b7280",
       "share": null
@@ -79,10 +87,18 @@
   "mainLikePartySummary": [
     {
       "party": "Independent/Other",
-      "seats": 10,
+      "seats": 7,
       "stood": 0,
       "votes": 0,
       "colour": "#888888",
+      "share": null
+    },
+    {
+      "party": "UUP",
+      "seats": 3,
+      "stood": 0,
+      "votes": 0,
+      "colour": "#48A5EE",
       "share": null
     }
   ],
@@ -105,18 +121,15 @@
         "colour": "#888888",
         "firstPrefs": 0,
         "finalVotes": 0,
-        "stood": 10,
-        "elected": 10,
+        "stood": 7,
+        "elected": 7,
         "constituencies": [
           "Breagh",
           "Brownlowsderry",
           "Carrowbrack",
-          "Cornakinnegar",
           "Drumcree",
-          "Kernan",
           "Lurgan Rural",
           "Montiaghs",
-          "Portadown Rural",
           "Tartaraghan"
         ],
         "candidates": [
@@ -145,25 +158,9 @@
             "status": "Elected"
           },
           {
-            "id": "W. H. Gracey|",
-            "name": "W. H. Gracey",
-            "constituency": "Cornakinnegar",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": "Elected"
-          },
-          {
             "id": "J. Walsh|",
             "name": "J. Walsh",
             "constituency": "Drumcree",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": "Elected"
-          },
-          {
-            "id": "John Geo. Gracey|",
-            "name": "John Geo. Gracey",
-            "constituency": "Kernan",
             "firstPref": 0,
             "finalVotes": 0,
             "status": "Elected"
@@ -185,17 +182,49 @@
             "status": "Elected"
           },
           {
-            "id": "Robert Anderson|",
-            "name": "Robert Anderson",
-            "constituency": "Portadown Rural",
+            "id": "Thomas H. Weathered|",
+            "name": "Thomas H. Weathered",
+            "constituency": "Tartaraghan",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": null
+      },
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 0,
+        "finalVotes": 0,
+        "stood": 3,
+        "elected": 3,
+        "constituencies": [
+          "Cornakinnegar",
+          "Kernan",
+          "Portadown Rural"
+        ],
+        "candidates": [
+          {
+            "id": "W. H. Gracey|UUP",
+            "name": "W. H. Gracey",
+            "constituency": "Cornakinnegar",
             "firstPref": 0,
             "finalVotes": 0,
             "status": "Elected"
           },
           {
-            "id": "Thomas H. Weathered|",
-            "name": "Thomas H. Weathered",
-            "constituency": "Tartaraghan",
+            "id": "John Geo. Gracey|UUP",
+            "name": "John Geo. Gracey",
+            "constituency": "Kernan",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
+          },
+          {
+            "id": "Robert Anderson|UUP",
+            "name": "Robert Anderson",
+            "constituency": "Portadown Rural",
             "firstPref": 0,
             "finalVotes": 0,
             "status": "Elected"
@@ -272,11 +301,11 @@
         "shareOfTotal": null
       },
       {
-        "id": "W. H. Gracey|",
-        "key": "W. H. Gracey|",
+        "id": "W. H. Gracey|UUP",
+        "key": "W. H. Gracey|UUP",
         "name": "W. H. Gracey",
-        "party": "",
-        "colour": "#888888",
+        "party": "UUP",
+        "colour": "#48A5EE",
         "firstPrefs": 0,
         "finalVotes": 0,
         "electedCount": 1,
@@ -316,11 +345,11 @@
         "shareOfTotal": null
       },
       {
-        "id": "John Geo. Gracey|",
-        "key": "John Geo. Gracey|",
+        "id": "John Geo. Gracey|UUP",
+        "key": "John Geo. Gracey|UUP",
         "name": "John Geo. Gracey",
-        "party": "",
-        "colour": "#888888",
+        "party": "UUP",
+        "colour": "#48A5EE",
         "firstPrefs": 0,
         "finalVotes": 0,
         "electedCount": 1,
@@ -382,11 +411,11 @@
         "shareOfTotal": null
       },
       {
-        "id": "Robert Anderson|",
-        "key": "Robert Anderson|",
+        "id": "Robert Anderson|UUP",
+        "key": "Robert Anderson|UUP",
         "name": "Robert Anderson",
-        "party": "",
-        "colour": "#888888",
+        "party": "UUP",
+        "colour": "#48A5EE",
         "firstPrefs": 0,
         "finalVotes": 0,
         "electedCount": 1,
@@ -467,6 +496,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -498,6 +529,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -655,6 +688,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -686,6 +721,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -843,6 +880,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -874,6 +913,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -994,9 +1035,9 @@
     },
     {
       "constituency": "Cornakinnegar",
-      "winnerParty": "Independent",
+      "winnerParty": "UUP",
       "winnerName": "W. H. Gracey",
-      "leadingParty": null,
+      "leadingParty": "UUP",
       "leadingName": "W. H. Gracey",
       "leadingVotes": null,
       "leadingPct": null,
@@ -1011,13 +1052,13 @@
       "spoiled": null,
       "validPoll": null,
       "totalVotes": null,
-      "colour": "#b8b8b8",
-      "leadingColour": "#6b7280",
+      "colour": "#48a5ee",
+      "leadingColour": "#48a5ee",
       "candidates": [
         {
-          "id": "W. H. Gracey|",
+          "id": "W. H. Gracey|UUP",
           "name": "W. H. Gracey",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -1026,11 +1067,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "Armagh Guardian, 13 Nov 1931, p. 2 and Frontier Sentinel, 14 Nov 1931, p. 6 (Lurgan Rural Council co-option vote): Mr. W. H. Gracey (Unionist), a former member for Cornakinnegar | statement of 1931 about the 1927-30 member",
           "counts": [
             {
               "count": 1,
@@ -1040,15 +1083,15 @@
               "firstPrefs": null
             }
           ],
-          "personId": 137661,
+          "personId": 135505,
           "name_id": "n-w-h-gracey"
         }
       ],
       "elected": [
         {
-          "id": "W. H. Gracey|",
+          "id": "W. H. Gracey|UUP",
           "name": "W. H. Gracey",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -1057,11 +1100,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "Armagh Guardian, 13 Nov 1931, p. 2 and Frontier Sentinel, 14 Nov 1931, p. 6 (Lurgan Rural Council co-option vote): Mr. W. H. Gracey (Unionist), a former member for Cornakinnegar | statement of 1931 about the 1927-30 member",
           "counts": [
             {
               "count": 1,
@@ -1097,12 +1142,15 @@
           "Total_Votes": "",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
           "candidateName": "W. H. Gracey",
           "id": 0,
           "Name_As_Printed": "W. H. Gracey",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "C",
+          "Party_Basis": "Armagh Guardian, 13 Nov 1931, p. 2 and Frontier Sentinel, 14 Nov 1931, p. 6 (Lurgan Rural Council co-option vote): Mr. W. H. Gracey (Unionist), a former member for Cornakinnegar | statement of 1931 about the 1927-30 member"
         }
       ],
       "syntheticCountGroup": false,
@@ -1138,12 +1186,15 @@
               "Total_Votes": "",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
               "candidateName": "W. H. Gracey",
               "id": 0,
               "Name_As_Printed": "W. H. Gracey",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "C",
+              "Party_Basis": "Armagh Guardian, 13 Nov 1931, p. 2 and Frontier Sentinel, 14 Nov 1931, p. 6 (Lurgan Rural Council co-option vote): Mr. W. H. Gracey (Unionist), a former member for Cornakinnegar | statement of 1931 about the 1927-30 member"
             }
           ]
         },
@@ -1219,6 +1270,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1250,6 +1303,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1370,9 +1425,9 @@
     },
     {
       "constituency": "Kernan",
-      "winnerParty": "Independent",
+      "winnerParty": "UUP",
       "winnerName": "John Geo. Gracey",
-      "leadingParty": null,
+      "leadingParty": "UUP",
       "leadingName": "John Geo. Gracey",
       "leadingVotes": null,
       "leadingPct": null,
@@ -1387,13 +1442,13 @@
       "spoiled": null,
       "validPoll": null,
       "totalVotes": null,
-      "colour": "#b8b8b8",
-      "leadingColour": "#6b7280",
+      "colour": "#48a5ee",
+      "leadingColour": "#48a5ee",
       "candidates": [
         {
-          "id": "John Geo. Gracey|",
+          "id": "John Geo. Gracey|UUP",
           "name": "John Geo. Gracey",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -1402,11 +1457,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1930-05-29 Kernan: UUP (John George Gracey)",
           "counts": [
             {
               "count": 1,
@@ -1422,9 +1479,9 @@
       ],
       "elected": [
         {
-          "id": "John Geo. Gracey|",
+          "id": "John Geo. Gracey|UUP",
           "name": "John Geo. Gracey",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -1433,11 +1490,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1930-05-29 Kernan: UUP (John George Gracey)",
           "counts": [
             {
               "count": 1,
@@ -1473,12 +1532,15 @@
           "Total_Votes": "",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
           "candidateName": "John Geo. Gracey",
           "id": 0,
           "Name_As_Printed": "John Geo. Gracey",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "B",
+          "Party_Basis": "armagh-county 1930-05-29 Kernan: UUP (John George Gracey)"
         }
       ],
       "syntheticCountGroup": false,
@@ -1514,12 +1576,15 @@
               "Total_Votes": "",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
               "candidateName": "John Geo. Gracey",
               "id": 0,
               "Name_As_Printed": "John Geo. Gracey",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "B",
+              "Party_Basis": "armagh-county 1930-05-29 Kernan: UUP (John George Gracey)"
             }
           ]
         },
@@ -1595,6 +1660,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1626,6 +1693,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1783,6 +1852,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1814,6 +1885,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1934,9 +2007,9 @@
     },
     {
       "constituency": "Portadown Rural",
-      "winnerParty": "Independent",
+      "winnerParty": "UUP",
       "winnerName": "Robert Anderson",
-      "leadingParty": null,
+      "leadingParty": "UUP",
       "leadingName": "Robert Anderson",
       "leadingVotes": null,
       "leadingPct": null,
@@ -1951,13 +2024,13 @@
       "spoiled": null,
       "validPoll": null,
       "totalVotes": null,
-      "colour": "#b8b8b8",
-      "leadingColour": "#6b7280",
+      "colour": "#48a5ee",
+      "leadingColour": "#48a5ee",
       "candidates": [
         {
-          "id": "Robert Anderson|",
+          "id": "Robert Anderson|UUP",
           "name": "Robert Anderson",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -1966,11 +2039,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1924-05-29 Portadown: UUP (Robert Anderson) | labels found for this person differ: UUP x5, Independent Unionist x1",
           "counts": [
             {
               "count": 1,
@@ -1980,15 +2055,15 @@
               "firstPrefs": null
             }
           ],
-          "personId": 135336,
+          "personId": 137408,
           "name_id": "n-robert-anderson"
         }
       ],
       "elected": [
         {
-          "id": "Robert Anderson|",
+          "id": "Robert Anderson|UUP",
           "name": "Robert Anderson",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -1997,11 +2072,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1924-05-29 Portadown: UUP (Robert Anderson) | labels found for this person differ: UUP x5, Independent Unionist x1",
           "counts": [
             {
               "count": 1,
@@ -2037,12 +2114,15 @@
           "Total_Votes": "",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
           "candidateName": "Robert Anderson",
           "id": 0,
           "Name_As_Printed": "Mr. Robert Anderson, J.P.",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "B",
+          "Party_Basis": "armagh-county 1924-05-29 Portadown: UUP (Robert Anderson) | labels found for this person differ: UUP x5, Independent Unionist x1"
         }
       ],
       "syntheticCountGroup": false,
@@ -2078,12 +2158,15 @@
               "Total_Votes": "",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
               "candidateName": "Robert Anderson",
               "id": 0,
               "Name_As_Printed": "Mr. Robert Anderson, J.P.",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "B",
+              "Party_Basis": "armagh-county 1924-05-29 Portadown: UUP (Robert Anderson) | labels found for this person differ: UUP x5, Independent Unionist x1"
             }
           ]
         },
@@ -2159,6 +2242,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2190,6 +2275,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,

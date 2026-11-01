@@ -43,28 +43,36 @@
   "partySummary": [
     {
       "party": "Independent",
-      "seats": 5,
+      "seats": 4,
       "stood": 0,
       "votes": 0,
       "colour": "#b8b8b8",
       "share": 0
     },
     {
+      "party": "UUP",
+      "seats": 1,
+      "stood": 2,
+      "votes": 887,
+      "colour": "#48a5ee",
+      "share": 24.354750137287205
+    },
+    {
       "party": "Independent/Other",
       "seats": 0,
-      "stood": 8,
-      "votes": 3642,
+      "stood": 6,
+      "votes": 2755,
       "colour": "#6b7280",
-      "share": 100
+      "share": 75.64524986271279
     }
   ],
   "mainLikePartySummary": [
     {
-      "party": "Independent/Other",
+      "party": "UUP",
       "seats": 1,
       "stood": 0,
       "votes": 0,
-      "colour": "#888888",
+      "colour": "#48A5EE",
       "share": 0
     }
   ],
@@ -85,22 +93,14 @@
       {
         "name": "Independent/Other",
         "colour": "#888888",
-        "firstPrefs": 3642,
-        "finalVotes": 3642,
-        "stood": 8,
-        "elected": 5,
+        "firstPrefs": 2755,
+        "finalVotes": 2755,
+        "stood": 6,
+        "elected": 4,
         "constituencies": [
           "Lurgan"
         ],
         "candidates": [
-          {
-            "id": "John Mahaffy|",
-            "name": "John Mahaffy",
-            "constituency": "Lurgan",
-            "firstPref": 739,
-            "finalVotes": 739,
-            "status": "Elected"
-          },
           {
             "id": "H. G. MacGeagh|",
             "name": "H. G. MacGeagh",
@@ -148,9 +148,31 @@
             "firstPref": 296,
             "finalVotes": 296,
             "status": "Not Elected"
+          }
+        ],
+        "shareOfTotal": 75.64524986271279
+      },
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 887,
+        "finalVotes": 887,
+        "stood": 2,
+        "elected": 1,
+        "constituencies": [
+          "Lurgan"
+        ],
+        "candidates": [
+          {
+            "id": "John Mahaffy|UUP",
+            "name": "John Mahaffy",
+            "constituency": "Lurgan",
+            "firstPref": 739,
+            "finalVotes": 739,
+            "status": "Elected"
           },
           {
-            "id": "William Johnston|",
+            "id": "William Johnston|UUP",
             "name": "William Johnston",
             "constituency": "Lurgan",
             "firstPref": 148,
@@ -158,16 +180,16 @@
             "status": "Not Elected"
           }
         ],
-        "shareOfTotal": 100
+        "shareOfTotal": 24.354750137287205
       }
     ],
     "candidates": [
       {
-        "id": "John Mahaffy|",
-        "key": "John Mahaffy|",
+        "id": "John Mahaffy|UUP",
+        "key": "John Mahaffy|UUP",
         "name": "John Mahaffy",
-        "party": "",
-        "colour": "#888888",
+        "party": "UUP",
+        "colour": "#48A5EE",
         "firstPrefs": 739,
         "finalVotes": 739,
         "electedCount": 1,
@@ -317,11 +339,11 @@
         "shareOfTotal": 8.12740252608457
       },
       {
-        "id": "William Johnston|",
-        "key": "William Johnston|",
+        "id": "William Johnston|UUP",
+        "key": "William Johnston|UUP",
         "name": "William Johnston",
-        "party": "",
-        "colour": "#888888",
+        "party": "UUP",
+        "colour": "#48A5EE",
         "firstPrefs": 148,
         "finalVotes": 148,
         "electedCount": 0,
@@ -345,7 +367,7 @@
       "constituency": "Lurgan",
       "winnerParty": "Independent",
       "winnerName": "5 elected",
-      "leadingParty": null,
+      "leadingParty": "UUP",
       "leadingName": "John Mahaffy",
       "leadingVotes": 739,
       "leadingPct": 20.29,
@@ -361,12 +383,12 @@
       "validPoll": 3642,
       "totalVotes": 3642,
       "colour": "#b8b8b8",
-      "leadingColour": "#6b7280",
+      "leadingColour": "#48a5ee",
       "candidates": [
         {
-          "id": "John Mahaffy|",
+          "id": "John Mahaffy|UUP",
           "name": "John Mahaffy",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 739,
           "finalVotes": 739,
           "elected": true,
@@ -375,11 +397,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "lurgan-borough 1899-01-16 Lurgan: UUP (John Mahaffy) [found-A]; lurgan-borough 1912-01-15 Lurgan: UUP (John Mahaffy)",
           "counts": [
             {
               "count": 1,
@@ -389,7 +413,7 @@
               "firstPrefs": 739
             }
           ],
-          "personId": 135339,
+          "personId": 135344,
           "name_id": "n-john-mahaffy"
         },
         {
@@ -409,6 +433,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -438,6 +464,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -467,6 +495,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -496,6 +526,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -525,6 +557,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -554,6 +588,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -567,9 +603,9 @@
           "name_id": "n-james-weir"
         },
         {
-          "id": "William Johnston|",
+          "id": "William Johnston|UUP",
           "name": "William Johnston",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 148,
           "finalVotes": 148,
           "elected": false,
@@ -578,11 +614,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "portadown-borough 1905-01-16 Portadown: UUP (W. J. Johnston) [found-C]; portadown-borough 1908-01-15 Portadown: UUP (William John Johnston) [found-C] | labels found for this person differ: UUP x3, Town Tenants' Association x1",
           "counts": [
             {
               "count": 1,
@@ -592,15 +630,15 @@
               "firstPrefs": 148
             }
           ],
-          "personId": 137754,
+          "personId": 137755,
           "name_id": "n-william-johnston"
         }
       ],
       "elected": [
         {
-          "id": "John Mahaffy|",
+          "id": "John Mahaffy|UUP",
           "name": "John Mahaffy",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 739,
           "finalVotes": 739,
           "elected": true,
@@ -609,11 +647,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "lurgan-borough 1899-01-16 Lurgan: UUP (John Mahaffy) [found-A]; lurgan-borough 1912-01-15 Lurgan: UUP (John Mahaffy)",
           "counts": [
             {
               "count": 1,
@@ -641,6 +681,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -668,6 +710,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -695,6 +739,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -722,6 +768,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -757,12 +805,15 @@
           "Total_Votes": "739.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
           "candidateName": "John Mahaffy",
           "id": 0,
           "Name_As_Printed": "John Mahaffy",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "D",
+          "Party_Basis": "lurgan-borough 1899-01-16 Lurgan: UUP (John Mahaffy) [found-A]; lurgan-borough 1912-01-15 Lurgan: UUP (John Mahaffy)"
         },
         {
           "Constituency_Number": "",
@@ -883,12 +934,15 @@
           "Total_Votes": "148.00",
           "Status": "Not Elected",
           "Occurred_On_Count": "",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
           "candidateName": "William Johnston",
           "id": 7,
           "Name_As_Printed": "William Johnston",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "D",
+          "Party_Basis": "portadown-borough 1905-01-16 Portadown: UUP (W. J. Johnston) [found-C]; portadown-borough 1908-01-15 Portadown: UUP (William John Johnston) [found-C] | labels found for this person differ: UUP x3, Town Tenants' Association x1"
         }
       ],
       "syntheticCountGroup": false,
@@ -924,12 +978,15 @@
               "Total_Votes": "739.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
               "candidateName": "John Mahaffy",
               "id": 0,
               "Name_As_Printed": "John Mahaffy",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "D",
+              "Party_Basis": "lurgan-borough 1899-01-16 Lurgan: UUP (John Mahaffy) [found-A]; lurgan-borough 1912-01-15 Lurgan: UUP (John Mahaffy)"
             },
             {
               "Constituency_Number": "",
@@ -1050,12 +1107,15 @@
               "Total_Votes": "148.00",
               "Status": "Not Elected",
               "Occurred_On_Count": "",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
               "candidateName": "William Johnston",
               "id": 7,
               "Name_As_Printed": "William Johnston",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "D",
+              "Party_Basis": "portadown-borough 1905-01-16 Portadown: UUP (W. J. Johnston) [found-C]; portadown-borough 1908-01-15 Portadown: UUP (William John Johnston) [found-C] | labels found for this person differ: UUP x3, Town Tenants' Association x1"
             }
           ]
         },

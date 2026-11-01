@@ -81,8 +81,8 @@
   "partySummary": [
     {
       "party": "Independent",
-      "seats": 19,
-      "stood": 1,
+      "seats": 18,
+      "stood": 2,
       "votes": 1137,
       "colour": "#b8b8b8",
       "share": 15.684922058214926
@@ -96,18 +96,26 @@
       "share": 60.11863705338667
     },
     {
+      "party": "Independent Labour",
+      "seats": 1,
+      "stood": 1,
+      "votes": 984,
+      "colour": "#6b7280",
+      "share": 13.57428610842875
+    },
+    {
       "party": "Independent/Other",
       "seats": 0,
-      "stood": 20,
-      "votes": 1754,
+      "stood": 18,
+      "votes": 770,
       "colour": "#6b7280",
-      "share": 24.1964408883984
+      "share": 10.62215477996965
     }
   ],
   "mainLikePartySummary": [
     {
       "party": "Independent/Other",
-      "seats": 18,
+      "seats": 16,
       "stood": 0,
       "votes": 0,
       "colour": "#888888",
@@ -119,6 +127,22 @@
       "stood": 0,
       "votes": 0,
       "colour": "#48A5EE",
+      "share": 0
+    },
+    {
+      "party": "Independent",
+      "seats": 1,
+      "stood": 0,
+      "votes": 0,
+      "colour": "#DCDCDC",
+      "share": 0
+    },
+    {
+      "party": "Independent Labour",
+      "seats": 1,
+      "stood": 0,
+      "votes": 0,
+      "colour": "#FF9999",
       "share": 0
     }
   ],
@@ -139,10 +163,10 @@
       {
         "name": "Independent/Other",
         "colour": "#888888",
-        "firstPrefs": 1754,
-        "finalVotes": 1754,
-        "stood": 20,
-        "elected": 19,
+        "firstPrefs": 770,
+        "finalVotes": 770,
+        "stood": 18,
+        "elected": 17,
         "constituencies": [
           "Bessbrook",
           "Breagh",
@@ -160,7 +184,6 @@
           "Portadown",
           "Poyntzpass",
           "Richhill",
-          "Tandragee",
           "Tynan"
         ],
         "candidates": [
@@ -178,14 +201,6 @@
             "constituency": "Breagh",
             "firstPref": 0,
             "finalVotes": 0,
-            "status": "Elected"
-          },
-          {
-            "id": "Malachy Trainor|",
-            "name": "Malachy Trainor",
-            "constituency": "Crossmaglen",
-            "firstPref": 984,
-            "finalVotes": 984,
             "status": "Elected"
           },
           {
@@ -309,14 +324,6 @@
             "status": "Elected"
           },
           {
-            "id": "T. Hutchinson|",
-            "name": "T. Hutchinson",
-            "constituency": "Tandragee",
-            "firstPref": 0,
-            "finalVotes": 0,
-            "status": "Elected"
-          },
-          {
             "id": "J. West|",
             "name": "J. West",
             "constituency": "Tynan",
@@ -325,7 +332,7 @@
             "status": "Elected"
           }
         ],
-        "shareOfTotal": 35.810534912209064
+        "shareOfTotal": 15.720702327480604
       },
       {
         "name": "UUP",
@@ -371,10 +378,11 @@
         "colour": "#DCDCDC",
         "firstPrefs": 1137,
         "finalVotes": 1137,
-        "stood": 1,
-        "elected": 0,
+        "stood": 2,
+        "elected": 1,
         "constituencies": [
-          "Lurgan"
+          "Lurgan",
+          "Tandragee"
         ],
         "candidates": [
           {
@@ -384,9 +392,39 @@
             "firstPref": 1137,
             "finalVotes": 1137,
             "status": "Not Elected"
+          },
+          {
+            "id": "T. Hutchinson|Independent",
+            "name": "T. Hutchinson",
+            "constituency": "Tandragee",
+            "firstPref": 0,
+            "finalVotes": 0,
+            "status": "Elected"
           }
         ],
         "shareOfTotal": 23.213556553695387
+      },
+      {
+        "name": "Independent Labour",
+        "colour": "#FF9999",
+        "firstPrefs": 984,
+        "finalVotes": 984,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Crossmaglen"
+        ],
+        "candidates": [
+          {
+            "id": "Malachy Trainor|Independent Labour",
+            "name": "Malachy Trainor",
+            "constituency": "Crossmaglen",
+            "firstPref": 984,
+            "finalVotes": 984,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 20.08983258472846
       }
     ],
     "candidates": [
@@ -435,11 +473,11 @@
         "shareOfTotal": 41.996733360555325
       },
       {
-        "id": "Malachy Trainor|",
-        "key": "Malachy Trainor|",
+        "id": "Malachy Trainor|Independent Labour",
+        "key": "Malachy Trainor|Independent Labour",
         "name": "Malachy Trainor",
-        "party": "",
-        "colour": "#888888",
+        "party": "Independent Labour",
+        "colour": "#FF9999",
         "firstPrefs": 984,
         "finalVotes": 984,
         "electedCount": 1,
@@ -831,11 +869,11 @@
         "shareOfTotal": 0
       },
       {
-        "id": "T. Hutchinson|",
-        "key": "T. Hutchinson|",
+        "id": "T. Hutchinson|Independent",
+        "key": "T. Hutchinson|Independent",
         "name": "T. Hutchinson",
-        "party": "",
-        "colour": "#888888",
+        "party": "Independent",
+        "colour": "#DCDCDC",
         "firstPrefs": 0,
         "finalVotes": 0,
         "electedCount": 1,
@@ -960,6 +998,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -991,6 +1031,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1148,6 +1190,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1179,6 +1223,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1336,6 +1382,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1367,6 +1415,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1487,9 +1537,9 @@
     },
     {
       "constituency": "Crossmaglen",
-      "winnerParty": "Independent",
+      "winnerParty": "Independent Labour",
       "winnerName": "Malachy Trainor",
-      "leadingParty": null,
+      "leadingParty": "Independent Labour",
       "leadingName": "Malachy Trainor",
       "leadingVotes": 984,
       "leadingPct": 56.1,
@@ -1504,13 +1554,13 @@
       "spoiled": 26,
       "validPoll": 1754,
       "totalVotes": 1754,
-      "colour": "#b8b8b8",
+      "colour": "#6b7280",
       "leadingColour": "#6b7280",
       "candidates": [
         {
-          "id": "Malachy Trainor|",
+          "id": "Malachy Trainor|Independent Labour",
           "name": "Malachy Trainor",
-          "party": "",
+          "party": "Independent Labour",
           "firstPrefs": 984,
           "finalVotes": 984,
           "elected": true,
@@ -1519,11 +1569,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#FF9999",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "parliament-of-northern-ireland 1962-05-31 South Armagh: Independent Labour (Malachy Trainor)",
           "counts": [
             {
               "count": 1,
@@ -1533,7 +1585,7 @@
               "firstPrefs": 984
             }
           ],
-          "personId": 135413,
+          "personId": 137921,
           "name_id": "n-malachy-trainor"
         },
         {
@@ -1553,6 +1605,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1568,9 +1622,9 @@
       ],
       "elected": [
         {
-          "id": "Malachy Trainor|",
+          "id": "Malachy Trainor|Independent Labour",
           "name": "Malachy Trainor",
-          "party": "",
+          "party": "Independent Labour",
           "firstPrefs": 984,
           "finalVotes": 984,
           "elected": true,
@@ -1579,11 +1633,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#FF9999",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "parliament-of-northern-ireland 1962-05-31 South Armagh: Independent Labour (Malachy Trainor)",
           "counts": [
             {
               "count": 1,
@@ -1619,12 +1675,15 @@
           "Total_Votes": "984.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "Independent Labour",
+          "Party_Colour": "#FF9999",
           "candidateName": "Malachy Trainor",
           "id": 0,
           "Name_As_Printed": "Malachy Trainor",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "B",
+          "Party_Basis": "parliament-of-northern-ireland 1962-05-31 South Armagh: Independent Labour (Malachy Trainor)"
         },
         {
           "Constituency_Number": "",
@@ -1678,12 +1737,15 @@
               "Total_Votes": "984.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "Independent Labour",
+              "Party_Colour": "#FF9999",
               "candidateName": "Malachy Trainor",
               "id": 0,
               "Name_As_Printed": "Malachy Trainor",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "B",
+              "Party_Basis": "parliament-of-northern-ireland 1962-05-31 South Armagh: Independent Labour (Malachy Trainor)"
             },
             {
               "Constituency_Number": "",
@@ -1777,6 +1839,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1808,6 +1872,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1965,6 +2031,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1996,6 +2064,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2153,6 +2223,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2184,6 +2256,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2341,6 +2415,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2372,6 +2448,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2529,6 +2607,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2560,6 +2640,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2717,6 +2799,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2748,6 +2832,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2905,6 +2991,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -2936,6 +3024,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3093,6 +3183,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3124,6 +3216,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3281,6 +3375,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3310,6 +3406,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3339,6 +3437,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3370,6 +3470,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3397,6 +3499,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3627,6 +3731,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3658,6 +3764,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3815,6 +3923,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -3846,6 +3956,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4003,6 +4115,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4032,6 +4146,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4063,6 +4179,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4090,6 +4208,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4284,6 +4404,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4315,6 +4437,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4472,6 +4596,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4503,6 +4629,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4625,7 +4753,7 @@
       "constituency": "Tandragee",
       "winnerParty": "Independent",
       "winnerName": "T. Hutchinson",
-      "leadingParty": null,
+      "leadingParty": "Independent",
       "leadingName": "T. Hutchinson",
       "leadingVotes": null,
       "leadingPct": null,
@@ -4641,12 +4769,12 @@
       "validPoll": null,
       "totalVotes": null,
       "colour": "#b8b8b8",
-      "leadingColour": "#6b7280",
+      "leadingColour": "#b8b8b8",
       "candidates": [
         {
-          "id": "T. Hutchinson|",
+          "id": "T. Hutchinson|Independent",
           "name": "T. Hutchinson",
-          "party": "",
+          "party": "Independent",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -4655,11 +4783,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#DCDCDC",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "tandragee-urban 1964-05-20 Tandragee: Independent (T. Hutchinson); tandragee-urban 1961-05-17 Tandragee: Independent (Thomas Hutchinson); tandragee-urban 1967-05-17 Tandragee: Independent (Thomas Hutchinson)",
           "counts": [
             {
               "count": 1,
@@ -4669,15 +4799,15 @@
               "firstPrefs": null
             }
           ],
-          "personId": 135654,
+          "personId": 137510,
           "name_id": "n-t-hutchinson"
         }
       ],
       "elected": [
         {
-          "id": "T. Hutchinson|",
+          "id": "T. Hutchinson|Independent",
           "name": "T. Hutchinson",
-          "party": "",
+          "party": "Independent",
           "firstPrefs": null,
           "finalVotes": null,
           "elected": true,
@@ -4686,11 +4816,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#DCDCDC",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "tandragee-urban 1964-05-20 Tandragee: Independent (T. Hutchinson); tandragee-urban 1961-05-17 Tandragee: Independent (Thomas Hutchinson); tandragee-urban 1967-05-17 Tandragee: Independent (Thomas Hutchinson)",
           "counts": [
             {
               "count": 1,
@@ -4726,12 +4858,15 @@
           "Total_Votes": "",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "Independent",
+          "Party_Colour": "#DCDCDC",
           "candidateName": "T. Hutchinson",
           "id": 0,
           "Name_As_Printed": "T. Hutchinson",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "B",
+          "Party_Basis": "tandragee-urban 1964-05-20 Tandragee: Independent (T. Hutchinson); tandragee-urban 1961-05-17 Tandragee: Independent (Thomas Hutchinson); tandragee-urban 1967-05-17 Tandragee: Independent (Thomas Hutchinson)"
         }
       ],
       "syntheticCountGroup": false,
@@ -4767,12 +4902,15 @@
               "Total_Votes": "",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "Independent",
+              "Party_Colour": "#DCDCDC",
               "candidateName": "T. Hutchinson",
               "id": 0,
               "Name_As_Printed": "T. Hutchinson",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "B",
+              "Party_Basis": "tandragee-urban 1964-05-20 Tandragee: Independent (T. Hutchinson); tandragee-urban 1961-05-17 Tandragee: Independent (Thomas Hutchinson); tandragee-urban 1967-05-17 Tandragee: Independent (Thomas Hutchinson)"
             }
           ]
         },
@@ -4848,6 +4986,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -4879,6 +5019,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,

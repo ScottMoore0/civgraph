@@ -1,6 +1,6 @@
 # Test2 Election Data Audit
 
-Generated: 2026-11-01T12:44:00.554Z
+Generated: 2026-11-01T13:27:00.680Z
 
 This is a repeatable repository-local audit of the generated /test2 election data, Browse election entries, source/reference records, transfer/count payload availability, and saved Wikipedia party-colour comparison outputs. It intentionally does not fetch live web pages, so CI can run it deterministically.
 
@@ -26,7 +26,7 @@ This is a repeatable repository-local audit of the generated /test2 election dat
 |candidate-row review sidecar records|0|
 |party-colour review sidecar records|10|
 |blocking issues|0|
-|warnings|492|
+|warnings|479|
 
 ## Blocking Structural Issues
 
@@ -56,17 +56,16 @@ _None._
 |warning|source-record-single-reference|tandragee-urban-district-council__1967-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-single-reference|strabane-urban-district-council__1967|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-single-reference|armagh-county-council__1964-06-04|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|armagh-county-council__1964-06-04|20 candidate rows have no party/label. Examples: C. R. Morrow in Bessbrook; L. W. Abraham in Breagh; Malachy Trainor in Crossmaglen; Patrick Short in Crossmaglen; R. R. Murphy in Crossmore.|
+|warning|candidate-party-missing|armagh-county-council__1964-06-04|18 candidate rows have no party/label. Examples: C. R. Morrow in Bessbrook; L. W. Abraham in Breagh; Patrick Short in Crossmaglen; R. R. Murphy in Crossmore; F. H. Hayes in Drumcree.|
 |warning|source-record-single-reference|armagh-rural-district-council__1964-06-04|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|armagh-rural-district-council__1964-06-04|30 candidate rows have no party/label. Examples: Thomas S. Hoey in Aghory; David Oscar Redman in Annaghmore; William James Shilliday in Armaghbrague; Thomas Steele in Ballyards; J. J. Allen in Ballymartrim.|
 |warning|source-record-single-reference|lurgan-rural-district-council__1964-06-04|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|lurgan-rural-district-council__1964-06-04|10 candidate rows have no party/label. Examples: William Stewart in Breagh; Patrick James Crilly in Brownlowsderry; Robert Jones in Carrowbrack; Thomas John McKavanagh in Cornakinnegar; Thomas J. Robinson in Drumcree.|
 |warning|source-record-single-reference|newry-no-2-rural-district-council__1964-06-04|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|newry-no-2-rural-district-council__1964-06-04|44 candidate rows have no party/label. Examples: Patrick Luckie in Ballymoyer; Patrick E. McKeown in Ballymoyer; Robert McGuinness in Belleek; James Andrews in Bessbrook North; Gerard Feighan in Bessbrook South.|
+|warning|candidate-party-missing|newry-no-2-rural-district-council__1964-06-04|43 candidate rows have no party/label. Examples: Patrick Luckie in Ballymoyer; Patrick E. McKeown in Ballymoyer; Robert McGuinness in Belleek; James Andrews in Bessbrook North; Gerard Feighan in Bessbrook South.|
 |warning|source-record-single-reference|tandragee-rural-district-council__1964-06-04|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|tandragee-rural-district-council__1964-06-04|5 candidate rows have no party/label. Examples: Andrew Isaac Crothers in Ballyshiel; Robert Woolsey in Laurelvale; Norman Alexander Beattie in Mullabrack; John McIntyre in Mullahead; Robert John McClelland in Tandragee Rural.|
 |warning|source-record-single-reference|armagh-urban-district-council__1964-05-20|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|armagh-urban-district-council__1964-05-20|6 candidate rows have no party/label. Examples: B. McManus in North-West Ward; P. O'Connor in North-West Ward; P. Toner in North-West Ward; P. Duggan in South-West Ward; G. Mackie in South-West Ward.|
 |warning|source-record-single-reference|belfast-county-borough-council__1964-05-20|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-single-reference|belfast-county-borough-council-aldermen__1964-05-20|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-single-reference|lurgan-borough-council__1964-05-20|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
@@ -78,18 +77,18 @@ _None._
 |warning|candidate-party-missing|strabane-urban-district-council__1964-05-20|3 candidate rows have no party/label. Examples: H G Porter in North Ward; Cecil H Russell in North Ward; William Kidd in North Ward.|
 |warning|source-record-single-reference|tandragee-urban-district-council__1964-05-20|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-single-reference|armagh-county-council__1961-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|armagh-county-council__1961-06-01|20 candidate rows have no party/label. Examples: Joseph Gray in Armagh; Henry Whiteside in Bessbrook; Malachy Trainor in Crossmaglen; Edward Richardson in Crossmaglen; Robert Murphy in Crossmore.|
+|warning|candidate-party-missing|armagh-county-council__1961-06-01|10 candidate rows have no party/label. Examples: Henry Whiteside in Bessbrook; Robert Murphy in Crossmore; Francis Hayes in Drumcree; Michael Armstrong in Hockley; Alexander Russell in Kernan.|
 |warning|source-record-single-reference|armagh-rural-district-council__1961-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|armagh-rural-district-council__1961-06-01|4 candidate rows have no party/label. Examples: Thomas Steel in Ballyards; William Foster in Crossmore; Robert C. Hyde in Milford; Samuel J. Elliott in Tullyroan.|
 |warning|source-record-single-reference|lurgan-rural-district-council__1961-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|lurgan-rural-district-council__1961-06-01|10 candidate rows have no party/label. Examples: William Stewart in Breagh; Patrick James Crilly in Brownlowsderry; John William Jones in Carrowbrack; James McKavanagh in Cornakinnegar; Thomas J. Robinson in Drumcree.|
+|warning|candidate-party-missing|lurgan-rural-district-council__1961-06-01|9 candidate rows have no party/label. Examples: William Stewart in Breagh; Patrick James Crilly in Brownlowsderry; John William Jones in Carrowbrack; James McKavanagh in Cornakinnegar; Thomas J. Robinson in Drumcree.|
 |warning|source-record-single-reference|newry-no-2-rural-district-council__1961-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|newry-no-2-rural-district-council__1961-06-01|40 candidate rows have no party/label. Examples: M. J. Poucher in Ballybot; J. Lavelle in Ballymoyer; Bernard J. McVerry in Belleek; Thomas P. Reynolds in Belleek; James Andrews in Bessbrook North.|
+|warning|candidate-party-missing|newry-no-2-rural-district-council__1961-06-01|36 candidate rows have no party/label. Examples: M. J. Poucher in Ballybot; J. Lavelle in Ballymoyer; Bernard J. McVerry in Belleek; Thomas P. Reynolds in Belleek; James Andrews in Bessbrook North.|
 |warning|source-record-single-reference|tandragee-rural-district-council__1961-06-01|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|tandragee-rural-district-council__1961-06-01|5 candidate rows have no party/label. Examples: Andrew Isaac Crothers in Ballyshiel; Robert Woolsey in Laurelvale; Norman Alexander Beattie in Mullabrack; John McIntyre in Mullahead; Robert John McClelland in Tandragee Rural.|
 |warning|source-record-single-reference|armagh-urban-district-council__1961-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-single-reference|keady-urban-district-council__1961-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|keady-urban-district-council__1961-05-17|12 candidate rows have no party/label. Examples: John Greene in Keady; Vincent Mone in Keady; Bernard Arthurs in Keady; James M'Parland in Keady; Eugene Connolly in Keady.|
+|warning|candidate-party-missing|keady-urban-district-council__1961-05-17|10 candidate rows have no party/label. Examples: John Greene in Keady; Vincent Mone in Keady; Bernard Arthurs in Keady; Eugene Connolly in Keady; Patrick J. Murphy in Keady.|
 |warning|source-record-single-reference|lurgan-borough-council__1961-05-17|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-list-missing|lurgan-borough-council__1961-05-17|No candidates found for Lurgan (aldermen).|
 |warning|candidate-list-missing|lurgan-borough-council__1961-05-17|No candidates found for Lurgan (councillors).|
@@ -104,9 +103,8 @@ _None._
 |warning|candidate-party-missing|strabane-urban-district-council__1961|18 candidate rows have no party/label. Examples: James Maguire in East Ward; George Quinn in East Ward; Teague Boyle in East Ward; Thomas A Forbes in East Ward; Gerald Doran in East Ward.|
 |warning|source-record-single-reference|armagh-county-council__1958-06-05|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|source-record-single-reference|armagh-rural-district-council__1958-06-05|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|armagh-rural-district-council__1958-06-05|1 candidate rows have no party/label. Examples: J. J. Allen in Ballymartrim.|
 |warning|source-record-single-reference|lurgan-rural-district-council__1958-06-05|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
-|warning|candidate-party-missing|lurgan-rural-district-council__1958-06-05|10 candidate rows have no party/label. Examples: William Stewart in Breagh; Patrick James Crilly in Brownlowsderry; John William Jones in Carrowbrack; James McKavanagh in Cornakinnegar; Thomas J. Robinson in Drumcree.|
+|warning|candidate-party-missing|lurgan-rural-district-council__1958-06-05|9 candidate rows have no party/label. Examples: William Stewart in Breagh; Patrick James Crilly in Brownlowsderry; John William Jones in Carrowbrack; James McKavanagh in Cornakinnegar; Thomas J. Robinson in Drumcree.|
 |warning|source-record-single-reference|newry-no-2-rural-district-council__1958-06-05|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-party-missing|newry-no-2-rural-district-council__1958-06-05|1 candidate rows have no party/label. Examples: S. McCann in Moyra Castle.|
 |warning|source-record-single-reference|tandragee-rural-district-council__1958-06-05|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
@@ -116,8 +114,10 @@ _None._
 |warning|source-record-single-reference|lurgan-borough-council__1958-05-21|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
 |warning|candidate-list-missing|lurgan-borough-council__1958-05-21|No candidates found for Lurgan (councillors).|
 |warning|source-record-single-reference|portadown-borough-council__1958-05-21|Election source detail record has only one reference; multiple corroborating sources are preferred where available.|
+|warning|candidate-list-missing|portadown-borough-council__1958-05-21|No candidates found for Portadown (aldermen).|
+|warning|candidate-list-missing|portadown-borough-council__1958-05-21|No candidates found for Portadown (councillors).|
 
-_412 more not shown; see JSON report._
+_399 more not shown; see JSON report._
 
 ## Source And Reference Coverage
 

@@ -43,28 +43,36 @@
   "partySummary": [
     {
       "party": "Independent",
-      "seats": 5,
+      "seats": 4,
       "stood": 0,
       "votes": 0,
       "colour": "#b8b8b8",
       "share": 0
     },
     {
+      "party": "UUP",
+      "seats": 1,
+      "stood": 1,
+      "votes": 462,
+      "colour": "#48a5ee",
+      "share": 19.60950764006791
+    },
+    {
       "party": "Independent/Other",
       "seats": 0,
-      "stood": 7,
-      "votes": 2356,
+      "stood": 6,
+      "votes": 1894,
       "colour": "#6b7280",
-      "share": 100
+      "share": 80.39049235993208
     }
   ],
   "mainLikePartySummary": [
     {
-      "party": "Independent/Other",
+      "party": "UUP",
       "seats": 1,
       "stood": 0,
       "votes": 0,
-      "colour": "#888888",
+      "colour": "#48A5EE",
       "share": 0
     }
   ],
@@ -85,22 +93,14 @@
       {
         "name": "Independent/Other",
         "colour": "#888888",
-        "firstPrefs": 2356,
-        "finalVotes": 2356,
-        "stood": 7,
-        "elected": 5,
+        "firstPrefs": 1894,
+        "finalVotes": 1894,
+        "stood": 6,
+        "elected": 4,
         "constituencies": [
           "Lurgan"
         ],
         "candidates": [
-          {
-            "id": "William White|",
-            "name": "William White",
-            "constituency": "Lurgan",
-            "firstPref": 462,
-            "finalVotes": 462,
-            "status": "Elected"
-          },
           {
             "id": "William Ballentine|",
             "name": "William Ballentine",
@@ -150,16 +150,38 @@
             "status": "Not Elected"
           }
         ],
-        "shareOfTotal": 100
+        "shareOfTotal": 80.39049235993208
+      },
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 462,
+        "finalVotes": 462,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Lurgan"
+        ],
+        "candidates": [
+          {
+            "id": "William White|UUP",
+            "name": "William White",
+            "constituency": "Lurgan",
+            "firstPref": 462,
+            "finalVotes": 462,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 19.60950764006791
       }
     ],
     "candidates": [
       {
-        "id": "William White|",
-        "key": "William White|",
+        "id": "William White|UUP",
+        "key": "William White|UUP",
         "name": "William White",
-        "party": "",
-        "colour": "#888888",
+        "party": "UUP",
+        "colour": "#48A5EE",
         "firstPrefs": 462,
         "finalVotes": 462,
         "electedCount": 1,
@@ -315,7 +337,7 @@
       "constituency": "Lurgan",
       "winnerParty": "Independent",
       "winnerName": "5 elected",
-      "leadingParty": null,
+      "leadingParty": "UUP",
       "leadingName": "William White",
       "leadingVotes": 462,
       "leadingPct": 19.61,
@@ -331,12 +353,12 @@
       "validPoll": 2356,
       "totalVotes": 2356,
       "colour": "#b8b8b8",
-      "leadingColour": "#6b7280",
+      "leadingColour": "#48a5ee",
       "candidates": [
         {
-          "id": "William White|",
+          "id": "William White|UUP",
           "name": "William White",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 462,
           "finalVotes": 462,
           "elected": true,
@@ -345,11 +367,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1905-05-25 Lurgan: UUP (William White)",
           "counts": [
             {
               "count": 1,
@@ -359,7 +383,7 @@
               "firstPrefs": 462
             }
           ],
-          "personId": 88253,
+          "personId": 136082,
           "name_id": "n-william-white"
         },
         {
@@ -379,6 +403,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -408,6 +434,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -437,6 +465,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -466,6 +496,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -495,6 +527,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -524,6 +558,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -539,9 +575,9 @@
       ],
       "elected": [
         {
-          "id": "William White|",
+          "id": "William White|UUP",
           "name": "William White",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 462,
           "finalVotes": 462,
           "elected": true,
@@ -550,11 +586,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1905-05-25 Lurgan: UUP (William White)",
           "counts": [
             {
               "count": 1,
@@ -582,6 +620,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -609,6 +649,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -636,6 +678,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -663,6 +707,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -698,12 +744,15 @@
           "Total_Votes": "462.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
           "candidateName": "William White",
           "id": 0,
           "Name_As_Printed": "William White",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "B",
+          "Party_Basis": "armagh-county 1905-05-25 Lurgan: UUP (William White)"
         },
         {
           "Constituency_Number": "",
@@ -847,12 +896,15 @@
               "Total_Votes": "462.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
               "candidateName": "William White",
               "id": 0,
               "Name_As_Printed": "William White",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "B",
+              "Party_Basis": "armagh-county 1905-05-25 Lurgan: UUP (William White)"
             },
             {
               "Constituency_Number": "",

@@ -43,28 +43,44 @@
   "partySummary": [
     {
       "party": "Independent",
-      "seats": 15,
+      "seats": 12,
       "stood": 0,
       "votes": 0,
       "colour": "#b8b8b8",
       "share": 0
     },
     {
+      "party": "UUP",
+      "seats": 2,
+      "stood": 2,
+      "votes": 1575,
+      "colour": "#48a5ee",
+      "share": 11.795102224219276
+    },
+    {
+      "party": "Nationalist Party",
+      "seats": 1,
+      "stood": 1,
+      "votes": 581,
+      "colour": "#6b7280",
+      "share": 4.3510821538231115
+    },
+    {
       "party": "Independent/Other",
       "seats": 0,
-      "stood": 19,
-      "votes": 13353,
+      "stood": 16,
+      "votes": 11197,
       "colour": "#6b7280",
-      "share": 100
+      "share": 83.85381562195762
     }
   ],
   "mainLikePartySummary": [
     {
-      "party": "Independent/Other",
+      "party": "UUP",
       "seats": 1,
       "stood": 0,
       "votes": 0,
-      "colour": "#888888",
+      "colour": "#48A5EE",
       "share": 0
     }
   ],
@@ -85,22 +101,14 @@
       {
         "name": "Independent/Other",
         "colour": "#888888",
-        "firstPrefs": 13353,
-        "finalVotes": 13353,
-        "stood": 19,
-        "elected": 15,
+        "firstPrefs": 11197,
+        "finalVotes": 11197,
+        "stood": 16,
+        "elected": 12,
         "constituencies": [
           "Portadown"
         ],
         "candidates": [
-          {
-            "id": "Charles Johnston|",
-            "name": "Charles Johnston",
-            "constituency": "Portadown",
-            "firstPref": 936,
-            "finalVotes": 936,
-            "status": "Elected"
-          },
           {
             "id": "David F. Bell|",
             "name": "David F. Bell",
@@ -198,22 +206,6 @@
             "status": "Elected"
           },
           {
-            "id": "Robert Anderson|",
-            "name": "Robert Anderson",
-            "constituency": "Portadown",
-            "firstPref": 639,
-            "finalVotes": 639,
-            "status": "Elected"
-          },
-          {
-            "id": "James Grew|",
-            "name": "James Grew",
-            "constituency": "Portadown",
-            "firstPref": 581,
-            "finalVotes": 581,
-            "status": "Elected"
-          },
-          {
             "id": "George Gregory|",
             "name": "George Gregory",
             "constituency": "Portadown",
@@ -246,16 +238,68 @@
             "status": "Not Elected"
           }
         ],
-        "shareOfTotal": 100
+        "shareOfTotal": 83.85381562195762
+      },
+      {
+        "name": "UUP",
+        "colour": "#48A5EE",
+        "firstPrefs": 1575,
+        "finalVotes": 1575,
+        "stood": 2,
+        "elected": 2,
+        "constituencies": [
+          "Portadown"
+        ],
+        "candidates": [
+          {
+            "id": "Charles Johnston|UUP",
+            "name": "Charles Johnston",
+            "constituency": "Portadown",
+            "firstPref": 936,
+            "finalVotes": 936,
+            "status": "Elected"
+          },
+          {
+            "id": "Robert Anderson|UUP",
+            "name": "Robert Anderson",
+            "constituency": "Portadown",
+            "firstPref": 639,
+            "finalVotes": 639,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 11.795102224219276
+      },
+      {
+        "name": "Nationalist Party",
+        "colour": "#32CD32",
+        "firstPrefs": 581,
+        "finalVotes": 581,
+        "stood": 1,
+        "elected": 1,
+        "constituencies": [
+          "Portadown"
+        ],
+        "candidates": [
+          {
+            "id": "James Grew|Nationalist Party",
+            "name": "James Grew",
+            "constituency": "Portadown",
+            "firstPref": 581,
+            "finalVotes": 581,
+            "status": "Elected"
+          }
+        ],
+        "shareOfTotal": 4.3510821538231115
       }
     ],
     "candidates": [
       {
-        "id": "Charles Johnston|",
-        "key": "Charles Johnston|",
+        "id": "Charles Johnston|UUP",
+        "key": "Charles Johnston|UUP",
         "name": "Charles Johnston",
-        "party": "",
-        "colour": "#888888",
+        "party": "UUP",
+        "colour": "#48A5EE",
         "firstPrefs": 936,
         "finalVotes": 936,
         "electedCount": 1,
@@ -537,11 +581,11 @@
         "shareOfTotal": 4.905264734516588
       },
       {
-        "id": "Robert Anderson|",
-        "key": "Robert Anderson|",
+        "id": "Robert Anderson|UUP",
+        "key": "Robert Anderson|UUP",
         "name": "Robert Anderson",
-        "party": "",
-        "colour": "#888888",
+        "party": "UUP",
+        "colour": "#48A5EE",
         "firstPrefs": 639,
         "finalVotes": 639,
         "electedCount": 1,
@@ -559,11 +603,11 @@
         "shareOfTotal": 4.785441473826107
       },
       {
-        "id": "James Grew|",
-        "key": "James Grew|",
+        "id": "James Grew|Nationalist Party",
+        "key": "James Grew|Nationalist Party",
         "name": "James Grew",
-        "party": "",
-        "colour": "#888888",
+        "party": "Nationalist Party",
+        "colour": "#32CD32",
         "firstPrefs": 581,
         "finalVotes": 581,
         "electedCount": 1,
@@ -675,7 +719,7 @@
       "constituency": "Portadown",
       "winnerParty": "Independent",
       "winnerName": "15 elected",
-      "leadingParty": null,
+      "leadingParty": "UUP",
       "leadingName": "Charles Johnston",
       "leadingVotes": 936,
       "leadingPct": 7.01,
@@ -691,12 +735,12 @@
       "validPoll": 13353,
       "totalVotes": 13353,
       "colour": "#b8b8b8",
-      "leadingColour": "#6b7280",
+      "leadingColour": "#48a5ee",
       "candidates": [
         {
-          "id": "Charles Johnston|",
+          "id": "Charles Johnston|UUP",
           "name": "Charles Johnston",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 936,
           "finalVotes": 936,
           "elected": true,
@@ -705,11 +749,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1911-05-31 Portadown: UUP (Charles Johnston)",
           "counts": [
             {
               "count": 1,
@@ -719,7 +765,7 @@
               "firstPrefs": 936
             }
           ],
-          "personId": 135338,
+          "personId": 135542,
           "name_id": "n-charles-johnston"
         },
         {
@@ -739,6 +785,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -768,6 +816,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -797,6 +847,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -826,6 +878,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -855,6 +909,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -884,6 +940,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -913,6 +971,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -942,6 +1002,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -971,6 +1033,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1000,6 +1064,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1029,6 +1095,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1058,6 +1126,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1071,9 +1141,9 @@
           "name_id": "n-john-palmer"
         },
         {
-          "id": "Robert Anderson|",
+          "id": "Robert Anderson|UUP",
           "name": "Robert Anderson",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 639,
           "finalVotes": 639,
           "elected": true,
@@ -1082,11 +1152,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "portadown-borough 1911-01-16 Portadown: UUP (Robert Anderson) [found-C]; portadown-borough 1920-01-15 South-East: UUP (R. Anderson) | labels found for this person differ: UUP x5, Independent Unionist x1",
           "counts": [
             {
               "count": 1,
@@ -1096,13 +1168,13 @@
               "firstPrefs": 639
             }
           ],
-          "personId": 135336,
+          "personId": 137408,
           "name_id": "n-robert-anderson"
         },
         {
-          "id": "James Grew|",
+          "id": "James Grew|Nationalist Party",
           "name": "James Grew",
-          "party": "",
+          "party": "Nationalist Party",
           "firstPrefs": 581,
           "finalVotes": 581,
           "elected": true,
@@ -1111,11 +1183,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "Lurgan Mail, 17 Jan 1914, p. 4 (cited in the filed note): James Grew marked \"(N.)\" | printed in a second source for this election",
           "counts": [
             {
               "count": 1,
@@ -1125,7 +1199,7 @@
               "firstPrefs": 581
             }
           ],
-          "personId": 135400,
+          "personId": 136919,
           "name_id": "n-james-grew"
         },
         {
@@ -1145,6 +1219,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1174,6 +1250,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1203,6 +1281,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1232,6 +1312,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1247,9 +1329,9 @@
       ],
       "elected": [
         {
-          "id": "Charles Johnston|",
+          "id": "Charles Johnston|UUP",
           "name": "Charles Johnston",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 936,
           "finalVotes": 936,
           "elected": true,
@@ -1258,11 +1340,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "armagh-county 1911-05-31 Portadown: UUP (Charles Johnston)",
           "counts": [
             {
               "count": 1,
@@ -1290,6 +1374,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1317,6 +1403,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1344,6 +1432,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1371,6 +1461,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1398,6 +1490,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1425,6 +1519,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1452,6 +1548,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1479,6 +1577,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1506,6 +1606,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1533,6 +1635,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1560,6 +1664,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1587,6 +1693,8 @@
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "",
           "counts": [
             {
               "count": 1,
@@ -1598,9 +1706,9 @@
           ]
         },
         {
-          "id": "Robert Anderson|",
+          "id": "Robert Anderson|UUP",
           "name": "Robert Anderson",
-          "party": "",
+          "party": "UUP",
           "firstPrefs": 639,
           "finalVotes": 639,
           "elected": true,
@@ -1609,11 +1717,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#48A5EE",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": true,
+          "partyBasis": "portadown-borough 1911-01-16 Portadown: UUP (Robert Anderson) [found-C]; portadown-borough 1920-01-15 South-East: UUP (R. Anderson) | labels found for this person differ: UUP x5, Independent Unionist x1",
           "counts": [
             {
               "count": 1,
@@ -1625,9 +1735,9 @@
           ]
         },
         {
-          "id": "James Grew|",
+          "id": "James Grew|Nationalist Party",
           "name": "James Grew",
-          "party": "",
+          "party": "Nationalist Party",
           "firstPrefs": 581,
           "finalVotes": 581,
           "elected": true,
@@ -1636,11 +1746,13 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#32CD32",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
           "officialStatus": "",
+          "partyInferred": false,
+          "partyBasis": "Lurgan Mail, 17 Jan 1914, p. 4 (cited in the filed note): James Grew marked \"(N.)\" | printed in a second source for this election",
           "counts": [
             {
               "count": 1,
@@ -1676,12 +1788,15 @@
           "Total_Votes": "936.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
           "candidateName": "Charles Johnston",
           "id": 0,
           "Name_As_Printed": "Mr. Charles Johnston, J.P.",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "B",
+          "Party_Basis": "armagh-county 1911-05-31 Portadown: UUP (Charles Johnston)"
         },
         {
           "Constituency_Number": "",
@@ -1910,12 +2025,15 @@
           "Total_Votes": "639.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "UUP",
+          "Party_Colour": "#48A5EE",
           "candidateName": "Robert Anderson",
           "id": 13,
           "Name_As_Printed": "Mr. Robt. Anderson",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": true,
+          "Party_Evidence_Class": "D",
+          "Party_Basis": "portadown-borough 1911-01-16 Portadown: UUP (Robert Anderson) [found-C]; portadown-borough 1920-01-15 South-East: UUP (R. Anderson) | labels found for this person differ: UUP x5, Independent Unionist x1"
         },
         {
           "Constituency_Number": "",
@@ -1928,12 +2046,15 @@
           "Total_Votes": "581.00",
           "Status": "Elected",
           "Occurred_On_Count": "1",
-          "Party_Name": "",
-          "Party_Colour": "#888888",
+          "Party_Name": "Nationalist Party",
+          "Party_Colour": "#32CD32",
           "candidateName": "James Grew",
           "id": 14,
           "Name_As_Printed": "Mr. James Grew, J.P.",
-          "Party_As_Printed": ""
+          "Party_As_Printed": "",
+          "Party_Inferred": false,
+          "Party_Evidence_Class": "A",
+          "Party_Basis": "Lurgan Mail, 17 Jan 1914, p. 4 (cited in the filed note): James Grew marked \"(N.)\" | printed in a second source for this election"
         },
         {
           "Constituency_Number": "",
@@ -2041,12 +2162,15 @@
               "Total_Votes": "936.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
               "candidateName": "Charles Johnston",
               "id": 0,
               "Name_As_Printed": "Mr. Charles Johnston, J.P.",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "B",
+              "Party_Basis": "armagh-county 1911-05-31 Portadown: UUP (Charles Johnston)"
             },
             {
               "Constituency_Number": "",
@@ -2275,12 +2399,15 @@
               "Total_Votes": "639.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "UUP",
+              "Party_Colour": "#48A5EE",
               "candidateName": "Robert Anderson",
               "id": 13,
               "Name_As_Printed": "Mr. Robt. Anderson",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": true,
+              "Party_Evidence_Class": "D",
+              "Party_Basis": "portadown-borough 1911-01-16 Portadown: UUP (Robert Anderson) [found-C]; portadown-borough 1920-01-15 South-East: UUP (R. Anderson) | labels found for this person differ: UUP x5, Independent Unionist x1"
             },
             {
               "Constituency_Number": "",
@@ -2293,12 +2420,15 @@
               "Total_Votes": "581.00",
               "Status": "Elected",
               "Occurred_On_Count": "1",
-              "Party_Name": "",
-              "Party_Colour": "#888888",
+              "Party_Name": "Nationalist Party",
+              "Party_Colour": "#32CD32",
               "candidateName": "James Grew",
               "id": 14,
               "Name_As_Printed": "Mr. James Grew, J.P.",
-              "Party_As_Printed": ""
+              "Party_As_Printed": "",
+              "Party_Inferred": false,
+              "Party_Evidence_Class": "A",
+              "Party_Basis": "Lurgan Mail, 17 Jan 1914, p. 4 (cited in the filed note): James Grew marked \"(N.)\" | printed in a second source for this election"
             },
             {
               "Constituency_Number": "",

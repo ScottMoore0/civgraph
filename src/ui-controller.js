@@ -9796,11 +9796,7 @@ class UIController {
             const opacityControls = `<div class="active-layer-item__opacity-panel" data-map-id="${map.id}" style="display:none;">${opacityRows}</div>`;
 
             return `
-                <div class="active-layer-item ${isVisible ? '' : 'active-layer-item--hidden'}${partial?.isPartial ? ' active-layer-item--partial' : ''}" data-map-id="${map.id}">
-                    <button type="button" class="active-layer-item__drag" data-map-id="${map.id}" title="Drag to reorder, or use the arrow keys" aria-label="Reorder ${this.escapeHtml(layerTitle)}. Press the up or down arrow key to move it.">
-                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg>
-                    </button>
-                    <div class="active-layer-item__color" style="background: ${color}"></div>
+                <div class="active-layer-item ${isVisible ? '' : 'active-layer-item--hidden'}${partial?.isPartial ? ' active-layer-item--partial' : ''}" data-map-id="${map.id}" style="--layer-colour: ${color}" tabindex="0" title="Drag to reorder, or press the up or down arrow key" aria-label="${this.escapeHtml(layerTitle)}. Drag, or press the up or down arrow key, to reorder.">
                     <div class="active-layer-item__info">
                         <span class="active-layer-item__name">${this.escapeHtml(layerTitle)}</span>${isVisible ? '' : '<span class="active-layer-item__hidden-badge">Hidden</span>'}
                         ${authors || date || partial?.featureItems?.length ? `<span class="active-layer-item__meta">${authors}${authors && date ? ' · ' : ''}${date ? `<em>${date}</em>` : ''}${partial?.featureItems?.length ? `<span class="active-layer-item__partial-badge">${partial.featureNames?.length || partial.featureItems.length || 1} feature${(partial.featureNames?.length || partial.featureItems.length || 1) > 1 ? 's' : ''}</span>` : ''}</span>` : ''}
@@ -9941,14 +9937,16 @@ class UIController {
     }
 
     /**
-     * Pointer-based drag-to-reorder for the Active Layers list. The drag is
-     * gated to the grip handle so clicks/taps on the rest of the row still
-     * reach their action buttons. Rows are rearranged in the DOM live, and on
-     * pointerup the new order is passed to onReorderLayers (top-to-bottom).
+     * Pointer-based drag-to-reorder for the Active Layers list. The whole row is the handle (there
+     * is no grip, which saved width): a drag starts only once the pointer has moved a few pixels
+     * (a mouse) or after a short hold (touch, so a swipe still scrolls the list), and never from
+     * the row's buttons, sliders or feature links, which keep their clicks. Rows are rearranged in
+     * the DOM live, and on pointerup the new order is passed to onReorderLayers (top-to-bottom).
      */
     _attachActiveLayerDragReorder(container) {
-        const grips = container.querySelectorAll('.active-layer-item__drag');
+        const grips = container.querySelectorAll('.active-layer-item');
         if (!grips.length) return;
+        const INTERACTIVE = 'button, input, select, textarea, a, label, .active-layer-item__opacity-panel, .active-layer-item__feature-list';
 
         const FLIP_DURATION = 180;
 
@@ -9958,14 +9956,14 @@ class UIController {
         // which decides what is visible on top of what -- was unavailable to anyone not
         // using a mouse, and to anyone whose pointer accuracy is limited.
         //
-        // Arrow keys on the focused handle move the row one step. Focus is deliberately
-        // restored to the same handle after the re-render, so a user can press Down three
-        // times without hunting for the control again; without that the list rebuilds and
-        // focus falls to <body>.
+        // Arrow keys on the focused row move it one step. Focus is deliberately restored to
+        // the same row after the re-render, so a user can press Down three times without
+        // hunting for it again; without that the list rebuilds and focus falls to <body>.
         grips.forEach(grip => {
             grip.addEventListener('keydown', (event) => {
                 if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return;
-                const row = grip.closest('.active-layer-item');
+                if (event.target !== grip) return;   // a button or slider inside the row
+                const row = grip;
                 if (!row) return;
                 const rows = [...container.querySelectorAll('.active-layer-item')];
                 const index = rows.indexOf(row);
@@ -9985,18 +9983,45 @@ class UIController {
                 // The list re-renders asynchronously; re-find this layer's handle by id.
                 const mapId = grip.dataset.mapId;
                 requestAnimationFrame(() => {
-                    const again = container.querySelector(`.active-layer-item[data-map-id="${mapId}"] .active-layer-item__drag`);
+                    const again = container.querySelector(`.active-layer-item[data-map-id="${mapId}"]`);
                     (again || grip).focus();
                 });
             });
         });
 
         grips.forEach(grip => {
-            grip.addEventListener('pointerdown', (e) => {
-                if (e.button !== undefined && e.button !== 0) return;
-                const row = grip.closest('.active-layer-item');
-                if (!row) return;
-                e.preventDefault();
+            grip.addEventListener('pointerdown', (down) => {
+                if (down.button !== undefined && down.button !== 0) return;
+                if (down.target.closest(INTERACTIVE)) return;
+                const row = grip;
+                // Wait to see a drag: a few pixels of movement with a mouse or pen, or a 300 ms
+                // hold on touch (moving sooner is a scroll, and is left to the list).
+                const touch = down.pointerType === 'touch';
+                let held = false;
+                const timer = touch ? setTimeout(() => { held = true; }, 300) : null;
+                const stopWaiting = () => {
+                    clearTimeout(timer);
+                    window.removeEventListener('pointermove', onWait, true);
+                    window.removeEventListener('pointerup', stopWaiting, true);
+                    window.removeEventListener('pointercancel', stopWaiting, true);
+                };
+                const onWait = (ev) => {
+                    if (ev.pointerId !== down.pointerId) return;
+                    const moved = Math.hypot(ev.clientX - down.clientX, ev.clientY - down.clientY);
+                    if (touch && !held) { if (moved > 8) stopWaiting(); return; }
+                    if (moved < 5) return;
+                    stopWaiting();
+                    ev.preventDefault();
+                    startDrag(row, down);
+                };
+                window.addEventListener('pointermove', onWait, true);
+                window.addEventListener('pointerup', stopWaiting, true);
+                window.addEventListener('pointercancel', stopWaiting, true);
+            });
+        });
+
+        const startDrag = (row, e) => {
+            {
 
                 const startOrder = [...container.querySelectorAll('.active-layer-item')].map(r => r.dataset.mapId);
                 const startPointerId = e.pointerId;
@@ -10107,6 +10132,10 @@ class UIController {
                     if (ev.pointerId !== startPointerId) return;
                     cleanupListeners();
                     settle();
+                    // The click that ends a drag is not a click on the row (the layer's name opens its page).
+                    const swallow = (click) => { click.stopPropagation(); click.preventDefault(); };
+                    window.addEventListener('click', swallow, { capture: true, once: true });
+                    setTimeout(() => window.removeEventListener('click', swallow, { capture: true }), 80);
                     const newOrder = [...container.querySelectorAll('.active-layer-item')].map(r => r.dataset.mapId);
                     const changed = newOrder.length !== startOrder.length
                         || newOrder.some((id, i) => id !== startOrder[i]);
@@ -10124,8 +10153,8 @@ class UIController {
                 window.addEventListener('pointermove', onMove, true);
                 window.addEventListener('pointerup', onUp, true);
                 window.addEventListener('pointercancel', onCancel, true);
-            });
-        });
+            }
+        };
     }
 
     // ============================================
