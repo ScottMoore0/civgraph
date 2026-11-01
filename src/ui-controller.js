@@ -343,7 +343,11 @@ class UIController {
         // Build description HTML
         // The rebuilt catalogue shows the description of the map's row (Phelim Birch's descriptions
         // document); the old per-map descriptions stay hidden until rewritten.
-        const descriptionHtml = nextCatalogue
+        // A census statistic's own description says what it measures and over which areas;
+        // its row's describes only the shelf it sits on.
+        const descriptionHtml = map.isDataEntry && map.description
+            ? `<div class="catalogue-detail__description">${this.escapeHtml(map.description)}</div>`
+            : nextCatalogue
             ? (this._catalogueNext?.rowAboutHtml?.(map.id) ? `<div class="catalogue-detail__description">${this._catalogueNext.rowAboutHtml(map.id)}</div>` : '')
             : (map.description ? `<div class="catalogue-detail__description">${this.escapeHtml(map.description)}</div>` : '');
 
@@ -7884,7 +7888,7 @@ class UIController {
 
         content.innerHTML = '';
 
-        features.forEach(feature => {
+        features.forEach((feature, featureIndex) => {
             const mapConfig = mapConfigs.find(m => m.id === feature.mapId)
                 || dataService.getMapById(feature.mapId)
                 || window.mapController?.layerStates?.get(feature.mapId)?.config;
@@ -7919,8 +7923,10 @@ class UIController {
                 'CONSTITUENCY', 'COUNTY', 'PARISH', 'BARONY'
             );
             const seenNameKeys = new Set();
-            let primaryName = '';
-            for (const key of preferredKeys) {
+            // A census statistic names its area itself ("Aldergrove_1", "Abbey (Antrim and
+            // Newtownabbey LGD)"), where the tiles may carry only a code.
+            let primaryName = String(feature.statistic?.areaName || '').trim();
+            for (const key of primaryName ? [] : preferredKeys) {
                 if (!key || seenNameKeys.has(key)) continue;
                 seenNameKeys.add(key);
                 const val = props[key];
@@ -7947,7 +7953,15 @@ class UIController {
                 html += `<div class="feature-info__primary-name">${this.escapeHtml(primaryName)}</div>`;
             }
 
+            if (feature.statistic) html += this._censusStatisticHtml(feature.statistic);
+
             html += this._featureMetricsHtml(feature, props, geometry);
+
+            // A Wikipedia-style locator map of the current view with this feature in red
+            // (app/src/map-image-export.js); offered where the app can draw one.
+            if (mapConfig?.id && typeof this.onExportMapImage === 'function') {
+                html += `<div class="feature-info__export"><button type="button" class="btn btn--sm btn--outline feature-info__export-btn" data-map-id="${this.escapeHtml(mapConfig.id)}" data-feature-index="${featureIndex}" data-feature-name="${this.escapeHtml(primaryName === 'Unnamed Feature' ? '' : primaryName)}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span data-export-label>Download locator map (SVG)</span></button></div>`;
+            }
 
             // Render all properties in a collapsible table
             const excludeKeys = ['Name', 'name', 'NAME', 'Area', 'area', 'AREA',
@@ -8005,6 +8019,16 @@ class UIController {
         // Setup metric precision toggle
         this._bindFeatureMetricToggles(content);
 
+        content.querySelectorAll('.feature-info__export-btn').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const feature = features[Number(btn.dataset.featureIndex)] || {};
+                this.onExportMapImage?.(btn.dataset.mapId, 'svg', {
+                    trigger: btn,
+                    selection: { properties: feature.properties || {}, name: btn.dataset.featureName || '' }
+                });
+            });
+        });
+
         content.querySelectorAll('.feature-info__primary-name-link').forEach((btn) => {
             btn.addEventListener('click', () => {
                 const detailId = btn.dataset.featureDetailId;
@@ -8013,6 +8037,39 @@ class UIController {
         });
 
         panel.classList.remove('hidden');
+    }
+
+    /**
+     * A census statistic's figures for one area: the mapped value, the count and the total it
+     * is a share of, the table's other columns, and the source with its licence.
+     */
+    _censusStatisticHtml(statistic) {
+        const esc = (value) => this.escapeHtml(String(value ?? ''));
+        const rows = [];
+        if (statistic.missing) {
+            rows.push(`<div class="feature-info__metric"><span class="feature-info__metric-label">${esc(statistic.valueLabel)}</span><span class="feature-info__metric-value">No figure</span></div>`);
+        } else {
+            rows.push(`<div class="feature-info__metric feature-info__statistic-value"><span class="feature-info__metric-label">${esc(statistic.valueLabel)}</span><span class="feature-info__metric-value" data-census-value>${esc(statistic.valueText)}</span></div>`);
+            if (statistic.numeratorText && statistic.denominatorText) {
+                rows.push(`<div class="feature-info__metric"><span class="feature-info__metric-label">Count</span><span class="feature-info__metric-value" data-census-denominator>${esc(statistic.summary)}</span></div>`);
+            } else if (statistic.denominatorText || statistic.denominatorLabel) {
+                rows.push(`<div class="feature-info__metric"><span class="feature-info__metric-label">Share of</span><span class="feature-info__metric-value" data-census-denominator>${esc(statistic.denominatorText ? `${statistic.denominatorText} ${statistic.denominatorLabel || ''}` : statistic.denominatorLabel)}</span></div>`);
+            }
+            for (const item of statistic.other || []) {
+                rows.push(`<div class="feature-info__metric"><span class="feature-info__metric-label">${esc(item.label)}</span><span class="feature-info__metric-value">${esc(item.text)}</span></div>`);
+            }
+        }
+        const sourceText = statistic.sourceTitle ? esc(statistic.sourceTitle) : '';
+        const source = statistic.sourceUrl && sourceText
+            ? `<a href="${esc(statistic.sourceUrl)}" target="_blank" rel="noopener">${sourceText}</a>`
+            : sourceText;
+        const licence = statistic.licence
+            ? (statistic.licence.url ? `<a href="${esc(statistic.licence.url)}" target="_blank" rel="noopener">${esc(statistic.licence.short || statistic.licence.name)}</a>` : esc(statistic.licence.short || statistic.licence.name))
+            : '';
+        const cite = source || licence
+            ? `<p class="feature-info__statistic-source">Source: ${source}${source && licence ? ', ' : ''}${licence}</p>`
+            : '';
+        return `<div class="feature-info__metrics feature-info__statistic" data-census-statistic="${esc(statistic.entryId)}">${rows.join('')}</div>${cite}`;
     }
 
     /**

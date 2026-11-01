@@ -12,7 +12,7 @@
     "Phelim Birch",
     "Paddy Matthews"
   ],
-  "description": "The 159 Poor Law Unions of Ireland at the census of 31 Mar 1901, the 1911 unions together with Tulla. They are built by grouping Phelim Birch's and Paddy Matthews's District Electoral Divisions by the union each belonged to in the 1901 census county volumes (Table VI county districts and Table VII, arranged by union). No DED map earlier than 1907 exists, so the lines are those of 1907-1912; DEDs formed after 1901 take the union of the division they were split from. The one known change between unions, part of Lisheen DED (Killadysert) to Clareabbey (Ennis), is drawn on its later line. The 1901 volumes for King's County, Queen's County and Limerick are not held, so those counties follow the 1911 lists, and the population is left blank for the 16 unions with parts there.",
+  "description": "The 159 Poor Law Unions of Ireland at the census of 31 Mar 1901, the 1911 unions together with Tulla. They are built by grouping Phelim Birch's and Paddy Matthews's District Electoral Divisions by the union each belonged to in the 1901 census county volumes (Table VI county districts and Table VII, arranged by union). No DED map earlier than 1907 exists, so the lines are those of 1907-1912; DEDs formed after 1901 take the union of the division they were split from. The one known change between unions, part of Lisheen DED (Killadysert) to Clareabbey (Ennis), is drawn on its later line. King's County and Queen's County are placed from their own 1901 volumes. The 1901 Limerick volume is not held, so Limerick follows the 1911 lists, and the population is left blank for the eight unions with parts there (Croom, Kilmallock, Limerick, Listowel, Mitchelstown, Newcastle, Rathkeale and Tipperary).",
   "renderer": "maplibre",
   "sourceType": "pmtiles",
   "geometryType": "polygon",
@@ -53,6 +53,16 @@
       "label": "Glin Union (workhouses.org.uk)",
       "url": "https://www.workhouses.org.uk/Glin/",
       "note": "Union dissolved 30 Sep 1891; its divisions went to Listowel and Rathkeale."
+    },
+    {
+      "label": "Census of Ireland 1901, King's County, Table VI",
+      "url": "https://www.cso.ie/en/media/csoie/statistics/archive/census1901/445_Report_Of_Ireland_Ireland_1901_King%27s_County.pdf",
+      "note": "Each county district of King's County with its DEDs, areas and populations, transcribed from the page images (CSO, CC BY 4.0)."
+    },
+    {
+      "label": "Census of Ireland 1901, Queen's County, Table VI",
+      "url": "https://www.cso.ie/en/media/csoie/statistics/archive/census1901/446_Report_Of_Ireland_Ireland_1901_Queen%27s_County.pdf",
+      "note": "Each county district of Queen's County with its DEDs, areas and populations, transcribed from the page images (CSO, CC BY 4.0)."
     }
   ],
   "sourceDownloads": [
@@ -248,22 +258,17 @@
     "pbfFiles": 3916,
     "maxTileBytes": 97545
   },
-  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/plu-1901-vector-test.pmtiles",
+  "tileUrl": "/render/pmtiles/generated/plu-1901-vector-test.pmtiles",
   "tilesFallback": "/render/tiles/generated/plu-1901/{z}/{x}/{y}.pbf",
   "tilePackage": {
     "preferred": true,
     "localPath": "render/pmtiles/generated/plu-1901-vector-test.pmtiles",
     "url": "/render/pmtiles/generated/plu-1901-vector-test.pmtiles",
-    "bytes": 8142308,
+    "bytes": 8127733,
     "maxGithubBytes": 99614720,
-    "generatedAt": "2026-11-01T04:37:52.404Z",
+    "generatedAt": "2026-11-01T15:15:34.580Z",
     "fallback": "/render/tiles/generated/plu-1901/{z}/{x}/{y}.pbf",
-    "sourceSha256": "13270fbdb1bc981f5934a1538e03f338f19c531ec212e9fe5da5c135914b1a82",
-    "serving": "cdn",
-    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/plu-1901-vector-test.pmtiles",
-    "r2Key": "data/maps/test/pmtiles/generated/plu-1901-vector-test.pmtiles",
-    "localUrl": "/render/pmtiles/generated/plu-1901-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-11-01T11:50:17.039Z"
+    "sourceSha256": "647f181f1474de76b7d37ba5ef9539ac7aa8f2eeaced041aa937bcd1092187bb"
   },
   "featureIndexUrl": "/render/metadata/feature-indexes/plu-1901-vector-test.json"
 }

@@ -23,20 +23,19 @@ import {
 import { Test2MapLibreMainAdapter } from './maplibre-main-adapter.js';
 
 const TEST2_LAYER_ORDER_STORAGE_KEY = 'civgraph:maplibre:layer-order';
-const TIMELINE_TRANSITION_MIN_AREA_M2 = 100;
-const TIMELINE_TRANSITION_RUNTIME_BASE_PATH = '/data/timeline-transition-overlays';
-const TIMELINE_TRANSITION_BASE_PATH = '/data/timeline-transitions';
-const TIMELINE_TRANSITION_SIDECARS = Object.freeze([
-  'wards-1972__wards-1984',
-  'wards-1984__wards-1993',
-  'wards-1993__wards-2012',
-  'wards-2012__wards-2022-final-recommendations'
-]);
-const TIMELINE_TRANSITION_SIDECAR_SET = new Set(TIMELINE_TRANSITION_SIDECARS);
+// Boundary changes between consecutive editions (scripts/build_timeline_changes.py). They
+// replace the Play-only transition overlays of data/timeline-transition-overlays/.
+const TIMELINE_CHANGES_BASE_PATH = '/data/timeline-changes';
+const TIMELINE_HIGHLIGHT_STORAGE_KEY = 'civgraph:timelineHighlightChanges';
+// A jump across more editions than this lists the first steps and says how many more.
+const TIMELINE_CHANGES_MAX_STEPS = 12;
+const TIMELINE_CHANGES_MAX_MARKERS = 200;
+// Play: the pause before each step, and how long a step is held -- long enough to see what
+// changed, short when there is nothing to see.
 const TIMELINE_ANIMATION_DELAYS = Object.freeze({
-  start: 900,
-  overlay: 1500,
-  settle: 450
+  start: 500,
+  hold: 2200,
+  holdQuiet: 600
 });
 
 const CIVIL_PARISHES_COMPOSITE_PARENT_IDS = new Set([
@@ -108,9 +107,10 @@ class Test2App {
     this.timelineOnSelect = null;
     this.timelineApplying = false;
     this.timelineApplyDepth = 0;
-    this.timelineTransitionCache = new Map();
-    this.timelineTransitionSidecarSet = new Set(TIMELINE_TRANSITION_SIDECAR_SET);
-    this.timelineTransitionManifestEntries = new Map();
+    this.timelineChangeIndex = null;
+    this.timelineChangeCache = new Map();
+    this.timelineChangeView = null;
+    this.editionRoles = new Map();
     this.timelineAnimation = {
       playing: false,
       paused: false,
@@ -229,7 +229,7 @@ class Test2App {
     this.metadataService.loadPortPlan = () => portPlan;
     await Promise.all([
       dataService.init({ loadBooks: false, loadGeographies: false }).then(() => { dataService.fuse = null; }),
-      this.loadTimelineTransitionManifest(),
+      this.loadTimelineChangeIndex(),
       this.metadataService.load()
     ]);
 
@@ -259,6 +259,9 @@ class Test2App {
         this.addFeaturesHereList(feature);
       },
       getMainMap: (mapId) => dataService.getMapById(mapId),
+      onTimelineChangeClick: (changeKey) => this.zoomToTimelineChange(changeKey),
+      // A census statistic (data/database/data-entries.json), drawn on its geography's tiles.
+      getDataEntry: (mapId) => (dataService.maps?.dataEntries || []).find((entry) => entry.id === mapId) || null,
       enrichFeature: (feature, selection) => this.elections?.enrichFeature(feature, selection) || feature,
       onChange: () => {
         this.syncCatalogueMapState();
@@ -546,9 +549,8 @@ class Test2App {
     uiController.setSplitState('map-full');
     this.updateMobilePaneToggleState();
     setTimeout(() => this.mapController?.invalidateSize?.(), 250);
-    // The catalogue has gone, so say what changed and leave a way straight back to it (UX
-    // review 2026-10-30, #12): without it the switch read as the list vanishing.
-    if (label) this.showMobilePeek(`${label} is on the map`, { action: 'Back to the catalogue' });
+    // No "<map> is on the map" note (owner, 1 Nov 2026): the map itself shows what changed, and
+    // the catalogue button in the header goes straight back.
   }
 
   /** On a phone the catalogue and the map are separate views: a page opened from the map (a
@@ -1267,6 +1269,7 @@ class Test2App {
       const url = resolveMapDownloadUrl(mapConfig);
       if (url) this.triggerDownload(url, url.split('/').pop());
     };
+    uiController.onExportMapImage = (mapId, format, options) => this.exportMapImage(mapId, format, options);
     uiController.onAddressSelect = (lat, lon, name) => this.mapController.addAddressMarker(lat, lon, name);
     uiController.onRemoveAddressMarker = () => this.mapController.removeAddressMarker();
     uiController.onCheckIntersection = async (lat, lon) => this.mapController.queryFeaturesAtLngLat(lat, lon);
@@ -2840,34 +2843,6 @@ class Test2App {
     `).join('');
   }
 
-  async loadTimelineTransitionManifest() {
-    try {
-      const response = await fetch(`${TIMELINE_TRANSITION_RUNTIME_BASE_PATH}/manifest.json`, { cache: 'default' });
-      if (!response.ok) return;
-      const manifest = await response.json();
-      const entries = Array.isArray(manifest?.transitions) ? manifest.transitions : [];
-      const ids = entries.map((entry) => entry?.id).filter(Boolean);
-      if (!ids.length) return;
-      this.timelineTransitionSidecarSet = new Set([...TIMELINE_TRANSITION_SIDECARS, ...ids]);
-      this.timelineTransitionManifestEntries = new Map(entries
-        .filter((entry) => entry?.id)
-        .map((entry) => [entry.id, entry]));
-      window.__civgraphTest2 = {
-        ...(window.__civgraphTest2 || {}),
-        timelineTransitionManifest: manifest
-      };
-    } catch {
-      this.timelineTransitionSidecarSet = new Set(TIMELINE_TRANSITION_SIDECAR_SET);
-      this.timelineTransitionManifestEntries = new Map();
-    }
-  }
-
-  getTimelineTransitionSidecarSet() {
-    return this.timelineTransitionSidecarSet instanceof Set
-      ? this.timelineTransitionSidecarSet
-      : TIMELINE_TRANSITION_SIDECAR_SET;
-  }
-
   setupTimelineControls() {
     this.ensureTimelineChrome();
     const range = document.getElementById('timelineRange');
@@ -2938,6 +2913,8 @@ class Test2App {
       // performs one swap instead of ten.
       const run = timelineChain.then(async () => {
         if (token !== timelineRequestToken) return;   // superseded while queued
+        // The edition on the map before this step: the changes are drawn from it to the new one.
+        const shownIndex = this.getShownTimelineIndex(timelineItems);
         this.beginTimelineApply();
         try {
           await this.timelineOnSelect(timelineItems[safeIndex], safeIndex);
@@ -2949,6 +2926,9 @@ class Test2App {
         this.setTimelineRangeIndex(safeIndex);
         this.timelineAnimation.currentIndex = safeIndex;
         this.updateTimelineAnimationButtons();
+        if (shownIndex >= 0 && shownIndex !== safeIndex) {
+          await this.showTimelineStepChanges(shownIndex, safeIndex, timelineItems).catch(() => null);
+        }
       });
       // The chain must not break on a rejection, or every later request is dropped.
       timelineChain = run.catch(() => {});
@@ -2968,6 +2948,15 @@ class Test2App {
         setIndex: (index) => applyIndex(index),
         isApplying: () => this.timelineApplying,
         currentIndex: () => this.timelineAnimation.currentIndex,
+        // What the change highlight shows: the list (view) and what is drawn on the map.
+        getChanges: () => {
+          const view = this.timelineChangeView;
+          return {
+            view: view ? { kind: view.kind, count: view.count, reversed: view.reversed, drawn: view.drawn, fromMapId: view.fromMapId, toMapId: view.toMapId, changes: view.changes.map((c) => ({ key: c.key, type: c.type, text: c.text })) } : null,
+            map: this.mapController?.getTimelineChangesState?.() || null,
+            highlight: this.getTimelineHighlightEnabled()
+          };
+        },
       };
     }
 
@@ -3074,6 +3063,23 @@ class Test2App {
     const reset = document.getElementById('timelineReset');
     if (reset?.parentElement === slider) slider.insertBefore(generals, reset);
     else slider.appendChild(generals);
+
+    // Beside the date: "Highlight changes" on/off, and the list of what changed at this step.
+    const changes = document.createElement('div');
+    changes.className = 'timeline-changes';
+    changes.id = 'timelineChangesGroup';
+    changes.hidden = true;
+    changes.innerHTML = `
+      <button type="button" id="timelineHighlight" class="timeline-switch" role="switch" aria-checked="${this.getTimelineHighlightEnabled() ? 'true' : 'false'}" aria-label="Highlight changes" title="Highlight boundary changes when the date changes">
+        <span class="timeline-switch__track" aria-hidden="true"><span class="timeline-switch__thumb"></span></span>
+        <span class="timeline-switch__label" aria-hidden="true">Highlight</span>
+      </button>
+      <button type="button" id="timelineChanges" class="timeline-chip timeline-changes__button" aria-expanded="false" aria-controls="timelineChangesPanel" hidden></button>`;
+    info.insertAdjacentElement('afterend', changes);
+    changes.querySelector('#timelineHighlight').addEventListener('click', () => {
+      this.setTimelineHighlightEnabled(!this.getTimelineHighlightEnabled());
+    });
+    changes.querySelector('#timelineChanges').addEventListener('click', () => this.toggleTimelineChangesPanel());
 
     if (typeof ResizeObserver !== 'undefined') {
       new ResizeObserver(() => this.fitTimelineYearLabels()).observe(track);
@@ -3231,36 +3237,9 @@ class Test2App {
       generals.hidden = !filter?.available;
       generals.setAttribute('aria-pressed', filter?.active ? 'true' : 'false');
     }
+    // An election's timeline has no boundary changes to show; a boundary series has.
+    this.renderTimelineChangesControl();
     this.notifyTimelineLayoutChanged();
-  }
-
-  selectTimelineTransitionSequence(items) {
-    const playableItems = Array.isArray(items)
-      ? items.filter((item) => item?.mapId && this.isTimelineMapPlayable(item.mapId))
-      : [];
-    let best = [];
-    let current = [];
-    for (const item of playableItems) {
-      if (!current.length) {
-        current = [item];
-        continue;
-      }
-      const previous = current[current.length - 1];
-      if (this.hasTimelineTransitionSidecar(previous.mapId, item.mapId)) {
-        current.push(item);
-        continue;
-      }
-      if (current.length > best.length) best = current;
-      current = [item];
-    }
-    if (current.length > best.length) best = current;
-    return best.length >= 2 ? best : [];
-  }
-
-  hasTimelineTransitionSidecar(fromMapId, toMapId) {
-    const sidecars = this.getTimelineTransitionSidecarSet();
-    return this.getTimelineTransitionKeys(fromMapId, toMapId)
-      .some((key) => sidecars.has(key));
   }
 
   clampTimelineIndex(index, items = this.timelineItems) {
@@ -3318,7 +3297,8 @@ class Test2App {
     this.timelineAnimation.atEnd = false;
     this.timelineAnimation.singleLayerReferenceId = null;
     this.timelineAnimation.sequenceItems = [];
-    this.mapController?.clearTimelineTransitionOverlay?.();
+    this.setTimelineChangeView(null);
+    this.closeTimelineChangesPanel();
     document.getElementById('timelineSlider')?.classList.add('hidden');
     this.updateTimelineAnimationButtons();
     this.notifyTimelineLayoutChanged();
@@ -3334,6 +3314,10 @@ class Test2App {
     document.addEventListener('pointerdown', (event) => {
       const target = event.target;
       if (target?.closest?.('#map, .maplibregl-map, .maplibre-dom-label')) return;
+      // Kept for "Download SVG": a feature whose details are still showing counts as selected,
+      // though reaching the download (in the catalogue or the details box) clears its highlight.
+      const selected = this.mapController?.renderer?.selected;
+      if (selected) this._lastClearedSelection = selected;
       this.mapController?.clearTransientHighlight?.();
     }, true);
   }
@@ -3393,6 +3377,7 @@ class Test2App {
       // Stepping through time keeps the reader's zoom and position; only opening a map fits it.
       await this.applyTimelineTimestamp(item.timestamp, { fit: false });
     });
+    this.syncTimelineChangesToShownEdition();
   }
 
   getTimelineMapIdForTimestamp(referenceMapId, timestamp) {
@@ -3593,7 +3578,7 @@ class Test2App {
       this.timelineAnimation.paused = true;
       this.timelineAnimation.currentIndex = this.getTimelineRangeIndex();
     }
-    if (wasActive && options.preserveOverlay !== true) this.mapController?.clearTimelineTransitionOverlay?.();
+    if (wasActive && options.preserveOverlay !== true) this.setTimelineChangeView(null);
     this.updateTimelineAnimationButtons();
   }
 
@@ -3606,7 +3591,7 @@ class Test2App {
     this.timelineAnimation.playing = false;
     this.timelineAnimation.paused = false;
     this.timelineAnimation.atEnd = false;
-    this.mapController?.clearTimelineTransitionOverlay?.();
+    if (wasActive) this.setTimelineChangeView(null);
     if (!wasActive) {
       this.updateTimelineAnimationButtons();
       return;
@@ -3664,6 +3649,7 @@ class Test2App {
     this.setTimelineRangeIndex(startIndex);
     this.updateTimelineAnimationButtons();
     const startItem = sequenceItems[startIndex];
+    if (this.getShownTimelineIndex(sequenceItems) !== startIndex) this.setTimelineChangeView(null);
     if (startItem?.timestamp !== undefined) await this.applyTimelineTimestamp(startItem.timestamp, { fit: false });
     if (!this.isTimelineRunCurrent(runId)) return;
     if (startIndex >= sequenceItems.length - 1) {
@@ -3704,65 +3690,25 @@ class Test2App {
     });
   }
 
+  /**
+   * One Play step: swap to the next edition, highlight what changed, and hold it long enough to
+   * see. It used to load both editions, lay a precomputed overlay over them for 1.5 s and fade
+   * it; the overlay existed for 14 series only, and for Counties covered the whole island.
+   */
   async applyTimelineAnimationTransition(fromIndex, toIndex, runId = this.timelineAnimation.runId, items = this.getTimelineAnimationItems()) {
     const timelineItems = Array.isArray(items) && items.length ? items : this.getTimelineAnimationItems();
-    const fromItem = timelineItems[this.clampTimelineIndex(fromIndex, timelineItems)];
-    const toItem = timelineItems[this.clampTimelineIndex(toIndex, timelineItems)];
-    const fromMapId = fromItem?.mapId;
-    const toMapId = toItem?.mapId;
-    if (!fromMapId || !toMapId) {
-      if (toItem?.timestamp !== undefined) await this.applyTimelineTimestamp(toItem.timestamp, { fit: false });
-      this.timelineAnimation.currentIndex = this.clampTimelineIndex(toIndex, timelineItems);
-      return;
-    }
-    this.beginTimelineApply();
-    try {
-      if (!this.isTimelineMapPlayable(fromMapId) || !this.isTimelineMapPlayable(toMapId)) {
-        if (toItem?.timestamp !== undefined) await this.applyTimelineTimestamp(toItem.timestamp, { fit: false });
-        this.timelineAnimation.currentIndex = this.clampTimelineIndex(toIndex, timelineItems);
-        return;
-      }
-      const fromReady = await this.ensureTimelineLayerLoaded(fromMapId);
-      if (!this.isTimelineRunCurrent(runId)) return;
-      const toReady = await this.ensureTimelineLayerLoaded(toMapId);
-      if (!this.isTimelineRunCurrent(runId)) return;
-      if (!fromReady || !toReady) {
-        if (toItem?.timestamp !== undefined) await this.applyTimelineTimestamp(toItem.timestamp, { fit: false });
-        this.timelineAnimation.currentIndex = this.clampTimelineIndex(toIndex, timelineItems);
-        return;
-      }
-      this.mapController.showLayer?.(fromMapId);
-      this.mapController.showLayer?.(toMapId);
-      const overlay = await this.loadTimelineTransitionOverlay(fromMapId, toMapId);
-      if (!this.isTimelineRunCurrent(runId)) return;
-      if (overlay?.features?.length) {
-        this.mapController.setTimelineTransitionOverlay?.(overlay, {
-          fromMapId,
-          toMapId,
-          minAreaM2: TIMELINE_TRANSITION_MIN_AREA_M2
-        });
-      } else {
-        this.mapController.clearTimelineTransitionOverlay?.();
-      }
-      this.setTimelineRangeIndex(toIndex);
-      this.timelineAnimation.currentIndex = this.clampTimelineIndex(toIndex, timelineItems);
-      this.syncCatalogueMapState();
-      this.updateActiveLayers();
-      this.updateURLState();
-    } finally {
-      if (this.endTimelineApply()) this.updateTimeline();
-    }
-    await this.waitTimelineDelay(TIMELINE_ANIMATION_DELAYS.overlay);
+    const safeTo = this.clampTimelineIndex(toIndex, timelineItems);
+    const toItem = timelineItems[safeTo];
+    const shownIndex = this.getShownTimelineIndex(timelineItems);
+    const from = shownIndex >= 0 ? shownIndex : this.clampTimelineIndex(fromIndex, timelineItems);
+    if (toItem?.timestamp !== undefined) await this.applyTimelineTimestamp(toItem.timestamp, { fit: false });
     if (!this.isTimelineRunCurrent(runId)) return;
-    this.mapController.clearTimelineTransitionOverlay?.({ fade: true });
-    await this.waitTimelineDelay(TIMELINE_ANIMATION_DELAYS.settle);
+    this.setTimelineRangeIndex(safeTo);
+    this.timelineAnimation.currentIndex = safeTo;
+    const view = from !== safeTo ? await this.showTimelineStepChanges(from, safeTo, timelineItems).catch(() => null) : null;
     if (!this.isTimelineRunCurrent(runId)) return;
-    if (fromMapId !== toMapId && this.isMapLoaded(fromMapId)) {
-      await this.unloadMap(fromMapId, { preserveTimelineAnimation: true });
-    }
-    this.syncCatalogueMapState();
-    this.updateActiveLayers();
-    this.updateURLState();
+    const visible = Boolean(view?.changes?.length) && this.getTimelineHighlightEnabled();
+    await this.waitTimelineDelay(visible ? TIMELINE_ANIMATION_DELAYS.hold : TIMELINE_ANIMATION_DELAYS.holdQuiet);
   }
 
   async ensureTimelineLayerLoaded(mapId) {
@@ -3772,135 +3718,399 @@ class Test2App {
     return true;
   }
 
-  getTimelineTransitionCandidateIds(mapId) {
-    const map = dataService.getMapById(mapId);
-    const candidates = new Set();
-    const add = (value) => {
-      if (!value) return;
-      const id = String(value).trim();
-      if (!id) return;
-      const expanded = [
-        id,
-        id.replace(/-vector-test$/, ''),
-        id.replace(/-(standard|full|largescale|50k)$/, '')
-      ];
-      const wardMatch = id.match(/^wards-(1972|1984|1993|2012)(?:-|$)/);
-      if (wardMatch) expanded.push('wards-' + wardMatch[1]);
-      if (/^wards-2022(?:-|$)/.test(id)) expanded.push('wards-2022-final-recommendations');
-      for (const candidate of expanded) {
-        if (candidate) candidates.add(candidate);
-      }
-    };
-    add(mapId);
-    add(map?.id);
-    add(map?.sourceMapId);
-    add(map?.cloneOf);
-    add(map?.aliasOf);
-    add(map?.parentId);
-    add(map?.coLoadMapId);
-    return [...candidates];
-  }
+  /* ------------------------------------------------------------------------------------------
+   * Boundary changes on the timeline (reviewer report, Phelim, 2026-11-01).
+   *
+   * Dragging the slider only swapped one edition for the next: colours stayed the same, a
+   * change of a few townlands was invisible at island zoom, and only Play mode showed an
+   * overlay -- for Counties, one that painted the whole island purple. Every step now draws
+   * what changed between the edition that was shown and the one now shown, from
+   * data/timeline-changes/ (scripts/build_timeline_changes.py), and the "N changes" button
+   * beside the date lists them with a zoom-to for each.
+   * ------------------------------------------------------------------------------------------ */
 
-  getTimelineTransitionKeys(fromMapId, toMapId) {
-    const fromCandidates = this.getTimelineTransitionCandidateIds(fromMapId);
-    const toCandidates = this.getTimelineTransitionCandidateIds(toMapId);
-    const preferred = [];
-    const fallback = [];
-    const seen = new Set();
-    for (const fromCandidate of fromCandidates) {
-      for (const toCandidate of toCandidates) {
-        const key = fromCandidate + '__' + toCandidate;
-        if (seen.has(key)) continue;
-        seen.add(key);
-        if (this.getTimelineTransitionSidecarSet().has(key)) preferred.push(key);
-        else fallback.push(key);
-      }
-    }
-    return [...preferred, ...fallback];
-  }
-
-  async loadTimelineTransitionOverlay(fromMapId, toMapId) {
-    const keys = this.getTimelineTransitionKeys(fromMapId, toMapId);
-    for (const key of keys) {
-      const entry = this.timelineTransitionManifestEntries?.get?.(key);
-      const manifestPaths = entry
-        ? (Array.isArray(entry.runtimePaths) && entry.runtimePaths.length
-          ? entry.runtimePaths
-          : [entry.runtimePath].filter(Boolean))
-        : [];
-      if (manifestPaths.length) {
-        const overlay = await this.fetchTimelineTransitionGeoJsonParts(manifestPaths);
-        if (overlay?.features?.length) return overlay;
-      }
-      const endpoints = manifestPaths.length
-        ? [`${TIMELINE_TRANSITION_BASE_PATH}/${key}.geojson`]
-        : [
-          `${TIMELINE_TRANSITION_RUNTIME_BASE_PATH}/${key}.geojson`,
-          `${TIMELINE_TRANSITION_BASE_PATH}/${key}.geojson`
-        ];
-      for (const url of endpoints) {
-        const overlay = await this.fetchTimelineTransitionGeoJson(url);
-        if (overlay?.features?.length) return overlay;
-      }
-    }
-    return null;
-  }
-
-  async fetchTimelineTransitionGeoJsonParts(paths) {
-    const urls = (Array.isArray(paths) ? paths : [])
-      .map((path) => String(path || '').trim())
-      .filter(Boolean)
-      .map((path) => path.startsWith('/') ? path : `/${path}`);
-    if (!urls.length) return null;
-    const cacheKey = `parts:${urls.join('|')}`;
-    if (this.timelineTransitionCache.has(cacheKey)) return this.timelineTransitionCache.get(cacheKey);
-    const features = [];
-    let name = 'Territorial transition';
-    let metadata = {};
-    for (const url of urls) {
-      const part = await this.fetchTimelineTransitionGeoJson(url);
-      if (!part) continue;
-      if (part.name) name = part.name;
-      metadata = { ...metadata, ...(part.metadata || {}) };
-      if (Array.isArray(part.features)) features.push(...part.features);
-    }
-    const overlay = features.length ? { type: 'FeatureCollection', name, metadata, features } : null;
-    this.timelineTransitionCache.set(cacheKey, overlay);
-    return overlay;
-  }
-
-  async fetchTimelineTransitionGeoJson(url) {
-    if (this.timelineTransitionCache.has(url)) return this.timelineTransitionCache.get(url);
+  async loadTimelineChangeIndex() {
     try {
-      const response = await fetch(url, { cache: 'default' });
+      const response = await fetch(`${TIMELINE_CHANGES_BASE_PATH}/index.json`, { cache: 'default' });
       const contentType = String(response.headers?.get?.('content-type') || '').toLowerCase();
-      if (!response.ok || contentType.includes('text/html')) {
-        this.timelineTransitionCache.set(url, null);
-        return null;
-      }
-      const data = await response.json();
-      const filtered = this.filterTimelineTransitionGeoJson(data);
-      this.timelineTransitionCache.set(url, filtered);
-      return filtered;
+      if (!response.ok || contentType.includes('text/html')) return;
+      const index = await response.json();
+      this.timelineChangeIndex = index?.pairs && typeof index.pairs === 'object' ? index.pairs : {};
     } catch {
-      this.timelineTransitionCache.set(url, null);
+      this.timelineChangeIndex = {};
+    }
+  }
+
+  getTimelineHighlightEnabled() {
+    try {
+      return localStorage.getItem(TIMELINE_HIGHLIGHT_STORAGE_KEY) !== '0';
+    } catch {
+      return true;
+    }
+  }
+
+  setTimelineHighlightEnabled(value) {
+    try { localStorage.setItem(TIMELINE_HIGHLIGHT_STORAGE_KEY, value ? '1' : '0'); } catch { /* private mode */ }
+    const toggle = document.getElementById('timelineHighlight');
+    toggle?.setAttribute('aria-checked', value ? 'true' : 'false');
+    this.drawTimelineChanges();
+  }
+
+  /** The index of the timeline stop whose edition is on the map now, or -1. */
+  getShownTimelineIndex(items = this.getTimelineAnimationItems()) {
+    return (Array.isArray(items) ? items : [])
+      .findIndex((item) => item?.mapId && this.isMapLoaded(item.mapId) && this.isMapVisible(item.mapId));
+  }
+
+  /**
+   * The consecutive pairs between two stops, in the order they are stepped through: forward
+   * from 1927 to 1957 is 1927-1955 then 1955-1957; backward is the same pairs, latest first.
+   */
+  getTimelineChangeSteps(fromIndex, toIndex, items = this.getTimelineAnimationItems()) {
+    const steps = [];
+    if (!Number.isInteger(fromIndex) || !Number.isInteger(toIndex) || fromIndex === toIndex) return steps;
+    for (let i = Math.min(fromIndex, toIndex); i < Math.max(fromIndex, toIndex); i += 1) {
+      const fromMapId = items[i]?.mapId;
+      const toMapId = items[i + 1]?.mapId;
+      if (!fromMapId || !toMapId || fromMapId === toMapId) continue;
+      const id = `${fromMapId}__${toMapId}`;
+      steps.push({ id, fromMapId, toMapId, fromItem: items[i], toItem: items[i + 1], entry: this.timelineChangeIndex?.[id] || null });
+    }
+    return toIndex < fromIndex ? steps.reverse() : steps;
+  }
+
+  fetchTimelineChangePair(path) {
+    if (!path) return Promise.resolve(null);
+    const url = path.startsWith('/') ? path : `/${path}`;
+    if (!this.timelineChangeCache.has(url)) {
+      this.timelineChangeCache.set(url, fetch(url, { cache: 'default' })
+        .then((response) => {
+          const contentType = String(response.headers?.get?.('content-type') || '').toLowerCase();
+          return response.ok && !contentType.includes('text/html') ? response.json() : null;
+        })
+        .catch(() => null));
+    }
+    return this.timelineChangeCache.get(url);
+  }
+
+  /**
+   * After every timeline step (drag, previous/next, latest, Play): what changed between the
+   * edition that was shown (fromIndex) and the one now shown (toIndex). Stepping backwards
+   * shows the same pairs reversed. It is drawn unless the reader has switched highlighting
+   * off, and stays until the next step. `draw: false` only describes it, for the button.
+   */
+  async showTimelineStepChanges(fromIndex, toIndex, items = this.getTimelineAnimationItems(), options = {}) {
+    const token = (this.timelineChangeToken = (this.timelineChangeToken || 0) + 1);
+    const steps = this.getTimelineChangeSteps(fromIndex, toIndex, items);
+    if (!steps.length) {
+      this.setTimelineChangeView(null);
       return null;
     }
+    const used = steps.slice(0, TIMELINE_CHANGES_MAX_STEPS);
+    // While a step's own changes load, a layer change elsewhere must not replace them with the
+    // undrawn description syncTimelineChangesToShownEdition gives a newly opened map.
+    if (options.draw !== false) this.timelineChangeStepPending = token;
+    let files;
+    try {
+      files = await Promise.all(used.map((step) => this.fetchTimelineChangePair(step.entry?.path)));
+    } finally {
+      if (this.timelineChangeStepPending === token) this.timelineChangeStepPending = 0;
+    }
+    if (token !== this.timelineChangeToken) return null;
+    const view = this.buildTimelineChangeView(used, files, {
+      reversed: toIndex < fromIndex,
+      fromItem: items[fromIndex],
+      toItem: items[toIndex],
+      skipped: steps.length - used.length
+    });
+    view.drawn = options.draw !== false;
+    this.setTimelineChangeView(view);
+    return view;
   }
 
-  filterTimelineTransitionGeoJson(data) {
-    const features = (Array.isArray(data?.features) ? data.features : [])
-      .filter((feature) => {
-        const area = Number(feature?.properties?.area_m2 ?? feature?.properties?.areaM2 ?? feature?.properties?.areaSqm);
-        return !Number.isFinite(area) || area >= TIMELINE_TRANSITION_MIN_AREA_M2;
-      });
+  buildTimelineChangeView(steps, files, { reversed, fromItem, toItem, skipped = 0 }) {
+    const multi = steps.length > 1;
+    const changes = [];
+    const features = [];
+    const parts = [];
+    steps.forEach((step, k) => {
+      const file = files[k];
+      const entry = step.entry || null;
+      const label = reversed
+        ? `${this.formatTimelineItemLabel(step.toItem)} to ${this.formatTimelineItemLabel(step.fromItem)}`
+        : `${this.formatTimelineItemLabel(step.fromItem)} to ${this.formatTimelineItemLabel(step.toItem)}`;
+      parts.push({ label, kind: entry?.kind || 'unknown', count: Number(entry?.count) || 0, text: entry?.text || 'No change data for this step.' });
+      for (const change of Array.isArray(file?.changes) ? file.changes : []) {
+        changes.push({ ...change, key: `${k}:${change.id}`, step: multi ? label : '', text: this.describeTimelineChange(change, reversed) });
+      }
+      for (const feature of Array.isArray(file?.features) ? file.features : []) {
+        const changeId = feature?.properties?.changeId;
+        features.push(changeId ? { ...feature, properties: { ...feature.properties, changeKey: `${k}:${changeId}` } } : feature);
+      }
+    });
+    const count = parts.reduce((sum, part) => sum + part.count, 0);
+    const kinds = new Set(parts.map((part) => part.kind));
+    const kind = kinds.has('changes') ? 'changes'
+      : kinds.size === 1 && kinds.has('none') ? 'none'
+        : kinds.has('redrawn') ? 'redrawn'
+          : kinds.has('none') ? 'none' : 'unknown';
+    const toMapId = toItem?.mapId || null;
     return {
-      type: 'FeatureCollection',
-      name: data?.name || 'Territorial transition',
-      metadata: data?.metadata || {},
-      features
+      key: steps.map((step) => step.id).join('|') + (reversed ? '|reversed' : ''),
+      reversed,
+      kind,
+      count,
+      parts,
+      changes,
+      features,
+      skipped,
+      fromLabel: this.formatTimelineItemLabel(fromItem),
+      toLabel: this.formatTimelineItemLabel(toItem),
+      fromMapId: fromItem?.mapId || null,
+      toMapId,
+      note: !reversed && !multi && toMapId ? String(dataService.getMapById(toMapId)?.changeNote || '') : '',
+      drawn: true
     };
   }
+
+  /** A name in capitals ("KILKENNY", "KING'S COUNTY") in ordinary case for a sentence. */
+  timelineChangeName(name) {
+    const text = String(name || '').trim();
+    if (!text) return 'an unnamed area';
+    // "CROSSGAR and KILLYLEAGH" counts as capitals too: the joining words were left small.
+    const bare = text.replace(/\b(and|of|the)\b/g, '');
+    if (bare !== bare.toUpperCase() || !/[A-Z]/.test(text)) return text;
+    return text.toLowerCase()
+      .replace(/(^|[\s\-(/.])([a-z])/g, (match, lead, letter) => lead + letter.toUpperCase())
+      .replace(/\s(And|Of|The|Na|An)\s/g, (match) => match.toLowerCase());
+  }
+
+  formatHectares(value) {
+    const ha = Number(value) || 0;
+    if (ha >= 100) return `${Math.round(ha).toLocaleString('en-GB')} ha`;
+    if (ha >= 10) return `${Math.round(ha)} ha`;
+    return `${ha.toFixed(1)} ha`;
+  }
+
+  describeTimelineChange(change, reversed = false) {
+    const from = this.timelineChangeName(change?.from);
+    const to = this.timelineChangeName(change?.to);
+    const ha = this.formatHectares(change?.ha);
+    switch (change?.type) {
+      case 'created':
+        return reversed ? `${to} merged back into ${from}` : `${to} formed from ${from}`;
+      case 'abolished':
+        return reversed ? `${from} re-formed from ${to}` : `${from} abolished, joined to ${to}`;
+      case 'renamed':
+        return reversed ? `${to} renamed back to ${from}` : `${from} renamed ${to}`;
+      // Drawn in one edition only (a gap in the other's source layer).
+      case 'appeared':
+        return reversed ? `${to} not drawn in this edition` : `${to} first drawn in this edition`;
+      case 'disappeared':
+        return reversed ? `${from} drawn again in this edition` : `${from} no longer drawn`;
+      default:
+        return reversed ? `${ha} from ${to} back to ${from}` : `${ha} from ${from} to ${to}`;
+    }
+  }
+
+  setTimelineChangeView(view) {
+    if (!view) this.timelineChangeToken = (this.timelineChangeToken || 0) + 1;
+    this.timelineChangeView = view || null;
+    this.renderTimelineChangesControl();
+    this.drawTimelineChanges();
+  }
+
+  drawTimelineChanges() {
+    const view = this.timelineChangeView;
+    if (!view || !view.drawn || !this.getTimelineHighlightEnabled() || (!view.features.length && !view.changes.length)) {
+      this.mapController?.clearTimelineChanges?.();
+      return;
+    }
+    this.mapController?.setTimelineChanges?.({ features: view.features }, {
+      key: view.key,
+      reversed: view.reversed,
+      // A marker per change shows a small one at island zoom; past a few hundred (a ward review)
+      // they would only blanket the map, and the new lines say it better.
+      points: view.changes.length > TIMELINE_CHANGES_MAX_MARKERS ? [] : view.changes
+        .filter((change) => Array.isArray(change.point))
+        .map((change) => ({ id: change.key, lng: Number(change.point[0]), lat: Number(change.point[1]) }))
+    });
+  }
+
+  /**
+   * Keep the changes button about the edition on the map. A map opened from the catalogue,
+   * or an edition changed some other way, is described against the edition before it, but
+   * not drawn until the reader steps or opens the list.
+   */
+  syncTimelineChangesToShownEdition() {
+    const items = this.getTimelineAnimationItems();
+    const shown = this.getShownTimelineIndex(items);
+    const view = this.timelineChangeView;
+    if (shown < 0) {
+      if (view) this.setTimelineChangeView(null);
+      else this.renderTimelineChangesControl();
+      return;
+    }
+    if ((view && view.toMapId === items[shown].mapId) || this.timelineChangeStepPending) {
+      this.renderTimelineChangesControl();
+      return;
+    }
+    if (shown > 0) this.showTimelineStepChanges(shown - 1, shown, items, { draw: false }).catch(() => {});
+    else this.setTimelineChangeView(null);
+  }
+
+  renderTimelineChangesControl() {
+    const group = document.getElementById('timelineChangesGroup');
+    const button = document.getElementById('timelineChanges');
+    if (!group || !button) return;
+    const view = this.timelineChangeView;
+    const items = this.getTimelineAnimationItems();
+    const boundaryTimeline = !this.elections?.activeEntry && items.some((item) => item?.mapId);
+    group.hidden = !boundaryTimeline;
+    const toggle = document.getElementById('timelineHighlight');
+    toggle?.setAttribute('aria-checked', this.getTimelineHighlightEnabled() ? 'true' : 'false');
+    const known = view && view.kind !== 'unknown';
+    button.hidden = !known;
+    if (!known) {
+      this.closeTimelineChangesPanel();
+      return;
+    }
+    const label = view.kind === 'changes'
+      ? `${view.count.toLocaleString('en-GB')} change${view.count === 1 ? '' : 's'}`
+      : view.kind === 'redrawn' ? 'Redrawn' : 'No changes';
+    button.textContent = label;
+    button.dataset.kind = view.kind;
+    button.title = `${view.fromLabel} to ${view.toLabel}: ${view.parts.map((part) => part.text).join(' ')}`;
+    if (!document.getElementById('timelineChangesPanel')?.hidden) this.renderTimelineChangesPanel();
+  }
+
+  ensureTimelineChangesPanel() {
+    let panel = document.getElementById('timelineChangesPanel');
+    if (panel) return panel;
+    const host = this.mapController?.map?.getContainer?.() || document.getElementById('map');
+    if (!host) return null;
+    panel = document.createElement('section');
+    panel.id = 'timelineChangesPanel';
+    panel.className = 'timeline-changes-panel';
+    panel.setAttribute('aria-label', 'Boundary changes');
+    panel.hidden = true;
+    panel.addEventListener('click', (event) => {
+      const zoom = event.target.closest?.('[data-change-key]');
+      if (zoom) {
+        this.zoomToTimelineChange(zoom.dataset.changeKey);
+        return;
+      }
+      if (event.target.closest?.('.timeline-changes-panel__close')) this.closeTimelineChangesPanel({ focusButton: true });
+    });
+    panel.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') this.closeTimelineChangesPanel({ focusButton: true });
+    });
+    host.appendChild(panel);
+    return panel;
+  }
+
+  toggleTimelineChangesPanel() {
+    const panel = this.ensureTimelineChangesPanel();
+    if (!panel) return;
+    if (!panel.hidden) {
+      this.closeTimelineChangesPanel();
+      return;
+    }
+    // Opening the list draws the changes it lists.
+    if (this.timelineChangeView && !this.timelineChangeView.drawn) {
+      this.timelineChangeView.drawn = true;
+      this.drawTimelineChanges();
+    }
+    this.renderTimelineChangesPanel();
+    panel.hidden = false;
+    document.getElementById('timelineChanges')?.setAttribute('aria-expanded', 'true');
+    panel.querySelector('.timeline-changes-panel__close')?.focus({ preventScroll: true });
+  }
+
+  closeTimelineChangesPanel(options = {}) {
+    const panel = document.getElementById('timelineChangesPanel');
+    const button = document.getElementById('timelineChanges');
+    if (panel && !panel.hidden) {
+      panel.hidden = true;
+      if (options.focusButton) button?.focus({ preventScroll: true });
+    }
+    button?.setAttribute('aria-expanded', 'false');
+  }
+
+  renderTimelineChangesPanel() {
+    const panel = this.ensureTimelineChangesPanel();
+    const view = this.timelineChangeView;
+    if (!panel || !view) return;
+    const esc = (value) => escapeHtml(String(value ?? ''));
+    const typeLabel = { created: 'New', abolished: 'Abolished', renamed: 'Renamed', transfer: 'Transfer', reorganised: 'Transfer', appeared: 'Added', disappeared: 'Gone' };
+    const reversedType = { created: 'abolished', abolished: 'created', appeared: 'disappeared', disappeared: 'appeared' };
+    const summaries = view.parts.map((part) => `<p class="timeline-changes-panel__summary">${view.parts.length > 1 ? `<strong>${esc(part.label)}:</strong> ` : ''}${esc(part.text)}</p>`).join('');
+    const list = view.changes.length
+      ? `<ol class="timeline-changes-panel__list">${view.changes.map((change) => {
+        const type = view.reversed ? (reversedType[change.type] || change.type) : change.type;
+        return `<li class="timeline-changes-panel__item">
+          <span class="timeline-changes-panel__type timeline-changes-panel__type--${esc(type)}">${esc(typeLabel[type] || 'Change')}</span>
+          <span class="timeline-changes-panel__text">${esc(change.text)}${change.step ? ` <span class="timeline-changes-panel__step">(${esc(change.step)})</span>` : ''}</span>
+          <button type="button" class="timeline-changes-panel__zoom" data-change-key="${esc(change.key)}" aria-label="Zoom to: ${esc(change.text)}" title="Zoom to this change">
+            <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15 15l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+        </li>`;
+      }).join('')}</ol>`
+      : '';
+    const more = view.skipped > 0 ? `<p class="timeline-changes-panel__summary">and ${view.skipped} more step${view.skipped === 1 ? '' : 's'}: step one edition at a time to see them.</p>` : '';
+    const key = view.changes.length
+      ? `<p class="timeline-changes-panel__key" aria-hidden="true"><span class="timeline-changes-panel__swatch timeline-changes-panel__swatch--area"></span>changed area <span class="timeline-changes-panel__swatch timeline-changes-panel__swatch--new"></span>new line <span class="timeline-changes-panel__swatch timeline-changes-panel__swatch--gone"></span>line gone</p>`
+      : '';
+    const note = view.note ? `<p class="timeline-changes-panel__note"><strong>Catalogue note:</strong> ${esc(view.note)}</p>` : '';
+    panel.innerHTML = `
+      <header class="timeline-changes-panel__header">
+        <h2 class="timeline-changes-panel__title">Changes, ${esc(view.fromLabel)} to ${esc(view.toLabel)}</h2>
+        <button type="button" class="timeline-changes-panel__close" aria-label="Close the list of changes">&times;</button>
+      </header>
+      ${summaries}${more}${key}${list}${note}`;
+  }
+
+  zoomToTimelineChange(changeKey) {
+    const change = this.timelineChangeView?.changes?.find((item) => item.key === changeKey);
+    if (!change || !Array.isArray(change.bbox)) return;
+    const [w, s, e, n] = change.bbox.map(Number);
+    // A small change is shown with some country round it, not filling the screen.
+    const padLng = Math.max((e - w) * 0.6, 0.01);
+    const padLat = Math.max((n - s) * 0.6, 0.006);
+    this.mapController?.fitToBounds?.([w - padLng, s - padLat, e + padLng, n + padLat]);
+    if (this.isPhoneLayout?.()) this.closeTimelineChangesPanel();
+  }
+
+  /**
+   * Two editions of one series switched on together were drawn identically, with two identical
+   * legend entries. The older is now grey and dashed, and the legend says which is which.
+   */
+  updateEditionRoles() {
+    const ids = this.getLoadedLayerIds()
+      .filter((id) => dataService.getMapById(id) && this.isMapVisible(id));
+    const groups = new Map();
+    for (const id of ids) {
+      const chain = dataService.getChainForMap?.(id);
+      if (!chain) continue;
+      const key = `${chain.id}|${(dataService.getColumnClassIds?.(chain, id) || []).join(',')}`;
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(id);
+    }
+    const roles = new Map();
+    for (const members of groups.values()) {
+      if (members.length < 2) continue;
+      const dated = members
+        .map((id) => ({ id, time: Number(dataService.parseMapDate?.(dataService.getMapById(id)?.date)) }))
+        .sort((a, b) => (Number.isFinite(b.time) ? b.time : -Infinity) - (Number.isFinite(a.time) ? a.time : -Infinity));
+      roles.set(dated[0].id, 'newer');
+      for (const { id } of dated.slice(1)) roles.set(id, 'older');
+    }
+    for (const id of new Set([...(this.editionRoles?.keys() || []), ...roles.keys()])) {
+      this.mapController?.setEditionRole?.(id, roles.get(id) === 'older' ? 'older' : null);
+    }
+    this.editionRoles = roles;
+  }
+
   async unloadMap(mapId, options = {}) {
     if (!options.preserveTimelineAnimation && this.isTimelineAnimationLayer(mapId)) {
       await this.stopTimelineAnimation({ restoreOriginal: false });
@@ -4346,6 +4556,7 @@ class Test2App {
     this.bindActiveLayerSourceButtons();
     if (this.currentSourceMapId) this.renderSourcePanel();
     this.updateTimeline();
+    this.updateEditionRoles();
     this.updateMapLegend();
   }
 
@@ -4361,13 +4572,19 @@ class Test2App {
     if (!host) return;
     const election = this.elections?.legendModel?.() || null;
     const backing = new Set(election ? this.elections.getActiveElectionBackingLayerIds?.() || [] : []);
+    // Census statistics are keyed by their classes, not listed as outlines.
+    const statistics = this.getLoadedLayerIds()
+      .filter((id) => this.isMapVisible(id))
+      .map((id) => this.mapController?.getCensusOverlayLegend?.(id))
+      .filter(Boolean);
+    const statisticIds = new Set(statistics.map((s) => s.id));
     const layers = this.getLoadedLayerIds()
-      .filter((id) => !backing.has(id) && this.isMapVisible(id))
-      .map((id) => ({ id, name: this.mapLabel(id), colour: this.layerColour(id) }))
+      .filter((id) => !backing.has(id) && !statisticIds.has(id) && this.isMapVisible(id))
+      .map((id) => ({ id, name: this.mapLabel(id), colour: this.layerColour(id), role: this.editionRoles?.get(id) || null }))
       .filter((layer) => layer.colour);
-    const showLayers = layers.length > 1 || (election && layers.length > 0);
+    const showLayers = layers.length > 1 || ((election || statistics.length) && layers.length > 0);
     let legend = document.getElementById('test2MapLegend');
-    if (!election && !showLayers) {
+    if (!election && !showLayers && !statistics.length) {
       legend?.remove();
       return;
     }
@@ -4404,11 +4621,44 @@ class Test2App {
       if (election.seats) parts.push('<p class="test2-map-legend__note"><span class="test2-map-legend__dots" aria-hidden="true"><i></i><i></i><i></i></span>One dot per seat, in the colour of the party that won it</p>');
       else if (election.bars) parts.push('<p class="test2-map-legend__note">Bars: each party\'s share of the vote</p>');
     }
-    if (showLayers) {
-      parts.push(`${election ? '<p class="test2-map-legend__heading">Other maps</p>' : ''}<ul class="test2-map-legend__list">${layers.map((layer) => `<li><span class="test2-map-legend__swatch test2-map-legend__swatch--line" style="border-color:${esc(layer.colour)}" aria-hidden="true"></span><span class="test2-map-legend__name">${esc(layer.name)}</span></li>`).join('')}</ul>`);
+    for (const stat of statistics) {
+      const entry = stat.entry;
+      const source = entry.source || {};
+      const sourceHtml = source.url
+        ? `<a href="${esc(source.url)}" target="_blank" rel="noopener">${esc(source.title || 'Source')}</a>`
+        : esc(source.title || '');
+      const licenceHtml = stat.licence
+        ? (stat.licence.url ? `<a href="${esc(stat.licence.url)}" target="_blank" rel="noopener">${esc(stat.licence.short || stat.licence.name)}</a>` : esc(stat.licence.short || stat.licence.name))
+        : '';
+      // The summary already names a lone statistic; a heading is needed only to tell several apart.
+      const titled = election || statistics.length > 1;
+      parts.push(`<div class="test2-map-legend__statistic" data-census-legend="${esc(stat.id)}">`
+        + (titled ? `<p class="test2-map-legend__heading">${esc(entry.name)}</p>` : '')
+        + `<ul class="test2-map-legend__list test2-map-legend__list--classes">${stat.classes.map((cls) => `<li><span class="test2-map-legend__swatch" style="background:${esc(cls.colour)}" aria-hidden="true"></span><span class="test2-map-legend__name">${esc(cls.label)}</span><span class="test2-map-legend__count" title="Areas in this class">${cls.count}</span></li>`).join('')}`
+        + (entry.noFigureNote ? '<li><span class="test2-map-legend__swatch test2-map-legend__swatch--line" style="border-color:#374151" aria-hidden="true"></span><span class="test2-map-legend__name">No figure</span></li>' : '')
+        + '</ul>'
+        + (entry.legendNote ? `<p class="test2-map-legend__note">${esc(entry.legendNote)}</p>` : '')
+        + (entry.noFigureNote ? `<p class="test2-map-legend__note">${esc(entry.noFigureNote)}</p>` : '')
+        + ((sourceHtml || licenceHtml) ? `<p class="test2-map-legend__note test2-map-legend__source">Source: ${sourceHtml}${sourceHtml && licenceHtml ? ', ' : ''}${licenceHtml}</p>` : '')
+        + '</div>');
     }
+    if (showLayers) {
+      // Two editions of one series: the older is drawn grey and dashed (updateEditionRoles).
+      const edition = (layer) => (layer.role === 'older' ? ' <span class="test2-map-legend__abbr">(older edition, grey dashed)</span>'
+        : layer.role === 'newer' ? ' <span class="test2-map-legend__abbr">(newer edition)</span>' : '');
+      parts.push(`${election || statistics.length ? '<p class="test2-map-legend__heading">Other maps</p>' : ''}<ul class="test2-map-legend__list">${layers.map((layer) => `<li><span class="test2-map-legend__swatch test2-map-legend__swatch--line${layer.role === 'older' ? ' test2-map-legend__swatch--older' : ''}" style="border-color:${esc(layer.role === 'older' ? '#6b7280' : layer.colour)}" aria-hidden="true"></span><span class="test2-map-legend__name">${esc(layer.name)}${edition(layer)}</span></li>`).join('')}</ul>`);
+    }
+    // The election map as a Wikipedia-style SVG of this view, areas in their party colours.
+    const electionMapId = election ? this.elections.getActiveElectionStyleSourceMapId?.() : null;
+    if (electionMapId) parts.push(`<button type="button" class="test2-map-legend__export" data-map-image-export="${esc(electionMapId)}"><span data-export-label>Download map (SVG)</span></button>`);
     legend.querySelector('.test2-map-legend__body').innerHTML = parts.join('');
-    legend.querySelector('.test2-map-legend__summary span').textContent = election ? `Legend: ${election.title}` : 'Legend';
+    legend.querySelector('[data-map-image-export]')?.addEventListener('click', (event) => {
+      const button = event.currentTarget;
+      this.exportMapImage(button.dataset.mapImageExport, 'svg', { trigger: button });
+    });
+    legend.querySelector('.test2-map-legend__summary span').textContent = election
+      ? `Legend: ${election.title}`
+      : statistics.length === 1 ? `Legend: ${statistics[0].entry.name}` : 'Legend';
   }
 
   /** The outline colour a loaded layer is drawn in, or '' (rasters and point clouds have none). */
@@ -4794,6 +5044,58 @@ class Test2App {
     document.body.appendChild(link);
     link.click();
     link.remove();
+  }
+
+  /**
+   * "Download SVG" / "Download PNG": the map in the current view as a Wikipedia-style locator
+   * map (app/src/map-image-export.js), the selected feature red, an election's areas in their
+   * party colours. Large layers take a moment, so the trigger shows a busy state and the map
+   * says what is happening; a view with too many features is refused with a reason.
+   * options: { trigger?: HTMLElement, selection?: { properties, name } }
+   */
+  async exportMapImage(mapId, format = 'svg', options = {}) {
+    if (!mapId) return null;
+    if (this._mapImageExport) {
+      this.showMapError(new Error('A map image is already being prepared.'), { kind: 'info' });
+      return null;
+    }
+    const trigger = options.trigger || null;
+    const label = trigger?.querySelector?.('[data-export-label]') || trigger;
+    const original = label?.textContent;
+    if (trigger) {
+      trigger.setAttribute('aria-busy', 'true');
+      trigger.disabled = true;
+      if (label) label.textContent = 'Preparing…';
+    }
+    const progress = (text) => this.showMapError(new Error(text), { kind: 'info' });
+    const work = (async () => {
+      progress(`Preparing the ${format.toUpperCase()} of ${this.mapLabel(mapId)}…`);
+      const { buildMapSvg, svgToPng } = await import('./map-image-export.js');
+      const result = await buildMapSvg(this, mapId, { selection: options.selection || null, onProgress: progress });
+      if (format === 'png') {
+        const png = await svgToPng(result.svg, result.width, result.height, 2);
+        uiController.triggerBlobDownload(png, result.filename.replace(/\.svg$/, '.png'));
+      } else {
+        uiController.triggerBlobDownload(new Blob([result.svg], { type: 'image/svg+xml;charset=utf-8' }), result.filename);
+      }
+      const what = result.selectedName ? ` with ${result.selectedName} highlighted` : '';
+      progress(`Downloaded ${result.filename.replace(/\.svg$/, `.${format}`)}: ${result.featureCount.toLocaleString('en-GB')} features${what}.`);
+      return result;
+    })();
+    this._mapImageExport = work;
+    try {
+      return await work;
+    } catch (error) {
+      this.showMapError(error);
+      return null;
+    } finally {
+      this._mapImageExport = null;
+      if (trigger) {
+        trigger.removeAttribute('aria-busy');
+        trigger.disabled = false;
+        if (label && original !== undefined) label.textContent = original;
+      }
+    }
   }
 
   /** Say something to screen readers through the page's live region. Cleared first so the

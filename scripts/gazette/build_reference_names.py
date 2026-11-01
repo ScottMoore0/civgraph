@@ -41,6 +41,10 @@ EXTRA = [
      'https://www.thegazette.co.uk/Belfast/issue/1303/page/43'),
     ('104349', 'Basil Stanlake Brooke', 'Basil Brooke', 'Belfast Gazette, issue 414, 31 May 1929, p. 636',
      'https://www.thegazette.co.uk/Belfast/issue/414/page/636'),
+    ('104236', 'Robert Brown Alexander', 'Robert Alexander', 'Belfast Gazette, issue 1256, 20 July 1945, p. 163',
+     'https://www.thegazette.co.uk/Belfast/issue/1256/page/163'),
+    ('103830', 'John Warden Brooke', 'John Brooke', 'Belfast Gazette, issue 2475, 29 March 1968, p. 105',
+     'https://www.thegazette.co.uk/Belfast/issue/2475/page/105'),
 ]
 
 TITLES = re.compile(r"^(?:(?:Mr|Mrs|Airs|Miss|Dr|Rev|Sir|Major|Captain|Capt|Colonel|Col|Lieutenant|Lieut|Lt|Professor|Prof|"

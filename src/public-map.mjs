@@ -66,3 +66,32 @@ export function publicMaps(maps, hasRenderLayer) {
   const getMapById = (id) => byId.get(id);
   return (maps || []).filter((map) => isPublicMap(map, getMapById, hasRenderLayer));
 }
+
+/**
+ * A census statistic (data/database/data-entries.json) is drawn on its geography's layer
+ * (src/census-overlay.mjs), so it is public exactly when it is not hidden, has its figures,
+ * and the boundary map it is drawn on is public. Statistics are listed in Browse beside the
+ * maps but are not maps: the public MAP total (the homepage figure) does not include them.
+ *
+ * @param {object} entry                       data entry
+ * @param {(id: string) => boolean} isPublicMapId
+ */
+/**
+ * The ids a census statistic may be drawn on: every public map, and the editions (variants) a
+ * public map holds, such as eds-census-2011 inside Electoral Divisions 2008 (eds-2006), which
+ * the Pobal 2011 and 2016 deprivation statistics are drawn on.
+ */
+export function statisticGeographyIds(publicMapList) {
+  const ids = new Set();
+  for (const map of publicMapList || []) {
+    if (!map?.id) continue;
+    ids.add(map.id);
+    for (const variant of map.variants || []) if (variant?.id && !variant.hidden) ids.add(variant.id);
+  }
+  return ids;
+}
+
+export function isPublicStatistic(entry, isPublicMapId) {
+  if (!entry || !entry.id || entry.hidden || !entry.csv || !entry.geography) return false;
+  return Boolean(isPublicMapId(entry.geography));
+}

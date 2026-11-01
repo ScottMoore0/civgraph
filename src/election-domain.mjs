@@ -22,8 +22,162 @@ const DEFAULT_PARTY_COLOURS = new Map([
   ['yes', '#2aa82c'],
   ['no', '#d46a4c'],
   ['remain', '#2aa82c'],
-  ['leave', '#d46a4c']
+  ['leave', '#d46a4c'],
+  ...HISTORIC_PARTY_COLOURS_ENTRIES(),
+  // Later parties whose result files carry no colour (or the build's grey fallback), so
+  // their seats were drawn grey. Colours are Wikipedia's (Module:Political party) unless
+  // the site already had its own, which is kept.
+  ['nationalist party', '#32cd32'],
+  ['independent labour', '#ff9999'],
+  ['labour unionist', '#7a2a82'],
+  // Unity (1966-74, Westminster): the site's own colour; the 1970 files carried none.
+  ['unity', '#90ee90'],
+  // Ulster Popular Unionist Party: Wikipedia's #FFDEAD is near-white and read as a blank seat
+  // (North Down, 1983-92); the files also used #C7D57C, kept here as its one colour.
+  ['ulster popular unionist party', '#c7d57c'],
+  ['clann na talmhan', '#bdb76b'],
+  ['clann na poblachta', '#bbe549'],
+  ['independent fianna fail', '#7fff00'],
+  ['progressive democrats', '#1251a2'],
+  ['democratic left', '#c700c7'],
+  ['socialist party', '#ff3300'],
+  ['socialist', '#ff3300'],
+  ['s p', '#ff3300'],
+  ['united left alliance', '#ff3300'],
+  ['anti austerity alliance', '#e3170d'],
+  ['a a a', '#e3170d'],
+  ['lab', '#cc0000'],
+  ['green comhaontas glas', '#22ac6f'],
+  ['independents 4 change', '#ffc0cb'],
+  ['non party independent', '#dcdcdc'],
+  ['non party', '#dcdcdc'],
+  ['non p', '#dcdcdc'],
+  ['ceann comhairle', '#dcdcdc'],
+  // Ballot-paper spellings of DUP and UUP labels (data/elections-source/data/party-ids.json).
+  ['d u u u u c', '#d46a4c'],
+  ['united loy dup', '#d46a4c'],
+  ['ulster unionist', '#48a5ee'],
+  ['shopkeeper ulster unionist', '#48a5ee'],
+  // Short labels whose full party already has a colour on the site.
+  ['rep lab', '#85de59'],
+  ['republican labour', '#85de59'],
+  ['republican labour party', '#85de59'],
+  ['ir lab', '#cc0000'],
+  ['ind lab', '#ff9999'],
+  ['ind labour group', '#ff9999'],
+  ['ind unionist party', '#aadfff'],
+  ['ind nat', '#cdffab'],
+  ['loyalist', '#ffd700'],
+  ['united loyalist', '#ffd700'],
+  ['newtownabbey labour', '#dc241f']
 ]);
+
+/**
+ * Pre-1922 parties. Their result files' Party_Colour fields are not reliable: the first
+ * import coloured rows by a party CODE (N = Irish Parliamentary green, U = Irish Unionist
+ * Alliance navy) and later relabelled the parties without recolouring them, so Conservatives
+ * came out green and Irish Parliamentary rows blue; the Wikipedia backfill wrote a neutral
+ * #888888 on every row it touched. For these parties the colour below always wins over the
+ * file's. Colours follow Wikipedia's party colours (Module:Political party); where that
+ * colour is near-white or plain grey it would read as "no data" on the map, and a darker
+ * shade of the same hue (or the successor party's colour) is used instead -- noted per row.
+ */
+function HISTORIC_PARTY_COLOURS_ENTRIES() {
+  return [
+    // Home Rule / Irish Parliamentary Party (Wikipedia #99FF66), 1874-1918.
+    ['home rule', '#99ff66'],
+    ['home rule league', '#99ff66'],
+    ['irish parliamentary', '#99ff66'],
+    ['irish parliamentary party', '#99ff66'],
+    ['irish nationalist', '#99ff66'],
+    ['united irish league', '#99ff66'],
+    // Walker's HR (P), "Parnellite (supporter of Parnell, 1880)": home rulers, before the split.
+    ['parnellite home rule league', '#99ff66'],
+    // The 1890-91 split: Anti-Parnellites (Irish National Federation, Wikipedia #00FA9A) and
+    // Parnellites (Irish National League, which Wikipedia also draws #99FF66: shown here in a
+    // yellower green so the two sides of the split can be told apart on one map).
+    ['irish national federation', '#00fa9a'],
+    ['anti parnellite', '#00fa9a'],
+    ['anti parnellite nationalist', '#00fa9a'],
+    ['irish national league', '#c6e64a'],
+    ['parnellite', '#c6e64a'],
+    ['parnellite nationalist', '#c6e64a'],
+    // Independent and Healyite Nationalists (Wikipedia #cdffab; Healyite #DDFFDD is
+    // near-white, so it takes the Independent Nationalist colour).
+    ['independent nationalist', '#cdffab'],
+    ['ind nationalist', '#cdffab'],
+    ['healyite nationalist', '#cdffab'],
+    // All-for-Ireland League (Wikipedia #66FF99).
+    ['all for ireland', '#66ff99'],
+    ['all for ireland league', '#66ff99'],
+    ['independent all for ireland league', '#66ff99'],
+    ['sinn fein', '#326760'],
+    // Unionists. Irish Unionist Alliance (Wikipedia #9999FF); the Irish Loyal and Patriotic
+    // Union, its 1885 forerunner, is grey on Wikipedia (#DDDDDD) and takes the IUA colour.
+    ['irish unionist', '#9999ff'],
+    ['irish unionist alliance', '#9999ff'],
+    ['irish unionist party', '#9999ff'],
+    ['irish loyal and patriotic union', '#9999ff'],
+    ['unionist', '#9999ff'],
+    ['conservative', '#0087dc'],
+    ['irish conservative', '#0087dc'],
+    // Independent Conservative is near-white on Wikipedia (#DDEEFF); a mid blue is used.
+    ['ind conservative', '#7fb2e5'],
+    ['independent conservative', '#7fb2e5'],
+    ['liberal unionist', '#2061a2'],
+    ['independent liberal unionist', '#2061ff'],
+    ['ind unionist', '#aadfff'],
+    ['independent unionist', '#aadfff'],
+    ['russellite unionist', '#ffa500'],
+    ['liberal', '#ffd700'],
+    ['independent liberal', '#ffd700']
+  ];
+}
+
+// The parties whose registry colour wins over the file's: the pre-1922 parties above, and two
+// later ones whose files disagree with each other (some rows near-white or uncoloured).
+const REGISTRY_COLOUR_KEYS = new Set([
+  ...HISTORIC_PARTY_COLOURS_ENTRIES().map(([key]) => key),
+  'unity',
+  'ulster popular unionist party'
+]);
+
+// Colours that mean "no colour": the build's fallback slate (#6b7280) and the neutral greys
+// importers wrote as placeholders. A party that has a colour of its own is never drawn in one.
+const PLACEHOLDER_PARTY_COLOURS = new Set(['#6b7280', '#888888', '#9ca3af', '#9e9e9e', '#a0a0a0', '#a9a9a9', '#808080']);
+
+function isNeutralGrey(colour) {
+  const text = String(colour || '').trim().toLowerCase();
+  if (!text) return true;
+  if (PLACEHOLDER_PARTY_COLOURS.has(text)) return true;
+  const match = text.match(/^#([0-9a-f]{6})$/);
+  if (!match) return false;
+  const [r, g, b] = [0, 2, 4].map((offset) => parseInt(match[1].slice(offset, offset + 2), 16));
+  return Math.max(r, g, b) - Math.min(r, g, b) <= 8 && r >= 0x60 && r <= 0xc0;
+}
+
+/** True when a source colour is a placeholder that a known party colour should replace. */
+export function isPlaceholderPartyColour(colour) {
+  return isNeutralGrey(colour);
+}
+
+/** True for the parties whose file colours are overridden (see REGISTRY_COLOUR_KEYS). */
+export function isRegistryColourParty(party) {
+  return REGISTRY_COLOUR_KEYS.has(normalizeName(party));
+}
+
+/**
+ * The colour a party is drawn in. The registry wins for REGISTRY_COLOUR_KEYS and over a
+ * placeholder grey; otherwise the result file's own colour is kept.
+ */
+export function resolvePartyColour(party, sourceColour = '', fallback = '#6b7280') {
+  const key = normalizeName(party);
+  const registry = DEFAULT_PARTY_COLOURS.get(key);
+  if (registry && REGISTRY_COLOUR_KEYS.has(key)) return registry;
+  const source = String(sourceColour || '').trim();
+  if (source && !(registry && isNeutralGrey(source))) return source;
+  return registry || source || fallback;
+}
 
 // Memoised: a pure string function called hundreds of thousands of times on a few thousand
 // distinct names (the largest single cost of the election manifest build). The cache lives on
@@ -181,7 +335,7 @@ export function summarizeCandidateRows(rows = []) {
       excluded: false,
       excludedAt: null,
       status: '',
-      colour: row.Party_Colour || partyColour(party),
+      colour: resolvePartyColour(party, row.Party_Colour),
       gender: fixText(row.Gender || row.gender || ''),
       dailAbbreviation: fixText(row.Dail_Abbreviation || row.Party_Abbreviation || row.dailAbbreviation || row.partyAbbreviation || ''),
       officialCandidateId: fixText(row.Official_Candidate_Id || row.officialCandidateId || ''),
@@ -508,7 +662,7 @@ export function buildMainLikePartySummaryFromRawResults(rawEntries = []) {
       continue;
     }
 
-    const payload = normalizeScraperPayloadForMain(entry.raw, entry.constituency);
+    const payload = withCandidateRowIds(normalizeScraperPayloadForMain(entry.raw, entry.constituency));
     const cg = payload?.Constituency?.countGroup || [];
     const info = payload?.Constituency?.countInfo || {};
     if (!cg.length) continue;
@@ -532,7 +686,7 @@ export function buildMainLikePartySummaryFromRawResults(rawEntries = []) {
           seats: 0,
           stood: 0,
           votes: 0,
-          colour: row.Party_Colour || partyColour(party)
+          colour: resolvePartyColour(party, row.Party_Colour)
         });
       }
       if (countNum === 1 && !seenCandidates.has(candidateId)) {
@@ -552,7 +706,7 @@ export function buildMainLikePartySummaryFromRawResults(rawEntries = []) {
           seats: 0,
           stood: 0,
           votes: 0,
-          colour: member.colour || partyColour(party)
+          colour: resolvePartyColour(party, member.colour)
         });
       }
       partyTotals.get(party).seats += 1;
@@ -587,7 +741,7 @@ export function extractElected(result = {}) {
   const explicit = complete.filter((candidate) => candidate.elected);
   if (explicit.length) {
     return explicit
-      .map((candidate) => ({ ...candidate, colour: candidate.colour || partyColour(candidate.party) }))
+      .map((candidate) => ({ ...candidate, colour: resolvePartyColour(candidate.party, candidate.colour) }))
       .sort((a, b) => numberOrZero(a.electedAt) - numberOrZero(b.electedAt) || numberOrZero(b.finalVotes) - numberOrZero(a.finalVotes))
       .slice(0, seats && seats > 0 ? seats : explicit.length);
   }
@@ -601,7 +755,7 @@ export function extractElected(result = {}) {
         ...candidate,
         elected: true,
         status: candidate.status || (numberOrZero(candidate.finalVotes ?? candidate.firstPrefs) > 0 ? 'Elected' : 'Elected unopposed'),
-        colour: candidate.colour || partyColour(candidate.party)
+        colour: resolvePartyColour(candidate.party, candidate.colour)
       }));
   }
   return [];
@@ -678,7 +832,7 @@ function extractMainLikeElected(payload = {}) {
         rows: [],
         name: candidateDisplayName(row),
         party: normalizeParty(row.Party_Name),
-        colour: row.Party_Colour || partyColour(row.Party_Name)
+        colour: resolvePartyColour(row.Party_Name, row.Party_Colour)
       });
     }
     grouped.get(cid).rows.push(row);
@@ -718,7 +872,7 @@ function extractMainLikeElected(payload = {}) {
         elected.push({
           name: candidateDisplayName(row),
           party: normalizeParty(row.Party_Name),
-          colour: row.Party_Colour || partyColour(row.Party_Name),
+          colour: resolvePartyColour(row.Party_Name, row.Party_Colour),
           count: lastCount
         });
       }
@@ -778,6 +932,23 @@ function safeValidPoll(info = {}, countGroup = []) {
 function candidateKey(name, party) {
   const norm = (value) => String(value || '').toLowerCase().replace(/\s+/g, ' ').trim();
   return `${norm(name)}|${norm(party)}`;
+}
+
+/**
+ * Count rows with no Candidate_Id (the 1801-1922 Westminster files, imported from Wikipedia and
+ * Walker, leave it blank) get one from the candidate's name and party, so the national tables
+ * count each candidate once instead of skipping every row: the pre-1922 party table showed
+ * every party with 0 candidates and 0 votes.
+ */
+function withCandidateRowIds(payload) {
+  const cg = payload?.Constituency?.countGroup;
+  if (!Array.isArray(cg) || cg.every((row) => String(row?.Candidate_Id || '').trim())) return payload;
+  const countGroup = cg.map((row) => {
+    if (String(row?.Candidate_Id || '').trim()) return row;
+    const name = candidateDisplayName(row, '');
+    return name ? { ...row, Candidate_Id: `row:${name}|${normalizeParty(row.Party_Name)}` } : row;
+  });
+  return { ...payload, Constituency: { ...payload.Constituency, countGroup } };
 }
 
 function isValidCandidateRow(row = {}) {
@@ -851,7 +1022,7 @@ export function buildMainLikeCandidateSummaryFromRawResults(rawEntries = []) {
       continue;
     }
 
-    const payload = normalizeScraperPayloadForMain(entry.raw, entry.constituency);
+    const payload = withCandidateRowIds(normalizeScraperPayloadForMain(entry.raw, entry.constituency));
     const cg = payload?.Constituency?.countGroup || [];
     const info = payload?.Constituency?.countInfo || {};
     if (!cg.length) continue;
@@ -881,7 +1052,7 @@ export function buildMainLikeCandidateSummaryFromRawResults(rawEntries = []) {
           constituency,
           name,
           party,
-          colour: row.Party_Colour || partyColour(party),
+          colour: resolvePartyColour(party, row.Party_Colour),
           firstPrefs: 0,
           votes: 0,
           constPct: 0,
@@ -1099,7 +1270,7 @@ export function buildEntityIndex(results = []) {
           key,
           name: candidate.name,
           party: candidate.party,
-          colour: candidate.colour || partyColour(candidate.party),
+          colour: resolvePartyColour(candidate.party, candidate.colour),
           firstPrefs: 0,
           finalVotes: 0,
           electedCount: 0,
@@ -1124,7 +1295,7 @@ export function buildEntityIndex(results = []) {
       if (!parties.has(partyKey)) {
         parties.set(partyKey, {
           name: party,
-          colour: candidate.colour || partyColour(party),
+          colour: resolvePartyColour(party, candidate.colour),
           firstPrefs: 0,
           finalVotes: 0,
           stood: 0,

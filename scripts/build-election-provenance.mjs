@@ -51,6 +51,10 @@ const HOP_CITATIONS = path.join('data', 'elections', 'hop', 'hop-contest-citatio
 // Sources Civgraph fetched and compared figure by figure (data/elections/web-checked-sources.json):
 // checked only where every compared figure agreed; otherwise the check says what differed.
 const WEB_CHECKED = path.join('data', 'elections', 'web-checked-sources.json');
+// The legislation each election was held under (legislation.gov.uk), keyed by body__date: listed on
+// every contest of the election as contests[].legislation, with the instruments themselves once
+// under the top-level legislation map. Not a source of the figures, so it never changes a status.
+const LEGISLATION = path.join('data', 'elections', 'legislation-citations.json');
 const OUT = path.join('data', 'database', 'election-provenance.json');
 // Per-election shards for the browser. The whole file is 10 MB, far too much to fetch, so the app
 // loads only the election it is showing, keyed by the constituency name it already has.
@@ -446,8 +450,24 @@ function webCheckLayer() {
   return map;
 }
 
+/** legislation: body__date -> the instrument ids it was held under, and the instruments by id. */
+function legislationLayer() {
+  const byElection = new Map();
+  const items = {};
+  if (!existsSync(LEGISLATION)) return { byElection, items };
+  for (const item of readJson(LEGISLATION).items ?? []) {
+    items[item.id] = { label: item.label, url: item.url, basis: item.basis ?? null, note: item.note ?? null };
+    for (const key of item.elections ?? []) {
+      if (!byElection.has(key)) byElection.set(key, []);
+      byElection.get(key).push(item.id);
+    }
+  }
+  return { byElection, items };
+}
+
 function build() {
   const disk = contestsOnDisk();
+  const legislation = legislationLayer();
   const webChecked = webCheckLayer();
   const [wiki, stats] = wikipediaLayer();
   const [bibliographyFor, bibStats] = bibliographyLayer();
@@ -517,8 +537,11 @@ function build() {
       status,
       relatedWikipedia: extra?.relatedWikipedia ?? article?.url ?? null,
       sources,
+      ...(legislation.byElection.has(`${c.body}__${c.date}`) ? { legislation: legislation.byElection.get(`${c.body}__${c.date}`) } : {}),
     };
   });
+  const usedLegislation = Object.fromEntries(Object.entries(legislation.items)
+    .filter(([id]) => contests.some((c) => c.legislation?.includes(id))));
 
   const byBody = {};
   for (const c of contests) {
@@ -540,6 +563,7 @@ function build() {
         verified: contests.filter((c) => c.status === 'verified').length,
         byBody,
       },
+      legislation: usedLegislation,
       contests,
     },
     stats,

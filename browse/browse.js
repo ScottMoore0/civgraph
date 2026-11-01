@@ -1929,6 +1929,8 @@ async function renderDetail(type, indexItem) {
   const featuresPanel = isMap ? await renderMapFeaturesTable(item, graph?.entityId) : '';
   // A contest (one constituency's result) shows its candidates and count summary.
   const contestPanel = isContestItem(type, item) ? await renderContestResultPanel(item) : '';
+  // A party's profile: history, leaders, seats and votes by body, its members.
+  const partyProfile = type === 'parties' ? await loadPartyProfile(item) : null;
   if (token !== renderSeq) return;
   // Maps render their own header (thumbnail beside the title), so the generic
   // hero would just duplicate the title — blank it for map detail pages.
@@ -1939,10 +1941,12 @@ async function renderDetail(type, indexItem) {
       ${renderDetailActions(config, item)}
       ${renderContributorDetailActions(type, item)}
       ${isMap ? '' : renderHeaderPanel(type, item, pinnedRows)}
+      ${partyProfile ? renderPartyProfilePanels(item, partyProfile) : ''}
       ${contestPanel}
+      ${type === 'elections' ? renderGazetteElectionPanels(item) : ''}
       ${isMap ? renderLinksPanel(item) : ''}
       ${featuresPanel}
-      ${statementsFolded ? renderRelatedPanel(type, item) : ''}
+      ${statementsFolded && !partyProfile?.bodies?.length ? renderRelatedPanel(type, item) : ''}
       ${graphPanel}
       ${isMap ? '' : renderLinksPanel(item, { collapsed: true })}
       ${statementsFolded ? '' : renderRelatedPanel(type, item)}
@@ -2355,11 +2359,27 @@ function renderMapHeaderPanel(item) {
         ${renderMapThumbnailNote(item)}
       </div>
       <div class="browse-map-lead__content">
-        <p class="browse-kicker">Map</p>
+        <p class="browse-kicker">${item.type === 'data-entry' ? 'Census statistic' : 'Map'}</p>
         <h1 class="browse-title browse-map-header__title">${escapeHtml(item.title || '')}</h1>
         ${dateLabel ? `<p class="browse-map-header__subtitle">${escapeHtml(String(dateLabel))}</p>` : ''}
+        ${item.type === 'data-entry' ? renderStatisticSummary(item) : ''}
       </div>
     </section>
+  `;
+}
+
+/** A census statistic says what it measures and cites its source and licence on its record:
+ * a map's facts come from the graph, which has none for a statistic. */
+function renderStatisticSummary(item) {
+  const refs = Array.isArray(item.references) ? item.references : [];
+  const link = (ref) => (ref.url
+    ? `<a href="${escapeAttr(ref.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(ref.label || ref.url)}</a>`
+    : escapeHtml(ref.label || ''));
+  const source = refs.filter((ref) => !/^Licence:/i.test(ref.label || '')).map(link).join('; ');
+  const licence = refs.filter((ref) => /^Licence:/i.test(ref.label || '')).map((ref) => link({ ...ref, label: String(ref.label).replace(/^Licence:\s*/i, '') })).join('; ');
+  return `
+    ${item.description ? `<p class="browse-map-header__description">${escapeHtml(item.description)}</p>` : ''}
+    ${source ? `<p class="browse-map-header__source">Source: ${source}${licence ? `. Licence: ${licence}` : ''}</p>` : ''}
   `;
 }
 
@@ -2575,6 +2595,348 @@ function renderBoundingBoxCell(raw) {
 /** Rows in date order, oldest first; rows without a date keep their place at the end. */
 function byDate(rows) {
   return [...(rows || [])].sort((a, b) => String(a?.date || '9999').localeCompare(String(b?.date || '9999')));
+}
+
+// ---- Party profiles (data/browse/party-profiles/<slug>.json, scripts/build-party-profiles.mjs) ----
+
+async function loadPartyProfile(item) {
+  const slug = item.slug || slugify(item.id || item.title);
+  const cacheKey = `party-profile:${slug}`;
+  if (state.details.has(cacheKey)) return state.details.get(cacheKey);
+  let profile = null;
+  try {
+    profile = await loadJson(`${DATA_ROOT}/party-profiles/${encodeURIComponent(slug)}.json`);
+  } catch (error) {
+    // A party with no profile (a one-off ballot label) keeps the plain record page.
+    if (error.status !== 404) console.warn('Party profile could not be loaded.', error);
+  }
+  state.details.set(cacheKey, profile);
+  return profile;
+}
+
+function partyRecordLink(slug, title) {
+  return slug
+    ? `<a href="#/parties/${encodeURIComponent(slug)}" data-browse-link>${escapeHtml(title || slug)}</a>`
+    : escapeHtml(title || '');
+}
+
+function electionRecordLink(key, title) {
+  return key ? `<a href="#/elections/${encodeURIComponent(electionSlug(key))}" data-browse-link>${escapeHtml(title || key)}</a>` : escapeHtml(title || '');
+}
+
+// Citations as small numbered links after a fact; the full titles are in each link's title.
+function citationLinks(citations) {
+  const list = normalizeArray(citations).filter((citation) => citation?.title);
+  if (!list.length) return '';
+  return `<span class="browse-party-cites">${list.map((citation, index) => (citation.url
+    ? `<a href="${escapeAttr(citation.url)}" title="${escapeAttr(citation.title)}" rel="noopener" target="_blank">[${index + 1}]</a>`
+    : `<span title="${escapeAttr(citation.title)}">[${index + 1}]</span>`)).join('')}</span>`;
+}
+
+function citationList(citations) {
+  const list = normalizeArray(citations).filter((citation) => citation?.title);
+  if (!list.length) return '';
+  return `<ol class="browse-party-cite-list">${list.map((citation) => `<li>${citation.url
+    ? `<a href="${escapeAttr(citation.url)}" rel="noopener" target="_blank">${escapeHtml(citation.title)}</a>`
+    : escapeHtml(citation.title)}</li>`).join('')}</ol>`;
+}
+
+const PARTY_SOURCE_LABELS = { registry: 'Civgraph party registry', lineage: 'cited documents', wikidata: 'Wikidata', elections: 'Civgraph election records' };
+
+function renderPartyProfilePanels(item, profile) {
+  return [
+    renderPartyHistoryPanel(item, profile),
+    renderPartyLeadersPanel(profile),
+    renderPartyBodiesPanel(item, profile),
+    renderPartyMembersPanel(profile),
+    renderPartySourcesPanel(profile)
+  ].join('');
+}
+
+function partySummarySentence(item, profile) {
+  const title = escapeHtml(profile.title || item.title);
+  const parts = [];
+  if (profile.founded?.date) parts.push(`${title} was founded ${/^\d{4}(-\d{2})?$/.test(profile.founded.date) ? 'in' : 'on'} ${escapeHtml(formatDate(profile.founded.date))}${citationLinks(profile.founded.citations)}`);
+  if (profile.dissolved?.date) parts.push(`dissolved ${/^\d{4}(-\d{2})?$/.test(profile.dissolved.date) ? 'in' : 'on'} ${escapeHtml(formatDate(profile.dissolved.date))}${citationLinks(profile.dissolved.citations)}`);
+  const bodies = normalizeArray(profile.bodies);
+  const elections = bodies.reduce((total, body) => total + (body.totals?.elections || 0), 0);
+  const seats = bodies.reduce((total, body) => total + (body.totals?.seats || 0), 0);
+  let lead = parts.length ? `${parts.join(' and ')}.` : '';
+  if (elections) {
+    lead += ` In Civgraph's records it ${parts.length ? '' : `(${title}) `}contested ${countText(elections, 'election')} for ${countText(bodies.length, 'body', 'bodies')}`
+      + `${seats ? ` and won ${countText(seats, 'seat')}` : ''}.`;
+  }
+  return lead.trim();
+}
+
+function renderPartyHistoryPanel(item, profile) {
+  const relationGroups = ['predecessor', 'successor', 'related'].map((relation) => {
+    const rows = normalizeArray(profile.relations).filter((row) => row.relation === relation);
+    if (!rows.length) return '';
+    const label = { predecessor: 'Came from', successor: 'Became', related: 'Related' }[relation];
+    return `<div class="browse-party-relations__group"><span class="browse-party-relations__label">${label}</span>${rows.map((row) => `
+      <span class="browse-chip">${partyRecordLink(row.slug, row.title)}${row.label ? ` <small>(${escapeHtml(row.label)})</small>` : ''}${!row.slug && row.qid ? ` <a href="https://www.wikidata.org/wiki/${escapeAttr(row.qid)}" rel="noopener" target="_blank" aria-label="${escapeAttr(row.title)} on Wikidata"><small>Wikidata</small></a>` : ''}</span>`).join('')}</div>`;
+  }).join('');
+  const facts = [
+    ['Founded', profile.founded?.date ? `${escapeHtml(formatDate(profile.founded.date))} <small class="browse-party-source">${escapeHtml(PARTY_SOURCE_LABELS[profile.founded.source] || '')}</small>${citationLinks(profile.founded.citations)}${profile.founded.basis ? `<br><small>${escapeHtml(profile.founded.basis)}</small>` : ''}` : ''],
+    ['Other founding date recorded', normalizeArray(profile.otherFoundingDates).map((row) => `${escapeHtml(formatDate(row.date))} <small class="browse-party-source">${escapeHtml(PARTY_SOURCE_LABELS[row.source] || '')}</small>${citationLinks(row.citations)}`).join('; ')],
+    ['Dissolved', profile.dissolved?.date ? `${escapeHtml(formatDate(profile.dissolved.date))} <small class="browse-party-source">${escapeHtml(PARTY_SOURCE_LABELS[profile.dissolved.source] || '')}</small>${citationLinks(profile.dissolved.citations)}` : ''],
+    ['Status', profile.status ? escapeHtml(profile.status.charAt(0).toUpperCase() + profile.status.slice(1)) : ''],
+    ['Ideology', normalizeArray(profile.ideologies).length ? `${profile.ideologies.map((row) => escapeHtml(row.label)).join(', ')} <small class="browse-party-source">Wikidata</small>` : ''],
+    ['Political position', normalizeArray(profile.alignment).length ? `${profile.alignment.map((row) => escapeHtml(row.label)).join(', ')} <small class="browse-party-source">Wikidata</small>` : ''],
+    ['Elsewhere', [
+      profile.wikidata?.enwiki ? `<a href="https://en.wikipedia.org/wiki/${encodeURIComponent(profile.wikidata.enwiki.replace(/ /g, '_'))}" rel="noopener" target="_blank">Wikipedia</a>` : '',
+      profile.wikidata?.qid ? `<a href="https://www.wikidata.org/wiki/${escapeAttr(profile.wikidata.qid)}" rel="noopener" target="_blank">Wikidata ${escapeHtml(profile.wikidata.qid)}</a>` : ''
+    ].filter(Boolean).join(' · ')]
+  ].filter(([, value]) => value);
+  const timeline = normalizeArray(profile.timeline);
+  const timelineHtml = timeline.length ? `
+    <h3>Timeline</h3>
+    <ol class="browse-party-timeline">
+      ${timeline.map((event) => `
+        <li class="browse-party-timeline__item browse-party-timeline__item--${escapeAttr(event.kind || 'note')}">
+          <time datetime="${escapeAttr(event.date || '')}">${escapeHtml(formatDate(event.date))}</time>
+          <div>
+            <p>${event.electionKey ? escapeHtml(event.text).replace(/: (.*)\.$/, (match, title) => `: ${electionRecordLink(event.electionKey, unescapeText(title))}.`) : escapeHtml(event.text)}${citationLinks(event.citations)}</p>
+            ${normalizeArray(event.related).length ? `<p class="browse-party-timeline__related">${event.related.map((row) => `${escapeHtml(row.relation)}: ${partyRecordLink(row.slug, row.title)}`).join(' · ')}</p>` : ''}
+            ${event.basis ? `<p class="browse-party-timeline__basis">${escapeHtml(event.basis)}</p>` : ''}
+            ${event.note ? `<p class="browse-party-timeline__basis">${escapeHtml(event.note)}</p>` : ''}
+          </div>
+        </li>`).join('')}
+    </ol>` : '';
+  const summary = partySummarySentence(item, profile);
+  if (!facts.length && !timeline.length && !relationGroups && !summary) return '';
+  return `
+    <section class="browse-detail__panel browse-party-profile">
+      <h2>Party history</h2>
+      <div class="browse-detail__body">
+      ${summary ? `<p class="browse-party-lead">${summary}</p>` : ''}
+      ${facts.length ? `<dl class="browse-party-facts">${facts.map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${value}</dd></div>`).join('')}</dl>` : ''}
+      ${relationGroups ? `<div class="browse-party-relations">${relationGroups}</div>` : ''}
+      ${timelineHtml}
+      </div>
+    </section>
+  `;
+}
+
+// escapeHtml output is matched above to link a contest title; undo it before re-escaping.
+function unescapeText(value) {
+  return String(value).replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+}
+
+function renderPartyLeadersPanel(profile) {
+  const leaders = normalizeArray(profile.leaders);
+  if (!leaders.length) return '';
+  const offices = [...new Set(leaders.map((row) => row.office).filter(Boolean))];
+  const rows = leaders.map((row) => [
+    row.qid ? `<a href="https://www.wikidata.org/wiki/${escapeAttr(row.qid)}" rel="noopener" target="_blank">${escapeHtml(row.name)}</a>` : escapeHtml(row.name),
+    row.start ? escapeHtml(formatDate(row.start)) : '<span class="browse-muted">not recorded</span>',
+    row.end ? escapeHtml(formatDate(row.end)) : (row.start ? '' : '<span class="browse-muted">not recorded</span>'),
+    ...(offices.length > 1 ? [escapeHtml(row.office || '')] : [])
+  ]);
+  const office = offices.length === 1 ? offices[0] : 'the party\'s leading office';
+  return `
+    <section class="browse-detail__panel">
+      <h2>Leaders</h2>
+      <p class="browse-panel-note browse-detail__body">Holders of ${escapeHtml(office)} as Wikidata records them (CC0, retrieved ${escapeHtml(formatDate(profile.leadersSource?.retrieved))})${profile.leadersSource?.offices?.[0]?.qid ? `: <a href="https://www.wikidata.org/wiki/${escapeAttr(profile.leadersSource.offices[0].qid)}" rel="noopener" target="_blank">${escapeHtml(profile.leadersSource.offices[0].qid)}</a>` : ''}. The list can be incomplete; a blank end date is a term still running or not recorded.</p>
+      <div class="browse-table-wrap" tabindex="0" role="region" aria-label="Leaders">
+        <table class="browse-table">
+          <thead><tr><th scope="col">Leader</th><th scope="col">From</th><th scope="col">To</th>${offices.length > 1 ? '<th scope="col">Office</th>' : ''}</tr></thead>
+          <tbody>${rows.map((row) => `<tr>${row.map((cell) => `<td>${cell}</td>`).join('')}</tr>`).join('')}</tbody>
+        </table>
+      </div>
+    </section>
+  `;
+}
+
+function renderPartyBodiesPanel(item, profile) {
+  const bodies = normalizeArray(profile.bodies);
+  if (!bodies.length) return '';
+  const colour = /^#[0-9a-f]{3,8}$/i.test(item.colour || '') ? item.colour : 'var(--color-primary)';
+  return `
+    <section class="browse-detail__panel browse-party-bodies">
+      <h2>Seats and votes by body</h2>
+      <div class="browse-detail__body">
+      <p class="browse-panel-note">General elections are charted; by-elections are listed in the tables. Share is of the valid poll (first preferences under PR) in the elections Civgraph holds.</p>
+      ${bodies.map((body) => renderPartyBody(body, colour, profile.title || item.title)).join('')}
+      </div>
+    </section>
+  `;
+}
+
+function renderPartyBody(body, colour, partyTitle) {
+  const totals = body.totals || {};
+  const series = normalizeArray(body.series);
+  const withShare = series.filter((point) => Number.isFinite(Number(point.share)));
+  const charts = series.length >= 2 ? `
+    <div class="browse-party-charts">
+      ${series.some((point) => Number(point.seats) > 0) ? renderPartyBarChart(series, colour, `Seats won by ${partyTitle}, ${body.label}`) : ''}
+      ${withShare.length >= 2 ? renderPartyLineChart(withShare, colour, `Vote share of ${partyTitle}, ${body.label}`) : ''}
+    </div>` : '';
+  const elections = normalizeArray(body.elections);
+  const anyContests = elections.some((row) => row.contests);
+  const anyShare = elections.some((row) => row.share !== undefined);
+  const headers = ['Date', 'Election', ...(anyContests ? ['Contests'] : []), 'Candidates', 'Seats', 'Votes', ...(anyShare ? ['Share'] : [])];
+  const rows = [...elections].reverse().map((row) => [
+    escapeHtml(formatDate(row.date)),
+    `${electionRecordLink(row.key, row.title)}${row.kind === 'by-election' && !/by-election/i.test(row.title || '') ? ' <small>(by-election)</small>' : ''}`,
+    ...(anyContests ? [knownCount(row.contests, false)] : []),
+    knownCount(row.candidates, Number(row.seats) > 0),
+    `${knownCount(row.seats, false)}${row.seatsTotal && row.kind !== 'by-election' ? ` <small class="browse-muted">of ${formatNumber(row.seatsTotal)}</small>` : ''}`,
+    knownCount(row.votes, true),
+    ...(anyShare ? [row.share !== undefined ? `${Number(row.share).toFixed(1)}%` : '–'] : [])
+  ]);
+  const totalsText = [
+    countText(totals.elections || elections.length, 'election'),
+    totals.candidates ? countText(totals.candidates, 'candidacy', 'candidacies') : '',
+    `${formatNumber(totals.seats || 0)} ${Number(totals.seats) === 1 ? 'seat' : 'seats'} won`
+  ].filter(Boolean).join(' · ');
+  return `
+    <section class="browse-party-body">
+      <h3>${escapeHtml(body.label)}</h3>
+      <p class="browse-party-body__totals">${escapeHtml(totalsText)}</p>
+      ${body.note ? `<p class="browse-panel-note">${escapeHtml(body.note)}</p>` : ''}
+      ${charts}
+      <details class="browse-collapsible browse-party-body__table"${elections.length <= 6 ? ' open' : ''}>
+        <summary><span>Elections</span><small>${escapeHtml(countText(elections.length, 'row'))}</small></summary>
+        <div class="browse-table-wrap" tabindex="0" role="region" aria-label="${escapeAttr(`${body.label}: elections`)}">
+          <table class="browse-table browse-table--compact">
+            <thead><tr>${headers.map((header) => `<th scope="col">${escapeHtml(header)}</th>`).join('')}</tr></thead>
+            <tbody>${rows.map((row) => `<tr>${row.map((cell) => `<td>${cell}</td>`).join('')}</tr>`).join('')}</tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+  `;
+}
+
+// One measure per chart (seats; share): two small charts on the same time axis, never one
+// chart with two y-scales. Marks wear the party's colour; text stays in the text tokens.
+const PARTY_CHART = { width: 320, height: 150, left: 34, right: 40, top: 14, bottom: 22 };
+
+function partyChartFrame(series) {
+  const times = series.map((point) => Date.parse(`${String(point.date).slice(0, 10)}T00:00:00Z`));
+  const min = Math.min(...times);
+  const max = Math.max(...times);
+  const span = Math.max(max - min, 1);
+  const plotWidth = PARTY_CHART.width - PARTY_CHART.left - PARTY_CHART.right;
+  const x = (index) => PARTY_CHART.left + ((times[index] - min) / span) * plotWidth;
+  const firstYear = new Date(min).getUTCFullYear();
+  const lastYear = new Date(max).getUTCFullYear();
+  return { x, firstYear, lastYear, plotWidth, times };
+}
+
+function niceMax(value) {
+  if (value <= 0) return 1;
+  const magnitude = 10 ** Math.floor(Math.log10(value));
+  const steps = [1, 2, 2.5, 5, 10];
+  const unit = steps.find((step) => step * magnitude >= value) * magnitude;
+  return unit;
+}
+
+function partyChartAxes(maxValue, format, frame) {
+  const plotBottom = PARTY_CHART.height - PARTY_CHART.bottom;
+  const plotHeight = plotBottom - PARTY_CHART.top;
+  // A midline only where it falls on a value worth printing (no "1, 1, 0" seat axis).
+  const ticks = Number.isInteger(maxValue / 2) || maxValue >= 10 ? [0, maxValue / 2, maxValue] : [0, maxValue];
+  const grid = ticks.map((tick) => {
+    const y = plotBottom - (tick / maxValue) * plotHeight;
+    return `<line class="browse-chart__grid" x1="${PARTY_CHART.left}" x2="${PARTY_CHART.width - PARTY_CHART.right}" y1="${y}" y2="${y}"></line>
+      <text class="browse-chart__tick" x="${PARTY_CHART.left - 4}" y="${y + 3}" text-anchor="end">${escapeHtml(format(tick))}</text>`;
+  }).join('');
+  const years = frame.firstYear === frame.lastYear ? [frame.firstYear] : [frame.firstYear, frame.lastYear];
+  const xLabels = years.map((year, index) => `<text class="browse-chart__tick" x="${index === 0 ? PARTY_CHART.left : PARTY_CHART.width - PARTY_CHART.right}" y="${PARTY_CHART.height - 6}" text-anchor="${index === 0 ? 'start' : 'end'}">${year}</text>`).join('');
+  return { grid, xLabels, plotBottom, plotHeight };
+}
+
+function renderPartyBarChart(series, colour, label) {
+  const frame = partyChartFrame(series);
+  const maxSeats = niceMax(Math.max(...series.map((point) => Number(point.seats) || 0)));
+  const { grid, xLabels, plotBottom, plotHeight } = partyChartAxes(maxSeats, (value) => formatNumber(Math.round(value)), frame);
+  // Bars as wide as the closest pair of elections allows, less a 2px gap, within 3-14px.
+  const xs = series.map((point, index) => frame.x(index));
+  const closest = xs.slice(1).reduce((gap, value, index) => Math.min(gap, value - xs[index]), frame.plotWidth);
+  const barWidth = Math.max(3, Math.min(14, closest - 2));
+  const bars = series.map((point, index) => {
+    const seats = Number(point.seats) || 0;
+    const height = (seats / maxSeats) * plotHeight;
+    const cx = Math.min(Math.max(xs[index], PARTY_CHART.left + barWidth / 2), PARTY_CHART.width - PARTY_CHART.right - barWidth / 2);
+    const x0 = cx - barWidth / 2;
+    const radius = Math.min(4, barWidth / 2, height);
+    const path = height > 0
+      ? `M${x0},${plotBottom}V${plotBottom - height + radius}Q${x0},${plotBottom - height} ${x0 + radius},${plotBottom - height}H${x0 + barWidth - radius}Q${x0 + barWidth},${plotBottom - height} ${x0 + barWidth},${plotBottom - height + radius}V${plotBottom}Z`
+      : '';
+    const tip = `${formatDate(point.date)}: ${formatNumber(seats)} ${seats === 1 ? 'seat' : 'seats'}${point.candidates ? ` from ${formatNumber(point.candidates)} candidates` : ''}`;
+    return `<g class="browse-chart__mark">
+      ${path ? `<path d="${path}" fill="${escapeAttr(colour)}"></path>` : `<line x1="${x0}" x2="${x0 + barWidth}" y1="${plotBottom - 0.5}" y2="${plotBottom - 0.5}" stroke="${escapeAttr(colour)}" stroke-width="1"></line>`}
+      <rect class="browse-chart__hit" x="${cx - Math.max(barWidth, 10) / 2}" y="${PARTY_CHART.top}" width="${Math.max(barWidth, 10)}" height="${plotHeight}"><title>${escapeHtml(tip)}</title></rect>
+    </g>`;
+  }).join('');
+  const peak = series.reduce((best, point) => ((Number(point.seats) || 0) > (Number(best.seats) || 0) ? point : best), series[0]);
+  return `
+    <figure class="browse-chart">
+      <figcaption>Seats won</figcaption>
+      <svg viewBox="0 0 ${PARTY_CHART.width} ${PARTY_CHART.height}" role="img" aria-label="${escapeAttr(`${label}: ${series.length} general elections, ${frame.firstYear} to ${frame.lastYear}; most seats ${formatNumber(peak.seats || 0)} (${formatDate(peak.date)}). The table below lists every figure.`)}">
+        ${grid}${bars}${xLabels}
+      </svg>
+    </figure>
+  `;
+}
+
+function renderPartyLineChart(series, colour, label) {
+  const frame = partyChartFrame(series);
+  const maxShare = Math.min(100, niceMax(Math.max(...series.map((point) => Number(point.share) || 0))));
+  const { grid, xLabels, plotBottom, plotHeight } = partyChartAxes(maxShare, (value) => `${Number(value.toFixed(1))}%`, frame);
+  const points = series.map((point, index) => ({ x: frame.x(index), y: plotBottom - ((Number(point.share) || 0) / maxShare) * plotHeight, point }));
+  const line = points.map((p, index) => `${index ? 'L' : 'M'}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join('');
+  const marks = points.map(({ x, y, point }) => `<g class="browse-chart__mark">
+      <circle class="browse-chart__dot" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.5" fill="${escapeAttr(colour)}"></circle>
+      <circle class="browse-chart__hit" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="9"><title>${escapeHtml(`${formatDate(point.date)}: ${Number(point.share).toFixed(1)}%${point.votes ? ` (${formatNumber(point.votes)} votes)` : ''}`)}</title></circle>
+    </g>`).join('');
+  const last = points[points.length - 1];
+  return `
+    <figure class="browse-chart">
+      <figcaption>Share of the vote</figcaption>
+      <svg viewBox="0 0 ${PARTY_CHART.width} ${PARTY_CHART.height}" role="img" aria-label="${escapeAttr(`${label}: from ${Number(series[0].share).toFixed(1)}% in ${frame.firstYear} to ${Number(last.point.share).toFixed(1)}% in ${frame.lastYear}. The table below lists every figure.`)}">
+        ${grid}
+        <path class="browse-chart__line" d="${line}" stroke="${escapeAttr(colour)}"></path>
+        ${marks}
+        <text class="browse-chart__label" x="${(last.x + 7).toFixed(1)}" y="${(last.y + 3.5).toFixed(1)}" text-anchor="start">${escapeHtml(`${Number(last.point.share).toFixed(1)}%`)}</text>
+        ${xLabels}
+      </svg>
+    </figure>
+  `;
+}
+
+function renderPartyMembersPanel(profile) {
+  const members = normalizeArray(profile.notableMembers);
+  if (!members.length) return '';
+  return renderTablePanel('Most-elected members', ['Member', 'Times elected', 'Contests', 'Years', 'Elected to'], members.map((row) => [
+    `<a href="#/persons/${encodeURIComponent(row.slug)}" data-browse-link>${escapeHtml(row.name || row.slug)}</a>`,
+    formatNumber(row.elected),
+    formatNumber(row.contests),
+    escapeHtml(yearRange(row.firstYear, row.lastYear)),
+    escapeHtml(joinList(row.bodies))
+  ]));
+}
+
+function renderPartySourcesPanel(profile) {
+  const sources = normalizeArray(profile.sources);
+  const eventCitations = normalizeArray(profile.timeline).flatMap((event) => normalizeArray(event.citations).map((citation) => ({ ...citation, date: event.date })));
+  const seen = new Set();
+  const documents = eventCitations.filter((citation) => {
+    const key = citation.url || citation.title;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+  if (!sources.length && !documents.length) return '';
+  const body = `
+    <div class="browse-party-sources">
+      ${sources.length ? `<ul>${sources.map((source) => `<li>${source.url ? `<a href="${escapeAttr(source.url)}" rel="noopener" target="_blank">${escapeHtml(source.title)}</a>` : escapeHtml(source.title)}${source.use ? `: <span class="browse-muted">${escapeHtml(source.use)}</span>` : ''}</li>`).join('')}</ul>` : ''}
+      ${documents.length ? `<h3>Documents cited</h3>${citationList(documents)}` : ''}
+    </div>`;
+  return renderCollapsiblePanel('Sources for this profile', body, countText(sources.length + documents.length, 'source'), { className: 'browse-detail__panel--supporting' });
 }
 
 function renderRelatedPanel(type, item) {
@@ -3443,6 +3805,63 @@ function contestPersonLink(candidate) {
   // The persons endpoint finds a record by id as well as by slug, so the id is the link that
   // cannot miss when a candidacy's spelling differs from the person's canonical name.
   return `<a href="#/persons/${encodeURIComponent(String(personId))}" data-browse-link>${name}</a>`;
+}
+
+/**
+ * From the Belfast Gazette (data/elections/gazette-election-extras.json, merged by
+ * build-browse-indexes.mjs): an election's "Rules and costs" and a printed polling-district
+ * schedule. Each carries its Gazette citation; nothing renders when a record has neither.
+ */
+function renderGazetteElectionPanels(item) {
+  return renderGazetteRulesPanel(item.gazetteRulesAndCosts) + renderGazettePollingPanel(item.gazettePollingDistricts);
+}
+
+function gazetteSourceLinks(sources) {
+  return (sources || []).filter((source) => source?.citation).map((source) => {
+    const label = source.url
+      ? `<a href="${escapeAttr(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.citation)}</a>`
+      : escapeHtml(source.citation);
+    return source.note ? `${label} (${escapeHtml(source.note)})` : label;
+  }).join('; ');
+}
+
+function renderGazetteRulesPanel(items) {
+  if (!items?.length) return '';
+  return `
+    <section class="browse-detail__panel browse-gazette-panel">
+      <h2>Rules and costs</h2>
+      <ul class="browse-gazette-list">
+        ${items.map((entry) => `
+          <li>
+            <strong>${escapeHtml(entry.label || '')}</strong>
+            <span>${escapeHtml(entry.text || '')}</span>
+            ${entry.sources?.length ? `<span class="browse-gazette-source">Source: ${gazetteSourceLinks(entry.sources)}.</span>` : ''}
+          </li>`).join('')}
+      </ul>
+      <p class="browse-gazette-source browse-gazette-source--panel">From the Belfast Gazette, Open Government Licence v3.0.</p>
+    </section>
+  `;
+}
+
+function renderGazettePollingPanel(table) {
+  if (!table?.rows?.length) return '';
+  const hasPlace = table.rows.some((row) => row.place);
+  const areaHeader = table.areaLabel ? `Area (${String(table.areaLabel).toLowerCase()})` : 'Area';
+  const headers = ['District', areaHeader, ...(hasPlace ? ['Polling place'] : [])];
+  const title = 'Polling districts';
+  return `
+    <section class="browse-detail__panel browse-gazette-panel">
+      <h2>${escapeHtml(title)}</h2>
+      ${table.note ? `<p class="browse-note">${escapeHtml(table.note)}</p>` : ''}
+      <div class="browse-table-wrap" tabindex="0" role="region" aria-label="${escapeAttr(table.title || title)}">
+        <table class="browse-table">
+          <thead><tr>${headers.map((header) => `<th scope="col">${escapeHtml(header)}</th>`).join('')}</tr></thead>
+          <tbody>${table.rows.map((row) => `<tr><td>${escapeHtml(row.district || '')}</td><td>${escapeHtml((row.area || []).join(', '))}</td>${hasPlace ? `<td>${escapeHtml(row.place || '')}</td>` : ''}</tr>`).join('')}</tbody>
+        </table>
+      </div>
+      ${table.source ? `<p class="browse-gazette-source browse-gazette-source--panel">Source: ${gazetteSourceLinks([table.source])}. Names corrected from the printed page where the scan misread them; Open Government Licence v3.0.</p>` : ''}
+    </section>
+  `;
 }
 
 async function renderContestResultPanel(item) {

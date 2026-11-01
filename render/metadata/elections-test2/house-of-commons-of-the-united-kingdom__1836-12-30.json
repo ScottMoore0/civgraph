@@ -62,22 +62,90 @@
     {
       "party": "Repeal ( Whig )",
       "seats": 1,
-      "stood": 0,
-      "votes": 0,
+      "stood": 1,
+      "votes": 619,
       "colour": "#888888",
-      "share": null
+      "share": 54.061135371179034
+    },
+    {
+      "party": "Conservative",
+      "seats": 0,
+      "stood": 1,
+      "votes": 526,
+      "colour": "#0087dc",
+      "share": 45.938864628820966
     }
   ],
   "mainLikeTotals": {
-    "validPoll": 0,
+    "validPoll": 1145,
     "totalPoll": 0,
     "totalElectorate": 0,
     "totalSpoiled": 0,
     "totalSeats": 1
   },
-  "mainLikeCandidateSummary": [],
+  "mainLikeCandidateSummary": [
+    {
+      "id": "row:Luke White|Repeal ( Whig )",
+      "personId": 123947,
+      "sourcePersonId": "wikipedia:Luke White (of Rathcline)",
+      "constituency": "Longford",
+      "name": "Luke White",
+      "party": "Repeal ( Whig )",
+      "colour": "#888888",
+      "firstPrefs": 619,
+      "votes": 619,
+      "constPct": 54.061135371179034,
+      "firstPrefPct": 54.061135371179034,
+      "finalVotes": 619,
+      "elected": true,
+      "electedAt": 1,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Elected",
+      "counts": {
+        "1": {
+          "total": 619,
+          "transfers": 0,
+          "status": "Elected"
+        }
+      },
+      "candidateKey": "luke white|repeal ( whig )",
+      "name_id": "n-luke-white"
+    },
+    {
+      "id": "row:Charles Fox|Conservative",
+      "personId": 124031,
+      "constituency": "Longford",
+      "name": "Charles Fox",
+      "party": "Conservative",
+      "colour": "#0087dc",
+      "firstPrefs": 526,
+      "votes": 526,
+      "constPct": 45.938864628820966,
+      "firstPrefPct": 45.938864628820966,
+      "finalVotes": 526,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 526,
+          "transfers": 0,
+          "status": "Not elected"
+        }
+      },
+      "candidateKey": "charles fox|conservative",
+      "name_id": "n-charles-fox"
+    }
+  ],
   "mainLikeCandidateTotals": {
-    "validPoll": 0
+    "validPoll": 1145
   },
   "entityIndex": {
     "totalValid": 1145,
@@ -106,7 +174,7 @@
       },
       {
         "name": "Conservative",
-        "colour": "#888888",
+        "colour": "#0087dc",
         "firstPrefs": 526,
         "finalVotes": 526,
         "stood": 1,
@@ -155,7 +223,7 @@
         "key": "Charles Fox|Conservative",
         "name": "Charles Fox",
         "party": "Conservative",
-        "colour": "#888888",
+        "colour": "#0087dc",
         "firstPrefs": 526,
         "finalVotes": 526,
         "electedCount": 0,
@@ -241,7 +309,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not elected",
-          "colour": "#888888",
+          "colour": "#0087dc",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",

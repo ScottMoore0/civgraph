@@ -19,52 +19,17 @@ const electionViewModelSource = readFileSync('src/election-view-model.mjs', 'utf
 const electionRendererSource = readFileSync('src/election-renderer.mjs', 'utf8');
 const electionControllerSource = readFileSync('archive/leaflet/js/election-controller.js', 'utf8');
 const electionManifestBuilderSource = readFileSync('scripts/build-test2-election-manifest.mjs', 'utf8');
-const timelineSidecarBuilderSource = readFileSync('scripts/build_timeline_transition_sidecars.py', 'utf8');
-const timelineRuntimeOverlayBuilderSource = readFileSync('scripts/build-timeline-transition-runtime-overlays.mjs', 'utf8');
+// Boundary changes between consecutive timeline editions (scripts/build_timeline_changes.py,
+// data/timeline-changes/). They replace the Play-only transition overlays of
+// data/timeline-transition-overlays/, whose source sidecars were untracked: a clean checkout
+// skipped this whole validator for want of them. The change files are tracked.
+const timelineChangesBuilderSource = readFileSync('scripts/build_timeline_changes.py', 'utf8');
 const MAX_PAGES_FILE_BYTES = 25 * 1024 * 1024;
-const wardTimelineTransitionSidecarIds = [
-  'wards-1972__wards-1984',
-  'wards-1984__wards-1993',
-  'wards-1993__wards-2012',
-  'wards-2012__wards-2022-final-recommendations'
-];
-// data/timeline-transitions is untracked as of 2026-08-12 -- 153 MB of source QA
-// sidecars, published to R2 and regenerable via
-// `python scripts/build_all_timeline_transition_sidecars.py`. A clean checkout
-// therefore has none of them, and readFileSync would throw a bare ENOENT part
-// way through this validator's setup, before it has printed anything at all.
-const missingSidecars = wardTimelineTransitionSidecarIds
-  .filter((id) => !existsSync('data/timeline-transitions/' + id + '.geojson'));
-if (missingSidecars.length) {
-  console.log('SKIP: timeline transition sidecars are absent (' + missingSidecars.length + ' of ' + wardTimelineTransitionSidecarIds.length + ').');
-  console.log('  These are untracked source QA artefacts. Regenerate with:');
-  console.log('    python scripts/build_all_timeline_transition_sidecars.py');
-  process.exit(0);
-}
-const wardTimelineTransitionSidecars = wardTimelineTransitionSidecarIds.map((id) => JSON.parse(readFileSync('data/timeline-transitions/' + id + '.geojson', 'utf8')));
-const timelineTransitionRuntimeManifest = JSON.parse(readFileSync('data/timeline-transition-overlays/manifest.json', 'utf8'));
-const timelineTransitionRuntimeEntries = new Map((Array.isArray(timelineTransitionRuntimeManifest.transitions) ? timelineTransitionRuntimeManifest.transitions : [])
-  .filter((entry) => entry?.id)
-  .map((entry) => [entry.id, entry]));
-function loadTimelineRuntimeOverlay(id) {
-  const entry = timelineTransitionRuntimeEntries.get(id);
-  const runtimePaths = entry && Array.isArray(entry.runtimePaths) && entry.runtimePaths.length
-    ? entry.runtimePaths
-    : [entry?.runtimePath || `data/timeline-transition-overlays/${id}.geojson`].filter(Boolean);
-  const parts = runtimePaths.map((runtimePath) => ({
-    path: runtimePath,
-    size: statSync(runtimePath).size,
-    geojson: JSON.parse(readFileSync(runtimePath, 'utf8'))
-  }));
-  return {
-    entry,
-    runtimePaths,
-    parts,
-    metadata: parts.reduce((metadata, part) => ({ ...metadata, ...(part.geojson.metadata || {}) }), {}),
-    features: parts.flatMap((part) => Array.isArray(part.geojson.features) ? part.geojson.features : [])
-  };
-}
-const wardTimelineTransitionRuntimeOverlays = wardTimelineTransitionSidecarIds.map(loadTimelineRuntimeOverlay);
+const timelineChangePairs = JSON.parse(readFileSync('data/timeline-changes/index.json', 'utf8'))?.pairs || {};
+const readTimelineChangePair = (id) => {
+  const entry = timelineChangePairs[id] || null;
+  return { entry, data: entry?.path ? JSON.parse(readFileSync(entry.path, 'utf8')) : null };
+};
 const browseIndexBuilderSource = readFileSync('scripts/build-browse-indexes.mjs', 'utf8');
 const electionDataAuditSource = readFileSync('scripts/audit-test2-election-data.mjs', 'utf8');
 const uiControllerSource = readFileSync('src/ui-controller.js', 'utf8');
@@ -77,6 +42,14 @@ const packageJsonSource = readFileSync('package.json', 'utf8');
 const portPlan = JSON.parse(readFileSync('render/metadata/main-site-port-plan.json', 'utf8'));
 const testMetadata = JSON.parse(readFileSync('render/metadata/maps-test.json', 'utf8'));
 const mapsDb = JSON.parse(readFileSync('data/database/maps.json', 'utf8'));
+// data/browse/ is built by `npm run build` and published to R2, never tracked, so a clean
+// checkout has none of it. (This validator used to skip on a clean checkout for want of the
+// untracked timeline sidecars; that guard went with them, and this one keeps the same outcome
+// for the same kind of reason.)
+if (!existsSync('data/browse/maps.json')) {
+  console.log('SKIP: data/browse/maps.json is absent (built by npm run build and published to R2; untracked).');
+  process.exit(0);
+}
 const browseMapsIndex = JSON.parse(readFileSync('data/browse/maps.json', 'utf8'));
 const test2BundleVersion = index.match(/\/app\/build\/app\.bundle\.js\?v=([0-9a-f]{12})/)?.[1] || '';
 
@@ -409,18 +382,11 @@ assert(electionManagerSource.includes('isFeatureFromActiveElection') && election
 assert(test2Css.includes('body.app-shell.test2-election-open #electionResultsPane.election-results-pane--open') && test2Css.includes('calc(100% - var(--test2-election-pane-height))'), '/test2 fixed-header layout must place the open election pane below the map, sized by --test2-election-pane-height');
 assert(appSource.includes('setupTimelineControls') && appSource.includes('setTimelineItems'), '/test2 must wire the production timeline slider for map chains and elections');
 assert(appSource.includes('formatTimelineItemLabel') && appSource.includes('formatDisplayDate(date)'), '/test2 timeline labels must use the site date form, "1 Jan 1950" (src/date-format.mjs)');
-assert(appSource.includes('TIMELINE_TRANSITION_MIN_AREA_M2 = 100') && appSource.includes('startTimelineAnimation') && appSource.includes('applyTimelineAnimationTransition') && appSource.includes('filterTimelineTransitionGeoJson') && appSource.includes('getTimelineTransitionKeys') && appSource.includes('TIMELINE_TRANSITION_RUNTIME_BASE_PATH') && appSource.includes('fetchTimelineTransitionGeoJson') && appSource.includes("contentType.includes('text/html')"), '/test2 territorial animation must implement play/pause/stop transitions with deployable runtime overlays, source-key fallback, HTML-fallback rejection, and the accepted 100m2 sliver threshold');
-assert(wardTimelineTransitionSidecarIds.every((id) => appSource.includes(id)) && appSource.includes('TIMELINE_TRANSITION_SIDECAR_SET'), '/test2 territorial animation must know every shipped adjacent Wards transition sidecar key');
-assert(appSource.includes('selectTimelineTransitionSequence') && appSource.includes('hasTimelineTransitionSidecar') && appSource.includes('return best.length >= 2 ? best : [];'), '/test2 territorial animation must prefer contiguous sidecar-backed timeline playback sequences');
-assert(appSource.includes('sequenceItems: []') && appSource.includes('getTimelineAnimationItems') && appSource.includes('if (this.timelineAnimation?.playing) return;') && appSource.includes('applyTimelineAnimationTransition(fromIndex, toIndex, runId, timelineItems)'), '/test2 territorial animation must lock the original sidecar-backed sequence during playback instead of rebuilding from the temporary two-layer transition stack');
+assert(appSource.includes('startTimelineAnimation') && appSource.includes('applyTimelineAnimationTransition') && appSource.includes('TIMELINE_CHANGES_BASE_PATH') && appSource.includes('loadTimelineChangeIndex') && appSource.includes('showTimelineStepChanges') && appSource.includes("contentType.includes('text/html')"), '/test2 timeline must highlight boundary changes at every step (drag, previous/next, Play) from data/timeline-changes/, rejecting an HTML fallback');
+assert(appSource.includes('TIMELINE_HIGHLIGHT_STORAGE_KEY') && appSource.includes('role="switch"') && appSource.includes('toggleTimelineChangesPanel') && appSource.includes('zoomToTimelineChange'), '/test2 timeline must offer a remembered "Highlight changes" switch and a list of changes with zoom-to');
+assert(appSource.includes('sequenceItems: []') && appSource.includes('getTimelineAnimationItems') && appSource.includes('if (this.timelineAnimation?.playing) return;') && appSource.includes('applyTimelineAnimationTransition(fromIndex, toIndex, runId, timelineItems)'), '/test2 territorial animation must lock its sequence during playback instead of rebuilding the slider mid-run');
+assert(appSource.includes('updateEditionRoles') && appSource.includes('older edition, grey dashed'), '/test2 two editions of one series must be told apart: the older grey and dashed, and the legend saying which is which');
 const niWardsClass = (mapsDb.classes || []).find((item) => item.id === 'ni-wards');
-const canonicalTimelineTransitionMapId = (id) => {
-  const text = String(id || '');
-  const yearMatch = text.match(/^wards-(1972|1984|1993|2012)(?:-|$)/);
-  if (yearMatch) return 'wards-' + yearMatch[1];
-  if (/^wards-2022(?:-|$)/.test(text)) return 'wards-2022-final-recommendations';
-  return text;
-};
 const parseValidationMapDate = (map) => {
   const raw = map?.date;
   if (raw === null || raw === undefined || raw === '') return Number.POSITIVE_INFINITY;
@@ -434,42 +400,22 @@ const niWardsTimelineMapIds = (niWardsClass?.maps || [])
   .map((id) => findMap(id))
   .filter(Boolean)
   .sort((a, b) => parseValidationMapDate(a) - parseValidationMapDate(b))
-  .map((map) => canonicalTimelineTransitionMapId(map.id));
+  .map((map) => map.id);
 const niWardsTransitionKeys = niWardsTimelineMapIds
   .slice(1)
   .map((id, index) => niWardsTimelineMapIds[index] + '__' + id);
-assert(JSON.stringify(niWardsTransitionKeys) === JSON.stringify(wardTimelineTransitionSidecarIds), '/test2 NI Wards timeline must resolve to every adjacent sidecar-backed transition, not only 1993 to 2012');
-assert(wardTimelineTransitionSidecars.every((sidecar) => sidecar.features.some((feature) => ['split', 'transfer'].includes(feature?.properties?.transitionType))), '/test2 Wards territorial transition sidecars must each contain visible red/purple overlay parts, not just unchanged hit-test polygons');
-assert(wardTimelineTransitionRuntimeOverlays.length === 4 && wardTimelineTransitionRuntimeOverlays.every((overlay) => overlay.entry && overlay?.metadata?.runtimeOverlay === true && Array.isArray(overlay.features) && overlay.features.length > 0), '/test2 must ship deployable runtime overlays for every adjacent Wards transition');
-assert(wardTimelineTransitionRuntimeOverlays.every((overlay) => overlay.parts.every((part) => part.size < MAX_PAGES_FILE_BYTES)), '/test2 runtime transition overlay shards must remain below Cloudflare Pages per-file limit');
-assert(wardTimelineTransitionRuntimeOverlays.every((overlay) => Number(overlay.entry.runtimeFeatures) === overlay.features.length), '/test2 runtime transition overlay manifest feature counts must match shard contents');
-assert(wardTimelineTransitionRuntimeOverlays.every((overlay) => overlay.features.every((feature) => ['split', 'territory-split', 'transfer'].includes(feature?.properties?.transitionType || feature?.properties?.changeType))), '/test2 runtime transition overlays must contain only visible red/purple transition parts');
-assert(timelineRuntimeOverlayBuilderSource.includes('VISIBLE_TYPES') && timelineRuntimeOverlayBuilderSource.includes('runtimeOverlay'), '/test2 runtime transition overlay builder must derive deployable overlays from full sidecars');
+assert(niWardsTransitionKeys.length >= 4 && niWardsTransitionKeys.every((id) => timelineChangePairs[id]?.kind && timelineChangePairs[id].kind !== 'unavailable'), '/test2 NI Wards timeline must have change data for every adjacent edition');
+assert(niWardsTransitionKeys.map(readTimelineChangePair).every(({ entry, data }) => entry.kind !== 'changes' || (Array.isArray(data?.changes) && data.changes.length > 0 && data.changes.every((change) => Array.isArray(change.bbox) && Array.isArray(change.point)))), '/test2 Wards change files must list each change with a bbox and a label point');
+assert(Object.values(timelineChangePairs).every((entry) => !entry.path || statSync(entry.path).size < MAX_PAGES_FILE_BYTES), '/test2 timeline change files must stay below the Cloudflare Pages per-file limit');
+const counties1927To1955 = timelineChangePairs['counties-ireland-1927__counties-ireland-1955'];
+assert(counties1927To1955 && ['changes', 'redrawn', 'none'].includes(counties1927To1955.kind) && Number(counties1927To1955.count) < 20, '/test2 Counties 1927 to 1955 must list its few real changes (or say it was redrawn), not paint the whole island');
+assert((readTimelineChangePair('eds-1915-04-01__eds-1916-01-26').data?.changes || []).some((change) => change.type === 'created' && /portstewart urban/i.test(change.to || '')), '/test2 the 1916 DEDs must show Portstewart Urban formed out of Portstewart');
+assert(!(readTimelineChangePair('wards-1972__wards-1984').data?.changes || []).some((change) => change.from === 'WEST' && change.to === 'WEST'), '/test2 the 1972 Strabane West to 1984 West overlap is the same ward carried on, not a change');
+assert(timelineChangesBuilderSource.includes('OPEN_RADIUS_M') && timelineChangesBuilderSource.includes('MIN_AREA_HA') && timelineChangesBuilderSource.includes('def same_name') && timelineChangesBuilderSource.includes("'redrawn'"), '/test2 timeline change builder must separate real changes from redrawing (opening, minimum area, same-name continuity) and say when a pair was only redrawn');
 const ded1922Placeholder = findMap('ded-1922-10-31');
 assert(ded1922Placeholder?.placeholder === true, '/test2 validation fixture must keep District Electoral Divisions 31 October 1922 marked as a placeholder');
 assert(appSource.includes('isPlaceholderTimelineMap') && appSource.includes('isTimelineMapPlayable') && appSource.includes('!item?.mapId || this.isTimelineMapPlayable(item.mapId)') && appSource.includes('filter((item) => this.isTimelineMapPlayable(item.mapId))') && appSource.includes('!this.isTimelineMapPlayable(newId)'), '/test2 territorial timeline must skip placeholder and non-loadable map frames before playback can load them');
-assert(adapterSource.includes('setTimelineTransitionOverlay') && adapterSource.includes('clearTimelineTransitionOverlay') && adapterSource.includes('normalizeTimelineTransitionFeature') && adapterSource.includes('transitionType') && adapterSource.includes('unchanged') && adapterSource.includes('clearTransientHighlight') && adapterSource.includes('isTimelineTransitionEventAtPoint') && adapterSource.includes('#7c3aed'), '/test2 MapLibre adapter must render clickable typed territorial transition overlays and prioritise part interactions');
-assert(timelineSidecarBuilderSource.includes('MIN_AREA_M2 = 100.0') && timelineSidecarBuilderSource.includes('same-name continuity intersections') && timelineSidecarBuilderSource.includes('is_same_name_retained_overlap') && timelineSidecarBuilderSource.includes('coordinate_decimals'), '/test2 territorial transition sidecars must be reproducibly generated with the accepted threshold and compact GeoJSON coordinates');
-assert(wardTimelineTransitionSidecars.length === 4 && wardTimelineTransitionSidecars.every((sidecar) => sidecar?.metadata?.minimumAreaM2 === 100 && Array.isArray(sidecar.features) && sidecar.features.length > 0), '/test2 must ship 100m2-filtered sidecars for every adjacent Wards timeline transition');
-assert(wardTimelineTransitionSidecars.every((sidecar) => sidecar.features.every((feature) => Number(feature?.properties?.area_m2) >= 100)), '/test2 territorial transition sidecars must not include sub-100m2 transition fragments');
-assert(wardTimelineTransitionSidecars.every((sidecar) => sidecar.features.some((feature) => feature?.properties?.transitionType === 'unchanged')), '/test2 Wards territorial transition sidecars must include transparent unchanged parts for transition hit-testing');
-const strabaneWestRetained = wardTimelineTransitionSidecars[0].features.find((feature) => {
-  const props = feature?.properties || {};
-  const area = Number(props.area_m2);
-  return props.fromFeatureName === 'WEST'
-    && props.toFeatureName === 'WEST'
-    && area > 700000
-    && area < 900000;
-});
-assert(strabaneWestRetained?.properties?.transitionType === 'unchanged' && strabaneWestRetained?.properties?.transitionReason === 'same-name-retained-overlap', '/test2 1972 Strabane West to 1984 West retained overlap must stay no-fill instead of red transfer');
-assert(!wardTimelineTransitionRuntimeOverlays[0].features.some((feature) => {
-  const props = feature?.properties || {};
-  const area = Number(props.area_m2);
-  return props.fromFeatureName === 'WEST'
-    && props.toFeatureName === 'WEST'
-    && area > 700000
-    && area < 900000;
-}), '/test2 runtime red/purple overlay must omit the retained 1972 Strabane West to 1984 West overlap');
+assert(adapterSource.includes('setTimelineChanges') && adapterSource.includes('clearTimelineChanges') && adapterSource.includes('isTimelineChangeEventAtPoint') && adapterSource.includes('TIMELINE_CHANGE_MARKER_MIN_PX') && adapterSource.includes('line-dasharray') && adapterSource.includes('setEditionRole') && adapterSource.includes('clearTransientHighlight'), '/test2 MapLibre adapter must draw timeline changes (areas, new lines, dashed ghosts of gone lines, minimum-size markers) above the boundaries, and grey-dash an older edition');
 assert(adapterSource.includes('applyElectionStyle') && adapterSource.includes('clearElectionStyle'), '/test2 adapter must support MapLibre election styling expressions');
 assert(adapterSource.includes('fillOpacityExpression') && adapterSource.includes('lineOpacityExpression'), '/test2 adapter must accept expression-based election opacity so main matched/unmatched paint can be mirrored');
 assert(electionManagerSource.includes('ELECTION_MANIFEST_URL') && electionManagerSource.includes('loadElection(body, date)'), '/test2 election manager must lazy-load generated election result bundles');

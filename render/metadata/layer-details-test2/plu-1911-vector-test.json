@@ -12,7 +12,7 @@
     "Phelim Birch",
     "Paddy Matthews"
   ],
-  "description": "The 158 Poor Law Unions of Ireland at the census of 2 Apr 1911: 112 in one county, 38 in two and 8 in three. Each union is built by grouping the 3,673 District Electoral Divisions of the 1911 census by the union they were in, from the county districts in each county volume's Table VI and the DED numbers in Table VII (which runs union by union). The DED map is Phelim Birch's and Paddy Matthews's (Leinster 29 Apr 1910, Connacht and Munster 1907, Ulster as on census day). Every union's DED areas add up to the acreage printed in the 1911 General Report Table 51 (147 of 158 within 0.01%), and its DED populations to the printed population. Each union carries its census acreage and population; quote census_acres rather than the map area, which takes in large lakes and estuaries the census leaves out. The King's County volume is not held, so its 87 DEDs are placed from the 1911 DED-number blocks printed in the 1936 census; six DEDs at block edges are inferred.",
+  "description": "The 158 Poor Law Unions of Ireland at the census of 2 Apr 1911: 112 in one county, 38 in two and 8 in three. Each union is built by grouping the 3,673 District Electoral Divisions of the 1911 census by the union they were in, from the county districts in each county volume's Table VI and the DED numbers in Table VII (which runs union by union). The DED map is Phelim Birch's and Paddy Matthews's (Leinster 29 Apr 1910, Connacht and Munster 1907, Ulster as on census day). Every union's DED areas add up to the acreage printed in the 1911 General Report Table 51 (152 of 158 within 0.01%), and its DED populations to the printed population. Each union carries its census acreage and population; quote census_acres rather than the map area, which takes in large lakes and estuaries the census leaves out. The King's County DEDs are placed from Table VI of the 1911 King's County volume.",
   "renderer": "maplibre",
   "sourceType": "pmtiles",
   "geometryType": "polygon",
@@ -50,9 +50,9 @@
       "note": "Table VI lists each county district with its DEDs, their Table VII numbers, areas and populations; Table VII lists the townlands by union, registrar's district and DED. Table VI of every held volume was transcribed from the page images; the DED-to-union lookup is a download of this map."
     },
     {
-      "label": "Census of Saorstát Éireann 1936, Vol. 1, Table 10",
-      "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census1936reports/census1936volume1/",
-      "note": "Each Offaly dispensary district with its 1911 Table VII DED numbers, from which the King's County unions are placed (no 1911 King's County volume is held)."
+      "label": "Census of Ireland 1911, Area, houses and population, King's County, Table VI",
+      "url": "https://www.cso.ie/en/media/csoie/releasespublications/documents/ep/storiesfromcensus1911/census1911originalreports/455_Area_Houses_and_population_Leinster_Ireland_1911_King%27s_County.pdf",
+      "note": "Each county district of King's County with its DEDs, areas and populations, transcribed from the page images; the DEDs reconcile exactly with the printed totals (CSO, CC BY 4.0)."
     }
   ],
   "sourceDownloads": [
@@ -248,22 +248,17 @@
     "pbfFiles": 3916,
     "maxTileBytes": 96983
   },
-  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/plu-1911-vector-test.pmtiles",
+  "tileUrl": "/render/pmtiles/generated/plu-1911-vector-test.pmtiles",
   "tilesFallback": "/render/tiles/generated/plu-1911/{z}/{x}/{y}.pbf",
   "tilePackage": {
     "preferred": true,
     "localPath": "render/pmtiles/generated/plu-1911-vector-test.pmtiles",
     "url": "/render/pmtiles/generated/plu-1911-vector-test.pmtiles",
-    "bytes": 8149791,
+    "bytes": 8149183,
     "maxGithubBytes": 99614720,
-    "generatedAt": "2026-11-01T04:37:52.404Z",
+    "generatedAt": "2026-11-01T15:15:34.580Z",
     "fallback": "/render/tiles/generated/plu-1911/{z}/{x}/{y}.pbf",
-    "sourceSha256": "8f8e33992379528c6b38a1d33300e6c7683d7a0cabd5bb653a42a93aab43bba3",
-    "serving": "cdn",
-    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/plu-1911-vector-test.pmtiles",
-    "r2Key": "data/maps/test/pmtiles/generated/plu-1911-vector-test.pmtiles",
-    "localUrl": "/render/pmtiles/generated/plu-1911-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-11-01T11:50:17.039Z"
+    "sourceSha256": "7cd9c1305bda6b43d1b0302fdf77daad67280d6a43d0099583a619bcb8bd9296"
   },
   "featureIndexUrl": "/render/metadata/feature-indexes/plu-1911-vector-test.json"
 }

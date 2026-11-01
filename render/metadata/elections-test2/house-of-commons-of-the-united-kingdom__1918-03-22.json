@@ -50,45 +50,114 @@
       "seats": 1,
       "stood": 1,
       "votes": 1242,
-      "colour": "#6b7280",
-      "share": 62.50629089079014
+      "colour": "#99ff66",
+      "share": 61.91425722831505
     },
     {
       "party": "Sinn Féin",
       "seats": 0,
       "stood": 1,
-      "votes": 745,
+      "votes": 764,
       "colour": "#326760",
-      "share": 37.49370910920987
+      "share": 38.08574277168494
     }
   ],
   "mainLikePartySummary": [
     {
       "party": "Irish Parliamentary",
       "seats": 1,
-      "stood": 0,
-      "votes": 0,
-      "colour": "#888888",
-      "share": null
+      "stood": 1,
+      "votes": 1242,
+      "colour": "#99ff66",
+      "share": 61.91425722831505
+    },
+    {
+      "party": "Sinn Féin",
+      "seats": 0,
+      "stood": 1,
+      "votes": 764,
+      "colour": "#326760",
+      "share": 38.08574277168494
     }
   ],
   "mainLikeTotals": {
-    "validPoll": 0,
+    "validPoll": 2006,
     "totalPoll": 0,
     "totalElectorate": 2972,
     "totalSpoiled": 0,
     "totalSeats": 1
   },
-  "mainLikeCandidateSummary": [],
+  "mainLikeCandidateSummary": [
+    {
+      "id": "row:William Redmond|Irish Parliamentary",
+      "personId": 123552,
+      "sourcePersonId": "wikipedia:William Redmond (Irish politician, born 1886)",
+      "constituency": "Waterford City",
+      "name": "William Redmond",
+      "party": "Irish Parliamentary",
+      "colour": "#99ff66",
+      "firstPrefs": 1242,
+      "votes": 1242,
+      "constPct": 61.91425722831505,
+      "firstPrefPct": 61.91425722831505,
+      "finalVotes": 1242,
+      "elected": true,
+      "electedAt": 1,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Elected",
+      "counts": {
+        "1": {
+          "total": 1242,
+          "transfers": 0,
+          "status": "Elected"
+        }
+      },
+      "candidateKey": "william redmond|irish parliamentary",
+      "name_id": "n-william-redmond"
+    },
+    {
+      "id": "row:Vincent White|Sinn Féin",
+      "personId": 100797,
+      "sourcePersonId": "wikipedia:Vincent White (politician)",
+      "constituency": "Waterford City",
+      "name": "Vincent White",
+      "party": "Sinn Féin",
+      "colour": "#326760",
+      "firstPrefs": 764,
+      "votes": 764,
+      "constPct": 38.08574277168494,
+      "firstPrefPct": 38.08574277168494,
+      "finalVotes": 764,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 764,
+          "transfers": 0,
+          "status": "Not elected"
+        }
+      },
+      "candidateKey": "vincent white|sinn féin",
+      "name_id": "n-vincent-white"
+    }
+  ],
   "mainLikeCandidateTotals": {
-    "validPoll": 0
+    "validPoll": 2006
   },
   "entityIndex": {
-    "totalValid": 1987,
+    "totalValid": 2006,
     "parties": [
       {
         "name": "Irish Parliamentary",
-        "colour": "#888888",
+        "colour": "#99ff66",
         "firstPrefs": 1242,
         "finalVotes": 1242,
         "stood": 1,
@@ -106,13 +175,13 @@
             "status": "Elected"
           }
         ],
-        "shareOfTotal": 62.50629089079014
+        "shareOfTotal": 61.91425722831505
       },
       {
         "name": "Sinn Féin",
-        "colour": "#888888",
-        "firstPrefs": 745,
-        "finalVotes": 745,
+        "colour": "#326760",
+        "firstPrefs": 764,
+        "finalVotes": 764,
         "stood": 1,
         "elected": 0,
         "constituencies": [
@@ -123,12 +192,12 @@
             "id": "wikipedia:Vincent White (politician)",
             "name": "Vincent White",
             "constituency": "Waterford City",
-            "firstPref": 745,
-            "finalVotes": 745,
+            "firstPref": 764,
+            "finalVotes": 764,
             "status": "Not elected"
           }
         ],
-        "shareOfTotal": 37.49370910920987
+        "shareOfTotal": 38.08574277168494
       }
     ],
     "candidates": [
@@ -137,7 +206,7 @@
         "key": "William Redmond|Irish Parliamentary",
         "name": "William Redmond",
         "party": "Irish Parliamentary",
-        "colour": "#888888",
+        "colour": "#99ff66",
         "firstPrefs": 1242,
         "finalVotes": 1242,
         "electedCount": 1,
@@ -152,16 +221,16 @@
             "status": "Elected"
           }
         ],
-        "shareOfTotal": 62.50629089079014
+        "shareOfTotal": 61.91425722831505
       },
       {
         "id": "wikipedia:Vincent White (politician)",
         "key": "Vincent White|Sinn Féin",
         "name": "Vincent White",
         "party": "Sinn Féin",
-        "colour": "#888888",
-        "firstPrefs": 745,
-        "finalVotes": 745,
+        "colour": "#326760",
+        "firstPrefs": 764,
+        "finalVotes": 764,
         "electedCount": 0,
         "constituencies": [
           "Waterford City"
@@ -169,12 +238,12 @@
         "appearances": [
           {
             "constituency": "Waterford City",
-            "firstPref": 745,
-            "finalVotes": 745,
+            "firstPref": 764,
+            "finalVotes": 764,
             "status": "Not elected"
           }
         ],
-        "shareOfTotal": 37.49370910920987
+        "shareOfTotal": 38.08574277168494
       }
     ]
   },
@@ -186,20 +255,20 @@
       "leadingParty": "Irish Parliamentary",
       "leadingName": "William Redmond",
       "leadingVotes": 1242,
-      "leadingPct": 62.51,
+      "leadingPct": 61.91,
       "turnoutPct": null,
-      "majority": 497,
-      "majorityPct": 25.01,
+      "majority": 478,
+      "majorityPct": 23.83,
       "seatsWon": 1,
       "seatsTotal": 1,
       "quota": null,
       "electorate": 2972,
       "totalPoll": null,
       "spoiled": null,
-      "validPoll": 1987,
-      "totalVotes": 1987,
-      "colour": "#6b7280",
-      "leadingColour": "#6b7280",
+      "validPoll": 2006,
+      "totalVotes": 2006,
+      "colour": "#99ff66",
+      "leadingColour": "#99ff66",
       "candidates": [
         {
           "id": "William Redmond|Irish Parliamentary",
@@ -213,7 +282,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#99ff66",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -237,15 +306,15 @@
           "id": "Vincent White|Sinn Féin",
           "name": "Vincent White",
           "party": "Sinn Féin",
-          "firstPrefs": 745,
-          "finalVotes": 745,
+          "firstPrefs": 764,
+          "finalVotes": 764,
           "elected": false,
           "electedAt": null,
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
           "status": "Not elected",
-          "colour": "#888888",
+          "colour": "#326760",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -256,10 +325,10 @@
           "counts": [
             {
               "count": 1,
-              "total": 745,
+              "total": 764,
               "transfers": 0,
               "status": "Not elected",
-              "firstPrefs": 745
+              "firstPrefs": 764
             }
           ],
           "personId": 100797,
@@ -279,7 +348,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#99ff66",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -326,7 +395,7 @@
           "sourcePersonId": "wikipedia:William Redmond (Irish politician, born 1886)"
         },
         {
-          "Candidate_First_Pref_Votes": "745",
+          "Candidate_First_Pref_Votes": "764",
           "Candidate_Id": "",
           "Constituency_Number": "",
           "Count_Number": "1",
@@ -336,7 +405,7 @@
           "Party_Name": "Sinn Féin",
           "Status": "Not elected",
           "Surname": "White",
-          "Total_Votes": "745",
+          "Total_Votes": "764",
           "Transfers": "0.00",
           "candidateName": "Vincent White",
           "id": 1,
@@ -380,7 +449,7 @@
               "sourcePersonId": "wikipedia:William Redmond (Irish politician, born 1886)"
             },
             {
-              "Candidate_First_Pref_Votes": "745",
+              "Candidate_First_Pref_Votes": "764",
               "Candidate_Id": "",
               "Constituency_Number": "",
               "Count_Number": "1",
@@ -390,7 +459,7 @@
               "Party_Name": "Sinn Féin",
               "Status": "Not elected",
               "Surname": "White",
-              "Total_Votes": "745",
+              "Total_Votes": "764",
               "Transfers": "0.00",
               "candidateName": "Vincent White",
               "id": 1,
@@ -420,7 +489,8 @@
           }
         ],
         "checked": "winner agrees with Wikipedia's list of by-elections; 2 figure(s) compared with Walker, all agreeing",
-        "cause": "Death"
+        "cause": "Death",
+        "correctionNote": "Votes corrected to the newspaper report (Captain W. A. Redmond (Irish Party) 1242; Dr. Vincent White (Sinn Fein) 764; majority 478): Vincent White 764. (British Newspaper Archive, Evening Herald (Dublin), 23 March 1918, p. 1)"
       },
       "constituencyId": null,
       "constituencyNumber": null,
@@ -429,6 +499,10 @@
         {
           "label": "Cause",
           "text": "Death"
+        },
+        {
+          "label": "Corrected",
+          "text": "Votes corrected to the newspaper report (Captain W. A. Redmond (Irish Party) 1242; Dr. Vincent White (Sinn Fein) 764; majority 478): Vincent White 764. (British Newspaper Archive, Evening Herald (Dublin), 23 March 1918, p. 1)"
         }
       ],
       "contestType": "election",

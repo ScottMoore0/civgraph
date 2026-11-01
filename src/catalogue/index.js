@@ -24,9 +24,11 @@ import { AddressGeocoder, parsePostcode } from './geocoder.js';
 import { CATALOGUE_CSS } from './styles.js';
 import dataService, { resolveMapDownloadUrl } from '../data-service.js';
 import { initialCatalogueRoute, takeCatalogueData } from './flag.js';
+import { compositeChildIds } from '../map-relations.mjs';
 import { icon, SHELF_LOOK, SHELF_ICON_IN, BOOK_CATEGORY_ICONS, MERGED_SHELVES, FLAT_SECTIONS } from './icons.js';
 import { esc, yearOf, longDate, mapDate, shortProvider } from './util.js';
 import { formatDisplayDate } from '../date-format.mjs';
+import { cdnUrl } from '../cdn-url.js';
 import { openMenu, closeMenu } from './menu.js';
 import { loadAuth, loginHref, openEditDialog } from './edit.js';
 import { decadeDomain, binCounts, indexOf, updateSlider, stepYear } from './slider.js';
@@ -322,9 +324,44 @@ export class CatalogueNext {
     const n = this.activeFilterCount(key);
     const toggle = bar.querySelector('.cn-filters-toggle');
     if (toggle) toggle.innerHTML = `${icon('sliders')}Filters${n ? ` <span class="cn-badge">${n}</span>` : ''}`;
+    this.placeFiltersButton();
+  }
+
+  /**
+   * The Filters button sits beside the search bar (owner, 1 Nov 2026). The toolbar keeps its own
+   * button, visually hidden, so the folded-layout rules (a narrow catalogue) still decide whether a
+   * button is needed at all; this copy mirrors it and passes clicks to it.
+   */
+  placeFiltersButton() {
+    const search = document.querySelector('.search-input');
+    if (!search) return;
+    let copy = document.getElementById('cnFiltersButton');
+    if (!copy) {
+      copy = document.createElement('button');
+      copy.type = 'button';
+      copy.id = 'cnFiltersButton';
+      copy.className = 'cn-filters-button';
+      copy.addEventListener('click', () => {
+        this.viewEl?.querySelector('[data-cn-toolbar] .cn-filters-toggle')?.click();
+        this.placeFiltersButton();
+      });
+      search.after(copy);
+      if (!this._filtersButtonResize) {
+        this._filtersButtonResize = () => this.placeFiltersButton();
+        window.addEventListener('resize', this._filtersButtonResize);
+      }
+    }
+    const original = this.viewEl?.querySelector('[data-cn-toolbar] .cn-filters-toggle');
+    copy.hidden = !original || getComputedStyle(original).display === 'none';
+    if (original) {
+      copy.innerHTML = original.innerHTML.replace('Filters', '<span class="cn-filters-button__label">Filters</span>');
+      copy.title = 'Filters';
+      copy.setAttribute('aria-expanded', original.getAttribute('aria-expanded') || 'false');
+    }
   }
 
   afterDraw(scope) {
+    this.placeFiltersButton();
     // Sticky headings sit just below the section tabs, which wrap to two rows in a narrow pane.
     if (this.tabsEl?.offsetHeight) this.root.style.setProperty('--cn-tabs-h', `${this.tabsEl.offsetHeight}px`);
     // The folded filters show the count beside their button; the list keeps its own for screen readers.
@@ -1514,7 +1551,15 @@ export class CatalogueNext {
     if (resolveMapDownloadUrl(full)) out.push({ label: 'FlatGeobuf (.fgb)', icon: 'download', onSelect: () => this.ui.onDownloadFgb?.(id) });
     if (full.files?.geojson) out.push({ label: 'Original GeoJSON', icon: 'download', href: full.files.geojson, download: true });
     for (const d of this.ui.getSourceDownloads?.(full) || []) if (d?.file) out.push({ label: d.label || 'Source file', icon: 'download', href: d.file, download: true });
-    if (full.isDataEntry && full.csv) out.push({ label: 'Statistics (CSV)', icon: 'download', href: `/${String(full.csv).replace(/^\//, '')}`, download: true });
+    // The statistics CSVs are on the data bucket (data/census/ is not in the Pages build).
+    if (full.isDataEntry && full.csv) out.push({ label: 'Statistics (CSV)', icon: 'download', href: cdnUrl(full.csv), download: true });
+    // The map drawn as a Wikipedia-style locator map of the current view (app/src/map-image-export.js):
+    // any map with a vector data file of its own or in its members.
+    const vector = resolveMapDownloadUrl(full) || compositeChildIds(full).some((cid) => resolveMapDownloadUrl(this.full(cid)));
+    if (vector && this.ui.onExportMapImage) {
+      out.push({ label: 'Map image of this view (SVG)', icon: 'download', onSelect: () => this.ui.onExportMapImage(id, 'svg') });
+      out.push({ label: 'Map image of this view (PNG)', icon: 'download', onSelect: () => this.ui.onExportMapImage(id, 'png') });
+    }
     return out;
   }
 

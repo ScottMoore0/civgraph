@@ -14,8 +14,11 @@ import {
   buildPartySummary,
   compareResults,
   extractElected,
+  isRegistryColourParty,
+  isPlaceholderPartyColour,
   normalizeParty,
   partyColour as electionPartyColour,
+  resolvePartyColour as electionResolvePartyColour,
   seatPositions
 } from '../../src/election-domain.mjs';
 import { partyAbbreviation, partyFullName, partyLabelHtml } from '../../src/party-names.mjs';
@@ -933,9 +936,13 @@ export class Test2ElectionManager {
 
   mainPanePartyColour(party, explicit = '') {
     const explicitColour = String(explicit || '').trim();
-    if (explicitColour) return explicitColour;
     const normalizedParty = normalizeName(party);
-    if (!normalizedParty) return '#6b7280';
+    // The pre-1922 parties always take the shared registry's colour: their files' colours
+    // were assigned by an old party code and are wrong (src/election-domain.mjs). A file's
+    // placeholder grey never hides a colour the party has.
+    if (normalizedParty && isRegistryColourParty(party)) return electionPartyColour(party);
+    if (explicitColour && !(isPlaceholderPartyColour(explicitColour) && this.knownPartyColour(party))) return explicitColour;
+    if (!normalizedParty) return explicitColour || '#6b7280';
     const routePalette = this.usesMainRoiPartyPalette() ? ROI_MAIN_PARTY_COLOURS : PARTY_COLOURS;
     const routeColour = routePalette.get(normalizedParty);
     const sharedColour = electionPartyColour(party, '');
@@ -945,6 +952,13 @@ export class Test2ElectionManager {
       return ROI_MAIN_PARTY_COLOURS.get(normalizedParty) || electionPartyColour(party) || partyColour(party) || '#b0bec5';
     }
     return electionPartyColour(party) || partyColour(party) || '#6b7280';
+  }
+
+  knownPartyColour(party) {
+    const normalizedParty = normalizeName(party);
+    if (!normalizedParty) return '';
+    const routePalette = this.usesMainRoiPartyPalette() ? ROI_MAIN_PARTY_COLOURS : PARTY_COLOURS;
+    return routePalette.get(normalizedParty) || electionPartyColour(party, '') || PARTY_COLOURS.get(normalizedParty) || '';
   }
 
   partyColourForResult(result = {}, party = '', explicit = '', options = {}) {
@@ -5184,7 +5198,7 @@ function buildLocalPartySummary(results = []) {
           party,
           constituency: result.constituency || result.matchName || '',
           resultKey: normalizeName(result.matchName || result.constituency || ''),
-          colour: candidate.colour || electionPartyColour(party) || partyColour(party),
+          colour: electionResolvePartyColour(party, candidate.colour, '') || partyColour(party),
           stood: 0,
           seats: 0,
           firstPrefs: 0,

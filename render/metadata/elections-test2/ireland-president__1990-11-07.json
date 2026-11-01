@@ -24,8 +24,8 @@
   "councilGeometryType": null,
   "geometryType": "polygon",
   "anchorUrl": "/render/metadata/election-anchors-test2/roi-1938-vector-test.json",
-  "previousKey": "ireland-president__1983-12-03",
-  "previousDate": "1983-12-03",
+  "previousKey": "ireland-president__1983-10-21",
+  "previousDate": "1983-10-21",
   "loadable": true,
   "displaySubtitle": "1 constituencies",
   "displayProvider": "President of Ireland",
@@ -215,7 +215,7 @@
         "name": "Independent",
         "colour": "#b8b8b8",
         "firstPrefs": 612265,
-        "finalVotes": 612265,
+        "finalVotes": 817830,
         "stood": 1,
         "elected": 1,
         "constituencies": [
@@ -227,7 +227,7 @@
             "name": "Mary Robinson",
             "constituency": "Ireland",
             "firstPref": 612265,
-            "finalVotes": 612265,
+            "finalVotes": 817830,
             "status": "Elected"
           }
         ],
@@ -237,7 +237,7 @@
         "name": "Fianna Fáil",
         "colour": "#66bb66",
         "firstPrefs": 694484,
-        "finalVotes": 694484,
+        "finalVotes": 731273,
         "stood": 1,
         "elected": 0,
         "constituencies": [
@@ -249,8 +249,8 @@
             "name": "Brian Lenihan",
             "constituency": "Ireland",
             "firstPref": 694484,
-            "finalVotes": 694484,
-            "status": ""
+            "finalVotes": 731273,
+            "status": "Not Elected"
           }
         ],
         "shareOfTotal": 44.10399510748731
@@ -272,7 +272,7 @@
             "constituency": "Ireland",
             "firstPref": 267902,
             "finalVotes": 267902,
-            "status": ""
+            "status": "Excluded"
           }
         ],
         "shareOfTotal": 17.01342075164592
@@ -286,7 +286,7 @@
         "party": "Independent",
         "colour": "#b8b8b8",
         "firstPrefs": 612265,
-        "finalVotes": 612265,
+        "finalVotes": 817830,
         "electedCount": 1,
         "constituencies": [
           "Ireland"
@@ -295,7 +295,7 @@
           {
             "constituency": "Ireland",
             "firstPref": 612265,
-            "finalVotes": 612265,
+            "finalVotes": 817830,
             "status": "Elected"
           }
         ],
@@ -308,7 +308,7 @@
         "party": "Fianna Fáil",
         "colour": "#66bb66",
         "firstPrefs": 694484,
-        "finalVotes": 694484,
+        "finalVotes": 731273,
         "electedCount": 0,
         "constituencies": [
           "Ireland"
@@ -317,8 +317,8 @@
           {
             "constituency": "Ireland",
             "firstPref": 694484,
-            "finalVotes": 694484,
-            "status": ""
+            "finalVotes": 731273,
+            "status": "Not Elected"
           }
         ],
         "shareOfTotal": 44.10399510748731
@@ -340,7 +340,7 @@
             "constituency": "Ireland",
             "firstPref": 267902,
             "finalVotes": 267902,
-            "status": ""
+            "status": "Excluded"
           }
         ],
         "shareOfTotal": 17.01342075164592
@@ -375,13 +375,13 @@
           "name": "Brian Lenihan",
           "party": "Fianna Fáil",
           "firstPrefs": 694484,
-          "finalVotes": 694484,
+          "finalVotes": 731273,
           "elected": false,
           "electedAt": null,
           "autoReturnedCeannComhairle": false,
           "excluded": false,
           "excludedAt": null,
-          "status": "",
+          "status": "Not Elected",
           "colour": "#66bb66",
           "gender": "",
           "dailAbbreviation": "",
@@ -400,9 +400,9 @@
             },
             {
               "count": 2,
-              "total": 694484,
-              "transfers": 0,
-              "status": "",
+              "total": 731273,
+              "transfers": 36789,
+              "status": "Not Elected",
               "firstPrefs": 694484
             }
           ],
@@ -414,7 +414,7 @@
           "name": "Mary Robinson",
           "party": "Independent",
           "firstPrefs": 612265,
-          "finalVotes": 612265,
+          "finalVotes": 817830,
           "elected": true,
           "electedAt": 2,
           "autoReturnedCeannComhairle": false,
@@ -439,8 +439,8 @@
             },
             {
               "count": 2,
-              "total": 612265,
-              "transfers": 0,
+              "total": 817830,
+              "transfers": 205565,
               "status": "Made Quota",
               "firstPrefs": 612265
             }
@@ -457,9 +457,9 @@
           "elected": false,
           "electedAt": null,
           "autoReturnedCeannComhairle": false,
-          "excluded": false,
-          "excludedAt": null,
-          "status": "",
+          "excluded": true,
+          "excludedAt": 1,
+          "status": "Excluded",
           "colour": "#6699ff",
           "gender": "",
           "dailAbbreviation": "",
@@ -473,14 +473,7 @@
               "count": 1,
               "total": 267902,
               "transfers": 0,
-              "status": "",
-              "firstPrefs": 267902
-            },
-            {
-              "count": 2,
-              "total": 267902,
-              "transfers": 0,
-              "status": "",
+              "status": "Excluded",
               "firstPrefs": 267902
             }
           ],
@@ -494,7 +487,7 @@
           "name": "Mary Robinson",
           "party": "Independent",
           "firstPrefs": 612265,
-          "finalVotes": 612265,
+          "finalVotes": 817830,
           "elected": true,
           "electedAt": 2,
           "autoReturnedCeannComhairle": false,
@@ -519,8 +512,8 @@
             },
             {
               "count": 2,
-              "total": 612265,
-              "transfers": 0,
+              "total": 817830,
+              "transfers": 205565,
               "status": "Made Quota",
               "firstPrefs": 612265
             }
@@ -535,11 +528,11 @@
         "Spoiled": "",
         "Total_Electorate": "2471308",
         "Total_Poll": "",
+        "Turnout_Pct": "",
         "Valid_Poll": "1574651"
       },
       "countGroup": [
         {
-          "Auto_Returned_Ceann_Comhairle": "",
           "Candidate_Id": "1",
           "Candidate_First_Pref_Votes": "612265",
           "Constituency_Number": "",
@@ -549,22 +542,20 @@
           "Gender": "",
           "Official_Candidate_Id": "",
           "Official_Status": "",
-          "Ballot_Description": "",
           "Party_Abbreviation": "",
           "Surname": "Robinson",
           "Occurred_On_Count": "2",
           "Party_Colour": "#b8b8b8",
           "Party_Name": "Independent",
           "Status": "",
-          "Synthetic_Scraper_Row": "1",
-          "Synthetic_Scraper_Stage_Row": "1",
           "Total_Votes": "612265",
           "Transfers": "0",
+          "Wikipedia_Count_Row": "1",
+          "Wikipedia_Count_Source": "https://irishnewsarchive.com/?a=d&d=SBP19901111.1.8",
           "candidateName": "Mary Robinson",
           "id": 0
         },
         {
-          "Auto_Returned_Ceann_Comhairle": "",
           "Candidate_Id": "1",
           "Candidate_First_Pref_Votes": "612265",
           "Constituency_Number": "",
@@ -574,22 +565,20 @@
           "Gender": "",
           "Official_Candidate_Id": "",
           "Official_Status": "",
-          "Ballot_Description": "",
           "Party_Abbreviation": "",
           "Surname": "Robinson",
           "Occurred_On_Count": "2",
           "Party_Colour": "#b8b8b8",
           "Party_Name": "Independent",
           "Status": "Made Quota",
-          "Synthetic_Scraper_Row": "1",
-          "Synthetic_Scraper_Stage_Row": "1",
-          "Total_Votes": "612265",
-          "Transfers": "0",
+          "Total_Votes": "817830",
+          "Transfers": "205565",
+          "Wikipedia_Count_Row": "1",
+          "Wikipedia_Count_Source": "https://irishnewsarchive.com/?a=d&d=SBP19901111.1.8",
           "candidateName": "Mary Robinson",
           "id": 0
         },
         {
-          "Auto_Returned_Ceann_Comhairle": "",
           "Candidate_Id": "2",
           "Candidate_First_Pref_Votes": "694484",
           "Constituency_Number": "",
@@ -599,22 +588,20 @@
           "Gender": "",
           "Official_Candidate_Id": "",
           "Official_Status": "",
-          "Ballot_Description": "",
           "Party_Abbreviation": "",
           "Surname": "Lenihan",
-          "Occurred_On_Count": "1",
+          "Occurred_On_Count": "2",
           "Party_Colour": "#66bb66",
           "Party_Name": "Fianna Fáil",
           "Status": "",
-          "Synthetic_Scraper_Row": "1",
-          "Synthetic_Scraper_Stage_Row": "1",
           "Total_Votes": "694484",
           "Transfers": "0",
+          "Wikipedia_Count_Row": "1",
+          "Wikipedia_Count_Source": "https://irishnewsarchive.com/?a=d&d=SBP19901111.1.8",
           "candidateName": "Brian Lenihan",
           "id": 1
         },
         {
-          "Auto_Returned_Ceann_Comhairle": "",
           "Candidate_Id": "2",
           "Candidate_First_Pref_Votes": "694484",
           "Constituency_Number": "",
@@ -624,22 +611,20 @@
           "Gender": "",
           "Official_Candidate_Id": "",
           "Official_Status": "",
-          "Ballot_Description": "",
           "Party_Abbreviation": "",
           "Surname": "Lenihan",
-          "Occurred_On_Count": "1",
+          "Occurred_On_Count": "2",
           "Party_Colour": "#66bb66",
           "Party_Name": "Fianna Fáil",
-          "Status": "",
-          "Synthetic_Scraper_Row": "1",
-          "Synthetic_Scraper_Stage_Row": "1",
-          "Total_Votes": "694484",
-          "Transfers": "0",
+          "Status": "Not Elected",
+          "Total_Votes": "731273",
+          "Transfers": "36789",
+          "Wikipedia_Count_Row": "1",
+          "Wikipedia_Count_Source": "https://irishnewsarchive.com/?a=d&d=SBP19901111.1.8",
           "candidateName": "Brian Lenihan",
           "id": 1
         },
         {
-          "Auto_Returned_Ceann_Comhairle": "",
           "Candidate_Id": "3",
           "Candidate_First_Pref_Votes": "267902",
           "Constituency_Number": "",
@@ -649,47 +634,21 @@
           "Gender": "",
           "Official_Candidate_Id": "",
           "Official_Status": "",
-          "Ballot_Description": "",
           "Party_Abbreviation": "",
           "Surname": "Currie",
           "Occurred_On_Count": "1",
           "Party_Colour": "#6699ff",
           "Party_Name": "Fine Gael",
-          "Status": "",
-          "Synthetic_Scraper_Row": "1",
-          "Synthetic_Scraper_Stage_Row": "1",
+          "Status": "Excluded",
           "Total_Votes": "267902",
           "Transfers": "0",
-          "candidateName": "Austin Currie",
-          "id": 2
-        },
-        {
-          "Auto_Returned_Ceann_Comhairle": "",
-          "Candidate_Id": "3",
-          "Candidate_First_Pref_Votes": "267902",
-          "Constituency_Number": "",
-          "Count_Number": "2",
-          "Dail_Abbreviation": "",
-          "Firstname": "Austin",
-          "Gender": "",
-          "Official_Candidate_Id": "",
-          "Official_Status": "",
-          "Ballot_Description": "",
-          "Party_Abbreviation": "",
-          "Surname": "Currie",
-          "Occurred_On_Count": "1",
-          "Party_Colour": "#6699ff",
-          "Party_Name": "Fine Gael",
-          "Status": "",
-          "Synthetic_Scraper_Row": "1",
-          "Synthetic_Scraper_Stage_Row": "1",
-          "Total_Votes": "267902",
-          "Transfers": "0",
+          "Wikipedia_Count_Row": "1",
+          "Wikipedia_Count_Source": "https://irishnewsarchive.com/?a=d&d=SBP19901111.1.8",
           "candidateName": "Austin Currie",
           "id": 2
         }
       ],
-      "syntheticCountGroup": true,
+      "syntheticCountGroup": false,
       "nonTransferable": [],
       "forum": null,
       "countNumbers": [
@@ -698,9 +657,55 @@
       ],
       "hasCountDetail": true,
       "animationPayload": {
+        "body": "President of Ireland",
+        "year": 1990,
+        "date": null,
+        "election_id": "1990P",
+        "title": "ElectionsIreland.org: 1990 Presidential - Ireland First Preference Votes",
+        "candidates": [
+          {
+            "name": "Mary Robinson",
+            "party": "Independent",
+            "counts": [
+              612265,
+              0.78,
+              2,
+              1
+            ],
+            "status": "Made Quota"
+          },
+          {
+            "name": "Brian Lenihan",
+            "party": " Fianna Fáil Lozenge",
+            "counts": [
+              694484,
+              0.88
+            ],
+            "status": ""
+          },
+          {
+            "name": "Austin Currie",
+            "party": " Fine Gael Lozenge",
+            "counts": [
+              267902,
+              0.34
+            ],
+            "status": ""
+          }
+        ],
+        "meta": {
+          "electorate": 2471308,
+          "quota": 787326
+        },
+        "source_url": "https://electionsireland.org/result.cfm?election=1990P&cons=194",
+        "constituency": "Ireland",
+        "validPoll": 1574651,
+        "totalPoll": null,
+        "spoiled": null,
+        "electorate": 2471308,
+        "turnoutPct": null,
         "Constituency": {
-          "__syntheticCountGroup": true,
-          "__syntheticCountStages": true,
+          "__wikipediaCountGroup": true,
           "countInfo": {
             "Constituency_Name": "Ireland",
             "Constituency_Number": "",
@@ -709,11 +714,11 @@
             "Spoiled": "",
             "Total_Electorate": "2471308",
             "Total_Poll": "",
+            "Turnout_Pct": "",
             "Valid_Poll": "1574651"
           },
           "countGroup": [
             {
-              "Auto_Returned_Ceann_Comhairle": "",
               "Candidate_Id": "1",
               "Candidate_First_Pref_Votes": "612265",
               "Constituency_Number": "",
@@ -723,22 +728,20 @@
               "Gender": "",
               "Official_Candidate_Id": "",
               "Official_Status": "",
-              "Ballot_Description": "",
               "Party_Abbreviation": "",
               "Surname": "Robinson",
               "Occurred_On_Count": "2",
               "Party_Colour": "#b8b8b8",
               "Party_Name": "Independent",
               "Status": "",
-              "Synthetic_Scraper_Row": "1",
-              "Synthetic_Scraper_Stage_Row": "1",
               "Total_Votes": "612265",
               "Transfers": "0",
+              "Wikipedia_Count_Row": "1",
+              "Wikipedia_Count_Source": "https://irishnewsarchive.com/?a=d&d=SBP19901111.1.8",
               "candidateName": "Mary Robinson",
               "id": 0
             },
             {
-              "Auto_Returned_Ceann_Comhairle": "",
               "Candidate_Id": "1",
               "Candidate_First_Pref_Votes": "612265",
               "Constituency_Number": "",
@@ -748,22 +751,20 @@
               "Gender": "",
               "Official_Candidate_Id": "",
               "Official_Status": "",
-              "Ballot_Description": "",
               "Party_Abbreviation": "",
               "Surname": "Robinson",
               "Occurred_On_Count": "2",
               "Party_Colour": "#b8b8b8",
               "Party_Name": "Independent",
               "Status": "Made Quota",
-              "Synthetic_Scraper_Row": "1",
-              "Synthetic_Scraper_Stage_Row": "1",
-              "Total_Votes": "612265",
-              "Transfers": "0",
+              "Total_Votes": "817830",
+              "Transfers": "205565",
+              "Wikipedia_Count_Row": "1",
+              "Wikipedia_Count_Source": "https://irishnewsarchive.com/?a=d&d=SBP19901111.1.8",
               "candidateName": "Mary Robinson",
               "id": 0
             },
             {
-              "Auto_Returned_Ceann_Comhairle": "",
               "Candidate_Id": "2",
               "Candidate_First_Pref_Votes": "694484",
               "Constituency_Number": "",
@@ -773,22 +774,20 @@
               "Gender": "",
               "Official_Candidate_Id": "",
               "Official_Status": "",
-              "Ballot_Description": "",
               "Party_Abbreviation": "",
               "Surname": "Lenihan",
-              "Occurred_On_Count": "1",
+              "Occurred_On_Count": "2",
               "Party_Colour": "#66bb66",
               "Party_Name": "Fianna Fáil",
               "Status": "",
-              "Synthetic_Scraper_Row": "1",
-              "Synthetic_Scraper_Stage_Row": "1",
               "Total_Votes": "694484",
               "Transfers": "0",
+              "Wikipedia_Count_Row": "1",
+              "Wikipedia_Count_Source": "https://irishnewsarchive.com/?a=d&d=SBP19901111.1.8",
               "candidateName": "Brian Lenihan",
               "id": 1
             },
             {
-              "Auto_Returned_Ceann_Comhairle": "",
               "Candidate_Id": "2",
               "Candidate_First_Pref_Votes": "694484",
               "Constituency_Number": "",
@@ -798,22 +797,20 @@
               "Gender": "",
               "Official_Candidate_Id": "",
               "Official_Status": "",
-              "Ballot_Description": "",
               "Party_Abbreviation": "",
               "Surname": "Lenihan",
-              "Occurred_On_Count": "1",
+              "Occurred_On_Count": "2",
               "Party_Colour": "#66bb66",
               "Party_Name": "Fianna Fáil",
-              "Status": "",
-              "Synthetic_Scraper_Row": "1",
-              "Synthetic_Scraper_Stage_Row": "1",
-              "Total_Votes": "694484",
-              "Transfers": "0",
+              "Status": "Not Elected",
+              "Total_Votes": "731273",
+              "Transfers": "36789",
+              "Wikipedia_Count_Row": "1",
+              "Wikipedia_Count_Source": "https://irishnewsarchive.com/?a=d&d=SBP19901111.1.8",
               "candidateName": "Brian Lenihan",
               "id": 1
             },
             {
-              "Auto_Returned_Ceann_Comhairle": "",
               "Candidate_Id": "3",
               "Candidate_First_Pref_Votes": "267902",
               "Constituency_Number": "",
@@ -823,42 +820,16 @@
               "Gender": "",
               "Official_Candidate_Id": "",
               "Official_Status": "",
-              "Ballot_Description": "",
               "Party_Abbreviation": "",
               "Surname": "Currie",
               "Occurred_On_Count": "1",
               "Party_Colour": "#6699ff",
               "Party_Name": "Fine Gael",
-              "Status": "",
-              "Synthetic_Scraper_Row": "1",
-              "Synthetic_Scraper_Stage_Row": "1",
+              "Status": "Excluded",
               "Total_Votes": "267902",
               "Transfers": "0",
-              "candidateName": "Austin Currie",
-              "id": 2
-            },
-            {
-              "Auto_Returned_Ceann_Comhairle": "",
-              "Candidate_Id": "3",
-              "Candidate_First_Pref_Votes": "267902",
-              "Constituency_Number": "",
-              "Count_Number": "2",
-              "Dail_Abbreviation": "",
-              "Firstname": "Austin",
-              "Gender": "",
-              "Official_Candidate_Id": "",
-              "Official_Status": "",
-              "Ballot_Description": "",
-              "Party_Abbreviation": "",
-              "Surname": "Currie",
-              "Occurred_On_Count": "1",
-              "Party_Colour": "#6699ff",
-              "Party_Name": "Fine Gael",
-              "Status": "",
-              "Synthetic_Scraper_Row": "1",
-              "Synthetic_Scraper_Stage_Row": "1",
-              "Total_Votes": "267902",
-              "Transfers": "0",
+              "Wikipedia_Count_Row": "1",
+              "Wikipedia_Count_Source": "https://irishnewsarchive.com/?a=d&d=SBP19901111.1.8",
               "candidateName": "Austin Currie",
               "id": 2
             }
@@ -866,7 +837,13 @@
         },
         "officialDail": null,
         "constituencyId": null,
-        "constituencyNumber": null
+        "constituencyNumber": null,
+        "wikipediaCountSource": {
+          "pageTitle": "Evening Press, 9 November 1990, p. 34; Evening Herald, 9 November 1990, p. 6; Sunday Business Post, 11 November 1990, p. 8",
+          "pageUrl": "https://irishnewsarchive.com/?a=d&d=SBP19901111.1.8",
+          "sectionTitle": 2,
+          "importedAt": "2026-11-01T00:00:00.000Z"
+        }
       },
       "constituencyId": null,
       "constituencyNumber": null,

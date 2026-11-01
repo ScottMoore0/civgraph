@@ -72,16 +72,16 @@ function thumbOf(m) {
   return null;
 }
 // The map engine (app/src/maplibre-main-adapter.js) draws a map only through a converted layer in
-// render/metadata/maps-test.json, and has no route for census figures (data entries): loading one
-// threw "not converted for the MapLibre route yet" for every statistic (Phelim Birch's review,
-// 2026-10-06). Until it has one, a statistic is shown as not yet on the map, not as a toggle.
+// render/metadata/maps-test.json. A census statistic (a data entry) is drawn on its geography's
+// layer, its CSV joined to the tiles (src/census-overlay.mjs), so it is on the map exactly when
+// that geography is; one whose geography is not converted stays "to be added".
 const drawable = new Set();
 for (const l of read('render/metadata/maps-test.json').layers || []) {
   if (l.loadable === false) continue;
   for (const k of [l.id, l.sourceMapId, l.migration?.sourceMapId, l.parentId]) if (k) drawable.add(k);
 }
 const statusOf = (m) => (m.placeholder ? 'placeholder'
-  : m.origin === 'data' && !drawable.has(m.id) ? 'placeholder'
+  : m.origin === 'data' && !(m.csv && drawable.has(m.geography)) ? 'placeholder'
     : m.incomplete ? 'incomplete' : 'ready');
 const providers = (m) => (Array.isArray(m.provider) ? m.provider : m.provider ? [m.provider] : []).map(String);
 const licenceOf = (m) => m.licence || m.license || '';

@@ -129,7 +129,7 @@ export function seriesRowHtml(c, s, hit = c.hitFor(s)) {
   const by = s.kind === 'Statistics' && single ? /\bby ([^,)]+)\)?\s*$/.exec(c.rec(s.members[0].id).name || '')?.[1] : '';
   const who = single ? c.mapSummary(s.members[0].id, { date: false, short: true }) : (s.provider || []).map(shortProvider).join(', ');
   const second = [by ? `by ${by}` : '', who, ...tally].filter(Boolean);
-  const credit = second.length ? `<span class="cn-row__credit">${second.map((t) => `<span class="cn-row__item">${esc(t)}</span>`).join('<span class="cn-row__dot" aria-hidden="true"> · </span>')}</span>` : '';
+  const credit = second.length ? `<span class="cn-row__credit">${second.map((t, k) => `<span class="cn-row__item">${esc(t)}${k < second.length - 1 ? '<span class="cn-row__dot" aria-hidden="true"> ·</span>' : ''}</span>`).join(' ')}</span>` : '';
   const text = `<span class="cn-row__text"><span class="cn-row__name">${esc(s.name)}</span><span class="cn-row__meta">${meta.join('<span class="cn-row__dot" aria-hidden="true">·</span>')}</span>${credit}</span>`;
   // A series with nothing to draw yet is a heading and its list of maps to come: nothing to open.
   const tip = single ? c.mapSummary(s.members[0].id) : '';

@@ -660,7 +660,9 @@
     "census-statistics-level-4-qualifications",
     "census-statistics-unemployed",
     "census-statistics-work-mainly-at-or-from-home",
-    "census-statistics-multiple-deprivation-measure-decile",
+    "census-statistics-ni-multiple-deprivation-measure--soa",
+    "census-statistics-ni-multiple-deprivation-measure--small-areas",
+    "census-statistics-pobal-hp-deprivation-index--eds",
     "census-statistics-multiple-deprivation-measure-rank",
     "census-statistics-population-aged-10-19",
     "census-statistics-median-age",
@@ -779,6 +781,7 @@
     "admin-areas-1946-04-01",
     "admin-areas-1945-04-01",
     "admin-areas-1939-05-23",
+    "admin-areas-1939-04-01",
     "admin-areas-1938-05-23",
     "admin-areas-1938-05-15",
     "admin-areas-1938-04-01",
@@ -1806,6 +1809,7 @@
     "ded-1946-04-01",
     "ded-1945-04-01",
     "ded-1939-05-23",
+    "ded-1939-04-01",
     "ded-1938-05-23",
     "ded-1938-05-15",
     "ded-1938-04-01",
@@ -2826,6 +2830,7 @@
     "county-ed-1946-04-01",
     "county-ed-1945-04-01",
     "county-ed-1939-05-23",
+    "county-ed-1939-04-01",
     "county-ed-1938-05-23",
     "county-ed-1938-05-15",
     "county-ed-1938-04-01",
@@ -4378,16 +4383,6 @@
    ]
   },
   {
-   "id": "census-statistics-multiple-deprivation-measure-decile",
-   "name": "Multiple Deprivation Measure decile",
-   "subject": "census-statistics",
-   "scope": "Northern Ireland",
-   "arrangement": "set",
-   "members": [
-    "nimdm-2017-mdm-decile-sa"
-   ]
-  },
-  {
    "id": "census-statistics-multiple-deprivation-measure-rank",
    "name": "Multiple Deprivation Measure rank",
    "subject": "census-statistics",
@@ -4563,6 +4558,75 @@
     "eds-2022",
     "eds-2006"
    ]
+  },
+  {
+   "id": "census-statistics-ni-multiple-deprivation-measure--soa",
+   "name": "Multiple Deprivation Measure (Super Output Areas)",
+   "subject": "census-statistics",
+   "scope": "Northern Ireland",
+   "arrangement": "editions",
+   "members": [
+    "nimdm-2017-soa",
+    "nimdm-2010-soa",
+    "nimdm-2005-soa"
+   ],
+   "labels": {
+    "nimdm-2017-soa": "2017",
+    "nimdm-2010-soa": "2010",
+    "nimdm-2005-soa": "2005"
+   },
+   "units": {
+    "nimdm-2017-soa": "Super Output Areas",
+    "nimdm-2010-soa": "Super Output Areas",
+    "nimdm-2005-soa": "Super Output Areas"
+   }
+  },
+  {
+   "id": "census-statistics-ni-multiple-deprivation-measure--small-areas",
+   "name": "Multiple Deprivation Measure (Small Areas and Output Areas)",
+   "subject": "census-statistics",
+   "scope": "Northern Ireland",
+   "arrangement": "editions",
+   "members": [
+    "nimdm-2017-mdm-decile-sa",
+    "nimdm-2010-oa",
+    "nimdm-2005-oa"
+   ],
+   "labels": {
+    "nimdm-2010-oa": "2010",
+    "nimdm-2005-oa": "2005",
+    "nimdm-2017-mdm-decile-sa": "2017"
+   },
+   "units": {
+    "nimdm-2010-oa": "Output Areas",
+    "nimdm-2005-oa": "Output Areas",
+    "nimdm-2017-mdm-decile-sa": "Small Areas"
+   }
+  },
+  {
+   "id": "census-statistics-pobal-hp-deprivation-index--eds",
+   "name": "Pobal HP Deprivation Index (Electoral Divisions)",
+   "subject": "census-statistics",
+   "scope": "Republic of Ireland",
+   "arrangement": "editions",
+   "members": [
+    "pobal-hp-2022-ed",
+    "pobal-hp-2016-ed",
+    "pobal-hp-2011-ed",
+    "pobal-hp-2006-ed"
+   ],
+   "labels": {
+    "pobal-hp-2022-ed": "2022",
+    "pobal-hp-2016-ed": "2016",
+    "pobal-hp-2011-ed": "2011",
+    "pobal-hp-2006-ed": "2006"
+   },
+   "units": {
+    "pobal-hp-2022-ed": "Electoral Divisions",
+    "pobal-hp-2016-ed": "Electoral Divisions",
+    "pobal-hp-2011-ed": "Electoral Divisions",
+    "pobal-hp-2006-ed": "Electoral Divisions"
+   }
   }
  ],
  "hidden": [
@@ -5016,6 +5080,51 @@
   {
    "id": "plu-1851",
    "by": "Scott Moore",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "nimdm-2017-soa",
+   "by": "Scott Moore (approved with the batch published 2026-11-02)",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "nimdm-2010-soa",
+   "by": "Scott Moore (approved with the batch published 2026-11-02)",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "nimdm-2005-soa",
+   "by": "Scott Moore (approved with the batch published 2026-11-02)",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "nimdm-2010-oa",
+   "by": "Scott Moore (approved with the batch published 2026-11-02)",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "nimdm-2005-oa",
+   "by": "Scott Moore (approved with the batch published 2026-11-02)",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "pobal-hp-2022-ed",
+   "by": "Scott Moore (approved with the batch published 2026-11-02)",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "pobal-hp-2016-ed",
+   "by": "Scott Moore (approved with the batch published 2026-11-02)",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "pobal-hp-2011-ed",
+   "by": "Scott Moore (approved with the batch published 2026-11-02)",
+   "date": "2026-11-01"
+  },
+  {
+   "id": "pobal-hp-2006-ed",
+   "by": "Scott Moore (approved with the batch published 2026-11-02)",
    "date": "2026-11-01"
   }
  ]

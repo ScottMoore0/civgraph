@@ -5,132 +5,176 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Census Explorer - Civgraph</title>
   <link rel="canonical" href="https://civgraph.net/pages/census-explorer.html">
-  <meta name="description" content="Interactive explorer over the Northern Ireland census: concept availability across 2001/2011/2021 and historical reports (1841–1991), plus a finder over 644 logical NISRA source tables." />
+  <meta name="description" content="Census tables for Northern Ireland (1926-2021) and the Republic of Ireland (1841-2022): find a table, read its figures, download them, compare census years and open the boundaries on the map." />
 <!-- site:head -->
 <script>(function(){var t=null;try{t=localStorage.getItem('theme');}catch(e){}if(t!=='dark'&&t!=='light'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;})();</script>
-<link rel="stylesheet" href="/assets/site/site-chrome.css?v=01edcc7597b8">
+<link rel="stylesheet" href="/assets/site/site-chrome.css?v=9081ee7c9078">
 <script defer src="/assets/site/site-chrome.js?v=533c9263f1be"></script>
 <!-- /site:head -->
   <style>
+    /* Colours are checked for WCAG AA (4.5:1 for text) in both themes. The greens and
+       blues follow the site chrome (--chrome-navy, --menu-accent). */
     :root {
-      --navy: #1a365d;
-      --navy-light: #2c5282;
-      --accent: #38a169;
-      --accent-dark: #276749;
-      --bg: #f7fafc;
+      --bg: #f6f8f7;
       --surface: #ffffff;
-      --surface-alt: #edf2f7;
+      --surface-alt: #eef2f1;
       --text: #1a202c;
-      --text-muted: #4a5568;
-      --border: #e2e8f0;
-      --chip: #ebf4ff;
-      --chip-text: #2c5282;
-      --unavail-bg: #f1f3f5;
-      --unavail-text: #a0aec0;
-      --shadow: 0 1px 3px rgba(0,0,0,.1), 0 1px 2px rgba(0,0,0,.06);
+      --muted: #4a5568;
+      --line: #d3dcdf;
+      --heading: #003870;
+      --link: #0b5cad;
+      --accent: #15803d;
+      --accent-strong: #0e6630;
+      --tag-bg: #0e6630;
+      --tag-text: #ffffff;
+      --chip: #e6f0fb;
+      --chip-text: #12457a;
+      --unavail: #5f6b7c;
+      --est-bg: #fff4d6;
+      --est-text: #6b4a00;
+      --focus: #0b5cad;
+      --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
       --radius: 10px;
+      --c1: #0b5cad; --c2: #c2410c; --c3: #15803d; --c4: #7c3aed; --c5: #b91c1c; --c6: #0e7490;
     }
     @media (prefers-color-scheme: dark) {
       :root:not([data-theme="light"]) {
-        --navy: #90cdf4;
-        --navy-light: #63b3ed;
-        --accent: #68d391;
-        --accent-dark: #9ae6b4;
-        --bg: #12161c;
-        --surface: #1a202c;
-        --surface-alt: #232b38;
-        --text: #e2e8f0;
-        --text-muted: #a0aec0;
-        --border: #2d3748;
-        --chip: #223a5e;
-        --chip-text: #bee3f8;
-        --unavail-bg: #20262f;
-        --unavail-text: #5a6472;
-        --shadow: 0 1px 3px rgba(0,0,0,.5);
+        --bg: #11161d; --surface: #18202a; --surface-alt: #222c38; --text: #e8edf2; --muted: #b0bbc8;
+        --line: #33404f; --heading: #9fd0ff; --link: #8ec5ff; --accent: #34d399; --accent-strong: #6ee7b7;
+        --tag-bg: #34d399; --tag-text: #06231a; --chip: #1e3a5f; --chip-text: #d6e9ff; --unavail: #9aa7b6;
+        --est-bg: #3a2f10; --est-text: #ffd98a; --focus: #8ec5ff; --shadow: 0 1px 3px rgba(0,0,0,.5);
+        --c1: #8ec5ff; --c2: #fdba74; --c3: #6ee7b7; --c4: #c4b5fd; --c5: #fca5a5; --c6: #67e8f9;
       }
     }
     :root[data-theme="dark"] {
-      --navy: #90cdf4;
-      --navy-light: #63b3ed;
-      --accent: #68d391;
-      --accent-dark: #9ae6b4;
-      --bg: #12161c;
-      --surface: #1a202c;
-      --surface-alt: #232b38;
-      --text: #e2e8f0;
-      --text-muted: #a0aec0;
-      --border: #2d3748;
-      --chip: #223a5e;
-      --chip-text: #bee3f8;
-      --unavail-bg: #20262f;
-      --unavail-text: #5a6472;
-      --shadow: 0 1px 3px rgba(0,0,0,.5);
+      --bg: #11161d; --surface: #18202a; --surface-alt: #222c38; --text: #e8edf2; --muted: #b0bbc8;
+      --line: #33404f; --heading: #9fd0ff; --link: #8ec5ff; --accent: #34d399; --accent-strong: #6ee7b7;
+      --tag-bg: #34d399; --tag-text: #06231a; --chip: #1e3a5f; --chip-text: #d6e9ff; --unavail: #9aa7b6;
+      --est-bg: #3a2f10; --est-text: #ffd98a; --focus: #8ec5ff; --shadow: 0 1px 3px rgba(0,0,0,.5);
+      --c1: #8ec5ff; --c2: #fdba74; --c3: #6ee7b7; --c4: #c4b5fd; --c5: #fca5a5; --c6: #67e8f9;
     }
     * { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; }
-    body {
-      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.5;
-      -webkit-font-smoothing: antialiased;
+    body { font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+    a { color: var(--link); }
+    :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+    main { max-width: 1180px; margin: 0 auto; padding: 24px 16px 60px; }
+    .intro h1 { font-size: 1.9rem; margin: 0 0 6px; color: var(--heading); }
+    .intro p { color: var(--muted); max-width: 75ch; margin: 4px 0; }
+    .stat-line { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 12px 0 0; padding: 0; list-style: none; font-size: .9rem; color: var(--muted); }
+    .stat-line strong { color: var(--text); }
+    .notice { margin: 16px 0; padding: 12px 14px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line); }
+    .notice button { margin-left: 8px; }
+    .tabs { display: flex; gap: 2px; margin: 22px 0 0; border-bottom: 2px solid var(--line); overflow-x: auto; scrollbar-width: thin; }
+    .tabs [role="tab"] { background: none; border: none; padding: 11px 14px; font: inherit; font-size: .95rem; font-weight: 600; color: var(--muted); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; white-space: nowrap; }
+    .tabs [role="tab"][aria-selected="true"] { color: var(--heading); border-bottom-color: var(--accent); }
+    .tabs [role="tab"]:hover { color: var(--text); }
+    [role="tabpanel"] { padding-top: 18px; }
+    [role="tabpanel"][hidden] { display: none; }
+    [role="tabpanel"] > h2, .viewer h2 { font-size: 1.25rem; margin: 0 0 6px; color: var(--heading); }
+    .panel-intro { color: var(--muted); max-width: 78ch; margin: 0 0 14px; }
+    h3.section { font-size: 1.05rem; color: var(--heading); margin: 26px 0 8px; }
+    .btn, button.btn { display: inline-flex; align-items: center; gap: 6px; font: inherit; font-size: .86rem; font-weight: 600; padding: 6px 11px; border-radius: 7px; border: 1px solid var(--line); background: var(--surface); color: var(--text); cursor: pointer; text-decoration: none; }
+    .btn:hover { border-color: var(--accent); }
+    .btn.primary { background: var(--tag-bg); color: var(--tag-text); border-color: var(--tag-bg); }
+    .btn[disabled] { opacity: .55; cursor: default; }
+    .linkish { background: none; border: none; padding: 0; color: var(--link); font: inherit; text-decoration: underline; cursor: pointer; }
+    /* Concept matrix */
+    .table-scroll { position: relative; overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); background: var(--surface); }
+    .scroll-cue { display: none; font-size: .8rem; color: var(--muted); margin: 0 0 6px; }
+    .table-scroll.is-wide + .scroll-cue, .scroll-cue.show { display: block; }
+    table.matrix { border-collapse: collapse; width: 100%; background: var(--surface); }
+    table.matrix th, table.matrix td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--line); font-size: .9rem; vertical-align: top; }
+    table.matrix thead th { background: var(--surface-alt); color: var(--heading); font-size: .78rem; text-transform: uppercase; letter-spacing: .4px; }
+    .concept-toggle { display: flex; gap: 8px; align-items: flex-start; background: none; border: 0; padding: 0; font: inherit; color: inherit; text-align: left; cursor: pointer; }
+    .concept-toggle .chev { display: inline-block; transition: transform .15s; color: var(--muted); }
+    .concept-toggle[aria-expanded="true"] .chev { transform: rotate(90deg); }
+    .concept-label { font-weight: 600; }
+    .concept-sub { display: block; color: var(--muted); font-size: .8rem; font-weight: 400; }
+    .code-badge { display: inline-block; background: var(--chip); color: var(--chip-text); border-radius: 6px; padding: 2px 8px; font-family: "JetBrains Mono", ui-monospace, monospace; font-size: .8rem; font-weight: 600; border: 0; }
+    button.code-badge { cursor: pointer; }
+    button.code-badge:hover { text-decoration: underline; }
+    .code-role { display: block; font-size: .74rem; color: var(--muted); margin: 2px 0 6px; }
+    .cell-unavail { color: var(--unavail); font-style: italic; font-size: .84rem; }
+    .hist-years { display: flex; flex-wrap: wrap; gap: 4px; }
+    .hist-year { font-size: .78rem; background: var(--surface-alt); color: var(--text); border-radius: 5px; padding: 1px 6px; }
+    tr.detail-row td { background: var(--surface-alt); }
+    tr.detail-row[hidden] { display: none; }
+    .detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px 22px; }
+    .detail-grid h4 { margin: 0 0 6px; font-size: .88rem; color: var(--heading); }
+    .detail-grid ul { margin: 0; padding-left: 18px; font-size: .86rem; }
+    .detail-grid li { margin: 2px 0; }
+    .notes { font-size: .84rem; color: var(--muted); margin-top: 10px; }
+    /* Controls, cards, paging */
+    .controls { display: flex; gap: 10px 12px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 12px; }
+    .controls .field { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+    .controls label, .field > span.lbl { font-size: .74rem; text-transform: uppercase; letter-spacing: .4px; color: var(--muted); font-weight: 600; }
+    .controls input[type="search"], .controls select, .viewer select { padding: 7px 9px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--text); font: inherit; font-size: .9rem; max-width: 100%; }
+    .controls input[type="search"] { min-width: 220px; }
+    .controls select { min-width: 140px; }
+    .check { display: flex; gap: 6px; align-items: center; font-size: .88rem; color: var(--text); padding-bottom: 6px; }
+    .count { font-size: .88rem; color: var(--muted); margin: 4px 0 12px; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+    .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+    .card-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .year-tag { font-size: .74rem; font-weight: 700; color: var(--tag-text); background: var(--tag-bg); border-radius: 5px; padding: 2px 7px; white-space: nowrap; }
+    .card h3 { margin: 0; font-size: .97rem; line-height: 1.3; overflow-wrap: anywhere; }
+    .card .meta { font-size: .8rem; color: var(--muted); }
+    .chips { display: flex; gap: 4px; flex-wrap: wrap; }
+    .geo-chip { font-size: .72rem; background: var(--surface-alt); color: var(--text); border-radius: 5px; padding: 2px 7px; }
+    .card .actions { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; margin-top: auto; padding-top: 4px; font-size: .84rem; }
+    .empty, .loading { padding: 32px 12px; text-align: center; color: var(--muted); }
+    .pager { display: flex; gap: 8px; align-items: center; justify-content: center; margin: 16px 0 0; flex-wrap: wrap; font-size: .88rem; }
+    /* Viewer */
+    .viewer { margin: 18px 0 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 14px 16px 16px; }
+    .viewer[hidden] { display: none; }
+    .viewer-head { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; flex-wrap: wrap; }
+    .viewer-head .sub { color: var(--muted); font-size: .86rem; margin: 2px 0 0; }
+    .viewer .links { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 10px 0; font-size: .86rem; align-items: center; }
+    .viewer .pickers { display: flex; flex-wrap: wrap; gap: 10px 14px; margin: 8px 0 10px; }
+    .viewer .pickers label { display: flex; flex-direction: column; gap: 3px; font-size: .74rem; text-transform: uppercase; letter-spacing: .4px; color: var(--muted); font-weight: 600; max-width: 100%; }
+    .viewer .pickers select { max-width: min(320px, 86vw); text-transform: none; letter-spacing: 0; font-weight: 400; }
+    .cite { font-size: .82rem; color: var(--muted); background: var(--surface-alt); border-radius: 8px; padding: 8px 10px; margin: 10px 0 0; overflow-wrap: anywhere; }
+    table.data { border-collapse: collapse; font-size: .85rem; width: max-content; min-width: 100%; }
+    table.data th, table.data td { padding: 5px 9px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+    table.data th:first-child, table.data td:first-child { text-align: left; position: sticky; left: 0; background: var(--surface); max-width: 46vw; white-space: normal; min-width: 140px; }
+    table.data thead th { background: var(--surface-alt); color: var(--heading); font-weight: 600; vertical-align: bottom; white-space: normal; min-width: 70px; }
+    table.data thead th:first-child { background: var(--surface-alt); }
+    table.data .est { background: var(--est-bg); color: var(--est-text); }
+    .est-badge { display: inline-block; background: var(--est-bg); color: var(--est-text); border-radius: 5px; padding: 1px 6px; font-size: .74rem; font-weight: 700; }
+    .data-scroll { overflow: auto; max-height: 70vh; border: 1px solid var(--line); border-radius: 8px; }
+    .chart { margin: 12px 0 0; }
+    .chart svg { width: 100%; height: auto; display: block; }
+    .chart .axis { stroke: var(--line); }
+    .chart text { fill: var(--muted); font-size: 12px; }
+    .legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: .8rem; color: var(--text); margin: 4px 0 0; padding: 0; list-style: none; }
+    .legend i { display: inline-block; width: 12px; height: 3px; margin-right: 5px; vertical-align: middle; }
+    .warn { background: var(--est-bg); color: var(--est-text); border-radius: 8px; padding: 8px 10px; font-size: .86rem; margin: 8px 0; }
+    .compare-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+    .dz-results { list-style: none; margin: 6px 0 0; padding: 0; max-height: 220px; overflow: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+    .dz-results li button { display: block; width: 100%; text-align: left; background: none; border: 0; border-bottom: 1px solid var(--line); padding: 6px 10px; font: inherit; font-size: .88rem; color: var(--text); cursor: pointer; }
+    .dz-results li button:hover { background: var(--surface-alt); }
+    .credit { margin: 36px 0 0; padding-top: 16px; font-size: .82rem; color: var(--muted); border-top: 1px solid var(--line); }
+    .credit p { margin: 4px 0; }
+    .controls [hidden], .dz-results[hidden], .field[hidden] { display: none !important; }
+    table.data.fit { width: 100%; }
+    table.data.fit td.how { white-space: normal; text-align: left; min-width: 160px; }
+    .chart svg { max-width: 760px; }
+    .chart.compact svg { max-width: 420px; }
+    .visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    /* Phones: the concept matrix becomes one card per concept, a line per census. */
+    @media (max-width: 640px) {
+      .intro h1 { font-size: 1.55rem; }
+      .controls input[type="search"] { min-width: 0; width: 100%; }
+      .controls .field { flex: 1 1 100%; }
+      .controls select { width: 100%; }
+      table.matrix, table.matrix tbody, table.matrix tr, table.matrix td { display: block; width: 100%; }
+      table.matrix thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+      table.matrix tr.concept-row { border-bottom: 1px solid var(--line); padding: 6px 0; }
+      table.matrix tr.concept-row td { border: 0; padding: 4px 12px; }
+      table.matrix tr.concept-row td[data-label]::before { content: attr(data-label); display: inline-block; min-width: 74px; font-size: .74rem; font-weight: 700; text-transform: uppercase; color: var(--muted); }
+      .cards { grid-template-columns: 1fr; }
     }
-    a { color: var(--navy-light); }
-    main { max-width: 1180px; margin: 0 auto; padding: 28px 20px 60px; }
-    .intro h1 { font-size: 1.9rem; margin: 0 0 6px; color: var(--navy); }
-    .intro p { color: var(--text-muted); max-width: 70ch; margin: 4px 0; }
-    .stat-row { display: flex; gap: 14px; flex-wrap: wrap; margin: 18px 0 8px; }
-    .stat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 16px; box-shadow: var(--shadow); min-width: 120px; }
-    .stat .n { font-size: 1.5rem; font-weight: 700; color: var(--accent-dark); }
-    .stat .l { font-size: .78rem; text-transform: uppercase; letter-spacing: .5px; color: var(--text-muted); }
-    .tabs { display: flex; gap: 4px; margin: 28px 0 0; border-bottom: 2px solid var(--border); }
-    .tabs button {
-      background: none; border: none; padding: 12px 18px; font-size: .98rem; font-weight: 600;
-      color: var(--text-muted); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px;
-    }
-    .tabs button[aria-selected="true"] { color: var(--navy); border-bottom-color: var(--accent); }
-    section.panel { display: none; padding-top: 24px; }
-    section.panel.active { display: block; }
-    .table-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); }
-    table.matrix { border-collapse: collapse; width: 100%; min-width: 720px; background: var(--surface); }
-    table.matrix th, table.matrix td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); font-size: .9rem; vertical-align: top; }
-    table.matrix thead th { background: var(--surface-alt); color: var(--navy); font-size: .78rem; text-transform: uppercase; letter-spacing: .5px; position: sticky; top: 0; }
-    table.matrix tbody tr.concept-row { cursor: pointer; }
-    table.matrix tbody tr.concept-row:hover { background: var(--surface-alt); }
-    .concept-label { font-weight: 600; color: var(--text); }
-    .concept-sub { color: var(--text-muted); font-size: .8rem; font-weight: 400; }
-    .code-badge { display: inline-block; background: var(--chip); color: var(--chip-text); border-radius: 6px; padding: 2px 8px; font-family: "JetBrains Mono", monospace; font-size: .82rem; font-weight: 600; }
-    .avail-yes { color: var(--accent-dark); }
-    .cell-unavail { color: var(--unavail-text); font-style: italic; font-size: .82rem; }
-    .hist-badge { display: inline-block; background: var(--surface-alt); color: var(--text-muted); border-radius: 6px; padding: 2px 8px; font-size: .8rem; }
-    tr.detail-row td { background: var(--surface-alt); padding: 0; }
-    tr.detail-row .detail-inner { padding: 14px 18px; display: none; }
-    tr.detail-row.open .detail-inner { display: block; }
-    .detail-inner h4 { margin: 0 0 8px; color: var(--navy); font-size: .9rem; }
-    .src-links { display: flex; flex-direction: column; gap: 6px; }
-    .src-links a { font-size: .88rem; }
-    .src-year { font-family: "JetBrains Mono", monospace; font-weight: 700; color: var(--accent-dark); margin-right: 6px; }
-    .notes { font-size: .84rem; color: var(--text-muted); margin-top: 10px; }
-    .controls { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 18px; }
-    .controls .field { display: flex; flex-direction: column; gap: 4px; }
-    .controls label { font-size: .74rem; text-transform: uppercase; letter-spacing: .5px; color: var(--text-muted); font-weight: 600; }
-    .controls input, .controls select {
-      padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text); font-size: .9rem; min-width: 150px;
-    }
-    .controls input:focus, .controls select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
-    #finderCount { font-size: .86rem; color: var(--text-muted); margin: 4px 0 14px; }
-    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
-    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; box-shadow: var(--shadow); }
-    .card .card-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 6px; }
-    .card .year-tag { font-size: .74rem; font-weight: 700; color: #fff; background: var(--accent); border-radius: 5px; padding: 2px 7px; }
-    .card h3 { margin: 6px 0 8px; font-size: .98rem; color: var(--text); line-height: 1.3; }
-    .card .topic { font-size: .78rem; color: var(--text-muted); text-transform: capitalize; }
-    .chips { display: flex; gap: 5px; flex-wrap: wrap; margin: 8px 0; }
-    .geo-chip { font-size: .72rem; background: var(--surface-alt); color: var(--text-muted); border-radius: 5px; padding: 2px 7px; text-transform: capitalize; }
-    .card .src { font-size: .82rem; margin-top: 8px; }
-    .empty { padding: 40px; text-align: center; color: var(--text-muted); }
-    .loading { padding: 60px; text-align: center; color: var(--text-muted); }
-    .credit { margin: 36px 0 0; padding-top: 18px; font-size: .8rem; color: var(--text-muted); border-top: 1px solid var(--border); }
   </style>
 </head>
 <body>
@@ -185,73 +229,107 @@
 </header>
 <!-- /site:header -->
 
-  <main>
+  <main id="main">
     <div class="intro">
       <h1>Census Explorer</h1>
-      <p>An interactive view over the cleaned Northern Ireland census query model: which
-      concepts are available across the 2001, 2011 and 2021 digital censuses and in the
-      historical reports (1841–1991), and a finder over the logical NISRA source tables.
-      Only concepts and tables that resolve to a real public source are shown; gaps are
-      marked <em>unavailable</em>.</p>
+      <p>Find census tables for Northern Ireland (1926 to 2021) and the Republic of Ireland (1841 to 2022),
+      see the figures here, download them, follow them across censuses, and open the boundaries they
+      were counted on in the map.</p>
+      <ul class="stat-line" id="statLine" aria-label="What the explorer holds"></ul>
     </div>
 
-    <div class="stat-row" id="statRow" aria-hidden="true"></div>
+    <div id="loadNotice" class="notice" role="status" aria-live="polite">Loading the census index…</div>
 
-    <div class="tabs" role="tablist">
-      <button id="tab-matrix" role="tab" aria-controls="panel-matrix" aria-selected="true">Concept availability (NI)</button>
-      <button id="tab-finder" role="tab" aria-controls="panel-finder" aria-selected="false">Table finder (NI)</button>
-      <button id="tab-roi" role="tab" aria-controls="panel-roi" aria-selected="false">ROI census (CSO)</button>
+    <div class="tabs" role="tablist" aria-label="Census Explorer sections">
+      <button type="button" role="tab" id="tab-topics" aria-controls="panel-topics" aria-selected="true" tabindex="0">Topics across censuses (NI)</button>
+      <button type="button" role="tab" id="tab-tables" aria-controls="panel-tables" aria-selected="false" tabindex="-1">NI tables</button>
+      <button type="button" role="tab" id="tab-ftb" aria-controls="panel-ftb" aria-selected="false" tabindex="-1">NI 2021 flexible tables</button>
+      <button type="button" role="tab" id="tab-roi" aria-controls="panel-roi" aria-selected="false" tabindex="-1">Republic of Ireland (CSO)</button>
+      <button type="button" role="tab" id="tab-compare" aria-controls="panel-compare" aria-selected="false" tabindex="-1">Compare over time</button>
     </div>
 
-    <section id="panel-matrix" class="panel active" role="tabpanel" aria-labelledby="tab-matrix">
-      <div id="matrixMount" class="loading">Loading census model…</div>
+    <section id="viewer" class="viewer" hidden aria-labelledby="viewerTitle" tabindex="-1"></section>
+
+    <section id="panel-topics" role="tabpanel" aria-labelledby="tab-topics" tabindex="0">
+      <h2>Topics across censuses (Northern Ireland)</h2>
+      <p class="panel-intro">Fifteen census topics, the table that carries each one in 2001, 2011 and 2021, and the
+      earlier censuses that asked about it. Select a table code to see its figures; open a topic for its sources,
+      the earlier reports, and the figures for Northern Ireland as a whole over time.</p>
+      <div id="matrixMount" class="loading">Loading…</div>
     </section>
 
-    <section id="panel-finder" class="panel" role="tabpanel" aria-labelledby="tab-finder">
-      <div class="controls" id="finderControls" hidden>
-        <div class="field">
-          <label for="q">Search</label>
-          <input type="search" id="q" placeholder="code, title, topic…" autocomplete="off" />
-        </div>
-        <div class="field">
-          <label for="fYear">Census year</label>
-          <select id="fYear"><option value="">All years</option></select>
-        </div>
-        <div class="field">
-          <label for="fTopic">Topic</label>
-          <select id="fTopic"><option value="">All topics</option></select>
-        </div>
-        <div class="field">
-          <label for="fGeo">Geography</label>
-          <select id="fGeo"><option value="">All geographies</option></select>
-        </div>
+    <section id="panel-tables" role="tabpanel" aria-labelledby="tab-tables" tabindex="0" hidden>
+      <h2>Northern Ireland census tables</h2>
+      <p class="panel-intro">Every table in NISRA's 2001 and 2011 bulk releases and the 2021 ready-made tables,
+      with the titles NISRA gave them. Tables marked <strong>Figures here</strong> can be read on this page
+      from Civgraph's copy.</p>
+      <div class="controls">
+        <div class="field"><label for="q">Search</label><input type="search" id="q" placeholder="e.g. religion, KS101NI, tenure" autocomplete="off"></div>
+        <div class="field"><label for="fYear">Census</label><select id="fYear"><option value="">All</option></select></div>
+        <div class="field"><label for="fFamily">Release</label><select id="fFamily"><option value="">All releases</option></select></div>
+        <div class="field"><label for="fTopic">Topic</label><select id="fTopic"><option value="">All topics</option></select></div>
+        <div class="field"><label for="fGeo">Geography</label><select id="fGeo"><option value="">All geographies</option></select></div>
+        <label class="check"><input type="checkbox" id="fData"> Figures here only</label>
       </div>
-      <div id="finderCount"></div>
-      <div id="cards" class="cards"></div>
+      <div id="tablesCount" class="count" aria-live="polite"></div>
+      <div id="tablesCards" class="cards"></div>
+      <nav id="tablesPager" class="pager" aria-label="Table list pages"></nav>
     </section>
 
-    <section id="panel-roi" class="panel" role="tabpanel" aria-labelledby="tab-roi">
-      <p style="color:var(--text-muted);max-width:70ch;margin:0 0 14px">Census of Population of the
-      Republic of Ireland, published by the CSO as PxStat statistical cubes. Search and filter below;
-      each table opens on the live CSO PxStat viewer.</p>
-      <div class="controls" id="roiControls" hidden>
-        <div class="field">
-          <label for="rq">Search</label>
-          <input type="search" id="rq" placeholder="code, title, year…" autocomplete="off" />
-        </div>
-        <div class="field">
-          <label for="rYear">Census year</label>
-          <select id="rYear"><option value="">All years</option></select>
-        </div>
+    <section id="panel-ftb" role="tabpanel" aria-labelledby="tab-ftb" tabindex="0" hidden>
+      <h2>Census 2021 flexible tables (Northern Ireland)</h2>
+      <p class="panel-intro">NISRA's flexible table builder releases a table for each combination of up to five
+      questions that passes its disclosure rules: 147,492 tables, all held by Civgraph. Choose the people or
+      household questions, the geography and a question; then narrow the list and open a table.</p>
+      <div class="controls">
+        <div class="field"><label for="ftbDs">Counting</label><select id="ftbDs"><option value="PEOPLE">People</option><option value="HOUSEHOLD">Households</option></select></div>
+        <div class="field"><label for="ftbGeo">Geography</label><select id="ftbGeo"></select></div>
+        <div class="field"><label for="ftbVar">Question</label><select id="ftbVar"></select></div>
+        <div class="field"><label for="ftbN">Questions in the table</label><select id="ftbN"></select></div>
+        <div class="field" id="ftbWField" hidden><label for="ftbW">Also including</label><select id="ftbW"></select></div>
+        <div class="field"><label for="ftbAlso">Must also include</label><select id="ftbAlso"><option value="">Any</option></select></div>
       </div>
-      <div id="roiCount"></div>
+      <div id="ftbCount" class="count" aria-live="polite"></div>
+      <div id="ftbCards" class="cards"></div>
+      <nav id="ftbPager" class="pager" aria-label="Flexible table pages"></nav>
+    </section>
+
+    <section id="panel-roi" role="tabpanel" aria-labelledby="tab-roi" tabindex="0" hidden>
+      <h2>Census of Population, Republic of Ireland (CSO)</h2>
+      <p class="panel-intro">The CSO publishes the census as statistical tables ("cubes") on PxStat. These are the
+      census cubes only: each one is listed under the census years it holds, and search reads the questions
+      each cube is broken down by, so <em>religion</em> finds every cube with a religion breakdown.</p>
+      <div class="controls">
+        <div class="field"><label for="rq">Search</label><input type="search" id="rq" placeholder="e.g. religion, Irish speakers, EY001" autocomplete="off"></div>
+        <div class="field"><label for="rYear">Census</label><select id="rYear"><option value="">All</option></select></div>
+        <div class="field"><label for="rTopic">Topic</label><select id="rTopic"><option value="">All topics</option></select></div>
+        <div class="field"><label for="rGeo">Geography</label><select id="rGeo"><option value="">All geographies</option></select></div>
+        <div class="field"><label for="rSort">Order</label><select id="rSort"><option value="new">Latest census first</option><option value="span">Most censuses first</option><option value="code">By table code</option></select></div>
+        <label class="check"><input type="checkbox" id="rMulti"> Spans several censuses</label>
+      </div>
+      <div id="roiCount" class="count" aria-live="polite"></div>
       <div id="roiCards" class="cards"></div>
+      <nav id="roiPager" class="pager" aria-label="ROI table pages"></nav>
     </section>
-    <p class="credit">
-    Source: NISRA Census (2001/2011/2021) and the CSO historical census &amp; statistical
-    reports mirrored to the Internet Archive under a Creative Commons Attribution 4.0
-    International (CC BY 4.0) licence. Contains Irish and Northern Irish public sector data.
-    </p>
+
+    <section id="panel-compare" role="tabpanel" aria-labelledby="tab-compare" tabindex="0" hidden>
+      <h2>Compare over time</h2>
+      <p class="panel-intro">Boundaries move between censuses, so a figure for "the same place" in two years often
+      needs re-basing. Northern Ireland as a whole needs none. The council and small-area comparisons below say
+      which values are as published and which are <span class="est-badge">estimated</span> onto a fixed set of areas,
+      and how.</p>
+      <div id="compareMount" class="loading">Loading…</div>
+    </section>
+
+    <div class="credit">
+      <p><strong>Sources and licences.</strong> Northern Ireland: census reports and tables of the General Register
+      Office for Northern Ireland and NISRA, Crown copyright, used under the
+      <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">Open Government Licence v3.0</a>.
+      Republic of Ireland: Central Statistics Office (CSO), PxStat; contains Irish Public Sector Data licensed under a
+      <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International (CC BY 4.0)</a> licence.</p>
+      <p>Figures shown here are read from Civgraph's copies of those publications on data.civgraph.net; each table names its source.
+      Estimates on fixed boundaries are Civgraph's and are marked.</p>
+    </div>
   </main>
 <!-- site:footer -->
 <footer class="ftr">
@@ -321,269 +399,1004 @@
 </div>
 <!-- /site:support-modal -->
 
-
   <script>
-    (function () {
-      'use strict';
-      // data/census/ is gitignored, so the Pages deploy never carries this file; it lives on R2.
-      var BUNDLE_URL = 'https://data.civgraph.net/data/census/explorer-bundle.json';
-      var state = { bundle: null, tables: [] };
-
-      function el(tag, attrs, children) {
-        var node = document.createElement(tag);
-        if (attrs) Object.keys(attrs).forEach(function (k) {
-          if (k === 'text') node.textContent = attrs[k];
-          else if (k === 'html') node.innerHTML = attrs[k];
-          else if (k === 'class') node.className = attrs[k];
-          else node.setAttribute(k, attrs[k]);
-        });
-        (children || []).forEach(function (c) { if (c) node.appendChild(c); });
-        return node;
-      }
-      function titleCase(s) { return String(s || '').replace(/_/g, ' '); }
-
-      function renderStats(b) {
-        var row = document.getElementById('statRow');
-        row.removeAttribute('aria-hidden');
-        var stats = [
-          { n: b.counts.concepts, l: 'Concepts' },
-          { n: b.counts.tables, l: 'Logical tables' },
-          { n: b.facets.years.join(' · '), l: 'Digital censuses' },
-          { n: b.facets.topics.length, l: 'Topics' }
-        ];
-        stats.forEach(function (s) {
-          row.appendChild(el('div', { class: 'stat' }, [
-            el('div', { class: 'n', text: String(s.n) }),
-            el('div', { class: 'l', text: s.l })
-          ]));
-        });
-      }
-
-      function sourceLink(src) {
-        if (!src || !src.url) return null;
-        return el('a', { href: src.url, target: '_blank', rel: 'noopener', text: src.label || src.url });
-      }
-
-      function renderMatrix(b) {
-        var mount = document.getElementById('matrixMount');
-        mount.className = 'table-scroll';
-        mount.innerHTML = '';
-        var years = b.facets.years;
-        var thead = el('thead', {}, [
-          (function () {
-            var tr = el('tr');
-            tr.appendChild(el('th', { text: 'Concept' }));
-            years.forEach(function (y) { tr.appendChild(el('th', { text: String(y) })); });
-            tr.appendChild(el('th', { text: 'Historical' }));
-            return tr;
-          })()
-        ]);
-        var tbody = el('tbody');
-        b.concepts.forEach(function (c, i) {
-          var cellsByYear = {};
-          (c.digitalYearCells || []).forEach(function (cell) { cellsByYear[cell.year] = cell; });
-
-          var tr = el('tr', { class: 'concept-row', 'data-idx': String(i), tabindex: '0', role: 'button', 'aria-expanded': 'false' });
-          tr.appendChild(el('td', {}, [
-            el('div', { class: 'concept-label', text: c.label }),
-            el('div', { class: 'concept-sub', text: (c.difficulty ? c.difficulty + ' comparability' : '') })
-          ]));
-          years.forEach(function (y) {
-            var cell = cellsByYear[y];
-            var td = el('td');
-            if (cell && cell.available && cell.code) {
-              td.appendChild(el('span', { class: 'code-badge avail-yes', text: cell.code }));
-            } else {
-              td.appendChild(el('span', { class: 'cell-unavail', text: 'unavailable' }));
-            }
-            tr.appendChild(td);
-          });
-          var histTd = el('td');
-          var histYears = (c.yearsHistorical || []);
-          if (histYears.length) {
-            histTd.appendChild(el('span', { class: 'hist-badge', text: histYears.length + ' yr' + (histYears.length > 1 ? 's' : '') + ' · ' + histYears[0] + '–' + histYears[histYears.length - 1] }));
-          } else {
-            histTd.appendChild(el('span', { class: 'cell-unavail', text: '-' }));
-          }
-          tr.appendChild(histTd);
-          tbody.appendChild(tr);
-
-          // Detail row (source links per available year + historical mirror)
-          var inner = el('div', { class: 'detail-inner' });
-          inner.appendChild(el('h4', { text: 'Source tables & references' }));
-          var links = el('div', { class: 'src-links' });
-          (c.digitalYearCells || []).forEach(function (cell) {
-            if (cell.available && cell.source) {
-              var wrap = el('div');
-              wrap.appendChild(el('span', { class: 'src-year', text: String(cell.year) }));
-              var a = sourceLink(cell.source);
-              if (a) wrap.appendChild(a);
-              links.appendChild(wrap);
-            }
-          });
-          if (histYears.length && b.sources && b.sources.historical) {
-            var hwrap = el('div');
-            hwrap.appendChild(el('span', { class: 'src-year', text: 'Hist.' }));
-            var ha = sourceLink(b.sources.historical);
-            if (ha) hwrap.appendChild(ha);
-            links.appendChild(hwrap);
-          }
-          inner.appendChild(links);
-          if (c.comparabilityNotes) inner.appendChild(el('div', { class: 'notes', text: c.comparabilityNotes }));
-          var detailTr = el('tr', { class: 'detail-row' });
-          var detailTd = el('td', { colspan: String(years.length + 2) });
-          detailTd.appendChild(inner);
-          detailTr.appendChild(detailTd);
-          tbody.appendChild(detailTr);
-
-          function toggle() {
-            var open = detailTr.classList.toggle('open');
-            tr.setAttribute('aria-expanded', open ? 'true' : 'false');
-          }
-          tr.addEventListener('click', toggle);
-          tr.addEventListener('keydown', function (ev) {
-            if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); toggle(); }
-          });
-        });
-        var table = el('table', { class: 'matrix' }, [thead, tbody]);
-        mount.appendChild(table);
-      }
-
-      function populateSelect(sel, values, formatter) {
-        values.forEach(function (v) {
-          sel.appendChild(el('option', { value: String(v), text: formatter ? formatter(v) : String(v) }));
-        });
-      }
-
-      function renderFinder(b) {
-        document.getElementById('finderControls').removeAttribute('hidden');
-        populateSelect(document.getElementById('fYear'), b.facets.years);
-        populateSelect(document.getElementById('fTopic'), b.facets.topics, titleCase);
-        populateSelect(document.getElementById('fGeo'), b.facets.geographyLevels, titleCase);
-        ['q', 'fYear', 'fTopic', 'fGeo'].forEach(function (id) {
-          document.getElementById(id).addEventListener('input', applyFilters);
-        });
-        applyFilters();
-      }
-
-      function applyFilters() {
-        var q = document.getElementById('q').value.trim().toLowerCase();
-        var year = document.getElementById('fYear').value;
-        var topic = document.getElementById('fTopic').value;
-        var geo = document.getElementById('fGeo').value;
-        var filtered = state.tables.filter(function (t) {
-          if (year && String(t.year) !== year) return false;
-          if (topic && t.topic !== topic) return false;
-          if (geo && (t.geographyLevels || []).indexOf(geo) === -1) return false;
-          if (q) {
-            var hay = (t.code + ' ' + t.title + ' ' + (t.topic || '')).toLowerCase();
-            if (hay.indexOf(q) === -1) return false;
-          }
-          return true;
-        });
-        renderCards(filtered);
-      }
-
-      function renderCards(list) {
-        var mount = document.getElementById('cards');
-        mount.innerHTML = '';
-        document.getElementById('finderCount').textContent =
-          list.length + ' of ' + state.tables.length + ' logical tables';
-        if (!list.length) {
-          mount.appendChild(el('div', { class: 'empty', text: 'No tables match these filters.' }));
-          return;
-        }
-        list.slice(0, 600).forEach(function (t) {
-          var card = el('div', { class: 'card' });
-          var top = el('div', { class: 'card-top' }, [
-            el('span', { class: 'code-badge', text: t.code }),
-            el('span', { class: 'year-tag', text: String(t.year) })
-          ]);
-          card.appendChild(top);
-          card.appendChild(el('h3', { text: t.title }));
-          if (t.topic) card.appendChild(el('div', { class: 'topic', text: titleCase(t.topic) }));
-          var chips = el('div', { class: 'chips' });
-          (t.geographyLevels || []).forEach(function (g) {
-            chips.appendChild(el('span', { class: 'geo-chip', text: titleCase(g) }));
-          });
-          card.appendChild(chips);
-          if (t.source) {
-            var src = el('div', { class: 'src' }, [sourceLink(t.source)]);
-            card.appendChild(src);
-          }
-          mount.appendChild(card);
-        });
-        if (list.length > 600) {
-          mount.appendChild(el('div', { class: 'empty', text: 'Showing first 600 - refine filters to narrow further.' }));
-        }
-      }
-
-      function renderRoi(b) {
-        var roi = b.roiCensus;
-        if (!roi || !Array.isArray(roi.tables)) return;
-        state.roi = roi;
-        document.getElementById('roiControls').removeAttribute('hidden');
-        populateSelect(document.getElementById('rYear'), roi.facets.years);
-        ['rq', 'rYear'].forEach(function (id) {
-          document.getElementById(id).addEventListener('input', applyRoiFilters);
-        });
-        applyRoiFilters();
-      }
-      function applyRoiFilters() {
-        var roi = state.roi; if (!roi) return;
-        var q = document.getElementById('rq').value.trim().toLowerCase();
-        var year = document.getElementById('rYear').value;
-        var list = roi.tables.filter(function (t) {
-          if (year && String(t.year) !== year) return false;
-          if (q) { var hay = (t.code + ' ' + t.title + ' ' + (t.year || '')).toLowerCase(); if (hay.indexOf(q) === -1) return false; }
-          return true;
-        });
-        var mount = document.getElementById('roiCards');
-        mount.innerHTML = '';
-        document.getElementById('roiCount').textContent = list.length + ' of ' + roi.tables.length + ' CSO PxStat census cubes';
-        if (!list.length) { mount.appendChild(el('div', { class: 'empty', text: 'No tables match these filters.' })); return; }
-        list.slice(0, 600).forEach(function (t) {
-          var card = el('div', { class: 'card' });
-          var top = el('div', { class: 'card-top' }, [
-            el('span', { class: 'code-badge', text: t.code }),
-            t.year ? el('span', { class: 'year-tag', text: String(t.year) }) : null
-          ]);
-          card.appendChild(top);
-          card.appendChild(el('h3', { text: t.title }));
-          card.appendChild(el('div', { class: 'src' }, [
-            el('a', { href: roi.tableUrlPrefix + encodeURIComponent(t.code), target: '_blank', rel: 'noopener', text: 'Open on CSO PxStat →' })
-          ]));
-          mount.appendChild(card);
-        });
-        if (list.length > 600) mount.appendChild(el('div', { class: 'empty', text: 'Showing first 600 - refine filters to narrow further.' }));
-      }
-
-      var TABS = ['matrix', 'finder', 'roi'];
-      function switchTab(which) {
-        TABS.forEach(function (t) {
-          document.getElementById('tab-' + t).setAttribute('aria-selected', t === which ? 'true' : 'false');
-          document.getElementById('panel-' + t).classList.toggle('active', t === which);
-        });
-      }
-      TABS.forEach(function (t) {
-        document.getElementById('tab-' + t).addEventListener('click', function () { switchTab(t); });
-      });
-
-      fetch(BUNDLE_URL)
-        .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-        .then(function (b) {
-          state.bundle = b;
-          state.tables = b.tables || [];
-          renderStats(b);
-          renderMatrix(b);
-          renderFinder(b);
-          renderRoi(b);
-        })
-        .catch(function (err) {
-          document.getElementById('matrixMount').className = 'empty';
-          document.getElementById('matrixMount').textContent = 'Could not load the census model: ' + err.message;
-        });
+  (function () {
+    'use strict';
+    // Everything is read from Civgraph's bucket. data/census/ is gitignored, so the Pages
+    // deploy never carries these files. ?data=<origin> points the page at another copy
+    // (for example a local server) when testing.
+    var DATA = (function () {
+      var m = /[?&]data=([^&#]+)/.exec(location.search);
+      return m ? decodeURIComponent(m[1]).replace(/\/?$/, '/') : 'https://data.civgraph.net/';
     })();
+    var BUNDLE = 'data/census/explorer-bundle.json';
+    var PAGE_SIZE = 48;
+    var ROW_LIMIT = 300;
+    var LARGE_BYTES = 5 * 1024 * 1024;
+    var TAB_IDS = ['topics', 'tables', 'ftb', 'roi', 'compare'];
+
+    var B = null; // the bundle
+    var ROI = null; var FTB = null; var DZ = null;
+    var rendered = {};
+    var S = readHash();
+
+    // ---------------------------------------------------------------- helpers
+    function $(id) { return document.getElementById(id); }
+    function el(tag, attrs, kids) {
+      var n = document.createElement(tag);
+      if (attrs) Object.keys(attrs).forEach(function (k) {
+        var v = attrs[k];
+        if (v == null || v === false) return;
+        if (k === 'text') n.textContent = v;
+        else if (k === 'class') n.className = v;
+        else if (k === 'on') Object.keys(v).forEach(function (e) { n.addEventListener(e, v[e]); });
+        else n.setAttribute(k, v === true ? '' : v);
+      });
+      (kids || []).forEach(function (c) { if (c != null && c !== false) n.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); });
+      return n;
+    }
+    function clear(n) { while (n.firstChild) n.removeChild(n.firstChild); return n; }
+    function fmt(v, unit) {
+      if (v == null || v === '' || Number.isNaN(v)) return '–';
+      if (typeof v !== 'number') return String(v);
+      if (unit === 'pct') return v.toFixed(1) + '%';
+      return Math.abs(v) >= 1000 || Number.isInteger(v) ? v.toLocaleString('en-GB', { maximumFractionDigits: 1 }) : String(Math.round(v * 100) / 100);
+    }
+    function kb(n) { return n >= 1024 ? (n / 1024).toFixed(1) + ' MB' : n + ' KB'; }
+    function yearsSummary(ys) {
+      if (!ys.length) return '';
+      if (ys.length === 1) return String(ys[0]);
+      return ys[0] + '–' + ys[ys.length - 1] + ' (' + ys.length + ' censuses)';
+    }
+    function geo(key) { return (B && B.geographies[key]) || { label: key, map: null, href: null }; }
+    function mapLink(key, text) {
+      var g = geo(key);
+      return g.href ? el('a', { href: g.href, text: text || 'Boundaries on the map: ' + g.label }) : null;
+    }
+    function fetchJson(path) {
+      return fetch(DATA + path).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status + ' for ' + path); return r.json(); });
+    }
+    function fetchGzText(path) {
+      return fetch(DATA + path).then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status + ' for ' + path);
+        // The .csv.gz files are stored compressed and served as application/gzip.
+        if (typeof DecompressionStream === 'undefined') throw new Error('This browser cannot read compressed files; download the table instead.');
+        return new Response(r.body.pipeThrough(new DecompressionStream('gzip'))).text();
+      });
+    }
+    function fetchText(path) {
+      return fetch(DATA + path).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status + ' for ' + path); return r.text(); });
+    }
+    function parseCsv(text) {
+      var rows = []; var row = []; var f = ''; var q = false;
+      for (var i = 0; i < text.length; i++) {
+        var c = text[i];
+        if (q) { if (c === '"') { if (text[i + 1] === '"') { f += '"'; i++; } else q = false; } else f += c; }
+        else if (c === '"') q = true;
+        else if (c === ',') { row.push(f); f = ''; }
+        else if (c === '\n') { row.push(f.replace(/\r$/, '')); rows.push(row); row = []; f = ''; }
+        else f += c;
+      }
+      if (f || row.length) { row.push(f.replace(/\r$/, '')); rows.push(row); }
+      return rows.filter(function (r) { return r.length > 1 || r[0]; });
+    }
+    function csvCell(v) { v = v == null ? '' : String(v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }
+    function download(name, text) {
+      var a = el('a', { href: URL.createObjectURL(new Blob([text], { type: 'text/csv;charset=utf-8' })), download: name });
+      document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+    }
+
+    // ---------------------------------------------------------------- URL state
+    function readHash() {
+      var p = new URLSearchParams(location.hash.replace(/^#/, ''));
+      var o = {}; p.forEach(function (v, k) { o[k] = v; });
+      if (TAB_IDS.indexOf(o.tab) < 0) o.tab = 'topics';
+      return o;
+    }
+    function writeHash(push) {
+      var p = new URLSearchParams();
+      Object.keys(S).forEach(function (k) { if (S[k] != null && S[k] !== '' && !(k === 'tab' && S[k] === 'topics' && Object.keys(S).length === 1)) p.set(k, S[k]); });
+      var h = p.toString();
+      var url = location.pathname + location.search + (h ? '#' + h : '');
+      if (url === location.pathname + location.search + location.hash) return;
+      history[push ? 'pushState' : 'replaceState'](null, '', url);
+    }
+    function set(changes, push) { Object.keys(changes).forEach(function (k) { S[k] = changes[k]; }); writeHash(push); }
+    window.addEventListener('popstate', function () { S = readHash(); applyState(); });
+    window.addEventListener('hashchange', function () { var n = readHash(); if (JSON.stringify(n) !== JSON.stringify(S)) { S = n; applyState(); } });
+
+    // ---------------------------------------------------------------- search
+    // A word matches its own text or any alias, so "Catholic" finds religion tables and
+    // "Gaelic" the Irish-language ones.
+    var ALIASES = {
+      catholic: ['religion', 'catholic', 'community background'], protestant: ['religion', 'protestant', 'presbyterian', 'church of ireland', 'community background'],
+      religion: ['religion', 'religious', 'community background', 'denomination'], irish: ['irish', 'gaeltacht', 'gaeilge'], gaelic: ['irish', 'gaeltacht'],
+      language: ['language', 'irish', 'speak', 'ulster-scots'], car: ['car', 'van'], cars: ['car', 'van'], job: ['employ', 'occupation', 'industry', 'work'],
+      jobs: ['employ', 'occupation', 'industry', 'work'], unemployment: ['unemploy', 'economic'], work: ['work', 'employ', 'occupation', 'labour', 'economic'],
+      house: ['house', 'housing', 'dwelling', 'accommodation', 'tenure'], housing: ['housing', 'dwelling', 'accommodation', 'tenure', 'rooms'],
+      health: ['health', 'disab', 'illness', 'care'], disability: ['disab', 'illness', 'long-term health'], immigrants: ['birth', 'born', 'migra', 'nationality'],
+      immigration: ['birth', 'born', 'migra', 'nationality'], ethnicity: ['ethnic'], age: ['age'], education: ['education', 'qualif', 'student', 'school'],
+      population: ['population', 'usual resident', 'persons'], commute: ['travel', 'commut', 'place of work', 'means of'], marriage: ['marital', 'married', 'civil partner']
+    };
+    function matcher(q) {
+      var words = String(q || '').toLowerCase().split(/\s+/).filter(Boolean);
+      if (!words.length) return null;
+      var groups = words.map(function (w) { return [w].concat(ALIASES[w] || []); });
+      return function (hay) { return groups.every(function (g) { return g.some(function (w) { return hay.indexOf(w) >= 0; }); }); };
+    }
+
+    // ---------------------------------------------------------------- tabs (ARIA pattern)
+    var tabButtons = TAB_IDS.map(function (t) { return $('tab-' + t); });
+    tabButtons.forEach(function (btn, i) {
+      btn.addEventListener('click', function () { selectTab(TAB_IDS[i], true); });
+      btn.addEventListener('keydown', function (e) {
+        var j = null;
+        if (e.key === 'ArrowRight') j = (i + 1) % TAB_IDS.length;
+        else if (e.key === 'ArrowLeft') j = (i - 1 + TAB_IDS.length) % TAB_IDS.length;
+        else if (e.key === 'Home') j = 0;
+        else if (e.key === 'End') j = TAB_IDS.length - 1;
+        if (j == null) return;
+        e.preventDefault(); selectTab(TAB_IDS[j], true); tabButtons[j].focus();
+      });
+    });
+    function selectTab(t, push) {
+      TAB_IDS.forEach(function (id, i) {
+        var on = id === t;
+        tabButtons[i].setAttribute('aria-selected', on ? 'true' : 'false');
+        tabButtons[i].tabIndex = on ? 0 : -1;
+        $('panel-' + id).hidden = !on;
+      });
+      if (push !== undefined && S.tab !== t) set({ tab: t }, push);
+      S.tab = t;
+      if (B) renderTab(t);
+    }
+    function renderTab(t) {
+      if (rendered[t]) return;
+      rendered[t] = true;
+      ({ topics: renderTopics, tables: renderTables, ftb: renderFtb, roi: renderRoi, compare: renderCompare })[t]();
+    }
+
+    // ---------------------------------------------------------------- paging
+    function pager(nav, total, page, onPage) {
+      clear(nav);
+      var pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+      if (pages <= 1) return;
+      nav.appendChild(el('button', { type: 'button', class: 'btn', disabled: page <= 1, text: '← Previous', on: { click: function () { onPage(page - 1); } } }));
+      nav.appendChild(el('span', { text: 'Page ' + page + ' of ' + pages }));
+      nav.appendChild(el('button', { type: 'button', class: 'btn', disabled: page >= pages, text: 'Next →', on: { click: function () { onPage(page + 1); } } }));
+    }
+    function pageOf(v, total) { var p = Math.max(1, parseInt(v, 10) || 1); return Math.min(p, Math.max(1, Math.ceil(total / PAGE_SIZE))); }
+    function scrollToList(id) { var n = $(id); if (n && n.getBoundingClientRect().top < 0) n.scrollIntoView({ block: 'start' }); }
+
+    function populate(sel, values, label, keep) {
+      var cur = keep != null ? keep : sel.value;
+      while (sel.options.length > (sel.dataset.fixed ? +sel.dataset.fixed : 1)) sel.remove(sel.options.length - 1);
+      values.forEach(function (v) { sel.appendChild(el('option', { value: String(v), text: label ? label(v) : String(v) })); });
+      sel.value = cur || '';
+      if (sel.value !== (cur || '')) sel.value = '';
+    }
+
+    // ---------------------------------------------------------------- tab 1: topics
+    function tableByCode(code, year) {
+      for (var i = 0; i < B.tables.length; i++) if (B.tables[i].code === code && B.tables[i].year === year) return B.tables[i];
+      return null;
+    }
+    function codeButton(code, year) {
+      var t = tableByCode(code, year);
+      if (t && t.data) return el('button', { type: 'button', class: 'code-badge', title: 'Show the figures for ' + code, text: code, on: { click: function () { openViewer('ni:' + year + ':' + code, true); } } });
+      return el('span', { class: 'code-badge', text: code });
+    }
+    function renderTopics() {
+      var mount = clear($('matrixMount'));
+      mount.className = '';
+      var cue = el('p', { class: 'scroll-cue', text: 'Scroll sideways to see every census.' });
+      var wrap = el('div', { class: 'table-scroll' });
+      var table = el('table', { class: 'matrix' });
+      table.appendChild(el('caption', { class: 'visually-hidden', text: 'Census topics and the table that carries each, by census year' }));
+      var hr = el('tr', {}, [el('th', { scope: 'col', text: 'Topic' }), el('th', { scope: 'col', text: '2001' }), el('th', { scope: 'col', text: '2011' }), el('th', { scope: 'col', text: '2021' }), el('th', { scope: 'col', text: 'Earlier censuses' })]);
+      table.appendChild(el('thead', {}, [hr]));
+      var tbody = el('tbody');
+      B.concepts.forEach(function (c) {
+        var detailId = 'concept-' + c.id;
+        var toggle = el('button', { type: 'button', class: 'concept-toggle', 'aria-expanded': 'false', 'aria-controls': detailId }, [
+          el('span', { class: 'chev', 'aria-hidden': 'true', text: '▸' }),
+          el('span', {}, [el('span', { class: 'concept-label', text: c.label }), el('span', { class: 'concept-sub', text: c.difficulty ? 'Comparability: ' + c.difficulty : '' })])
+        ]);
+        var tr = el('tr', { class: 'concept-row' }, [el('th', { scope: 'row' }, [toggle])]);
+        c.digitalYearCells.forEach(function (cell) {
+          var td = el('td', { 'data-label': String(cell.year) });
+          if (cell.codes && cell.codes.length) {
+            cell.codes.forEach(function (x) {
+              td.appendChild(codeButton(x.code, cell.year));
+              if (x.role) td.appendChild(el('span', { class: 'code-role', text: x.role }));
+              else td.appendChild(document.createTextNode(' '));
+            });
+          } else td.appendChild(el('span', { class: 'cell-unavail', text: 'Not asked' }));
+          tr.appendChild(td);
+        });
+        var htd = el('td', { 'data-label': 'Earlier' });
+        if (c.historicalYearCells.length) {
+          htd.appendChild(el('span', { class: 'hist-years' }, c.historicalYearCells.map(function (h) { return el('span', { class: 'hist-year', text: String(h.year) }); })));
+        } else htd.appendChild(el('span', { class: 'cell-unavail', text: 'None held' }));
+        tr.appendChild(htd);
+        tbody.appendChild(tr);
+        var dtd = el('td', { colspan: '5' });
+        var detail = el('tr', { class: 'detail-row', id: detailId, hidden: true }, [dtd]);
+        tbody.appendChild(detail);
+        toggle.addEventListener('click', function () {
+          var open = toggle.getAttribute('aria-expanded') !== 'true';
+          toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+          detail.hidden = !open;
+          if (open && !dtd.firstChild) dtd.appendChild(conceptDetail(c));
+        });
+      });
+      table.appendChild(tbody);
+      wrap.appendChild(table);
+      mount.appendChild(cue);
+      mount.appendChild(wrap);
+      cueWhenWide(wrap, cue);
+    }
+    function cueWhenWide(wrap, cue) {
+      function check() { cue.classList.toggle('show', wrap.scrollWidth > wrap.clientWidth + 4); }
+      check(); window.addEventListener('resize', check);
+    }
+    function conceptDetail(c) {
+      var grid = el('div', { class: 'detail-grid' });
+      var tables = el('div', {}, [el('h4', { text: 'Tables, 2001 to 2021' })]);
+      var ul = el('ul');
+      c.digitalYearCells.forEach(function (cell) {
+        (cell.codes || []).forEach(function (x) {
+          var t = tableByCode(x.code, cell.year);
+          ul.appendChild(el('li', {}, [
+            cell.year + ': ', t && t.data ? el('button', { type: 'button', class: 'linkish', text: x.code + ' ' + (t ? t.title : ''), on: { click: function () { openViewer('ni:' + cell.year + ':' + x.code, true); } } }) : x.code + (t ? ' ' + t.title : ''),
+            ' (', el('a', { href: B.sources.nisra[cell.year].url, text: B.sources.nisra[cell.year].label }), ')'
+          ]));
+        });
+      });
+      tables.appendChild(ul); grid.appendChild(tables);
+      if (c.historicalYearCells.length) {
+        var h = el('div', {}, [el('h4', { text: 'Earlier censuses' })]);
+        var hl = el('ul');
+        c.historicalYearCells.forEach(function (cell) {
+          var li = el('li', {}, [el('strong', { text: String(cell.year) }), ': ']);
+          cell.reports.forEach(function (r, i) { if (i) li.appendChild(document.createTextNode('; ')); li.appendChild(el('a', { href: r.url, text: r.label.replace(/^\d{4} census: /, '') })); });
+          if (cell.figures.length) li.appendChild(el('span', { text: '. ' + cell.figures.map(function (f) { return f.label + ': ' + fmt(f.value, f.unit) + (f.flag === 'floor' ? ' (a floor, see notes)' : f.flag === 'est' ? ' (estimate)' : ''); }).join('; ') }));
+          hl.appendChild(li);
+        });
+        h.appendChild(hl);
+        h.appendChild(el('p', { class: 'notes', text: 'The report links open Civgraph\'s text of each printed report. For 1841 to 1911 (all of Ireland), see ' }, [el('a', { href: B.sources.csoHistorical.url, text: B.sources.csoHistorical.label })]));
+        grid.appendChild(h);
+      }
+      var series = (c.series || []).map(function (id) { return B.compare.niTotals.find(function (s) { return s.id === id; }); }).filter(Boolean);
+      if (series.length) {
+        var ch = el('div', {}, [el('h4', { text: 'Northern Ireland over time' })]);
+        series.forEach(function (s) {
+          ch.appendChild(el('p', { class: 'notes', text: s.label }));
+          ch.appendChild(lineChart([{ label: s.label, points: s.points.map(function (p) { return [p.year, p.value, p.flag]; }) }], s.unit, s.label + ', Northern Ireland', true));
+        });
+        ch.appendChild(el('button', { type: 'button', class: 'linkish', text: 'Open in Compare over time', on: { click: function () { set({ cmp: 'ni', cind: series[0].id }); selectTab('compare', true); renderCompareSection(); } } }));
+        grid.appendChild(ch);
+      }
+      var wrap = el('div', {}, [grid]);
+      if (c.comparabilityNotes) wrap.appendChild(el('p', { class: 'notes', text: 'Comparability: ' + c.comparabilityNotes.replace(/no_religion/g, 'no religion').replace(/not_stated/g, 'not stated').replace(/ Need to create harmonised column\./, '') }));
+      return wrap;
+    }
+
+    // ---------------------------------------------------------------- tab 2: NI tables
+    function tableHay(t) {
+      if (!t._hay) t._hay = [t.code, t.title, t.family, t.release || '', topicLabel(t.topic), (t.dims || []).join(' '), t.geos.map(function (g) { return geo(g).label; }).join(' '), t.year].join(' ').toLowerCase();
+      return t._hay;
+    }
+    function topicLabel(id) { var t = (B.topics || []).find(function (x) { return x.id === id; }); return t ? t.label : id; }
+    function renderTables() {
+      populate($('fYear'), [2001, 2011, 2021], null, S.y);
+      populate($('fFamily'), uniq(B.tables.map(function (t) { return t.family; })).sort(), null, S.fam);
+      populate($('fTopic'), B.topics.map(function (t) { return t.id; }), topicLabel, S.top);
+      populate($('fGeo'), uniq([].concat.apply([], B.tables.map(function (t) { return t.geos; }))).sort(function (a, b) { return Object.keys(B.geographies).indexOf(a) - Object.keys(B.geographies).indexOf(b); }), function (g) { return geo(g).label; }, S.geo);
+      $('q').value = S.q || ''; $('fData').checked = S.data === '1';
+      var bind = function (id, key, val) { $(id).addEventListener('input', function () { var c = {}; c[key] = val ? val() : $(id).value; c.p = ''; set(c); drawTables(); }); };
+      bind('q', 'q'); bind('fYear', 'y'); bind('fFamily', 'fam'); bind('fTopic', 'top'); bind('fGeo', 'geo');
+      $('fData').addEventListener('change', function () { set({ data: $('fData').checked ? '1' : '', p: '' }); drawTables(); });
+      drawTables();
+    }
+    function uniq(a) { return a.filter(function (v, i) { return v != null && a.indexOf(v) === i; }); }
+    function drawTables() {
+      var m = matcher(S.q);
+      var list = B.tables.filter(function (t) {
+        if (S.y && String(t.year) !== S.y) return false;
+        if (S.fam && t.family !== S.fam) return false;
+        if (S.top && t.topic !== S.top) return false;
+        if (S.geo && t.geos.indexOf(S.geo) < 0) return false;
+        if (S.data === '1' && !t.data) return false;
+        return !m || m(tableHay(t));
+      });
+      var page = pageOf(S.p, list.length);
+      $('tablesCount').textContent = list.length.toLocaleString('en-GB') + ' of ' + B.tables.length.toLocaleString('en-GB') + ' tables' + (list.length > PAGE_SIZE ? ', ' + PAGE_SIZE + ' a page' : '');
+      var mount = clear($('tablesCards'));
+      if (!list.length) mount.appendChild(el('div', { class: 'empty', text: 'No tables match. Try fewer words, or clear a filter.' }));
+      list.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE).forEach(function (t) { mount.appendChild(niCard(t)); });
+      pager($('tablesPager'), list.length, page, function (p) { set({ p: String(p) }, true); drawTables(); scrollToList('tablesCount'); });
+    }
+    function niCard(t) {
+      var chips = el('div', { class: 'chips' });
+      t.geos.slice(0, 4).forEach(function (g) { chips.appendChild(el('span', { class: 'geo-chip', text: geo(g).label.replace(/ \(.*\)$/, '') })); });
+      if (t.geos.length > 4) chips.appendChild(el('span', { class: 'geo-chip', text: '+' + (t.geos.length - 4) + ' more' }));
+      var src = B.sources.nisra[t.year];
+      return el('article', { class: 'card' }, [
+        el('div', { class: 'card-top' }, [el('span', { class: 'code-badge', text: t.code }), el('span', { class: 'year-tag', text: 'Census ' + t.year })]),
+        el('h3', { text: t.title }),
+        el('div', { class: 'meta', text: t.family + ' · ' + topicLabel(t.topic) }),
+        chips,
+        t.note ? el('div', { class: 'meta', text: t.note }) : null,
+        el('div', { class: 'actions' }, [
+          t.data ? el('button', { type: 'button', class: 'btn primary', text: 'Figures here', 'aria-label': 'Show the figures for ' + t.code + ' ' + t.title, on: { click: function () { openViewer('ni:' + t.year + ':' + t.code, true); } } }) : null,
+          el('a', { href: src.url, text: 'NISRA ' + t.year + ' census page (find ' + t.code + ')' })
+        ])
+      ]);
+    }
+
+    // ---------------------------------------------------------------- tab 3: flexible tables
+    var FTB_GEO_LABEL = { LGD14: 'Councils (11)', DEA14: 'District Electoral Areas (80)', SDZ21: 'Super Data Zones (850)', DZ21: 'Data Zones (3,780)', NI: 'Northern Ireland only' };
+    var shardCache = {};
+    function renderFtb() {
+      var c = $('ftbCount'); c.textContent = 'Loading the table index…';
+      fetchJson(B.ftb.index).then(function (ix) { FTB = ix; FTB.vi = {}; ix.variables.forEach(function (v, i) { FTB.vi[v.id] = i; }); setupFtb(); })
+        .catch(function (e) { c.textContent = ''; c.appendChild(retry('Could not load the flexible-table index: ' + e.message, function () { rendered.ftb = false; renderTab('ftb'); })); });
+    }
+    function ftbVarLabel(id) { var v = FTB.variables[FTB.vi[id]]; return v ? v.label : id; }
+    function setupFtb() {
+      ['ftbDs', 'ftbGeo', 'ftbVar', 'ftbN', 'ftbW', 'ftbAlso'].forEach(function (id) {
+        $(id).addEventListener('input', function () {
+          var key = { ftbDs: 'fds', ftbGeo: 'fgeo', ftbVar: 'fvar', ftbN: 'fn', ftbW: 'fw', ftbAlso: 'falso' }[id];
+          var c = {}; c[key] = $(id).value; c.fp = '';
+          if (id === 'ftbDs') { c.fgeo = ''; c.fvar = ''; c.fn = ''; c.fw = ''; c.falso = ''; }
+          if (id === 'ftbGeo' || id === 'ftbVar') { c.fn = ''; c.fw = ''; c.falso = ''; }
+          if (id === 'ftbN') { c.fw = ''; c.falso = ''; }
+          set(c); drawFtb();
+        });
+      });
+      drawFtb();
+    }
+    function drawFtb() {
+      var ds = S.fds || 'PEOPLE'; $('ftbDs').value = ds;
+      var geos = Object.keys(FTB.shards).filter(function (k) { return k.indexOf(ds + '~') === 0; }).map(function (k) { return k.split('~')[1]; });
+      geos.sort(function (a, b) { return ['LGD14', 'DEA14', 'SDZ21', 'DZ21', 'NI'].indexOf(a) - ['LGD14', 'DEA14', 'SDZ21', 'DZ21', 'NI'].indexOf(b); });
+      var g = geos.indexOf(S.fgeo) >= 0 ? S.fgeo : geos[0];
+      clear($('ftbGeo')); geos.forEach(function (x) { $('ftbGeo').appendChild(el('option', { value: x, text: FTB_GEO_LABEL[x] + ' · ' + (FTB.counts[ds + '~' + x] || 0).toLocaleString('en-GB') + ' tables' })); });
+      $('ftbGeo').value = g;
+      var byVar = FTB.shards[ds + '~' + g] || {};
+      var vars = Object.keys(byVar).sort(function (a, b) { return ftbVarLabel(a).localeCompare(ftbVarLabel(b)); });
+      var v = vars.indexOf(S.fvar) >= 0 ? S.fvar : (vars.indexOf('RELIGION_BELONG_TO_OR_BROUGHT_UP_IN_DVO') >= 0 ? 'RELIGION_BELONG_TO_OR_BROUGHT_UP_IN_DVO' : vars[0]);
+      clear($('ftbVar')); vars.forEach(function (x) { $('ftbVar').appendChild(el('option', { value: x, text: ftbVarLabel(x) })); });
+      $('ftbVar').value = v;
+      var ns = byVar[v] || {};
+      var nKeys = Object.keys(ns).sort();
+      var n = nKeys.indexOf(S.fn) >= 0 ? S.fn : (nKeys.indexOf('2') >= 0 ? '2' : nKeys[0]);
+      clear($('ftbN')); nKeys.forEach(function (x) { var cnt = typeof ns[x] === 'number' ? ns[x] : ns[x].total; $('ftbN').appendChild(el('option', { value: x, text: (x === '1' ? 'Just this question' : x + ' questions') + ' (' + cnt.toLocaleString('en-GB') + ')' })); });
+      $('ftbN').value = n;
+      var slot = ns[n]; var shard = ds + '~' + g + '~' + v + '~' + n;
+      var wField = $('ftbWField');
+      if (slot && typeof slot === 'object') {
+        wField.hidden = false;
+        var ws = Object.keys(slot.by).sort(function (a, b) { return ftbVarLabel(a).localeCompare(ftbVarLabel(b)); });
+        var w = ws.indexOf(S.fw) >= 0 ? S.fw : ws[0];
+        clear($('ftbW')); ws.forEach(function (x) { $('ftbW').appendChild(el('option', { value: x, text: ftbVarLabel(x) + ' (' + slot.by[x].toLocaleString('en-GB') + ')' })); });
+        $('ftbW').value = w; shard += '~' + w;
+      } else wField.hidden = true;
+      $('ftbCount').textContent = 'Loading…';
+      var p = shardCache[shard] ? Promise.resolve(shardCache[shard]) : fetchJson(FTB.shardBase + encodeURIComponent(shard) + '.json').then(function (j) { shardCache[shard] = j; return j; });
+      p.then(function (entries) {
+        var tables = entries.map(function (e) {
+          var parts = e.split(','); var codes = parts[0].split('.');
+          var vs = codes.map(function (c) { return c ? FTB.variables[parseInt(c, 36)].id : v; });
+          return { vars: vs, kb: +parts[1] };
+        });
+        var also = uniq([].concat.apply([], tables.map(function (t) { return t.vars; }))).filter(function (x) { return x !== v; }).sort(function (a, b) { return ftbVarLabel(a).localeCompare(ftbVarLabel(b)); });
+        populate($('ftbAlso'), also, ftbVarLabel, S.falso);
+        var list = S.falso ? tables.filter(function (t) { return t.vars.indexOf(S.falso) >= 0; }) : tables;
+        var page = pageOf(S.fp, list.length);
+        $('ftbCount').textContent = list.length.toLocaleString('en-GB') + ' tables' + (list.length > PAGE_SIZE ? ', ' + PAGE_SIZE + ' a page' : '');
+        var mount = clear($('ftbCards'));
+        if (!list.length) mount.appendChild(el('div', { class: 'empty', text: 'No tables match.' }));
+        list.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE).forEach(function (t) {
+          var file = ds + '__' + (g === 'NI' ? '' : g + '~') + t.vars.join('~') + '.csv.gz';
+          var id = 'ftb:' + file;
+          mount.appendChild(el('article', { class: 'card' }, [
+            el('div', { class: 'card-top' }, [el('span', { class: 'code-badge', text: t.vars.length + '-way' }), el('span', { class: 'year-tag', text: 'Census 2021' })]),
+            el('h3', { text: (ds === 'PEOPLE' ? 'People' : 'Households') + ' by ' + t.vars.map(ftbVarLabel).join(', ') }),
+            el('div', { class: 'meta', text: FTB_GEO_LABEL[g] + ' · ' + kb(t.kb) + ' compressed' }),
+            el('div', { class: 'actions' }, [el('button', { type: 'button', class: 'btn primary', text: 'Figures here', on: { click: function () { openViewer(id, true); } } }), el('a', { href: DATA + FTB.fileBase + file, text: 'Download (.csv.gz)' })])
+          ]));
+        });
+        pager($('ftbPager'), list.length, page, function (pp) { set({ fp: String(pp) }, true); drawFtb(); scrollToList('ftbCount'); });
+      }).catch(function (e) { clear($('ftbCount')).appendChild(retry('Could not load this part of the index: ' + e.message, drawFtb)); });
+    }
+
+    // ---------------------------------------------------------------- tab 4: ROI
+    function loadRoi() {
+      if (ROI) return Promise.resolve(ROI);
+      return fetchJson(B.roi.file).then(function (r) {
+        ROI = r;
+        ROI.list = r.cubes.map(function (c) {
+          var ys = c[2].split(',').map(Number);
+          return { code: c[0], title: c[1], years: ys, dims: c[3] ? c[3].split('|') : [], geo: c[4], kb: c[5], topic: c[6], hay: (c[0] + ' ' + c[1] + ' ' + c[3].replace(/\|/g, ' ') + ' ' + c[2]).toLowerCase() };
+        });
+        ROI.byCode = {}; ROI.list.forEach(function (c) { ROI.byCode[c.code] = c; });
+        return ROI;
+      });
+    }
+    function renderRoi() {
+      $('roiCount').textContent = 'Loading the CSO census tables…';
+      loadRoi().then(function () {
+        populate($('rYear'), B.roi.years, null, S.ry);
+        populate($('rTopic'), B.topics.map(function (t) { return t.id; }), topicLabel, S.rt);
+        var gs = uniq(ROI.list.map(function (c) { return c.geo; })).filter(Boolean).sort(function (a, b) { return Object.keys(B.geographies).indexOf(a) - Object.keys(B.geographies).indexOf(b); });
+        populate($('rGeo'), gs, function (g) { return geo(g).label; }, S.rg);
+        $('rq').value = S.rq || ''; $('rSort').value = S.rs || 'new'; $('rMulti').checked = S.rm === '1';
+        [['rq', 'rq'], ['rYear', 'ry'], ['rTopic', 'rt'], ['rGeo', 'rg'], ['rSort', 'rs']].forEach(function (b) { $(b[0]).addEventListener('input', function () { var c = {}; c[b[1]] = $(b[0]).value; c.rp = ''; set(c); drawRoi(); }); });
+        $('rMulti').addEventListener('change', function () { set({ rm: $('rMulti').checked ? '1' : '', rp: '' }); drawRoi(); });
+        drawRoi();
+      }).catch(function (e) { clear($('roiCount')).appendChild(retry('Could not load the CSO table list: ' + e.message, function () { rendered.roi = false; renderTab('roi'); })); });
+    }
+    function drawRoi() {
+      var m = matcher(S.rq);
+      var y = S.ry ? Number(S.ry) : null;
+      var list = ROI.list.filter(function (c) {
+        if (y && c.years.indexOf(y) < 0) return false;
+        if (S.rt && c.topic !== S.rt) return false;
+        if (S.rg && c.geo !== S.rg) return false;
+        if (S.rm === '1' && c.years.length < 2) return false;
+        return !m || m(c.hay);
+      });
+      if (S.rs === 'span') list = list.slice().sort(function (a, b) { return b.years.length - a.years.length || a.code.localeCompare(b.code); });
+      else if (S.rs === 'code') list = list.slice().sort(function (a, b) { return a.code.localeCompare(b.code, 'en', { numeric: true }); });
+      var page = pageOf(S.rp, list.length);
+      $('roiCount').textContent = list.length.toLocaleString('en-GB') + ' of ' + ROI.list.length.toLocaleString('en-GB') + ' census tables' + (list.length > PAGE_SIZE ? ', ' + PAGE_SIZE + ' a page' : '');
+      var mount = clear($('roiCards'));
+      if (!list.length) mount.appendChild(el('div', { class: 'empty', text: 'No tables match. Try fewer words, or clear a filter.' }));
+      list.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE).forEach(function (c) { mount.appendChild(roiCard(c)); });
+      pager($('roiPager'), list.length, page, function (p) { set({ rp: String(p) }, true); drawRoi(); scrollToList('roiCount'); });
+    }
+    function roiCard(c) {
+      var g = c.geo ? geo(c.geo) : null;
+      return el('article', { class: 'card' }, [
+        el('div', { class: 'card-top' }, [el('span', { class: 'code-badge', text: c.code }), el('span', { class: 'year-tag', text: yearsSummary(c.years) })]),
+        el('h3', { text: c.title }),
+        c.dims.length ? el('div', { class: 'meta', text: 'By ' + c.dims.join(', ') }) : null,
+        el('div', { class: 'meta', text: topicLabel(c.topic) + (c.kb ? ' · ' + kb(c.kb) : '') }),
+        el('div', { class: 'actions' }, [
+          el('button', { type: 'button', class: 'btn primary', text: 'Figures here', 'aria-label': 'Show the figures for ' + c.code + ' ' + c.title, on: { click: function () { openViewer('roi:' + c.code, true); } } }),
+          el('a', { href: ROI.tableUrlPrefix + encodeURIComponent(c.code), text: 'CSO PxStat' }),
+          g && g.href ? el('a', { href: g.href, text: 'Map' , title: 'Boundaries on the map: ' + g.label }) : null
+        ])
+      ]);
+    }
+
+    // ---------------------------------------------------------------- the table viewer
+    // A "cube" is { dims: [{ label, cats: [{ id, label }], time, geo }], get(tuple) }.
+    function cubeFromJsonStat(j) {
+      var ids = j.id; var size = j.size; var strides = []; var s = 1;
+      for (var i = size.length - 1; i >= 0; i--) { strides[i] = s; s *= size[i]; }
+      var dims = ids.map(function (d) {
+        var c = j.dimension[d].category; var idx = Array.isArray(c.index) ? c.index : Object.keys(c.index).sort(function (a, b) { return c.index[a] - c.index[b]; });
+        var label = j.dimension[d].label;
+        return { id: d, label: label === 'STATISTIC' ? 'Statistic' : label, time: /^TLIST/.test(d) || /year/i.test(label), cats: idx.map(function (k) { return { id: k, label: (c.label && c.label[k]) || k, unit: c.unit && c.unit[k] }; }) };
+      });
+      var v = j.value; var dense = Array.isArray(v);
+      return { dims: dims, get: function (t) { var o = 0; for (var i = 0; i < t.length; i++) o += t[i] * strides[i]; var x = dense ? v[o] : v[o]; return x == null ? null : x; } };
+    }
+    function niceLabel(v) { v = String(v); return v.length > 3 && v === v.toUpperCase() && /[A-Z]/.test(v) ? v.toLowerCase().replace(/(^|[\s(\-/])([a-z])/g, function (m, a, b) { return a + b.toUpperCase(); }).replace(/\b(Of|And|The|In|By|To|For)\b/g, function (w) { return w.toLowerCase(); }).replace(/^./, function (c) { return c.toUpperCase(); }).replace(/\bHsct\b/g, 'HSCT') : v; }
+    function cubeFromTidy(text, geoLabel, dimNames) {
+      // Civgraph's cleaned NI tables and NISRA's flexible tables: code/label columns for each
+      // dimension, then a Count. Columns named "X Code"/"X Label" pair up; "Category n" stand alone.
+      var rows = parseCsv(text); var head = rows.shift();
+      var cols = []; var vi = head.indexOf('Count');
+      for (var i = 0; i < head.length; i++) {
+        if (i === vi) continue;
+        var h = head[i];
+        if (/ Code$/.test(h) && head[i + 1] === h.replace(/ Code$/, ' Label')) { cols.push({ label: h.replace(/ Code$/, ''), code: i, name: i + 1 }); i++; }
+        else if (h === 'Geography Code' && head[i + 1] === 'Geography Label') { cols.push({ label: geoLabel || 'Area', code: i, name: i + 1 }); i++; }
+        else cols.push({ label: h, code: i, name: i });
+      }
+      if (cols[0] && /2014|2021|Code/.test(cols[0].label) === false && cols[0].label === 'Geography') cols[0].label = geoLabel || 'Area';
+      var dims = cols.map(function (c) { var m = /^Category (\d+)$/.exec(c.label); return { label: m ? (dimNames && dimNames[m[1] - 1] ? dimNames[m[1] - 1] : 'Category' + (cols.length > 2 ? ' ' + m[1] : '')) : c.label, cats: [], idx: {} }; });
+      var map = new Map();
+      rows.forEach(function (r) {
+        var key = cols.map(function (c, d) {
+          var id = r[c.code]; var dim = dims[d];
+          if (!(id in dim.idx)) { dim.idx[id] = dim.cats.length; dim.cats.push({ id: id, label: niceLabel(r[c.name]) }); }
+          return dim.idx[id];
+        }).join('.');
+        var n = Number(r[vi]); map.set(key, Number.isFinite(n) ? n : null);
+      });
+      dims.forEach(function (d) { delete d.idx; });
+      if (dims[0]) dims[0].geo = true;
+      return { dims: dims, get: function (t) { var x = map.get(t.join('.')); return x == null ? null : x; } };
+    }
+    function cubeFromWide(text, firstLabel) {
+      var rows = parseCsv(text); var head = rows.shift();
+      var codeCol = head.findIndex(function (h) { return /Code$/.test(h) && h !== head[0]; });
+      var measures = head.map(function (h, i) { return { h: h, i: i }; }).filter(function (m) { return m.i !== 0 && m.i !== codeCol; });
+      var dims = [
+        { label: firstLabel || head[0], geo: true, cats: rows.map(function (r) { return { id: codeCol >= 0 ? r[codeCol] : r[0], label: r[0] }; }) },
+        { label: 'Measure', cats: measures.map(function (m) { return { id: m.h, label: m.h.replace(/_pct$/, ' (%)').replace(/([a-z])([A-Z0-9])/g, '$1 $2') }; }) }
+      ];
+      return { dims: dims, get: function (t) { var v = Number(rows[t[0]][measures[t[1]].i]); return rows[t[0]][measures[t[1]].i] === '' || !Number.isFinite(v) ? null : v; } };
+    }
+
+    var V = null; // the open viewer: { id, meta, cube, rows, cols, fixed }
+    function closeViewer(push) { V = null; $('viewer').hidden = true; clear($('viewer')); if (S.open) set({ open: '', vg: '', vr: '', vc: '', vf: '' }, push); }
+    function openViewer(id, push) {
+      var parts = id.split(':');
+      if (parts[0] !== (S.open || '').split(':')[0] || id !== S.open) set({ open: id, vg: '', vr: '', vc: '', vf: '' }, push);
+      var box = clear($('viewer')); box.hidden = false; box.dataset.id = id;
+      box.appendChild(el('p', { class: 'loading', text: 'Loading…' }));
+      if (push) { box.scrollIntoView({ block: 'start' }); box.focus({ preventScroll: true }); }
+      var p;
+      if (parts[0] === 'ni') p = viewNi(+parts[1], parts.slice(2).join(':'));
+      else if (parts[0] === 'roi') p = loadRoi().then(function () { return viewRoi(parts[1]); });
+      else if (parts[0] === 'ftb') p = (FTB ? Promise.resolve() : fetchJson(B.ftb.index).then(function (ix) { FTB = ix; FTB.vi = {}; ix.variables.forEach(function (v, i) { FTB.vi[v.id] = i; }); })).then(function () { return viewFtb(parts.slice(1).join(':')); });
+      else p = Promise.reject(new Error('Unknown table ' + id));
+      p.catch(function (e) { clear(box).appendChild(retry('Could not open this table: ' + e.message, function () { openViewer(id); })); box.appendChild(el('button', { type: 'button', class: 'btn', text: 'Close', on: { click: function () { closeViewer(true); } } })); });
+    }
+    function viewerShell(o) {
+      // o: { code, years, title, sub, links: [nodes], cite, geoPicker }
+      var box = clear($('viewer'));
+      box.appendChild(el('div', { class: 'viewer-head' }, [
+        el('div', {}, [
+          el('div', { class: 'card-top', style: 'justify-content:flex-start' }, [el('span', { class: 'code-badge', text: o.code }), el('span', { class: 'year-tag', text: o.years })]),
+          el('h2', { id: 'viewerTitle', text: o.title }),
+          o.sub ? el('p', { class: 'sub', text: o.sub }) : null
+        ]),
+        el('button', { type: 'button', class: 'btn', text: 'Close', on: { click: function () { closeViewer(true); } } })
+      ]));
+      var body = el('div');
+      box.appendChild(body);
+      return body;
+    }
+    function viewNi(year, code) {
+      var t = tableByCode(code, year);
+      if (!t) return Promise.reject(new Error(code + ' (' + year + ') is not in the table list'));
+      if (!t.data) {
+        var b0 = viewerShell({ code: t.code, years: 'Census ' + t.year, title: t.title, sub: t.family });
+        b0.appendChild(el('p', { text: 'Civgraph does not hold this table\'s figures in a form this page can read. ' }, [el('a', { href: B.sources.nisra[t.year].url, text: 'Find it on NISRA\'s ' + t.year + ' census page' })]));
+        return Promise.resolve();
+      }
+      // Pick the geography: the one in the URL, else the coarsest that is not just NI.
+      var options = [];
+      if (t.data.kb) Object.keys(t.data.kb).forEach(function (g) { options.push({ key: g, geo: g, kb: t.data.kb[g], file: t.data.base + t.code + (t.data.sfx || '') + '__' + g + '.csv.gz' }); });
+      if (t.data.extracts) Object.keys(t.data.extracts).forEach(function (g) { t.data.extracts[g].forEach(function (x) { options.push({ key: g + (x[2] ? '|' + x[2] : ''), geo: g, kb: Math.max(1, Math.round(x[1] / 1024)), file: t.data.base + x[0], wide: true, part: x[2] }); }); });
+      options.sort(function (a, b) { return a.kb - b.kb; });
+      var pref = ['LGD2014', 'LGD2001', 'HIGHER', 'PARLCON2001', 'AA2014', 'DEA2014', 'WARD2014', 'WARD2001', 'NI'];
+      var chosen = options.find(function (o) { return o.key === S.vg; }) || pref.map(function (g) { return options.find(function (o) { return o.geo === g; }); }).find(Boolean) || options[0];
+      var body = viewerShell({ code: t.code, years: 'Census ' + t.year, title: t.title, sub: t.family + (t.release ? ' (' + t.release + ')' : '') + (t.unit ? ' · counts of ' + t.unit : '') + (t.data.extracts ? ' · Civgraph extract of selected columns' : '') });
+      var sel = el('select', { id: 'vGeo' }, options.map(function (o) { return el('option', { value: o.key, text: geo(o.geo).label + (o.part ? ': ' + o.part : '') + ' (' + kb(o.kb) + ')' }); }));
+      sel.value = chosen.key;
+      sel.addEventListener('input', function () { set({ vg: sel.value, vr: '', vc: '', vf: '' }); openViewer(S.open); });
+      body.appendChild(el('div', { class: 'pickers' }, [el('label', { for: 'vGeo' }, ['Geography', sel])]));
+      var status = el('p', { class: 'loading', text: 'Loading ' + kb(chosen.kb) + '…' }); body.appendChild(status);
+      var load = chosen.wide ? fetchText(chosen.file).then(function (tx) { return cubeFromWide(tx, geo(chosen.geo).label); }) : fetchGzText(chosen.file).then(function (tx) { return cubeFromTidy(tx, geo(chosen.geo).label, t.dims); });
+      return load.then(function (cube) {
+        status.remove();
+        var src = B.sources.nisra[t.year];
+        var url = DATA + chosen.file;
+        renderCube(body, cube, {
+          name: t.code + '-' + t.year + '-' + chosen.geo,
+          cite: 'NISRA, Census ' + t.year + ', table ' + t.code + ' "' + t.title + '", ' + geo(chosen.geo).label + '. Crown copyright, Open Government Licence v3.0. Civgraph copy: ' + url + ' (retrieved ' + new Date().toISOString().slice(0, 10) + ').',
+          links: [el('a', { href: url, text: 'Civgraph\'s copy (' + kb(chosen.kb) + ')' }), el('a', { href: src.url, text: src.label + ' (find ' + t.code + ')' }), mapLink(chosen.geo)],
+          note: t.year === 2021 && chosen.geo !== 'NI' ? 'NISRA perturbs small counts to protect confidentiality, so areas may not add up exactly to a higher total.' : (t.data.kb ? 'NISRA\'s subtotal and "All…" rows are kept, so a column can add up to more than its total.' : null)
+        });
+      });
+    }
+    function viewRoi(code) {
+      var c = ROI.byCode[code];
+      if (!c) return Promise.reject(new Error(code + ' is not a census table in the list'));
+      var body = viewerShell({ code: c.code, years: yearsSummary(c.years), title: c.title, sub: c.dims.length ? 'By ' + c.dims.join(', ') : '' });
+      var url = DATA + ROI.dataBase + c.code.slice(0, 3) + '/' + c.code + '.json';
+      var common = {
+        name: c.code,
+        cite: 'Central Statistics Office (CSO), Census of Population, table ' + c.code + ' "' + c.title + '", https://data.cso.ie/table/' + c.code + '. Licensed under CC BY 4.0. Civgraph copy: ' + url + ' (retrieved ' + new Date().toISOString().slice(0, 10) + ').',
+        links: [el('a', { href: ROI.tableUrlPrefix + encodeURIComponent(c.code), text: 'Open on CSO PxStat' }), el('a', { href: url, text: 'JSON-stat (' + (c.kb ? kb(c.kb) : 'size unknown') + ')' }), c.geo ? mapLink(c.geo) : null]
+      };
+      var bytes = (c.kb || 0) * 1024;
+      if (bytes > LARGE_BYTES && ROI.large && ROI.large[c.code]) {
+        // Pick first, then load: the reader chooses the slice before the download starts.
+        var meta = ROI.large[c.code];
+        body.appendChild(el('p', { class: 'warn', text: 'This table is ' + kb(c.kb) + '. Choose what to show, then load it.' }));
+        var picks = el('div', { class: 'pickers' });
+        var choice = {};
+        meta.forEach(function (d, i) {
+          if (!d.cats || d.n < 2) return;
+          var s = el('select', { id: 'pre' + i }, [el('option', { value: '', text: 'All (' + d.n + ')' })].concat(d.cats.map(function (k, j) { return el('option', { value: String(j), text: k[1] }); })));
+          s.addEventListener('input', function () { choice[i] = s.value; });
+          picks.appendChild(el('label', { for: 'pre' + i }, [d.label === 'STATISTIC' ? 'Statistic' : d.label, s]));
+        });
+        body.appendChild(picks);
+        body.appendChild(el('div', { class: 'links' }, common.links));
+        body.appendChild(el('button', { type: 'button', class: 'btn primary', text: 'Load ' + kb(c.kb), on: { click: function () {
+          var vf = Object.keys(choice).filter(function (k) { return choice[k] !== ''; }).map(function (k) { return k + '.' + choice[k]; }).join(',');
+          set({ vf: vf });
+          clear(body).appendChild(el('p', { class: 'loading', text: 'Loading ' + kb(c.kb) + '…' }));
+          fetchJson(ROI.dataBase + c.code.slice(0, 3) + '/' + c.code + '.json').then(function (j) { clear(body); renderCube(body, cubeFromJsonStat(j), common); })
+            .catch(function (e) { clear(body).appendChild(retry('Could not load the table: ' + e.message, function () { openViewer(S.open); })); });
+        } } }));
+        return Promise.resolve();
+      }
+      var status = el('p', { class: 'loading', text: 'Loading ' + (c.kb ? kb(c.kb) : '') + '…' }); body.appendChild(status);
+      return fetchJson(ROI.dataBase + c.code.slice(0, 3) + '/' + c.code + '.json').then(function (j) { status.remove(); renderCube(body, cubeFromJsonStat(j), common); });
+    }
+    function viewFtb(file) {
+      var m = /^(PEOPLE|HOUSEHOLD)__(?:(LGD14|DEA14|SDZ21|DZ21)~)?(.+)\.csv\.gz$/.exec(file);
+      if (!m) return Promise.reject(new Error('Not a flexible table: ' + file));
+      var vars = m[3].split('~'); var g = m[2] || 'NI';
+      var gk = FTB.geographies[g] || 'NI';
+      var body = viewerShell({ code: vars.length + '-way', years: 'Census 2021', title: (m[1] === 'PEOPLE' ? 'People' : 'Households') + ' by ' + vars.map(ftbVarLabel).join(', '), sub: 'NISRA flexible table builder · ' + FTB_GEO_LABEL[g] });
+      var url = DATA + FTB.fileBase + file;
+      var status = el('p', { class: 'loading', text: 'Loading…' }); body.appendChild(status);
+      return fetchGzText(FTB.fileBase + file).then(function (tx) {
+        status.remove();
+        renderCube(body, cubeFromTidy(tx, geo(gk).label), {
+          name: file.replace(/\.csv\.gz$/, ''),
+          cite: 'NISRA, Census 2021, flexible table builder: ' + (m[1] === 'PEOPLE' ? 'people' : 'households') + ' by ' + vars.map(ftbVarLabel).join(', ') + ', ' + FTB_GEO_LABEL[g] + '. Crown copyright, Open Government Licence v3.0. Civgraph copy: ' + url + ' (retrieved ' + new Date().toISOString().slice(0, 10) + ').',
+          links: [el('a', { href: url, text: 'Civgraph\'s copy (.csv.gz)' }), el('a', { href: 'https://build.nisra.gov.uk/', text: 'NISRA flexible table builder' }), mapLink(gk)],
+          note: 'NISRA perturbs small counts to protect confidentiality, so areas may not add up exactly to a higher total.'
+        });
+      });
+    }
+
+    function defaultCat(d) {
+      var i = d.cats.findIndex(function (c) { return /^(all\b|both sexes|total|state$|ireland$|northern ireland$|all usual|all persons|all households)/i.test(c.label); });
+      return i >= 0 ? i : 0;
+    }
+    function renderCube(body, cube, o) {
+      var dims = cube.dims; var n = dims.length;
+      var multi = dims.map(function (d, i) { return d.cats.length > 1 ? i : -1; }).filter(function (i) { return i >= 0; });
+      var timeDim = dims.findIndex(function (d) { return d.time && d.cats.length > 1; });
+      var geoDim = dims.findIndex(function (d) { return d.geo; });
+      if (geoDim < 0) geoDim = dims.findIndex(function (d) { return /county|province|area|division|constituenc|region|town|council|district|ward|zone|state/i.test(d.label) && d.cats.length > 1; });
+      var byLen = multi.slice().sort(function (a, b) { return dims[b].cats.length - dims[a].cats.length; });
+      var r = +S.vr, c = +S.vc;
+      if (!(S.vr !== '' && S.vr != null && r < n)) r = geoDim >= 0 && dims[geoDim].cats.length > 1 ? geoDim : (byLen[0] != null ? byLen[0] : 0);
+      if (!(S.vc !== '' && S.vc != null && c < n && c !== r)) {
+        c = timeDim >= 0 && timeDim !== r ? timeDim : multi.filter(function (i) { return i !== r && dims[i].cats.length <= 40; }).sort(function (a, b) { return dims[b].cats.length - dims[a].cats.length; })[0];
+        if (c == null) c = multi.find(function (i) { return i !== r; });
+        if (c == null) c = r === 0 ? (n > 1 ? 1 : 0) : 0;
+      }
+      var fixed = dims.map(defaultCat);
+      String(S.vf || '').split(',').forEach(function (p) { var q = p.split('.'); if (q.length === 2 && +q[0] < n && +q[1] < dims[+q[0]].cats.length) fixed[+q[0]] = +q[1]; });
+      V = { cube: cube, r: r, c: c, fixed: fixed, o: o, limit: ROW_LIMIT };
+
+      clear(body);
+      body.appendChild(el('div', { class: 'links' }, o.links.filter(Boolean)));
+      var pick = el('div', { class: 'pickers' });
+      body.appendChild(pick);
+      var tableBox = el('div'); body.appendChild(tableBox);
+      var chartBox = el('div', { class: 'chart' }); body.appendChild(chartBox);
+      if (o.note) body.appendChild(el('p', { class: 'notes', text: o.note }));
+      body.appendChild(el('p', { class: 'cite' }, [el('strong', { text: 'Cite: ' }), o.cite]));
+      var dl = el('div', { class: 'links' });
+      dl.appendChild(el('button', { type: 'button', class: 'btn', text: 'Download this view (CSV)', on: { click: function () { download(o.name + '-view.csv', viewCsv()); } } }));
+      var cells = dims.reduce(function (s, d) { return s * d.cats.length; }, 1);
+      if (cells <= 400000) dl.appendChild(el('button', { type: 'button', class: 'btn', text: 'Download the whole table (CSV, ' + cells.toLocaleString('en-GB') + ' cells)', on: { click: function () { download(o.name + '.csv', fullCsv()); } } }));
+      else dl.appendChild(el('span', { class: 'notes', text: 'The whole table has ' + cells.toLocaleString('en-GB') + ' cells; download it from the copy linked above.' }));
+      body.appendChild(dl);
+
+      function dimSelect(id, label, val, onChange) {
+        var s = el('select', { id: id }, dims.map(function (d, i) { return el('option', { value: String(i), text: d.label + ' (' + d.cats.length + ')' }); }));
+        s.value = String(val); s.addEventListener('input', function () { onChange(+s.value); });
+        return el('label', { for: id }, [label, s]);
+      }
+      function drawPickers() {
+        clear(pick);
+        if (n > 1) {
+          pick.appendChild(dimSelect('vRows', 'Rows', V.r, function (v) { if (v === V.c) V.c = V.r; V.r = v; sync(); drawPickers(); draw(); }));
+          pick.appendChild(dimSelect('vCols', 'Columns', V.c, function (v) { if (v === V.r) V.r = V.c; V.c = v; sync(); drawPickers(); draw(); }));
+        }
+        dims.forEach(function (d, i) {
+          if (i === V.r || i === V.c || d.cats.length < 2) return;
+          var s = el('select', { id: 'vF' + i }, d.cats.map(function (k, j) { return el('option', { value: String(j), text: k.label }); }));
+          s.value = String(V.fixed[i]);
+          s.addEventListener('input', function () { V.fixed[i] = +s.value; sync(); draw(); });
+          pick.appendChild(el('label', { for: 'vF' + i }, [d.label, s]));
+        });
+      }
+      function sync() { set({ vr: String(V.r), vc: String(V.c), vf: V.fixed.map(function (v, i) { return v !== defaultCat(dims[i]) ? i + '.' + v : ''; }).filter(Boolean).join(',') }); }
+      function tuple(ri, ci) { var t = V.fixed.slice(); t[V.r] = ri; if (V.c !== V.r) t[V.c] = ci; return t; }
+      function unitNote() {
+        var stat = dims.findIndex(function (d) { return d.label === 'Statistic'; });
+        if (stat < 0) return '';
+        var cat = dims[stat].cats[stat === V.r || stat === V.c ? 0 : V.fixed[stat]];
+        return cat && cat.unit && cat.unit.label ? cat.unit.label : '';
+      }
+      function draw() {
+        var rd = dims[V.r]; var cd = dims[V.c]; var cols = V.c === V.r ? [{ label: 'Value' }] : cd.cats;
+        clear(tableBox);
+        if (cols.length > 80) tableBox.appendChild(el('p', { class: 'warn', text: cd.label + ' has ' + cols.length + ' categories; swap rows and columns for an easier read.' }));
+        var cue = el('p', { class: 'scroll-cue', text: 'Scroll sideways for more columns.' });
+        var wrap = el('div', { class: 'data-scroll', tabindex: '0', role: 'region', 'aria-label': 'Table of figures' });
+        var tbl = el('table', { class: 'data' });
+        var u = unitNote();
+        tbl.appendChild(el('caption', { class: 'visually-hidden', text: rd.label + ' by ' + (V.c === V.r ? 'value' : cd.label) + (u ? ' (' + u + ')' : '') }));
+        tbl.appendChild(el('thead', {}, [el('tr', {}, [el('th', { scope: 'col', text: rd.label + (u ? ' · ' + u : '') })].concat(cols.map(function (k) { return el('th', { scope: 'col', text: k.label }); })))]));
+        var tb = el('tbody');
+        var shown = Math.min(rd.cats.length, V.limit);
+        for (var i = 0; i < shown; i++) {
+          var tr = el('tr', {}, [el('th', { scope: 'row', text: rd.cats[i].label })]);
+          for (var j = 0; j < cols.length; j++) tr.appendChild(el('td', { text: fmt(cube.get(tuple(i, j))) }));
+          tb.appendChild(tr);
+        }
+        tbl.appendChild(tb); wrap.appendChild(tbl);
+        tableBox.appendChild(cue); tableBox.appendChild(wrap);
+        cueWhenWide(wrap, cue);
+        if (rd.cats.length > shown) tableBox.appendChild(el('p', { class: 'pager' }, [
+          'Showing ' + shown.toLocaleString('en-GB') + ' of ' + rd.cats.length.toLocaleString('en-GB') + ' rows. ',
+          el('button', { type: 'button', class: 'btn', text: 'Show ' + Math.min(rd.cats.length - shown, ROW_LIMIT * 4).toLocaleString('en-GB') + ' more', on: { click: function () { V.limit += ROW_LIMIT * 4; draw(); } } })
+        ]));
+        drawChart();
+      }
+      function drawChart() {
+        clear(chartBox);
+        var rd = dims[V.r]; var cd = dims[V.c];
+        if (cd.time && cd.cats.length > 1 && V.c !== V.r) {
+          var lines = rd.cats.slice(0, 6).map(function (k, i) { return { label: k.label, points: cd.cats.map(function (y, j) { return [Number(String(y.label).slice(0, 4)), cube.get(tuple(i, j))]; }).filter(function (p) { return p[1] != null && Number.isFinite(p[0]); }) }; });
+          chartBox.appendChild(lineChart(lines, null, rd.label + ' over ' + cd.label + (rd.cats.length > 6 ? ' (first 6 rows)' : '')));
+        } else if (rd.time && rd.cats.length > 1) {
+          var cols = V.c === V.r ? [0] : cd.cats.slice(0, 6).map(function (_, j) { return j; });
+          chartBox.appendChild(lineChart(cols.map(function (j) { return { label: V.c === V.r ? 'Value' : cd.cats[j].label, points: rd.cats.map(function (y, i) { return [Number(String(y.label).slice(0, 4)), cube.get(tuple(i, j))]; }).filter(function (p) { return p[1] != null && Number.isFinite(p[0]); }) }; }), null, 'Over ' + rd.label));
+        } else if (rd.cats.length > 1 && rd.cats.length <= 40) {
+          var bars = rd.cats.map(function (k, i) { return [k.label, cube.get(tuple(i, 0))]; }).filter(function (b) { return b[1] != null; });
+          chartBox.appendChild(barChart(bars, (V.c === V.r ? 'Value' : cd.cats[0].label) + ' by ' + rd.label));
+        }
+      }
+      function viewCsv() {
+        var rd = dims[V.r]; var cd = dims[V.c]; var cols = V.c === V.r ? [{ label: 'Value' }] : cd.cats;
+        var filt = dims.map(function (d, i) { return i === V.r || i === V.c || d.cats.length < 2 ? null : d.label + ': ' + d.cats[V.fixed[i]].label; }).filter(Boolean);
+        var lines = [[rd.label + (filt.length ? ' (' + filt.join('; ') + ')' : '')].concat(cols.map(function (k) { return k.label; })).map(csvCell).join(',')];
+        rd.cats.forEach(function (k, i) { lines.push([k.label].concat(cols.map(function (_, j) { var v = cube.get(tuple(i, j)); return v == null ? '' : v; })).map(csvCell).join(',')); });
+        return lines.join('\n') + '\n';
+      }
+      function fullCsv() {
+        var lines = [dims.map(function (d) { return d.label; }).concat(['Value']).map(csvCell).join(',')];
+        var t = dims.map(function () { return 0; });
+        var total = dims.reduce(function (s, d) { return s * d.cats.length; }, 1);
+        for (var k = 0; k < total; k++) {
+          var v = cube.get(t);
+          lines.push(dims.map(function (d, i) { return d.cats[t[i]].label; }).concat([v == null ? '' : v]).map(csvCell).join(','));
+          for (var i = n - 1; i >= 0; i--) { t[i]++; if (t[i] < dims[i].cats.length) break; t[i] = 0; }
+        }
+        return lines.join('\n') + '\n';
+      }
+      drawPickers(); draw();
+    }
+
+    // ---------------------------------------------------------------- charts (inline SVG)
+    var NS = 'http://www.w3.org/2000/svg';
+    function svg(tag, attrs, text) { var n = document.createElementNS(NS, tag); Object.keys(attrs || {}).forEach(function (k) { n.setAttribute(k, attrs[k]); }); if (text != null) n.textContent = text; return n; }
+    function niceStep(v) { var p = Math.pow(10, Math.floor(Math.log10(v))); var m = v / p; return (m <= 1 ? 1 : m <= 2 ? 2 : m <= 2.5 ? 2.5 : m <= 5 ? 5 : 10) * p; }
+    function niceMax(v) { if (v <= 0) return 1; var p = Math.pow(10, Math.floor(Math.log10(v))); var m = v / p; return (m <= 1 ? 1 : m <= 2 ? 2 : m <= 5 ? 5 : 10) * p; }
+    function shortNum(v) { var a = Math.abs(v); return a >= 1e6 ? (v / 1e6).toFixed(a >= 1e7 ? 0 : 1).replace(/\.0$/, '') + 'm' : a >= 1e4 ? Math.round(v / 1e3) + 'k' : fmt(Math.round(v)); }
+    function lineChart(lines, unit, title, compact) {
+      var W = compact ? 400 : 720, H = compact ? 200 : 250, L = 52, R = 14, T = 12, Bm = 26;
+      var all = [].concat.apply([], lines.map(function (l) { return l.points; }));
+      var wrap = el('figure', { class: 'chart' + (compact ? ' compact' : ''), style: 'margin:0' });
+      if (all.length < 2) return wrap;
+      var xs = all.map(function (p) { return p[0]; }); var ys = all.map(function (p) { return p[1]; });
+      var x0 = Math.min.apply(null, xs), x1 = Math.max.apply(null, xs);
+      var yMin = Math.min(0, Math.min.apply(null, ys)); var step = niceStep((Math.max.apply(null, ys) - yMin) / 4 || 1); var yMax = yMin + step * Math.max(1, Math.ceil((Math.max.apply(null, ys) - yMin) / step));
+      if (x1 === x0) x1 = x0 + 1;
+      var sx = function (x) { return L + (x - x0) / (x1 - x0) * (W - L - R); };
+      var sy = function (y) { return T + (1 - (y - yMin) / (yMax - yMin)) * (H - T - Bm); };
+      var s = svg('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': title || 'Chart' });
+      s.appendChild(svg('title', {}, title || 'Chart'));
+      for (var yv = yMin, g = 0; yv <= yMax + step / 1000; yv += step, g++) {
+        s.appendChild(svg('line', { x1: L, x2: W - R, y1: sy(yv), y2: sy(yv), class: 'axis', 'stroke-width': g ? 0.5 : 1 }));
+        s.appendChild(svg('text', { x: L - 6, y: sy(yv) + 4, 'text-anchor': 'end' }, unit === 'pct' ? (Math.round(yv * 10) / 10) + '%' : shortNum(yv)));
+      }
+      var ticks = uniq(xs).sort(function (a, b) { return a - b; });
+      var step = Math.ceil(ticks.length / 9);
+      ticks.forEach(function (x, i) { if (i % step === 0 || i === ticks.length - 1) s.appendChild(svg('text', { x: sx(x), y: H - 8, 'text-anchor': 'middle' }, String(x))); });
+      lines.forEach(function (l, li) {
+        var col = 'var(--c' + (li % 6 + 1) + ')';
+        var pts = l.points.slice().sort(function (a, b) { return a[0] - b[0]; });
+        s.appendChild(svg('polyline', { points: pts.map(function (p) { return sx(p[0]) + ',' + sy(p[1]); }).join(' '), fill: 'none', stroke: col, 'stroke-width': 2 }));
+        pts.forEach(function (p) {
+          var dot = svg('circle', { cx: sx(p[0]), cy: sy(p[1]), r: p[2] ? 4 : 3, fill: p[2] ? 'var(--surface)' : col, stroke: col, 'stroke-width': 2 });
+          dot.appendChild(svg('title', {}, l.label + ', ' + p[0] + ': ' + fmt(p[1], unit) + (p[2] === 'est' ? ' (estimate)' : p[2] === 'floor' ? ' (a floor)' : '')));
+          s.appendChild(dot);
+        });
+      });
+      wrap.appendChild(s);
+      if (lines.length > 1 || lines.some(function (l) { return l.points.some(function (p) { return p[2]; }); })) {
+        var lg = el('ul', { class: 'legend' }, lines.map(function (l, li) { return el('li', {}, [el('i', { style: 'background:var(--c' + (li % 6 + 1) + ')' }), l.label]); }));
+        if (lines.some(function (l) { return l.points.some(function (p) { return p[2]; }); })) lg.appendChild(el('li', { text: 'Hollow points: estimates or caveated values' }));
+        wrap.appendChild(lg);
+      }
+      return wrap;
+    }
+    function barChart(bars, title) {
+      var W = 680, rowH = 18, L = 230, R = 70;
+      var H = bars.length * rowH + 10;
+      var max = Math.max.apply(null, bars.map(function (b) { return b[1]; }).concat([0])) || 1;
+      var s = svg('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': title });
+      s.appendChild(svg('title', {}, title));
+      bars.forEach(function (b, i) {
+        var y = 5 + i * rowH; var w = Math.max(0, b[1]) / max * (W - L - R);
+        s.appendChild(svg('text', { x: L - 6, y: y + 12, 'text-anchor': 'end' }, String(b[0]).length > 34 ? String(b[0]).slice(0, 33) + '…' : String(b[0])));
+        s.appendChild(svg('rect', { x: L, y: y + 2, width: w, height: rowH - 6, fill: 'var(--c1)' }));
+        s.appendChild(svg('text', { x: L + w + 4, y: y + 12 }, fmt(b[1])));
+      });
+      var f = el('figure', { class: 'chart', style: 'margin:0' }); f.appendChild(s); return f;
+    }
+
+    // ---------------------------------------------------------------- tab 5: compare
+    function renderCompare() {
+      var mount = clear($('compareMount')); mount.className = '';
+      var sel = el('select', { id: 'cmpWhat' }, [
+        el('option', { value: 'ni', text: 'Northern Ireland as a whole, 1926–2021' }),
+        el('option', { value: 'lgd26', text: 'The 26 districts (1973–2015 boundaries)' }),
+        el('option', { value: 'lgd11', text: 'The 11 councils (2015 boundaries)' }),
+        el('option', { value: 'dz', text: 'A small area (2021 Data Zone), estimated' }),
+        el('option', { value: 'roi', text: 'Republic of Ireland: CSO tables across censuses' })
+      ]);
+      sel.value = S.cmp || 'ni';
+      sel.addEventListener('input', function () { set({ cmp: sel.value, cind: '', carea: '' }, true); renderCompareSection(); });
+      mount.appendChild(el('div', { class: 'controls' }, [el('div', { class: 'field' }, [el('label', { for: 'cmpWhat', text: 'Compare' }), sel])]));
+      mount.appendChild(el('div', { id: 'cmpBody' }));
+      renderCompareSection();
+    }
+    function indicatorSelect(ids, cur, onChange) {
+      var s = el('select', { id: 'cmpInd' }, ids.map(function (id) { var i = B.compare.indicators.find(function (x) { return x.id === id; }); return el('option', { value: id, text: i ? i.label : id }); }));
+      s.value = ids.indexOf(cur) >= 0 ? cur : ids[0];
+      s.addEventListener('input', function () { onChange(s.value); });
+      return el('div', { class: 'field' }, [el('label', { for: 'cmpInd', text: 'Measure' }), s]);
+    }
+    function renderCompareSection() {
+      if (!rendered.compare) return;
+      var what = S.cmp || 'ni'; if ($('cmpWhat')) $('cmpWhat').value = what;
+      var body = clear($('cmpBody'));
+      if (what === 'ni') {
+        var ids = B.compare.niTotals.map(function (s) { return s.id; });
+        var id = ids.indexOf(S.cind) >= 0 ? S.cind : ids[0];
+        body.appendChild(el('div', { class: 'controls' }, [indicatorSelect(ids, id, function (v) { set({ cind: v }); renderCompareSection(); })]));
+        var s = B.compare.niTotals.find(function (x) { return x.id === id; });
+        body.appendChild(el('h3', { class: 'section', text: s.label + ', Northern Ireland' }));
+        body.appendChild(lineChart([{ label: s.label, points: s.points.map(function (p) { return [p.year, p.value, p.flag]; }) }], s.unit, s.label + ', Northern Ireland, by census'));
+        var t = el('table', { class: 'data fit' }, [el('thead', {}, [el('tr', {}, [el('th', { scope: 'col', text: 'Census' }), el('th', { scope: 'col', text: s.unit === 'pct' ? 'Share' : 'Count' }), el('th', { scope: 'col', text: 'Source' })])])]);
+        var tb = el('tbody');
+        s.points.forEach(function (p) {
+          tb.appendChild(el('tr', {}, [el('th', { scope: 'row', text: String(p.year) }), el('td', { class: p.flag === 'est' || p.flag === 'floor' ? 'est' : null, text: fmt(p.value, s.unit) + (p.flag === 'floor' ? ' (floor)' : p.flag === 'est' ? ' (est.)' : p.flag === 'wtd' ? ' (from districts)' : '') }), el('td', { class: 'how' }, [el('a', { href: p.src.url, text: p.src.label })])]));
+        });
+        t.appendChild(tb);
+        body.appendChild(el('div', { class: 'data-scroll' }, [t]));
+        if (s.note) body.appendChild(el('p', { class: 'notes', text: s.note }));
+        body.appendChild(el('p', { class: 'notes', text: 'Northern Ireland\'s outer boundary has not changed since 1921, so these figures need no re-basing; the notes cover changes in how questions were asked.' }));
+      } else if (what === 'lgd26' || what === 'lgd11') {
+        var F = B.compare[what];
+        var inds = B.compare.indicators.map(function (i) { return i.id; }).filter(function (i) { return Object.keys(F.areas).some(function (a) { return F.areas[a].v[i]; }); });
+        var ind = inds.indexOf(S.cind) >= 0 ? S.cind : inds[0];
+        var meta = B.compare.indicators.find(function (x) { return x.id === ind; });
+        body.appendChild(el('div', { class: 'controls' }, [indicatorSelect(inds, ind, function (v) { set({ cind: v }); renderCompareSection(); })]));
+        body.appendChild(el('p', { class: 'notes' }, [F.note + ' ', mapLink(F.map === 'lgd-1993' ? 'LGD2001' : 'LGD2014', 'See these boundaries on the map')]));
+        var years = uniq([].concat.apply([], Object.keys(F.areas).map(function (a) { return Object.keys(F.areas[a].v[ind] || {}); }))).map(Number).sort();
+        var tbl = el('table', { class: 'data' }, [el('thead', {}, [el('tr', {}, [el('th', { scope: 'col', text: what === 'lgd26' ? 'District' : 'Council' })].concat(years.map(function (y) { return el('th', { scope: 'col', text: String(y) }); })))])]);
+        var tb2 = el('tbody');
+        var areas = Object.keys(F.areas).sort(function (a, b) { return String(F.areas[a].name).localeCompare(F.areas[b].name); });
+        var lines = [];
+        areas.forEach(function (a) {
+          var v = F.areas[a].v[ind] || {};
+          tb2.appendChild(el('tr', {}, [el('th', { scope: 'row', text: F.areas[a].name })].concat(years.map(function (y) {
+            var x = v[y]; var est = Array.isArray(x); var val = est ? x[0] : x;
+            return el('td', { class: est ? 'est' : null, text: fmt(val, meta.unit) + (est ? ' est.' : '') });
+          }))));
+          if (a === S.carea) lines.push({ label: F.areas[a].name, points: years.filter(function (y) { return v[y] != null; }).map(function (y) { var x = v[y]; return [y, Array.isArray(x) ? x[0] : x, Array.isArray(x) ? 'est' : null]; }) });
+        });
+        tbl.appendChild(tb2);
+        var areaSel = el('select', { id: 'cmpArea' }, [el('option', { value: '', text: 'Choose an area to chart' })].concat(areas.map(function (a) { return el('option', { value: a, text: F.areas[a].name }); })));
+        areaSel.value = S.carea || '';
+        areaSel.addEventListener('input', function () { set({ carea: areaSel.value }); renderCompareSection(); });
+        body.appendChild(el('div', { class: 'controls' }, [el('div', { class: 'field' }, [el('label', { for: 'cmpArea', text: 'Chart' }), areaSel])]));
+        if (lines.length) {
+          var ni = B.compare.niTotals.find(function (s) { return s.id === ind; });
+          if (ni && meta.unit === 'pct') lines.push({ label: 'Northern Ireland', points: ni.points.filter(function (p) { return years.indexOf(p.year) >= 0; }).map(function (p) { return [p.year, p.value]; }) });
+          body.appendChild(lineChart(lines, meta.unit, meta.label));
+        }
+        body.appendChild(el('p', { class: 'notes' }, [el('span', { class: 'est-badge', text: 'est.' }), ' marks an estimate on these boundaries.' + (meta.note ? ' ' + meta.note : '')]));
+        body.appendChild(el('div', { class: 'data-scroll' }, [tbl]));
+        body.appendChild(el('div', { class: 'links' }, [el('button', { type: 'button', class: 'btn', text: 'Download (CSV)', on: { click: function () {
+          var out = [[what === 'lgd26' ? 'District' : 'Council'].concat(years.map(String)).join(',')];
+          areas.forEach(function (a) { var v = F.areas[a].v[ind] || {}; out.push([csvCell(F.areas[a].name)].concat(years.map(function (y) { var x = v[y]; return x == null ? '' : Array.isArray(x) ? x[0] + ' (est)' : x; })).join(',')); });
+          download('census-' + what + '-' + ind + '.csv', out.join('\n') + '\n');
+        } } })]));
+      } else if (what === 'dz') {
+        renderDz(body);
+      } else {
+        body.appendChild(el('p', { text: (B.roi.multiYear || 0).toLocaleString('en-GB') + ' of the CSO\'s census tables already hold several censuses on consistent definitions, such as population by county at every census since 1841 (EY001, F1001). Open one to see its figures and a chart over time.' }));
+        body.appendChild(el('div', { class: 'links' }, [
+          el('button', { type: 'button', class: 'btn primary', text: 'List the tables that span several censuses', on: { click: function () { set({ rm: '1', rs: 'span', rp: '' }); selectTab('roi', true); if (ROI && rendered.roi) { $('rMulti').checked = true; $('rSort').value = 'span'; drawRoi(); } } } }),
+          el('button', { type: 'button', class: 'btn', text: 'Population at each census since 1841 (F1001)', on: { click: function () { openViewer('roi:F1001', true); } } })
+        ]));
+      }
+    }
+    function renderDz(body) {
+      body.appendChild(el('p', { class: 'warn' }, [el('strong', { text: 'Estimated. ' }), 'Data Zones were drawn for the 2021 census. Earlier figures are carried onto them from the areas those censuses used, so only the 2021 values are as published. Each figure says how it was made.']));
+      var status = el('p', { class: 'loading', text: 'Loading the small-area series…' }); body.appendChild(status);
+      (DZ ? Promise.resolve(DZ) : fetchJson(B.compare.dzSeries.file).then(function (d) { DZ = d; DZ.codes = Object.keys(d.rows); return d; })).then(function () {
+        status.remove();
+        var input = el('input', { type: 'search', id: 'dzSearch', placeholder: 'Type a Data Zone or ward name, e.g. Dunsilly', autocomplete: 'off' });
+        var results = el('ul', { class: 'dz-results', hidden: true });
+        body.appendChild(el('div', { class: 'controls' }, [el('div', { class: 'field', style: 'flex:1 1 320px' }, [el('label', { for: 'dzSearch', text: 'Data Zone' }), input])]));
+        body.appendChild(results);
+        var out = el('div'); body.appendChild(out);
+        input.addEventListener('input', function () {
+          var q = input.value.trim().toLowerCase(); clear(results);
+          if (q.length < 2) { results.hidden = true; return; }
+          var hits = DZ.codes.filter(function (c) { return DZ.rows[c][0].toLowerCase().indexOf(q) >= 0 || c.toLowerCase() === q; }).slice(0, 30);
+          results.hidden = !hits.length;
+          hits.forEach(function (c) { results.appendChild(el('li', {}, [el('button', { type: 'button', text: DZ.rows[c][0] + ' (' + c + ')', on: { click: function () { set({ cdz: c }); results.hidden = true; input.value = DZ.rows[c][0]; drawDz(out); } } })])); });
+        });
+        if (S.cdz && DZ.rows[S.cdz]) input.value = DZ.rows[S.cdz][0];
+        drawDz(out);
+      }).catch(function (e) { status.remove(); body.appendChild(retry('Could not load the small-area series: ' + e.message, function () { renderCompareSection(); })); });
+    }
+    function drawDz(out) {
+      clear(out);
+      var code = S.cdz && DZ.rows[S.cdz] ? S.cdz : null;
+      if (!code) { out.appendChild(el('p', { class: 'notes', text: 'Choose a Data Zone to see its series.' })); return; }
+      var r = DZ.rows[code];
+      out.appendChild(el('h3', { class: 'section', text: r[0] + ' (' + code + ')' }));
+      out.appendChild(el('p', { class: 'notes' }, ['In the 1993 district of ' + (r[1] ? r[1].charAt(0) + r[1].slice(1).toLowerCase() : 'unknown') + '. ', mapLink('DZ2021', 'Data Zone boundaries on the map')]));
+      var grid = el('div', { class: 'compare-grid' });
+      DZ.series.forEach(function (s, si) {
+        var vals = r[3 + si] || [];
+        var pts = s.years.map(function (y, i) { return [y, vals[i], s.method[y] === 'actual' ? null : 'est']; }).filter(function (p) { return p[1] != null; });
+        var box = el('div', {}, [el('h4', { text: s.label })]);
+        box.appendChild(lineChart([{ label: s.label, points: pts }], s.unit, s.label + ', ' + r[0], true));
+        var t = el('table', { class: 'data fit' }, [el('thead', {}, [el('tr', {}, [el('th', { scope: 'col', text: 'Census' }), el('th', { scope: 'col', text: 'Value' }), el('th', { scope: 'col', text: 'How' })])])]);
+        var tb = el('tbody');
+        s.years.forEach(function (y, i) { var m = s.method[y]; tb.appendChild(el('tr', {}, [el('th', { scope: 'row', text: String(y) }), el('td', { class: m === 'actual' ? null : 'est', text: fmt(vals[i], s.unit) }), el('td', { class: 'how', text: DZ.methods[m] })])); });
+        t.appendChild(tb); box.appendChild(el('div', { class: 'data-scroll' }, [t]));
+        if (s.note) box.appendChild(el('p', { class: 'notes', text: s.note }));
+        grid.appendChild(box);
+      });
+      out.appendChild(grid);
+    }
+
+    // ---------------------------------------------------------------- boot
+    function retry(msg, fn) {
+      return el('span', {}, [msg + ' ', el('button', { type: 'button', class: 'btn', text: 'Retry', on: { click: fn } })]);
+    }
+    function renderStats() {
+      var c = B.counts; var line = clear($('statLine'));
+      [[c.tables, 'NI tables (' + c.tablesByYear[2001] + ' from 2001, ' + c.tablesByYear[2011] + ' from 2011, ' + c.tablesByYear[2021] + ' from 2021)'], [c.ftbTables, 'NI 2021 flexible tables'], [c.roiCubes, 'ROI census tables'], [c.concepts, 'topics tracked across censuses']].forEach(function (s) {
+        if (s[0] == null) return;
+        line.appendChild(el('li', {}, [el('strong', { text: Number(s[0]).toLocaleString('en-GB') }), ' ' + s[1]]));
+      });
+    }
+    function applyState() {
+      selectTab(S.tab || 'topics');
+      if (!B) return;
+      if (rendered.tables && S.tab === 'tables') { $('q').value = S.q || ''; ['fYear', 'fFamily', 'fTopic', 'fGeo'].forEach(function (id, i) { $(id).value = S[['y', 'fam', 'top', 'geo'][i]] || ''; }); $('fData').checked = S.data === '1'; drawTables(); }
+      if (rendered.roi && ROI && S.tab === 'roi') { $('rq').value = S.rq || ''; $('rYear').value = S.ry || ''; $('rTopic').value = S.rt || ''; $('rGeo').value = S.rg || ''; $('rSort').value = S.rs || 'new'; $('rMulti').checked = S.rm === '1'; drawRoi(); }
+      if (rendered.ftb && FTB && S.tab === 'ftb') drawFtb();
+      if (rendered.compare && S.tab === 'compare') renderCompareSection();
+      if (S.open) { if (!V || $('viewer').hidden || ($('viewer').dataset.id !== S.open)) { $('viewer').dataset.id = S.open; openViewer(S.open); } }
+      else if (!$('viewer').hidden) { V = null; $('viewer').hidden = true; clear($('viewer')); }
+    }
+    function boot() {
+      var notice = $('loadNotice');
+      notice.hidden = false; clear(notice).appendChild(document.createTextNode('Loading the census index…'));
+      fetchJson(BUNDLE).then(function (b) {
+        if (b.schemaVersion !== 2) throw new Error('unexpected index version');
+        B = b; notice.hidden = true;
+        renderStats();
+        applyState();
+      }).catch(function (e) {
+        clear(notice).appendChild(retry('Could not load the census index (' + e.message + ').', boot));
+      });
+    }
+    selectTab(S.tab);
+    boot();
+  })();
   </script>
 </body>
 </html>

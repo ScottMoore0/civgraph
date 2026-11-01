@@ -62,22 +62,90 @@
     {
       "party": "Whig",
       "seats": 1,
-      "stood": 0,
-      "votes": 0,
+      "stood": 1,
+      "votes": 129,
       "colour": "#888888",
-      "share": null
+      "share": 99.23076923076923
+    },
+    {
+      "party": "Conservative",
+      "seats": 0,
+      "stood": 1,
+      "votes": 1,
+      "colour": "#0087dc",
+      "share": 0.7692307692307693
     }
   ],
   "mainLikeTotals": {
-    "validPoll": 0,
+    "validPoll": 130,
     "totalPoll": 0,
     "totalElectorate": 196,
     "totalSpoiled": 0,
     "totalSeats": 1
   },
-  "mainLikeCandidateSummary": [],
+  "mainLikeCandidateSummary": [
+    {
+      "id": "row:Richard Ker|Whig",
+      "personId": 123963,
+      "sourcePersonId": "wikipedia:Richard Ker",
+      "constituency": "Downpatrick",
+      "name": "Richard Ker",
+      "party": "Whig",
+      "colour": "#888888",
+      "firstPrefs": 129,
+      "votes": 129,
+      "constPct": 99.23076923076923,
+      "firstPrefPct": 99.23076923076923,
+      "finalVotes": 129,
+      "elected": true,
+      "electedAt": 1,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Elected",
+      "counts": {
+        "1": {
+          "total": 129,
+          "transfers": 0,
+          "status": "Elected"
+        }
+      },
+      "candidateKey": "richard ker|whig",
+      "name_id": "n-richard-ker"
+    },
+    {
+      "id": "row:William Johnston|Conservative",
+      "personId": 122876,
+      "constituency": "Downpatrick",
+      "name": "William Johnston",
+      "party": "Conservative",
+      "colour": "#0087dc",
+      "firstPrefs": 1,
+      "votes": 1,
+      "constPct": 0.7692307692307693,
+      "firstPrefPct": 0.7692307692307693,
+      "finalVotes": 1,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 1,
+          "transfers": 0,
+          "status": "Not elected"
+        }
+      },
+      "candidateKey": "william johnston|conservative",
+      "name_id": "n-william-johnston"
+    }
+  ],
   "mainLikeCandidateTotals": {
-    "validPoll": 0
+    "validPoll": 130
   },
   "entityIndex": {
     "totalValid": 130,
@@ -106,7 +174,7 @@
       },
       {
         "name": "Conservative",
-        "colour": "#888888",
+        "colour": "#0087dc",
         "firstPrefs": 1,
         "finalVotes": 1,
         "stood": 1,
@@ -155,7 +223,7 @@
         "key": "William Johnston|Conservative",
         "name": "William Johnston",
         "party": "Conservative",
-        "colour": "#888888",
+        "colour": "#0087dc",
         "firstPrefs": 1,
         "finalVotes": 1,
         "electedCount": 0,
@@ -241,7 +309,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not elected",
-          "colour": "#888888",
+          "colour": "#0087dc",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",

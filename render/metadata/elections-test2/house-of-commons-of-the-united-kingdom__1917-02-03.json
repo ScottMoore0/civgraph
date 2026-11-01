@@ -58,7 +58,7 @@
       "seats": 0,
       "stood": 1,
       "votes": 1708,
-      "colour": "#6b7280",
+      "colour": "#99ff66",
       "share": 31.530367362008494
     },
     {
@@ -66,7 +66,7 @@
       "seats": 0,
       "stood": 1,
       "votes": 687,
-      "colour": "#6b7280",
+      "colour": "#cdffab",
       "share": 12.682296474063135
     }
   ],
@@ -74,29 +74,134 @@
     {
       "party": "Sinn Féin",
       "seats": 1,
-      "stood": 0,
-      "votes": 0,
-      "colour": "#888888",
-      "share": null
+      "stood": 1,
+      "votes": 3022,
+      "colour": "#326760",
+      "share": 55.78733616392837
+    },
+    {
+      "party": "Irish Parliamentary",
+      "seats": 0,
+      "stood": 1,
+      "votes": 1708,
+      "colour": "#99ff66",
+      "share": 31.530367362008494
+    },
+    {
+      "party": "Ind. Nationalist",
+      "seats": 0,
+      "stood": 1,
+      "votes": 687,
+      "colour": "#cdffab",
+      "share": 12.682296474063135
     }
   ],
   "mainLikeTotals": {
-    "validPoll": 0,
+    "validPoll": 5417,
     "totalPoll": 0,
     "totalElectorate": 7997,
     "totalSpoiled": 0,
     "totalSeats": 1
   },
-  "mainLikeCandidateSummary": [],
+  "mainLikeCandidateSummary": [
+    {
+      "id": "row:George Noble Plunkett|Sinn Féin",
+      "personId": 123237,
+      "sourcePersonId": "wikipedia:George Noble Plunkett",
+      "constituency": "North Roscommon",
+      "name": "George Noble Plunkett",
+      "party": "Sinn Féin",
+      "colour": "#326760",
+      "firstPrefs": 3022,
+      "votes": 3022,
+      "constPct": 55.78733616392837,
+      "firstPrefPct": 55.78733616392837,
+      "finalVotes": 3022,
+      "elected": true,
+      "electedAt": 1,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Elected",
+      "counts": {
+        "1": {
+          "total": 3022,
+          "transfers": 0,
+          "status": "Elected"
+        }
+      },
+      "candidateKey": "george noble plunkett|sinn féin",
+      "name_id": "n-george-noble-plunkett"
+    },
+    {
+      "id": "row:Thomas Devine|Irish Parliamentary",
+      "personId": 125036,
+      "constituency": "North Roscommon",
+      "name": "Thomas Devine",
+      "party": "Irish Parliamentary",
+      "colour": "#99ff66",
+      "firstPrefs": 1708,
+      "votes": 1708,
+      "constPct": 31.530367362008494,
+      "firstPrefPct": 31.530367362008494,
+      "finalVotes": 1708,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 1708,
+          "transfers": 0,
+          "status": "Not elected"
+        }
+      },
+      "candidateKey": "thomas devine|irish parliamentary",
+      "name_id": "n-thomas-devine"
+    },
+    {
+      "id": "row:Jasper Tully|Ind. Nationalist",
+      "personId": 138148,
+      "constituency": "North Roscommon",
+      "name": "Jasper Tully",
+      "party": "Ind. Nationalist",
+      "colour": "#cdffab",
+      "firstPrefs": 687,
+      "votes": 687,
+      "constPct": 12.682296474063135,
+      "firstPrefPct": 12.682296474063135,
+      "finalVotes": 687,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 687,
+          "transfers": 0,
+          "status": "Not elected"
+        }
+      },
+      "candidateKey": "jasper tully|ind. nationalist",
+      "name_id": "n-jasper-tully"
+    }
+  ],
   "mainLikeCandidateTotals": {
-    "validPoll": 0
+    "validPoll": 5417
   },
   "entityIndex": {
     "totalValid": 5417,
     "parties": [
       {
         "name": "Sinn Féin",
-        "colour": "#888888",
+        "colour": "#326760",
         "firstPrefs": 3022,
         "finalVotes": 3022,
         "stood": 1,
@@ -118,7 +223,7 @@
       },
       {
         "name": "Irish Parliamentary",
-        "colour": "#888888",
+        "colour": "#99ff66",
         "firstPrefs": 1708,
         "finalVotes": 1708,
         "stood": 1,
@@ -140,7 +245,7 @@
       },
       {
         "name": "Ind. Nationalist",
-        "colour": "#888888",
+        "colour": "#cdffab",
         "firstPrefs": 687,
         "finalVotes": 687,
         "stood": 1,
@@ -150,8 +255,8 @@
         ],
         "candidates": [
           {
-            "id": "Jasper Tulley|Ind. Nationalist",
-            "name": "Jasper Tulley",
+            "id": "Jasper Tully|Ind. Nationalist",
+            "name": "Jasper Tully",
             "constituency": "North Roscommon",
             "firstPref": 687,
             "finalVotes": 687,
@@ -167,7 +272,7 @@
         "key": "George Noble Plunkett|Sinn Féin",
         "name": "George Noble Plunkett",
         "party": "Sinn Féin",
-        "colour": "#888888",
+        "colour": "#326760",
         "firstPrefs": 3022,
         "finalVotes": 3022,
         "electedCount": 1,
@@ -189,7 +294,7 @@
         "key": "Thomas Devine|Irish Parliamentary",
         "name": "Thomas Devine",
         "party": "Irish Parliamentary",
-        "colour": "#888888",
+        "colour": "#99ff66",
         "firstPrefs": 1708,
         "finalVotes": 1708,
         "electedCount": 0,
@@ -207,11 +312,11 @@
         "shareOfTotal": 31.530367362008494
       },
       {
-        "id": "Jasper Tulley|Ind. Nationalist",
-        "key": "Jasper Tulley|Ind. Nationalist",
-        "name": "Jasper Tulley",
+        "id": "Jasper Tully|Ind. Nationalist",
+        "key": "Jasper Tully|Ind. Nationalist",
+        "name": "Jasper Tully",
         "party": "Ind. Nationalist",
-        "colour": "#888888",
+        "colour": "#cdffab",
         "firstPrefs": 687,
         "finalVotes": 687,
         "electedCount": 0,
@@ -265,7 +370,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#326760",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -297,7 +402,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not elected",
-          "colour": "#888888",
+          "colour": "#99ff66",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -317,8 +422,8 @@
           "name_id": "n-thomas-devine"
         },
         {
-          "id": "Jasper Tulley|Ind. Nationalist",
-          "name": "Jasper Tulley",
+          "id": "Jasper Tully|Ind. Nationalist",
+          "name": "Jasper Tully",
           "party": "Ind. Nationalist",
           "firstPrefs": 687,
           "finalVotes": 687,
@@ -328,7 +433,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not elected",
-          "colour": "#888888",
+          "colour": "#cdffab",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -344,8 +449,8 @@
               "firstPrefs": 687
             }
           ],
-          "personId": 124706,
-          "name_id": "n-jasper-tulley"
+          "personId": 138148,
+          "name_id": "n-jasper-tully"
         }
       ],
       "elected": [
@@ -361,7 +466,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#326760",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -433,10 +538,10 @@
           "Party_Colour": "#888888",
           "Party_Name": "Ind. Nationalist",
           "Status": "Not elected",
-          "Surname": "Tulley",
+          "Surname": "Tully",
           "Total_Votes": "687",
           "Transfers": "0.00",
-          "candidateName": "Jasper Tulley",
+          "candidateName": "Jasper Tully",
           "id": 2
         }
       ],
@@ -502,10 +607,10 @@
               "Party_Colour": "#888888",
               "Party_Name": "Ind. Nationalist",
               "Status": "Not elected",
-              "Surname": "Tulley",
+              "Surname": "Tully",
               "Total_Votes": "687",
               "Transfers": "0.00",
-              "candidateName": "Jasper Tulley",
+              "candidateName": "Jasper Tully",
               "id": 2
             }
           ]
@@ -532,7 +637,8 @@
           }
         ],
         "checked": "winner agrees with Wikipedia's list of by-elections; 1 figure(s) compared with Walker, all agreeing",
-        "cause": "Death"
+        "cause": "Death",
+        "correctionNote": "The candidate's surname is printed Tully in the report (Count Plunkett 3022; T. J. Devine (U.I.L.) 1708; Jasper Tully (Ind.) 687; majority 1314); Civgraph had Tulley. (British Newspaper Archive, Irish Independent, 10 February 1917, p. 3)"
       },
       "constituencyId": null,
       "constituencyNumber": null,
@@ -541,6 +647,10 @@
         {
           "label": "Cause",
           "text": "Death"
+        },
+        {
+          "label": "Corrected",
+          "text": "The candidate's surname is printed Tully in the report (Count Plunkett 3022; T. J. Devine (U.I.L.) 1708; Jasper Tully (Ind.) 687; majority 1314); Civgraph had Tulley. (British Newspaper Archive, Irish Independent, 10 February 1917, p. 3)"
         }
       ],
       "contestType": "election",

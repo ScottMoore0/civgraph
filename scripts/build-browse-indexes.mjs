@@ -3,7 +3,7 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync
 import path from 'node:path';
 import { resolveApprovedPublicationSources } from './lib/approved-publication-index.mjs';
 import { partyColour, NO_PARTY_RECORDED } from '../src/election-domain.mjs';
-import { isPublicMap } from '../src/public-map.mjs';
+import { isPublicMap, isPublicStatistic, statisticGeographyIds } from '../src/public-map.mjs';
 import { canonicalElectionTitle, compareElectionsNewestFirst, electionResultEntryLabel } from './lib/election-names.mjs';
 import { buildPartyVocabulary, classifyPersonName, stripWikipediaQualifier, NOT_A_PERSON } from './lib/person-name-artefacts.mjs';
 import { referenceOffices, referenceRelatives } from './lib/reference-person-facts.mjs';
@@ -148,8 +148,15 @@ function main() {
   const publicIds = new Set(rawMaps
     .filter((map) => isPublicMap(map, (id) => rawById.get(id), (id) => renderLayerIds.has(id)))
     .map((map) => map.id));
+  // A census statistic is public when the boundary map it is drawn on is (isPublicStatistic):
+  // the filter used to test the statistic's own id against maps.json, which never holds it, so
+  // all 80 dropped out and /browse/maps/data-2021-religion-catholic-ward said "Map not found".
+  const rawEntriesById = new Map(normalizeArray(dataEntriesData.dataEntries).map((entry) => [entry.id, entry]));
+  const statisticGeographies = statisticGeographyIds(rawMaps.filter((map) => publicIds.has(map.id)));
   const maps = buildMaps(mapsData, dataEntriesData, categoriesById, mapClassInfoById, thumbnailIds)
-    .filter((entry) => publicIds.has(entry.id));
+    .filter((entry) => (entry.type === 'data-entry'
+      ? isPublicStatistic(rawEntriesById.get(entry.id), (id) => statisticGeographies.has(id))
+      : publicIds.has(entry.id)));
   let elections = buildElections(electionManifest, thumbnailIds);
   const parentElections = elections;
   const electionDetails = readElectionDetails(parentElections);
@@ -168,6 +175,7 @@ function main() {
     parent.resultEntryCount = parent.resultEntries.length;
   }
   elections = [...parentElections, ...electionResultEntries];
+  applyGazetteElectionExtras(parentElections, electionResultEntries);
   const featureGroups = buildFeatureGroups(spatialIndex, maps, parentElections);
   const { parties, partyDetails, partyNames, folds: partyFolds } = buildParties(partyIds, electionDetails);
   reportPartyLabelFolds(partyFolds);
@@ -411,14 +419,20 @@ function buildMaps(mapsData, dataEntriesData, categoriesById, mapClassInfoById, 
 
   const dataEntries = normalizeArray(dataEntriesData.dataEntries || dataEntriesData.entries).filter((entry) => !entry.hidden).map((entry) => {
     const id = entry.id || entry.slug || slugify(entry.name || entry.title);
+    // The statistics CSVs live on the data bucket, not in the Pages build (data/census/ is
+    // gitignored), so a bare path would link to a 404 on civgraph.net.
+    const csvUrl = entry.csv ? `${CDN_BASE}/${String(entry.csv).replace(/^\/+/, '')}` : null;
+    const licence = entry.source?.licence || null;
+    // "Drawn on Wards 2012", not the bare id "wards-2012".
+    const geographyName = (mapsData.maps || []).find((map) => map.id === entry.geography)?.name || entry.geography;
     return compactObject({
       id,
       slug: slugify(id),
       type: 'data-entry',
       title: cleanText(entry.name || entry.title || id),
-      subtitle: compactJoin([entry.year, entry.region, entry.geography]),
+      subtitle: compactJoin([entry.year, entry.region, geographyName ? `Drawn on ${geographyName}` : null]),
       categoryId: entry.category || 'data-entry',
-      category: entry.categoryName || entry.category || 'Tables and data',
+      category: entry.categoryName || (String(entry.category || '').startsWith('data-') ? 'Census statistics' : entry.category) || 'Tables and data',
       group: entry.group || 'Tables and data',
       description: cleanText(entry.description || ''),
       date: entry.date || entry.year || null,
@@ -427,11 +441,17 @@ function buildMaps(mapsData, dataEntriesData, categoriesById, mapClassInfoById, 
       credits: normalizeArray(entry.credits || entry.credit),
       keywords: normalizeArray(entry.keywords),
       status: 'available',
-      loadable: Boolean(entry.mapId || entry.layerId || entry.sourceMapId),
+      // Drawn on the map as its geography's boundaries shaded by the CSV (src/census-overlay.mjs).
+      loadable: Boolean(entry.mapId || entry.layerId || entry.sourceMapId || (entry.geography && entry.csv)),
+      geography: entry.geography || null,
+      license: licence?.short || licence?.name || null,
       thumbnail: thumbnailForCandidates(thumbnailIds, [entry.layerId, entry.mapId, entry.sourceMapId, entry.geography, id], entry.name || entry.title || id, 'table'),
-      sourceFiles: normalizeFiles([entry.files, entry.file, entry.sourceFile, entry.csv].filter(Boolean)),
-      references: normalizeReferences(entry.references || entry.sources || entry.source),
-      downloads: normalizeLinks([entry.downloads, entry.download, entry.sourceDownload, entry.file, entry.files, entry.csv].filter(Boolean)),
+      sourceFiles: normalizeFiles([entry.files, entry.file, entry.sourceFile, csvUrl].filter(Boolean)),
+      references: [
+        ...normalizeReferences(entry.references || entry.sources || entry.source),
+        ...(licence?.url ? [{ label: `Licence: ${licence.name || licence.short}`, url: licence.url }] : [])
+      ],
+      downloads: normalizeLinks([entry.downloads, entry.download, entry.sourceDownload, entry.file, entry.files, csvUrl].filter(Boolean)),
       interactiveUrl: interactiveLayerUrl(entry.layerId || entry.mapId || entry.sourceMapId || id),
       browseUrl: `/browse/maps/${encodeURIComponent(id)}`
     });
@@ -811,6 +831,35 @@ function buildElectionResultSubEntries(parentElections, electionDetails) {
     }
   }
   return entries.sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')) || String(a.title || '').localeCompare(String(b.title || '')));
+}
+
+/**
+ * Belfast Gazette polling-district schedules and an election's "Rules and costs" (returning
+ * officers' charges, candidates' expense limits, Exchequer issues for returning officers'
+ * expenses), each with its Gazette citation. The committed file is built from the Gazette
+ * extracts by scripts/gazette/build_gazette_election_extras.py, so this build never needs the
+ * Gazette folder. Fields are added only where there is data.
+ */
+function applyGazetteElectionExtras(parents, contests) {
+  const extras = readJson('data/elections/gazette-election-extras.json', { elections: {}, contests: {} });
+  const electionExtras = extras.elections || {};
+  const contestExtras = extras.contests || {};
+  const seen = new Set();
+  for (const parent of parents) {
+    const extra = electionExtras[parent.key];
+    if (!extra) continue;
+    seen.add(parent.key);
+    if (extra.pollingDistricts?.rows?.length) parent.gazettePollingDistricts = extra.pollingDistricts;
+    if (extra.rulesAndCosts?.length) parent.gazetteRulesAndCosts = extra.rulesAndCosts;
+  }
+  for (const contest of contests) {
+    const extra = contestExtras[contest.key];
+    if (!extra) continue;
+    seen.add(contest.key);
+    if (extra.pollingDistricts?.rows?.length) contest.gazettePollingDistricts = extra.pollingDistricts;
+  }
+  const missing = [...Object.keys(electionExtras), ...Object.keys(contestExtras)].filter((key) => !seen.has(key));
+  if (missing.length) console.warn(`Gazette election extras with no Browse record: ${missing.join(', ')}`);
 }
 
 function isNorthernIrelandForumRegionalList(detail, resultName) {
@@ -2233,8 +2282,9 @@ function buildSources(booksData, dataEntriesData, maps, elections, thumbnailIds,
       provider: normalizeArray(entry.provider || entry.providers),
       description: cleanText(entry.description || ''),
       thumbnail: thumbnailForCandidates(thumbnailIds, [entry.layerId, entry.mapId, entry.sourceMapId, entry.geography, entry.id], entry.title || entry.name || id, 'table'),
+      license: entry.source?.licence?.short || entry.source?.licence?.name || null,
       references: normalizeReferences(entry.references || entry.sources || entry.source),
-      downloads: normalizeLinks([entry.downloads, entry.sourceDownload, entry.file, entry.files, entry.csv].filter(Boolean)),
+      downloads: normalizeLinks([entry.downloads, entry.sourceDownload, entry.file, entry.files, entry.csv ? `${CDN_BASE}/${String(entry.csv).replace(/^\/+/, '')}` : null].filter(Boolean)),
       browseUrl: `/browse/sources/${encodeURIComponent(slugify(id))}`
     }));
   }

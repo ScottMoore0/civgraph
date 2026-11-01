@@ -51,7 +51,7 @@
       "seats": 2,
       "stood": 2,
       "votes": 3525,
-      "colour": "#6b7280",
+      "colour": "#9999ff",
       "share": 50.998263888888886
     },
     {
@@ -59,7 +59,7 @@
       "seats": 0,
       "stood": 1,
       "votes": 3387,
-      "colour": "#6b7280",
+      "colour": "#c6e64a",
       "share": 49.00173611111111
     }
   ],
@@ -67,29 +67,128 @@
     {
       "party": "Irish Unionist",
       "seats": 2,
-      "stood": 0,
-      "votes": 0,
-      "colour": "#888888",
-      "share": null
+      "stood": 2,
+      "votes": 3525,
+      "colour": "#9999ff",
+      "share": 50.998263888888886
+    },
+    {
+      "party": "Irish National League",
+      "seats": 0,
+      "stood": 1,
+      "votes": 3387,
+      "colour": "#c6e64a",
+      "share": 49.00173611111111
     }
   ],
   "mainLikeTotals": {
-    "validPoll": 0,
+    "validPoll": 6912,
     "totalPoll": 0,
     "totalElectorate": 8735,
     "totalSpoiled": 0,
     "totalSeats": 2
   },
-  "mainLikeCandidateSummary": [],
+  "mainLikeCandidateSummary": [
+    {
+      "id": "row:James Campbell|Irish Unionist",
+      "personId": 124108,
+      "sourcePersonId": "wikipedia:James Campbell, 1st Baron Glenavy",
+      "constituency": "Dublin St Stephen's Green",
+      "name": "James Campbell",
+      "party": "Irish Unionist",
+      "colour": "#9999ff",
+      "firstPrefs": 3525,
+      "votes": 3525,
+      "constPct": 50.998263888888886,
+      "firstPrefPct": 50.998263888888886,
+      "finalVotes": 3525,
+      "elected": true,
+      "electedAt": 1,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Elected",
+      "counts": {
+        "1": {
+          "total": 3525,
+          "transfers": 0,
+          "status": "Elected"
+        }
+      },
+      "candidateKey": "james campbell|irish unionist",
+      "name_id": "n-james-campbell"
+    },
+    {
+      "id": "row:George Plunkett|Irish National League",
+      "personId": 123237,
+      "sourcePersonId": "wikipedia:George Noble Plunkett",
+      "constituency": "Dublin St Stephen's Green",
+      "name": "George Plunkett",
+      "party": "Irish National League",
+      "colour": "#c6e64a",
+      "firstPrefs": 3387,
+      "votes": 3387,
+      "constPct": 49.00173611111111,
+      "firstPrefPct": 49.00173611111111,
+      "finalVotes": 3387,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 3387,
+          "transfers": 0,
+          "status": "Not elected"
+        }
+      },
+      "candidateKey": "george plunkett|irish national league",
+      "name_id": "n-george-plunkett"
+    },
+    {
+      "id": "row:Dunbar Barton|Irish Unionist",
+      "personId": 122931,
+      "sourcePersonId": "wikipedia:Dunbar Barton",
+      "constituency": "Mid Armagh",
+      "name": "Dunbar Barton",
+      "party": "Irish Unionist",
+      "colour": "#9999ff",
+      "firstPrefs": 0,
+      "votes": 0,
+      "constPct": 0,
+      "firstPrefPct": 0,
+      "finalVotes": 0,
+      "elected": true,
+      "electedAt": 1,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Elected",
+      "counts": {
+        "1": {
+          "total": 0,
+          "transfers": 0,
+          "status": "Elected"
+        }
+      },
+      "candidateKey": "dunbar barton|irish unionist",
+      "name_id": "n-dunbar-barton"
+    }
+  ],
   "mainLikeCandidateTotals": {
-    "validPoll": 0
+    "validPoll": 6912
   },
   "entityIndex": {
     "totalValid": 6912,
     "parties": [
       {
         "name": "Irish Unionist",
-        "colour": "#888888",
+        "colour": "#9999ff",
         "firstPrefs": 3525,
         "finalVotes": 3525,
         "stood": 2,
@@ -120,7 +219,7 @@
       },
       {
         "name": "Irish National League",
-        "colour": "#888888",
+        "colour": "#c6e64a",
         "firstPrefs": 3387,
         "finalVotes": 3387,
         "stood": 1,
@@ -147,7 +246,7 @@
         "key": "James Campbell|Irish Unionist",
         "name": "James Campbell",
         "party": "Irish Unionist",
-        "colour": "#888888",
+        "colour": "#9999ff",
         "firstPrefs": 3525,
         "finalVotes": 3525,
         "electedCount": 1,
@@ -169,7 +268,7 @@
         "key": "Dunbar Barton|Irish Unionist",
         "name": "Dunbar Barton",
         "party": "Irish Unionist",
-        "colour": "#888888",
+        "colour": "#9999ff",
         "firstPrefs": 0,
         "finalVotes": 0,
         "electedCount": 1,
@@ -191,7 +290,7 @@
         "key": "George Plunkett|Irish National League",
         "name": "George Plunkett",
         "party": "Irish National League",
-        "colour": "#888888",
+        "colour": "#c6e64a",
         "firstPrefs": 3387,
         "finalVotes": 3387,
         "electedCount": 0,
@@ -230,8 +329,8 @@
       "spoiled": null,
       "validPoll": 6912,
       "totalVotes": 6912,
-      "colour": "#6b7280",
-      "leadingColour": "#6b7280",
+      "colour": "#9999ff",
+      "leadingColour": "#9999ff",
       "candidates": [
         {
           "id": "James Campbell|Irish Unionist",
@@ -245,7 +344,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#9999ff",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -277,7 +376,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not elected",
-          "colour": "#888888",
+          "colour": "#c6e64a",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -311,7 +410,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#9999ff",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -513,8 +612,8 @@
       "spoiled": null,
       "validPoll": null,
       "totalVotes": null,
-      "colour": "#6b7280",
-      "leadingColour": "#6b7280",
+      "colour": "#9999ff",
+      "leadingColour": "#9999ff",
       "candidates": [
         {
           "id": "Dunbar Barton|Irish Unionist",
@@ -528,7 +627,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#9999ff",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -562,7 +661,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected unopposed",
-          "colour": "#888888",
+          "colour": "#9999ff",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",

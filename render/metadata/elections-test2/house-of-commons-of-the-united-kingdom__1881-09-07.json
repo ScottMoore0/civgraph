@@ -46,7 +46,7 @@
       "seats": 1,
       "stood": 1,
       "votes": 3168,
-      "colour": "#6b7280",
+      "colour": "#ffd700",
       "share": 44.251990501466686
     },
     {
@@ -62,7 +62,7 @@
       "seats": 0,
       "stood": 1,
       "votes": 907,
-      "colour": "#6b7280",
+      "colour": "#99ff66",
       "share": 12.669367230060063
     }
   ],
@@ -70,29 +70,135 @@
     {
       "party": "Liberal",
       "seats": 1,
-      "stood": 0,
-      "votes": 0,
-      "colour": "#888888",
-      "share": null
+      "stood": 1,
+      "votes": 3168,
+      "colour": "#ffd700",
+      "share": 44.251990501466686
+    },
+    {
+      "party": "Conservative",
+      "seats": 0,
+      "stood": 1,
+      "votes": 3084,
+      "colour": "#0087dc",
+      "share": 43.07864226847325
+    },
+    {
+      "party": "Home Rule",
+      "seats": 0,
+      "stood": 1,
+      "votes": 907,
+      "colour": "#99ff66",
+      "share": 12.669367230060063
     }
   ],
   "mainLikeTotals": {
-    "validPoll": 0,
+    "validPoll": 7159,
     "totalPoll": 0,
     "totalElectorate": 8674,
     "totalSpoiled": 0,
     "totalSeats": 1
   },
-  "mainLikeCandidateSummary": [],
+  "mainLikeCandidateSummary": [
+    {
+      "id": "row:Thomas Alexander Dickson|Liberal",
+      "personId": 123062,
+      "sourcePersonId": "wikipedia:Thomas Alexander Dickson",
+      "constituency": "Tyrone",
+      "name": "Thomas Alexander Dickson",
+      "party": "Liberal",
+      "colour": "#ffd700",
+      "firstPrefs": 3168,
+      "votes": 3168,
+      "constPct": 44.251990501466686,
+      "firstPrefPct": 44.251990501466686,
+      "finalVotes": 3168,
+      "elected": true,
+      "electedAt": 1,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Elected",
+      "counts": {
+        "1": {
+          "total": 3168,
+          "transfers": 0,
+          "status": "Elected"
+        }
+      },
+      "candidateKey": "thomas alexander dickson|liberal",
+      "name_id": "n-thomas-alexander-dickson"
+    },
+    {
+      "id": "row:William Knox|Conservative",
+      "personId": 123768,
+      "sourcePersonId": "wikipedia:William Knox (MP)",
+      "constituency": "Tyrone",
+      "name": "William Knox",
+      "party": "Conservative",
+      "colour": "#0087dc",
+      "firstPrefs": 3084,
+      "votes": 3084,
+      "constPct": 43.07864226847325,
+      "firstPrefPct": 43.07864226847325,
+      "finalVotes": 3084,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 3084,
+          "transfers": 0,
+          "status": "Not elected"
+        }
+      },
+      "candidateKey": "william knox|conservative",
+      "name_id": "n-william-knox"
+    },
+    {
+      "id": "row:Harold Rylett|Home Rule",
+      "personId": 124594,
+      "constituency": "Tyrone",
+      "name": "Harold Rylett",
+      "party": "Home Rule",
+      "colour": "#99ff66",
+      "firstPrefs": 907,
+      "votes": 907,
+      "constPct": 12.669367230060063,
+      "firstPrefPct": 12.669367230060063,
+      "finalVotes": 907,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 907,
+          "transfers": 0,
+          "status": "Not elected"
+        }
+      },
+      "candidateKey": "harold rylett|home rule",
+      "name_id": "n-harold-rylett"
+    }
+  ],
   "mainLikeCandidateTotals": {
-    "validPoll": 0
+    "validPoll": 7159
   },
   "entityIndex": {
     "totalValid": 7159,
     "parties": [
       {
         "name": "Liberal",
-        "colour": "#888888",
+        "colour": "#ffd700",
         "firstPrefs": 3168,
         "finalVotes": 3168,
         "stood": 1,
@@ -114,7 +220,7 @@
       },
       {
         "name": "Conservative",
-        "colour": "#888888",
+        "colour": "#0087dc",
         "firstPrefs": 3084,
         "finalVotes": 3084,
         "stood": 1,
@@ -136,7 +242,7 @@
       },
       {
         "name": "Home Rule",
-        "colour": "#888888",
+        "colour": "#99ff66",
         "firstPrefs": 907,
         "finalVotes": 907,
         "stood": 1,
@@ -163,7 +269,7 @@
         "key": "Thomas Alexander Dickson|Liberal",
         "name": "Thomas Alexander Dickson",
         "party": "Liberal",
-        "colour": "#888888",
+        "colour": "#ffd700",
         "firstPrefs": 3168,
         "finalVotes": 3168,
         "electedCount": 1,
@@ -185,7 +291,7 @@
         "key": "William Knox|Conservative",
         "name": "William Knox",
         "party": "Conservative",
-        "colour": "#888888",
+        "colour": "#0087dc",
         "firstPrefs": 3084,
         "finalVotes": 3084,
         "electedCount": 0,
@@ -207,7 +313,7 @@
         "key": "Harold Rylett|Home Rule",
         "name": "Harold Rylett",
         "party": "Home Rule",
-        "colour": "#888888",
+        "colour": "#99ff66",
         "firstPrefs": 907,
         "finalVotes": 907,
         "electedCount": 0,
@@ -246,8 +352,8 @@
       "spoiled": null,
       "validPoll": 7159,
       "totalVotes": 7159,
-      "colour": "#6b7280",
-      "leadingColour": "#6b7280",
+      "colour": "#ffd700",
+      "leadingColour": "#ffd700",
       "candidates": [
         {
           "id": "Thomas Alexander Dickson|Liberal",
@@ -261,7 +367,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#ffd700",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -293,7 +399,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not elected",
-          "colour": "#888888",
+          "colour": "#0087dc",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -325,7 +431,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not elected",
-          "colour": "#888888",
+          "colour": "#99ff66",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -358,7 +464,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#ffd700",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",

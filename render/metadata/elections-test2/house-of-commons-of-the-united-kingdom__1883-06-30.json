@@ -46,7 +46,7 @@
       "seats": 1,
       "stood": 1,
       "votes": 2376,
-      "colour": "#6b7280",
+      "colour": "#99ff66",
       "share": 50.97618536794679
     },
     {
@@ -62,7 +62,7 @@
       "seats": 0,
       "stood": 1,
       "votes": 274,
-      "colour": "#6b7280",
+      "colour": "#ffd700",
       "share": 5.8785668311521135
     }
   ],
@@ -70,29 +70,134 @@
     {
       "party": "Irish Parliamentary",
       "seats": 1,
-      "stood": 0,
-      "votes": 0,
-      "colour": "#888888",
-      "share": null
+      "stood": 1,
+      "votes": 2376,
+      "colour": "#99ff66",
+      "share": 50.97618536794679
+    },
+    {
+      "party": "Conservative",
+      "seats": 0,
+      "stood": 1,
+      "votes": 2011,
+      "colour": "#0087dc",
+      "share": 43.145247800901096
+    },
+    {
+      "party": "Liberal",
+      "seats": 0,
+      "stood": 1,
+      "votes": 274,
+      "colour": "#ffd700",
+      "share": 5.8785668311521135
     }
   ],
   "mainLikeTotals": {
-    "validPoll": 0,
+    "validPoll": 4661,
     "totalPoll": 0,
     "totalElectorate": 5281,
     "totalSpoiled": 0,
     "totalSeats": 1
   },
-  "mainLikeCandidateSummary": [],
+  "mainLikeCandidateSummary": [
+    {
+      "id": "row:Tim Healy|Irish Parliamentary",
+      "personId": 122868,
+      "sourcePersonId": "wikipedia:Tim Healy (politician)",
+      "constituency": "Monaghan",
+      "name": "Tim Healy",
+      "party": "Irish Parliamentary",
+      "colour": "#99ff66",
+      "firstPrefs": 2376,
+      "votes": 2376,
+      "constPct": 50.97618536794679,
+      "firstPrefPct": 50.97618536794679,
+      "finalVotes": 2376,
+      "elected": true,
+      "electedAt": 1,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Elected",
+      "counts": {
+        "1": {
+          "total": 2376,
+          "transfers": 0,
+          "status": "Elected"
+        }
+      },
+      "candidateKey": "tim healy|irish parliamentary",
+      "name_id": "n-tim-healy"
+    },
+    {
+      "id": "row:John Monroe|Conservative",
+      "personId": 124786,
+      "constituency": "Monaghan",
+      "name": "John Monroe",
+      "party": "Conservative",
+      "colour": "#0087dc",
+      "firstPrefs": 2011,
+      "votes": 2011,
+      "constPct": 43.145247800901096,
+      "firstPrefPct": 43.145247800901096,
+      "finalVotes": 2011,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 2011,
+          "transfers": 0,
+          "status": "Not elected"
+        }
+      },
+      "candidateKey": "john monroe|conservative",
+      "name_id": "n-john-monroe"
+    },
+    {
+      "id": "row:Henry Pringle|Liberal",
+      "personId": 124615,
+      "constituency": "Monaghan",
+      "name": "Henry Pringle",
+      "party": "Liberal",
+      "colour": "#ffd700",
+      "firstPrefs": 274,
+      "votes": 274,
+      "constPct": 5.8785668311521135,
+      "firstPrefPct": 5.8785668311521135,
+      "finalVotes": 274,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 274,
+          "transfers": 0,
+          "status": "Not elected"
+        }
+      },
+      "candidateKey": "henry pringle|liberal",
+      "name_id": "n-henry-pringle"
+    }
+  ],
   "mainLikeCandidateTotals": {
-    "validPoll": 0
+    "validPoll": 4661
   },
   "entityIndex": {
     "totalValid": 4661,
     "parties": [
       {
         "name": "Irish Parliamentary",
-        "colour": "#888888",
+        "colour": "#99ff66",
         "firstPrefs": 2376,
         "finalVotes": 2376,
         "stood": 1,
@@ -114,7 +219,7 @@
       },
       {
         "name": "Conservative",
-        "colour": "#888888",
+        "colour": "#0087dc",
         "firstPrefs": 2011,
         "finalVotes": 2011,
         "stood": 1,
@@ -136,7 +241,7 @@
       },
       {
         "name": "Liberal",
-        "colour": "#888888",
+        "colour": "#ffd700",
         "firstPrefs": 274,
         "finalVotes": 274,
         "stood": 1,
@@ -163,7 +268,7 @@
         "key": "Tim Healy|Irish Parliamentary",
         "name": "Tim Healy",
         "party": "Irish Parliamentary",
-        "colour": "#888888",
+        "colour": "#99ff66",
         "firstPrefs": 2376,
         "finalVotes": 2376,
         "electedCount": 1,
@@ -185,7 +290,7 @@
         "key": "John Monroe|Conservative",
         "name": "John Monroe",
         "party": "Conservative",
-        "colour": "#888888",
+        "colour": "#0087dc",
         "firstPrefs": 2011,
         "finalVotes": 2011,
         "electedCount": 0,
@@ -207,7 +312,7 @@
         "key": "Henry Pringle|Liberal",
         "name": "Henry Pringle",
         "party": "Liberal",
-        "colour": "#888888",
+        "colour": "#ffd700",
         "firstPrefs": 274,
         "finalVotes": 274,
         "electedCount": 0,
@@ -246,8 +351,8 @@
       "spoiled": null,
       "validPoll": 4661,
       "totalVotes": 4661,
-      "colour": "#6b7280",
-      "leadingColour": "#6b7280",
+      "colour": "#99ff66",
+      "leadingColour": "#99ff66",
       "candidates": [
         {
           "id": "Tim Healy|Irish Parliamentary",
@@ -261,7 +366,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#99ff66",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -293,7 +398,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not elected",
-          "colour": "#888888",
+          "colour": "#0087dc",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -324,7 +429,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not elected",
-          "colour": "#888888",
+          "colour": "#ffd700",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -357,7 +462,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#99ff66",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",

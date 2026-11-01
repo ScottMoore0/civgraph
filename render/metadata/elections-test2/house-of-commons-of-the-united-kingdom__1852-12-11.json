@@ -62,22 +62,91 @@
     {
       "party": "Whig",
       "seats": 1,
-      "stood": 0,
-      "votes": 0,
+      "stood": 1,
+      "votes": 99,
       "colour": "#888888",
-      "share": null
+      "share": 53.2258064516129
+    },
+    {
+      "party": "Conservative",
+      "seats": 0,
+      "stood": 1,
+      "votes": 87,
+      "colour": "#0087dc",
+      "share": 46.774193548387096
     }
   ],
   "mainLikeTotals": {
-    "validPoll": 0,
+    "validPoll": 186,
     "totalPoll": 0,
     "totalElectorate": 217,
     "totalSpoiled": 0,
     "totalSeats": 1
   },
-  "mainLikeCandidateSummary": [],
+  "mainLikeCandidateSummary": [
+    {
+      "id": "row:Roger Johnson Smyth|Whig",
+      "personId": 124994,
+      "sourcePersonId": "wikipedia:Roger Johnson Smyth",
+      "constituency": "Lisburn",
+      "name": "Roger Johnson Smyth",
+      "party": "Whig",
+      "colour": "#888888",
+      "firstPrefs": 99,
+      "votes": 99,
+      "constPct": 53.2258064516129,
+      "firstPrefPct": 53.2258064516129,
+      "finalVotes": 99,
+      "elected": true,
+      "electedAt": 1,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Elected",
+      "counts": {
+        "1": {
+          "total": 99,
+          "transfers": 0,
+          "status": "Elected"
+        }
+      },
+      "candidateKey": "roger johnson smyth|whig",
+      "name_id": "n-roger-johnson-smyth"
+    },
+    {
+      "id": "row:John Inglis|Conservative",
+      "personId": 124764,
+      "sourcePersonId": "wikipedia:John Inglis, Lord Glencorse",
+      "constituency": "Lisburn",
+      "name": "John Inglis",
+      "party": "Conservative",
+      "colour": "#0087dc",
+      "firstPrefs": 87,
+      "votes": 87,
+      "constPct": 46.774193548387096,
+      "firstPrefPct": 46.774193548387096,
+      "finalVotes": 87,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 87,
+          "transfers": 0,
+          "status": "Not elected"
+        }
+      },
+      "candidateKey": "john inglis|conservative",
+      "name_id": "n-john-inglis"
+    }
+  ],
   "mainLikeCandidateTotals": {
-    "validPoll": 0
+    "validPoll": 186
   },
   "entityIndex": {
     "totalValid": 186,
@@ -106,7 +175,7 @@
       },
       {
         "name": "Conservative",
-        "colour": "#888888",
+        "colour": "#0087dc",
         "firstPrefs": 87,
         "finalVotes": 87,
         "stood": 1,
@@ -155,7 +224,7 @@
         "key": "John Inglis|Conservative",
         "name": "John Inglis",
         "party": "Conservative",
-        "colour": "#888888",
+        "colour": "#0087dc",
         "firstPrefs": 87,
         "finalVotes": 87,
         "electedCount": 0,
@@ -241,7 +310,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not elected",
-          "colour": "#888888",
+          "colour": "#0087dc",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",

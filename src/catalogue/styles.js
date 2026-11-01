@@ -11,7 +11,7 @@
  */
 /** The folded filters, shared by two width rules below. */
 const FOLD = `
-  .cn-filters-toggle { display: inline-flex; }
+  .cn-filters-toggle { display: inline-flex; position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   .cn-toolbar:not([data-open]) .cn-filters { display: none; }
   .cn-frow > .cn-label { min-width: 0; width: 100%; }
   .cn-toolbar { grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: 10px; }
@@ -24,6 +24,17 @@ const FOLD = `
   .cn-view:has(.cn-toolbar[data-open]) .cn-keyfoot.cn-keyfoot { display: none; }`;
 
 export const CATALOGUE_CSS = `
+/* The Filters button beside the search bar (outside .cn, so on the site's own tokens). */
+.cn-filters-button { display: inline-flex; align-items: center; gap: 5px; flex: none; align-self: center; min-height: 36px; padding: 4px 10px;
+  border: 1px solid var(--color-border, rgba(127,127,127,.4)); border-radius: 10px; background: var(--color-surface, #fff); color: var(--color-text, inherit);
+  font: 600 13px/1 var(--font-sans, system-ui, sans-serif); cursor: pointer; }
+.cn-filters-button[hidden] { display: none; }
+.cn-filters-button[aria-expanded="true"] { border-color: var(--color-primary, #0f766e); }
+.cn-filters-button svg { width: 16px; height: 16px; }
+/* On a phone the button is its icon (and badge) only; the label stays for screen readers. */
+@media (max-width: 520px) { .cn-filters-button { padding: 4px 8px; } .cn-filters-button .cn-filters-button__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; } }
+.cn-filters-button .cn-badge { display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: var(--color-primary, #0f766e); color: #fff; font-size: 11px; }
+
 .cn { --cn-surface: var(--color-surface, #fff); --cn-raised: var(--color-surface-elevated, #f7fafc);
   --cn-text: var(--color-text, #1a202c); --cn-muted: var(--color-text-muted, #5f6b7a); --cn-line: var(--color-border, #e2e8f0);
   --cn-hover: color-mix(in srgb, var(--cn-text) 7%, transparent); --cn-press: color-mix(in srgb, var(--cn-text) 12%, transparent);
@@ -307,8 +318,13 @@ export const CATALOGUE_CSS = `
 .cn-block__head--sticky { position: sticky; top: calc(var(--cn-sticky) + var(--cn-tabs-h, 52px)); z-index: 4; background: var(--cn-surface); box-shadow: 0 -12px 0 var(--cn-surface);
   margin: -10px -12px 6px; padding: 10px 12px 6px; border-radius: 12px 12px 0 0; }
 .cn-block__toggle { margin-left: auto; font-size: 12.5px; font-weight: 600; }
-.cn-place__kind { flex: none; font-size: 12px; font-weight: 500; color: var(--cn-muted); white-space: nowrap; }
-.cn-places, .cn-people, .cn-place__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.cn-place__kind { flex: 0 1 auto; min-width: 0; font-size: 12px; font-weight: 500; color: var(--cn-muted); overflow-wrap: anywhere; }
+.cn-places, .cn-people, .cn-place__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; grid-template-columns: minmax(0, 1fr); }
+/* A grid item, a details and a flex row all default to their content's width; with the place's
+   kind kept on one line ("2006 Connacht Electoral Division, 2026") that pushed the list past a
+   phone's edge and cut the kind off. They shrink to the pane, and the kind wraps under itself. */
+.cn-place, .cn-place > details, .cn-place summary, .cn-place__item { min-width: 0; }
+.cn-place__name { min-width: 0; overflow-wrap: break-word; }
 .cn-place summary { display: flex; align-items: center; gap: 10px; min-height: 40px; cursor: pointer; list-style: none; padding: 2px 4px; border-radius: 8px; }
 .cn-place summary::-webkit-details-marker { display: none; }
 .cn-place summary:hover { background: var(--cn-hover); }
@@ -321,6 +337,18 @@ export const CATALOGUE_CSS = `
 .cn-place__item { display: flex; align-items: center; gap: 10px; min-height: 40px; }
 .cn-place__map { flex: 1; min-width: 0; text-align: left; overflow-wrap: anywhere; }
 .cn-place__item .catalogue-search__action-strip { display: flex; gap: 4px; flex: none; }
+/* A phone-width pane: a place's kind runs under its name, and each of its maps reads as name,
+   kind, then its buttons, so nothing is squeezed to a sliver or pushed past the edge. */
+@container (max-width: 470px) {
+  .cn-place summary { display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; column-gap: 10px; row-gap: 0; align-content: center; padding-block: 4px; }
+  .cn-place summary > .cn-place__thumb { grid-row: 1 / span 2; }
+  .cn-place summary > .cn-place__name { grid-column: 2; grid-row: 1; }
+  .cn-place summary > .cn-place__kind { grid-column: 2; grid-row: 2; }
+  .cn-place summary > .cn-place__chev { grid-column: 3; grid-row: 1 / span 2; margin-left: 0; }
+  .cn-place__item { display: grid; grid-template-columns: 34px minmax(0, 1fr); column-gap: 10px; row-gap: 2px; padding: 4px 0; }
+  .cn-place__item > .cn-place__thumb { grid-row: 1 / span 3; align-self: start; }
+  .cn-place__item > .cn-place__map, .cn-place__item > .cn-place__kind, .cn-place__item > .catalogue-search__action-strip { grid-column: 2; }
+}
 .cn-addresses { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
 .cn-address { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 40px; padding: 4px 6px; border: 0; border-radius: 8px;
   background: none; color: var(--cn-text); font: inherit; text-align: left; cursor: pointer; }
@@ -450,6 +478,7 @@ a.cn-iconbtn { text-decoration: none; }
 /* Contents: a button left of the search box (the row gains a column for it) and a panel from the
    right of the pane, over a dimmed pane. Outside .cn, so it names the site's tokens directly. */
 .catalogue-sticky-shell.cn-shell--contents { grid-template-columns: auto minmax(0, 1fr) auto; }
+.catalogue-sticky-shell.cn-shell--contents:has(> .cn-filters-button:not([hidden])) { grid-template-columns: auto minmax(0, 1fr) auto auto; }
 .catalogue-sticky-shell .cn-contents-nav { justify-self: start; }
 .cn-drawer { position: fixed; z-index: 9000; overflow: hidden; font-family: var(--font-sans, system-ui, sans-serif); color: var(--color-text, #1a202c); }
 .cn-drawer__scrim { position: absolute; inset: 0; background: rgba(10, 14, 20, .5); opacity: 0; transition: opacity .2s ease; }

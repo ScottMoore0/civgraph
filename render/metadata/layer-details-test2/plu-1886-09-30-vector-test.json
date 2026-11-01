@@ -12,7 +12,7 @@
     "Phelim Birch",
     "Paddy Matthews"
   ],
-  "description": "The 161 Poor Law Unions of Ireland after Donaghmore Union was dissolved on 30 Sep 1886, its divisions going to Abbeyleix and Roscrea, until Gortin was dissolved on 1 Apr 1889. Derived from the 5 Apr 1891 map with Gortin given back the divisions it held in 1851; divisions that moved between unions at dates not established between 1851 and 1891 are drawn as in 1891. Donaghmore's divisions are placed as the 1911 Queen's County table places them, the 1891 report not being held (workhouses.org.uk also names Urlingford, which has none of them by 1911). See Poor Law Unions 5 Apr 1891 for the method, the checks against the printed areas and the approximations (King's County, Queen's County, Carlow), all of which apply here. The map is simplified for display by a coverage simplification of the division map, so neighbouring unions keep common edges (95% of divisions lie within 10 m of the full lines); the full-resolution file is among the downloads.",
+  "description": "The 161 Poor Law Unions of Ireland after Donaghmore Union was dissolved on 30 Sep 1886, its divisions going to Abbeyleix and Roscrea, until Gortin was dissolved on 1 Apr 1889. Derived from the 5 Apr 1891 map with Gortin given back the divisions it held in 1851; divisions that moved between unions at dates not established between 1851 and 1891 are drawn as in 1891. Donaghmore's divisions are placed as Table VI of the 1891 Queen's County report places them, with Kyle South in Urlingford (as workhouses.org.uk also has it; it was in Roscrea by 1901). See Poor Law Unions 5 Apr 1891 for the method and the checks against the printed areas, which apply here. The map is simplified for display by a coverage simplification of the division map, so neighbouring unions keep common edges (95% of divisions lie within 10 m of the full lines); the full-resolution file is among the downloads.",
   "renderer": "maplibre",
   "sourceType": "pmtiles",
   "geometryType": "polygon",
@@ -44,11 +44,6 @@
       "url": "https://www.workhouses.org.uk/Donaghmore/"
     },
     {
-      "label": "Census of Ireland 1911, Queen's County, Table VI",
-      "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/",
-      "note": "The rural districts, and so the unions, of the former Donaghmore divisions."
-    },
-    {
       "label": "The Census of Ireland for the year 1851, Part I, county reports: 'Poor Law Unions and Electoral Divisions'",
       "url": "https://www.cso.ie/en/statistics/historicalreports/census1851/",
       "note": "The divisions of Gortin Union."
@@ -56,6 +51,16 @@
     {
       "label": "Civgraph District Electoral Divisions, 1907-12 (Connacht 1911 by Paddy Matthews; Leinster 29 Apr 1910 by Phelim Birch; Munster Apr 1907; Ulster 1912)",
       "note": "Geometry source: each union is the dissolve of the 1907-12 divisions matched to its divisions in the census tables."
+    },
+    {
+      "label": "Census of Ireland 1891, Area, houses and population, Vol. I, Queen's County, Table VI",
+      "url": "https://www.cso.ie/en/media/csoie/statistics/archive/census1891/438_Area,_houses,_and_population,_Vol._I,_Ireland,_1891_Queen%27s_County.pdf",
+      "note": "Table VI places the former Donaghmore divisions: Kyle South in Urlingford Union (p. 11), the rest in Abbeyleix and Roscrea."
+    },
+    {
+      "label": "Census of Ireland 1891, Area, houses and population, Vol. I, King's County, Table VI",
+      "url": "https://www.cso.ie/en/media/csoie/statistics/archive/census1891/438_Area,_houses,_and_population,_Vol._I,_Ireland,_1891_King%27s_County.pdf",
+      "note": "The King's County divisions of each union (pp. 8-10), transcribed by hand from the page images (CSO, CC BY 4.0)."
     }
   ],
   "sourceDownloads": [
@@ -226,21 +231,16 @@
     "maxTileBytes": 96251
   },
   "featureIndexUrl": "/render/metadata/feature-indexes/plu-1886-09-30-vector-test.json",
-  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/plu-1886-09-30-vector-test.pmtiles",
+  "tileUrl": "/render/pmtiles/generated/plu-1886-09-30-vector-test.pmtiles",
   "tilesFallback": "/render/tiles/generated/plu-1886-09-30/{z}/{x}/{y}.pbf",
   "tilePackage": {
     "preferred": true,
     "localPath": "render/pmtiles/generated/plu-1886-09-30-vector-test.pmtiles",
     "url": "/render/pmtiles/generated/plu-1886-09-30-vector-test.pmtiles",
-    "bytes": 5900083,
+    "bytes": 5910643,
     "maxGithubBytes": 99614720,
-    "generatedAt": "2026-11-01T06:00:02.813Z",
+    "generatedAt": "2026-11-01T15:15:34.580Z",
     "fallback": "/render/tiles/generated/plu-1886-09-30/{z}/{x}/{y}.pbf",
-    "sourceSha256": "bffe1f80838c20f866cb14153362225f6153ffc4e9f445c7fe6cbd763ce650d2",
-    "serving": "cdn",
-    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/plu-1886-09-30-vector-test.pmtiles",
-    "r2Key": "data/maps/test/pmtiles/generated/plu-1886-09-30-vector-test.pmtiles",
-    "localUrl": "/render/pmtiles/generated/plu-1886-09-30-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-11-01T11:50:17.039Z"
+    "sourceSha256": "9567b158d59355d547134810ee9cf92ee43bb96c38b97d692ca4f56a6684fd45"
   }
 }

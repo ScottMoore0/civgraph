@@ -1,4 +1,26 @@
 import { compositeChildIds } from './map-relations.mjs';
+import { licenceFor } from './census-overlay.mjs';
+
+/**
+ * A census statistic as the catalogue and the map read a map: flagged, credited to its
+ * publisher, and with its source and licence as a reference, so its Details page cites it.
+ */
+function dataEntryAsMap(entry) {
+  const source = entry.source || {};
+  const licence = licenceFor(entry);
+  const publisher = /\bNISRA\b/.test(source.title || '') ? 'NISRA'
+    : /Registrar General Northern Ireland/i.test(source.title || '') ? 'Registrar General for Northern Ireland'
+      : /\bCSO\b/.test(source.title || '') ? 'CSO' : null;
+  const references = source.title || source.url
+    ? [{ label: source.title || source.url, url: source.url || null, note: licence ? `Licence: ${licence.name}` : null }]
+    : [];
+  return {
+    ...entry,
+    isDataEntry: true,
+    provider: entry.provider || (publisher ? [publisher] : []),
+    references: entry.references || references
+  };
+}
 
 /**
  * Is the reorganised catalogue being previewed? Read from the query string each time rather
@@ -175,7 +197,7 @@ class DataService {
     // type marker so callers can branch.
     const dataEntries = this.maps?.dataEntries || [];
     const dataEntry = dataEntries.find(e => e.id === id);
-    if (dataEntry) return { ...dataEntry, isDataEntry: true };
+    if (dataEntry) return dataEntryAsMap(dataEntry);
 
     // Search within group variants and merge parent properties.
     for (const map of maps) {

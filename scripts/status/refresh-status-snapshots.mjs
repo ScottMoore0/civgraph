@@ -147,8 +147,13 @@ function census() {
   const explorerYears = new Set();
   const bundle = path.join(base, 'explorer-bundle.json');
   if (existsSync(bundle)) {
+    // A year counts as "in the Census Explorer" only when the explorer links that year's own
+    // report AND shows at least one figure from it. A bare year count linking somewhere else
+    // (the 2026-11-01 review found exactly that) does not count.
     for (const c of JSON.parse(readFileSync(bundle, 'utf8')).concepts || []) {
-      for (const cell of c.historicalYearCells || []) if (cell.available) explorerYears.add(cell.year);
+      for (const cell of c.historicalYearCells || []) {
+        if (cell.available && cell.reports?.length && cell.figures?.length) explorerYears.add(cell.year);
+      }
       for (const cell of c.digitalYearCells || []) if (cell.available) explorerYears.add(cell.year);
     }
   }

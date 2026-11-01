@@ -46,7 +46,7 @@
       "seats": 1,
       "stood": 1,
       "votes": 2701,
-      "colour": "#6b7280",
+      "colour": "#ffd700",
       "share": 56.1421741841613
     },
     {
@@ -62,7 +62,7 @@
       "seats": 0,
       "stood": 1,
       "votes": 56,
-      "colour": "#6b7280",
+      "colour": "#99ff66",
       "share": 1.1639991685720223
     }
   ],
@@ -70,29 +70,135 @@
     {
       "party": "Liberal",
       "seats": 1,
-      "stood": 0,
-      "votes": 0,
-      "colour": "#888888",
-      "share": null
+      "stood": 1,
+      "votes": 2701,
+      "colour": "#ffd700",
+      "share": 56.1421741841613
+    },
+    {
+      "party": "Conservative",
+      "seats": 0,
+      "stood": 1,
+      "votes": 2054,
+      "colour": "#0087dc",
+      "share": 42.69382664726668
+    },
+    {
+      "party": "Home Rule",
+      "seats": 0,
+      "stood": 1,
+      "votes": 56,
+      "colour": "#99ff66",
+      "share": 1.1639991685720223
     }
   ],
   "mainLikeTotals": {
-    "validPoll": 0,
+    "validPoll": 4811,
     "totalPoll": 0,
     "totalElectorate": 5896,
     "totalSpoiled": 0,
     "totalSeats": 1
   },
-  "mainLikeCandidateSummary": [],
+  "mainLikeCandidateSummary": [
+    {
+      "id": "row:Andrew Porter|Liberal",
+      "personId": 124356,
+      "sourcePersonId": "wikipedia:Sir Andrew Porter, 1st Baronet",
+      "constituency": "Londonderry",
+      "name": "Andrew Porter",
+      "party": "Liberal",
+      "colour": "#ffd700",
+      "firstPrefs": 2701,
+      "votes": 2701,
+      "constPct": 56.1421741841613,
+      "firstPrefPct": 56.1421741841613,
+      "finalVotes": 2701,
+      "elected": true,
+      "electedAt": 1,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Elected",
+      "counts": {
+        "1": {
+          "total": 2701,
+          "transfers": 0,
+          "status": "Elected"
+        }
+      },
+      "candidateKey": "andrew porter|liberal",
+      "name_id": "n-andrew-porter"
+    },
+    {
+      "id": "row:Samuel Wilson|Conservative",
+      "personId": 125010,
+      "sourcePersonId": "wikipedia:Samuel Wilson (Portsmouth MP)",
+      "constituency": "Londonderry",
+      "name": "Samuel Wilson",
+      "party": "Conservative",
+      "colour": "#0087dc",
+      "firstPrefs": 2054,
+      "votes": 2054,
+      "constPct": 42.69382664726668,
+      "firstPrefPct": 42.69382664726668,
+      "finalVotes": 2054,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 2054,
+          "transfers": 0,
+          "status": "Not elected"
+        }
+      },
+      "candidateKey": "samuel wilson|conservative",
+      "name_id": "n-samuel-wilson"
+    },
+    {
+      "id": "row:Charles John Dempsey|Home Rule",
+      "personId": 124403,
+      "constituency": "Londonderry",
+      "name": "Charles John Dempsey",
+      "party": "Home Rule",
+      "colour": "#99ff66",
+      "firstPrefs": 56,
+      "votes": 56,
+      "constPct": 1.1639991685720223,
+      "firstPrefPct": 1.1639991685720223,
+      "finalVotes": 56,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 56,
+          "transfers": 0,
+          "status": "Not elected"
+        }
+      },
+      "candidateKey": "charles john dempsey|home rule",
+      "name_id": "n-charles-john-dempsey"
+    }
+  ],
   "mainLikeCandidateTotals": {
-    "validPoll": 0
+    "validPoll": 4811
   },
   "entityIndex": {
     "totalValid": 4811,
     "parties": [
       {
         "name": "Liberal",
-        "colour": "#888888",
+        "colour": "#ffd700",
         "firstPrefs": 2701,
         "finalVotes": 2701,
         "stood": 1,
@@ -114,7 +220,7 @@
       },
       {
         "name": "Conservative",
-        "colour": "#888888",
+        "colour": "#0087dc",
         "firstPrefs": 2054,
         "finalVotes": 2054,
         "stood": 1,
@@ -136,7 +242,7 @@
       },
       {
         "name": "Home Rule",
-        "colour": "#888888",
+        "colour": "#99ff66",
         "firstPrefs": 56,
         "finalVotes": 56,
         "stood": 1,
@@ -163,7 +269,7 @@
         "key": "Andrew Porter|Liberal",
         "name": "Andrew Porter",
         "party": "Liberal",
-        "colour": "#888888",
+        "colour": "#ffd700",
         "firstPrefs": 2701,
         "finalVotes": 2701,
         "electedCount": 1,
@@ -185,7 +291,7 @@
         "key": "Samuel Wilson|Conservative",
         "name": "Samuel Wilson",
         "party": "Conservative",
-        "colour": "#888888",
+        "colour": "#0087dc",
         "firstPrefs": 2054,
         "finalVotes": 2054,
         "electedCount": 0,
@@ -207,7 +313,7 @@
         "key": "Charles John Dempsey|Home Rule",
         "name": "Charles John Dempsey",
         "party": "Home Rule",
-        "colour": "#888888",
+        "colour": "#99ff66",
         "firstPrefs": 56,
         "finalVotes": 56,
         "electedCount": 0,
@@ -246,8 +352,8 @@
       "spoiled": null,
       "validPoll": 4811,
       "totalVotes": 4811,
-      "colour": "#6b7280",
-      "leadingColour": "#6b7280",
+      "colour": "#ffd700",
+      "leadingColour": "#ffd700",
       "candidates": [
         {
           "id": "Andrew Porter|Liberal",
@@ -261,7 +367,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#ffd700",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -293,7 +399,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not elected",
-          "colour": "#888888",
+          "colour": "#0087dc",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -325,7 +431,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not elected",
-          "colour": "#888888",
+          "colour": "#99ff66",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",
@@ -358,7 +464,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Elected",
-          "colour": "#888888",
+          "colour": "#ffd700",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",

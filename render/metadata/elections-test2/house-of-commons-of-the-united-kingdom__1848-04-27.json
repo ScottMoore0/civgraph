@@ -62,22 +62,91 @@
     {
       "party": "Whig",
       "seats": 1,
-      "stood": 0,
-      "votes": 0,
+      "stood": 1,
+      "votes": 368,
       "colour": "#888888",
-      "share": null
+      "share": 50.89903181189488
+    },
+    {
+      "party": "Conservative",
+      "seats": 0,
+      "stood": 1,
+      "votes": 355,
+      "colour": "#0087dc",
+      "share": 49.100968188105114
     }
   ],
   "mainLikeTotals": {
-    "validPoll": 0,
+    "validPoll": 723,
     "totalPoll": 0,
     "totalElectorate": 1386,
     "totalSpoiled": 0,
     "totalSeats": 1
   },
-  "mainLikeCandidateSummary": [],
+  "mainLikeCandidateSummary": [
+    {
+      "id": "row:Ralph Howard|Whig",
+      "personId": 123808,
+      "sourcePersonId": "wikipedia:Sir Ralph Howard, 1st Baronet",
+      "constituency": "Wicklow",
+      "name": "Ralph Howard",
+      "party": "Whig",
+      "colour": "#888888",
+      "firstPrefs": 368,
+      "votes": 368,
+      "constPct": 50.89903181189488,
+      "firstPrefPct": 50.89903181189488,
+      "finalVotes": 368,
+      "elected": true,
+      "electedAt": 1,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Elected",
+      "counts": {
+        "1": {
+          "total": 368,
+          "transfers": 0,
+          "status": "Elected"
+        }
+      },
+      "candidateKey": "ralph howard|whig",
+      "name_id": "n-ralph-howard"
+    },
+    {
+      "id": "row:Charles Monck|Conservative",
+      "personId": 124412,
+      "sourcePersonId": "wikipedia:Charles Monck, 4th Viscount Monck",
+      "constituency": "Wicklow",
+      "name": "Charles Monck",
+      "party": "Conservative",
+      "colour": "#0087dc",
+      "firstPrefs": 355,
+      "votes": 355,
+      "constPct": 49.100968188105114,
+      "firstPrefPct": 49.100968188105114,
+      "finalVotes": 355,
+      "elected": false,
+      "electedAt": null,
+      "excluded": false,
+      "excludedAt": null,
+      "resolvedCount": 1,
+      "countDisplay": "1/1",
+      "status": "Not Elected",
+      "counts": {
+        "1": {
+          "total": 355,
+          "transfers": 0,
+          "status": "Not elected"
+        }
+      },
+      "candidateKey": "charles monck|conservative",
+      "name_id": "n-charles-monck"
+    }
+  ],
   "mainLikeCandidateTotals": {
-    "validPoll": 0
+    "validPoll": 723
   },
   "entityIndex": {
     "totalValid": 723,
@@ -106,7 +175,7 @@
       },
       {
         "name": "Conservative",
-        "colour": "#888888",
+        "colour": "#0087dc",
         "firstPrefs": 355,
         "finalVotes": 355,
         "stood": 1,
@@ -155,7 +224,7 @@
         "key": "Charles Monck|Conservative",
         "name": "Charles Monck",
         "party": "Conservative",
-        "colour": "#888888",
+        "colour": "#0087dc",
         "firstPrefs": 355,
         "finalVotes": 355,
         "electedCount": 0,
@@ -241,7 +310,7 @@
           "excluded": false,
           "excludedAt": null,
           "status": "Not elected",
-          "colour": "#888888",
+          "colour": "#0087dc",
           "gender": "",
           "dailAbbreviation": "",
           "officialCandidateId": "",

@@ -21,15 +21,17 @@
  *   node scripts/validate-public-map-count.mjs
  */
 import { readFileSync } from 'node:fs';
-import { isPublicMap } from '../src/public-map.mjs';
+import { isPublicMap, isPublicStatistic, statisticGeographyIds } from '../src/public-map.mjs';
 
 const CATALOGUE = 'data/database/maps.json';
 const RENDER = 'render/metadata/maps-test.json';
 const BROWSE = 'data/browse/maps.json';
+const STATISTICS = 'data/database/data-entries.json';
 
 const catalogue = JSON.parse(readFileSync(CATALOGUE, 'utf8'));
 const render = JSON.parse(readFileSync(RENDER, 'utf8'));
 const browse = JSON.parse(readFileSync(BROWSE, 'utf8'));
+const statistics = JSON.parse(readFileSync(STATISTICS, 'utf8')).dataEntries || [];
 
 const renderLayerIds = new Set((render.layers || []).map((layer) => layer.sourceMapId).filter(Boolean));
 const raw = catalogue.maps || [];
@@ -37,18 +39,30 @@ const byId = new Map(raw.map((map) => [map.id, map]));
 
 const expected = raw.filter((map) => isPublicMap(map, (id) => byId.get(id), (id) => renderLayerIds.has(id)));
 const expectedIds = new Set(expected.map((map) => map.id));
+// Census statistics are listed in Browse beside the maps (each is drawn on a boundary map),
+// so Browse's list is the public maps plus the public statistics. The homepage's map figure
+// counts maps only; a statistic is not a map.
+const statisticGeographies = statisticGeographyIds(expected);
+const expectedStatistics = statistics.filter((entry) => isPublicStatistic(entry, (id) => statisticGeographies.has(id)));
+const expectedStatisticIds = new Set(expectedStatistics.map((entry) => entry.id));
 const browseItems = browse.items || [];
+const browseMaps = browseItems.filter((item) => item.type !== 'data-entry');
+const browseStatistics = browseItems.filter((item) => item.type === 'data-entry');
 
 const problems = [];
-if (browseItems.length !== expected.length) {
-  problems.push(`${BROWSE} lists ${browseItems.length} map(s); the rule gives ${expected.length}`);
+if (browseMaps.length !== expected.length) {
+  problems.push(`${BROWSE} lists ${browseMaps.length} map(s); the rule gives ${expected.length}`);
 }
-if (browse.total !== undefined && browse.total !== expected.length) {
-  problems.push(`${BROWSE} declares total ${browse.total}; the rule gives ${expected.length}`);
+if (browseStatistics.length !== expectedStatistics.length) {
+  problems.push(`${BROWSE} lists ${browseStatistics.length} statistic(s); the rule gives ${expectedStatistics.length}`);
 }
-const extra = browseItems.filter((item) => !expectedIds.has(item.id)).map((item) => item.id);
+if (browse.total !== undefined && browse.total !== expected.length + expectedStatistics.length) {
+  problems.push(`${BROWSE} declares total ${browse.total}; the rule gives ${expected.length} maps + ${expectedStatistics.length} statistics`);
+}
+const extra = browseMaps.filter((item) => !expectedIds.has(item.id)).map((item) => item.id)
+  .concat(browseStatistics.filter((item) => !expectedStatisticIds.has(item.id)).map((item) => item.id));
 if (extra.length) {
-  problems.push(`${BROWSE} lists ${extra.length} map(s) the rule excludes: ${extra.slice(0, 5).join(', ')}`);
+  problems.push(`${BROWSE} lists ${extra.length} item(s) the rule excludes: ${extra.slice(0, 5).join(', ')}`);
 }
 
 // A visible, non-placeholder map that is NOT loadable is its own finding: the catalogue
@@ -70,4 +84,4 @@ if (problems.length) {
   process.exit(1);
 }
 
-console.log(`PASS: ${expected.length} public map(s), agreed by ${CATALOGUE} and ${BROWSE}.`);
+console.log(`PASS: ${expected.length} public map(s) and ${expectedStatistics.length} statistic(s), agreed by ${CATALOGUE}, ${STATISTICS} and ${BROWSE}.`);

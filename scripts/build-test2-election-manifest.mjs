@@ -23,6 +23,7 @@ const OUT_ANCHOR_DIR = path.join(ROOT, 'render', 'metadata', 'election-anchors-t
 const OUT_MANIFEST = path.join(ROOT, 'render', 'metadata', 'elections-test2.json');
 const OUT_REPORT = path.join(ROOT, 'render', 'metadata', 'elections-test2-report.json');
 const DAIL_WIKIPEDIA_COUNTS_ROOT = path.join(ROOT, 'data', 'elections', 'dail-wikipedia-counts');
+const PRESIDENT_COUNTS_ROOT = path.join(ROOT, 'data', 'elections', 'president-counts');
 const DAIL_OFFICIAL_RESULTS = path.join(ROOT, 'data', 'elections', 'dail-official-results.json');
 const DAIL_APPROVED_CANDIDATE_ALIASES = path.join(ROOT, 'data', 'elections', 'dail-approved-candidate-aliases.json');
 // Birth and death dates ElectionsIreland publishes for source person ids whose careers
@@ -1907,10 +1908,35 @@ function overriddenFeature(featureLookup, geography, resultName) {
   return (featureLookup.items || []).find((item) => normalizeName(item.name) === want) || null;
 }
 
+// The 1918 layer draws seven of the one-seat 1918 counties as two polygons each: one under
+// the 1918 name and one under its old 1885 division name ("Longford" and "Longford S",
+// "King's County" and "Birr"). The result names one of them, so the other half stayed blank
+// on the map (seven white patches in 1918). These results colour both halves.
+const RESULT_FEATURE_UNIONS = Object.freeze({
+  'pc-1918-ireland': {
+    longford: ['Longford', 'Longford S'],
+    'kings county': ["King's County", 'Birr'],
+    'queens county': ["Queen's County", 'Leix'],
+    westmeath: ['Westmeath', 'Westmeath S'],
+    leitrim: ['Leitrim', 'Leitrim S'],
+    louth: ['Louth', 'Louth S'],
+    'waterford county': ['Waterford', 'Waterford E']
+  }
+});
+
+function unionFeatures(featureLookup, geography, resultName) {
+  const targets = RESULT_FEATURE_UNIONS[geography?.sourceMapId || '']?.[normalizeName(resultName)];
+  if (!targets) return null;
+  const matches = targets.map((target) => (featureLookup.items || []).find((item) => normalizeName(item.name) === normalizeName(target)));
+  return matches.every(Boolean) ? matches : null;
+}
+
 function matchFeaturesForResult(featureLookup, entry, geography, result, matchEntry, singleFeature = null) {
   if (singleFeature) return [singleFeature];
   const pinned = overriddenFeature(featureLookup, geography, result.constituency);
   if (pinned) return [pinned];
+  const union = unionFeatures(featureLookup, geography, result.constituency);
+  if (union) return union;
   const direct = matchFeature(featureLookup, result.constituency, matchEntry);
   if (direct) return [direct];
   const splitTargets = referendumSplitTargets(entry, geography, result);
@@ -2866,8 +2892,13 @@ function mergeOfficialDailCandidates(candidates, official, entryDate = null) {
 }
 
 function enrichDailResultWithWikipediaCounts(entry, resultPath, rawResult, fallbackConstituency = '') {
-  if (!rawResult || entry?.bodySlug !== 'dail-eireann' || !resultPath) return rawResult;
-  const sidecarPath = path.join(DAIL_WIKIPEDIA_COUNTS_ROOT, entry.date, path.basename(resultPath));
+  if (!rawResult || !resultPath) return rawResult;
+  // The presidential elections' later counts come from newspaper reports (data/elections/president-counts),
+  // in the same shape as the Dail's Wikipedia count sidecars.
+  const root = entry?.bodySlug === 'dail-eireann' ? DAIL_WIKIPEDIA_COUNTS_ROOT
+    : entry?.bodySlug === 'ireland-president' ? PRESIDENT_COUNTS_ROOT : null;
+  if (!root) return rawResult;
+  const sidecarPath = path.join(root, entry.date, path.basename(resultPath));
   if (!existsSync(sidecarPath)) return rawResult;
   const sidecar = readJson(sidecarPath);
   if (!Array.isArray(sidecar?.candidates) || !sidecar.candidates.length || Number(sidecar.numCounts || 0) < 2) return rawResult;
@@ -3285,7 +3316,8 @@ function normalizeParty(value) {
 
 function partyColour(value) {
   const key = normalizeName(value);
-  return PARTY_COLOURS.get(key) || '#6b7280';
+  // The shared registry (src/election-domain.mjs) holds the historic and minor parties.
+  return PARTY_COLOURS.get(key) || ElectionDomain.partyColour(value);
 }
 
 function electionKey(entry) {

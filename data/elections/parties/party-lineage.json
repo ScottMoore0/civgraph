@@ -1,0 +1,178 @@
+{
+  "schemaVersion": 1,
+  "description": "Cited founding, split, rename and succession events for parties, shown on the Browse party profiles (scripts/build-party-profiles.mjs). Facts and citations only. Each event belongs to the party whose profile shows it; `related` links the other parties it involves. An event whose date rests on standard references rather than the cited source says so in `basis`. These are display facts: they relabel no candidacy and merge no party. The research behind the 2026-11-01 entries is a pass through the Irish Republican Digital Archive (archive.org collection irish-republican-digital-archive).",
+  "sources": {
+    "irda": "Irish Republican Digital Archive (archive.org collection irish-republican-digital-archive), research pass 2026-11-01"
+  },
+  "events": [
+    {
+      "party": "sinn-fein",
+      "kind": "split",
+      "date": "1970-01-11",
+      "precision": "day",
+      "text": "Sinn Féin split at its Ard Fheis of January 1970. The majority (Official, 'Gardiner Place') kept the leadership; about a third of the delegates walked out and formed the Provisional ('Kevin Street') organisation, which continued as Sinn Féin.",
+      "basis": "The month and the walk-out are confirmed by the cited sources; the day (Sunday 11 January 1970, Intercontinental Hotel, Dublin) is from standard references.",
+      "related": [{ "party": "sinn-fein-official", "relation": "split into" }],
+      "note": "Civgraph records every candidate on a 'Sinn Féin' ballot under this party. From 1970 that is the Provisional organisation; the 28 February 1973 Dáil 'Sinn Féin' candidacies were Official Sinn Féin.",
+      "citations": [
+        { "title": "The 1970 Sinn Féin Ard Fheis: an analysis (booklet), p. 13", "url": "https://archive.org/details/irda-booklet-the-1970-sinn-fein-ard-fheis-an-analysis" },
+        { "title": "Eolas, December 1973", "url": "https://archive.org/details/december-b92fe2afc2" }
+      ]
+    },
+    {
+      "party": "sinn-fein-official",
+      "kind": "founded",
+      "date": "1970-01-11",
+      "precision": "day",
+      "text": "Official Sinn Féin: the majority side of the January 1970 Sinn Féin split.",
+      "basis": "Day from standard references; month confirmed by the cited sources.",
+      "related": [{ "party": "sinn-fein", "relation": "split from" }],
+      "citations": [
+        { "title": "The 1970 Sinn Féin Ard Fheis: an analysis (booklet), p. 13", "url": "https://archive.org/details/irda-booklet-the-1970-sinn-fein-ard-fheis-an-analysis" }
+      ]
+    },
+    {
+      "party": "sinn-fein-official",
+      "kind": "renamed",
+      "date": "1977-01",
+      "precision": "month",
+      "text": "Renamed Sinn Féin The Workers' Party at the Ard Fheis in the Mansion House, Dublin, 21-23 January 1977.",
+      "related": [{ "party": "sinn-fein-workers", "relation": "renamed" }],
+      "citations": [
+        { "title": "The United Irishman, November 1976 (Ard Fheis notice)", "url": "https://archive.org/details/the-united-irishman-november-1976-f47f50fb31" },
+        { "title": "The United Irishman, May 1977 (Ard Chomhairle of Sinn Féin The Workers' Party, 16 April 1977)", "url": "https://archive.org/details/may-c9c3291e1e" }
+      ]
+    },
+    {
+      "party": "sinn-fein-workers",
+      "kind": "founded",
+      "date": "1977-01",
+      "precision": "month",
+      "text": "Official Sinn Féin took the name Sinn Féin The Workers' Party at its Ard Fheis of 21-23 January 1977.",
+      "related": [{ "party": "sinn-fein-official", "relation": "renamed from" }],
+      "citations": [
+        { "title": "The United Irishman, November 1976 (Ard Fheis notice)", "url": "https://archive.org/details/the-united-irishman-november-1976-f47f50fb31" },
+        { "title": "The United Irishman, May 1977", "url": "https://archive.org/details/may-c9c3291e1e" },
+        { "title": "The United Irishman, January 1978 (72nd Ard Fheis of Sinn Féin The Workers' Party)", "url": "https://archive.org/details/january-d1abd47af8" },
+        { "title": "The United Irishman, May 1980", "url": "https://archive.org/details/may-final-issue-6e8af1662f" }
+      ]
+    },
+    {
+      "party": "sinn-fein-workers",
+      "kind": "renamed",
+      "date": "1982-04",
+      "precision": "month",
+      "text": "Renamed The Workers' Party.",
+      "basis": "Standard references (Ard Fheis, April 1982); not yet confirmed from a primary source.",
+      "related": [{ "party": "workers-party", "relation": "renamed" }],
+      "citations": []
+    },
+    {
+      "party": "workers-party",
+      "kind": "founded",
+      "date": "1982-04",
+      "precision": "month",
+      "text": "Sinn Féin The Workers' Party took the name The Workers' Party (April 1982).",
+      "basis": "Standard references; not yet confirmed from a primary source.",
+      "related": [{ "party": "sinn-fein-workers", "relation": "renamed from" }],
+      "citations": []
+    },
+    {
+      "party": "workers-party",
+      "kind": "note",
+      "date": "1967-03",
+      "precision": "month",
+      "text": "The Republican Clubs, the Northern Ireland wing of the Official movement, were proscribed by the Minister of Home Affairs, William Craig, in March 1967. They contested elections from 1973 and were styled 'Republican Clubs The Workers' Party' from at least September 1979 to January 1982, before taking the Workers' Party name.",
+      "basis": "Month from the United Irishman of April 1967; standard references give 7 March 1967.",
+      "note": "Civgraph counts candidates on 'Republican Clubs' ballots under the Workers' Party.",
+      "citations": [
+        { "title": "The United Irishman, April 1967, p. 1", "url": "https://archive.org/details/irda-united-irishman-april-1967" },
+        { "title": "The United Irishman, September 1968", "url": "https://archive.org/details/irda-united-irishman-september-1968" },
+        { "title": "'Republican Clubs The Workers' Party' (Omagh branch), September 1979", "url": "https://archive.org/details/september-7b90ee7db0" },
+        { "title": "An Phoblacht/Republican News, 14 January 1982", "url": "https://archive.org/details/irda-aprn-1982-01-14" }
+      ]
+    },
+    {
+      "party": "irsp",
+      "kind": "founded",
+      "date": "1974-12-08",
+      "precision": "day",
+      "text": "The Irish Republican Socialist Party was founded on Sunday 8 December 1974 at the Spa Hotel, Lucan.",
+      "basis": "The party's own paper gives 8 December in 1978 and in December 2004; one 2004 issue gives 10 December.",
+      "citations": [
+        { "title": "The Starry Plough, March 1978", "url": "https://archive.org/details/irda-the-starry-plough-march-98ee9b5184" },
+        { "title": "The Starry Plough, December 2004", "url": "https://archive.org/details/irda-the-starry-plough-dec-2004-e9571595c1" },
+        { "title": "The Starry Plough, January-February 2004 (gives 10 December)", "url": "https://archive.org/details/irda-the-starry-plough-jan-feb-2004-cd0f588de1" }
+      ]
+    },
+    {
+      "party": "republican-sinn-fein",
+      "kind": "founded",
+      "date": "1986-11-02",
+      "precision": "day",
+      "text": "Formed on 2 November 1986 by delegates who walked out of the Sinn Féin Ard Fheis at the Mansion House when it ended abstention from Dáil Éireann; they reassembled that evening at the West County Hotel, Chapelizod.",
+      "related": [{ "party": "sinn-fein", "relation": "split from" }],
+      "citations": [
+        { "title": "Republican Bulletin, November 1986, p. 4", "url": "https://archive.org/details/republican-bulletin-november-1986-48fde75e9b" },
+        { "title": "An Phoblacht/Republican News, 6 November 1986", "url": "https://archive.org/details/an-phoblacht-republican-news-06-november-1986-168fefd90d" }
+      ]
+    },
+    {
+      "party": "sinn-fein",
+      "kind": "split",
+      "date": "1986-11-02",
+      "precision": "day",
+      "text": "The Ard Fheis voted to end abstention from Dáil Éireann; a minority walked out and formed Republican Sinn Féin.",
+      "related": [{ "party": "republican-sinn-fein", "relation": "split into" }],
+      "citations": [
+        { "title": "An Phoblacht/Republican News, 6 November 1986", "url": "https://archive.org/details/an-phoblacht-republican-news-06-november-1986-168fefd90d" }
+      ]
+    },
+    {
+      "party": "eirigi",
+      "kind": "founded",
+      "date": "2006-04",
+      "precision": "month",
+      "text": "Launched in April 2006 as a socialist-republican campaign group; its Ard Fheis later ratified a motion to organise as a political party (2007).",
+      "citations": [
+        { "title": "Fourthwrite, Spring 2007, p. 13 (éirígí statement)", "url": "https://archive.org/details/fourthwrite-spring-2007-2caa362efa" }
+      ]
+    },
+    {
+      "party": "republican-network-for-unity",
+      "kind": "note",
+      "date": "2009",
+      "precision": "year",
+      "text": "In existence by 2009, when The Sovereign Nation referred to its formation.",
+      "basis": "Standard references give 2007 as the year of formation; no primary source for it has been read yet.",
+      "citations": [
+        { "title": "The Sovereign Nation, May-June 2009", "url": "https://archive.org/details/the-sovereign-nation-may-june-2009-d6dd83b177" }
+      ]
+    },
+    {
+      "party": "republican",
+      "kind": "note",
+      "date": "1923",
+      "precision": "year",
+      "text": "The anti-Treaty Sinn Féin candidates stood as 'Republican' at the 1923 general election and until 1926; the Sinn Féin weekly reported their results as Sinn Féin's.",
+      "related": [{ "party": "anti-treaty-sinn-fein", "relation": "same movement as" }],
+      "note": "Civgraph keeps the 1922 'Anti-Treaty Sinn Féin' and the 1923-26 'Republican' candidacies as separate labels.",
+      "citations": [
+        { "title": "The Republican Leader, 15 August 1923, p. 1", "url": "https://archive.org/details/irda-1917-1923-the-republican-leader-15-august-1923" },
+        { "title": "Sinn Féin, 22 September 1923, p. 1", "url": "https://archive.org/details/irda-1917-1923-sinn-fein-22-september-1923" }
+      ]
+    },
+    {
+      "party": "anti-treaty-sinn-fein",
+      "kind": "note",
+      "date": "1923",
+      "precision": "year",
+      "text": "After 1922 the anti-Treaty candidates stood as 'Republican' (1923-1926).",
+      "related": [{ "party": "republican", "relation": "stood as" }],
+      "citations": [
+        { "title": "The Republican Leader, 15 August 1923, p. 1", "url": "https://archive.org/details/irda-1917-1923-the-republican-leader-15-august-1923" },
+        { "title": "Sinn Féin, 22 September 1923, p. 1", "url": "https://archive.org/details/irda-1917-1923-sinn-fein-22-september-1923" }
+      ]
+    }
+  ]
+}
