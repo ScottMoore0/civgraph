@@ -1,0 +1,1807 @@
+<!DOCTYPE html>
+
+<html lang="en-GB">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Status - Civgraph</title>
+<link rel="canonical" href="https://civgraph.net/pages/status.html">
+<meta name="description" content="How far Civgraph has got: progress on each public source, election series and map series, with the basis of every total stated.">
+<link href="/assets/pages/img/19df3a5428cb.png" rel="icon"/>
+<!-- site:head -->
+<script>(function(){var t=null;try{t=localStorage.getItem('theme');}catch(e){}if(t!=='dark'&&t!=='light'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;})();</script>
+<link rel="stylesheet" href="/assets/site/site-chrome.css?v=01edcc7597b8">
+<script defer src="/assets/site/site-chrome.js?v=533c9263f1be"></script>
+<!-- /site:head -->
+<link rel="stylesheet" href="/assets/pages/css/shared.css">
+<link rel="stylesheet" href="/assets/pages/css/about.css?v=47fd44933677">
+<link rel="stylesheet" href="/assets/pages/css/status.css?v=add043954c8a">
+</head>
+<body>
+<!-- site:header active="about" -->
+<header class="app-header" data-site-chrome data-header-layout="page">
+<a class="app-header__brand" href="/">
+<img alt="" class="app-header__logo-icon" src="/assets/pages/img/bd2feea987bf.svg"/>
+<span class="app-header__wordmark">Civgraph</span>
+</a>
+<button aria-controls="mainNav" aria-expanded="false" aria-label="Open navigation" class="mobile-menu-toggle" type="button">
+<svg aria-hidden="true" class="mobile-menu-toggle__menu" data-icon="lucide" data-icon-name="menu" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<path d="M4 12h16"></path><path d="M4 6h16"></path><path d="M4 18h16"></path>
+</svg>
+<svg aria-hidden="true" class="mobile-menu-toggle__close" data-icon="lucide" data-icon-name="x" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<path d="M18 6 6 18"></path><path d="m6 6 12 12"></path>
+</svg>
+</button>
+<nav aria-label="Main navigation" class="app-header__nav" id="mainNav">
+<a class="app-header__link" href="/"><svg aria-hidden="true" class="icon" data-icon="lucide" data-icon-name="house" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+<path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Home</span></a>
+<a class="app-header__link" href="/maps/"><svg aria-hidden="true" class="icon" data-icon="lucide" data-icon-name="map" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"></path>
+<path d="M15 5.764v15"></path><path d="M9 3.236v15"></path></svg><span>Maps</span></a>
+<a class="app-header__link" href="/browse/"><svg aria-hidden="true" class="icon" data-icon="lucide" data-icon-name="search" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<circle cx="11" cy="11" r="8"></circle>
+<path d="m21 21-4.3-4.3"></path></svg><span>Browse</span></a>
+<a class="app-header__link" href="/apps/"><svg aria-hidden="true" class="icon" data-icon="lucide" data-icon-name="layout-grid" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<rect height="7" rx="1" width="7" x="3" y="3"></rect>
+<rect height="7" rx="1" width="7" x="14" y="3"></rect>
+<rect height="7" rx="1" width="7" x="14" y="14"></rect>
+<rect height="7" rx="1" width="7" x="3" y="14"></rect></svg><span>Apps</span></a>
+<a class="app-header__link app-header__link--active" href="/pages/about.html" aria-current="page"><svg aria-hidden="true" class="icon" data-icon="lucide" data-icon-name="info" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<circle cx="12" cy="12" r="10"></circle>
+<path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg><span>About</span></a>
+<button aria-controls="supportModal" aria-haspopup="dialog" class="support-btn" data-support-open id="supportBtn" title="Support Civgraph" type="button">
+<svg aria-hidden="true" class="support-btn__icon" data-icon="lucide" data-icon-name="heart" fill="currentColor" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="16">
+<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+<span class="support-btn__text">Support Us</span>
+</button>
+<button aria-label="Toggle dark mode" class="theme-toggle" data-theme-toggle id="themeToggle" title="Toggle dark mode" type="button">
+<svg aria-hidden="true" class="theme-toggle__icon--sun" data-icon="lucide" data-icon-name="sun" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<circle cx="12" cy="12" r="4"></circle>
+<path d="M12 2v2"></path><path d="M12 20v2"></path>
+<path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path>
+<path d="M2 12h2"></path><path d="M20 12h2"></path>
+<path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+<svg aria-hidden="true" class="theme-toggle__icon--moon" data-icon="lucide" data-icon-name="moon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9"></path></svg>
+</button>
+</nav>
+</header>
+<!-- /site:header -->
+<section class="hero hero--interior">
+<div class="wrap wrap--wide hero__grid hero__grid--single"><div class="hero__copy"><h1>Status</h1><p class="lede">How far Civgraph has got with each source, election series and map series, measured against what is known to exist.</p></div></div>
+</section>
+<main>
+<div class="wrap wrap--wide status">
+<!-- status:body -->
+<p class="status-when status-when--lead">Figures last changed <time datetime="2026-11-01">01 Nov 2026</time>. The page is rebuilt with the site; counts that come from outside the site carry the date they were taken.</p>
+<nav class="status-toc" aria-label="On this page"><a href="#sources">Sources</a><a href="#elections">Elections</a><a href="#maps">Maps</a></nav>
+<p>Each bar is measured against a total, and every total says where it comes from. A bar fills from the left with the furthest stage reached, in the strongest colour; the figures beside it give every stage in full, and their colour keys match the bar.</p>
+<section id="sources" aria-labelledby="sources-h">
+<h2 id="sources-h">Sources</h2>
+<p>Public sources Civgraph draws on, and how far each has got: obtained, read into structured data, used on the site, and checked.</p>
+<article class="status-item">
+<h3 id="source-belfast-gazette">The Belfast Gazette</h3>
+<p class="status-meta">The Gazette (The Stationery Office) · Crown copyright, Open Government Licence · <a href="https://www.thegazette.co.uk/Belfast" rel="noopener noreferrer" target="_blank">source</a></p>
+<p class="status-total"><strong>About 9,400</strong> issues known. The Gazette numbers its Belfast issues consecutively from the first, in 1921; about 9,400 have been published. The figure is the issue range Civgraph's crawler is set to cover, kept by hand.</p>
+<div class="sbar" role="img" aria-label="The Belfast Gazette: Downloaded 1,288, Read for election and boundary notices 411, Cited on the site 63, of about 9,400 issues"><span class="sbar__seg sbar__seg--l4" style="width:0.67%"></span><span class="sbar__seg sbar__seg--l3" style="width:3.70%"></span><span class="sbar__seg sbar__seg--l2" style="width:9.33%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Downloaded: <span class="sfigs__n">1,288</span> <span class="sfigs__p">(about 14%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>Read for election and boundary notices: <span class="sfigs__n">411</span> <span class="sfigs__p">(about 4.4%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>Cited on the site: <span class="sfigs__n">63</span> <span class="sfigs__p">(about 0.7%)</span></li></ul>
+<ul class="status-facts"><li>Downloaded so far: issues 1 to 1,313; 25 of them have no copy online.</li><li>Notices found so far: 142 boundary notices and 21 election notices, in issues 1 to 436.</li><li>Cited on the site counts the different issues that map and election records cite.</li></ul><p class="status-note">Issues are downloaded oldest first, so the early decades are done first.</p><p class="status-when">Counts from outside the site taken 01 Nov 2026.</p>
+</article>
+<article class="status-item">
+<h3 id="source-census-ni-reports">Census of Northern Ireland reports, 1926–1981</h3>
+<p class="status-meta">General Register Office for Northern Ireland · Crown copyright, Open Government Licence · <a href="https://www.nisra.gov.uk/statistics/census" rel="noopener noreferrer" target="_blank">source</a></p>
+<p class="status-total"><strong>7</strong> census years known. The seven censuses taken in Northern Ireland between 1926 and 1981.</p>
+<div class="sbar" role="img" aria-label="Census of Northern Ireland reports, 1926–1981: Reports held 7, Converted to text 7, Tables extracted 7, In the Census Explorer 7, of 7 census years"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l1" aria-hidden="true"></span>Reports held: <span class="sfigs__n">7</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l2" aria-hidden="true"></span>Converted to text: <span class="sfigs__n">7</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>Tables extracted: <span class="sfigs__n">7</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>In the Census Explorer: <span class="sfigs__n">7</span> <span class="sfigs__p">(100%)</span></li></ul>
+<div class="status-table-wrap"><table class="status-table">
+<thead><tr><th scope="col">Census</th><th scope="col" class="num">Report held</th><th scope="col" class="num">Converted to text</th><th scope="col" class="num">Tables extracted</th><th scope="col" class="num">In the Census Explorer</th></tr></thead>
+<tbody><tr><th scope="row">1926</th><td class="num">Yes</td><td class="num">Yes (2 parts)</td><td class="num">2</td><td class="num">Yes</td></tr>
+<tr><th scope="row">1937</th><td class="num">Yes</td><td class="num">Yes (2 parts)</td><td class="num">12</td><td class="num">Yes</td></tr>
+<tr><th scope="row">1951</th><td class="num">Yes</td><td class="num">Yes (2 parts)</td><td class="num">13</td><td class="num">Yes</td></tr>
+<tr><th scope="row">1961</th><td class="num">Yes</td><td class="num">Yes (2 parts)</td><td class="num">12</td><td class="num">Yes</td></tr>
+<tr><th scope="row">1966</th><td class="num">Yes</td><td class="num">Yes (1 part)</td><td class="num">4</td><td class="num">Yes</td></tr>
+<tr><th scope="row">1971</th><td class="num">Yes</td><td class="num">Yes (1 part)</td><td class="num">20</td><td class="num">Yes</td></tr>
+<tr><th scope="row">1981</th><td class="num">Yes</td><td class="num">Yes (1 part)</td><td class="num">13</td><td class="num">Yes</td></tr></tbody>
+</table></div><p class="status-when">Counts from outside the site taken 01 Nov 2026.</p>
+</article>
+<article class="status-item">
+<h3 id="source-census-ireland-pre1921">Census of Ireland reports, 1821–1911</h3>
+<p class="status-meta">Census Commissioners for Ireland (via the Central Statistics Office's historical reports) · Public domain (Crown copyright expired); CSO copies CC BY 4.0 · <a href="https://www.cso.ie/en/statistics/historicalreports/" rel="noopener noreferrer" target="_blank">source</a></p>
+<p class="status-total"><strong>10</strong> census years known. The ten censuses of Ireland taken before partition, 1821 to 1911.</p>
+<div class="sbar" role="img" aria-label="Census of Ireland reports, 1821–1911: Report files held 5, Read into text or data 5, Tables extracted 1, In the Census Explorer 0, of 10 census years"><span class="sbar__seg sbar__seg--l3" style="width:10.00%"></span><span class="sbar__seg sbar__seg--l2" style="width:40.00%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l1" aria-hidden="true"></span>Report files held: <span class="sfigs__n">5</span> <span class="sfigs__p">(50%)</span></li><li><span class="swatch swatch--l2" aria-hidden="true"></span>Read into text or data: <span class="sfigs__n">5</span> <span class="sfigs__p">(50%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>Tables extracted: <span class="sfigs__n">1</span> <span class="sfigs__p">(10%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>In the Census Explorer: <span class="sfigs__n">0</span> <span class="sfigs__p">(0%)</span></li></ul>
+<div class="status-table-wrap"><table class="status-table">
+<thead><tr><th scope="col">Census</th><th scope="col" class="num">Report files held</th><th scope="col" class="num">Files read</th><th scope="col" class="num">Tables extracted</th><th scope="col" class="num">In the Census Explorer</th></tr></thead>
+<tbody><tr><th scope="row">1821</th><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">No</td></tr>
+<tr><th scope="row">1831</th><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">No</td></tr>
+<tr><th scope="row">1841</th><td class="num">39</td><td class="num">39</td><td class="num">0</td><td class="num">No</td></tr>
+<tr><th scope="row">1851</th><td class="num">32</td><td class="num">32</td><td class="num">0</td><td class="num">No</td></tr>
+<tr><th scope="row">1861</th><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">No</td></tr>
+<tr><th scope="row">1871</th><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">No</td></tr>
+<tr><th scope="row">1881</th><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">No</td></tr>
+<tr><th scope="row">1891</th><td class="num">31</td><td class="num">31</td><td class="num">0</td><td class="num">No</td></tr>
+<tr><th scope="row">1901</th><td class="num">31</td><td class="num">31</td><td class="num">0</td><td class="num">No</td></tr>
+<tr><th scope="row">1911</th><td class="num">34</td><td class="num">34</td><td class="num">56</td><td class="num">No</td></tr></tbody>
+</table></div><p class="status-when">Counts from outside the site taken 01 Nov 2026.</p>
+</article>
+<article class="status-item">
+<h3 id="source-opendatani">Open Data NI</h3>
+<p class="status-meta">Department of Finance (Northern Ireland) · Mostly Open Government Licence (per dataset) · <a href="https://www.opendatani.gov.uk/" rel="noopener noreferrer" target="_blank">source</a></p>
+<p class="status-total"><strong>1,128</strong> datasets known. The number of datasets the Open Data NI catalogue lists, read from its CKAN API when the snapshot was taken.</p>
+<div class="sbar" role="img" aria-label="Open Data NI: Mirrored by Civgraph 1,052, Used by a map on the site 137, of 1,128 datasets"><span class="sbar__seg sbar__seg--l4" style="width:12.15%"></span><span class="sbar__seg sbar__seg--l3" style="width:81.12%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l3" aria-hidden="true"></span>Mirrored by Civgraph: <span class="sfigs__n">1,052</span> <span class="sfigs__p">(93%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>Used by a map on the site: <span class="sfigs__n">137</span> <span class="sfigs__p">(12%)</span></li></ul>
+<ul class="status-facts"><li>The map catalogue also links to 6 Open Data NI datasets that are no longer listed.</li></ul><p class="status-note">Most datasets are statistics or registers rather than maps, so only some will ever be map layers.</p><p class="status-when">Counts from outside the site taken 01 Nov 2026.</p>
+</article>
+<article class="status-item">
+<h3 id="source-legislation">Northern Ireland legislation on boundaries and elections</h3>
+<p class="status-meta">legislation.gov.uk (The National Archives) · Crown copyright, Open Government Licence · <a href="https://www.legislation.gov.uk/" rel="noopener noreferrer" target="_blank">source</a></p>
+<p class="status-total"><strong>189</strong> items known. Acts, Orders and Statutory Rules for Northern Ireland on legislation.gov.uk whose titles name boundaries, electoral areas, constituencies, wards or elections (a title search, so it misses some), together with any further items the site cites.</p>
+<div class="sbar" role="img" aria-label="Northern Ireland legislation on boundaries and elections: Cited on the site 12, of 189 items"><span class="sbar__seg sbar__seg--l4" style="width:6.35%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l4" aria-hidden="true"></span>Cited on the site: <span class="sfigs__n">12</span> <span class="sfigs__p">(6.3%)</span></li></ul>
+<ul class="status-facts"><li>186 found by the title search, and 3 more that the site cites.</li></ul><p class="status-note">Many older boundary orders (extensions of towns, for example) are not on legislation.gov.uk at all; the site cites those from the Belfast Gazette instead.</p><p class="status-when">Counts from outside the site taken 01 Nov 2026.</p>
+</article>
+<article class="status-item">
+<h3 id="source-proni">PRONI eCatalogue</h3>
+<p class="status-meta">Public Record Office of Northern Ireland · Crown copyright, Open Government Licence · <a href="https://apps.proni.gov.uk/eCatNI_IE/SearchPage.aspx" rel="noopener noreferrer" target="_blank">source</a></p>
+<p class="status-total"><strong>1,538,177</strong> catalogue records known. The records Civgraph's copy of the eCatalogue found; PRONI does not publish a total.</p>
+<div class="sbar" role="img" aria-label="PRONI eCatalogue: Collected 1,538,177, Searchable on the site 1,538,177, Date read from the record 1,211,957, of 1,538,177 catalogue records"><span class="sbar__seg sbar__seg--l4" style="width:78.79%"></span><span class="sbar__seg sbar__seg--l3" style="width:21.21%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Collected: <span class="sfigs__n">1,538,177</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>Searchable on the site: <span class="sfigs__n">1,538,177</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>Date read from the record: <span class="sfigs__n">1,211,957</span> <span class="sfigs__p">(79%)</span></li></ul>
+<ul class="status-facts"><li>A date is read from a record's own date field or description; records with no date at all stay undated.</li></ul><p class="status-note">Records are catalogue descriptions only; the documents themselves are at PRONI.</p><p class="status-when">Counts from outside the site taken 01 Nov 2026.</p>
+</article>
+<article class="status-item">
+<h3 id="source-niassembly-register">Northern Ireland Assembly Register of Members' Interests</h3>
+<p class="status-meta">Northern Ireland Assembly · Open Northern Ireland Assembly Licence · <a href="https://www.niassembly.gov.uk/your-mlas/register-of-interests/" rel="noopener noreferrer" target="_blank">source</a></p>
+<p class="status-total"><strong>74</strong> register documents known. The register editions and pages listed on the Assembly's current and archived register-of-interests pages.</p>
+<div class="sbar" role="img" aria-label="Northern Ireland Assembly Register of Members' Interests: Collected 74, Interests extracted 74, On the site 74, of 74 register documents"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Collected: <span class="sfigs__n">74</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>Interests extracted: <span class="sfigs__n">74</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>On the site: <span class="sfigs__n">74</span> <span class="sfigs__p">(100%)</span></li></ul>
+<ul class="status-facts"><li>75,908 interest entries read from them, 8,289 once repeated entries across editions are merged.</li></ul><p class="status-when">Counts from outside the site taken 07 Jul 2026.</p>
+</article>
+</section>
+<section id="elections" aria-labelledby="elections-h">
+<h2 id="elections-h">Elections</h2>
+<p>A contest is one constituency, ward or count area at one election; a seat returned unopposed counts as a contest, with full figures. <strong>Full figures</strong> means every candidate's vote is recorded. <strong>Verified</strong> means the contest has been checked against a named source. In all, 10,085 of 10,085 known contests are on the site, 10,082 with full figures and 5,259 verified.</p>
+<article class="status-item">
+<h3 id="elections-westminster">Westminster (House of Commons)</h3>
+
+<p class="status-total"><strong>3,343</strong> of 3,343 known contests on the site; 3,340 with full figures; 1,129 verified.</p>
+<ul class="srows">
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Ireland, 1801–1831</span><span class="srow__total">804 of 804 contests</span></div>
+<div class="sbar" role="img" aria-label="Ireland, 1801–1831: Contests on the site 804, with full figures 804, verified against a source 758, of 804 contests"><span class="sbar__seg sbar__seg--l4" style="width:94.28%"></span><span class="sbar__seg sbar__seg--l3" style="width:5.72%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">804</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">804</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">758</span> <span class="sfigs__p">(94%)</span></li></ul>
+<p class="srow__basis">B. M. Walker, Parliamentary Election Results in Ireland, 1801–1922 (Royal Irish Academy, 1978) lists 786; the site holds 804, drawing on further lists, so the larger figure is the total.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Ireland, 1832–1884</span><span class="srow__total">1,116 of 1,116 contests</span></div>
+<div class="sbar" role="img" aria-label="Ireland, 1832–1884: Contests on the site 1,116, with full figures 1,114, verified against a source 86, of 1,116 contests"><span class="sbar__seg sbar__seg--l4" style="width:7.71%"></span><span class="sbar__seg sbar__seg--l3" style="width:92.11%"></span><span class="sbar__seg sbar__seg--l2" style="width:0.18%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">1,116</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">1,114</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">86</span> <span class="sfigs__p">(7.7%)</span></li></ul>
+<p class="srow__basis">B. M. Walker, Parliamentary Election Results in Ireland, 1801–1922 (Royal Irish Academy, 1978) lists 982; the site holds 1,116, drawing on further lists, so the larger figure is the total.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Ireland, 1885–1922: general elections</span><span class="srow__total">808 of 808 contests</span></div>
+<div class="sbar" role="img" aria-label="Ireland, 1885–1922: general elections: Contests on the site 808, with full figures 808, verified against a source 97, of 808 contests"><span class="sbar__seg sbar__seg--l4" style="width:12.00%"></span><span class="sbar__seg sbar__seg--l3" style="width:88.00%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">808</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">808</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">97</span> <span class="sfigs__p">(12%)</span></li></ul>
+<p class="srow__basis">No independent list of these contests is held yet, so the total is the contests the site holds.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Ireland, 1885–1922: by-elections</span><span class="srow__total">184 of 184 contests</span></div>
+<div class="sbar" role="img" aria-label="Ireland, 1885–1922: by-elections: Contests on the site 184, with full figures 184, verified against a source 0, of 184 contests"><span class="sbar__seg sbar__seg--l3" style="width:100.00%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">184</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">184</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">0</span> <span class="sfigs__p">(0%)</span></li></ul>
+<p class="srow__basis">B. M. Walker, Parliamentary Election Results in Ireland, 1801–1922 (Royal Irish Academy, 1978) lists 125; the site holds 184, drawing on further lists, so the larger figure is the total.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Northern Ireland, 1922–1970</span><span class="srow__total">175 of 175 contests</span></div>
+<div class="sbar" role="img" aria-label="Northern Ireland, 1922–1970: Contests on the site 175, with full figures 175, verified against a source 52, of 175 contests"><span class="sbar__seg sbar__seg--l4" style="width:29.71%"></span><span class="sbar__seg sbar__seg--l3" style="width:70.29%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">175</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">175</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">52</span> <span class="sfigs__p">(30%)</span></li></ul>
+<p class="srow__basis">No independent list of these contests is held yet, so the total is the contests the site holds.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Northern Ireland, 1974 onwards</span><span class="srow__total">256 of 256 contests</span></div>
+<div class="sbar" role="img" aria-label="Northern Ireland, 1974 onwards: Contests on the site 256, with full figures 255, verified against a source 136, of 256 contests"><span class="sbar__seg sbar__seg--l4" style="width:53.13%"></span><span class="sbar__seg sbar__seg--l3" style="width:46.48%"></span><span class="sbar__seg sbar__seg--l2" style="width:0.39%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">256</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">255</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">136</span> <span class="sfigs__p">(53%)</span></li></ul>
+<p class="srow__basis">No independent list of these contests is held yet, so the total is the contests the site holds.</p>
+</li>
+</ul>
+</article>
+<article class="status-item">
+<h3 id="elections-dail">Dáil Éireann</h3>
+
+<p class="status-total"><strong>1,482</strong> of 1,482 known contests on the site; 1,482 with full figures; 388 verified.</p>
+<ul class="srows">
+<li class="srow">
+<div class="srow__head"><span class="srow__label">1918–1921</span><span class="srow__total">131 of 131 contests</span></div>
+<div class="sbar" role="img" aria-label="1918–1921: Contests on the site 131, with full figures 131, verified against a source 53, of 131 contests"><span class="sbar__seg sbar__seg--l4" style="width:40.46%"></span><span class="sbar__seg sbar__seg--l3" style="width:59.54%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">131</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">131</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">53</span> <span class="sfigs__p">(40%)</span></li></ul>
+<p class="srow__basis">No independent list of these contests is held yet, so the total is the contests the site holds.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">1922–1944</span><span class="srow__total">350 of 350 contests</span></div>
+<div class="sbar" role="img" aria-label="1922–1944: Contests on the site 350, with full figures 350, verified against a source 333, of 350 contests"><span class="sbar__seg sbar__seg--l4" style="width:95.14%"></span><span class="sbar__seg sbar__seg--l3" style="width:4.86%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">350</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">350</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">333</span> <span class="sfigs__p">(95%)</span></li></ul>
+<p class="srow__basis">M. Gallagher, Irish Elections 1922–44: Results and Analysis (PSAI Press, 1993) lists 349; the site holds 350, drawing on further lists, so the larger figure is the total.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">1948–1977</span><span class="srow__total">426 of 426 contests</span></div>
+<div class="sbar" role="img" aria-label="1948–1977: Contests on the site 426, with full figures 426, verified against a source 0, of 426 contests"><span class="sbar__seg sbar__seg--l3" style="width:100.00%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">426</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">426</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">0</span> <span class="sfigs__p">(0%)</span></li></ul>
+<p class="srow__basis">No independent list of these contests is held yet, so the total is the contests the site holds.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">1981 onwards</span><span class="srow__total">575 of 575 contests</span></div>
+<div class="sbar" role="img" aria-label="1981 onwards: Contests on the site 575, with full figures 575, verified against a source 2, of 575 contests"><span class="sbar__seg sbar__seg--l4" style="width:0.35%"></span><span class="sbar__seg sbar__seg--l3" style="width:99.65%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">575</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">575</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">2</span> <span class="sfigs__p">(0.3%)</span></li></ul>
+<p class="srow__basis">No independent list of these contests is held yet, so the total is the contests the site holds.</p>
+</li>
+</ul>
+</article>
+<article class="status-item">
+<h3 id="elections-stormont">Parliament of Northern Ireland (Stormont)</h3>
+
+<p class="status-total"><strong>582</strong> of 582 known contests on the site; 582 with full figures; 20 verified.</p>
+<ul class="srows">
+<li class="srow">
+<div class="srow__head"><span class="srow__label">1921–1928 (single transferable vote)</span><span class="srow__total">23 of 23 contests</span></div>
+<div class="sbar" role="img" aria-label="1921–1928 (single transferable vote): Contests on the site 23, with full figures 23, verified against a source 15, of 23 contests"><span class="sbar__seg sbar__seg--l4" style="width:65.22%"></span><span class="sbar__seg sbar__seg--l3" style="width:34.78%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">23</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">23</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">15</span> <span class="sfigs__p">(65%)</span></li></ul>
+<p class="srow__basis">No independent list of these contests is held yet, so the total is the contests the site holds.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">1929–1972</span><span class="srow__total">559 of 559 contests</span></div>
+<div class="sbar" role="img" aria-label="1929–1972: Contests on the site 559, with full figures 559, verified against a source 5, of 559 contests"><span class="sbar__seg sbar__seg--l4" style="width:0.89%"></span><span class="sbar__seg sbar__seg--l3" style="width:99.11%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">559</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">559</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">5</span> <span class="sfigs__p">(0.9%)</span></li></ul>
+<p class="srow__basis">No independent list of these contests is held yet, so the total is the contests the site holds.</p>
+</li>
+</ul>
+</article>
+<article class="status-item">
+<h3 id="elections-ni-assemblies">Northern Ireland Assembly and its forerunners</h3>
+
+<p class="status-total"><strong>185</strong> of 185 known contests on the site; 185 with full figures; 75 verified.</p>
+<ul class="srows">
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Assemblies of 1973 and 1982</span><span class="srow__total">28 of 28 contests</span></div>
+<div class="sbar" role="img" aria-label="Assemblies of 1973 and 1982: Contests on the site 28, with full figures 28, verified against a source 5, of 28 contests"><span class="sbar__seg sbar__seg--l4" style="width:17.86%"></span><span class="sbar__seg sbar__seg--l3" style="width:82.14%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">28</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">28</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">5</span> <span class="sfigs__p">(18%)</span></li></ul>
+<p class="srow__basis">No independent list of these contests is held yet, so the total is the contests the site holds.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Constitutional Convention, 1975</span><span class="srow__total">12 of 12 contests</span></div>
+<div class="sbar" role="img" aria-label="Constitutional Convention, 1975: Contests on the site 12, with full figures 12, verified against a source 2, of 12 contests"><span class="sbar__seg sbar__seg--l4" style="width:16.67%"></span><span class="sbar__seg sbar__seg--l3" style="width:83.33%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">12</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">12</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">2</span> <span class="sfigs__p">(17%)</span></li></ul>
+<p class="srow__basis">No independent list of these contests is held yet, so the total is the contests the site holds.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Forum for Political Dialogue, 1996</span><span class="srow__total">19 of 19 contests</span></div>
+<div class="sbar" role="img" aria-label="Forum for Political Dialogue, 1996: Contests on the site 19, with full figures 19, verified against a source 15, of 19 contests"><span class="sbar__seg sbar__seg--l4" style="width:78.95%"></span><span class="sbar__seg sbar__seg--l3" style="width:21.05%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">19</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">19</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">15</span> <span class="sfigs__p">(79%)</span></li></ul>
+<p class="srow__basis">No independent list of these contests is held yet, so the total is the contests the site holds.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Assembly, 1998 onwards</span><span class="srow__total">126 of 126 contests</span></div>
+<div class="sbar" role="img" aria-label="Assembly, 1998 onwards: Contests on the site 126, with full figures 126, verified against a source 53, of 126 contests"><span class="sbar__seg sbar__seg--l4" style="width:42.06%"></span><span class="sbar__seg sbar__seg--l3" style="width:57.94%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">126</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">126</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">53</span> <span class="sfigs__p">(42%)</span></li></ul>
+<p class="srow__basis">No independent list of these contests is held yet, so the total is the contests the site holds.</p>
+</li>
+</ul>
+</article>
+<article class="status-item">
+<h3 id="elections-ni-local">Northern Ireland district councils, 1973 onwards</h3>
+
+<p class="status-total"><strong>1,238</strong> of 1,238 known contests on the site; 1,238 with full figures; 1,034 verified.</p>
+<ul class="srows">
+<li class="srow">
+<div class="srow__head"><span class="srow__label">1970s</span><span class="srow__total">196 of 196 contests</span></div>
+<div class="sbar" role="img" aria-label="1970s: Contests on the site 196, with full figures 196, verified against a source 166, of 196 contests"><span class="sbar__seg sbar__seg--l4" style="width:84.69%"></span><span class="sbar__seg sbar__seg--l3" style="width:15.31%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">196</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">196</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">166</span> <span class="sfigs__p">(85%)</span></li></ul>
+<p class="srow__basis">No independent list of these contests is held yet, so the total is the contests the site holds.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">1980s</span><span class="srow__total">295 of 295 contests</span></div>
+<div class="sbar" role="img" aria-label="1980s: Contests on the site 295, with full figures 295, verified against a source 256, of 295 contests"><span class="sbar__seg sbar__seg--l4" style="width:86.78%"></span><span class="sbar__seg sbar__seg--l3" style="width:13.22%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">295</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">295</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">256</span> <span class="sfigs__p">(87%)</span></li></ul>
+<p class="srow__basis">No independent list of these contests is held yet, so the total is the contests the site holds.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">1990s</span><span class="srow__total">202 of 202 contests</span></div>
+<div class="sbar" role="img" aria-label="1990s: Contests on the site 202, with full figures 202, verified against a source 194, of 202 contests"><span class="sbar__seg sbar__seg--l4" style="width:96.04%"></span><span class="sbar__seg sbar__seg--l3" style="width:3.96%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">202</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">202</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">194</span> <span class="sfigs__p">(96%)</span></li></ul>
+<p class="srow__basis">No independent list of these contests is held yet, so the total is the contests the site holds.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">2000s</span><span class="srow__total">202 of 202 contests</span></div>
+<div class="sbar" role="img" aria-label="2000s: Contests on the site 202, with full figures 202, verified against a source 200, of 202 contests"><span class="sbar__seg sbar__seg--l4" style="width:99.01%"></span><span class="sbar__seg sbar__seg--l3" style="width:0.99%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">202</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">202</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">200</span> <span class="sfigs__p">(99%)</span></li></ul>
+<p class="srow__basis">No independent list of these contests is held yet, so the total is the contests the site holds.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">2010s</span><span class="srow__total">263 of 263 contests</span></div>
+<div class="sbar" role="img" aria-label="2010s: Contests on the site 263, with full figures 263, verified against a source 194, of 263 contests"><span class="sbar__seg sbar__seg--l4" style="width:73.76%"></span><span class="sbar__seg sbar__seg--l3" style="width:26.24%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">263</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">263</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">194</span> <span class="sfigs__p">(74%)</span></li></ul>
+<p class="srow__basis">No independent list of these contests is held yet, so the total is the contests the site holds.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">2020s</span><span class="srow__total">80 of 80 contests</span></div>
+<div class="sbar" role="img" aria-label="2020s: Contests on the site 80, with full figures 80, verified against a source 24, of 80 contests"><span class="sbar__seg sbar__seg--l4" style="width:30.00%"></span><span class="sbar__seg sbar__seg--l3" style="width:70.00%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">80</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">80</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">24</span> <span class="sfigs__p">(30%)</span></li></ul>
+<p class="srow__basis">No independent list of these contests is held yet, so the total is the contests the site holds.</p>
+</li>
+</ul>
+</article>
+<article class="status-item">
+<h3 id="elections-ie-local">Local elections in the Republic of Ireland</h3>
+
+<p class="status-total"><strong>1,409</strong> of 1,409 known contests on the site; 1,409 with full figures; 819 verified.</p>
+<ul class="srows">
+<li class="srow">
+<div class="srow__head"><span class="srow__label">1970s</span><span class="srow__total">207 of 207 contests</span></div>
+<div class="sbar" role="img" aria-label="1970s: Contests on the site 207, with full figures 207, verified against a source 4, of 207 contests"><span class="sbar__seg sbar__seg--l4" style="width:1.93%"></span><span class="sbar__seg sbar__seg--l3" style="width:98.07%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">207</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">207</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">4</span> <span class="sfigs__p">(1.9%)</span></li></ul>
+<p class="srow__basis">No independent list of these contests is held yet, so the total is the contests the site holds.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">1980s</span><span class="srow__total">143 of 143 contests</span></div>
+<div class="sbar" role="img" aria-label="1980s: Contests on the site 143, with full figures 143, verified against a source 25, of 143 contests"><span class="sbar__seg sbar__seg--l4" style="width:17.48%"></span><span class="sbar__seg sbar__seg--l3" style="width:82.52%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">143</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">143</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">25</span> <span class="sfigs__p">(17%)</span></li></ul>
+<p class="srow__basis">No independent list of these contests is held yet, so the total is the contests the site holds.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">1990s</span><span class="srow__total">349 of 349 contests</span></div>
+<div class="sbar" role="img" aria-label="1990s: Contests on the site 349, with full figures 349, verified against a source 241, of 349 contests"><span class="sbar__seg sbar__seg--l4" style="width:69.05%"></span><span class="sbar__seg sbar__seg--l3" style="width:30.95%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">349</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">349</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">241</span> <span class="sfigs__p">(69%)</span></li></ul>
+<p class="srow__basis">No independent list of these contests is held yet, so the total is the contests the site holds.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">2000s</span><span class="srow__total">351 of 351 contests</span></div>
+<div class="sbar" role="img" aria-label="2000s: Contests on the site 351, with full figures 351, verified against a source 314, of 351 contests"><span class="sbar__seg sbar__seg--l4" style="width:89.46%"></span><span class="sbar__seg sbar__seg--l3" style="width:10.54%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">351</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">351</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">314</span> <span class="sfigs__p">(89%)</span></li></ul>
+<p class="srow__basis">No independent list of these contests is held yet, so the total is the contests the site holds.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">2010s</span><span class="srow__total">235 of 235 contests</span></div>
+<div class="sbar" role="img" aria-label="2010s: Contests on the site 235, with full figures 235, verified against a source 193, of 235 contests"><span class="sbar__seg sbar__seg--l4" style="width:82.13%"></span><span class="sbar__seg sbar__seg--l3" style="width:17.87%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">235</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">235</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">193</span> <span class="sfigs__p">(82%)</span></li></ul>
+<p class="srow__basis">No independent list of these contests is held yet, so the total is the contests the site holds.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">2020s</span><span class="srow__total">124 of 124 contests</span></div>
+<div class="sbar" role="img" aria-label="2020s: Contests on the site 124, with full figures 124, verified against a source 42, of 124 contests"><span class="sbar__seg sbar__seg--l4" style="width:33.87%"></span><span class="sbar__seg sbar__seg--l3" style="width:66.13%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">124</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">124</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">42</span> <span class="sfigs__p">(34%)</span></li></ul>
+<p class="srow__basis">No independent list of these contests is held yet, so the total is the contests the site holds.</p>
+</li>
+</ul>
+</article>
+<article class="status-item">
+<h3 id="elections-european">European Parliament</h3>
+
+<p class="status-total"><strong>46</strong> of 46 known contests on the site; 46 with full figures; 34 verified.</p>
+<ul class="srows">
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Northern Ireland</span><span class="srow__total">9 of 9 contests</span></div>
+<div class="sbar" role="img" aria-label="Northern Ireland: Contests on the site 9, with full figures 9, verified against a source 8, of 9 contests"><span class="sbar__seg sbar__seg--l4" style="width:88.89%"></span><span class="sbar__seg sbar__seg--l3" style="width:11.11%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">9</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">9</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">8</span> <span class="sfigs__p">(89%)</span></li></ul>
+<p class="srow__basis">No independent list of these contests is held yet, so the total is the contests the site holds.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Republic of Ireland</span><span class="srow__total">37 of 37 contests</span></div>
+<div class="sbar" role="img" aria-label="Republic of Ireland: Contests on the site 37, with full figures 37, verified against a source 26, of 37 contests"><span class="sbar__seg sbar__seg--l4" style="width:70.27%"></span><span class="sbar__seg sbar__seg--l3" style="width:29.73%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">37</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">37</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">26</span> <span class="sfigs__p">(70%)</span></li></ul>
+<p class="srow__basis">No independent list of these contests is held yet, so the total is the contests the site holds.</p>
+</li>
+</ul>
+</article>
+<article class="status-item">
+<h3 id="elections-president">Presidential elections (Ireland)</h3>
+
+<p class="status-total"><strong>15</strong> of 15 known contests on the site; 15 with full figures; 4 verified.</p>
+<ul class="srows">
+<li class="srow">
+<div class="srow__head"><span class="srow__label">1938 onwards</span><span class="srow__total">15 of 15 contests</span></div>
+<div class="sbar" role="img" aria-label="1938 onwards: Contests on the site 15, with full figures 15, verified against a source 4, of 15 contests"><span class="sbar__seg sbar__seg--l4" style="width:26.67%"></span><span class="sbar__seg sbar__seg--l3" style="width:73.33%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">15</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">15</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">4</span> <span class="sfigs__p">(27%)</span></li></ul>
+<p class="srow__basis">No independent list of these contests is held yet, so the total is the contests the site holds.</p>
+</li>
+</ul>
+</article>
+<article class="status-item">
+<h3 id="elections-referendums">Referendums</h3>
+
+<p class="status-total"><strong>1,785</strong> of 1,785 known constituency results on the site; 1,785 with full figures; 1,756 verified.</p>
+<ul class="srows">
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Republic of Ireland</span><span class="srow__total">1,756 of 1,756 constituency results</span></div>
+<div class="sbar" role="img" aria-label="Republic of Ireland: Contests on the site 1,756, with full figures 1,756, verified against a source 1,756, of 1,756 constituency results"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">1,756</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">1,756</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">1,756</span> <span class="sfigs__p">(100%)</span></li></ul>
+<p class="srow__basis">No independent list of these contests is held yet, so the total is the constituency results the site holds.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Northern Ireland and UK-wide, in Northern Ireland</span><span class="srow__total">29 of 29 constituency results</span></div>
+<div class="sbar" role="img" aria-label="Northern Ireland and UK-wide, in Northern Ireland: Contests on the site 29, with full figures 29, verified against a source 0, of 29 constituency results"><span class="sbar__seg sbar__seg--l3" style="width:100.00%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Contests on the site: <span class="sfigs__n">29</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">29</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">0</span> <span class="sfigs__p">(0%)</span></li></ul>
+<p class="srow__basis">No independent list of these contests is held yet, so the total is the constituency results the site holds.</p>
+</li>
+</ul>
+</article>
+<article class="status-item">
+<h3 id="elections-ni-councils-pre1973">Northern Ireland councils before 1973</h3>
+<p class="status-note">Councils elected before the 1973 reorganisation: county boroughs, boroughs, urban and rural district councils and county councils. No complete list of their elections exists yet, so each bar counts rounds (one council's election on one date) against the known rounds so far: the rounds filed on the site plus rounds documented as not held.</p>
+<p class="status-total"><strong>270</strong> of 325 known rounds on the site; 242 with full figures; 255 verified.</p>
+<ul class="srows">
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Aghalee Rural District Council <span class="srow__span">1899</span></span><span class="srow__total">1 of 1 rounds</span></div>
+<div class="sbar" role="img" aria-label="Aghalee Rural District Council: Rounds on the site 1, with full figures 1, verified against a source 1, of 1 rounds"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Rounds on the site: <span class="sfigs__n">1</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">1</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">1</span> <span class="sfigs__p">(100%)</span></li></ul>
+
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Armagh County Council <span class="srow__span">1899–1967</span></span><span class="srow__total">21 of 25 rounds</span></div>
+<div class="sbar" role="img" aria-label="Armagh County Council: Rounds on the site 21, with full figures 21, verified against a source 21, of 25 rounds"><span class="sbar__seg sbar__seg--l4" style="width:84.00%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Rounds on the site: <span class="sfigs__n">21</span> <span class="sfigs__p">(84%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">21</span> <span class="sfigs__p">(84%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">21</span> <span class="sfigs__p">(84%)</span></li></ul>
+<p class="srow__basis">Known rounds so far: 21 rounds on the site and 4 documented as not held.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Armagh Rural District Council <span class="srow__span">1899–1967</span></span><span class="srow__total">20 of 24 rounds</span></div>
+<div class="sbar" role="img" aria-label="Armagh Rural District Council: Rounds on the site 20, with full figures 19, verified against a source 20, of 24 rounds"><span class="sbar__seg sbar__seg--l4" style="width:83.33%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Rounds on the site: <span class="sfigs__n">20</span> <span class="sfigs__p">(83%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">19</span> <span class="sfigs__p">(79%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">20</span> <span class="sfigs__p">(83%)</span></li></ul>
+<p class="srow__basis">Known rounds so far: 20 rounds on the site and 4 documented as not held.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Armagh Urban District Council <span class="srow__span">1899–1964</span></span><span class="srow__total">18 of 25 rounds</span></div>
+<div class="sbar" role="img" aria-label="Armagh Urban District Council: Rounds on the site 18, with full figures 18, verified against a source 18, of 25 rounds"><span class="sbar__seg sbar__seg--l4" style="width:72.00%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Rounds on the site: <span class="sfigs__n">18</span> <span class="sfigs__p">(72%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">18</span> <span class="sfigs__p">(72%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">18</span> <span class="sfigs__p">(72%)</span></li></ul>
+<p class="srow__basis">Known rounds so far: 18 rounds on the site and 7 documented as not held.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Bangor Urban District Council <span class="srow__span">1920</span></span><span class="srow__total">1 of 1 rounds</span></div>
+<div class="sbar" role="img" aria-label="Bangor Urban District Council: Rounds on the site 1, with full figures 0, verified against a source 1, of 1 rounds"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Rounds on the site: <span class="sfigs__n">1</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">0</span> <span class="sfigs__p">(0%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">1</span> <span class="sfigs__p">(100%)</span></li></ul>
+
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Belfast County Borough Council <span class="srow__span">1920–1967</span></span><span class="srow__total">4 of 4 rounds</span></div>
+<div class="sbar" role="img" aria-label="Belfast County Borough Council: Rounds on the site 4, with full figures 4, verified against a source 4, of 4 rounds"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Rounds on the site: <span class="sfigs__n">4</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">4</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">4</span> <span class="sfigs__p">(100%)</span></li></ul>
+
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Belfast County Borough Council (aldermen) <span class="srow__span">1961–1967</span></span><span class="srow__total">3 of 3 rounds</span></div>
+<div class="sbar" role="img" aria-label="Belfast County Borough Council (aldermen): Rounds on the site 3, with full figures 3, verified against a source 3, of 3 rounds"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Rounds on the site: <span class="sfigs__n">3</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">3</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">3</span> <span class="sfigs__p">(100%)</span></li></ul>
+
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Castleblayney No. 2 Rural District Council <span class="srow__span">1899–1914</span></span><span class="srow__total">6 of 7 rounds</span></div>
+<div class="sbar" role="img" aria-label="Castleblayney No. 2 Rural District Council: Rounds on the site 6, with full figures 6, verified against a source 6, of 7 rounds"><span class="sbar__seg sbar__seg--l4" style="width:85.71%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Rounds on the site: <span class="sfigs__n">6</span> <span class="sfigs__p">(86%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">6</span> <span class="sfigs__p">(86%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">6</span> <span class="sfigs__p">(86%)</span></li></ul>
+<p class="srow__basis">Known rounds so far: 6 rounds on the site and 1 documented as not held.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Keady Urban District Council <span class="srow__span">1899–1967</span></span><span class="srow__total">21 of 26 rounds</span></div>
+<div class="sbar" role="img" aria-label="Keady Urban District Council: Rounds on the site 21, with full figures 21, verified against a source 21, of 26 rounds"><span class="sbar__seg sbar__seg--l4" style="width:80.77%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Rounds on the site: <span class="sfigs__n">21</span> <span class="sfigs__p">(81%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">21</span> <span class="sfigs__p">(81%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">21</span> <span class="sfigs__p">(81%)</span></li></ul>
+<p class="srow__basis">Known rounds so far: 21 rounds on the site and 5 documented as not held.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Lisburn Urban District Council <span class="srow__span">1920</span></span><span class="srow__total">1 of 1 rounds</span></div>
+<div class="sbar" role="img" aria-label="Lisburn Urban District Council: Rounds on the site 1, with full figures 1, verified against a source 1, of 1 rounds"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Rounds on the site: <span class="sfigs__n">1</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">1</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">1</span> <span class="sfigs__p">(100%)</span></li></ul>
+
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Londonderry County Borough Council <span class="srow__span">1920</span></span><span class="srow__total">1 of 1 rounds</span></div>
+<div class="sbar" role="img" aria-label="Londonderry County Borough Council: Rounds on the site 1, with full figures 1, verified against a source 1, of 1 rounds"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Rounds on the site: <span class="sfigs__n">1</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">1</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">1</span> <span class="sfigs__p">(100%)</span></li></ul>
+
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Lurgan Borough Council <span class="srow__span">1899–1967</span></span><span class="srow__total">42 of 54 rounds</span></div>
+<div class="sbar" role="img" aria-label="Lurgan Borough Council: Rounds on the site 42, with full figures 35, verified against a source 35, of 54 rounds"><span class="sbar__seg sbar__seg--l4" style="width:64.81%"></span><span class="sbar__seg sbar__seg--l2" style="width:12.96%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Rounds on the site: <span class="sfigs__n">42</span> <span class="sfigs__p">(78%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">35</span> <span class="sfigs__p">(65%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">35</span> <span class="sfigs__p">(65%)</span></li></ul>
+<p class="srow__basis">Known rounds so far: 42 rounds on the site and 12 documented as not held.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Lurgan Rural District Council <span class="srow__span">1899–1964</span></span><span class="srow__total">20 of 24 rounds</span></div>
+<div class="sbar" role="img" aria-label="Lurgan Rural District Council: Rounds on the site 20, with full figures 18, verified against a source 20, of 24 rounds"><span class="sbar__seg sbar__seg--l4" style="width:83.33%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Rounds on the site: <span class="sfigs__n">20</span> <span class="sfigs__p">(83%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">18</span> <span class="sfigs__p">(75%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">20</span> <span class="sfigs__p">(83%)</span></li></ul>
+<p class="srow__basis">Known rounds so far: 20 rounds on the site and 4 documented as not held.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Moira Rural District Council <span class="srow__span">1899</span></span><span class="srow__total">1 of 1 rounds</span></div>
+<div class="sbar" role="img" aria-label="Moira Rural District Council: Rounds on the site 1, with full figures 1, verified against a source 1, of 1 rounds"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Rounds on the site: <span class="sfigs__n">1</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">1</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">1</span> <span class="sfigs__p">(100%)</span></li></ul>
+
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Newry No. 2 Rural District Council <span class="srow__span">1899–1967</span></span><span class="srow__total">21 of 25 rounds</span></div>
+<div class="sbar" role="img" aria-label="Newry No. 2 Rural District Council: Rounds on the site 21, with full figures 18, verified against a source 21, of 25 rounds"><span class="sbar__seg sbar__seg--l4" style="width:84.00%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Rounds on the site: <span class="sfigs__n">21</span> <span class="sfigs__p">(84%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">18</span> <span class="sfigs__p">(72%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">21</span> <span class="sfigs__p">(84%)</span></li></ul>
+<p class="srow__basis">Known rounds so far: 21 rounds on the site and 4 documented as not held.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Portadown Borough Council <span class="srow__span">1899–1967</span></span><span class="srow__total">22 of 27 rounds</span></div>
+<div class="sbar" role="img" aria-label="Portadown Borough Council: Rounds on the site 22, with full figures 13, verified against a source 14, of 27 rounds"><span class="sbar__seg sbar__seg--l4" style="width:51.85%"></span><span class="sbar__seg sbar__seg--l2" style="width:29.63%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Rounds on the site: <span class="sfigs__n">22</span> <span class="sfigs__p">(81%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">13</span> <span class="sfigs__p">(48%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">14</span> <span class="sfigs__p">(52%)</span></li></ul>
+<p class="srow__basis">Known rounds so far: 22 rounds on the site and 5 documented as not held.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Strabane Urban District Council <span class="srow__span">1899–1967</span></span><span class="srow__total">28 of 28 rounds</span></div>
+<div class="sbar" role="img" aria-label="Strabane Urban District Council: Rounds on the site 28, with full figures 26, verified against a source 28, of 28 rounds"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Rounds on the site: <span class="sfigs__n">28</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">26</span> <span class="sfigs__p">(93%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">28</span> <span class="sfigs__p">(100%)</span></li></ul>
+
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Tandragee Rural District Council <span class="srow__span">1899–1967</span></span><span class="srow__total">19 of 23 rounds</span></div>
+<div class="sbar" role="img" aria-label="Tandragee Rural District Council: Rounds on the site 19, with full figures 18, verified against a source 19, of 23 rounds"><span class="sbar__seg sbar__seg--l4" style="width:82.61%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Rounds on the site: <span class="sfigs__n">19</span> <span class="sfigs__p">(83%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">18</span> <span class="sfigs__p">(78%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">19</span> <span class="sfigs__p">(83%)</span></li></ul>
+<p class="srow__basis">Known rounds so far: 19 rounds on the site and 4 documented as not held.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Tandragee Urban District Council <span class="srow__span">1899–1967</span></span><span class="srow__total">20 of 25 rounds</span></div>
+<div class="sbar" role="img" aria-label="Tandragee Urban District Council: Rounds on the site 20, with full figures 18, verified against a source 20, of 25 rounds"><span class="sbar__seg sbar__seg--l4" style="width:80.00%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l2" aria-hidden="true"></span>Rounds on the site: <span class="sfigs__n">20</span> <span class="sfigs__p">(80%)</span></li><li><span class="swatch swatch--l3" aria-hidden="true"></span>with full figures: <span class="sfigs__n">18</span> <span class="sfigs__p">(72%)</span></li><li><span class="swatch swatch--l4" aria-hidden="true"></span>verified against a source: <span class="sfigs__n">20</span> <span class="sfigs__p">(80%)</span></li></ul>
+<p class="srow__basis">Known rounds so far: 20 rounds on the site and 5 documented as not held.</p>
+</li>
+</ul>
+</article>
+</section>
+<section id="maps" aria-labelledby="maps-h">
+<h2 id="maps-h">Maps</h2>
+<p>Each map series in the catalogue, by shelf. Known editions are the editions the catalogue lists plus those it lists as still to be added. A <strong>partial</strong> map covers only part of its area. In all, 780 of 963 known editions are on the site (54 of them partial).</p>
+<article class="status-item">
+<h3 id="maps-land-divisions">Historic Geographies</h3>
+<p class="status-total"><strong>16</strong> of 16 known editions on the site, in 9 series.</p>
+<div class="sbar" role="img" aria-label="Historic Geographies: 16 complete and 0 partial on the site, 0 not yet drawn, of 16 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l4" aria-hidden="true"></span>Complete on the site: <span class="sfigs__n">16</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l2" aria-hidden="true"></span>Partial (part of the area only): <span class="sfigs__n">0</span> <span class="sfigs__p">(0%)</span></li><li><span class="swatch swatch--l0" aria-hidden="true"></span>Known, not yet drawn: <span class="sfigs__n">0</span> <span class="sfigs__p">(0%)</span></li></ul>
+<details class="status-details"><summary>Each series (9)</summary>
+<ul class="srows">
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Counties <span class="srow__span">Ireland, 1915–1977</span></span><span class="srow__total">6 of 6</span></div>
+<div class="sbar" role="img" aria-label="Counties: 6 complete and 0 partial on the site, 0 not yet drawn, of 6 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">6 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Provinces <span class="srow__span">Ireland, 1899–1955</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Provinces: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete. Also 1 other version or local copy.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Regional Divides <span class="srow__span">Ireland</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Regional Divides: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Baronies <span class="srow__span">Ireland</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Baronies: 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Catholic Dioceses <span class="srow__span">Ireland</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Catholic Dioceses: 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Catholic Parishes (Dublin) <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Catholic Parishes (Dublin): 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Civil Parishes <span class="srow__span">Ireland</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Civil Parishes: 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Peacelines <span class="srow__span">Northern Ireland</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Peacelines: 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Townlands <span class="srow__span">Ireland</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Townlands: 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete. Also 5 other versions or local copies.</p>
+</li>
+</ul>
+</details>
+</article>
+<article class="status-item">
+<h3 id="maps-government-and-administration">Government &amp; Administration</h3>
+<p class="status-total"><strong>124</strong> of 124 known editions on the site, in 17 series.</p>
+<div class="sbar" role="img" aria-label="Government &amp; Administration: 70 complete and 54 partial on the site, 0 not yet drawn, of 124 known editions"><span class="sbar__seg sbar__seg--l4" style="width:56.45%"></span><span class="sbar__seg sbar__seg--l2" style="width:43.55%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l4" aria-hidden="true"></span>Complete on the site: <span class="sfigs__n">70</span> <span class="sfigs__p">(56%)</span></li><li><span class="swatch swatch--l2" aria-hidden="true"></span>Partial (part of the area only): <span class="sfigs__n">54</span> <span class="sfigs__p">(44%)</span></li><li><span class="swatch swatch--l0" aria-hidden="true"></span>Known, not yet drawn: <span class="sfigs__n">0</span> <span class="sfigs__p">(0%)</span></li></ul>
+<details class="status-details"><summary>Each series (17)</summary>
+<ul class="srows">
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Administrative Areas <span class="srow__span">Northern Ireland, 1921–1969</span></span><span class="srow__total">56 of 56</span></div>
+<div class="sbar" role="img" aria-label="Administrative Areas: 2 complete and 54 partial on the site, 0 not yet drawn, of 56 known editions"><span class="sbar__seg sbar__seg--l4" style="width:3.57%"></span><span class="sbar__seg sbar__seg--l2" style="width:96.43%"></span></div>
+<p class="srow__basis">2 complete, 54 partial.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Administrative Counties (Republic of Ireland) <span class="srow__span">Republic of Ireland, 1921–2019</span></span><span class="srow__total">22 of 22</span></div>
+<div class="sbar" role="img" aria-label="Administrative Counties (Republic of Ireland): 22 complete and 0 partial on the site, 0 not yet drawn, of 22 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">22 complete. Also 1 other version or local copy.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Poor Law Unions (Ireland before partition) <span class="srow__span">Ireland, 1850–1921</span></span><span class="srow__total">8 of 8</span></div>
+<div class="sbar" role="img" aria-label="Poor Law Unions (Ireland before partition): 8 complete and 0 partial on the site, 0 not yet drawn, of 8 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">8 complete. Also 3 other versions or local copies.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Administrative Counties (Ireland before partition) <span class="srow__span">Ireland, 1899–1920</span></span><span class="srow__total">5 of 5</span></div>
+<div class="sbar" role="img" aria-label="Administrative Counties (Ireland before partition): 5 complete and 0 partial on the site, 0 not yet drawn, of 5 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">5 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Dispensary Districts <span class="srow__span">Republic of Ireland, 1926–1956</span></span><span class="srow__total">5 of 5</span></div>
+<div class="sbar" role="img" aria-label="Dispensary Districts: 5 complete and 0 partial on the site, 0 not yet drawn, of 5 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">5 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Local Government Districts <span class="srow__span">Northern Ireland, 1972–2022</span></span><span class="srow__total">5 of 5</span></div>
+<div class="sbar" role="img" aria-label="Local Government Districts: 5 complete and 0 partial on the site, 0 not yet drawn, of 5 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">5 complete. Also 2 other versions or local copies.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Superintendent Registrars' Districts <span class="srow__span">Republic of Ireland, 1926–1956</span></span><span class="srow__total">5 of 5</span></div>
+<div class="sbar" role="img" aria-label="Superintendent Registrars' Districts: 5 complete and 0 partial on the site, 0 not yet drawn, of 5 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">5 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Garda Areas <span class="srow__span">Republic of Ireland, 2011</span></span><span class="srow__total">4 of 4</span></div>
+<div class="sbar" role="img" aria-label="Garda Areas: 4 complete and 0 partial on the site, 0 not yet drawn, of 4 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">4 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Education and Library Boards <span class="srow__span">Northern Ireland, 1984–1993</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Education and Library Boards: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Gaeltacht Areas <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Gaeltacht Areas: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete. Also 1 other version or local copy.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Polities <span class="srow__span">Ireland, 1921</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Polities: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete. Also 1 other version or local copy.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Poor Law Unions <span class="srow__span">Northern Ireland, 1921–1924</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Poor Law Unions: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Rural and Urban Districts (Ireland before partition) <span class="srow__span">Ireland, 1901–1911</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Rural and Urban Districts (Ireland before partition): 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Administrative Counties (Northern Ireland) <span class="srow__span">Northern Ireland, 1921</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Administrative Counties (Northern Ireland): 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Health and Social Care Trusts <span class="srow__span">Northern Ireland</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Health and Social Care Trusts: 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Legal Towns and Cities <span class="srow__span">Republic of Ireland, 2011</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Legal Towns and Cities: 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Municipal Districts <span class="srow__span">Republic of Ireland, 2019</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Municipal Districts: 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete. Also 2 other versions or local copies.</p>
+</li>
+</ul>
+</details>
+</article>
+<article class="status-item">
+<h3 id="maps-elections-and-representation">Elections &amp; Representation</h3>
+<p class="status-total"><strong>115</strong> of 218 known editions on the site, in 17 series.</p>
+<div class="sbar" role="img" aria-label="Elections &amp; Representation: 115 complete and 0 partial on the site, 103 not yet drawn, of 218 known editions"><span class="sbar__seg sbar__seg--l4" style="width:52.75%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l4" aria-hidden="true"></span>Complete on the site: <span class="sfigs__n">115</span> <span class="sfigs__p">(53%)</span></li><li><span class="swatch swatch--l2" aria-hidden="true"></span>Partial (part of the area only): <span class="sfigs__n">0</span> <span class="sfigs__p">(0%)</span></li><li><span class="swatch swatch--l0" aria-hidden="true"></span>Known, not yet drawn: <span class="sfigs__n">103</span> <span class="sfigs__p">(47%)</span></li></ul>
+<details class="status-details"><summary>Each series (17)</summary>
+<ul class="srows">
+<li class="srow">
+<div class="srow__head"><span class="srow__label">District Electoral Divisions <span class="srow__span">Northern Ireland, 1921–1969</span></span><span class="srow__total">3 of 57</span></div>
+<div class="sbar" role="img" aria-label="District Electoral Divisions: 3 complete and 0 partial on the site, 54 not yet drawn, of 57 known editions"><span class="sbar__seg sbar__seg--l4" style="width:5.26%"></span></div>
+<p class="srow__basis">3 complete, 54 not yet drawn.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">County Electoral Divisions <span class="srow__span">Northern Ireland, 1921–1969</span></span><span class="srow__total">9 of 56</span></div>
+<div class="sbar" role="img" aria-label="County Electoral Divisions: 9 complete and 0 partial on the site, 47 not yet drawn, of 56 known editions"><span class="sbar__seg sbar__seg--l4" style="width:16.07%"></span></div>
+<p class="srow__basis">9 complete, 47 not yet drawn.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Electoral Divisions <span class="srow__span">Republic of Ireland, 1921–2019</span></span><span class="srow__total">26 of 26</span></div>
+<div class="sbar" role="img" aria-label="Electoral Divisions: 26 complete and 0 partial on the site, 0 not yet drawn, of 26 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">26 complete. Also 5 other versions or local copies.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Dáil Éireann Constituencies <span class="srow__span">Republic of Ireland, 1923–2023</span></span><span class="srow__total">15 of 17</span></div>
+<div class="sbar" role="img" aria-label="Dáil Éireann Constituencies: 15 complete and 0 partial on the site, 2 not yet drawn, of 17 known editions"><span class="sbar__seg sbar__seg--l4" style="width:88.24%"></span></div>
+<p class="srow__basis">15 complete, 2 not yet drawn. Also 1 other version or local copy.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Northern Ireland Constituencies <span class="srow__span">Northern Ireland, 1920–2023</span></span><span class="srow__total">10 of 10</span></div>
+<div class="sbar" role="img" aria-label="Northern Ireland Constituencies: 10 complete and 0 partial on the site, 0 not yet drawn, of 10 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">10 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Westminster Constituencies <span class="srow__span">Ireland, 1885–2024</span></span><span class="srow__total">10 of 10</span></div>
+<div class="sbar" role="img" aria-label="Westminster Constituencies: 10 complete and 0 partial on the site, 0 not yet drawn, of 10 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">10 complete. Also 1 other version or local copy.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">District Electoral Divisions (Ireland before partition) <span class="srow__span">Ireland, 1910–1921</span></span><span class="srow__total">9 of 9</span></div>
+<div class="sbar" role="img" aria-label="District Electoral Divisions (Ireland before partition): 9 complete and 0 partial on the site, 0 not yet drawn, of 9 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">9 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Polling Stations (Republic of Ireland) <span class="srow__span">Republic of Ireland, 2011–2025</span></span><span class="srow__total">7 of 7</span></div>
+<div class="sbar" role="img" aria-label="Polling Stations (Republic of Ireland): 7 complete and 0 partial on the site, 0 not yet drawn, of 7 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">7 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">European Parliament Constituencies <span class="srow__span">Ireland, 1979–2024</span></span><span class="srow__total">6 of 6</span></div>
+<div class="sbar" role="img" aria-label="European Parliament Constituencies: 6 complete and 0 partial on the site, 0 not yet drawn, of 6 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">6 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Wards <span class="srow__span">Northern Ireland, 1972–2022</span></span><span class="srow__total">5 of 5</span></div>
+<div class="sbar" role="img" aria-label="Wards: 5 complete and 0 partial on the site, 0 not yet drawn, of 5 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">5 complete. Also 2 other versions or local copies.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">District Electoral Areas <span class="srow__span">Northern Ireland, 1972–2012</span></span><span class="srow__total">4 of 4</span></div>
+<div class="sbar" role="img" aria-label="District Electoral Areas: 4 complete and 0 partial on the site, 0 not yet drawn, of 4 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">4 complete. Also 3 other versions or local copies.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Polling Districts <span class="srow__span">Republic of Ireland, 2019</span></span><span class="srow__total">4 of 4</span></div>
+<div class="sbar" role="img" aria-label="Polling Districts: 4 complete and 0 partial on the site, 0 not yet drawn, of 4 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">4 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Local Electoral Areas <span class="srow__span">Republic of Ireland, 2008–2019</span></span><span class="srow__total">3 of 3</span></div>
+<div class="sbar" role="img" aria-label="Local Electoral Areas: 3 complete and 0 partial on the site, 0 not yet drawn, of 3 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">3 complete. Also 3 other versions or local copies.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">AV Referendum Counting Areas <span class="srow__span">Northern Ireland, 2011</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="AV Referendum Counting Areas: 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">County Electoral Divisions (Ireland before partition) <span class="srow__span">Ireland, 1911</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="County Electoral Divisions (Ireland before partition): 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Dublin Electoral Counties <span class="srow__span">Republic of Ireland, 1985</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Dublin Electoral Counties: 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Polling Stations (Northern Ireland) <span class="srow__span">Northern Ireland, 2026</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Polling Stations (Northern Ireland): 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+</ul>
+</details>
+</article>
+<article class="status-item">
+<h3 id="maps-people-and-places">People &amp; Places</h3>
+<p class="status-total"><strong>32</strong> of 112 known editions on the site, in 45 series.</p>
+<div class="sbar" role="img" aria-label="People &amp; Places: 32 complete and 0 partial on the site, 80 not yet drawn, of 112 known editions"><span class="sbar__seg sbar__seg--l4" style="width:28.57%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l4" aria-hidden="true"></span>Complete on the site: <span class="sfigs__n">32</span> <span class="sfigs__p">(29%)</span></li><li><span class="swatch swatch--l2" aria-hidden="true"></span>Partial (part of the area only): <span class="sfigs__n">0</span> <span class="sfigs__p">(0%)</span></li><li><span class="swatch swatch--l0" aria-hidden="true"></span>Known, not yet drawn: <span class="sfigs__n">80</span> <span class="sfigs__p">(71%)</span></li></ul>
+<details class="status-details"><summary>Each series (45)</summary>
+<ul class="srows">
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Usual resident population <span class="srow__span">Northern Ireland, 1971–2021</span></span><span class="srow__total">0 of 8</span></div>
+<div class="sbar" role="img" aria-label="Usual resident population: 0 complete and 0 partial on the site, 8 not yet drawn, of 8 known editions"></div>
+<p class="srow__basis">0 complete, 8 not yet drawn.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Average household size <span class="srow__span">Northern Ireland, 2021</span></span><span class="srow__total">0 of 6</span></div>
+<div class="sbar" role="img" aria-label="Average household size: 0 complete and 0 partial on the site, 6 not yet drawn, of 6 known editions"></div>
+<p class="srow__basis">0 complete, 6 not yet drawn.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Total households <span class="srow__span">Northern Ireland, 2021</span></span><span class="srow__total">0 of 6</span></div>
+<div class="sbar" role="img" aria-label="Total households: 0 complete and 0 partial on the site, 6 not yet drawn, of 6 known editions"></div>
+<p class="srow__basis">0 complete, 6 not yet drawn.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Catholic community background <span class="srow__span">Northern Ireland, 2011–2021</span></span><span class="srow__total">0 of 4</span></div>
+<div class="sbar" role="img" aria-label="Catholic community background: 0 complete and 0 partial on the site, 4 not yet drawn, of 4 known editions"></div>
+<p class="srow__basis">0 complete, 4 not yet drawn.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Female population share <span class="srow__span">Northern Ireland, 2011–2021</span></span><span class="srow__total">0 of 4</span></div>
+<div class="sbar" role="img" aria-label="Female population share: 0 complete and 0 partial on the site, 4 not yet drawn, of 4 known editions"></div>
+<p class="srow__basis">0 complete, 4 not yet drawn.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">NUTS Regions <span class="srow__span">Ireland, 2003–2011</span></span><span class="srow__total">4 of 4</span></div>
+<div class="sbar" role="img" aria-label="NUTS Regions: 4 complete and 0 partial on the site, 0 not yet drawn, of 4 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">4 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Population density <span class="srow__span">Northern Ireland, 2021</span></span><span class="srow__total">0 of 4</span></div>
+<div class="sbar" role="img" aria-label="Population density: 0 complete and 0 partial on the site, 4 not yet drawn, of 4 known editions"></div>
+<p class="srow__basis">0 complete, 4 not yet drawn.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Born in Northern Ireland <span class="srow__span">Northern Ireland, 2021</span></span><span class="srow__total">0 of 3</span></div>
+<div class="sbar" role="img" aria-label="Born in Northern Ireland: 0 complete and 0 partial on the site, 3 not yet drawn, of 3 known editions"></div>
+<p class="srow__basis">0 complete, 3 not yet drawn.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Day-to-day activities limited <span class="srow__span">Northern Ireland, 2021</span></span><span class="srow__total">0 of 3</span></div>
+<div class="sbar" role="img" aria-label="Day-to-day activities limited: 0 complete and 0 partial on the site, 3 not yet drawn, of 3 known editions"></div>
+<p class="srow__basis">0 complete, 3 not yet drawn.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Households with no car or van <span class="srow__span">Northern Ireland, 2021</span></span><span class="srow__total">0 of 3</span></div>
+<div class="sbar" role="img" aria-label="Households with no car or van: 0 complete and 0 partial on the site, 3 not yet drawn, of 3 known editions"></div>
+<p class="srow__basis">0 complete, 3 not yet drawn.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Intermediate Census Areas <span class="srow__span">Northern Ireland, 2001–2021</span></span><span class="srow__total">3 of 3</span></div>
+<div class="sbar" role="img" aria-label="Intermediate Census Areas: 3 complete and 0 partial on the site, 0 not yet drawn, of 3 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">3 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Level 4+ qualifications <span class="srow__span">Northern Ireland, 2021</span></span><span class="srow__total">0 of 3</span></div>
+<div class="sbar" role="img" aria-label="Level 4+ qualifications: 0 complete and 0 partial on the site, 3 not yet drawn, of 3 known editions"></div>
+<p class="srow__basis">0 complete, 3 not yet drawn.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">No qualifications <span class="srow__span">Northern Ireland, 2021</span></span><span class="srow__total">0 of 3</span></div>
+<div class="sbar" role="img" aria-label="No qualifications: 0 complete and 0 partial on the site, 3 not yet drawn, of 3 known editions"></div>
+<p class="srow__basis">0 complete, 3 not yet drawn.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Owner-occupied households <span class="srow__span">Northern Ireland, 2021</span></span><span class="srow__total">0 of 3</span></div>
+<div class="sbar" role="img" aria-label="Owner-occupied households: 0 complete and 0 partial on the site, 3 not yet drawn, of 3 known editions"></div>
+<p class="srow__basis">0 complete, 3 not yet drawn.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Private-rented households <span class="srow__span">Northern Ireland, 2021</span></span><span class="srow__total">0 of 3</span></div>
+<div class="sbar" role="img" aria-label="Private-rented households: 0 complete and 0 partial on the site, 3 not yet drawn, of 3 known editions"></div>
+<p class="srow__basis">0 complete, 3 not yet drawn.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Provides unpaid care <span class="srow__span">Northern Ireland, 2021</span></span><span class="srow__total">0 of 3</span></div>
+<div class="sbar" role="img" aria-label="Provides unpaid care: 0 complete and 0 partial on the site, 3 not yet drawn, of 3 known editions"></div>
+<p class="srow__basis">0 complete, 3 not yet drawn.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Religion: Catholic <span class="srow__span">Northern Ireland, 2021</span></span><span class="srow__total">0 of 3</span></div>
+<div class="sbar" role="img" aria-label="Religion: Catholic: 0 complete and 0 partial on the site, 3 not yet drawn, of 3 known editions"></div>
+<p class="srow__basis">0 complete, 3 not yet drawn.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Settlements (Republic of Ireland) <span class="srow__span">Republic of Ireland, 2011–2015</span></span><span class="srow__total">3 of 3</span></div>
+<div class="sbar" role="img" aria-label="Settlements (Republic of Ireland): 3 complete and 0 partial on the site, 0 not yet drawn, of 3 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">3 complete. Also 1 other version or local copy.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Smallest Census Areas <span class="srow__span">Northern Ireland, 2001–2021</span></span><span class="srow__total">3 of 3</span></div>
+<div class="sbar" role="img" aria-label="Smallest Census Areas: 3 complete and 0 partial on the site, 0 not yet drawn, of 3 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">3 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Social-rented households <span class="srow__span">Northern Ireland, 2021</span></span><span class="srow__total">0 of 3</span></div>
+<div class="sbar" role="img" aria-label="Social-rented households: 0 complete and 0 partial on the site, 3 not yet drawn, of 3 known editions"></div>
+<p class="srow__basis">0 complete, 3 not yet drawn.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Some ability in Irish <span class="srow__span">Northern Ireland, 2021</span></span><span class="srow__total">0 of 3</span></div>
+<div class="sbar" role="img" aria-label="Some ability in Irish: 0 complete and 0 partial on the site, 3 not yet drawn, of 3 known editions"></div>
+<p class="srow__basis">0 complete, 3 not yet drawn.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Some ability in Ulster-Scots <span class="srow__span">Northern Ireland, 2021</span></span><span class="srow__total">0 of 3</span></div>
+<div class="sbar" role="img" aria-label="Some ability in Ulster-Scots: 0 complete and 0 partial on the site, 3 not yet drawn, of 3 known editions"></div>
+<p class="srow__basis">0 complete, 3 not yet drawn.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Unemployed <span class="srow__span">Northern Ireland, 2021</span></span><span class="srow__total">0 of 3</span></div>
+<div class="sbar" role="img" aria-label="Unemployed: 0 complete and 0 partial on the site, 3 not yet drawn, of 3 known editions"></div>
+<p class="srow__basis">0 complete, 3 not yet drawn.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Work mainly at or from home <span class="srow__span">Northern Ireland, 2021</span></span><span class="srow__total">0 of 3</span></div>
+<div class="sbar" role="img" aria-label="Work mainly at or from home: 0 complete and 0 partial on the site, 3 not yet drawn, of 3 known editions"></div>
+<p class="srow__basis">0 complete, 3 not yet drawn.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Census Electoral Divisions <span class="srow__span">Republic of Ireland, 2006–2022</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Census Electoral Divisions: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Settlements (Northern Ireland) <span class="srow__span">Northern Ireland, 2005–2015</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Settlements (Northern Ireland): 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Small Areas <span class="srow__span">Republic of Ireland, 2011–2022</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Small Areas: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Travel To Work Areas <span class="srow__span">Northern Ireland, 2007–2011</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Travel To Work Areas: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Built-Up Areas <span class="srow__span">Ireland</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Built-Up Areas: 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Built-Up Areas (points) <span class="srow__span">Ireland</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Built-Up Areas (points): 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Census Grid <span class="srow__span">Northern Ireland, 2021</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Census Grid: 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Centres of Population <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Centres of Population: 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">CSO Urban Areas <span class="srow__span">Republic of Ireland, 2022</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="CSO Urban Areas: 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Geographical Names <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Geographical Names: 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Highlands Without Settlements <span class="srow__span">Northern Ireland, 2026</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Highlands Without Settlements: 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Locales <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Locales: 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Median age <span class="srow__span">Northern Ireland, 2011</span></span><span class="srow__total">0 of 1</span></div>
+<div class="sbar" role="img" aria-label="Median age: 0 complete and 0 partial on the site, 1 not yet drawn, of 1 known editions"></div>
+<p class="srow__basis">0 complete, 1 not yet drawn.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Multiple Deprivation Measure decile <span class="srow__span">Northern Ireland, 2017</span></span><span class="srow__total">0 of 1</span></div>
+<div class="sbar" role="img" aria-label="Multiple Deprivation Measure decile: 0 complete and 0 partial on the site, 1 not yet drawn, of 1 known editions"></div>
+<p class="srow__basis">0 complete, 1 not yet drawn.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Multiple Deprivation Measure rank <span class="srow__span">Northern Ireland, 2017</span></span><span class="srow__total">0 of 1</span></div>
+<div class="sbar" role="img" aria-label="Multiple Deprivation Measure rank: 0 complete and 0 partial on the site, 1 not yet drawn, of 1 known editions"></div>
+<p class="srow__basis">0 complete, 1 not yet drawn.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">NS-SeC 1–3 / ABC1 proxy <span class="srow__span">Northern Ireland, 2011</span></span><span class="srow__total">0 of 1</span></div>
+<div class="sbar" role="img" aria-label="NS-SeC 1–3 / ABC1 proxy: 0 complete and 0 partial on the site, 1 not yet drawn, of 1 known editions"></div>
+<p class="srow__basis">0 complete, 1 not yet drawn.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Place Names Gazetteer <span class="srow__span">Northern Ireland</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Place Names Gazetteer: 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Population aged 10–19 <span class="srow__span">Northern Ireland, 2011</span></span><span class="srow__total">0 of 1</span></div>
+<div class="sbar" role="img" aria-label="Population aged 10–19: 0 complete and 0 partial on the site, 1 not yet drawn, of 1 known editions"></div>
+<p class="srow__basis">0 complete, 1 not yet drawn.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Population change 1971-1981 <span class="srow__span">Northern Ireland, 1971</span></span><span class="srow__total">0 of 1</span></div>
+<div class="sbar" role="img" aria-label="Population change 1971-1981: 0 complete and 0 partial on the site, 1 not yet drawn, of 1 known editions"></div>
+<p class="srow__basis">0 complete, 1 not yet drawn.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Rural Areas <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Rural Areas: 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Street Names Gazetteer <span class="srow__span">Northern Ireland</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Street Names Gazetteer: 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+</ul>
+</details>
+</article>
+<article class="status-item">
+<h3 id="maps-planning-and-property">Planning &amp; Property</h3>
+<p class="status-total"><strong>59</strong> of 59 known editions on the site, in 13 series.</p>
+<div class="sbar" role="img" aria-label="Planning &amp; Property: 59 complete and 0 partial on the site, 0 not yet drawn, of 59 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l4" aria-hidden="true"></span>Complete on the site: <span class="sfigs__n">59</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l2" aria-hidden="true"></span>Partial (part of the area only): <span class="sfigs__n">0</span> <span class="sfigs__p">(0%)</span></li><li><span class="swatch swatch--l0" aria-hidden="true"></span>Known, not yet drawn: <span class="sfigs__n">0</span> <span class="sfigs__p">(0%)</span></li></ul>
+<details class="status-details"><summary>Each series (13)</summary>
+<ul class="srows">
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Local Area Plans (Roscommon) <span class="srow__span">Republic of Ireland, 2008–2017</span></span><span class="srow__total">16 of 16</span></div>
+<div class="sbar" role="img" aria-label="Local Area Plans (Roscommon): 16 complete and 0 partial on the site, 0 not yet drawn, of 16 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">16 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Development Plan (Dún Laoghaire-Rathdown) <span class="srow__span">Republic of Ireland, 2016</span></span><span class="srow__total">10 of 10</span></div>
+<div class="sbar" role="img" aria-label="Development Plan (Dún Laoghaire-Rathdown): 10 complete and 0 partial on the site, 0 not yet drawn, of 10 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">10 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">NI Government Land &amp; Property Register <span class="srow__span">Northern Ireland, 2020–2023</span></span><span class="srow__total">6 of 6</span></div>
+<div class="sbar" role="img" aria-label="NI Government Land &amp; Property Register: 6 complete and 0 partial on the site, 0 not yet drawn, of 6 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">6 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">County Development Plan 2022–2028 (Roscommon) <span class="srow__span">Republic of Ireland, 2022</span></span><span class="srow__total">5 of 5</span></div>
+<div class="sbar" role="img" aria-label="County Development Plan 2022–2028 (Roscommon): 5 complete and 0 partial on the site, 0 not yet drawn, of 5 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">5 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Development Plans &amp; Zoning (other councils) <span class="srow__span">Republic of Ireland, 2022</span></span><span class="srow__total">4 of 4</span></div>
+<div class="sbar" role="img" aria-label="Development Plans &amp; Zoning (other councils): 4 complete and 0 partial on the site, 0 not yet drawn, of 4 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">4 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Planning Registers <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">4 of 4</span></div>
+<div class="sbar" role="img" aria-label="Planning Registers: 4 complete and 0 partial on the site, 0 not yet drawn, of 4 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">4 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Housing, Land &amp; Regeneration <span class="srow__span">Ireland</span></span><span class="srow__total">3 of 3</span></div>
+<div class="sbar" role="img" aria-label="Housing, Land &amp; Regeneration: 3 complete and 0 partial on the site, 0 not yet drawn, of 3 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">3 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Parcels, Buildings &amp; Sites <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">3 of 3</span></div>
+<div class="sbar" role="img" aria-label="Parcels, Buildings &amp; Sites: 3 complete and 0 partial on the site, 0 not yet drawn, of 3 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">3 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Housing &amp; Education Sites <span class="srow__span">Ireland</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Housing &amp; Education Sites: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Planning Application Points <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Planning Application Points: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Planning Exemptions <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Planning Exemptions: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Planning Application Boundaries <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Planning Application Boundaries: 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Planning Register Points <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Planning Register Points: 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+</ul>
+</details>
+</article>
+<article class="status-item">
+<h3 id="maps-transport">Transport</h3>
+<p class="status-total"><strong>115</strong> of 115 known editions on the site, in 27 series.</p>
+<div class="sbar" role="img" aria-label="Transport: 115 complete and 0 partial on the site, 0 not yet drawn, of 115 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l4" aria-hidden="true"></span>Complete on the site: <span class="sfigs__n">115</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l2" aria-hidden="true"></span>Partial (part of the area only): <span class="sfigs__n">0</span> <span class="sfigs__p">(0%)</span></li><li><span class="swatch swatch--l0" aria-hidden="true"></span>Known, not yet drawn: <span class="sfigs__n">0</span> <span class="sfigs__p">(0%)</span></li></ul>
+<details class="status-details"><summary>Each series (27)</summary>
+<ul class="srows">
+<li class="srow">
+<div class="srow__head"><span class="srow__label">NI Road Surface Defects <span class="srow__span">Northern Ireland, 2008–2021</span></span><span class="srow__total">14 of 14</span></div>
+<div class="sbar" role="img" aria-label="NI Road Surface Defects: 14 complete and 0 partial on the site, 0 not yet drawn, of 14 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">14 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Cycle Parking &amp; Bike Share <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">9 of 9</span></div>
+<div class="sbar" role="img" aria-label="Cycle Parking &amp; Bike Share: 9 complete and 0 partial on the site, 0 not yet drawn, of 9 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">9 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Pothole Enquiries <span class="srow__span">Northern Ireland, 2014–2021</span></span><span class="srow__total">9 of 9</span></div>
+<div class="sbar" role="img" aria-label="Pothole Enquiries: 9 complete and 0 partial on the site, 0 not yet drawn, of 9 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">9 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Cycle Network &amp; Infrastructure <span class="srow__span">Ireland, 2013–2025</span></span><span class="srow__total">6 of 6</span></div>
+<div class="sbar" role="img" aria-label="Cycle Network &amp; Infrastructure: 6 complete and 0 partial on the site, 0 not yet drawn, of 6 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">6 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Harbours, Ferries &amp; Piers <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">6 of 6</span></div>
+<div class="sbar" role="img" aria-label="Harbours, Ferries &amp; Piers: 6 complete and 0 partial on the site, 0 not yet drawn, of 6 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">6 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">PSNI Road Traffic Collisions <span class="srow__span">Northern Ireland, 2013–2018</span></span><span class="srow__total">6 of 6</span></div>
+<div class="sbar" role="img" aria-label="PSNI Road Traffic Collisions: 6 complete and 0 partial on the site, 0 not yet drawn, of 6 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">6 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Road Network <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">6 of 6</span></div>
+<div class="sbar" role="img" aria-label="Road Network: 6 complete and 0 partial on the site, 0 not yet drawn, of 6 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">6 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Traffic Management &amp; Road Signs <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">6 of 6</span></div>
+<div class="sbar" role="img" aria-label="Traffic Management &amp; Road Signs: 6 complete and 0 partial on the site, 0 not yet drawn, of 6 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">6 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Bus Routes &amp; Stops <span class="srow__span">Ireland, 2024–2025</span></span><span class="srow__total">4 of 4</span></div>
+<div class="sbar" role="img" aria-label="Bus Routes &amp; Stops: 4 complete and 0 partial on the site, 0 not yet drawn, of 4 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">4 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">NI Railways Infrastructure <span class="srow__span">Northern Ireland</span></span><span class="srow__total">4 of 4</span></div>
+<div class="sbar" role="img" aria-label="NI Railways Infrastructure: 4 complete and 0 partial on the site, 0 not yet drawn, of 4 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">4 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">OSNI 50K Transport <span class="srow__span">Northern Ireland</span></span><span class="srow__total">4 of 4</span></div>
+<div class="sbar" role="img" aria-label="OSNI 50K Transport: 4 complete and 0 partial on the site, 0 not yet drawn, of 4 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">4 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Railway Lines &amp; Signalling <span class="srow__span">Ireland</span></span><span class="srow__total">4 of 4</span></div>
+<div class="sbar" role="img" aria-label="Railway Lines &amp; Signalling: 4 complete and 0 partial on the site, 0 not yet drawn, of 4 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">4 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Accessible Parking <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">3 of 3</span></div>
+<div class="sbar" role="img" aria-label="Accessible Parking: 3 complete and 0 partial on the site, 0 not yet drawn, of 3 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">3 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Airports &amp; Airfields <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">3 of 3</span></div>
+<div class="sbar" role="img" aria-label="Airports &amp; Airfields: 3 complete and 0 partial on the site, 0 not yet drawn, of 3 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">3 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Border Crossings <span class="srow__span">Northern Ireland, 2018</span></span><span class="srow__total">3 of 3</span></div>
+<div class="sbar" role="img" aria-label="Border Crossings: 3 complete and 0 partial on the site, 0 not yet drawn, of 3 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">3 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Rail &amp; Tram Stations <span class="srow__span">Ireland</span></span><span class="srow__total">3 of 3</span></div>
+<div class="sbar" role="img" aria-label="Rail &amp; Tram Stations: 3 complete and 0 partial on the site, 0 not yet drawn, of 3 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">3 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Rail Network <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">3 of 3</span></div>
+<div class="sbar" role="img" aria-label="Rail Network: 3 complete and 0 partial on the site, 0 not yet drawn, of 3 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">3 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Road Junctions &amp; Interchanges <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">3 of 3</span></div>
+<div class="sbar" role="img" aria-label="Road Junctions &amp; Interchanges: 3 complete and 0 partial on the site, 0 not yet drawn, of 3 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">3 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Walking Routes &amp; Rights of Way <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">3 of 3</span></div>
+<div class="sbar" role="img" aria-label="Walking Routes &amp; Rights of Way: 3 complete and 0 partial on the site, 0 not yet drawn, of 3 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">3 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Car &amp; Coach Parking <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Car &amp; Coach Parking: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Cycle &amp; Pedestrian Counters <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Cycle &amp; Pedestrian Counters: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Parking Meters <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Parking Meters: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Pedestrian Crossings <span class="srow__span">Northern Ireland</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Pedestrian Crossings: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">TII Collision Rates <span class="srow__span">Republic of Ireland, 2011–2014</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="TII Collision Rates: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">TII Roadside Sensors <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="TII Roadside Sensors: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Traffic Signals <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Traffic Signals: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Way Network <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Way Network: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+</ul>
+</details>
+</article>
+<article class="status-item">
+<h3 id="maps-heritage-and-culture">Heritage &amp; Culture</h3>
+<p class="status-total"><strong>60</strong> of 60 known editions on the site, in 20 series.</p>
+<div class="sbar" role="img" aria-label="Heritage &amp; Culture: 60 complete and 0 partial on the site, 0 not yet drawn, of 60 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l4" aria-hidden="true"></span>Complete on the site: <span class="sfigs__n">60</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l2" aria-hidden="true"></span>Partial (part of the area only): <span class="sfigs__n">0</span> <span class="sfigs__p">(0%)</span></li><li><span class="swatch swatch--l0" aria-hidden="true"></span>Known, not yet drawn: <span class="sfigs__n">0</span> <span class="sfigs__p">(0%)</span></li></ul>
+<details class="status-details"><summary>Each series (20)</summary>
+<ul class="srows">
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Heritage Surveys &amp; Sites <span class="srow__span">Ireland</span></span><span class="srow__total">7 of 7</span></div>
+<div class="sbar" role="img" aria-label="Heritage Surveys &amp; Sites: 7 complete and 0 partial on the site, 0 not yet drawn, of 7 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">7 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Museums, Galleries &amp; Arts Venues <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">7 of 7</span></div>
+<div class="sbar" role="img" aria-label="Museums, Galleries &amp; Arts Venues: 7 complete and 0 partial on the site, 0 not yet drawn, of 7 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">7 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Monuments by Type (Historic Maps)</span><span class="srow__total">5 of 5</span></div>
+<div class="sbar" role="img" aria-label="Monuments by Type (Historic Maps): 5 complete and 0 partial on the site, 0 not yet drawn, of 5 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">5 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">OSNI 1:1M Thematic <span class="srow__span">Northern Ireland</span></span><span class="srow__total">5 of 5</span></div>
+<div class="sbar" role="img" aria-label="OSNI 1:1M Thematic: 5 complete and 0 partial on the site, 0 not yet drawn, of 5 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">5 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Public Art <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">5 of 5</span></div>
+<div class="sbar" role="img" aria-label="Public Art: 5 complete and 0 partial on the site, 0 not yet drawn, of 5 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">5 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Architectural Conservation Areas <span class="srow__span">Republic of Ireland, 2014–2022</span></span><span class="srow__total">4 of 4</span></div>
+<div class="sbar" role="img" aria-label="Architectural Conservation Areas: 4 complete and 0 partial on the site, 0 not yet drawn, of 4 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">4 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Libraries <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">4 of 4</span></div>
+<div class="sbar" role="img" aria-label="Libraries: 4 complete and 0 partial on the site, 0 not yet drawn, of 4 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">4 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">OSNI Mapping Products <span class="srow__span">Northern Ireland</span></span><span class="srow__total">4 of 4</span></div>
+<div class="sbar" role="img" aria-label="OSNI Mapping Products: 4 complete and 0 partial on the site, 0 not yet drawn, of 4 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">4 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Ringfort <span class="srow__span">Northern Ireland</span></span><span class="srow__total">3 of 3</span></div>
+<div class="sbar" role="img" aria-label="Ringfort: 3 complete and 0 partial on the site, 0 not yet drawn, of 3 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">3 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">OSNI Historical Six-Inch Maps <span class="srow__span">Northern Ireland, 1832–1850</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="OSNI Historical Six-Inch Maps: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">OSNI Map Sheet Coverage Grid <span class="srow__span">Northern Ireland</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="OSNI Map Sheet Coverage Grid: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Protected Structures (points) <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Protected Structures (points): 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Record of Protected Structures - Roscommon CDP <span class="srow__span">Republic of Ireland, 2014–2022</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Record of Protected Structures - Roscommon CDP: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Scheduled Historic Monument Areas <span class="srow__span">Northern Ireland, 2026</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Scheduled Historic Monument Areas: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Defence Heritage Sites <span class="srow__span">Northern Ireland, 2026</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Defence Heritage Sites: 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Industrial Heritage Record <span class="srow__span">Northern Ireland, 2026</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Industrial Heritage Record: 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Listed Buildings <span class="srow__span">Northern Ireland, 2026</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Listed Buildings: 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Protected Structures <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Protected Structures: 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Sites &amp; Monuments Record Points <span class="srow__span">Ireland</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Sites &amp; Monuments Record Points: 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Sites &amp; Monuments Records <span class="srow__span">Ireland</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Sites &amp; Monuments Records: 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+</ul>
+</details>
+</article>
+<article class="status-item">
+<h3 id="maps-local-services-and-amenities">Local Services &amp; Amenities</h3>
+<p class="status-total"><strong>56</strong> of 56 known editions on the site, in 17 series.</p>
+<div class="sbar" role="img" aria-label="Local Services &amp; Amenities: 56 complete and 0 partial on the site, 0 not yet drawn, of 56 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l4" aria-hidden="true"></span>Complete on the site: <span class="sfigs__n">56</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l2" aria-hidden="true"></span>Partial (part of the area only): <span class="sfigs__n">0</span> <span class="sfigs__p">(0%)</span></li><li><span class="swatch swatch--l0" aria-hidden="true"></span>Known, not yet drawn: <span class="sfigs__n">0</span> <span class="sfigs__p">(0%)</span></li></ul>
+<details class="status-details"><summary>Each series (17)</summary>
+<ul class="srows">
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Sports &amp; Leisure Facilities <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">8 of 8</span></div>
+<div class="sbar" role="img" aria-label="Sports &amp; Leisure Facilities: 8 complete and 0 partial on the site, 0 not yet drawn, of 8 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">8 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Parks &amp; Open Spaces <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">7 of 7</span></div>
+<div class="sbar" role="img" aria-label="Parks &amp; Open Spaces: 7 complete and 0 partial on the site, 0 not yet drawn, of 7 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">7 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Community &amp; Education Facilities <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">6 of 6</span></div>
+<div class="sbar" role="img" aria-label="Community &amp; Education Facilities: 6 complete and 0 partial on the site, 0 not yet drawn, of 6 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">6 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">NIEA Authorised Landfill Sites <span class="srow__span">Northern Ireland, 2013–2017</span></span><span class="srow__total">5 of 5</span></div>
+<div class="sbar" role="img" aria-label="NIEA Authorised Landfill Sites: 5 complete and 0 partial on the site, 0 not yet drawn, of 5 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">5 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Fire &amp; Garda Stations <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">4 of 4</span></div>
+<div class="sbar" role="img" aria-label="Fire &amp; Garda Stations: 4 complete and 0 partial on the site, 0 not yet drawn, of 4 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">4 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Waste &amp; Recycling <span class="srow__span">Ireland</span></span><span class="srow__total">4 of 4</span></div>
+<div class="sbar" role="img" aria-label="Waste &amp; Recycling: 4 complete and 0 partial on the site, 0 not yet drawn, of 4 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">4 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Council Offices <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">3 of 3</span></div>
+<div class="sbar" role="img" aria-label="Council Offices: 3 complete and 0 partial on the site, 0 not yet drawn, of 3 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">3 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">WiFi4EU <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">3 of 3</span></div>
+<div class="sbar" role="img" aria-label="WiFi4EU: 3 complete and 0 partial on the site, 0 not yet drawn, of 3 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">3 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Allotments &amp; Community Gardens <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Allotments &amp; Community Gardens: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Authorised Waste Sites <span class="srow__span">Northern Ireland, 2021</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Authorised Waste Sites: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Enterprise Centres &amp; Markets <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Enterprise Centres &amp; Markets: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Playgrounds <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Playgrounds: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Public Toilets <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Public Toilets: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Skateboard Parks <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Skateboard Parks: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Street Lighting <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Street Lighting: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Water Pipelines <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Water Pipelines: 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Water Supply Areas &amp; Pipelines <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Water Supply Areas &amp; Pipelines: 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+</ul>
+</details>
+</article>
+<article class="status-item">
+<h3 id="maps-water">Water</h3>
+<p class="status-total"><strong>61</strong> of 61 known editions on the site, in 18 series.</p>
+<div class="sbar" role="img" aria-label="Water: 61 complete and 0 partial on the site, 0 not yet drawn, of 61 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l4" aria-hidden="true"></span>Complete on the site: <span class="sfigs__n">61</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l2" aria-hidden="true"></span>Partial (part of the area only): <span class="sfigs__n">0</span> <span class="sfigs__p">(0%)</span></li><li><span class="swatch swatch--l0" aria-hidden="true"></span>Known, not yet drawn: <span class="sfigs__n">0</span> <span class="sfigs__p">(0%)</span></li></ul>
+<details class="status-details"><summary>Each series (18)</summary>
+<ul class="srows">
+<li class="srow">
+<div class="srow__head"><span class="srow__label">River Water Quality (Northern Ireland) <span class="srow__span">Northern Ireland, 1990</span></span><span class="srow__total">13 of 13</span></div>
+<div class="sbar" role="img" aria-label="River Water Quality (Northern Ireland): 13 complete and 0 partial on the site, 0 not yet drawn, of 13 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">13 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Rivers, Lakes &amp; Waterfalls <span class="srow__span">Ireland, 2016</span></span><span class="srow__total">7 of 7</span></div>
+<div class="sbar" role="img" aria-label="Rivers, Lakes &amp; Waterfalls: 7 complete and 0 partial on the site, 0 not yet drawn, of 7 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">7 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Coastline &amp; Tide Marks <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">5 of 5</span></div>
+<div class="sbar" role="img" aria-label="Coastline &amp; Tide Marks: 5 complete and 0 partial on the site, 0 not yet drawn, of 5 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">5 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Flood Extents &amp; Zones <span class="srow__span">Ireland, 2018–2022</span></span><span class="srow__total">5 of 5</span></div>
+<div class="sbar" role="img" aria-label="Flood Extents &amp; Zones: 5 complete and 0 partial on the site, 0 not yet drawn, of 5 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">5 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">River Basins &amp; Catchments <span class="srow__span">Ireland, 2016–2025</span></span><span class="srow__total">4 of 4</span></div>
+<div class="sbar" role="img" aria-label="River Basins &amp; Catchments: 4 complete and 0 partial on the site, 0 not yet drawn, of 4 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">4 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Water Bodies <span class="srow__span">Northern Ireland</span></span><span class="srow__total">4 of 4</span></div>
+<div class="sbar" role="img" aria-label="Water Bodies: 4 complete and 0 partial on the site, 0 not yet drawn, of 4 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">4 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Water Framework Directive Status <span class="srow__span">Northern Ireland, 2015</span></span><span class="srow__total">3 of 3</span></div>
+<div class="sbar" role="img" aria-label="Water Framework Directive Status: 3 complete and 0 partial on the site, 0 not yet drawn, of 3 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">3 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Boundaries Seawater Area <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Boundaries Seawater Area: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Catchment Management Areas <span class="srow__span">Northern Ireland</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Catchment Management Areas: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Community-Scale Coastal Flood Extents <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Community-Scale Coastal Flood Extents: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Drinking-Water Protected Areas <span class="srow__span">Northern Ireland</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Drinking-Water Protected Areas: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Groundwater Flooding <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Groundwater Flooding: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Seas &amp; the Island of Ireland <span class="srow__span">Ireland</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Seas &amp; the Island of Ireland: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Water <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Water: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Water Monitoring Points (Northern Ireland) <span class="srow__span">Northern Ireland, 2024</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Water Monitoring Points (Northern Ireland): 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Water Pollution Risk <span class="srow__span">Northern Ireland</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Water Pollution Risk: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">River Water Quality (Republic of Ireland) <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="River Water Quality (Republic of Ireland): 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Water Monitoring Points (Republic of Ireland) <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Water Monitoring Points (Republic of Ireland): 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+</ul>
+</details>
+</article>
+<article class="status-item">
+<h3 id="maps-environment-and-land-use">Environment &amp; Land Use</h3>
+<p class="status-total"><strong>74</strong> of 74 known editions on the site, in 16 series.</p>
+<div class="sbar" role="img" aria-label="Environment &amp; Land Use: 74 complete and 0 partial on the site, 0 not yet drawn, of 74 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l4" aria-hidden="true"></span>Complete on the site: <span class="sfigs__n">74</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l2" aria-hidden="true"></span>Partial (part of the area only): <span class="sfigs__n">0</span> <span class="sfigs__p">(0%)</span></li><li><span class="swatch swatch--l0" aria-hidden="true"></span>Known, not yet drawn: <span class="sfigs__n">0</span> <span class="sfigs__p">(0%)</span></li></ul>
+<details class="status-details"><summary>Each series (16)</summary>
+<ul class="srows">
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Habitat Network <span class="srow__span">Northern Ireland</span></span><span class="srow__total">24 of 24</span></div>
+<div class="sbar" role="img" aria-label="Habitat Network: 24 complete and 0 partial on the site, 0 not yet drawn, of 24 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">24 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Designated &amp; Protected Sites <span class="srow__span">Ireland</span></span><span class="srow__total">7 of 7</span></div>
+<div class="sbar" role="img" aria-label="Designated &amp; Protected Sites: 7 complete and 0 partial on the site, 0 not yet drawn, of 7 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">7 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Livestock Holdings <span class="srow__span">Northern Ireland, 2019</span></span><span class="srow__total">5 of 5</span></div>
+<div class="sbar" role="img" aria-label="Livestock Holdings: 5 complete and 0 partial on the site, 0 not yet drawn, of 5 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">5 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Environmental Noise <span class="srow__span">Ireland</span></span><span class="srow__total">4 of 4</span></div>
+<div class="sbar" role="img" aria-label="Environmental Noise: 4 complete and 0 partial on the site, 0 not yet drawn, of 4 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">4 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Habitat Maps <span class="srow__span">Ireland</span></span><span class="srow__total">4 of 4</span></div>
+<div class="sbar" role="img" aria-label="Habitat Maps: 4 complete and 0 partial on the site, 0 not yet drawn, of 4 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">4 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Scenic Views &amp; Prospects <span class="srow__span">Republic of Ireland, 2014–2022</span></span><span class="srow__total">4 of 4</span></div>
+<div class="sbar" role="img" aria-label="Scenic Views &amp; Prospects: 4 complete and 0 partial on the site, 0 not yet drawn, of 4 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">4 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Energy Infrastructure &amp; Decarbonisation <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">3 of 3</span></div>
+<div class="sbar" role="img" aria-label="Energy Infrastructure &amp; Decarbonisation: 3 complete and 0 partial on the site, 0 not yet drawn, of 3 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">3 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Hedgerows, Treelines &amp; Wildlife Corridors <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">3 of 3</span></div>
+<div class="sbar" role="img" aria-label="Hedgerows, Treelines &amp; Wildlife Corridors: 3 complete and 0 partial on the site, 0 not yet drawn, of 3 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">3 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Land Cover &amp; Land Use <span class="srow__span">Ireland, 2018</span></span><span class="srow__total">3 of 3</span></div>
+<div class="sbar" role="img" aria-label="Land Cover &amp; Land Use: 3 complete and 0 partial on the site, 0 not yet drawn, of 3 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">3 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Landscape Character Areas <span class="srow__span">Ireland, 2014–2022</span></span><span class="srow__total">3 of 3</span></div>
+<div class="sbar" role="img" aria-label="Landscape Character Areas: 3 complete and 0 partial on the site, 0 not yet drawn, of 3 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">3 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Trees &amp; Woodlands <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">3 of 3</span></div>
+<div class="sbar" role="img" aria-label="Trees &amp; Woodlands: 3 complete and 0 partial on the site, 0 not yet drawn, of 3 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">3 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Wind Energy (Roscommon CDP) <span class="srow__span">Republic of Ireland, 2014–2022</span></span><span class="srow__total">3 of 3</span></div>
+<div class="sbar" role="img" aria-label="Wind Energy (Roscommon CDP): 3 complete and 0 partial on the site, 0 not yet drawn, of 3 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">3 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Landscape Character Types <span class="srow__span">Republic of Ireland, 2014</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Landscape Character Types: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Scenic Routes - Roscommon CDP <span class="srow__span">Republic of Ireland, 2014–2022</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Scenic Routes - Roscommon CDP: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Wetlands Survey <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Wetlands Survey: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Wicklow County Council <span class="srow__span">Republic of Ireland</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Wicklow County Council: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+</ul>
+</details>
+</article>
+<article class="status-item">
+<h3 id="maps-earth-and-terrain">Earth &amp; Terrain</h3>
+<p class="status-total"><strong>68</strong> of 68 known editions on the site, in 16 series.</p>
+<div class="sbar" role="img" aria-label="Earth &amp; Terrain: 68 complete and 0 partial on the site, 0 not yet drawn, of 68 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<ul class="sfigs"><li><span class="swatch swatch--l4" aria-hidden="true"></span>Complete on the site: <span class="sfigs__n">68</span> <span class="sfigs__p">(100%)</span></li><li><span class="swatch swatch--l2" aria-hidden="true"></span>Partial (part of the area only): <span class="sfigs__n">0</span> <span class="sfigs__p">(0%)</span></li><li><span class="swatch swatch--l0" aria-hidden="true"></span>Known, not yet drawn: <span class="sfigs__n">0</span> <span class="sfigs__p">(0%)</span></li></ul>
+<details class="status-details"><summary>Each series (16)</summary>
+<ul class="srows">
+<li class="srow">
+<div class="srow__head"><span class="srow__label">OSNI Orthophoto Coverage <span class="srow__span">Northern Ireland, 2003–2020</span></span><span class="srow__total">13 of 13</span></div>
+<div class="sbar" role="img" aria-label="OSNI Orthophoto Coverage: 13 complete and 0 partial on the site, 0 not yet drawn, of 13 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">13 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Hills, Highlands &amp; Mountains <span class="srow__span">Ireland, 2026</span></span><span class="srow__total">9 of 9</span></div>
+<div class="sbar" role="img" aria-label="Hills, Highlands &amp; Mountains: 9 complete and 0 partial on the site, 0 not yet drawn, of 9 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">9 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Geology &amp; Soils Maps <span class="srow__span">Ireland, 2012</span></span><span class="srow__total">6 of 6</span></div>
+<div class="sbar" role="img" aria-label="Geology &amp; Soils Maps: 6 complete and 0 partial on the site, 0 not yet drawn, of 6 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">6 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">LiDAR Point Clouds <span class="srow__span">Northern Ireland, 2012–2022</span></span><span class="srow__total">5 of 5</span></div>
+<div class="sbar" role="img" aria-label="LiDAR Point Clouds: 5 complete and 0 partial on the site, 0 not yet drawn, of 5 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">5 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Tellus Radiometric <span class="srow__span">Northern Ireland</span></span><span class="srow__total">5 of 5</span></div>
+<div class="sbar" role="img" aria-label="Tellus Radiometric: 5 complete and 0 partial on the site, 0 not yet drawn, of 5 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">5 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Tellus Rural Soil <span class="srow__span">Northern Ireland</span></span><span class="srow__total">5 of 5</span></div>
+<div class="sbar" role="img" aria-label="Tellus Rural Soil: 5 complete and 0 partial on the site, 0 not yet drawn, of 5 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">5 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Tellus Stream Sediments &amp; Waters <span class="srow__span">Northern Ireland</span></span><span class="srow__total">5 of 5</span></div>
+<div class="sbar" role="img" aria-label="Tellus Stream Sediments &amp; Waters: 5 complete and 0 partial on the site, 0 not yet drawn, of 5 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">5 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Boreholes &amp; Cores <span class="srow__span">Ireland, 1500</span></span><span class="srow__total">3 of 3</span></div>
+<div class="sbar" role="img" aria-label="Boreholes &amp; Cores: 3 complete and 0 partial on the site, 0 not yet drawn, of 3 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">3 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Minerals &amp; Mining <span class="srow__span">Northern Ireland</span></span><span class="srow__total">3 of 3</span></div>
+<div class="sbar" role="img" aria-label="Minerals &amp; Mining: 3 complete and 0 partial on the site, 0 not yet drawn, of 3 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">3 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Tellus Magnetic <span class="srow__span">Northern Ireland</span></span><span class="srow__total">3 of 3</span></div>
+<div class="sbar" role="img" aria-label="Tellus Magnetic: 3 complete and 0 partial on the site, 0 not yet drawn, of 3 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">3 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Bedrock Geology 1:250,000 <span class="srow__span">Northern Ireland</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Bedrock Geology 1:250,000: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Elevation Models <span class="srow__span">Ireland, 2014–2026</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Elevation Models: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Ireland 3D Terrain <span class="srow__span">Ireland, 2026</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Ireland 3D Terrain: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">NI River-Basin LiDAR — 1 m 3D Terrain <span class="srow__span">Northern Ireland, 2014</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="NI River-Basin LiDAR — 1 m 3D Terrain: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Tellus Electromagnetic <span class="srow__span">Northern Ireland</span></span><span class="srow__total">2 of 2</span></div>
+<div class="sbar" role="img" aria-label="Tellus Electromagnetic: 2 complete and 0 partial on the site, 0 not yet drawn, of 2 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">2 complete.</p>
+</li>
+<li class="srow">
+<div class="srow__head"><span class="srow__label">Tellus Airborne Survey — Flight Lines <span class="srow__span">Northern Ireland</span></span><span class="srow__total">1 of 1</span></div>
+<div class="sbar" role="img" aria-label="Tellus Airborne Survey — Flight Lines: 1 complete and 0 partial on the site, 0 not yet drawn, of 1 known editions"><span class="sbar__seg sbar__seg--l4" style="width:100.00%"></span></div>
+<p class="srow__basis">1 complete.</p>
+</li>
+</ul>
+</details>
+</article>
+</section>
+<!-- /status:body -->
+</div>
+</main>
+<!-- site:footer -->
+<footer class="ftr">
+<div class="ftr__inner">
+<div class="ftr__top">
+<a aria-label="Civgraph home" class="ftr__brand" href="/">
+<img alt="" class="ftr__logo" src="/assets/pages/img/bd2feea987bf.svg"/>
+<span class="ftr__wordmark">Civgraph</span>
+</a>
+<nav aria-label="Footer navigation" class="ftr__nav">
+<a href="/maps/">Maps</a>
+<a href="/browse/">Browse</a>
+<a href="/pages/about.html">About</a>
+<a href="mailto:scott@civgraph.net?subject=Civgraph%20map%20submission&body=What%20the%20map%20shows%20%28the%20area%2C%20the%20subject%2C%20and%20the%20year%20or%20period%20it%20covers%29%3A%0A%0A%0AWhere%20it%20came%20from%20%28who%20made%20it%2C%20and%20where%20you%20got%20it%29%3A%0A%0A%0AWhat%20form%20it%20is%20in%20%28a%20scan%2C%20a%20PDF%2C%20a%20shapefile%2C%20GeoJSON%2C%20or%20something%20else%29%3A%0A%0A%0AWhether%20it%20can%20be%20republished%2C%20and%20under%20what%20licence%2C%20if%20you%20know%3A%0A%0A%0AYour%20name%2C%20if%20you%20would%20like%20the%20contribution%20credited%3A%0A%0A">Submit a map</a>
+</nav>
+</div>
+<div class="ftr__rule"></div>
+<div class="ftr__bottom">
+<p class="ftr__tagline">All the data on Ireland’s history, geography, politics and demographics.</p>
+<div class="ftr__meta">© Civgraph</div>
+</div>
+</div>
+</footer>
+<!-- /site:footer -->
+<!-- site:support-modal -->
+<div aria-label="Support Civgraph" aria-modal="true" class="support-modal hidden" id="supportModal" role="dialog">
+<div class="support-modal__backdrop"></div>
+<div class="support-modal__content">
+<div class="support-modal__header">
+<h2 class="support-modal__title">Support Civgraph</h2>
+<button aria-label="Close" class="support-modal__close" type="button">&times;</button>
+</div>
+<div class="support-modal__options">
+<a class="support-modal__option support-modal__option--kofi" href="https://ko-fi.com/scottmoore0" rel="noopener noreferrer" target="_blank">
+<svg aria-hidden="true" class="support-modal__logo" fill="none" height="28" viewBox="0 0 24 24" width="28" xmlns="http://www.w3.org/2000/svg">
+<path d="M23 2H3.5C2.67 2 2 2.67 2 3.5V17.5C2 18.33 2.67 19 3.5 19H16.5C17.33 19 18 18.33 18 17.5V15H19.5C21.43 15 23 13.43 23 11.5V5.5C23 3.57 21.43 2 19.5 2H23ZM19.5 13H18V4H19.5C20.33 4 21 4.67 21 5.5V11.5C21 12.33 20.33 13 19.5 13Z" fill="currentColor"/>
+<path d="M12.5 7C12 6.5 11.3 6.2 10.5 6.2C9.7 6.2 9 6.5 8.5 7C8 6.5 7.3 6.2 6.5 6.2C4.8 6.2 3.5 7.5 3.5 9.2C3.5 12.3 8.5 15 8.5 15C8.5 15 13.5 12.3 13.5 9.2C13.5 7.5 12.2 6.2 10.5 6.2" fill="currentColor"/>
+</svg>
+<div>
+<strong>Tip me via Ko-fi</strong>
+<span>One-off tip, from as little as £3</span>
+</div>
+</a>
+<a class="support-modal__option support-modal__option--sub" href="https://scottmoore.xyz/p/support-the-boundaries-website" rel="noopener noreferrer" target="_blank">
+<svg aria-hidden="true" class="support-modal__logo" fill="none" height="28" viewBox="0 0 24 24" width="28" xmlns="http://www.w3.org/2000/svg">
+<path d="M22 4.01H2V6.01H22V4.01Z" fill="currentColor"/>
+<path d="M22 8.01H2V10.01H22V8.01Z" fill="currentColor"/>
+<path d="M2 12.01V22.01L12 16.01L22 22.01V12.01H2Z" fill="currentColor"/>
+</svg>
+<div>
+<strong>Become a subscriber via Substack</strong>
+<span>£5/month or £45/year</span>
+</div>
+</a>
+</div>
+<div class="support-modal__author">
+<img alt="Scott Moore" class="support-modal__avatar" decoding="async" height="64" loading="lazy" src="/assets/images/scott-moore.jpg" width="64">
+<p class="support-modal__author-label">A message from Scott Moore:</p>
+</div>
+<div class="support-modal__message">
+<p>Support the work of myself and other contributors with a one-off tip, or a subscription of £5 a month, or £45 a year.</p>
+<p>I've gone out of pocket to put together Civgraph, through subscriptions to newspaper archives, buying a better computer to enable me to produce maps like the 1984 and 1972 council wards maps in digitised formats, and spending on tools to help me develop the website.</p>
+<p>With your support, I can cover the costs I incur month to month, work with volunteers to make a greater range of maps available, expand the features on the website, and extend the website beyond maps and boundaries, to include data like election results, Hansard and biographies, all in one place.</p>
+<p>All support is appreciated, but if you can't help, don't worry - I release all my maps under an open source license (Creative Commons BY-SA 4.0), and the content of the site will be free forever.</p>
+</div>
+</div>
+</div>
+<!-- /site:support-modal -->
+</body>
+</html>

@@ -7,3 +7,7 @@
 # 302: the move is permanent and there is no reason to make every visitor re-ask.
 /test/*  /render/:splat  301
 /test    /render/        301
+
+# The Status page sits beside About, at /pages/status.html; /status is its short address.
+/status   /pages/status  301
+/status/  /pages/status  301

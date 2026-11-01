@@ -36,7 +36,16 @@
     "fillOpacity": 0.18,
     "weight": 2
   },
-  "references": [],
+  "references": [
+    {
+      "label": "Census of Population of Northern Ireland 1937: Supplement to the 1926 Topographical Index",
+      "note": "Changes in administrative areas, p. viii, item (c): part of Newry North urban DED to Newry South urban DED (22 Aug 1929), after the ward change of 17 Apr 1928."
+    },
+    {
+      "label": "Census of Population of Northern Ireland 1926: County of Down",
+      "note": "Newcastle Urban District: one D.E.D. (Newcastle) of two wards, North and South (table of townlands, Newcastle UD; Part I, item (a): divided into two wards 6 Nov 1922). The county has 146 DEDs."
+    }
+  ],
   "sourceDownloads": [
     {
       "label": "Source file used for /test conversion",
@@ -50,7 +59,7 @@
     "ded",
     "electoral",
     "divisions",
-    "District Electoral Divisions 1 April 1930",
+    "District Electoral Divisions 1 Apr 1930",
     "Electoral Areas",
     "Elections and Government",
     "maplibre",
@@ -74,8 +83,9 @@
     "maxWidth": 14,
     "lineHeight": 1.25
   },
+  "featureIndexUrl": "/render/metadata/feature-indexes/ded-1930-04-01-vector-test.json",
   "sourceFile": "render/source-cache/vector-intake/ded-1930-04-01.fgb",
-  "sourceDatasetLayer": "ded-1930-04-01",
+  "sourceDatasetLayer": "01 Apr 1930 NI DEDs",
   "idProperty": "OBJECTID",
   "popupProperties": [
     "ED_NAME",
@@ -125,7 +135,6 @@
       "CLAY",
       "CLOUGH",
       "CROSS",
-      "CRUMLIN",
       "DORSY",
       "DRUM",
       "DRUMCREE",
@@ -147,7 +156,8 @@
       "MAGHERA",
       "MAYO",
       "MOIRA",
-      "MOUNTJOY"
+      "MOUNTJOY",
+      "MOY"
     ],
     "PROVINCE": [
       "ULSTER",
@@ -164,7 +174,6 @@
     "CSO_ID": [
       "35021",
       "35129",
-      "35133",
       "35139",
       "35141",
       "36012",
@@ -193,7 +202,8 @@
       "36045",
       "36046",
       "36047",
-      "36049"
+      "36049",
+      "36050"
     ],
     "CSO_P_NAME": [
       "Belleek",
@@ -205,7 +215,6 @@
       "Clay",
       "Clough",
       "Cross",
-      "Crumlin",
       "Dorsy",
       "Drum",
       "Drumcree",
@@ -227,7 +236,8 @@
       "Maghera",
       "Mayo",
       "Moira",
-      "Mountjoy"
+      "Mountjoy",
+      "Moy"
     ],
     "CSO_COUNTY": [
       "ANTRIM",
@@ -280,10 +290,10 @@
   "generatedFrom": {
     "pipeline": "build-test-vector-batch",
     "sourceFile": "render/source-cache/vector-intake/ded-1930-04-01.fgb",
-    "bytes": 9509634,
+    "bytes": 9506011,
     "files": 759,
     "pbfFiles": 758,
-    "maxTileBytes": 191573
+    "maxTileBytes": 191276
   },
   "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ded-1930-04-01-vector-test.pmtiles",
   "tilesFallback": "/render/tiles/generated/ded-1930-04-01/{z}/{x}/{y}.pbf",
@@ -291,14 +301,15 @@
     "preferred": true,
     "localPath": "render/pmtiles/generated/ded-1930-04-01-vector-test.pmtiles",
     "url": "/render/pmtiles/generated/ded-1930-04-01-vector-test.pmtiles",
-    "bytes": 5567483,
+    "bytes": 5642067,
     "maxGithubBytes": 99614720,
-    "generatedAt": "2026-05-29T23:46:15.302Z",
+    "generatedAt": "2026-11-01T03:05:27.634Z",
     "fallback": "/render/tiles/generated/ded-1930-04-01/{z}/{x}/{y}.pbf",
+    "sourceSha256": "4e216ec177c54afeafff88d0f5363020e640f0044fea9715c878fb68e8f0578a",
     "serving": "cdn",
     "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/ded-1930-04-01-vector-test.pmtiles",
     "r2Key": "data/maps/test/pmtiles/generated/ded-1930-04-01-vector-test.pmtiles",
     "localUrl": "/render/pmtiles/generated/ded-1930-04-01-vector-test.pmtiles",
-    "byteRangeVerifiedAt": "2026-08-04T22:09:20.884Z"
+    "byteRangeVerifiedAt": "2026-11-01T11:50:17.039Z"
   }
 }

@@ -1,0 +1,1031 @@
+{
+  "schemaVersion": 1,
+  "about": "Counts for the Status page taken from material held outside the repository and from public APIs, by scripts/status/refresh-status-snapshots.mjs. Each source carries the date its snapshot was taken. Read by scripts/build-status.mjs; never edited by hand.",
+  "sources": {
+    "belfast-gazette": {
+      "takenAt": "2026-11-01",
+      "issuesTried": 1313,
+      "issuesFetched": 1288,
+      "issuesNotOnline": 25,
+      "lastIssueFetched": 1313,
+      "lastIssueDate": "1981-07-03",
+      "pagesIndexed": 15933,
+      "issuesParsed": 411,
+      "lastIssueParsed": 436,
+      "noticesExtracted": {
+        "election": 21,
+        "boundary": 142
+      }
+    },
+    "census": {
+      "takenAt": "2026-11-01",
+      "ni": {
+        "1926": {
+          "held": true,
+          "convertedParts": 2,
+          "tables": 2,
+          "explorer": true
+        },
+        "1937": {
+          "held": true,
+          "convertedParts": 2,
+          "tables": 12,
+          "explorer": true
+        },
+        "1951": {
+          "held": true,
+          "convertedParts": 2,
+          "tables": 13,
+          "explorer": true
+        },
+        "1961": {
+          "held": true,
+          "convertedParts": 2,
+          "tables": 12,
+          "explorer": true
+        },
+        "1966": {
+          "held": true,
+          "convertedParts": 1,
+          "tables": 4,
+          "explorer": true
+        },
+        "1971": {
+          "held": true,
+          "convertedParts": 1,
+          "tables": 20,
+          "explorer": true
+        },
+        "1981": {
+          "held": true,
+          "convertedParts": 1,
+          "tables": 13,
+          "explorer": true
+        }
+      },
+      "pre1921": {
+        "1821": {
+          "files": 0,
+          "read": 0,
+          "tables": 0,
+          "explorer": false
+        },
+        "1831": {
+          "files": 0,
+          "read": 0,
+          "tables": 0,
+          "explorer": false
+        },
+        "1841": {
+          "files": 39,
+          "read": 39,
+          "tables": 0,
+          "explorer": false
+        },
+        "1851": {
+          "files": 32,
+          "read": 32,
+          "tables": 0,
+          "explorer": false
+        },
+        "1861": {
+          "files": 0,
+          "read": 0,
+          "tables": 0,
+          "explorer": false
+        },
+        "1871": {
+          "files": 0,
+          "read": 0,
+          "tables": 0,
+          "explorer": false
+        },
+        "1881": {
+          "files": 0,
+          "read": 0,
+          "tables": 0,
+          "explorer": false
+        },
+        "1891": {
+          "files": 31,
+          "read": 31,
+          "tables": 0,
+          "explorer": false
+        },
+        "1901": {
+          "files": 31,
+          "read": 31,
+          "tables": 0,
+          "explorer": false
+        },
+        "1911": {
+          "files": 34,
+          "read": 34,
+          "tables": 56,
+          "explorer": false
+        }
+      }
+    },
+    "legislation": {
+      "takenAt": "2026-11-01",
+      "method": "legislation.gov.uk title search (nia, apni, nisi, nisr, nisro; uksi naming Northern Ireland), filtered to titles naming boundaries, electoral areas, constituencies, wards, elections or town extensions",
+      "items": [
+        {
+          "id": "apni/1962/14",
+          "title": "Electoral Law Act (Northern Ireland) 1962"
+        },
+        {
+          "id": "apni/1968/20",
+          "title": "Electoral Law Act (Northern Ireland) 1968"
+        },
+        {
+          "id": "apni/1969/26",
+          "title": "Electoral Law Act (Northern Ireland) 1969"
+        },
+        {
+          "id": "apni/1971/4",
+          "title": "Electoral Law Act (Northern Ireland) 1971"
+        },
+        {
+          "id": "apni/1971/9",
+          "title": "Local Government Boundaries Act (Northern Ireland) 1971 (repealed)"
+        },
+        {
+          "id": "nia/2008/7",
+          "title": "Local Government (Boundaries) Act (Northern Ireland) 2008"
+        },
+        {
+          "id": "nisi/1972/1264",
+          "title": "Electoral Law (Northern Ireland) Order 1972"
+        },
+        {
+          "id": "nisi/1972/1998",
+          "title": "Local Government (Postponement of Elections and Reorganisation) (Northern Ireland) Order 1972"
+        },
+        {
+          "id": "nisi/1973/740",
+          "title": "The Electoral Law (Northern Ireland) Order 1973"
+        },
+        {
+          "id": "nisi/2006/1253",
+          "title": "The Local Government (Boundaries) (Northern Ireland) Order 2006"
+        },
+        {
+          "id": "nisi/2007/612",
+          "title": "The District Electoral Areas Commissioner (Northern Ireland)(Amendment) Order 2007"
+        },
+        {
+          "id": "nisr/1974/156",
+          "title": "The Electoral Law (Casual Vacancies in District Councils) Regulations (Northern Ireland) 1974"
+        },
+        {
+          "id": "nisr/1975/163",
+          "title": "The Londonderry Area (Sea Boundary) Order (Northern Ireland) 1975"
+        },
+        {
+          "id": "nisr/1975/177",
+          "title": "The Election Petition (Northern Ireland) (Amendment) Rules (Northern Ireland) 1975"
+        },
+        {
+          "id": "nisr/1978/213",
+          "title": "The Electoral Law (District Council Registration Expenses) Regulations (Northern Ireland) 1978"
+        },
+        {
+          "id": "nisr/1979/113",
+          "title": "The County Court (Electoral Registration Appeal) (Amendment) Rules (Northern Ireland) 1979"
+        },
+        {
+          "id": "nisr/1979/179",
+          "title": "The European Assembly Election Petition Rules (Northern Ireland) 1979"
+        },
+        {
+          "id": "nisr/1980/16",
+          "title": "The Electoral Law (Registration Rules) (Variation) Order (Northern Ireland) 1980"
+        },
+        {
+          "id": "nisr/1980/354",
+          "title": "The Electoral Law (Registration Rules) (Variation No. 2) Order (Northern Ireland) 1980"
+        },
+        {
+          "id": "nisr/1981/15",
+          "title": "The Electoral Law (Registration) (Amendment) Regulations (Northern Ireland) 1981"
+        },
+        {
+          "id": "nisr/1982/307",
+          "title": "The Northern Ireland Assembly Election Petition Rules (Northern Ireland) 1982"
+        },
+        {
+          "id": "nisr/1983/319",
+          "title": "The Electoral Law (Registration Rules) (Variation) Order (Northern Ireland) 1983"
+        },
+        {
+          "id": "nisr/1984/162",
+          "title": "The European Assembly Election Petition Rules (Northern Ireland) 1984"
+        },
+        {
+          "id": "nisr/1984/208",
+          "title": "The Local Government (Boundaries) Order (Northern Ireland) 1984"
+        },
+        {
+          "id": "nisr/1984/209",
+          "title": "The Local Government (Boundaries) (Supplemental) Order (Northern Ireland) 1984"
+        },
+        {
+          "id": "nisr/1985/333",
+          "title": "The Electoral Law (Registration Rules) (Variation) Order (Northern Ireland) 1985"
+        },
+        {
+          "id": "nisr/1985/347",
+          "title": "The Election Petition (Amendment) Rules (Northern Ireland) 1985"
+        },
+        {
+          "id": "nisr/1986/194",
+          "title": "The Electoral Law (Registration Rules) (Variation) Order (Northern Ireland) 1986"
+        },
+        {
+          "id": "nisr/1992/303",
+          "title": "The Local Government (Boundaries) Order (Northern Ireland) 1992"
+        },
+        {
+          "id": "nisr/2007/159",
+          "title": "The Local Government (Boundaries 2006) (Commencement No.1) Order (Northern Ireland) 2007"
+        },
+        {
+          "id": "nisr/2012/421",
+          "title": "Local Government (Boundaries) Order (Northern Ireland) 2012"
+        },
+        {
+          "id": "nisr/2013/238",
+          "title": "The Local Government (Boundaries) (2008 Act) (Commencement, Transitional Provision and Savings) Order (Northern Ireland) 2013"
+        },
+        {
+          "id": "nisr/2015/210",
+          "title": "The Local Government (Boundaries) (2008 Act) (Commencement, Transitional Provision and Savings) (Amendment) Order (Northern Ireland) 2015"
+        },
+        {
+          "id": "nisro/1922/71",
+          "title": "The Urban District Councillors and Town Commissioners Election Order (Northern Ireland) 1922"
+        },
+        {
+          "id": "nisro/1923/39",
+          "title": "The Parliamentary Elections (Returning Officers' Expenses) Regulations (Northern Ireland) 1923"
+        },
+        {
+          "id": "nisro/1924/2",
+          "title": "The County and Rural District Councillors Election Order (Northern Ireland) 1924"
+        },
+        {
+          "id": "nisro/1924/22",
+          "title": "The Poor Law Guardians, District Electoral Divisions (Northern Ireland) 1924"
+        },
+        {
+          "id": "nisro/1924/3",
+          "title": "The Guardians Election Order (Northern Ireland) 1924"
+        },
+        {
+          "id": "nisro/1924/36",
+          "title": "The County and Rural District Councillors No. 2 Election Order (Northern Ireland) 1924"
+        },
+        {
+          "id": "nisro/1924/46",
+          "title": "The Parliamentary Elections Returning Officers' Expenses Order (Northern Ireland) 1924"
+        },
+        {
+          "id": "nisro/1924/63",
+          "title": "The Parliamentary Elections, Returning Officers' Expenses (Bye-Elections) Order (Northern Ireland) 1924"
+        },
+        {
+          "id": "nisro/1925/24",
+          "title": "The Parliamentary Elections, Returning Officers' Expenses (Northern Ireland) 1925"
+        },
+        {
+          "id": "nisro/1925/89",
+          "title": "The Parliamentary Elections, Returning Officers' Expenses (No. 2) Order (Northern Ireland) 1925"
+        },
+        {
+          "id": "nisro/1927/146",
+          "title": "The Aldermen and Councillors of Borough Election Order (Northern Ireland) 1927"
+        },
+        {
+          "id": "nisro/1929/135",
+          "title": "The Aldermen and Councillors of County Boroughs Election (Consolidation) Order (Northern Ireland) 1929"
+        },
+        {
+          "id": "nisro/1929/40",
+          "title": "The Parliamentary Elections: Returning Officers' Charges Regulations (Northern Ireland) 1929"
+        },
+        {
+          "id": "nisro/1929/43",
+          "title": "The County and Rural District Councillors Election Order (Northern Ireland) 1929"
+        },
+        {
+          "id": "nisro/1929/44",
+          "title": "The Guardians Election Order (Northern Ireland) 1929"
+        },
+        {
+          "id": "nisro/1929/45",
+          "title": "The Urban District Councillors and Town Commissioners Election Order (Northern Ireland) 1929"
+        },
+        {
+          "id": "nisro/1929/46",
+          "title": "The Aldermen and Councillors of Boroughs Election Order (Northern Ireland) 1929"
+        },
+        {
+          "id": "nisro/1929/49",
+          "title": "The University Elections (Single Transferable Vote) Amendment Order (Northern Ireland) 1929"
+        },
+        {
+          "id": "nisro/1929/6",
+          "title": "The Elections: Registration Rules and Forms Order (Northern Ireland) 1929"
+        },
+        {
+          "id": "nisro/1930/79",
+          "title": "The Aldermen and Councillors of Boroughs Election Order (Northern Ireland) 1930"
+        },
+        {
+          "id": "nisro/1930/80",
+          "title": "The Aldermen and Councillors of County Boroughs Election Order (Northern Ireland) 1930"
+        },
+        {
+          "id": "nisro/1930/81",
+          "title": "The County and Rural District Councillors Election Order (Northern Ireland) 1930"
+        },
+        {
+          "id": "nisro/1930/82",
+          "title": "The Guardians Election Order (Northern Ireland) 1930"
+        },
+        {
+          "id": "nisro/1930/84",
+          "title": "The Urban District Councillors and Town Commissioners Election Order (Northern Ireland) 1930"
+        },
+        {
+          "id": "nisro/1931/10",
+          "title": "The Aldermen and Councillors of Boroughs Election Order (Northern Ireland) 1931"
+        },
+        {
+          "id": "nisro/1931/11",
+          "title": "The Aldermen and Councillors of County Boroughs Election Order (Northern Ireland) 1931"
+        },
+        {
+          "id": "nisro/1931/12",
+          "title": "The County and Rural District Councillors Election Order (Northern Ireland) 1931"
+        },
+        {
+          "id": "nisro/1931/13",
+          "title": "The Guardians Election Order (Northern Ireland) 1931"
+        },
+        {
+          "id": "nisro/1931/14",
+          "title": "The Urban District Councillors and Town Commissioners Election Order (Northern Ireland) 1931"
+        },
+        {
+          "id": "nisro/1931/19",
+          "title": "The Parliamentary Elections: Returning Officers' Charges Regulations (Northern Ireland) 1931"
+        },
+        {
+          "id": "nisro/1936/170",
+          "title": "The Urban Districts Boundaries (Procedure) Order (Northern Ireland) 1936"
+        },
+        {
+          "id": "nisro/1936/35",
+          "title": "The Urban District Councillors and Town Commissioners Election Order (Northern Ireland) 1936"
+        },
+        {
+          "id": "nisro/1936/36",
+          "title": "The Aldermen and Councillors of County Boroughs Election Order (Northern Ireland) 1936"
+        },
+        {
+          "id": "nisro/1936/37",
+          "title": "The Aldermen and Councillors of Boroughs Election Order (Northern Ireland) 1936"
+        },
+        {
+          "id": "nisro/1937/70",
+          "title": "The Local Government (Postponement of Elections) Order (Northern Ireland) 1937"
+        },
+        {
+          "id": "nisro/1937/71",
+          "title": "The Local Government (Elections) Order (Northern Ireland) 1937"
+        },
+        {
+          "id": "nisro/1945/19",
+          "title": "The Electoral Registration (No. 1) Regulations (Northern Ireland) 1945"
+        },
+        {
+          "id": "nisro/1945/39",
+          "title": "The Electoral Registration (Amendment) Regulations (Northern Ireland) 1945"
+        },
+        {
+          "id": "nisro/1945/58",
+          "title": "The Parliamentary Elections (Returning Officers' Charges) Regulations (Northern Ireland) 1945"
+        },
+        {
+          "id": "nisro/1945/67",
+          "title": "The Parliamentary Elections (Returning Officers' Charges) Regulations (Northern Ireland) 1945"
+        },
+        {
+          "id": "nisro/1946/116",
+          "title": "The Electoral (Election of Urban District Councillors and Town Commissioners) Regulations (Northern Ireland) 1946"
+        },
+        {
+          "id": "nisro/1946/117",
+          "title": "The Electoral (Election of County and Rural District Councillors) Regulations (Northern Ireland) 1946"
+        },
+        {
+          "id": "nisro/1946/118",
+          "title": "The Electoral (Election of Aldermen and Councillors of Co. Boroughs and Boroughs) Regulations (Northern Ireland) 1946"
+        },
+        {
+          "id": "nisro/1946/129",
+          "title": "The Electoral (Returning Officer's Certificate) Regulations (Northern Ireland) 1946"
+        },
+        {
+          "id": "nisro/1946/136",
+          "title": "The Electoral (Parliamentary Elections) Regulations (Northern Ireland) 1946"
+        },
+        {
+          "id": "nisro/1946/196",
+          "title": "The Electoral (Local Government Casual Vacancies - Poll) Regulations (Northern Ireland) 1946"
+        },
+        {
+          "id": "nisro/1946/21",
+          "title": "The Electoral Register (Postponement of Publication) Order (Northern Ireland) 1946"
+        },
+        {
+          "id": "nisro/1946/229",
+          "title": "The Electoral (Parliamentary Returning Officers' Charges) Regulations (Northern Ireland) 1946"
+        },
+        {
+          "id": "nisro/1946/53",
+          "title": "The Electoral (Register of Electors) Regulations (Northern Ireland) 1946"
+        },
+        {
+          "id": "nisro/1946/6",
+          "title": "The Parliamentary Elections (Returning Officers Charges) Regulations (Northern Ireland) 1946"
+        },
+        {
+          "id": "nisro/1946/61",
+          "title": "The Electoral (Assistant Revising Officers) Regulations (Northern Ireland) 1946"
+        },
+        {
+          "id": "nisro/1946/66",
+          "title": "The Electoral (Remuneration of Officers) Regulations (Northern Ireland) 1946"
+        },
+        {
+          "id": "nisro/1946/84",
+          "title": "The Electoral Register (Postponement of Publication) (Amendment) Order (Northern Ireland) 1946"
+        },
+        {
+          "id": "nisro/1946/89",
+          "title": "The Electoral (University Register and Elections) Regulations (Northern Ireland) 1946"
+        },
+        {
+          "id": "nisro/1946/94",
+          "title": "The Electoral (Register of Electors) (Amendment) Regulations (Northern Ireland) 1946"
+        },
+        {
+          "id": "nisro/1948/242",
+          "title": "The Electoral (Register of Electors) (Amendment) Regulations (Northern Ireland) 1948"
+        },
+        {
+          "id": "nisro/1948/254",
+          "title": "The Electoral (Registration Expenses) Regulations (Northern Ireland) 1948"
+        },
+        {
+          "id": "nisro/1948/259",
+          "title": "The Electoral (Register of Electors) (Amendment No. 2) Regulations (Northern Ireland) 1948"
+        },
+        {
+          "id": "nisro/1949/18",
+          "title": "The Electoral (Local Government Elections) Regulations (Northern Ireland) 1949"
+        },
+        {
+          "id": "nisro/1949/20",
+          "title": "The Electoral Register (Postponement of Publication) Order (Northern Ireland) 1949"
+        },
+        {
+          "id": "nisro/1950/226",
+          "title": "The Registrar's Districts of Armagh and Blackwaterstown - Alteration of Boundaries (Northern Ireland) 1950"
+        },
+        {
+          "id": "nisro/1951/144",
+          "title": "The Registrars' Districts of Lisburn and Downpatrick - Alteration of Boundaries (Northern Ireland) 1951"
+        },
+        {
+          "id": "nisro/1951/173",
+          "title": "The Electoral (Register of Electors) (Amendment) Regulations (Northern Ireland) 1951"
+        },
+        {
+          "id": "nisro/1951/180",
+          "title": "The Electoral (Registration Expenses) Regulations (Northern Ireland) 1951"
+        },
+        {
+          "id": "nisro/1952/12",
+          "title": "The Electoral (Registration Expenses) Regulations (Northern Ireland) 1952"
+        },
+        {
+          "id": "nisro/1952/24",
+          "title": "The Electoral (Parliamentary Elections) Regulations (Northern Ireland) 1952"
+        },
+        {
+          "id": "nisro/1952/60",
+          "title": "The Electoral (Local Government Elections) (No. 2) Regulations (Northern Ireland) 1952"
+        },
+        {
+          "id": "nisro/1953/126",
+          "title": "The Electoral (Parliamentary and Local Government Elections) Regulations (Northern Ireland) 1953"
+        },
+        {
+          "id": "nisro/1954/130",
+          "title": "The Electoral (Registration Expenses) Regulations (Northern Ireland) 1954"
+        },
+        {
+          "id": "nisro/1954/132",
+          "title": "The Electoral (Registration) Regulations (Northern Ireland) 1954"
+        },
+        {
+          "id": "nisro/1954/150",
+          "title": "The Electoral Registers (Publication) (Extension) Order (Northern Ireland) 1954"
+        },
+        {
+          "id": "nisro/1954/63",
+          "title": "The Electoral Registers (Publication) Order (Northern Ireland) 1954"
+        },
+        {
+          "id": "nisro/1954/77",
+          "title": "The Boundary Survey - County of Londonderry - Order in Council confirming alterations in the County Boundaries (Northern Ireland) 1954"
+        },
+        {
+          "id": "nisro/1955/53",
+          "title": "The Electoral (Local Government Elections) (Amendment) Regulations (Northern Ireland) 1955"
+        },
+        {
+          "id": "nisro/1956/173",
+          "title": "The Electoral (Parliamentary Returning Officers' Charges) (Amendment) Regulations (Northern Ireland) 1956"
+        },
+        {
+          "id": "nisro/1957/222",
+          "title": "The Newtownabbey Urban District (Electoral Areas) Order (Northern Ireland) 1957"
+        },
+        {
+          "id": "nisro/1957/263",
+          "title": "The Electoral (Parliamentary Returning Officers' Charges) Regulations (Northern Ireland) 1957"
+        },
+        {
+          "id": "nisro/1958/19",
+          "title": "The Electoral (Registration Expenses) Regulations (Northern Ireland) 1958"
+        },
+        {
+          "id": "nisro/1960/129",
+          "title": "The Electoral (Registration) (Amendment of Time-table) Regulations (Northern Ireland) 1960"
+        },
+        {
+          "id": "nisro/1961/242",
+          "title": "The Electoral (Registration Expenses) Regulations (Northern Ireland) 1961"
+        },
+        {
+          "id": "nisro/1962/122",
+          "title": "The Electoral Law (Local Elections) (Forms) Regulations (Northern Ireland) 1962"
+        },
+        {
+          "id": "nisro/1962/155",
+          "title": "The Electoral Law (Registration and Polling Station Schemes) Regulations (Northern Ireland) 1962"
+        },
+        {
+          "id": "nisro/1962/83",
+          "title": "The Electoral Law Act 1962 (Commencement No. 1) Order (Northern Ireland) 1962"
+        },
+        {
+          "id": "nisro/1962/84",
+          "title": "The Electoral Law (Parliamentary Elections) (Forms) Regulations (Northern Ireland) 1962"
+        },
+        {
+          "id": "nisro/1962/87",
+          "title": "The Electoral Law (Parliamentary Elections) (University Constituency) (Forms) Regulations (Northern Ireland) 1962"
+        },
+        {
+          "id": "nisro/1962/89",
+          "title": "The Electoral Law (Returning Officers' Remuneration and Expenses) Regulations (Northern Ireland) 1962"
+        },
+        {
+          "id": "nisro/1963/251",
+          "title": "The Electoral (Registration Expenses) Regulations (Northern Ireland) 1963"
+        },
+        {
+          "id": "nisro/1963/82",
+          "title": "The Electoral Law Act 1962 (Commencement) Order (Northern Ireland) 1963"
+        },
+        {
+          "id": "nisro/1964/119",
+          "title": "The Electoral (Registration Expenses) Regulations (Northern Ireland) 1964"
+        },
+        {
+          "id": "nisro/1964/28",
+          "title": "The Election Petition Rules (Northern Ireland) 1964"
+        },
+        {
+          "id": "nisro/1964/83",
+          "title": "The Election Petition Rules (Northern Ireland) 1964"
+        },
+        {
+          "id": "nisro/1965/141",
+          "title": "The Electoral (Registration Expenses) Regulations (Northern Ireland) 1965"
+        },
+        {
+          "id": "nisro/1969/270",
+          "title": "The Electoral Law (Local Bye-Elections in County Boroughs (Postponement)) Order (Northern Ireland) 1969"
+        },
+        {
+          "id": "nisro/1969/345",
+          "title": "The County Court (Electoral Registration Appeal) Rules (Northern Ireland) 1969"
+        },
+        {
+          "id": "nisro/1970/340",
+          "title": "The County Court (Electoral Registration Appeal) (Amendment) Rules (Northern Ireland) 1970"
+        },
+        {
+          "id": "nisro/1970/347",
+          "title": "The Electoral Law (Local Bye-Elections (Postponement)) Order (Northern Ireland) 1970"
+        },
+        {
+          "id": "nisro/1970/8",
+          "title": "The Electoral Law (Returning Officers' Remuneration and Expenses) (Amendment) Regulations (Northern Ireland) 1970"
+        },
+        {
+          "id": "nisro/1971/167",
+          "title": "The Electoral (Registration Expenses) Regulations (Northern Ireland) 1971"
+        },
+        {
+          "id": "nisro/1972/131",
+          "title": "The Local Government (Boundaries) Order (Northern Ireland) 1972"
+        },
+        {
+          "id": "nisro/1972/206",
+          "title": "The Electoral Law (Polling Station Schemes) Regulations (Northern Ireland) 1972"
+        },
+        {
+          "id": "nisro/1972/333",
+          "title": "The County Court (Electoral Registration Appeal) (Amendment) Rules (Northern Ireland) 1972"
+        },
+        {
+          "id": "nisro/1972/349",
+          "title": "The Electoral Law (Registration) Regulations (Northern Ireland) 1972"
+        },
+        {
+          "id": "nisro/1973/103",
+          "title": "The Chief Electoral Officer (Salary) Order (Northern Ireland) 1973"
+        },
+        {
+          "id": "nisro/1973/122",
+          "title": "The Electoral Law (Local General Election 1973) Regulations (Northern Ireland) 1973"
+        },
+        {
+          "id": "nisro/1973/127",
+          "title": "The Electoral Law (Local General Election 1973 Postal Voting) Regulations (Northern Ireland) 1973"
+        },
+        {
+          "id": "nisro/1973/173",
+          "title": "The Electoral Law (Local General Election 1973) (No. 2) Regulations (Northern Ireland) 1973"
+        },
+        {
+          "id": "nisro/1973/235",
+          "title": "The Electoral Law (Casual Vacancies in District Councils) Regulations (Northern Ireland) 1973"
+        },
+        {
+          "id": "nisro/1973/286",
+          "title": "The Electoral Law (Casual Vacancies in District Councils) (Amendment) Regulations (Northern Ireland) 1973"
+        },
+        {
+          "id": "nisro/1973/94",
+          "title": "The Local Government (District Electoral Areas) Regulations (Northern Ireland) 1973"
+        },
+        {
+          "id": "uksi/1970/1678",
+          "title": "The Parliamentary Constituencies (Northern Ireland) Order 1970"
+        },
+        {
+          "id": "uksi/1973/890",
+          "title": "The Northern Ireland Assembly (Election) Order 1973"
+        },
+        {
+          "id": "uksi/1974/545",
+          "title": "The Northern Ireland Assembly (Bye-Elections) Order 1974"
+        },
+        {
+          "id": "uksi/1979/322",
+          "title": "The European Assembly Elections (Northern Ireland) Regulations 1979"
+        },
+        {
+          "id": "uksi/1979/589",
+          "title": "The European Assembly Elections (Returning Officers' Expenses) (Northern Ireland) Regulations 1979"
+        },
+        {
+          "id": "uksi/1982/1078",
+          "title": "The Northern Ireland Assembly (Day of Election) Order 1982"
+        },
+        {
+          "id": "uksi/1982/1135",
+          "title": "The Northern Ireland Assembly Elections Order 1982"
+        },
+        {
+          "id": "uksi/1982/1838",
+          "title": "The Parliamentary Constituencies (Northern Ireland) Order 1982"
+        },
+        {
+          "id": "uksi/1984/198",
+          "title": "The European Assembly Elections (Northern Ireland) Regulations 1984"
+        },
+        {
+          "id": "uksi/1984/360",
+          "title": "The District Electoral Areas Commissioner (Northern Ireland) Order 1984"
+        },
+        {
+          "id": "uksi/1984/724",
+          "title": "The European Assembly Elections (Returning Officers' Expenses) (Northern Ireland) Regulations 1984"
+        },
+        {
+          "id": "uksi/1985/1268",
+          "title": "The Northern Ireland Assembly Elections (Amendment) Order 1985"
+        },
+        {
+          "id": "uksi/1985/169",
+          "title": "The District Electoral Areas (Northern Ireland) Order 1985"
+        },
+        {
+          "id": "uksi/1986/1811",
+          "title": "The Northern Ireland Assembly Elections (Amendment) Order 1986"
+        },
+        {
+          "id": "uksi/1986/2250",
+          "title": "The European Assembly Elections (Northern Ireland) Regulations 1986"
+        },
+        {
+          "id": "uksi/1990/2149",
+          "title": "The Local Government Boundaries Commissioner (Northern Ireland) Order 1990"
+        },
+        {
+          "id": "uksi/1993/226",
+          "title": "The District Electoral Areas (Northern Ireland) Order 1993"
+        },
+        {
+          "id": "uksi/1995/2992",
+          "title": "The Parliamentary Constituencies (Northern Ireland) Order 1995"
+        },
+        {
+          "id": "uksi/1998/1287",
+          "title": "The New Northern Ireland Assembly (Elections) Order 1998"
+        },
+        {
+          "id": "uksi/1998/1493",
+          "title": "The New Northern Ireland Assembly Elections (Returning Officer’s Charges) Order 1998"
+        },
+        {
+          "id": "uksi/2001/2599",
+          "title": "The Northern Ireland Assembly (Elections) Order 2001"
+        },
+        {
+          "id": "uksi/2002/1964",
+          "title": "The Northern Ireland Assembly (Elections) (Amendment) Order 2002"
+        },
+        {
+          "id": "uksi/2003/2989",
+          "title": "The Northern Ireland Assembly (Elections) (Amendment) Order 2003"
+        },
+        {
+          "id": "uksi/2003/3029",
+          "title": "The New Northern Ireland Assembly Elections (Returning Officer’s Charges) (Amendment) Order 2003"
+        },
+        {
+          "id": "uksi/2005/862",
+          "title": "Electoral Law Act (Northern Ireland) 1962 (Amendment) Order 2005"
+        },
+        {
+          "id": "uksi/2005/863",
+          "title": "The Electoral Law Act (Northern Ireland) 1962 (Amendment No. 2) Order 2005"
+        },
+        {
+          "id": "uksi/2005/864",
+          "title": "The Electoral Law Act (Northern Ireland) 1962 (Amendment No. 3) Order 2005"
+        },
+        {
+          "id": "uksi/2007/308",
+          "title": "The Northern Ireland Assembly (Elections) (Amendment) Order 2007"
+        },
+        {
+          "id": "uksi/2007/644",
+          "title": "The New Northern Ireland Assembly Elections (Returning Officer’s Charges) (Amendment) Order 2007"
+        },
+        {
+          "id": "uksi/2008/1486",
+          "title": "The Parliamentary Constituencies (Northern Ireland) Order 2008"
+        },
+        {
+          "id": "uksi/2009/256",
+          "title": "The Northern Ireland Assembly (Elections) (Amendment) Order 2009"
+        },
+        {
+          "id": "uksi/2009/3014",
+          "title": "The Electoral Law Act (Northern Ireland) 1962 (Amendment) Order 2009"
+        },
+        {
+          "id": "uksi/2009/3016",
+          "title": "The District Electoral Areas Commissioner (Northern Ireland) (Amendment) Order 2009"
+        },
+        {
+          "id": "uksi/2010/1178",
+          "title": "The Electoral Law Act (Northern Ireland) 1962 (Amendment) Order 2010"
+        },
+        {
+          "id": "uksi/2010/1532",
+          "title": "The Electoral Law (Polling Station Scheme) (Northern Ireland) Regulations 2010"
+        },
+        {
+          "id": "uksi/2010/2892",
+          "title": "The Northern Ireland Assembly (Elections) (Amendment) Order 2010"
+        },
+        {
+          "id": "uksi/2011/473",
+          "title": "The Northern Ireland Assembly Elections (Returning Officer’s Charges) Order 2011 (revoked)"
+        },
+        {
+          "id": "uksi/2012/3074",
+          "title": "The District Electoral Areas Commissioner (Northern Ireland) Order 2012"
+        },
+        {
+          "id": "uksi/2014/1804",
+          "title": "The Northern Ireland Assembly (Elections) (Amendment) Order 2014"
+        },
+        {
+          "id": "uksi/2014/270",
+          "title": "The District Electoral Areas (Northern Ireland) Order 2014"
+        },
+        {
+          "id": "uksi/2015/1610",
+          "title": "The Northern Ireland Assembly (Elections) (Amendment) Order 2015"
+        },
+        {
+          "id": "uksi/2015/222",
+          "title": "The Northern Ireland Assembly (Elections) (Forms) Order 2015"
+        },
+        {
+          "id": "uksi/2016/473",
+          "title": "The Northern Ireland Assembly Elections (Returning Officer’s Charges) Order 2016 (revoked)"
+        },
+        {
+          "id": "uksi/2022/373",
+          "title": "The Northern Ireland Assembly Elections (Returning Officer’s Charges) Order 2022"
+        }
+      ]
+    },
+    "opendatani": {
+      "takenAt": "2026-11-01",
+      "datasetsListed": 1128,
+      "datasetsMirrored": 1052,
+      "datasetsUsed": 137,
+      "linksToUnlistedDatasets": 6,
+      "usedDatasets": [
+        "2003-ortho-osni2",
+        "2004-ortho-osni2",
+        "2005-ortho-osni2",
+        "2006-ortho-osni2",
+        "2007-ortho-osni2",
+        "2008-ortho-osni2",
+        "2009-ortho-osni2",
+        "2012-ortho-osni2",
+        "2014-ortho-osni2",
+        "2016-ortho-osni2",
+        "2017-ortho-osni2",
+        "2019-ortho-osni2",
+        "2020-ortho-osni2",
+        "acid-grassland-habitat-network",
+        "ancient-semi-natural-woodland-habitat-network",
+        "areas-of-outstanding-natural-beauty",
+        "areas-of-special-scientific-interest",
+        "bcni2018",
+        "bog-habitat-network",
+        "calcarious-grassland-habitat-network",
+        "coastal-habitat-networks-grouped",
+        "coastal-saltmarsh-habitat-network",
+        "coastal-sand-dune-habitat-network",
+        "coastal-vegetated-shingle-habitat-network",
+        "deciduous-woodland-habitat-network",
+        "department-of-health-trust-boundaries",
+        "environmental-noise-directive-noise-mapping",
+        "fen-habitat-network",
+        "government-land-and-property-assets",
+        "grassland-habitat-networks-grouped",
+        "groundwater-drinking-water-protected-areas-dwpas1",
+        "gsni-250k-geology",
+        "gsni-tellus-regional-airborne-geophysical-survey-electromagnetic-grids",
+        "gsni-tellus-regional-airborne-geophysical-survey-electromagnetics",
+        "gsni-tellus-regional-airborne-geophysical-survey-magnetic-grids",
+        "gsni-tellus-regional-airborne-geophysical-survey-magnetics",
+        "gsni-tellus-regional-airborne-geophysical-survey-radiometric-grids",
+        "gsni-tellus-regional-airborne-geophysical-survey-radiometrics",
+        "gsni-tellus-regional-stream-sediments",
+        "gsni-tellus-regional-stream-waters-icp",
+        "heath-habitat-network",
+        "lake-habitat-network",
+        "lake-water-bodies1",
+        "landscape-character-areas",
+        "limestone-pavement-habitat-network",
+        "lowland-meadow-habitat-network",
+        "maritime-cliff-and-slope-habitat-network",
+        "mid-ulster-council-district-electoral-areas2",
+        "mid-ulster-council-townlands2",
+        "mid-ulster-council-wards2",
+        "national-nature-reserves",
+        "ni-water-customer-tap-authorised-supply-point-results",
+        "northern-ireland-groundwater-bodies2",
+        "northern-ireland-mineral-resources",
+        "northern-ireland-railways-nir-railway-network",
+        "osni-open-data-1-10-000-raster-mid-scale-raster",
+        "osni-open-data-1-1million-raster-county-boundaries",
+        "osni-open-data-1-1million-raster-infrastructure",
+        "osni-open-data-1-1million-raster-location",
+        "osni-open-data-1-1million-raster-natural-environment",
+        "osni-open-data-1-1million-raster-parliamentary-boundaries",
+        "osni-open-data-50k-boundaries-district-electoral-areas-1993",
+        "osni-open-data-50k-boundaries-local-government-districts-1993",
+        "osni-open-data-50k-boundaries-ni-outline",
+        "osni-open-data-50k-boundaries-parliamentary-constituencies",
+        "osni-open-data-50k-boundaries-townlands",
+        "osni-open-data-50k-boundaries-wards-1993",
+        "osni-open-data-50k-transport-text-labelling",
+        "osni-open-data-50k-transport-transport-lines",
+        "osni-open-data-50k-transport-transport-points",
+        "osni-open-data-benchmarks-height",
+        "osni-open-data-coverage-grid-10k",
+        "osni-open-data-coverage-grid-50k",
+        "osni-open-data-eire-thuaidh-irish-translated-map",
+        "osni-open-data-gazetteer-place-names",
+        "osni-open-data-historical-six-inch-to-one-mile-county-series-edition-1-1829-1835-antrim",
+        "osni-open-data-historical-six-inch-to-one-mile-county-series-edition-1-1829-1835-armagh",
+        "osni-open-data-historical-six-inch-to-one-mile-county-series-edition-1-1829-1835-derry-londonderry",
+        "osni-open-data-historical-six-inch-to-one-mile-county-series-edition-1-1829-1835-down",
+        "osni-open-data-historical-six-inch-to-one-mile-county-series-edition-1-1829-1835-fermanagh",
+        "osni-open-data-historical-six-inch-to-one-mile-county-series-edition-1-1829-1835-tyrone",
+        "osni-open-data-historical-six-inch-to-one-mile-county-series-edition-2-1838-1862-antrim",
+        "osni-open-data-historical-six-inch-to-one-mile-county-series-edition-2-1838-1862-armagh",
+        "osni-open-data-historical-six-inch-to-one-mile-county-series-edition-2-1838-1862-derry-londonderry",
+        "osni-open-data-historical-six-inch-to-one-mile-county-series-edition-2-1838-1862-down",
+        "osni-open-data-historical-six-inch-to-one-mile-county-series-edition-2-1838-1862-fermanagh",
+        "osni-open-data-historical-six-inch-to-one-mile-county-series-edition-2-1838-1862-tyrone",
+        "osni-open-data-largescale-boundaries-county-boundaries",
+        "osni-open-data-largescale-boundaries-district-electoral-areas-1993",
+        "osni-open-data-largescale-boundaries-district-electoral-areas-2012",
+        "osni-open-data-largescale-boundaries-local-government-districts-1993",
+        "osni-open-data-largescale-boundaries-local-government-districts-2012",
+        "osni-open-data-largescale-boundaries-parliamentary-constituencies-2008",
+        "osni-open-data-largescale-boundaries-parliamentary-constituencies-2023",
+        "osni-open-data-largescale-boundaries-townlands",
+        "osni-open-data-largescale-boundaries-wards-1993",
+        "osni-open-data-largescale-boundaries-wards-2012",
+        "osni-open-data-streetmaps",
+        "osni-opendata-gazetteer-streetnames",
+        "pond-habitat-network",
+        "priority-habitats-peatland2",
+        "purple-moor-grass-rush-pasture-habitat-network",
+        "ramsar-sites",
+        "reas-wood-aquatroll-metrics-view",
+        "reedbed-habitat-network",
+        "river-and-lake-monitoring-points-2024",
+        "river-habitat-network",
+        "river-water-quality-monitoring-1990-to-2018-alkalinity1",
+        "river-water-quality-monitoring-1990-to-2018-ammonia1",
+        "river-water-quality-monitoring-1990-to-2018-biochemical-oxygen-demand1",
+        "river-water-quality-monitoring-1990-to-2018-conductivity1",
+        "river-water-quality-monitoring-1990-to-2018-dissolved-copper1",
+        "river-water-quality-monitoring-1990-to-2018-dissolved-iron1",
+        "river-water-quality-monitoring-1990-to-2018-dissolved-oxygen1",
+        "river-water-quality-monitoring-1990-to-2018-dissolved-zinc1",
+        "river-water-quality-monitoring-1990-to-2018-nitrate1",
+        "river-water-quality-monitoring-1990-to-2018-nitrite1",
+        "river-water-quality-monitoring-1990-to-2018-ph1",
+        "river-water-quality-monitoring-1990-to-2018-soluble-phosphorus1",
+        "river-water-quality-monitoring-1990-to-2018-suspended-solids1",
+        "river-water-quality-monitoring-1990-to-20181",
+        "rural-soil-survey",
+        "special-areas-of-conservation",
+        "special-protection-areas",
+        "spreadsheet-of-core-and-cuttings-held-by-gsni",
+        "surface-drinking-water-protected-areas1",
+        "surface-water-bodies-status-20151",
+        "toome-aquatroll-metrics-view",
+        "traditional-orchard-habitat-network",
+        "washing-bay-aquatroll-metrics-view",
+        "water-framework-directive-2nd-cycle-interim-status1",
+        "wetland-habitat-networks-grouped",
+        "wfd-river-and-lake-monitoring-sites-2nd-cycle1",
+        "wfd-river-water-bodies-2nd-cycle1",
+        "wood-pasture-and-parkland-habitat-network",
+        "woodland-habitat-networks-grouped",
+        "world-heritage-site"
+      ]
+    },
+    "proni": {
+      "takenAt": "2026-11-01",
+      "recordsCollected": 1538177,
+      "recordsWithDate": 1211957
+    }
+  }
+}

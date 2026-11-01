@@ -1,44 +1,26 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-01T00:18:11.779Z",
+  "generatedAt": "2026-11-01T11:58:05.772Z",
   "bucket": "boundaries-data",
   "dryRun": false,
   "selectedIds": [
-    "deas-1993-vector-test",
-    "deas-1992-provisional-vector-test",
-    "lgd-1991-provisional-vector-test"
+    "admin-areas-1938-04-01-vector-test"
   ],
   "totals": {
-    "assets": 3,
-    "processed": 3,
-    "ok": 3,
+    "assets": 1,
+    "processed": 1,
+    "ok": 1,
     "failed": 0,
-    "bytes": 5228423
+    "bytes": 908202
   },
   "results": [
     {
-      "layerId": "deas-1993-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/deas-1993-vector-test.pmtiles",
+      "layerId": "admin-areas-1938-04-01-vector-test",
+      "targetKey": "data/maps/test/pmtiles/generated/admin-areas-1938-04-01-vector-test.pmtiles",
       "ok": true,
       "status": "uploaded",
-      "bytes": 1996228,
-      "output": "\n ⛅️ wrangler 4.85.0\n───────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/deas-1993-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "deas-1992-provisional-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/deas-1992-provisional-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 2116717,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.156.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/deas-1992-provisional-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
-    },
-    {
-      "layerId": "lgd-1991-provisional-vector-test",
-      "targetKey": "data/maps/test/pmtiles/generated/lgd-1991-provisional-vector-test.pmtiles",
-      "ok": true,
-      "status": "uploaded",
-      "bytes": 1115478,
-      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.156.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/lgd-1991-provisional-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
+      "bytes": 908202,
+      "output": "\n ⛅️ wrangler 4.85.0 (update available 4.156.0)\n──────────────────────────────────────────────\nResource location: remote \n\nCreating object \"data/maps/test/pmtiles/generated/admin-areas-1938-04-01-vector-test.pmtiles\" in bucket \"boundaries-data\".\nUpload complete.\n"
     }
   ]
 }

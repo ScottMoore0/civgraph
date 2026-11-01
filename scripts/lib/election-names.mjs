@@ -257,7 +257,20 @@ export function electionConstituencyNames(constituencies = []) {
 const PRE1973_COUNCIL_BODIES = new Set([
   'belfast county borough council',
   'belfast county borough council aldermen',
-  'strabane urban district council'
+  'strabane urban district council',
+  'armagh county council',
+  'armagh urban district council',
+  'keady urban district council',
+  'lurgan borough council',
+  'lurgan rural district council',
+  'portadown borough council',
+  'armagh rural district council',
+  'newry no. 2 rural district council',
+  'tandragee rural district council',
+  'moira rural district council',
+  'aghalee rural district council',
+  'tandragee urban district council',
+  'castleblayney no. 2 rural district council'
 ]);
 
 export function isElectionByElectionScope({ body = '', bodyGroup = null, date = '', constituencies = [], specialType = null } = {}) {
@@ -349,6 +362,17 @@ export function canonicalElectionTitle({
   if (normalizedBody === 'strabane urban district council') {
     // Strabane's town commissioners became an urban district council under the 1898 Act.
     return String(year) === '1899' ? '1899 Strabane Town Commissioners election' : `${year} Strabane Urban District Council election`.trim();
+  }
+  // Lurgan and Portadown were urban districts until incorporated as municipal boroughs
+  // (Portadown 2 Oct 1947, Belfast Gazette 18 Jul 1947; Lurgan 7 Jul 1949, Lurgan Mail 3 Sep 1949); one body each, titled for the era.
+  if (normalizedBody === 'lurgan borough council') {
+    return Number(year) < 1949 ? `${year} Lurgan Urban District Council election` : `${year} Lurgan Borough Council election`;
+  }
+  if (normalizedBody === 'portadown borough council') {
+    return Number(year) < 1947 ? `${year} Portadown Urban District Council election` : `${year} Portadown Borough Council election`;
+  }
+  if (['armagh county council', 'armagh urban district council', 'keady urban district council', 'lurgan rural district council', 'armagh rural district council', 'newry no. 2 rural district council', 'tandragee rural district council', 'moira rural district council', 'aghalee rural district council', 'tandragee urban district council', 'castleblayney no. 2 rural district council'].includes(normalizedBody)) {
+    return `${year} ${body} election`.trim();
   }
   if (['londonderry county borough council', 'lisburn urban district council', 'bangor urban district council'].includes(normalizedBody)) {
     return `${year} ${body} election`.trim();

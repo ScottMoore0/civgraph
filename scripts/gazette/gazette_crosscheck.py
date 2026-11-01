@@ -351,7 +351,8 @@ def proposal_items(r, uncertain):
         ]
         return ('figures' if ops else 'missing-candidates',
                 f"Gazette {r['type'].replace('-', ' ')} for {place}: " + '; '.join(p for p in parts if p) + '.' + ocr_note, ops)
-    if v == 'gap' and r['type'] == 'return-of-members':
+    if v == 'gap' and r['type'] == 'return-of-members' and r.get('body'):
+        # A return with no house named is usually another notice caught by the anchor.
         first, sur = split_name(g or '')
         return ('missing-contest', f"the Gazette records {g} returned for {place} ({r['body'] or 'body unclear'})"
                                    f"{', in the place of ' + r['predecessor'] if r.get('predecessor') else ''}"

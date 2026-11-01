@@ -14,6 +14,7 @@ NI_BODIES = [
     'local-government', 'european-parliament', 'belfast-county-borough-council',
     'belfast-county-borough-council-aldermen', 'strabane-urban-district-council',
     'bangor-urban-district-council', 'lisburn-urban-district-council', 'londonderry-county-borough-council',
+    'armagh-county-council', 'armagh-urban-district-council', 'keady-urban-district-council', 'lurgan-borough-council', 'lurgan-rural-district-council', 'portadown-borough-council', 'armagh-rural-district-council', 'newry-no-2-rural-district-council', 'tandragee-rural-district-council', 'moira-rural-district-council', 'aghalee-rural-district-council', 'tandragee-urban-district-council', 'castleblayney-no-2-rural-district-council',
 ]
 
 # Westminster constituencies in Northern Ireland (1922 on), by normalised name, used to keep the

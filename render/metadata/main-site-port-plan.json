@@ -3,13 +3,13 @@
   "source": "data/database/maps.json",
   "testMetadata": "render/metadata/maps-test.json",
   "totals": {
-    "total": 1356,
-    "converted": 1242,
-    "convertedDirect": 1025,
+    "total": 1388,
+    "converted": 1278,
+    "convertedDirect": 1053,
     "convertedComposite": 37,
-    "convertedAlias": 180,
+    "convertedAlias": 188,
     "needsVectorTileConversion": 0,
-    "metadataOnly": 114,
+    "metadataOnly": 110,
     "needsMapLibreSourceMapping": 0
   },
   "rows": [
@@ -15810,7 +15810,7 @@
         "Paddy Matthews",
         "Phelim Birch"
       ],
-      "description": "District Electoral Divisions of Ireland as at 29 Apr 1910, before partition. The Leinster divisions are Phelim Birch’s corrected 29 Apr 1910 map; Connacht, Munster and Ulster are Paddy Matthews’s 1911 maps.",
+      "description": "District Electoral Divisions of Ireland about 1910-11, before partition. The Leinster divisions are Phelim Birch's corrected 29 Apr 1910 map; Connacht and Munster are Paddy Matthews's 1911 maps; Ulster is the census-day layer of 2 Apr 1911 (939 divisions and wards, as the 1911 census), built from Phelim Birch's and Paddy Matthews's maps.",
       "sourceCredits": [
         "Paddy Matthews",
         "Phelim Birch"
@@ -15836,7 +15836,12 @@
         "weight": 2
       },
       "sourceFiles": [],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Ireland 1911, Area, houses and population, Ulster county volumes, Table VI",
+          "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/"
+        }
+      ],
       "sourceDownloads": [],
       "variants": 4,
       "unsupportedReason": null
@@ -15887,7 +15892,12 @@
           "file": "https://data.civgraph.net/data/maps/electoral-divisions/ConnachtElectoralDivisions1911.fgb"
         }
       ],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Ireland 1911, Area, houses and population, Ulster county volumes, Table VI",
+          "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/"
+        }
+      ],
       "sourceDownloads": [],
       "variants": 4,
       "unsupportedReason": null
@@ -15938,7 +15948,12 @@
           "file": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Leinster_1910_April_29.fgb"
         }
       ],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Ireland 1911, Area, houses and population, Ulster county volumes, Table VI",
+          "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/"
+        }
+      ],
       "sourceDownloads": [],
       "variants": 4,
       "unsupportedReason": null
@@ -15989,7 +16004,12 @@
           "file": "https://data.civgraph.net/data/maps/electoral-divisions/MunsterElectoralDivisions1911.fgb"
         }
       ],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Ireland 1911, Area, houses and population, Ulster county volumes, Table VI",
+          "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/"
+        }
+      ],
       "sourceDownloads": [],
       "variants": 4,
       "unsupportedReason": null
@@ -16009,7 +16029,7 @@
         "Paddy Matthews",
         "Phelim Birch"
       ],
-      "description": "Electoral Divisions in Ulster province",
+      "description": "District electoral divisions and county-borough wards in Ulster on census day, 2 Apr 1911 (939, as the 1911 census): Phelim Birch's 1912 Ulster map with four Enniskillen-area DEDs from Paddy Matthews's 1911 file",
       "sourceCredits": [
         "Paddy Matthews",
         "Phelim Birch"
@@ -16020,11 +16040,11 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          53.7655746,
-          -8.834788
+          53.7655741,
+          -8.8347879
         ],
         [
-          55.4465808,
+          55.4465803,
           -5.4267884
         ]
       ],
@@ -16037,10 +16057,15 @@
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/electoral-divisions/UlsterElectoralDivisions1911.fgb"
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Ulster_1911_census.fgb"
         }
       ],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Ireland 1911, Area, houses and population, Ulster county volumes, Table VI",
+          "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/"
+        }
+      ],
       "sourceDownloads": [],
       "variants": 4,
       "unsupportedReason": null
@@ -16979,6 +17004,10 @@
         {
           "label": "Local Government Board Order 26/01/1916 (transcript)",
           "url": "https://data.civgraph.net/data/documents/electoral-divisions/local-government-board-order-1916-01-26.pdf"
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: General Report",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -17039,6 +17068,10 @@
         {
           "label": "Local Government Board Order 26/01/1916 (transcript)",
           "url": "https://data.civgraph.net/data/documents/electoral-divisions/local-government-board-order-1916-01-26.pdf"
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: General Report",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -17099,6 +17132,10 @@
         {
           "label": "Local Government Board Order 26/01/1916 (transcript)",
           "url": "https://data.civgraph.net/data/documents/electoral-divisions/local-government-board-order-1916-01-26.pdf"
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: General Report",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -17159,6 +17196,10 @@
         {
           "label": "Local Government Board Order 26/01/1916 (transcript)",
           "url": "https://data.civgraph.net/data/documents/electoral-divisions/local-government-board-order-1916-01-26.pdf"
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: General Report",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -17219,6 +17260,10 @@
         {
           "label": "Local Government Board Order 26/01/1916 (transcript)",
           "url": "https://data.civgraph.net/data/documents/electoral-divisions/local-government-board-order-1916-01-26.pdf"
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: General Report",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -17274,6 +17319,14 @@
         {
           "label": "Local Government Board Order 20/01/1919 (transcript)",
           "url": "https://data.civgraph.net/data/documents/electoral-divisions/local-government-board-order-1919-01-20.pdf"
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: General Report",
+          "url": null
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: County and County Borough of Londonderry",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -17334,6 +17387,14 @@
         {
           "label": "Local Government Board Order 20/01/1919 (transcript)",
           "url": "https://data.civgraph.net/data/documents/electoral-divisions/local-government-board-order-1919-01-20.pdf"
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: General Report",
+          "url": null
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: County and County Borough of Londonderry",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -17394,6 +17455,14 @@
         {
           "label": "Local Government Board Order 20/01/1919 (transcript)",
           "url": "https://data.civgraph.net/data/documents/electoral-divisions/local-government-board-order-1919-01-20.pdf"
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: General Report",
+          "url": null
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: County and County Borough of Londonderry",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -17454,6 +17523,14 @@
         {
           "label": "Local Government Board Order 20/01/1919 (transcript)",
           "url": "https://data.civgraph.net/data/documents/electoral-divisions/local-government-board-order-1919-01-20.pdf"
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: General Report",
+          "url": null
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: County and County Borough of Londonderry",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -17514,6 +17591,14 @@
         {
           "label": "Local Government Board Order 20/01/1919 (transcript)",
           "url": "https://data.civgraph.net/data/documents/electoral-divisions/local-government-board-order-1919-01-20.pdf"
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: General Report",
+          "url": null
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: County and County Borough of Londonderry",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -18239,6 +18324,14 @@
         {
           "label": "Government of Ireland Act 1920",
           "url": null
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: General Report",
+          "url": null
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: County of Antrim",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -18298,6 +18391,14 @@
         },
         {
           "label": "Government of Ireland Act 1920",
+          "url": null
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: General Report",
+          "url": null
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: County of Antrim",
           "url": null
         }
       ],
@@ -18359,6 +18460,14 @@
         {
           "label": "Government of Ireland Act 1920",
           "url": null
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: General Report",
+          "url": null
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: County of Antrim",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -18419,6 +18528,14 @@
         {
           "label": "Government of Ireland Act 1920",
           "url": null
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: General Report",
+          "url": null
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: County of Antrim",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -18478,6 +18595,14 @@
         },
         {
           "label": "Government of Ireland Act 1920",
+          "url": null
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: General Report",
+          "url": null
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: County of Antrim",
           "url": null
         }
       ],
@@ -23497,6 +23622,10 @@
         {
           "label": "Census of Population 1966: General Report",
           "url": "https://www.nisra.gov.uk/files/nisra/publications/1966-census-general-report.pdf"
+        },
+        {
+          "label": "Census of Population 1966: Preliminary Report",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -23875,6 +24004,60 @@
       "unsupportedReason": null
     },
     {
+      "sourceMapId": "admin-areas-1969-04-02",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "2 Apr 1969",
+      "category": "Historic Boundaries",
+      "categoryId": "historic",
+      "group": "Built Environment",
+      "date": "1969-04-02",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "OSNI"
+      ],
+      "description": null,
+      "sourceCredits": [
+        "OSNI"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "admin-areas-1969-04-02-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          54.022725,
+          -8.17744
+        ],
+        [
+          55.312985,
+          -5.5278582
+        ]
+      ],
+      "style": {
+        "color": "#8B4513",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/local-government/NI_Admin_Areas_1969-04-02_1969-04-02.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Census of Population 1971: Preliminary Report",
+          "url": null
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
       "sourceMapId": "admin-areas-1969-04-01",
       "cloneOf": null,
       "parentId": null,
@@ -23915,7 +24098,7 @@
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/local-government/NI_Admin_Areas_1969.fgb"
+          "file": "https://data.civgraph.net/data/maps/local-government/NI_Admin_Areas_1969-04-01_1969-04-01.fgb"
         }
       ],
       "references": [
@@ -23980,6 +24163,10 @@
         {
           "label": "Newtownards Borough (Alteration) Order (Northern Ireland) 1968 (S.R. & O. 1968 No. 23)",
           "url": "https://www.legislation.gov.uk/nisro/1968/23/made"
+        },
+        {
+          "label": "Census of Population 1971: Preliminary Report",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -24042,6 +24229,10 @@
         {
           "label": "New Towns (Municipal Functions - Craigavon) Order (Northern Ireland) 1967 (S.R. & O. 1967 No. 57)",
           "url": "https://www.legislation.gov.uk/nisro/1967/57/made"
+        },
+        {
+          "label": "Census of Population 1971: Preliminary Report",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -24146,7 +24337,12 @@
           "file": "https://data.civgraph.net/data/maps/local-government/NI_Admin_Areas_1964.fgb"
         }
       ],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Population 1966: Preliminary Report",
+          "url": null
+        }
+      ],
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": null
@@ -24302,6 +24498,10 @@
         {
           "label": "Belfast Gazette issue 2179 (Cookstown Urban District (Alteration) Order 1963 (confirmation))",
           "url": "https://www.thegazette.co.uk/Belfast/issue/2179/page/93"
+        },
+        {
+          "label": "Census of Population 1966: Preliminary Report",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -24364,6 +24564,68 @@
         {
           "label": "Census of Population 1966: General Report",
           "url": "https://www.nisra.gov.uk/files/nisra/publications/1966-census-general-report.pdf"
+        },
+        {
+          "label": "Census of Population 1966: Preliminary Report",
+          "url": null
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "admin-areas-1962-01-01",
+      "cloneOf": "admin-areas-1958-04-01",
+      "parentId": null,
+      "name": "1 Jan 1962",
+      "category": "Historic Boundaries",
+      "categoryId": "historic",
+      "group": "Built Environment",
+      "date": "1962-01-01",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "OSNI"
+      ],
+      "description": null,
+      "sourceCredits": [
+        "OSNI"
+      ],
+      "conversionStatus": "convertedAlias",
+      "recommendedTarget": "maplibre-clone-alias",
+      "testLayerId": "admin-areas-1962-01-01-alias-test",
+      "aliasTargetLayerId": "admin-areas-1958-04-01-vector-test",
+      "bounds": [
+        [
+          54.022725,
+          -8.17744
+        ],
+        [
+          55.312985,
+          -5.5278582
+        ]
+      ],
+      "style": {
+        "color": "#8B4513",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/local-government/NI_Admin_Areas_1958-04-01_1962-01-01.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Census of Population 1966: Preliminary Report",
+          "url": null
+        },
+        {
+          "label": "Census of Population 1961: County Down",
+          "url": "https://www.nisra.gov.uk/files/nisra/publications/1961-census-down-county-report.pdf"
         }
       ],
       "sourceDownloads": [],
@@ -24411,7 +24673,7 @@
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/local-government/NI_Admin_Areas_1958-04-01_1958-04-01.fgb"
+          "file": "https://data.civgraph.net/data/maps/local-government/NI_Admin_Areas_1958-04-01_1962-01-01.fgb"
         }
       ],
       "references": [
@@ -24600,6 +24862,10 @@
         {
           "label": "Belfast Gazette issue 1746 (Alteration of boundary of Urban County District of Lisburn (confirmation of Antrim County Council order of 27 Jul 1954))",
           "url": "https://www.thegazette.co.uk/Belfast/issue/1746/page/317"
+        },
+        {
+          "label": "Census of Population 1961: General Report",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -24607,14 +24873,14 @@
       "unsupportedReason": null
     },
     {
-      "sourceMapId": "admin-areas-1954-04-01",
+      "sourceMapId": "admin-areas-1954-08-01",
       "cloneOf": "admin-areas-1950-04-01",
       "parentId": null,
-      "name": "1 Apr 1954",
+      "name": "1 Aug 1954",
       "category": "Historic Boundaries",
       "categoryId": "historic",
       "group": "Built Environment",
-      "date": "1954-04-01",
+      "date": "1954-08-01",
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
@@ -24626,7 +24892,7 @@
       ],
       "conversionStatus": "convertedAlias",
       "recommendedTarget": "maplibre-clone-alias",
-      "testLayerId": "admin-areas-1954-04-01-alias-test",
+      "testLayerId": "admin-areas-1954-08-01-alias-test",
       "aliasTargetLayerId": "admin-areas-1950-04-01-vector-test",
       "bounds": [
         [
@@ -24650,7 +24916,16 @@
           "file": "https://data.civgraph.net/data/maps/local-government/NI_Admin_Areas_1950-04-01_1955-04-01.fgb"
         }
       ],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Population 1961: County Down",
+          "url": "https://www.nisra.gov.uk/files/nisra/publications/1961-census-down-county-report.pdf"
+        },
+        {
+          "label": "Census of Population 1961: General Report",
+          "url": null
+        }
+      ],
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": null
@@ -24707,6 +24982,10 @@
         {
           "label": "Ministry of Health and Local Government Provisional Order Confirmation (Newtownards Borough Extension) Act (Northern Ireland) 1950 (1950 c. ii)",
           "url": "https://www.thegazette.co.uk/Belfast/issue/1495/page/41"
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1951: Preliminary Report",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -24757,7 +25036,12 @@
           "file": "https://data.civgraph.net/data/maps/local-government/NI_Admin_Areas_1949-07-07_1949-07-07.fgb"
         }
       ],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1951: Preliminary Report",
+          "url": null
+        }
+      ],
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": null
@@ -24806,7 +25090,12 @@
           "file": "https://data.civgraph.net/data/maps/local-government/NI_Admin_Areas_1949-04-01_1949-07-01.fgb"
         }
       ],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1951: Preliminary Report",
+          "url": null
+        }
+      ],
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": null
@@ -24855,7 +25144,12 @@
           "file": "https://data.civgraph.net/data/maps/local-government/NI_Admin_Areas_1949-04-01_1949-07-01.fgb"
         }
       ],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1951: Preliminary Report",
+          "url": null
+        }
+      ],
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": null
@@ -24908,6 +25202,10 @@
         {
           "label": "Belfast Gazette issue 1419 (Dungannon Urban District (Alteration) Order, 1948 (confirmation))",
           "url": "https://www.thegazette.co.uk/Belfast/issue/1419/page/217"
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1951: Preliminary Report",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -24966,6 +25264,10 @@
         {
           "label": "Local Government Provisional Order Confirmation (Larne Borough Extension) Act (Northern Ireland) 1947",
           "url": "https://www.thegazette.co.uk/Belfast/issue/1381/page/320"
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1951: Preliminary Report",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -25016,7 +25318,12 @@
           "file": "https://data.civgraph.net/data/maps/local-government/NI_Admin_Areas_1946-06-11_1948-04-01.fgb"
         }
       ],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1951: Preliminary Report",
+          "url": null
+        }
+      ],
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": null
@@ -25081,6 +25388,10 @@
         {
           "label": "Belfast Gazette issue 1339 (Cookstown Urban District (Alteration) Order, 1947 (confirmation with modifications))",
           "url": "https://www.thegazette.co.uk/Belfast/issue/1339/page/49"
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1951: Preliminary Report",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -25197,6 +25508,10 @@
         {
           "label": "Belfast Gazette issue 1270 (Carrickfergus Urban District (Extension) Order, 1945 (confirmation))",
           "url": "https://www.thegazette.co.uk/Belfast/issue/1270/page/248"
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1951: Preliminary Report",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -25267,7 +25582,7 @@
     },
     {
       "sourceMapId": "admin-areas-1939-05-23",
-      "cloneOf": "admin-areas-1938-04-01",
+      "cloneOf": null,
       "parentId": null,
       "name": "23 May 1939",
       "category": "Historic Boundaries",
@@ -25283,10 +25598,10 @@
       "sourceCredits": [
         "OSNI"
       ],
-      "conversionStatus": "convertedAlias",
-      "recommendedTarget": "maplibre-clone-alias",
-      "testLayerId": "admin-areas-1939-05-23-alias-test",
-      "aliasTargetLayerId": "admin-areas-1938-04-01-vector-test",
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "admin-areas-1939-05-23-vector-test",
+      "aliasTargetLayerId": null,
       "bounds": [
         [
           54.022725,
@@ -25306,10 +25621,15 @@
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/local-government/NI_Admin_Areas_1938-04-01_1939-05-23.fgb"
+          "file": "https://data.civgraph.net/data/maps/local-government/NI_Admin_Areas_1939-05-23_1939-05-23.fgb"
         }
       ],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1951: Preliminary Report",
+          "url": null
+        }
+      ],
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": null
@@ -25355,23 +25675,28 @@
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/local-government/NI_Admin_Areas_1938-04-01_1939-05-23.fgb"
+          "file": "https://data.civgraph.net/data/maps/local-government/NI_Admin_Areas_1938-04-01_1938-05-23.fgb"
         }
       ],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1951: Preliminary Report",
+          "url": null
+        }
+      ],
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": null
     },
     {
-      "sourceMapId": "admin-areas-1938-05-16",
+      "sourceMapId": "admin-areas-1938-05-15",
       "cloneOf": "admin-areas-1938-04-01",
       "parentId": null,
-      "name": "16 May 1938",
+      "name": "15 May 1938",
       "category": "Historic Boundaries",
       "categoryId": "historic",
       "group": "Built Environment",
-      "date": "1938-05-16",
+      "date": "1938-05-15",
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
@@ -25383,7 +25708,7 @@
       ],
       "conversionStatus": "convertedAlias",
       "recommendedTarget": "maplibre-clone-alias",
-      "testLayerId": "admin-areas-1938-05-16-alias-test",
+      "testLayerId": "admin-areas-1938-05-15-alias-test",
       "aliasTargetLayerId": "admin-areas-1938-04-01-vector-test",
       "bounds": [
         [
@@ -25404,10 +25729,15 @@
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/local-government/NI_Admin_Areas_1938-04-01_1939-05-23.fgb"
+          "file": "https://data.civgraph.net/data/maps/local-government/NI_Admin_Areas_1938-04-01_1938-05-23.fgb"
         }
       ],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1951: Preliminary Report",
+          "url": null
+        }
+      ],
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": null
@@ -25453,7 +25783,7 @@
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/local-government/NI_Admin_Areas_1938-04-01_1939-05-23.fgb"
+          "file": "https://data.civgraph.net/data/maps/local-government/NI_Admin_Areas_1938-04-01_1938-05-23.fgb"
         }
       ],
       "references": [
@@ -25809,7 +26139,16 @@
           "file": "https://data.civgraph.net/data/maps/local-government/NI_Admin_Areas_1930-11-25_1936-04-01.fgb"
         }
       ],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1937: Preliminary Report",
+          "url": null
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1937: Supplement to the 1926 Topographical Index",
+          "url": null
+        }
+      ],
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": null
@@ -25858,7 +26197,12 @@
           "file": "https://data.civgraph.net/data/maps/local-government/Admin_Areas_01-04-1930.fgb"
         }
       ],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1937: Supplement to the 1926 Topographical Index",
+          "url": null
+        }
+      ],
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": null
@@ -25907,7 +26251,12 @@
           "file": "https://data.civgraph.net/data/maps/local-government/NI_Admin_Areas_1928-01-23_1929-01-23.fgb"
         }
       ],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1937: Preliminary Report",
+          "url": null
+        }
+      ],
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": null
@@ -26054,7 +26403,12 @@
           "file": "https://data.civgraph.net/data/maps/local-government/NI_Admin_Areas_1928-01-23_1929-01-23.fgb"
         }
       ],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1937: Preliminary Report",
+          "url": null
+        }
+      ],
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": null
@@ -26107,6 +26461,10 @@
         {
           "label": "Belfast Gazette issue 271 (Whitehead Urban District Order, 1926)",
           "url": "https://www.thegazette.co.uk/Belfast/issue/271/page/461"
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1937: Preliminary Report",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -26214,6 +26572,10 @@
         {
           "label": "Belfast Gazette issue 196 (Town of Whitehead: adoption of Towns Improvement (Ireland) Act 1854)",
           "url": "https://www.thegazette.co.uk/Belfast/issue/196/page/112"
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: General Report",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -26317,6 +26679,10 @@
         {
           "label": "Belfast Gazette issue 153 (Urban County District of Bangor: confirmation (with modifications) of Down County Council order of 25 Jan 1924)",
           "url": "https://www.thegazette.co.uk/Belfast/issue/153/page/815"
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: General Report",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -26367,7 +26733,16 @@
           "file": "https://data.civgraph.net/data/maps/local-government/NI_Admin_Areas_1921-05-03_1924-04-01.fgb"
         }
       ],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1926: General Report",
+          "url": null
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: County of Down",
+          "url": null
+        }
+      ],
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": null
@@ -26665,6 +27040,37 @@
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "ded-1969-04-02",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "District Electoral Divisions 2 Apr 1969",
+      "category": "Electoral Areas",
+      "categoryId": "wards",
+      "group": "Elections and Government",
+      "date": "1969-04-02",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [],
+      "description": null,
+      "sourceCredits": [],
+      "conversionStatus": "metadataOnly",
+      "recommendedTarget": "catalogue-metadata",
+      "testLayerId": null,
+      "aliasTargetLayerId": null,
+      "bounds": null,
+      "style": null,
+      "sourceFiles": [],
+      "references": [
+        {
+          "label": "Census of Population 1971: Preliminary Report",
+          "url": null
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": "no direct source file recorded"
     },
     {
       "sourceMapId": "ded-1969-04-01",
@@ -27015,6 +27421,37 @@
       "unsupportedReason": "no direct source file recorded"
     },
     {
+      "sourceMapId": "ded-1962-01-01",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "District Electoral Divisions 1 Jan 1962",
+      "category": "Electoral Areas",
+      "categoryId": "wards",
+      "group": "Elections and Government",
+      "date": "1962-01-01",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [],
+      "description": null,
+      "sourceCredits": [],
+      "conversionStatus": "metadataOnly",
+      "recommendedTarget": "catalogue-metadata",
+      "testLayerId": null,
+      "aliasTargetLayerId": null,
+      "bounds": null,
+      "style": null,
+      "sourceFiles": [],
+      "references": [
+        {
+          "label": "Census of Population 1966: Preliminary Report",
+          "url": null
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": "no direct source file recorded"
+    },
+    {
       "sourceMapId": "ded-1958-04-01",
       "cloneOf": null,
       "parentId": null,
@@ -27146,14 +27583,14 @@
       "unsupportedReason": "no direct source file recorded"
     },
     {
-      "sourceMapId": "ded-1954-04-01",
+      "sourceMapId": "ded-1954-08-01",
       "cloneOf": null,
       "parentId": null,
-      "name": "District Electoral Divisions 1 Apr 1954",
+      "name": "District Electoral Divisions 1 Aug 1954",
       "category": "Electoral Areas",
       "categoryId": "wards",
       "group": "Elections and Government",
-      "date": "1954-04-01",
+      "date": "1954-08-01",
       "dateAdded": null,
       "dateEffective": null,
       "provider": [],
@@ -27166,7 +27603,12 @@
       "bounds": null,
       "style": null,
       "sourceFiles": [],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Population 1961: County Down",
+          "url": "https://www.nisra.gov.uk/files/nisra/publications/1961-census-down-county-report.pdf"
+        }
+      ],
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": "no direct source file recorded"
@@ -27356,6 +27798,10 @@
         {
           "label": "Local Government Provisional Order Confirmation (Larne Borough Extension) Act (Northern Ireland) 1947",
           "url": "https://www.thegazette.co.uk/Belfast/issue/1381/page/320"
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1951: Preliminary Report",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -27639,20 +28085,25 @@
       "bounds": null,
       "style": null,
       "sourceFiles": [],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1951: County of Down",
+          "url": null
+        }
+      ],
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": "no direct source file recorded"
     },
     {
-      "sourceMapId": "ded-1938-05-16",
+      "sourceMapId": "ded-1938-05-15",
       "cloneOf": null,
       "parentId": null,
-      "name": "District Electoral Divisions 16 May 1938",
+      "name": "District Electoral Divisions 15 May 1938",
       "category": "Electoral Areas",
       "categoryId": "wards",
       "group": "Elections and Government",
-      "date": "1938-05-16",
+      "date": "1938-05-15",
       "dateAdded": null,
       "dateEffective": null,
       "provider": [],
@@ -27665,7 +28116,16 @@
       "bounds": null,
       "style": null,
       "sourceFiles": [],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1951: Preliminary Report",
+          "url": null
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1951: County of Down",
+          "url": null
+        }
+      ],
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": "no direct source file recorded"
@@ -27722,7 +28182,16 @@
       "bounds": null,
       "style": null,
       "sourceFiles": [],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1951: County of Down",
+          "url": null
+        },
+        {
+          "label": "Belfast Gazette issue 782 (Urban District of Donaghadee (wards))",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/782/data.pdf"
+        }
+      ],
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": "no direct source file recorded"
@@ -27748,7 +28217,12 @@
       "bounds": null,
       "style": null,
       "sourceFiles": [],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1937: Supplement to the 1926 Topographical Index",
+          "url": null
+        }
+      ],
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": "no direct source file recorded"
@@ -27774,7 +28248,12 @@
       "bounds": null,
       "style": null,
       "sourceFiles": [],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1937: Supplement to the 1926 Topographical Index",
+          "url": null
+        }
+      ],
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": "no direct source file recorded"
@@ -27862,7 +28341,12 @@
       "bounds": null,
       "style": null,
       "sourceFiles": [],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1937: Supplement to the 1926 Topographical Index",
+          "url": null
+        }
+      ],
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": "no direct source file recorded"
@@ -27888,7 +28372,12 @@
       "bounds": null,
       "style": null,
       "sourceFiles": [],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1937: Supplement to the 1926 Topographical Index",
+          "url": null
+        }
+      ],
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": "no direct source file recorded"
@@ -27937,7 +28426,16 @@
           "file": "https://data.civgraph.net/data/maps/electoral-divisions/NI_DEDs_1930.fgb"
         }
       ],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1937: Supplement to the 1926 Topographical Index",
+          "url": null
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: County of Down",
+          "url": null
+        }
+      ],
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": null
@@ -27989,7 +28487,12 @@
       "bounds": null,
       "style": null,
       "sourceFiles": [],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1937: Supplement to the 1926 Topographical Index",
+          "url": null
+        }
+      ],
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": "no direct source file recorded"
@@ -28015,7 +28518,12 @@
       "bounds": null,
       "style": null,
       "sourceFiles": [],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1937: Supplement to the 1926 Topographical Index",
+          "url": null
+        }
+      ],
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": "no direct source file recorded"
@@ -28071,6 +28579,10 @@
         {
           "label": "Belfast Gazette issue 271 (Whitehead Urban District Order, 1926)",
           "url": "https://www.thegazette.co.uk/Belfast/issue/271/page/461"
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1937: Supplement to the 1926 Topographical Index",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -28137,6 +28649,14 @@
         {
           "label": "Belfast Gazette issue 196 (Town of Whitehead: adoption of Towns Improvement (Ireland) Act 1854)",
           "url": "https://www.thegazette.co.uk/Belfast/issue/196/page/112"
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: County of Down",
+          "url": null
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: County of Antrim",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -28199,6 +28719,10 @@
         {
           "label": "Belfast Gazette issue 153 (Urban County District of Bangor: confirmation (with modifications) of Down County Council order of 25 Jan 1924)",
           "url": "https://www.thegazette.co.uk/Belfast/issue/153/page/815"
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: County of Down",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -28358,6 +28882,14 @@
         {
           "label": "PRONI CAB/9/B/13/1: Redistribution: abolition of proportional representation and the redistribution of electoral areas in Northern Ireland (1921-1927)",
           "url": "https://civgraph.net/proni/CAB/9/B/13/1"
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: Topographical Index",
+          "url": null
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: County of Down",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -28389,6 +28921,10 @@
         {
           "label": "Belfast Gazette issue 72 (Urban District of Newry (wards))",
           "url": "https://www.thegazette.co.uk/Belfast/issue/72/page/649"
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: County of Down",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -28602,6 +29138,37 @@
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "county-ed-1969-04-02",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "County Electoral Divisions 2 Apr 1969",
+      "category": "Electoral Areas",
+      "categoryId": "wards",
+      "group": "Elections and Government",
+      "date": "1969-04-02",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [],
+      "description": null,
+      "sourceCredits": [],
+      "conversionStatus": "metadataOnly",
+      "recommendedTarget": "catalogue-metadata",
+      "testLayerId": null,
+      "aliasTargetLayerId": null,
+      "bounds": null,
+      "style": null,
+      "sourceFiles": [],
+      "references": [
+        {
+          "label": "Census of Population 1971: Preliminary Report",
+          "url": null
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": "no direct source file recorded"
     },
     {
       "sourceMapId": "county-ed-1969-04-01",
@@ -28869,6 +29436,37 @@
       "unsupportedReason": "no direct source file recorded"
     },
     {
+      "sourceMapId": "county-ed-1962-01-01",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "County Electoral Divisions 1 Jan 1962",
+      "category": "Electoral Areas",
+      "categoryId": "wards",
+      "group": "Elections and Government",
+      "date": "1962-01-01",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [],
+      "description": null,
+      "sourceCredits": [],
+      "conversionStatus": "metadataOnly",
+      "recommendedTarget": "catalogue-metadata",
+      "testLayerId": null,
+      "aliasTargetLayerId": null,
+      "bounds": null,
+      "style": null,
+      "sourceFiles": [],
+      "references": [
+        {
+          "label": "Census of Population 1966: Preliminary Report",
+          "url": null
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": "no direct source file recorded"
+    },
+    {
       "sourceMapId": "county-ed-1958-04-01",
       "cloneOf": null,
       "parentId": null,
@@ -28905,43 +29503,20 @@
       "date": "1957-04-01",
       "dateAdded": null,
       "dateEffective": null,
-      "provider": [
-        "Phelim Birch"
-      ],
+      "provider": [],
       "description": null,
-      "sourceCredits": [
-        "Phelim Birch"
-      ],
-      "conversionStatus": "converted",
-      "recommendedTarget": "mvt-or-pmtiles",
-      "testLayerId": "county-ed-1957-04-01-vector-test",
+      "sourceCredits": [],
+      "conversionStatus": "metadataOnly",
+      "recommendedTarget": "catalogue-metadata",
+      "testLayerId": null,
       "aliasTargetLayerId": null,
-      "bounds": [
-        [
-          51.4198973,
-          -10.6812354
-        ],
-        [
-          55.4469322,
-          -5.4327894
-        ]
-      ],
-      "style": {
-        "color": "#00A9E6",
-        "fillColor": null,
-        "fillOpacity": null,
-        "weight": 2
-      },
-      "sourceFiles": [
-        {
-          "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/baronies-parishes/Counties_1957.fgb"
-        }
-      ],
+      "bounds": null,
+      "style": null,
+      "sourceFiles": [],
       "references": [],
       "sourceDownloads": [],
       "variants": 0,
-      "unsupportedReason": null
+      "unsupportedReason": "no direct source file recorded"
     },
     {
       "sourceMapId": "county-ed-1956-04-01",
@@ -28996,14 +29571,14 @@
       "unsupportedReason": "no direct source file recorded"
     },
     {
-      "sourceMapId": "county-ed-1954-04-01",
+      "sourceMapId": "county-ed-1954-08-01",
       "cloneOf": null,
       "parentId": null,
-      "name": "County Electoral Divisions 1 Apr 1954",
+      "name": "County Electoral Divisions 1 Aug 1954",
       "category": "Electoral Areas",
       "categoryId": "wards",
       "group": "Elections and Government",
-      "date": "1954-04-01",
+      "date": "1954-08-01",
       "dateAdded": null,
       "dateEffective": null,
       "provider": [],
@@ -29016,7 +29591,12 @@
       "bounds": null,
       "style": null,
       "sourceFiles": [],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Population 1961: County Down",
+          "url": "https://www.nisra.gov.uk/files/nisra/publications/1961-census-down-county-report.pdf"
+        }
+      ],
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": "no direct source file recorded"
@@ -29360,14 +29940,14 @@
       "unsupportedReason": "no direct source file recorded"
     },
     {
-      "sourceMapId": "county-ed-1938-05-16",
+      "sourceMapId": "county-ed-1938-05-15",
       "cloneOf": null,
       "parentId": null,
-      "name": "County Electoral Divisions 16 May 1938",
+      "name": "County Electoral Divisions 15 May 1938",
       "category": "Electoral Areas",
       "categoryId": "wards",
       "group": "Elections and Government",
-      "date": "1938-05-16",
+      "date": "1938-05-15",
       "dateAdded": null,
       "dateEffective": null,
       "provider": [],
@@ -29380,7 +29960,12 @@
       "bounds": null,
       "style": null,
       "sourceFiles": [],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1951: Preliminary Report",
+          "url": null
+        }
+      ],
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": "no direct source file recorded"
@@ -29588,14 +30173,19 @@
       "bounds": null,
       "style": null,
       "sourceFiles": [],
-      "references": [],
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1937: Supplement to the 1926 Topographical Index",
+          "url": null
+        }
+      ],
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": "no direct source file recorded"
     },
     {
       "sourceMapId": "county-ed-1930-04-01",
-      "cloneOf": null,
+      "cloneOf": "county-ed-1924-06-20",
       "parentId": null,
       "name": "County Electoral Divisions 1 Apr 1930",
       "category": "Electoral Areas",
@@ -29604,24 +30194,47 @@
       "date": "1930-04-01",
       "dateAdded": null,
       "dateEffective": null,
-      "provider": [],
+      "provider": [
+        "Paddy Matthews"
+      ],
       "description": null,
-      "sourceCredits": [],
-      "conversionStatus": "metadataOnly",
-      "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
-      "aliasTargetLayerId": null,
-      "bounds": null,
-      "style": null,
-      "sourceFiles": [],
+      "sourceCredits": [
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "convertedAlias",
+      "recommendedTarget": "maplibre-clone-alias",
+      "testLayerId": "county-ed-1930-04-01-alias-test",
+      "aliasTargetLayerId": "county-ed-1924-06-20-vector-test",
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#00A9E6",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/NI_County_Electoral_Divisions_1924-06-20.fgb"
+        }
+      ],
       "references": [],
       "sourceDownloads": [],
       "variants": 0,
-      "unsupportedReason": "no direct source file recorded"
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "county-ed-1929-01-23",
-      "cloneOf": null,
+      "cloneOf": "county-ed-1924-06-20",
       "parentId": null,
       "name": "County Electoral Divisions 23 Jan 1929",
       "category": "Electoral Areas",
@@ -29630,24 +30243,47 @@
       "date": "1929-01-23",
       "dateAdded": null,
       "dateEffective": null,
-      "provider": [],
+      "provider": [
+        "Paddy Matthews"
+      ],
       "description": null,
-      "sourceCredits": [],
-      "conversionStatus": "metadataOnly",
-      "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
-      "aliasTargetLayerId": null,
-      "bounds": null,
-      "style": null,
-      "sourceFiles": [],
+      "sourceCredits": [
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "convertedAlias",
+      "recommendedTarget": "maplibre-clone-alias",
+      "testLayerId": "county-ed-1929-01-23-alias-test",
+      "aliasTargetLayerId": "county-ed-1924-06-20-vector-test",
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#00A9E6",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/NI_County_Electoral_Divisions_1924-06-20.fgb"
+        }
+      ],
       "references": [],
       "sourceDownloads": [],
       "variants": 0,
-      "unsupportedReason": "no direct source file recorded"
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "county-ed-1929-01-01",
-      "cloneOf": null,
+      "cloneOf": "county-ed-1924-06-20",
       "parentId": null,
       "name": "County Electoral Divisions 1 Jan 1929",
       "category": "Electoral Areas",
@@ -29656,24 +30292,47 @@
       "date": "1929-01-01",
       "dateAdded": null,
       "dateEffective": null,
-      "provider": [],
+      "provider": [
+        "Paddy Matthews"
+      ],
       "description": null,
-      "sourceCredits": [],
-      "conversionStatus": "metadataOnly",
-      "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
-      "aliasTargetLayerId": null,
-      "bounds": null,
-      "style": null,
-      "sourceFiles": [],
+      "sourceCredits": [
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "convertedAlias",
+      "recommendedTarget": "maplibre-clone-alias",
+      "testLayerId": "county-ed-1929-01-01-alias-test",
+      "aliasTargetLayerId": "county-ed-1924-06-20-vector-test",
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#00A9E6",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/NI_County_Electoral_Divisions_1924-06-20.fgb"
+        }
+      ],
       "references": [],
       "sourceDownloads": [],
       "variants": 0,
-      "unsupportedReason": "no direct source file recorded"
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "county-ed-1928-04-17",
-      "cloneOf": null,
+      "cloneOf": "county-ed-1924-06-20",
       "parentId": null,
       "name": "County Electoral Divisions 17 Apr 1928",
       "category": "Electoral Areas",
@@ -29682,24 +30341,47 @@
       "date": "1928-04-17",
       "dateAdded": null,
       "dateEffective": null,
-      "provider": [],
+      "provider": [
+        "Paddy Matthews"
+      ],
       "description": null,
-      "sourceCredits": [],
-      "conversionStatus": "metadataOnly",
-      "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
-      "aliasTargetLayerId": null,
-      "bounds": null,
-      "style": null,
-      "sourceFiles": [],
+      "sourceCredits": [
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "convertedAlias",
+      "recommendedTarget": "maplibre-clone-alias",
+      "testLayerId": "county-ed-1928-04-17-alias-test",
+      "aliasTargetLayerId": "county-ed-1924-06-20-vector-test",
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#00A9E6",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/NI_County_Electoral_Divisions_1924-06-20.fgb"
+        }
+      ],
       "references": [],
       "sourceDownloads": [],
       "variants": 0,
-      "unsupportedReason": "no direct source file recorded"
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "county-ed-1928-01-23",
-      "cloneOf": null,
+      "cloneOf": "county-ed-1924-06-20",
       "parentId": null,
       "name": "County Electoral Divisions 23 Jan 1928",
       "category": "Electoral Areas",
@@ -29708,24 +30390,47 @@
       "date": "1928-01-23",
       "dateAdded": null,
       "dateEffective": null,
-      "provider": [],
+      "provider": [
+        "Paddy Matthews"
+      ],
       "description": null,
-      "sourceCredits": [],
-      "conversionStatus": "metadataOnly",
-      "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
-      "aliasTargetLayerId": null,
-      "bounds": null,
-      "style": null,
-      "sourceFiles": [],
+      "sourceCredits": [
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "convertedAlias",
+      "recommendedTarget": "maplibre-clone-alias",
+      "testLayerId": "county-ed-1928-01-23-alias-test",
+      "aliasTargetLayerId": "county-ed-1924-06-20-vector-test",
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#00A9E6",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/NI_County_Electoral_Divisions_1924-06-20.fgb"
+        }
+      ],
       "references": [],
       "sourceDownloads": [],
       "variants": 0,
-      "unsupportedReason": "no direct source file recorded"
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "county-ed-1927-04-01",
-      "cloneOf": null,
+      "cloneOf": "county-ed-1924-06-20",
       "parentId": null,
       "name": "County Electoral Divisions 1 Apr 1927",
       "category": "Electoral Areas",
@@ -29734,24 +30439,47 @@
       "date": "1927-04-01",
       "dateAdded": null,
       "dateEffective": null,
-      "provider": [],
+      "provider": [
+        "Paddy Matthews"
+      ],
       "description": null,
-      "sourceCredits": [],
-      "conversionStatus": "metadataOnly",
-      "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
-      "aliasTargetLayerId": null,
-      "bounds": null,
-      "style": null,
-      "sourceFiles": [],
+      "sourceCredits": [
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "convertedAlias",
+      "recommendedTarget": "maplibre-clone-alias",
+      "testLayerId": "county-ed-1927-04-01-alias-test",
+      "aliasTargetLayerId": "county-ed-1924-06-20-vector-test",
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#00A9E6",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/NI_County_Electoral_Divisions_1924-06-20.fgb"
+        }
+      ],
       "references": [],
       "sourceDownloads": [],
       "variants": 0,
-      "unsupportedReason": "no direct source file recorded"
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "county-ed-1925-06-24",
-      "cloneOf": null,
+      "cloneOf": "county-ed-1924-06-20",
       "parentId": null,
       "name": "County Electoral Divisions 24 Jun 1925",
       "category": "Electoral Areas",
@@ -29760,29 +30488,47 @@
       "date": "1925-06-24",
       "dateAdded": null,
       "dateEffective": null,
-      "provider": [],
+      "provider": [
+        "Paddy Matthews"
+      ],
       "description": null,
-      "sourceCredits": [],
-      "conversionStatus": "metadataOnly",
-      "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
-      "aliasTargetLayerId": null,
-      "bounds": null,
+      "sourceCredits": [
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "convertedAlias",
+      "recommendedTarget": "maplibre-clone-alias",
+      "testLayerId": "county-ed-1925-06-24-alias-test",
+      "aliasTargetLayerId": "county-ed-1924-06-20-vector-test",
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
       "style": {
-        "color": null,
+        "color": "#00A9E6",
         "fillColor": null,
         "fillOpacity": null,
-        "weight": null
+        "weight": 2
       },
-      "sourceFiles": [],
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/NI_County_Electoral_Divisions_1924-06-20.fgb"
+        }
+      ],
       "references": [],
       "sourceDownloads": [],
       "variants": 0,
-      "unsupportedReason": "no direct source file recorded"
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "county-ed-1925-04-01",
-      "cloneOf": null,
+      "cloneOf": "county-ed-1924-06-20",
       "parentId": null,
       "name": "County Electoral Divisions 1 Apr 1925",
       "category": "Electoral Areas",
@@ -29791,20 +30537,43 @@
       "date": "1925-04-01",
       "dateAdded": null,
       "dateEffective": null,
-      "provider": [],
+      "provider": [
+        "Paddy Matthews"
+      ],
       "description": null,
-      "sourceCredits": [],
-      "conversionStatus": "metadataOnly",
-      "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
-      "aliasTargetLayerId": null,
-      "bounds": null,
-      "style": null,
-      "sourceFiles": [],
+      "sourceCredits": [
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "convertedAlias",
+      "recommendedTarget": "maplibre-clone-alias",
+      "testLayerId": "county-ed-1925-04-01-alias-test",
+      "aliasTargetLayerId": "county-ed-1924-06-20-vector-test",
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#00A9E6",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/NI_County_Electoral_Divisions_1924-06-20.fgb"
+        }
+      ],
       "references": [],
       "sourceDownloads": [],
       "variants": 0,
-      "unsupportedReason": "no direct source file recorded"
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "county-ed-1924-06-20",
@@ -29817,20 +30586,56 @@
       "date": "1924-06-20",
       "dateAdded": null,
       "dateEffective": null,
-      "provider": [],
+      "provider": [
+        "Paddy Matthews"
+      ],
       "description": null,
-      "sourceCredits": [],
-      "conversionStatus": "metadataOnly",
-      "recommendedTarget": "catalogue-metadata",
-      "testLayerId": null,
+      "sourceCredits": [
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "county-ed-1924-06-20-vector-test",
       "aliasTargetLayerId": null,
-      "bounds": null,
-      "style": null,
-      "sourceFiles": [],
-      "references": [],
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#00A9E6",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/NI_County_Electoral_Divisions_1924-06-20.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Belfast Gazette issue 128 (county electoral division schemes for the six counties)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/128/page/536"
+        },
+        {
+          "label": "District Electoral Divisions 1 Apr 1930 (ded-1930-04-01)",
+          "url": null
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: Topographical Index",
+          "url": null
+        }
+      ],
       "sourceDownloads": [],
       "variants": 0,
-      "unsupportedReason": "no direct source file recorded"
+      "unsupportedReason": null
     },
     {
       "sourceMapId": "county-ed-1924-06-01",
@@ -29907,6 +30712,14 @@
         {
           "label": "PRONI CAB/9/B/13/1: Redistribution: abolition of proportional representation and the redistribution of electoral areas in Northern Ireland (1921-1927)",
           "url": "https://civgraph.net/proni/CAB/9/B/13/1"
+        },
+        {
+          "label": "Belfast Gazette issue 128 (Administrative County of Down (county electoral divisions))",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/128/page/537"
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: Topographical Index",
+          "url": null
         }
       ],
       "sourceDownloads": [],
@@ -33637,10 +34450,12 @@
       "dateAdded": null,
       "dateEffective": null,
       "provider": [
+        "Phelim Birch",
         "Paddy Matthews"
       ],
       "description": null,
       "sourceCredits": [
+        "Phelim Birch",
         "Paddy Matthews"
       ],
       "conversionStatus": "converted",
@@ -33649,11 +34464,11 @@
       "aliasTargetLayerId": null,
       "bounds": [
         [
-          53.7655746,
-          -8.834788
+          53.7655741,
+          -8.8347879
         ],
         [
-          55.4465808,
+          55.4465803,
           -5.4267884
         ]
       ],
@@ -33666,7 +34481,7 @@
       "sourceFiles": [
         {
           "kind": "fgb",
-          "file": "https://data.civgraph.net/data/maps/electoral-divisions/UlsterElectoralDivisions1911.fgb"
+          "file": "https://data.civgraph.net/data/maps/electoral-divisions/Wards_DEDs_Ulster_1911_census.fgb"
         }
       ],
       "references": [],
@@ -76574,6 +77389,1698 @@
         }
       ],
       "references": [],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "plu-1911",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "Poor Law Unions 2 Apr 1911",
+      "category": "Local Government Districts",
+      "categoryId": "local-government",
+      "group": "Elections and Government",
+      "date": "1911-04-02",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "The 158 Poor Law Unions of Ireland at the census of 2 Apr 1911: 112 in one county, 38 in two and 8 in three. Each union is built by grouping the 3,673 District Electoral Divisions of the 1911 census by the union they were in, from the county districts in each county volume's Table VI and the DED numbers in Table VII (which runs union by union). The DED map is Phelim Birch's and Paddy Matthews's (Leinster 29 Apr 1910, Connacht and Munster 1907, Ulster as on census day). Every union's DED areas add up to the acreage printed in the 1911 General Report Table 51 (147 of 158 within 0.01%), and its DED populations to the printed population. Each union carries its census acreage and population; quote census_acres rather than the map area, which takes in large lakes and estuaries the census leaves out. The King's County volume is not held, so its 87 DEDs are placed from the 1911 DED-number blocks printed in the 1936 census; six DEDs at block edges are inferred.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "plu-1911-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.4198972,
+          -10.662971
+        ],
+        [
+          55.4465803,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#6B3FA0",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/local-government/Poor_Law_Unions_1911.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Census of Ireland 1911, General Report (Cd. 6663), Table 51: area, houses and population of each Poor Law Union, and Table 147",
+          "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/"
+        },
+        {
+          "label": "Census of Ireland 1911, Area, houses and population (county volumes), Tables VI and VII",
+          "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/"
+        },
+        {
+          "label": "Census of Saorstát Éireann 1936, Vol. 1, Table 10",
+          "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census1936reports/census1936volume1/"
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "plu-1901",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "Poor Law Unions 31 Mar 1901",
+      "category": "Local Government Districts",
+      "categoryId": "local-government",
+      "group": "Elections and Government",
+      "date": "1901-03-31",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "The 159 Poor Law Unions of Ireland at the census of 31 Mar 1901, the 1911 unions together with Tulla. They are built by grouping Phelim Birch's and Paddy Matthews's District Electoral Divisions by the union each belonged to in the 1901 census county volumes (Table VI county districts and Table VII, arranged by union). No DED map earlier than 1907 exists, so the lines are those of 1907-1912; DEDs formed after 1901 take the union of the division they were split from. The one known change between unions, part of Lisheen DED (Killadysert) to Clareabbey (Ennis), is drawn on its later line. The 1901 volumes for King's County, Queen's County and Limerick are not held, so those counties follow the 1911 lists, and the population is left blank for the 16 unions with parts there.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "plu-1901-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.4198972,
+          -10.662971
+        ],
+        [
+          55.4465803,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#6B3FA0",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/local-government/Poor_Law_Unions_1901.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Census of Ireland 1901, county volumes (Report), Tables VI and VII",
+          "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/"
+        },
+        {
+          "label": "Census of Ireland 1911, County of Clare, notes",
+          "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/"
+        },
+        {
+          "label": "Glin Union (workhouses.org.uk)",
+          "url": "https://www.workhouses.org.uk/Glin/"
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "plu-1851",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "Poor Law Unions 30 Mar 1851",
+      "category": "Local Government Districts",
+      "categoryId": "local-government",
+      "group": "Elections and Government",
+      "date": "1851-03-30",
+      "dateAdded": null,
+      "dateEffective": "1850-08-09",
+      "provider": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "The 163 Poor Law Unions of Ireland at the census of 30 Mar 1851, as the 1851 county reports list them under 'Poor Law Unions and Electoral Divisions'. The same unions stood from the declaration of Castletowndelvin on 9 Aug 1850, the last of the 33 unions formed in 1848-50, until Newport was dissolved on 30 Sep 1885. No map of the 1851 electoral divisions exists, so each union is drawn as the 1907-12 District Electoral Divisions (Phelim Birch's and Paddy Matthews's maps) that cover its 1851 divisions, matched by name from hand transcriptions of the printed tables; a division printed as 'part of' is given whole to one union, and town divisions redrawn by 1891 are matched by name. Each union carries its land area (land_acres: the map area less large lakes and tideway, which the census also leaves out), the sum of its printed county-part acreages (census_acres), the difference (pct_diff) and a confidence grade. Of the 152 unions that can be checked, 141 agree within 1% and 148 within 2% (median 0.12%); Belfast (+8.4%, reclaimed foreshore inside the later city wards), Wexford (+4.8%, reclaimed slobs), Londonderry (+4.0%, divisions redrawn round Derry, Coleraine and Limavady) and Donegal (-2.8%, Lough Eask counted by the census) are further out. Eleven unions are graded unchecked: the five with King's County parts (Parsonstown, Tullamore, Edenderry, Roscrea and Mountmellick), whose King's County divisions are approximated because no King's County report is held: each union is grown from its workhouse town and original divisions towards the King's County area implied by the 1911 General Report Table 51; and the six Dublin unions (Balrothery, Celbridge, Dunshaughlin, North Dublin, Rathdown and South Dublin), which follow the 1891 tables because the CSO file labelled 1851 Dublin is in fact the Queen's County report (so Queen's County is checked and Dublin is not). The map is simplified for display by a coverage simplification of the division map, so neighbouring unions keep common edges (95% of divisions lie within 10 m of the full lines); the full-resolution file is among the downloads.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "plu-1851-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.4198972,
+          -10.662971
+        ],
+        [
+          55.4465776,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#6B3FA0",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/local-government/Poor_Law_Unions_1851.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "The Census of Ireland for the year 1851, Part I, county reports: 'Poor Law Unions and Electoral Divisions'",
+          "url": "https://www.cso.ie/en/statistics/historicalreports/census1851/"
+        },
+        {
+          "label": "Census of Ireland 1891, Area, houses and population, Vols I-IV, Table VI",
+          "url": "https://www.cso.ie/en/statistics/historicalreports/census1891/"
+        },
+        {
+          "label": "Census of Ireland 1911, General Report (Cd. 6663), Table 51",
+          "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/"
+        },
+        {
+          "label": "Civgraph District Electoral Divisions, 1907-12 (Connacht 1911 by Paddy Matthews; Leinster 29 Apr 1910 by Phelim Birch; Munster Apr 1907; Ulster 1912)",
+          "url": null
+        },
+        {
+          "label": "Castletowndelvin Union (workhouses.org.uk)",
+          "url": "https://www.workhouses.org.uk/Castletowndelvin/"
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "plu-1885-09-30",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "Poor Law Unions 30 Sep 1885",
+      "category": "Local Government Districts",
+      "categoryId": "local-government",
+      "group": "Elections and Government",
+      "date": "1885-09-30",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "The 162 Poor Law Unions of Ireland after Newport Union was dissolved into Westport on 30 Sep 1885, until Donaghmore was dissolved on 30 Sep 1886. Derived from the 5 Apr 1891 map with Gortin and Donaghmore given back the divisions they held in 1851. Divisions that moved between unions at dates not established between 1851 and 1891 are drawn as in 1891; most of those moves were of parts of divisions (Knockatooan, Tullaghmelan, Burtonhall, the Clare part of Gort, Holycross, Longfordpass, Cloonbur, Kilmovee, Ballymoe, Cullenwaine), which the 1907-12 division map cannot show. See Poor Law Unions 5 Apr 1891 for the method, the checks against the printed areas and the approximations (King's County, Queen's County, Carlow), all of which apply here. The map is simplified for display by a coverage simplification of the division map, so neighbouring unions keep common edges (95% of divisions lie within 10 m of the full lines); the full-resolution file is among the downloads.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "plu-1885-09-30-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.4198972,
+          -10.662971
+        ],
+        [
+          55.4465776,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#6B3FA0",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/local-government/Poor_Law_Unions_1885-09-30.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Newport (Mayo) Union (workhouses.org.uk)",
+          "url": "https://www.workhouses.org.uk/NewportMayo/"
+        },
+        {
+          "label": "Census of Ireland 1891, Area, houses and population, Vols I-IV, Table VI",
+          "url": "https://www.cso.ie/en/statistics/historicalreports/census1891/"
+        },
+        {
+          "label": "The Census of Ireland for the year 1851, Part I, county reports: 'Poor Law Unions and Electoral Divisions'",
+          "url": "https://www.cso.ie/en/statistics/historicalreports/census1851/"
+        },
+        {
+          "label": "Civgraph District Electoral Divisions, 1907-12 (Connacht 1911 by Paddy Matthews; Leinster 29 Apr 1910 by Phelim Birch; Munster Apr 1907; Ulster 1912)",
+          "url": null
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "plu-1886-09-30",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "Poor Law Unions 30 Sep 1886",
+      "category": "Local Government Districts",
+      "categoryId": "local-government",
+      "group": "Elections and Government",
+      "date": "1886-09-30",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "The 161 Poor Law Unions of Ireland after Donaghmore Union was dissolved on 30 Sep 1886, its divisions going to Abbeyleix and Roscrea, until Gortin was dissolved on 1 Apr 1889. Derived from the 5 Apr 1891 map with Gortin given back the divisions it held in 1851; divisions that moved between unions at dates not established between 1851 and 1891 are drawn as in 1891. Donaghmore's divisions are placed as the 1911 Queen's County table places them, the 1891 report not being held (workhouses.org.uk also names Urlingford, which has none of them by 1911). See Poor Law Unions 5 Apr 1891 for the method, the checks against the printed areas and the approximations (King's County, Queen's County, Carlow), all of which apply here. The map is simplified for display by a coverage simplification of the division map, so neighbouring unions keep common edges (95% of divisions lie within 10 m of the full lines); the full-resolution file is among the downloads.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "plu-1886-09-30-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.4198972,
+          -10.662971
+        ],
+        [
+          55.4465776,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#6B3FA0",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/local-government/Poor_Law_Unions_1886-09-30.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Donaghmore Union (workhouses.org.uk)",
+          "url": "https://www.workhouses.org.uk/Donaghmore/"
+        },
+        {
+          "label": "Census of Ireland 1911, Queen's County, Table VI",
+          "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/"
+        },
+        {
+          "label": "The Census of Ireland for the year 1851, Part I, county reports: 'Poor Law Unions and Electoral Divisions'",
+          "url": "https://www.cso.ie/en/statistics/historicalreports/census1851/"
+        },
+        {
+          "label": "Civgraph District Electoral Divisions, 1907-12 (Connacht 1911 by Paddy Matthews; Leinster 29 Apr 1910 by Phelim Birch; Munster Apr 1907; Ulster 1912)",
+          "url": null
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "plu-1891",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "Poor Law Unions 5 Apr 1891",
+      "category": "Local Government Districts",
+      "categoryId": "local-government",
+      "group": "Elections and Government",
+      "date": "1891-04-05",
+      "dateAdded": null,
+      "dateEffective": "1889-04-01",
+      "provider": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "The 160 Poor Law Unions of Ireland at the census of 5 Apr 1891, as Table VI of each 1891 county report lists them. The same unions stood from the dissolution of Gortin on 1 Apr 1889 until Glin was dissolved on 30 Sep 1891. Each union is drawn as the 1907-12 District Electoral Divisions (Phelim Birch's and Paddy Matthews's maps) that cover its 1891 divisions, matched by name from hand transcriptions of the printed tables (Mayo and Sligo from OCR, checked by hand). Each union carries its land area (land_acres: the map area less large lakes and tideway, which the census also leaves out), the sum of its printed county-part acreages (census_acres), the difference (pct_diff) and a confidence grade. Of the 152 unions that can be checked, 148 agree within 1% (134 within 0.5%; median 0.09%); Belfast (+6.7%, reclaimed foreshore inside the later city wards), Wexford (+4.8%, reclaimed slobs), Donegal (-3.0%, Lough Eask counted by the census) and Glenties (+1.8%) are further out. Eight unions are graded unchecked: the five with King's County parts (Parsonstown, Tullamore, Edenderry, Roscrea and Mountmellick), whose King's County divisions are approximated because no King's County report is held: each union is grown from its workhouse town and original divisions towards the King's County area implied by the 1911 General Report Table 51 (against those areas Parsonstown is +1.7%, Tullamore +1.0%, Roscrea +3.4%, Edenderry -4.9% and Mountmellick -12.7%); and Abbeyleix, Athy and Carlow, whose Queen's County parts follow the 1911 Queen's County table because the 1891 report is not held. Carlow is unresolved: its 1891 Carlow part (148,021 acres) and its Queen's County part come to about 185,100 acres, but Table 51 gives 199,998 in 1911. The map is simplified for display by a coverage simplification of the division map, so neighbouring unions keep common edges (95% of divisions lie within 10 m of the full lines); the full-resolution file is among the downloads.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "plu-1891-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.4198972,
+          -10.662971
+        ],
+        [
+          55.4465776,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#6B3FA0",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/local-government/Poor_Law_Unions_1891.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Census of Ireland 1891, Area, houses and population, Vols I-IV, Table VI",
+          "url": "https://www.cso.ie/en/statistics/historicalreports/census1891/"
+        },
+        {
+          "label": "Census of Ireland 1911, Queen's County, Table VI",
+          "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/"
+        },
+        {
+          "label": "Census of Ireland 1911, General Report (Cd. 6663), Table 51",
+          "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/"
+        },
+        {
+          "label": "Civgraph District Electoral Divisions, 1907-12 (Connacht 1911 by Paddy Matthews; Leinster 29 Apr 1910 by Phelim Birch; Munster Apr 1907; Ulster 1912)",
+          "url": null
+        },
+        {
+          "label": "Gortin Union (workhouses.org.uk)",
+          "url": "https://www.workhouses.org.uk/Gortin/"
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "plu-1891-09-30",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "Poor Law Unions 30 Sep 1891",
+      "category": "Local Government Districts",
+      "categoryId": "local-government",
+      "group": "Elections and Government",
+      "date": "1891-09-30",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "The 159 Poor Law Unions of Ireland after Glin Union was dissolved on 30 Sep 1891, the last change to the unions before 1901 (the Ballymahon guardians voted to dissolve in 1895, but the Local Government Board did not act). Glin's divisions are placed as the 1911 Limerick report's Glin (formerly Listowel No. 2) and Rathkeale rural districts show them; the Listowel and Rathkeale areas then agree with the 1911 Table 51 within 0.04% and 0.34%. The redrawing of the counties in 1899 left the unions unchanged, so these are the unions of the 31 Mar 1901 census map. Derived from the 5 Apr 1891 map. See Poor Law Unions 5 Apr 1891 for the method, the checks against the printed areas and the approximations (King's County, Queen's County, Carlow), all of which apply here. The map is simplified for display by a coverage simplification of the division map, so neighbouring unions keep common edges (95% of divisions lie within 10 m of the full lines); the full-resolution file is among the downloads.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "plu-1891-09-30-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.4198972,
+          -10.662971
+        ],
+        [
+          55.4465776,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#6B3FA0",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/local-government/Poor_Law_Unions_1891-09-30.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Glin Union (workhouses.org.uk)",
+          "url": "https://www.workhouses.org.uk/Glin/"
+        },
+        {
+          "label": "Hansard, 22 Mar 1901, Irish workhouse amalgamation",
+          "url": "https://api.parliament.uk/historic-hansard/commons/1901/mar/22/irish-workhouse-amalgamation"
+        },
+        {
+          "label": "Census of Ireland 1911, County of Limerick, Table VI",
+          "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/"
+        },
+        {
+          "label": "Census of Ireland 1911, General Report (Cd. 6663), Table 51",
+          "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/"
+        },
+        {
+          "label": "Civgraph District Electoral Divisions, 1907-12 (Connacht 1911 by Paddy Matthews; Leinster 29 Apr 1910 by Phelim Birch; Munster Apr 1907; Ulster 1912)",
+          "url": null
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "plu-1921",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "Poor Law Unions 21 Mar 1921",
+      "category": "Local Government Districts",
+      "categoryId": "local-government",
+      "group": "Elections and Government",
+      "date": "1921-03-21",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "The 158 Poor Law Unions of Ireland just before partition, drawn on the 21 Mar 1921 DED edition (Connacht 1919, Leinster 1919, Munster 1907, Ulster 1921 nine-county). No census was taken in 1921, so each 1921 DED takes the union of the 1911 DEDs it overlies (every one lies 98% or more in one union, Portrush Urban apart). The acreage and population are the 1911 census figures. The Dáil Éireann county schemes of 1921-22, which closed or merged many southern unions, came later. In the six counties the cross-border unions were reorganised on 1 Apr 1921; see Poor Law Unions (Northern Ireland).",
+      "sourceCredits": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "plu-1921-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.4198972,
+          -10.662971
+        ],
+        [
+          55.4465803,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#6B3FA0",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/local-government/Poor_Law_Unions_1921.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Census of Ireland 1911, General Report (Cd. 6663), Table 51: area, houses and population of each Poor Law Union, and Table 147",
+          "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/"
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926, General Report, p. xviii",
+          "url": null
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "plu-parts-1911",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "Poor Law Unions by county 2 Apr 1911",
+      "category": "Local Government Districts",
+      "categoryId": "local-government",
+      "group": "Elections and Government",
+      "date": "1911-04-02",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "The Poor Law Unions of 2 Apr 1911 split at county boundaries: 212 parts, each one union in one county. A union that crossed a county line was divided between counties for many purposes (from 1899 each part in one administrative county was a rural district), so this shows each part with its county and number of DEDs. The geometry is the same as the whole-union map (Poor Law Unions 2 Apr 1911).",
+      "sourceCredits": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "plu-parts-1911-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.4198972,
+          -10.662971
+        ],
+        [
+          55.4465803,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#9C7BC4",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 1.5
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/local-government/Poor_Law_Union_Parts_1911.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Census of Ireland 1911, county volumes, Table VI",
+          "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/"
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "plu-parts-1901",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "Poor Law Unions by county 31 Mar 1901",
+      "category": "Local Government Districts",
+      "categoryId": "local-government",
+      "group": "Elections and Government",
+      "date": "1901-03-31",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "The Poor Law Unions of 31 Mar 1901 split at county boundaries: 213 parts, each one union in one county. A union that crossed a county line was divided between counties for many purposes (from 1899 each part in one administrative county was a rural district), so this shows each part with its county and number of DEDs. The geometry is the same as the whole-union map (Poor Law Unions 31 Mar 1901).",
+      "sourceCredits": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "plu-parts-1901-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.4198972,
+          -10.662971
+        ],
+        [
+          55.4465803,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#9C7BC4",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 1.5
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/local-government/Poor_Law_Union_Parts_1901.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Census of Ireland 1901, county volumes, Table VI",
+          "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/"
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "plu-parts-1921",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "Poor Law Unions by county 21 Mar 1921",
+      "category": "Local Government Districts",
+      "categoryId": "local-government",
+      "group": "Elections and Government",
+      "date": "1921-03-21",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "The Poor Law Unions of 21 Mar 1921 split at county boundaries: 212 parts, each one union in one county. A union that crossed a county line was divided between counties for many purposes (from 1899 each part in one administrative county was a rural district), so this shows each part with its county and number of DEDs. The geometry is the same as the whole-union map (Poor Law Unions 21 Mar 1921).",
+      "sourceCredits": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "plu-parts-1921-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.4198972,
+          -10.662971
+        ],
+        [
+          55.4465803,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#9C7BC4",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 1.5
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/local-government/Poor_Law_Union_Parts_1921.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Census of Ireland 1911, county volumes, Table VI",
+          "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/"
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "plu-ni-1924-04-01",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "Poor Law Unions 1 Apr 1924",
+      "category": "Local Government Districts",
+      "categoryId": "local-government",
+      "group": "Elections and Government",
+      "date": "1924-04-01",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Scott Moore",
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "description": "The 27 Poor Law Unions of Northern Ireland from 1 Apr 1924 until the boards of guardians' functions passed to the county welfare and health authorities on 5 Jul 1948. Each union is the dissolution of its district electoral divisions on Civgraph's 1926 DED map (Paddy Matthews), placed in their unions by the 1926 Census Topographical Index. The only change from 1921 is the Ardkeen, Portaferry and Quintin area, moved from Downpatrick to Newtownards Union; the 1937 Census records no union changes in 1926-37, and the district changes of 1937-48 each fell inside one union. Each union carries its 1926 and 1937 census acreage and population; with the large loughs taken out the map areas agree with the census acreages to a median of 0.2%. After 1948 the unions remained as superintendent registrars' districts.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "plu-ni-1924-04-01-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          54.0227248,
+          -8.17744
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#6B4E9B",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/local-government/Poor_Law_Unions_NI_1924-04-01.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Belfast Gazette issue 105 (Downpatrick and Newtownards Unions)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/105/data.pdf"
+        },
+        {
+          "label": "Belfast Gazette issue 144 (Superintendent Registrars' Districts of Downpatrick and Newtownards)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/144/data.pdf"
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: General Report",
+          "url": null
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1926: Topographical Index",
+          "url": null
+        },
+        {
+          "label": "Census of Population of Northern Ireland 1937: Preliminary Report",
+          "url": null
+        },
+        {
+          "label": "Public Health and Local Government (Abolition of Boards of Guardians) Order (Northern Ireland) 1948 (S.R. & O. 1948 No. 187)",
+          "url": "https://www.legislation.gov.uk/nisro/1948/187/contents/made"
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "plu-ni-1921-04-01",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "Poor Law Unions 1 Apr 1921",
+      "category": "Local Government Districts",
+      "categoryId": "local-government",
+      "group": "Elections and Government",
+      "date": "1921-04-01",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Scott Moore",
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "description": "The 27 Poor Law Unions in the six counties from 1 Apr 1921, a month before partition, until 31 Mar 1924. On 1 Apr 1921 the unions that crossed the new border were reorganised: the Northern Ireland parts of the Ballyshannon, Clones and Castleblayney Unions (Belleek, Clones No. 2 and Crossmaglen rural districts) were added to the Irvinestown, Lisnaskea and Newry Unions, and the County Cavan part of Enniskillen Union and the County Donegal parts of Londonderry and Strabane Unions were taken out. Each union is the dissolution of its district electoral divisions on Civgraph's 3 May 1921 DED map (Paddy Matthews, with Phelim Birch's corrections); all 631 DEDs nest in their unions. The former Aghalee and Trillick rural districts, merged into Lisburn and Omagh rural districts in 1920, stayed in the Lurgan and Irvinestown Unions. The acreage is the 1926 census figure (blank for Downpatrick and Newtownards, which changed in 1924); no population was printed for these boundaries.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "plu-ni-1921-04-01-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          54.0227248,
+          -8.17744
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#6B4E9B",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/local-government/Poor_Law_Unions_NI_1921-04-01.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Census of Population of Northern Ireland 1926: General Report",
+          "url": null
+        },
+        {
+          "label": "Belfast Gazette issue 43 (Newry Union)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/43/data.pdf"
+        },
+        {
+          "label": "Belfast Gazette issue 104 (Rural District of Omagh)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/104/data.pdf"
+        },
+        {
+          "label": "Belfast Gazette issue 103 (Rural District of Lisburn)",
+          "url": "https://www.thegazette.co.uk/Belfast/issue/103/data.pdf"
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "rural-urban-districts-1911",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "Rural and Urban Districts 2 Apr 1911",
+      "category": "Local Government Districts",
+      "categoryId": "local-government",
+      "group": "Elections and Government",
+      "date": "1911-04-02",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "The 309 county districts of Ireland on census day, 2 Apr 1911: rural districts (each the part of one poor law union in one administrative county), urban districts and the six county boroughs. Each is built by dissolving the 3,673 District Electoral Divisions of the 1911 census by the county district it is printed under in Table VI of the 1911 county volumes. Rural districts carry the names in force in 1911, with the former numbered name (for example Aghalee, formerly Lurgan No. 3) where the district was renamed about 1901-02, and their union. Each district carries its census acreage (the sum of its printed DED areas) and population; the map areas agree with them to a median of 0.2%, apart from districts on large lakes and estuaries, which the census leaves out.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "rural-urban-districts-1911-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.4198973,
+          -10.6629709
+        ],
+        [
+          55.4465803,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#4A148C",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 1.5
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/local-government/Rural_Urban_Districts_1911.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Census of Ireland 1911, Area, houses and population (county volumes), Table VI",
+          "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/"
+        },
+        {
+          "label": "Census of Ireland 1911, General Report (Cd. 6663), p. 19",
+          "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/"
+        },
+        {
+          "label": "Census of Ireland 1946, Vol. I, Table 11",
+          "url": null
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "rural-urban-districts-1901",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "Rural and Urban Districts 31 Mar 1901",
+      "category": "Local Government Districts",
+      "categoryId": "local-government",
+      "group": "Elections and Government",
+      "date": "1901-03-31",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "The 302 county districts of Ireland on census day, 31 Mar 1901, the first census after the Local Government (Ireland) Act 1898: 213 rural districts under the numbered names then in force (for example Lurgan No. 3, renamed Aghalee about 1901-02), 83 urban districts and 6 county boroughs. No 1901 DED map exists, so the 1911 DEDs were put back to 1901 by merging the 28 groups of divisions created between the censuses, each identified from the printed 1901 and 1911 areas, and dissolved by the county district printed in Table VI of the 1901 county volumes. Each district carries its census acreage and population.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "rural-urban-districts-1901-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.4198973,
+          -10.6629709
+        ],
+        [
+          55.4465803,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#4A148C",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 1.5
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/local-government/Rural_Urban_Districts_1901.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Census of Ireland 1901, county volumes (Report), Table VI",
+          "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/"
+        },
+        {
+          "label": "Census of Ireland 1911, county volumes, Table VI",
+          "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/"
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "administrative-counties-1899",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "Administrative Counties 18 Apr 1899",
+      "category": "Local Government Districts",
+      "categoryId": "local-government",
+      "group": "Elections and Government",
+      "date": "1899-04-18",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "The administrative counties and county boroughs created by the Local Government (Ireland) Act 1898, as declared by the Local Government Board's order of 1 Nov 1898 under section 68 and in effect from 18 Apr 1899: 33 administrative counties (Tipperary in two ridings) and the county boroughs of Dublin, Belfast, Cork, Limerick, Londonderry and Waterford. Built from the reconstructed 1901 DEDs, each placed in the administrative county printed in Table VI of the 1901 county volumes, with the Dublin Corporation Act 1900 put back. Where the county volumes print a legible total area, the map agrees with it within 0.5%.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "administrative-counties-1899-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.4198973,
+          -10.6629709
+        ],
+        [
+          55.4465803,
+          -5.4267884
+        ]
+      ],
+      "style": {
+        "color": "#4A148C",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/local-government/Administrative_Counties_1899.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Census of Ireland 1901 and 1911, county volumes, Table I head-notes",
+          "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/"
+        },
+        {
+          "label": "Local Government Board for Ireland, Twenty-seventh Report (C.9480, 1900), pp. 235-330: orders declaring the boundaries of administrative counties",
+          "url": null
+        },
+        {
+          "label": "Census of Ireland 1901, county volumes, Table VI",
+          "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/"
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "dispensary-districts-roi-1956",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "Dispensary Districts 8 Apr 1956",
+      "category": "Local Government Districts",
+      "categoryId": "local-government",
+      "group": "Elections and Government",
+      "date": "1956-04-08",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "The 587 dispensary districts of Ireland at the census of 8 Apr 1956, mapped from the District Electoral Divisions the census report lists for each (CSO Census of Population 1956, Vol. 1, Table 10, which gives each district's DEDs by their 1911 reference numbers, read against the DEDs and acreages of Table 11). The DED map is Phelim Birch's and Paddy Matthews's District Electoral Divisions in force on census day (Connacht 1919, Leinster 1954, Munster 1955, Ulster 1921). Every district carries a grade (confidence) and the reason for it (confidence_reason): A where the printed area equals the sum of its DEDs' areas in Table 11, so the composition is the census's own; B where the composition checks only as part of a group or needed a small adjustment; C where it could not be checked, for the reason given. 550 are graded A; 12 B, where Table 10 prints one bracketed area for a group (Cobh Nos. 1-2, Middleton Nos. 1-2, Rathkeale Nos. 1-2, Sligo Nos. 1-3, Enniscorthy North and South) or none (Annacotty, Clarina and Limerick Rural), and the group's DEDs add up to it exactly; and 25 C: the Dublin county districts and Waterford Rural Nos. 1-2, printed as registrars' districts partly in the county borough with no area, and districts in Kildare, Waterford and Galway that divide DEDs (each divided DED placed with the district holding its larger part, or by the best fit to the printed areas). Two pairs of Dublin districts with no whole DED of their own are shown together (Crumlin / Terenure; Finglas and Glasnevin Nos. 1 and 2), and Coolock and Drumcondra No. 2 is not a separate feature. The city dispensary districts of Dublin, Cork, Limerick and Waterford are not mapped: the census builds them from parts of DEDs and wards, so each county borough is shown as one unit, without a population. A district that crosses a county boundary is shown as one part per county, as the table prints it. Each district carries its census area, population, Table 10 reference numbers and DEDs; quote census_acres rather than the map area, which takes in lakes and estuaries the census leaves out. Population is printed for 581 of the 587.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "dispensary-districts-roi-1956-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.4198973,
+          -10.6629709
+        ],
+        [
+          55.4465803,
+          -5.9962778
+        ]
+      ],
+      "style": {
+        "color": "#00796B",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/health/Dispensary_Districts_1956.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Census of Population 1956, Vol. 1, Table 10: population, area and valuation of dispensary districts, registrars' districts and superintendent registrars' districts",
+          "url": "https://www.cso.ie/en/media/csoie/census/census1956results/volume1/C_1956_VOL_1_T10.pdf"
+        },
+        {
+          "label": "Census of Population 1956, Vol. 1, Table 11: population, area and valuation of each District Electoral Division",
+          "url": "https://www.cso.ie/en/media/csoie/census/census1956results/volume1/C_1956_VOL_1_T11.pdf"
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "superintendent-registrars-districts-roi-1956",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "Superintendent Registrars' Districts 8 Apr 1956",
+      "category": "Local Government Districts",
+      "categoryId": "local-government",
+      "group": "Elections and Government",
+      "date": "1956-04-08",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "The 126 superintendent registrars' districts of Ireland at the census of 8 Apr 1956, the registration areas for births, deaths and marriages. Table 10 of the census report prints them county by county under the names of the former Poor Law Unions, each within one county. Each is the union of its dispensary districts on Dispensary Districts 8 Apr 1956, with the same sources, DED map and grades. It carries the number of DEDs and dispensary districts it holds and their combined population; the district holding a county borough (Dublin, Cork, Limerick, Waterford) takes in the city on the map, but its population leaves the city out.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "superintendent-registrars-districts-roi-1956-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.4198973,
+          -10.6629709
+        ],
+        [
+          55.4465803,
+          -5.9962778
+        ]
+      ],
+      "style": {
+        "color": "#004D40",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 3
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/health/Superintendent_Registrars_Districts_1956.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Census of Population 1956, Vol. 1, Table 10: population, area and valuation of dispensary districts, registrars' districts and superintendent registrars' districts",
+          "url": "https://www.cso.ie/en/media/csoie/census/census1956results/volume1/C_1956_VOL_1_T10.pdf"
+        },
+        {
+          "label": "Census of Population 1956, Vol. 1, Table 11: population, area and valuation of each District Electoral Division",
+          "url": "https://www.cso.ie/en/media/csoie/census/census1956results/volume1/C_1956_VOL_1_T11.pdf"
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "dispensary-districts-roi-1951",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "Dispensary Districts 8 Apr 1951",
+      "category": "Local Government Districts",
+      "categoryId": "local-government",
+      "group": "Elections and Government",
+      "date": "1951-04-08",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "The 576 dispensary districts of Ireland at the census of 8 Apr 1951, mapped from the District Electoral Divisions the census report lists for each (CSO Census of Population 1951, Vol. 1, Table 10, which gives each district's DEDs by their 1911 reference numbers, read against the DEDs and acreages of Table 11). The DED map is Phelim Birch's and Paddy Matthews's District Electoral Divisions in force on census day (Connacht 1919, Leinster 1949, Munster 1950, Ulster 1921). Every district carries a grade (confidence) and the reason for it (confidence_reason): A where the printed area equals the sum of its DEDs' areas in Table 11, so the composition is the census's own; B where the composition checks only as part of a group or needed a small adjustment; C where it could not be checked, for the reason given. 567 are graded A and 9 C: Droichead Nua and Kilcullen (Kildare) and Carna, Roundstone No. 1, Lettermore and Oughterard (Galway), which divide DEDs (each placed with the district holding its larger part), and Donegal, Glenties and Tantallan, whose printed areas still follow the DEDs before the County Donegal (DEDs) Order 1946 while Table 11 has the new ones. The city dispensary districts of Dublin, Cork, Limerick and Waterford are not mapped: the census builds them from parts of DEDs and wards, so each county borough is shown as one unit, without a population. A district that crosses a county boundary is shown as one part per county, as the table prints it. Each district carries its census area, population, Table 10 reference numbers and DEDs; quote census_acres rather than the map area, which takes in lakes and estuaries the census leaves out.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "dispensary-districts-roi-1951-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.4198973,
+          -10.6629709
+        ],
+        [
+          55.4465803,
+          -5.9962778
+        ]
+      ],
+      "style": {
+        "color": "#00796B",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/health/Dispensary_Districts_1951.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Census of Population 1951, Vol. 1, Table 10: population, area and valuation of dispensary districts, registrars' districts and superintendent registrars' districts",
+          "url": "https://www.cso.ie/en/media/csoie/census/census1951results/volume1/C_1951_V1_T10.pdf"
+        },
+        {
+          "label": "Census of Population 1951, Vol. 1, Table 11: population, area and valuation of each District Electoral Division",
+          "url": "https://www.cso.ie/en/media/csoie/census/census1951results/volume1/C_1951_V1_T11.pdf"
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "superintendent-registrars-districts-roi-1951",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "Superintendent Registrars' Districts 8 Apr 1951",
+      "category": "Local Government Districts",
+      "categoryId": "local-government",
+      "group": "Elections and Government",
+      "date": "1951-04-08",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "The 126 superintendent registrars' districts of Ireland at the census of 8 Apr 1951, the registration areas for births, deaths and marriages. Table 10 of the census report prints them county by county under the names of the former Poor Law Unions, each within one county. Each is the union of its dispensary districts on Dispensary Districts 8 Apr 1951, with the same sources, DED map and grades. It carries the number of DEDs and dispensary districts it holds and their combined population; the district holding a county borough (Dublin, Cork, Limerick, Waterford) takes in the city on the map, but its population leaves the city out.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "superintendent-registrars-districts-roi-1951-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.4198973,
+          -10.6629709
+        ],
+        [
+          55.4465803,
+          -5.9962778
+        ]
+      ],
+      "style": {
+        "color": "#004D40",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 3
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/health/Superintendent_Registrars_Districts_1951.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Census of Population 1951, Vol. 1, Table 10: population, area and valuation of dispensary districts, registrars' districts and superintendent registrars' districts",
+          "url": "https://www.cso.ie/en/media/csoie/census/census1951results/volume1/C_1951_V1_T10.pdf"
+        },
+        {
+          "label": "Census of Population 1951, Vol. 1, Table 11: population, area and valuation of each District Electoral Division",
+          "url": "https://www.cso.ie/en/media/csoie/census/census1951results/volume1/C_1951_V1_T11.pdf"
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "dispensary-districts-roi-1946",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "Dispensary Districts 12 May 1946",
+      "category": "Local Government Districts",
+      "categoryId": "local-government",
+      "group": "Elections and Government",
+      "date": "1946-05-12",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "The 576 dispensary districts of Ireland at the census of 12 May 1946, mapped from the District Electoral Divisions the census report lists for each (CSO Census of Population 1946, Vol. 1, Table 10, which gives each district's DEDs by their 1911 reference numbers, read against the DEDs and acreages of Table 11). The DED map is Phelim Birch's and Paddy Matthews's District Electoral Divisions in force on census day (Connacht 1919, Leinster 1943, Munster 1944, Ulster 1921). Every district carries a grade (confidence) and the reason for it (confidence_reason): A where the printed area equals the sum of its DEDs' areas in Table 11, so the composition is the census's own; B where the composition checks only as part of a group or needed a small adjustment; C where it could not be checked, for the reason given. 570 are graded A and 6 C: Droichead Nua and Kilcullen (Kildare), which divide Ballysax East DED, and Carna, Roundstone No. 1, Lettermore and Oughterard (Galway), where Lettermore took parts of four DEDs; each divided DED is placed with the district holding its larger part. The city dispensary districts of Dublin, Cork, Limerick and Waterford are not mapped: the census builds them from parts of DEDs and wards, so each county borough is shown as one unit, without a population. A district that crosses a county boundary is shown as one part per county, as the table prints it. Each district carries its census area, population, Table 10 reference numbers and DEDs; quote census_acres rather than the map area, which takes in lakes and estuaries the census leaves out.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "dispensary-districts-roi-1946-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.4198973,
+          -10.6629709
+        ],
+        [
+          55.4465803,
+          -5.9962778
+        ]
+      ],
+      "style": {
+        "color": "#00796B",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/health/Dispensary_Districts_1946.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Census of Population 1946, Vol. 1, Table 10: population, area and valuation of dispensary districts, registrars' districts and superintendent registrars' districts",
+          "url": "https://www.cso.ie/en/media/csoie/census/census1946results/volume1/C_1946_V1_T10.pdf"
+        },
+        {
+          "label": "Census of Population 1946, Vol. 1, Table 11: population, area and valuation of each District Electoral Division",
+          "url": "https://www.cso.ie/en/media/csoie/census/census1946results/volume1/C_1946_V1_T11.pdf"
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "superintendent-registrars-districts-roi-1946",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "Superintendent Registrars' Districts 12 May 1946",
+      "category": "Local Government Districts",
+      "categoryId": "local-government",
+      "group": "Elections and Government",
+      "date": "1946-05-12",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "The 126 superintendent registrars' districts of Ireland at the census of 12 May 1946, the registration areas for births, deaths and marriages. Table 10 of the census report prints them county by county under the names of the former Poor Law Unions, each within one county. Each is the union of its dispensary districts on Dispensary Districts 12 May 1946, with the same sources, DED map and grades. It carries the number of DEDs and dispensary districts it holds and their combined population; the district holding a county borough (Dublin, Cork, Limerick, Waterford) takes in the city on the map, but its population leaves the city out.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "superintendent-registrars-districts-roi-1946-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.4198973,
+          -10.6629709
+        ],
+        [
+          55.4465803,
+          -5.9962778
+        ]
+      ],
+      "style": {
+        "color": "#004D40",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 3
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/health/Superintendent_Registrars_Districts_1946.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Census of Population 1946, Vol. 1, Table 10: population, area and valuation of dispensary districts, registrars' districts and superintendent registrars' districts",
+          "url": "https://www.cso.ie/en/media/csoie/census/census1946results/volume1/C_1946_V1_T10.pdf"
+        },
+        {
+          "label": "Census of Population 1946, Vol. 1, Table 11: population, area and valuation of each District Electoral Division",
+          "url": "https://www.cso.ie/en/media/csoie/census/census1946results/volume1/C_1946_V1_T11.pdf"
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "dispensary-districts-roi-1936",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "Dispensary Districts 26 Apr 1936",
+      "category": "Local Government Districts",
+      "categoryId": "local-government",
+      "group": "Elections and Government",
+      "date": "1936-04-26",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "The 575 dispensary districts of the Irish Free State at the census of 26 Apr 1936, mapped from the District Electoral Divisions the census report lists for each (CSO Census of Population 1936, Vol. 1, Table 10, which gives each district's DEDs by their 1911 reference numbers, read against the DEDs and acreages of Table 11). The DED map is Phelim Birch's and Paddy Matthews's District Electoral Divisions in force on census day (Connacht 1919, Leinster 1931, Munster 1921, Ulster 1921). Every district carries a grade (confidence) and the reason for it (confidence_reason): A where the printed area equals the sum of its DEDs' areas in Table 11, so the composition is the census's own; B where the composition checks only as part of a group or needed a small adjustment; C where it could not be checked, for the reason given. 572 are graded A, 1 B (North Dublin Rural, where a stray piece of the DED map is placed by adjacency) and 2 C (Droichead Nua and Kilcullen, which divide Ballysax East DED; it is placed whole in Kilcullen). The city dispensary districts of Dublin, Cork, Limerick and Waterford are not mapped: the census builds them from parts of DEDs and wards, so each county borough is shown as one unit, without a population. A district that crosses a county boundary is shown as one part per county, as the table prints it. Each district carries its census area, population, Table 10 reference numbers and DEDs; quote census_acres rather than the map area, which takes in lakes and estuaries the census leaves out.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "dispensary-districts-roi-1936-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.4198973,
+          -10.6629709
+        ],
+        [
+          55.4465803,
+          -5.9962778
+        ]
+      ],
+      "style": {
+        "color": "#00796B",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/health/Dispensary_Districts_1936.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Census of Population 1936, Vol. 1, Table 10: population, area and valuation of dispensary districts, registrars' districts and superintendent registrars' districts",
+          "url": "https://www.cso.ie/en/media/csoie/census/census1936results/volume1/C_1936_Vol_1_T10.pdf"
+        },
+        {
+          "label": "Census of Population 1936, Vol. 1, Table 11: population, area and valuation of each District Electoral Division",
+          "url": "https://www.cso.ie/en/media/csoie/census/census1936results/volume1/C_1936_Vol_1_T11.pdf"
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "superintendent-registrars-districts-roi-1936",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "Superintendent Registrars' Districts 26 Apr 1936",
+      "category": "Local Government Districts",
+      "categoryId": "local-government",
+      "group": "Elections and Government",
+      "date": "1936-04-26",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "The 126 superintendent registrars' districts of the Irish Free State at the census of 26 Apr 1936, the registration areas for births, deaths and marriages. Table 10 of the census report prints them county by county under the names of the former Poor Law Unions, each within one county. Each is the union of its dispensary districts on Dispensary Districts 26 Apr 1936, with the same sources, DED map and grades. It carries the number of DEDs and dispensary districts it holds and their combined population; the district holding a county borough (Dublin, Cork, Limerick, Waterford) takes in the city on the map, but its population leaves the city out.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "superintendent-registrars-districts-roi-1936-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.4198973,
+          -10.6629709
+        ],
+        [
+          55.4465803,
+          -5.9962778
+        ]
+      ],
+      "style": {
+        "color": "#004D40",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 3
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/health/Superintendent_Registrars_Districts_1936.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Census of Population 1936, Vol. 1, Table 10: population, area and valuation of dispensary districts, registrars' districts and superintendent registrars' districts",
+          "url": "https://www.cso.ie/en/media/csoie/census/census1936results/volume1/C_1936_Vol_1_T10.pdf"
+        },
+        {
+          "label": "Census of Population 1936, Vol. 1, Table 11: population, area and valuation of each District Electoral Division",
+          "url": "https://www.cso.ie/en/media/csoie/census/census1936results/volume1/C_1936_Vol_1_T11.pdf"
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "dispensary-districts-roi-1926",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "Dispensary Districts 18 Apr 1926 (estimate)",
+      "category": "Local Government Districts",
+      "categoryId": "local-government",
+      "group": "Elections and Government",
+      "date": "1926-04-18",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "An estimate of the dispensary districts of the Irish Free State at the census of 18 Apr 1926: the 573 districts as the 1936 census constituted them (CSO Census of Population 1936, Vol. 1, Table 10, which also prints each district's 1926 population), drawn on Paddy Matthews's 1926 District Electoral Division map. The 1926 report's own Table 10 is not held, so a district changed between 1926 and 1936 is shown as it was in 1936, and no district can be checked against a printed 1926 area. 553 districts are graded B (their 1936 composition verified) and 20 C: Droichead Nua and Kilcullen, which divide Ballysax East DED (placed whole in Kilcullen), and 18 that needed 1926 DEDs with no counterpart in the 1936 lists (mostly urban wards named or divided differently), placed by their printed reference numbers or by adjacency. Each district carries its grade and the reason for it (confidence, confidence_reason). The city dispensary districts of Dublin, Cork, Limerick and Waterford are not mapped: the census builds them from parts of DEDs and wards, so each county borough is shown as one unit, without a population. A district that crosses a county boundary is shown as one part per county, as the table prints it. Each district carries its 1926 population as printed in 1936, its Table 10 reference numbers and its DEDs.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "dispensary-districts-roi-1926-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.3888583,
+          -10.662971
+        ],
+        [
+          55.4465808,
+          -5.9962778
+        ]
+      ],
+      "style": {
+        "color": "#00796B",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 2
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/health/Dispensary_Districts_1926.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Census of Population 1936, Vol. 1, Table 10: population, area and valuation of dispensary districts, registrars' districts and superintendent registrars' districts",
+          "url": "https://www.cso.ie/en/media/csoie/census/census1936results/volume1/C_1936_Vol_1_T10.pdf"
+        },
+        {
+          "label": "Census of Population 1936, Vol. 1, Table 11: population, area and valuation of each District Electoral Division",
+          "url": "https://www.cso.ie/en/media/csoie/census/census1936results/volume1/C_1936_Vol_1_T11.pdf"
+        }
+      ],
+      "sourceDownloads": [],
+      "variants": 0,
+      "unsupportedReason": null
+    },
+    {
+      "sourceMapId": "superintendent-registrars-districts-roi-1926",
+      "cloneOf": null,
+      "parentId": null,
+      "name": "Superintendent Registrars' Districts 18 Apr 1926 (estimate)",
+      "category": "Local Government Districts",
+      "categoryId": "local-government",
+      "group": "Elections and Government",
+      "date": "1926-04-18",
+      "dateAdded": null,
+      "dateEffective": null,
+      "provider": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "description": "An estimate of the 126 superintendent registrars' districts of the Irish Free State at the census of 18 Apr 1926, the registration areas for births, deaths and marriages. Table 10 prints them county by county under the names of the former Poor Law Unions, each within one county. Each is the union of its dispensary districts on Dispensary Districts 18 Apr 1926 (estimate), so it is the 1936 composition drawn on the 1926 DED map, with the same sources and caveats. It carries the number of DEDs and dispensary districts it holds and their combined 1926 population as printed in 1936; the district holding a county borough (Dublin, Cork, Limerick, Waterford) takes in the city on the map, but its population leaves the city out.",
+      "sourceCredits": [
+        "Scott Moore",
+        "Phelim Birch",
+        "Paddy Matthews"
+      ],
+      "conversionStatus": "converted",
+      "recommendedTarget": "mvt-or-pmtiles",
+      "testLayerId": "superintendent-registrars-districts-roi-1926-vector-test",
+      "aliasTargetLayerId": null,
+      "bounds": [
+        [
+          51.3888583,
+          -10.662971
+        ],
+        [
+          55.4465808,
+          -5.9962778
+        ]
+      ],
+      "style": {
+        "color": "#004D40",
+        "fillColor": null,
+        "fillOpacity": null,
+        "weight": 3
+      },
+      "sourceFiles": [
+        {
+          "kind": "fgb",
+          "file": "https://data.civgraph.net/data/maps/health/Superintendent_Registrars_Districts_1926.fgb"
+        }
+      ],
+      "references": [
+        {
+          "label": "Census of Population 1936, Vol. 1, Table 10: population, area and valuation of dispensary districts, registrars' districts and superintendent registrars' districts",
+          "url": "https://www.cso.ie/en/media/csoie/census/census1936results/volume1/C_1936_Vol_1_T10.pdf"
+        },
+        {
+          "label": "Census of Population 1936, Vol. 1, Table 11: population, area and valuation of each District Electoral Division",
+          "url": "https://www.cso.ie/en/media/csoie/census/census1936results/volume1/C_1936_Vol_1_T11.pdf"
+        }
+      ],
       "sourceDownloads": [],
       "variants": 0,
       "unsupportedReason": null

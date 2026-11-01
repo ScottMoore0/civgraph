@@ -48,6 +48,7 @@ const PAGES = [
   'apps/index.html',
   'pages/about.html',
   'pages/census-explorer.html',
+  'pages/status.html',
 ];
 
 /**

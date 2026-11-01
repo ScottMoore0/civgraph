@@ -1,0 +1,215 @@
+{
+  "id": "plu-ni-1921-04-01-vector-test",
+  "sourceMapId": "plu-ni-1921-04-01",
+  "name": "Poor Law Unions 1 Apr 1921",
+  "category": "Local Government Districts",
+  "group": "Elections and Government",
+  "date": "1921-04-01",
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Scott Moore",
+    "Paddy Matthews",
+    "Phelim Birch"
+  ],
+  "description": "The 27 Poor Law Unions in the six counties from 1 Apr 1921, a month before partition, until 31 Mar 1924. On 1 Apr 1921 the unions that crossed the new border were reorganised: the Northern Ireland parts of the Ballyshannon, Clones and Castleblayney Unions (Belleek, Clones No. 2 and Crossmaglen rural districts) were added to the Irvinestown, Lisnaskea and Newry Unions, and the County Cavan part of Enniskillen Union and the County Donegal parts of Londonderry and Strabane Unions were taken out. Each union is the dissolution of its district electoral divisions on Civgraph's 3 May 1921 DED map (Paddy Matthews, with Phelim Birch's corrections); all 631 DEDs nest in their unions. The former Aghalee and Trillick rural districts, merged into Lisburn and Omagh rural districts in 1920, stayed in the Lurgan and Irvinestown Unions. The acreage is the 1926 census figure (blank for Downpatrick and Newtownards, which changed in 1924); no population was printed for these boundaries.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/render/tiles/generated/plu-ni-1921-04-01/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/render/tiles/generated/plu-ni-1921-04-01/metadata.json",
+  "sourceLayer": "plu_ni_1921_04_01",
+  "promoteId": "union",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      54.0227248,
+      -8.17744
+    ],
+    [
+      55.3129847,
+      -5.4267884
+    ]
+  ],
+  "style": {
+    "color": "#6B4E9B",
+    "fillColor": "#6B4E9B",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Census of Population of Northern Ireland 1926: General Report",
+      "note": "Administrative divisions p. xviii, changes (i)-(q) dated 1 Apr 1921; Table 4 notes (c)-(h)."
+    },
+    {
+      "label": "Belfast Gazette issue 43 (Newry Union)",
+      "url": "https://www.thegazette.co.uk/Belfast/issue/43/data.pdf",
+      "note": "5 May 1922, p. 424. Recites the Local Government Board for Ireland order of 22 Mar 1921 transferring the townlands of Crossmaglen Rural District to Newry Union, and the LGB orders of 29 Nov 1921 to form a separate Crossmaglen Union from 1 Apr 1922, postponed by the Ministry of Home Affairs to 1 Apr 1923. No Crossmaglen Union existed at the 1926 Census."
+    },
+    {
+      "label": "Belfast Gazette issue 104 (Rural District of Omagh)",
+      "url": "https://www.thegazette.co.uk/Belfast/issue/104/data.pdf",
+      "note": "22 Jun 1923. Lists Omagh RD's 43 DEDs before 1924, including Drumharvey, Kilskeery, Moorfield and Trillick, which make up Irvinestown Union's Tyrone part."
+    },
+    {
+      "label": "Belfast Gazette issue 103 (Rural District of Lisburn)",
+      "url": "https://www.thegazette.co.uk/Belfast/issue/103/data.pdf",
+      "note": "15 Jun 1923, p. 223. Lists Lisburn RD's 14 DEDs before 1924, including Aghagallon, Aghalee and Ballinderry, which make up Lurgan Union's Antrim part."
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "render/source-cache/vector-intake/plu-ni-1921-04-01.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Scott Moore",
+    "Paddy Matthews",
+    "Phelim Birch"
+  ],
+  "keywords": [
+    "poor law union",
+    "PLU",
+    "board of guardians",
+    "partition",
+    "1921",
+    "northern ireland",
+    "Poor Law Unions 1 Apr 1921",
+    "Local Government Districts",
+    "Elections and Government",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "union",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#6B4E9B",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "sourceFile": "render/source-cache/vector-intake/plu-ni-1921-04-01.fgb",
+  "sourceDatasetLayer": "poor_law_unions_ni",
+  "idProperty": "union",
+  "popupProperties": [
+    "union",
+    "counties",
+    "deds",
+    "census_acres",
+    "population_1926",
+    "population_1937",
+    "census_acres_1937",
+    "area_km2",
+    "land_area_km2",
+    "land_acres_est"
+  ],
+  "numericProperties": [
+    "deds",
+    "census_acres",
+    "area_km2",
+    "land_area_km2",
+    "land_acres_est",
+    "census_area_km2",
+    "land_vs_census_pct"
+  ],
+  "categoricalProperties": [
+    "union",
+    "counties",
+    "edition",
+    "valid_from",
+    "valid_to"
+  ],
+  "categoricalValues": {
+    "union": [
+      "Antrim",
+      "Armagh",
+      "Belfast",
+      "Clogher",
+      "Kilkeel",
+      "Larne",
+      "Limavady",
+      "Lisburn",
+      "Lurgan",
+      "Newry",
+      "Omagh",
+      "Strabane",
+      "Ballycastle",
+      "Ballymena",
+      "Ballymoney",
+      "Banbridge",
+      "Castlederg",
+      "Coleraine",
+      "Cookstown",
+      "Downpatrick",
+      "Dungannon",
+      "Enniskillen",
+      "Irvinestown",
+      "Lisnaskea",
+      "Londonderry",
+      "Magherafelt",
+      "Newtownards"
+    ],
+    "counties": [
+      "Antrim",
+      "Armagh",
+      "Down",
+      "Tyrone",
+      "Antrim; Armagh; Down",
+      "Antrim; Down",
+      "Antrim; Down; Belfast C.B.",
+      "Armagh; Down",
+      "Fermanagh",
+      "Fermanagh; Tyrone",
+      "Londonderry",
+      "Londonderry; Londonderry C.B."
+    ],
+    "edition": [
+      "plu-ni-1921-04-01"
+    ],
+    "valid_from": [
+      "1921-04-01"
+    ],
+    "valid_to": [
+      "1924-03-31"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from render/source-cache/vector-intake/plu-ni-1921-04-01.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "render/source-cache/vector-intake/plu-ni-1921-04-01.fgb",
+    "bytes": 2420742,
+    "files": 759,
+    "pbfFiles": 758,
+    "maxTileBytes": 29647
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/plu-ni-1921-04-01-vector-test.pmtiles",
+  "tilesFallback": "/render/tiles/generated/plu-ni-1921-04-01/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "render/pmtiles/generated/plu-ni-1921-04-01-vector-test.pmtiles",
+    "url": "/render/pmtiles/generated/plu-ni-1921-04-01-vector-test.pmtiles",
+    "bytes": 1436956,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-11-01T04:37:52.404Z",
+    "fallback": "/render/tiles/generated/plu-ni-1921-04-01/{z}/{x}/{y}.pbf",
+    "sourceSha256": "2d976ba6931b9bde65d55f32381dc86c9feca4eeabeddbb9c5d5a2228998e353",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/plu-ni-1921-04-01-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/plu-ni-1921-04-01-vector-test.pmtiles",
+    "localUrl": "/render/pmtiles/generated/plu-ni-1921-04-01-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-11-01T11:50:17.039Z"
+  },
+  "featureIndexUrl": "/render/metadata/feature-indexes/plu-ni-1921-04-01-vector-test.json"
+}

@@ -1,0 +1,237 @@
+{
+  "id": "administrative-counties-1899-vector-test",
+  "sourceMapId": "administrative-counties-1899",
+  "name": "Administrative Counties 18 Apr 1899",
+  "category": "Local Government Districts",
+  "group": "Elections and Government",
+  "date": "1899-04-18",
+  "dateAdded": null,
+  "dateEffective": null,
+  "provider": [
+    "Scott Moore",
+    "Phelim Birch",
+    "Paddy Matthews"
+  ],
+  "description": "The administrative counties and county boroughs created by the Local Government (Ireland) Act 1898, as declared by the Local Government Board's order of 1 Nov 1898 under section 68 and in effect from 18 Apr 1899: 33 administrative counties (Tipperary in two ridings) and the county boroughs of Dublin, Belfast, Cork, Limerick, Londonderry and Waterford. Built from the reconstructed 1901 DEDs, each placed in the administrative county printed in Table VI of the 1901 county volumes, with the Dublin Corporation Act 1900 put back. Where the county volumes print a legible total area, the map agrees with it within 0.5%.",
+  "renderer": "maplibre",
+  "sourceType": "pmtiles",
+  "geometryType": "polygon",
+  "tiles": "/render/tiles/generated/administrative-counties-1899/{z}/{x}/{y}.pbf",
+  "metadataUrl": "/render/tiles/generated/administrative-counties-1899/metadata.json",
+  "sourceLayer": "administrative_counties_1899",
+  "promoteId": "name",
+  "minzoom": 0,
+  "maxzoom": 12,
+  "bounds": [
+    [
+      51.4198973,
+      -10.6629709
+    ],
+    [
+      55.4465803,
+      -5.4267884
+    ]
+  ],
+  "style": {
+    "color": "#4A148C",
+    "fillColor": "#4A148C",
+    "fillOpacity": 0.18,
+    "weight": 2
+  },
+  "references": [
+    {
+      "label": "Census of Ireland 1901 and 1911, county volumes, Table I head-notes",
+      "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/",
+      "note": "The Local Government Board order of 1 Nov 1898 under s.68 of the 1898 Act, and each administrative county's composition."
+    },
+    {
+      "label": "Local Government Board for Ireland, Twenty-seventh Report (C.9480, 1900), pp. 235-330: orders declaring the boundaries of administrative counties",
+      "note": "Effective date 18 Apr 1899, as cited by Wikipedia's article on the Local Government (Ireland) Act 1898; the report itself not yet seen."
+    },
+    {
+      "label": "Census of Ireland 1901, county volumes, Table VI",
+      "url": "https://www.cso.ie/en/census/censusvolumes1926to1991/historicalreports/census19011911andotherhistoricaldata/",
+      "note": "The administrative county of each DED."
+    }
+  ],
+  "sourceDownloads": [
+    {
+      "label": "Source file used for /test conversion",
+      "file": "render/source-cache/vector-intake/administrative-counties-1899.fgb"
+    }
+  ],
+  "sourceCredits": [
+    "Scott Moore",
+    "Phelim Birch",
+    "Paddy Matthews"
+  ],
+  "keywords": [
+    "administrative county",
+    "county borough",
+    "county council",
+    "1899",
+    "Local Government (Ireland) Act 1898",
+    "before partition",
+    "ireland",
+    "all-island",
+    "Administrative Counties 18 Apr 1899",
+    "Local Government Districts",
+    "Elections and Government",
+    "maplibre",
+    "vector tiles"
+  ],
+  "labelProperty": "name",
+  "labelPropertyFallbacks": [],
+  "labelMinZoom": 0,
+  "labelMaxZoom": null,
+  "labelStyle": {
+    "color": "#4A148C",
+    "hoverColor": "#ff7a1a",
+    "selectedColor": "#111827",
+    "haloColor": "#ffffff",
+    "haloWidth": 1.2,
+    "haloBlur": 0,
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "maxWidth": 14,
+    "lineHeight": 1.25
+  },
+  "sourceFile": "render/source-cache/vector-intake/administrative-counties-1899.fgb",
+  "sourceDatasetLayer": "administrative-counties-1899",
+  "idProperty": "name",
+  "popupProperties": [
+    "name",
+    "type",
+    "n_deds",
+    "area_km2",
+    "map_acres",
+    "summary_acres_1901",
+    "summary_acres_1911",
+    "census_land_acres_1901",
+    "ratio_map_to_summary_1901",
+    "ratio_map_to_census_land_1901"
+  ],
+  "numericProperties": [
+    "n_deds",
+    "area_km2",
+    "map_acres",
+    "census_land_acres_1901",
+    "ratio_map_to_summary_1901",
+    "ratio_map_to_census_land_1901"
+  ],
+  "categoricalProperties": [
+    "name",
+    "type",
+    "summary_acres_1901",
+    "summary_acres_1911"
+  ],
+  "categoricalValues": {
+    "name": [
+      "Antrim",
+      "Armagh",
+      "Carlow",
+      "Cavan",
+      "Clare",
+      "Cork",
+      "Donegal",
+      "Down",
+      "Dublin",
+      "Galway",
+      "Kerry",
+      "Kildare",
+      "Kilkenny",
+      "Leitrim",
+      "Limerick",
+      "Longford",
+      "Louth",
+      "Mayo",
+      "Meath",
+      "Monaghan",
+      "Sligo",
+      "Tyrone",
+      "Wexford",
+      "Wicklow",
+      "County Borough of Belfast",
+      "County Borough of Cork",
+      "County Borough of Dublin",
+      "County Borough of Limerick",
+      "County Borough of Londonderry",
+      "County Borough of Waterford",
+      "Fermanagh",
+      "King's County"
+    ],
+    "type": [
+      "Administrative county",
+      "County borough"
+    ],
+    "summary_acres_1901": [
+      "1197153",
+      "16504",
+      "202731",
+      "221473",
+      "269408",
+      "392381",
+      "418496",
+      "452356",
+      "477399",
+      "500216",
+      "576757",
+      "579320",
+      "751965",
+      "852389"
+    ],
+    "summary_acres_1911": [
+      "1189787",
+      "1380391",
+      "15139",
+      "1854509",
+      "202731",
+      "221539",
+      "319889",
+      "327902",
+      "418645",
+      "424838",
+      "452350",
+      "454104",
+      "477399",
+      "500216",
+      "511958",
+      "579320",
+      "584592",
+      "629633",
+      "680898",
+      "752689",
+      "7911",
+      "806919",
+      "852389"
+    ]
+  },
+  "status": "converted",
+  "notes": "Generated from render/source-cache/vector-intake/administrative-counties-1899.fgb with GDAL MVT output.",
+  "generatedFrom": {
+    "pipeline": "build-test-vector-batch",
+    "sourceFile": "render/source-cache/vector-intake/administrative-counties-1899.fgb",
+    "bytes": 8516860,
+    "files": 3917,
+    "pbfFiles": 3916,
+    "maxTileBytes": 59871
+  },
+  "tileUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/administrative-counties-1899-vector-test.pmtiles",
+  "tilesFallback": "/render/tiles/generated/administrative-counties-1899/{z}/{x}/{y}.pbf",
+  "tilePackage": {
+    "preferred": true,
+    "localPath": "render/pmtiles/generated/administrative-counties-1899-vector-test.pmtiles",
+    "url": "/render/pmtiles/generated/administrative-counties-1899-vector-test.pmtiles",
+    "bytes": 5252606,
+    "maxGithubBytes": 99614720,
+    "generatedAt": "2026-11-01T04:37:52.404Z",
+    "fallback": "/render/tiles/generated/administrative-counties-1899/{z}/{x}/{y}.pbf",
+    "sourceSha256": "9566f91be0590e8cb01832af19f6122e69d6e7c137902d50985937965fd2f979",
+    "serving": "cdn",
+    "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/administrative-counties-1899-vector-test.pmtiles",
+    "r2Key": "data/maps/test/pmtiles/generated/administrative-counties-1899-vector-test.pmtiles",
+    "localUrl": "/render/pmtiles/generated/administrative-counties-1899-vector-test.pmtiles",
+    "byteRangeVerifiedAt": "2026-11-01T11:50:17.039Z"
+  },
+  "featureIndexUrl": "/render/metadata/feature-indexes/administrative-counties-1899-vector-test.json"
+}

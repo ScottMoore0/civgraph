@@ -404,7 +404,21 @@ const PRE1973_COUNCIL_BODY_SLUGS = new Set([
   // pre1973CouncilGeography.
   'londonderry-county-borough-council',
   'lisburn-urban-district-council',
-  'bangor-urban-district-council'
+  'bangor-urban-district-council',
+  // County Armagh pilot (British Newspaper Archive transcriptions, 2026-10-31): results only.
+  'armagh-county-council',
+  'armagh-urban-district-council',
+  'keady-urban-district-council',
+  'lurgan-borough-council',
+  'lurgan-rural-district-council',
+  'portadown-borough-council',
+  'armagh-rural-district-council',
+  'newry-no-2-rural-district-council',
+  'tandragee-rural-district-council',
+  'moira-rural-district-council',
+  'aghalee-rural-district-council',
+  'tandragee-urban-district-council',
+  'castleblayney-no-2-rural-district-council'
 ]);
 // Bodies whose only results are the January 1920 PR electoral areas. Those areas were drawn
 // for the 1920 scheme and no layer is known to draw them (Derry's North, West and Waterside
@@ -414,6 +428,21 @@ const PR1920_ONLY_COUNCIL_BODY_SLUGS = new Set([
   'londonderry-county-borough-council',
   'lisburn-urban-district-council',
   'bangor-urban-district-council'
+]);
+const ARMAGH_PILOT_RESULTS_ONLY_BODY_SLUGS = new Set([
+  'armagh-county-council',
+  'armagh-urban-district-council',
+  'keady-urban-district-council',
+  'lurgan-borough-council',
+  'lurgan-rural-district-council',
+  'portadown-borough-council',
+  'armagh-rural-district-council',
+  'newry-no-2-rural-district-council',
+  'tandragee-rural-district-council',
+  'moira-rural-district-council',
+  'aghalee-rural-district-council',
+  'tandragee-urban-district-council',
+  'castleblayney-no-2-rural-district-council'
 ]);
 const LOCAL_GOVERNMENT_BODIES = new Set([
   'Antrim and Newtownabbey',
@@ -1340,6 +1369,9 @@ function resolveElectionGeography(entry) {
 function pre1973CouncilGeography(entry) {
   const date = String(entry.date || '');
   if (PR1920_ONLY_COUNCIL_BODY_SLUGS.has(entry.bodySlug)) return { sourceMapId: null };
+  // County Armagh pilot bodies: whole-town polls, 1920 PR areas, county electoral divisions and
+  // rural DEDs with no layer confirmed to draw them, so shown as results without a map.
+  if (ARMAGH_PILOT_RESULTS_ONLY_BODY_SLUGS.has(entry.bodySlug)) return { sourceMapId: null };
   if (entry.bodySlug !== 'strabane-urban-district-council') {
     if (entry.bodySlug === 'belfast-county-borough-council' && date.startsWith('1920')) {
       return { sourceMapId: 'pc-1918', featureNamePrefix: 'BELFAST ' };
@@ -1502,7 +1534,7 @@ function classifyElection(entry) {
 function classifyElectionResult(entry, result, parentMetadata = classifyElection(entry)) {
   const contestType = parentMetadata.contestType || contestTypeForElection(entry);
   const votingSystem = votingSystemForElection(entry, result) || parentMetadata.votingSystem;
-  const contestStatus = contestStatusForResult(result);
+  const contestStatus = contestStatusForResult(result, { shortNominationsUnopposed: PRE1973_COUNCIL_BODY_SLUGS.has(entry.bodySlug) });
   const candidateRowsExpected = contestType === 'election' && contestStatus !== 'uncontested';
   const transferDataExpected = transferDataExpectedForElection(entry, {
     result,
@@ -1567,7 +1599,7 @@ function votingSystemForElection(entry, result = null) {
   return 'fptp';
 }
 
-function contestStatusForResult(result) {
+function contestStatusForResult(result, { shortNominationsUnopposed = false } = {}) {
   const candidates = Array.isArray(result?.candidates) ? result.candidates : [];
   if (!candidates.length) return 'contested';
   const elected = candidates.filter((candidate) => candidate?.elected).length;
@@ -1576,6 +1608,10 @@ function contestStatusForResult(result) {
   // A real count is more than that, so a winners-only record with votes stays contested.
   const hasAnyVotes = candidates.some((candidate) => parseNumber(candidate?.firstPrefs) > 1);
   if (seatsTotal && elected >= seatsTotal && candidates.length <= seatsTotal && !hasAnyVotes) return 'uncontested';
+  // A pre-1973 council ward with fewer nominations than seats (Keady 1920: four for nine; Lurgan
+  // 1939: four for five) returned everyone nominated without a poll; the empty seats were filled
+  // by old members or co-option, not by a contest.
+  if (shortNominationsUnopposed && seatsTotal && elected === candidates.length && elected < seatsTotal && !hasAnyVotes) return 'uncontested';
   return 'contested';
 }
 
