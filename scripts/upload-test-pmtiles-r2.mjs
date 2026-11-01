@@ -188,7 +188,17 @@ function writeReport() {
     },
     results
   };
-  writeFileSync(REPORT_PATH, `${JSON.stringify(report, null, 2)}\n`);
+  // The report is rewritten after every upload; on Windows a scanner can briefly hold the
+  // file, so a failed write is retried and finally skipped rather than ending the run.
+  for (let attempt = 1; attempt <= 5; attempt += 1) {
+    try {
+      writeFileSync(REPORT_PATH, `${JSON.stringify(report, null, 2)}\n`);
+      break;
+    } catch (err) {
+      if (attempt === 5) console.warn(`could not write ${REPORT_PATH}: ${err.code || err.message}`);
+      else Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 500 * attempt);
+    }
+  }
   return report;
 }
 
