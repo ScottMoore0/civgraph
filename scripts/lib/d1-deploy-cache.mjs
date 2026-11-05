@@ -9,7 +9,8 @@
  * load is checked exactly as a performed one is; only the upload is avoided.
  *
  * The record lives in tmp/ (gitignored) and is written only after a load and its
- * verification both succeed. --force on any deploy script ignores it.
+ * verification both succeed. --force on any deploy script ignores it; --dry-run on any of
+ * them reports what a deploy would load and changes nothing.
  */
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -17,6 +18,9 @@ import { dirname } from 'node:path';
 
 const RECORD_DIR = 'tmp/d1-deployed';
 export const FORCE = process.argv.includes('--force');
+// --dry-run: regenerate the SQL and report whether a load would happen, then stop before
+// wrangler. Used by `.claude/publish/publish.sh --dry-run`.
+export const DRY_RUN = process.argv.includes('--dry-run');
 
 function recordPath(key) {
   return `${RECORD_DIR}/${key.replace(/[^a-z0-9._-]+/gi, '_')}.sha256`;

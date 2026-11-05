@@ -16,6 +16,8 @@
  * The elections API keys its edge cache on that version, so step 3 passing means clean
  * URLs serve the new data within a minute, without touching CACHE_VERSION.
  *
+ * --dry-run builds and compares the versions (steps 1 and 3's read) and stops before any load.
+ *
  * R2 credentials are removed from the environment for the wrangler calls: exported, they
  * make wrangler fail D1 calls with a bare "Authentication error [code: 10000]".
  */
@@ -51,7 +53,8 @@ console.log(`local dataset version: ${local}`);
 // The version is a hash of every source file, so a live database already carrying it holds
 // exactly this build: reloading it would spend minutes changing nothing. Ask first; any
 // failure to answer just means the load goes ahead. --force reloads regardless.
-if (!process.argv.includes('--force')) {
+const DRY_RUN = process.argv.includes('--dry-run');
+if (DRY_RUN || !process.argv.includes('--force')) {
   const probe = spawnSync(
     `npx wrangler d1 execute civgraph-elections --remote --json --command "SELECT value FROM dataset WHERE key = 'version'" > tmp/elections-dataset-version.json`,
     { stdio: ['ignore', 'ignore', 'ignore'], env, shell: true }
@@ -60,6 +63,10 @@ if (!process.argv.includes('--force')) {
   try {
     if (probe.status === 0) live = JSON.parse(readFileSync('tmp/elections-dataset-version.json', 'utf8'))?.[0]?.results?.[0]?.value ?? null;
   } catch { /* unreadable: load */ }
+  if (DRY_RUN) {
+    console.log(`DRY RUN: civgraph-elections ${live === local ? `already carries ${local}; would not reload` : `carries ${live ?? 'an unreadable version'}; would load ${local}`}`);
+    process.exit(0);
+  }
   if (live === local) {
     console.log(`\nPASS: civgraph-elections already carries dataset version ${local}; not reloaded (--force to reload).`);
     process.exit(0);
