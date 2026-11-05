@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-01T20:48:55.941Z",
+  "generatedAt": "2026-11-05T22:32:27.365Z",
   "cdnBase": "https://data.civgraph.net/data/maps/test",
   "r2Prefix": "data/maps/test",
   "assets": [
@@ -8246,6 +8246,87 @@
       "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/pobal-hp-2006-ed-vector-test.pmtiles",
       "bytes": 12279769,
       "exists": true
+    },
+    {
+      "layerId": "dispensary-districts-ni-1929-01-01-vector-test",
+      "kind": "pmtiles",
+      "localPath": "render/pmtiles/generated/dispensary-districts-ni-1929-01-01-vector-test.pmtiles",
+      "targetKey": "data/maps/test/pmtiles/generated/dispensary-districts-ni-1929-01-01-vector-test.pmtiles",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dispensary-districts-ni-1929-01-01-vector-test.pmtiles",
+      "bytes": 3356286,
+      "exists": true
+    },
+    {
+      "layerId": "dispensary-districts-ni-1924-04-01-vector-test",
+      "kind": "pmtiles",
+      "localPath": "render/pmtiles/generated/dispensary-districts-ni-1924-04-01-vector-test.pmtiles",
+      "targetKey": "data/maps/test/pmtiles/generated/dispensary-districts-ni-1924-04-01-vector-test.pmtiles",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dispensary-districts-ni-1924-04-01-vector-test.pmtiles",
+      "bytes": 3355233,
+      "exists": true
+    },
+    {
+      "layerId": "dispensary-districts-ni-1921-04-01-vector-test",
+      "kind": "pmtiles",
+      "localPath": "render/pmtiles/generated/dispensary-districts-ni-1921-04-01-vector-test.pmtiles",
+      "targetKey": "data/maps/test/pmtiles/generated/dispensary-districts-ni-1921-04-01-vector-test.pmtiles",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/dispensary-districts-ni-1921-04-01-vector-test.pmtiles",
+      "bytes": 3355424,
+      "exists": true
+    },
+    {
+      "layerId": "tia-towns-ni-1921-05-03-vector-test",
+      "kind": "pmtiles",
+      "localPath": "render/pmtiles/generated/tia-towns-ni-1921-05-03-vector-test.pmtiles",
+      "targetKey": "data/maps/test/pmtiles/generated/tia-towns-ni-1921-05-03-vector-test.pmtiles",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tia-towns-ni-1921-05-03-vector-test.pmtiles",
+      "bytes": 24148,
+      "exists": true
+    },
+    {
+      "layerId": "tia-towns-ni-1925-04-01-vector-test",
+      "kind": "pmtiles",
+      "localPath": "render/pmtiles/generated/tia-towns-ni-1925-04-01-vector-test.pmtiles",
+      "targetKey": "data/maps/test/pmtiles/generated/tia-towns-ni-1925-04-01-vector-test.pmtiles",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tia-towns-ni-1925-04-01-vector-test.pmtiles",
+      "bytes": 26453,
+      "exists": true
+    },
+    {
+      "layerId": "tia-towns-ni-1927-04-01-vector-test",
+      "kind": "pmtiles",
+      "localPath": "render/pmtiles/generated/tia-towns-ni-1927-04-01-vector-test.pmtiles",
+      "targetKey": "data/maps/test/pmtiles/generated/tia-towns-ni-1927-04-01-vector-test.pmtiles",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tia-towns-ni-1927-04-01-vector-test.pmtiles",
+      "bytes": 18597,
+      "exists": true
+    },
+    {
+      "layerId": "tia-towns-ni-1934-08-01-vector-test",
+      "kind": "pmtiles",
+      "localPath": "render/pmtiles/generated/tia-towns-ni-1934-08-01-vector-test.pmtiles",
+      "targetKey": "data/maps/test/pmtiles/generated/tia-towns-ni-1934-08-01-vector-test.pmtiles",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tia-towns-ni-1934-08-01-vector-test.pmtiles",
+      "bytes": 30268,
+      "exists": true
+    },
+    {
+      "layerId": "tia-towns-ni-1937-04-01-vector-test",
+      "kind": "pmtiles",
+      "localPath": "render/pmtiles/generated/tia-towns-ni-1937-04-01-vector-test.pmtiles",
+      "targetKey": "data/maps/test/pmtiles/generated/tia-towns-ni-1937-04-01-vector-test.pmtiles",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tia-towns-ni-1937-04-01-vector-test.pmtiles",
+      "bytes": 18646,
+      "exists": true
+    },
+    {
+      "layerId": "tia-towns-ni-1959-05-29-vector-test",
+      "kind": "pmtiles",
+      "localPath": "render/pmtiles/generated/tia-towns-ni-1959-05-29-vector-test.pmtiles",
+      "targetKey": "data/maps/test/pmtiles/generated/tia-towns-ni-1959-05-29-vector-test.pmtiles",
+      "cdnUrl": "https://data.civgraph.net/data/maps/test/pmtiles/generated/tia-towns-ni-1959-05-29-vector-test.pmtiles",
+      "bytes": 7121,
+      "exists": true
     }
   ],
   "commands": [
@@ -8822,6 +8903,15 @@
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/plu-1891-09-30-vector-test.pmtiles --file render/pmtiles/generated/plu-1891-09-30-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/ded-1939-04-01-vector-test.pmtiles --file render/pmtiles/generated/ded-1939-04-01-vector-test.pmtiles --remote --content-type application/octet-stream",
     "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/pobal-hp-2022-ed-vector-test.pmtiles --file render/pmtiles/generated/pobal-hp-2022-ed-vector-test.pmtiles --remote --content-type application/octet-stream",
-    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/pobal-hp-2006-ed-vector-test.pmtiles --file render/pmtiles/generated/pobal-hp-2006-ed-vector-test.pmtiles --remote --content-type application/octet-stream"
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/pobal-hp-2006-ed-vector-test.pmtiles --file render/pmtiles/generated/pobal-hp-2006-ed-vector-test.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/dispensary-districts-ni-1929-01-01-vector-test.pmtiles --file render/pmtiles/generated/dispensary-districts-ni-1929-01-01-vector-test.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/dispensary-districts-ni-1924-04-01-vector-test.pmtiles --file render/pmtiles/generated/dispensary-districts-ni-1924-04-01-vector-test.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/dispensary-districts-ni-1921-04-01-vector-test.pmtiles --file render/pmtiles/generated/dispensary-districts-ni-1921-04-01-vector-test.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/tia-towns-ni-1921-05-03-vector-test.pmtiles --file render/pmtiles/generated/tia-towns-ni-1921-05-03-vector-test.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/tia-towns-ni-1925-04-01-vector-test.pmtiles --file render/pmtiles/generated/tia-towns-ni-1925-04-01-vector-test.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/tia-towns-ni-1927-04-01-vector-test.pmtiles --file render/pmtiles/generated/tia-towns-ni-1927-04-01-vector-test.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/tia-towns-ni-1934-08-01-vector-test.pmtiles --file render/pmtiles/generated/tia-towns-ni-1934-08-01-vector-test.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/tia-towns-ni-1937-04-01-vector-test.pmtiles --file render/pmtiles/generated/tia-towns-ni-1937-04-01-vector-test.pmtiles --remote --content-type application/octet-stream",
+    "npx wrangler r2 object put boundaries-data/data/maps/test/pmtiles/generated/tia-towns-ni-1959-05-29-vector-test.pmtiles --file render/pmtiles/generated/tia-towns-ni-1959-05-29-vector-test.pmtiles --remote --content-type application/octet-stream"
   ]
 }

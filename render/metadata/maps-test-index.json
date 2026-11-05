@@ -325,6 +325,12 @@
       "name": "planning",
       "group": "Maps",
       "description": ""
+    },
+    {
+      "id": "data-population",
+      "name": "Population data",
+      "group": "Communities",
+      "description": "Tabular census and demographic datasets joined onto an associated geography map. Loading a data entry colours the geography by the chosen statistic and opens a table of values."
     }
   ],
   "timeSeriesChains": [
@@ -129925,7 +129931,7 @@
       "date": "1924-04-01",
       "dateAdded": null,
       "dateEffective": null,
-      "description": "The 27 Poor Law Unions of Northern Ireland from 1 Apr 1924 until the boards of guardians' functions passed to the county welfare and health authorities on 5 Jul 1948. Each union is the dissolution of its district electoral divisions on Civgraph's 1926 DED map (Paddy Matthews), placed in their unions by the 1926 Census Topographical Index. The only change from 1921 is the Ardkeen, Portaferry and Quintin area, moved from Downpatrick to Newtownards Union; the 1937 Census records no union changes in 1926-37, and the district changes of 1937-48 each fell inside one union. Each union carries its 1926 and 1937 census acreage and population; with the large loughs taken out the map areas agree with the census acreages to a median of 0.2%. After 1948 the unions remained as superintendent registrars' districts.",
+      "description": "The 27 Poor Law Unions of Northern Ireland from 1 Apr 1924 until the boards of guardians' functions passed to the county welfare and health authorities on 5 Jul 1948; every board was abolished on 30 Sep 1948. Each union is the dissolution of its district electoral divisions on Civgraph's 1926 DED map (Paddy Matthews), placed in their unions by the 1926 Census Topographical Index. The only change from 1921 is the Ardkeen, Portaferry and Quintin area, moved from Downpatrick to Newtownards Union; the 1937 Census records no union changes in 1926-37, the district changes of 1937-48 each fell inside one union, and the Belfast Gazette to 1948 has no order altering a union. Each union carries its 1926 and 1937 census acreage and population; with the large loughs taken out the map areas agree with the census acreages to a median of 0.2%. After 1948 the unions remained as superintendent registrars' districts.",
       "notes": "Generated from render/source-cache/vector-intake/plu-ni-1924-04-01.fgb with GDAL MVT output.",
       "sourceType": "pmtiles",
       "geometryType": "polygon",
@@ -132950,10 +132956,1139 @@
         "vector tiles"
       ],
       "detailUrl": "/render/metadata/layer-details-test2/pobal-hp-2006-ed-vector-test.json"
+    },
+    {
+      "id": "dispensary-districts-ni-1929-01-01-vector-test",
+      "sourceMapId": "dispensary-districts-ni-1929-01-01",
+      "name": "Dispensary Districts 1 Jan 1929",
+      "category": "Local Government Districts",
+      "group": "Elections and Government",
+      "provider": [
+        "Scott Moore",
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "date": "1929-01-01",
+      "dateAdded": null,
+      "dateEffective": null,
+      "description": "The 178 dispensary districts of Northern Ireland from 1 Jan 1929, when Londonderry Urban No. 3 was formed out of No. 2, until the dispensary service passed to the Northern Ireland General Health Services Board on the appointed day of the Health Services Act (NI) 1948, 5 Jul 1948. Each district is a group of the old (pre-1923) electoral divisions on Civgraph's 3 May 1921 DED map (Paddy Matthews, with Phelim Birch's corrections), because the Ministry of Home Affairs ordered in 1925 that dispensary districts stay as they were before the 1923 reconstitution of the divisions. The district of each old division is the one its townlands carry in the 1926 Census Topographical Index, checked against the district lists of the 1926 county volumes (Table 4) and the order of the 1911 Census Table VI. Ten old divisions were shared between districts; these are split on OSNI townland lines (Brownlows Derry, Ballygomartin, Ballysillan, Monkstown, Ardclinis, Beardiville, Portrush Rural, Kilkeel, Newry Rural and Drumnakilly). The 16 Belfast urban districts and the Londonderry urban districts other than Waterside cross ward lines along streets, so each county borough's urban districts are shown as one undivided area. With the large loughs taken out, 93 of the 97 county parts whose 1926 printed area could be read agree within 2% (median 0.06%); each district carries its grade and the reason for it (confidence, confidence_reason). Dispensary districts were also the registrars' districts for births, deaths and marriages. No change between 1929 and 1948 has been found: the 1937 Census lists none after 1929, and no order appears in the Belfast Gazette to 1948.",
+      "notes": "Generated from render/source-cache/vector-intake/dispensary-districts-ni-1929-01-01.fgb with GDAL MVT output.",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "renderer": "maplibre",
+      "status": "converted",
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "minzoom": 0,
+      "maxzoom": 12,
+      "sourceLayer": "dispensary_districts_ni_1929_01_01",
+      "tileUrl": "/render/pmtiles/generated/dispensary-districts-ni-1929-01-01-vector-test.pmtiles",
+      "tiles": "/render/tiles/generated/dispensary-districts-ni-1929-01-01/{z}/{x}/{y}.pbf",
+      "tilesFallback": "/render/tiles/generated/dispensary-districts-ni-1929-01-01/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "localPath": "render/pmtiles/generated/dispensary-districts-ni-1929-01-01-vector-test.pmtiles"
+      },
+      "metadataUrl": "/render/tiles/generated/dispensary-districts-ni-1929-01-01/metadata.json",
+      "style": {
+        "color": "#00796B",
+        "fillColor": "#00796B",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "labelProperty": "district",
+      "labelPropertyFallbacks": [],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#00796B",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "promoteId": "district_id",
+      "idProperty": "district_id",
+      "sourceFile": "render/source-cache/vector-intake/dispensary-districts-ni-1929-01-01.fgb",
+      "sourceDatasetLayer": "Dispensary_Districts_NI_1929-01-01",
+      "featureIndexUrl": "/render/metadata/feature-indexes/dispensary-districts-ni-1929-01-01-vector-test.json",
+      "numericProperties": [
+        "old_ed_count",
+        "area_km2",
+        "land_area_km2",
+        "land_acres_est",
+        "census_acres_1926",
+        "land_vs_census_pct"
+      ],
+      "categoricalProperties": [
+        "district",
+        "district_id",
+        "union",
+        "counties",
+        "old_eds",
+        "confidence",
+        "confidence_reason",
+        "method",
+        "edition",
+        "valid_from",
+        "valid_to"
+      ],
+      "popupProperties": [
+        "district",
+        "district_id",
+        "union",
+        "counties",
+        "old_ed_count",
+        "old_eds",
+        "area_km2",
+        "land_area_km2",
+        "land_acres_est",
+        "census_acres_1926"
+      ],
+      "generatedFrom": {
+        "pipeline": "build-test-vector-batch",
+        "sourceFile": "render/source-cache/vector-intake/dispensary-districts-ni-1929-01-01.fgb",
+        "bytes": 5733802,
+        "files": 759,
+        "pbfFiles": 758,
+        "maxTileBytes": 92228
+      },
+      "keywords": [
+        "dispensary district",
+        "dispensary",
+        "registrar's district",
+        "poor law medical relief",
+        "public health",
+        "northern ireland",
+        "1929",
+        "1937",
+        "1948",
+        "Dispensary Districts 1 Jan 1929",
+        "Local Government Districts",
+        "Elections and Government",
+        "maplibre",
+        "vector tiles"
+      ],
+      "detailUrl": "/render/metadata/layer-details-test2/dispensary-districts-ni-1929-01-01-vector-test.json",
+      "duplicateFeatureIdsUrl": "/render/metadata/duplicate-feature-ids/dispensary-districts-ni-1929-01-01-vector-test.json",
+      "duplicateFeatureIdCount": 0,
+      "featureIdMode": "unique"
+    },
+    {
+      "id": "dispensary-districts-ni-1924-04-01-vector-test",
+      "sourceMapId": "dispensary-districts-ni-1924-04-01",
+      "name": "Dispensary Districts 1 Apr 1924",
+      "category": "Local Government Districts",
+      "group": "Elections and Government",
+      "provider": [
+        "Scott Moore",
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "date": "1924-04-01",
+      "dateAdded": null,
+      "dateEffective": null,
+      "description": "The 177 dispensary districts of Northern Ireland from 1 Apr 1924, when Portaferry dispensary district moved from Downpatrick to Newtownards Union, until 31 Dec 1928; this is the state recorded by the census of 18 Apr 1926. Each district is a group of the old (pre-1923) electoral divisions on Civgraph's 3 May 1921 DED map (Paddy Matthews, with Phelim Birch's corrections), because the Ministry of Home Affairs ordered in 1925 that dispensary districts stay as they were before the 1923 reconstitution of the divisions. The district of each old division is the one its townlands carry in the 1926 Census Topographical Index, checked against the district lists of the 1926 county volumes (Table 4) and the order of the 1911 Census Table VI. Ten old divisions were shared between districts; these are split on OSNI townland lines (Brownlows Derry, Ballygomartin, Ballysillan, Monkstown, Ardclinis, Beardiville, Portrush Rural, Kilkeel, Newry Rural and Drumnakilly). The 16 Belfast urban districts and the Londonderry urban districts other than Waterside cross ward lines along streets, so each county borough's urban districts are shown as one undivided area. With the large loughs taken out, 93 of the 97 county parts whose 1926 printed area could be read agree within 2% (median 0.06%); each district carries its grade and the reason for it (confidence, confidence_reason). Dispensary districts were also the registrars' districts for births, deaths and marriages.",
+      "notes": "Generated from render/source-cache/vector-intake/dispensary-districts-ni-1924-04-01.fgb with GDAL MVT output.",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "renderer": "maplibre",
+      "status": "converted",
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "minzoom": 0,
+      "maxzoom": 12,
+      "sourceLayer": "dispensary_districts_ni_1924_04_01",
+      "tileUrl": "/render/pmtiles/generated/dispensary-districts-ni-1924-04-01-vector-test.pmtiles",
+      "tiles": "/render/tiles/generated/dispensary-districts-ni-1924-04-01/{z}/{x}/{y}.pbf",
+      "tilesFallback": "/render/tiles/generated/dispensary-districts-ni-1924-04-01/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "localPath": "render/pmtiles/generated/dispensary-districts-ni-1924-04-01-vector-test.pmtiles"
+      },
+      "metadataUrl": "/render/tiles/generated/dispensary-districts-ni-1924-04-01/metadata.json",
+      "style": {
+        "color": "#00796B",
+        "fillColor": "#00796B",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "labelProperty": "district",
+      "labelPropertyFallbacks": [],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#00796B",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "promoteId": "district_id",
+      "idProperty": "district_id",
+      "sourceFile": "render/source-cache/vector-intake/dispensary-districts-ni-1924-04-01.fgb",
+      "sourceDatasetLayer": "Dispensary_Districts_NI_1924-04-01",
+      "featureIndexUrl": "/render/metadata/feature-indexes/dispensary-districts-ni-1924-04-01-vector-test.json",
+      "numericProperties": [
+        "old_ed_count",
+        "area_km2",
+        "land_area_km2",
+        "land_acres_est",
+        "census_acres_1926",
+        "land_vs_census_pct"
+      ],
+      "categoricalProperties": [
+        "district",
+        "district_id",
+        "union",
+        "counties",
+        "old_eds",
+        "confidence",
+        "confidence_reason",
+        "method",
+        "edition",
+        "valid_from",
+        "valid_to"
+      ],
+      "popupProperties": [
+        "district",
+        "district_id",
+        "union",
+        "counties",
+        "old_ed_count",
+        "old_eds",
+        "area_km2",
+        "land_area_km2",
+        "land_acres_est",
+        "census_acres_1926"
+      ],
+      "generatedFrom": {
+        "pipeline": "build-test-vector-batch",
+        "sourceFile": "render/source-cache/vector-intake/dispensary-districts-ni-1924-04-01.fgb",
+        "bytes": 5733757,
+        "files": 759,
+        "pbfFiles": 758,
+        "maxTileBytes": 92225
+      },
+      "keywords": [
+        "dispensary district",
+        "dispensary",
+        "registrar's district",
+        "poor law medical relief",
+        "public health",
+        "northern ireland",
+        "1924",
+        "1926",
+        "Dispensary Districts 1 Apr 1924",
+        "Local Government Districts",
+        "Elections and Government",
+        "maplibre",
+        "vector tiles"
+      ],
+      "detailUrl": "/render/metadata/layer-details-test2/dispensary-districts-ni-1924-04-01-vector-test.json",
+      "duplicateFeatureIdsUrl": "/render/metadata/duplicate-feature-ids/dispensary-districts-ni-1924-04-01-vector-test.json",
+      "duplicateFeatureIdCount": 0,
+      "featureIdMode": "unique"
+    },
+    {
+      "id": "dispensary-districts-ni-1921-04-01-vector-test",
+      "sourceMapId": "dispensary-districts-ni-1921-04-01",
+      "name": "Dispensary Districts 1 Apr 1921",
+      "category": "Local Government Districts",
+      "group": "Elections and Government",
+      "provider": [
+        "Scott Moore",
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "date": "1921-04-01",
+      "dateAdded": null,
+      "dateEffective": null,
+      "description": "The 177 dispensary districts in the six counties from 1 Apr 1921, when the unions that crossed the new border were reorganised, until 31 Mar 1924. The Belleek, Clones No. 2 and Crossmaglen areas passed with their districts to the Irvinestown, Lisnaskea and Newry Unions, and the Cavan districts of Enniskillen Union and the Donegal districts of Londonderry and Strabane Unions were taken out. Each district is a group of the old (pre-1923) electoral divisions on Civgraph's 3 May 1921 DED map (Paddy Matthews, with Phelim Birch's corrections), because the Ministry of Home Affairs ordered in 1925 that dispensary districts stay as they were before the 1923 reconstitution of the divisions. The district of each old division is the one its townlands carry in the 1926 Census Topographical Index, checked against the district lists of the 1926 county volumes (Table 4) and the order of the 1911 Census Table VI. Ten old divisions were shared between districts; these are split on OSNI townland lines (Brownlows Derry, Ballygomartin, Ballysillan, Monkstown, Ardclinis, Beardiville, Portrush Rural, Kilkeel, Newry Rural and Drumnakilly). The 16 Belfast urban districts and the Londonderry urban districts other than Waterside cross ward lines along streets, so each county borough's urban districts are shown as one undivided area. With the large loughs taken out, 93 of the 97 county parts whose 1926 printed area could be read agree within 2% (median 0.06%); each district carries its grade and the reason for it (confidence, confidence_reason). Dispensary districts were also the registrars' districts for births, deaths and marriages. No dispensary district change between 1921 and 1926 is recorded (the 1926 General Report does not list them), so the 1926 districts are carried back; Portaferry is in Downpatrick Union.",
+      "notes": "Generated from render/source-cache/vector-intake/dispensary-districts-ni-1921-04-01.fgb with GDAL MVT output.",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "renderer": "maplibre",
+      "status": "converted",
+      "bounds": [
+        [
+          54.0227248,
+          -8.1779384
+        ],
+        [
+          55.3129847,
+          -5.4267884
+        ]
+      ],
+      "minzoom": 0,
+      "maxzoom": 12,
+      "sourceLayer": "dispensary_districts_ni_1921_04_01",
+      "tileUrl": "/render/pmtiles/generated/dispensary-districts-ni-1921-04-01-vector-test.pmtiles",
+      "tiles": "/render/tiles/generated/dispensary-districts-ni-1921-04-01/{z}/{x}/{y}.pbf",
+      "tilesFallback": "/render/tiles/generated/dispensary-districts-ni-1921-04-01/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "localPath": "render/pmtiles/generated/dispensary-districts-ni-1921-04-01-vector-test.pmtiles"
+      },
+      "metadataUrl": "/render/tiles/generated/dispensary-districts-ni-1921-04-01/metadata.json",
+      "style": {
+        "color": "#00796B",
+        "fillColor": "#00796B",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "labelProperty": "district",
+      "labelPropertyFallbacks": [],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#00796B",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "promoteId": "district_id",
+      "idProperty": "district_id",
+      "sourceFile": "render/source-cache/vector-intake/dispensary-districts-ni-1921-04-01.fgb",
+      "sourceDatasetLayer": "Dispensary_Districts_NI_1921-04-01",
+      "featureIndexUrl": "/render/metadata/feature-indexes/dispensary-districts-ni-1921-04-01-vector-test.json",
+      "numericProperties": [
+        "old_ed_count",
+        "area_km2",
+        "land_area_km2",
+        "land_acres_est",
+        "census_acres_1926",
+        "land_vs_census_pct"
+      ],
+      "categoricalProperties": [
+        "district",
+        "district_id",
+        "union",
+        "counties",
+        "old_eds",
+        "confidence",
+        "confidence_reason",
+        "method",
+        "edition",
+        "valid_from",
+        "valid_to"
+      ],
+      "popupProperties": [
+        "district",
+        "district_id",
+        "union",
+        "counties",
+        "old_ed_count",
+        "old_eds",
+        "area_km2",
+        "land_area_km2",
+        "land_acres_est",
+        "census_acres_1926"
+      ],
+      "generatedFrom": {
+        "pipeline": "build-test-vector-batch",
+        "sourceFile": "render/source-cache/vector-intake/dispensary-districts-ni-1921-04-01.fgb",
+        "bytes": 5733720,
+        "files": 759,
+        "pbfFiles": 758,
+        "maxTileBytes": 92224
+      },
+      "keywords": [
+        "dispensary district",
+        "dispensary",
+        "registrar's district",
+        "poor law medical relief",
+        "public health",
+        "northern ireland",
+        "1921",
+        "partition",
+        "Dispensary Districts 1 Apr 1921",
+        "Local Government Districts",
+        "Elections and Government",
+        "maplibre",
+        "vector tiles"
+      ],
+      "detailUrl": "/render/metadata/layer-details-test2/dispensary-districts-ni-1921-04-01-vector-test.json",
+      "duplicateFeatureIdsUrl": "/render/metadata/duplicate-feature-ids/dispensary-districts-ni-1921-04-01-vector-test.json",
+      "duplicateFeatureIdCount": 0,
+      "featureIdMode": "unique"
+    },
+    {
+      "id": "tia-towns-ni-1921-05-03-vector-test",
+      "sourceMapId": "tia-towns-ni-1921-05-03",
+      "name": "Towns under the Towns Improvement Act 3 May 1921",
+      "category": "Local Government Districts",
+      "group": "Elections and Government",
+      "provider": [
+        "Scott Moore",
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "date": "1921-05-03",
+      "dateAdded": null,
+      "dateEffective": null,
+      "description": "The four towns in Northern Ireland governed by town commissioners under the Towns Improvement (Ireland) Act 1854 when Northern Ireland was founded: Antrim, Aughnacloy, Downpatrick and Gilford, until 31 Mar 1925. Town commissioners under the 1854 Act levied a limited rate and carried out minor works; for public health each town stayed under its rural district council (1937 Census General Report). Each town is drawn from the DED that matches its legal boundary: Antrim Urban, Aughnacloy Urban, Downpatrick Urban and Whitehead Urban, and Gilford as reconstituted in 1923 (Gilford Town is exactly the Gilford DED in the 1926 and 1951 censuses); Kilkeel is the townlands of Kilkeel and Magheramurphy, which the 1934 boundary order names. The drawn areas agree with the printed town areas within 2.4% (Aughnacloy +0.2%, Whitehead +0.8%, Gilford -2.1%, Antrim -2.3%). No order altering any town's limits has been found in the Belfast Gazette, 1922-1962.",
+      "notes": "Generated from render/source-cache/vector-intake/tia-towns-ni-1921-05-03.fgb with GDAL MVT output.",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "renderer": "maplibre",
+      "status": "converted",
+      "bounds": [
+        [
+          54.3204704,
+          -6.9838849
+        ],
+        [
+          54.7208105,
+          -5.7018792
+        ]
+      ],
+      "minzoom": 0,
+      "maxzoom": 12,
+      "sourceLayer": "tia_towns_ni_1921_05_03",
+      "tileUrl": "/render/pmtiles/generated/tia-towns-ni-1921-05-03-vector-test.pmtiles",
+      "tiles": "/render/tiles/generated/tia-towns-ni-1921-05-03/{z}/{x}/{y}.pbf",
+      "tilesFallback": "/render/tiles/generated/tia-towns-ni-1921-05-03/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "localPath": "render/pmtiles/generated/tia-towns-ni-1921-05-03-vector-test.pmtiles"
+      },
+      "metadataUrl": "/render/tiles/generated/tia-towns-ni-1921-05-03/metadata.json",
+      "style": {
+        "color": "#8D6E63",
+        "fillColor": "#8D6E63",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "labelProperty": "town",
+      "labelPropertyFallbacks": [],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#8D6E63",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "promoteId": "town_id",
+      "idProperty": "town_id",
+      "sourceFile": "render/source-cache/vector-intake/tia-towns-ni-1921-05-03.fgb",
+      "sourceDatasetLayer": "Towns_Improvement_Act_Towns_NI_1921-05-03",
+      "featureIndexUrl": "/render/metadata/feature-indexes/tia-towns-ni-1921-05-03-vector-test.json",
+      "numericProperties": [
+        "area_acres",
+        "census_acres",
+        "area_vs_census_pct"
+      ],
+      "categoricalProperties": [
+        "town",
+        "town_id",
+        "county",
+        "rural_district",
+        "union",
+        "tia_from",
+        "tia_to",
+        "end_note",
+        "geometry_source",
+        "census_source",
+        "edition",
+        "valid_from",
+        "valid_to"
+      ],
+      "popupProperties": [
+        "town",
+        "town_id",
+        "county",
+        "rural_district",
+        "union",
+        "tia_from",
+        "tia_to",
+        "end_note",
+        "area_acres",
+        "census_acres"
+      ],
+      "generatedFrom": {
+        "pipeline": "build-test-vector-batch",
+        "sourceFile": "render/source-cache/vector-intake/tia-towns-ni-1921-05-03.fgb",
+        "bytes": 41034,
+        "files": 28,
+        "pbfFiles": 27,
+        "maxTileBytes": 2518
+      },
+      "keywords": [
+        "town commissioners",
+        "Towns Improvement (Ireland) Act 1854",
+        "town",
+        "northern ireland",
+        "1921",
+        "Towns under the Towns Improvement Act 3 May 1921",
+        "Local Government Districts",
+        "Elections and Government",
+        "maplibre",
+        "vector tiles"
+      ],
+      "detailUrl": "/render/metadata/layer-details-test2/tia-towns-ni-1921-05-03-vector-test.json",
+      "duplicateFeatureIdsUrl": "/render/metadata/duplicate-feature-ids/tia-towns-ni-1921-05-03-vector-test.json",
+      "duplicateFeatureIdCount": 0,
+      "featureIdMode": "unique"
+    },
+    {
+      "id": "tia-towns-ni-1925-04-01-vector-test",
+      "sourceMapId": "tia-towns-ni-1925-04-01",
+      "name": "Towns under the Towns Improvement Act 1 Apr 1925",
+      "category": "Local Government Districts",
+      "group": "Elections and Government",
+      "provider": [
+        "Scott Moore",
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "date": "1925-04-01",
+      "dateAdded": null,
+      "dateEffective": null,
+      "description": "The four towns under the Towns Improvement (Ireland) Act 1854 from 1 Apr 1925, when Downpatrick became an urban district and Whitehead adopted the Act, until 31 Mar 1927: Antrim, Aughnacloy, Gilford and Whitehead. Town commissioners under the 1854 Act levied a limited rate and carried out minor works; for public health each town stayed under its rural district council (1937 Census General Report). Each town is drawn from the DED that matches its legal boundary: Antrim Urban, Aughnacloy Urban, Downpatrick Urban and Whitehead Urban, and Gilford as reconstituted in 1923 (Gilford Town is exactly the Gilford DED in the 1926 and 1951 censuses); Kilkeel is the townlands of Kilkeel and Magheramurphy, which the 1934 boundary order names. The drawn areas agree with the printed town areas within 2.4% (Aughnacloy +0.2%, Whitehead +0.8%, Gilford -2.1%, Antrim -2.3%). No order altering any town's limits has been found in the Belfast Gazette, 1922-1962.",
+      "notes": "Generated from render/source-cache/vector-intake/tia-towns-ni-1925-04-01.fgb with GDAL MVT output.",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "renderer": "maplibre",
+      "status": "converted",
+      "bounds": [
+        [
+          54.3694862,
+          -6.9838849
+        ],
+        [
+          54.7674741,
+          -5.6880469
+        ]
+      ],
+      "minzoom": 0,
+      "maxzoom": 12,
+      "sourceLayer": "tia_towns_ni_1925_04_01",
+      "tileUrl": "/render/pmtiles/generated/tia-towns-ni-1925-04-01-vector-test.pmtiles",
+      "tiles": "/render/tiles/generated/tia-towns-ni-1925-04-01/{z}/{x}/{y}.pbf",
+      "tilesFallback": "/render/tiles/generated/tia-towns-ni-1925-04-01/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "localPath": "render/pmtiles/generated/tia-towns-ni-1925-04-01-vector-test.pmtiles"
+      },
+      "metadataUrl": "/render/tiles/generated/tia-towns-ni-1925-04-01/metadata.json",
+      "style": {
+        "color": "#8D6E63",
+        "fillColor": "#8D6E63",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "labelProperty": "town",
+      "labelPropertyFallbacks": [],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#8D6E63",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "promoteId": "town_id",
+      "idProperty": "town_id",
+      "sourceFile": "render/source-cache/vector-intake/tia-towns-ni-1925-04-01.fgb",
+      "sourceDatasetLayer": "Towns_Improvement_Act_Towns_NI_1925-04-01",
+      "featureIndexUrl": "/render/metadata/feature-indexes/tia-towns-ni-1925-04-01-vector-test.json",
+      "numericProperties": [
+        "area_acres",
+        "census_acres",
+        "area_vs_census_pct"
+      ],
+      "categoricalProperties": [
+        "town",
+        "town_id",
+        "county",
+        "rural_district",
+        "union",
+        "tia_from",
+        "tia_to",
+        "end_note",
+        "geometry_source",
+        "census_source",
+        "edition",
+        "valid_from",
+        "valid_to"
+      ],
+      "popupProperties": [
+        "town",
+        "town_id",
+        "county",
+        "rural_district",
+        "union",
+        "tia_from",
+        "tia_to",
+        "end_note",
+        "area_acres",
+        "census_acres"
+      ],
+      "generatedFrom": {
+        "pipeline": "build-test-vector-batch",
+        "sourceFile": "render/source-cache/vector-intake/tia-towns-ni-1925-04-01.fgb",
+        "bytes": 44786,
+        "files": 28,
+        "pbfFiles": 27,
+        "maxTileBytes": 2979
+      },
+      "keywords": [
+        "town commissioners",
+        "Towns Improvement (Ireland) Act 1854",
+        "town",
+        "northern ireland",
+        "1925",
+        "Towns under the Towns Improvement Act 1 Apr 1925",
+        "Local Government Districts",
+        "Elections and Government",
+        "maplibre",
+        "vector tiles"
+      ],
+      "detailUrl": "/render/metadata/layer-details-test2/tia-towns-ni-1925-04-01-vector-test.json",
+      "duplicateFeatureIdsUrl": "/render/metadata/duplicate-feature-ids/tia-towns-ni-1925-04-01-vector-test.json",
+      "duplicateFeatureIdCount": 0,
+      "featureIdMode": "unique"
+    },
+    {
+      "id": "tia-towns-ni-1927-04-01-vector-test",
+      "sourceMapId": "tia-towns-ni-1927-04-01",
+      "name": "Towns under the Towns Improvement Act 1 Apr 1927",
+      "category": "Local Government Districts",
+      "group": "Elections and Government",
+      "provider": [
+        "Scott Moore",
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "date": "1927-04-01",
+      "dateAdded": null,
+      "dateEffective": null,
+      "description": "The three towns under the Towns Improvement (Ireland) Act 1854 from 1 Apr 1927, when Whitehead became an urban district, until 31 Jul 1934: Antrim, Aughnacloy and Gilford. Town commissioners under the 1854 Act levied a limited rate and carried out minor works; for public health each town stayed under its rural district council (1937 Census General Report). Each town is drawn from the DED that matches its legal boundary: Antrim Urban, Aughnacloy Urban, Downpatrick Urban and Whitehead Urban, and Gilford as reconstituted in 1923 (Gilford Town is exactly the Gilford DED in the 1926 and 1951 censuses); Kilkeel is the townlands of Kilkeel and Magheramurphy, which the 1934 boundary order names. The drawn areas agree with the printed town areas within 2.4% (Aughnacloy +0.2%, Whitehead +0.8%, Gilford -2.1%, Antrim -2.3%). No order altering any town's limits has been found in the Belfast Gazette, 1922-1962.",
+      "notes": "Generated from render/source-cache/vector-intake/tia-towns-ni-1927-04-01.fgb with GDAL MVT output.",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "renderer": "maplibre",
+      "status": "converted",
+      "bounds": [
+        [
+          54.3694862,
+          -6.9838849
+        ],
+        [
+          54.7208105,
+          -6.207476
+        ]
+      ],
+      "minzoom": 0,
+      "maxzoom": 12,
+      "sourceLayer": "tia_towns_ni_1927_04_01",
+      "tileUrl": "/render/pmtiles/generated/tia-towns-ni-1927-04-01-vector-test.pmtiles",
+      "tiles": "/render/tiles/generated/tia-towns-ni-1927-04-01/{z}/{x}/{y}.pbf",
+      "tilesFallback": "/render/tiles/generated/tia-towns-ni-1927-04-01/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "localPath": "render/pmtiles/generated/tia-towns-ni-1927-04-01-vector-test.pmtiles"
+      },
+      "metadataUrl": "/render/tiles/generated/tia-towns-ni-1927-04-01/metadata.json",
+      "style": {
+        "color": "#8D6E63",
+        "fillColor": "#8D6E63",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "labelProperty": "town",
+      "labelPropertyFallbacks": [],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#8D6E63",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "promoteId": "town_id",
+      "idProperty": "town_id",
+      "sourceFile": "render/source-cache/vector-intake/tia-towns-ni-1927-04-01.fgb",
+      "sourceDatasetLayer": "Towns_Improvement_Act_Towns_NI_1927-04-01",
+      "featureIndexUrl": "/render/metadata/feature-indexes/tia-towns-ni-1927-04-01-vector-test.json",
+      "numericProperties": [
+        "area_acres",
+        "census_acres",
+        "area_vs_census_pct"
+      ],
+      "categoricalProperties": [
+        "town",
+        "town_id",
+        "county",
+        "rural_district",
+        "union",
+        "tia_from",
+        "tia_to",
+        "end_note",
+        "geometry_source",
+        "census_source",
+        "edition",
+        "valid_from",
+        "valid_to"
+      ],
+      "popupProperties": [
+        "town",
+        "town_id",
+        "county",
+        "rural_district",
+        "union",
+        "tia_from",
+        "tia_to",
+        "end_note",
+        "area_acres",
+        "census_acres"
+      ],
+      "generatedFrom": {
+        "pipeline": "build-test-vector-batch",
+        "sourceFile": "render/source-cache/vector-intake/tia-towns-ni-1927-04-01.fgb",
+        "bytes": 32150,
+        "files": 22,
+        "pbfFiles": 21,
+        "maxTileBytes": 2017
+      },
+      "keywords": [
+        "town commissioners",
+        "Towns Improvement (Ireland) Act 1854",
+        "town",
+        "northern ireland",
+        "1927",
+        "Towns under the Towns Improvement Act 1 Apr 1927",
+        "Local Government Districts",
+        "Elections and Government",
+        "maplibre",
+        "vector tiles"
+      ],
+      "detailUrl": "/render/metadata/layer-details-test2/tia-towns-ni-1927-04-01-vector-test.json",
+      "duplicateFeatureIdsUrl": "/render/metadata/duplicate-feature-ids/tia-towns-ni-1927-04-01-vector-test.json",
+      "duplicateFeatureIdCount": 0,
+      "featureIdMode": "unique"
+    },
+    {
+      "id": "tia-towns-ni-1934-08-01-vector-test",
+      "sourceMapId": "tia-towns-ni-1934-08-01",
+      "name": "Towns under the Towns Improvement Act 1 Aug 1934",
+      "category": "Local Government Districts",
+      "group": "Elections and Government",
+      "provider": [
+        "Scott Moore",
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "date": "1934-08-01",
+      "dateAdded": null,
+      "dateEffective": null,
+      "description": "The four towns under the Towns Improvement (Ireland) Act 1854 from 1 Aug 1934, when Kilkeel adopted the Act, until 31 Mar 1937: Antrim, Aughnacloy, Gilford and Kilkeel. Town commissioners under the 1854 Act levied a limited rate and carried out minor works; for public health each town stayed under its rural district council (1937 Census General Report). Each town is drawn from the DED that matches its legal boundary: Antrim Urban, Aughnacloy Urban, Downpatrick Urban and Whitehead Urban, and Gilford as reconstituted in 1923 (Gilford Town is exactly the Gilford DED in the 1926 and 1951 censuses); Kilkeel is the townlands of Kilkeel and Magheramurphy, which the 1934 boundary order names. The drawn areas agree with the printed town areas within 2.4% (Aughnacloy +0.2%, Whitehead +0.8%, Gilford -2.1%, Antrim -2.3%). No order altering any town's limits has been found in the Belfast Gazette, 1922-1962.",
+      "notes": "Generated from render/source-cache/vector-intake/tia-towns-ni-1934-08-01.fgb with GDAL MVT output.",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "renderer": "maplibre",
+      "status": "converted",
+      "bounds": [
+        [
+          54.0524016,
+          -6.9838849
+        ],
+        [
+          54.7208105,
+          -5.9775705
+        ]
+      ],
+      "minzoom": 0,
+      "maxzoom": 12,
+      "sourceLayer": "tia_towns_ni_1934_08_01",
+      "tileUrl": "/render/pmtiles/generated/tia-towns-ni-1934-08-01-vector-test.pmtiles",
+      "tiles": "/render/tiles/generated/tia-towns-ni-1934-08-01/{z}/{x}/{y}.pbf",
+      "tilesFallback": "/render/tiles/generated/tia-towns-ni-1934-08-01/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "localPath": "render/pmtiles/generated/tia-towns-ni-1934-08-01-vector-test.pmtiles"
+      },
+      "metadataUrl": "/render/tiles/generated/tia-towns-ni-1934-08-01/metadata.json",
+      "style": {
+        "color": "#8D6E63",
+        "fillColor": "#8D6E63",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "labelProperty": "town",
+      "labelPropertyFallbacks": [],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#8D6E63",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "promoteId": "town_id",
+      "idProperty": "town_id",
+      "sourceFile": "render/source-cache/vector-intake/tia-towns-ni-1934-08-01.fgb",
+      "sourceDatasetLayer": "Towns_Improvement_Act_Towns_NI_1934-08-01",
+      "featureIndexUrl": "/render/metadata/feature-indexes/tia-towns-ni-1934-08-01-vector-test.json",
+      "numericProperties": [
+        "area_acres",
+        "census_acres",
+        "area_vs_census_pct"
+      ],
+      "categoricalProperties": [
+        "town",
+        "town_id",
+        "county",
+        "rural_district",
+        "union",
+        "tia_from",
+        "tia_to",
+        "end_note",
+        "geometry_source",
+        "census_source",
+        "edition",
+        "valid_from",
+        "valid_to"
+      ],
+      "popupProperties": [
+        "town",
+        "town_id",
+        "county",
+        "rural_district",
+        "union",
+        "tia_from",
+        "tia_to",
+        "end_note",
+        "area_acres",
+        "census_acres"
+      ],
+      "generatedFrom": {
+        "pipeline": "build-test-vector-batch",
+        "sourceFile": "render/source-cache/vector-intake/tia-towns-ni-1934-08-01.fgb",
+        "bytes": 49414,
+        "files": 35,
+        "pbfFiles": 34,
+        "maxTileBytes": 3970
+      },
+      "keywords": [
+        "town commissioners",
+        "Towns Improvement (Ireland) Act 1854",
+        "town",
+        "northern ireland",
+        "1934",
+        "Towns under the Towns Improvement Act 1 Aug 1934",
+        "Local Government Districts",
+        "Elections and Government",
+        "maplibre",
+        "vector tiles"
+      ],
+      "detailUrl": "/render/metadata/layer-details-test2/tia-towns-ni-1934-08-01-vector-test.json",
+      "duplicateFeatureIdsUrl": "/render/metadata/duplicate-feature-ids/tia-towns-ni-1934-08-01-vector-test.json",
+      "duplicateFeatureIdCount": 0,
+      "featureIdMode": "unique"
+    },
+    {
+      "id": "tia-towns-ni-1937-04-01-vector-test",
+      "sourceMapId": "tia-towns-ni-1937-04-01",
+      "name": "Towns under the Towns Improvement Act 1 Apr 1937",
+      "category": "Local Government Districts",
+      "group": "Elections and Government",
+      "provider": [
+        "Scott Moore",
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "date": "1937-04-01",
+      "dateAdded": null,
+      "dateEffective": null,
+      "description": "The three towns under the Towns Improvement (Ireland) Act 1854 from 1 Apr 1937, when Kilkeel became an urban district, until 1959: Antrim, Aughnacloy and Gilford. Town commissioners under the 1854 Act levied a limited rate and carried out minor works; for public health each town stayed under its rural district council (1937 Census General Report). Each town is drawn from the DED that matches its legal boundary: Antrim Urban, Aughnacloy Urban, Downpatrick Urban and Whitehead Urban, and Gilford as reconstituted in 1923 (Gilford Town is exactly the Gilford DED in the 1926 and 1951 censuses); Kilkeel is the townlands of Kilkeel and Magheramurphy, which the 1934 boundary order names. The drawn areas agree with the printed town areas within 2.4% (Aughnacloy +0.2%, Whitehead +0.8%, Gilford -2.1%, Antrim -2.3%). No order altering any town's limits has been found in the Belfast Gazette, 1922-1962.",
+      "notes": "Generated from render/source-cache/vector-intake/tia-towns-ni-1937-04-01.fgb with GDAL MVT output.",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "renderer": "maplibre",
+      "status": "converted",
+      "bounds": [
+        [
+          54.3694862,
+          -6.9838849
+        ],
+        [
+          54.7208105,
+          -6.207476
+        ]
+      ],
+      "minzoom": 0,
+      "maxzoom": 12,
+      "sourceLayer": "tia_towns_ni_1937_04_01",
+      "tileUrl": "/render/pmtiles/generated/tia-towns-ni-1937-04-01-vector-test.pmtiles",
+      "tiles": "/render/tiles/generated/tia-towns-ni-1937-04-01/{z}/{x}/{y}.pbf",
+      "tilesFallback": "/render/tiles/generated/tia-towns-ni-1937-04-01/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "localPath": "render/pmtiles/generated/tia-towns-ni-1937-04-01-vector-test.pmtiles"
+      },
+      "metadataUrl": "/render/tiles/generated/tia-towns-ni-1937-04-01/metadata.json",
+      "style": {
+        "color": "#8D6E63",
+        "fillColor": "#8D6E63",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "labelProperty": "town",
+      "labelPropertyFallbacks": [],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#8D6E63",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "promoteId": "town_id",
+      "idProperty": "town_id",
+      "sourceFile": "render/source-cache/vector-intake/tia-towns-ni-1937-04-01.fgb",
+      "sourceDatasetLayer": "Towns_Improvement_Act_Towns_NI_1937-04-01",
+      "featureIndexUrl": "/render/metadata/feature-indexes/tia-towns-ni-1937-04-01-vector-test.json",
+      "numericProperties": [
+        "area_acres",
+        "census_acres",
+        "area_vs_census_pct"
+      ],
+      "categoricalProperties": [
+        "town",
+        "town_id",
+        "county",
+        "rural_district",
+        "union",
+        "tia_from",
+        "tia_to",
+        "end_note",
+        "geometry_source",
+        "census_source",
+        "edition",
+        "valid_from",
+        "valid_to"
+      ],
+      "popupProperties": [
+        "town",
+        "town_id",
+        "county",
+        "rural_district",
+        "union",
+        "tia_from",
+        "tia_to",
+        "end_note",
+        "area_acres",
+        "census_acres"
+      ],
+      "generatedFrom": {
+        "pipeline": "build-test-vector-batch",
+        "sourceFile": "render/source-cache/vector-intake/tia-towns-ni-1937-04-01.fgb",
+        "bytes": 32150,
+        "files": 22,
+        "pbfFiles": 21,
+        "maxTileBytes": 2017
+      },
+      "keywords": [
+        "town commissioners",
+        "Towns Improvement (Ireland) Act 1854",
+        "town",
+        "northern ireland",
+        "1937",
+        "Towns under the Towns Improvement Act 1 Apr 1937",
+        "Local Government Districts",
+        "Elections and Government",
+        "maplibre",
+        "vector tiles"
+      ],
+      "detailUrl": "/render/metadata/layer-details-test2/tia-towns-ni-1937-04-01-vector-test.json",
+      "duplicateFeatureIdsUrl": "/render/metadata/duplicate-feature-ids/tia-towns-ni-1937-04-01-vector-test.json",
+      "duplicateFeatureIdCount": 0,
+      "featureIdMode": "unique"
+    },
+    {
+      "id": "tia-towns-ni-1959-05-29-vector-test",
+      "sourceMapId": "tia-towns-ni-1959-05-29",
+      "name": "Towns under the Towns Improvement Act 1959",
+      "category": "Local Government Districts",
+      "group": "Elections and Government",
+      "provider": [
+        "Scott Moore",
+        "Paddy Matthews",
+        "Phelim Birch"
+      ],
+      "date": "1959-05-29",
+      "dateAdded": null,
+      "dateEffective": null,
+      "description": "Antrim, the last town under the Towns Improvement (Ireland) Act 1854 in Northern Ireland, after the Aughnacloy and Gilford commissioners were dissolved in 1959, until 31 Mar 1962. The edition is dated by the Belfast Gazette notice of 29 May 1959; the orders' operative date has not been seen. Town commissioners under the 1854 Act levied a limited rate and carried out minor works; for public health each town stayed under its rural district council (1937 Census General Report). Each town is drawn from the DED that matches its legal boundary: Antrim Urban, Aughnacloy Urban, Downpatrick Urban and Whitehead Urban, and Gilford as reconstituted in 1923 (Gilford Town is exactly the Gilford DED in the 1926 and 1951 censuses); Kilkeel is the townlands of Kilkeel and Magheramurphy, which the 1934 boundary order names. The drawn areas agree with the printed town areas within 2.4% (Aughnacloy +0.2%, Whitehead +0.8%, Gilford -2.1%, Antrim -2.3%). No order altering any town's limits has been found in the Belfast Gazette, 1922-1962.",
+      "notes": "Generated from render/source-cache/vector-intake/tia-towns-ni-1959-05-29.fgb with GDAL MVT output.",
+      "sourceType": "pmtiles",
+      "geometryType": "polygon",
+      "renderer": "maplibre",
+      "status": "converted",
+      "bounds": [
+        [
+          54.7086301,
+          -6.225852
+        ],
+        [
+          54.7208105,
+          -6.207476
+        ]
+      ],
+      "minzoom": 0,
+      "maxzoom": 12,
+      "sourceLayer": "tia_towns_ni_1959_05_29",
+      "tileUrl": "/render/pmtiles/generated/tia-towns-ni-1959-05-29-vector-test.pmtiles",
+      "tiles": "/render/tiles/generated/tia-towns-ni-1959-05-29/{z}/{x}/{y}.pbf",
+      "tilesFallback": "/render/tiles/generated/tia-towns-ni-1959-05-29/{z}/{x}/{y}.pbf",
+      "tilePackage": {
+        "localPath": "render/pmtiles/generated/tia-towns-ni-1959-05-29-vector-test.pmtiles"
+      },
+      "metadataUrl": "/render/tiles/generated/tia-towns-ni-1959-05-29/metadata.json",
+      "style": {
+        "color": "#8D6E63",
+        "fillColor": "#8D6E63",
+        "fillOpacity": 0.18,
+        "weight": 2
+      },
+      "labelProperty": "town",
+      "labelPropertyFallbacks": [],
+      "labelMinZoom": 0,
+      "labelMaxZoom": null,
+      "labelStyle": {
+        "color": "#8D6E63",
+        "hoverColor": "#ff7a1a",
+        "selectedColor": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.2,
+        "haloBlur": 0,
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "maxWidth": 14,
+        "lineHeight": 1.25
+      },
+      "promoteId": "town_id",
+      "idProperty": "town_id",
+      "sourceFile": "render/source-cache/vector-intake/tia-towns-ni-1959-05-29.fgb",
+      "sourceDatasetLayer": "Towns_Improvement_Act_Towns_NI_1959-05-29",
+      "featureIndexUrl": "/render/metadata/feature-indexes/tia-towns-ni-1959-05-29-vector-test.json",
+      "numericProperties": [
+        "area_acres",
+        "census_acres",
+        "area_vs_census_pct"
+      ],
+      "categoricalProperties": [
+        "town",
+        "town_id",
+        "county",
+        "rural_district",
+        "union",
+        "tia_from",
+        "tia_to",
+        "end_note",
+        "geometry_source",
+        "census_source",
+        "edition",
+        "valid_from",
+        "valid_to"
+      ],
+      "popupProperties": [
+        "town",
+        "town_id",
+        "county",
+        "rural_district",
+        "union",
+        "tia_from",
+        "tia_to",
+        "end_note",
+        "area_acres",
+        "census_acres"
+      ],
+      "generatedFrom": {
+        "pipeline": "build-test-vector-batch",
+        "sourceFile": "render/source-cache/vector-intake/tia-towns-ni-1959-05-29.fgb",
+        "bytes": 12990,
+        "files": 10,
+        "pbfFiles": 9,
+        "maxTileBytes": 1400
+      },
+      "keywords": [
+        "town commissioners",
+        "Towns Improvement (Ireland) Act 1854",
+        "town",
+        "northern ireland",
+        "1959",
+        "Towns under the Towns Improvement Act 1959",
+        "Local Government Districts",
+        "Elections and Government",
+        "maplibre",
+        "vector tiles"
+      ],
+      "detailUrl": "/render/metadata/layer-details-test2/tia-towns-ni-1959-05-29-vector-test.json",
+      "duplicateFeatureIdsUrl": "/render/metadata/duplicate-feature-ids/tia-towns-ni-1959-05-29-vector-test.json",
+      "duplicateFeatureIdCount": 0,
+      "featureIdMode": "unique"
     }
   ],
-  "publicMapCount": 851,
+  "publicMapCount": 860,
   "generatedFrom": "render/metadata/maps-test.json",
   "detailIndex": true,
-  "detailLayerCount": 1254
+  "detailLayerCount": 1263
 }
