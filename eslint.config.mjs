@@ -32,8 +32,8 @@ export default [
       '.claude/**',
       'app/build/**',
       'render/build/**',
-      'archive/**',                        // dead Leaflet stack, plus vendored third-party
-                                           // reference copies. None of it is ours to fix.
+      'archive/**',                        // left the repository (ARCHIVE.md); ignored so a
+                                           // temporarily restored copy is never linted.
       'data/elections-source/**',
       'app/election-viewer-package/**',
       'synth-osm/**',

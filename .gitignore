@@ -339,9 +339,9 @@ data/maps/environment/opw-nifm-river-flood-extents-current.fgb
 _tmp_eds_1980/
 drive-download-*.zip
 
-# Archive working dirs (already-tracked files remain tracked; prevents new junk)
-archive/working/
-archive/ocr/
+# archive/ left the repository in November 2026 (ARCHIVE.md). Ignore it whole, so a
+# local copy left behind, or one restored for reference, never shows as untracked.
+/archive/
 
 # Rendered feature thumbnails are CDN/R2 artifacts, not Pages repo assets.
 /tmp/feature-thumbnails-rendered/

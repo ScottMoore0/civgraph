@@ -45,7 +45,15 @@
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 
-const OCR_DIR = 'archive/ocr';
+// archive/ left the repository in November 2026 (ARCHIVE.md). Point
+// CIVGRAPH_ARCHIVE_DIR at the offline copy's archive folder; the in-repo path is
+// the fallback for a checkout of an older commit.
+const ARCHIVE_DIR = process.env.CIVGRAPH_ARCHIVE_DIR || 'archive';
+const OCR_DIR = path.join(ARCHIVE_DIR, 'ocr');
+if (!existsSync(OCR_DIR)) {
+  console.error(`No ${OCR_DIR}: set CIVGRAPH_ARCHIVE_DIR to the offline archive copy (see ARCHIVE.md).`);
+  process.exit(2);
+}
 const BUNDLES = 'data/elections-source/data/elections';
 const OVERRIDES = 'data/database/spn-ocr-election-map.json';
 const WINDOW_DAYS = 120;
@@ -191,7 +199,7 @@ for (const file of readdirSync(OCR_DIR).sort()) {
   }
   // Read the source text to see whether this page carries withdrawn nominations.
   let carriesWithdrawals = false;
-  for (const dir of ['archive/ocr/text', 'archive/ocr/text-v2']) {
+  for (const dir of [path.join(OCR_DIR, 'text'), path.join(OCR_DIR, 'text-v2')]) {
     const textPath = path.join(dir, `${stem}.txt`);
     if (!existsSync(textPath)) continue;
     if (WITHDRAWAL_LANGUAGE.test(strip(readFileSync(textPath, 'utf8')))) { carriesWithdrawals = true; break; }
@@ -414,8 +422,8 @@ if (process.argv.includes('--verify')) {
   // newer pass renders some names differently. That would read as the extraction being
   // less faithful than it is. Pass --against-v2 deliberately to compare the two passes.
   const TEXT_DIRS = process.argv.includes('--against-v2')
-    ? ['archive/ocr/text-v2', 'archive/ocr/text']
-    : ['archive/ocr/text', 'archive/ocr/text-v2'];
+    ? [path.join(OCR_DIR, 'text-v2'), path.join(OCR_DIR, 'text')]
+    : [path.join(OCR_DIR, 'text'), path.join(OCR_DIR, 'text-v2')];
   const textFor = (ocrFile) => {
     const stem = ocrFile.replace(/\.json$/, '');
     for (const dir of TEXT_DIRS) {

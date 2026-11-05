@@ -33,7 +33,7 @@ fi
 # fetched by the static runtime. Keeping it in a root-output Pages deployment
 # pushes the asset count over Cloudflare's 20,000-file limit.
 remove_path ".github"
-remove_path "archive"
+remove_path "archive"   # out of the repository since Nov 2026 (ARCHIVE.md); kept so a restored copy never deploys
 remove_path "boundary-gazette"
 remove_path "docs"
 remove_path "ocr_output"

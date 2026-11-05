@@ -63,7 +63,9 @@ for _candidate in (os.environ.get("TESSERACT_CMD"), shutil.which("tesseract"), _
         pytesseract.pytesseract.tesseract_cmd = _candidate
         break
 
-OUT_DIR = "archive/ocr/text-v2"
+# archive/ left the repository in November 2026 (ARCHIVE.md): set
+# CIVGRAPH_ARCHIVE_DIR to the offline copy's archive folder.
+OUT_DIR = os.path.join(os.environ.get("CIVGRAPH_ARCHIVE_DIR", "archive"), "ocr", "text-v2")
 
 
 def page_image(page, dpi):
