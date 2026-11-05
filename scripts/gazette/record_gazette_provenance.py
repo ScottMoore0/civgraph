@@ -349,6 +349,13 @@ def main():
 
     doc = json.loads(WEB_CHECKED.read_text(encoding='utf-8'))
     kept = [r for r in doc.get('records', []) if r.get('batch') != BATCH]
+    # A record that says the same as before keeps its accessed date, so a re-run touches only
+    # the records whose finding changed.
+    before = {(r['file'], r['url']): r for r in doc.get('records', []) if r.get('batch') == BATCH}
+    for r in records:
+        old = before.get((r['file'], r['url']))
+        if old and old.get('accessed') and {k: v for k, v in old.items() if k != 'accessed'} == {k: v for k, v in r.items() if k != 'accessed'}:
+            r['accessed'] = old['accessed']
     records.sort(key=lambda r: (r['file'], r['url']))
     doc['records'] = kept + records
     batches = [b for b in doc.get('batches', []) if b.get('id') != BATCH]

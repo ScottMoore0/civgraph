@@ -42,7 +42,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import civgraph_elections  # noqa: E402
 import gazette_crosscheck  # noqa: E402
 
-PARSER_VERSION = 26
+PARSER_VERSION = 27
 REPO = Path(__file__).resolve().parents[2]
 MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
           'November', 'December']
@@ -234,6 +234,13 @@ def printed_page_numbers(page_texts):
     for i, t in enumerate(page_texts):
         lines = [l.strip() for l in t.split('\n') if l.strip()]
         for line in lines[:4] + lines[-3:]:
+            # Weekly compilations from 2013: '346 | CONTAINING ALL NOTICES ... | BELFAST GAZETTE'
+            # (left page) and 'BELFAST GAZETTE | CONTAINING ALL NOTICES ... | 1003' (right page).
+            if 'CONTAINING ALL NOTICES' in line.upper():
+                m = re.match(r'\s*(\d{1,4})\s*\|', line) or re.search(r'\|\s*(\d{1,4})\s*$', line)
+                if m:
+                    votes[int(m.group(1)) - i] += 1
+                continue
             m = re.fullmatch(r"[^\w]{0,2}(\d{1,4})[.\-]?", line)
             if m:
                 n = int(m.group(1))
@@ -608,6 +615,35 @@ def parse_entry_list(lines):
     return members
 
 
+# Crown Office lists of 2010 onwards, typeset as a table and read row by row in the text layer:
+#   '633' / 'Belfast East' / 'Borough Constituency' / 'Gavin James Robinson'       (2015-2024)
+#   '637 East Antrim' / 'County Constituency' / 'Samuel Wilson'                    (2010)
+# The constituency is the line above its 'Borough/County Constituency' line, the member the
+# line(s) below it. parse_entry_list read the type line as a place heading, which set every
+# member against the next seat ('Gavin Robinson, Belfast North').
+CROWN_TYPE_LINE = re.compile(r'(?:Borough|County|Burgh)\s+Constituency', re.I)
+CROWN_NUMBER = re.compile(r'\d{3}(?:\s|$)')
+CROWN_STOP = re.compile(r'(?:Certified|Dated|Deputy\s+Clerk|Clerk\s+of\s+the\s+Crown|Crown\s+Office|STATE\b|THE\s+HIGH\s+COURT)', re.I)
+
+
+def parse_crown_table(lines):
+    rows = [clean_ws(l) for l in lines]
+    rows = [r for r in rows if r and r != '|']
+    members = []
+    for i, r in enumerate(rows):
+        if not CROWN_TYPE_LINE.fullmatch(r) or i == 0:
+            continue
+        const = re.sub(r'^\d{3}\s+', '', rows[i - 1]).strip()
+        if not const or CROWN_NUMBER.fullmatch(const) or CROWN_TYPE_LINE.fullmatch(const):
+            continue
+        nxt = rows[i + 1] if i + 1 < len(rows) else ''
+        if not nxt or CROWN_NUMBER.match(nxt) or CROWN_TYPE_LINE.fullmatch(nxt) or CROWN_STOP.match(nxt):
+            continue
+        if len(strip_name(nxt).split()) >= 2:
+            members.append(member_entry(const, nxt))
+    return members
+
+
 def list_quality(members):
     score = 0.0
     for m in members:
@@ -644,6 +680,11 @@ def parse_return(raw, issue_year):
         out['general_election_printed'] = clean_ws(re.sub(r'[^\w ,]', ' ', gm.group(1))).strip(' ,') if gm else ''
         ym = re.search(r'(?:1[89]|20)\d\d\W*?\n', rest[:200])
         lines = rest[ym.end():].split('\n') if ym else rest.split('\n')
+        crown = parse_crown_table(lines)
+        if len(crown) >= 10:  # the 2010+ table layout (18 seats; 17 before 2010 is not tabular)
+            out['members'] = crown
+            out['layout'] = 'crown-office-table'
+            return out
         old, new = parse_general_list(lines), parse_entry_list(lines)
         out['members'] = new if list_quality(new) >= list_quality(old) else old
         return out
